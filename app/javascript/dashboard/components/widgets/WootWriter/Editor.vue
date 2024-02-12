@@ -84,7 +84,10 @@ import {
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
-import { replaceVariablesInMessage } from '@chatwoot/utils';
+import {
+  replaceVariablesInMessage,
+  createTypingIndicator,
+} from '@chatwoot/utils';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { uploadFile } from 'dashboard/helper/uploadHelper';
@@ -140,6 +143,15 @@ export default {
   },
   data() {
     return {
+      typingIndicator: createTypingIndicator(
+        () => {
+          this.$emit('typing-on');
+        },
+        () => {
+          this.$emit('typing-off');
+        },
+        TYPING_INDICATOR_IDLE_TIME
+      ),
       showUserMentions: false,
       showCannedMenu: false,
       showVariables: false,
@@ -638,15 +650,6 @@ export default {
     hideMentions() {
       this.showUserMentions = false;
     },
-    resetTyping() {
-      this.$emit('typing-off');
-      this.idleTimer = null;
-    },
-    turnOffIdleTimer() {
-      if (this.idleTimer) {
-        clearTimeout(this.idleTimer);
-      }
-    },
     handleLineBreakWhenEnterToSendEnabled(event) {
       if (
         hasPressedEnterAndNotCmdOrShift(event) &&
@@ -666,14 +669,7 @@ export default {
       }
     },
     onKeyup() {
-      if (!this.idleTimer) {
-        this.$emit('typing-on');
-      }
-      this.turnOffIdleTimer();
-      this.idleTimer = setTimeout(
-        () => this.resetTyping(),
-        TYPING_INDICATOR_IDLE_TIME
-      );
+      this.typingIndicator.start();
       this.updateImgToolbarOnDelete();
     },
     onKeydown(event) {
@@ -685,8 +681,7 @@ export default {
       }
     },
     onBlur() {
-      this.turnOffIdleTimer();
-      this.resetTyping();
+      this.typingIndicator.stop();
       this.$emit('blur');
     },
     onFocus() {

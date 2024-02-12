@@ -92,7 +92,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Отключён от Чата"
+      "OFFLINE": "Оффлайн"
     },
     "BUTTON": {
       "REFRESH": "Обновить"

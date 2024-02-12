@@ -7,10 +7,18 @@ class SupportMailbox < ApplicationMailbox
                     :decorate_mail
 
   def process
+    Rails.logger.info "Processing email #{mail.message_id} from #{original_sender_email} to #{mail.to} with subject #{mail.subject}"
+
     # to turn off spam conversation creation
     return unless @account.active?
     # prevent loop from chatwoot notification emails
     return if notification_email_from_chatwoot?
+
+    # return if email doesn't have a valid sender
+    # This can happen in cases like bounce emails for invalid contact email address
+    # TODO: Handle the bounce seperately and mark the contact as invalid
+    # we are checking for @ since the returned value could be "\"\"" for some email clients
+    return unless original_sender_email.include?('@')
 
     ActiveRecord::Base.transaction do
       find_or_create_contact
@@ -56,6 +64,10 @@ class SupportMailbox < ApplicationMailbox
     mail['In-Reply-To'].try(:value)
   end
 
+  def original_sender_email
+    @processed_mail.original_sender&.downcase
+  end
+
   def find_or_create_conversation
     @conversation = find_conversation_by_in_reply_to || ::Conversation.create!({
                                                                                  account_id: @account.id,
@@ -74,7 +86,7 @@ class SupportMailbox < ApplicationMailbox
   end
 
   def find_or_create_contact
-    @contact = @inbox.contacts.find_by(email: @processed_mail.original_sender&.downcase)
+    @contact = @inbox.contacts.find_by(email: original_sender_email)
     if @contact.present?
       @contact_inbox = ContactInbox.find_by(inbox: @inbox, contact: @contact)
     else

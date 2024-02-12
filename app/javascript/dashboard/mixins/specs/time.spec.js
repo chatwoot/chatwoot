@@ -10,6 +10,17 @@ describe('#messageStamp', () => {
 });
 
 describe('#messageTimestamp', () => {
+  beforeEach(() => {
+    jest.useFakeTimers('modern');
+
+    const mockDate = new Date(2023, 4, 5);
+    jest.setSystemTime(mockDate);
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   it('should return the message date in the specified format if the message was sent in the current year', () => {
     expect(TimeMixin.methods.messageTimestamp(1680777464)).toEqual(
       'Apr 6, 2023'

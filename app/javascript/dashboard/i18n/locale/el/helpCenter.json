@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Φιλτράρισμα κατά",
       "SORT": "Ταξινόμηση κατά",
+      "LOCALE": "Γλώσσα",
       "SETTINGS_BUTTON": "Ρυθμίσεις",
       "NEW_BUTTON": "Νέο Άρθρο",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Τα Άρθρα Μου",
         "DRAFT": "Πρόχειρα Άρθρα",
         "ARCHIVED": "Αρχειοθετημένα Άρθρα"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Select locale",
+        "PLACEHOLDER": "Select locale",
+        "NO_RESULT": "No locale found",
+        "SEARCH_PLACEHOLDER": "Search locale"
       }
     },
     "EDIT_HEADER": {
@@ -76,6 +83,9 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Uncategorized",
+      "SEARCH_RESULTS": "Search results for %{query}",
+      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "SEARCH_LOADER": "Αναζήτηση...",
       "INSERT_ARTICLE": "Insert",
       "NO_RESULT": "No articles found",
       "COPY_LINK": "Copy article link to clipboard",
@@ -220,7 +230,10 @@
         "LOGO": {
           "LABEL": "Λογότυπο",
           "UPLOAD_BUTTON": "Μεταφόρτωση λογότυπου",
-          "HELP_TEXT": "Το λογότυπο θα εμφανιστεί στην κεφαλίδα της πύλης."
+          "HELP_TEXT": "Το λογότυπο θα εμφανιστεί στην κεφαλίδα της πύλης.",
+          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
+          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
+          "IMAGE_DELETE_ERROR": "Error while deleting logo"
         },
         "NAME": {
           "LABEL": "Όνομα",
@@ -425,6 +438,21 @@
           "ERROR_MESSAGE": "Δεν είναι δυνατή η διαγραφή κατηγορίας"
         }
       }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Search articles",
+      "PLACEHOLDER": "Search articles",
+      "NO_RESULT": "No articles found",
+      "SEARCHING": "Αναζήτηση...",
+      "SEARCH_BUTTON": "Αναζήτηση",
+      "INSERT_ARTICLE": "Insert link",
+      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
+      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
+      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
+      "PREVIEW_LINK": "Preview article",
+      "CANCEL": "Κλείσιμο",
+      "BACK": "Πίσω",
+      "BACK_RESULTS": "Back to results"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Help Center",

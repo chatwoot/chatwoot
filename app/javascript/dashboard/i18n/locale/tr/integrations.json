@@ -2,21 +2,21 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "Entegrasyonlar",
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Subscribed Events",
+      "SUBSCRIBED_EVENTS": "Abone Olunan Olaylar",
       "FORM": {
         "CANCEL": "İptal Et",
-        "DESC": "Web kancası etkinlikleri size Chatwoot hesabınızda neler olduğu hakkında gerçek zamanlı bilgi sağlar. Bir geri aramayı yapılandırmak için lütfen geçerli bir URL girin.",
+        "DESC": "Web kancası etkinlikleri, Chatwoot hesabınızdaki olaylar hakkında gerçek zamanlı bilgi sağlar. Bir geri aramayı yapılandırmak için lütfen geçerli bir URL girin.",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "Olaylar",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated"
+            "CONVERSATION_CREATED": "Görüşme Oluşturuldu",
+            "CONVERSATION_STATUS_CHANGED": "Görüşme Durumu Değişti",
+            "CONVERSATION_UPDATED": "Görüşme Güncellendi",
+            "MESSAGE_CREATED": "Mesaj Oluşturuldu",
+            "MESSAGE_UPDATED": "Mesaj Güncellendi",
+            "WEBWIDGET_TRIGGERED": "Kullanıcı tarafından canlı sohbet widget'ı açıldı",
+            "CONTACT_CREATED": "Kişi Oluşturuldu",
+            "CONTACT_UPDATED": "Kişi Güncellendi"
           }
         },
         "END_POINT": {
@@ -24,136 +24,136 @@
           "PLACEHOLDER": "Örnek: https://siteadi/api/webkancasi",
           "ERROR": "Lütfen geçerli bir adres girin"
         },
-        "EDIT_SUBMIT": "Update webhook",
+        "EDIT_SUBMIT": "Web kancasını güncelle",
         "ADD_SUBMIT": "Web kancası oluştur"
       },
-      "TITLE": "Web kancası",
+      "TITLE": "Web Kancası",
       "CONFIGURE": "Yapılandır",
-      "HEADER": "Web kancası ayarları",
-      "HEADER_BTN_TXT": "Yeni web kancası ekle",
+      "HEADER": "Web Kancası Ayarları",
+      "HEADER_BTN_TXT": "Yeni Web Kancası Ekle",
       "LOADING": "Ekli web kancaları getiriliyor",
       "SEARCH_404": "Bu sorgu ile eşleşen öğe yok",
-      "SIDEBAR_TXT": "<p> <b> Web kancaları </b> </p> <p> Web kancaları, her hesap için tanımlanabilen HTTP geri aramalarıdır. Chatwoot'ta mesaj oluşturma gibi olaylar tarafından tetiklenirler. Bu hesap için birden fazla webhook oluşturabilirsiniz. <br /> <br /> Bir <b> web kancası </b> oluşturmak için, <b> Yeni web kancası ekle </b> düğmesini tıklayın. Ayrıca, Sil düğmesini tıklayarak mevcut herhangi bir web kancasını kaldırabilirsiniz. </p>",
+      "SIDEBAR_TXT": "<p> <b> Web Kancaları </b> </p> <p> Web Kancaları, her hesap için tanımlanabilen HTTP geri aramalarıdır. Chatwoot'ta mesaj oluşturma gibi olaylar tarafından tetiklenirler. Bu hesap için birden fazla web kancası oluşturabilirsiniz. <br /> <br /> Bir <b> web kancası </b> oluşturmak için, <b> Yeni Web Kancası Ekle </b> düğmesini tıklayın. Ayrıca, Sil düğmesini tıklayarak mevcut herhangi bir web kancasını kaldırabilirsiniz. </p>",
       "LIST": {
         "404": "Bu hesap için yapılandırılmış web kancası yok.",
-        "TITLE": "Web kancalarını yönet",
+        "TITLE": "Web Kancalarını Yönet",
         "TABLE_HEADER": [
-          "Web kancası uç noktası",
+          "Web Kancası Uç Noktası",
           "Hareketler"
         ]
       },
       "EDIT": {
         "BUTTON_TEXT": "Düzenle",
-        "TITLE": "Edit webhook",
+        "TITLE": "Web Kancasını Düzenle",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
+          "SUCCESS_MESSAGE": "Web Kancası yapılandırması başarıyla güncellendi",
           "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
         }
       },
       "ADD": {
         "CANCEL": "İptal Et",
-        "TITLE": "Yeni web kancası ekle",
+        "TITLE": "Yeni Web Kancası Ekle",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
+          "SUCCESS_MESSAGE": "Web Kancası yapılandırması başarıyla eklendi",
           "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Sil",
         "API": {
-          "SUCCESS_MESSAGE": "Web kancası başarıyla silindi",
+          "SUCCESS_MESSAGE": "Web Kancası başarıyla silindi",
           "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
         },
         "CONFIRM": {
-          "TITLE": "Silmeyi onayla",
-          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
+          "TITLE": "Silmeyi Onayla",
+          "MESSAGE": "Web Kancasını silmek istediğinizden emin misiniz? (%{webhookURL})",
           "YES": "Evet, Sil ",
-          "NO": "Hayır, kalsın"
+          "NO": "Hayır, Kalsın"
         }
       }
     },
     "SLACK": {
       "DELETE": "Sil",
       "DELETE_CONFIRMATION": {
-        "TITLE": "Delete the integration",
-        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+        "TITLE": "Entegrasyonu Sil",
+        "MESSAGE": "Entegrasyonu silmek istediğinizden emin misiniz? Bu işlem, Slack iş alanınızdaki konuşmalara erişim kaybına neden olacaktır."
       },
       "HELP_TEXT": {
-        "TITLE": "Using Slack Integration",
-        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>",
-        "SELECTED": "selected"
+        "TITLE": "Slack Entegrasyonu Kullanımı",
+        "BODY": "<br/><p>Chatwoot artık tüm gelen konuşmaları Slack iş alanınız içindeki <b><i>customer-conversations</i></b> kanalına senkronize edecektir.</p><p><b><i>customer-conversations</i></b> slack kanalındaki bir konuşma başlığına yanıt vermek, bir yanıtı müşteriye geri bildirerek Chatwoot üzerinden yapacaktır.</p><p>Cevaplamaya başlamadan önce <b><i>note:</i></b> ile başlarsanız, yanıtlar yerine özel notlar oluşturabilirsiniz.</p><p>Slack'teki yanıtlayıcının, aynı e-posta altında Chatwoot'ta bir temsilci profiline sahip olması durumunda yanıtlar buna göre ilişkilendirilecektir.</p><p>Yanıtlayıcının ilişkilendirilmiş bir temsilci profili olmadığında yanıtlar bot profili üzerinden yapılacaktır.</p>",
+        "SELECTED": "seçili"
       },
       "SELECT_CHANNEL": {
-        "OPTION_LABEL": "Select a channel",
+        "OPTION_LABEL": "Bir kanal seçin",
         "UPDATE": "Güncelleme",
-        "BUTTON_TEXT": "Connect channel",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
-        "ATTENTION_REQUIRED": "Attention required",
-        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
+        "BUTTON_TEXT": "Kanalı Bağla",
+        "DESCRIPTION": "Slack iş alanınız şimdi Chatwoot ile bağlantılı. Ancak entegrasyon şu anda etkin değil. Entegrasyonu etkinleştirmek ve bir kanalı Chatwoot'a bağlamak için lütfen aşağıdaki düğmeye tıklayın.\n\n**Not:** Eğer özel bir kanal bağlamaya çalışıyorsanız, bu adımdan önce Slack kanalına Chatwoot uygulamasını ekleyin.",
+        "ATTENTION_REQUIRED": "Dikkat gerekiyor",
+        "EXPIRED": "Slack entegrasyonunuz süresi dolmuştur. Slack üzerinde mesaj almaya devam etmek için lütfen entegrasyonu silip iş alanınızı tekrar bağlayın."
       },
-      "UPDATE_ERROR": "There was an error updating the integration, please try again",
-      "UPDATE_SUCCESS": "The channel is connected successfully",
-      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+      "UPDATE_ERROR": "Entegrasyonu güncelleme hatası oluştu, lütfen tekrar deneyin",
+      "UPDATE_SUCCESS": "Kanal başarıyla bağlandı",
+      "FAILED_TO_FETCH_CHANNELS": "Slack'ten kanallar alınırken bir hata oluştu, lütfen tekrar deneyin"
     },
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+      "CLICK_HERE_TO_JOIN": "Katılmak için buraya tıkla",
+      "LEAVE_THE_ROOM": "Odadan Ayrıl",
+      "START_VIDEO_CALL_HELP_TEXT": "Müşteri ile yeni bir video görüşmesi başlatın",
+      "JOIN_ERROR": "Aramaya katılırken bir hata oluştu, lütfen tekrar deneyin",
+      "CREATE_ERROR": "Toplantı bağlantısı oluşturulurken bir hata oluştu, lütfen tekrar deneyin"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "AI Assist",
-      "WITH_AI": " %{option} with AI ",
+      "AI_ASSIST": "AI Yardımı",
+      "WITH_AI": "AI ile %{option} ",
       "OPTIONS": {
-        "REPLY_SUGGESTION": "Reply Suggestion",
-        "SUMMARIZE": "Summarize",
-        "REPHRASE": "Improve Writing",
-        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
-        "SHORTEN": "Shorten",
-        "EXPAND": "Expand",
-        "MAKE_FRIENDLY": "Change message tone to friendly",
-        "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "REPLY_SUGGESTION": "Yanıt Önerisi",
+        "SUMMARIZE": "Özetle",
+        "REPHRASE": "Yazımı İyileştir",
+        "FIX_SPELLING_GRAMMAR": "Yazım ve Dilbilgisini Düzelt",
+        "SHORTEN": "Kısalt",
+        "EXPAND": "Genişlet",
+        "MAKE_FRIENDLY": "Mesaj tonunu dostça yap",
+        "MAKE_FORMAL": "Resmi ton kullan",
+        "SIMPLIFY": "Basitleştir"
       },
       "ASSISTANCE_MODAL": {
-        "DRAFT_TITLE": "Draft content",
-        "GENERATED_TITLE": "Generated content",
-        "AI_WRITING": "AI is writing",
+        "DRAFT_TITLE": "Taslak içeriği",
+        "GENERATED_TITLE": "Oluşturulan içerik",
+        "AI_WRITING": "AI yazıyor",
         "BUTTONS": {
-          "APPLY": "Use this suggestion",
+          "APPLY": "Bu öneriyi kullan",
           "CANCEL": "İptal Et"
         }
       },
       "CTA_MODAL": {
-        "TITLE": "Integrate with OpenAI",
-        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
-        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "TITLE": "OpenAI ile Entegre Olun",
+        "DESC": "OpenAI'nın GPT modelleri ile panonuza gelişmiş AI özellikleri getirin. Başlamak için OpenAI hesabınızdan API anahtarını girin.",
+        "KEY_PLACEHOLDER": "OpenAI API anahtarınızı girin",
         "BUTTONS": {
-          "NEED_HELP": "Need help?",
-          "DISMISS": "Dismiss",
-          "FINISH": "Finish Setup"
+          "NEED_HELP": "Yardıma mı ihtiyacınız var?",
+          "DISMISS": "Kapat",
+          "FINISH": "Kurulumu Tamamla"
         },
-        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
-        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+        "DISMISS_MESSAGE": "OpenAI entegrasyonunu daha sonra istediğiniz zaman kurabilirsiniz.",
+        "SUCCESS_MESSAGE": "OpenAI entegrasyonu başarıyla kuruldu"
       },
-      "TITLE": "Improve With AI",
-      "SUMMARY_TITLE": "Summary with AI",
-      "REPLY_TITLE": "Reply suggestion with AI",
-      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TITLE": "AI ile İyileştir",
+      "SUMMARY_TITLE": "AI ile Özetle",
+      "REPLY_TITLE": "AI ile Yanıt Önerisi",
+      "SUBTITLE": "Mevcut taslağınıza dayanarak AI tarafından geliştirilmiş bir yanıt oluşturulacaktır.",
       "TONE": {
-        "TITLE": "Tone",
+        "TITLE": "Ton",
         "OPTIONS": {
-          "PROFESSIONAL": "Professional",
-          "FRIENDLY": "Friendly"
+          "PROFESSIONAL": "Profesyonel",
+          "FRIENDLY": "Dostça"
         }
       },
       "BUTTONS": {
-        "GENERATE": "Generate",
-        "GENERATING": "Generating...",
+        "GENERATE": "Oluştur",
+        "GENERATING": "Oluşturuluyor...",
         "CANCEL": "İptal Et"
       },
-      "GENERATE_ERROR": "There was an error processing the content, please try again"
+      "GENERATE_ERROR": "İçerik işlenirken bir hata oluştu, lütfen tekrar deneyin"
     },
     "DELETE": {
       "BUTTON_TEXT": "Sil",
@@ -165,49 +165,49 @@
       "BUTTON_TEXT": "Bağlan"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
-      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
+      "TITLE": "Panel Uygulamaları",
+      "HEADER_BTN_TXT": "Yeni bir panel uygulaması ekle",
+      "SIDEBAR_TXT": "<p><b>Panel Uygulamaları</b></p><p>Panel Uygulamaları, organizasyonlara destek uzmanları için bağlam sağlamak amacıyla bir uygulamayı Chatwoot paneli içine yerleştirmelerine izin verir. Bu özellik, bağımsız bir uygulama oluşturmanıza ve bunu panel içine yerleştirmenize olanak tanır, böylece kullanıcı bilgilerini, siparişlerini veya önceki ödeme geçmişini sağlayabilirsiniz.</p><p>Chatwoot'taki panel üzerine uygulamanızı yerleştirdiğinizde, uygulamanız konuşma ve iletişim bağlamını pencere olayı olarak alır. Bağlamı almak için sayfanızda bir message olayı için bir dinleyici uygulayın.</p><p>Yeni bir panel uygulaması eklemek için 'Yeni bir panel uygulaması ekle' düğmesine tıklayın.</p>",
+      "DESCRIPTION": "Panel Uygulamaları, organizasyonlara destek uzmanları için bağlam sağlamak amacıyla bir uygulamayı panel içine yerleştirmelerine izin verir. Bu özellik, bağımsız bir uygulama oluşturmanıza ve bunu panel içine yerleştirmenize olanak tanır, böylece kullanıcı bilgilerini, siparişlerini veya önceki ödeme geçmişini sağlayabilirsiniz.",
       "LIST": {
-        "404": "There are no dashboard apps configured on this account yet",
-        "LOADING": "Fetching dashboard apps...",
+        "404": "Bu hesapta henüz yapılandırılmış panel uygulamaları yok",
+        "LOADING": "Panel uygulamaları alınıyor...",
         "TABLE_HEADER": [
           "İsim",
           "Endpoint"
         ],
-        "EDIT_TOOLTIP": "Edit app",
-        "DELETE_TOOLTIP": "Delete app"
+        "EDIT_TOOLTIP": "Uygulamayı Düzenle",
+        "DELETE_TOOLTIP": "Uygulamayı Sil"
       },
       "FORM": {
         "TITLE_LABEL": "İsim",
-        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "A name for the dashboard app is required",
+        "TITLE_PLACEHOLDER": "Panel uygulamanız için bir isim girin",
+        "TITLE_ERROR": "Panel uygulaması için bir isim gereklidir",
         "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "URL_PLACEHOLDER": "Uygulamanızın barındırıldığı endpoint URL'sini girin",
+        "URL_ERROR": "Geçerli bir URL gereklidir"
       },
       "CREATE": {
-        "HEADER": "Add a new dashboard app",
-        "FORM_SUBMIT": "Yolla",
+        "HEADER": "Yeni bir panel uygulaması ekle",
+        "FORM_SUBMIT": "Gönder",
         "FORM_CANCEL": "İptal Et",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "API_SUCCESS": "Panel uygulaması başarıyla yapılandırıldı",
+        "API_ERROR": "Uygulama oluşturamadık. Lütfen daha sonra tekrar deneyin"
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
-        "FORM_SUBMIT": "Güncelleme",
+        "HEADER": "Panel uygulamasını düzenle",
+        "FORM_SUBMIT": "Güncelle",
         "FORM_CANCEL": "İptal Et",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "API_SUCCESS": "Panel uygulaması başarıyla güncellendi",
+        "API_ERROR": "Uygulamayı güncelleyemedik. Lütfen daha sonra tekrar deneyin"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
-        "TITLE": "Confirm deletion",
-        "MESSAGE": "Are you sure to delete the app - %{appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "CONFIRM_YES": "Evet, sil",
+        "CONFIRM_NO": "Hayır, sakla",
+        "TITLE": "Silme işlemini onayla",
+        "MESSAGE": "Uygulamayı silmek istediğinizden emin misiniz - %{appName}?",
+        "API_SUCCESS": "Panel uygulaması başarıyla silindi",
+        "API_ERROR": "Uygulamayı silemedik. Lütfen daha sonra tekrar deneyin"
       }
     }
   }

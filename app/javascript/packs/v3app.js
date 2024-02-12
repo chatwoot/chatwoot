@@ -35,6 +35,9 @@ if (window.errorLoggingConfig) {
       /safari-extension:/i,
     ],
     integrations: [new Integrations.BrowserTracing()],
+    ignoreErrors: [
+      'ResizeObserver loop completed with undelivered notifications',
+    ],
   });
 }
 

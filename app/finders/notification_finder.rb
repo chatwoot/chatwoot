@@ -10,8 +10,8 @@ class NotificationFinder
     set_up
   end
 
-  def notifications
-    @notifications.page(current_page).per(RESULTS_PER_PAGE).order(last_activity_at: sort_order)
+  def perform
+    notifications
   end
 
   def unread_count
@@ -26,31 +26,22 @@ class NotificationFinder
 
   def set_up
     find_all_notifications
-    filter_snoozed_notifications
-    fitler_read_notifications
+    filter_by_status
   end
 
   def find_all_notifications
     @notifications = current_user.notifications.where(account_id: @current_account.id)
   end
 
-  def filter_snoozed_notifications
-    @notifications = @notifications.where(snoozed_until: nil) unless type_included?('snoozed')
-  end
-
-  def fitler_read_notifications
-    @notifications = @notifications.where(read_at: nil) unless type_included?('read')
-  end
-
-  def type_included?(type)
-    (params[:includes] || []).include?(type)
+  def filter_by_status
+    @notifications = @notifications.where('snoozed_until > ?', DateTime.now.utc) if params[:status] == 'snoozed'
   end
 
   def current_page
     params[:page] || 1
   end
 
-  def sort_order
-    params[:sort_order] || :desc
+  def notifications
+    @notifications.page(current_page).per(RESULTS_PER_PAGE).order(last_activity_at: :desc)
   end
 end

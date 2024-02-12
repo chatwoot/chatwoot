@@ -215,6 +215,26 @@ describe Telegram::IncomingMessageService do
       end
     end
 
+    context 'when the API call to get the download path returns an error' do
+      it 'does not process the attachment' do
+        allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return(nil)
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'message' => {
+            'document' => {
+              'file_id' => 'AwADBAADbXXXXXXXXXXXGBdhD2l6_XX',
+              'file_name' => 'Screenshot 2021-09-27 at 2.01.14 PM.png',
+              'mime_type' => 'application/png',
+              'file_size' => 536_392
+            }
+          }.merge(message_params)
+        }.with_indifferent_access
+
+        described_class.new(inbox: telegram_channel.inbox, params: params).perform
+        expect(telegram_channel.inbox.messages.first.attachments.count).to eq(0)
+      end
+    end
+
     context 'when valid location message params' do
       it 'creates appropriate conversations, message and contacts' do
         params = {

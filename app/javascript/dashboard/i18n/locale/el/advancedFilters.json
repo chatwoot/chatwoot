@@ -1,18 +1,18 @@
 {
   "FILTER": {
-    "TITLE": "Φίλτρο Συνομιλιών",
-    "SUBTITLE": "Προσθέστε φίλτρα παρακάτω και πατήστε το 'Εφαρμογή φίλτρων' για να φιλτράρετε συνομιλίες.",
-    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "TITLE": "Φιλτράρισμα συνομιλιών",
+    "SUBTITLE": "Προσθέστε τα φίλτρα σας παρακάτω και πατήστε \"Εφαρμογή φίλτρων\" για να κρατήσετε μόνο το επιθυμητό μέρος της συνομιλίας.",
+    "EDIT_CUSTOM_FILTER": "Επεξεργασία Φακέλου",
     "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
-    "ADD_NEW_FILTER": "Προσθήκη Φίλτρου",
-    "FILTER_DELETE_ERROR": "Θα πρέπει να έχετε τουλάχιστον ένα φίλτρο για την αποθήκευση",
+    "ADD_NEW_FILTER": "Add filter",
+    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
     "SUBMIT_BUTTON_LABEL": "Εφαρμογή φίλτρων",
     "UPDATE_BUTTON_LABEL": "Update folder",
     "CANCEL_BUTTON_LABEL": "Άκυρο",
-    "CLEAR_BUTTON_LABEL": "Εκκαθάριση Φίλτρων",
-    "EMPTY_VALUE_ERROR": "Απαιτείται τιμή",
+    "CLEAR_BUTTON_LABEL": "Clear filters",
     "FOLDER_LABEL": "Folder Name",
     "FOLDER_QUERY_LABEL": "Folder Query",
+    "EMPTY_VALUE_ERROR": "Απαιτείται τιμή.",
     "TOOLTIP_LABEL": "Φιλτράρισμα συνομιλιών",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "AND",
@@ -36,15 +36,15 @@
     },
     "ATTRIBUTES": {
       "STATUS": "Κατάσταση",
-      "ASSIGNEE_NAME": "Όνομα Εντεταλμένου",
+      "ASSIGNEE_NAME": "Assignee name",
       "INBOX_NAME": "Όνομα Κιβωτίου",
-      "TEAM_NAME": "Όνομα Ομάδας",
-      "CONVERSATION_IDENTIFIER": "Κωδικός Σινομιλίας",
-      "CAMPAIGN_NAME": "Όνομα Καμπάνιας",
+      "TEAM_NAME": "Όνομα ομάδας",
+      "CONVERSATION_IDENTIFIER": "Conversation identifier",
+      "CAMPAIGN_NAME": "Campaign name",
       "LABELS": "Ετικέτες",
-      "BROWSER_LANGUAGE": "Γλώσσα Περιήγησης",
+      "BROWSER_LANGUAGE": "Browser language",
       "PRIORITY": "Priority",
-      "COUNTRY_NAME": "Όνομα Χώρας",
+      "COUNTRY_NAME": "Country name",
       "REFERER_LINK": "Σύνδεσμος αναφοράς",
       "CUSTOM_ATTRIBUTE_LIST": "Λίστα",
       "CUSTOM_ATTRIBUTE_TEXT": "Κείμενο",
@@ -52,28 +52,28 @@
       "CUSTOM_ATTRIBUTE_LINK": "Σύνδεσμος",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Δημιουργήθηκε στις",
-      "LAST_ACTIVITY": "Τελευταία Δραστηριότητα"
+      "LAST_ACTIVITY": "Last activity"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Τυπικά Φίλτρα",
-      "ADDITIONAL_FILTERS": "Πρόσθετα Φίλτρα",
-      "CUSTOM_ATTRIBUTES": "Προσαρμοζόμενες Ιδιότητες"
+      "STANDARD_FILTERS": "Standard filters",
+      "ADDITIONAL_FILTERS": "Additional filters",
+      "CUSTOM_ATTRIBUTES": "Custom attributes"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
         "TITLE": "Θέλετε να αποθηκεύσετε αυτό το φίλτρο;",
         "LABEL": "Ονομάστε αυτό το φίλτρο",
-        "PLACEHOLDER": "Πληκτρολογήστε ένα όνομα για το φίλτρο",
-        "ERROR_MESSAGE": "Απαιτείται όνομα",
+        "PLACEHOLDER": "Name your filter to refer it later.",
+        "ERROR_MESSAGE": "Απαιτείται όνομα.",
         "SAVE_BUTTON": "Αποθήκευση φίλτρου",
         "CANCEL_BUTTON": "Άκυρο",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Ο φάκελος δημιουργήθηκε με επιτυχία",
-          "ERROR_MESSAGE": "Σφάλμα κατά τη δημιουργία φακέλου"
+          "SUCCESS_MESSAGE": "Ο φάκελος δημιουργήθηκε με επιτυχία.",
+          "ERROR_MESSAGE": "Σφάλμα κατά τη δημιουργία φακέλου."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Το τμήμα δημιουργήθηκε με επιτυχία",
-          "ERROR_MESSAGE": "Σφάλμα κατά τη δημιουργία τμήματος"
+          "SUCCESS_MESSAGE": "Το τμήμα δημιουργήθηκε με επιτυχία.",
+          "ERROR_MESSAGE": "Σφάλμα κατά τη δημιουργία τμήματος."
         }
       },
       "EDIT": {
@@ -85,17 +85,17 @@
           "CONFIRM": {
             "TITLE": "Επιβεβαίωση Διαγραφής",
             "MESSAGE": "Είστε βέβαιοι ότι θα διαγράψετε το φίλτρο ",
-            "YES": "Ναι, Διέγραψε το",
-            "NO": "Όχι, Κράτησε τον/την"
+            "YES": "Yes, delete",
+            "NO": "Όχι, Κράτησε την"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Ο φάκελος διαγράφηκε με επιτυχία",
-          "ERROR_MESSAGE": "Σφάλμα κατά τη διαγραφή του φακέλου"
+          "SUCCESS_MESSAGE": "Ο φάκελος διαγράφηκε με επιτυχία.",
+          "ERROR_MESSAGE": "Σφάλμα κατά τη διαγραφή του φακέλου."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Το τμήμα διαγράφηκε επιτυχώς",
-          "ERROR_MESSAGE": "Σφάλμα κατά τη διαγραφή τμήματος"
+          "SUCCESS_MESSAGE": "Το τμήμα διαγράφηκε επιτυχώς.",
+          "ERROR_MESSAGE": "Σφάλμα κατά τη διαγραφή τμήματος."
         }
       }
     }

@@ -14,7 +14,8 @@ class Enterprise::Billing::HandleStripeEventService
   private
 
   def process_subscription_updated
-    plan = find_plan(subscription['plan']['product'])
+    plan = find_plan(subscription['plan']['product']) if subscription['plan'].present?
+
     # skipping self hosted plan events
     return if plan.blank? || account.blank?
 

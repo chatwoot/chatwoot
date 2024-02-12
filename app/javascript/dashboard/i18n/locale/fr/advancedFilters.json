@@ -1,18 +1,18 @@
 {
   "FILTER": {
     "TITLE": "Filtrer les conversations",
-    "SUBTITLE": "Ajoutez des filtres ci-dessous et appuyez sur 'Appliquer des filtres' pour filtrer les conversations.",
+    "SUBTITLE": "Ajoutez vos filtres ci-dessous et cliquez sur \"Appliquer les filtres\" pour désencombrer les discussions.",
     "EDIT_CUSTOM_FILTER": "Modifier le dossier",
     "CUSTOM_VIEWS_SUBTITLE": "Ajouter ou supprimer des filtres et mettre à jour votre dossier.",
     "ADD_NEW_FILTER": "Ajouter un filtre",
-    "FILTER_DELETE_ERROR": "Vous devriez avoir au moins un filtre afin d'enregistrer",
+    "FILTER_DELETE_ERROR": "Oups, on dirait que nous ne pouvons rien enregistrer ! Veuillez ajouter au moins un filtre pour l'enregistrer.",
     "SUBMIT_BUTTON_LABEL": "Appliquer les filtres",
     "UPDATE_BUTTON_LABEL": "Mettre à jour le dossier",
     "CANCEL_BUTTON_LABEL": "Annuler",
     "CLEAR_BUTTON_LABEL": "Effacer les filtres",
-    "EMPTY_VALUE_ERROR": "La valeur est requise",
     "FOLDER_LABEL": "Nom du dossier",
     "FOLDER_QUERY_LABEL": "Requête de dossier",
+    "EMPTY_VALUE_ERROR": "La valeur est requise.",
     "TOOLTIP_LABEL": "Filtrer les conversations",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "ET",
@@ -63,17 +63,17 @@
       "ADD": {
         "TITLE": "Voulez-vous enregistrer ce filtre ?",
         "LABEL": "Nommer ce filtre",
-        "PLACEHOLDER": "Entrez un nom pour ce filtre",
-        "ERROR_MESSAGE": "Le nom est requis",
+        "PLACEHOLDER": "Nommez votre filtre pour le référencer plus tard.",
+        "ERROR_MESSAGE": "Le nom est requis.",
         "SAVE_BUTTON": "Enregistrer le filtre",
         "CANCEL_BUTTON": "Annuler",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Dossier créé avec succès",
-          "ERROR_MESSAGE": "Erreur lors de la création du dossier"
+          "SUCCESS_MESSAGE": "Dossier créé avec succès.",
+          "ERROR_MESSAGE": "Erreur lors de la création du dossier."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment créé avec succès",
-          "ERROR_MESSAGE": "Erreur lors de la création du segment"
+          "SUCCESS_MESSAGE": "Segment créé avec succès.",
+          "ERROR_MESSAGE": "Erreur lors de la création du segment."
         }
       },
       "EDIT": {
@@ -90,12 +90,12 @@
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Dossier supprimé avec succès",
-          "ERROR_MESSAGE": "Erreur lors de la suppression du dossier"
+          "SUCCESS_MESSAGE": "Dossier supprimé avec succès.",
+          "ERROR_MESSAGE": "Erreur lors de la suppression du dossier."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment supprimé avec succès",
-          "ERROR_MESSAGE": "Erreur lors de la suppression du segment"
+          "SUCCESS_MESSAGE": "Segment supprimé avec succès.",
+          "ERROR_MESSAGE": "Erreur lors de la suppression du segment."
         }
       }
     }

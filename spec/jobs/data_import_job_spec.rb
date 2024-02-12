@@ -151,5 +151,20 @@ RSpec.describe DataImportJob do
         end
       end
     end
+
+    context 'when the CSV file is invalid' do
+      let(:invalid_csv_content) do
+        "id,name,email,phone_number,company\n1,\"Clarice Uzzell,\"missing_quote,918080808080,Acmecorp\n2,Marieann Creegan,,+918080808081,Acmecorp"
+      end
+
+      before do
+        allow(data_import.import_file).to receive(:download).and_return(invalid_csv_content)
+      end
+
+      it 'does not import any data and handles the MalformedCSVError' do
+        expect { described_class.perform_now(data_import) }
+          .to change { data_import.reload.status }.from('pending').to('failed')
+      end
+    end
   end
 end

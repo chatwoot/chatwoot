@@ -92,7 +92,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Відключено від Chatwoot"
+      "OFFLINE": "Не в мережі"
     },
     "BUTTON": {
       "REFRESH": "Оновити"

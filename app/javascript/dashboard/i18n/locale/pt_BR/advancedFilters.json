@@ -1,18 +1,18 @@
 {
   "FILTER": {
     "TITLE": "Filtrar conversas",
-    "SUBTITLE": "Adicione filtros abaixo e clique em 'Enviar' para filtrar conversas.",
+    "SUBTITLE": "Adicione seus filtros abaixo e clique em 'Aplicar filtros' para reduzir a desordem na conversa.",
     "EDIT_CUSTOM_FILTER": "Editar Pasta",
     "CUSTOM_VIEWS_SUBTITLE": "Adicione ou remova filtros e atualize sua pasta.",
     "ADD_NEW_FILTER": "Adicionar filtro",
-    "FILTER_DELETE_ERROR": "Você deve ter pelo menos um filtro para salvar",
+    "FILTER_DELETE_ERROR": "Ops! Parece que não podemos salvar nada! Por favor, adicione pelo menos um filtro para salvá-lo.",
     "SUBMIT_BUTTON_LABEL": "Aplicar filtros",
     "UPDATE_BUTTON_LABEL": "Pasta de atualização",
     "CANCEL_BUTTON_LABEL": "Cancelar",
     "CLEAR_BUTTON_LABEL": "Limpar filtros",
-    "EMPTY_VALUE_ERROR": "Valor obrigatório",
     "FOLDER_LABEL": "Nome da pasta",
     "FOLDER_QUERY_LABEL": "Consulta de Pasta",
+    "EMPTY_VALUE_ERROR": "Valor obrigatório.",
     "TOOLTIP_LABEL": "Filtrar conversas",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "E",
@@ -36,11 +36,11 @@
     },
     "ATTRIBUTES": {
       "STATUS": "SItuação",
-      "ASSIGNEE_NAME": "Nome do Responsável",
+      "ASSIGNEE_NAME": "Nome do responsável",
       "INBOX_NAME": "Nome da Caixa de Entrada",
-      "TEAM_NAME": "Nome da Time",
-      "CONVERSATION_IDENTIFIER": "Identificador de conversa",
-      "CAMPAIGN_NAME": "Nome da Campanha",
+      "TEAM_NAME": "Nome do departamento",
+      "CONVERSATION_IDENTIFIER": "Identificador da conversa",
+      "CAMPAIGN_NAME": "Nome da campanha",
       "LABELS": "Marcadores",
       "BROWSER_LANGUAGE": "Idioma do navegador",
       "PRIORITY": "Prioridade",
@@ -55,25 +55,25 @@
       "LAST_ACTIVITY": "Última atividade"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Filtros Padrões",
+      "STANDARD_FILTERS": "Filtros padrão",
       "ADDITIONAL_FILTERS": "Filtros adicionais",
-      "CUSTOM_ATTRIBUTES": "Atributos Personalizados"
+      "CUSTOM_ATTRIBUTES": "Atributos personalizados"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
         "TITLE": "Você quer salvar este filtro?",
         "LABEL": "Nomeie este filtro",
-        "PLACEHOLDER": "Insira um nome para este filtro",
-        "ERROR_MESSAGE": "O nome é obrigatório",
+        "PLACEHOLDER": "Nomeie seu filtro para referenciá-lo posteriormente.",
+        "ERROR_MESSAGE": "O nome é obrigatório.",
         "SAVE_BUTTON": "Salvar filtro",
         "CANCEL_BUTTON": "Cancelar",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Pasta criada com sucesso",
-          "ERROR_MESSAGE": "Erro ao criar pasta"
+          "SUCCESS_MESSAGE": "Pasta criada com sucesso.",
+          "ERROR_MESSAGE": "Erro ao criar pasta."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segmento criado com sucesso",
-          "ERROR_MESSAGE": "Erro ao criar segmento"
+          "SUCCESS_MESSAGE": "Segmento criado com sucesso.",
+          "ERROR_MESSAGE": "Erro ao criar segmento."
         }
       },
       "EDIT": {
@@ -86,16 +86,16 @@
             "TITLE": "Confirmar exclusão",
             "MESSAGE": "Tem certeza que deseja excluir o filtro?",
             "YES": "Sim, excluir",
-            "NO": "Não, mantenha"
+            "NO": "Não, mantenha-o"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Pasta excluída com sucesso",
-          "ERROR_MESSAGE": "Erro ao excluir pasta"
+          "SUCCESS_MESSAGE": "Pasta excluída com sucesso.",
+          "ERROR_MESSAGE": "Erro ao excluir pasta."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segmento apagado com sucesso",
-          "ERROR_MESSAGE": "Erro ao excluir segmento"
+          "SUCCESS_MESSAGE": "Segmento apagado com sucesso.",
+          "ERROR_MESSAGE": "Erro ao excluir segmento."
         }
       }
     }

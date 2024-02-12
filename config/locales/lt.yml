@@ -196,14 +196,29 @@ lt:
     common:
       home: Pagrindinis
       last_updated_on: Paskutinį kartą atnaujinta %{last_updated_on}
-      view_all_articles: Žiūrėti visus straipsnius
+      view_all_articles: Peržiūrėti visus
       article: straipsnis
       articles: straipsniai
+      author: autorius
+      authors: autoriai
+      other: kitas
+      others: kiti
+      by: Autorius
       no_articles: Čia nėra straipsnių
     footer:
       made_with: Padaryta su
     header:
-      go_to_homepage: Eikite į pagrindinę svetainę
+      go_to_homepage: Internetinis puslapis
+      appearance:
+        system: Sistema
+        light: Šviesus
+        dark: Tamsus
+      featured_articles: Featured Articles
+      uncategorized: Neįtraukta į kategorijas
+    404:
+      title: Puslapis nerastas
+      description: We couldn't find the page you were looking for.
+      back_to_home: Eikite į pradinį puslapį
   slack_unfurl:
     fields:
       name: Vardas

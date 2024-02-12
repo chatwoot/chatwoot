@@ -9,32 +9,32 @@
     "YES": "Так",
     "ASSIGN_AGENT_TOOLTIP": "Призначити агента",
     "ASSIGN_TEAM_TOOLTIP": "Призначити команду",
-    "ASSIGN_SUCCESFUL": "Розмови успішно призначені",
-    "ASSIGN_FAILED": "Не вдалося призначити розмови, будь ласка, спробуйте ще раз",
-    "RESOLVE_SUCCESFUL": "Розмови успішно закриті",
-    "RESOLVE_FAILED": "Не вдалося закрити розмови, будь ласка, спробуйте ще раз",
+    "ASSIGN_SUCCESFUL": "Розмови успішно призначені.",
+    "ASSIGN_FAILED": "Failed to assign conversations. Please try again.",
+    "RESOLVE_SUCCESFUL": "Розмови успішно закриті.",
+    "RESOLVE_FAILED": "Failed to resolve conversations. Please try again.",
     "ALL_CONVERSATIONS_SELECTED_ALERT": "Розмови, які відображаються на цій сторінці, обрані.",
-    "AGENT_LIST_LOADING": "Завантаження Агентів",
+    "AGENT_LIST_LOADING": "Завантаження агентів",
     "UPDATE": {
       "CHANGE_STATUS": "Змінити статус",
-      "SNOOZE_UNTIL_NEXT_REPLY": "Відкласти до наступної відповіді",
+      "SNOOZE_UNTIL_NEXT_REPLY": "Відкласти до наступної відповіді.",
       "UPDATE_SUCCESFUL": "Статус розмови успішно оновлено.",
-      "UPDATE_FAILED": "Не вдалося оновити розмови, будь ласка, спробуйте ще раз"
+      "UPDATE_FAILED": "Failed to update conversations. Please try again."
     },
     "LABELS": {
-      "ASSIGN_LABELS": "Призначити мітки",
+      "ASSIGN_LABELS": "Assign labels",
       "NO_LABELS_FOUND": "Міток не знайдено для",
       "ASSIGN_SELECTED_LABELS": "Призначити вибрані мітки",
-      "ASSIGN_SUCCESFUL": "Мітки додано успішно",
-      "ASSIGN_FAILED": "Не вдалося призначити мітки, будь ласка, спробуйте ще раз"
+      "ASSIGN_SUCCESFUL": "Мітки додано успішно.",
+      "ASSIGN_FAILED": "Failed to assign labels. Please try again."
     },
     "TEAMS": {
-      "TEAM_SELECT_LABEL": "Оберіть команду",
+      "TEAM_SELECT_LABEL": "Виберіть команду",
       "NONE": "Нiчого",
       "NO_TEAMS_AVAILABLE": "Цей акаунт ще не доданий до жодної команди.",
-      "ASSIGN_SELECTED_TEAMS": "Призначити обрану команду",
-      "ASSIGN_SUCCESFUL": "Команди успішно призначені",
-      "ASSIGN_FAILED": "Не вдалося призначити команду, будь ласка, спробуйте ще раз"
+      "ASSIGN_SELECTED_TEAMS": "Призначити обрану команду.",
+      "ASSIGN_SUCCESFUL": "Команди успішно призначені.",
+      "ASSIGN_FAILED": "Failed to assign team. Please try again."
     }
   }
 }

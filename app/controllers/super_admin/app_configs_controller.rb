@@ -9,6 +9,9 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
                                     .map { |name, serialized_value| [name, serialized_value['value']] }
                                     .to_h
     # rubocop:enable Style/HashTransformValues
+    @installation_configs = ConfigLoader.new.general_configs.each_with_object({}) do |config_hash, result|
+      result[config_hash['name']] = config_hash.except('name')
+    end
   end
 
   def create

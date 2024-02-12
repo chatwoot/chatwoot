@@ -19,6 +19,7 @@ json.data do
       json.secondary_actor notification.secondary_actor&.push_event_data
       json.user notification.user.push_event_data
       json.created_at notification.created_at.to_i
+      json.last_activity_at notification.last_activity_at.to_i
     end
   end
 end

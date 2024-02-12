@@ -1,18 +1,18 @@
 {
   "FILTER": {
     "TITLE": "Filtrar conversaciones",
-    "SUBTITLE": "Agregue filtros a continuación y presione 'Aplicar filtros' para filtrar conversaciones.",
+    "SUBTITLE": "Añada sus filtros a continuación y pulse 'Aplicar filtros' para cortar el caos del chat.",
     "EDIT_CUSTOM_FILTER": "Editar carpeta",
     "CUSTOM_VIEWS_SUBTITLE": "Agregar o eliminar filtros y actualizar la carpeta.",
     "ADD_NEW_FILTER": "Añadir Filtro",
-    "FILTER_DELETE_ERROR": "Debes tener al menos un filtro para guardar",
+    "FILTER_DELETE_ERROR": "¡Vaya, parece que no podemos guardar nada! Por favor, añade al menos un filtro para guardarlo.",
     "SUBMIT_BUTTON_LABEL": "Aplicar filtros",
     "UPDATE_BUTTON_LABEL": "Actualizar carpeta",
     "CANCEL_BUTTON_LABEL": "Cancelar",
     "CLEAR_BUTTON_LABEL": "Limpiar filtros",
-    "EMPTY_VALUE_ERROR": "El valor es requerido",
     "FOLDER_LABEL": "Nombre de la carpeta",
     "FOLDER_QUERY_LABEL": "Consulta de carpetas",
+    "EMPTY_VALUE_ERROR": "El valor es requerido.",
     "TOOLTIP_LABEL": "Filtrar conversaciones",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "Y",
@@ -63,17 +63,17 @@
       "ADD": {
         "TITLE": "¿Desea guardar este filtro?",
         "LABEL": "Nombre de este filtro",
-        "PLACEHOLDER": "Introduzca un nombre para este filtro",
-        "ERROR_MESSAGE": "El nombre es requerido",
+        "PLACEHOLDER": "Nombre su filtro para referirse más tarde.",
+        "ERROR_MESSAGE": "El nombre es requerido.",
         "SAVE_BUTTON": "Guardar filtro",
         "CANCEL_BUTTON": "Cancelar",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Carpeta creada con éxito",
-          "ERROR_MESSAGE": "Error al crear la carpeta"
+          "SUCCESS_MESSAGE": "Carpeta creada con éxito.",
+          "ERROR_MESSAGE": "Error al crear la carpeta."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segmento creado con éxito",
-          "ERROR_MESSAGE": "Error al crear segmento"
+          "SUCCESS_MESSAGE": "Segmento creado con éxito.",
+          "ERROR_MESSAGE": "Error al crear segmento."
         }
       },
       "EDIT": {
@@ -83,19 +83,19 @@
         "DELETE_BUTTON": "Eliminar filtro",
         "MODAL": {
           "CONFIRM": {
-            "TITLE": "Confirmar eliminación",
+            "TITLE": "Confirme eliminación",
             "MESSAGE": "¿Está seguro de que desea eliminar el filtro ",
             "YES": "Sí, eliminar",
             "NO": "No, mantenerlo"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Carpeta eliminada con éxito",
-          "ERROR_MESSAGE": "Error al eliminar carpeta"
+          "SUCCESS_MESSAGE": "Carpeta eliminada con éxito.",
+          "ERROR_MESSAGE": "Error al eliminar carpeta."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segmento eliminado con éxito",
-          "ERROR_MESSAGE": "Error al eliminar segmento"
+          "SUCCESS_MESSAGE": "Segmento eliminado con éxito.",
+          "ERROR_MESSAGE": "Error al eliminar segmento."
         }
       }
     }

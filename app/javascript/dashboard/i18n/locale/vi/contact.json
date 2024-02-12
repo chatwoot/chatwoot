@@ -15,7 +15,7 @@
     "INITIATED_FROM": "Bắt đầu từ",
     "INITIATED_AT": "Bắt đầu lúc",
     "IP_ADDRESS": "Địa chỉ IP",
-    "CREATED_AT_LABEL": "Created",
+    "CREATED_AT_LABEL": "Đã tạo",
     "NEW_MESSAGE": "Tin nhắn mới",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Không có cuộc trò chuyện trước đó được liên kết với liên hệ này.",
@@ -34,7 +34,7 @@
         "TITLE": "Thêm nhãn",
         "PLACEHOLDER": "Tìm nhãn",
         "NO_RESULT": "Không tìm thấy nhãn",
-        "CREATE_LABEL": "Create new label"
+        "CREATE_LABEL": "Tạo mới nhãn"
       }
     },
     "MERGE_CONTACT": "Hợp nhất liên hệ",
@@ -142,7 +142,7 @@
         "LABEL": "Tên công ty"
       },
       "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
+        "PLACEHOLDER": "Nhập tên thành phố",
         "LABEL": "Tên Nước",
         "SELECT_PLACEHOLDER": "Chọn",
         "REMOVE": "Xoá",
@@ -150,7 +150,7 @@
       },
       "CITY": {
         "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
+        "LABEL": "Thành phố"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -205,8 +205,8 @@
         "ERROR": "Tin nhắn không được rỗng"
       },
       "ATTACHMENTS": {
-        "SELECT": "Choose files",
-        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+        "SELECT": "Chọn File",
+        "HELP_TEXT": "Kéo thả file đính kèm tại đây"
       },
       "SUBMIT": "Gửi tin nhắn",
       "CANCEL": "Huỷ",
@@ -223,7 +223,7 @@
     "FILTER_CONTACTS": "Lọc",
     "FILTER_CONTACTS_SAVE": "Lưu bộ lọc",
     "FILTER_CONTACTS_DELETE": "Xoá bộ lọc",
-    "FILTER_CONTACTS_EDIT": "Edit segment",
+    "FILTER_CONTACTS_EDIT": "Sửa giai đoạn",
     "LIST": {
       "LOADING_MESSAGE": "Đang tải liên hệ...",
       "404": "Không có liên hệ nào khớp với tìm kiếm của bạn 🔍",

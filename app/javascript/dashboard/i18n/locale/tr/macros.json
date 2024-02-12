@@ -1,78 +1,78 @@
 {
   "MACROS": {
-    "HEADER": "Macros",
-    "HEADER_BTN_TXT": "Add a new macro",
-    "HEADER_BTN_TXT_SAVE": "Save macro",
-    "LOADING": "Fetching macros",
-    "SIDEBAR_TXT": "<p><b>Macros</b><p>A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click. When the agents run the macro, the actions would be performed sequentially in the order they are defined. Macros improve productivity and increase consistency in actions. </p><p>A macro can be helpful in 2 ways. </p><p><b>As an agent assist:</b> If an agent performs a set of actions multiple times, they can save it as a macro and execute all the actions together using a single click.</p><p><b>As an option to onboard a team member:</b> Every agent has to perform many different checks/actions during each conversation. Onboarding a new support team member will be easy if pre-defined macros are available on the account. Instead of describing each step in detail, the manager/team lead can point to the macros used in different scenarios.</p>",
-    "ERROR": "Something went wrong. Please try again",
-    "ORDER_INFO": "Macros will run in the order you add your actions. You can rearrange them by dragging them by the handle beside each node.",
+    "HEADER": "Makrolar",
+    "HEADER_BTN_TXT": "Yeni bir makro ekle",
+    "HEADER_BTN_TXT_SAVE": "Makroyu Kaydet",
+    "LOADING": "Makrolar alınıyor",
+    "SIDEBAR_TXT": "<p><b>Makrolar</b></p><p>Bir makro, müşteri hizmetleri temsilcilerinin görevleri kolayca tamamlamalarına yardımcı olan bir dizi kaydedilmiş eylemdir. Temsilciler, bir konuşmayı bir etiketle etiketleme, bir e-posta transkripti gönderme, özel bir öznitelik güncelleme vb. gibi bir dizi eylemi tanımlayabilir ve bu eylemleri tek bir tıklamada çalıştırabilirler. Temsilciler makroyu çalıştırdığında eylemler tanımlanan sırayla ardışık olarak gerçekleştirilir. Makrolar üretkenliği artırır ve eylemlerde tutarlılığı sağlar.</p><p>Bir makro 2 şekilde faydalı olabilir. </p><p><b>Bir temsilci yardımcısı olarak:</b> Eğer bir temsilci bir dizi eylemi birden çok kez gerçekleştiriyorsa, bunu bir makro olarak kaydedip tüm eylemleri tek bir tıklama ile gerçekleştirebilir.</p><p><b>Bir ekip üyesini onboard etmek için bir seçenek olarak:</b> Her temsilcinin her konuşma sırasında birçok farklı kontrol/eylem yapması gereklidir. Yeni bir destek ekibi üyesini onboard etmek, hesapta önceden tanımlanmış makrolar mevcut ise kolay olacaktır. Her adımı detaylı bir şekilde açıklamak yerine, yönetici/takım lideri farklı senaryolarda kullanılan makrolara işaret edebilir.</p>",
+    "ERROR": "Bir şeyler yanlış gitti. Lütfen tekrar deneyin",
+    "ORDER_INFO": "Makrolar eklediğiniz sırayla çalışacaktır. Bunları sürükleyerek her düğmenin yanındaki tutamakla yeniden düzenleyebilirsiniz.",
     "ADD": {
       "FORM": {
         "NAME": {
-          "LABEL": "Macro name",
-          "PLACEHOLDER": "Enter a name for your macro",
-          "ERROR": "Name is required for creating a macro"
+          "LABEL": "Makro adı",
+          "PLACEHOLDER": "Makronuz için bir ad girin",
+          "ERROR": "Bir makro oluşturmak için isim gereklidir"
         },
         "ACTIONS": {
-          "LABEL": "Hareketler"
+          "LABEL": "Eylemler"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro added successfully",
-        "ERROR_MESSAGE": "Unable to create macro, Please try again later"
+        "SUCCESS_MESSAGE": "Makro başarıyla eklendi",
+        "ERROR_MESSAGE": "Makro oluşturulamadı, Lütfen daha sonra tekrar deneyin"
       }
     },
     "LIST": {
       "TABLE_HEADER": [
         "İsim",
-        "Created by",
-        "Last updated by",
-        "Visibility"
+        "Tarafından oluşturuldu",
+        "Son güncelleyen",
+        "Görünürlük"
       ],
-      "404": "No macros found"
+      "404": "Hiç makro bulunamadı"
     },
     "DELETE": {
-      "TOOLTIP": "Delete macro",
+      "TOOLTIP": "Makroyu Sil",
       "CONFIRM": {
-        "MESSAGE": "Silmek istediğinize emin misiniz ?",
+        "MESSAGE": "Silmek istediğinizden emin misiniz?",
         "YES": "Evet, Sil",
         "NO": "Hayır"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Macro deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the macro. Please try again later"
+        "SUCCESS_MESSAGE": "Makro başarıyla silindi",
+        "ERROR_MESSAGE": "Makro silinirken bir hata oluştu. Lütfen daha sonra tekrar deneyin"
       }
     },
     "EDIT": {
-      "TOOLTIP": "Edit macro",
+      "TOOLTIP": "Makroyu Düzenle",
       "API": {
-        "SUCCESS_MESSAGE": "Macro updated successfully",
-        "ERROR_MESSAGE": "Could not update Macro, Please try again later"
+        "SUCCESS_MESSAGE": "Makro başarıyla güncellendi",
+        "ERROR_MESSAGE": "Makro güncellenemedi, Lütfen daha sonra tekrar deneyin"
       }
     },
     "EDITOR": {
-      "START_FLOW": "Start Flow",
-      "END_FLOW": "End Flow",
-      "LOADING": "Fetching macro",
-      "ADD_BTN_TOOLTIP": "Add new action",
-      "DELETE_BTN_TOOLTIP": "Delete Action",
+      "START_FLOW": "Akışı Başlat",
+      "END_FLOW": "Akışı Bitir",
+      "LOADING": "Makro alınıyor",
+      "ADD_BTN_TOOLTIP": "Yeni eylem ekle",
+      "DELETE_BTN_TOOLTIP": "Eylemi Sil",
       "VISIBILITY": {
-        "LABEL": "Macro Visibility",
+        "LABEL": "Makro Görünürlüğü",
         "GLOBAL": {
-          "LABEL": "Public",
-          "DESCRIPTION": "This macro is available publicly for all agents in this account."
+          "LABEL": "Genel",
+          "DESCRIPTION": "Bu makro, bu hesaptaki tüm temsilciler için genel olarak kullanılabilir."
         },
         "PERSONAL": {
-          "LABEL": "Private",
-          "DESCRIPTION": "This macro will be private to you and not be available to others."
+          "LABEL": "Özel",
+          "DESCRIPTION": "Bu makro, size özel olacak ve başkaları tarafından kullanılamayacaktır."
         }
       }
     },
     "EXECUTE": {
-      "BUTTON_TOOLTIP": "Execute",
-      "PREVIEW": "Preview Macro",
-      "EXECUTED_SUCCESSFULLY": "Macro executed successfully"
+      "BUTTON_TOOLTIP": "Çalıştır",
+      "PREVIEW": "Makro Önizlemesi",
+      "EXECUTED_SUCCESSFULLY": "Makro başarıyla çalıştırıldı"
     }
   }
 }

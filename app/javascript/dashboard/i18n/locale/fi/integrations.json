@@ -153,7 +153,7 @@
         "GENERATING": "Generating...",
         "CANCEL": "Peruuta"
       },
-      "GENERATE_ERROR": "There was an error processing the content, please try again"
+      "GENERATE_ERROR": "Sisällön käsittelyssä tapahtui virhe, tarkista OpenAI API-avain ja yritä uudelleen"
     },
     "DELETE": {
       "BUTTON_TEXT": "Poista",

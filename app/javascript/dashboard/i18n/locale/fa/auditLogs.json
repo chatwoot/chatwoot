@@ -19,7 +19,7 @@
       "SUCCESS_MESSAGE": "گزارش های حسابرسی با موفقیت بازیابی شد",
       "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
     },
-    "DEFAULT_USER": "System",
+    "DEFAULT_USER": "سیستم",
     "AUTOMATION_RULE": {
       "ADD": "%{agentName} created a new automation rule (#%{id})",
       "EDIT": "%{agentName} updated an automation rule (#%{id})",

@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Filtrar por",
       "SORT": "Ordenar por",
+      "LOCALE": "Idioma",
       "SETTINGS_BUTTON": "Ajustes",
       "NEW_BUTTON": "Nuevo artículo",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Mis artículos",
         "DRAFT": "Articulos borradores",
         "ARCHIVED": "Artículos archivados"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Seleccionar idioma",
+        "PLACEHOLDER": "Seleccionar idioma",
+        "NO_RESULT": "No se encontró el idioma",
+        "SEARCH_PLACEHOLDER": "Buscar idioma"
       }
     },
     "EDIT_HEADER": {
@@ -76,6 +83,9 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Sin categoría",
+      "SEARCH_RESULTS": "Buscar resultados para %{query}",
+      "EMPTY_TEXT": "Buscar artículos para insertar en las respuestas.",
+      "SEARCH_LOADER": "Buscando...",
       "INSERT_ARTICLE": "Insertar",
       "NO_RESULT": "No se encontraron articulos",
       "COPY_LINK": "Copiar enlace del artículo al portapapeles",
@@ -220,7 +230,10 @@
         "LOGO": {
           "LABEL": "Logo",
           "UPLOAD_BUTTON": "Subir logo",
-          "HELP_TEXT": "Este logo se mostrará en el encabezado del portal."
+          "HELP_TEXT": "Este logo se mostrará en el encabezado del portal.",
+          "IMAGE_UPLOAD_SUCCESS": "Logo subido correctamente",
+          "IMAGE_UPLOAD_ERROR": "Logo eliminado correctamente",
+          "IMAGE_DELETE_ERROR": "Error al eliminar el logo"
         },
         "NAME": {
           "LABEL": "Nombre",
@@ -425,6 +438,21 @@
           "ERROR_MESSAGE": "No se pudo borrar la categoría"
         }
       }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Buscar artículos",
+      "PLACEHOLDER": "Buscar artículos",
+      "NO_RESULT": "No se encontraron articulos",
+      "SEARCHING": "Buscando...",
+      "SEARCH_BUTTON": "Buscar",
+      "INSERT_ARTICLE": "Insertar enlace",
+      "IFRAME_ERROR": "La URL está vacía o no es válida. Imposible mostrar el contenido.",
+      "OPEN_ARTICLE_SEARCH": "Insertar artículo del Centro de Ayuda",
+      "SUCCESS_ARTICLE_INSERTED": "Artículo eliminado correctamente",
+      "PREVIEW_LINK": "Previsualizar artículo",
+      "CANCEL": "Cerrar",
+      "BACK": "Atrás",
+      "BACK_RESULTS": "Volver a los resultados"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Centro de ayuda",

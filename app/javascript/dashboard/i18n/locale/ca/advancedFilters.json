@@ -1,18 +1,18 @@
 {
   "FILTER": {
     "TITLE": "Filtre de converses",
-    "SUBTITLE": "Add filters below and hit 'Apply filters' to filter conversations.",
+    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
     "EDIT_CUSTOM_FILTER": "Edit Folder",
     "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
-    "ADD_NEW_FILTER": "Afegeix filtre",
-    "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
+    "ADD_NEW_FILTER": "Add filter",
+    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
     "SUBMIT_BUTTON_LABEL": "Aplicar filtres",
     "UPDATE_BUTTON_LABEL": "Update folder",
     "CANCEL_BUTTON_LABEL": "Cancel·la",
-    "CLEAR_BUTTON_LABEL": "Clear Filters",
-    "EMPTY_VALUE_ERROR": "El valor és necessari",
+    "CLEAR_BUTTON_LABEL": "Clear filters",
     "FOLDER_LABEL": "Folder Name",
     "FOLDER_QUERY_LABEL": "Folder Query",
+    "EMPTY_VALUE_ERROR": "El valor és necessari.",
     "TOOLTIP_LABEL": "Filtre de converses",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "I",
@@ -36,44 +36,44 @@
     },
     "ATTRIBUTES": {
       "STATUS": "Estat",
-      "ASSIGNEE_NAME": "Assignee Name",
-      "INBOX_NAME": "Nom de la safata d'entrada",
-      "TEAM_NAME": "Nom de l'equip",
-      "CONVERSATION_IDENTIFIER": "Identificador de la conversa",
-      "CAMPAIGN_NAME": "Campaign Name",
+      "ASSIGNEE_NAME": "Assignee name",
+      "INBOX_NAME": "Inbox name",
+      "TEAM_NAME": "Team name",
+      "CONVERSATION_IDENTIFIER": "Conversation identifier",
+      "CAMPAIGN_NAME": "Campaign name",
       "LABELS": "Etiquetes",
-      "BROWSER_LANGUAGE": "Browser Language",
+      "BROWSER_LANGUAGE": "Browser language",
       "PRIORITY": "Priority",
-      "COUNTRY_NAME": "Nom del país",
+      "COUNTRY_NAME": "Country name",
       "REFERER_LINK": "Referer link",
       "CUSTOM_ATTRIBUTE_LIST": "List",
       "CUSTOM_ATTRIBUTE_TEXT": "Llista",
       "CUSTOM_ATTRIBUTE_NUMBER": "Número",
       "CUSTOM_ATTRIBUTE_LINK": "Enllaç",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-      "CREATED_AT": "Created At",
-      "LAST_ACTIVITY": "Last Activity"
+      "CREATED_AT": "Created at",
+      "LAST_ACTIVITY": "Last activity"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard Filters",
-      "ADDITIONAL_FILTERS": "Additional Filters",
-      "CUSTOM_ATTRIBUTES": "Atributs personalitzats"
+      "STANDARD_FILTERS": "Standard filters",
+      "ADDITIONAL_FILTERS": "Additional filters",
+      "CUSTOM_ATTRIBUTES": "Custom attributes"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
         "TITLE": "Do you want to save this filter?",
         "LABEL": "Name this filter",
-        "PLACEHOLDER": "Enter a name for this filter",
-        "ERROR_MESSAGE": "Name is required",
+        "PLACEHOLDER": "Name your filter to refer it later.",
+        "ERROR_MESSAGE": "Name is required.",
         "SAVE_BUTTON": "Save filter",
         "CANCEL_BUTTON": "Cancel·la",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder created successfully",
-          "ERROR_MESSAGE": "Error while creating folder"
+          "SUCCESS_MESSAGE": "Folder created successfully.",
+          "ERROR_MESSAGE": "Error while creating folder."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully",
-          "ERROR_MESSAGE": "Error while creating segment"
+          "SUCCESS_MESSAGE": "Segment created successfully.",
+          "ERROR_MESSAGE": "Error while creating segment."
         }
       },
       "EDIT": {
@@ -83,19 +83,19 @@
         "DELETE_BUTTON": "Delete filter",
         "MODAL": {
           "CONFIRM": {
-            "TITLE": "Confirma l'esborrat",
+            "TITLE": "Confirm deletion",
             "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "Si, esborra",
-            "NO": "No, manten-la"
+            "YES": "Yes, delete",
+            "NO": "No, keep it"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting folder"
+          "SUCCESS_MESSAGE": "Folder deleted successfully.",
+          "ERROR_MESSAGE": "Error while deleting folder."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment deleted successfully",
-          "ERROR_MESSAGE": "Error while deleting segment"
+          "SUCCESS_MESSAGE": "Segment deleted successfully.",
+          "ERROR_MESSAGE": "Error while deleting segment."
         }
       }
     }

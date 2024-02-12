@@ -1,18 +1,18 @@
 {
   "FILTER": {
     "TITLE": "过滤会话",
-    "SUBTITLE": "在下方添加过滤器并点击“应用过滤器”到过滤对话。",
-    "EDIT_CUSTOM_FILTER": "Edit Folder",
-    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
+    "SUBTITLE": "在下方添加您的过滤器，然后点击 '应用过滤器' 来简化聊天内容",
+    "EDIT_CUSTOM_FILTER": "编辑目录",
+    "CUSTOM_VIEWS_SUBTITLE": "添加或移除过滤器并更新您的文件夹",
     "ADD_NEW_FILTER": "添加过滤器",
-    "FILTER_DELETE_ERROR": "您至少需要一个过滤器来保存",
+    "FILTER_DELETE_ERROR": "糟糕，看起来我们无法保存任何东西！请至少添加一个过滤器以保存它。",
     "SUBMIT_BUTTON_LABEL": "应用过滤器",
     "UPDATE_BUTTON_LABEL": "更新文件夹",
     "CANCEL_BUTTON_LABEL": "取消",
     "CLEAR_BUTTON_LABEL": "清除过滤器",
-    "EMPTY_VALUE_ERROR": "必须填写值",
     "FOLDER_LABEL": "文件夹名称",
     "FOLDER_QUERY_LABEL": "查找文件夹",
+    "EMPTY_VALUE_ERROR": "必须填写值.",
     "TOOLTIP_LABEL": "过滤会话",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "和",
@@ -28,7 +28,7 @@
       "is_greater_than": "大于",
       "is_less_than": "小于：",
       "days_before": "是 x 天前",
-      "starts_with": "Starts with"
+      "starts_with": "起始于..."
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "真的",
@@ -36,14 +36,14 @@
     },
     "ATTRIBUTES": {
       "STATUS": "状态",
-      "ASSIGNEE_NAME": "指派人姓名",
+      "ASSIGNEE_NAME": "受理人姓名",
       "INBOX_NAME": "收件箱名称",
       "TEAM_NAME": "团队名称",
-      "CONVERSATION_IDENTIFIER": "会话标识符",
+      "CONVERSATION_IDENTIFIER": "对话标识",
       "CAMPAIGN_NAME": "活动名称",
       "LABELS": "标签",
       "BROWSER_LANGUAGE": "浏览器语言",
-      "PRIORITY": "Priority",
+      "PRIORITY": "优先级",
       "COUNTRY_NAME": "国家",
       "REFERER_LINK": "引用链接",
       "CUSTOM_ATTRIBUTE_LIST": "列表",
@@ -51,33 +51,33 @@
       "CUSTOM_ATTRIBUTE_NUMBER": "号码",
       "CUSTOM_ATTRIBUTE_LINK": "链接",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "复选框",
-      "CREATED_AT": "创建于",
-      "LAST_ACTIVITY": "上次活动"
+      "CREATED_AT": "创建者",
+      "LAST_ACTIVITY": "上次操作"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "标准过滤器",
-      "ADDITIONAL_FILTERS": "附加过滤器",
+      "STANDARD_FILTERS": "常规筛选器",
+      "ADDITIONAL_FILTERS": "附加筛选条件",
       "CUSTOM_ATTRIBUTES": "自定义属性"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
         "TITLE": "您想要保存此过滤器吗？",
         "LABEL": "给此过滤器命名",
-        "PLACEHOLDER": "输入此过滤器的名称",
-        "ERROR_MESSAGE": "名字必填",
+        "PLACEHOLDER": "给你的筛选条件起个名字，以便以后查看。",
+        "ERROR_MESSAGE": "名称是必填项.",
         "SAVE_BUTTON": "保存过滤器",
         "CANCEL_BUTTON": "取消",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "文件夹创建成功",
-          "ERROR_MESSAGE": "文件夹创建失败"
+          "SUCCESS_MESSAGE": "文件夹创建成功.",
+          "ERROR_MESSAGE": "文件夹创建失败."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "片段创建成功",
-          "ERROR_MESSAGE": "创建片段时出错"
+          "SUCCESS_MESSAGE": "片段创建成功.",
+          "ERROR_MESSAGE": "创建片段时出错."
         }
       },
       "EDIT": {
-        "EDIT_BUTTON": "Edit folder"
+        "EDIT_BUTTON": "编辑目录"
       },
       "DELETE": {
         "DELETE_BUTTON": "删除过滤器",
@@ -85,17 +85,17 @@
           "CONFIRM": {
             "TITLE": "确认删除",
             "MESSAGE": "您确定要删除过滤器吗？ ",
-            "YES": "是，删除",
-            "NO": "否，保留它"
+            "YES": "是的，删除",
+            "NO": "不，保留"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "文件夹删除成功",
-          "ERROR_MESSAGE": "删除文件夹时出错"
+          "SUCCESS_MESSAGE": "文件夹删除成功.",
+          "ERROR_MESSAGE": "删除文件夹时出错."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "片段删除成功",
-          "ERROR_MESSAGE": "删除片段时出错"
+          "SUCCESS_MESSAGE": "片段删除成功.",
+          "ERROR_MESSAGE": "删除片段时出错."
         }
       }
     }

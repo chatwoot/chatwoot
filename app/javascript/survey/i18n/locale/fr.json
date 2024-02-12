@@ -12,7 +12,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Enquête mise à jour avec succès",
-      "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard"
+      "ERROR_MESSAGE": "L'attribut personnalisé a été ajouté"
     }
   },
   "POWERED_BY": "Propulsé par Chatwoot"

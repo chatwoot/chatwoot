@@ -92,7 +92,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Desconectado de Chatwoot"
+      "OFFLINE": "Fuera de línea"
     },
     "BUTTON": {
       "REFRESH": "Actualizar"
@@ -134,7 +134,7 @@
       "GO_TO_NOTIFICATIONS": "Ir a Notificaciones",
       "ADD_LABELS_TO_CONVERSATION": "Añadir etiqueta a la conversación",
       "ASSIGN_AN_AGENT": "Asignar un agente",
-      "AI_ASSIST": "Asistencia AI",
+      "AI_ASSIST": "Asistencia IA",
       "ASSIGN_PRIORITY": "Asignar prioridad",
       "ASSIGN_A_TEAM": "Asignar un equipo",
       "MUTE_CONVERSATION": "Silenciar conversación",

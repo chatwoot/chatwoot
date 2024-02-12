@@ -160,8 +160,8 @@
         "TITLE": "SMS Channel",
         "DESC": "Start supporting your customers via SMS.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
-          "TWILIO": "Twilio",
+          "LABEL": "API提供商",
+          "TWILIO": "思源",
           "BANDWIDTH": "Bandwidth"
         },
         "API": {
@@ -174,29 +174,29 @@
             "ERROR": "此字段是必填项"
           },
           "API_KEY": {
-            "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "LABEL": "API 密钥",
+            "PLACEHOLDER": "请输入您的Bandwidth API密钥",
             "ERROR": "此字段是必填项"
           },
           "API_SECRET": {
-            "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "LABEL": "API秘钥",
+            "PLACEHOLDER": "请输入您的 Bandwidth API 秘钥",
             "ERROR": "此字段是必填项"
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
-            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "LABEL": "应用ID",
+            "PLACEHOLDER": "请输入您的 Bandwidth 应用ID",
             "ERROR": "此字段是必填项"
           },
           "INBOX_NAME": {
             "LABEL": "收件箱名称",
-            "PLACEHOLDER": "Please enter a inbox name",
+            "PLACEHOLDER": "请输入收件箱名称",
             "ERROR": "此字段是必填项"
           },
           "PHONE_NUMBER": {
             "LABEL": "电话号码",
             "PLACEHOLDER": "请输入发送消息的电话号码。",
-            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+            "ERROR": "请提供以'+'号开头且不包含任何空格的有效电话号码"
           },
           "SUBMIT_BUTTON": "创建Bandwidth渠道",
           "API": {
@@ -210,58 +210,58 @@
       },
       "WHATSAPP": {
         "TITLE": "WhatsApp 渠道",
-        "DESC": "Start supporting your customers via WhatsApp.",
+        "DESC": "开始通过WhatsApp支持您的客户",
         "PROVIDERS": {
-          "LABEL": "API Provider",
-          "TWILIO": "Twilio",
-          "WHATSAPP_CLOUD": "WhatsApp Cloud",
+          "LABEL": "API提供商",
+          "TWILIO": "思源",
+          "WHATSAPP_CLOUD": "WhatsApp 云服务",
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
           "LABEL": "收件箱名称",
-          "PLACEHOLDER": "Please enter an inbox name",
+          "PLACEHOLDER": "请输入收件箱名称",
           "ERROR": "此字段是必填项"
         },
         "PHONE_NUMBER": {
           "LABEL": "电话号码",
           "PLACEHOLDER": "请输入发送消息的电话号码。",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
+          "ERROR": "请提供以'+'号开头且不包含任何空格的有效电话号码"
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "Phone number ID",
-          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "电话号码标识",
+          "PLACEHOLDER": "请在输入框中输入从Facebook开发者控制台获得的电话号码标识",
+          "ERROR": "请输入一个有效的值"
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "Business Account ID",
-          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "企业账户ID",
+          "PLACEHOLDER": "请在输入框中输入从Facebook开发者控制台获得的企业账户ID",
+          "ERROR": "请输入一个有效的值"
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "Webhook 验证令牌",
+          "PLACEHOLDER": "请输入您要配置为Facebook Webhook的验证令牌",
+          "ERROR": "请输入一个有效的值"
         },
         "API_KEY": {
-          "LABEL": "API key",
-          "SUBTITLE": "Configure the WhatsApp API key.",
-          "PLACEHOLDER": "API key",
-          "ERROR": "Please enter a valid value."
+          "LABEL": "API 密钥",
+          "SUBTITLE": "配置 WhatsApp API 密钥",
+          "PLACEHOLDER": "API 密钥",
+          "ERROR": "请输入一个有效的值"
         },
         "API_CALLBACK": {
           "TITLE": "回调地址",
-          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "SUBTITLE": "您需要在Facebook开发者门户中使用下面显示的值配置Webhook URL和验证令牌。",
           "WEBHOOK_URL": "Webhook 网址",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook 验证令牌"
         },
-        "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "SUBMIT_BUTTON": "创建WhatsApp频道",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
+          "ERROR_MESSAGE": "我们无法保存 WhatsApp 通道"
         }
       },
       "API_CHANNEL": {
         "TITLE": "API 频道",
-        "DESC": "Integrate with API channel and start supporting your customers.",
+        "DESC": "与API通道集成，开始为您的客户提供支持",
         "CHANNEL_NAME": {
           "LABEL": "频道类型",
           "PLACEHOLDER": "请输入频道名称",
@@ -269,7 +269,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook 网址",
-          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
+          "SUBTITLE": "配置您希望接收事件回调的URL",
           "PLACEHOLDER": "Webhook 网址"
         },
         "SUBMIT_BUTTON": "创建 API 频道",
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "电子邮件频道",
-        "DESC": "Integrate you email inbox.",
+        "DESC": "集成您的电子邮件收件箱",
         "CHANNEL_NAME": {
           "LABEL": "频道类型",
           "PLACEHOLDER": "请输入频道名称",
@@ -287,7 +287,7 @@
         },
         "EMAIL": {
           "LABEL": "Email",
-          "SUBTITLE": "Provide the email address where your customers send support requests.",
+          "SUBTITLE": "提供您的客户发送支持请求的电子邮件地址",
           "PLACEHOLDER": "Email"
         },
         "SUBMIT_BUTTON": "创建电子邮件频道",
@@ -297,41 +297,41 @@
         "FINISH_MESSAGE": "开始将您的电子邮件转发到以下电子邮件地址。"
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
-        "DESC": "Integrate with LINE channel and start supporting your customers.",
+        "TITLE": "LINE频道",
+        "DESC": "与LINE频道集成，开始为您的客户提供支持",
         "CHANNEL_NAME": {
           "LABEL": "频道类型",
           "PLACEHOLDER": "请输入频道名称",
           "ERROR": "此字段是必填项"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Channel ID",
-          "PLACEHOLDER": "LINE Channel ID"
+          "LABEL": "LINE 频道 ID",
+          "PLACEHOLDER": "LINE 频道 ID"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Channel Secret",
-          "PLACEHOLDER": "LINE Channel Secret"
+          "LABEL": "LINE 频道秘钥",
+          "PLACEHOLDER": "LINE 频道秘钥"
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Channel Token",
-          "PLACEHOLDER": "LINE Channel Token"
+          "LABEL": "LINE 频道验证令牌",
+          "PLACEHOLDER": "LINE 频道验证令牌"
         },
-        "SUBMIT_BUTTON": "Create LINE Channel",
+        "SUBMIT_BUTTON": "创建LINE频道",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the LINE channel"
+          "ERROR_MESSAGE": "我们无法保存LINE频道"
         },
         "API_CALLBACK": {
           "TITLE": "回调地址",
-          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
+          "SUBTITLE": "您需要在LINE应用程序中配置Webhook URL，使用此处提到的URL"
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Channel",
-        "DESC": "Integrate with Telegram channel and start supporting your customers.",
+        "TITLE": "Telegram 频道",
+        "DESC": "与Telegram通道集成，开始为您的客户提供支持",
         "BOT_TOKEN": {
-          "LABEL": "Bot Token",
+          "LABEL": "机器人令牌",
           "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
-          "PLACEHOLDER": "Bot Token"
+          "PLACEHOLDER": "机器人令牌"
         },
         "SUBMIT_BUTTON": "Create Telegram Channel",
         "API": {
@@ -489,15 +489,15 @@
       "SENDER_NAME_SECTION": "Enable Agent Name in Email",
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "通过电子邮件启用对话连续性",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "如果有联系人的电子邮件地址，对话将会继续在电子邮件中进行。",
+      "LOCK_TO_SINGLE_CONVERSATION": "锁定到单一对话",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "在此收件箱中启用或禁用同一联系人的多个对话",
       "INBOX_UPDATE_TITLE": "收件箱设置",
       "INBOX_UPDATE_SUB_TEXT": "更新收件箱设置",
       "AUTO_ASSIGNMENT_SUB_TEXT": "启用或禁用添加到此收件箱的代理人自动分配新的会话。",
-      "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "With this key you can generate a secret token that can be used to verify the identity of your users.",
+      "HMAC_VERIFICATION": "用户身份验证",
+      "HMAC_DESCRIPTION": "使用这个密钥，您可以生成一个秘密令牌，用于验证您用户的身份",
       "HMAC_LINK_TO_DOCS": "You can read more here.",
       "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
       "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests that cannot be verified will be rejected.",
@@ -509,11 +509,11 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key",
+      "WHATSAPP_SECTION_TITLE": "API 密钥",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "更新",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verify Token",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook 验证令牌",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },

@@ -113,13 +113,13 @@ GEM
       kaminari (>= 1.0)
       sassc-rails (~> 2.1)
       selectize-rails (~> 0.6)
-    administrate-field-active_storage (1.0.0)
+    administrate-field-active_storage (1.0.1)
       administrate (>= 0.2.2)
       rails (>= 7.0)
-    administrate-field-belongs_to_search (0.8.0)
+    administrate-field-belongs_to_search (0.9.0)
       administrate (>= 0.3, < 1.0)
       jbuilder (~> 2)
-      rails (>= 4.2, < 7.1)
+      rails (>= 4.2, < 7.2)
       selectize-rails (~> 0.6)
     annotate (3.2.0)
       activerecord (>= 3.2, < 8.0)
@@ -230,9 +230,9 @@ GEM
     facebook-messenger (2.0.1)
       httparty (~> 0.13, >= 0.13.7)
       rack (>= 1.4.5)
-    factory_bot (6.4.2)
+    factory_bot (6.4.5)
       activesupport (>= 5.0.0)
-    factory_bot_rails (6.4.2)
+    factory_bot_rails (6.4.3)
       factory_bot (~> 6.4)
       railties (>= 5.0.0)
     faker (3.2.0)
@@ -472,7 +472,7 @@ GEM
       activerecord (>= 5.2)
     net-http-persistent (4.0.2)
       connection_pool (~> 2.2)
-    net-imap (0.4.5)
+    net-imap (0.4.9)
       date
       net-protocol
     net-pop (0.1.2)
@@ -487,15 +487,15 @@ GEM
       sidekiq
     newrelic_rpm (9.6.0)
       base64
-    nio4r (2.6.0)
-    nokogiri (1.15.5)
+    nio4r (2.7.0)
+    nokogiri (1.16.0)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    nokogiri (1.15.5-arm64-darwin)
+    nokogiri (1.16.0-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.15.5-x86_64-darwin)
+    nokogiri (1.16.0-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.15.5-x86_64-linux)
+    nokogiri (1.16.0-x86_64-linux)
       racc (~> 1.4)
     numo-narray (0.9.2.1)
     oauth (1.1.0)
@@ -511,7 +511,7 @@ GEM
       rack (>= 1.2, < 4)
       snaky_hash (~> 2.0)
       version_gem (~> 1.1)
-    omniauth (2.1.1)
+    omniauth (2.1.2)
       hashie (>= 3.4.6)
       rack (>= 2.2.3)
       rack-protection
@@ -553,7 +553,7 @@ GEM
     pry-rails (0.3.9)
       pry (>= 0.10.4)
     public_suffix (5.0.1)
-    puma (6.3.1)
+    puma (6.4.2)
       nio4r (~> 2.0)
     pundit (2.3.0)
       activesupport (>= 3.0.0)
@@ -568,8 +568,8 @@ GEM
       rack (>= 2.0.0)
     rack-mini-profiler (3.2.0)
       rack (>= 1.2.0)
-    rack-protection (3.0.6)
-      rack
+    rack-protection (3.1.0)
+      rack (~> 2.2, >= 2.2.4)
     rack-proxy (0.7.6)
       rack
     rack-test (2.1.0)
@@ -841,8 +841,8 @@ DEPENDENCIES
   activerecord-import
   acts-as-taggable-on
   administrate (>= 0.19.0)
-  administrate-field-active_storage (>= 1.0.0)
-  administrate-field-belongs_to_search
+  administrate-field-active_storage (>= 1.0.1)
+  administrate-field-belongs_to_search (>= 0.9.0)
   annotate
   attr_extras
   audited (~> 5.4, >= 5.4.1)
@@ -870,7 +870,7 @@ DEPENDENCIES
   elastic-apm
   email_reply_trimmer
   facebook-messenger
-  factory_bot_rails (>= 6.4.2)
+  factory_bot_rails (>= 6.4.3)
   faker
   fcm
   flag_shih_tzu
@@ -905,7 +905,7 @@ DEPENDENCIES
   neighbor
   newrelic-sidekiq-metrics (>= 1.6.2)
   newrelic_rpm
-  omniauth
+  omniauth (>= 2.1.2)
   omniauth-google-oauth2
   omniauth-oauth2
   omniauth-rails_csrf_protection (~> 1.0)

@@ -92,7 +92,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "قطع الاتصال من Chatwoot"
+      "OFFLINE": "غير متصل"
     },
     "BUTTON": {
       "REFRESH": "تحديث"

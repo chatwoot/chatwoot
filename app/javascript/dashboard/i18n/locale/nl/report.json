@@ -414,7 +414,7 @@
       "HEADER": {
         "CONTACT_NAME": "Contact",
         "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
+        "RATING": "Beoordeling",
         "FEEDBACK_TEXT": "Feedback comment"
       }
     },

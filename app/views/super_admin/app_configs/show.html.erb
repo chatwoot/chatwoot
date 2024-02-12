@@ -8,13 +8,26 @@
 </header>
 <section class="main-content__body">
   <%= form_with url: super_admin_app_config_url(config: @config) , method: :post do |form| %>
-    <% @allowed_configs.each do |c| %>
-      <div class="field-unit">
+    <% @allowed_configs.each do |key| %>
+      <div class="flex mb-8">
         <div class="field-unit__label">
-          <%= form.label "app_config[#{c}]", c %>
+          <%= form.label "app_config[#{key}]", @installation_configs[key]&.dig('display_title') || key %>
         </div>
-        <div class="field-unit__field">
-          <%= form.text_field "app_config[#{c}]", value: @app_config[c] %>
+        <div class="field-unit__field -mt-2 ">
+          <% if @installation_configs[key]&.dig('type') == 'boolean' %>
+            <%= form.select "app_config[#{key}]", 
+              [["True", true], ["False", false]], 
+              { selected: ActiveModel::Type::Boolean.new.cast(@app_config[key]) },
+              class: "mt-2 border border-slate-100 p-1 rounded-md" 
+            %>
+          <% else %>
+            <%= form.text_field "app_config[#{key}]", value: @app_config[key] %>
+          <% end %>
+          <%if @installation_configs[key]&.dig('description').present? %>
+            <p class="text-slate-400 text-xs italic pt-2">
+              <%= @installation_configs[key]&.dig('description') %>
+            </p>
+          <% end %>
         </div>
       </div>
     <% end %>

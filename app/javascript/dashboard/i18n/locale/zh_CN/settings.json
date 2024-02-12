@@ -3,11 +3,11 @@
     "LINK": "个人资料设置",
     "TITLE": "个人资料设置",
     "BTN_TEXT": "更新个人资料",
-    "DELETE_AVATAR": "Delete Avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
-    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
+    "DELETE_AVATAR": "删除头像",
+    "AVATAR_DELETE_SUCCESS": "头像已成功删除",
+    "AVATAR_DELETE_FAILED": "删除头像时出现错误，请重试",
+    "UPDATE_SUCCESS": "您的个人资料已更新成功",
+    "PASSWORD_UPDATE_SUCCESS": "您的密码已成功更改。",
     "AFTER_EMAIL_CHANGED": "您的个人资料已成功更新，请在您的登录凭据更改后重新登录",
     "FORM": {
       "AVATAR": "头像",
@@ -20,52 +20,52 @@
         "NOTE": "您的电子邮件地址是您的身份并用于登录。"
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "发送消息的快捷键",
+        "NOTE": "您可以根据您的写入偏好选择一个快捷键 (输入或 Cmd/Ctrl+Enter)。",
+        "UPDATE_SUCCESS": "您的设置已经更新成功",
         "CARD": {
           "ENTER_KEY": {
             "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "CONTENT": "按 Enter 键发送消息，而不是单击发送按钮。"
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "CONTENT": "按下 Cmd/Ctrl + Enter 发送消息，而不是点击发送按钮。"
           }
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully",
-        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "TITLE": "个人消息签名",
+        "NOTE": "创建一个唯一的消息签名来显示在您从任何收件箱发送的消息的末尾。 您也可以包含一个内联图片，它支持在直播聊天、电子邮件和API收件箱中。",
+        "BTN_TEXT": "保存消息签名",
+        "API_ERROR": "无法保存签名！请重试",
+        "API_SUCCESS": "签名保存成功",
+        "IMAGE_UPLOAD_ERROR": "无法上传图片！请再试一次",
+        "IMAGE_UPLOAD_SUCCESS": "图片添加成功。请点击保存签名。",
         "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
+        "LABEL": "消息签名",
+        "ERROR": "消息签名不能为空",
         "PLACEHOLDER": "Insert your personal message signature here."
       },
       "PASSWORD_SECTION": {
         "TITLE": "密码",
         "NOTE": "更新您的密码会在多个设备中重置您的登录信息。",
-        "BTN_TEXT": "Change password"
+        "BTN_TEXT": "更改密码"
       },
       "ACCESS_TOKEN": {
         "TITLE": "访问令牌",
         "NOTE": "如果您正在构建基于 API 的集成，这个令牌可以被使用"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "TITLE": "语音通知",
+        "NOTE": "在仪表盘中为新消息和对话启用音频通知。",
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
+          "TITLE": "提醒事件：",
           "NONE": "啥都没有",
-          "ASSIGNED": "Assigned Conversations",
-          "ALL_CONVERSATIONS": "All Conversations"
+          "ASSIGNED": "分配会话",
+          "ALL_CONVERSATIONS": "所有会话"
         },
         "DEFAULT_TONE": {
           "TITLE": "Alert tone:"
@@ -104,14 +104,14 @@
         "LABEL": "头像"
       },
       "NAME": {
-        "LABEL": "Your full name",
-        "ERROR": "Please enter a valid full name",
+        "LABEL": "您的全名",
+        "ERROR": "请输入一个有效的全名",
         "PLACEHOLDER": "请输入您的姓名"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
-        "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "LABEL": "展示名",
+        "ERROR": "请输入一个有效的全名",
+        "PLACEHOLDER": "请输入显示名称，将会在对话中显示"
       },
       "AVAILABILITY": {
         "LABEL": "有效的",
@@ -129,26 +129,26 @@
         "PLACEHOLDER": "请输入您的名字，这将会在对话中显示"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "当前密码",
+        "ERROR": "请输入当前密码",
+        "PLACEHOLDER": "请输入当前密码"
       },
       "PASSWORD": {
-        "LABEL": "New password",
+        "LABEL": "新密码",
         "ERROR": "请输入长度6或更长的密码",
         "PLACEHOLDER": "请输入新密码"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "重新输入一次密码",
         "ERROR": "两次密码不一致",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "PLACEHOLDER": "请重新输入您的新密码"
       }
     }
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "改變",
     "CHANGE_ACCOUNTS": "切换账户",
-    "CONTACT_SUPPORT": "Contact Support",
+    "CONTACT_SUPPORT": "联系客服",
     "SELECTOR_SUBTITLE": "从以下列表中选择一个账户",
     "PROFILE_SETTINGS": "个人资料设置",
     "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
@@ -178,7 +178,7 @@
     "FILE_BUBBLE": {
       "DOWNLOAD": "下载",
       "UPLOADING": "上传中...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+      "INSTAGRAM_STORY_UNAVAILABLE": "本信息不存在"
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
@@ -197,9 +197,9 @@
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
     "CONVERSATIONS": "会话",
-    "ALL_CONVERSATIONS": "All Conversations",
+    "ALL_CONVERSATIONS": "所有会话",
     "MENTIONED_CONVERSATIONS": "提及",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
+    "PARTICIPATING_CONVERSATIONS": "参与者",
     "UNATTENDED_CONVERSATIONS": "Unattended",
     "REPORTS": "报告",
     "SETTINGS": "设置",
@@ -246,25 +246,25 @@
       "ALL_ARTICLES": "All Articles",
       "MY_ARTICLES": "My Articles",
       "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
+      "ARCHIVED": "已存档",
       "CATEGORY": "类别",
       "SETTINGS": "设置",
-      "CATEGORY_EMPTY_MESSAGE": "No categories found"
+      "CATEGORY_EMPTY_MESSAGE": "未找到类别"
     },
     "SET_AUTO_OFFLINE": {
-      "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+      "TEXT": "自动标记离线状态",
+      "INFO_TEXT": "当您不使用应用程序或仪表板时，让系统自动标记您离线。"
     },
-    "DOCS": "Read docs"
+    "DOCS": "阅读文档"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "计费方式",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
+      "TITLE": "当前计划",
       "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
+      "TITLE": "管理您的订阅",
       "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
       "BUTTON_TXT": "Go to the billing portal"
     },

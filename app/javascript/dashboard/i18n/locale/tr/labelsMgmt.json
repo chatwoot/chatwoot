@@ -40,16 +40,16 @@
     },
     "SUGGESTIONS": {
       "TOOLTIP": {
-        "SINGLE_SUGGESTION": "Add label to conversation",
-        "MULTIPLE_SUGGESTION": "Select this label",
-        "DESELECT": "Deselect label",
-        "DISMISS": "Dismiss suggestion"
+        "SINGLE_SUGGESTION": "Sohbete etiket ekleme",
+        "MULTIPLE_SUGGESTION": "Bu etiketi seçin",
+        "DESELECT": "Etiketin seçimini kaldır",
+        "DISMISS": "Öneriyi reddet"
       },
       "POWERED_BY": "Chatwoot AI",
-      "DISMISS": "Dismiss",
-      "ADD_SELECTED_LABELS": "Add selected labels",
-      "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels"
+      "DISMISS": "Kapat",
+      "ADD_SELECTED_LABELS": "Seçili etiketleri ekle",
+      "ADD_SELECTED_LABEL": "Seçili etiketi ekle",
+      "ADD_ALL_LABELS": "Tüm etiketleri ekle"
     },
     "ADD": {
       "TITLE": "Etiket ekleyin",

@@ -1,18 +1,18 @@
 {
   "FILTER": {
     "TITLE": "Filtrar Conversas",
-    "SUBTITLE": "Adicione filtros abaixo e pressione 'Aplicar filtros' para filtrar conversas.",
+    "SUBTITLE": "Adicione os seus filtros abaixo e clique 'Aplicar filtros' para eliminar a confusão no chat.",
     "EDIT_CUSTOM_FILTER": "Editar Pasta",
     "CUSTOM_VIEWS_SUBTITLE": "Adicione ou remova filtros e atualize sua pasta.",
-    "ADD_NEW_FILTER": "Adicionar Filtro",
-    "FILTER_DELETE_ERROR": "Você deve ter pelo menos um filtro para guardar",
+    "ADD_NEW_FILTER": "Adicionar filtro",
+    "FILTER_DELETE_ERROR": "Ops, parece que não conseguimos salvar nada! Por favor, adicione pelo menos um filtro para salvar.",
     "SUBMIT_BUTTON_LABEL": "Aplicar filtros",
     "UPDATE_BUTTON_LABEL": "Atualizar pasta",
     "CANCEL_BUTTON_LABEL": "cancelar",
-    "CLEAR_BUTTON_LABEL": "Limpar Filtros",
-    "EMPTY_VALUE_ERROR": "Valor obrigatório",
+    "CLEAR_BUTTON_LABEL": "Limpar filtros",
     "FOLDER_LABEL": "Nome da pasta",
     "FOLDER_QUERY_LABEL": "Consulta de Pasta",
+    "EMPTY_VALUE_ERROR": "Valor obrigatório.",
     "TOOLTIP_LABEL": "Filtrar Conversas",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "E",
@@ -36,44 +36,44 @@
     },
     "ATTRIBUTES": {
       "STATUS": "SItuação",
-      "ASSIGNEE_NAME": "Nome do Responsável",
-      "INBOX_NAME": "Nome Caixa de Entrada",
-      "TEAM_NAME": "Nome da Equipa",
-      "CONVERSATION_IDENTIFIER": "ID da Conversa",
+      "ASSIGNEE_NAME": "Nome do titular",
+      "INBOX_NAME": "Nome da caixa de entrada",
+      "TEAM_NAME": "Nome da equipa",
+      "CONVERSATION_IDENTIFIER": "ID da conversa",
       "CAMPAIGN_NAME": "Nome da Campanha",
       "LABELS": "Etiquetas",
-      "BROWSER_LANGUAGE": "Idioma do Navegador",
+      "BROWSER_LANGUAGE": "Idioma do browser",
       "PRIORITY": "Prioridade",
-      "COUNTRY_NAME": "Nome do País",
+      "COUNTRY_NAME": "Nome do país",
       "REFERER_LINK": "Link de referência",
       "CUSTOM_ATTRIBUTE_LIST": "Lista",
       "CUSTOM_ATTRIBUTE_TEXT": "Texto",
       "CUSTOM_ATTRIBUTE_NUMBER": "Número",
       "CUSTOM_ATTRIBUTE_LINK": "Endereço",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Caixa de Seleção",
-      "CREATED_AT": "Criado Em",
+      "CREATED_AT": "Criada em",
       "LAST_ACTIVITY": "Última atividade"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Filtros Padrão",
-      "ADDITIONAL_FILTERS": "Filtros Adicionais",
+      "STANDARD_FILTERS": "Filtros padrão",
+      "ADDITIONAL_FILTERS": "Filtros adicionais",
       "CUSTOM_ATTRIBUTES": "Atributos personalizados"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
         "TITLE": "Deseja guardar este filtro?",
         "LABEL": "Nome do Filtro",
-        "PLACEHOLDER": "Insira um nome para este filtro",
-        "ERROR_MESSAGE": "Nome é obrigatório",
+        "PLACEHOLDER": "Dê um nome ao seu filtro para consultá-lo mais tarde.",
+        "ERROR_MESSAGE": "Nome é obrigatório.",
         "SAVE_BUTTON": "Guardar Filtro",
         "CANCEL_BUTTON": "cancelar",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Pasta criada com sucesso",
-          "ERROR_MESSAGE": "Erro ao criar a pasta"
+          "SUCCESS_MESSAGE": "Pasta criada com sucesso.",
+          "ERROR_MESSAGE": "Erro ao criar a pasta."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segmento criado com sucesso",
-          "ERROR_MESSAGE": "Erro ao criar segmento"
+          "SUCCESS_MESSAGE": "Segmento criado com sucesso.",
+          "ERROR_MESSAGE": "Erro ao criar segmento."
         }
       },
       "EDIT": {
@@ -83,19 +83,19 @@
         "DELETE_BUTTON": "Apagar filtro",
         "MODAL": {
           "CONFIRM": {
-            "TITLE": "Confirmar Exclusão",
+            "TITLE": "Confirmar a eliminação",
             "MESSAGE": "Tem a certeza que deseja apagar o filtro ",
-            "YES": "Sim, excluir",
-            "NO": "Não, mantenha isso"
+            "YES": "Sim, apagar",
+            "NO": "Não, manter"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Pasta criada com sucesso",
-          "ERROR_MESSAGE": "Erro ao apagar a pasta"
+          "SUCCESS_MESSAGE": "Pasta criada com sucesso.",
+          "ERROR_MESSAGE": "Erro ao apagar a pasta."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segmento apagado com sucesso",
-          "ERROR_MESSAGE": "Erro ao apagar segmento"
+          "SUCCESS_MESSAGE": "Segmento apagado com sucesso.",
+          "ERROR_MESSAGE": "Erro ao apagar segmento."
         }
       }
     }

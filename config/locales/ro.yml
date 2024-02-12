@@ -196,14 +196,29 @@ ro:
     common:
       home: Acasa
       last_updated_on: Ultima actualizare pe %{last_updated_on}
-      view_all_articles: Vezi toate articolele
+      view_all_articles: View all
       article: articol
       articles: articole
+      author: autor
+      authors: authors
+      other: other
+      others: others
+      by: By
       no_articles: Nu există articole aici
     footer:
       made_with: Realizat cu
     header:
-      go_to_homepage: Accesați site-ul principal
+      go_to_homepage: Website
+      appearance:
+        system: Sistem
+        light: Light
+        dark: Dark
+      featured_articles: Featured Articles
+      uncategorized: Necategorizat
+    404:
+      title: Page not found
+      description: We couldn't find the page you were looking for.
+      back_to_home: Go to home page
   slack_unfurl:
     fields:
       name: Nume

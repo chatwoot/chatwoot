@@ -8,8 +8,12 @@ class DataImportJob < ApplicationJob
   def perform(data_import)
     @data_import = data_import
     @contact_manager = DataImport::ContactManager.new(@data_import.account)
-    process_import_file
-    send_import_notification_to_admin
+    begin
+      process_import_file
+      send_import_notification_to_admin
+    rescue CSV::MalformedCSVError => e
+      handle_csv_error(e)
+    end
   end
 
   private
@@ -83,7 +87,16 @@ class DataImportJob < ApplicationJob
     end
   end
 
+  def handle_csv_error(error) # rubocop:disable Lint/UnusedMethodArgument
+    @data_import.update!(status: :failed)
+    send_import_failed_notification_to_admin
+  end
+
   def send_import_notification_to_admin
     AdministratorNotifications::ChannelNotificationsMailer.with(account: @data_import.account).contact_import_complete(@data_import).deliver_later
+  end
+
+  def send_import_failed_notification_to_admin
+    AdministratorNotifications::ChannelNotificationsMailer.with(account: @data_import.account).contact_import_failed.deliver_later
   end
 end

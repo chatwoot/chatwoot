@@ -21,12 +21,12 @@ zh_CN:
   messages:
     reset_password_success: 哇！密码重置请求成功。请检查您的邮件获取说明。
     reset_password_failure: 哎呀！我们找不到指定电子邮件的任何用户。
-    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
+    inbox_deletetion_response: 您的收件箱删除请求将在一段时间内处理。
   errors:
     validations:
-      presence: must not be blank
+      presence: 不能为空
     webhook:
-      invalid: Invalid events
+      invalid: 无效的事件
     signup:
       disposable_email: 我们不允许可用的电子邮件
       invalid_email: 您输入了一个无效的电子邮件
@@ -34,58 +34,58 @@ zh_CN:
       failed: 注册失败
     data_import:
       data_type:
-        invalid: Invalid data type
+        invalid: 错误的数据类型
     contacts:
       import:
-        failed: File is blank
+        failed: 文件为空
       export:
-        success: We will notify you once contacts export file is ready to view.
+        success: 联系人导出文件完成后我们会通知您。
       email:
-        invalid: Invalid email
+        invalid: 无效的电子邮件
       phone_number:
-        invalid: should be in e164 format
+        invalid: 应该是e164格式
     categories:
       locale:
-        unique: should be unique in the category and portal
+        unique: 在类别和门户中应该是唯一的
     dyte:
-      invalid_message_type: "Invalid message type. Action not permitted"
+      invalid_message_type: "无效的消息类型。不允许操作"
     slack:
-      invalid_channel_id: "Invalid slack channel. Please try again"
+      invalid_channel_id: "无效的Slack频道。请重试"
     inboxes:
       imap:
-        socket_error: Please check the network connection, IMAP address and try again.
-        no_response_error: Please check the IMAP credentials and try again.
-        host_unreachable_error: Host unreachable, Please check the IMAP address, IMAP port and try again.
-        connection_timed_out_error: Connection timed out for %{address}:%{port}
+        socket_error: 请检查网络连接，IMAP地址，然后再试一次。
+        no_response_error: 请检查 IMAP 凭据，然后重试。
+        host_unreachable_error: 主机无法访问。请检查 IMAP 地址，然后重试。
+        connection_timed_out_error: 连接超时 %{address}:%{port}
         connection_closed_error: 连接已关闭。
       validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
+        name: 不应该以符号开头或结尾，它不应该有 < > / \ @ 字符。
     custom_filters:
-      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
+      number_of_records: 已达到上限。每个帐户允许用户自定义过滤器的最大数目为50个。
   reports:
     period: Reporting period %{since} to %{until}
-    utc_warning: The report generated is in UTC timezone
+    utc_warning: 生成的报表在 UTC 时区
     agent_csv:
-      agent_name: Agent name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      agent_name: 客服名称
+      conversations_count: 对话数量
+      avg_first_response_time: 平均首次响应时间(分钟)
+      avg_resolution_time: 平均解决时间(分钟)
     inbox_csv:
       inbox_name: 收件箱名称
       inbox_type: 收件箱类型
       conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      avg_first_response_time: 平均首次响应时间(分钟)
+      avg_resolution_time: 平均解决时间(分钟)
     label_csv:
       label_title: 标签
       conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      avg_first_response_time: 平均首次响应时间(分钟)
+      avg_resolution_time: 平均解决时间(分钟)
     team_csv:
       team_name: 团队名称
       conversations_count: 对话数量
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      avg_first_response_time: 平均首次响应时间(分钟)
+      avg_resolution_time: 平均解决时间(分钟)
     conversation_traffic_csv:
       timezone: 时区
     default_group_by: 天
@@ -94,122 +94,137 @@ zh_CN:
         contact_name: 联系人名称
         contact_email_address: 联系人邮箱地址
         contact_phone_number: 联系人电话号码
-        link_to_the_conversation: Link to the conversation
+        link_to_the_conversation: 链接到会话
         agent_name: 客服名称
         rating: 评分
         feedback: 意见反馈
         recorded_at: 录制日期
   notifications:
     notification_title:
-      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
-      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
-      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
-      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
+      conversation_creation: "[新会话] - #%{display_id} 中创建了 %{inbox_name}"
+      conversation_assignment: "[分配给您] - #%{display_id} 已分配会话给您"
+      assigned_conversation_new_message: "[新信息] - #%{display_id} %{content}"
+      conversation_mention: "您在会话中被提及 [ID - %{display_id}] by %{name}"
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} mentioned you in the story: "
-      instagram_deleted_story_content: This story is no longer available.
-      deleted: This message was deleted
+      instagram_story_content: "%{story_sender} 会话中提到了你: "
+      instagram_deleted_story_content: 本信息不存在
+      deleted: 此消息已被删除
       delivery_status:
-        error_code: "Error code: %{error_code}"
+        error_code: "错误代码: %{error_code}"
     activity:
       status:
         resolved: "对话被标记由 %{user_name} 解决"
-        contact_resolved: "Conversation was resolved by %{contact_name}"
+        contact_resolved: "对话被 %{contact_name} 重新打开"
         open: "对话被 %{user_name} 重新打开"
-        pending: "Conversation was marked as pending by %{user_name}"
+        pending: "对话被标记由 %{user_name} 待处理"
         snoozed: "Conversation was snoozed by %{user_name}"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
-        system_auto_open: System reopened the conversation due to a new incoming message.
+        auto_resolved: "对话被系统标记为已解决, 原因是 %{duration} 天不活跃"
+        system_auto_open: 由于收到新的消息，系统重新打开了对话。
       priority:
-        added: '%{user_name} set the priority to %{new_priority}'
-        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
-        removed: '%{user_name} removed the priority'
+        added: '%{user_name} 将优先级设置为 %{new_priority}'
+        updated: '%{user_name} 将优先级从 %{old_priority} 更改为 %{new_priority}'
+        removed: '%{user_name} 取消了优先级'
       assignee:
-        self_assigned: "%{user_name} self-assigned this conversation"
+        self_assigned: "%{user_name} 自行分配这次会话"
         assigned: "由 %{assignee_name} 分配给 %{user_name}"
         removed: "对话未被 %{user_name} 分配"
       team:
         assigned: "由 %{team_name} 分配给 %{user_name}"
-        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
+        assigned_with_assignee: "由 %{assignee_name} 分配给 %{team_name} 团队的 %{user_name}"
         removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
-        added: "%{user_name} added %{labels}"
-        removed: "%{user_name} removed %{labels}"
-      muted: "%{user_name} has muted the conversation"
-      unmuted: "%{user_name} has unmuted the conversation"
+        added: "%{user_name} 添加 %{labels}"
+        removed: "%{user_name} 移除 %{labels}"
+      muted: "%{user_name} 已将会话静音"
+      unmuted: "%{user_name} 已将会话取消静音"
     templates:
       greeting_message_body: "%{account_name} 通常在几小时内回复。"
       ways_to_reach_you_message_body: "给团队一个联系您的方法。"
       email_input_box_message_body: "通过电子邮件得到通知"
-      csat_input_message_body: "Please rate the conversation"
+      csat_input_message_body: "请为会话评分"
     reply:
       email:
         header:
-          from_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
-          reply_with_name: "%{assignee_name} from %{inbox_name} <reply+%{reply_email}>"
-          friendly_name: "%{sender_name} from %{business_name} <%{from_email}>"
+          from_with_name: "%{assignee_name} 来自 %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} 来自 %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} 来自 %{business_name} <%{from_email}>"
           professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
+          reply_with_name: "%{assignee_name} 来自 %{inbox_name} <%{from_email}>"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "此对话中的新消息"
-      transcript_subject: "Conversation Transcript"
+      transcript_subject: "会话记录"
     survey:
-      response: "Please rate this conversation, %{link}"
+      response: "请为会话评分, %{link}"
   contacts:
     online:
-      delete: "%{contact_name} is Online, please try again later"
+      delete: "%{contact_name} 在线, 请重试"
   integration_apps:
     dyte:
       name: "Dyte"
-      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
-      meeting_name: "%{agent_name} has started a meeting"
+      description: "Dyte 是帮助您通过几行代码将直播音频和视频添加到应用程序的工具。 这种集成使您能够让代理人在不离开Chatwoot 的情况下与客户进行视频或语音通话。"
+      meeting_name: "%{agent_name} 已开始会议"
     slack:
       name: "Slack"
-      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+      description: "Slack是一个将您的所有通信集中在一个地方的聊天工具。 通过整合Slack，您可以在您的Slack内部获得您帐户中所有新对话的通知。"
     webhooks:
-      name: "Webhooks"
-      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
+      name: ""
+      description: ""
     dialogflow:
       name: "Dialogflow"
-      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+      description: "使用 Dialogflow 构建聊天机器人并将其连接到您的收件箱。 让机器人处理查询，然后将它们交给收件箱对应团队的客服处理。"
     fullcontact:
       name: "Fullcontact"
-      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+      description: "FullContact 集成有助于丰富访客配置文件。一旦用户分享他们的电子邮件地址并为他们提供有针对性的客户服务。 通过分享FullContact API 密钥将您的完全联系人连接到您的帐户。"
     google_translate:
-      name: "Google Translate"
-      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
+      name: "Google 翻译"
+      description: "添加一个 Google 翻译集成，使客服更容易翻译消息。 Google 翻译有助于自动识别语言并将其转换为客服/帐户管理员选择的语言。"
     openai:
       name: "OpenAI"
-      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
+      description: "通过从 OpenAI 使用 GPT 模型将强大的 AI 功能整合到Chatwoot 中。"
   public_portal:
     search:
-      search_placeholder: Search for article by title or body...
+      search_placeholder: 搜索文章的标题或正文...
       empty_placeholder: 未找到结果。
-      loading_placeholder: Searching...
-      results_title: Search results
-    toc_header: 'On this page'
+      loading_placeholder: 搜索中...
+      results_title: 搜索结果
+    toc_header: '在此页面'
     hero:
-      sub_title: Search for the articles here or browse the categories below.
+      sub_title: 在这里搜索文章或浏览下面的分类
     common:
       home: 首页
-      last_updated_on: Last updated on %{last_updated_on}
-      view_all_articles: View all articles
-      article: article
+      last_updated_on: 最近更新时间为 %{last_updated_on}
+      view_all_articles: 查看全部
+      article: 文章
       articles: 文章
-      no_articles: There are no articles here
+      author: 作者
+      authors: 作者
+      other: 其他
+      others: 其他
+      by: 作者：
+      no_articles: 没有文章在这里
     footer:
-      made_with: Made with
+      made_with: 制作于
     header:
-      go_to_homepage: Go to the main site
+      go_to_homepage: 网站
+      appearance:
+        system: 系统
+        light: 浅色
+        dark: 暗色
+      featured_articles: 精选文章
+      uncategorized: 未分类
+    404:
+      title: 页面不存在
+      description: 我们找不到您想要的页面。
+      back_to_home: 前往主页
   slack_unfurl:
     fields:
       name: 姓名：
       email: Email
-      phone_number: Phone
+      phone_number: 手机号码
       company_name: 公司
       inbox_name: 收件箱
-      inbox_type: Inbox Type
-    button: Open conversation
+      inbox_type: 收件箱类型
+    button: 重新打开会话

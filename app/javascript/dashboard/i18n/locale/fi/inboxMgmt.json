@@ -83,7 +83,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Ota käyttöön tervetulotoivotus",
-          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
+          "HELP_TEXT": "Lähetä tervehdys viestejä automaattisesti, kun asiakkaat aloittavat keskustelun ja lähettävät ensimmäisen viestin.",
           "ENABLED": "Käytössä",
           "DISABLED": "Pois käytöstä"
         },
@@ -340,7 +340,7 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "Chatwoot tukee live-chat-widgetejä, Facebook Messenger, WhatsApp, sähköpostit jne. kanavina. Jos haluat rakentaa mukautetun kanavan, voit luoda sen API-kanavalla. Päästäksesi alkuun, valitse jokin kanava alta."
       },
       "AGENTS": {
         "TITLE": "Edustajat",

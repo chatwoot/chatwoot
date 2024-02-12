@@ -92,7 +92,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Đã ngắt kết nối khỏi máy chủ"
+      "OFFLINE": "Không Trực Tuyến"
     },
     "BUTTON": {
       "REFRESH": "Làm mới"

@@ -205,8 +205,8 @@
         "ERROR": "Сообщение не может быть пустым"
       },
       "ATTACHMENTS": {
-        "SELECT": "Choose files",
-        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+        "SELECT": "Выбрать файлы",
+        "HELP_TEXT": "Перетащите сюда файлы или выберите файлы для прикрепления"
       },
       "SUBMIT": "Отправить сообщение",
       "CANCEL": "Отменить",

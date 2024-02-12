@@ -92,7 +92,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Aftengdur Chatwoot"
+      "OFFLINE": "Offline"
     },
     "BUTTON": {
       "REFRESH": "Uppfæra"

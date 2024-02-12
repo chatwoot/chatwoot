@@ -76,7 +76,11 @@
 
   &.left {
     .bubble {
-      @apply border border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-700 text-black-900 dark:text-slate-50 rounded-r-lg rounded-l mr-auto break-words;
+      @apply rounded-r-lg rounded-l mr-auto break-words;
+
+      &:not(.is-unsupported) {
+        @apply border border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-700 text-black-900 dark:text-slate-50
+      }
 
       &.is-image {
         @apply rounded-lg;

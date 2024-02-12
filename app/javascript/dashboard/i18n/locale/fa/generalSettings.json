@@ -92,7 +92,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "ارتباط با سیستم چت قطع شده است"
+      "OFFLINE": "آفلاین"
     },
     "BUTTON": {
       "REFRESH": "تازه کردن"

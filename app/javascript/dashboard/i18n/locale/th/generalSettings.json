@@ -92,7 +92,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "ยกเลิกการเชื่อมต่อกับ Chatwoot"
+      "OFFLINE": "ออฟไลน์"
     },
     "BUTTON": {
       "REFRESH": "โหลดใหม่"

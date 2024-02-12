@@ -111,7 +111,7 @@ fr:
       instagram_deleted_story_content: Cette Story n'est plus disponible.
       deleted: Ce message a été supprimé
       delivery_status:
-        error_code: "Error code: %{error_code}"
+        error_code: "Code d'erreur : %{error_code}"
     activity:
       status:
         resolved: "La conversation a été marquée résolue par %{user_name}"
@@ -196,14 +196,29 @@ fr:
     common:
       home: Page d'accueil
       last_updated_on: Dernière mise à jour le %{last_updated_on}
-      view_all_articles: Voir tous les articles
+      view_all_articles: Tout afficher
       article: article
       articles: articles
+      author: auteur
+      authors: auteurs
+      other: autre
+      others: autres
+      by: Par
       no_articles: Il n'y a pas d'articles ici
     footer:
       made_with: Réalisé avec
     header:
-      go_to_homepage: Aller à la page d'accueil
+      go_to_homepage: Site internet
+      appearance:
+        system: Système
+        light: Clair
+        dark: Sombre
+      featured_articles: Articles à la une
+      uncategorized: Non catégorisé
+    404:
+      title: Page introuvable
+      description: Nous n'avons pas pu trouver la page que vous cherchiez.
+      back_to_home: Aller à la page d'accueil
   slack_unfurl:
     fields:
       name: Nom

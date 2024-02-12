@@ -92,7 +92,7 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "Αποσυνδέθηκε από το Chatwood"
+      "OFFLINE": "Εκτός"
     },
     "BUTTON": {
       "REFRESH": "Ανανέωση"

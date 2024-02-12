@@ -28,6 +28,7 @@ describe Webhooks::InstagramEventsJob do
   let!(:story_mention_params) { build(:instagram_story_mention_event).with_indifferent_access }
   let!(:story_mention_echo_params) { build(:instagram_story_mention_event_with_echo).with_indifferent_access }
   let!(:messaging_seen_event) { build(:messaging_seen_event).with_indifferent_access }
+  let!(:unsupported_message_event) { build(:instagram_message_unsupported_event).with_indifferent_access }
   let(:fb_object) { double }
 
   describe '#perform' do
@@ -45,6 +46,7 @@ describe Webhooks::InstagramEventsJob do
         expect(instagram_inbox.contacts.last.additional_attributes['social_profiles']['instagram']).to eq 'some_user_name'
         expect(instagram_inbox.conversations.count).to be 1
         expect(instagram_inbox.messages.count).to be 1
+        expect(instagram_inbox.messages.last.content_attributes['is_unsupported']).to be_nil
       end
 
       it 'creates standby message in the instagram inbox' do
@@ -156,6 +158,22 @@ describe Webhooks::InstagramEventsJob do
       it 'handle messaging_seen callback' do
         expect(Instagram::ReadStatusService).to receive(:new).with(params: messaging_seen_event[:entry][0][:messaging][0]).and_call_original
         instagram_webhook.perform_now(messaging_seen_event[:entry])
+      end
+
+      it 'handles unsupported message' do
+        allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+        allow(fb_object).to receive(:get_object).and_return(
+          return_object.with_indifferent_access
+        )
+
+        instagram_webhook.perform_now(unsupported_message_event[:entry])
+        instagram_inbox.reload
+
+        expect(instagram_inbox.contacts.count).to be 1
+        expect(instagram_inbox.contacts.last.additional_attributes['social_profiles']['instagram']).to eq 'some_user_name'
+        expect(instagram_inbox.conversations.count).to be 1
+        expect(instagram_inbox.messages.count).to be 1
+        expect(instagram_inbox.messages.last.content_attributes['is_unsupported']).to be true
       end
     end
   end

@@ -1,18 +1,18 @@
 {
   "FILTER": {
     "TITLE": "Filtruoti pokalbius",
-    "SUBTITLE": "Toliau pridėkite filtrus ir paspauskite \"Taikyti filtrus\", kad filtruotumėte pokalbius.",
+    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
     "EDIT_CUSTOM_FILTER": "Redaguoti papkę",
     "CUSTOM_VIEWS_SUBTITLE": "Pridėkite arba pašalinkite filtrus ir atnaujinkite aplanką.",
     "ADD_NEW_FILTER": "Pridėti Filtrą",
-    "FILTER_DELETE_ERROR": "Turėtumėte turėti bent vieną filtrą, kad galėtumėte išsaugoti",
+    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
     "SUBMIT_BUTTON_LABEL": "Taikyti filtrus",
     "UPDATE_BUTTON_LABEL": "Atnaujinti aplanką",
     "CANCEL_BUTTON_LABEL": "Atšaukti",
     "CLEAR_BUTTON_LABEL": "Išvalyti filtrus",
-    "EMPTY_VALUE_ERROR": "Reikalinga vertė",
     "FOLDER_LABEL": "Aplanko Pavadinimas",
     "FOLDER_QUERY_LABEL": "Aplanko užklausa",
+    "EMPTY_VALUE_ERROR": "Reikalinga vertė.",
     "TOOLTIP_LABEL": "Filtruoti pokalbius",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "IR",
@@ -37,8 +37,8 @@
     "ATTRIBUTES": {
       "STATUS": "Būsena",
       "ASSIGNEE_NAME": "Priskirtojo vardas",
-      "INBOX_NAME": "Gautų Laiškų Aplanko Pavadinimas",
-      "TEAM_NAME": "Komandos Pavadinimas",
+      "INBOX_NAME": "Gautų laiškų aplanko pavadinimas",
+      "TEAM_NAME": "Komandos pavadinimas",
       "CONVERSATION_IDENTIFIER": "Pokalbio identifikatorius",
       "CAMPAIGN_NAME": "Akcijos Pavadinimas",
       "LABELS": "Etiketės",
@@ -51,7 +51,7 @@
       "CUSTOM_ATTRIBUTE_NUMBER": "Numeris",
       "CUSTOM_ATTRIBUTE_LINK": "Nuoroda",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Žymimasis langelis",
-      "CREATED_AT": "Sukūrimo data",
+      "CREATED_AT": "Sukurta",
       "LAST_ACTIVITY": "Paskutiniai veiksmai"
     },
     "GROUPS": {
@@ -63,17 +63,17 @@
       "ADD": {
         "TITLE": "Ar nori išsaugoti šį filtrą?",
         "LABEL": "Suteikti filtrui pavadinimą",
-        "PLACEHOLDER": "Įveskti šio filtro vardą",
-        "ERROR_MESSAGE": "Yra reikalingas vardas",
+        "PLACEHOLDER": "Name your filter to refer it later.",
+        "ERROR_MESSAGE": "Yra reikalingas vardas.",
         "SAVE_BUTTON": "Išsaugoti filtrą",
         "CANCEL_BUTTON": "Atšaukti",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Aplankas sukurtas sėkmingai",
-          "ERROR_MESSAGE": "Kuriant aplanką įvyko klaida"
+          "SUCCESS_MESSAGE": "Aplankas sukurtas sėkmingai.",
+          "ERROR_MESSAGE": "Kuriant aplanką įvyko klaida."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segmentas sėkmingai sukurtas",
-          "ERROR_MESSAGE": "Kuriant segmentą įvyko klaida"
+          "SUCCESS_MESSAGE": "Segmentas sėkmingai sukurtas.",
+          "ERROR_MESSAGE": "Kuriant segmentą įvyko klaida."
         }
       },
       "EDIT": {
@@ -85,17 +85,17 @@
           "CONFIRM": {
             "TITLE": "Patvirtinti Ištrynimą",
             "MESSAGE": "Ar tikrai norite ištrinti filtrą ",
-            "YES": "Taip, Ištrinti",
+            "YES": "Taip, Trinti",
             "NO": "Ne, Išsaugoti"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Aplankas sėkmingai ištrintas",
-          "ERROR_MESSAGE": "Trinant aplanką įvyko klaida"
+          "SUCCESS_MESSAGE": "Aplankas sėkmingai ištrintas.",
+          "ERROR_MESSAGE": "Trinant aplanką įvyko klaida."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segmentas ištrintas sėkmingai",
-          "ERROR_MESSAGE": "Trinant segmentą įvyko klaida"
+          "SUCCESS_MESSAGE": "Segmentas ištrintas sėkmingai.",
+          "ERROR_MESSAGE": "Trinant segmentą įvyko klaida."
         }
       }
     }

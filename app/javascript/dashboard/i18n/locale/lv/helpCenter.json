@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Filtrēt pēc",
       "SORT": "Kārtot pēc",
+      "LOCALE": "Lokalizācija",
       "SETTINGS_BUTTON": "Iestatījumi",
       "NEW_BUTTON": "Jauns Raksts",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "Mani Raksti",
         "DRAFT": "Melnraksti",
         "ARCHIVED": "Arhivētie Raksti"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Izvēlieties lokalizāciju",
+        "PLACEHOLDER": "Izvēlieties lokalizāciju",
+        "NO_RESULT": "Lokalizācija netika atrasta",
+        "SEARCH_PLACEHOLDER": "Meklēt lokalizāciju"
       }
     },
     "EDIT_HEADER": {
@@ -76,6 +83,9 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Bez kategorijas",
+      "SEARCH_RESULTS": "Meklēšanas rezultāti vaicājumam %{query}",
+      "EMPTY_TEXT": "Meklēt rakstus, ko ievietot atbildēs.",
+      "SEARCH_LOADER": "Meklēšana...",
       "INSERT_ARTICLE": "Ievietot",
       "NO_RESULT": "Raksti nav atrasti",
       "COPY_LINK": "Kopēt raksta saiti starpliktuvē",
@@ -220,7 +230,10 @@
         "LOGO": {
           "LABEL": "Logotips",
           "UPLOAD_BUTTON": "Augšupielādēt logotipu",
-          "HELP_TEXT": "Šis logotips tiks attēlots portāla galvenē."
+          "HELP_TEXT": "Šis logotips tiks attēlots portāla galvenē.",
+          "IMAGE_UPLOAD_SUCCESS": "Logotips veiksmīgi augšupielādēts",
+          "IMAGE_UPLOAD_ERROR": "Logotips veiksmīgi izdzēsts",
+          "IMAGE_DELETE_ERROR": "Dzēšot logotipu radās kļūda"
         },
         "NAME": {
           "LABEL": "Nosaukums",
@@ -425,6 +438,21 @@
           "ERROR_MESSAGE": "Nevar izdzēst kategoriju"
         }
       }
+    },
+    "ARTICLE_SEARCH": {
+      "TITLE": "Meklēt rakstus",
+      "PLACEHOLDER": "Meklēt rakstus",
+      "NO_RESULT": "Raksti nav atrasti",
+      "SEARCHING": "Meklēšana...",
+      "SEARCH_BUTTON": "Meklēt",
+      "INSERT_ARTICLE": "Ievietot saiti",
+      "IFRAME_ERROR": "URL ir tukšs vai nederīgs. Nevar parādīt saturu.",
+      "OPEN_ARTICLE_SEARCH": "Ievietot rakstu no Palīdzības Centra",
+      "SUCCESS_ARTICLE_INSERTED": "Raksts ir veiksmīgi ievietots",
+      "PREVIEW_LINK": "Raksta priekšskatījums",
+      "CANCEL": "Aizvērt",
+      "BACK": "Atpakaļ",
+      "BACK_RESULTS": "Atpakaļ uz rezultātiem"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Palīdzības centrs",

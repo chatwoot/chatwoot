@@ -50,6 +50,7 @@
         :is-loading="uiFlags.isFetching"
         :on-click-notification="openConversation"
         :in-last-page="inLastPage"
+        @close="closeNotificationPanel"
       />
       <div
         v-if="records.length !== 0"

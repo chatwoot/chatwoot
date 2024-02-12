@@ -196,14 +196,29 @@ id:
     common:
       home: Beranda
       last_updated_on: Terakhir diperbarui saat %{last_updated_on}
-      view_all_articles: Lihat semua artikel
+      view_all_articles: View all
       article: artikel
       articles: artikel
+      author: penulis
+      authors: authors
+      other: other
+      others: others
+      by: By
       no_articles: Tidak ada artikel di sini
     footer:
       made_with: Dibuat oleh
     header:
-      go_to_homepage: Pergi ke situs beranda
+      go_to_homepage: Website
+      appearance:
+        system: Sistem
+        light: Light
+        dark: Dark
+      featured_articles: Featured Articles
+      uncategorized: Tanpa Kategori
+    404:
+      title: Page not found
+      description: We couldn't find the page you were looking for.
+      back_to_home: Go to home page
   slack_unfurl:
     fields:
       name: Nama

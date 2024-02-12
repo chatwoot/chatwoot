@@ -461,7 +461,7 @@
       "COLLABORATORS": "Medarbetare",
       "CONFIGURATION": "Konfiguration",
       "CAMPAIGN": "Kampanjer",
-      "PRE_CHAT_FORM": "Förre chattformulär",
+      "PRE_CHAT_FORM": "Formulär före chatt",
       "BUSINESS_HOURS": "Öppettider",
       "WIDGET_BUILDER": "Widget Builder",
       "BOT_CONFIGURATION": "Bot Configuration"
@@ -536,7 +536,7 @@
       "MESSAGE_ERROR": "Ett fel uppstod, vänligen försök igen"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Förre chattformulär gör det möjligt för dig att samla in användarinformation innan de börjar samtala med dig.",
+      "DESCRIPTION": "Formulär före chatt gör det möjligt för dig att samla in användarinformation innan de börjar samtala med dig.",
       "SET_FIELDS": "Pre chat form fields",
       "SET_FIELDS_HEADER": {
         "FIELDS": "Fields",
@@ -547,7 +547,7 @@
         "REQUIRED": "Required"
       },
       "ENABLE": {
-        "LABEL": "Aktivera förchattformulär",
+        "LABEL": "Aktivera formulär före chatt",
         "OPTIONS": {
           "ENABLED": "Ja",
           "DISABLED": "Nej"

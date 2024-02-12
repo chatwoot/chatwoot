@@ -26,6 +26,11 @@ RSpec.describe TriggerScheduledItemsJob do
       described_class.perform_now
     end
 
+    it 'triggers Notification::ReopenSnoozedNotificationsJob' do
+      expect(Notification::ReopenSnoozedNotificationsJob).to receive(:perform_later).once
+      described_class.perform_now
+    end
+
     it 'triggers Account::ConversationsResolutionSchedulerJob' do
       expect(Account::ConversationsResolutionSchedulerJob).to receive(:perform_later).once
       described_class.perform_now
@@ -33,6 +38,11 @@ RSpec.describe TriggerScheduledItemsJob do
 
     it 'triggers Channels::Whatsapp::TemplatesSyncSchedulerJob' do
       expect(Channels::Whatsapp::TemplatesSyncSchedulerJob).to receive(:perform_later).once
+      described_class.perform_now
+    end
+
+    it 'triggers Notification::RemoveOldNotificationJob' do
+      expect(Notification::RemoveOldNotificationJob).to receive(:perform_later).once
       described_class.perform_now
     end
   end
