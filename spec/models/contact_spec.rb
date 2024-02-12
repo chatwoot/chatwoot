@@ -5,11 +5,11 @@ require 'rails_helper'
 require Rails.root.join 'spec/models/concerns/avatarable_shared.rb'
 
 RSpec.describe Contact do
-  context 'validations' do
+  context 'with validations' do
     it { is_expected.to validate_presence_of(:account_id) }
   end
 
-  context 'associations' do
+  context 'with associations' do
     it { is_expected.to belong_to(:account) }
     it { is_expected.to have_many(:conversations).dependent(:destroy_async) }
   end
@@ -18,7 +18,7 @@ RSpec.describe Contact do
     it_behaves_like 'avatarable'
   end
 
-  context 'prepare contact attributes before validation' do
+  context 'when prepare contact attributes before validation' do
     it 'sets email to lowercase' do
       contact = create(:contact, email: 'Test@test.com')
       expect(contact.email).to eq('test@test.com')
