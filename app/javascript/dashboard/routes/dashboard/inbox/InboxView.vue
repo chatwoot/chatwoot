@@ -17,7 +17,11 @@
         @next="onClickNext"
         @prev="onClickPrev"
       />
+      <div v-if="isLoadingConversation" class="h-[calc(100%-56px)] w-full">
+        <span class="spinner mt-4 mb-4 h-full w-full" />
+      </div>
       <conversation-box
+        v-else
         class="h-[calc(100%-56px)]"
         is-inbox-view
         :inbox-id="inboxId"
@@ -77,6 +81,7 @@ export default {
   data() {
     return {
       isOnExpandedLayout: false,
+      isLoadingConversation: false,
     };
   },
   computed: {
@@ -106,11 +111,7 @@ export default {
       return this.uiFlags.isFetching && !this.notifications.length;
     },
     showInboxMessageView() {
-      return (
-        Boolean(this.notificationId) &&
-        Boolean(this.currentChat.id) &&
-        !this.isFetchingInitialData
-      );
+      return Boolean(this.notificationId) && !this.isFetchingInitialData;
     },
     totalNotifications() {
       return this.notifications?.length ?? 0;
@@ -133,8 +134,10 @@ export default {
   watch: {
     conversationId: {
       immediate: true,
-      handler() {
-        this.fetchConversationById();
+      handler(newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.fetchConversationById();
+        }
       },
     },
   },
@@ -160,15 +163,23 @@ export default {
     },
     async fetchConversationById() {
       if (!this.notificationId || !this.conversationId) return;
-      const chat = this.findConversation();
-      if (!chat) {
-        await this.$store.dispatch('getConversation', this.conversationId);
+      this.isLoadingConversation = true;
+      this.$store.dispatch('clearSelectedState');
+      const existingChat = this.findConversation();
+      if (existingChat) {
+        this.setActiveChat(existingChat);
+        this.isLoadingConversation = false;
+        return;
       }
+      await this.$store.dispatch('getConversation', this.conversationId);
       this.setActiveChat();
+      this.isLoadingConversation = false;
     },
-    setActiveChat() {
-      const selectedConversation = this.findConversation();
+
+    setActiveChat(conversation = null) {
+      const selectedConversation = conversation || this.findConversation();
       if (!selectedConversation) return;
+
       this.$store
         .dispatch('setActiveChat', { data: selectedConversation })
         .then(() => {

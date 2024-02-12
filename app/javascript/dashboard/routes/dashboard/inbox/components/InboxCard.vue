@@ -89,6 +89,7 @@ export default {
     return {
       isContextMenuOpen: false,
       contextMenuPosition: { x: null, y: null },
+      activeNotificationId: null,
     };
   },
   computed: {
@@ -96,7 +97,9 @@ export default {
       return this.notificationItem?.primary_actor;
     },
     isInboxCardActive() {
-      return this.$route.params.conversation_id === this.primaryActor?.id;
+      return (
+        Number(this.activeNotificationId) === Number(this.notificationItem?.id)
+      );
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](
@@ -108,6 +111,12 @@ export default {
     },
     meta() {
       return this.primaryActor?.meta;
+    },
+    isNotSnoozed() {
+      return (
+        !this.notificationItem?.snoozed_until &&
+        this.$route.params.notification_id
+      );
     },
     assigneeMeta() {
       return this.meta?.assignee;
@@ -131,6 +140,12 @@ export default {
         },
       ];
 
+      if (this.isNotSnoozed) {
+        items.push({
+          key: 'snooze',
+          label: this.$t('INBOX.MENU_ITEM.SNOOZE'),
+        });
+      }
       if (!this.isUnread) {
         items.push({
           key: 'mark_as_unread',
@@ -155,6 +170,14 @@ export default {
         )}`;
       }
       return '';
+    },
+  },
+  watch: {
+    '$route.params.notification_id': {
+      immediate: true,
+      handler(newVal) {
+        this.activeNotificationId = newVal;
+      },
     },
   },
   unmounted() {
@@ -213,6 +236,9 @@ export default {
           break;
         case 'delete':
           this.$emit('delete-notification', this.notificationItem);
+          break;
+        case 'snooze':
+          this.$emit('snooze-notification', this.notificationItem);
           break;
         default:
       }

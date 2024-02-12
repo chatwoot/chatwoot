@@ -4,7 +4,7 @@
     :class="isOnExpandedLayout ? '' : 'min-w-[360px] max-w-[360px]'"
   >
     <inbox-list-header
-      :is-context-menu-open="isContextMenuOpen"
+      :is-context-menu-open="isInboxContextMenuOpen"
       @filter="onFilterChange"
       @redirect="redirectToInbox"
     />
@@ -19,8 +19,9 @@
         @mark-notification-as-read="markNotificationAsRead"
         @mark-notification-as-unread="markNotificationAsUnRead"
         @delete-notification="deleteNotification"
-        @context-menu-open="isContextMenuOpen = true"
-        @context-menu-close="isContextMenuOpen = false"
+        @snooze-notification="openSnoozeNotificationModal"
+        @context-menu-open="isInboxContextMenuOpen = true"
+        @context-menu-close="isInboxContextMenuOpen = false"
       />
       <div v-if="uiFlags.isFetching" class="text-center">
         <span class="spinner mt-4 mb-4" />
@@ -76,7 +77,7 @@ export default {
       status: '',
       type: '',
       sortOrder: wootConstants.INBOX_SORT_BY.NEWEST,
-      isContextMenuOpen: false,
+      isInboxContextMenuOpen: false,
     };
   },
   computed: {
@@ -190,6 +191,10 @@ export default {
       this.status = status;
       this.type = type;
       this.sortOrder = sortBy || wootConstants.INBOX_SORT_BY.NEWEST;
+    },
+    openSnoozeNotificationModal() {
+      const ninja = document.querySelector('ninja-keys');
+      ninja.open({ parent: 'snooze_notification' });
     },
   },
 };
