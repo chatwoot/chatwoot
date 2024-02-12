@@ -340,7 +340,7 @@
     "VALIDATIONS": {
       "REQUIRED": "Geçerli değer gereklidir",
       "INVALID_URL": "Geçersiz URL",
-      "INVALID_INPUT": "Invalid Input"
+      "INVALID_INPUT": "Geçersiz giriş"
     }
   },
   "MERGE_CONTACTS": {
@@ -358,7 +358,7 @@
     "SUMMARY": {
       "TITLE": "Özet",
       "DELETE_WARNING": "<strong>%{primaryContactName}</strong> kişisi silinecek.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{primaryContactName}</strong> will be copied to <strong>%{parentContactName}</strong>."
+      "ATTRIBUTE_WARNING": "Şu: <strong>%{primaryContactName}</strong> kişinin iletişim bilgileri, şu<strong>%{parentContactName}</strong> kişiye kopyalanacaktır."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
