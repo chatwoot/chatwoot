@@ -36,17 +36,15 @@ class NotificationFinder
   def apply_filters
     status = params[:status]
     type = params[:type]
-
     # Return all the notifications
     return if status == 'snoozed' && type == 'read'
 
-    if type == 'read'
+    if type == 'read' && status.nil?
       exclude_snoozed
-    elsif status == 'snoozed'
+    elsif status == 'snoozed' && type.nil?
       include_snoozed
     else
-      # Default case: Exclude both snoozed and read notifications
-      exclude_snoozed
+      # Default case: return all the unread notifications
       exclude_read
     end
   end
@@ -60,7 +58,7 @@ class NotificationFinder
   end
 
   def include_snoozed
-    @notifications = @notifications.where.not(snoozed_until: nil)
+    @notifications = @notifications.where.not(snoozed_until: nil).and(@notifications.where(read_at: nil))
   end
 
   def current_page

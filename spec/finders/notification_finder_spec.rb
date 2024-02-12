@@ -28,7 +28,7 @@ describe NotificationFinder do
 
       it 'returns all the notifications' do
         result = notification_finder.perform
-        expect(result.length).to be 3
+        expect(result.length).to be 4
       end
 
       it 'orders notifications by last activity at' do
@@ -38,12 +38,12 @@ describe NotificationFinder do
 
       it 'returns unread count' do
         result = notification_finder.unread_count
-        expect(result).to be 3
+        expect(result).to be 4
       end
 
       it 'returns count' do
         result = notification_finder.count
-        expect(result).to be 3
+        expect(result).to be 4
       end
     end
 
