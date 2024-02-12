@@ -26,20 +26,42 @@ class NotificationFinder
 
   def set_up
     find_all_notifications
-    filter_by_read_status
-    filter_by_status
+    apply_filters
   end
 
   def find_all_notifications
     @notifications = current_user.notifications.where(account_id: @current_account.id)
   end
 
-  def filter_by_status
-    @notifications = @notifications.where('snoozed_until > ?', DateTime.now.utc) if params[:status] == 'snoozed'
+  def apply_filters
+    # REturn all the read, unread and snoozed notifications when the status is snoozed and type is read
+    return if params[:status] == 'snoozed' && params[:type] == 'read'
+
+    # Exclude snoozed notifications when the status is not snoozed and type is read
+    if params[:type] == 'read' && params[:status] != 'snoozed'
+      exclude_snoozed
+      return
+    end
+    # Exclude read notifications when the status is snoozed and type is not read
+    if params[:status] == 'snoozed' && params[:type] != 'read'
+      exclude_read
+      return
+    end
+    # Return only unread notifications when params are not passed
+    exclude_snoozed
+    exclude_read
   end
 
-  def filter_by_read_status
-    @notifications = @notifications.where.not(read_at: nil) if params[:type] == 'read'
+  def include_unread
+    @notifications = @notifications.where(read_at: nil)
+  end
+
+  def exclude_read
+    @notifications = @notifications.where(read_at: nil)
+  end
+
+  def exclude_snoozed
+    @notifications = @notifications.where(snoozed_until: nil)
   end
 
   def current_page
