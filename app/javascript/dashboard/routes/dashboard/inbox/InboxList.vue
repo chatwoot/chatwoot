@@ -1,6 +1,7 @@
 <template>
   <div
-    class="flex flex-col h-full w-full md:min-w-[360px] md:max-w-[360px] ltr:border-r border-slate-50 dark:border-slate-800/50"
+    class="flex-col h-full w-full md:min-w-[360px] md:max-w-[360px] ltr:border-r border-slate-50 dark:border-slate-800/50"
+    :class="!notificationId ? 'flex' : 'hidden md:flex'"
   >
     <inbox-list-header
       :is-context-menu-open="isInboxContextMenuOpen"
@@ -56,12 +57,6 @@ export default {
     IntersectionObserver,
   },
   mixins: [alertMixin, uiSettingsMixin],
-  props: {
-    notificationId: {
-      type: [String, Number],
-      default: 0,
-    },
-  },
   data() {
     return {
       infiniteLoaderOptions: {
@@ -82,6 +77,9 @@ export default {
       uiFlags: 'notifications/getUIFlags',
       notification: 'notifications/getFilteredNotifications',
     }),
+    notificationId() {
+      return Number(this.$route.params.notification_id);
+    },
     inboxFilters() {
       return {
         page: this.page,
