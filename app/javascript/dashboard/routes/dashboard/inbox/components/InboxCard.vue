@@ -113,10 +113,7 @@ export default {
       return this.primaryActor?.meta;
     },
     isNotSnoozed() {
-      return (
-        !this.notificationItem?.snoozed_until &&
-        this.$route.params.notification_id
-      );
+      return !this.notificationItem?.snoozed_until;
     },
     assigneeMeta() {
       return this.meta?.assignee;

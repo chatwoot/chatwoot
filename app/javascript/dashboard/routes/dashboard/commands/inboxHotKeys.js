@@ -1,6 +1,9 @@
 import wootConstants from 'dashboard/constants/globals';
 
-import { CMD_SNOOZE_NOTIFICATION } from './commandBarBusEvents';
+import {
+  CMD_SNOOZE_NOTIFICATION,
+  CMD_TOGGLE_SNOOZE_NOTIFICATION,
+} from './commandBarBusEvents';
 import { ICON_SNOOZE_NOTIFICATION } from './CommandBarIcons';
 
 import { isAInboxViewRoute } from 'dashboard/helper/routeHelpers';
@@ -61,13 +64,27 @@ const INBOX_SNOOZE_EVENTS = [
   },
 ];
 export default {
+  data() {
+    return {
+      showSnoozeNotificationItems: false,
+    };
+  },
   computed: {
     inboxHotKeys() {
-      if (isAInboxViewRoute(this.$route.name)) {
+      if (
+        isAInboxViewRoute(this.$route.name) ||
+        this.showSnoozeNotificationItems
+      ) {
         return this.prepareActions(INBOX_SNOOZE_EVENTS);
       }
       return [];
     },
+  },
+  mounted() {
+    bus.$on(CMD_TOGGLE_SNOOZE_NOTIFICATION, this.toggleSnoozeOptions);
+  },
+  destroyed() {
+    bus.$off(CMD_TOGGLE_SNOOZE_NOTIFICATION, this.toggleSnoozeOptions);
   },
   methods: {
     prepareActions(actions) {
@@ -76,6 +93,10 @@ export default {
         title: this.$t(action.title),
         section: this.$t(action.section),
       }));
+    },
+    toggleSnoozeOptions() {
+      // Used to show/hide snooze notification items in cmd bar dynamically
+      this.showSnoozeNotificationItems = true;
     },
   },
 };
