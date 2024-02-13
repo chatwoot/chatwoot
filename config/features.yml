@@ -5,6 +5,8 @@
   enabled: true
 - name: channel_facebook
   enabled: true
+- name: channel_zalo
+  enabled: true
 - name: channel_twitter
   enabled: true
 - name: ip_lookup
