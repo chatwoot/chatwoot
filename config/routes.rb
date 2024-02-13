@@ -300,6 +300,12 @@ Rails.application.routes.draw do
               get :grouped_conversation_metrics
             end
           end
+          resources :summary_reports, only: [] do
+            collection do
+              get :agent
+              get :team
+            end
+          end
           resources :reports, only: [:index] do
             collection do
               get :summary

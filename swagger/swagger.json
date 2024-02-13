@@ -3327,6 +3327,18 @@
         "operationId": "assign-a-conversation",
         "summary": "Assign Conversation",
         "description": "Assign a conversation to an agent or a team",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          },
+          {
+            "agentBotApiKey": [
+
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "data",

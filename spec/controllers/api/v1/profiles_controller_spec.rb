@@ -57,6 +57,18 @@ RSpec.describe 'Profile API', type: :request do
         expect(agent.name).to eq('test')
       end
 
+      it 'updates custom attributes' do
+        put '/api/v1/profile',
+            params: { profile: { phone_number: '+123456789' } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        agent.reload
+
+        expect(agent.custom_attributes['phone_number']).to eq('+123456789')
+      end
+
       it 'updates the message_signature' do
         put '/api/v1/profile',
             params: { profile: { name: 'test', message_signature: 'Thanks\nMy Signature' } },
