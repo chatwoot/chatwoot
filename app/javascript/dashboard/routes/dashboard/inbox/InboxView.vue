@@ -1,14 +1,12 @@
 <template>
   <section class="flex w-full h-full bg-white dark:bg-slate-900">
     <inbox-list
-      v-show="showConversationList"
+      :class="!notificationId ? 'flex' : 'hidden md:flex'"
       :notification-id="notificationId"
-      :is-on-expanded-layout="isOnExpandedLayout"
     />
     <div
       v-if="showInboxMessageView"
-      class="flex flex-col h-full"
-      :class="isOnExpandedLayout ? 'w-full' : 'w-[calc(100%-360px)]'"
+      class="flex flex-col h-full w-full md:w-[calc(100%-360px)]"
     >
       <inbox-item-header
         :total-length="totalNotifications"
@@ -22,13 +20,13 @@
         is-inbox-view
         :inbox-id="inboxId"
         :is-contact-panel-open="isContactPanelOpen"
-        :is-on-expanded-layout="isOnExpandedLayout"
+        :is-on-expanded-layout="false"
         @contact-panel-toggle="onToggleContactPanel"
       />
     </div>
     <div
-      v-if="!showInboxMessageView && !isOnExpandedLayout"
-      class="text-center bg-slate-25 dark:bg-slate-800 justify-center w-full h-full flex items-center"
+      v-if="!showInboxMessageView"
+      class="text-center bg-slate-25 dark:bg-slate-800 justify-center w-full h-full hidden md:flex items-center"
     >
       <span v-if="uiFlags.isFetching" class="spinner mt-4 mb-4" />
       <div v-else class="flex flex-col items-center gap-2">
@@ -51,8 +49,6 @@ import InboxList from './InboxList.vue';
 import InboxItemHeader from './components/InboxItemHeader.vue';
 import ConversationBox from 'dashboard/components/widgets/conversation/ConversationBox.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
-import resizeListenerMixin from 'shared/mixins/resizeListenerMixin';
-import wootConstants from 'dashboard/constants/globals';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
@@ -63,7 +59,7 @@ export default {
     InboxItemHeader,
     ConversationBox,
   },
-  mixins: [uiSettingsMixin, resizeListenerMixin],
+  mixins: [uiSettingsMixin],
   props: {
     inboxId: {
       type: [String, Number],
@@ -73,11 +69,6 @@ export default {
       type: [String, Number],
       default: 0,
     },
-  },
-  data() {
-    return {
-      isOnExpandedLayout: false,
-    };
   },
   computed: {
     ...mapGetters({
@@ -99,9 +90,6 @@ export default {
         this.currentAccountId,
         FEATURE_FLAGS.INBOX_VIEW
       );
-    },
-    showConversationList() {
-      return this.isOnExpandedLayout ? !this.notificationId : true;
     },
     isFetchingInitialData() {
       return this.uiFlags.isFetching && !this.notifications.length;
@@ -146,17 +134,8 @@ export default {
       });
     }
     this.$store.dispatch('agents/get');
-    this.handleResize();
   },
   methods: {
-    handleResize() {
-      const { SMALL_SCREEN_BREAKPOINT } = wootConstants;
-      if (window.innerWidth <= SMALL_SCREEN_BREAKPOINT) {
-        this.isOnExpandedLayout = true;
-      } else {
-        this.isOnExpandedLayout = false;
-      }
-    },
     async fetchConversationById() {
       if (!this.notificationId || !this.conversationId) return;
       this.$store.dispatch('clearSelectedState');

@@ -13,7 +13,8 @@
     },
     "ACTION_HEADER": {
       "SNOOZE": "Snooze notification",
-      "DELETE": "Delete notification"
+      "DELETE": "Delete notification",
+      "BACK": "Back"
     },
     "TYPES": {
       "CONVERSATION_MENTION": "You have been mentioned in a conversation",

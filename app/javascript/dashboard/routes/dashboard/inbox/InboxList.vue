@@ -1,7 +1,6 @@
 <template>
   <div
-    class="flex flex-col h-full w-full ltr:border-r border-slate-50 dark:border-slate-800/50"
-    :class="isOnExpandedLayout ? '' : 'min-w-[360px] max-w-[360px]'"
+    class="flex flex-col h-full w-full md:min-w-[360px] md:max-w-[360px] ltr:border-r border-slate-50 dark:border-slate-800/50"
   >
     <inbox-list-header
       :is-context-menu-open="isInboxContextMenuOpen"
@@ -61,10 +60,6 @@ export default {
     notificationId: {
       type: [String, Number],
       default: 0,
-    },
-    isOnExpandedLayout: {
-      type: Boolean,
-      default: false,
     },
   },
   data() {

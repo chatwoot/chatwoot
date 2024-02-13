@@ -8,7 +8,7 @@
       :chat="currentChat"
       :is-inbox-view="isInboxView"
       :is-contact-panel-open="isContactPanelOpen"
-      :show-back-button="isOnExpandedLayout"
+      :show-back-button="isOnExpandedLayout && !isInboxView"
       @contact-panel-toggle="onToggleContactPanel"
     />
     <woot-tabs

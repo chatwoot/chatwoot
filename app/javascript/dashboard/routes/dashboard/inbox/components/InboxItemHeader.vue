@@ -2,6 +2,16 @@
   <div
     class="flex gap-2 py-2 ltr:pl-4 rtl:pl-2 h-14 ltr:pr-2 rtl:pr-4 rtl:border-r justify-between items-center w-full border-b border-slate-50 dark:border-slate-800/50"
   >
+    <woot-button
+      variant="clear link"
+      class="flex md:hidden py-2"
+      size="medium"
+      color-scheme="primary"
+      icon="chevron-left"
+      @click="onClickGoToInboxList"
+    >
+      {{ $t('INBOX.ACTION_HEADER.BACK') }}
+    </woot-button>
     <pagination-button
       v-if="totalLength > 1"
       :total-length="totalLength"
@@ -16,6 +26,7 @@
         size="small"
         color-scheme="secondary"
         icon="snooze"
+        class="[&>span]:hidden md:[&>span]:inline-flex"
         @click="openSnoozeNotificationModal"
       >
         {{ $t('INBOX.ACTION_HEADER.SNOOZE') }}
@@ -25,6 +36,7 @@
         size="small"
         color-scheme="secondary"
         variant="hollow"
+        class="[&>span]:hidden md:[&>span]:inline-flex"
         @click="deleteNotification"
       >
         {{ $t('INBOX.ACTION_HEADER.DELETE') }}
@@ -139,6 +151,9 @@ export default {
     },
     onClickPrev() {
       this.$emit('prev');
+    },
+    onClickGoToInboxList() {
+      this.$router.push({ name: 'inbox_view' });
     },
   },
 };
