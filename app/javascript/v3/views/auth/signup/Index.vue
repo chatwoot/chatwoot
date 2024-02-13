@@ -71,11 +71,17 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import SignupForm from './components/Signup/Form.vue';
 
 export default {
   components: {
     SignupForm,
+  },
+  mixins: [globalConfigMixin],
+  computed: {
+    ...mapGetters({ globalConfig: 'globalConfig/get' }),
   },
 };
 </script>
