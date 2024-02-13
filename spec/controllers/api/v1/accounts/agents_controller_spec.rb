@@ -5,7 +5,7 @@ RSpec.describe 'Agents API', type: :request do
 
   let(:account) { create(:account) }
   let!(:admin) { create(:user, custom_attributes: { test: 'test' }, account: account, role: :administrator) }
-  let!(:agent) { create(:user, account: account, role: :agent) }
+  let!(:agent) { create(:user, account: account, email: 'exists@example.com', role: :agent) }
 
   describe 'GET /api/v1/accounts/{account.id}/agents' do
     context 'when it is an unauthenticated user' do
@@ -193,6 +193,17 @@ RSpec.describe 'Agents API', type: :request do
         expect do
           post "/api/v1/accounts/#{account.id}/agents/bulk_create", params: bulk_create_params, headers: admin.create_new_auth_token
         end.to change(User, :count).by(3)
+
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'ignores errors if account_user already exists' do
+        params = { emails: ['exists@example.com', 'test1@example.com', 'test2@example.com'] }
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/agents/bulk_create", params: params,
+                                                                    headers: admin.create_new_auth_token
+        end.to change(User, :count).by(2)
 
         expect(response).to have_http_status(:ok)
       end
