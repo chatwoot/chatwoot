@@ -68,25 +68,25 @@ pt:
     utc_warning: O relatório gerado está no fuso horário UTC
     agent_csv:
       agent_name: Nome do agente
-      conversations_count: Número de conversas
-      avg_first_response_time: Média do tempo de resposta (minutos)
-      avg_resolution_time: Média do tempo de resolução (minutos)
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     inbox_csv:
       inbox_name: Nome da caixa de entrada
       inbox_type: Tipo de caixa de entrada
       conversations_count: Num de conversas
-      avg_first_response_time: Média do tempo de resposta (minutos)
-      avg_resolution_time: Média do tempo de resolução (minutos)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     label_csv:
       label_title: Etiqueta
       conversations_count: Num de conversas
-      avg_first_response_time: Média do tempo de resposta (minutos)
-      avg_resolution_time: Média do tempo de resolução (minutos)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     team_csv:
       team_name: Nome da equipa
       conversations_count: Número de conversas
-      avg_first_response_time: Média do tempo de resposta (minutos)
-      avg_resolution_time: Média do tempo de resolução (minutos)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: Fuso Horário
     default_group_by: dia
@@ -229,3 +229,16 @@ pt:
       inbox_name: Caixa de Entrada
       inbox_type: Tipo de caixa de entrada
     button: Abrir conversa
+  time_units:
+    days:
+      one: "%{count} day"
+      other: "%{count} days"
+    hours:
+      one: "%{count} hour"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minute"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} second"
+      other: "%{count} seconds"
