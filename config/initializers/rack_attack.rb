@@ -148,6 +148,12 @@ class Rack::Attack
     match_data[:account_id] if match_data.present?
   end
 
+  ## Prevent abuse of contact search api
+  throttle('/api/v1/accounts/:account_id/contacts/search', limit: 5, period: 1.minute) do |req|
+    match_data = %r{/api/v1/accounts/(?<account_id>\d+)/contacts/search}.match(req.path)
+    match_data[:account_id] if match_data.present?
+  end
+
   ## ----------------------------------------------- ##
 end
 
