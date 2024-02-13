@@ -302,8 +302,6 @@ Rails.application.routes.draw do
           end
           resources :reports, only: [:index] do
             collection do
-              get :agent_summary_reports
-              get :team_summary_reports
               get :summary
               get :agents
               get :inboxes
