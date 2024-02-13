@@ -159,7 +159,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .overlay-gradient {
   background: linear-gradient(90deg, rgba(252, 252, 253, 0) 81.8%, #fcfcfd 100%),
     linear-gradient(270deg, rgba(252, 252, 253, 0) 76.93%, #fcfcfd 100%),

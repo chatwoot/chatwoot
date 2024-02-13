@@ -40,7 +40,9 @@
           }"
         >
           <div v-if="emailsToInvite.length === 0" class="px-5 py-16">
-            <p class="text-sm text-slate-400">No members to invite</p>
+            <p class="text-sm text-slate-400">
+              {{ $t('ONBOARDING.INVITE_TEAM.LIST_EMPTY') }}
+            </p>
           </div>
           <div
             v-for="email in emailsToInvite"

@@ -108,6 +108,7 @@
     "INVITE_TEAM": {
       "TITLE": "Invite your team",
       "ADD": "Add",
+      "LIST_EMPTY": "No members to invite",
       "BODY": "Invite your team members to Chatwoot. You can add them later as well.",
       "PLACEHOLDER": "robin@chatwoot.com",
       "SKIP": "Skip for now",
