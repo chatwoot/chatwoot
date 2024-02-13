@@ -68,25 +68,25 @@ ar:
     utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: اسم الموظف
-      conversations_count: عدد المحادثات
-      avg_first_response_time: متوسط وقت الرد الأول (الدقائق)
-      avg_resolution_time: متوسط وقت المحادثة (الدقائق)
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     inbox_csv:
       inbox_name: اسم صندوق الوارد
       inbox_type: نوع صندوق البريد
       conversations_count: عدد المحادثات
-      avg_first_response_time: متوسط وقت الرد الأول (الدقائق)
-      avg_resolution_time: متوسط وقت المحادثة (الدقائق)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     label_csv:
       label_title: الوسم
       conversations_count: عدد المحادثات
-      avg_first_response_time: متوسط وقت الرد الأول (الدقائق)
-      avg_resolution_time: متوسط وقت المحادثة (الدقائق)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     team_csv:
       team_name: اسم الفريق
       conversations_count: عدد المحادثات
-      avg_first_response_time: متوسط وقت الرد الأول (الدقائق)
-      avg_resolution_time: متوسط وقت المحادثة (الدقائق)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: Timezone
     default_group_by: اليوم
@@ -229,3 +229,32 @@ ar:
       inbox_name: صندوق الوارد
       inbox_type: Inbox Type
     button: فتح المحادثة
+  time_units:
+    days:
+      zero: "%{count} days"
+      one: "%{count} day"
+      two: "%{count} days"
+      few: "%{count} days"
+      many: "%{count} days"
+      other: "%{count} days"
+    hours:
+      zero: "%{count} hours"
+      one: "%{count} hour"
+      two: "%{count} hours"
+      few: "%{count} hours"
+      many: "%{count} hours"
+      other: "%{count} hours"
+    minutes:
+      zero: "%{count} minutes"
+      one: "%{count} minute"
+      two: "%{count} minutes"
+      few: "%{count} minutes"
+      many: "%{count} minutes"
+      other: "%{count} minutes"
+    seconds:
+      zero: "%{count} seconds"
+      one: "%{count} second"
+      two: "%{count} seconds"
+      few: "%{count} seconds"
+      many: "%{count} seconds"
+      other: "%{count} seconds"
