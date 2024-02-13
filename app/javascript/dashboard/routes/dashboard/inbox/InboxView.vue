@@ -12,7 +12,7 @@
     >
       <inbox-item-header
         :total-length="totalNotifications"
-        :current-index="activeNotificationIndex"
+        :current-index="activeNotificationPosition"
         :active-notification="activeNotification"
         @next="onClickNext"
         @prev="onClickPrev"
@@ -83,15 +83,16 @@ export default {
     ...mapGetters({
       currentAccountId: 'getCurrentAccountId',
       notifications: 'notifications/getNotifications',
+      activeNotificationById: 'notifications/getActiveNotificationById',
       currentChat: 'getSelectedChat',
-      allConversation: 'getAllConversations',
+      conversationById: 'getConversationById',
       uiFlags: 'notifications/getUIFlags',
     }),
     activeNotification() {
-      return this.notifications.find(n => n.id === Number(this.notificationId));
+      return this.activeNotificationById(this.notificationId);
     },
     conversationId() {
-      return this.activeNotification?.primary_actor.id;
+      return this.activeNotification?.primary_actor?.id;
     },
     isInboxViewEnabled() {
       return this.$store.getters['accounts/isFeatureEnabledGlobally'](
@@ -111,7 +112,7 @@ export default {
     totalNotifications() {
       return this.notifications?.length ?? 0;
     },
-    activeNotificationIndex() {
+    activeNotificationPosition() {
       const notificationIndex = this.notifications.findIndex(
         n => n.id === Number(this.notificationId)
       );
@@ -178,9 +179,7 @@ export default {
         });
     },
     findConversation() {
-      return this.allConversation.find(
-        c => c.id === Number(this.conversationId)
-      );
+      return this.conversationById(this.conversationId);
     },
     navigateToConversation(activeIndex, direction) {
       const indexOffset = direction === 'next' ? 0 : -2;
@@ -212,10 +211,10 @@ export default {
       }
     },
     onClickNext() {
-      this.navigateToConversation(this.activeNotificationIndex, 'next');
+      this.navigateToConversation(this.activeNotificationPosition, 'next');
     },
     onClickPrev() {
-      this.navigateToConversation(this.activeNotificationIndex, 'prev');
+      this.navigateToConversation(this.activeNotificationPosition, 'prev');
     },
     onToggleContactPanel() {
       this.updateUISettings({

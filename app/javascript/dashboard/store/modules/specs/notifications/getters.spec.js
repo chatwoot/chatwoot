@@ -42,6 +42,16 @@ describe('#getters', () => {
     ]);
   });
 
+  it('getActiveNotificationById', () => {
+    const state = {
+      records: {
+        1: { id: 1 },
+      },
+    };
+    expect(getters.getActiveNotificationById(state)(1)).toEqual({ id: 1 });
+    expect(getters.getActiveNotificationById(state)(2)).toEqual({});
+  });
+
   it('getUIFlags', () => {
     const state = {
       uiFlags: {
