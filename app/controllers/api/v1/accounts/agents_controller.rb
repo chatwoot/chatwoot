@@ -43,7 +43,11 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
         inviter: current_user,
         account: Current.account
       )
-      builder.perform
+      begin
+        builder.perform
+      rescue ActiveRecord::RecordInvalid => e
+        Rails.logger.info "[Agent#bulk_create] ignoring email #{email}, errors: #{e.record.errors}"
+      end
     end
     head :ok
   end
