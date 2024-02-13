@@ -68,25 +68,25 @@ tr:
     utc_warning: Oluşturulan rapor UTC zaman dilimindedir.
     agent_csv:
       agent_name: Temsilci adı
-      conversations_count: Konuşma sayısı
-      avg_first_response_time: Ortalama cevap süresi(dakika)
-      avg_resolution_time: Ortalama çözüm süresi(dakika)
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     inbox_csv:
       inbox_name: Inbox adı
       inbox_type: Inbox türü
       conversations_count: Konuşmaların sayısı
-      avg_first_response_time: Ortalama cevap süresi(dakika)
-      avg_resolution_time: Ortalama çözüm süresi(dakika)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     label_csv:
       label_title: Etiket
       conversations_count: Konuşma sayısı
-      avg_first_response_time: Ortalama cevap süresi(dakika)
-      avg_resolution_time: Ortalama çözüm süresi(dakika)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     team_csv:
       team_name: Ekip adı
       conversations_count: Konuşma sayısı
-      avg_first_response_time: Ortalama cevap süresi(dakika)
-      avg_resolution_time: Ortalama çözüm süresi(dakika)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: Zaman dilimi
     default_group_by: gün
@@ -229,3 +229,16 @@ tr:
       inbox_name: Gelen Kutusu
       inbox_type: Gelen Kutusu Türü
     button: Görüşmeyi aç
+  time_units:
+    days:
+      one: "%{count} day"
+      other: "%{count} days"
+    hours:
+      one: "%{count} hour"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minute"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} second"
+      other: "%{count} seconds"
