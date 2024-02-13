@@ -4,7 +4,7 @@ class V2::Reports::BaseSummaryBuilder
   private
 
   def group_by_key
-    # Override this methods
+    # Override this method
   end
 
   def get_grouped_average(events)
