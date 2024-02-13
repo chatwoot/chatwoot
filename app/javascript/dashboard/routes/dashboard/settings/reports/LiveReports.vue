@@ -24,6 +24,18 @@
     <div class="row">
       <metric-card :header="$t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.HEADER')">
         <template #control>
+          <multiselect-dropdown
+            class="!mb-0 !w-1/3"
+            :options="dayFilterOptions"
+            :selected-item="selectedDayFilter"
+            multiselector-title=""
+            multiselector-placeholder="Date filter"
+            no-search-result="No filter found"
+            input-placeholder="Search for a filter"
+            :is-filter="true"
+            :has-thumbnail="false"
+            @click="onSelectDateFilter"
+          />
           <woot-button
             icon="arrow-download"
             size="small"
@@ -35,6 +47,7 @@
           </woot-button>
         </template>
         <report-heatmap
+          :selected-day-filter="selectedDayFilter"
           :heat-data="accountConversationHeatmap"
           :is-loading="uiFlags.isFetchingAccountConversationsHeatmap"
         />
@@ -69,12 +82,24 @@ import AgentTable from './components/overview/AgentTable.vue';
 import TeamTable from './components/overview/TeamTable.vue';
 import MetricCard from './components/overview/MetricCard.vue';
 import ReportHeatmap from './components/Heatmap.vue';
+import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 
 import endOfDay from 'date-fns/endOfDay';
 import getUnixTime from 'date-fns/getUnixTime';
 import startOfDay from 'date-fns/startOfDay';
 import subDays from 'date-fns/subDays';
 import { OVERVIEW_METRICS } from './constants';
+
+const dayFilterOptions = [
+  {
+    id: 1,
+    name: 'Last 7 days',
+  },
+  {
+    id: 2,
+    name: 'Last 30 days',
+  },
+];
 
 export default {
   name: 'LiveReports',
@@ -84,10 +109,13 @@ export default {
     AgentTable,
     MetricCard,
     ReportHeatmap,
+    MultiselectDropdown,
   },
   data() {
     return {
       pageIndex: 1,
+      dayFilterOptions: dayFilterOptions,
+      selectedDayFilter: dayFilterOptions[0],
     };
   },
   computed: {
@@ -121,6 +149,10 @@ export default {
     });
   },
   methods: {
+    onSelectDateFilter(dayFilter) {
+      this.selectedDayFilter = dayFilter;
+      this.fetchHeatmapData();
+    },
     fetchAllData() {
       this.$store.dispatch('fetchAgentConversationMetric');
       this.$store.dispatch('fetchTeamConversationMetric');
@@ -130,9 +162,11 @@ export default {
       let to = endOfDay(new Date());
 
       this.$store.dispatch('downloadAccountConversationHeatmap', {
+        daysBefore: this.selectedDayFilter?.id === 1 ? 6 : 29,
         to: getUnixTime(to),
       });
     },
+
     fetchHeatmapData() {
       if (this.uiFlags.isFetchingAccountConversationsHeatmap) {
         return;
@@ -145,12 +179,9 @@ export default {
       // and reconcile it with the rest of the data
       // this will reduce the load on the server doing number crunching
       let to = endOfDay(new Date());
-      let from = startOfDay(subDays(to, 6));
-
-      if (this.accountConversationHeatmap.length) {
-        to = endOfDay(new Date());
-        from = startOfDay(to);
-      }
+      let from = startOfDay(
+        subDays(to, this.selectedDayFilter?.id === 1 ? 6 : 29)
+      );
 
       this.$store.dispatch('fetchAccountConversationHeatmap', {
         metric: 'conversations_count',

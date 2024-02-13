@@ -4,10 +4,7 @@ import Report from '../../api/reports';
 import { downloadCsvFile, generateFileName } from '../../helper/downloadHelper';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import { REPORTS_EVENTS } from '../../helper/AnalyticsHelper/events';
-import {
-  reconcileHeatmapData,
-  clampDataBetweenTimeline,
-} from 'shared/helpers/ReportsDataHelper';
+import { clampDataBetweenTimeline } from 'shared/helpers/ReportsDataHelper';
 import liveReports from '../../api/liveReports';
 
 const state = {
@@ -88,6 +85,7 @@ export const actions = {
       value: true,
     });
     Report.getReports(reportObj).then(accountReport => {
+      console.log(reportObj, accountReport);
       let { data } = accountReport;
       data = clampDataBetweenTimeline(data, reportObj.from, reportObj.to);
       commit(types.default.SET_ACCOUNT_REPORTS, {
@@ -105,11 +103,6 @@ export const actions = {
     Report.getReports({ ...reportObj, groupBy: 'hour' }).then(heatmapData => {
       let { data } = heatmapData;
       data = clampDataBetweenTimeline(data, reportObj.from, reportObj.to);
-
-      data = reconcileHeatmapData(
-        data,
-        state.overview.accountConversationHeatmap
-      );
 
       commit(types.default.SET_HEATMAP_DATA, data);
       commit(types.default.TOGGLE_HEATMAP_LOADING, false);
@@ -229,7 +222,7 @@ export const actions = {
       });
   },
   downloadAccountConversationHeatmap(_, reportObj) {
-    Report.getConversationTrafficCSV()
+    Report.getConversationTrafficCSV({ daysBefore: reportObj.daysBefore })
       .then(response => {
         downloadCsvFile(
           generateFileName({
