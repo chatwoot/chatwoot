@@ -122,10 +122,12 @@ export default {
       const { SMALL_SCREEN_BREAKPOINT, LAYOUT_TYPES } = wootConstants;
       let throttled = false;
       const delay = 150;
+
       if (throttled) {
         return;
       }
       throttled = true;
+
       setTimeout(() => {
         throttled = false;
         if (window.innerWidth <= SMALL_SCREEN_BREAKPOINT) {
