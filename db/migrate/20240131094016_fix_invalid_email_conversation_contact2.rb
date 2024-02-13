@@ -1,14 +1,14 @@
 class FixInvalidEmailConversationContact2 < ActiveRecord::Migration[7.0]
   def change
-    webflow_email = '{{email}}@loopia.invalid'
-    messages = Message.where("content_attributes::text LIKE '%#{webflow_email}%'")
-    puts "Found #{messages.count} messages with #{webflow_email}"
-    conversations = Conversation.where(id: messages.pluck(:conversation_id).uniq)
-    puts "Found #{conversations.count} conversations with #{webflow_email}"
+    # webflow_email = '{{email}}@loopia.invalid'
+    # messages = Message.where("content_attributes::text LIKE '%#{webflow_email}%'")
+    # puts "Found #{messages.count} messages with #{webflow_email}"
+    # conversations = Conversation.where(id: messages.pluck(:conversation_id).uniq)
+    # puts "Found #{conversations.count} conversations with #{webflow_email}"
 
-    conversations.each do |conversation|
-      FixInvalidConversation.new(conversation).call
-    end
+    # conversations.each do |conversation|
+    #   FixInvalidConversation.new(conversation).call
+    # end
   end
 
   class FixInvalidConversation

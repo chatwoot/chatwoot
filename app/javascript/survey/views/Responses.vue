@@ -7,7 +7,7 @@
   </div>
   <div 
     v-else 
-    class="w-full h-full flex overflow-auto bg-slate-50 items-center justify-center"
+    class="csat-container w-full h-full flex overflow-auto bg-slate-50 items-center justify-center"
   >
     <div
       class="flex bg-white shadow-lg rounded-lg flex-col w-full lg:w-2/5 h-full lg:h-auto"
