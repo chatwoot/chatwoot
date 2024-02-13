@@ -50,7 +50,6 @@ import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.v
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import wootConstants from 'dashboard/constants/globals';
-import resizeListenerMixin from 'shared/mixins/resizeListenerMixin';
 
 export default {
   components: {
@@ -62,7 +61,7 @@ export default {
     AddLabelModal,
     NotificationPanel,
   },
-  mixins: [uiSettingsMixin, resizeListenerMixin],
+  mixins: [uiSettingsMixin],
   data() {
     return {
       showAccountModal: false,
@@ -110,20 +109,31 @@ export default {
   },
   mounted() {
     this.handleResize();
+    window.addEventListener('resize', this.handleResize);
     bus.$on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
   beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize);
     bus.$off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
 
   methods: {
     handleResize() {
       const { SMALL_SCREEN_BREAKPOINT, LAYOUT_TYPES } = wootConstants;
-      if (window.innerWidth <= SMALL_SCREEN_BREAKPOINT) {
-        this.displayLayoutType = LAYOUT_TYPES.EXPANDED;
-      } else {
-        this.displayLayoutType = LAYOUT_TYPES.CONDENSED;
+      let throttled = false;
+      const delay = 150;
+      if (throttled) {
+        return;
       }
+      throttled = true;
+      setTimeout(() => {
+        throttled = false;
+        if (window.innerWidth <= SMALL_SCREEN_BREAKPOINT) {
+          this.displayLayoutType = LAYOUT_TYPES.EXPANDED;
+        } else {
+          this.displayLayoutType = LAYOUT_TYPES.CONDENSED;
+        }
+      }, delay);
     },
     toggleSidebar() {
       this.updateUISettings({
