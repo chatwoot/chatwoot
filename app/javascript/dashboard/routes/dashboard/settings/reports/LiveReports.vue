@@ -65,11 +65,22 @@
         />
       </metric-card>
     </div>
+    <div class="row">
+      <metric-card :header="$t('OVERVIEW_REPORTS.TEAM_CONVERSATIONS.HEADER')">
+        <team-table
+          :teams="teams"
+          :team-metrics="teamConversationMetric"
+          :page-index="pageIndex"
+          :is-loading="uiFlags.isFetchingTeamConversationMetric"
+        />
+      </metric-card>
+    </div>
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
 import AgentTable from './components/overview/AgentTable.vue';
+import TeamTable from './components/overview/TeamTable.vue';
 import MetricCard from './components/overview/MetricCard.vue';
 import { OVERVIEW_METRICS } from './constants';
 import ReportHeatmap from './components/Heatmap.vue';
@@ -82,6 +93,7 @@ import subDays from 'date-fns/subDays';
 export default {
   name: 'LiveReports',
   components: {
+    TeamTable,
     AgentTable,
     MetricCard,
     ReportHeatmap,
@@ -95,8 +107,10 @@ export default {
     ...mapGetters({
       agentStatus: 'agents/getAgentStatus',
       agents: 'agents/getAgents',
+      teams: 'teams/getTeams',
       accountConversationMetric: 'getAccountConversationMetric',
       agentConversationMetric: 'getAgentConversationMetric',
+      teamConversationMetric: 'getTeamConversationMetric',
       accountConversationHeatmap: 'getAccountConversationHeatmapData',
       uiFlags: 'getOverviewUIFlags',
     }),
@@ -123,6 +137,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('agents/get');
+    this.$store.dispatch('teams/get');
     this.fetchAllData();
 
     bus.$on('fetch_overview_reports', () => {
@@ -133,6 +148,7 @@ export default {
     fetchAllData() {
       this.$store.dispatch('fetchLiveConversationMetric');
       this.$store.dispatch('fetchAgentConversationMetric');
+      this.$store.dispatch('fetchTeamConversationMetric');
       this.fetchHeatmapData();
     },
     downloadHeatmapData() {

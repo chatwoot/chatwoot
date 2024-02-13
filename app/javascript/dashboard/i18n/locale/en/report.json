@@ -86,20 +86,49 @@
       "MONTH": "Month",
       "YEAR": "Year"
     },
-    "GROUP_BY_DAY_OPTIONS": [{ "id": 1, "groupBy": "Day" }],
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Day"
+      }
+    ],
     "GROUP_BY_WEEK_OPTIONS": [
-      { "id": 1, "groupBy": "Day" },
-      { "id": 2, "groupBy": "Week" }
+      {
+        "id": 1,
+        "groupBy": "Day"
+      },
+      {
+        "id": 2,
+        "groupBy": "Week"
+      }
     ],
     "GROUP_BY_MONTH_OPTIONS": [
-      { "id": 1, "groupBy": "Day" },
-      { "id": 2, "groupBy": "Week" },
-      { "id": 3, "groupBy": "Month" }
+      {
+        "id": 1,
+        "groupBy": "Day"
+      },
+      {
+        "id": 2,
+        "groupBy": "Week"
+      },
+      {
+        "id": 3,
+        "groupBy": "Month"
+      }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
-      { "id": 2, "groupBy": "Week" },
-      { "id": 3, "groupBy": "Month" },
-      { "id": 4, "groupBy": "Year" }
+      {
+        "id": 2,
+        "groupBy": "Week"
+      },
+      {
+        "id": 3,
+        "groupBy": "Month"
+      },
+      {
+        "id": 4,
+        "groupBy": "Year"
+      }
     ],
     "BUSINESS_HOURS": "Business Hours"
   },
@@ -427,6 +456,17 @@
       "TABLE_HEADER": {
         "AGENT": "Agent",
         "OPEN": "OPEN",
+        "UNATTENDED": "Unattended",
+        "STATUS": "Status"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_AGENTS": "There is no data available",
+      "TABLE_HEADER": {
+        "AGENT": "Team",
+        "OPEN": "open",
         "UNATTENDED": "Unattended",
         "STATUS": "Status"
       }

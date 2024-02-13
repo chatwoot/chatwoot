@@ -47,10 +47,12 @@ const state = {
       isFetchingAccountConversationMetric: false,
       isFetchingAccountConversationsHeatmap: false,
       isFetchingAgentConversationMetric: false,
+      isFetchingTeamConversationMetric: false,
     },
     accountConversationMetric: {},
     accountConversationHeatmap: [],
     agentConversationMetric: [],
+    teamConversationMetric: [],
   },
 };
 
@@ -69,6 +71,9 @@ const getters = {
   },
   getAgentConversationMetric(_state) {
     return _state.overview.agentConversationMetric;
+  },
+  getTeamConversationMetric(_state) {
+    return _state.overview.teamConversationMetric;
   },
   getOverviewUIFlags($state) {
     return $state.overview.uiFlags;
@@ -154,6 +159,21 @@ export const actions = {
       })
       .catch(() => {
         commit(types.default.TOGGLE_AGENT_CONVERSATION_METRIC_LOADING, false);
+      });
+  },
+  fetchTeamConversationMetric({ commit }) {
+    commit(types.default.TOGGLE_TEAM_CONVERSATION_METRIC_LOADING, true);
+    liveReports
+      .getGroupedConversations({ groupBy: 'team_id' })
+      .then(agentConversationMetric => {
+        commit(
+          types.default.SET_TEAM_CONVERSATION_METRIC,
+          agentConversationMetric.data
+        );
+        commit(types.default.TOGGLE_TEAM_CONVERSATION_METRIC_LOADING, false);
+      })
+      .catch(() => {
+        commit(types.default.TOGGLE_TEAM_CONVERSATION_METRIC_LOADING, false);
       });
   },
   downloadAgentReports(_, reportObj) {
@@ -255,8 +275,14 @@ const mutations = {
   [types.default.SET_AGENT_CONVERSATION_METRIC](_state, metricData) {
     _state.overview.agentConversationMetric = metricData;
   },
+  [types.default.SET_TEAM_CONVERSATION_METRIC](_state, metricData) {
+    _state.overview.teamConversationMetric = metricData;
+  },
   [types.default.TOGGLE_AGENT_CONVERSATION_METRIC_LOADING](_state, flag) {
     _state.overview.uiFlags.isFetchingAgentConversationMetric = flag;
+  },
+  [types.default.TOGGLE_TEAM_CONVERSATION_METRIC_LOADING](_state, flag) {
+    _state.overview.uiFlags.isFetchingTeamConversationMetric = flag;
   },
 };
 
