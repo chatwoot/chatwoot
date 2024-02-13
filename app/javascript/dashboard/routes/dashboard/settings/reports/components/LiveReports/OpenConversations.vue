@@ -3,6 +3,7 @@ import { mapGetters } from 'vuex';
 import { OVERVIEW_METRICS } from '../../constants';
 import MetricCard from '../overview/MetricCard.vue';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
+const noneTeam = { team_id: 0, name: 'All teams' };
 
 export default {
   components: {
@@ -11,7 +12,7 @@ export default {
   },
   data() {
     return {
-      selectedTeam: null,
+      selectedTeam: noneTeam,
     };
   },
   computed: {
@@ -30,13 +31,18 @@ export default {
       });
       return metric;
     },
+    teamsList() {
+      return [noneTeam, ...this.teams];
+    },
   },
   mounted() {
     this.$store.dispatch('fetchLiveConversationMetric');
   },
   methods: {
     onSelectTeam(team) {
-      this.$store.dispatch('fetchLiveConversationMetric', { team_id: team.id });
+      this.$store.dispatch('fetchLiveConversationMetric', {
+        team_id: !team.id ? null : team.id,
+      });
       this.selectedTeam = team;
     },
   },
@@ -46,7 +52,7 @@ export default {
 <template>
   <div class="column small-12 medium-8 conversation-metric">
     <metric-card
-      class="overflow-visible"
+      class="overflow-visible min-h-[150px]"
       :header="$t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.HEADER')"
       :is-loading="uiFlags.isFetchingAccountConversationMetric"
       loading-message="Loading metrics"
@@ -54,10 +60,10 @@ export default {
       <template #control>
         <multiselect-dropdown
           class="!mb-0 !w-1/2"
-          :options="teams"
+          :options="teamsList"
           :selected-item="selectedTeam"
           multiselector-title=""
-          multiselector-placeholder="Select a team"
+          multiselector-placeholder="All teams"
           no-search-result="No teams found"
           input-placeholder="Search for a team"
           :is-filter="true"

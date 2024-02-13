@@ -115,6 +115,6 @@ export default {
 }
 
 .conversation-metric-loader {
-  @apply items-center flex text-base justify-center p-12;
+  @apply items-center flex text-base justify-center;
 }
 </style>
