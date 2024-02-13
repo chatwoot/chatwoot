@@ -68,25 +68,25 @@ lv:
     utc_warning: Izveidotais pārskats atbilst UTC laika joslai
     agent_csv:
       agent_name: Aģenta vārds
-      conversations_count: Sarunu skaits
-      avg_first_response_time: Vidējais pirmās reakcijas laiks (Minūtes)
-      avg_resolution_time: Vidējais atrisināšanas laiks (Minūtes)
+      conversations_count: Piešķirtās sarunas
+      avg_first_response_time: Vidējais pirmās reakcijas laiks
+      avg_resolution_time: Vidējais atrisināšanas laiks
     inbox_csv:
       inbox_name: Iesūtnes nosaukums
       inbox_type: Iesūtnes tips
       conversations_count: Sarunu skaits
-      avg_first_response_time: Vidējais pirmās reakcijas laiks (Minūtes)
-      avg_resolution_time: Vidējais atrisināšanas laiks (Minūtes)
+      avg_first_response_time: Vidējais pirmās reakcijas laiks
+      avg_resolution_time: Vidējais atrisināšanas laiks
     label_csv:
       label_title: Etiķete
       conversations_count: Sarunu skaits
-      avg_first_response_time: Vidējais pirmās atbildes laiks (Minūtes)
-      avg_resolution_time: Vidējais atrisināšanas laiks (minūtes)
+      avg_first_response_time: Vidējais pirmās reakcijas laiks
+      avg_resolution_time: Vidējais atrisināšanas laiks
     team_csv:
       team_name: Komandas nosaukums
       conversations_count: Sarunu skaits
-      avg_first_response_time: Vidējais pirmās atbildes laiks (Minūtes)
-      avg_resolution_time: Vidējais atrisinājuma laiks (Minūtes)
+      avg_first_response_time: Vidējais pirmās reakcijas laiks
+      avg_resolution_time: Vidējais atrisināšanas laiks
     conversation_traffic_csv:
       timezone: Laika zona
     default_group_by: diena
@@ -229,3 +229,20 @@ lv:
       inbox_name: Iesūtne
       inbox_type: Iesūtnes Veids
     button: Atvērt sarunu
+  time_units:
+    days:
+      zero: "%{count} days"
+      one: "%{count} day"
+      other: "%{count} dienas"
+    hours:
+      zero: "%{count} hours"
+      one: "%{count} hour"
+      other: "%{count} hours"
+    minutes:
+      zero: "%{count} minutes"
+      one: "%{count} minute"
+      other: "%{count} minutes"
+    seconds:
+      zero: "%{count} seconds"
+      one: "%{count} second"
+      other: "%{count} seconds"
