@@ -223,6 +223,7 @@ export default {
       }
     },
     setFromIntelligentData() {
+      if (!this.intelligentData) return;
       const { name: companyName, industry, size } = this.intelligentData;
       this.companyName = companyName;
       this.industry = industry;

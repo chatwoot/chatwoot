@@ -29,7 +29,13 @@ export default {
     actionButtonMessage() {
       return this.$t('APP_GLOBAL.RESEND_VERIFICATION_MAIL');
     },
+    isOnboardingView() {
+      return this.$route.name.includes('onboarding_');
+    },
     shouldShowBanner() {
+      if (this.isOnboardingView) {
+        return false;
+      }
       return !this.currentUser.confirmed;
     },
   },

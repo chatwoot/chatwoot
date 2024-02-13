@@ -76,13 +76,6 @@ export default {
   components: {
     SubmitButton,
   },
-  data() {
-    return {
-      user: {
-        name: '',
-      },
-    };
-  },
   computed: {
     ...mapGetters({
       currentUser: 'getCurrentUser',
@@ -100,15 +93,15 @@ export default {
 </script>
 <style>
 .overlay-gradient {
-  background: linear-gradient(90deg, rgba(252, 252, 253, 0) 81.8%, #fcfcfd 100%),
-    linear-gradient(270deg, rgba(252, 252, 253, 0) 76.93%, #fcfcfd 100%),
-    linear-gradient(0deg, rgba(252, 252, 253, 0) 68.63%, #fcfcfd 100%),
-    linear-gradient(180deg, rgba(252, 252, 253, 0) 73.2%, #fcfcfd 100%);
+  background: linear-gradient(90deg, rgba(252, 252, 253, 0) 61.8%, #fcfcfd 90%),
+    linear-gradient(270deg, rgba(252, 252, 253, 0) 66.93%, #fcfcfd 90%),
+    linear-gradient(0deg, rgba(252, 252, 253, 0) 68.63%, #fcfcfd 90%),
+    linear-gradient(180deg, rgba(252, 252, 253, 0) 63.2%, #fcfcfd 80%);
 }
 .dark .overlay-gradient {
-  background: linear-gradient(270deg, rgba(24, 24, 26, 0) 76.93%, #151718 100%),
-    linear-gradient(90deg, rgba(24, 24, 26, 0) 81.8%, #151718 100%),
-    linear-gradient(0deg, rgba(24, 24, 26, 0) 68.63%, #151718 100%),
-    linear-gradient(180deg, rgba(24, 24, 26, 0) 73.2%, #151718 100%);
+  background: linear-gradient(270deg, rgba(24, 24, 26, 0) 61.93%, #151718 90%),
+    linear-gradient(90deg, rgba(24, 24, 26, 0) 66.8%, #151718 90%),
+    linear-gradient(0deg, rgba(24, 24, 26, 0) 68.63%, #151718 90%),
+    linear-gradient(180deg, rgba(24, 24, 26, 0) 63.2%, #151718 90%);
 }
 </style>

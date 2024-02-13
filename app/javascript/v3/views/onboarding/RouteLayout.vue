@@ -161,16 +161,16 @@ export default {
 </script>
 <style scoped>
 .overlay-gradient {
-  background: linear-gradient(90deg, rgba(252, 252, 253, 0) 81.8%, #fcfcfd 100%),
-    linear-gradient(270deg, rgba(252, 252, 253, 0) 76.93%, #fcfcfd 100%),
-    linear-gradient(0deg, rgba(252, 252, 253, 0) 68.63%, #fcfcfd 100%),
-    linear-gradient(180deg, rgba(252, 252, 253, 0) 73.2%, #fcfcfd 100%);
+  background: linear-gradient(90deg, rgba(252, 252, 253, 0) 81.8%, #fcfcfd 95%),
+    linear-gradient(270deg, rgba(252, 252, 253, 0) 76.93%, #fcfcfd 95%),
+    linear-gradient(0deg, rgba(252, 252, 253, 0) 68.63%, #fcfcfd 95%),
+    linear-gradient(180deg, rgba(252, 252, 253, 0) 73.2%, #fcfcfd 95%);
 }
 .dark .overlay-gradient {
-  background: linear-gradient(270deg, rgba(24, 24, 26, 0) 76.93%, #151718 100%),
-    linear-gradient(90deg, rgba(24, 24, 26, 0) 81.8%, #151718 100%),
-    linear-gradient(0deg, rgba(24, 24, 26, 0) 68.63%, #151718 100%),
-    linear-gradient(180deg, rgba(24, 24, 26, 0) 73.2%, #151718 100%);
+  background: linear-gradient(270deg, rgba(24, 24, 26, 0) 76.93%, #151718 95%),
+    linear-gradient(90deg, rgba(24, 24, 26, 0) 81.8%, #151718 95%),
+    linear-gradient(0deg, rgba(24, 24, 26, 0) 68.63%, #151718 95%),
+    linear-gradient(180deg, rgba(24, 24, 26, 0) 73.2%, #151718 95%);
 }
 .fade-enter-active,
 .fade-leave-active {

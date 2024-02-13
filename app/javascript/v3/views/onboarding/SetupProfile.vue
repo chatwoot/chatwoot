@@ -182,8 +182,8 @@ export default {
     },
   },
   watch: {
-    currentUser(user) {
-      if (!user.name && this.intelligentData.name) {
+    currentUser(user = {}) {
+      if (!user.name && this.intelligentData && this.intelligentData.name) {
         this.fullName = this.intelligentData.name;
       }
     },
@@ -195,9 +195,9 @@ export default {
       avatar_url: avatarUrl,
       display_name: displayName,
       message_signature: signature,
-    } = this.currentUser;
+    } = this.currentUser || {};
 
-    if (!fullName && this.intelligentData.name) {
+    if (!fullName && this.intelligentData && this.intelligentData.name) {
       this.fullName = this.intelligentData.name;
     } else {
       this.fullName = fullName;

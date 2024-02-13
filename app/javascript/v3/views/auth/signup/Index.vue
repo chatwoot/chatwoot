@@ -24,7 +24,7 @@
       </defs>
     </svg>
 
-    <div v-show="!isLoading" class="flex h-full relative z-50">
+    <div class="flex h-full relative z-50">
       <div
         class="flex-1 min-h-[640px] inline-flex items-center h-full justify-center overflow-auto py-6"
       >
@@ -67,43 +67,15 @@
         </div>
       </div>
     </div>
-    <div
-      v-show="isLoading"
-      class="flex items-center justify-center h-full w-full"
-    >
-      <spinner color-scheme="primary" size="" />
-    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import SignupForm from './components/Signup/Form.vue';
-import Spinner from 'shared/components/Spinner.vue';
 
 export default {
   components: {
     SignupForm,
-    Spinner,
-  },
-  mixins: [globalConfigMixin],
-  data() {
-    return { isLoading: false };
-  },
-  computed: {
-    ...mapGetters({ globalConfig: 'globalConfig/get' }),
-    isAChatwootInstance() {
-      return this.globalConfig.installationName === 'Chatwoot';
-    },
-  },
-  beforeMount() {
-    this.isLoading = this.isAChatwootInstance;
-  },
-  methods: {
-    resizeContainers() {
-      this.isLoading = false;
-    },
   },
 };
 </script>
