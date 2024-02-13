@@ -60,7 +60,7 @@ export default {
     },
     activeNotificationPosition() {
       const notificationIndex = this.notifications.findIndex(
-        n => n.id === Number(this.notificationId)
+        n => n.id === this.notificationId
       );
       return notificationIndex >= 0 ? notificationIndex + 1 : 0;
     },
