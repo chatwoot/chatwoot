@@ -3,12 +3,10 @@
     class="bg-white dark:bg-slate-900 flex justify-between items-center py-2 px-4 border-b border-slate-50 dark:border-slate-800/50 flex-col md:flex-row"
   >
     <div
-      class="flex-1 w-full min-w-0 flex flex-col items-center justify-center"
+      class="flex-1 w-full min-w-0 flex flex-col items-center justify-center gap-4"
       :class="isInboxView ? 'sm:flex-row' : 'md:flex-row'"
     >
-      <div
-        class="flex justify-start items-center mr-4 rtl:mr-0 rtl:ml-4 min-w-0 w-fit max-w-full"
-      >
+      <div class="flex justify-start items-center min-w-0 w-fit max-w-full">
         <back-button
           v-if="showBackButton"
           :back-url="backButtonUrl"
@@ -69,7 +67,7 @@
         </div>
       </div>
       <div
-        class="header-actions-wrap items-center flex flex-row flex-grow justify-end mt-3 lg:mt-0 rtl:relative rtl:left-6"
+        class="header-actions-wrap items-center flex flex-row flex-grow justify-end mt-3 lg:mt-0"
         :class="{ 'justify-end': isContactPanelOpen }"
       >
         <more-actions :conversation-id="currentChat.id" />

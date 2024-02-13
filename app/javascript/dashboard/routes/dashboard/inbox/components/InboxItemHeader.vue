@@ -4,7 +4,7 @@
   >
     <woot-button
       variant="clear link"
-      class="flex md:hidden py-2"
+      class="flex md:hidden !pt-1 !pb-1 rounded-md ltr:pr-1 rtl:pl-1 !no-underline"
       size="medium"
       color-scheme="primary"
       icon="chevron-left"

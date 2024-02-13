@@ -49,7 +49,7 @@
       <inbox-option-menu
         v-if="showInboxOptionMenu"
         v-on-clickaway="openInboxOptionsMenu"
-        class="absolute top-9"
+        class="absolute top-9 ltr:right-0 ltr:md:right-[unset] rtl:left-0 rtl:md:left-[unset]"
         @option-click="onInboxOptionMenuClick"
       />
     </div>
