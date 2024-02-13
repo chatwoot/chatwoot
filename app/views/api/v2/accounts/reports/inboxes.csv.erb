@@ -10,5 +10,5 @@
 %>
 <%= CSVSafe.generate_line headers -%>
 <% @report_data.each do |row| %>
-<%= CSVSafe.generate_line row -%>
+<%= CSV.generate_line row -%>
 <% end %>
