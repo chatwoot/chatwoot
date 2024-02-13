@@ -4,7 +4,7 @@
       <slot name="header">
         <div class="card-header--title-area">
           <h5>{{ header }}</h5>
-          <span class="live">
+          <span v-if="isLive" class="live">
             <span class="ellipse" /><span>{{
               $t('OVERVIEW_REPORTS.LIVE')
             }}</span>
@@ -15,7 +15,7 @@
         </div>
       </slot>
     </div>
-    <div v-if="!isLoading" class="card-body row">
+    <div v-if="!isLoading" class="card-body row" :class="!isLive ? 'px-0' : ''">
       <slot />
     </div>
     <div v-else-if="isLoading" class="conversation-metric-loader">
@@ -33,6 +33,10 @@ export default {
     Spinner,
   },
   props: {
+    isLive: {
+      type: Boolean,
+      default: true,
+    },
     header: {
       type: String,
       default: '',
@@ -44,6 +48,10 @@ export default {
     loadingMessage: {
       type: String,
       default: '',
+    },
+    isFilter: {
+      type: Boolean,
+      default: false,
     },
   },
 };
@@ -95,9 +103,11 @@ export default {
 .card-body {
   .metric-content {
     @apply pb-2;
+
     .heading {
       @apply text-base text-slate-700 dark:text-slate-100;
     }
+
     .metric {
       @apply text-woot-800 dark:text-woot-300 text-3xl mb-0 mt-1;
     }

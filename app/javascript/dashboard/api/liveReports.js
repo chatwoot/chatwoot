@@ -6,8 +6,8 @@ class LiveReportsAPI extends ApiClient {
     super('live_reports', { accountScoped: true, apiVersion: 'v2' });
   }
 
-  getConversationMetric() {
-    return axios.get(`${this.url}/conversation_metrics`);
+  getConversationMetric(params = {}) {
+    return axios.get(`${this.url}/conversation_metrics`, { params });
   }
 
   getGroupedConversations({ groupBy } = { groupBy: 'assignee_id' }) {

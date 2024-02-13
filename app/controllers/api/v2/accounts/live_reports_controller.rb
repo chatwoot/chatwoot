@@ -42,7 +42,7 @@ class Api::V2::Accounts::LiveReportsController < Api::V1::Accounts::BaseControll
   def team
     return unless permitted_params[:team_id]
 
-    @team ||= Current.account.teams.find_by(permitted_params[:team_id])
+    @team ||= Current.account.teams.find(permitted_params[:team_id])
   end
 
   def load_conversations

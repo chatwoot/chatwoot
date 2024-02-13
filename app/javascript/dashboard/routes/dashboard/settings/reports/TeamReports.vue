@@ -1,19 +1,27 @@
 <template>
-  <woot-reports
-    key="team-reports"
-    type="team"
-    getter-key="teams/getTeams"
-    action-key="teams/get"
-    :download-button-label="$t('TEAM_REPORTS.DOWNLOAD_TEAM_REPORTS')"
-  />
+  <div class="overflow-auto">
+    <metric-card :is-live="false" header="Team wise reports" />
+    <metric-card :is-live="false" header="Team wise reports">
+      <woot-reports
+        key="team-reports"
+        class="!p-0"
+        type="team"
+        getter-key="teams/getTeams"
+        action-key="teams/get"
+        :download-button-label="$t('TEAM_REPORTS.DOWNLOAD_TEAM_REPORTS')"
+      />
+    </metric-card>
+  </div>
 </template>
 
 <script>
 import WootReports from './components/WootReports.vue';
+import MetricCard from './components/overview/MetricCard.vue';
 
 export default {
   components: {
     WootReports,
+    MetricCard,
   },
 };
 </script>

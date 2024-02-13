@@ -1,28 +1,13 @@
 <template>
   <div class="flex-1 overflow-auto p-4">
     <div class="row">
-      <div class="column small-12 medium-8 conversation-metric">
+      <open-conversations />
+
+      <div class="column small-12 medium-4 flex">
         <metric-card
-          :header="$t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.HEADER')"
-          :is-loading="uiFlags.isFetchingAccountConversationMetric"
-          :loading-message="
-            $t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.LOADING_MESSAGE')
-          "
+          :header="$t('OVERVIEW_REPORTS.AGENT_STATUS.HEADER')"
+          class="flex-1"
         >
-          <div
-            v-for="(metric, name, index) in conversationMetrics"
-            :key="index"
-            class="metric-content column"
-          >
-            <h3 class="heading">
-              {{ name }}
-            </h3>
-            <p class="metric">{{ metric }}</p>
-          </div>
-        </metric-card>
-      </div>
-      <div class="column small-12 medium-4">
-        <metric-card :header="$t('OVERVIEW_REPORTS.AGENT_STATUS.HEADER')">
           <div
             v-for="(metric, name, index) in agentStatusMetrics"
             :key="index"
@@ -79,20 +64,22 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import OpenConversations from './components/LiveReports/OpenConversations.vue';
 import AgentTable from './components/overview/AgentTable.vue';
 import TeamTable from './components/overview/TeamTable.vue';
 import MetricCard from './components/overview/MetricCard.vue';
-import { OVERVIEW_METRICS } from './constants';
 import ReportHeatmap from './components/Heatmap.vue';
 
 import endOfDay from 'date-fns/endOfDay';
 import getUnixTime from 'date-fns/getUnixTime';
 import startOfDay from 'date-fns/startOfDay';
 import subDays from 'date-fns/subDays';
+import { OVERVIEW_METRICS } from './constants';
 
 export default {
   name: 'LiveReports',
   components: {
+    OpenConversations,
     TeamTable,
     AgentTable,
     MetricCard,
@@ -108,7 +95,6 @@ export default {
       agentStatus: 'agents/getAgentStatus',
       agents: 'agents/getAgents',
       teams: 'teams/getTeams',
-      accountConversationMetric: 'getAccountConversationMetric',
       agentConversationMetric: 'getAgentConversationMetric',
       teamConversationMetric: 'getTeamConversationMetric',
       accountConversationHeatmap: 'getAccountConversationHeatmapData',
@@ -124,16 +110,6 @@ export default {
       });
       return metric;
     },
-    conversationMetrics() {
-      let metric = {};
-      Object.keys(this.accountConversationMetric).forEach(key => {
-        const metricName = this.$t(
-          `OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.${OVERVIEW_METRICS[key]}`
-        );
-        metric[metricName] = this.accountConversationMetric[key];
-      });
-      return metric;
-    },
   },
   mounted() {
     this.$store.dispatch('agents/get');
@@ -146,7 +122,6 @@ export default {
   },
   methods: {
     fetchAllData() {
-      this.$store.dispatch('fetchLiveConversationMetric');
       this.$store.dispatch('fetchAgentConversationMetric');
       this.$store.dispatch('fetchTeamConversationMetric');
       this.fetchHeatmapData();
