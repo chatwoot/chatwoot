@@ -2,7 +2,7 @@
 
 class AccountBuilder
   include CustomExceptions::Account
-  pattr_initialize [:email!, :confirmed, :user, :user_password, :super_admin, :locale]
+  pattr_initialize [:account_name, :email!, :confirmed, :user, :user_full_name, :user_password, :super_admin, :locale]
 
   def perform
     if @user.nil?
@@ -49,7 +49,7 @@ class AccountBuilder
   end
 
   def create_account
-    @account = Account.create!(name: '', locale: I18n.locale)
+    @account = Account.create!(name: account_name, locale: I18n.locale)
     Current.account = @account
   end
 
@@ -74,7 +74,7 @@ class AccountBuilder
     @user = User.new(email: @email,
                      password: user_password,
                      password_confirmation: user_password,
-                     name: '')
+                     name: user_full_name)
     @user.type = 'SuperAdmin' if @super_admin
     @user.confirm if @confirmed
     @user.save!
