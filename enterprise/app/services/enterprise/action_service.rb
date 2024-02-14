@@ -7,6 +7,8 @@ module Enterprise::ActionService
   end
 
   def create_applied_sla(sla_policy)
+    return if AppliedSla.exists?(conversation_id: @conversation.id, account_id: @conversation.account_id, sla_policy_id: sla_policy.id)
+
     Rails.logger.info "SLA:: Creating Applied SLA for conversation: #{@conversation.id}"
     AppliedSla.create!(
       account_id: @conversation.account_id,
