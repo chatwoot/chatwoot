@@ -9,7 +9,7 @@ describe ActionService do
     let(:action_service) { described_class.new(conversation) }
 
     it 'adds the sla policy to the conversation and create applied_sla entry' do
-      action_service.add_sla(sla_policy)
+      action_service.add_sla([sla_policy.id])
       expect(conversation.reload.sla_policy_id).to eq(sla_policy.id)
 
       # check if appliedsla table entry is created with matching attributes
