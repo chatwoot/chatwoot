@@ -79,7 +79,7 @@ export default {
           renderBodyCell: ({ row }) => (
             <div class="row-user-block">
               <div class="user-block">
-                <h6 class="title overflow-hidden whitespace-nowrap text-ellipsis text-sm">
+                <h6 class="title overflow-hidden whitespace-nowrap text-ellipsis text-sm capitalize">
                   {row.name}
                 </h6>
               </div>
