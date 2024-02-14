@@ -6,62 +6,34 @@
       :columns="columns"
       :table-data="tableData"
     />
-    <div v-if="isLoading" class="agents-loader">
-      <spinner />
-      <span>{{
-        $t('OVERVIEW_REPORTS.TEAM_CONVERSATIONS.LOADING_MESSAGE')
-      }}</span>
-    </div>
-    <div v-if="teams.length > 0" class="table-pagination">
-      <ve-pagination
-        :total="teams.length"
-        :page-index="pageIndex"
-        :page-size="25"
-        :page-size-option="[25]"
-      />
-    </div>
   </div>
 </template>
 
 <script>
-import { VeTable, VePagination } from 'vue-easytable';
-import Spinner from 'shared/components/Spinner.vue';
+import { VeTable } from 'vue-easytable';
 import rtlMixin from 'shared/mixins/rtlMixin';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'TeamTable',
   components: {
-    Spinner,
     VeTable,
-    VePagination,
   },
   mixins: [rtlMixin],
-  props: {
-    teams: {
-      type: Array,
-      default: () => [],
-    },
-    teamMetrics: {
-      type: Array,
-      default: () => [],
-    },
-    isLoading: {
-      type: Boolean,
-      default: false,
-    },
-    pageIndex: {
-      type: Number,
-      default: 1,
-    },
-  },
   computed: {
+    ...mapGetters({
+      teams: 'teams/getTeams',
+      teamMetrics: 'summaryReports/getTeamSummaryReports',
+    }),
     tableData() {
       return this.teams.map(team => {
         const teamMetrics = this.getTeamMetrics(team.id);
         return {
-          agent: team.name,
-          open: teamMetrics.open || 0,
-          unattended: teamMetrics.unattended || 0,
+          name: team.name,
+          conversationsCount: teamMetrics.open || 0,
+          avgFirstResponseTime: teamMetrics.open || 0,
+          avgResolutionTime: teamMetrics.open || 0,
+          resolutionsCount: teamMetrics.open || 0,
         };
       });
     },
@@ -70,42 +42,53 @@ export default {
         {
           field: 'agent',
           key: 'agent',
-          title: this.$t(
-            'OVERVIEW_REPORTS.TEAM_CONVERSATIONS.TABLE_HEADER.AGENT'
-          ),
+          title: 'Team',
           fixed: 'left',
           align: this.isRTLView ? 'right' : 'left',
           width: 25,
           renderBodyCell: ({ row }) => (
             <div class="row-user-block">
               <div class="user-block">
-                <h6 class="capitalize title overflow-hidden whitespace-nowrap text-ellipsis">
-                  {row.agent}
+                <h6 class="title overflow-hidden whitespace-nowrap text-ellipsis">
+                  {row.name}
                 </h6>
               </div>
             </div>
           ),
         },
         {
-          field: 'open',
-          key: 'open',
-          title: this.$t(
-            'OVERVIEW_REPORTS.TEAM_CONVERSATIONS.TABLE_HEADER.OPEN'
-          ),
+          field: 'conversationsCount',
+          key: 'conversationsCount',
+          title: 'No. of conversations',
           align: this.isRTLView ? 'right' : 'left',
-          width: 10,
+          width: 20,
         },
         {
-          field: 'unattended',
-          key: 'unattended',
-          title: this.$t(
-            'OVERVIEW_REPORTS.TEAM_CONVERSATIONS.TABLE_HEADER.UNATTENDED'
-          ),
+          field: 'resolutionsCount',
+          key: 'resolutionsCount',
+          title: 'No. of resolved conversations',
           align: this.isRTLView ? 'right' : 'left',
-          width: 10,
+          width: 20,
+        },
+        {
+          field: 'avgFirstResponseTime',
+          key: 'avgFirstResponseTime',
+          title: 'Average first response time',
+          align: this.isRTLView ? 'right' : 'left',
+          width: 20,
+        },
+        {
+          field: 'avgResolutionTime',
+          key: 'avgResolutionTime',
+          title: 'Average resolution time',
+          align: this.isRTLView ? 'right' : 'left',
+          width: 20,
         },
       ];
     },
+  },
+  mounted() {
+    this.$store.dispatch('summaryReports/fetchTeamSummaryReports');
   },
   methods: {
     getTeamMetrics(id) {

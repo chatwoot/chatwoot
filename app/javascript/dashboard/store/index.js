@@ -41,6 +41,7 @@ import reports from './modules/reports';
 import teamMembers from './modules/teamMembers';
 import teams from './modules/teams';
 import userNotificationSettings from './modules/userNotificationSettings';
+import summaryReports from './modules/summaryReports';
 import webhooks from './modules/webhooks';
 import draftMessages from './modules/draftMessages';
 
@@ -106,6 +107,7 @@ export default new Vuex.Store({
     reports,
     teamMembers,
     teams,
+    summaryReports,
     userNotificationSettings,
     webhooks,
     draftMessages,

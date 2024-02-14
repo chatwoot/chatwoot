@@ -6,7 +6,7 @@ class SummaryReportsAPI extends ApiClient {
     super('summary_reports', { accountScoped: true, apiVersion: 'v2' });
   }
 
-  getTeamReports({ since, until, businessHours }) {
+  getTeamReports({ since, until, businessHours } = {}) {
     return axios.get(`${this.url}/team`, {
       params: {
         since,
@@ -16,7 +16,7 @@ class SummaryReportsAPI extends ApiClient {
     });
   }
 
-  getAgentReports({ since, until, businessHours }) {
+  getAgentReports({ since, until, businessHours } = {}) {
     return axios.get(`${this.url}/agents`, {
       params: {
         since,
