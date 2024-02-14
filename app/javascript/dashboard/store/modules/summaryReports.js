@@ -1,4 +1,5 @@
 import SummaryReportsAPI from '../../api/summaryReports';
+import Vue from 'vue';
 
 export const state = {
   teamSummaryReports: [],
@@ -36,10 +37,10 @@ export const actions = {
 
 export const mutations = {
   setTeamSummaryReport(_state, data) {
-    _state.teamSummaryReports = data;
+    Vue.set(_state, 'teamSummaryReports', data);
   },
   setAgentSummaryReport(_state, data) {
-    _state.agentSummaryReports = data;
+    Vue.set(_state, 'agentSummaryReports', data);
   },
 };
 

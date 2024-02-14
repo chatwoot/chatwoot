@@ -1,7 +1,16 @@
 <template>
-  <div class="overflow-auto">
+  <div class="column overflow-auto">
     <metric-card :is-live="false" header="All teams overview">
-      <team-list-table />
+      <woot-summary-reports
+        key="team-reports"
+        class="!p-0"
+        type="team"
+        getter-key="teams/getTeams"
+        attribute-key="team_id"
+        action-key="summaryReports/fetchTeamSummaryReports"
+        summary-key="summaryReports/getTeamSummaryReports"
+        :download-button-label="$t('TEAM_REPORTS.DOWNLOAD_TEAM_REPORTS')"
+      />
     </metric-card>
     <metric-card
       :is-live="false"
@@ -10,26 +19,26 @@
     >
       <woot-reports
         key="team-reports"
+        :show-download-button="false"
         class="!p-0"
         type="team"
         getter-key="teams/getTeams"
         action-key="teams/get"
-        :download-button-label="$t('TEAM_REPORTS.DOWNLOAD_TEAM_REPORTS')"
       />
     </metric-card>
   </div>
 </template>
 
 <script>
-import TeamListTable from './components/AggregateTables/TeamListTable.vue';
-import WootReports from './components/WootReports.vue';
+import WootSummaryReports from './components/WootSummaryReports.vue';
 import MetricCard from './components/overview/MetricCard.vue';
+import WootReports from './components/WootReports.vue';
 
 export default {
   components: {
     WootReports,
     MetricCard,
-    TeamListTable,
+    WootSummaryReports,
   },
 };
 </script>

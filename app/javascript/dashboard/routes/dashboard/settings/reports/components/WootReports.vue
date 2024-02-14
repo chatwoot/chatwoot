@@ -1,6 +1,7 @@
 <template>
   <div class="flex-1 overflow-auto p-4">
     <woot-button
+      v-if="showDownloadButton"
       color-scheme="success"
       class-names="button--fixed-top"
       icon="arrow-download"
@@ -63,6 +64,10 @@ export default {
     downloadButtonLabel: {
       type: String,
       default: 'Download Reports',
+    },
+    showDownloadButton: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {

@@ -25,18 +25,7 @@ export default {
       teams: 'teams/getTeams',
       teamMetrics: 'summaryReports/getTeamSummaryReports',
     }),
-    tableData() {
-      return this.teams.map(team => {
-        const teamMetrics = this.getTeamMetrics(team.id);
-        return {
-          name: team.name,
-          conversationsCount: teamMetrics.open || 0,
-          avgFirstResponseTime: teamMetrics.open || 0,
-          avgResolutionTime: teamMetrics.open || 0,
-          resolutionsCount: teamMetrics.open || 0,
-        };
-      });
-    },
+
     columns() {
       return [
         {
