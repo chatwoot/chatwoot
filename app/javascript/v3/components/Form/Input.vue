@@ -14,6 +14,7 @@
       :name="name"
       :type="type"
       autocomplete="off"
+      :tabindex="tabindex"
       :required="required"
       :placeholder="placeholder"
       :data-testid="dataTestid"
@@ -51,6 +52,10 @@ export default {
     type: {
       type: String,
       default: 'text',
+    },
+    tabindex: {
+      type: Number,
+      default: undefined,
     },
     required: {
       type: Boolean,
