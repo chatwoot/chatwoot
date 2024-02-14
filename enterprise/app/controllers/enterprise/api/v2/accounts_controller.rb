@@ -18,7 +18,7 @@ module Enterprise::Api::V2::AccountsController
   end
 
   def update_user_info(data)
-    @user.update!(name: data[:name])
+    @user.update!(name: data[:name]) if data[:name].present?
   end
 
   def update_account_info(data)
