@@ -90,8 +90,14 @@ import FormRadioTags from 'v3/components/Form/RadioTags.vue';
 import { required, minLength } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 
+import { ONBOARDING_STEP_NAMES } from 'dashboard/constants/globals';
 import SubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue';
 import { timeZoneOptions } from 'dashboard/routes/dashboard/settings/inbox/helpers/businessHour.js';
+import { getBrowserTimezone, getBrowserLocale } from 'v3/helpers/BrowserHelper';
+import {
+  findMatchingOption,
+  findCompanySizeMatch,
+} from 'v3/helpers/OnboardingHelper';
 import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
 export default {
@@ -148,9 +154,12 @@ export default {
     timeZones() {
       return [...timeZoneOptions()];
     },
-    intelligentData() {
-      const { clearbit_data: data } = this.getAccount;
-      return data;
+    hasIntelligentData() {
+      const {
+        custom_attributes: { onboarding_step: onboardingStep },
+      } = this.accountDetails;
+
+      return !onboardingStep !== ONBOARDING_STEP_NAMES.INVITE;
     },
   },
 
@@ -163,9 +172,6 @@ export default {
     },
   },
   mounted() {
-    this.setLocaleFromBrowser();
-    this.setTimezone();
-
     this.initFormData();
   },
 
@@ -194,58 +200,47 @@ export default {
       this.$root.$i18n.locale = locale;
     },
     setLocaleFromBrowser() {
-      const localeWithVariant = window.navigator.language.replace('-', '_');
-      const localeWithoutVariant = localeWithVariant.split('_')[0];
-
-      const { iso_639_1_code: locale } =
-        this.enabledLanguages.find(
-          lang =>
-            lang.iso_639_1_code === localeWithVariant ||
-            lang.iso_639_1_code === localeWithoutVariant
-        ) || {};
+      const locale = getBrowserLocale(this.enabledLanguages);
 
       if (locale) {
         this.locale = locale;
         this.setLocale(locale);
       }
     },
-    setTimezone() {
-      const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      if (!this.intelligentData) {
-        this.timezone = browserTimezone;
-        return;
-      }
-      const { timezone } = this.intelligentData;
-      const allZones = this.timeZones.map(zone => zone.value);
-      const matchForIntelligentZone = allZones.find(zone => zone === timezone);
-      if (matchForIntelligentZone) {
-        this.timezone = timezone;
-      }
-    },
     setFromIntelligentData() {
-      if (!this.intelligentData) return;
-      const { name: companyName, industry, size } = this.intelligentData;
-      this.companyName = companyName;
-      this.industry = industry;
-      this.companySize = size;
-    },
-    setSavedData() {
+      if (!this.accountDetails) return;
+
       const {
         name: companyName,
-        industry,
-        size,
         locale,
-        timezone,
+        custom_attributes: {
+          industry,
+          company_size: companySize,
+          timezone,
+        } = {},
       } = this.accountDetails;
       this.companyName = companyName;
-      this.industry = industry;
-      this.companySize = size;
-      this.locale = locale;
-      this.timezone = timezone;
+      this.industry = findMatchingOption(
+        industry,
+        this.industryOptions,
+        'other'
+      );
+      this.companySize = findCompanySizeMatch(
+        this.companySizeOptions,
+        companySize
+      );
+      this.timezone = findMatchingOption(
+        timezone,
+        this.timeZones.map(zone => zone.value),
+        getBrowserTimezone()
+      );
+      this.locale = locale || this.setLocaleFromBrowser();
+
+      this.setLocale(locale);
     },
+
     initFormData() {
-      const { name } = this.accountDetails;
-      if (!name) {
+      if (this.hasIntelligentData) {
         this.setFromIntelligentData();
       } else {
         this.setSavedData();

@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full w-full dark:bg-slate-900 relative">
+  <div class="flex h-full w-full dark:bg-slate-900 relative overflow-hidden">
     <div
       class="absolute inset-0 h-full w-full bg-white dark:bg-slate-900 bg-[radial-gradient(var(--w-100)_1px,transparent_1px)] dark:bg-[radial-gradient(var(--w-800)_1px,transparent_1px)] [background-size:16px_16px] z-0"
     />
@@ -13,6 +13,7 @@
       viewBox="0 0 528 96"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      class="absolute -left-full -bottom-full"
     >
       <defs>
         <mask id="cutoutMask">
@@ -24,9 +25,11 @@
       </defs>
     </svg>
 
-    <div class="flex h-full relative z-50">
+    <div
+      class="flex w-full h-full relative z-50 items-center justify-center overflow-auto"
+    >
       <div
-        class="flex-1 min-h-[640px] inline-flex items-center h-full justify-center overflow-auto py-6"
+        class="flex-1 min-h-[640px] inline-flex items-center h-full justify-center py-6"
       >
         <div
           class="relative bg-white dark:bg-slate-800 before:bg-white dark:before:bg-slate-800 px-16 pt-8 pb-16 max-w-[528px] w-full rounded-3xl signup-box"
@@ -85,7 +88,19 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
+.overlay-gradient {
+  background: linear-gradient(90deg, rgba(252, 252, 253, 0) 81.8%, #fcfcfd 95%),
+    linear-gradient(270deg, rgba(252, 252, 253, 0) 76.93%, #fcfcfd 95%),
+    linear-gradient(0deg, rgba(252, 252, 253, 0) 68.63%, #fcfcfd 95%),
+    linear-gradient(180deg, rgba(252, 252, 253, 0) 73.2%, #fcfcfd 95%);
+}
+.dark .overlay-gradient {
+  background: linear-gradient(270deg, rgba(24, 24, 26, 0) 76.93%, #151718 95%),
+    linear-gradient(90deg, rgba(24, 24, 26, 0) 81.8%, #151718 95%),
+    linear-gradient(0deg, rgba(24, 24, 26, 0) 68.63%, #151718 95%),
+    linear-gradient(180deg, rgba(24, 24, 26, 0) 73.2%, #151718 95%);
+}
 .signup-box::before {
   width: 100%;
   height: 200px;

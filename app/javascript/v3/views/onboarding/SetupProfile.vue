@@ -105,6 +105,7 @@
             :label="$t('ONBOARDING.PROFILE.PHONE_NUMBER.LABEL')"
             :placeholder="$t('ONBOARDING.PROFILE.PHONE_NUMBER.PLACEHOLDER')"
             :error-message="$t('CONTACT_FORM.FORM.PHONE_NUMBER.ERROR')"
+            @blur="$v.phoneNumber.$touch"
           />
           <form-text-area
             v-model="signature"
@@ -168,7 +169,7 @@ export default {
     },
     phoneNumber: {
       validOrNoPhone: value =>
-        !helpers.req(value) || parsePhoneNumber(value).isValid(),
+        !helpers.req(value) || parsePhoneNumber(value, 'US').isValid(),
     },
   },
   computed: {
@@ -195,6 +196,7 @@ export default {
       avatar_url: avatarUrl,
       display_name: displayName,
       message_signature: signature,
+      custom_attributes: { phone_number: phoneNumber } = {},
     } = this.currentUser || {};
 
     if (!fullName && this.intelligentData && this.intelligentData.name) {
@@ -202,6 +204,8 @@ export default {
     } else {
       this.fullName = fullName;
     }
+
+    this.phoneNumber = phoneNumber;
     this.displayName = displayName;
     this.signature = signature;
     this.avatarUrl =
@@ -219,7 +223,7 @@ export default {
       }
       try {
         await this.$store.dispatch('updateProfile', {
-          name: this.name,
+          name: this.fullName,
           displayName: this.displayName,
           phone_number: this.phoneNumber,
           avatar: this.avatarFile,
