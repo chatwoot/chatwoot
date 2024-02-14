@@ -28,7 +28,8 @@ module Enterprise::Api::V2::AccountsController
         'industry' => data[:industry],
         'company_size' => data[:company_size],
         'timezone' => data[:timezone],
-        'logo' => data[:logo]
+        'logo' => data[:logo],
+        'onboarding_step' => 'account_update'
       )
     )
   end
