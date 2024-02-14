@@ -118,6 +118,11 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     render json: result
   end
 
+  def related_emails
+    @conversations = Digitaltolk::RelatedEmailService.new(@conversation.display_id).perform
+    @conversations_count = @conversations.count
+  end
+
   private
 
   def update_last_seen_on_conversation(last_seen_at, update_assignee)

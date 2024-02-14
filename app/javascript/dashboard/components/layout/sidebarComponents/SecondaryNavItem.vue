@@ -64,7 +64,8 @@
         :warning-icon="computedInboxErrorClass(child)"
         :show-child-count="showChildCount(child.count)"
         :child-item-count="child.count"
-        :inbox-id="child.id"
+        :stats-id="child.id"
+        :stats-field="child.statsField"
         :show-open-conversation-count="child.showOpenConversationCount"
       />
       <router-link

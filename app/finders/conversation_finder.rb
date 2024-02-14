@@ -38,7 +38,7 @@ class ConversationFinder
   def perform
     set_up
 
-    mine_count, unassigned_count, all_count, all_inbox_open_count, = set_count_for_all_conversations
+    mine_count, unassigned_count, all_count, all_inbox_open_count, my_teams_open_count, = set_count_for_all_conversations
     assigned_count = all_count - unassigned_count
 
     filter_by_assignee_type
@@ -51,6 +51,7 @@ class ConversationFinder
         unassigned_count: unassigned_count,
         all_count: all_count,
         all_inbox_open_count: all_inbox_open_count,
+        my_teams_open_count: my_teams_open_count
       }
     }
   end
@@ -157,7 +158,8 @@ class ConversationFinder
       @conversations.assigned_to(current_user).count,
       @conversations.unassigned.count,
       @conversations.count,
-      @current_account.conversations.open.group(:inbox_id).count
+      @current_account.conversations.open.group(:inbox_id).count,
+      Conversation.open.where(team_id: @current_user.teams.pluck(:id)).group(:team_id).count
     ]
   end
 

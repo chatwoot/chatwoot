@@ -40,7 +40,7 @@ class Digitaltolk::SendEmailTicketService
     {
       success: success,
       message: message,
-      conversation_id: @conversation&.id
+      conversation_id: @conversation&.display_id
     }
   end
 

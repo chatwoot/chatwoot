@@ -23,8 +23,8 @@
         </p>
       </div>
 
-      <div v-for="survey in surveys" :key="survey.id">
-        <response :survey="survey"/>
+      <div v-for="(survey, index) in surveys" :key="survey.id">
+        <response :survey="survey" :index="index"/>
       </div>
       <div class="mb-3">
         <branding />

@@ -51,6 +51,10 @@ export default {
     survey: {
       type: Object,
       default: () => {},
+    },
+    index: {
+      type: Number,
+      default: 0
     }
   },
 
@@ -86,7 +90,7 @@ export default {
       return this.isRatingSubmitted || this.errorMessage;
     },
     enableFeedbackForm() {
-      return !this.isFeedbackSubmitted && this.isRatingSubmitted;
+      return !this.isFeedbackSubmitted && this.isRatingSubmitted && this.firstSurvey;
     },
     shouldShowErrorMesage() {
       return !!this.errorMessage;
@@ -109,6 +113,9 @@ export default {
     },
     paramsRating() {
       return this.urlParam.get('rating');
+    },
+    firstSurvey() {
+      return this.index == 0;
     }
   },
   async mounted() {

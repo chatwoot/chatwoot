@@ -1,14 +1,14 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Hej! 👋, Vi vore tacksamma för att få dina synpunkter på konversationen du haft me oss.",
+    "DESCRIPTION": "Hej! 👋, Vi vore tacksamma för att få dina synpunkter på konversationen du haft med oss.",
     "RATING": {
       "LABEL": "Betygsätt din konversation",
-      "SUCCESS_MESSAGE": "Tack för att du lämnat in omdömet"
+      "SUCCESS_MESSAGE": "Tack för din feedback!"
     },
     "FEEDBACK": {
       "LABEL": "Har du några tankar du vill dela med dig av?",
-      "PLACEHOLDER": "Dina synpunkter (frivilligt)",
-      "BUTTON_TEXT": "Skicka synpunkter"
+      "PLACEHOLDER": "Kommentera din feedback (valfritt)",
+      "BUTTON_TEXT": "Skicka feedback"
     },
     "API": {
       "SUCCESS_MESSAGE": "Undersökningen har uppdaterats",

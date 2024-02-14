@@ -107,6 +107,7 @@ Rails.application.routes.draw do
               post :unread
               post :custom_attributes
               get :attachments
+              get :related_emails
             end
           end
 

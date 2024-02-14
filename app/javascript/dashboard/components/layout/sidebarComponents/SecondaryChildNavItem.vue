@@ -122,9 +122,13 @@ export default {
       type: Boolean,
       default: false,
     },
-    inboxId: {
+    statsId: {
       type: Number,
       default: 0,
+    },
+    statsField: {
+      type: String,
+      default: ''
     }
 
   },
@@ -147,7 +151,13 @@ export default {
       return this.showOpenConversationCount && this.openConversationCount !== undefined && this.openConversationCount > 0;
     },
     openConversationCount(){
-      return this.inboxStats.allInboxOpenCount[this.inboxId];
+      const field = this.inboxStats[this.statsField]
+
+      if (!field){
+        return 0;
+      }
+
+      return field[this.statsId];
     }
   },
   methods: {
