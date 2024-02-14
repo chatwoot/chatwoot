@@ -115,6 +115,18 @@ class Notification < ApplicationRecord
     primary_actor
   end
 
+  def conversation_creation_message_content
+    "#{conversation.messages.first&.sender&.name}: #{conversation.messages.first&.content}"
+  end
+
+  def message_created_message_content
+    "#{secondary_actor&.sender&.name}: #{secondary_actor&.content}"
+  end
+
+  def mention_content
+    "#{secondary_actor&.sender&.name}: #{transform_user_mention_content(secondary_actor&.content&.truncate_words(10) || '')}"
+  end
+
   def content
     transform_user_mention_content(secondary_actor&.content&.truncate_words(10) || '')
   end
