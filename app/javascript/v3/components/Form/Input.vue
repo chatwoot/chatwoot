@@ -20,7 +20,7 @@
       :value="value"
       :class="{
         'focus:outline-red-600 outline-red-600': hasError,
-        'dark:outline-slate-600 dark:focus:outline-woot-500 outline-slate-200':
+        'dark:outline-slate-600 dark:focus:outline-woot-500 outline-slate-200 focus:outline-woot-500':
           !hasError,
         'px-3 py-3': spacing === 'base',
         'px-3 py-2 mb-0': spacing === 'compact',
