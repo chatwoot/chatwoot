@@ -14,7 +14,7 @@
     </metric-card>
     <metric-card
       :is-live="false"
-      header="Agentwise reports"
+      header="Agent-wise reports"
       class="overflow-visible"
     >
       <woot-reports

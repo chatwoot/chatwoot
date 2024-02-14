@@ -25,6 +25,16 @@ class SummaryReportsAPI extends ApiClient {
       },
     });
   }
+
+  getInboxReports({ since, until, businessHours } = {}) {
+    return axios.get(`${this.url}/inbox`, {
+      params: {
+        since,
+        until,
+        business_hours: businessHours,
+      },
+    });
+  }
 }
 
 export default new SummaryReportsAPI();

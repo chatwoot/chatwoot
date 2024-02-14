@@ -14,7 +14,7 @@
     </metric-card>
     <metric-card
       :is-live="false"
-      header="Teamwise reports"
+      header="Team-wise reports"
       class="overflow-visible"
     >
       <woot-reports

@@ -4,6 +4,7 @@ import Vue from 'vue';
 export const state = {
   teamSummaryReports: [],
   agentSummaryReports: [],
+  inboxSummaryReports: [],
   uiFlags: {},
 };
 
@@ -13,6 +14,9 @@ export const getters = {
   },
   getTeamSummaryReports(_state) {
     return _state.teamSummaryReports;
+  },
+  getInboxSummaryReports(_state) {
+    return _state.inboxSummaryReports;
   },
 };
 
@@ -33,6 +37,14 @@ export const actions = {
       // Ignore error
     }
   },
+  async fetchInboxSummaryReports({ commit }, params) {
+    try {
+      const response = await SummaryReportsAPI.getInboxReports(params);
+      commit('setInboxSummaryReport', response.data);
+    } catch (error) {
+      // Ignore error
+    }
+  },
 };
 
 export const mutations = {
@@ -41,6 +53,9 @@ export const mutations = {
   },
   setAgentSummaryReport(_state, data) {
     Vue.set(_state, 'agentSummaryReports', data);
+  },
+  setInboxSummaryReport(_state, data) {
+    Vue.set(_state, 'inboxSummaryReports', data);
   },
 };
 
