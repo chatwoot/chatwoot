@@ -64,7 +64,7 @@
             @input="$v.credentials.password.$touch"
           >
             <p v-if="!globalConfig.disableUserProfileUpdate">
-              <router-link to="auth/reset/password" class="text-link">
+              <router-link to="auth/reset/password" class="text-link text-sm">
                 {{ $t('LOGIN.FORGOT_PASSWORD') }}
               </router-link>
             </p>
