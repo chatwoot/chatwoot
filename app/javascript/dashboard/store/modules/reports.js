@@ -85,7 +85,6 @@ export const actions = {
       value: true,
     });
     Report.getReports(reportObj).then(accountReport => {
-      console.log(reportObj, accountReport);
       let { data } = accountReport;
       data = clampDataBetweenTimeline(data, reportObj.from, reportObj.to);
       commit(types.default.SET_ACCOUNT_REPORTS, {
