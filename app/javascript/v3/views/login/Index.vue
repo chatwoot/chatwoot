@@ -46,6 +46,7 @@
             name="email_address"
             type="text"
             data-testid="email_input"
+            :tabindex="1"
             required
             :label="$t('LOGIN.EMAIL.LABEL')"
             :placeholder="$t('LOGIN.EMAIL.PLACEHOLDER')"
@@ -58,19 +59,25 @@
             name="password"
             data-testid="password_input"
             required
+            :tabindex="2"
             :label="$t('LOGIN.PASSWORD.LABEL')"
             :placeholder="$t('LOGIN.PASSWORD.PLACEHOLDER')"
             :has-error="$v.credentials.password.$error"
             @input="$v.credentials.password.$touch"
           >
             <p v-if="!globalConfig.disableUserProfileUpdate">
-              <router-link to="auth/reset/password" class="text-link">
+              <router-link
+                to="auth/reset/password"
+                class="text-link text-sm"
+                tabindex="4"
+              >
                 {{ $t('LOGIN.FORGOT_PASSWORD') }}
               </router-link>
             </p>
           </form-input>
           <submit-button
             :disabled="loginApi.showLoading"
+            :tabindex="3"
             :button-text="$t('LOGIN.SUBMIT')"
             :loading="loginApi.showLoading"
           />
