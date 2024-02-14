@@ -34,6 +34,9 @@ export default {
     actionButtonMessage() {
       return this.$t('GENERAL_SETTINGS.OPEN_BILLING');
     },
+    isOnboardingView() {
+      return this.$route.name.includes('onboarding_');
+    },
     shouldShowBanner() {
       if (!this.isOnChatwootCloud) {
         return false;
@@ -43,6 +46,9 @@ export default {
         return false;
       }
 
+      if (this.isOnboardingView) {
+        return false;
+      }
       return this.isPaymentPending();
     },
   },
