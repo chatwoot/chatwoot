@@ -1,6 +1,6 @@
 <template>
   <div class="column overflow-auto">
-    <metric-card :is-live="false" header="All teams overview">
+    <metric-card :is-live="false" header="All agents overview">
       <woot-summary-reports
         key="agent-summary-reports"
         class="!p-0"
