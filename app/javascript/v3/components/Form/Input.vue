@@ -19,14 +19,15 @@
       :data-testid="dataTestid"
       :value="value"
       :class="{
-        'focus:outline-red-600 outline-red-600': hasError,
-        'dark:outline-slate-600 dark:focus:outline-woot-500 outline-slate-200 focus:outline-woot-500':
+        'focus:outline-red-600 outline-red-600 dark:focus:outline-red-600 dark:outline-red-600':
+          hasError,
+        'outline-slate-200 dark:outline-slate-600 dark:focus:outline-woot-500 focus:outline-woot-500':
           !hasError,
         'px-3 py-3': spacing === 'base',
         'px-3 py-2 mb-0': spacing === 'compact',
         'pl-9': icon,
       }"
-      class="block w-full border-none shadow-sm appearance-none rounded-xl outline outline-1 outline-slate-200 dark:outline-slate-200/20 focus:outline-2 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 sm:text-sm sm:leading-6 dark:bg-slate-800"
+      class="block w-full border-none shadow-sm appearance-none rounded-xl outline outline-1 focus:outline-2 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 sm:text-sm sm:leading-6 dark:bg-slate-800"
       @input="onInput"
       @blur="$emit('blur')"
     />
