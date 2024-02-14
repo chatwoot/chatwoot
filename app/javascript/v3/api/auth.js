@@ -42,6 +42,20 @@ export const register = async creds => {
   return null;
 };
 
+export const accountSetup = async ({ id, name, locale }) => {
+  try {
+    const response = await wootAPI.put(`api/v2/accounts/${id}.json`, {
+      name,
+      locale,
+    });
+    // setAuthCredentials(response);
+    return response.data;
+  } catch (error) {
+    throwErrorMessage(error);
+  }
+  return null;
+};
+
 export const verifyPasswordToken = async ({ confirmationToken }) => {
   try {
     const response = await wootAPI.post('auth/confirmation', {
