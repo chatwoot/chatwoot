@@ -89,14 +89,14 @@ export default {
         {
           field: 'conversationsCount',
           key: 'conversationsCount',
-          title: 'All conversations',
+          title: 'Assigned',
           align: this.isRTLView ? 'right' : 'left',
           width: 20,
         },
         {
           field: 'resolutionsCount',
           key: 'resolutionsCount',
-          title: 'Resolved conversations',
+          title: 'Resolved',
           align: this.isRTLView ? 'right' : 'left',
           width: 20,
         },
