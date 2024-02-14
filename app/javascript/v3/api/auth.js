@@ -48,7 +48,6 @@ export const accountSetup = async ({ id, name, locale }) => {
       name,
       locale,
     });
-    // setAuthCredentials(response);
     return response.data;
   } catch (error) {
     throwErrorMessage(error);
