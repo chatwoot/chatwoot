@@ -14,7 +14,7 @@
     </metric-card>
     <metric-card
       :is-live="false"
-      header="Team wise reports"
+      header="Teamwise reports"
       class="overflow-visible"
     >
       <woot-reports
@@ -39,6 +39,9 @@ export default {
     WootReports,
     MetricCard,
     WootSummaryReports,
+  },
+  mounted() {
+    this.$store.dispatch('agents/get');
   },
 };
 </script>

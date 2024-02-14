@@ -53,10 +53,6 @@ export default {
       type: String,
       default: '',
     },
-    attributeKey: {
-      type: String,
-      default: '',
-    },
     downloadButtonLabel: {
       type: String,
       default: 'Download Reports',

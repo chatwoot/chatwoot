@@ -8,7 +8,7 @@ export const state = {
 };
 
 export const getters = {
-  getAgentSummaryReport(_state) {
+  getAgentSummaryReports(_state) {
     return _state.agentSummaryReports;
   },
   getTeamSummaryReports(_state) {
@@ -25,10 +25,10 @@ export const actions = {
       // Ignore error
     }
   },
-  async getAgentSummaryReports({ commit }, params) {
+  async fetchAgentSummaryReports({ commit }, params) {
     try {
       const response = await SummaryReportsAPI.getAgentReports(params);
-      commit('setAgentSummayReport', response.data);
+      commit('setAgentSummaryReport', response.data);
     } catch (error) {
       // Ignore error
     }

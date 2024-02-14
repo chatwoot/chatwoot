@@ -17,7 +17,7 @@ class SummaryReportsAPI extends ApiClient {
   }
 
   getAgentReports({ since, until, businessHours } = {}) {
-    return axios.get(`${this.url}/agents`, {
+    return axios.get(`${this.url}/agent`, {
       params: {
         since,
         until,
