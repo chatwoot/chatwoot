@@ -29,7 +29,7 @@ module Enterprise::Api::V2::AccountsController
         'company_size' => data[:company_size],
         'timezone' => data[:timezone],
         'logo' => data[:logo],
-        'onboarding_step' => 'account_update'
+        'onboarding_step' => 'profile_update'
       )
     )
   end
