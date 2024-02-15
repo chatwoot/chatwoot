@@ -25,11 +25,16 @@ describe('findCompanySizeMatch', () => {
 
   it('should return the correct company size range', () => {
     const size = 25;
-    expect(findCompanySizeMatch(size, mockCompanySizeOptions)).toBe('11-50');
+    expect(findCompanySizeMatch(mockCompanySizeOptions, size)).toBe('11-50');
   });
 
-  it('should return the first company size range when no match is found', () => {
+  it('should return the last company size range when limit exceeds', () => {
     const size = 1500;
-    expect(findCompanySizeMatch(size, mockCompanySizeOptions)).toBe('1-10');
+    expect(findCompanySizeMatch(mockCompanySizeOptions, size)).toBe('1001+');
+  });
+
+  it('should return the undefined when no match is found', () => {
+    const size = undefined;
+    expect(findCompanySizeMatch(mockCompanySizeOptions, size)).toBe(undefined);
   });
 });
