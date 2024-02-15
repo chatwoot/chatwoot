@@ -237,12 +237,12 @@ lv:
     hours:
       zero: "%{count} hours"
       one: "%{count} hour"
-      other: "%{count} hours"
+      other: "%{count} stundas"
     minutes:
       zero: "%{count} minutes"
       one: "%{count} minute"
-      other: "%{count} minutes"
+      other: "%{count} minūtes"
     seconds:
       zero: "%{count} seconds"
       one: "%{count} second"
-      other: "%{count} seconds"
+      other: "%{count} sekundes"
