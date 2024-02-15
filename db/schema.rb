@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_31_040316) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_07_103014) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -119,9 +119,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_31_040316) do
     t.bigint "account_id", null: false
     t.bigint "sla_policy_id", null: false
     t.bigint "conversation_id", null: false
-    t.string "sla_status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "sla_status", default: 0
     t.index ["account_id"], name: "index_applied_slas_on_account_id"
     t.index ["conversation_id"], name: "index_applied_slas_on_conversation_id"
     t.index ["sla_policy_id"], name: "index_applied_slas_on_sla_policy_id"
