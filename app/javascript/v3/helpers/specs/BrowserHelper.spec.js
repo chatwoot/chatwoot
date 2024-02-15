@@ -8,8 +8,8 @@ describe('getBrowserLocale', () => {
       configurable: true,
     });
 
-    const languages = [{ iso_639_1_code: 'en' }, { iso_639_1_code: 'en-US' }];
-    expect(getBrowserLocale(languages)).toBe('en-US');
+    const languages = [{ iso_639_1_code: 'en' }, { iso_639_1_code: 'en_US' }];
+    expect(getBrowserLocale(languages)).toBe('en');
   });
 
   it('should return the correct locale code when only a partial match is found', () => {
