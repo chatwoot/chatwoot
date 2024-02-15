@@ -21,6 +21,7 @@ json.data do
       json.created_at notification.created_at.to_i
       json.last_activity_at notification.last_activity_at.to_i
       json.snoozed_until notification.snoozed_until
+      json.meta notification.meta
     end
   end
 end
