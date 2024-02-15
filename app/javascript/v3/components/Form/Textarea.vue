@@ -15,14 +15,14 @@
       :value="value"
       :rows="rows"
       :class="{
-        'focus:ring-red-600 ring-red-600': hasError,
-        'dark:ring-slate-600 dark:focus:ring-woot-500 ring-slate-200':
+        'focus:outline-red-600 outline-red-600': hasError,
+        'dark:outline-slate-600 dark:focus:outline-woot-500 outline-slate-200 focus:outline-woot-500':
           !hasError,
         'px-3 py-3': spacing === 'base',
         'px-3 py-2': spacing === 'compact',
         'resize-none': !allowResize,
       }"
-      class="block w-full border-none rounded-xl shadow-sm appearance-none outline outline-1 outline-slate-200 dark:outline-slate-800 focus:outline-none focus:outline-0 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:ring-2 focus:ring-woot-500 sm:text-sm sm:leading-6 dark:bg-slate-800"
+      class="block w-full border-none rounded-xl shadow-sm appearance-none outline outline-1 focus:outline focus:outline-2 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:bg-slate-800"
       @input="onInput"
       @blur="$emit('blur')"
     />
