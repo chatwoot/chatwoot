@@ -1,10 +1,9 @@
 export const getBrowserLocale = enabledLanguages => {
-  const localeWithVariant = window.navigator.language.replace('-', '_');
-  const localeWithoutVariant = localeWithVariant.split('_')[0];
+  const [language, region] = navigator.language.split('-');
+  const fullLocale = `${language}_${region || ''}`;
   return enabledLanguages.find(
-    lang =>
-      lang.iso_639_1_code === localeWithVariant ||
-      lang.iso_639_1_code === localeWithoutVariant
+    ({ iso_639_1_code }) =>
+      iso_639_1_code === fullLocale || iso_639_1_code === language
   )?.iso_639_1_code;
 };
 
