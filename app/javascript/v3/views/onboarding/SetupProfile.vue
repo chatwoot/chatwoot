@@ -6,12 +6,12 @@
     <h2
       class="font-bold text-[28px] leading-8 tracking-[2%] text-slate-900 dark:text-white"
     >
-      {{ $t('ONBOARDING.PROFILE.TITLE') }}
+      {{ $t('START_ONBOARDING.PROFILE.TITLE') }}
     </h2>
     <p
       class="text-base text-slate-600 leading-6 tracking-[-1.1%] mt-2 dark:text-slate-200"
     >
-      {{ $t('ONBOARDING.PROFILE.BODY') }}
+      {{ $t('START_ONBOARDING.PROFILE.BODY') }}
     </p>
     <div class="mt-10">
       <form class="space-y-6" @submit="onSubmit">
@@ -19,7 +19,7 @@
           <div>
             <with-label name="user_avatar">
               <template #label>
-                {{ $t('ONBOARDING.PROFILE.AVATAR.LABEL') }}
+                {{ $t('START_ONBOARDING.PROFILE.AVATAR.LABEL') }}
               </template>
               <div class="flex gap-2">
                 <woot-thumbnail
@@ -65,7 +65,7 @@
                   variant="hollow"
                   @click="onFileBrowse"
                 >
-                  {{ $t('ONBOARDING.PROFILE.AVATAR.PLACEHOLDER') }}
+                  {{ $t('START_ONBOARDING.PROFILE.AVATAR.PLACEHOLDER') }}
                 </woot-button>
                 <woot-button
                   v-else
@@ -84,26 +84,30 @@
             name="full_name"
             spacing="compact"
             :has-error="$v.fullName.$error"
-            :label="$t('ONBOARDING.PROFILE.FULL_NAME.LABEL')"
-            :placeholder="$t('ONBOARDING.PROFILE.FULL_NAME.PLACEHOLDER')"
-            :error-message="$t('ONBOARDING.PROFILE.FULL_NAME.ERROR')"
+            :label="$t('START_ONBOARDING.PROFILE.FULL_NAME.LABEL')"
+            :placeholder="$t('START_ONBOARDING.PROFILE.FULL_NAME.PLACEHOLDER')"
+            :error-message="$t('START_ONBOARDING.PROFILE.FULL_NAME.ERROR')"
           />
           <form-input
             v-model="displayName"
             name="display_name"
             spacing="compact"
             :has-error="$v.displayName.$error"
-            :label="$t('ONBOARDING.PROFILE.DISPLAY_NAME.LABEL')"
-            :placeholder="$t('ONBOARDING.PROFILE.DISPLAY_NAME.PLACEHOLDER')"
-            :error-message="$t('ONBOARDING.PROFILE.DISPLAY_NAME.ERROR')"
+            :label="$t('START_ONBOARDING.PROFILE.DISPLAY_NAME.LABEL')"
+            :placeholder="
+              $t('START_ONBOARDING.PROFILE.DISPLAY_NAME.PLACEHOLDER')
+            "
+            :error-message="$t('START_ONBOARDING.PROFILE.DISPLAY_NAME.ERROR')"
           />
           <form-input
             v-model="phoneNumber"
             name="phone_number"
             spacing="compact"
             :has-error="$v.phoneNumber.$error"
-            :label="$t('ONBOARDING.PROFILE.PHONE_NUMBER.LABEL')"
-            :placeholder="$t('ONBOARDING.PROFILE.PHONE_NUMBER.PLACEHOLDER')"
+            :label="$t('START_ONBOARDING.PROFILE.PHONE_NUMBER.LABEL')"
+            :placeholder="
+              $t('START_ONBOARDING.PROFILE.PHONE_NUMBER.PLACEHOLDER')
+            "
             :error-message="$t('CONTACT_FORM.FORM.PHONE_NUMBER.ERROR')"
             @blur="$v.phoneNumber.$touch"
           />
@@ -112,13 +116,13 @@
             name="signature"
             spacing="compact"
             :allow-resize="false"
-            :label="$t('ONBOARDING.PROFILE.SIGNATURE.LABEL')"
-            :placeholder="$t('ONBOARDING.PROFILE.SIGNATURE.PLACEHOLDER')"
+            :label="$t('START_ONBOARDING.PROFILE.SIGNATURE.LABEL')"
+            :placeholder="$t('START_ONBOARDING.PROFILE.SIGNATURE.PLACEHOLDER')"
           />
         </div>
         <submit-button
           button-class="flex justify-center w-full text-sm text-center"
-          :button-text="$t('ONBOARDING.PROFILE.SUBMIT.BUTTON')"
+          :button-text="$t('START_ONBOARDING.PROFILE.SUBMIT.BUTTON')"
         />
       </form>
     </div>
@@ -229,13 +233,13 @@ export default {
           avatar: this.avatarFile,
           message_signature: this.signature || '',
         });
-        this.showAlert(this.$t('ONBOARDING.PROFILE.SUBMIT.SUCCESS'));
+        this.showAlert(this.$t('START_ONBOARDING.PROFILE.SUBMIT.SUCCESS'));
 
         document.startViewTransition(() => {
           this.$router.push({ name: 'onboarding_setup_company' });
         });
       } catch (error) {
-        this.showAlert(this.$t('ONBOARDING.PROFILE.SUBMIT.ERROR'));
+        this.showAlert(this.$t('START_ONBOARDING.PROFILE.SUBMIT.ERROR'));
       }
     },
     async deleteAvatar(event) {

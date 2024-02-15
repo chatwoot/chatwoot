@@ -48,6 +48,7 @@ RSpec.describe Enterprise::Api::V2::AccountsController, type: :request do
         expect(custom_attributes['industry']).to eq('Software')
         expect(custom_attributes['company_size']).to eq('51-200')
         expect(custom_attributes['timezone']).to eq('America/Los_Angeles')
+        expect(custom_attributes['onboarding_step']).to eq('profile_update')
       end
     end
 

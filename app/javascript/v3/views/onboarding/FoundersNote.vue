@@ -59,7 +59,7 @@
 
           <submit-button
             button-class="flex justify-center w-full text-sm text-center mt-8"
-            :button-text="$t('ONBOARDING.FOUNDERS_NOTE.SUBMIT')"
+            :button-text="$t('START_ONBOARDING.FOUNDERS_NOTE.SUBMIT')"
             @click="onSubmit"
           />
         </div>
