@@ -6,12 +6,12 @@
     <h2
       class="font-bold text-[28px] leading-8 tracking-[2%] text-slate-900 dark:text-white"
     >
-      {{ $t('ONBOARDING.COMPANY.TITLE') }}
+      {{ $t('START_ONBOARDING.COMPANY.TITLE') }}
     </h2>
     <p
       class="text-base text-slate-600 leading-6 tracking-[-1.1%] mt-2 dark:text-slate-200"
     >
-      {{ $t('ONBOARDING.COMPANY.BODY') }}
+      {{ $t('START_ONBOARDING.COMPANY.BODY') }}
     </p>
 
     <div class="space-y-8 mt-10">
@@ -22,16 +22,16 @@
           name="companyName"
           spacing="compact"
           :has-error="$v.companyName.$error"
-          :label="$t('ONBOARDING.COMPANY.COMPANY_NAME.LABEL')"
-          :placeholder="$t('ONBOARDING.COMPANY.COMPANY_NAME.PLACEHOLDER')"
-          :error-message="$t('ONBOARDING.COMPANY.COMPANY_NAME.ERROR')"
+          :label="$t('START_ONBOARDING.COMPANY.COMPANY_NAME.LABEL')"
+          :placeholder="$t('START_ONBOARDING.COMPANY.COMPANY_NAME.PLACEHOLDER')"
+          :error-message="$t('START_ONBOARDING.COMPANY.COMPANY_NAME.ERROR')"
         />
         <form-select
           v-model="locale"
           name="locale"
           icon="local-language"
-          :label="$t('ONBOARDING.COMPANY.LOCALE.LABEL')"
-          :placeholder="$t('ONBOARDING.COMPANY.LOCALE.PLACEHOLDER')"
+          :label="$t('START_ONBOARDING.COMPANY.LOCALE.LABEL')"
+          :placeholder="$t('START_ONBOARDING.COMPANY.LOCALE.PLACEHOLDER')"
         >
           <option
             v-for="lang in languagesSortedByCode"
@@ -47,8 +47,8 @@
           name="timezone"
           icon="globe-clock"
           spacing="compact"
-          :label="$t('ONBOARDING.COMPANY.TIMEZONE.LABEL')"
-          :placeholder="$t('ONBOARDING.COMPANY.TIMEZONE.PLACEHOLDER')"
+          :label="$t('START_ONBOARDING.COMPANY.TIMEZONE.LABEL')"
+          :placeholder="$t('START_ONBOARDING.COMPANY.TIMEZONE.PLACEHOLDER')"
         >
           <option
             v-for="zone in timeZones"
@@ -62,21 +62,21 @@
         <form-radio-tags
           v-model="industry"
           name="industry"
-          :label="$t('ONBOARDING.COMPANY.INDUSTRY.LABEL')"
-          :placeholder="$t('ONBOARDING.COMPANY.SIZE.PLACEHOLDER')"
+          :label="$t('START_ONBOARDING.COMPANY.INDUSTRY.LABEL')"
+          :placeholder="$t('START_ONBOARDING.COMPANY.SIZE.PLACEHOLDER')"
           :options="industryOptions"
         />
         <form-radio-tags
           v-model="companySize"
           name="companySize"
-          :label="$t('ONBOARDING.COMPANY.SIZE.LABEL')"
-          :placeholder="$t('ONBOARDING.COMPANY.SIZE.PLACEHOLDER')"
+          :label="$t('START_ONBOARDING.COMPANY.SIZE.LABEL')"
+          :placeholder="$t('START_ONBOARDING.COMPANY.SIZE.PLACEHOLDER')"
           :options="companySizeOptions"
         />
       </div>
       <submit-button
         button-class="flex justify-center w-full text-sm text-center"
-        :button-text="$t('ONBOARDING.COMPANY.SUBMIT.BUTTON')"
+        :button-text="$t('START_ONBOARDING.COMPANY.SUBMIT.BUTTON')"
         @click="onSubmit"
       />
     </div>
@@ -189,11 +189,12 @@ export default {
           locale: this.locale,
           company_size: this.companySize,
           industry: this.industry,
+          onboarding_step: 'account_update',
         });
-        this.showAlert(this.$t('ONBOARDING.COMPANY.SUBMIT.SUCCESS'));
+        this.showAlert(this.$t('START_ONBOARDING.COMPANY.SUBMIT.SUCCESS'));
         this.$router.push({ name: 'onboarding_invite_team' });
       } catch (error) {
-        this.showAlert(this.$t('ONBOARDING.COMPANY.SUBMIT.ERROR'));
+        this.showAlert(this.$t('START_ONBOARDING.COMPANY.SUBMIT.ERROR'));
       }
     },
     setLocale(locale) {

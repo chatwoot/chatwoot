@@ -19,7 +19,7 @@
         <mask id="cutoutMask">
           <path
             d="M263.999 65.0769C293.048 65.0769 317.641 45.9499 325.929 19.5735C329.219 9.10348 337.794 0 348.744 0H508.172C519.122 0 527.999 8.89875 527.999 19.8759V95.5C527.999 95.5 519.122 95.5 508.172 95.5H263.999H-0.000976562V19.8759C-0.000976562 8.89877 8.87604 0 19.8264 0H179.254C190.204 0 198.779 9.10349 202.069 19.5735C210.357 45.9499 234.95 65.0769 263.999 65.0769Z"
-            fill="#FCFCFD"
+            fill="white"
           />
         </mask>
       </defs>
@@ -29,10 +29,10 @@
       class="flex w-full h-full relative z-50 items-center justify-center overflow-auto"
     >
       <div
-        class="flex-1 min-h-[640px] inline-flex items-center h-full justify-center py-6"
+        class="relative flex-1 min-h-[640px] inline-flex items-center h-full justify-center py-6"
       >
         <div
-          class="relative bg-white dark:bg-slate-800 before:bg-white dark:before:bg-slate-800 px-16 pt-8 pb-16 max-w-[528px] w-full rounded-3xl signup-box"
+          class="relative bg-white dark:bg-slate-800 before:bg-white before:border-slate-200 dark:before:border-slate-700 dark:before:bg-slate-800 px-16 pt-8 pb-16 max-w-[528px] w-full rounded-3xl signup-box"
         >
           <div class="absolute -top-[116px] right-0 left-0 w-24 h-24 mx-auto">
             <img
@@ -111,5 +111,12 @@ export default {
   position: absolute;
   -webkit-mask-image: url('#cutoutMask');
   mask-image: url('#cutoutMask');
+}
+
+.dark .signup-box {
+  -webkit-filter: drop-shadow(1px 1px 0 var(--s-800))
+    drop-shadow(-1px -1px 0 var(--s-800));
+  filter: drop-shadow(1px 1px 0 var(--s-800))
+    drop-shadow(-1px -1px 0 var(--s-800));
 }
 </style>

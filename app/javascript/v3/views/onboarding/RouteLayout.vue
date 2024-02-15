@@ -2,7 +2,9 @@
   <section
     class="relative min-h-screen px-8 dark:text-white bg-[#FCFCFD] dark:bg-slate-900 flex items-center justify-center bg-[url('/assets/images/dashboard/onboarding/intro.svg')] dark:bg-[url('/assets/images/dashboard/onboarding/intro-dark.svg')] bg-[length:715px_555px] bg-no-repeat bg-[left_calc(-56px)_bottom_calc(-133px)]"
   >
+    <spinner v-if="!showIntroHeader" class="absolute inset-0" />
     <div
+      v-else
       class="relative max-w-[1440px] w-full mx-auto flex gap-16 min-h-[80vh] justify-center"
     >
       <div class="relative w-5/12 px-16 py-[88px] mt-10">
@@ -43,7 +45,7 @@
         class="relative w-7/12 py-[88px] flex justify-center overflow-hidden h-fit"
       >
         <div
-          class="absolute inset-0 h-full w-full bg-white dark:bg-slate-900 bg-[radial-gradient(var(--w-200)_1px,transparent_1px)] [background-size:16px_16px]"
+          class="absolute inset-0 h-full w-full bg-[#FCFCFD] dark:bg-slate-900 bg-[radial-gradient(var(--w-200)_1px,transparent_1px)] [background-size:16px_16px]"
         />
         <div
           class="absolute h-full w-full overlay-gradient top-0 left-0 scale-y-110 blur-[3px]"
@@ -61,42 +63,29 @@
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
+import Spinner from 'shared/components/Spinner.vue';
 import OnboardingStep from './OnboardingStep.vue';
+import { UISteps, API_ONBOARDING_STEP_ROUTE } from './constants';
 
-const UISteps = [
-  {
-    name: 'onboarding_setup_profile',
-    title: 'Setup Profile',
-    icon: 'person',
-    isActive: false,
-    isComplete: false,
-  },
-  {
-    name: 'onboarding_setup_company',
-    title: 'Setup Company',
-    icon: 'toolbox',
-    isActive: false,
-    isComplete: false,
-  },
-  {
-    name: 'onboarding_invite_team',
-    title: 'Invite your team',
-    icon: 'people-team',
-    isActive: false,
-    isComplete: false,
-  },
-];
 export default {
   components: {
+    Spinner,
     OnboardingStep,
   },
   mixins: [globalConfigMixin],
   data() {
     return {
       showIntroHeader: false,
+      showLoading: true,
     };
   },
   computed: {
+    ...mapGetters({
+      globalConfig: 'globalConfig/get',
+      currentUser: 'getCurrentUser',
+      currentAccountId: 'getCurrentAccountId',
+      getAccount: 'accounts/getAccount',
+    }),
     currentStep() {
       return this.$route.name;
     },
@@ -105,12 +94,12 @@ export default {
         this.currentStep === 'onboarding_setup_company' ||
         this.currentStep === 'onboarding_invite_team'
       ) {
-        return this.$t('ONBOARDING.COMPANY.PAGE_TITLE', {
+        return this.$t('START_ONBOARDING.COMPANY.PAGE_TITLE', {
           userName: this.userName,
         });
       }
 
-      return this.$t('ONBOARDING.PROFILE.INTRO');
+      return this.$t('START_ONBOARDING.PROFILE.INTRO');
     },
     steps() {
       let foundCurrentStep = false;
@@ -128,26 +117,45 @@ export default {
     userName() {
       return this.currentUser.name;
     },
-    ...mapGetters({
-      globalConfig: 'globalConfig/get',
-      currentUser: 'getCurrentUser',
-    }),
+    accountDetails() {
+      return this.getAccount(this.currentAccountId);
+    },
   },
   watch: {
     watch: {
       $route() {
         this.showIntroHeader = false;
+        this.showLoading = true;
+
         setTimeout(() => {
           this.showIntroHeader = true;
         }, 10);
+      },
+      accountDetails() {
+        this.navigateToSavedStep();
       },
     },
   },
   mounted() {
     this.showIntroHeader = true;
+    this.showLoading = true;
+    this.navigateToSavedStep();
   },
   beforeDestroy() {
     this.showIntroHeader = false;
+  },
+  methods: {
+    navigateToSavedStep() {
+      if (!this.accountDetails) return;
+      const { custom_attributes: { onboarding_step: savedStep } = {} } =
+        this.accountDetails;
+
+      const stepName = API_ONBOARDING_STEP_ROUTE[savedStep];
+      if (stepName !== this.currentStep) {
+        this.showLoading = false;
+        this.$router.replace({ name: stepName });
+      }
+    },
   },
 };
 </script>

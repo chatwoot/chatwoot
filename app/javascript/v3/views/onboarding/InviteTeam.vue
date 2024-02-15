@@ -6,12 +6,12 @@
     <h2
       class="font-bold text-[28px] leading-8 tracking-[2%] text-slate-900 dark:text-white"
     >
-      {{ $t('ONBOARDING.INVITE_TEAM.TITLE') }}
+      {{ $t('START_ONBOARDING.INVITE_TEAM.TITLE') }}
     </h2>
     <p
       class="text-base text-slate-600 leading-6 tracking-[-1.1%] mt-2 dark:text-slate-200"
     >
-      {{ $t('ONBOARDING.INVITE_TEAM.BODY') }}
+      {{ $t('START_ONBOARDING.INVITE_TEAM.BODY') }}
     </p>
     <div class="mt-10">
       <section class="space-y-5">
@@ -21,7 +21,7 @@
             name="email"
             spacing="compact"
             class="flex-grow"
-            :placeholder="$t('ONBOARDING.INVITE_TEAM.PLACEHOLDER')"
+            :placeholder="$t('START_ONBOARDING.INVITE_TEAM.PLACEHOLDER')"
             @keyup.enter="pushEmail"
           />
           <woot-button
@@ -29,7 +29,7 @@
             color-scheme="secondary"
             @click="pushEmail"
           >
-            {{ $t('ONBOARDING.INVITE_TEAM.ADD') }}
+            {{ $t('START_ONBOARDING.INVITE_TEAM.ADD') }}
           </woot-button>
         </div>
         <div
@@ -41,7 +41,7 @@
         >
           <div v-if="emailsToInvite.length === 0" class="px-5 py-16">
             <p class="text-sm text-slate-400">
-              {{ $t('ONBOARDING.INVITE_TEAM.LIST_EMPTY') }}
+              {{ $t('START_ONBOARDING.INVITE_TEAM.LIST_EMPTY') }}
             </p>
           </div>
           <div
@@ -69,7 +69,7 @@
         <div class="space-y-2">
           <submit-button
             button-class="flex justify-center w-full text-sm text-center"
-            :button-text="$t('ONBOARDING.INVITE_TEAM.SUBMIT.BUTTON')"
+            :button-text="$t('START_ONBOARDING.INVITE_TEAM.SUBMIT.BUTTON')"
             @click="onSubmit"
           />
 
@@ -80,7 +80,7 @@
             is-expanded
             @click="skipToFoundersNote"
           >
-            {{ $t('ONBOARDING.INVITE_TEAM.SKIP') }}
+            {{ $t('START_ONBOARDING.INVITE_TEAM.SKIP') }}
           </woot-button>
         </div>
       </section>
@@ -114,23 +114,29 @@ export default {
       this.emailsToInvite = [...new Set(this.emailsToInvite)];
       this.emailToAdd = '';
     },
-    skipToFoundersNote() {
+    async skipToFoundersNote() {
+      try {
+        await AgentAPI.bulkInvite({ emails: [] });
+        this.$router.push({ name: 'onboarding_founders_note' });
+      } catch (error) {
+        this.showAlert(this.$t('START_ONBOARDING.INVITE_TEAM.SUBMIT.ERROR'));
+      }
       this.$router.push({ name: 'onboarding_founders_note' });
     },
     async onSubmit() {
       if (this.emailsToInvite.length === 0) {
         this.showAlert(
-          this.$t('ONBOARDING.INVITE_TEAM.SUBMIT.NO_MEMBER_ERROR')
+          this.$t('START_ONBOARDING.INVITE_TEAM.SUBMIT.NO_MEMBER_ERROR')
         );
         return;
       }
 
       try {
         await AgentAPI.bulkInvite({ emails: this.emailsToInvite });
-        this.showAlert(this.$t('ONBOARDING.INVITE_TEAM.SUBMIT.SUCCESS'));
+        this.showAlert(this.$t('START_ONBOARDING.INVITE_TEAM.SUBMIT.SUCCESS'));
         this.$router.push({ name: 'onboarding_founders_note' });
       } catch (error) {
-        this.showAlert(this.$t('ONBOARDING.INVITE_TEAM.SUBMIT.ERROR'));
+        this.showAlert(this.$t('START_ONBOARDING.INVITE_TEAM.SUBMIT.ERROR'));
       }
     },
   },
