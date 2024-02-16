@@ -8,7 +8,7 @@ module ConversationMuteHelpers
   end
 
   def unmute!
-    contact.update(blocked: true)
+    contact.update(blocked: false)
     create_unmuted_message
   end
 
