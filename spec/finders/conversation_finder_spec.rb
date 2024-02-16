@@ -146,6 +146,30 @@ describe ConversationFinder do
       end
     end
 
+    context 'with updated_within' do
+      let(:params) { { updated_within: 20, assignee_type: 'unassigned', sort_by: 'created_at_asc' } }
+
+      it 'filters based on params, sort order but returns all conversations without pagination with in time range' do
+        # value of updated_within is in seconds
+        # write spec based on that
+        conversations = create_list(:conversation, 50, account: account,
+                                                       inbox: inbox, assignee: nil,
+                                                       updated_at: Time.now.utc - 30.seconds,
+                                                       created_at: Time.now.utc - 30.seconds)
+        # update updated_at of 27 conversations to be with in 20 seconds
+        conversations[0..27].each do |conversation|
+          conversation.update(updated_at: Time.now.utc - 10.seconds)
+        end
+        result = conversation_finder.perform
+        # pagination is not applied
+        # filters are applied
+        # modified conversations + 1 conversation created during set up
+        expect(result[:conversations].length).to be 29
+        # ensure that the conversations are sorted by created_at
+        expect(result[:conversations].first.created_at).to be < result[:conversations].last.created_at
+      end
+    end
+
     context 'with pagination' do
       let(:params) { { status: 'open', assignee_type: 'me', page: 1 } }
 
