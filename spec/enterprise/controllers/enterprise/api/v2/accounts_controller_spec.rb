@@ -28,7 +28,7 @@ RSpec.describe Enterprise::Api::V2::AccountsController, type: :request do
       allow(AccountBuilder).to receive(:new).and_return(account_builder)
     end
 
-    it 'fetches data from clearbit and updates user and account info' do # rubocop:disable RSpec/MultipleExpectations
+    it 'fetches data from clearbit and updates user and account info' do
       with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
         allow(account_builder).to receive(:perform).and_return([user, account])
 
@@ -48,6 +48,21 @@ RSpec.describe Enterprise::Api::V2::AccountsController, type: :request do
         expect(custom_attributes['industry']).to eq('Software')
         expect(custom_attributes['company_size']).to eq('51-200')
         expect(custom_attributes['timezone']).to eq('America/Los_Angeles')
+      end
+    end
+
+    it 'updates the onboarding step in custom attributes' do
+      with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+        allow(account_builder).to receive(:perform).and_return([user, account])
+
+        params = { email: email, user: nil, locale: nil, password: 'Password1!' }
+
+        post api_v2_accounts_url,
+             params: params,
+             as: :json
+
+        custom_attributes = account.custom_attributes
+
         expect(custom_attributes['onboarding_step']).to eq('profile_update')
       end
     end
