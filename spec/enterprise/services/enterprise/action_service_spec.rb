@@ -31,9 +31,11 @@ describe ActionService do
 
     context 'when conversation already has a sla policy' do
       it 'does not add the new sla policy to the conversation' do
+        existing_sla_policy = sla_policy
+        new_sla_policy = create(:sla_policy, account: account)
         conversation.update!(sla_policy_id: sla_policy.id)
-        action_service.add_sla([sla_policy.id])
-        expect(conversation.reload.sla_policy_id).to eq(sla_policy.id)
+        action_service.add_sla([new_sla_policy.id])
+        expect(conversation.reload.sla_policy_id).to eq(existing_sla_policy.id)
       end
     end
 
