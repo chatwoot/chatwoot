@@ -50,8 +50,11 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
-        expect(response_body['payload'].first['email']).to eq(contact.email)
-        expect(response_body['payload'].first['contact_inboxes'].blank?).to be(true)
+
+        contact_emails = response_body['payload'].pluck('email')
+        contact_inboxes = response_body['payload'].pluck('contact_inboxes').flatten.compact
+        expect(contact_emails).to include(contact.email)
+        expect(contact_inboxes).to eq([])
       end
 
       it 'returns all contacts with company name desc order' do
