@@ -30,16 +30,15 @@ describe('#NotificationAPI', () => {
     it('#get', () => {
       notificationsAPI.get({
         page: 1,
-        status: 'read',
-        type: 'Conversation',
+        status: 'snoozed',
+        type: 'read',
         sortOrder: 'desc',
       });
       expect(axiosMock.get).toHaveBeenCalledWith('/api/v1/notifications', {
         params: {
           page: 1,
-          status: 'read',
-          type: 'Conversation',
           sort_order: 'desc',
+          includes: ['snoozed', 'read'],
         },
       });
     });

@@ -10,9 +10,8 @@ class NotificationsAPI extends ApiClient {
     return axios.get(this.url, {
       params: {
         page,
-        status,
-        type,
         sort_order: sortOrder,
+        includes: [status, type],
       },
     });
   }
