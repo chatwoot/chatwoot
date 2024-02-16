@@ -14,7 +14,6 @@ import Banner from 'dashboard/components/ui/Banner.vue';
 import { mapGetters } from 'vuex';
 import adminMixin from 'dashboard/mixins/isAdmin';
 import accountMixin from 'dashboard/mixins/account';
-import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 
 const EMPTY_SUBSCRIPTION_INFO = {
   status: null,
@@ -44,9 +43,6 @@ export default {
         return false;
       }
 
-      if (isOnOnboardingView(this.$route)) {
-        return false;
-      }
       return this.isPaymentPending();
     },
   },
