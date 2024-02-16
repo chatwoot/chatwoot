@@ -28,10 +28,12 @@
           </thead>
           <tbody>
             <tr v-for="sla in records" :key="sla.title">
-              <td class="sla-title">
-                <span class="overflow-hidden whitespace-nowrap text-ellipsis">{{
-                  sla.name
-                }}</span>
+              <td>
+                <span
+                  class="inline-block overflow-hidden whitespace-nowrap text-ellipsis"
+                >
+                  {{ sla.name }}
+                </span>
               </td>
               <td>{{ sla.description }}</td>
               <td>
@@ -131,12 +133,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-@import '~dashboard/assets/scss/variables';
-.sla-title {
-  span {
-    @apply inline-block;
-  }
-}
-</style>

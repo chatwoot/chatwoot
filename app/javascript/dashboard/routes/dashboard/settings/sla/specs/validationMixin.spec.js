@@ -36,6 +36,11 @@ describe('validationMixin', () => {
     });
   });
 
+  it('should not return required error message if name is empty but not touched', () => {
+    wrapper.setData({ name: '' });
+    expect(wrapper.vm.getSlaNameErrorMessage).toBe('');
+  });
+
   it('should return empty error message if name is valid', () => {
     wrapper.setData({ name: 'ValidName' });
     wrapper.vm.$v.name.$touch();
