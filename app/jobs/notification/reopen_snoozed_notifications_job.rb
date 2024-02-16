@@ -9,7 +9,8 @@ class Notification::ReopenSnoozedNotificationsJob < ApplicationJob
         snoozed_until: nil,
         updated_at: Time.current,
         last_activity_at: Time.current,
-        meta: updated_meta
+        meta: updated_meta,
+        read_at: nil
       )
     end
   end
