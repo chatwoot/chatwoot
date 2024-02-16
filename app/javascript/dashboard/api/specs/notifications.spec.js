@@ -28,10 +28,20 @@ describe('#NotificationAPI', () => {
     });
 
     it('#get', () => {
-      notificationsAPI.get(1);
-      expect(axiosMock.get).toHaveBeenCalledWith(
-        '/api/v1/notifications?page=1'
-      );
+      notificationsAPI.get({
+        page: 1,
+        status: 'read',
+        type: 'Conversation',
+        sortOrder: 'desc',
+      });
+      expect(axiosMock.get).toHaveBeenCalledWith('/api/v1/notifications', {
+        params: {
+          page: 1,
+          status: 'read',
+          type: 'Conversation',
+          sort_order: 'desc',
+        },
+      });
     });
 
     it('#getNotifications', () => {
@@ -63,6 +73,31 @@ describe('#NotificationAPI', () => {
       notificationsAPI.readAll();
       expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/notifications/read_all'
+      );
+    });
+
+    it('#snooze', () => {
+      notificationsAPI.snooze({ id: 1, snoozedUntil: 12332211 });
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/notifications/1/snooze',
+        {
+          snoozed_until: 12332211,
+        }
+      );
+    });
+
+    it('#delete', () => {
+      notificationsAPI.delete(1);
+      expect(axiosMock.delete).toHaveBeenCalledWith('/api/v1/notifications/1');
+    });
+
+    it('#deleteAll', () => {
+      notificationsAPI.deleteAll({ type: 'all' });
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/notifications/destroy_all',
+        {
+          type: 'all',
+        }
       );
     });
   });

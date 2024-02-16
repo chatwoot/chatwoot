@@ -132,7 +132,7 @@ export default {
         .then(() => {
           this.showAlert(this.$t('INBOX.ALERTS.DELETE'));
         });
-      this.$router.push({ name: 'inbox-view' });
+      this.$router.push({ name: 'inbox_view' });
     },
     onClickNext() {
       this.$emit('next');
