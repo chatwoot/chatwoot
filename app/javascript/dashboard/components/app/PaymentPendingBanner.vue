@@ -14,6 +14,7 @@ import Banner from 'dashboard/components/ui/Banner.vue';
 import { mapGetters } from 'vuex';
 import adminMixin from 'dashboard/mixins/isAdmin';
 import accountMixin from 'dashboard/mixins/account';
+import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 
 const EMPTY_SUBSCRIPTION_INFO = {
   status: null,
@@ -34,9 +35,6 @@ export default {
     actionButtonMessage() {
       return this.$t('GENERAL_SETTINGS.OPEN_BILLING');
     },
-    isOnboardingView() {
-      return this.$route.name.includes('onboarding_');
-    },
     shouldShowBanner() {
       if (!this.isOnChatwootCloud) {
         return false;
@@ -46,7 +44,7 @@ export default {
         return false;
       }
 
-      if (this.isOnboardingView) {
+      if (isOnOnboardingView(this.$route)) {
         return false;
       }
       return this.isPaymentPending();

@@ -15,6 +15,7 @@ import Banner from 'dashboard/components/ui/Banner.vue';
 import { mapGetters } from 'vuex';
 import accountMixin from 'dashboard/mixins/account';
 import alertMixin from 'shared/mixins/alertMixin';
+import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 
 export default {
   components: { Banner },
@@ -29,11 +30,8 @@ export default {
     actionButtonMessage() {
       return this.$t('APP_GLOBAL.RESEND_VERIFICATION_MAIL');
     },
-    isOnboardingView() {
-      return this.$route.name.includes('onboarding_');
-    },
     shouldShowBanner() {
-      if (this.isOnboardingView) {
+      if (isOnOnboardingView(this.$route)) {
         return false;
       }
       return !this.currentUser.confirmed;
