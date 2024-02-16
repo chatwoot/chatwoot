@@ -93,7 +93,10 @@ import { mapGetters } from 'vuex';
 import { ONBOARDING_STEP_NAMES } from 'dashboard/constants/globals';
 import SubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue';
 import { timeZoneOptions } from 'dashboard/routes/dashboard/settings/inbox/helpers/businessHour.js';
-import { getBrowserTimezone, getBrowserLocale } from 'v3/helpers/BrowserHelper';
+import {
+  getBrowserLocale,
+  getIANATimezoneFromOffset,
+} from 'v3/helpers/BrowserHelper';
 import {
   findMatchingOption,
   findCompanySizeMatch,
@@ -230,10 +233,11 @@ export default {
         this.companySizeOptions,
         companySize
       );
+      const browserTimezone = getIANATimezoneFromOffset();
       this.timezone = findMatchingOption(
         timezone,
         this.timeZones.map(zone => zone.value),
-        getBrowserTimezone()
+        browserTimezone
       );
       this.locale = locale || this.setLocaleFromBrowser();
 
