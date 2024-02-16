@@ -37,6 +37,7 @@ export default {
     {
       path: frontendURL('accounts/:accountId/start'),
       component: RouteLayout,
+      roles: ['administrator'],
       children: [
         {
           path: frontendURL('accounts/:accountId/start/setup-profile'),

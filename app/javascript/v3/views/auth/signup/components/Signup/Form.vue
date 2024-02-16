@@ -83,8 +83,8 @@ export default {
   data() {
     return {
       credentials: {
-        email: 'Testing123@shivam.dev',
-        password: 'Testing123@shivam.dev',
+        email: '',
+        password: '',
         hCaptchaClientResponse: '',
       },
       didCaptchaReset: false,
