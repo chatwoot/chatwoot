@@ -48,7 +48,7 @@ describe NotificationFinder do
     end
 
     context 'when type read and status snoozed is passed' do
-      let(:params) { { type: 'read', status: 'snoozed' } }
+      let(:params) { { includes: %w[read snoozed] } }
 
       it 'returns only read notifications' do
         result = notification_finder.perform
@@ -67,7 +67,7 @@ describe NotificationFinder do
     end
 
     context 'when type read and status snoozed is nil is passed' do
-      let(:params) { { type: 'read', status: nil } }
+      let(:params) { { includes: ['read'] } }
 
       it 'returns non-snoozed and read notifications' do
         result = notification_finder.perform
@@ -86,7 +86,7 @@ describe NotificationFinder do
     end
 
     context 'when type is nil and status snoozed is passed' do
-      let(:params) { { type: nil, status: 'snoozed' } }
+      let(:params) { { includes: ['snoozed'] } }
 
       it 'returns snoozed and unread notifications' do
         result = notification_finder.perform
