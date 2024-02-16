@@ -7,11 +7,13 @@ class NotificationsAPI extends ApiClient {
   }
 
   get({ page, status, type, sortOrder }) {
+    const includesFilter = [status, type].filter(value => !!value);
+
     return axios.get(this.url, {
       params: {
         page,
         sort_order: sortOrder,
-        includes: [status, type],
+        includes: includesFilter,
       },
     });
   }
