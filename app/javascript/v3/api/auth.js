@@ -52,7 +52,6 @@ export const accountSetup = async ({ id, name, locale }) => {
   } catch (error) {
     throwErrorMessage(error);
   }
-  return null;
 };
 
 export const verifyPasswordToken = async ({ confirmationToken }) => {
