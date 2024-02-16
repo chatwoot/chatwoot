@@ -3,7 +3,6 @@
 # Table name: notifications
 #
 #  id                   :bigint           not null, primary key
-#  description          :text             default("")
 #  last_activity_at     :datetime
 #  meta                 :jsonb
 #  notification_type    :integer          not null
