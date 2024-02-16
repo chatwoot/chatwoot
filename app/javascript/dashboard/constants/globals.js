@@ -61,7 +61,3 @@ export default {
   },
 };
 export const DEFAULT_REDIRECT_URL = '/app/';
-
-export const ONBOARDING_STEP_NAMES = {
-  INVITE: 'invite_team',
-};
