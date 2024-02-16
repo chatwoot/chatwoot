@@ -6,10 +6,9 @@ RSpec.describe NotificationFinder do
   let(:notification_finder) { described_class.new(user, account, params) }
 
   before do
-    create_list(:notification, 2, :read, account: account, user: user, last_activity_at: [1.day.ago, 4.days.ago])
     create(:notification, :snoozed, account: account, user: user)
-    create_list(:notification, 3, account: account, user: user, last_activity_at: [1.day.ago, 5.days.ago, 6.days.ago],
-                                  notification_type: [:conversation_assignment, :conversation_mention, :participating_conversation_new_message])
+    create_list(:notification, 2, :read, account: account, user: user)
+    create_list(:notification, 3, account: account, user: user)
   end
 
   describe '#notifications' do
