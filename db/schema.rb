@@ -761,6 +761,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_15_145314) do
     t.datetime "updated_at", null: false
     t.datetime "snoozed_until"
     t.datetime "last_activity_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.jsonb "meta", default: {}
     t.index ["account_id"], name: "index_notifications_on_account_id"
     t.index ["last_activity_at"], name: "index_notifications_on_last_activity_at"
     t.index ["primary_actor_type", "primary_actor_id"], name: "uniq_primary_actor_per_account_notifications"
