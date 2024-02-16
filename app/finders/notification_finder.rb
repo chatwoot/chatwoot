@@ -10,8 +10,8 @@ class NotificationFinder
     set_up
   end
 
-  def perform
-    notifications
+  def notifications
+    @notifications.page(current_page).per(RESULTS_PER_PAGE).order(last_activity_at: sort_order)
   end
 
   def unread_count
@@ -50,7 +50,7 @@ class NotificationFinder
     params[:page] || 1
   end
 
-  def notifications
-    @notifications.page(current_page).per(RESULTS_PER_PAGE).order(last_activity_at: params[:sort_order] || :desc)
+  def sort_order
+    params[:sort_order] || :desc
   end
 end

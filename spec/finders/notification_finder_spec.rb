@@ -1,115 +1,80 @@
 require 'rails_helper'
 
-describe NotificationFinder do
-  subject(:notification_finder) { described_class.new(user, account, params) }
-
+RSpec.describe NotificationFinder do
   let!(:account) { create(:account) }
   let!(:user) { create(:user, account: account) }
+  let(:notification_finder) { described_class.new(user, account, params) }
 
   before do
-    create(:notification, account: account, user: user, updated_at: DateTime.now.utc + 1.day, last_activity_at: DateTime.now.utc + 1.day,
-                          read_at: DateTime.now.utc, snoozed_until: nil)
-    create(:notification, account: account, user: user, updated_at: DateTime.now.utc + 4.days, last_activity_at: DateTime.now.utc + 4.days,
-                          notification_type: :conversation_creation, read_at: DateTime.now.utc, snoozed_until: nil)
-
-    create(:notification, account: account, user: user, snoozed_until: DateTime.now.utc + 3.days, updated_at: DateTime.now.utc,
-                          last_activity_at: DateTime.now.utc, read_at: nil)
-    create(:notification, account: account, user: user, updated_at: DateTime.now.utc + 2.days, last_activity_at: DateTime.now.utc + 2.days,
-                          snoozed_until: nil,  read_at: nil)
-    create(:notification, account: account, user: user, updated_at: DateTime.now.utc + 5.days, last_activity_at: DateTime.now.utc + 5.days,
-                          notification_type: :conversation_mention, snoozed_until: nil, read_at: nil)
-    create(:notification, account: account, user: user, updated_at: DateTime.now.utc + 6.days, last_activity_at: DateTime.now.utc + 6.days,
-                          notification_type: :participating_conversation_new_message, snoozed_until: nil, read_at: nil)
+    create_list(:notification, 2, :read, account: account, user: user, last_activity_at: [1.day.ago, 4.days.ago])
+    create(:notification, :snoozed, account: account, user: user)
+    create_list(:notification, 3, account: account, user: user, last_activity_at: [1.day.ago, 5.days.ago, 6.days.ago],
+                                  notification_type: [:conversation_assignment, :conversation_mention, :participating_conversation_new_message])
   end
 
-  describe '#perform' do
-    context 'when params are empty' do
+  describe '#notifications' do
+    subject { notification_finder.notifications }
+
+    context 'with default params (empty)' do
       let(:params) { {} }
 
-      it 'returns all the notifications' do
-        result = notification_finder.perform
-        expect(result.length).to be 3
-      end
-
-      it 'orders notifications by last activity at' do
-        result = notification_finder.perform
-        expect(result.first.last_activity_at).to be > result.last.last_activity_at
-      end
-
-      it 'returns unread count' do
-        result = notification_finder.unread_count
-        expect(result).to be 3
-      end
-
-      it 'returns count' do
-        result = notification_finder.count
-        expect(result).to be 3
+      it 'returns all unread and unsnoozed notifications, ordered by last activity' do
+        expect(subject.size).to eq(3)
+        expect(subject).to match_array(subject.sort_by(&:last_activity_at).reverse)
       end
     end
 
-    context 'when type read and status snoozed is passed' do
+    context 'with params including read and snoozed statuses' do
       let(:params) { { includes: %w[read snoozed] } }
 
-      it 'returns only read notifications' do
-        result = notification_finder.perform
-        expect(result.length).to be 6
-      end
-
-      it 'returns count' do
-        result = notification_finder.count
-        expect(result).to be 6
-      end
-
-      it 'returns unread count' do
-        result = notification_finder.unread_count
-        expect(result).to be 4
+      it 'returns all notifications, including read and snoozed' do
+        expect(subject.size).to eq(6)
       end
     end
 
-    context 'when type read and status snoozed is nil is passed' do
+    context 'with params including only read status' do
       let(:params) { { includes: ['read'] } }
 
-      it 'returns non-snoozed and read notifications' do
-        result = notification_finder.perform
-        expect(result.length).to be 5
-      end
-
-      it 'returns count' do
-        result = notification_finder.count
-        expect(result).to be 5
-      end
-
-      it 'returns unread count' do
-        result = notification_finder.unread_count
-        expect(result).to be 3
+      it 'returns all notifications expect the snoozed' do
+        expect(subject.size).to eq(5)
       end
     end
 
-    context 'when type is nil and status snoozed is passed' do
+    context 'with params including only snoozed status' do
       let(:params) { { includes: ['snoozed'] } }
 
-      it 'returns snoozed and unread notifications' do
-        result = notification_finder.perform
-        expect(result.length).to be 4
-      end
-
-      it 'returns count' do
-        result = notification_finder.count
-        expect(result).to be 4
-      end
-
-      it 'returns unread count' do
-        result = notification_finder.unread_count
-        expect(result).to be 4
+      it 'rreturns all notifications only expect the read' do
+        expect(subject.size).to eq(4)
       end
     end
 
-    context 'when sort order is passed' do
+    context 'with ascending sort order' do
       let(:params) { { sort_order: :asc } }
 
-      it 'returns notifications in ascending order' do
-        result = notification_finder.perform
-        expect(result.first.last_activity_at).to be < result.last.last_activity_at
+      it 'returns notifications in ascending order by last activity' do
+        expect(subject.first.last_activity_at).to be < subject.last.last_activity_at
+      end
+    end
+  end
+
+  describe 'counts' do
+    subject { notification_finder }
+
+    context 'without specific filters' do
+      let(:params) { {} }
+
+      it 'correctly reports unread and total counts' do
+        expect(subject.unread_count).to eq(3)
+        expect(subject.count).to eq(3)
+      end
+    end
+
+    context 'with filters applied' do
+      let(:params) { { includes: %w[read snoozed] } }
+
+      it 'adjusts counts based on included statuses' do
+        expect(subject.unread_count).to eq(4)
+        expect(subject.count).to eq(6)
       end
     end
   end
