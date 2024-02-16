@@ -339,7 +339,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Se requiere un valor válido",
-      "INVALID_URL": "URL inválida"
+      "INVALID_URL": "URL inválida",
+      "INVALID_INPUT": "Ingreso inválido"
     }
   },
   "MERGE_CONTACTS": {
