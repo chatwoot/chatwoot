@@ -213,14 +213,14 @@ RSpec.describe 'Accounts API', type: :request do
         end
       end
 
-      it 'updates onboarding step to invite_agents if onboarding step is present in account custom attributes' do
+      it 'updates onboarding step to invite_team if onboarding step is present in account custom attributes' do
         account.update(custom_attributes: { onboarding_step: 'account_update' })
         put "/api/v1/accounts/#{account.id}",
             params: params,
             headers: admin.create_new_auth_token,
             as: :json
 
-        expect(account.reload.custom_attributes['onboarding_step']).to eq('invite_agents')
+        expect(account.reload.custom_attributes['onboarding_step']).to eq('invite_team')
       end
 
       it 'Throws error 422' do
