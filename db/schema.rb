@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_19_073832) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_15_145314) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -378,6 +378,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_19_073832) do
     t.jsonb "message_templates", default: {}
     t.datetime "message_templates_last_updated", precision: nil
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
+  end
+
+  create_table "channel_zalo_oa", force: :cascade do |t|
+    t.string "oa_access_token", null: false
+    t.string "refresh_token", null: false
+    t.integer "expires_in", null: false
+    t.integer "account_id", null: false
+    t.string "oa_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index %w[oa_id account_id], name: 'index_channel_zalo_oa_on_oa_id_and_account_id', unique: true
   end
 
   create_table "contact_inboxes", force: :cascade do |t|
