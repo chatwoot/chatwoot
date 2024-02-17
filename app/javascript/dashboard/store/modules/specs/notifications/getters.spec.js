@@ -34,6 +34,8 @@ describe('#getters', () => {
       sortOrder: 'desc',
     };
     expect(getters.getFilteredNotifications(state)(filters)).toEqual([
+      { id: 1, read_at: '2024-02-07T11:42:39.988Z', snoozed_until: null },
+      { id: 2, read_at: null, snoozed_until: null },
       {
         id: 3,
         read_at: '2024-02-07T11:42:39.988Z',

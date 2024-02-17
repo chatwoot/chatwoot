@@ -7,8 +7,8 @@ class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseContro
   before_action :set_current_page, only: [:index]
 
   def index
+    @notifications = notification_finder.notifications
     @unread_count = notification_finder.unread_count
-    @notifications = notification_finder.perform
     @count = notification_finder.count
   end
 
