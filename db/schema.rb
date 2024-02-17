@@ -115,6 +115,18 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_15_145314) do
     t.index ["account_id"], name: "index_agent_bots_on_account_id"
   end
 
+  create_table "applied_slas", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "sla_policy_id", null: false
+    t.bigint "conversation_id", null: false
+    t.string "sla_status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_applied_slas_on_account_id"
+    t.index ["conversation_id"], name: "index_applied_slas_on_conversation_id"
+    t.index ["sla_policy_id"], name: "index_applied_slas_on_sla_policy_id"
+  end
+
   create_table "articles", force: :cascade do |t|
     t.integer "account_id", null: false
     t.integer "portal_id", null: false
@@ -264,7 +276,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_15_145314) do
     t.string "imap_login", default: ""
     t.string "imap_password", default: ""
     t.boolean "imap_enable_ssl", default: true
-    t.datetime "imap_inbox_synced_at", precision: nil
     t.boolean "smtp_enabled", default: false
     t.string "smtp_address", default: ""
     t.integer "smtp_port", default: 0
@@ -388,7 +399,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_15_145314) do
     t.string "oa_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index %w[oa_id account_id], name: 'index_channel_zalo_oa_on_oa_id_and_account_id', unique: true
+    t.index ["oa_id", "account_id"], name: "index_channel_zalo_oa_on_oa_id_and_account_id", unique: true
   end
 
   create_table "contact_inboxes", force: :cascade do |t|
@@ -417,6 +428,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_15_145314) do
     t.string "identifier"
     t.jsonb "custom_attributes", default: {}
     t.datetime "last_activity_at", precision: nil
+    t.integer "contact_type", default: 0
+    t.string "middle_name", default: ""
+    t.string "last_name", default: ""
+    t.string "location", default: ""
+    t.string "country_code", default: ""
     t.index "lower((email)::text), account_id", name: "index_contacts_on_lower_email_account_id"
     t.index ["account_id", "email", "phone_number", "identifier"], name: "index_contacts_on_nonempty_fields", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
     t.index ["account_id"], name: "index_contacts_on_account_id"
@@ -512,6 +528,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_15_145314) do
     t.datetime "updated_at", null: false
     t.text "attribute_description"
     t.jsonb "attribute_values", default: []
+    t.string "regex_pattern"
+    t.string "regex_cue"
     t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
     t.index ["attribute_key", "attribute_model", "account_id"], name: "attribute_key_model_index", unique: true
   end
@@ -833,12 +851,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_15_145314) do
 
   create_table "sla_policies", force: :cascade do |t|
     t.string "name", null: false
-    t.float "frt_threshold"
-    t.float "rt_threshold"
+    t.float "first_response_time_threshold"
+    t.float "next_response_time_threshold"
     t.boolean "only_during_business_hours", default: false
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "description"
+    t.float "resolution_time_threshold"
     t.index ["account_id"], name: "index_sla_policies_on_account_id"
   end
 
