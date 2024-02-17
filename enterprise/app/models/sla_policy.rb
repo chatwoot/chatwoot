@@ -2,14 +2,16 @@
 #
 # Table name: sla_policies
 #
-#  id                         :bigint           not null, primary key
-#  frt_threshold              :float
-#  name                       :string           not null
-#  only_during_business_hours :boolean          default(FALSE)
-#  rt_threshold               :float
-#  created_at                 :datetime         not null
-#  updated_at                 :datetime         not null
-#  account_id                 :bigint           not null
+#  id                            :bigint           not null, primary key
+#  description                   :string
+#  first_response_time_threshold :float
+#  name                          :string           not null
+#  next_response_time_threshold  :float
+#  only_during_business_hours    :boolean          default(FALSE)
+#  resolution_time_threshold     :float
+#  created_at                    :datetime         not null
+#  updated_at                    :datetime         not null
+#  account_id                    :bigint           not null
 #
 # Indexes
 #
