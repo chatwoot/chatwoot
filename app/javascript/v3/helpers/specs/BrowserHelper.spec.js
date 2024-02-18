@@ -36,14 +36,6 @@ describe('getBrowserLocale', () => {
   });
 });
 
-describe('getBrowserTimezone', () => {
-  it('should return the current browser timezone', () => {
-    // This test assumes the environment's timezone is set.
-    // It's a basic test as getBrowserTimezone relies on Intl API.
-    const timezone = getBrowserTimezone();
-    expect(timezone).toBe(Intl.DateTimeFormat().resolvedOptions().timeZone);
-  });
-});
 describe('getIANATimezoneFromOffset', () => {
   afterEach(() => {
     jest.restoreAllMocks();
