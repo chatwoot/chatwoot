@@ -9,9 +9,6 @@ export const getBrowserLocale = enabledLanguages => {
   )?.iso_639_1_code;
 };
 
-export const getBrowserTimezone = () => {
-  return Intl.DateTimeFormat().resolvedOptions().timeZone;
-};
 
 export const getIANATimezoneFromOffset = () => {
   const offsetMinutes = new Date().getTimezoneOffset();
