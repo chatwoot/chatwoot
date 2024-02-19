@@ -1,4 +1,6 @@
 export const findMatchingOption = (value, options, defaultValue) => {
+  if (!value) return defaultValue;
+
   const match = options.find(
     option => option.value === value || option === value
   );
