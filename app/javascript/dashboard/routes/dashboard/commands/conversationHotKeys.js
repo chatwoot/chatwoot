@@ -30,7 +30,10 @@ import {
   UNMUTE_ACTION,
   MUTE_ACTION,
 } from './commandBarActions';
-import { isAConversationRoute } from '../../../helper/routeHelpers';
+import {
+  isAConversationRoute,
+  isAInboxViewRoute,
+} from '../../../helper/routeHelpers';
 export default {
   mixins: [aiMixin],
   watch: {
@@ -325,7 +328,10 @@ export default {
     },
 
     conversationHotKeys() {
-      if (isAConversationRoute(this.$route.name)) {
+      if (
+        isAConversationRoute(this.$route.name) ||
+        isAInboxViewRoute(this.$route.name)
+      ) {
         const defaultConversationHotKeys = [
           ...this.statusActions,
           ...this.conversationAdditionalActions,
