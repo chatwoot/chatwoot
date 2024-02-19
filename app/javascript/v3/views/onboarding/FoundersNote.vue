@@ -4,7 +4,7 @@
       class="absolute inset-0 h-full w-full bg-white dark:bg-slate-900 bg-[radial-gradient(var(--w-100)_1px,transparent_1px)] [background-size:16px_16px] z-0"
     />
     <div
-      class="absolute h-full w-full overlay-gradient top-0 left-0 scale-y-110 blur-[3px]"
+      class="absolute h-full w-full bg-signup-gradient dark:bg-signup-gradient top-0 left-0 scale-y-110 blur-[3px]"
     />
     <div class="flex justify-center items-center h-full relative z-50">
       <div class="flex w-full py-8 overflow-auto">

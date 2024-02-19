@@ -8,7 +8,7 @@
       class="relative max-w-[1440px] w-full mx-auto flex gap-16 min-h-[80vh] justify-center"
     >
       <div
-        class="relative w-5/12 px-16 py-[88px] bg-[url('/assets/images/dashboard/onboarding/intro.svg')] dark:bg-[url('/assets/images/dashboard/onboarding/intro-dark.svg')] bg-contain bg-no-repeat bg-[left_calc(-36px)_bottom_calc(-186px)] xl:min-h-[875px] 2xl:min-h-[1205px]"
+        class="relative w-5/12 px-16 py-[88px] bg-[url('/assets/images/dashboard/onboarding/intro.svg')] dark:bg-[url('/assets/images/dashboard/onboarding/intro-dark.svg')] bg-contain bg-no-repeat bg-[left_calc(-0px)_bottom_calc(-136px)] xl:min-h-[875px] 2xl:min-h-[1205px]"
       >
         <div class="mb-10 z-0">
           <img
@@ -51,7 +51,7 @@
           class="absolute inset-0 h-full w-full bg-[#FCFCFD] dark:bg-slate-900 bg-[radial-gradient(var(--w-200)_1px,transparent_1px)] [background-size:16px_16px]"
         />
         <div
-          class="absolute h-full w-full overlay-gradient top-0 left-0 scale-y-110 blur-[3px]"
+          class="absolute h-full w-full bg-onboarding-gradient dark:bg-onboarding-gradient-dark top-0 left-0 scale-y-110 blur-[3px]"
         />
 
         <transition name="slide-fade">
@@ -135,14 +135,14 @@ export default {
         }, 10);
       },
       accountDetails() {
-        this.navigateToSavedStep();
+        // this.navigateToSavedStep();
       },
     },
   },
   mounted() {
     this.showIntroHeader = true;
     this.showLoading = true;
-    this.navigateToSavedStep();
+    // this.navigateToSavedStep();
   },
   beforeDestroy() {
     this.showIntroHeader = false;
@@ -165,20 +165,6 @@ export default {
 };
 </script>
 <style scoped>
-.overlay-gradient {
-  background: linear-gradient(90deg, rgba(252, 252, 253, 0) 61.8%, #fcfcfd 90%),
-    linear-gradient(270deg, rgba(252, 252, 253, 0) 66.93%, #fcfcfd 90%),
-    linear-gradient(0deg, rgba(252, 252, 253, 0) 68.63%, #fcfcfd 90%),
-    linear-gradient(180deg, rgba(252, 252, 253, 0) 63.2%, #fcfcfd 80%);
-}
-
-.dark .overlay-gradient {
-  background: linear-gradient(270deg, rgba(24, 24, 26, 0) 61.93%, #151718 90%),
-    linear-gradient(90deg, rgba(24, 24, 26, 0) 66.8%, #151718 90%),
-    linear-gradient(0deg, rgba(24, 24, 26, 0) 68.63%, #151718 90%),
-    linear-gradient(180deg, rgba(24, 24, 26, 0) 63.2%, #151718 90%);
-}
-
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s;
