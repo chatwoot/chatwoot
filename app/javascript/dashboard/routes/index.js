@@ -45,13 +45,6 @@ export const validateAuthenticateRoutePermission = (to, next, { getters }) => {
     return next(frontendURL(`accounts/${user.account_id}/dashboard`));
   }
 
-  // we can let them access onboarding routes
-  // we will eventually need guards as onboarding is done, but for now
-  // we can let them access onboarding routes
-  if (to.name.startsWith('onboarding')) {
-    return next();
-  }
-
   const nextRoute = validateLoggedInRoutes(
     to,
     getters.getCurrentUser,
