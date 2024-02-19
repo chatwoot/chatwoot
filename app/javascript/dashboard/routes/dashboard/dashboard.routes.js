@@ -43,16 +43,19 @@ export default {
           path: frontendURL('accounts/:accountId/start/setup-profile'),
           name: 'onboarding_setup_profile',
           component: SetupProfile,
+          roles: ['administrator'],
         },
         {
           path: frontendURL('accounts/:accountId/start/setup-company'),
           name: 'onboarding_setup_company',
           component: SetupCompany,
+          roles: ['administrator'],
         },
         {
           path: frontendURL('accounts/:accountId/start/invite-team'),
           name: 'onboarding_invite_team',
           component: InviteTeam,
+          roles: ['administrator'],
         },
       ],
     },
@@ -60,6 +63,7 @@ export default {
       path: frontendURL('accounts/:accountId/start/founders-note'),
       name: 'onboarding_founders_note',
       component: FoundersNote,
+      roles: ['administrator'],
     },
   ],
 };
