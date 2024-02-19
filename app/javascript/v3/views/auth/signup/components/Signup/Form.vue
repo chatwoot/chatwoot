@@ -66,7 +66,7 @@ import FormInput from 'v3/components/Form/Input.vue';
 import SubmitButton from '../../../../../components/Button/SubmitButton.vue';
 import { isValidPassword } from 'shared/helpers/Validators';
 import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue';
-import { register } from '../../../../../api/auth';
+import { registerV2 } from '../../../../../api/auth';
 var CompanyEmailValidator = require('company-email-validator');
 
 export const generateOnboardingUrl = accountId =>
@@ -152,7 +152,7 @@ export default {
       try {
         const {
           data: { account_id: accountId },
-        } = await register(this.credentials);
+        } = await registerV2(this.credentials);
 
         window.location = generateOnboardingUrl(accountId);
       } catch (error) {

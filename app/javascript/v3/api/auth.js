@@ -42,6 +42,34 @@ export const register = async creds => {
   return null;
 };
 
+export const registerV2 = async creds => {
+  try {
+    const response = await wootAPI.post('api/v2/accounts', {
+      email: creds.email,
+      password: creds.password,
+      h_captcha_client_response: creds.hCaptchaClientResponse,
+    });
+    setAuthCredentials(response);
+    return response.data;
+  } catch (error) {
+    throwErrorMessage(error);
+  }
+  return null;
+};
+
+export const accountSetup = async ({ id, name, locale }) => {
+  try {
+    const response = await wootAPI.put(`api/v2/accounts/${id}`, {
+      name,
+      locale,
+    });
+    return response.data;
+  } catch (error) {
+    throwErrorMessage(error);
+  }
+  return null;
+};
+
 export const verifyPasswordToken = async ({ confirmationToken }) => {
   try {
     const response = await wootAPI.post('auth/confirmation', {
