@@ -1,13 +1,15 @@
 <template>
   <section
-    class="relative min-h-screen px-8 dark:text-white bg-[#FCFCFD] dark:bg-slate-900 flex items-center justify-center bg-[url('/assets/images/dashboard/onboarding/intro.svg')] dark:bg-[url('/assets/images/dashboard/onboarding/intro-dark.svg')] bg-[length:715px_555px] bg-no-repeat bg-[left_calc(-56px)_bottom_calc(-133px)]"
+    class="relative min-h-screen px-8 dark:text-white bg-[#FCFCFD] dark:bg-slate-900 flex items-center justify-center"
   >
     <spinner v-if="!showIntroHeader" class="absolute inset-0" />
     <div
       v-else
       class="relative max-w-[1440px] w-full mx-auto flex gap-16 min-h-[80vh] justify-center"
     >
-      <div class="relative w-5/12 px-16 py-[88px] mt-10">
+      <div
+        class="relative w-5/12 px-16 py-[88px] bg-[url('/assets/images/dashboard/onboarding/intro.svg')] dark:bg-[url('/assets/images/dashboard/onboarding/intro-dark.svg')] bg-contain bg-no-repeat bg-[left_calc(-36px)_bottom_calc(-186px)] xl:min-h-[875px] 2xl:min-h-[1205px]"
+      >
         <div class="mb-10 z-0">
           <img
             :src="globalConfig.logo"
@@ -40,6 +42,7 @@
             />
           </div>
         </transition>
+        <!-- bg-[url('/assets/images/dashboard/onboarding/intro.svg')] dark:bg-[url('')] -->
       </div>
       <div
         class="relative w-7/12 py-[88px] flex justify-center overflow-hidden h-fit"
@@ -149,11 +152,13 @@ export default {
       if (!this.accountDetails) return;
       const { custom_attributes: { onboarding_step: savedStep } = {} } =
         this.accountDetails;
-
       const stepName = API_ONBOARDING_STEP_ROUTE[savedStep];
-      if (stepName !== this.currentStep) {
+      if (stepName && stepName !== this.currentStep) {
         this.showLoading = false;
         this.$router.replace({ name: stepName });
+      } else if (!stepName) {
+        this.showLoading = false;
+        this.$router.replace({ name: 'home' });
       }
     },
   },

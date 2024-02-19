@@ -8,48 +8,46 @@
     />
 
     <signup-box-SVG />
-    <div
-      class="flex w-full h-full relative z-50 items-center justify-center overflow-auto"
-    >
-      <div
-        class="relative flex-1 min-h-[640px] inline-flex items-center h-full justify-center py-6"
-      >
-        <div
-          class="relative bg-white dark:bg-slate-800 before:bg-white before:border-slate-200 dark:before:border-slate-700 dark:before:bg-slate-800 px-16 pt-8 pb-16 max-w-[528px] w-full rounded-3xl drop-shadow-lg drop-shadow-signup-border dark:drop-shadow-signup-border-dark mask-image-[url('#cutoutMask')] signup-box before:content-[''] before:block before:absolute before:w-full before:h-[200px] before:top-[-66px] before:left-0"
-        >
-          <div class="absolute -top-[116px] right-0 left-0 w-24 h-24 mx-auto">
-            <img
-              v-if="globalConfig.logoThumbnail"
-              :src="globalConfig.logoThumbnail"
-              :alt="globalConfig.installationName"
-              class="h-24 w-24 block"
-              :class="{ 'dark:hidden': globalConfig.logoDarkThumbnail }"
-            />
-            <img
-              v-if="globalConfig.logoDarkThumbnail"
-              :src="globalConfig.logoDarkThumbnail"
-              :alt="globalConfig.installationName"
-              class="h-8 w-auto hidden dark:block"
-            />
-          </div>
-          <div class="mb-8">
-            <h2
-              class="text-center text-3xl tracking-wide font-medium text-slate-900 dark:text-woot-50"
-            >
-              {{ $t('REGISTER.TRY_WOOT') }}
-            </h2>
-          </div>
-          <signup-form />
-          <div class="text-sm text-slate-800 dark:text-woot-50 px-1">
-            <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }}</span>
-            <router-link class="text-link" to="/app/login">
-              {{
-                useInstallationName(
-                  $t('LOGIN.TITLE'),
-                  globalConfig.installationName
-                )
-              }}
-            </router-link>
+
+    <div class="flex w-full h-full z-50 items-center flex-col overflow-y-auto">
+      <div class="flex justify-center h-full items-center my-16">
+        <div class="min-h-[640px] shrink-1 grow-0 pt-24 pb-8">
+          <div
+            class="relative bg-white dark:bg-slate-800 before:bg-white before:border-slate-200 dark:before:border-slate-700 dark:before:bg-slate-800 px-16 pt-8 pb-16 max-w-[528px] w-full rounded-3xl signup-box"
+          >
+            <div class="absolute -top-[116px] right-0 left-0 w-24 h-24 mx-auto">
+              <img
+                :src="globalConfig.logoThumbnail"
+                :alt="globalConfig.installationName"
+                class="h-24 w-24 block"
+                :class="{ 'dark:hidden': globalConfig.logoDarkThumbnail }"
+              />
+              <img
+                v-if="globalConfig.logoDarkThumbnail"
+                :src="globalConfig.logoDarkThumbnail"
+                :alt="globalConfig.installationName"
+                class="h-8 w-auto hidden dark:block"
+              />
+            </div>
+            <div class="mb-8">
+              <h2
+                class="text-center text-3xl tracking-wide font-medium text-slate-900 dark:text-woot-50"
+              >
+                {{ $t('REGISTER.TRY_WOOT') }}
+              </h2>
+            </div>
+            <signup-form />
+            <div class="text-sm text-slate-800 dark:text-woot-50 px-1">
+              <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }}</span>
+              <router-link class="text-link" to="/app/login">
+                {{
+                  useInstallationName(
+                    $t('LOGIN.TITLE'),
+                    globalConfig.installationName
+                  )
+                }}
+              </router-link>
+            </div>
           </div>
         </div>
       </div>

@@ -158,9 +158,8 @@ export default {
       return [...timeZoneOptions()];
     },
     hasIntelligentData() {
-      const {
-        custom_attributes: { onboarding_step: onboardingStep },
-      } = this.accountDetails;
+      const { custom_attributes: { onboarding_step: onboardingStep } = {} } =
+        this.accountDetails;
 
       return !onboardingStep !== ONBOARDING_STEP_NAMES.INVITE;
     },
@@ -234,9 +233,10 @@ export default {
         companySize
       );
       const browserTimezone = getIANATimezoneFromOffset();
+      const allTimezones = this.timeZones.map(zone => zone.value);
       this.timezone = findMatchingOption(
         timezone,
-        this.timeZones.map(zone => zone.value),
+        allTimezones,
         browserTimezone
       );
       this.locale = locale || this.setLocaleFromBrowser();
