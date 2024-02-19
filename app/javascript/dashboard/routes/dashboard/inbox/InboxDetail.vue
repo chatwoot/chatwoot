@@ -52,9 +52,6 @@ export default {
     conversationId() {
       return this.activeNotification?.primary_actor?.id;
     },
-    isFetchingInitialData() {
-      return this.uiFlags.isFetching && !this.notifications.length;
-    },
     totalNotifications() {
       return this.notifications?.length ?? 0;
     },
