@@ -13,7 +13,7 @@
       <div class="flex justify-center h-full items-center my-16">
         <div class="min-h-[640px] shrink-1 grow-0 pt-24 pb-8">
           <div
-            class="relative bg-white dark:bg-slate-800 before:bg-white before:border-slate-200 dark:before:border-slate-700 dark:before:bg-slate-800 px-16 pt-8 pb-16 max-w-[528px] w-full rounded-3xl signup-box"
+            class="relative bg-white dark:bg-slate-800 before:bg-white before:w-full before:block before:content-[''] before:absolute before:left-0 before:h-[200px] before:top-[-66px] before:border-slate-200 dark:before:border-slate-700 dark:before:bg-slate-800 px-16 pt-8 pb-16 max-w-[528px] w-full rounded-3xl signup-box"
           >
             <div class="absolute -top-[116px] right-0 left-0 w-24 h-24 mx-auto">
               <img
