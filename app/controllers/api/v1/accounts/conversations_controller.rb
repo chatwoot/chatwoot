@@ -36,6 +36,10 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     end
   end
 
+  def update
+    @conversation.update!(permitted_update_params)
+  end
+
   def filter
     result = ::Conversations::FilterService.new(params.permit!, current_user).perform
     @conversations = result[:conversations]
@@ -109,6 +113,11 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   private
+
+  def permitted_update_params
+    # TODO: Move the other conversation attributes to this method and remove specific endpoints for each attribute
+    params.permit(:priority)
+  end
 
   def update_last_seen_on_conversation(last_seen_at, update_assignee)
     # rubocop:disable Rails/SkipsModelValidations

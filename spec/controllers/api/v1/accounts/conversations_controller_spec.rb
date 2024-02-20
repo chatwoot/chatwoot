@@ -210,6 +210,55 @@ RSpec.describe 'Conversations API', type: :request do
     end
   end
 
+  describe 'PATCH /api/v1/accounts/{account.id}/conversations/:id' do
+    let(:conversation) { create(:conversation, account: account) }
+    let(:params) { { priority: 'high' } }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        patch "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+              params: params
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:administrator) { create(:user, account: account, role: :administrator) }
+
+      it 'does not update the conversation if you do not have access to it' do
+        patch "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+              params: params,
+              headers: agent.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'updates the conversation if you are an administrator' do
+        patch "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+              params: params,
+              headers: administrator.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(JSON.parse(response.body, symbolize_names: true)[:priority]).to eq('high')
+      end
+
+      it 'updates the conversation if you are an agent with access to inbox' do
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+        patch "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+              params: params,
+              headers: agent.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(JSON.parse(response.body, symbolize_names: true)[:priority]).to eq('high')
+      end
+    end
+  end
+
   describe 'POST /api/v1/accounts/{account.id}/conversations' do
     let(:contact) { create(:contact, account: account) }
     let(:inbox) { create(:inbox, account: account) }
