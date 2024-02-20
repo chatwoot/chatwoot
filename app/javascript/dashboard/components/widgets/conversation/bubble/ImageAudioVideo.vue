@@ -33,7 +33,6 @@
 <script>
 import { mapGetters } from 'vuex';
 import { hasPressedCommand } from 'shared/helpers/KeyboardHelpers';
-import placeholderSVG from './assets/placeholder.svg';
 import GalleryView from '../components/GalleryView.vue';
 import ImageWithPlaceholder from './ImageWithPlaceholder.vue';
 
@@ -59,7 +58,6 @@ export default {
       show: false,
       isImageError: false,
       isImageLoaded: false,
-      placeholderSVG,
     };
   },
   computed: {
