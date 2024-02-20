@@ -16,6 +16,9 @@ export const getters = {
   getAgents($state) {
     return $state.records;
   },
+  getInboxes($state) {
+    return $state.magic;
+  },
   getVerifiedAgents($state) {
     return $state.records.filter(record => record.confirmed);
   },

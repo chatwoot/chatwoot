@@ -80,6 +80,9 @@ export default {
     filterItemsList() {
       return this.$store.getters[this.getterKey] || [];
     },
+    secondaryFilterItemsList() {
+      return this.$store.getters['agents/getInboxes'] || ['Rabbit'];
+    },
   },
   mounted() {
     this.$store.dispatch(this.actionKey);
