@@ -64,6 +64,7 @@ class Notification < ApplicationRecord
       created_at: created_at.to_i,
       last_activity_at: last_activity_at.to_i,
       snoozed_until: snoozed_until,
+      meta: meta,
       account_id: account_id
 
     }
