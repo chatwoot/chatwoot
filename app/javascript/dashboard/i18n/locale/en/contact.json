@@ -79,7 +79,13 @@
     "TITLE": "Export Contacts",
     "DESC": "Export contacts to a CSV file.",
     "SUCCESS_MESSAGE": "Export is in progress. You will be notified on email when the export file is ready to download.",
-    "ERROR_MESSAGE": "There was an error, please try again"
+    "ERROR_MESSAGE": "There was an error, please try again",
+    "CONFIRM": {
+      "TITLE": "Export Contacts",
+      "MESSAGE": "Are you sure you want to export all contacts?",
+      "YES": "Yes, Export",
+      "NO": "No, Cancel"
+    }
   },
   "DELETE_NOTE": {
     "CONFIRM": {
