@@ -2,20 +2,32 @@
   <div class="message-text__wrap" :class="attachmentTypeClasses">
     <img
       v-if="isImage && !isImageError"
-      :src="attachment.data_url"
+      v-show="isImageLoaded"
+      :src="dataUrl"
       @click="onClick"
       @error="onImgError"
+      @load="onImgLoad"
     />
+    <div
+      v-if="isImage && !isImageLoaded && hasImageDimensions"
+      :class="`p-2 animate-pulse bg-slate-200 dark:bg-slate-700`"
+      :style="{
+        width: `${attachment.width || 0}px`,
+        height: `${attachment.height || 0}px`,
+      }"
+    >
+      <div class="rounded-lg bg-slate-300 dark:bg-slate-800 w-full h-full" />
+    </div>
     <video
       v-if="isVideo"
-      :src="attachment.data_url"
+      :src="dataUrl"
       muted
       playsInline
       @error="onImgError"
       @click="onClick"
     />
     <audio v-else-if="isAudio" controls class="skip-context-menu">
-      <source :src="`${attachment.data_url}?t=${Date.now()}`" />
+      <source :src="`${dataUrl}?t=${Date.now()}`" />
     </audio>
     <gallery-view
       v-if="show"
@@ -54,6 +66,7 @@ export default {
     return {
       show: false,
       isImageError: false,
+      isImageLoaded: false,
     };
   },
   computed: {
@@ -81,6 +94,12 @@ export default {
       );
       return attachments;
     },
+    dataUrl() {
+      return this.attachment.data_url;
+    },
+    hasImageDimensions() {
+      return this.attachment.width && this.attachment.height;
+    },
   },
   watch: {
     attachment() {
@@ -100,7 +119,11 @@ export default {
     },
     onImgError() {
       this.isImageError = true;
+      this.isImageLoaded = true;
       this.$emit('error');
+    },
+    onImgLoad() {
+      this.isImageLoaded = true;
     },
   },
 };
