@@ -21,18 +21,21 @@
         :threshold="firstResponseTimeThreshold"
         :label="$t('SLA.FORM.FIRST_RESPONSE_TIME.LABEL')"
         :placeholder="$t('SLA.FORM.FIRST_RESPONSE_TIME.PLACEHOLDER')"
+        @input="firstResponseTimeThreshold = $event"
       />
 
       <sla-time-input
         :threshold="nextResponseTimeThreshold"
         :label="$t('SLA.FORM.NEXT_RESPONSE_TIME.LABEL')"
         :placeholder="$t('SLA.FORM.NEXT_RESPONSE_TIME.PLACEHOLDER')"
+        @input="nextResponseTimeThreshold = $event"
       />
 
       <sla-time-input
         :threshold="resolutionTimeThreshold"
         :label="$t('SLA.FORM.RESOLUTION_TIME.LABEL')"
         :placeholder="$t('SLA.FORM.RESOLUTION_TIME.PLACEHOLDER')"
+        @input="resolutionTimeThreshold = $event"
       />
 
       <div class="w-full">
@@ -82,9 +85,9 @@ export default {
     return {
       name: '',
       description: '',
-      firstResponseTimeThreshold: '',
-      nextResponseTimeThreshold: '',
-      resolutionTimeThreshold: '',
+      firstResponseTimeThreshold: null,
+      nextResponseTimeThreshold: null,
+      resolutionTimeThreshold: null,
       onlyDuringBusinessHours: false,
     };
   },
