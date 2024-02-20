@@ -22,6 +22,7 @@ class Api::V2::AccountsController < Api::BaseController
     ).perform
 
     fetch_account_and_user_info
+    update_account_info if @account.present?
 
     if @user
       send_auth_headers(@user)
@@ -32,6 +33,18 @@ class Api::V2::AccountsController < Api::BaseController
   end
 
   private
+
+  def account_attributes
+    {
+      custom_attributes: @account.custom_attributes.merge({ 'onboarding_step' => 'profile_update' })
+    }
+  end
+
+  def update_account_info
+    @account.update!(
+      account_attributes
+    )
+  end
 
   def fetch_account_and_user_info; end
 
