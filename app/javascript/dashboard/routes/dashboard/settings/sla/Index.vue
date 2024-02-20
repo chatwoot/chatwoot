@@ -132,9 +132,11 @@ export default {
     },
     convertToUnit(seconds) {
       if (seconds === null) return { time: '', unit: '' };
-      if (seconds < 3600) return { time: seconds / 60, unit: 'm' };
-      if (seconds < 86400) return { time: seconds / 3600, unit: 'h' };
-      return { time: Number(seconds / 86400), unit: 'd' };
+      if (seconds < 3600)
+        return { time: Number((seconds / 60).toFixed(1)), unit: 'm' };
+      if (seconds < 86400)
+        return { time: Number((seconds / 3600).toFixed(1)), unit: 'h' };
+      return { time: Number((seconds / 86400).toFixed(1)), unit: 'd' };
     },
     displayTime(threshold) {
       const { time, unit } = this.convertToUnit(threshold);

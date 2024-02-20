@@ -173,9 +173,11 @@ export default {
     convertToUnit(seconds) {
       if (seconds === null || seconds === 0)
         return { time: null, unit: 'Minutes' };
-      if (seconds < 3600) return { time: seconds / 60, unit: 'Minutes' };
-      if (seconds < 86400) return { time: seconds / 3600, unit: 'Hours' };
-      return { time: Number(seconds / 86400), unit: 'Days' };
+      if (seconds < 3600)
+        return { time: Number((seconds / 60).toFixed(1)), unit: 'Minutes' };
+      if (seconds < 86400)
+        return { time: Number((seconds / 3600).toFixed(1)), unit: 'Hours' };
+      return { time: Number((seconds / 86400).toFixed(1)), unit: 'Days' };
     },
   },
 };
