@@ -1,23 +1,13 @@
 <template>
   <div class="message-text__wrap" :class="attachmentTypeClasses">
-    <img
+    <image-with-placeholder
       v-if="isImage && !isImageError"
-      v-show="isImageLoaded"
       :src="dataUrl"
+      :width="attachmentWidth"
+      :height="attachmentHeight"
       @click="onClick"
       @error="onImgError"
-      @load="onImgLoad"
     />
-    <div
-      v-if="isImage && !isImageLoaded && hasImageDimensions"
-      :class="`p-2 animate-pulse bg-slate-200 dark:bg-slate-700`"
-      :style="{
-        width: `${attachment.width || 0}px`,
-        height: `${attachment.height || 0}px`,
-      }"
-    >
-      <div class="rounded-lg bg-slate-300 dark:bg-slate-800 w-full h-full" />
-    </div>
     <video
       v-if="isVideo"
       :src="dataUrl"
@@ -43,8 +33,9 @@
 <script>
 import { mapGetters } from 'vuex';
 import { hasPressedCommand } from 'shared/helpers/KeyboardHelpers';
-
+import placeholderSVG from './assets/placeholder.svg';
 import GalleryView from '../components/GalleryView.vue';
+import ImageWithPlaceholder from './ImageWithPlaceholder.vue';
 
 const ALLOWED_FILE_TYPES = {
   IMAGE: 'image',
@@ -55,6 +46,7 @@ const ALLOWED_FILE_TYPES = {
 export default {
   components: {
     GalleryView,
+    ImageWithPlaceholder,
   },
   props: {
     attachment: {
@@ -67,6 +59,7 @@ export default {
       show: false,
       isImageError: false,
       isImageLoaded: false,
+      placeholderSVG,
     };
   },
   computed: {
@@ -99,6 +92,12 @@ export default {
     },
     hasImageDimensions() {
       return this.attachment.width && this.attachment.height;
+    },
+    attachmentWidth() {
+      return `${this.attachment.width}px` || 'auto';
+    },
+    attachmentHeight() {
+      return `${this.attachment.height}px` || 'auto';
     },
   },
   watch: {
