@@ -10,7 +10,6 @@ RSpec.describe AdministratorNotifications::ChannelNotificationsMailer do
   before do
     allow(described_class).to receive(:new).and_return(class_instance)
     allow(class_instance).to receive(:smtp_config_set_or_development?).and_return(true)
-    Account::ContactsExportJob.perform_now(account.id, [])
   end
 
   describe 'slack_disconnect' do
@@ -92,8 +91,8 @@ RSpec.describe AdministratorNotifications::ChannelNotificationsMailer do
   end
 
   describe 'contact_export_complete' do
-    let!(:file_url) { Rails.application.routes.url_helpers.rails_blob_url(account.contacts_export) }
-    let(:mail) { described_class.with(account: account).contact_export_complete(file_url).deliver_now }
+    let!(:file_url) { 'http://test.com/test' }
+    let(:mail) { described_class.with(account: account).contact_export_complete(file_url, administrator.email).deliver_now }
 
     it 'renders the subject' do
       expect(mail.subject).to eq("Your contact's export file is available to download.")
