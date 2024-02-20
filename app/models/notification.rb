@@ -4,6 +4,7 @@
 #
 #  id                   :bigint           not null, primary key
 #  last_activity_at     :datetime
+#  meta                 :jsonb
 #  notification_type    :integer          not null
 #  primary_actor_type   :string           not null
 #  read_at              :datetime
