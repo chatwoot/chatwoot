@@ -2,44 +2,37 @@
   <div class="h-auto overflow-auto flex flex-col">
     <form class="mx-0 flex flex-wrap" @submit.prevent="onSubmit">
       <woot-input
-        v-model.trim="name"
+        v-model="name"
         :class="{ error: $v.name.$error }"
         class="w-full"
-        :sla="$t('SLA.FORM.NAME.LABEL')"
+        :label="$t('SLA.FORM.NAME.LABEL')"
         :placeholder="$t('SLA.FORM.NAME.PLACEHOLDER')"
         :error="getSlaNameErrorMessage"
         @input="$v.name.$touch"
       />
       <woot-input
-        v-model.trim="description"
+        v-model="description"
         class="w-full"
         :label="$t('SLA.FORM.DESCRIPTION.LABEL')"
         :placeholder="$t('SLA.FORM.DESCRIPTION.PLACEHOLDER')"
-        data-testid="sla-description"
       />
 
-      <woot-input
-        v-model.trim="firstResponseTimeThreshold"
-        class="w-full"
+      <sla-time-input
+        :threshold="firstResponseTimeThreshold"
         :label="$t('SLA.FORM.FIRST_RESPONSE_TIME.LABEL')"
         :placeholder="$t('SLA.FORM.FIRST_RESPONSE_TIME.PLACEHOLDER')"
-        data-testid="sla-firstResponseTimeThreshold"
       />
 
-      <woot-input
-        v-model.trim="nextResponseTimeThreshold"
-        class="w-full"
+      <sla-time-input
+        :threshold="nextResponseTimeThreshold"
         :label="$t('SLA.FORM.NEXT_RESPONSE_TIME.LABEL')"
         :placeholder="$t('SLA.FORM.NEXT_RESPONSE_TIME.PLACEHOLDER')"
-        data-testid="sla-nextResponseTimeThreshold"
       />
 
-      <woot-input
-        v-model.trim="resolutionTimeThreshold"
-        class="w-full"
+      <sla-time-input
+        :threshold="resolutionTimeThreshold"
         :label="$t('SLA.FORM.RESOLUTION_TIME.LABEL')"
         :placeholder="$t('SLA.FORM.RESOLUTION_TIME.PLACEHOLDER')"
-        data-testid="sla-resolutionTimeThreshold"
       />
 
       <div class="w-full">
@@ -68,8 +61,12 @@
 import { mapGetters } from 'vuex';
 import validationMixin from './validationMixin';
 import validations from './validations';
+import SlaTimeInput from './SlaTimeInput.vue';
 
 export default {
+  components: {
+    SlaTimeInput,
+  },
   mixins: [validationMixin],
   props: {
     selectedResponse: {
