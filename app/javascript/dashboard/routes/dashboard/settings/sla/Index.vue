@@ -38,17 +38,17 @@
               <td>{{ sla.description }}</td>
               <td>
                 <span class="flex items-center">
-                  {{ sla.first_response_time_threshold }}
+                  {{ displayTime(sla.first_response_time_threshold) }}
                 </span>
               </td>
               <td>
                 <span class="flex items-center">
-                  {{ sla.next_response_time_threshold }}
+                  {{ displayTime(sla.next_response_time_threshold) }}
                 </span>
               </td>
               <td>
                 <span class="flex items-center">
-                  {{ sla.resolution_time_threshold }}
+                  {{ displayTime(sla.resolution_time_threshold) }}
                 </span>
               </td>
               <td>
@@ -129,6 +129,16 @@ export default {
     },
     hideEditPopup() {
       this.showEditPopup = false;
+    },
+    convertToUnit(seconds) {
+      if (seconds === null) return { time: '', unit: '' };
+      if (seconds < 3600) return { time: seconds / 60, unit: 'm' };
+      if (seconds < 86400) return { time: seconds / 3600, unit: 'h' };
+      return { time: Number(seconds / 86400), unit: 'd' };
+    },
+    displayTime(threshold) {
+      const { time, unit } = this.convertToUnit(threshold);
+      return `${time}${unit}`;
     },
   },
 };
