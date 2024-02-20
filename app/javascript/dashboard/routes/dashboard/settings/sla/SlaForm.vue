@@ -18,24 +18,14 @@
       />
 
       <sla-time-input
-        :threshold="firstResponseTimeThreshold"
-        :label="$t('SLA.FORM.FIRST_RESPONSE_TIME.LABEL')"
-        :placeholder="$t('SLA.FORM.FIRST_RESPONSE_TIME.PLACEHOLDER')"
-        @input="firstResponseTimeThreshold = $event"
-      />
-
-      <sla-time-input
-        :threshold="nextResponseTimeThreshold"
-        :label="$t('SLA.FORM.NEXT_RESPONSE_TIME.LABEL')"
-        :placeholder="$t('SLA.FORM.NEXT_RESPONSE_TIME.PLACEHOLDER')"
-        @input="nextResponseTimeThreshold = $event"
-      />
-
-      <sla-time-input
-        :threshold="resolutionTimeThreshold"
-        :label="$t('SLA.FORM.RESOLUTION_TIME.LABEL')"
-        :placeholder="$t('SLA.FORM.RESOLUTION_TIME.PLACEHOLDER')"
-        @input="resolutionTimeThreshold = $event"
+        v-for="(input, index) in slaTimeInputs"
+        :key="index"
+        :threshold="input.threshold"
+        :threshold-unit="input.unit"
+        :label="$t(input.label)"
+        :placeholder="$t(input.placeholder)"
+        @input="updateThreshold(index, $event)"
+        @unit="updateUnit(index, $event)"
       />
 
       <div class="w-full">
@@ -47,7 +37,7 @@
 
       <div class="flex justify-end items-center py-2 px-0 gap-2 w-full">
         <woot-button
-          :is-disabled="$v.name.$invalid || uiFlags.isUpdating"
+          :is-disabled="isSubmitDisabled"
           :is-loading="uiFlags.isUpdating"
         >
           {{ submitLabel }}
@@ -85,9 +75,26 @@ export default {
     return {
       name: '',
       description: '',
-      firstResponseTimeThreshold: null,
-      nextResponseTimeThreshold: null,
-      resolutionTimeThreshold: null,
+      slaTimeInputs: [
+        {
+          threshold: null,
+          unit: 'Minutes',
+          label: 'SLA.FORM.FIRST_RESPONSE_TIME.LABEL',
+          placeholder: 'SLA.FORM.FIRST_RESPONSE_TIME.PLACEHOLDER',
+        },
+        {
+          threshold: null,
+          unit: 'Minutes',
+          label: 'SLA.FORM.NEXT_RESPONSE_TIME.LABEL',
+          placeholder: 'SLA.FORM.NEXT_RESPONSE_TIME.PLACEHOLDER',
+        },
+        {
+          threshold: null,
+          unit: 'Minutes',
+          label: 'SLA.FORM.RESOLUTION_TIME.LABEL',
+          placeholder: 'SLA.FORM.RESOLUTION_TIME.PLACEHOLDER',
+        },
+      ],
       onlyDuringBusinessHours: false,
     };
   },
@@ -96,10 +103,8 @@ export default {
     ...mapGetters({
       uiFlags: 'sla/getUIFlags',
     }),
-    pageTitle() {
-      return `${this.$t('SLA.EDIT.TITLE')} - ${
-        this.selectedResponse?.name || ''
-      }`;
+    isSubmitDisabled() {
+      return this.$v.name.$invalid || this.uiFlags.isUpdating;
     },
   },
   mounted() {
@@ -121,20 +126,66 @@ export default {
 
       this.name = name;
       this.description = description;
-      this.firstResponseTimeThreshold = firstResponseTimeThreshold;
-      this.nextResponseTimeThreshold = nextResponseTimeThreshold;
-      this.resolutionTimeThreshold = resolutionTimeThreshold;
       this.onlyDuringBusinessHours = onlyDuringBusinessHours;
+
+      const thresholds = [
+        firstResponseTimeThreshold,
+        nextResponseTimeThreshold,
+        resolutionTimeThreshold,
+      ];
+
+      const labels = [
+        'SLA.FORM.FIRST_RESPONSE_TIME.LABEL',
+        'SLA.FORM.NEXT_RESPONSE_TIME.LABEL',
+        'SLA.FORM.RESOLUTION_TIME.LABEL',
+      ];
+      const placeholders = [
+        'SLA.FORM.FIRST_RESPONSE_TIME.PLACEHOLDER',
+        'SLA.FORM.NEXT_RESPONSE_TIME.PLACEHOLDER',
+        'SLA.FORM.RESOLUTION_TIME.PLACEHOLDER',
+      ];
+
+      this.slaTimeInputs = thresholds.map((threshold, index) => ({
+        threshold: this.convertToUnit(threshold).time,
+        unit: this.convertToUnit(threshold).unit,
+        label: labels[index],
+        placeholder: placeholders[index],
+      }));
+    },
+    updateThreshold(index, value) {
+      this.slaTimeInputs[index].threshold = value;
+    },
+    updateUnit(index, unit) {
+      this.slaTimeInputs[index].unit = unit;
     },
     onSubmit() {
-      this.$emit('submit', {
+      const payload = {
         name: this.name,
         description: this.description,
-        first_response_time_threshold: this.firstResponseTimeThreshold,
-        next_response_time_threshold: this.nextResponseTimeThreshold,
-        resolution_time_threshold: this.resolutionTimeThreshold,
+        first_response_time_threshold: this.convertToSeconds(
+          this.slaTimeInputs[0].threshold,
+          this.slaTimeInputs[0].unit
+        ),
+        next_response_time_threshold: this.convertToSeconds(
+          this.slaTimeInputs[1].threshold,
+          this.slaTimeInputs[1].unit
+        ),
+        resolution_time_threshold: this.convertToSeconds(
+          this.slaTimeInputs[2].threshold,
+          this.slaTimeInputs[2].unit
+        ),
         only_during_business_hours: this.onlyDuringBusinessHours,
-      });
+      };
+      this.$emit('submit', payload);
+    },
+    convertToSeconds(time, unit) {
+      const unitsToSeconds = { Minutes: 60, Hours: 3600, Days: 86400 };
+      return Number(time * (unitsToSeconds[unit] || 1));
+    },
+    convertToUnit(seconds) {
+      if (seconds < 3600) return { time: seconds / 60, unit: 'Minutes' };
+      if (seconds < 86400) return { time: seconds / 3600, unit: 'Hours' };
+      return { time: Number(seconds / 86400), unit: 'Days' };
     },
   },
 };
