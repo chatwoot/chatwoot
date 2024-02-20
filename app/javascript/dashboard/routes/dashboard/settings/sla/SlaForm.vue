@@ -166,10 +166,13 @@ export default {
       this.$emit('submit', payload);
     },
     convertToSeconds(time, unit) {
+      if (time === null) return null;
       const unitsToSeconds = { Minutes: 60, Hours: 3600, Days: 86400 };
       return Number(time * (unitsToSeconds[unit] || 1));
     },
     convertToUnit(seconds) {
+      if (seconds === null || seconds === 0)
+        return { time: null, unit: 'Minutes' };
       if (seconds < 3600) return { time: seconds / 60, unit: 'Minutes' };
       if (seconds < 86400) return { time: seconds / 3600, unit: 'Hours' };
       return { time: Number(seconds / 86400), unit: 'Days' };
