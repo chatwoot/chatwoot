@@ -4,8 +4,7 @@
       v-if="!isImageError"
       class="max-w-full max-h-full bg-woot-200 dark:bg-woot-900"
       :class="{
-        'animate-pulse text-woot-200 dark:text-woot-900 opacity-50':
-          !isImageLoaded,
+        'text-woot-200 dark:text-woot-900 opacity-50': !isImageLoaded,
       }"
       :src="placeholder"
       :width="width"
