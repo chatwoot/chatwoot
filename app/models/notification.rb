@@ -78,7 +78,10 @@ class Notification < ApplicationRecord
     {
       id: primary_actor.push_event_data[:id],
       meta: primary_actor.push_event_data[:meta],
-      inbox_id: primary_actor.push_event_data[:inbox_id]
+      inbox_id: primary_actor.push_event_data[:inbox_id],
+      priority: primary_actor.push_event_data[:priority],
+      status: primary_actor.push_event_data[:status],
+      labels: primary_actor.push_event_data[:labels]
     }
   end
 
