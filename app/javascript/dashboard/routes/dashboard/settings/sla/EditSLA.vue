@@ -28,16 +28,6 @@ export default {
       default: () => {},
     },
   },
-  data() {
-    return {
-      name: '',
-      description: '',
-      firstResponseTimeThreshold: '',
-      nextResponseTimeThreshold: '',
-      resolutionTimeThreshold: '',
-      onlyDuringBusinessHours: false,
-    };
-  },
   validations,
   computed: {
     ...mapGetters({
