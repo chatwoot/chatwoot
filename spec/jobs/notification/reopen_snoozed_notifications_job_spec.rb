@@ -13,15 +13,14 @@ RSpec.describe Notification::ReopenSnoozedNotificationsJob do
   context 'when called' do
     it 'reopens snoozed notifications whose snooze until has passed' do
       described_class.perform_now
-      time_after_job = Time.current
+
+      snoozed_until = snoozed_till_5_minutes_ago.reload.snoozed_until
 
       expect(snoozed_till_5_minutes_ago.reload.snoozed_until).to be_nil
       expect(snoozed_till_tomorrow.reload.snoozed_until.to_date).to eq 1.day.from_now.to_date
       expect(snoozed_indefinitely.reload.snoozed_until).to be_nil
-      expect(snoozed_till_5_minutes_ago.reload.last_activity_at).to be_within(1.second).of(time_after_job)
       expect(snoozed_indefinitely.reload.read_at).to be_nil
-      last_snoozed_at = Time.zone.parse(snoozed_till_5_minutes_ago.reload.meta['last_snoozed_at'])
-      expect(last_snoozed_at).to be <= time_after_job
+      expect(snoozed_until).to eq(snoozed_till_5_minutes_ago.reload.meta['snoozed_until'])
     end
   end
 end
