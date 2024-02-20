@@ -1,7 +1,7 @@
 class Account::ContactsExportJob < ApplicationJob
   queue_as :low
 
-  def perform(account_id, column_names, email_to = nil)
+  def perform(account_id, column_names, email_to)
     account = Account.find(account_id)
     headers = valid_headers(column_names)
     generate_csv(account, headers)
