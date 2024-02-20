@@ -56,7 +56,7 @@ class MessageTemplates::HookExecutionService
 
   def csat_enabled_conversation?
     return false unless conversation.resolved? || ((message.outgoing? || message.input_csat?) && inbox.send_csat_on_all_reply?)
-    puts 'RAILS_NISUD_DRE'
+
     # should not sent since the link will be public
     return false if conversation.tweet?
     return false unless inbox.csat_survey_enabled?
