@@ -2,9 +2,11 @@
   <div class="relative mt-2 w-full">
     <woot-input
       v-model="thresholdTime"
+      :class="{ error: $v.thresholdTime.$error }"
       class="w-full [&>input]:pr-20"
       :label="label"
       :placeholder="placeholder"
+      :error="getThresholdTimeErrorMessage"
       @input="onThresholdTimeChange"
     />
     <div class="absolute right-px h-9 top-[27px] flex items-center">
@@ -26,7 +28,11 @@
 </template>
 
 <script>
+import validationMixin from './validationMixin';
+import validations from './validations';
+
 export default {
+  mixins: [validationMixin],
   props: {
     threshold: {
       type: Number,
@@ -56,6 +62,7 @@ export default {
       ],
     };
   },
+  validations,
   watch: {
     threshold: {
       immediate: true,

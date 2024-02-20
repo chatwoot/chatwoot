@@ -11,5 +11,14 @@ export default {
       }
       return errorMessage;
     },
+    getThresholdTimeErrorMessage() {
+      let errorMessage = '';
+      if (this.$v.thresholdTime.$error) {
+        if (!this.$v.thresholdTime.numeric) {
+          errorMessage = this.$t('SLA.FORM.THRESHOLD_TIME.NUMERIC_ERROR');
+        }
+      }
+      return errorMessage;
+    },
   },
 };

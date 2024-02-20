@@ -39,6 +39,10 @@
         "LABEL": "Business Hours",
         "PLACEHOLDER": "Only during business hours"
       },
+      "THRESHOLD_TIME": {
+
+        "NUMERIC_ERROR": "Threshold should be a number and greater than 0"
+      },
       "EDIT": "Edit",
       "CREATE": "Create",
       "DELETE": "Delete",
