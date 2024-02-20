@@ -179,6 +179,7 @@ RSpec.describe 'Notifications API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(notification.reload.snoozed_until).not_to eq('')
+        expect(notification.reload.meta['last_snoozed_at']).to be_nil
       end
     end
   end
