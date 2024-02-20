@@ -29,6 +29,7 @@ RSpec.describe 'Notifications API', type: :request do
         expect(response_json['data']['meta']['count']).to eq 2
         # notification appear in descending order
         expect(response_json['data']['payload'].first['id']).to eq notification2.id
+        expect(response_json['data']['payload'].first['primary_actor']).not_to be_nil
       end
     end
   end

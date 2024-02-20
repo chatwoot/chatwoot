@@ -110,6 +110,11 @@
   display_title: 'Instagram Verify Token'
   description: 'The verify token used for Instagram Webhook'
   locked: false
+- name: FACEBOOK_API_VERSION
+  display_title: 'Facebook API Version'
+  description: 'Configure this if you want to use a different Facebook API version. Make sure its prefixed with `v`'
+  value: 'v17.0'
+  locked: false
 - name: ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT
   display_title: 'Enable human agent'
   value: false
