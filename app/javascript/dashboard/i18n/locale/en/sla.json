@@ -40,8 +40,8 @@
         "PLACEHOLDER": "Only during business hours"
       },
       "THRESHOLD_TIME": {
-
-        "NUMERIC_ERROR": "Threshold should be a number and greater than 0"
+        "NOT_ZERO_ERROR": "Threshold should be greater than Zero",
+        "NUMERIC_ERROR": "Threshold should be a number"
       },
       "EDIT": "Edit",
       "CREATE": "Create",

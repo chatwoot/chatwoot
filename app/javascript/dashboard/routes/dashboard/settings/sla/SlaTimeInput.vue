@@ -3,7 +3,7 @@
     <woot-input
       v-model="thresholdTime"
       :class="{ error: $v.thresholdTime.$error }"
-      class="w-full [&>input]:pr-20"
+      class="w-full [&>input]:pr-24"
       :label="label"
       :placeholder="placeholder"
       :error="getThresholdTimeErrorMessage"
@@ -82,6 +82,7 @@ export default {
       this.$emit('unit', this.thresholdUnitValue);
     },
     onThresholdTimeChange() {
+      this.$v.thresholdTime.$touch();
       this.$emit('input', Number(this.thresholdTime));
     },
   },

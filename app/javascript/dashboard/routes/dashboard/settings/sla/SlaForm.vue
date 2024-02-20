@@ -104,7 +104,11 @@ export default {
       uiFlags: 'sla/getUIFlags',
     }),
     isSubmitDisabled() {
-      return this.$v.name.$invalid || this.uiFlags.isUpdating;
+      return (
+        this.$v.name.$invalid ||
+        this.$v.thresholdTime.$invalid ||
+        this.uiFlags.isUpdating
+      );
     },
   },
   mounted() {
@@ -149,26 +153,18 @@ export default {
       const payload = {
         name: this.name,
         description: this.description,
-        first_response_time_threshold: this.convertToSeconds(
-          this.slaTimeInputs[0].threshold,
-          this.slaTimeInputs[0].unit
-        ),
-        next_response_time_threshold: this.convertToSeconds(
-          this.slaTimeInputs[1].threshold,
-          this.slaTimeInputs[1].unit
-        ),
-        resolution_time_threshold: this.convertToSeconds(
-          this.slaTimeInputs[2].threshold,
-          this.slaTimeInputs[2].unit
-        ),
+        first_response_time_threshold: this.convertToSeconds(0),
+        next_response_time_threshold: this.convertToSeconds(1),
+        resolution_time_threshold: this.convertToSeconds(2),
         only_during_business_hours: this.onlyDuringBusinessHours,
       };
       this.$emit('submit', payload);
     },
-    convertToSeconds(time, unit) {
-      if (time === null) return null;
+    convertToSeconds(index) {
+      const { threshold, unit } = this.slaTimeInputs[index];
+      if (threshold === null || threshold === 0) return null;
       const unitsToSeconds = { Minutes: 60, Hours: 3600, Days: 86400 };
-      return Number(time * (unitsToSeconds[unit] || 1));
+      return Number(threshold * (unitsToSeconds[unit] || 1));
     },
     convertToUnit(seconds) {
       if (seconds === null || seconds === 0)

@@ -17,6 +17,9 @@ export default {
         if (!this.$v.thresholdTime.numeric) {
           errorMessage = this.$t('SLA.FORM.THRESHOLD_TIME.NUMERIC_ERROR');
         }
+        if (!this.$v.thresholdTime.notZero) {
+          errorMessage = this.$t('SLA.FORM.THRESHOLD_TIME.NOT_ZERO_ERROR');
+        }
       }
       return errorMessage;
     },
