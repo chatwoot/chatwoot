@@ -27,7 +27,7 @@ export default {
       inboxes: 'inboxes/getInboxes',
       labels: 'labels/getLabels',
       teams: 'teams/getTeams',
-      sla_policies: 'sla/getSLA',
+      slaPolicies: 'sla/getSLA',
     }),
     booleanFilterOptions() {
       return [
@@ -258,12 +258,12 @@ export default {
       };
     },
     getActionDropdownValues(type) {
-      const { agents, labels, teams, sla_policies } = this;
+      const { agents, labels, teams, slaPolicies } = this;
       return getActionOptions({
         agents,
         labels,
         teams,
-        sla_policies,
+        slaPolicies,
         languages,
         type,
       });

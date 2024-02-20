@@ -13,7 +13,7 @@ import {
   inboxes,
   languages,
   countries,
-  sla_policies,
+  slaPolicies,
   MESSAGE_CONDITION_VALUES,
   automationToSubmit,
   savedAutomation,
@@ -90,8 +90,8 @@ const generateComputedProperties = () => {
     countries() {
       return countries;
     },
-    sla_policies() {
-      return sla_policies;
+    slaPolicies() {
+      return slaPolicies;
     },
     MESSAGE_CONDITION_VALUES() {
       return MESSAGE_CONDITION_VALUES;
@@ -437,8 +437,8 @@ describe('automationMethodsMixin', () => {
       teams() {
         return teams;
       },
-      sla_policies() {
-        return sla_policies;
+      slaPolicies() {
+        return slaPolicies;
       },
     };
     const expectedActionDropdownValues = [
