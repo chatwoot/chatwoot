@@ -25,16 +25,6 @@ export default {
   },
   mixins: [alertMixin, validationMixin],
   props: {},
-  data() {
-    return {
-      name: '',
-      description: '',
-      firstResponseTimeThreshold: '',
-      nextResponseTimeThreshold: '',
-      resolutionTimeThreshold: '',
-      onlyDuringBusinessHours: false,
-    };
-  },
   validations,
   computed: {
     ...mapGetters({
