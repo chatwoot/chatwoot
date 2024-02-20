@@ -133,24 +133,11 @@ export default {
         nextResponseTimeThreshold,
         resolutionTimeThreshold,
       ];
-
-      const labels = [
-        'SLA.FORM.FIRST_RESPONSE_TIME.LABEL',
-        'SLA.FORM.NEXT_RESPONSE_TIME.LABEL',
-        'SLA.FORM.RESOLUTION_TIME.LABEL',
-      ];
-      const placeholders = [
-        'SLA.FORM.FIRST_RESPONSE_TIME.PLACEHOLDER',
-        'SLA.FORM.NEXT_RESPONSE_TIME.PLACEHOLDER',
-        'SLA.FORM.RESOLUTION_TIME.PLACEHOLDER',
-      ];
-
-      this.slaTimeInputs = thresholds.map((threshold, index) => ({
-        threshold: this.convertToUnit(threshold).time,
-        unit: this.convertToUnit(threshold).unit,
-        label: labels[index],
-        placeholder: placeholders[index],
-      }));
+      this.slaTimeInputs.forEach((input, index) => {
+        const converted = this.convertToUnit(thresholds[index]);
+        input.threshold = converted.time;
+        input.unit = converted.unit;
+      });
     },
     updateThreshold(index, value) {
       this.slaTimeInputs[index].threshold = value;

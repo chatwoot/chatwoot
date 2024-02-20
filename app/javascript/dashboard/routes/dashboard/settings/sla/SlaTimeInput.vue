@@ -7,7 +7,7 @@
       :placeholder="placeholder"
       @input="onThresholdTimeChange"
     />
-    <div class="absolute right-px h-[34px] top-[27px] flex items-center">
+    <div class="absolute right-px h-9 top-[27px] flex items-center">
       <select
         v-model="thresholdUnitValue"
         class="h-full rounded-[4px] hover:cursor-pointer font-medium border-1 border-solid bg-transparent border-transparent dark:border-transparent mb-0 py-0 pl-2 pr-7 text-slate-600 dark:text-slate-300 dark:focus:border-woot-500 focus:border-woot-500 text-sm"
