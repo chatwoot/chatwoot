@@ -17,6 +17,7 @@ RSpec.describe Notification::ReopenSnoozedNotificationsJob do
       expect(snoozed_till_5_minutes_ago.reload.snoozed_until).to be_nil
       expect(snoozed_till_tomorrow.reload.snoozed_until.to_date).to eq 1.day.from_now.to_date
       expect(snoozed_indefinitely.reload.snoozed_until).to be_nil
+      expect(snoozed_indefinitely.reload.read_at).to be_nil
     end
   end
 end
