@@ -1,8 +1,4 @@
-import {
-  getBrowserLocale,
-  getBrowserTimezone,
-  getIANATimezoneFromOffset,
-} from '../BrowserHelper';
+import { getBrowserLocale, getIANATimezoneFromOffset } from '../BrowserHelper';
 describe('getBrowserLocale', () => {
   let languageSpy;
 
