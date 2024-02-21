@@ -5,7 +5,6 @@ import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import { SLA_EVENTS } from '../../helper/AnalyticsHelper/events';
 import { throwErrorMessage } from '../utils/api';
 
-
 export const state = {
   records: [],
   uiFlags: {
