@@ -38,11 +38,7 @@ module MailboxHelper
 
   def process_regular_attachments(attachments)
     attachments.each do |mail_attachment|
-      attachment = @message.attachments.new(
-        account_id: @conversation.account_id,
-        file_type: 'file'
-      )
-      attachment.file.attach(mail_attachment[:blob])
+      create_attachment(mail_attachment)
     end
   end
 
@@ -72,15 +68,31 @@ module MailboxHelper
   def upload_inline_image(mail_attachment)
     content_id = mail_attachment[:original].cid
 
-    @html_content = @html_content.gsub("cid:#{content_id}", inline_image_url(mail_attachment[:blob]).to_s)
+    if @html_content.include?("cid:#{content_id}")
+      @html_content = @html_content.gsub("cid:#{content_id}", inline_image_url(mail_attachment[:blob]).to_s)
+    else
+      create_attachment(mail_attachment)
+    end
   end
 
   def embed_plain_text_email_with_inline_image(mail_attachment)
     attachment_name = mail_attachment[:original].filename
 
-    @text_content = @text_content.gsub(
-      "[image: #{attachment_name}]", "<img src=\"#{inline_image_url(mail_attachment[:blob])}\" alt=\"#{attachment_name}\">"
+    if @text_content.include?("[image: #{attachment_name}]")
+      @text_content = @text_content.gsub(
+        "[image: #{attachment_name}]", "<img src=\"#{inline_image_url(mail_attachment[:blob])}\" alt=\"#{attachment_name}\">"
+      )
+    else
+      create_attachment(mail_attachment)
+    end
+  end
+
+  def create_attachment(mail_attachment)
+    attachment = @message.attachments.new(
+      account_id: @conversation.account_id,
+      file_type: 'file'
     )
+    attachment.file.attach(mail_attachment[:blob])
   end
 
   def inline_image_url(blob)
