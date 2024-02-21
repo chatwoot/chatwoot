@@ -1,5 +1,3 @@
-// /* global axios */
-
 import ApiClient from './ApiClient';
 
 class SlaAPI extends ApiClient {

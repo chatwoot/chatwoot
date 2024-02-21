@@ -3,6 +3,8 @@ import types from '../mutation-types';
 import SlaAPI from '../../api/sla';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import { SLA_EVENTS } from '../../helper/AnalyticsHelper/events';
+import { throwErrorMessage } from '../utils/api';
+
 
 export const state = {
   records: [],
@@ -43,8 +45,7 @@ export const actions = {
       AnalyticsHelper.track(SLA_EVENTS.CREATE);
       commit(types.ADD_SLA, response.data.payload);
     } catch (error) {
-      const errorMessage = error?.response?.data?.message;
-      throw new Error(errorMessage);
+      throwErrorMessage(error);
     } finally {
       commit(types.SET_SLA_UI_FLAG, { isCreating: false });
     }
@@ -57,7 +58,7 @@ export const actions = {
       AnalyticsHelper.track(SLA_EVENTS.UPDATE);
       commit(types.EDIT_SLA, response.data.payload);
     } catch (error) {
-      throw new Error(error);
+      throwErrorMessage(error);
     } finally {
       commit(types.SET_SLA_UI_FLAG, { isUpdating: false });
     }
