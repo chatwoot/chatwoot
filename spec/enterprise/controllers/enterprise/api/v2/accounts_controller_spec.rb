@@ -51,6 +51,22 @@ RSpec.describe Enterprise::Api::V2::AccountsController, type: :request do
       end
     end
 
+    it 'updates the onboarding step in custom attributes' do
+      with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+        allow(account_builder).to receive(:perform).and_return([user, account])
+
+        params = { email: email, user: nil, locale: nil, password: 'Password1!' }
+
+        post api_v2_accounts_url,
+             params: params,
+             as: :json
+
+        custom_attributes = account.custom_attributes
+
+        expect(custom_attributes['onboarding_step']).to eq('profile_update')
+      end
+    end
+
     it 'handles errors when fetching data from clearbit' do
       with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
         allow(account_builder).to receive(:perform).and_return([user, account])

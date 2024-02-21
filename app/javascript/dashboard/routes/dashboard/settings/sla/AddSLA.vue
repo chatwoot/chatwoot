@@ -24,14 +24,12 @@ export default {
     SlaForm,
   },
   mixins: [alertMixin, validationMixin],
-  props: {},
   validations,
   computed: {
     ...mapGetters({
       uiFlags: 'sla/getUIFlags',
     }),
   },
-  mounted() {},
   methods: {
     onClose() {
       this.$emit('close');
