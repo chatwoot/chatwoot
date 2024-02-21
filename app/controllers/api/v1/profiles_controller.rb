@@ -25,7 +25,33 @@ class Api::V1::ProfilesController < Api::BaseController
   end
 
   def availability
-    @user.account_users.find_by!(account_id: availability_params[:account_id]).update!(availability: availability_params[:availability])
+    # Log the start of the method
+    Rails.logger.debug { 'Starting availability update' }
+
+    # Retrieve the account_id and availability from the parameters
+    account_id = availability_params[:account_id]
+    new_availability = availability_params[:availability]
+
+    # Log the retrieved parameters
+    Rails.logger.debug { "Parameters: account_id: #{account_id}, availability: #{new_availability}" }
+
+    # Find the AccountUser record
+    account_user = @user.account_users.find_by(account_id: account_id)
+
+    # Check if the AccountUser record is found
+    if account_user
+      # Log the current availability of the AccountUser
+      Rails.logger.debug { "Current availability of AccountUser (ID: #{account_user.id}): #{account_user.availability}" }
+
+      # Update the availability
+      update_result = account_user.update(availability: new_availability)
+
+      # Log the result of the update operation
+      Rails.logger.debug { "Update result: #{update_result}" }
+    else
+      # Log if the AccountUser record is not found
+      Rails.logger.debug { "No AccountUser found for user_id: #{@user.id} and account_id: #{account_id}" }
+    end
   end
 
   def set_active_account
