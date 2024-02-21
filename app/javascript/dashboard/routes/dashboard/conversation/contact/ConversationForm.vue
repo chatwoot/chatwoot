@@ -91,7 +91,13 @@
         </div>
       </div>
       <div class="w-full">
-        <div class="w-full">
+        <div
+          class="w-full"
+          :class="{
+            'flex flex-col-reverse': hasWhatsappTemplates,
+            'gap-3': hasWhatsappTemplates && !hasAttachments,
+          }"
+        >
           <div class="relative">
             <canned-response
               v-if="showCannedResponseMenu && hasSlashCommand"
@@ -149,7 +155,13 @@
             @on-select-template="toggleWaTemplate"
             @on-send="onSendWhatsAppReply"
           />
-          <label v-else :class="{ error: $v.message.$error }">
+          <div v-if="isAPIInbox && hasPreviousConversationsInAPIInbox">
+            <p class="alert-text">
+              A conversation already exists. Whatsapp channel supports only one
+              single conversation
+            </p>
+          </div>
+          <label v-else-if="!isAPIInbox" :class="{ error: $v.message.$error }">
             {{ $t('NEW_CONVERSATION.FORM.MESSAGE.LABEL') }}
             <textarea
               v-model="message"
@@ -162,7 +174,7 @@
               {{ $t('NEW_CONVERSATION.FORM.MESSAGE.ERROR') }}
             </span>
           </label>
-          <div v-if="isEmailOrWebWidgetInbox" class="flex flex-col">
+          <div class="flex flex-col">
             <file-upload
               ref="uploadAttachment"
               input-id="newConversationAttachment"
@@ -215,12 +227,20 @@
       <button class="button clear" @click.prevent="onCancel">
         {{ $t('NEW_CONVERSATION.FORM.CANCEL') }}
       </button>
-      <woot-button type="submit" :is-loading="conversationsUiFlags.isCreating">
-        {{ $t('NEW_CONVERSATION.FORM.SUBMIT') }}
+      <woot-button
+        type="submit"
+        :is-disabled="isAPIInbox && hasPreviousConversationsInAPIInbox"
+        :is-loading="conversationsUiFlags.isCreating"
+      >
+        {{
+          isAPIInbox
+            ? 'Create Conversation'
+            : $t('NEW_CONVERSATION.FORM.SUBMIT')
+        }}
       </woot-button>
     </div>
 
-    <transition v-if="isEmailOrWebWidgetInbox" name="modal-fade">
+    <transition name="modal-fade">
       <div
         v-show="$refs.uploadAttachment && $refs.uploadAttachment.dropActive"
         class="flex top-0 bottom-0 z-30 gap-2 right-0 left-0 items-center justify-center flex-col absolute w-full h-full bg-white/80 dark:bg-slate-700/80"
@@ -248,6 +268,7 @@ import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import { getInboxSource } from 'dashboard/helper/inbox';
 import { required, requiredIf } from 'vuelidate/lib/validators';
+import axios from 'axios';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import FileUpload from 'vue-upload-component';
 import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
@@ -305,7 +326,7 @@ export default {
       required: requiredIf('isAnEmailInbox'),
     },
     message: {
-      required,
+      required: requiredIf('!isAPIInbox'),
     },
     targetInbox: {
       required,
@@ -389,6 +410,24 @@ export default {
       return (
         this.selectedInbox &&
         this.selectedInbox.inbox.channel_type === INBOX_TYPES.EMAIL
+      );
+    },
+    isAPIInbox() {
+      return (
+        this.selectedInbox &&
+        this.selectedInbox.inbox.channel_type === INBOX_TYPES.API
+      );
+    },
+    hasPreviousConversationsInAPIInbox() {
+      if (this.contact.contact_inboxes) {
+        return JSON.stringify(this.contact.contact_inboxes).includes(
+          'Channel::Api'
+        );
+      }
+      return (
+        JSON.stringify(this.contact.contactableInboxes).includes(
+          'Channel::Api'
+        ) && this.contact.conversations_count >= 1
       );
     },
     isAnWebWidgetInbox() {
@@ -490,6 +529,10 @@ export default {
         message: { content, template_params: templateParams },
         assigneeId: this.currentUser.id,
       };
+      if (this.attachedFiles && this.attachedFiles.length) {
+        payload.files = [];
+        this.setAttachmentPayload(payload);
+      }
       return payload;
     },
     onFormSubmit() {
@@ -511,9 +554,27 @@ export default {
           to: `/app/accounts/${data.account_id}/conversations/${data.id}`,
           message: this.$t('NEW_CONVERSATION.FORM.GO_TO_CONVERSATION'),
         };
+        const currentInbox = this.$store.getters['inboxes/getInbox'](
+          data.inbox_id
+        );
+        const currentContact = this.$store.getters['contacts/getContact'](
+          payload.contactId
+        );
+        if (currentInbox.channel_type === 'Channel::Api') {
+          axios.post(
+            'https://app.bitespeed.co/cxIntegrations/chatwoot/createThread',
+            {
+              accountId: data.account_id,
+              conversationId: data.id,
+              phoneNumber: currentContact.phone_number,
+            }
+          );
+        }
         this.onSuccess();
         this.showAlert(
-          this.$t('NEW_CONVERSATION.FORM.SUCCESS_MESSAGE'),
+          currentInbox.channel_type === 'Channel::Api'
+            ? 'Conversation Created'
+            : this.$t('NEW_CONVERSATION.FORM.SUCCESS_MESSAGE'),
           action
         );
       } catch (error) {
@@ -568,9 +629,21 @@ export default {
   }
 }
 
+.message-input {
+  min-height: 8rem;
+}
+
+.row.gutter-small {
+  gap: var(--space-small);
+}
+.alert-text {
+  color: #ff382d;
+}
+
 .file-uploads {
   @apply text-start;
 }
+
 .multiselect-wrap--small.has-multi-select-error {
   ::v-deep {
     .multiselect__tags {

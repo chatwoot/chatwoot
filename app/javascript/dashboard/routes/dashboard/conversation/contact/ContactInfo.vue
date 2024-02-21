@@ -122,6 +122,17 @@
           @click="openMergeModal"
         />
         <woot-button
+          v-show="contact.phone_number"
+          v-tooltip="'Unsubscribe Contact'"
+          title="'Unsubscribe Contact'"
+          class="unsub-contact"
+          variant="smooth"
+          size="small"
+          @click="toggleUnsubModal"
+        >
+          Unsubscribe
+        </woot-button>
+        <woot-button
           v-if="isAdmin"
           v-tooltip="$t('DELETE_CONTACT.BUTTON_LABEL')"
           title="$t('DELETE_CONTACT.BUTTON_LABEL')"
@@ -151,6 +162,12 @@
         :show="showMergeModal"
         @close="toggleMergeModal"
       />
+      <unsub-modal
+        v-if="showUnsubModal"
+        :contact="contact"
+        :show="showUnsubModal"
+        @cancel="toggleUnsubModal"
+      />
     </div>
     <woot-delete-modal
       v-if="showDeleteModal"
@@ -175,6 +192,7 @@ import SocialIcons from './SocialIcons.vue';
 import EditContact from './EditContact.vue';
 import NewConversation from './NewConversation.vue';
 import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal.vue';
+import UnsubModal from './UnsubModal';
 import alertMixin from 'shared/mixins/alertMixin';
 import adminMixin from '../../../../mixins/isAdmin';
 import { mapGetters } from 'vuex';
@@ -194,6 +212,7 @@ export default {
     SocialIcons,
     NewConversation,
     ContactMergeModal,
+    UnsubModal,
   },
   mixins: [alertMixin, adminMixin, clickaway, timeMixin],
   props: {
@@ -223,11 +242,14 @@ export default {
       showEditModal: false,
       showConversationModal: false,
       showMergeModal: false,
+      showUnsubModal: false,
       showDeleteModal: false,
     };
   },
   computed: {
-    ...mapGetters({ uiFlags: 'contacts/getUIFlags' }),
+    ...mapGetters({
+      uiFlags: 'contacts/getUIFlags',
+    }),
     contactProfileLink() {
       return `/app/accounts/${this.$route.params.accountId}/contacts/${this.contact.id}`;
     },
@@ -261,6 +283,9 @@ export default {
     },
   },
   methods: {
+    toggleUnsubModal() {
+      this.showUnsubModal = !this.showUnsubModal;
+    },
     toggleMergeModal() {
       this.showMergeModal = !this.showMergeModal;
     },
@@ -327,3 +352,77 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+.contact--profile {
+  position: relative;
+  align-items: flex-start;
+  padding: var(--space-normal);
+}
+
+.contact--details {
+  margin-top: var(--space-small);
+  width: 100%;
+}
+
+.contact--info {
+  text-align: left;
+}
+
+.contact-info--header {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.contact--name-wrap {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--space-small);
+}
+
+.contact--name {
+  text-transform: capitalize;
+  white-space: normal;
+  margin: 0 var(--space-smaller) 0 var(--space-smaller);
+
+  a {
+    color: var(--color-body);
+  }
+}
+
+.contact--metadata {
+  margin-bottom: var(--space-slab);
+}
+
+.contact-actions {
+  margin-top: var(--space-small);
+}
+
+.contact-actions {
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  .new-message,
+  .edit-contact,
+  .merge-contact,
+  .delete-contact,
+  .unsub-contact {
+    margin-right: var(--space-small);
+  }
+}
+.merge-summary--card {
+  padding: var(--space-normal);
+}
+
+.contact--bio {
+  word-wrap: break-word;
+}
+
+.button--contact-menu {
+  position: absolute;
+  right: var(--space-normal);
+  top: 0;
+}
+</style>

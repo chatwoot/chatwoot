@@ -48,7 +48,7 @@
           "
           @blur="$v.selectedInboxName.$touch"
         />
-        <woot-input
+        <!-- <woot-input
           v-if="isAPIInbox"
           v-model.trim="webhookUrl"
           class="w-[75%] pb-4"
@@ -65,7 +65,7 @@
               : ''
           "
           @blur="$v.webhookUrl.$touch"
-        />
+        /> -->
         <woot-input
           v-if="isAWebWidgetInbox"
           v-model.trim="channelWebsiteUrl"
@@ -432,7 +432,7 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import FacebookReauthorize from './facebook/Reauthorize.vue';
 import PreChatFormSettings from './PreChatForm/Settings.vue';
 import WeeklyAvailability from './components/WeeklyAvailability.vue';
-import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
+// import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
 import ConfigurationPage from './settingsPage/ConfigurationPage.vue';
 import CollaboratorsPage from './settingsPage/CollaboratorsPage.vue';
 import WidgetBuilder from './WidgetBuilder.vue';
@@ -446,7 +446,7 @@ export default {
     CollaboratorsPage,
     ConfigurationPage,
     FacebookReauthorize,
-    GreetingsEditor,
+    // GreetingsEditor,
     PreChatFormSettings,
     SettingIntroBanner,
     SettingsSection,

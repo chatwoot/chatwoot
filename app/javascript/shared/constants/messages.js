@@ -38,16 +38,16 @@ export const CONVERSATION_PRIORITY_ORDER = {
 export const MAXIMUM_FILE_UPLOAD_SIZE = 40;
 export const MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL = 5;
 
-export const ALLOWED_FILE_TYPES =
-  'image/*,' +
-  'audio/*,' +
-  'video/*,' +
-  '.3gpp,' +
-  'text/csv, text/plain, application/json, application/pdf, text/rtf,' +
-  'application/zip, application/x-7z-compressed application/vnd.rar application/x-tar,' +
-  'application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/vnd.oasis.opendocument.text,' +
-  'application/vnd.openxmlformats-officedocument.presentationml.presentation, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,' +
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document,';
+export const ALLOWED_FILE_TYPES = '.png,.jpeg,.mp4,.pdf';
+// 'image/*,' +
+// 'audio/*,' +
+// 'video/*,' +
+// '.3gpp,' +
+// 'text/csv, text/plain, application/json, application/pdf, text/rtf,' ;
+// 'application/zip, application/x-7z-compressed application/vnd.rar application/x-tar,' +
+// 'application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/vnd.oasis.opendocument.text,' +
+// 'application/vnd.openxmlformats-officedocument.presentationml.presentation, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,' +
+// 'application/vnd.openxmlformats-officedocument.wordprocessingml.document,';
 
 export const ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP =
   'image/png, image/jpeg,' +

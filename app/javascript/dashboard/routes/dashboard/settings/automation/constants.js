@@ -124,13 +124,13 @@ export const AUTOMATIONS = {
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },
-      {
-        key: 'browser_language',
-        name: 'Browser Language',
-        attributeI18nKey: 'BROWSER_LANGUAGE',
-        inputType: 'search_select',
-        filterOperators: OPERATOR_TYPES_1,
-      },
+      // {
+      //   key: 'browser_language',
+      //   name: 'Browser Language',
+      //   attributeI18nKey: 'BROWSER_LANGUAGE',
+      //   inputType: 'search_select',
+      //   filterOperators: OPERATOR_TYPES_1,
+      // },
       {
         key: 'mail_subject',
         name: 'Email Subject',
@@ -255,13 +255,13 @@ export const AUTOMATIONS = {
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },
-      {
-        key: 'browser_language',
-        name: 'Browser Language',
-        attributeI18nKey: 'BROWSER_LANGUAGE',
-        inputType: 'search_select',
-        filterOperators: OPERATOR_TYPES_1,
-      },
+      // {
+      //   key: 'browser_language',
+      //   name: 'Browser Language',
+      //   attributeI18nKey: 'BROWSER_LANGUAGE',
+      //   inputType: 'search_select',
+      //   filterOperators: OPERATOR_TYPES_1,
+      // },
       {
         key: 'mail_subject',
         name: 'Email Subject',
@@ -276,13 +276,13 @@ export const AUTOMATIONS = {
         inputType: 'search_select',
         filterOperators: OPERATOR_TYPES_1,
       },
-      {
-        key: 'referer',
-        name: 'Referrer Link',
-        attributeI18nKey: 'REFERER_LINK',
-        inputType: 'plain_text',
-        filterOperators: OPERATOR_TYPES_2,
-      },
+      // {
+      //   key: 'referer',
+      //   name: 'Referrer Link',
+      //   attributeI18nKey: 'REFERER_LINK',
+      //   inputType: 'plain_text',
+      //   filterOperators: OPERATOR_TYPES_2,
+      // },
       {
         key: 'phone_number',
         name: 'Phone Number',

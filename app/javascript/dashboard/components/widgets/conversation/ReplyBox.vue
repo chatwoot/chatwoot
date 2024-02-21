@@ -16,7 +16,9 @@
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
       :characters-remaining="charactersRemaining"
       :popout-reply-box="popoutReplyBox"
+      :has-whatsapp-templates="hasWhatsappTemplates"
       @click="$emit('click')"
+      @selectWhatsappTemplate="openWhatsappTemplateModal"
     />
     <article-search-popover
       v-if="showArticleSearchPopover && connectedPortalSlug"
@@ -428,7 +430,7 @@ export default {
       );
     },
     isRichEditorEnabled() {
-      return this.isAWebWidgetInbox || this.isAnEmailChannel;
+      return this.isAWebWidgetInbox || this.isAnEmailChannel || this.isAPIInbox;
     },
     showAudioRecorder() {
       return !this.isOnPrivateNote && this.showFileUpload;

@@ -92,7 +92,7 @@
           {{ $t('CREATE_CONTACT.BUTTON_LABEL') }}
         </woot-button>
 
-        <woot-button
+       <!-- <woot-button
           v-if="isAdmin"
           color-scheme="info"
           icon="upload"
@@ -100,7 +100,7 @@
           @click="toggleImport"
         >
           {{ $t('IMPORT_CONTACTS.BUTTON_LABEL') }}
-        </woot-button>
+        </woot-button> -->
 
         <woot-button
           v-if="isAdmin"

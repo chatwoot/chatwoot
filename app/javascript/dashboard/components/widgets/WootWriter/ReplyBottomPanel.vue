@@ -37,6 +37,17 @@
           size="small"
         />
       </file-upload>
+      <!--<woot-button
+        v-if="enableRichEditor && !isOnPrivateNote"
+        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
+        icon="quote"
+        emoji="🖊️"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        :title="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
+        @click="toggleFormatMode"
+      />
       <woot-button
         v-if="showAudioRecorderButton"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
@@ -46,7 +57,7 @@
         variant="smooth"
         size="small"
         @click="toggleAudioRecorder"
-      />
+      />-->
       <woot-button
         v-if="showEditorToggle"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
@@ -78,7 +89,7 @@
         :title="signatureToggleTooltip"
         @click="toggleMessageSignature"
       />
-      <woot-button
+      <!--<woot-button
         v-if="hasWhatsappTemplates"
         v-tooltip.top-end="'Whatsapp Templates'"
         icon="whatsapp"
@@ -91,7 +102,7 @@
       <video-call-button
         v-if="(isAWebWidgetInbox || isAPIInbox) && !isOnPrivateNote"
         :conversation-id="conversationId"
-      />
+      /> -->
       <AIAssistanceButton
         :conversation-id="conversationId"
         :is-private-note="isOnPrivateNote"
@@ -146,14 +157,14 @@ import {
   ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP,
   ALLOWED_FILE_TYPES_FOR_LINE,
 } from 'shared/constants/messages';
-import VideoCallButton from '../VideoCallButton.vue';
+// import VideoCallButton from '../VideoCallButton.vue';
 import AIAssistanceButton from '../AIAssistanceButton.vue';
 import { REPLY_EDITOR_MODES } from './constants';
 import { mapGetters } from 'vuex';
 
 export default {
   name: 'ReplyBottomPanel',
-  components: { FileUpload, VideoCallButton, AIAssistanceButton },
+  components: { FileUpload, AIAssistanceButton },
   mixins: [eventListenerMixins, uiSettingsMixin, inboxMixin],
   props: {
     mode: {

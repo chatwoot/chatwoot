@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/this-in-template -->
 <template>
   <form
     class="contact--form w-full pt-6 px-8 pb-8"
@@ -416,6 +417,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
+input[readonly] {
+  background-color: #e3e9f2;
+  outline: none;
+}
+.contact--form {
+  padding: var(--space-normal) var(--space-large) var(--space-large);
+
+  .columns {
+    padding: 0 var(--space-smaller);
+  }
+}
+
 .input-group-label {
   @apply text-sm bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-slate-200 dark:border-slate-600;
 }
