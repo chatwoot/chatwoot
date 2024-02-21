@@ -6,7 +6,7 @@
     "eslint": "eslint app/**/*.{js,vue}",
     "eslint:fix": "eslint app/**/*.{js,vue} --fix",
     "pretest": "rimraf .jest-cache",
-    "test": "jest -w 1 --no-cache",
+    "test": "jest -w 1 --no-cache --no-coverage",
     "test:watch": "jest -w 1 --watch --no-cache",
     "test:coverage": "jest -w 1 --no-cache --collectCoverage",
     "webpacker-start": "webpack-dev-server -d --config webpack.dev.config.js --content-base public/ --progress --colors",

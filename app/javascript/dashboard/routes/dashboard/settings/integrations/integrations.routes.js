@@ -3,6 +3,7 @@ import SettingsContent from '../Wrapper';
 import Webhook from './Webhooks/Index';
 import DashboardApps from './DashboardApps/Index';
 import ShowIntegration from './ShowIntegration';
+import Slack from './Slack';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 export default {
@@ -41,6 +42,13 @@ export default {
           component: DashboardApps,
           name: 'settings_integrations_dashboard_apps',
           roles: ['administrator'],
+        },
+        {
+          path: 'slack',
+          name: 'settings_integrations_slack',
+          component: Slack,
+          roles: ['administrator'],
+          props: route => ({ code: route.query.code }),
         },
         {
           path: ':integration_id',
