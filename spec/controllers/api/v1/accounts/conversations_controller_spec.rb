@@ -460,21 +460,6 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.status).to eq('snoozed')
         expect(conversation.reload.snoozed_until.to_i).to eq(snoozed_until)
       end
-
-      # TODO: remove this spec when we remove the condition check in controller
-      # Added for backwards compatibility for bot status
-      # remove in next release
-      # it 'toggles the conversation status to pending status when parameter bot is passed' do
-      #   expect(conversation.status).to eq('open')
-
-      #   post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
-      #        headers: agent.create_new_auth_token,
-      #        params: { status: 'bot' },
-      #        as: :json
-
-      #   expect(response).to have_http_status(:success)
-      #   expect(conversation.reload.status).to eq('pending')
-      # end
     end
 
     context 'when it is an authenticated bot' do
