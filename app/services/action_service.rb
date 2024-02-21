@@ -3,6 +3,7 @@ class ActionService
 
   def initialize(conversation)
     @conversation = conversation.reload
+    @account = @conversation.account
   end
 
   def mute_conversation(_params)

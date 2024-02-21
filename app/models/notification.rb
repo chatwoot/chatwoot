@@ -4,6 +4,7 @@
 #
 #  id                   :bigint           not null, primary key
 #  last_activity_at     :datetime
+#  meta                 :jsonb
 #  notification_type    :integer          not null
 #  primary_actor_type   :string           not null
 #  read_at              :datetime
@@ -63,22 +64,15 @@ class Notification < ApplicationRecord
       created_at: created_at.to_i,
       last_activity_at: last_activity_at.to_i,
       snoozed_until: snoozed_until,
+      meta: meta,
       account_id: account_id
 
     }
     if primary_actor.present?
-      payload[:primary_actor] = primary_actor_data
+      payload[:primary_actor] = primary_actor&.push_event_data
       payload[:push_message_title] = push_message_title
     end
     payload
-  end
-
-  def primary_actor_data
-    {
-      id: primary_actor.push_event_data[:id],
-      meta: primary_actor.push_event_data[:meta],
-      inbox_id: primary_actor.push_event_data[:inbox_id]
-    }
   end
 
   def fcm_push_data
