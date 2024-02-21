@@ -1,0 +1,14 @@
+tags:
+  - Conversations API
+operationId: resolve-conversation
+summary: Resolve a conversation
+description: Marks a conversation as resolved
+responses:
+  200:
+    description: Conversation resolved successfully
+    schema:
+      $ref: '#/definitions/public_conversation'
+  401:
+    description: Unauthorized
+  404:
+    description: Conversation not found
