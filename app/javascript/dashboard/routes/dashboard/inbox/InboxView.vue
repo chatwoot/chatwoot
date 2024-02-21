@@ -2,7 +2,7 @@
   <section class="flex w-full h-full bg-white dark:bg-slate-900">
     <inbox-list
       v-show="showConversationList"
-      :conversation-id="conversationId"
+      :notification-id="notificationId"
       :is-on-expanded-layout="isOnExpandedLayout"
     />
     <div
@@ -68,7 +68,7 @@ export default {
       type: [String, Number],
       default: 0,
     },
-    conversationId: {
+    notificationId: {
       type: [String, Number],
       default: 0,
     },
@@ -78,13 +78,15 @@ export default {
       currentAccountId: 'getCurrentAccountId',
       notifications: 'notifications/getNotifications',
       currentChat: 'getSelectedChat',
-      allConversation: 'getAllConversations',
+      activeNotificationById: 'notifications/getActiveNotificationById',
+      conversationById: 'getConversationById',
       uiFlags: 'notifications/getUIFlags',
     }),
     activeNotification() {
-      return this.notifications.find(
-        n => n.primary_actor.id === Number(this.conversationId)
-      );
+      return this.activeNotificationById(this.notificationId);
+    },
+    conversationId() {
+      return this.activeNotification?.primary_actor?.id;
     },
     isInboxViewEnabled() {
       return this.$store.getters['accounts/isFeatureEnabledGlobally'](
@@ -99,11 +101,7 @@ export default {
       return this.uiFlags.isFetching && !this.notifications.length;
     },
     showInboxMessageView() {
-      return (
-        Boolean(this.conversationId) &&
-        Boolean(this.currentChat.id) &&
-        !this.isFetchingInitialData
-      );
+      return Boolean(this.conversationId) && !this.isFetchingInitialData;
     },
     totalNotifications() {
       return this.notifications?.length ?? 0;
@@ -135,8 +133,10 @@ export default {
   watch: {
     conversationId: {
       immediate: true,
-      handler() {
-        this.fetchConversationById();
+      handler(newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.fetchConversationById();
+        }
       },
     },
   },
@@ -152,11 +152,14 @@ export default {
   },
   methods: {
     async fetchConversationById() {
-      if (!this.conversationId) return;
-      const chat = this.findConversation();
-      if (!chat) {
-        await this.$store.dispatch('getConversation', this.conversationId);
+      if (!this.notificationId || !this.conversationId) return;
+      this.$store.dispatch('clearSelectedState');
+      const existingChat = this.findConversation();
+      if (existingChat) {
+        this.setActiveChat(existingChat);
+        return;
       }
+      await this.$store.dispatch('getConversation', this.conversationId);
       this.setActiveChat();
     },
     setActiveChat() {
@@ -169,8 +172,7 @@ export default {
         });
     },
     findConversation() {
-      const conversationId = Number(this.conversationId);
-      return this.allConversation.find(c => c.id === conversationId);
+      return this.conversationById(this.conversationId);
     },
     navigateToConversation(activeIndex, direction) {
       const indexOffset = direction === 'next' ? 0 : -2;
@@ -180,7 +182,7 @@ export default {
           id,
           primary_actor_id: primaryActorId,
           primary_actor_type: primaryActorType,
-          primary_actor: { id: conversationId, meta: { unreadCount } = {} },
+          primary_actor: { meta: { unreadCount } = {} },
           notification_type: notificationType,
         } = targetNotification;
 
@@ -197,7 +199,7 @@ export default {
 
         this.$router.push({
           name: 'inbox_view_conversation',
-          params: { conversation_id: conversationId },
+          params: { notification_id: id },
         });
       }
     },

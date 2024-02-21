@@ -6,11 +6,12 @@
     hideBreadcrumbs
     :placeholder="placeholder"
     @selected="onSelected"
+    @closed="onClosed"
   />
 </template>
 
 <script>
-import 'ninja-keys';
+import '@chatwoot/ninja-keys';
 import conversationHotKeysMixin from './conversationHotKeys';
 import inboxHotKeysMixin from './inboxHotKeys';
 import goToCommandHotKeys from './goToCommandHotKeys';
@@ -32,6 +33,11 @@ export default {
     appearanceHotKeys,
     goToCommandHotKeys,
   ],
+  data() {
+    return {
+      modalObserver: null,
+    };
+  },
   computed: {
     placeholder() {
       return this.$t('COMMAND_BAR.SEARCH_PLACEHOLDER');
@@ -55,6 +61,10 @@ export default {
     routeName() {
       this.setCommandbarData();
     },
+    hotKeys() {
+      // This is to update the command bar data when the hot keys are updated dynamically
+      this.setCommandbarData();
+    },
   },
   mounted() {
     this.setCommandbarData();
@@ -71,6 +81,9 @@ export default {
         action: title,
       });
       this.setCommandbarData();
+    },
+    onClosed() {
+      this.showSnoozeNotificationItems = false;
     },
   },
 };
