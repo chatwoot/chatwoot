@@ -30,6 +30,6 @@ class AppliedSla < ApplicationRecord
   private
 
   def ensure_account_id
-    self.account_id ||= sla_policy.account_id
+    self.account_id ||= sla_policy&.account_id
   end
 end
