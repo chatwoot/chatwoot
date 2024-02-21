@@ -133,7 +133,7 @@ export const getActionOptions = ({
   agents,
   teams,
   labels,
-  sla_policies,
+  slaPolicies,
   type,
 }) => {
   const actionsMap = {
@@ -143,7 +143,7 @@ export const getActionOptions = ({
     add_label: generateConditionOptions(labels, 'title'),
     remove_label: generateConditionOptions(labels, 'title'),
     change_priority: PRIORITY_CONDITION_VALUES,
-    add_sla: sla_policies,
+    add_sla: slaPolicies,
   };
   return actionsMap[type];
 };
