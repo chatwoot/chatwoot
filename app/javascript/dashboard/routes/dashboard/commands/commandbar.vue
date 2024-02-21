@@ -6,11 +6,12 @@
     hideBreadcrumbs
     :placeholder="placeholder"
     @selected="onSelected"
+    @closed="onClosed"
   />
 </template>
 
 <script>
-import 'ninja-keys';
+import '@chatwoot/ninja-keys';
 import conversationHotKeysMixin from './conversationHotKeys';
 import inboxHotKeysMixin from './inboxHotKeys';
 import goToCommandHotKeys from './goToCommandHotKeys';
@@ -67,14 +68,6 @@ export default {
   },
   mounted() {
     this.setCommandbarData();
-    if (this.$route.name === 'inbox_view') {
-      this.$nextTick(() => {
-        this.setModalObserver();
-      });
-    }
-  },
-  beforeDestroy() {
-    this.disposeModalObserver();
   },
   methods: {
     setCommandbarData() {
@@ -89,48 +82,8 @@ export default {
       });
       this.setCommandbarData();
     },
-    setModalObserver() {
-      this.disposeModalObserver();
-
-      const ninjaKeysElement = document.querySelector('ninja-keys');
-      if (ninjaKeysElement && ninjaKeysElement.shadowRoot) {
-        const modalElement =
-          ninjaKeysElement.shadowRoot.querySelector('.modal');
-        if (modalElement instanceof HTMLElement) {
-          this.createModalObserver(modalElement);
-        }
-      }
-    },
-    createModalObserver(modalElement) {
-      // Initialize an observer to detect when the command bar modal is closed and opened
-      // The ninja-keys component does not emit a close event https://github.com/ssleptsov/ninja-keys?tab=readme-ov-file#events.
-      // So by MutationObserver we can detect the modal visibility state by observing DOM changes.
-      // By observing changes to the 'class' attribute of the modal element,
-      // we can determine the modal's visibility state.
-
-      this.modalObserver = new MutationObserver(mutations => {
-        mutations.forEach(mutation => {
-          if (mutation.attributeName === 'class') {
-            const classList = mutation.target.classList;
-            if (!classList.contains('visible')) {
-              // Hide snooze notification items from cmd bar
-              // The this.showSnoozeNotificationItems is from inboxHotKeysMixin
-              this.showSnoozeNotificationItems = false;
-            }
-          }
-        });
-      });
-      this.modalObserver.observe(modalElement, {
-        attributes: true,
-        attributeOldValue: true,
-        attributeFilter: ['class'],
-      });
-    },
-    disposeModalObserver() {
-      if (this.modalObserver) {
-        this.modalObserver.disconnect();
-        this.modalObserver = null;
-      }
+    onClosed() {
+      this.showSnoozeNotificationItems = false;
     },
   },
 };
