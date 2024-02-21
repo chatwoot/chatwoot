@@ -1,0 +1,14 @@
+tags:
+  - Conversations API
+operationId: get-single-conversation
+summary: Get a single conversation
+description: Retrieves the details of a specific conversation
+responses:
+  200:
+    description: Success
+    schema:
+      $ref: '#/definitions/public_conversation'
+  401:
+    description: Unauthorized
+  404:
+    description: Conversation not found
