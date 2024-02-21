@@ -557,6 +557,27 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response).to have_http_status(:success)
         expect(Avatar::AvatarFromUrlJob).to have_been_enqueued.with(contact, 'http://example.com/avatar.png')
       end
+
+      it 'allows blocking of contact' do
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              params: { blocked: true },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.blocked).to be(true)
+      end
+
+      it 'allows unblocking of contact' do
+        contact.update(blocked: true)
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              params: { blocked: false },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.blocked).to be(false)
+      end
     end
   end
 
