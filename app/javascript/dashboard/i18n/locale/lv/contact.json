@@ -79,7 +79,13 @@
     "TITLE": "Eksportēt Kontaktpersonas",
     "DESC": "Eksportēt kontaktpersonas uz CSV failu.",
     "SUCCESS_MESSAGE": "Notiek eksportēšana, Jūs saņemsit paziņojumu pa e-pastu, kad eksporta fails būs gatavs lejupielādei.",
-    "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
+    "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz",
+    "CONFIRM": {
+      "TITLE": "Eksportēt Kontaktpersonas",
+      "MESSAGE": "Are you sure you want to export all contacts?",
+      "YES": "Yes, Export",
+      "NO": "No, Cancel"
+    }
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -339,7 +345,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Nepieciešama derīga vērtība",
-      "INVALID_URL": "Nederīgs URL"
+      "INVALID_URL": "Nederīgs URL",
+      "INVALID_INPUT": "Nepareizi Ievadīts"
     }
   },
   "MERGE_CONTACTS": {
