@@ -79,7 +79,13 @@
     "TITLE": "Экспорт контактов",
     "DESC": "Экспорт контактов в CSV файл.",
     "SUCCESS_MESSAGE": "Выполняется экспорт. Вы будете уведомлены по электронной почте, когда файл экспорта будет готов к загрузке.",
-    "ERROR_MESSAGE": "Произошла ошибка, попробуйте еще раз"
+    "ERROR_MESSAGE": "Произошла ошибка, попробуйте еще раз",
+    "CONFIRM": {
+      "TITLE": "Экспорт контактов",
+      "MESSAGE": "Are you sure you want to export all contacts?",
+      "YES": "Yes, Export",
+      "NO": "No, Cancel"
+    }
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -339,7 +345,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Требуется корректное значение",
-      "INVALID_URL": "Некорректный URL"
+      "INVALID_URL": "Некорректный URL",
+      "INVALID_INPUT": "Неверный ввод"
     }
   },
   "MERGE_CONTACTS": {
