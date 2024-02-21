@@ -112,7 +112,8 @@
       "REMOVE_LABEL": "Noņemt etiķeti no sarunas",
       "SETTINGS": "Iestatījumi",
       "AI_ASSIST": "AI Palīgs",
-      "APPEARANCE": "Izskats"
+      "APPEARANCE": "Izskats",
+      "SNOOZE_NOTIFICATION": "Atlikt Paziņojumu"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Doties uz Sarunu Informācijas Paneli",
@@ -153,7 +154,8 @@
       "CHANGE_APPEARANCE": "Mainīt Izskatu",
       "LIGHT_MODE": "Gaišs",
       "DARK_MODE": "Tumšs",
-      "SYSTEM_MODE": "Sistēma"
+      "SYSTEM_MODE": "Sistēma",
+      "SNOOZE_NOTIFICATION": "Atlikt Paziņojumu"
     }
   },
   "DASHBOARD_APPS": {
