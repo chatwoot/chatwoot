@@ -48,3 +48,13 @@ export const validateRouteAccess = (to, next, chatwootConfig = {}) => {
 
   next();
 };
+
+export const isOnOnboardingView = route => {
+  const { name = '' } = route || {};
+
+  if (!name) {
+    return false;
+  }
+
+  return name.includes('onboarding_');
+};
