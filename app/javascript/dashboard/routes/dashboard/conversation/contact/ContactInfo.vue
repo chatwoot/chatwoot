@@ -182,6 +182,7 @@ import { getCountryFlag } from 'dashboard/helper/flag';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {
   isAConversationRoute,
+  isAInboxViewRoute,
   getConversationDashboardRoute,
 } from '../../../../helper/routeHelpers';
 
@@ -302,6 +303,10 @@ export default {
         if (isAConversationRoute(this.$route.name)) {
           this.$router.push({
             name: getConversationDashboardRoute(this.$route.name),
+          });
+        } else if (isAInboxViewRoute(this.$route.name)) {
+          this.$router.push({
+            name: 'inbox_view',
           });
         } else if (this.$route.name !== 'contacts_dashboard') {
           this.$router.push({

@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Confirmation Instructions' do
-  describe :notify do
+RSpec.describe 'Devise::Mailer' do
+  describe 'notify' do
     let(:account) { create(:account) }
     let!(:confirmable_user) { create(:user, inviter: inviter_val, account: account) }
     let(:inviter_val) { nil }
@@ -26,7 +26,7 @@ RSpec.describe 'Confirmation Instructions' do
     end
 
     it 'does not refer to the inviter and their account' do
-      expect(mail.body).to_not match('has invited you to try out Chatwoot!')
+      expect(mail.body).not_to match('has invited you to try out Chatwoot!')
       expect(mail.body).to match('We have a suite of powerful tools ready for you to explore.')
     end
 

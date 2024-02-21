@@ -44,7 +44,9 @@ Rails.application.routes.draw do
             resource :contact_merge, only: [:create]
           end
           resource :bulk_actions, only: [:create]
-          resources :agents, only: [:index, :create, :update, :destroy]
+          resources :agents, only: [:index, :create, :update, :destroy] do
+            post :bulk_create, on: :collection
+          end
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
           end
@@ -173,9 +175,11 @@ Rails.application.routes.draw do
             collection do
               post :read_all
               get :unread_count
+              post :destroy_all
             end
             member do
               post :snooze
+              post :unread
             end
           end
           resource :notification_settings, only: [:show, :update]
@@ -247,6 +251,7 @@ Rails.application.routes.draw do
           post :availability
           post :auto_offline
           put :set_active_account
+          post :resend_confirmation
         end
       end
 
@@ -287,16 +292,24 @@ Rails.application.routes.draw do
     end
 
     namespace :v2 do
-      resources :accounts, only: [], module: :accounts do
-        resources :reports, only: [:index] do
-          collection do
-            get :summary
-            get :agents
-            get :inboxes
-            get :labels
-            get :teams
-            get :conversations
-            get :conversation_traffic
+      resources :accounts, only: [:create] do
+        scope module: :accounts do
+          resources :summary_reports, only: [] do
+            collection do
+              get :agent
+              get :team
+            end
+          end
+          resources :reports, only: [:index] do
+            collection do
+              get :summary
+              get :agents
+              get :inboxes
+              get :labels
+              get :teams
+              get :conversations
+              get :conversation_traffic
+            end
           end
         end
       end
