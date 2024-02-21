@@ -59,7 +59,7 @@ class ContactIdentifyAction
   def existing_email_contact
     return if params[:email].blank?
 
-    @existing_email_contact ||= account.contacts.find_by(email: params[:email])
+    @existing_email_contact ||= account.contacts.from_email(params[:email])
   end
 
   def existing_phone_number_contact
