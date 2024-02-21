@@ -7,12 +7,10 @@
 # value: the value of the config
 # display_title: the title of the config displayed in the dashboard UI
 # description: the description of the config displayed in the dashboard UI
-# locked: if you don't specify locked attribute in yaml, the default value will be true, 
+# locked: if you don't specify locked attribute in yaml, the default value will be true,
 #         which means the particular config will be locked and won't be available in `super_admin/installation_configs`
 # premium: These values get overwritten unless the user is on a premium plan
 # type: The type of the config. Default is text,  boolean is also supported
-
-
 
 # ------- Branding Related Config ------- #
 - name: INSTALLATION_NAME
@@ -58,8 +56,6 @@
   type: boolean
 # ------- End of Branding Related Config ------- #
 
-
-
 # ------- Signup & Account Related Config ------- #
 - name: ENABLE_ACCOUNT_SIGNUP
   display_title: 'Enable Account Signup'
@@ -89,8 +85,6 @@
   locked: false
 # ------- End of Account Related Config ------- #
 
-
-
 # ------- Email Related Config ------- #
 - name: MAILER_INBOUND_EMAIL_DOMAIN
   value:
@@ -101,12 +95,11 @@
   locked: false
 # ------- End of Email Related Config ------- #
 
-
 # ------- Facebook Channel Related Config ------- #
-- name: FB_APP_ID 
+- name: FB_APP_ID
   display_title: 'Facebook App ID'
   locked: false
-- name: FB_VERIFY_TOKEN 
+- name: FB_VERIFY_TOKEN
   display_title: 'Facebook Verify Token'
   description: 'The verify token used for Facebook Messenger Webhook'
   locked: false
@@ -128,10 +121,12 @@
 # ------- Chatwoot Internal Config for Cloud ----#
 - name: CHATWOOT_INBOX_TOKEN
   value:
+  display_title: 'Inbox Token'
   description: 'The Chatwoot Inbox Token for Contact Support in Cloud'
   locked: false
 - name: CHATWOOT_INBOX_HMAC_KEY
   value:
+  display_title: 'Inbox HMAC Key'
   description: 'The Chatwoot Inbox HMAC Key for Contact Support in Cloud'
   locked: false
 - name: CHATWOOT_CLOUD_PLANS
@@ -142,9 +137,13 @@
   description: 'The deployment environment of the installation, to differentiate between Chatwoot cloud and self-hosted'
 - name: ANALYTICS_TOKEN
   value:
+  display_title: 'Analytics Token'
   description: 'The June.so analytics token for Chatwoot cloud'
+- name: CLEARBIT_API_KEY
+  value:
+  display_title: 'Clearbit API Key'
+  description: 'This API key is used for onboarding the users, to pre-fill account data.'
 # ------- End of Chatwoot Internal Config for Cloud ----#
-
 
 # ------- Chatwoot Internal Config for Self Hosted ----#
 - name: INSTALLATION_PRICING_PLAN
@@ -179,5 +178,4 @@
   value: false
   locked: false
   description: 'Disable rendering profile update page for users'
-
 ## ------ End of Configs added for enterprise clients ------ ##
