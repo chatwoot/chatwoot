@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe Sla::EvaluateAppliedSlaService do
-  let!(:conversation) { create(:conversation, created_at: 6.hours.ago) }
   let!(:sla_policy) do
-    create(:sla_policy, account: conversation.account,
-                        first_response_time_threshold: nil,
-                        next_response_time_threshold: nil,
-                        resolution_time_threshold: nil)
+    create(:sla_policy,
+           first_response_time_threshold: nil,
+           next_response_time_threshold: nil,
+           resolution_time_threshold: nil)
   end
-  let!(:applied_sla) { create(:applied_sla, conversation: conversation, sla_policy: sla_policy, sla_status: 'active') }
+  let!(:conversation) { create(:conversation, created_at: 6.hours.ago, account: sla_policy.account, sla_policy: sla_policy) }
+  let!(:applied_sla) { conversation.applied_sla }
 
   describe '#perform - SLA misses' do
     context 'when first response SLA is missed' do
