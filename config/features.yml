@@ -68,3 +68,6 @@
   enabled: false
 - name: inbox_view
   enabled: false
+- name: sla
+  enabled: false
+  premium: true
