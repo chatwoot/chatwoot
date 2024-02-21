@@ -85,6 +85,7 @@ export default {
   },
   destroyed() {
     bus.$off(CMD_TOGGLE_SNOOZE_NOTIFICATION, this.toggleSnoozeOptions);
+    this.showSnoozeNotificationItems = false;
   },
   methods: {
     prepareActions(actions) {
