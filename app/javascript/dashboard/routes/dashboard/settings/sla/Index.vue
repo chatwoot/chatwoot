@@ -111,12 +111,26 @@ export default {
     ...mapGetters({
       records: 'sla/getSLA',
       uiFlags: 'sla/getUIFlags',
+      accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
+    isSLAEnabled() {
+      return this.isFeatureEnabledonAccount(this.accountId, 'sla');
+    },
   },
   mounted() {
-    this.$store.dispatch('sla/get');
+    this.isSLAfeatureEnabled();
   },
   methods: {
+    isSLAfeatureEnabled() {
+      if (!this.isSLAEnabled) {
+        this.$router.push({
+          name: 'general_settings_index',
+        });
+      } else {
+        this.$store.dispatch('sla/get');
+      }
+    },
     openAddPopup() {
       this.showAddPopup = true;
     },
