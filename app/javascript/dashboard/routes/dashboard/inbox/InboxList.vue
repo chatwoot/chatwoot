@@ -32,12 +32,6 @@
       >
         {{ $t('INBOX.LIST.NO_NOTIFICATIONS') }}
       </p>
-      <p
-        v-if="showEndOfListMessage"
-        class="text-center text-slate-400 dark:text-slate-400 p-4"
-      >
-        {{ $t('INBOX.LIST.EOF') }}
-      </p>
       <intersection-observer
         v-if="!showEndOfList && !uiFlags.isFetching"
         :options="infiniteLoaderOptions"
@@ -128,9 +122,6 @@ export default {
     },
     showEmptyState() {
       return !this.uiFlags.isFetching && !this.notifications.length;
-    },
-    showEndOfListMessage() {
-      return this.showEndOfList && this.notifications.length;
     },
   },
   mounted() {

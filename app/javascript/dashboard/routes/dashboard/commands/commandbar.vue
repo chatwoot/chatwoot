@@ -33,11 +33,6 @@ export default {
     appearanceHotKeys,
     goToCommandHotKeys,
   ],
-  data() {
-    return {
-      modalObserver: null,
-    };
-  },
   computed: {
     placeholder() {
       return this.$t('COMMAND_BAR.SEARCH_PLACEHOLDER');
