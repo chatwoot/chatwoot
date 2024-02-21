@@ -24,7 +24,6 @@ export default {
     SlaForm,
   },
   mixins: [alertMixin, validationMixin],
-  props: {},
   validations,
   computed: {
     ...mapGetters({
