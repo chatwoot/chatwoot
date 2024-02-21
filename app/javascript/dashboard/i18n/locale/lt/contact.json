@@ -79,7 +79,13 @@
     "TITLE": "Eksportuoti Kontaktus",
     "DESC": "Eksportuoti kontaktus į CSV failą.",
     "SUCCESS_MESSAGE": "Vykdomas eksportavimas. Jums bus pranešta el. paštu, kai eksporto failas bus paruoštas įkelti.",
-    "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą"
+    "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą",
+    "CONFIRM": {
+      "TITLE": "Eksportuoti Kontaktus",
+      "MESSAGE": "Are you sure you want to export all contacts?",
+      "YES": "Yes, Export",
+      "NO": "No, Cancel"
+    }
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -339,7 +345,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Reikalinga tinkama vertė",
-      "INVALID_URL": "Neteisingas URL"
+      "INVALID_URL": "Neteisingas URL",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
