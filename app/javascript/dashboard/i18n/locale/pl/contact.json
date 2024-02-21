@@ -79,7 +79,13 @@
     "TITLE": "Eksportuj kontakty",
     "DESC": "Eksportuj kontakty do pliku CSV",
     "SUCCESS_MESSAGE": "Eksportowanie w toku, otrzymasz powiadomienie e-mailem, gdy plik będzie gotowy do pobrania.",
-    "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie"
+    "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie",
+    "CONFIRM": {
+      "TITLE": "Eksportuj kontakty",
+      "MESSAGE": "Are you sure you want to export all contacts?",
+      "YES": "Yes, Export",
+      "NO": "No, Cancel"
+    }
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -339,7 +345,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Wymagana jest prawidłowa wartość",
-      "INVALID_URL": "Nieprawidłowy adres URL"
+      "INVALID_URL": "Nieprawidłowy adres URL",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
