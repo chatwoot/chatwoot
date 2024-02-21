@@ -34,4 +34,34 @@ RSpec.describe Conversation, type: :model do
       expect(sentiments[:label]).to eq('positive')
     end
   end
+
+  describe 'sla_policy' do
+    let(:account) { create(:account) }
+    let(:conversation) { create(:conversation, account: account) }
+    let(:sla_policy) { create(:sla_policy, account: account) }
+    let(:different_account_sla_policy) { create(:sla_policy) }
+
+    context 'when sla_policy is getting updated' do
+      it 'throws error if sla policy belongs to different account' do
+        conversation.sla_policy = different_account_sla_policy
+        expect(conversation.valid?).to be false
+        expect(conversation.errors[:sla_policy]).to include('sla policy account mismatch')
+      end
+
+      it 'creates applied sla record if sla policy is present' do
+        conversation.sla_policy = sla_policy
+        conversation.save!
+        expect(conversation.applied_sla.sla_policy_id).to eq(sla_policy.id)
+      end
+
+      it 'deletes applied sla record if sla policy is removed' do
+        conversation.sla_policy = sla_policy
+        conversation.save!
+        conversation.sla_policy = nil
+        conversation.save!
+        conversation.reload
+        expect(conversation.applied_sla.present?).to be false
+      end
+    end
+  end
 end
