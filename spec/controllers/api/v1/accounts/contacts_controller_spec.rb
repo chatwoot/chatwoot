@@ -197,7 +197,7 @@ RSpec.describe 'Contacts API', type: :request do
       let(:admin) { create(:user, account: account, role: :administrator) }
 
       it 'enqueues a contact export job' do
-        expect(Account::ContactsExportJob).to receive(:perform_later).with(account.id, nil).once
+        expect(Account::ContactsExportJob).to receive(:perform_later).with(account.id, nil, admin.email).once
 
         get "/api/v1/accounts/#{account.id}/contacts/export",
             headers: admin.create_new_auth_token,
@@ -207,7 +207,7 @@ RSpec.describe 'Contacts API', type: :request do
       end
 
       it 'enqueues a contact export job with sent_columns' do
-        expect(Account::ContactsExportJob).to receive(:perform_later).with(account.id, %w[phone_number email]).once
+        expect(Account::ContactsExportJob).to receive(:perform_later).with(account.id, %w[phone_number email], admin.email).once
 
         get "/api/v1/accounts/#{account.id}/contacts/export",
             headers: admin.create_new_auth_token,
