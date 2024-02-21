@@ -30,7 +30,6 @@ export default {
       uiFlags: 'sla/getUIFlags',
     }),
   },
-  mounted() {},
   methods: {
     onClose() {
       this.$emit('close');
