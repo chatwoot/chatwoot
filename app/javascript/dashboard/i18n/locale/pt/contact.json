@@ -79,7 +79,13 @@
     "TITLE": "Exportar contactos",
     "DESC": "Exportar contactos para um ficheiro CSV.",
     "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
+    "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente",
+    "CONFIRM": {
+      "TITLE": "Exportar contactos",
+      "MESSAGE": "Tem certeza de que deseja exportar todos os contatos?",
+      "YES": "Sim, Exportar",
+      "NO": "Não, Cancelar"
+    }
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -339,7 +345,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Valor válido é obrigatório",
-      "INVALID_URL": "URL Inválido"
+      "INVALID_URL": "URL Inválido",
+      "INVALID_INPUT": "Entrada inválida"
     }
   },
   "MERGE_CONTACTS": {
