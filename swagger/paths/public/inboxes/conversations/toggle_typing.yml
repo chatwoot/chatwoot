@@ -1,0 +1,18 @@
+tags:
+  - Conversations API
+operationId: toggle-typing-status
+summary: Toggle typing status
+description: Toggles the typing status in a conversation
+parameters:
+  - name: typing_status
+    in: query
+    required: true
+    type: string
+    description: Typing status, either 'on' or 'off'
+responses:
+  200:
+    description: Typing status toggled successfully
+  401:
+    description: Unauthorized
+  404:
+    description: Conversation not found
