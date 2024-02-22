@@ -287,7 +287,7 @@
         <label v-if="isAWebWidgetInbox">
           {{ $t('INBOX_MGMT.FEATURES.LABEL') }}
         </label>
-        <div v-if="isAWebWidgetInbox" class="pt-2 pb-4">
+        <div v-if="isAWebWidgetInbox" class="pt-2 pb-4 flex gap-2">
           <input
             v-model="selectedFeatureFlags"
             type="checkbox"
@@ -298,7 +298,7 @@
             {{ $t('INBOX_MGMT.FEATURES.DISPLAY_FILE_PICKER') }}
           </label>
         </div>
-        <div v-if="isAWebWidgetInbox" class="pb-4">
+        <div v-if="isAWebWidgetInbox" class="pb-4 flex gap-2">
           <input
             v-model="selectedFeatureFlags"
             type="checkbox"
@@ -309,7 +309,7 @@
             {{ $t('INBOX_MGMT.FEATURES.DISPLAY_EMOJI_PICKER') }}
           </label>
         </div>
-        <div v-if="isAWebWidgetInbox" class="pb-4">
+        <div v-if="isAWebWidgetInbox" class="pb-4 flex gap-2">
           <input
             v-model="selectedFeatureFlags"
             type="checkbox"
@@ -320,7 +320,7 @@
             {{ $t('INBOX_MGMT.FEATURES.ALLOW_END_CONVERSATION') }}
           </label>
         </div>
-        <div v-if="isAWebWidgetInbox" class="pb-4">
+        <div v-if="isAWebWidgetInbox" class="pb-4 flex gap-2">
           <input
             v-model="selectedFeatureFlags"
             type="checkbox"

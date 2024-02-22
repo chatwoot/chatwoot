@@ -69,14 +69,22 @@ button {
 
   &.alert {
     @apply bg-red-500 dark:bg-red-500 text-white dark:text-white;
+
+    &.clear {
+      @apply bg-transparent dark:bg-transparent;
+    }
   }
 
   &.warning {
     @apply bg-[#ffc532] dark:bg-[#ffc532] text-white dark:text-white;
+
+    &.clear {
+      @apply bg-transparent dark:bg-transparent;
+    }
   }
 
   &.tiny {
-    @apply h-6 text-xs;
+    @apply h-6 text-[10px];
   }
 
   .spinner {
@@ -103,7 +111,7 @@ button {
   }
 
   &.hollow {
-    @apply border border-woot-500 dark:border-woot-500 text-woot-500 dark:text-woot-500 hover:bg-woot-50 dark:hover:bg-woot-900;
+    @apply border border-woot-500 bg-transparent dark:bg-transparent dark:border-woot-500 text-woot-500 dark:text-woot-500 hover:bg-woot-50 dark:hover:bg-woot-900;
 
     &.secondary {
       @apply text-slate-700 border-slate-200 dark:border-slate-600 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700;
