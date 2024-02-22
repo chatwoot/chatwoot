@@ -44,12 +44,6 @@ RSpec.describe ContactHelper do
       expect(helper.split_first_and_last_name(full_name)).to eq(expected_result)
     end
 
-    it 'handle name with phone number correctly' do
-      full_name = '+1234567890'
-      expected_result = { first_name: '+1234567890', last_name: '' }
-      expect(helper.split_first_and_last_name(full_name)).to eq(expected_result)
-    end
-
     it 'handle name with trailing spaces correctly' do
       full_name = 'John Doe Smith '
       expected_result = { first_name: 'John', last_name: 'Doe Smith' }
@@ -59,6 +53,42 @@ RSpec.describe ContactHelper do
     it 'handle name with leading spaces correctly' do
       full_name = ' John Doe Smith'
       expected_result = { first_name: 'John', last_name: 'Doe Smith' }
+      expect(helper.split_first_and_last_name(full_name)).to eq(expected_result)
+    end
+
+    it 'handle name with phone number correctly' do
+      full_name = '+1234567890'
+      expected_result = { first_name: '+1234567890', last_name: nil }
+      expect(helper.split_first_and_last_name(full_name)).to eq(expected_result)
+    end
+
+    it 'handle name with mobile number with spaces correctly' do
+      full_name = '+1 234 567 890'
+      expected_result = { first_name: '+1 234 567 890', last_name: nil }
+      expect(helper.split_first_and_last_name(full_name)).to eq(expected_result)
+    end
+
+    it 'correctly splits a full name with middle name' do
+      full_name = 'John Quincy Adams'
+      expected_result = { first_name: 'John', last_name: 'Quincy Adams' }
+      expect(helper.split_first_and_last_name(full_name)).to eq(expected_result)
+    end
+
+    it 'handles names with multiple spaces between first and last name' do
+      full_name = 'John    Quincy   Adams'
+      expected_result = { first_name: 'John', last_name: 'Quincy Adams' }
+      expect(helper.split_first_and_last_name(full_name)).to eq(expected_result)
+    end
+
+    it 'handles names with leading and trailing whitespaces' do
+      full_name = '  John  Quincy  Adams  '
+      expected_result = { first_name: 'John', last_name: 'Quincy Adams' }
+      expect(helper.split_first_and_last_name(full_name)).to eq(expected_result)
+    end
+
+    it 'handles names with leading and trailing whitespaces and a middle initial' do
+      full_name = '  John Q.  Adams  '
+      expected_result = { first_name: 'John', last_name: 'Q. Adams' }
       expect(helper.split_first_and_last_name(full_name)).to eq(expected_result)
     end
   end
