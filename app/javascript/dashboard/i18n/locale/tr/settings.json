@@ -160,6 +160,9 @@
     "TRIAL_MESSAGE": "gün deneme kaldı.",
     "TRAIL_BUTTON": "Şimdi satın al",
     "DELETED_USER": "Silinmiş Kullanıcı",
+    "EMAIL_VERIFICATION_PENDING": "Görünüşe göre E-Posta adresinizi henüz doğrulamadınız. Lütfen doğrulama e-postası için gelen kutunuzu kontrol edin.",
+    "RESEND_VERIFICATION_MAIL": "Doğrulama E-Postasını tekrar gönder",
+    "EMAIL_VERIFICATION_SENT": "Doğrulama E-Postası gönderildi. Lütfen gelen kutunuzu kontrol edin.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Hesap Askıya Alındı",
       "MESSAGE": "Hesabınız askıya alındı. Daha fazla bilgi için lütfen destek ekibine ulaşın."
@@ -197,6 +200,7 @@
     "CURRENTLY_VIEWING_ACCOUNT": "Şu an görüntülüyor:",
     "SWITCH": "Değiştir",
     "CONVERSATIONS": "Konuşmalar",
+    "INBOX": "Gelen Kutusu",
     "ALL_CONVERSATIONS": "Tüm Görüşmeler",
     "MENTIONED_CONVERSATIONS": "Bahsedilmeler",
     "PARTICIPATING_CONVERSATIONS": "Katılımcılar",
@@ -238,6 +242,7 @@
     "REPORTS_INBOX": "Gelen kutusu",
     "REPORTS_TEAM": "Ekip",
     "SET_AVAILABILITY_TITLE": "Kendini şu şekilde ayarla",
+    "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Önizleme",
     "FACEBOOK_REAUTHORIZE": "Facebook bağlantınızın süresi doldu, hizmetlere devam etmek için lütfen Facebook sayfanızı yeniden bağlayın",

@@ -39,10 +39,10 @@
     },
     "MERGE_CONTACT": "연락처 합치기",
     "CONTACT_ACTIONS": "연락처 활동",
-    "MUTE_CONTACT": "대화 음소거",
-    "UNMUTE_CONTACT": "대화 음소거 해제",
-    "MUTED_SUCCESS": "이 대화는 6시간 동안 중단됩니다.",
-    "UNMUTED_SUCCESS": "이 대화는 음소거 되었습니다.",
+    "MUTE_CONTACT": "Block Contact",
+    "UNMUTE_CONTACT": "Unblock Contact",
+    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
+    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
     "SEND_TRANSCRIPT": "대화기록 보내기",
     "EDIT_LABEL": "수정",
     "SIDEBAR_SECTIONS": {
@@ -79,7 +79,13 @@
     "TITLE": "Export Contacts",
     "DESC": "Export contacts to a CSV file.",
     "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
+    "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오.",
+    "CONFIRM": {
+      "TITLE": "Export Contacts",
+      "MESSAGE": "Are you sure you want to export all contacts?",
+      "YES": "Yes, Export",
+      "NO": "No, Cancel"
+    }
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -339,7 +345,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Valid value is required",
-      "INVALID_URL": "잘못된 주소입니다."
+      "INVALID_URL": "잘못된 주소입니다.",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {

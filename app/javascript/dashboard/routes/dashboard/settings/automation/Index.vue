@@ -153,6 +153,8 @@ export default {
     ...mapGetters({
       records: ['automations/getAutomations'],
       uiFlags: 'automations/getUIFlags',
+      accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
     // Delete Modal
     deleteConfirmText() {
@@ -168,6 +170,9 @@ export default {
     deleteMessage() {
       return ` ${this.selectedResponse.name}?`;
     },
+    isSLAEnabled() {
+      return this.isFeatureEnabledonAccount(this.accountId, 'sla');
+    },
   },
   mounted() {
     this.$store.dispatch('inboxes/get');
@@ -177,6 +182,7 @@ export default {
     this.$store.dispatch('labels/get');
     this.$store.dispatch('campaigns/get');
     this.$store.dispatch('automations/get');
+    if (this.isSLAEnabled) this.$store.dispatch('sla/get');
   },
   methods: {
     openAddPopup() {

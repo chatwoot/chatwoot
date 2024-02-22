@@ -76,8 +76,8 @@
         },
         "AGENT_AVAILABILITY": {
           "LABEL": "Uygun",
-          "PLACEHOLDER": "Lütfen bir müsaitlik durumu seçin",
-          "ERROR": "Müsaitlik gereklidir"
+          "PLACEHOLDER": "Lütfen bir erişilebilirlik durumu seçin",
+          "ERROR": "Erişilebilirlik gereklidir"
         },
         "SUBMIT": "Temsilciyi düzenle"
       },
