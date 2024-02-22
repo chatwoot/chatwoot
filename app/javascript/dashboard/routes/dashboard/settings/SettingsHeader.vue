@@ -18,7 +18,7 @@
         class="mr-2 ml-4 rtl:ml-2 rtl:mr-4"
       />
       <slot />
-      <span class="text-slate-900 font-semibold text-2xl dark:text-slate-100">
+      <span class="text-slate-900 font-medium text-2xl dark:text-slate-100">
         {{ headerTitle }}
       </span>
     </h1>
