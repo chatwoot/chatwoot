@@ -11,6 +11,8 @@ jobs:
     name: Check Deployment
     runs-on: ubuntu-latest
     steps:
+      - name: Install jq
+        run: sudo apt-get install -y jq
       - name: Print Deployment URL
         run: echo "https://chatwoot-pr-${{ github.event.pull_request.number }}.herokuapp.com"
       - name: Check Deployment Status
@@ -19,12 +21,13 @@ jobs:
           attempt=1
           status_code=0
           while [ $attempt -le $max_attempts ]; do
-            status_code=$(curl -s -o /dev/null -w "%{http_code}" https://chatwoot-pr-${{ github.event.pull_request.number }}.herokuapp.com)
+            response=$(curl -s  https://chatwoot-pr-${{ github.event.pull_request.number }}.herokuapp.com/api)
+            status_code=$(echo "$response" | jq -r 'if .version and .timestamp and .queue_services and .data_services then 200 else 400 end')
             if [ $status_code -eq  200 ]; then
               echo "Deployment successful"
               exit  0
             else
-              echo "Deployment failed, retrying in  3 minutes..."
+              echo "Deployment status unknown, retrying in  3 minutes..."
               sleep  180
               attempt=$((attempt +  1))
             fi
