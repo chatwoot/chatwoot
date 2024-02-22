@@ -1,0 +1,60 @@
+{
+  "INBOX": {
+    "LIST": {
+      "TITLE": "Casella",
+      "DISPLAY_DROPDOWN": "Display",
+      "LOADING": "Fetching notifications",
+      "EOF": "Tutte le notifiche caricate 🎉",
+      "404": "There are no active notifications in this group.",
+      "NO_NOTIFICATIONS": "No notifications",
+      "NOTE": "Notifications from all subscribed inboxes",
+      "SNOOZED_UNTIL": "Snoozed until",
+      "SNOOZED_UNTIL_TOMORROW": "Posticipato fino a domani",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Posticipato fino alla prossima settimana"
+    },
+    "ACTION_HEADER": {
+      "SNOOZE": "Snooze notification",
+      "DELETE": "Delete notification"
+    },
+    "TYPES": {
+      "CONVERSATION_MENTION": "You have been mentioned in a conversation",
+      "CONVERSATION_CREATION": "New conversation created",
+      "CONVERSATION_ASSIGNMENT": "A conversation has been assigned to you",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "New message in an assigned conversation",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "New message in a conversation you are participating in"
+    },
+    "MENU_ITEM": {
+      "MARK_AS_READ": "Segna come letto",
+      "MARK_AS_UNREAD": "Segna come non letto",
+      "SNOOZE": "Posticipa",
+      "DELETE": "Elimina",
+      "MARK_ALL_READ": "Segna tutto come letto",
+      "DELETE_ALL": "Delete all",
+      "DELETE_ALL_READ": "Delete all read"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Sort",
+      "DISPLAY": "Display :",
+      "SORT_OPTIONS": {
+        "NEWEST": "Newest",
+        "OLDEST": "Oldest",
+        "PRIORITY": "Priorità"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "Posticipato",
+        "READ": "Leggi",
+        "LABELS": "Etichette",
+        "CONVERSATION_ID": "Conversation ID"
+      }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "Notification marked as read",
+      "MARK_AS_UNREAD": "Notification marked as unread",
+      "SNOOZE": "Notification snoozed",
+      "DELETE": "Notification deleted",
+      "MARK_ALL_READ": "All notifications marked as read",
+      "DELETE_ALL": "All notifications deleted",
+      "DELETE_ALL_READ": "All read notifications deleted"
+    }
+  }
+}

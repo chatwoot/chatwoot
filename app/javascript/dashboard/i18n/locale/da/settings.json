@@ -160,6 +160,9 @@
     "TRIAL_MESSAGE": "dage prøveperiode tilbage.",
     "TRAIL_BUTTON": "Køb Nu",
     "DELETED_USER": "Slettet Bruger",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Konto Suspenderet",
       "MESSAGE": "Din konto er suspenderet. Gå ud til supportteamet for mere information."
@@ -197,6 +200,7 @@
     "CURRENTLY_VIEWING_ACCOUNT": "Vises nu:",
     "SWITCH": "Skift",
     "CONVERSATIONS": "Samtaler",
+    "INBOX": "Indbakke",
     "ALL_CONVERSATIONS": "Alle Samtaler",
     "MENTIONED_CONVERSATIONS": "Omtaler",
     "PARTICIPATING_CONVERSATIONS": "Participating",
@@ -238,6 +242,7 @@
     "REPORTS_INBOX": "Indbakke",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Sæt dig selv som",
+    "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Oversigt",
     "FACEBOOK_REAUTHORIZE": "Din Facebook-forbindelse er udløbet, tilslut venligst din Facebook-side igen for at fortsætte tjenesterne",
