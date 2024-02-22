@@ -160,6 +160,9 @@
     "TRIAL_MESSAGE": "Tage der Testversion verbleibend.",
     "TRAIL_BUTTON": "Jetzt kaufen",
     "DELETED_USER": "Gelöschter Benutzer",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Konto gesperrt",
       "MESSAGE": "Ihr Account wurde gesperrt. Wenden Sie sich für weitere Informationen bitte an das Support-Team."
@@ -197,6 +200,7 @@
     "CURRENTLY_VIEWING_ACCOUNT": "Wird gerade angezeigt:",
     "SWITCH": "Wechseln",
     "CONVERSATIONS": "Gespräche",
+    "INBOX": "Posteingang",
     "ALL_CONVERSATIONS": "Alle Konversationen",
     "MENTIONED_CONVERSATIONS": "Erwähnungen",
     "PARTICIPATING_CONVERSATIONS": "Beteiligt",
@@ -238,6 +242,7 @@
     "REPORTS_INBOX": "Posteingang",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Setzen Sie sich als",
+    "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Übersicht",
     "FACEBOOK_REAUTHORIZE": "Ihre Facebook-Verbindung ist abgelaufen, bitte verbinden Sie sich erneut.",
