@@ -1,6 +1,6 @@
 <template>
   <div
-    class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%] overflow-y-auto"
+    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-[75%] md:max-w-[75%] flex-shrink-0 flex-grow-0"
   >
     <form class="mx-0 flex flex-wrap" @submit.prevent="addAgents">
       <div class="w-full">

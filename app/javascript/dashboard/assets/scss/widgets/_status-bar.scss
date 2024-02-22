@@ -1,46 +1,47 @@
-.status-bar {
-  @include flex;
-  @include flex-align($x: center, $y: middle);
-  background: lighten($warning-color, 36%);
-  flex-direction: column;
-  margin: 0;
-  padding: $space-normal $space-smaller;
+// .status-bar {
+//   // @include flex-align($x: center, $y: middle);
+//   display: flex;
 
-  .message {
-    font-weight: $font-weight-medium;
-    margin-bottom: $zero;
-  }
+//   background: lighten($warning-color, 36%);
+//   flex-direction: column;
+//   margin: 0;
+//   padding: $space-normal $space-smaller;
 
-  .button {
-    margin: $space-smaller $zero $zero;
-    padding: $space-small $space-normal;
-  }
+//   .message {
+//     font-weight: $font-weight-medium;
+//     margin-bottom: $zero;
+//   }
 
-  &.danger {
-    background: lighten($alert-color, 30%);
+//   .button {
+//     margin: $space-smaller $zero $zero;
+//     padding: $space-small $space-normal;
+//   }
 
-    .button {
-      // Default and disabled states
-      &,
-      &.disabled,
-      &[disabled],
-      &.disabled:hover,
-      &[disabled]:hover,
-      &.disabled:focus,
-      &[disabled]:focus {
-        background-color: $alert-color;
-        color: $color-white;
-      }
+//   &.danger {
+//     background: lighten($alert-color, 30%);
 
-      &:hover,
-      &:focus {
-        background-color: darken($alert-color, 7%);
-        color: $color-white;
-      }
-    }
-  }
+//     .button {
+//       // Default and disabled states
+//       &,
+//       &.disabled,
+//       &[disabled],
+//       &.disabled:hover,
+//       &[disabled]:hover,
+//       &.disabled:focus,
+//       &[disabled]:focus {
+//         background-color: $alert-color;
+//         color: $color-white;
+//       }
 
-  &.warning {
-    background: lighten($warning-color, 36%);
-  }
-}
+//       &:hover,
+//       &:focus {
+//         background-color: darken($alert-color, 7%);
+//         color: $color-white;
+//       }
+//     }
+//   }
+
+//   &.warning {
+//     background: lighten($warning-color, 36%);
+//   }
+// }

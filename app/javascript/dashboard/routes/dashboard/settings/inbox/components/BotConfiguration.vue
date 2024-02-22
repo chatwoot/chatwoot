@@ -1,5 +1,5 @@
 <template>
-  <div class="settings--content">
+  <div class="my-2 mx-8">
     <loading-state v-if="uiFlags.isFetching || uiFlags.isFetchingAgentBot" />
     <form
       v-else

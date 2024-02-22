@@ -1,10 +1,9 @@
 <template>
-  <button
-    class="sm:w-[50%] md:w-[34%] lg:w-[25%] channel"
-    @click="$emit('click')"
-  >
+  <button class="w-[50%] md:w-[30%] lg:w-[25%] channel" @click="$emit('click')">
     <img :src="src" :alt="title" />
-    <h3 class="channel__title">
+    <h3
+      class="text-slate-800 dark:text-slate-100 text-base text-center capitalize"
+    >
       {{ title }}
     </h3>
   </button>
@@ -49,14 +48,6 @@ export default {
 
   img {
     @apply w-[50%] my-4 mx-auto;
-  }
-
-  .channel__title {
-    @apply text-slate-800 dark:text-slate-100 text-base text-center capitalize;
-  }
-
-  p {
-    @apply text-slate-600 dark:text-slate-300 w-full text-sm;
   }
 }
 </style>

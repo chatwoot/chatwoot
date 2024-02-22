@@ -34,9 +34,10 @@
 
 // bottom-nav
 .bottom-nav {
-  @include flex;
+  // @include flex;
   @include space-between-column;
   @include border-normal-top;
+  display: flex;
   flex-direction: column;
   padding: var(--space-one) var(--space-normal) var(--space-one)
     var(--space-one);
@@ -54,7 +55,7 @@
   }
 
   .active {
-    border-bottom: 2px solid $medium-gray;
+    border-bottom: 2px solid var(--color-medium-gray);
   }
 }
 

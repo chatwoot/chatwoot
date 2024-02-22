@@ -4,7 +4,7 @@
 
 // Outside login wrapper
 .login {
-  @include full-height;
+  height: 100%;
   overflow-y: auto;
   padding-top: $space-larger * 1.2;
 
@@ -21,7 +21,7 @@
     }
 
     .hero__sub {
-      color: $medium-gray;
+      color: var(--color-medium-gray);
       font-size: $font-size-medium;
     }
   }
