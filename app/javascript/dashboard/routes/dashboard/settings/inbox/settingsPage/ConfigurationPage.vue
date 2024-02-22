@@ -48,7 +48,7 @@
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_VERIFICATION')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_DESCRIPTION')"
       >
-        <div class="enter-to-send--checkbox">
+        <div class="flex items-center gap-2">
           <input
             id="hmacMandatory"
             v-model="hmacMandatory"
@@ -80,7 +80,7 @@
       :title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_VERIFICATION')"
       :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_DESCRIPTION')"
     >
-      <div class="enter-to-send--checkbox">
+      <div class="flex items-center gap-2">
         <input
           id="hmacMandatory"
           v-model="hmacMandatory"

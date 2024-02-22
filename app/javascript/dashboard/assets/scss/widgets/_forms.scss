@@ -23,7 +23,7 @@ input[type='url'] {
 }
 
 input[type='file'] {
-  @apply bg-white dark:bg-slate-800;
+  @apply bg-white dark:bg-slate-800 leading-[1.15] mb-4;
 }
 
 select {
@@ -99,5 +99,12 @@ code {
 }
 
 p {
-  @apply mb-2;
+  text-rendering: optimizeLegibility;
+  word-spacing: 0.12em;
+
+  @apply mb-2 leading-[1.65];
+
+  a {
+    @apply text-woot-500 dark:text-woot-500 cursor-pointer;
+  }
 }

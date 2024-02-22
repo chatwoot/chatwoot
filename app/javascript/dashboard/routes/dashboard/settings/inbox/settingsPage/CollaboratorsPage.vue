@@ -32,7 +32,7 @@
       :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.AGENT_ASSIGNMENT_SUB_TEXT')"
     >
       <label class="w-[75%] settings-item">
-        <div class="enter-to-send--checkbox">
+        <div class="flex items-center gap-2">
           <input
             id="enableAutoAssignment"
             v-model="enableAutoAssignment"

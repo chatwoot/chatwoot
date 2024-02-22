@@ -8,10 +8,10 @@
         class="p-2 h-16 w-16 mr-4"
       />
       <div>
-        <h3 class="text-xl text-slate-800 dark:text-slate-100">
+        <h3 class="text-xl font-medium mb-1 text-slate-800 dark:text-slate-100">
           {{ integrationName }}
         </h3>
-        <p>
+        <p class="text-slate-700 dark:text-slate-200">
           {{
             useInstallationName(
               integrationDescription,

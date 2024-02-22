@@ -1,6 +1,9 @@
 <template>
-  <button class="w-[50%] md:w-[30%] lg:w-[25%] channel" @click="$emit('click')">
-    <img :src="src" :alt="title" />
+  <button
+    class="sm:w-[50%] md:w-[34%] lg:w-[25%] bg-white dark:bg-slate-900 cursor-pointer flex flex-col transition-all duration-200 ease-in -m-px py-4 px-0 items-center border border-solid border-slate-25 dark:border-slate-800 hover:border-woot-500 dark:hover:border-woot-500 hover:shadow-md hover:z-50 disabled:opacity-60"
+    @click="$emit('click')"
+  >
+    <img :src="src" :alt="title" class="w-[50%] my-4 mx-auto" />
     <h3
       class="text-slate-800 dark:text-slate-100 text-base text-center capitalize"
     >
@@ -30,24 +33,8 @@ export default {
     filter: grayscale(100%);
   }
 
-  &.channel:hover {
-    @apply border-transparent shadow-none cursor-not-allowed;
-  }
-}
-
-.channel {
-  @apply bg-white dark:bg-slate-900 cursor-pointer flex flex-col transition-all duration-200 ease-in -m-px py-4 px-0 items-center border border-solid border-slate-25 dark:border-slate-800;
-
   &:hover {
-    @apply border-woot-500 dark:border-woot-500 shadow-md z-50;
-  }
-
-  &.disabled {
-    @apply opacity-60;
-  }
-
-  img {
-    @apply w-[50%] my-4 mx-auto;
+    @apply border-transparent shadow-none cursor-not-allowed;
   }
 }
 </style>

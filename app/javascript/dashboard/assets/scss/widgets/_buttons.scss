@@ -5,7 +5,7 @@ button {
   transition:
     background-color 0.25s ease-out,
     color 0.25s ease-out;
-  @apply mb-2 inline-block items-center h-10 mb-0  text-center align-middle cursor-pointer font-medium text-sm leading-none mt-0 mx-0 py-1 px-3.5 border border-solid border-transparent dark:border-transparent rounded-[0.3125rem];
+  @apply inline-block items-center mb-0  text-center align-middle cursor-pointer font-medium text-sm leading-none mt-0 mx-0 py-1 px-3.5 border border-solid border-transparent dark:border-transparent rounded-[0.3125rem];
 
   &:disabled,
   &.disabled {
@@ -85,6 +85,10 @@ button {
 
   &.tiny {
     @apply h-6 text-[10px];
+  }
+
+  &.small {
+    @apply h-8 text-xs;
   }
 
   .spinner {

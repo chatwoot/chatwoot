@@ -53,7 +53,7 @@
   }
 
   a {
-    @apply flex items-center flex-row border-b py-2.5 border-transparent  text-slate-500 dark:text-slate-200 text-sm top-[1px] relative;
+    @apply flex items-center flex-row border-b py-2.5 select-none cursor-pointer border-transparent text-slate-500 dark:text-slate-200 text-sm top-[1px] relative;
     transition: border-color 0.15s $swift-ease-out-function;
   }
 

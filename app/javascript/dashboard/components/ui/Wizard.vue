@@ -13,7 +13,7 @@
     >
       <div class="flex items-center">
         <h3
-          class="text-slate-800 dark:text-slate-100 text-base pl-6 overflow-hidden whitespace-nowrap text-ellipsis leading-tight"
+          class="text-slate-800 dark:text-slate-100 text-base font-medium pl-6 overflow-hidden whitespace-nowrap mb-1.5 text-ellipsis leading-tight"
         >
           {{ item.title }}
         </h3>
