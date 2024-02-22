@@ -113,7 +113,7 @@
       "SETTINGS": "Nustatymai",
       "AI_ASSIST": "AI pagalba",
       "APPEARANCE": "Išvaizda",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "Atidėti pranešimą"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Eikite į Pokalbio informacijos skydelį",
@@ -155,7 +155,7 @@
       "LIGHT_MODE": "Šviesus",
       "DARK_MODE": "Tamsus",
       "SYSTEM_MODE": "Sistema",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "Atidėti pranešimą"
     }
   },
   "DASHBOARD_APPS": {
