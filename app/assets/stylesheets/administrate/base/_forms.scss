@@ -1,177 +1,96 @@
-// scss-lint:disable QualifyingElement
-// scss-lint:disable SpaceAfterPropertyColon
-[type='text'],
-[type='password'],
-[type='date'],
-[type='datetime'],
-[type='datetime-local'],
-[type='month'],
-[type='week'],
-[type='email'],
-[type='number'],
-[type='search'],
-[type='tel'],
-[type='time'],
-[type='url'],
-[type='color'],
-textarea {
-  font-family: inherit;
-  transition: border-color 0.25s ease-in-out;
-  @apply bg-white border border-solid dark:bg-slate-900 focus:bg-white focus:dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600 rounded-[0.3125rem] shadow-none box-border block text-base font-normal h-[2.4375rem] mt-0 mx-0 mb-3 p-2 w-full;
-}
-
-textarea[rows] {
-  @apply h-auto;
-}
-
-textarea {
-  @apply min-h-[50px] bg-white dark:bg-slate-900 focus:bg-white focus:dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600;
-}
-
-input {
-  @apply bg-white dark:bg-slate-900 focus:bg-white focus:dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600;
-
-  &[disabled] {
-    @apply bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-400 border-slate-200 dark:border-slate-600;
-  }
-}
-
-input[type='file'] {
-  @apply bg-white dark:bg-slate-800 mb-3;
-}
-
-label {
-  @apply text-slate-800 dark:text-slate-200 flex flex-col text-sm font-medium leading-[1.8] m-0;
-}
-
-label input[type='checkbox'],
-label input[type='radio'] {
-  margin: 0;
-}
-
-select {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: rgb(110, 111, 115)'></polygon></svg>");
-  background-position: right -1rem center;
-  background-repeat: no-repeat;
-  background-size: 9px 6px;
-  font-family: inherit;
-  transition: border-color 0.25s ease-in-out;
-  @apply rounded-[0.3125rem] bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600 appearance-none bg-origin-content text-base font-normal leading-normal mt-0 mb-3 mx-0 p-2 w-full;
-}
-
-p {
-  font-size: inherit;
-  line-height: 1.65;
-  margin-bottom: var(--space-small);
-  text-rendering: optimizeLegibility;
-}
-
-a,
-p {
-  font-size: 0.875rem;
-}
-
-h1,
-.h1,
-h2,
-.h2,
-h3,
-.h3,
-h4,
-.h4,
-h5,
-.h5,
-h6,
-.h6 {
-  color: var(--color-heading);
-  font-family:
-    'PlusJakarta',
-    -apple-system,
-    system-ui,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Tahoma,
-    Arial,
-    sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  text-rendering: optimizeLegibility;
-}
-
-div,
-dl,
-dt,
-dd,
-ul,
-ol,
-li,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-pre,
-form,
-p,
-blockquote,
-th,
-td {
+fieldset {
+  background-color: transparent;
+  border: 0;
   margin: 0;
   padding: 0;
 }
 
-.error {
-  input[type='color'],
-  input[type='date'],
-  input[type='datetime'],
-  input[type='datetime-local'],
-  input[type='email'],
-  input[type='month'],
-  input[type='number'],
-  input[type='password'],
-  input[type='search'],
-  input[type='tel'],
-  input[type='text'],
-  input[type='time'],
-  input[type='url'],
-  input[type='week'],
-  input:not([type]),
-  textarea,
-  select,
-  .multiselect > .multiselect__tags {
-    @apply border border-solid border-red-400 dark:border-red-400;
-  }
-
-  .message {
-    @apply text-red-400 dark:text-red-400 block text-sm mb-2.5 w-full;
-  }
+legend {
+  font-weight: $font-weight-medium;
+  margin: 0;
+  padding: 0;
 }
 
-.button,
-textarea,
-input {
+label {
+  display: block;
+  font-weight: $font-weight-medium;
+  margin: 0;
+}
+
+input,
+select {
+  display: block;
+  font-family: $base-font-family;
+  font-size: $base-font-size;
+}
+
+[type='color'],
+[type='date'],
+[type='datetime-local'],
+[type='email'],
+[type='month'],
+[type='number'],
+[type='password'],
+[type='search'],
+[type='tel'],
+[type='text'],
+[type='time'],
+[type='url'],
+[type='week'],
+input:not([type]),
+textarea {
+  appearance: none;
+  background-color: $white;
+  border: $base-border;
+  border-radius: $base-border-radius;
+  font-family: $base-font-family;
+  padding: 0.5em;
+  transition: border-color $base-duration $base-timing;
+  width: 100%;
+
+  &:hover {
+    border-color: mix($black, $base-border-color, 20%);
+  }
+
   &:focus {
+    border-color: $action-color;
     outline: none;
   }
-}
 
-.input-wrap {
-  @apply text-slate-800 dark:text-slate-100 text-sm font-medium;
-}
+  &:disabled {
+    background-color: mix($black, $white, 5%);
+    cursor: not-allowed;
 
-.help-text {
-  @apply font-normal text-slate-600 dark:text-slate-400;
-}
-
-.input-group.small {
-  input {
-    @apply text-sm h-8;
+    &:hover {
+      border: $base-border;
+    }
   }
+}
 
-  .error {
-    @apply border-red-400 dark:border-red-400;
+textarea {
+  resize: vertical;
+}
+
+[type='checkbox'],
+[type='radio'] {
+  display: inline;
+  margin-right: $small-spacing / 2;
+}
+
+[type='file'] {
+  width: 100%;
+}
+
+select {
+  width: 100%;
+}
+
+[type='checkbox'],
+[type='radio'],
+[type='file'],
+select {
+  &:focus {
+    outline: $focus-outline;
+    outline-offset: $focus-outline-offset;
   }
 }
