@@ -4,9 +4,8 @@
 name: Deploy Check
 
 on:
-  push:
-    branches:
-      - develop
+  pull_request:
+
 jobs:
   deployment_check:
     name: Check Deployment
