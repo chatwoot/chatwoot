@@ -105,40 +105,35 @@ class Notification < ApplicationRecord
   def push_message_body
     case notification_type
     when 'conversation_creation'
-      conversation_creation_body
-    when 'assigned_conversation_new_message', 'participating_conversation_new_message', 'conversation_assignment'
-      message_created_body
-    when 'conversation_mention'
-      mention_body
+      message_body(conversation.messages.first)
+    when 'assigned_conversation_new_message', 'participating_conversation_new_message', 'conversation_assignment', 'conversation_mention'
+      message_body(secondary_actor)
     else
       ''
     end
   end
 
-  def conversation_creation_body
-    message_content(conversation.messages.first)
-  end
-
-  def message_created_body
-    message_content(secondary_actor)
-  end
-
-  def mention_body
-    message_content(secondary_actor)
-  end
-
   private
 
+  def message_body(actor)
+    sender_name = sender_name(actor)
+    content = message_content(actor)
+    "#{sender_name}: #{content}"
+  end
+
+  def sender_name(actor)
+    actor&.sender&.name || ''
+  end
+
   def message_content(actor)
-    sender_name = actor&.sender&.name || ''
     content = actor&.content
     attachments = actor&.attachments
 
-    "#{sender_name}: #{if content.present?
-                         transform_user_mention_content(content.truncate_words(10))
-                       else
-                         (attachments.present? ? I18n.t('notifications.attachment') : I18n.t('notifications.no_content'))
-                       end}"
+    if content.present?
+      transform_user_mention_content(content.truncate_words(10))
+    else
+      attachments.present? ? I18n.t('notifications.attachment') : I18n.t('notifications.no_content')
+    end
   end
 
   def conversation
