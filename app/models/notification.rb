@@ -94,10 +94,7 @@ class Notification < ApplicationRecord
     when 'conversation_assignment'
       I18n.t('notifications.notification_title.conversation_assignment', display_id: conversation.display_id)
     when 'assigned_conversation_new_message', 'participating_conversation_new_message'
-      I18n.t(
-        'notifications.notification_title.assigned_conversation_new_message',
-        display_id: conversation.display_id
-      )
+      I18n.t('notifications.notification_title.assigned_conversation_new_message', display_id: conversation.display_id)
     when 'conversation_mention'
       I18n.t('notifications.notification_title.conversation_mention', display_id: conversation.display_id)
     else
@@ -108,37 +105,37 @@ class Notification < ApplicationRecord
   def push_message_body
     case notification_type
     when 'conversation_creation'
-      conversation_creation_message_content
+      conversation_creation_body
     when 'assigned_conversation_new_message', 'participating_conversation_new_message', 'conversation_assignment'
-      message_created_message_content
+      message_created_body
     when 'conversation_mention'
-      mention_content
+      mention_body
     else
       ''
     end
   end
 
-  def conversation_creation_message_content
-    "#{conversation.messages.first&.sender&.name}: #{transform_user_mention_content(conversation.messages.first&.content&.truncate_words(10) || '')}"
+  def conversation_creation_body
+    message_content(conversation.messages.first)
   end
 
-  def mention_content
-    "#{secondary_actor&.sender&.name}: #{transform_user_mention_content(secondary_actor&.content&.truncate_words(10) || '')}"
+  def message_created_body
+    message_content(secondary_actor)
   end
 
-  def message_created_message_content
-    "#{secondary_actor&.sender&.name}: #{content}"
+  def mention_body
+    message_content(secondary_actor)
   end
 
-  def content
-    transform_user_mention_content(secondary_actor&.content&.truncate_words(10) || '')
+  private
+
+  def message_content(actor)
+    "#{actor&.sender&.name}: #{transform_user_mention_content(actor&.content&.truncate_words(10) || '')}"
   end
 
   def conversation
     primary_actor
   end
-
-  private
 
   def process_notification_delivery
     Notification::PushNotificationJob.perform_later(self) if user_subscribed_to_notification?('push')
