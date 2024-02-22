@@ -46,7 +46,19 @@ RSpec.describe ContactHelper do
 
     it 'handle name with phone number correctly' do
       full_name = '+1234567890'
-      expected_result = { first_name: '1234567890', last_name: '' }
+      expected_result = { first_name: '+1234567890', last_name: '' }
+      expect(helper.split_first_and_last_name(full_name)).to eq(expected_result)
+    end
+
+    it 'handle name with trailing spaces correctly' do
+      full_name = 'John Doe Smith '
+      expected_result = { first_name: 'John', last_name: 'Doe Smith' }
+      expect(helper.split_first_and_last_name(full_name)).to eq(expected_result)
+    end
+
+    it 'handle name with leading spaces correctly' do
+      full_name = ' John Doe Smith'
+      expected_result = { first_name: 'John', last_name: 'Doe Smith' }
       expect(helper.split_first_and_last_name(full_name)).to eq(expected_result)
     end
   end
