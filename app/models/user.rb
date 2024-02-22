@@ -157,9 +157,7 @@ class User < ApplicationRecord
   end
 
   def self.from_email(email)
-    # rubocop:disable UseFromEmail,Migration/DepartmentName
     find_by(email: email.downcase)
-    # rubocop:enable UseFromEmail,Migration/DepartmentName
   end
 
   private

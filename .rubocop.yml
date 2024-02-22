@@ -2,7 +2,6 @@ require:
   - rubocop-performance
   - rubocop-rails
   - rubocop-rspec
-  - ./lib/rubocop/user_find_by.rb
 
 Layout/LineLength:
   Max: 150
@@ -140,10 +139,6 @@ RSpec/MultipleExpectations:
   Max: 7
 RSpec/MultipleMemoizedHelpers:
   Max: 14
-
-# custom rules
-UseFromEmail:
-  Enabled: true
 
 AllCops:
   NewCops: enable
