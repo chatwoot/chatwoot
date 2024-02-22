@@ -31,6 +31,7 @@ fa:
       disposable_email: استفاده از ایمیل‌های موقت امکان‌پذیر نیست
       invalid_email: ایمیل وارد شده معتبر نیست
       email_already_exists: "قبلا کاربری با ایمیل %{email} ثبت‌نام کرده است"
+      invalid_params: 'نامعتبر است، لطفا پارامترهای ثبت‌نام را بررسی کرده و دوباره امتحان کنید'
       failed: ثبت نام ناموفق بود
     data_import:
       data_type:
@@ -67,25 +68,25 @@ fa:
     utc_warning: گزارش تولید شده در منطقه زمانی UTC است
     agent_csv:
       agent_name: اسم ایجنت
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     inbox_csv:
       inbox_name: نام صندوق ورودی
       inbox_type: نوع صندوق ورودی
       conversations_count: تعداد گفتگوها
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     label_csv:
       label_title: برچسب
       conversations_count: تعداد گفتگوها
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     team_csv:
       team_name: نام تیم
       conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: منطقه زمانی
     default_group_by: روز
@@ -228,3 +229,16 @@ fa:
       inbox_name: صندوق ورودی
       inbox_type: نوع صندوق ورودی
     button: باز کردن گفتگو
+  time_units:
+    days:
+      one: "%{count} day"
+      other: "%{count} days"
+    hours:
+      one: "%{count} hour"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minute"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} second"
+      other: "%{count} seconds"

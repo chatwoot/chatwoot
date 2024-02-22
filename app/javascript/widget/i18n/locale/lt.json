@@ -80,7 +80,8 @@
     },
     "CAMPAIGN_HEADER": "Prieš pradėdami pokalbį nurodykite savo vardą ir el. pašto adresą",
     "IS_REQUIRED": "reikalingas",
-    "REQUIRED": "Reikalingas"
+    "REQUIRED": "Reikalingas",
+    "REGEX_ERROR": "Please provide a valid input"
   },
   "FILE_SIZE_LIMIT": "Failas viršija {MAXIMUM_FILE_UPLOAD_SIZE} apribojimą",
   "CHAT_FORM": {

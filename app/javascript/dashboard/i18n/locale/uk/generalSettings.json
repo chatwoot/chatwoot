@@ -112,7 +112,8 @@
       "REMOVE_LABEL": "Видалити мітку з діалогу",
       "SETTINGS": "Налаштування",
       "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance"
+      "APPEARANCE": "Appearance",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Перейти до панелі керування бесід",
@@ -151,16 +152,17 @@
       "AN_HOUR_FROM_NOW": "Until an hour from now",
       "CUSTOM": "Custom...",
       "CHANGE_APPEARANCE": "Change Appearance",
-      "LIGHT_MODE": "Light",
-      "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "System"
+      "LIGHT_MODE": "Світла",
+      "DARK_MODE": "Темна",
+      "SYSTEM_MODE": "System",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Завантаження дашборду..."
   },
   "COMMON": {
-    "OR": "Or",
+    "OR": "Або",
     "CLICK_HERE": "натисніть тут"
   }
 }
