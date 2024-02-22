@@ -124,7 +124,7 @@ export default {
     }
     form,
     .modal-content {
-      @apply pt-6 pb-8 px-8 self-center;
+      @apply pt-4 pb-8 px-8 self-center;
       a {
         @apply p-4;
       }

@@ -5,7 +5,12 @@ button {
   transition:
     background-color 0.25s ease-out,
     color 0.25s ease-out;
-  @apply mb-2 inline-block items-center h-10 mb-0 text-white flex text-center align-middle cursor-pointer text-sm leading-none mt-0 mx-0 py-1 px-3.5 border border-solid border-transparent dark:border-transparent rounded-[0.3125rem];
+  @apply mb-2 inline-block items-center h-10 mb-0  text-center align-middle cursor-pointer font-medium text-sm leading-none mt-0 mx-0 py-1 px-3.5 border border-solid border-transparent dark:border-transparent rounded-[0.3125rem];
+
+  &:disabled,
+  &.disabled {
+    @apply opacity-40 cursor-not-allowed;
+  }
 }
 
 .button-group {
@@ -26,7 +31,7 @@ button {
 }
 
 .button {
-  @apply items-center inline-flex h-10 mb-0 gap-2;
+  @apply items-center font-medium bg-woot-500 dark:bg-woot-500 text-white dark:text-white inline-flex h-10 mb-0 gap-2;
 
   .button__content {
     @apply w-full;
@@ -35,6 +40,10 @@ button {
     svg {
       @apply inline-block;
     }
+  }
+
+  &:hover {
+    @apply bg-woot-600 dark:bg-woot-600;
   }
 
   &:disabled,
@@ -46,6 +55,10 @@ button {
     @apply bg-green-400 dark:bg-green-400 text-white dark:text-white;
   }
 
+  &.secondary {
+    @apply bg-slate-700 dark:bg-slate-600 text-white dark:text-white;
+  }
+
   &.primary {
     @apply bg-woot-500 dark:bg-woot-500 text-white dark:text-white;
   }
@@ -54,13 +67,16 @@ button {
     @apply text-woot-500 dark:text-woot-500 bg-transparent dark:bg-transparent;
   }
 
+  &.alert {
+    @apply bg-red-500 dark:bg-red-500 text-white dark:text-white;
+  }
+
   &.warning {
     @apply bg-[#ffc532] dark:bg-[#ffc532] text-white dark:text-white;
+  }
 
-    &:disabled,
-    &.disabled {
-      @apply opacity-40 cursor-not-allowed;
-    }
+  &.tiny {
+    @apply h-6 text-xs;
   }
 
   .spinner {
