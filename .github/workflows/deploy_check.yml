@@ -15,10 +15,20 @@ jobs:
         run: echo "https://chatwoot-pr-${{ github.event.pull_request.number }}.herokuapp.com"
       - name: Check Deployment Status
         run: |
-          status_code=$(curl -s -o /dev/null -w "%{http_code}" https://chatwoot-pr-${{ github.event.pull_request.number }}.herokuapp.com)
-          if [ $status_code -eq 200 ]; then
-            echo "Deployment successful"
-          else
-            echo "Deployment failed"
-            exit 1
+          max_attempts=10
+          attempt=1
+          status_code=0
+          while [ $attempt -le $max_attempts ]; do
+            status_code=$(curl -s -o /dev/null -w "%{http_code}" https://chatwoot-pr-${{ github.event.pull_request.number }}.herokuapp.com)
+            if [ $status_code -eq  200 ]; then
+              echo "Deployment successful"
+              exit  0
+            else
+              echo "Deployment failed, retrying in  3 minutes..."
+              sleep  180
+              attempt=$((attempt +  1))
+            fi
+          done
+          echo "Deployment failed after $max_attempts attempts"
+          exit  1
           fi
