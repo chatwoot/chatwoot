@@ -1,17 +1,17 @@
 {
   "FILTER": {
     "TITLE": "篩選對話",
-    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
-    "EDIT_CUSTOM_FILTER": "Edit Folder",
-    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
-    "ADD_NEW_FILTER": "Add filter",
-    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
+    "SUBTITLE": "添加你的條件，並按下同意後，可以讓你的聊天更加簡潔",
+    "EDIT_CUSTOM_FILTER": "編輯資料夾",
+    "CUSTOM_VIEWS_SUBTITLE": "添加或移除一些條件與更新你的資料夾",
+    "ADD_NEW_FILTER": "添加查詢條件",
+    "FILTER_DELETE_ERROR": "哎呀，我們無法存檔！ 請添加至少一個條件來保存。",
     "SUBMIT_BUTTON_LABEL": "篩選",
-    "UPDATE_BUTTON_LABEL": "Update folder",
+    "UPDATE_BUTTON_LABEL": "更新資料夾",
     "CANCEL_BUTTON_LABEL": "取消",
-    "CLEAR_BUTTON_LABEL": "Clear filters",
-    "FOLDER_LABEL": "Folder Name",
-    "FOLDER_QUERY_LABEL": "Folder Query",
+    "CLEAR_BUTTON_LABEL": "清除查詢條件",
+    "FOLDER_LABEL": "資料夾名稱",
+    "FOLDER_QUERY_LABEL": "快速資料夾",
     "EMPTY_VALUE_ERROR": "此欄位為必填項目.",
     "TOOLTIP_LABEL": "篩選對話",
     "QUERY_DROPDOWN_LABELS": {
@@ -28,7 +28,7 @@
       "is_greater_than": "大於",
       "is_less_than": "小於",
       "days_before": "x 天前",
-      "starts_with": "Starts with"
+      "starts_with": "從這開始"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "True",
@@ -36,15 +36,15 @@
     },
     "ATTRIBUTES": {
       "STATUS": "狀態",
-      "ASSIGNEE_NAME": "Assignee name",
+      "ASSIGNEE_NAME": "轉發指定人",
       "INBOX_NAME": "收件匣名稱",
       "TEAM_NAME": "團隊名稱",
-      "CONVERSATION_IDENTIFIER": "Conversation identifier",
-      "CAMPAIGN_NAME": "Campaign name",
+      "CONVERSATION_IDENTIFIER": "對話ID",
+      "CAMPAIGN_NAME": "活動名稱",
       "LABELS": "標籤",
-      "BROWSER_LANGUAGE": "Browser language",
-      "PRIORITY": "Priority",
-      "COUNTRY_NAME": "Country name",
+      "BROWSER_LANGUAGE": "瀏覽器語言",
+      "PRIORITY": "優先",
+      "COUNTRY_NAME": "國家名稱",
       "REFERER_LINK": "推薦人連結",
       "CUSTOM_ATTRIBUTE_LIST": "列表",
       "CUSTOM_ATTRIBUTE_TEXT": "文字",
@@ -52,18 +52,18 @@
       "CUSTOM_ATTRIBUTE_LINK": "連結",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "勾選框",
       "CREATED_AT": "建立於",
-      "LAST_ACTIVITY": "Last activity"
+      "LAST_ACTIVITY": "最後活動"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard filters",
-      "ADDITIONAL_FILTERS": "Additional filters",
-      "CUSTOM_ATTRIBUTES": "Custom attributes"
+      "STANDARD_FILTERS": "一般查詢條件",
+      "ADDITIONAL_FILTERS": "田家查詢條件",
+      "CUSTOM_ATTRIBUTES": "自訂屬性"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
         "TITLE": "你要儲存這個篩選條件嗎？",
         "LABEL": "為這個篩選條件命名",
-        "PLACEHOLDER": "Name your filter to refer it later.",
+        "PLACEHOLDER": "給你的查詢條件命名，以便後面查看",
         "ERROR_MESSAGE": "名稱為必填.",
         "SAVE_BUTTON": "儲存篩選條件",
         "CANCEL_BUTTON": "取消",
@@ -72,12 +72,12 @@
           "ERROR_MESSAGE": "建立資料夾時出現錯誤."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully.",
-          "ERROR_MESSAGE": "Error while creating segment."
+          "SUCCESS_MESSAGE": "成功建立帳戶",
+          "ERROR_MESSAGE": "建立時出錯"
         }
       },
       "EDIT": {
-        "EDIT_BUTTON": "Edit folder"
+        "EDIT_BUTTON": "編輯資料夾"
       },
       "DELETE": {
         "DELETE_BUTTON": "刪除篩選條件",
@@ -85,7 +85,7 @@
           "CONFIRM": {
             "TITLE": "刪除確認",
             "MESSAGE": "你確定要刪除此篩選條件嗎",
-            "YES": "Yes, delete",
+            "YES": "是的，刪除",
             "NO": "否，保留"
           }
         },
@@ -94,8 +94,8 @@
           "ERROR_MESSAGE": "刪除資料夾時出現錯誤."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment deleted successfully.",
-          "ERROR_MESSAGE": "Error while deleting segment."
+          "SUCCESS_MESSAGE": "刪除成功",
+          "ERROR_MESSAGE": "刪除時出錯"
         }
       }
     }

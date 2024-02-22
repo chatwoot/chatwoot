@@ -569,7 +569,7 @@
       "UPDATE": "Einstellungen für Geschäftszeiten aktualisieren",
       "TOGGLE_AVAILABILITY": "Geschäftszeiten für diesen Posteingang aktivieren",
       "UNAVAILABLE_MESSAGE_LABEL": "Nachricht für Besucher außerhalb Geschäftszeiten",
-      "TOGGLE_HELP": "Die Aktivierung der Geschäftsverfügbarkeit zeigt die verfügbaren Stunden auf dem Live-Chat-Widget an, auch wenn alle Agenten offline sind. Außerhalb der verfügbaren Stunden können Besucher mit einer Nachricht und einem Vor-Chat-Formular gewarnt werden.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Verfügbarkeit für diesen Tag aktivieren",
         "UNAVAILABLE": "Nicht verfügbar",
