@@ -1,0 +1,37 @@
+## github action to check deployment success
+## curl the deployment url and check for 200 status
+## deployment url will be of the form chatwoot-pr-<pr_number>.herokuapp.com
+name: Deploy Check
+
+on:
+  pull_request:
+
+jobs:
+  deployment_check:
+    name: Check Deployment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install jq
+        run: sudo apt-get install -y jq
+      - name: Print Deployment URL
+        run: echo "https://chatwoot-pr-${{ github.event.pull_request.number }}.herokuapp.com"
+      - name: Check Deployment Status
+        run: |
+          max_attempts=10
+          attempt=1
+          status_code=0
+          while [ $attempt -le $max_attempts ]; do
+            response=$(curl -s  https://chatwoot-pr-${{ github.event.pull_request.number }}.herokuapp.com/api)
+            status_code=$(echo "$response" | jq -r 'if .version and .timestamp and .queue_services and .data_services then 200 else 400 end')
+            if [ $status_code -eq  200 ]; then
+              echo "Deployment successful"
+              exit  0
+            else
+              echo "Deployment status unknown, retrying in  3 minutes..."
+              sleep  180
+              attempt=$((attempt +  1))
+            fi
+          done
+          echo "Deployment failed after $max_attempts attempts"
+          exit  1
+          fi
