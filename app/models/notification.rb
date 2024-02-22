@@ -70,7 +70,8 @@ class Notification < ApplicationRecord
     }
     if primary_actor.present?
       payload[:primary_actor] = primary_actor&.push_event_data
-      payload[:push_message_title] = push_message_title
+      # TODO: Rename push_message_title to push_message_body
+      payload[:push_message_title] = push_message_body
     end
     payload
   end
@@ -95,22 +96,46 @@ class Notification < ApplicationRecord
     when 'assigned_conversation_new_message', 'participating_conversation_new_message'
       I18n.t(
         'notifications.notification_title.assigned_conversation_new_message',
-        display_id: conversation.display_id,
-        content: content
+        display_id: conversation.display_id
       )
     when 'conversation_mention'
-      "[##{conversation&.display_id}] #{transform_user_mention_content content}"
+      I18n.t('notifications.notification_title.conversation_mention', display_id: conversation.display_id)
     else
       ''
     end
   end
 
-  def conversation
-    primary_actor
+  def push_message_body
+    case notification_type
+    when 'conversation_creation'
+      conversation_creation_message_content
+    when 'assigned_conversation_new_message', 'participating_conversation_new_message', 'conversation_assignment'
+      message_created_message_content
+    when 'conversation_mention'
+      mention_content
+    else
+      ''
+    end
+  end
+
+  def conversation_creation_message_content
+    "#{conversation.messages.first&.sender&.name}: #{transform_user_mention_content(conversation.messages.first&.content&.truncate_words(10) || '')}"
+  end
+
+  def mention_content
+    "#{secondary_actor&.sender&.name}: #{transform_user_mention_content(secondary_actor&.content&.truncate_words(10) || '')}"
+  end
+
+  def message_created_message_content
+    "#{secondary_actor&.sender&.name}: #{content}"
   end
 
   def content
     transform_user_mention_content(secondary_actor&.content&.truncate_words(10) || '')
+  end
+
+  def conversation
+    primary_actor
   end
 
   private
