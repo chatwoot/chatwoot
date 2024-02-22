@@ -113,6 +113,10 @@ class Notification < ApplicationRecord
     end
   end
 
+  def conversation
+    primary_actor
+  end
+
   private
 
   def message_body(actor)
@@ -134,10 +138,6 @@ class Notification < ApplicationRecord
     else
       attachments.present? ? I18n.t('notifications.attachment') : I18n.t('notifications.no_content')
     end
-  end
-
-  def conversation
-    primary_actor
   end
 
   def process_notification_delivery
