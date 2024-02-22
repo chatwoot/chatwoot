@@ -2,7 +2,7 @@ require:
   - rubocop-performance
   - rubocop-rails
   - rubocop-rspec
-  - ./lib/rubocop/user_find_by.rb
+  - ./rubocop/use_from_email.rb
 
 Layout/LineLength:
   Max: 150

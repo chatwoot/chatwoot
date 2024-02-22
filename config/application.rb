@@ -32,7 +32,7 @@ module Chatwoot
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
-    config.autoload_lib(ignore: %w[rubocop])
+    config.eager_load_paths << Rails.root.join('lib')
     config.eager_load_paths << Rails.root.join('enterprise/lib')
     # rubocop:disable Rails/FilePath
     config.eager_load_paths += Dir["#{Rails.root}/enterprise/app/**"]
