@@ -130,7 +130,15 @@ class Notification < ApplicationRecord
   private
 
   def message_content(actor)
-    "#{actor&.sender&.name}: #{transform_user_mention_content(actor&.content&.truncate_words(10) || '')}"
+    sender_name = actor&.sender&.name || ''
+    content = actor&.content
+    attachments = actor&.attachments
+
+    "#{sender_name}: #{if content.present?
+                         transform_user_mention_content(content.truncate_words(10))
+                       else
+                         (attachments.present? ? I18n.t('notifications.attachment') : I18n.t('notifications.no_content'))
+                       end}"
   end
 
   def conversation

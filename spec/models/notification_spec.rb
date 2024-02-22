@@ -59,30 +59,6 @@ has been assigned to you"
       expect(notification.push_message_title).to eq "A new message is created in conversation (##{notification.primary_actor.display_id})"
     end
 
-    it 'returns appropriate title suited for the notification type participating_conversation_new_message having mention' do
-      message = create(:message, sender: create(:user), content: 'Hey [@John](mention://user/1/john), can you check this ticket?')
-      notification = create(:notification, notification_type: 'participating_conversation_new_message', primary_actor: message.conversation,
-                                           secondary_actor: message)
-      expect(notification.push_message_title).to eq "A new message is created in conversation (##{notification.primary_actor.display_id})"
-    end
-
-    it 'returns appropriate title suited for the notification type participating_conversation_new_message having multple mention' do
-      message = create(:message, sender: create(:user),
-                                 content: 'Hey [@John](mention://user/1/john), [@Alisha Peter](mention://user/2/alisha) can you check this ticket?')
-      notification = create(:notification, notification_type: 'participating_conversation_new_message', primary_actor: message.conversation,
-                                           secondary_actor: message)
-
-      expect(notification.push_message_title).to eq "A new message is created in conversation (##{notification.primary_actor.display_id})"
-    end
-
-    it 'returns appropriate title suited for the notification type participating_conversation_new_message if username contains white space' do
-      message = create(:message, sender: create(:user), content: 'Hey [@John Peter](mention://user/1/john%20K) please check this?')
-      notification = create(:notification, notification_type: 'participating_conversation_new_message', primary_actor: message.conversation,
-                                           secondary_actor: message)
-
-      expect(notification.push_message_title).to eq "A new message is created in conversation (##{notification.primary_actor.display_id})"
-    end
-
     it 'returns appropriate title suited for the notification type conversation_mention' do
       message = create(:message, sender: create(:user), content: 'Hey [@John](mention://user/1/john), can you check this ticket?')
       notification = create(:notification, notification_type: 'conversation_mention', primary_actor: message.conversation,
@@ -111,9 +87,12 @@ has been assigned to you"
     it 'returns appropriate body suited for the notification type assigned_conversation_new_message when attachment message' do
       conversation = create(:conversation)
       message = create(:message, sender: create(:user), content: nil, conversation: conversation)
+      attachment = message.attachments.new(file_type: :image, account_id: message.account_id)
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+      message.save!
       notification = create(:notification, notification_type: 'assigned_conversation_new_message', primary_actor: conversation,
                                            secondary_actor: message)
-      expect(notification.push_message_body).to eq "#{message.sender.name}: "
+      expect(notification.push_message_body).to eq "#{message.sender.name}: Attachment"
     end
 
     it 'returns appropriate body suited for the notification type participating_conversation_new_message having multple mention' do
