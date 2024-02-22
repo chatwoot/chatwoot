@@ -1,0 +1,25 @@
+## github action to check deployment success
+## curl the deployment url and check for 200 status
+## deployment url will be of the form chatwoot-pr-<pr_number>.herokuapp.com
+name: Deploy Check
+
+on:
+  push:
+    branches:
+      - develop
+jobs:
+  deployment_check:
+    name: Check Deployment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Deployment URL
+        run: echo "https://chatwoot-pr-${{ github.event.pull_request.number }}.herokuapp.com"
+      - name: Check Deployment Status
+        run: |
+          status_code=$(curl -s -o /dev/null -w "%{http_code}" https://chatwoot-pr-${{ github.event.pull_request.number }}.herokuapp.com)
+          if [ $status_code -eq 200 ]; then
+            echo "Deployment successful"
+          else
+            echo "Deployment failed"
+            exit 1
+          fi
