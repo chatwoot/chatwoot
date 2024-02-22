@@ -88,6 +88,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { convertSecondsToTimeUnit } from '@chatwoot/utils';
 
 import AddSLA from './AddSLA.vue';
 import EditSLA from './EditSLA.vue';
@@ -130,16 +131,12 @@ export default {
     hideEditPopup() {
       this.showEditPopup = false;
     },
-    convertToUnit(seconds) {
-      if (seconds === null) return { time: '', unit: '' };
-      if (seconds < 3600)
-        return { time: Number((seconds / 60).toFixed(1)), unit: 'm' };
-      if (seconds < 86400)
-        return { time: Number((seconds / 3600).toFixed(1)), unit: 'h' };
-      return { time: Number((seconds / 86400).toFixed(1)), unit: 'd' };
-    },
     displayTime(threshold) {
-      const { time, unit } = this.convertToUnit(threshold);
+      const { time, unit } = convertSecondsToTimeUnit(threshold, {
+        minute: 'm',
+        hour: 'h',
+        day: 'd',
+      });
       return `${time}${unit}`;
     },
   },

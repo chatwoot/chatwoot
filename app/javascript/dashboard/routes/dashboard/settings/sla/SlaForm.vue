@@ -52,6 +52,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { convertSecondsToTimeUnit } from '@chatwoot/utils';
 import validationMixin from './validationMixin';
 import validations from './validations';
 import SlaTimeInput from './SlaTimeInput.vue';
@@ -138,7 +139,11 @@ export default {
         resolutionTimeThreshold,
       ];
       this.slaTimeInputs.forEach((input, index) => {
-        const converted = this.convertToUnit(thresholds[index]);
+        const converted = convertSecondsToTimeUnit(thresholds[index], {
+          minute: 'Minutes',
+          hour: 'Hours',
+          day: 'Days',
+        });
         input.threshold = converted.time;
         input.unit = converted.unit;
       });
@@ -165,15 +170,6 @@ export default {
       if (threshold === null || threshold === 0) return null;
       const unitsToSeconds = { Minutes: 60, Hours: 3600, Days: 86400 };
       return Number(threshold * (unitsToSeconds[unit] || 1));
-    },
-    convertToUnit(seconds) {
-      if (seconds === null || seconds === 0)
-        return { time: null, unit: 'Minutes' };
-      if (seconds < 3600)
-        return { time: Number((seconds / 60).toFixed(1)), unit: 'Minutes' };
-      if (seconds < 86400)
-        return { time: Number((seconds / 3600).toFixed(1)), unit: 'Hours' };
-      return { time: Number((seconds / 86400).toFixed(1)), unit: 'Days' };
     },
   },
 };
