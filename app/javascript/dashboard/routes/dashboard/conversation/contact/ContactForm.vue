@@ -76,7 +76,7 @@
         </label>
         <div
           v-if="isPhoneNumberNotValid || !phoneNumber"
-          class="callout small warning text-sm dark:bg-yellow-200/20 dark:text-yellow-400"
+          class="relative mx-0 mt-0 mb-2.5 p-2 rounded-none text-sm border border-solid border-yellow-500 dark:border-yellow-700 bg-yellow-200/60 dark:bg-yellow-200/20 text-slate-700 dark:text-yellow-400"
         >
           {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.HELP') }}
         </div>
@@ -121,12 +121,15 @@
       <div
         v-for="socialProfile in socialProfileKeys"
         :key="socialProfile.key"
-        class="input-group"
+        class="flex w-full mb-4 items-stretch"
       >
-        <span class="input-group-label">{{ socialProfile.prefixURL }}</span>
+        <span
+          class="text-sm bg-slate-50 flex px-2 items-center border-y ltr:border-l rtl:border-r border-solid ltr:rounded-l-md rtl:rounded-r-md dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-slate-200 dark:border-slate-600 h-10"
+          >{{ socialProfile.prefixURL }}</span
+        >
         <input
           v-model="socialProfileUserNames[socialProfile.key]"
-          class="input-group-field"
+          class="input-group-field ltr:rounded-l-none rtl:rounded-r-none !mb-0"
           type="text"
         />
       </div>
@@ -416,10 +419,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.input-group-label {
-  @apply text-sm bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-slate-200 dark:border-slate-600;
-}
-
 ::v-deep {
   .multiselect .multiselect__tags .multiselect__single {
     @apply pl-0;

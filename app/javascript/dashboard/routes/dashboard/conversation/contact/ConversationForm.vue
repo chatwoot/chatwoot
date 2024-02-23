@@ -1,7 +1,10 @@
 <template>
   <form class="conversation--form w-full" @submit.prevent="onFormSubmit">
-    <div v-if="showNoInboxAlert" class="callout warning">
-      <p>
+    <div
+      v-if="showNoInboxAlert"
+      class="relative mx-0 mt-0 mb-2.5 p-2 rounded-none text-sm border border-solid border-yellow-500 dark:border-yellow-700 bg-yellow-200/60 dark:bg-yellow-200/20 text-slate-700 dark:text-yellow-400"
+    >
+      <p class="mb-0">
         {{ $t('NEW_CONVERSATION.NO_INBOX') }}
       </p>
     </div>
