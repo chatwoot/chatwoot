@@ -20,7 +20,7 @@ input[type='url'] {
   @apply block box-border w-full transition-colors focus:border-woot-500 dark:focus:border-woot-600 duration-[0.25s] ease-[ease-in-out] h-10 appearance-none mx-0 mt-0 mb-4 p-2 rounded-md text-base font-normal bg-white dark:bg-slate-900 focus:bg-white focus:dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-solid border-slate-200 dark:border-slate-600;
 
   &[disabled] {
-    @apply bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-400 border-slate-200 dark:border-slate-600;
+    @apply bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-400 border-slate-200 dark:border-slate-600 cursor-not-allowed;
   }
 }
 
