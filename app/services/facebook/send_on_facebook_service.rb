@@ -18,7 +18,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
 
   def send_message_to_facebook(delivery_params)
     Rails.logger.info "Facebook::SendOnFacebookService: Page - #{channel.page_id}"
-    # Rails.logger.info "params messagetype : #{delivery_params.messaging_type}"
+    Rails.logger.info "params messagetype : #{delivery_params.messaging_type}"
     # Rails.logger.info "params recipient : #{delivery_params.recipient.id}"
 
     result = Facebook::Messenger::Bot.deliver(delivery_params, page_id: channel.page_id)
