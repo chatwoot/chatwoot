@@ -141,6 +141,13 @@ RSpec/MultipleExpectations:
 RSpec/MultipleMemoizedHelpers:
   Max: 14
 
+# custom rules
+UseFromEmail:
+  Enabled: true
+  Exclude:
+    - 'app/models/user.rb'
+    - 'app/models/contact.rb'
+
 AllCops:
   NewCops: enable
   Exclude:
