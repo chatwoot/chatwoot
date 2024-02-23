@@ -109,3 +109,12 @@ p {
     @apply text-woot-500 dark:text-woot-500 cursor-pointer;
   }
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-medium text-slate-800 dark:text-slate-50;
+}
