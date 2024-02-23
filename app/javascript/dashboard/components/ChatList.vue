@@ -143,7 +143,10 @@
           <div v-if="chatListLoading" class="text-center">
             <span class="spinner mt-4 mb-4" />
           </div>
-          <p v-if="showEndOfListMessage" class="text-center text-muted p-4">
+          <p
+            v-if="showEndOfListMessage"
+            class="text-center text-slate-400 dark:text-slate-300 p-4"
+          >
             {{ $t('CHAT_LIST.EOF') }}
           </p>
           <intersection-observer

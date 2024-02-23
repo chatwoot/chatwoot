@@ -5,7 +5,7 @@ button {
   transition:
     background-color 0.25s ease-out,
     color 0.25s ease-out;
-  @apply inline-block items-center mb-0  text-center align-middle cursor-pointer font-medium text-sm leading-none mt-0 mx-0 py-1 px-3.5 border border-solid border-transparent dark:border-transparent rounded-[0.3125rem];
+  @apply inline-block items-center mb-0  text-center align-middle cursor-pointer font-medium text-sm mt-0 mx-0 py-1 px-3.5 border border-solid border-transparent dark:border-transparent rounded-[0.3125rem];
 
   &:disabled,
   &.disabled {

@@ -3,7 +3,11 @@
     <h6
       class="block text-base text-center w-100 text-slate-800 dark:text-slate-300"
     >
-      <span class="mr-3">{{ message }}</span>
+      <span
+        class="mr-3 font-medium text-base text-slate-800 dark:text-slate-100"
+      >
+        {{ message }}
+      </span>
       <span class="spinner" />
     </h6>
   </div>
