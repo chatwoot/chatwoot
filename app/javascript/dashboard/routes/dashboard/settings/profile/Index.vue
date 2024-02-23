@@ -83,11 +83,11 @@
           {{ $t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.NOTE') }}
         </p>
       </div>
-      <div class="p-4 w-[45%] flex flex-row">
+      <div class="p-4 w-[45%] flex gap-4 flex-row">
         <button
           v-for="keyOption in keyOptions"
           :key="keyOption.key"
-          class="cursor-pointer mr-4"
+          class="cursor-pointer p-0"
           @click="toggleEditorMessageKey(keyOption.key)"
         >
           <preview-card

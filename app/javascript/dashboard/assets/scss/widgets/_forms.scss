@@ -15,6 +15,7 @@ input[type='text'],
 input[type='number'],
 input[type='password'],
 input[type='date'],
+input[type='email'],
 input[type='url'] {
   @apply block box-border w-full transition-colors focus:border-woot-500 dark:focus:border-woot-600 duration-[0.25s] ease-[ease-in-out] h-10 appearance-none mx-0 mt-0 mb-4 p-2 rounded-md text-base font-normal bg-white dark:bg-slate-900 focus:bg-white focus:dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-solid border-slate-200 dark:border-slate-600;
 
@@ -95,7 +96,11 @@ code {
   @apply text-xs border-0;
 
   &.hljs {
-    @apply bg-slate-50 dark:bg-slate-300 rounded-lg p-5;
+    @apply bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-50 rounded-lg p-5;
+
+    .hljs-number {
+      @apply text-red-800 dark:text-red-400;
+    }
   }
 }
 
