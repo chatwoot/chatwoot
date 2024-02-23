@@ -10,7 +10,7 @@
       <p>
         {{
           useInstallationName(
-            $t('INBOX_MGMT.ADD.FB.HELP'),
+            $t('INBOX_MGMT.ADD.ZALO.HELP'),
             globalConfig.installationName
           )
         }}
@@ -43,37 +43,16 @@
         </div>
         <div class="w-[60%]">
           <div class="w-full">
-            <div class="input-wrap" :class="{ error: $v.selectedPage.$error }">
-              {{ $t('INBOX_MGMT.ADD.FB.CHOOSE_PAGE') }}
-              <multiselect
-                v-model.trim="selectedPage"
-                :close-on-select="true"
-                :allow-empty="true"
-                :options="getSelectablePages"
-                track-by="id"
-                label="name"
-                :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-                :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
-                :placeholder="$t('INBOX_MGMT.ADD.FB.PICK_A_VALUE')"
-                selected-label
-                @select="setPageName"
-              />
-              <span v-if="$v.selectedPage.$error" class="message">
-                {{ $t('INBOX_MGMT.ADD.FB.CHOOSE_PLACEHOLDER') }}
-              </span>
-            </div>
-          </div>
-          <div class="w-full">
             <label :class="{ error: $v.pageName.$error }">
-              {{ $t('INBOX_MGMT.ADD.FB.INBOX_NAME') }}
+              {{ $t('INBOX_MGMT.ADD.ZALO.INBOX_NAME') }}
               <input
                 v-model.trim="pageName"
                 type="text"
-                :placeholder="$t('INBOX_MGMT.ADD.FB.PICK_NAME')"
+                :placeholder="$t('INBOX_MGMT.ADD.ZALO.PICK_NAME')"
                 @input="$v.pageName.$touch"
               />
               <span v-if="$v.pageName.$error" class="message">
-                {{ $t('INBOX_MGMT.ADD.FB.ADD_NAME') }}
+                {{ $t('INBOX_MGMT.ADD.ZALO.ADD_NAME') }}
               </span>
             </label>
           </div>
@@ -90,7 +69,7 @@
 import { required } from 'vuelidate/lib/validators';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
 import { mapGetters } from 'vuex';
-import ChannelApi from '../../../../../api/channels';
+import axios from 'axios';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 import router from '../../../../index';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
@@ -105,14 +84,17 @@ export default {
   data() {
     return {
       isCreating: false,
-      hasError: this.$route.query.error_message !== '',
+      hasError: false,
       omniauth_token: '',
+      access_token: '',
+      refresh_token: '',
+      expires_in: '',
       oa_id: '',
-      oa_access_token: '',
-      channel: 'zalo',
       pageName: '',
-      emptyStateMessage: this.$t('INBOX_MGMT.DETAILS.LOADING_FB'),
-      errorStateMessage: this.$route.query.error_message,
+      avatar: '',
+      channel: 'zalo',
+      emptyStateMessage: this.$t('INBOX_MGMT.DETAILS.LOADING_ZALO'),
+      errorStateMessage: '',
       errorStateDescription: '',
       hasLoginStarted: false,
     };
@@ -122,20 +104,11 @@ export default {
     pageName: {
       required,
     },
-
-    selectedPage: {
-      isEmpty() {
-        return this.selectedPage !== null && !!this.selectedPage.name;
-      },
-    },
   },
 
   computed: {
     showLoader() {
-      return !this.oa_access_token || this.isCreating;
-    },
-    getSelectablePages() {
-      return this.pageList.filter(item => !item.exists);
+      return this.oa_id === '' || this.isCreating;
     },
     ...mapGetters({
       currentUser: 'getCurrentUser',
@@ -144,12 +117,7 @@ export default {
   },
 
   created() {
-    // this.initFB();
-    // this.loadFBsdk();
-  },
-
-  mounted() {
-    // this.initFB();
+    if (this.$route.query.code) this.getAccessToken();
   },
 
   methods: {
@@ -161,33 +129,75 @@ export default {
       );
     },
 
-    setPageName({ name }) {
-      this.$v.selectedPage.$touch();
-      this.pageName = name;
+    getAccessToken() {
+      this.hasLoginStarted = true;
+      const url = 'https://oauth.zaloapp.com/v4/oa/access_token';
+      const data = new URLSearchParams();
+      data.append('code', this.$route.query.code);
+      data.append('app_id', window.chatwootConfig.zaloAppId);
+      data.append('grant_type', 'authorization_code');
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          secret_key: window.chatwootConfig.zaloAppSecret,
+        },
+      };
+
+      axios
+        .post(url, data, config)
+        .then(response => {
+          // if (!response.data.error) {
+          this.access_token = response.data.access_token;
+          this.refresh_token = response.data.refresh_token;
+          this.expires_in = response.data.expires_in;
+          this.fetchOaData(this.access_token);
+          // } else {
+          //  this.hasError = true;
+          //  this.errorStateMessage = response.data.error_name;
+          //  this.errorStateDescription = response.data.error_description;
+          // }
+        })
+        .catch(error => {
+          this.hasError = true;
+          this.errorStateMessage = error.message;
+        });
     },
 
-    async fetchPages(_token) {
-      try {
-        const response = await ChannelApi.fetchFacebookPages(
-          _token,
-          this.accountId
-        );
-        const {
-          data: { data },
-        } = response;
-        this.pageList = data.page_details;
-        this.user_access_token = data.user_access_token;
-      } catch (error) {
-        // Ignore error
-      }
+    fetchOaData(access_token) {
+      const url = 'https://openapi.zalo.me/v2.0/oa/getoa';
+
+      axios
+        .get(url, {
+          headers: {
+            access_token: access_token,
+          },
+        })
+        .then(response => {
+          const data = response.data;
+          if (data.error === 0) {
+            this.oa_id = data.data.oa_id;
+            this.pageName = data.data.name;
+            this.avatar = data.data.avatar;
+          } else {
+            this.hasError = true;
+            this.errorStateMessage = data.message;
+          }
+        })
+        .catch(error => {
+          this.hasError = true;
+          this.errorStateMessage = error.message;
+        });
     },
 
     channelParams() {
       return {
-        user_access_token: this.user_access_token,
-        page_access_token: this.selectedPage.access_token,
-        page_id: this.selectedPage.id,
-        inbox_name: this.selectedPage.name,
+        oa_id: this.oa_id,
+        access_token: this.access_token,
+        refresh_token: this.refresh_token,
+        expires_in: this.expires_in,
+        inbox_name: this.pageName,
+        avatar_url: this.avatar,
       };
     },
 
@@ -197,7 +207,7 @@ export default {
         this.emptyStateMessage = this.$t('INBOX_MGMT.DETAILS.CREATING_CHANNEL');
         this.isCreating = true;
         this.$store
-          .dispatch('inboxes/createFBChannel', this.channelParams())
+          .dispatch('inboxes/createZaloChannel', this.channelParams())
           .then(data => {
             router.replace({
               name: 'settings_inboxes_add_agents',
