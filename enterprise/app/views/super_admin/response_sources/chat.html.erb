@@ -14,7 +14,7 @@
         <a href="<%= super_admin_response_source_path(@response_source) %>" class="text-blue-500 hover:underline">Back to  <%= @response_source.name %> </a>
       </div>
     </header>
- 
+
     <div class="flex-1">
       <div id="chat" class="px-8 pt-5">
       <!-- Chat messages will be appended here -->
@@ -47,7 +47,7 @@
     function markdownToHtml(markdown) {
       let html = markdown;
 
-      debugger;// First, ensure that line breaks are standardized to <br> tags
+      // First, ensure that line breaks are standardized to <br> tags
       html = html.replace(/(\r\n|\r|\n)/g, '<br>');
 
       // Then, replace sequences of two or more <br> tags with exactly two <br> tags
@@ -60,7 +60,7 @@
         .replace(/(\*)(.*?)\1/g, '<em>$2</em>') // Italic *text*
         .replace(/(_)(.*?)\1/g, '<em>$2</em>') // Italic _text_
         .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a target="_blank" href="$2">$1</a>'); // Link [text](url)
-      
+
       // Return the converted HTML
       return html;
     }
@@ -71,7 +71,7 @@
       const messageBubble = document.createElement("div");
       const bubbleContent = document.createElement("div");
       const senderIcon = document.createElement("div");
-      
+
       // Set the appropriate styles for user vs bot
       messageBubble.className = isUser ?  'flex items-end mb-2 justify-end' : 'flex items-end mb-2';
       bubbleContent.className = isUser ? 'text-sm md:text-base bg-woot-500 text-white rounded px-4 py-2 shadow max-w-[60%] leading-normal' : 'text-sm md:text-base bg-white rounded px-4 py-2 shadow max-w-[60%] leading-normal' ;
@@ -88,7 +88,7 @@
       } else {
         messageBubble.appendChild(senderIcon);
         messageBubble.appendChild(bubbleContent);
-        
+
       }
 
       // Append the message bubble to the chat
@@ -102,7 +102,7 @@
 
       // Disable the textarea to prevent further input while processing
       messageInput.disabled = true;
-      
+
       try {
         const response = await fetch(window.location.href, {
           method: 'POST',
@@ -110,7 +110,7 @@
             'Content-Type': 'application/json',
             'X-CSRF-Token': csrfToken
           },
-          body: JSON.stringify({ 
+          body: JSON.stringify({
             message: message,
             previous_messages: messagesHistory // Include the conversation history in the payload
           }),
@@ -137,4 +137,3 @@
     }
   });
 </script>
-
