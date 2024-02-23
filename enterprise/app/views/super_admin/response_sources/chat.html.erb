@@ -1,28 +1,26 @@
-<% content_for(:title) do %>
- Chat with <%= @response_source.name %>
-<% end %>
-<section class="main-content__body h-full">
-  <div class="flex flex-col h-full">
-    <header class="flex mx-8 pb-4 items-center border-b border-solid border-slate-100" role="banner">
-      <div class="border border-solid border-slate-100 text-slate-700 mr-4 p-2 rounded-full">
-        <svg width="24" height="24"><use xlink:href="#icon-settings-2-line" /></svg>
-      </div>
-      <div class="flex flex-col h-14 justify-center">
-        <h1 class="text-base font-medium leading-6 text-slate-900" id="page-title">
-          <%= content_for(:title) %>
-        </h1>
-        <a href="<%= super_admin_response_source_path(@response_source) %>" class="text-blue-500 hover:underline">Back to  <%= @response_source.name %> </a>
-      </div>
-    </header>
+<% content_for :title, "Robin AI playground: #{@response_source.name}" %>
 
-    <div class="flex-1">
-      <div id="chat" class="px-8 pt-5">
-      <!-- Chat messages will be appended here -->
-      </div>
+<section class="h-full w-full flex flex-col px-8 py-4">
+  <header class="flex items-center" role="banner">
+    <a href="<%= super_admin_response_source_path(@response_source) %>" class="text-woot-500 hover:underline mr-4">Back </a>
+    <div class="border border-solid border-slate-100 text-slate-700 mr-4 p-2 rounded-full">
+      <svg width="24" height="24"><use xlink:href="#icon-mist-fill" /></svg>
     </div>
-    <div class="w-full pt-2 md:pt-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:w-[calc(100%-.5rem)]">
-      <textarea id="messageInput" class="" placeholder="Type a message..." autofocus autocomplete="off"></textarea>
+    <div class="flex flex-col h-14 justify-center">
+      <h1 class="text-base font-medium  text-slate-900" id="page-title">
+        Robin AI playground
+      </h1>
+      <p class="text-sm text-slate-600">Chat with the source <span class="font-medium"><%= @response_source.name %></span> and evaluate it’s efficiency. </p>
     </div>
+  </header>
+
+  <div class="flex-1">
+    <div id="chat" class="px-8 pt-5">
+    <!-- Chat messages will be appended here -->
+    </div>
+  </div>
+  <div class="w-full pt-2 md:pt-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:w-[calc(100%-.5rem)]">
+    <textarea id="messageInput" rows="4" class="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border !outline-2 border-gray-300 focus:ring-woot-500 focus:border-woot-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-woot-500 dark:focus:border-woot-500" placeholder="Type a message..." autofocus autocomplete="off"></textarea>
   </div>
 </section>
 
