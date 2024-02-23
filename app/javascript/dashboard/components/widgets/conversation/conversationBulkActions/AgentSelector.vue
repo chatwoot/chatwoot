@@ -47,7 +47,9 @@
                 :username="agent.name"
                 size="22px"
               />
-              <span class="reports-option__title">{{ agent.name }}</span>
+              <span class="my-0 text-slate-800 dark:text-slate-75">
+                {{ agent.name }}
+              </span>
             </div>
           </li>
         </ul>
@@ -233,7 +235,7 @@ ul {
 }
 
 .agent-list-item {
-  @apply flex items-center p-2.5 gap-1 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900;
+  @apply flex items-center p-2.5 gap-2 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900;
   span {
     @apply text-sm;
   }
