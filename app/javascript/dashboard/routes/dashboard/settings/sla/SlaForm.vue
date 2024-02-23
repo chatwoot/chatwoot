@@ -26,6 +26,7 @@
         :placeholder="$t(input.placeholder)"
         @input="updateThreshold(index, $event)"
         @unit="updateUnit(index, $event)"
+        @isInValid="handleIsInvalid(index, $event)"
       />
 
       <div class="w-full">
@@ -76,6 +77,8 @@ export default {
     return {
       name: '',
       description: '',
+      isSlaTimeInputsInvalid: false,
+      slaTimeInputsValidation: {},
       slaTimeInputs: [
         {
           threshold: null,
@@ -107,7 +110,7 @@ export default {
     isSubmitDisabled() {
       return (
         this.$v.name.$invalid ||
-        this.$v.thresholdTime.$invalid ||
+        this.isSlaTimeInputsInvalid ||
         this.uiFlags.isUpdating
       );
     },
@@ -170,6 +173,20 @@ export default {
       if (threshold === null || threshold === 0) return null;
       const unitsToSeconds = { Minutes: 60, Hours: 3600, Days: 86400 };
       return Number(threshold * (unitsToSeconds[unit] || 1));
+    },
+    handleIsInvalid(index, isInvalid) {
+      this.slaTimeInputsValidation = {
+        ...this.slaTimeInputsValidation,
+        [index]: isInvalid,
+      };
+
+      this.checkValidationState();
+    },
+    checkValidationState() {
+      const isAnyInvalid = Object.values(this.slaTimeInputsValidation).some(
+        isInvalid => isInvalid
+      );
+      this.isSlaTimeInputsInvalid = isAnyInvalid;
     },
   },
 };

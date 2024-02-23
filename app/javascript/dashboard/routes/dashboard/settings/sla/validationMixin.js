@@ -14,11 +14,10 @@ export default {
     getThresholdTimeErrorMessage() {
       let errorMessage = '';
       if (this.$v.thresholdTime.$error) {
-        if (!this.$v.thresholdTime.numeric) {
-          errorMessage = this.$t('SLA.FORM.THRESHOLD_TIME.NUMERIC_ERROR');
-        }
-        if (!this.$v.thresholdTime.notZero) {
-          errorMessage = this.$t('SLA.FORM.THRESHOLD_TIME.NOT_ZERO_ERROR');
+        if (!this.$v.thresholdTime.isValidSlaFormat) {
+          errorMessage = this.$t(
+            'SLA.FORM.THRESHOLD_TIME.INVALID_FORMAT_ERROR'
+          );
         }
       }
       return errorMessage;

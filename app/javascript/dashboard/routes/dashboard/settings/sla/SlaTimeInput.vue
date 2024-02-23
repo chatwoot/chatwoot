@@ -6,8 +6,6 @@
       class="w-full [&>input]:pr-24"
       :label="label"
       :placeholder="placeholder"
-      type="number"
-      :number-min="1"
       :error="getThresholdTimeErrorMessage"
       @input="onThresholdTimeChange"
     />
@@ -85,6 +83,8 @@ export default {
     },
     onThresholdTimeChange() {
       this.$v.thresholdTime.$touch();
+      const isInvalid = this.$v.thresholdTime.$invalid;
+      this.$emit('isInValid', isInvalid);
       this.$emit('input', Number(this.thresholdTime));
     },
   },

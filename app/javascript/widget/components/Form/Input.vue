@@ -12,7 +12,6 @@
       class="border rounded w-full py-2 px-3 leading-tight outline-none"
       :class="inputHasError"
       :placeholder="placeholder"
-      :min="numberMin"
       :value="value"
       @change="onChange"
     />
@@ -55,10 +54,6 @@ export default {
     helpText: {
       type: String,
       default: '',
-    },
-    numberMin: {
-      type: Number,
-      default: null,
     },
   },
   computed: {

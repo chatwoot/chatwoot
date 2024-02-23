@@ -1,16 +1,18 @@
-import { required, minLength, numeric } from 'vuelidate/lib/validators';
+import { required, minLength } from 'vuelidate/lib/validators';
 
-const positiveNumber = value => value > 0 || !value;
+const isValidSlaFormat = value => {
+  if (!value) return true;
+  const stringValue = String(value);
+  const regex = /^\d+(.\d+)?$/;
+  return regex.test(stringValue) && parseFloat(value) > 0;
+};
 
 export default {
   name: {
     required,
     minLength: minLength(2),
   },
-  // if present, it must be a number and greater than 0
-  // if not present, it's valid
   thresholdTime: {
-    numeric,
-    positiveNumber,
+    isValidSlaFormat,
   },
 };
