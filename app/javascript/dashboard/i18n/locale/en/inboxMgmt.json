@@ -46,6 +46,13 @@
         "PICK_NAME": "Pick A Name Your Inbox",
         "PICK_A_VALUE": "Pick a value"
       },
+      "ZALO": {
+        "HELP": "PS: By signing in, we only get access to your Zalo OA's messages. Your private messages can never be accessed by Chatwoot.",
+        "INBOX_NAME": "Inbox Name",
+        "ADD_NAME": "Add a name for your inbox",
+        "PICK_NAME": "Pick A Name Your Inbox",
+        "PICK_A_VALUE": "Pick a value"
+      },
       "TWITTER": {
         "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",
         "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
@@ -370,6 +377,7 @@
     },
     "DETAILS": {
       "LOADING_FB": "Authenticating you with Facebook...",
+      "LOADING_ZALO": "Authenticating you with Zalo...",
       "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
       "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",

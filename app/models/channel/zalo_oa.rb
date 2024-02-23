@@ -16,15 +16,15 @@
 #  index_channel_zalo_oa_on_oa_id_and_account_id  (oa_id,account_id) UNIQUE
 #
 
-class Channel::ZaloOA < ApplicationRecord
+class Channel::ZaloOa < ApplicationRecord
   include Channelable
-  include Reauthorizable
+  # include Reauthorizable
 
   self.table_name = 'channel_zalo_oa'
   EDITABLE_ATTRS = [:oa_access_token, :refresh_token, :expires_in].freeze
 
-  validates :oa_access_token, presence: true
-  validates :refresh_token, presence: true
+  validates :oa_access_token, presence: true, length: { maximum: 2048 }
+  validates :refresh_token, presence: true, length: { maximum: 2048 }
   validates :expires_in, presence: true
   validates :account_id, presence: true
   validates :oa_id, presence: true

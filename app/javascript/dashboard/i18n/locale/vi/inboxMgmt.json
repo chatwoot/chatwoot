@@ -46,6 +46,13 @@
         "PICK_NAME": "Chọn tên Hộp thư đến của bạn",
         "PICK_A_VALUE": "Chọn một giá trị"
       },
+      "ZALO": {
+        "HELP": "Lưu ý: Bằng cách đăng nhập, chúng tôi chỉ có quyền truy cập vào các tin nhắn trong trang Zalo OA của bạn. Chatwoot không bao giờ có thể truy cập tin nhắn riêng tư của bạn.",
+        "INBOX_NAME": "Tên hộp thư đến",
+        "ADD_NAME": "Thêm tên cho hộp thư đến của bạn",
+        "PICK_NAME": "Chọn tên Hộp thư đến của bạn",
+        "PICK_A_VALUE": "Chọn một giá trị"
+      },
       "TWITTER": {
         "HELP": "Để thêm hồ sơ Twitter của bạn làm kênh, bạn cần xác thực Hồ sơ Twitter của mình bằng cách nhấp vào 'Đăng nhập bằng Twitter",
         "ERROR_MESSAGE": "Đã xảy ra lỗi khi kết nối đến Twitter, vui lòng thử lại",
@@ -370,6 +377,7 @@
     },
     "DETAILS": {
       "LOADING_FB": "Xác thực bạn bằng Facebook...",
+      "LOADING_ZALO": "Xác thực bạn bằng Zalo...",
       "ERROR_FB_AUTH": "Đã xảy ra sự cố, Vui lòng làm mới trang...",
       "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
