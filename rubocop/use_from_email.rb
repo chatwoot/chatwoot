@@ -1,7 +1,7 @@
 require 'rubocop'
 
 # Enforces use of from_email for email attribute lookups
-class UseFromEmail < RuboCop::Cop::Cop
+class UseFromEmail < RuboCop::Cop::Base
   MSG = 'Use `from_email` for email lookups to ensure case insensitivity.'.freeze
 
   def_node_matcher :find_by_email?, <<~PATTERN

@@ -3,6 +3,7 @@ require:
   - rubocop-rails
   - rubocop-rspec
   - ./rubocop/use_from_email.rb
+  - ./rubocop/custom_cop_location.rb
 
 Layout/LineLength:
   Max: 150
@@ -147,6 +148,9 @@ UseFromEmail:
   Exclude:
     - 'app/models/user.rb'
     - 'app/models/contact.rb'
+
+CustomCopLocation:
+  Enabled: true
 
 AllCops:
   NewCops: enable
