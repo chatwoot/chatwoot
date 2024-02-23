@@ -17,7 +17,9 @@
     </div>
     <div class="labels-list">
       <header class="labels-list__header">
-        <div class="label-list-search flex-between">
+        <div
+          class="label-list-search h-8 flex justify-between items-center gap-2"
+        >
           <fluent-icon icon="search" class="search-icon" size="16" />
           <input
             ref="search"
@@ -138,7 +140,7 @@ export default {
   }
 
   .label--search_input {
-    @apply border-0 text-xs m-0 dark:bg-transparent bg-transparent h-[unset];
+    @apply border-0 text-xs m-0 dark:bg-transparent bg-transparent h-[unset] w-full;
   }
 }
 

@@ -26,7 +26,9 @@
       <div v-else class="agent__list-container">
         <ul v-if="!selectedAgent">
           <li class="search-container">
-            <div class="agent-list-search flex-between">
+            <div
+              class="agent-list-search h-8 flex justify-between items-center gap-2"
+            >
               <fluent-icon icon="search" class="search-icon" size="16" />
               <input
                 ref="search"
@@ -205,7 +207,7 @@ export default {
       }
 
       .agent--search_input {
-        @apply border-0 text-xs m-0 dark:bg-transparent bg-transparent h-[unset];
+        @apply border-0 text-xs m-0 dark:bg-transparent bg-transparent h-[unset] w-full;
       }
     }
   }
@@ -231,7 +233,7 @@ ul {
 }
 
 .agent-list-item {
-  @apply flex items-center p-2.5 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900;
+  @apply flex items-center p-2.5 gap-1 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900;
   span {
     @apply text-sm;
   }

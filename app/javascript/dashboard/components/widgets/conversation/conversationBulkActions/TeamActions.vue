@@ -19,7 +19,9 @@
       <div class="team__list-container">
         <ul>
           <li class="search-container">
-            <div class="agent-list-search flex-between">
+            <div
+              class="agent-list-search h-8 flex justify-between items-center gap-2"
+            >
               <fluent-icon icon="search" class="search-icon" size="16" />
               <input
                 ref="search"
@@ -106,7 +108,7 @@ export default {
       }
 
       .agent--search_input {
-        @apply border-0 text-xs m-0 dark:bg-transparent bg-transparent h-[unset];
+        @apply border-0 text-xs m-0 dark:bg-transparent bg-transparent w-full h-[unset];
       }
     }
   }

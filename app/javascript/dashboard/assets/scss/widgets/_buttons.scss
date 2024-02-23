@@ -34,7 +34,7 @@ button {
   @apply items-center font-medium bg-woot-500 dark:bg-woot-500 text-white dark:text-white inline-flex h-10 mb-0 gap-2;
 
   .button__content {
-    @apply w-full;
+    @apply w-full whitespace-nowrap overflow-hidden text-ellipsis;
 
     img,
     svg {
