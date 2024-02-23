@@ -17,7 +17,7 @@
           @click="$emit('onSelect', template)"
         >
           <div>
-            <div class="flex-between">
+            <div class="flex items-center justify-between">
               <p class="label-title">
                 {{ template.name }}
               </p>
@@ -97,7 +97,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.flex-between {
+.flex items-center justify-between {
   @apply flex justify-between mb-2.5;
 }
 

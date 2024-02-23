@@ -38,7 +38,7 @@
             />
             <a
               :href="contactProfileLink"
-              class="fs-default"
+              class="text-base"
               target="_blank"
               rel="noopener nofollow noreferrer"
             >

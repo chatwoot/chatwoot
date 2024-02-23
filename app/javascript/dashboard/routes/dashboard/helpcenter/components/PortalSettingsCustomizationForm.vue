@@ -59,7 +59,7 @@
         </div>
       </div>
     </div>
-    <div class="flex-end">
+    <div class="flex justify-end">
       <woot-button
         :is-loading="isSubmitting"
         :is-disabled="$v.$invalid"
