@@ -4,9 +4,7 @@
       <fluent-icon icon="location" class="file--icon" size="32" />
     </div>
     <div class="meta">
-      <h5
-        class="text-block-title overflow-hidden whitespace-nowrap text-ellipsis"
-      >
+      <h5 class="text-sm overflow-hidden whitespace-nowrap text-ellipsis">
         {{ name }}
       </h5>
       <div class="link-wrap">

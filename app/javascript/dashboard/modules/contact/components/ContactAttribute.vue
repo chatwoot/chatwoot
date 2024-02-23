@@ -1,7 +1,7 @@
 <template>
   <div class="contact-attribute">
     <div class="title-wrap">
-      <h4 class="text-block-title title">
+      <h4 class="text-sm title">
         <div class="title--icon">
           <emoji-or-icon :icon="icon" :emoji="emoji" />
         </div>

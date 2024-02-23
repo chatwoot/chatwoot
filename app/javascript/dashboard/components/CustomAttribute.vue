@@ -1,7 +1,7 @@
 <template>
   <div class="py-3 px-4">
     <div class="flex items-center mb-1">
-      <h4 class="text-block-title flex items-center m-0 w-full error">
+      <h4 class="text-sm flex items-center m-0 w-full error">
         <div v-if="isAttributeTypeCheckbox" class="checkbox-wrap">
           <input
             v-model="editedValue"

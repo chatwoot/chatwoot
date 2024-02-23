@@ -37,7 +37,7 @@
           </div>
         </div>
         <div
-          class="items-center text-slate-700 dark:text-slate-100 flex font-semibold justify-start min-w-0 p-1 w-auto text-block-title"
+          class="items-center text-slate-700 dark:text-slate-100 flex font-semibold justify-start min-w-0 p-1 w-auto text-sm"
         >
           <span
             class="text-slate-700 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis"
@@ -147,7 +147,7 @@
       </div>
       <div class="items-center flex h-16 justify-center w-full py-2 px-6">
         <div
-          class="items-center rounded-sm flex font-semibold justify-center min-w-[5rem] p-1 bg-slate-25 dark:bg-slate-800 text-slate-600 dark:text-slate-200 text-block-title"
+          class="items-center rounded-sm flex font-semibold justify-center min-w-[5rem] p-1 bg-slate-25 dark:bg-slate-800 text-slate-600 dark:text-slate-200 text-sm"
         >
           <span class="count">
             {{ `${activeImageIndex + 1} / ${allAttachments.length}` }}

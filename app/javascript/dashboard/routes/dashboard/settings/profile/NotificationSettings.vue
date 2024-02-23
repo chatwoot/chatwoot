@@ -11,7 +11,7 @@
       </div>
       <div class="columns small-9">
         <div class="notification-items--wrapper">
-          <span class="text-block-title notification-label">
+          <span class="text-sm notification-label">
             {{
               $t(
                 'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPE.TITLE'
@@ -71,7 +71,7 @@
           </div>
         </div>
         <div class="notification-items--wrapper">
-          <span class="text-block-title notification-label">
+          <span class="text-sm notification-label">
             {{
               $t(
                 'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.DEFAULT_TONE.TITLE'
@@ -95,7 +95,7 @@
           </div>
         </div>
         <div class="notification-items--wrapper">
-          <span class="text-block-title notification-label">
+          <span class="text-sm notification-label">
             {{
               $t(
                 'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.CONDITIONS.TITLE'
