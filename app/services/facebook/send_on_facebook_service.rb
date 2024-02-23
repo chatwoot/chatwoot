@@ -6,15 +6,21 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   end
 
   def perform_reply
+    Rails.logger.info('chamou')
     send_message_to_facebook fb_text_message_params if message.content.present?
     send_message_to_facebook fb_attachment_message_params if message.attachments.present?
   rescue Facebook::Messenger::FacebookError => e
     # TODO : handle specific errors or else page will get disconnected
     handle_facebook_error(e)
+    Rails.logger.error e.message
     message.update!(status: :failed, external_error: e.message)
   end
 
   def send_message_to_facebook(delivery_params)
+    Rails.logger.info "Facebook::SendOnFacebookService: Page - #{channel.page_id}"
+    # Rails.logger.info "params messagetype : #{delivery_params.messaging_type}"
+    # Rails.logger.info "params recipient : #{delivery_params.recipient.id}"
+
     result = Facebook::Messenger::Bot.deliver(delivery_params, page_id: channel.page_id)
     parsed_result = JSON.parse(result)
     if parsed_result['error'].present?

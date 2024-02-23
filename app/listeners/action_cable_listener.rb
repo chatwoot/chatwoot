@@ -190,6 +190,8 @@ class ActionCableListener < BaseListener
   end
 
   def broadcast(account, tokens, event_name, data)
+    Rails.logger.info('chamou2')
+    Rails.logger.info(tokens.blank?)
     return if tokens.blank?
 
     payload = data.merge(account_id: account.id)
