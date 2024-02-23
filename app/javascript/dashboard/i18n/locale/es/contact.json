@@ -39,10 +39,10 @@
     },
     "MERGE_CONTACT": "Combinar contacto",
     "CONTACT_ACTIONS": "Acciones de contacto",
-    "MUTE_CONTACT": "Silenciar Conversación",
-    "UNMUTE_CONTACT": "Dessilenciar conversación",
-    "MUTED_SUCCESS": "Ésta conversación está silenciada por 6 horas",
-    "UNMUTED_SUCCESS": "Ésta conversación ya no está silenciada",
+    "MUTE_CONTACT": "Block Contact",
+    "UNMUTE_CONTACT": "Unblock Contact",
+    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
+    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
     "SEND_TRANSCRIPT": "Enviar Transcripción",
     "EDIT_LABEL": "Editar",
     "SIDEBAR_SECTIONS": {
@@ -79,7 +79,13 @@
     "TITLE": "Exportar contactos",
     "DESC": "Exportar contactos a un archivo CSV.",
     "SUCCESS_MESSAGE": "El proceso de exportar esta en proceso. Será notificado por correo cuando el archivo esté listo para descargar.",
-    "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
+    "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo",
+    "CONFIRM": {
+      "TITLE": "Exportar contactos",
+      "MESSAGE": "Are you sure you want to export all contacts?",
+      "YES": "Yes, Export",
+      "NO": "No, Cancel"
+    }
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -339,7 +345,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Se requiere un valor válido",
-      "INVALID_URL": "URL inválida"
+      "INVALID_URL": "URL inválida",
+      "INVALID_INPUT": "Ingreso inválido"
     }
   },
   "MERGE_CONTACTS": {

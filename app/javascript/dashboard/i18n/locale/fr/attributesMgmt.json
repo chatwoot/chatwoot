@@ -39,6 +39,17 @@
           "PLACEHOLDER": "Entrez une clé d'attribut personnalisée",
           "ERROR": "La clé est requise",
           "IN_VALID": "Clé invalide"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Schéma Regex",
+          "PLACEHOLDER": "Veuillez indiquer un attribut personnalisé pour le schéma Regex (facultatif)."
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Cue",
+          "PLACEHOLDER": "Veuillez entrer l'indice du schéma Regex (facultatif)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Activer la validation Regex"
         }
       },
       "API": {
@@ -93,6 +104,17 @@
       "EMPTY_RESULT": {
         "404": "Aucun attribut personnalisé créé",
         "NOT_FOUND": "Il n’y a aucun attribut personnalisé configuré"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Schéma Regex",
+        "PLACEHOLDER": "Veuillez indiquer un attribut personnalisé pour le schéma Regex (facultatif)."
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Cue",
+        "PLACEHOLDER": "Veuillez entrer l'indice du schéma Regex (facultatif)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Activer la validation Regex"
       }
     }
   }
