@@ -1,6 +1,6 @@
 import { required, minLength, numeric } from 'vuelidate/lib/validators';
 
-const notZero = value => value !== 0;
+const positiveNumber = value => value > 0 || !value;
 
 export default {
   name: {
@@ -11,6 +11,6 @@ export default {
   // if not present, it's valid
   thresholdTime: {
     numeric,
-    notZero,
+    positiveNumber,
   },
 };

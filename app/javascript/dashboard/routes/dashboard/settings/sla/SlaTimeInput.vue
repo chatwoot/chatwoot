@@ -6,6 +6,8 @@
       class="w-full [&>input]:pr-24"
       :label="label"
       :placeholder="placeholder"
+      type="number"
+      :number-min="1"
       :error="getThresholdTimeErrorMessage"
       @input="onThresholdTimeChange"
     />

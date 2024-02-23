@@ -137,6 +137,7 @@ export default {
         hour: 'h',
         day: 'd',
       });
+      if (!time) return '-';
       return `${time}${unit}`;
     },
   },
