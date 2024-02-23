@@ -53,7 +53,7 @@ export default {
   },
   data() {
     return {
-      thresholdTime: this.threshold,
+      thresholdTime: this.threshold || '',
       thresholdUnitValue: this.thresholdUnit,
       options: [
         { value: 'Minutes', label: 'Minutes' },
@@ -67,7 +67,9 @@ export default {
     threshold: {
       immediate: true,
       handler(value) {
-        this.thresholdTime = value;
+        if (!Number.isNaN(value)) {
+          this.thresholdTime = value;
+        }
       },
     },
     thresholdUnit: {
