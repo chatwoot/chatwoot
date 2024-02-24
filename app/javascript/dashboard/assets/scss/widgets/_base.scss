@@ -21,6 +21,10 @@ p {
   }
 }
 
+hr {
+  @apply clear-both max-w-full h-0 my-5 mx-0 border-slate-300 dark:border-slate-600;
+}
+
 // Form elements
 label {
   @apply text-slate-800 dark:text-slate-200 block m-0 leading-7 text-sm font-medium;
@@ -84,16 +88,21 @@ textarea {
 }
 
 // Error handling
+.has-multi-select-error {
+  div.multiselect {
+    @apply mb-1;
+  }
+}
+
 .error {
   input,
   input:not([type]),
   textarea,
   select,
-  .multiselect > .multiselect__tags {
-    @apply border border-solid border-red-400 dark:border-red-400;
+  .multiselect > .multiselect__tags,
+  .multiselect:not(.no-margin) {
+    @apply border border-solid border-red-400 dark:border-red-400 mb-1;
   }
-
-  @apply mb-1;
 
   .message {
     @apply text-red-400 dark:text-red-400 block text-sm mb-2.5 w-full;

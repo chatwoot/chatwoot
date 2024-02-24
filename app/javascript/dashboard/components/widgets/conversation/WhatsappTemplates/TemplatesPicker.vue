@@ -1,6 +1,6 @@
 <template>
   <div class="w-full">
-    <div class="templates__list-search">
+    <div class="templates__list-search gap-1">
       <fluent-icon icon="search" class="search-icon" size="16" />
       <input
         ref="search"
@@ -105,7 +105,7 @@ export default {
   }
 
   .templates__search-input {
-    @apply bg-transparent border-0 text-xs h-auto m-0;
+    @apply bg-transparent border-0 text-xs h-9 m-0;
   }
 }
 .template__list-container {
