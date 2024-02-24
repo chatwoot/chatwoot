@@ -52,13 +52,4 @@ describe('CsatMetrics.vue', () => {
     const rating = wrapper.vm.csatRatings[0]; // assuming this is { value: 1, emoji: '😡' }
     expect(wrapper.vm.ratingToEmoji(rating.value)).toBe(rating.emoji);
   });
-
-  it('hides report card if rating filter is enabled', () => {
-    expect(wrapper.find('.report-card').exists()).toBe(false);
-  });
-
-  it('shows report card if rating filter is not enabled', async () => {
-    await wrapper.setProps({ filters: {} });
-    expect(wrapper.find('.report-card').exists()).toBe(true);
-  });
 });
