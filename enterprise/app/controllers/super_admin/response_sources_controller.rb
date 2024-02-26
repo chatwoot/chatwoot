@@ -42,22 +42,6 @@ class SuperAdmin::ResponseSourcesController < SuperAdmin::EnterpriseBaseControll
   # See https://administrate-demo.herokuapp.com/customizing_controller_actions
   # for more information
 
-  include ActionView::Helpers::TagHelper
-  include ActionView::Context
-
-  helper_method :render_vue_component
-
-  def render_vue_component(component_name, props = {})
-    html_options = {
-      id: 'app',
-      data: {
-        component_name: component_name,
-        props: props.to_json
-      }
-    }
-    content_tag(:div, '', html_options)
-  end
-
   before_action :set_response_source, only: %i[chat process_chat]
 
   def chat; end
