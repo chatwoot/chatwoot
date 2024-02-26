@@ -160,6 +160,9 @@
     "TRIAL_MESSAGE": "hari percobaan tersisa.",
     "TRAIL_BUTTON": "Beli Sekarang",
     "DELETED_USER": "Pengguna Dihapus",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Akun Ditangguhkan",
       "MESSAGE": "Akun Anda ditangguhkan. Silakan hubungi tim dukungan untuk informasi lebih lanjut."
@@ -197,6 +200,7 @@
     "CURRENTLY_VIEWING_ACCOUNT": "Saat ini dilihat:",
     "SWITCH": "Ganti",
     "CONVERSATIONS": "Percakapan",
+    "INBOX": "Kotak masuk",
     "ALL_CONVERSATIONS": "Semua Percakapan",
     "MENTIONED_CONVERSATIONS": "Disebutkan",
     "PARTICIPATING_CONVERSATIONS": "Berpartisipasi",
@@ -238,6 +242,7 @@
     "REPORTS_INBOX": "Kotak Masuk",
     "REPORTS_TEAM": "Tim",
     "SET_AVAILABILITY_TITLE": "Atur diri anda sebagai",
+    "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Gambaran",
     "FACEBOOK_REAUTHORIZE": "Koneksi Facebook Anda telah kedaluwarsa, hubungkan kembali halaman Facebook Anda untuk melanjutkan layanan",

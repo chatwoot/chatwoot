@@ -189,7 +189,10 @@ RSpec.describe 'Accounts API', type: :request do
         locale: 'en',
         domain: 'example.com',
         support_email: 'care@example.com',
-        auto_resolve_duration: 40
+        auto_resolve_duration: 40,
+        timezone: 'Asia/Kolkata',
+        industry: 'Technology',
+        company_size: '1-10'
       }
 
       it 'modifies an account' do
@@ -204,6 +207,29 @@ RSpec.describe 'Accounts API', type: :request do
         expect(account.reload.domain).to eq(params[:domain])
         expect(account.reload.support_email).to eq(params[:support_email])
         expect(account.reload.auto_resolve_duration).to eq(params[:auto_resolve_duration])
+
+        %w[timezone industry company_size].each do |attribute|
+          expect(account.reload.custom_attributes[attribute]).to eq(params[attribute.to_sym])
+        end
+      end
+
+      it 'updates onboarding step to invite_team if onboarding step is present in account custom attributes' do
+        account.update(custom_attributes: { onboarding_step: 'account_update' })
+        put "/api/v1/accounts/#{account.id}",
+            params: params,
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(account.reload.custom_attributes['onboarding_step']).to eq('invite_team')
+      end
+
+      it 'will not update onboarding step if onboarding step is not present in account custom attributes' do
+        put "/api/v1/accounts/#{account.id}",
+            params: params,
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(account.reload.custom_attributes['onboarding_step']).to be_nil
       end
 
       it 'Throws error 422' do

@@ -294,6 +294,12 @@ Rails.application.routes.draw do
     namespace :v2 do
       resources :accounts, only: [:create] do
         scope module: :accounts do
+          resources :summary_reports, only: [] do
+            collection do
+              get :agent
+              get :team
+            end
+          end
           resources :reports, only: [:index] do
             collection do
               get :summary
@@ -360,8 +366,9 @@ Rails.application.routes.draw do
         resources :inboxes do
           scope module: :inboxes do
             resources :contacts, only: [:create, :show, :update] do
-              resources :conversations, only: [:index, :create] do
+              resources :conversations, only: [:index, :create, :show] do
                 member do
+                  post :toggle_status
                   post :toggle_typing
                   post :update_last_seen
                 end

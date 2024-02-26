@@ -9,6 +9,7 @@
       <slot name="label">
         {{ label }}
       </slot>
+      <slot name="rightOfLabel" />
     </label>
     <div class="w-full">
       <div class="flex items-center relative w-full">

@@ -569,7 +569,7 @@
       "UPDATE": "Aggiorna le impostazioni dell'orario di lavoro",
       "TOGGLE_AVAILABILITY": "Abilita la disponibilità aziendale per questa casella",
       "UNAVAILABLE_MESSAGE_LABEL": "Messaggio non disponibile per i visitatori",
-      "TOGGLE_HELP": "Abilitare la disponibilità aziendale mostrerà le ore disponibili sul widget chat live anche se tutti gli agenti sono offline. Al di fuori delle ore disponibili visori possono essere avvisati con un messaggio e un modulo di pre-chat.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Abilita disponibilità per questo giorno",
         "UNAVAILABLE": "Non disponibile",
