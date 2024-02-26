@@ -25,7 +25,6 @@
       v-if="bulkActionCheck"
       :src="currentContact.thumbnail"
       :badge="inboxBadge"
-      class="columns"
       :username="currentContact.name"
       :status="currentContact.availability_status"
       size="40px"

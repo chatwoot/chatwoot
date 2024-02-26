@@ -27,7 +27,6 @@
                 <td>
                   <thumbnail
                     :src="agent.thumbnail"
-                    class="columns"
                     :username="agent.name"
                     size="40px"
                     :status="agent.availability_status"

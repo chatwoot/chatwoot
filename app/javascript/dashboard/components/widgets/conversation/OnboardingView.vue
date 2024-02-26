@@ -1,5 +1,5 @@
 <template>
-  <div class="columns onboarding-wrap">
+  <div class="onboarding-wrap">
     <div class="onboarding">
       <div class="scroll-wrap">
         <div class="features-item">

@@ -10,6 +10,7 @@
           <input
             v-model="isIMAPEnabled"
             type="checkbox"
+            class="ltr:mr-2 rtl:ml-2"
             name="toggle-imap-enable"
           />
           {{ $t('INBOX_MGMT.IMAP.TOGGLE_AVAILABILITY') }}
@@ -19,7 +20,7 @@
           <woot-input
             v-model.trim="address"
             :class="{ error: $v.address.$error }"
-            class="medium-9 columns"
+            class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.IMAP.ADDRESS.LABEL')"
             :placeholder="$t('INBOX_MGMT.IMAP.ADDRESS.PLACE_HOLDER')"
             @blur="$v.address.$touch"
@@ -28,7 +29,7 @@
             v-model="port"
             type="number"
             :class="{ error: $v.port.$error }"
-            class="medium-9 columns"
+            class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.IMAP.PORT.LABEL')"
             :placeholder="$t('INBOX_MGMT.IMAP.PORT.PLACE_HOLDER')"
             @blur="$v.port.$touch"
@@ -36,7 +37,7 @@
           <woot-input
             v-model="login"
             :class="{ error: $v.login.$error }"
-            class="medium-9 columns"
+            class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.IMAP.LOGIN.LABEL')"
             :placeholder="$t('INBOX_MGMT.IMAP.LOGIN.PLACE_HOLDER')"
             @blur="$v.login.$touch"
@@ -44,7 +45,7 @@
           <woot-input
             v-model="password"
             :class="{ error: $v.password.$error }"
-            class="medium-9 columns"
+            class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.IMAP.PASSWORD.LABEL')"
             :placeholder="$t('INBOX_MGMT.IMAP.PASSWORD.PLACE_HOLDER')"
             type="password"
@@ -54,6 +55,7 @@
             <input
               v-model="isSSLEnabled"
               type="checkbox"
+              class="ltr:mr-2 rtl:ml-2"
               name="toggle-enable-ssl"
             />
             {{ $t('INBOX_MGMT.IMAP.ENABLE_SSL') }}
