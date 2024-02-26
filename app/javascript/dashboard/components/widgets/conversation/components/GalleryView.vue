@@ -20,9 +20,7 @@
           <div
             class="flex items-start flex-col justify-center ml-2 rtl:ml-0 rtl:mr-2"
           >
-            <h3
-              class="sub-block-title inline-block leading-[1.4] m-0 p-0 capitalize"
-            >
+            <h3 class="text-base inline-block leading-[1.4] m-0 p-0 capitalize">
               <span
                 class="text-slate-800 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis"
               >

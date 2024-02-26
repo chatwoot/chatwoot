@@ -5,7 +5,7 @@
         class="flex flex-row border-b border-slate-50 dark:border-slate-700 items-center flex p-4"
       >
         <div class="w-[25%] py-4 pr-6 ml-0">
-          <h4 class="block-title text-black-900 dark:text-slate-200">
+          <h4 class="text-lg text-black-900 dark:text-slate-200">
             {{ $t('PROFILE_SETTINGS.FORM.PROFILE_SECTION.TITLE') }}
           </h4>
           <p>{{ $t('PROFILE_SETTINGS.FORM.PROFILE_SECTION.NOTE') }}</p>
@@ -76,7 +76,7 @@
       class="border-b border-slate-50 dark:border-slate-700 items-center flex p-4 text-black-900 dark:text-slate-300 row"
     >
       <div class="w-[25%] py-4 pr-6 ml-0">
-        <h4 class="block-title text-black-900 dark:text-slate-200">
+        <h4 class="text-lg text-black-900 dark:text-slate-200">
           {{ $t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.TITLE') }}
         </h4>
         <p>
@@ -105,7 +105,7 @@
       class="border-b border-slate-50 dark:border-slate-700 items-center flex p-4 text-black-900 dark:text-slate-300 row"
     >
       <div class="w-[25%] py-4 pr-6 ml-0">
-        <h4 class="block-title text-black-900 dark:text-slate-200">
+        <h4 class="text-lg text-black-900 dark:text-slate-200">
           {{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE') }}
         </h4>
         <p>

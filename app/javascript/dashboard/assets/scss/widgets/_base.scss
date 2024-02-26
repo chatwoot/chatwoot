@@ -14,11 +14,15 @@ p {
   text-rendering: optimizeLegibility;
   word-spacing: 0.12em;
 
-  @apply mb-2 leading-[1.65];
+  @apply mb-2 leading-[1.65] text-sm;
 
   a {
     @apply text-woot-500 dark:text-woot-500 cursor-pointer;
   }
+}
+
+a {
+  @apply text-sm;
 }
 
 hr {

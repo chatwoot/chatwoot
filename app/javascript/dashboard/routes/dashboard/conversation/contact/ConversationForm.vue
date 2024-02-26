@@ -229,7 +229,7 @@
         class="flex top-0 bottom-0 z-30 gap-2 right-0 left-0 items-center justify-center flex-col absolute w-full h-full bg-white/80 dark:bg-slate-700/80"
       >
         <fluent-icon icon="cloud-backup" size="40" />
-        <h4 class="page-sub-title text-slate-600 dark:text-slate-200">
+        <h4 class="text-2xl break-words text-slate-600 dark:text-slate-200">
           {{ $t('CONVERSATION.REPLYBOX.DRAG_DROP') }}
         </h4>
       </div>

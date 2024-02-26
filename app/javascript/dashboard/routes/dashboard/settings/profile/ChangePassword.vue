@@ -4,7 +4,7 @@
       class="profile--settings--row text-black-900 dark:text-slate-300 flex items-center"
     >
       <div class="w-[25%]">
-        <h4 class="block-title text-black-900 dark:text-slate-200">
+        <h4 class="text-lg text-black-900 dark:text-slate-200">
           {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE') }}
         </h4>
         <p>{{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.NOTE') }}</p>
