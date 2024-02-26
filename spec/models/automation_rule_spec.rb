@@ -56,4 +56,27 @@ RSpec.describe AutomationRule do
       expect(rule.errors.messages[:conditions]).to eq(['Automation conditions should have query operator.'])
     end
   end
+
+  describe '#disable_and_notify' do
+    let(:account) { create(:account) }
+    let(:automation_rule) { create(:automation_rule, account: account) }
+
+    it 'disables the automation rule' do
+      automation_rule.disable_and_notify
+      expect(automation_rule.reload.active).to be false
+    end
+
+    it 'sends a notification email' do
+      mailer = double
+      mailer_action = double
+      allow(AdministratorNotifications::ChannelNotificationsMailer).to receive(:with).with(account: account).and_return(mailer)
+      allow(mailer).to receive(:automation_rule_disabled).and_return(mailer_action)
+      allow(mailer_action).to receive(:deliver_later)
+
+      automation_rule.disable_and_notify
+
+      expect(mailer).to have_received(:automation_rule_disabled).with(automation_rule)
+      expect(mailer_action).to have_received(:deliver_later)
+    end
+  end
 end

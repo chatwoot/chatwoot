@@ -20,6 +20,8 @@
 class AutomationRule < ApplicationRecord
   include Rails.application.routes.url_helpers
 
+  MAX_ERROR_THRESHOLD = 3
+
   belongs_to :account
   has_many_attached :files
 
@@ -54,7 +56,30 @@ class AutomationRule < ApplicationRecord
     end
   end
 
+  def invalid_condition_error!
+    ::Redis::Alfred.incr(rule_condition_error_key)
+
+    disable_and_notify if condition_error_counts >= MAX_ERROR_THRESHOLD
+  end
+
+  def rule_condition_error_key
+    format(::Redis::Alfred::AUTOMATION_RULE_CONDITION_ERROR, obj_type: self.class.table_name.singularize, obj_id: id)
+  end
+
+  def disable_and_notify
+    self.active = false
+    save!
+
+    # send an email to the admin that the rule is disabled
+    mailer = AdministratorNotifications::ChannelNotificationsMailer.with(account: account)
+    mailer.automation_rule_disabled(self).deliver_later
+  end
+
   private
+
+  def condition_error_counts
+    ::Redis::Alfred.get(rule_condition_error_key).to_i
+  end
 
   def json_conditions_format
     return if conditions.blank?
