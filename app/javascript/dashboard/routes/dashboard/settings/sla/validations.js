@@ -1,10 +1,9 @@
 import { required, minLength } from 'vuelidate/lib/validators';
 
 const isValidSlaFormat = value => {
-  if (!value) return true;
-  const stringValue = String(value);
-  const regex = /^\d+(.\d+)?$/;
-  return regex.test(stringValue) && parseFloat(value) > 0;
+  if (value === '') return true;
+  const numValue = Number(value);
+  return Number.isFinite(numValue) && numValue > 0;
 };
 
 export default {

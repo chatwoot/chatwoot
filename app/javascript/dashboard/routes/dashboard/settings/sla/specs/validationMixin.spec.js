@@ -31,7 +31,7 @@ describe('validationMixin', () => {
       data() {
         return {
           name: '',
-          threshold: '',
+          thresholdTime: '',
         };
       },
     });
@@ -75,13 +75,14 @@ describe('validationMixin', () => {
   });
 
   it('should not return invalid format error message if thresholdTime is empty but not touched', () => {
-    wrapper.setData({ threshold: '' });
+    wrapper.setData({ thresholdTime: '' });
     expect(wrapper.vm.getThresholdTimeErrorMessage).toBe('');
   });
 
   it('should return invalid format error message if thresholdTime has an invalid format', () => {
-    wrapper.setData({ threshold: 'invalidFormat' });
+    wrapper.setData({ thresholdTime: 'fsdfsdfsdfsd' });
     wrapper.vm.$v.thresholdTime.$touch();
+
     expect(wrapper.vm.getThresholdTimeErrorMessage).toBe(
       wrapper.vm.$t('SLA.FORM.THRESHOLD_TIME.INVALID_FORMAT_ERROR')
     );
@@ -89,6 +90,14 @@ describe('validationMixin', () => {
 
   it('should reject invalid threshold values', () => {
     wrapper.setData({ thresholdTime: 0 });
+    wrapper.vm.$v.thresholdTime.$touch();
+    expect(wrapper.vm.getThresholdTimeErrorMessage).toBe(
+      wrapper.vm.$t('SLA.FORM.THRESHOLD_TIME.INVALID_FORMAT_ERROR')
+    );
+  });
+
+  it('should reject invalid threshold values', () => {
+    wrapper.setData({ thresholdTime: -1 });
     wrapper.vm.$v.thresholdTime.$touch();
     expect(wrapper.vm.getThresholdTimeErrorMessage).toBe(
       wrapper.vm.$t('SLA.FORM.THRESHOLD_TIME.INVALID_FORMAT_ERROR')
