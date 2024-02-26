@@ -31,6 +31,7 @@ he:
       disposable_email: אנחנו לא מאפשרים מיילים חד פעמיים
       invalid_email: הכנסת מייל לא תקין
       email_already_exists: "כבר נרשמת לחשבון עם %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: הרשמה נכשלה
     data_import:
       data_type:
@@ -67,25 +68,25 @@ he:
     utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Agent name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     inbox_csv:
       inbox_name: Inbox name
       inbox_type: Inbox type
       conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     label_csv:
       label_title: תווית
       conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     team_csv:
       team_name: שם קבוצה
       conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: Timezone
     default_group_by: day
@@ -228,3 +229,24 @@ he:
       inbox_name: תיבת הדואר הנכנס
       inbox_type: Inbox Type
     button: שיחה פתוחה
+  time_units:
+    days:
+      one: "%{count} day"
+      two: "%{count} days"
+      many: "%{count} days"
+      other: "%{count} days"
+    hours:
+      one: "%{count} hour"
+      two: "%{count} hours"
+      many: "%{count} hours"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minute"
+      two: "%{count} minutes"
+      many: "%{count} minutes"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} second"
+      two: "%{count} seconds"
+      many: "%{count} seconds"
+      other: "%{count} seconds"
