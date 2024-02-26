@@ -17,6 +17,7 @@ class ResponseBuilderJob < ApplicationJob
   def prepare_data(response_document)
     {
       model: 'gpt-3.5-turbo',
+      response_format: { type: 'json_object' },
       messages: [
         {
           role: 'system',
@@ -32,16 +33,15 @@ class ResponseBuilderJob < ApplicationJob
 
   def system_message_content
     <<~SYSTEM_MESSAGE_CONTENT
-       You are a content writer looking to convert user content into short FAQs which can be added to your website's helper centre.
-       Format the webpage content provided in the message to FAQ format like the following example.#{' '}
-       Ensure that you only generate faqs from the information provider in the message.#{' '}
-       Ensure that output is always valid json.#{'  '}
-       If no match is available, return an empty JSON.
-       ```
-      [ { "question": "What is the pricing?",
-         "answer" : " There are different pricing tiers available."
-       }]
-       ```
+      You are a content writer looking to convert user content into short FAQs which can be added to your website's helper centre.
+      Format the webpage content provided in the message to FAQ format mentioned below in the json
+      Ensure that you only generate faqs from the information provider in the message.
+      Ensure that output is always valid json.
+      If no match is available, return an empty JSON.
+
+      ```json
+      {faqs: [{question: '', answer: ''}]
+      ```
     SYSTEM_MESSAGE_CONTENT
   end
 
@@ -67,7 +67,7 @@ class ResponseBuilderJob < ApplicationJob
 
     return if content.nil?
 
-    faqs = JSON.parse(content.strip)
+    faqs = JSON.parse(content.strip).fetch('faqs', [])
 
     faqs.each do |faq|
       response_document.responses.create!(
