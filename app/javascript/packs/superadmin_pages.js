@@ -1,5 +1,8 @@
 import 'chart.js';
 import Vue from 'vue';
+import VueDOMPurifyHTML from 'vue-dompurify-html';
+Vue.use(VueDOMPurifyHTML);
+
 const PlaygroundIndex = () =>
   import('../superadmin_pages/views/playground/Index.vue');
 
