@@ -9,6 +9,7 @@
           <input
             v-model="isBusinessHoursEnabled"
             type="checkbox"
+            class="ltr:mr-2 rtl:ml-2"
             name="toggle-business-hours"
           />
           {{ $t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_AVAILABILITY') }}
