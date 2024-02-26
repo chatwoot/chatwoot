@@ -79,4 +79,27 @@ RSpec.describe AutomationRule do
       expect(mailer_action).to have_received(:deliver_later)
     end
   end
+
+  describe '#error_counts' do
+    let(:account) { create(:account) }
+    let(:automation_rule) { create(:automation_rule, account: account, active: true) }
+
+    it 'increments the error count' do
+      automation_rule.invalid_condition_error!
+      expect(automation_rule.send(:condition_error_counts)).to eq(1)
+    end
+
+    it 'disables the automation rule if error count exceeds threshold' do
+      allow(automation_rule).to receive(:condition_error_counts).and_return(3)
+      automation_rule.invalid_condition_error!
+      expect(automation_rule.active).to be false
+    end
+
+    it 'resets the error count if the rule is updated' do
+      automation_rule.invalid_condition_error!
+      expect(automation_rule.send(:condition_error_counts)).to eq(1)
+      automation_rule.update(name: 'New Name')
+      expect(automation_rule.send(:condition_error_counts)).to eq(0)
+    end
+  end
 end

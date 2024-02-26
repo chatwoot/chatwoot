@@ -25,6 +25,8 @@ class AutomationRule < ApplicationRecord
   belongs_to :account
   has_many_attached :files
 
+  after_commit :reset_error_count, on: [:create, :update, :destroy]
+
   validate :json_conditions_format
   validate :json_actions_format
   validate :query_operator_presence
@@ -76,6 +78,10 @@ class AutomationRule < ApplicationRecord
   end
 
   private
+
+  def reset_error_count
+    ::Redis::Alfred.delete(rule_condition_error_key)
+  end
 
   def condition_error_counts
     ::Redis::Alfred.get(rule_condition_error_key).to_i
