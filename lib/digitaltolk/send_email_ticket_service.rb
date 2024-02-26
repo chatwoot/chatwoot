@@ -64,7 +64,14 @@ class Digitaltolk::SendEmailTicketService
     return if @errors.present?
 
     if for_customer?
-      @conversation = conversations.where("custom_attributes ->> 'booking_id' = ?", booking_id).last
+      if for_issue
+        if booking_issue_id
+          @conversation = conversations.where("custom_attributes ->> 'booking_id' = ?", booking_id)
+            .where("custom_attributes ->> 'booking_issue_id' = ?", booking_issue_id).last
+        end
+      else
+        @conversation = conversations.where("custom_attributes ->> 'booking_id' = ?", booking_id).last
+      end
 
       if @conversation.blank?
         create_conversation
