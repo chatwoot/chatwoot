@@ -3,7 +3,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   include DateRangeHelper
   include HmacConcern
 
-  before_action :conversation, except: [:index, :meta, :search, :create, :filter, :ticket]
+  before_action :conversation, except: [:index, :meta, :search, :create, :filter, :ticket, :ticket_issue]
   before_action :inbox, :contact, :contact_inbox, only: [:create]
 
   def index
@@ -115,6 +115,11 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def ticket
     result = Digitaltolk::SendEmailTicketService.new(Current.account, Current.user, params).perform
+    render json: result
+  end
+
+  def ticket_issue
+    result = Digitaltolk::SendEmailTicketIssueService.new(Current.account, Current.user, params).perform
     render json: result
   end
 

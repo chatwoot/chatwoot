@@ -7,6 +7,7 @@ class CsatSurveyWorker
 
     return unless conversation.present?
     return unless conversation.inbox.csat_survey_enabled?
+    return unless conversation.messages.csat.present?
 
     # send the email
     ConversationReplyMailer.with(account: conversation.account).csat_survey(conversation).deliver_later

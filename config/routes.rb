@@ -82,6 +82,7 @@ Rails.application.routes.draw do
               get :search
               post :filter
               post :ticket
+              post :ticket_issue
             end
             scope module: :conversations do
               resources :messages, only: [:index, :create, :destroy] do
