@@ -12,7 +12,7 @@
         </p>
       </div>
       <div class="w-[45%] p-4">
-        <div class="notification-items--wrapper">
+        <div class="mb-4">
           <span class="text-sm notification-label">
             {{
               $t(
@@ -72,7 +72,7 @@
             </label>
           </div>
         </div>
-        <div class="notification-items--wrapper">
+        <div class="mb-4">
           <span class="text-sm notification-label">
             {{
               $t(
@@ -83,7 +83,7 @@
           <div>
             <select
               v-model="notificationTone"
-              class="tone-selector"
+              class="tone-selector mb-0"
               @change="handleAudioToneChange"
             >
               <option
@@ -96,7 +96,7 @@
             </select>
           </div>
         </div>
-        <div class="notification-items--wrapper">
+        <div class="mb-1">
           <span class="text-sm notification-label">
             {{
               $t(
@@ -527,10 +527,6 @@ export default {
 
 .push-notification--button {
   margin-bottom: var(--space-one);
-}
-
-.notification-items--wrapper {
-  margin-bottom: var(--space-smaller);
 }
 
 .notification-label {
