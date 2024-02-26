@@ -31,6 +31,7 @@ describe('validationMixin', () => {
       data() {
         return {
           name: '',
+          threshold: '',
         };
       },
     });
@@ -60,6 +61,37 @@ describe('validationMixin', () => {
     wrapper.vm.$v.name.$touch();
     expect(wrapper.vm.getSlaNameErrorMessage).toBe(
       wrapper.vm.$t('SLA.FORM.NAME.MINIMUM_LENGTH_ERROR')
+    );
+  });
+
+  it('should accept valid threshold values', () => {
+    wrapper.setData({ thresholdTime: 10 });
+    wrapper.vm.$v.thresholdTime.$touch();
+    expect(wrapper.vm.getThresholdTimeErrorMessage).toBe(wrapper.vm.$t(''));
+
+    wrapper.setData({ thresholdTime: 10.5 });
+    wrapper.vm.$v.thresholdTime.$touch();
+    expect(wrapper.vm.getThresholdTimeErrorMessage).toBe(wrapper.vm.$t(''));
+  });
+
+  it('should not return invalid format error message if thresholdTime is empty but not touched', () => {
+    wrapper.setData({ threshold: '' });
+    expect(wrapper.vm.getThresholdTimeErrorMessage).toBe('');
+  });
+
+  it('should return invalid format error message if thresholdTime has an invalid format', () => {
+    wrapper.setData({ threshold: 'invalidFormat' });
+    wrapper.vm.$v.thresholdTime.$touch();
+    expect(wrapper.vm.getThresholdTimeErrorMessage).toBe(
+      wrapper.vm.$t('SLA.FORM.THRESHOLD_TIME.INVALID_FORMAT_ERROR')
+    );
+  });
+
+  it('should reject invalid threshold values', () => {
+    wrapper.setData({ thresholdTime: 0 });
+    wrapper.vm.$v.thresholdTime.$touch();
+    expect(wrapper.vm.getThresholdTimeErrorMessage).toBe(
+      wrapper.vm.$t('SLA.FORM.THRESHOLD_TIME.INVALID_FORMAT_ERROR')
     );
   });
 });
