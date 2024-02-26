@@ -5,7 +5,7 @@
     class="label-container mt-0.5 mx-2 mb-0"
   >
     <div
-      class="labels-wrap flex items-end min-w-0 flex-shrink"
+      class="labels-wrap flex items-end min-w-0 flex-shrink flex-wrap"
       :class="{ expand: showAllLabels }"
     >
       <woot-label
