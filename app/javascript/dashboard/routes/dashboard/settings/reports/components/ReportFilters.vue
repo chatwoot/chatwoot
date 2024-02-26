@@ -66,13 +66,13 @@
           @input="changeFilterSelection"
         >
           <template slot="singleLabel" slot-scope="props">
-            <div class="flex items-center">
+            <div class="flex gap-2 items-center">
               <div
                 :style="{ backgroundColor: props.option.color }"
                 class="rounded-full h-5 w-5"
               />
               <span class="reports-option__desc">
-                <span class="my-0 ml-2 text-slate-800 dark:text-slate-75">
+                <span class="my-0 text-slate-800 dark:text-slate-75">
                   {{ props.option.title }}
                 </span>
               </span>
