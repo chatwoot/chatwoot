@@ -35,7 +35,7 @@ jobs:
                 sleep 180
               fi
             else
-              echo "Waiting for review app to be ready, retrying in   3 minutes..."
+              echo "Waiting for review app to be ready, retrying in  3 minutes..."
               sleep 180
               attempt=$((attempt +  1))
             fi
