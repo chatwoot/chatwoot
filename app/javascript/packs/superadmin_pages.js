@@ -20,7 +20,9 @@ const renderComponent = (componentName, props) => {
 
 document.addEventListener('DOMContentLoaded', () => {
   const element = document.getElementById('app');
-  const componentName = element.dataset.componentName;
-  const props = JSON.parse(element.dataset.props);
-  renderComponent(componentName, props);
+  if (element) {
+    const componentName = element.dataset.componentName;
+    const props = JSON.parse(element.dataset.props);
+    renderComponent(componentName, props);
+  }
 });
