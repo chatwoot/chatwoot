@@ -1,10 +1,11 @@
 <template>
   <div class="message-text__wrap" :class="attachmentTypeClasses">
-    <image-with-placeholder
+    <img
       v-if="isImage && !isImageError"
+      class="bg-woot-200 dark:bg-woot-900"
       :src="dataUrl"
-      :width="attachment.width"
-      :height="attachment.height"
+      :width="imageWidth"
+      :height="imageHeight"
       @click="onClick"
       @error="onImgError"
     />
@@ -34,7 +35,6 @@
 import { mapGetters } from 'vuex';
 import { hasPressedCommand } from 'shared/helpers/KeyboardHelpers';
 import GalleryView from '../components/GalleryView.vue';
-import ImageWithPlaceholder from './ImageWithPlaceholder.vue';
 
 const ALLOWED_FILE_TYPES = {
   IMAGE: 'image',
@@ -45,7 +45,6 @@ const ALLOWED_FILE_TYPES = {
 export default {
   components: {
     GalleryView,
-    ImageWithPlaceholder,
   },
   props: {
     attachment: {
@@ -86,6 +85,12 @@ export default {
     },
     dataUrl() {
       return this.attachment.data_url;
+    },
+    imageWidth() {
+      return this.attachment.width ? `${this.attachment.width}px` : 'auto';
+    },
+    imageHeight() {
+      return this.attachment.height ? `${this.attachment.height}px` : 'auto';
     },
   },
   watch: {
