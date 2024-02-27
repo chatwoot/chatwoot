@@ -1,10 +1,9 @@
-import { required, minLength } from 'vuelidate/lib/validators';
-
-const isValidSlaFormat = value => {
-  if (value === '') return true;
-  const numValue = Number(value);
-  return Number.isFinite(numValue) && numValue > 0;
-};
+import {
+  required,
+  minLength,
+  numeric,
+  minValue,
+} from 'vuelidate/lib/validators';
 
 export default {
   name: {
@@ -12,6 +11,7 @@ export default {
     minLength: minLength(2),
   },
   thresholdTime: {
-    isValidSlaFormat,
+    numeric,
+    minValue: minValue(0.01),
   },
 };
