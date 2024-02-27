@@ -34,7 +34,7 @@ export default {
 
     ...mapGetters({
       labelUiFlags: 'contactLabels/getUIFlags',
-      allLabels: 'labels/getLabels',
+      allLabels: 'labels/getTeamLabels',
     }),
   },
 

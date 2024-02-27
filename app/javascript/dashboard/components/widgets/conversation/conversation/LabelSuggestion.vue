@@ -129,7 +129,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      allLabels: 'labels/getLabels',
+      allLabels: 'labels/getTeamLabels',
       currentAccountId: 'getCurrentAccountId',
     }),
     labelTooltip() {

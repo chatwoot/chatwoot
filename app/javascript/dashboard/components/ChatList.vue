@@ -312,7 +312,7 @@ export default {
       teamsList: 'teams/getTeams',
       inboxesList: 'inboxes/getInboxes',
       campaigns: 'campaigns/getAllCampaigns',
-      labels: 'labels/getLabels',
+      labels: 'labels/getTeamLabels',
     }),
     hasAppliedFilters() {
       return this.appliedFilters.length !== 0;
