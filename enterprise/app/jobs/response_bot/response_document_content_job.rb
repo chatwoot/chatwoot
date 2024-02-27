@@ -1,5 +1,5 @@
 # app/jobs/response_document_content_job.rb
-class ResponseDocumentContentJob < ApplicationJob
+class ResponseBot::ResponseDocumentContentJob < ApplicationJob
   queue_as :default
 
   def perform(response_document)
