@@ -13,12 +13,12 @@ RSpec.describe ResponseBot::InboxPendingConversationsResolutionJob, type: :job d
   end
 
   it 'queues the job' do
-    expect { described_class.perform_later(inbox: inbox) }
+    expect { described_class.perform_later(inbox) }
       .to have_enqueued_job.on_queue('low')
   end
 
   it 'resolves only the eligible pending conversations' do
-    perform_enqueued_jobs { described_class.perform_later(inbox: inbox) }
+    perform_enqueued_jobs { described_class.perform_later(inbox) }
 
     expect(resolvable_pending_conversation.reload.status).to eq('resolved')
     expect(recent_pending_conversation.reload.status).to eq('pending')
@@ -27,7 +27,7 @@ RSpec.describe ResponseBot::InboxPendingConversationsResolutionJob, type: :job d
 
   it 'creates an outgoing message for each resolved conversation' do
     # resolution message + system message
-    expect { perform_enqueued_jobs { described_class.perform_later(inbox: inbox) } }
+    expect { perform_enqueued_jobs { described_class.perform_later(inbox) } }
       .to change { resolvable_pending_conversation.messages.reload.count }.by(2)
 
     resolved_conversation_messages = resolvable_pending_conversation.messages.map(&:content)
