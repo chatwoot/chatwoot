@@ -1,8 +1,8 @@
 import {
   required,
   minLength,
-  numeric,
   minValue,
+  decimal,
 } from 'vuelidate/lib/validators';
 
 export default {
@@ -11,7 +11,7 @@ export default {
     minLength: minLength(2),
   },
   thresholdTime: {
-    numeric,
-    minValue: minValue(0.01),
+    decimal,
+    minValue: minValue(0.001),
   },
 };
