@@ -1,0 +1,60 @@
+{
+  "INBOX": {
+    "LIST": {
+      "TITLE": "Fiók",
+      "DISPLAY_DROPDOWN": "Display",
+      "LOADING": "Értesítések lekérése",
+      "EOF": "Minden értesítés betöltve 🎉",
+      "404": "Ebben a csoportban nincsenek aktív értesítések.",
+      "NO_NOTIFICATIONS": "No notifications",
+      "NOTE": "Értesítés az összes feliratkozott postafiókból",
+      "SNOOZED_UNTIL": "Halasztás eddig",
+      "SNOOZED_UNTIL_TOMORROW": "Halasztás holnapig",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Halasztás jövő hétig"
+    },
+    "ACTION_HEADER": {
+      "SNOOZE": "Értesítés alvó állapotban",
+      "DELETE": "Értesítés törlése"
+    },
+    "TYPES": {
+      "CONVERSATION_MENTION": "Önt megemlítették egy beszélgetésben",
+      "CONVERSATION_CREATION": "Új beszélgetés létrehozása",
+      "CONVERSATION_ASSIGNMENT": "Egy beszélgetés hozzád lett rendelve",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Új üzenet egy kijelölt beszélgetésben",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Új üzenet egy beszélgetésben, amelyben részt vesz"
+    },
+    "MENU_ITEM": {
+      "MARK_AS_READ": "Mark as read",
+      "MARK_AS_UNREAD": "Megjelölés olvasatlanként",
+      "SNOOZE": "Halasztás",
+      "DELETE": "Törlés",
+      "MARK_ALL_READ": "Mindent olvasottra állít",
+      "DELETE_ALL": "Delete all",
+      "DELETE_ALL_READ": "Delete all read"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Rendezés",
+      "DISPLAY": "Megjelenítés:",
+      "SORT_OPTIONS": {
+        "NEWEST": "Legújabb",
+        "OLDEST": "Legrégibb",
+        "PRIORITY": "Prioritás"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "Elnémított",
+        "READ": "Olvasott",
+        "LABELS": "Cimkék",
+        "CONVERSATION_ID": "Beszélgetés azonosítója"
+      }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "Notification marked as read",
+      "MARK_AS_UNREAD": "Notification marked as unread",
+      "SNOOZE": "Notification snoozed",
+      "DELETE": "Notification deleted",
+      "MARK_ALL_READ": "All notifications marked as read",
+      "DELETE_ALL": "All notifications deleted",
+      "DELETE_ALL_READ": "All read notifications deleted"
+    }
+  }
+}

@@ -33,7 +33,7 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   def process_sso_auth_token
     return if params[:email].blank?
 
-    user = User.find_by(email: params[:email])
+    user = User.from_email(params[:email])
     @resource = user if user&.valid_sso_auth_token?(params[:sso_auth_token])
   end
 end
