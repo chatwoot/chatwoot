@@ -8,9 +8,7 @@ RSpec.describe Enterprise::MessageTemplates::ResponseBotService, type: :service 
   let(:response_object) { instance_double(Response, id: 1, question: 'Q1', answer: 'A1') }
 
   before do
-    # Uncomment if you want to run the spec in your local machine
-    # Features::ResponseBotService.new.enable_in_installation
-    skip('Skipping since vector is not enabled in this environment') unless Features::ResponseBotService.new.vector_extension_enabled?
+    skip_unless_response_bot_enabled_test_environment
     stub_request(:post, 'https://api.openai.com/v1/embeddings').to_return(status: 200, body: {}.to_json,
                                                                           headers: { Content_Type: 'application/json' })
     create(:message, message_type: :incoming, conversation: conversation, content: 'Hi')
