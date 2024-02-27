@@ -4,7 +4,7 @@ module Enterprise::Integrations::OpenaiProcessorService
   CACHEABLE_EVENTS = %w[label_suggestion].freeze
 
   def reply_suggestion_message
-    return super unless respond_from_reply_bot?
+    return super unless conversation.inbox.response_bot_enabled?
 
     messages = conversation_messages(in_array_format: true)
     last_message = messages.pop
@@ -35,12 +35,6 @@ module Enterprise::Integrations::OpenaiProcessorService
   end
 
   private
-
-  def respond_from_reply_bot?
-    return unless conversation.account.feature_enabled?('response_bot')
-
-    conversation.inbox.response_sources.any?
-  end
 
   def labels_with_messages
     return nil unless valid_conversation?(conversation)
