@@ -1,6 +1,6 @@
 <template>
   <div
-    class="md:w-[16%] sm:w-[50%] sm:max-w-[50%] md:max-w-[16%] csat--metric-card"
+    class="md:w-[16%] sm:w-[50%] sm:max-w-[50%] md:max-w-[16%] report-metric--card"
     :class="{
       disabled: disabled,
     }"
@@ -11,7 +11,7 @@
         v-tooltip="infoText"
         size="14"
         icon="info"
-        class="csat--icon"
+        class="report-metric--icon"
       />
     </h3>
     <h4 class="metric">
@@ -42,7 +42,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.csat--metric-card {
+.report-metric--card {
   margin: 0;
   padding: var(--space-normal);
 
@@ -71,7 +71,7 @@ export default {
   }
 }
 
-.csat--icon {
+.report-metric--icon {
   @apply text-slate-500 dark:text-slate-200 my-0 mx-0.5;
 }
 </style>
