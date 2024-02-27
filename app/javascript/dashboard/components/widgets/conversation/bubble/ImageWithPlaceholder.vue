@@ -10,7 +10,6 @@
       :height="imageHeight"
       @click="onClick"
       @error="onImgError"
-      @load="loadImage"
     />
   </div>
 </template>
@@ -49,16 +48,12 @@ export default {
   watch: {
     src() {
       this.isImageError = false;
-      this.loadImage();
     },
   },
   beforeDestroy() {
     this.isImageError = false;
   },
   methods: {
-    loadImage() {
-      this.$emit('load');
-    },
     onImgError() {
       this.isImageError = true;
       this.$emit('error');

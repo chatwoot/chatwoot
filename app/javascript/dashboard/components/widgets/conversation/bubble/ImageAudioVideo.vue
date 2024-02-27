@@ -57,7 +57,6 @@ export default {
     return {
       show: false,
       isImageError: false,
-      isImageLoaded: false,
     };
   },
   computed: {
@@ -107,11 +106,7 @@ export default {
     },
     onImgError() {
       this.isImageError = true;
-      this.isImageLoaded = true;
       this.$emit('error');
-    },
-    onImgLoad() {
-      this.isImageLoaded = true;
     },
   },
 };
