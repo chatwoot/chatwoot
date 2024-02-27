@@ -1,5 +1,7 @@
 <template>
-  <div class="flex items-center justify-center w-full h-full">
+  <div
+    class="flex items-center justify-center w-full h-full overflow-hidden rounded-md"
+  >
     <img
       v-if="!isImageError"
       class="max-w-full max-h-full bg-woot-200 dark:bg-woot-900"
