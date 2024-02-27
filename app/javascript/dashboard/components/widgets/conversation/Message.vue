@@ -577,7 +577,7 @@ export default {
 
         > img,
         > video {
-          @apply rounded-lg;
+          @apply rounded-[0.4rem];
         }
 
         > video {
