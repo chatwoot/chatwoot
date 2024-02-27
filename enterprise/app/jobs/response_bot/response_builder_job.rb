@@ -1,4 +1,4 @@
-class ResponseBuilderJob < ApplicationJob
+class ResponseBot::ResponseBuilderJob < ApplicationJob
   queue_as :default
 
   def perform(response_document)
