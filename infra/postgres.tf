@@ -37,6 +37,6 @@ resource "aws_security_group_rule" "bastion" {
   to_port   = 5432
   protocol  = "tcp"
 
-  cidr_blocks       = module.network.bastions["infra"]
+  cidr_blocks       = module.network.bastions_private["infra"]
   security_group_id = module.postgres.security_group_id
 }
