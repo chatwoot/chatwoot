@@ -8,17 +8,12 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "5.30.0"
-    }
-
-    oci = {
-      source  = "oracle/oci"
-      version = "5.22.0"
+      version = "5.36.0"
     }
 
     cloudflare = {
       source  = "cloudflare/cloudflare"
-      version = "4.20.0"
+      version = "4.24.0"
     }
 
     random = {
@@ -28,7 +23,12 @@ terraform {
 
     archive = {
       source  = "hashicorp/archive"
-      version = "2.4.0"
+      version = "2.4.2"
+    }
+
+    dns = {
+      source  = "hashicorp/dns"
+      version = "3.4.0"
     }
   }
 }

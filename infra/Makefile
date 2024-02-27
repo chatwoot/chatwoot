@@ -14,8 +14,16 @@ ENV ?= dev
 REPO ?= $(shell git -C '$(CURDIR)/../' remote get-url origin | cut -d':' -f2 | sed 's/\.git$$//')
 SYSTEM ?= $(notdir $(REPO))
 
+ifdef TENANT
+	WORKSPACE := $(TENANT)-$(ENV)
+	TFENV_FILE := $(CURDIR)/env/$(TENANT)/$(ENV).tfvars
+else
+	WORKSPACE := $(ENV)
+	TFENV_FILE := $(CURDIR)/env/$(ENV).tfvars
+endif
 
-export TF_DATA_DIR=.terraform_$(ENV)
+
+export TF_DATA_DIR=$(CURDIR)/.terraform_$(WORKSPACE)
 
 
 .PHONY: all
@@ -41,11 +49,17 @@ endif
 ifndef OWNER
 	$(error OWNER required)
 endif
+ifndef TYPE
+	$(error TYPE required)
+endif
 	sed 's#SYSTEM#$(SYSTEM)#g; s#OWNER#$(OWNER)#g; s#REPO#$(REPO)#g' '$(CURDIR)/templates/_backend.tf' > '$(CURDIR)/_backend.tf'
 endif
 
 # make sure env-tfvars exist
-	touch 'env/$(ENV).tfvars'
+ifdef TENANT
+	mkdir env/$(TENANT)
+endif
+	touch '$(TFENV_FILE)'
 
 # cleanups
 ifneq (,$(findstring /infra,$(PWD)))
@@ -89,8 +103,8 @@ init: check-env
 	terraform init
 	terraform get -update
 
-	if ! terraform workspace select '$(ENV)' 2> /dev/null; then \
-		terraform workspace new '$(ENV)' ;\
+	if ! terraform workspace select '$(WORKSPACE)' 2> /dev/null; then \
+		terraform workspace new '$(WORKSPACE)' ;\
 	fi
 
 
@@ -98,7 +112,7 @@ init: check-env
 plan: check-env
 	terraform plan  \
 		-lock-timeout=600s \
-		-var-file='env/$(ENV).tfvars' \
+		-var-file='$(TFENV_FILE)' \
 		-out '$(ENV).plan'
 
 
@@ -112,7 +126,7 @@ apply: check-env
 .PHONY: import
 import: check-env
 	terraform import \
-		-var-file='env/$(ENV).tfvars' \
+		-var-file='$(TFENV_FILE)' \
 		-lock-timeout=600s '$(ADDR)' '$(ID)'
 
 
@@ -144,7 +158,7 @@ fmt:
 .PHONY: destroy
 destroy: check-env
 	terraform destroy \
-		-var-file='env/$(ENV).tfvars' \
+		-var-file='$(TFENV_FILE)' \
 		-lock-timeout=600s
 
 
@@ -153,6 +167,6 @@ check-env:
 ifndef ENV
 	$(error ENV is undefined)
 endif
-ifeq ($(wildcard $(CURDIR)/env/$(ENV).tfvars),)
+ifeq ($(wildcard $(TFENV_FILE)),)
 	$(error ENV does not exist)
 endif

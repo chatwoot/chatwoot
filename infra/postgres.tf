@@ -30,3 +30,13 @@ resource "aws_security_group_rule" "sidekiq_postgres" {
   source_security_group_id = module.service-sidekiq.security_group_id
   security_group_id        = module.postgres.security_group_id
 }
+
+resource "aws_security_group_rule" "bastion" {
+  type      = "ingress"
+  from_port = 5432
+  to_port   = 5432
+  protocol  = "tcp"
+
+  cidr_blocks       = module.network.bastions["infra"]
+  security_group_id = module.postgres.security_group_id
+}
