@@ -43,7 +43,7 @@ RSpec.describe Enterprise::MessageTemplates::ResponseBotService, type: :service 
         end.to change { conversation.messages.where(message_type: :outgoing).count }.by(1)
 
         last_message = conversation.messages.last
-        expect(last_message.content).to eq('Let me hand this over to another agent who can help.')
+        expect(last_message.content).to eq('Transferring to another agent for further assistance.')
         expect(conversation.status).to eq('open')
       end
     end
@@ -86,7 +86,7 @@ RSpec.describe Enterprise::MessageTemplates::ResponseBotService, type: :service 
           service.perform
         end.to change { conversation.messages.where(message_type: :outgoing).count }.by(1)
 
-        expect(conversation.messages.last.content).to eq('Let me hand this over to another agent who can help.')
+        expect(conversation.messages.last.content).to eq('Transferring to another agent for further assistance.')
         expect(conversation.status).to eq('open')
       end
     end
@@ -102,7 +102,7 @@ RSpec.describe Enterprise::MessageTemplates::ResponseBotService, type: :service 
           service.perform
         end.to change { conversation.messages.where(message_type: :outgoing).count }.by(1)
 
-        expect(conversation.messages.last.content).to eq('Let me hand this over to another agent who can help.')
+        expect(conversation.messages.last.content).to eq('Transferring to another agent for further assistance.')
         expect(conversation.status).to eq('open')
       end
     end
