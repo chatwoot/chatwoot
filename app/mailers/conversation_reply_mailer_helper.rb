@@ -9,6 +9,8 @@ module ConversationReplyMailerHelper
       in_reply_to: in_reply_to_email
     }
 
+    puts "mailer_options: #{@options}"
+
     if cc_bcc_enabled
       @options[:cc] = cc_bcc_emails[0]
       @options[:bcc] = cc_bcc_emails[1]
