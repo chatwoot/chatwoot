@@ -3,8 +3,8 @@
     <image-with-placeholder
       v-if="isImage && !isImageError"
       :src="dataUrl"
-      :width="attachmentWidth"
-      :height="attachmentHeight"
+      :width="attachment.width"
+      :height="attachment.height"
       @click="onClick"
       @error="onImgError"
     />
@@ -87,15 +87,6 @@ export default {
     },
     dataUrl() {
       return this.attachment.data_url;
-    },
-    hasImageDimensions() {
-      return this.attachment.width && this.attachment.height;
-    },
-    attachmentWidth() {
-      return `${this.attachment.width}px` || 'auto';
-    },
-    attachmentHeight() {
-      return `${this.attachment.height}px` || 'auto';
     },
   },
   watch: {

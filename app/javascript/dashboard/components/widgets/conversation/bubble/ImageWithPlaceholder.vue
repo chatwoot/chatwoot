@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full flex justify-center items-center">
+  <div class="flex items-center justify-center w-full h-full">
     <img
       v-if="!isImageError"
       class="max-w-full max-h-full bg-woot-200 dark:bg-woot-900"
@@ -7,8 +7,8 @@
         'text-woot-200 dark:text-woot-900 opacity-50': !isImageLoaded,
       }"
       :src="placeholder"
-      :width="width"
-      :height="height"
+      :width="imageWidth"
+      :height="imageHeight"
       @click="onClick"
       @error="onImgError"
       @load="loadImage"
@@ -20,12 +20,14 @@
 export default {
   props: {
     width: {
-      type: Number,
-      required: true,
+      type: Number || null,
+      required: false,
+      default: null,
     },
     height: {
-      type: Number,
-      required: true,
+      type: Number || null,
+      required: false,
+      default: null,
     },
     src: {
       type: String,
@@ -38,6 +40,14 @@ export default {
       isImageLoaded: false,
       isImageError: false,
     };
+  },
+  computed: {
+    imageWidth() {
+      return this.width ? `${this.width}px` : 'auto';
+    },
+    imageHeight() {
+      return this.height ? `${this.height}px` : 'auto';
+    },
   },
   watch: {
     src() {
