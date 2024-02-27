@@ -123,6 +123,7 @@ class V2::ReportBuilder
       unattended: @open_conversations.unattended.count
     }
     metric[:unassigned] = @open_conversations.unassigned.count if params[:type].equal?(:account)
+    metric[:pending] = @open_conversations.pending.count if params[:type].equal?(:account)
     metric
   end
 end
