@@ -80,8 +80,8 @@ class Enterprise::MessageTemplates::ResponseBotService
     case action
     when 'handoff'
       conversation.messages.create!('message_type': :outgoing, 'account_id': conversation.account_id, 'inbox_id': conversation.inbox_id,
-                                    'content': 'passing to an agent')
-      conversation.update(status: :open)
+                                    'content': 'Let me hand this over to another agent who can help.')
+      conversation.bot_handoff!
     end
   end
 

@@ -33,6 +33,19 @@ RSpec.describe Enterprise::MessageTemplates::ResponseBotService, type: :service 
         expect(last_message.content).to include(Response.first.question)
         expect(last_message.content).to include('**Sources**')
       end
+
+      it 'hands off the conversation if the response is handoff' do
+        allow(chat_gpt_double).to receive(:generate_response).and_return({ 'response' => 'conversation_handoff' })
+        expect(conversation).to receive(:bot_handoff!).and_call_original
+
+        expect do
+          service.perform
+        end.to change { conversation.messages.where(message_type: :outgoing).count }.by(1)
+
+        last_message = conversation.messages.last
+        expect(last_message.content).to eq('Let me hand this over to another agent who can help.')
+        expect(conversation.status).to eq('open')
+      end
     end
 
     context 'when context_ids are not present' do
@@ -67,12 +80,13 @@ RSpec.describe Enterprise::MessageTemplates::ResponseBotService, type: :service 
     context 'when JSON::ParserError is raised' do
       it 'creates a handoff message' do
         allow(chat_gpt_double).to receive(:generate_response).and_raise(JSON::ParserError)
+        expect(conversation).to receive(:bot_handoff!).and_call_original
 
         expect do
           service.perform
         end.to change { conversation.messages.where(message_type: :outgoing).count }.by(1)
 
-        expect(conversation.messages.last.content).to eq('passing to an agent')
+        expect(conversation.messages.last.content).to eq('Let me hand this over to another agent who can help.')
         expect(conversation.status).to eq('open')
       end
     end
@@ -80,6 +94,7 @@ RSpec.describe Enterprise::MessageTemplates::ResponseBotService, type: :service 
     context 'when StandardError is raised' do
       it 'captures the exception' do
         allow(chat_gpt_double).to receive(:generate_response).and_raise(StandardError)
+        expect(conversation).to receive(:bot_handoff!).and_call_original
 
         expect(ChatwootExceptionTracker).to receive(:new).and_call_original
 
@@ -87,7 +102,7 @@ RSpec.describe Enterprise::MessageTemplates::ResponseBotService, type: :service 
           service.perform
         end.to change { conversation.messages.where(message_type: :outgoing).count }.by(1)
 
-        expect(conversation.messages.last.content).to eq('passing to an agent')
+        expect(conversation.messages.last.content).to eq('Let me hand this over to another agent who can help.')
         expect(conversation.status).to eq('open')
       end
     end
