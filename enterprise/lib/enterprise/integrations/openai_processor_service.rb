@@ -3,6 +3,24 @@ module Enterprise::Integrations::OpenaiProcessorService
                            make_friendly make_formal simplify].freeze
   CACHEABLE_EVENTS = %w[label_suggestion].freeze
 
+  def reply_suggestion_message
+    return super unless respond_from_reply_bot?
+
+    messages = conversation_messages(in_array_format: true)
+    last_message = messages.pop
+
+    robin_response = ChatGpt.new(
+      Enterprise::MessageTemplates::ResponseBotService.response_sections(last_message[:content], conversation.inbox)
+    ).generate_response(
+      last_message[:content], messages, last_message[:role]
+    )
+    message_content = robin_response['response']
+    if robin_response['context_ids'].present?
+      message_content += Enterprise::MessageTemplates::ResponseBotService.generate_sources_section(robin_response['context_ids'])
+    end
+    message_content
+  end
+
   def label_suggestion_message
     payload = label_suggestion_body
     return nil if payload.blank?
@@ -18,9 +36,13 @@ module Enterprise::Integrations::OpenaiProcessorService
 
   private
 
-  def labels_with_messages
-    conversation = find_conversation
+  def respond_from_reply_bot?
+    return unless conversation.account.feature_enabled?('response_bot')
 
+    conversation.inbox.response_sources.any?
+  end
+
+  def labels_with_messages
     return nil unless valid_conversation?(conversation)
 
     labels = hook.account.labels.pluck(:title).join(', ')
