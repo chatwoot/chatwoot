@@ -577,7 +577,8 @@ export default {
 
         > img,
         > video {
-          @apply rounded-lg;
+          /** ensure that the bubble radius and image radius match*/
+          @apply rounded-[0.4rem];
         }
 
         > video {
