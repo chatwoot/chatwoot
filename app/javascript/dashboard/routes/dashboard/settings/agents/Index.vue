@@ -11,7 +11,7 @@
 
     <!-- List Agents -->
     <div class="flex flex-row gap-4">
-      <div class="w-3/5">
+      <div class="w-full lg:w-3/5">
         <woot-loading-state
           v-if="uiFlags.isFetching"
           :message="$t('AGENT_MGMT.LOADING')"
@@ -84,7 +84,7 @@
           </table>
         </div>
       </div>
-      <div class="w-1/3">
+      <div class="w-1/3 hidden md:block">
         <span
           v-dompurify-html="
             useInstallationName(
