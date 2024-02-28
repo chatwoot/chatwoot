@@ -84,7 +84,7 @@
           </table>
         </div>
       </div>
-      <div class="w-[34%]">
+      <div class="w-1/3">
         <span
           v-dompurify-html="
             useInstallationName(

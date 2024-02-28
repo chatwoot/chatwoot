@@ -81,7 +81,7 @@
         </table>
       </div>
     </div>
-    <div class="w-[34%]">
+    <div class="w-1/3">
       <span v-dompurify-html="$t('ATTRIBUTES_MGMT.SIDEBAR_TXT')" />
     </div>
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">

@@ -44,7 +44,7 @@
         }}
       </p>
     </div>
-    <div class="w-[34%]">
+    <div class="w-1/3">
       <p>
         <b>{{ integration.name }}</b>
       </p>

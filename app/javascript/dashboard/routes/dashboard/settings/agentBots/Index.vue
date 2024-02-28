@@ -23,7 +23,7 @@
         </p>
       </div>
 
-      <div class="w-[34%]">
+      <div class="w-1/3">
         <p v-html="$t('AGENT_BOTS.SIDEBAR_TXT')" />
       </div>
     </div>

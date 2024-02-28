@@ -75,7 +75,7 @@
         </table>
       </div>
 
-      <div class="w-[34%]">
+      <div class="w-1/3">
         <span v-dompurify-html="$t('CANNED_MGMT.SIDEBAR_TXT')" />
       </div>
     </div>
