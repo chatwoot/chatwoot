@@ -1,7 +1,7 @@
 <template>
   <div class="flex-1 overflow-auto p-4">
     <div class="flex flex-row gap-4">
-      <div class="w-[60%]">
+      <div class="w-3/5">
         <p
           v-if="!teamsList.length"
           class="flex h-full items-center flex-col justify-center"

@@ -10,7 +10,7 @@
         :title="$t('AGENT_BOTS.BOT_CONFIGURATION.TITLE')"
         :sub-title="$t('AGENT_BOTS.BOT_CONFIGURATION.DESC')"
       >
-        <div class="w-[60%]">
+        <div class="w-3/5">
           <label>
             <select v-model="selectedAgentBotId">
               <option value="" disabled selected>

@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-row gap-4 pl-2">
-    <div class="w-[60%]">
+    <div class="w-3/5">
       <woot-tabs :index="selectedTabIndex" @change="onClickTabChange">
         <woot-tabs-item
           v-for="tab in tabs"
@@ -224,6 +224,7 @@ export default {
       @apply p-0;
     }
   }
+
   .tabs-title a {
     font-weight: var(--font-weight-medium);
     padding-top: 0;

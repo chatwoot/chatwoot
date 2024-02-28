@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-row gap-4">
-    <div class="w-[60%]">
+    <div class="w-3/5">
       <table v-if="hasConnectedHooks" class="woot-table">
         <thead>
           <th v-for="hookHeader in hookHeaders" :key="hookHeader">

@@ -10,7 +10,7 @@
     </woot-button>
 
     <div class="flex flex-row gap-4">
-      <div class="w-[60%]">
+      <div class="w-3/5">
         <p
           v-if="!uiFlags.fetchingList && !records.length"
           class="flex h-full items-center flex-col justify-center"

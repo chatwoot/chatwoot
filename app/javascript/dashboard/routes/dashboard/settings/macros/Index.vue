@@ -10,7 +10,7 @@
       </span>
     </router-link>
     <div class="flex flex-row gap-4">
-      <div class="w-[60%]">
+      <div class="w-3/5">
         <div v-if="!uiFlags.isFetching && !records.length" class="p-3">
           <p class="flex h-full items-center flex-col justify-center">
             {{ $t('MACROS.LIST.404') }}

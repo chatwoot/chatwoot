@@ -123,7 +123,7 @@
           </form>
         </div>
       </div>
-      <div class="widget-container w-100 lg:w-[60%]">
+      <div class="widget-container w-100 lg:w-3/5">
         <input-radio-group
           name="widget-view-options"
           :items="getWidgetViewOptions"
@@ -454,6 +454,7 @@ export default {
     //   background: none;
     // }
   }
+
   .widget-script {
     @apply mx-5 p-2.5 bg-slate-50 dark:bg-slate-700;
   }

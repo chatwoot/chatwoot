@@ -43,7 +43,7 @@
             "
           />
         </div>
-        <div class="w-[60%]">
+        <div class="w-3/5">
           <div class="w-full">
             <div class="input-wrap" :class="{ error: $v.selectedPage.$error }">
               {{ $t('INBOX_MGMT.ADD.FB.CHOOSE_PAGE') }}
@@ -288,9 +288,11 @@ export default {
 <style scoped lang="scss">
 .login-init {
   @apply pt-[30%] text-center;
+
   p {
     @apply p-6;
   }
+
   > a > img {
     @apply w-60;
   }
