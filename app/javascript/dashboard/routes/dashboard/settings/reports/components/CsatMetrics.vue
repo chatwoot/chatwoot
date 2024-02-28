@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-wrap mx-0 bg-white dark:bg-slate-800 rounded-[4px] p-4 mb-5 border border-solid border-slate-75 dark:border-slate-700"
+    class="flex-col lg:flex-row flex flex-wrap mx-0 bg-white dark:bg-slate-800 rounded-[4px] p-4 mb-5 border border-solid border-slate-75 dark:border-slate-700"
   >
     <csat-metric-card
       :label="$t('CSAT_REPORTS.METRIC.TOTAL_RESPONSES.LABEL')"
@@ -18,12 +18,13 @@
       :info-text="$t('CSAT_REPORTS.METRIC.RESPONSE_RATE.TOOLTIP')"
       :value="formatToPercent(responseRate)"
     />
+
     <div
       v-if="metrics.totalResponseCount && !ratingFilterEnabled"
-      class="w-[50%] max-w-[50%] flex-[50%] border-t-[3px] border-solid border-transparent dark:border-transparent m-0 p-4 cursor-pointer rtl:[direction:initial]"
+      class="w-full md:w-1/2 md:max-w-[50%] flex-1 rtl:[direction:initial] p-4"
     >
       <h3
-        class="items-center text-slate-800 dark:text-slate-75 flex font-semibold text-sm m-0"
+        class="flex items-center text-xs md:text-sm font-medium m-0 text-slate-800 dark:text-slate-100"
       >
         <div class="flex justify-end flex-row-reverse">
           <div
@@ -44,7 +45,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import CsatMetricCard from './CsatMetricCard.vue';
+import CsatMetricCard from './ReportMetricCard.vue';
 import { CSAT_RATINGS } from 'shared/constants/messages';
 
 export default {

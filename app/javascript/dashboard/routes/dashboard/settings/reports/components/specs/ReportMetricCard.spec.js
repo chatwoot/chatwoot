@@ -1,46 +1,50 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils';
-import CsatMetricCard from '../CsatMetricCard.vue';
+import ReportMetricCard from '../ReportMetricCard.vue';
 
 import VTooltip from 'v-tooltip';
 
 const localVue = createLocalVue();
 localVue.use(VTooltip);
 
-describe('CsatMetricCard.vue', () => {
+describe('ReportMetricCard.vue', () => {
   it('renders props correctly', () => {
     const label = 'Total Responses';
     const value = '100';
     const infoText = 'Total number of responses';
-    const wrapper = shallowMount(CsatMetricCard, {
+    const wrapper = shallowMount(ReportMetricCard, {
       propsData: { label, value, infoText },
       localVue,
       stubs: ['fluent-icon'],
     });
 
-    expect(wrapper.find('.heading span').text()).toMatch(label);
-    expect(wrapper.find('.metric').text()).toMatch(value);
-    expect(wrapper.find('.csat--icon').classes()).toContain('has-tooltip');
+    expect(wrapper.find({ ref: 'reportMetricLabel' }).text()).toMatch(label);
+    expect(wrapper.find({ ref: 'reportMetricValue' }).text()).toMatch(value);
+    expect(wrapper.find({ ref: 'reportMetricInfo' }).classes()).toContain(
+      'has-tooltip'
+    );
   });
 
   it('adds disabled class when disabled prop is true', () => {
-    const wrapper = shallowMount(CsatMetricCard, {
+    const wrapper = shallowMount(ReportMetricCard, {
       propsData: { label: '', value: '', infoText: '', disabled: true },
       localVue,
       stubs: ['fluent-icon'],
     });
 
-    expect(wrapper.find('.csat--metric-card').classes()).toContain('disabled');
+    expect(wrapper.classes().join(' ')).toContain(
+      'grayscale pointer-events-none opacity-30'
+    );
   });
 
   it('does not add disabled class when disabled prop is false', () => {
-    const wrapper = shallowMount(CsatMetricCard, {
+    const wrapper = shallowMount(ReportMetricCard, {
       propsData: { label: '', value: '', infoText: '', disabled: false },
       localVue,
       stubs: ['fluent-icon'],
     });
 
-    expect(wrapper.find('.csat--metric-card').classes()).not.toContain(
-      'disabled'
-    );
+    expect(
+      wrapper.find({ ref: 'reportMetricContainer' }).classes().join(' ')
+    ).not.toContain('grayscale pointer-events-none opacity-30');
   });
 });
