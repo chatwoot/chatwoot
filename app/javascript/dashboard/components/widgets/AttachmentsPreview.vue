@@ -15,7 +15,7 @@
           📄
         </span>
       </div>
-      <div class="max-w-[60%] min-w-[50%] overflow-hidden text-ellipsis">
+      <div class="max-w-3/5 min-w-[50%] overflow-hidden text-ellipsis">
         <span
           class="h-4 overflow-hidden text-sm font-medium text-ellipsis whitespace-nowrap"
         >
