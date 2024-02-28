@@ -21,6 +21,7 @@
 
     <div
       v-if="metrics.totalResponseCount && !ratingFilterEnabled"
+      ref="csatHorizontalBarChart"
       class="w-full md:w-1/2 md:max-w-[50%] flex-1 rtl:[direction:initial] p-4"
     >
       <h3
