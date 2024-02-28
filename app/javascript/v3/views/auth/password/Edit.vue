@@ -12,7 +12,7 @@
         {{ $t('SET_NEW_PASSWORD.TITLE') }}
       </h1>
 
-      <div class="column log-in-form space-y-5">
+      <div class="space-y-5">
         <form-input
           v-model.trim="credentials.password"
           class="mt-3"
