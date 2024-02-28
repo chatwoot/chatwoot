@@ -1,7 +1,7 @@
 <template>
   <div class="flex-1 overflow-auto">
     <div class="flex flex-row gap-4 p-8">
-      <div class="w-3/5">
+      <div class="w-full lg:w-3/5">
         <p
           v-if="!inboxesList.length"
           class="flex h-full items-center flex-col justify-center"
