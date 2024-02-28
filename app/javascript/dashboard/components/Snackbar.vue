@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="shadow-sm bg-slate-700 dark:bg-slate-700 rounded-[4px] items-center gap-3 inline-flex mb-2 max-w-[25rem] min-h-[1.875rem] min-w-[15rem] px-6 py-3 text-left"
+      class="shadow-sm bg-slate-800 dark:bg-slate-700 rounded-[4px] items-center gap-3 inline-flex mb-2 max-w-[25rem] min-h-[1.875rem] min-w-[15rem] px-6 py-3 text-left"
     >
       <div class="text-white dark:text-white text-sm font-medium">
         {{ message }}
