@@ -13,10 +13,7 @@
       :style="{ background: color }"
       class="label-color-dot flex-shrink-0"
     />
-    <span
-      v-if="!href"
-      class="whitespace-nowrap text-ellipsis overflow-hidden text-slate-800 dark:text-slate-100"
-    >
+    <span v-if="!href" class="whitespace-nowrap text-ellipsis overflow-hidden">
       {{ title }}
     </span>
     <a v-else :href="href" :style="anchorStyle">{{ title }}</a>
