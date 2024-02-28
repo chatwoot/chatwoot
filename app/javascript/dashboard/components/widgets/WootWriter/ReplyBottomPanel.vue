@@ -104,7 +104,7 @@
           class="fixed top-0 bottom-0 left-0 right-0 z-20 flex flex-col items-center justify-center w-full h-full gap-2 text-slate-900 dark:text-slate-50 bg-modal-backdrop-light dark:bg-modal-backdrop-dark"
         >
           <fluent-icon icon="cloud-backup" size="40" />
-          <h4 class="page-sub-title text-slate-900 dark:text-slate-50">
+          <h4 class="text-2xl break-words text-slate-900 dark:text-slate-50">
             {{ $t('CONVERSATION.REPLYBOX.DRAG_DROP') }}
           </h4>
         </div>

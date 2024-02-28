@@ -102,7 +102,7 @@
       :primary-contact-name="primaryContact.name"
       :parent-contact-name="parentContactName"
     />
-    <div class="mt-6 flex justify-end">
+    <div class="mt-6 flex gap-2 justify-end">
       <woot-button variant="clear" @click.prevent="onCancel">
         {{ $t('MERGE_CONTACTS.FORM.CANCEL') }}
       </woot-button>

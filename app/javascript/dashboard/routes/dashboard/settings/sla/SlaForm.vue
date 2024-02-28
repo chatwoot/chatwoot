@@ -1,6 +1,6 @@
 <template>
-  <div class="h-auto overflow-auto flex flex-col">
-    <form class="mx-0 flex flex-wrap" @submit.prevent="onSubmit">
+  <div class="flex flex-col h-auto overflow-auto">
+    <form class="flex flex-wrap mx-0" @submit.prevent="onSubmit">
       <woot-input
         v-model="name"
         :class="{ error: $v.name.$error }"
@@ -29,14 +29,14 @@
         @isInValid="handleIsInvalid(index, $event)"
       />
 
-      <div class="w-full">
+      <div class="flex items-center w-full gap-2">
         <input id="sla_bh" v-model="onlyDuringBusinessHours" type="checkbox" />
         <label for="sla_bh">
           {{ $t('SLA.FORM.BUSINESS_HOURS.PLACEHOLDER') }}
         </label>
       </div>
 
-      <div class="flex justify-end items-center py-2 px-0 gap-2 w-full">
+      <div class="flex items-center justify-end w-full gap-2 px-0 py-2">
         <woot-button
           :is-disabled="isSubmitDisabled"
           :is-loading="uiFlags.isUpdating"
