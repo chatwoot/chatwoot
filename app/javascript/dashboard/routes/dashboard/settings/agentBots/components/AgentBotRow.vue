@@ -79,9 +79,6 @@ export default {
 .button-wrapper {
   max-width: var(--space-mega);
   min-width: auto;
-
-  button:nth-child(2) {
-    margin-left: var(--space-normal);
-  }
+  margin-left: var(--space-normal);
 }
 </style>
