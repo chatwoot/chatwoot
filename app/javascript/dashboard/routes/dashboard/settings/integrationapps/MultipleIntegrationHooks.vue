@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-row gap-4">
-    <div class="w-3/5">
+    <div class="w-full lg:w-3/5">
       <table v-if="hasConnectedHooks" class="woot-table">
         <thead>
           <th v-for="hookHeader in hookHeaders" :key="hookHeader">
@@ -44,7 +44,7 @@
         }}
       </p>
     </div>
-    <div class="w-1/3">
+    <div class="w-1/3 hidden md:block">
       <p>
         <b>{{ integration.name }}</b>
       </p>
