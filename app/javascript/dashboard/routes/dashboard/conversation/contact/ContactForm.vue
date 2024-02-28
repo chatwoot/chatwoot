@@ -1,6 +1,6 @@
 <template>
   <form
-    class="contact--form w-full pt-6 px-8 pb-8"
+    class="w-full px-8 pt-6 pb-8 contact--form"
     @submit.prevent="handleSubmit"
   >
     <div>
@@ -76,7 +76,7 @@
         </label>
         <div
           v-if="isPhoneNumberNotValid || !phoneNumber"
-          class="relative mx-0 mt-0 mb-2.5 p-2 rounded-none text-sm border border-solid border-yellow-500 dark:border-yellow-700 bg-yellow-200/60 dark:bg-yellow-200/20 text-slate-700 dark:text-yellow-400"
+          class="relative mx-0 mt-0 mb-2.5 p-2 rounded-md text-sm border border-solid border-yellow-500 text-yellow-700 dark:border-yellow-700 bg-yellow-200/60 dark:bg-yellow-200/20 dark:text-yellow-400"
         >
           {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.HELP') }}
         </div>
@@ -121,10 +121,10 @@
       <div
         v-for="socialProfile in socialProfileKeys"
         :key="socialProfile.key"
-        class="flex w-full mb-4 items-stretch"
+        class="flex items-stretch w-full mb-4"
       >
         <span
-          class="text-sm bg-slate-50 flex px-2 items-center border-y ltr:border-l rtl:border-r border-solid ltr:rounded-l-md rtl:rounded-r-md dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-slate-200 dark:border-slate-600 h-10"
+          class="flex items-center h-10 px-2 text-sm border-solid bg-slate-50 border-y ltr:border-l rtl:border-r ltr:rounded-l-md rtl:rounded-r-md dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-slate-200 dark:border-slate-600"
           >{{ socialProfile.prefixURL }}</span
         >
         <input
@@ -134,7 +134,7 @@
         />
       </div>
     </div>
-    <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+    <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
       <div class="w-full">
         <woot-submit-button
           :loading="inProgress"
