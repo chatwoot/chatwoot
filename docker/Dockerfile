@@ -1,6 +1,9 @@
 # pre-build stage
 FROM ruby:3.2.2-alpine3.18 AS pre-builder
 
+# Version of template
+ARG CW_VERSION="3.1.1"
+
 # ARG default to production settings
 # For development docker-compose file overrides ARGS
 ARG BUNDLE_WITHOUT="development:test"
@@ -101,6 +104,8 @@ RUN apk update && apk add --no-cache \
   postgresql-client \
   imagemagick \
   git \
+  multirun \
+  postgresql-client \
   vips \
   && gem install bundler
 
@@ -117,3 +122,15 @@ COPY --from=pre-builder /app/.git_sha /app/.git_sha
 WORKDIR /app
 
 EXPOSE 3000
+
+RUN chmod +x docker/entrypoints/rails.sh
+
+ARG FRONTEND_URL ACTIVE_STORAGE_SERVICE DATABASE_URL PGHOST PGPORT DEFAULT_LOCALE INSTALLATION_ENV NODE_ENV RAILS_ENV REDIS_URL SECRET_KEY_BASE
+
+RUN pg_isready -h $PGHOST -p $PGPORT && bundle exec rails db:chatwoot_prepare && bundle exec rails db:migrate
+
+ENTRYPOINT ["multirun"]
+
+CMD ["bundle exec sidekiq -C config/sidekiq.yml", "bundle exec rails s -b 0.0.0.0 -p 3000"]
+
+# CMD ["tail", "-f", "/dev/null"]

@@ -28,6 +28,7 @@ services:
       - cache:/app/tmp/cache
       - bundle:/usr/local/bundle
     depends_on:
+      - base
       - postgres
       - redis
       - webpack
@@ -53,6 +54,7 @@ services:
       - cache:/app/tmp/cache
       - bundle:/usr/local/bundle
     depends_on:
+      - base
       - postgres
       - redis
       - mailhog
@@ -67,6 +69,8 @@ services:
       context: .
       dockerfile: ./docker/dockerfiles/webpack.Dockerfile
     image: chatwoot-webpack:development
+    depends_on:
+      - base
     volumes:
       - ./:/app:delegated
       - node_modules:/app/node_modules # Node modules shared across containers
@@ -102,11 +106,15 @@ services:
     env_file: .env
     volumes:
       - redis:/data/redis
+    depends_on:
+      - base
     ports:
       - '6379:6379'
 
   mailhog:
     image: mailhog/mailhog
+    depends_on:
+      - base
     ports:
       - 1025:1025
       - 8025:8025
