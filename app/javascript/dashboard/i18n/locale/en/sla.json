@@ -24,20 +24,23 @@
         "PLACEHOLDER": "SLA for premium customers"
       },
       "FIRST_RESPONSE_TIME": {
-        "LABEL": "First Response Time(Seconds)",
-        "PLACEHOLDER": "300 for 5 minutes"
+        "LABEL": "First Response Time",
+        "PLACEHOLDER": "5"
       },
       "NEXT_RESPONSE_TIME": {
-        "LABEL": "Next Response Time(Seconds)",
-        "PLACEHOLDER": "600 for 10 minutes"
+        "LABEL": "Next Response Time",
+        "PLACEHOLDER": "5"
       },
       "RESOLUTION_TIME": {
-        "LABEL": "Resolution Time(Seconds)",
-        "PLACEHOLDER": "86400 for 1 day"
+        "LABEL": "Resolution Time",
+        "PLACEHOLDER": "60"
       },
       "BUSINESS_HOURS": {
         "LABEL": "Business Hours",
         "PLACEHOLDER": "Only during business hours"
+      },
+      "THRESHOLD_TIME": {
+        "INVALID_FORMAT_ERROR": "Threshold should be a number and greater than zero"
       },
       "EDIT": "Edit",
       "CREATE": "Create",

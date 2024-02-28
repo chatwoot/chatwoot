@@ -1,6 +1,6 @@
 <template>
   <div class="mx-0 flex flex-wrap">
-    <div class="flex-shrink-0 flex-grow-0 w-[65%]">
+    <div class="flex-shrink-0 flex-grow-0 w-full md:w-[65%]">
       <form class="mx-0 flex flex-wrap" @submit.prevent="handleSubmit">
         <woot-input
           v-model.trim="title"
@@ -20,7 +20,7 @@
           @input="$v.description.$touch"
         />
 
-        <div class="w-full">
+        <div class="w-full flex items-center gap-2">
           <input v-model="allowAutoAssign" type="checkbox" :value="true" />
           <label for="conversation_creation">
             {{ $t('TEAMS_SETTINGS.FORM.AUTO_ASSIGN.LABEL') }}

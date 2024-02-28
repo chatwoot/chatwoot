@@ -98,9 +98,7 @@ export default {
   },
   computed: {
     pageFooterIconClass() {
-      return this.isRTLView
-        ? 'margin-right-minus-slab'
-        : 'margin-left-minus-slab';
+      return this.isRTLView ? '-mr-3' : '-ml-3';
     },
     isFooterVisible() {
       return this.totalCount && !(this.firstIndex > this.totalCount);
