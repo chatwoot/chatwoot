@@ -3,7 +3,7 @@
     <div
       class="profile--settings--row text-black-900 dark:text-slate-300 flex items-center"
     >
-      <div class="w-[25%]">
+      <div class="w-1/4">
         <h4 class="text-lg text-black-900 dark:text-slate-200">
           {{ $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE') }}
         </h4>
@@ -144,7 +144,7 @@
     <div
       class="profile--settings--row text-black-900 dark:text-slate-300 flex items-center"
     >
-      <div class="w-[25%]">
+      <div class="w-1/4">
         <h4 class="text-lg text-black-900 dark:text-slate-200">
           {{ $t('PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.TITLE') }}
         </h4>
@@ -242,7 +242,7 @@
       v-if="vapidPublicKey && hasPushAPISupport"
       class="profile--settings--row text-black-900 dark:text-slate-300 flex items-center push-row"
     >
-      <div class="w-[25%]">
+      <div class="w-1/4">
         <h4 class="text-lg text-black-900 dark:text-slate-200">
           {{ $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.TITLE') }}
         </h4>
