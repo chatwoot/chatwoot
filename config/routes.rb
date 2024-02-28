@@ -309,6 +309,7 @@ Rails.application.routes.draw do
               get :teams
               get :conversations
               get :conversation_traffic
+              get :bot_metrics
             end
           end
         end

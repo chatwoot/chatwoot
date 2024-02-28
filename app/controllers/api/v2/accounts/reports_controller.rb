@@ -48,6 +48,11 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render json: conversation_metrics
   end
 
+  def bot_metrics
+    bot_metrics = V2::Reports::BotMetricsBuilder.new(Current.account, params).metrics
+    render json: bot_metrics
+  end
+
   private
 
   def generate_csv(filename, template)

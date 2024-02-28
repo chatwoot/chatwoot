@@ -42,6 +42,8 @@ class V2::ReportBuilder
       avg_first_response_time: avg_first_response_time_summary,
       avg_resolution_time: avg_resolution_time_summary,
       resolutions_count: resolutions.count,
+      bot_resolutions_count: bot_resolutions.count,
+      bot_handoffs_count: bot_handoffs.count,
       reply_time: reply_time_summary
     }
   end
