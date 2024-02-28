@@ -52,7 +52,7 @@ button {
   }
 
   &.success {
-    @apply bg-green-400 dark:bg-green-400 text-white dark:text-white;
+    @apply bg-[#44ce4b] text-white dark:text-white;
   }
 
   &.secondary {
