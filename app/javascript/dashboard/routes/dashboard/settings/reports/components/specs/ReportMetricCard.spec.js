@@ -17,9 +17,9 @@ describe('ReportMetricCard.vue', () => {
       stubs: ['fluent-icon'],
     });
 
-    expect(wrapper.find('.heading span').text()).toMatch(label);
-    expect(wrapper.find('.metric').text()).toMatch(value);
-    expect(wrapper.find('.report-metric--icon').classes()).toContain(
+    expect(wrapper.find({ ref: 'reportMetricLabel' }).text()).toMatch(label);
+    expect(wrapper.find({ ref: 'reportMetricValue' }).text()).toMatch(value);
+    expect(wrapper.find({ ref: 'reportMetricInfo' }).classes()).toContain(
       'has-tooltip'
     );
   });
@@ -31,8 +31,8 @@ describe('ReportMetricCard.vue', () => {
       stubs: ['fluent-icon'],
     });
 
-    expect(wrapper.find('.report--metric-card').classes()).toContain(
-      'disabled'
+    expect(wrapper.classes().join(' ')).toContain(
+      'grayscale pointer-events-none opacity-30'
     );
   });
 
@@ -43,8 +43,8 @@ describe('ReportMetricCard.vue', () => {
       stubs: ['fluent-icon'],
     });
 
-    expect(wrapper.find('.report--metric-card').classes()).not.toContain(
-      'disabled'
-    );
+    expect(
+      wrapper.find({ ref: 'reportMetricContainer' }).classes().join(' ')
+    ).not.toContain('grayscale pointer-events-none opacity-30');
   });
 });
