@@ -547,6 +547,8 @@ export default {
 
 <style scoped lang="scss">
 .modal-mask {
+  @apply absolute;
+
   &::v-deep {
     .ProseMirror-woot-style {
       @apply max-h-[25rem];

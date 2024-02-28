@@ -5,7 +5,9 @@
     <div class="flex items-center">
       <woot-sidemenu-icon />
       <div class="flex items-center my-0 mx-2">
-        <h3 class="text-2xl text-slate-800 dark:text-slate-100 mb-0">
+        <h3
+          class="text-2xl text-slate-800 dark:text-slate-100 font-medium mb-0"
+        >
           {{ headerTitle }}
         </h3>
         <span class="text-sm text-slate-600 dark:text-slate-300 my-0 mx-2">{{

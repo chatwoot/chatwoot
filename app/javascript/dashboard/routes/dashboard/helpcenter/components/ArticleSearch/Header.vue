@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col py-1">
-    <div class="flex-container align-middle align-justify py-2">
-      <h3 class="sub-block-title text-slate-900 dark:text-slate-25">
+    <div class="flex align-middle align-justify py-2">
+      <h3 class="text-base text-slate-900 dark:text-slate-25">
         {{ title }}
       </h3>
       <woot-button

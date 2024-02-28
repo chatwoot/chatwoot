@@ -601,8 +601,8 @@ export default {
         @apply text-woot-400 dark:text-woot-400;
       }
 
-      .text-block-title {
-        @apply text-slate-700 dark:text-slate-700;
+      .attachment-name {
+        @apply text-slate-700 dark:text-slate-200;
       }
 
       .download.button {

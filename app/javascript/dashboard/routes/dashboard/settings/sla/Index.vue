@@ -9,7 +9,7 @@
       {{ $t('SLA.HEADER_BTN_TXT') }}
     </woot-button>
     <div class="flex flex-row gap-4">
-      <div class="w-[60%]">
+      <div class="w-full xl:w-3/5">
         <p
           v-if="!uiFlags.isFetching && !records.length"
           class="flex h-full items-center flex-col justify-center"
@@ -73,7 +73,7 @@
         </table>
       </div>
 
-      <div class="w-[34%]">
+      <div class="w-1/3 hidden xl:block">
         <span v-dompurify-html="$t('SLA.SIDEBAR_TXT')" />
       </div>
     </div>

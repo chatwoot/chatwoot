@@ -34,7 +34,7 @@ const primaryMenuItems = accountId => [
     label: 'CAMPAIGNS',
     featureFlag: FEATURE_FLAGS.CAMPAIGNS,
     toState: frontendURL(`accounts/${accountId}/campaigns`),
-    toStateName: 'settings_account_campaigns',
+    toStateName: 'ongoing_campaigns',
     roles: ['administrator'],
   },
   {

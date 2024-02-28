@@ -31,7 +31,7 @@
           <div
             v-for="(rating, key, index) in ratingPercentage"
             :key="rating + key + index"
-            class="pr-4 rtl:pl-4"
+            class="ltr:pr-4 rtl:pl-4"
           >
             <span class="my-0 mx-0.5">{{ ratingToEmoji(key) }}</span>
             <span>{{ formatToPercent(rating) }}</span>
