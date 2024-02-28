@@ -1,5 +1,5 @@
 <template>
-  <div class="my-2 mx-8">
+  <div class="mx-8">
     <settings-section
       :title="$t('INBOX_MGMT.SMTP.TITLE')"
       :sub-title="$t('INBOX_MGMT.SMTP.SUBTITLE')"

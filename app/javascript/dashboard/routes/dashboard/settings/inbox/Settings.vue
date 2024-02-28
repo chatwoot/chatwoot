@@ -21,7 +21,7 @@
       </woot-tabs>
     </setting-intro-banner>
 
-    <div v-if="selectedTabKey === 'inbox_settings'" class="my-2 mx-8">
+    <div v-if="selectedTabKey === 'inbox_settings'" class="mx-8">
       <settings-section
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_UPDATE_TITLE')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_UPDATE_SUB_TEXT')"
@@ -400,7 +400,7 @@
       <facebook-reauthorize v-if="isAFacebookInbox" :inbox-id="inbox.id" />
     </div>
 
-    <div v-if="selectedTabKey === 'collaborators'" class="my-2 mx-8">
+    <div v-if="selectedTabKey === 'collaborators'" class="mx-8">
       <collaborators-page :inbox="inbox" />
     </div>
     <div v-if="selectedTabKey === 'configuration'">

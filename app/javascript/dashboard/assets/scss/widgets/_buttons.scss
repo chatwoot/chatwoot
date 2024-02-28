@@ -5,7 +5,7 @@ button {
   transition:
     background-color 0.25s ease-out,
     color 0.25s ease-out;
-  @apply inline-block items-center mb-0 text-center align-middle cursor-pointer font-medium text-sm mt-0 mx-0 py-1 px-2.5 border border-solid border-transparent dark:border-transparent rounded-[0.3125rem];
+  @apply inline-block items-center mb-0 text-center align-middle cursor-pointer text-sm mt-0 mx-0 py-1 px-2.5 border border-solid border-transparent dark:border-transparent rounded-[0.3125rem];
 
   &:disabled,
   &.disabled {
@@ -31,7 +31,7 @@ button {
 }
 
 .button {
-  @apply items-center font-medium bg-woot-500 dark:bg-woot-500 px-2.5 text-white dark:text-white inline-flex h-10 mb-0 gap-2;
+  @apply items-center bg-woot-500 dark:bg-woot-500 px-2.5 text-white dark:text-white inline-flex h-10 mb-0 gap-2 font-medium;
 
   .button__content {
     @apply w-full whitespace-nowrap overflow-hidden text-ellipsis;
@@ -96,7 +96,7 @@ button {
   }
 
   // @TODDO - Remove after moving all buttons to woot-button
-  .icon + .button__content {
+  .icon+.button__content {
     @apply w-auto;
   }
 

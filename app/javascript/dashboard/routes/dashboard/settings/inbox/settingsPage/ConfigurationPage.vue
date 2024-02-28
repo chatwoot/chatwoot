@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isATwilioChannel" class="my-2 mx-8">
+  <div v-if="isATwilioChannel" class="mx-8">
     <settings-section
       :title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.TITLE')"
       :sub-title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE')"
@@ -7,7 +7,7 @@
       <woot-code :script="inbox.callback_webhook_url" lang="html" />
     </settings-section>
   </div>
-  <div v-else-if="isALineChannel" class="my-2 mx-8">
+  <div v-else-if="isALineChannel" class="mx-8">
     <settings-section
       :title="$t('INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.TITLE')"
       :sub-title="$t('INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE')"
@@ -16,7 +16,7 @@
     </settings-section>
   </div>
   <div v-else-if="isAWebWidgetInbox">
-    <div class="my-2 mx-8">
+    <div class="mx-8">
       <settings-section
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_HEADING')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_SUB_HEAD')"
@@ -62,7 +62,7 @@
       </settings-section>
     </div>
   </div>
-  <div v-else-if="isAPIInbox" class="my-2 mx-8">
+  <div v-else-if="isAPIInbox" class="mx-8">
     <settings-section
       :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER')"
       :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER_SUB_TEXT')"
@@ -94,7 +94,7 @@
     </settings-section>
   </div>
   <div v-else-if="isAnEmailChannel">
-    <div class="my-2 mx-8">
+    <div class="mx-8">
       <settings-section
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_TITLE')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_SUB_TEXT')"
@@ -110,7 +110,7 @@
     />
   </div>
   <div v-else-if="isAWhatsAppChannel && !isATwilioChannel">
-    <div v-if="inbox.provider_config" class="my-2 mx-8">
+    <div v-if="inbox.provider_config" class="mx-8">
       <settings-section
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_WEBHOOK_TITLE')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_WEBHOOK_SUBHEADER')"

@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-row gap-4 pl-2">
-    <div class="w-3/5">
+  <div class="flex flex-row gap-4 p-8">
+    <div class="w-full lg:w-3/5">
       <woot-tabs :index="selectedTabIndex" @change="onClickTabChange">
         <woot-tabs-item
           v-for="tab in tabs"
@@ -81,7 +81,7 @@
         </table>
       </div>
     </div>
-    <div class="w-1/3">
+    <div class="hidden lg:block w-1/3">
       <span v-dompurify-html="$t('ATTRIBUTES_MGMT.SIDEBAR_TXT')" />
     </div>
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
