@@ -194,6 +194,8 @@ export const METRIC_CHART = {
   reply_time: TIME_CHART_CONFIG,
   avg_resolution_time: TIME_CHART_CONFIG,
   resolutions_count: DEFAULT_CHART,
+  bot_resolutions_count: DEFAULT_CHART,
+  bot_handoffs_count: DEFAULT_CHART,
 };
 
 export const OVERVIEW_METRICS = {

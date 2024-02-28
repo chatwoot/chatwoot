@@ -19,6 +19,8 @@ const state = {
       avg_first_response_time: false,
       avg_resolution_time: false,
       resolutions_count: false,
+      bot_resolutions_count: false,
+      bot_handoffs_count: false,
       reply_time: false,
     },
     data: {
@@ -28,6 +30,8 @@ const state = {
       avg_first_response_time: [],
       avg_resolution_time: [],
       resolutions_count: [],
+      bot_resolutions_count: [],
+      bot_handoffs_count: [],
       reply_time: [],
     },
   },
@@ -39,6 +43,8 @@ const state = {
     outgoing_messages_count: 0,
     reply_time: 0,
     resolutions_count: 0,
+    bot_resolutions_count: 0,
+    bot_handoffs_count: 0,
     previous: {},
   },
   overview: {
