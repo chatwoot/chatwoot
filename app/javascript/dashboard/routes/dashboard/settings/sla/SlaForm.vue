@@ -2,44 +2,31 @@
   <div class="h-auto overflow-auto flex flex-col">
     <form class="mx-0 flex flex-wrap" @submit.prevent="onSubmit">
       <woot-input
-        v-model.trim="name"
+        v-model="name"
         :class="{ error: $v.name.$error }"
         class="w-full"
-        :sla="$t('SLA.FORM.NAME.LABEL')"
+        :label="$t('SLA.FORM.NAME.LABEL')"
         :placeholder="$t('SLA.FORM.NAME.PLACEHOLDER')"
         :error="getSlaNameErrorMessage"
         @input="$v.name.$touch"
       />
       <woot-input
-        v-model.trim="description"
+        v-model="description"
         class="w-full"
         :label="$t('SLA.FORM.DESCRIPTION.LABEL')"
         :placeholder="$t('SLA.FORM.DESCRIPTION.PLACEHOLDER')"
-        data-testid="sla-description"
       />
 
-      <woot-input
-        v-model.trim="firstResponseTimeThreshold"
-        class="w-full"
-        :label="$t('SLA.FORM.FIRST_RESPONSE_TIME.LABEL')"
-        :placeholder="$t('SLA.FORM.FIRST_RESPONSE_TIME.PLACEHOLDER')"
-        data-testid="sla-firstResponseTimeThreshold"
-      />
-
-      <woot-input
-        v-model.trim="nextResponseTimeThreshold"
-        class="w-full"
-        :label="$t('SLA.FORM.NEXT_RESPONSE_TIME.LABEL')"
-        :placeholder="$t('SLA.FORM.NEXT_RESPONSE_TIME.PLACEHOLDER')"
-        data-testid="sla-nextResponseTimeThreshold"
-      />
-
-      <woot-input
-        v-model.trim="resolutionTimeThreshold"
-        class="w-full"
-        :label="$t('SLA.FORM.RESOLUTION_TIME.LABEL')"
-        :placeholder="$t('SLA.FORM.RESOLUTION_TIME.PLACEHOLDER')"
-        data-testid="sla-resolutionTimeThreshold"
+      <sla-time-input
+        v-for="(input, index) in slaTimeInputs"
+        :key="index"
+        :threshold="input.threshold"
+        :threshold-unit="input.unit"
+        :label="$t(input.label)"
+        :placeholder="$t(input.placeholder)"
+        @input="updateThreshold(index, $event)"
+        @unit="updateUnit(index, $event)"
+        @isInValid="handleIsInvalid(index, $event)"
       />
 
       <div class="w-full">
@@ -51,7 +38,7 @@
 
       <div class="flex justify-end items-center py-2 px-0 gap-2 w-full">
         <woot-button
-          :is-disabled="$v.name.$invalid || uiFlags.isUpdating"
+          :is-disabled="isSubmitDisabled"
           :is-loading="uiFlags.isUpdating"
         >
           {{ submitLabel }}
@@ -66,10 +53,15 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { convertSecondsToTimeUnit } from '@chatwoot/utils';
 import validationMixin from './validationMixin';
 import validations from './validations';
+import SlaTimeInput from './SlaTimeInput.vue';
 
 export default {
+  components: {
+    SlaTimeInput,
+  },
   mixins: [validationMixin],
   props: {
     selectedResponse: {
@@ -85,9 +77,28 @@ export default {
     return {
       name: '',
       description: '',
-      firstResponseTimeThreshold: '',
-      nextResponseTimeThreshold: '',
-      resolutionTimeThreshold: '',
+      isSlaTimeInputsInvalid: false,
+      slaTimeInputsValidation: {},
+      slaTimeInputs: [
+        {
+          threshold: null,
+          unit: 'Minutes',
+          label: 'SLA.FORM.FIRST_RESPONSE_TIME.LABEL',
+          placeholder: 'SLA.FORM.FIRST_RESPONSE_TIME.PLACEHOLDER',
+        },
+        {
+          threshold: null,
+          unit: 'Minutes',
+          label: 'SLA.FORM.NEXT_RESPONSE_TIME.LABEL',
+          placeholder: 'SLA.FORM.NEXT_RESPONSE_TIME.PLACEHOLDER',
+        },
+        {
+          threshold: null,
+          unit: 'Minutes',
+          label: 'SLA.FORM.RESOLUTION_TIME.LABEL',
+          placeholder: 'SLA.FORM.RESOLUTION_TIME.PLACEHOLDER',
+        },
+      ],
       onlyDuringBusinessHours: false,
     };
   },
@@ -96,10 +107,12 @@ export default {
     ...mapGetters({
       uiFlags: 'sla/getUIFlags',
     }),
-    pageTitle() {
-      return `${this.$t('SLA.EDIT.TITLE')} - ${
-        this.selectedResponse?.name || ''
-      }`;
+    isSubmitDisabled() {
+      return (
+        this.$v.name.$invalid ||
+        this.isSlaTimeInputsInvalid ||
+        this.uiFlags.isUpdating
+      );
     },
   },
   mounted() {
@@ -121,20 +134,59 @@ export default {
 
       this.name = name;
       this.description = description;
-      this.firstResponseTimeThreshold = firstResponseTimeThreshold;
-      this.nextResponseTimeThreshold = nextResponseTimeThreshold;
-      this.resolutionTimeThreshold = resolutionTimeThreshold;
       this.onlyDuringBusinessHours = onlyDuringBusinessHours;
+
+      const thresholds = [
+        firstResponseTimeThreshold,
+        nextResponseTimeThreshold,
+        resolutionTimeThreshold,
+      ];
+      this.slaTimeInputs.forEach((input, index) => {
+        const converted = convertSecondsToTimeUnit(thresholds[index], {
+          minute: 'Minutes',
+          hour: 'Hours',
+          day: 'Days',
+        });
+        input.threshold = converted.time;
+        input.unit = converted.unit;
+      });
+    },
+    updateThreshold(index, value) {
+      this.slaTimeInputs[index].threshold = value;
+    },
+    updateUnit(index, unit) {
+      this.slaTimeInputs[index].unit = unit;
     },
     onSubmit() {
-      this.$emit('submit', {
+      const payload = {
         name: this.name,
         description: this.description,
-        first_response_time_threshold: this.firstResponseTimeThreshold,
-        next_response_time_threshold: this.nextResponseTimeThreshold,
-        resolution_time_threshold: this.resolutionTimeThreshold,
+        first_response_time_threshold: this.convertToSeconds(0),
+        next_response_time_threshold: this.convertToSeconds(1),
+        resolution_time_threshold: this.convertToSeconds(2),
         only_during_business_hours: this.onlyDuringBusinessHours,
-      });
+      };
+      this.$emit('submit', payload);
+    },
+    convertToSeconds(index) {
+      const { threshold, unit } = this.slaTimeInputs[index];
+      if (threshold === null || threshold === 0) return null;
+      const unitsToSeconds = { Minutes: 60, Hours: 3600, Days: 86400 };
+      return Number(threshold * (unitsToSeconds[unit] || 1));
+    },
+    handleIsInvalid(index, isInvalid) {
+      this.slaTimeInputsValidation = {
+        ...this.slaTimeInputsValidation,
+        [index]: isInvalid,
+      };
+
+      this.checkValidationState();
+    },
+    checkValidationState() {
+      const isAnyInvalid = Object.values(this.slaTimeInputsValidation).some(
+        isInvalid => isInvalid
+      );
+      this.isSlaTimeInputsInvalid = isAnyInvalid;
     },
   },
 };
