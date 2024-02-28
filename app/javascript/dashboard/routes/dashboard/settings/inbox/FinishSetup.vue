@@ -60,7 +60,7 @@
         </div>
         <div class="flex justify-center gap-2 mt-4">
           <router-link
-            class="button hollow primary"
+            class="button hollow primary rounded"
             :to="{
               name: 'settings_inbox_show',
               params: { inboxId: $route.params.inbox_id },
@@ -69,7 +69,7 @@
             {{ $t('INBOX_MGMT.FINISH.MORE_SETTINGS') }}
           </router-link>
           <router-link
-            class="button success"
+            class="button success rounded"
             :to="{
               name: 'inbox_dashboard',
               params: { inboxId: $route.params.inbox_id },
