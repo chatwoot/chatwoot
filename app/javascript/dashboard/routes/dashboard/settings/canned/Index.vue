@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 overflow-auto p-4">
+  <div class="flex-1 overflow-auto">
     <woot-button
       color-scheme="success"
       class-names="button--fixed-top"
@@ -10,8 +10,8 @@
     </woot-button>
 
     <!-- List Canned Response -->
-    <div class="flex flex-row gap-4">
-      <div class="w-3/5">
+    <div class="flex flex-row gap-4 p-8">
+      <div class="w-full xl:w-3/5">
         <p
           v-if="!uiFlags.fetchingList && !records.length"
           class="flex h-full items-center flex-col justify-center"
@@ -75,7 +75,7 @@
         </table>
       </div>
 
-      <div class="w-1/3">
+      <div class="hidden xl:block w-1/3">
         <span v-dompurify-html="$t('CANNED_MGMT.SIDEBAR_TXT')" />
       </div>
     </div>
