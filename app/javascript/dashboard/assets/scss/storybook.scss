@@ -13,20 +13,14 @@
 @import '~shared/assets/stylesheets/ionicons';
 
 @import 'mixins';
-@import 'foundation-settings';
 @import 'helper-classes';
-@import 'foundation-sites/scss/foundation';
-
-@include foundation-prototype-spacing;
-@include foundation-everything($flex: true);
 
 @import 'typography';
 @import 'layout';
 @import 'animations';
 
-@import 'foundation-custom';
 @import 'widgets/buttons';
-@import 'widgets/forms';
+@import 'widgets/base';
 
 @import 'plugins/multiselect';
 
@@ -35,7 +29,6 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 @import 'widget/assets/scss/utilities';
-
 
 html,
 body {
