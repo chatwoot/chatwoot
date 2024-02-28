@@ -73,7 +73,7 @@
         </table>
       </div>
 
-      <div class="w-1/3 hidden md:block">
+      <div class="w-1/3 hidden lg:block">
         <span v-dompurify-html="$t('SLA.SIDEBAR_TXT')" />
       </div>
     </div>

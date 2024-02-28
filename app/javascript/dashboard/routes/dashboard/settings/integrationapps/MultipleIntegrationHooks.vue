@@ -44,7 +44,7 @@
         }}
       </p>
     </div>
-    <div class="w-1/3 hidden md:block">
+    <div class="w-1/3 hidden lg:block">
       <p>
         <b>{{ integration.name }}</b>
       </p>
