@@ -43,7 +43,10 @@
               :key="cannedItem.short_code"
             >
               <!-- Short Code  -->
-              <td class="w-[8.75rem] truncate max-w-[8.75rem]">
+              <td
+                class="w-[8.75rem] truncate max-w-[8.75rem]"
+                :title="cannedItem.short_code"
+              >
                 {{ cannedItem.short_code }}
               </td>
               <!-- Content -->
