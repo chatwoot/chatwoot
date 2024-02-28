@@ -1,77 +1,43 @@
+<script setup>
+defineProps({
+  label: {
+    type: String,
+    required: true,
+  },
+  value: {
+    type: String,
+    required: true,
+  },
+  infoText: {
+    type: String,
+    required: true,
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+});
+</script>
 <template>
   <div
-    class="md:w-[16%] sm:w-[50%] sm:max-w-[50%] md:max-w-[16%] report-metric--card"
+    class="xs:w-full sm:max-w-[50%] lg:w-1/6 lg:max-w-[16%] m-0 p-4"
     :class="{
-      disabled: disabled,
+      'grayscale pointer-events-none opacity-30': disabled,
     }"
   >
-    <h3 class="heading">
+    <h3
+      class="flex items-center text-sm font-medium m-0 text-slate-800 dark:text-slate-100"
+    >
       <span>{{ label }}</span>
       <fluent-icon
         v-tooltip="infoText"
         size="14"
         icon="info"
-        class="report-metric--icon"
+        class="text-slate-500 dark:text-slate-200 my-0 mx-1 mt-0.5"
       />
     </h3>
-    <h4 class="metric">
+    <h4 class="text-slate-700 dark:text-slate-100 mb-0 mt-1 font-thin text-3xl">
       {{ value }}
     </h4>
   </div>
 </template>
-<script>
-export default {
-  props: {
-    label: {
-      type: String,
-      required: true,
-    },
-    value: {
-      type: String,
-      required: true,
-    },
-    infoText: {
-      type: String,
-      required: true,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-  },
-};
-</script>
-<style lang="scss" scoped>
-.report-metric--card {
-  margin: 0;
-  padding: var(--space-normal);
-
-  &.disabled {
-    // grayscale everything
-    filter: grayscale(100%);
-    opacity: 0.3;
-    pointer-events: none;
-  }
-
-  .heading {
-    align-items: center;
-    display: flex;
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-bold);
-    margin: 0;
-    @apply text-slate-800 dark:text-slate-100;
-  }
-
-  .metric {
-    font-size: var(--font-size-bigger);
-    font-weight: var(--font-weight-feather);
-    margin-bottom: 0;
-    margin-top: var(--space-smaller);
-    @apply text-slate-700 dark:text-slate-100;
-  }
-}
-
-.report-metric--icon {
-  @apply text-slate-500 dark:text-slate-200 my-0 mx-0.5;
-}
-</style>
