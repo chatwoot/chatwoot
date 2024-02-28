@@ -42,7 +42,7 @@
         data-testid="sla-resolutionTimeThreshold"
       />
 
-      <div class="flex items-center w-full gap-1fi">
+      <div class="flex items-center w-full gap-2">
         <input id="sla_bh" v-model="onlyDuringBusinessHours" type="checkbox" />
         <label for="sla_bh">
           {{ $t('SLA.FORM.BUSINESS_HOURS.PLACEHOLDER') }}
