@@ -72,13 +72,6 @@ class Imap::ImapMailbox
   end
 
   def find_or_create_conversation
-    Rails.logger.warn '---------------------------------------------------'
-    Rails.logger.warn "find_conversation_by_in_reply_to: #{find_conversation_by_in_reply_to.present?}"
-    Rails.logger.warn "find_conversation_by_reference_ids: #{find_conversation_by_reference_ids.present?}"
-    Rails.logger.warn "in_reply_to: #{in_reply_to}"
-    Rails.logger.warn "references: #{@inbound_mail.references}"
-    Rails.logger.warn '---------------------------------------------------'
-
     @conversation = find_conversation_by_in_reply_to || find_conversation_by_reference_ids || ::Conversation.create!(
       {
         account_id: @account.id,
