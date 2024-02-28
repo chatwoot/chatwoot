@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 overflow-auto p-4">
+  <div class="flex-1 p-4 overflow-auto">
     <woot-button
       color-scheme="success"
       class-names="button--fixed-top"
@@ -13,7 +13,7 @@
       <div class="w-full lg:w-3/5">
         <p
           v-if="!uiFlags.fetchingList && !records.length"
-          class="flex h-full items-center flex-col justify-center"
+          class="flex flex-col items-center justify-center h-full"
         >
           {{ $t('INTEGRATION_SETTINGS.WEBHOOK.LIST.404') }}
         </p>
@@ -32,6 +32,7 @@
                 'INTEGRATION_SETTINGS.WEBHOOK.LIST.TABLE_HEADER'
               )"
               :key="thHeader"
+              class="last:text-right"
             >
               {{ thHeader }}
             </th>
@@ -49,7 +50,7 @@
         </table>
       </div>
 
-      <div class="w-1/3 hidden lg:block">
+      <div class="hidden w-1/3 lg:block">
         <span
           v-dompurify-html="
             useInstallationName(
