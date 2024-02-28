@@ -57,7 +57,7 @@
         </tr>
       </tbody>
     </table>
-    <div class="flex items-center justify-between mt-2 mb-3">
+    <div class="flex items-center justify-between mt-2">
       <p>
         {{
           $t('TEAMS_SETTINGS.AGENTS.SELECTED_COUNT', {
