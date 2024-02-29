@@ -2,7 +2,6 @@
   "conversations": {
     "status": {
       "attribute_name": "Status",
-      "input_type": "multi_select",
       "data_type": "text",
       "filter_operators": [
         "equal_to",
@@ -12,7 +11,6 @@
     },
     "assignee_id": {
       "attribute_name": "Assignee Name",
-      "input_type": "search_box with name tags/plain text",
       "data_type": "text",
       "filter_operators": [
         "equal_to",
@@ -24,7 +22,6 @@
     },
     "inbox_id": {
       "attribute_name": "Inbox Name",
-      "input_type": "search_box",
       "data_type": "text",
       "filter_operators": [
         "equal_to",
@@ -36,7 +33,6 @@
     },
     "team_id": {
       "attribute_name": "Team Name",
-      "input_type": "search_box",
       "data_type": "number",
       "filter_operators": [
         "equal_to",
@@ -48,7 +44,6 @@
     },
     "display_id": {
       "attribute_name": "Conversation Identifier",
-      "input_type": "textbox",
       "data_type": "Number",
       "filter_operators": [
         "equal_to",
@@ -60,7 +55,6 @@
     },
     "campaign_id": {
       "attribute_name": "Campaign Name",
-      "input_type": "textbox",
       "data_type": "Number",
       "filter_operators": [
         "equal_to",
@@ -72,7 +66,6 @@
     },
     "labels": {
       "attribute_name": "Labels",
-      "input_type": "tags",
       "data_type": "text",
       "filter_operators": [
         "equal_to",
@@ -84,7 +77,6 @@
     },
     "browser_language": {
       "attribute_name": "Browser Language",
-      "input_type": "textbox",
       "data_type": "text",
       "filter_operators": [
         "equal_to",
@@ -94,7 +86,6 @@
     },
     "conversation_language": {
       "attribute_name": "Conversation Language",
-      "input_type": "textbox",
       "data_type": "text",
       "filter_operators": [
         "equal_to",
@@ -104,7 +95,6 @@
     },
     "country_code": {
       "attribute_name": "Country Name",
-      "input_type": "textbox",
       "data_type": "text",
       "filter_operators": [
         "equal_to",
@@ -114,7 +104,6 @@
     },
     "referer": {
       "attribute_name": "Referer link",
-      "input_type": "textbox",
       "data_type": "link",
       "filter_operators": [
         "equal_to",
@@ -126,7 +115,6 @@
     },
     "created_at": {
       "attribute_name": "Created At",
-      "input_type": "date",
       "data_type": "date",
       "filter_operators": [
         "is_greater_than",
@@ -137,7 +125,6 @@
     },
     "last_activity_at": {
       "attribute_name": "Created At",
-      "input_type": "date",
       "data_type": "date",
       "filter_operators": [
         "is_greater_than",
@@ -148,7 +135,6 @@
     },
     "mail_subject": {
       "attribute_name": "Email Subject",
-      "input_type": "text",
       "data_type": "text",
       "filter_operators": [
         "equal_to",
@@ -162,7 +148,6 @@
   "contacts": {
     "name": {
       "attribute_name": "Name",
-      "input_type": "search_box with name tags/plain text",
       "data_type": "text",
       "filter_operators": [
         "equal_to",
@@ -174,7 +159,6 @@
     },
     "phone_number": {
       "attribute_name": "Phone Number",
-      "input_type": "text",
       "data_type": "text",
       "filter_operators": [
         "equal_to",
@@ -187,7 +171,6 @@
     },
     "email": {
       "attribute_name": "Email",
-      "input_type": "search_box with name tags/plain text",
       "data_type": "text",
       "filter_operators": [
         "equal_to",
@@ -199,7 +182,6 @@
     },
     "identifier": {
       "attribute_name": "Contact Identifier",
-      "input_type": "search_box with name tags/plain text",
       "data_type": "text",
       "filter_operators": [
         "equal_to",
@@ -209,7 +191,6 @@
     },
     "country_code": {
       "attribute_name": "Country",
-      "input_type": "textbox",
       "data_type": "text",
       "filter_operators": [
         "equal_to",
@@ -219,7 +200,6 @@
     },
     "city": {
       "attribute_name": "City",
-      "input_type": "textbox",
       "data_type": "text",
       "filter_operators": [
         "equal_to",
@@ -231,7 +211,6 @@
     },
     "company": {
       "attribute_name": "Company",
-      "input_type": "textbox",
       "data_type": "text",
       "filter_operators": [
         "equal_to",
@@ -243,7 +222,6 @@
     },
     "labels": {
       "attribute_name": "Labels",
-      "input_type": "tags",
       "data_type": "text",
       "filter_operators": [
         "equal_to",
@@ -253,7 +231,6 @@
     },
     "created_at": {
       "attribute_name": "Created At",
-      "input_type": "date",
       "data_type": "date",
       "filter_operators": [
         "is_greater_than",
@@ -264,7 +241,6 @@
     },
     "last_activity_at": {
       "attribute_name": "Created At",
-      "input_type": "date",
       "data_type": "date",
       "filter_operators": [
         "is_greater_than",
@@ -277,7 +253,6 @@
   "messages": {
     "message_type": {
       "attribute_name": "Message Type",
-      "input_type": "search_box with name tags/plain text",
       "data_type": "numeric",
       "filter_operators": [
         "equal_to",
@@ -287,7 +262,6 @@
     },
     "content": {
       "attribute_name": "Message Content",
-      "input_type": "search_box with name tags/plain text",
       "data_type": "text",
       "filter_operators": [
         "equal_to",
