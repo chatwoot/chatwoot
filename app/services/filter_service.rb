@@ -200,8 +200,7 @@ class FilterService
 
   def query_builder(model_filters)
     @params[:payload].each_with_index do |query_hash, current_index|
-      current_filter = model_filters[query_hash['attribute_key']]
-      @query_string += build_condition_query(current_filter, query_hash, current_index)
+      @query_string += build_condition_query(model_filters, query_hash, current_index)
     end
     base_relation.where(@query_string, @filter_values.with_indifferent_access)
   end

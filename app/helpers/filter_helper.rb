@@ -1,5 +1,7 @@
 module FilterHelper
-  def build_condition_query(current_filter, query_hash, current_index)
+  def build_condition_query(model_filters, query_hash, current_index)
+    current_filter = model_filters[query_hash['attribute_key']]
+
     # Throw InvalidOperator Error if the attribute is a standard attribute
     # and the operator is not allowed in the config
     if current_filter.present? && current_filter['filter_operators'].exclude?(query_hash[:filter_operator])
