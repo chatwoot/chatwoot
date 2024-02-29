@@ -179,7 +179,7 @@ export default {
 
       const { industry } = this.accountAttributes;
       const industryValue =
-        this.industry === 'other' ? industry : this.industry;
+        this.industry === 'Other' ? industry : this.industry;
 
       try {
         await this.$store.dispatch('accounts/update', {
