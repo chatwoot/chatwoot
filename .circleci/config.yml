@@ -15,9 +15,9 @@ defaults: &defaults
     - image: cimg/postgres:14.1
     - image: cimg/redis:6.2.6
   environment:
-      - RAILS_LOG_TO_STDOUT: false
-      - COVERAGE: true
-      - LOG_LEVEL: warn
+    - RAILS_LOG_TO_STDOUT: false
+    - COVERAGE: true
+    - LOG_LEVEL: warn
   parallelism: 4
   resource_class: large
 
@@ -46,7 +46,7 @@ jobs:
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-            nvm install v16
+            nvm install v20
             echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
             echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
 

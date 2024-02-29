@@ -21,6 +21,7 @@
         />
       </div>
       <agent-typing-bubble v-if="isAgentTyping" />
+      <quick-replies :is-visible="hasQuickRepliesOptions" />
     </div>
   </div>
 </template>
@@ -29,6 +30,7 @@
 import ChatMessage from 'widget/components/ChatMessage.vue';
 import AgentTypingBubble from 'widget/components/AgentTypingBubble.vue';
 import DateSeparator from 'shared/components/DateSeparator.vue';
+import QuickReplies from 'widget/components/QuickReplies.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 
@@ -41,6 +43,7 @@ export default {
     AgentTypingBubble,
     DateSeparator,
     Spinner,
+    QuickReplies
   },
   mixins: [darkModeMixin],
   props: {
@@ -62,9 +65,13 @@ export default {
       isFetchingList: 'conversation/getIsFetchingList',
       conversationSize: 'conversation/getConversationSize',
       isAgentTyping: 'conversation/getIsAgentTyping',
+      quickRepliesOptions: 'conversation/getQuickRepliesOptions',
     }),
     colorSchemeClass() {
       return `${this.darkMode === 'dark' ? 'dark-scheme' : 'light-scheme'}`;
+    },
+    hasQuickRepliesOptions() {
+      return Boolean(this.quickRepliesOptions.length);
     },
   },
   watch: {
