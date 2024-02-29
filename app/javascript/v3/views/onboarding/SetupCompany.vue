@@ -3,72 +3,70 @@
     :title="$t('START_ONBOARDING.COMPANY.TITLE')"
     :subtitle="$t('START_ONBOARDING.COMPANY.BODY')"
   >
-    <div class="space-y-5">
-      <div class="space-y-3">
-        <form-input
-          v-model="companyName"
-          icon="building-bank"
-          name="companyName"
-          spacing="compact"
-          :has-error="$v.companyName.$error"
-          :label="$t('START_ONBOARDING.COMPANY.COMPANY_NAME.LABEL')"
-          :placeholder="$t('START_ONBOARDING.COMPANY.COMPANY_NAME.PLACEHOLDER')"
-          :error-message="$t('START_ONBOARDING.COMPANY.COMPANY_NAME.ERROR')"
-        />
-        <form-select
-          v-model="locale"
-          name="locale"
-          icon="local-language"
-          :label="$t('START_ONBOARDING.COMPANY.LOCALE.LABEL')"
-          :placeholder="$t('START_ONBOARDING.COMPANY.LOCALE.PLACEHOLDER')"
+    <div class="space-y-3">
+      <form-input
+        v-model="companyName"
+        icon="building-bank"
+        name="companyName"
+        spacing="compact"
+        :has-error="$v.companyName.$error"
+        :label="$t('START_ONBOARDING.COMPANY.COMPANY_NAME.LABEL')"
+        :placeholder="$t('START_ONBOARDING.COMPANY.COMPANY_NAME.PLACEHOLDER')"
+        :error-message="$t('START_ONBOARDING.COMPANY.COMPANY_NAME.ERROR')"
+      />
+      <form-select
+        v-model="locale"
+        name="locale"
+        icon="local-language"
+        :label="$t('START_ONBOARDING.COMPANY.LOCALE.LABEL')"
+        :placeholder="$t('START_ONBOARDING.COMPANY.LOCALE.PLACEHOLDER')"
+      >
+        <option
+          v-for="lang in languagesSortedByCode"
+          :key="lang.iso_639_1_code"
+          :value="lang.iso_639_1_code"
+          :selected="locale === lang.iso_639_1_code"
         >
-          <option
-            v-for="lang in languagesSortedByCode"
-            :key="lang.iso_639_1_code"
-            :value="lang.iso_639_1_code"
-            :selected="locale === lang.iso_639_1_code"
-          >
-            {{ lang.name }}
-          </option>
-        </form-select>
-        <form-select
-          v-model="timezone"
-          name="timezone"
-          icon="globe-clock"
-          spacing="compact"
-          :label="$t('START_ONBOARDING.COMPANY.TIMEZONE.LABEL')"
-          :placeholder="$t('START_ONBOARDING.COMPANY.TIMEZONE.PLACEHOLDER')"
+          {{ lang.name }}
+        </option>
+      </form-select>
+      <form-select
+        v-model="timezone"
+        name="timezone"
+        icon="globe-clock"
+        spacing="compact"
+        :label="$t('START_ONBOARDING.COMPANY.TIMEZONE.LABEL')"
+        :placeholder="$t('START_ONBOARDING.COMPANY.TIMEZONE.PLACEHOLDER')"
+      >
+        <option
+          v-for="zone in timeZones"
+          :key="zone.label"
+          :value="zone.value"
+          :selected="timezone === zone.value"
         >
-          <option
-            v-for="zone in timeZones"
-            :key="zone.label"
-            :value="zone.value"
-            :selected="timezone === zone.value"
-          >
-            {{ zone.label }}
-          </option>
-        </form-select>
-        <form-radio-tags
-          v-model="industry"
-          name="industry"
-          :label="$t('START_ONBOARDING.COMPANY.INDUSTRY.LABEL')"
-          :placeholder="$t('START_ONBOARDING.COMPANY.SIZE.PLACEHOLDER')"
-          :options="industryOptions"
-        />
-        <form-radio-tags
-          v-model="companySize"
-          name="companySize"
-          :label="$t('START_ONBOARDING.COMPANY.SIZE.LABEL')"
-          :placeholder="$t('START_ONBOARDING.COMPANY.SIZE.PLACEHOLDER')"
-          :options="companySizeOptions"
-        />
-      </div>
-      <submit-button
-        button-class="flex justify-center w-full text-sm text-center"
-        :button-text="$t('START_ONBOARDING.COMPANY.SUBMIT.BUTTON')"
-        @click="onSubmit"
+          {{ zone.label }}
+        </option>
+      </form-select>
+      <form-radio-tags
+        v-model="industry"
+        name="industry"
+        :label="$t('START_ONBOARDING.COMPANY.INDUSTRY.LABEL')"
+        :placeholder="$t('START_ONBOARDING.COMPANY.SIZE.PLACEHOLDER')"
+        :options="industryOptions"
+      />
+      <form-radio-tags
+        v-model="companySize"
+        name="companySize"
+        :label="$t('START_ONBOARDING.COMPANY.SIZE.LABEL')"
+        :placeholder="$t('START_ONBOARDING.COMPANY.SIZE.PLACEHOLDER')"
+        :options="companySizeOptions"
       />
     </div>
+    <submit-button
+      button-class="flex justify-center w-full text-sm text-center"
+      :button-text="$t('START_ONBOARDING.COMPANY.SUBMIT.BUTTON')"
+      @click="onSubmit"
+    />
   </onboarding-base-modal>
 </template>
 
@@ -147,6 +145,16 @@ export default {
     timeZones() {
       return [...timeZoneOptions()];
     },
+    accountAttributes() {
+      const attributes = this.accountDetails.custom_attributes;
+      return {
+        companyName: this.accountDetails.name,
+        locale: this.accountDetails.locale,
+        companySize: attributes.company_size,
+        industry: attributes.industry,
+        timezone: attributes.timezone,
+      };
+    },
   },
 
   watch: {
@@ -168,15 +176,20 @@ export default {
         return;
       }
 
+      const { industry } = this.accountAttributes;
+      const industryValue =
+        this.industry === 'other' ? industry : this.industry;
+
       try {
         await this.$store.dispatch('accounts/update', {
           name: this.companyName,
           timezone: this.timezone,
           locale: this.locale,
           company_size: this.companySize,
-          industry: this.industry,
+          industry: industryValue,
           onboarding_step: 'account_update',
         });
+
         this.showAlert(this.$t('START_ONBOARDING.COMPANY.SUBMIT.SUCCESS'));
         this.$router.push({ name: 'onboarding_invite_team' });
       } catch (error) {
@@ -197,15 +210,9 @@ export default {
     initFormData() {
       if (!this.accountDetails) return;
 
-      const {
-        name: companyName,
-        locale,
-        custom_attributes: {
-          industry,
-          company_size: companySize,
-          timezone,
-        } = {},
-      } = this.accountDetails;
+      const { companyName, industry, companySize, timezone, locale } =
+        this.accountAttributes;
+
       this.companyName = companyName;
       this.industry = findMatchingOption(
         industry,
