@@ -52,11 +52,7 @@ button {
   }
 
   &.success {
-    @apply bg-[#44ce4b] text-white dark:text-white;
-
-    &:hover {
-      @apply bg-[#3dbb45];
-    }
+    @apply bg-[#44ce4b] dark:bg-[#44ce4b] text-white dark:text-white;
   }
 
   &.secondary {
