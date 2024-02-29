@@ -35,7 +35,7 @@
         "PLACEHOLDER": "5"
       },
       "NEXT_RESPONSE_TIME": {
-        "LABEL": "Next Response Time",
+        "LABEL": "Nākamās Atbildes Laiks",
         "PLACEHOLDER": "5"
       },
       "RESOLUTION_TIME": {
@@ -47,7 +47,7 @@
         "PLACEHOLDER": "Tikai darba laikā"
       },
       "THRESHOLD_TIME": {
-        "INVALID_FORMAT_ERROR": "Threshold should be a number and greater than zero"
+        "INVALID_FORMAT_ERROR": "Slieksnim ir jābūt skaitlim un lielākam par nulli"
       },
       "EDIT": "Rediģēt",
       "CREATE": "Izveidot",
