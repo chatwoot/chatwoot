@@ -37,7 +37,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Vevő várakozási idő",
-        "TOOLTIP_TEXT": "Várakozási idő: %{metricValue} (%{conversationCount} függvényében)"
+        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
       }
     },
     "DATE_RANGE_OPTIONS": {
