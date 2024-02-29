@@ -231,18 +231,18 @@ lv:
     button: Atvērt sarunu
   time_units:
     days:
-      zero: "%{count} days"
-      one: "%{count} day"
+      zero: "%{count} dienas"
+      one: "%{count} diena"
       other: "%{count} dienas"
     hours:
-      zero: "%{count} hours"
-      one: "%{count} hour"
+      zero: "%{count} stundas"
+      one: "%{count} stunda"
       other: "%{count} stundas"
     minutes:
-      zero: "%{count} minutes"
-      one: "%{count} minute"
+      zero: "%{count} minūtes"
+      one: "%{count} minūte"
       other: "%{count} minūtes"
     seconds:
-      zero: "%{count} seconds"
-      one: "%{count} second"
+      zero: "%{count} sekundes"
+      one: "%{count} sekunde"
       other: "%{count} sekundes"
