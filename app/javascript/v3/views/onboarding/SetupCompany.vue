@@ -14,7 +14,7 @@
       {{ $t('START_ONBOARDING.COMPANY.BODY') }}
     </p>
 
-    <div class="space-y-8 mt-10">
+    <div class="mt-10 space-y-8">
       <div class="space-y-3">
         <form-input
           v-model="companyName"
@@ -161,6 +161,16 @@ export default {
 
       return !onboardingStep !== ONBOARDING_STEP_NAMES.INVITE;
     },
+    accountAttributes() {
+      const attributes = this.accountDetails.custom_attributes;
+      return {
+        companyName: this.accountDetails.name,
+        locale: this.accountDetails.locale,
+        companySize: attributes.company_size,
+        industry: attributes.industry,
+        timezone: attributes.timezone,
+      };
+    },
   },
 
   watch: {
@@ -182,15 +192,20 @@ export default {
         return;
       }
 
+      const { industry } = this.accountAttributes;
+      const industryValue =
+        this.industry === 'other' ? industry : this.industry;
+
       try {
         await this.$store.dispatch('accounts/update', {
           name: this.companyName,
           timezone: this.timezone,
           locale: this.locale,
           company_size: this.companySize,
-          industry: this.industry,
+          industry: industryValue,
           onboarding_step: 'account_update',
         });
+
         this.showAlert(this.$t('START_ONBOARDING.COMPANY.SUBMIT.SUCCESS'));
         this.$router.push({ name: 'onboarding_invite_team' });
       } catch (error) {
@@ -211,15 +226,9 @@ export default {
     setFromIntelligentData() {
       if (!this.accountDetails) return;
 
-      const {
-        name: companyName,
-        locale,
-        custom_attributes: {
-          industry,
-          company_size: companySize,
-          timezone,
-        } = {},
-      } = this.accountDetails;
+      const { companyName, industry, companySize, timezone, locale } =
+        this.accountAttributes;
+
       this.companyName = companyName;
       this.industry = findMatchingOption(
         industry,
