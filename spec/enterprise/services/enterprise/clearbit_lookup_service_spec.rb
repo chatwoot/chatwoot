@@ -22,7 +22,7 @@ RSpec.describe Enterprise::ClearbitLookupService do
             expect(result).to eq({
                                    :avatar => 'https://example.com/avatar.png',
                                    :company_name => 'Doe Inc.',
-                                   :company_size => '1-10',
+                                   :company_size => '1001+',
                                    :industry => 'Software',
                                    :logo => nil,
                                    :name => 'John Doe',

@@ -94,10 +94,7 @@ import { ONBOARDING_STEP_NAMES } from 'dashboard/constants/globals';
 import SubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue';
 import { timeZoneOptions } from 'dashboard/routes/dashboard/settings/inbox/helpers/businessHour.js';
 import { getBrowserTimezone, getBrowserLocale } from 'v3/helpers/BrowserHelper';
-import {
-  findMatchingOption,
-  findCompanySizeMatch,
-} from 'v3/helpers/OnboardingHelper';
+import { findMatchingOption } from 'v3/helpers/OnboardingHelper';
 import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
 export default {
@@ -118,8 +115,8 @@ export default {
       companySizeOptions: [
         { value: '1-10', label: '1-10' },
         { value: '11-50', label: '11-50' },
-        { value: '51-500', label: '51-500' },
-        { value: '501-1000', label: '501-1000' },
+        { value: '51-250', label: '51-250' },
+        { value: '251-1000', label: '251-1000' },
         { value: '1001+', label: 'Over 1000' },
       ],
       industryOptions: [
@@ -235,10 +232,7 @@ export default {
         this.industryOptions,
         'other'
       );
-      this.companySize = findCompanySizeMatch(
-        this.companySizeOptions,
-        companySize
-      );
+      this.companySize = companySize;
       this.timezone = findMatchingOption(
         timezone,
         this.timeZones.map(zone => zone.value),
