@@ -32,7 +32,7 @@
                 />
                 <div
                   v-else
-                  class="rounded-xl h-10 w-10 bg-slate-200 flex items-center justify-center"
+                  class="rounded-md h-10 w-10 bg-slate-200 flex items-center justify-center"
                 >
                   <svg
                     width="24"
