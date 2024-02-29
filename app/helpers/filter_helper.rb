@@ -19,7 +19,10 @@ module FilterHelper
     condition_query = build_condition_query_string(current_filter, query_hash, current_index)
     # The query becomes empty only when it doesn't match to any supported
     # standard attribute or custom attribute defined in the account.
-    raise CustomExceptions::CustomFilter::InvalidAttribute.new(allowed_keys: model_filters.keys) if condition_query.empty?
+    if condition_query.empty?
+      raise CustomExceptions::CustomFilter::InvalidAttribute.new(key: query_hash['attribute_key'],
+                                                                 allowed_keys: model_filters.keys)
+    end
 
     condition_query
   end
@@ -43,7 +46,8 @@ module FilterHelper
   end
 
   def handle_additional_attributes(query_hash, filter_operator_value)
-    " #{filter_config[:table_name]}.additional_attributes ->> '#{query_hash[:attribute_key]}' #{filter_operator_value} #{query_has[:query_operator]} "
+    " #{filter_config[:table_name]}.additional_attributes ->> '#{query_hash[:attribute_key]}' " \
+      "#{filter_operator_value} #{query_hash[:query_operator]} "
   end
 
   def handle_standard_attributes(current_filter, query_hash, current_index, filter_operator_value)
@@ -64,7 +68,8 @@ module FilterHelper
 
   def default_filter(query_hash, filter_operator_value)
     if filter_config[:entity] == 'Contact'
-      "LOWER(#{filter_config[:table_name]}.#{query_hash[:attribute_key]}) #{filter_operator_value} #{query_hash[:query_operator]}"
+      "LOWER(#{filter_config[:table_name]}.#{query_hash[:attribute_key]}) " \
+        "#{filter_operator_value} #{query_hash[:query_operator]}"
     else
       "#{filter_config[:table_name]}.#{query_hash[:attribute_key]} #{filter_operator_value} #{query_hash[:query_operator]}"
     end

@@ -1,7 +1,7 @@
 module CustomExceptions::CustomFilter
   class InvalidAttribute < CustomExceptions::Base
     def message
-      I18n.t('errors.custom_filters.invalid_attribute', allowed_keys: @data[:allowed_keys].join(','))
+      I18n.t('errors.custom_filters.invalid_attribute', key: @data[:key], allowed_keys: @data[:allowed_keys].join(','))
     end
   end
 
