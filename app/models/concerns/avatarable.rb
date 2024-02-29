@@ -30,7 +30,7 @@ module Avatarable
 
     errors.add(:avatar, 'is too big') if avatar.byte_size > 15.megabytes
 
-    acceptable_types = ['image/jpeg', 'image/png', 'image/gif'].freeze
+    acceptable_types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'].freeze
     errors.add(:avatar, 'filetype not supported') unless acceptable_types.include?(avatar.content_type)
   end
 end
