@@ -214,7 +214,6 @@ export default {
 <style lang="scss" scoped>
 .article-container {
   display: flex;
-  padding: 0 var(--space-normal);
   width: 100%;
   flex: 1;
   overflow: auto;

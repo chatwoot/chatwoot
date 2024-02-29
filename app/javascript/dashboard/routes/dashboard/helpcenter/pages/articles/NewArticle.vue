@@ -1,5 +1,5 @@
 <template>
-  <div class="article-container">
+  <div class="flex flex-1 overflow-auto">
     <div
       class="new-article--container"
       :class="{ 'is-sidebar-open': showArticleSettings }"
@@ -119,17 +119,14 @@ export default {
 
 <style lang="scss" scoped>
 .article-container {
-  display: flex;
-  padding: 0 var(--space-normal);
-  width: 100%;
-  flex: 1;
-  overflow: auto;
 }
+
 .new-article--container {
   flex: 1;
   flex-shrink: 0;
   overflow-y: auto;
 }
+
 .is-sidebar-open {
   flex: 0.7;
   flex-grow: 1;

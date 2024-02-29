@@ -242,7 +242,7 @@ export default {
 
 <style lang="scss" scoped>
 .article-settings--container {
-  @apply flex-[0.3] min-w-[15rem] max-w-[22.5rem] py-2 pl-4 rtl:pl-0 rtl:pr-4 ml-4 rtl:ml-0 rtl:mr-4 overflow-y-auto border-l rtl:border-r rtl:border-l-0 border-solid border-slate-50 dark:border-slate-700;
+  @apply flex-[0.3] min-w-[15rem] max-w-[22.5rem] py-2 overflow-y-auto border-l rtl:border-r rtl:border-l-0 border-solid border-slate-50 dark:border-slate-700;
 
   .form-wrap {
     @apply mt-4 mb-6;
@@ -256,20 +256,25 @@ export default {
     @apply flex flex-col;
   }
 }
+
 ::v-deep {
   .multiselect {
     @apply mb-0;
   }
+
   .multiselect__content-wrapper {
     @apply hidden;
   }
+
   .multiselect--active .multiselect__tags {
     padding-right: var(--space-small) !important;
     @apply rounded-md;
   }
+
   .multiselect__placeholder {
     @apply text-slate-300 dark:text-slate-200 pt-2 mb-0;
   }
+
   .multiselect__select {
     @apply hidden;
   }
