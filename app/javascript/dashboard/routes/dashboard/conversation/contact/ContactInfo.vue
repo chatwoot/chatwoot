@@ -1,6 +1,6 @@
 <template>
-  <div class="relative items-center p-4 bg-white dark:bg-slate-900">
-    <div class="text-left rtl:text-right flex flex-col gap-2">
+  <div class="relative items-center p-4 bg-white dark:bg-slate-900 w-full">
+    <div class="text-left rtl:text-right flex flex-col gap-2 w-full">
       <div class="flex justify-between flex-row">
         <thumbnail
           v-if="showAvatar"
@@ -55,7 +55,7 @@
         <p v-if="additionalAttributes.description" class="break-words mb-0.5">
           {{ additionalAttributes.description }}
         </p>
-        <div class="flex flex-col gap-2 items-start">
+        <div class="flex flex-col gap-2 items-start w-full">
           <contact-info-row
             :href="contact.email ? `mailto:${contact.email}` : ''"
             :value="contact.email"

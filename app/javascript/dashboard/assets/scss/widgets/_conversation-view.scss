@@ -222,20 +222,6 @@
   @apply flex relative flex-col;
 }
 
-.typing-indicator-wrap {
-  @apply items-center flex h-0 absolute w-full -top-8;
-
-  .typing-indicator {
-    @include elegant-card;
-    @include round-corner;
-    @apply py-2 pr-4 pl-5 bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 text-xs font-semibold my-2.5 mx-auto;
-
-    .gif {
-      @apply ml-2 w-6;
-    }
-  }
-}
-
 .left .bubble .text-content {
   h1,
   h2,

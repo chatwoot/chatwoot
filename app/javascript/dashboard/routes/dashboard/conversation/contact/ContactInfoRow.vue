@@ -1,5 +1,5 @@
 <template>
-  <div class="ltr:-ml-1 rtl:-mr-1 h-5">
+  <div class="ltr:-ml-1 rtl:-mr-1 h-5 w-full">
     <a
       v-if="href"
       :href="href"
@@ -9,7 +9,7 @@
         :icon="icon"
         :emoji="emoji"
         icon-size="14"
-        class="ltr:ml-1 rtl:mr-1"
+        class="ltr:ml-1 rtl:mr-1 flex-shrink-0"
       />
       <span
         v-if="value"
@@ -42,7 +42,7 @@
         :icon="icon"
         :emoji="emoji"
         icon-size="14"
-        class="ltr:ml-1 rtl:mr-1"
+        class="ltr:ml-1 rtl:mr-1 flex-shrink-0"
       />
       <span
         v-if="value"
