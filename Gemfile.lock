@@ -205,6 +205,7 @@ GEM
       devise (> 3.5.2, < 5)
       rails (>= 4.2.0, < 7.1)
     diff-lcs (1.5.0)
+    digest (3.1.1)
     digest-crc (0.6.4)
       rake (>= 12.0.0, < 14.0.0)
     docile (1.4.0)
@@ -865,6 +866,7 @@ DEPENDENCIES
   devise (>= 4.9.3)
   devise-secure_password!
   devise_token_auth
+  digest
   dotenv-rails
   down
   elastic-apm
