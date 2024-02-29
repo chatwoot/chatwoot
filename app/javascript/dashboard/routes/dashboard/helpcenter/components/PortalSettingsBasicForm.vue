@@ -1,7 +1,9 @@
 <template>
-  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%]">
+  <div
+    class="pt-3 bg-white dark:bg-slate-900 h-full border border-solid border-transparent px-6 pb-6 dark:border-transparent w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+  >
     <div class="w-full">
-      <h3 class="block-title text-black-900 dark:text-slate-200">
+      <h3 class="text-lg text-black-900 dark:text-slate-200">
         {{
           $t(
             'HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.BASIC_SETTINGS_PAGE.TITLE'
@@ -14,21 +16,24 @@
     >
       <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
         <div class="mb-4">
-          <label>
-            {{ $t('HELP_CENTER.PORTAL.ADD.LOGO.LABEL') }}
-          </label>
           <div class="flex items-center flex-row">
-            <thumbnail :username="name" size="56px" variant="square" />
-            <woot-button
-              v-if="false"
-              class="ml-3"
-              variant="smooth"
-              color-scheme="secondary"
-              icon="upload"
-              size="small"
-            >
-              {{ $t('HELP_CENTER.PORTAL.ADD.LOGO.UPLOAD_BUTTON') }}
-            </woot-button>
+            <woot-avatar-uploader
+              ref="imageUpload"
+              :label="$t('HELP_CENTER.PORTAL.ADD.LOGO.LABEL')"
+              :src="logoUrl"
+              @change="onFileChange"
+            />
+            <div v-if="showDeleteButton" class="avatar-delete-btn">
+              <woot-button
+                type="button"
+                color-scheme="alert"
+                variant="hollow"
+                size="small"
+                @click="deleteAvatar"
+              >
+                {{ $t('PROFILE_SETTINGS.DELETE_AVATAR') }}
+              </woot-button>
+            </div>
           </div>
           <p
             class="mt-1 mb-0 text-xs text-slate-600 dark:text-slate-400 not-italic"
@@ -72,7 +77,7 @@
         </div>
       </div>
     </div>
-    <div class="flex-end">
+    <div class="flex justify-end">
       <woot-button
         :is-loading="isSubmitting"
         :is-disabled="$v.$invalid"
@@ -87,17 +92,20 @@
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
 import { isDomain } from 'shared/helpers/Validators';
-import thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+
+import alertMixin from 'shared/mixins/alertMixin';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
 import { buildPortalURL } from 'dashboard/helper/portalHelper';
 import wootConstants from 'dashboard/constants/globals';
+import { hasValidAvatarUrl } from 'dashboard/helper/URLHelper';
+import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
+import { uploadFile } from 'dashboard/helper/uploadHelper';
 
 const { EXAMPLE_URL } = wootConstants;
+const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 
 export default {
-  components: {
-    thumbnail,
-  },
+  mixins: [alertMixin],
   props: {
     portal: {
       type: Object,
@@ -118,6 +126,10 @@ export default {
       slug: '',
       domain: '',
       alertMessage: '',
+
+      // Logouploader keys
+      avatarBlobId: '',
+      logoUrl: '',
     };
   },
   validations: {
@@ -159,6 +171,9 @@ export default {
         exampleURL: EXAMPLE_URL,
       });
     },
+    showDeleteButton() {
+      return hasValidAvatarUrl(this.logoUrl);
+    },
   },
   mounted() {
     const portal = this.portal || {};
@@ -166,6 +181,13 @@ export default {
     this.slug = portal.slug || '';
     this.domain = portal.custom_domain || '';
     this.alertMessage = '';
+    if (portal.logo) {
+      const {
+        logo: { file_url: logoURL, blob_id: blobId },
+      } = portal;
+      this.logoUrl = logoURL;
+      this.avatarBlobId = blobId;
+    }
   },
   methods: {
     onNameChange() {
@@ -181,17 +203,48 @@ export default {
         name: this.name,
         slug: this.slug,
         custom_domain: this.domain,
+        blob_id: this.avatarBlobId || null,
       };
       this.$emit('submit', portal);
+    },
+    async deleteAvatar() {
+      this.logoUrl = '';
+      this.avatarBlobId = '';
+      this.$emit('delete-logo');
+    },
+    onFileChange({ file }) {
+      if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+        this.uploadLogoToStorage(file);
+      } else {
+        this.showAlert(
+          this.$t(
+            'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.IMAGE_UPLOAD_SIZE_ERROR',
+            {
+              size: MAXIMUM_FILE_UPLOAD_SIZE,
+            }
+          )
+        );
+      }
+
+      this.$refs.imageUpload.value = '';
+    },
+    async uploadLogoToStorage(file) {
+      try {
+        const { fileUrl, blobId } = await uploadFile(file);
+        if (fileUrl) {
+          this.logoUrl = fileUrl;
+          this.avatarBlobId = blobId;
+        }
+      } catch (error) {
+        this.showAlert(
+          this.$t('HELP_CENTER.PORTAL.ADD.LOGO.IMAGE_DELETE_ERROR')
+        );
+      }
     },
   },
 };
 </script>
 <style lang="scss" scoped>
-.wizard-body {
-  @apply pt-3 border border-solid border-transparent dark:border-transparent;
-}
-
 ::v-deep {
   input {
     @apply mb-1;

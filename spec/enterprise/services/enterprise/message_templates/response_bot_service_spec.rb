@@ -8,16 +8,15 @@ RSpec.describe Enterprise::MessageTemplates::ResponseBotService, type: :service 
   let(:response_object) { instance_double(Response, id: 1, question: 'Q1', answer: 'A1') }
 
   before do
-    # Uncomment if you want to run the spec in your local machine
-    # Features::ResponseBotService.new.enable_in_installation
-    skip('Skipping since vector is not enabled in this environment') unless Features::ResponseBotService.new.vector_extension_enabled?
+    skip_unless_response_bot_enabled_test_environment
     stub_request(:post, 'https://api.openai.com/v1/embeddings').to_return(status: 200, body: {}.to_json,
                                                                           headers: { Content_Type: 'application/json' })
     create(:message, message_type: :incoming, conversation: conversation, content: 'Hi')
+    create(:message, message_type: :outgoing, conversation: conversation, content: 'Hello')
     4.times { create(:response, response_source: response_source) }
     allow(ChatGpt).to receive(:new).and_return(chat_gpt_double)
     allow(chat_gpt_double).to receive(:generate_response).and_return({ 'response' => 'some_response', 'context_ids' => Response.all.map(&:id) })
-    allow(conversation.inbox).to receive(:get_responses).and_return([response_object])
+    allow(conversation.inbox).to receive(:get_responses).with('Hi').and_return([response_object])
   end
 
   describe '#perform' do
@@ -31,6 +30,19 @@ RSpec.describe Enterprise::MessageTemplates::ResponseBotService, type: :service 
         expect(last_message.content).to include('some_response')
         expect(last_message.content).to include(Response.first.question)
         expect(last_message.content).to include('**Sources**')
+      end
+
+      it 'hands off the conversation if the response is handoff' do
+        allow(chat_gpt_double).to receive(:generate_response).and_return({ 'response' => 'conversation_handoff' })
+        expect(conversation).to receive(:bot_handoff!).and_call_original
+
+        expect do
+          service.perform
+        end.to change { conversation.messages.where(message_type: :outgoing).count }.by(1)
+
+        last_message = conversation.messages.last
+        expect(last_message.content).to eq('Transferring to another agent for further assistance.')
+        expect(conversation.status).to eq('open')
       end
     end
 
@@ -66,12 +78,13 @@ RSpec.describe Enterprise::MessageTemplates::ResponseBotService, type: :service 
     context 'when JSON::ParserError is raised' do
       it 'creates a handoff message' do
         allow(chat_gpt_double).to receive(:generate_response).and_raise(JSON::ParserError)
+        expect(conversation).to receive(:bot_handoff!).and_call_original
 
         expect do
           service.perform
         end.to change { conversation.messages.where(message_type: :outgoing).count }.by(1)
 
-        expect(conversation.messages.last.content).to eq('passing to an agent')
+        expect(conversation.messages.last.content).to eq('Transferring to another agent for further assistance.')
         expect(conversation.status).to eq('open')
       end
     end
@@ -79,6 +92,7 @@ RSpec.describe Enterprise::MessageTemplates::ResponseBotService, type: :service 
     context 'when StandardError is raised' do
       it 'captures the exception' do
         allow(chat_gpt_double).to receive(:generate_response).and_raise(StandardError)
+        expect(conversation).to receive(:bot_handoff!).and_call_original
 
         expect(ChatwootExceptionTracker).to receive(:new).and_call_original
 
@@ -86,7 +100,7 @@ RSpec.describe Enterprise::MessageTemplates::ResponseBotService, type: :service 
           service.perform
         end.to change { conversation.messages.where(message_type: :outgoing).count }.by(1)
 
-        expect(conversation.messages.last.content).to eq('passing to an agent')
+        expect(conversation.messages.last.content).to eq('Transferring to another agent for further assistance.')
         expect(conversation.status).to eq('open')
       end
     end

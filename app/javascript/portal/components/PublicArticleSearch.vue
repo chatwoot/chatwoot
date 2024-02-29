@@ -1,5 +1,5 @@
 <template>
-  <div v-on-clickaway="closeSearch" class="max-w-6xl w-full relative my-4">
+  <div v-on-clickaway="closeSearch" class="max-w-5xl w-full relative my-4">
     <public-search-input
       v-model="searchTerm"
       :search-placeholder="searchTranslations.searchPlaceholder"
@@ -82,6 +82,10 @@ export default {
     currentPage() {
       this.clearSearchTerm();
     },
+  },
+
+  beforeDestroy() {
+    clearTimeout(this.typingTimer);
   },
 
   methods: {

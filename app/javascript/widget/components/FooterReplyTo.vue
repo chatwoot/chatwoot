@@ -29,7 +29,7 @@ export default {
   },
   computed: {
     replyToAttachment() {
-      if (!this.inReplyTo?.attachments.length) {
+      if (!this.inReplyTo?.attachments?.length) {
         return '';
       }
 

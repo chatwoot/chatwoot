@@ -5,9 +5,7 @@
     <div
       class="flex-1 w-full min-w-0 flex flex-col md:flex-row items-center justify-center"
     >
-      <div
-        class="flex justify-start items-center mr-4 rtl:mr-0 rtl:ml-4 min-w-0 w-[inherit]"
-      >
+      <div class="flex justify-start items-center min-w-0 w-fit max-w-full">
         <back-button
           v-if="showBackButton"
           :back-url="backButtonUrl"
@@ -20,9 +18,11 @@
           :status="currentContact.availability_status"
         />
         <div
-          class="items-start flex flex-col ml-2 rtl:ml-0 rtl:mr-2 min-w-0 w-[inherit] overflow-hidden"
+          class="items-start flex flex-col ml-2 rtl:ml-0 rtl:mr-2 min-w-0 w-fit overflow-hidden"
         >
-          <div class="flex items-center flex-row gap-1 m-0 p-0 w-[inherit]">
+          <div
+            class="flex items-center flex-row gap-1 m-0 p-0 w-fit max-w-full"
+          >
             <woot-button
               variant="link"
               color-scheme="secondary"
@@ -30,7 +30,7 @@
               @click.prevent="$emit('contact-panel-toggle')"
             >
               <span
-                class="text-base leading-tight text-slate-900 dark:text-slate-100"
+                class="text-base leading-tight font-medium text-slate-900 dark:text-slate-100"
               >
                 {{ currentContact.name }}
               </span>
@@ -86,7 +86,8 @@ import MoreActions from './MoreActions.vue';
 import Thumbnail from '../Thumbnail.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
-import { conversationReopenTime } from 'dashboard/helper/snoozeHelpers';
+import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
+import { frontendURL } from 'dashboard/helper/URLHelper';
 
 export default {
   components: {
@@ -109,6 +110,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isInboxView: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     ...mapGetters({
@@ -123,6 +128,9 @@ export default {
         params: { accountId, inbox_id: inboxId, label, teamId },
         name,
       } = this.$route;
+      if (this.isInboxView) {
+        return frontendURL(`accounts/${accountId}/inbox`);
+      }
       return conversationListPageURL({
         accountId,
         inboxId,
@@ -150,7 +158,7 @@ export default {
       if (snoozedUntil) {
         return `${this.$t(
           'CONVERSATION.HEADER.SNOOZED_UNTIL'
-        )} ${conversationReopenTime(snoozedUntil)}`;
+        )} ${snoozedReopenTime(snoozedUntil)}`;
       }
       return this.$t('CONVERSATION.HEADER.SNOOZED_UNTIL_NEXT_REPLY');
     },

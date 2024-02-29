@@ -27,7 +27,7 @@ export const getHeaderExpiry = response =>
 
 export const setAuthCredentials = response => {
   const expiryDate = getHeaderExpiry(response);
-  Cookies.set('cw_d_session_info', response.headers, {
+  Cookies.set('cw_d_session_info', JSON.stringify(response.headers), {
     expires: differenceInDays(expiryDate, new Date()),
   });
   setUser(response.data.data, expiryDate);
@@ -44,10 +44,29 @@ export const clearLocalStorageOnLogout = () => {
 };
 
 export const deleteIndexedDBOnLogout = async () => {
-  const dbs = await window.indexedDB.databases();
-  dbs.forEach(db => {
-    window.indexedDB.deleteDatabase(db.name);
+  let dbs = [];
+  try {
+    dbs = await window.indexedDB.databases();
+    dbs = dbs.map(db => db.name);
+  } catch (e) {
+    dbs = JSON.parse(localStorage.getItem('cw-idb-names') || '[]');
+  }
+
+  dbs.forEach(dbName => {
+    const deleteRequest = window.indexedDB.deleteDatabase(dbName);
+
+    deleteRequest.onerror = event => {
+      // eslint-disable-next-line no-console
+      console.error(`Error deleting database ${dbName}.`, event);
+    };
+
+    deleteRequest.onsuccess = () => {
+      // eslint-disable-next-line no-console
+      console.log(`Database ${dbName} deleted successfully.`);
+    };
   });
+
+  localStorage.removeItem('cw-idb-names');
 };
 
 export const clearCookiesOnLogout = () => {

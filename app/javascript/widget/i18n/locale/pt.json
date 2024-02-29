@@ -80,7 +80,8 @@
     },
     "CAMPAIGN_HEADER": "Por favor, forneça seu nome e e-mail antes de iniciar a conversa",
     "IS_REQUIRED": "é obrigatório",
-    "REQUIRED": "Obrigatório"
+    "REQUIRED": "Obrigatório",
+    "REGEX_ERROR": "Por favor, introduza um valor válido"
   },
   "FILE_SIZE_LIMIT": "O ficheiro ultrapassa o tamanho limite {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {

@@ -129,13 +129,21 @@ export const agentList = agents => [
   ...(agents || []),
 ];
 
-export const getActionOptions = ({ agents, teams, labels, type }) => {
+export const getActionOptions = ({
+  agents,
+  teams,
+  labels,
+  slaPolicies,
+  type,
+}) => {
   const actionsMap = {
     assign_agent: agentList(agents),
     assign_team: teams,
     send_email_to_team: teams,
     add_label: generateConditionOptions(labels, 'title'),
+    remove_label: generateConditionOptions(labels, 'title'),
     change_priority: PRIORITY_CONDITION_VALUES,
+    add_sla: slaPolicies,
   };
   return actionsMap[type];
 };

@@ -20,9 +20,7 @@
           <div
             class="flex items-start flex-col justify-center ml-2 rtl:ml-0 rtl:mr-2"
           >
-            <h3
-              class="sub-block-title inline-block leading-[1.4] m-0 p-0 capitalize"
-            >
+            <h3 class="text-base inline-block leading-[1.4] m-0 p-0 capitalize">
               <span
                 class="text-slate-800 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis"
               >
@@ -37,7 +35,7 @@
           </div>
         </div>
         <div
-          class="items-center text-slate-700 dark:text-slate-100 flex font-semibold justify-start min-w-0 p-1 w-auto text-block-title"
+          class="items-center text-slate-700 dark:text-slate-100 flex font-semibold justify-start min-w-0 p-1 w-auto text-sm"
         >
           <span
             class="text-slate-700 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis"
@@ -46,9 +44,25 @@
           </span>
         </div>
         <div
-          class="items-center flex gap-2 justify-end min-w-[15rem]"
+          class="items-center flex gap-2 justify-end min-w-[8rem] sm:min-w-[15rem]"
           @click.stop
         >
+          <woot-button
+            v-if="isImage"
+            size="large"
+            color-scheme="secondary"
+            variant="clear"
+            icon="arrow-rotate-counter-clockwise"
+            @click="onRotate('counter-clockwise')"
+          />
+          <woot-button
+            v-if="isImage"
+            size="large"
+            color-scheme="secondary"
+            variant="clear"
+            icon="arrow-rotate-clockwise"
+            @click="onRotate('clockwise')"
+          />
           <woot-button
             size="large"
             color-scheme="secondary"
@@ -89,6 +103,7 @@
               :key="activeAttachment.message_id"
               :src="activeAttachment.data_url"
               class="modal-image skip-context-menu my-0 mx-auto"
+              :style="imageRotationStyle"
               @click.stop
             />
             <video
@@ -130,7 +145,7 @@
       </div>
       <div class="items-center flex h-16 justify-center w-full py-2 px-6">
         <div
-          class="items-center rounded-sm flex font-semibold justify-center min-w-[5rem] p-1 bg-slate-25 dark:bg-slate-800 text-slate-600 dark:text-slate-200 text-block-title"
+          class="items-center rounded-sm flex font-semibold justify-center min-w-[5rem] p-1 bg-slate-25 dark:bg-slate-800 text-slate-600 dark:text-slate-200 text-sm"
         >
           <span class="count">
             {{ `${activeImageIndex + 1} / ${allAttachments.length}` }}
@@ -186,6 +201,7 @@ export default {
         this.allAttachments.findIndex(
           attachment => attachment.message_id === this.attachment.message_id
         ) || 0,
+      activeImageRotation: 0,
     };
   },
   computed: {
@@ -232,6 +248,11 @@ export default {
       const fileName = dataUrl?.split('/').pop();
       return fileName || '';
     },
+    imageRotationStyle() {
+      return {
+        transform: `rotate(${this.activeImageRotation}deg)`,
+      };
+    },
   },
   mounted() {
     this.setImageAndVideoSrc(this.attachment);
@@ -246,6 +267,7 @@ export default {
       }
       this.activeImageIndex = index;
       this.setImageAndVideoSrc(attachment);
+      this.activeImageRotation = 0;
     },
     setImageAndVideoSrc(attachment) {
       const { file_type: type } = attachment;
@@ -279,6 +301,20 @@ export default {
       link.href = url;
       link.download = `attachment.${type}`;
       link.click();
+    },
+    onRotate(type) {
+      if (!this.isImage) {
+        return;
+      }
+
+      const rotation = type === 'clockwise' ? 90 : -90;
+
+      // Reset rotation if it is 360
+      if (Math.abs(this.activeImageRotation) === 360) {
+        this.activeImageRotation = rotation;
+      } else {
+        this.activeImageRotation += rotation;
+      }
     },
   },
 };

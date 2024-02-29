@@ -10,8 +10,10 @@
         {{ $t('HELP_CENTER.ARTICLE_SEARCH.BACK_RESULTS') }}
       </woot-button>
     </div>
-    <div class="w-full h-full overflow-auto min-h-0">
-      <iframe-loader :url="url" />
+    <div class="-ml-4 h-full overflow-y-auto">
+      <div class="w-full h-full min-h-0">
+        <iframe-loader :url="url" />
+      </div>
     </div>
 
     <div class="flex justify-end gap-2 py-2">
@@ -41,7 +43,7 @@
 import IframeLoader from 'shared/components/IframeLoader.vue';
 
 export default {
-  name: 'ChatwootSearch',
+  name: 'ArticleView',
   components: {
     IframeLoader,
   },
@@ -52,10 +54,12 @@ export default {
     },
   },
   methods: {
-    onBack() {
+    onBack(e) {
+      e.stopPropagation();
       this.$emit('back');
     },
-    onInsert() {
+    onInsert(e) {
+      e.stopPropagation();
       this.$emit('insert');
     },
   },

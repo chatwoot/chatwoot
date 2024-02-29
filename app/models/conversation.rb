@@ -6,6 +6,7 @@
 #  additional_attributes  :jsonb
 #  agent_last_seen_at     :datetime
 #  assignee_last_seen_at  :datetime
+#  cached_label_list      :string
 #  contact_last_seen_at   :datetime
 #  custom_attributes      :jsonb
 #  first_reply_created_at :datetime
@@ -60,6 +61,7 @@ class Conversation < ApplicationRecord
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
+  validates :contact_id, presence: true
   before_validation :validate_additional_attributes
   validates :additional_attributes, jsonb_attributes_length: true
   validates :custom_attributes, jsonb_attributes_length: true
@@ -88,7 +90,7 @@ class Conversation < ApplicationRecord
 
   belongs_to :account
   belongs_to :inbox
-  belongs_to :assignee, class_name: 'User', optional: true
+  belongs_to :assignee, class_name: 'User', optional: true, inverse_of: :assigned_conversations
   belongs_to :contact
   belongs_to :contact_inbox
   belongs_to :team, optional: true
@@ -102,7 +104,7 @@ class Conversation < ApplicationRecord
   has_many :attachments, through: :messages
 
   before_save :ensure_snooze_until_reset
-  before_create :mark_conversation_pending_if_bot
+  before_create :determine_conversation_status
   before_create :ensure_waiting_since
 
   after_update_commit :execute_after_update_commit_callbacks
@@ -144,10 +146,6 @@ class Conversation < ApplicationRecord
     end
   end
 
-  def update_assignee(agent = nil)
-    update!(assignee: agent)
-  end
-
   def toggle_status
     # FIXME: implement state machine with aasm
     self.status = open? ? :resolved : :open
@@ -183,6 +181,10 @@ class Conversation < ApplicationRecord
 
   def webhook_data
     Conversations::EventDataPresenter.new(self).push_data
+  end
+
+  def cached_label_list_array
+    (cached_label_list || '').split(',').map(&:strip)
   end
 
   def notifiable_assignee_change?
@@ -225,7 +227,9 @@ class Conversation < ApplicationRecord
     self.additional_attributes = {} unless additional_attributes.is_a?(Hash)
   end
 
-  def mark_conversation_pending_if_bot
+  def determine_conversation_status
+    self.status = :resolved and return if contact.blocked?
+
     # Message template hooks aren't executed for conversations from campaigns
     # So making these conversations open for agent visibility
     return if campaign.present?

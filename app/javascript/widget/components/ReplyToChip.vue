@@ -24,15 +24,24 @@ export default {
       default: () => {},
     },
   },
+  data() {
+    return {
+      timeOutID: null,
+    };
+  },
   computed: {
     replyToAttachment() {
-      if (!this.replyTo?.attachments.length) {
+      if (!this.replyTo?.attachments?.length) {
         return '';
       }
 
       const [{ file_type: fileType } = {}] = this.replyTo.attachments;
       return this.$t(`ATTACHMENTS.${fileType}.CONTENT`);
     },
+  },
+
+  beforeDestroy() {
+    clearTimeout(this.timeOutID);
   },
   methods: {
     navigateTo(id) {
@@ -41,7 +50,7 @@ export default {
         const el = document.getElementById(elementId);
         el.scrollIntoView();
         el.classList.add('bg-slate-100', 'dark:bg-slate-900');
-        setTimeout(() => {
+        this.timeOutID = setTimeout(() => {
           el.classList.remove('bg-slate-100', 'dark:bg-slate-900');
         }, 500);
       });

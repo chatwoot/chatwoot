@@ -19,6 +19,10 @@ export default {
       required: true,
       validator: value => ['left', 'right'].includes(value),
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -29,9 +33,11 @@ export default {
   },
   methods: {
     handleTouchStart(event) {
+      if (this.disabled) return;
       this.startX = event.touches[0].clientX;
     },
     handleTouchMove(event) {
+      if (this.disabled) return;
       const touchX = event.touches[0].clientX;
       let deltaX = touchX - this.startX;
 

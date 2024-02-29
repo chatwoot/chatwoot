@@ -1,7 +1,7 @@
 <template>
   <div class="w-full">
     <div
-      class="my-0 py-0 px-4 grid grid-cols-6 md:grid-cols-7 lg:grid-cols-8 gap-4 border-b border-slate-100 dark:border-slate-700 sticky top-16 bg-white dark:bg-slate-900"
+      class="my-0 py-0 px-4 grid grid-cols-6 z-10 md:grid-cols-7 lg:grid-cols-8 gap-4 border-b border-slate-100 dark:border-slate-700 sticky top-16 bg-white dark:bg-slate-900"
       :class="{ draggable: onCategoryPage }"
     >
       <div
@@ -10,17 +10,17 @@
         {{ $t('HELP_CENTER.TABLE.HEADERS.TITLE') }}
       </div>
       <div
-        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-right"
+        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-left"
       >
         {{ $t('HELP_CENTER.TABLE.HEADERS.CATEGORY') }}
       </div>
       <div
-        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-right hidden lg:block"
+        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-left hidden lg:block"
       >
         {{ $t('HELP_CENTER.TABLE.HEADERS.READ_COUNT') }}
       </div>
       <div
-        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-right"
+        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-left"
       >
         {{ $t('HELP_CENTER.TABLE.HEADERS.STATUS') }}
       </div>

@@ -25,13 +25,12 @@
       v-if="bulkActionCheck"
       :src="currentContact.thumbnail"
       :badge="inboxBadge"
-      class="columns"
       :username="currentContact.name"
       :status="currentContact.availability_status"
       size="40px"
     />
     <div
-      class="px-0 py-3 border-b group-last:border-transparent group-hover:border-transparent border-slate-50 dark:border-slate-800/75 columns"
+      class="px-0 py-3 border-b group-hover:border-transparent flex-1 border-slate-50 dark:border-slate-800/75 w-[calc(100%-40px)]"
     >
       <div class="flex justify-between">
         <inbox-name v-if="showInboxName" :inbox="inbox" />
@@ -51,7 +50,7 @@
         </div>
       </div>
       <h4
-        class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis overflow-hidden whitespace-nowrap w-[60%] text-slate-900 dark:text-slate-100"
+        class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis font-medium overflow-hidden whitespace-nowrap w-[calc(100%-70px)] text-slate-900 dark:text-slate-100"
       >
         {{ currentContact.name }}
       </h4>
@@ -175,6 +174,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    enableContextMenu: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -289,6 +292,7 @@ export default {
       this.$emit(action, this.chat.id, this.inbox.id);
     },
     openContextMenu(e) {
+      if (!this.enableContextMenu) return;
       e.preventDefault();
       this.$emit('context-menu-toggle', true);
       this.contextMenu.x = e.pageX || e.clientX;

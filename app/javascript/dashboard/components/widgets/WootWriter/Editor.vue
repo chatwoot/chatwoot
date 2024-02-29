@@ -84,7 +84,10 @@ import {
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
-import { replaceVariablesInMessage } from '@chatwoot/utils';
+import {
+  replaceVariablesInMessage,
+  createTypingIndicator,
+} from '@chatwoot/utils';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { uploadFile } from 'dashboard/helper/uploadHelper';
@@ -135,10 +138,20 @@ export default {
     // allowSignature is a kill switch, ensuring no signature methods
     // are triggered except when this flag is true
     allowSignature: { type: Boolean, default: false },
+    channelType: { type: String, default: '' },
     showImageResizeToolbar: { type: Boolean, default: false }, // A kill switch to show or hide the image toolbar
   },
   data() {
     return {
+      typingIndicator: createTypingIndicator(
+        () => {
+          this.$emit('typing-on');
+        },
+        () => {
+          this.$emit('typing-off');
+        },
+        TYPING_INDICATOR_IDLE_TIME
+      ),
       showUserMentions: false,
       showCannedMenu: false,
       showVariables: false,
@@ -266,8 +279,11 @@ export default {
     sendWithSignature() {
       // this is considered the source of truth, we watch this property
       // on change, we toggle the signature in the editor
-      const { send_with_signature: isEnabled } = this.uiSettings;
-      return isEnabled && this.allowSignature && !this.isPrivate;
+      if (this.allowSignature && !this.isPrivate && this.channelType) {
+        return this.fetchSignatureFlagFromUiSettings(this.channelType);
+      }
+
+      return false;
     },
   },
   watch: {
@@ -442,7 +458,7 @@ export default {
             this.onFocus();
           },
           click: () => {
-            // this.isEditorMouseFocusedOnAnImage(); Enable it when the backend supports for message resize is done.
+            this.isEditorMouseFocusedOnAnImage();
           },
           blur: () => {
             this.onBlur();
@@ -634,15 +650,6 @@ export default {
     hideMentions() {
       this.showUserMentions = false;
     },
-    resetTyping() {
-      this.$emit('typing-off');
-      this.idleTimer = null;
-    },
-    turnOffIdleTimer() {
-      if (this.idleTimer) {
-        clearTimeout(this.idleTimer);
-      }
-    },
     handleLineBreakWhenEnterToSendEnabled(event) {
       if (
         hasPressedEnterAndNotCmdOrShift(event) &&
@@ -662,15 +669,8 @@ export default {
       }
     },
     onKeyup() {
-      if (!this.idleTimer) {
-        this.$emit('typing-on');
-      }
-      this.turnOffIdleTimer();
-      this.idleTimer = setTimeout(
-        () => this.resetTyping(),
-        TYPING_INDICATOR_IDLE_TIME
-      );
-      // this.updateImgToolbarOnDelete(); Enable it when the backend supports for message resize is done.
+      this.typingIndicator.start();
+      this.updateImgToolbarOnDelete();
     },
     onKeydown(event) {
       if (this.isEnterToSendEnabled()) {
@@ -681,8 +681,7 @@ export default {
       }
     },
     onBlur() {
-      this.turnOffIdleTimer();
-      this.resetTyping();
+      this.typingIndicator.stop();
       this.$emit('blur');
     },
     onFocus() {
@@ -754,7 +753,7 @@ export default {
 }
 
 .ProseMirror-prompt {
-  @apply z-50 bg-slate-25 dark:bg-slate-700 rounded-md border border-solid border-slate-75 dark:border-slate-800;
+  @apply z-[9999] bg-slate-25 dark:bg-slate-700 rounded-md border border-solid border-slate-75 dark:border-slate-800 shadow-lg;
 
   h5 {
     @apply dark:text-slate-25 text-slate-800;

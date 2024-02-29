@@ -1,5 +1,7 @@
 import axios from 'axios';
-import actions from '../../conversations/actions';
+import actions, {
+  hasMessageFailedWithExternalError,
+} from '../../conversations/actions';
 import types from '../../../mutation-types';
 const dataToSend = {
   payload: [
@@ -17,6 +19,41 @@ const commit = jest.fn();
 const dispatch = jest.fn();
 global.axios = axios;
 jest.mock('axios');
+
+describe('#hasMessageFailedWithExternalError', () => {
+  it('returns false if message is sent', () => {
+    const pendingMessage = {
+      status: 'sent',
+      content_attributes: {},
+    };
+    expect(hasMessageFailedWithExternalError(pendingMessage)).toBe(false);
+  });
+  it('returns false if status is not failed', () => {
+    const pendingMessage = {
+      status: 'progress',
+      content_attributes: {},
+    };
+    expect(hasMessageFailedWithExternalError(pendingMessage)).toBe(false);
+  });
+
+  it('returns false if status is failed but no external error', () => {
+    const pendingMessage = {
+      status: 'failed',
+      content_attributes: {},
+    };
+    expect(hasMessageFailedWithExternalError(pendingMessage)).toBe(false);
+  });
+
+  it('returns true if status is failed and has external error', () => {
+    const pendingMessage = {
+      status: 'failed',
+      content_attributes: {
+        external_error: 'error',
+      },
+    };
+    expect(hasMessageFailedWithExternalError(pendingMessage)).toBe(true);
+  });
+});
 
 describe('#actions', () => {
   describe('#getConversation', () => {
@@ -135,6 +172,26 @@ describe('#actions', () => {
         {
           commit,
           rootState: { route: { name: 'conversation_mentions' } },
+          dispatch,
+          state: { currentInbox: 1, appliedFilters: [{ id: 'random-filter' }] },
+        },
+        conversation
+      );
+      expect(commit.mock.calls).toEqual([]);
+      expect(dispatch.mock.calls).toEqual([]);
+    });
+
+    it('doesnot send mutation if the view is conversation folders', () => {
+      const conversation = {
+        id: 1,
+        messages: [],
+        meta: { sender: { id: 1, name: 'john-doe' } },
+        inbox_id: 1,
+      };
+      actions.addConversation(
+        {
+          commit,
+          rootState: { route: { name: 'folder_conversations' } },
           dispatch,
           state: { currentInbox: 1, appliedFilters: [{ id: 'random-filter' }] },
         },

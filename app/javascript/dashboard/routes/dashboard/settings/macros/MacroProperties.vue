@@ -18,7 +18,7 @@
       >
         {{ $t('MACROS.EDITOR.VISIBILITY.LABEL') }}
       </p>
-      <div class="grid grid-cols-2 gap-3">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
         <button
           class="p-2 relative rounded-md border border-solid text-left cursor-default"
           :class="isActive('global')"
@@ -71,10 +71,11 @@
         </p>
       </div>
     </div>
-    <div class="mt-auto">
+    <div class="mt-auto w-full">
       <woot-button
         size="expanded"
         color-scheme="success"
+        class="w-full"
         @click="$emit('submit')"
       >
         {{ $t('MACROS.HEADER_BTN_TXT_SAVE') }}
