@@ -45,9 +45,9 @@
         </div>
       </div>
     </span>
-    <span class="flex items-center truncate col-span-2">
+    <span class="flex items-center col-span-2">
       <router-link
-        class="text-sm hover:underline p-0.5 hover:bg-slate-25 hover:rounded-md"
+        class="text-sm hover:underline p-0.5 truncate hover:bg-slate-25 hover:rounded-md"
         :to="getCategoryRoute(category.slug)"
       >
         <span :title="category.name" class="">

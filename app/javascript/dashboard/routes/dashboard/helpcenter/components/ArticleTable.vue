@@ -1,7 +1,7 @@
 <template>
   <div class="flex-1">
     <div
-      class="hidden lg:grid py-0 px-6 h-12 content-center grid-cols-12 gap-4 border-b border-slate-50 dark:border-slate-700 sticky top-16 bg-white dark:bg-slate-900"
+      class="hidden lg:grid py-0 px-6 h-12 content-center grid-cols-12 z-10 gap-4 border-b border-slate-50 dark:border-slate-700 sticky top-16 bg-white dark:bg-slate-900"
       :class="{ draggable: onCategoryPage }"
     >
       <div
