@@ -9,6 +9,7 @@
       <img
         v-show="shouldShowImage"
         :src="src"
+        draggable="false"
         :class="thumbnailClass"
         @load="onImgLoad"
         @error="onImgError"

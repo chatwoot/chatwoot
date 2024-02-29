@@ -31,7 +31,7 @@
               @click.prevent="$emit('contact-panel-toggle')"
             >
               <span
-                class="text-base leading-tight text-slate-900 dark:text-slate-100"
+                class="text-base leading-tight font-medium text-slate-900 dark:text-slate-100"
               >
                 {{ currentContact.name }}
               </span>

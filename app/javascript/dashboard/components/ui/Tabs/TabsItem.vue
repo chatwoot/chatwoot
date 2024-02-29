@@ -7,7 +7,7 @@
   >
     <a @click="onTabClick">
       {{ name }}
-      <div v-if="showBadge" class="badge">
+      <div v-if="showBadge" class="badge min-w-[20px]">
         <span>
           {{ getItemCount }}
         </span>

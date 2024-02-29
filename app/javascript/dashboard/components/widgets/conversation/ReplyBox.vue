@@ -1202,10 +1202,28 @@ export default {
 }
 
 .reply-box {
+  transition:
+    box-shadow 0.35s cubic-bezier(0.37, 0, 0.63, 1),
+    height 2s cubic-bezier(0.37, 0, 0.63, 1);
+
   @apply relative border-t border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-900;
 
+  &.is-focused {
+    box-shadow:
+      0 1px 3px 0 rgba(0, 0, 0, 0.1),
+      0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
+
   &.is-private {
-    @apply bg-yellow-50 dark:bg-yellow-200;
+    @apply bg-yellow-100 dark:bg-yellow-800;
+
+    .reply-box__top {
+      @apply bg-yellow-100 dark:bg-yellow-800;
+
+      > input {
+        @apply bg-yellow-100 dark:bg-yellow-800;
+      }
+    }
   }
 }
 .send-button {
@@ -1214,6 +1232,10 @@ export default {
 
 .reply-box__top {
   @apply relative py-0 px-4 -mt-px border-t border-solid border-slate-50 dark:border-slate-700;
+
+  textarea {
+    @apply shadow-none border-transparent bg-transparent m-0 max-h-60 min-h-[3rem] pt-4 pb-0 px-0 resize-none;
+  }
 }
 
 .emoji-dialog {
