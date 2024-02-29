@@ -23,17 +23,15 @@ module FilterHelper
   end
 
   def build_condition_query_string(current_filter, query_hash, current_index)
-    attribute_key = query_hash[:attribute_key]
-    query_operator = query_hash[:query_operator]
     filter_operator_value = filter_operation(query_hash, current_index)
 
     return handle_nil_filter(query_hash, current_index) if current_filter.nil?
 
     case current_filter['attribute_type']
     when 'additional_attributes'
-      handle_additional_attributes(attribute_key, filter_operator_value, query_operator)
+      handle_additional_attributes(query_hash, filter_operator_value)
     else
-      handle_standard_attributes(current_filter, attribute_key, filter_operator_value, query_operator)
+      handle_standard_attributes(current_filter, query_hash, current_index, filter_operator_value)
     end
   end
 
@@ -42,31 +40,31 @@ module FilterHelper
     custom_attribute_query(query_hash, attribute_type, current_index)
   end
 
-  def handle_additional_attributes(attribute_key, filter_operator_value, query_operator)
-    " #{filter_config[:table_name]}.additional_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
+  def handle_additional_attributes(query_hash, filter_operator_value)
+    " #{filter_config[:table_name]}.additional_attributes ->> '#{query_hash[:attribute_key]}' #{filter_operator_value} #{query_has[:query_operator]} "
   end
 
-  def handle_standard_attributes(current_filter, attribute_key, filter_operator_value, query_operator)
+  def handle_standard_attributes(current_filter, query_hash, current_index, filter_operator_value)
     case current_filter['data_type']
     when 'date'
-      date_filter(current_filter, attribute_key, filter_operator_value, query_operator)
+      date_filter(current_filter, query_hash, filter_operator_value)
     when 'labels'
       tag_filter_query(query_hash, current_index)
     else
-      default_filter(attribute_key, filter_operator_value, query_operator)
+      default_filter(query_hash, filter_operator_value)
     end
   end
 
-  def date_filter(current_filter, attribute_key, filter_operator_value, query_operator)
-    "(#{filter_config[:table_name]}.#{attribute_key})::#{current_filter['data_type']} " \
-      "#{filter_operator_value}#{current_filter['data_type']} #{query_operator}"
+  def date_filter(current_filter, query_hash, filter_operator_value)
+    "(#{filter_config[:table_name]}.#{query_hash[:attribute_key]})::#{current_filter['data_type']} " \
+      "#{filter_operator_value}#{current_filter['data_type']} #{query_hash[:query_operator]}"
   end
 
-  def default_filter(attribute_key, filter_operator_value, query_operator)
+  def default_filter(query_hash, filter_operator_value)
     if filter_config[:entity] == 'Contact'
-      "LOWER(#{filter_config[:table_name]}.#{attribute_key}) #{filter_operator_value} #{query_operator}"
+      "LOWER(#{filter_config[:table_name]}.#{query_hash[:attribute_key]}) #{filter_operator_value} #{query_hash[:query_operator]}"
     else
-      "#{filter_config[:table_name]}.#{attribute_key} #{filter_operator_value} #{query_operator}"
+      "#{filter_config[:table_name]}.#{query_hash[:attribute_key]} #{filter_operator_value} #{query_hash[:query_operator]}"
     end
   end
 end
