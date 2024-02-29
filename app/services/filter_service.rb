@@ -12,8 +12,8 @@ class FilterService
   def initialize(params, user)
     @params = params
     @user = user
-    file = File.read('./lib/filters/filter_keys.json')
-    @filters = JSON.parse(file)
+    file = File.read('./lib/filters/filter_keys.yml')
+    @filters = YAML.safe_load(file)
     @query_string = ''
     @filter_values = {}
   end

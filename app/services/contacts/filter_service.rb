@@ -17,17 +17,18 @@ class Contacts::FilterService < FilterService
 
     return custom_attribute_query(query_hash, 'contact_attribute', current_index) if current_filter.nil?
 
-    case current_filter['attribute_type']
-    when 'additional_attributes'
-      "  LOWER(contacts.additional_attributes ->> '#{attribute_key}') #{filter_operator_value} #{query_operator} "
-    when 'date_attributes'
+    # Handling Additional Attributes Separately
+    if current_filter['attribute_type'] == 'additional_attributes'
+      return " LOWER(contacts.additional_attributes ->> '#{attribute_key}') #{filter_operator_value} #{query_operator} "
+    end
+
+    case current_filter['data_type']
+    when 'date'
       " (contacts.#{attribute_key})::#{current_filter['data_type']} #{filter_operator_value}#{current_filter['data_type']} #{query_operator} "
-    when 'standard'
-      if attribute_key == 'labels'
-        " #{tag_filter_query('Contact', 'contacts', query_hash, current_index)} "
-      else
-        " LOWER(contacts.#{attribute_key}) #{filter_operator_value} #{query_operator} "
-      end
+    when 'labels'
+      " #{tag_filter_query('Contact', 'contacts', query_hash, current_index)} "
+    else
+      " LOWER(contacts.#{attribute_key}) #{filter_operator_value} #{query_operator} "
     end
   end
 
