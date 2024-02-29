@@ -109,7 +109,9 @@ class FilterService
     ]
   end
 
-  def tag_filter_query(model_name, table_name, query_hash, current_index)
+  def tag_filter_query(query_hash, current_index)
+    model_name = filter_config[:entity]
+    table_name = filter_config[:table_name]
     query_operator = query_hash[:query_operator]
     @filter_values["value_#{current_index}"] = filter_values(query_hash)
 

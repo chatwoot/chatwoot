@@ -22,28 +22,6 @@ class Conversations::FilterService < FilterService
     }
   end
 
-  def build_condition_query_string(current_filter, query_hash, current_index)
-    attribute_key = query_hash[:attribute_key]
-    query_operator = query_hash[:query_operator]
-    filter_operator_value = filter_operation(query_hash, current_index)
-
-    return custom_attribute_query(query_hash, 'conversation_attribute', current_index) if current_filter.nil?
-
-    # Handling Additional Attributes Separately
-    if current_filter['attribute_type'] == 'additional_attributes'
-      return " conversations.additional_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
-    end
-
-    case current_filter['data_type']
-    when 'date'
-      " (conversations.#{attribute_key})::#{current_filter['data_type']} #{filter_operator_value}#{current_filter['data_type']} #{query_operator} "
-    when 'labels'
-      " #{tag_filter_query('Conversation', 'conversations', query_hash, current_index)} "
-    else
-      " conversations.#{attribute_key} #{filter_operator_value} #{query_operator} "
-    end
-  end
-
   def base_relation
     @account.conversations.includes(
       :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :messages, :contact_inbox
@@ -52,6 +30,13 @@ class Conversations::FilterService < FilterService
 
   def current_page
     @params[:page] || 1
+  end
+
+  def filter_config
+    {
+      entity: 'Conversation',
+      table_name: 'conversations'
+    }
   end
 
   def conversations
