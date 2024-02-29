@@ -46,8 +46,13 @@ module FilterHelper
   end
 
   def handle_additional_attributes(query_hash, filter_operator_value)
-    " #{filter_config[:table_name]}.additional_attributes ->> '#{query_hash[:attribute_key]}' " \
-      "#{filter_operator_value} #{query_hash[:query_operator]} "
+    if filter_config[:entity] == 'Contact'
+      "LOWER(#{filter_config[:table_name]}.additional_attributes ->> '#{query_hash[:attribute_key]}') " \
+        "#{filter_operator_value} #{query_hash[:query_operator]}"
+    else
+      "#{filter_config[:table_name]}.additional_attributes ->> '#{query_hash[:attribute_key]}' " \
+        "#{filter_operator_value} #{query_hash[:query_operator]} "
+    end
   end
 
   def handle_standard_attributes(current_filter, query_hash, current_index, filter_operator_value)

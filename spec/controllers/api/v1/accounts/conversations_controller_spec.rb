@@ -183,11 +183,7 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
         response_data = JSON.parse(response.body, symbolize_names: true)
-        expect(response_data[:error]).to eq(
-          'Invalid attribute key. The key should be one of [status,assignee_id,contact_id,inbox_id,team_id,' \
-          'display_id,campaign_id,labels,browser_language,conversation_language,country_code,referer,created_at,' \
-          'last_activity_at,mail_subject] or a custom attribute defined in the account.'
-        )
+        expect(response_data[:error]).to include('Invalid attribute key - [phone_number]')
       end
 
       it 'returns error if the filters contain invalid operator' do

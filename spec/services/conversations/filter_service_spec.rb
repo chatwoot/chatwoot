@@ -291,6 +291,11 @@ describe Conversations::FilterService do
       end
 
       it 'filter by custom_attributes and additional_attributes' do
+        conversations = user_1.conversations
+        conversations[0].update!(additional_attributes: { 'browser_language': 'en' }, custom_attributes: { conversation_type: 'silver' })
+        conversations[1].update!(additional_attributes: { 'browser_language': 'en' }, custom_attributes: { conversation_type: 'platinum' })
+        conversations[2].update!(additional_attributes: { 'browser_language': 'tr' }, custom_attributes: { conversation_type: 'platinum' })
+
         params[:payload] = [
           {
             attribute_key: 'conversation_type',

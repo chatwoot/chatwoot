@@ -158,9 +158,9 @@ class FilterService
     table_name = attribute_model == 'conversation_attribute' ? 'conversations' : 'contacts'
 
     query = if attribute_data_type == 'text'
-              "  LOWER(#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
+              "LOWER(#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
             else
-              "  (#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
+              "(#{table_name}.custom_attributes ->> '#{@attribute_key}')::#{attribute_data_type} #{filter_operator_value} #{query_operator} "
             end
 
     query + not_in_custom_attr_query(table_name, query_hash, attribute_data_type)
@@ -200,7 +200,7 @@ class FilterService
 
   def query_builder(model_filters)
     @params[:payload].each_with_index do |query_hash, current_index|
-      @query_string += build_condition_query(model_filters, query_hash, current_index)
+      @query_string += " #{build_condition_query(model_filters, query_hash, current_index).strip}"
     end
     base_relation.where(@query_string, @filter_values.with_indifferent_access)
   end
