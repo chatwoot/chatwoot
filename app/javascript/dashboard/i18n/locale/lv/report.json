@@ -37,7 +37,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Klienta gaidīšanas laiks",
-        "TOOLTIP_TEXT": "Gaidīšanas laiks ir %{metricValue} (pamatojoties uz %{conversationCount} sarunām)"
+        "TOOLTIP_TEXT": "Gaidīšanas laiks ir %{metricValue} (pamatojoties uz %{conversationCount} atbildēm)"
       }
     },
     "DATE_RANGE_OPTIONS": {
