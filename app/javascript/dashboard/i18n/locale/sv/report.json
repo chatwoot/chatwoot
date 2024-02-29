@@ -37,7 +37,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Väntetiden är %{metricValue} (baserat på %{conversationCount} svar)"
       }
     },
     "DATE_RANGE_OPTIONS": {
