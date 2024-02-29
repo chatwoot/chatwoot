@@ -37,7 +37,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Время ожидания клиента",
-        "TOOLTIP_TEXT": "Время ожидания %{metricValue} (на основе %{conversationCount} сообщений)"
+        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
       }
     },
     "DATE_RANGE_OPTIONS": {
