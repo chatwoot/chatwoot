@@ -12,7 +12,7 @@ services:
         RAILS_SERVE_STATIC_FILES: 'false'
     tty: true
     stdin_open: true
-    image: chatwoot:development
+    image: chatwoot/chatwoot:develop
     env_file: .env
 
   rails:
