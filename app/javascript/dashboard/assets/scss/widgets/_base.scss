@@ -29,6 +29,12 @@ hr {
   @apply clear-both max-w-full h-0 my-5 mx-0 border-slate-300 dark:border-slate-600;
 }
 
+ul,
+ol,
+dl {
+  @apply mb-2 list-disc list-outside leading-[1.65];
+}
+
 // Form elements
 label {
   @apply text-slate-800 dark:text-slate-200 block m-0 leading-7 text-sm font-medium;
