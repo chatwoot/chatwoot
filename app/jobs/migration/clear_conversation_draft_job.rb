@@ -6,11 +6,13 @@ class Migration::ClearConversationDraftJob < ApplicationJob
     account = Account.find_by(id: 1)
 
     counter = 0
-    account.conversations.each do |convo|
-      key = format(Redis::Alfred::CONVERSATION_DRAFT_MESSAGE, conversation_id: convo.id, account_id: account.id)
-      convo.clear_draft_message
-      counter += 1
-      print '.'
+    if account.present?
+      account.conversations.each do |convo|
+        key = format(Redis::Alfred::CONVERSATION_DRAFT_MESSAGE, conversation_id: convo.id, account_id: account.id)
+        convo.clear_draft_message
+        counter += 1
+        print '.'
+      end
     end
 
     puts "\ncleared_conversation_drafts: #{counter}"

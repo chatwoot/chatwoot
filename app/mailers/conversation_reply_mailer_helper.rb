@@ -21,6 +21,12 @@ module ConversationReplyMailerHelper
 
     Rails.logger.info("Email sent from #{email_from} to #{to_emails} with subject #{mail_subject}")
 
+    if @attachments.present?
+      @attachments.each do |attachment|
+        attachments[attachment.file.filename.to_s] = attachment.file.download
+      end
+    end
+
     mail(@options)
   end
 
