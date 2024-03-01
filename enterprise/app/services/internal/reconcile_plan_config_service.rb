@@ -5,7 +5,8 @@ class Internal::ReconcilePlanConfigService
 
     create_premium_config_reset_warning if premium_config_reset_required?
 
-    reconcile_premium_config
+    # We will have this enabled in the future
+    # reconcile_premium_config
     reconcile_premium_features
   end
 

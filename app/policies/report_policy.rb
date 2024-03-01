@@ -3,5 +3,3 @@ class ReportPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 end
-
-ReportPolicy.prepend_mod_with('ReportPolicy')

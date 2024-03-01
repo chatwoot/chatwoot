@@ -1,77 +1,127 @@
+<template>
+  <section class="flex w-full h-full bg-white dark:bg-slate-900">
+    <inbox-list
+      v-show="showConversationList"
+      :conversation-id="conversationId"
+      :is-on-expanded-layout="isOnExpandedLayout"
+    />
+    <div
+      v-if="showInboxMessageView"
+      class="flex flex-col h-full"
+      :class="isOnExpandedLayout ? 'w-full' : 'w-[calc(100%-360px)]'"
+    >
+      <inbox-item-header
+        :total-length="totalNotifications"
+        :current-index="activeNotificationIndex"
+        :active-notification="activeNotification"
+        @next="onClickNext"
+        @prev="onClickPrev"
+      />
+      <conversation-box
+        class="h-[calc(100%-56px)]"
+        is-inbox-view
+        :inbox-id="inboxId"
+        :is-contact-panel-open="isContactPanelOpen"
+        :is-on-expanded-layout="isOnExpandedLayout"
+        @contact-panel-toggle="onToggleContactPanel"
+      />
+    </div>
+    <div
+      v-if="!showInboxMessageView && !isOnExpandedLayout"
+      class="text-center bg-slate-25 dark:bg-slate-800 justify-center w-full h-full flex items-center"
+    >
+      <span v-if="uiFlags.isFetching" class="spinner mt-4 mb-4" />
+      <div v-else class="flex flex-col items-center gap-2">
+        <fluent-icon
+          icon="mail-inbox"
+          size="40"
+          class="text-slate-600 dark:text-slate-400"
+        />
+        <span class="text-slate-500 text-sm font-medium dark:text-slate-300">
+          {{ $t('INBOX.LIST.NOTE') }}
+        </span>
+      </div>
+    </div>
+  </section>
+</template>
+
 <script>
 import { mapGetters } from 'vuex';
-import { useTrack } from 'dashboard/composables';
+import InboxList from './InboxList.vue';
 import InboxItemHeader from './components/InboxItemHeader.vue';
 import ConversationBox from 'dashboard/components/widgets/conversation/ConversationBox.vue';
-import InboxEmptyState from './InboxEmptyState.vue';
-import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
-import { useUISettings } from 'dashboard/composables/useUISettings';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import wootConstants from 'dashboard/constants/globals';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
-import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
+    InboxList,
     InboxItemHeader,
-    InboxEmptyState,
     ConversationBox,
-    Spinner,
   },
-  setup() {
-    const { uiSettings, updateUISettings } = useUISettings();
-
-    return {
-      uiSettings,
-      updateUISettings,
-    };
-  },
-  data() {
-    return {
-      isConversationLoading: false,
-    };
+  mixins: [uiSettingsMixin],
+  props: {
+    inboxId: {
+      type: [String, Number],
+      default: 0,
+    },
+    conversationId: {
+      type: [String, Number],
+      default: 0,
+    },
   },
   computed: {
     ...mapGetters({
-      notification: 'notifications/getFilteredNotifications',
+      currentAccountId: 'getCurrentAccountId',
+      notifications: 'notifications/getNotifications',
       currentChat: 'getSelectedChat',
-      activeNotificationById: 'notifications/getNotificationById',
-      conversationById: 'getConversationById',
+      allConversation: 'getAllConversations',
       uiFlags: 'notifications/getUIFlags',
-      meta: 'notifications/getMeta',
     }),
-    notifications() {
-      return this.notification({
-        sortOrder: this.activeSortOrder,
-      });
-    },
-    inboxId() {
-      return Number(this.$route.params.inboxId);
-    },
-    notificationId() {
-      return Number(this.$route.params.notification_id);
-    },
     activeNotification() {
-      return this.activeNotificationById(this.notificationId);
-    },
-    conversationId() {
-      return this.activeNotification?.primary_actor?.id;
-    },
-    totalNotificationCount() {
-      return this.meta.count;
-    },
-    showEmptyState() {
-      return (
-        !this.conversationId ||
-        (!this.notifications?.length && this.uiFlags.isFetching)
+      return this.notifications.find(
+        n => n.primary_actor.id === Number(this.conversationId)
       );
     },
-    activeNotificationIndex() {
-      return this.notifications?.findIndex(n => n.id === this.notificationId);
+    isInboxViewEnabled() {
+      return this.$store.getters['accounts/isFeatureEnabledGlobally'](
+        this.currentAccountId,
+        FEATURE_FLAGS.INBOX_VIEW
+      );
     },
-    activeSortOrder() {
-      const { inbox_filter_by: filterBy = {} } = this.uiSettings;
-      const { sort_by: sortBy } = filterBy;
-      return sortBy || 'desc';
+    showConversationList() {
+      return this.isOnExpandedLayout ? !this.conversationId : true;
+    },
+    isFetchingInitialData() {
+      return this.uiFlags.isFetching && !this.notifications.length;
+    },
+    showInboxMessageView() {
+      return (
+        Boolean(this.conversationId) &&
+        Boolean(this.currentChat.id) &&
+        !this.isFetchingInitialData
+      );
+    },
+    totalNotifications() {
+      return this.notifications?.length ?? 0;
+    },
+    activeNotificationIndex() {
+      const conversationId = Number(this.conversationId);
+      const notificationIndex = this.notifications.findIndex(
+        n => n.primary_actor.id === conversationId
+      );
+      return notificationIndex >= 0 ? notificationIndex + 1 : 0;
+    },
+    isOnExpandedLayout() {
+      const {
+        LAYOUT_TYPES: { CONDENSED },
+      } = wootConstants;
+      const { conversation_display_type: conversationDisplayType = CONDENSED } =
+        this.uiSettings;
+      return conversationDisplayType !== CONDENSED;
     },
     isContactPanelOpen() {
       if (this.currentChat.id) {
@@ -85,29 +135,29 @@ export default {
   watch: {
     conversationId: {
       immediate: true,
-      handler(newVal, oldVal) {
-        if (newVal !== oldVal) {
-          this.fetchConversationById();
-        }
+      handler() {
+        this.fetchConversationById();
       },
     },
   },
   mounted() {
+    // Open inbox view if inbox view feature is enabled, else redirect to dashboard
+    // TODO: Remove this code once inbox view feature is enabled for all accounts
+    if (!this.isInboxViewEnabled) {
+      this.$router.push({
+        name: 'home',
+      });
+    }
     this.$store.dispatch('agents/get');
   },
   methods: {
     async fetchConversationById() {
-      if (!this.notificationId || !this.conversationId) return;
-      this.$store.dispatch('clearSelectedState');
-      const existingChat = this.findConversation();
-      if (existingChat) {
-        this.setActiveChat(existingChat);
-        return;
+      if (!this.conversationId) return;
+      const chat = this.findConversation();
+      if (!chat) {
+        await this.$store.dispatch('getConversation', this.conversationId);
       }
-      this.isConversationLoading = true;
-      await this.$store.dispatch('getConversation', this.conversationId);
       this.setActiveChat();
-      this.isConversationLoading = false;
     },
     setActiveChat() {
       const selectedConversation = this.findConversation();
@@ -115,51 +165,41 @@ export default {
       this.$store
         .dispatch('setActiveChat', { data: selectedConversation })
         .then(() => {
-          emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+          bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
         });
     },
     findConversation() {
-      return this.conversationById(this.conversationId);
+      const conversationId = Number(this.conversationId);
+      return this.allConversation.find(c => c.id === conversationId);
     },
     navigateToConversation(activeIndex, direction) {
-      let updatedIndex;
-      if (direction === 'prev' && activeIndex) {
-        updatedIndex = activeIndex - 1;
-      } else if (
-        direction === 'next' &&
-        activeIndex < this.totalNotificationCount
-      ) {
-        updatedIndex = activeIndex + 1;
-      }
-      const targetNotification = this.notifications[updatedIndex];
+      const indexOffset = direction === 'next' ? 0 : -2;
+      const targetNotification = this.notifications[activeIndex + indexOffset];
       if (targetNotification) {
-        this.openNotification(targetNotification);
+        const {
+          id,
+          primary_actor_id: primaryActorId,
+          primary_actor_type: primaryActorType,
+          primary_actor: { id: conversationId, meta: { unreadCount } = {} },
+          notification_type: notificationType,
+        } = targetNotification;
+
+        this.$track(INBOX_EVENTS.OPEN_CONVERSATION_VIA_INBOX, {
+          notificationType,
+        });
+
+        this.$store.dispatch('notifications/read', {
+          id,
+          primaryActorId,
+          primaryActorType,
+          unreadCount,
+        });
+
+        this.$router.push({
+          name: 'inbox_view_conversation',
+          params: { conversation_id: conversationId },
+        });
       }
-    },
-    openNotification(notification) {
-      const {
-        id,
-        primary_actor_id: primaryActorId,
-        primary_actor_type: primaryActorType,
-        primary_actor: { meta: { unreadCount } = {} },
-        notification_type: notificationType,
-      } = notification;
-
-      useTrack(INBOX_EVENTS.OPEN_CONVERSATION_VIA_INBOX, {
-        notificationType,
-      });
-
-      this.$store.dispatch('notifications/read', {
-        id,
-        primaryActorId,
-        primaryActorType,
-        unreadCount,
-      });
-
-      this.$router.push({
-        name: 'inbox_view_conversation',
-        params: { notification_id: id },
-      });
     },
     onClickNext() {
       this.navigateToConversation(this.activeNotificationIndex, 'next');
@@ -175,37 +215,3 @@ export default {
   },
 };
 </script>
-
-<template>
-  <div class="h-full w-full xl:w-[calc(100%-400px)]">
-    <div v-if="showEmptyState" class="flex w-full h-full">
-      <InboxEmptyState
-        :empty-state-message="$t('INBOX.LIST.NO_MESSAGES_AVAILABLE')"
-      />
-    </div>
-    <div v-else class="flex flex-col w-full h-full">
-      <InboxItemHeader
-        :total-length="totalNotificationCount"
-        :current-index="activeNotificationIndex"
-        :active-notification="activeNotification"
-        @next="onClickNext"
-        @prev="onClickPrev"
-      />
-      <div
-        v-if="isConversationLoading"
-        class="flex items-center h-[calc(100%-56px)] my-4 justify-center bg-n-solid-1"
-      >
-        <Spinner class="text-n-brand" />
-      </div>
-      <ConversationBox
-        v-else
-        class="h-[calc(100%-56px)] [&.conversation-details-wrap]:!border-0"
-        is-inbox-view
-        :inbox-id="inboxId"
-        :is-contact-panel-open="isContactPanelOpen"
-        :is-on-expanded-layout="false"
-        @contact-panel-toggle="onToggleContactPanel"
-      />
-    </div>
-  </div>
-</template>

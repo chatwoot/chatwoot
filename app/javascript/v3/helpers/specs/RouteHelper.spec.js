@@ -10,10 +10,10 @@ jest.mock('dashboard/store/utils/api', () => ({
 jest.mock('../CommonHelper', () => ({ replaceRouteWithReload: jest.fn() }));
 
 jest.mock('js-cookie', () => ({
-  getJSON: jest.fn(),
+  get: jest.fn(),
 }));
 
-Cookies.getJSON.mockReturnValueOnce(true).mockReturnValue(false);
+Cookies.get.mockReturnValueOnce(true).mockReturnValue(false);
 describe('#validateRouteAccess', () => {
   it('reset cookies and continues to the login page if the SSO parameters are present', () => {
     validateRouteAccess(
@@ -40,7 +40,7 @@ describe('#validateRouteAccess', () => {
   });
 
   it('redirects to dashboard if auth cookie is present', () => {
-    Cookies.getJSON.mockImplementation(() => true);
+    Cookies.get.mockImplementation(() => true);
     validateRouteAccess({ name: 'login' }, next);
     expect(clearBrowserSessionCookies).not.toHaveBeenCalled();
     expect(replaceRouteWithReload).toHaveBeenCalledWith('/app/');

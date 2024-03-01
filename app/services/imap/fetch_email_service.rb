@@ -1,5 +1,5 @@
 class Imap::FetchEmailService < Imap::BaseFetchEmailService
-  def fetch_emails
+  def perform
     fetch_mail_for_channel
   end
 

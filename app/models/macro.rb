@@ -21,7 +21,7 @@ class Macro < ApplicationRecord
 
   belongs_to :account
   belongs_to :created_by,
-             class_name: :User, optional: true
+             class_name: :User, optional: true, inverse_of: :macros
   belongs_to :updated_by,
              class_name: :User, optional: true
   has_many_attached :files

@@ -61,10 +61,9 @@ RSpec.describe 'Accounts API', type: :request do
                params: params,
                as: :json
 
-          expect(AccountBuilder).to have_received(:new).with(params.merge(user_password: params[:password]))
-          expect(account_builder).to have_received(:perform)
+          expect(AccountBuilder).not_to have_received(:new)
           expect(response).to have_http_status(:forbidden)
-          expect(response.body).to eq({ message: I18n.t('errors.signup.failed') }.to_json)
+          expect(response.body).to eq({ message: I18n.t('errors.signup.invalid_params') }.to_json)
         end
       end
     end
@@ -190,7 +189,10 @@ RSpec.describe 'Accounts API', type: :request do
         locale: 'en',
         domain: 'example.com',
         support_email: 'care@example.com',
-        auto_resolve_duration: 40
+        auto_resolve_duration: 40,
+        timezone: 'Asia/Kolkata',
+        industry: 'Technology',
+        company_size: '1-10'
       }
 
       it 'modifies an account' do
@@ -205,6 +207,10 @@ RSpec.describe 'Accounts API', type: :request do
         expect(account.reload.domain).to eq(params[:domain])
         expect(account.reload.support_email).to eq(params[:support_email])
         expect(account.reload.auto_resolve_duration).to eq(params[:auto_resolve_duration])
+
+        %w[timezone industry company_size].each do |attribute|
+          expect(account.reload.custom_attributes[attribute]).to eq(params[attribute.to_sym])
+        end
       end
 
       it 'Throws error 422' do

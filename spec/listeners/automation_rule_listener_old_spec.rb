@@ -83,6 +83,7 @@ describe AutomationRuleListener do
           {
             attribute_key: 'customer_type',
             filter_operator: 'equal_to',
+            custom_attribute_type: 'contact_attribute',
             values: ['platinum'],
             query_operator: 'AND'
           }.with_indifferent_access,
@@ -154,6 +155,7 @@ describe AutomationRuleListener do
             {
               attribute_key: 'customer_type',
               filter_operator: 'equal_to',
+              custom_attribute_type: 'contact_attribute',
               values: ['platinum'],
               query_operator: nil
             }.with_indifferent_access

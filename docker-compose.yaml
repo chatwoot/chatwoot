@@ -78,6 +78,7 @@ services:
     environment:
       - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
       - NODE_ENV=development
+      - NODE_OPTIONS=--openssl-legacy-provider
       - RAILS_ENV=development
     entrypoint: docker/entrypoints/webpack.sh
     command: bin/webpack-dev-server

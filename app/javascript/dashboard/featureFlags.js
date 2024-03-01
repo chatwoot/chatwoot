@@ -18,4 +18,5 @@ export const FEATURE_FLAGS = {
   AUDIT_LOGS: 'audit_logs',
   CSAT_TEMPLATES: 'csat_templates',
   INSERT_ARTICLE_IN_REPLY: 'insert_article_in_reply',
+  INBOX_VIEW: 'inbox_view',
 };

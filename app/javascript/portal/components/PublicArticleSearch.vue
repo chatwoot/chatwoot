@@ -84,6 +84,10 @@ export default {
     },
   },
 
+  beforeDestroy() {
+    clearTimeout(this.typingTimer);
+  },
+
   methods: {
     onChange(e) {
       this.$emit('input', e.target.value);

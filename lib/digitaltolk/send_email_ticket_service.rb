@@ -63,22 +63,16 @@ class Digitaltolk::SendEmailTicketService
   def find_or_create_conversation
     return if @errors.present?
 
-    if for_customer?
-      if for_issue
-        if booking_issue_id
-          @conversation = conversations.where("custom_attributes ->> 'booking_id' = ?", booking_id)
-            .where("custom_attributes ->> 'booking_issue_id' = ?", booking_issue_id).last
-        end
-      else
-        @conversation = conversations.where("custom_attributes ->> 'booking_id' = ?", booking_id).last
+    if for_issue
+      if booking_issue_id
+        @conversation = conversations.where("custom_attributes ->> 'booking_id' = ?", booking_id)
+          .where("custom_attributes ->> 'booking_issue_id' = ?", booking_issue_id).last
       end
+    else
+      @conversation = conversations.where("custom_attributes ->> 'booking_id' = ?", booking_id).last
+    end
 
-      if @conversation.blank?
-        create_conversation
-        assign_booking_id
-        assign_booking_issue_id if for_issue
-      end
-    elsif for_translator?
+    if @conversation.blank?
       create_conversation
       assign_booking_id
       assign_booking_issue_id if for_issue
@@ -140,6 +134,12 @@ class Digitaltolk::SendEmailTicketService
 
     if inbox.blank?
       @errors << "Inbox with id #{inbox_id} was not found"
+    end
+
+    if for_issue
+      if booking_issue_id.blank?
+        @errors << "Parameter booking_issue_id is required"
+      end
     end
   end
 

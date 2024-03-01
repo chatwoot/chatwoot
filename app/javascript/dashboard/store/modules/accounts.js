@@ -4,6 +4,9 @@ import AccountAPI from '../../api/account';
 import EnterpriseAccountAPI from '../../api/enterprise/account';
 import { throwErrorMessage } from '../utils/api';
 
+const findRecordById = ($state, id) =>
+  $state.records.find(record => record.id === Number(id)) || {};
+
 const state = {
   records: [],
   uiFlags: {
@@ -30,10 +33,15 @@ export const getters = {
         return true;
       }
 
-      const { features = {} } =
-        $state.records.find(record => record.id === Number(id)) || {};
+      const { features = {} } = findRecordById($state, id);
+
       return features[featureName] || false;
     },
+  // There are some features which can be enabled/disabled globally
+  isFeatureEnabledGlobally: $state => (id, featureName) => {
+    const { features = {} } = findRecordById($state, id);
+    return features[featureName] || false;
+  },
 };
 
 export const actions = {

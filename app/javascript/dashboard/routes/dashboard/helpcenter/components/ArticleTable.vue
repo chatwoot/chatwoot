@@ -1,7 +1,7 @@
 <template>
   <div class="w-full">
     <div
-      class="my-0 py-0 px-4 grid grid-cols-6 md:grid-cols-7 lg:grid-cols-8 gap-4 border-b border-slate-100 dark:border-slate-700 sticky top-16 bg-white dark:bg-slate-900"
+      class="my-0 py-0 px-4 grid grid-cols-6 z-10 md:grid-cols-7 lg:grid-cols-8 gap-4 border-b border-slate-100 dark:border-slate-700 sticky top-16 bg-white dark:bg-slate-900"
       :class="{ draggable: onCategoryPage }"
     >
       <div

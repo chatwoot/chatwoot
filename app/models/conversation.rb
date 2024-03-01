@@ -89,7 +89,7 @@ class Conversation < ApplicationRecord
 
   belongs_to :account
   belongs_to :inbox
-  belongs_to :assignee, class_name: 'User', optional: true
+  belongs_to :assignee, class_name: 'User', optional: true, inverse_of: :assigned_conversations
   belongs_to :contact
   belongs_to :contact_inbox
   belongs_to :team, optional: true

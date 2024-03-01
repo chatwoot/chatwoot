@@ -89,3 +89,5 @@ class ActionService
     @conversation.additional_attributes['type'] == 'tweet'
   end
 end
+
+ActionService.include_mod_with('ActionService')

@@ -24,6 +24,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.mentioned': this.onConversationMentioned,
       'notification.created': this.onNotificationCreated,
       'notification.deleted': this.onNotificationDeleted,
+      'notification.updated': this.onNotificationUpdated,
       'first.reply.created': this.onFirstReplyCreated,
       'conversation.read': this.onConversationRead,
       'conversation.updated': this.onConversationUpdated,
@@ -198,6 +199,10 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onNotificationDeleted = data => {
     this.app.$store.dispatch('notifications/deleteNotification', data);
+  };
+
+  onNotificationUpdated = data => {
+    this.app.$store.dispatch('notifications/updateNotification', data);
   };
 
   // eslint-disable-next-line class-methods-use-this

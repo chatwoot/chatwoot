@@ -24,6 +24,11 @@ export default {
       default: () => {},
     },
   },
+  data() {
+    return {
+      timeOutID: null,
+    };
+  },
   computed: {
     replyToAttachment() {
       if (!this.replyTo?.attachments?.length) {
@@ -34,6 +39,10 @@ export default {
       return this.$t(`ATTACHMENTS.${fileType}.CONTENT`);
     },
   },
+
+  beforeDestroy() {
+    clearTimeout(this.timeOutID);
+  },
   methods: {
     navigateTo(id) {
       const elementId = `cwmsg-${id}`;
@@ -41,7 +50,7 @@ export default {
         const el = document.getElementById(elementId);
         el.scrollIntoView();
         el.classList.add('bg-slate-100', 'dark:bg-slate-900');
-        setTimeout(() => {
+        this.timeOutID = setTimeout(() => {
           el.classList.remove('bg-slate-100', 'dark:bg-slate-900');
         }, 500);
       });

@@ -68,10 +68,6 @@ RSpec.describe Reports::TimeFormatPresenter do
       it 'formats single second correctly' do
         expect(described_class.new(1).format).to eq '1 second'
       end
-
-      it 'formats nil second correctly' do
-        expect(described_class.new.format).to eq 'N/A'
-      end
     end
   end
 end

@@ -1,6 +1,6 @@
 class Api::V2::Accounts::SummaryReportsController < Api::V1::Accounts::BaseController
   before_action :check_authorization
-  before_action :prepare_builder_params, only: [:agent, :team, :inbox, :label]
+  before_action :prepare_builder_params, only: [:agent, :team]
 
   def agent
     render_report_with(V2::Reports::AgentSummaryBuilder)
@@ -8,14 +8,6 @@ class Api::V2::Accounts::SummaryReportsController < Api::V1::Accounts::BaseContr
 
   def team
     render_report_with(V2::Reports::TeamSummaryBuilder)
-  end
-
-  def inbox
-    render_report_with(V2::Reports::InboxSummaryBuilder)
-  end
-
-  def label
-    render_report_with(V2::Reports::LabelSummaryBuilder)
   end
 
   private
@@ -34,7 +26,8 @@ class Api::V2::Accounts::SummaryReportsController < Api::V1::Accounts::BaseContr
 
   def render_report_with(builder_class)
     builder = builder_class.new(account: Current.account, params: @builder_params)
-    render json: builder.build
+    data = builder.build
+    render json: data
   end
 
   def permitted_params

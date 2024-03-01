@@ -68,22 +68,21 @@ class User < ApplicationRecord
   # work because :validatable in devise overrides this.
   # validates_uniqueness_of :email, scope: :account_id
 
-  validates :email, :name, presence: true
-  validates_length_of :name, minimum: 1, maximum: 255
+  validates :email, presence: true
 
   has_many :account_users, dependent: :destroy_async
   has_many :accounts, through: :account_users
   accepts_nested_attributes_for :account_users
 
-  has_many :assigned_conversations, foreign_key: 'assignee_id', class_name: 'Conversation', dependent: :nullify
+  has_many :assigned_conversations, foreign_key: 'assignee_id', class_name: 'Conversation', dependent: :nullify, inverse_of: :assignee
   alias_attribute :conversations, :assigned_conversations
-  has_many :csat_survey_responses, foreign_key: 'assigned_agent_id', dependent: :nullify
+  has_many :csat_survey_responses, foreign_key: 'assigned_agent_id', dependent: :nullify, inverse_of: :assigned_agent
   has_many :conversation_participants, dependent: :destroy_async
   has_many :participating_conversations, through: :conversation_participants, source: :conversation
 
   has_many :inbox_members, dependent: :destroy_async
   has_many :inboxes, through: :inbox_members, source: :inbox
-  has_many :messages, as: :sender
+  has_many :messages, as: :sender, dependent: :nullify
   has_many :invitees, through: :account_users, class_name: 'User', foreign_key: 'inviter_id', source: :inviter, dependent: :nullify
 
   has_many :custom_filters, dependent: :destroy_async
@@ -95,12 +94,16 @@ class User < ApplicationRecord
   has_many :notifications, dependent: :destroy_async
   has_many :team_members, dependent: :destroy_async
   has_many :teams, through: :team_members
-  has_many :articles, foreign_key: 'author_id', dependent: :nullify
+  has_many :articles, foreign_key: 'author_id', dependent: :nullify, inverse_of: :author
   has_many :portal_members, class_name: :PortalMember, dependent: :destroy_async
   has_many :portals, through: :portal_members, source: :portal,
                      class_name: :Portal,
                      dependent: :nullify
-  has_many :macros, foreign_key: 'created_by_id'
+  # rubocop:disable Rails/HasManyOrHasOneDependent
+  # we are handling this in `remove_macros` callback
+  has_many :macros, foreign_key: 'created_by_id', inverse_of: :created_by
+  # rubocop:enable Rails/HasManyOrHasOneDependent
+
   before_validation :set_password_and_uid, on: :create
   after_destroy :remove_macros
 
@@ -161,3 +164,4 @@ class User < ApplicationRecord
 end
 
 User.include_mod_with('Audit::User')
+User.include_mod_with('Concerns::User')

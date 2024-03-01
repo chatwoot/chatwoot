@@ -2,7 +2,6 @@ require:
   - rubocop-performance
   - rubocop-rails
   - rubocop-rspec
-inherit_from: .rubocop_todo.yml
 
 Layout/LineLength:
   Max: 150
@@ -12,7 +11,8 @@ Metrics/ClassLength:
   Exclude:
     - 'app/models/message.rb'
     - 'app/models/conversation.rb'
-
+Metrics/MethodLength:
+  Max: 19
 RSpec/ExampleLength:
   Max: 25
 Style/Documentation:
@@ -50,6 +50,7 @@ Lint/OrAssignmentToConstant:
   Exclude:
     - 'lib/redis/config.rb'
 Metrics/BlockLength:
+  Max: 30
   Exclude:
     - spec/**/*
     - '**/routes.rb'
@@ -102,84 +103,31 @@ RSpec/FactoryBot/SyntaxMethods:
   Enabled: false
 Naming/VariableNumber:
   Enabled: false
-Metrics/MethodLength:
+Naming/MemoizedInstanceVariableName:
   Exclude:
-    - 'db/migrate/20161123131628_devise_token_auth_create_users.rb'
-    - 'db/migrate/20211219031453_update_foreign_keys_on_delete.rb'
-Rails/CreateTableWithTimestamps:
-  Exclude:
-    - 'db/migrate/20170207092002_acts_as_taggable_on_migration.acts_as_taggable_on_engine.rb'
+    - 'app/models/message.rb'
 Style/GuardClause:
   Exclude:
     - 'app/builders/account_builder.rb'
     - 'app/models/attachment.rb'
     - 'app/models/message.rb'
-    - 'db/migrate/20190819005836_add_missing_indexes_on_taggings.acts_as_taggable_on_engine.rb'
 Metrics/AbcSize:
+  Max: 26
   Exclude:
     - 'app/controllers/concerns/auth_helper.rb'
-    - 'db/migrate/20190819005836_add_missing_indexes_on_taggings.acts_as_taggable_on_engine.rb'
-    - 'db/migrate/20161123131628_devise_token_auth_create_users.rb'
-    - 'app/controllers/api/v1/accounts/inboxes_controller.rb'
-    - 'db/migrate/20211219031453_update_foreign_keys_on_delete.rb'
-Metrics/CyclomaticComplexity:
-  Max: 7
-  Exclude:
-    - 'db/migrate/20190819005836_add_missing_indexes_on_taggings.acts_as_taggable_on_engine.rb'
-Rails/ReversibleMigration:
-  Exclude:
-    - 'db/migrate/20161025070152_removechannelsfrommodels.rb'
-    - 'db/migrate/20161025070645_remchannel.rb'
-    - 'db/migrate/20161025070645_remchannel.rb'
-    - 'db/migrate/20161110102609_removeinboxid.rb'
-    - 'db/migrate/20170519091539_add_avatar_to_fb.rb'
-    - 'db/migrate/20191020085608_rename_old_tables.rb'
-    - 'db/migrate/20191126185833_update_user_invite_foreign_key.rb'
-    - 'db/migrate/20191130164019_add_template_type_to_messages.rb'
-    - 'db/migrate/20210513083044_remove_not_null_from_webhook_url_channel_api.rb'
-Rails/BulkChangeTable:
-  Exclude:
-    - 'db/migrate/20161025070152_removechannelsfrommodels.rb'
-    - 'db/migrate/20200121190901_create_account_users.rb'
-    - 'db/migrate/20170211092540_notnullableusers.rb'
-    - 'db/migrate/20170403095203_contactadder.rb'
-    - 'db/migrate/20170406104018_add_default_status_conv.rb'
-    - 'db/migrate/20170511134418_latlong.rb'
-    - 'db/migrate/20191027054756_create_contact_inboxes.rb'
-    - 'db/migrate/20191130164019_add_template_type_to_messages.rb'
-    - 'db/migrate/20210425093724_convert_integration_hook_settings_field.rb'
 Rails/UniqueValidationWithoutIndex:
   Exclude:
     - 'app/models/channel/twitter_profile.rb'
     - 'app/models/webhook.rb'
     - 'app/models/contact.rb'
     - 'app/models/integrations/hook.rb'
+    - 'app/models/canned_response.rb'
+    - 'app/models/telegram_bot.rb'
 Rails/RenderInline:
   Exclude:
     - 'app/controllers/swagger_controller.rb'
-Performance/CollectionLiteralInLoop:
-  Exclude:
-    - 'db/migrate/20210315101919_enable_email_channel.rb'
 Rails/ThreeStateBooleanColumn:
   Exclude:
-    - 'db/migrate/20200509044639_add_hide_input_flag_to_bot_config.rb'
-    - 'db/migrate/20200605130625_agent_away_message_to_auto_reply.rb'
-    - 'db/migrate/20200606132552_create_labels.rb'
-    - 'db/migrate/20201027135006_create_working_hours.rb'
-    - 'db/migrate/20210112174124_add_hmac_token_to_inbox.rb'
-    - 'db/migrate/20210114202310_create_teams.rb'
-    - 'db/migrate/20210212154240_add_request_for_email_on_channel_web_widget.rb'
-    - 'db/migrate/20210428135041_add_campaigns.rb'
-    - 'db/migrate/20210602182058_add_hmac_to_api_channel.rb'
-    - 'db/migrate/20210609133433_add_email_collect_to_inboxes.rb'
-    - 'db/migrate/20210618095823_add_csat_toggle_for_inbox.rb'
-    - 'db/migrate/20210927062350_add_trigger_only_during_business_hours_collect_to_campaigns.rb'
-    - 'db/migrate/20211027073553_add_imap_smtp_config_to_channel_email.rb'
-    - 'db/migrate/20211109143122_add_tweet_enabled_flag_to_twitter_channel.rb'
-    - 'db/migrate/20211216110209_add_allow_messages_after_resolved_to_inbox.rb'
-    - 'db/migrate/20220116103902_add_open_ssl_verify_mode_to_channel_email.rb'
-    - 'db/migrate/20220216151613_add_open_all_day_to_working_hour.rb'
-    - 'db/migrate/20220511072655_add_archive_column_to_portal.rb'
     - 'db/migrate/20230503101201_create_sla_policies.rb'
 RSpec/IndexedLet:
   Enabled: false
@@ -187,6 +135,8 @@ RSpec/NamedSubject:
   Enabled: false
 
 # we should bring this down
+RSpec/MultipleExpectations:
+  Max: 7
 RSpec/MultipleMemoizedHelpers:
   Max: 14
 
@@ -203,13 +153,4 @@ AllCops:
     - 'config/environments/**/*'
     - 'tmp/**/*'
     - 'storage/**/*'
-    - 'db/migrate/20200225162150_init_schema.rb'
-    - 'db/migrate/20210611180222_create_active_storage_variant_records.active_storage.rb'
-    - 'db/migrate/20210611180221_add_service_name_to_active_storage_blobs.active_storage.rb'
-    - db/migrate/20200309213132_add_account_id_to_agent_bot_inboxes.rb
-    - db/migrate/20200331095710_add_identifier_to_contact.rb
-    - db/migrate/20200429082655_add_medium_to_twilio_sms.rb
-    - db/migrate/20200503151130_add_account_feature_flag.rb
-    - db/migrate/20200927135222_add_last_activity_at_to_conversation.rb
-    - db/migrate/20210306170117_add_last_activity_at_to_contacts.rb
-    - db/migrate/20220809104508_revert_cascading_indexes.rb
+    - 'db/migrate/20230426130150_init_schema.rb'

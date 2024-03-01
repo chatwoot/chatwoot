@@ -28,8 +28,7 @@ class SuperAdmin::InstanceStatusesController < SuperAdmin::ApplicationController
   end
 
   def sha
-    sha = `git rev-parse HEAD`
-    @metrics['Git SHA'] = sha.presence || 'n/a'
+    @metrics['Git SHA'] = GIT_HASH
   end
 
   def postgres_status

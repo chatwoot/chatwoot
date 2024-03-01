@@ -32,7 +32,6 @@ class Account < ApplicationRecord
     check_for_column: false
   }.freeze
 
-  validates :name, presence: true
   validates :auto_resolve_duration, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 999, allow_nil: true }
   validates :domain, length: { maximum: 100 }
 
@@ -102,7 +101,7 @@ class Account < ApplicationRecord
                              .where(context: 'labels',
                                     taggable_type: 'Conversation',
                                     taggable_id: conversation_ids)
-                             .map { |_| _.tag.name }
+                             .map { |tagging| tagging.tag.name }
   end
 
   def webhook_data
@@ -113,11 +112,12 @@ class Account < ApplicationRecord
   end
 
   def inbound_email_domain
-    domain || GlobalConfig.get('MAILER_INBOUND_EMAIL_DOMAIN')['MAILER_INBOUND_EMAIL_DOMAIN'] || ENV.fetch('MAILER_INBOUND_EMAIL_DOMAIN', false)
+    domain.presence || GlobalConfig.get('MAILER_INBOUND_EMAIL_DOMAIN')['MAILER_INBOUND_EMAIL_DOMAIN'] || ENV.fetch('MAILER_INBOUND_EMAIL_DOMAIN',
+                                                                                                                   false)
   end
 
   def support_email
-    super || ENV.fetch('MAILER_SENDER_EMAIL') { GlobalConfig.get('MAILER_SUPPORT_EMAIL')['MAILER_SUPPORT_EMAIL'] }
+    super.presence || ENV.fetch('MAILER_SENDER_EMAIL') { GlobalConfig.get('MAILER_SUPPORT_EMAIL')['MAILER_SUPPORT_EMAIL'] }
   end
 
   def usage_limits

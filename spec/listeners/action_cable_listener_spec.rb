@@ -152,6 +152,27 @@ describe ActionCableListener do
     end
   end
 
+  describe '#notification_updated' do
+    let(:event_name) { :'notification.updated' }
+    let!(:notification) { create(:notification, account: account, user: agent) }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, notification: notification) }
+
+    it 'sends notification to account admins, inbox agents' do
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        [agent.pubsub_token],
+        'notification.updated',
+        {
+          account_id: notification.account_id,
+          notification: notification.push_event_data,
+          unread_count: 1,
+          count: 1
+        }
+      )
+
+      listener.notification_updated(event)
+    end
+  end
+
   describe '#conversation_updated' do
     let(:event_name) { :'conversation.updated' }
     let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: agent, is_private: false) }

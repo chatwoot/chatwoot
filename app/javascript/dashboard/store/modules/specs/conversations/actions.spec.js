@@ -181,6 +181,26 @@ describe('#actions', () => {
       expect(dispatch.mock.calls).toEqual([]);
     });
 
+    it('doesnot send mutation if the view is conversation folders', () => {
+      const conversation = {
+        id: 1,
+        messages: [],
+        meta: { sender: { id: 1, name: 'john-doe' } },
+        inbox_id: 1,
+      };
+      actions.addConversation(
+        {
+          commit,
+          rootState: { route: { name: 'folder_conversations' } },
+          dispatch,
+          state: { currentInbox: 1, appliedFilters: [{ id: 'random-filter' }] },
+        },
+        conversation
+      );
+      expect(commit.mock.calls).toEqual([]);
+      expect(dispatch.mock.calls).toEqual([]);
+    });
+
     it('sends correct mutations', () => {
       const conversation = {
         id: 1,

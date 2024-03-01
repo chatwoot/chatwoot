@@ -1,17 +1,10 @@
 require 'net/imap'
 
 class Imap::BaseFetchEmailService
-  pattr_initialize [:channel!, :interval]
-
-  def fetch_emails
-    # Override this method
-  end
+  pattr_initialize [:channel!]
 
   def perform
-    inbound_emails = fetch_emails
-    terminate_imap_connection
-
-    inbound_emails
+    # Override this method
   end
 
   private
@@ -99,10 +92,10 @@ class Imap::BaseFetchEmailService
   end
 
   # Sends a SEARCH command to search the mailbox for messages that were
-  # created between yesterday (or given date) and today and returns message sequence numbers.
+  # created between yesterday and today and returns message sequence numbers.
   # Return <message set>
   def fetch_available_mail_sequence_numbers
-    imap_client.search(['SINCE', since])
+    imap_client.search(['SINCE', yesterday])
   end
 
   def build_imap_client
@@ -112,19 +105,11 @@ class Imap::BaseFetchEmailService
     imap
   end
 
-  def terminate_imap_connection
-    imap_client.logout
-  rescue Net::IMAP::Error => e
-    Rails.logger.info "Logout failed for #{channel.email} - #{e.message}."
-    imap_client.disconnect
-  end
-
   def build_mail_from_string(raw_email_content)
     Mail.read_from_string(raw_email_content)
   end
 
-  def since
-    previous_day = Time.zone.today - (interval || 1).to_i
-    previous_day.strftime('%d-%b-%Y')
+  def yesterday
+    (Time.zone.today - 1).strftime('%d-%b-%Y')
   end
 end
