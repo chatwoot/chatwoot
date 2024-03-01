@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_25_142810) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_19_075825) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -670,6 +670,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_25_142810) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "settings", default: {}
+  end
+
+  create_table "keycloak_sessions_infos", force: :cascade do |t|
+    t.string "email"
+    t.string "session_state"
+    t.json "token_info"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "labels", force: :cascade do |t|

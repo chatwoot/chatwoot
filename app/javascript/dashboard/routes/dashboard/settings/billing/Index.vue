@@ -62,13 +62,13 @@
         :button-label="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.BUTTON_TXT')"
         @click="onClickBillingPortal"
       />
-      <!-- <billing-item
+      <billing-item
         :title="$t('BILLING_SETTINGS.CHAT_WITH_US.TITLE')"
         :description="$t('BILLING_SETTINGS.CHAT_WITH_US.DESCRIPTION')"
         :button-label="$t('BILLING_SETTINGS.CHAT_WITH_US.BUTTON_TXT')"
         button-icon="chat-multiple"
         @click="onToggleChatWindow"
-      /> -->
+      />
     </div>
   </div>
 </template>
@@ -138,9 +138,33 @@ export default {
       this.$store.dispatch('accounts/stripe_checkout');
     },
     onToggleChatWindow() {
+      const BASE_URL = 'https://chat.onehash.ai';
+      const script = document.createElement('script');
+      script.src = `${BASE_URL}/packs/js/sdk.js`;
+      script.defer = true;
+      script.async = true;
+      document.head.appendChild(script);
+      script.onload = () => {
+        window.chatwootSDK.run({
+          websiteToken: 'wDbXNafmeJPxJPAimstLMpZQ',
+          baseUrl: BASE_URL,
+        });
+      };
       if (window.$chatwoot) {
         window.$chatwoot.toggle();
+        // Check if the widget is open
+        if (window.$chatwoot.isOpen) {
+          // If open, close the widget
+          window.$chatwoot.toggle('close');
+        } else {
+          // If closed, open the widget
+          window.$chatwoot.toggle('open');
+        }
       }
+      window.chatwootSettings = {
+        hideMessageBubble: true,
+        position: 'left',
+      };
     },
     checkInput() {
       const couponInput = document.getElementById('couponInput');

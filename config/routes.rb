@@ -245,6 +245,10 @@ Rails.application.routes.draw do
       # end of account scoped api routes
       # ----------------------------------
 
+      namespace :keycloak do
+        resources :logout, only: [:create]
+      end
+
       namespace :integrations do
         resources :webhooks, only: [:create]
       end
@@ -406,7 +410,7 @@ Rails.application.routes.draw do
   post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
-  #OneHash Stripe Billing Route
+  # OneHash Stripe Billing Route
   post 'webhooks/stripe', to: 'webhooks/stripe#process_payload'
 
   namespace :twitter do
@@ -485,4 +489,7 @@ Rails.application.routes.draw do
   # ----------------------------------------------------------------------
   # Routes for testing
   resources :widget_tests, only: [:index] unless Rails.env.production?
+
+  # Route for keycloak trigerred logout
+  post 'keycloak/callback', to: 'keycloak/callbacks#logout'
 end
