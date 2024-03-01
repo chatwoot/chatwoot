@@ -4,7 +4,6 @@
       "TITLE": "Inbox",
       "DISPLAY_DROPDOWN": "Display",
       "LOADING": "Fetching notifications",
-      "EOF": "All notifications loaded 🎉",
       "404": "There are no active notifications in this group.",
       "NO_NOTIFICATIONS": "No notifications",
       "NOTE": "Notifications from all subscribed inboxes",
@@ -14,7 +13,8 @@
     },
     "ACTION_HEADER": {
       "SNOOZE": "Snooze notification",
-      "DELETE": "Delete notification"
+      "DELETE": "Delete notification",
+      "BACK": "Back"
     },
     "TYPES": {
       "CONVERSATION_MENTION": "You have been mentioned in a conversation",
