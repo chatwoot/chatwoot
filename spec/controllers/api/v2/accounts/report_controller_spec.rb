@@ -459,7 +459,7 @@ RSpec.describe 'Reports API', type: :request do
         )
       end
 
-      it 'returns unauthorized' do
+      it 'returns unauthorized if the user is an agent' do
         get "/api/v2/accounts/#{account.id}/reports/bot_metrics",
             params: params,
             headers: agent.create_new_auth_token

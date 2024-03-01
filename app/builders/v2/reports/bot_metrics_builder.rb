@@ -1,11 +1,10 @@
 class V2::Reports::BotMetricsBuilder
   include DateRangeHelper
-  attr_reader :account, :params, :range
+  attr_reader :account, :params
 
   def initialize(account, params)
     @account = account
     @params = params
-    set_range
   end
 
   def metrics
@@ -18,12 +17,6 @@ class V2::Reports::BotMetricsBuilder
   end
 
   private
-
-  def set_range
-    return unless params[:since].present? && params[:until].present?
-
-    @range = parse_date_time(params[:since])...parse_date_time(params[:until])
-  end
 
   def bot_activated_inbox_ids
     @bot_activated_inbox_ids ||= account.inboxes.filter(&:active_bot?).map(&:id)
