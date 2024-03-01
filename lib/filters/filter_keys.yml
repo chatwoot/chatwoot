@@ -8,7 +8,7 @@
 # - Parent Key (conversation, contact, messages)
 #   - Key (attribute_name)
 #     - attribute_type: "standard" : supported ["standard", "additional_attributes (only for conversations and messages)"]
-#     - data_type: "text" :  supported ["text", "number", "labels", "date", "link"]
+#     - data_type: "text" :  supported ["text", "text_case_insensitive", "number", "boolean", "labels", "date", "link"]
 #     - filter_operators: ["equal_to", "not_equal_to", "contains", "does_not_contain", "is_present", "is_not_present", "is_greater_than", "is_less_than", "days_before", "starts_with"]
 
 ### ----- Conversation Filters ----- ###
@@ -124,7 +124,7 @@ conversations:
 contacts:
   name:
     attribute_type: "standard"
-    data_type: "text"
+    data_type: "text_case_insensitive"
     filter_operators:
       - "equal_to"
       - "not_equal_to"
@@ -132,7 +132,7 @@ contacts:
       - "does_not_contain"
   phone_number:
     attribute_type: "standard"
-    data_type: "text"
+    data_type: "text_case_insensitive"
     filter_operators:
       - "equal_to"
       - "not_equal_to"
@@ -141,7 +141,7 @@ contacts:
       - "starts_with"
   email:
     attribute_type: "standard"
-    data_type: "text"
+    data_type: "text_case_insensitive"
     filter_operators:
       - "equal_to"
       - "not_equal_to"
@@ -149,19 +149,19 @@ contacts:
       - "does_not_contain"
   identifier:
     attribute_type: "standard"
-    data_type: "text"
+    data_type: "text_case_insensitive"
     filter_operators:
       - "equal_to"
       - "not_equal_to"
   country_code:
     attribute_type: "additional_attributes"
-    data_type: "text"
+    data_type: "text_case_insensitive"
     filter_operators:
       - "equal_to"
       - "not_equal_to"
   city:
     attribute_type: "additional_attributes"
-    data_type: "text"
+    data_type: "text_case_insensitive"
     filter_operators:
       - "equal_to"
       - "not_equal_to"
@@ -169,7 +169,7 @@ contacts:
       - "does_not_contain"
   company:
     attribute_type: "additional_attributes"
-    data_type: "text"
+    data_type: "text_case_insensitive"
     filter_operators:
       - "equal_to"
       - "not_equal_to"
@@ -197,6 +197,12 @@ contacts:
       - "is_greater_than"
       - "is_less_than"
       - "days_before"
+  blocked:
+    attribute_type: "standard"
+    data_type: "boolean"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
 
 ### ----- End of Contact Filters ----- ###
 
