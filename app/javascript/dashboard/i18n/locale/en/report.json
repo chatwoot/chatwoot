@@ -412,7 +412,8 @@
       "LOADING_MESSAGE": "Loading conversation metrics...",
       "OPEN": "Open",
       "UNATTENDED": "Unattended",
-      "UNASSIGNED": "Unassigned"
+      "UNASSIGNED": "Unassigned",
+      "PENDING": "Pending"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
