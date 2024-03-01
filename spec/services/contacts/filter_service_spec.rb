@@ -7,9 +7,9 @@ describe Contacts::FilterService do
   let!(:first_user) { create(:user, account: account) }
   let!(:second_user) { create(:user, account: account) }
   let!(:inbox) { create(:inbox, account: account, enable_auto_assignment: false) }
-  let(:en_contact) { create(:contact, account: account, additional_attributes: { 'browser_language': 'en' }) }
-  let(:el_contact) { create(:contact, account: account, additional_attributes: { 'browser_language': 'el' }) }
-  let(:cs_contact) { create(:contact, account: account, additional_attributes: { 'browser_language': 'cs' }) }
+  let!(:en_contact) { create(:contact, account: account, additional_attributes: { 'country_code': 'uk' }) }
+  let!(:el_contact) { create(:contact, account: account, additional_attributes: { 'country_code': 'gr' }) }
+  let!(:cs_contact) { create(:contact, account: account, additional_attributes: { 'country_code': 'cz' }) }
 
   before do
     create(:inbox_member, user: first_user, inbox: inbox)
@@ -51,9 +51,9 @@ describe Contacts::FilterService do
       let(:payload) do
         [
           {
-            attribute_key: 'browser_language',
+            attribute_key: 'country_code',
             filter_operator: 'equal_to',
-            values: ['en'],
+            values: ['uk'],
             query_operator: nil
           }.with_indifferent_access
         ]
@@ -181,9 +181,9 @@ describe Contacts::FilterService do
             query_operator: 'AND'
           }.with_indifferent_access,
           {
-            attribute_key: 'browser_language',
+            attribute_key: 'country_code',
             filter_operator: 'equal_to',
-            values: ['el'],
+            values: ['GR'],
             query_operator: 'AND'
           }.with_indifferent_access,
           {
