@@ -20,7 +20,7 @@
       @prev="onClickPrev"
     />
     <div v-else />
-    <div v-if="totalLength > 1" class="flex items-center gap-2">
+    <div class="flex items-center gap-2">
       <woot-button
         variant="hollow"
         size="small"
