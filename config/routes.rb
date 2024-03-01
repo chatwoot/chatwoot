@@ -303,6 +303,7 @@ Rails.application.routes.draw do
           resources :reports, only: [:index] do
             collection do
               get :summary
+              get :bot_summary
               get :agents
               get :inboxes
               get :labels
