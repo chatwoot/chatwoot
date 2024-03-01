@@ -11,6 +11,8 @@
       emoji=""
       :value="attribute.value"
       :show-actions="true"
+      :attribute-regex="attribute.regex_pattern"
+      :regex-cue="attribute.regex_cue"
       :class="attributeClass"
       @update="onUpdate"
       @delete="onDelete"

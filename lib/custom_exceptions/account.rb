@@ -17,6 +17,12 @@ module CustomExceptions::Account
     end
   end
 
+  class InvalidParams < CustomExceptions::Base
+    def message
+      I18n.t 'errors.signup.invalid_params'
+    end
+  end
+
   class UserErrors < CustomExceptions::Base
     def message
       @data[:errors].full_messages.join(',')
