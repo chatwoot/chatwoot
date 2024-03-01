@@ -54,6 +54,13 @@ class V2::ReportBuilder
     }
   end
 
+  def bot_summary
+    {
+      bot_resolutions_count: bot_resolutions.count,
+      bot_handoffs_count: bot_handoffs.count
+    }
+  end
+
   def conversation_metrics
     if params[:type].equal?(:account)
       live_conversations
@@ -71,6 +78,8 @@ class V2::ReportBuilder
        avg_first_response_time
        avg_resolution_time reply_time
        resolutions_count
+       bot_resolutions_count
+       bot_handoffs_count
        reply_time].include?(params[:metric])
   end
 
@@ -123,6 +132,7 @@ class V2::ReportBuilder
       unattended: @open_conversations.unattended.count
     }
     metric[:unassigned] = @open_conversations.unassigned.count if params[:type].equal?(:account)
+    metric[:pending] = @open_conversations.pending.count if params[:type].equal?(:account)
     metric
   end
 end
