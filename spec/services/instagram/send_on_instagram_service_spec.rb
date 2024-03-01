@@ -50,7 +50,25 @@ describe Instagram::SendOnInstagramService do
 
           response = described_class.new(message: message).perform
 
-          expect(response).to eq({  message_id: 'anyrandommessageid1234567890' })
+          expect(response).to eq({ message_id: 'anyrandommessageid1234567890' })
+        end
+
+        it 'if message is sent from chatwoot and is outgoing with multiple attachments' do
+          message = build(:message, content: nil, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
+          avatar = message.attachments.new(account_id: message.account_id, file_type: :image)
+          avatar.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+          sample = message.attachments.new(account_id: message.account_id, file_type: :image)
+          sample.file.attach(io: Rails.root.join('spec/assets/sample.png').open, filename: 'sample.png', content_type: 'image/png')
+          message.save!
+
+          service = described_class.new(message: message)
+
+          # Stub the send_to_facebook_page method on the service instance
+          allow(service).to receive(:send_to_facebook_page)
+          service.perform
+
+          # Now you can set expectations on the stubbed method for each attachment
+          expect(service).to have_received(:send_to_facebook_page).exactly(:twice)
         end
 
         it 'if message with attachment is sent from chatwoot and is outgoing' do

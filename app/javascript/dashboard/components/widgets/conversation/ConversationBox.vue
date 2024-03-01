@@ -6,6 +6,7 @@
     <conversation-header
       v-if="currentChat.id"
       :chat="currentChat"
+      :is-inbox-view="isInboxView"
       :is-contact-panel-open="isContactPanelOpen"
       :show-back-button="isOnExpandedLayout"
       @contact-panel-toggle="onToggleContactPanel"
@@ -30,6 +31,7 @@
       <messages-view
         v-if="currentChat.id"
         :inbox-id="inboxId"
+        :is-inbox-view="isInboxView"
         :is-contact-panel-open="isContactPanelOpen"
         @contact-panel-toggle="onToggleContactPanel"
       />
@@ -79,6 +81,10 @@ export default {
       type: [Number, String],
       default: '',
       required: false,
+    },
+    isInboxView: {
+      type: Boolean,
+      default: false,
     },
     isContactPanelOpen: {
       type: Boolean,

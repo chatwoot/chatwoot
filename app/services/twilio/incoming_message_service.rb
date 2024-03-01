@@ -127,7 +127,7 @@ class Twilio::IncomingMessageService
 
   def download_attachment_file
     download_with_auth
-  rescue Down::Error => e
+  rescue Down::Error, Down::ClientError => e
     handle_download_attachment_error(e)
   end
 
@@ -141,12 +141,10 @@ class Twilio::IncomingMessageService
 
   # This is just a temporary workaround since some users have not yet enabled media protection. We will remove this in the future.
   def handle_download_attachment_error(error)
-    Rails.logger.info "Error downloading attachment from Twilio: #{error.message}"
-    if error.message.include?('401 Unauthorized')
-      Down.download(params[:MediaUrl0])
-    else
-      ChatwootExceptionTracker.new(error, account: @inbox.account).capture_exception
-      nil
-    end
+    Rails.logger.info "Error downloading attachment from Twilio: #{error.message}: Retrying"
+    Down.download(params[:MediaUrl0])
+  rescue StandardError => e
+    Rails.logger.info "Error downloading attachment from Twilio: #{e.message}: Skipping"
+    nil
   end
 end

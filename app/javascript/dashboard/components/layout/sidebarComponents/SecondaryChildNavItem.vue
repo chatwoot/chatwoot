@@ -56,7 +56,7 @@
             class="bg-slate-50 dark:bg-slate-700 rounded text-xxs font-medium mx-1 py-0 px-1"
             :class="
               isCountZero
-                ? `text-slate-300 dark:text-slate-700`
+                ? `text-slate-300 dark:text-slate-500`
                 : `text-slate-700 dark:text-slate-50`
             "
           >
