@@ -40,7 +40,7 @@
     </span>
     <span class="article-column article-category">
       <router-link
-        class="text-sm button clear link secondary"
+        class="text-sm button clear link secondary min-w-0 max-w-full"
         :to="getCategoryRoute(category.slug)"
       >
         <span
