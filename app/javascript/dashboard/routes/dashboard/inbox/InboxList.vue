@@ -236,12 +236,13 @@ export default {
     snoozeNotification(snoozedUntil) {
       this.$store
         .dispatch('notifications/snooze', {
-          id: this.notificationId || this.notificationIdToSnooze,
+          id: this.notificationIdToSnooze || this.notificationId,
           snoozedUntil,
         })
         .then(() => {
           this.showAlert(this.$t('INBOX.ALERTS.SNOOZE'));
         });
+      this.notificationIdToSnooze = null;
     },
     onCmdSnoozeNotification(snoozeType) {
       if (snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME) {
