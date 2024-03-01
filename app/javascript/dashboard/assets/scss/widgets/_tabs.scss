@@ -7,7 +7,7 @@
 }
 
 .tabs {
-  @apply border-r-0 border-l-0 border-t-0 flex min-w-[6.25rem] py-0 px-4;
+  @apply border-r-0 border-l-0 border-t-0 flex min-w-[6.25rem] py-0 px-4 list-none mb-0;
 }
 
 .tabs--with-scroll {
