@@ -52,7 +52,6 @@ import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 export default {
   components: {
     InboxCard,
@@ -84,12 +83,6 @@ export default {
     notificationId() {
       return Number(this.$route.params.notification_id);
     },
-    isInboxViewEnabled() {
-      return this.$store.getters['accounts/isFeatureEnabledGlobally'](
-        this.currentAccountId,
-        FEATURE_FLAGS.INBOX_VIEW
-      );
-    },
     inboxFilters() {
       return {
         page: this.page,
@@ -109,13 +102,6 @@ export default {
     },
   },
   mounted() {
-    // Open inbox view if inbox view feature is enabled, else redirect to dashboard
-    // TODO: Remove this code once inbox view feature is enabled for all accounts
-    // if (!this.isInboxViewEnabled) {
-    //   this.$router.push({
-    //     name: 'home',
-    //   });
-    // }
     this.setSavedFilter();
     this.fetchNotifications();
     this.$store.dispatch('agents/get');
@@ -125,7 +111,6 @@ export default {
       this.page = 1;
       this.$store.dispatch('notifications/clear');
       const filter = this.inboxFilters;
-
       this.$store.dispatch('notifications/index', filter);
     },
     redirectToInbox() {
