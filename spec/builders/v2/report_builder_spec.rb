@@ -151,7 +151,7 @@ describe V2::ReportBuilder do
 
           builder = described_class.new(account, params)
           metrics = builder.timeseries
-          summary = builder.summary
+          summary = builder.bot_summary
 
           # 4 conversations are resolved
           expect(metrics[Time.zone.today]).to be 4
@@ -186,7 +186,7 @@ describe V2::ReportBuilder do
 
           builder = described_class.new(account, params)
           metrics = builder.timeseries
-          summary = builder.summary
+          summary = builder.bot_summary
 
           # 4 conversations are resolved
           expect(metrics[Time.zone.today]).to be 5
@@ -377,8 +377,6 @@ describe V2::ReportBuilder do
         expect(metrics[:outgoing_messages_count]).to be 15
         expect(metrics[:avg_resolution_time]).to be 0
         expect(metrics[:resolutions_count]).to be 0
-        expect(metrics[:bot_resolutions_count]).to be 0
-        expect(metrics[:bot_handoffs_count]).to be 0
       end
 
       it 'returns summary for correct group by' do
@@ -398,8 +396,6 @@ describe V2::ReportBuilder do
         expect(metrics[:outgoing_messages_count]).to be 15
         expect(metrics[:avg_resolution_time]).to be 0
         expect(metrics[:resolutions_count]).to be 0
-        expect(metrics[:bot_resolutions_count]).to be 0
-        expect(metrics[:bot_handoffs_count]).to be 0
       end
 
       it 'returns argument error for incorrect group by' do
