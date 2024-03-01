@@ -75,7 +75,6 @@
           />
         </form>
         <GoogleOAuthButton v-if="showGoogleOAuth" />
-        <OIDCButton v-if="showOIDC"/>
       </div>
       <div v-else class="flex items-center justify-center">
         <spinner color-scheme="primary" size="" />
@@ -91,7 +90,6 @@ import SubmitButton from '../../components/Button/SubmitButton.vue';
 import { mapGetters } from 'vuex';
 import { parseBoolean } from '@chatwoot/utils';
 import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
-import OIDCButton from '../../components/SSO/OIDC/Button.vue';
 import FormInput from '../../components/Form/Input.vue';
 import { login } from '../../api/auth';
 import Spinner from 'shared/components/Spinner.vue';
@@ -104,8 +102,6 @@ export default {
   components: {
     FormInput,
     GoogleOAuthButton,
-    //KEYCLOAK OIDC
-    OIDCButton,
     Spinner,
     SubmitButton,
   },
@@ -149,9 +145,6 @@ export default {
     ...mapGetters({ globalConfig: 'globalConfig/get' }),
     showGoogleOAuth() {
       return Boolean(window.chatwootConfig.googleOAuthClientId);
-    },
-    showOIDC() {
-      return Boolean(window.chatwootConfig.keycloakClientId);
     },
     showSignupLink() {
       return parseBoolean(window.chatwootConfig.signupEnabled);

@@ -29,6 +29,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
 
   def sign_up_user
     return redirect_to login_page_url(error: 'no-account-found') unless account_signup_allowed?
+
     # return redirect_to login_page_url(error: 'business-account-only') unless validate_business_account?
 
     create_account_for_user
@@ -77,7 +78,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     ).first
   end
 
-  def get_resource_from_keycloak 
+  def get_resource_from_keycloak
     keycloak_url = 'https://sso.onehash.ai/realms/OneHash'
     client_id = ENV.fetch('KEYCLOAK_CLIENT_ID', nil)
     client_secret = ENV.fetch('KEYCLOAK_CLIENT_SECRET', nil)
@@ -99,13 +100,13 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     response = HTTParty.post(token_endpoint, body: token_data)
     if response.code == 200
       access_token = response.parsed_response['access_token']
-    
+
       # Call Keycloak UserInfo endpoint to get user data
       user_info_endpoint = "#{keycloak_url}/protocol/openid-connect/userinfo"
       headers = { 'Authorization' => "Bearer #{access_token}" }
-    
+
       user_info_response = HTTParty.get(user_info_endpoint, headers: headers)
-    
+
       if user_info_response.code == 200
         @user_data = user_info_response.parsed_response
         @user_email = @user_data['email']
@@ -144,7 +145,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
       locale: locale,
       confirmed: confirmed
     ).perform
-  
+
     # Perform avatar-related tasks, assuming image_url is the URL of the user's avatar
     Avatar::AvatarFromUrlJob.perform_later(@resource, image_url)
   end
