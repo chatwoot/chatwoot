@@ -1,9 +1,7 @@
 <template>
-  <div
-    v-if="totalNotifications > 0"
-    class="flex flex-col h-full w-full md:w-[calc(100%-360px)]"
-  >
+  <div class="flex flex-col h-full w-full md:w-[calc(100%-360px)]">
     <inbox-item-header
+      v-if="totalNotifications > 0"
       :total-length="totalNotifications"
       :current-index="activeNotificationIndex"
       :active-notification="activeNotification"
