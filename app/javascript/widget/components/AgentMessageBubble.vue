@@ -134,7 +134,7 @@ export default {
     }),
     async onOptionSelect(selectedOption) {
       this.setOptions([]);
-      await this.sendMessage({content: selectedOption.title});
+      await this.sendMessage({content: selectedOption.value});
       // Scroll to bottom once the quick reply is clicked
       const container = document.getElementById('conversation-container');
       container.scrollTo(0, container.scrollHeight);
