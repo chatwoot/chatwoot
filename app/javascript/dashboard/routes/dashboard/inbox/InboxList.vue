@@ -104,7 +104,6 @@ export default {
   mounted() {
     this.setSavedFilter();
     this.fetchNotifications();
-    this.$store.dispatch('agents/get');
   },
   methods: {
     fetchNotifications() {
@@ -172,13 +171,14 @@ export default {
         });
     },
     onFilterChange(option) {
-      if (option.type === wootConstants.INBOX_FILTER_TYPE.STATUS) {
+      const { STATUS, TYPE, SORT_ORDER } = wootConstants.INBOX_FILTER_TYPE;
+      if (option.type === STATUS) {
         this.status = option.selected ? option.key : '';
       }
-      if (option.type === wootConstants.INBOX_FILTER_TYPE.TYPE) {
+      if (option.type === TYPE) {
         this.type = option.selected ? option.key : '';
       }
-      if (option.type === wootConstants.INBOX_FILTER_TYPE.SORT_ORDER) {
+      if (option.type === SORT_ORDER) {
         this.sortOrder = option.key;
       }
       this.fetchNotifications();

@@ -1,14 +1,20 @@
 <template>
   <div class="flex flex-col h-full w-full md:w-[calc(100%-360px)]">
     <inbox-item-header
-      v-if="totalNotifications > 0"
       :total-length="totalNotifications"
       :current-index="activeNotificationIndex"
       :active-notification="activeNotification"
       @next="onClickNext"
       @prev="onClickPrev"
     />
+    <div
+      v-if="isConversationLoading"
+      class="flex items-center justify-center h-[calc(100%-56px)] bg-slate-25 dark:bg-slate-800"
+    >
+      <span class="spinner my-4" />
+    </div>
     <conversation-box
+      v-else
       class="h-[calc(100%-56px)]"
       is-inbox-view
       :inbox-id="inboxId"
@@ -33,6 +39,11 @@ export default {
     ConversationBox,
   },
   mixins: [uiSettingsMixin],
+  data() {
+    return {
+      isConversationLoading: false,
+    };
+  },
   computed: {
     ...mapGetters({
       currentAccountId: 'getCurrentAccountId',
@@ -83,6 +94,9 @@ export default {
       },
     },
   },
+  mounted() {
+    this.$store.dispatch('agents/get');
+  },
   methods: {
     async fetchConversationById() {
       if (!this.notificationId || !this.conversationId) return;
@@ -92,8 +106,10 @@ export default {
         this.setActiveChat(existingChat);
         return;
       }
+      this.isConversationLoading = true;
       await this.$store.dispatch('getConversation', this.conversationId);
       this.setActiveChat();
+      this.isConversationLoading = false;
     },
     setActiveChat() {
       const selectedConversation = this.findConversation();
