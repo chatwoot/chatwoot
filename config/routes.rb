@@ -406,7 +406,7 @@ Rails.application.routes.draw do
   post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
-  #OneHash Stripe Billing Route
+  # OneHash Stripe Billing Route
   post 'webhooks/stripe', to: 'webhooks/stripe#process_payload'
 
   namespace :twitter do
