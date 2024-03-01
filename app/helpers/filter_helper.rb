@@ -45,6 +45,8 @@ module FilterHelper
     custom_attribute_query(query_hash, attribute_type, current_index)
   end
 
+  # TODO: Change the reliance on entity instead introduce datatype text_case_insensive
+  # Then we can remove the condition for Contact
   def handle_additional_attributes(query_hash, filter_operator_value)
     if filter_config[:entity] == 'Contact'
       "LOWER(#{filter_config[:table_name]}.additional_attributes ->> '#{query_hash[:attribute_key]}') " \
@@ -71,6 +73,8 @@ module FilterHelper
       "#{filter_operator_value}#{current_filter['data_type']} #{query_hash[:query_operator]}"
   end
 
+  # TODO: Change the reliance on entity instead introduce datatype text_case_insensive
+  # Then we can remove the condition for Contact
   def default_filter(query_hash, filter_operator_value)
     if filter_config[:entity] == 'Contact'
       "LOWER(#{filter_config[:table_name]}.#{query_hash[:attribute_key]}) " \
