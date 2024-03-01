@@ -38,7 +38,7 @@ class V2::Reports::BotMetricsBuilder
   end
 
   def bot_resolutions_count
-    account.reporting_events.joins(:conversation).select(:conversation_id).where(account_id: account.id, name: :conversation_bot_handoff,
+    account.reporting_events.joins(:conversation).select(:conversation_id).where(account_id: account.id, name: :conversation_bot_resolved,
                                                                                  created_at: range).distinct.count
   end
 
