@@ -75,7 +75,6 @@
           />
         </form>
         <GoogleOAuthButton v-if="showGoogleOAuth" />
-        <OIDCButton v-if="showOIDC"/>
       </div>
       <div v-else class="flex items-center justify-center">
         <spinner color-scheme="primary" size="" />
@@ -91,7 +90,6 @@ import SubmitButton from '../../components/Button/SubmitButton.vue';
 import { mapGetters } from 'vuex';
 import { parseBoolean } from '@chatwoot/utils';
 import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
-import OIDCButton from '../../components/SSO/OIDC/Button.vue';
 import FormInput from '../../components/Form/Input.vue';
 import { login } from '../../api/auth';
 import Spinner from 'shared/components/Spinner.vue';
@@ -104,8 +102,6 @@ export default {
   components: {
     FormInput,
     GoogleOAuthButton,
-    //KEYCLOAK OIDC
-    OIDCButton,
     Spinner,
     SubmitButton,
   },
@@ -150,9 +146,6 @@ export default {
     showGoogleOAuth() {
       return Boolean(window.chatwootConfig.googleOAuthClientId);
     },
-    showOIDC() {
-      return Boolean(window.chatwootConfig.keycloakClientId);
-    },
     showSignupLink() {
       return parseBoolean(window.chatwootConfig.signupEnabled);
     },
@@ -171,6 +164,9 @@ export default {
         this.$router.replace({ query: { ...query, error: undefined } });
       });
     }
+  },
+  mounted() {
+    this.redirectToKeycloak();
   },
   methods: {
     showAlert(message) {
@@ -210,6 +206,24 @@ export default {
           this.loginApi.hasErrored = true;
           this.showAlert(response?.message || this.$t('LOGIN.API.UNAUTH'));
         });
+    },
+    redirectToKeycloak() {
+      const realm = 'OneHash';
+      const clientId = 'onehash-chat';
+      const redirectUri =
+        'http://localhost:3000/omniauth/keycloak_openid/callback';
+      const baseUrl = `http://localhost:8080/realms/${realm}/protocol/openid-connect/auth`;
+      const responseType = 'code';
+      const scope = 'openid';
+
+      const queryString = new URLSearchParams({
+        client_id: clientId,
+        redirect_uri: redirectUri,
+        response_type: responseType,
+        scope: scope,
+      }).toString();
+
+      window.location.href = `${baseUrl}?${queryString}`;
     },
   },
 };

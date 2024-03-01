@@ -168,10 +168,9 @@ gem 'omniauth', '>= 2.1.2'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection', '~> 1.0'
 
-#need for keycloak
+# need for keycloak
 gem 'keycloak'
 gem 'omniauth-keycloak'
-
 
 ## Gems for reponse bot
 # adds cosine similarity to postgres using vector extension
