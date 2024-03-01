@@ -10,11 +10,17 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  account_id      :bigint
+#  team_id         :bigint
 #
 # Indexes
 #
 #  index_labels_on_account_id            (account_id)
+#  index_labels_on_team_id               (team_id)
 #  index_labels_on_title_and_account_id  (title,account_id) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (team_id => teams.id)
 #
 class Label < ApplicationRecord
   include RegexHelper

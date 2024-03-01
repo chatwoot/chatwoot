@@ -117,6 +117,10 @@
       "404": "Não há nenhuma campanha única criada",
       "INBOXES_NOT_FOUND": "Por favor, crie uma caixa de entrada SMS e comece a adicionar campanhas"
     },
+    "APP_INTEGRATION": {
+      "HEADER": "Integração de Apps",
+      "404": "Não há nenhuma integração de app criada"
+    },
     "ONGOING": {
       "HEADER": "Campanhas recorrentes",
       "404": "Não há campanhas recorrentes criadas",

@@ -84,7 +84,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ labels: 'labels/getLabels' }),
+    ...mapGetters({ labels: 'labels/getTeamLabels' }),
     filteredLabels() {
       return this.labels.filter(label =>
         label.title.toLowerCase().includes(this.query.toLowerCase())

@@ -3,6 +3,8 @@ import types from '../mutation-types';
 import LabelsAPI from '../../api/labels';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import { LABEL_EVENTS } from '../../helper/AnalyticsHelper/events';
+import { getters as teamGetters } from './teams/getters';
+import Team from './teams/index';
 
 export const state = {
   records: [],
@@ -21,8 +23,19 @@ export const getters = {
   getUIFlags(_state) {
     return _state.uiFlags;
   },
-  getLabelsOnSidebar(_state) {
-    return _state.records
+  getTeamLabels(_state) {
+    const teams = Object.keys(Team.state.records).map(
+      key => Team.state.records[key]
+    );
+    const myTeams = teamGetters
+      .getMyTeams(teams, { getTeams: teams })
+      .map(team => team.id);
+    return _state.records.filter(
+      label => !label.team_id || myTeams.includes(label.team_id)
+    );
+  },
+  getLabelsOnSidebar(_state, _getters) {
+    return _getters.getTeamLabels
       .filter(record => record.show_on_sidebar)
       .sort((a, b) => a.title.localeCompare(b.title));
   },
