@@ -441,7 +441,8 @@
       "LOADING_MESSAGE": "Ładowanie metryk rozmów...",
       "OPEN": "Otwarte",
       "UNATTENDED": "Nieobsługiwane",
-      "UNASSIGNED": "Nieprzypisane"
+      "UNASSIGNED": "Nieprzypisane",
+      "PENDING": "Oczekujące"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Ruch rozmów",
