@@ -399,7 +399,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_15_145314) do
     t.string "oa_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["oa_id", "account_id"], name: "index_channel_zalo_oa_on_oa_id_and_account_id", unique: true
+    t.index ["oa_id"], name: "index_channel_zalo_oa_on_oa_id", unique: true
   end
 
   create_table "contact_inboxes", force: :cascade do |t|

@@ -3,8 +3,8 @@
     <div v-if="!hasLoginStarted" class="login-init h-full">
       <a href="#" @click="startLogin()">
         <img
-          src="~dashboard/assets/images/channels/facebook_login.png"
-          alt="Facebook-logo"
+          src="~dashboard/assets/images/channels/zalo_login.jpg"
+          alt="Zalo-logo"
         />
       </a>
       <p>
@@ -32,10 +32,10 @@
       >
         <div class="w-full">
           <page-header
-            :header-title="$t('INBOX_MGMT.ADD.DETAILS.TITLE')"
+            :header-title="$t('INBOX_MGMT.DETAILS.TITLE')"
             :header-content="
               useInstallationName(
-                $t('INBOX_MGMT.ADD.DETAILS.DESC'),
+                $t('INBOX_MGMT.DETAILS.DESC_ZALO'),
                 globalConfig.installationName
               )
             "
@@ -125,8 +125,8 @@ export default {
       this.hasLoginStarted = true;
       window.location.replace(
         'https://oauth.zaloapp.com/v4/oa/permission?app_id=1705469258416327647&redirect_uri=' +
-          window.chatwootConfig.zaloCallbackUrl +
-          '&state=' +
+          window.chatwootConfig.hostURL +
+          '/zalo/callback&state=' +
           encodeURIComponent(this.accountId)
       );
     },
