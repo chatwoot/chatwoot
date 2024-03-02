@@ -441,7 +441,8 @@
       "LOADING_MESSAGE": "Loading conversation metrics...",
       "OPEN": "열기",
       "UNATTENDED": "Unattended",
-      "UNASSIGNED": "지정되지 않음"
+      "UNASSIGNED": "지정되지 않음",
+      "PENDING": "보내는 중"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
