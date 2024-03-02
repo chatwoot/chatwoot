@@ -441,7 +441,8 @@
       "LOADING_MESSAGE": "Carregando métricas de conversa...",
       "OPEN": "Abertas",
       "UNATTENDED": "Não atendidas",
-      "UNASSIGNED": "Não atribuída"
+      "UNASSIGNED": "Não atribuída",
+      "PENDING": "Pendente"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Tráfego de conversa",
