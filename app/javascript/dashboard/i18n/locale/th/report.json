@@ -441,7 +441,8 @@
       "LOADING_MESSAGE": "กำโหลดตัวชี้วัดการสนทนา",
       "OPEN": "เปิด",
       "UNATTENDED": "ไม่ได้เข้าร่วม",
-      "UNASSIGNED": "ไม่ได้รับมอบหมาย"
+      "UNASSIGNED": "ไม่ได้รับมอบหมาย",
+      "PENDING": "กำลังร้องขอ"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
