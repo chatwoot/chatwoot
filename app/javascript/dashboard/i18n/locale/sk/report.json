@@ -441,7 +441,8 @@
       "LOADING_MESSAGE": "Loading conversation metrics...",
       "OPEN": "Otvoriť",
       "UNATTENDED": "Unattended",
-      "UNASSIGNED": "Nepriradené"
+      "UNASSIGNED": "Nepriradené",
+      "PENDING": "Čaká sa na"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
