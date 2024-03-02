@@ -441,7 +441,8 @@
       "LOADING_MESSAGE": "Завантаження метрик розмови...",
       "OPEN": "Відкриті",
       "UNATTENDED": "Не зв'язаний",
-      "UNASSIGNED": "Непризначені"
+      "UNASSIGNED": "Непризначені",
+      "PENDING": "Очікує"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Бесіди",
