@@ -1,75 +1,75 @@
 {
   "CANNED_MGMT": {
     "HEADER": "Швидкі відповіді",
-    "HEADER_BTN_TXT": "Add canned response",
-    "LOADING": "Fetching canned responses...",
+    "HEADER_BTN_TXT": "Додати швидку відповідь",
+    "LOADING": "Отримання швидких відповідей...",
     "SEARCH_404": "Немає елементів, що відповідають запиту.",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are pre-written reply templates that help you quickly respond to a conversation. To insert a canned response during a chat, agents can type a short code preceded by a '/' character. </p><p> You can manage your canned responses from this page or create new ones using the \"Add canned response\" button.</p><p>Open the <a target=\"_blank\" href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\">Canned Responses handbook</a> in another tab for a helping hand.</p><p>Also, check out the all-new <a href=\"https://www.chatwoot.com/tools/canned-responses-library\" target=\"_blank\">Canned Responses Library</a>.</p>",
+    "SIDEBAR_TXT": "<p><b>Шаблони відповідей</b> </p><p> Шаблони відповідей — це попередньо написані шаблони відповідей, які допомагають швидко відповідати на діалог. Щоб вставити стандартну відповідь під час чату, агенти можуть ввести короткий код (шорт-код), перед яким стоїть символ «/». </p><p> Ви можете керувати своїми стандартними відповідями на цій сторінці або створювати нові за допомогою кнопки «Додати шаблон відповіді».</p><p>Відкрийте <a target=\"_blank\" href=\"https: //www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\">Посібник із шаблонів відповідей</a> на іншій вкладці.</p><p>Також перегляньте абсолютно нову <a href=\"https://www.chatwoot.com/tools/canned-responses-library\" target=\"_blank \">Бібліотеку шаблонних відповідей</a>.</p>",
     "LIST": {
       "404": "В цьому обліковому записі немає швидких відповідей.",
       "TITLE": "Керування швидкими вдіповідями",
-      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
+      "DESC": "Швидкі відповіді - це шаблони, які можна швидко використати для відповіді на повідомлення у діалозі.",
       "TABLE_HEADER": [
-        "Short code",
+        "Шорт-код",
         "Вміст",
         "Дії"
       ]
     },
     "ADD": {
-      "TITLE": "Add canned response",
-      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
+      "TITLE": "Додати швидку відповідь",
+      "DESC": "Швидкі відповіді - це шаблони, які можна швидко використати для відповіді на повідомлення у діалозі.",
       "CANCEL_BUTTON_TEXT": "Скасувати",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short code",
-          "PLACEHOLDER": "Please enter a short code.",
-          "ERROR": "Short Code is required."
+          "LABEL": "Шорт-код",
+          "PLACEHOLDER": "Введіть шорт-код.",
+          "ERROR": "Необхідно вказати шорт-код."
         },
         "CONTENT": {
           "LABEL": "Текст повідомлення",
-          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
-          "ERROR": "Message is required."
+          "PLACEHOLDER": "Будь ласка, напишіть повідомлення, яке ви хочете зберегти як шаблон, щоб використовувати пізніше.",
+          "ERROR": "Необхідно ввести повідомлення."
         },
         "SUBMIT": "Додати"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Canned response added successfully.",
+        "SUCCESS_MESSAGE": "Швидку відповідь додано.",
         "ERROR_MESSAGE": "Не вдалося підключитися до Woot сервера. Будь ласка, спробуйте ще раз."
       }
     },
     "EDIT": {
-      "TITLE": "Edit canned response",
+      "TITLE": "Редагувати швидку відповідь",
       "CANCEL_BUTTON_TEXT": "Скасувати",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short code",
-          "PLACEHOLDER": "Please enter a shortcode.",
-          "ERROR": "Short code is required."
+          "LABEL": "Шорт-код",
+          "PLACEHOLDER": "Введіть шорт-код.",
+          "ERROR": "Необхідно вказати шорт-код."
         },
         "CONTENT": {
           "LABEL": "Текст повідомлення",
-          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "PLACEHOLDER": "Будь ласка, напишіть повідомлення, яке ви хочете зберегти як шаблон, щоб використовувати пізніше.",
           "ERROR": "Необхідне повідомлення."
         },
         "SUBMIT": "Додати"
       },
       "BUTTON_TEXT": "Редагувати",
       "API": {
-        "SUCCESS_MESSAGE": "Canned response is updated successfully.",
+        "SUCCESS_MESSAGE": "Швидку відповідь успішно оновлено.",
         "ERROR_MESSAGE": "Не вдалося підключитися до Woot сервера. Будь ласка, спробуйте ще раз."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Видалити",
       "API": {
-        "SUCCESS_MESSAGE": "Canned response deleted successfully.",
+        "SUCCESS_MESSAGE": "Швидку відповідь успішно видалено.",
         "ERROR_MESSAGE": "Не вдалося підключитися до Woot сервера. Будь ласка, спробуйте ще раз."
       },
       "CONFIRM": {
         "TITLE": "Підтвердіть видалення",
         "MESSAGE": "Справді бажаєте видалити ",
-        "YES": "Yes, delete ",
-        "NO": "No, keep "
+        "YES": "Так, видалити ",
+        "NO": "Ні, залишити "
       }
     }
   }
