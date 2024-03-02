@@ -39,6 +39,12 @@ messenger:
   enabled: true
   icon: 'icon-messenger-line'
   config_key: 'facebook'
+zalo:
+  name: 'Zalo'
+  description: 'Stay connected with your customers on Zalo Official Account.'
+  enabled: true
+  icon: 'icon-messenger-line'
+  config_key: 'zalo'
 whatsapp:
   name: 'WhatsApp'
   description: 'Manage your WhatsApp business interactions from Chatwoot.'

@@ -46,6 +46,13 @@
         "PICK_NAME": "Pick A Name Your Inbox",
         "PICK_A_VALUE": "Pick a value"
       },
+      "ZALO": {
+        "HELP": "PS: By signing in, we only get access to your Zalo OA's messages. Your private messages can never be accessed by Chatwoot.",
+        "INBOX_NAME": "Inbox Name",
+        "ADD_NAME": "Add a name for your inbox",
+        "PICK_NAME": "Pick A Name Your Inbox",
+        "PICK_A_VALUE": "Pick a value"
+      },
       "TWITTER": {
         "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",
         "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
@@ -340,12 +347,12 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "Chatwoot supports live-chat widgets, Zalo OA, Facebook Messenger, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "Agents",
         "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create.",
-        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Pick agents for the inbox"
       },
       "DETAILS": {
@@ -370,12 +377,14 @@
     },
     "DETAILS": {
       "LOADING_FB": "Authenticating you with Facebook...",
+      "LOADING_ZALO": "Authenticating you with Zalo...",
       "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
       "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
       "CREATING_CHANNEL": "Creating your Inbox...",
       "TITLE": "Configure Inbox Details",
-      "DESC": ""
+      "DESC": "",
+      "DESC_ZALO": "You can use your ZaloOA name as the Inbox name in Chatwoot. You can also give a custom name to your inbox for better identification."
     },
     "AGENTS": {
       "BUTTON_TEXT": "Add agents",
