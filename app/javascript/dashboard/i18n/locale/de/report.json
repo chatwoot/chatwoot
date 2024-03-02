@@ -441,7 +441,8 @@
       "LOADING_MESSAGE": "Konversationsdaten werden geladen...",
       "OPEN": "Öffnen",
       "UNATTENDED": "Unbeaufsichtigt",
-      "UNASSIGNED": "Nicht zugewiesen"
+      "UNASSIGNED": "Nicht zugewiesen",
+      "PENDING": "Ausstehend"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Gesprächsprotokoll",
