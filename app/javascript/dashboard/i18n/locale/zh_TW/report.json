@@ -441,7 +441,8 @@
       "LOADING_MESSAGE": "Loading conversation metrics...",
       "OPEN": "打開",
       "UNATTENDED": "Unattended",
-      "UNASSIGNED": "未指派的"
+      "UNASSIGNED": "未指派的",
+      "PENDING": "待處理"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
