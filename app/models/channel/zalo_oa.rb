@@ -13,7 +13,7 @@
 #
 # Indexes
 #
-#  index_channel_zalo_oa_on_oa_id_and_account_id  (oa_id,account_id) UNIQUE
+#  index_channel_zalo_oa_on_oa_id  (oa_id) UNIQUE
 #
 
 class Channel::ZaloOa < ApplicationRecord
@@ -27,7 +27,7 @@ class Channel::ZaloOa < ApplicationRecord
   validates :expires_in, presence: true
   validates :account_id, presence: true
   validates :oa_id, presence: true
-  validates :oa_id, uniqueness: { scope: :account_id }
+  validates :oa_id, uniqueness: true
 
   def name
     'ZaloOa'
