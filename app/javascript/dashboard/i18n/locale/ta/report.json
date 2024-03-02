@@ -441,7 +441,8 @@
       "LOADING_MESSAGE": "Loading conversation metrics...",
       "OPEN": "திற",
       "UNATTENDED": "Unattended",
-      "UNASSIGNED": "ஒதுக்கப்படாதது"
+      "UNASSIGNED": "ஒதுக்கப்படாதது",
+      "PENDING": "Pending"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
