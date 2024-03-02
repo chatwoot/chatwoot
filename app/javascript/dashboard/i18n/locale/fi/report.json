@@ -441,7 +441,8 @@
       "LOADING_MESSAGE": "Loading conversation metrics...",
       "OPEN": "Avaa",
       "UNATTENDED": "Unattended",
-      "UNASSIGNED": "Osoittamaton"
+      "UNASSIGNED": "Osoittamaton",
+      "PENDING": "Odottava"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
