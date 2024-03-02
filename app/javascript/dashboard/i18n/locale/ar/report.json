@@ -441,7 +441,8 @@
       "LOADING_MESSAGE": "جارٍ تحميل مقاييس المحادثات...",
       "OPEN": "فتح",
       "UNATTENDED": "بدون حضور",
-      "UNASSIGNED": "غير مسند"
+      "UNASSIGNED": "غير مسند",
+      "PENDING": "معلق"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
