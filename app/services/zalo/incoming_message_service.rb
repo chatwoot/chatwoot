@@ -5,17 +5,14 @@ class Zalo::IncomingMessageService
 
   def perform
     set_contact
-    update_contact unless params[:event_name] == 'anonymous_send_text'
-    set_conversation
+    if params[:event_name] == 'user_submit_info'
+      update_contact_from_shared_info
+      return
+    end
 
-    @message = @conversation.messages.create!(
-      content: params[:message][:text],
-      account_id: @inbox.account_id,
-      inbox_id: @inbox.id,
-      message_type: :incoming,
-      sender: @contact,
-      source_id: params[:message][:msg_id]
-    )
+    first_message_processing if @contact.messages.empty?
+    set_conversation
+    @message = @conversation.messages.create!(message_params)
 
     @message.content_attributes[:in_reply_to_external_id] = params[:message][:quote_msg_id] if params[:message][:quote_msg_id]
 
@@ -37,6 +34,13 @@ class Zalo::IncomingMessageService
     'https://openapi.zalo.me/v2.0/oa/getprofile'
   end
 
+  def first_message_processing
+    # try to get user info from followed user first
+    update_contact_from_profile
+    # request user info for unfollowed user
+    request_user_info if @contact.name == params[:sender][:id]
+  end
+
   def get_profile(user_id, access_token)
     HTTParty.get(
       url_getprofile,
@@ -45,15 +49,49 @@ class Zalo::IncomingMessageService
     )
   end
 
-  def update_contact
-    # new contact will have name = user_id
-    return unless @contact.name == params[:sender][:id]
+  def request_user_info
+    body = request_user_info_body
+    channel.send_message_cs(body, channel.oa_access_token)
+  end
 
+  def request_user_info_body
+    {
+      recipient: {
+        user_id: params[:sender][:id]
+      },
+      # TODO: Need to personalize the below info
+      message: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'request_user_info',
+            elements: [{
+              title: 'HoaTieu CRM cảm ơn bạn đã liên hệ',
+              subtitle: 'Nhấp vào đây để cung cấp thông tin của bạn',
+              image_url: 'https://noventiq.si/uploads/resizer/images/2b68b5/ed7a86/d2b6d2/origin-mode1-760x362.jpg'
+            }]
+          }
+        }
+      }
+    }
+  end
+
+  def update_contact_from_profile
     response = get_profile(params[:sender][:id], channel.oa_access_token)
     return unless (response['error']).zero?
 
     @contact.update!(name: response['data']['display_name'])
     ::Avatar::AvatarFromUrlJob.perform_later(@contact, response['data']['avatars']['240'])
+  end
+
+  def update_contact_from_shared_info
+    phone_number = params[:info][:phone].to_s
+    phone_number.prepend('+') unless phone_number.start_with?('+')
+
+    @contact.update!(
+      name: params[:info][:name],
+      phone_number: phone_number
+    )
   end
 
   def set_contact
@@ -73,6 +111,17 @@ class Zalo::IncomingMessageService
       inbox_id: @inbox.id,
       contact_id: @contact.id,
       contact_inbox_id: @contact_inbox.id
+    }
+  end
+
+  def message_params
+    {
+      content: params[:message][:text],
+      account_id: @inbox.account_id,
+      inbox_id: @inbox.id,
+      message_type: :incoming,
+      sender: @contact,
+      source_id: params[:message][:msg_id]
     }
   end
 
