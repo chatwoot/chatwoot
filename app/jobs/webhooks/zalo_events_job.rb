@@ -1,12 +1,12 @@
 class Webhooks::ZaloEventsJob < ApplicationJob
   queue_as :default
 
-  SUPPORTED_EVENTS = %w[anonymous_send_text user_send_text user_send_image user_send_link user_send_audio user_send_video user_send_sticker
-                        user_send_location user_send_file user_received_message user_seen_message].freeze
+  SUPPORTED_EVENTS = %w[user_send_text user_send_image user_send_link user_send_audio user_send_video user_send_sticker
+                        user_send_location user_send_file user_received_message user_seen_message user_submit_info].freeze
 
   def perform(params = {}, signature: '', post_body: '')
-    return unless validate_signature(params, post_body, signature)
     return unless SUPPORTED_EVENTS.include?(params[:event_name])
+    return unless validate_signature(params, post_body, signature)
 
     oa_id = delivery_event?(params) ? params[:sender][:id] : params[:recipient][:id]
     channel = Channel::ZaloOa.find_by(oa_id: oa_id)

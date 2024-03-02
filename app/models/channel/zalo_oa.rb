@@ -57,6 +57,14 @@ class Channel::ZaloOa < ApplicationRecord
     response
   end
 
+  def send_message_cs(body, access_token)
+    HTTParty.post(
+      url_message_cs,
+      headers: { 'Content-Type' => 'application/json', 'access_token' => access_token },
+      body: body.to_json
+    )
+  end
+
   private
 
   def url_message_cs
@@ -156,13 +164,5 @@ class Channel::ZaloOa < ApplicationRecord
       recipient: { user_id: user_id },
       message: { text: message_content }
     }
-  end
-
-  def send_message_cs(body, access_token)
-    HTTParty.post(
-      url_message_cs,
-      headers: { 'Content-Type' => 'application/json', 'access_token' => access_token },
-      body: body.to_json
-    )
   end
 end
