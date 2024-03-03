@@ -76,11 +76,16 @@
       class="conversation-footer"
       :class="{ 'modal-mask': isPopoutReplyBox }"
     >
-      <div v-if="isAnyoneTyping" class="typing-indicator-wrap">
-        <div class="typing-indicator">
+      <div
+        v-if="isAnyoneTyping"
+        class="items-center flex h-0 absolute w-full -top-7"
+      >
+        <div
+          class="flex py-2 pr-4 pl-5 shadow-md rounded-full bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 text-xs font-semibold my-2.5 mx-auto"
+        >
           {{ typingUserNames }}
           <img
-            class="gif"
+            class="ltr:ml-2 rtl:mr-2 w-6"
             src="~dashboard/assets/images/typing.gif"
             alt="Someone is typing"
           />
@@ -547,6 +552,8 @@ export default {
 
 <style scoped lang="scss">
 .modal-mask {
+  @apply absolute;
+
   &::v-deep {
     .ProseMirror-woot-style {
       @apply max-h-[25rem];

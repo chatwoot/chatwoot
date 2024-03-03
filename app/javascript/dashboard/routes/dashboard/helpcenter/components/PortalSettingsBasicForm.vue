@@ -1,7 +1,9 @@
 <template>
-  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%]">
+  <div
+    class="pt-3 bg-white dark:bg-slate-900 h-full border border-solid border-transparent px-6 pb-6 dark:border-transparent w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+  >
     <div class="w-full">
-      <h3 class="block-title text-black-900 dark:text-slate-200">
+      <h3 class="text-lg text-black-900 dark:text-slate-200">
         {{
           $t(
             'HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.BASIC_SETTINGS_PAGE.TITLE'
@@ -75,7 +77,7 @@
         </div>
       </div>
     </div>
-    <div class="flex-end">
+    <div class="flex justify-end">
       <woot-button
         :is-loading="isSubmitting"
         :is-disabled="$v.$invalid"
@@ -243,10 +245,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.wizard-body {
-  @apply pt-3 border border-solid border-transparent dark:border-transparent;
-}
-
 ::v-deep {
   input {
     @apply mb-1;

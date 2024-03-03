@@ -1,5 +1,7 @@
 <template>
-  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%]">
+  <div
+    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+  >
     <empty-state
       :title="$t('TEAMS_SETTINGS.FINISH.TITLE')"
       :message="$t('TEAMS_SETTINGS.FINISH.MESSAGE')"
@@ -7,7 +9,7 @@
     >
       <div class="w-full text-center">
         <router-link
-          class="button success nice"
+          class="button success nice rounded"
           :to="{
             name: 'settings_teams_list',
           }"
@@ -28,8 +30,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.website--code {
-  @apply my-4 mx-auto max-w-[70%];
-}
-</style>

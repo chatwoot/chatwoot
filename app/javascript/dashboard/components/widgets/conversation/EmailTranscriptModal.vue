@@ -8,7 +8,10 @@
       />
       <form class="w-full" @submit.prevent="onSubmit">
         <div class="w-full">
-          <div v-if="currentChat.meta.sender && currentChat.meta.sender.email">
+          <div
+            v-if="currentChat.meta.sender && currentChat.meta.sender.email"
+            class="flex items-center gap-2"
+          >
             <input
               id="contact"
               v-model="selectedType"
@@ -20,7 +23,7 @@
               $t('EMAIL_TRANSCRIPT.FORM.SEND_TO_CONTACT')
             }}</label>
           </div>
-          <div v-if="currentChat.meta.assignee">
+          <div v-if="currentChat.meta.assignee" class="flex items-center gap-2">
             <input
               id="assignee"
               v-model="selectedType"
@@ -32,7 +35,7 @@
               $t('EMAIL_TRANSCRIPT.FORM.SEND_TO_AGENT')
             }}</label>
           </div>
-          <div>
+          <div class="flex items-center gap-2">
             <input
               id="other_email_address"
               v-model="selectedType"
