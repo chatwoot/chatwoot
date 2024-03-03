@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 px-1 overflow-auto">
+  <div class="px-1">
     <form class="space-y-8" @submit.prevent="submit">
       <section class="space-y-3">
         <form-input
