@@ -191,6 +191,48 @@ RSpec.describe 'Reports API', type: :request do
     end
   end
 
+  describe 'GET /api/v2/accounts/:account_id/reports/bot_summary' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v2/accounts/#{account.id}/reports/bot_summary"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:params) do
+        super().merge(
+          type: :account,
+          since: start_of_today.to_s,
+          until: end_of_today.to_s
+        )
+      end
+
+      it 'returns unauthorized for agents' do
+        get "/api/v2/accounts/#{account.id}/reports/bot_summary",
+            params: params,
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns bot summary metrics' do
+        get "/api/v2/accounts/#{account.id}/reports/bot_summary",
+            params: params,
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+
+        expect(json_response['bot_resolutions_count']).to eq(0)
+        expect(json_response['bot_handoffs_count']).to eq(0)
+      end
+    end
+  end
+
   describe 'GET /api/v2/accounts/:account_id/reports/agents' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -396,6 +438,43 @@ RSpec.describe 'Reports API', type: :request do
             headers: admin.create_new_auth_token
 
         expect(response).to have_http_status(:success)
+      end
+    end
+  end
+
+  describe 'GET /api/v2/accounts/:account_id/reports/bot_metrics' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v2/accounts/#{account.id}/reports/bot_metrics"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:params) do
+        super().merge(
+          since: 7.days.ago.to_i.to_s,
+          until: end_of_today.to_s
+        )
+      end
+
+      it 'returns unauthorized if the user is an agent' do
+        get "/api/v2/accounts/#{account.id}/reports/bot_metrics",
+            params: params,
+            headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns values' do
+        expect(V2::Reports::BotMetricsBuilder).to receive(:new).and_call_original
+        get "/api/v2/accounts/#{account.id}/reports/bot_metrics",
+            params: params,
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body.keys).to match_array(%w[conversation_count message_count resolution_rate handoff_rate])
       end
     end
   end

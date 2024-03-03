@@ -1,8 +1,40 @@
+// scss-lint:disable SpaceAfterPropertyColon
+// scss-lint:disable MergeableSelector
+button {
+  font-family: inherit;
+  transition:
+    background-color 0.25s ease-out,
+    color 0.25s ease-out;
+  @apply inline-block items-center mb-0 text-center align-middle cursor-pointer text-sm mt-0 mx-0 py-1 px-2.5 border border-solid border-transparent dark:border-transparent rounded-[0.3125rem];
+
+  &:disabled,
+  &.disabled {
+    @apply opacity-40 cursor-not-allowed;
+  }
+}
+
+.button-group {
+  @apply mb-0 flex flex-nowrap items-stretch;
+
+  .button {
+    flex: 0 0 auto;
+    @apply m-0 text-sm rounded-none first:rounded-tl-[0.3125rem] first:rounded-bl-[0.3125rem] last:rounded-tr-[0.3125rem] last:rounded-br-[0.3125rem] rtl:space-x-reverse;
+  }
+
+  .button--only-icon {
+    @apply w-10 justify-center pl-0 pr-0;
+  }
+}
+
+.back-button {
+  @apply m-0;
+}
+
 .button {
-  @apply items-center inline-flex h-10 mb-0 gap-2;
+  @apply items-center bg-woot-500 dark:bg-woot-500 px-2.5 text-white dark:text-white inline-flex h-10 mb-0 gap-2 font-medium;
 
   .button__content {
-    @apply w-full;
+    @apply w-full whitespace-nowrap overflow-hidden text-ellipsis;
 
     img,
     svg {
@@ -10,12 +42,61 @@
     }
   }
 
+  &:hover {
+    @apply bg-woot-600 dark:bg-woot-600;
+  }
+
+  &:disabled,
+  &.disabled {
+    @apply opacity-40 cursor-not-allowed;
+  }
+
+  &.success {
+    @apply bg-[#44ce4b] dark:bg-[#44ce4b] text-white dark:text-white;
+  }
+
+  &.secondary {
+    @apply bg-slate-700 dark:bg-slate-600 text-white dark:text-white;
+  }
+
+  &.primary {
+    @apply bg-woot-500 dark:bg-woot-500 text-white dark:text-white;
+  }
+
+  &.clear {
+    @apply text-woot-500 dark:text-woot-500 bg-transparent dark:bg-transparent;
+  }
+
+  &.alert {
+    @apply bg-red-500 dark:bg-red-500 text-white dark:text-white;
+
+    &.clear {
+      @apply bg-transparent dark:bg-transparent;
+    }
+  }
+
+  &.warning {
+    @apply bg-[#ffc532] dark:bg-[#ffc532] text-white dark:text-white;
+
+    &.clear {
+      @apply bg-transparent dark:bg-transparent;
+    }
+  }
+
+  &.tiny {
+    @apply h-6 text-[10px];
+  }
+
+  &.small {
+    @apply h-8 text-xs;
+  }
+
   .spinner {
     @apply px-2 py-0;
   }
 
   // @TODDO - Remove after moving all buttons to woot-button
-  .icon + .button__content {
+  .icon+.button__content {
     @apply w-auto;
   }
 
@@ -34,7 +115,7 @@
   }
 
   &.hollow {
-    @apply border border-woot-500 dark:border-woot-500 text-woot-500 dark:text-woot-500 hover:bg-woot-50 dark:hover:bg-woot-900;
+    @apply border border-woot-500 bg-transparent dark:bg-transparent dark:border-woot-500 text-woot-500 dark:text-woot-500 hover:bg-woot-50 dark:hover:bg-woot-900;
 
     &.secondary {
       @apply text-slate-700 border-slate-200 dark:border-slate-600 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700;

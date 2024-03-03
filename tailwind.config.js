@@ -16,6 +16,7 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 module.exports = {
   darkMode: 'class',
   content: [
+    './enterprise/app/views/**/*.html.erb',
     './app/javascript/widget/**/*.vue',
     './app/javascript/v3/**/*.vue',
     './app/javascript/dashboard/**/*.vue',
@@ -32,9 +33,8 @@ module.exports = {
     colors: {
       transparent: 'transparent',
       white: '#fff',
-      white_transparent: 'rgba(255, 255, 255, 0.9)',
-      black_transparent: 'rgba(0, 0, 0, 0.9)',
-      modal: 'rgba(0, 0, 0, 0.4)',
+      'modal-backdrop-light': 'rgba(0, 0, 0, 0.4)',
+      'modal-backdrop-dark': 'rgba(0, 0, 0, 0.6)',
       current: 'currentColor',
       woot: {
         25: blue.blue2,
@@ -143,11 +143,20 @@ module.exports = {
         '50%': { opacity: 1 },
         '100%': { opacity: 0.4 },
       },
+      'card-select': {
+        '0%, 100%': {
+          transform: 'translateX(0)',
+        },
+        '50%': {
+          transform: 'translateX(1px)',
+        },
+      },
     },
     animation: {
       ...defaultTheme.animation,
       wiggle: 'wiggle 0.5s ease-in-out',
       'loader-pulse': 'loader-pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      'card-select': 'card-select 0.25s ease-in-out',
     },
   },
   plugins: [

@@ -60,7 +60,7 @@
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Sähköpostiosoite",
-        "PLACEHOLDER": "Ole hyvä ja syötä sähköpostiosoitteesi",
+        "PLACEHOLDER": "Ole hyvä ja syötä email osoite",
         "REQUIRED_ERROR": "Sähköpostiosoite on pakollinen",
         "VALID_ERROR": "Ole hyvä ja syötä validi sähköposti"
       },
@@ -80,7 +80,8 @@
     },
     "CAMPAIGN_HEADER": "Ole hyvä ja anna nimesi ja sähköpostisi ennen keskustelun aloittamista",
     "IS_REQUIRED": "on vaadittu",
-    "REQUIRED": "Pakollinen"
+    "REQUIRED": "Pakollinen",
+    "REGEX_ERROR": "Please provide a valid input"
   },
   "FILE_SIZE_LIMIT": "Tiedosto ylittää sallitun {MAXIMUM_FILE_UPLOAD_SIZE} liitteen rajan",
   "CHAT_FORM": {

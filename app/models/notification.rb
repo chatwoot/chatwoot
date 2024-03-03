@@ -4,6 +4,7 @@
 #
 #  id                   :bigint           not null, primary key
 #  last_activity_at     :datetime
+#  meta                 :jsonb
 #  notification_type    :integer          not null
 #  primary_actor_type   :string           not null
 #  read_at              :datetime
@@ -46,10 +47,7 @@ class Notification < ApplicationRecord
   before_create :set_last_activity_at
   after_create_commit :process_notification_delivery, :dispatch_create_event
   after_destroy_commit :dispatch_destroy_event
-
-  # TODO: Get rid of default scope
-  # https://stackoverflow.com/a/1834250/939299
-  default_scope { order(id: :desc) }
+  after_update_commit :dispatch_update_event
 
   PRIMARY_ACTORS = ['Conversation'].freeze
 
@@ -64,21 +62,17 @@ class Notification < ApplicationRecord
       secondary_actor: secondary_actor&.push_event_data,
       user: user&.push_event_data,
       created_at: created_at.to_i,
+      last_activity_at: last_activity_at.to_i,
+      snoozed_until: snoozed_until,
+      meta: meta,
       account_id: account_id
 
     }
     if primary_actor.present?
-      payload[:primary_actor] = primary_actor_data
+      payload[:primary_actor] = primary_actor&.push_event_data
       payload[:push_message_title] = push_message_title
     end
     payload
-  end
-
-  def primary_actor_data
-    {
-      id: primary_actor.push_event_data[:id],
-      meta: primary_actor.push_event_data[:meta]
-    }
   end
 
   def fcm_push_data
@@ -122,19 +116,30 @@ class Notification < ApplicationRecord
   private
 
   def process_notification_delivery
-    Notification::PushNotificationJob.perform_later(self)
+    Notification::PushNotificationJob.perform_later(self) if user_subscribed_to_notification?('push')
 
     # Should we do something about the case where user subscribed to both push and email ?
     # In future, we could probably add condition here to enqueue the job for 30 seconds later
     # when push enabled and then check in email job whether notification has been read already.
-    Notification::EmailNotificationJob.perform_later(self)
+    Notification::EmailNotificationJob.perform_later(self) if user_subscribed_to_notification?('email')
 
-    # Remove duplicate notifications
     Notification::RemoveDuplicateNotificationJob.perform_later(self)
+  end
+
+  def user_subscribed_to_notification?(delivery_type)
+    notification_setting = user.notification_settings.find_by(account_id: account.id)
+    return false if notification_setting.blank?
+
+    # Check if the user has subscribed to the specified type of notification
+    notification_setting.public_send("#{delivery_type}_#{notification_type}?")
   end
 
   def dispatch_create_event
     Rails.configuration.dispatcher.dispatch(NOTIFICATION_CREATED, Time.zone.now, notification: self)
+  end
+
+  def dispatch_update_event
+    Rails.configuration.dispatcher.dispatch(NOTIFICATION_UPDATED, Time.zone.now, notification: self)
   end
 
   def dispatch_destroy_event

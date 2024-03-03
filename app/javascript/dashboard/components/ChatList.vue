@@ -1,6 +1,6 @@
 <template>
   <div
-    class="conversations-list-wrap flex-basis-clamp flex-shrink-0 flex-basis-custom overflow-hidden flex flex-col border-r rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-800/50"
+    class="conversations-list-wrap flex-basis-clamp flex-shrink-0 overflow-hidden flex flex-col border-r rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-800/50"
     :class="{
       hide: !showConversationList,
       'list--full-width': isOnExpandedLayout,
@@ -16,7 +16,7 @@
     >
       <div class="flex max-w-[85%] justify-center items-center">
         <h1
-          class="text-xl break-words overflow-hidden whitespace-nowrap text-ellipsis text-black-900 dark:text-slate-100 mb-0"
+          class="text-xl break-words overflow-hidden whitespace-nowrap font-medium text-ellipsis text-black-900 dark:text-slate-100 mb-0"
           :title="pageTitle"
         >
           {{ pageTitle }}
@@ -143,7 +143,10 @@
           <div v-if="chatListLoading" class="text-center">
             <span class="spinner mt-4 mb-4" />
           </div>
-          <p v-if="showEndOfListMessage" class="text-center text-muted p-4">
+          <p
+            v-if="showEndOfListMessage"
+            class="text-center text-slate-400 dark:text-slate-300 p-4"
+          >
             {{ $t('CHAT_LIST.EOF') }}
           </p>
           <intersection-observer
@@ -519,6 +522,9 @@ export default {
     },
   },
   watch: {
+    teamId() {
+      this.updateVirtualListProps('teamId', this.teamId);
+    },
     activeTeam() {
       this.resetAndFetchData();
     },
