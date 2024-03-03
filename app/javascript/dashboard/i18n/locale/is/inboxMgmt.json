@@ -569,7 +569,7 @@
       "UPDATE": "Update business hours settings",
       "TOGGLE_AVAILABILITY": "Virkja opnunartíma fyrirtækja fyrir þetta innhólf",
       "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "TOGGLE_HELP": "Með því að virkja opnunartíma fyrirtækis mun opnunartíminn sjást á vefspjallinu jafnvel þótt allir þjónustufulltrúar séu ótengdir. Utan opnunnartíma er hægt að vara viðskiptavini við með skilaboðum og forspjallsformi.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Enable availability for this day",
         "UNAVAILABLE": "Unavailable",

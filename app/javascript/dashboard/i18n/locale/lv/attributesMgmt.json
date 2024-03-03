@@ -39,6 +39,17 @@
           "PLACEHOLDER": "Ievadiet pielāgotas īpašības atslēgu",
           "ERROR": "Nepieciešama atslēga",
           "IN_VALID": "Nederīga atslēga"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Regex Šablons",
+          "PLACEHOLDER": "Lūdzu, ievadiet pielāgotu atribūtu regex šablonu. (Neobligāti)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Norādījums",
+          "PLACEHOLDER": "Lūdzu, ievadiet regex šablona norādījumu. (Neobligāti)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Iespējot regex pārbaudi"
         }
       },
       "API": {
@@ -93,6 +104,17 @@
       "EMPTY_RESULT": {
         "404": "Nav izveidotas pielāgotas īpašības",
         "NOT_FOUND": "Nav nokonfigurētas pielāgotas īpašības"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Regex Šablons",
+        "PLACEHOLDER": "Lūdzu, ievadiet pielāgotu atribūtu regex šablonu. (Neobligāti)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Norādījums",
+        "PLACEHOLDER": "Lūdzu, ievadiet regex šablona norādījumu. (Neobligāti)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Iespējot regex pārbaudi"
       }
     }
   }

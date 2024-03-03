@@ -160,6 +160,9 @@
     "TRIAL_MESSAGE": "zile de încercare rămase.",
     "TRAIL_BUTTON": "Cumpara acum",
     "DELETED_USER": "Utilizator șters",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Cont suspendat",
       "MESSAGE": "Contul tău este suspendat. Vă rugăm să contactați echipa de asistență pentru mai multe informații."
@@ -197,6 +200,7 @@
     "CURRENTLY_VIEWING_ACCOUNT": "În prezent, vizualizarea:",
     "SWITCH": "Comută contul",
     "CONVERSATIONS": "Conversații",
+    "INBOX": "Inbox",
     "ALL_CONVERSATIONS": "Toate conversațiile",
     "MENTIONED_CONVERSATIONS": "Menţionări",
     "PARTICIPATING_CONVERSATIONS": "Participante",
@@ -238,6 +242,7 @@
     "REPORTS_INBOX": "Inbox",
     "REPORTS_TEAM": "Echipa",
     "SET_AVAILABILITY_TITLE": "Setați-vă ca",
+    "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Prezentare generală",
     "FACEBOOK_REAUTHORIZE": "Conexiunea ta de Facebook a expirat, te rugăm să-ți reconectezi pagina de Facebook pentru a continua serviciile",

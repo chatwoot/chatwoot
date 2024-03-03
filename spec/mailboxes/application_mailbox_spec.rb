@@ -10,6 +10,8 @@ RSpec.describe ApplicationMailbox do
     let(:reply_mail_without_uuid) { create_inbound_email_from_fixture('reply.eml') }
     let(:reply_mail_with_in_reply_to) { create_inbound_email_from_fixture('in_reply_to.eml') }
     let(:support_mail) { create_inbound_email_from_fixture('support.eml') }
+    let(:mail_with_invalid_to_address) { create_inbound_email_from_fixture('mail_with_invalid_to.eml') }
+    let(:mail_with_invalid_to_address_2) { create_inbound_email_from_fixture('mail_with_invalid_to_2.eml') }
 
     describe 'Default' do
       it 'catchall mails route to Default Mailbox' do
@@ -63,6 +65,22 @@ RSpec.describe ApplicationMailbox do
         expect(SupportMailbox).to receive(:new).and_return(dbl)
         expect(dbl).to receive(:perform_processing).and_return(true)
         described_class.route reply_cc_mail
+      end
+    end
+
+    describe 'Invalid Mail To Address' do
+      it 'raises error when mail.to header is malformed' do
+        expect do
+          described_class.route mail_with_invalid_to_address
+        end.to raise_error(StandardError,
+                           'Invalid email to address header <vishnu@chatwoot.com>vishnu@chatwoot.com')
+      end
+
+      it 'raises another error when mail.to header is malformed' do
+        expect do
+          described_class.route mail_with_invalid_to_address_2
+        end.to raise_error(StandardError,
+                           'Invalid email to address header vishnu@chatwoot.com www.chatwoot.com')
       end
     end
   end
