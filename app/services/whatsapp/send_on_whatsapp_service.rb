@@ -19,7 +19,7 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
 
     return if name.blank?
 
-    message_id = channel.send_template(message.conversation.contact_inbox.source_id, {
+    message_id = channel.send_template(message, message.conversation.contact_inbox.source_id, {
                                          name: name,
                                          namespace: namespace,
                                          lang_code: lang_code,
