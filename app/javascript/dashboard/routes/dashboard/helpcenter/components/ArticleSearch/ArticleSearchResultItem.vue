@@ -4,7 +4,7 @@
     @click="handlePreview"
   >
     <h4
-      class="text-block-title text-left mb-0 text-slate-900 dark:text-slate-25 px-1 -mx-1 rounded-sm width-auto hover:underline group-hover:underline"
+      class="text-sm text-left mb-0 text-slate-900 dark:text-slate-25 px-1 -mx-1 rounded-sm width-auto hover:underline group-hover:underline"
     >
       {{ title }}
     </h4>

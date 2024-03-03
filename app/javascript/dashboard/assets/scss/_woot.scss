@@ -15,63 +15,28 @@
 @import 'variables';
 
 @import 'mixins';
-@import 'foundation-settings';
 @import 'helper-classes';
 @import 'formulate';
 @import 'date-picker';
 
-@import 'foundation-sites/scss/foundation';
-
-@include foundation-everything($flex: true);
-
-@include foundation-prototype-text-utilities;
-@include foundation-prototype-text-transformation;
-@include foundation-prototype-text-decoration;
-@include foundation-prototype-font-styling;
-@include foundation-prototype-list-style-type;
-@include foundation-prototype-rounded;
-@include foundation-prototype-bordered;
-@include foundation-prototype-shadow;
-@include foundation-prototype-separator;
-@include foundation-prototype-overflow;
-@include foundation-prototype-display;
-@include foundation-prototype-position;
-@include foundation-prototype-border-box;
-@include foundation-prototype-border-none;
-@include foundation-prototype-sizing;
-@include foundation-prototype-spacing;
-
-@import 'typography';
 @import 'layout';
 @import 'animations';
-@import 'foundation-custom';
 @import 'rtl';
 
+@import 'widgets/base';
 @import 'widgets/buttons';
-@import 'widgets/conv-header';
-@import 'widgets/conversation-card';
 @import 'widgets/conversation-view';
-@import 'widgets/forms';
-@import 'widgets/login';
-@import 'widgets/modal';
-@import 'widgets/reply-box';
-@import 'widgets/report';
-@import 'widgets/search-box';
-@import 'widgets/sidemenu';
-@import 'widgets/snackbar';
-@import 'widgets/states';
-@import 'widgets/status-bar';
 @import 'widgets/tabs';
 @import 'widgets/woot-tables';
-
-@import 'views/settings/inbox';
-@import 'views/settings/integrations';
 
 @import 'plugins/multiselect';
 @import 'plugins/dropdown';
 @import '~shared/assets/stylesheets/ionicons';
-@import 'utility-helpers';
 
 .tooltip {
   @apply bg-slate-900 text-white py-1 px-2 z-40 text-xs rounded-md dark:bg-slate-200 dark:text-slate-900;
+}
+
+.hide {
+  @apply hidden;
 }

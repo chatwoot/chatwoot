@@ -112,7 +112,8 @@
       "REMOVE_LABEL": "Supprimer l'étiquette de la conversation",
       "SETTINGS": "Paramètres",
       "AI_ASSIST": "Assistance IA",
-      "APPEARANCE": "Apparence"
+      "APPEARANCE": "Apparence",
+      "SNOOZE_NOTIFICATION": "Mettre la notification en veille"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Aller au tableau de bord des conversations",
@@ -153,7 +154,8 @@
       "CHANGE_APPEARANCE": "Changer l'apparence",
       "LIGHT_MODE": "Clair",
       "DARK_MODE": "Sombre",
-      "SYSTEM_MODE": "Système"
+      "SYSTEM_MODE": "Système",
+      "SNOOZE_NOTIFICATION": "Mettre la notification en veille"
     }
   },
   "DASHBOARD_APPS": {

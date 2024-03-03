@@ -7,7 +7,7 @@
             <spinner v-if="watchersUiFlas.isFetching" size="tiny" />
             {{ totalWatchersText }}
           </p>
-          <p v-else class="text-muted m-0 text-sm">
+          <p v-else class="text-slate-400 dark:text-slate-700 m-0 text-sm">
             {{ $t('CONVERSATION_PARTICIPANTS.NO_PARTICIPANTS_TEXT') }}
           </p>
         </div>

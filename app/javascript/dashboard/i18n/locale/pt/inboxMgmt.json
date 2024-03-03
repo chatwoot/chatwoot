@@ -569,7 +569,7 @@
       "UPDATE": "Atualizar as configurações do horário comercial",
       "TOGGLE_AVAILABILITY": "Definir a disponibilidade para essa caixa de entrada",
       "UNAVAILABLE_MESSAGE_LABEL": "Mensagem indisponível para os visitantes",
-      "TOGGLE_HELP": "Está opção mostrará as horas de disponibilidade no widget da conversa, mesmo que todos os agentes estejam offline. Os visitantes serão avisados dos horários disponíveis através de uma mensagem no formulário de pré-chat.",
+      "TOGGLE_HELP": "Está opção mostrará as horas de disponibilidade no widget da conversa, mesmo que todos os agentes estejam offline. Quem solicitar o serviço fora de horas poderá ser avisado dos horários disponíveis através de uma mensagem e do formulário de pré-chat.",
       "DAY": {
         "ENABLE": "Permitir a disponibilidade para este dia",
         "UNAVAILABLE": "Indisponível",
