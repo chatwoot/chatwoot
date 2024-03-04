@@ -5,27 +5,27 @@
       :class="{ draggable: onCategoryPage }"
     >
       <div
-        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 ltr:text-left rtl:text-right col-span-6"
+        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-left rtl:text-right col-span-6"
       >
         {{ $t('HELP_CENTER.TABLE.HEADERS.TITLE') }}
       </div>
       <div
-        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-left col-span-2"
+        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-left rtl:text-right col-span-2"
       >
         {{ $t('HELP_CENTER.TABLE.HEADERS.CATEGORY') }}
       </div>
       <div
-        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-left hidden lg:block"
+        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-left rtl:text-right hidden lg:block"
       >
         {{ $t('HELP_CENTER.TABLE.HEADERS.READ_COUNT') }}
       </div>
       <div
-        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-left"
+        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-left rtl:text-right"
       >
         {{ $t('HELP_CENTER.TABLE.HEADERS.STATUS') }}
       </div>
       <div
-        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-right hidden md:block col-span-2"
+        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-right rtl:text-left hidden md:block col-span-2"
       >
         {{ $t('HELP_CENTER.TABLE.HEADERS.LAST_EDITED') }}
       </div>
