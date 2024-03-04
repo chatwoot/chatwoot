@@ -66,6 +66,7 @@
           variant="clear"
           color-scheme="secondary"
           size="expanded"
+          class="w-full"
           is-expanded
           @click="skipToFoundersNote"
         >
