@@ -3,7 +3,7 @@
     :title="$t('START_ONBOARDING.COMPANY.TITLE')"
     :subtitle="$t('START_ONBOARDING.COMPANY.BODY')"
   >
-    <div class="space-y-8">
+    <div class="space-y-5">
       <div class="space-y-3">
         <form-input
           v-model="companyName"

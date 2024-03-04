@@ -3,8 +3,8 @@
     :title="$t('START_ONBOARDING.PROFILE.TITLE')"
     :subtitle="$t('START_ONBOARDING.PROFILE.BODY')"
   >
-    <form class="space-y-6" @submit="onSubmit">
-      <div class="space-y-6">
+    <form class="space-y-5" @submit="onSubmit">
+      <div class="space-y-3">
         <div>
           <with-label name="user_avatar">
             <template #label>
