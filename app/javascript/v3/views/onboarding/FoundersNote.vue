@@ -1,12 +1,12 @@
 <template>
-  <div class="h-full w-full dark:bg-slate-900 relative overflow-hidden">
+  <div class="relative w-full h-full overflow-hidden dark:bg-slate-900">
     <div
       class="absolute inset-0 h-full w-full bg-white dark:bg-slate-900 bg-[radial-gradient(var(--w-100)_1px,transparent_1px)] [background-size:16px_16px] z-0"
     />
     <div
-      class="absolute h-full w-full bg-signup-gradient dark:bg-signup-gradient top-0 left-0 scale-y-110 blur-[3px]"
+      class="absolute h-full w-full bg-signup-gradient dark:bg-signup-gradient-dark top-0 left-0 scale-y-110 blur-[3px]"
     />
-    <div class="flex justify-center items-center h-full relative z-50">
+    <div class="relative z-50 flex items-center justify-center h-full">
       <div class="flex w-full py-8 overflow-auto">
         <div
           class="flex-1 min-h-[640px] h-max inline-flex items-center justify-center py-6"
@@ -18,7 +18,7 @@
               class="mt-4 space-y-6 text-sm leading-relaxed text-slate-900 dark:text-white"
             >
               <div
-                class="rounded-full h-16 w-16 border border-solid border-woot-500 p-4"
+                class="w-16 h-16 p-4 border border-solid rounded-full border-woot-500"
               >
                 <div
                   class="bg-[url('/assets/images/dashboard/onboarding/waving-hand.svg')] bg-contain w-8 h-8"
@@ -26,12 +26,12 @@
               </div>
               <div>
                 <p
-                  class="uppercase tracking-wide text-slate-900 dark:text-white mb-1"
+                  class="mb-1 tracking-wide uppercase text-slate-900 dark:text-white"
                 >
                   a note from the founder
                 </p>
                 <h3
-                  class="text-slate-900 dark:text-white text-3xl font-semibold"
+                  class="text-3xl font-semibold text-slate-900 dark:text-white"
                 >
                   Hey {{ userName }},
                 </h3>
@@ -61,7 +61,7 @@
             </figure>
 
             <submit-button
-              button-class="flex justify-center w-full text-sm text-center mt-8"
+              button-class="flex justify-center w-full mt-8 text-sm text-center"
               :button-text="$t('START_ONBOARDING.FOUNDERS_NOTE.SUBMIT')"
               @click="onSubmit"
             />
