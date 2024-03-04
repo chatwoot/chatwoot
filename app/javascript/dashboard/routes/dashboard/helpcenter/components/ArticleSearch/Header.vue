@@ -15,7 +15,7 @@
 
     <div class="relative">
       <div
-        class="absolute ltr:left-0 rtl:right-0 w-8 top-1 h-8 flex justify-center items-center"
+        class="absolute ltr:left-0 rtl:right-0 w-8 top-0.5 h-8 flex justify-center items-center"
       >
         <fluent-icon icon="search" class="" size="18" />
       </div>
@@ -84,6 +84,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .article-search {
-  @apply ltr:pl-8 rtl:pr-8 dark:bg-slate-700 bg-slate-25 focus:dark:bg-slate-800;
+  @apply ltr:pl-8 rtl:pr-8 h-9 dark:bg-slate-700 bg-slate-25 focus:dark:bg-slate-800;
 }
 </style>
