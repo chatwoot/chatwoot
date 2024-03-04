@@ -41,8 +41,11 @@ export const actions = {
     commit('pushMessageToConversation', message);
     commit('updateMessageMeta', { id, meta: { ...meta, error: '' } });
     try {
+      console.log("Content:");
+      console.log(content);
       const { data } = await sendMessageAPI(content, replyTo);
-
+      console.log("Data:");
+      console.log(data);
       commit('deleteMessage', message.id);
       commit('pushMessageToConversation', { ...data, status: 'sent' });
     } catch (error) {

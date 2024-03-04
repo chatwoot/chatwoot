@@ -20,7 +20,8 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
         type: 'template'
       }.to_json
     )
-
+    
+    Rails.logger.info(response);
     process_response(response)
   end
 
@@ -56,7 +57,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def media_url(media_id)
-    "#{api_base_path}/v13.0/#{media_id}"
+    "#{api_base_path}/v19.0/#{media_id}"
   end
 
   def api_base_path
@@ -65,11 +66,11 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   # TODO: See if we can unify the API versions and for both paths and make it consistent with out facebook app API versions
   def phone_id_path
-    "#{api_base_path}/v13.0/#{whatsapp_channel.provider_config['phone_number_id']}"
+    "#{api_base_path}/v19.0/#{whatsapp_channel.provider_config['phone_number_id']}"
   end
 
   def business_account_path
-    "#{api_base_path}/v14.0/#{whatsapp_channel.provider_config['business_account_id']}"
+    "#{api_base_path}/v19.0/#{whatsapp_channel.provider_config['business_account_id']}"
   end
 
   def send_text_message(phone_number, message)
@@ -107,7 +108,8 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
         type.to_s => type_content
       }.to_json
     )
-
+    
+    Rails.logger.info(response);
     process_response(response)
   end
 
