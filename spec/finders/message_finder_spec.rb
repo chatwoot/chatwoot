@@ -73,5 +73,18 @@ describe MessageFinder do
         expect(result.last.id).to be conversation.messages[-2].id
       end
     end
+
+    context 'with private attribute' do
+      let(:params) do
+        {
+          private: true
+        }
+      end
+
+      it 'filter conversations by private' do
+        result = message_finder.perform
+        expect(result.count).to be 0
+      end
+    end
   end
 end
