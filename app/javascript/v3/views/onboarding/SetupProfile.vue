@@ -116,7 +116,7 @@
 <script>
 import md5 from 'md5';
 import { required, minLength, helpers } from 'vuelidate/lib/validators';
-import parsePhoneNumber from 'libphonenumber-js';
+import { isPossiblePhoneNumber } from 'libphonenumber-js';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { validationMixin } from 'vuelidate';
 import { mapGetters } from 'vuex';
@@ -158,7 +158,7 @@ export default {
     },
     phoneNumber: {
       validOrNoPhone: value =>
-        !helpers.req(value) || parsePhoneNumber(value, 'US').isValid(),
+        !helpers.req(value) || isPossiblePhoneNumber(value, 'US'),
     },
   },
   computed: {
