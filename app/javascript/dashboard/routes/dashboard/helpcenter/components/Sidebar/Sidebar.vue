@@ -76,9 +76,6 @@ export default {
       default: () => [],
     },
   },
-  data() {
-    return {};
-  },
   computed: {
     hasCategory() {
       return (
