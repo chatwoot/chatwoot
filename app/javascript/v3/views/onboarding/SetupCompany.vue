@@ -1,20 +1,9 @@
 <template>
-  <div
-    id="modal-body"
-    class="dark:shadow-[#000] rounded-3xl p-10 pt-14 border shadow border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 z-10 relative w-full max-w-[560px]"
+  <onboarding-base-modal
+    :title="$t('START_ONBOARDING.COMPANY.TITLE')"
+    :subtitle="$t('START_ONBOARDING.COMPANY.BODY')"
   >
-    <h2
-      class="font-bold text-[28px] leading-8 tracking-[2%] text-slate-900 dark:text-white"
-    >
-      {{ $t('START_ONBOARDING.COMPANY.TITLE') }}
-    </h2>
-    <p
-      class="text-base text-slate-600 leading-6 tracking-[-1.1%] mt-2 dark:text-slate-200"
-    >
-      {{ $t('START_ONBOARDING.COMPANY.BODY') }}
-    </p>
-
-    <div class="space-y-8 mt-10">
+    <div class="space-y-8">
       <div class="space-y-3">
         <form-input
           v-model="companyName"
@@ -80,13 +69,14 @@
         @click="onSubmit"
       />
     </div>
-  </div>
+  </onboarding-base-modal>
 </template>
 
 <script>
 import FormInput from 'v3/components/Form/Input.vue';
 import FormSelect from 'v3/components/Form/Select.vue';
 import FormRadioTags from 'v3/components/Form/RadioTags.vue';
+import OnboardingBaseModal from 'v3/views/onboarding/BaseModal.vue';
 import { required, minLength } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 
@@ -109,6 +99,7 @@ export default {
     SubmitButton,
     FormSelect,
     FormRadioTags,
+    OnboardingBaseModal,
   },
   mixins: [configMixin, alertMixin],
   data() {
