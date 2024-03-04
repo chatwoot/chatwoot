@@ -6,7 +6,7 @@
       <fluent-icon
         v-if="showDragIcon"
         size="20"
-        class="block cursor-move h-4 mt-1 w-4 text-slate-200 dark:text-slate-700 hover:text-slate-400 hover:dark:text-slate-200"
+        class="block cursor-move flex-shrink-0 h-4 mt-1 w-4 text-slate-200 dark:text-slate-700 hover:text-slate-400 hover:dark:text-slate-200"
         icon="grab-handle"
       />
       <div class="flex flex-col truncate">
