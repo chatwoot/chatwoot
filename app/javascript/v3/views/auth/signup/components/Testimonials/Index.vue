@@ -1,22 +1,32 @@
 <template>
   <div
     v-if="testimonials.length"
-    class="hidden bg-woot-400 dark:bg-woot-800 overflow-hidden relative xl:flex flex-1"
+    class="hidden bg-woot-400 dark:bg-woot-800 overflow-hidden relative md:flex h-full"
   >
-    <img
-      src="/assets/images/auth/top-left.svg"
-      class="left-0 absolute h-40 w-40 top-0"
+    <div
+      class="absolute inset-0 h-full w-full bg-white dark:bg-slate-900 bg-[radial-gradient(var(--w-100)_1px,transparent_1px)] dark:bg-[radial-gradient(var(--w-800)_1px,transparent_1px)] [background-size:16px_16px] z-0"
     />
-    <img
-      src="/assets/images/auth/bottom-right.svg"
-      class="right-0 absolute h-40 w-40 bottom-0"
+    <div
+      class="absolute h-full w-full bg-signup-gradient dark:bg-signup-gradient-dark top-0 left-0 blur-[3px]"
     />
+
     <img
-      src="/assets/images/auth/auth--bg.svg"
-      class="h-[96%] left-[6%] top-[8%] w-[96%] absolute"
+      src="/assets/images/auth/speech-bubble-heart.svg"
+      class="left-10 absolute h-40 w-32 top-8"
+    />
+    <div class="right-10 absolute bottom-[40%]">
+      <img src="/assets/images/auth/speech-bubble-heart.svg" class="w-28" />
+      <img
+        src="/assets/images/auth/speech-bubble-checkmark.svg"
+        class="w-20 mt-8"
+      />
+    </div>
+    <img
+      src="/assets/images/auth/star-icon.svg"
+      class="left-10 bottom-8 w-24 absolute"
     />
     <div class="flex items-center justify-center flex-col h-full w-full z-50">
-      <div class="flex items-start justify-center p-6">
+      <div class="flex flex-col items-start justify-center p-6 gap-12">
         <testimonial-card
           v-for="(testimonial, index) in testimonials"
           :key="testimonial.id"
@@ -24,7 +34,7 @@
           :author-image="testimonial.authorImage"
           :author-name="testimonial.authorName"
           :author-designation="testimonial.authorCompany"
-          :class="!index ? 'mt-[20%] -mr-4 z-50' : ''"
+          :is-left-aligned="index % 2 === 0"
         />
       </div>
     </div>
