@@ -66,7 +66,7 @@
             />
           </div>
         </div>
-        <div class="space-y-2">
+        <div class="space-y-2 flex flex-col items-center">
           <submit-button
             button-class="flex justify-center w-full text-sm text-center"
             :button-text="$t('START_ONBOARDING.INVITE_TEAM.SUBMIT.BUTTON')"
