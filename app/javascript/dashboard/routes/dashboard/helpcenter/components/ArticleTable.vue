@@ -35,7 +35,7 @@
       class="border-t-0 px-4 pb-4"
       :disabled="!dragEnabled"
       :list="localArticles"
-      ghost-class="opacity-50 bg-slate-50 dark:bg-slate-800"
+      ghost-class="article-ghost-class"
       @start="dragging = true"
       @end="onDragEnd"
     >
@@ -155,3 +155,12 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+/*
+The .article-ghost-class class is maintained as the vueDraggable doesn't allow multiple classes
+to be passed in the ghost-class prop.
+ */
+.article-ghost-class {
+  @apply opacity-50 bg-slate-50 dark:bg-slate-800;
+}
+</style>
