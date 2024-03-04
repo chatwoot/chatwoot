@@ -50,7 +50,7 @@
         class="text-sm hover:underline p-0.5 truncate hover:bg-slate-25 hover:rounded-md"
         :to="getCategoryRoute(category.slug)"
       >
-        <span :title="category.name" class="">
+        <span :title="category.name">
           {{ category.name }}
         </span>
       </router-link>
