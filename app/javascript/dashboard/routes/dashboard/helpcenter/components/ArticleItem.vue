@@ -60,7 +60,7 @@
       :title="formattedViewCount"
     >
       {{ readableViewCount }}
-      <span class="lg:hidden">
+      <span class="lg:hidden ml-1">
         {{ ` ${$t('HELP_CENTER.TABLE.HEADERS.READ_COUNT')}` }}
       </span>
     </span>
@@ -80,6 +80,7 @@
     </span>
   </div>
 </template>
+
 <script>
 import timeMixin from 'dashboard/mixins/time';
 import portalMixin from '../mixins/portalMixin';
