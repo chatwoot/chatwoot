@@ -1,42 +1,43 @@
 <template>
-  <div class="h-full w-full dark:bg-slate-900">
-    <div v-show="!isLoading" class="flex h-full">
-      <div
-        class="flex-1 min-h-[640px] inline-flex items-center h-full justify-center overflow-auto py-6"
-      >
-        <div class="px-8 max-w-[560px] w-full overflow-auto">
-          <div class="mb-4">
-            <img
-              :src="globalConfig.logo"
-              :alt="globalConfig.installationName"
-              class="h-8 w-auto block dark:hidden"
-            />
-            <img
-              v-if="globalConfig.logoDark"
-              :src="globalConfig.logoDark"
-              :alt="globalConfig.installationName"
-              class="h-8 w-auto hidden dark:block"
-            />
-            <h2
-              class="mb-7 mt-6 text-left text-3xl font-medium text-slate-900 dark:text-woot-50"
-            >
-              {{ $t('REGISTER.TRY_WOOT') }}
-            </h2>
-          </div>
-          <signup-form />
-          <div class="text-sm text-slate-800 dark:text-woot-50 px-1">
-            <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }}</span>
-            <router-link class="text-link" to="/app/login">
-              {{
-                useInstallationName(
-                  $t('LOGIN.TITLE'),
-                  globalConfig.installationName
-                )
-              }}
-            </router-link>
-          </div>
-        </div>
+  <div class="flex h-full w-full dark:bg-slate-900 overflow-hidden">
+    <div
+      class="flex flex-col bg-white dark:bg-slate-800 px-16 pt-8 pb-16 w-full md:w-2/5 items-center justify-center"
+    >
+      <div class="mx-auto mb-16">
+        <img
+          :src="globalConfig.logo"
+          :alt="globalConfig.installationName"
+          class="h-8 block"
+          :class="{ 'dark:hidden': globalConfig.logoDark }"
+        />
+        <img
+          v-if="globalConfig.logoDark"
+          :src="globalConfig.logoDark"
+          :alt="globalConfig.installationName"
+          class="h-8 w-auto hidden dark:block"
+        />
       </div>
+      <div class="mb-8">
+        <h2
+          class="text-center text-3xl tracking-wide font-medium text-slate-900 dark:text-woot-50"
+        >
+          {{ $t('REGISTER.TRY_WOOT') }}
+        </h2>
+      </div>
+      <signup-form />
+      <div class="text-sm text-slate-800 dark:text-woot-50 px-1">
+        <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }}</span>
+        <router-link class="text-link" to="/app/login">
+          {{
+            useInstallationName(
+              $t('LOGIN.TITLE'),
+              globalConfig.installationName
+            )
+          }}
+        </router-link>
+      </div>
+    </div>
+    <div class="hidden md:block w-3/5 h-screen">
       <testimonials
         v-if="isAChatwootInstance"
         class="flex-1"
@@ -72,7 +73,8 @@ export default {
   computed: {
     ...mapGetters({ globalConfig: 'globalConfig/get' }),
     isAChatwootInstance() {
-      return this.globalConfig.installationName === 'Chatwoot';
+      return true;
+      // return this.globalConfig.installationName === 'Chatwoot';
     },
   },
   beforeMount() {

@@ -1,17 +1,21 @@
 <template>
   <div
-    class="flex flex-col items-start justify-center p-6 w-80 bg-white rounded-lg drop-shadow-md dark:bg-slate-800"
+    class="flex items-end justify-center w-80 gap-3"
+    :class="{ 'flex-row-reverse ml-14': !isLeftAligned }"
   >
-    <p class="text-sm text-slate-600 dark:text-woot-50 tracking-normal">
-      {{ reviewContent }}
-    </p>
-    <div class="flex items-center mt-4 text-slate-700 dark:text-woot-50">
-      <div class="bg-white rounded-full p-1">
-        <img :src="authorImage" class="h-8 w-8 rounded-full" />
+    <div class="bg-white rounded-full shrink-0">
+      <img :src="authorImage" class="h-12 w-12 rounded-full" />
+    </div>
+    <div class="text-woot-900 dark:text-woot-100">
+      <div
+        class="w-[360px] shrink-0 flex flex-col mt-4 dark:bg-[#0F1720] bg-[##FBFDFF] p-4 rounded-2xl border border-solid border-woot-100 dark:border-woot-800"
+      >
+        <p class="text-sm tracking-wide leading-6">
+          {{ reviewContent }}
+        </p>
       </div>
-      <div class="ml-2">
-        <div class="text-sm font-medium">{{ authorName }}</div>
-        <div class="text-xs">{{ authorDesignation }}</div>
+      <div class="mt-2 px-1" :class="{ 'text-right': !isLeftAligned }">
+        <div class="text-sm">{{ authorName }}, {{ authorDesignation }}</div>
       </div>
     </div>
   </div>
@@ -34,6 +38,10 @@ export default {
     authorDesignation: {
       type: String,
       default: '',
+    },
+    isLeftAligned: {
+      type: Boolean,
+      default: false,
     },
   },
 };
