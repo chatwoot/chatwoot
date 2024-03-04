@@ -12,17 +12,8 @@
       @new-article-page="newArticlePage"
       @change-locale="onChangeLocale"
     />
-    <div class="flex flex-1">
-      <article-table
-        :articles="articles"
-        :current-page="Number(meta.currentPage)"
-        :total-count="Number(meta.count)"
-        @page-change="onPageChange"
-        @reorder="onReorder"
-      />
-    </div>
     <div
-      v-if="shouldShowLoader"
+      v-if="isFetching"
       class="items-center flex text-base justify-center py-6 px-4 text-slate-600 dark:text-slate-200"
     >
       <spinner />
@@ -34,8 +25,18 @@
       v-else-if="shouldShowEmptyState"
       :title="$t('HELP_CENTER.TABLE.NO_ARTICLES')"
     />
+    <div v-else class="flex flex-1">
+      <article-table
+        :articles="articles"
+        :current-page="Number(meta.currentPage)"
+        :total-count="Number(meta.count)"
+        @page-change="onPageChange"
+        @reorder="onReorder"
+      />
+    </div>
   </div>
 </template>
+
 <script>
 import { mapGetters } from 'vuex';
 import allLocales from 'shared/constants/locales.js';
@@ -74,9 +75,6 @@ export default {
     },
     shouldShowEmptyState() {
       return !this.isFetching && !this.articles.length;
-    },
-    shouldShowLoader() {
-      return this.isFetching && !this.articles.length;
     },
     selectedPortalSlug() {
       return this.$route.params.portalSlug;

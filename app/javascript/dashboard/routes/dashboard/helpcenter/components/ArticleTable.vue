@@ -35,7 +35,7 @@
       class="border-t-0 px-4 pb-4"
       :disabled="!dragEnabled"
       :list="localArticles"
-      ghost-class="article-ghost-class"
+      ghost-class="opacity-50 bg-slate-50 dark:bg-slate-800"
       @start="dragging = true"
       @end="onDragEnd"
     >
@@ -79,7 +79,7 @@ export default {
   props: {
     articles: {
       type: Array,
-      default: () => {},
+      default: () => [],
     },
     totalCount: {
       type: Number,
@@ -96,7 +96,7 @@ export default {
   },
   data() {
     return {
-      localArticles: [],
+      localArticles: this.articles || [],
     };
   },
   computed: {
@@ -155,8 +155,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.article-ghost-class {
-  @apply opacity-50 bg-slate-50 dark:bg-slate-800;
-}
-</style>
