@@ -1,75 +1,58 @@
 <template>
-  <div class="relative w-full h-full overflow-hidden dark:bg-slate-900">
+  <main
+    class="relative h-screen overflow-hidden dark:bg-slate-900 bg-[radial-gradient(var(--w-100)_1px,transparent_1px)] [background-size:16px_16px] z-0 flex items-center justify-center"
+  >
     <div
-      class="absolute inset-0 h-full w-full bg-white dark:bg-slate-900 bg-[radial-gradient(var(--w-100)_1px,transparent_1px)] [background-size:16px_16px] z-0"
+      class="absolute h-full w-full bg-signup-gradient dark:bg-signup-gradient-dark top-0 left-0 scale-y-110 blur-[3px] z-20"
     />
-    <div
-      class="absolute h-full w-full bg-signup-gradient dark:bg-signup-gradient-dark top-0 left-0 scale-y-110 blur-[3px]"
-    />
-    <div class="relative z-50 flex items-center justify-center h-full">
-      <div class="flex w-full py-8 overflow-auto">
-        <div
-          class="flex-1 min-h-[640px] h-max inline-flex items-center justify-center py-6"
-        >
-          <div
-            class="p-10 max-w-[560px] w-full bg-white dark:bg-slate-900 border border-solid border-slate-100 dark:border-slate-800 rounded-2xl"
-          >
-            <section
-              class="mt-4 space-y-6 text-sm leading-relaxed text-slate-900 dark:text-white"
-            >
-              <div
-                class="w-16 h-16 p-4 border border-solid rounded-full border-woot-500"
-              >
-                <div
-                  class="bg-[url('/assets/images/dashboard/onboarding/waving-hand.svg')] bg-contain w-8 h-8"
-                />
-              </div>
-              <div>
-                <p
-                  class="mb-1 tracking-wide uppercase text-slate-900 dark:text-white"
-                >
-                  a note from the founder
-                </p>
-                <h3
-                  class="text-3xl font-semibold text-slate-900 dark:text-white"
-                >
-                  Hey {{ userName }},
-                </h3>
-              </div>
-              <p>
-                I'm Pranav, one of the co-founders at Chatwoot. Thanks for
-                checking out Chatwoot. We're eager to understand your needs and
-                expectations.
-              </p>
-              <p>
-                If you are facing trouble using the app or achieving your use
-                case, we want to help you as quickly as possible.
-              </p>
-              <p>
-                Feel free to schedule a call with our team. We are open to your
-                feedback. Talk soon!
-              </p>
-            </section>
-            <figure
-              class="mt-5 text-sm leading-relaxed text-slate-900 dark:text-white"
-            >
-              <woot-thumbnail
-                src="https://www.chatwoot.com/images/team/pranav.jpg"
-                username="Pranav"
-              />
-              <p class="mt-2">Pranav, <br />Co-founder & CEO, Chatwoot</p>
-            </figure>
-
-            <submit-button
-              button-class="flex justify-center w-full mt-8 text-sm text-center"
-              :button-text="$t('START_ONBOARDING.FOUNDERS_NOTE.SUBMIT')"
-              @click="onSubmit"
-            />
-          </div>
-        </div>
+    <section
+      class="flex gap-4 flex-col z-50 bg-white max-w-[560px] p-10 border border-solid dark:bg-slate-900 border-slate-100 dark:border-slate-800 rounded-2xl space-y-4 text-sm leading-relaxed text-slate-900 dark:text-white"
+    >
+      <div class="inline-block">
+        <img
+          src="/assets/images/dashboard/onboarding/waving-hand.svg"
+          alt="Waving hand icon"
+          class="object-contain w-12 h-12 p-2.5 border border-solid rounded-full border-woot-500"
+        />
       </div>
-    </div>
-  </div>
+      <div>
+        <p
+          class="text-xs tracking-widest uppercase text-slate-600 dark:text-slate-200"
+        >
+          a note from the founder
+        </p>
+        <h3 class="text-3xl font-semibold text-slate-900 dark:text-white">
+          Hey {{ userName }},
+        </h3>
+      </div>
+      <div class="space-y-3">
+        <p>
+          I'm Pranav, one of the co-founders at Chatwoot. Thanks for checking
+          out Chatwoot. We're eager to understand your needs and expectations.
+        </p>
+        <p>
+          If you are facing trouble using the app or achieving your use case, we
+          want to help you as quickly as possible.
+        </p>
+        <p>
+          Feel free to schedule a call with our team. We are open to your
+          feedback. Talk soon!
+        </p>
+      </div>
+      <figure class="text-sm leading-relaxed text-slate-900 dark:text-white">
+        <woot-thumbnail
+          src="https://www.chatwoot.com/images/team/pranav.jpg"
+          username="Pranav"
+        />
+        <p class="mt-2">Pranav, <br />Co-founder & CEO, Chatwoot</p>
+      </figure>
+      <submit-button
+        button-class="flex justify-center w-full text-sm text-center"
+        :button-text="$t('START_ONBOARDING.FOUNDERS_NOTE.SUBMIT')"
+        @click="onSubmit"
+      />
+    </section>
+  </main>
 </template>
 
 <script>
@@ -85,7 +68,7 @@ export default {
       currentUser: 'getCurrentUser',
     }),
     userName() {
-      return this.currentUser.name;
+      return this.currentUser.display_name ?? this.currentUser.name;
     },
   },
   methods: {
