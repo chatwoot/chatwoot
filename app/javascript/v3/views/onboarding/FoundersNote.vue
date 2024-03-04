@@ -68,7 +68,8 @@ export default {
       currentUser: 'getCurrentUser',
     }),
     userName() {
-      return this.currentUser.display_name ?? this.currentUser.name;
+      const { display_name: displayName, name } = this.currentUser;
+      return displayName || name;
     },
   },
   methods: {

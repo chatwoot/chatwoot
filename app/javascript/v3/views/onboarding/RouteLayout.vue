@@ -10,17 +10,17 @@
       <div
         class="relative w-5/12 px-16 py-[88px] bg-[url('/assets/images/dashboard/onboarding/intro.svg')] dark:bg-[url('/assets/images/dashboard/onboarding/intro-dark.svg')] bg-contain bg-no-repeat bg-[left_calc(-0px)_bottom_calc(-136px)] xl:min-h-[875px] 2xl:min-h-[1205px]"
       >
-        <div class="mb-10 z-0">
+        <div class="z-0 mb-10">
           <img
             :src="globalConfig.logo"
             :alt="globalConfig.installationName"
-            class="h-8 w-auto block dark:hidden"
+            class="block w-auto h-8 dark:hidden"
           />
           <img
             v-if="globalConfig.logoDark"
             :src="globalConfig.logoDark"
             :alt="globalConfig.installationName"
-            class="h-8 w-auto hidden dark:block"
+            class="hidden w-auto h-8 dark:block"
           />
           <transition name="fade">
             <h1
@@ -118,7 +118,8 @@ export default {
       });
     },
     userName() {
-      return this.currentUser.name;
+      const { display_name: displayName, name } = this.currentUser;
+      return displayName || name;
     },
     accountDetails() {
       return this.getAccount(this.currentAccountId);
