@@ -27,11 +27,37 @@ describe('#NotificationAPI', () => {
       window.axios = originalAxios;
     });
 
-    it('#get', () => {
-      notificationsAPI.get(1);
-      expect(axiosMock.get).toHaveBeenCalledWith(
-        '/api/v1/notifications?page=1'
-      );
+    describe('#get', () => {
+      it('generates the API call if both params are available', () => {
+        notificationsAPI.get({
+          page: 1,
+          status: 'snoozed',
+          type: 'read',
+          sortOrder: 'desc',
+        });
+        expect(axiosMock.get).toHaveBeenCalledWith('/api/v1/notifications', {
+          params: {
+            page: 1,
+            sort_order: 'desc',
+            includes: ['snoozed', 'read'],
+          },
+        });
+      });
+
+      it('generates the API call if one of the params are available', () => {
+        notificationsAPI.get({
+          page: 1,
+          type: 'read',
+          sortOrder: 'desc',
+        });
+        expect(axiosMock.get).toHaveBeenCalledWith('/api/v1/notifications', {
+          params: {
+            page: 1,
+            sort_order: 'desc',
+            includes: ['read'],
+          },
+        });
+      });
     });
 
     it('#getNotifications', () => {
@@ -63,6 +89,31 @@ describe('#NotificationAPI', () => {
       notificationsAPI.readAll();
       expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/notifications/read_all'
+      );
+    });
+
+    it('#snooze', () => {
+      notificationsAPI.snooze({ id: 1, snoozedUntil: 12332211 });
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/notifications/1/snooze',
+        {
+          snoozed_until: 12332211,
+        }
+      );
+    });
+
+    it('#delete', () => {
+      notificationsAPI.delete(1);
+      expect(axiosMock.delete).toHaveBeenCalledWith('/api/v1/notifications/1');
+    });
+
+    it('#deleteAll', () => {
+      notificationsAPI.deleteAll({ type: 'all' });
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/notifications/destroy_all',
+        {
+          type: 'all',
+        }
       );
     });
   });

@@ -2,7 +2,7 @@
 
 class AccountBuilder
   include CustomExceptions::Account
-  pattr_initialize [:account_name!, :email!, :confirmed, :user, :user_full_name, :user_password, :super_admin, :locale]
+  pattr_initialize [:account_name, :email!, :confirmed, :user, :user_full_name, :user_password, :super_admin, :locale]
 
   def perform
     if @user.nil?
@@ -15,11 +15,21 @@ class AccountBuilder
     end
     [@user, @account]
   rescue StandardError => e
-    puts e.inspect
+    Rails.logger.debug e.inspect
     raise e
   end
 
   private
+
+  def user_full_name
+    # the empty string ensures that not-null constraint is not violated
+    @user_full_name || ''
+  end
+
+  def account_name
+    # the empty string ensures that not-null constraint is not violated
+    @account_name || ''
+  end
 
   def validate_email
     address = ValidEmail2::Address.new(@email)
@@ -39,7 +49,7 @@ class AccountBuilder
   end
 
   def create_account
-    @account = Account.create!(name: @account_name, locale: I18n.locale)
+    @account = Account.create!(name: account_name, locale: I18n.locale)
     Current.account = @account
   end
 
@@ -64,7 +74,7 @@ class AccountBuilder
     @user = User.new(email: @email,
                      password: user_password,
                      password_confirmation: user_password,
-                     name: @user_full_name)
+                     name: user_full_name)
     @user.type = 'SuperAdmin' if @super_admin
     @user.confirm if @confirmed
     @user.save!
