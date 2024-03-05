@@ -6,7 +6,7 @@ module ContactHelper
     # If the input is a number, return a hash with the number as the first name
     return numeric_name_hash(full_name) if valid_number?(full_name)
 
-    full_name = full_name.strip
+    full_name = full_name.squish
 
     # If full name consists of only one word, consider it as the first name
     return single_word_name_hash(full_name) if single_word?(full_name)
