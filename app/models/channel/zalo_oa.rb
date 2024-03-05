@@ -86,7 +86,7 @@ class Channel::ZaloOa < ApplicationRecord
   def send_attachment(user_id, attachment, access_token)
     is_image = attachment.file_type == 'image'
     url_upload = is_image ? url_upload_image : url_upload_file
-    return unless (response = upload_file_to_zalo_api(url_upload, attachment, access_token)).zero?
+    return unless (response = upload_file_to_zalo_api(url_upload, attachment, access_token)).code == '200'
 
     data = JSON.parse(response.body)
     return data unless (data['error']).zero?
