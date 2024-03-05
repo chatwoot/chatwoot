@@ -5,7 +5,7 @@
         class="cursor-pointer py-2 pr-1.5 pl-2 rounded-tl-md rounded-bl-md flex items-center justify-center gap-1.5 bg-slate-25 dark:bg-slate-700 h-10 w-14"
         @click="toggleCountryDropdown"
       >
-        <h5 v-if="activeCountry.emoji" class="mb-0">
+        <h5 v-if="activeCountry" class="mb-0">
           {{ activeCountry.emoji }}
         </h5>
         <fluent-icon v-else icon="globe" class="fluent-icon" size="16" />

@@ -1,5 +1,18 @@
-# if you don't specify locked attribute, the default value will be true
-# which means the particular config will be locked
+# This file contains all the installation wide configuration which controls various settings in Chatwoot
+# This is internal config and should not be modified by the user directly in database
+# Chatwoot might override and modify these values during the upgrade process
+# Configs which can be modified by the user are available in the dashboard under appropriate UI
+#
+# name: the name of the config referenced in the code
+# value: the value of the config
+# display_title: the title of the config displayed in the dashboard UI
+# description: the description of the config displayed in the dashboard UI
+# locked: if you don't specify locked attribute in yaml, the default value will be true,
+#         which means the particular config will be locked and won't be available in `super_admin/installation_configs`
+# premium: These values get overwritten unless the user is on a premium plan
+# type: The type of the config. Default is text,  boolean is also supported
+
+# ------- Branding Related Config ------- #
 - name: INSTALLATION_NAME
   value: 'Chatwoot'
   display_title: 'Installation Name'
@@ -41,32 +54,18 @@
   display_title: 'Chatwoot Metadata'
   description: 'Display default Chatwoot metadata like favicons and upgrade warnings'
   type: boolean
-- name: MAILER_INBOUND_EMAIL_DOMAIN
-  value:
+# ------- End of Branding Related Config ------- #
+
+# ------- Signup & Account Related Config ------- #
+- name: ENABLE_ACCOUNT_SIGNUP
+  display_title: 'Enable Account Signup'
+  value: false
+  description: 'Allow users to signup for new accounts'
   locked: false
-- name: MAILER_SUPPORT_EMAIL
-  value:
-  locked: false
+  type: boolean
 - name: CREATE_NEW_ACCOUNT_FROM_DASHBOARD
   value: false
-  locked: false
-- name: INSTALLATION_EVENTS_WEBHOOK_URL
-  value:
-  locked: false
-- name: CHATWOOT_INBOX_TOKEN
-  value:
-  locked: false
-- name: CHATWOOT_INBOX_HMAC_KEY
-  value:
-  locked: false
-- name: API_CHANNEL_NAME
-  value:
-- name: API_CHANNEL_THUMBNAIL
-  value:
-- name: ANALYTICS_TOKEN
-  value:
-- name: DIRECT_UPLOADS_ENABLED
-  value: false
+  description: 'Allow users to create new accounts from the dashboard'
   locked: false
 - name: HCAPTCHA_SITE_KEY
   value:
@@ -74,34 +73,109 @@
 - name: HCAPTCHA_SERVER_KEY
   value:
   locked: false
-- name: LOGOUT_REDIRECT_LINK
-  value: /app/login
+- name: INSTALLATION_EVENTS_WEBHOOK_URL
+  value:
+  display_title: 'System events Webhook URL'
+  description: 'The URL to which the system events like new accounts created will be sent'
   locked: false
-- name: DISABLE_USER_PROFILE_UPDATE
+- name: DIRECT_UPLOADS_ENABLED
+  type: boolean
   value: false
+  description: 'Enable direct uploads to cloud storage'
+  locked: false
+# ------- End of Account Related Config ------- #
+
+# ------- Email Related Config ------- #
+- name: MAILER_INBOUND_EMAIL_DOMAIN
+  value:
+  description: 'The domain name to be used for generating conversation continuity emails (reply+id@domain.com)'
+  locked: false
+- name: MAILER_SUPPORT_EMAIL
+  value:
+  locked: false
+# ------- End of Email Related Config ------- #
+
+# ------- Facebook Channel Related Config ------- #
+- name: FB_APP_ID
+  display_title: 'Facebook App ID'
+  locked: false
+- name: FB_VERIFY_TOKEN
+  display_title: 'Facebook Verify Token'
+  description: 'The verify token used for Facebook Messenger Webhook'
+  locked: false
+- name: FB_APP_SECRET
+  display_title: 'Facebook App Secret'
+  locked: false
+- name: IG_VERIFY_TOKEN
+  display_title: 'Instagram Verify Token'
+  description: 'The verify token used for Instagram Webhook'
   locked: false
 - name: ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT
+  display_title: 'Enable human agent'
   value: false
   locked: false
-- name: CSML_BOT_HOST
+  description: 'Enable human agent for messenger channel for longer message back period. Needs additional app approval: https://developers.facebook.com/docs/features-reference/human-agent/'
+  type: boolean
+# ------- End of Facebook Channel Related Config ------- #
+
+# ------- Chatwoot Internal Config for Cloud ----#
+- name: CHATWOOT_INBOX_TOKEN
   value:
+  display_title: 'Inbox Token'
+  description: 'The Chatwoot Inbox Token for Contact Support in Cloud'
   locked: false
-- name: CSML_BOT_API_KEY
+- name: CHATWOOT_INBOX_HMAC_KEY
   value:
+  display_title: 'Inbox HMAC Key'
+  description: 'The Chatwoot Inbox HMAC Key for Contact Support in Cloud'
   locked: false
 - name: CHATWOOT_CLOUD_PLANS
   value:
+  description: 'Config to store stripe plans for cloud'
 - name: DEPLOYMENT_ENV
   value: self-hosted
-- name: CSML_EDITOR_HOST
+  description: 'The deployment environment of the installation, to differentiate between Chatwoot cloud and self-hosted'
+- name: ANALYTICS_TOKEN
   value:
+  display_title: 'Analytics Token'
+  description: 'The June.so analytics token for Chatwoot cloud'
+- name: CLEARBIT_API_KEY
+  value:
+  display_title: 'Clearbit API Key'
+  description: 'This API key is used for onboarding the users, to pre-fill account data.'
+# ------- End of Chatwoot Internal Config for Cloud ----#
+
+# ------- Chatwoot Internal Config for Self Hosted ----#
 - name: INSTALLATION_PRICING_PLAN
   value: 'community'
+  description: 'The pricing plan for the installation, retrieved from the billing API'
 - name: INSTALLATION_PRICING_PLAN_QUANTITY
   value: 0
+  description: 'The number of licenses purchased for the installation, retrieved from the billing API'
 - name: CHATWOOT_SUPPORT_WEBSITE_TOKEN
   value:
+  description: 'The Chatwoot website token, used to identify the Chatwoot inbox and display the "Contact Support" option on the billing page'
 - name: CHATWOOT_SUPPORT_SCRIPT_URL
   value:
+  description: 'The Chatwoot script base URL, to display the "Contact Support" option on the billing page'
 - name: CHATWOOT_SUPPORT_IDENTIFIER_HASH
   value:
+  description: 'The Chatwoot identifier hash, to validate the contact in the live chat window.'
+# ------- End of Chatwoot Internal Config for Self Hosted ----#
+
+## ------ Configs added for enterprise clients ------ ##
+- name: API_CHANNEL_NAME
+  value:
+  description: 'Custom name for the API channel'
+- name: API_CHANNEL_THUMBNAIL
+  value:
+  description: 'Custom thumbnail for the API channel'
+- name: LOGOUT_REDIRECT_LINK
+  value: /app/login
+  locked: false
+  description: 'Redirect to a different link after logout'
+- name: DISABLE_USER_PROFILE_UPDATE
+  value: false
+  locked: false
+  description: 'Disable rendering profile update page for users'
+## ------ End of Configs added for enterprise clients ------ ##
