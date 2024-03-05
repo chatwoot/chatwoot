@@ -251,6 +251,7 @@ Rails.application.routes.draw do
 
       namespace :keycloak do
         resources :logout, only: [:create]
+        resources :check_keycloak_session, only: [:index]
       end
 
       namespace :integrations do
@@ -502,7 +503,4 @@ Rails.application.routes.draw do
   # ----------------------------------------------------------------------
   # Routes for testing
   resources :widget_tests, only: [:index] unless Rails.env.production?
-
-  # Route for keycloak trigerred logout
-  post 'keycloak/callback', to: 'keycloak/callbacks#logout'
 end

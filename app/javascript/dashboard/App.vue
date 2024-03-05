@@ -42,6 +42,7 @@ import {
   registerSubscription,
   verifyServiceWorkerExistence,
 } from './helper/pushHelper';
+import { checkKeycloakSession } from '../../javascript/v3/api/auth';
 
 export default {
   name: 'App',
@@ -92,6 +93,9 @@ export default {
         this.initializeAccount();
       }
     },
+  },
+  beforeMount() {
+    checkKeycloakSession(this.currentUser);
   },
   mounted() {
     this.initializeColorTheme();
