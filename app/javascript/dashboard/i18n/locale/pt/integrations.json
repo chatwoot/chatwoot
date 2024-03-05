@@ -5,7 +5,7 @@
       "SUBSCRIBED_EVENTS": "Eventos Inscritos",
       "FORM": {
         "CANCEL": "cancelar",
-        "DESC": "Eventos Webhook fornecem informações em tempo real sobre o que está acontecendo em sua conta Chatwoot. Por favor, insira uma URL válida para configurar uma callback.",
+        "DESC": "Eventos Webhook fornecem informações em tempo real sobre o que está acontecendo em sua conta FirstBot. Por favor, insira uma URL válida para configurar uma callback.",
         "SUBSCRIPTIONS": {
           "LABEL": "Eventos",
           "EVENTS": {
@@ -33,7 +33,7 @@
       "HEADER_BTN_TXT": "Adicionar novo webhook",
       "LOADING": "Buscando webhooks anexados",
       "SEARCH_404": "Não existem itens correspondentes a esta consulta",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks são chamadas HTTP que podem ser definidas para cada conta. Eles são acionados por eventos como criação de mensagens no Chatwoot. Você pode criar mais de um webhook para esta conta. <br /><br /> Para criar um <b>webhook</b>, clique no botão <b>Adicionar novo webhook</b> . Você também pode remover qualquer webhook existente clicando no botão Excluir.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks são chamadas HTTP que podem ser definidas para cada conta. Eles são acionados por eventos como criação de mensagens no FirstBot. Você pode criar mais de um webhook para esta conta. <br /><br /> Para criar um <b>webhook</b>, clique no botão <b>Adicionar novo webhook</b> . Você também pode remover qualquer webhook existente clicando no botão Excluir.</p>",
       "LIST": {
         "404": "Não há webhooks configurados para esta conta.",
         "TITLE": "Gerenciar webhooks",
@@ -80,14 +80,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "Utilizar a integração Slack",
-        "BODY": "<br/><p>Chatwoot irá agora sincronizar todas as mensagens recebidas através do canal de <b><i>conversas com clientes</i></b> dentro do seu local de trabalho do Slack.</p><p>A resposta a uma mensagem nas <b><i>conversas com o cliente</i></b> no seu canal de slack irá criar uma resposta para o cliente através do Chatwoot.</p><p> Comece as respostas com <b><i>nota:</i></b> para criar notas privadas em vez de respostas.</p><p>Se o remetente do slack tiver um perfil de agente no Chatwoot com o mesmo e-mail, as respostas serão associadas de acordo com isso.</p><p>Quando a pessoa que responde não tiver um perfil de agente associado, as respostas serão dadas a partir do perfil do bot.</p>",
+        "BODY": "<br/><p>FirstBot irá agora sincronizar todas as mensagens recebidas através do canal de <b><i>conversas com clientes</i></b> dentro do seu local de trabalho do Slack.</p><p>A resposta a uma mensagem nas <b><i>conversas com o cliente</i></b> no seu canal de slack irá criar uma resposta para o cliente através do FirstBot.</p><p> Comece as respostas com <b><i>nota:</i></b> para criar notas privadas em vez de respostas.</p><p>Se o remetente do slack tiver um perfil de agente no FirstBot com o mesmo e-mail, as respostas serão associadas de acordo com isso.</p><p>Quando a pessoa que responde não tiver um perfil de agente associado, as respostas serão dadas a partir do perfil do bot.</p>",
         "SELECTED": "selecionado"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Escolher um canal",
         "UPDATE": "Atualização",
         "BUTTON_TEXT": "Ligar canal",
-        "DESCRIPTION": "O seu espaço de trabalho Slack está agora ligado com o Chatwoot. No entanto, a integração está, de momento, inativa. Para ativar a integração e ligar um canal ao Chatwoot, por favor, clique no botão abaixo.\n\n**Nota:** Se está a tentar ligar-se a um canal privado, adicione o aplicativo Chatwoot ao canal do Slack antes de prosseguir com esta etapa.",
+        "DESCRIPTION": "O seu espaço de trabalho Slack está agora ligado com o FirstBot. No entanto, a integração está, de momento, inativa. Para ativar a integração e ligar um canal ao FirstBot, por favor, clique no botão abaixo.\n\n**Nota:** Se está a tentar ligar-se a um canal privado, adicione o aplicativo FirstBot ao canal do Slack antes de prosseguir com esta etapa.",
         "ATTENTION_REQUIRED": "Atenção necessária",
         "EXPIRED": "A sua integração com o Slack expirou. Para continuar a receber mensagens no Slack, elimine a integração e faça a ligação ao seu espaço de trabalho novamente."
       },
@@ -167,8 +167,8 @@
     "DASHBOARD_APPS": {
       "TITLE": "Dashboard Apps",
       "HEADER_BTN_TXT": "Adicionar nova dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps permite que as organizações incorporem uma aplicação dentro do dashboard do Chatwoot para fornecer o contexto aos agentes de suporte ao cliente. Este recurso permite-lhe criar uma aplicação independente e incorporá-la dentro do dashboard para fornecer informações de utilizador, os seus pedidos ou seu histórico de pagamentos.</p><p>Quando a sua aplicação é incorporada usando o dashboard do Chatwoot, a sua aplicação irá obter o contexto da conversa e do contato como um evento de janela. Implemente um listener para o evento de mensagem na sua página para receber o contexto.</p><p>Para adicionar um novo aplicativo ao dashboard, clique no botão 'Adicionar nova dashboard app'.</p>",
-      "DESCRIPTION": "Dashboard Apps permite que as organizações incorporem um aplicação dentro do dashboard do Chatwoot para fornecer o contexto aos agentes de suporte ao cliente. Este recurso permite-lhe criar uma aplicação independente e incorporá-la dentro do dashboard para fornecer informações de utilizador, os seus pedidos ou seu histórico de pagamentos.",
+      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps permite que as organizações incorporem uma aplicação dentro do dashboard do FirstBot para fornecer o contexto aos agentes de suporte ao cliente. Este recurso permite-lhe criar uma aplicação independente e incorporá-la dentro do dashboard para fornecer informações de utilizador, os seus pedidos ou seu histórico de pagamentos.</p><p>Quando a sua aplicação é incorporada usando o dashboard do FirstBot, a sua aplicação irá obter o contexto da conversa e do contato como um evento de janela. Implemente um listener para o evento de mensagem na sua página para receber o contexto.</p><p>Para adicionar um novo aplicativo ao dashboard, clique no botão 'Adicionar nova dashboard app'.</p>",
+      "DESCRIPTION": "Dashboard Apps permite que as organizações incorporem um aplicação dentro do dashboard do FirstBot para fornecer o contexto aos agentes de suporte ao cliente. Este recurso permite-lhe criar uma aplicação independente e incorporá-la dentro do dashboard para fornecer informações de utilizador, os seus pedidos ou seu histórico de pagamentos.",
       "LIST": {
         "404": "Não há dashboard apps configuradas nesta conta.",
         "LOADING": "A obter dashboard apps...",

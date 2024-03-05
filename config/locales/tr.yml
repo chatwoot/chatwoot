@@ -183,7 +183,7 @@ tr:
       description: "Google Çeviri Entegrasyonu ekleyerek ajanların mesajları çevirmesini kolaylaştırın. Google Çeviri, dilini otomatik olarak belirlemeye ve ajan/hesap yöneticisi tarafından seçilen dile çevirmeye yardımcı olur."
     openai:
       name: "OpenAI"
-      description: "OpenAI'nin GPT modellerini kullanarak Chatwoot'a güçlü yapay zeka özellikleri entegre edin."
+      description: "OpenAI'nin GPT modellerini kullanarak FirstBot'a güçlü yapay zeka özellikleri entegre edin."
   public_portal:
     search:
       search_placeholder: Başlık veya içerikle makale arayın...

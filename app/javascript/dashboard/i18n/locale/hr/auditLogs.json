@@ -4,11 +4,11 @@
     "HEADER_BTN_TXT": "Dodaj Audit Logove",
     "LOADING": "Dohvat Audit Logova",
     "SEARCH_404": "Ne postoji rezultat za zadano pretraživanje",
-    "SIDEBAR_TXT": "<p><b>Audit Logovi</b> </p><p> Audit Logovi su tragovi događaja i akcija u Chatwoot sustavu. </p>",
+    "SIDEBAR_TXT": "<p><b>Audit Logovi</b> </p><p> Audit Logovi su tragovi događaja i akcija u FirstBot sustavu. </p>",
     "LIST": {
       "404": "Na ovom korisničkom računu nema dostupnih Audit Logova.",
       "TITLE": "Upravljanje Audit Logovima",
-      "DESC": "Audit Logovi su tragovi događaja i akcija u Chatwoot sustavu.",
+      "DESC": "Audit Logovi su tragovi događaja i akcija u FirstBot sustavu.",
       "TABLE_HEADER": [
         "Korisnik",
         "Akcija",

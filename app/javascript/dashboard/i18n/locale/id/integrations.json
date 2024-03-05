@@ -5,7 +5,7 @@
       "SUBSCRIBED_EVENTS": "Acara Berlangganan",
       "FORM": {
         "CANCEL": "Batalkan",
-        "DESC": "Acara Webhook memberi Anda informasi realtime tentang apa yang terjadi di akun Chatwoot Anda. Harap masukkan URL yang valid untuk mengkonfigurasi callback.",
+        "DESC": "Acara Webhook memberi Anda informasi realtime tentang apa yang terjadi di akun FirstBot Anda. Harap masukkan URL yang valid untuk mengkonfigurasi callback.",
         "SUBSCRIPTIONS": {
           "LABEL": "Acara",
           "EVENTS": {
@@ -33,7 +33,7 @@
       "HEADER_BTN_TXT": "Tambah webhook baru",
       "LOADING": "Mengambil webhook terlampir",
       "SEARCH_404": "Tidak ada item yang cocok dengan kueri ini",
-      "SIDEBAR_TXT": "<p><b>Webhook</b> </p> <p>Webhook adalah callback HTTP yang dapat ditentukan untuk setiap akun. Mereka dipicu oleh peristiwa seperti pembuatan pesan di Chatwoot. Anda dapat menambah lebih dari satu webhook untuk akun ini. <br /><br /> Untuk menambahkan <b>webhook</b>, klik tombol <b>Tambahkan webhook baru</b>. Anda juga dapat menghapus webhook yang ada dengan mengklik tombol Hapus.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhook</b> </p> <p>Webhook adalah callback HTTP yang dapat ditentukan untuk setiap akun. Mereka dipicu oleh peristiwa seperti pembuatan pesan di FirstBot. Anda dapat menambah lebih dari satu webhook untuk akun ini. <br /><br /> Untuk menambahkan <b>webhook</b>, klik tombol <b>Tambahkan webhook baru</b>. Anda juga dapat menghapus webhook yang ada dengan mengklik tombol Hapus.</p>",
       "LIST": {
         "404": "Tidak ada webhook yang dikonfigurasi untuk akun ini.",
         "TITLE": "Kelola webhook",
@@ -80,14 +80,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
-        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>",
+        "BODY": "<br/><p>FirstBot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>",
         "SELECTED": "selected"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Select a channel",
         "UPDATE": "Perbarui",
         "BUTTON_TEXT": "Connect channel",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "DESCRIPTION": "Your Slack workspace is now linked with FirstBot. However, the integration is currently inactive. To activate the integration and connect a channel to FirstBot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the FirstBot app to the Slack channel before proceeding with this step.",
         "ATTENTION_REQUIRED": "Attention required",
         "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
       },
@@ -167,7 +167,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Aplikasi Dasbor",
       "HEADER_BTN_TXT": "Tambahkan aplikasi dasbor baru",
-      "SIDEBAR_TXT": "<p><b>Aplikasi Dasbor</b></p><p>Aplikasi Dasbor memungkinkan organisasi untuk menyematkan aplikasi di dalam dasbor Chatwoot untuk menyediakan konteks bagi agen dukungan pelanggan. Fitur ini memungkinkan Anda membuat aplikasi secara independen dan menyematkannya di dalam dasbor untuk menyediakan informasi pengguna, pesanan, atau riwayat pembayaran sebelumnya.</p><p>Ketika Anda menyematkan aplikasi Anda menggunakan dasbor di Chatwoot, aplikasi Anda akan mendapatkan konteks percakapan dan kontak sebagai acara window. Implementasikan penerima untuk acara pesan di halaman Anda untuk menerima konteks.</p><p>Untuk menambahkan aplikasi dasbor baru, klik tombol 'Tambahkan aplikasi dasbor baru'.</p>",
+      "SIDEBAR_TXT": "<p><b>Aplikasi Dasbor</b></p><p>Aplikasi Dasbor memungkinkan organisasi untuk menyematkan aplikasi di dalam dasbor FirstBot untuk menyediakan konteks bagi agen dukungan pelanggan. Fitur ini memungkinkan Anda membuat aplikasi secara independen dan menyematkannya di dalam dasbor untuk menyediakan informasi pengguna, pesanan, atau riwayat pembayaran sebelumnya.</p><p>Ketika Anda menyematkan aplikasi Anda menggunakan dasbor di FirstBot, aplikasi Anda akan mendapatkan konteks percakapan dan kontak sebagai acara window. Implementasikan penerima untuk acara pesan di halaman Anda untuk menerima konteks.</p><p>Untuk menambahkan aplikasi dasbor baru, klik tombol 'Tambahkan aplikasi dasbor baru'.</p>",
       "DESCRIPTION": "Aplikasi Dasbor memungkinkan organisasi untuk menyematkan aplikasi di dalam dasbor untuk menyediakan konteks bagi agen dukungan pelanggan. Fitur ini memungkinkan Anda membuat aplikasi secara independen dan menyematkannya untuk menyediakan informasi pengguna, pesanan, atau riwayat pembayaran sebelumnya.",
       "LIST": {
         "404": "Belum ada aplikasi dasbor yang dikonfigurasi untuk akun ini",

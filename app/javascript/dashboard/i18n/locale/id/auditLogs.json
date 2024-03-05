@@ -4,11 +4,11 @@
     "HEADER_BTN_TXT": "Tambahkan Catatan Audit",
     "LOADING": "Mengambil Catatan Audit",
     "SEARCH_404": "Tidak ada item yang cocok dengan kueri ini",
-    "SIDEBAR_TXT": "<p><b>Catatan Audit</b> </p><p> Catatan Audit adalah jejak untuk peristiwa dan tindakan dalam Sistem Chatwoot. </p>",
+    "SIDEBAR_TXT": "<p><b>Catatan Audit</b> </p><p> Catatan Audit adalah jejak untuk peristiwa dan tindakan dalam Sistem FirstBot. </p>",
     "LIST": {
       "404": "Tidak ada Catatan Audit yang tersedia di akun ini.",
       "TITLE": "Kelola Catatan Audit",
-      "DESC": "Catatan Audit adalah jejak untuk peristiwa dan tindakan dalam Sistem Chatwoot.",
+      "DESC": "Catatan Audit adalah jejak untuk peristiwa dan tindakan dalam Sistem FirstBot.",
       "TABLE_HEADER": [
         "Pengguna",
         "Tindakan",

@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Kotak masuk",
-    "SIDEBAR_TXT": "<p><b>Kotak Masuk</b></p> <p> Saat Anda menghubungkan website atau Halaman Facebook ke Chatwoot, itu disebut <b>Kotak Masuk</b>. Anda dapat memiliki kotak masuk tak terbatas di akun Chatwoot Anda. </p><p> Klik pada <b>Tambah Kotak masuk</b> untuk menghubungkan situs web atau Halaman Facebook. </p><p> Di Dasbor, Anda dapat melihat semua percakapan dari semua kotak masuk Anda di satu tempat dan menanggapinya di bawah tab `Percakapan`. </p><p> Anda juga dapat melihat percakapan khusus untuk kotak masuk dengan mengklik nama kotak masuk di panel kiri dasbor. </p>",
+    "SIDEBAR_TXT": "<p><b>Kotak Masuk</b></p> <p> Saat Anda menghubungkan website atau Halaman Facebook ke FirstBot, itu disebut <b>Kotak Masuk</b>. Anda dapat memiliki kotak masuk tak terbatas di akun FirstBot Anda. </p><p> Klik pada <b>Tambah Kotak masuk</b> untuk menghubungkan situs web atau Halaman Facebook. </p><p> Di Dasbor, Anda dapat melihat semua percakapan dari semua kotak masuk Anda di satu tempat dan menanggapinya di bawah tab `Percakapan`. </p><p> Anda juga dapat melihat percakapan khusus untuk kotak masuk dengan mengklik nama kotak masuk di panel kiri dasbor. </p>",
     "LIST": {
       "404": "Tidak ada kotak masuk yang dilampirkan ke akun ini."
     },
@@ -9,7 +9,7 @@
       {
         "title": "Pilih Channel",
         "route": "settings_inbox_new",
-        "body": "Pilih penyedia yang ingin Anda integrasikan dengan Chatwoot."
+        "body": "Pilih penyedia yang ingin Anda integrasikan dengan FirstBot."
       },
       {
         "title": "Buat Kotak Masuk",
@@ -38,7 +38,7 @@
         "PLACEHOLDER": "Masukkan nama situs web Anda (misalnya: Acme Inc)"
       },
       "FB": {
-        "HELP": "NB: Dengan masuk, kami hanya mendapatkan akses ke pesan Halaman Anda. Pesan pribadi Anda tidak akan pernah bisa diakses oleh Chatwoot.",
+        "HELP": "NB: Dengan masuk, kami hanya mendapatkan akses ke pesan Halaman Anda. Pesan pribadi Anda tidak akan pernah bisa diakses oleh FirstBot.",
         "CHOOSE_PAGE": "Pilih Halaman",
         "CHOOSE_PLACEHOLDER": "Pilih halaman dari daftar",
         "INBOX_NAME": "Nama Kotak Masuk",
@@ -340,7 +340,7 @@
       },
       "AUTH": {
         "TITLE": "Pilih sebuah channel",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "FirstBot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "Agen",
@@ -350,11 +350,11 @@
       },
       "DETAILS": {
         "TITLE": "Detail Kotak Masuk",
-        "DESC": "Dari dropdown di bawah, pilih Halaman Facebook yang ingin Anda hubungkan ke Chatwoot. Anda juga dapat memberikan nama khusus ke kotak masuk Anda untuk identifikasi yang lebih baik."
+        "DESC": "Dari dropdown di bawah, pilih Halaman Facebook yang ingin Anda hubungkan ke FirstBot. Anda juga dapat memberikan nama khusus ke kotak masuk Anda untuk identifikasi yang lebih baik."
       },
       "FINISH": {
         "TITLE": "Berhasil!",
-        "DESC": "Anda telah berhasil menyelesaikan integrasi Halaman Facebook Anda dengan Chatwoot. Saat pelanggan mengirim pesan ke Halaman Anda, percakapan akan otomatis muncul di kotak masuk Anda. <br> Kami juga menyediakan script widget yang dapat dengan mudah ditambahkan ke website Anda. Setelah ini aktif di website Anda, pelanggan dapat mengirimi Anda pesan langsung dari website Anda tanpa bantuan alat eksternal dan percakapan akan muncul di sini, di Chatwoot. <br> Keren, ya? Ya, kami pasti berusaha untuk :)"
+        "DESC": "Anda telah berhasil menyelesaikan integrasi Halaman Facebook Anda dengan FirstBot. Saat pelanggan mengirim pesan ke Halaman Anda, percakapan akan otomatis muncul di kotak masuk Anda. <br> Kami juga menyediakan script widget yang dapat dengan mudah ditambahkan ke website Anda. Setelah ini aktif di website Anda, pelanggan dapat mengirimi Anda pesan langsung dari website Anda tanpa bantuan alat eksternal dan percakapan akan muncul di sini, di FirstBot. <br> Keren, ya? Ya, kami pasti berusaha untuk :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Pilih penyedia email Anda",
@@ -728,7 +728,7 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hallo"
       },
-      "BRANDING_TEXT": "Powered by Chatwoot",
+      "BRANDING_TEXT": "Powered by FirstBot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

@@ -276,7 +276,7 @@
     "NO_BILLING_USER": "Jūsų atsiskaitomoji sąskaita konfigūruojama. Atnaujinkite puslapį ir bandykite dar kartą."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Oi! Nepavyko rasti jokių Chatwoot paskyrų. Jei norite tęsti, susikurkite naują paskyrą.",
+    "NO_ACCOUNT_WARNING": "Oi! Nepavyko rasti jokių FirstBot paskyrų. Jei norite tęsti, susikurkite naują paskyrą.",
     "NEW_ACCOUNT": "Nauja Paskyra",
     "SELECTOR_SUBTITLE": "Sukurti naują paskyrą",
     "API": {

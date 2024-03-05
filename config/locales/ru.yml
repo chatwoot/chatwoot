@@ -183,7 +183,7 @@ ru:
       description: "Чтобы агентам было легче переводить сообщения, добавляя интеграцию с переводом Google Translate Integration. Перевод Google помогает идентифицировать язык автоматически и конвертировать его на язык, выбранный администратором/сотрудником."
     openai:
       name: "OpenAI"
-      description: "Интеграция мощных функций AI в Chatwoot путем использования моделей GPT из OpenAI."
+      description: "Интеграция мощных функций AI в FirstBot путем использования моделей GPT из OpenAI."
   public_portal:
     search:
       search_placeholder: Поиск статьи по названию или содержанию...

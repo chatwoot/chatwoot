@@ -164,14 +164,14 @@ de:
   integration_apps:
     dyte:
       name: "Dyte"
-      description: "Dyte ist ein Tool, mit dem Sie Live-Audio & Video zu Ihrer Anwendung mit nur wenigen Zeilen Code hinzufügen können. Mit dieser Integration können Sie Ihren Agenten die Möglichkeit geben, einen Video- oder Sprachanruf mit Ihren Kunden zu führen, ohne Chatwoot zu verlassen."
+      description: "Dyte ist ein Tool, mit dem Sie Live-Audio & Video zu Ihrer Anwendung mit nur wenigen Zeilen Code hinzufügen können. Mit dieser Integration können Sie Ihren Agenten die Möglichkeit geben, einen Video- oder Sprachanruf mit Ihren Kunden zu führen, ohne FirstBot zu verlassen."
       meeting_name: "%{agent_name} hat ein Meeting begonnen"
     slack:
       name: "Slack"
       description: "Slack ist ein Chat-Tool, das all deine Kommunikation an einem Ort zusammenbringt. Durch die Integration von Slack kannst du über alle neuen Unterhaltungen in deinem Account direkt in deinem Slack benachrichtigt werden."
     webhooks:
       name: "Webhooks"
-      description: "Webhook-Ereignisse bieten Ihnen Echtzeitinformationen darüber, was in Ihrem Chatwoot-Konto passiert. Sie können die Webhooks verwenden, um die Ereignisse an Ihre Lieblings-Apps wie Slack oder Github zu kommunizieren. Klicken Sie auf Konfigurieren, um Ihre Webhooks einzurichten."
+      description: "Webhook-Ereignisse bieten Ihnen Echtzeitinformationen darüber, was in Ihrem FirstBot-Konto passiert. Sie können die Webhooks verwenden, um die Ereignisse an Ihre Lieblings-Apps wie Slack oder Github zu kommunizieren. Klicken Sie auf Konfigurieren, um Ihre Webhooks einzurichten."
     dialogflow:
       name: "Dialogflow"
       description: "Erstellen Sie Chatbots mit Dialogflow und verbinden Sie diesen mit Ihrem Posteingang. Lassen Sie die Bots Anfragen bearbeiten, bevor Sie an einen Kundendienst-Agent weitergeben werden."
@@ -183,7 +183,7 @@ de:
       description: "Machen Sie es Agenten einfacher Nachrichten zu übersetzen, indem Sie eine Google Übersetzer Integration hinzufügen. Google Übersetzer hilft die Sprache automatisch zu identifizieren und in die Sprache umzuwandeln, die vom Agenten/Account-Administrator gewählt wurde."
     openai:
       name: "OpenAI"
-      description: "Integrieren Sie leistungsstarke KI-Funktionen in Chatwoot, indem Sie die GPT-Modelle von OpenAI nutzen."
+      description: "Integrieren Sie leistungsstarke KI-Funktionen in FirstBot, indem Sie die GPT-Modelle von OpenAI nutzen."
   public_portal:
     search:
       search_placeholder: Artikel nach Titel oder Text suchen...

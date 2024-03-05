@@ -5,7 +5,7 @@
       "SUBSCRIBED_EVENTS": "Feliratkozott események",
       "FORM": {
         "CANCEL": "Mégse",
-        "DESC": "Webhook események valós idejű információt adnak arról, hogy mi történik a Chatwoot fiókodban. Kérünk a visszahívás beállításánál egy helyes URL-t adj meg.",
+        "DESC": "Webhook események valós idejű információt adnak arról, hogy mi történik a FirstBot fiókodban. Kérünk a visszahívás beállításánál egy helyes URL-t adj meg.",
         "SUBSCRIPTIONS": {
           "LABEL": "Események",
           "EVENTS": {
@@ -33,7 +33,7 @@
       "HEADER_BTN_TXT": "Új webhook hozzáadása",
       "LOADING": "Kapcsolódó Webhookok betöltése",
       "SEARCH_404": "Nincs megfelelő elem",
-      "SIDEBAR_TXT": "<p><b>Webhook</b>-ok</p><p>A Webhook-ok HTTP visszahívások, melyek minden fiókhoz bállíthatóak. Chatwoot események, például beérkező üzenetek aktiválhatják a webhookokat. Több webhookot is beállíthatsz a fiókodhoz. <br /><br /> Egy <b>webhook</b> létrehozásához kattints a <b>Webhook hozzáadása</b> gombra. Le is törölheted a létrejött webhookokat a Törlés gombra kattintva.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhook</b>-ok</p><p>A Webhook-ok HTTP visszahívások, melyek minden fiókhoz bállíthatóak. FirstBot események, például beérkező üzenetek aktiválhatják a webhookokat. Több webhookot is beállíthatsz a fiókodhoz. <br /><br /> Egy <b>webhook</b> létrehozásához kattints a <b>Webhook hozzáadása</b> gombra. Le is törölheted a létrejött webhookokat a Törlés gombra kattintva.</p>",
       "LIST": {
         "404": "Nincs a fiókhoz rendelt Webhook.",
         "TITLE": "Webhook kezelés",
@@ -80,14 +80,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
-        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>",
+        "BODY": "<br/><p>FirstBot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>",
         "SELECTED": "kiválasztás"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Csatorna kiválasztása",
         "UPDATE": "Frissítés",
         "BUTTON_TEXT": "Csatlakozás a csatornához",
-        "DESCRIPTION": "A Slack munkaterülete mostantól összekapcsolódik a Chatwoot-tal. Az integráció azonban jelenleg inaktív. Az aktiválásához és egy Chatwoot-hoz való csatlakoztatásához kattintson az alábbi gombra.\n\n**Figyelem:** Ha egy privát csatornát próbál csatlakoztatni, akkor a Chatwoot alkalmazást adja hozzá a Slack-csatornához, mielőtt ezt a lépést folytatná.",
+        "DESCRIPTION": "A Slack munkaterülete mostantól összekapcsolódik a FirstBot-tal. Az integráció azonban jelenleg inaktív. Az aktiválásához és egy FirstBot-hoz való csatlakoztatásához kattintson az alábbi gombra.\n\n**Figyelem:** Ha egy privát csatornát próbál csatlakoztatni, akkor a FirstBot alkalmazást adja hozzá a Slack-csatornához, mielőtt ezt a lépést folytatná.",
         "ATTENTION_REQUIRED": "Figyelem szükséges",
         "EXPIRED": "A Slack integráció lejárt. Ha továbbra is szeretne üzeneteket kapni a Slacken, törölje az integrációt, és csatlakoztassa újra a munkaterületét."
       },
@@ -167,7 +167,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Kezdőlap applikációi",
       "HEADER_BTN_TXT": "Új kezdőlapi applikáció hozzáadása",
-      "SIDEBAR_TXT": "<p><b>Irányítópult-alkalmazások</b></p><p>Az irányítópult-alkalmazások segítségével a szervezetek beágyazhatnak egy alkalmazást a Chatwoot irányítópultjába, hogy kontextust biztosítsanak az ügyfélszolgálati ügynökök számára. Ezzel a funkcióval önállóan hozhat létre alkalmazást, és beágyazhatja azt az irányítópultba, hogy megadja a felhasználói információkat, rendeléseiket vagy korábbi fizetési előzményeiket.</p><p>Ha beágyazza alkalmazását a Chatwoot irányítópultjával, az alkalmazás ablakeseményként kapja meg a beszélgetés és a kapcsolatfelvétel kontextusát. Helyezzen el egy figyelőt az üzeneteseményhez az oldalon, hogy megkapja a kontextust.</p><p>Új irányítópult-alkalmazás hozzáadásához kattintson az „Új irányítópult-alkalmazás hozzáadása” gombra.</p>",
+      "SIDEBAR_TXT": "<p><b>Irányítópult-alkalmazások</b></p><p>Az irányítópult-alkalmazások segítségével a szervezetek beágyazhatnak egy alkalmazást a FirstBot irányítópultjába, hogy kontextust biztosítsanak az ügyfélszolgálati ügynökök számára. Ezzel a funkcióval önállóan hozhat létre alkalmazást, és beágyazhatja azt az irányítópultba, hogy megadja a felhasználói információkat, rendeléseiket vagy korábbi fizetési előzményeiket.</p><p>Ha beágyazza alkalmazását a FirstBot irányítópultjával, az alkalmazás ablakeseményként kapja meg a beszélgetés és a kapcsolatfelvétel kontextusát. Helyezzen el egy figyelőt az üzeneteseményhez az oldalon, hogy megkapja a kontextust.</p><p>Új irányítópult-alkalmazás hozzáadásához kattintson az „Új irányítópult-alkalmazás hozzáadása” gombra.</p>",
       "DESCRIPTION": "Az irányítópult-alkalmazások segítségével a szervezetek beágyazhatnak egy alkalmazást az irányítópultba, hogy kontextust biztosítsanak az ügyfélszolgálati ügynökök számára. Ez a funkció lehetővé teszi, hogy önállóan hozzon létre egy alkalmazást, és beágyazza azt, hogy megadja a felhasználói információkat, rendeléseiket vagy korábbi fizetési előzményeiket.\n",
       "LIST": {
         "404": "Ebben a fiókban még nincsenek konfigurálva kezdőlapi-alkalmazások",

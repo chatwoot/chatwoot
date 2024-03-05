@@ -5,7 +5,7 @@
       "SUBSCRIBED_EVENTS": "Prenumeruoti įvykiai",
       "FORM": {
         "CANCEL": "Atšaukti",
-        "DESC": "Webhook įvykiai suteikia jums realaus laiko informaciją apie tai, kas vyksta jūsų Chatwoot paskyroje. Norėdami sukonfigūruoti atgalinį skambinimą, įveskite tinkamą URL.",
+        "DESC": "Webhook įvykiai suteikia jums realaus laiko informaciją apie tai, kas vyksta jūsų FirstBot paskyroje. Norėdami sukonfigūruoti atgalinį skambinimą, įveskite tinkamą URL.",
         "SUBSCRIPTIONS": {
           "LABEL": "Įvykiai",
           "EVENTS": {
@@ -33,7 +33,7 @@
       "HEADER_BTN_TXT": "Pridėti naują webhook",
       "LOADING": "Pridėtų webhooks gavimas",
       "SEARCH_404": "Šią užklausą atitinkančių elementų nėra",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks yra HTTP užklausos, kurias galima nustatyti kiekvienai paskyrai. Juos suaktyvina tokie įvykiai kaip pranešimų kūrimas Chatwoot. Šiai paskyrai galite sukurti daugiau nei vieną webhook. <br /><br /> Norėdami sukurti <b>webhook</b>, spustelėkite mygtuką <b>Pridėti naują webhook</b>. Taip pat galite pašalinti bet kurį esamą webhook spustelėdami mygtuką Ištrinti.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks yra HTTP užklausos, kurias galima nustatyti kiekvienai paskyrai. Juos suaktyvina tokie įvykiai kaip pranešimų kūrimas FirstBot. Šiai paskyrai galite sukurti daugiau nei vieną webhook. <br /><br /> Norėdami sukurti <b>webhook</b>, spustelėkite mygtuką <b>Pridėti naują webhook</b>. Taip pat galite pašalinti bet kurį esamą webhook spustelėdami mygtuką Ištrinti.</p>",
       "LIST": {
         "404": "Šioje paskyroje nėra sukonfigūruotų webhook.",
         "TITLE": "Tvarkykite webhooks",
@@ -80,14 +80,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "Slack integracijos naudojimas",
-        "BODY": "<br/><p>Dabar Chatwoot sinchronizuos visus gaunamus pokalbius į <b><i>kliento pokalbiai</i></b> kanalą jūsų laisvoje darbo vietoje.</p><p>Atsakymas į pokalbių giją <b><i>kliento pokalbiai</i></b> Slack kanale pateiks atsakymą klientui per chatwoot.</p><p>Atsakymus pradėkite naudodami <b><i> pastaba:</i></b> jei norite sukurti privačias pastabas, o ne atsakymus.</p><p>Jei „slack“ atsakytojas turi agento profilį „chatwoot“ tuo pačiu el. pašto adresu, atsakymai bus atitinkamai susieti.</p><p> p><p>Kai atsakiklis neturi susieto agento profilio, atsakymai bus pateikiami iš boto profilio.</p>",
+        "BODY": "<br/><p>Dabar FirstBot sinchronizuos visus gaunamus pokalbius į <b><i>kliento pokalbiai</i></b> kanalą jūsų laisvoje darbo vietoje.</p><p>Atsakymas į pokalbių giją <b><i>kliento pokalbiai</i></b> Slack kanale pateiks atsakymą klientui per chatwoot.</p><p>Atsakymus pradėkite naudodami <b><i> pastaba:</i></b> jei norite sukurti privačias pastabas, o ne atsakymus.</p><p>Jei „slack“ atsakytojas turi agento profilį „chatwoot“ tuo pačiu el. pašto adresu, atsakymai bus atitinkamai susieti.</p><p> p><p>Kai atsakiklis neturi susieto agento profilio, atsakymai bus pateikiami iš boto profilio.</p>",
         "SELECTED": "pasirinkta"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Pasirinkite kanalą",
         "UPDATE": "Atnaujinti",
         "BUTTON_TEXT": "Prijunkite kanalą",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "DESCRIPTION": "Your Slack workspace is now linked with FirstBot. However, the integration is currently inactive. To activate the integration and connect a channel to FirstBot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the FirstBot app to the Slack channel before proceeding with this step.",
         "ATTENTION_REQUIRED": "Reikalingas dėmesys",
         "EXPIRED": "Jūsų Slack integracijos galiojimo laikas baigėsi. Norėdami ir toliau gauti pranešimus Slack, ištrinkite integraciją ir vėl prijunkite savo darbo erdvę."
       },

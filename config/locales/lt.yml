@@ -164,7 +164,7 @@ lt:
   integration_apps:
     dyte:
       name: "Dyte"
-      description: "Dyte yra įrankis, padedantis pridėti tiesioginį garso ir vaizdo įrašą prie programos naudojant tik kelias kodo eilutes. Ši integracija leidžia agentams suteikti galimybę užmegzti vaizdo arba balso skambutį su klientais nepaliekant Chatwoot."
+      description: "Dyte yra įrankis, padedantis pridėti tiesioginį garso ir vaizdo įrašą prie programos naudojant tik kelias kodo eilutes. Ši integracija leidžia agentams suteikti galimybę užmegzti vaizdo arba balso skambutį su klientais nepaliekant FirstBot."
       meeting_name: "%{agent_name} pradėjo susitikimą"
     slack:
       name: "Slack"
@@ -183,7 +183,7 @@ lt:
       description: "Padėkite agentams lengviau išversti pranešimus pridėdami Google Translate integravimą. Google Translate padeda automatiškai identifikuoti kalbą ir konvertuoti ją į agento/paskyros administratoriaus pasirinktą kalbą."
     openai:
       name: "OpenAI"
-      description: "Integruokite galingas AI funkcijas į Chatwoot, naudodamiesi OpenAI GPT modeliais."
+      description: "Integruokite galingas AI funkcijas į FirstBot, naudodamiesi OpenAI GPT modeliais."
   public_portal:
     search:
       search_placeholder: Ieškokite straipsnio pagal pavadinimą arba turinį...

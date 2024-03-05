@@ -4,11 +4,11 @@
     "HEADER_BTN_TXT": "Dodaj dziennik audytowy",
     "LOADING": "Pobieranie dzienników audytowych...",
     "SEARCH_404": "Brak elementów pasujących do tego zapytania",
-    "SIDEBAR_TXT": "<p><b>Dzienniki audytowe</b> </p><p>Dzienniki audytowe śledzą zdarzenia i działania w systemie Chatwoot.</p>",
+    "SIDEBAR_TXT": "<p><b>Dzienniki audytowe</b> </p><p>Dzienniki audytowe śledzą zdarzenia i działania w systemie FirstBot.</p>",
     "LIST": {
       "404": "Nie ma dostępnych dzienników audytowych dla tego konta.",
       "TITLE": "Zarządzaj dziennikami audytowymi",
-      "DESC": "Dziennik audytu śledzi zdarzenia i działania w systemie Chatwoot.",
+      "DESC": "Dziennik audytu śledzi zdarzenia i działania w systemie FirstBot.",
       "TABLE_HEADER": [
         "Użytkownik",
         "Akcja",

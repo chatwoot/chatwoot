@@ -4,11 +4,11 @@
     "HEADER_BTN_TXT": "Audit logok hozzáadása",
     "LOADING": "Audit logok betöltése",
     "SEARCH_404": "Nincs megfelelő elem",
-    "SIDEBAR_TXT": "<p><b>Auditnaplók</b> </p><p> Az auditnaplók a Chatwoot rendszer eseményeinek és műveleteinek nyomvonalai. </p>",
+    "SIDEBAR_TXT": "<p><b>Auditnaplók</b> </p><p> Az auditnaplók a FirstBot rendszer eseményeinek és műveleteinek nyomvonalai. </p>",
     "LIST": {
       "404": "Nincsen elérthető Auditnapló ebben a fiókban.",
       "TITLE": "Audit logok menedzselése",
-      "DESC": "Az Auditnaplók a Chatwoot rendszer eseményeinek és műveleteinek nyomvonalai.",
+      "DESC": "Az Auditnaplók a FirstBot rendszer eseményeinek és műveleteinek nyomvonalai.",
       "TABLE_HEADER": [
         "User",
         "Action",

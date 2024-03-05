@@ -164,14 +164,14 @@ ar:
   integration_apps:
     dyte:
       name: "Dyte"
-      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
+      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving FirstBot."
       meeting_name: "%{agent_name} has started a meeting"
     slack:
       name: "Slack"
       description: "Slack هي أداة دردشة تجمع كل اتصالاتك معا في مكان واحد. من خلال دمج Slack، يمكنك الحصول على إشعار بجميع المحادثات الجديدة في حسابك مباشرة داخل Slack."
     webhooks:
       name: "Webhook"
-      description: "أحداث Webhook توفر لك معلومات في الوقت الحقيقي حول ما يحدث في حساب Chatwoot الخاص بك. يمكنك استخدام خاصية الـ Webhook لإيصال الأحداث إلى تطبيقاتك المفضلة مثل Slack أو Github. انقر على \"تهيئة\" لإعداد الـ Webhooks الخاصة بك."
+      description: "أحداث Webhook توفر لك معلومات في الوقت الحقيقي حول ما يحدث في حساب FirstBot الخاص بك. يمكنك استخدام خاصية الـ Webhook لإيصال الأحداث إلى تطبيقاتك المفضلة مثل Slack أو Github. انقر على \"تهيئة\" لإعداد الـ Webhooks الخاصة بك."
     dialogflow:
       name: "Dialogflow"
       description: "قم ببناء روبوتات الدردشة باستخدام تدفق الاتصال وتوصيلها بالبريد الوارد الخاص بك بسرعة. دع البوتات تتعامل مع الاستفسارات قبل تسليمها إلى وكيل خدمة العملاء."
@@ -183,7 +183,7 @@ ar:
       description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
     openai:
       name: "OpenAI"
-      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
+      description: "Integrate powerful AI features into FirstBot by leveraging the GPT models from OpenAI."
   public_portal:
     search:
       search_placeholder: Search for article by title or body...

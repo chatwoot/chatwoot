@@ -5,7 +5,7 @@
       "SUBSCRIBED_EVENTS": "Subskrybowane wydarzenia",
       "FORM": {
         "CANCEL": "Anuluj",
-        "DESC": "Webhooki dostarczają informacje o tym, co dzieje się w Twoim koncie Chatwoot. Wprowadź poprawny adres URL, aby skonfigurować webhook.",
+        "DESC": "Webhooki dostarczają informacje o tym, co dzieje się w Twoim koncie FirstBot. Wprowadź poprawny adres URL, aby skonfigurować webhook.",
         "SUBSCRIPTIONS": {
           "LABEL": "Wydarzenia",
           "EVENTS": {
@@ -33,7 +33,7 @@
       "HEADER_BTN_TXT": "Dodaj nowy webhook",
       "LOADING": "Pobieranie webhooków",
       "SEARCH_404": "Brak wyników pasujących do wyszukiwania",
-      "SIDEBAR_TXT": "<p><b>Webhooki</b> </p> <p>Webhooki są wywołaniami zwrotnymi HTTP, które mogą być zdefiniowane dla każdego konta. Są wywoływane przez zdarzenia takie jak utworzenie wiadomości w Chatwoot. Możesz utworzyć więcej niż jeden webhook dla tego konta. <br /><br /> Aby utworzyć <b>webhook</b>, kliknij przycisk <b>Dodaj nowy webhook</b>. Możesz również usunąć istniejący webhook, klikając przycisk Usuń.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooki</b> </p> <p>Webhooki są wywołaniami zwrotnymi HTTP, które mogą być zdefiniowane dla każdego konta. Są wywoływane przez zdarzenia takie jak utworzenie wiadomości w FirstBot. Możesz utworzyć więcej niż jeden webhook dla tego konta. <br /><br /> Aby utworzyć <b>webhook</b>, kliknij przycisk <b>Dodaj nowy webhook</b>. Możesz również usunąć istniejący webhook, klikając przycisk Usuń.</p>",
       "LIST": {
         "404": "Brak skonfigurowanych webhooków dla tego konta.",
         "TITLE": "Zarządzaj webhookami",
@@ -80,14 +80,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
-        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>",
+        "BODY": "<br/><p>FirstBot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>",
         "SELECTED": "selected"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Select a channel",
         "UPDATE": "Aktualizuj",
         "BUTTON_TEXT": "Connect channel",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "DESCRIPTION": "Your Slack workspace is now linked with FirstBot. However, the integration is currently inactive. To activate the integration and connect a channel to FirstBot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the FirstBot app to the Slack channel before proceeding with this step.",
         "ATTENTION_REQUIRED": "Attention required",
         "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
       },
@@ -167,7 +167,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Aplikacje na pulpicie",
       "HEADER_BTN_TXT": "Dodaj nową aplikację na pulpicie",
-      "SIDEBAR_TXT": "<p><b>Aplikacje na pulpicie</b></p><p>Aplikacje na pulpicie umożliwiają organizacjom osadzenie aplikacji wewnątrz panelu Chatwoot w celu dostarczenia kontekstu dla agentów obsługi klienta. Ta funkcja umożliwia tworzenie niezależnej aplikacji i osadzanie jej w celu dostarczania informacji o użytkowniku, jego zamówieniach lub historii płatności.</p><p>Kiedy osadzisz swoją aplikację za pomocą pulpitu Chatwoot, Twoja aplikacja otrzyma kontekst rozmowy i kontaktu jako zdarzenie okna. W swojej stronie zaimplementuj nasłuchiwanie zdarzenia wiadomości, aby otrzymać kontekst.</p><p>Aby dodać nową aplikację na pulpicie, kliknij przycisk 'Dodaj nową aplikację na pulpicie'.</p>",
+      "SIDEBAR_TXT": "<p><b>Aplikacje na pulpicie</b></p><p>Aplikacje na pulpicie umożliwiają organizacjom osadzenie aplikacji wewnątrz panelu FirstBot w celu dostarczenia kontekstu dla agentów obsługi klienta. Ta funkcja umożliwia tworzenie niezależnej aplikacji i osadzanie jej w celu dostarczania informacji o użytkowniku, jego zamówieniach lub historii płatności.</p><p>Kiedy osadzisz swoją aplikację za pomocą pulpitu FirstBot, Twoja aplikacja otrzyma kontekst rozmowy i kontaktu jako zdarzenie okna. W swojej stronie zaimplementuj nasłuchiwanie zdarzenia wiadomości, aby otrzymać kontekst.</p><p>Aby dodać nową aplikację na pulpicie, kliknij przycisk 'Dodaj nową aplikację na pulpicie'.</p>",
       "DESCRIPTION": "Aplikacje na pulpicie umożliwiają organizacjom osadzenie aplikacji wewnątrz panelu w celu dostarczenia kontekstu dla agentów obsługi klienta. Ta funkcja umożliwia tworzenie niezależnej aplikacji i osadzanie jej w celu dostarczania informacji o użytkowniku, jego zamówieniach lub historii płatności.",
       "LIST": {
         "404": "Na tym koncie nie skonfigurowano jeszcze aplikacji na pulpicie",

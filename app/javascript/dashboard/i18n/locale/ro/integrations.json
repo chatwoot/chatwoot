@@ -5,7 +5,7 @@
       "SUBSCRIBED_EVENTS": "Evenimente subscrise",
       "FORM": {
         "CANCEL": "Renunță",
-        "DESC": "Evenimentele Webhook vă oferă informații în timp real despre ce se întâmplă în contul dvs. Chatwoot. Introduceți un URL valid pentru a configura un callback.",
+        "DESC": "Evenimentele Webhook vă oferă informații în timp real despre ce se întâmplă în contul dvs. FirstBot. Introduceți un URL valid pentru a configura un callback.",
         "SUBSCRIPTIONS": {
           "LABEL": "Evenimente",
           "EVENTS": {
@@ -33,7 +33,7 @@
       "HEADER_BTN_TXT": "Adaugă un nou webhook",
       "LOADING": "Preluare webhook-uri atașate",
       "SEARCH_404": "Nu există elemente care să corespundă acestei interogări",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks sunt request-uri HTTP care pot fi definite pentru fiecare cont. Acestea sunt declanșate de evenimente precum crearea de mesaje în Chatwoot. Poți crea mai mult de un singur webhook pentru acest cont. <br /><br /> Pentru a crea un webhook <b></b>, apasă pe butonul <b>Adaugă un nou webhook</b>. De asemenea, puteți elimina orice webhook existent făcând clic pe butonul Ștergere.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks sunt request-uri HTTP care pot fi definite pentru fiecare cont. Acestea sunt declanșate de evenimente precum crearea de mesaje în FirstBot. Poți crea mai mult de un singur webhook pentru acest cont. <br /><br /> Pentru a crea un webhook <b></b>, apasă pe butonul <b>Adaugă un nou webhook</b>. De asemenea, puteți elimina orice webhook existent făcând clic pe butonul Ștergere.</p>",
       "LIST": {
         "404": "Nu există webhook-uri configurate pentru acest cont.",
         "TITLE": "Gestionează webhook-uri",
@@ -80,14 +80,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "Utilizarea integrării Slack",
-        "BODY": "<br/><p>Chatwoot va sincroniza acum toate conversațiile primite în canalul <b><i>de conversații cu clienții</i></b> din interiorul locului de muncă slăbit.</p><p>Răspunsul la un fir de conversație în canalul de slăbire <b><i>a conversațiilor clienților</i></b> va crea un răspuns înapoi la client prin chatwoot.</p><p>Începeți răspunsurile cu <b><i>notă:</i></b> pentru a crea note private în loc de răspunsuri.</p><p>În cazul în care replier pe slack are un profil de agent în chatwoot sub același e-mail, răspunsurile vor fi asociate în consecință.</p><p>Atunci când replierul nu are un profil de agent asociat, răspunsurile vor fi făcute din profilul botului.</p>",
+        "BODY": "<br/><p>FirstBot va sincroniza acum toate conversațiile primite în canalul <b><i>de conversații cu clienții</i></b> din interiorul locului de muncă slăbit.</p><p>Răspunsul la un fir de conversație în canalul de slăbire <b><i>a conversațiilor clienților</i></b> va crea un răspuns înapoi la client prin chatwoot.</p><p>Începeți răspunsurile cu <b><i>notă:</i></b> pentru a crea note private în loc de răspunsuri.</p><p>În cazul în care replier pe slack are un profil de agent în chatwoot sub același e-mail, răspunsurile vor fi asociate în consecință.</p><p>Atunci când replierul nu are un profil de agent asociat, răspunsurile vor fi făcute din profilul botului.</p>",
         "SELECTED": "selected"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Select a channel",
         "UPDATE": "Actualizare",
         "BUTTON_TEXT": "Connect channel",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "DESCRIPTION": "Your Slack workspace is now linked with FirstBot. However, the integration is currently inactive. To activate the integration and connect a channel to FirstBot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the FirstBot app to the Slack channel before proceeding with this step.",
         "ATTENTION_REQUIRED": "Attention required",
         "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
       },
@@ -167,7 +167,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Aplicații tablou de bord",
       "HEADER_BTN_TXT": "Adăugarea unei noi aplicații pentru tabloul de bord",
-      "SIDEBAR_TXT": "<p><b>Aplicații tablou de bord</b></p><p>Aplicațiile tablou de bord permit organizațiilor să încorporeze o aplicație în tabloul de bord Chatwoot pentru a oferi contextul pentru agenții de asistență pentru clienți. Această caracteristică vă permite să creați o aplicație independent și să o încorporați în interiorul tabloului de bord pentru a furniza informații despre utilizator, comenzile lor sau istoricul plăților anterioare.</p><p>Când încorporați aplicația utilizând tabloul de bord în Chatwoot, aplicația va primi contextul conversației și al contactului ca eveniment de fereastră. Implementați un ascultător pentru evenimentul mesajului de pe pagina dvs., pentru a primi contextul.</p><p>Pentru a adăuga o nouă aplicație de tablou de bord, faceți clic pe butonul \"Adăugați o nouă aplicație de tablou de bord\".</p>",
+      "SIDEBAR_TXT": "<p><b>Aplicații tablou de bord</b></p><p>Aplicațiile tablou de bord permit organizațiilor să încorporeze o aplicație în tabloul de bord FirstBot pentru a oferi contextul pentru agenții de asistență pentru clienți. Această caracteristică vă permite să creați o aplicație independent și să o încorporați în interiorul tabloului de bord pentru a furniza informații despre utilizator, comenzile lor sau istoricul plăților anterioare.</p><p>Când încorporați aplicația utilizând tabloul de bord în FirstBot, aplicația va primi contextul conversației și al contactului ca eveniment de fereastră. Implementați un ascultător pentru evenimentul mesajului de pe pagina dvs., pentru a primi contextul.</p><p>Pentru a adăuga o nouă aplicație de tablou de bord, faceți clic pe butonul \"Adăugați o nouă aplicație de tablou de bord\".</p>",
       "DESCRIPTION": "Aplicațiile tablou de bord permit organizațiilor să încorporeze o aplicație în interiorul tabloului de bord pentru a oferi contextul agenților de asistență pentru clienți. Această caracteristică vă permite să creați o aplicație independent și să o încorporați pentru a furniza informații despre utilizator, comenzile lor sau istoricul plăților anterioare.",
       "LIST": {
         "404": "Nu există încă aplicații de tablou de bord configurate pe acest cont",

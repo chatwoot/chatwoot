@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Kirjaudu sisään Chatwootiin",
+    "TITLE": "Kirjaudu sisään FirstBotiin",
     "EMAIL": {
       "LABEL": "Sähköposti",
       "PLACEHOLDER": "Sähköposti, esim: someone@example.fi",

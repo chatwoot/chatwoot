@@ -276,7 +276,7 @@
     "NO_BILLING_USER": "Számlázási fiókod konfigurálás alatt áll. Kérjük, frissítsd az oldalt, és próbáld újra."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uppsz! Nem találtunk egyetlen Chatwoot-fiókot sem. A folytatáshoz kérlek hozz létre egy új fiókot.",
+    "NO_ACCOUNT_WARNING": "Uppsz! Nem találtunk egyetlen FirstBot-fiókot sem. A folytatáshoz kérlek hozz létre egy új fiókot.",
     "NEW_ACCOUNT": "Új fiók",
     "SELECTOR_SUBTITLE": "Új fiók létrehozása",
     "API": {

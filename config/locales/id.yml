@@ -164,7 +164,7 @@ id:
   integration_apps:
     dyte:
       name: "Dyte"
-      description: "Dyte adalah alat yang membantu Anda menambahkan audio & video langsung ke aplikasi Anda hanya dengan beberapa baris kode. Integrasi ini memungkinkan Anda memberikan opsi kepada agen Anda untuk melakukan panggilan video atau suara dengan pelanggan Anda tanpa meninggalkan Chatwoot."
+      description: "Dyte adalah alat yang membantu Anda menambahkan audio & video langsung ke aplikasi Anda hanya dengan beberapa baris kode. Integrasi ini memungkinkan Anda memberikan opsi kepada agen Anda untuk melakukan panggilan video atau suara dengan pelanggan Anda tanpa meninggalkan FirstBot."
       meeting_name: "%{agent_name} memulai percakapan"
     slack:
       name: "Slack"
@@ -183,7 +183,7 @@ id:
       description: "Permudah agen untuk menerjemahkan pesan dengan menambahkan Integrasi Google Terjemahan. Google translate membantu mengidentifikasi bahasa secara otomatis dan mengonversinya ke bahasa yang dipilih oleh agen/admin akun."
     openai:
       name: "OpenAI"
-      description: "Integrasikan fitur AI yang kuat ke dalam Chatwoot dengan memanfaatkan model GPT dari OpenAI."
+      description: "Integrasikan fitur AI yang kuat ke dalam FirstBot dengan memanfaatkan model GPT dari OpenAI."
   public_portal:
     search:
       search_placeholder: Telusuri artikel menurut judul atau isi...

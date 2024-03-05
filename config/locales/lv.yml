@@ -46,7 +46,7 @@ lv:
         invalid: vajadzētu būt E.164 formātā
     categories:
       locale:
-        unique: vajadzētu būt unikālai, kategorijā un portālā 
+        unique: vajadzētu būt unikālai, kategorijā un portālā
     dyte:
       invalid_message_type: "Nederīgs ziņojuma veids. Darbība nav atļauta"
     slack:
@@ -164,7 +164,7 @@ lv:
   integration_apps:
     dyte:
       name: "Dyte"
-      description: "Dyte ir rīks, kas lietojumprogrammai palīdz pievienot audio un video tiešraidi, izmantojot tikai dažas koda rindiņas. Šī integrācija ļauj piedāvāt iespēju Jūsu aģentiem veikt video vai balss zvanu ar klientiem, neizejot no Chatwoot."
+      description: "Dyte ir rīks, kas lietojumprogrammai palīdz pievienot audio un video tiešraidi, izmantojot tikai dažas koda rindiņas. Šī integrācija ļauj piedāvāt iespēju Jūsu aģentiem veikt video vai balss zvanu ar klientiem, neizejot no FirstBot."
       meeting_name: "%{agent_name} ir sācis sapulci"
     slack:
       name: "Slack"
@@ -183,7 +183,7 @@ lv:
       description: "Atvieglojiet aģentiem ziņojumu tulkošanu, pievienojot Google tulkotāja integrāciju. Google tulkotājs palīdz automātiski identificēt valodu un pārvērst to aģenta/konta administratora izvēlētajā valodā."
     openai:
       name: "OpenAI"
-      description: "Integrēt jaudīgas AI funkcijas programmā Chatwoot, izmantojot OpenAI GPT modeļus."
+      description: "Integrēt jaudīgas AI funkcijas programmā FirstBot, izmantojot OpenAI GPT modeļus."
   public_portal:
     search:
       search_placeholder: Meklēt rakstu pēc nosaukuma vai pamatteksta...

@@ -164,14 +164,14 @@ es:
   integration_apps:
     dyte:
       name: "Dyte"
-      description: "Dyte es una herramienta que te ayuda a agregar audio y vídeo en vivo a tu aplicación con unas pocas líneas de código. Esta integración le permite dar una opción a sus agentes para tener una videollamada o llamada de voz con sus clientes sin salir de Chatwoot."
+      description: "Dyte es una herramienta que te ayuda a agregar audio y vídeo en vivo a tu aplicación con unas pocas líneas de código. Esta integración le permite dar una opción a sus agentes para tener una videollamada o llamada de voz con sus clientes sin salir de FirstBot."
       meeting_name: "%{agent_name} ha iniciado una reunión"
     slack:
       name: "Slack"
       description: "Slack es una herramienta de chat que reúne toda su comunicación en un solo lugar. Al integrar Slack, puede ser notificado de todas las nuevas conversaciones en su cuenta directamente dentro de su Slack."
     webhooks:
       name: "Webhook"
-      description: "Los eventos Webhook le proporcionan información en tiempo real sobre lo que está sucediendo en su cuenta de Chatwoot. Puede hacer uso de los webhooks para comunicar los eventos a sus aplicaciones favoritas como Slack o Github. Haga clic en Configurar para configurar sus webhooks."
+      description: "Los eventos Webhook le proporcionan información en tiempo real sobre lo que está sucediendo en su cuenta de FirstBot. Puede hacer uso de los webhooks para comunicar los eventos a sus aplicaciones favoritas como Slack o Github. Haga clic en Configurar para configurar sus webhooks."
     dialogflow:
       name: "Dialogflow"
       description: "Construya chatboots usando Dialogflow y conéctelos rápidamente a su bandeja de entrada. Permita que los bots gestionen las preguntas and de que pasen a los agentes de servicio al cliente."
@@ -183,7 +183,7 @@ es:
       description: "Facilita a los agentes la traducción de mensajes añadiendo una integración de traducción de Google. Google Translate ayuda a identificar el idioma automáticamente y convertirlo al idioma elegido por el agente o administrador de la cuenta."
     openai:
       name: "OpenAI"
-      description: "Integra poderosas características de IA en Chatwoot aprovechando los modelos GPT de OpenAI."
+      description: "Integra poderosas características de IA en FirstBot aprovechando los modelos GPT de OpenAI."
   public_portal:
     search:
       search_placeholder: Buscar artículo por título o cuerpo...

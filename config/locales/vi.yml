@@ -164,7 +164,7 @@ vi:
   integration_apps:
     dyte:
       name: "Dyte"
-      description: "Dyte là công cụ giúp bạn thêm âm thanh và video trực tiếp vào ứng dụng của mình chỉ bằng một vài dòng mã. Sự tích hợp này cho phép bạn cung cấp tùy chọn cho các đại lý của mình để thực hiện cuộc gọi thoại hoặc video với khách hàng mà không cần rời khỏi Chatwoot."
+      description: "Dyte là công cụ giúp bạn thêm âm thanh và video trực tiếp vào ứng dụng của mình chỉ bằng một vài dòng mã. Sự tích hợp này cho phép bạn cung cấp tùy chọn cho các đại lý của mình để thực hiện cuộc gọi thoại hoặc video với khách hàng mà không cần rời khỏi FirstBot."
       meeting_name: "%{agent_name} đã bắt đầu một cuộc họp"
     slack:
       name: "Slack"
@@ -183,7 +183,7 @@ vi:
       description: "Giúp các đại lý dịch tin nhắn dễ dàng hơn bằng cách thêm Tích hợp Google Dịch. Google dịch giúp tự động xác định ngôn ngữ và chuyển đổi ngôn ngữ đó sang ngôn ngữ do quản trị viên đại lý/tài khoản chọn."
     openai:
       name: "OpenAI"
-      description: "Tích hợp các tính năng AI mạnh mẽ vào Chatwoot bằng cách tận dụng các mô hình GPT từ OpenAI."
+      description: "Tích hợp các tính năng AI mạnh mẽ vào FirstBot bằng cách tận dụng các mô hình GPT từ OpenAI."
   public_portal:
     search:
       search_placeholder: Tìm bài viết theo tiêu đề hoặc nội dung...

@@ -4,11 +4,11 @@
     "HEADER_BTN_TXT": "Audit-logs toevoegen",
     "LOADING": "Ophalen van Audit Logs",
     "SEARCH_404": "Er zijn geen items die overeenkomen met deze zoekopdracht",
-    "SIDEBAR_TXT": "<p><b>Audit Logs</b> </p><p> Audit Logs zijn sporen voor gebeurtenissen en acties in een Chatwoot Systeem. </p>",
+    "SIDEBAR_TXT": "<p><b>Audit Logs</b> </p><p> Audit Logs zijn sporen voor gebeurtenissen en acties in een FirstBot Systeem. </p>",
     "LIST": {
       "404": "Er zijn geen Audit Logs beschikbaar in dit account.",
       "TITLE": "Beheer Audit Logs",
-      "DESC": "Audit Logs zijn sporen voor gebeurtenissen en acties in een Chatwoot Systeem.",
+      "DESC": "Audit Logs zijn sporen voor gebeurtenissen en acties in een FirstBot Systeem.",
       "TABLE_HEADER": [
         "User",
         "Tijd",

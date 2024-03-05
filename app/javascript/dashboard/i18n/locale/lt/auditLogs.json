@@ -4,11 +4,11 @@
     "HEADER_BTN_TXT": "Pridėti Audito Žurnalus",
     "LOADING": "Parsiunčiami Audito Žurnalai",
     "SEARCH_404": "Šią užklausą atitinkančių elementų nėra",
-    "SIDEBAR_TXT": "<p><b>Audito žurnalai</b> </p><p> Audito žurnalai yra įvykių ir veiksmų Chatwoot sistemoje pėdsakai. </p>",
+    "SIDEBAR_TXT": "<p><b>Audito žurnalai</b> </p><p> Audito žurnalai yra įvykių ir veiksmų FirstBot sistemoje pėdsakai. </p>",
     "LIST": {
       "404": "Šiai paskyrai nėra prieinamų Audito Žurnalų.",
       "TITLE": "Tvarkyti Audito Žurnalus",
-      "DESC": "Audito žurnalai yra įvykių ir veiksmų „Chatwoot“ sistemoje pėdsakai.",
+      "DESC": "Audito žurnalai yra įvykių ir veiksmų „FirstBot“ sistemoje pėdsakai.",
       "TABLE_HEADER": [
         "Vartotojas",
         "Action",

@@ -5,7 +5,7 @@
       "SUBSCRIBED_EVENTS": "Abone Olunan Olaylar",
       "FORM": {
         "CANCEL": "İptal Et",
-        "DESC": "Web kancası etkinlikleri, Chatwoot hesabınızdaki olaylar hakkında gerçek zamanlı bilgi sağlar. Bir geri aramayı yapılandırmak için lütfen geçerli bir URL girin.",
+        "DESC": "Web kancası etkinlikleri, FirstBot hesabınızdaki olaylar hakkında gerçek zamanlı bilgi sağlar. Bir geri aramayı yapılandırmak için lütfen geçerli bir URL girin.",
         "SUBSCRIPTIONS": {
           "LABEL": "Olaylar",
           "EVENTS": {
@@ -33,7 +33,7 @@
       "HEADER_BTN_TXT": "Yeni Web Kancası Ekle",
       "LOADING": "Ekli web kancaları getiriliyor",
       "SEARCH_404": "Bu sorgu ile eşleşen öğe yok",
-      "SIDEBAR_TXT": "<p> <b> Web Kancaları </b> </p> <p> Web Kancaları, her hesap için tanımlanabilen HTTP geri aramalarıdır. Chatwoot'ta mesaj oluşturma gibi olaylar tarafından tetiklenirler. Bu hesap için birden fazla web kancası oluşturabilirsiniz. <br /> <br /> Bir <b> web kancası </b> oluşturmak için, <b> Yeni Web Kancası Ekle </b> düğmesini tıklayın. Ayrıca, Sil düğmesini tıklayarak mevcut herhangi bir web kancasını kaldırabilirsiniz. </p>",
+      "SIDEBAR_TXT": "<p> <b> Web Kancaları </b> </p> <p> Web Kancaları, her hesap için tanımlanabilen HTTP geri aramalarıdır. FirstBot'ta mesaj oluşturma gibi olaylar tarafından tetiklenirler. Bu hesap için birden fazla web kancası oluşturabilirsiniz. <br /> <br /> Bir <b> web kancası </b> oluşturmak için, <b> Yeni Web Kancası Ekle </b> düğmesini tıklayın. Ayrıca, Sil düğmesini tıklayarak mevcut herhangi bir web kancasını kaldırabilirsiniz. </p>",
       "LIST": {
         "404": "Bu hesap için yapılandırılmış web kancası yok.",
         "TITLE": "Web Kancalarını Yönet",
@@ -80,14 +80,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "Slack Entegrasyonu Kullanımı",
-        "BODY": "<br/><p>Chatwoot artık tüm gelen konuşmaları Slack iş alanınız içindeki <b><i>customer-conversations</i></b> kanalına senkronize edecektir.</p><p><b><i>customer-conversations</i></b> slack kanalındaki bir konuşma başlığına yanıt vermek, bir yanıtı müşteriye geri bildirerek Chatwoot üzerinden yapacaktır.</p><p>Cevaplamaya başlamadan önce <b><i>note:</i></b> ile başlarsanız, yanıtlar yerine özel notlar oluşturabilirsiniz.</p><p>Slack'teki yanıtlayıcının, aynı e-posta altında Chatwoot'ta bir temsilci profiline sahip olması durumunda yanıtlar buna göre ilişkilendirilecektir.</p><p>Yanıtlayıcının ilişkilendirilmiş bir temsilci profili olmadığında yanıtlar bot profili üzerinden yapılacaktır.</p>",
+        "BODY": "<br/><p>FirstBot artık tüm gelen konuşmaları Slack iş alanınız içindeki <b><i>customer-conversations</i></b> kanalına senkronize edecektir.</p><p><b><i>customer-conversations</i></b> slack kanalındaki bir konuşma başlığına yanıt vermek, bir yanıtı müşteriye geri bildirerek FirstBot üzerinden yapacaktır.</p><p>Cevaplamaya başlamadan önce <b><i>note:</i></b> ile başlarsanız, yanıtlar yerine özel notlar oluşturabilirsiniz.</p><p>Slack'teki yanıtlayıcının, aynı e-posta altında FirstBot'ta bir temsilci profiline sahip olması durumunda yanıtlar buna göre ilişkilendirilecektir.</p><p>Yanıtlayıcının ilişkilendirilmiş bir temsilci profili olmadığında yanıtlar bot profili üzerinden yapılacaktır.</p>",
         "SELECTED": "seçili"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Bir kanal seçin",
         "UPDATE": "Güncelleme",
         "BUTTON_TEXT": "Kanalı Bağla",
-        "DESCRIPTION": "Slack iş alanınız şimdi Chatwoot ile bağlantılı. Ancak entegrasyon şu anda etkin değil. Entegrasyonu etkinleştirmek ve bir kanalı Chatwoot'a bağlamak için lütfen aşağıdaki düğmeye tıklayın.\n\n**Not:** Eğer özel bir kanal bağlamaya çalışıyorsanız, bu adımdan önce Slack kanalına Chatwoot uygulamasını ekleyin.",
+        "DESCRIPTION": "Slack iş alanınız şimdi FirstBot ile bağlantılı. Ancak entegrasyon şu anda etkin değil. Entegrasyonu etkinleştirmek ve bir kanalı FirstBot'a bağlamak için lütfen aşağıdaki düğmeye tıklayın.\n\n**Not:** Eğer özel bir kanal bağlamaya çalışıyorsanız, bu adımdan önce Slack kanalına FirstBot uygulamasını ekleyin.",
         "ATTENTION_REQUIRED": "Dikkat gerekiyor",
         "EXPIRED": "Slack entegrasyonunuz süresi dolmuştur. Slack üzerinde mesaj almaya devam etmek için lütfen entegrasyonu silip iş alanınızı tekrar bağlayın."
       },
@@ -167,7 +167,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Panel Uygulamaları",
       "HEADER_BTN_TXT": "Yeni bir panel uygulaması ekle",
-      "SIDEBAR_TXT": "<p><b>Panel Uygulamaları</b></p><p>Panel Uygulamaları, organizasyonlara destek uzmanları için bağlam sağlamak amacıyla bir uygulamayı Chatwoot paneli içine yerleştirmelerine izin verir. Bu özellik, bağımsız bir uygulama oluşturmanıza ve bunu panel içine yerleştirmenize olanak tanır, böylece kullanıcı bilgilerini, siparişlerini veya önceki ödeme geçmişini sağlayabilirsiniz.</p><p>Chatwoot'taki panel üzerine uygulamanızı yerleştirdiğinizde, uygulamanız konuşma ve iletişim bağlamını pencere olayı olarak alır. Bağlamı almak için sayfanızda bir message olayı için bir dinleyici uygulayın.</p><p>Yeni bir panel uygulaması eklemek için 'Yeni bir panel uygulaması ekle' düğmesine tıklayın.</p>",
+      "SIDEBAR_TXT": "<p><b>Panel Uygulamaları</b></p><p>Panel Uygulamaları, organizasyonlara destek uzmanları için bağlam sağlamak amacıyla bir uygulamayı FirstBot paneli içine yerleştirmelerine izin verir. Bu özellik, bağımsız bir uygulama oluşturmanıza ve bunu panel içine yerleştirmenize olanak tanır, böylece kullanıcı bilgilerini, siparişlerini veya önceki ödeme geçmişini sağlayabilirsiniz.</p><p>FirstBot'taki panel üzerine uygulamanızı yerleştirdiğinizde, uygulamanız konuşma ve iletişim bağlamını pencere olayı olarak alır. Bağlamı almak için sayfanızda bir message olayı için bir dinleyici uygulayın.</p><p>Yeni bir panel uygulaması eklemek için 'Yeni bir panel uygulaması ekle' düğmesine tıklayın.</p>",
       "DESCRIPTION": "Panel Uygulamaları, organizasyonlara destek uzmanları için bağlam sağlamak amacıyla bir uygulamayı panel içine yerleştirmelerine izin verir. Bu özellik, bağımsız bir uygulama oluşturmanıza ve bunu panel içine yerleştirmenize olanak tanır, böylece kullanıcı bilgilerini, siparişlerini veya önceki ödeme geçmişini sağlayabilirsiniz.",
       "LIST": {
         "404": "Bu hesapta henüz yapılandırılmış panel uygulamaları yok",

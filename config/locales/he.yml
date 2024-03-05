@@ -164,7 +164,7 @@ he:
   integration_apps:
     dyte:
       name: "דיטה"
-      description: "Dyte הוא כלי שעוזר לך להוסיף אודיו ווידאו חי ליישום שלך עם מספר שורות קוד בלבד. אינטגרציה זו מאפשרת לך לתת אפשרות לסוכנים שלך לנהל שיחת וידאו או קול עם הלקוחות שלך מבלי לעזוב את Chatwoot."
+      description: "Dyte הוא כלי שעוזר לך להוסיף אודיו ווידאו חי ליישום שלך עם מספר שורות קוד בלבד. אינטגרציה זו מאפשרת לך לתת אפשרות לסוכנים שלך לנהל שיחת וידאו או קול עם הלקוחות שלך מבלי לעזוב את FirstBot."
       meeting_name: "%{agent_name} has started a meeting"
     slack:
       name: "רָפוּי"
@@ -183,7 +183,7 @@ he:
       description: "הקל על סוכנים לתרגם הודעות על ידי הוספת שילוב של Google Translate. Google translate עוזר לזהות את השפה באופן אוטומטי ולהמיר אותה לשפה שנבחרה על ידי הסוכן/מנהל החשבון."
     openai:
       name: "OpenAI"
-      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
+      description: "Integrate powerful AI features into FirstBot by leveraging the GPT models from OpenAI."
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
