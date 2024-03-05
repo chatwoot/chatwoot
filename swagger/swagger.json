@@ -1,9 +1,9 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "This is the API documentation for Chatwoot server.",
+    "description": "This is the API documentation for FirstBot server.",
     "version": "1.0.0",
-    "title": "Chatwoot",
+    "title": "FirstBot",
     "termsOfService": "https://www.chatwoot.com/terms-of-service/",
     "contact": {
       "email": "hello@chatwoot.com"
@@ -2893,7 +2893,7 @@
         ],
         "operationId": "newConversation",
         "summary": "Create New Conversation",
-        "description": "Creating a conversation in chatwoot requires a source id. \n\n Learn more about source_id: https://github.com/chatwoot/chatwoot/wiki/Building-on-Top-of-Chatwoot:-Importing-Existing-Contacts-and-Creating-Conversations",
+        "description": "Creating a conversation in chatwoot requires a source id. \n\n Learn more about source_id: https://github.com/chatwoot/chatwoot/wiki/Building-on-Top-of-FirstBot:-Importing-Existing-Contacts-and-Creating-Conversations",
         "security": [
           {
             "userApiKey": [
@@ -2993,7 +2993,7 @@
                           "type": "object",
                           "description": "The processed param values for template variables in template",
                           "example": {
-                            "1": "Chatwoot"
+                            "1": "FirstBot"
                           }
                         }
                       }
@@ -5691,7 +5691,7 @@
             "busy",
             "offline"
           ],
-          "description": "The availability status of the agent computed by Chatwoot."
+          "description": "The availability status of the agent computed by FirstBot."
         },
         "auto_offline": {
           "type": "boolean",
@@ -6400,7 +6400,7 @@
               "type": "object",
               "description": "The processed param values for template variables in template",
               "example": {
-                "1": "Chatwoot"
+                "1": "FirstBot"
               }
             }
           }
@@ -7159,7 +7159,7 @@
       "name": "source_id",
       "required": true,
       "type": "string",
-      "description": "Id of the session for which the conversation is created.\n\n\n\n Source Ids can be obtained through contactable inboxes API or via generated.<br/><br/>Website: Chatwoot generated string which can be obtained from webhook events. <br/> Phone Channels(Twilio): Phone number in e164 format <br/> Email Channels: Contact Email address <br/> API Channel: Any Random String"
+      "description": "Id of the session for which the conversation is created.\n\n\n\n Source Ids can be obtained through contactable inboxes API or via generated.<br/><br/>Website: FirstBot generated string which can be obtained from webhook events. <br/> Phone Channels(Twilio): Phone number in e164 format <br/> Email Channels: Contact Email address <br/> API Channel: Any Random String"
     },
     "contact_sort_param": {
       "in": "query",
