@@ -16,7 +16,7 @@ RSpec.describe ContactHelper do
 
     it 'handles an empty string correctly' do
       full_name = ''
-      expected_result = { first_name: nil, last_name: nil, middle_name: '', prefix: nil, suffix: nil }
+      expected_result = { first_name: nil, last_name: nil, middle_name: nil, prefix: nil, suffix: nil }
       expect(helper.parse_name(full_name)).to eq(expected_result)
     end
 
@@ -89,6 +89,18 @@ RSpec.describe ContactHelper do
     it 'handles names with leading and trailing whitespaces and a middle initial' do
       full_name = '  John Q.  Adams  '
       expected_result = { first_name: 'John', last_name: 'Adams', middle_name: 'Q.', prefix: nil, suffix: nil }
+      expect(helper.parse_name(full_name)).to eq(expected_result)
+    end
+
+    it 'handles names with a prefix' do
+      full_name = 'Mr. John Doe'
+      expected_result = { first_name: 'John', last_name: 'Doe', middle_name: '', prefix: 'Mr.', suffix: nil }
+      expect(helper.parse_name(full_name)).to eq(expected_result)
+    end
+
+    it 'handles names with a suffix' do
+      full_name = 'John Doe Jr.'
+      expected_result = { first_name: 'John', last_name: 'Doe', middle_name: '', prefix: nil, suffix: 'Jr.' }
       expect(helper.parse_name(full_name)).to eq(expected_result)
     end
   end

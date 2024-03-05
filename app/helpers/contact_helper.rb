@@ -6,7 +6,7 @@ module ContactHelper
     # If the input is a number, return a hash with the number as the first name
     return numeric_name_hash(full_name) if valid_number?(full_name)
 
-    full_name = full_name.squish
+    full_name = full_name.strip
 
     # If full name consists of only one word, consider it as the first name
     return single_word_name_hash(full_name) if single_word?(full_name)
@@ -23,7 +23,7 @@ module ContactHelper
   end
 
   def invalid_name?(full_name)
-    full_name.nil? || !full_name.is_a?(String)
+    !full_name.is_a?(String) || full_name.empty?
   end
 
   def numeric_name_hash(full_name)
@@ -48,8 +48,8 @@ module ContactHelper
 
   def handle_conjunction(parts)
     conjunctions = ['and', '&']
-    parts.each_with_index do |part, i|
-      next unless conjunctions.include?(part) && i.positive?
+    parts.each_index do |i|
+      next unless conjunctions.include?(parts[i]) && i.positive?
 
       parts[i - 1] = [parts[i - 1], parts[i + 1]].join(' ')
       parts.delete_at(i)
@@ -59,24 +59,24 @@ module ContactHelper
   end
 
   def build_name_hash(parts)
-    suffix = parts.pop if /(\w+\.|[IVXLM]+|[A-Z]+)$/.match?(parts.last)
+    suffix = parts.pop if parts.last.match?(/(\w+\.|[IVXLM]+|[A-Z]+)$/)
     last_name = parts.pop
-    prefix = parts.shift if /^\w+\./.match?(parts[0])
+    prefix = parts.shift if parts.first.match?(/^\w+\./)
     first_name = parts.shift
     middle_name = parts.join(' ')
 
     hash = {
-      :suffix => suffix,
-      :last_name => last_name,
-      :prefix => prefix,
-      :first_name => first_name,
-      :middle_name => middle_name
+      first_name: first_name,
+      last_name: last_name,
+      prefix: prefix,
+      middle_name: middle_name,
+      suffix: suffix
     }
 
     # Reverse name if "," was used in Last, First notation.
     if hash[:first_name] =~ /,$/
       hash[:first_name] = hash[:last_name]
-      hash[:last_name] = ::Regexp.last_match.pre_match # everything before the match
+      hash[:last_name] = Regexp.last_match.pre_match
     end
     hash
   end
