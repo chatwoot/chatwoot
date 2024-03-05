@@ -1,6 +1,6 @@
 <template>
-  <div class="relative items-center p-4 bg-white dark:bg-slate-900">
-    <div class="text-left rtl:text-right">
+  <div class="relative items-center p-4 bg-white dark:bg-slate-900 w-full">
+    <div class="text-left rtl:text-right flex flex-col gap-2 w-full">
       <div class="flex justify-between flex-row">
         <thumbnail
           v-if="showAvatar"
@@ -17,10 +17,10 @@
         />
       </div>
 
-      <div class="mt-2 w-full">
-        <div v-if="showAvatar" class="flex items-start mb-2 gap-1.5">
+      <div class="flex flex-col items-start gap-1.5 min-w-0 w-full">
+        <div v-if="showAvatar" class="flex items-start gap-2 min-w-0 w-full">
           <h3
-            class="text-base text-slate-800 dark:text-slate-100 capitalize whitespace-normal my-0"
+            class="flex-shrink min-w-0 text-base text-slate-800 dark:text-slate-100 capitalize my-0 max-w-full break-words"
           >
             {{ contact.name }}
           </h3>
@@ -38,7 +38,7 @@
             />
             <a
               :href="contactProfileLink"
-              class="fs-default"
+              class="text-base"
               target="_blank"
               rel="noopener nofollow noreferrer"
             >
@@ -52,10 +52,10 @@
           </div>
         </div>
 
-        <p v-if="additionalAttributes.description" class="break-words">
+        <p v-if="additionalAttributes.description" class="break-words mb-0.5">
           {{ additionalAttributes.description }}
         </p>
-        <div class="mb-3">
+        <div class="flex flex-col gap-2 items-start w-full">
           <contact-info-row
             :href="contact.email ? `mailto:${contact.email}` : ''"
             :value="contact.email"
@@ -95,7 +95,7 @@
           <social-icons :social-profiles="socialProfiles" />
         </div>
       </div>
-      <div class="flex items-center w-full mt-2 gap-2">
+      <div class="flex items-center w-full mt-0.5 gap-2">
         <woot-button
           v-tooltip="$t('CONTACT_PANEL.NEW_MESSAGE')"
           title="$t('CONTACT_PANEL.NEW_MESSAGE')"
