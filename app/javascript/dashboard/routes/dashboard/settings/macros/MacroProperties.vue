@@ -71,10 +71,11 @@
         </p>
       </div>
     </div>
-    <div class="mt-auto">
+    <div class="mt-auto w-full">
       <woot-button
         size="expanded"
         color-scheme="success"
+        class="w-full"
         @click="$emit('submit')"
       >
         {{ $t('MACROS.HEADER_BTN_TXT_SAVE') }}
