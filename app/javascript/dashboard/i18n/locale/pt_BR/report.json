@@ -37,7 +37,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Tempo de espera do cliente",
-        "TOOLTIP_TEXT": "O tempo de resposta é de %{metricValue} (baseado em %{conversationCount} conversas)"
+        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -441,7 +441,8 @@
       "LOADING_MESSAGE": "Carregando métricas de conversa...",
       "OPEN": "Abertas",
       "UNATTENDED": "Não atendidas",
-      "UNASSIGNED": "Não atribuída"
+      "UNASSIGNED": "Não atribuída",
+      "PENDING": "Pendente"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Tráfego de conversa",
