@@ -126,12 +126,12 @@ class Notification < ApplicationRecord
   end
 
   def sender_name(actor)
-    actor&.sender&.name || ''
+    actor.try(:sender)&.name || ''
   end
 
   def message_content(actor)
-    content = actor&.content
-    attachments = actor&.attachments
+    content = actor.try(:content)
+    attachments = actor.try(:attachments)
 
     if content.present?
       transform_user_mention_content(content.truncate_words(10))
