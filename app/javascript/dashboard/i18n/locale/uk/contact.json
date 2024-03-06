@@ -34,15 +34,15 @@
         "TITLE": "Додати мітки",
         "PLACEHOLDER": "Пошук міток",
         "NO_RESULT": "Міток не знайдено",
-        "CREATE_LABEL": "Create new label"
+        "CREATE_LABEL": "Створити новий ярлик"
       }
     },
     "MERGE_CONTACT": "Об'єднати",
     "CONTACT_ACTIONS": "Дії з контактами",
-    "MUTE_CONTACT": "Block Contact",
-    "UNMUTE_CONTACT": "Unblock Contact",
-    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
-    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
+    "MUTE_CONTACT": "Заблокувати контакт",
+    "UNMUTE_CONTACT": "Розблокувати контакт",
+    "MUTED_SUCCESS": "Цей контакт успішно заблокований. Повідомлення не будуть надходити про будь-які майбутні розмови.",
+    "UNMUTED_SUCCESS": "Цей контакт успішно розблоковано.",
     "SEND_TRANSCRIPT": "Надіслати транскрипт",
     "EDIT_LABEL": "Редагувати",
     "SIDEBAR_SECTIONS": {
@@ -71,7 +71,7 @@
       "SUBMIT": "Імпорт",
       "CANCEL": "Скасувати"
     },
-    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "SUCCESS_MESSAGE": "Ви будете повідомлені по електронній пошті, коли завершиться імпорт.",
     "ERROR_MESSAGE": "Сталася помилка, будь ласка, спробуйте ще раз"
   },
   "EXPORT_CONTACTS": {
@@ -211,8 +211,8 @@
         "ERROR": "Повідомлення не може бути пустим"
       },
       "ATTACHMENTS": {
-        "SELECT": "Choose files",
-        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+        "SELECT": "Оберіть файли",
+        "HELP_TEXT": "Перетягніть файли сюди, або виберіть файли"
       },
       "SUBMIT": "Надіслати",
       "CANCEL": "Скасувати",
@@ -346,7 +346,7 @@
     "VALIDATIONS": {
       "REQUIRED": "Потрібне коректне значення",
       "INVALID_URL": "Недопустимий URL",
-      "INVALID_INPUT": "Invalid Input"
+      "INVALID_INPUT": "Некоректний текст"
     }
   },
   "MERGE_CONTACTS": {

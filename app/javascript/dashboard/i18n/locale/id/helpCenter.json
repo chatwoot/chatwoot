@@ -319,7 +319,7 @@
       "HEADERS": {
         "TITLE": "Judul",
         "CATEGORY": "Kategori",
-        "READ_COUNT": "Baca hitungan",
+        "READ_COUNT": "Views",
         "STATUS": "Status",
         "LAST_EDITED": "Terakhir diedit"
       },
