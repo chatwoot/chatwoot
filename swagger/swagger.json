@@ -2875,6 +2875,7 @@
             "in": "query",
             "type": "string",
             "enum": [
+              "all",
               "open",
               "resolved",
               "pending",
@@ -2975,6 +2976,7 @@
             "in": "query",
             "type": "string",
             "enum": [
+              "all",
               "open",
               "resolved",
               "pending",
@@ -6507,6 +6509,7 @@
         "content_type": {
           "type": "string",
           "enum": [
+            "text",
             "input_email",
             "cards",
             "input_select",

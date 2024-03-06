@@ -6,6 +6,11 @@ class Features::ResponseBotService
     create_tables
   end
 
+  def disable_in_installation
+    drop_tables
+    disable_vector_extension
+  end
+
   def enable_vector_extension
     MIGRATION_VERSION.enable_extension 'vector'
   rescue ActiveRecord::StatementInvalid

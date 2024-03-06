@@ -26,7 +26,7 @@
               }"
               @click="() => onclick(option)"
             >
-              <div class="flex items-center">
+              <div class="flex items-center gap-1.5">
                 <Thumbnail
                   v-if="hasThumbnail"
                   :src="option.thumbnail"
@@ -35,9 +35,11 @@
                   :status="option.availability_status"
                   has-border
                 />
-                <div class="flex items-center justify-between w-full min-w-0">
+                <div
+                  class="flex items-center justify-between w-full min-w-0 gap-2"
+                >
                   <span
-                    class="leading-4 my-0 mx-2 overflow-hidden whitespace-nowrap text-ellipsis text-sm"
+                    class="leading-4 my-0 overflow-hidden whitespace-nowrap text-ellipsis text-sm"
                     :title="option.name"
                   >
                     {{ option.name }}
