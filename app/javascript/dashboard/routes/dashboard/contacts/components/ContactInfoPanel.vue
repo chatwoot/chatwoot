@@ -38,6 +38,7 @@
                 :contact-id="contact.id"
                 attribute-type="contact_attribute"
                 attribute-class="conversation--attribute"
+                attribute-from="contact_panel"
                 :custom-attributes="contact.custom_attributes"
                 class="even"
               />

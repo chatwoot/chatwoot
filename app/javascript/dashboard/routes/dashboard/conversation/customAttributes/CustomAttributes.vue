@@ -31,9 +31,9 @@
         variant="clear"
         color-scheme="primary"
         class="!px-2 hover:!bg-transparent dark:hover:!bg-transparent"
-        @click="showAllAttributes = true"
+        @click="onClickShowMore"
       >
-        Show more attributes
+        {{ $t('CUSTOM_ATTRIBUTES.SHOW_MORE') }}
       </woot-button>
 
       <woot-button
@@ -43,9 +43,9 @@
         icon="chevron-up"
         variant="clear"
         class="!px-2 hover:!bg-transparent dark:hover:!bg-transparent"
-        @click="showAllAttributes = false"
+        @click="onClickShowLess"
       >
-        Show less attributes
+        {{ $t('CUSTOM_ATTRIBUTES.SHOW_LESS') }}
       </woot-button>
     </div>
   </div>
@@ -55,13 +55,14 @@
 import CustomAttribute from 'dashboard/components/CustomAttribute.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import attributeMixin from 'dashboard/mixins/attributeMixin';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 
 export default {
   components: {
     CustomAttribute,
   },
-  mixins: [alertMixin, attributeMixin],
+  mixins: [alertMixin, attributeMixin, uiSettingsMixin],
   props: {
     attributeType: {
       type: String,
@@ -72,6 +73,10 @@ export default {
       default: '',
     },
     contactId: { type: Number, default: null },
+    attributeFrom: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
@@ -89,8 +94,23 @@ export default {
     showMoreButtons() {
       return this.filteredAttributes.length > 5 && !this.showAllAttributes;
     },
+    uiSettingKey() {
+      return `show_all_attributes_${this.attributeFrom}`;
+    },
+  },
+  mounted() {
+    const showAllSettings = this.uiSettings[this.uiSettingKey];
+    this.showAllAttributes = showAllSettings || false;
   },
   methods: {
+    onClickShowMore() {
+      this.showAllAttributes = true;
+      this.updateUISettings({ [this.uiSettingKey]: true });
+    },
+    onClickShowLess() {
+      this.showAllAttributes = false;
+      this.updateUISettings({ [this.uiSettingKey]: false });
+    },
     async onUpdate(key, value) {
       const updatedAttributes = { ...this.customAttributes, [key]: value };
       try {

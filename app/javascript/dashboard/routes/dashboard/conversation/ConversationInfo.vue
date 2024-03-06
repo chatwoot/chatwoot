@@ -43,6 +43,7 @@
     <custom-attributes
       attribute-type="conversation_attribute"
       attribute-class="conversation--attribute"
+      attribute-from="conversation_panel"
       :class="customAttributeRowClass"
     />
   </div>
