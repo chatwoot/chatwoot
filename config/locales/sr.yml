@@ -102,10 +102,12 @@ sr-Latn:
         recorded_at: Snimljen dana
   notifications:
     notification_title:
-      conversation_creation: "[Novi razgovor] - #%{display_id} je napravljen u %{inbox_name}"
-      conversation_assignment: "[Dodeljeno vama] - #%{display_id} je dodeljen vama"
-      assigned_conversation_new_message: "[Nova poruka] - #%{display_id} %{content}"
-      conversation_mention: "Pomenuti ste u razgovoru [ID - %{display_id}] od strane %{name}"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} vas je pomenuo u priči: "

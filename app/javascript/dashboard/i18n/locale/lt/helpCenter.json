@@ -319,7 +319,7 @@
       "HEADERS": {
         "TITLE": "Pavadinimas",
         "CATEGORY": "Kategorija",
-        "READ_COUNT": "Peržiūrų skaičius",
+        "READ_COUNT": "Views",
         "STATUS": "Būsena",
         "LAST_EDITED": "Paskutinį kartą redaguota"
       },
