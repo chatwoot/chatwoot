@@ -106,8 +106,10 @@ class Notification < ApplicationRecord
     case notification_type
     when 'conversation_creation'
       message_body(conversation.messages.first)
-    when 'assigned_conversation_new_message', 'participating_conversation_new_message', 'conversation_assignment', 'conversation_mention'
+    when 'assigned_conversation_new_message', 'participating_conversation_new_message', 'conversation_mention'
       message_body(secondary_actor)
+    when 'conversation_assignment'
+      message_body(conversation.messages.incoming.last)
     else
       ''
     end
