@@ -65,7 +65,7 @@
       </div>
       <div
         v-show="!isEditing"
-        class="value--view flex group"
+        class="flex group"
         :class="{ 'is-editable': showActions }"
       >
         <a
