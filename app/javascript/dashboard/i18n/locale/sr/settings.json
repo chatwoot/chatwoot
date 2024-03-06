@@ -160,6 +160,9 @@
     "TRIAL_MESSAGE": "dana preostalo od probnog perioda.",
     "TRAIL_BUTTON": "Kupi sada",
     "DELETED_USER": "Obrisan korisnik",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Nalog je suspendovan",
       "MESSAGE": "Vaš nalog je suspendovan. Molim vas kontaktirajte tim za podršku za dodatne informacije."
@@ -197,6 +200,7 @@
     "CURRENTLY_VIEWING_ACCOUNT": "Trenutno pregledate:",
     "SWITCH": "Prebaci",
     "CONVERSATIONS": "Razgovori",
+    "INBOX": "Prijemno sanduče",
     "ALL_CONVERSATIONS": "Svi razgovori",
     "MENTIONED_CONVERSATIONS": "Spominjanja",
     "PARTICIPATING_CONVERSATIONS": "Participating",
@@ -238,6 +242,7 @@
     "REPORTS_INBOX": "Prijemno sanduče",
     "REPORTS_TEAM": "Tim",
     "SET_AVAILABILITY_TITLE": "Postavite da ste",
+    "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Pregled",
     "FACEBOOK_REAUTHORIZE": "Vaša veza sa Fejsbukom je istekla, molim vas povežite ponovo vašu Fejsbuk stranicu za nastavak servisa",

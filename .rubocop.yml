@@ -2,7 +2,8 @@ require:
   - rubocop-performance
   - rubocop-rails
   - rubocop-rspec
-  - ./lib/rubocop/user_find_by.rb
+  - ./rubocop/use_from_email.rb
+  - ./rubocop/custom_cop_location.rb
 
 Layout/LineLength:
   Max: 150
@@ -143,6 +144,12 @@ RSpec/MultipleMemoizedHelpers:
 
 # custom rules
 UseFromEmail:
+  Enabled: true
+  Exclude:
+    - 'app/models/user.rb'
+    - 'app/models/contact.rb'
+
+CustomCopLocation:
   Enabled: true
 
 AllCops:

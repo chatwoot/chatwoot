@@ -569,7 +569,7 @@
       "UPDATE": "Aktualizácia nastavení otváracích hodín",
       "TOGGLE_AVAILABILITY": "Povoliť nastavenie otváracích hodín pre túto schránku",
       "UNAVAILABLE_MESSAGE_LABEL": "Správa pre návštevníkov pri nedostupnosti",
-      "TOGGLE_HELP": "Ak povolíte otváracie hodiny, na widgete živého chatu sa zobrazia dostupné hodiny, aj keď sú všetci agenti offline. Mimo dostupných hodín môžu byť návštevníci upozornení správou a formulárom pred konverzáciou.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Povolenie dostupnosti pre tento deň",
         "UNAVAILABLE": "Neodstupné",

@@ -18,4 +18,14 @@ RSpec.configure do |config|
   def with_modified_env(options, &)
     ClimateControl.modify(options, &)
   end
+
+  def skip_unless_response_bot_enabled_test_environment
+    # Tests skipped using this method should be added to .github/workflows/run_response_bot_spec.yml
+    # Manage response bot tests in your local environment using the following commands:
+    # Enable response bot for tests
+    # RAILS_ENV=test bundle exec rails runner "Features::ResponseBotService.new.enable_in_installation"
+    # Disable response bot for tests
+    # RAILS_ENV=test bundle exec rails runner "Features::ResponseBotService.new.disable_in_installation"
+    skip('Skipping since vector is not enabled in this environment') unless Features::ResponseBotService.new.vector_extension_enabled?
+  end
 end

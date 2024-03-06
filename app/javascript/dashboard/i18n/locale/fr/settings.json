@@ -160,6 +160,9 @@
     "TRIAL_MESSAGE": "jours d'essai restants.",
     "TRAIL_BUTTON": "Acheter Maintenant",
     "DELETED_USER": "Utilisateur supprimé",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Compte Suspendu",
       "MESSAGE": "Votre compte est suspendu. Veuillez contacter le support pour plus d'informations."
@@ -197,6 +200,7 @@
     "CURRENTLY_VIEWING_ACCOUNT": "En cours de visualisation:",
     "SWITCH": "Commuter",
     "CONVERSATIONS": "Conversations",
+    "INBOX": "Boîte de réception",
     "ALL_CONVERSATIONS": "Toutes les conversations",
     "MENTIONED_CONVERSATIONS": "Mentions",
     "PARTICIPATING_CONVERSATIONS": "Conversations assignées",
@@ -238,6 +242,7 @@
     "REPORTS_INBOX": "Boîte de réception",
     "REPORTS_TEAM": "Équipes",
     "SET_AVAILABILITY_TITLE": "Se définir comme",
+    "SLA": "SLA",
     "BETA": "Bêta",
     "REPORTS_OVERVIEW": "Vue d'ensemble",
     "FACEBOOK_REAUTHORIZE": "Votre connexion Facebook a expiré, veuillez reconnecter votre page Facebook pour continuer les services",

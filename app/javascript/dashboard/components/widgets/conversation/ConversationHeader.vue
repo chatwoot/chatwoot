@@ -5,9 +5,7 @@
     <div
       class="flex-1 w-full min-w-0 flex flex-col md:flex-row items-center justify-center"
     >
-      <div
-        class="flex justify-start items-center mr-4 rtl:mr-0 rtl:ml-4 min-w-0 w-[inherit]"
-      >
+      <div class="flex justify-start items-center min-w-0 w-fit max-w-full">
         <back-button
           v-if="showBackButton"
           :back-url="backButtonUrl"
@@ -20,9 +18,11 @@
           :status="currentContact.availability_status"
         />
         <div
-          class="items-start flex flex-col ml-2 rtl:ml-0 rtl:mr-2 min-w-0 w-[inherit] overflow-hidden"
+          class="items-start flex flex-col ml-2 rtl:ml-0 rtl:mr-2 min-w-0 w-fit overflow-hidden"
         >
-          <div class="flex items-center flex-row gap-1 m-0 p-0 w-[inherit]">
+          <div
+            class="flex items-center flex-row gap-1 m-0 p-0 w-fit max-w-full"
+          >
             <woot-button
               variant="link"
               color-scheme="secondary"
@@ -30,7 +30,7 @@
               @click.prevent="$emit('contact-panel-toggle')"
             >
               <span
-                class="text-base leading-tight text-slate-900 dark:text-slate-100"
+                class="text-base leading-tight font-medium text-slate-900 dark:text-slate-100"
               >
                 {{ currentContact.name }}
               </span>
@@ -66,7 +66,7 @@
         </div>
       </div>
       <div
-        class="header-actions-wrap items-center flex flex-row flex-grow justify-end mt-3 lg:mt-0 rtl:relative rtl:left-6"
+        class="header-actions-wrap items-center flex flex-row flex-grow justify-end mt-3 lg:mt-0"
         :class="{ 'justify-end': isContactPanelOpen }"
       >
         <more-actions :conversation-id="currentChat.id" />
