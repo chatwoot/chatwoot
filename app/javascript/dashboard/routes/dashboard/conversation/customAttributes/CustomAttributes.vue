@@ -20,12 +20,9 @@
       @copy="onCopy"
     />
     <!-- Show more and show less buttons show it if the filteredAttributes length is greater than 5 -->
-    <div
-      class="flex"
-      :class="(showMoreButtons || showAllAttributes) && 'px-2 py-2'"
-    >
+    <div v-if="hasMoreThanFiveAttributes" class="flex px-2 py-2">
       <woot-button
-        v-if="showMoreButtons"
+        v-if="showMoreButton"
         size="small"
         icon="chevron-down"
         variant="clear"
@@ -37,7 +34,7 @@
       </woot-button>
 
       <woot-button
-        v-if="showAllAttributes"
+        v-if="showLessButton"
         size="small"
         color-scheme="primary"
         icon="chevron-up"
@@ -84,6 +81,9 @@ export default {
     };
   },
   computed: {
+    hasMoreThanFiveAttributes() {
+      return this.filteredAttributes.length > 5;
+    },
     displayedAttributes() {
       // Show only the first 5 attributes or all depending on showAllAttributes
       if (this.showAllAttributes || this.filteredAttributes.length <= 5) {
@@ -91,25 +91,28 @@ export default {
       }
       return this.filteredAttributes.slice(0, 5);
     },
-    showMoreButtons() {
-      return this.filteredAttributes.length > 5 && !this.showAllAttributes;
+    showMoreButton() {
+      return this.hasMoreThanFiveAttributes && !this.showAllAttributes;
     },
-    uiSettingKey() {
+    showLessButton() {
+      return this.hasMoreThanFiveAttributes && this.showAllAttributes;
+    },
+    showMoreUISettingsKey() {
       return `show_all_attributes_${this.attributeFrom}`;
     },
   },
   mounted() {
-    const showAllSettings = this.uiSettings[this.uiSettingKey];
+    const showAllSettings = this.uiSettings[this.showMoreUISettingsKey];
     this.showAllAttributes = showAllSettings || false;
   },
   methods: {
     onClickShowMore() {
       this.showAllAttributes = true;
-      this.updateUISettings({ [this.uiSettingKey]: true });
+      this.updateUISettings({ [this.showMoreUISettingsKey]: true });
     },
     onClickShowLess() {
       this.showAllAttributes = false;
-      this.updateUISettings({ [this.uiSettingKey]: false });
+      this.updateUISettings({ [this.showMoreUISettingsKey]: false });
     },
     async onUpdate(key, value) {
       const updatedAttributes = { ...this.customAttributes, [key]: value };
