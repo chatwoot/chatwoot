@@ -102,10 +102,12 @@ da:
         recorded_at: Optaget dato
   notifications:
     notification_title:
-      conversation_creation: "[Ny samtale] - #%{display_id} er blevet oprettet i %{inbox_name}"
-      conversation_assignment: "[Tildelt dig] - #%{display_id} er blevet tildelt dig"
-      assigned_conversation_new_message: "[Ny besked] - #%{display_id} %{content}"
-      conversation_mention: "Du er blevet nævnt i samtalen [ID - %{display_id}] af %{name}"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} nævnte dig i historien: "
