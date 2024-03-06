@@ -31,20 +31,23 @@
         "PLACEHOLDER": "SLA priekš premium klientiem"
       },
       "FIRST_RESPONSE_TIME": {
-        "LABEL": "Pirmās Atbildes Laiks (Sekundes)",
-        "PLACEHOLDER": "300, priekš 5 minūtēm"
+        "LABEL": "Pirmās Atbildes Laiks",
+        "PLACEHOLDER": "5"
       },
       "NEXT_RESPONSE_TIME": {
-        "LABEL": "Nākamās Atbildes Laiks (Sekundes)",
-        "PLACEHOLDER": "600, priekš 10 minūtēm"
+        "LABEL": "Nākamās Atbildes Laiks",
+        "PLACEHOLDER": "5"
       },
       "RESOLUTION_TIME": {
-        "LABEL": "Atrisināšanas Laiks (Sekundes)",
-        "PLACEHOLDER": "86400, priekš 1 dienas"
+        "LABEL": "Atrisināšanas Laiks",
+        "PLACEHOLDER": "60"
       },
       "BUSINESS_HOURS": {
         "LABEL": "Darba Laiks",
         "PLACEHOLDER": "Tikai darba laikā"
+      },
+      "THRESHOLD_TIME": {
+        "INVALID_FORMAT_ERROR": "Slieksnim ir jābūt skaitlim un lielākam par nulli"
       },
       "EDIT": "Rediģēt",
       "CREATE": "Izveidot",

@@ -31,20 +31,23 @@
         "PLACEHOLDER": "SLA for premium customers"
       },
       "FIRST_RESPONSE_TIME": {
-        "LABEL": "First Response Time(Seconds)",
-        "PLACEHOLDER": "300 for 5 minutes"
+        "LABEL": "اولین زمان پاسخگویی",
+        "PLACEHOLDER": "۵"
       },
       "NEXT_RESPONSE_TIME": {
-        "LABEL": "Next Response Time(Seconds)",
-        "PLACEHOLDER": "600 for 10 minutes"
+        "LABEL": "Next Response Time",
+        "PLACEHOLDER": "۵"
       },
       "RESOLUTION_TIME": {
-        "LABEL": "Resolution Time(Seconds)",
-        "PLACEHOLDER": "86400 for 1 day"
+        "LABEL": "زمان تا حل شدن مساله",
+        "PLACEHOLDER": "60"
       },
       "BUSINESS_HOURS": {
         "LABEL": "ساعت کاری",
         "PLACEHOLDER": "Only during business hours"
+      },
+      "THRESHOLD_TIME": {
+        "INVALID_FORMAT_ERROR": "Threshold should be a number and greater than zero"
       },
       "EDIT": "ویرایش",
       "CREATE": "ايجاد كردن",

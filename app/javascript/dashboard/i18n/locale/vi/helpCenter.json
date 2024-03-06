@@ -319,7 +319,7 @@
       "HEADERS": {
         "TITLE": "Tiêu đề",
         "CATEGORY": "Loại",
-        "READ_COUNT": "Số lượt đọc",
+        "READ_COUNT": "Views",
         "STATUS": "Trạng thái",
         "LAST_EDITED": "Sửa lần cuối"
       },
