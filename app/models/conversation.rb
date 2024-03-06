@@ -216,6 +216,10 @@ class Conversation < ApplicationRecord
     end
   end
 
+  def send_with_quoted_thread?
+    custom_attributes.dig('send_quoted_thread')
+  end
+
   private
 
   def execute_after_update_commit_callbacks

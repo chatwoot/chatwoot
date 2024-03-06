@@ -35,7 +35,7 @@ class ConversationReplyMailer < ApplicationMailer
 
     init_conversation_attributes(message.conversation)
     @message = message
-    @previous_message = @conversation.messages.chat.where.not(id: message).last
+    @previous_message = @conversation.messages.chat.where.not(id: message).last if @conversation.send_with_quoted_thread?
     @attachments = message.attachments
     reply_mail_object = prepare_mail(true)
     message.update(source_id: reply_mail_object.message_id)
