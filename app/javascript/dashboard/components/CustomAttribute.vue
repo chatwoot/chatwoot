@@ -35,7 +35,7 @@
       </h4>
     </div>
     <div v-if="notAttributeTypeCheckboxAndList">
-      <div v-show="isEditing">
+      <div v-if="isEditing" v-on-clickaway="onClickAway">
         <div class="mb-2 w-full flex items-center">
           <input
             ref="inputfield"
@@ -130,6 +130,7 @@
 </template>
 
 <script>
+import { mixin as clickaway } from 'vue-clickaway';
 import { format, parseISO } from 'date-fns';
 import { required, url } from 'vuelidate/lib/validators';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -142,7 +143,7 @@ export default {
   components: {
     MultiselectDropdown,
   },
-  mixins: [customAttributeMixin],
+  mixins: [customAttributeMixin, clickaway],
   props: {
     label: { type: String, required: true },
     values: { type: Array, default: () => [] },
@@ -164,7 +165,6 @@ export default {
       editedValue: null,
     };
   },
-
   computed: {
     showCopyAndDeleteButton() {
       return this.value && this.showActions;
@@ -174,7 +174,9 @@ export default {
     },
     displayValue() {
       if (this.isAttributeTypeDate) {
-        return new Date(this.value || new Date()).toLocaleDateString();
+        return this.value
+          ? new Date(this.value || new Date()).toLocaleDateString()
+          : '';
       }
       if (this.isAttributeTypeCheckbox) {
         return this.value === 'false' ? false : this.value;
@@ -240,6 +242,10 @@ export default {
       this.isEditing = false;
       this.editedValue = this.formattedValue;
     },
+    contactId() {
+      // Fix to solve validation not resetting when contactId changes in contact page
+      this.$v.$reset();
+    },
   },
 
   validations() {
@@ -278,6 +284,10 @@ export default {
         this.$refs.inputfield.focus();
       }
     },
+    onClickAway() {
+      this.$v.$reset();
+      this.isEditing = false;
+    },
     onEdit() {
       this.isEditing = true;
       this.$nextTick(() => {
@@ -304,6 +314,7 @@ export default {
     },
     onDelete() {
       this.isEditing = false;
+      this.$v.$reset();
       this.$emit('delete', this.attributeKey);
     },
     onCopy() {

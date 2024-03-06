@@ -14,6 +14,7 @@
       :attribute-regex="attribute.regex_pattern"
       :regex-cue="attribute.regex_cue"
       :class="attributeClass"
+      :contact-id="contactId"
       @update="onUpdate"
       @delete="onDelete"
       @copy="onCopy"
@@ -21,10 +22,10 @@
     <!-- Show more and show less buttons show it if the filteredAttributes length is greater than 5 -->
     <div
       class="flex"
-      :class="(addShowMoreButton || showAllAttributes) && 'px-2 py-2'"
+      :class="(showMoreButtons || showAllAttributes) && 'px-2 py-2'"
     >
       <woot-button
-        v-if="addShowMoreButton"
+        v-if="showMoreButtons"
         size="small"
         icon="chevron-down"
         variant="clear"
@@ -85,7 +86,7 @@ export default {
       }
       return this.filteredAttributes.slice(0, 5);
     },
-    addShowMoreButton() {
+    showMoreButtons() {
       return this.filteredAttributes.length > 5 && !this.showAllAttributes;
     },
   },
