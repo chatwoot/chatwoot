@@ -2,23 +2,27 @@
   <div class="py-3 px-4">
     <div class="flex items-center mb-1">
       <h4 class="text-sm flex items-center m-0 w-full error">
-        <div v-if="isAttributeTypeCheckbox" class="checkbox-wrap">
+        <div v-if="isAttributeTypeCheckbox" class="flex items-center">
           <input
             v-model="editedValue"
-            class="checkbox"
+            class="!my-0 mr-2 ml-0"
             type="checkbox"
             @change="onUpdate"
           />
         </div>
         <div class="flex items-center justify-between w-full">
           <span
-            class="attribute-name w-full text-slate-800 dark:text-slate-100 font-medium text-sm mb-0"
-            :class="{ error: $v.editedValue.$error }"
+            class="w-full font-medium text-sm mb-0"
+            :class="
+              $v.editedValue.$error
+                ? 'text-red-400 dark:text-red-500'
+                : 'text-slate-800 dark:text-slate-100'
+            "
           >
             {{ label }}
           </span>
           <woot-button
-            v-if="showActions"
+            v-if="showCopyAndDeleteButton"
             v-tooltip.left="$t('CUSTOM_ATTRIBUTES.ACTIONS.DELETE')"
             variant="link"
             size="medium"
@@ -61,7 +65,7 @@
       </div>
       <div
         v-show="!isEditing"
-        class="value--view"
+        class="value--view flex group"
         :class="{ 'is-editable': showActions }"
       >
         <a
@@ -69,35 +73,35 @@
           :href="hrefURL"
           target="_blank"
           rel="noopener noreferrer"
-          class="value inline-block rounded-sm mb-0 break-all py-0.5 px-1"
+          class="group-hover:bg-slate-50 group-hover:dark:bg-slate-700 inline-block rounded-sm mb-0 break-all py-0.5 px-1"
         >
           {{ urlValue }}
         </a>
         <p
           v-else
-          class="value inline-block rounded-sm mb-0 break-all py-0.5 px-1"
+          class="group-hover:bg-slate-50 group-hover:dark:bg-slate-700 inline-block rounded-sm mb-0 break-all py-0.5 px-1"
         >
           {{ displayValue || '---' }}
         </p>
         <div class="flex max-w-[2rem] gap-1 ml-1 rtl:mr-1 rtl:ml-0">
           <woot-button
-            v-if="showActions"
+            v-if="showCopyAndDeleteButton"
             v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.COPY')"
             variant="link"
             size="small"
             color-scheme="secondary"
             icon="clipboard"
-            class-names="edit-button"
+            class-names="hidden group-hover:flex !w-6 flex-shrink-0"
             @click="onCopy"
           />
           <woot-button
-            v-if="showActions"
+            v-if="showEditButton"
             v-tooltip.right="$t('CUSTOM_ATTRIBUTES.ACTIONS.EDIT')"
             variant="link"
             size="small"
             color-scheme="secondary"
             icon="edit"
-            class-names="edit-button"
+            class-names="hidden group-hover:flex !w-6 flex-shrink-0"
             @click="onEdit"
           />
         </div>
@@ -162,6 +166,12 @@ export default {
   },
 
   computed: {
+    showCopyAndDeleteButton() {
+      return this.value && this.showActions;
+    },
+    showEditButton() {
+      return !this.value && this.showActions;
+    },
     displayValue() {
       if (this.isAttributeTypeDate) {
         return new Date(this.value || new Date()).toLocaleDateString();
@@ -304,35 +314,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.checkbox-wrap {
-  @apply flex items-center;
-}
-.checkbox {
-  @apply my-0 mr-2 ml-0;
-}
-.attribute-name {
-  &.error {
-    @apply text-red-400 dark:text-red-500;
-  }
-}
-
-.edit-button {
-  @apply hidden;
-}
-
-.value--view {
-  @apply flex;
-
-  &.is-editable:hover {
-    .value {
-      @apply bg-slate-50 dark:bg-slate-700 mb-0;
-    }
-    .edit-button {
-      @apply block;
-    }
-  }
-}
-
 ::v-deep {
   .selector-wrap {
     @apply m-0 top-1;

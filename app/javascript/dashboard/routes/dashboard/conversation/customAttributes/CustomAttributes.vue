@@ -1,7 +1,7 @@
 <template>
   <div class="custom-attributes--panel">
     <custom-attribute
-      v-for="attribute in filteredAttributes"
+      v-for="attribute in displayedAttributes"
       :key="attribute.id"
       :attribute-key="attribute.attribute_key"
       :attribute-type="attribute.attribute_display_type"
@@ -18,6 +18,35 @@
       @delete="onDelete"
       @copy="onCopy"
     />
+    <!-- Show more and show less buttons show it if the filteredAttributes length is greater than 5 -->
+    <div
+      class="flex"
+      :class="(addShowMoreButton || showAllAttributes) && 'px-2 py-2'"
+    >
+      <woot-button
+        v-if="addShowMoreButton"
+        size="small"
+        icon="chevron-down"
+        variant="clear"
+        color-scheme="primary"
+        class="!px-2 hover:!bg-transparent dark:hover:!bg-transparent"
+        @click="showAllAttributes = true"
+      >
+        Show more attributes
+      </woot-button>
+
+      <woot-button
+        v-if="showAllAttributes"
+        size="small"
+        color-scheme="primary"
+        icon="chevron-up"
+        variant="clear"
+        class="!px-2 hover:!bg-transparent dark:hover:!bg-transparent"
+        @click="showAllAttributes = false"
+      >
+        Show less attributes
+      </woot-button>
+    </div>
   </div>
 </template>
 
@@ -42,6 +71,23 @@ export default {
       default: '',
     },
     contactId: { type: Number, default: null },
+  },
+  data() {
+    return {
+      showAllAttributes: false,
+    };
+  },
+  computed: {
+    displayedAttributes() {
+      // Show only the first 5 attributes or all depending on showAllAttributes
+      if (this.showAllAttributes || this.filteredAttributes.length <= 5) {
+        return this.filteredAttributes;
+      }
+      return this.filteredAttributes.slice(0, 5);
+    },
+    addShowMoreButton() {
+      return this.filteredAttributes.length > 5 && !this.showAllAttributes;
+    },
   },
   methods: {
     async onUpdate(key, value) {
@@ -99,13 +145,13 @@ export default {
 <style scoped lang="scss">
 .custom-attributes--panel {
   .conversation--attribute {
-    @apply border-slate-50 dark:border-slate-700 border-b border-solid;
+    @apply border-slate-50 dark:border-slate-700/50 border-b border-solid;
   }
 
   &.odd {
     .conversation--attribute {
       &:nth-child(2n + 1) {
-        @apply bg-slate-25 dark:bg-slate-800;
+        @apply bg-slate-25 dark:bg-slate-800/50;
       }
     }
   }
@@ -113,7 +159,7 @@ export default {
   &.even {
     .conversation--attribute {
       &:nth-child(2n) {
-        @apply bg-slate-25 dark:bg-slate-800;
+        @apply bg-slate-25 dark:bg-slate-800/50;
       }
     }
   }

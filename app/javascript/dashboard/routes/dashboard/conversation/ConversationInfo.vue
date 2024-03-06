@@ -45,7 +45,6 @@
       attribute-class="conversation--attribute"
       :class="customAttributeRowClass"
     />
-    <custom-attribute-selector attribute-type="conversation_attribute" />
   </div>
 </template>
 
@@ -53,13 +52,11 @@
 import { getLanguageName } from '../../../components/widgets/conversation/advancedFilterItems/languages';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import CustomAttributes from './customAttributes/CustomAttributes.vue';
-import CustomAttributeSelector from './customAttributes/CustomAttributeSelector.vue';
 
 export default {
   components: {
     ContactDetailsItem,
     CustomAttributes,
-    CustomAttributeSelector,
   },
   props: {
     conversationAttributes: {
@@ -143,10 +140,10 @@ export default {
 </script>
 <style scoped lang="scss">
 .conversation--attribute {
-  @apply border-slate-50 dark:border-slate-700 border-b border-solid;
+  @apply border-slate-50 dark:border-slate-700/50 border-b border-solid;
 
   &:nth-child(2n) {
-    @apply bg-slate-25 dark:bg-slate-800;
+    @apply bg-slate-25 dark:bg-slate-800/50;
   }
 }
 </style>

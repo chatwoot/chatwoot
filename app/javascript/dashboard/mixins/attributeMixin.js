@@ -29,30 +29,23 @@ export default {
     conversationId() {
       return this.currentChat.id;
     },
-
     filteredAttributes() {
-      return Object.keys(this.customAttributes).map(key => {
-        const item = this.attributes.find(
-          attribute => attribute.attribute_key === key
+      return this.attributes.map(attribute => {
+        // Check if the attribute key exists in customAttributes
+        const hasValue = Object.hasOwnProperty.call(
+          this.customAttributes,
+          attribute.attribute_key
         );
-        if (item) {
-          return {
-            ...item,
-            value: this.customAttributes[key],
-          };
-        }
+
+        const isCheckbox = attribute.attribute_display_type === 'checkbox';
+        const defaultValue = isCheckbox ? false : '';
 
         return {
-          ...item,
-          value: this.customAttributes[key],
-          attribute_description: key,
-          attribute_display_name: key,
-          attribute_display_type: this.attributeDisplayType(
-            this.customAttributes[key]
-          ),
-          attribute_key: key,
-          attribute_model: this.attributeType,
-          id: Math.random(),
+          ...attribute,
+          // Set value from customAttributes if it exists, otherwise use default value
+          value: hasValue
+            ? this.customAttributes[attribute.attribute_key]
+            : defaultValue,
         };
       });
     },

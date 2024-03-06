@@ -61,7 +61,19 @@ describe('attributeMixin', () => {
       },
     };
     const wrapper = shallowMount(Component, { store, localVue });
-    expect(wrapper.vm.filteredAttributes).toEqual([
+    const attributes = [
+      {
+        attribute_description: 'Product name',
+        attribute_display_name: 'Product name',
+        attribute_display_type: 'text',
+        attribute_key: 'product_name',
+        attribute_model: 'conversation_attribute',
+        created_at: '2021-09-03T10:45:09.587Z',
+        default_value: null,
+        id: 6,
+        value: '',
+        updated_at: '2021-09-22T10:40:42.511Z',
+      },
       {
         attribute_description: 'Product identifier',
         attribute_display_name: 'Product id',
@@ -70,12 +82,13 @@ describe('attributeMixin', () => {
         attribute_model: 'conversation_attribute',
         created_at: '2021-09-16T13:06:47.329Z',
         default_value: null,
-        icon: 'fluent-calculator',
         id: 10,
         updated_at: '2021-09-22T10:42:25.873Z',
         value: 2021,
       },
-    ]);
+    ];
+
+    expect(wrapper.vm.filteredAttributes).toEqual(attributes);
   });
 
   it('return display type if attribute passed', () => {
