@@ -33,7 +33,7 @@
       <banner />
       <router-view />
 
-      <branding v-if="!isOnArticleViewer" :disable-branding="disableBranding" />
+      <branding v-if="!isOnArticleViewer" :disable-branding="true" />
     </div>
   </div>
 </template>
