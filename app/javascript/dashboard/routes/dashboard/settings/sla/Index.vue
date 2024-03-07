@@ -9,7 +9,7 @@
       {{ $t('SLA.HEADER_BTN_TXT') }}
     </woot-button>
     <div class="flex flex-row gap-4">
-      <div class="w-[60%]">
+      <div class="w-full xl:w-3/5">
         <p
           v-if="!uiFlags.isFetching && !records.length"
           class="flex h-full items-center flex-col justify-center"
@@ -38,17 +38,17 @@
               <td>{{ sla.description }}</td>
               <td>
                 <span class="flex items-center">
-                  {{ sla.first_response_time_threshold }}
+                  {{ displayTime(sla.first_response_time_threshold) }}
                 </span>
               </td>
               <td>
                 <span class="flex items-center">
-                  {{ sla.next_response_time_threshold }}
+                  {{ displayTime(sla.next_response_time_threshold) }}
                 </span>
               </td>
               <td>
                 <span class="flex items-center">
-                  {{ sla.resolution_time_threshold }}
+                  {{ displayTime(sla.resolution_time_threshold) }}
                 </span>
               </td>
               <td>
@@ -73,7 +73,7 @@
         </table>
       </div>
 
-      <div class="w-[34%]">
+      <div class="w-1/3 hidden xl:block">
         <span v-dompurify-html="$t('SLA.SIDEBAR_TXT')" />
       </div>
     </div>
@@ -88,6 +88,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { convertSecondsToTimeUnit } from '@chatwoot/utils';
 
 import AddSLA from './AddSLA.vue';
 import EditSLA from './EditSLA.vue';
@@ -111,26 +112,12 @@ export default {
     ...mapGetters({
       records: 'sla/getSLA',
       uiFlags: 'sla/getUIFlags',
-      accountId: 'getCurrentAccountId',
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
-    isSLAEnabled() {
-      return this.isFeatureEnabledonAccount(this.accountId, 'sla');
-    },
   },
   mounted() {
-    this.isSLAfeatureEnabled();
+    this.$store.dispatch('sla/get');
   },
   methods: {
-    isSLAfeatureEnabled() {
-      if (!this.isSLAEnabled) {
-        this.$router.push({
-          name: 'general_settings_index',
-        });
-      } else {
-        this.$store.dispatch('sla/get');
-      }
-    },
     openAddPopup() {
       this.showAddPopup = true;
     },
@@ -143,6 +130,15 @@ export default {
     },
     hideEditPopup() {
       this.showEditPopup = false;
+    },
+    displayTime(threshold) {
+      const { time, unit } = convertSecondsToTimeUnit(threshold, {
+        minute: 'm',
+        hour: 'h',
+        day: 'd',
+      });
+      if (!time) return '-';
+      return `${time}${unit}`;
     },
   },
 };

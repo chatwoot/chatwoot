@@ -113,7 +113,7 @@
       "SETTINGS": "Настройки",
       "AI_ASSIST": "Помощь ИИ",
       "APPEARANCE": "Образец",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "Отложить уведомление"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Перейти к панели разговоров",
@@ -155,7 +155,7 @@
       "LIGHT_MODE": "Светлая",
       "DARK_MODE": "Тёмная",
       "SYSTEM_MODE": "Система",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "Отложить уведомление"
     }
   },
   "DASHBOARD_APPS": {
