@@ -1,13 +1,13 @@
 <template>
   <div class="h-full w-full md:w-[calc(100%-360px)]">
-    <div v-if="!conversationId" class="flex w-full h-full">
+    <div v-if="showEmptyState" class="flex w-full h-full">
       <inbox-empty-state
         :empty-state-message="$t('INBOX.LIST.NO_MESSAGES_AVAILABLE')"
       />
     </div>
     <div v-else class="flex flex-col h-full w-full">
       <inbox-item-header
-        :total-length="totalNotifications"
+        :total-length="totalNotificationCount"
         :current-index="activeNotificationIndex"
         :active-notification="activeNotification"
         @next="onClickNext"
@@ -80,8 +80,14 @@ export default {
     conversationId() {
       return this.activeNotification?.primary_actor?.id;
     },
-    totalNotifications() {
+    totalNotificationCount() {
       return this.meta.count;
+    },
+    showEmptyState() {
+      return (
+        !this.conversationId ||
+        (!this.notifications?.length && this.uiFlags.isFetching)
+      );
     },
     activeNotificationIndex() {
       return this.notifications?.findIndex(n => n.id === this.notificationId);
@@ -145,7 +151,7 @@ export default {
         updatedIndex = activeIndex - 1;
       } else if (
         direction === 'next' &&
-        activeIndex < this.totalNotifications
+        activeIndex < this.totalNotificationCount
       ) {
         updatedIndex = activeIndex + 1;
       }
