@@ -11,10 +11,11 @@
           spacing="compact"
           class="flex-grow"
           :placeholder="$t('START_ONBOARDING.INVITE_TEAM.PLACEHOLDER')"
-          @keyup.enter="pushEmail"
+          @keyup-enter="pushEmail"
         />
         <woot-button
           variant="smooth"
+          icon="add"
           color-scheme="secondary"
           @click="pushEmail"
         >
@@ -24,7 +25,7 @@
       <div
         class="rounded-md divide-y divide-slate-100 dark:divide-slate-700 border border-slate-200 dark:border-slate-700 max-h-[40vh] overflow-auto"
         :class="{
-          ' border-dashed grid place-content-center':
+          'border-dashed grid place-content-center':
             emailsToInvite.length === 0,
         }"
       >

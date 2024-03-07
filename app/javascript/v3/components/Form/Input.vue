@@ -30,6 +30,7 @@
       }"
       class="reset-base block w-full !border-0 border-none shadow-sm appearance-none rounded-md outline outline-1 focus:outline focus:outline-2 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 sm:text-sm sm:leading-6 dark:bg-slate-800"
       @input="onInput"
+      @keyup.enter="$emit('keyup-enter')"
       @blur="$emit('blur')"
     />
   </with-label>
