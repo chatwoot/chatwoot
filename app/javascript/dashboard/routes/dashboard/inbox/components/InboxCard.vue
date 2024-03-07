@@ -23,26 +23,21 @@
       </div>
     </div>
 
-    <div class="flex flex-row justify-between items-center w-full">
-      <div class="flex gap-1.5 items-center max-w-[calc(100%-70px)]">
-        <Thumbnail
-          v-if="assigneeMeta"
-          :src="assigneeMeta.thumbnail"
-          :username="assigneeMeta.name"
-          size="16px"
-          class="relative bottom-0.5"
-        />
-        <div class="flex min-w-0">
-          <span
-            class="text-slate-800 dark:text-slate-50 text-sm overflow-hidden text-ellipsis whitespace-nowrap"
-            :class="isUnread ? 'font-medium' : 'font-normal'"
-          >
-            {{ pushTitle }}
-          </span>
-        </div>
-      </div>
+    <div class="flex flex-row justify-between gap-1.5 items-center w-full">
+      <Thumbnail
+        v-if="assigneeMeta"
+        :src="assigneeMeta.thumbnail"
+        :username="assigneeMeta.name"
+        size="16px"
+      />
       <span
-        class="font-medium max-w-[60px] text-slate-600 dark:text-slate-300 text-xs whitespace-nowrap"
+        class="flex-1 text-slate-800 dark:text-slate-50 text-sm overflow-hidden text-ellipsis whitespace-nowrap"
+        :class="isUnread ? 'font-medium' : 'font-normal'"
+      >
+        {{ pushTitle }}
+      </span>
+      <span
+        class="font-medium text-slate-600 dark:text-slate-300 text-xs whitespace-nowrap"
       >
         {{ lastActivityAt }}
       </span>

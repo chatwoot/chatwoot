@@ -1,27 +1,34 @@
 <template>
-  <div class="flex flex-col h-full w-full md:w-[calc(100%-360px)]">
-    <inbox-item-header
-      :total-length="totalNotifications"
-      :current-index="activeNotificationIndex"
-      :active-notification="activeNotification"
-      @next="onClickNext"
-      @prev="onClickPrev"
-    />
-    <div
-      v-if="isConversationLoading"
-      class="flex items-center justify-center h-[calc(100%-56px)] bg-slate-25 dark:bg-slate-800"
-    >
-      <span class="spinner my-4" />
+  <div class="h-full w-full md:w-[calc(100%-360px)]">
+    <div v-if="!conversationId" class="flex w-full h-full">
+      <inbox-empty-state
+        :empty-state-message="$t('INBOX.LIST.NO_MESSAGES_AVAILABLE')"
+      />
     </div>
-    <conversation-box
-      v-else
-      class="h-[calc(100%-56px)]"
-      is-inbox-view
-      :inbox-id="inboxId"
-      :is-contact-panel-open="isContactPanelOpen"
-      :is-on-expanded-layout="false"
-      @contact-panel-toggle="onToggleContactPanel"
-    />
+    <div v-else class="flex flex-col h-full w-full">
+      <inbox-item-header
+        :total-length="totalNotifications"
+        :current-index="activeNotificationIndex"
+        :active-notification="activeNotification"
+        @next="onClickNext"
+        @prev="onClickPrev"
+      />
+      <div
+        v-if="isConversationLoading"
+        class="flex items-center justify-center h-[calc(100%-56px)] bg-slate-25 dark:bg-slate-800"
+      >
+        <span class="spinner my-4" />
+      </div>
+      <conversation-box
+        v-else
+        class="h-[calc(100%-56px)]"
+        is-inbox-view
+        :inbox-id="inboxId"
+        :is-contact-panel-open="isContactPanelOpen"
+        :is-on-expanded-layout="false"
+        @contact-panel-toggle="onToggleContactPanel"
+      />
+    </div>
   </div>
 </template>
 
@@ -29,6 +36,7 @@
 import { mapGetters } from 'vuex';
 import InboxItemHeader from './components/InboxItemHeader.vue';
 import ConversationBox from 'dashboard/components/widgets/conversation/ConversationBox.vue';
+import InboxEmptyState from './InboxEmptyState.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
@@ -36,6 +44,7 @@ import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 export default {
   components: {
     InboxItemHeader,
+    InboxEmptyState,
     ConversationBox,
   },
   mixins: [uiSettingsMixin],
@@ -47,12 +56,18 @@ export default {
   computed: {
     ...mapGetters({
       currentAccountId: 'getCurrentAccountId',
-      notifications: 'notifications/getNotifications',
+      notification: 'notifications/getFilteredNotifications',
       currentChat: 'getSelectedChat',
       activeNotificationById: 'notifications/getNotificationById',
       conversationById: 'getConversationById',
       uiFlags: 'notifications/getUIFlags',
+      meta: 'notifications/getMeta',
     }),
+    notifications() {
+      return this.notification({
+        sortOrder: this.activeSortOrder,
+      });
+    },
     inboxId() {
       return Number(this.$route.params.inboxId);
     },
@@ -66,14 +81,15 @@ export default {
       return this.activeNotification?.primary_actor?.id;
     },
     totalNotifications() {
-      return this.notifications?.length ?? 0;
+      return this.meta.count;
     },
     activeNotificationIndex() {
-      const conversationId = Number(this.conversationId);
-      const notificationIndex = this.notifications.findIndex(
-        n => n.primary_actor.id === conversationId
-      );
-      return notificationIndex >= 0 ? notificationIndex + 1 : 0;
+      return this.notifications?.findIndex(n => n.id === this.notificationId);
+    },
+    activeSortOrder() {
+      const { inbox_filter_by: filterBy = {} } = this.uiSettings;
+      const { sort_by: sortBy } = filterBy;
+      return sortBy || 'desc';
     },
     isContactPanelOpen() {
       if (this.currentChat.id) {
@@ -124,33 +140,44 @@ export default {
       return this.conversationById(this.conversationId);
     },
     navigateToConversation(activeIndex, direction) {
-      const indexOffset = direction === 'next' ? 0 : -2;
-      const targetNotification = this.notifications[activeIndex + indexOffset];
-      if (targetNotification) {
-        const {
-          id,
-          primary_actor_id: primaryActorId,
-          primary_actor_type: primaryActorType,
-          primary_actor: { meta: { unreadCount } = {} },
-          notification_type: notificationType,
-        } = targetNotification;
-
-        this.$track(INBOX_EVENTS.OPEN_CONVERSATION_VIA_INBOX, {
-          notificationType,
-        });
-
-        this.$store.dispatch('notifications/read', {
-          id,
-          primaryActorId,
-          primaryActorType,
-          unreadCount,
-        });
-
-        this.$router.push({
-          name: 'inbox_view_conversation',
-          params: { notification_id: id },
-        });
+      let updatedIndex;
+      if (direction === 'prev' && activeIndex) {
+        updatedIndex = activeIndex - 1;
+      } else if (
+        direction === 'next' &&
+        activeIndex < this.totalNotifications
+      ) {
+        updatedIndex = activeIndex + 1;
       }
+      const targetNotification = this.notifications[updatedIndex];
+      if (targetNotification) {
+        this.openNotification(targetNotification);
+      }
+    },
+    openNotification(notification) {
+      const {
+        id,
+        primary_actor_id: primaryActorId,
+        primary_actor_type: primaryActorType,
+        primary_actor: { meta: { unreadCount } = {} },
+        notification_type: notificationType,
+      } = notification;
+
+      this.$track(INBOX_EVENTS.OPEN_CONVERSATION_VIA_INBOX, {
+        notificationType,
+      });
+
+      this.$store.dispatch('notifications/read', {
+        id,
+        primaryActorId,
+        primaryActorType,
+        unreadCount,
+      });
+
+      this.$router.push({
+        name: 'inbox_view_conversation',
+        params: { notification_id: id },
+      });
     },
     onClickNext() {
       this.navigateToConversation(this.activeNotificationIndex, 'next');

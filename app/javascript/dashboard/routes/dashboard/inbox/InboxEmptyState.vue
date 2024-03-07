@@ -10,7 +10,7 @@
         class="text-slate-600 dark:text-slate-400"
       />
       <span class="text-slate-500 text-sm font-medium dark:text-slate-300">
-        {{ $t('INBOX.LIST.NOTE') }}
+        {{ emptyMessage }}
       </span>
     </div>
   </div>
@@ -19,10 +19,22 @@
 <script>
 import { mapGetters } from 'vuex';
 export default {
+  props: {
+    emptyStateMessage: {
+      type: String,
+      default: '',
+    },
+  },
   computed: {
     ...mapGetters({
       uiFlags: 'notifications/getUIFlags',
     }),
+    emptyMessage() {
+      if (this.emptyStateMessage) {
+        return this.emptyStateMessage;
+      }
+      return this.$t('INBOX.LIST.NOTE');
+    },
   },
 };
 </script>

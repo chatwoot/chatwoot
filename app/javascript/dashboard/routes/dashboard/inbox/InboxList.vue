@@ -53,6 +53,7 @@ import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+
 export default {
   components: {
     InboxCard,
@@ -116,7 +117,7 @@ export default {
     redirectToInbox() {
       if (!this.currentNotificationId) return;
       if (this.$route.name === 'inbox_view') return;
-      this.$router.push({ name: 'inbox_view' });
+      this.$router.replace({ name: 'inbox_view' });
     },
     loadMoreNotifications() {
       if (this.uiFlags.isAllNotificationsLoaded) return;

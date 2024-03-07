@@ -15,7 +15,7 @@
     <pagination-button
       v-if="totalLength > 1"
       :total-length="totalLength"
-      :current-index="currentIndex"
+      :current-index="currentIndex + 1"
       @next="onClickNext"
       @prev="onClickPrev"
     />
@@ -152,7 +152,7 @@ export default {
       this.$emit('prev');
     },
     onClickGoToInboxList() {
-      this.$router.push({ name: 'inbox_view' });
+      this.$router.replace({ name: 'inbox_view' });
     },
   },
 };
