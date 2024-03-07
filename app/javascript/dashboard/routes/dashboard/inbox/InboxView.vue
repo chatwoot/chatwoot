@@ -15,13 +15,13 @@
       />
       <div
         v-if="isConversationLoading"
-        class="flex items-center justify-center h-[calc(100%-56px)] bg-slate-25 dark:bg-slate-800"
+        class="flex items-center flex-1 justify-center bg-slate-25 dark:bg-slate-800"
       >
         <span class="spinner my-4" />
       </div>
       <conversation-box
         v-else
-        class="h-[calc(100%-56px)]"
+        class="flex-1"
         is-inbox-view
         :inbox-id="inboxId"
         :is-contact-panel-open="isContactPanelOpen"
