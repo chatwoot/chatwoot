@@ -87,6 +87,8 @@ import {
 import {
   findMatchingOption,
   findIndustryOptions,
+  companySizeOptions,
+  industryOptions,
 } from 'v3/helpers/OnboardingHelper';
 import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
@@ -106,21 +108,8 @@ export default {
       locale: '',
       companySize: '',
       industry: '',
-      companySizeOptions: [
-        { value: '1-10', label: '1-10' },
-        { value: '11-50', label: '11-50' },
-        { value: '51-250', label: '51-250' },
-        { value: '251-1000', label: '251-1000' },
-        { value: '1001+', label: 'Over 1000' },
-      ],
-      industryOptions: [
-        { value: 'Information Technology', label: 'Information technology' },
-        { value: 'Finance', label: 'Finance' },
-        { value: 'Health & Medicine', label: 'Health & Medicine' },
-        { value: 'Education', label: 'Education' },
-        { value: 'E Commerce', label: 'E Commerce' },
-        { value: 'Other', label: 'Other' },
-      ],
+      companySizeOptions,
+      industryOptions,
     };
   },
   validations: {
@@ -215,16 +204,17 @@ export default {
         this.accountAttributes;
 
       this.companyName = companyName;
-      const browserTimezone = getIANATimezoneFromOffset();
-      const allTimezones = this.timeZones.map(zone => zone.value);
       this.industry = findIndustryOptions(industry);
       this.companySize = companySize;
+      this.locale = locale || this.setLocaleFromBrowser();
+
+      const browserTimezone = getIANATimezoneFromOffset();
+      const allTimezones = this.timeZones.map(zone => zone.value);
       this.timezone = findMatchingOption(
         timezone,
         allTimezones,
         browserTimezone
       );
-      this.locale = locale || this.setLocaleFromBrowser();
 
       this.setLocale(locale);
     },
