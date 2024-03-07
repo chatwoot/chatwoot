@@ -7,6 +7,7 @@
     </div>
     <div v-else class="flex flex-col h-full w-full">
       <inbox-item-header
+        class="flex-1"
         :total-length="totalNotificationCount"
         :current-index="activeNotificationIndex"
         :active-notification="activeNotification"
@@ -15,13 +16,13 @@
       />
       <div
         v-if="isConversationLoading"
-        class="flex items-center flex-1 justify-center bg-slate-25 dark:bg-slate-800"
+        class="flex items-center h-[calc(100%-56px)] justify-center bg-slate-25 dark:bg-slate-800"
       >
         <span class="spinner my-4" />
       </div>
       <conversation-box
         v-else
-        class="flex-1"
+        class="h-[calc(100%-56px)]"
         is-inbox-view
         :inbox-id="inboxId"
         :is-contact-panel-open="isContactPanelOpen"
