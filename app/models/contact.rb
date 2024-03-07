@@ -6,6 +6,7 @@
 #
 #  id                    :integer          not null, primary key
 #  additional_attributes :jsonb
+#  blocked               :boolean          default(FALSE), not null
 #  contact_type          :integer          default("visitor")
 #  country_code          :string           default("")
 #  custom_attributes     :jsonb
@@ -24,6 +25,7 @@
 # Indexes
 #
 #  index_contacts_on_account_id                          (account_id)
+#  index_contacts_on_blocked                             (blocked)
 #  index_contacts_on_lower_email_account_id              (lower((email)::text), account_id)
 #  index_contacts_on_name_email_phone_number_identifier  (name,email,phone_number,identifier) USING gin
 #  index_contacts_on_nonempty_fields                     (account_id,email,phone_number,identifier) WHERE (((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))
@@ -163,6 +165,10 @@ class Contact < ApplicationRecord
   def discard_invalid_attrs
     phone_number_format
     email_format
+  end
+
+  def self.from_email(email)
+    find_by(email: email.downcase)
   end
 
   private

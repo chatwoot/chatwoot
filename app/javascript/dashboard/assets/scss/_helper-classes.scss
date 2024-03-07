@@ -1,64 +1,22 @@
-.bg-light {
-  @apply bg-slate-25 dark:bg-slate-800;
-}
-
-.flex-center {
-  @include flex-align(center, middle);
-  display: flex;
-}
-
-.bottom-space-fix {
-  margin-bottom: auto;
-}
-
-.full-height {
-  @include full-height();
-}
-
+// loader class
 .spinner {
   @include color-spinner();
-  display: inline-block;
-  height: $space-medium;
-  padding: $zero $space-medium;
-  position: relative;
-  vertical-align: middle;
-  width: $space-medium;
+  @apply inline-block h-6 py-0 px-6 relative align-middle w-6;
 
   &.message {
     @include normal-shadow;
-    background: $color-white;
-    border-radius: $space-large;
-    left: 0;
-    margin: $space-slab auto;
-    padding: $space-normal;
-    top: 0;
+    @apply bg-white dark:bg-slate-800 rounded-full left-0 my-3 mx-auto p-4 top-0;
 
     &::before {
-      margin-left: -$space-slab;
-      margin-top: -$space-slab;
+      @apply -ml-3 -mt-3;
     }
   }
 
   &.small {
-    height: $space-normal;
-    width: $space-normal;
+    @apply h-4 w-4;
 
     &::before {
-      height: $space-normal;
-      margin-top: -$space-small;
-      width: $space-normal;
+      @apply h-4 -mt-2 w-4;
     }
   }
-}
-
-.justify-space-between {
-  justify-content: space-between;
-}
-
-.w-full {
-  width: 100%;
-}
-
-.h-full {
-  height: 100%;
 }

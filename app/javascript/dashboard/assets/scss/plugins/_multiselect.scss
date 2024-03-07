@@ -97,6 +97,10 @@
 
   .multiselect__tags {
     @apply bg-white dark:bg-slate-900 border border-solid border-slate-200 dark:border-slate-600 m-0 min-h-[2.875rem] pt-0;
+
+    input {
+      @apply border-0 border-none;
+    }
   }
 
   .multiselect__tags-wrap {
@@ -149,7 +153,6 @@
 }
 
 .multiselect-wrap--small {
-
   .multiselect__tags,
   .multiselect__input,
   .multiselect {
@@ -180,7 +183,6 @@
   .multiselect--disabled .multiselect__select {
     @apply bg-transparent;
   }
-
 }
 
 .multiselect-wrap--medium {

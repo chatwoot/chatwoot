@@ -158,7 +158,7 @@ export default {
   }
 }
 .button--note {
-  @apply text-yellow-600 dark:text-yellow-600;
+  @apply text-yellow-600 dark:text-yellow-600 bg-transparent dark:bg-transparent;
 }
 .whatsapp--templates {
   color: #25d366 !important;

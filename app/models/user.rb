@@ -156,6 +156,10 @@ class User < ApplicationRecord
     mutations_from_database.changed?('email')
   end
 
+  def self.from_email(email)
+    find_by(email: email.downcase)
+  end
+
   private
 
   def remove_macros

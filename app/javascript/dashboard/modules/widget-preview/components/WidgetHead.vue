@@ -60,7 +60,7 @@ export default {
       align-items: center;
       display: flex;
       flex-direction: row;
-      justify-content: start;
+      justify-content: flex-start;
 
       .logo {
         border-radius: 100%;
