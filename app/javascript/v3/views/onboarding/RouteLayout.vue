@@ -1,15 +1,18 @@
 <template>
   <section
-    class="relative min-h-screen px-8 dark:text-white bg-[#FCFCFD] dark:bg-slate-900 flex items-center justify-center"
+    class="min-h-screen px-8 dark:text-white bg-[#FCFCFD] dark:bg-slate-900 flex items-center justify-center"
   >
     <spinner v-if="!showIntroHeader" class="absolute inset-0" />
     <div
       v-else
-      class="relative max-w-[1440px] w-full mx-auto flex gap-16 min-h-[80vh] justify-center"
+      :class="[
+        'relative max-w-[1440px] w-full mx-auto flex gap-16 h-screen justify-center',
+        `bg-[url('/assets/images/dashboard/onboarding/intro.svg')]`,
+        `dark:bg-[url('/assets/images/dashboard/onboarding/intro-dark.svg')]`,
+        `bg-contain bg-no-repeat bg-[left_bottom_-100px] bg-[length:600px]`,
+      ]"
     >
-      <div
-        class="relative w-5/12 px-16 py-[88px] bg-[url('/assets/images/dashboard/onboarding/intro.svg')] dark:bg-[url('/assets/images/dashboard/onboarding/intro-dark.svg')] bg-contain bg-no-repeat bg-[left_calc(-0px)_bottom_calc(-136px)] xl:min-h-[875px] 2xl:min-h-[1205px]"
-      >
+      <div class="relative h-screen w-5/12 py-20">
         <div class="z-0 mb-10">
           <img
             :src="globalConfig.logo"
@@ -42,10 +45,9 @@
             />
           </div>
         </transition>
-        <!-- bg-[url('/assets/images/dashboard/onboarding/intro.svg')] dark:bg-[url('')] -->
       </div>
       <div
-        class="relative w-7/12 py-[88px] flex justify-center overflow-hidden h-fit"
+        class="relative w-7/12 py-20 flex justify-center overflow-hidden h-fit"
       >
         <div
           class="absolute inset-0 h-full w-full bg-[#FCFCFD] dark:bg-slate-900 bg-[radial-gradient(var(--w-200)_1px,transparent_1px)] [background-size:16px_16px]"
