@@ -319,7 +319,7 @@
       "HEADERS": {
         "TITLE": "Naslov",
         "CATEGORY": "Kategorija",
-        "READ_COUNT": "Broj pročitano",
+        "READ_COUNT": "Views",
         "STATUS": "Status",
         "LAST_EDITED": "Poslednje izmenjeno"
       },
