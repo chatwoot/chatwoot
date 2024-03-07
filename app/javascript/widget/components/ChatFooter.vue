@@ -110,7 +110,6 @@ export default {
     startNewConversation() {
       this.clearConversations();
       this.clearConversationAttributes();
-      this.replaceRoute('prechat-form');
     },
     async sendTranscript() {
       const { email } = this.currentUser;
