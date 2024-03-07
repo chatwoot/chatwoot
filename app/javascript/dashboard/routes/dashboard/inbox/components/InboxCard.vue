@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <div class="flex flex-row justify-between gap-1.5 items-center w-full">
+    <div class="flex flex-row justify-between items-center w-full gap-2">
       <Thumbnail
         v-if="assigneeMeta"
         :src="assigneeMeta.thumbnail"
