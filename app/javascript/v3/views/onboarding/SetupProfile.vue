@@ -21,9 +21,10 @@
               />
               <div
                 v-else
-                class="flex items-center justify-center w-10 h-10 rounded-xl bg-slate-200"
+                class="flex items-center justify-center w-10 h-10 rounded-md bg-slate-200"
               >
                 <svg
+                  v-once
                   width="24"
                   height="24"
                   viewBox="0 0 24 24"
