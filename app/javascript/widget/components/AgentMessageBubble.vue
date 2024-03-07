@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapMutations, mapActions } from 'vuex';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import ChatCard from 'shared/components/ChatCard';
 import ChatForm from 'shared/components/ChatForm';
@@ -125,19 +125,17 @@ export default {
     }
   },
   methods: {
+    ...mapActions('conversation', [
+      'sendMessage',
+    ]),
     ...mapMutations({
       setOptions: 'conversation/setQuickRepliesOptions',
       setCallback: 'conversation/setQuickRepliesCallback',
     }),
-    onResponse(messageResponse) {
-      this.$store.dispatch('message/update', messageResponse);
-    },
-    onOptionSelect(selectedOption) {
-      this.onResponse({
-        submittedValues: [selectedOption],
-        messageId: this.messageId,
-      });
+    async onOptionSelect(selectedOption) {
       this.setOptions([]);
+      await this.sendMessage({content: selectedOption.title});
+      // Scroll to bottom once the quick reply is clicked
       const container = document.getElementById('conversation-container');
       container.scrollTo(0, container.scrollHeight);
     },
