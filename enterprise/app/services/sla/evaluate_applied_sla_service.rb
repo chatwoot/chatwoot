@@ -62,6 +62,7 @@ class Sla::EvaluateAppliedSlaService
     return unless applied_sla.active?
 
     applied_sla.update!(sla_status: 'missed')
+    generate_notifications_for_sla(applied_sla)
     Rails.logger.warn "SLA missed for conversation #{applied_sla.conversation.id} " \
                       "in account #{applied_sla.account_id} " \
                       "for sla_policy #{applied_sla.sla_policy.id}"
@@ -74,5 +75,16 @@ class Sla::EvaluateAppliedSlaService
     Rails.logger.info "SLA hit for conversation #{applied_sla.conversation.id} " \
                       "in account #{applied_sla.account_id} " \
                       "for sla_policy #{applied_sla.sla_policy.id}"
+  end
+
+  def generate_notifications_for_sla(applied_sla)
+    applied_sla.account.users.each do |user|
+      NotificationBuilder.new(
+        notification_type: 'sla_missed',
+        user: user,
+        account: applied_sla.account,
+        primary_actor: applied_sla.conversation
+      ).perform
+    end
   end
 end
