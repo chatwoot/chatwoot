@@ -269,7 +269,10 @@ export default {
       if (this.isOngoingType) {
         return this.$store.getters['inboxes/getWebsiteInboxes'];
       }
-      return this.$store.getters['inboxes/getSMSInboxes'];
+      return [
+        ...this.$store.getters['inboxes/getSMSInboxes'],
+        ...this.$store.getters['inboxes/getApiInboxes'],
+      ];
     },
     sendersAndBotList() {
       return [
