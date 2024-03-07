@@ -1,5 +1,7 @@
 <template>
-  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%]">
+  <div
+    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+  >
     <form class="mx-0 flex flex-wrap" @submit.prevent="addAgents()">
       <div class="w-full">
         <page-header
@@ -7,7 +9,7 @@
           :header-content="$t('INBOX_MGMT.ADD.AGENTS.DESC')"
         />
       </div>
-      <div class="w-[60%]">
+      <div class="w-3/5">
         <div class="w-full">
           <label :class="{ error: $v.selectedAgents.$error }">
             {{ $t('INBOX_MGMT.ADD.AGENTS.TITLE') }}

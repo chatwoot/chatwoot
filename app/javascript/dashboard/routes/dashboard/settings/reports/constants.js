@@ -200,6 +200,7 @@ export const OVERVIEW_METRICS = {
   open: 'OPEN',
   unattended: 'UNATTENDED',
   unassigned: 'UNASSIGNED',
+  pending: 'PENDING',
   online: 'ONLINE',
   busy: 'BUSY',
   offline: 'OFFLINE',

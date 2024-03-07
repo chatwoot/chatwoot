@@ -319,7 +319,7 @@
       "HEADERS": {
         "TITLE": "Τίτλος",
         "CATEGORY": "Κατηγορία",
-        "READ_COUNT": "Πλήθος ανάγνωσεων",
+        "READ_COUNT": "Views",
         "STATUS": "Κατάσταση",
         "LAST_EDITED": "Τελευταία επεξεργασία"
       },

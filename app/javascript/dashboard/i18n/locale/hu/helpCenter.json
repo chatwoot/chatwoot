@@ -319,7 +319,7 @@
       "HEADERS": {
         "TITLE": "Cím",
         "CATEGORY": "Kategória",
-        "READ_COUNT": "Olvasói szám",
+        "READ_COUNT": "Views",
         "STATUS": "Státusz",
         "LAST_EDITED": "Utoljára szerkesztve"
       },

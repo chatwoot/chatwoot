@@ -319,7 +319,7 @@
       "HEADERS": {
         "TITLE": "Başlık",
         "CATEGORY": "Kategori",
-        "READ_COUNT": "Okuma sayısı",
+        "READ_COUNT": "Views",
         "STATUS": "Durum",
         "LAST_EDITED": "Son düzenleme"
       },

@@ -73,6 +73,7 @@ jobs:
           spec/enterprise/controllers/api/v1/accounts/response_sources_controller_spec.rb \
           spec/enterprise/services/enterprise/message_templates/response_bot_service_spec.rb \
           spec/enterprise/controllers/enterprise/api/v1/accounts/inboxes_controller_spec.rb:47 \
+          spec/enterprise/jobs/enterprise/account/conversations_resolution_scheduler_job_spec.rb \
           --profile=10 \
           --format documentation
 
