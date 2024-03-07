@@ -1,46 +1,46 @@
-import accountAPI from '../account';
-import ApiClient from '../../ApiClient';
+import { register } from '../auth';
+import MockAdapter from 'axios-mock-adapter';
+import wootAPI from '../../wootAPI';
 
-describe('#enterpriseAccountAPI', () => {
-  it('creates correct instance', () => {
-    expect(accountAPI).toBeInstanceOf(ApiClient);
-    expect(accountAPI).toHaveProperty('get');
-    expect(accountAPI).toHaveProperty('show');
-    expect(accountAPI).toHaveProperty('create');
-    expect(accountAPI).toHaveProperty('update');
-    expect(accountAPI).toHaveProperty('delete');
-    expect(accountAPI).toHaveProperty('checkout');
+describe('register', () => {
+  it('should send a POST request to the correct endpoint with the correct body', async () => {
+    const mock = new MockAdapter(wootAPI);
+    const creds = {
+      accountName: 'Test Account',
+      fullName: 'Test User',
+      email: 'test@example.com',
+      password: 'password',
+      hCaptchaClientResponse: 'testResponse',
+    };
+    const response = { data: 'testData' };
+
+    mock
+      .onPost('api/v1/accounts.json', {
+        account_name: creds.accountName.trim(),
+        user_full_name: creds.fullName.trim(),
+        email: creds.email,
+        password: creds.password,
+        h_captcha_client_response: creds.hCaptchaClientResponse,
+      })
+      .reply(200, response);
+
+    const result = await register(creds);
+
+    expect(result).toEqual(response.data);
   });
 
-  describe('API calls', () => {
-    const originalAxios = window.axios;
-    const axiosMock = {
-      post: jest.fn(() => Promise.resolve()),
-      get: jest.fn(() => Promise.resolve()),
-      patch: jest.fn(() => Promise.resolve()),
-      delete: jest.fn(() => Promise.resolve()),
+  it('should throw an error if the request fails', async () => {
+    const mock = new MockAdapter(wootAPI);
+    const creds = {
+      accountName: 'Test Account',
+      fullName: 'Test User',
+      email: 'test@example.com',
+      password: 'password',
+      hCaptchaClientResponse: 'testResponse',
     };
 
-    beforeEach(() => {
-      window.axios = axiosMock;
-    });
+    mock.onPost('api/v1/accounts.json').reply(500);
 
-    afterEach(() => {
-      window.axios = originalAxios;
-    });
-
-    it('#checkout', () => {
-      accountAPI.checkout();
-      expect(axiosMock.post).toHaveBeenCalledWith(
-        '/enterprise/api/v1/checkout'
-      );
-    });
-
-    it('#subscription', () => {
-      accountAPI.subscription();
-      expect(axiosMock.post).toHaveBeenCalledWith(
-        '/enterprise/api/v1/subscription'
-      );
-    });
+    await expect(register(creds)).rejects.toThrow();
   });
 });
