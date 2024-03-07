@@ -66,8 +66,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.center--img {
-}
-</style>
