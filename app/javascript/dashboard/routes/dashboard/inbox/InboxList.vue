@@ -115,7 +115,6 @@ export default {
       this.$store.dispatch('notifications/index', filter);
     },
     redirectToInbox() {
-      if (!this.currentNotificationId) return;
       if (this.$route.name === 'inbox_view') return;
       this.$router.replace({ name: 'inbox_view' });
     },
