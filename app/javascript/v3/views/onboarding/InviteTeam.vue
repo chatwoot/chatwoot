@@ -82,6 +82,7 @@
 import FormInput from 'v3/components/Form/Input.vue';
 import SubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue';
 import OnboardingBaseModal from 'v3/views/onboarding/BaseModal.vue';
+import emailValidator from 'vuelidate/lib/validators/email';
 
 import AgentAPI from 'dashboard/api/agents.js';
 import alertMixin from 'shared/mixins/alertMixin';
@@ -102,9 +103,13 @@ export default {
   methods: {
     pushEmail() {
       if (!this.emailToAdd) return;
-      this.emailsToInvite.push(this.emailToAdd);
-      this.emailsToInvite = [...new Set(this.emailsToInvite)];
-      this.emailToAdd = '';
+      if (emailValidator(this.emailToAdd)) {
+        this.emailsToInvite.push(this.emailToAdd);
+        this.emailsToInvite = [...new Set(this.emailsToInvite)];
+        this.emailToAdd = '';
+      } else {
+        this.showAlert(this.$t('START_ONBOARDING.INVITE_TEAM.EMAIL_ERROR'));
+      }
     },
     async skipToFoundersNote() {
       try {

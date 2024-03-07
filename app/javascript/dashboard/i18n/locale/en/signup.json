@@ -112,6 +112,7 @@
       "BODY": "Invite your team members to Chatwoot. You can add them later as well.",
       "PLACEHOLDER": "robin@chatwoot.com",
       "SKIP": "Skip for now",
+      "EMAIL_ERROR": "Please enter a valid email address",
       "SUBMIT": {
         "BUTTON": "Send invitations",
         "ERROR": "Error while inviting team members, try again.",
