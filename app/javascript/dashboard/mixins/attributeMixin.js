@@ -29,26 +29,6 @@ export default {
     conversationId() {
       return this.currentChat.id;
     },
-    filteredAttributes() {
-      return this.attributes.map(attribute => {
-        // Check if the attribute key exists in customAttributes
-        const hasValue = Object.hasOwnProperty.call(
-          this.customAttributes,
-          attribute.attribute_key
-        );
-
-        const isCheckbox = attribute.attribute_display_type === 'checkbox';
-        const defaultValue = isCheckbox ? false : '';
-
-        return {
-          ...attribute,
-          // Set value from customAttributes if it exists, otherwise use default value
-          value: hasValue
-            ? this.customAttributes[attribute.attribute_key]
-            : defaultValue,
-        };
-      });
-    },
   },
   methods: {
     isAttributeNumber(attributeValue) {

@@ -12,6 +12,7 @@ body {
     'Segoe UI',
     Roboto,
     'Helvetica Neue',
+    Tahoma,
     Arial,
     sans-serif !important;
   -moz-osx-font-smoothing: grayscale;
@@ -30,7 +31,7 @@ body {
   }
 }
 
-.banner + .app-wrapper {
+.banner+.app-wrapper {
   // Reduce the height of the dashboard to make room for the banner.
   // And causing the top right green-action button to be pushed down when scrolling.
   @apply h-[calc(100%-48px)];
