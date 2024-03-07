@@ -1,7 +1,7 @@
 <template>
   <div class="flex h-full w-full dark:bg-slate-900 overflow-hidden">
     <div
-      class="flex flex-col bg-white dark:bg-slate-800 px-16 pt-8 pb-16 w-full md:w-2/5 items-center justify-center"
+      class="flex flex-col bg-white dark:bg-slate-800 px-8 sm:px-16 pt-8 pb-16 w-full md:w-2/5 items-center justify-center"
     >
       <div class="mx-auto mb-16">
         <img
@@ -43,12 +43,12 @@
         class="flex-1"
         @resize-containers="resizeContainers"
       />
-    </div>
-    <div
-      v-show="isLoading"
-      class="flex items-center justify-center h-full w-full"
-    >
-      <spinner color-scheme="primary" size="" />
+      <div
+        v-show="isLoading"
+        class="flex items-center justify-center h-full w-full"
+      >
+        <spinner color-scheme="primary" size="" />
+      </div>
     </div>
   </div>
 </template>
