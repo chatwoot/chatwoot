@@ -78,7 +78,7 @@ class Sla::EvaluateAppliedSlaService
   end
 
   def generate_notifications_for_sla(applied_sla)
-    applied_sla.account.users.each do |user|
+    applied_sla.conversation.inbox.members.each do |user|
       NotificationBuilder.new(
         notification_type: 'sla_missed',
         user: user,
