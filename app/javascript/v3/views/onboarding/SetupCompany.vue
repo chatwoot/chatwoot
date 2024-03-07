@@ -80,7 +80,6 @@ import OnboardingBaseModal from 'v3/views/onboarding/BaseModal.vue';
 import { required, minLength } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 
-import { ONBOARDING_STEP_NAMES } from 'dashboard/constants/globals';
 import SubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue';
 import { timeZoneOptions } from 'dashboard/routes/dashboard/settings/inbox/helpers/businessHour.js';
 import {
@@ -148,12 +147,6 @@ export default {
     timeZones() {
       return [...timeZoneOptions()];
     },
-    hasIntelligentData() {
-      const { custom_attributes: { onboarding_step: onboardingStep } = {} } =
-        this.accountDetails;
-
-      return !onboardingStep !== ONBOARDING_STEP_NAMES.INVITE;
-    },
   },
 
   watch: {
@@ -201,7 +194,7 @@ export default {
         this.setLocale(locale);
       }
     },
-    setFromIntelligentData() {
+    initFormData() {
       if (!this.accountDetails) return;
 
       const {
@@ -233,14 +226,6 @@ export default {
       this.locale = locale || this.setLocaleFromBrowser();
 
       this.setLocale(locale);
-    },
-
-    initFormData() {
-      if (this.hasIntelligentData) {
-        this.setFromIntelligentData();
-      } else {
-        this.setSavedData();
-      }
     },
   },
 };
