@@ -123,6 +123,8 @@ en:
       assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
       conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
       sla_missed: "SLA missed for conversation [ID - %{display_id}]"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} mentioned you in the story: "
