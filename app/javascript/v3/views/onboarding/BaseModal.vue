@@ -1,3 +1,18 @@
+<script setup>
+import { defineProps } from 'vue';
+
+defineProps({
+  title: {
+    type: String,
+    required: true,
+  },
+  subtitle: {
+    type: String,
+    required: true,
+  },
+});
+</script>
+
 <template>
   <div
     id="modal-body"
@@ -18,19 +33,3 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'OnboardingBaseModal',
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    subtitle: {
-      type: String,
-      required: true,
-    },
-  },
-};
-</script>
