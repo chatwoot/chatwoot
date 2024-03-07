@@ -133,8 +133,11 @@ export default {
       setCallback: 'conversation/setQuickRepliesCallback',
     }),
     async onOptionSelect(selectedOption) {
+      await this.$store.dispatch('message/update', {
+        submittedValues: [selectedOption],
+        messageId: this.messageId,
+      });
       this.setOptions([]);
-      await this.sendMessage({content: selectedOption.title});
       // Scroll to bottom once the quick reply is clicked
       const container = document.getElementById('conversation-container');
       container.scrollTo(0, container.scrollHeight);
