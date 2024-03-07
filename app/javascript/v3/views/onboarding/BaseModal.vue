@@ -16,7 +16,7 @@ defineProps({
 <template>
   <div
     id="modal-body"
-    class="dark:shadow-[#000] rounded-3xl p-8 border shadow border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 z-10 relative w-full max-w-[560px]"
+    class="dark:shadow-[#000] rounded-2xl p-8 border shadow border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 z-10 relative w-full max-w-[560px]"
   >
     <h2
       class="font-bold text-[28px] leading-8 tracking-[2%] text-slate-900 dark:text-white"
