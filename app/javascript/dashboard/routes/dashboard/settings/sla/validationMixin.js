@@ -11,5 +11,16 @@ export default {
       }
       return errorMessage;
     },
+    getThresholdTimeErrorMessage() {
+      let errorMessage = '';
+      if (this.$v.thresholdTime.$error) {
+        if (!this.$v.thresholdTime.numeric || !this.$v.thresholdTime.minValue) {
+          errorMessage = this.$t(
+            'SLA.FORM.THRESHOLD_TIME.INVALID_FORMAT_ERROR'
+          );
+        }
+      }
+      return errorMessage;
+    },
   },
 };

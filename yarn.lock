@@ -3177,10 +3177,10 @@
     prosemirror-utils "^0.9.6"
     prosemirror-view "^1.17.2"
 
-"@chatwoot/utils@^0.0.21":
-  version "0.0.21"
-  resolved "https://registry.yarnpkg.com/@chatwoot/utils/-/utils-0.0.21.tgz#f9116daac0514a8a8fa6ce594efff10062222be0"
-  integrity sha512-eUDJ1K5x1rFlBywRctU3hXXiJ1U0EZiklowNl/YJOh1/BWDns4It3DWrQmAcjvsNbEUNWMfY+ShJmjdeei71Cw==
+"@chatwoot/utils@^0.0.23":
+  version "0.0.23"
+  resolved "https://registry.yarnpkg.com/@chatwoot/utils/-/utils-0.0.23.tgz#e961fd87ef9ee19c442bfcedac5fe0be2ef37726"
+  integrity sha512-BQ7DprXr7FIkSbHdDc1WonwH0rt/+B+WaaLaXNMjCcxJgkX/gZ8QMltruOfRp/S8cFyd9JfFQhNF0T9lz1OMvA==
   dependencies:
     date-fns "^2.29.1"
 
@@ -11496,11 +11496,6 @@ forwarded@0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/forwarded/-/forwarded-0.2.0.tgz#2269936428aad4c15c7ebe9779a84bf0b2a81811"
   integrity sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==
-
-foundation-sites@~6.5.3:
-  version "6.5.3"
-  resolved "https://registry.yarnpkg.com/foundation-sites/-/foundation-sites-6.5.3.tgz#85373aaed72233ca0d16fdfcb034e976cc6943c9"
-  integrity sha512-ZwI0idjHHjezh6jRjpPxkczvmtUuJ1uGatZHpyloX0MvsFHfM0BFoxrqdXryXugGPdmb+yJi3JYMnz6+5t3K1A==
 
 fraction.js@^4.3.6:
   version "4.3.6"
