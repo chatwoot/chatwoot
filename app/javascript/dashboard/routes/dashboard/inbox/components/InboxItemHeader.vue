@@ -53,6 +53,7 @@
     </woot-modal>
   </div>
 </template>
+
 <script>
 import { mapGetters } from 'vuex';
 import { getUnixTime } from 'date-fns';
@@ -85,14 +86,10 @@ export default {
     },
   },
   data() {
-    return {
-      showCustomSnoozeModal: false,
-    };
+    return { showCustomSnoozeModal: false };
   },
   computed: {
-    ...mapGetters({
-      meta: 'notifications/getMeta',
-    }),
+    ...mapGetters({ meta: 'notifications/getMeta' }),
   },
   mounted() {
     bus.$on(CMD_SNOOZE_NOTIFICATION, this.onCmdSnoozeNotification);
@@ -108,15 +105,17 @@ export default {
     hideCustomSnoozeModal() {
       this.showCustomSnoozeModal = false;
     },
-    snoozeNotification(snoozedUntil) {
-      this.$store
-        .dispatch('notifications/snooze', {
+    async snoozeNotification(snoozedUntil) {
+      try {
+        await this.$store.dispatch('notifications/snooze', {
           id: this.activeNotification?.id,
           snoozedUntil,
-        })
-        .then(() => {
-          this.showAlert(this.$t('INBOX.ALERTS.SNOOZE'));
         });
+
+        this.showAlert(this.$t('INBOX.ALERTS.SNOOZE'));
+      } catch (error) {
+        // Silently fail without any change in the UI
+      }
     },
     onCmdSnoozeNotification(snoozeType) {
       if (snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME) {
@@ -144,7 +143,7 @@ export default {
         .then(() => {
           this.showAlert(this.$t('INBOX.ALERTS.DELETE'));
         });
-      this.$router.push({ name: 'inbox_view' });
+      this.$router.replace({ name: 'inbox_view' });
     },
     onClickNext() {
       this.$emit('next');

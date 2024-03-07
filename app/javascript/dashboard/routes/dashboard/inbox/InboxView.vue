@@ -49,7 +49,7 @@ export default {
       currentAccountId: 'getCurrentAccountId',
       notifications: 'notifications/getNotifications',
       currentChat: 'getSelectedChat',
-      activeNotificationById: 'notifications/getActiveNotificationById',
+      activeNotificationById: 'notifications/getNotificationById',
       conversationById: 'getConversationById',
       uiFlags: 'notifications/getUIFlags',
     }),

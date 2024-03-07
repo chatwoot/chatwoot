@@ -2,7 +2,7 @@
   <section class="flex w-full h-full bg-white dark:bg-slate-900">
     <div
       class="flex flex-col h-full w-full md:min-w-[360px] md:max-w-[360px] ltr:border-r border-slate-50 dark:border-slate-800/50"
-      :class="!notificationId ? 'flex' : 'hidden md:flex'"
+      :class="!currentNotificationId ? 'flex' : 'hidden md:flex'"
     >
       <inbox-list-header
         :is-context-menu-open="isInboxContextMenuOpen"
@@ -16,6 +16,7 @@
         <inbox-card
           v-for="notificationItem in notifications"
           :key="notificationItem.id"
+          :active="currentNotificationId === notificationItem.id"
           :notification-item="notificationItem"
           @mark-notification-as-read="markNotificationAsRead"
           @mark-notification-as-unread="markNotificationAsUnRead"
@@ -80,7 +81,7 @@ export default {
       uiFlags: 'notifications/getUIFlags',
       notification: 'notifications/getFilteredNotifications',
     }),
-    notificationId() {
+    currentNotificationId() {
       return Number(this.$route.params.notification_id);
     },
     inboxFilters() {
@@ -113,7 +114,7 @@ export default {
       this.$store.dispatch('notifications/index', filter);
     },
     redirectToInbox() {
-      if (!this.notificationId) return;
+      if (!this.currentNotificationId) return;
       if (this.$route.name === 'inbox_view') return;
       this.$router.push({ name: 'inbox_view' });
     },

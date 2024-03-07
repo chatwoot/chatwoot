@@ -3,7 +3,7 @@
     role="button"
     class="flex flex-col ltr:pl-5 rtl:pl-3 rtl:pr-5 ltr:pr-3 gap-2.5 py-3 w-full border-b border-slate-50 dark:border-slate-800/50 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
     :class="
-      isInboxCardActive
+      active
         ? 'bg-slate-25 dark:bg-slate-800 click-animation'
         : 'bg-white dark:bg-slate-900'
     "
@@ -61,6 +61,7 @@
     />
   </div>
 </template>
+
 <script>
 import PriorityIcon from './PriorityIcon.vue';
 import StatusIcon from './StatusIcon.vue';
@@ -84,22 +85,20 @@ export default {
       type: Object,
       default: () => {},
     },
+    active: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
       isContextMenuOpen: false,
       contextMenuPosition: { x: null, y: null },
-      activeNotificationId: null,
     };
   },
   computed: {
     primaryActor() {
       return this.notificationItem?.primary_actor;
-    },
-    isInboxCardActive() {
-      return (
-        Number(this.activeNotificationId) === Number(this.notificationItem?.id)
-      );
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](
@@ -158,14 +157,6 @@ export default {
         )}`;
       }
       return '';
-    },
-  },
-  watch: {
-    '$route.params.notification_id': {
-      immediate: true,
-      handler(newVal) {
-        this.activeNotificationId = newVal;
-      },
     },
   },
   unmounted() {
@@ -231,17 +222,21 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .click-animation {
   animation: click-animation 0.3s ease-in-out;
 }
+
 @keyframes click-animation {
   0% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(0.99);
   }
+
   100% {
     transform: scale(1);
   }
