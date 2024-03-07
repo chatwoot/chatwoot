@@ -11,6 +11,7 @@
     </template>
     <input
       :id="name"
+      ref="input"
       :name="name"
       :type="type"
       autocomplete="off"
@@ -29,9 +30,10 @@
         '!pl-9': icon,
       }"
       class="reset-base block w-full !border-0 border-none shadow-sm appearance-none rounded-md outline outline-1 focus:outline focus:outline-2 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 sm:text-sm sm:leading-6 dark:bg-slate-800"
-      @input="onInput"
-      @keyup.enter="$emit('keyup-enter')"
-      @blur="$emit('blur')"
+      v-on="{
+        ...$listeners,
+        input: event => $emit('input', event.target.value),
+      }"
     />
   </with-label>
 </template>
@@ -92,10 +94,10 @@ export default {
       validator: value => ['base', 'compact'].includes(value),
     },
   },
-  methods: {
-    onInput(e) {
-      this.$emit('input', e.target.value);
-    },
+  mounted() {
+    if (this.$attrs.autofocus) {
+      this.$refs.input.focus();
+    }
   },
 };
 </script>

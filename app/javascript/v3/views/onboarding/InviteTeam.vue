@@ -11,7 +11,8 @@
           spacing="compact"
           class="flex-grow"
           :placeholder="$t('START_ONBOARDING.INVITE_TEAM.PLACEHOLDER')"
-          @keyup-enter="pushEmail"
+          :autofocus="true"
+          @keyup.enter="pushEmail"
         />
         <woot-button
           variant="smooth"
