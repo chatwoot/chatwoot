@@ -49,8 +49,8 @@ export default {
     isSelected(option) {
       return this.selected === option.id;
     },
-    onClick(selectedOption) {
-      this.onOptionSelect(selectedOption);
+    async onClick(selectedOption) {
+      await this.onOptionSelect(selectedOption);
     },
   },
 };
