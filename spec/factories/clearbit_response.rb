@@ -20,7 +20,7 @@ FactoryBot.define do
             'industry' => 'Software'
           },
           'metrics' => {
-            'employees' => '1-10'
+            'employeesRange' => '10K-50K'
           }
         }
       }.to_json

@@ -86,7 +86,23 @@ class Enterprise::ClearbitLookupService
       timezone: data.dig('company', 'timeZone'),
       logo: data.dig('company', 'logo'),
       industry: data.dig('company', 'category', 'industry'),
-      company_size: data.dig('company', 'metrics', 'employees')
+      company_size: normalize_company_size(data.dig('company', 'metrics', 'employeesRange'))
     }
+  end
+
+  def self.normalize_company_size(size)
+    sizemap = {
+      '1-10' => '1-10',
+      '11-50' => '11-50',
+      '51-250' => '51-250',
+      '251-1K' => '250-1000',
+      '1K-5K' => '1001+',
+      '5K-10K' => '1001+',
+      '10K-50K' => '1001+',
+      '50K-100K' => '1001+',
+      '100K+' => '1001+'
+    }
+
+    sizemap[size] || nil
   end
 end
