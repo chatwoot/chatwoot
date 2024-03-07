@@ -1,5 +1,5 @@
 <template>
-  <div class="px-1">
+  <div>
     <form class="space-y-8" @submit.prevent="submit">
       <section class="space-y-3">
         <form-input
@@ -53,6 +53,14 @@
       class="text-sm mb-1 mt-5 text-slate-800 dark:text-woot-50 [&>a]:text-woot-500 [&>a]:font-medium [&>a]:hover:text-woot-600"
       v-html="termsLink"
     />
+    <div class="text-sm text-slate-800 dark:text-woot-50">
+      <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }}</span>
+      <router-link class="text-link" to="/app/login">
+        {{
+          useInstallationName($t('LOGIN.TITLE'), globalConfig.installationName)
+        }}
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -63,10 +71,10 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import alertMixin from 'shared/mixins/alertMixin';
 import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
 import FormInput from 'v3/components/Form/Input.vue';
-import SubmitButton from '../../../../../components/Button/SubmitButton.vue';
+import SubmitButton from 'v3/components/Button/SubmitButton.vue';
 import { isValidPassword } from 'shared/helpers/Validators';
-import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue';
-import { registerV2 } from '../../../../../api/auth';
+import GoogleOAuthButton from 'v3/components/GoogleOauth/Button.vue';
+import { registerV2 } from 'v3/api/auth';
 var CompanyEmailValidator = require('company-email-validator');
 
 export const generateOnboardingUrl = accountId =>

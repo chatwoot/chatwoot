@@ -24,18 +24,7 @@
           {{ $t('REGISTER.TRY_WOOT') }}
         </h2>
       </div>
-      <signup-form />
-      <div class="text-sm text-slate-800 dark:text-woot-50 px-1">
-        <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }}</span>
-        <router-link class="text-link" to="/app/login">
-          {{
-            useInstallationName(
-              $t('LOGIN.TITLE'),
-              globalConfig.installationName
-            )
-          }}
-        </router-link>
-      </div>
+      <signup-form class="max-w-[420px]" />
     </div>
     <div class="hidden md:block w-3/5 h-screen">
       <testimonials
