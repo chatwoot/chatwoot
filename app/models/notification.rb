@@ -39,7 +39,8 @@ class Notification < ApplicationRecord
     conversation_assignment: 2,
     assigned_conversation_new_message: 3,
     conversation_mention: 4,
-    participating_conversation_new_message: 5
+    participating_conversation_new_message: 5,
+    sla_missed: 6
   }.freeze
 
   enum notification_type: NOTIFICATION_TYPES
@@ -100,6 +101,8 @@ class Notification < ApplicationRecord
       )
     when 'conversation_mention'
       "[##{conversation&.display_id}] #{transform_user_mention_content content}"
+    when 'sla_missed'
+      I18n.t('notifications.notification_title.sla_missed', display_id: conversation.display_id)
     else
       ''
     end
