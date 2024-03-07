@@ -169,10 +169,7 @@ export default {
 };
 </script>
 
-<style
-  scoped
-  lang="scss"
->
+<style scoped lang="scss">
 .custom-attributes--panel {
   .conversation--attribute {
     @apply border-slate-50 dark:border-slate-700/50 border-b border-solid;
