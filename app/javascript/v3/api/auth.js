@@ -25,6 +25,8 @@ export const login = async ({
   }
 };
 
+// ![DEPRECATED] This method is deprecated and will be removed in the future
+// Please use the registerV2 method instead
 export const register = async creds => {
   try {
     const response = await wootAPI.post('api/v1/accounts.json', {
