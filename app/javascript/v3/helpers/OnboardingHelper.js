@@ -35,7 +35,7 @@ export const findIndustryOptions = searchCandidate => {
       'Electronic Equipment, Instruments & Components',
       'Technology Hardware, Storage & Peripherals',
     ],
-    Financials: [
+    Finance: [
       'Banks',
       'Diversified Financial Services',
       'Capital Markets',
