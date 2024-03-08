@@ -4,17 +4,18 @@
       "TITLE": "Iesūtne",
       "DISPLAY_DROPDOWN": "Parādīt",
       "LOADING": "Notiek paziņojumu iegūšana",
-      "EOF": "Visi paziņojumi ir ielādēti",
       "404": "Šajā grupā nav aktīvu paziņojumu.",
       "NO_NOTIFICATIONS": "Nav paziņojumu",
       "NOTE": "Paziņojumi no visām abonētajām iesūtnēm",
+      "NO_MESSAGES_AVAILABLE": "Oops! Not able to fetch messages",
       "SNOOZED_UNTIL": "Atlikts līdz",
       "SNOOZED_UNTIL_TOMORROW": "Atlikts līdz rītdienai",
       "SNOOZED_UNTIL_NEXT_WEEK": "Atlikts līdz nākamajai nedēļai"
     },
     "ACTION_HEADER": {
       "SNOOZE": "Atlikt paziņojumu",
-      "DELETE": "Dzēst paziņojumu"
+      "DELETE": "Dzēst paziņojumu",
+      "BACK": "Atpakaļ"
     },
     "TYPES": {
       "CONVERSATION_MENTION": "Jūs esat pieminēts sarunā",
