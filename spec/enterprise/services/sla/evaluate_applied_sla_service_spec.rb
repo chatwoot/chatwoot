@@ -26,6 +26,8 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
         expect(applied_sla.reload.sla_status).to eq('missed')
 
         expect(Notification.count).to eq(2)
+        # check if notification type is sla_missed_first_response
+        expect(Notification.where(notification_type: 'sla_missed_first_response').count).to eq(2)
         # Check if notification is created for the assignee
         expect(Notification.where(user_id: user_1.id).count).to eq(1)
         # Check if notification is created for the account admin
@@ -47,7 +49,16 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
         expect(Rails.logger).to have_received(:warn).with("SLA missed for conversation #{conversation.id} in account " \
                                                           "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
         expect(applied_sla.reload.sla_status).to eq('missed')
+
         expect(Notification.count).to eq(2)
+        # check if notification type is sla_missed_first_response
+        expect(Notification.where(notification_type: 'sla_missed_next_response').count).to eq(2)
+        # Check if notification is created for the assignee
+        expect(Notification.where(user_id: user_1.id).count).to eq(1)
+        # Check if notification is created for the account admin
+        expect(Notification.where(user_id: admin.id).count).to eq(1)
+        # Check if no notification is created for other user
+        expect(Notification.where(user_id: user_2.id).count).to eq(0)
       end
     end
 
@@ -60,6 +71,15 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
         expect(Rails.logger).to have_received(:warn).with("SLA missed for conversation #{conversation.id} in account " \
                                                           "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
         expect(applied_sla.reload.sla_status).to eq('missed')
+
+        expect(Notification.count).to eq(2)
+        expect(Notification.where(notification_type: 'sla_missed_resolution').count).to eq(2)
+        # Check if notification is created for the assignee
+        expect(Notification.where(user_id: user_1.id).count).to eq(1)
+        # Check if notification is created for the account admin
+        expect(Notification.where(user_id: admin.id).count).to eq(1)
+        # Check if no notification is created for other user
+        expect(Notification.where(user_id: user_2.id).count).to eq(0)
       end
     end
 
