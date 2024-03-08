@@ -56,7 +56,7 @@ class Campaign < ApplicationRecord
 
     Twilio::OneoffSmsCampaignService.new(campaign: self).perform if inbox.inbox_type == 'Twilio SMS'
     Sms::OneoffSmsCampaignService.new(campaign: self).perform if inbox.inbox_type == 'Sms'
-    API::OneoffSmsCampaignService.new(campaign: self).perform if inbox.inbox_type == 'API'
+    Api::OneoffSmsCampaignService.new(campaign: self).perform if inbox.inbox_type == 'API' # PAdaet tut
   end
 
   private
