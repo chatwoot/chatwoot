@@ -199,6 +199,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Сейчас просматривается:",
     "SWITCH": "Переключить",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Диалоги",
     "INBOX": "Электронная почта",
     "ALL_CONVERSATIONS": "Диалоги",
