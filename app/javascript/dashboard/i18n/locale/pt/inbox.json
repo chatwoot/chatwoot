@@ -4,17 +4,18 @@
       "TITLE": "Caixa de Entrada",
       "DISPLAY_DROPDOWN": "Mostrar",
       "LOADING": "A obter notificações",
-      "EOF": "Notificações obtidas 🎉",
       "404": "Não há notificações ativas neste grupo.",
       "NO_NOTIFICATIONS": "Sem Notificações",
       "NOTE": "Notificações de todas as caixas subscritas",
+      "NO_MESSAGES_AVAILABLE": "Oops! Não foi possível importar mensagens",
       "SNOOZED_UNTIL": "Suspender até",
       "SNOOZED_UNTIL_TOMORROW": "Adiado até amanhã",
       "SNOOZED_UNTIL_NEXT_WEEK": "Adiada até a próxima semana"
     },
     "ACTION_HEADER": {
       "SNOOZE": "Suspender notificação",
-      "DELETE": "Apagar notificação"
+      "DELETE": "Apagar notificação",
+      "BACK": "Voltar"
     },
     "TYPES": {
       "CONVERSATION_MENTION": "Foi mencionado numa conversa",
