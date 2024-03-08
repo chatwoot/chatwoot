@@ -9,9 +9,6 @@ module ConversationReplyMailerHelper
       in_reply_to: in_reply_to_email
     }
 
-    @headers = [custom_message_id, in_reply_to_email].join(' ')
-    headers['References'] = @headers
-
     if cc_bcc_enabled
       @options[:cc] = cc_bcc_emails[0]
       @options[:bcc] = cc_bcc_emails[1]
