@@ -319,7 +319,7 @@
       "HEADERS": {
         "TITLE": "หัวข้อ",
         "CATEGORY": "Category",
-        "READ_COUNT": "Read count",
+        "READ_COUNT": "Views",
         "STATUS": "สถานะ",
         "LAST_EDITED": "Last edited"
       },

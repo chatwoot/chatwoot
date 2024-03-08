@@ -6509,6 +6509,7 @@
         "content_type": {
           "type": "string",
           "enum": [
+            "text",
             "input_email",
             "cards",
             "input_select",
