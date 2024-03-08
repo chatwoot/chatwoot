@@ -4,17 +4,18 @@
       "TITLE": "Casella",
       "DISPLAY_DROPDOWN": "Display",
       "LOADING": "Fetching notifications",
-      "EOF": "Tutte le notifiche caricate 🎉",
       "404": "There are no active notifications in this group.",
       "NO_NOTIFICATIONS": "No notifications",
       "NOTE": "Notifications from all subscribed inboxes",
+      "NO_MESSAGES_AVAILABLE": "Oops! Not able to fetch messages",
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Posticipato fino a domani",
       "SNOOZED_UNTIL_NEXT_WEEK": "Posticipato fino alla prossima settimana"
     },
     "ACTION_HEADER": {
       "SNOOZE": "Snooze notification",
-      "DELETE": "Delete notification"
+      "DELETE": "Delete notification",
+      "BACK": "Indietro"
     },
     "TYPES": {
       "CONVERSATION_MENTION": "You have been mentioned in a conversation",
