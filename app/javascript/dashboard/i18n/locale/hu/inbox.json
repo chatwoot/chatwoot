@@ -4,17 +4,18 @@
       "TITLE": "Fiók",
       "DISPLAY_DROPDOWN": "Display",
       "LOADING": "Értesítések lekérése",
-      "EOF": "Minden értesítés betöltve 🎉",
       "404": "Ebben a csoportban nincsenek aktív értesítések.",
       "NO_NOTIFICATIONS": "No notifications",
       "NOTE": "Értesítés az összes feliratkozott postafiókból",
+      "NO_MESSAGES_AVAILABLE": "Oops! Not able to fetch messages",
       "SNOOZED_UNTIL": "Halasztás eddig",
       "SNOOZED_UNTIL_TOMORROW": "Halasztás holnapig",
       "SNOOZED_UNTIL_NEXT_WEEK": "Halasztás jövő hétig"
     },
     "ACTION_HEADER": {
       "SNOOZE": "Értesítés alvó állapotban",
-      "DELETE": "Értesítés törlése"
+      "DELETE": "Értesítés törlése",
+      "BACK": "Vissza"
     },
     "TYPES": {
       "CONVERSATION_MENTION": "Önt megemlítették egy beszélgetésben",
