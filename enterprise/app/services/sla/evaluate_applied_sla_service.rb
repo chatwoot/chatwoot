@@ -78,9 +78,11 @@ class Sla::EvaluateAppliedSlaService
   end
 
   def generate_notifications_for_sla(applied_sla)
-    notify_users = applied_sla.conversation_participants.map(&:user)
+    notify_users = applied_sla.conversation.conversation_participants.map(&:user)
     # add all admins from the account to notify list
-    notify_users += applied_sla.account.users.where(role: 'admin')
+    notify_users += applied_sla.account.administrators
+    # ensure conversation assignee is notified
+    notify_users += [applied_sla.conversation.assignee] if applied_sla.conversation.assignee.present?
 
     notify_users.uniq.each do |user|
       NotificationBuilder.new(
