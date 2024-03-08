@@ -4,17 +4,18 @@
       "TITLE": "收件箱",
       "DISPLAY_DROPDOWN": "Display",
       "LOADING": "Fetching notifications",
-      "EOF": "所有通知已加载 🎉",
       "404": "There are no active notifications in this group.",
       "NO_NOTIFICATIONS": "No notifications",
       "NOTE": "Notifications from all subscribed inboxes",
+      "NO_MESSAGES_AVAILABLE": "Oops! Not able to fetch messages",
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "推迟到明天",
       "SNOOZED_UNTIL_NEXT_WEEK": "推迟到下周"
     },
     "ACTION_HEADER": {
       "SNOOZE": "Snooze notification",
-      "DELETE": "Delete notification"
+      "DELETE": "Delete notification",
+      "BACK": "后退"
     },
     "TYPES": {
       "CONVERSATION_MENTION": "You have been mentioned in a conversation",
