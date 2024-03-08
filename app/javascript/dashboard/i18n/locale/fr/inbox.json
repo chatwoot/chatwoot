@@ -4,17 +4,18 @@
       "TITLE": "Boîte de réception",
       "DISPLAY_DROPDOWN": "Display",
       "LOADING": "Chargement des notifications",
-      "EOF": "Toutes les notifications ont été chargées 🎉",
       "404": "Il n'y a aucune notification active dans ce groupe.",
       "NO_NOTIFICATIONS": "No notifications",
       "NOTE": "Notifications from all subscribed inboxes",
+      "NO_MESSAGES_AVAILABLE": "Oops! Not able to fetch messages",
       "SNOOZED_UNTIL": "Reporter jusqu'à",
       "SNOOZED_UNTIL_TOMORROW": "Reporté jusqu'à demain",
       "SNOOZED_UNTIL_NEXT_WEEK": "Reporté jusqu'à la semaine prochaine"
     },
     "ACTION_HEADER": {
       "SNOOZE": "Snooze notification",
-      "DELETE": "Delete notification"
+      "DELETE": "Delete notification",
+      "BACK": "Précédent"
     },
     "TYPES": {
       "CONVERSATION_MENTION": "Vous avez été cité dans une conversation",
