@@ -4,17 +4,18 @@
       "TITLE": "Inbox",
       "DISPLAY_DROPDOWN": "Display",
       "LOADING": "Fetching notifications",
-      "EOF": "Toate notificările încărcate 🎉",
       "404": "There are no active notifications in this group.",
       "NO_NOTIFICATIONS": "No notifications",
       "NOTE": "Notifications from all subscribed inboxes",
+      "NO_MESSAGES_AVAILABLE": "Oops! Not able to fetch messages",
       "SNOOZED_UNTIL": "Amânare până la",
       "SNOOZED_UNTIL_TOMORROW": "Amânat până mâine",
       "SNOOZED_UNTIL_NEXT_WEEK": "Amânat până săptămâna viitoare"
     },
     "ACTION_HEADER": {
       "SNOOZE": "Snooze notification",
-      "DELETE": "Delete notification"
+      "DELETE": "Delete notification",
+      "BACK": "Înapoi"
     },
     "TYPES": {
       "CONVERSATION_MENTION": "You have been mentioned in a conversation",
