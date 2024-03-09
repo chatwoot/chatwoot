@@ -18,7 +18,7 @@ class Api::OneoffApiCampaignService
     campaign.account.contacts.tagged_with(audience_labels, any: true).each do |contact|
       next if contact.phone_number.blank?
 
-      campaign.inbox.channel.send_message(contact, campaign.message)
+      campaign.inbox.channel.send_message(campaign.inbox.id, contact.id, campaign.message)
     end
   end
 end

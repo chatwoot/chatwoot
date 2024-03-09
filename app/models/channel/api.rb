@@ -41,9 +41,10 @@ class Channel::Api < ApplicationRecord
     additional_attributes.present? && additional_attributes['agent_reply_time_window'].present?
   end
 
-  def send_message(contact, message) # rubocop:disable Lint/UnusedMethodArgument
+  def send_message(inbox_id, contact_id, message)
     access_token = AccessToken.find_by(:owner_id => account_id)
-    send_text_message('2', message, access_token.token) # HARDCODED
+    conversation = get_or_create_conversation(inbox_id, contact_id)
+    send_text_message(conversation.id, message, access_token.token)
   end
 
   private
@@ -68,6 +69,19 @@ class Channel::Api < ApplicationRecord
       'message_type' => 'outgoing',
       'private' => false
     }
+  end
+
+  def get_or_create_conversation(inbox_id, contact_id)
+    Conversation.find_by(
+      contact_id: contact_id,
+      inbox_id: inbox_id,
+      status: [0, 2]
+    ) || Conversation.new(
+      contact_id: contact_id,
+      inbox_id: inbox_id,
+      account_id: account_id,
+      status: 2,
+    ) # TODO: fix create conversation
   end
 
   def ensure_valid_agent_reply_time_window
