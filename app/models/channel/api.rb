@@ -41,22 +41,26 @@ class Channel::Api < ApplicationRecord
     additional_attributes.present? && additional_attributes['agent_reply_time_window'].present?
   end
 
-  def send_message(_contact_number, message)
+  def send_message(contact, message) # rubocop:disable Lint/UnusedMethodArgument
     access_token = AccessToken.find_by(:owner_id => account_id)
+    send_text_message('2', message, access_token.token) # HARDCODED
+  end
+
+  private
+
+  def send_text_message(conversation_id, message, access_token)
     body = message_body(message)
     response = HTTParty.post(
-      "#{api_base_path}/accounts/#{account_id}/conversations/2/messages", # HARDCODED
+      "#{api_base_path}/accounts/#{account_id}/conversations/#{conversation_id}/messages",
       headers: {
         'Content-Type' => 'application/json',
-        'api_access_token' => access_token.token
+        'api_access_token' => access_token
       },
       body: body.to_json
     )
 
     response.success? ? response.parsed_response['id'] : nil
   end
-
-  private
 
   def message_body(message_content)
     {
