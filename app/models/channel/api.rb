@@ -22,7 +22,7 @@ class Channel::Api < ApplicationRecord
   include Channelable
 
   self.table_name = 'channel_api'
-  EDITABLE_ATTRS = [:webhook_url, :hmac_mandatory, { additional_attributes: {} }].freeze
+  EDITABLE_ATTRS = [:webhook_url, :account_id, :hmac_mandatory, { additional_attributes: {} }].freeze
 
   has_secure_token :identifier
   has_secure_token :hmac_token
@@ -33,11 +33,38 @@ class Channel::Api < ApplicationRecord
     'API'
   end
 
+  def api_base_path
+    'http://localhost:3000/api/v1' # HARDCODED
+  end
+
   def messaging_window_enabled?
     additional_attributes.present? && additional_attributes['agent_reply_time_window'].present?
   end
 
+  def send_message(contact_number, message)
+    access_token = AccessToken.find_by(:owner_id => account_id)
+    body = message_body(message)
+    response = HTTParty.post(
+      "#{api_base_path}/accounts/#{account_id}/conversations/2/messages", # HARDCODED
+      headers: {
+        'Content-Type' => 'application/json',
+        'api_access_token' => access_token.token
+      },
+      body: body.to_json
+    )
+
+    response.success? ? response.parsed_response['id'] : nil
+  end
+
   private
+
+  def message_body(message_content)
+    {
+      'content' => message_content,
+      'message_type' => 'outgoing',
+      'private' => false
+    }
+  end
 
   def ensure_valid_agent_reply_time_window
     return if additional_attributes['agent_reply_time_window'].blank?

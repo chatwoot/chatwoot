@@ -1,4 +1,4 @@
-class Api::OneoffSmsCampaignService
+class Api::OneoffApiCampaignService
   pattr_initialize [:campaign!]
 
   def perform
@@ -21,13 +21,7 @@ class Api::OneoffSmsCampaignService
     campaign.account.contacts.tagged_with(audience_labels, any: true).each do |contact|
       next if contact.phone_number.blank?
 
-      send_message(to: contact.phone_number, content: campaign.message)
+      channel.send_message(contact.phone_number, campaign.message)
     end
-  end
-
-  def send_message(to:, content:)
-    Sidekiq.logger.info { "Before sending" }
-    channel.send_text_message(to, content)
-    Sidekiq.logger.info { "After sending" }
   end
 end
