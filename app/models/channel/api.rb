@@ -34,14 +34,14 @@ class Channel::Api < ApplicationRecord
   end
 
   def api_base_path
-    'http://localhost:3000/api/v1' # HARDCODED
+    "#{ENV.fetch('FRONTEND_URL', nil)}/api/v1"
   end
 
   def messaging_window_enabled?
     additional_attributes.present? && additional_attributes['agent_reply_time_window'].present?
   end
 
-  def send_message(contact_number, message)
+  def send_message(_contact_number, message)
     access_token = AccessToken.find_by(:owner_id => account_id)
     body = message_body(message)
     response = HTTParty.post(
