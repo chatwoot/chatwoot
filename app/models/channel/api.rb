@@ -37,38 +37,36 @@ class Channel::Api < ApplicationRecord
     "#{ENV.fetch('FRONTEND_URL', nil)}/api/v1"
   end
 
+  def access_token
+    AccessToken.find_by(:owner_id => account_id).token
+  end
+
   def messaging_window_enabled?
     additional_attributes.present? && additional_attributes['agent_reply_time_window'].present?
   end
 
   def send_message(inbox_id, contact_id, message)
-    access_token = AccessToken.find_by(:owner_id => account_id)
     conversation = get_or_create_conversation(inbox_id, contact_id)
-    send_text_message(conversation.id, message, access_token.token)
+    send_text_message(conversation['id'], message)
   end
 
   private
 
-  def send_text_message(conversation_id, message, access_token)
-    body = message_body(message)
+  def send_text_message(conversation_id, message)
     response = HTTParty.post(
       "#{api_base_path}/accounts/#{account_id}/conversations/#{conversation_id}/messages",
       headers: {
         'Content-Type' => 'application/json',
         'api_access_token' => access_token
       },
-      body: body.to_json
+      body: {
+        'content' => message,
+        'message_type' => 'outgoing',
+        'private' => false
+      }.to_json
     )
 
     response.success? ? response.parsed_response['id'] : nil
-  end
-
-  def message_body(message_content)
-    {
-      'content' => message_content,
-      'message_type' => 'outgoing',
-      'private' => false
-    }
   end
 
   def get_or_create_conversation(inbox_id, contact_id)
@@ -76,12 +74,27 @@ class Channel::Api < ApplicationRecord
       contact_id: contact_id,
       inbox_id: inbox_id,
       status: [0, 2]
-    ) || Conversation.new(
+    ) || create_conversation(contact_id, inbox_id)
+  end
+
+  def create_conversation(contact_id, inbox_id)
+    contact_inbox = ContactInbox.find_by(
       contact_id: contact_id,
-      inbox_id: inbox_id,
-      account_id: account_id,
-      status: 2,
-    ) # TODO: fix create conversation
+      inbox_id: inbox_id
+    )
+    response = HTTParty.post(
+      "#{api_base_path}/accounts/#{account_id}/conversations",
+      headers: {
+        'Content-Type' => 'application/json',
+        'api_access_token' => access_token
+      },
+      body: {
+        'inbox_id' => inbox_id,
+        'source_id' => contact_inbox.source_id,
+        'assignee_id' => account_id
+      }.to_json
+    )
+    response.success? ? response.parsed_response : nil
   end
 
   def ensure_valid_agent_reply_time_window
