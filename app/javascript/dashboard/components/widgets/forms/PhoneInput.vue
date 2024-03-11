@@ -1,5 +1,5 @@
 <template>
-  <div class="phone-input--wrap relative">
+  <div class="relative phone-input--wrap">
     <div class="phone-input" :class="{ 'has-error': error }">
       <div
         class="cursor-pointer py-2 pr-1.5 pl-2 rounded-tl-md rounded-bl-md flex items-center justify-center gap-1.5 bg-slate-25 dark:bg-slate-700 h-10 w-14"
@@ -13,7 +13,8 @@
       </div>
       <span
         v-if="activeDialCode"
-        class="flex bg-white dark:bg-slate-900 font-medium text-slate-800 dark:text-slate-100 font-normal text-base leading-normal py-2 pl-2 pr-0"
+        class="flex py-2 pl-2 pr-0 font-normal leading-normal bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100"
+        :class="fontSize"
       >
         {{ activeDialCode }}
       </span>
@@ -21,6 +22,7 @@
         :value="phoneNumber"
         type="tel"
         class="phone-input--field"
+        :class="fontSize"
         :placeholder="placeholder"
         :readonly="readonly"
         :style="styles"
@@ -49,20 +51,20 @@
         }"
         @click="onSelectCountry(country)"
       >
-        <span class="text-base mr-1">{{ country.emoji }}</span>
+        <span class="mr-1 text-base">{{ country.emoji }}</span>
 
         <span
           class="max-w-[7.5rem] overflow-hidden text-ellipsis whitespace-nowrap"
         >
           {{ country.name }}
         </span>
-        <span class="ml-1 text-slate-300 dark:text-slate-300 text-xs">{{
+        <span class="ml-1 text-xs text-slate-300 dark:text-slate-300">{{
           country.dial_code
         }}</span>
       </div>
       <div v-if="filteredCountriesBySearch.length === 0">
         <span
-          class="flex items-center justify-center text-sm text-slate-500 dark:text-slate-300 mt-4"
+          class="flex items-center justify-center mt-4 text-sm text-slate-500 dark:text-slate-300"
         >
           No results found
         </span>
@@ -103,6 +105,10 @@ export default {
     error: {
       type: Boolean,
       default: false,
+    },
+    fontSize: {
+      type: String,
+      default: 'text-base',
     },
   },
   data() {
@@ -262,7 +268,7 @@ export default {
   }
 
   .phone-input--field {
-    @apply mb-0 rounded-tl-none rounded-bl-none border-0 w-full dark:bg-slate-900 text-base px-1.5;
+    @apply mb-0 rounded-tl-none rounded-bl-none border-0 w-full dark:bg-slate-900 px-1.5;
 
     &::placeholder {
       @apply font-normal;

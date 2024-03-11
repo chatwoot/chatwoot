@@ -87,16 +87,23 @@
           :placeholder="$t('START_ONBOARDING.PROFILE.DISPLAY_NAME.PLACEHOLDER')"
           :error-message="$t('START_ONBOARDING.PROFILE.DISPLAY_NAME.ERROR')"
         />
-        <form-input
-          v-model="phoneNumber"
-          name="phone_number"
-          spacing="compact"
-          :has-error="$v.phoneNumber.$error"
+        <with-label
           :label="$t('START_ONBOARDING.PROFILE.PHONE_NUMBER.LABEL')"
-          :placeholder="$t('START_ONBOARDING.PROFILE.PHONE_NUMBER.PLACEHOLDER')"
-          :error-message="$t('CONTACT_FORM.FORM.PHONE_NUMBER.ERROR')"
-          @blur="$v.phoneNumber.$touch"
-        />
+          name="phone_number"
+        >
+          <phone-input
+            v-model="phoneNumber"
+            :value="phoneNumber"
+            :error="$v.phoneNumber.$error"
+            :placeholder="
+              $t('START_ONBOARDING.PROFILE.PHONE_NUMBER.PLACEHOLDER')
+            "
+            font-size="text-sm"
+            class="w-full"
+            @blur="$v.phoneNumber.$touch"
+            @setCode="setPhoneCode"
+          />
+        </with-label>
         <form-text-area
           v-model="signature"
           name="signature"
@@ -128,6 +135,7 @@ import FormInput from 'v3/components/Form/Input.vue';
 import FormTextArea from 'v3/components/Form/Textarea.vue';
 import OnboardingBaseModal from 'v3/views/onboarding/BaseModal.vue';
 import SubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue';
+import PhoneInput from 'dashboard/components/widgets/forms/PhoneInput.vue';
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 
 export default {
@@ -136,6 +144,7 @@ export default {
     FormInput,
     SubmitButton,
     FormTextArea,
+    PhoneInput,
     OnboardingBaseModal,
   },
   mixins: [validationMixin, alertMixin],
@@ -147,6 +156,7 @@ export default {
       displayName: '',
       phoneNumber: '',
       signature: '',
+      phoneCode: '',
     };
   },
   validations: {
@@ -211,11 +221,12 @@ export default {
       if (this.$v.$invalid) {
         return;
       }
+      const phoneNumberWithCode = `${this.phoneCode} ${this.phoneNumber}`;
       try {
         await this.$store.dispatch('updateProfile', {
           name: this.fullName,
           displayName: this.displayName,
-          phone_number: this.phoneNumber,
+          phone_number: phoneNumberWithCode,
           avatar: this.avatarFile,
           message_signature: this.signature || '',
         });
@@ -260,6 +271,9 @@ export default {
       event.preventDefault();
       const fileInputElement = this.$refs.imageUpload;
       fileInputElement.click();
+    },
+    setPhoneCode(code) {
+      this.phoneCode = code;
     },
   },
 };
