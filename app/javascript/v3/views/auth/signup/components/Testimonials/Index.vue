@@ -12,18 +12,37 @@
 
     <img
       src="/assets/images/auth/speech-bubble-heart.svg"
-      class="left-10 absolute h-40 w-32 top-8"
+      class="left-10 absolute h-40 w-32 top-8 block dark:hidden"
+    />
+    <img
+      src="/assets/images/auth/dark-speech-bubble-heart.svg"
+      class="left-10 absolute h-40 w-32 top-8 hidden dark:block"
     />
     <div class="right-10 absolute bottom-[40%]">
-      <img src="/assets/images/auth/speech-bubble-heart.svg" class="w-28" />
+      <img
+        src="/assets/images/auth/speech-bubble-heart.svg"
+        class="w-28 block dark:hidden"
+      />
+      <img
+        src="/assets/images/auth/dark-speech-bubble-heart.svg"
+        class="w-28 hidden dark:block"
+      />
       <img
         src="/assets/images/auth/speech-bubble-checkmark.svg"
-        class="w-20 mt-8"
+        class="w-20 mt-8 block dark:hidden"
+      />
+      <img
+        src="/assets/images/auth/dark-speech-bubble-checkmark.svg"
+        class="w-20 mt-8 hidden dark:block"
       />
     </div>
     <img
       src="/assets/images/auth/star-icon.svg"
-      class="left-10 bottom-8 w-24 absolute"
+      class="left-10 bottom-8 w-24 absolute block dark:hidden"
+    />
+    <img
+      src="/assets/images/auth/dark-star-icon.svg"
+      class="left-10 bottom-8 w-24 absolute hidden dark:block"
     />
     <div class="flex items-center justify-center flex-col h-full w-full z-50">
       <div class="flex flex-col items-start justify-center p-6 gap-12">

@@ -41,7 +41,7 @@
       </div>
       <figure class="text-sm leading-relaxed text-slate-900 dark:text-white">
         <woot-thumbnail
-          src="https://www.chatwoot.com/images/team/pranav.jpg"
+          src="/assets/images/dashboard/onboarding/pranav-square.png"
           username="Pranav"
         />
         <p class="mt-2">Pranav, <br />Co-founder & CEO, Chatwoot</p>
