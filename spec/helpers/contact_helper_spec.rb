@@ -63,8 +63,8 @@ RSpec.describe ContactHelper do
     end
 
     it 'handle name with mobile number with spaces correctly' do
-      full_name = '+1 234 567 890'
-      expected_result = { first_name: '+1 234 567 890', last_name: nil, middle_name: nil, prefix: nil, suffix: nil }
+      full_name = '+1 423-423-4234'
+      expected_result = { first_name: '+1 423-423-4234', last_name: nil, middle_name: nil, prefix: nil, suffix: nil }
       expect(helper.parse_name(full_name)).to eq(expected_result)
     end
 

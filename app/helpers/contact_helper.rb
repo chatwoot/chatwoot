@@ -31,7 +31,7 @@ module ContactHelper
   end
 
   def valid_number?(full_name)
-    full_name.gsub(/\s+/, '').match?(/\A\+?\d+\z/)
+    TelephoneNumber.parse(full_name).valid?
   end
 
   def single_word_name_hash(full_name)
