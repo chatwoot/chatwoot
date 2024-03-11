@@ -1,13 +1,13 @@
 <template>
   <div
-    class="flex flex-col bg-woot-25 min-h-full w-full py-12 sm:px-6 lg:px-8 justify-center dark:bg-slate-900"
+    class="flex flex-col justify-center w-full min-h-full py-12 bg-woot-25 sm:px-6 lg:px-8 dark:bg-slate-900"
   >
     <form
-      class="sm:mx-auto sm:w-full sm:max-w-lg bg-white dark:bg-slate-800 p-11 shadow sm:shadow-lg sm:rounded-lg"
+      class="bg-white shadow sm:mx-auto sm:w-full sm:max-w-lg dark:bg-slate-800 p-11 sm:shadow-lg sm:rounded-lg"
       @submit.prevent="submitForm"
     >
       <h1
-        class="mb-1 text-left text-2xl font-medium tracking-tight text-slate-900 dark:text-white"
+        class="mb-1 text-2xl font-medium tracking-tight text-left text-slate-900 dark:text-white"
       >
         {{ $t('SET_NEW_PASSWORD.TITLE') }}
       </h1>
@@ -61,7 +61,7 @@ export default {
   },
   props: {
     resetPasswordToken: { type: String, default: '' },
-    redirectUrl: { type: String, default: '' },
+    redirectUrl: { type: String, default: DEFAULT_REDIRECT_URL },
     config: { type: String, default: '' },
   },
   data() {
@@ -83,7 +83,7 @@ export default {
     // If url opened without token
     // redirect to login
     if (!this.resetPasswordToken) {
-      window.location = DEFAULT_REDIRECT_URL;
+      window.location = this.redirectUrl;
     }
   },
   validations: {
@@ -119,7 +119,7 @@ export default {
       };
       setNewPassword(credentials)
         .then(() => {
-          window.location = DEFAULT_REDIRECT_URL;
+          window.location = this.redirectUrl;
         })
         .catch(error => {
           this.showAlert(
