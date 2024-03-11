@@ -74,8 +74,8 @@ class ContactInboxWithContactBuilder
     end
 
     # If name is present, split it into first and last name
-    name_parts = split_first_and_last_name(contact_attributes[:name])
-    [name_parts[:first_name], '', name_parts[:last_name]]
+    name_parts = parse_name(contact_attributes[:name])
+    [name_parts[:first_name], name_parts[:middle_name], name_parts[:last_name]]
   end
 
   def find_contact

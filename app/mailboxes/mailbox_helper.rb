@@ -98,14 +98,16 @@ module MailboxHelper
   end
 
   def create_contact
-    name_parts = split_first_and_last_name(identify_contact_name)
+    name_parts = parse_name(identify_contact_name)
     first_name = name_parts[:first_name]
+    middle_name = name_parts[:middle_name]
     last_name = name_parts[:last_name]
     @contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: processed_mail.original_sender,
       inbox: @inbox,
       contact_attributes: {
         name: first_name,
+        middle_name: middle_name,
         last_name: last_name,
         email: processed_mail.original_sender,
         additional_attributes: {

@@ -85,14 +85,16 @@ class Whatsapp::IncomingMessageBaseService
     waid = processed_waid(contact_params[:wa_id])
 
     name = contact_params.dig(:profile, :name)
-    name_parts = split_first_and_last_name(name)
+    name_parts = parse_name(name)
     first_name = name_parts[:first_name]
+    middle_name = name_parts[:middle_name]
     last_name = name_parts[:last_name]
 
     contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: waid,
       inbox: inbox,
-      contact_attributes: { name: first_name, last_name: last_name, phone_number: "+#{@processed_params[:messages].first[:from]}" }
+      contact_attributes: { name: first_name, last_name: last_name, middle_name: middle_name,
+                            phone_number: "+#{@processed_params[:messages].first[:from]}" }
     ).perform
 
     @contact_inbox = contact_inbox
