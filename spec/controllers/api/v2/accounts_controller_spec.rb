@@ -17,7 +17,7 @@ RSpec.describe 'Accounts API', type: :request do
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
           allow(account_builder).to receive(:perform).and_return([user, account])
 
-          params = { email: email, user: nil, password: 'Password1!' }
+          params = { email: email, user: nil, locale: nil, password: 'Password1!' }
 
           post api_v2_accounts_url,
                params: params,
@@ -30,6 +30,20 @@ RSpec.describe 'Accounts API', type: :request do
         end
       end
 
+      it 'updates the onboarding step in custom attributes' do
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+          allow(account_builder).to receive(:perform).and_return([user, account])
+
+          params = { email: email, user: nil, locale: nil, password: 'Password1!' }
+
+          post api_v2_accounts_url,
+               params: params,
+               as: :json
+
+          expect(account.reload.custom_attributes['onboarding_step']).to eq('profile_update')
+        end
+      end
+
       it 'calls ChatwootCaptcha' do
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
           captcha = double
@@ -37,7 +51,7 @@ RSpec.describe 'Accounts API', type: :request do
           allow(ChatwootCaptcha).to receive(:new).and_return(captcha)
           allow(captcha).to receive(:valid?).and_return(true)
 
-          params = { email: email, user: nil, password: 'Password1!', h_captcha_client_response: '123' }
+          params = { email: email, user: nil, password: 'Password1!', locale: nil, h_captcha_client_response: '123' }
 
           post api_v2_accounts_url,
                params: params,
@@ -53,7 +67,7 @@ RSpec.describe 'Accounts API', type: :request do
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
           allow(account_builder).to receive(:perform).and_return(nil)
 
-          params = { email: nil, user: nil }
+          params = { email: nil, user: nil, locale: nil }
 
           post api_v2_accounts_url,
                params: params,
@@ -89,7 +103,7 @@ RSpec.describe 'Accounts API', type: :request do
         allow(AccountBuilder).to receive(:new).and_return(account_builder)
         allow(account_builder).to receive(:perform).and_return([user, account])
 
-        params = { email: email, user: nil, password: 'Password1!' }
+        params = { email: email, user: nil, password: 'Password1!', locale: nil }
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'api_only' do
           post api_v2_accounts_url,
                params: params,

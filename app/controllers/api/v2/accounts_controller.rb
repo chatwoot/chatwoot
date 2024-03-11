@@ -17,8 +17,13 @@ class Api::V2::AccountsController < Api::BaseController
     @user, @account = AccountBuilder.new(
       email: account_params[:email],
       user_password: account_params[:password],
+      locale: account_params[:locale],
       user: current_user
     ).perform
+
+    fetch_account_and_user_info
+    update_account_info if @account.present?
+
     if @user
       send_auth_headers(@user)
       render 'api/v1/accounts/create', format: :json, locals: { resource: @user }
@@ -28,6 +33,20 @@ class Api::V2::AccountsController < Api::BaseController
   end
 
   private
+
+  def account_attributes
+    {
+      custom_attributes: @account.custom_attributes.merge({ 'onboarding_step' => 'profile_update' })
+    }
+  end
+
+  def update_account_info
+    @account.update!(
+      account_attributes
+    )
+  end
+
+  def fetch_account_and_user_info; end
 
   def fetch_account
     @account = current_user.accounts.find(params[:id])
@@ -46,3 +65,5 @@ class Api::V2::AccountsController < Api::BaseController
     raise ActionController::InvalidAuthenticityToken, 'Invalid Captcha' unless ChatwootCaptcha.new(params[:h_captcha_client_response]).valid?
   end
 end
+
+Api::V2::AccountsController.prepend_mod_with('Api::V2::AccountsController')

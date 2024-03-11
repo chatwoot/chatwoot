@@ -18,7 +18,7 @@ export default {
         },
         {
           path: 'ongoing',
-          name: 'settings_account_campaigns',
+          name: 'ongoing_campaigns',
           roles: ['administrator'],
           component: Index,
         },

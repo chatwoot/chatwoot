@@ -111,3 +111,9 @@ export const INBOX_EVENTS = Object.freeze({
   DELETE_NOTIFICATION: 'Deleted notification',
   DELETE_ALL_NOTIFICATIONS: 'Deleted all notifications',
 });
+
+export const SLA_EVENTS = Object.freeze({
+  CREATE: 'Created an SLA',
+  UPDATE: 'Updated an SLA',
+  DELETED: 'Deleted an SLA',
+});

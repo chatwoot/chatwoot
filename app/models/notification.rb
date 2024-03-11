@@ -4,6 +4,7 @@
 #
 #  id                   :bigint           not null, primary key
 #  last_activity_at     :datetime
+#  meta                 :jsonb
 #  notification_type    :integer          not null
 #  primary_actor_type   :string           not null
 #  read_at              :datetime
@@ -63,22 +64,16 @@ class Notification < ApplicationRecord
       created_at: created_at.to_i,
       last_activity_at: last_activity_at.to_i,
       snoozed_until: snoozed_until,
+      meta: meta,
       account_id: account_id
 
     }
     if primary_actor.present?
-      payload[:primary_actor] = primary_actor_data
-      payload[:push_message_title] = push_message_title
+      payload[:primary_actor] = primary_actor&.push_event_data
+      # TODO: Rename push_message_title to push_message_body
+      payload[:push_message_title] = push_message_body
     end
     payload
-  end
-
-  def primary_actor_data
-    {
-      id: primary_actor.push_event_data[:id],
-      meta: primary_actor.push_event_data[:meta],
-      inbox_id: primary_actor.push_event_data[:inbox_id]
-    }
   end
 
   def fcm_push_data
@@ -99,13 +94,22 @@ class Notification < ApplicationRecord
     when 'conversation_assignment'
       I18n.t('notifications.notification_title.conversation_assignment', display_id: conversation.display_id)
     when 'assigned_conversation_new_message', 'participating_conversation_new_message'
-      I18n.t(
-        'notifications.notification_title.assigned_conversation_new_message',
-        display_id: conversation.display_id,
-        content: content
-      )
+      I18n.t('notifications.notification_title.assigned_conversation_new_message', display_id: conversation.display_id)
     when 'conversation_mention'
-      "[##{conversation&.display_id}] #{transform_user_mention_content content}"
+      I18n.t('notifications.notification_title.conversation_mention', display_id: conversation.display_id)
+    else
+      ''
+    end
+  end
+
+  def push_message_body
+    case notification_type
+    when 'conversation_creation'
+      message_body(conversation.messages.first)
+    when 'assigned_conversation_new_message', 'participating_conversation_new_message', 'conversation_mention'
+      message_body(secondary_actor)
+    when 'conversation_assignment'
+      message_body(conversation.messages.incoming.last)
     else
       ''
     end
@@ -115,11 +119,28 @@ class Notification < ApplicationRecord
     primary_actor
   end
 
-  def content
-    transform_user_mention_content(secondary_actor&.content&.truncate_words(10) || '')
+  private
+
+  def message_body(actor)
+    sender_name = sender_name(actor)
+    content = message_content(actor)
+    "#{sender_name}: #{content}"
   end
 
-  private
+  def sender_name(actor)
+    actor.try(:sender)&.name || ''
+  end
+
+  def message_content(actor)
+    content = actor.try(:content)
+    attachments = actor.try(:attachments)
+
+    if content.present?
+      transform_user_mention_content(content.truncate_words(10))
+    else
+      attachments.present? ? I18n.t('notifications.attachment') : I18n.t('notifications.no_content')
+    end
+  end
 
   def process_notification_delivery
     Notification::PushNotificationJob.perform_later(self) if user_subscribed_to_notification?('push')

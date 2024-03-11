@@ -6,5 +6,15 @@ FactoryBot.define do
     notification_type { 'conversation_assignment' }
     user
     account
+    read_at { nil }
+    snoozed_until { nil }
+  end
+
+  trait :read do
+    read_at { DateTime.now.utc - 3.days }
+  end
+
+  trait :snoozed do
+    snoozed_until { DateTime.now.utc + 3.days }
   end
 end

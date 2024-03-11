@@ -18,6 +18,7 @@
           :show-close="true"
           :color="label.color"
           variant="smooth"
+          class="max-w-[calc(100%-0.5rem)]"
           @click="removeLabelFromConversation"
         />
 
