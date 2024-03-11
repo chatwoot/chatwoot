@@ -9,10 +9,10 @@
         'relative max-w-[1440px] w-full mx-auto flex gap-16 h-screen justify-center',
         `bg-[url('/assets/images/dashboard/onboarding/intro.svg')]`,
         `dark:bg-[url('/assets/images/dashboard/onboarding/intro-dark.svg')]`,
-        `bg-contain bg-no-repeat bg-[left_bottom_-100px] bg-[length:600px]`,
+        `bg-no-repeat bg-[left_bottom_-100px] bg-[length:600px]`,
       ]"
     >
-      <div class="relative h-screen w-5/12 py-20">
+      <div class="relative w-5/12 h-screen py-20">
         <div class="z-0 mb-10">
           <img
             :src="globalConfig.logo"
@@ -47,7 +47,7 @@
         </transition>
       </div>
       <div
-        class="relative w-7/12 py-20 flex justify-center overflow-hidden h-fit"
+        class="relative flex justify-center w-7/12 py-20 overflow-hidden h-fit"
       >
         <div
           class="absolute inset-0 h-full w-full bg-[#FCFCFD] dark:bg-slate-900 bg-[radial-gradient(var(--w-200)_1px,transparent_1px)] [background-size:16px_16px]"
