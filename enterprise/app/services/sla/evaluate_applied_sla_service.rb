@@ -97,7 +97,8 @@ class Sla::EvaluateAppliedSlaService
         notification_type: notification_type,
         user: user,
         account: applied_sla.account,
-        primary_actor: applied_sla.conversation
+        primary_actor: applied_sla.conversation,
+        secondary_actor: applied_sla.sla_policy
       ).perform
     end
   end
