@@ -22,4 +22,14 @@ class SlaPolicy < ApplicationRecord
   validates :name, presence: true
 
   has_many :conversations, dependent: :nullify
+
+  def push_event_data
+    {
+      id: id,
+      name: name,
+      frt: first_response_time_threshold,
+      nrt: next_response_time_threshold,
+      rt: resolution_time_threshold
+    }
+  end
 end
