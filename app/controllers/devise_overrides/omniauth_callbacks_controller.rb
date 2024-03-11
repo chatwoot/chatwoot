@@ -27,7 +27,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     token = @resource.send(:set_reset_password_token)
     base_url = password_reset_url
     onboarding_url = account_onboarding_url(@account)
-    redirect_to "#{base_url}?config=default&reset_password_token=#{token}&redirect_url=#{onboarding_url}"
+    redirect_to "#{base_url}?config=default&reset_password_token=#{token}&route_url=#{onboarding_url}"
   end
 
   def login_page_url(error: nil, email: nil, sso_auth_token: nil)
