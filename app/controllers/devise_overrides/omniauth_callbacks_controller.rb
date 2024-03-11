@@ -75,9 +75,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
   end
 
   def account_onboarding_url(account)
-    frontend_url = ENV.fetch('FRONTEND_URL', nil)
-
-    "#{frontend_url}/app/accounts/#{account.id}/start/setup-profile"
+    "/app/accounts/#{account.id}/start/setup-profile"
   end
 
   def password_reset_url
