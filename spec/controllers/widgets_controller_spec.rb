@@ -10,12 +10,14 @@ describe '/widget', type: :request do
 
   describe 'GET /widget' do
     it 'renders the page correctly when called with website_token' do
+      Rails.env = 'development'
       get widget_url(website_token: web_widget.website_token)
       expect(response).to be_successful
       expect(response.body).not_to include(token)
     end
 
     it 'renders the page correctly when called with website_token and cw_conversation' do
+      Rails.env = 'development'
       get widget_url(website_token: web_widget.website_token, cw_conversation: token)
       expect(response).to be_successful
       expect(response.body).to include(token)
