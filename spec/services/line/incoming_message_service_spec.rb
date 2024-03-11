@@ -156,7 +156,7 @@ describe Line::IncomingMessageService do
         )
         described_class.new(inbox: line_channel.inbox, params: params).perform
         expect(line_channel.inbox.conversations).not_to eq(0)
-        expect(Contact.all.first.name).to eq('LINE Test')
+        expect(Contact.all.first.name).to eq('LINE')
         expect(Contact.all.first.additional_attributes['social_line_user_id']).to eq('U4af4980629')
         expect(line_channel.inbox.messages.first.content).to eq('Hello, world')
       end
@@ -177,7 +177,7 @@ describe Line::IncomingMessageService do
         )
         described_class.new(inbox: line_channel.inbox, params: sticker_params).perform
         expect(line_channel.inbox.conversations).not_to eq(0)
-        expect(Contact.all.first.name).to eq('LINE Test')
+        expect(Contact.all.first.name).to eq('LINE')
         expect(line_channel.inbox.messages.first.content).to eq('![sticker-52002738](https://stickershop.line-scdn.net/stickershop/v1/sticker/52002738/iphone/sticker.png)')
       end
     end
@@ -204,7 +204,7 @@ describe Line::IncomingMessageService do
         )
         described_class.new(inbox: line_channel.inbox, params: image_params).perform
         expect(line_channel.inbox.conversations).not_to eq(0)
-        expect(Contact.all.first.name).to eq('LINE Test')
+        expect(Contact.all.first.name).to eq('LINE')
         expect(Contact.all.first.additional_attributes['social_line_user_id']).to eq('U4af4980629')
         expect(line_channel.inbox.messages.first.content).to be_nil
         expect(line_channel.inbox.messages.first.attachments.first.file_type).to eq('image')
@@ -234,7 +234,7 @@ describe Line::IncomingMessageService do
         )
         described_class.new(inbox: line_channel.inbox, params: video_params).perform
         expect(line_channel.inbox.conversations).not_to eq(0)
-        expect(Contact.all.first.name).to eq('LINE Test')
+        expect(Contact.all.first.name).to eq('LINE')
         expect(Contact.all.first.additional_attributes['social_line_user_id']).to eq('U4af4980629')
         expect(line_channel.inbox.messages.first.content).to be_nil
         expect(line_channel.inbox.messages.first.attachments.first.file_type).to eq('video')
