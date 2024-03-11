@@ -260,7 +260,7 @@ export default {
 <style scoped lang="scss">
 .phone-input--wrap {
   .phone-input {
-    @apply flex items-center dark:bg-slate-900 justify-start mb-4 rounded-md border border-solid border-slate-200 dark:border-slate-600;
+    @apply flex items-center dark:bg-slate-900 justify-start rounded-md border border-solid border-slate-200 dark:border-slate-600;
 
     &.has-error {
       @apply border border-solid border-red-400 dark:border-red-400;
