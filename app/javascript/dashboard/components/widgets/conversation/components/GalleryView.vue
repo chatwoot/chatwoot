@@ -52,6 +52,22 @@
             size="large"
             color-scheme="secondary"
             variant="clear"
+            icon="zoom-in"
+            @click="onZoom(0.05)"
+          />
+          <woot-button
+            v-if="isImage"
+            size="large"
+            color-scheme="secondary"
+            variant="clear"
+            icon="zoom-out"
+            @click="onZoom(-0.05)"
+          />
+          <woot-button
+            v-if="isImage"
+            size="large"
+            color-scheme="secondary"
+            variant="clear"
             icon="arrow-rotate-counter-clockwise"
             @click="onRotate('counter-clockwise')"
           />
@@ -104,7 +120,8 @@
               :src="activeAttachment.data_url"
               class="modal-image skip-context-menu my-0 mx-auto"
               :style="imageRotationStyle"
-              @click.stop
+              @click.stop="onClickZoomImage"
+              @wheel.stop="onWheelImageZoom"
             />
             <video
               v-if="isVideo"
@@ -195,6 +212,7 @@ export default {
   },
   data() {
     return {
+      zoomScale: 1,
       activeAttachment: {},
       activeFileType: '',
       activeImageIndex:
@@ -250,7 +268,8 @@ export default {
     },
     imageRotationStyle() {
       return {
-        transform: `rotate(${this.activeImageRotation}deg)`,
+        transform: `rotate(${this.activeImageRotation}deg) scale(${this.zoomScale})`,
+        cursor: this.zoomScale < 1.5 ? 'zoom-in' : 'zoom-out',
       };
     },
   },
@@ -315,6 +334,32 @@ export default {
       } else {
         this.activeImageRotation += rotation;
       }
+    },
+    onClickZoomImage() {
+      this.onZoom(0.05);
+    },
+    onZoom(scale) {
+      if (!this.isImage) {
+        return;
+      }
+      // Reset zoom scale if it is 1.5
+      if (scale > 0 && this.zoomScale >= 1.5) {
+        this.zoomScale = 1;
+        return;
+      }
+      // Reset zoom scale if it is 0.5
+      if (scale < 0 && this.zoomScale <= 0.5) {
+        this.zoomScale = 1;
+        return;
+      }
+      this.zoomScale += scale;
+    },
+    onWheelImageZoom(e) {
+      if (!this.isImage) {
+        return;
+      }
+      const scale = e.deltaY > 0 ? -0.05 : 0.05;
+      this.onZoom(scale);
     },
   },
 };
