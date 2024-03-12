@@ -17,8 +17,8 @@
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Login with Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
-      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+      "BUSINESS_ACCOUNTS_ONLY": "회사 이메일 주소를 사용하여 로그인하세요.",
+      "NO_ACCOUNT_FOUND": "귀하의 이메일 주소로 계정을 찾을 수 없습니다."
     },
     "FORGOT_PASSWORD": "암호를 잊으셨나요?",
     "CREATE_NEW_ACCOUNT": "계정 생성",
