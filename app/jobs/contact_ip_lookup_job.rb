@@ -14,9 +14,12 @@ class ContactIpLookupJob < ApplicationJob
     return unless geocoder_result
 
     contact.additional_attributes ||= {}
+    # TODO: Deprecate these fields in favor of the new location field
     contact.additional_attributes['city'] = geocoder_result.city
     contact.additional_attributes['country'] = geocoder_result.country
     contact.additional_attributes['country_code'] = geocoder_result.country_code
+    contact.country_code = geocoder_result.country_code
+    contact.location = geocoder_result.city
     contact.save!
   end
 

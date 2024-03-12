@@ -9,7 +9,7 @@ class ContactIdentifyAction
   pattr_initialize [:contact!, :params!, { retain_original_contact_name: false, discard_invalid_attrs: false }]
 
   def perform
-    @attributes_to_update = [:identifier, :name, :email, :phone_number]
+    @attributes_to_update = [:identifier, :name, :email, :phone_number, :country_code, :location]
 
     ActiveRecord::Base.transaction do
       merge_if_existing_identified_contact
@@ -99,7 +99,8 @@ class ContactIdentifyAction
   def update_contact
     @contact.attributes = params.slice(*@attributes_to_update).reject do |_k, v|
       v.blank?
-    end.merge({ custom_attributes: custom_attributes, additional_attributes: additional_attributes })
+    end.merge({ custom_attributes: custom_attributes, additional_attributes: additional_attributes, location: contact_location,
+                country_code: contact_country_code })
     # blank identifier or email will throw unique index error
     # TODO: replace reject { |_k, v| v.blank? } with compact_blank when rails is upgraded
     @contact.discard_invalid_attrs if discard_invalid_attrs
@@ -115,6 +116,16 @@ class ContactIdentifyAction
       base_contact: base_contact,
       mergee_contact: merge_contact
     ).perform
+  end
+
+  # TODO: Remove this once we standardize the location field across the app
+  def contact_location
+    params[:location] || params[:additional_attributes].fetch(:city, nil)
+  end
+
+  # TODO: Remove this once we standardize the location field across the app
+  def contact_country_code
+    params[:country_code] || params[:additional_attributes].fetch(:country, nil)
   end
 
   def custom_attributes

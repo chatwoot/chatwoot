@@ -89,6 +89,9 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def update
     @contact.assign_attributes(contact_update_params)
+    # TODO: Remove this once we standardize the location field across the app
+    @contact.country_code = params[:country_code] || params.dig(:additional_attributes, 'country_code')
+    @contact.location = params[:location] || params.dig(:additional_attributes, 'city')
     @contact.save!
     process_avatar_from_url
   end
@@ -148,7 +151,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def permitted_params
-    params.permit(:name, :identifier, :email, :phone_number, :avatar, :blocked, :avatar_url, additional_attributes: {}, custom_attributes: {})
+    params.permit(:name, :identifier, :email, :phone_number, :avatar, :location, :country_code, :blocked, :avatar_url, additional_attributes: {},
+                                                                                                                       custom_attributes: {})
   end
 
   def contact_custom_attributes

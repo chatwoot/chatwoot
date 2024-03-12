@@ -49,14 +49,35 @@ class ContactInboxWithContactBuilder
   end
 
   def create_contact
-    account.contacts.create!(
-      name: contact_attributes[:name] || ::Haikunator.haikunate(1000),
+    contact_params = build_contact_params
+    account.contacts.create!(contact_params)
+  end
+
+  def build_contact_params
+    {
+      name: contact_name,
       phone_number: contact_attributes[:phone_number],
       email: contact_attributes[:email],
       identifier: contact_attributes[:identifier],
+      location: contact_location,
+      country_code: contact_country_code,
       additional_attributes: contact_attributes[:additional_attributes],
       custom_attributes: contact_attributes[:custom_attributes]
-    )
+    }
+  end
+
+  def contact_name
+    contact_attributes[:name] || ::Haikunator.haikunate(1000)
+  end
+
+  def contact_location
+    # TODO: Deprecate the additional_attributes['city'] in favor of country_code
+    contact_attributes[:location] || contact_attributes.dig(:additional_attributes, 'city')
+  end
+
+  def contact_country_code
+    # TODO: Deprecate the additional_attributes['country_code'] in favor of country_code
+    contact_attributes[:country_code] || contact_attributes.dig(:additional_attributes, 'country_code')
   end
 
   def find_contact
