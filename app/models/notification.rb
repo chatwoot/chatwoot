@@ -39,7 +39,10 @@ class Notification < ApplicationRecord
     conversation_assignment: 2,
     assigned_conversation_new_message: 3,
     conversation_mention: 4,
-    participating_conversation_new_message: 5
+    participating_conversation_new_message: 5,
+    sla_missed_first_response: 6,
+    sla_missed_next_response: 7,
+    sla_missed_resolution: 8
   }.freeze
 
   enum notification_type: NOTIFICATION_TYPES
@@ -86,21 +89,32 @@ class Notification < ApplicationRecord
     }
   end
 
-  # TODO: move to a data presenter
+  # rubocop:disable Metrics/MethodLength
   def push_message_title
-    case notification_type
-    when 'conversation_creation'
-      I18n.t('notifications.notification_title.conversation_creation', display_id: conversation.display_id, inbox_name: primary_actor.inbox.name)
-    when 'conversation_assignment'
-      I18n.t('notifications.notification_title.conversation_assignment', display_id: conversation.display_id)
-    when 'assigned_conversation_new_message', 'participating_conversation_new_message'
-      I18n.t('notifications.notification_title.assigned_conversation_new_message', display_id: conversation.display_id)
-    when 'conversation_mention'
-      I18n.t('notifications.notification_title.conversation_mention', display_id: conversation.display_id)
+    notification_title_map = {
+      'conversation_creation' => 'notifications.notification_title.conversation_creation',
+      'conversation_assignment' => 'notifications.notification_title.conversation_assignment',
+      'assigned_conversation_new_message' => 'notifications.notification_title.assigned_conversation_new_message',
+      'participating_conversation_new_message' => 'notifications.notification_title.assigned_conversation_new_message',
+      'conversation_mention' => 'notifications.notification_title.conversation_mention',
+      'sla_missed_first_response' => 'notifications.notification_title.sla_missed_first_response',
+      'sla_missed_next_response' => 'notifications.notification_title.sla_missed_next_response',
+      'sla_missed_resolution' => 'notifications.notification_title.sla_missed_resolution'
+    }
+
+    i18n_key = notification_title_map[notification_type]
+    return '' unless i18n_key
+
+    if notification_type == 'conversation_creation'
+      I18n.t(i18n_key, display_id: conversation.display_id, inbox_name: primary_actor.inbox.name)
+    elsif %w[conversation_assignment assigned_conversation_new_message participating_conversation_new_message
+             conversation_mention].include?(notification_type)
+      I18n.t(i18n_key, display_id: conversation.display_id)
     else
-      ''
+      I18n.t(i18n_key, display_id: primary_actor.display_id)
     end
   end
+  # rubocop:enable Metrics/MethodLength
 
   def push_message_body
     case notification_type
