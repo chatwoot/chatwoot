@@ -12,8 +12,13 @@
       @click="onClose"
     >
       <div class="items-center flex h-16 justify-between py-2 px-6 w-full">
-        <div class="items-center flex justify-start min-w-[15rem]" @click.stop>
+        <div
+          v-if="senderDetails"
+          class="items-center flex justify-start min-w-[15rem]"
+          @click.stop
+        >
           <thumbnail
+            v-if="senderDetails.avatar"
             :username="senderDetails.name"
             :src="senderDetails.avatar"
           />
@@ -212,12 +217,9 @@ export default {
       return this.allAttachments.length > 1;
     },
     readableTime() {
-      if (!this.activeAttachment.created_at) return '';
-      const time = this.messageTimestamp(
-        this.activeAttachment.created_at,
-        'LLL d yyyy, h:mm a'
-      );
-      return time || '';
+      const { created_at: createdAt } = this.activeAttachment;
+      if (!createdAt) return '';
+      return this.messageTimestamp(createdAt, 'LLL d yyyy, h:mm a') || '';
     },
     isImage() {
       return this.activeFileType === ALLOWED_FILE_TYPES.IMAGE;

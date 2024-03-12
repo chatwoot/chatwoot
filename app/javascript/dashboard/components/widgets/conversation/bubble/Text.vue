@@ -27,28 +27,23 @@
         {{ $t('CHAT_LIST.SHOW_QUOTED_TEXT') }}
       </span>
     </button>
-    <woot-modal
-      full-width
+    <gallery-view
+      v-if="show"
       :show.sync="show"
-      :show-close-button="true"
-      :on-close="onClose"
-    >
-      <img
-        v-on-clickaway="onClose"
-        :src="imageUrl"
-        class="modal-image skip-context-menu my-0 mx-auto max-w-[90%] max-h-[90%]"
-      />
-    </woot-modal>
+      :attachment="attachment"
+      :all-attachments="allAttachments"
+      @error="onClose"
+      @close="onClose"
+    />
   </div>
 </template>
 
 <script>
 import Letter from 'vue-letter';
-import { mixin as clickaway } from 'vue-clickaway';
+import GalleryView from '../components/GalleryView.vue';
 
 export default {
-  components: { Letter },
-  mixins: [clickaway],
+  components: { Letter, GalleryView },
   props: {
     message: {
       type: String,
@@ -67,7 +62,8 @@ export default {
     return {
       showQuotedContent: false,
       show: false,
-      imageUrl: '',
+      attachment: this.createDummyAttachment(),
+      allAttachments: [],
     };
   },
   computed: {
@@ -99,12 +95,25 @@ export default {
       }
     },
     openImagePreview(src) {
-      this.imageUrl = src;
       this.show = true;
+      this.attachment.data_url = src;
+      this.allAttachments = [{ ...this.attachment }];
     },
     onClose() {
       this.show = false;
-      this.imageUrl = '';
+      this.resetAttachments();
+    },
+    createDummyAttachment() {
+      return {
+        file_type: 'image',
+        data_url: '', // Only real data
+        message_id: Math.floor(Math.random() * 100),
+        created_at: null,
+      };
+    },
+    resetAttachments() {
+      this.attachment = this.createDummyAttachment();
+      this.allAttachments = [];
     },
   },
 };
