@@ -52,8 +52,12 @@ export default {
     async startConversation() {
       const ref = new URLSearchParams(window.location.search).get('referral');
       if (ref) {
-        this.clearConversations();
-        await setCustomAttributes({"ref": ref});
+        try {
+          await setCustomAttributes({"ref": ref});
+          this.clearConversations();
+        } catch (e) {
+          // Ignore error
+        }
       } else if (this.preChatFormEnabled && !this.conversationSize) {
         return this.replaceRoute('prechat-form');
       }
