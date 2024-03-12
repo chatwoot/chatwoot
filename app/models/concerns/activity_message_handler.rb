@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ModuleLength
 module ActivityMessageHandler
   extend ActiveSupport::Concern
 
@@ -8,10 +9,37 @@ module ActivityMessageHandler
   private
 
   def create_activity
-    user_name = Current.user.name if Current.user.present?
-    status_change_activity(user_name) if saved_change_to_status?
-    priority_change_activity(user_name) if saved_change_to_priority?
-    create_label_change(activity_message_ownner(user_name)) if saved_change_to_label_list?
+    user_name = determine_user_name
+
+    handle_status_change(user_name)
+    handle_priority_change(user_name)
+    handle_label_change(user_name)
+    handle_sla_policy_change(user_name)
+  end
+
+  def determine_user_name
+    Current.user&.name
+  end
+
+  def handle_status_change(user_name)
+    return unless saved_change_to_status?
+
+    status_change_activity(user_name)
+  end
+
+  def handle_priority_change(user_name)
+    return unless saved_change_to_priority?
+
+    priority_change_activity(user_name)
+  end
+
+  def handle_label_change(user_name)
+    return unless saved_change_to_label_list?
+
+    create_label_change(activity_message_ownner(user_name))
+  end
+
+  def handle_sla_policy_change(user_name)
     return unless saved_change_to_sla_policy_id?
 
     sla_change_type = determine_sla_change_type
@@ -121,3 +149,4 @@ module ActivityMessageHandler
     end
   end
 end
+# rubocop:enable Metrics/ModuleLength
