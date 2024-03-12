@@ -18,7 +18,6 @@ import Label from './ui/Label';
 import LoadingState from './widgets/LoadingState';
 import Modal from './Modal';
 import ModalHeader from './ModalHeader';
-import ReportStatsCard from './widgets/ReportStatsCard';
 import SidemenuIcon from './SidemenuIcon';
 import Spinner from 'shared/components/Spinner';
 import SubmitButton from './buttons/FormSubmitButton';
@@ -46,7 +45,6 @@ const WootUIKit = {
   LoadingState,
   Modal,
   ModalHeader,
-  ReportStatsCard,
   SidemenuIcon,
   Spinner,
   SubmitButton,

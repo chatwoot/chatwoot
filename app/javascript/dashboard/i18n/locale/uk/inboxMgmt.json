@@ -112,14 +112,14 @@
           "ERROR": "Це поле є обов'язковим"
         },
         "API_KEY": {
-          "USE_API_KEY": "Use API Key Authentication",
+          "USE_API_KEY": "Використовувати API Key автентифікацію",
           "LABEL": "API Key SID",
-          "PLACEHOLDER": "Please enter your API Key SID",
+          "PLACEHOLDER": "Будь ласка, введіть ваш API Key SID",
           "ERROR": "Це поле є обов'язковим"
         },
         "API_KEY_SECRET": {
-          "LABEL": "API Key Secret",
-          "PLACEHOLDER": "Please enter your API Key Secret",
+          "LABEL": "Секретний ключ API",
+          "PLACEHOLDER": "Будь ласка, введіть ваш ключ API",
           "ERROR": "Це поле є обов'язковим"
         },
         "MESSAGING_SERVICE_SID": {
@@ -371,8 +371,8 @@
     "DETAILS": {
       "LOADING_FB": "Автентифікація через Facebook...",
       "ERROR_FB_AUTH": "Щось пішло не так. Будь ласка, оновіть сторінку...",
-      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
-      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
+      "ERROR_FB_UNAUTHORIZED": "Ви не авторизовані для цієї дії. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Переконайтеся, що ви маєте доступ до сторінки Facebook із повним доступом. Ви можете прочитати більше про ролі Facebook <a href=\" https://www.facebook.com/help/187316341316631\">тут</a>.",
       "CREATING_CHANNEL": "Створення скриньки Вхідні...",
       "TITLE": "Налаштувати подробиці Джерела",
       "DESC": ""
@@ -405,7 +405,7 @@
         "DISABLED": "Вимкнено"
       },
       "SENDER_NAME_SECTION": {
-        "TITLE": "Sender name",
+        "TITLE": "Ім'я відправника",
         "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
         "FOR_EG": "For eg:",
         "FRIENDLY": {
@@ -569,7 +569,7 @@
       "UPDATE": "Оновити налаштування робочих годин",
       "TOGGLE_AVAILABILITY": "Увімкнути робочі години для цього каналу",
       "UNAVAILABLE_MESSAGE_LABEL": "Повідомлення для відвідувачів у неробочі години",
-      "TOGGLE_HELP": "Включення покаже робочі години на віджеті в чаті, навіть якщо всі агенти перебувають у автономному режимі. У неробочі години відвідувачі можуть бути попереджені повідомленням і формою попереднього чату.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Увімкнути доступність для цього дня",
         "UNAVAILABLE": "Неприсутній",
