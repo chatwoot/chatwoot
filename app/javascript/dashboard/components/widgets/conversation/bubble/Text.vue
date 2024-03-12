@@ -7,11 +7,12 @@
     }"
   >
     <div v-if="!isEmail" v-dompurify-html="message" class="text-content" />
-    <letter
-      v-else
-      class="text-content bg-white dark:bg-white text-slate-900 dark:text-slate-900 p-2 rounded-[4px]"
-      :html="message"
-    />
+    <div v-else @click="handleClickOnContent($event)">
+      <letter
+        class="text-content bg-white dark:bg-white text-slate-900 dark:text-slate-900 p-2 rounded-[4px]"
+        :html="message"
+      />
+    </div>
     <button
       v-if="showQuoteToggle"
       class="text-slate-300 dark:text-slate-300 cursor-pointer text-xs py-1"
@@ -26,14 +27,28 @@
         {{ $t('CHAT_LIST.SHOW_QUOTED_TEXT') }}
       </span>
     </button>
+    <woot-modal
+      full-width
+      :show.sync="show"
+      :show-close-button="true"
+      :on-close="onClose"
+    >
+      <img
+        v-on-clickaway="onClose"
+        :src="imageUrl"
+        class="modal-image skip-context-menu my-0 mx-auto max-w-[90%] max-h-[90%]"
+      />
+    </woot-modal>
   </div>
 </template>
 
 <script>
 import Letter from 'vue-letter';
+import { mixin as clickaway } from 'vue-clickaway';
 
 export default {
   components: { Letter },
+  mixins: [clickaway],
   props: {
     message: {
       type: String,
@@ -51,6 +66,8 @@ export default {
   data() {
     return {
       showQuotedContent: false,
+      show: false,
+      imageUrl: '',
     };
   },
   computed: {
@@ -70,6 +87,24 @@ export default {
   methods: {
     toggleQuotedContent() {
       this.showQuotedContent = !this.showQuotedContent;
+    },
+    handleClickOnContent(event) {
+      // if event target is IMG and not wrapped with A tag
+      // then open image preview
+      if (
+        event.target.tagName === 'IMG' &&
+        event.target.parentElement.tagName !== 'A'
+      ) {
+        this.openImagePreview(event.target.src);
+      }
+    },
+    openImagePreview(src) {
+      this.imageUrl = src;
+      this.show = true;
+    },
+    onClose() {
+      this.show = false;
+      this.imageUrl = '';
     },
   },
 };
