@@ -2,6 +2,8 @@ module ActivityMessageHandler
   extend ActiveSupport::Concern
 
   include PriorityActivityMessageHandler
+  include LabelActivityMessageHandler
+  include SlaActivityMessageHandler
 
   private
 
@@ -10,6 +12,10 @@ module ActivityMessageHandler
     status_change_activity(user_name) if saved_change_to_status?
     priority_change_activity(user_name) if saved_change_to_priority?
     create_label_change(activity_message_ownner(user_name)) if saved_change_to_label_list?
+    return unless saved_change_to_sla_policy_id?
+
+    sla_change_type = determine_sla_change_type
+    create_sla_change_activity(sla_change_type, activity_message_ownner(user_name))
   end
 
   def status_change_activity(user_name)
@@ -43,21 +49,6 @@ module ActivityMessageHandler
 
   def activity_message_params(content)
     { account_id: account_id, inbox_id: inbox_id, message_type: :activity, content: content }
-  end
-
-  def create_label_added(user_name, labels = [])
-    create_label_change_activity('added', user_name, labels)
-  end
-
-  def create_label_removed(user_name, labels = [])
-    create_label_change_activity('removed', user_name, labels)
-  end
-
-  def create_label_change_activity(change_type, user_name, labels = [])
-    return unless labels.size.positive?
-
-    content = I18n.t("conversations.activity.labels.#{change_type}", user_name: user_name, labels: labels.join(', '))
-    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
   def create_muted_message
@@ -118,5 +109,15 @@ module ActivityMessageHandler
   def activity_message_ownner(user_name)
     user_name = 'Automation System' if !user_name && Current.executed_by.present?
     user_name
+  end
+
+  def determine_sla_change_type
+    sla_policy_id_before, sla_policy_id_after = previous_changes[:sla_policy_id]
+
+    if sla_policy_id_before.nil? && sla_policy_id_after.present?
+      'added'
+    elsif sla_policy_id_before.present? && sla_policy_id_after.nil?
+      'removed'
+    end
   end
 end
