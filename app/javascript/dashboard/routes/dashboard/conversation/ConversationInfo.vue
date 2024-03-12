@@ -79,7 +79,7 @@ const staticElements = computed(() =>
       :key="element.title"
       :title="$t(element.title)"
       :value="element.content.value"
-      class="border-slate-50 dark:border-slate-700/50 border-b border-solid [&:nth-child(2n)]:bg-slate-25 [&:nth-child(2n)]:dark:bg-slate-800/50"
+      class="conversation--attribute"
     >
       <a
         v-if="element.type === 'link'"
@@ -93,9 +93,17 @@ const staticElements = computed(() =>
     </ContactDetailsItem>
     <CustomAttributes
       :class="staticElements.length % 2 === 0 ? 'even' : 'odd'"
-      attribute-class="border-slate-50 dark:border-slate-700/50 border-b border-solid [&:nth-child(2n)]:bg-slate-25 [&:nth-child(2n)]:dark:bg-slate-800/50"
+      attribute-class="conversation--attribute"
       attribute-from="conversation_panel"
       attribute-type="conversation_attribute"
     />
   </div>
 </template>
+<style scoped lang="scss">
+.conversation--attribute {
+  @apply border-slate-50 dark:border-slate-700/50 border-b border-solid;
+  &:nth-child(2n) {
+    @apply bg-slate-25 dark:bg-slate-800/50;
+  }
+}
+</style>
