@@ -1,6 +1,13 @@
 import { createWrapper } from '@vue/test-utils';
 import nextAvailabilityTimeMixin from '../nextAvailabilityTime';
 import Vue from 'vue';
+import i18n from 'widget/i18n';
+import VueI18n from 'vue-i18n';
+Vue.use(VueI18n);
+const i18nConfig = new VueI18n({
+  locale: 'en',
+  messages: i18n,
+});
 
 describe('nextAvailabilityTimeMixin', () => {
   const chatwootWebChannel = {
@@ -448,6 +455,7 @@ describe('nextAvailabilityTimeMixin', () => {
     const Component = {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
+      i18n: i18nConfig,
     };
     jest
       .useFakeTimers('modern')
@@ -511,6 +519,7 @@ describe('nextAvailabilityTimeMixin', () => {
     const Component = {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
+      i18n: i18nConfig,
     };
     jest
       .useFakeTimers('modern')
