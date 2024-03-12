@@ -49,7 +49,7 @@ export default {
     ...mapActions('conversation', [
       'clearConversations',
     ]),
-    startConversation() {
+    async startConversation() {
       const ref = new URLSearchParams(window.location.search).get('referral');
       if (ref) {
         this.clearConversations();
