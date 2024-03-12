@@ -18,31 +18,31 @@ const referer = computed(() => props.conversationAttributes.referer);
 const initiatedAt = computed(
   () => props.conversationAttributes.initiated_at?.timestamp
 );
+
+const browserInfo = props.conversationAttributes.browser;
+
 const browserName = computed(() => {
-  if (!props.conversationAttributes.browser) {
-    return '';
-  }
-  const { browser_name: browser = '', browser_version: browserVersion = '' } =
-    props.conversationAttributes.browser;
-  return `${browser} ${browserVersion}`;
+  if (!browserInfo) return '';
+  const { browser_name: name = '', browser_version: version = '' } =
+    browserInfo;
+  return `${name} ${version}`;
 });
+
 const browserLanguage = computed(() =>
   getLanguageName(props.conversationAttributes.browser_language)
 );
+
 const platformName = computed(() => {
-  const { browser } = props.conversationAttributes;
-  if (!browser) {
-    return '';
-  }
-  const { platform_name: platform, platform_version: platformVersion } =
-    browser;
-  return `${platform || ''} ${platformVersion || ''}`;
+  if (!browserInfo) return '';
+  const { platform_name: name = '', platform_version: version = '' } =
+    browserInfo;
+  return `${name} ${version}`;
 });
 
 const createdAtIp = computed(() => props.contactAttributes.created_at_ip);
 
-const staticElements = computed(() => {
-  const conversationAttributes = [
+const staticElements = computed(() =>
+  [
     {
       content: initiatedAt,
       title: 'CONTACT_PANEL.INITIATED_AT',
@@ -68,9 +68,8 @@ const staticElements = computed(() => {
       content: createdAtIp,
       title: 'CONTACT_PANEL.IP_ADDRESS',
     },
-  ];
-  return conversationAttributes.filter(attribute => !!attribute.content.value);
-});
+  ].filter(attribute => !!attribute.content.value)
+);
 </script>
 
 <template>
@@ -94,7 +93,7 @@ const staticElements = computed(() => {
       </a>
     </ContactDetailsItem>
     <CustomAttributes
-      :class="staticElements.length % 2 == 0 ? 'even' : 'odd'"
+      :class="staticElements.length % 2 === 0 ? 'even' : 'odd'"
       attribute-class="conversation--attribute"
       attribute-from="conversation_panel"
       attribute-type="conversation_attribute"
