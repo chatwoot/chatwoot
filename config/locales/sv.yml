@@ -106,8 +106,11 @@ sv:
       conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
       assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
       conversation_mention: "You have been mentioned in conversation (#%{display_id})"
-    attachment: "Attachment"
-    no_content: "No content"
+      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
+      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
+      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
+    attachment: "Bilaga"
+    no_content: "Inget innehåll"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} mentioned you in the story: "
