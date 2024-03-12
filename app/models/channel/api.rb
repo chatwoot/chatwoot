@@ -45,8 +45,8 @@ class Channel::Api < ApplicationRecord
     additional_attributes.present? && additional_attributes['agent_reply_time_window'].present?
   end
 
-  def send_message(inbox_id, contact_id, message)
-    conversation = get_or_create_conversation(inbox_id, contact_id)
+  def send_message(inbox, contact, message)
+    conversation = get_or_create_conversation(inbox, contact)
     send_text_message(conversation['id'], message)
   end
 
@@ -69,19 +69,23 @@ class Channel::Api < ApplicationRecord
     response.success? ? response.parsed_response['id'] : nil
   end
 
-  def get_or_create_conversation(inbox_id, contact_id)
+  def get_or_create_conversation(inbox, contact)
     Conversation.find_by(
-      contact_id: contact_id,
-      inbox_id: inbox_id,
+      contact_id: contact.id,
+      inbox_id: inbox.id,
       status: [0, 2]
-    ) || create_conversation(contact_id, inbox_id)
+    ) || create_conversation(contact, inbox)
   end
 
-  def create_conversation(contact_id, inbox_id)
+  def create_conversation(contact, inbox)
     contact_inbox = ContactInbox.find_by(
-      contact_id: contact_id,
-      inbox_id: inbox_id
-    )
+      contact_id: contact.id,
+      inbox_id: inbox.id
+    ) || ContactInboxBuilder.new(
+      contact: contact,
+      inbox: inbox
+    ).perform
+
     response = HTTParty.post(
       "#{api_base_path}/accounts/#{account_id}/conversations",
       headers: {
@@ -89,7 +93,7 @@ class Channel::Api < ApplicationRecord
         'api_access_token' => access_token
       },
       body: {
-        'inbox_id' => inbox_id,
+        'inbox_id' => inbox.id,
         'source_id' => contact_inbox.source_id,
         'assignee_id' => account_id
       }.to_json

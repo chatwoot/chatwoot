@@ -28,6 +28,14 @@ class Channel::Telegram < ApplicationRecord
     'Telegram'
   end
 
+  def access_token
+    AccessToken.find_by(:owner_id => account_id).token
+  end
+
+  def api_base_path
+    "#{ENV.fetch('FRONTEND_URL', nil)}/api/v1"
+  end
+
   def telegram_api_url
     "https://api.telegram.org/bot#{bot_token}"
   end
@@ -54,6 +62,11 @@ class Channel::Telegram < ApplicationRecord
     return nil unless response.success?
 
     "https://api.telegram.org/file/bot#{bot_token}/#{response.parsed_response['result']['file_path']}"
+  end
+
+  def send_text_message(contact, message, inbox)
+    conversation = get_or_create_conversation(inbox, contact)
+    message_request(conversation[:additional_attributes]['chat_id'], message)
   end
 
   private
@@ -89,6 +102,43 @@ class Channel::Telegram < ApplicationRecord
     response = message_request(chat_id(message), message.content, reply_markup(message), reply_to_message_id(message))
     process_error(message, response)
     response.parsed_response['result']['message_id'] if response.success?
+  end
+
+  def get_or_create_conversation(inbox, contact)
+    Conversation.find_by(
+      contact_id: contact.id,
+      inbox_id: inbox.id,
+      status: [0, 2]
+    ) || create_conversation(contact, inbox)
+  end
+
+  def create_conversation(contact, inbox)
+    # contact_inbox = ContactInbox.create_with(hmac_verified: false).find_or_create_by!(
+    #   contact_id: contact.id,
+    #   inbox_id: inbox.id,
+    #   source_id: contact.phone_number
+    # )
+    contact_inbox = ContactInbox.find_by(
+      contact_id: contact.id,
+      inbox_id: inbox.id
+    ) || ContactInboxBuilder.new(
+      contact: contact,
+      inbox: inbox
+    ).perform
+
+    response = HTTParty.post(
+      "#{api_base_path}/accounts/#{account_id}/conversations",
+      headers: {
+        'Content-Type' => 'application/json',
+        'api_access_token' => access_token
+      },
+      body: {
+        'inbox_id' => inbox.id,
+        'source_id' => contact_inbox.source_id,
+        'assignee_id' => account_id
+      }.to_json
+    )
+    response.success? ? response.parsed_response : nil
   end
 
   def process_error(message, response)

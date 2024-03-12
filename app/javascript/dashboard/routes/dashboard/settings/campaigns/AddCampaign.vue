@@ -272,6 +272,7 @@ export default {
       return [
         ...this.$store.getters['inboxes/getSMSInboxes'],
         ...this.$store.getters['inboxes/getApiInboxes'],
+        ...this.$store.getters['inboxes/getTelegramInboxes'],
       ];
     },
     sendersAndBotList() {
