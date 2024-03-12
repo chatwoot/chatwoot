@@ -111,7 +111,9 @@ export default {
     },
     exactTimeInAmPm() {
       return `${
-        this.timeSlot.day === this.currentDay ? `at ${this.timeSlot.from}` : ''
+        this.timeSlot.day === this.currentDay
+          ? `${this.$t('REPLY_TIME.BACK_AT')} ${this.timeSlot.from}`
+          : ''
       }`;
     },
     hoursAndMinutesLeft() {
@@ -151,7 +153,7 @@ export default {
       if (hoursLeft > 0 || minutesLeft > 0) {
         return this.hoursAndMinutesLeft;
       }
-      return 'in some time';
+      return this.$t('REPLY_TIME.BACK_IN_SOME_TIME');
     },
     timeLeftToBackInOnline() {
       if (
@@ -169,7 +171,9 @@ export default {
         this.dayDiff >= 1 &&
         this.presentHour >= this.currentDayTimings.closeHour
       ) {
-        return `on ${this.dayNameOfNextWorkingDay}`;
+        return `${this.$t('REPLY_TIME.BACK_ON')} ${
+          this.dayNameOfNextWorkingDay
+        }`;
       }
       return this.hoursAndMinutesToBack;
     },
