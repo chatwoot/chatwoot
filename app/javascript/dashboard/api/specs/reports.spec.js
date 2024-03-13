@@ -124,6 +124,27 @@ describe('#Reports API', () => {
       );
     });
 
+    it('#getBotSummary', () => {
+      reportsAPI.getBotSummary({
+        from: 1621103400,
+        to: 1621621800,
+        groupBy: 'date',
+        businessHours: true,
+      });
+      expect(axiosMock.get).toHaveBeenCalledWith(
+        '/api/v2/reports/bot_summary',
+        {
+          params: {
+            since: 1621103400,
+            until: 1621621800,
+            type: 'account',
+            group_by: 'date',
+            business_hours: true,
+          },
+        }
+      );
+    });
+
     it('#getConversationMetric', () => {
       reportsAPI.getConversationMetric('account');
       expect(axiosMock.get).toHaveBeenCalledWith(

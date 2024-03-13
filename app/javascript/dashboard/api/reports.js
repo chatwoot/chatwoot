@@ -90,6 +90,18 @@ class ReportsAPI extends ApiClient {
       params: { since: from, until: to },
     });
   }
+
+  getBotSummary({ from, to, groupBy, businessHours } = {}) {
+    return axios.get(`${this.url}/bot_summary`, {
+      params: {
+        since: from,
+        until: to,
+        type: 'account',
+        group_by: groupBy,
+        business_hours: businessHours,
+      },
+    });
+  }
 }
 
 export default new ReportsAPI();
