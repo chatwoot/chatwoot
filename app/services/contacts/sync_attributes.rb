@@ -20,18 +20,16 @@ class Contacts::SyncAttributes
   end
 
   def set_contact_type
-    # If the contact has an email or phone number then it is a lead
+    # If the contact has an email or phone number or social details( facebook_user_id, instagram_user_id, etc) then it is a lead
     # If contact is from external channel like facebook, instagram, whatsapp, etc then it is a lead
-    return unless @contact.email.present? || @contact.phone_number.present? || social_channel?
+    return unless @contact.email.present? || @contact.phone_number.present? || social_details_present?
 
     @contact.contact_type = 'lead'
   end
 
-  def social_channel?
-    return false if @contact.contact_inboxes.blank?
-
-    @contact.contact_inboxes.each do |contact_inbox|
-      return true if contact_inbox.inbox.facebook? || contact_inbox.inbox.instagram? || contact_inbox.inbox.telegram? || contact_inbox.inbox.line?
+  def social_details_present?
+    contact.additional_attributes.keys.any? do |key|
+      key.to_s.match?(/^social_\w+_user_(id|name)$/i) && contact.additional_attributes[key].present?
     end
   end
 end

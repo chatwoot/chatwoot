@@ -101,11 +101,9 @@ RSpec.describe Contact do
       expect(contact.contact_type).to eq 'lead'
     end
 
-    # it 'has contact type "lead" when contacted through a social channel' do
-    #   facebook_inbox = create(:channel_facebook_page).inbox
-    #   contact = create(:contact)
-    #   create(:contact_inbox, contact: contact, inbox: facebook_inbox)
-    #   expect(contact.contact_type).to eq 'lead'
-    # end
+    it 'has contact type "lead" when contacted through a social channel' do
+      contact = create(:contact, additional_attributes: { social_facebook_user_id: '123' })
+      expect(contact.contact_type).to eq 'lead'
+    end
   end
 end
