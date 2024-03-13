@@ -70,7 +70,7 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 import Spinner from 'shared/components/Spinner.vue';
 import OnboardingStep from './OnboardingStep.vue';
-import { UISteps, API_ONBOARDING_STEP_ROUTE } from './constants';
+import { UISteps } from './constants';
 
 export default {
   components: {
@@ -137,33 +137,14 @@ export default {
           this.showIntroHeader = true;
         }, 10);
       },
-      accountDetails() {
-        // this.navigateToSavedStep();
-      },
     },
   },
   mounted() {
     this.showIntroHeader = true;
     this.showLoading = true;
-    // this.navigateToSavedStep();
   },
   beforeDestroy() {
     this.showIntroHeader = false;
-  },
-  methods: {
-    navigateToSavedStep() {
-      if (!this.accountDetails) return;
-      const { custom_attributes: { onboarding_step: savedStep } = {} } =
-        this.accountDetails;
-      const stepName = API_ONBOARDING_STEP_ROUTE[savedStep];
-      if (stepName && stepName !== this.currentStep) {
-        this.showLoading = false;
-        this.$router.replace({ name: stepName });
-      } else if (!stepName) {
-        this.showLoading = false;
-        this.$router.replace({ name: 'home' });
-      }
-    },
   },
 };
 </script>
