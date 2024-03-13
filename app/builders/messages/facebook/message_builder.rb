@@ -53,7 +53,21 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def conversation
-    @conversation ||= Conversation.find_by(conversation_params) || build_conversation
+    @conversation ||= begin
+      lock_to_single_conversation = @inbox.lock_to_single_conversation
+
+      if lock_to_single_conversation
+        Conversation.find_by(conversation_params) || build_conversation
+      else
+        # If lock to single conversation is disabled, we will create a new conversation if previous conversation is resolved
+        last_conversation = Conversation.where(conversation_params).order(created_at: :desc).first
+        if last_conversation&.status == 'resolved'
+          build_conversation
+        else
+          last_conversation
+        end
+      end
+    end
   end
 
   def build_conversation
