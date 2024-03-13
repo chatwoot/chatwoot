@@ -36,14 +36,14 @@ module ActivityMessageHandler
   def handle_label_change(user_name)
     return unless saved_change_to_label_list?
 
-    create_label_change(activity_message_ownner(user_name))
+    create_label_change(activity_message_owner(user_name))
   end
 
   def handle_sla_policy_change(user_name)
     return unless saved_change_to_sla_policy_id?
 
     sla_change_type = determine_sla_change_type
-    create_sla_change_activity(sla_change_type, activity_message_ownner(user_name))
+    create_sla_change_activity(sla_change_type, activity_message_owner(user_name))
   end
 
   def status_change_activity(user_name)
@@ -102,7 +102,7 @@ module ActivityMessageHandler
   end
 
   def create_assignee_change_activity(user_name)
-    user_name = activity_message_ownner(user_name)
+    user_name = activity_message_owner(user_name)
 
     return unless user_name
 
@@ -110,7 +110,7 @@ module ActivityMessageHandler
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
-  def activity_message_ownner(user_name)
+  def activity_message_owner(user_name)
     user_name = 'Automation System' if !user_name && Current.executed_by.present?
     user_name
   end

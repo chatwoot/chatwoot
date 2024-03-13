@@ -4,7 +4,7 @@ module TeamActivityMessageHandler
   private
 
   def create_team_change_activity(user_name)
-    user_name = activity_message_ownner(user_name)
+    user_name = activity_message_owner(user_name)
     return unless user_name
 
     key = generate_team_change_activity_key
