@@ -110,6 +110,7 @@ Rails.application.routes.draw do
               post :update_last_seen
               post :unread
               post :custom_attributes
+              post :change_contact
               get :attachments
               get :related_emails
             end

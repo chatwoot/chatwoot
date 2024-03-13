@@ -98,6 +98,9 @@
         "FAILED": "Couldn't change priority. Please try again."
       }
     },
+    "CONTACT": {
+      "CHANGE": "Change Contact"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Mark as pending",
       "RESOLVED": "Mark as resolved",

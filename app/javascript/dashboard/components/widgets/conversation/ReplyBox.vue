@@ -1153,8 +1153,8 @@ export default {
       // If the last incoming message sender is different from the conversation contact, add them to the "to"
       // and add the conversation contact to the CC
       if (!emailAttributes.from.includes(conversationContact)) {
-        to.push(...emailAttributes.from);
-        cc.push(conversationContact);
+        cc.push(...emailAttributes.from);
+        // to.push(...emailAttributes.from);
       }
 
       // Remove the conversation contact's email from the BCC list if present
