@@ -22,7 +22,10 @@
       "CONVERSATION_CREATION": "New conversation created",
       "CONVERSATION_ASSIGNMENT": "A conversation has been assigned to you",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "New message in an assigned conversation",
-      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "New message in a conversation you are participating in"
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "New message in a conversation you are participating in",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA target first response missed for conversation",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA target next response missed for conversation",
+      "SLA_MISSED_RESOLUTION": "SLA target resolution missed for conversation"
     },
     "MENU_ITEM": {
       "MARK_AS_READ": "Mark as read",
