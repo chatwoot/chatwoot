@@ -124,14 +124,6 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::Whatsapp'
   end
 
-  def telegram?
-    channel_type == 'Channel::TelegramProfile'
-  end
-
-  def line?
-    channel_type == 'Channel::Line'
-  end
-
   def assignable_agents
     (account.users.where(id: members.select(:user_id)) + account.administrators).uniq
   end
