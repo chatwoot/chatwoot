@@ -53,14 +53,23 @@ RSpec.describe Conversation, type: :model do
         conversation.save!
         expect(conversation.applied_sla.sla_policy_id).to eq(sla_policy.id)
       end
+    end
 
-      it 'deletes applied sla record if sla policy is removed' do
+    context 'when conversation already has a different sla' do
+      before do
+        conversation.update(sla_policy: create(:sla_policy, account: account))
+      end
+
+      it 'throws error if trying to assing a different sla' do
         conversation.sla_policy = sla_policy
-        conversation.save!
+        expect(conversation.valid?).to be false
+        expect(conversation.errors[:sla_policy]).to eq(['conversation already has a different sla'])
+      end
+
+      it 'throws error if trying to set sla to nil' do
         conversation.sla_policy = nil
-        conversation.save!
-        conversation.reload
-        expect(conversation.applied_sla.present?).to be false
+        expect(conversation.valid?).to be false
+        expect(conversation.errors[:sla_policy]).to eq(['cannot remove sla policy from conversation'])
       end
     end
   end

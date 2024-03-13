@@ -5,38 +5,33 @@ module Enterprise::EnterpriseConversationConcern
     belongs_to :sla_policy, optional: true
     has_one :applied_sla, dependent: :destroy
     before_validation :validate_sla_policy, if: -> { sla_policy_id_changed? }
-    around_save :around_save_sla_policy
-  end
-
-  def validate_sla_policy
-    return if sla_policy_id.nil?
-
-    errors.add(:sla_policy, 'sla policy account mismatch') if sla_policy&.account_id != account_id
+    around_save :ensure_applied_sla_is_created, if: -> { sla_policy_id_changed? }
   end
 
   private
 
-  def around_save_sla_policy
-    ActiveRecord::Base.transaction do
-      yield # This saves the conversation, including sla_policy_id changes
-
-      if sla_policy_id.nil?
-        applied_sla&.destroy!
-      else
-        create_or_update_applied_sla
-      end
+  def validate_sla_policy
+    # TODO: remove these validations once we figure out how to deal with these cases
+    if sla_policy_id.nil? && changes[:sla_policy_id].first.present?
+      errors.add(:sla_policy, 'cannot remove sla policy from conversation')
+      return
     end
-  rescue ActiveRecord::RecordInvalid
-    # Handle any exceptions, for example, rollback or add errors
-    raise ActiveRecord::Rollback
+
+    if changes[:sla_policy_id].first.present?
+      errors.add(:sla_policy, 'conversation already has a different sla')
+      return
+    end
+
+    errors.add(:sla_policy, 'sla policy account mismatch') if sla_policy&.account_id != account_id
   end
 
-  def create_or_update_applied_sla
-    if applied_sla.nil?
-      new_applied_sla = build_applied_sla(sla_policy_id: sla_policy_id)
-      new_applied_sla.save!
-    else
-      applied_sla.update!(sla_policy_id: sla_policy_id)
+  # handling inside a transaction to ensure applied sla record is also created
+  def ensure_applied_sla_is_created
+    ActiveRecord::Base.transaction do
+      yield
+      create_applied_sla(sla_policy_id: sla_policy_id) if applied_sla.blank?
     end
+  rescue ActiveRecord::RecordInvalid
+    raise ActiveRecord::Rollback
   end
 end
