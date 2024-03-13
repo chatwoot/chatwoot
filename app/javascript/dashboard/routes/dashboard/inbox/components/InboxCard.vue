@@ -208,9 +208,9 @@ export default {
         return this.$t('INBOX.LIST.SNOOZED_ENDS');
       }
       if (this.snoozedUntilTime) {
-        return `${this.$t('INBOX.LIST.SNOOZED_UNTIL')} ${this.shortTimestamp(
-          this.snoozedUntilTime
-        )}`;
+        return this.$t('INBOX.LIST.SNOOZED_UNTIL', {
+          time: this.shortTimestamp(this.snoozedUntilTime),
+        });
       }
       return '';
     },
