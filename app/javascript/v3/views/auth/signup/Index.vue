@@ -21,7 +21,12 @@
         <h2
           class="text-3xl font-medium tracking-wide text-center text-slate-900 dark:text-woot-50"
         >
-          {{ $t('REGISTER.TRY_WOOT') }}
+          <template v-if="isAChatwootInstance">
+            {{ $t('REGISTER.TRY_WOOT_CLOUD') }}
+          </template>
+          <template v-else>
+            {{ $t('REGISTER.TRY_WOOT') }}
+          </template>
         </h2>
       </div>
       <signup-form class="max-w-[420px]" />

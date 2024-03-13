@@ -31,7 +31,7 @@ defineProps({
     <div class="bg-white rounded-full shrink-0">
       <img
         :src="authorImage"
-        class="w-12 h-12 border rounded-full shadow-md dark:border-none border-slate-200 dark:shadow-none"
+        class="w-12 h-12 border rounded-full shadow-sm dark:border-none border-slate-200 dark:shadow-none"
       />
     </div>
     <div class="text-woot-900 dark:text-woot-100">
@@ -43,7 +43,9 @@ defineProps({
         </p>
       </div>
       <div class="px-1 mt-2" :class="{ 'text-right': !isLeftAligned }">
-        <div class="text-sm">{{ authorName }}, {{ authorDesignation }}</div>
+        <div class="text-sm font-medium">
+          {{ authorName }}, {{ authorDesignation }}
+        </div>
       </div>
     </div>
   </div>
