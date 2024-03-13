@@ -77,7 +77,9 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
       if lock_to_single_conversation
         conversations.find_by || build_conversation
       else
+        # If lock to single conversation is disabled, we will create a new conversation if previous conversation is resolved
         last_conversation = conversations.order(created_at: :desc).first
+
         last_conversation&.status == 'resolved' ? build_conversation : last_conversation || build_conversation
       end
     end

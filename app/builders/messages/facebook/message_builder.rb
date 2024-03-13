@@ -61,11 +61,8 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
       else
         # If lock to single conversation is disabled, we will create a new conversation if previous conversation is resolved
         last_conversation = Conversation.where(conversation_params).order(created_at: :desc).first
-        if last_conversation&.status == 'resolved'
-          build_conversation
-        else
-          last_conversation
-        end
+
+        last_conversation&.status == 'resolved' ? build_conversation : last_conversation || build_conversation
       end
     end
   end
