@@ -9,7 +9,7 @@ RSpec.describe Contacts::SyncAttributes do
     context 'when contact has neither email/phone number nor social details' do
       it 'does not change contact type' do
         described_class.new(contact).perform
-        expect(contact.reload.contact_type).not_to eq('lead')
+        expect(contact.reload.contact_type).to eq('visitor')
       end
     end
 
