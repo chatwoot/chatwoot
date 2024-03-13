@@ -23,9 +23,9 @@
       "CONVERSATION_ASSIGNMENT": "Foi-lhe atribuída uma conversa",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nova mensagem nesta conversa atribuída",
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Nova mensagem em uma conversa em que você está participando",
-      "SLA_MISSED_FIRST_RESPONSE": "SLA target first response missed for conversation",
-      "SLA_MISSED_NEXT_RESPONSE": "SLA target next response missed for conversation",
-      "SLA_MISSED_RESOLUTION": "SLA target resolution missed for conversation"
+      "SLA_MISSED_FIRST_RESPONSE": "SLA da primeira resposta não atingido na conversa",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA da próxima resposta não atingido na conversa",
+      "SLA_MISSED_RESOLUTION": "SLA de resolução não atingido na conversa"
     },
     "MENU_ITEM": {
       "MARK_AS_READ": "Marcar como lido",
