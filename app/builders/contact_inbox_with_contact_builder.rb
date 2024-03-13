@@ -53,7 +53,7 @@ class ContactInboxWithContactBuilder
       name: contact_attributes[:name] || ::Haikunator.haikunate(1000),
       phone_number: contact_attributes[:phone_number],
       email: contact_attributes[:email],
-      identifier: contact_attributes[:identifier],
+      identifier: contact_attributes[:identifier] || contact_attributes[:additional_attributes][:social_telegram_user_name] || contact_attributes[:additional_attributes][:social_instagram_user_name], ## In case if we will have IG tag also associated with cold messaging
       additional_attributes: contact_attributes[:additional_attributes],
       custom_attributes: contact_attributes[:custom_attributes]
     )
