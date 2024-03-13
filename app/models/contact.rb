@@ -61,6 +61,7 @@ class Contact < ApplicationRecord
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
+  before_save :update_contact_location_and_country_code
 
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
 
@@ -204,6 +205,13 @@ class Contact < ApplicationRecord
   def prepare_jsonb_attributes
     self.additional_attributes = {} if additional_attributes.blank?
     self.custom_attributes = {} if custom_attributes.blank?
+  end
+
+  def update_contact_location_and_country_code
+    # TODO: Ensure that location and country_code are updated from additional_attributes.
+    # We will remove this once all contacts are updated and both the location and country_code fields are standardized throughout the app.
+    self.location = additional_attributes['city']
+    self.country_code = additional_attributes['country']
   end
 
   def dispatch_create_event
