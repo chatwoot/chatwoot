@@ -32,10 +32,6 @@ export default {
     ReportContainer,
   },
   mixins: [reportMixin],
-  accountSummaryKey: {
-    type: String,
-    default: 'getBotSummary',
-  },
   data() {
     return {
       from: 0,
