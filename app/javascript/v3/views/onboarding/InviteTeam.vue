@@ -70,7 +70,7 @@
           size="expanded"
           class="w-full"
           is-expanded
-          @click="skipToFoundersNote"
+          @click="nextStep"
         >
           {{ $t('START_ONBOARDING.INVITE_TEAM.SKIP') }}
         </woot-button>
@@ -80,6 +80,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import FormInput from 'v3/components/Form/Input.vue';
 import SubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue';
 import OnboardingBaseModal from 'v3/views/onboarding/BaseModal.vue';
@@ -101,6 +102,11 @@ export default {
       emailToAdd: '',
     };
   },
+  computed: {
+    ...mapGetters({
+      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
+    }),
+  },
   methods: {
     pushEmail() {
       if (!this.emailToAdd) return;
@@ -112,14 +118,12 @@ export default {
         this.showAlert(this.$t('START_ONBOARDING.INVITE_TEAM.EMAIL_ERROR'));
       }
     },
-    async skipToFoundersNote() {
-      try {
-        await AgentAPI.bulkInvite({ emails: [] });
+    async nextStep() {
+      if (this.isOnChatwootCloud) {
         this.$router.push({ name: 'onboarding_founders_note' });
-      } catch (error) {
-        this.showAlert(this.$t('START_ONBOARDING.INVITE_TEAM.SUBMIT.ERROR'));
+      } else {
+        this.$router.push({ name: 'home' });
       }
-      this.$router.push({ name: 'onboarding_founders_note' });
     },
     async onSubmit() {
       if (this.emailsToInvite.length === 0) {
@@ -132,7 +136,7 @@ export default {
       try {
         await AgentAPI.bulkInvite({ emails: this.emailsToInvite });
         this.showAlert(this.$t('START_ONBOARDING.INVITE_TEAM.SUBMIT.SUCCESS'));
-        this.$router.push({ name: 'onboarding_founders_note' });
+        this.nextStep();
       } catch (error) {
         this.showAlert(this.$t('START_ONBOARDING.INVITE_TEAM.SUBMIT.ERROR'));
       }
