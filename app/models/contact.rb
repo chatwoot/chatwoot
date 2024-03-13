@@ -209,7 +209,7 @@ class Contact < ApplicationRecord
 
   def update_contact_location_and_country_code
     # TODO: Ensure that location and country_code are updated from additional_attributes.
-    # we will remove this after all contacts have been updated and the location field has been standardized across the app.
+    # We will remove this once all contacts are updated and both the location and country_code fields are standardized throughout the app.
     self.location = additional_attributes['city']
     self.country_code = additional_attributes['country']
   end
