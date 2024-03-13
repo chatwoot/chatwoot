@@ -24,6 +24,10 @@ class SearchService
     @search_query ||= params[:q].to_s.strip
   end
 
+  def search_conversation
+    @search_conversation ||= params[:conversation_id]
+  end
+
   def filter_conversations
     @conversations = current_account.conversations.where(inbox_id: accessable_inbox_ids)
                                     .joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
@@ -34,11 +38,20 @@ class SearchService
   end
 
   def filter_messages
-    @messages = current_account.messages.where(inbox_id: accessable_inbox_ids)
+    if search_conversation
+      @messages = current_account.messages.where(inbox_id: accessable_inbox_ids)
+                               .where('messages.content ILIKE :search', search: "%#{search_query}%")
+                               .where(conversation_id: search_conversation)
+                               .where('created_at >= ?', 3.months.ago)
+                               .reorder('created_at DESC')
+                               .limit(10)
+    else
+      @messages = current_account.messages.where(inbox_id: accessable_inbox_ids)
                                .where('messages.content ILIKE :search', search: "%#{search_query}%")
                                .where('created_at >= ?', 3.months.ago)
                                .reorder('created_at DESC')
                                .limit(10)
+    end
   end
 
   def filter_contacts
