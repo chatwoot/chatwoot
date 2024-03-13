@@ -11,34 +11,34 @@
       class="bg-white dark:bg-slate-900 flex flex-col h-[inherit] w-[inherit]"
       @click="onClose"
     >
-      <div class="items-center flex h-16 justify-between py-2 px-6 w-full">
+      <div class="flex items-center justify-between w-full h-16 px-6 py-2">
         <div class="items-center flex justify-start min-w-[15rem]" @click.stop>
           <thumbnail
             :username="senderDetails.name"
             :src="senderDetails.avatar"
           />
           <div
-            class="flex items-start flex-col justify-center ml-2 rtl:ml-0 rtl:mr-2"
+            class="flex flex-col items-start justify-center ml-2 rtl:ml-0 rtl:mr-2"
           >
             <h3 class="text-base inline-block leading-[1.4] m-0 p-0 capitalize">
               <span
-                class="text-slate-800 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis"
+                class="overflow-hidden text-slate-800 dark:text-slate-100 whitespace-nowrap text-ellipsis"
               >
                 {{ senderDetails.name }}
               </span>
             </h3>
             <span
-              class="text-xs m-0 p-0 text-slate-400 dark:text-slate-200 overflow-hidden whitespace-nowrap text-ellipsis"
+              class="p-0 m-0 overflow-hidden text-xs text-slate-400 dark:text-slate-200 whitespace-nowrap text-ellipsis"
             >
               {{ readableTime }}
             </span>
           </div>
         </div>
         <div
-          class="items-center text-slate-700 dark:text-slate-100 flex font-semibold justify-start min-w-0 p-1 w-auto text-sm"
+          class="flex items-center justify-start w-auto min-w-0 p-1 text-sm font-semibold text-slate-700 dark:text-slate-100"
         >
           <span
-            class="text-slate-700 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis"
+            class="overflow-hidden text-slate-700 dark:text-slate-100 whitespace-nowrap text-ellipsis"
           >
             {{ fileNameFromDataUrl }}
           </span>
@@ -53,7 +53,7 @@
             color-scheme="secondary"
             variant="clear"
             icon="zoom-in"
-            @click="onZoom(0.05)"
+            @click="onZoom(0.1)"
           />
           <woot-button
             v-if="isImage"
@@ -61,7 +61,7 @@
             color-scheme="secondary"
             variant="clear"
             icon="zoom-out"
-            @click="onZoom(-0.05)"
+            @click="onZoom(-0.1)"
           />
           <woot-button
             v-if="isImage"
@@ -95,7 +95,7 @@
           />
         </div>
       </div>
-      <div class="items-center flex h-full justify-center w-full">
+      <div class="flex items-center justify-center w-full h-full">
         <div class="flex justify-center min-w-[6.25rem] w-[6.25rem]">
           <woot-button
             v-if="hasMoreThanOneAttachment"
@@ -112,13 +112,13 @@
             "
           />
         </div>
-        <div class="flex items-center flex-col justify-center w-full h-full">
+        <div class="flex flex-col items-center justify-center w-full h-full">
           <div>
             <img
               v-if="isImage"
               :key="activeAttachment.message_id"
               :src="activeAttachment.data_url"
-              class="modal-image skip-context-menu my-0 mx-auto"
+              class="mx-auto my-0 modal-image skip-context-menu"
               :style="imageRotationStyle"
               @click.stop="onClickZoomImage"
               @wheel.stop="onWheelImageZoom"
@@ -129,7 +129,7 @@
               :src="activeAttachment.data_url"
               controls
               playsInline
-              class="modal-video skip-context-menu my-0 mx-auto"
+              class="mx-auto my-0 modal-video skip-context-menu"
               @click.stop
             />
             <audio
@@ -160,7 +160,7 @@
           />
         </div>
       </div>
-      <div class="items-center flex h-16 justify-center w-full py-2 px-6">
+      <div class="flex items-center justify-center w-full h-16 px-6 py-2">
         <div
           class="items-center rounded-sm flex font-semibold justify-center min-w-[5rem] p-1 bg-slate-25 dark:bg-slate-800 text-slate-600 dark:text-slate-200 text-sm"
         >
@@ -190,6 +190,9 @@ const ALLOWED_FILE_TYPES = {
   VIDEO: 'video',
   AUDIO: 'audio',
 };
+
+const MAX_ZOOM_LEVEL = 2;
+const MIN_ZOOM_LEVEL = 1;
 
 export default {
   components: {
@@ -269,7 +272,7 @@ export default {
     imageRotationStyle() {
       return {
         transform: `rotate(${this.activeImageRotation}deg) scale(${this.zoomScale})`,
-        cursor: this.zoomScale < 1.5 ? 'zoom-in' : 'zoom-out',
+        cursor: this.zoomScale < MAX_ZOOM_LEVEL ? 'zoom-in' : 'zoom-out',
       };
     },
   },
@@ -336,19 +339,19 @@ export default {
       }
     },
     onClickZoomImage() {
-      this.onZoom(0.05);
+      this.onZoom(0.1);
     },
     onZoom(scale) {
       if (!this.isImage) {
         return;
       }
-      // Reset zoom scale if it is 1.5
-      if (scale > 0 && this.zoomScale >= 1.5) {
+
+      if (scale > 0 && this.zoomScale >= MAX_ZOOM_LEVEL) {
         this.zoomScale = 1;
         return;
       }
-      // Reset zoom scale if it is 0.5
-      if (scale < 0 && this.zoomScale <= 0.5) {
+
+      if (scale < 0 && this.zoomScale <= MIN_ZOOM_LEVEL) {
         this.zoomScale = 1;
         return;
       }
@@ -358,7 +361,7 @@ export default {
       if (!this.isImage) {
         return;
       }
-      const scale = e.deltaY > 0 ? -0.05 : 0.05;
+      const scale = e.deltaY > 0 ? -0.1 : 0.1;
       this.onZoom(scale);
     },
   },
