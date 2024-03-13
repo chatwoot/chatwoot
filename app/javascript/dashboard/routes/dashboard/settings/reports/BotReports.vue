@@ -8,7 +8,11 @@
     />
 
     <bot-metrics :filters="requestPayload" />
-    <report-container :group-by="groupBy" :report-keys="reportKeys" />
+    <report-container
+      :group-by="groupBy"
+      :report-keys="reportKeys"
+      :account-summary-key="'getBotSummary'"
+    />
   </div>
 </template>
 <script>
@@ -28,6 +32,10 @@ export default {
     ReportContainer,
   },
   mixins: [reportMixin],
+  accountSummaryKey: {
+    type: String,
+    default: 'getBotSummary',
+  },
   data() {
     return {
       from: 0,
@@ -42,7 +50,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      accountSummary: 'getAccountSummary',
       accountReport: 'getAccountReports',
     }),
     requestPayload() {
@@ -54,12 +61,12 @@ export default {
   },
   methods: {
     fetchAllData() {
-      this.fetchAccountSummary();
+      this.fetchBotSummary();
       this.fetchChartData();
     },
-    fetchAccountSummary() {
+    fetchBotSummary() {
       try {
-        this.$store.dispatch('fetchAccountSummary', this.getRequestPayload());
+        this.$store.dispatch('fetchBotSummary', this.getRequestPayload());
       } catch {
         this.showAlert(this.$t('REPORT.SUMMARY_FETCHING_FAILED'));
       }
