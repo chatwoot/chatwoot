@@ -25,7 +25,8 @@
           @blur="$v.credentials.password.$touch"
         />
       </section>
-      <div v-if="globalConfig.hCaptchaSiteKey" class="mb-3">
+      <!-- min height will ensure there is no layout shift -->
+      <div v-if="globalConfig.hCaptchaSiteKey" class="mb-3 min-h-[5rem]">
         <vue-hcaptcha
           ref="hCaptcha"
           :class="{ error: !hasAValidCaptcha && didCaptchaReset }"
