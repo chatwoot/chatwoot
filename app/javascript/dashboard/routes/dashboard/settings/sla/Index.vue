@@ -58,16 +58,6 @@
               </td>
               <td class="button-wrapper">
                 <woot-button
-                  v-tooltip.top="$t('SLA.FORM.EDIT')"
-                  variant="smooth"
-                  size="tiny"
-                  color-scheme="secondary"
-                  class-names="grey-btn"
-                  :is-loading="loading[sla.id]"
-                  icon="edit"
-                  @click="openEditPopup(sla)"
-                />
-                <woot-button
                   v-tooltip.top="$t('SLA.FORM.DELETE')"
                   variant="smooth"
                   color-scheme="alert"
@@ -91,10 +81,6 @@
       <add-SLA @close="hideAddPopup" />
     </woot-modal>
 
-    <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
-      <edit-SLA :selected-response="selectedResponse" @close="hideEditPopup" />
-    </woot-modal>
-
     <woot-delete-modal
       :show.sync="showDeleteConfirmationPopup"
       :on-close="closeDeletePopup"
@@ -112,20 +98,17 @@ import { mapGetters } from 'vuex';
 import { convertSecondsToTimeUnit } from '@chatwoot/utils';
 
 import AddSLA from './AddSLA.vue';
-import EditSLA from './EditSLA.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     AddSLA,
-    EditSLA,
   },
   mixins: [alertMixin],
   data() {
     return {
       loading: {},
       showAddPopup: false,
-      showEditPopup: false,
       showDeleteConfirmationPopup: false,
       selectedResponse: {},
     };
@@ -154,13 +137,6 @@ export default {
     },
     hideAddPopup() {
       this.showAddPopup = false;
-    },
-    openEditPopup(response) {
-      this.showEditPopup = true;
-      this.selectedResponse = response;
-    },
-    hideEditPopup() {
-      this.showEditPopup = false;
     },
     openDeletePopup(response) {
       this.showDeleteConfirmationPopup = true;
