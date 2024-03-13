@@ -136,14 +136,14 @@ export default {
       return [...timeZoneOptions()];
     },
     accountAttributes() {
-      const attributes = this.accountDetails.custom_attributes;
-      return {
-        companyName: this.accountDetails.name,
-        locale: this.accountDetails.locale,
-        companySize: attributes.company_size,
-        industry: attributes.industry,
-        timezone: attributes.timezone,
-      };
+      const { name: companyName, locale } = this.accountDetails;
+      const {
+        company_size: companySize,
+        industry,
+        timezone,
+      } = this.accountDetails.custom_attributes || {};
+
+      return { companyName, locale, companySize, industry, timezone };
     },
   },
 
