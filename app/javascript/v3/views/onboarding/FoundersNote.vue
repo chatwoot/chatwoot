@@ -19,24 +19,29 @@
         <p
           class="text-xs tracking-widest uppercase text-slate-600 dark:text-slate-200"
         >
-          a note from the founder
+          {{ $t('START_ONBOARDING.FOUNDERS_NOTE.TITLE') }}
         </p>
         <h3 class="text-3xl font-semibold text-slate-900 dark:text-white">
-          Hey {{ userName }},
+          {{
+            $t('START_ONBOARDING.FOUNDERS_NOTE.NOTE.HEY', {
+              name: userName,
+            })
+          }}
         </h3>
       </div>
       <div class="space-y-3">
         <p>
-          I'm Pranav, one of the co-founders at Chatwoot. Thanks for checking
-          out Chatwoot. We're eager to understand your needs and expectations.
+          {{ $t('START_ONBOARDING.FOUNDERS_NOTE.NOTE.PARAGRAPH_1') }}
         </p>
         <p>
-          If you are facing trouble using the app or achieving your use case, we
-          want to help you as quickly as possible.
+          {{ $t('START_ONBOARDING.FOUNDERS_NOTE.NOTE.PARAGRAPH_2') }}
         </p>
         <p>
-          Feel free to schedule a call with our team. We are open to your
-          feedback. Talk soon!
+          {{
+            $t('START_ONBOARDING.FOUNDERS_NOTE.NOTE.PARAGRAPH_3', {
+              scheduleLink: 'https://www.chatwoot.com/request-a-demo',
+            })
+          }}
         </p>
       </div>
       <figure class="text-sm leading-relaxed text-slate-900 dark:text-white">
@@ -44,7 +49,9 @@
           src="/assets/images/dashboard/onboarding/pranav-square.png"
           username="Pranav"
         />
-        <p class="mt-2">Pranav, <br />Co-founder & CEO, Chatwoot</p>
+        <p class="mt-2">
+          {{ $t('START_ONBOARDING.FOUNDERS_NOTE.NOTE.SIGNATURE') }}
+        </p>
       </figure>
       <submit-button
         button-class="flex justify-center w-full text-sm text-center"

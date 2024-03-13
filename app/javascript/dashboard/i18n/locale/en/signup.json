@@ -121,6 +121,13 @@
       }
     },
     "FOUNDERS_NOTE": {
+      "NOTE": {
+        "HEY": "Hey {name},",
+        "PARAGRAPH_1": "I'm Pranav, one of the co-founders at Chatwoot. Thanks for checking out Chatwoot. We're eager to understand your needs and expectations.",
+        "PARAGRAPH_2": "If you are facing trouble using the app or achieving your use case, we want to help you as quickly as possible.",
+        "PARAGRAPH_3": "Feel free to <a href=\"{scheduleLink}\">schedule a call</a> with our team. We are open to your feedback. Talk soon!",
+        "SIGNATURE": "Pranav, <br />Co-founder & CEO, Chatwoot"
+      },
       "TITLE": "A note from the founder",
       "SUBMIT": "Go to dashboard"
     }
