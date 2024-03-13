@@ -44,6 +44,16 @@ describe('#getters', () => {
     ]);
   });
 
+  it('getNotificationById', () => {
+    const state = {
+      records: {
+        1: { id: 1 },
+      },
+    };
+    expect(getters.getNotificationById(state)(1)).toEqual({ id: 1 });
+    expect(getters.getNotificationById(state)(2)).toEqual({});
+  });
+
   it('getUIFlags', () => {
     const state = {
       uiFlags: {
