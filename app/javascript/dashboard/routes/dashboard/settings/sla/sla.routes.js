@@ -10,7 +10,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'SLA.HEADER',
-        icon: 'tag',
+        icon: 'document-list-clock',
         showNewButton: true,
       },
       children: [
