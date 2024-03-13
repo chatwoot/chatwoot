@@ -3,7 +3,7 @@
     <form class="space-y-8" @submit.prevent="submit">
       <section class="space-y-3">
         <form-input
-          v-model.trim="credentials.email"
+          v-model="credentials.email"
           type="email"
           name="email_address"
           :class="{ error: $v.credentials.email.$error }"
@@ -14,7 +14,7 @@
           @blur="$v.credentials.email.$touch"
         />
         <form-input
-          v-model.trim="credentials.password"
+          v-model="credentials.password"
           type="password"
           name="password"
           :class="{ error: $v.credentials.password.$error }"
