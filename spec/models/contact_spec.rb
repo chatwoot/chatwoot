@@ -85,7 +85,7 @@ RSpec.describe Contact do
       expect(contact.country_code).to eq 'US'
     end
   end
-  
+
   context 'when a contact is created' do
     it 'has contact type "visitor" by default' do
       contact = create(:contact)
