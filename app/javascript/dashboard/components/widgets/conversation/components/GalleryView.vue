@@ -118,7 +118,7 @@
               v-if="isImage"
               :key="activeAttachment.message_id"
               :src="activeAttachment.data_url"
-              class="mx-auto my-0 modal-image skip-context-menu"
+              class="mx-auto my-0 duration-150 ease-in-out transform modal-image skip-context-menu"
               :style="imageRotationStyle"
               @click.stop="onClickZoomImage"
               @wheel.stop="onWheelImageZoom"
