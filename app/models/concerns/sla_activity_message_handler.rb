@@ -18,4 +18,14 @@ module SlaActivityMessageHandler
   def sla_policy_name
     SlaPolicy.find_by(id: sla_policy_id)&.name || ''
   end
+
+  def determine_sla_change_type
+    sla_policy_id_before, sla_policy_id_after = previous_changes[:sla_policy_id]
+
+    if sla_policy_id_before.nil? && sla_policy_id_after.present?
+      'added'
+    elsif sla_policy_id_before.present? && sla_policy_id_after.nil?
+      'removed'
+    end
+  end
 end
