@@ -106,7 +106,7 @@ pt:
       conversation_assignment: "A conversa (#%{display_id}) foi-lhe atribuída"
       assigned_conversation_new_message: "Foi criada uma mensagem nova na conversa (#%{display_id})"
       conversation_mention: "Foi mencionado na conversa (#%{display_id})"
-      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
+      sla_missed_first_response: "SLA da primeira resposta não atingido na conversa (#%{display_id})"
       sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
       sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
     attachment: "Anexo"
