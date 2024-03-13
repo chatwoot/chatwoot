@@ -206,7 +206,7 @@ class Contact < ApplicationRecord
     self.additional_attributes = {} if additional_attributes.blank?
     self.custom_attributes = {} if custom_attributes.blank?
   end
-
+  
   def sync_contact_attributes
     ::Contacts::SyncAttributes.new(self).perform
   end
