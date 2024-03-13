@@ -160,7 +160,7 @@ const settings = accountId => ({
       beta: true,
     },
     {
-      icon: 'key',
+      icon: 'document-list-clock',
       label: 'SLA',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/sla/list`),
