@@ -24,7 +24,6 @@ class SlaPolicy < ApplicationRecord
   has_many :conversations, dependent: :nullify
   has_many :applied_slas, dependent: :destroy
 
-
   def push_event_data
     {
       id: id,
