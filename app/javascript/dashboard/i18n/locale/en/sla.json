@@ -61,6 +61,19 @@
         "SUCCESS_MESSAGE": "SLA updated successfully",
         "ERROR_MESSAGE": "There was an error, please try again"
       }
+    },
+    "DELETE": {
+      "TITLE": "Delete SLA",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
+        "ERROR_MESSAGE": "There was an error, please try again"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirm Deletion",
+        "MESSAGE": "Are you sure you want to delete ",
+        "YES": "Yes, Delete ",
+        "NO": "No, Keep "
+      }
     }
   }
 }

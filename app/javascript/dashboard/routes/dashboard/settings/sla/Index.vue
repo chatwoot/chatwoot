@@ -67,6 +67,16 @@
                   icon="edit"
                   @click="openEditPopup(sla)"
                 />
+                <woot-button
+                  v-tooltip.top="$t('SLA.FORM.DELETE')"
+                  variant="smooth"
+                  color-scheme="alert"
+                  size="tiny"
+                  icon="dismiss-circle"
+                  class-names="grey-btn"
+                  :is-loading="loading[sla.id]"
+                  @click="openDeletePopup(sla)"
+                />
               </td>
             </tr>
           </tbody>
@@ -84,6 +94,17 @@
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
       <edit-SLA :selected-response="selectedResponse" @close="hideEditPopup" />
     </woot-modal>
+
+    <woot-delete-modal
+      :show.sync="showDeleteConfirmationPopup"
+      :on-close="closeDeletePopup"
+      :on-confirm="confirmDeletion"
+      :title="$t('SLA.DELETE.CONFIRM.TITLE')"
+      :message="$t('SLA.DELETE.CONFIRM.MESSAGE')"
+      :message-value="deleteMessage"
+      :confirm-text="deleteConfirmText"
+      :reject-text="deleteRejectText"
+    />
   </div>
 </template>
 <script>
@@ -105,6 +126,7 @@ export default {
       loading: {},
       showAddPopup: false,
       showEditPopup: false,
+      showDeleteConfirmationPopup: false,
       selectedResponse: {},
     };
   },
@@ -113,6 +135,15 @@ export default {
       records: 'sla/getSLA',
       uiFlags: 'sla/getUIFlags',
     }),
+    deleteConfirmText() {
+      return this.$t('SLA.DELETE.CONFIRM.YES');
+    },
+    deleteRejectText() {
+      return this.$t('SLA.DELETE.CONFIRM.NO');
+    },
+    deleteMessage() {
+      return ` ${this.selectedResponse.name}`;
+    },
   },
   mounted() {
     this.$store.dispatch('sla/get');
@@ -130,6 +161,31 @@ export default {
     },
     hideEditPopup() {
       this.showEditPopup = false;
+    },
+    openDeletePopup(response) {
+      this.showDeleteConfirmationPopup = true;
+      this.selectedResponse = response;
+    },
+    closeDeletePopup() {
+      this.showDeleteConfirmationPopup = false;
+    },
+    confirmDeletion() {
+      this.loading[this.selectedResponse.id] = true;
+      this.closeDeletePopup();
+      this.deleteSla(this.selectedResponse.id);
+    },
+    deleteSla(id) {
+      this.$store
+        .dispatch('sla/delete', id)
+        .then(() => {
+          this.showAlert(this.$t('SLA.DELETE.API.SUCCESS_MESSAGE'));
+        })
+        .catch(() => {
+          this.showAlert(this.$t('SLA.DELETE.API.ERROR_MESSAGE'));
+        })
+        .finally(() => {
+          this.loading[this.selectedResponse.id] = false;
+        });
     },
     displayTime(threshold) {
       const { time, unit } = convertSecondsToTimeUnit(threshold, {

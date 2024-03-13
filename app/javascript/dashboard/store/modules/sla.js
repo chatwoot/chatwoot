@@ -62,6 +62,19 @@ export const actions = {
       commit(types.SET_SLA_UI_FLAG, { isUpdating: false });
     }
   },
+
+  delete: async function deleteSla({ commit }, id) {
+    commit(types.SET_SLA_UI_FLAG, { isDeleting: true });
+    try {
+      await SlaAPI.delete(id);
+      AnalyticsHelper.track(SLA_EVENTS.DELETED);
+      commit(types.DELETE_SLA, id);
+    } catch (error) {
+      throwErrorMessage(error);
+    } finally {
+      commit(types.SET_SLA_UI_FLAG, { isDeleting: false });
+    }
+  },
 };
 
 export const mutations = {
@@ -75,6 +88,7 @@ export const mutations = {
   [types.SET_SLA]: MutationHelpers.set,
   [types.ADD_SLA]: MutationHelpers.create,
   [types.EDIT_SLA]: MutationHelpers.update,
+  [types.DELETE_SLA]: MutationHelpers.destroy,
 };
 
 export default {
