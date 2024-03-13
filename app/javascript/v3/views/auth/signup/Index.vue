@@ -1,32 +1,32 @@
 <template>
-  <div class="flex h-full w-full dark:bg-slate-900 overflow-hidden">
+  <div class="flex w-full h-full overflow-hidden dark:bg-slate-900">
     <div
-      class="flex flex-col bg-white dark:bg-slate-800 px-8 sm:px-16 pt-8 pb-16 w-full md:w-2/5 items-center justify-center"
+      class="flex flex-col items-center justify-center w-full px-8 pt-8 pb-16 bg-white dark:bg-slate-800 sm:px-16 md:w-2/5"
     >
       <div class="mx-auto mb-16">
         <img
           :src="globalConfig.logo"
           :alt="globalConfig.installationName"
-          class="h-8 block"
+          class="block h-8"
           :class="{ 'dark:hidden': globalConfig.logoDark }"
         />
         <img
           v-if="globalConfig.logoDark"
           :src="globalConfig.logoDark"
           :alt="globalConfig.installationName"
-          class="h-8 w-auto hidden dark:block"
+          class="hidden w-auto h-8 dark:block"
         />
       </div>
       <div class="mb-8">
         <h2
-          class="text-center text-3xl tracking-wide font-medium text-slate-900 dark:text-woot-50"
+          class="text-3xl font-medium tracking-wide text-center text-slate-900 dark:text-woot-50"
         >
           {{ $t('REGISTER.TRY_WOOT') }}
         </h2>
       </div>
       <signup-form class="max-w-[420px]" />
     </div>
-    <div class="hidden md:block w-3/5 h-screen">
+    <div class="hidden w-3/5 h-screen md:block">
       <testimonials
         v-if="isAChatwootInstance"
         class="flex-1"
@@ -34,9 +34,9 @@
       />
       <div
         v-show="isLoading"
-        class="flex items-center justify-center h-full w-full"
+        class="flex items-center justify-center w-full h-full"
       >
-        <spinner color-scheme="primary" size="" />
+        <spinner color-scheme="primary" />
       </div>
     </div>
   </div>
