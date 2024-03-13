@@ -5,10 +5,6 @@ require 'rails_helper'
 require Rails.root.join 'spec/models/concerns/avatarable_shared.rb'
 
 RSpec.describe Contact do
-  before do
-    stub_request(:post, /graph\.facebook\.com/)
-  end
-
   context 'with validations' do
     it { is_expected.to validate_presence_of(:account_id) }
   end
