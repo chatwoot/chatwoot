@@ -85,12 +85,12 @@ export default {
       this.showQuotedContent = !this.showQuotedContent;
     },
     handleClickOnContent(event) {
-      // if event target is IMG and not wrapped with A tag
+      // if event target is IMG and not close in A tag
       // then open image preview
-      if (
-        event.target.tagName === 'IMG' &&
-        event.target.parentElement.tagName !== 'A'
-      ) {
+      const isImageElement = event.target.tagName === 'IMG';
+      const isWrappedInLink = event.target.closest('A');
+
+      if (isImageElement && !isWrappedInLink) {
         this.openImagePreview(event.target.src);
       }
     },
