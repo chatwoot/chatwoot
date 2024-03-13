@@ -8,11 +8,14 @@
   >
     <div
       v-on-clickaway="onClose"
-      class="bg-white dark:bg-slate-900 flex flex-col h-[inherit] w-[inherit]"
+      class="bg-white dark:bg-slate-900 flex flex-col h-[inherit] w-[inherit] overflow-hidden"
       @click="onClose"
     >
-      <div class="flex items-center justify-between w-full h-16 px-6 py-2">
-        <div class="items-center flex justify-start min-w-[15rem]" @click.stop>
+      <div
+        class="bg-white dark:bg-slate-900 z-10 flex items-center justify-between w-full h-16 px-6 py-2"
+        @click.stop
+      >
+        <div class="items-center flex justify-start min-w-[15rem]">
           <thumbnail
             :username="senderDetails.name"
             :src="senderDetails.avatar"
@@ -45,7 +48,6 @@
         </div>
         <div
           class="items-center flex gap-2 justify-end min-w-[8rem] sm:min-w-[15rem]"
-          @click.stop
         >
           <woot-button
             v-if="isImage"
@@ -99,6 +101,7 @@
         <div class="flex justify-center min-w-[6.25rem] w-[6.25rem]">
           <woot-button
             v-if="hasMoreThanOneAttachment"
+            class="z-10"
             size="large"
             variant="smooth"
             color-scheme="primary"
@@ -146,6 +149,7 @@
         <div class="flex justify-center min-w-[6.25rem] w-[6.25rem]">
           <woot-button
             v-if="hasMoreThanOneAttachment"
+            class="z-10"
             size="large"
             variant="smooth"
             color-scheme="primary"
@@ -290,6 +294,7 @@ export default {
       this.activeImageIndex = index;
       this.setImageAndVideoSrc(attachment);
       this.activeImageRotation = 0;
+      this.zoomScale = 1;
     },
     setImageAndVideoSrc(attachment) {
       const { file_type: type } = attachment;
@@ -346,17 +351,22 @@ export default {
         return;
       }
 
-      if (scale > 0 && this.zoomScale >= MAX_ZOOM_LEVEL) {
-        this.zoomScale = 1;
+      const newZoomScale = this.zoomScale + scale;
+      // Check if the new zoom scale is within the allowed range
+      if (newZoomScale > MAX_ZOOM_LEVEL) {
+        // Set zoom to max but do not reset to default
+        this.zoomScale = MAX_ZOOM_LEVEL;
         return;
       }
-
-      if (scale < 0 && this.zoomScale <= MIN_ZOOM_LEVEL) {
-        this.zoomScale = 1;
+      if (newZoomScale < MIN_ZOOM_LEVEL) {
+        // Set zoom to min but do not reset to default
+        this.zoomScale = MIN_ZOOM_LEVEL;
         return;
       }
-      this.zoomScale += scale;
+      // If within bounds, update the zoom scale
+      this.zoomScale = newZoomScale;
     },
+
     onWheelImageZoom(e) {
       if (!this.isImage) {
         return;
