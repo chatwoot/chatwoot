@@ -1,7 +1,7 @@
 <template>
   <div
     role="button"
-    class="flex flex-col ltr:pl-5 rtl:pl-3 rtl:pr-5 ltr:pr-3 gap-2.5 py-3 w-full border-b border-slate-50 dark:border-slate-800/50 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
+    class="flex flex-col ltr:pl-5 rtl:pl-4 rtl:pr-5 ltr:pr-4 gap-2.5 py-3 w-full border-b border-slate-50 dark:border-slate-800/50 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
     :class="
       active
         ? 'bg-slate-25 dark:bg-slate-800 click-animation'
@@ -11,7 +11,7 @@
     @click="openConversation(notificationItem)"
   >
     <div
-      class="flex flex-row justify-between relative items-center w-full gap-2"
+      class="flex flex-row justify-between relative items-center w-full gap-1.5"
     >
       <div
         v-if="isUnread"
@@ -24,7 +24,7 @@
         size="16px"
       />
       <span
-        class="flex-1 text-slate-800 dark:text-slate-50 text-sm overflow-hidden text-ellipsis whitespace-nowrap"
+        class="flex-1 text-slate-900 dark:text-white text-sm overflow-hidden text-ellipsis whitespace-nowrap"
         :class="isUnread ? 'font-medium' : 'font-normal'"
       >
         {{ pushTitle }}
@@ -37,12 +37,12 @@
     >
       <div
         v-if="snoozedUntilTime || hasLastSnoozed"
-        class="flex flex-row flex-1 gap-1 items-center"
+        class="flex flex-row flex-1 gap-1 items-center w-3/4"
       >
         <fluent-icon
           :icon="hasLastSnoozed ? 'snooze-timer' : 'sharp-timer'"
           type="outline"
-          class="text-woot-500 dark:text-woot-500"
+          class="text-woot-500 dark:text-woot-500 flex-shrink-0"
           size="16"
         />
         <span
@@ -79,7 +79,7 @@
         <PriorityIcon :priority="primaryActor.priority" />
         <StatusIcon :status="primaryActor.status" />
         <span
-          class="font-medium text-slate-600 dark:text-slate-300 text-xs whitespace-nowrap"
+          class="font-medium text-slate-500 dark:text-slate-400 text-xs whitespace-nowrap"
         >
           {{ lastActivityAt }}
         </span>
@@ -182,7 +182,7 @@ export default {
       const dynamicTime = this.dynamicTime(
         this.notificationItem?.last_activity_at
       );
-      return this.shortTimestamp(dynamicTime, true);
+      return this.shortTimestamp(dynamicTime);
     },
     menuItems() {
       const items = [

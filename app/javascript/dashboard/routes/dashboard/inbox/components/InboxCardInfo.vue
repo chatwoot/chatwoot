@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex items-center w-auto justify-start rounded-[4px] border border-slate-100 dark:border-slate-700/50 divide-x divide-slate-100 dark:divide-slate-700/50 bg-none overflow-hidden"
+    class="flex items-center w-auto justify-start rounded-[4px] border border-slate-75 dark:border-slate-700/50 divide-x divide-slate-75 dark:divide-slate-700/50 bg-none overflow-hidden"
   >
     <!-- Inbox icon -->
     <div
@@ -19,7 +19,7 @@
 
     <!-- Conversation ID -->
     <span
-      class="flex items-center py-0.5 px-1.5 font-medium text-slate-600 dark:text-slate-200 text-xs"
+      class="flex items-center py-0.5 px-1.5 font-medium text-slate-700 dark:text-slate-200 text-xs"
     >
       {{ conversationId }}
     </span>
@@ -37,6 +37,7 @@
         class="flex-shrink-0 w-2 h-2 rounded-sm"
       />
       <span
+        :title="label.title"
         class="text-xs font-medium truncate text-slate-700 dark:text-slate-200"
       >
         {{ label.title }}
@@ -62,7 +63,7 @@ const MAX_LABELS = 6;
 const MIN_LABELS = 1;
 
 const BASE_WIDTH = 380;
-const TOTAL_PADDING = 32;
+const TOTAL_PADDING = 36;
 const EFFECTIVE_WIDTH = BASE_WIDTH - TOTAL_PADDING;
 
 // 24 is the padding + gap + label color width
