@@ -10,68 +10,49 @@ const daysOfWeek = [
 
 // Function to find the next available time
 const findNextAvailableTime = (
-  working_hours,
+  workingHours,
   currentDayOfWeek,
   currentHour,
   currentMinutes
 ) => {
+  let nextAvailableDays = [];
   let nextAvailableTime = null;
 
   // Find the next available time for today
-  const todayHours = working_hours.filter(
-    hours =>
-      hours.day_of_week === currentDayOfWeek &&
-      !hours.closed_all_day &&
-      (hours.open_hour > currentHour ||
-        (hours.open_hour === currentHour &&
-          hours.open_minutes > currentMinutes))
+  const nextAvailableTimeToday = workingHours.find(
+    workingHour =>
+      currentDayOfWeek === workingHour.day_of_week &&
+      !workingHour.closed_all_day &&
+      (currentHour < workingHour.close_hour ||
+        (currentHour === workingHour.close_hour &&
+          currentMinutes < workingHour.close_minutes))
   );
 
-  // Loop through today's hours to find the earliest available time
-  todayHours.forEach(hours => {
-    if (
-      nextAvailableTime === null ||
-      hours.open_hour < nextAvailableTime.hour ||
-      (hours.open_hour === nextAvailableTime.hour &&
-        hours.open_minutes < nextAvailableTime.minutes)
-    ) {
-      nextAvailableTime = {
-        hour: hours.open_hour,
-        minutes: hours.open_minutes,
-        day: 'today',
-      };
-    }
-  });
+  if (nextAvailableTimeToday) {
+    nextAvailableTime = {
+      hour: nextAvailableTimeToday.open_hour,
+      minutes: nextAvailableTimeToday.open_minutes,
+      day: 'today',
+    };
+  }
 
   // If no available time for today, find the next available time for the next day(s)
   if (nextAvailableTime === null) {
-    let nextDaysHours = working_hours.filter(
-      hours => hours.day_of_week > currentDayOfWeek && !hours.closed_all_day
-    );
+    nextAvailableDays = workingHours.filter(hours => !hours.closed_all_day);
 
-    // If there are no available hours for the next day, consider hours for the following days
-    if (nextDaysHours.length === 0) {
-      nextDaysHours = working_hours.filter(
-        hours => hours.day_of_week < currentDayOfWeek && !hours.closed_all_day
-      );
-    }
-
-    // Find the earliest available time among the next day(s)
-    let nextDay = null;
     for (let i = 0; i < 7; i += 1) {
-      nextDay = nextDaysHours.find(hours => hours.day_of_week === i);
+      const nextDayIndex = (currentDayOfWeek + 1 + i) % 7;
+      const nextDay = nextAvailableDays.find(
+        hours => hours.day_of_week === nextDayIndex
+      );
       if (nextDay) {
+        nextAvailableTime = {
+          hour: nextDay.open_hour,
+          minutes: nextDay.open_minutes,
+          day: nextDay.day_of_week,
+        };
         break;
       }
-    }
-
-    // If there's an available time for the next day(s), set it as next available time
-    if (nextDay) {
-      nextAvailableTime = {
-        hour: nextDay.open_hour,
-        minutes: nextDay.open_minutes,
-        day: nextDay.day_of_week,
-      };
     }
   }
 
@@ -79,12 +60,12 @@ const findNextAvailableTime = (
 };
 
 // Function to get the next availability message
-export const getNextAvailabilityMessage = (working_hours, currentTime) => {
+export const getNextAvailabilityMessage = (workingHours, currentTime) => {
   const currentDayOfWeek = currentTime.getDay(); // 0 for Sunday, 1 for Monday, ...
   const currentHour = currentTime.getHours();
   const currentMinutes = currentTime.getMinutes();
   const nextAvailableTime = findNextAvailableTime(
-    working_hours,
+    workingHours,
     currentDayOfWeek,
     currentHour,
     currentMinutes

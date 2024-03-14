@@ -35,7 +35,7 @@ describe('getNextAvailabilityMessage function', () => {
       inbox_id: 2,
       account_id: 1,
       day_of_week: 2,
-      closed_all_day: false,
+      closed_all_day: true,
       open_hour: 15,
       open_minutes: 0,
       close_hour: 23,
@@ -103,23 +103,27 @@ describe('getNextAvailabilityMessage function', () => {
   ];
 
   test('returns correct message for less than a minute', () => {
-    jest.useFakeTimers('modern').setSystemTime(new Date('2024-03-14T14:59:00'));
     const lessThanMinute = new Date('2024-03-14T14:59:59'); // Current time + 59 seconds
     expect(getNextAvailabilityMessage(working_hours, lessThanMinute)).toBe(
       'We will be back online in less than a minute.'
     );
   });
 
+  test('returns correct message for less than 10 minutes', () => {
+    const lessThan10Minutes = new Date('2024-03-14T14:50:00'); // Current time + 9 minutes
+    expect(getNextAvailabilityMessage(working_hours, lessThan10Minutes)).toBe(
+      'We will be back online in 10 minutes.'
+    );
+  });
+
   test('returns minutes message for less than an hour', () => {
-    jest.useFakeTimers('modern').setSystemTime(new Date('2024-03-14T14:45:00'));
     const lessThanHour = new Date('2024-03-14T14:45:00'); // Current time + 30 minutes
     expect(getNextAvailabilityMessage(working_hours, lessThanHour)).toBe(
       'We will be back online in 15 minutes.'
     );
   });
 
-  test('returns correct message for greater than an hour', () => {
-    jest.useFakeTimers('modern').setSystemTime(new Date('2024-03-14T12:00:00'));
+  test('returns correct message for greater than 2 hours', () => {
     const lessThanHour = new Date('2024-03-14T12:30:00'); // Current time + 30 minutes
     expect(getNextAvailabilityMessage(working_hours, lessThanHour)).toBe(
       'We will be back online in 2 hours'
@@ -127,7 +131,6 @@ describe('getNextAvailabilityMessage function', () => {
   });
 
   test('returns correct message for next day', () => {
-    jest.useFakeTimers('modern').setSystemTime(new Date('2024-03-14T00:00:00'));
     const nextDay = new Date('2024-03-14T00:00:00'); // Next day
     working_hours[4].closed_all_day = true;
     expect(getNextAvailabilityMessage(working_hours, nextDay)).toBe(
@@ -136,12 +139,25 @@ describe('getNextAvailabilityMessage function', () => {
   });
 
   test('returns correct message for specific day', () => {
-    jest.useFakeTimers('modern').setSystemTime(new Date('2024-03-14T00:00:00'));
     const specificDay = new Date('2024-03-14T00:00:00'); // Next day
     working_hours[4].closed_all_day = true;
     working_hours[5].closed_all_day = true;
     expect(getNextAvailabilityMessage(working_hours, specificDay)).toBe(
       'We will be back online on Saturday'
+    );
+  });
+
+  test('returns correct message for next week', () => {
+    const nextWeek = new Date('2024-03-21T21:00:00'); // Next day
+    working_hours[5].closed_all_day = true;
+    working_hours[6].closed_all_day = true;
+    working_hours[0].closed_all_day = true;
+    working_hours[1].closed_all_day = true;
+    working_hours[2].closed_all_day = true;
+    working_hours[3].closed_all_day = true;
+    working_hours[4].closed_all_day = false;
+    expect(getNextAvailabilityMessage(working_hours, nextWeek)).toBe(
+      'We will be back online on Thursday'
     );
   });
 
