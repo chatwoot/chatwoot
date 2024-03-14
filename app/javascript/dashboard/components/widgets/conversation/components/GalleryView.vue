@@ -45,10 +45,9 @@
           class="flex items-center justify-start w-auto min-w-0 p-1 text-sm font-semibold text-slate-700 dark:text-slate-100"
         >
           <span
+            v-dompurify-html="fileNameFromDataUrl"
             class="overflow-hidden text-slate-700 dark:text-slate-100 whitespace-nowrap text-ellipsis"
-          >
-            {{ fileNameFromDataUrl }}
-          </span>
+          />
         </div>
         <div
           class="items-center flex gap-2 justify-end min-w-[8rem] sm:min-w-[15rem]"
@@ -272,7 +271,7 @@ export default {
       const { data_url: dataUrl } = this.activeAttachment;
       if (!dataUrl) return '';
       const fileName = dataUrl?.split('/').pop();
-      return fileName || '';
+      return decodeURIComponent(fileName || '');
     },
     imageRotationStyle() {
       return {
