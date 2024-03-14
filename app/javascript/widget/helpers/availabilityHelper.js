@@ -8,6 +8,7 @@ const daysOfWeek = [
   'Saturday',
 ];
 
+// Function to find the next available time
 const findNextAvailableTime = (
   working_hours,
   currentDayOfWeek,
@@ -26,6 +27,7 @@ const findNextAvailableTime = (
           hours.open_minutes > currentMinutes))
   );
 
+  // Loop through today's hours to find the earliest available time
   todayHours.forEach(hours => {
     if (
       nextAvailableTime === null ||
@@ -41,7 +43,7 @@ const findNextAvailableTime = (
     }
   });
 
-  // If not found, find the next available time for the next day(s)
+  // If no available time for today, find the next available time for the next day(s)
   if (nextAvailableTime === null) {
     let nextDaysHours = working_hours.filter(
       hours => hours.day_of_week > currentDayOfWeek && !hours.closed_all_day
@@ -54,15 +56,16 @@ const findNextAvailableTime = (
       );
     }
 
+    // Find the earliest available time among the next day(s)
     let nextDay = null;
-
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 7; i += 1) {
       nextDay = nextDaysHours.find(hours => hours.day_of_week === i);
       if (nextDay) {
         break;
       }
     }
 
+    // If there's an available time for the next day(s), set it as next available time
     if (nextDay) {
       nextAvailableTime = {
         hour: nextDay.open_hour,
@@ -75,6 +78,7 @@ const findNextAvailableTime = (
   return nextAvailableTime;
 };
 
+// Function to get the next availability message
 export const getNextAvailabilityMessage = (working_hours, currentTime) => {
   const currentDayOfWeek = currentTime.getDay(); // 0 for Sunday, 1 for Monday, ...
   const currentHour = currentTime.getHours();
@@ -94,14 +98,17 @@ export const getNextAvailabilityMessage = (working_hours, currentTime) => {
       (currentHour * 60 + currentMinutes);
     const differenceInHours = Math.floor(differenceInMinutes / 60);
 
-    const nextDayOfWeek = nextAvailableTime.day;
-    if (nextDayOfWeek === currentDayOfWeek + 1) {
+    // Check if the next available time is tomorrow
+    if (nextAvailableTime.day === currentDayOfWeek + 1) {
       return `We will be back online tomorrow`;
     }
 
+    // Check if the next available time is on a specific day
     if (nextAvailableTime.day !== 'today') {
-      return `We will be back online on ${daysOfWeek[nextDayOfWeek]}`;
+      return `We will be back online on ${daysOfWeek[nextAvailableTime.day]}`;
     }
+
+    // Generate appropriate message based on time difference
     if (differenceInMinutes <= 1) {
       return 'We will be back online in less than a minute.';
     }
