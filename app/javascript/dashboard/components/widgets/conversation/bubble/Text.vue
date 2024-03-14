@@ -28,10 +28,10 @@
       </span>
     </button>
     <gallery-view
-      v-if="show"
-      :show.sync="show"
+      v-if="showGalleryViewer"
+      :show.sync="showGalleryViewer"
       :attachment="attachment"
-      :all-attachments="allAttachments"
+      :all-attachments="availableAttachments"
       @error="onClose"
       @close="onClose"
     />
@@ -61,9 +61,9 @@ export default {
   data() {
     return {
       showQuotedContent: false,
-      show: false,
-      attachment: this.createDummyAttachment(),
-      allAttachments: [],
+      showGalleryViewer: false,
+      attachment: null,
+      availableAttachments: [],
     };
   },
   computed: {
@@ -95,25 +95,21 @@ export default {
       }
     },
     openImagePreview(src) {
-      this.show = true;
-      this.attachment.data_url = src;
-      this.allAttachments = [{ ...this.attachment }];
+      this.showGalleryViewer = true;
+      this.attachment = {
+        file_type: 'image',
+        data_url: src,
+        message_id: Math.floor(Math.random() * 100),
+      };
+      this.availableAttachments = [{ ...this.attachment }];
     },
     onClose() {
       this.show = false;
-      this.resetAttachments();
+      this.resetAttachmentData();
     },
-    createDummyAttachment() {
-      return {
-        file_type: 'image',
-        data_url: '', // Only real data
-        message_id: Math.floor(Math.random() * 100),
-        created_at: null,
-      };
-    },
-    resetAttachments() {
-      this.attachment = this.createDummyAttachment();
-      this.allAttachments = [];
+    resetAttachmentData() {
+      this.attachment = null;
+      this.availableAttachments = [];
     },
   },
 };
@@ -126,6 +122,7 @@ export default {
   ol {
     padding-left: var(--space-two);
   }
+
   table {
     margin: 0;
     border: 0;
