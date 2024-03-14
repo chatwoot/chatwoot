@@ -25,7 +25,8 @@ export default {
       const { workingHoursEnabled } = this.channelConfig;
       const nextAvailabilityMessage = getNextAvailabilityMessage(
         this.channelConfig.workingHours,
-        new Date()
+        new Date(),
+        this.channelConfig.timezone
       );
       if (workingHoursEnabled) {
         return this.isOnline ? this.replyTimeStatus : nextAvailabilityMessage;

@@ -104,7 +104,7 @@ const findNextAvailableTime = (
 export const getNextAvailabilityMessage = (
   workingHours,
   currentTime,
-  timezone = 'UTC'
+  timezone
 ) => {
   const utcZonedTime = utcToZonedTime(currentTime, timezone);
   const currentDayOfWeek = utcZonedTime.getDay();
