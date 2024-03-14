@@ -13,6 +13,9 @@
 
 <script>
 import configMixin from '../mixins/configMixin';
+import {
+  setCustomAttributes,
+} from 'widget/api/conversation';
 import TeamAvailability from 'widget/components/TeamAvailability';
 import { mapGetters, mapActions } from 'vuex';
 import routerMixin from 'widget/mixins/routerMixin';
@@ -46,10 +49,15 @@ export default {
     ...mapActions('conversation', [
       'clearConversations',
     ]),
-    startConversation() {
+    async startConversation() {
       const ref = new URLSearchParams(window.location.search).get('referral');
       if (ref) {
-        this.clearConversations();
+        try {
+          await setCustomAttributes({"ref": ref});
+          this.clearConversations();
+        } catch (e) {
+          // Ignore error
+        }
       } else if (this.preChatFormEnabled && !this.conversationSize) {
         return this.replaceRoute('prechat-form');
       }
