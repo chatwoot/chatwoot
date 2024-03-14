@@ -1,3 +1,4 @@
+// Array defining days of the week
 const daysOfWeek = [
   'Sunday',
   'Monday',
@@ -8,7 +9,14 @@ const daysOfWeek = [
   'Saturday',
 ];
 
-// Function to find the next available time
+/**
+ * Function to find the next available time
+ * @param {Array} workingHours - Array of working hours for each day
+ * @param {number} currentDayOfWeek - Index of the current day of the week (0 for Sunday, 1 for Monday, etc.)
+ * @param {number} currentHour - Current hour of the day (24-hour format)
+ * @param {number} currentMinutes - Current minutes of the hour
+ * @returns {Object|null} - Object containing next available time information or null if not available
+ */
 const findNextAvailableTime = (
   workingHours,
   currentDayOfWeek,
@@ -49,7 +57,7 @@ const findNextAvailableTime = (
         nextAvailableTime = {
           hour: nextDay.open_hour,
           minutes: nextDay.open_minutes,
-          day: nextDay.day_of_week,
+          day: nextDayIndex,
         };
         break;
       }
@@ -59,7 +67,12 @@ const findNextAvailableTime = (
   return nextAvailableTime;
 };
 
-// Function to get the next availability message
+/**
+ * Function to get the next availability message
+ * @param {Array} workingHours - Array of working hours for each day
+ * @param {Date} currentTime - Current time object
+ * @returns {string} - Next availability message
+ */
 export const getNextAvailabilityMessage = (workingHours, currentTime) => {
   const currentDayOfWeek = currentTime.getDay(); // 0 for Sunday, 1 for Monday, ...
   const currentHour = currentTime.getHours();
@@ -80,7 +93,7 @@ export const getNextAvailabilityMessage = (workingHours, currentTime) => {
     const differenceInHours = Math.floor(differenceInMinutes / 60);
 
     // Check if the next available time is tomorrow
-    if (nextAvailableTime.day === currentDayOfWeek + 1) {
+    if (nextAvailableTime.day === (currentDayOfWeek + 1) % 7) {
       return `We will be back online tomorrow`;
     }
 
