@@ -1,6 +1,6 @@
 <template>
   <section
-    class="min-h-screen px-8 dark:text-white bg-[#FCFCFD] dark:bg-slate-900 flex items-center justify-center"
+    class="h-screen px-8 dark:text-white bg-[#FCFCFD] dark:bg-slate-900 flex items-center justify-center"
   >
     <spinner v-if="!showIntroHeader" class="absolute inset-0" />
     <div
@@ -47,7 +47,7 @@
         </transition>
       </div>
       <div
-        class="relative flex justify-center w-7/12 py-20 overflow-hidden h-fit"
+        class="relative flex justify-center w-7/12 pt-20 overflow-hidden h-fit"
       >
         <div
           class="absolute inset-0 h-full w-full bg-[#FCFCFD] dark:bg-slate-900 bg-[radial-gradient(var(--w-200)_1px,transparent_1px)] [background-size:16px_16px]"
