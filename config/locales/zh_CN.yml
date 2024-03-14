@@ -142,6 +142,9 @@ zh_CN:
       labels:
         added: "%{user_name} 添加 %{labels}"
         removed: "%{user_name} 移除 %{labels}"
+      sla:
+        added: "%{user_name} added SLA policy %{sla_name}"
+        removed: "%{user_name} removed SLA policy %{sla_name}"
       muted: "%{user_name} 已将会话静音"
       unmuted: "%{user_name} 已将会话取消静音"
     templates:
