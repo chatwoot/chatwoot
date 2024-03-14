@@ -65,7 +65,7 @@ export default {
     pathSource() {
       // To support icons with multiple paths
       const path = this.icons[`${this.icon}-${this.type}`];
-      if (path.constructor === Array) {
+      if (path?.constructor === Array) {
         return path;
       }
       return [path];

@@ -160,8 +160,13 @@ export default {
       return this.notificationItem?.push_message_body;
     },
     notificationTypes() {
+      const usedTypes = ['CONVERSATION_MENTION', 'CONVERSATION_ASSIGNMENT'];
       const { notification_type: notificationType } = this.notificationItem;
-      return this.$t(`INBOX.TYPES.${notificationType?.toUpperCase()}`);
+      const upperCaseType = notificationType?.toUpperCase();
+
+      return usedTypes.includes(upperCaseType)
+        ? this.$t(`INBOX.TYPES.${upperCaseType}`)
+        : '';
     },
     notificationTypeIcon() {
       const { notification_type: notificationType } = this.notificationItem;

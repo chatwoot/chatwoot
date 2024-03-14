@@ -13,6 +13,7 @@
         <fluent-icon
           class="flex-shrink-0 text-slate-700 dark:text-slate-200"
           :icon="inboxIcon"
+          type="outline"
           size="14"
         />
       </div>
