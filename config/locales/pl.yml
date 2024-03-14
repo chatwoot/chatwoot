@@ -142,6 +142,9 @@ pl:
       labels:
         added: "%{user_name} dodał/a %{labels}"
         removed: "%{user_name} usunął/a %{labels}"
+      sla:
+        added: "%{user_name} added SLA policy %{sla_name}"
+        removed: "%{user_name} removed SLA policy %{sla_name}"
       muted: "%{user_name} wyciszył/a rozmowę"
       unmuted: "%{user_name} cofnął wyciszenie rozmowy"
     templates:
