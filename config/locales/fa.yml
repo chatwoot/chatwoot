@@ -142,6 +142,9 @@ fa:
       labels:
         added: "%{user_name}، %{labels} را اضافه کرد"
         removed: "%{user_name}، %{labels} را حذف کرد"
+      sla:
+        added: "%{user_name} added SLA policy %{sla_name}"
+        removed: "%{user_name} removed SLA policy %{sla_name}"
       muted: "%{user_name} مکالمه را بی صدا کرد"
       unmuted: "%{user_name} مکالمه را از حالت بی صدا خراج کرد"
     templates:
