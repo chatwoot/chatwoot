@@ -142,6 +142,9 @@ pt_BR:
       labels:
         added: "%{user_name} adicionou %{labels}"
         removed: "%{user_name} removeu %{labels}"
+      sla:
+        added: "%{user_name} added SLA policy %{sla_name}"
+        removed: "%{user_name} removed SLA policy %{sla_name}"
       muted: "%{user_name} silenciou a conversa"
       unmuted: "%{user_name} reativou a conversa"
     templates:
