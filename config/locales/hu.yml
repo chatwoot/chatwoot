@@ -142,6 +142,9 @@ hu:
       labels:
         added: "%{user_name} a következő cimkéket adta hozzá: %{labels}"
         removed: "%{user_name} leszedte a következő cimkéket %{labels}"
+      sla:
+        added: "%{user_name} added SLA policy %{sla_name}"
+        removed: "%{user_name} removed SLA policy %{sla_name}"
       muted: "%{user_name} elnémította a beszélgetést"
       unmuted: "%{user_name} kikapcsolta a beszélgetés elnémítását"
     templates:
