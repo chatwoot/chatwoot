@@ -80,7 +80,8 @@
     },
     "CAMPAIGN_HEADER": "אנא ספק את שמך ואת הדוא\"ל שלך לפני תחילת השיחה",
     "IS_REQUIRED": "is required",
-    "REQUIRED": "נדרש"
+    "REQUIRED": "נדרש",
+    "REGEX_ERROR": "Please provide a valid input"
   },
   "FILE_SIZE_LIMIT": "קובץ חורג ממגבלת גודל מקסימלי {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {

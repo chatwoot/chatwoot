@@ -31,6 +31,7 @@ de:
       disposable_email: Wir erlauben keine Einweg-E-Mails
       invalid_email: Sie haben eine ungültige E-Mail-Adresse eingegeben
       email_already_exists: "Sie haben sich bereits für ein Konto bei %{email} angemeldet."
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Anmeldung gescheitert
     data_import:
       data_type:
@@ -67,25 +68,25 @@ de:
     utc_warning: Der generierte Bericht ist in UTC-Zeitzone
     agent_csv:
       agent_name: Agentenname
-      conversations_count: Anzahl Gespräche
-      avg_first_response_time: Durchschnittliche Reaktionszeit (Minuten)
-      avg_resolution_time: Durchschnittliche Auflösungszeit (Minuten)
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     inbox_csv:
       inbox_name: Posteingangsname
       inbox_type: Posteingangstyp
       conversations_count: Anzahl der Konversationen
-      avg_first_response_time: Durchschnittliche Zeit bis zur ersten Antwort (Minuten)
-      avg_resolution_time: Durchschnittliche Auflösungszeit (Minuten)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     label_csv:
       label_title: Label
       conversations_count: Anzahl der Konversationen
-      avg_first_response_time: Durchschnittliche Reaktionszeit (Minuten)
-      avg_resolution_time: Durchschnittliche Auflösungszeit (Minuten)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     team_csv:
       team_name: Teamname
       conversations_count: Anzahl Gespräche
-      avg_first_response_time: Durchschnittliche Reaktionszeit (Minuten)
-      avg_resolution_time: Durchschnittliche Auflösungszeit (Minuten)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: Zeitzone
     default_group_by: Tag
@@ -101,10 +102,12 @@ de:
         recorded_at: Aufnahmedatum
   notifications:
     notification_title:
-      conversation_creation: "[Neues Gespräch] - #%{display_id} wurde in %{inbox_name} erstellt"
-      conversation_assignment: "[Ihnen zugewiesen] - #%{display_id} wurde Ihnen zugewiesen"
-      assigned_conversation_new_message: "[Neue Nachricht] - #%{display_id} %{content}"
-      conversation_mention: "Sie wurden in dem Gespräch [ID - %{display_id}] von %{name} erwähnt"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} erwähnte sie in der Geschichte: "
@@ -228,3 +231,16 @@ de:
       inbox_name: Posteingang
       inbox_type: Inbox Type
     button: Unterhaltung öffnen
+  time_units:
+    days:
+      one: "%{count} day"
+      other: "%{count} days"
+    hours:
+      one: "%{count} hour"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minute"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} second"
+      other: "%{count} seconds"

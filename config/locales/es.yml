@@ -31,6 +31,7 @@ es:
       disposable_email: No permitimos correos electrónicos desechables
       invalid_email: Ha introducido un correo electrónico no válido
       email_already_exists: "Ya te has registrado en una cuenta con %{email}"
+      invalid_params: 'Inválido, por favor comprueba los parámetros de registro e inténtalo de nuevo'
       failed: Registro fallido
     data_import:
       data_type:
@@ -67,25 +68,25 @@ es:
     utc_warning: El informe generado está en zona horaria UTC
     agent_csv:
       agent_name: Nombre del agente
-      conversations_count: Cantidad de conversaciones
-      avg_first_response_time: Promedio de tiempo de la primera respuesta (Minutos)
-      avg_resolution_time: Promedio de tiempo de resolución (Minutos)
+      conversations_count: Conversaciones asignadas
+      avg_first_response_time: Promedio de tiempo de la primera respuesta
+      avg_resolution_time: Tiempo promedio de resolución
     inbox_csv:
       inbox_name: Nombre de la bandeja de entrada
       inbox_type: Tipo de bandeja de entrada
       conversations_count: Núm. de conversaciones
-      avg_first_response_time: Promedio de tiempo de la primera respuesta (Minutos)
-      avg_resolution_time: Promedio de tiempo de resolución (Minutos)
+      avg_first_response_time: Promedio de tiempo de la primera respuesta
+      avg_resolution_time: Tiempo promedio de resolución
     label_csv:
       label_title: Etiqueta
       conversations_count: Núm. de conversaciones
-      avg_first_response_time: Promedio de tiempo de la primera respuesta (Minutos)
-      avg_resolution_time: Promedio de tiempo de resolución (Minutos)
+      avg_first_response_time: Promedio de tiempo de la primera respuesta
+      avg_resolution_time: Tiempo promedio de resolución
     team_csv:
       team_name: Nombre del equipo
       conversations_count: Cantidad de conversaciones
-      avg_first_response_time: Promedio de tiempo de la primera respuesta (Minutos)
-      avg_resolution_time: Promedio de tiempo de resolución (Minutos)
+      avg_first_response_time: Promedio de tiempo de la primera respuesta
+      avg_resolution_time: Tiempo promedio de resolución
     conversation_traffic_csv:
       timezone: Timezone
     default_group_by: día
@@ -101,10 +102,12 @@ es:
         recorded_at: Fecha registrada
   notifications:
     notification_title:
-      conversation_creation: "[Nueva conversación] - #%{display_id} ha sido creado en %{inbox_name}"
-      conversation_assignment: "[Asignado a usted] - #%{display_id} le ha sido asignado a usted"
-      assigned_conversation_new_message: "[Nuevo mensaje] - #%{display_id} %{content}"
-      conversation_mention: "Ha sido mencionado en la conversación [ID - %{display_id}] por %{name}"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} te mencionó en la historia: "
@@ -228,3 +231,16 @@ es:
       inbox_name: Bandeja de entrada
       inbox_type: Tipo de bandeja de entrada
     button: Abrir conversación
+  time_units:
+    days:
+      one: "%{count} día"
+      other: "%{count} days"
+    hours:
+      one: "%{count} hora"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minuto"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} segundo"
+      other: "%{count} seconds"

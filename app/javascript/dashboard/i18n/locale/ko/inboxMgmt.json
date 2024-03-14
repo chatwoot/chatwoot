@@ -569,7 +569,7 @@
       "UPDATE": "변경된 영업시간 적용",
       "TOGGLE_AVAILABILITY": "이 받은 메시지함에 대해 영업시간 설정 적용",
       "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "TOGGLE_HELP": "영업시간 설정을 적용할 경우 라이브챗 위젯에 해당 시간을 표시합니다. 담당자가 현재 오프라인 상태일 때도 해당 영업시간을 표시합니다. 영업 외 시간에는 사용자에게 아래 메시지와 대화 전 설문을 대신 보여줍니다.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "아래 날짜에 대해 영업시간 설정 적용",
         "UNAVAILABLE": "영업 종료",

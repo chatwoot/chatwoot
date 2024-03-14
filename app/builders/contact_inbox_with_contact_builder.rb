@@ -75,7 +75,7 @@ class ContactInboxWithContactBuilder
   def find_contact_by_email(email)
     return if email.blank?
 
-    account.contacts.find_by(email: email.downcase)
+    account.contacts.from_email(email)
   end
 
   def find_contact_by_phone_number(phone_number)

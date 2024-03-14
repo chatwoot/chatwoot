@@ -569,7 +569,7 @@
       "UPDATE": "تحديث إعدادات ساعات العمل",
       "TOGGLE_AVAILABILITY": "تمكين توافر العمل لهذا البريد الوارد",
       "UNAVAILABLE_MESSAGE_LABEL": "رسالة غير متاح للزائرين",
-      "TOGGLE_HELP": "تمكين توفر العمل سيظهر الساعات المتاحة على أداة الدردشة المباشرة حتى لو كان جميع الوكلاء غير متصلين بالإنترنت. خارج الساعات المتاحة يمكن تحذير الزوار برسالة ونموذج ما قبل الدردشة.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "تمكين التوفر لهذا اليوم",
         "UNAVAILABLE": "غير متوفر",

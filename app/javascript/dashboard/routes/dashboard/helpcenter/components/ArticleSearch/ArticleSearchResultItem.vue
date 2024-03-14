@@ -4,14 +4,14 @@
     @click="handlePreview"
   >
     <h4
-      class="text-block-title text-left mb-0 text-slate-900 dark:text-slate-25 px-1 -mx-1 rounded-sm width-auto hover:underline group-hover:underline"
+      class="text-sm ltr:text-left rtl:text-right w-full mb-0 text-slate-900 dark:text-slate-25 -mx-1 rounded-sm hover:underline group-hover:underline"
     >
       {{ title }}
     </h4>
 
     <div class="flex content-between items-center gap-0.5 w-full">
       <p
-        class="text-sm text-left text-slate-600 dark:text-slate-300 mb-0 w-full"
+        class="text-sm ltr:text-left rtl:text-right text-slate-600 dark:text-slate-300 mb-0 w-full"
       >
         {{ locale }}
         {{ ` / ` }}

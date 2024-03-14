@@ -21,7 +21,7 @@ tr:
   messages:
     reset_password_success: Parola sıfırlama isteği başarılı. Talimatlar için postanızı kontrol edin.
     reset_password_failure: Belirtilen e-postaya sahip herhangi bir kullanıcı bulamadık.
-    inbox_deletetion_response: Inbox silme isteğiniz bir süre sonra işleme alınacaktır.
+    inbox_deletetion_response: Gelen kutusu silme isteğiniz bir süre sonra işleme alınacaktır.
   errors:
     validations:
       presence: boş bırakılmamalı
@@ -31,6 +31,7 @@ tr:
       disposable_email: Tek kullanımlık e-postalara izin vermiyoruz
       invalid_email: Geçersiz bir e-posta girdiniz
       email_already_exists: "%{email} ile zaten bir hesaba kaydoldunuz"
+      invalid_params: 'Hata, lütfen kayıt olma parametrelerini kontrol edin ve tekrar deneyin'
       failed: Kayıt başarısız oldu
     data_import:
       data_type:
@@ -67,25 +68,25 @@ tr:
     utc_warning: Oluşturulan rapor UTC zaman dilimindedir.
     agent_csv:
       agent_name: Temsilci adı
-      conversations_count: Konuşma sayısı
-      avg_first_response_time: Ortalama cevap süresi(dakika)
-      avg_resolution_time: Ortalama çözüm süresi(dakika)
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     inbox_csv:
       inbox_name: Inbox adı
       inbox_type: Inbox türü
       conversations_count: Konuşmaların sayısı
-      avg_first_response_time: Ortalama cevap süresi(dakika)
-      avg_resolution_time: Ortalama çözüm süresi(dakika)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     label_csv:
       label_title: Etiket
       conversations_count: Konuşma sayısı
-      avg_first_response_time: Ortalama cevap süresi(dakika)
-      avg_resolution_time: Ortalama çözüm süresi(dakika)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     team_csv:
       team_name: Ekip adı
       conversations_count: Konuşma sayısı
-      avg_first_response_time: Ortalama cevap süresi(dakika)
-      avg_resolution_time: Ortalama çözüm süresi(dakika)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: Zaman dilimi
     default_group_by: gün
@@ -101,10 +102,12 @@ tr:
         recorded_at: Kaydedilen tarih
   notifications:
     notification_title:
-      conversation_creation: "[Yeni konuşma] - #%{display_id} %{inbox_name} içinde oluşturuldu"
-      conversation_assignment: "[Sana atandı] - #%{display_id} seninle ilişkilendirildi"
-      assigned_conversation_new_message: "[Yeni mesaj] - #%{display_id} %{content}"
-      conversation_mention: "Sen, %{name} tarafından konuşmada bahsedildin [ID - %{display_id}]"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} hikayesinde senden bahsetti: "
@@ -146,13 +149,13 @@ tr:
     reply:
       email:
         header:
-          from_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
-          reply_with_name: "%{assignee_name} from %{inbox_name} <reply+%{reply_email}>"
-          friendly_name: "%{sender_name} from %{business_name} <%{from_email}>"
+          from_with_name: "\"%{inbox_name} <%{from_email}> adresinden %{assignee_name}'e gönderildi,"
+          reply_with_name: "%{assignee_name} tarafından %{inbox_name} <reply+%{reply_email}>"
+          friendly_name: "%{sender_name} tarafından %{business_name} <%{from_email}>"
           professional_name: "%{business_name} <%{from_email}>"
       channel_email:
         header:
-          reply_with_name: "%{assignee_name} from %{inbox_name} <%{from_email}>"
+          reply_with_name: "\"%{inbox_name} <%{from_email}> adresinden %{assignee_name}'e gönderildi,"
           reply_with_inbox_name: "%{inbox_name} <%{from_email}>"
       email_subject: "Bu konuşmadaki yeni mesajlar"
       transcript_subject: "Konuşma Metni"
@@ -200,10 +203,10 @@ tr:
       article: makale
       articles: makaleler
       author: yazar
-      authors: authors
-      other: other
-      others: others
-      by: By
+      authors: yazarlar
+      other: diğer
+      others: diğerleri
+      by: Tarafından
       no_articles: Burada makale bulunmuyor
     footer:
       made_with: İle yapılmıştır
@@ -228,3 +231,16 @@ tr:
       inbox_name: Gelen Kutusu
       inbox_type: Gelen Kutusu Türü
     button: Görüşmeyi aç
+  time_units:
+    days:
+      one: "%{count} day"
+      other: "%{count} days"
+    hours:
+      one: "%{count} hour"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minute"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} second"
+      other: "%{count} seconds"
