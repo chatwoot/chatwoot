@@ -122,7 +122,6 @@
 </template>
 
 <script>
-import md5 from 'md5';
 import { required, minLength, helpers } from 'vuelidate/lib/validators';
 import { isPossiblePhoneNumber } from 'libphonenumber-js';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
@@ -191,7 +190,6 @@ export default {
   },
   mounted() {
     const {
-      email,
       name: fullName,
       avatar_url: avatarUrl,
       display_name: displayName,
@@ -208,9 +206,7 @@ export default {
     this.phoneNumber = phoneNumber;
     this.displayName = displayName;
     this.signature = signature;
-    this.avatarUrl =
-      avatarUrl ||
-      `https://gravatar.com/avatar/${md5(email)}?s=400&d=robohash&r=x`;
+    this.avatarUrl = avatarUrl;
   },
 
   methods: {
@@ -242,10 +238,7 @@ export default {
     async deleteAvatar(event) {
       event.stopPropagation();
       event.preventDefault();
-      const { email } = this.currentUser;
-      this.avatarUrl = `https://gravatar.com/avatar/${md5(
-        email
-      )}?s=400&d=robohash&r=x`;
+      this.avatarUrl = '';
       this.avatarFile = '';
       this.$refs.imageUpload.value = '';
     },
