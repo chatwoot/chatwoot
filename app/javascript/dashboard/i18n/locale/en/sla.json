@@ -55,13 +55,6 @@
         "ERROR_MESSAGE": "There was an error, please try again"
       }
     },
-    "EDIT": {
-      "TITLE": "Edit SLA",
-      "API": {
-        "SUCCESS_MESSAGE": "SLA updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
-      }
-    },
     "DELETE": {
       "TITLE": "Delete SLA",
       "API": {
