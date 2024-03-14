@@ -5,7 +5,7 @@
     </div>
     <div class="meta">
       <h5
-        class="text-block-title overflow-hidden whitespace-nowrap text-ellipsis"
+        class="text-sm text-slate-800 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis"
       >
         {{ name }}
       </h5>

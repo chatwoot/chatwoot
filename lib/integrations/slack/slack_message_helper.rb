@@ -69,7 +69,7 @@ module Integrations::Slack::SlackMessageHelper
 
   def sender
     user_email = slack_client.users_info(user: params[:event][:user])[:user][:profile][:email]
-    conversation.account.users.find_by(email: user_email)
+    conversation.account.users.from_email(user_email)
   end
 
   def private_note?

@@ -160,6 +160,9 @@
     "TRIAL_MESSAGE": "giorni di prova rimanenti.",
     "TRAIL_BUTTON": "Acquista ora",
     "DELETED_USER": "Utente eliminato",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Account sospeso",
       "MESSAGE": "Il tuo account è sospeso. Contatta il team di supporto per ulteriori informazioni."
@@ -197,6 +200,7 @@
     "CURRENTLY_VIEWING_ACCOUNT": "Visualizzazione attuale:",
     "SWITCH": "Scambia",
     "CONVERSATIONS": "Conversazioni",
+    "INBOX": "Casella",
     "ALL_CONVERSATIONS": "Tutte le conversazioni",
     "MENTIONED_CONVERSATIONS": "Menzioni",
     "PARTICIPATING_CONVERSATIONS": "Participating",
@@ -238,6 +242,7 @@
     "REPORTS_INBOX": "Posta",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Imposta te stesso come",
+    "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Panoramica",
     "FACEBOOK_REAUTHORIZE": "La tua connessione a Facebook è scaduta, ricollegati alla tua pagina Facebook per continuare i servizi",

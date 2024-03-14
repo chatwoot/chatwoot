@@ -8,47 +8,66 @@
   >
     <div
       v-on-clickaway="onClose"
-      class="bg-white dark:bg-slate-900 flex flex-col h-[inherit] w-[inherit]"
+      class="bg-white dark:bg-slate-900 flex flex-col h-[inherit] w-[inherit] overflow-hidden"
       @click="onClose"
     >
-      <div class="items-center flex h-16 justify-between py-2 px-6 w-full">
-        <div class="items-center flex justify-start min-w-[15rem]" @click.stop>
+      <div
+        class="bg-white dark:bg-slate-900 z-10 flex items-center justify-between w-full h-16 px-6 py-2"
+        @click.stop
+      >
+        <div
+          v-if="senderDetails"
+          class="items-center flex justify-start min-w-[15rem]"
+        >
           <thumbnail
+            v-if="senderDetails.avatar"
             :username="senderDetails.name"
             :src="senderDetails.avatar"
           />
           <div
-            class="flex items-start flex-col justify-center ml-2 rtl:ml-0 rtl:mr-2"
+            class="flex flex-col items-start justify-center ml-2 rtl:ml-0 rtl:mr-2"
           >
-            <h3
-              class="sub-block-title inline-block leading-[1.4] m-0 p-0 capitalize"
-            >
+            <h3 class="text-base inline-block leading-[1.4] m-0 p-0 capitalize">
               <span
-                class="text-slate-800 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis"
+                class="overflow-hidden text-slate-800 dark:text-slate-100 whitespace-nowrap text-ellipsis"
               >
                 {{ senderDetails.name }}
               </span>
             </h3>
             <span
-              class="text-xs m-0 p-0 text-slate-400 dark:text-slate-200 overflow-hidden whitespace-nowrap text-ellipsis"
+              class="p-0 m-0 overflow-hidden text-xs text-slate-400 dark:text-slate-200 whitespace-nowrap text-ellipsis"
             >
               {{ readableTime }}
             </span>
           </div>
         </div>
         <div
-          class="items-center text-slate-700 dark:text-slate-100 flex font-semibold justify-start min-w-0 p-1 w-auto text-block-title"
+          class="flex items-center justify-start w-auto min-w-0 p-1 text-sm font-semibold text-slate-700 dark:text-slate-100"
         >
           <span
-            class="text-slate-700 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis"
-          >
-            {{ fileNameFromDataUrl }}
-          </span>
+            v-dompurify-html="fileNameFromDataUrl"
+            class="overflow-hidden text-slate-700 dark:text-slate-100 whitespace-nowrap text-ellipsis"
+          />
         </div>
         <div
           class="items-center flex gap-2 justify-end min-w-[8rem] sm:min-w-[15rem]"
-          @click.stop
         >
+          <woot-button
+            v-if="isImage"
+            size="large"
+            color-scheme="secondary"
+            variant="clear"
+            icon="zoom-in"
+            @click="onZoom(0.1)"
+          />
+          <woot-button
+            v-if="isImage"
+            size="large"
+            color-scheme="secondary"
+            variant="clear"
+            icon="zoom-out"
+            @click="onZoom(-0.1)"
+          />
           <woot-button
             v-if="isImage"
             size="large"
@@ -81,10 +100,11 @@
           />
         </div>
       </div>
-      <div class="items-center flex h-full justify-center w-full">
+      <div class="flex items-center justify-center w-full h-full">
         <div class="flex justify-center min-w-[6.25rem] w-[6.25rem]">
           <woot-button
             v-if="hasMoreThanOneAttachment"
+            class="z-10"
             size="large"
             variant="smooth"
             color-scheme="primary"
@@ -98,15 +118,16 @@
             "
           />
         </div>
-        <div class="flex items-center flex-col justify-center w-full h-full">
+        <div class="flex flex-col items-center justify-center w-full h-full">
           <div>
             <img
               v-if="isImage"
               :key="activeAttachment.message_id"
               :src="activeAttachment.data_url"
-              class="modal-image skip-context-menu my-0 mx-auto"
+              class="mx-auto my-0 duration-150 ease-in-out transform modal-image skip-context-menu"
               :style="imageRotationStyle"
-              @click.stop
+              @click.stop="onClickZoomImage"
+              @wheel.stop="onWheelImageZoom"
             />
             <video
               v-if="isVideo"
@@ -114,7 +135,7 @@
               :src="activeAttachment.data_url"
               controls
               playsInline
-              class="modal-video skip-context-menu my-0 mx-auto"
+              class="mx-auto my-0 modal-video skip-context-menu"
               @click.stop
             />
             <audio
@@ -131,6 +152,7 @@
         <div class="flex justify-center min-w-[6.25rem] w-[6.25rem]">
           <woot-button
             v-if="hasMoreThanOneAttachment"
+            class="z-10"
             size="large"
             variant="smooth"
             color-scheme="primary"
@@ -145,9 +167,9 @@
           />
         </div>
       </div>
-      <div class="items-center flex h-16 justify-center w-full py-2 px-6">
+      <div class="flex items-center justify-center w-full h-16 px-6 py-2 z-10">
         <div
-          class="items-center rounded-sm flex font-semibold justify-center min-w-[5rem] p-1 bg-slate-25 dark:bg-slate-800 text-slate-600 dark:text-slate-200 text-block-title"
+          class="items-center rounded-sm flex font-semibold justify-center min-w-[5rem] p-1 bg-slate-25 dark:bg-slate-800 text-slate-600 dark:text-slate-200 text-sm"
         >
           <span class="count">
             {{ `${activeImageIndex + 1} / ${allAttachments.length}` }}
@@ -176,6 +198,9 @@ const ALLOWED_FILE_TYPES = {
   AUDIO: 'audio',
 };
 
+const MAX_ZOOM_LEVEL = 2;
+const MIN_ZOOM_LEVEL = 1;
+
 export default {
   components: {
     Thumbnail,
@@ -197,6 +222,7 @@ export default {
   },
   data() {
     return {
+      zoomScale: 1,
       activeAttachment: {},
       activeFileType: '',
       activeImageIndex:
@@ -214,12 +240,9 @@ export default {
       return this.allAttachments.length > 1;
     },
     readableTime() {
-      if (!this.activeAttachment.created_at) return '';
-      const time = this.messageTimestamp(
-        this.activeAttachment.created_at,
-        'LLL d yyyy, h:mm a'
-      );
-      return time || '';
+      const { created_at: createdAt } = this.activeAttachment;
+      if (!createdAt) return '';
+      return this.messageTimestamp(createdAt, 'LLL d yyyy, h:mm a') || '';
     },
     isImage() {
       return this.activeFileType === ALLOWED_FILE_TYPES.IMAGE;
@@ -248,11 +271,12 @@ export default {
       const { data_url: dataUrl } = this.activeAttachment;
       if (!dataUrl) return '';
       const fileName = dataUrl?.split('/').pop();
-      return fileName || '';
+      return decodeURIComponent(fileName || '');
     },
     imageRotationStyle() {
       return {
-        transform: `rotate(${this.activeImageRotation}deg)`,
+        transform: `rotate(${this.activeImageRotation}deg) scale(${this.zoomScale})`,
+        cursor: this.zoomScale < MAX_ZOOM_LEVEL ? 'zoom-in' : 'zoom-out',
       };
     },
   },
@@ -270,6 +294,7 @@ export default {
       this.activeImageIndex = index;
       this.setImageAndVideoSrc(attachment);
       this.activeImageRotation = 0;
+      this.zoomScale = 1;
     },
     setImageAndVideoSrc(attachment) {
       const { file_type: type } = attachment;
@@ -317,6 +342,37 @@ export default {
       } else {
         this.activeImageRotation += rotation;
       }
+    },
+    onClickZoomImage() {
+      this.onZoom(0.1);
+    },
+    onZoom(scale) {
+      if (!this.isImage) {
+        return;
+      }
+
+      const newZoomScale = this.zoomScale + scale;
+      // Check if the new zoom scale is within the allowed range
+      if (newZoomScale > MAX_ZOOM_LEVEL) {
+        // Set zoom to max but do not reset to default
+        this.zoomScale = MAX_ZOOM_LEVEL;
+        return;
+      }
+      if (newZoomScale < MIN_ZOOM_LEVEL) {
+        // Set zoom to min but do not reset to default
+        this.zoomScale = MIN_ZOOM_LEVEL;
+        return;
+      }
+      // If within bounds, update the zoom scale
+      this.zoomScale = newZoomScale;
+    },
+
+    onWheelImageZoom(e) {
+      if (!this.isImage) {
+        return;
+      }
+      const scale = e.deltaY > 0 ? -0.1 : 0.1;
+      this.onZoom(scale);
     },
   },
 };

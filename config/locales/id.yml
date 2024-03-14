@@ -31,6 +31,7 @@ id:
       disposable_email: Kami tidak mengizinkan email sekali pakai
       invalid_email: Anda telah memasukkan email yang tidak valid
       email_already_exists: "Anda telah mendaftar untuk sebuah akun dengan %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Pendaftaran gagal
     data_import:
       data_type:
@@ -67,25 +68,25 @@ id:
     utc_warning: Laporan yang dihasilkan berada dalam zona waktu UTC
     agent_csv:
       agent_name: Nama agen
-      conversations_count: Jumlah percakapan
-      avg_first_response_time: Rata-rata waktu respons pertama (Menit)
-      avg_resolution_time: Rata-rata waktu resolusi (Menit)
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     inbox_csv:
       inbox_name: Nama kotak masuk
       inbox_type: Jenis kotak masuk
       conversations_count: Jumlah percakapan
-      avg_first_response_time: Rata-rata waktu respons pertama (Menit)
-      avg_resolution_time: Rata-rata waktu resolusi (Menit)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     label_csv:
       label_title: Label
       conversations_count: Jumlah percakapan
-      avg_first_response_time: Rata-rata waktu respons pertama (Menit)
-      avg_resolution_time: Rata-rata waktu resolusi (Menit)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     team_csv:
       team_name: Nama Tim
       conversations_count: Jumlah percakapan
-      avg_first_response_time: Rata-rata waktu respons pertama (Menit)
-      avg_resolution_time: Rata-rata waktu resolusi (Menit)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: Zona Waktu
     default_group_by: hari
@@ -101,10 +102,12 @@ id:
         recorded_at: Tanggal rekaman
   notifications:
     notification_title:
-      conversation_creation: "[Percakapan baru] - #%{display_id} telah dibuat di %{inbox_name}"
-      conversation_assignment: "[Ditugaskan untuk Anda] - #%{display_id} telah ditugaskan untuk Anda"
-      assigned_conversation_new_message: "[Pesan baru] - #%{display_id} %{content}"
-      conversation_mention: "Anda telah di mention dalam percakapan [ID - %{display_id}] by %{name}"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} menyebutmu dalam story: "
@@ -228,3 +231,12 @@ id:
       inbox_name: Kotak masuk
       inbox_type: Inbox Type
     button: Buka percakapan
+  time_units:
+    days:
+      other: "%{count} days"
+    hours:
+      other: "%{count} hours"
+    minutes:
+      other: "%{count} minutes"
+    seconds:
+      other: "%{count} seconds"

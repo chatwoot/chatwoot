@@ -1,13 +1,13 @@
 class Account::ContactsExportJob < ApplicationJob
   queue_as :low
 
-  def perform(account_id, column_names)
+  def perform(account_id, column_names, email_to)
     account = Account.find(account_id)
     headers = valid_headers(column_names)
     generate_csv(account, headers)
     file_url = account_contact_export_url(account)
 
-    AdministratorNotifications::ChannelNotificationsMailer.with(account: account).contact_export_complete(file_url)&.deliver_later
+    AdministratorNotifications::ChannelNotificationsMailer.with(account: account).contact_export_complete(file_url, email_to)&.deliver_later
   end
 
   def generate_csv(account, headers)

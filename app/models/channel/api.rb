@@ -22,7 +22,7 @@ class Channel::Api < ApplicationRecord
   include Channelable
 
   self.table_name = 'channel_api'
-  EDITABLE_ATTRS = [:webhook_url, :hmac_mandatory, { additional_attributes: {} }].freeze
+  EDITABLE_ATTRS = [:webhook_url, :account_id, :hmac_mandatory, { additional_attributes: {} }].freeze
 
   has_secure_token :identifier
   has_secure_token :hmac_token
@@ -33,11 +33,73 @@ class Channel::Api < ApplicationRecord
     'API'
   end
 
+  def api_base_path
+    "#{ENV.fetch('FRONTEND_URL', nil)}/api/v1"
+  end
+
+  def access_token
+    AccessToken.find_by(:owner_id => account_id).token
+  end
+
   def messaging_window_enabled?
     additional_attributes.present? && additional_attributes['agent_reply_time_window'].present?
   end
 
+  def send_message(inbox, contact, message)
+    conversation = get_or_create_conversation(inbox, contact)
+    send_text_message(conversation['id'], message)
+  end
+
   private
+
+  def send_text_message(conversation_id, message)
+    response = HTTParty.post(
+      "#{api_base_path}/accounts/#{account_id}/conversations/#{conversation_id}/messages",
+      headers: {
+        'Content-Type' => 'application/json',
+        'api_access_token' => access_token
+      },
+      body: {
+        'content' => message,
+        'message_type' => 'outgoing',
+        'private' => false
+      }.to_json
+    )
+
+    response.success? ? response.parsed_response['id'] : nil
+  end
+
+  def get_or_create_conversation(inbox, contact)
+    Conversation.find_by(
+      contact_id: contact.id,
+      inbox_id: inbox.id,
+      status: [0, 2]
+    ) || create_conversation(contact, inbox)
+  end
+
+  def create_conversation(contact, inbox)
+    contact_inbox = ContactInbox.find_by(
+      contact_id: contact.id,
+      inbox_id: inbox.id
+    ) || ContactInboxBuilder.new(
+      contact: contact,
+      inbox: inbox
+    ).perform
+
+    response = HTTParty.post(
+      "#{api_base_path}/accounts/#{account_id}/conversations",
+      headers: {
+        'Content-Type' => 'application/json',
+        'api_access_token' => access_token
+      },
+      body: {
+        'inbox_id' => inbox.id,
+        'source_id' => contact_inbox.source_id,
+        'assignee_id' => account_id
+      }.to_json
+    )
+    response.success? ? response.parsed_response : nil
+  end
 
   def ensure_valid_agent_reply_time_window
     return if additional_attributes['agent_reply_time_window'].blank?

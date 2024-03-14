@@ -80,7 +80,8 @@
     },
     "CAMPAIGN_HEADER": "Lūdzu, pirms sarunas sākšanas, norādiet savu vārdu un e -pastu",
     "IS_REQUIRED": "ir nepieciešams",
-    "REQUIRED": "Nepieciešams"
+    "REQUIRED": "Nepieciešams",
+    "REGEX_ERROR": "Lūdzu, ievadiet pareizi"
   },
   "FILE_SIZE_LIMIT": "Fails pārsniedz {MAXIMUM_FILE_UPLOAD_SIZE} pielikuma lieluma ierobežojumu",
   "CHAT_FORM": {

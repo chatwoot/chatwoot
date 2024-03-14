@@ -61,7 +61,7 @@
         </label>
 
         <label
-          v-if="isOnOffType"
+          v-if="isOneOffType"
           class="multiselect-wrap--small"
           :class="{ error: $v.selectedAudience.$error }"
         >
@@ -106,7 +106,7 @@
           </span>
         </label>
 
-        <label v-if="isOnOffType">
+        <label v-if="isOneOffType">
           {{ $t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.LABEL') }}
           <woot-date-time-picker
             :value="scheduledAt"
@@ -272,6 +272,7 @@ export default {
       return [
         ...this.$store.getters['inboxes/getSMSInboxes'],
         ...this.$store.getters['inboxes/getApiInboxes'],
+        ...this.$store.getters['inboxes/getTelegramInboxes'],
       ];
     },
     sendersAndBotList() {

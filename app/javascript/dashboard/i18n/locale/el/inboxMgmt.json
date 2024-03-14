@@ -569,7 +569,7 @@
       "UPDATE": "Ενημέρωση ρυθμίσεων ωραρίου",
       "TOGGLE_AVAILABILITY": "Ενεργοποίηση διαθεσιμότητας ωραρίου για αυτό το κιβώτιο εισερχομένων",
       "UNAVAILABLE_MESSAGE_LABEL": "Μήνυμα μη διαθεσιμότητας για τους επισκέπτες",
-      "TOGGLE_HELP": "Η ενεργοποίηση της διαθεσιμότητας ωραρίου θα δείξει τις διαθέσιμες ώρες στο widget συνομιλίας ακόμα και αν όλοι οι πράκτορες είναι εκτός σύνδεσης. Εκτός των διαθέσιμων ωρών οι επισκέπτες μπορούν να προειδοποιηθούν με ένα μήνυμα και μια φόρμα προ-συνομιλίας.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Ενεργοποιήσετε τη διαθεσιμότητα για αυτήν την ημέρα",
         "UNAVAILABLE": "Μη διαθέσιμος",

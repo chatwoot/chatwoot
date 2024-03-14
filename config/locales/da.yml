@@ -31,6 +31,7 @@ da:
       disposable_email: Vi tillader ikke engangs e-mails
       invalid_email: Du har indtastet en ugyldig e-mail
       email_already_exists: "Du har allerede tilmeldt dig en konto med %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Tilmelding mislykkedes
     data_import:
       data_type:
@@ -67,25 +68,25 @@ da:
     utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Agentens navn
-      conversations_count: Samtaler tæller
-      avg_first_response_time: Gns første svartid (minutter)
-      avg_resolution_time: Gennemsnitlig afviklingstid (protokol)
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     inbox_csv:
       inbox_name: Indbakkens navn
       inbox_type: Indbakke type
       conversations_count: Antal samtaler
-      avg_first_response_time: Gns første svartid (minutter)
-      avg_resolution_time: Gennemsnitlig afviklingstid (protokol)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     label_csv:
       label_title: Etiketter
       conversations_count: Antal samtaler
-      avg_first_response_time: Gns første svartid (minutter)
-      avg_resolution_time: Gennemsnitlig afviklingstid (protokol)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     team_csv:
       team_name: Team navn
       conversations_count: Samtaler tæller
-      avg_first_response_time: Gns første svartid (minutter)
-      avg_resolution_time: Gennemsnitlig afviklingstid (protokol)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: Timezone
     default_group_by: dag
@@ -101,10 +102,12 @@ da:
         recorded_at: Optaget dato
   notifications:
     notification_title:
-      conversation_creation: "[Ny samtale] - #%{display_id} er blevet oprettet i %{inbox_name}"
-      conversation_assignment: "[Tildelt dig] - #%{display_id} er blevet tildelt dig"
-      assigned_conversation_new_message: "[Ny besked] - #%{display_id} %{content}"
-      conversation_mention: "Du er blevet nævnt i samtalen [ID - %{display_id}] af %{name}"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} nævnte dig i historien: "
@@ -228,3 +231,16 @@ da:
       inbox_name: Indbakke
       inbox_type: Inbox Type
     button: Åbn samtale
+  time_units:
+    days:
+      one: "%{count} day"
+      other: "%{count} days"
+    hours:
+      one: "%{count} hour"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minute"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} second"
+      other: "%{count} seconds"

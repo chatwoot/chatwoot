@@ -31,6 +31,7 @@ uk:
       disposable_email: Ми не дозволяємо використувати одноразові адреси електронної пошти
       invalid_email: Ви ввели неправильну адресу електронної пошти
       email_already_exists: "Ви вже зареєстровані з адресою %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Помилка реєстрації
     data_import:
       data_type:
@@ -39,7 +40,7 @@ uk:
       import:
         failed: Файл порожній
       export:
-        success: We will notify you once contacts export file is ready to view.
+        success: Ми повідомимо Вас, коли файл експорту контактів буде готовий до перегляду.
       email:
         invalid: Невірний email
       phone_number:
@@ -67,25 +68,25 @@ uk:
     utc_warning: Звіт створено в часовій зоні UTC
     agent_csv:
       agent_name: Ім'я агента
-      conversations_count: Кількість бесід
-      avg_first_response_time: Середній час першої відповіді (Хвилин)
-      avg_resolution_time: Середній час вирішення (Хвилин)
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     inbox_csv:
       inbox_name: Назва Джерела
       inbox_type: Тип Джерела
       conversations_count: '№ розмов'
-      avg_first_response_time: Середній час першої відповіді (Хвилин)
-      avg_resolution_time: Середній час вирішення (Хвилин)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     label_csv:
       label_title: Мітка
       conversations_count: '№ розмов'
-      avg_first_response_time: Середній час першої відповіді (Хвилин)
-      avg_resolution_time: Середній час вирішення (Хвилин)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     team_csv:
       team_name: Назва команди
       conversations_count: Кількість бесід
-      avg_first_response_time: Середній час першої відповіді (Хвилин)
-      avg_resolution_time: Середній час вирішення (Хвилин)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: Timezone
     default_group_by: день
@@ -101,17 +102,19 @@ uk:
         recorded_at: Дата запису
   notifications:
     notification_title:
-      conversation_creation: "[Новий діалог] - #%{display_id} було створено в %{inbox_name}"
-      conversation_assignment: "[Призначено вам] - #%{display_id} було призначено вам"
-      assigned_conversation_new_message: "[Нове повідомлення] - #%{display_id} %{content}"
-      conversation_mention: "Ви були згадані в діалозі [ID - %{display_id}] від %{name}"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} згадав вас у сторіс: "
       instagram_deleted_story_content: Ця історія більше не доступна.
       deleted: Це повідомлення було видалено
       delivery_status:
-        error_code: "Error code: %{error_code}"
+        error_code: "Код помилки: %{error_code}"
     activity:
       status:
         resolved: "Розмова була відмічена як вирішена %{user_name}"
@@ -190,41 +193,62 @@ uk:
       empty_placeholder: Результатів не знайдено.
       loading_placeholder: Шукаємо...
       results_title: Результати пошуку
-    toc_header: 'On this page'
+    toc_header: 'На цій сторінці'
     hero:
       sub_title: Шукайте тут або перегляньте категорії нижче.
     common:
       home: Головна
       last_updated_on: Востаннє оновлено %{last_updated_on}
-      view_all_articles: View all
+      view_all_articles: Переглянути все
       article: статті
       articles: статті
       author: автор
-      authors: authors
-      other: other
-      others: others
-      by: By
+      authors: автори
+      other: інше
+      others: інші
+      by: Від
       no_articles: Тут немає статей
     footer:
       made_with: Зроблено з
     header:
-      go_to_homepage: Website
+      go_to_homepage: Вебсайт
       appearance:
-        system: System
-        light: Light
-        dark: Dark
+        system: Системна
+        light: Світла
+        dark: Темна
       featured_articles: Featured Articles
       uncategorized: Uncategorized
     404:
-      title: Page not found
-      description: We couldn't find the page you were looking for.
-      back_to_home: Go to home page
+      title: Сторінку не знайдено
+      description: Ми не змогли знайти сторінку, яку Ви шукали.
+      back_to_home: Перейти на головну сторінку
   slack_unfurl:
     fields:
       name: Ім'я
       email: Email
-      phone_number: Phone
+      phone_number: Телефон
       company_name: Організація
       inbox_name: Вхідні
-      inbox_type: Inbox Type
+      inbox_type: Тип Джерела
     button: Відкрити розмову
+  time_units:
+    days:
+      one: "%{count} day"
+      few: "%{count} days"
+      many: "%{count} days"
+      other: "%{count} days"
+    hours:
+      one: "%{count} hour"
+      few: "%{count} hours"
+      many: "%{count} hours"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minute"
+      few: "%{count} minutes"
+      many: "%{count} minutes"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} second"
+      few: "%{count} seconds"
+      many: "%{count} seconds"
+      other: "%{count} seconds"

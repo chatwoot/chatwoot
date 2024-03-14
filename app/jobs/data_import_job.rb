@@ -22,7 +22,8 @@ class DataImportJob < ApplicationJob
     @data_import.update!(status: :processing)
     contacts, rejected_contacts = parse_csv_and_build_contacts
 
-    import_contacts(contacts)
+    imported = import_contacts(contacts)
+    add_labels(imported)
     update_data_import_status(contacts.length, rejected_contacts.length)
     save_failed_records_csv(rejected_contacts)
   end
@@ -59,6 +60,19 @@ class DataImportJob < ApplicationJob
   def import_contacts(contacts)
     # <struct ActiveRecord::Import::Result failed_instances=[], num_inserts=1, ids=[444, 445], results=[]>
     Contact.import(contacts, synchronize: contacts, on_duplicate_key_ignore: true, track_validation_failures: true, validate: true, batch_size: 1000)
+  end
+
+  def add_labels(import_result)
+    label = Label.create!(
+      title: "imported_#{Time.zone.now.strftime('%Y-%m-%d_%H-%M-%S')}",
+      color: format('#%06x', rand(0xffffff)),
+      account_id: @data_import.account.id,
+      show_on_sidebar: true
+    )
+    import_result.ids.each do |id|
+      contact = Contact.find(id)
+      contact.add_labels([label.title])
+    end
   end
 
   def update_data_import_status(processed_records, rejected_records)

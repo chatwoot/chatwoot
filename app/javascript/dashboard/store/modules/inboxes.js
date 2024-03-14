@@ -98,6 +98,11 @@ export const getters = {
   getWebsiteInboxes($state) {
     return $state.records.filter(item => item.channel_type === INBOX_TYPES.WEB);
   },
+  getTelegramInboxes($state) {
+    return $state.records.filter(
+      item => item.channel_type === INBOX_TYPES.TELEGRAM
+    );
+  },
   getApiInboxes($state) {
     return $state.records.filter(item => item.channel_type === INBOX_TYPES.API);
   },

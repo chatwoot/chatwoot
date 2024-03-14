@@ -112,7 +112,8 @@
       "REMOVE_LABEL": "Címke eltávolítása a beszélgetésről",
       "SETTINGS": "Beállítások",
       "AI_ASSIST": "AI segítség",
-      "APPEARANCE": "Megjelenés"
+      "APPEARANCE": "Megjelenés",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Ugrás a beszélgetések kezdőoldalára",
@@ -153,7 +154,8 @@
       "CHANGE_APPEARANCE": "Megjelenés módosítása",
       "LIGHT_MODE": "Világos mód",
       "DARK_MODE": "Sötét mód",
-      "SYSTEM_MODE": "Rendszer"
+      "SYSTEM_MODE": "Rendszer",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     }
   },
   "DASHBOARD_APPS": {
