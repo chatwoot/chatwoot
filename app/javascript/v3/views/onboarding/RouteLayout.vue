@@ -9,7 +9,7 @@
         'relative max-w-[1440px] w-full mx-auto flex gap-16 h-screen justify-center',
         `bg-[url('/assets/images/dashboard/onboarding/intro.svg')]`,
         `dark:bg-[url('/assets/images/dashboard/onboarding/intro-dark.svg')]`,
-        `bg-no-repeat bg-[left_bottom_-100px] bg-[length:600px]`,
+        `bg-no-repeat bg-[left_bottom_-100px] bg-[length:500px]`,
       ]"
     >
       <div class="relative w-5/12 h-screen py-20">
