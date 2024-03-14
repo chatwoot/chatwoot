@@ -18,6 +18,7 @@ class DashboardController < ActionController::Base
       'LOGO', 'LOGO_DARK', 'LOGO_THUMBNAIL',
       'INSTALLATION_NAME',
       'WIDGET_BRAND_URL', 'TERMS_URL',
+      'BRAND_URL', 'BRAND_NAME',
       'PRIVACY_URL',
       'DISPLAY_MANIFEST',
       'CREATE_NEW_ACCOUNT_FROM_DASHBOARD',
@@ -47,7 +48,7 @@ class DashboardController < ActionController::Base
 
     @locale = @portal.default_locale
 
-    redirect_to "/hc/#{@portal.slug}/#{@locale}"
+    render 'public/api/v1/portals/show', layout: 'portal', portal: @portal and return
   end
 
   def app_config
