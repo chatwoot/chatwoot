@@ -6,6 +6,7 @@ module SwitchLocale
   def switch_locale(&)
     # priority is for locale set in query string (mostly for widget/from js sdk)
     locale ||= locale_from_params
+    locale ||= locale_from_portal
     # if locale is not set in account, let's use DEFAULT_LOCALE env variable
     locale ||= locale_from_env_variable
     set_locale(locale, &)
@@ -14,6 +15,18 @@ module SwitchLocale
   def switch_locale_using_account_locale(&)
     locale = locale_from_account(@current_account)
     set_locale(locale, &)
+  end
+
+  def locale_from_portal(&)
+    return if params[:locale]
+
+    domain = request.host
+    return if domain == URI.parse(ENV.fetch('FRONTEND_URL', '')).host
+
+    @portal = Portal.find_by(custom_domain: domain)
+    return unless @portal
+
+    @portal.default_locale
   end
 
   def set_locale(locale, &)
