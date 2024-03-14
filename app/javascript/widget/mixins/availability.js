@@ -1,6 +1,6 @@
 import { utcToZonedTime } from 'date-fns-tz';
 import { isTimeAfter } from 'shared/helpers/DateHelper';
-
+import { getNextAvailabilityMessage } from 'widget/helpers/availabilityHelper';
 export default {
   computed: {
     channelConfig() {
@@ -23,10 +23,12 @@ export default {
     },
     replyWaitMessage() {
       const { workingHoursEnabled } = this.channelConfig;
+      const nextAvailabilityMessage = getNextAvailabilityMessage(
+        this.channelConfig.workingHours,
+        new Date()
+      );
       if (workingHoursEnabled) {
-        return this.isOnline
-          ? this.replyTimeStatus
-          : `${this.$t('REPLY_TIME.BACK_IN')} ${this.timeLeftToBackInOnline}`;
+        return this.isOnline ? this.replyTimeStatus : nextAvailabilityMessage;
       }
       return this.isOnline
         ? this.replyTimeStatus
