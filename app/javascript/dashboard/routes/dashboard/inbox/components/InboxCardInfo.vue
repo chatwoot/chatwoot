@@ -11,7 +11,7 @@
         class="flex items-center gap-0.5 py-0.5 px-1.5"
       >
         <fluent-icon
-          class="text-slate-700 dark:text-slate-200 flex-shrink-0"
+          class="flex-shrink-0 text-slate-700 dark:text-slate-200"
           :icon="inboxIcon"
           size="14"
         />
@@ -25,7 +25,7 @@
       <!-- Labels display logic -->
       <div
         ref="labelContainer"
-        class="w-full flex flex-row divide-x divide-slate-100 dark:divide-slate-700/50"
+        class="flex flex-row w-full divide-x divide-slate-100 dark:divide-slate-700/50"
       >
         <div
           v-for="(label, index) in activeLabels"
@@ -36,10 +36,10 @@
           <span
             v-if="label.title"
             :style="{ background: label.color }"
-            class="w-2 h-2 rounded-sm flex-shrink-0"
+            class="flex-shrink-0 w-2 h-2 rounded-sm"
           />
           <span
-            class="font-medium truncate text-slate-700 dark:text-slate-200 text-xs"
+            class="text-xs font-medium truncate text-slate-700 dark:text-slate-200"
           >
             {{ label.title }}
           </span>
@@ -58,6 +58,18 @@
 <script>
 import { mapGetters } from 'vuex';
 import { getInboxClassByType } from 'dashboard/helper/inbox';
+
+const MAX_LABELS = 5;
+const MIN_LABELS = 1;
+
+const BASE_WIDTH = 380;
+const TOTAL_PADDING = 32;
+const EFFECTIVE_WIDTH = BASE_WIDTH - TOTAL_PADDING;
+
+const LABEL_ITEM_PADDING = 24;
+const CHAR_WIDTH = 5.2;
+
+const clamp = (value, min, max) => Math.min(Math.max(min, value), max);
 
 export default {
   props: {
@@ -91,29 +103,42 @@ export default {
       );
     },
   },
-  // mounted() {
-  //   this.$nextTick(() => {
-  //     this.updateLabelWidths();
-  //   });
-  // },
-  // methods: {
-  //   updateLabelWidths() {
-  //     this.$nextTick(() => {
-  //       const containerWidth = this.$refs.container.clientWidth;
-  //       const inboxIconWidth = this.$refs.inboxIcon?.clientWidth || 0;
-  //       const conversationIdWidth = this.$refs.conversationId?.clientWidth || 0;
-  //       // Assuming there are no other elements affecting the width calculation
-  //       // And after the label container, there is one more element
-  //       // So, subtracting the width of that element from the container width
+  mounted() {
+    this.$nextTick(() => {
+      this.updateLabelWidths();
+    });
+  },
+  methods: {
+    updateLabelWidths() {
+      this.$nextTick(() => {
+        const currentInfoEl = this.$refs.container;
+        // this is a hack, get the parent width as a prop, and on resize of the parent width
+        // update the prop value, that will cause a reactive change and the number of labels will fix
+        // itself
+        const parent = currentInfoEl.parentElement.parentElement;
+        const containerWidth = parent.clientWidth;
+        if (containerWidth <= EFFECTIVE_WIDTH) {
+          this.visibleLabels = 1;
+          return;
+        }
 
-  //       const labelContainerWidth =
-  //         containerWidth - inboxIconWidth - conversationIdWidth - 8;
-  //       const labelWidth = this.$refs.labelContainer?.clientWidth || 0;
-  //       const visibleLabels = Math.floor(labelContainerWidth / labelWidth);
-  //       // should be at least 1 label visible
-  //       this.visibleLabels = Math.max(visibleLabels, 1);
-  //     });
-  //   },
-  // },
+        let widthAvailable = containerWidth - EFFECTIVE_WIDTH;
+
+        // go through each label that is availble and calculate estimated width
+        let numberOfLabels = 0;
+        this.activeLabels.forEach(label => {
+          const numberOfChars = label.title.length;
+          const widthRequired = numberOfChars * CHAR_WIDTH + LABEL_ITEM_PADDING;
+          widthAvailable -= widthRequired;
+
+          if (widthAvailable > 0) {
+            numberOfLabels += 1;
+          }
+        });
+
+        this.visibleLabels = clamp(numberOfLabels, MIN_LABELS, MAX_LABELS);
+      });
+    },
+  },
 };
 </script>
