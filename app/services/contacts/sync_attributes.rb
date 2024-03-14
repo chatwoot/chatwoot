@@ -31,7 +31,7 @@ class Contacts::SyncAttributes
 
   def social_details_present?
     @contact.additional_attributes.keys.any? do |key|
-      key.to_s.match?(/^social_\w+_user_(id|name)$/i) && @contact.additional_attributes[key].present?
+      key.start_with?('social_') && @contact.additional_attributes[key].present?
     end
   end
 end
