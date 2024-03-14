@@ -20,6 +20,8 @@ class Contacts::SyncAttributes
   end
 
   def set_contact_type
+    #  If the contact is already a lead or customer then do not change the contact type
+    return unless @contact.contact_type == 'visitor'
     # If the contact has an email or phone number or social details( facebook_user_id, instagram_user_id, etc) then it is a lead
     # If contact is from external channel like facebook, instagram, whatsapp, etc then it is a lead
     return unless @contact.email.present? || @contact.phone_number.present? || social_details_present?
@@ -28,8 +30,8 @@ class Contacts::SyncAttributes
   end
 
   def social_details_present?
-    contact.additional_attributes.keys.any? do |key|
-      key.to_s.match?(/^social_\w+_user_(id|name)$/i) && contact.additional_attributes[key].present?
+    @contact.additional_attributes.keys.any? do |key|
+      key.to_s.match?(/^social_\w+_user_(id|name)$/i) && @contact.additional_attributes[key].present?
     end
   end
 end
