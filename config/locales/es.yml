@@ -142,6 +142,9 @@ es:
       labels:
         added: "%{user_name} agregó %{labels}"
         removed: "%{user_name} eliminó a %{labels}"
+      sla:
+        added: "%{user_name} added SLA policy %{sla_name}"
+        removed: "%{user_name} removed SLA policy %{sla_name}"
       muted: "%{user_name} ha silenciado la conversación"
       unmuted: "%{user_name} ha anulado el silenciado de la conversación"
     templates:
