@@ -1,59 +1,56 @@
 <template>
-  <div class="w-auto bg-none">
+  <div
+    class="flex items-center w-auto justify-start rounded-[4px] border border-slate-100 dark:border-slate-700/50 divide-x divide-slate-100 dark:divide-slate-700/50 bg-none overflow-hidden"
+  >
+    <!-- Inbox icon -->
     <div
-      class="flex items-center w-full justify-start rounded-[4px] border border-slate-100 dark:border-slate-700/50 divide-x divide-slate-100 dark:divide-slate-700/50 bg-none"
+      v-if="inbox"
+      ref="inboxIcon"
+      v-tooltip.right="inbox.name"
+      class="flex items-center gap-0.5 py-0.5 px-1.5"
     >
-      <!-- Inbox icon -->
-      <div
-        v-if="inbox"
-        ref="inboxIcon"
-        v-tooltip.right="inbox.name"
-        class="flex items-center gap-0.5 py-0.5 px-1.5"
-      >
-        <fluent-icon
-          class="flex-shrink-0 text-slate-700 dark:text-slate-200"
-          :icon="inboxIcon"
-          type="outline"
-          size="14"
-        />
-      </div>
-      <!-- Conversation ID -->
-      <span
-        class="flex items-center py-0.5 px-1.5 font-medium text-slate-600 dark:text-slate-200 text-xs"
-      >
-        {{ conversationId }}
-      </span>
-      <!-- Labels display logic -->
-      <div
-        class="flex flex-row w-full divide-x divide-slate-100 dark:divide-slate-700/50"
-      >
-        <div
-          v-for="(label, index) in activeLabels"
-          v-show="index < visibleLabels"
-          :key="label.id"
-          class="flex items-center justify-start gap-1 w-full py-0.5 px-1.5"
-        >
-          <span
-            v-if="label.title"
-            :style="{ background: label.color }"
-            class="flex-shrink-0 w-2 h-2 rounded-sm"
-          />
-          <span
-            class="text-xs font-medium truncate text-slate-700 dark:text-slate-200"
-          >
-            {{ label.title }}
-          </span>
-        </div>
-        <!-- Label count display logic -->
-        <span
-          v-if="activeLabels.length > visibleLabels"
-          :title="hiddenLabelsTitle"
-          class="flex items-center py-0.5 px-1.5 font-medium text-slate-700 dark:text-slate-200 text-xs"
-        >
-          +{{ activeLabels.length - visibleLabels }}
-        </span>
-      </div>
+      <fluent-icon
+        class="flex-shrink-0 text-slate-700 dark:text-slate-200"
+        :icon="inboxIcon"
+        type="outline"
+        size="14"
+      />
     </div>
+
+    <!-- Conversation ID -->
+    <span
+      class="flex items-center py-0.5 px-1.5 font-medium text-slate-600 dark:text-slate-200 text-xs"
+    >
+      {{ conversationId }}
+    </span>
+
+    <!-- Labels display logic -->
+    <div
+      v-for="(label, index) in activeLabels"
+      v-show="index < visibleLabels"
+      :key="label.id"
+      class="flex items-center truncate justify-start gap-1 py-0.5 px-1.5"
+    >
+      <span
+        v-if="label.title"
+        :style="{ background: label.color }"
+        class="flex-shrink-0 w-2 h-2 rounded-sm"
+      />
+      <span
+        class="text-xs font-medium truncate text-slate-700 dark:text-slate-200"
+      >
+        {{ label.title }}
+      </span>
+    </div>
+
+    <!-- Label count display logic -->
+    <span
+      v-if="activeLabels.length > visibleLabels"
+      :title="hiddenLabelsTitle"
+      class="flex items-center py-0.5 px-1.5 font-medium text-slate-700 dark:text-slate-200 text-xs"
+    >
+      +{{ activeLabels.length - visibleLabels }}
+    </span>
   </div>
 </template>
 

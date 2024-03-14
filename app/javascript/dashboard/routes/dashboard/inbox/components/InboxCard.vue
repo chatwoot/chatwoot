@@ -51,7 +51,7 @@
           {{ snoozedDisplayText }}
         </span>
       </div>
-      <div v-else class="flex items-center flex-row justify-start gap-2">
+      <div v-else class="flex items-center flex-row justify-start gap-2 w-3/4">
         <inbox-card-info
           :inbox="inbox"
           :conversation-id="primaryActor.id"
@@ -60,7 +60,7 @@
         />
         <div
           v-show="notificationTypes"
-          class="flex flex-row items-center gap-0.5"
+          class="flex flex-row items-center gap-0.5 w-fit"
         >
           <fluent-icon
             :icon="notificationTypeIcon"
@@ -75,7 +75,7 @@
           </span>
         </div>
       </div>
-      <div class="flex items-center gap-2">
+      <div class="flex items-center justify-end gap-2 w-1/4">
         <PriorityIcon :priority="primaryActor.priority" />
         <StatusIcon :status="primaryActor.status" />
         <span
