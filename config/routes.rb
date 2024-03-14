@@ -84,7 +84,7 @@ Rails.application.routes.draw do
               end
             end
           end
-          resources :conversations, only: [:index, :create, :show] do
+          resources :conversations, only: [:index, :create, :show, :update] do
             collection do
               get :meta
               get :search
