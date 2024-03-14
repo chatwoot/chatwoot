@@ -62,7 +62,7 @@ export default {
     return {
       showQuotedContent: false,
       showGalleryViewer: false,
-      attachment: null,
+      attachment: {},
       availableAttachments: [],
     };
   },
@@ -104,11 +104,11 @@ export default {
       this.availableAttachments = [{ ...this.attachment }];
     },
     onClose() {
-      this.show = false;
+      this.showGalleryViewer = false;
       this.resetAttachmentData();
     },
     resetAttachmentData() {
-      this.attachment = null;
+      this.attachment = {};
       this.availableAttachments = [];
     },
   },
