@@ -142,6 +142,9 @@
       labels:
         added: "%{user_name} la til %{labels}"
         removed: "%{user_name} fjernet %{labels}"
+      sla:
+        added: "%{user_name} added SLA policy %{sla_name}"
+        removed: "%{user_name} removed SLA policy %{sla_name}"
       muted: "%{user_name} har dempet samtalen"
       unmuted: "%{user_name} har opphevet dempingen av samtalen"
     templates:
