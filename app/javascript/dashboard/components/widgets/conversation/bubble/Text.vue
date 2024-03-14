@@ -7,7 +7,7 @@
     }"
   >
     <div v-if="!isEmail" v-dompurify-html="message" class="text-content" />
-    <div v-else @click="handleClickOnContent($event)">
+    <div v-else @click="handleClickOnContent">
       <letter
         class="text-content bg-white dark:bg-white text-slate-900 dark:text-slate-900 p-2 rounded-[4px]"
         :html="message"
