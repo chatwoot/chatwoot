@@ -15,7 +15,10 @@
         class="bg-white dark:bg-slate-900 z-10 flex items-center justify-between w-full h-16 px-6 py-2"
         @click.stop
       >
-        <div class="items-center flex justify-start min-w-[15rem]">
+        <div
+          v-if="senderDetails"
+          class="items-center flex justify-start min-w-[15rem]"
+        >
           <thumbnail
             v-if="senderDetails.avatar"
             :username="senderDetails.name"
