@@ -29,13 +29,13 @@ const findNextAvailableTime = (
   // Find the next available time for today
   const nextAvailableTimeToday = workingHours.find(
     workingHour =>
-      currentDayOfWeek === workingHour.day_of_week &&
-      !workingHour.closed_all_day &&
-      (currentHour < workingHour.close_hour ||
-        (currentHour === workingHour.close_hour &&
+      currentDayOfWeek === workingHour.day_of_week && // Match current day
+      !workingHour.closed_all_day && // Check if not closed for the whole day
+      (currentHour < workingHour.close_hour || // Check if current hour is before closing hour
+        (currentHour === workingHour.close_hour && // or if hours are equal but minutes are before closing minutes
           currentMinutes < workingHour.close_minutes))
   );
-
+  // If next available time for today is found
   if (nextAvailableTimeToday) {
     nextAvailableTime = {
       hour: nextAvailableTimeToday.open_hour,
@@ -74,7 +74,7 @@ const findNextAvailableTime = (
  * @returns {string} - Next availability message
  */
 export const getNextAvailabilityMessage = (workingHours, currentTime) => {
-  const currentDayOfWeek = currentTime.getDay(); // 0 for Sunday, 1 for Monday, ...
+  const currentDayOfWeek = currentTime.getDay();
   const currentHour = currentTime.getHours();
   const currentMinutes = currentTime.getMinutes();
   const nextAvailableTime = findNextAvailableTime(
