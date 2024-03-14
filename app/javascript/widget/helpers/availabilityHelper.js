@@ -1,3 +1,4 @@
+import { utcToZonedTime } from 'date-fns-tz';
 // Array defining days of the week
 const daysOfWeek = [
   'Sunday',
@@ -8,6 +9,64 @@ const daysOfWeek = [
   'Friday',
   'Saturday',
 ];
+
+/**
+ * Find the next available time for the specified day
+ * @param {Object[]} workingHours - Array of objects representing working hours for each day
+ * @param {number} dayOfWeek - Index of the day of the week (0 for Sunday, 1 for Monday, etc.)
+ * @param {number} currentHour - Current hour of the day (24-hour format)
+ * @param {number} currentMinutes - Current minutes of the hour
+ * @returns {Object|null} - Object containing next available time information or null if not available
+ */
+const findNextAvailableTimeForDay = (
+  workingHours,
+  dayOfWeek,
+  currentHour,
+  currentMinutes
+) => {
+  const availableHours = workingHours.find(
+    hours =>
+      hours.day_of_week === dayOfWeek &&
+      !hours.closed_all_day &&
+      (currentHour < hours.close_hour ||
+        (currentHour === hours.close_hour &&
+          currentMinutes < hours.close_minutes))
+  );
+
+  if (availableHours) {
+    return {
+      hour: availableHours.open_hour,
+      minutes: availableHours.open_minutes,
+    };
+  }
+
+  return null;
+};
+
+/**
+ * Find the next available time across days
+ * @param {Object[]} workingHours - Array of objects representing working hours for each day
+ * @param {number} currentDayOfWeek - Index of the current day of the week (0 for Sunday, 1 for Monday, etc.)
+ * @returns {Object|null} - Object containing next available time information or null if not available
+ */
+const findNextAvailableTimeAcrossDays = (workingHours, currentDayOfWeek) => {
+  const nextAvailableDays = workingHours.filter(hours => !hours.closed_all_day);
+  for (let i = 0; i < 7; i += 1) {
+    const nextDayIndex = (currentDayOfWeek + 1 + i) % 7;
+    const nextDay = nextAvailableDays.find(
+      hours => hours.day_of_week === nextDayIndex
+    );
+    if (nextDay) {
+      return {
+        hour: nextDay.open_hour,
+        minutes: nextDay.open_minutes,
+        day: nextDayIndex,
+      };
+    }
+  }
+
+  return null;
+};
 
 /**
  * Function to find the next available time
@@ -23,48 +82,17 @@ const findNextAvailableTime = (
   currentHour,
   currentMinutes
 ) => {
-  let nextAvailableDays = [];
-  let nextAvailableTime = null;
-
-  // Find the next available time for today
-  const nextAvailableTimeToday = workingHours.find(
-    workingHour =>
-      currentDayOfWeek === workingHour.day_of_week && // Match current day
-      !workingHour.closed_all_day && // Check if not closed for the whole day
-      (currentHour < workingHour.close_hour || // Check if current hour is before closing hour
-        (currentHour === workingHour.close_hour && // or if hours are equal but minutes are before closing minutes
-          currentMinutes < workingHour.close_minutes))
+  const nextAvailableTimeToday = findNextAvailableTimeForDay(
+    workingHours,
+    currentDayOfWeek,
+    currentHour,
+    currentMinutes
   );
-  // If next available time for today is found
+
   if (nextAvailableTimeToday) {
-    nextAvailableTime = {
-      hour: nextAvailableTimeToday.open_hour,
-      minutes: nextAvailableTimeToday.open_minutes,
-      day: 'today',
-    };
+    return { ...nextAvailableTimeToday, day: 'today' };
   }
-
-  // If no available time for today, find the next available time for the next day(s)
-  if (nextAvailableTime === null) {
-    nextAvailableDays = workingHours.filter(hours => !hours.closed_all_day);
-
-    for (let i = 0; i < 7; i += 1) {
-      const nextDayIndex = (currentDayOfWeek + 1 + i) % 7;
-      const nextDay = nextAvailableDays.find(
-        hours => hours.day_of_week === nextDayIndex
-      );
-      if (nextDay) {
-        nextAvailableTime = {
-          hour: nextDay.open_hour,
-          minutes: nextDay.open_minutes,
-          day: nextDayIndex,
-        };
-        break;
-      }
-    }
-  }
-
-  return nextAvailableTime;
+  return findNextAvailableTimeAcrossDays(workingHours, currentDayOfWeek);
 };
 
 /**
@@ -73,10 +101,15 @@ const findNextAvailableTime = (
  * @param {Date} currentTime - Current time object
  * @returns {string} - Next availability message
  */
-export const getNextAvailabilityMessage = (workingHours, currentTime) => {
-  const currentDayOfWeek = currentTime.getDay();
-  const currentHour = currentTime.getHours();
-  const currentMinutes = currentTime.getMinutes();
+export const getNextAvailabilityMessage = (
+  workingHours,
+  currentTime,
+  timezone = 'UTC'
+) => {
+  const utcZonedTime = utcToZonedTime(currentTime, timezone);
+  const currentDayOfWeek = utcZonedTime.getDay();
+  const currentHour = utcZonedTime.getHours();
+  const currentMinutes = utcZonedTime.getMinutes();
   const nextAvailableTime = findNextAvailableTime(
     workingHours,
     currentDayOfWeek,
