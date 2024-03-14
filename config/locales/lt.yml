@@ -142,6 +142,9 @@ lt:
       labels:
         added: "%{user_name} pridėjo %{labels}"
         removed: "%{user_name} pašalino %{labels}"
+      sla:
+        added: "%{user_name} added SLA policy %{sla_name}"
+        removed: "%{user_name} removed SLA policy %{sla_name}"
       muted: "%{user_name} nutildė pokalbį"
       unmuted: "%{user_name} įjungė pokalbio garsą"
     templates:
