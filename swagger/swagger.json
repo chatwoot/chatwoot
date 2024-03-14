@@ -3319,6 +3319,64 @@
             "description": "Access denied"
           }
         }
+      },
+      "patch": {
+        "tags": [
+          "Conversations"
+        ],
+        "operationId": "update-conversation",
+        "summary": "Update Conversation",
+        "description": "Update Conversation Attributes",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          },
+          {
+            "agentBotApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "priority": {
+                  "type": "string",
+                  "enum": [
+                    "urgent",
+                    "high",
+                    "medium",
+                    "low",
+                    "none"
+                  ],
+                  "description": "The priority of the conversation"
+                },
+                "sla_policy_id": {
+                  "type": "number",
+                  "description": "The ID of the SLA policy (Available only in Enterprise edition)"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Conversation not found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
       }
     },
     "/api/v1/accounts/{account_id}/conversations/{conversation_id}/toggle_status": {
