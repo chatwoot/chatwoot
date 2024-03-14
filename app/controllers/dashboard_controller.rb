@@ -46,7 +46,8 @@ class DashboardController < ActionController::Base
     return unless @portal
 
     @locale = @portal.default_locale
-    render 'public/api/v1/portals/show', layout: 'portal', portal: @portal and return
+
+    redirect_to "/hc/#{@portal.slug}/#{@locale}"
   end
 
   def app_config
