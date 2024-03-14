@@ -62,7 +62,7 @@ import { getInboxClassByType } from 'dashboard/helper/inbox';
 const MAX_LABELS = 6;
 const MIN_LABELS = 1;
 
-const BASE_WIDTH = 380;
+const BASE_WIDTH = 360;
 const TOTAL_PADDING = 36;
 const EFFECTIVE_WIDTH = BASE_WIDTH - TOTAL_PADDING;
 

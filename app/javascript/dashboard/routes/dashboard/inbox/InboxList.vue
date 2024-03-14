@@ -1,7 +1,7 @@
 <template>
   <section class="flex w-full h-full bg-white dark:bg-slate-900">
     <div
-      class="flex flex-col h-full w-full md:min-w-[380px] md:max-w-[380px] ltr:border-r border-slate-50 dark:border-slate-800/50"
+      class="flex flex-col h-full w-full md:min-w-[360px] md:max-w-[360px] ltr:border-r border-slate-50 dark:border-slate-800/50"
       :class="!currentNotificationId ? 'flex' : 'hidden md:flex'"
     >
       <inbox-list-header
