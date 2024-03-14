@@ -15,8 +15,12 @@
         class="bg-white dark:bg-slate-900 z-10 flex items-center justify-between w-full h-16 px-6 py-2"
         @click.stop
       >
-        <div class="items-center flex justify-start min-w-[15rem]">
+        <div
+          v-if="senderDetails"
+          class="items-center flex justify-start min-w-[15rem]"
+        >
           <thumbnail
+            v-if="senderDetails.avatar"
             :username="senderDetails.name"
             :src="senderDetails.avatar"
           />
@@ -41,10 +45,9 @@
           class="flex items-center justify-start w-auto min-w-0 p-1 text-sm font-semibold text-slate-700 dark:text-slate-100"
         >
           <span
+            v-dompurify-html="fileNameFromDataUrl"
             class="overflow-hidden text-slate-700 dark:text-slate-100 whitespace-nowrap text-ellipsis"
-          >
-            {{ fileNameFromDataUrl }}
-          </span>
+          />
         </div>
         <div
           class="items-center flex gap-2 justify-end min-w-[8rem] sm:min-w-[15rem]"
@@ -237,12 +240,9 @@ export default {
       return this.allAttachments.length > 1;
     },
     readableTime() {
-      if (!this.activeAttachment.created_at) return '';
-      const time = this.messageTimestamp(
-        this.activeAttachment.created_at,
-        'LLL d yyyy, h:mm a'
-      );
-      return time || '';
+      const { created_at: createdAt } = this.activeAttachment;
+      if (!createdAt) return '';
+      return this.messageTimestamp(createdAt, 'LLL d yyyy, h:mm a') || '';
     },
     isImage() {
       return this.activeFileType === ALLOWED_FILE_TYPES.IMAGE;
@@ -271,7 +271,7 @@ export default {
       const { data_url: dataUrl } = this.activeAttachment;
       if (!dataUrl) return '';
       const fileName = dataUrl?.split('/').pop();
-      return fileName || '';
+      return decodeURIComponent(fileName || '');
     },
     imageRotationStyle() {
       return {
