@@ -1,9 +1,9 @@
 <template>
-  <div ref="container" class="w-auto bg-none">
+  <div class="w-auto bg-none">
     <div
       class="flex items-center w-full justify-start rounded-[4px] border border-slate-100 dark:border-slate-700/50 divide-x divide-slate-100 dark:divide-slate-700/50 bg-none"
     >
-      <!-- Inbox icon and conversation ID -->
+      <!-- Inbox icon -->
       <div
         v-if="inbox"
         ref="inboxIcon"
@@ -16,22 +16,21 @@
           size="14"
         />
       </div>
+      <!-- Conversation ID -->
       <span
-        ref="conversationId"
         class="flex items-center py-0.5 px-1.5 font-medium text-slate-600 dark:text-slate-200 text-xs"
       >
         {{ conversationId }}
       </span>
       <!-- Labels display logic -->
       <div
-        ref="labelContainer"
         class="flex flex-row w-full divide-x divide-slate-100 dark:divide-slate-700/50"
       >
         <div
           v-for="(label, index) in activeLabels"
           v-show="index < visibleLabels"
           :key="label.id"
-          class="label flex items-center justify-start gap-1 w-full py-0.5 px-1.5"
+          class="flex items-center justify-start gap-1 w-full py-0.5 px-1.5"
         >
           <span
             v-if="label.title"
@@ -44,8 +43,10 @@
             {{ label.title }}
           </span>
         </div>
+        <!-- Label count display logic -->
         <span
           v-if="activeLabels.length > visibleLabels"
+          :title="hiddenLabelsTitle"
           class="flex items-center py-0.5 px-1.5 font-medium text-slate-700 dark:text-slate-200 text-xs"
         >
           +{{ activeLabels.length - visibleLabels }}
@@ -59,16 +60,18 @@
 import { mapGetters } from 'vuex';
 import { getInboxClassByType } from 'dashboard/helper/inbox';
 
-const MAX_LABELS = 5;
+const MAX_LABELS = 6;
 const MIN_LABELS = 1;
 
 const BASE_WIDTH = 380;
 const TOTAL_PADDING = 32;
 const EFFECTIVE_WIDTH = BASE_WIDTH - TOTAL_PADDING;
 
+// 24 is the padding + gap + label color width
 const LABEL_ITEM_PADDING = 24;
-const CHAR_WIDTH = 5.2;
+const AVG_CHAR_WIDTH = 5.2;
 
+// Clamp function to limit the number of labels to be displayed
 const clamp = (value, min, max) => Math.min(Math.max(min, value), max);
 
 export default {
@@ -85,6 +88,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    parentElementWidth: {
+      type: Number,
+      default: 0,
+    },
   },
   data() {
     return {
@@ -98,25 +105,33 @@ export default {
       return getInboxClassByType(type, phoneNumber);
     },
     activeLabels() {
-      return this.accountLabels.filter(({ title }) =>
-        this.conversationLabels.includes(title)
+      return this.accountLabels?.filter(({ title }) =>
+        this.conversationLabels?.includes(title)
+      );
+    },
+    hiddenLabelsTitle() {
+      if (this.activeLabels?.length <= this.visibleLabels) {
+        return '';
+      }
+      return (
+        this.activeLabels
+          .slice(this.visibleLabels)
+          .map(label => label.title)
+          .join(', ') || ''
       );
     },
   },
-  mounted() {
-    this.$nextTick(() => {
-      this.updateLabelWidths();
-    });
+  watch: {
+    parentElementWidth() {
+      if (this.activeLabels.length > 1) {
+        this.updateLabelWidths();
+      }
+    },
   },
   methods: {
     updateLabelWidths() {
       this.$nextTick(() => {
-        const currentInfoEl = this.$refs.container;
-        // this is a hack, get the parent width as a prop, and on resize of the parent width
-        // update the prop value, that will cause a reactive change and the number of labels will fix
-        // itself
-        const parent = currentInfoEl.parentElement.parentElement;
-        const containerWidth = parent.clientWidth;
+        const containerWidth = this.parentElementWidth || EFFECTIVE_WIDTH;
         if (containerWidth <= EFFECTIVE_WIDTH) {
           this.visibleLabels = 1;
           return;
@@ -124,17 +139,19 @@ export default {
 
         let widthAvailable = containerWidth - EFFECTIVE_WIDTH;
 
-        // go through each label that is availble and calculate estimated width
-        let numberOfLabels = 0;
-        this.activeLabels.forEach(label => {
-          const numberOfChars = label.title.length;
-          const widthRequired = numberOfChars * CHAR_WIDTH + LABEL_ITEM_PADDING;
-          widthAvailable -= widthRequired;
-
-          if (widthAvailable > 0) {
-            numberOfLabels += 1;
-          }
-        });
+        // go through each label and calculate the width required
+        let numberOfLabels = this.activeLabels.reduce(
+          (acc, label) => {
+            const widthRequired =
+              label.title.length * AVG_CHAR_WIDTH + LABEL_ITEM_PADDING;
+            if (acc.widthAvailable >= widthRequired) {
+              acc.widthAvailable -= widthRequired;
+              acc.count += 1;
+            }
+            return acc;
+          },
+          { count: 0, widthAvailable }
+        ).count;
 
         this.visibleLabels = clamp(numberOfLabels, MIN_LABELS, MAX_LABELS);
       });

@@ -31,7 +31,10 @@
       </span>
     </div>
 
-    <div class="flex flex-row justify-between items-center w-full gap-2">
+    <div
+      ref="inboxCardInfo"
+      class="flex flex-row justify-between items-center w-full gap-2"
+    >
       <div
         v-if="snoozedUntilTime || hasLastSnoozed"
         class="flex flex-row flex-1 gap-1 items-center"
@@ -53,11 +56,10 @@
           :inbox="inbox"
           :conversation-id="primaryActor.id"
           :conversation-labels="primaryActor.labels"
-          :notification-type-width="notificationTypeElementWidth"
+          :parent-element-width="inboxCardInfoElementWidth"
         />
         <div
           v-show="notificationTypes"
-          ref="notificationTypes"
           class="flex flex-row items-center gap-0.5"
         >
           <fluent-icon
@@ -105,6 +107,10 @@ import {
   shortenSnoozeTime,
 } from 'dashboard/helper/snoozeHelpers';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { debounce } from '@chatwoot/utils';
+
+const OBSERVER_DEBOUNCE_TIME = 100;
+
 export default {
   components: {
     PriorityIcon,
@@ -128,6 +134,8 @@ export default {
     return {
       isContextMenuOpen: false,
       contextMenuPosition: { x: null, y: null },
+      resizeObserver: null,
+      inboxCardInfoElementWidth: 0,
     };
   },
   computed: {
@@ -214,14 +222,30 @@ export default {
       }
       return '';
     },
-    notificationTypeElementWidth() {
-      return this.$refs.notificationTypes?.clientWidth;
-    },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.resizeObserver = new ResizeObserver(
+        debounce(this.resizeObserverCallback, OBSERVER_DEBOUNCE_TIME, false)
+      );
+      if (this.$refs.inboxCardInfo) {
+        this.resizeObserver.observe(this.$refs.inboxCardInfo);
+      }
+    });
   },
   unmounted() {
+    if (this.resizeObserver) {
+      this.resizeObserver.unobserve(this.$refs.inboxCardInfo);
+      this.resizeObserver.disconnect();
+    }
     this.closeContextMenu();
   },
   methods: {
+    resizeObserverCallback(entries) {
+      entries.forEach(entry => {
+        this.inboxCardInfoElementWidth = entry.contentRect.width;
+      });
+    },
     openConversation(notification) {
       const {
         id,
