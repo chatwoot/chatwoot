@@ -94,20 +94,49 @@
       "MONTH": "Month",
       "YEAR": "Year"
     },
-    "GROUP_BY_DAY_OPTIONS": [{ "id": 1, "groupBy": "Day" }],
+    "GROUP_BY_DAY_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Day"
+      }
+    ],
     "GROUP_BY_WEEK_OPTIONS": [
-      { "id": 1, "groupBy": "Day" },
-      { "id": 2, "groupBy": "Week" }
+      {
+        "id": 1,
+        "groupBy": "Day"
+      },
+      {
+        "id": 2,
+        "groupBy": "Week"
+      }
     ],
     "GROUP_BY_MONTH_OPTIONS": [
-      { "id": 1, "groupBy": "Day" },
-      { "id": 2, "groupBy": "Week" },
-      { "id": 3, "groupBy": "Month" }
+      {
+        "id": 1,
+        "groupBy": "Day"
+      },
+      {
+        "id": 2,
+        "groupBy": "Week"
+      },
+      {
+        "id": 3,
+        "groupBy": "Month"
+      }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
-      { "id": 2, "groupBy": "Week" },
-      { "id": 3, "groupBy": "Month" },
-      { "id": 4, "groupBy": "Year" }
+      {
+        "id": 2,
+        "groupBy": "Week"
+      },
+      {
+        "id": 3,
+        "groupBy": "Month"
+      },
+      {
+        "id": 4,
+        "groupBy": "Year"
+      }
     ],
     "BUSINESS_HOURS": "Business Hours"
   },
@@ -416,7 +445,7 @@
     "HEADER": "Bot Reports",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
-        "LABEL": "Total Conversations",
+        "LABEL": "No. of Conversations",
         "TOOLTIP": "Total number of conversations handled by the bot"
       },
       "TOTAL_RESPONSES": {

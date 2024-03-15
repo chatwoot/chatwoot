@@ -1,3 +1,4 @@
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 const reports = accountId => ({
@@ -38,6 +39,7 @@ const reports = accountId => ({
       icon: 'bot',
       label: 'REPORTS_BOT',
       hasSubMenu: false,
+      featureFlag: FEATURE_FLAGS.RESPONSE_BOT,
       toState: frontendURL(`accounts/${accountId}/reports/bot`),
       toStateName: 'bot_reports',
     },
