@@ -70,23 +70,23 @@ pt_BR:
       agent_name: Nome do Agente
       conversations_count: Conversas atribuídas
       avg_first_response_time: Tempo médio de primeira resposta (minutos
-      avg_resolution_time: Avg resolution time
+      avg_resolution_time:
     inbox_csv:
       inbox_name: Nome da Caixa de Entrada
       inbox_type: Tipo da Caixa de Entrada
       conversations_count: Nº de Conversas
       avg_first_response_time: Tempo médio de primeira resposta (minutos
-      avg_resolution_time: Avg resolution time
+      avg_resolution_time:
     label_csv:
       label_title: Nome do campo
       conversations_count: Nº de Conversas
       avg_first_response_time: Tempo médio de primeira resposta (minutos
-      avg_resolution_time: Avg resolution time
+      avg_resolution_time:
     team_csv:
       team_name: Nome do departamento
       conversations_count: Contagem de conversas
       avg_first_response_time: Tempo médio de primeira resposta (minutos
-      avg_resolution_time: Avg resolution time
+      avg_resolution_time:
     conversation_traffic_csv:
       timezone: Timezone
     default_group_by: dia
@@ -102,15 +102,15 @@ pt_BR:
         recorded_at: Data de gravação
   notifications:
     notification_title:
-      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
-      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
-      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
-      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
-      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
-      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
-      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
-    attachment: "Attachment"
-    no_content: "No content"
+      conversation_creation: ""
+      conversation_assignment: ""
+      assigned_conversation_new_message: ""
+      conversation_mention: ""
+      sla_missed_first_response: ""
+      sla_missed_next_response: ""
+      sla_missed_resolution: ""
+    attachment: ""
+    no_content: ""
   conversations:
     messages:
       instagram_story_content: "%{story_sender} mencionou você na conversa: "
@@ -143,8 +143,8 @@ pt_BR:
         added: "%{user_name} adicionou %{labels}"
         removed: "%{user_name} removeu %{labels}"
       sla:
-        added: "%{user_name} added SLA policy %{sla_name}"
-        removed: "%{user_name} removed SLA policy %{sla_name}"
+        added: ""
+        removed: ""
       muted: "%{user_name} silenciou a conversa"
       unmuted: "%{user_name} reativou a conversa"
     templates:
@@ -239,14 +239,14 @@ pt_BR:
     button: Abrir conversa
   time_units:
     days:
-      one: "%{count} day"
-      other: "%{count} days"
+      one: ""
+      other: ""
     hours:
-      one: "%{count} hour"
-      other: "%{count} hours"
+      one: ""
+      other: ""
     minutes:
-      one: "%{count} minute"
-      other: "%{count} minutes"
+      one: ""
+      other: ""
     seconds:
-      one: "%{count} second"
+      one: ""
       other: "%{count} seconds"
