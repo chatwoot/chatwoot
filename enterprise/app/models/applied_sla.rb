@@ -23,6 +23,13 @@ class AppliedSla < ApplicationRecord
   belongs_to :conversation
 
   validates :account_id, uniqueness: { scope: %i[sla_policy_id conversation_id] }
+  before_validation :ensure_account_id
 
   enum sla_status: { active: 0, hit: 1, missed: 2 }
+
+  private
+
+  def ensure_account_id
+    self.account_id ||= sla_policy&.account_id
+  end
 end
