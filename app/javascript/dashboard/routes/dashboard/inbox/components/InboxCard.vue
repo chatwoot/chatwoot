@@ -24,7 +24,7 @@
         size="16px"
       />
       <span
-        class="flex-1 text-slate-900 dark:text-white text-sm overflow-hidden text-ellipsis whitespace-nowrap"
+        class="flex-1 overflow-hidden text-sm text-slate-900 dark:text-white text-ellipsis whitespace-nowrap"
         :class="isUnread ? 'font-medium' : 'font-normal'"
       >
         {{ pushTitle }}
@@ -33,27 +33,27 @@
 
     <div
       ref="inboxCardInfo"
-      class="flex flex-row justify-between items-center w-full gap-2"
+      class="flex flex-row items-center justify-between w-full gap-2"
     >
       <div
         v-if="snoozedUntilTime || hasLastSnoozed"
-        class="flex flex-row flex-1 gap-1 items-center min-w-0"
+        class="flex flex-row items-center flex-1 min-w-0 gap-1"
       >
         <fluent-icon
           :icon="hasLastSnoozed ? 'snooze-timer' : 'sharp-timer'"
           type="outline"
-          class="text-woot-500 dark:text-woot-500 flex-shrink-0"
+          class="flex-shrink-0 text-woot-500 dark:text-woot-500"
           size="16"
         />
         <span
-          class="text-woot-500 dark:text-woot-500 text-xs font-medium truncate"
+          class="text-xs font-medium truncate text-woot-500 dark:text-woot-500"
         >
           {{ snoozedDisplayText }}
         </span>
       </div>
       <div
         v-else
-        class="flex items-center flex-row justify-start gap-2 min-w-0"
+        class="flex flex-row items-center justify-start min-w-0 gap-2"
       >
         <inbox-card-info
           :inbox="inbox"
@@ -73,7 +73,7 @@
             size="16"
           />
           <span
-            class="font-medium text-xs truncate"
+            class="text-xs font-medium truncate"
             :class="notificationDetails.color"
           >
             {{ notificationDetails.text }}
@@ -84,7 +84,7 @@
         <PriorityIcon :priority="primaryActor.priority" />
         <StatusIcon :status="primaryActor.status" />
         <span
-          class="font-medium text-slate-500 dark:text-slate-400 text-xs whitespace-nowrap"
+          class="text-xs font-medium text-slate-500 dark:text-slate-400 whitespace-nowrap"
         >
           {{ lastActivityAt }}
         </span>
