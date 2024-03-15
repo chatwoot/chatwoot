@@ -62,19 +62,21 @@
           :parent-element-width="inboxCardInfoElementWidth"
         />
         <div
-          v-show="notificationTypes"
+          v-show="hasNotificationType"
           class="flex flex-row items-center gap-0.5 w-fit min-w-0"
         >
           <fluent-icon
-            :icon="notificationTypeIcon"
+            :icon="notificationDetails.icon"
             type="outline"
-            class="text-woot-500 dark:text-woot-500 flex-shrink-0"
+            class="flex-shrink-0"
+            :class="notificationDetails.color"
             size="16"
           />
           <span
-            class="font-medium text-woot-500 dark:text-woot-500 text-xs truncate"
+            class="font-medium text-xs truncate"
+            :class="notificationDetails.color"
           >
-            {{ notificationTypes }}
+            {{ notificationDetails.text }}
           </span>
         </div>
       </div>
@@ -111,6 +113,7 @@ import {
 } from 'dashboard/helper/snoozeHelpers';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { debounce } from '@chatwoot/utils';
+import { NOTIFICATION_TYPES_MAPPING } from './helpers/constants';
 
 const OBSERVER_DEBOUNCE_TIME = 100;
 
@@ -162,24 +165,23 @@ export default {
     pushTitle() {
       return this.notificationItem?.push_message_body;
     },
-    notificationTypes() {
-      const usedTypes = ['CONVERSATION_MENTION', 'CONVERSATION_ASSIGNMENT'];
-      const { notification_type: notificationType } = this.notificationItem;
+    hasNotificationType() {
+      return this.notificationItem?.notification_type;
+    },
+    notificationDetails() {
+      const { notification_type: notificationType = '' } =
+        this.notificationItem || {};
       const upperCaseType = notificationType?.toUpperCase();
 
-      return usedTypes.includes(upperCaseType)
+      const text = NOTIFICATION_TYPES_MAPPING[upperCaseType]
         ? this.$t(`INBOX.TYPES.${upperCaseType}`)
         : '';
-    },
-    notificationTypeIcon() {
-      const { notification_type: notificationType } = this.notificationItem;
-      if (notificationType === 'conversation_mention') {
-        return 'alternate-email';
-      }
-      if (notificationType === 'conversation_assignment') {
-        return 'keyboard-double-arrow-right';
-      }
-      return '';
+      const [icon, color] = NOTIFICATION_TYPES_MAPPING[upperCaseType] || [
+        '',
+        'text-woot-500 dark:text-woot-500',
+      ];
+
+      return { text, icon, color };
     },
     lastActivityAt() {
       const dynamicTime = this.dynamicTime(

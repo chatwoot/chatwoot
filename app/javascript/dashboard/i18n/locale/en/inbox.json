@@ -18,7 +18,10 @@
     },
     "TYPES": {
       "CONVERSATION_MENTION": "Mention",
-      "CONVERSATION_ASSIGNMENT": "Assigned to you"
+      "CONVERSATION_ASSIGNMENT": "Assigned to you",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA breach",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA breach",
+      "SLA_MISSED_RESOLUTION": "SLA breach"
     },
     "MENU_ITEM": {
       "MARK_AS_READ": "Mark as read",
