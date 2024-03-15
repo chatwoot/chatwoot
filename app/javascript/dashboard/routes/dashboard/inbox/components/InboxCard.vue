@@ -37,7 +37,7 @@
     >
       <div
         v-if="snoozedUntilTime || hasLastSnoozed"
-        class="flex flex-row flex-1 gap-1 items-center w-3/4"
+        class="flex flex-row flex-1 gap-1 items-center min-w-0"
       >
         <fluent-icon
           :icon="hasLastSnoozed ? 'snooze-timer' : 'sharp-timer'"
@@ -51,7 +51,10 @@
           {{ snoozedDisplayText }}
         </span>
       </div>
-      <div v-else class="flex items-center flex-row justify-start gap-2 w-3/4">
+      <div
+        v-else
+        class="flex items-center flex-row justify-start gap-2 min-w-0"
+      >
         <inbox-card-info
           :inbox="inbox"
           :conversation-id="primaryActor.id"
@@ -60,22 +63,22 @@
         />
         <div
           v-show="notificationTypes"
-          class="flex flex-row items-center gap-0.5 w-fit"
+          class="flex flex-row items-center gap-0.5 w-fit min-w-0"
         >
           <fluent-icon
             :icon="notificationTypeIcon"
             type="outline"
-            class="text-woot-500 dark:text-woot-500"
+            class="text-woot-500 dark:text-woot-500 flex-shrink-0"
             size="16"
           />
           <span
-            class="font-medium text-woot-500 dark:text-woot-500 text-xs whitespace-nowrap"
+            class="font-medium text-woot-500 dark:text-woot-500 text-xs truncate"
           >
             {{ notificationTypes }}
           </span>
         </div>
       </div>
-      <div class="flex items-center justify-end gap-2 w-1/4">
+      <div class="flex items-center justify-end gap-2">
         <PriorityIcon :priority="primaryActor.priority" />
         <StatusIcon :status="primaryActor.status" />
         <span
