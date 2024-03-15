@@ -73,16 +73,22 @@ export const shortenSnoozeTime = snoozedUntil => {
   if (!snoozedUntil) {
     return null;
   }
+  const unitMap = {
+    minutes: 'm',
+    minute: 'm',
+    hours: 'h',
+    hour: 'h',
+    days: 'd',
+    day: 'd',
+    months: 'mo',
+    month: 'mo',
+    years: 'y',
+    year: 'y',
+  };
   const shortenTime = snoozedUntil.replace(
-    /( minutes?| hours?| days?| months?| years?)/g,
-    (match, unitMatch) => {
-      if (unitMatch === ' minutes' || unitMatch === ' minute') return 'm';
-      if (unitMatch === ' hours' || unitMatch === ' hour') return 'h';
-      if (unitMatch === ' days' || unitMatch === ' day') return 'd';
-      if (unitMatch === ' months' || unitMatch === ' month') return 'mo';
-      if (unitMatch === ' years' || unitMatch === ' year') return 'y';
-      return match;
-    }
+    /\s(minute|hour|day|month|year)s?\b/gi,
+    (match, unit) => unitMap[unit.toLowerCase()] || match
   );
+
   return shortenTime;
 };
