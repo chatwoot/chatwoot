@@ -33,6 +33,7 @@
 
     <div
       ref="inboxCardInfo"
+      v-resize="onResize"
       class="flex flex-row items-center justify-between w-full gap-2"
     >
       <div
@@ -112,10 +113,7 @@ import {
   shortenSnoozeTime,
 } from 'dashboard/helper/snoozeHelpers';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
-import { debounce } from '@chatwoot/utils';
 import { NOTIFICATION_TYPES_MAPPING } from './helpers/constants';
-
-const OBSERVER_DEBOUNCE_TIME = 100;
 
 export default {
   components: {
@@ -140,7 +138,6 @@ export default {
     return {
       isContextMenuOpen: false,
       contextMenuPosition: { x: null, y: null },
-      resizeObserver: null,
       inboxCardInfoElementWidth: 0,
     };
   },
@@ -233,28 +230,12 @@ export default {
       return '';
     },
   },
-  mounted() {
-    this.$nextTick(() => {
-      this.resizeObserver = new ResizeObserver(
-        debounce(this.resizeObserverCallback, OBSERVER_DEBOUNCE_TIME, false)
-      );
-      if (this.$refs.inboxCardInfo) {
-        this.resizeObserver.observe(this.$refs.inboxCardInfo);
-      }
-    });
-  },
   unmounted() {
-    if (this.resizeObserver) {
-      this.resizeObserver.unobserve(this.$refs.inboxCardInfo);
-      this.resizeObserver.disconnect();
-    }
     this.closeContextMenu();
   },
   methods: {
-    resizeObserverCallback(entries) {
-      entries.forEach(entry => {
-        this.inboxCardInfoElementWidth = entry.contentRect.width;
-      });
+    onResize(entry) {
+      this.inboxCardInfoElementWidth = entry.contentRect.width;
     },
     openConversation(notification) {
       const {
