@@ -19,4 +19,5 @@ export const FEATURE_FLAGS = {
   INSERT_ARTICLE_IN_REPLY: 'insert_article_in_reply',
   INBOX_VIEW: 'inbox_view',
   SLA: 'sla',
+  RESPONSE_BOT: 'response_bot',
 };
