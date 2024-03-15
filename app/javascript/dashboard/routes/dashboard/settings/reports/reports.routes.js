@@ -7,6 +7,7 @@ const LabelReports = () => import('./LabelReports.vue');
 const InboxReports = () => import('./InboxReports.vue');
 const TeamReports = () => import('./TeamReports.vue');
 const CsatResponses = () => import('./CsatResponses.vue');
+const BotReports = () => import('./BotReports.vue');
 const LiveReports = () => import('./LiveReports.vue');
 
 export default {
@@ -63,6 +64,23 @@ export default {
           name: 'csat_reports',
           roles: ['administrator'],
           component: CsatResponses,
+        },
+      ],
+    },
+    {
+      path: frontendURL('accounts/:accountId/reports'),
+      component: SettingsContent,
+      props: {
+        headerTitle: 'BOT_REPORTS.HEADER',
+        icon: 'bot',
+        keepAlive: false,
+      },
+      children: [
+        {
+          path: 'bot',
+          name: 'bot_reports',
+          roles: ['administrator'],
+          component: BotReports,
         },
       ],
     },
