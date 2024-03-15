@@ -73,16 +73,16 @@ export const shortenSnoozeTime = snoozedUntil => {
   if (!snoozedUntil) {
     return null;
   }
-  const shortenTime = snoozedUntil
-    .replace(' minutes', 'm')
-    .replace(' minute', 'm')
-    .replace(' hours', 'h')
-    .replace(' hour', 'h')
-    .replace(' days', 'd')
-    .replace(' day', 'd')
-    .replace(' months', 'mo')
-    .replace(' month', 'mo')
-    .replace(' years', 'y')
-    .replace(' year', 'y');
+  const shortenTime = snoozedUntil.replace(
+    /( minutes?| hours?| days?| months?| years?)/g,
+    (match, unitMatch) => {
+      if (unitMatch === ' minutes' || unitMatch === ' minute') return 'm';
+      if (unitMatch === ' hours' || unitMatch === ' hour') return 'h';
+      if (unitMatch === ' days' || unitMatch === ' day') return 'd';
+      if (unitMatch === ' months' || unitMatch === ' month') return 'mo';
+      if (unitMatch === ' years' || unitMatch === ' year') return 'y';
+      return match;
+    }
+  );
   return shortenTime;
 };
