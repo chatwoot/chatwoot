@@ -23,11 +23,11 @@ const mapUrl = computed(
 
 <template>
   <div
-    class="location message-text__wrap flex flex-row items-center justify-start gap-1 w-full py-1 px-0 cursor-pointer overflow-hidden"
+    class="flex flex-row items-center justify-start gap-1 w-full py-1 px-0 cursor-pointer overflow-hidden"
   >
     <fluent-icon
       icon="location"
-      class="file--icon text-slate-600 dark:text-slate-200 leading-none my-0 flex items-center flex-shrink-0"
+      class="text-slate-600 dark:text-slate-200 leading-none my-0 flex items-center flex-shrink-0"
       size="32"
     />
     <div class="flex flex-col items-start flex-1 min-w-0">
@@ -39,7 +39,7 @@ const mapUrl = computed(
       </h5>
       <div class="flex items-center">
         <a
-          class="download clear link button small"
+          class="text-woot-600 dark:text-woot-600 text-xs underline"
           rel="noreferrer noopener nofollow"
           target="_blank"
           :href="mapUrl"
