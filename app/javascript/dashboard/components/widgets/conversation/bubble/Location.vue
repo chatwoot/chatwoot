@@ -1,5 +1,5 @@
 <script setup>
-import { computed, toRefs } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps({
   latitude: {
@@ -16,10 +16,8 @@ const props = defineProps({
   },
 });
 
-const { latitude, longitude, name } = toRefs(props);
-
 const mapUrl = computed(
-  () => `https://maps.google.com/?q=${latitude.value},${longitude.value}`
+  () => `https://maps.google.com/?q=${props.latitude},${props.longitude}`
 );
 </script>
 
@@ -32,9 +30,9 @@ const mapUrl = computed(
       class="file--icon text-slate-600 dark:text-slate-200 leading-none my-0 flex items-center flex-shrink-0"
       size="32"
     />
-    <div class="flex flex-col items-start w-11/12">
+    <div class="flex flex-col items-start flex-1 min-w-0">
       <h5
-        class="text-sm text-slate-800 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis m-0 w-full"
+        class="text-sm text-slate-800 dark:text-slate-100 truncate m-0 w-full"
         :title="name"
       >
         {{ name }}
