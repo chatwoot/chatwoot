@@ -2,32 +2,29 @@ require 'rails_helper'
 
 RSpec.describe ActiveStorage::Migrator do
   describe '.migrate' do
-    let(:from_service_stub) { double('from_service') }
-    let(:to_service_stub) { double('to_service') }
-    let(:blob_spy) { spy('ActiveStorage::Blob') }
+    let(:from_service_stub) { instance_double(ActiveStorage::Service) }
+    let(:to_service_stub) { instance_double(ActiveStorage::Service) }
 
     before do
-      allow(ActiveStorage::Service).to receive(:configure).with(:from_service, any_args).and_return(from_service_stub)
-      allow(ActiveStorage::Service).to receive(:configure).with(:to_service, any_args).and_return(to_service_stub)
-      allow(ActiveStorage::Blob).to receive(:find_each).and_yield(blob_spy)
+      allow(ActiveStorage::Service).to receive(:configure).with('local', any_args).and_return(from_service_stub)
+      allow(ActiveStorage::Service).to receive(:configure).with('amazon', any_args).and_return(to_service_stub)
     end
 
     context 'when services are configured correctly' do
       it 'migrates blobs from one service to another' do
-        allow(blob_spy).to receive(:image?).and_return(true)
-
-        expect(ActiveStorage::Service).to receive(:configure).with(:from_service, any_args)
-        expect(ActiveStorage::Service).to receive(:configure).with(:to_service, any_args)
-
-        described_class.migrate(:from_service, :to_service)
+        expect(ActiveStorage::Service).to receive(:configure).with('local', any_args)
+        expect(ActiveStorage::Service).to receive(:configure).with('amazon', any_args)
+        expect(described_class).to receive(:migrate_blobs).with(from_service_stub, to_service_stub)
+        expect { described_class.migrate('local', 'amazon') }.not_to raise_error
       end
     end
 
     context 'when services are not configured correctly' do
       it 'prints an error message' do
-        allow(from_service_stub).to receive(:nil?).and_return(true)
-
-        expect { described_class.migrate(:from_service, :to_service) }.to output("Error: The services 'from_service' or 'to_service' are not configured correctly.\n").to_stdout
+        allow(ActiveStorage::Service).to receive(:configure).and_return(nil)
+        expect do
+          described_class.migrate('random', 'random')
+        end.to raise_error(RuntimeError, "Error: The services 'random' or 'random' are not configured correctly.")
       end
     end
   end
