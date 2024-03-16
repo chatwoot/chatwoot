@@ -36,7 +36,7 @@
         "DESC": "( Toplam )"
       },
       "BOT_RESOLUTION_COUNT": {
-        "NAME": "Çözünürlük Sayısı",
+        "NAME": "Çözüm Sayısı",
         "DESC": "( Toplam )"
       },
       "BOT_HANDOFF_COUNT": {
@@ -445,15 +445,15 @@
     "HEADER": "Bot Reports",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
-        "LABEL": "No. of Conversations",
+        "LABEL": "Konuşma sayısı",
         "TOOLTIP": "Total number of conversations handled by the bot"
       },
       "TOTAL_RESPONSES": {
-        "LABEL": "Total Responses",
-        "TOOLTIP": "Total number of responses sent by the bot"
+        "LABEL": "Toplam yanıt",
+        "TOOLTIP": "Bot tarafından gönderilen toplam yanıt sayısı"
       },
       "RESOLUTION_RATE": {
-        "LABEL": "Resolution Rate",
+        "LABEL": "Çözüm Oranı",
         "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
       },
       "HANDOFF_RATE": {
