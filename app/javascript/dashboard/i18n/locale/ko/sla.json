@@ -62,11 +62,17 @@
         "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
       }
     },
-    "EDIT": {
-      "TITLE": "Edit SLA",
+    "DELETE": {
+      "TITLE": "Delete SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA updated successfully",
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
         "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
+      },
+      "CONFIRM": {
+        "TITLE": "삭제 확인",
+        "MESSAGE": "Are you sure you want to delete ",
+        "YES": "예, 삭제합니다. ",
+        "NO": "아니요, 유지해주세요. "
       }
     }
   }
