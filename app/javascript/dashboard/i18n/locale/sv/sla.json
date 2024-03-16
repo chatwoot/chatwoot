@@ -62,11 +62,17 @@
         "ERROR_MESSAGE": "Ett fel uppstod, vänligen försök igen"
       }
     },
-    "EDIT": {
-      "TITLE": "Edit SLA",
+    "DELETE": {
+      "TITLE": "Delete SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA updated successfully",
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
         "ERROR_MESSAGE": "Ett fel uppstod, vänligen försök igen"
+      },
+      "CONFIRM": {
+        "TITLE": "Bekräfta borttagning",
+        "MESSAGE": "Are you sure you want to delete ",
+        "YES": "Ja, ta bort ",
+        "NO": "Nej, behåll "
       }
     }
   }
