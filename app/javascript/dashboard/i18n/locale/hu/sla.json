@@ -62,11 +62,17 @@
         "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
       }
     },
-    "EDIT": {
-      "TITLE": "Edit SLA",
+    "DELETE": {
+      "TITLE": "Delete SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA updated successfully",
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
         "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
+      },
+      "CONFIRM": {
+        "TITLE": "Törlés megerősítése",
+        "MESSAGE": "Are you sure you want to delete ",
+        "YES": "Igen, Törlés ",
+        "NO": "Nem, Mégse "
       }
     }
   }
