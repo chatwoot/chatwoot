@@ -62,11 +62,17 @@
         "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
       }
     },
-    "EDIT": {
-      "TITLE": "Edit SLA",
+    "DELETE": {
+      "TITLE": "Delete SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA updated successfully",
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
         "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
+      },
+      "CONFIRM": {
+        "TITLE": "削除の確認",
+        "MESSAGE": "Are you sure you want to delete ",
+        "YES": "削除する ",
+        "NO": "いいえ "
       }
     }
   }
