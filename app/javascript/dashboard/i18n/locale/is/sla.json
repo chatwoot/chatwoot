@@ -62,11 +62,17 @@
         "ERROR_MESSAGE": "Það kom upp villa, vinsamlegast reyndu aftur"
       }
     },
-    "EDIT": {
-      "TITLE": "Edit SLA",
+    "DELETE": {
+      "TITLE": "Delete SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA updated successfully",
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
         "ERROR_MESSAGE": "Það kom upp villa, vinsamlegast reyndu aftur"
+      },
+      "CONFIRM": {
+        "TITLE": "Staðfesta eyðingu",
+        "MESSAGE": "Are you sure you want to delete ",
+        "YES": "Já, eyða",
+        "NO": "Nei, hætta við eyðingu"
       }
     }
   }
