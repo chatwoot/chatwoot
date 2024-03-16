@@ -62,11 +62,17 @@
         "ERROR_MESSAGE": "There was an error, please try again"
       }
     },
-    "EDIT": {
-      "TITLE": "Edit SLA",
+    "DELETE": {
+      "TITLE": "Delete SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA updated successfully",
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
         "ERROR_MESSAGE": "There was an error, please try again"
+      },
+      "CONFIRM": {
+        "TITLE": "நீக்குதலை உறுதிப்படுத்தவும்",
+        "MESSAGE": "Are you sure you want to delete ",
+        "YES": "ஆம், நீக்கு ",
+        "NO": "இல்லை, வைத்திரு "
       }
     }
   }
