@@ -62,11 +62,17 @@
         "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
       }
     },
-    "EDIT": {
-      "TITLE": "Edit SLA",
+    "DELETE": {
+      "TITLE": "Delete SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA updated successfully",
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
         "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
+      },
+      "CONFIRM": {
+        "TITLE": "تاییدیه حذف",
+        "MESSAGE": "Are you sure you want to delete ",
+        "YES": "بله، حذف شود ",
+        "NO": "خیر، نگه‌دار "
       }
     }
   }
