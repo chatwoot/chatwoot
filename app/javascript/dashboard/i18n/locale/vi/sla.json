@@ -62,11 +62,17 @@
         "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
       }
     },
-    "EDIT": {
-      "TITLE": "Edit SLA",
+    "DELETE": {
+      "TITLE": "Delete SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA updated successfully",
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
         "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
+      },
+      "CONFIRM": {
+        "TITLE": "Xác nhận xoá",
+        "MESSAGE": "Are you sure you want to delete ",
+        "YES": "Có, xoá ",
+        "NO": "Không, giữ "
       }
     }
   }
