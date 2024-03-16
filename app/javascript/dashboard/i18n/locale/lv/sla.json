@@ -62,11 +62,17 @@
         "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
       }
     },
-    "EDIT": {
-      "TITLE": "Rediģēt SLA",
+    "DELETE": {
+      "TITLE": "Delete SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA ir veiksmīgi atjaunināts",
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
         "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
+      },
+      "CONFIRM": {
+        "TITLE": "Apstiprināt Dzēšanu",
+        "MESSAGE": "Are you sure you want to delete ",
+        "YES": "Jā, Dzēst ",
+        "NO": "Nē, Paturēt "
       }
     }
   }
