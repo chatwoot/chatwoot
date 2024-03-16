@@ -62,11 +62,17 @@
         "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą"
       }
     },
-    "EDIT": {
-      "TITLE": "Edit SLA",
+    "DELETE": {
+      "TITLE": "Delete SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA updated successfully",
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
         "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą"
+      },
+      "CONFIRM": {
+        "TITLE": "Patvirtinti Ištrynimą",
+        "MESSAGE": "Are you sure you want to delete ",
+        "YES": "Taip, Trinti ",
+        "NO": "Ne, Išsaugoti "
       }
     }
   }
