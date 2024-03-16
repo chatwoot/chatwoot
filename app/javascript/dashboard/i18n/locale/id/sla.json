@@ -62,11 +62,17 @@
         "ERROR_MESSAGE": "Terjadi kesalahan, harap coba lagi"
       }
     },
-    "EDIT": {
-      "TITLE": "Edit SLA",
+    "DELETE": {
+      "TITLE": "Delete SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA updated successfully",
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
         "ERROR_MESSAGE": "Terjadi kesalahan, harap coba lagi"
+      },
+      "CONFIRM": {
+        "TITLE": "Konfirmasi Penghapusan",
+        "MESSAGE": "Are you sure you want to delete ",
+        "YES": "Ya, Hapus ",
+        "NO": "Tidak, Simpan "
       }
     }
   }
