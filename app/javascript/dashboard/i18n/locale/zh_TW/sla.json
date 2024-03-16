@@ -62,11 +62,17 @@
         "ERROR_MESSAGE": "出現錯誤，請重試"
       }
     },
-    "EDIT": {
-      "TITLE": "Edit SLA",
+    "DELETE": {
+      "TITLE": "Delete SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA updated successfully",
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
         "ERROR_MESSAGE": "出現錯誤，請重試"
+      },
+      "CONFIRM": {
+        "TITLE": "確認刪除",
+        "MESSAGE": "Are you sure you want to delete ",
+        "YES": "是，刪除 ",
+        "NO": "不，保留 "
       }
     }
   }
