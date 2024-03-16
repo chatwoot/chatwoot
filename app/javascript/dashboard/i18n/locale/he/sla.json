@@ -62,11 +62,17 @@
         "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
       }
     },
-    "EDIT": {
-      "TITLE": "Edit SLA",
+    "DELETE": {
+      "TITLE": "Delete SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA updated successfully",
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
         "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
+      },
+      "CONFIRM": {
+        "TITLE": "אשר מחיקה",
+        "MESSAGE": "Are you sure you want to delete ",
+        "YES": "כן, מחק ",
+        "NO": "לא, השאר "
       }
     }
   }
