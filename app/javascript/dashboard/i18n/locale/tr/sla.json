@@ -62,11 +62,17 @@
         "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
       }
     },
-    "EDIT": {
-      "TITLE": "Edit SLA",
+    "DELETE": {
+      "TITLE": "Delete SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA updated successfully",
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
         "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
+      },
+      "CONFIRM": {
+        "TITLE": "Silmeyi onayla",
+        "MESSAGE": "Are you sure you want to delete ",
+        "YES": "Evet, Sil ",
+        "NO": "Hayır, Tut"
       }
     }
   }
