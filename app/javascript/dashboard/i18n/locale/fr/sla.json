@@ -62,11 +62,17 @@
         "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer"
       }
     },
-    "EDIT": {
-      "TITLE": "Edit SLA",
+    "DELETE": {
+      "TITLE": "Delete SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA updated successfully",
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
         "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirmer la suppression",
+        "MESSAGE": "Are you sure you want to delete ",
+        "YES": "Oui, supprimer ",
+        "NO": "Non, Conserver "
       }
     }
   }
