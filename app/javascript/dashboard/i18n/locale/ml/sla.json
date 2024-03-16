@@ -62,11 +62,17 @@
         "ERROR_MESSAGE": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
       }
     },
-    "EDIT": {
-      "TITLE": "Edit SLA",
+    "DELETE": {
+      "TITLE": "Delete SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA updated successfully",
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
         "ERROR_MESSAGE": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
+      },
+      "CONFIRM": {
+        "TITLE": "ഇല്ലാതാക്കൽ സ്ഥിരീകരിക്കുക",
+        "MESSAGE": "Are you sure you want to delete ",
+        "YES": "അതെ, ഇല്ലാതാക്കുക ",
+        "NO": "ഇല്ല, സൂക്ഷിക്കുക"
       }
     }
   }
