@@ -62,11 +62,17 @@
         "ERROR_MESSAGE": "Došlo k chybě, zkuste to prosím znovu"
       }
     },
-    "EDIT": {
-      "TITLE": "Edit SLA",
+    "DELETE": {
+      "TITLE": "Delete SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA updated successfully",
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
         "ERROR_MESSAGE": "Došlo k chybě, zkuste to prosím znovu"
+      },
+      "CONFIRM": {
+        "TITLE": "Potvrdit odstranění",
+        "MESSAGE": "Are you sure you want to delete ",
+        "YES": "Ano, odstranit ",
+        "NO": "Ne, zachovat "
       }
     }
   }
