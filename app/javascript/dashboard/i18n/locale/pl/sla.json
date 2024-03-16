@@ -62,11 +62,17 @@
         "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie"
       }
     },
-    "EDIT": {
-      "TITLE": "Edit SLA",
+    "DELETE": {
+      "TITLE": "Delete SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA updated successfully",
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
         "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie"
+      },
+      "CONFIRM": {
+        "TITLE": "Potwierdź usunięcie",
+        "MESSAGE": "Are you sure you want to delete ",
+        "YES": "Tak, usuń ",
+        "NO": "Nie, zachowaj "
       }
     }
   }
