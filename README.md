@@ -13,7 +13,11 @@ Customer engagement suite, an open-source alternative to Intercom, Zendesk, Sale
   <a href="https://marketplace.digitalocean.com/apps/chatwoot?refcode=f2238426a2a8" alt="Deploy to DigitalOcean">
      <img width="200" alt="Deploy to DO" src="https://www.deploytodo.com/do-btn-blue.svg"/>
   </a>
+  <a href="https://repocloud.io/details/?app_id=202" alt="Deploy to RepoCloud">
+     <img width="200" alt="Deploy to RepoCloud" src="https://d16t0pc4846x52.cloudfront.net/deploy-md.png"/>
+  </a>
 </p>
+
 
 <p>
   <a href="https://codeclimate.com/github/chatwoot/chatwoot/maintainability"><img src="https://api.codeclimate.com/v1/badges/e6e3f66332c91e5a4c0c/maintainability" alt="Maintainability"></a>
