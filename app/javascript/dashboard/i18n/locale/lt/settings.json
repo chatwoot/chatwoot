@@ -160,6 +160,9 @@
     "TRIAL_MESSAGE": "liko bandymo dienų.",
     "TRAIL_BUTTON": "Pirkti dabar",
     "DELETED_USER": "Trinti Vartotoją",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Paskyra laikinai sustabdyta",
       "MESSAGE": "Jūsų paskyra laikinai sustabdyta. Norėdami gauti daugiau informacijos, susisiekite su palaikymo komanda."
@@ -197,6 +200,7 @@
     "CURRENTLY_VIEWING_ACCOUNT": "Šiuo metu peržiūri:",
     "SWITCH": "Perjungti",
     "CONVERSATIONS": "Pokalbiai",
+    "INBOX": "Gautų laiškų aplankas",
     "ALL_CONVERSATIONS": "Visi Pokalbiai",
     "MENTIONED_CONVERSATIONS": "Paminėjimai",
     "PARTICIPATING_CONVERSATIONS": "Dalyvaujantys",
@@ -238,6 +242,7 @@
     "REPORTS_INBOX": "Gautų laiškų aplankas",
     "REPORTS_TEAM": "Komanda",
     "SET_AVAILABILITY_TITLE": "Nustatykite save kaip",
+    "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Apžvalga",
     "FACEBOOK_REAUTHORIZE": "Jūsų ryšys su Facebook nutrūko. Jei norite toliau nauditis paslaugomis, iš naujo prisijunkite prie Facebook puslapio",

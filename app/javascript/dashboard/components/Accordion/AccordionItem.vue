@@ -1,7 +1,7 @@
 <template>
   <div class="-mt-px text-sm">
     <button
-      class="flex items-center select-none w-full bg-slate-50 dark:bg-slate-800 border border-l-0 border-r-0 border-solid m-0 border-slate-100 dark:border-slate-700/50 cursor-grab justify-between py-2 px-4 drag-handle"
+      class="flex items-center select-none w-full rounded-none bg-slate-50 dark:bg-slate-800 border border-l-0 border-r-0 border-solid m-0 border-slate-100 dark:border-slate-700/50 cursor-grab justify-between py-2 px-4 drag-handle"
       @click="$emit('click')"
     >
       <div class="flex justify-between mb-0.5">

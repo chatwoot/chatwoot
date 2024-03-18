@@ -160,6 +160,9 @@
     "TRIAL_MESSAGE": "dagars provperiod återstår.",
     "TRAIL_BUTTON": "Köp nu",
     "DELETED_USER": "Deleted User",
+    "EMAIL_VERIFICATION_PENDING": "Det verkar som om du inte har bekräftat din e-postadress ännu. Vänligen kolla din inkorg för verifieringsmailet.",
+    "RESEND_VERIFICATION_MAIL": "Skicka verifieringsmail igen",
+    "EMAIL_VERIFICATION_SENT": "Ett verifieringsmail har skickats. Kolla din inkorg.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Account Suspended",
       "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
@@ -197,6 +200,7 @@
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
     "CONVERSATIONS": "Konversationer",
+    "INBOX": "Inkorg",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Mentions",
     "PARTICIPATING_CONVERSATIONS": "Deltar",
@@ -238,6 +242,7 @@
     "REPORTS_INBOX": "Inkorg",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Overview",
     "FACEBOOK_REAUTHORIZE": "Din Facebook-anslutning har löpt ut, vänligen återanslut din Facebook-sida för att fortsätta med tjänsterna",

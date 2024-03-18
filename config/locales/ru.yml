@@ -31,6 +31,7 @@ ru:
       disposable_email: Мы не разрешаем одноразовые почтовые ящики
       invalid_email: Вы ввели неверный email
       email_already_exists: "Вы уже зарегистрировались для учётной записи с %{email}"
+      invalid_params: 'Неверно, проверьте параметры регистрации и повторите попытку'
       failed: Ошибка регистрации
     data_import:
       data_type:
@@ -41,7 +42,7 @@ ru:
       export:
         success: Мы сообщим вам, как только файл для экспорта контактов будет готов к просмотру.
       email:
-        invalid: Не верный email
+        invalid: Неверный email
       phone_number:
         invalid: должен иметь формат e164
     categories:
@@ -67,44 +68,46 @@ ru:
     utc_warning: Отчёт создан в часовом поясе UTC
     agent_csv:
       agent_name: Имя оператора
-      conversations_count: Количество бесед
-      avg_first_response_time: Среднее время первого ответа (в минутах)
-      avg_resolution_time: Среднее время решения (в минутах)
+      conversations_count: Назначенные диалоги
+      avg_first_response_time: Среднее время первого ответа
+      avg_resolution_time: Среднее время завершения
     inbox_csv:
-      inbox_name: Inbox name
-      inbox_type: Inbox type
-      conversations_count: No. of conversations
-      avg_first_response_time: Среднее время первого ответа (в минутах)
-      avg_resolution_time: Среднее время решения (в минутах)
+      inbox_name: Имя источника
+      inbox_type: Тип входящего сообщения
+      conversations_count: Количество диалогов
+      avg_first_response_time: Среднее время первого ответа
+      avg_resolution_time: Среднее время завершения
     label_csv:
       label_title: Метка
-      conversations_count: No. of conversations
-      avg_first_response_time: Среднее время первого ответа (в минутах)
-      avg_resolution_time: Среднее время решения (в минутах)
+      conversations_count: Количество диалогов
+      avg_first_response_time: Среднее время первого ответа
+      avg_resolution_time: Среднее время завершения
     team_csv:
       team_name: Название команды
       conversations_count: Количество бесед
-      avg_first_response_time: Среднее время первого ответа (в минутах)
-      avg_resolution_time: Среднее время решения (в минутах)
+      avg_first_response_time: Среднее время первого ответа
+      avg_resolution_time: Среднее время завершения
     conversation_traffic_csv:
       timezone: Часовой пояс
     default_group_by: день
     csat:
       headers:
-        contact_name: Contact Name
-        contact_email_address: Contact Email Address
-        contact_phone_number: Contact Phone Number
-        link_to_the_conversation: Link to the conversation
+        contact_name: Имя контакта
+        contact_email_address: Email контакта
+        contact_phone_number: Номер телефона контакта
+        link_to_the_conversation: Ссылка на диалог
         agent_name: Имя оператора
         rating: Оценка
-        feedback: Feedback Comment
-        recorded_at: Recorded date
+        feedback: Комментарий к отзыву
+        recorded_at: Дата записи
   notifications:
     notification_title:
-      conversation_creation: "[Новая беседа] - #%{display_id} была создана в %{inbox_name}"
-      conversation_assignment: "[Назначено Вам] - #%{display_id} была назначена Вам"
-      assigned_conversation_new_message: "[Новое сообщение] - #%{display_id} %{content}"
-      conversation_mention: "Вас упомянули в разговоре [ID - %{display_id}] %{name}"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} упомянул Вас в истории: "
@@ -228,3 +231,24 @@ ru:
       inbox_name: Электронная почта
       inbox_type: Тип источника
     button: Открыть беседу
+  time_units:
+    days:
+      one: "%{count} день"
+      few: "%{count} дней"
+      many: "%{count} дней"
+      other: "%{count} дней"
+    hours:
+      one: "%{count} час"
+      few: "%{count} часов"
+      many: "%{count} часов"
+      other: "%{count} часов"
+    minutes:
+      one: "%{count} минут"
+      few: "%{count} минут"
+      many: "%{count} минут"
+      other: "%{count} минут"
+    seconds:
+      one: "%{count} секунд"
+      few: "%{count} секунд"
+      many: "%{count} секунд"
+      other: "%{count} секунд"
