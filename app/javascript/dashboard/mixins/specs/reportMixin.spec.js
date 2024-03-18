@@ -11,9 +11,40 @@ describe('reportMixin', () => {
   beforeEach(() => {
     getters = {
       getAccountSummary: () => reportFixtures.summary,
+      getBotSummary: () => reportFixtures.botSummary,
       getAccountReports: () => reportFixtures.report,
     };
     store = new Vuex.Store({ getters });
+  });
+
+  it('display the metric for account', async () => {
+    const Component = {
+      render() {},
+      title: 'TestComponent',
+      mixins: [reportMixin],
+    };
+    const wrapper = shallowMount(Component, { store, localVue });
+    await wrapper.setProps({
+      accountSummaryKey: 'getAccountSummary',
+    });
+    expect(wrapper.vm.displayMetric('conversations_count')).toEqual('5,000');
+    expect(wrapper.vm.displayMetric('avg_first_response_time')).toEqual(
+      '3 Min 18 Sec'
+    );
+  });
+
+  it('display the metric for bot', async () => {
+    const Component = {
+      render() {},
+      title: 'TestComponent',
+      mixins: [reportMixin],
+    };
+    const wrapper = shallowMount(Component, { store, localVue });
+    await wrapper.setProps({
+      accountSummaryKey: 'getBotSummary',
+    });
+    expect(wrapper.vm.displayMetric('bot_resolutions_count')).toEqual('10');
+    expect(wrapper.vm.displayMetric('bot_handoffs_count')).toEqual('20');
   });
 
   it('display the metric', () => {

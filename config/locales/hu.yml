@@ -31,6 +31,7 @@ hu:
       disposable_email: Nem támogatjuk az eldobható e-mailcímeket
       invalid_email: Hibás e-mailcímet adtál meg
       email_already_exists: "Ezzel az e-mailcímmel már van fiók: %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Feliratkozás sikertelen
     data_import:
       data_type:
@@ -67,25 +68,25 @@ hu:
     utc_warning: A generált riport UTC időzónát használ
     agent_csv:
       agent_name: Ügynök neve
-      conversations_count: Beszélgetésszám
-      avg_first_response_time: Átlagos első reakcióidő (perc)
-      avg_resolution_time: Átlagos megoldási idő (perc)
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     inbox_csv:
       inbox_name: Fiók név
       inbox_type: Fiók típus
       conversations_count: Beszélgetések száma
-      avg_first_response_time: Átlagos első reakcióidő (perc)
-      avg_resolution_time: Átlagos megoldási idő (perc)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     label_csv:
       label_title: Cimke
       conversations_count: Beszélgetések száma
-      avg_first_response_time: Átlagos első reakcióidő (perc)
-      avg_resolution_time: Átlagos megoldási idő (perc)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     team_csv:
       team_name: Csapatnév
       conversations_count: Beszélgetésszám
-      avg_first_response_time: Átlagos első reakcióidő (perc)
-      avg_resolution_time: Átlagos megoldási idő (perc)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: Időzóna
     default_group_by: nap
@@ -101,10 +102,12 @@ hu:
         recorded_at: Felvétel időpontja
   notifications:
     notification_title:
-      conversation_creation: "[Új beszélgetés] - #%{display_id} létrejött itt:%{inbox_name}"
-      conversation_assignment: "[Hozzád rendelve] - #%{display_id} hozzád lett rendelve"
-      assigned_conversation_new_message: "[Új üzenet] - #%{display_id} %{content}"
-      conversation_mention: "%{name} megemlítet ebben a beszélgetésben [ID - %{display_id}]"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} megemlített egy storyban: "
@@ -228,3 +231,16 @@ hu:
       inbox_name: Fiók
       inbox_type: Beérkezett üzenetek típusa
     button: Beszélgetés megnyitása
+  time_units:
+    days:
+      one: "%{count} day"
+      other: "%{count} days"
+    hours:
+      one: "%{count} hour"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minute"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} second"
+      other: "%{count} seconds"

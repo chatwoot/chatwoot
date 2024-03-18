@@ -48,4 +48,33 @@ RSpec.describe MailboxHelper do
       end
     end
   end
+
+  describe '#embed_plain_text_email_with_inline_image' do
+    let(:mail_attachment) do
+      {
+        original: OpenStruct.new(filename: 'image.png'),
+        blob: get_blob_for('spec/assets/avatar.png', 'image/png')
+      }
+    end
+
+    let(:helper_instance) { mailbox_helper_obj.new(conversation, processed_mail) }
+
+    it 'replaces the image tag in the text content' do
+      helper_instance.instance_variable_set(:@text_content, 'Hello [image: image.png] World')
+      helper_instance.send(:embed_plain_text_email_with_inline_image, mail_attachment)
+
+      text_content = helper_instance.instance_variable_get(:@text_content)
+
+      expect(text_content).to include(Rails.application.routes.url_helpers.url_for(mail_attachment[:blob]))
+      expect(text_content).not_to include('[image: avatar.png]')
+    end
+
+    it 'replaces the image tag in the text content even if there is not tag to replace' do
+      helper_instance.instance_variable_set(:@text_content, 'Hello World')
+      helper_instance.send(:embed_plain_text_email_with_inline_image, mail_attachment)
+
+      text_content = helper_instance.instance_variable_get(:@text_content)
+      expect(text_content).to include(Rails.application.routes.url_helpers.url_for(mail_attachment[:blob]))
+    end
+  end
 end

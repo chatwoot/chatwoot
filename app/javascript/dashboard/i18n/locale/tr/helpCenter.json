@@ -18,10 +18,10 @@
         "ARCHIVED": "Arşivlenmiş Makaleler"
       },
       "LOCALE_SELECT": {
-        "TITLE": "Select locale",
-        "PLACEHOLDER": "Select locale",
-        "NO_RESULT": "No locale found",
-        "SEARCH_PLACEHOLDER": "Search locale"
+        "TITLE": "Dil seçin",
+        "PLACEHOLDER": "Dil seçin",
+        "NO_RESULT": "Dil bulunamadı",
+        "SEARCH_PLACEHOLDER": "Dil ara"
       }
     },
     "EDIT_HEADER": {
@@ -319,12 +319,13 @@
       "HEADERS": {
         "TITLE": "Başlık",
         "CATEGORY": "Kategori",
-        "READ_COUNT": "Okuma sayısı",
+        "READ_COUNT": "Views",
         "STATUS": "Durum",
         "LAST_EDITED": "Son düzenleme"
       },
       "COLUMNS": {
-        "BY": "tarafından"
+        "BY": "tarafından",
+        "AUTHOR_NOT_AVAILABLE": "Yazar uygun değil"
       }
     },
     "EDIT_ARTICLE": {

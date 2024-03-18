@@ -34,7 +34,7 @@
           />
           <div
             v-dompurify-html="prepareContent(article.content)"
-            class="line-clamp-2 text-ellipsis text-slate-600 dark:text-slate-300 text-sm"
+            class="line-clamp-2 text-ellipsis whitespace-nowrap overflow-hidden text-slate-600 dark:text-slate-300 text-sm"
           />
         </a>
       </li>
