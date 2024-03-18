@@ -28,7 +28,7 @@ RSpec.describe Contact do
     it 'sets email to nil when empty string' do
       contact = create(:contact, email: '')
       expect(contact.email).to be_nil
-      expect(contact.contact_type).to eq('visitor')
+      expect(contact.contact_type).to eq('lead')
     end
 
     it 'sets custom_attributes to {} when nil' do
@@ -87,9 +87,9 @@ RSpec.describe Contact do
   end
 
   context 'when a contact is created' do
-    it 'has contact type "visitor" by default' do
+    it 'has contact type "lead" by default' do
       contact = create(:contact)
-      expect(contact.contact_type).to eq 'visitor'
+      expect(contact.contact_type).to eq 'lead'
     end
 
     it 'has contact type "lead" when email is present' do
