@@ -7,7 +7,7 @@ class Contacts::SyncAttributes
 
   def perform
     update_contact_location_and_country_code
-    # set_contact_type
+    set_contact_type
   end
 
   private
