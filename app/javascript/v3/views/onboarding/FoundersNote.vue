@@ -36,22 +36,23 @@
         <p>
           {{ $t('START_ONBOARDING.FOUNDERS_NOTE.NOTE.PARAGRAPH_2') }}
         </p>
-        <p>
-          {{
+        <p
+          v-html="
             $t('START_ONBOARDING.FOUNDERS_NOTE.NOTE.PARAGRAPH_3', {
-              scheduleLink: 'https://www.chatwoot.com/request-a-demo',
+              scheduleLink: globalConfig.onboardingSchedulingLink,
             })
-          }}
-        </p>
+          "
+        />
       </div>
       <figure class="text-sm leading-relaxed text-slate-900 dark:text-white">
         <woot-thumbnail
           src="/assets/images/dashboard/onboarding/pranav-square.png"
           username="Pranav"
         />
-        <p class="mt-2">
-          {{ $t('START_ONBOARDING.FOUNDERS_NOTE.NOTE.SIGNATURE') }}
-        </p>
+        <p
+          class="mt-2"
+          v-html="$t('START_ONBOARDING.FOUNDERS_NOTE.NOTE.SIGNATURE')"
+        />
       </figure>
       <submit-button
         button-class="flex justify-center w-full text-sm text-center"
@@ -73,6 +74,7 @@ export default {
   computed: {
     ...mapGetters({
       currentUser: 'getCurrentUser',
+      globalConfig: 'globalConfig/get',
     }),
     userName() {
       const { display_name: displayName, name } = this.currentUser;

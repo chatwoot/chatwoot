@@ -20,6 +20,7 @@ const {
   WIDGET_BRAND_URL: widgetBrandURL,
   DISABLE_USER_PROFILE_UPDATE: disableUserProfileUpdate,
   DEPLOYMENT_ENV: deploymentEnv,
+  ONBOARDING_SCHEDULING_LINK: onboardingSchedulingLink,
 } = window.globalConfig || {};
 
 const state = {
@@ -44,6 +45,7 @@ const state = {
   privacyURL,
   termsURL,
   widgetBrandURL,
+  onboardingSchedulingLink,
 };
 
 export const getters = {

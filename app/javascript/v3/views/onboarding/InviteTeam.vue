@@ -104,7 +104,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
+      isAChatwootInstance: 'globalConfig/isAChatwootInstance',
     }),
   },
   methods: {
@@ -119,7 +119,7 @@ export default {
       }
     },
     async nextStep() {
-      if (this.isOnChatwootCloud) {
+      if (this.isAChatwootInstance) {
         this.$router.push({ name: 'onboarding_founders_note' });
       } else {
         this.$router.push({ name: 'home' });
