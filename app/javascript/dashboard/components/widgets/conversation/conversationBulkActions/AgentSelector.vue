@@ -5,7 +5,7 @@
         <path d="M20 12l-8-8-12 12" fill-rule="evenodd" stroke-width="1px" />
       </svg>
     </div>
-    <div class="header flex-between">
+    <div class="header flex items-center justify-between">
       <span>{{ $t('BULK_ACTION.AGENT_SELECT_LABEL') }}</span>
       <woot-button
         size="tiny"
@@ -26,7 +26,9 @@
       <div v-else class="agent__list-container">
         <ul v-if="!selectedAgent">
           <li class="search-container">
-            <div class="agent-list-search flex-between">
+            <div
+              class="agent-list-search h-8 flex justify-between items-center gap-2"
+            >
               <fluent-icon icon="search" class="search-icon" size="16" />
               <input
                 ref="search"
@@ -45,7 +47,9 @@
                 :username="agent.name"
                 size="22px"
               />
-              <span class="reports-option__title">{{ agent.name }}</span>
+              <span class="my-0 text-slate-800 dark:text-slate-75">
+                {{ agent.name }}
+              </span>
             </div>
           </li>
         </ul>
@@ -205,7 +209,7 @@ export default {
       }
 
       .agent--search_input {
-        @apply border-0 text-xs m-0 dark:bg-transparent bg-transparent h-[unset];
+        @apply border-0 text-xs m-0 dark:bg-transparent bg-transparent h-[unset] w-full;
       }
     }
   }
@@ -231,7 +235,7 @@ ul {
 }
 
 .agent-list-item {
-  @apply flex items-center p-2.5 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900;
+  @apply flex items-center p-2.5 gap-2 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900;
   span {
     @apply text-sm;
   }

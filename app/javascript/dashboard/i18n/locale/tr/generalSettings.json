@@ -112,7 +112,8 @@
       "REMOVE_LABEL": "Konuşmadan Etiketi Kaldır",
       "SETTINGS": "Ayarlar",
       "AI_ASSIST": "AI Yardımı",
-      "APPEARANCE": "Görünüm"
+      "APPEARANCE": "Görünüm",
+      "SNOOZE_NOTIFICATION": "Sessiz bildirim"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Konuşma Paneline Git",
@@ -153,7 +154,8 @@
       "CHANGE_APPEARANCE": "Görünümü Değiştir",
       "LIGHT_MODE": "Açık Mod",
       "DARK_MODE": "Koyu Mod",
-      "SYSTEM_MODE": "Sistem Modu"
+      "SYSTEM_MODE": "Sistem Modu",
+      "SNOOZE_NOTIFICATION": "Sessiz bildirim"
     }
   },
   "DASHBOARD_APPS": {
