@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_06_201954) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_18_111131) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -418,7 +418,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_06_201954) do
     t.string "identifier"
     t.jsonb "custom_attributes", default: {}
     t.datetime "last_activity_at", precision: nil
-    t.integer "contact_type", default: 0
+    t.integer "contact_type", default: 1
     t.string "middle_name", default: ""
     t.string "last_name", default: ""
     t.string "location", default: ""

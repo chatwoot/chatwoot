@@ -7,7 +7,7 @@
 #  id                    :integer          not null, primary key
 #  additional_attributes :jsonb
 #  blocked               :boolean          default(FALSE), not null
-#  contact_type          :integer          default("visitor")
+#  contact_type          :integer          default("lead")
 #  country_code          :string           default("")
 #  custom_attributes     :jsonb
 #  email                 :string
@@ -57,7 +57,7 @@ class Contact < ApplicationRecord
   has_many :inboxes, through: :contact_inboxes
   has_many :messages, as: :sender, dependent: :destroy_async
   has_many :notes, dependent: :destroy_async
-  before_validation :prepare_contact_attributes
+  before_validation :prepare_contact_attributes, :set_default_contact_type
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
@@ -195,6 +195,10 @@ class Contact < ApplicationRecord
   def prepare_contact_attributes
     prepare_email_attribute
     prepare_jsonb_attributes
+  end
+
+  def set_default_contact_type
+    self.contact_type ||= :lead
   end
 
   def prepare_email_attribute

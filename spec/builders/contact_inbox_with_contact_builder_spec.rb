@@ -96,4 +96,18 @@ describe ContactInboxWithContactBuilder do
       expect(contact_inbox.contact.id).to be(contact.id)
     end
   end
+
+  it 'creates contact type as visitor by default' do
+    contact_inbox = described_class.new(
+      source_id: '123456',
+      inbox: inbox,
+      contact_attributes: {
+        name: 'Contact',
+        phone_number: '',
+        type: 'visitor'
+      }
+    ).perform
+
+    expect(contact_inbox.contact.contact_type).to eq('visitor')
+  end
 end
