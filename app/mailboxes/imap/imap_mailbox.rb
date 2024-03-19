@@ -17,6 +17,7 @@ class Imap::ImapMailbox
       find_or_create_conversation
       create_message
       add_attachments_to_message
+      connect_original_conversation
     end
   end
 
@@ -39,9 +40,9 @@ class Imap::ImapMailbox
 
     message = @inbox.messages.find_by(source_id: in_reply_to)
     if message.nil?
-      @inbox.conversations.where("additional_attributes->>'in_reply_to' = ?", in_reply_to).first
+      @inbox.conversations.unclosed.where("additional_attributes->>'in_reply_to' = ?", in_reply_to).first
     else
-      @inbox.conversations.find(message.conversation_id)
+      @inbox.conversations.unclosed.find_by(id: message.conversation_id)
     end
   end
 
@@ -52,7 +53,7 @@ class Imap::ImapMailbox
 
     return if message.nil?
 
-    @inbox.conversations.find(message.conversation_id)
+    @inbox.conversations.unclosed.find_by(id: message.conversation_id)
   end
 
   def in_reply_to
@@ -88,6 +89,18 @@ class Imap::ImapMailbox
         }
       }
     )
+  end
+
+  def connect_original_conversation
+    return unless @conversation.present?
+
+    message = @inbox.messages.find_by(source_id: in_reply_to)
+    message ||= find_message_by_references
+
+    return unless message.present?
+    return if message.conversation == @conversation
+
+    Digitaltolk::ConnectOriginalConversationService.new(@conversation, message.conversation).perform
   end
 
   def find_or_create_contact
