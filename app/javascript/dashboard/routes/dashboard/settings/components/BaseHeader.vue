@@ -21,7 +21,13 @@ defineProps({
     default: '',
   },
 });
+
+const openInNewTab = url => {
+  if (!url) return;
+  window.open(url, '_blank', 'noopener noreferrer');
+};
 </script>
+
 <template>
   <div class="flex flex-col items-start w-full gap-4">
     <!-- Header section with icon, title and action button -->
@@ -64,6 +70,8 @@ defineProps({
       <a
         v-if="href && linkText"
         :href="href"
+        target="_blank"
+        rel="noopener noreferrer"
         class="sm:inline-flex hidden gap-1 w-fit items-center text-woot-500 dark:text-woot-500 text-sm font-medium tracking=[-0.6%] hover:underline"
       >
         {{ linkText }}
@@ -78,15 +86,15 @@ defineProps({
     <!-- Mobile view for actions and link -->
     <div class="flex items-start gap-3 sm:hidden">
       <slot name="actions" />
-      <a v-if="href && linkText" :href="href">
-        <woot-button
-          color-scheme="secondary"
-          icon="arrow-up-right"
-          class="flex-row-reverse rounded-xl !bg-slate-50 !text-slate-900 dark:!text-white dark:!bg-slate-800"
-        >
-          {{ linkText }}
-        </woot-button>
-      </a>
+      <woot-button
+        v-if="href && linkText"
+        color-scheme="secondary"
+        icon="arrow-up-right"
+        class="flex-row-reverse rounded-xl !bg-slate-50 !text-slate-900 dark:!text-white dark:!bg-slate-800"
+        @click="openInNewTab(href)"
+      >
+        {{ linkText }}
+      </woot-button>
     </div>
   </div>
 </template>
