@@ -22,4 +22,10 @@ class SlaEvent < ApplicationRecord
   enum event_type: { frt: 0, nrt: 1, rt: 2 }
 
   before_validation :ensure_applied_sla_id
+
+  private
+
+  def ensure_applied_sla_id
+    self.applied_sla_id ||= AppliedSla.find_by(conversation_id: conversation_id)&.last&.id
+  end
 end
