@@ -94,11 +94,12 @@ class Imap::ImapMailbox
   def connect_original_conversation
     return unless @conversation.present?
 
-    message = @inbox.messages.find_by(source_id: in_reply_to)
+    message = (@inbox.messages.find_by(source_id: in_reply_to) unless in_reply_to.blank?)
     message ||= find_message_by_references
 
-    return unless message.present?
-    return if message.conversation == @conversation
+    return if message.blank?
+    return unless message.conversation.closed?
+    return if message.conversation.id == @conversation.id
 
     Digitaltolk::ConnectOriginalConversationService.new(@conversation, message.conversation).perform
   end
