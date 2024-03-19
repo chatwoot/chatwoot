@@ -1,0 +1,23 @@
+<template>
+  <div
+    class="flex flex-col flex-1 w-full h-full px-5 pt-8 m-0 overflow-auto bg-white sm:px-16 sm:pt-16 dark:bg-slate-900"
+  >
+    <div class="flex items-start max-w-[900px] min-w-0 w-full">
+      <keep-alive v-if="keepAlive">
+        <router-view />
+      </keep-alive>
+      <router-view v-else />
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    keepAlive: {
+      type: Boolean,
+      default: true,
+    },
+  },
+};
+</script>
