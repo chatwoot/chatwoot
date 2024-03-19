@@ -16,4 +16,10 @@
 #  index_sla_events_on_conversation_id  (conversation_id)
 #
 class SlaEvent < ApplicationRecord
+  belongs_to :applied_sla
+  belongs_to :conversation
+
+  enum event_type: { frt: 0, nrt: 1, rt: 2 }
+
+  before_validation :ensure_applied_sla_id
 end
