@@ -138,6 +138,11 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     @conversations = Digitaltolk::FindConversationByEmailService.new(params).perform
   end
 
+  def reply
+    result = Digitaltolk::AddConversationReplyService.new(@conversation, params).perform
+    render json: result
+  end
+
   private
 
   def update_last_seen_on_conversation(last_seen_at, update_assignee)

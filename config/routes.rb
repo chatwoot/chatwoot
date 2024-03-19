@@ -113,6 +113,7 @@ Rails.application.routes.draw do
               post :change_contact
               get :attachments
               get :related_emails
+              post :reply
             end
           end
 

@@ -159,7 +159,7 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def custom_message_id
-    last_message = @message || @messages&.last
+    last_message = @message || @messages&.reject { |m| m.content_type == 'text' }&.last
 
     return last_message.source_id if last_message&.source_id.present?
 
@@ -171,7 +171,7 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def conversation_reply_email_id
-    content_attributes = @conversation.messages.incoming.last&.content_attributes
+    content_attributes = @conversation.messages.incoming_email.incoming.last&.content_attributes
 
     if content_attributes && content_attributes['email'] && content_attributes['email']['message_id']
       return "<#{content_attributes['email']['message_id']}>"
