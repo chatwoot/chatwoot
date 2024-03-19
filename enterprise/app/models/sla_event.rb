@@ -4,7 +4,7 @@
 #
 #  id              :bigint           not null, primary key
 #  event_type      :string
-#  metadata        :jsonb
+#  meta            :jsonb
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  applied_sla_id  :bigint           not null
