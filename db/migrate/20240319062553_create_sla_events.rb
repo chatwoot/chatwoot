@@ -4,7 +4,7 @@ class CreateSlaEvents < ActiveRecord::Migration[7.0]
       t.references :applied_sla, null: false
       t.references :conversation, null: false
 
-      t.string :event_type
+      t.integer :event_type
       t.jsonb :meta, default: {}
 
       t.timestamps

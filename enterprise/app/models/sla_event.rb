@@ -3,7 +3,7 @@
 # Table name: sla_events
 #
 #  id              :bigint           not null, primary key
-#  event_type      :string
+#  event_type      :integer
 #  meta            :jsonb
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null

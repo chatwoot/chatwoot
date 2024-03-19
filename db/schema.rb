@@ -845,7 +845,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_19_062553) do
   create_table "sla_events", force: :cascade do |t|
     t.bigint "applied_sla_id", null: false
     t.bigint "conversation_id", null: false
-    t.string "event_type"
+    t.integer "event_type"
     t.jsonb "meta", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
