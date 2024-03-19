@@ -53,7 +53,7 @@ defineProps({
     <div
       class="flex flex-col gap-2 text-slate-600 dark:text-slate-300 max-w-[721px] min-w-0 w-full"
     >
-      <p class="text-sm font-normal tracking=[0.5%] mb-0">
+      <p class="text-sm font-normal tracking-[0.5%] mb-0">
         <slot name="description">{{ description }}</slot>
       </p>
       <a
@@ -70,6 +70,7 @@ defineProps({
         />
       </a>
     </div>
+    <!-- Mobile view action button -->
     <div class="flex items-start gap-3 sm:hidden">
       <slot name="actions" />
       <a v-if="href && linkText" :href="href">
