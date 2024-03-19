@@ -24,6 +24,7 @@ defineProps({
 </script>
 <template>
   <div class="flex flex-col items-start w-full gap-4">
+    <!-- Header section with icon, title and action button -->
     <div class="flex flex-row items-center justify-between w-full gap-16 gap">
       <div class="flex flex-row items-center gap-3">
         <div
@@ -46,16 +47,19 @@ defineProps({
           {{ title }}
         </h1>
       </div>
+      <!-- Slot for additional actions on larger screens -->
       <div class="flex-row hidden gap-2 sm:flex">
         <slot name="actions" />
       </div>
     </div>
+    <!-- Description and optional link -->
     <div
       class="flex flex-col gap-2 text-slate-600 dark:text-slate-300 max-w-[721px] min-w-0 w-full"
     >
       <p class="text-sm font-normal tracking-[0.5%] mb-0">
         <slot name="description">{{ description }}</slot>
       </p>
+      <!-- Conditional link -->
       <a
         v-if="href && linkText"
         :href="href"
@@ -70,7 +74,7 @@ defineProps({
         />
       </a>
     </div>
-    <!-- Mobile view action button -->
+    <!-- Mobile view for actions and link -->
     <div class="flex items-start gap-3 sm:hidden">
       <slot name="actions" />
       <a v-if="href && linkText" :href="href">
