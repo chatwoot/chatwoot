@@ -36,7 +36,11 @@ class AgentBuilder
 
   # Sends confirmation instructions if the user is persisted and not confirmed.
   def send_confirmation_if_required
-    @user.send_confirmation_instructions if user_needs_confirmation?
+    return unless user_needs_confirmation?
+    if @user.confirmation_sent_at.nil? || @user.confirmation_sent_at < 1.hour.ago
+      @user.update(confirmation_sent_at: Time.current)
+      @user.send_confirmation_instructions
+    end
   end
 
   # Checks if the user needs confirmation.
