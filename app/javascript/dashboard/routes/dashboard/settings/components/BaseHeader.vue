@@ -26,6 +26,7 @@ defineProps({
   <div class="flex flex-col items-start w-full gap-4">
     <!-- Header section with icon, title and action button -->
     <div class="flex flex-row items-center justify-between w-full gap-16 gap">
+      <!-- Icon and title container -->
       <div class="flex flex-row items-center gap-3">
         <div
           class="flex items-center w-10 h-10 p-1 rounded-full bg-woot-25/60 dark:bg-woot-900/60"
