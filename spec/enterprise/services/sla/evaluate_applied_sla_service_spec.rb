@@ -21,6 +21,7 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
   end
   let!(:applied_sla) { conversation.applied_sla }
 
+  # rubocop:disable RSpec/MultipleExpectations
   describe '#perform - SLA misses' do
     context 'when first response SLA is missed' do
       before { sla_policy.update(first_response_time_threshold: 1.hour) }
@@ -30,6 +31,14 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
         described_class.new(applied_sla: applied_sla).perform
         expect(Rails.logger).to have_received(:warn).with("SLA frt missed for conversation #{conversation.id} in account " \
                                                           "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
+
+        expect(SlaEvent.exists?(applied_sla: applied_sla,
+                                event_type: 'frt')).to be true
+        expect(SlaEvent.exists?(applied_sla: applied_sla,
+                                event_type: 'nrt')).to be false
+        expect(SlaEvent.exists?(applied_sla: applied_sla,
+                                event_type: 'rt')).to be false
+
         expect(applied_sla.reload.sla_status).to eq('missed')
 
         expect(Notification.count).to eq(2)
@@ -55,6 +64,14 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
         described_class.new(applied_sla: applied_sla).perform
         expect(Rails.logger).to have_received(:warn).with("SLA nrt missed for conversation #{conversation.id} in account " \
                                                           "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
+
+        expect(SlaEvent.exists?(applied_sla: applied_sla,
+                                event_type: 'frt')).to be false
+        expect(SlaEvent.exists?(applied_sla: applied_sla,
+                                event_type: 'nrt')).to be true
+        expect(SlaEvent.exists?(applied_sla: applied_sla,
+                                event_type: 'rt')).to be false
+
         expect(applied_sla.reload.sla_status).to eq('missed')
 
         expect(Notification.count).to eq(2)
@@ -77,6 +94,14 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
         described_class.new(applied_sla: applied_sla).perform
         expect(Rails.logger).to have_received(:warn).with("SLA rt missed for conversation #{conversation.id} in account " \
                                                           "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
+
+        expect(SlaEvent.exists?(applied_sla: applied_sla,
+                                event_type: 'frt')).to be false
+        expect(SlaEvent.exists?(applied_sla: applied_sla,
+                                event_type: 'nrt')).to be false
+        expect(SlaEvent.exists?(applied_sla: applied_sla,
+                                event_type: 'rt')).to be true
+
         expect(applied_sla.reload.sla_status).to eq('missed')
 
         expect(Notification.count).to eq(2)
@@ -140,6 +165,7 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
         expect(Rails.logger).to have_received(:info).with("SLA hit for conversation #{conversation.id} in account " \
                                                           "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
         expect(applied_sla.reload.sla_status).to eq('hit')
+        expect(SlaEvent.count).to eq(0)
         expect(Notification.count).to eq(0)
       end
     end
@@ -162,6 +188,7 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
         expect(Rails.logger).to have_received(:info).with("SLA hit for conversation #{conversation.id} in account " \
                                                           "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
         expect(applied_sla.reload.sla_status).to eq('hit')
+        expect(SlaEvent.count).to eq(0)
       end
     end
 
@@ -177,7 +204,9 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
         expect(Rails.logger).to have_received(:info).with("SLA hit for conversation #{conversation.id} in account " \
                                                           "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
         expect(applied_sla.reload.sla_status).to eq('hit')
+        expect(SlaEvent.count).to eq(0)
       end
     end
   end
+  # rubocop:enable RSpec/MultipleExpectations
 end
