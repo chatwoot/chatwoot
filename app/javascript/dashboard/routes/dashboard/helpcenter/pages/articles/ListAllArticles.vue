@@ -1,6 +1,6 @@
 <template>
   <div
-    class="py-0 px-0 w-full max-w-full overflow-auto bg-white dark:bg-slate-900"
+    class="py-0 px-0 w-full max-w-full overflow-auto bg-white dark:bg-slate-900 flex flex-col"
   >
     <article-header
       :header-title="headerTitle"
@@ -8,31 +8,35 @@
       :selected-locale="activeLocaleName"
       :all-locales="allowedLocales"
       selected-value="Published"
+      class="border-b border-slate-50 dark:border-slate-700"
       @new-article-page="newArticlePage"
       @change-locale="onChangeLocale"
     />
-    <article-table
-      :articles="articles"
-      :current-page="Number(meta.currentPage)"
-      :total-count="Number(meta.count)"
-      @page-change="onPageChange"
-      @reorder="onReorder"
-    />
     <div
-      v-if="shouldShowLoader"
+      v-if="isFetching"
       class="items-center flex text-base justify-center py-6 px-4 text-slate-600 dark:text-slate-200"
     >
       <spinner />
-      <span class="text-slate-600 dark:text-slate-200">{{
-        $t('HELP_CENTER.TABLE.LOADING_MESSAGE')
-      }}</span>
+      <span class="text-slate-600 dark:text-slate-200">
+        {{ $t('HELP_CENTER.TABLE.LOADING_MESSAGE') }}
+      </span>
     </div>
     <empty-state
       v-else-if="shouldShowEmptyState"
       :title="$t('HELP_CENTER.TABLE.NO_ARTICLES')"
     />
+    <div v-else class="flex flex-1">
+      <article-table
+        :articles="articles"
+        :current-page="Number(meta.currentPage)"
+        :total-count="Number(meta.count)"
+        @page-change="onPageChange"
+        @reorder="onReorder"
+      />
+    </div>
   </div>
 </template>
+
 <script>
 import { mapGetters } from 'vuex';
 import allLocales from 'shared/constants/locales.js';
@@ -71,9 +75,6 @@ export default {
     },
     shouldShowEmptyState() {
       return !this.isFetching && !this.articles.length;
-    },
-    shouldShowLoader() {
-      return this.isFetching && !this.articles.length;
     },
     selectedPortalSlug() {
       return this.$route.params.portalSlug;

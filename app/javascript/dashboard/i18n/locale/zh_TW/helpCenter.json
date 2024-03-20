@@ -319,7 +319,7 @@
       "HEADERS": {
         "TITLE": "標題",
         "CATEGORY": "Category",
-        "READ_COUNT": "Read count",
+        "READ_COUNT": "Views",
         "STATUS": "狀態",
         "LAST_EDITED": "Last edited"
       },

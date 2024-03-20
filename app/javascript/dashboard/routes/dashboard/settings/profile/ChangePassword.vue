@@ -74,6 +74,7 @@
 import { required, minLength } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 
 export default {
   mixins: [alertMixin],
@@ -125,10 +126,9 @@ export default {
         });
         this.errorMessage = this.$t('PROFILE_SETTINGS.PASSWORD_UPDATE_SUCCESS');
       } catch (error) {
-        this.errorMessage = this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
-        if (error?.response?.data?.message) {
-          this.errorMessage = error.response.data.message;
-        }
+        this.errorMessage =
+          parseAPIErrorResponse(error) ||
+          this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
       } finally {
         this.isPasswordChanging = false;
         this.showAlert(this.errorMessage);

@@ -81,7 +81,7 @@ export default {
 
 <style lang="scss" scoped>
 .edit-article--container {
-  @apply my-8 mx-auto py-0 px-6 max-w-[56rem] w-full;
+  @apply my-8 mx-auto py-0 max-w-[56rem] w-full;
 }
 
 .article-heading {

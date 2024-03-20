@@ -61,6 +61,7 @@ class Contact < ApplicationRecord
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
+  before_save :sync_contact_attributes
 
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
 
@@ -204,6 +205,10 @@ class Contact < ApplicationRecord
   def prepare_jsonb_attributes
     self.additional_attributes = {} if additional_attributes.blank?
     self.custom_attributes = {} if custom_attributes.blank?
+  end
+
+  def sync_contact_attributes
+    ::Contacts::SyncAttributes.new(self).perform
   end
 
   def dispatch_create_event
