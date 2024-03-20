@@ -24,5 +24,6 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
                                          .filter_by_assigned_agent_id(params[:user_ids])
                                          .filter_by_inbox_id(params[:inbox_id])
                                          .filter_by_team_id(params[:team_id])
+                                         .filter_by_sla_policy_id(params[:sla_policy_id])
   end
 end
