@@ -845,12 +845,18 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_19_062553) do
   create_table "sla_events", force: :cascade do |t|
     t.bigint "applied_sla_id", null: false
     t.bigint "conversation_id", null: false
+    t.bigint "account_id", null: false
+    t.bigint "sla_policy_id", null: false
+    t.bigint "inbox_id", null: false
     t.integer "event_type"
     t.jsonb "meta", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_sla_events_on_account_id"
     t.index ["applied_sla_id"], name: "index_sla_events_on_applied_sla_id"
     t.index ["conversation_id"], name: "index_sla_events_on_conversation_id"
+    t.index ["inbox_id"], name: "index_sla_events_on_inbox_id"
+    t.index ["sla_policy_id"], name: "index_sla_events_on_sla_policy_id"
   end
 
   create_table "sla_policies", force: :cascade do |t|
