@@ -1,0 +1,57 @@
+<script setup>
+defineProps({
+  title: {
+    type: String,
+    default: '',
+  },
+  description: {
+    type: String,
+    default: '',
+  },
+  hasActions: {
+    type: Boolean,
+    default: false,
+  },
+});
+</script>
+<template>
+  <div
+    class="flex relative flex-col sm:flex-row p-4 gap-4 sm:p-6 justify-between shadow-sm sm:divide-x sm:divide-slate-75 sm:dark:divide-slate-700/50 group bg-white border border-solid rounded-xl dark:bg-slate-800 border-slate-75 dark:border-slate-700/50 max-w-[900px] w-full"
+  >
+    <!-- left side section -->
+    <slot name="leftSection">
+      <div class="flex flex-col items-start gap-3 max-w-[480px] w-full">
+        <div
+          class="flex items-center justify-between w-full gap-3 sm:justify-normal sm:w-auto whitespace-nowrap"
+        >
+          <h3
+            class="justify-between text-sm font-medium w-fit sm:justify-normal text-slate-900 dark:text-slate-25"
+          >
+            <slot name="title">
+              {{ title }}
+            </slot>
+          </h3>
+          <slot name="label" />
+        </div>
+        <p
+          class="text-sm text-slate-600 dark:text-slate-300 max-w-[400px] w-full line-clamp-2"
+        >
+          <slot name="description">
+            {{ description }}
+          </slot>
+        </p>
+      </div>
+    </slot>
+
+    <!-- right side section -->
+    <slot name="rightSection" />
+
+    <!-- actions section -->
+    <div
+      v-if="hasActions"
+      class="absolute flex-col items-center hidden gap-1 border-none -right-3 top-3 group-hover:flex"
+    >
+      <slot name="actions" />
+    </div>
+  </div>
+</template>
