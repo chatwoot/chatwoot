@@ -84,13 +84,13 @@ const openInNewTab = url => {
       </a>
     </div>
     <!-- Mobile view for actions and link -->
-    <div class="flex items-start gap-3 sm:hidden">
+    <div class="flex items-start justify-start w-full gap-3 sm:hidden">
       <slot name="actions" />
       <woot-button
         v-if="href && linkText"
         color-scheme="secondary"
-        icon="arrow-up-right"
-        class="flex-row-reverse rounded-xl !bg-slate-50 !text-slate-900 dark:!text-white dark:!bg-slate-800"
+        icon="arrow-outwards"
+        class="flex-row-reverse rounded-xl min-w-0 !bg-slate-50 !text-slate-900 dark:!text-white dark:!bg-slate-800"
         @click="openInNewTab(href)"
       >
         {{ linkText }}
