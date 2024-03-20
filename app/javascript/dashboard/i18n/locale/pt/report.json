@@ -40,7 +40,7 @@
         "DESC": "( Total )"
       },
       "BOT_HANDOFF_COUNT": {
-        "NAME": "Handoff Count",
+        "NAME": "Contagem de transferências",
         "DESC": "( Total )"
       },
       "REPLY_TIME": {
@@ -442,23 +442,23 @@
     }
   },
   "BOT_REPORTS": {
-    "HEADER": "Bot Reports",
+    "HEADER": "Relatórios de bot",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
-        "LABEL": "No. of Conversations",
-        "TOOLTIP": "Total number of conversations handled by the bot"
+        "LABEL": "Num. de conversas",
+        "TOOLTIP": "Número total de conversas encaminhadas pelo bot"
       },
       "TOTAL_RESPONSES": {
-        "LABEL": "Total Responses",
-        "TOOLTIP": "Total number of responses sent by the bot"
+        "LABEL": "Total de respostas",
+        "TOOLTIP": "Número total de respostas enviadas pelo bot"
       },
       "RESOLUTION_RATE": {
-        "LABEL": "Resolution Rate",
-        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+        "LABEL": "Taxa de resolução",
+        "TOOLTIP": "Número total de conversas resolvidas pelo bot / número total de conversas encaminhadas pelo bot * 100"
       },
       "HANDOFF_RATE": {
-        "LABEL": "Handoff Rate",
-        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+        "LABEL": "Taxa de transferência",
+        "TOOLTIP": "Número total de conversas transferidas para agentes / número total de conversas encaminhadas pelo bot * 100"
       }
     }
   },
