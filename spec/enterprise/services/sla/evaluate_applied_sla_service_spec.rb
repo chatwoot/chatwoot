@@ -113,7 +113,7 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
       it 'updates the SLA status to missed and logs a warning' do
         allow(Rails.logger).to receive(:warn)
         described_class.new(applied_sla: applied_sla).perform
-        expect(Rails.logger).to have_received(:warn).with("SLA missed for conversation #{conversation.id} in account " \
+        expect(Rails.logger).to have_received(:warn).with("SLA nrt missed for conversation #{conversation.id} in account " \
                                                           "#{applied_sla.account_id} for sla_policy #{sla_policy.id}").exactly(1).time
         expect(applied_sla.reload.sla_status).to eq('missed')
         expect(Notification.count).to eq(2)
