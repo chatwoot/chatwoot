@@ -7,8 +7,6 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
 
   sort_on :created_at, type: :datetime
 
-  def index; end
-
   def metrics
     total_applied_slas = @sla_responses.count
     missed_applied_slas = @sla_responses.where(sla_status: :missed).count
@@ -19,9 +17,10 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
   private
 
   def set_sla_responses
-    base_query = Current.account.applied_slas.includes([:conversation, :assigned_agent, :contact])
+    base_query = Current.account.applied_slas.left_joins(:conversation)
+    base_query = base_query.where(conversations: { cached_label_list: params[:label_list] }) if params[:label_list].present?
+    base_query = base_query.where(conversations: { assigned_agent_id: params[:user_ids] }) if params[:assigned_agent_id].present?
     @sla_responses = filtrate(base_query).filter_by_created_at(range)
-                                         .filter_by_assigned_agent_id(params[:user_ids])
                                          .filter_by_inbox_id(params[:inbox_id])
                                          .filter_by_team_id(params[:team_id])
                                          .filter_by_sla_policy_id(params[:sla_policy_id])

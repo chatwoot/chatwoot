@@ -77,6 +77,24 @@ RSpec.describe 'Applied SLAs API', type: :request do
         expect(body).to include('hit_percentage' => 50.0)
         expect(body).to include('number_of_breaches' => 1)
       end
+
+      it 'filters sla metrics based on labels' do
+        AppliedSla.destroy_all
+        conversation2.update_labels('label1')
+        conversation3.update_labels('label1')
+        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1, created_at: 10.days.ago)
+        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation2, created_at: 3.days.ago, sla_status: 'missed')
+        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation3, created_at: 3.days.ago)
+
+        get "/api/v1/accounts/#{account.id}/applied_slas/metrics",
+            params: { label_list: ['label1'] },
+            headers: administrator.create_new_auth_token
+        expect(response).to have_http_status(:success)
+        body = JSON.parse(response.body)
+
+        expect(body).to include('hit_percentage' => 50.0)
+        expect(body).to include('number_of_breaches' => 1)
+      end
     end
   end
 end
