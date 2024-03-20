@@ -1,8 +1,8 @@
 <script setup>
-import BaseHeader from '../../components/BaseHeader.vue';
+import BaseSettingsHeader from '../../components/BaseSettingsHeader.vue';
 </script>
 <template>
-  <base-header
+  <base-settings-header
     :title="$t('SLA.HEADER')"
     :description="$t('SLA.DESCRIPTION')"
     :link-text="$t('SLA.LEARN_MORE')"
@@ -19,5 +19,5 @@ import BaseHeader from '../../components/BaseHeader.vue';
         {{ $t('SLA.ADD_ACTION') }}
       </woot-button>
     </template>
-  </base-header>
+  </base-settings-header>
 </template>
