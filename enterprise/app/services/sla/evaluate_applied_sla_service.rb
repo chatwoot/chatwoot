@@ -46,7 +46,7 @@ class Sla::EvaluateAppliedSlaService
     threshold = conversation.waiting_since.to_i + sla_policy.next_response_time_threshold.to_i
 
     # Determine if a next_response_time event has already been recorded for the current message
-    last_customer_message_id = conversation.messages.where(incoming: true).last&.id
+    last_customer_message_id = conversation.messages.where(message_type: :incoming).last&.id
     already_missed = applied_sla.sla_events.exists?(event_type: :nrt, meta: { message_time: last_customer_message_id })
 
     return if already_missed || still_within_threshold?(threshold)
