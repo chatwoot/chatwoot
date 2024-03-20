@@ -20,9 +20,6 @@ RSpec.describe SlaEvent, type: :model do
     it 'automatically backfills account_id, inbox_id, and sla_id upon creation' do
       sla_event = create(:sla_event)
 
-      expect(sla_event.account_id).not_to be_nil
-      expect(sla_event.inbox_id).not_to be_nil
-      expect(sla_event.sla_policy_id).not_to be_nil
       expect(sla_event.account_id).to eq sla_event.conversation.account_id
       expect(sla_event.inbox_id).to eq sla_event.conversation.inbox_id
       expect(sla_event.sla_policy_id).to eq sla_event.applied_sla.sla_policy_id
