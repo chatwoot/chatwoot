@@ -11,7 +11,7 @@
   enabled: false
 - name: disable_branding
   enabled: false
-  premium:  true
+  premium: true
 - name: email_continuity_on_api_channel
   enabled: false
 - name: help_center
@@ -62,6 +62,7 @@
   premium: true
 - name: message_reply_to
   enabled: false
+  docs_url: https://chwt.app/hc/reply-to
 - name: insert_article_in_reply
   enabled: false
 - name: inbox_view
