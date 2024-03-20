@@ -63,14 +63,14 @@
       }
     },
     "DELETE": {
-      "TITLE": "Delete SLA",
+      "TITLE": "Apagar SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA deleted successfully",
+        "SUCCESS_MESSAGE": "SLA apagado",
         "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
       },
       "CONFIRM": {
         "TITLE": "Confirmar Exclusão",
-        "MESSAGE": "Are you sure you want to delete ",
+        "MESSAGE": "Tem a certeza que quer apagar ",
         "YES": "Sim, excluir ",
         "NO": "Não, Manter "
       }
