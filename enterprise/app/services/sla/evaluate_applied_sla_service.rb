@@ -75,7 +75,9 @@ class Sla::EvaluateAppliedSlaService
                       "in account #{applied_sla.account_id} " \
                       "for sla_policy #{applied_sla.sla_policy.id}"
 
-    # applied_sla.update!(sla_status: 'missed')
+    return unless applied_sla.sla_status != 'missed'
+
+    applied_sla.update!(sla_status: 'missed')
   end
 
   def handle_hit_sla(applied_sla)
