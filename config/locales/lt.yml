@@ -63,6 +63,9 @@ lt:
         name: neturėtų prasidėti ar baigtis simboliais ir jame neturėtų būti simbolių < > / \ @.
     custom_filters:
       number_of_records: Pasiekta riba. Didžiausias leistinas personalizuotų filtrų skaičius vienam vartotojui yra 50.
+      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
+      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
+      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
   reports:
     period: Ataskaitinis laikotarpis nuo %{since} iki %{until}
     utc_warning: Sugeneruota ataskaita yra UTC laiko juostoje
