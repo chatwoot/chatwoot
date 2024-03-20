@@ -243,7 +243,7 @@ export default {
           attr.attribute_display_type === 'checkbox'
         );
       });
-      if (isCustomAttributeCheckbox) {
+      if (isCustomAttributeCheckbox || type === 'blocked') {
         return [
           {
             id: true,
