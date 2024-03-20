@@ -63,6 +63,9 @@ fr:
         name: 'ne doit pas commencer ou se terminer par des symboles, et ne doit pas comporter les caractères suivants : "< > / \ @".'
     custom_filters:
       number_of_records: Limite atteinte. Le nombre maximum de filtres personnalisés autorisés pour un utilisateur par compte est de 50.
+      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
+      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
+      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
   reports:
     period: Période de rapport %{since} à %{until}
     utc_warning: Le rapport généré est dans le fuseau horaire UTC
