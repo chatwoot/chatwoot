@@ -12,7 +12,7 @@ import BaseSettingsHeader from '../../components/BaseSettingsHeader.vue';
     <template #actions>
       <woot-button
         color-scheme="primary"
-        icon="add"
+        icon="plus-sign"
         class="rounded-xl"
         @click="$emit('click')"
       >
