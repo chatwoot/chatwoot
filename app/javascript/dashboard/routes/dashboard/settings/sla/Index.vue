@@ -1,49 +1,56 @@
 <template>
-  <div class="flex flex-col flex-1 w-full gap-10">
-    <SLA-header @click="openAddPopup" />
-    <p
-      v-if="!uiFlags.isFetching && !records.length"
-      class="flex flex-col items-center justify-center h-full"
-    >
-      {{ $t('SLA.LIST.404') }}
-    </p>
-    <woot-loading-state
-      v-if="uiFlags.isFetching"
-      :message="$t('SLA.LOADING')"
-    />
-    <base-settings-list v-if="!uiFlags.isFetching && records.length">
-      <SLA-list-item
-        v-for="sla in records"
-        :key="sla.title"
-        :sla-name="sla.name"
-        :description="sla.description"
-        :first-response="displayTime(sla.first_response_time_threshold)"
-        :next-response="displayTime(sla.next_response_time_threshold)"
-        :resolution-time="displayTime(sla.resolution_time_threshold)"
-        :has-business-hours="sla.only_during_business_hours"
-        :is-loading="loading[sla.id]"
-        @click="openDeletePopup(sla)"
+  <settings-layout>
+    <template #header>
+      <SLA-header @click="openAddPopup" />
+    </template>
+    <template #body>
+      <p
+        v-if="!uiFlags.isFetching && !records.length"
+        class="flex flex-col items-center justify-center h-full"
+      >
+        {{ $t('SLA.LIST.404') }}
+      </p>
+      <woot-loading-state
+        v-if="uiFlags.isFetching"
+        :message="$t('SLA.LOADING')"
       />
-    </base-settings-list>
+      <div
+        v-if="!uiFlags.isFetching && records.length"
+        class="flex flex-col w-full h-full gap-3"
+      >
+        <SLA-list-item
+          v-for="sla in records"
+          :key="sla.title"
+          :sla-name="sla.name"
+          :description="sla.description"
+          :first-response="displayTime(sla.first_response_time_threshold)"
+          :next-response="displayTime(sla.next_response_time_threshold)"
+          :resolution-time="displayTime(sla.resolution_time_threshold)"
+          :has-business-hours="sla.only_during_business_hours"
+          :is-loading="loading[sla.id]"
+          @click="openDeletePopup(sla)"
+        />
+      </div>
 
-    <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-      <add-SLA @close="hideAddPopup" />
-    </woot-modal>
+      <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
+        <add-SLA @close="hideAddPopup" />
+      </woot-modal>
 
-    <woot-delete-modal
-      :show.sync="showDeleteConfirmationPopup"
-      :on-close="closeDeletePopup"
-      :on-confirm="confirmDeletion"
-      :title="$t('SLA.DELETE.CONFIRM.TITLE')"
-      :message="$t('SLA.DELETE.CONFIRM.MESSAGE')"
-      :message-value="deleteMessage"
-      :confirm-text="deleteConfirmText"
-      :reject-text="deleteRejectText"
-    />
-  </div>
+      <woot-delete-modal
+        :show.sync="showDeleteConfirmationPopup"
+        :on-close="closeDeletePopup"
+        :on-confirm="confirmDeletion"
+        :title="$t('SLA.DELETE.CONFIRM.TITLE')"
+        :message="$t('SLA.DELETE.CONFIRM.MESSAGE')"
+        :message-value="deleteMessage"
+        :confirm-text="deleteConfirmText"
+        :reject-text="deleteRejectText"
+      />
+    </template>
+  </settings-layout>
 </template>
 <script>
-import BaseSettingsList from '../components/BaseSettingsList.vue';
+import SettingsLayout from '../SettingsLayout.vue';
 import SLAHeader from './components/SLAHeader.vue';
 import SLAListItem from './components/SLAListItem.vue';
 import { mapGetters } from 'vuex';
@@ -57,7 +64,7 @@ export default {
     AddSLA,
     SLAHeader,
     SLAListItem,
-    BaseSettingsList,
+    SettingsLayout,
   },
   mixins: [alertMixin],
   data() {
