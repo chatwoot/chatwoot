@@ -62,7 +62,7 @@
   premium: true
 - name: message_reply_to
   enabled: false
-  docs_url: https://chwt.app/hc/reply-to
+  help_url: https://chwt.app/hc/reply-to
 - name: insert_article_in_reply
   enabled: false
 - name: inbox_view
