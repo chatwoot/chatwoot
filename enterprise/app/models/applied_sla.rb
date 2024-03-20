@@ -22,6 +22,8 @@ class AppliedSla < ApplicationRecord
   belongs_to :sla_policy
   belongs_to :conversation
 
+  has_many :sla_events, dependent: :destroy
+
   validates :account_id, uniqueness: { scope: %i[sla_policy_id conversation_id] }
   before_validation :ensure_account_id
 
