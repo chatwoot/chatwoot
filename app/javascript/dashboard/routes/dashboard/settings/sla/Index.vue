@@ -1,82 +1,31 @@
 <template>
-  <div class="flex-1 overflow-auto p-4">
-    <woot-button
-      color-scheme="success"
-      class-names="button--fixed-top"
-      icon="add-circle"
-      @click="openAddPopup"
+  <div class="flex flex-col flex-1 w-full gap-10">
+    <SLA-header @click="openAddPopup" />
+    <p
+      v-if="!uiFlags.isFetching && !records.length"
+      class="flex flex-col items-center justify-center h-full"
     >
-      {{ $t('SLA.HEADER_BTN_TXT') }}
-    </woot-button>
-    <div class="flex flex-row gap-4">
-      <div class="w-full xl:w-3/5">
-        <p
-          v-if="!uiFlags.isFetching && !records.length"
-          class="flex h-full items-center flex-col justify-center"
-        >
-          {{ $t('SLA.LIST.404') }}
-        </p>
-        <woot-loading-state
-          v-if="uiFlags.isFetching"
-          :message="$t('SLA.LOADING')"
-        />
-        <table v-if="!uiFlags.isFetching && records.length" class="woot-table">
-          <thead>
-            <th v-for="thHeader in $t('SLA.LIST.TABLE_HEADER')" :key="thHeader">
-              {{ thHeader }}
-            </th>
-          </thead>
-          <tbody>
-            <tr v-for="sla in records" :key="sla.title">
-              <td>
-                <span
-                  class="inline-block overflow-hidden whitespace-nowrap text-ellipsis"
-                >
-                  {{ sla.name }}
-                </span>
-              </td>
-              <td>{{ sla.description }}</td>
-              <td>
-                <span class="flex items-center">
-                  {{ displayTime(sla.first_response_time_threshold) }}
-                </span>
-              </td>
-              <td>
-                <span class="flex items-center">
-                  {{ displayTime(sla.next_response_time_threshold) }}
-                </span>
-              </td>
-              <td>
-                <span class="flex items-center">
-                  {{ displayTime(sla.resolution_time_threshold) }}
-                </span>
-              </td>
-              <td>
-                <span class="flex items-center">
-                  {{ sla.only_during_business_hours }}
-                </span>
-              </td>
-              <td class="button-wrapper">
-                <woot-button
-                  v-tooltip.top="$t('SLA.FORM.DELETE')"
-                  variant="smooth"
-                  color-scheme="alert"
-                  size="tiny"
-                  icon="dismiss-circle"
-                  class-names="grey-btn"
-                  :is-loading="loading[sla.id]"
-                  @click="openDeletePopup(sla)"
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      {{ $t('SLA.LIST.404') }}
+    </p>
+    <woot-loading-state
+      v-if="uiFlags.isFetching"
+      :message="$t('SLA.LOADING')"
+    />
+    <base-settings-list v-if="!uiFlags.isFetching && records.length">
+      <SLA-list-item
+        v-for="sla in records"
+        :key="sla.title"
+        :sla-name="sla.name"
+        :description="sla.description"
+        :first-response="displayTime(sla.first_response_time_threshold)"
+        :next-response="displayTime(sla.next_response_time_threshold)"
+        :resolution-time="displayTime(sla.resolution_time_threshold)"
+        :in-business-hours="sla.only_during_business_hours"
+        :is-loading="loading[sla.id]"
+        @click="openDeletePopup(sla)"
+      />
+    </base-settings-list>
 
-      <div class="w-1/3 hidden xl:block">
-        <span v-dompurify-html="$t('SLA.SIDEBAR_TXT')" />
-      </div>
-    </div>
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
       <add-SLA @close="hideAddPopup" />
     </woot-modal>
@@ -94,6 +43,9 @@
   </div>
 </template>
 <script>
+import BaseSettingsList from '../components/BaseSettingsList.vue';
+import SLAHeader from './components/SLAHeader.vue';
+import SLAListItem from './components/SLAListItem.vue';
 import { mapGetters } from 'vuex';
 import { convertSecondsToTimeUnit } from '@chatwoot/utils';
 
@@ -103,6 +55,9 @@ import alertMixin from 'shared/mixins/alertMixin';
 export default {
   components: {
     AddSLA,
+    SLAHeader,
+    SLAListItem,
+    BaseSettingsList,
   },
   mixins: [alertMixin],
   data() {
