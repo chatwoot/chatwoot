@@ -77,7 +77,9 @@ en:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
     custom_filters:
       number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
-
+      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
+      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
+      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
   reports:
     period: Reporting period %{since} to %{until}
     utc_warning: The report generated is in UTC timezone
