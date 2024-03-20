@@ -3,8 +3,10 @@
   enabled: true
 - name: channel_email
   enabled: true
+  help_url: https://chwt.app/hc/email
 - name: channel_facebook
   enabled: true
+  help_url: https://chwt.app/hc/fb
 - name: channel_twitter
   enabled: true
 - name: ip_lookup
@@ -16,8 +18,10 @@
   enabled: false
 - name: help_center
   enabled: true
+  help_url: https://chwt.app/hc/help-center
 - name: agent_bots
   enabled: false
+  help_url: https://chwt.app/hc/agent-bots
 - name: macros
   enabled: true
 - name: agent_management
@@ -30,10 +34,12 @@
   enabled: true
 - name: custom_attributes
   enabled: true
+  help_url: https://chwt.app/hc/custom-attributes
 - name: automations
   enabled: true
 - name: canned_responses
   enabled: true
+  help_url: https://chwt.app/hc/canned
 - name: integrations
   enabled: true
 - name: voice_recorder
@@ -44,8 +50,10 @@
   enabled: true
 - name: campaigns
   enabled: true
+  help_url: https://chwt.app/hc/campaigns
 - name: reports
   enabled: true
+  help_url: https://chwt.app/hc/reports
 - name: crm
   enabled: true
 - name: auto_resolve_conversations
