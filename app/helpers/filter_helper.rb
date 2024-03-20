@@ -34,7 +34,7 @@ module FilterHelper
 
     case current_filter['attribute_type']
     when 'additional_attributes'
-      handle_additional_attributes(query_hash, filter_operator_value)
+      handle_additional_attributes(query_hash, filter_operator_value, current_filter['data_type'])
     else
       handle_standard_attributes(current_filter, query_hash, current_index, filter_operator_value)
     end
@@ -45,10 +45,8 @@ module FilterHelper
     custom_attribute_query(query_hash, attribute_type, current_index)
   end
 
-  # TODO: Change the reliance on entity instead introduce datatype text_case_insensive
-  # Then we can remove the condition for Contact
-  def handle_additional_attributes(query_hash, filter_operator_value)
-    if filter_config[:entity] == 'Contact'
+  def handle_additional_attributes(query_hash, filter_operator_value, data_type)
+    if data_type == 'text_case_insensitive'
       "LOWER(#{filter_config[:table_name]}.additional_attributes ->> '#{query_hash[:attribute_key]}') " \
         "#{filter_operator_value} #{query_hash[:query_operator]}"
     else
@@ -63,6 +61,8 @@ module FilterHelper
       date_filter(current_filter, query_hash, filter_operator_value)
     when 'labels'
       tag_filter_query(query_hash, current_index)
+    when 'text_case_insensitive'
+      text_case_insensitive_filter(query_hash, filter_operator_value)
     else
       default_filter(query_hash, filter_operator_value)
     end
@@ -73,14 +73,12 @@ module FilterHelper
       "#{filter_operator_value}#{current_filter['data_type']} #{query_hash[:query_operator]}"
   end
 
-  # TODO: Change the reliance on entity instead introduce datatype text_case_insensive
-  # Then we can remove the condition for Contact
+  def text_case_insensitive_filter(query_hash, filter_operator_value)
+    "LOWER(#{filter_config[:table_name]}.#{query_hash[:attribute_key]}) " \
+      "#{filter_operator_value} #{query_hash[:query_operator]}"
+  end
+
   def default_filter(query_hash, filter_operator_value)
-    if filter_config[:entity] == 'Contact'
-      "LOWER(#{filter_config[:table_name]}.#{query_hash[:attribute_key]}) " \
-        "#{filter_operator_value} #{query_hash[:query_operator]}"
-    else
-      "#{filter_config[:table_name]}.#{query_hash[:attribute_key]} #{filter_operator_value} #{query_hash[:query_operator]}"
-    end
+    "#{filter_config[:table_name]}.#{query_hash[:attribute_key]} #{filter_operator_value} #{query_hash[:query_operator]}"
   end
 end
