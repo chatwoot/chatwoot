@@ -22,7 +22,7 @@ defineProps({
         size="14"
         icon="information"
         type="outline"
-        class="flex flex-shrink-0 text-sm font-normal sm:font-medium text-slate-500 dark:text-slate-500"
+        class="flex-shrink-0 hidden text-sm font-normal sm:flex sm:font-medium text-slate-500 dark:text-slate-500"
       />
       {{ $t(`SLA.LIST.RESPONSE_TYPES.SHORT_HAND.${responseType}`) }}
       <span class="flex sm:hidden">:</span>

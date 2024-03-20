@@ -41,7 +41,7 @@ defineProps({
   >
     <template #label>
       <div
-        class="inline-flex items-center gap-1 px-1.5 sm:px-2 py-1 border border-solid rounded-lg border-slate-75 dark:border-slate-700/50"
+        class="inline-flex items-center min-w-0 gap-1 px-1.5 sm:px-2 py-1 border border-solid rounded-lg border-slate-75 dark:border-slate-700/50"
       >
         <fluent-icon
           size="14"
@@ -55,7 +55,7 @@ defineProps({
           "
         />
         <span
-          class="hidden text-xs font-normal sm:block text-slate-600 dark:text-slate-300"
+          class="hidden text-xs font-normal truncate sm:block text-slate-600 dark:text-slate-300"
         >
           {{
             inBusinessHours

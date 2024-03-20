@@ -20,12 +20,12 @@ defineProps({
   >
     <!-- left side section -->
     <slot name="leftSection">
-      <div class="flex flex-col items-start gap-3 max-w-[480px] w-full">
+      <div class="flex flex-col min-w-0 items-start gap-3 max-w-[480px] w-full">
         <div
-          class="flex items-center justify-between w-full gap-3 sm:justify-normal sm:w-auto whitespace-nowrap"
+          class="flex items-center justify-between w-full gap-3 sm:justify-normal whitespace-nowrap"
         >
           <h3
-            class="justify-between text-sm font-medium w-fit sm:justify-normal text-slate-900 dark:text-slate-25"
+            class="justify-between text-sm font-medium truncate w-fit sm:justify-normal text-slate-900 dark:text-slate-25"
           >
             <slot name="title">
               {{ title }}
