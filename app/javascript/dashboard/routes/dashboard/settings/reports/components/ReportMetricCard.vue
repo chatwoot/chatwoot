@@ -21,7 +21,7 @@ defineProps({
 <template>
   <div
     ref="reportMetricContainer"
-    class="xs:w-full sm:max-w-[50%] lg:w-1/6 lg:max-w-[16%] m-0 p-4"
+    class="m-0 p-4"
     :class="{
       'grayscale pointer-events-none opacity-30': disabled,
     }"
