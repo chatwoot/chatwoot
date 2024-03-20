@@ -102,10 +102,12 @@ ar:
         recorded_at: تاريخ التسجيل
   notifications:
     notification_title:
-      conversation_creation: "[محادثة جديدة] - #%{display_id} تم إنشاؤها في %{inbox_name}"
-      conversation_assignment: "[تعيين لك] - #%{display_id} تم تعيينه لك"
-      assigned_conversation_new_message: "[رسالة جديدة] - #%{display_id} %{content}"
-      conversation_mention: "تمت الإشارة إليك في المحادثة [ID - %{display_id}] من قبل %{name}"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "أشار %{story_sender} إليك في القصة: "

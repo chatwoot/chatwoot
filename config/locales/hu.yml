@@ -102,10 +102,12 @@ hu:
         recorded_at: Felvétel időpontja
   notifications:
     notification_title:
-      conversation_creation: "[Új beszélgetés] - #%{display_id} létrejött itt:%{inbox_name}"
-      conversation_assignment: "[Hozzád rendelve] - #%{display_id} hozzád lett rendelve"
-      assigned_conversation_new_message: "[Új üzenet] - #%{display_id} %{content}"
-      conversation_mention: "%{name} megemlítet ebben a beszélgetésben [ID - %{display_id}]"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} megemlített egy storyban: "

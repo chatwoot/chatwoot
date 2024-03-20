@@ -319,7 +319,7 @@
       "HEADERS": {
         "TITLE": "Назва",
         "CATEGORY": "Категорія",
-        "READ_COUNT": "Лічильник прочитань",
+        "READ_COUNT": "Views",
         "STATUS": "Статус",
         "LAST_EDITED": "Останній раз відредагований"
       },

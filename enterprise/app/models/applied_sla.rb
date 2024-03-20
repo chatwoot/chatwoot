@@ -22,7 +22,16 @@ class AppliedSla < ApplicationRecord
   belongs_to :sla_policy
   belongs_to :conversation
 
+  has_many :sla_events, dependent: :destroy
+
   validates :account_id, uniqueness: { scope: %i[sla_policy_id conversation_id] }
+  before_validation :ensure_account_id
 
   enum sla_status: { active: 0, hit: 1, missed: 2 }
+
+  private
+
+  def ensure_account_id
+    self.account_id ||= sla_policy&.account_id
+  end
 end

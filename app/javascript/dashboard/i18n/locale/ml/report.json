@@ -37,7 +37,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -441,7 +441,8 @@
       "LOADING_MESSAGE": "Loading conversation metrics...",
       "OPEN": "സജീവം",
       "UNATTENDED": "Unattended",
-      "UNASSIGNED": "നിയുക്തമാക്കാത്തത്"
+      "UNASSIGNED": "നിയുക്തമാക്കാത്തത്",
+      "PENDING": "കെട്ടിക്കിടക്കുന്നു"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
