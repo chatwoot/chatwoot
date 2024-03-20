@@ -28,10 +28,12 @@
   enabled: true
 - name: team_management
   enabled: true
+  help_url: https://chwt.app/hc/teams
 - name: inbox_management
   enabled: true
 - name: labels
   enabled: true
+  help_url: https://chwt.app/hc/labels
 - name: custom_attributes
   enabled: true
   help_url: https://chwt.app/hc/custom-attributes
