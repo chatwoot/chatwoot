@@ -1,2 +1,2 @@
-json.hit_percentage @hit_percentage
-json.number_of_breaches @number_of_breaches
+json.total_applied_slas @total_applied_slas
+json.number_of_sla_breaches @number_of_sla_breaches

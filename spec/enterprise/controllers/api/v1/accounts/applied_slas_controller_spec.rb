@@ -27,8 +27,8 @@ RSpec.describe 'Applied SLAs API', type: :request do
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body)
 
-        expect(body).to include('hit_percentage' => 100.0)
-        expect(body).to include('number_of_breaches' => 0)
+        expect(body).to include('total_applied_slas' => 1)
+        expect(body).to include('number_of_sla_breaches' => 0)
       end
 
       it 'filters sla metrics based on a date range' do
@@ -42,8 +42,8 @@ RSpec.describe 'Applied SLAs API', type: :request do
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body)
 
-        expect(body).to include('hit_percentage' => 100.0)
-        expect(body).to include('number_of_breaches' => 0)
+        expect(body).to include('total_applied_slas' => 1)
+        expect(body).to include('number_of_sla_breaches' => 0)
       end
 
       it 'filters sla metrics based on a date range and agent ids' do
@@ -58,8 +58,8 @@ RSpec.describe 'Applied SLAs API', type: :request do
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body)
 
-        expect(body).to include('hit_percentage' => 66.66666666666666)
-        expect(body).to include('number_of_breaches' => 1)
+        expect(body).to include('total_applied_slas' => 3)
+        expect(body).to include('number_of_sla_breaches' => 1)
       end
 
       it 'filters sla metrics based on sla policy ids' do
@@ -74,8 +74,8 @@ RSpec.describe 'Applied SLAs API', type: :request do
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body)
 
-        expect(body).to include('hit_percentage' => 50.0)
-        expect(body).to include('number_of_breaches' => 1)
+        expect(body).to include('total_applied_slas' => 2)
+        expect(body).to include('number_of_sla_breaches' => 1)
       end
 
       it 'filters sla metrics based on labels' do
@@ -92,8 +92,8 @@ RSpec.describe 'Applied SLAs API', type: :request do
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body)
 
-        expect(body).to include('hit_percentage' => 50.0)
-        expect(body).to include('number_of_breaches' => 1)
+        expect(body).to include('total_applied_slas' => 2)
+        expect(body).to include('number_of_sla_breaches' => 1)
       end
     end
   end

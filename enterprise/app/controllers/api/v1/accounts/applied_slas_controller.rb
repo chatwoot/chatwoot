@@ -5,13 +5,9 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
   before_action :set_sla_responses, only: [:metrics]
   before_action :check_admin_authorization?
 
-  sort_on :created_at, type: :datetime
-
   def metrics
-    total_applied_slas = @sla_responses.count
-    missed_applied_slas = @sla_responses.where(sla_status: :missed).count
-    @hit_percentage = total_applied_slas.zero? ? 0 : ((total_applied_slas - missed_applied_slas) / total_applied_slas.to_f) * 100
-    @number_of_breaches = missed_applied_slas
+    @total_applied_slas = @sla_responses.count
+    @number_of_sla_breaches = @sla_responses.where(sla_status: :missed).count
   end
 
   private
