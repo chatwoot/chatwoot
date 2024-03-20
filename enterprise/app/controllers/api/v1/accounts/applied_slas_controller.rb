@@ -2,8 +2,6 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
   include Sift
   include DateRangeHelper
 
-  RESULTS_PER_PAGE = 25
-
   before_action :set_sla_responses, only: [:metrics]
   before_action :check_admin_authorization?
 
