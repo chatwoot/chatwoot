@@ -1,5 +1,5 @@
-require 'rails_helper'
 require 'rake'
+require 'rails_helper'
 
 RSpec.describe Rake::Task do
   describe 'storage_migrations' do
@@ -13,7 +13,7 @@ RSpec.describe Rake::Task do
           expect do
             described_class['storage:migrate'].invoke
           end.to raise_error(RuntimeError,
-                             'Missing FROM or TO argument.  Usage: FROM=service_name TO=service_name rake storage:migrate')
+                             'Missing FROM or TO argument. Usage: FROM=service_name TO=service_name rake storage:migrate')
         end
       end
 
