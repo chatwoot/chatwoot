@@ -20,7 +20,7 @@
         :first-response="displayTime(sla.first_response_time_threshold)"
         :next-response="displayTime(sla.next_response_time_threshold)"
         :resolution-time="displayTime(sla.resolution_time_threshold)"
-        :in-business-hours="sla.only_during_business_hours"
+        :has-business-hours="sla.only_during_business_hours"
         :is-loading="loading[sla.id]"
         @click="openDeletePopup(sla)"
       />
