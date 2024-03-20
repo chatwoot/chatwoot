@@ -14,7 +14,7 @@ import BaseSettingsHeader from '../../components/BaseSettingsHeader.vue';
         color-scheme="primary"
         icon="add"
         class="rounded-xl"
-        @click="emit('click')"
+        @click="$emit('click')"
       >
         {{ $t('SLA.ADD_ACTION') }}
       </woot-button>
