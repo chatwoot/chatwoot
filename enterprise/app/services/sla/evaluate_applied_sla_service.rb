@@ -44,7 +44,14 @@ class Sla::EvaluateAppliedSlaService
     return if conversation.waiting_since.blank?
 
     threshold = conversation.waiting_since.to_i + sla_policy.next_response_time_threshold.to_i
-    return if still_within_threshold?(threshold)
+
+    # Determine if a next_response_time event has already been recorded for the current message
+    last_customer_message_id = conversation.messages.where(incoming: true).last&.id
+    already_missed = applied_sla.sla_events.exists?(event_type: :nrt, meta: { message_time: last_customer_message_id })
+
+    return if already_missed || still_within_threshold?(threshold)
+
+    create_sla_event(applied_sla, 'nrt', { message_id: last_customer_message_id })
 
     handle_missed_sla(applied_sla, 'nrt')
   end
@@ -61,11 +68,14 @@ class Sla::EvaluateAppliedSlaService
   def handle_missed_sla(applied_sla, type)
     return unless applied_sla.active?
 
-    applied_sla.update!(sla_status: 'missed')
-    generate_notifications_for_sla(applied_sla, type)
-    Rails.logger.warn "SLA missed for conversation #{applied_sla.conversation.id} " \
+    return if SlaEvent.exists?(applied_sla: applied_sla, event_type: type)
+
+    create_sla_event(applied_sla, type)
+    Rails.logger.warn "SLA #{type} missed for conversation #{applied_sla.conversation.id} " \
                       "in account #{applied_sla.account_id} " \
                       "for sla_policy #{applied_sla.sla_policy.id}"
+
+    # applied_sla.update!(sla_status: 'missed')
   end
 
   def handle_hit_sla(applied_sla)
@@ -101,5 +111,17 @@ class Sla::EvaluateAppliedSlaService
         secondary_actor: applied_sla.sla_policy
       ).perform
     end
+  end
+
+  def create_sla_event(applied_sla, event_type, meta = {})
+    SlaEvent.create!(
+      applied_sla: applied_sla,
+      conversation: applied_sla.conversation,
+      event_type: event_type,
+      meta: meta,
+      account: applied_sla.account,
+      inbox: applied_sla.conversation.inbox,
+      sla_policy: applied_sla.sla_policy
+    )
   end
 end
