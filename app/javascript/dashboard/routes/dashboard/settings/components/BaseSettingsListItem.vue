@@ -8,10 +8,6 @@ defineProps({
     type: String,
     default: '',
   },
-  hasActions: {
-    type: Boolean,
-    default: false,
-  },
 });
 </script>
 <template>
@@ -48,8 +44,8 @@ defineProps({
 
     <!-- actions section -->
     <div
-      v-if="hasActions"
-      class="absolute flex-col items-center hidden gap-1 border-none -right-3 top-3 group-hover:flex"
+      v-if="$slots.actions"
+      class="absolute flex-col items-center hidden gap-1 border-none ltr:-right-3 rtl:-left-3 top-3 group-hover:flex"
     >
       <slot name="actions" />
     </div>

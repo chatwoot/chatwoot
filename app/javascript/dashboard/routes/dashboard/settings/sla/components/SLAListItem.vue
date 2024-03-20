@@ -1,6 +1,7 @@
 <script setup>
 import BaseSettingsListItem from '../../components/BaseSettingsListItem.vue';
 import SLAResponseTime from './SLAResponseTime.vue';
+import SLABusinessHoursLabel from './SLABusinessHoursLabel.vue';
 
 defineProps({
   slaName: {
@@ -23,7 +24,7 @@ defineProps({
     type: String,
     required: true,
   },
-  inBusinessHours: {
+  hasBusinessHours: {
     type: Boolean,
     required: true,
   },
@@ -34,40 +35,13 @@ defineProps({
 });
 </script>
 <template>
-  <base-settings-list-item
-    :title="slaName"
-    :description="description"
-    :has-actions="true"
-  >
+  <base-settings-list-item :title="slaName" :description="description">
     <template #label>
-      <div
-        class="inline-flex items-center min-w-0 gap-1 px-1.5 sm:px-2 py-1 border border-solid rounded-lg border-slate-75 dark:border-slate-700/50"
-      >
-        <fluent-icon
-          size="14"
-          :icon="inBusinessHours ? 'alarm-on' : 'alarm-off'"
-          type="outline"
-          class="flex-shrink-0"
-          :class="
-            inBusinessHours
-              ? 'text-slate-600 dark:text-slate-500'
-              : 'text-slate-300 dark:text-slate-700/50 sm:text-slate-600 sm:dark:text-slate-500'
-          "
-        />
-        <span
-          class="hidden text-xs font-normal truncate sm:block text-slate-600 dark:text-slate-300"
-        >
-          {{
-            inBusinessHours
-              ? $t('SLA.LIST.BUSINESS_HOURS_ON')
-              : $t('SLA.LIST.BUSINESS_HOURS_OFF')
-          }}
-        </span>
-      </div>
+      <SLA-business-hours-label :has-business-hours="hasBusinessHours" />
     </template>
     <template #rightSection>
       <div
-        class="flex items-center gap-1.5 divide-x w-fit sm:w-full sm:gap-0 sm:justify-between divide-slate-75 dark:divide-slate-700/50"
+        class="flex items-center divide-x rtl:divide-x-reverse sm:rtl:!border-l-0 sm:rtl:!border-r sm:rtl:border-solid sm:rtl:border-slate-75 sm:rtl:dark:border-slate-700/50 gap-1.5 w-fit sm:w-full sm:gap-0 sm:justify-between divide-slate-75 dark:divide-slate-700/50"
       >
         <SLA-response-time response-type="FRT" :response-time="firstResponse" />
         <SLA-response-time response-type="NRT" :response-time="nextResponse" />
