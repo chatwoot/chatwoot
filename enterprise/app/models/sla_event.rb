@@ -30,12 +30,7 @@ class SlaEvent < ApplicationRecord
 
   enum event_type: { frt: 0, nrt: 1, rt: 2 }
 
-  before_validation :ensure_applied_sla_id, :ensure_account_id, :ensure_inbox_id, :ensure_sla_id
-
-  before_validation :ensure_account_id
-  before_validation :ensure_inbox_id
-  before_validation :ensure_sla_policy_id
-  before_validation :ensure_applied_sla_id
+  before_validation :ensure_applied_sla_id, :ensure_account_id, :ensure_inbox_id, :ensure_sla_policy_id
 
   private
 
@@ -51,7 +46,7 @@ class SlaEvent < ApplicationRecord
     self.inbox_id ||= conversation&.inbox_id
   end
 
-  def ensure_sla_id
-    self.sla_id ||= applied_sla&.sla_policy_id
+  def ensure_sla_policy_id
+    self.sla_policy_id ||= applied_sla&.sla_policy_id
   end
 end

@@ -4,6 +4,9 @@ RSpec.describe SlaEvent, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:applied_sla) }
     it { is_expected.to belong_to(:conversation) }
+    it { is_expected.to belong_to(:account) }
+    it { is_expected.to belong_to(:sla_policy) }
+    it { is_expected.to belong_to(:inbox) }
   end
 
   describe 'validates_factory' do
