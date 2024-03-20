@@ -31,9 +31,9 @@ const openInNewTab = url => {
 <template>
   <div class="flex flex-col items-start w-full gap-4">
     <!-- Header section with icon, title and action button -->
-    <div class="flex flex-row items-center justify-between w-full gap-16 gap">
+    <div class="flex items-center justify-between w-full gap-4">
       <!-- Icon and title container -->
-      <div class="flex flex-row items-center gap-3">
+      <div class="flex items-center gap-3">
         <div
           class="flex items-center w-10 h-10 p-1 rounded-full bg-woot-25/60 dark:bg-woot-900/60"
         >
@@ -49,21 +49,21 @@ const openInNewTab = url => {
           </div>
         </div>
         <h1
-          class="text-2xl font-medium tracking-[-1.5%] text-slate-900 dark:text-slate-25"
+          class="text-2xl font-medium tracking-tight text-slate-900 dark:text-slate-25"
         >
           {{ title }}
         </h1>
       </div>
       <!-- Slot for additional actions on larger screens -->
-      <div class="flex-row hidden gap-2 sm:flex">
+      <div class="hidden gap-2 sm:flex">
         <slot name="actions" />
       </div>
     </div>
     <!-- Description and optional link -->
     <div
-      class="flex flex-col gap-2 text-slate-600 dark:text-slate-300 max-w-[721px] min-w-0 w-full"
+      class="flex flex-col gap-2 text-slate-600 dark:text-slate-300 max-w-[721px] w-full"
     >
-      <p class="text-sm font-normal tracking-[0.5%] mb-0">
+      <p class="mb-0 text-sm font-normal">
         <slot name="description">{{ description }}</slot>
       </p>
       <!-- Conditional link -->

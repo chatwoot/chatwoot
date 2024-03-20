@@ -1,3 +1,12 @@
+<script setup>
+defineProps({
+  keepAlive: {
+    type: Boolean,
+    default: true,
+  },
+});
+</script>
+
 <template>
   <div
     class="flex flex-col w-full h-full px-5 pt-8 m-0 overflow-auto bg-white sm:px-16 sm:pt-16 dark:bg-slate-900"
@@ -10,14 +19,3 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    keepAlive: {
-      type: Boolean,
-      default: true,
-    },
-  },
-};
-</script>
