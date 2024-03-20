@@ -11,6 +11,10 @@ RSpec.describe 'Applied SLAs API', type: :request do
   let(:sla_policy1) { create(:sla_policy, account: account) }
   let(:sla_policy2) { create(:sla_policy, account: account) }
 
+  before do
+    AppliedSla.destroy_all
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/applied_slas/metrics' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -32,7 +36,6 @@ RSpec.describe 'Applied SLAs API', type: :request do
       end
 
       it 'filters sla metrics based on a date range' do
-        AppliedSla.destroy_all
         create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1, created_at: 10.days.ago)
         create(:applied_sla, sla_policy: sla_policy1, conversation: conversation2, created_at: 3.days.ago)
 
@@ -47,7 +50,6 @@ RSpec.describe 'Applied SLAs API', type: :request do
       end
 
       it 'filters sla metrics based on a date range and agent ids' do
-        AppliedSla.destroy_all
         create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1, created_at: 10.days.ago)
         create(:applied_sla, sla_policy: sla_policy1, conversation: conversation3, created_at: 3.days.ago)
         create(:applied_sla, sla_policy: sla_policy1, conversation: conversation2, created_at: 3.days.ago, sla_status: 'missed')
@@ -63,7 +65,6 @@ RSpec.describe 'Applied SLAs API', type: :request do
       end
 
       it 'filters sla metrics based on sla policy ids' do
-        AppliedSla.destroy_all
         create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1)
         create(:applied_sla, sla_policy: sla_policy1, conversation: conversation2, sla_status: 'missed')
         create(:applied_sla, sla_policy: sla_policy2, conversation: conversation2, sla_status: 'missed')
@@ -79,7 +80,6 @@ RSpec.describe 'Applied SLAs API', type: :request do
       end
 
       it 'filters sla metrics based on labels' do
-        AppliedSla.destroy_all
         conversation2.update_labels('label1')
         conversation3.update_labels('label1')
         create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1, created_at: 10.days.ago)
