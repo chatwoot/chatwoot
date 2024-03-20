@@ -208,5 +208,52 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
       end
     end
   end
-  # rubocop:enable RSpec/MultipleExpectations
+
+  describe 'SLA evaluation with multiple nrt misses' do
+    before do
+      # Setup SLA Policy thresholds
+      sla_policy.update(
+        first_response_time_threshold: 6.hours, # Hit frt
+        next_response_time_threshold: 1.hour, # Miss nrt multiple times
+        resolution_time_threshold: 4.hours # Miss rt
+      )
+
+      # sla_policy.update(first_response_time_threshold: 6.hours)
+      conversation.update(first_reply_created_at: 30.minutes.ago)
+      # conversation.update(created_at: 30.minutes.ago)
+
+      # Simulate conversation timeline
+      # Hit frt
+      create(:message, conversation: conversation, created_at: 25.minutes.ago, message_type: :incoming)
+      # conversation.update(first_reply_created_at: 20.minutes.ago)
+
+      # Miss nrt first time
+      create(:message, conversation: conversation, created_at: 4.hours.ago, message_type: :incoming)
+      conversation.update(waiting_since: 4.hours.ago)
+      described_class.new(applied_sla: applied_sla).perform
+
+      # Miss nrt second time
+      create(:message, conversation: conversation, created_at: 3.hours.ago, message_type: :incoming)
+      conversation.update(waiting_since: 3.hours.ago)
+      described_class.new(applied_sla: applied_sla).perform
+
+      # Conversation resolves, missing rt
+      conversation.update(status: 'resolved', updated_at: 5.hours.ago)
+    end
+
+    it 'creates SlaEvents for frt hit, multiple nrt misses, and rt miss' do
+      described_class.new(applied_sla: applied_sla).perform
+
+      expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'frt').count).to eq(0)
+      expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'nrt').count).to eq(2)
+      expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'rt').count).to eq(1)
+
+      expected_notifications_count = 3
+      expect(Notification.count).to eq(expected_notifications_count)
+      expect(Notification.where(notification_type: 'sla_missed_next_response').count).to eq(2)
+      expect(Notification.where(notification_type: 'sla_missed_resolution').count).to eq(1)
+    end
+  end
 end
+
+# rubocop:enable RSpec/MultipleExpectations
