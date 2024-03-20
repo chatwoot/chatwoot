@@ -87,32 +87,6 @@ class Sla::EvaluateAppliedSlaService
                       "for sla_policy #{applied_sla.sla_policy.id}"
   end
 
-  def generate_notifications_for_sla(applied_sla, type)
-    notify_users = applied_sla.conversation.conversation_participants.map(&:user)
-    # add all admins from the account to notify list
-    notify_users += applied_sla.account.administrators
-    # ensure conversation assignee is notified
-    notify_users += [applied_sla.conversation.assignee] if applied_sla.conversation.assignee.present?
-
-    notification_type = if type == 'frt'
-                          'sla_missed_first_response'
-                        elsif type == 'nrt'
-                          'sla_missed_next_response'
-                        else
-                          'sla_missed_resolution'
-                        end
-
-    notify_users.uniq.each do |user|
-      NotificationBuilder.new(
-        notification_type: notification_type,
-        user: user,
-        account: applied_sla.account,
-        primary_actor: applied_sla.conversation,
-        secondary_actor: applied_sla.sla_policy
-      ).perform
-    end
-  end
-
   def create_sla_event(applied_sla, event_type, meta = {})
     SlaEvent.create!(
       applied_sla: applied_sla,
