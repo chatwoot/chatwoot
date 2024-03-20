@@ -51,9 +51,9 @@ class Sla::EvaluateAppliedSlaService
 
     return if already_missed || still_within_threshold?(threshold)
 
-    create_sla_event(applied_sla, 'nrt', { message_id: last_customer_message_id })
+    meta = { message_id: last_customer_message_id }
 
-    handle_missed_sla(applied_sla, 'nrt')
+    handle_missed_sla(applied_sla, 'nrt', meta)
   end
 
   def check_resolution_time_threshold(applied_sla, conversation, sla_policy)
@@ -65,12 +65,12 @@ class Sla::EvaluateAppliedSlaService
     handle_missed_sla(applied_sla, 'rt')
   end
 
-  def handle_missed_sla(applied_sla, type)
+  def handle_missed_sla(applied_sla, type, meta = {})
     return unless applied_sla.active?
 
-    return if SlaEvent.exists?(applied_sla: applied_sla, event_type: type)
+    return if SlaEvent.exists?(applied_sla: applied_sla, event_type: type, meta: meta)
 
-    create_sla_event(applied_sla, type)
+    create_sla_event(applied_sla, type, meta)
     Rails.logger.warn "SLA #{type} missed for conversation #{applied_sla.conversation.id} " \
                       "in account #{applied_sla.account_id} " \
                       "for sla_policy #{applied_sla.sla_policy.id}"
