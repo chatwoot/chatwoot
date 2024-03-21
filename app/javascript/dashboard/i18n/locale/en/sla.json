@@ -3,7 +3,7 @@
     "HEADER": "SLA",
     "ADD_ACTION": "Add SLA",
     "DESCRIPTION": "Think of Service Level Agreements (SLAs) like friendly promises between a service provider and a customer. These promises set clear expectations for things like how quickly the team will respond to issues, making sure you always get a reliable and top-notch experience!",
-    "LEARN_MORE": "Learn more about SLAs",
+    "LEARN_MORE": "Learn more about SLA",
     "LOADING": "Fetching SLAs",
     "LIST": {
       "404": "There are no SLAs available in this account.",
