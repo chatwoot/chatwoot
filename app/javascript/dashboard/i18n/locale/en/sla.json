@@ -2,7 +2,7 @@
   "SLA": {
     "HEADER": "SLA",
     "ADD_ACTION": "Add SLA",
-    "DESCRIPTION": "Think of Service Level Agreements (SLAs) like friendly promises between a service provider and a customer. These promises set clear expectations for things like how quickly the team will respond to issues, making sure you always get a reliable and top-notch experience!",
+    "DESCRIPTION": "Service Level Agreements (SLAs) are contracts that define clear expectations between your team and customers. They establish standards for response and resolution times, creating a framework for accountability and ensures a consistent, high-quality experience.",
     "LEARN_MORE": "Learn more about SLA",
     "HEADER_BTN_TXT": "Add SLA",
     "LOADING": "Fetching SLAs",
