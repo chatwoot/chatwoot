@@ -71,16 +71,20 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   def conversation
     @conversation ||= begin
       lock_to_single_conversation = @inbox.lock_to_single_conversation
-      conversations = Conversation.where(conversation_params)
-                                  .where("additional_attributes ->> 'type' = 'instagram_direct_message'")
 
       if lock_to_single_conversation
-        conversations.find_by || build_conversation
+        Conversation.where(conversation_params)
+                    .find_by("additional_attributes ->> 'type' = 'instagram_direct_message'") || build_conversation
       else
         # If lock to single conversation is disabled, we will create a new conversation if previous conversation is resolved
-        last_conversation = conversations.order(created_at: :desc).first
+        last_conversation = Conversation.where(conversation_params)
+                                        .where("additional_attributes ->> 'type' = 'instagram_direct_message'").order(created_at: :desc).first
 
-        last_conversation&.status == 'resolved' ? build_conversation : last_conversation || build_conversation
+        if last_conversation.nil? || last_conversation.resolved?
+          build_conversation
+        else
+          last_conversation
+        end
       end
     end
   end

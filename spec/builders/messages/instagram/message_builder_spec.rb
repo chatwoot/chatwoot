@@ -194,7 +194,6 @@ describe Messages::Instagram::MessageBuilder do
       message = dm_params[:entry][0]['messaging'][0]
       contact_inbox
 
-      instagram_inbox.reload
       described_class.new(message, instagram_inbox).perform
 
       instagram_inbox.reload
@@ -210,13 +209,10 @@ describe Messages::Instagram::MessageBuilder do
       message = dm_params[:entry][0]['messaging'][0]
       contact_inbox
 
-      instagram_inbox.reload
       described_class.new(message, instagram_inbox).perform
 
       instagram_inbox.reload
       contact_inbox.reload
-
-      puts "instagram_inbox.conversations: #{instagram_inbox.conversations.last.inspect}"
 
       expect(instagram_inbox.conversations.last.id).to eq(existing_conversation.id)
     end
@@ -229,7 +225,6 @@ describe Messages::Instagram::MessageBuilder do
       message = dm_params[:entry][0]['messaging'][0]
       contact_inbox
 
-      instagram_inbox.reload
       described_class.new(message, instagram_inbox).perform
 
       instagram_inbox.reload
@@ -250,29 +245,12 @@ describe Messages::Instagram::MessageBuilder do
       message = dm_params[:entry][0]['messaging'][0]
       contact_inbox
 
-      instagram_inbox.reload
       described_class.new(message, instagram_inbox).perform
 
       instagram_inbox.reload
       contact_inbox.reload
 
       expect(instagram_inbox.conversations.count).to eq(1)
-    end
-
-    it 'will not create a new conversation if last conversation is not resolved' do
-      existing_conversation = create(:conversation, account_id: account.id, inbox_id: instagram_inbox.id, contact_id: contact.id, status: :open,
-                                                    additional_attributes: { type: 'instagram_direct_message', conversation_language: 'en' })
-
-      message = dm_params[:entry][0]['messaging'][0]
-      contact_inbox
-
-      instagram_inbox.reload
-      described_class.new(message, instagram_inbox).perform
-
-      instagram_inbox.reload
-      contact_inbox.reload
-
-      expect(instagram_inbox.conversations.last.id).to eq(existing_conversation.id)
     end
 
     it 'reopens last conversation if last conversation is resolved' do
@@ -284,7 +262,6 @@ describe Messages::Instagram::MessageBuilder do
       message = dm_params[:entry][0]['messaging'][0]
       contact_inbox
 
-      instagram_inbox.reload
       described_class.new(message, instagram_inbox).perform
 
       instagram_inbox.reload
