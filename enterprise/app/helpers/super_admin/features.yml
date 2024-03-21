@@ -47,6 +47,12 @@ zalo:
   enabled: true
   icon: 'icon-messenger-line'
   config_key: 'zalo'
+stringee:
+  name: 'PhoneCall'
+  description: 'Manage your Stringee Phone Call from Chatwoot.'
+  enabled: true
+  icon: 'icon-whatsapp-line'
+  config_key: 'stringee'
 whatsapp:
   name: 'WhatsApp'
   description: 'Manage your WhatsApp business interactions from Chatwoot.'

@@ -1,5 +1,6 @@
 import Facebook from './channels/Facebook';
 import Zalo from './channels/Zalo';
+import Stringee from './channels/Stringee';
 import Website from './channels/Website';
 import Twitter from './channels/Twitter';
 import Api from './channels/Api';
@@ -12,6 +13,7 @@ import Telegram from './channels/Telegram';
 const channelViewList = {
   facebook: Facebook,
   zalo: Zalo,
+  stringee: Stringee,
   website: Website,
   twitter: Twitter,
   api: Api,
