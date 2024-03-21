@@ -21,6 +21,9 @@ export default {
     },
   },
   computed: {
+    hasZaloConfigured() {
+      return window.chatwootConfig?.zaloAppId;
+    },
     hasFbConfigured() {
       return window.chatwootConfig?.fbAppId;
     },
@@ -34,6 +37,9 @@ export default {
       }
       if (key === 'facebook') {
         return this.enabledFeatures.channel_facebook && this.hasFbConfigured;
+      }
+      if (key === 'zalo') {
+        return this.enabledFeatures.channel_zalo && this.hasZaloConfigured;
       }
       if (key === 'email') {
         return this.enabledFeatures.channel_email;

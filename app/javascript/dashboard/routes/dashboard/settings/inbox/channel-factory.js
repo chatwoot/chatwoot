@@ -1,4 +1,5 @@
 import Facebook from './channels/Facebook';
+import Zalo from './channels/Zalo';
 import Website from './channels/Website';
 import Twitter from './channels/Twitter';
 import Api from './channels/Api';
@@ -10,6 +11,7 @@ import Telegram from './channels/Telegram';
 
 const channelViewList = {
   facebook: Facebook,
+  zalo: Zalo,
   website: Website,
   twitter: Twitter,
   api: Api,

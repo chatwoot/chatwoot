@@ -38,9 +38,16 @@
         "PLACEHOLDER": "Nhập tên trang web của bạn (ví dụ: Acme Inc)"
       },
       "FB": {
-        "HELP": "Tái bút: Bằng cách đăng nhập, chúng tôi chỉ có quyền truy cập vào các tin nhắn trên Trang của bạn. Chatwoot không bao giờ có thể truy cập tin nhắn riêng tư của bạn.",
+        "HELP": "Lưu ý: Bằng cách đăng nhập, chúng tôi chỉ có quyền truy cập vào các tin nhắn trên Trang của bạn. Chatwoot không bao giờ có thể truy cập tin nhắn riêng tư của bạn.",
         "CHOOSE_PAGE": "Chọn trang",
         "CHOOSE_PLACEHOLDER": "Chọn một trang từ danh sách",
+        "INBOX_NAME": "Tên hộp thư đến",
+        "ADD_NAME": "Thêm tên cho hộp thư đến của bạn",
+        "PICK_NAME": "Chọn tên Hộp thư đến của bạn",
+        "PICK_A_VALUE": "Chọn một giá trị"
+      },
+      "ZALO": {
+        "HELP": "Lưu ý: Bằng cách đăng nhập, chúng tôi chỉ có quyền truy cập vào các tin nhắn trong trang Zalo OA của bạn. Chatwoot không bao giờ có thể truy cập tin nhắn riêng tư của bạn.",
         "INBOX_NAME": "Tên hộp thư đến",
         "ADD_NAME": "Thêm tên cho hộp thư đến của bạn",
         "PICK_NAME": "Chọn tên Hộp thư đến của bạn",
@@ -340,7 +347,7 @@
       },
       "AUTH": {
         "TITLE": "Chọn kênh",
-        "DESC": "Chatwoot hỗ trợ các tiện ích trò chuyện trực tiếp, Facebook Messenger, hồ sơ Twitter, WhatsApp, Email, v. v., dưới dạng các kênh. Nếu bạn muốn xây dựng một kênh tùy chỉnh, bạn có thể tạo kênh này bằng cách sử dụng kênh API. Để bắt đầu, hãy chọn một trong các kênh bên dưới."
+        "DESC": "Chatwoot hỗ trợ tích hợp Website Live-chat, Zalo OA, Facebook Messenger, SMS, Email, v. v., dưới dạng các kênh. Nếu bạn muốn xây dựng một kênh tùy chỉnh mới, bạn có thể sử dụng kênh API. Để bắt đầu, hãy chọn một trong các kênh bên dưới."
       },
       "AGENTS": {
         "TITLE": "Nhà Cung Cấp",
@@ -370,12 +377,14 @@
     },
     "DETAILS": {
       "LOADING_FB": "Xác thực bạn bằng Facebook...",
+      "LOADING_ZALO": "Xác thực bạn bằng Zalo...",
       "ERROR_FB_AUTH": "Đã xảy ra sự cố, Vui lòng làm mới trang...",
       "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
       "CREATING_CHANNEL": "Tạo Hộp thư đến của bạn...",
       "TITLE": "Cấu hình chi tiết hộp thư đến",
-      "DESC": ""
+      "DESC": "",
+      "DESC_ZALO": "Bạn có thể lấy tên hộp thư trong Chatwoot là tên Zalo OA của bạn. Bạn cũng có thể điều chỉnh tên hộp thư để nhận dạng tốt hơn."
     },
     "AGENTS": {
       "BUTTON_TEXT": "Thêm các người dùng",
