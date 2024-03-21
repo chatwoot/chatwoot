@@ -47,11 +47,10 @@ class Sla::EvaluateAppliedSlaService
 
     # Determine if a next_response_time event has already been recorded for the current message
     last_customer_message_id = conversation.messages.where(message_type: :incoming).last&.id
-    already_missed = applied_sla.sla_events.exists?(event_type: :nrt, meta: { message_id: last_customer_message_id })
+    meta = { message_id: last_customer_message_id }
+    already_missed = applied_sla.sla_events.exists?(event_type: :nrt, meta: meta)
 
     return if already_missed || still_within_threshold?(threshold)
-
-    meta = { message_id: last_customer_message_id }
 
     handle_missed_sla(applied_sla, 'nrt', meta)
   end
