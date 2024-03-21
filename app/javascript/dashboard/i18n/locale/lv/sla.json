@@ -1,6 +1,9 @@
 {
   "SLA": {
     "HEADER": "SLA",
+    "ADD_ACTION": "Pievienot SLA",
+    "DESCRIPTION": "Service Level Agreements (SLAs) are contracts that define clear expectations between your team and customers. They establish standards for response and resolution times, creating a framework for accountability and ensures a consistent, high-quality experience.",
+    "LEARN_MORE": "Learn more about SLA",
     "HEADER_BTN_TXT": "Pievienot SLA",
     "LOADING": "Notiek SLA iegūšana",
     "SEARCH_404": "Šim vaicājumam nav atbilstošu vienumu",
