@@ -28,7 +28,7 @@ defineProps({
       <span class="flex sm:hidden">:</span>
     </span>
     <span
-      class="text-sm sm:text-2xl tracking-[-1.5%] text-slate-900 dark:text-slate-25"
+      class="text-sm sm:text-2xl font-medium tracking-[-1.5%] text-slate-900 dark:text-slate-25"
     >
       {{ responseTime }}
     </span>

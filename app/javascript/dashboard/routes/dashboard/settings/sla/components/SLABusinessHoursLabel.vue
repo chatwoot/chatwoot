@@ -17,12 +17,17 @@ defineProps({
       class="flex-shrink-0"
       :class="
         hasBusinessHours
-          ? 'text-slate-600 dark:text-slate-500'
-          : 'text-slate-300 dark:text-slate-700/50 sm:text-slate-600 sm:dark:text-slate-500'
+          ? 'text-slate-600 dark:text-slate-400'
+          : 'text-slate-300 dark:text-slate-700'
       "
     />
     <span
-      class="hidden text-xs tracking-[0.2%] font-normal truncate sm:block text-slate-600 dark:text-slate-300"
+      class="hidden text-xs tracking-[0.2%] font-normal truncate sm:block"
+      :class="
+        hasBusinessHours
+          ? 'text-slate-600 dark:text-slate-400'
+          : 'text-slate-300 dark:text-slate-700'
+      "
     >
       {{
         hasBusinessHours
