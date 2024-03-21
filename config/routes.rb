@@ -144,7 +144,7 @@ Rails.application.routes.draw do
               get :download
             end
           end
-          resources :applied_slas do
+          resources :applied_slas, only: [:index] do
             collection do
               get :metrics
             end
