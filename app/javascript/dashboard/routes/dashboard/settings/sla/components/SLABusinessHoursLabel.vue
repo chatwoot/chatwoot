@@ -22,7 +22,7 @@ defineProps({
       "
     />
     <span
-      class="hidden text-xs font-normal truncate sm:block text-slate-600 dark:text-slate-300"
+      class="hidden text-xs tracking-[0.2%] font-normal truncate sm:block text-slate-600 dark:text-slate-300"
     >
       {{
         hasBusinessHours
