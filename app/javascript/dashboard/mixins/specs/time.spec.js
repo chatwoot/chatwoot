@@ -52,19 +52,77 @@ describe('#dateFormat', () => {
 });
 
 describe('#shortTimestamp', () => {
-  it('returns correct value', () => {
+  // Test cases when withAgo is false or not provided
+  it('returns correct value without ago', () => {
     expect(TimeMixin.methods.shortTimestamp('less than a minute ago')).toEqual(
       'now'
     );
-    expect(TimeMixin.methods.shortTimestamp(' minute ago')).toEqual('m');
-    expect(TimeMixin.methods.shortTimestamp(' minutes ago')).toEqual('m');
-    expect(TimeMixin.methods.shortTimestamp(' hour ago')).toEqual('h');
-    expect(TimeMixin.methods.shortTimestamp(' hours ago')).toEqual('h');
-    expect(TimeMixin.methods.shortTimestamp(' day ago')).toEqual('d');
-    expect(TimeMixin.methods.shortTimestamp(' days ago')).toEqual('d');
-    expect(TimeMixin.methods.shortTimestamp(' month ago')).toEqual('mo');
-    expect(TimeMixin.methods.shortTimestamp(' months ago')).toEqual('mo');
-    expect(TimeMixin.methods.shortTimestamp(' year ago')).toEqual('y');
-    expect(TimeMixin.methods.shortTimestamp(' years ago')).toEqual('y');
+    expect(TimeMixin.methods.shortTimestamp('1 minute ago')).toEqual('1m');
+    expect(TimeMixin.methods.shortTimestamp('12 minutes ago')).toEqual('12m');
+    expect(TimeMixin.methods.shortTimestamp('a minute ago')).toEqual('1m');
+    expect(TimeMixin.methods.shortTimestamp('an hour ago')).toEqual('1h');
+    expect(TimeMixin.methods.shortTimestamp('1 hour ago')).toEqual('1h');
+    expect(TimeMixin.methods.shortTimestamp('2 hours ago')).toEqual('2h');
+    expect(TimeMixin.methods.shortTimestamp('1 day ago')).toEqual('1d');
+    expect(TimeMixin.methods.shortTimestamp('a day ago')).toEqual('1d');
+    expect(TimeMixin.methods.shortTimestamp('3 days ago')).toEqual('3d');
+    expect(TimeMixin.methods.shortTimestamp('a month ago')).toEqual('1mo');
+    expect(TimeMixin.methods.shortTimestamp('1 month ago')).toEqual('1mo');
+    expect(TimeMixin.methods.shortTimestamp('2 months ago')).toEqual('2mo');
+    expect(TimeMixin.methods.shortTimestamp('a year ago')).toEqual('1y');
+    expect(TimeMixin.methods.shortTimestamp('1 year ago')).toEqual('1y');
+    expect(TimeMixin.methods.shortTimestamp('4 years ago')).toEqual('4y');
+  });
+
+  // Test cases when withAgo is true
+  it('returns correct value with ago', () => {
+    expect(
+      TimeMixin.methods.shortTimestamp('less than a minute ago', true)
+    ).toEqual('now');
+    expect(TimeMixin.methods.shortTimestamp('1 minute ago', true)).toEqual(
+      '1m ago'
+    );
+    expect(TimeMixin.methods.shortTimestamp('12 minutes ago', true)).toEqual(
+      '12m ago'
+    );
+    expect(TimeMixin.methods.shortTimestamp('a minute ago', true)).toEqual(
+      '1m ago'
+    );
+    expect(TimeMixin.methods.shortTimestamp('an hour ago', true)).toEqual(
+      '1h ago'
+    );
+    expect(TimeMixin.methods.shortTimestamp('1 hour ago', true)).toEqual(
+      '1h ago'
+    );
+    expect(TimeMixin.methods.shortTimestamp('2 hours ago', true)).toEqual(
+      '2h ago'
+    );
+    expect(TimeMixin.methods.shortTimestamp('1 day ago', true)).toEqual(
+      '1d ago'
+    );
+    expect(TimeMixin.methods.shortTimestamp('a day ago', true)).toEqual(
+      '1d ago'
+    );
+    expect(TimeMixin.methods.shortTimestamp('3 days ago', true)).toEqual(
+      '3d ago'
+    );
+    expect(TimeMixin.methods.shortTimestamp('a month ago', true)).toEqual(
+      '1mo ago'
+    );
+    expect(TimeMixin.methods.shortTimestamp('1 month ago', true)).toEqual(
+      '1mo ago'
+    );
+    expect(TimeMixin.methods.shortTimestamp('2 months ago', true)).toEqual(
+      '2mo ago'
+    );
+    expect(TimeMixin.methods.shortTimestamp('a year ago', true)).toEqual(
+      '1y ago'
+    );
+    expect(TimeMixin.methods.shortTimestamp('1 year ago', true)).toEqual(
+      '1y ago'
+    );
+    expect(TimeMixin.methods.shortTimestamp('4 years ago', true)).toEqual(
+      '4y ago'
+    );
   });
 });

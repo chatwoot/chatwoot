@@ -1,6 +1,6 @@
 <template>
-  <div class="columns notification--page">
-    <div class="notification--content medium-12">
+  <div class="overflow-y-auto h-full">
+    <div class="flex flex-col h-full">
       <notification-table
         :notifications="records"
         :is-loading="uiFlags.isFetching"
@@ -58,6 +58,7 @@ export default {
         notificationType,
       });
       this.$store.dispatch('notifications/read', {
+        id: notification.id,
         primaryActorId,
         primaryActorType,
         unreadCount: this.meta.unreadCount,

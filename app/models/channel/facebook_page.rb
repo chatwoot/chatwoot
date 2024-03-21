@@ -46,20 +46,20 @@ class Channel::FacebookPage < ApplicationRecord
 
   def subscribe
     # ref https://developers.facebook.com/docs/messenger-platform/reference/webhook-events
-    response = Facebook::Messenger::Subscriptions.subscribe(
+    Facebook::Messenger::Subscriptions.subscribe(
       access_token: page_access_token,
       subscribed_fields: %w[
         messages message_deliveries message_echoes message_reads standby messaging_handovers
       ]
     )
-  rescue => e
+  rescue StandardError => e
     Rails.logger.debug { "Rescued: #{e.inspect}" }
     true
   end
 
   def unsubscribe
     Facebook::Messenger::Subscriptions.unsubscribe(access_token: page_access_token)
-  rescue => e
+  rescue StandardError => e
     Rails.logger.debug { "Rescued: #{e.inspect}" }
     true
   end
@@ -73,6 +73,7 @@ class Channel::FacebookPage < ApplicationRecord
     delete_instagram_story(message) if story_link.blank?
     story_link
   rescue Koala::Facebook::ClientError => e
+    Rails.logger.debug { "Instagram Story Expired: #{e.inspect}" }
     delete_instagram_story(message)
   end
 

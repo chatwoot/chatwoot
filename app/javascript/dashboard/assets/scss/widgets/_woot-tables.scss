@@ -1,9 +1,9 @@
 table {
-  @apply border-spacing-0 text-sm;
+  @apply border-spacing-0 text-sm w-full;
 
   thead {
     th {
-      @apply font-semibold tracking-[1px] text-left uppercase text-slate-900 dark:text-slate-200;
+      @apply font-semibold tracking-[1px] text-left px-2.5 uppercase text-slate-900 dark:text-slate-200;
     }
   }
 
