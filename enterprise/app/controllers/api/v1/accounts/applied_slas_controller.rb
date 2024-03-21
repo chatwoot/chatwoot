@@ -6,11 +6,28 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
   before_action :check_admin_authorization?
 
   def metrics
-    @total_applied_slas = @applied_slas.count
-    @number_of_sla_breaches = @applied_slas.missed.count
+    @total_applied_slas = total_applied_slas
+    @number_of_sla_breaches = number_of_sla_breaches
+    @hit_rate = hit_rate
   end
 
   private
+
+  def total_applied_slas
+    @total_applied_slas ||= @applied_slas.count
+  end
+
+  def number_of_sla_breaches
+    @number_of_sla_breaches ||= @applied_slas.missed.count
+  end
+
+  def hit_rate
+    number_of_sla_breaches.zero? ? '100%' : "#{hit_rate_percentage}%"
+  end
+
+  def hit_rate_percentage
+    ((total_applied_slas - number_of_sla_breaches) / total_applied_slas.to_f * 100).round(2)
+  end
 
   def set_appplied_slas
     @applied_slas = initial_query
