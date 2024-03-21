@@ -191,6 +191,7 @@ describe Messages::Instagram::MessageBuilder do
     end
 
     it 'creates a new conversation if existing conversation is not present' do
+      inital_count = Conversation.count
       message = dm_params[:entry][0]['messaging'][0]
       contact_inbox
 
@@ -200,6 +201,7 @@ describe Messages::Instagram::MessageBuilder do
       contact_inbox.reload
 
       expect(instagram_inbox.conversations.count).to eq(1)
+      expect(Conversation.count).to eq(inital_count + 1)
     end
 
     it 'will not create a new conversation if last conversation is not resolved' do
@@ -242,6 +244,7 @@ describe Messages::Instagram::MessageBuilder do
     end
 
     it 'creates a new conversation if existing conversation is not present' do
+      inital_count = Conversation.count
       message = dm_params[:entry][0]['messaging'][0]
       contact_inbox
 
@@ -251,6 +254,7 @@ describe Messages::Instagram::MessageBuilder do
       contact_inbox.reload
 
       expect(instagram_inbox.conversations.count).to eq(1)
+      expect(Conversation.count).to eq(inital_count + 1)
     end
 
     it 'reopens last conversation if last conversation is resolved' do

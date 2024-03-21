@@ -75,11 +75,14 @@ describe Messages::Facebook::MessageBuilder do
         end
 
         it 'creates a new conversation if existing conversation is not present' do
+          inital_count = Conversation.count
+
           mocked_message_builder
 
           facebook_inbox.reload
 
           expect(facebook_inbox.conversations.count).to eq(1)
+          expect(Conversation.count).to eq(inital_count + 1)
         end
 
         it 'will not create a new conversation if last conversation is not resolved' do
@@ -114,11 +117,13 @@ describe Messages::Facebook::MessageBuilder do
         end
 
         it 'creates a new conversation if existing conversation is not present' do
+          inital_count = Conversation.count
           mocked_message_builder
 
           facebook_inbox.reload
 
           expect(facebook_inbox.conversations.count).to eq(1)
+          expect(Conversation.count).to eq(inital_count + 1)
         end
 
         it 'reopens last conversation if last conversation exists' do
