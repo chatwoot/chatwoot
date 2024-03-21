@@ -49,7 +49,7 @@ const openInNewTab = url => {
           </div>
         </div>
         <h1
-          class="text-2xl font-medium tracking-tight text-slate-900 dark:text-slate-25"
+          class="text-2xl font-medium tracking-[-1.5%] text-slate-900 dark:text-slate-25"
         >
           {{ title }}
         </h1>
@@ -63,7 +63,9 @@ const openInNewTab = url => {
     <div
       class="flex flex-col gap-2 text-slate-600 dark:text-slate-300 max-w-[721px] w-full"
     >
-      <p class="mb-0 text-sm font-normal">
+      <p
+        class="mb-0 text-sm font-normal tracking-[0.5%] line-clamp-5 sm:line-clamp-none"
+      >
         <slot name="description">{{ description }}</slot>
       </p>
       <!-- Conditional link -->
@@ -72,7 +74,7 @@ const openInNewTab = url => {
         :href="href"
         target="_blank"
         rel="noopener noreferrer"
-        class="sm:inline-flex hidden gap-1 w-fit items-center text-woot-500 dark:text-woot-500 text-sm font-medium tracking=[-0.6%] hover:underline"
+        class="sm:inline-flex hidden tracking-[-0.6%] gap-1 w-fit items-center text-woot-500 dark:text-woot-500 text-sm font-medium tracking=[-0.6%] hover:underline"
       >
         {{ linkText }}
         <fluent-icon
