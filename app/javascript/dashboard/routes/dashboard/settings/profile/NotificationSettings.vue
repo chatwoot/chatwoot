@@ -236,6 +236,20 @@
             }}
           </label>
         </div>
+        <div class="flex items-center gap-2 mb-1">
+          <input
+            v-model="selectedEmailFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="email_sla_miss"
+            @input="handleEmailInput"
+          />
+          <label for="sla_miss">
+            {{
+              $t('PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.SLA_MISS')
+            }}
+          </label>
+        </div>
       </div>
     </div>
     <div
@@ -349,6 +363,21 @@
               $t(
                 'PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.PARTICIPATING_CONVERSATION_NEW_MESSAGE'
               )
+            }}
+          </label>
+        </div>
+
+        <div class="flex items-center gap-2 mb-1">
+          <input
+            v-model="selectedPushFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="push_sla_miss"
+            @input="handlePushInput"
+          />
+          <label for="sla_miss">
+            {{
+              $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.SLA_MISS')
             }}
           </label>
         </div>
