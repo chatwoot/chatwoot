@@ -1,6 +1,9 @@
 {
   "SLA": {
     "HEADER": "SLA",
+    "ADD_ACTION": "Add SLA",
+    "DESCRIPTION": "Service Level Agreements (SLAs) are contracts that define clear expectations between your team and customers. They establish standards for response and resolution times, creating a framework for accountability and ensures a consistent, high-quality experience.",
+    "LEARN_MORE": "Learn more about SLA",
     "HEADER_BTN_TXT": "Add SLA",
     "LOADING": "Fetching SLAs",
     "SEARCH_404": "اس سوال سے مماثل کوئی آئٹمز نہیں ہیں۔",
