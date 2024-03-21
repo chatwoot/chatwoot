@@ -30,5 +30,4 @@ export const FEATURE_FLAGS = {
   EMAIL_CONTINUITY_ON_API_CHANNEL: 'email_continuity_on_api_channel',
   INBOUND_EMAILS: 'inbound_emails',
   IP_LOOKUP: 'ip_lookup',
-  MOBILE_V2: 'mobile_v2',
 };
