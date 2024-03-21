@@ -8,9 +8,7 @@ class Notification::RemoveDuplicateNotificationJob < ApplicationJob
     primary_actor_id = notification.primary_actor_id
 
     # Find older notifications with the same user and primary_actor_id
-    # skip if secondary actor is sla_policy not allow multiple sla misses
     duplicate_notifications = Notification.where(user_id: user_id, primary_actor_id: primary_actor_id)
-                                          .where.not(secondary_actor_type: 'SlaPolicy')
                                           .order(created_at: :desc)
 
     # Skip the first one (the latest notification) and destroy the rest
