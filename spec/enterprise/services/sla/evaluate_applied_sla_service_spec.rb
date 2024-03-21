@@ -148,7 +148,7 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
         conversation.update(first_reply_created_at: 5.hours.ago, waiting_since: 5.hours.ago)
       end
 
-      it 'updates the SLA status to missed and logs a warning' do
+      it 'updates the SLA status to missed and logs multiple warnings' do
         allow(Rails.logger).to receive(:warn)
         described_class.new(applied_sla: applied_sla).perform
         expect(Rails.logger).to have_received(:warn).with("SLA rt missed for conversation #{conversation.id} in account " \
@@ -233,49 +233,57 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
     end
   end
 
-  describe 'SLA evaluation with multiple nrt misses' do
+  describe 'SLA evaluation with frt hit, multiple nrt misses and rt miss' do
     before do
       # Setup SLA Policy thresholds
       sla_policy.update(
-        first_response_time_threshold: 6.hours, # Hit frt
+        first_response_time_threshold: 2.hours, # Hit frt
         next_response_time_threshold: 1.hour, # Miss nrt multiple times
         resolution_time_threshold: 4.hours # Miss rt
       )
 
-      # sla_policy.update(first_response_time_threshold: 6.hours)
-      conversation.update(first_reply_created_at: 30.minutes.ago)
-      # conversation.update(created_at: 30.minutes.ago)
-
       # Simulate conversation timeline
       # Hit frt
-      create(:message, conversation: conversation, created_at: 25.minutes.ago, message_type: :incoming)
-      # conversation.update(first_reply_created_at: 20.minutes.ago)
+      # incoming message from customer
+      create(:message, conversation: conversation, created_at: 6.hours.ago, message_type: :incoming)
+      # outgoing message from agent within frt
+      create(:message, conversation: conversation, created_at: 5.hours.ago, message_type: :outgoing)
 
       # Miss nrt first time
       create(:message, conversation: conversation, created_at: 4.hours.ago, message_type: :incoming)
-      conversation.update(waiting_since: 4.hours.ago)
       described_class.new(applied_sla: applied_sla).perform
 
       # Miss nrt second time
       create(:message, conversation: conversation, created_at: 3.hours.ago, message_type: :incoming)
-      conversation.update(waiting_since: 3.hours.ago)
       described_class.new(applied_sla: applied_sla).perform
 
-      # Conversation resolves, missing rt
-      conversation.update(status: 'resolved', updated_at: 5.hours.ago)
+      # Conversation is resolved missing rt
+      conversation.update(status: 'resolved')
+
+      # this will not create a new notification for rt miss as conversation is resolved
+      # but we would have already created an rt miss notification during previous evaluation
+      described_class.new(applied_sla: applied_sla).perform
     end
 
-    it 'creates SlaEvents for frt hit, multiple nrt misses, and rt miss' do
-      described_class.new(applied_sla: applied_sla).perform
+    it 'updates the SLA status to missed' do
+      expect(applied_sla.reload.sla_status).to eq('missed')
+    end
 
+    it 'generates notifications for all missed SLAs' do
+      # notification count is 6 because we are creating notifications for assignee, admins and participants
+      # 3 notifications = 2 for nrt miss and 1 for rt miss
+      # 2 users (1 assignee + 1 admin)
+      # total 6 notifications
+      expect(Notification.count).to eq(6)
+
+      expect(Notification.where(notification_type: 'sla_missed_next_response').count).to eq(4)
+      expect(Notification.where(notification_type: 'sla_missed_resolution').count).to eq(2)
+    end
+
+    it 'creates necessary sla events' do
       expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'frt').count).to eq(0)
       expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'nrt').count).to eq(2)
       expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'rt').count).to eq(1)
-
-      expected_notifications_count = 3
-      expect(Notification.count).to eq(expected_notifications_count)
-      expect(Notification.where(notification_type: 'sla_missed_next_response').count).to eq(2)
-      expect(Notification.where(notification_type: 'sla_missed_resolution').count).to eq(1)
     end
   end
 end
