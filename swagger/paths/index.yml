@@ -339,6 +339,8 @@
     - $ref: '#/parameters/conversation_id'
   get:
     $ref: ./application/conversation/show.yml
+  patch:
+    $ref: ./application/conversation/update.yml
 /api/v1/accounts/{account_id}/conversations/{conversation_id}/toggle_status:
   parameters:
     - $ref: '#/parameters/account_id'
