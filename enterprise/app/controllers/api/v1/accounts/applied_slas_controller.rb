@@ -6,7 +6,7 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
 
   before_action :set_applied_slas, only: [:index, :metrics]
   before_action :set_current_page, only: [:index]
-  before_action :set_current_page_appiled_slas, only: [:index]
+  before_action :paginate_slas, only: [:index]
   before_action :check_admin_authorization?
 
   sort_on :created_at, type: :datetime
@@ -38,6 +38,7 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
   end
 
   def set_applied_slas
+    initial_query = Current.account.applied_slas.includes(:conversation)
     @applied_slas = initial_query
                     .filter_by_date_range(range)
                     .filter_by_inbox_id(params[:inbox_id])
@@ -47,11 +48,7 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
                     .filter_by_assigned_agent_id(params[:assigned_agent_id])
   end
 
-  def initial_query
-    Current.account.applied_slas.includes(:conversation)
-  end
-
-  def set_current_page_appiled_slas
+  def paginate_slas
     @applied_slas = @applied_slas.page(@current_page).per(RESULTS_PER_PAGE)
   end
 
