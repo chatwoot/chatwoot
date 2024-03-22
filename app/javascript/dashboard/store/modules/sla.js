@@ -19,6 +19,9 @@ export const getters = {
   getSLA(_state) {
     return _state.records;
   },
+  getSLAById: _state => id => {
+    return _state.records.find(sla => sla.id === id);
+  },
   getUIFlags(_state) {
     return _state.uiFlags;
   },
