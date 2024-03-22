@@ -7,7 +7,7 @@
       <SLA-header @click="openAddPopup" />
     </template>
     <template #loading>
-      <SLAListItemLoading v-for="ii in 3" :key="ii" class="mb-3" />
+      <SLAListItemLoading v-for="ii in 2" :key="ii" class="mb-3" />
     </template>
     <template #body>
       <p

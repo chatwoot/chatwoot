@@ -21,13 +21,11 @@ import BaseSettingsListItem from '../../components/BaseSettingsListItem.vue';
       <div
         class="flex items-center sm:rtl:!border-l-0 sm:rtl:!border-r sm:rtl:border-solid sm:rtl:border-slate-75 sm:rtl:dark:border-slate-700/50 gap-1.5 w-fit sm:w-full sm:gap-0 sm:justify-between"
       >
-        <div class="flex justify-end w-1/3 h-full px-4">
-          <div class="w-20 h-full rounded-md bg-slate-50 animate-pulse" />
-        </div>
-        <div class="flex justify-end w-1/3 h-full px-4">
-          <div class="w-20 h-full rounded-md bg-slate-50 animate-pulse" />
-        </div>
-        <div class="flex justify-end w-1/3 h-full px-4">
+        <div
+          v-for="ii in 3"
+          :key="ii"
+          class="flex justify-end w-1/3 h-full px-4"
+        >
           <div class="w-20 h-full rounded-md bg-slate-50 animate-pulse" />
         </div>
       </div>
