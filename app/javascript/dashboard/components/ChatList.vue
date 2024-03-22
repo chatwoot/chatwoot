@@ -205,6 +205,7 @@ import { conversationListPageURL } from '../helper/URLHelper';
 import {
   isOnMentionsView,
   isOnUnattendedView,
+  isOnRecentlyResolvedView
 } from '../store/modules/conversations/helpers/actionHelpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 import IntersectionObserver from './IntersectionObserver.vue';
@@ -535,6 +536,10 @@ export default {
     conversationType() {
       this.resetAndFetchData();
       this.updateVirtualListProps('conversationType', this.conversationType);
+      if (this.conversationType === 'recently_resolved') {
+        this.onBasicFilterChange('all', 'status');
+        this.onBasicFilterChange('created_at_desc', 'sort');
+      }
     },
     activeFolder() {
       this.resetAndFetchData();
@@ -903,6 +908,8 @@ export default {
           conversationType = 'mention';
         } else if (isOnUnattendedView({ route: { name } })) {
           conversationType = 'unattended';
+        } else if (isOnRecentlyResolvedView({ route: {name}})) {
+          conversationType = 'recently_resolved'
         }
         this.$router.push(
           conversationListPageURL({

@@ -72,6 +72,8 @@ export const getConversationDashboardRoute = routeName => {
       return 'conversation_mentions';
     case 'conversation_through_unattended':
       return 'conversation_unattended';
+    case 'conversation_recently_resolved':
+      return 'conversation_recently_resolved';
     case 'conversations_through_label':
       return 'label_conversations';
     case 'conversations_through_team':

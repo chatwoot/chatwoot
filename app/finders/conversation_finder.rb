@@ -114,6 +114,8 @@ class ConversationFinder
       @conversations = current_user.participating_conversations.where(account_id: current_account.id)
     when 'unattended'
       @conversations = @conversations.unattended
+    when 'recently_resolved'
+      @conversations = current_account.conversations.resolved.where(created_at: (7.days.ago..Date.current)).order(created_at: :desc)
     end
     @conversations
   end

@@ -23,7 +23,7 @@ json.array! @conversations do |conversation|
   else
     json.messages [
       conversation.messages.where(account_id: conversation.account_id)
-                  .includes([{ attachments: [{ file_attachment: [:blob] }] }]).first.try(:push_event_data)
+                  .includes([{ attachments: [{ file_attachment: [:blob] }] }]).last.try(:push_event_data)
     ]
   end
 

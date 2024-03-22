@@ -20,6 +20,7 @@ const conversations = accountId => ({
     'conversations_through_folders',
     'conversation_unattended',
     'conversation_through_unattended',
+    'conversation_recently_resolved'
   ],
   menuItems: [
     {
@@ -44,6 +45,13 @@ const conversations = accountId => ({
       toState: frontendURL(`accounts/${accountId}/unattended/conversations`),
       toStateName: 'conversation_unattended',
     },
+    {
+      icon: 'checkmark-circle',
+      label: 'RECENTLY_RESOLVED',
+      key: 'conversation_recently_resolved',
+      toState: frontendURL(`accounts/${accountId}/recently_resolved/conversations`),
+      toStateName: 'conversation_recently_resolved',
+    }
   ],
 });
 

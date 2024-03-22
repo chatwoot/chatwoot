@@ -44,10 +44,10 @@ export default {
   },
   computed: {
     lastActivityTime() {
-      return this.shortTimestamp(this.lastActivityAtTimeAgo);
+      return this.dateFormat(this.lastActivityTimestamp, 'MMM d');
     },
     createdAtTime() {
-      return this.shortTimestamp(this.createdAtTimeAgo);
+      return this.dateFormat(this.createdAtTimestamp, 'MMM d');
     },
     createdAt() {
       const createdTimeDiff = Date.now() - this.createdAtTimestamp * 1000;

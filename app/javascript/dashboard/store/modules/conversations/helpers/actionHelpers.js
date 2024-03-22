@@ -30,6 +30,13 @@ export const isOnUnattendedView = ({ route: { name: routeName } }) => {
   return UNATTENDED_ROUTES.includes(routeName);
 };
 
+export const isOnRecentlyResolvedView = ({ route: {name: routeName}}) => {
+  const RECENTLY_RESOLVED_ROUTES = [
+    'conversation_recently_resolved',
+  ];
+  return RECENTLY_RESOLVED_ROUTES.includes(routeName);
+};
+
 export const isOnFoldersView = ({ route: { name: routeName } }) => {
   const FOLDER_ROUTES = [
     'folder_conversations',

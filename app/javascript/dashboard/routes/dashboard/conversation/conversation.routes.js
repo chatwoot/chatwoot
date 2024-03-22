@@ -148,6 +148,13 @@ export default {
       props: () => ({ conversationType: 'unattended' }),
     },
     {
+      path: frontendURL('accounts/:accountId/recently_resolved/conversations'),
+      name: 'conversation_recently_resolved',
+      roles: ['administrator', 'agent'],
+      component: ConversationView,
+      props: () => ({ conversationType: 'recently_resolved' }),
+    },
+    {
       path: frontendURL(
         'accounts/:accountId/unattended/conversations/:conversationId'
       ),
