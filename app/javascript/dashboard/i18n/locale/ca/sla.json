@@ -19,7 +19,19 @@
         "NRT",
         "RT",
         "Business Hours"
-      ]
+      ],
+      "BUSINESS_HOURS_ON": "Business hours on",
+      "BUSINESS_HOURS_OFF": "Business hours off",
+      "RESPONSE_TYPES": {
+        "FRT": "First response time threshold",
+        "NRT": "Next response time threshold",
+        "RT": "Resolution time threshold",
+        "SHORT_HAND": {
+          "FRT": "FRT",
+          "NRT": "NRT",
+          "RT": "RT"
+        }
+      }
     },
     "FORM": {
       "NAME": {
