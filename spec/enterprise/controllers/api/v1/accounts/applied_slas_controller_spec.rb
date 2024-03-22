@@ -25,14 +25,16 @@ RSpec.describe 'Applied SLAs API', type: :request do
 
     context 'when it is an authenticated user' do
       it 'returns the sla metrics' do
-        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1)
+        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1, sla_status: 'missed')
+
         get "/api/v1/accounts/#{account.id}/applied_slas/metrics",
             headers: administrator.create_new_auth_token
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body)
 
         expect(body).to include('total_applied_slas' => 1)
-        expect(body).to include('number_of_sla_breaches' => 0)
+        expect(body).to include('number_of_sla_breaches' => 1)
+        expect(body).to include('hit_rate' => '0.0%')
       end
 
       it 'filters sla metrics based on a date range' do
@@ -47,6 +49,7 @@ RSpec.describe 'Applied SLAs API', type: :request do
 
         expect(body).to include('total_applied_slas' => 1)
         expect(body).to include('number_of_sla_breaches' => 0)
+        expect(body).to include('hit_rate' => '100%')
       end
 
       it 'filters sla metrics based on a date range and agent ids' do
@@ -62,6 +65,7 @@ RSpec.describe 'Applied SLAs API', type: :request do
 
         expect(body).to include('total_applied_slas' => 3)
         expect(body).to include('number_of_sla_breaches' => 1)
+        expect(body).to include('hit_rate' => '66.67%')
       end
 
       it 'filters sla metrics based on sla policy ids' do
@@ -77,6 +81,7 @@ RSpec.describe 'Applied SLAs API', type: :request do
 
         expect(body).to include('total_applied_slas' => 2)
         expect(body).to include('number_of_sla_breaches' => 1)
+        expect(body).to include('hit_rate' => '50.0%')
       end
 
       it 'filters sla metrics based on labels' do
@@ -94,6 +99,7 @@ RSpec.describe 'Applied SLAs API', type: :request do
 
         expect(body).to include('total_applied_slas' => 2)
         expect(body).to include('number_of_sla_breaches' => 1)
+        expect(body).to include('hit_rate' => '50.0%')
       end
     end
   end
