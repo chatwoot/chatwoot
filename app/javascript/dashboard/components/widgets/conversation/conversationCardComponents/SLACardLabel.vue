@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="showSLATimer"
-    class="flex items-center h-5 gap-1 w-fit truncate px-2 py-0.5 border border-solid rounded border-slate-75 dark:border-slate-600"
+    class="flex items-center h-5 gap-1 min-w-fit w-fit truncate px-2 py-0.5 border border-solid rounded border-slate-75 dark:border-slate-600"
   >
     <fluent-icon
       size="14"
