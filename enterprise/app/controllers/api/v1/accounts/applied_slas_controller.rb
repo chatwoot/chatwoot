@@ -4,7 +4,7 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
 
   RESULTS_PER_PAGE = 25
 
-  before_action :set_appplied_slas, only: [:index, :metrics]
+  before_action :set_applied_slas, only: [:index, :metrics]
   before_action :set_current_page, only: [:index]
   before_action :set_current_page_appiled_slas, only: [:index]
   before_action :check_admin_authorization?
@@ -37,7 +37,7 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
     ((total_applied_slas - number_of_sla_breaches) / total_applied_slas.to_f * 100).round(2)
   end
 
-  def set_appplied_slas
+  def set_applied_slas
     @applied_slas = initial_query
                     .filter_by_date_range(range)
                     .filter_by_inbox_id(params[:inbox_id])
