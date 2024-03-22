@@ -7,7 +7,7 @@
       "404": "В этой группе нет активных уведомлений.",
       "NO_NOTIFICATIONS": "Уведомления отсутствуют",
       "NOTE": "Уведомления от всех подписанных источников",
-      "NO_MESSAGES_AVAILABLE": "Oops! Not able to fetch messages",
+      "NO_MESSAGES_AVAILABLE": "Ой! Не удалось получить сообщения",
       "SNOOZED_UNTIL": "Отложить до",
       "SNOOZED_UNTIL_TOMORROW": "Отложено до завтра",
       "SNOOZED_UNTIL_NEXT_WEEK": "Отложено до следующей недели"
