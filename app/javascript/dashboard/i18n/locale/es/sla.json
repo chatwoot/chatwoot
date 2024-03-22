@@ -19,7 +19,19 @@
         "NRT",
         "RT",
         "Horarios"
-      ]
+      ],
+      "BUSINESS_HOURS_ON": "Horas laborables",
+      "BUSINESS_HOURS_OFF": "Horas de descanso",
+      "RESPONSE_TYPES": {
+        "FRT": "Umbral de tiempo de primera respuesta",
+        "NRT": "Umbral de tiempo de siguiente respuesta",
+        "RT": "Umbral de tiempo de resolución",
+        "SHORT_HAND": {
+          "FRT": "FRT",
+          "NRT": "NRT",
+          "RT": "RT"
+        }
+      }
     },
     "FORM": {
       "NAME": {
