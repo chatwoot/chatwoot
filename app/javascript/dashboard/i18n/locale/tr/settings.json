@@ -221,6 +221,7 @@
     "MACROS": "Makrolar",
     "TEAMS": "Ekipler",
     "BILLING": "Fatura",
+    "CHATBOT": "Chatbot",
     "CUSTOM_VIEWS_FOLDER": "Klasörler",
     "CUSTOM_VIEWS_SEGMENTS": "Segmentler",
     "ALL_CONTACTS": "Tüm Kişiler",
@@ -274,6 +275,9 @@
       "BUTTON_TXT": "Sohbet et"
     },
     "NO_BILLING_USER": "Fatura hesabınız yapılandırılıyor. Lütfen sayfayı yenileyip tekrar deneyin."
+  },
+  "CHATBOT": {
+    "TITLE": "Chatbot"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Eyvah! Hiçbir Chatwoot hesabı bulunamadı. Devam etmek için yeni bir hesap oluşturun.",

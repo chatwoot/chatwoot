@@ -17,6 +17,7 @@ import profile from './profile/profile.routes';
 import reports from './reports/reports.routes';
 import store from '../../../store';
 import teams from './teams/teams.routes';
+import chatbot from './chatbot/chatbot.routes';
 
 export default {
   routes: [
@@ -38,6 +39,7 @@ export default {
     ...automation.routes,
     ...auditlogs.routes,
     ...billing.routes,
+    ...chatbot.routes,
     ...campaigns.routes,
     ...canned.routes,
     ...inbox.routes,

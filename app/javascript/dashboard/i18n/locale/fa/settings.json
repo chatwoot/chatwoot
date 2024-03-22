@@ -221,6 +221,7 @@
     "MACROS": "ماکروها",
     "TEAMS": "تیم‌ها",
     "BILLING": "صورتحساب",
+    "CHATBOT": "Chatbot",
     "CUSTOM_VIEWS_FOLDER": "پوشه‌ها",
     "CUSTOM_VIEWS_SEGMENTS": "بخش ها",
     "ALL_CONTACTS": "تمام مخاطبین",
@@ -274,6 +275,9 @@
       "BUTTON_TXT": "با ما گفتگو کنید"
     },
     "NO_BILLING_USER": "صورتحساب حساب شما در حال پیکربندی است. لطفا صفحه را مجددا بارگزاری کرده و دوباره تلاش کنید."
+  },
+  "CHATBOT": {
+    "TITLE": "Chatbot"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "اوه اوه! ما هیچ حسابی روی Chatwoot پاز شما پیدا نکردیم. لطفاً برای ادامه یک حساب جدید ایجاد کنید.",
