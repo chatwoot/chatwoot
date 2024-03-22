@@ -1,23 +1,22 @@
 <template>
-  <settings-layout>
+  <settings-layout
+    :is-loading="uiFlags.isFetching"
+    :loading-message="$t('SLA.LOADING')"
+  >
     <template #header>
       <SLA-header @click="openAddPopup" />
     </template>
+    <template #loading>
+      <SLAListItemLoading v-for="ii in 3" :key="ii" class="mb-3" />
+    </template>
     <template #body>
       <p
-        v-if="!uiFlags.isFetching && !records.length"
+        v-if="!records.length"
         class="flex flex-col items-center justify-center h-full"
       >
         {{ $t('SLA.LIST.404') }}
       </p>
-      <woot-loading-state
-        v-if="uiFlags.isFetching"
-        :message="$t('SLA.LOADING')"
-      />
-      <div
-        v-if="!uiFlags.isFetching && records.length"
-        class="flex flex-col w-full h-full gap-3"
-      >
+      <div v-if="records.length" class="flex flex-col w-full h-full gap-3">
         <SLA-list-item
           v-for="sla in records"
           :key="sla.title"
@@ -53,6 +52,7 @@
 import SettingsLayout from '../SettingsLayout.vue';
 import SLAHeader from './components/SLAHeader.vue';
 import SLAListItem from './components/SLAListItem.vue';
+import SLAListItemLoading from './components/SLAListItemLoading.vue';
 import { mapGetters } from 'vuex';
 import { convertSecondsToTimeUnit } from '@chatwoot/utils';
 
@@ -64,6 +64,7 @@ export default {
     AddSLA,
     SLAHeader,
     SLAListItem,
+    SLAListItemLoading,
     SettingsLayout,
   },
   mixins: [alertMixin],
