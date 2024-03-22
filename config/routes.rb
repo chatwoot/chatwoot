@@ -485,4 +485,26 @@ Rails.application.routes.draw do
   # ----------------------------------------------------------------------
   # Routes for testing
   resources :widget_tests, only: [:index] unless Rails.env.production?
+  # ----------------------------------------------------------------------
+  # Routes for Chatbot
+  namespace :api do
+    namespace :v1 do
+      namespace :widget do
+        post '/store-to-db', to: 'chatbot#store_to_db'
+        post '/old-bot-train', to: 'chatbot#old_bot_train'
+        post '/change-bot-name', to: 'chatbot#change_bot_name'
+        get '/chatbot-with-account-id', to: 'chatbot#fetch_chatbot_with_account_id'
+        delete '/chatbot-with-chatbot-id', to: 'chatbot#delete_chatbot_with_chatbot_id'
+        # get 'last-trained', to: 'chatbot#last_trained'
+        put '/update-bot-info', to: 'chatbot#update_bot_info'
+        post '/toggle-chatbot-status', to: 'chatbot#toggle_chatbot_status'
+        # get '/mounted-inbox-id', to: 'chatbot#mounted_inbox_id'
+        get '/is-inbox-widget', to: 'chatbot#inbox_widget'
+        get '/chatbot-status', to: 'chatbot#chatbot_status'
+        get '/chatbot', to: 'chatbot#fetch_chatbot' #only for testing
+        delete '/chatbot', to: 'chatbot#delete_all_chatbot' #only for testing
+      end
+    end
+  end
+  # ----------------------------------------------------------------------
 end

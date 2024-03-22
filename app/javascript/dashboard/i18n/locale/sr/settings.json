@@ -221,6 +221,7 @@
     "MACROS": "Macros",
     "TEAMS": "Timovi",
     "BILLING": "Plaćanje",
+    "CHATBOT": "Chatbot",
     "CUSTOM_VIEWS_FOLDER": "Fascikle",
     "CUSTOM_VIEWS_SEGMENTS": "Segmenti",
     "ALL_CONTACTS": "Svi kontakti",
@@ -274,6 +275,9 @@
       "BUTTON_TXT": "Razgovarajte sa nama"
     },
     "NO_BILLING_USER": "Vaš nalog za plaćanje se podešava. Molim vas osvežite stranicu i pokušajte ponovo."
+  },
+  "CHATBOT": {
+    "TITLE": "Chatbot"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "O ne! Nismo mogli da pronađemo nijedan Chatwoot nalog. Molim vas kreirajte novi da bi ste nastavili.",

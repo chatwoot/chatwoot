@@ -1,0 +1,52 @@
+{
+    "CHATBOT_SETTINGS": {
+      "CHATBOT": "Keskusteluohjelma",
+      "BOT_STATUS": "Keskusteluohjelman tila",
+      "NEW_BOT": "Uusi keskusteluohjelma",
+      "CONNECT_INBOX": "Yhdistä postilaatikkoon",
+      "LAST_TRAINED_AT": "Viimeksi koulutettu: ",
+      "CHATBOT_ID": "Keskusteluohjelman tunnus: ",
+      "BROWSE_FILES": "Selaa tiedostoja",
+      "UPDATE": "Päivitä",
+      "CHATBOT_INBOX_CONNECT": "Yhdistä keskusteluohjelma postilaatikkoon",
+      "FILE_TYPES": {
+        "DOC": ".doc",
+        "PDF": ".pdf",
+        "TXT": ".txt"
+      },
+      "UPLOAD": {
+        "FILE": "Tiedosto",
+        "TEXT": "Teksti",
+        "WEBSITE": "Verkkosivusto"
+      },
+      "FORM": {
+        "CONNECT_INBOX": "Yhdistä postilaatikkoon",
+        "ADD_URL": "Lisää URL-osoite",
+        "NAME": {
+          "LABEL": "Keskusteluohjelman nimi",
+          "PLACEHOLDER": "Esimerkki: Keskusteluohjelma 1"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Keskusteluohjelman kuvaus",
+          "PLACEHOLDER": "Lyhyt kuvaus tästä keskusteluohjelmasta."
+        },
+        "SUBMIT_CREATE": "Luo keskusteluohjelma"
+      },
+      "SIDEBAR_TXT": "<p><b>Luo keskusteluohjelma</b></p> <p>Keskusteluohjelma mahdollistaa bottisi kouluttamisen omilla henkilökohtaisilla tiedoillasi. <br /> Henkilökohtaisilla tiedoilla koulutettu botti vastaa kysymyksiin vain niiden tietojen perusteella, joilla se on koulutettu.</p>",
+      "LIST": {
+        "404": "Tällä tilillä ei ole luotu keskusteluohjelmia.",
+        "EDIT_BOT": "Muokkaa"
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "Poista",
+        "CONFIRM": {
+          "TITLE": "Vahvista poisto",
+          "PLACE_HOLDER": "Ole hyvä ja kirjoita {chatbotName} vahvistaaksesi",
+          "MESSAGE": "Keskusteluohjelman poistaminen poistaa sen pysyvästi ja sen koulutuksessa käytetyt tiedot.",
+          "YES": "Poista ",
+          "NO": "Peruuta"
+        }
+      }
+    }
+  }
+  

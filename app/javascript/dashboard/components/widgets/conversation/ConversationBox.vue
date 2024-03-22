@@ -5,6 +5,7 @@
   >
     <conversation-header
       v-if="currentChat.id"
+      :conversation-id="currentChat.id"
       :chat="currentChat"
       :is-contact-panel-open="isContactPanelOpen"
       :show-back-button="isOnExpandedLayout"

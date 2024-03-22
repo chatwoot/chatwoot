@@ -2,6 +2,11 @@ source 'https://rubygems.org'
 
 ruby '3.2.2'
 
+##-- gems for openai integration --##
+
+##-- unique ID generator --##
+gem 'securerandom'
+
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
 gem 'rails', '~> 7.0.8.0'

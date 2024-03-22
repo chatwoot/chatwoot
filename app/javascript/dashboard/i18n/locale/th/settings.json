@@ -221,6 +221,7 @@
     "MACROS": "Macros",
     "TEAMS": "ทีม",
     "BILLING": "Billing",
+    "CHATBOT": "Chatbot",
     "CUSTOM_VIEWS_FOLDER": "โฟลเดอร์",
     "CUSTOM_VIEWS_SEGMENTS": "กลุ่มตามตัวกรอง",
     "ALL_CONTACTS": "รายชื่อผู้ติดต่อทั้งหมด",
@@ -274,6 +275,9 @@
       "BUTTON_TXT": "คุยกับเรา"
     },
     "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+  },
+  "CHATBOT": {
+    "TITLE": "Chatbot"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "ไม่นะ! ดูเหมือนว่าเราจะไม่เจอบัญชี Chatwoot ของคุณ โปรดสร้างบัญชีใหม่เพื่อดำเนินการต่อ",
