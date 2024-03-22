@@ -35,7 +35,11 @@ defineProps({
 });
 </script>
 <template>
-  <base-settings-list-item :title="slaName" :description="description">
+  <base-settings-list-item
+    class="sm:divide-x sm:divide-slate-75 sm:dark:divide-slate-700/50"
+    :title="slaName"
+    :description="description"
+  >
     <template #label>
       <SLA-business-hours-label :has-business-hours="hasBusinessHours" />
     </template>
