@@ -17,7 +17,7 @@ import {
   setCustomAttributes,
 } from 'widget/api/conversation';
 import TeamAvailability from 'widget/components/TeamAvailability';
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 import routerMixin from 'widget/mixins/routerMixin';
 export default {
   name: 'Home',
@@ -46,19 +46,12 @@ export default {
     }),
   },
   methods: {
-    ...mapActions('conversation', [
-      'clearConversations',
-    ]),
-    async startConversation() {
+    startConversation() {
       const ref = new URLSearchParams(window.location.search).get('referral');
       if (ref) {
-        try {
-          await setCustomAttributes({"ref": ref});
-          this.clearConversations();
-        } catch (e) {
-          // Ignore error
-        }
-      } else if (this.preChatFormEnabled && !this.conversationSize) {
+        this.$store.dispatch('conversation/createConversation', {});
+      }
+      if (this.preChatFormEnabled && !this.conversationSize) {
         return this.replaceRoute('prechat-form');
       }
       return this.replaceRoute('messages');
