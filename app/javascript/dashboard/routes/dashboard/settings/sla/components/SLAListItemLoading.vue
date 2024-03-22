@@ -2,11 +2,7 @@
 import BaseSettingsListItem from '../../components/BaseSettingsListItem.vue';
 </script>
 <template>
-  <base-settings-list-item
-    :title="slaName"
-    :description="description"
-    class="opacity-50"
-  >
+  <base-settings-list-item class="opacity-50">
     <template #title>
       <div class="w-24 h-[26px] rounded-md bg-slate-50 animate-pulse" />
     </template>
