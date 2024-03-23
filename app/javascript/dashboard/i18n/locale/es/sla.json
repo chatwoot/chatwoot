@@ -4,22 +4,9 @@
     "ADD_ACTION": "Añadir SLA",
     "DESCRIPTION": "Service Level Agreements (SLAs) are contracts that define clear expectations between your team and customers. They establish standards for response and resolution times, creating a framework for accountability and ensures a consistent, high-quality experience.",
     "LEARN_MORE": "Learn more about SLA",
-    "HEADER_BTN_TXT": "Añadir SLA",
     "LOADING": "Obteniendo SLAs",
-    "SEARCH_404": "No hay elementos que coincidan con esta consulta",
-    "SIDEBAR_TXT": "<p><b>SLA</b> <p>Piense en los Acuerdos de Nivel de Servicio (SLAs) como promesas amigables entre un proveedor de servicios y un cliente.</p> <p> ¡Estas promesas establecen expectativas claras para cosas como la rapidez con que el equipo responderá a los problemas, asegurándote de que siempre obtienes una experiencia confiable y extraordinaria!</p>",
     "LIST": {
       "404": "No hay SLAs disponibles en esta cuenta.",
-      "TITLE": "Administrar SLA",
-      "DESC": "SLA: ¡Promesas amistosas para un gran servicio!",
-      "TABLE_HEADER": [
-        "Nombre",
-        "Descripción",
-        "FRT",
-        "NRT",
-        "RT",
-        "Horarios"
-      ],
       "BUSINESS_HOURS_ON": "Horas laborables",
       "BUSINESS_HOURS_OFF": "Horas de descanso",
       "RESPONSE_TYPES": {
