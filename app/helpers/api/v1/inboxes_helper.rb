@@ -42,7 +42,7 @@ module Api::V1::InboxesHelper
   rescue SocketError => e
     raise StandardError, I18n.t('errors.inboxes.imap.socket_error')
   rescue Net::IMAP::NoResponseError => e
-    raise StandardError, I18n.t('errors.inboxes.imap.no_response_error')
+    raise StandardError, (channel_data[:imap_address] == 'outlook.office365.com' ? 'Set up a Microsoft Entra ID App: https://www.chatwoot.com/docs/self-hosted/configuration/features/email-channel/azure-app-setup' : I18n.t('errors.inboxes.imap.no_response_error'))
   rescue Errno::EHOSTUNREACH => e
     raise StandardError, I18n.t('errors.inboxes.imap.host_unreachable_error')
   rescue Net::OpenTimeout => e
