@@ -4,22 +4,9 @@
     "ADD_ACTION": "Добавить SLA",
     "DESCRIPTION": "Service Level Agreements (SLAs) are contracts that define clear expectations between your team and customers. They establish standards for response and resolution times, creating a framework for accountability and ensures a consistent, high-quality experience.",
     "LEARN_MORE": "Learn more about SLA",
-    "HEADER_BTN_TXT": "Добавить SLA",
     "LOADING": "Получение SLA",
-    "SEARCH_404": "Нет вебхуков, соответствующих запросу",
-    "SIDEBAR_TXT": "<p><b>SLA</b> <p>Подумайте о соглашениях об уровне обслуживания (SLA) как о дружественных обещаниях между поставщиком услуг и клиентом.</p> <p> Эти обещания устанавливают четкие ожидания в отношении таких вещей, как быстрое реагирование команды на проблемы, Вы всегда получите надежный и высококлассный опыт!</p>",
     "LIST": {
       "404": "В этой учетной записи нет доступных SLA.",
-      "TITLE": "Настроить SLA",
-      "DESC": "SLAs: Дружеские обещания для отличного обслуживания!",
-      "TABLE_HEADER": [
-        "Имя",
-        "Описание",
-        "FRT",
-        "NRT",
-        "RT",
-        "Время работы"
-      ],
       "BUSINESS_HOURS_ON": "Время работы включено",
       "BUSINESS_HOURS_OFF": "Время работы выключено",
       "RESPONSE_TYPES": {
