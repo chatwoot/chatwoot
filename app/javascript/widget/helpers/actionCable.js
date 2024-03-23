@@ -136,6 +136,10 @@ class ActionCableConnector extends BaseActionCableConnector {
       this.onTypingOff();
     }, 30000);
   };
+
+  updateToken = pubsubToken => {
+    this.refreshConnection(pubsubToken);
+  };
 }
 
 export default ActionCableConnector;
