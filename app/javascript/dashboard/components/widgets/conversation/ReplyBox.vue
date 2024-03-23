@@ -1137,6 +1137,20 @@ export default {
         cc.push(conversationContact);
       }
 
+      // Add each address in emailAttributes.to to the "cc" list, expect for specific conditions
+      // If the email is not a support or reply email, and is not the conversation contact's email, then add it to the "cc" list
+      if (Array.isArray(emailAttributes.to)) {
+        emailAttributes.to.forEach(email => {
+          if (
+            !email.includes('support') &&
+            !email.includes('reply') &&
+            email !== conversationContact
+          ) {
+            cc.push(email);
+          }
+        });
+      }
+
       // Remove the conversation contact's email from the BCC list if present
       let bcc = (emailAttributes.bcc || []).filter(
         email => email !== conversationContact
