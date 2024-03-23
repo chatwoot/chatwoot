@@ -128,7 +128,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import CardLabels from './conversationCardComponents/CardLabels.vue';
 import PriorityMark from './PriorityMark.vue';
-import SLACardLabel from './conversationCardComponents/SLACardLabel.vue';
+import SLACardLabel from './components/SLACardLabel.vue';
 
 export default {
   components: {
