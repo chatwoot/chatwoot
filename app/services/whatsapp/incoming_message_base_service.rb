@@ -148,6 +148,7 @@ class Whatsapp::IncomingMessageBaseService
       message_type: :incoming,
       sender: @contact,
       source_id: message[:id].to_s,
+      created_at: Time.at(message[:timestamp], in: 'UTC'),
       in_reply_to_external_id: @in_reply_to_external_id
     )
   end
