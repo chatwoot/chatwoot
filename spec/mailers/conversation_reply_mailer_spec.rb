@@ -153,6 +153,12 @@ RSpec.describe ConversationReplyMailer do
       it 'updates the source_id' do
         expect(mail.message_id).to eq message.source_id
       end
+
+      context 'with previous message' do
+        let!(:prev_message) { create(:message, conversation: conversation, account: account, message_type: 'incoming', content: 'Prev Message') }
+
+        it { expect(mail.decoded).to include prev_message.content }
+      end
     end
 
     context 'when smtp enabled for email channel' do
