@@ -11,7 +11,7 @@
 
     <!-- List Agents -->
     <div class="flex flex-row gap-4">
-      <div class="w-[60%]">
+      <div class="w-full lg:w-3/5">
         <woot-loading-state
           v-if="uiFlags.isFetching"
           :message="$t('AGENT_MGMT.LOADING')"
@@ -27,7 +27,6 @@
                 <td>
                   <thumbnail
                     :src="agent.thumbnail"
-                    class="columns"
                     :username="agent.name"
                     size="40px"
                     :status="agent.availability_status"
@@ -85,7 +84,7 @@
           </table>
         </div>
       </div>
-      <div class="w-[34%]">
+      <div class="w-1/3 hidden lg:block">
         <span
           v-dompurify-html="
             useInstallationName(

@@ -1,9 +1,8 @@
 <template>
   <woot-modal :show="show" :on-close="closeModal">
-    <div class="h-auto overflow-auto flex flex-col">
+    <div class="flex flex-col h-auto overflow-auto">
       <woot-modal-header :header-title="header" />
-
-      <form class="mx-0 flex flex-wrap" @submit.prevent="submit">
+      <form class="w-full" @submit.prevent="submit">
         <woot-input
           v-model.trim="app.title"
           :class="{ error: $v.app.title.$error }"
@@ -36,7 +35,7 @@
           data-testid="app-url"
           @input="$v.app.content.url.$touch"
         />
-        <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+        <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
           <woot-button
             :is-loading="isLoading"
             :is-disabled="$v.$invalid"

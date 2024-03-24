@@ -1,11 +1,13 @@
 <template>
   <router-link :to="navigateTo" class="contact-item">
     <woot-thumbnail :src="thumbnail" :username="name" size="24px" />
-    <div class="contact-details">
-      <h5 class="text-block-title name text-slate-800 dark:text-slate-200">
+    <div class="ml-2 rtl:mr-2 rtl:ml-0">
+      <h5 class="text-sm name text-slate-800 dark:text-slate-200">
         {{ name }}
       </h5>
-      <p class="details-meta">
+      <p
+        class="m-0 text-slate-600 dark:text-slate-200 gap-1 text-sm flex items-center"
+      >
         <span v-if="email" class="email text-slate-800 dark:text-slate-200">{{
           email
         }}</span>
@@ -63,15 +65,5 @@ export default {
 }
 .contact-details {
   @apply ml-2 rtl:mr-2 rtl:ml-0;
-}
-.name {
-  @apply m-0;
-}
-.details-meta {
-  @apply m-0 text-slate-600 dark:text-slate-200 text-sm flex items-center;
-
-  span {
-    @apply ml-1 rtl:mr-1 rtl:ml-0;
-  }
 }
 </style>
