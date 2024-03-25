@@ -16,7 +16,6 @@ class AgentBuilder
   def perform
     ActiveRecord::Base.transaction do
       @user = find_or_create_user
-      send_confirmation_if_required
       create_account_user
     end
     @user
@@ -32,15 +31,6 @@ class AgentBuilder
 
     temp_password = "1!aA#{SecureRandom.alphanumeric(12)}"
     User.create!(email: email, name: name, password: temp_password, password_confirmation: temp_password)
-  end
-
-  # Sends confirmation instructions if the user is persisted and not confirmed.
-  def send_confirmation_if_required
-    return unless user_needs_confirmation?
-    if @user.confirmation_sent_at.nil? || @user.confirmation_sent_at < 1.hour.ago
-      @user.update(confirmation_sent_at: Time.current)
-      @user.send_confirmation_instructions
-    end
   end
 
   # Checks if the user needs confirmation.
