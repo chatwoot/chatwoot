@@ -111,7 +111,11 @@ export default {
     },
     exactTimeInAmPm() {
       return `${
-        this.timeSlot.day === this.currentDay ? `at ${this.timeSlot.from}` : ''
+        this.timeSlot.day === this.currentDay
+          ? this.$t('REPLY_TIME.BACK_AT', {
+              time: this.timeSlot.from,
+            })
+          : ''
       }`;
     },
     hoursAndMinutesLeft() {
@@ -121,24 +125,14 @@ export default {
 
       if (hoursLeft > 0) {
         const roundedUpHoursLeft = minutesLeft > 0 ? hoursLeft + 1 : hoursLeft;
-        const hourRelative = generateRelativeTime(
-          roundedUpHoursLeft,
-          'hour',
-          this.languageCode
-        );
-        timeLeftChars.push(`${hourRelative}`);
+        timeLeftChars.push(`${roundedUpHoursLeft} hours`);
       }
 
       if (minutesLeft > 0 && hoursLeft === 0) {
         const roundedUpMinLeft =
           Math.ceil(minutesLeft / MINUTE_ROUNDING_FACTOR) *
           MINUTE_ROUNDING_FACTOR;
-        const minRelative = generateRelativeTime(
-          roundedUpMinLeft,
-          'minutes',
-          this.languageCode
-        );
-        timeLeftChars.push(`${minRelative}`);
+        timeLeftChars.push(`${roundedUpMinLeft} minutes`);
       }
 
       return timeLeftChars.join(' ');
@@ -149,9 +143,11 @@ export default {
         return this.exactTimeInAmPm;
       }
       if (hoursLeft > 0 || minutesLeft > 0) {
-        return this.hoursAndMinutesLeft;
+        return this.$t('REPLY_TIME.BACK_IN', {
+          time: this.hoursAndMinutesLeft,
+        });
       }
-      return 'in some time';
+      return this.$t('REPLY_TIME.BACK_IN_SOME_TIME');
     },
     timeLeftToBackInOnline() {
       if (
@@ -163,14 +159,19 @@ export default {
           'days',
           this.languageCode
         );
-        return `${hourRelative}`;
+        return this.$t('REPLY_TIME.WILL_BE_BACK', {
+          time: hourRelative,
+        });
       }
       if (
         this.dayDiff >= 1 &&
         this.presentHour >= this.currentDayTimings.closeHour
       ) {
-        return `on ${this.dayNameOfNextWorkingDay}`;
+        return this.$t('REPLY_TIME.BACK_ON', {
+          day: this.dayNameOfNextWorkingDay,
+        });
       }
+
       return this.hoursAndMinutesToBack;
     },
   },

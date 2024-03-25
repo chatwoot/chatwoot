@@ -20,7 +20,11 @@
     "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
     "IN_A_FEW_HOURS": "Typically replies in a few hours",
     "IN_A_DAY": "Typically replies in a day",
-    "BACK_IN": "We will be back online"
+    "WILL_BE_BACK": "We will be back online {time}",
+    "BACK_IN": "We will be back online in {time}",
+    "BACK_AT": "We will be back online at {time}",
+    "BACK_ON": "We will be back online on {day}",
+    "BACK_IN_SOME_TIME": "We will be back online in some time"
   },
   "DAY_NAMES": [
     "Sunday",
