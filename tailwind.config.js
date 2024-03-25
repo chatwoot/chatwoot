@@ -26,6 +26,11 @@ module.exports = {
     './app/views/**/*.html.erb',
   ],
   theme: {
+    extend: {
+      fontFamily: {
+        inter: ['Inter', ...defaultTheme.fontFamily.sans],
+      },
+    },
     fontSize: {
       ...defaultTheme.fontSize,
       xxs: '0.625rem',
