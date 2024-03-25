@@ -72,26 +72,26 @@ pt_BR:
     agent_csv:
       agent_name: Nome do Agente
       conversations_count: Conversas atribuídas
-      avg_first_response_time: Tempo médio de primeira resposta (minutos
-      avg_resolution_time:
+      avg_first_response_time: Tempo médio de primeira resposta
+      avg_resolution_time: Tempo médio de resolução
     inbox_csv:
       inbox_name: Nome da Caixa de Entrada
       inbox_type: Tipo da Caixa de Entrada
       conversations_count: Nº de Conversas
-      avg_first_response_time: Tempo médio de primeira resposta (minutos
-      avg_resolution_time:
+      avg_first_response_time: Tempo médio de primeira resposta
+      avg_resolution_time: Tempo médio de resolução
     label_csv:
       label_title: Nome do campo
       conversations_count: Nº de Conversas
-      avg_first_response_time: Tempo médio de primeira resposta (minutos
-      avg_resolution_time:
+      avg_first_response_time: Tempo médio de primeira resposta
+      avg_resolution_time: Tempo médio de resolução
     team_csv:
       team_name: Nome do departamento
       conversations_count: Contagem de conversas
-      avg_first_response_time: Tempo médio de primeira resposta (minutos
-      avg_resolution_time:
+      avg_first_response_time: Tempo médio de primeira resposta
+      avg_resolution_time: Tempo médio de resolução
     conversation_traffic_csv:
-      timezone: Timezone
+      timezone: Fuso horário
     default_group_by: dia
     csat:
       headers:
@@ -106,14 +106,14 @@ pt_BR:
   notifications:
     notification_title:
       conversation_creation: ""
-      conversation_assignment: ""
-      assigned_conversation_new_message: ""
-      conversation_mention: ""
-      sla_missed_first_response: ""
+      conversation_assignment: "Uma conversa (#%{display_id}) foi atribuída a você"
+      assigned_conversation_new_message: "Uma nova mensagem é criada na conversa (#%{display_id})"
+      conversation_mention: "Você foi mencionado em uma conversa (#%{display_id})"
+      sla_missed_first_response: "Primeira resposta da meta de SLA perdida para conversa (#%{display_id})"
       sla_missed_next_response: ""
-      sla_missed_resolution: ""
-    attachment: ""
-    no_content: ""
+      sla_missed_resolution: "Resolução de meta de SLA perdida para conversa (#%{display_id})"
+    attachment: "Anexo"
+    no_content: "Sem conteúdo"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} mencionou você na conversa: "
@@ -146,8 +146,8 @@ pt_BR:
         added: "%{user_name} adicionou %{labels}"
         removed: "%{user_name} removeu %{labels}"
       sla:
-        added: ""
-        removed: ""
+        added: "%{user_name} adicionou política de SLA %{sla_name}"
+        removed: "%{user_name} removeu a política de SLA %{sla_name}"
       muted: "%{user_name} silenciou a conversa"
       unmuted: "%{user_name} reativou a conversa"
     templates:
@@ -191,7 +191,7 @@ pt_BR:
       name: "Contato completo"
       description: "A integração de contatos completos ajuda a enriquecer perfis de visitantes. Identifique os usuários assim que eles compartilham seu endereço de e-mail e ofereça um atendimento ao cliente personalizado. Conecte seu FullContact à sua conta compartilhando a chave de API de Contato Fullcot."
     google_translate:
-      name: "Google Tradutor"
+      name: "Tradutor do Google"
       description: "Torne isso mais fácil para agentes traduzirem mensagens adicionando uma integração com o Tradutor do Google. O Tradutor do Google ajuda a identificar automaticamente o idioma e convertê-lo para o idioma escolhido pelo administrador de conta/agente."
     openai:
       name: "OpenAI"
@@ -242,14 +242,14 @@ pt_BR:
     button: Abrir conversa
   time_units:
     days:
-      one: ""
-      other: ""
+      one: "%{count} dia"
+      other: "%{count} dias"
     hours:
-      one: ""
-      other: ""
+      one: "%{count} hora"
+      other: "%{count} horas"
     minutes:
-      one: ""
-      other: ""
+      one: "%{count} minuto"
+      other: "%{count} minutos"
     seconds:
-      one: ""
+      one: "%{count} segundo"
       other: "%{count} segundos"
