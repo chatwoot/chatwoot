@@ -27,6 +27,21 @@ export const formatSLATime = time => {
   return remainingMinutes === 0 ? '1m' : `${remainingMinutes}m`;
 };
 
+export const createBreach = (type, timeOffset, threshold, condition) => ({
+  type,
+  threshold: calculateThreshold(timeOffset, threshold),
+  condition,
+});
+
+export const processBreaches = breaches =>
+  breaches
+    .filter(breach => breach.condition)
+    .map(breach => ({
+      ...breach,
+      icon: breach.threshold <= 0 ? 'flame' : 'alarm',
+      isSlaMissed: breach.threshold <= 0,
+    }));
+
 export const evaluateSLAStatus = (sla, chat) => {
   if (!sla || !chat)
     return { type: '', threshold: '', icon: '', isSlaMissed: false };
@@ -45,42 +60,34 @@ export const evaluateSLAStatus = (sla, chat) => {
   } = chat || {};
 
   let breaches = [
-    {
-      type: 'FRT',
-      threshold: calculateThreshold(createdAt, first_response_time_threshold),
-      //   Check FRT only if threshold is not null and first reply hasn't been made
-      condition:
-        first_response_time_threshold !== null &&
-        (!firstReplyCreatedAt || firstReplyCreatedAt === 0),
-    },
-    {
-      type: 'NRT',
-      threshold: calculateThreshold(waitingSince, next_response_time_threshold),
-      // Check NRT only if threshold is not null, first reply has been made and we are waiting since
-      condition:
-        next_response_time_threshold !== null &&
+    //   Check FRT only if threshold is not null and first reply hasn't been made
+    createBreach(
+      'FRT',
+      createdAt,
+      first_response_time_threshold,
+      first_response_time_threshold !== null &&
+        (!firstReplyCreatedAt || firstReplyCreatedAt === 0)
+    ),
+    // Check NRT only if threshold is not null, first reply has been made and we are waiting since
+    createBreach(
+      'NRT',
+      waitingSince,
+      next_response_time_threshold,
+      next_response_time_threshold !== null &&
         firstReplyCreatedAt &&
-        waitingSince,
-    },
-    {
-      type: 'RT',
-      threshold: calculateThreshold(createdAt, resolution_time_threshold),
-      // Check RT only if the conversation is open and threshold is not null
-      condition: status === 'open' && resolution_time_threshold !== null,
-    },
+        waitingSince
+    ),
+    // Check RT only if the conversation is open and threshold is not null
+    createBreach(
+      'RT',
+      createdAt,
+      resolution_time_threshold,
+      status === 'open' && resolution_time_threshold !== null
+    ),
   ];
 
-  // Filter out the breaches that are not applicable
-  // and map the breaches to add icon and isSlaMissed properties
-  breaches = breaches
-    .filter(breach => breach.condition)
-    .map(breach => ({
-      ...breach,
-      icon: breach.threshold <= 0 ? 'flame' : 'alarm',
-      isSlaMissed: breach.threshold <= 0,
-    }));
+  breaches = processBreaches(breaches);
 
-  // Return the most urgent breach or the nearest to breach
   if (breaches.length > 0) {
     const mostUrgent = getMostUrgentBreach(breaches);
     if (mostUrgent) {
@@ -96,6 +103,5 @@ export const evaluateSLAStatus = (sla, chat) => {
     }
   }
 
-  // If all SLA metrics are met or not applicable
   return { type: '', threshold: '', icon: '', isSlaMissed: false };
 };
