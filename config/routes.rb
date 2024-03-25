@@ -144,6 +144,11 @@ Rails.application.routes.draw do
               get :download
             end
           end
+          resources :applied_slas, only: [:index] do
+            collection do
+              get :metrics
+            end
+          end
           resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]
           resources :custom_filters, only: [:index, :show, :create, :update, :destroy]
           resources :inboxes, only: [:index, :show, :create, :update, :destroy] do
