@@ -104,10 +104,10 @@ RSpec.describe 'Applied SLAs API', type: :request do
     end
   end
 
-  describe 'GET /api/v1/accounts/{account.id}/applied_slas/download_conversations' do
+  describe 'GET /api/v1/accounts/{account.id}/applied_slas/download' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        get "/api/v1/accounts/#{account.id}/applied_slas/download_conversations"
+        get "/api/v1/accounts/#{account.id}/applied_slas/download"
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -119,7 +119,7 @@ RSpec.describe 'Applied SLAs API', type: :request do
         conversation1.update(status: 'open')
         conversation2.update(status: 'resolved')
 
-        get "/api/v1/accounts/#{account.id}/applied_slas/download_conversations",
+        get "/api/v1/accounts/#{account.id}/applied_slas/download",
             headers: administrator.create_new_auth_token
 
         expect(response).to have_http_status(:success)

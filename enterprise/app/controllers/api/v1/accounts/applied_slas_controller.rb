@@ -4,7 +4,7 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
 
   RESULTS_PER_PAGE = 25
 
-  before_action :set_applied_slas, only: [:index, :metrics, :download_conversations]
+  before_action :set_applied_slas, only: [:index, :metrics, :download]
   before_action :set_current_page, only: [:index]
   before_action :paginate_slas, only: [:index]
   before_action :check_admin_authorization?
@@ -19,7 +19,7 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
     @hit_rate = hit_rate
   end
 
-  def download_conversations
+  def download
     @breached_slas = breached_slas
 
     response.headers['Content-Type'] = 'text/csv'
