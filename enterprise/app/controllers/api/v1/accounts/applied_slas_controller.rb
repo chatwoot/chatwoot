@@ -30,7 +30,7 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
   private
 
   def breached_slas
-    @applied_slas.joins(:conversation)
+    @applied_slas.includes(:sla_policy).joins(:conversation)
                  .where.not(conversations: { status: :resolved })
                  .where(applied_slas: { sla_status: :missed })
   end
