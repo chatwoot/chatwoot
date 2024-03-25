@@ -16,7 +16,7 @@
   <%= CSV.generate_line([
     conversation.display_id,
     sla.sla_policy.name,
-    conversation.assignee.name,
+    conversation.assignee&.name,
     conversation.team&.name,
     conversation.inbox&.name,
     conversation.cached_label_list,
