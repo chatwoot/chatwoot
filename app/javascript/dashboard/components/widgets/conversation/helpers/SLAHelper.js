@@ -1,41 +1,50 @@
-export function calculateThreshold(timeOffset, threshold) {
+const calculateThreshold = (timeOffset, threshold) => {
   // Calculate the time left for the SLA to breach or the time since the SLA has breached
   if (threshold === null) return null;
   const currentTime = Math.floor(Date.now() / 1000);
   return timeOffset + threshold - currentTime;
-}
+};
 
-export const getMostUrgentBreach = breaches => {
+const getMostUrgentBreach = breaches => {
   breaches.sort((a, b) => Math.abs(a.threshold) - Math.abs(b.threshold));
   return breaches[0];
 };
 
+const calculateMinutes = time => Math.floor(time / 60);
+const calculateHours = minutes => [Math.floor(minutes / 60), minutes % 60];
+const calculateDays = hours => [Math.floor(hours / 24), hours % 24];
+const calculateMonths = days => [Math.floor(days / 30), days % 30];
+const calculateYears = months => [Math.floor(months / 12), months % 12];
+
+// Function to format time based on the largest non-zero time component
+const formatTimeComponents = (years, months, days, hours, minutes) => {
+  if (years > 0) return `${years}y ${months}mo`;
+  if (months > 0) return `${months}mo ${days}d`;
+  if (days > 0) return `${days}d ${hours}h`;
+  if (hours > 0) return `${hours}h ${minutes}m`;
+  return `${minutes > 0 ? minutes : 1}m`;
+};
+
+// Format the SLA time in the format of years, months, days, hours and minutes, eg. 1y 2mo 3d 4h 5m
 export const formatSLATime = time => {
   if (time < 0) return '';
 
-  const minutes = Math.floor(time / 60);
-  const [hours, remainingMinutes] = [Math.floor(minutes / 60), minutes % 60];
-  const [days, remainingHours] = [Math.floor(hours / 24), hours % 24];
-  const [months, remainingDays] = [Math.floor(days / 30), days % 30];
-  const [years, remainingMonths] = [Math.floor(months / 12), months % 12];
+  const minutes = calculateMinutes(time);
+  const [hours, remainingMinutes] = calculateHours(minutes);
+  const [days, remainingHours] = calculateDays(hours);
+  const [months, remainingDays] = calculateMonths(days);
+  const [years, remainingMonths] = calculateYears(months);
 
-  let formattedTime;
-
-  if (years > 0) {
-    formattedTime = `${years}y ${remainingMonths}mo`;
-  } else if (months > 0) {
-    formattedTime = `${months}mo ${remainingDays}d`;
-  } else if (days > 0) {
-    formattedTime = `${days}d ${remainingHours}h`;
-  } else if (hours > 0) {
-    formattedTime = `${hours}h ${remainingMinutes}m`;
-  } else {
-    formattedTime = remainingMinutes === 0 ? '1m' : `${remainingMinutes}m`;
-  }
-  return formattedTime;
+  return formatTimeComponents(
+    years,
+    remainingMonths,
+    remainingDays,
+    remainingHours,
+    remainingMinutes
+  );
 };
 
-export const createBreach = (
+const createBreach = (
   type,
   {
     first_response_time_threshold,
