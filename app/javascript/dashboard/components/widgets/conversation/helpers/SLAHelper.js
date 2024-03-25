@@ -18,11 +18,19 @@ const calculateYears = months => [Math.floor(months / 12), months % 12];
 
 // Function to format time based on the largest non-zero time component
 const formatTimeComponents = (years, months, days, hours, minutes) => {
-  if (years > 0) return `${years}y ${months}mo`;
-  if (months > 0) return `${months}mo ${days}d`;
-  if (days > 0) return `${days}d ${hours}h`;
-  if (hours > 0) return `${hours}h ${minutes}m`;
-  return `${minutes > 0 ? minutes : 1}m`;
+  let formattedTime = '';
+  if (years > 0) {
+    formattedTime = `${years}y ${months}mo`;
+  } else if (months > 0) {
+    formattedTime = `${months}mo ${days}d`;
+  } else if (days > 0) {
+    formattedTime = `${days}d ${hours}h`;
+  } else if (hours > 0) {
+    formattedTime = `${hours}h ${minutes}m`;
+  } else {
+    formattedTime = `${minutes > 0 ? minutes : 1}m`;
+  }
+  return formattedTime;
 };
 
 // Format the SLA time in the format of years, months, days, hours and minutes, eg. 1y 2mo 3d 4h 5m
@@ -86,13 +94,10 @@ const createBreach = (
   return breach ? { ...breach, type } : null;
 };
 
-export const evaluateSLAStatus = (sla, chat) => {
-  if (!sla || !chat)
-    return { type: '', threshold: '', icon: '', isSlaMissed: false };
-
+const filterBreaches = (sla, chat) => {
   const breachTypes = ['FRT', 'NRT', 'RT'];
-  // Filter out the breaches and create the object
-  const breaches = breachTypes
+  // Filter out the breaches and create the object with the icon and missed status
+  return breachTypes
     .map(type => createBreach(type, sla, chat))
     .filter(breach => breach && breach.condition)
     .map(breach => ({
@@ -100,6 +105,14 @@ export const evaluateSLAStatus = (sla, chat) => {
       icon: breach.threshold <= 0 ? 'flame' : 'alarm',
       isSlaMissed: breach.threshold <= 0,
     }));
+};
+
+export const evaluateSLAStatus = (sla, chat) => {
+  if (!sla || !chat)
+    return { type: '', threshold: '', icon: '', isSlaMissed: false };
+
+  // Filter out the breaches and create the object
+  const breaches = filterBreaches(sla, chat);
 
   // Return the most urgent breach or the nearest to breach
   const mostUrgent = getMostUrgentBreach(breaches);
