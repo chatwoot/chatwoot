@@ -20,7 +20,7 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
   end
 
   def download_conversations
-    @conversations = breached_conversations
+    @breached_slas = breached_slas
 
     response.headers['Content-Type'] = 'text/csv'
     response.headers['Content-Disposition'] = 'attachment; filename=breached_conversation.csv'
@@ -29,7 +29,7 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
 
   private
 
-  def breached_conversations
+  def breached_slas
     @applied_slas.joins(:conversation)
                  .where.not(conversations: { status: :resolved })
                  .where(applied_slas: { sla_status: :missed })

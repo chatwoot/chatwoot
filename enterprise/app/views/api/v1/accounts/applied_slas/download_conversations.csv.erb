@@ -10,14 +10,15 @@
 ] %>
 <%= CSV.generate_line headers %>
 
-<% @conversations.each do |conversation| %>
-  <% breached_events = conversation.applied_sla.breached_events.map(&:name).join(', ') %>
+<% @breached_slas.each do |sla| %>
+  <% breached_events = sla.sla_events.map(&:event_type).join(', ') %>
+  <% conversation = sla.conversation %>
   <%= CSV.generate_line([
     conversation.display_id,
-    conversation.applied_sla.sla_policy.name,
+    sla.sla_policy.name,
     conversation.assignee.name,
-    conversation.inbox.team.name,
-    conversation.inbox.name,
+    conversation.team&.name,
+    conversation.inbox&.name,
     conversation.cached_label_list,
     app_account_conversation_url(account_id: conversation.account_id, id: conversation.display_id),
     breached_events
