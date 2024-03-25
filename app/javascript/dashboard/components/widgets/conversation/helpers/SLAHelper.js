@@ -19,89 +19,91 @@ export const formatSLATime = time => {
   const [months, remainingDays] = [Math.floor(days / 30), days % 30];
   const [years, remainingMonths] = [Math.floor(months / 12), months % 12];
 
-  // Determine the largest unit of time to display based on provided seconds
-  if (years > 0) return `${years}y ${remainingMonths}mo`;
-  if (months > 0) return `${months}mo ${remainingDays}d`;
-  if (days > 0) return `${days}d ${remainingHours}h`;
-  if (hours > 0) return `${hours}h ${remainingMinutes}m`;
-  return remainingMinutes === 0 ? '1m' : `${remainingMinutes}m`;
+  let formattedTime;
+
+  if (years > 0) {
+    formattedTime = `${years}y ${remainingMonths}mo`;
+  } else if (months > 0) {
+    formattedTime = `${months}mo ${remainingDays}d`;
+  } else if (days > 0) {
+    formattedTime = `${days}d ${remainingHours}h`;
+  } else if (hours > 0) {
+    formattedTime = `${hours}h ${remainingMinutes}m`;
+  } else {
+    formattedTime = remainingMinutes === 0 ? '1m' : `${remainingMinutes}m`;
+  }
+  return formattedTime;
 };
 
-export const createBreach = (type, timeOffset, threshold, condition) => ({
+export const createBreach = (
   type,
-  threshold: calculateThreshold(timeOffset, threshold),
-  condition,
-});
+  {
+    first_response_time_threshold,
+    next_response_time_threshold,
+    resolution_time_threshold,
+  } = {},
+  {
+    first_reply_created_at: firstReplyCreatedAt,
+    waiting_since: waitingSince,
+    created_at: createdAt,
+    status,
+  } = {}
+) => {
+  // Mapping of breach types to their logic
+  const breachTypes = {
+    FRT: {
+      threshold: calculateThreshold(createdAt, first_response_time_threshold),
+      //   Check FRT only if threshold is not null and first reply hasn't been made
+      condition:
+        first_response_time_threshold !== null &&
+        (!firstReplyCreatedAt || firstReplyCreatedAt === 0),
+    },
+    NRT: {
+      threshold: calculateThreshold(waitingSince, next_response_time_threshold),
+      // Check NRT only if threshold is not null, first reply has been made and we are waiting since
+      condition:
+        next_response_time_threshold !== null &&
+        !!firstReplyCreatedAt &&
+        !!waitingSince,
+    },
+    RT: {
+      threshold: calculateThreshold(createdAt, resolution_time_threshold),
+      // Check RT only if the conversation is open and threshold is not null
+      condition: status === 'open' && resolution_time_threshold !== null,
+    },
+  };
 
-export const processBreaches = breaches =>
-  breaches
-    .filter(breach => breach.condition)
+  const breach = breachTypes[type];
+  return breach ? { ...breach, type } : null;
+};
+
+export const evaluateSLAStatus = (sla, chat) => {
+  if (!sla || !chat)
+    return { type: '', threshold: '', icon: '', isSlaMissed: false };
+
+  const breachTypes = ['FRT', 'NRT', 'RT'];
+  // Filter out the breaches and create the object
+  const breaches = breachTypes
+    .map(type => createBreach(type, sla, chat))
+    .filter(breach => breach && breach.condition)
     .map(breach => ({
       ...breach,
       icon: breach.threshold <= 0 ? 'flame' : 'alarm',
       isSlaMissed: breach.threshold <= 0,
     }));
 
-export const evaluateSLAStatus = (sla, chat) => {
-  if (!sla || !chat)
-    return { type: '', threshold: '', icon: '', isSlaMissed: false };
-
-  const {
-    first_response_time_threshold,
-    next_response_time_threshold,
-    resolution_time_threshold,
-  } = sla || {};
-
-  const {
-    first_reply_created_at: firstReplyCreatedAt,
-    waiting_since: waitingSince,
-    created_at: createdAt,
-    status,
-  } = chat || {};
-
-  let breaches = [
-    //   Check FRT only if threshold is not null and first reply hasn't been made
-    createBreach(
-      'FRT',
-      createdAt,
-      first_response_time_threshold,
-      first_response_time_threshold !== null &&
-        (!firstReplyCreatedAt || firstReplyCreatedAt === 0)
-    ),
-    // Check NRT only if threshold is not null, first reply has been made and we are waiting since
-    createBreach(
-      'NRT',
-      waitingSince,
-      next_response_time_threshold,
-      next_response_time_threshold !== null &&
-        firstReplyCreatedAt &&
-        waitingSince
-    ),
-    // Check RT only if the conversation is open and threshold is not null
-    createBreach(
-      'RT',
-      createdAt,
-      resolution_time_threshold,
-      status === 'open' && resolution_time_threshold !== null
-    ),
-  ];
-
-  breaches = processBreaches(breaches);
-
-  if (breaches.length > 0) {
-    const mostUrgent = getMostUrgentBreach(breaches);
-    if (mostUrgent) {
-      return {
+  // Return the most urgent breach or the nearest to breach
+  const mostUrgent = getMostUrgentBreach(breaches);
+  return mostUrgent
+    ? {
         type: mostUrgent.type,
-        threshold:
+        threshold: formatSLATime(
           mostUrgent.threshold <= 0
-            ? formatSLATime(-mostUrgent.threshold)
-            : formatSLATime(mostUrgent.threshold),
+            ? -mostUrgent.threshold
+            : mostUrgent.threshold
+        ),
         icon: mostUrgent.icon,
         isSlaMissed: mostUrgent.isSlaMissed,
-      };
-    }
-  }
-
-  return { type: '', threshold: '', icon: '', isSlaMissed: false };
+      }
+    : { type: '', threshold: '', icon: '', isSlaMissed: false };
 };
