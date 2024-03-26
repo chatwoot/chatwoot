@@ -92,6 +92,15 @@ lv:
       avg_resolution_time: Vidējais atrisināšanas laiks
     conversation_traffic_csv:
       timezone: Laika zona
+    sla_csv:
+      conversation_id: Sarunas ID
+      sla_policy_breached: SLA Policy
+      assignee: Assignee
+      team: Komanda
+      inbox: Iesūtne
+      labels: Etiķetes
+      conversation_link: Link to the Conversation
+      breached_events: Breached Events
     default_group_by: diena
     csat:
       headers:
