@@ -82,9 +82,12 @@ export default {
       return isPrivate;
     },
     parsedLastMessage() {
+      return this.getPlainText(this.subject + this.message.content);
+    },
+    subject() {
       const { content_attributes: contentAttributes } = this.message;
       const { email: { subject } = {} } = contentAttributes || {};
-      return this.getPlainText(subject || this.message.content);
+      return subject ? subject + ' - ' : '';
     },
     lastMessageFileType() {
       const [{ file_type: fileType } = {}] = this.message.attachments;
