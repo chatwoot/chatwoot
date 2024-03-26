@@ -92,6 +92,15 @@ ru:
       avg_resolution_time: Среднее время завершения
     conversation_traffic_csv:
       timezone: Часовой пояс
+    sla_csv:
+      conversation_id: ID диалога
+      sla_policy_breached: SLA Policy
+      assignee: Assignee
+      team: Команда
+      inbox: Электронная почта
+      labels: Категории
+      conversation_link: Link to the Conversation
+      breached_events: Breached Events
     default_group_by: день
     csat:
       headers:
