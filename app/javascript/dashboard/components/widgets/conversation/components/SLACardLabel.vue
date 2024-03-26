@@ -38,6 +38,8 @@
 import { mapGetters } from 'vuex';
 import { evaluateSLAStatus } from '../helpers/SLAHelper';
 
+const REFRESH_INTERVAL = 60000;
+
 export default {
   props: {
     chat: {
@@ -60,7 +62,7 @@ export default {
       activeSLA: 'sla/getSLAById',
     }),
     showSLACard() {
-      return this.slaPolicyId && this.slaStatus.threshold;
+      return this.slaPolicyId && this.slaStatus?.threshold;
     },
     slaPolicyId() {
       return this.chat?.sla_policy_id;
@@ -78,7 +80,7 @@ export default {
         : 'text-yellow-600 dark:text-yellow-500';
     },
     slaStatusText() {
-      const upperCaseType = this.slaStatus?.type.toUpperCase(); // FRT, NRT, or RT
+      const upperCaseType = this.slaStatus?.type?.toUpperCase(); // FRT, NRT, or RT
       const statusKey = this.isSlaMissed ? 'BREACH' : 'DUE';
 
       return this.$t(`CONVERSATION.HEADER.SLA_STATUS.${upperCaseType}`, {
@@ -105,7 +107,7 @@ export default {
       this.timer = setTimeout(() => {
         this.updateSlaStatus();
         this.createTimer();
-      }, 60000);
+      }, REFRESH_INTERVAL);
     },
     updateSlaStatus() {
       this.slaStatus = evaluateSLAStatus(this.sla, this.chat);

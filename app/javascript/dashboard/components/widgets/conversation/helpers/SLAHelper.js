@@ -5,45 +5,50 @@ const calculateThreshold = (timeOffset, threshold) => {
   return timeOffset + threshold - currentTime;
 };
 
-const getMostUrgentBreach = breaches => {
-  breaches.sort((a, b) => Math.abs(a.threshold) - Math.abs(b.threshold));
-  return breaches[0];
+const findMostUrgentSLAStatus = SLAStatuses => {
+  // Sort the SLAs based on the threshold and return the most urgent SLA
+  SLAStatuses.sort((a, b) => Math.abs(a.threshold) - Math.abs(b.threshold));
+  return SLAStatuses[0];
 };
 
-const calculateMinutes = time => Math.floor(time / 60);
-const calculateHours = minutes => [Math.floor(minutes / 60), minutes % 60];
-const calculateDays = hours => [Math.floor(hours / 24), hours % 24];
-const calculateMonths = days => [Math.floor(days / 30), days % 30];
-const calculateYears = months => [Math.floor(months / 12), months % 12];
+const convertToMinutes = time => Math.floor(time / 60);
+const convertToHoursAndMinutes = minutes => [
+  Math.floor(minutes / 60),
+  minutes % 60,
+];
+const convertToDaysAndHours = hours => [Math.floor(hours / 24), hours % 24];
+const convertToMonthsAndDays = days => [Math.floor(days / 30), days % 30];
+const convertToYearsAndMonths = months => [
+  Math.floor(months / 12),
+  months % 12,
+];
 
-// Function to format time based on the largest non-zero time component
-const formatTimeComponents = (years, months, days, hours, minutes) => {
-  let formattedTime = '';
-  if (years > 0) {
-    formattedTime = `${years}y ${months}mo`;
-  } else if (months > 0) {
-    formattedTime = `${months}mo ${days}d`;
-  } else if (days > 0) {
-    formattedTime = `${days}d ${hours}h`;
-  } else if (hours > 0) {
-    formattedTime = `${hours}h ${minutes}m`;
-  } else {
-    formattedTime = `${minutes > 0 ? minutes : 1}m`;
-  }
-  return formattedTime;
+const formatTime = (value, label, nextValue, nextLabel) => {
+  if (value > 0) return `${value}${label} ${nextValue}${nextLabel}`;
+  return null;
+};
+
+const formatDuration = (years, months, days, hours, minutes) => {
+  return (
+    formatTime(years, 'y', months, 'mo') ||
+    formatTime(months, 'mo', days, 'd') ||
+    formatTime(days, 'd', hours, 'h') ||
+    formatTime(hours, 'h', minutes, 'm') ||
+    `${minutes > 0 ? minutes : 1}m`
+  );
 };
 
 // Format the SLA time in the format of years, months, days, hours and minutes, eg. 1y 2mo 3d 4h 5m
 export const formatSLATime = time => {
   if (time < 0) return '';
 
-  const minutes = calculateMinutes(time);
-  const [hours, remainingMinutes] = calculateHours(minutes);
-  const [days, remainingHours] = calculateDays(hours);
-  const [months, remainingDays] = calculateMonths(days);
-  const [years, remainingMonths] = calculateYears(months);
+  const minutes = convertToMinutes(time);
+  const [hours, remainingMinutes] = convertToHoursAndMinutes(minutes);
+  const [days, remainingHours] = convertToDaysAndHours(hours);
+  const [months, remainingDays] = convertToMonthsAndDays(days);
+  const [years, remainingMonths] = convertToYearsAndMonths(months);
 
-  return formatTimeComponents(
+  return formatDuration(
     years,
     remainingMonths,
     remainingDays,
@@ -52,7 +57,7 @@ export const formatSLATime = time => {
   );
 };
 
-const createBreach = (
+const createSLAObject = (
   type,
   {
     first_response_time_threshold,
@@ -67,7 +72,7 @@ const createBreach = (
   } = {}
 ) => {
   // Mapping of breach types to their logic
-  const breachTypes = {
+  const SLATypes = {
     FRT: {
       threshold: calculateThreshold(createdAt, first_response_time_threshold),
       //   Check FRT only if threshold is not null and first reply hasn't been made
@@ -90,20 +95,19 @@ const createBreach = (
     },
   };
 
-  const breach = breachTypes[type];
-  return breach ? { ...breach, type } : null;
+  const SLAStatus = SLATypes[type];
+  return SLAStatus ? { ...SLAStatus, type } : null;
 };
 
-const filterBreaches = (sla, chat) => {
-  const breachTypes = ['FRT', 'NRT', 'RT'];
-  // Filter out the breaches and create the object with the icon and missed status
-  return breachTypes
-    .map(type => createBreach(type, sla, chat))
-    .filter(breach => breach && breach.condition)
-    .map(breach => ({
-      ...breach,
-      icon: breach.threshold <= 0 ? 'flame' : 'alarm',
-      isSlaMissed: breach.threshold <= 0,
+const evaluateSLAConditions = (sla, chat) => {
+  // Filter out the SLA based on conditions and update the object with the breach status(icon, isSlaMissed)
+  const SLATypes = ['FRT', 'NRT', 'RT'];
+  return SLATypes.map(type => createSLAObject(type, sla, chat))
+    .filter(SLAStatus => SLAStatus && SLAStatus.condition)
+    .map(SLAStatus => ({
+      ...SLAStatus,
+      icon: SLAStatus.threshold <= 0 ? 'flame' : 'alarm',
+      isSlaMissed: SLAStatus.threshold <= 0,
     }));
 };
 
@@ -111,11 +115,11 @@ export const evaluateSLAStatus = (sla, chat) => {
   if (!sla || !chat)
     return { type: '', threshold: '', icon: '', isSlaMissed: false };
 
-  // Filter out the breaches and create the object
-  const breaches = filterBreaches(sla, chat);
+  // Filter out the SLA and create the object for each breach
+  const SLAStatuses = evaluateSLAConditions(sla, chat);
 
-  // Return the most urgent breach or the nearest to breach
-  const mostUrgent = getMostUrgentBreach(breaches);
+  // Return the most urgent SLA which is latest to breach or has breached
+  const mostUrgent = findMostUrgentSLAStatus(SLAStatuses);
   return mostUrgent
     ? {
         type: mostUrgent.type,
