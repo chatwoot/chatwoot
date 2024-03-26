@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_19_062553) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_22_071629) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -472,7 +472,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_19_062553) do
     t.integer "priority"
     t.bigint "sla_policy_id"
     t.datetime "waiting_since"
-    t.string "cached_label_list"
+    t.text "cached_label_list"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"
