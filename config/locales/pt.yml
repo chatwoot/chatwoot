@@ -92,6 +92,15 @@ pt:
       avg_resolution_time: Média de tempo de resolução
     conversation_traffic_csv:
       timezone: Fuso Horário
+    sla_csv:
+      conversation_id: ID da conversa
+      sla_policy_breached: SLA Policy
+      assignee: Assignee
+      team: Equipa
+      inbox: Caixa de Entrada
+      labels: Etiquetas
+      conversation_link: Link to the Conversation
+      breached_events: Breached Events
     default_group_by: dia
     csat:
       headers:
