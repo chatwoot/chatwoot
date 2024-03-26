@@ -43,4 +43,5 @@ module Redis::RedisKeys
 
   ## Count Automation rule condition validation issues
   AUTOMATION_RULE_CONDITION_ERROR = 'CONDITION_VALIDATION_ERROR:%<obj_type>s:%<obj_id>d'.freeze
+  ERROR_TRACKABLE_COUNT = 'ERROR_TRACKABLE_COUNT:%<obj_type>s:%<obj_id>d'.freeze
 end

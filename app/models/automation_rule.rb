@@ -19,13 +19,14 @@
 #
 class AutomationRule < ApplicationRecord
   include Rails.application.routes.url_helpers
+  include ErrorTrackable
 
   MAX_ERROR_THRESHOLD = 3
 
   belongs_to :account
   has_many_attached :files
 
-  after_commit :reset_error_count, on: [:create, :update, :destroy]
+  setup_error_threshold MAX_ERROR_THRESHOLD, :disable_and_notify, [:create, :update, :destroy]
 
   validate :json_conditions_format
   validate :json_actions_format
@@ -58,16 +59,6 @@ class AutomationRule < ApplicationRecord
     end
   end
 
-  def invalid_condition_error!
-    ::Redis::Alfred.incr(rule_condition_error_key)
-
-    disable_and_notify if condition_error_counts >= MAX_ERROR_THRESHOLD
-  end
-
-  def rule_condition_error_key
-    format(::Redis::Alfred::AUTOMATION_RULE_CONDITION_ERROR, obj_type: self.class.table_name.singularize, obj_id: id)
-  end
-
   def disable_and_notify
     self.active = false
     save!
@@ -78,14 +69,6 @@ class AutomationRule < ApplicationRecord
   end
 
   private
-
-  def reset_error_count
-    ::Redis::Alfred.delete(rule_condition_error_key)
-  end
-
-  def condition_error_counts
-    ::Redis::Alfred.get(rule_condition_error_key).to_i
-  end
 
   def json_conditions_format
     return if conditions.blank?
