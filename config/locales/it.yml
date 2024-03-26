@@ -17,6 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 it:
+  prompt: "%{client_message}"
   hello: "Ciao mondo"
   messages:
     reset_password_success: Woot! Richiesta di reimpostazione della password riuscita. Controlla la tua mail per le istruzioni.

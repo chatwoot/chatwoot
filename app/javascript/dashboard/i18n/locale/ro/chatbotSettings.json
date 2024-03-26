@@ -1,0 +1,52 @@
+{
+    "CHATBOT_SETTINGS": {
+      "CHATBOT": "Chatbot",
+      "BOT_STATUS": "Stare Chatbot",
+      "NEW_BOT": "Chatbot Nou",
+      "CONNECT_INBOX": "Conectare la Inbox",
+      "LAST_TRAINED_AT": "Ultima Antrenare la: ",
+      "CHATBOT_ID": "ID Chatbot: ",
+      "BROWSE_FILES": "Răsfoiește Fișiere",
+      "UPDATE": "Actualizare",
+      "CHATBOT_INBOX_CONNECT": "Conectare Chatbot cu Inbox-ul",
+      "FILE_TYPES": {
+        "DOC": ".doc",
+        "PDF": ".pdf",
+        "TXT": ".txt"
+      },
+      "UPLOAD": {
+        "FILE": "Fișier",
+        "TEXT": "Text",
+        "WEBSITE": "Website"
+      },
+      "FORM": {
+        "CONNECT_INBOX": "Conectare la Inbox",
+        "ADD_URL": "Adăugare URL",
+        "NAME": {
+          "LABEL": "Nume Chatbot",
+          "PLACEHOLDER": "Exemplu: Chatbot 1"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Descriere Chatbot",
+          "PLACEHOLDER": "Descriere scurtă despre acest Chatbot."
+        },
+        "SUBMIT_CREATE": "Creare Chatbot"
+      },
+      "SIDEBAR_TXT": "<p><b>Creează Chatbot</b></p> <p>Chatbot îți permite să antrenezi botul pe propriile date personale. <br /> Un bot antrenat pe date personale răspunde la întrebări doar bazat pe datele pe care a fost antrenat.</p>",
+      "LIST": {
+        "404": "Nu există chatboturi create în acest cont.",
+        "EDIT_BOT": "Editare"
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "Șterge",
+        "CONFIRM": {
+          "TITLE": "Confirmare Ștergere",
+          "PLACE_HOLDER": "Te rog să scrii {chatbotName} pentru a confirma",
+          "MESSAGE": "Ștergerea Chatbot-ului va șterge permanent acest bot și datele pe care este antrenat.",
+          "YES": "Șterge ",
+          "NO": "Anulează"
+        }
+      }
+    }
+  }
+  

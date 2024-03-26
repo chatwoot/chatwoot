@@ -1,5 +1,7 @@
 {
   "GENERAL_SETTINGS": {
+    "BANNER_CHATBOT_CREATION": "در حال ایجاد ربات گفتگو",
+    "BANNER_CHATBOT_FAIL": "ایجاد ربات گفتگو ناموفق بود",
     "TITLE": "تنظیمات حساب",
     "SUBMIT": "به‌روزرسانی تنظیمات",
     "BACK": "بازگشت",

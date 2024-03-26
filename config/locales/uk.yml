@@ -17,6 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 uk:
+  prompt: "%{client_message}"
   hello: "Привіт, світе"
   messages:
     reset_password_success: Круто! Запит на скидання пароля виконано успішно. Перевірте вашу пошту за подальшими інструкціями.

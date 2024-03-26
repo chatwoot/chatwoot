@@ -4,6 +4,6 @@ Rails.application.config.middleware.use OmniAuth::Builder do
   }
 
   provider :keycloak_openid, ENV.fetch('KEYCLOAK_CLIENT_ID', nil), ENV.fetch('KEYCLOAK_CLIENT_SECRET', nil),
-    client_options: {site: 'https://sso.onehash.ai', realm: 'OneHash'},
-    name: 'keycloak'
+           client_options: { site: 'https://sso.onehash.ai', realm: 'OneHash' },
+           name: 'keycloak'
 end

@@ -1,5 +1,7 @@
 {
   "GENERAL_SETTINGS": {
+    "BANNER_CHATBOT_CREATION": "Creació del chatbot en curs",
+    "BANNER_CHATBOT_FAIL": "Creació del chatbot fallida",
     "TITLE": "Configuració del compte",
     "SUBMIT": "Actualització de la configuració",
     "BACK": "Enrere",

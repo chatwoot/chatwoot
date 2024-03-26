@@ -1,0 +1,51 @@
+{
+    "CHATBOT_SETTINGS": {
+        "CHATBOT": "Chatbot",
+        "BOT_STATUS": "Chatbot Status",
+        "NEW_BOT": "New Chatbot",
+        "CONNECT_INBOX": "Connect Inbox",
+        "LAST_TRAINED_AT": "Last Trained At: ",
+        "CHATBOT_ID": "Chatbot ID: ",
+        "BROWSE_FILES": "Browse Files",
+        "UPDATE": "Update",
+        "CHATBOT_INBOX_CONNECT": "Connect Chatbot With Inbox",
+        "FILE_TYPES": {
+          "DOC": ".doc",
+          "PDF": ".pdf",
+          "TXT": ".txt"
+        },
+        "UPLOAD": {
+          "FILE": "File",
+          "TEXT": "Text",
+          "WEBSITE": "Website"
+        },
+        "FORM": {
+          "CONNECT_INBOX": "Connect Inbox",
+          "ADD_URL": "Add URL",
+          "NAME": {
+            "LABEL": "Chatbot Name",
+            "PLACEHOLDER": "Example: Chatbot 1"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Chatbot Description",
+            "PLACEHOLDER": "Short description about this Chatbot."
+          },
+          "SUBMIT_CREATE": "Create Chatbot"
+        },
+        "SIDEBAR_TXT": "<p><b>Create Chatbot</b></p> <p>Chatbot allows you to train bot on you own personal data. <br /> A bot trained on personal data replies to the queries only based on the data it is been trained on.</p>",
+        "LIST": {
+        "404": "There are no chatbot created on this account.",
+        "EDIT_BOT": "Edit"
+        },
+        "DELETE": {
+            "BUTTON_TEXT": "Delete",
+            "CONFIRM": {
+              "TITLE": "Confirm Delete",
+              "PLACE_HOLDER": "Please type {chatbotName} to confirm",
+              "MESSAGE": "Deleting the Chatbot will permanently delete this bot and the data on which it is trained.",
+              "YES": "Delete ",
+              "NO": "Cancel"
+            }
+        }
+    }
+}

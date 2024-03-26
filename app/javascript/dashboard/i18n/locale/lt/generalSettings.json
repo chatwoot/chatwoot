@@ -1,5 +1,7 @@
 {
   "GENERAL_SETTINGS": {
+    "BANNER_CHATBOT_CREATION": "Chatbot kūrimas vyksta",
+    "BANNER_CHATBOT_FAIL": "Chatbot kūrimas nepavyko",
     "TITLE": "Paskyros nustatymai",
     "SUBMIT": "Atnaujinti nustatymai",
     "BACK": "Atgal",

@@ -1,0 +1,52 @@
+{
+    "CHATBOT_SETTINGS": {
+      "CHATBOT": "챗봇",
+      "BOT_STATUS": "챗봇 상태",
+      "NEW_BOT": "새로운 챗봇",
+      "CONNECT_INBOX": "인박스 연결",
+      "LAST_TRAINED_AT": "마지막 훈련 시간: ",
+      "CHATBOT_ID": "챗봇 ID: ",
+      "BROWSE_FILES": "파일 찾아보기",
+      "UPDATE": "업데이트",
+      "CHATBOT_INBOX_CONNECT": "인박스와 챗봇 연결",
+      "FILE_TYPES": {
+        "DOC": ".doc",
+        "PDF": ".pdf",
+        "TXT": ".txt"
+      },
+      "UPLOAD": {
+        "FILE": "파일",
+        "TEXT": "텍스트",
+        "WEBSITE": "웹사이트"
+      },
+      "FORM": {
+        "CONNECT_INBOX": "인박스 연결",
+        "ADD_URL": "URL 추가",
+        "NAME": {
+          "LABEL": "챗봇 이름",
+          "PLACEHOLDER": "예: 챗봇 1"
+        },
+        "DESCRIPTION": {
+          "LABEL": "챗봇 설명",
+          "PLACEHOLDER": "이 챗봇에 대한 간단한 설명."
+        },
+        "SUBMIT_CREATE": "챗봇 생성"
+      },
+      "SIDEBAR_TXT": "<p><b>챗봇 생성</b></p> <p>챗봇을 사용하여 자체 개인 데이터를 훈련시킬 수 있습니다. <br /> 개인 데이터로 훈련된 챗봇은 훈련된 데이터를 기반으로만 쿼리에 응답합니다.</p>",
+      "LIST": {
+        "404": "이 계정에 생성된 챗봇이 없습니다.",
+        "EDIT_BOT": "편집"
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "삭제",
+        "CONFIRM": {
+          "TITLE": "삭제 확인",
+          "PLACE_HOLDER": "확인하려면 {chatbotName}을(를) 입력하세요",
+          "MESSAGE": "챗봇을 삭제하면 이 챗봇과 그것을 훈련한 데이터가 영구적으로 삭제됩니다.",
+          "YES": "삭제",
+          "NO": "취소"
+        }
+      }
+    }
+  }
+  

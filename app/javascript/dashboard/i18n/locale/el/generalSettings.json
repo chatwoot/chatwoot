@@ -1,5 +1,7 @@
 {
   "GENERAL_SETTINGS": {
+    "BANNER_CHATBOT_CREATION": "Δημιουργία chatbot σε εξέλιξη",
+    "BANNER_CHATBOT_FAIL": "Αποτυχία δημιουργίας chatbot",
     "TITLE": "Ρυθμίσεις",
     "SUBMIT": "Ενημέρωση Ρυθμίσεων",
     "BACK": "Πίσω",

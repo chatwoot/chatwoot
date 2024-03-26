@@ -17,6 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 ro:
+  prompt: "%{client_message}"
   hello: "Salutare lume"
   messages:
     reset_password_success: Woot! Cererea de resetare a parolei a reusit. Verifica emailul pentru instructiuni.

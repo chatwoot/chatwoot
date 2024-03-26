@@ -1,5 +1,7 @@
 {
   "GENERAL_SETTINGS": {
+    "BANNER_CHATBOT_CREATION": "Chatbot Oluşturma Devam Ediyor",
+    "BANNER_CHATBOT_FAIL": "Chatbot Oluşturma Başarısız Oldu",
     "TITLE": "Hesap Ayarları",
     "SUBMIT": "Ayarları Güncelle",
     "BACK": "Geri",
