@@ -1,5 +1,7 @@
 {
   "GENERAL_SETTINGS": {
+    "BANNER_CHATBOT_CREATION": "Створення чатбота в процесі",
+    "BANNER_CHATBOT_FAIL": "Не вдалося створити чатбота",
     "TITLE": "Налаштування облікового запису",
     "SUBMIT": "Оновити налаштування",
     "BACK": "Назад",

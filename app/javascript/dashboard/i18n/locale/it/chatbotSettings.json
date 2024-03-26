@@ -1,0 +1,52 @@
+{
+    "CHATBOT_SETTINGS": {
+      "CHATBOT": "Chatbot",
+      "BOT_STATUS": "Stato del Chatbot",
+      "NEW_BOT": "Nuovo Chatbot",
+      "CONNECT_INBOX": "Connetti Inbox",
+      "LAST_TRAINED_AT": "Ultimo Addestramento A: ",
+      "CHATBOT_ID": "ID del Chatbot: ",
+      "BROWSE_FILES": "Sfoglia File",
+      "UPDATE": "Aggiorna",
+      "CHATBOT_INBOX_CONNECT": "Connetti Chatbot con Inbox",
+      "FILE_TYPES": {
+        "DOC": ".doc",
+        "PDF": ".pdf",
+        "TXT": ".txt"
+      },
+      "UPLOAD": {
+        "FILE": "File",
+        "TEXT": "Testo",
+        "WEBSITE": "Sito Web"
+      },
+      "FORM": {
+        "CONNECT_INBOX": "Connetti Inbox",
+        "ADD_URL": "Aggiungi URL",
+        "NAME": {
+          "LABEL": "Nome del Chatbot",
+          "PLACEHOLDER": "Esempio: Chatbot 1"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Descrizione del Chatbot",
+          "PLACEHOLDER": "Breve descrizione su questo Chatbot."
+        },
+        "SUBMIT_CREATE": "Crea Chatbot"
+      },
+      "SIDEBAR_TXT": "<p><b>Crea Chatbot</b></p> <p>Il Chatbot ti permette di addestrare il bot sui tuoi dati personali. <br /> Un bot addestrato sui dati personali risponde solo alle richieste basate sui dati su cui è stato addestrato.</p>",
+      "LIST": {
+        "404": "Non ci sono chatbot creati su questo account.",
+        "EDIT_BOT": "Modifica"
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "Elimina",
+        "CONFIRM": {
+          "TITLE": "Conferma Eliminazione",
+          "PLACE_HOLDER": "Si prega di digitare {chatbotName} per confermare",
+          "MESSAGE": "Eliminando il Chatbot verrà eliminato definitivamente questo bot e i dati su cui è stato addestrato.",
+          "YES": "Elimina ",
+          "NO": "Annulla"
+        }
+      }
+    }
+  }
+  

@@ -17,6 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 ja:
+  prompt: "%{client_message}"
   hello: "こんにちは世界"
   messages:
     reset_password_success: やりましたね! パスワードのリセットリクエストが成功しました。手順についてはメールを確認してください。

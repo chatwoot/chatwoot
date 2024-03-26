@@ -1,5 +1,7 @@
 {
   "GENERAL_SETTINGS": {
+    "BANNER_CHATBOT_CREATION": "Chatbot létrehozása folyamatban",
+    "BANNER_CHATBOT_FAIL": "Chatbot létrehozása sikertelen",
     "TITLE": "Fiókbeállítások",
     "SUBMIT": "Beállítások frissítése",
     "BACK": "Vissza",

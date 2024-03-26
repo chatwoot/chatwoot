@@ -406,7 +406,7 @@ Rails.application.routes.draw do
   post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
-  #OneHash Stripe Billing Route
+  # OneHash Stripe Billing Route
   post 'webhooks/stripe', to: 'webhooks/stripe#process_payload'
 
   namespace :twitter do
@@ -495,14 +495,10 @@ Rails.application.routes.draw do
         post '/change-bot-name', to: 'chatbot#change_bot_name'
         get '/chatbot-with-account-id', to: 'chatbot#fetch_chatbot_with_account_id'
         delete '/chatbot-with-chatbot-id', to: 'chatbot#delete_chatbot_with_chatbot_id'
-        # get 'last-trained', to: 'chatbot#last_trained'
         put '/update-bot-info', to: 'chatbot#update_bot_info'
         post '/toggle-chatbot-status', to: 'chatbot#toggle_chatbot_status'
-        # get '/mounted-inbox-id', to: 'chatbot#mounted_inbox_id'
         get '/is-inbox-widget', to: 'chatbot#inbox_widget'
         get '/chatbot-status', to: 'chatbot#chatbot_status'
-        get '/chatbot', to: 'chatbot#fetch_chatbot' #only for testing
-        delete '/chatbot', to: 'chatbot#delete_all_chatbot' #only for testing
       end
     end
   end

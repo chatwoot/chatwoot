@@ -191,25 +191,20 @@ export default {
     },
   },
   watch: {
-    async conversationId(newVal, oldVal) {
-      // console.log('changed channel type: ', this.currentChat.meta.channel);
+    // below function takes can take another parameter oldVal
+    async conversationId(newVal) {
       if (this.currentChat.meta.channel === 'Channel::WebWidget') {
         this.showBotIcon = true;
       } else {
         this.showBotIcon = false;
       }
-      // console.log('(convo header) this.chat:', this.currentChat.meta.channel);
       // This function will be triggered whenever the conversationId prop changes
-      // console.log('Conversation ID changed:', newVal, oldVal);
       const res = await ChatbotAPI.fetchChatbotStatus(newVal);
       const status = res.data.status;
-      // console.log('chatbot status: ', status);
       this.$set(this.botStatusMap, newVal, status);
     },
   },
   async mounted() {
-    // console.log('(convo header) this.chat:', this.currentChat.meta.channel);
-    // console.log('conversation_id:(mounted) ', this.conversationId);
     if (this.currentChat.meta.channel === 'Channel::WebWidget') {
       this.showBotIcon = true;
     } else {
@@ -217,7 +212,6 @@ export default {
     }
     const res = await ChatbotAPI.fetchChatbotStatus(this.conversationId);
     const status = res.data.status;
-    // console.log('chatbot status: ', status);
     this.$set(this.botStatusMap, this.conversationId, status);
   },
   methods: {
@@ -227,11 +221,9 @@ export default {
       }
     },
     async toggleBotButton() {
-      // this.botStatus = !this.botStatus;
       const payload = new FormData();
       payload.append('conversation_id', this.conversationId);
       const res = await ChatbotAPI.toggleChatbotStatus(payload);
-      // console.log('is chatbot active: ', res.data.status);
       this.$set(this.botStatusMap, this.conversationId, res.data.status);
     },
   },

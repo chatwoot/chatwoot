@@ -11,8 +11,8 @@
 #  chatbot_id      :string           not null
 #
 class Chatbot < ApplicationRecord
-    # Validation to ensure uniqueness of chatbot_id 
-    validates :chatbot_id, uniqueness: true
-    # Validation to ensure presence of chatbot_id
-    validates :chatbot_id, presence: true
+  # Validation to ensure uniqueness of chatbot_id
+  validates :chatbot_id, uniqueness: true
+  # Validation to ensure presence of chatbot_id
+  validates :chatbot_id, presence: true
 end

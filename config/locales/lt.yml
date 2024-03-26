@@ -17,6 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 lt:
+  prompt: "%{client_message}"
   hello: "Labas pasauli"
   messages:
     reset_password_success: Kietai! Slaptažodžio nustatymo iš naujo užklausa įvykdyta. Instrukcijų ieškokite savo pašte.

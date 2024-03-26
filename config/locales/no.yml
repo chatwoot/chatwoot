@@ -17,6 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 "no":
+  prompt: "%{client_message}"
   hello: "Hallo, verden"
   messages:
     reset_password_success: Woot! Forespørsel om tilbakestilling av passord er vellykket. Sjekk innboksen for instruksjoner.

@@ -1,5 +1,7 @@
 {
   "GENERAL_SETTINGS": {
+    "BANNER_CHATBOT_CREATION": "إنشاء الدردشة الآلية قيد التقدم",
+    "BANNER_CHATBOT_FAIL": "فشل إنشاء الدردشة الآلية",
     "TITLE": "إعدادات الحساب",
     "SUBMIT": "تحديث الإعدادات",
     "BACK": "العودة",

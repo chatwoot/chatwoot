@@ -13,13 +13,28 @@
             @input="$v.title.$touch"
           />
           <!-- Display the dropdown for selecting inboxes -->
-          <div class="inbox-dropdown-container w-full" v-if="filteredInboxes.length > 0">
-            <span class="bold-dark-text">{{ $t('CHATBOT_SETTINGS.CONNECT_INBOX') }}</span>
+          <div
+            v-if="filteredInboxes.length > 0"
+            class="inbox-dropdown-container w-full"
+          >
+            <span class="bold-dark-text">{{
+              $t('CHATBOT_SETTINGS.CONNECT_INBOX')
+            }}</span>
             <div class="custom-select">
-              <select v-model="selectedInbox" class="inbox-dropdown" @change="allotWebsiteToken">
-                <option v-for="inbox in filteredInboxes" :key="inbox.id" :value="inbox.id">{{ inbox.name }}</option>
+              <select
+                v-model="selectedInbox"
+                class="inbox-dropdown"
+                @change="allotWebsiteToken"
+              >
+                <option
+                  v-for="inbox in filteredInboxes"
+                  :key="inbox.id"
+                  :value="inbox.id"
+                >
+                  {{ inbox.name }}
+                </option>
               </select>
-              <div class="arrow-down"></div>
+              <div class="arrow-down" />
             </div>
           </div>
           <div class="flex flex-wrap">
@@ -27,12 +42,27 @@
               <h6>{{ $t('CHATBOT_SETTINGS.CHATBOT_ID') }} {{ chatbot_id }}</h6>
             </div>
             <div class="w-full">
-              <h6>{{ $t('CHATBOT_SETTINGS.LAST_TRAINED_AT') }} {{ last_trained_at }}</h6>
+              <h6>
+                {{ $t('CHATBOT_SETTINGS.LAST_TRAINED_AT') }}
+                {{ last_trained_at }}
+              </h6>
             </div>
           </div>
           <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
             <div class="w-full">
-              <button class="btn btn-primary" class-names="button--fixed-top" @click="updateInfo()" style="background-color: #4d9cf7; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">
+              <button
+                class="btn btn-primary"
+                class-names="button--fixed-top"
+                style="
+                  background-color: #4d9cf7;
+                  color: white;
+                  border: none;
+                  padding: 8px 16px;
+                  border-radius: 4px;
+                  cursor: pointer;
+                "
+                @click="updateInfo()"
+              >
                 {{ $t('CHATBOT_SETTINGS.UPDATE') }}
               </button>
             </div>
@@ -48,10 +78,8 @@
   </div>
 </template>
 
-
 <script>
 import { mapGetters } from 'vuex';
-import WootSubmitButton from '../../../../../components/buttons/FormSubmitButton.vue';
 import BackButton from '../../../../../components/widgets/BackButton.vue';
 import validations from '../helpers/validations';
 import ChatbotAPI from '../../../../../api/chatbot';
@@ -59,7 +87,6 @@ import Spinner from '../../../../../../shared/components/Spinner.vue';
 
 export default {
   components: {
-    WootSubmitButton,
     BackButton,
     Spinner,
   },
@@ -106,17 +133,18 @@ export default {
       inboxesList: 'inboxes/getInboxes',
     }),
     filteredInboxes() {
-      return this.inboxesList.filter(inbox => inbox.channel_type === 'Channel::WebWidget');
+      return this.inboxesList.filter(
+        inbox => inbox.channel_type === 'Channel::WebWidget'
+      );
     },
   },
   validations,
   watch: {
-    $route(to, from) {
+    $route(to) {
       this.fetchChatbotData(to.params.chatbotId);
     },
   },
   async mounted() {
-    console.log('page mounted');
     this.fetchChatbotData(this.$route.params.chatbotId);
   },
   methods: {
@@ -126,13 +154,25 @@ export default {
         this.chatbot_id = chatbotID;
         if (lastTrainedAt) {
           const lastTrainedAtUTC = new Date(lastTrainedAt);
-          const lastTrainedAtLocal = new Date(lastTrainedAtUTC.getTime() + (lastTrainedAtUTC.getTimezoneOffset() * 60000));
+          const lastTrainedAtLocal = new Date(
+            lastTrainedAtUTC.getTime() +
+              lastTrainedAtUTC.getTimezoneOffset() * 60000
+          );
           const year = lastTrainedAtLocal.getFullYear();
-          const month = String(lastTrainedAtLocal.getMonth() + 1).padStart(2, "0");
-          const day = String(lastTrainedAtLocal.getDate()).padStart(2, "0");
-          const hours = String(lastTrainedAtLocal.getHours()).padStart(2, "0");
-          const minutes = String(lastTrainedAtLocal.getMinutes()).padStart(2, "0");
-          const seconds = String(lastTrainedAtLocal.getSeconds()).padStart(2, "0");
+          const month = String(lastTrainedAtLocal.getMonth() + 1).padStart(
+            2,
+            '0'
+          );
+          const day = String(lastTrainedAtLocal.getDate()).padStart(2, '0');
+          const hours = String(lastTrainedAtLocal.getHours()).padStart(2, '0');
+          const minutes = String(lastTrainedAtLocal.getMinutes()).padStart(
+            2,
+            '0'
+          );
+          const seconds = String(lastTrainedAtLocal.getSeconds()).padStart(
+            2,
+            '0'
+          );
           this.last_trained_at = `${year}/${month}/${day}, ${hours}:${minutes}:${seconds}`;
         } else {
           this.last_trained_at = '';
@@ -143,9 +183,9 @@ export default {
     },
     allotWebsiteToken() {
       if (this.selectedInbox) {
-        const selectedInboxData = this.inboxesList.find(inbox => inbox.id === this.selectedInbox);
-        console.log(selectedInboxData.website_token);
-        console.log(selectedInboxData.id);
+        const selectedInboxData = this.inboxesList.find(
+          inbox => inbox.id === this.selectedInbox
+        );
         this.isButtonActive = true;
         this.website_token = selectedInboxData.website_token;
         this.inbox_id = selectedInboxData.id;
@@ -167,24 +207,18 @@ export default {
 
     async updateInfo() {
       if (this.title.length > 20) return;
-      // this.showToastMessage('Update failed');
       if (this.title !== '' || this.selectedInbox !== null) {
         this.isButtonActive = true;
-        console.log('updating name to: ', this.title);
         const new_bot_name = this.title;
         const payload = new FormData();
         payload.append('chatbot_id', this.chatbot_id);
         payload.append('new_bot_name', new_bot_name);
         payload.append('website_token', this.website_token);
         payload.append('inbox_id', this.inbox_id);
-        // Set submitInProgress to true before making the API call
         this.submitInProgress = true;
         try {
           const res = await ChatbotAPI.editBotInfo(payload);
-          console.log('saved name: ', res);
-          // Check if the response is successful
           if (res.status === 200 || res.status === 201) {
-            // Navigate to the desired route
             await this.$router.push({
               name: 'chatbot_index', // Name of the route to redirect to
               params: { accountId: this.currentAccountId }, // Parameters to pass to the route if any
@@ -192,14 +226,9 @@ export default {
             this.submitInProgress = false;
             window.location.reload();
           } else {
-            // Handle error case
-            console.error('Failed to save bot name:', res);
-            // Show toaster notification for failed update
             this.showToastMessage('Update failed');
           }
         } catch (error) {
-          console.error('API request failed:', error);
-          // Show toaster notification for failed update
           this.showToastMessage('Update failed');
         } finally {
           // Set submitInProgress back to false when the API call is complete (whether successful or not)
@@ -226,18 +255,17 @@ export default {
 <style scoped>
 .spinner-container {
   display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  position: fixed; /* Ensure it stays centered regardless of scrolling */
+  justify-content: center;
+  align-items: center;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.5); /* Optional: semi-transparent background overlay */
+  background-color: rgba(255, 255, 255, 0.5);
 }
 .bold-dark-text {
-  /* font-weight: bold; */
-  color: #000000; /* Change to the desired darker color */
+  color: #000000;
 }
 .toast {
   position: fixed;

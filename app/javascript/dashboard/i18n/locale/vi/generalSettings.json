@@ -1,5 +1,7 @@
 {
   "GENERAL_SETTINGS": {
+    "BANNER_CHATBOT_CREATION": "Đang tiến hành tạo Chatbot",
+    "BANNER_CHATBOT_FAIL": "Không thể tạo Chatbot",
     "TITLE": "Cài đặt tài khoản",
     "SUBMIT": "Cập nhật cài đặt",
     "BACK": "Trờ về",

@@ -4,21 +4,46 @@
     <back-button class="absolute top-[17px] left-[420px]" />
     <div class="inbox-dropdown-container">
       <div class="custom-select">
-        <select v-model="selectedInbox" class="inbox-dropdown" @change="allotWebsiteToken">
-          <option v-for="inbox in filteredInboxes" :key="inbox.id" :value="inbox.id">{{ inbox.name }}</option>
+        <select
+          v-model="selectedInbox"
+          class="inbox-dropdown"
+          @change="allotWebsiteToken"
+        >
+          <option
+            v-for="inbox in filteredInboxes"
+            :key="inbox.id"
+            :value="inbox.id"
+          >
+            {{ inbox.name }}
+          </option>
         </select>
-        <div class="arrow-down"></div>
+        <div class="arrow-down" />
       </div>
     </div>
-    <woot-button :is-disabled="!isButtonActive" @click="createChatbot()" class-names="button--fixed-top">
+    <woot-button
+      :is-disabled="!isButtonActive"
+      class-names="button--fixed-top"
+      @click="createChatbot()"
+    >
       {{ $t('CHATBOT_SETTINGS.FORM.SUBMIT_CREATE') }}
     </woot-button>
-    <div v-if="isLoading" class="overlay">
-      <div class="spinner-container">
-        <spinner-chatbot />
-      </div>
-    </div>
     <div v-if="showToast" class="toast">{{ toastMessage }}</div>
+    <banner
+      v-if="!userDismissedBlueBanner && showBlueBanner"
+      color-scheme="primary"
+      :banner-message="blueBannerMessage"
+      has-close-button
+      class="fixed top-0 left-0 w-full z-50"
+      @close="dismissUpdateBanner"
+    />
+    <banner
+      v-if="!userDismissedRedBanner && showRedBanner"
+      color-scheme="alert"
+      :banner-message="redBannerMessage"
+      has-close-button
+      class="fixed top-0 left-0 w-full z-50"
+      @close="dismissUpdateBanner"
+    />
   </div>
 </template>
 
@@ -26,22 +51,26 @@
 import { mapGetters, mapActions } from 'vuex';
 import BackButton from '../../../../../components/widgets/BackButton.vue';
 import ChatbotAPI from '../../../../../api/chatbot';
-import SpinnerChatbot from '../../../../../components/SpinnerChatbot.vue';
+import Banner from 'dashboard/components/ui/Banner.vue';
 
 export default {
   components: {
     BackButton,
-    SpinnerChatbot,
+    Banner,
   },
   data() {
     return {
       selectedInbox: null,
-      isLoading: false,
       website_token: '',
       isButtonActive: false,
       showToast: false,
       toastMessage: '',
       inbox_id: '',
+      showBlueBanner: false,
+      showRedBanner: false,
+      userDismissedBlueBanner: false,
+      userDismissedRedBanner: false,
+      chatbot_id: '',
     };
   },
   computed: {
@@ -53,14 +82,28 @@ export default {
       botUrls: 'chatbot/getBotUrls',
     }),
     filteredInboxes() {
-      return this.inboxesList.filter(inbox => inbox.channel_type === "Channel::WebWidget");
+      return this.inboxesList.filter(
+        inbox => inbox.channel_type === 'Channel::WebWidget'
+      );
+    },
+    blueBannerMessage() {
+      return this.$t('GENERAL_SETTINGS.BANNER_CHATBOT_CREATION');
+    },
+    redBannerMessage() {
+      return this.$t('GENERAL_SETTINGS.BANNER_CHATBOT_FAIL');
     },
   },
   methods: {
-    ...mapActions('chatbot', ['addBotUrl', 'setBotText', 'addBotFiles', 'deleteBotFile', 'deleteBotUrl']),
+    ...mapActions('chatbot', [
+      'addBotUrl',
+      'setBotText',
+      'addBotFiles',
+      'deleteBotFile',
+      'deleteBotUrl',
+    ]),
     async createChatbot() {
       try {
-        this.isLoading = true;
+        this.showBlueBanner = true;
         const payload = new FormData();
         payload.append('accountId', this.currentAccountId);
         payload.append('website_token', this.website_token);
@@ -69,29 +112,37 @@ export default {
         const formData = new FormData();
         formData.append('bot_text', this.botText);
         formData.append('chatbot_id', res.chatbot_id);
+        this.chatbot_id = res.chatbot_id;
         formData.append('temperature', 0.1);
-        for (let i = 0; i < this.botFiles.length; i++) {
+        for (let i = 0; i < this.botFiles.length; i += 1) {
           formData.append('bot_files', this.botFiles[i]);
         }
-        for (let i = 0; i < this.botUrls.length; i++) {
+        for (let i = 0; i < this.botUrls.length; i += 1) {
           formData.append('bot_urls', this.botUrls[i]);
         }
         await ChatbotAPI.createChatbot(formData);
-        this.isLoading = false;
+        this.showBlueBanner = false;
         await this.$router.push({
           name: 'chatbot_index', // Name of the route to redirect to
           params: { accountId: this.currentAccountId }, // Parameters to pass to the route if any
         });
         window.location.reload();
       } catch (error) {
-        console.error('Error occurred:', error);
-        this.isLoading = false;
-        this.showToastMessage('Chatbot creation failed !');
+        this.showBlueBanner = false;
+        await ChatbotAPI.deleteChatbotWithChatbotId(this.chatbot_id);
+        this.showRedBanner = true;
+        // this.showToastMessage('Chatbot creation failed !');
       }
+    },
+    dismissUpdateBanner() {
+      this.userDismissedBlueBanner = true;
+      this.userDismissedRedBanner = true;
     },
     allotWebsiteToken() {
       if (this.selectedInbox) {
-        const selectedInboxData = this.filteredInboxes.find(inbox => inbox.id === this.selectedInbox);
+        const selectedInboxData = this.filteredInboxes.find(
+          inbox => inbox.id === this.selectedInbox
+        );
         this.isButtonActive = true;
         this.website_token = selectedInboxData.website_token;
         this.inbox_id = selectedInboxData.id;
@@ -99,13 +150,13 @@ export default {
         this.isButtonActive = false;
       }
     },
-    showToastMessage(message) {
-      this.toastMessage = message;
-      this.showToast = true;
-      setTimeout(() => {
-        this.showToast = false;
-      }, 5000); // 5 seconds
-    },
+    // showToastMessage(message) {
+    //   this.toastMessage = message;
+    //   this.showToast = true;
+    //   setTimeout(() => {
+    //     this.showToast = false;
+    //   }, 5000); // 5 seconds
+    // },
   },
 };
 </script>
@@ -167,5 +218,15 @@ export default {
   padding: 10px 20px;
   border-radius: 5px;
   z-index: 9999;
+}
+.banner {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 24%;
+  width: auto;
+  z-index: 9999;
+  border-radius: 5px;
 }
 </style>

@@ -1,5 +1,7 @@
 {
   "GENERAL_SETTINGS": {
+    "BANNER_CHATBOT_CREATION": "Í gangi við að búa til spjallvélmenni",
+    "BANNER_CHATBOT_FAIL": "Mistókst að búa til spjallvélmenni",
     "TITLE": "Aðgangs stillingar",
     "SUBMIT": "Uppfæra stillingar",
     "BACK": "Til baka",
