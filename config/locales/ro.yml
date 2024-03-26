@@ -92,6 +92,15 @@ ro:
       avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: Fus orar
+    sla_csv:
+      conversation_id: Conversation ID
+      sla_policy_breached: SLA Policy
+      assignee: Assignee
+      team: Echipa
+      inbox: Inbox
+      labels: Etichete
+      conversation_link: Link to the Conversation
+      breached_events: Breached Events
     default_group_by: zi
     csat:
       headers:
