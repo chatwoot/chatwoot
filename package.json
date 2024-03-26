@@ -63,7 +63,7 @@
     "libphonenumber-js": "^1.10.24",
     "logrocket": "^3.0.1",
     "logrocket-vuex": "^0.0.3",
-    "markdown-it": "^13.0.1",
+    "markdown-it": "^13.0.2",
     "markdown-it-link-attributes": "^4.0.1",
     "md5": "^2.3.0",
     "ninja-keys": "^1.2.2",
