@@ -92,6 +92,15 @@ fr:
       avg_resolution_time: Temps nécessaire pour résoudre une demande (en moyenne)
     conversation_traffic_csv:
       timezone: Fuseau horaire
+    sla_csv:
+      conversation_id: Conversation ID
+      sla_policy_breached: SLA Policy
+      assignee: Assignee
+      team: Équipes
+      inbox: Boîte de réception
+      labels: Étiquettes
+      conversation_link: Link to the Conversation
+      breached_events: Breached Events
     default_group_by: jour
     csat:
       headers:
