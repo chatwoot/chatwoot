@@ -16,12 +16,16 @@ module ErrorTrackable
 
   def track_error
     ::Redis::Alfred.incr(error_count_key)
-    send(error_trigger_method) if error_count >= error_threshold
+    send(error_trigger_method) if threshold_breached?
     Rails.logger.info "[ErrorTrackable] Tracking error ##{error_count} for #{self.class.table_name.singularize} with id: #{id}"
   end
 
   def error_count
     ::Redis::Alfred.get(error_count_key).to_i
+  end
+
+  def threshold_breached?
+    error_count >= error_threshold
   end
 
   private
