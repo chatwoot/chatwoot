@@ -92,6 +92,15 @@ hu:
       avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: Időzóna
+    sla_csv:
+      conversation_id: Beszélgetés azonosítója
+      sla_policy_breached: SLA Policy
+      assignee: Assignee
+      team: Csapat
+      inbox: Fiók
+      labels: Cimkék
+      conversation_link: Link to the Conversation
+      breached_events: Breached Events
     default_group_by: nap
     csat:
       headers:
