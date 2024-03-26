@@ -104,6 +104,36 @@ RSpec.describe 'Applied SLAs API', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/{account.id}/applied_slas/download' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/applied_slas/download"
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'returns a CSV file with breached conversations' do
+        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1, sla_status: 'missed')
+        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation2, sla_status: 'missed')
+        conversation1.update(status: 'open')
+        conversation2.update(status: 'resolved')
+
+        get "/api/v1/accounts/#{account.id}/applied_slas/download",
+            headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(response.headers['Content-Type']).to eq('text/csv')
+        expect(response.headers['Content-Disposition']).to include('attachment; filename=breached_conversation.csv')
+
+        csv_data = CSV.parse(response.body)
+        csv_data.reject! { |row| row.all?(&:nil?) }
+        expect(csv_data.size).to eq(2)
+        expect(csv_data[1][0].to_i).to eq(conversation1.display_id)
+      end
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/applied_slas' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do

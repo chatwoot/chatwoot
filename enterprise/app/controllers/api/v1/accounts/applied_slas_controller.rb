@@ -4,7 +4,7 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
 
   RESULTS_PER_PAGE = 25
 
-  before_action :set_applied_slas, only: [:index, :metrics]
+  before_action :set_applied_slas, only: [:index, :metrics, :download]
   before_action :set_current_page, only: [:index]
   before_action :paginate_slas, only: [:index]
   before_action :check_admin_authorization?
@@ -19,7 +19,21 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
     @hit_rate = hit_rate
   end
 
+  def download
+    @breached_slas = breached_slas
+
+    response.headers['Content-Type'] = 'text/csv'
+    response.headers['Content-Disposition'] = 'attachment; filename=breached_conversation.csv'
+    render layout: false, formats: [:csv]
+  end
+
   private
+
+  def breached_slas
+    @applied_slas.includes(:sla_policy).joins(:conversation)
+                 .where.not(conversations: { status: :resolved })
+                 .where(applied_slas: { sla_status: :missed })
+  end
 
   def total_applied_slas
     @total_applied_slas ||= @applied_slas.count
