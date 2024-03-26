@@ -147,6 +147,7 @@ Rails.application.routes.draw do
           resources :applied_slas, only: [:index] do
             collection do
               get :metrics
+              get :download
             end
           end
           resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]
