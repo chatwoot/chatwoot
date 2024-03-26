@@ -11,8 +11,9 @@ class AutomationRules::ConditionsFilterService < FilterService
     @account = conversation.account
 
     # setup filters from json file
-    file = File.read('./lib/filters/filter_keys.json')
-    @filters = JSON.parse(file)
+    file = File.read('./lib/filters/filter_keys.yml')
+    @filters = YAML.safe_load(file)
+
     @conversation_filters = @filters['conversations']
     @contact_filters = @filters['contacts']
     @message_filters = @filters['messages']

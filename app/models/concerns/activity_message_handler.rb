@@ -2,14 +2,48 @@ module ActivityMessageHandler
   extend ActiveSupport::Concern
 
   include PriorityActivityMessageHandler
+  include LabelActivityMessageHandler
+  include SlaActivityMessageHandler
+  include TeamActivityMessageHandler
 
   private
 
   def create_activity
-    user_name = Current.user.name if Current.user.present?
-    status_change_activity(user_name) if saved_change_to_status?
-    priority_change_activity(user_name) if saved_change_to_priority?
-    create_label_change(activity_message_ownner(user_name)) if saved_change_to_label_list?
+    user_name = determine_user_name
+
+    handle_status_change(user_name)
+    handle_priority_change(user_name)
+    handle_label_change(user_name)
+    handle_sla_policy_change(user_name)
+  end
+
+  def determine_user_name
+    Current.user&.name
+  end
+
+  def handle_status_change(user_name)
+    return unless saved_change_to_status?
+
+    status_change_activity(user_name)
+  end
+
+  def handle_priority_change(user_name)
+    return unless saved_change_to_priority?
+
+    priority_change_activity(user_name)
+  end
+
+  def handle_label_change(user_name)
+    return unless saved_change_to_label_list?
+
+    create_label_change(activity_message_owner(user_name))
+  end
+
+  def handle_sla_policy_change(user_name)
+    return unless saved_change_to_sla_policy_id?
+
+    sla_change_type = determine_sla_change_type
+    create_sla_change_activity(sla_change_type, activity_message_owner(user_name))
   end
 
   def status_change_activity(user_name)
@@ -45,21 +79,6 @@ module ActivityMessageHandler
     { account_id: account_id, inbox_id: inbox_id, message_type: :activity, content: content }
   end
 
-  def create_label_added(user_name, labels = [])
-    create_label_change_activity('added', user_name, labels)
-  end
-
-  def create_label_removed(user_name, labels = [])
-    create_label_change_activity('removed', user_name, labels)
-  end
-
-  def create_label_change_activity(change_type, user_name, labels = [])
-    return unless labels.size.positive?
-
-    content = I18n.t("conversations.activity.labels.#{change_type}", user_name: user_name, labels: labels.join(', '))
-    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
-  end
-
   def create_muted_message
     create_mute_change_activity('muted')
   end
@@ -75,30 +94,6 @@ module ActivityMessageHandler
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
-  def generate_team_change_activity_key
-    team = Team.find_by(id: team_id)
-    key = team.present? ? 'assigned' : 'removed'
-    key += '_with_assignee' if key == 'assigned' && saved_change_to_assignee_id? && assignee
-    key
-  end
-
-  def generate_team_name_for_activity
-    previous_team_id = previous_changes[:team_id][0]
-    Team.find_by(id: previous_team_id)&.name if previous_team_id.present?
-  end
-
-  def create_team_change_activity(user_name)
-    user_name = activity_message_ownner(user_name)
-    return unless user_name
-
-    key = generate_team_change_activity_key
-    params = { assignee_name: assignee&.name, team_name: team&.name, user_name: user_name }
-    params[:team_name] = generate_team_name_for_activity if key == 'removed'
-    content = I18n.t("conversations.activity.team.#{key}", **params)
-
-    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
-  end
-
   def generate_assignee_change_activity_content(user_name)
     params = { assignee_name: assignee&.name, user_name: user_name }.compact
     key = assignee_id ? 'assigned' : 'removed'
@@ -107,7 +102,7 @@ module ActivityMessageHandler
   end
 
   def create_assignee_change_activity(user_name)
-    user_name = activity_message_ownner(user_name)
+    user_name = activity_message_owner(user_name)
 
     return unless user_name
 
@@ -115,7 +110,7 @@ module ActivityMessageHandler
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
-  def activity_message_ownner(user_name)
+  def activity_message_owner(user_name)
     user_name = 'Automation System' if !user_name && Current.executed_by.present?
     user_name
   end

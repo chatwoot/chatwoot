@@ -6,17 +6,20 @@
       :label="$t('CSAT_REPORTS.METRIC.TOTAL_RESPONSES.LABEL')"
       :info-text="$t('CSAT_REPORTS.METRIC.TOTAL_RESPONSES.TOOLTIP')"
       :value="responseCount"
+      class="xs:w-full sm:max-w-[50%] lg:w-1/6 lg:max-w-[16%]"
     />
     <csat-metric-card
       :disabled="ratingFilterEnabled"
       :label="$t('CSAT_REPORTS.METRIC.SATISFACTION_SCORE.LABEL')"
       :info-text="$t('CSAT_REPORTS.METRIC.SATISFACTION_SCORE.TOOLTIP')"
       :value="ratingFilterEnabled ? '--' : formatToPercent(satisfactionScore)"
+      class="xs:w-full sm:max-w-[50%] lg:w-1/6 lg:max-w-[16%]"
     />
     <csat-metric-card
       :label="$t('CSAT_REPORTS.METRIC.RESPONSE_RATE.LABEL')"
       :info-text="$t('CSAT_REPORTS.METRIC.RESPONSE_RATE.TOOLTIP')"
       :value="formatToPercent(responseRate)"
+      class="xs:w-full sm:max-w-[50%] lg:w-1/6 lg:max-w-[16%]"
     />
 
     <div
