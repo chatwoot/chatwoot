@@ -92,6 +92,15 @@ uk:
       avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: Timezone
+    sla_csv:
+      conversation_id: ID бесіди
+      sla_policy_breached: SLA Policy
+      assignee: Assignee
+      team: Команда
+      inbox: Вхідні
+      labels: Мітки
+      conversation_link: Link to the Conversation
+      breached_events: Breached Events
     default_group_by: день
     csat:
       headers:
