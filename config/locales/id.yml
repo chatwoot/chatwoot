@@ -92,6 +92,15 @@ id:
       avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: Zona Waktu
+    sla_csv:
+      conversation_id: Conversation ID
+      sla_policy_breached: SLA Policy
+      assignee: Assignee
+      team: Tim
+      inbox: Kotak masuk
+      labels: Label
+      conversation_link: Link to the Conversation
+      breached_events: Breached Events
     default_group_by: hari
     csat:
       headers:
