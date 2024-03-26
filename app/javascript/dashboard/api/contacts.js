@@ -53,6 +53,11 @@ class ContactAPI extends ApiClient {
     return axios.get(requestURL);
   }
 
+  getWhatsappContacts() {
+    let requestURL = `${this.url}/all_contacts`;
+    return axios.get(requestURL);
+  }
+
   // eslint-disable-next-line default-param-last
   filter(page = 1, sortAttr = 'name', queryPayload) {
     let requestURL = `${this.url}/filter?${buildContactParams(page, sortAttr)}`;

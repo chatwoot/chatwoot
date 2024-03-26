@@ -54,7 +54,7 @@
       @apply text-sm font-normal;
 
       span {
-        @apply inline-block overflow-hidden text-ellipsis whitespace-nowrap w-fit;
+        @apply inline-block;
       }
 
       p {

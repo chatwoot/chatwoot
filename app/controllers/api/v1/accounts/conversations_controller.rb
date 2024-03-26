@@ -31,8 +31,22 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def create
     ActiveRecord::Base.transaction do
-      @conversation = ConversationBuilder.new(params: params, contact_inbox: @contact_inbox).perform
-      Messages::MessageBuilder.new(Current.user, @conversation, params[:message]).perform if params[:message].present?
+      if params[:bulk_contacts].present?
+        create_conversations_in_bulk
+      else
+        @conversation = ConversationBuilder.new(params: params, contact_inbox: @contact_inbox).perform
+        Messages::MessageBuilder.new(Current.user, @conversation, params[:message]).perform if params[:message].present?
+      end
+    end
+  end
+
+  def create_conversations_in_bulk
+    params[:bulk_contacts].each do |contact_params|
+      conversation = ConversationBuilder.new(params: contact_params, contact_inbox: contact_inbox_for_bulk(contact_params)).perform
+      Messages::MessageBuilder.new(Current.user, conversation, contact_params[:message]).perform if contact_params[:message].present?
+    rescue StandardError => e
+      Rails.logger.info(e.message)
+      nil
     end
   end
 
@@ -159,6 +173,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def contact_inbox
+    return if params[:bulk_contacts].present?
+
     @contact_inbox = build_contact_inbox
 
     # fallback for the old case where we do look up only using source id
@@ -178,6 +194,26 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
       inbox: @inbox,
       source_id: params[:source_id],
       hmac_verified: hmac_verified?
+    ).perform
+  end
+
+  def contact_inbox_for_bulk(contact_params)
+    cont_inbox = build_contact_inbox_for_bulk(contact_params)
+    return cont_inbox if cont_inbox.present?
+
+    ::ContactInbox.find_by!(source_id: contact_params[:source_id])
+  end
+
+  def build_contact_inbox_for_bulk(contact_params)
+    cont = Current.account.contacts.find(contact_params[:contact_id])
+
+    return if @inbox.blank? || cont.blank?
+
+    ContactInboxBuilder.new(
+      contact: cont,
+      inbox: @inbox,
+      source_id: contact_params[:source_id],
+      hmac_verified: ActiveModel::Type::Boolean.new.cast(contact_params[:hmac_verified]).present?
     ).perform
   end
 
