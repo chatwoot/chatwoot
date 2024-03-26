@@ -10,6 +10,7 @@ module ActivityMessageHandler
     status_change_activity(user_name) if saved_change_to_status?
     priority_change_activity(user_name) if saved_change_to_priority?
     create_label_change(activity_message_ownner(user_name)) if saved_change_to_label_list?
+    close_change_activity(user_name) if saved_change_to_closed?
   end
 
   def status_change_activity(user_name)
@@ -39,6 +40,22 @@ module ActivityMessageHandler
       Current.executed_by = nil
       I18n.t('conversations.activity.status.system_auto_open')
     end
+  end
+
+  def close_change_activity(user_name)
+    closed_status = closed? ? 'closed' : 'unclosed'
+
+    content = if user_name
+      "Conversation was #{closed_status} by #{user_name}"
+    else
+      if closed?
+        "Conversation was #{closed_status} by the system due to inactivity"
+      else
+        "Conversation was #{closed_status}"
+      end
+    end
+     
+    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
   def activity_message_params(content)

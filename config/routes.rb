@@ -114,6 +114,7 @@ Rails.application.routes.draw do
               get :attachments
               get :related_emails
               post :reply
+              post :close
             end
           end
 

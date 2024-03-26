@@ -250,6 +250,16 @@ const actions = {
     }
   },
 
+  closeConversation: async (
+    _,
+    { conversationId, closed }
+  ) => {
+    await ConversationApi.close({
+      conversationId,
+      closed
+    })
+  },
+
   createPendingMessageAndSend: async ({ dispatch }, data) => {
     const pendingMessage = createPendingMessage(data);
     dispatch('sendMessageWithData', pendingMessage);
