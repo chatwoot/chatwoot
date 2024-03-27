@@ -93,20 +93,8 @@ export default {
   },
   mounted() {
     this.updateSlaStatus();
-    // this.createTimer();
   },
-  // beforeDestroy() {
-  //   if (this.timer) {
-  //     clearTimeout(this.timer);
-  //   }
-  // },
   methods: {
-    // createTimer() {
-    //   this.timer = setTimeout(() => {
-    //     this.updateSlaStatus();
-    //     this.createTimer();
-    //   }, REFRESH_INTERVAL);
-    // },
     updateSlaStatus() {
       this.slaStatus = evaluateSLAStatus(this.sla, this.chat);
     },
