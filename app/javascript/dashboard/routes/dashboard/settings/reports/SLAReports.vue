@@ -1,11 +1,17 @@
 <template>
-  <div class="flex-1 overflow-auto p-4">
-    <h1>SLA Reports</h1>
+  <div class="flex flex-col flex-1 overflow-auto p-4 font-inter gap-6">
+    <SLAMetrics />
+    <SLATable />
   </div>
 </template>
 <script>
-import { defineComponent, ref, watch, watchEffect } from 'vue';
+import SLAMetrics from './SLAMetrics.vue';
+import SLATable from './SLATable.vue';
 export default {
   name: 'SLAReports',
+  components: {
+    SLAMetrics,
+    SLATable,
+  },
 };
 </script>
