@@ -319,12 +319,13 @@
       "HEADERS": {
         "TITLE": "标题",
         "CATEGORY": "类别",
-        "READ_COUNT": "阅读数",
+        "READ_COUNT": "Views",
         "STATUS": "状态",
         "LAST_EDITED": "Last edited"
       },
       "COLUMNS": {
-        "BY": "by"
+        "BY": "by",
+        "AUTHOR_NOT_AVAILABLE": "Author is not available"
       }
     },
     "EDIT_ARTICLE": {

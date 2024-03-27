@@ -2,12 +2,11 @@ module Enterprise::Api::V2::AccountsController
   private
 
   def fetch_account_and_user_info
-    data = fetch_from_clearbit
+    @data = fetch_from_clearbit
 
-    return if data.blank?
+    return if @data.blank?
 
-    update_user_info(data)
-    update_account_info(data)
+    update_user_info
   end
 
   def fetch_from_clearbit
@@ -17,19 +16,25 @@ module Enterprise::Api::V2::AccountsController
     nil
   end
 
-  def update_user_info(data)
-    @user.update!(name: data[:name])
+  def update_user_info
+    @user.update!(name: @data[:name]) if @data[:name].present?
   end
 
-  def update_account_info(data)
-    @account.update!(
-      name: data[:company_name],
-      custom_attributes: @account.custom_attributes.merge(
-        'industry' => data[:industry],
-        'company_size' => data[:company_size],
-        'timezone' => data[:timezone],
-        'logo' => data[:logo]
-      )
+  def data_from_clearbit
+    return {} if @data.blank?
+
+    { name: @data[:company_name],
+      custom_attributes: {
+        'industry' => @data[:industry],
+        'company_size' => @data[:company_size],
+        'timezone' => @data[:timezone],
+        'logo' => @data[:logo]
+      } }
+  end
+
+  def account_attributes
+    super.deep_merge(
+      data_from_clearbit
     )
   end
 end
