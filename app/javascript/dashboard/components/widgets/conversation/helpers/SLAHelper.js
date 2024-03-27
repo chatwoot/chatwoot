@@ -110,6 +110,7 @@ const createSLAObject = (
 
   const SLAStatus = SLATypes[type];
   if (SLAStatus && SLAStatus.threshold <= 0) {
+    // If the SLA has breached, return the missed SLA time
     return {
       ...SLAStatus,
       type,
