@@ -60,17 +60,18 @@ describe Messages::Facebook::MessageBuilder do
     end
 
     context 'when lock to single conversation' do
-      subject(:mocked_message_builder) { described_class.new(fb_message.new(contact_inbox.source_id, {}, '', '', ''), facebook_inbox).perform }
+      subject(:mocked_message_builder) do
+        described_class.new(mocked_incoming_fb_text_message, facebook_channel.inbox).perform
+      end
 
-      let!(:fb_message) { Struct.new(:sender_id, :attachments, :content, :identifier, :in_reply_to_external_id) }
-      let!(:account) { create(:account) }
-      let!(:facebook_inbox) { create(:inbox, channel: facebook_channel, account: account, greeting_enabled: false) }
+      let!(:mocked_message_object) { build(:mocked_message_text, sender_id: contact_inbox.source_id).to_json }
+      let!(:mocked_incoming_fb_text_message) { Integrations::Facebook::MessageParser.new(mocked_message_object) }
       let(:contact) { create(:contact, name: 'Jane Dae') }
-      let(:contact_inbox) { create(:contact_inbox, contact_id: contact.id, inbox_id: facebook_inbox.id) }
+      let(:contact_inbox) { create(:contact_inbox, contact_id: contact.id, inbox_id: facebook_channel.inbox.id) }
 
       context 'when lock to single conversation is disabled' do
         before do
-          facebook_inbox.update!(lock_to_single_conversation: false)
+          facebook_channel.inbox.update!(lock_to_single_conversation: false)
           stub_request(:get, /graph.facebook.com/)
         end
 
@@ -79,40 +80,42 @@ describe Messages::Facebook::MessageBuilder do
 
           mocked_message_builder
 
-          facebook_inbox.reload
+          facebook_channel.inbox.reload
 
-          expect(facebook_inbox.conversations.count).to eq(1)
+          expect(facebook_channel.inbox.conversations.count).to eq(1)
           expect(Conversation.count).to eq(inital_count + 1)
         end
 
         it 'will not create a new conversation if last conversation is not resolved' do
-          existing_conversation = create(:conversation, account_id: account.id, inbox_id: facebook_inbox.id, contact_id: contact.id, status: :open)
+          existing_conversation = create(:conversation, account_id: facebook_channel.inbox.account.id, inbox_id: facebook_channel.inbox.id,
+                                                        contact_id: contact.id, contact_inbox_id: contact_inbox.id,
+                                                        status: :open)
 
           mocked_message_builder
 
-          facebook_inbox.reload
+          facebook_channel.inbox.reload
 
-          expect(facebook_inbox.conversations.last.id).to eq(existing_conversation.id)
+          expect(facebook_channel.inbox.conversations.last.id).to eq(existing_conversation.id)
         end
 
         it 'creates a new conversation if last conversation is resolved' do
-          existing_conversation = create(:conversation, account_id: account.id, inbox_id: facebook_inbox.id, contact_id: contact.id,
-                                                        contact_inbox_id: contact_inbox.id, status: :resolved)
+          existing_conversation = create(:conversation, account_id: facebook_channel.inbox.account.id, inbox_id: facebook_channel.inbox.id,
+                                                        contact_id: contact.id, contact_inbox_id: contact_inbox.id, status: :resolved)
 
           inital_count = Conversation.count
 
           mocked_message_builder
 
-          facebook_inbox.reload
+          facebook_channel.inbox.reload
 
-          expect(facebook_inbox.conversations.last.id).not_to eq(existing_conversation.id)
+          expect(facebook_channel.inbox.conversations.last.id).not_to eq(existing_conversation.id)
           expect(Conversation.count).to eq(inital_count + 1)
         end
       end
 
       context 'when lock to single conversation is enabled' do
         before do
-          facebook_inbox.update!(lock_to_single_conversation: true)
+          facebook_channel.inbox.update!(lock_to_single_conversation: true)
           stub_request(:get, /graph.facebook.com/)
         end
 
@@ -120,23 +123,23 @@ describe Messages::Facebook::MessageBuilder do
           inital_count = Conversation.count
           mocked_message_builder
 
-          facebook_inbox.reload
+          facebook_channel.inbox.reload
 
-          expect(facebook_inbox.conversations.count).to eq(1)
+          expect(facebook_channel.inbox.conversations.count).to eq(1)
           expect(Conversation.count).to eq(inital_count + 1)
         end
 
         it 'reopens last conversation if last conversation exists' do
-          existing_conversation = create(:conversation, account_id: account.id, inbox_id: facebook_inbox.id, contact_id: contact.id,
-                                                        contact_inbox_id: contact_inbox.id)
+          existing_conversation = create(:conversation, account_id: facebook_channel.inbox.account.id, inbox_id: facebook_channel.inbox.id,
+                                                        contact_id: contact.id, contact_inbox_id: contact_inbox.id)
 
           inital_count = Conversation.count
 
           mocked_message_builder
 
-          facebook_inbox.reload
+          facebook_channel.inbox.reload
 
-          expect(facebook_inbox.conversations.last.id).to eq(existing_conversation.id)
+          expect(facebook_channel.inbox.conversations.last.id).to eq(existing_conversation.id)
           expect(Conversation.count).to eq(inital_count)
         end
       end
