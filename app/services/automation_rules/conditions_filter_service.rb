@@ -46,7 +46,7 @@ class AutomationRules::ConditionsFilterService < FilterService
   def rule_valid?
     is_valid = AutomationRules::ConditionValidationService.new(@rule).perform
     Rails.logger.info "Automation rule condition validation failed for rule id: #{@rule.id}" unless is_valid
-    @rule.invalid_condition_error! unless is_valid
+    @rule.authorization_error! unless is_valid
 
     is_valid
   end

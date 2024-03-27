@@ -21,17 +21,15 @@ class AutomationRule < ApplicationRecord
   include Rails.application.routes.url_helpers
   include Reauthorizable
 
-  AUTHORIZATION_ERROR_THRESHOLD = 3
-
   belongs_to :account
   has_many_attached :files
-
-  after_commit :reauthorized!, on: [:create, :update, :destroy]
 
   validate :json_conditions_format
   validate :json_actions_format
   validate :query_operator_presence
   validates :account_id, presence: true
+
+  after_update_commit :reauthorized!, if: -> { saved_change_to_conditions? }
 
   scope :active, -> { where(active: true) }
 
@@ -57,19 +55,6 @@ class AutomationRule < ApplicationRecord
         filename: file.filename.to_s
       }
     end
-  end
-
-  def invalid_condition_error!
-    authorization_error!
-  end
-
-  def disable_rule_and_notify
-    self.active = false
-    save!
-
-    # send an email to the admin that the rule is disabled
-    mailer = AdministratorNotifications::ChannelNotificationsMailer.with(account: account)
-    mailer.automation_rule_disabled(self).deliver_later
   end
 
   private

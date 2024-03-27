@@ -1,6 +1,11 @@
 require 'rails_helper'
+require Rails.root.join 'spec/models/concerns/reauthorizable_shared.rb'
 
 RSpec.describe AutomationRule do
+  describe 'concerns' do
+    it_behaves_like 'reauthorizable'
+  end
+
   describe 'associations' do
     let(:account) { create(:account) }
     let(:params) do
@@ -57,49 +62,34 @@ RSpec.describe AutomationRule do
     end
   end
 
-  describe '#disable_rule_and_notify' do
-    let(:account) { create(:account) }
-    let(:automation_rule) { create(:automation_rule, account: account) }
-
-    it 'disables the automation rule' do
-      automation_rule.disable_rule_and_notify
-      expect(automation_rule.reload.active).to be false
+  describe 'reauthorizable' do
+    context 'when prompt_reauthorization!' do
+      it 'marks the rule inactive' do
+        rule = create(:automation_rule)
+        expect(rule.active).to be true
+        rule.prompt_reauthorization!
+        expect(rule.active).to be false
+      end
     end
 
-    it 'sends a notification email' do
-      mailer = double
-      mailer_action = double
-      allow(AdministratorNotifications::ChannelNotificationsMailer).to receive(:with).with(account: account).and_return(mailer)
-      allow(mailer).to receive(:automation_rule_disabled).and_return(mailer_action)
-      allow(mailer_action).to receive(:deliver_later)
+    context 'when reauthorization_required?' do
+      it 'unsets the error count if conditions are updated' do
+        rule = create(:automation_rule)
+        rule.prompt_reauthorization!
+        expect(rule.reauthorization_required?).to be true
 
-      automation_rule.disable_rule_and_notify
+        rule.update!(conditions: [{ attribute_key: 'browser_language', filter_operator: 'equal_to', values: ['en'], query_operator: 'AND' }])
+        expect(rule.reauthorization_required?).to be false
+      end
 
-      expect(mailer).to have_received(:automation_rule_disabled).with(automation_rule)
-      expect(mailer_action).to have_received(:deliver_later)
-    end
-  end
+      it 'will not unset the error count if conditions are not updated' do
+        rule = create(:automation_rule)
+        rule.prompt_reauthorization!
+        expect(rule.reauthorization_required?).to be true
 
-  describe '#error_counts' do
-    let(:account) { create(:account) }
-    let(:automation_rule) { create(:automation_rule, account: account, active: true) }
-
-    it 'increments the error count' do
-      automation_rule.invalid_condition_error!
-      expect(automation_rule.send(:authorization_error_count)).to eq(1)
-    end
-
-    it 'disables the automation rule if error count exceeds threshold' do
-      allow(automation_rule).to receive(:authorization_error_count).and_return(3)
-      automation_rule.invalid_condition_error!
-      expect(automation_rule.active).to be false
-    end
-
-    it 'resets the error count if the rule is updated' do
-      automation_rule.invalid_condition_error!
-      expect(automation_rule.send(:authorization_error_count)).to eq(1)
-      automation_rule.update(name: 'New Name')
-      expect(automation_rule.send(:authorization_error_count)).to eq(0)
+        rule.update!(name: 'Updated name')
+        expect(rule.reauthorization_required?).to be true
+      end
     end
   end
 end

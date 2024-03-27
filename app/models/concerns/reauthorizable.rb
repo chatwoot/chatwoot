@@ -51,7 +51,8 @@ module Reauthorizable
     when 'Channel::Email'
       mailer.email_disconnect(inbox).deliver_later
     when 'AutomationRule'
-      disable_rule_and_notify
+      update!(active: false)
+      mailer.automation_rule_disabled(self).deliver_later
     end
   end
 
