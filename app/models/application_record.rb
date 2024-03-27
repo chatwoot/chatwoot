@@ -5,7 +5,7 @@ class ApplicationRecord < ActiveRecord::Base
   before_validation :validates_column_content_length
 
   # the models that exposed in email templates through liquid
-  DROPPABLES = %w[Account Channel Conversation Inbox User Message].freeze
+  DROPPABLES = %w[Account Channel Conversation Inbox User Message SlaPolicy].freeze
 
   # ModelDrop class should exist in app/drops
   def to_drop
