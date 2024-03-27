@@ -1,47 +1,64 @@
 <template>
   <div
-    class="flex items-center px-2 truncate border min-w-fit border-slate-75 dark:border-slate-700"
-    :class="showExtendedInfo ? 'py-[5px] rounded-lg' : 'py-0.5 gap-1 rounded'"
+    v-if="hasSlaThreshold"
+    class="relative flex items-center border cursor-pointer min-w-fit border-slate-75 dark:border-slate-700"
+    :class="showExtendedInfo ? 'rounded-lg' : 'rounded'"
   >
     <div
-      class="flex items-center gap-1"
-      :class="
-        showExtendedInfo &&
-        'ltr:pr-1.5 rtl:pl-1.5 ltr:border-r rtl:border-l border-solid border-slate-75 dark:border-slate-700'
-      "
+      class="flex items-center w-full px-2 truncate"
+      :class="showExtendedInfo ? 'py-[5px]' : 'gap-1 py-0.5'"
+      @mouseover="showSlaPopover = true"
+      @mouseleave="showSlaPopover = false"
     >
-      <fluent-icon
-        size="14"
-        :icon="slaStatus.icon"
-        type="outline"
-        :icon-lib="isSlaMissed ? 'lucide' : 'fluent'"
-        class="flex-shrink-0"
-        :class="slaTextStyles"
-      />
-      <span
-        v-if="showExtendedInfo"
-        class="text-xs font-medium"
-        :class="slaTextStyles"
+      <div
+        class="flex items-center gap-1"
+        :class="
+          showExtendedInfo &&
+          'ltr:pr-1.5 rtl:pl-1.5 ltr:border-r rtl:border-l border-solid border-slate-75 dark:border-slate-700'
+        "
       >
-        {{ slaStatusText }}
+        <fluent-icon
+          size="14"
+          :icon="slaStatus.icon"
+          type="outline"
+          :icon-lib="isSlaMissed ? 'lucide' : 'fluent'"
+          class="flex-shrink-0"
+          :class="slaTextStyles"
+        />
+        <span
+          v-if="showExtendedInfo"
+          class="text-xs font-medium"
+          :class="slaTextStyles"
+        >
+          {{ slaStatusText }}
+        </span>
+      </div>
+      <span
+        class="text-xs font-medium"
+        :class="[slaTextStyles, showExtendedInfo && 'ltr:pl-1.5 rtl:pr-1.5']"
+      >
+        {{ slaStatus.threshold }}
       </span>
     </div>
-    <span
-      class="text-xs font-medium"
-      :class="[slaTextStyles, showExtendedInfo && 'ltr:pl-1.5 rtl:pr-1.5']"
-    >
-      {{ slaStatus.threshold }}
-    </span>
+    <SLA-popover-card
+      v-if="showExtendedInfo && showSlaPopover && missedSLAs.length"
+      :all-missed-slas="missedSLAs"
+      class="right-0 top-7"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import { evaluateSLAStatus } from '../helpers/SLAHelper';
+import { evaluateSLAStatus, allMissedSLAs } from '../helpers/SLAHelper';
+import SLAPopoverCard from './SLAPopoverCard.vue';
 
 const REFRESH_INTERVAL = 60000;
 
 export default {
+  components: {
+    SLAPopoverCard,
+  },
   props: {
     chat: {
       type: Object,
@@ -56,6 +73,7 @@ export default {
     return {
       timer: null,
       slaStatus: {},
+      showSlaPopover: false,
     };
   },
   computed: {
@@ -68,6 +86,9 @@ export default {
     sla() {
       if (!this.slaPolicyId) return null;
       return this.activeSLA(this.slaPolicyId);
+    },
+    hasSlaThreshold() {
+      return this.slaStatus?.threshold;
     },
     isSlaMissed() {
       return this.slaStatus?.isSlaMissed;
@@ -84,6 +105,9 @@ export default {
       return this.$t(`CONVERSATION.HEADER.SLA_STATUS.${upperCaseType}`, {
         status: this.$t(`CONVERSATION.HEADER.SLA_STATUS.${statusKey}`),
       });
+    },
+    missedSLAs() {
+      return allMissedSLAs(this.sla, this.chat);
     },
   },
   watch: {
