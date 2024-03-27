@@ -94,13 +94,13 @@ es:
       timezone: Timezone
     sla_csv:
       conversation_id: ID de conversación
-      sla_policy_breached: SLA Policy
-      assignee: Assignee
+      sla_policy_breached: Política de SLA
+      assignee: Cesionario
       team: Equipo
       inbox: Bandeja de entrada
       labels: Etiquetas
-      conversation_link: Link to the Conversation
-      breached_events: Breached Events
+      conversation_link: Enlace a la conversación
+      breached_events: Eventos violados
     default_group_by: día
     csat:
       headers:
