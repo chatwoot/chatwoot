@@ -70,7 +70,7 @@
         class="flex flex-row items-center justify-end flex-grow gap-2 mt-3 header-actions-wrap lg:mt-0"
         :class="{ 'justify-end': isContactPanelOpen }"
       >
-        <SLA-card-label :chat="chat" show-label />
+        <SLA-card-label :chat="chat" show-extended-info />
         <more-actions :conversation-id="currentChat.id" />
       </div>
     </div>

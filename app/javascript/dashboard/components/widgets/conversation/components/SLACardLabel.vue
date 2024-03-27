@@ -3,13 +3,15 @@
     v-if="showSLACard"
     class="flex items-center px-2 truncate border border-solid min-w-fit w-fit border-slate-75 dark:border-slate-700"
     :class="
-      showLabel ? 'py-[5px] h-[26px] rounded-lg' : 'py-0.5 gap-1 h-5 rounded'
+      showExtendedInfo
+        ? 'py-[5px] h-[26px] rounded-lg'
+        : 'py-0.5 gap-1 h-5 rounded'
     "
   >
     <div
       class="flex items-center gap-1"
       :class="
-        showLabel &&
+        showExtendedInfo &&
         'ltr:pr-1.5 rtl:pl-1.5 ltr:border-r rtl:border-l border-solid border-slate-75 dark:border-slate-700'
       "
     >
@@ -21,13 +23,17 @@
         class="flex-shrink-0"
         :class="slaTextStyles"
       />
-      <span v-if="showLabel" class="text-xs font-medium" :class="slaTextStyles">
+      <span
+        v-if="showExtendedInfo"
+        class="text-xs font-medium"
+        :class="slaTextStyles"
+      >
         {{ slaStatusText }}
       </span>
     </div>
     <span
       class="text-xs font-medium"
-      :class="[slaTextStyles, showLabel && 'ltr:pl-1.5 rtl:pr-1.5']"
+      :class="[slaTextStyles, showExtendedInfo && 'ltr:pl-1.5 rtl:pr-1.5']"
     >
       {{ slaStatus.threshold }}
     </span>
@@ -46,7 +52,7 @@ export default {
       type: Object,
       default: () => ({}),
     },
-    showLabel: {
+    showExtendedInfo: {
       type: Boolean,
       default: false,
     },
