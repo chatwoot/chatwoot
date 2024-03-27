@@ -1,40 +1,52 @@
+<script setup>
+defineProps({
+  reviewContent: {
+    type: String,
+    default: '',
+  },
+  authorImage: {
+    type: String,
+    default: '',
+  },
+  authorName: {
+    type: String,
+    default: '',
+  },
+  authorDesignation: {
+    type: String,
+    default: '',
+  },
+  isLeftAligned: {
+    type: Boolean,
+    default: false,
+  },
+});
+</script>
+
 <template>
   <div
-    class="flex flex-col items-start justify-center p-6 w-80 bg-white rounded-lg drop-shadow-md dark:bg-slate-800"
+    class="flex items-end justify-center gap-3 w-80"
+    :class="{ 'flex-row-reverse ml-14': !isLeftAligned }"
   >
-    <p class="text-sm text-slate-600 dark:text-woot-50 tracking-normal">
-      {{ reviewContent }}
-    </p>
-    <div class="flex items-center mt-4 text-slate-700 dark:text-woot-50">
-      <div class="bg-white rounded-full p-1">
-        <img :src="authorImage" class="h-8 w-8 rounded-full" />
+    <div class="bg-white rounded-full shrink-0">
+      <img
+        :src="authorImage"
+        class="w-12 h-12 border rounded-full shadow-sm dark:border-none border-slate-200 dark:shadow-none"
+      />
+    </div>
+    <div class="text-woot-900 dark:text-woot-100">
+      <div
+        class="w-[360px] shrink-0 flex flex-col mt-4 dark:bg-[#0F1720] bg-[#FBFDFF] p-4 rounded-2xl border border-solid border-woot-100 dark:border-woot-800"
+      >
+        <p class="text-sm leading-6 tracking-wide">
+          {{ reviewContent }}
+        </p>
       </div>
-      <div class="ml-2">
-        <div class="text-sm font-medium">{{ authorName }}</div>
-        <div class="text-xs">{{ authorDesignation }}</div>
+      <div class="px-1 mt-2" :class="{ 'text-right': !isLeftAligned }">
+        <div class="text-sm font-medium">
+          {{ authorName }}, {{ authorDesignation }}
+        </div>
       </div>
     </div>
   </div>
 </template>
-<script>
-export default {
-  props: {
-    reviewContent: {
-      type: String,
-      default: '',
-    },
-    authorImage: {
-      type: String,
-      default: '',
-    },
-    authorName: {
-      type: String,
-      default: '',
-    },
-    authorDesignation: {
-      type: String,
-      default: '',
-    },
-  },
-};
-</script>

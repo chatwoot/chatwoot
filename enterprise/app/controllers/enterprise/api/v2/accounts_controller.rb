@@ -23,7 +23,7 @@ module Enterprise::Api::V2::AccountsController
   def data_from_clearbit
     return {} if @data.blank?
 
-    { name: @data[:company_name],
+    { name: @data[:company_name] || '',
       custom_attributes: {
         'industry' => @data[:industry],
         'company_size' => @data[:company_size],

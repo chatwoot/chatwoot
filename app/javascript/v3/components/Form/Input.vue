@@ -11,6 +11,7 @@
     </template>
     <input
       :id="name"
+      ref="input"
       :name="name"
       :type="type"
       autocomplete="off"
@@ -25,12 +26,14 @@
         'outline-slate-200 dark:outline-slate-600 dark:focus:outline-woot-500 focus:outline-woot-500':
           !hasError,
         'px-3 py-3': spacing === 'base',
-        'px-3 py-2 mb-0': spacing === 'compact',
-        'pl-9': icon,
+        'px-3 py-2 !mb-0': spacing === 'compact',
+        '!pl-9': icon,
       }"
-      class="block w-full border-none rounded-md shadow-sm appearance-none outline outline-1 focus:outline-2 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 sm:text-sm sm:leading-6 dark:bg-slate-800"
-      @input="onInput"
-      @blur="$emit('blur')"
+      class="reset-base block w-full !border-0 border-none shadow-sm appearance-none rounded-md outline outline-1 focus:outline focus:outline-2 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 sm:text-sm sm:leading-6 dark:bg-slate-800"
+      v-on="{
+        ...$listeners,
+        input: event => $emit('input', event.target.value),
+      }"
     />
   </with-label>
 </template>
@@ -91,10 +94,10 @@ export default {
       validator: value => ['base', 'compact'].includes(value),
     },
   },
-  methods: {
-    onInput(e) {
-      this.$emit('input', e.target.value);
-    },
+  mounted() {
+    if (this.$attrs.autofocus) {
+      this.$refs.input.focus();
+    }
   },
 };
 </script>

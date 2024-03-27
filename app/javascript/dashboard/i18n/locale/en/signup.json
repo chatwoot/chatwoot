@@ -1,6 +1,7 @@
 {
   "REGISTER": {
     "TRY_WOOT": "Create an account",
+    "TRY_WOOT_CLOUD": "Create a free account",
     "TITLE": "Register",
     "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
     "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
@@ -40,5 +41,96 @@
     },
     "SUBMIT": "Create account",
     "HAVE_AN_ACCOUNT": "Already have an account?"
+  },
+  "START_ONBOARDING": {
+    "PROFILE": {
+      "INTRO": "Welcome, let’s get started.",
+      "TITLE": "Set up profile",
+      "BODY": "These are details visible to end users, to make a positive first impression.",
+      "SUBMIT": {
+        "BUTTON": "Continue to company setup",
+        "ERROR": "Error in setting up profile, try again.",
+        "SUCCESS": "🔥 Lets add your business details"
+      },
+      "AVATAR": {
+        "LABEL": "Avatar",
+        "PLACEHOLDER": "Upload Profile Image"
+      },
+      "FULL_NAME": {
+        "LABEL": "Full name",
+        "PLACEHOLDER": "Enter your full name",
+        "ERROR": "Add a valid full name"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Display name (Optional)",
+        "PLACEHOLDER": "Enter the name you want to display your customers",
+        "ERROR": "Add a valid display name or leave it blank"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Phone number (Optional)",
+        "PLACEHOLDER": "Enter your phone number"
+      },
+      "SIGNATURE": {
+        "LABEL": "Signature",
+        "PLACEHOLDER": "Add a signature for your messages. You can set this later in your settings."
+      }
+    },
+    "COMPANY": {
+      "PAGE_TITLE": "Hello %{userName},\nwe are almost done.",
+      "TITLE": "Tell us about your company",
+      "BODY": "In this section, we'll set up the language, timezone, and company size. This information allows us to provide contextually accurate information and suggest relevant features for you.",
+      "SUBMIT": {
+        "BUTTON": "Continue to team setup",
+        "ERROR": "Error in setting up company, try again.",
+        "SUCCESS": "🚀 Lets invite your team"
+      },
+      "COMPANY_NAME": {
+        "LABEL": "Company name",
+        "PLACEHOLDER": "Enter your company name",
+        "ERROR": "Company name is too short."
+      },
+      "INDUSTRY": {
+        "LABEL": "Industry",
+        "PLACEHOLDER": "Select your industry"
+      },
+      "TIMEZONE": {
+        "LABEL": "Timezone",
+        "PLACEHOLDER": "What timezone do you work from?"
+      },
+      "LOCALE": {
+        "LABEL": "Language",
+        "PLACEHOLDER": "Select the language you want to use"
+      },
+      "SIZE": {
+        "LABEL": "Company size",
+        "PLACEHOLDER": "How many people work at your company?"
+      }
+    },
+    "INVITE_TEAM": {
+      "TITLE": "Invite your team",
+      "ADD": "Add",
+      "LIST_EMPTY": "No members to invite",
+      "BODY": "Invite your team members to Chatwoot. You can add them later as well.",
+      "PLACEHOLDER": "robin@chatwoot.com",
+      "SKIP": "Skip for now",
+      "EMAIL_ERROR": "Please enter a valid email address",
+      "SUBMIT": {
+        "BUTTON": "Send invitations",
+        "ERROR": "Error while inviting team members, try again.",
+        "NO_MEMBER_ERROR": "Please add atleast one team member or skip this step",
+        "SUCCESS": "🪄 Setup complete"
+      }
+    },
+    "FOUNDERS_NOTE": {
+      "NOTE": {
+        "HEY": "Hey {name},",
+        "PARAGRAPH_1": "I'm Pranav, one of the co-founders at Chatwoot. Thanks for checking out Chatwoot. We're eager to understand your needs and expectations.",
+        "PARAGRAPH_2": "If you are facing trouble using the app or achieving your use case, we want to help you as quickly as possible.",
+        "PARAGRAPH_3": "Feel free to <a target=\"blank\" href=\"{scheduleLink}\">schedule a call</a> with our team. We are open to your feedback. Talk soon!",
+        "SIGNATURE": "Pranav, <br />Co-founder & CEO, Chatwoot"
+      },
+      "TITLE": "A note from the founder",
+      "SUBMIT": "Go to dashboard"
+    }
   }
 }

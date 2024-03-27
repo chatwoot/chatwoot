@@ -66,6 +66,7 @@
             :value="phoneNumber"
             :error="isPhoneNumberNotValid"
             :placeholder="$t('CONTACT_FORM.FORM.PHONE_NUMBER.PLACEHOLDER')"
+            class="mb-4"
             @input="onPhoneNumberInputChange"
             @blur="$v.phoneNumber.$touch"
             @setCode="setPhoneCode"

@@ -25,8 +25,9 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
 
     create_account_for_user
     token = @resource.send(:set_reset_password_token)
-    frontend_url = ENV.fetch('FRONTEND_URL', nil)
-    redirect_to "#{frontend_url}/app/auth/password/edit?config=default&reset_password_token=#{token}"
+    base_url = password_reset_url
+    onboarding_url = account_onboarding_url(@account)
+    redirect_to "#{base_url}?config=default&reset_password_token=#{token}&route_url=#{onboarding_url}"
   end
 
   def login_page_url(error: nil, email: nil, sso_auth_token: nil)
@@ -71,5 +72,15 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
 
   def default_devise_mapping
     'user'
+  end
+
+  def account_onboarding_url(account)
+    "/app/accounts/#{account.id}/start/setup-profile"
+  end
+
+  def password_reset_url
+    frontend_url = ENV.fetch('FRONTEND_URL', nil)
+
+    "#{frontend_url}/app/auth/password/edit"
   end
 end

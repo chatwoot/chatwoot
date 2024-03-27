@@ -20,9 +20,11 @@
           !hasError,
         'resize-none': !allowResize,
       }"
-      class="block w-full p-3 bg-white border-none rounded-md shadow-sm appearance-none outline outline-1 focus:outline focus:outline-2 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:bg-slate-800"
-      @input="onInput"
-      @blur="$emit('blur')"
+      class="block w-full p-3 bg-white border-none rounded-md shadow-sm appearance-none outline outline-1 focus:outline focus:outline-2 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:bg-slate-800 sm:text-sm"
+      v-on="{
+        ...$listeners,
+        input: event => $emit('input', event.target.value),
+      }"
     />
   </with-label>
 </template>
@@ -72,11 +74,6 @@ export default {
     dataTestid: {
       type: String,
       default: '',
-    },
-  },
-  methods: {
-    onInput(e) {
-      this.$emit('input', e.target.value);
     },
   },
 };
