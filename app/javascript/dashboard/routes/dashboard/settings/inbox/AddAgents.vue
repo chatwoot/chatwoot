@@ -49,6 +49,7 @@
 import { mapGetters } from 'vuex';
 
 import InboxMembersAPI from '../../../../api/inboxMembers';
+import StringeeChannelAPI from '../../../../api/channel/stringeeChannel';
 import router from '../../../index';
 import PageHeader from '../SettingsSubPageHeader.vue';
 
@@ -89,6 +90,13 @@ export default {
       const selectedAgents = this.selectedAgents.map(x => x.id);
 
       try {
+        if (this.$route.params.channel_type === 'Channel::StringeePhoneCall') {
+          await StringeeChannelAPI.updateAgents({
+            inboxId,
+            agentList: selectedAgents,
+          });
+        }
+
         await InboxMembersAPI.update({ inboxId, agentList: selectedAgents });
         router.replace({
           name: 'settings_inbox_finish',

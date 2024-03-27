@@ -57,6 +57,12 @@
                 <span v-if="item.channel_type === 'Channel::Telegram'">
                   Telegram
                 </span>
+                <span v-if="item.channel_type === 'Channel::ZaloOa'">
+                  Zalo OA
+                </span>
+                <span v-if="item.channel_type === 'Channel::StringeePhoneCall'">
+                  PhoneCall
+                </span>
                 <span v-if="item.channel_type === 'Channel::Line'">Line</span>
                 <span v-if="item.channel_type === 'Channel::Api'">
                   {{ globalConfig.apiChannelName || 'API' }}
@@ -136,6 +142,7 @@ import Settings from './Settings.vue';
 import adminMixin from '../../../../mixins/isAdmin';
 import accountMixin from '../../../../mixins/account';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import stringeeChannel from '../../../../api/channel/stringeeChannel';
 
 export default {
   components: {
@@ -191,8 +198,12 @@ export default {
       this.showSettings = false;
       this.selectedInbox = {};
     },
-    async deleteInbox({ id }) {
+    async deleteInbox(inbox) {
+      var id = inbox.id;
       try {
+        if (inbox.channel_type === 'Channel::StringeePhoneCall') {
+          await stringeeChannel.delete(id);
+        }
         await this.$store.dispatch('inboxes/delete', id);
         bus.$emit(
           'newToastMessage',
