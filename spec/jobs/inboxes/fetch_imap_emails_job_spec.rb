@@ -65,7 +65,7 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
         allow(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel).and_raise(Errno::ECONNREFUSED)
         allow(Redis::Alfred).to receive(:incr)
 
-        expect(Redis::Alfred).to receive(:incr).with("ERROR_TRACKABLE_COUNT:channel_email:#{imap_email_channel.id}")
+        expect(Redis::Alfred).to receive(:incr).with("AUTHORIZATION_ERROR_COUNT:channel_email:#{imap_email_channel.id}")
         described_class.perform_now(imap_email_channel)
       end
     end
