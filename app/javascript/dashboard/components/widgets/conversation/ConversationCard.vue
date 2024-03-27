@@ -87,7 +87,7 @@
         </span>
       </div>
       <div class="flex items-start gap-1 mt-0.5 mx-2 mb-0">
-        <SLA-card-label :chat="chat" />
+        <SLA-card-label v-if="hasSlaPolicyId" :chat="chat" />
         <card-labels :conversation-id="chat.id" />
       </div>
     </div>
@@ -256,6 +256,9 @@ export default {
     inboxName() {
       const stateInbox = this.inbox;
       return stateInbox.name || '';
+    },
+    hasSlaPolicyId() {
+      return this.chat?.sla_policy_id;
     },
   },
   methods: {
