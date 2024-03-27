@@ -199,6 +199,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "در حال مشاهده:",
     "SWITCH": "تعویض",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "گفتگوها",
     "INBOX": "صندوق ورودی",
     "ALL_CONVERSATIONS": "همه گفتگوها",
@@ -237,6 +238,7 @@
     "CAMPAIGNS": "کمپین ها",
     "ONGOING": "درحال انجام",
     "ONE_OFF": "یکبار مصرف",
+    "REPORTS_BOT": "ربات",
     "REPORTS_AGENT": "ایجنت ها",
     "REPORTS_LABEL": "برچسب‌ها",
     "REPORTS_INBOX": "صندوق ورودی",

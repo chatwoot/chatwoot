@@ -199,6 +199,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "În prezent, vizualizarea:",
     "SWITCH": "Comută contul",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Conversații",
     "INBOX": "Inbox",
     "ALL_CONVERSATIONS": "Toate conversațiile",
@@ -237,6 +238,7 @@
     "CAMPAIGNS": "Campanii",
     "ONGOING": "În derulare",
     "ONE_OFF": "Unul oprit",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Agenți",
     "REPORTS_LABEL": "Etichete",
     "REPORTS_INBOX": "Inbox",

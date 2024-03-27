@@ -1,22 +1,24 @@
 {
   "SLA": {
     "HEADER": "SLA",
-    "HEADER_BTN_TXT": "Pievienot SLA",
+    "ADD_ACTION": "Pievienot SLA",
+    "DESCRIPTION": "Service Level Agreements (SLAs) are contracts that define clear expectations between your team and customers. They establish standards for response and resolution times, creating a framework for accountability and ensures a consistent, high-quality experience.",
+    "LEARN_MORE": "Learn more about SLA",
     "LOADING": "Notiek SLA iegūšana",
-    "SEARCH_404": "Šim vaicājumam nav atbilstošu vienumu",
-    "SIDEBAR_TXT": "<p><b>SLA</b> <p>Uztveriet Pakalpojuma Līmeņa Vienošanos (SLA) kā draudzīgu solījumu starp pakalpojumu sniedzēju un klientu.</p> <p> Šis solījums skaidri nosaka cik ātri komanda reaģēs uz problēmām un nodrošina, ka Jūs vienmēr saņemsiet uzticamu un izcilu pakalpojumu!</p>",
     "LIST": {
       "404": "Šim kontam nav piesaistīti SLA līgumi.",
-      "TITLE": "Pārvaldīt SLA",
-      "DESC": "SLA: Draudzīgi solījumi priekš lieliska servisa!",
-      "TABLE_HEADER": [
-        "Nosaukums",
-        "Apraksts",
-        "FRT",
-        "NRT",
-        "RT",
-        "Darba Laiks"
-      ]
+      "BUSINESS_HOURS_ON": "Business hours on",
+      "BUSINESS_HOURS_OFF": "Business hours off",
+      "RESPONSE_TYPES": {
+        "FRT": "First response time threshold",
+        "NRT": "Next response time threshold",
+        "RT": "Resolution time threshold",
+        "SHORT_HAND": {
+          "FRT": "FRT",
+          "NRT": "NRT",
+          "RT": "RT"
+        }
+      }
     },
     "FORM": {
       "NAME": {
@@ -62,11 +64,17 @@
         "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
       }
     },
-    "EDIT": {
-      "TITLE": "Rediģēt SLA",
+    "DELETE": {
+      "TITLE": "Delete SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA ir veiksmīgi atjaunināts",
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
         "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
+      },
+      "CONFIRM": {
+        "TITLE": "Apstiprināt Dzēšanu",
+        "MESSAGE": "Are you sure you want to delete ",
+        "YES": "Jā, Dzēst ",
+        "NO": "Nē, Paturēt "
       }
     }
   }

@@ -199,6 +199,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Pašlaik skatās:",
     "SWITCH": "Pārslēgt",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Sarunas",
     "INBOX": "Iesūtne",
     "ALL_CONVERSATIONS": "Visas Sarunas",
@@ -237,6 +238,7 @@
     "CAMPAIGNS": "Kampaņas",
     "ONGOING": "Notiekošs",
     "ONE_OFF": "Vienreizējs",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Aģenti",
     "REPORTS_LABEL": "Etiķetes",
     "REPORTS_INBOX": "Iesūtne",

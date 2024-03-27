@@ -199,6 +199,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Gesprekken",
     "INBOX": "Postvak In",
     "ALL_CONVERSATIONS": "Alle gesprekken",
@@ -237,6 +238,7 @@
     "CAMPAIGNS": "Campagnes",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Medewerkers",
     "REPORTS_LABEL": "Labelen",
     "REPORTS_INBOX": "Postvak In",

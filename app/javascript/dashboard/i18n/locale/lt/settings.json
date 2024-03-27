@@ -199,6 +199,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Šiuo metu peržiūri:",
     "SWITCH": "Perjungti",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Pokalbiai",
     "INBOX": "Gautų laiškų aplankas",
     "ALL_CONVERSATIONS": "Visi Pokalbiai",
@@ -237,6 +238,7 @@
     "CAMPAIGNS": "Akcijos",
     "ONGOING": "Vykstantis",
     "ONE_OFF": "Vienas iš",
+    "REPORTS_BOT": "Botas",
     "REPORTS_AGENT": "Agentai",
     "REPORTS_LABEL": "Etiketės",
     "REPORTS_INBOX": "Gautų laiškų aplankas",

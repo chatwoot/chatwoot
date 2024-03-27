@@ -199,6 +199,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "En cours de visualisation:",
     "SWITCH": "Commuter",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Conversations",
     "INBOX": "Boîte de réception",
     "ALL_CONVERSATIONS": "Toutes les conversations",
@@ -237,6 +238,7 @@
     "CAMPAIGNS": "Campagnes",
     "ONGOING": "En cours",
     "ONE_OFF": "Isolées",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Agents",
     "REPORTS_LABEL": "Étiquettes",
     "REPORTS_INBOX": "Boîte de réception",

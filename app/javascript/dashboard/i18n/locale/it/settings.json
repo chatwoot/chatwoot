@@ -199,6 +199,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Visualizzazione attuale:",
     "SWITCH": "Scambia",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Conversazioni",
     "INBOX": "Casella",
     "ALL_CONVERSATIONS": "Tutte le conversazioni",
@@ -237,6 +238,7 @@
     "CAMPAIGNS": "Campagne",
     "ONGOING": "In corso",
     "ONE_OFF": "Uno fuori",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Agenti",
     "REPORTS_LABEL": "Etichette",
     "REPORTS_INBOX": "Posta",

@@ -199,6 +199,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "대화",
     "INBOX": "받은 메시지함",
     "ALL_CONVERSATIONS": "All Conversations",
@@ -237,6 +238,7 @@
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
+    "REPORTS_BOT": "봇",
     "REPORTS_AGENT": "에이전트",
     "REPORTS_LABEL": "라벨",
     "REPORTS_INBOX": "받은 메시지함",

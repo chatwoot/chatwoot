@@ -44,7 +44,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Jelölőnégyzet",
       "CREATED_AT": "Létrehozva",
       "LAST_ACTIVITY": "Utolsó aktivitás",
-      "REFERER_LINK": "Hivatkozás link"
+      "REFERER_LINK": "Hivatkozás link",
+      "BLOCKED": "Blocked"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Alap szűrők",

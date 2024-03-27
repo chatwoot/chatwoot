@@ -199,6 +199,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Hiện đang xem:",
     "SWITCH": "Chuyển",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Cuộc trò chuyện",
     "INBOX": "Hộp thư đến",
     "ALL_CONVERSATIONS": "Tất cả cuộc trò chuyện",
@@ -237,6 +238,7 @@
     "CAMPAIGNS": "Chiến dịch",
     "ONGOING": "Đang diễn ra",
     "ONE_OFF": "Một lần",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Nhà cung cấp",
     "REPORTS_LABEL": "Nhãn",
     "REPORTS_INBOX": "Kênh",

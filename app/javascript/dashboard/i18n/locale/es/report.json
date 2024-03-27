@@ -35,9 +35,17 @@
         "NAME": "Número de resoluciones",
         "DESC": "( Total )"
       },
+      "BOT_RESOLUTION_COUNT": {
+        "NAME": "Número de resoluciones",
+        "DESC": "( Total )"
+      },
+      "BOT_HANDOFF_COUNT": {
+        "NAME": "Recuento de traspasos",
+        "DESC": "( Total )"
+      },
       "REPLY_TIME": {
         "NAME": "Tiempo de espera del cliente",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "TOOLTIP_TEXT": "El tiempo de espera es %{metricValue} (basado en %{conversationCount} conversaciones)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -430,6 +438,27 @@
       "RESPONSE_RATE": {
         "LABEL": "Tasa de respuesta",
         "TOOLTIP": "Número total de respuestas / Número total de mensajes de la encuesta de satisfacción enviados * 100"
+      }
+    }
+  },
+  "BOT_REPORTS": {
+    "HEADER": "Informes de bot",
+    "METRIC": {
+      "TOTAL_CONVERSATIONS": {
+        "LABEL": "Núm. de conversaciones",
+        "TOOLTIP": "Número total de conversaciones manejadas por el bot"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total de respuestas",
+        "TOOLTIP": "Número total de respuestas enviadas por el bot"
+      },
+      "RESOLUTION_RATE": {
+        "LABEL": "Tiempo de resolución",
+        "TOOLTIP": "Número total de conversaciones resueltas por el bot / Número total de conversaciones manejadas por el bot * 100"
+      },
+      "HANDOFF_RATE": {
+        "LABEL": "Tasa de traspasos",
+        "TOOLTIP": "Número total de conversaciones transmitidas a agentes / Número total de conversaciones manejadas por el bot * 100"
       }
     }
   },

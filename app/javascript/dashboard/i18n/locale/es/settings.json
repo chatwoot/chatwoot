@@ -199,6 +199,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Visualizando:",
     "SWITCH": "Cambiar",
+    "INBOX_VIEW": "Vista del buzón",
     "CONVERSATIONS": "Conversaciones",
     "INBOX": "Bandeja de entrada",
     "ALL_CONVERSATIONS": "Todas las conversaciones",
@@ -237,6 +238,7 @@
     "CAMPAIGNS": "Campañas",
     "ONGOING": "En Curso",
     "ONE_OFF": "One Off",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Agentes",
     "REPORTS_LABEL": "Etiquetas",
     "REPORTS_INBOX": "Bandeja de entrada",

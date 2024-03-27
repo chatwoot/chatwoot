@@ -199,6 +199,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Keskustelut",
     "INBOX": "Inbox",
     "ALL_CONVERSATIONS": "All Conversations",
@@ -237,6 +238,7 @@
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
+    "REPORTS_BOT": "Botti",
     "REPORTS_AGENT": "Edustajat",
     "REPORTS_LABEL": "Tunnisteet",
     "REPORTS_INBOX": "Inbox",
