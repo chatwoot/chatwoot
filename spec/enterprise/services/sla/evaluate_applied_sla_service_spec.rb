@@ -30,7 +30,7 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
         described_class.new(applied_sla: applied_sla).perform
         expect(Rails.logger).to have_received(:warn).with("SLA frt missed for conversation #{conversation.id} in account " \
                                                           "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
-        expect(applied_sla.reload.sla_status).to eq('missed')
+        expect(applied_sla.reload.sla_status).to eq('active_with_misses')
       end
 
       it 'generates notifciations for assignee, admins and participants' do
@@ -67,7 +67,7 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
         described_class.new(applied_sla: applied_sla).perform
         expect(Rails.logger).to have_received(:warn).with("SLA nrt missed for conversation #{conversation.id} in account " \
                                                           "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
-        expect(applied_sla.reload.sla_status).to eq('missed')
+        expect(applied_sla.reload.sla_status).to eq('active_with_misses')
       end
 
       it 'generates notifciations for assignee, admins and participants' do
@@ -102,7 +102,7 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
         expect(Rails.logger).to have_received(:warn).with("SLA rt missed for conversation #{conversation.id} in account " \
                                                           "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
 
-        expect(applied_sla.reload.sla_status).to eq('missed')
+        expect(applied_sla.reload.sla_status).to eq('active_with_misses')
       end
 
       it 'generates notifciations for assignee, admins and participants' do
@@ -155,7 +155,7 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
                                                           "#{applied_sla.account_id} for sla_policy #{sla_policy.id}").exactly(1).time
         expect(Rails.logger).to have_received(:warn).with("SLA nrt missed for conversation #{conversation.id} in account " \
                                                           "#{applied_sla.account_id} for sla_policy #{sla_policy.id}").exactly(1).time
-        expect(applied_sla.reload.sla_status).to eq('missed')
+        expect(applied_sla.reload.sla_status).to eq('active_with_misses')
       end
 
       it 'generate notifications for all missed SLAs' do
@@ -266,7 +266,7 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
     end
 
     it 'updates the SLA status to missed' do
-      expect(applied_sla.reload.sla_status).to eq('missed')
+      expect(applied_sla.reload.sla_status).to eq('active_with_misses')
     end
 
     it 'generates notifications for all missed SLAs' do

@@ -106,6 +106,15 @@ en:
       avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: Timezone
+    sla_csv:
+      conversation_id: Conversation ID
+      sla_policy_breached: SLA Policy
+      assignee: Assignee
+      team: Team
+      inbox: Inbox
+      labels: Labels
+      conversation_link: Link to the Conversation
+      breached_events: Breached Events
     default_group_by: day
     csat:
       headers:
