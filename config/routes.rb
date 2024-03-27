@@ -436,6 +436,7 @@ Rails.application.routes.draw do
   # Internal Monitoring Routes
   require 'sidekiq/web'
   require 'sidekiq/cron/web'
+  require 'sidekiq/api'
 
   devise_for :super_admins, path: 'super_admin', controllers: { sessions: 'super_admin/devise/sessions' }
   devise_scope :super_admin do
@@ -489,6 +490,9 @@ Rails.application.routes.draw do
   # Routes for swagger docs
   get '/swagger/*path', to: 'swagger#respond'
   get '/swagger', to: 'swagger#respond'
+
+  match "health-size" => proc { [200, {"Content-Type" => "text/plain"}, [Sidekiq::Queue.new.size]] }, via: :get
+  match "health-lat" => proc { [200, {"Content-Type" => "text/plain"}, [Sidekiq::Queue.new.latency]] }, via: :get
 
   # ----------------------------------------------------------------------
   # Routes for testing
