@@ -37,6 +37,7 @@
         class="flex items-center col-span-6 px-0 py-2 text-sm tracking-[0.5] text-slate-700 dark:text-slate-100 rtl:text-right"
       >
         #198 with John Doe
+        <card-labels :conversation-id="148" />
       </div>
       <div
         class="flex items-center col-span-2 px-0 py-2 text-sm tracking-[0.5] text-slate-700 dark:text-slate-100 rtl:text-right"
@@ -53,3 +54,7 @@
     </div>
   </div>
 </template>
+
+<script setup>
+import CardLabels from 'dashboard/components/widgets/conversation/conversationCardComponents/CardLabels.vue';
+</script>
