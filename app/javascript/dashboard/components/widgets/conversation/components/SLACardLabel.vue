@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="hasSlaThreshold"
     class="flex items-center px-2 truncate border min-w-fit border-slate-75 dark:border-slate-700"
     :class="showExtendedInfo ? 'py-[5px] rounded-lg' : 'py-0.5 gap-1 rounded'"
   >
@@ -68,6 +69,9 @@ export default {
     sla() {
       if (!this.slaPolicyId) return null;
       return this.activeSLA(this.slaPolicyId);
+    },
+    hasSlaThreshold() {
+      return this.slaStatus?.threshold;
     },
     isSlaMissed() {
       return this.slaStatus?.isSlaMissed;
