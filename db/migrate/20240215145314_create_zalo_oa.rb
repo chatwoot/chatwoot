@@ -7,6 +7,7 @@ class CreateZaloOa < ActiveRecord::Migration[7.0]
       t.integer :account_id, null: false
       t.string :oa_id, null: false
       t.index :oa_id, name: 'index_channel_zalo_oa_on_oa_id', unique: true
+      t.index :oa_id, :account_id, name: 'index_channel_zalo_oa_on_oa_id_and_account_id', unique: true
       t.timestamps null: false
     end
   end

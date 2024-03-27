@@ -77,6 +77,11 @@ Rails.application.routes.draw do
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
             resource :twilio_channel, only: [:create]
+            resources :stringee_channels, only: [:create, :destroy], param: :inbox_id do
+              collection do
+                patch :update_agents
+              end
+            end
             resource :zalo_channel, only: [] do
               collection do
                 post :create

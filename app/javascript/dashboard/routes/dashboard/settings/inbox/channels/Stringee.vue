@@ -25,15 +25,15 @@
       </div>
 
       <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
-        <label :class="{ error: $v.webhookUrl.$error }">
+        <label :class="{ error: $v.phoneNumber.$error }">
           {{ $t('INBOX_MGMT.ADD.STRINGEE_CHANNEL.PHONENUMBER.LABEL') }}
           <input
-            v-model.trim="webhookUrl"
+            v-model.trim="phoneNumber"
             type="text"
             :placeholder="
               $t('INBOX_MGMT.ADD.STRINGEE_CHANNEL.PHONENUMBER.PLACEHOLDER')
             "
-            @blur="$v.webhookUrl.$touch"
+            @blur="$v.phoneNumber.$touch"
           />
         </label>
         <p class="help-text">
@@ -58,9 +58,6 @@ import { required } from 'vuelidate/lib/validators';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 
-const shouldBeWebhookUrl = (value = '') =>
-  value ? value.startsWith('http') : true;
-
 export default {
   components: {
     PageHeader,
@@ -69,7 +66,7 @@ export default {
   data() {
     return {
       channelName: '',
-      webhookUrl: '',
+      phoneNumber: '',
     };
   },
   computed: {
@@ -79,7 +76,7 @@ export default {
   },
   validations: {
     channelName: { required },
-    webhookUrl: { shouldBeWebhookUrl },
+    phoneNumber: { required },
   },
   methods: {
     async createChannel() {
@@ -89,19 +86,20 @@ export default {
       }
 
       try {
-        const apiChannel = await this.$store.dispatch('inboxes/createChannel', {
-          name: this.channelName,
-          channel: {
-            type: 'api',
-            PHONENUMBER: this.webhookUrl,
-          },
-        });
+        const inbox = await this.$store.dispatch(
+          'inboxes/createStringeeChannel',
+          {
+            inbox_name: this.channelName,
+            phone_number: this.phoneNumber,
+          }
+        );
 
         router.replace({
           name: 'settings_inboxes_add_agents',
           params: {
             page: 'new',
-            inbox_id: apiChannel.id,
+            channel_type: inbox.channel_type,
+            inbox_id: inbox.id,
           },
         });
       } catch (error) {
