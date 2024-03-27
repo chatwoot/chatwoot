@@ -2,7 +2,9 @@
   <li v-if="shouldRenderMessage" :id="`message${data.id}`" :class="alignBubble">
     <div :class="wrapClass">
       <div
-        v-if="isFailed && !hasOneDayPassed && !isAnEmailInbox"
+        v-if="
+          isFailed && !data.source_id && !hasOneDayPassed && !isAnEmailInbox
+        "
         class="message-failed--alert"
       >
         <woot-button
