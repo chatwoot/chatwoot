@@ -2,7 +2,7 @@ module ErrorTrackable
   extend ActiveSupport::Concern
 
   class_methods do
-    def setup_error_threshold(threshold, trigger_method, reset_on = nil)
+    def setup_error_threshold(threshold, trigger_method, reset_on)
       class_attribute :error_threshold, :error_trigger_method
 
       self.error_threshold = threshold
