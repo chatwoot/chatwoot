@@ -1,12 +1,7 @@
 <template>
   <div
-    v-if="showSLACard"
-    class="flex items-center px-2 truncate border border-solid min-w-fit w-fit border-slate-75 dark:border-slate-700"
-    :class="
-      showExtendedInfo
-        ? 'py-[5px] h-[26px] rounded-lg'
-        : 'py-0.5 gap-1 h-5 rounded'
-    "
+    class="flex items-center px-2 truncate border min-w-fit border-slate-75 dark:border-slate-700"
+    :class="showExtendedInfo ? 'py-[5px] rounded-lg' : 'py-0.5 gap-1 rounded'"
   >
     <div
       class="flex items-center gap-1"
@@ -67,9 +62,6 @@ export default {
     ...mapGetters({
       activeSLA: 'sla/getSLAById',
     }),
-    showSLACard() {
-      return this.slaPolicyId && this.slaStatus?.threshold;
-    },
     slaPolicyId() {
       return this.chat?.sla_policy_id;
     },
