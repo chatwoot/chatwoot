@@ -12,25 +12,33 @@
 
 module Reauthorizable
   extend ActiveSupport::Concern
-  include ErrorTrackable
-
-  included do
-    setup_error_threshold(
-      self::AUTHORIZATION_ERROR_THRESHOLD,
-      :prompt_reauthorization!
-    )
-  end
 
   AUTHORIZATION_ERROR_THRESHOLD = 2
 
   # model attribute
   def reauthorization_required?
-    threshold_breached?
+    ::Redis::Alfred.get(reauthorization_required_key).present?
+  end
+
+  # model attribute
+  def authorization_error_count
+    ::Redis::Alfred.get(authorization_error_count_key).to_i
+  end
+
+  # action to be performed when we receive authorization errors
+  # Implement in your exception handling logic for authorization errors
+  def authorization_error!
+    ::Redis::Alfred.incr(authorization_error_count_key)
+    # we are giving precendence to the authorization error threshhold defined in the class
+    # so that channels can override the default value
+    prompt_reauthorization! if authorization_error_count >= self.class::AUTHORIZATION_ERROR_THRESHOLD
   end
 
   # Performed automatically if error threshold is breached
   # could used to manually prompt reauthorization if auth scope changes
   def prompt_reauthorization!
+    ::Redis::Alfred.set(reauthorization_required_key, true)
+
     mailer = AdministratorNotifications::ChannelNotificationsMailer.with(account: account)
 
     case self.class.name
@@ -55,6 +63,17 @@ module Reauthorizable
 
   # call this after you successfully Reauthorized the object in UI
   def reauthorized!
-    reset_error_count
+    ::Redis::Alfred.delete(authorization_error_count_key)
+    ::Redis::Alfred.delete(reauthorization_required_key)
+  end
+
+  private
+
+  def authorization_error_count_key
+    format(::Redis::Alfred::AUTHORIZATION_ERROR_COUNT, obj_type: self.class.table_name.singularize, obj_id: id)
+  end
+
+  def reauthorization_required_key
+    format(::Redis::Alfred::REAUTHORIZATION_REQUIRED, obj_type: self.class.table_name.singularize, obj_id: id)
   end
 end
