@@ -74,16 +74,21 @@ class Sla::EvaluateAppliedSlaService
 
     return unless applied_sla.sla_status != 'missed'
 
-    applied_sla.update!(sla_status: 'missed')
+    applied_sla.update!(sla_status: 'active_with_misses')
   end
 
   def handle_hit_sla(applied_sla)
-    return unless applied_sla.active?
-
-    applied_sla.update!(sla_status: 'hit')
-    Rails.logger.info "SLA hit for conversation #{applied_sla.conversation.id} " \
-                      "in account #{applied_sla.account_id} " \
-                      "for sla_policy #{applied_sla.sla_policy.id}"
+    if applied_sla.active?
+      applied_sla.update!(sla_status: 'hit')
+      Rails.logger.info "SLA hit for conversation #{applied_sla.conversation.id} " \
+                        "in account #{applied_sla.account_id} " \
+                        "for sla_policy #{applied_sla.sla_policy.id}"
+    else
+      applied_sla.update!(sla_status: 'missed')
+      Rails.logger.info "SLA missed for conversation #{applied_sla.conversation.id} " \
+                        "in account #{applied_sla.account_id} " \
+                        "for sla_policy #{applied_sla.sla_policy.id}"
+    end
   end
 
   def create_sla_event(applied_sla, event_type, meta = {})

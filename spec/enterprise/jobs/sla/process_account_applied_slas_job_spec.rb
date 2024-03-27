@@ -7,6 +7,7 @@ RSpec.describe Sla::ProcessAccountAppliedSlasJob do
     let!(:applied_sla) { create(:applied_sla, account: account, sla_policy: sla_policy, sla_status: 'active') }
     let!(:hit_applied_sla) { create(:applied_sla, account: account, sla_policy: sla_policy, sla_status: 'hit') }
     let!(:miss_applied_sla) { create(:applied_sla, account: account, sla_policy: sla_policy, sla_status: 'missed') }
+    let!(:active_with_misses_applied_sla) { create(:applied_sla, account: account, sla_policy: sla_policy, sla_status: 'active_with_misses') }
     let!(:conversation) { create(:conversation, account: account, status: 'resolved') }
     let!(:missed_applied_sla_with_resolved_conversation) do
       create(:applied_sla, account: account,
@@ -20,13 +21,14 @@ RSpec.describe Sla::ProcessAccountAppliedSlasJob do
 
     it 'calls the ProcessAppliedSlaJob for both active/missed' do
       # check if both applied_sla and miss_applied_sla are called
-      expect(Sla::ProcessAppliedSlaJob).to receive(:perform_later).with(miss_applied_sla).and_call_original
+      expect(Sla::ProcessAppliedSlaJob).to receive(:perform_later).with(active_with_misses_applied_sla).and_call_original
       expect(Sla::ProcessAppliedSlaJob).to receive(:perform_later).with(applied_sla).and_call_original
       described_class.perform_now(account)
     end
 
     it 'does not call the ProcessAppliedSlaJob for applied slas that are hit or if the conversation is resolved' do
       expect(Sla::ProcessAppliedSlaJob).not_to receive(:perform_later).with(hit_applied_sla)
+      expect(Sla::ProcessAppliedSlaJob).not_to receive(:perform_later).with(miss_applied_sla)
       expect(Sla::ProcessAppliedSlaJob).not_to receive(:perform_later).with(missed_applied_sla_with_resolved_conversation)
       described_class.perform_now(account)
     end
