@@ -85,21 +85,21 @@ RSpec.describe AutomationRule do
     let(:automation_rule) { create(:automation_rule, account: account, active: true) }
 
     it 'increments the error count' do
-      automation_rule.track_error
-      expect(automation_rule.send(:error_count)).to eq(1)
+      automation_rule.invalid_condition_error!
+      expect(automation_rule.send(:condition_error_counts)).to eq(1)
     end
 
     it 'disables the automation rule if error count exceeds threshold' do
-      allow(automation_rule).to receive(:error_count).and_return(3)
-      automation_rule.track_error
+      allow(automation_rule).to receive(:condition_error_counts).and_return(3)
+      automation_rule.invalid_condition_error!
       expect(automation_rule.active).to be false
     end
 
     it 'resets the error count if the rule is updated' do
-      automation_rule.track_error
-      expect(automation_rule.send(:error_count)).to eq(1)
+      automation_rule.invalid_condition_error!
+      expect(automation_rule.send(:condition_error_counts)).to eq(1)
       automation_rule.update(name: 'New Name')
-      expect(automation_rule.send(:error_count)).to eq(0)
+      expect(automation_rule.send(:condition_error_counts)).to eq(0)
     end
   end
 end
