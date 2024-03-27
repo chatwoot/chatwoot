@@ -2,8 +2,8 @@
   "SLA": {
     "HEADER": "SLA",
     "ADD_ACTION": "Añadir SLA",
-    "DESCRIPTION": "Service Level Agreements (SLAs) are contracts that define clear expectations between your team and customers. They establish standards for response and resolution times, creating a framework for accountability and ensures a consistent, high-quality experience.",
-    "LEARN_MORE": "Learn more about SLA",
+    "DESCRIPTION": "Los Acuerdos de Nivel de Servicio (SLA) son contratos que definen expectativas claras entre su equipo y sus clientes. Establecen normas para los tiempos de respuesta y resolución, creando un marco para la responsabilidad y garantiza una experiencia coherente y de alta calidad.",
+    "LEARN_MORE": "Más información sobre SLA",
     "LOADING": "Obteniendo SLAs",
     "LIST": {
       "404": "No hay SLAs disponibles en esta cuenta.",
