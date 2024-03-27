@@ -505,5 +505,8 @@
     "THURSDAY": "Thursday",
     "FRIDAY": "Friday",
     "SATURDAY": "Saturday"
+  },
+  "SLA_REPORTS": {
+    "HEADER": "SLA Reports"
   }
 }
