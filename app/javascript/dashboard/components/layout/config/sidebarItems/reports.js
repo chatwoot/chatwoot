@@ -71,6 +71,13 @@ const reports = accountId => ({
       toState: frontendURL(`accounts/${accountId}/reports/teams`),
       toStateName: 'team_reports',
     },
+    {
+      icon: 'people',
+      label: 'REPORTS_SLA',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/reports/sla`),
+      toStateName: 'sla_reports',
+    },
   ],
 });
 
