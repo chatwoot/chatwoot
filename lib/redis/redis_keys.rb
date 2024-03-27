@@ -21,10 +21,6 @@ module Redis::RedisKeys
   # sorted set storing online presense of account users
   ONLINE_PRESENCE_USERS = 'ONLINE_PRESENCE::%<account_id>d::USERS'.freeze
 
-  ## Authorization Status Keys
-  # Used to track token expiry and such issues for facebook slack integrations etc
-  REAUTHORIZATION_REQUIRED = 'REAUTHORIZATION_REQUIRED:%<obj_type>s:%<obj_id>d'.freeze
-
   ## Internal Installation related keys
   CHATWOOT_INSTALLATION_ONBOARDING = 'CHATWOOT_INSTALLATION_ONBOARDING'.freeze
   CHATWOOT_INSTALLATION_CONFIG_RESET_WARNING = 'CHATWOOT_CONFIG_RESET_WARNING'.freeze
