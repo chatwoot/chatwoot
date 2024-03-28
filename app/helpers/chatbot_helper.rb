@@ -6,13 +6,6 @@ module ChatbotHelper
 
   CONVERSATION_ID_TO_BOT_STATUS_MAPPING = {}
 
-  # # tracks currently active Inbox , by stroign their InboxID
-  # @active_inbox_id = nil
-
-  # def self.active_inbox_id=(value)
-  #   @active_inbox_id = value
-  # end
-
   def self.toggle_bot_status(conversation_id)
     CONVERSATION_ID_TO_BOT_STATUS_MAPPING[conversation_id] = !CONVERSATION_ID_TO_BOT_STATUS_MAPPING[conversation_id]
   end

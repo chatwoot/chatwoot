@@ -915,6 +915,7 @@ DEPENDENCIES
   hairtrigger
   hashie
   html2text!
+  http
   image_processing
   informers
   jbuilder
