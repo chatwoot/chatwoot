@@ -1,17 +1,17 @@
+import { createPendingMessage } from 'dashboard/helper/commons';
+import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
 import Vue from 'vue';
-import types from '../../mutation-types';
 import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
-import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
-import { createPendingMessage } from 'dashboard/helper/commons';
-import {
-  buildConversationList,
-  isOnMentionsView,
-  isOnUnattendedView,
-  isOnFoldersView,
-} from './helpers/actionHelpers';
+import types from '../../mutation-types';
 import messageReadActions from './actions/messageReadActions';
 import messageTranslateActions from './actions/messageTranslateActions';
+import {
+  buildConversationList,
+  isOnFoldersView,
+  isOnMentionsView,
+  isOnUnattendedView,
+} from './helpers/actionHelpers';
 
 export const hasMessageFailedWithExternalError = pendingMessage => {
   // This helper is used to check if the message has failed with an external error.
@@ -349,18 +349,24 @@ const actions = {
     }
   },
 
-  updateConversation({ commit, dispatch }, conversation) {
+  updateConversation({ commit, dispatch, rootState }, conversation) {
     const {
       meta: { sender },
     } = conversation;
-    commit(types.UPDATE_CONVERSATION, conversation);
+    if (
+      !isOnFoldersView(rootState) &&
+      !isOnMentionsView(rootState) &&
+      !isOnUnattendedView(rootState)
+    ) {
+      commit(types.UPDATE_CONVERSATION, conversation);
 
-    dispatch('conversationLabels/setConversationLabel', {
-      id: conversation.id,
-      data: conversation.labels,
-    });
+      dispatch('conversationLabels/setConversationLabel', {
+        id: conversation.id,
+        data: conversation.labels,
+      });
 
-    dispatch('contacts/setContact', sender);
+      dispatch('contacts/setContact', sender);
+    }
   },
 
   updateConversationLastActivity(
