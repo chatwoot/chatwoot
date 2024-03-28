@@ -1,4 +1,4 @@
-module AgentNotifications::ConversationNotificationsMailer
+module Enterprise::AgentNotifications::ConversationNotificationsMailer
   def sla_missed_first_response(conversation, agent, sla_policy)
     return unless smtp_config_set_or_development?
 
