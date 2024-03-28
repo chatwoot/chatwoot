@@ -1,6 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe AgentNotifications::ConversationNotificationsMailer do
+# rails helper is using infer filetype to detect rspec type
+# so we need to include type: :mailer to make this test work in enterprise namespace
+RSpec.describe AgentNotifications::ConversationNotificationsMailer, type: :mailer do
   let(:class_instance) { described_class.new }
   let!(:account) { create(:account) }
   let(:agent) { create(:user, email: 'agent1@example.com', account: account) }
