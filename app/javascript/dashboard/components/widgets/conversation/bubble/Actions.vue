@@ -202,7 +202,8 @@ export default {
         this.isATwilioChannel ||
         this.isAFacebookInbox ||
         this.isASmsInbox ||
-        this.isATelegramChannel
+        this.isATelegramChannel ||
+        this.isANotificaMeChannel
       ) {
         return this.sourceId && this.isSent;
       }

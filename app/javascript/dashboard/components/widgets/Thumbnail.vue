@@ -115,6 +115,7 @@ export default {
         sms: 'sms',
         'Channel::Line': 'line',
         'Channel::Telegram': 'telegram',
+        'Channel::NotificaMe': 'notifica_me',
         'Channel::WebWidget': '',
       }[this.badge];
     },

@@ -279,6 +279,29 @@
           "ERROR_MESSAGE": "We were not able to save the api channel"
         }
       },
+      "NOTIFICA_ME_CHANNEL": {
+        "TITLE": "NotificaMe Channel",
+        "DESC": "Integrate with NotificaMe Hub.",
+        "CHANNEL_NAME": {
+          "LABEL": "Channel Name",
+          "PLACEHOLDER": "Please enter a channel name",
+          "ERROR": "This field is required"
+        },
+        "CHANNEL": {
+          "LABEL": "Channel",
+          "SUBTITLE": "Choose channel",
+          "PLACEHOLDER": "Choose a channel, if empty, put the channel token first"
+        },
+        "CHANNEL_TOKEN": {
+          "LABEL": "Channel Token",
+          "SUBTITLE": "Configure channel token",
+          "PLACEHOLDER": "Configure channel token"
+        },
+        "SUBMIT_BUTTON": "Create NotificaMe Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the NotificaMe channel"
+        }
+      },
       "EMAIL_CHANNEL": {
         "TITLE": "Email Channel",
         "DESC": "Integrate your email inbox.",

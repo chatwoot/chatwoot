@@ -7,6 +7,7 @@ import Sms from './channels/Sms';
 import Whatsapp from './channels/Whatsapp';
 import Line from './channels/Line';
 import Telegram from './channels/Telegram';
+import NotificaMe from './channels/NotificaMe';
 
 const channelViewList = {
   facebook: Facebook,
@@ -18,6 +19,7 @@ const channelViewList = {
   whatsapp: Whatsapp,
   line: Line,
   telegram: Telegram,
+  notifica_me: NotificaMe,
 };
 
 export default {
