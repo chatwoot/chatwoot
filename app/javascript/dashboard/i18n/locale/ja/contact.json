@@ -187,7 +187,7 @@
     "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
+    "BUTTON_LABEL": "チャットを開始",
     "TITLE": "New conversation",
     "DESC": "Start a new conversation by sending a new message.",
     "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
