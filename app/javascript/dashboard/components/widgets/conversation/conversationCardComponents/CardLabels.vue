@@ -1,13 +1,8 @@
 <template>
-  <div
-    v-show="activeLabels.length"
-    ref="labelContainer"
-    v-resize="computeVisibleLabelPosition"
-    class="w-4/5 label-container"
-  >
+  <div v-show="activeLabels.length" ref="labelContainer">
     <div
-      class="flex items-end flex-shrink min-w-0 labels-wrap gap-y-1"
-      :class="{ expand: showAllLabels }"
+      class="flex items-end flex-shrink min-w-0 gap-y-1"
+      :class="{ 'h-auto overflow-visible flex-row flex-wrap': showAllLabels }"
     >
       <woot-label
         v-for="(label, index) in activeLabels"
@@ -54,24 +49,30 @@ export default {
       labelPosition: -1,
     };
   },
+  watch: {
+    activeLabels() {
+      this.$nextTick(() => this.computeVisibleLabelPosition());
+    },
+  },
+  mounted() {
+    this.computeVisibleLabelPosition();
+  },
   methods: {
     onShowLabels(e) {
       e.stopPropagation();
       this.showAllLabels = !this.showAllLabels;
     },
-    computeVisibleLabelPosition(entry) {
-      const labelContainer = entry.target;
+    computeVisibleLabelPosition() {
+      const labelContainer = this.$refs.labelContainer;
       const labels = this.$refs.labelContainer.querySelectorAll('.label');
       let labelOffset = 0;
       this.showExpandLabelButton = false;
-
       Array.from(labels).forEach((label, index) => {
         labelOffset += label.offsetWidth + 8;
-
         if (labelOffset < labelContainer.clientWidth - 16) {
           this.labelPosition = index;
         } else {
-          this.showExpandLabelButton = labels.length > 1;
+          this.showExpandLabelButton = true;
         }
       });
     },
@@ -88,10 +89,6 @@ export default {
 }
 
 .labels-wrap {
-  &.expand {
-    @apply h-auto overflow-visible flex-row flex-wrap;
-  }
-
   .secondary {
     @apply border border-solid border-slate-100 dark:border-slate-700;
   }

@@ -17,62 +17,46 @@ const calculateMissedSLATime = threshold => {
 
 const findMostUrgentSLAStatus = SLAStatuses => {
   // Sort the SLAs based on the threshold and return the most urgent SLA
-  SLAStatuses.sort((a, b) => Math.abs(a.threshold) - Math.abs(b.threshold));
+  SLAStatuses.sort(
+    (sla1, sla2) => Math.abs(sla1.threshold) - Math.abs(sla2.threshold)
+  );
   return SLAStatuses[0];
 };
 
-const convertToMinutes = time => Math.floor(time / 60);
-const convertToHoursAndMinutes = minutes => [
-  Math.floor(minutes / 60),
-  minutes % 60,
-];
-const convertToDaysAndHours = hours => [Math.floor(hours / 24), hours % 24];
-const convertToMonthsAndDays = days => [Math.floor(days / 30), days % 30];
-const convertToYearsAndMonths = months => [
-  Math.floor(months / 12),
-  months % 12,
-];
+const formatSLATime = seconds => {
+  const units = {
+    y: 31536000, // 60 * 60 * 24 * 365
+    mo: 2592000, // 60 * 60 * 24 * 30
+    d: 86400, // 60 * 60 * 24
+    h: 3600, // 60 * 60
+    m: 60,
+  };
 
-const formatTime = (value, label, nextValue, nextLabel) => {
-  if (value > 0) return `${value}${label} ${nextValue}${nextLabel}`;
-  return null;
-};
+  if (seconds < 60) {
+    return '1m';
+  }
 
-const formatDuration = (years, months, days, hours, minutes) => {
-  return (
-    formatTime(years, 'y', months, 'mo') ||
-    formatTime(months, 'mo', days, 'd') ||
-    formatTime(days, 'd', hours, 'h') ||
-    formatTime(hours, 'h', minutes, 'm') ||
-    `${minutes > 0 ? minutes : 1}m`
-  );
-};
+  // we will only show two parts, two max granularity's, h-m, y-d, d-h, m, but no seconds
+  const parts = [];
 
-// Format the SLA time in the format of years, months, days, hours and minutes, eg. 1y 2mo 3d 4h 5m
-export const formatSLATime = time => {
-  if (time < 0) return '';
-
-  const minutes = convertToMinutes(time);
-  const [hours, remainingMinutes] = convertToHoursAndMinutes(minutes);
-  const [days, remainingHours] = convertToDaysAndHours(hours);
-  const [months, remainingDays] = convertToMonthsAndDays(days);
-  const [years, remainingMonths] = convertToYearsAndMonths(months);
-
-  return formatDuration(
-    years,
-    remainingMonths,
-    remainingDays,
-    remainingHours,
-    remainingMinutes
-  );
+  Object.keys(units).forEach(unit => {
+    const value = Math.floor(seconds / units[unit]);
+    if (seconds < 60 && parts.length > 0) return;
+    if (parts.length === 2) return;
+    if (value > 0) {
+      parts.push(value + unit);
+      seconds -= value * units[unit];
+    }
+  });
+  return parts.join(' ');
 };
 
 const createSLAObject = (
   type,
   {
-    first_response_time_threshold,
-    next_response_time_threshold,
-    resolution_time_threshold,
+    first_response_time_threshold: frtThreshold,
+    next_response_time_threshold: nrtThreshold,
+    resolution_time_threshold: rtThreshold,
   } = {},
   {
     first_reply_created_at: firstReplyCreatedAt,
@@ -84,27 +68,22 @@ const createSLAObject = (
   // Mapping of breach types to their logic
   const SLATypes = {
     FRT: {
-      threshold: calculateThreshold(createdAt, first_response_time_threshold),
+      threshold: calculateThreshold(createdAt, frtThreshold),
       //   Check FRT only if threshold is not null and first reply hasn't been made
       condition:
-        first_response_time_threshold !== null &&
+        frtThreshold !== null &&
         (!firstReplyCreatedAt || firstReplyCreatedAt === 0),
     },
     NRT: {
-      threshold: calculateThreshold(
-        waitingSince || createdAt,
-        next_response_time_threshold
-      ),
+      threshold: calculateThreshold(waitingSince || createdAt, nrtThreshold),
       // Check NRT only if threshold is not null, first reply has been made and we are waiting since
       condition:
-        next_response_time_threshold !== null &&
-        !!firstReplyCreatedAt &&
-        !!waitingSince,
+        nrtThreshold !== null && !!firstReplyCreatedAt && !!waitingSince,
     },
     RT: {
-      threshold: calculateThreshold(createdAt, resolution_time_threshold),
+      threshold: calculateThreshold(createdAt, rtThreshold),
       // Check RT only if the conversation is open and threshold is not null
-      condition: status === 'open' && resolution_time_threshold !== null,
+      condition: status === 'open' && rtThreshold !== null,
     },
   };
 

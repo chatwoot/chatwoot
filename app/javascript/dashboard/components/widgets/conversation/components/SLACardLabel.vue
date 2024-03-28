@@ -5,8 +5,8 @@
     :class="showExtendedInfo ? 'rounded-lg' : 'rounded'"
   >
     <div
-      class="flex items-center w-full px-2 truncate"
-      :class="showExtendedInfo ? 'py-[5px]' : 'gap-1 py-0.5'"
+      class="flex items-center w-full truncate"
+      :class="showExtendedInfo ? 'h-[26px] px-1.5' : 'h-5 px-2'"
       @mouseover="showSlaPopover = true"
       @mouseleave="showSlaPopover = false"
     >

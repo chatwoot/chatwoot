@@ -86,10 +86,7 @@
           {{ unreadCount > 9 ? '9+' : unreadCount }}
         </span>
       </div>
-      <div class="flex items-start gap-1 mt-0.5 mx-2 mb-0">
-        <SLA-card-label v-if="hasSlaPolicyId" :chat="chat" />
-        <card-labels :conversation-id="chat.id" />
-      </div>
+      <card-labels :conversation-id="chat.id" class="mt-0.5 mx-2 mb-0" />
     </div>
     <woot-context-menu
       v-if="showContextMenu"
@@ -128,7 +125,6 @@ import alertMixin from 'shared/mixins/alertMixin';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import CardLabels from './conversationCardComponents/CardLabels.vue';
 import PriorityMark from './PriorityMark.vue';
-import SLACardLabel from './components/SLACardLabel.vue';
 
 export default {
   components: {
@@ -139,7 +135,6 @@ export default {
     TimeAgo,
     MessagePreview,
     PriorityMark,
-    SLACardLabel,
   },
 
   mixins: [inboxMixin, timeMixin, conversationMixin, alertMixin],
