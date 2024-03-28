@@ -505,5 +505,18 @@
     "THURSDAY": "Thursday",
     "FRIDAY": "Friday",
     "SATURDAY": "Saturday"
+  },
+  "SLA_REPORTS": {
+    "HEADER": "SLA Reports",
+    "METRICS": {
+      "HIT_RATE": {
+        "LABEL": "Hit Rate",
+        "TOOLTIP": "Percentage of SLAs created were completed successfully"
+      },
+      "NO_OF_BREACHES": {
+        "LABEL": "Number of Breaches",
+        "TOOLTIP": "The total SLA breaches in a certain period."
+      }
+    }
   }
 }
