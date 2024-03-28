@@ -1,8 +1,10 @@
 <template>
   <div
     v-if="hasSlaThreshold"
-    class="flex items-center px-2 truncate border min-w-fit border-slate-75 dark:border-slate-700"
-    :class="showExtendedInfo ? 'py-[5px] rounded-lg' : 'py-0.5 gap-1 rounded'"
+    class="flex items-center truncate border min-w-fit border-slate-75 dark:border-slate-700"
+    :class="
+      showExtendedInfo ? 'h-[26px] px-1.5 rounded-lg' : 'h-5 px-2 gap-1 rounded'
+    "
   >
     <div
       class="flex items-center gap-1"

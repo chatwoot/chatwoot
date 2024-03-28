@@ -88,7 +88,7 @@
       </div>
       <div class="flex items-start gap-1 mt-0.5 mx-2 mb-0">
         <SLA-card-label v-if="hasSlaPolicyId" :chat="chat" />
-        <card-labels :conversation-id="chat.id" />
+        <card-labels :conversation-id="chat.id" class="w-4/5" />
       </div>
     </div>
     <woot-context-menu

@@ -3,11 +3,10 @@
     v-show="activeLabels.length"
     ref="labelContainer"
     v-resize="computeVisibleLabelPosition"
-    class="w-4/5 label-container"
   >
     <div
-      class="flex items-end flex-shrink min-w-0 labels-wrap gap-y-1"
-      :class="{ expand: showAllLabels }"
+      class="flex items-end flex-shrink min-w-0 gap-y-1"
+      :class="{ 'h-auto overflow-visible flex-row flex-wrap': showAllLabels }"
     >
       <woot-label
         v-for="(label, index) in activeLabels"
@@ -88,10 +87,6 @@ export default {
 }
 
 .labels-wrap {
-  &.expand {
-    @apply h-auto overflow-visible flex-row flex-wrap;
-  }
-
   .secondary {
     @apply border border-solid border-slate-100 dark:border-slate-700;
   }

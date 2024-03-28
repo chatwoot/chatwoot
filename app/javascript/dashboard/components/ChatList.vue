@@ -1,10 +1,10 @@
 <template>
   <div
-    class="flex flex-col flex-shrink-0 overflow-hidden border-r conversations-list-wrap flex-basis-clamp rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-800/50"
-    :class="{
-      hide: !showConversationList,
-      'list--full-width': isOnExpandedLayout,
-    }"
+    class="flex flex-col flex-shrink-0 overflow-hidden border-r conversations-list-wrap rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-800/50"
+    :class="[
+      { hidden: !showConversationList },
+      isOnExpandedLayout ? 'basis-full' : 'flex-basis-clamp',
+    ]"
   >
     <slot />
     <div
@@ -16,7 +16,7 @@
     >
       <div class="flex max-w-[85%] justify-center items-center">
         <h1
-          class="mb-0 overflow-hidden text-xl font-medium break-words whitespace-nowrap text-ellipsis text-black-900 dark:text-slate-100"
+          class="text-xl font-medium break-words truncate text-black-900 dark:text-slate-100"
           :title="pageTitle"
         >
           {{ pageTitle }}
@@ -1035,22 +1035,8 @@ export default {
 </style>
 
 <style scoped lang="scss">
-.conversations-list-wrap {
-  &.hide {
-    @apply hidden;
-  }
-
-  &.list--full-width {
-    @apply basis-full;
-  }
-}
-
 .conversations-list {
   @apply overflow-hidden hover:overflow-y-auto;
-}
-
-.load-more--button {
-  @apply text-center rounded-none;
 }
 
 .tab--chat-type {
