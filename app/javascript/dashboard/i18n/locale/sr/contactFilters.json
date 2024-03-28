@@ -44,7 +44,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Polje za potvrdu",
       "CREATED_AT": "Kreirano",
       "LAST_ACTIVITY": "Poslednja aktivnost",
-      "REFERER_LINK": "Veza preporuke"
+      "REFERER_LINK": "Veza preporuke",
+      "BLOCKED": "Blocked"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standardni filteri",

@@ -199,6 +199,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Vises nu:",
     "SWITCH": "Skift",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Samtaler",
     "INBOX": "Indbakke",
     "ALL_CONVERSATIONS": "Alle Samtaler",
@@ -237,6 +238,7 @@
     "CAMPAIGNS": "Kampagner",
     "ONGOING": "Igangværende",
     "ONE_OFF": "En rabat",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Agenter",
     "REPORTS_LABEL": "Etiketter",
     "REPORTS_INBOX": "Indbakke",

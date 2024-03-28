@@ -35,6 +35,14 @@
         "NAME": "മിഴിവ് എണ്ണം",
         "DESC": "( ആകെ )"
       },
+      "BOT_RESOLUTION_COUNT": {
+        "NAME": "മിഴിവ് എണ്ണം",
+        "DESC": "(ആകെ)"
+      },
+      "BOT_HANDOFF_COUNT": {
+        "NAME": "Handoff Count",
+        "DESC": "(ആകെ)"
+      },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
         "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
@@ -430,6 +438,27 @@
       "RESPONSE_RATE": {
         "LABEL": "പ്രതികരണ നിരക്ക്",
         "TOOLTIP": "മൊത്തം പ്രതികരണങ്ങളുടെ എണ്ണം / അയച്ച CSAT സർവേ സന്ദേശങ്ങളുടെ ആകെ എണ്ണം * 100"
+      }
+    }
+  },
+  "BOT_REPORTS": {
+    "HEADER": "Bot Reports",
+    "METRIC": {
+      "TOTAL_CONVERSATIONS": {
+        "LABEL": "No. of Conversations",
+        "TOOLTIP": "Total number of conversations handled by the bot"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total Responses",
+        "TOOLTIP": "Total number of responses sent by the bot"
+      },
+      "RESOLUTION_RATE": {
+        "LABEL": "Resolution Rate",
+        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+      },
+      "HANDOFF_RATE": {
+        "LABEL": "Handoff Rate",
+        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
       }
     }
   },

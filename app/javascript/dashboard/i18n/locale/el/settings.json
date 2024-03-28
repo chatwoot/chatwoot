@@ -199,6 +199,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Τρέχουσα προβολή:",
     "SWITCH": "Εναλλαγή",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Συζητήσεις",
     "INBOX": "Εισερχόμενα",
     "ALL_CONVERSATIONS": "Όλες Οι Συνομιλίες",
@@ -237,6 +238,7 @@
     "CAMPAIGNS": "Καμπάνιες",
     "ONGOING": "Σε Εξέλιξη",
     "ONE_OFF": "Ένα/μία από",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Πράκτορες",
     "REPORTS_LABEL": "Ετικέτες",
     "REPORTS_INBOX": "Εισερχόμενα",

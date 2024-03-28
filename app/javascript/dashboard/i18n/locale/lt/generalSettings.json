@@ -87,7 +87,10 @@
       "conversation_assignment": "Pokalbis priskirtas",
       "assigned_conversation_new_message": "Naujas pranešimas",
       "participating_conversation_new_message": "Naujas pranešimas",
-      "conversation_mention": "Paminėjimas"
+      "conversation_mention": "Paminėjimas",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {

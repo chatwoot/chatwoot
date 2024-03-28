@@ -544,7 +544,7 @@
         "PLACE_HOLDER": "Placeholder",
         "KEY": "Key",
         "TYPE": "Type",
-        "REQUIRED": "Required"
+        "REQUIRED": "必須"
       },
       "ENABLE": {
         "LABEL": "Enable pre chat form",

@@ -199,6 +199,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "กำลังดูอยู่:",
     "SWITCH": "Switch",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "การสนทนา",
     "INBOX": "กล่องข้อความ",
     "ALL_CONVERSATIONS": "การสนทนาทั้งหมด",
@@ -237,6 +238,7 @@
     "CAMPAIGNS": "แคมเปญ",
     "ONGOING": "ต่อเนื่อง",
     "ONE_OFF": "ครั้งเดียว",
+    "REPORTS_BOT": "บอท",
     "REPORTS_AGENT": "พนักงาน",
     "REPORTS_LABEL": "ป้ายกำกับ",
     "REPORTS_INBOX": "กล่องข้อความ",

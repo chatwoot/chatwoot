@@ -63,6 +63,9 @@ es:
         name: no debe comenzar ni terminar con símbolos, y no debe tener caracteres < > / \ @.
     custom_filters:
       number_of_records: Límite alcanzado. El número máximo de filtros personalizados permitidos para un usuario por cuenta es de 50.
+      invalid_attribute: Clave de atributo no válida - [%{key}]. La clave debe ser una de [%{allowed_keys}] o un atributo personalizado definido en la cuenta.
+      invalid_operator: Operador no válido. Los operadores permitidos para %{attribute_name} son [%{allowed_keys}].
+      invalid_value: Valor no válido. Los valores proporcionados para %{attribute_name} no son válidos
   reports:
     period: Reportando el periodo desde %{since} hasta %{until}
     utc_warning: El informe generado está en zona horaria UTC
@@ -89,6 +92,15 @@ es:
       avg_resolution_time: Tiempo promedio de resolución
     conversation_traffic_csv:
       timezone: Timezone
+    sla_csv:
+      conversation_id: ID de conversación
+      sla_policy_breached: Política de SLA
+      assignee: Cesionario
+      team: Equipo
+      inbox: Bandeja de entrada
+      labels: Etiquetas
+      conversation_link: Enlace a la conversación
+      breached_events: Eventos violados
     default_group_by: día
     csat:
       headers:
@@ -102,12 +114,15 @@ es:
         recorded_at: Fecha registrada
   notifications:
     notification_title:
-      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
-      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
-      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
-      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
-    attachment: "Attachment"
-    no_content: "No content"
+      conversation_creation: "Una conversación (#%{display_id}) ha sido creada en %{inbox_name}"
+      conversation_assignment: "Una conversación (#%{display_id}) te ha sido asignada"
+      assigned_conversation_new_message: "Un nuevo mensaje fue creado en la conversación (#%{display_id})"
+      conversation_mention: "Has sido mencionado en la conversación (#%{display_id})"
+      sla_missed_first_response: "Primera respuesta al objetivo de SLA perdida para la conversación (#%{display_id})"
+      sla_missed_next_response: "Falta la siguiente respuesta del SLA para la conversación (#%{display_id})"
+      sla_missed_resolution: "Falta la siguiente respuesta del SLA para la conversación (#%{display_id})"
+    attachment: "Adjunto"
+    no_content: "Sin contenido"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} te mencionó en la historia: "
@@ -139,6 +154,9 @@ es:
       labels:
         added: "%{user_name} agregó %{labels}"
         removed: "%{user_name} eliminó a %{labels}"
+      sla:
+        added: "%{user_name} agregó la política de SLA %{sla_name}"
+        removed: "%{user_name} eliminó la política de SLA %{sla_name}"
       muted: "%{user_name} ha silenciado la conversación"
       unmuted: "%{user_name} ha anulado el silenciado de la conversación"
     templates:
@@ -234,13 +252,13 @@ es:
   time_units:
     days:
       one: "%{count} día"
-      other: "%{count} days"
+      other: "%{count} días"
     hours:
       one: "%{count} hora"
-      other: "%{count} hours"
+      other: "%{count} horas"
     minutes:
       one: "%{count} minuto"
-      other: "%{count} minutes"
+      other: "%{count} minutos"
     seconds:
       one: "%{count} segundo"
-      other: "%{count} seconds"
+      other: "%{count} segundos"

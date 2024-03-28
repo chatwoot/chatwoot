@@ -44,7 +44,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Pole wyboru niestandardowe",
       "CREATED_AT": "Utworzono",
       "LAST_ACTIVITY": "Ostatnia aktywność",
-      "REFERER_LINK": "Link referencyjny"
+      "REFERER_LINK": "Link referencyjny",
+      "BLOCKED": "Blocked"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Filtry standardowe",

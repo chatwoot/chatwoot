@@ -199,6 +199,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "צופה כרגע:",
     "SWITCH": "החלף",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "שיחות",
     "INBOX": "תיבת הדואר הנכנס",
     "ALL_CONVERSATIONS": "כל השיחות",
@@ -237,6 +238,7 @@
     "CAMPAIGNS": "קמפיין",
     "ONGOING": "מתמשך",
     "ONE_OFF": "חד פעמי",
+    "REPORTS_BOT": "בוט",
     "REPORTS_AGENT": "סוכנים",
     "REPORTS_LABEL": "תוויות",
     "REPORTS_INBOX": "תיבת הדואר הנכנס",

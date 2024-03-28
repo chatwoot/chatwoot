@@ -44,7 +44,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Флажок",
       "CREATED_AT": "Дата создания",
       "LAST_ACTIVITY": "Последние действия",
-      "REFERER_LINK": "Реферальная ссылка"
+      "REFERER_LINK": "Реферальная ссылка",
+      "BLOCKED": "Заблокирован"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Стандартные фильтры",

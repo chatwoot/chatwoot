@@ -319,7 +319,7 @@
       "HEADERS": {
         "TITLE": "Название",
         "CATEGORY": "Категория",
-        "READ_COUNT": "Views",
+        "READ_COUNT": "Просмотры",
         "STATUS": "Статус",
         "LAST_EDITED": "Последнее изменение"
       },

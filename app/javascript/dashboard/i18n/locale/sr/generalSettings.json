@@ -87,7 +87,10 @@
       "conversation_assignment": "Dodeljen razgovoru",
       "assigned_conversation_new_message": "Nova poruka",
       "participating_conversation_new_message": "Nova poruka",
-      "conversation_mention": "Pominjanje"
+      "conversation_mention": "Pominjanje",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {

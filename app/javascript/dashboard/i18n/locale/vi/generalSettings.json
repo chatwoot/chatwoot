@@ -87,7 +87,10 @@
       "conversation_assignment": "Hội thoại đã được phân công",
       "assigned_conversation_new_message": "Tin nhắn mới",
       "participating_conversation_new_message": "Tin nhắn mới",
-      "conversation_mention": "Nhắc đến"
+      "conversation_mention": "Nhắc đến",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {

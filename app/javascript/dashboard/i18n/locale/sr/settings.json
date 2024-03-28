@@ -199,6 +199,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Trenutno pregledate:",
     "SWITCH": "Prebaci",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Razgovori",
     "INBOX": "Prijemno sanduče",
     "ALL_CONVERSATIONS": "Svi razgovori",
@@ -237,6 +238,7 @@
     "CAMPAIGNS": "Kampanje",
     "ONGOING": "Dugotrajne",
     "ONE_OFF": "Jednokratne",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Agenti",
     "REPORTS_LABEL": "Oznake",
     "REPORTS_INBOX": "Prijemno sanduče",

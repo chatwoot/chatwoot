@@ -35,6 +35,14 @@
         "NAME": "تعداد مسائل حل شده",
         "DESC": "( جمع کل )"
       },
+      "BOT_RESOLUTION_COUNT": {
+        "NAME": "تعداد مسائل حل شده",
+        "DESC": "( جمع کل )"
+      },
+      "BOT_HANDOFF_COUNT": {
+        "NAME": "Handoff Count",
+        "DESC": "( جمع کل )"
+      },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
         "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
@@ -430,6 +438,27 @@
       "RESPONSE_RATE": {
         "LABEL": "نرخ پاسخ",
         "TOOLTIP": "تعداد کل پاسخ ها / تعداد کل پیام های نظرسنجی رضایت مشتری ارسال شده از 100"
+      }
+    }
+  },
+  "BOT_REPORTS": {
+    "HEADER": "گزارش‌های ربات",
+    "METRIC": {
+      "TOTAL_CONVERSATIONS": {
+        "LABEL": "No. of Conversations",
+        "TOOLTIP": "Total number of conversations handled by the bot"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total Responses",
+        "TOOLTIP": "Total number of responses sent by the bot"
+      },
+      "RESOLUTION_RATE": {
+        "LABEL": "Resolution Rate",
+        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+      },
+      "HANDOFF_RATE": {
+        "LABEL": "Handoff Rate",
+        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
       }
     }
   },

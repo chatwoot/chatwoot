@@ -4,24 +4,28 @@
       "TITLE": "Электронная почта",
       "DISPLAY_DROPDOWN": "Отображать",
       "LOADING": "Загрузка уведомлений",
-      "EOF": "Все уведомления загружены 🎉",
       "404": "В этой группе нет активных уведомлений.",
       "NO_NOTIFICATIONS": "Уведомления отсутствуют",
       "NOTE": "Уведомления от всех подписанных источников",
+      "NO_MESSAGES_AVAILABLE": "Ой! Не удалось получить сообщения",
       "SNOOZED_UNTIL": "Отложить до",
       "SNOOZED_UNTIL_TOMORROW": "Отложено до завтра",
       "SNOOZED_UNTIL_NEXT_WEEK": "Отложено до следующей недели"
     },
     "ACTION_HEADER": {
       "SNOOZE": "Отложить уведомление",
-      "DELETE": "Удалить уведомление"
+      "DELETE": "Удалить уведомление",
+      "BACK": "Назад"
     },
     "TYPES": {
       "CONVERSATION_MENTION": "Вас упомянули в диалоге",
       "CONVERSATION_CREATION": "Диалог создан",
       "CONVERSATION_ASSIGNMENT": "Вам назначен диалог",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Новое сообщение в назначенном диалоге",
-      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Новое сообщение в диалоге, в котором вы участвуете"
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Новое сообщение в диалоге, в котором вы участвуете",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA target first response missed for conversation",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA target next response missed for conversation",
+      "SLA_MISSED_RESOLUTION": "SLA target resolution missed for conversation"
     },
     "MENU_ITEM": {
       "MARK_AS_READ": "Отметить как прочитанное",

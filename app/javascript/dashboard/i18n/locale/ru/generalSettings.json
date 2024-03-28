@@ -87,7 +87,10 @@
       "conversation_assignment": "Беседа назначена",
       "assigned_conversation_new_message": "Новое сообщение",
       "participating_conversation_new_message": "Новое сообщение",
-      "conversation_mention": "Упоминание"
+      "conversation_mention": "Упоминание",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {

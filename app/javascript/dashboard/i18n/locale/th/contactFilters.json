@@ -44,7 +44,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "ช่องทำเครื่องหมาย",
       "CREATED_AT": "สร้างเมื่อ",
       "LAST_ACTIVITY": "ล่าสุดเมื่อ",
-      "REFERER_LINK": "Referrer link"
+      "REFERER_LINK": "Referrer link",
+      "BLOCKED": "Blocked"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "ตัวกรองมาตรฐาน",

@@ -44,7 +44,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Case à cocher",
       "CREATED_AT": "Créé le",
       "LAST_ACTIVITY": "Dernière activité",
-      "REFERER_LINK": "Lien de référence"
+      "REFERER_LINK": "Lien de référence",
+      "BLOCKED": "Blocked"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Filtres standards",

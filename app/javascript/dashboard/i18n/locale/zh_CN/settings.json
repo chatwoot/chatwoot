@@ -199,6 +199,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "会话",
     "INBOX": "收件箱",
     "ALL_CONVERSATIONS": "所有会话",
@@ -237,6 +238,7 @@
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
+    "REPORTS_BOT": "机器人",
     "REPORTS_AGENT": "客服",
     "REPORTS_LABEL": "标签",
     "REPORTS_INBOX": "收件箱",
