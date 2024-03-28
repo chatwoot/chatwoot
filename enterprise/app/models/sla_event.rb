@@ -32,6 +32,8 @@ class SlaEvent < ApplicationRecord
 
   before_validation :ensure_applied_sla_id, :ensure_account_id, :ensure_inbox_id, :ensure_sla_policy_id
 
+  after_create_commit :create_notifications
+
   private
 
   def ensure_applied_sla_id
@@ -48,5 +50,29 @@ class SlaEvent < ApplicationRecord
 
   def ensure_sla_policy_id
     self.sla_policy_id ||= applied_sla&.sla_policy_id
+  end
+
+  def create_notifications
+    notify_users = conversation.conversation_participants.map(&:user)
+    # Add all admins from the account to notify list
+    notify_users += account.administrators
+    # Ensure conversation assignee is notified
+    notify_users += [conversation.assignee] if conversation.assignee.present?
+
+    notification_type = {
+      'frt' => 'sla_missed_first_response',
+      'nrt' => 'sla_missed_next_response',
+      'rt' => 'sla_missed_resolution'
+    }[event_type]
+
+    notify_users.uniq.each do |user|
+      NotificationBuilder.new(
+        notification_type: notification_type,
+        user: user,
+        account: account,
+        primary_actor: conversation,
+        secondary_actor: sla_policy
+      ).perform
+    end
   end
 end
