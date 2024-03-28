@@ -1,7 +1,7 @@
 <template>
   <div
     role="button"
-    class="flex flex-col ltr:pl-5 rtl:pl-3 rtl:pr-5 ltr:pr-3 gap-2.5 py-3 w-full border-b border-slate-50 dark:border-slate-800/50 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
+    class="flex flex-col ltr:pl-5 rtl:pl-4 rtl:pr-5 ltr:pr-4 gap-2.5 py-3 w-full border-b border-slate-50 dark:border-slate-800/50 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
     :class="
       active
         ? 'bg-slate-25 dark:bg-slate-800 click-animation'
@@ -10,20 +10,13 @@
     @contextmenu="openContextMenu($event)"
     @click="openConversation(notificationItem)"
   >
-    <div class="flex relative items-center justify-between w-full">
+    <div
+      class="flex flex-row justify-between relative items-center w-full gap-1.5"
+    >
       <div
         v-if="isUnread"
         class="absolute ltr:-left-3.5 rtl:-right-3.5 flex w-2 h-2 rounded bg-woot-500 dark:bg-woot-500"
       />
-      <InboxNameAndId :inbox="inbox" :conversation-id="primaryActor.id" />
-
-      <div class="flex gap-2">
-        <PriorityIcon :priority="primaryActor.priority" />
-        <StatusIcon :status="primaryActor.status" />
-      </div>
-    </div>
-
-    <div class="flex flex-row justify-between items-center w-full gap-2">
       <Thumbnail
         v-if="assigneeMeta"
         :src="assigneeMeta.thumbnail"
@@ -31,21 +24,72 @@
         size="16px"
       />
       <span
-        class="flex-1 text-slate-800 dark:text-slate-50 text-sm overflow-hidden text-ellipsis whitespace-nowrap"
+        class="flex-1 overflow-hidden text-sm text-slate-900 dark:text-white text-ellipsis whitespace-nowrap"
         :class="isUnread ? 'font-medium' : 'font-normal'"
       >
         {{ pushTitle }}
       </span>
-      <span
-        class="font-medium text-slate-600 dark:text-slate-300 text-xs whitespace-nowrap"
-      >
-        {{ lastActivityAt }}
-      </span>
     </div>
-    <div v-if="snoozedUntilTime" class="flex items-center">
-      <span class="text-woot-500 dark:text-woot-500 text-xs font-medium">
-        {{ snoozedDisplayText }}
-      </span>
+
+    <div
+      ref="inboxCardInfo"
+      v-resize="onResize"
+      class="flex flex-row items-center justify-between w-full gap-2"
+    >
+      <div
+        v-if="snoozedUntilTime || hasLastSnoozed"
+        class="flex flex-row items-center flex-1 min-w-0 gap-1"
+      >
+        <fluent-icon
+          :icon="hasLastSnoozed ? 'snooze-timer' : 'sharp-timer'"
+          type="outline"
+          class="flex-shrink-0 text-woot-500 dark:text-woot-500"
+          size="16"
+        />
+        <span
+          class="text-xs font-medium truncate text-woot-500 dark:text-woot-500"
+        >
+          {{ snoozedDisplayText }}
+        </span>
+      </div>
+      <div
+        v-else
+        class="flex flex-row items-center justify-start min-w-0 gap-2"
+      >
+        <inbox-card-info
+          :inbox="inbox"
+          :conversation-id="primaryActor.id"
+          :conversation-labels="primaryActor.labels"
+          :parent-element-width="inboxCardInfoElementWidth"
+        />
+        <div
+          v-show="hasNotificationType"
+          class="flex flex-row items-center gap-0.5 w-fit min-w-0"
+        >
+          <fluent-icon
+            :icon="notificationDetails.icon"
+            type="outline"
+            class="flex-shrink-0"
+            :class="notificationDetails.color"
+            size="16"
+          />
+          <span
+            class="text-xs font-medium truncate"
+            :class="notificationDetails.color"
+          >
+            {{ notificationDetails.text }}
+          </span>
+        </div>
+      </div>
+      <div class="flex items-center justify-end gap-2">
+        <PriorityIcon :priority="primaryActor.priority" />
+        <StatusIcon :status="primaryActor.status" />
+        <span
+          class="text-xs font-medium text-slate-500 dark:text-slate-400 whitespace-nowrap"
+        >
+          {{ lastActivityAt }}
+        </span>
+      </div>
     </div>
     <inbox-context-menu
       v-if="isContextMenuOpen"
@@ -60,18 +104,23 @@
 <script>
 import PriorityIcon from './PriorityIcon.vue';
 import StatusIcon from './StatusIcon.vue';
-import InboxNameAndId from './InboxNameAndId.vue';
+import InboxCardInfo from './InboxCardInfo.vue';
 import InboxContextMenu from './InboxContextMenu.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import timeMixin from 'dashboard/mixins/time';
-import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
+import {
+  snoozedReopenTimeToTimestamp,
+  shortenSnoozeTime,
+} from 'dashboard/helper/snoozeHelpers';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { NOTIFICATION_TYPES_MAPPING } from './helpers/constants';
+
 export default {
   components: {
     PriorityIcon,
     InboxContextMenu,
     StatusIcon,
-    InboxNameAndId,
+    InboxCardInfo,
     Thumbnail,
   },
   mixins: [timeMixin],
@@ -89,6 +138,7 @@ export default {
     return {
       isContextMenuOpen: false,
       contextMenuPosition: { x: null, y: null },
+      inboxCardInfoElementWidth: 0,
     };
   },
   computed: {
@@ -110,15 +160,31 @@ export default {
       return this.meta?.assignee;
     },
     pushTitle() {
-      return this.$t(
-        `INBOX.TYPES.${this.notificationItem.notification_type.toUpperCase()}`
-      );
+      return this.notificationItem?.push_message_body;
+    },
+    hasNotificationType() {
+      return this.notificationItem?.notification_type;
+    },
+    notificationDetails() {
+      const { notification_type: notificationType = '' } =
+        this.notificationItem || {};
+      const upperCaseType = notificationType?.toUpperCase();
+
+      const text = NOTIFICATION_TYPES_MAPPING[upperCaseType]
+        ? this.$t(`INBOX.TYPES.${upperCaseType}`)
+        : '';
+      const [icon, color] = NOTIFICATION_TYPES_MAPPING[upperCaseType] || [
+        '',
+        'text-woot-500 dark:text-woot-500',
+      ];
+
+      return { text, icon, color };
     },
     lastActivityAt() {
       const dynamicTime = this.dynamicTime(
         this.notificationItem?.last_activity_at
       );
-      return this.shortTimestamp(dynamicTime, true);
+      return this.shortTimestamp(dynamicTime);
     },
     menuItems() {
       const items = [
@@ -143,13 +209,23 @@ export default {
     },
     snoozedUntilTime() {
       const { snoozed_until: snoozedUntil } = this.notificationItem;
-      return snoozedUntil;
+      if (!snoozedUntil) {
+        return null;
+      }
+      const timestamp = snoozedReopenTimeToTimestamp(snoozedUntil);
+      return shortenSnoozeTime(this.dynamicTime(timestamp));
+    },
+    hasLastSnoozed() {
+      return this.notificationItem?.meta?.last_snoozed_at;
     },
     snoozedDisplayText() {
+      if (this.hasLastSnoozed) {
+        return this.$t('INBOX.LIST.SNOOZED_ENDS');
+      }
       if (this.snoozedUntilTime) {
-        return `${this.$t('INBOX.LIST.SNOOZED_UNTIL')} ${snoozedReopenTime(
-          this.snoozedUntilTime
-        )}`;
+        return this.$t('INBOX.LIST.SNOOZED_UNTIL', {
+          time: this.shortTimestamp(this.snoozedUntilTime),
+        });
       }
       return '';
     },
@@ -158,6 +234,9 @@ export default {
     this.closeContextMenu();
   },
   methods: {
+    onResize(entry) {
+      this.inboxCardInfoElementWidth = entry.contentRect.width;
+    },
     openConversation(notification) {
       const {
         id,

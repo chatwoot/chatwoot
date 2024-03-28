@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full w-full md:w-[calc(100%-360px)]">
+  <div class="h-full flex-1 min-w-0">
     <div v-if="showEmptyState" class="flex w-full h-full">
       <inbox-empty-state
         :empty-state-message="$t('INBOX.LIST.NO_MESSAGES_AVAILABLE')"

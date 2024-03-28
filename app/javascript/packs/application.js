@@ -78,8 +78,8 @@ Vue.component('multiselect', Multiselect);
 Vue.component('woot-switch', WootSwitch);
 Vue.component('woot-wizard', WootWizard);
 Vue.component('fluent-icon', FluentIcon);
-
 Vue.directive('resize', resizeDirective);
+
 const i18nConfig = new VueI18n({
   locale: 'en',
   messages: i18n,
