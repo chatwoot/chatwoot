@@ -1,7 +1,10 @@
 <template>
   <div
-    class="flex items-center px-2 truncate border min-w-fit border-slate-75 dark:border-slate-700"
-    :class="showExtendedInfo ? 'py-[5px] rounded-lg' : 'py-0.5 gap-1 rounded'"
+    v-if="hasSlaThreshold"
+    class="flex items-center truncate border min-w-fit border-slate-75 dark:border-slate-700"
+    :class="
+      showExtendedInfo ? 'h-[26px] px-1.5 rounded-lg' : 'h-5 px-2 gap-1 rounded'
+    "
   >
     <div
       class="flex items-center gap-1"
@@ -39,7 +42,7 @@
 import { mapGetters } from 'vuex';
 import { evaluateSLAStatus } from '../helpers/SLAHelper';
 
-// const REFRESH_INTERVAL = 60000;
+const REFRESH_INTERVAL = 60000;
 
 export default {
   props: {
@@ -69,6 +72,9 @@ export default {
       if (!this.slaPolicyId) return null;
       return this.activeSLA(this.slaPolicyId);
     },
+    hasSlaThreshold() {
+      return this.slaStatus?.threshold;
+    },
     isSlaMissed() {
       return this.slaStatus?.isSlaMissed;
     },
@@ -93,8 +99,20 @@ export default {
   },
   mounted() {
     this.updateSlaStatus();
+    this.createTimer();
+  },
+  beforeDestroy() {
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
   },
   methods: {
+    createTimer() {
+      this.timer = setTimeout(() => {
+        this.updateSlaStatus();
+        this.createTimer();
+      }, REFRESH_INTERVAL);
+    },
     updateSlaStatus() {
       this.slaStatus = evaluateSLAStatus(this.sla, this.chat);
     },

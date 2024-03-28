@@ -86,7 +86,7 @@
           {{ unreadCount > 9 ? '9+' : unreadCount }}
         </span>
       </div>
-      <card-labels :conversation-id="chat.id" />
+      <card-labels :conversation-id="chat.id" class="mt-0.5 mx-2 mb-0" />
     </div>
     <woot-context-menu
       v-if="showContextMenu"
@@ -251,6 +251,9 @@ export default {
     inboxName() {
       const stateInbox = this.inbox;
       return stateInbox.name || '';
+    },
+    hasSlaPolicyId() {
+      return this.chat?.sla_policy_id;
     },
   },
   methods: {
