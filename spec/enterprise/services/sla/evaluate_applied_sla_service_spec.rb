@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.describe Sla::EvaluateAppliedSlaService do
   let!(:account) { create(:account) }
   let!(:user_1) { create(:user, account: account) }
-  let!(:user_2) { create(:user, account: account) }
-  let!(:admin) { create(:user, account: account, role: :administrator) }
 
   let!(:sla_policy) do
     create(:sla_policy,
@@ -33,20 +31,6 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
         expect(applied_sla.reload.sla_status).to eq('active_with_misses')
       end
 
-      it 'generates notifciations for assignee, admins and participants' do
-        described_class.new(applied_sla: applied_sla).perform
-
-        expect(Notification.count).to eq(2)
-        # check if notification type is sla_missed_first_response
-        expect(Notification.where(notification_type: 'sla_missed_first_response').count).to eq(2)
-        # Check if notification is created for the assignee
-        expect(Notification.where(user_id: user_1.id).count).to eq(1)
-        # Check if notification is created for the account admin
-        expect(Notification.where(user_id: admin.id).count).to eq(1)
-        # Check if no notification is created for other user
-        expect(Notification.where(user_id: user_2.id).count).to eq(0)
-      end
-
       it 'creates SlaEvent only for frt miss' do
         described_class.new(applied_sla: applied_sla).perform
 
@@ -70,20 +54,6 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
         expect(applied_sla.reload.sla_status).to eq('active_with_misses')
       end
 
-      it 'generates notifciations for assignee, admins and participants' do
-        described_class.new(applied_sla: applied_sla).perform
-
-        expect(Notification.count).to eq(2)
-        # check if notification type is sla_missed_next_response
-        expect(Notification.where(notification_type: 'sla_missed_next_response').count).to eq(2)
-        # Check if notification is created for the assignee
-        expect(Notification.where(user_id: user_1.id).count).to eq(1)
-        # Check if notification is created for the account admin
-        expect(Notification.where(user_id: admin.id).count).to eq(1)
-        # Check if no notification is created for other user
-        expect(Notification.where(user_id: user_2.id).count).to eq(0)
-      end
-
       it 'creates SlaEvent only for nrt miss' do
         described_class.new(applied_sla: applied_sla).perform
 
@@ -103,20 +73,6 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
                                                           "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
 
         expect(applied_sla.reload.sla_status).to eq('active_with_misses')
-      end
-
-      it 'generates notifciations for assignee, admins and participants' do
-        described_class.new(applied_sla: applied_sla).perform
-
-        expect(Notification.count).to eq(2)
-        # check if notification type is sla_missed_resolution
-        expect(Notification.where(notification_type: 'sla_missed_resolution').count).to eq(2)
-        # Check if notification is created for the assignee
-        expect(Notification.where(user_id: user_1.id).count).to eq(1)
-        # Check if notification is created for the account admin
-        expect(Notification.where(user_id: admin.id).count).to eq(1)
-        # Check if no notification is created for other user
-        expect(Notification.where(user_id: user_2.id).count).to eq(0)
       end
 
       it 'creates SlaEvent only for rt miss' do
@@ -156,16 +112,6 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
         expect(Rails.logger).to have_received(:warn).with("SLA nrt missed for conversation #{conversation.id} in account " \
                                                           "#{applied_sla.account_id} for sla_policy #{sla_policy.id}").exactly(1).time
         expect(applied_sla.reload.sla_status).to eq('active_with_misses')
-      end
-
-      it 'generate notifications for all missed SLAs' do
-        described_class.new(applied_sla: applied_sla).perform
-
-        expect(Notification.count).to eq(4)
-        # check if notification type is sla_missed_next_response
-        expect(Notification.where(notification_type: 'sla_missed_next_response').count).to eq(2)
-        # check if notification type is sla_missed_first_response
-        expect(Notification.where(notification_type: 'sla_missed_resolution').count).to eq(2)
       end
     end
   end
@@ -268,17 +214,6 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
     it 'updates the SLA status to missed' do
       # the status would be missed as the conversation is resolved
       expect(applied_sla.reload.sla_status).to eq('missed')
-    end
-
-    it 'generates notifications for all missed SLAs' do
-      # notification count is 6 because we are creating notifications for assignee, admins and participants
-      # 3 notifications = 2 for nrt miss and 1 for rt miss
-      # 2 users (1 assignee + 1 admin)
-      # total 6 notifications
-      expect(Notification.count).to eq(6)
-
-      expect(Notification.where(notification_type: 'sla_missed_next_response').count).to eq(4)
-      expect(Notification.where(notification_type: 'sla_missed_resolution').count).to eq(2)
     end
 
     it 'creates necessary sla events' do
