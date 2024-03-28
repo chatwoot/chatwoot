@@ -1,25 +1,10 @@
 <template>
   <div class="flex-1 overflow-auto p-4">
     <div class="flex flex-col md:flex-row items-center">
-      <open-conversations />
       <div
         class="flex-1 w-full max-w-full md:w-[65%] md:max-w-[65%] conversation-metric"
       >
-        <metric-card
-          :header="$t('OVERVIEW_REPORTS.AGENT_STATUS.HEADER')"
-          class="flex-1"
-        >
-          <div
-            v-for="(metric, name, index) in conversationMetrics"
-            :key="index"
-            class="metric-content flex-1 min-w-0"
-          >
-            <h3 class="heading">
-              {{ name }}
-            </h3>
-            <p class="metric">{{ metric }}</p>
-          </div>
-        </metric-card>
+        <open-conversations />
       </div>
       <div class="flex-1 w-full max-w-full md:w-[35%] md:max-w-[35%]">
         <metric-card :header="$t('OVERVIEW_REPORTS.AGENT_STATUS.HEADER')">

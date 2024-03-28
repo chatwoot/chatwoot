@@ -2,12 +2,12 @@
 import { mapGetters } from 'vuex';
 import { OVERVIEW_METRICS } from '../../constants';
 import MetricCard from '../overview/MetricCard.vue';
-import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
+// import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 const noneTeam = { team_id: 0, name: 'All teams' };
 
 export default {
   components: {
-    MultiselectDropdown,
+    // MultiselectDropdown,
     MetricCard,
   },
   data() {
@@ -57,7 +57,7 @@ export default {
       :is-loading="uiFlags.isFetchingAccountConversationMetric"
       loading-message="Loading metrics"
     >
-      <template #control>
+      <!-- <template #control>
         <multiselect-dropdown
           class="!mb-0 !w-1/2"
           :options="teamsList"
@@ -69,7 +69,7 @@ export default {
           :is-filter="true"
           @click="onSelectTeam"
         />
-      </template>
+      </template> -->
       <div
         v-for="(metric, name, index) in conversationMetrics"
         :key="index"
