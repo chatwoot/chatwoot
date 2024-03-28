@@ -13,50 +13,32 @@ const findMostUrgentSLAStatus = SLAStatuses => {
   return SLAStatuses[0];
 };
 
-const convertToMinutes = time => Math.floor(time / 60);
-const convertToHoursAndMinutes = minutes => [
-  Math.floor(minutes / 60),
-  minutes % 60,
-];
-const convertToDaysAndHours = hours => [Math.floor(hours / 24), hours % 24];
-const convertToMonthsAndDays = days => [Math.floor(days / 30), days % 30];
-const convertToYearsAndMonths = months => [
-  Math.floor(months / 12),
-  months % 12,
-];
+const formatSLATime = seconds => {
+  const units = {
+    y: 31536000, // 60 * 60 * 24 * 365
+    mo: 2592000, // 60 * 60 * 24 * 30
+    d: 86400, // 60 * 60 * 24
+    h: 3600, // 60 * 60
+    m: 60,
+  };
 
-const formatTime = (value, label, nextValue, nextLabel) => {
-  if (value > 0) return `${value}${label} ${nextValue}${nextLabel}`;
-  return null;
-};
+  if (seconds < 60) {
+    return '1m';
+  }
 
-const formatDuration = (years, months, days, hours, minutes) => {
-  return (
-    formatTime(years, 'y', months, 'mo') ||
-    formatTime(months, 'mo', days, 'd') ||
-    formatTime(days, 'd', hours, 'h') ||
-    formatTime(hours, 'h', minutes, 'm') ||
-    `${minutes > 0 ? minutes : 1}m`
-  );
-};
+  // we will only show two parts, two max granularity's, h-m, y-d, d-h, m, but no seconds
+  const parts = [];
 
-// Format the SLA time in the format of years, months, days, hours and minutes, eg. 1y 2mo 3d 4h 5m
-export const formatSLATime = seconds => {
-  if (seconds < 0) return '';
-
-  const minutes = convertToMinutes(seconds);
-  const [hours, remainingMinutes] = convertToHoursAndMinutes(minutes);
-  const [days, remainingHours] = convertToDaysAndHours(hours);
-  const [months, remainingDays] = convertToMonthsAndDays(days);
-  const [years, remainingMonths] = convertToYearsAndMonths(months);
-
-  return formatDuration(
-    years,
-    remainingMonths,
-    remainingDays,
-    remainingHours,
-    remainingMinutes
-  );
+  Object.keys(units).forEach(unit => {
+    const value = Math.floor(seconds / units[unit]);
+    if (seconds < 60 && parts.length > 0) return;
+    if (parts.length === 2) return;
+    if (value > 0) {
+      parts.push(value + unit);
+      seconds -= value * units[unit];
+    }
+  });
+  return parts.join(' ');
 };
 
 const createSLAObject = (

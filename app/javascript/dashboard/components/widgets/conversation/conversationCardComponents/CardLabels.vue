@@ -60,7 +60,7 @@ export default {
     },
     computeVisibleLabelPosition(entry) {
       const labelContainer = entry.target;
-      const labels = this.$refs.labelContainer.querySelectorAll('.label');
+      const labels = this.$refs.labelContainer?.querySelectorAll('.label');
       let labelOffset = 0;
       this.showExpandLabelButton = false;
 
