@@ -8,7 +8,6 @@ RSpec.describe Sla::ProcessAccountAppliedSlasJob do
     let!(:hit_applied_sla) { create(:applied_sla, account: account, sla_policy: sla_policy, sla_status: 'hit') }
     let!(:miss_applied_sla) { create(:applied_sla, account: account, sla_policy: sla_policy, sla_status: 'missed') }
     let!(:active_with_misses_applied_sla) { create(:applied_sla, account: account, sla_policy: sla_policy, sla_status: 'active_with_misses') }
-    let!(:conversation) { create(:conversation, account: account, status: 'resolved') }
 
     it 'enqueues the job' do
       expect { described_class.perform_later }.to have_enqueued_job(described_class)
