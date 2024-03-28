@@ -7,7 +7,7 @@
       :key="metric.KEY"
       class="p-4 rounded-md mb-3"
     >
-      <chart-stats :metric="metric" />
+      <chart-stats :metric="metric" :account-summary-key="accountSummaryKey" />
       <div class="mt-4 h-72">
         <woot-loading-state
           v-if="accountReport.isFetching[metric.KEY]"
