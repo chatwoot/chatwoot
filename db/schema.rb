@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_07_103014) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_22_071629) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -122,6 +122,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_07_103014) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "sla_status", default: 0
+    t.index ["account_id", "sla_policy_id", "conversation_id"], name: "index_applied_slas_on_account_sla_policy_conversation", unique: true
     t.index ["account_id"], name: "index_applied_slas_on_account_id"
     t.index ["conversation_id"], name: "index_applied_slas_on_conversation_id"
     t.index ["sla_policy_id"], name: "index_applied_slas_on_sla_policy_id"
@@ -422,10 +423,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_07_103014) do
     t.string "last_name", default: ""
     t.string "location", default: ""
     t.string "country_code", default: ""
+    t.boolean "blocked", default: false, null: false
     t.index "lower((email)::text), account_id", name: "index_contacts_on_lower_email_account_id"
     t.index ["account_id", "email", "phone_number", "identifier"], name: "index_contacts_on_nonempty_fields", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
     t.index ["account_id"], name: "index_contacts_on_account_id"
     t.index ["account_id"], name: "index_resolved_contact_account_id", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
+    t.index ["blocked"], name: "index_contacts_on_blocked"
     t.index ["email", "account_id"], name: "uniq_email_per_account_contact", unique: true
     t.index ["identifier", "account_id"], name: "uniq_identifier_per_account_contact", unique: true
     t.index ["name", "email", "phone_number", "identifier"], name: "index_contacts_on_name_email_phone_number_identifier", opclass: :gin_trgm_ops, using: :gin
@@ -469,7 +472,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_07_103014) do
     t.integer "priority"
     t.bigint "sla_policy_id"
     t.datetime "waiting_since"
-    t.string "cached_label_list"
+    t.text "cached_label_list"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"
@@ -732,7 +735,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_07_103014) do
     t.jsonb "subscription_attributes", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "identifier"
+    t.text "identifier"
     t.index ["identifier"], name: "index_notification_subscriptions_on_identifier", unique: true
     t.index ["user_id"], name: "index_notification_subscriptions_on_user_id"
   end
@@ -750,6 +753,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_07_103014) do
     t.datetime "updated_at", null: false
     t.datetime "snoozed_until"
     t.datetime "last_activity_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.jsonb "meta", default: {}
     t.index ["account_id"], name: "index_notifications_on_account_id"
     t.index ["last_activity_at"], name: "index_notifications_on_last_activity_at"
     t.index ["primary_actor_type", "primary_actor_id"], name: "uniq_primary_actor_per_account_notifications"
@@ -836,6 +840,23 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_07_103014) do
     t.index ["inbox_id"], name: "index_reporting_events_on_inbox_id"
     t.index ["name"], name: "index_reporting_events_on_name"
     t.index ["user_id"], name: "index_reporting_events_on_user_id"
+  end
+
+  create_table "sla_events", force: :cascade do |t|
+    t.bigint "applied_sla_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "account_id", null: false
+    t.bigint "sla_policy_id", null: false
+    t.bigint "inbox_id", null: false
+    t.integer "event_type"
+    t.jsonb "meta", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_sla_events_on_account_id"
+    t.index ["applied_sla_id"], name: "index_sla_events_on_applied_sla_id"
+    t.index ["conversation_id"], name: "index_sla_events_on_conversation_id"
+    t.index ["inbox_id"], name: "index_sla_events_on_inbox_id"
+    t.index ["sla_policy_id"], name: "index_sla_events_on_sla_policy_id"
   end
 
   create_table "sla_policies", force: :cascade do |t|

@@ -152,16 +152,55 @@ RSpec.describe 'Conversations API', type: :request do
         create(:inbox_member, user: agent, inbox: conversation.inbox)
       end
 
-      it 'returns all conversations with empty query' do
+      it 'returns all conversations matching the query' do
         post "/api/v1/accounts/#{account.id}/conversations/filter",
              headers: agent.create_new_auth_token,
-             params: { payload: [] },
+             params: {
+               payload: [{
+                 attribute_key: 'status',
+                 filter_operator: 'equal_to',
+                 values: ['open']
+               }]
+             },
              as: :json
 
         expect(response).to have_http_status(:success)
         response_data = JSON.parse(response.body, symbolize_names: true)
-
         expect(response_data.count).to eq(2)
+      end
+
+      it 'returns error if the filters contain invalid attributes' do
+        post "/api/v1/accounts/#{account.id}/conversations/filter",
+             headers: agent.create_new_auth_token,
+             params: {
+               payload: [{
+                 attribute_key: 'phone_number',
+                 filter_operator: 'equal_to',
+                 values: ['open']
+               }]
+             },
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        response_data = JSON.parse(response.body, symbolize_names: true)
+        expect(response_data[:error]).to include('Invalid attribute key - [phone_number]')
+      end
+
+      it 'returns error if the filters contain invalid operator' do
+        post "/api/v1/accounts/#{account.id}/conversations/filter",
+             headers: agent.create_new_auth_token,
+             params: {
+               payload: [{
+                 attribute_key: 'status',
+                 filter_operator: 'eq',
+                 values: ['open']
+               }]
+             },
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        response_data = JSON.parse(response.body, symbolize_names: true)
+        expect(response_data[:error]).to eq('Invalid operator. The allowed operators for status are [equal_to,not_equal_to].')
       end
     end
   end
@@ -206,6 +245,55 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(conversation.display_id)
+      end
+    end
+  end
+
+  describe 'PATCH /api/v1/accounts/{account.id}/conversations/:id' do
+    let(:conversation) { create(:conversation, account: account) }
+    let(:params) { { priority: 'high' } }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        patch "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+              params: params
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:administrator) { create(:user, account: account, role: :administrator) }
+
+      it 'does not update the conversation if you do not have access to it' do
+        patch "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+              params: params,
+              headers: agent.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'updates the conversation if you are an administrator' do
+        patch "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+              params: params,
+              headers: administrator.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(JSON.parse(response.body, symbolize_names: true)[:priority]).to eq('high')
+      end
+
+      it 'updates the conversation if you are an agent with access to inbox' do
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+        patch "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+              params: params,
+              headers: agent.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(JSON.parse(response.body, symbolize_names: true)[:priority]).to eq('high')
       end
     end
   end
@@ -411,21 +499,6 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.status).to eq('snoozed')
         expect(conversation.reload.snoozed_until.to_i).to eq(snoozed_until)
       end
-
-      # TODO: remove this spec when we remove the condition check in controller
-      # Added for backwards compatibility for bot status
-      # remove in next release
-      # it 'toggles the conversation status to pending status when parameter bot is passed' do
-      #   expect(conversation.status).to eq('open')
-
-      #   post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
-      #        headers: agent.create_new_auth_token,
-      #        params: { status: 'bot' },
-      #        as: :json
-
-      #   expect(response).to have_http_status(:success)
-      #   expect(conversation.reload.status).to eq('pending')
-      # end
     end
 
     context 'when it is an authenticated bot' do

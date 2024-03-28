@@ -1,43 +1,47 @@
 <template>
-  <div
-    class="flex flex-col h-full w-full ltr:border-r border-slate-50 dark:border-slate-800/50"
-    :class="isOnExpandedLayout ? '' : 'min-w-[360px] max-w-[360px]'"
-  >
-    <inbox-list-header @filter="onFilterChange" />
+  <section class="flex w-full h-full bg-white dark:bg-slate-900">
     <div
-      ref="notificationList"
-      class="flex flex-col w-full h-[calc(100%-56px)] overflow-x-hidden overflow-y-auto"
+      class="flex flex-col h-full w-full md:min-w-[360px] md:max-w-[360px] ltr:border-r border-slate-50 dark:border-slate-800/50"
+      :class="!currentNotificationId ? 'flex' : 'hidden md:flex'"
     >
-      <inbox-card
-        v-for="notificationItem in notifications"
-        :key="notificationItem.id"
-        :notification-item="notificationItem"
-        @mark-notification-as-read="markNotificationAsRead"
-        @mark-notification-as-unread="markNotificationAsUnRead"
-        @delete-notification="deleteNotification"
+      <inbox-list-header
+        :is-context-menu-open="isInboxContextMenuOpen"
+        @filter="onFilterChange"
+        @redirect="redirectToInbox"
       />
-      <div v-if="uiFlags.isFetching" class="text-center">
-        <span class="spinner mt-4 mb-4" />
+      <div
+        ref="notificationList"
+        class="flex flex-col w-full h-[calc(100%-56px)] overflow-x-hidden overflow-y-auto"
+      >
+        <inbox-card
+          v-for="notificationItem in notifications"
+          :key="notificationItem.id"
+          :active="currentNotificationId === notificationItem.id"
+          :notification-item="notificationItem"
+          @mark-notification-as-read="markNotificationAsRead"
+          @mark-notification-as-unread="markNotificationAsUnRead"
+          @delete-notification="deleteNotification"
+          @context-menu-open="isInboxContextMenuOpen = true"
+          @context-menu-close="isInboxContextMenuOpen = false"
+        />
+        <div v-if="uiFlags.isFetching" class="text-center">
+          <span class="spinner mt-4 mb-4" />
+        </div>
+        <p
+          v-if="showEmptyState"
+          class="text-center text-slate-400 text-sm dark:text-slate-400 p-4 font-medium"
+        >
+          {{ $t('INBOX.LIST.NO_NOTIFICATIONS') }}
+        </p>
+        <intersection-observer
+          v-if="!showEndOfList && !uiFlags.isFetching"
+          :options="infiniteLoaderOptions"
+          @observed="loadMoreNotifications"
+        />
       </div>
-      <p
-        v-if="showEmptyState"
-        class="text-center text-slate-400 text-sm dark:text-slate-400 p-4 font-medium"
-      >
-        {{ $t('INBOX.LIST.NO_NOTIFICATIONS') }}
-      </p>
-      <p
-        v-if="showEndOfListMessage"
-        class="text-center text-slate-400 dark:text-slate-400 p-4"
-      >
-        {{ $t('INBOX.LIST.EOF') }}
-      </p>
-      <intersection-observer
-        v-if="!showEndOfList && !uiFlags.isFetching"
-        :options="infiniteLoaderOptions"
-        @observed="loadMoreNotifications"
-      />
     </div>
-  </div>
+    <router-view />
+  </section>
 </template>
 
 <script>
@@ -49,6 +53,7 @@ import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+
 export default {
   components: {
     InboxCard,
@@ -56,16 +61,6 @@ export default {
     IntersectionObserver,
   },
   mixins: [alertMixin, uiSettingsMixin],
-  props: {
-    conversationId: {
-      type: [String, Number],
-      default: 0,
-    },
-    isOnExpandedLayout: {
-      type: Boolean,
-      default: false,
-    },
-  },
   data() {
     return {
       infiniteLoaderOptions: {
@@ -76,6 +71,8 @@ export default {
       status: '',
       type: '',
       sortOrder: wootConstants.INBOX_SORT_BY.NEWEST,
+      isInboxContextMenuOpen: false,
+      notificationIdToSnooze: null,
     };
   },
   computed: {
@@ -85,6 +82,9 @@ export default {
       uiFlags: 'notifications/getUIFlags',
       notification: 'notifications/getFilteredNotifications',
     }),
+    currentNotificationId() {
+      return Number(this.$route.params.notification_id);
+    },
     inboxFilters() {
       return {
         page: this.page,
@@ -102,9 +102,6 @@ export default {
     showEmptyState() {
       return !this.uiFlags.isFetching && !this.notifications.length;
     },
-    showEndOfListMessage() {
-      return this.showEndOfList && this.notifications.length;
-    },
   },
   mounted() {
     this.setSavedFilter();
@@ -115,13 +112,11 @@ export default {
       this.page = 1;
       this.$store.dispatch('notifications/clear');
       const filter = this.inboxFilters;
-
       this.$store.dispatch('notifications/index', filter);
     },
     redirectToInbox() {
-      if (!this.conversationId) return;
       if (this.$route.name === 'inbox_view') return;
-      this.$router.push({ name: 'inbox_view' });
+      this.$router.replace({ name: 'inbox_view' });
     },
     loadMoreNotifications() {
       if (this.uiFlags.isAllNotificationsLoaded) return;
@@ -177,13 +172,14 @@ export default {
         });
     },
     onFilterChange(option) {
-      if (option.type === wootConstants.INBOX_FILTER_TYPE.STATUS) {
+      const { STATUS, TYPE, SORT_ORDER } = wootConstants.INBOX_FILTER_TYPE;
+      if (option.type === STATUS) {
         this.status = option.selected ? option.key : '';
       }
-      if (option.type === wootConstants.INBOX_FILTER_TYPE.TYPE) {
+      if (option.type === TYPE) {
         this.type = option.selected ? option.key : '';
       }
-      if (option.type === wootConstants.INBOX_FILTER_TYPE.SORT_ORDER) {
+      if (option.type === SORT_ORDER) {
         this.sortOrder = option.key;
       }
       this.fetchNotifications();

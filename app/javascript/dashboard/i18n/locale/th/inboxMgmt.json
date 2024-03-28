@@ -569,7 +569,7 @@
       "UPDATE": "อัปเดตเวลาทำการ",
       "TOGGLE_AVAILABILITY": "แสดงความพร้อมในการให้บริการสำหรับกล่องข้อความนี้",
       "UNAVAILABLE_MESSAGE_LABEL": "ข้อความที่ต้องการแสดงเมื่ออยู่นอกเวลาทำการ",
-      "TOGGLE_HELP": "การเปิดใช้ความพร้อมในการให้บริการจะแสดงเวลาทำการบน live-chat widget แม้ว่าพนักงานทุกคนจะออฟไลน์ เมื่อมีลูกค้าต้องการติดต่อนอกเวลาทำการจะมีข้อความแจ้งเตือน และแสดงแบบสอบถามก่อนเริ่มแชทให้กับลูกค้า",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "เปิดใช้ความพร้อมในการให้บริการสำหรับวันนี้",
         "UNAVAILABLE": "ไม่พร้อมให้บริการ",

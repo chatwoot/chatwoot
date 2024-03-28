@@ -1,17 +1,32 @@
 <template>
   <div class="flex-1 overflow-auto p-4">
-    <div class="row">
+    <div class="flex flex-col md:flex-row items-center">
       <open-conversations />
-
-      <div class="column small-12 medium-4 flex">
+      <div
+        class="flex-1 w-full max-w-full md:w-[65%] md:max-w-[65%] conversation-metric"
+      >
         <metric-card
           :header="$t('OVERVIEW_REPORTS.AGENT_STATUS.HEADER')"
           class="flex-1"
         >
           <div
+            v-for="(metric, name, index) in conversationMetrics"
+            :key="index"
+            class="metric-content flex-1 min-w-0"
+          >
+            <h3 class="heading">
+              {{ name }}
+            </h3>
+            <p class="metric">{{ metric }}</p>
+          </div>
+        </metric-card>
+      </div>
+      <div class="flex-1 w-full max-w-full md:w-[35%] md:max-w-[35%]">
+        <metric-card :header="$t('OVERVIEW_REPORTS.AGENT_STATUS.HEADER')">
+          <div
             v-for="(metric, name, index) in agentStatusMetrics"
             :key="index"
-            class="metric-content column"
+            class="metric-content flex-1 min-w-0"
           >
             <h3 class="heading">
               {{ name }}
@@ -21,7 +36,7 @@
         </metric-card>
       </div>
     </div>
-    <div class="row">
+    <div class="max-w-full flex flex-wrap flex-row ml-auto mr-auto">
       <metric-card :header="$t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.HEADER')">
         <template #control>
           <multiselect-dropdown
@@ -53,7 +68,7 @@
         />
       </metric-card>
     </div>
-    <div class="row">
+    <div class="max-w-full flex flex-wrap flex-row ml-auto mr-auto">
       <metric-card :header="$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.HEADER')">
         <agent-table
           :agents="agents"

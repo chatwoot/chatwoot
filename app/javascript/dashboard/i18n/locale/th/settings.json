@@ -160,6 +160,9 @@
     "TRIAL_MESSAGE": "จำนวนวันทดลองใช้ที่เหลืออยู่",
     "TRAIL_BUTTON": "ซื้อเลย",
     "DELETED_USER": "ผู้ใช้งานที่ถูกลบ",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Account Suspended",
       "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
@@ -197,6 +200,7 @@
     "CURRENTLY_VIEWING_ACCOUNT": "กำลังดูอยู่:",
     "SWITCH": "Switch",
     "CONVERSATIONS": "การสนทนา",
+    "INBOX": "กล่องข้อความ",
     "ALL_CONVERSATIONS": "การสนทนาทั้งหมด",
     "MENTIONED_CONVERSATIONS": "การกล่าวถึง",
     "PARTICIPATING_CONVERSATIONS": "Participating",
@@ -238,6 +242,7 @@
     "REPORTS_INBOX": "กล่องข้อความ",
     "REPORTS_TEAM": "ทีม",
     "SET_AVAILABILITY_TITLE": "ตั้งสถานะเป็น...",
+    "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "ภาพรวม",
     "FACEBOOK_REAUTHORIZE": "การเชื่อมต่อกับ Facebook หมดอายุแล้ว โปรดเชื่อมต่อใหม่อีกครั้ง",

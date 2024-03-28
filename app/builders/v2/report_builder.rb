@@ -54,6 +54,21 @@ class V2::ReportBuilder
     }
   end
 
+  def bot_summary
+    {
+      bot_resolutions_count: bot_resolutions.count,
+      bot_handoffs_count: bot_handoffs.count
+    }
+  end
+
+  def conversation_metrics
+    if params[:type].equal?(:account)
+      live_conversations
+    else
+      agent_metrics.sort_by { |hash| hash[:metric][:open] }.reverse
+    end
+  end
+
   private
 
   def metric_valid?
@@ -63,6 +78,8 @@ class V2::ReportBuilder
        avg_first_response_time
        avg_resolution_time reply_time
        resolutions_count
+       bot_resolutions_count
+       bot_handoffs_count
        reply_time].include?(params[:metric])
   end
 
@@ -91,5 +108,31 @@ class V2::ReportBuilder
       permit: %w[day week month year hour],
       time_zone: @timezone
     )
+  end
+
+  def agent_metrics
+    account_users = @account.account_users.page(params[:page]).per(AGENT_RESULTS_PER_PAGE)
+    account_users.each_with_object([]) do |account_user, arr|
+      @user = account_user.user
+      arr << {
+        id: @user.id,
+        name: @user.name,
+        email: @user.email,
+        thumbnail: @user.avatar_url,
+        availability: account_user.availability_status,
+        metric: live_conversations
+      }
+    end
+  end
+
+  def live_conversations
+    @open_conversations = scope.conversations.where(account_id: @account.id).open
+    metric = {
+      open: @open_conversations.count,
+      unattended: @open_conversations.unattended.count
+    }
+    metric[:unassigned] = @open_conversations.unassigned.count if params[:type].equal?(:account)
+    metric[:pending] = @open_conversations.pending.count if params[:type].equal?(:account)
+    metric
   end
 end
