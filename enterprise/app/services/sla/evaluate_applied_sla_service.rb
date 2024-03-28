@@ -44,7 +44,6 @@ class Sla::EvaluateAppliedSlaService
     return if conversation.waiting_since.blank?
 
     threshold = conversation.waiting_since.to_i + sla_policy.next_response_time_threshold.to_i
-
     return if still_within_threshold?(threshold)
 
     handle_missed_sla(applied_sla, 'nrt')
@@ -54,7 +53,7 @@ class Sla::EvaluateAppliedSlaService
     conversation.messages.where(message_type: :incoming).last&.id
   end
 
-  def already_missed(applied_sla, type, meta = {})
+  def already_missed?(applied_sla, type, meta = {})
     SlaEvent.exists?(applied_sla: applied_sla, event_type: type, meta: meta)
   end
 
@@ -69,7 +68,7 @@ class Sla::EvaluateAppliedSlaService
 
   def handle_missed_sla(applied_sla, type, meta = {})
     meta = { message_id: get_last_message_id(applied_sla.conversation) } if type == 'nrt'
-    return if already_missed(applied_sla, type, meta)
+    return if already_missed?(applied_sla, type, meta)
 
     create_sla_event(applied_sla, type, meta)
     Rails.logger.warn "SLA #{type} missed for conversation #{applied_sla.conversation.id} " \
