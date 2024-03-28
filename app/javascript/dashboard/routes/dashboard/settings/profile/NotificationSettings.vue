@@ -236,6 +236,54 @@
             }}
           </label>
         </div>
+        <div class="flex items-center gap-2 mb-1">
+          <input
+            v-model="selectedEmailFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="email_sla_missed_first_response"
+            @input="handleEmailInput"
+          />
+          <label for="sla_missed_first_response">
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.SLA_MISSED_FIRST_RESPONSE'
+              )
+            }}
+          </label>
+        </div>
+        <div class="flex items-center gap-2 mb-1">
+          <input
+            v-model="selectedEmailFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="email_sla_missed_next_response"
+            @input="handleEmailInput"
+          />
+          <label for="sla_missed_next_response">
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.SLA_MISSED_NEXT_RESPONSE'
+              )
+            }}
+          </label>
+        </div>
+        <div class="flex items-center gap-2 mb-1">
+          <input
+            v-model="selectedEmailFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="email_sla_missed_resolution"
+            @input="handleEmailInput"
+          />
+          <label for="sla_missed_resolution">
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.SLA_MISSED_RESOLUTION'
+              )
+            }}
+          </label>
+        </div>
       </div>
     </div>
     <div
@@ -348,6 +396,57 @@
             {{
               $t(
                 'PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.PARTICIPATING_CONVERSATION_NEW_MESSAGE'
+              )
+            }}
+          </label>
+        </div>
+
+        <div class="flex items-center gap-2 mb-1">
+          <input
+            v-model="selectedPushFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="push_sla_missed_first_response"
+            @input="handlePushInput"
+          />
+          <label for="sla_missed_first_response">
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.SLA_MISSED_FIRST_RESPONSE'
+              )
+            }}
+          </label>
+        </div>
+
+        <div class="flex items-center gap-2 mb-1">
+          <input
+            v-model="selectedPushFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="push_sla_missed_next_response"
+            @input="handlePushInput"
+          />
+          <label for="sla_missed_next_response">
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.SLA_MISSED_NEXT_RESPONSE'
+              )
+            }}
+          </label>
+        </div>
+
+        <div class="flex items-center gap-2 mb-1">
+          <input
+            v-model="selectedPushFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="push_sla_missed_resolution"
+            @input="handlePushInput"
+          />
+          <label for="sla_missed_resolution">
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.SLA_MISSED_RESOLUTION'
               )
             }}
           </label>
