@@ -266,7 +266,8 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
     end
 
     it 'updates the SLA status to missed' do
-      expect(applied_sla.reload.sla_status).to eq('active_with_misses')
+      # the status would be missed as the conversation is resolved
+      expect(applied_sla.reload.sla_status).to eq('missed')
     end
 
     it 'generates notifications for all missed SLAs' do
