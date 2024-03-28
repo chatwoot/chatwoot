@@ -15,6 +15,7 @@
       >
         <inbox-card
           v-for="notificationItem in notifications"
+          ref="inboxCard"
           :key="notificationItem.id"
           :active="currentNotificationId === notificationItem.id"
           :notification-item="notificationItem"
@@ -65,7 +66,7 @@ export default {
     return {
       infiniteLoaderOptions: {
         root: this.$refs.notificationList,
-        rootMargin: '100px 0px 100px 0px',
+        rootMargin: '100px 0px 200px 0px',
       },
       page: 1,
       status: '',
@@ -101,6 +102,13 @@ export default {
     },
     showEmptyState() {
       return !this.uiFlags.isFetching && !this.notifications.length;
+    },
+  },
+  watch: {
+    currentNotificationId(newId, oldId) {
+      if (newId !== oldId) {
+        this.scrollToNotification(newId);
+      }
     },
   },
   mounted() {
@@ -190,6 +198,33 @@ export default {
       this.status = status;
       this.type = type;
       this.sortOrder = sortBy || wootConstants.INBOX_SORT_BY.NEWEST;
+    },
+    scrollToNotification(notificationId) {
+      this.$nextTick(() => {
+        const listContainer = this.$refs.notificationList;
+        const inboxCard = this.$refs.inboxCard;
+        if (!listContainer || !inboxCard) return;
+
+        const cards = Array.isArray(inboxCard) ? inboxCard : [inboxCard];
+        const activeCard = cards?.find(
+          card => card.notificationItem.id === notificationId
+        );
+
+        if (activeCard) {
+          const cardEl = activeCard?.$el;
+          const containerRect = listContainer.getBoundingClientRect();
+          const cardRect = cardEl.getBoundingClientRect();
+
+          // Check if the card is above the visible area of the container
+          if (cardRect.top < containerRect.top) {
+            listContainer.scrollTop -= containerRect.top - cardRect.top;
+          }
+          // Check if the card is below the visible area of the container
+          else if (cardRect.bottom > containerRect.bottom) {
+            listContainer.scrollTop += cardRect.bottom - containerRect.bottom;
+          }
+        }
+      });
     },
   },
 };
