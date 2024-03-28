@@ -27,7 +27,7 @@ class AppliedSla < ApplicationRecord
   validates :account_id, uniqueness: { scope: %i[sla_policy_id conversation_id] }
   before_validation :ensure_account_id
 
-  enum sla_status: { active: 0, hit: 1, missed: 2 }
+  enum sla_status: { active: 0, hit: 1, missed: 2, active_with_misses: 3 }
 
   scope :filter_by_date_range, ->(range) { where(created_at: range) if range.present? }
   scope :filter_by_inbox_id, ->(inbox_id) { where(inbox_id: inbox_id) if inbox_id.present? }
