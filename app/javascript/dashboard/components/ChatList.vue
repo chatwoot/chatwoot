@@ -554,7 +554,6 @@ export default {
     this.setFiltersFromUISettings();
     this.$store.dispatch('setChatStatusFilter', this.activeStatus);
     this.$store.dispatch('setChatSortFilter', this.activeSortBy);
-    this.$store.dispatch('sla/get');
     this.resetAndFetchData();
 
     if (this.hasActiveFolders) {
