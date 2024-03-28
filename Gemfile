@@ -2,8 +2,8 @@ source 'https://rubygems.org'
 
 ruby '3.2.2'
 
-##-- gems for openai integration --##
-
+##-- gems for api calls --##
+gem 'http'
 ##-- unique ID generator --##
 gem 'securerandom'
 

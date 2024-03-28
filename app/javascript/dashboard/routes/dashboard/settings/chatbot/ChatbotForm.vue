@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <div class="mx-0 flex flex-wrap">
       <div class="flex-shrink-0 flex-grow-0 w-[65%]">
         <form class="mx-0 flex flex-wrap" @submit.prevent="handleSubmit">
@@ -99,4 +99,4 @@
     },
   };
   </script>
-  
+   -->
