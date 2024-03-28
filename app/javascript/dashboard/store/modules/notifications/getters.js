@@ -11,6 +11,9 @@ export const getters = {
     );
     return sortedNotifications;
   },
+  getNotificationById: $state => id => {
+    return $state.records[id] || {};
+  },
   getUIFlags($state) {
     return $state.uiFlags;
   },

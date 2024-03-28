@@ -3,7 +3,6 @@
     <span v-if="label">{{ label }}</span>
     <input
       class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600"
-      :class="{ 'input-margin': error }"
       :value="value"
       :type="type"
       :placeholder="placeholder"
@@ -70,9 +69,6 @@ export default {
   @apply mt-0.5 text-xs not-italic text-slate-600 dark:text-slate-400;
 }
 
-.input-margin {
-  margin-bottom: 2px !important;
-}
 .message {
   margin-top: 0 !important;
 }

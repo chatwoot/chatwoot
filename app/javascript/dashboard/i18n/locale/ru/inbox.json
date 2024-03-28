@@ -6,7 +6,7 @@
       "LOADING": "Загрузка уведомлений",
       "EOF": "Все уведомления загружены 🎉",
       "404": "В этой группе нет активных уведомлений.",
-      "NO_NOTIFICATIONS": "No notifications",
+      "NO_NOTIFICATIONS": "Уведомления отсутствуют",
       "NOTE": "Уведомления от всех подписанных источников",
       "SNOOZED_UNTIL": "Отложить до",
       "SNOOZED_UNTIL_TOMORROW": "Отложено до завтра",
@@ -48,13 +48,13 @@
       }
     },
     "ALERTS": {
-      "MARK_AS_READ": "Notification marked as read",
-      "MARK_AS_UNREAD": "Notification marked as unread",
-      "SNOOZE": "Notification snoozed",
-      "DELETE": "Notification deleted",
-      "MARK_ALL_READ": "All notifications marked as read",
-      "DELETE_ALL": "All notifications deleted",
-      "DELETE_ALL_READ": "All read notifications deleted"
+      "MARK_AS_READ": "Уведомление отмечено как прочитанное",
+      "MARK_AS_UNREAD": "Уведомление отмечено как непрочитанное",
+      "SNOOZE": "Уведомление отложено",
+      "DELETE": "Уведомление удалено",
+      "MARK_ALL_READ": "Все уведомления отмечены как прочитанные",
+      "DELETE_ALL": "Все уведомления удалены",
+      "DELETE_ALL_READ": "Все прочитанные уведомления удалены"
     }
   }
 }
