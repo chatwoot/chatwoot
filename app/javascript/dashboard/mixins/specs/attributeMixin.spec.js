@@ -1,7 +1,6 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import attributeMixin from '../attributeMixin';
 import Vuex from 'vuex';
-import attributeFixtures from './attributeFixtures';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -39,43 +38,6 @@ describe('attributeMixin', () => {
     };
     const wrapper = shallowMount(Component, { store, localVue });
     expect(wrapper.vm.conversationId).toEqual(7165);
-  });
-
-  it('returns filtered attributes from conversation custom attributes', () => {
-    const Component = {
-      render() {},
-      title: 'TestComponent',
-      mixins: [attributeMixin],
-      computed: {
-        attributes() {
-          return attributeFixtures;
-        },
-        contact() {
-          return {
-            id: 7165,
-            custom_attributes: {
-              product_id: 2021,
-            },
-          };
-        },
-      },
-    };
-    const wrapper = shallowMount(Component, { store, localVue });
-    expect(wrapper.vm.filteredAttributes).toEqual([
-      {
-        attribute_description: 'Product identifier',
-        attribute_display_name: 'Product id',
-        attribute_display_type: 'number',
-        attribute_key: 'product_id',
-        attribute_model: 'conversation_attribute',
-        created_at: '2021-09-16T13:06:47.329Z',
-        default_value: null,
-        icon: 'fluent-calculator',
-        id: 10,
-        updated_at: '2021-09-22T10:42:25.873Z',
-        value: 2021,
-      },
-    ]);
   });
 
   it('return display type if attribute passed', () => {

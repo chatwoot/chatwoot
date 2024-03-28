@@ -7,10 +7,10 @@
     <woot-button
       variant="hollow"
       color-scheme="secondary"
-      class="w-full border border-solid border-slate-200 dark:border-slate-700 px-2.5 hover:border-slate-75 dark:hover:border-slate-600"
+      class="w-full border border-solid border-slate-100 dark:border-slate-700 px-2 hover:border-slate-75 dark:hover:border-slate-600"
       @click="toggleDropdown"
     >
-      <div class="flex">
+      <div class="flex gap-1">
         <Thumbnail
           v-if="hasValue && hasThumbnail"
           :src="selectedItem.thumbnail"
@@ -21,19 +21,22 @@
         <div class="flex justify-between w-full min-w-0 items-center">
           <h4
             v-if="!hasValue"
-            class="mt-0 mb-0 mr-2 ml-0 text-ellipsis text-sm text-slate-800 dark:text-slate-100"
+            class="text-ellipsis text-sm text-slate-800 dark:text-slate-100"
           >
             {{ multiselectorPlaceholder }}
           </h4>
           <h4
             v-else
-            class="items-center leading-tight my-0 mx-2 overflow-hidden whitespace-nowrap text-ellipsis text-sm text-slate-800 dark:text-slate-100"
+            class="items-center leading-tight overflow-hidden whitespace-nowrap text-ellipsis text-sm text-slate-800 dark:text-slate-100"
             :title="selectedItem.name"
           >
             {{ selectedItem.name }}
           </h4>
-          <i v-if="showSearchDropdown" class="icon ion-chevron-up" />
-          <i v-else class="icon ion-chevron-down" />
+          <i
+            v-if="showSearchDropdown"
+            class="icon ion-chevron-up text-slate-600 mr-1"
+          />
+          <i v-else class="icon ion-chevron-down text-slate-600 mr-1" />
         </div>
       </div>
     </woot-button>
@@ -137,6 +140,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss" scoped>
 .dropdown-pane {
   @apply box-border top-[2.625rem] w-full;

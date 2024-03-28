@@ -38,12 +38,9 @@
                 :contact-id="contact.id"
                 attribute-type="contact_attribute"
                 attribute-class="conversation--attribute"
+                attribute-from="contact_panel"
                 :custom-attributes="contact.custom_attributes"
                 class="even"
-              />
-              <custom-attribute-selector
-                attribute-type="contact_attribute"
-                :contact-id="contact.id"
               />
             </accordion-item>
           </div>
@@ -85,7 +82,6 @@ import ContactConversations from 'dashboard/routes/dashboard/conversation/Contac
 import ContactInfo from 'dashboard/routes/dashboard/conversation/contact/ContactInfo.vue';
 import ContactLabel from 'dashboard/routes/dashboard/contacts/components/ContactLabels.vue';
 import CustomAttributes from 'dashboard/routes/dashboard/conversation/customAttributes/CustomAttributes.vue';
-import CustomAttributeSelector from 'dashboard/routes/dashboard/conversation/customAttributes/CustomAttributeSelector.vue';
 import draggable from 'vuedraggable';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
@@ -96,7 +92,6 @@ export default {
     ContactInfo,
     ContactLabel,
     CustomAttributes,
-    CustomAttributeSelector,
     draggable,
   },
   mixins: [uiSettingsMixin],
