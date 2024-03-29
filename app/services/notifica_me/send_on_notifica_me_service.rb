@@ -8,15 +8,18 @@ class NotificaMe::SendOnNotificaMeService < Base::SendOnChannelService
   def perform_reply
     begin
       url = "https://hub.notificame.com.br/v1/channels/#{channel.channel_type}/messages"
+      body = message_params.to_json
       response = HTTParty.post(
         url,
-        body: message_params.to_json,
+        body: body,
         headers: {
-          'X-API-Token' => channel.channel_token
-        }
+          'X-API-Token' => channel.channel_token,
+          'Content-Type' => 'application/json'
+        },
+        format: :json
       )
       if response.success?
-        message.update!(source_id: response.success?, status: :sent)
+        message.update!(source_id: response.parsed_response["id"], status: :sent)
       else
         raise "Error on send mensagem to NotificaMe: #{response.parsed_response}"
       end
@@ -28,7 +31,7 @@ class NotificaMe::SendOnNotificaMeService < Base::SendOnChannelService
   end
 
   def message_params
-    contents = message.message_type == :text ? message_params_text : message_params_media
+    contents = message.content_type == 'text' ? message_params_text : message_params_media
     {
       from: channel.channel_id,
       to: contact_inbox.source_id,
@@ -37,17 +40,19 @@ class NotificaMe::SendOnNotificaMeService < Base::SendOnChannelService
   end
 
   def message_params_text
-    {
-      type: :text,
-      text: message.content
-    }
+    [
+      {
+        type: :text,
+        text: message.content
+      }
+    ]
   end
 
   def message_params_media
     message.attachments.map { |a|
       {
         type: :file,
-        fileMimeType: a.message_type,
+        fileMimeType: a.content_type,
         fileUrl: a.download_url,
         fileCaption: message.content
       }
