@@ -236,7 +236,7 @@
             }}
           </label>
         </div>
-        <div class="flex items-center gap-2 mb-1">
+        <div v-if="isSLAEnabled" class="flex items-center gap-2 mb-1">
           <input
             v-model="selectedEmailFlags"
             class="notification--checkbox"
@@ -252,7 +252,7 @@
             }}
           </label>
         </div>
-        <div class="flex items-center gap-2 mb-1">
+        <div v-if="isSLAEnabled" class="flex items-center gap-2 mb-1">
           <input
             v-model="selectedEmailFlags"
             class="notification--checkbox"
@@ -268,7 +268,7 @@
             }}
           </label>
         </div>
-        <div class="flex items-center gap-2 mb-1">
+        <div v-if="isSLAEnabled" class="flex items-center gap-2 mb-1">
           <input
             v-model="selectedEmailFlags"
             class="notification--checkbox"
@@ -401,7 +401,7 @@
           </label>
         </div>
 
-        <div class="flex items-center gap-2 mb-1">
+        <div v-if="isSLAEnabled" class="flex items-center gap-2 mb-1">
           <input
             v-model="selectedPushFlags"
             class="notification--checkbox"
@@ -418,7 +418,7 @@
           </label>
         </div>
 
-        <div class="flex items-center gap-2 mb-1">
+        <div v-if="isSLAEnabled" class="flex items-center gap-2 mb-1">
           <input
             v-model="selectedPushFlags"
             class="notification--checkbox"
@@ -435,7 +435,7 @@
           </label>
         </div>
 
-        <div class="flex items-center gap-2 mb-1">
+        <div v-if="isSLAEnabled" class="flex items-center gap-2 mb-1">
           <input
             v-model="selectedPushFlags"
             class="notification--checkbox"
@@ -466,6 +466,7 @@ import {
   requestPushPermissions,
   verifyServiceWorkerExistence,
 } from '../../../../helper/pushHelper';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 export default {
   mixins: [alertMixin, configMixin, uiSettingsMixin],
@@ -492,12 +493,17 @@ export default {
   },
   computed: {
     ...mapGetters({
+      accountId: 'getCurrentAccountId',
       emailFlags: 'userNotificationSettings/getSelectedEmailFlags',
       pushFlags: 'userNotificationSettings/getSelectedPushFlags',
       uiSettings: 'getUISettings',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
     hasPushAPISupport() {
       return !!('Notification' in window);
+    },
+    isSLAEnabled() {
+      return this.isFeatureEnabledonAccount(this.accountId, FEATURE_FLAGS.SLA);
     },
   },
   watch: {
