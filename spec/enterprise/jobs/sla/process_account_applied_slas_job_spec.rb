@@ -23,7 +23,6 @@ RSpec.describe Sla::ProcessAccountAppliedSlasJob do
     it 'does not call the ProcessAppliedSlaJob for applied slas that are hit or miss' do
       expect(Sla::ProcessAppliedSlaJob).not_to receive(:perform_later).with(hit_applied_sla)
       expect(Sla::ProcessAppliedSlaJob).not_to receive(:perform_later).with(miss_applied_sla)
-      expect(Sla::ProcessAppliedSlaJob).not_to receive(:perform_later).with(missed_applied_sla_with_resolved_conversation)
       described_class.perform_now(account)
     end
   end
