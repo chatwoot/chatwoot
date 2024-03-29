@@ -32,6 +32,16 @@ class SlaEvent < ApplicationRecord
 
   before_validation :ensure_applied_sla_id, :ensure_account_id, :ensure_inbox_id, :ensure_sla_policy_id
 
+  def push_event_data
+    {
+      id: id,
+      event_type: event_type,
+      meta: meta,
+      created_at: created_at.to_i,
+      updated_at: updated_at.to_i
+    }
+  end
+
   private
 
   def ensure_applied_sla_id
