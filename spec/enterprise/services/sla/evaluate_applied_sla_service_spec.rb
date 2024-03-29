@@ -38,14 +38,6 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
         expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'nrt').count).to eq(0)
         expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'rt').count).to eq(0)
       end
-
-      it 'creates SlaEvent only for frt miss' do
-        described_class.new(applied_sla: applied_sla).perform
-
-        expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'frt').count).to eq(1)
-        expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'nrt').count).to eq(0)
-        expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'rt').count).to eq(0)
-      end
     end
 
     context 'when next response SLA is missed' do
@@ -69,14 +61,6 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
         expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'nrt').count).to eq(1)
         expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'rt').count).to eq(0)
       end
-
-      it 'creates SlaEvent only for nrt miss' do
-        described_class.new(applied_sla: applied_sla).perform
-
-        expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'frt').count).to eq(0)
-        expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'nrt').count).to eq(1)
-        expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'rt').count).to eq(0)
-      end
     end
 
     context 'when resolution time SLA is missed' do
@@ -89,14 +73,6 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
                                                           "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
 
         expect(applied_sla.reload.sla_status).to eq('active_with_misses')
-      end
-
-      it 'creates SlaEvent only for rt miss' do
-        described_class.new(applied_sla: applied_sla).perform
-
-        expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'frt').count).to eq(0)
-        expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'nrt').count).to eq(0)
-        expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'rt').count).to eq(1)
       end
 
       it 'creates SlaEvent only for rt miss' do
