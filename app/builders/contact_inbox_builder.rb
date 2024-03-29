@@ -23,9 +23,19 @@ class ContactInboxBuilder
       phone_source_id
     when 'Channel::Api', 'Channel::WebWidget'
       SecureRandom.uuid
+    when 'Channel::NotificaMe'
+      notifica_me_source_id
     else
       raise "Unsupported operation for this channel: #{@inbox.channel_type}"
     end
+  end
+
+  def notifica_me_source_id
+    if ['telegram', 'whatsapp', 'sms'].include?(@inbox.channel.notifica_me_type)
+      return  @contact.phone_number
+    end
+    raise ActionController::ParameterMissing, 'contact email' unless @contact.source_id
+    return @contact.source_id
   end
 
   def email_source_id
