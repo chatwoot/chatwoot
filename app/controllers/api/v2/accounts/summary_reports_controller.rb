@@ -1,6 +1,6 @@
 class Api::V2::Accounts::SummaryReportsController < Api::V1::Accounts::BaseController
   before_action :check_authorization
-  before_action :prepare_builder_params, only: [:agent, :team]
+  before_action :prepare_builder_params, only: [:agent, :team, :inbox]
 
   def agent
     render_report_with(V2::Reports::AgentSummaryBuilder)
@@ -8,6 +8,10 @@ class Api::V2::Accounts::SummaryReportsController < Api::V1::Accounts::BaseContr
 
   def team
     render_report_with(V2::Reports::TeamSummaryBuilder)
+  end
+
+  def inbox
+    render_report_with(V2::Reports::InboxSummaryBuilder)
   end
 
   private

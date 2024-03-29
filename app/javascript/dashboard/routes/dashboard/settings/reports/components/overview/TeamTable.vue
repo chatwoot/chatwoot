@@ -9,12 +9,12 @@
     <div v-if="isLoading" class="agents-loader">
       <spinner />
       <span>{{
-        $t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.LOADING_MESSAGE')
+        $t('OVERVIEW_REPORTS.TEAM_CONVERSATIONS.LOADING_MESSAGE')
       }}</span>
     </div>
-    <div v-if="agents.length > 0" class="table-pagination">
+    <div v-if="teams.length > 0" class="table-pagination">
       <ve-pagination
-        :total="agents.length"
+        :total="teams.length"
         :page-index="pageIndex"
         :page-size="25"
         :page-size-option="[25]"
@@ -27,10 +27,9 @@
 import { VeTable, VePagination } from 'vue-easytable';
 import Spinner from 'shared/components/Spinner.vue';
 import rtlMixin from 'shared/mixins/rtlMixin';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
 export default {
-  name: 'AgentTable',
+  name: 'TeamTable',
   components: {
     Spinner,
     VeTable,
@@ -38,11 +37,11 @@ export default {
   },
   mixins: [rtlMixin],
   props: {
-    agents: {
+    teams: {
       type: Array,
       default: () => [],
     },
-    agentMetrics: {
+    teamMetrics: {
       type: Array,
       default: () => [],
     },
@@ -57,15 +56,12 @@ export default {
   },
   computed: {
     tableData() {
-      return this.agents.map(agent => {
-        const agentMetrics = this.getAgentMetrics(agent.id);
+      return this.teams.map(team => {
+        const teamMetrics = this.getTeamMetrics(team.id);
         return {
-          agent: agent.name,
-          email: agent.email,
-          thumbnail: agent.thumbnail,
-          open: agentMetrics.open || 0,
-          unattended: agentMetrics.unattended || 0,
-          status: agent.availability_status,
+          agent: team.name,
+          open: teamMetrics.open || 0,
+          unattended: teamMetrics.unattended || 0,
         };
       });
     },
@@ -75,24 +71,17 @@ export default {
           field: 'agent',
           key: 'agent',
           title: this.$t(
-            'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.AGENT'
+            'OVERVIEW_REPORTS.TEAM_CONVERSATIONS.TABLE_HEADER.AGENT'
           ),
           fixed: 'left',
           align: this.isRTLView ? 'right' : 'left',
           width: 25,
           renderBodyCell: ({ row }) => (
             <div class="row-user-block">
-              <Thumbnail
-                src={row.thumbnail}
-                size="32px"
-                username={row.agent}
-                status={row.status}
-              />
               <div class="user-block">
-                <h6 class="title overflow-hidden whitespace-nowrap text-ellipsis">
+                <h6 class="capitalize title overflow-hidden whitespace-nowrap text-ellipsis">
                   {row.agent}
                 </h6>
-                <span class="sub-title">{row.email}</span>
               </div>
             </div>
           ),
@@ -101,7 +90,7 @@ export default {
           field: 'open',
           key: 'open',
           title: this.$t(
-            'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.OPEN'
+            'OVERVIEW_REPORTS.TEAM_CONVERSATIONS.TABLE_HEADER.OPEN'
           ),
           align: this.isRTLView ? 'right' : 'left',
           width: 10,
@@ -110,7 +99,7 @@ export default {
           field: 'unattended',
           key: 'unattended',
           title: this.$t(
-            'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.UNATTENDED'
+            'OVERVIEW_REPORTS.TEAM_CONVERSATIONS.TABLE_HEADER.UNATTENDED'
           ),
           align: this.isRTLView ? 'right' : 'left',
           width: 10,
@@ -119,10 +108,9 @@ export default {
     },
   },
   methods: {
-    getAgentMetrics(id) {
+    getTeamMetrics(id) {
       return (
-        this.agentMetrics.find(metrics => metrics.assignee_id === Number(id)) ||
-        {}
+        this.teamMetrics.find(metrics => metrics.team_id === Number(id)) || {}
       );
     },
   },
