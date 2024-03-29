@@ -18,7 +18,7 @@ defineProps({
 <template>
   <div class="flex flex-col gap-2 items-start justify-center min-w-[10rem]">
     <span
-      class="inline-flex items-center gap-1 tracking-[-0.6%] text-sm text-slate-700 dark:text-slate-200 font-medium"
+      class="inline-flex items-center gap-1 text-sm text-slate-700 dark:text-slate-200 font-medium"
     >
       {{ label }}
       <fluent-icon
@@ -26,12 +26,10 @@ defineProps({
         size="14"
         icon="information"
         type="outline"
-        class="flex-shrink-0 hidden text-sm font-normal sm:flex sm:font-medium text-slate-500 dark:text-slate-500"
+        class="flex-shrink-0 text-sm font-normal flex sm:font-medium text-slate-500 dark:text-slate-500"
       />
     </span>
-    <span
-      class="text-2xl font-medium text-slate-900 dark:text-slate-25 tracking-[-1.5%]"
-    >
+    <span class="text-2xl font-medium text-slate-900 dark:text-slate-25">
       {{ value }}
     </span>
   </div>
