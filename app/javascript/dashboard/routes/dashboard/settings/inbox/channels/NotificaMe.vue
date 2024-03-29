@@ -113,6 +113,10 @@ export default {
   },
   methods: {
     async fetchChannels(token) {
+      if (!token) {
+        this.$v.channelToken.$touch();
+        return;
+      }
       try {
         this.channels = [];
         const resp = await notificaMeChannel.get(token);
@@ -124,19 +128,6 @@ export default {
         // resp.data.errors
         this.channels = [];
       }
-
-      // f20018fa-eb17-11ee-880c-0efa6ad28f4f
-      // try {
-      //   const urlData = 'https://hub.notificame.com.br/v1/channels';
-      //   const headers = {};
-      //   headers['X-API-Token'] = token;
-      //   headers['Content-Type'] = 'application/json;charset=utf-8';
-      //   headers['Access-Control-Allow-Origin'] = '*';
-      //   console.log('headers....', headers);
-      //   this.channels = await fetch(urlData, { mode: 'no-cors', headers });
-      // } catch (error) {
-      //   console.error(error);
-      // }
     },
 
     async createChannel() {

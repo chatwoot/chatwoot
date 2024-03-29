@@ -4,38 +4,22 @@ class Api::V1::Accounts::Channels::NotificaMeChannelsController < Api::V1::Accou
 
 
   def index
+    unless request.query_parameters["token"]
+      return render :json => { error: "Put the NotificaMe Token" }, status: 422
+    end
     url = URI("https://hub.notificame.com.br/v1/channels")
-    # https = Net::HTTP.new(url.host, url.port)
-    # https.use_ssl = true
-    # header = "X-API-Token"
-    # token = request.query_parameters["token"]
-
-    # req = Net::HTTP::Get.new(url)
-    # req[header] = token || 'f20018fa-eb17-11ee-880c-0efa6ad28f4f'
-    # Rails.logger.debug("Headers #{req[header]}")
-    # response = https.request(req)
-    # channels = response.read_body
-
     response = HTTParty.get(
       url,
       headers: {
         'X-API-Token' => request.query_parameters["token"],
         'Content-Type' => 'application/json'
-      }
+      },
+      format: :json
     )
     if response.success?
-      render :json => { data: { channels: response }}
+      render :json => { data: { channels: response.parsed_response }}, status: 200
     else
-      channels = [
-        {
-          id: 'f44d13f2-4dc8-85fe-7973b296dd3a',
-          name: 'Telegram Clairton',
-          channel: 'telegram',
-        },
-      ];
-      render :json => { data: { channels: channels }}
-
-      # render :json => { error: response }, status: 422
+      render :json => { error: response.parsed_response }, status: 422
     end
   end
 

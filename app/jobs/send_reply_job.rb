@@ -12,7 +12,8 @@ class SendReplyJob < ApplicationJob
       'Channel::Line' => ::Line::SendOnLineService,
       'Channel::Telegram' => ::Telegram::SendOnTelegramService,
       'Channel::Whatsapp' => ::Whatsapp::SendOnWhatsappService,
-      'Channel::Sms' => ::Sms::SendOnSmsService
+      'Channel::Sms' => ::Sms::SendOnSmsService,
+      'Channel::NotificaMe' => ::NotificaMe::SendOnNotificaMeService
     }
 
     case channel_name
