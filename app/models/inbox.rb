@@ -125,7 +125,7 @@ class Inbox < ApplicationRecord
   end
 
   def notifica_me?
-    channel_type == 'Channel::NofificaMe'
+    channel_type == 'Channel::NotificaMe'
   end
 
   def assignable_agents

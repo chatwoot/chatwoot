@@ -42,6 +42,9 @@ export const getReadableInboxByType = (type, phoneNumber) => {
     case INBOX_TYPES.TELEGRAM:
       return 'telegram';
 
+    case INBOX_TYPES.NOTIFICA_ME:
+      return 'notifica_me';
+
     case INBOX_TYPES.LINE:
       return 'line';
 

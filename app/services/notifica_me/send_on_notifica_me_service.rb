@@ -20,16 +20,19 @@ class NotificaMe::SendOnNotificaMeService < Base::SendOnChannelService
       else
         raise "Error on send mensagem to NotificaMe: #{response.parsed_response}"
       end
-    rescue  e
+    rescue StandardError => e
+      Rails.logger.error("Error on send do notificame")
+      Rails.logger.error(e)
       message.update!(status: :failed, external_error: e.message)
     end
   end
 
   def message_params
+    contents = message.message_type == :text ? message_params_text : message_params_media
     {
-      from: channel.channel_id
+      from: channel.channel_id,
       to: contact_inbox.source_id,
-      contents: message.message_type == :text ? message_params_text : message_params_media
+      contents: contents
     }
   end
 
