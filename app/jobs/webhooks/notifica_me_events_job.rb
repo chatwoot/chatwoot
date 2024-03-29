@@ -48,9 +48,15 @@ class Webhooks::NotificaMeEventsJob < ApplicationJob
 
   def process_event_params(channel, params)
     if params['type'] == 'MESSAGE_STATUS'
-      message = Message.last #find_by(source_id: params['messageId'])
+      message = Message.find_by(source_id: params['messageId'])
       unless message
-        Rails.logger.warn("NotificaMe Message source id #{params['messageId']} not found")
+        unless params['retried']
+          Rails.logger.warn("NotificaMe Message source id #{params['messageId']} not found try again")
+          params['retried'] = true
+          Webhooks::NotificaMeEventsJob.set(wait: 10.seconds).perform_later(params)
+        else
+          Rails.logger.warn("NotificaMe Message source id #{params['messageId']} not found")
+        end
         return
       end
 
