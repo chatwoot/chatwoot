@@ -7,8 +7,8 @@ class Sla::EvaluateAppliedSlaService
     # We will calculate again in the next iteration
     return unless applied_sla.conversation.resolved?
 
-    # No SLA missed, so marking as hit as conversation is resolved
-    handle_hit_sla(applied_sla) if applied_sla.active?
+    # after conversation is resolved, we will check if the SLA was hit or missed
+    handle_hit_sla(applied_sla)
   end
 
   private
@@ -44,15 +44,17 @@ class Sla::EvaluateAppliedSlaService
     return if conversation.waiting_since.blank?
 
     threshold = conversation.waiting_since.to_i + sla_policy.next_response_time_threshold.to_i
+    return if still_within_threshold?(threshold)
 
-    # Determine if a next_response_time event has already been recorded for the current message
-    last_customer_message_id = conversation.messages.where(message_type: :incoming).last&.id
-    meta = { message_id: last_customer_message_id }
-    already_missed = applied_sla.sla_events.exists?(event_type: :nrt, meta: meta)
+    handle_missed_sla(applied_sla, 'nrt')
+  end
 
-    return if already_missed || still_within_threshold?(threshold)
+  def get_last_message_id(conversation)
+    conversation.messages.where(message_type: :incoming).last&.id
+  end
 
-    handle_missed_sla(applied_sla, 'nrt', meta)
+  def already_missed?(applied_sla, type, meta = {})
+    SlaEvent.exists?(applied_sla: applied_sla, event_type: type, meta: meta)
   end
 
   def check_resolution_time_threshold(applied_sla, conversation, sla_policy)
@@ -65,16 +67,15 @@ class Sla::EvaluateAppliedSlaService
   end
 
   def handle_missed_sla(applied_sla, type, meta = {})
-    return if SlaEvent.exists?(applied_sla: applied_sla, event_type: type, meta: meta)
+    meta = { message_id: get_last_message_id(applied_sla.conversation) } if type == 'nrt'
+    return if already_missed?(applied_sla, type, meta)
 
     create_sla_event(applied_sla, type, meta)
     Rails.logger.warn "SLA #{type} missed for conversation #{applied_sla.conversation.id} " \
                       "in account #{applied_sla.account_id} " \
                       "for sla_policy #{applied_sla.sla_policy.id}"
 
-    return unless applied_sla.sla_status != 'missed'
-
-    applied_sla.update!(sla_status: 'active_with_misses')
+    applied_sla.update!(sla_status: 'active_with_misses') if applied_sla.sla_status != 'active_with_misses'
   end
 
   def handle_hit_sla(applied_sla)

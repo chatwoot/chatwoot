@@ -25,4 +25,37 @@ RSpec.describe SlaEvent, type: :model do
       expect(sla_event.sla_policy_id).to eq sla_event.applied_sla.sla_policy_id
     end
   end
+
+  describe 'create notifications' do
+    # create account, user and inbox
+    let!(:account) { create(:account) }
+    let!(:assignee) { create(:user, account: account) }
+    let!(:participant) { create(:user, account: account) }
+    let!(:admin) { create(:user, account: account, role: :administrator) }
+    let!(:inbox) { create(:inbox, account: account) }
+    let(:conversation) { create(:conversation, inbox: inbox, assignee: assignee, account: account) }
+    let(:sla_policy) { create(:sla_policy, account: conversation.account) }
+    let(:sla_event) { create(:sla_event, event_type: 'frt', conversation: conversation, sla_policy: sla_policy) }
+
+    before do
+      # to ensure notifications are not sent to other users
+      create(:user, account: account)
+      create(:inbox_member, inbox: inbox, user: participant)
+      create(:conversation_participant, conversation: conversation, user: participant)
+    end
+
+    it 'creates notifications for conversation participants, admins, and assignee' do
+      sla_event
+
+      expect(Notification.count).to eq(3)
+      # check if notification type is sla_missed_first_response
+      expect(Notification.where(notification_type: 'sla_missed_first_response').count).to eq(3)
+      # Check if notification is created for the assignee
+      expect(Notification.where(user_id: assignee.id).count).to eq(1)
+      # Check if notification is created for the account admin
+      expect(Notification.where(user_id: admin.id).count).to eq(1)
+      # Check if notification is created for participant
+      expect(Notification.where(user_id: participant.id).count).to eq(1)
+    end
+  end
 end
