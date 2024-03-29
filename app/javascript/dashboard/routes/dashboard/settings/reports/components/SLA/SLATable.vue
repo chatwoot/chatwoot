@@ -30,7 +30,8 @@
         v-for="sla in slaReports"
         :key="sla.id"
         :sla-name="sla.sla_policy.name"
-        :conversation-id="sla.conversation.id"
+        :conversation="sla.conversation"
+        :conversation-id="sla.conversation_id"
       />
     </div>
     <table-footer

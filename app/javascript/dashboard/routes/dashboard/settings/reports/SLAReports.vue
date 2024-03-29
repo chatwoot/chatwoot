@@ -8,7 +8,6 @@
       :sla-reports="slaReports"
       :current-page="Number(slaMeta.currentPage)"
       :total-count="Number(slaMeta.count)"
-      :page-size="3"
       @page-change="onPageChange"
     />
   </div>

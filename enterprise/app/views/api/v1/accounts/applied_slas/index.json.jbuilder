@@ -1,5 +1,3 @@
-
-
 json.payload do
   json.array! @applied_slas do |applied_sla|
     json.id applied_sla.id
@@ -9,7 +7,11 @@ json.payload do
     json.created_at applied_sla.created_at
     json.updated_at applied_sla.updated_at
     json.conversation do
-      json.partial! 'api/v1/models/conversation', conversation: applied_sla.conversation
+      json.contact do
+        json.name applied_sla.conversation.contact.name
+      end
+      json.labels applied_sla.conversation.cached_label_list
+      json.assignee applied_sla.conversation.assignee
     end
     json.sla_events applied_sla.sla_events do |sla_event|
       json.partial! 'api/v1/models/sla_event', formats: [:json], sla_event: sla_event

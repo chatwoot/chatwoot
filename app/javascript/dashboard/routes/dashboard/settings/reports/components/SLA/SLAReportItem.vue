@@ -9,6 +9,10 @@ defineProps({
     type: Number,
     required: true,
   },
+  conversation: {
+    type: Object,
+    required: true,
+  },
 });
 </script>
 
@@ -24,8 +28,11 @@ defineProps({
     <div
       class="flex items-center col-span-6 px-0 py-2 text-sm tracking-[0.5] text-slate-700 dark:text-slate-100 rtl:text-right"
     >
-      #{{ conversationId }} with John Doe
-      <card-labels :conversation-id="148" />
+      #{{ conversationId }} with {{ conversation.contact.name }}
+      <card-labels
+        :conversation-id="conversationId"
+        :conversation-labels="conversation.labels"
+      />
     </div>
     <div
       class="flex items-center col-span-2 px-0 py-2 text-sm tracking-[0.5] text-slate-700 dark:text-slate-100 rtl:text-right"
