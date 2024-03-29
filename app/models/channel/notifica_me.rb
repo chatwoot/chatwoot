@@ -20,12 +20,12 @@ class Channel::NotificaMe < ApplicationRecord
   include Channelable
 
   self.table_name = 'channel_notifica_me'
-  EDITABLE_ATTRS = [:channel_id, :channel_type, :channel_token].freeze
+  EDITABLE_ATTRS = [:notifica_me_id, :notifica_me_type, :notifica_me_token].freeze
 
-  validates :channel_id, presence: true
-  validates :channel_type, presence: true
-  validates :channel_token, presence: true
-  validates :channel_id, uniqueness: { scope: :account_id }
+  validates :notifica_me_id, presence: true
+  validates :notifica_me_type, presence: true
+  validates :notifica_me_token, presence: true
+  validates :notifica_me_id, uniqueness: { scope: :account_id }
 
   def name
     'NotificaMe'

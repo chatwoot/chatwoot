@@ -3,7 +3,6 @@ class Contacts::ContactableInboxesService
 
   def get
     account = contact.account
-    Rails.logger.error(">>>>>> account.inboxes #{account.inboxes.size}")
     account.inboxes.filter_map { |inbox| get_contactable_inbox(inbox) }
   end
 
@@ -29,7 +28,7 @@ class Contacts::ContactableInboxesService
   end
 
   def notifica_me_contactable_inbox(inbox)
-    source_id = @contact.additional_attributes[inbox.channel.channel_type] || @contact.phone_number
+    source_id = @contact.additional_attributes[inbox.channel.notifica_me_type] || @contact.phone_number
     return unless source_id
 
     { source_id: source_id, inbox: inbox }

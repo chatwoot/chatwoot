@@ -12,11 +12,11 @@ class NotificaMe::WebhookSetupService
           url: inbox.callback_webhook_url
         },
         criteria: {
-          channel: channel.channel_id
+          channel: channel.notifica_me_id
         }
       }.to_json,
       headers: {
-        'X-API-Token' => channel.channel_token,
+        'X-API-Token' => channel.notifica_me_token,
         'Content-Type' => 'application/json'
       }
     )

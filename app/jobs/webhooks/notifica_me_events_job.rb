@@ -35,7 +35,7 @@ class Webhooks::NotificaMeEventsJob < ApplicationJob
 =end
 
   def perform(params = {})
-    channel = Channel::NotificaMe.find_by(channel_id: params['channel_id'])
+    channel = Channel::NotificaMe.find_by(notifica_me_id: params['channel_id'])
     unless channel
       Rails.logger.warn("NotificaMe Channel #{params['channel_id']} not found")
       return

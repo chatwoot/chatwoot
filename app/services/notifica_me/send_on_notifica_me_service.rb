@@ -7,13 +7,13 @@ class NotificaMe::SendOnNotificaMeService < Base::SendOnChannelService
 
   def perform_reply
     begin
-      url = "https://hub.notificame.com.br/v1/channels/#{channel.channel_type}/messages"
+      url = "https://hub.notificame.com.br/v1/channels/#{channel.notifica_me_type}/messages"
       body = message_params.to_json
       response = HTTParty.post(
         url,
         body: body,
         headers: {
-          'X-API-Token' => channel.channel_token,
+          'X-API-Token' => channel.notifica_me_token,
           'Content-Type' => 'application/json'
         },
         format: :json
@@ -24,7 +24,7 @@ class NotificaMe::SendOnNotificaMeService < Base::SendOnChannelService
         raise "Error on send mensagem to NotificaMe: #{response.parsed_response}"
       end
     rescue StandardError => e
-      Rails.logger.error("Error on send do notificame")
+      Rails.logger.error("Error on send do NotificaMe")
       Rails.logger.error(e)
       message.update!(status: :failed, external_error: e.message)
     end
@@ -33,7 +33,7 @@ class NotificaMe::SendOnNotificaMeService < Base::SendOnChannelService
   def message_params
     contents = message.content_type == 'text' ? message_params_text : message_params_media
     {
-      from: channel.channel_id,
+      from: channel.notifica_me_id,
       to: contact_inbox.source_id,
       contents: contents
     }

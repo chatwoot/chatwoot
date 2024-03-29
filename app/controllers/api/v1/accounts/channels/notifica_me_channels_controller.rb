@@ -46,9 +46,9 @@ class Api::V1::Accounts::Channels::NotificaMeChannelsController < Api::V1::Accou
 
   def build_inbox
     @notifica_me_channel = Current.account.notifica_me_channels.create!(
-      channel_id: permitted_params[:channel_id],
-      channel_token: permitted_params[:channel_token],
-      channel_type: permitted_params[:channel_type],
+      notifica_me_id: permitted_params[:notifica_me_id],
+      notifica_me_token: permitted_params[:notifica_me_token],
+      notifica_me_type: permitted_params[:notifica_me_type],
     )
     @inbox = Current.account.inboxes.create!(
       name: permitted_params[:name],
@@ -57,6 +57,6 @@ class Api::V1::Accounts::Channels::NotificaMeChannelsController < Api::V1::Accou
   end
 
   def permitted_params
-    params.require(:notifica_me_channel).permit(:channel_id, :channel_token, :channel_type, :name)
+    params.require(:notifica_me_channel).permit(:notifica_me_id, :notifica_me_token, :notifica_me_type, :name)
   end
 end

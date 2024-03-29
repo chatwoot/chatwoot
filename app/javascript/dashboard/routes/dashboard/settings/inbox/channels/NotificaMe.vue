@@ -25,15 +25,15 @@
       </div>
 
       <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
-        <label :class="{ error: $v.channelToken.$error }">
+        <label :class="{ error: $v.notificaMeToken.$error }">
           {{ $t('INBOX_MGMT.ADD.NOTIFICA_ME_CHANNEL.CHANNEL_TOKEN.LABEL') }}
           <input
-            v-model.trim="channelToken"
+            v-model.trim="notificaMeToken"
             type="text"
             :placeholder="
               $t('INBOX_MGMT.ADD.NOTIFICA_ME_CHANNEL.CHANNEL_TOKEN.PLACEHOLDER')
             "
-            @blur="$v.channelToken.$touch"
+            @blur="$v.notificaMeToken.$touch"
           />
         </label>
         <p class="help-text">
@@ -42,9 +42,9 @@
       </div>
 
       <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
-        <label :class="{ error: $v.channelId.$error }">
+        <label :class="{ error: $v.notificaMeId.$error }">
           {{ $t('INBOX_MGMT.ADD.NOTIFICA_ME_CHANNEL.CHANNEL.LABEL') }}
-          <select v-model.trim="channelId" @blur="$v.channelId.$touch">
+          <select v-model.trim="notificaMeId" @blur="$v.notificaMeId.$touch">
             <option value="">
               {{ $t('INBOX_MGMT.ADD.NOTIFICA_ME_CHANNEL.CHANNEL.PLACEHOLDER') }}
             </option>
@@ -89,9 +89,9 @@ export default {
   data() {
     return {
       channelName: '',
-      channelId: '',
-      channelToken: '',
-      channelType: '',
+      notificaMeId: '',
+      notificaMeToken: '',
+      notificaMeType: '',
       channels: [],
     };
   },
@@ -102,19 +102,19 @@ export default {
   },
 
   watch: {
-    channelToken() {
-      this.fetchChannels(this.channelToken);
+    notificaMeToken() {
+      this.fetchChannels(this.notificaMeToken);
     },
   },
   validations: {
     channelName: { required },
-    channelToken: { required },
-    channelId: { required },
+    notificaMeToken: { required },
+    notificaMeId: { required },
   },
   methods: {
     async fetchChannels(token) {
       if (!token) {
-        this.$v.channelToken.$touch();
+        this.$v.notificaMeToken.$touch();
         return;
       }
       try {
@@ -135,16 +135,18 @@ export default {
       if (this.$v.$invalid) {
         return;
       }
-      this.channelType = this.channels.find(c => c.id === this.channelId)?.type;
+      this.notificaMeType = this.channels.find(
+        c => c.id === this.notificaMeId
+      )?.type;
       try {
         const channel = await this.$store.dispatch(
           'inboxes/createNotificaMeChannel',
           {
             notifica_me_channel: {
               name: this.channelName,
-              channel_token: this.channelToken,
-              channel_id: this.channelId,
-              channel_type: this.channelType,
+              notifica_me_token: this.notificaMeToken,
+              notifica_me_id: this.notificaMeId,
+              notifica_me_type: this.notificaMeType,
             },
           }
         );
