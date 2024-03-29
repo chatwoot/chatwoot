@@ -1,6 +1,6 @@
 # TODO: Move this into models jbuilder
 # Currently the file there is used only for search endpoint. 
-# Everywhere else we use this
+# Everywhere else we use conversation builder in partials folder
 
 json.meta do
   json.sender do
