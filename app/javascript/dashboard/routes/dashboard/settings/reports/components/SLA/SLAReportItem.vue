@@ -28,7 +28,13 @@ defineProps({
     <div
       class="flex items-center col-span-6 px-0 py-2 text-sm tracking-[0.5] text-slate-700 dark:text-slate-100 rtl:text-right"
     >
-      #{{ conversationId }} with {{ conversation.contact.name }}
+      <span class="text-slate-700 dark:text-slate-100">
+        {{ `#${conversationId} ` }}
+      </span>
+      <span class="text-slate-600 dark:text-slate-100">with </span>
+      <span class="text-slate-700 dark:text-slate-100 capitalize">{{
+        conversation.contact.name
+      }}</span>
       <card-labels
         :conversation-id="conversationId"
         :conversation-labels="conversation.labels"
