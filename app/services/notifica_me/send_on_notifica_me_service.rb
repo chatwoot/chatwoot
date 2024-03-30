@@ -9,6 +9,7 @@ class NotificaMe::SendOnNotificaMeService < Base::SendOnChannelService
     begin
       url = "https://hub.notificame.com.br/v1/channels/#{channel.notifica_me_type}/messages"
       body = message_params.to_json
+      Rails.logger.error(">>>>>>> body #{body}")
       response = HTTParty.post(
         url,
         body: body,
@@ -31,7 +32,8 @@ class NotificaMe::SendOnNotificaMeService < Base::SendOnChannelService
   end
 
   def message_params
-    contents = message.content_type == 'text' ? message_params_text : message_params_media
+    Rails.logger.error(">>>>>>> message.content_type #{message.content_type}")
+    contents = message.attachments.length > 0 ? message_params_media : message_params_text
     {
       from: channel.notifica_me_id,
       to: contact_inbox.source_id,
@@ -50,9 +52,11 @@ class NotificaMe::SendOnNotificaMeService < Base::SendOnChannelService
 
   def message_params_media
     message.attachments.map { |a|
+      split = a.download_url.split('.')
+      extension = split[split.length - 1]
       {
         type: :file,
-        fileMimeType: a.content_type,
+        fileMimeType: Mime::Type.lookup_by_extension(extension),
         fileUrl: a.download_url,
         fileCaption: message.content
       }

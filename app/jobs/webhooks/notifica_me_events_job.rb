@@ -1,4 +1,5 @@
 class Webhooks::NotificaMeEventsJob < ApplicationJob
+  include ::FileTypeHelper
   queue_as :default
 
 =begin
@@ -253,7 +254,7 @@ class Webhooks::NotificaMeEventsJob < ApplicationJob
       timestamp = message[:timestamp] ? message[:timestamp].to_i : Time.now.to_i
       conversation = find_or_create_conversation(contact_inbox)
       ActiveRecord::Base.transaction do
-        ms = message["contents"].map { |c|
+        ms = message['contents'].map { |c|
           content = c[c['type']] || ''
           m = conversation.messages.build(
             content: content,
@@ -272,7 +273,7 @@ class Webhooks::NotificaMeEventsJob < ApplicationJob
             return if attachment_file.blank?
             a = m.attachments.new(
               account_id: contact_inbox.inbox.account_id,
-              file_type: file_content_type(c['fileName']),
+              file_type: file_type(c['fileMimeType']),
               file: {
                 io: attachment_file,
                 filename: c['fileName'],
@@ -280,15 +281,10 @@ class Webhooks::NotificaMeEventsJob < ApplicationJob
               }
             )
             a.save!
-            Rails.logger.error("attachment_file #{attachment_file} c['fileName'] #{c['fileName']} c['fileMimeType'] #{c['fileMimeType']}")
-            Rails.logger.error("attachment errors: #{a.errors.full_messages}")
           end
           m.save!
-          Rails.logger.error("message: #{m}")
-          Rails.logger.error("message attachments: #{m.attachments.length}")
           m
         }
-        Rails.logger.error("messages: #{ms}")
         ms
       rescue StandardError => e
         Rails.logger.error("NotificaMe channel create message error#{e}, #{e.backtrace}")
@@ -298,25 +294,6 @@ class Webhooks::NotificaMeEventsJob < ApplicationJob
   end
 
   private
-
-  # def message_type(content)
-  #   content["type"] == 'file' ? message_type_media(content["fileMimeType"]) : content["type"]
-  # end
-
-  def file_content_type(filename)
-    split = filename.split('.')
-    extension = split[split.length - 1]
-    # @todo many extensions and files type
-    if ['docx', 'xlxx', 'ppt', 'pptx', 'xlx', 'doc', 'pdf', 'csv', 'text'].include?(extension)
-      return 'document'
-    elsif ['png', 'jpeg', 'jpg'].include?(extension)
-      return 'image'
-    elsif ['ogg', 'mp3', 'wav'].include?(extension)
-      return 'audio'
-    elsif ['mp4'].include?(extension)
-      return 'video'
-    end
-  end
 
   def find_or_create_conversation(contact_inbox)
     conversation = nil
