@@ -132,6 +132,74 @@ class Webhooks::NotificaMeEventsJob < ApplicationJob
 }
 =end
 
+
+=begin
+{
+   "type":"MESSAGE",
+   "id":"b35acb2b-f514-4265-bbeb-2c7b6a067317",
+   "timestamp":"2024-03-30 11:45:31 am",
+   "subscriptionId":"a852adee-f1f4-440e-9443-9ec21b0b3ed5",
+   "channel":"facebook",
+   "direction":"IN",
+   "message":{
+      "id":"b35acb2b-f514-4265-bbeb-2c7b6a067317",
+      "from":"7136628119690362",
+      "to":"a852adee-f1f4-440e-9443-9ec21b0b3ed5",
+      "direction":"IN",
+      "channel":"facebook",
+      "visitor":{
+         "name":"Clairton Rodrigo Heinzen",
+         "firstName":"Clairton Rodrigo",
+         "lastName":"Heinzen",
+         "picture":"https://platform-lookaside.fbsbx.com/platform/profilepic/?eai=AXEMHxV_i8n2M787_v-PphBIRvN70e50_ZaJaygq0OQNIPH7-sfrUhrglqdj5eLWYJ23wF8DG84M&psid=7136628119690362&width=1024&ext=1714343887&hash=AfplUu_FmSY14ettnD4O4XLRtMcAv7jy3Qp7ZQWQJLvZCw"
+      },
+      "contents":[
+         {
+            "type":"file",
+            "fileUrl":"https://cdn.fbsbx.com/v/t59.2708-21/434485005_930612625522428_5224348991750059641_n.pdf/ACFrOgBpkv2Rqm98YhldLaIfNbg45BYfTLeGSZtJLjOXbs0VB0pZImxnSOykt_yGe_GV8fDeOa1rDvDy9bxB32beMOBiQjcFFWHEGj0rqfCVK6RkKUdKFZ2EehpJGKf18fWyornPsoJo1-lnpFPH.pdf?_nc_cat=101&ccb=1-7&_nc_sid=2b0e22&_nc_ohc=rsmp8Hn2sogAX-QUEHb&_nc_ht=cdn.fbsbx.com&oh=03_AdR6tStc0_BdouhOMftMaz7QOOWYkdOKcvQw8OuAmRAg-A&oe=6609BE0E",
+            "fileMimeType":"application/pdf",
+            "fileName":"ACFrOgBpkv2Rqm98YhldLaIfNbg45BYfTLeGSZtJLjOXbs0VB0pZImxnSOykt_yGe_GV8fDeOa1rDvDy9bxB32beMOBiQjcFFWHEGj0rqfCVK6RkKUdKFZ2EehpJGKf18fWyornPsoJo1-lnpFPH.pdf"
+         }
+      ],
+      "timestamp":"2024-03-30 11:45:31 am"
+   },
+   "hub_access_token":"f20018fa-eb17-11ee-880c-0efa6ad28f4f.a852adee-f1f4-440e-9443-9ec21b0b3ed5",
+   "controller":"webhooks/notifica_me",
+   "action":"process_payload",
+   "channel_id":"a852adee-f1f4-440e-9443-9ec21b0b3ed5",
+   "notifica_me":{
+      "type":"MESSAGE",
+      "id":"b35acb2b-f514-4265-bbeb-2c7b6a067317",
+      "timestamp":"2024-03-30 11:45:31 am",
+      "subscriptionId":"a852adee-f1f4-440e-9443-9ec21b0b3ed5",
+      "channel":"facebook",
+      "direction":"IN",
+      "message":{
+         "id":"b35acb2b-f514-4265-bbeb-2c7b6a067317",
+         "from":"7136628119690362",
+         "to":"a852adee-f1f4-440e-9443-9ec21b0b3ed5",
+         "direction":"IN",
+         "channel":"facebook",
+         "visitor":{
+            "name":"Clairton Rodrigo Heinzen",
+            "firstName":"Clairton Rodrigo",
+            "lastName":"Heinzen",
+            "picture":"https://platform-lookaside.fbsbx.com/platform/profilepic/?eai=AXEMHxV_i8n2M787_v-PphBIRvN70e50_ZaJaygq0OQNIPH7-sfrUhrglqdj5eLWYJ23wF8DG84M&psid=7136628119690362&width=1024&ext=1714343887&hash=AfplUu_FmSY14ettnD4O4XLRtMcAv7jy3Qp7ZQWQJLvZCw"
+         },
+         "contents":[
+            {
+               "type":"file",
+               "fileUrl":"https://cdn.fbsbx.com/v/t59.2708-21/434485005_930612625522428_5224348991750059641_n.pdf/ACFrOgBpkv2Rqm98YhldLaIfNbg45BYfTLeGSZtJLjOXbs0VB0pZImxnSOykt_yGe_GV8fDeOa1rDvDy9bxB32beMOBiQjcFFWHEGj0rqfCVK6RkKUdKFZ2EehpJGKf18fWyornPsoJo1-lnpFPH.pdf?_nc_cat=101&ccb=1-7&_nc_sid=2b0e22&_nc_ohc=rsmp8Hn2sogAX-QUEHb&_nc_ht=cdn.fbsbx.com&oh=03_AdR6tStc0_BdouhOMftMaz7QOOWYkdOKcvQw8OuAmRAg-A&oe=6609BE0E",
+               "fileMimeType":"application/pdf",
+               "fileName":"ACFrOgBpkv2Rqm98YhldLaIfNbg45BYfTLeGSZtJLjOXbs0VB0pZImxnSOykt_yGe_GV8fDeOa1rDvDy9bxB32beMOBiQjcFFWHEGj0rqfCVK6RkKUdKFZ2EehpJGKf18fWyornPsoJo1-lnpFPH.pdf"
+            }
+         ],
+         "timestamp":"2024-03-30 11:45:31 am"
+      }
+   }
+}
+=end
+
   def perform(params = {})
     Rails.logger.error("NotificaMe params webhook #{params}")
     channel = Channel::NotificaMe.find_by(notifica_me_id: params['channel_id'])
@@ -184,20 +252,41 @@ class Webhooks::NotificaMeEventsJob < ApplicationJob
 
       timestamp = message[:timestamp] ? message[:timestamp].to_i : Time.now.to_i
       conversation = find_or_create_conversation(contact_inbox)
-
       ActiveRecord::Base.transaction do
         ms = message["contents"].map { |c|
-          conversation.messages.create!(
-            content: c[c["type"]],
+          content = c[c['type']] || ''
+          m = conversation.messages.build(
+            content: content,
             account_id: contact_inbox.inbox.account_id,
             inbox_id: contact_inbox.inbox.id,
             message_type: :incoming,
-            content_type: message_type(c),
+            content_type: :text,
             sender: contact_inbox.contact,
             source_id: message['id'],
-            status: :progress,
+            # status: :progress,
             # created_at: Time.at(message['timestamp'], in: 'UTC')
           )
+
+          if c['type'] != 'text'
+            attachment_file = Down.download(c['fileUrl'])
+            return if attachment_file.blank?
+            a = m.attachments.new(
+              account_id: contact_inbox.inbox.account_id,
+              file_type: file_content_type(c['fileName']),
+              file: {
+                io: attachment_file,
+                filename: c['fileName'],
+                content_type: c['fileMimeType']
+              }
+            )
+            a.save!
+            Rails.logger.error("attachment_file #{attachment_file} c['fileName'] #{c['fileName']} c['fileMimeType'] #{c['fileMimeType']}")
+            Rails.logger.error("attachment errors: #{a.errors.full_messages}")
+          end
+          m.save!
+          Rails.logger.error("message: #{m}")
+          Rails.logger.error("message attachments: #{m.attachments.length}")
+          m
         }
         Rails.logger.error("messages: #{ms}")
         ms
@@ -210,10 +299,24 @@ class Webhooks::NotificaMeEventsJob < ApplicationJob
 
   private
 
-  def message_type(content)
-    content["type"]
-  end
+  # def message_type(content)
+  #   content["type"] == 'file' ? message_type_media(content["fileMimeType"]) : content["type"]
+  # end
 
+  def file_content_type(filename)
+    split = filename.split('.')
+    extension = split[split.length - 1]
+    # @todo many extensions and files type
+    if ['docx', 'xlxx', 'ppt', 'pptx', 'xlx', 'doc', 'pdf', 'csv', 'text'].include?(extension)
+      return 'document'
+    elsif ['png', 'jpeg', 'jpg'].include?(extension)
+      return 'image'
+    elsif ['ogg', 'mp3', 'wav'].include?(extension)
+      return 'audio'
+    elsif ['mp4'].include?(extension)
+      return 'video'
+    end
+  end
 
   def find_or_create_conversation(contact_inbox)
     conversation = nil
