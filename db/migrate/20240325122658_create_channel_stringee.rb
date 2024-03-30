@@ -6,7 +6,7 @@ class CreateChannelStringee < ActiveRecord::Migration[7.0]
       t.string :queue_id, null: false
       t.string :number_id, null: false
       t.index :phone_number, name: 'index_channel_stringee_on_phone_number', unique: true
-      t.index :phone_number, :account_id, name: 'index_channel_stringee_on_phone_number_and_account_id', unique: true
+      t.index [:phone_number, :account_id], name: 'index_channel_stringee_on_phone_number_and_account_id', unique: true
       t.timestamps
     end
   end
