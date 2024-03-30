@@ -97,7 +97,43 @@ class Webhooks::NotificaMeEventsJob < ApplicationJob
 }
 =end
 
+
+=begin
+{
+   "type":"MESSAGE_STATUS",
+   "timestamp":"2024-03-29 11:40:01 pm",
+   "subscriptionId":"a852adee-f1f4-440e-9443-9ec21b0b3ed5",
+   "channel":"facebook",
+   "messageId":"0550ff2d-62f1-45e7-bbf6-fb7b33bb6f80",
+   "contentIndex":0,
+   "messageStatus":{
+      "timestamp":"2024-03-29 11:40:01 pm",
+      "code":"SENT",
+      "description":"The message has been forwarded to the provider"
+   },
+   "hub_access_token":"f20018fa-eb17-11ee-880c-0efa6ad28f4f.a852adee-f1f4-440e-9443-9ec21b0b3ed5",
+   "controller":"webhooks/notifica_me",
+   "action":"process_payload",
+   "channel_id":"a852adee-f1f4-440e-9443-9ec21b0b3ed5",
+   "notifica_me":{
+      "type":"MESSAGE_STATUS",
+      "timestamp":"2024-03-29 11:40:01 pm",
+      "subscriptionId":"a852adee-f1f4-440e-9443-9ec21b0b3ed5",
+      "channel":"facebook",
+      "messageId":"0550ff2d-62f1-45e7-bbf6-fb7b33bb6f80",
+      "contentIndex":0,
+      "messageStatus":{
+         "timestamp":"2024-03-29 11:40:01 pm",
+         "code":"SENT",
+         "description":"The message has been forwarded to the provider"
+      }
+   },
+   "retried":true
+}
+=end
+
   def perform(params = {})
+    Rails.logger.error("NotificaMe params webhook #{params}")
     channel = Channel::NotificaMe.find_by(notifica_me_id: params['channel_id'])
     unless channel
       Rails.logger.warn("NotificaMe Channel #{params['channel_id']} not found")
@@ -122,11 +158,17 @@ class Webhooks::NotificaMeEventsJob < ApplicationJob
         end
         return
       end
-
+      index = Message.statuses[message.status]
       if params['messageStatus']['code'] == 'REJECTED'
         message.update!(status: :failed, external_error: params['messageStatus']['description'])
+      elsif params['messageStatus']['code'] == 'SENT'
+        message.update!(status: :sent) if index < Message.statuses[:sent] || message.status == :failed
+      elsif params['messageStatus']['code'] == 'DELIVERED'
+        message.update!(status: :delivered) if index < Message.statuses[:delivered] || message.status == :failed
       end
     elsif params['type'] == 'MESSAGE'
+      return if  params['direction']  == 'OUT'
+
       message = params['message']
       visitor = message['visitor']
       contact_inbox = ::ContactInboxWithContactBuilder.new(
@@ -145,14 +187,15 @@ class Webhooks::NotificaMeEventsJob < ApplicationJob
 
       ActiveRecord::Base.transaction do
         ms = message["contents"].map { |c|
-          conversation.messages.build(
+          conversation.messages.create!(
             content: c[c["type"]],
             account_id: contact_inbox.inbox.account_id,
-            inbox_id: contact_inbox.id,
+            inbox_id: contact_inbox.inbox.id,
             message_type: :incoming,
             content_type: message_type(c),
             sender: contact_inbox.contact,
             source_id: message['id'],
+            status: :progress,
             # created_at: Time.at(message['timestamp'], in: 'UTC')
           )
         }
