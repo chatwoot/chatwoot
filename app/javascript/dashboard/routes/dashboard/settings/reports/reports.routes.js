@@ -157,7 +157,7 @@ export default {
       component: SettingsContent,
       props: {
         headerTitle: 'SLA_REPORTS.HEADER',
-        icon: 'people-team',
+        icon: 'document-list-clock',
         keepAlive: false,
       },
       children: [
