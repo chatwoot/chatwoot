@@ -1,5 +1,5 @@
 class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
-  before_action :fetch_agent, except: [:create, :index, :bulk_create]
+  before_action :fetch_agent, except: [:create, :index, :bulk_create, :new_stringee_token]
   before_action :check_authorization
   before_action :validate_limit, only: [:create]
   before_action :validate_limit_for_bulk_create, only: [:bulk_create]
@@ -55,6 +55,14 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
     Current.account.custom_attributes.delete('onboarding_step')
     Current.account.save!
     head :ok
+  end
+
+  def new_stringee_token
+    user = Current.account.users.find(params[:agent_id])
+    new_token = user.stringee_access_token
+    user.custom_attributes['stringee_access_token'] = new_token
+    user.save!
+    render json: { token: new_token }
   end
 
   private
