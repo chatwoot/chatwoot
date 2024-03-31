@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="min-w-full border rounded-xl border-slate-75 dark:border-slate-800/50"
+      class="min-w-full border-t border-x rounded-xl border-slate-75 dark:border-slate-800/50"
     >
       <!-- Header -->
       <div
@@ -35,11 +35,10 @@
       />
     </div>
     <table-footer
-      v-if="shouldShowFooter"
       :current-page="currentPage"
       :total-count="totalCount"
       :page-size="pageSize"
-      class="dark:bg-slate-900 sticky bottom-0"
+      class="dark:bg-slate-900 sticky bottom-0 border-none"
       @page-change="onPageChange"
     />
   </div>
