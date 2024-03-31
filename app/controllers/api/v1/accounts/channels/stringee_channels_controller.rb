@@ -50,6 +50,7 @@ class Api::V1::Accounts::Channels::StringeeChannelsController < Api::V1::Account
     return if agent_id.blank?
 
     user.custom_attributes['agent_id'] = agent_id
+    user.custom_attributes['stringee_access_token'] = user.stringee_access_token
     user.save!
   end
 
@@ -61,6 +62,9 @@ class Api::V1::Accounts::Channels::StringeeChannelsController < Api::V1::Account
     return if agent_id.blank?
 
     delete_agent(agent_id)
+    user.custom_attributes.delete('agent_id')
+    user.custom_attributes.delete('stringee_access_token')
+    user.save!
   end
 
   def user_in_stringee_channel(user_id)
@@ -87,23 +91,5 @@ class Api::V1::Accounts::Channels::StringeeChannelsController < Api::V1::Account
   def handle_exception(exception)
     ChatwootExceptionTracker.new(exception).capture_exception
     Rails.logger.error "Error in create inbox for Stringee phone call channel: #{exception.message}"
-  end
-
-  # TODO: will move to a separate helper
-  def user_access_token(user_id)
-    now = Time.now.to_i
-    exp = now + (30 * 24 * 60 * 60) # 30 days -> TODO: change to same time as login token expiration
-    api_key_sid = ENV.fetch('STRINGEE_API_KEY_SID', nil)
-    api_key_secret = ENV.fetch('STRINGEE_API_KEY_SECRET', nil)
-
-    header = { 'cty' => 'stringee-api;v=1' }
-    payload = {
-      'jti' => "#{api_key_sid}-#{now}",
-      'iss' => api_key_sid,
-      'exp' => exp,
-      'userId' => user_id
-    }
-
-    JWT.encode(payload, api_key_secret, 'HS256', header)
   end
 end

@@ -124,7 +124,9 @@ export default {
     startLogin() {
       this.hasLoginStarted = true;
       window.location.replace(
-        'https://oauth.zaloapp.com/v4/oa/permission?app_id=1705469258416327647&redirect_uri=' +
+        'https://oauth.zaloapp.com/v4/oa/permission?app_id=' +
+          window.chatwootConfig.zaloAppId +
+          '&redirect_uri=' +
           window.chatwootConfig.hostURL +
           '/zalo/callback&state=' +
           encodeURIComponent(this.accountId)
