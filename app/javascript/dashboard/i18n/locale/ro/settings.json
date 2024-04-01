@@ -225,7 +225,6 @@
     "MACROS": "Macrocomenzi",
     "TEAMS": "Echipe",
     "BILLING": "Facturare",
-    "CHATBOT": "Chatbot",
     "CUSTOM_VIEWS_FOLDER": "Foldere",
     "CUSTOM_VIEWS_SEGMENTS": "Segmente",
     "ALL_CONTACTS": "Toate persoanele de contact",
@@ -280,9 +279,6 @@
       "BUTTON_TXT": "Discută cu noi"
     },
     "NO_BILLING_USER": "Contul de facturare este configurat. Vă rugăm să reîmprospătați pagina și încercați din nou."
-  },
-  "CHATBOT": {
-    "TITLE": "Chatbot"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! Nu am putut găsi niciun cont Chatwoot. Vă rugăm să creați un cont nou pentru a continua.",

@@ -225,7 +225,6 @@
     "MACROS": "Macros",
     "TEAMS": "Equipos",
     "BILLING": "Facturación",
-    "CHATBOT": "Chatbot",
     "CUSTOM_VIEWS_FOLDER": "Carpetas",
     "CUSTOM_VIEWS_SEGMENTS": "Segmentos",
     "ALL_CONTACTS": "Todos los contactos",
@@ -280,9 +279,6 @@
       "BUTTON_TXT": "Chatea con nosotros"
     },
     "NO_BILLING_USER": "Tu cuenta de facturación está siendo configurada. Por favor, actualiza la página e inténtalo de nuevo."
-  },
-  "CHATBOT": {
-    "TITLE": "Chatbot"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "¡Oh oh! No hemos podido encontrar ninguna cuenta de \"Chatwoot\". Por favor, crea una nueva cuenta para continuar.",

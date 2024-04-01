@@ -225,7 +225,6 @@
     "MACROS": "Macros",
     "TEAMS": "Teams",
     "BILLING": "Fakturering",
-    "CHATBOT": "Chatbot",
     "CUSTOM_VIEWS_FOLDER": "Mapper",
     "CUSTOM_VIEWS_SEGMENTS": "Segmenter",
     "ALL_CONTACTS": "Alle Kontakter",
@@ -280,9 +279,6 @@
       "BUTTON_TXT": "Chat med os"
     },
     "NO_BILLING_USER": "Din faktureringskonto er ved at blive konfigureret. Opdater venligst siden og prøv igen."
-  },
-  "CHATBOT": {
-    "TITLE": "Chatbot"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! Vi kunne ikke finde nogen Chatwoot-konti. Opret venligst en ny konto for at fortsætte.",

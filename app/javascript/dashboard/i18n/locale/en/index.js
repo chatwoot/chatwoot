@@ -29,7 +29,6 @@ import settings from './settings.json';
 import signup from './signup.json';
 import teamsSettings from './teamsSettings.json';
 import whatsappTemplates from './whatsappTemplates.json';
-import chatbotSettings from './chatbotSettings.json';
 import sla from './sla.json';
 import inbox from './inbox.json';
 
@@ -66,6 +65,5 @@ export default {
   ...sla,
   ...teamsSettings,
   ...whatsappTemplates,
-  ...chatbotSettings,
   ...inbox,
 };
