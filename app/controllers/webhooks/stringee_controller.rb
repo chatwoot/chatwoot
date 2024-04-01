@@ -40,7 +40,7 @@ class Webhooks::StringeeController < ActionController::API
     users.each do |user|
       agents <<
         {
-          stringee_user_id: user.custom_attributes['agent_id'],
+          stringee_user_id: user.stringee_user_id,
           routing_type: 1,
           answer_timeout: 15
         }

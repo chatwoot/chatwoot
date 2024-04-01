@@ -45,8 +45,7 @@ class Api::V1::Accounts::Channels::StringeeChannelsController < Api::V1::Account
     return if user_in_stringee_channel(user_id)
 
     user = User.find(user_id)
-    stringee_user_id = user.email.sub('@', '_')
-    agent_id = create_agent(user.name, stringee_user_id)
+    agent_id = create_agent(user.name, user.stringee_user_id)
     return if agent_id.blank?
 
     user.custom_attributes['agent_id'] = agent_id
