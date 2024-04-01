@@ -14,15 +14,15 @@ RSpec.describe Sla::ProcessAccountAppliedSlasJob do
         .on_queue('medium')
     end
 
-    it 'calls the ProcessAppliedSlaJob for both active and active_with_misses' do
-      expect(Sla::ProcessAppliedSlaJob).to receive(:perform_later).with(active_with_misses_applied_sla).and_call_original
-      expect(Sla::ProcessAppliedSlaJob).to receive(:perform_later).with(applied_sla).and_call_original
+    it 'calls the EvaluateAppliedSlaService for both active and active_with_misses' do
+      expect(Sla::EvaluateAppliedSlaService).to receive(:perform).with(active_with_misses_applied_sla).and_call_original
+      expect(Sla::EvaluateAppliedSlaService).to receive(:perform).with(applied_sla).and_call_original
       described_class.perform_now(account)
     end
 
-    it 'does not call the ProcessAppliedSlaJob for applied slas that are hit or miss' do
-      expect(Sla::ProcessAppliedSlaJob).not_to receive(:perform_later).with(hit_applied_sla)
-      expect(Sla::ProcessAppliedSlaJob).not_to receive(:perform_later).with(miss_applied_sla)
+    it 'does not call the EvaluateAppliedSlaService for applied slas that are hit or miss' do
+      expect(Sla::EvaluateAppliedSlaService).not_to receive(:perform).with(hit_applied_sla)
+      expect(Sla::EvaluateAppliedSlaService).not_to receive(:perform).with(miss_applied_sla)
       described_class.perform_now(account)
     end
   end
