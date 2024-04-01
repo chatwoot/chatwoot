@@ -12,7 +12,7 @@
         @mouseover="onHover(index)"
       >
         <button
-          class="flex group flex-col gap-0.5 overflow-hidden cursor-pointer items-start py-2.5 px-2.5 justify-center w-full h-full text-left hover:bg-woot-50 dark:hover:bg-woot-800 border-b border-solid border-slate-100 dark:border-slate-700"
+          class="flex group flex-col gap-0.5 overflow-hidden cursor-pointer items-start rounded-none py-2.5 px-2.5 justify-center w-full h-full text-left hover:bg-woot-50 dark:hover:bg-woot-800 border-x-0 border-t-0 border-b border-solid border-slate-100 dark:border-slate-700"
           :class="{
             ' bg-woot-25 dark:bg-woot-800': index === selectedIndex,
           }"

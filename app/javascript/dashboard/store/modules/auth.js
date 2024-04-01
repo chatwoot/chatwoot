@@ -181,6 +181,14 @@ export const actions = {
       // Ignore error
     }
   },
+
+  resendConfirmation: async () => {
+    try {
+      await authAPI.resendConfirmation();
+    } catch (error) {
+      // Ignore error
+    }
+  },
 };
 
 // mutations

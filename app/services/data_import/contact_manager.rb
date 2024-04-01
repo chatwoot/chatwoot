@@ -35,7 +35,7 @@ class DataImport::ContactManager
   def find_contact_by_email(params)
     return unless params[:email]
 
-    @account.contacts.find_by(email: params[:email])
+    @account.contacts.from_email(params[:email])
   end
 
   def find_contact_by_phone_number(params)

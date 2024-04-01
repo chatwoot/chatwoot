@@ -43,6 +43,7 @@ const settings = accountId => ({
     'chatbot_new',
     'chatbot_edit',
     'chatbot_connect_inbox',
+    'sla_list',
   ],
   menuItems: [
     {
@@ -162,7 +163,7 @@ const settings = accountId => ({
       featureFlag: FEATURE_FLAGS.AUDIT_LOGS,
       beta: true,
     },
-    //Added for OneHash Billing
+    // Added for OneHash Billing
     {
       icon: 'credit-card-person',
       label: 'BILLING',
@@ -170,14 +171,22 @@ const settings = accountId => ({
       toState: frontendURL(`accounts/${accountId}/settings/billing`),
       toStateName: 'billing_settings_index',
     },
-    // added on hash chatbot 
+    // Added for OneHash ai chatbot 
     {
       icon: 'chatbot-icon',
       label: 'CHATBOT',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/chatbot`),
       toStateName: 'chatbot_index',
-      // showOnlyOnCloud: true,
+    },
+    {
+      icon: 'document-list-clock',
+      label: 'SLA',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/settings/sla/list`),
+      toStateName: 'sla_list',
+      featureFlag: FEATURE_FLAGS.SLA,
+      beta: true,
     },
   ],
 });

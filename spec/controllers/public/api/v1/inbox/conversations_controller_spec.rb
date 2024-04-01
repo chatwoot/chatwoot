@@ -36,6 +36,45 @@ RSpec.describe 'Public Inbox Contact Conversations API', type: :request do
     end
   end
 
+  describe 'GET /public/api/v1/inboxes/{identifier}/contact/{source_id}/conversations/{conversation_id}' do
+    it 'returns the conversation that the contact has access to' do
+      conversation = create(:conversation, contact_inbox: contact_inbox)
+      create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, content: 'message-1')
+      create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, content: 'message-2')
+
+      get "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations/#{conversation.display_id}"
+
+      expect(response).to have_http_status(:success)
+      data = response.parsed_body
+      expect(data['id']).to eq(conversation.display_id)
+      expect(data['messages']).to be_a(Array)
+      expect(data['messages'].length).to eq(conversation.messages.count)
+      expect(data['messages'].pluck('content')).to include(conversation.messages.first.content)
+    end
+  end
+
+  describe 'POST /public/api/v1/inboxes/{identifier}/contact/{source_id}/conversations/{conversation_id}/toggle_status' do
+    it 'resolves the conversation' do
+      conversation = create(:conversation, contact_inbox: contact_inbox)
+      display_id = conversation.display_id
+
+      post "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations/#{display_id}/toggle_status"
+
+      expect(response).to have_http_status(:success)
+      expect(conversation.reload).to be_resolved
+    end
+
+    it 'does not resolve a conversation that is already resolved' do
+      conversation = create(:conversation, contact_inbox: contact_inbox, status: :resolved)
+      display_id = conversation.display_id
+
+      post "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations/#{display_id}/toggle_status"
+
+      expect(response).to have_http_status(:success)
+      expect(Conversation.where(id: conversation.id, status: :resolved).count).to eq(1)
+    end
+  end
+
   describe 'POST /public/api/v1/inboxes/{identifier}/contact/{source_id}/conversations' do
     it 'creates a conversation for that contact' do
       post "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations"

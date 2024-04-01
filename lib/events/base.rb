@@ -9,6 +9,6 @@ class Events::Base
   end
 
   def method_name
-    name.to_s.gsub('.', '_')
+    name.to_s.tr('.', '_')
   end
 end

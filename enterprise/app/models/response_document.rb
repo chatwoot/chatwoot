@@ -35,12 +35,12 @@ class ResponseDocument < ApplicationRecord
   def ensure_content
     return unless content.nil?
 
-    ResponseDocumentContentJob.perform_later(self)
+    ResponseBot::ResponseDocumentContentJob.perform_later(self)
   end
 
   def handle_content_change
     return unless saved_change_to_content? && content.present?
 
-    ResponseBuilderJob.perform_later(self)
+    ResponseBot::ResponseBuilderJob.perform_later(self)
   end
 end

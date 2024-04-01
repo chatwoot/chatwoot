@@ -25,7 +25,7 @@ jobs:
             echo "Deploying to EC2"
             sudo -i -u chatwoot <<EOF
             cd chatwoot 
-            git fetch -all
+            git fetch --all
             git reset --hard origin/develop
             bundle install
             yarn install

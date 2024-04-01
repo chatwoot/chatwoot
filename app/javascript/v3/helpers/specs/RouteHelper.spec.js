@@ -1,4 +1,4 @@
-import { validateRouteAccess } from '../RouteHelper';
+import { validateRouteAccess, isOnOnboardingView } from '../RouteHelper';
 import { clearBrowserSessionCookies } from 'dashboard/store/utils/api';
 import { replaceRouteWithReload } from '../CommonHelper';
 import Cookies from 'js-cookie';
@@ -10,10 +10,10 @@ jest.mock('dashboard/store/utils/api', () => ({
 jest.mock('../CommonHelper', () => ({ replaceRouteWithReload: jest.fn() }));
 
 jest.mock('js-cookie', () => ({
-  getJSON: jest.fn(),
+  get: jest.fn(),
 }));
 
-Cookies.getJSON.mockReturnValueOnce(true).mockReturnValue(false);
+Cookies.get.mockReturnValueOnce(true).mockReturnValue(false);
 describe('#validateRouteAccess', () => {
   it('reset cookies and continues to the login page if the SSO parameters are present', () => {
     validateRouteAccess(
@@ -40,7 +40,7 @@ describe('#validateRouteAccess', () => {
   });
 
   it('redirects to dashboard if auth cookie is present', () => {
-    Cookies.getJSON.mockImplementation(() => true);
+    Cookies.get.mockImplementation(() => true);
     validateRouteAccess({ name: 'login' }, next);
     expect(clearBrowserSessionCookies).not.toHaveBeenCalled();
     expect(replaceRouteWithReload).toHaveBeenCalledWith('/app/');
@@ -65,5 +65,26 @@ describe('#validateRouteAccess', () => {
     validateRouteAccess({ name: 'reset_password' }, next);
     expect(clearBrowserSessionCookies).not.toHaveBeenCalled();
     expect(next).toHaveBeenCalledWith();
+  });
+});
+
+describe('isOnOnboardingView', () => {
+  test('returns true for a route with onboarding name', () => {
+    const route = { name: 'onboarding_welcome' };
+    expect(isOnOnboardingView(route)).toBe(true);
+  });
+
+  test('returns false for a route without onboarding name', () => {
+    const route = { name: 'home' };
+    expect(isOnOnboardingView(route)).toBe(false);
+  });
+
+  test('returns false for a route with null name', () => {
+    const route = { name: null };
+    expect(isOnOnboardingView(route)).toBe(false);
+  });
+
+  test('returns false for an  undefined route object', () => {
+    expect(isOnOnboardingView()).toBe(false);
   });
 });

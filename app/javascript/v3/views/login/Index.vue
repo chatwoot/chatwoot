@@ -45,6 +45,7 @@
             name="email_address"
             type="text"
             data-testid="email_input"
+            :tabindex="1"
             required
             :label="$t('LOGIN.EMAIL.LABEL')"
             :placeholder="$t('LOGIN.EMAIL.PLACEHOLDER')"
@@ -57,25 +58,30 @@
             name="password"
             data-testid="password_input"
             required
+            :tabindex="2"
             :label="$t('LOGIN.PASSWORD.LABEL')"
             :placeholder="$t('LOGIN.PASSWORD.PLACEHOLDER')"
             :has-error="$v.credentials.password.$error"
             @input="$v.credentials.password.$touch"
           >
             <p v-if="!globalConfig.disableUserProfileUpdate">
-              <router-link to="auth/reset/password" class="text-link">
+              <router-link
+                to="auth/reset/password"
+                class="text-link text-sm"
+                tabindex="4"
+              >
                 {{ $t('LOGIN.FORGOT_PASSWORD') }}
               </router-link>
             </p>
           </form-input>
           <submit-button
             :disabled="loginApi.showLoading"
+            :tabindex="3"
             :button-text="$t('LOGIN.SUBMIT')"
             :loading="loginApi.showLoading"
           />
         </form>
         <GoogleOAuthButton v-if="showGoogleOAuth" />
-        <OIDCButton v-if="showOIDC"/>
       </div>
       <div v-else class="flex items-center justify-center">
         <spinner color-scheme="primary" size="" />
@@ -91,7 +97,6 @@ import SubmitButton from '../../components/Button/SubmitButton.vue';
 import { mapGetters } from 'vuex';
 import { parseBoolean } from '@chatwoot/utils';
 import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
-import OIDCButton from '../../components/SSO/OIDC/Button.vue';
 import FormInput from '../../components/Form/Input.vue';
 import { login } from '../../api/auth';
 import Spinner from 'shared/components/Spinner.vue';
@@ -104,8 +109,6 @@ export default {
   components: {
     FormInput,
     GoogleOAuthButton,
-    //KEYCLOAK OIDC
-    OIDCButton,
     Spinner,
     SubmitButton,
   },
@@ -149,9 +152,6 @@ export default {
     ...mapGetters({ globalConfig: 'globalConfig/get' }),
     showGoogleOAuth() {
       return Boolean(window.chatwootConfig.googleOAuthClientId);
-    },
-    showOIDC() {
-      return Boolean(window.chatwootConfig.keycloakClientId);
     },
     showSignupLink() {
       return parseBoolean(window.chatwootConfig.signupEnabled);

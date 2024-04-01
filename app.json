@@ -72,6 +72,11 @@
       "scripts": {
         "test": "bundle exec rake test"
       }
+    },
+    "review": {
+      "scripts": {
+        "postdeploy": "bundle exec rails db:seed"
+      }
     }
   }
 }
