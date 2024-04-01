@@ -17,7 +17,6 @@ class Digitaltolk::CloseResolvedConversationService
            .resolved
            .unclosed
            .joins(:messages)
-           .where("messages.processed_message_content LIKE '%resolved%'")
   end
 
   def chat_conversations
