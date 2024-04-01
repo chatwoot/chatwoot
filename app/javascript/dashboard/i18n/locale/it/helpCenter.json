@@ -319,7 +319,7 @@
       "HEADERS": {
         "TITLE": "Titolo",
         "CATEGORY": "Categoria",
-        "READ_COUNT": "Contatore delle letture",
+        "READ_COUNT": "Views",
         "STATUS": "Stato",
         "LAST_EDITED": "Ultima modifica"
       },
