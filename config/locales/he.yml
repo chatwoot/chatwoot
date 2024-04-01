@@ -17,7 +17,6 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 he:
-  prompt: "%{client_message}"
   hello: "שלום עולם"
   messages:
     reset_password_success: יאס! בקשה לאיפוס ססמה נשלחה בהצלחה. בדוק תיבת מייל להוראות.

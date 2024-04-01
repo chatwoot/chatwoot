@@ -17,7 +17,6 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 fr:
-  prompt: "%{client_message}"
   hello: "Bonjour le monde"
   messages:
     reset_password_success: Super ! La demande de réinitialisation du mot de passe a réussi. Consultez vos e-mails pour obtenir des instructions.

@@ -225,7 +225,6 @@
     "MACROS": "Macros",
     "TEAMS": "Equipas",
     "BILLING": "Cobrança",
-    "CHATBOT": "Chatbot",
     "CUSTOM_VIEWS_FOLDER": "Pastas",
     "CUSTOM_VIEWS_SEGMENTS": "Segmentos",
     "ALL_CONTACTS": "Todos os contatos",
@@ -280,9 +279,6 @@
       "BUTTON_TXT": "Fale connosco"
     },
     "NO_BILLING_USER": "Os seus dados de pagamento estão a ser configurados. Atualize a página e tente novamente."
-  },
-  "CHATBOT": {
-    "TITLE": "Chatbot"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Não conseguimos encontrar nenhuma conta do Chatwoot. Por favor, crie uma nova conta para continuar.",

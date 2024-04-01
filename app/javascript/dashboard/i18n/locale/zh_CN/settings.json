@@ -225,7 +225,6 @@
     "MACROS": "宏",
     "TEAMS": "Teams",
     "BILLING": "Billing",
-    "CHATBOT": "Chatbot",
     "CUSTOM_VIEWS_FOLDER": "Folders",
     "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
@@ -280,9 +279,6 @@
       "BUTTON_TXT": "联系我们"
     },
     "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
-  },
-  "CHATBOT": {
-    "TITLE": "Chatbot"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",

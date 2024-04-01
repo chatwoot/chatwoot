@@ -225,7 +225,6 @@
     "MACROS": "Macros",
     "TEAMS": "Times",
     "BILLING": "Cobrança",
-    "CHATBOT": "Chatbot",
     "CUSTOM_VIEWS_FOLDER": "Pastas",
     "CUSTOM_VIEWS_SEGMENTS": "Segmentos",
     "ALL_CONTACTS": "Todos os Contatos",
@@ -280,9 +279,6 @@
       "BUTTON_TXT": "Fale conosco no chat"
     },
     "NO_BILLING_USER": "A sua conta de cobrança está sendo configurada. Atualize a página e tente novamente."
-  },
-  "CHATBOT": {
-    "TITLE": "Chatbot"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ah oh! Não conseguimos encontrar nenhuma conta. Por favor, crie uma nova conta para continuar.",
