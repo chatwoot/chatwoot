@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 overflow-auto px-1">
+  <!-- <div class="flex-1 overflow-auto px-1">
     <form class="space-y-3" @submit.prevent="submit">
       <div class="flex">
         <form-input
@@ -75,7 +75,7 @@
       class="text-sm mb-1 mt-5 text-slate-800 dark:text-woot-50 [&>a]:text-woot-500 [&>a]:font-medium [&>a]:hover:text-woot-600 flex justify-center items-center gap-1"
       v-html="termsLink"
     />
-  </div>
+  </div> -->
 </template>
 
 <script>
