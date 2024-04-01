@@ -394,6 +394,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_06_201954) do
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
   end
 
+  create_table "chatbots", force: :cascade do |t|
+    t.datetime "last_trained_at"
+    t.string "chatbot_name"
+    t.string "chatbot_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "account_id", default: 0, null: false
+  end
+
   create_table "contact_inboxes", force: :cascade do |t|
     t.bigint "contact_id"
     t.bigint "inbox_id"

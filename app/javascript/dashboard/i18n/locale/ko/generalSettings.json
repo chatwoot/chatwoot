@@ -1,5 +1,7 @@
 {
   "GENERAL_SETTINGS": {
+    "BANNER_CHATBOT_CREATION": "챗봇 생성 진행 중",
+    "BANNER_CHATBOT_FAIL": "챗봇 생성 실패",
     "TITLE": "계정 설정",
     "SUBMIT": "설정 업데이트",
     "BACK": "뒤로",

@@ -1,5 +1,7 @@
 {
   "GENERAL_SETTINGS": {
+    "BANNER_CHATBOT_CREATION": "Oprettelse af chatbot er i gang",
+    "BANNER_CHATBOT_FAIL": "Oprettelse af chatbot mislykkedes",
     "TITLE": "Kontoindstillinger",
     "SUBMIT": "Opdater indstillinger",
     "BACK": "Tilbage",

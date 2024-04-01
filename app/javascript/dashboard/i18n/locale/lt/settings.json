@@ -225,6 +225,7 @@
     "MACROS": "Makrokomandos",
     "TEAMS": "Komandos",
     "BILLING": "Atsiskaitymas",
+    "CHATBOT": "Chatbot",
     "CUSTOM_VIEWS_FOLDER": "Aplankas",
     "CUSTOM_VIEWS_SEGMENTS": "Segmentas",
     "ALL_CONTACTS": "Visi Kontaktai",
@@ -279,6 +280,9 @@
       "BUTTON_TXT": "Pabendraukite su mumis"
     },
     "NO_BILLING_USER": "Jūsų atsiskaitomoji sąskaita konfigūruojama. Atnaujinkite puslapį ir bandykite dar kartą."
+  },
+  "CHATBOT": {
+    "TITLE": "Chatbot"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Oi! Nepavyko rasti jokių Chatwoot paskyrų. Jei norite tęsti, susikurkite naują paskyrą.",

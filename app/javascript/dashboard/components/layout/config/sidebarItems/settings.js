@@ -39,6 +39,10 @@ const settings = accountId => ({
     'settings_teams_finish',
     'settings_teams_list',
     'settings_teams_new',
+    'chatbot_index',
+    'chatbot_new',
+    'chatbot_edit',
+    'chatbot_connect_inbox',
     'sla_list',
   ],
   menuItems: [
@@ -166,6 +170,14 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/billing`),
       toStateName: 'billing_settings_index',
+    },
+    // Added for OneHash ai chatbot 
+    {
+      icon: 'chatbot-icon',
+      label: 'CHATBOT',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/settings/chatbot`),
+      toStateName: 'chatbot_index',
     },
     {
       icon: 'document-list-clock',

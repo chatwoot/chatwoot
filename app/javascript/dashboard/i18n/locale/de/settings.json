@@ -225,6 +225,7 @@
     "MACROS": "Makros",
     "TEAMS": "Teams",
     "BILLING": "Rechnungen",
+    "CHATBOT": "Chatbot",
     "CUSTOM_VIEWS_FOLDER": "Ordner",
     "CUSTOM_VIEWS_SEGMENTS": "Segmente",
     "ALL_CONTACTS": "Alle Kontakte",
@@ -279,6 +280,9 @@
       "BUTTON_TXT": "Chatten Sie mit uns"
     },
     "NO_BILLING_USER": "Ihr Rechnungskonto wird konfiguriert. Bitte aktualisieren Sie die Seite und versuchen Sie es erneut."
+  },
+  "CHATBOT": {
+    "TITLE": "Chatbot"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Oh oh! Wir konnten keine Chatwoot-Konten finden. Bitte erstellen Sie ein neues Konto um fortzufahren.",

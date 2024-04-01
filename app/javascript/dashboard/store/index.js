@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+import chatbot from './modules/chatbot';
 import accounts from './modules/accounts';
 import agentBots from './modules/agentBots';
 import agents from './modules/agents';
@@ -68,6 +69,7 @@ if (window.logRocketProjectId) {
 Vue.use(Vuex);
 export default new Vuex.Store({
   modules: {
+    chatbot,
     accounts,
     agentBots,
     agents,

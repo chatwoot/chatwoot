@@ -1,5 +1,7 @@
 {
   "GENERAL_SETTINGS": {
+    "BANNER_CHATBOT_CREATION": "Keskusteluavustajan luominen käynnissä",
+    "BANNER_CHATBOT_FAIL": "Keskusteluavustajan luominen epäonnistui",
     "TITLE": "Tilin asetukset",
     "SUBMIT": "Päivitä asetukset",
     "BACK": "Takaisin",

@@ -1,0 +1,52 @@
+{
+    "CHATBOT_SETTINGS": {
+      "CHATBOT": "Chatbot",
+      "BOT_STATUS": "Chatbot-Status",
+      "NEW_BOT": "Neuer Chatbot",
+      "CONNECT_INBOX": "Postfach verbinden",
+      "LAST_TRAINED_AT": "Zuletzt trainiert am: ",
+      "CHATBOT_ID": "Chatbot-ID: ",
+      "BROWSE_FILES": "Dateien durchsuchen",
+      "UPDATE": "Aktualisieren",
+      "CHATBOT_INBOX_CONNECT": "Chatbot mit Postfach verbinden",
+      "FILE_TYPES": {
+        "DOC": ".doc",
+        "PDF": ".pdf",
+        "TXT": ".txt"
+      },
+      "UPLOAD": {
+        "FILE": "Datei",
+        "TEXT": "Text",
+        "WEBSITE": "Website"
+      },
+      "FORM": {
+        "CONNECT_INBOX": "Postfach verbinden",
+        "ADD_URL": "URL hinzufügen",
+        "NAME": {
+          "LABEL": "Chatbot-Name",
+          "PLACEHOLDER": "Beispiel: Chatbot 1"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Chatbot-Beschreibung",
+          "PLACEHOLDER": "Kurze Beschreibung dieses Chatbots."
+        },
+        "SUBMIT_CREATE": "Chatbot erstellen"
+      },
+      "SIDEBAR_TXT": "<p><b>Chatbot erstellen</b></p> <p>Chatbot ermöglicht es Ihnen, den Bot mit Ihren eigenen persönlichen Daten zu trainieren. <br /> Ein Bot, der auf persönlichen Daten trainiert ist, antwortet nur auf Anfragen basierend auf den Daten, auf denen er trainiert wurde.</p>",
+      "LIST": {
+        "404": "Auf diesem Konto wurden keine Chatbots erstellt.",
+        "EDIT_BOT": "Bearbeiten"
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "Löschen",
+        "CONFIRM": {
+          "TITLE": "Löschen bestätigen",
+          "PLACE_HOLDER": "Bitte geben Sie {chatbotName} ein, um zu bestätigen",
+          "MESSAGE": "Durch das Löschen des Chatbots werden dieser Bot und die darauf trainierten Daten dauerhaft gelöscht.",
+          "YES": "Löschen ",
+          "NO": "Abbrechen"
+        }
+      }
+    }
+  }
+  

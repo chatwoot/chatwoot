@@ -1,5 +1,7 @@
 {
   "GENERAL_SETTINGS": {
+    "BANNER_CHATBOT_CREATION": "Chatbot 作成中",
+    "BANNER_CHATBOT_FAIL": "Chatbot 作成に失敗しました",
     "TITLE": "アカウント設定",
     "SUBMIT": "設定を更新",
     "BACK": "戻る",

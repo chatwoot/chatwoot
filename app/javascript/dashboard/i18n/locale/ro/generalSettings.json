@@ -1,5 +1,7 @@
 {
   "GENERAL_SETTINGS": {
+    "BANNER_CHATBOT_CREATION": "Crearea Chatbotului în Curs",
+    "BANNER_CHATBOT_FAIL": "Crearea Chatbotului a Eșuat",
     "TITLE": "Setări cont",
     "SUBMIT": "Actualizați setările",
     "BACK": "Înapoi",

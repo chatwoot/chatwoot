@@ -225,6 +225,7 @@
     "MACROS": "Макрос",
     "TEAMS": "Команды",
     "BILLING": "Платёж",
+    "CHATBOT": "Chatbot",
     "CUSTOM_VIEWS_FOLDER": "Папки",
     "CUSTOM_VIEWS_SEGMENTS": "Сегменты",
     "ALL_CONTACTS": "Все контакты",
@@ -279,6 +280,9 @@
       "BUTTON_TXT": "Пообщайтесь с нами"
     },
     "NO_BILLING_USER": "Ваш платёжный счёт настраивается. Пожалуйста, обновите страницу и повторите попытку."
+  },
+  "CHATBOT": {
+    "TITLE": "Chatbot"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ой! Мы не смогли найти ни одного аккаунта в Chatwoot. Пожалуйста, создайте новый аккаунт, чтобы продолжить.",

@@ -225,6 +225,7 @@
     "MACROS": "מאקרו",
     "TEAMS": "צוותים",
     "BILLING": "חיוב",
+    "CHATBOT": "Chatbot",
     "CUSTOM_VIEWS_FOLDER": "תיקיות",
     "CUSTOM_VIEWS_SEGMENTS": "פלחים",
     "ALL_CONTACTS": "כל אנשי הקשר",
@@ -279,6 +280,9 @@
       "BUTTON_TXT": "דבר איתנו"
     },
     "NO_BILLING_USER": "חשבון החיוב שלך מוגדר. אנא רענן את הדף ונסה שוב."
+  },
+  "CHATBOT": {
+    "TITLE": "Chatbot"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "אה הו! לא הצלחנו למצוא חשבונות Chatwoot. נא ליצור חשבון חדש כדי להמשיך.",

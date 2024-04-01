@@ -225,6 +225,7 @@
     "MACROS": "Macros",
     "TEAMS": "Teams",
     "BILLING": "Billing",
+    "CHATBOT": "Chatbot",
     "CUSTOM_VIEWS_FOLDER": "Folders",
     "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "All Contacts",
@@ -279,6 +280,9 @@
       "BUTTON_TXT": "Spjallaðu við okkur"
     },
     "NO_BILLING_USER": "Verið er að stilla innheimtureikninginn þinn. Endurnýjaðu síðuna og reyndu aftur."
+  },
+  "CHATBOT": {
+    "TITLE": "Chatbot"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh ó! Við fundum enga Chatwoot reikninga. Vinsamlegast búðu til nýjan reikning til að halda áfram.",

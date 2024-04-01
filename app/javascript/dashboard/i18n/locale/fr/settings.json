@@ -225,6 +225,7 @@
     "MACROS": "Macros",
     "TEAMS": "Équipes",
     "BILLING": "Facturation",
+    "CHATBOT": "Chatbot",
     "CUSTOM_VIEWS_FOLDER": "Dossiers",
     "CUSTOM_VIEWS_SEGMENTS": "Segments",
     "ALL_CONTACTS": "Tous les contacts",
@@ -279,6 +280,9 @@
       "BUTTON_TXT": "Discutez avec nous"
     },
     "NO_BILLING_USER": "Votre compte de facturation est en cours de configuration. Veuillez actualiser la page et réessayer."
+  },
+  "CHATBOT": {
+    "TITLE": "Chatbot"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Oh oh ! Nous n'avons pas trouvé de compte Chatwoot. Veuillez créer un nouveau compte pour continuer.",

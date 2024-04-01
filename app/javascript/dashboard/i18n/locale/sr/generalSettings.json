@@ -1,5 +1,7 @@
 {
   "GENERAL_SETTINGS": {
+    "BANNER_CHATBOT_CREATION": "Kreiranje četbota u toku",
+    "BANNER_CHATBOT_FAIL": "Kreiranje četbota nije uspelo",
     "TITLE": "Podešavanja naloga",
     "SUBMIT": "Primeni izmene",
     "BACK": "Nazad",
