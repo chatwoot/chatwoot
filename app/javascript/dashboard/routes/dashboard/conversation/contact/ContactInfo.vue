@@ -112,6 +112,16 @@
           @click="toggleEditModal"
         />
         <woot-button
+          v-if="contact.phone_number"
+          v-tooltip="$t('CALL_CONTACT.TITLE')"
+          title="$t('CALL_CONTACT.BUTTON_LABEL')"
+          icon="call"
+          variant="smooth"
+          size="small"
+          color-scheme="success"
+          @click="confirmCalling"
+        />
+        <woot-button
           v-tooltip="$t('CONTACT_PANEL.MERGE_CONTACT')"
           title="$t('CONTACT_PANEL.MERGE_CONTACT')"
           icon="merge"
@@ -163,8 +173,16 @@
       :confirm-text="$t('DELETE_CONTACT.CONFIRM.YES')"
       :reject-text="$t('DELETE_CONTACT.CONFIRM.NO')"
     />
+    <woot-confirm-modal
+      ref="confirmCallingDialog"
+      :title="$t('CALL_CONTACT.CONFIRM.TITLE')"
+      :description="$t('CALL_CONTACT.CONFIRM.MESSAGE')"
+      :confirm-label="$t('CALL_CONTACT.CONFIRM.YES')"
+      :cancel-label="$t('CALL_CONTACT.CONFIRM.NO')"
+    />
   </div>
 </template>
+<!-- eslint-disable no-undef -->
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
 import timeMixin from 'dashboard/mixins/time';
@@ -261,6 +279,10 @@ export default {
     },
   },
   methods: {
+    handleMakeCall(phoneNumber) {
+      StringeeSoftPhone.config({ showMode: 'full' });
+      StringeeSoftPhone.makeCall('+842873018880', phoneNumber, () => {});
+    },
     toggleMergeModal() {
       this.showMergeModal = !this.showMergeModal;
     },
@@ -292,6 +314,13 @@ export default {
         return `${cityAndCountry} ${countryFlag}`;
       } catch (error) {
         return '';
+      }
+    },
+    async confirmCalling() {
+      const ok = await this.$refs.confirmCallingDialog.showConfirmation();
+
+      if (ok) {
+        this.handleMakeCall(this.contact.phone_number);
       }
     },
     async deleteContact({ id }) {
