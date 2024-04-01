@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col flex-1 gap-6 p-4 overflow-auto font-inter">
-    <SLA-filters />
+    <!-- <SLA-filters /> -->
     <SLAMetrics
       :hit-rate="slaMetrics.hitRate"
       :no-of-breaches="slaMetrics.numberOfSLABreaches"
@@ -17,13 +17,13 @@
 import { mapGetters } from 'vuex';
 import SLAMetrics from './components/SLA/SLAMetrics.vue';
 import SLATable from './components/SLA/SLATable.vue';
-import SLAFilters from './components/SLA/SLAFilters.vue';
+// import SLAFilters from './components/SLA/SLAFilters.vue';
 export default {
   name: 'SLAReports',
   components: {
     SLAMetrics,
     SLATable,
-    SLAFilters,
+    // SLAFilters,
   },
   data() {
     return {
