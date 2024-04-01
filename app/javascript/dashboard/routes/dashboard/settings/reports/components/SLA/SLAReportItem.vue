@@ -46,9 +46,18 @@ const assigneeName = computed(() => props.conversation.assignee?.name);
       />
     </div>
     <div class="flex items-center gap-2 col-span-2">
-      <user-avatar :user-name="assigneeName" src="" />
-      <span class="text-slate-600 dark:text-slate-200 capitalize truncate">
+      <user-avatar v-if="assigneeName" :user-name="assigneeName" src="" />
+      <span
+        v-if="assigneeName"
+        class="text-slate-600 dark:text-slate-200 capitalize truncate"
+      >
         {{ assigneeName }}
+      </span>
+      <span
+        v-if="!assigneeName"
+        class="text-slate-600 dark:text-slate-200 capitalize truncate"
+      >
+        ---
       </span>
     </div>
 

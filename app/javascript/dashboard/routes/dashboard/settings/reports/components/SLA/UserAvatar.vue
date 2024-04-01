@@ -38,7 +38,7 @@ export default {
       type: String,
       default: '24px',
     },
-    username: {
+    userName: {
       type: String,
       default: '',
     },
@@ -51,7 +51,7 @@ export default {
   },
   computed: {
     userNameWithoutEmoji() {
-      return removeEmoji(this.username);
+      return removeEmoji(this.userName);
     },
     showStatusIndicator() {
       if (this.shouldShowStatusAlways) return true;
@@ -70,7 +70,7 @@ export default {
       return false;
     },
     userInitial() {
-      return 'M';
+      return this.userName.charAt(0).toUpperCase();
     },
     fontSize() {
       return `${Math.floor(this.avatarSize / 2.5)}px`;
