@@ -1,6 +1,10 @@
 class Sla::EvaluateAppliedSlaService
   pattr_initialize [:applied_sla!]
 
+  FRT_THRESHOLD = 'frt'.freeze
+  NRT_THRESHOLD = 'nrt'.freeze
+  RT_THRESHOLD = 'rt'.freeze
+
   def perform
     check_sla_thresholds
 
@@ -30,7 +34,7 @@ class Sla::EvaluateAppliedSlaService
     return if first_reply_was_within_threshold?(conversation, threshold)
     return if still_within_threshold?(threshold)
 
-    handle_missed_sla(applied_sla, 'frt')
+    handle_missed_sla(applied_sla, FRT_THRESHOLD)
   end
 
   def first_reply_was_within_threshold?(conversation, threshold)
@@ -46,7 +50,7 @@ class Sla::EvaluateAppliedSlaService
     threshold = conversation.waiting_since.to_i + sla_policy.next_response_time_threshold.to_i
     return if still_within_threshold?(threshold)
 
-    handle_missed_sla(applied_sla, 'nrt')
+    handle_missed_sla(applied_sla, NRT_THRESHOLD)
   end
 
   def get_last_message_id(conversation)
@@ -64,11 +68,11 @@ class Sla::EvaluateAppliedSlaService
     threshold = conversation.created_at.to_i + sla_policy.resolution_time_threshold.to_i
     return if still_within_threshold?(threshold)
 
-    handle_missed_sla(applied_sla, 'rt')
+    handle_missed_sla(applied_sla, RT_THRESHOLD)
   end
 
   def handle_missed_sla(applied_sla, type, meta = {})
-    meta = { message_id: get_last_message_id(applied_sla.conversation) } if type == 'nrt'
+    meta = { message_id: get_last_message_id(applied_sla.conversation) } if type == NRT_THRESHOLD
     return if already_missed?(applied_sla, type, meta)
 
     create_sla_event(applied_sla, type, meta)
