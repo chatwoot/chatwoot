@@ -4,7 +4,7 @@ import agents from '../../api/agents';
 /* eslint-disable no-console */
 export default function initStringeeWebPhone(user_id, access_token) {
   var config = {
-    showMode: 'full', // full | min | none
+    showMode: 'none', // full | min | none
     top: '50%',
     left: '50%',
     arrowLeft: 0,
@@ -23,6 +23,10 @@ export default function initStringeeWebPhone(user_id, access_token) {
     } else if (event === 'full') {
       StringeeSoftPhone.config({ arrowLeft: 155 });
     }
+  });
+
+  StringeeSoftPhone.on('endCallBtnClick', () => {
+    StringeeSoftPhone.config({ showMode: 'none' });
   });
 
   StringeeSoftPhone.on('requestNewToken', async () => {
