@@ -23,13 +23,13 @@ class Digitaltolk::CloseResolvedConversationService
   def chat_conversations
     conversations.joins(:inbox).where(inboxes: { channel_type: 'Channel::WebWidget'})
                  .where.not(messages: { created_at: chat_span })
-                 .limit(10)
+                 .limit(50)
   end
 
   def email_conversations
     conversations.joins(:inbox).where(inboxes: { channel_type: 'Channel::Email'})
                  .where.not(messages: { created_at: email_span })
-                 .limit(10)
+                 .limit(50)
   end
 
   def closed_emails!
