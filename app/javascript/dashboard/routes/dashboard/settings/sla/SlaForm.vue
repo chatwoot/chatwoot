@@ -5,6 +5,11 @@
         v-model="name"
         :class="{ error: $v.name.$error }"
         class="w-full"
+        :styles="{
+          borderRadius: '12px',
+          padding: '6px 12px',
+          fontSize: '14px',
+        }"
         :label="$t('SLA.FORM.NAME.LABEL')"
         :placeholder="$t('SLA.FORM.NAME.PLACEHOLDER')"
         :error="getSlaNameErrorMessage"
@@ -13,6 +18,11 @@
       <woot-input
         v-model="description"
         class="w-full"
+        :styles="{
+          borderRadius: '12px',
+          padding: '6px 12px',
+          fontSize: '14px',
+        }"
         :label="$t('SLA.FORM.DESCRIPTION.LABEL')"
         :placeholder="$t('SLA.FORM.DESCRIPTION.PLACEHOLDER')"
       />
@@ -37,14 +47,15 @@
       </div>
 
       <div class="flex items-center justify-end w-full gap-2 px-0 py-2">
+        <woot-button class="rounded-xl button clear" @click.prevent="onClose">
+          {{ $t('SLA.FORM.CANCEL') }}
+        </woot-button>
         <woot-button
           :is-disabled="isSubmitDisabled"
+          class="rounded-xl"
           :is-loading="uiFlags.isUpdating"
         >
           {{ submitLabel }}
-        </woot-button>
-        <woot-button class="button clear" @click.prevent="onClose">
-          {{ $t('SLA.FORM.CANCEL') }}
         </woot-button>
       </div>
     </form>
