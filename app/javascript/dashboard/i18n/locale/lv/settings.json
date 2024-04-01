@@ -225,6 +225,7 @@
     "MACROS": "Macros",
     "TEAMS": "Komandas",
     "BILLING": "Norēķini",
+    "CHATBOT": "Chatbot",
     "CUSTOM_VIEWS_FOLDER": "Mapes",
     "CUSTOM_VIEWS_SEGMENTS": "Segmenti",
     "ALL_CONTACTS": "Visi Kontakti",
@@ -279,6 +280,9 @@
       "BUTTON_TXT": "Tērzēt ar mums"
     },
     "NO_BILLING_USER": "Jūsu norēķinu konts tiek konfigurēts. Lūdzu, atsvaidziniet lapu un mēģiniet vēlreiz."
+  },
+  "CHATBOT": {
+    "TITLE": "Chatbot"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ak, vai! Mēs nevarējām atrast nevienu chatwoot kontu. Lūdzu, izveidojiet jaunu kontu, lai turpinātu.",

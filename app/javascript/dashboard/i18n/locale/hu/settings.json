@@ -225,6 +225,7 @@
     "MACROS": "Makrók",
     "TEAMS": "Csapatok",
     "BILLING": "Számlázás",
+    "CHATBOT": "Chatbot",
     "CUSTOM_VIEWS_FOLDER": "Mappák",
     "CUSTOM_VIEWS_SEGMENTS": "Szegmensek",
     "ALL_CONTACTS": "Összes kontakt",
@@ -279,6 +280,9 @@
       "BUTTON_TXT": "Chatelj velünk"
     },
     "NO_BILLING_USER": "Számlázási fiókod konfigurálás alatt áll. Kérjük, frissítsd az oldalt, és próbáld újra."
+  },
+  "CHATBOT": {
+    "TITLE": "Chatbot"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uppsz! Nem találtunk egyetlen Chatwoot-fiókot sem. A folytatáshoz kérlek hozz létre egy új fiókot.",

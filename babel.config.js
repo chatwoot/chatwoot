@@ -2,6 +2,7 @@
 const plugins = () => [
   require('babel-plugin-macros'),
   require('@babel/plugin-proposal-nullish-coalescing-operator'),
+  require('@babel/plugin-proposal-optional-chaining'), // Added line
   [
     require('@babel/plugin-proposal-class-properties').default,
     {

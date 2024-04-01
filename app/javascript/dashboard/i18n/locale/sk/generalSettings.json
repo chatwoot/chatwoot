@@ -1,5 +1,7 @@
 {
   "GENERAL_SETTINGS": {
+    "BANNER_CHATBOT_CREATION": "Vytváranie chatbota prebieha",
+    "BANNER_CHATBOT_FAIL": "Vytvorenie chatbota zlyhalo",
     "TITLE": "Nastavenia účtu",
     "SUBMIT": "Aktualizovať nastavenia",
     "BACK": "Späť",

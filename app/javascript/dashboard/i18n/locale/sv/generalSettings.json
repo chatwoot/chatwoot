@@ -1,5 +1,7 @@
 {
   "GENERAL_SETTINGS": {
+    "BANNER_CHATBOT_CREATION": "Skapande av chattbot pågår",
+    "BANNER_CHATBOT_FAIL": "Skapande av chattbot misslyckades",
     "TITLE": "Kontoinställningar",
     "SUBMIT": "Uppdatera inställningar",
     "BACK": "Tillbaka",

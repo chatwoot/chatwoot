@@ -1,5 +1,7 @@
 {
   "GENERAL_SETTINGS": {
+    "BANNER_CHATBOT_CREATION": "יצירת הצ'אטבוט בתהליך",
+    "BANNER_CHATBOT_FAIL": "יצירת הצ'אטבוט נכשלה",
     "TITLE": "הגדרות חשבון",
     "SUBMIT": "עדכן הגדרות",
     "BACK": "חזור",

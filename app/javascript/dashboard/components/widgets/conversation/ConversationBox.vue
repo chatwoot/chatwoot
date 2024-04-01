@@ -5,6 +5,7 @@
   >
     <conversation-header
       v-if="currentChat.id"
+      :conversation-id="currentChat.id"
       :chat="currentChat"
       :is-inbox-view="isInboxView"
       :is-contact-panel-open="isContactPanelOpen"

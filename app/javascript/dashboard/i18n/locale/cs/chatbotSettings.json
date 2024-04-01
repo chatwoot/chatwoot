@@ -1,0 +1,52 @@
+{
+    "CHATBOT_SETTINGS": {
+      "CHATBOT": "Chatbot",
+      "BOT_STATUS": "Stav Chatbota",
+      "NEW_BOT": "Nový Chatbot",
+      "CONNECT_INBOX": "Připojit Doručenou Poštu",
+      "LAST_TRAINED_AT": "Naposledy trénováno: ",
+      "CHATBOT_ID": "ID Chatbota: ",
+      "BROWSE_FILES": "Procházet Soubory",
+      "UPDATE": "Aktualizovat",
+      "CHATBOT_INBOX_CONNECT": "Připojit Chatbota k Doručené Poště",
+      "FILE_TYPES": {
+        "DOC": ".doc",
+        "PDF": ".pdf",
+        "TXT": ".txt"
+      },
+      "UPLOAD": {
+        "FILE": "Soubor",
+        "TEXT": "Text",
+        "WEBSITE": "Webová stránka"
+      },
+      "FORM": {
+        "CONNECT_INBOX": "Připojit Doručenou Poštu",
+        "ADD_URL": "Přidat URL",
+        "NAME": {
+          "LABEL": "Název Chatbota",
+          "PLACEHOLDER": "Příklad: Chatbot 1"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Popis Chatbota",
+          "PLACEHOLDER": "Stručný popis tohoto Chatbota."
+        },
+        "SUBMIT_CREATE": "Vytvořit Chatbota"
+      },
+      "SIDEBAR_TXT": "<p><b>Vytvořit Chatbota</b></p> <p>Chatbot vám umožňuje trénovat bota na vaše vlastní osobní údaje. <br /> Bot trénovaný na osobních údajích odpovídá pouze na dotazy založené na datech, na kterých byl trénován.</p>",
+      "LIST": {
+        "404": "Na tomto účtu nebyl vytvořen žádný chatbot.",
+        "EDIT_BOT": "Upravit"
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "Smazat",
+        "CONFIRM": {
+          "TITLE": "Potvrdit Smazání",
+          "PLACE_HOLDER": "Prosím napište {chatbotName} pro potvrzení",
+          "MESSAGE": "Smazání Chatbota trvale smaže tohoto bota a data, na kterých je trénován.",
+          "YES": "Smazat ",
+          "NO": "Zrušit"
+        }
+      }
+    }
+  }
+  

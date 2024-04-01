@@ -1,0 +1,52 @@
+{
+    "CHATBOT_SETTINGS": {
+      "CHATBOT": "Klepetalnik",
+      "BOT_STATUS": "Status klepetalnika",
+      "NEW_BOT": "Novi klepetalnik",
+      "CONNECT_INBOX": "Poveži nabiralnik",
+      "LAST_TRAINED_AT": "Nazadnje trenirano ob: ",
+      "CHATBOT_ID": "ID klepetalnika: ",
+      "BROWSE_FILES": "Prebrskaj datoteke",
+      "UPDATE": "Posodobi",
+      "CHATBOT_INBOX_CONNECT": "Poveži klepetalnika z nabiralnikom",
+      "FILE_TYPES": {
+        "DOC": ".doc",
+        "PDF": ".pdf",
+        "TXT": ".txt"
+      },
+      "UPLOAD": {
+        "FILE": "Datoteka",
+        "TEXT": "Besedilo",
+        "WEBSITE": "Spletna stran"
+      },
+      "FORM": {
+        "CONNECT_INBOX": "Poveži nabiralnik",
+        "ADD_URL": "Dodaj URL",
+        "NAME": {
+          "LABEL": "Ime klepetalnika",
+          "PLACEHOLDER": "Primer: Klepetalnik 1"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Opis klepetalnika",
+          "PLACEHOLDER": "Kratek opis tega klepetalnika."
+        },
+        "SUBMIT_CREATE": "Ustvari klepetalnika"
+      },
+      "SIDEBAR_TXT": "<p><b>Ustvari klepetalnika</b></p> <p>Klepetalnik vam omogoča usposabljanje bota na vaših lastnih osebnih podatkih. <br /> Bot, usposobljen na osebnih podatkih, odgovarja le na vprašanja, ki temeljijo na podatkih, na katerih je bil usposobljen.</p>",
+      "LIST": {
+        "404": "Na tem računu ni ustvarjenih klepetalnikov.",
+        "EDIT_BOT": "Uredi"
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "Izbriši",
+        "CONFIRM": {
+          "TITLE": "Potrdi brisanje",
+          "PLACE_HOLDER": "Prosimo, vnesite {chatbotName} za potrditev",
+          "MESSAGE": "Brisanje klepetalnika bo trajno izbrisalo tega bota in podatke, na katerih je usposobljen.",
+          "YES": "Izbriši ",
+          "NO": "Prekliči"
+        }
+      }
+    }
+  }
+  

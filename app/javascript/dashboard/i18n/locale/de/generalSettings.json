@@ -1,5 +1,7 @@
 {
   "GENERAL_SETTINGS": {
+    "BANNER_CHATBOT_CREATION": "Chatbot-Erstellung läuft",
+    "BANNER_CHATBOT_FAIL": "Chatbot-Erstellung fehlgeschlagen",
     "TITLE": "Kontoeinstellungen",
     "SUBMIT": "Einstellungen aktualisieren",
     "BACK": "Zurück",

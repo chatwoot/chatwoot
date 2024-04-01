@@ -1,5 +1,7 @@
 {
   "GENERAL_SETTINGS": {
+    "BANNER_CHATBOT_CREATION": "Chatbot 创建中",
+    "BANNER_CHATBOT_FAIL": "Chatbot 创建失败",
     "TITLE": "帐户设置",
     "SUBMIT": "更新设置",
     "BACK": "后退",

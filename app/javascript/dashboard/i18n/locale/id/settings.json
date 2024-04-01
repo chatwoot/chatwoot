@@ -225,6 +225,7 @@
     "MACROS": "Makro",
     "TEAMS": "Tim",
     "BILLING": "Pembayaran",
+    "CHATBOT": "Chatbot",
     "CUSTOM_VIEWS_FOLDER": "Folder",
     "CUSTOM_VIEWS_SEGMENTS": "Segmen",
     "ALL_CONTACTS": "Semua Kontak",
@@ -279,6 +280,9 @@
       "BUTTON_TXT": "Chat dengan kami"
     },
     "NO_BILLING_USER": "Akun pembayaran Anda sedang dikonfigurasi. Silakan segarkan halaman dan coba lagi."
+  },
+  "CHATBOT": {
+    "TITLE": "Chatbot"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! Kami tidak dapat menemukan akun Chatwoot apa pun. Harap buat akun baru untuk melanjutkan.",

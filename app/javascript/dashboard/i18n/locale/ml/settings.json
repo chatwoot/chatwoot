@@ -225,6 +225,7 @@
     "MACROS": "Macros",
     "TEAMS": "Teams",
     "BILLING": "Billing",
+    "CHATBOT": "Chatbot",
     "CUSTOM_VIEWS_FOLDER": "ഫോൾഡറുകൾ",
     "CUSTOM_VIEWS_SEGMENTS": "അംശങ്ങൾ",
     "ALL_CONTACTS": "All Contacts",
@@ -279,6 +280,9 @@
       "BUTTON_TXT": "ഞങ്ങളുമായി ചാറ്റുചെയ്യുക"
     },
     "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+  },
+  "CHATBOT": {
+    "TITLE": "Chatbot"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",

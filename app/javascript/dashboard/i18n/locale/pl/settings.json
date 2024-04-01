@@ -225,6 +225,7 @@
     "MACROS": "Makra",
     "TEAMS": "Zespoły",
     "BILLING": "Rozliczenia",
+    "CHATBOT": "Chatbot",
     "CUSTOM_VIEWS_FOLDER": "Foldery",
     "CUSTOM_VIEWS_SEGMENTS": "Segmenty",
     "ALL_CONTACTS": "Wszyscy Kontakty",
@@ -279,6 +280,9 @@
       "BUTTON_TXT": "Porozmawiaj z nami"
     },
     "NO_BILLING_USER": "Konfigurowanie konta rozliczeniowego. Odśwież stronę i spróbuj ponownie."
+  },
+  "CHATBOT": {
+    "TITLE": "Chatbot"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Ups! Nie znaleziono żadnych kont Chatwoot. Aby kontynuować, utwórz nowe konto.",

@@ -1,0 +1,35 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  build:
+    name: "Fetching changes"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Execute commands via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: 13.127.190.229 
+          username: "ubuntu"
+          key: ${{ secrets.CHAT_V2_PROD_PRIVATE_KEY }}
+          script: |
+            echo "Deploying to EC2"
+            sudo -i -u chatwoot <<EOF
+            cd chatwoot 
+            git fetch --all
+            git reset --hard origin/main
+            bundle install
+            yarn install
+            RAILS_ENV=production bundle exec rake db:migrate
+            sudo systemctl restart chatwoot.target
+            EOF
+            echo "Deployment complete"

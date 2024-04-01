@@ -1,5 +1,7 @@
 {
   "GENERAL_SETTINGS": {
+    "BANNER_CHATBOT_CREATION": "Pembuatan Chatbot Sedang Berlangsung",
+    "BANNER_CHATBOT_FAIL": "Pembuatan Chatbot Gagal",
     "TITLE": "Pengaturan akun",
     "SUBMIT": "Ubah pengaturan",
     "BACK": "Kembali",

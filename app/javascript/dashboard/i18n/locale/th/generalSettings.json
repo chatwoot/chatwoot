@@ -1,5 +1,7 @@
 {
   "GENERAL_SETTINGS": {
+    "BANNER_CHATBOT_CREATION": "กำลังสร้างแชทบอท",
+    "BANNER_CHATBOT_FAIL": "การสร้างแชทบอทล้มเหลว",
     "TITLE": "ตั้งค่าบัญชี",
     "SUBMIT": "อัพเดทการตั้งค่า",
     "BACK": "ย้อนกลับ",

@@ -1,5 +1,7 @@
 {
   "GENERAL_SETTINGS": {
+    "BANNER_CHATBOT_CREATION": "சார்பாக அரசன் உருவாக்கல் நடைபெறுகிறது",
+    "BANNER_CHATBOT_FAIL": "சார்பாக அரசன் உருவாக்கல் தோல்வியுற்றது",
     "TITLE": "கணக்கு அமைப்புகள்",
     "SUBMIT": "அமைப்புகளைப் புதுப்பிக்கவும்",
     "BACK": "Back",
