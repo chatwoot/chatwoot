@@ -225,7 +225,6 @@
     "MACROS": "ماكروس",
     "TEAMS": "الفرق",
     "BILLING": "الفواتير",
-    "CHATBOT": "Chatbot",
     "CUSTOM_VIEWS_FOLDER": "المجلدات",
     "CUSTOM_VIEWS_SEGMENTS": "الأجزاء",
     "ALL_CONTACTS": "جميع جهات الاتصال",
@@ -280,9 +279,6 @@
       "BUTTON_TXT": "تحدث الينا"
     },
     "NO_BILLING_USER": "حساب الفوترة الخاص بك قيد الإعداد. الرجاء تحديث الصفحة وحاول مرة أخرى."
-  },
-  "CHATBOT": {
-    "TITLE": "Chatbot"
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "أوه! لم نتمكن من العثور على الحساب. الرجاء إنشاء حساب جديد للمتابعة.",

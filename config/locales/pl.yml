@@ -17,7 +17,6 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 pl:
-  prompt: "%{client_message}"
   hello: "Witaj świecie"
   messages:
     reset_password_success: Woot! Prośba o zresetowanie hasła zakończona pomyślnie. Sprawdź swoją pocztę, aby uzyskać instrukcje.

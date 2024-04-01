@@ -2,11 +2,6 @@ source 'https://rubygems.org'
 
 ruby '3.2.2'
 
-##-- gems for api calls --##
-gem 'http'
-##-- unique ID generator --##
-gem 'securerandom'
-
 ##-- base gems for rails --##
 gem 'rack-cors', '2.0.0', require: 'rack/cors'
 gem 'rails', '~> 7.0.8.1'
