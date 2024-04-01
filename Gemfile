@@ -178,6 +178,9 @@ gem 'reverse_markdown'
 # Sentiment analysis
 gem 'informers'
 
+## Bitespeed specific
+gem "intercom-rails"
+
 ### Gems required only in specific deployment environments ###
 ##############################################################
 
