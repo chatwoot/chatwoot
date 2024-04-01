@@ -43,6 +43,7 @@ import {
   verifyServiceWorkerExistence,
 } from './helper/pushHelper';
 import { checkKeycloakSession } from '../../javascript/v3/api/auth';
+import Auth from './api/auth';
 
 export default {
   name: 'App',
@@ -95,7 +96,11 @@ export default {
     },
   },
   beforeMount() {
-    checkKeycloakSession(this.currentUser);
+    checkKeycloakSession(this.currentUser).then(res => {
+      if (res.message === 'Session expired. Please log in again.') {
+        Auth.logout();
+      }
+    });
   },
   mounted() {
     this.initializeColorTheme();

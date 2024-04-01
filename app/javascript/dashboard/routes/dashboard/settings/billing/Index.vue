@@ -62,13 +62,13 @@
         :button-label="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.BUTTON_TXT')"
         @click="onClickBillingPortal"
       />
-      <billing-item
+      <!-- <billing-item
         :title="$t('BILLING_SETTINGS.CHAT_WITH_US.TITLE')"
         :description="$t('BILLING_SETTINGS.CHAT_WITH_US.DESCRIPTION')"
         :button-label="$t('BILLING_SETTINGS.CHAT_WITH_US.BUTTON_TXT')"
         button-icon="chat-multiple"
         @click="onToggleChatWindow"
-      />
+      /> -->
     </div>
   </div>
 </template>

@@ -2,7 +2,7 @@
   <main
     class="flex flex-col bg-white min-h-screen w-full py-20 sm:px-6 lg:px-8 dark:bg-slate-900 items-center justify-center"
   >
-    <section class="max-w-5xl mx-auto">
+    <!-- <section class="max-w-5xl mx-auto">
       <img
         :src="globalConfig.logo"
         :alt="globalConfig.installationName"
@@ -86,7 +86,8 @@
       <div v-else class="flex items-center justify-center">
         <spinner color-scheme="primary" size="" />
       </div>
-    </section>
+    </section> -->
+    <redirectLoader />
   </main>
 </template>
 
@@ -100,6 +101,8 @@ import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
 import FormInput from '../../components/Form/Input.vue';
 import { login } from '../../api/auth';
 import Spinner from 'shared/components/Spinner.vue';
+import RedirectLoader from 'shared/components/RedirectLoader.vue';
+
 const ERROR_MESSAGES = {
   'no-account-found': 'LOGIN.OAUTH.NO_ACCOUNT_FOUND',
   'business-account-only': 'LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY',
@@ -110,6 +113,7 @@ export default {
     FormInput,
     GoogleOAuthButton,
     Spinner,
+    RedirectLoader,
     SubmitButton,
   },
   mixins: [globalConfigMixin],
@@ -173,7 +177,9 @@ export default {
     }
   },
   mounted() {
-    this.redirectToKeycloak();
+    setTimeout(() => {
+      this.redirectToKeycloak();
+    }, 3000);
   },
   methods: {
     showAlert(message) {
@@ -215,11 +221,11 @@ export default {
         });
     },
     redirectToKeycloak() {
-      const realm = 'OneHash';
-      const clientId = 'onehash-chat';
-      const redirectUri =
-        'http://localhost:3000/omniauth/keycloak_openid/callback';
-      const baseUrl = `http://localhost:8080/realms/${realm}/protocol/openid-connect/auth`;
+      const realm = window.chatwootConfig.keycloakRealm;
+      const clientId = window.chatwootConfig.keycloakClientId;
+      const redirectUri = window.chatwootConfig.keycloakCallbackUrl;
+      const keycloakUri = window.chatwootConfig.keyclaokUrl;
+      const baseUrl = `${keycloakUri}/realms/${realm}/protocol/openid-connect/auth`;
       const responseType = 'code';
       const scope = 'openid';
 
