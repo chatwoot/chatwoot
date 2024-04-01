@@ -139,9 +139,7 @@ export default {
       uiFlags: 'notifications/getUIFlags',
     }),
     notificationPanelFooterIconClass() {
-      return this.isRTLView
-        ? 'margin-right-minus-slab'
-        : 'margin-left-minus-slab';
+      return this.isRTLView ? '-mr-3' : '-ml-3';
     },
     totalUnreadNotifications() {
       return this.meta.unreadCount;
@@ -188,6 +186,7 @@ export default {
         notificationType,
       });
       this.$store.dispatch('notifications/read', {
+        id: notification.id,
         primaryActorId,
         primaryActorType,
         unreadCount: this.meta.unreadCount,

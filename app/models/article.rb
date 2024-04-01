@@ -43,7 +43,7 @@ class Article < ApplicationRecord
   belongs_to :account
   belongs_to :category, optional: true
   belongs_to :portal
-  belongs_to :author, class_name: 'User'
+  belongs_to :author, class_name: 'User', inverse_of: :articles
 
   before_validation :ensure_account_id
   before_validation :ensure_article_slug

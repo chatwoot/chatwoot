@@ -71,9 +71,6 @@
     <GoogleOAuthButton v-if="showGoogleOAuth">
       {{ $t('REGISTER.OAUTH.GOOGLE_SIGNUP') }}
     </GoogleOAuthButton>
-    <OIDCButton v-if="showOIDC">
-      {{ $t('REGISTER.SSO.OIDC') }}
-    </OIDCButton>
     <p
       class="text-sm mb-1 mt-5 text-slate-800 dark:text-woot-50 [&>a]:text-woot-500 [&>a]:font-medium [&>a]:hover:text-woot-600 flex justify-center items-center gap-1"
       v-html="termsLink"
@@ -99,7 +96,6 @@ import {
   hasLength,
 } from 'shared/helpers/Validators';
 import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue';
-import OIDCButton from '../../../../../components/SSO/OIDC/Button.vue';
 import { register } from '../../../../../api/auth';
 // var CompanyEmailValidator = require('company-email-validator');
 import { isEmail } from 'validator';
@@ -108,7 +104,6 @@ export default {
   components: {
     FormInput,
     GoogleOAuthButton,
-    OIDCButton,
     SubmitButton,
     VueHcaptcha,
   },
@@ -201,9 +196,6 @@ export default {
     },
     showGoogleOAuth() {
       return Boolean(window.chatwootConfig.googleOAuthClientId);
-    },
-    showOIDC() {
-      return Boolean(window.chatwootConfig.keycloakClientId);
     },
   },
   methods: {
