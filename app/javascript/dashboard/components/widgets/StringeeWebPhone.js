@@ -25,11 +25,11 @@ export default function initStringeeWebPhone(user_id, access_token) {
     }
   });
 
-  StringeeSoftPhone.on('requestNewToken', () => {
+  StringeeSoftPhone.on('requestNewToken', async () => {
     console.log('requestNewToken+++++++');
 
     try {
-      const response = agents.newStringeeToken(user_id);
+      const response = await agents.newStringeeToken(user_id);
       const newToken = response.data.token;
 
       Cookies.set('stringee_access_token', newToken);

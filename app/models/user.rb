@@ -160,10 +160,11 @@ class User < ApplicationRecord
     find_by(email: email.downcase)
   end
 
-  def stringee_access_token
-    stringee_user_id = email.sub('@', '_')
-    return unless stringee_user_id
+  def stringee_user_id
+    email.sub('@', '_')
+  end
 
+  def stringee_access_token
     now = Time.now.to_i
     exp = now + (2 * 30 * 24 * 60 * 60) # 2 months
     api_key_sid = ENV.fetch('STRINGEE_API_KEY_SID', nil)
@@ -174,6 +175,7 @@ class User < ApplicationRecord
       'jti' => "#{api_key_sid}-#{now}",
       'iss' => api_key_sid,
       'exp' => exp,
+      'icc_api' => true,
       'userId' => stringee_user_id
     }
 
