@@ -111,7 +111,7 @@ RSpec.describe DataImportJob do
 
           described_class.perform_now(existing_data_import)
           expect(existing_data_import.account.contacts.count).to eq(csv_length)
-          contact = Contact.find_by(email: csv_data[0]['email'])
+          contact = Contact.from_email(csv_data[0]['email'])
           expect(contact).to be_present
           expect(contact.phone_number).to eq("+#{csv_data[0]['phone_number']}")
           expect(contact.name).to eq((csv_data[0]['name']).to_s)

@@ -39,6 +39,7 @@ const settings = accountId => ({
     'settings_teams_finish',
     'settings_teams_list',
     'settings_teams_new',
+    'sla_list',
   ],
   menuItems: [
     {
@@ -158,13 +159,22 @@ const settings = accountId => ({
       featureFlag: FEATURE_FLAGS.AUDIT_LOGS,
       beta: true,
     },
-    //Added for OneHash Billing
+    // Added for OneHash Billing
     {
       icon: 'credit-card-person',
       label: 'BILLING',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/billing`),
       toStateName: 'billing_settings_index',
+    },
+    {
+      icon: 'document-list-clock',
+      label: 'SLA',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/settings/sla/list`),
+      toStateName: 'sla_list',
+      featureFlag: FEATURE_FLAGS.SLA,
+      beta: true,
     },
   ],
 });

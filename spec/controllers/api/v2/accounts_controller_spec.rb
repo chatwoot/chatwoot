@@ -30,6 +30,20 @@ RSpec.describe 'Accounts API', type: :request do
         end
       end
 
+      it 'updates the onboarding step in custom attributes' do
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+          allow(account_builder).to receive(:perform).and_return([user, account])
+
+          params = { email: email, user: nil, locale: nil, password: 'Password1!' }
+
+          post api_v2_accounts_url,
+               params: params,
+               as: :json
+
+          expect(account.reload.custom_attributes['onboarding_step']).to eq('profile_update')
+        end
+      end
+
       it 'calls ChatwootCaptcha' do
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
           captcha = double

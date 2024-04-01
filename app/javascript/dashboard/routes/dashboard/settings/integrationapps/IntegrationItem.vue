@@ -7,10 +7,10 @@
       />
     </div>
     <div class="flex flex-col justify-center m-0 mx-4 flex-1">
-      <h3 class="text-xl text-slate-800 dark:text-slate-100">
+      <h3 class="text-xl font-medium mb-1 text-slate-800 dark:text-slate-100">
         {{ integrationName }}
       </h3>
-      <p>
+      <p class="text-slate-700 dark:text-slate-200">
         {{
           useInstallationName(
             integrationDescription,
@@ -20,7 +20,11 @@
       </p>
     </div>
     <div class="flex justify-center items-center mb-0 w-[15%]">
-      <woot-label :title="labelText" :color-scheme="labelColor" />
+      <woot-label
+        :title="labelText"
+        :color-scheme="labelColor"
+        class="text-xs rounded-sm"
+      />
     </div>
     <div class="flex justify-center items-center mb-0 w-[15%]">
       <router-link
