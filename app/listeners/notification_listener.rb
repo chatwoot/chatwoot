@@ -33,6 +33,11 @@ class NotificationListener < BaseListener
     return if event.data[:notifiable_assignee_change].blank?
     return if conversation.pending?
 
+    if assignee.nil?
+      Rail.logger.error "[NotificationListener] Assignee is nil, skipping notification creation for #{conversation.id}"
+      return
+    end
+
     NotificationBuilder.new(
       notification_type: 'conversation_assignment',
       user: assignee,
