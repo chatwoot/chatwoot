@@ -39,11 +39,13 @@
         @isInValid="handleIsInvalid(index, $event)"
       />
 
-      <div class="flex items-center w-full gap-2">
-        <input id="sla_bh" v-model="onlyDuringBusinessHours" type="checkbox" />
-        <label for="sla_bh">
+      <div
+        class="mt-3 flex h-10 items-center text-sm w-full gap-2 border border-solid border-slate-200 dark:border-slate-600 px-3 py-1.5 rounded-xl justify-between"
+      >
+        <span for="sla_bh" class="text-slate-700">
           {{ $t('SLA.FORM.BUSINESS_HOURS.PLACEHOLDER') }}
-        </label>
+        </span>
+        <toggle id="sla_bh" v-model="onlyDuringBusinessHours" />
       </div>
 
       <div class="flex items-center justify-end w-full gap-2 px-0 py-2">
@@ -68,10 +70,12 @@ import { convertSecondsToTimeUnit } from '@chatwoot/utils';
 import validationMixin from './validationMixin';
 import validations from './validations';
 import SlaTimeInput from './SlaTimeInput.vue';
+import Toggle from './components/Toggle.vue';
 
 export default {
   components: {
     SlaTimeInput,
+    Toggle,
   },
   mixins: [validationMixin],
   props: {
