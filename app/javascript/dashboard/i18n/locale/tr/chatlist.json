@@ -53,28 +53,28 @@
     },
     "SORT_ORDER_ITEMS": {
       "last_activity_at_asc": {
-        "TEXT": "Last activity: Oldest first"
+        "TEXT": "Son aktivite: En eski"
       },
       "last_activity_at_desc": {
-        "TEXT": "Last activity: Newest first"
+        "TEXT": "Son Aktivite: En Yeni"
       },
       "created_at_desc": {
-        "TEXT": "Created at: Newest first"
+        "TEXT": "Oluşturulma: En Yeni"
       },
       "created_at_asc": {
-        "TEXT": "Created at: Oldest first"
+        "TEXT": "Oluşturulma: En Eski"
       },
       "priority_desc": {
-        "TEXT": "Priority: Highest first"
+        "TEXT": "Öncelik: Yüksek"
       },
       "priority_asc": {
-        "TEXT": "Priority: Lowest first"
+        "TEXT": "Öncelik: Düşük"
       },
       "waiting_since_asc": {
-        "TEXT": "Pending Response: Longest first"
+        "TEXT": "Cevap Bekleyen: Uzun olan"
       },
       "waiting_since_desc": {
-        "TEXT": "Pending Response: Shortest first"
+        "TEXT": "Cevap Bekleyen: Kısa olan"
       }
     },
     "ATTACHMENTS": {
