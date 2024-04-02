@@ -94,13 +94,13 @@ pt_BR:
       timezone: Fuso horário
     sla_csv:
       conversation_id: Conversas
-      sla_policy_breached: SLA Policy
-      assignee: Assignee
+      sla_policy_breached: Política SLA
+      assignee: Responsável
       team: Times
       inbox: Caixa de Entrada
       labels: Marcadores
-      conversation_link: Link to the Conversation
-      breached_events: Breached Events
+      conversation_link: Link para a conversa
+      breached_events: Eventos Violados
     default_group_by: dia
     csat:
       headers:
