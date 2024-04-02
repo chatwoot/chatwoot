@@ -428,7 +428,8 @@ Rails.application.routes.draw do
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
   post 'webhooks/zalo', to: 'webhooks/zalo#process_payload'
   get '/zalo/callback', to: 'zalo/callback#create'
-  post 'webhooks/stringee', to: 'webhooks/stringee#agents'
+  post 'webhooks/stringee/events', to: 'webhooks/stringee#process_payload'
+  post 'webhooks/stringee/agents', to: 'webhooks/stringee#agents'
 
   namespace :twitter do
     resource :callback, only: [:show]

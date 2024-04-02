@@ -13,11 +13,9 @@ class Zalo::IncomingMessageService
     first_message_processing if @contact.messages.empty?
     set_conversation
     @message = @conversation.messages.create!(message_params)
-    Rails.logger.info('Message created')
 
     @message.content_attributes[:in_reply_to_external_id] = params[:message][:quote_msg_id] if params[:message][:quote_msg_id]
 
-    Rails.logger.info('Attaching media')
     attach_media
     @message.save!
   end
@@ -37,7 +35,6 @@ class Zalo::IncomingMessageService
   end
 
   def first_message_processing
-    Rails.logger.info('First message processing')
     # try to get user info from followed user first
     update_contact_from_profile
     # request user info for unfollowed user
@@ -186,9 +183,7 @@ class Zalo::IncomingMessageService
   end
 
   def attach_file(media)
-    Rails.logger.info("Attaching file #{media}")
     attachment_file = Down.download(media[:payload][:url])
-    Rails.logger.info("Downloaded file #{media}")
     file_name = media[:payload][:name] || attachment_file.original_filename
     @message.attachments.new(
       account_id: @message.account_id,

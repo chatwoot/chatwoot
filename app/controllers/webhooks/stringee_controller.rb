@@ -1,4 +1,10 @@
 class Webhooks::StringeeController < ActionController::API
+  def process_payload
+    Rails.logger.info('Stringee webhook received events')
+    Webhooks::StringeeEventsJob.perform_later(params.to_unsafe_hash)
+    head :ok
+  end
+
   def agents
     Rails.logger.info('Stringee webhook received get_list_agents request')
 
@@ -37,6 +43,8 @@ class Webhooks::StringeeController < ActionController::API
 
   def agent_list_for_call(users)
     agents = []
+    return agents if users&.empty?
+
     users.each do |user|
       agents <<
         {
