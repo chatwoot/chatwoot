@@ -13,7 +13,7 @@
       class="w-full sm:w-px h-full border border-slate-75 dark:border-slate-700/50"
     />
     <SLAMetricCard
-      label="No of Breaches"
+      label="$t('SLA_REPORTS.METRICS.NO_OF_BREACHES.LABEL')"
       :value="noOfBreaches"
       :tool-tip="$t('SLA_REPORTS.METRICS.NO_OF_BREACHES.TOOLTIP')"
       :is-loading="isLoading"
