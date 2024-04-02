@@ -317,13 +317,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_16_003531) do
 
   create_table "channel_notifica_me", force: :cascade do |t|
     t.string "name", null: false
-    t.string "channel_id", null: false
-    t.string "channel_type", null: false
-    t.string "channel_token", null: false
+    t.string "notifica_me_id", null: false
+    t.string "notifica_me_type", null: false
+    t.string "notifica_me_token", null: false
     t.integer "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["channel_id", "channel_type", "channel_token"], name: "index_channel_notifica_me", unique: true
+    t.index ["notifica_me_id", "notifica_me_type", "notifica_me_token"], name: "index_channel_notifica_me", unique: true
   end
 
   create_table "channel_sms", force: :cascade do |t|
