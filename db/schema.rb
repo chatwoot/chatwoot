@@ -316,7 +316,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_16_003531) do
   end
 
   create_table "channel_notifica_me", force: :cascade do |t|
-    t.string "name", null: false
     t.string "notifica_me_id", null: false
     t.string "notifica_me_type", null: false
     t.string "notifica_me_token", null: false
