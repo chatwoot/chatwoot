@@ -48,13 +48,16 @@
         <toggle id="sla_bh" v-model="onlyDuringBusinessHours" />
       </div>
 
-      <div class="flex items-center justify-end w-full gap-2 px-0 py-2">
-        <woot-button class="rounded-xl button clear" @click.prevent="onClose">
+      <div class="flex items-center justify-end w-full gap-2 mt-8">
+        <woot-button
+          class="px-4 rounded-xl button clear outline-woot-200/50 outline"
+          @click.prevent="onClose"
+        >
           {{ $t('SLA.FORM.CANCEL') }}
         </woot-button>
         <woot-button
           :is-disabled="isSubmitDisabled"
-          class="rounded-xl"
+          class="px-4 rounded-xl"
           :is-loading="uiFlags.isUpdating"
         >
           {{ submitLabel }}
