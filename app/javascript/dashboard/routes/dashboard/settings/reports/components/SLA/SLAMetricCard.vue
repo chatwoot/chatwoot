@@ -1,7 +1,7 @@
 <template>
   <SLA-metrics-layout :is-loading="isLoading">
     <template #loading>
-      <div class="w-4 h-4 mb-0.5 rounded-md bg-slate-50 animate-pulse" />
+      <div class="w-12 h-6 mb-0.5 rounded-md bg-slate-50 animate-pulse" />
     </template>
     <template #label>
       <span
