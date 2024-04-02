@@ -1,6 +1,8 @@
 <template>
   <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%]">
+    <br />
     <h2>{{ $t('CHATBOT_SETTINGS.CHATBOT_INBOX_CONNECT') }}</h2>
+    <br />
     <back-button class="absolute top-[17px] left-[420px]" />
     <div class="inbox-dropdown-container">
       <div class="custom-select">
@@ -162,8 +164,13 @@ export default {
 </script>
 
 <style scoped>
+/* fix here ONLY when connext inbox UI breaks */
 .inbox-dropdown-container {
-  margin-bottom: 20px;
+  margin-bottom: 60%;
+}
+
+h2 {
+  font-size: large;
 }
 
 .custom-select {
