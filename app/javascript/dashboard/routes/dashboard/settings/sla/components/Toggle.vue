@@ -2,25 +2,29 @@
 import { ref } from 'vue';
 
 const props = defineProps({
-  modelValue: {
+  value: {
     type: Boolean,
     default: false,
   },
 });
 
-const emit = defineEmits(['update:modelValue']);
-
-const isChecked = ref(props.modelValue);
+const emit = defineEmits(['input']);
+const isChecked = ref(props.value);
 
 const toggleCheckbox = () => {
   isChecked.value = !isChecked.value;
-  emit('update:modelValue', isChecked.value);
+  emit('input', isChecked.value);
 };
 </script>
 
 <template>
   <label class="relative inline-block h-4 w-7">
-    <input class="hidden" type="checkbox" @click="toggleCheckbox" />
+    <input
+      class="hidden"
+      type="checkbox"
+      :checked="isChecked"
+      @click="toggleCheckbox"
+    />
     <div
       class="absolute inset-0 p-0.5 transition-all ease-in-out duration-200 rounded-full cursor-pointer slider bg-slate-100"
     />
