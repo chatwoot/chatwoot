@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
+import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.vue';
 import CardLabels from 'dashboard/components/widgets/conversation/conversationCardComponents/CardLabels.vue';
-import UserAvatar from './UserAvatar.vue';
 const props = defineProps({
   slaName: {
     type: String,
@@ -17,7 +17,7 @@ const props = defineProps({
   },
 });
 
-const assigneeName = computed(() => props.conversation.assignee?.name);
+const assignee = computed(() => props.conversation.assignee);
 </script>
 
 <template>
@@ -46,15 +46,9 @@ const assigneeName = computed(() => props.conversation.assignee?.name);
       />
     </div>
     <div class="flex items-center gap-2 col-span-2">
-      <user-avatar v-if="assigneeName" :user-name="assigneeName" src="" />
+      <user-avatar-with-name v-if="assignee" :user="assignee" />
       <span
-        v-if="assigneeName"
-        class="text-slate-600 dark:text-slate-200 capitalize truncate"
-      >
-        {{ assigneeName }}
-      </span>
-      <span
-        v-if="!assigneeName"
+        v-else
         class="text-slate-600 dark:text-slate-200 capitalize truncate"
       >
         ---
