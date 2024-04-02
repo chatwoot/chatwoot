@@ -69,8 +69,8 @@
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
         "RT": "RT {status}",
-        "BREACH": "breach",
-        "DUE": "due"
+        "BREACH": "violação",
+        "DUE": "devido"
       }
     },
     "RESOLVE_DROPDOWN": {
