@@ -10,12 +10,35 @@
       <SLAListItemLoading v-for="ii in 2" :key="ii" class="mb-3" />
     </template>
     <template #body>
-      <p
-        v-if="!records.length"
-        class="flex flex-col items-center justify-center h-full"
-      >
-        {{ $t('SLA.LIST.404') }}
-      </p>
+      <div v-if="!records.length" class="w-full min-h-[12rem] relative">
+        <div class="w-full space-y-3">
+          <SLA-list-item
+            class="opacity-25"
+            :sla-name="$t('SLA.LIST.EMPTY.TITLE_1')"
+            :description="$t('SLA.LIST.EMPTY.DESC_1')"
+            first-response="20m"
+            next-response="1h"
+            resolution-time="24h"
+            has-business-hours
+          />
+          <SLA-list-item
+            class="opacity-25"
+            :sla-name="$t('SLA.LIST.EMPTY.TITLE_2')"
+            :description="$t('SLA.LIST.EMPTY.DESC_2')"
+            first-response="2h"
+            next-response="4h"
+            resolution-time="4d"
+            has-business-hours
+          />
+        </div>
+        <div
+          class="absolute inset-0 flex flex-col items-center justify-center w-full h-full bg-gradient-to-t from-white dark:from-slate-900 to-transparent"
+        >
+          <p class="text-sm">
+            {{ $t('SLA.LIST.404') }}
+          </p>
+        </div>
+      </div>
       <div v-if="records.length" class="flex flex-col w-full h-full gap-3">
         <SLA-list-item
           v-for="sla in records"

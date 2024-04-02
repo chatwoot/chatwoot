@@ -7,6 +7,12 @@
     "LOADING": "Fetching SLAs",
     "LIST": {
       "404": "There are no SLAs available in this account.",
+      "EMPTY": {
+        "TITLE_1": "Enterprise P0",
+        "DESC_1": "Issues raised by enterprise customers, that require immediate attention.",
+        "TITLE_2": "Enterprise P1",
+        "DESC_2": "Issues raised by enterprise customers, that needs to be acknowledged quickly."
+      },
       "BUSINESS_HOURS_ON": "Business hours on",
       "BUSINESS_HOURS_OFF": "Business hours off",
       "RESPONSE_TYPES": {
