@@ -2,7 +2,7 @@
   <div
     :style="{ height: size, width: size }"
     class="rounded-full flex items-center justify-center bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-100"
-    :title="username"
+    :title="userName"
   >
     <slot>
       <img

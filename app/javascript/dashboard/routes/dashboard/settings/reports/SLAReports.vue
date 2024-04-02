@@ -4,6 +4,7 @@
     <SLAMetrics
       :hit-rate="slaMetrics.hitRate"
       :no-of-breaches="slaMetrics.numberOfSLABreaches"
+      :is-loading="uiFlags.isLoading"
     />
     <SLATable
       :sla-reports="slaReports"
@@ -35,6 +36,7 @@ export default {
       slaReports: 'slaReports/getAll',
       slaMetrics: 'slaReports/getMetrics',
       slaMeta: 'slaReports/getMeta',
+      uiFlags: 'slaReports/getUIFlags',
     }),
   },
   mounted() {
