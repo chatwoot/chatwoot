@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.describe Sla::EvaluateAppliedSlaService do
   let!(:account) { create(:account) }
   let!(:user_1) { create(:user, account: account) }
-  let!(:user_2) { create(:user, account: account) }
-  let!(:admin) { create(:user, account: account, role: :administrator) }
 
   let!(:sla_policy) do
     create(:sla_policy,
@@ -28,19 +26,17 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
       it 'updates the SLA status to missed and logs a warning' do
         allow(Rails.logger).to receive(:warn)
         described_class.new(applied_sla: applied_sla).perform
-        expect(Rails.logger).to have_received(:warn).with("SLA missed for conversation #{conversation.id} in account " \
+        expect(Rails.logger).to have_received(:warn).with("SLA frt missed for conversation #{conversation.id} in account " \
                                                           "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
-        expect(applied_sla.reload.sla_status).to eq('missed')
+        expect(applied_sla.reload.sla_status).to eq('active_with_misses')
+      end
 
-        expect(Notification.count).to eq(2)
-        # check if notification type is sla_missed_first_response
-        expect(Notification.where(notification_type: 'sla_missed_first_response').count).to eq(2)
-        # Check if notification is created for the assignee
-        expect(Notification.where(user_id: user_1.id).count).to eq(1)
-        # Check if notification is created for the account admin
-        expect(Notification.where(user_id: admin.id).count).to eq(1)
-        # Check if no notification is created for other user
-        expect(Notification.where(user_id: user_2.id).count).to eq(0)
+      it 'creates SlaEvent only for frt miss' do
+        described_class.new(applied_sla: applied_sla).perform
+
+        expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'frt').count).to eq(1)
+        expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'nrt').count).to eq(0)
+        expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'rt').count).to eq(0)
       end
     end
 
@@ -53,19 +49,17 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
       it 'updates the SLA status to missed and logs a warning' do
         allow(Rails.logger).to receive(:warn)
         described_class.new(applied_sla: applied_sla).perform
-        expect(Rails.logger).to have_received(:warn).with("SLA missed for conversation #{conversation.id} in account " \
+        expect(Rails.logger).to have_received(:warn).with("SLA nrt missed for conversation #{conversation.id} in account " \
                                                           "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
-        expect(applied_sla.reload.sla_status).to eq('missed')
+        expect(applied_sla.reload.sla_status).to eq('active_with_misses')
+      end
 
-        expect(Notification.count).to eq(2)
-        # check if notification type is sla_missed_first_response
-        expect(Notification.where(notification_type: 'sla_missed_next_response').count).to eq(2)
-        # Check if notification is created for the assignee
-        expect(Notification.where(user_id: user_1.id).count).to eq(1)
-        # Check if notification is created for the account admin
-        expect(Notification.where(user_id: admin.id).count).to eq(1)
-        # Check if no notification is created for other user
-        expect(Notification.where(user_id: user_2.id).count).to eq(0)
+      it 'creates SlaEvent only for nrt miss' do
+        described_class.new(applied_sla: applied_sla).perform
+
+        expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'frt').count).to eq(0)
+        expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'nrt').count).to eq(1)
+        expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'rt').count).to eq(0)
       end
     end
 
@@ -75,18 +69,18 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
       it 'updates the SLA status to missed and logs a warning' do
         allow(Rails.logger).to receive(:warn)
         described_class.new(applied_sla: applied_sla).perform
-        expect(Rails.logger).to have_received(:warn).with("SLA missed for conversation #{conversation.id} in account " \
+        expect(Rails.logger).to have_received(:warn).with("SLA rt missed for conversation #{conversation.id} in account " \
                                                           "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
-        expect(applied_sla.reload.sla_status).to eq('missed')
 
-        expect(Notification.count).to eq(2)
-        expect(Notification.where(notification_type: 'sla_missed_resolution').count).to eq(2)
-        # Check if notification is created for the assignee
-        expect(Notification.where(user_id: user_1.id).count).to eq(1)
-        # Check if notification is created for the account admin
-        expect(Notification.where(user_id: admin.id).count).to eq(1)
-        # Check if no notification is created for other user
-        expect(Notification.where(user_id: user_2.id).count).to eq(0)
+        expect(applied_sla.reload.sla_status).to eq('active_with_misses')
+      end
+
+      it 'creates SlaEvent only for rt miss' do
+        described_class.new(applied_sla: applied_sla).perform
+
+        expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'frt').count).to eq(0)
+        expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'nrt').count).to eq(0)
+        expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'rt').count).to eq(1)
       end
     end
 
@@ -110,13 +104,14 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
         conversation.update(first_reply_created_at: 5.hours.ago, waiting_since: 5.hours.ago)
       end
 
-      it 'updates the SLA status to missed and logs a warning' do
+      it 'updates the SLA status to missed and logs multiple warnings' do
         allow(Rails.logger).to receive(:warn)
         described_class.new(applied_sla: applied_sla).perform
-        expect(Rails.logger).to have_received(:warn).with("SLA missed for conversation #{conversation.id} in account " \
+        expect(Rails.logger).to have_received(:warn).with("SLA rt missed for conversation #{conversation.id} in account " \
                                                           "#{applied_sla.account_id} for sla_policy #{sla_policy.id}").exactly(1).time
-        expect(applied_sla.reload.sla_status).to eq('missed')
-        expect(Notification.count).to eq(2)
+        expect(Rails.logger).to have_received(:warn).with("SLA nrt missed for conversation #{conversation.id} in account " \
+                                                          "#{applied_sla.account_id} for sla_policy #{sla_policy.id}").exactly(1).time
+        expect(applied_sla.reload.sla_status).to eq('active_with_misses')
       end
     end
   end
@@ -140,6 +135,7 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
         expect(Rails.logger).to have_received(:info).with("SLA hit for conversation #{conversation.id} in account " \
                                                           "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
         expect(applied_sla.reload.sla_status).to eq('hit')
+        expect(SlaEvent.count).to eq(0)
         expect(Notification.count).to eq(0)
       end
     end
@@ -162,6 +158,7 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
         expect(Rails.logger).to have_received(:info).with("SLA hit for conversation #{conversation.id} in account " \
                                                           "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
         expect(applied_sla.reload.sla_status).to eq('hit')
+        expect(SlaEvent.count).to eq(0)
       end
     end
 
@@ -177,7 +174,52 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
         expect(Rails.logger).to have_received(:info).with("SLA hit for conversation #{conversation.id} in account " \
                                                           "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
         expect(applied_sla.reload.sla_status).to eq('hit')
+        expect(SlaEvent.count).to eq(0)
       end
+    end
+  end
+
+  describe 'SLA evaluation with frt hit, multiple nrt misses and rt miss' do
+    before do
+      # Setup SLA Policy thresholds
+      sla_policy.update(
+        first_response_time_threshold: 2.hours, # Hit frt
+        next_response_time_threshold: 1.hour, # Miss nrt multiple times
+        resolution_time_threshold: 4.hours # Miss rt
+      )
+
+      # Simulate conversation timeline
+      # Hit frt
+      # incoming message from customer
+      create(:message, conversation: conversation, created_at: 6.hours.ago, message_type: :incoming)
+      # outgoing message from agent within frt
+      create(:message, conversation: conversation, created_at: 5.hours.ago, message_type: :outgoing)
+
+      # Miss nrt first time
+      create(:message, conversation: conversation, created_at: 4.hours.ago, message_type: :incoming)
+      described_class.new(applied_sla: applied_sla).perform
+
+      # Miss nrt second time
+      create(:message, conversation: conversation, created_at: 3.hours.ago, message_type: :incoming)
+      described_class.new(applied_sla: applied_sla).perform
+
+      # Conversation is resolved missing rt
+      conversation.update(status: 'resolved')
+
+      # this will not create a new notification for rt miss as conversation is resolved
+      # but we would have already created an rt miss notification during previous evaluation
+      described_class.new(applied_sla: applied_sla).perform
+    end
+
+    it 'updates the SLA status to missed' do
+      # the status would be missed as the conversation is resolved
+      expect(applied_sla.reload.sla_status).to eq('missed')
+    end
+
+    it 'creates necessary sla events' do
+      expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'frt').count).to eq(0)
+      expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'nrt').count).to eq(2)
+      expect(SlaEvent.where(applied_sla: applied_sla, event_type: 'rt').count).to eq(1)
     end
   end
 end
