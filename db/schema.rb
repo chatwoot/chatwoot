@@ -395,9 +395,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_06_201954) do
   end
 
   create_table "chatbots", force: :cascade do |t|
+    t.string "chatbot_id", null: false
     t.datetime "last_trained_at"
     t.string "chatbot_name"
-    t.string "chatbot_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "account_id", default: 0, null: false
@@ -700,6 +700,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_06_201954) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "settings", default: {}
+  end
+
+  create_table "keycloak_sessions_infos", force: :cascade do |t|
+    t.string "email"
+    t.string "session_state"
+    t.json "token_info"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "labels", force: :cascade do |t|
