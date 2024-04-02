@@ -4,7 +4,7 @@
     <SLAMetrics
       :hit-rate="slaMetrics.hitRate"
       :no-of-breaches="slaMetrics.numberOfSLABreaches"
-      :is-loading="true"
+      :is-loading="uiFlags.isLoading"
     />
     <SLATable
       :sla-reports="slaReports"
