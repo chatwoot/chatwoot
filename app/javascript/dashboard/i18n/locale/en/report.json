@@ -508,6 +508,7 @@
   },
   "SLA_REPORTS": {
     "HEADER": "SLA Reports",
+    "NO_RECORDS": "There are no SLA reports available.",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",
@@ -516,6 +517,13 @@
       "NO_OF_BREACHES": {
         "LABEL": "Number of Breaches",
         "TOOLTIP": "The total SLA breaches in a certain period."
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "POLICY_BREACHED": "Policy breached",
+        "CONVERSATION": "Conversation",
+        "AGENT": "Agent"
       }
     }
   }
