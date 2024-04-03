@@ -569,7 +569,7 @@
       "UPDATE": "Cập nhật tuỳ chỉnh giờ làm việc",
       "TOGGLE_AVAILABILITY": "Kích hoạt tính khả dụng của doanh nghiệp cho hộp thư đến này",
       "UNAVAILABLE_MESSAGE_LABEL": "Thông báo không có sẵn cho khách truy cập",
-      "TOGGLE_HELP": "Việc kích hoạt tính khả dụng của doanh nghiệp sẽ hiển thị giờ có sẵn trên tiện ích trò chuyện trực tiếp ngay cả khi tất cả các đại lý đều ngoại tuyến. Ngoài giờ có sẵn, khách truy cập có thể được cảnh báo bằng thông điệp và biểu mẫu trò chuyện trước.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Kích hoạt tính khả dụng cho hôm nay",
         "UNAVAILABLE": "Không có sẵn",

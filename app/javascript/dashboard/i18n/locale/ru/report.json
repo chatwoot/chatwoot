@@ -37,7 +37,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Время ожидания клиента",
-        "TOOLTIP_TEXT": "Время ожидания %{metricValue} (на основе %{conversationCount} сообщений)"
+        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -440,8 +440,9 @@
       "HEADER": "Открытые диалоги",
       "LOADING_MESSAGE": "Загрузка метрик разговора...",
       "OPEN": "Открытых",
-      "UNATTENDED": "Несвязанные",
-      "UNASSIGNED": "Неназначен"
+      "UNATTENDED": "Неотвеченные",
+      "UNASSIGNED": "Неназначен",
+      "PENDING": "В ожидании"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Трафик сообщений",
@@ -456,7 +457,7 @@
       "TABLE_HEADER": {
         "AGENT": "Оператор",
         "OPEN": "ОТКРЫТЫХ",
-        "UNATTENDED": "Несвязанные",
+        "UNATTENDED": "Неотвеченные",
         "STATUS": "Статус"
       }
     },

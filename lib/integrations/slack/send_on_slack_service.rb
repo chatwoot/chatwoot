@@ -97,7 +97,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
     post_message if message_content.present?
     upload_file if message.attachments.any?
   rescue Slack::Web::Api::Errors::AccountInactive, Slack::Web::Api::Errors::MissingScope, Slack::Web::Api::Errors::InvalidAuth,
-         Slack::Web::Api::Errors::ChannelNotFound => e
+         Slack::Web::Api::Errors::ChannelNotFound, Slack::Web::Api::Errors::NotInChannel => e
     Rails.logger.error e
     hook.prompt_reauthorization!
     hook.disable

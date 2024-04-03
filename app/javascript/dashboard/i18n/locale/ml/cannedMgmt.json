@@ -1,75 +1,75 @@
 {
   "CANNED_MGMT": {
     "HEADER": "ക്യാൻഡ് പ്രതികരണങ്ങൾ",
-    "HEADER_BTN_TXT": "ക്യാൻഡ് പ്രതികരണം ചേർക്കുക",
-    "LOADING": "ക്യാൻഡ് പ്രതികരണങ്ങൾ ലഭ്യമാക്കുന്നു",
-    "SEARCH_404": "ഈ ചോദ്യവുമായി പൊരുത്തപ്പെടുന്ന ഇനങ്ങളൊന്നുമില്ല",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation. </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "HEADER_BTN_TXT": "Add canned response",
+    "LOADING": "Fetching canned responses...",
+    "SEARCH_404": "ഈ ചോദ്യവുമായി പൊരുത്തപ്പെടുന്ന ഇനങ്ങളൊന്നുമില്ല.",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are pre-written reply templates that help you quickly respond to a conversation. To insert a canned response during a chat, agents can type a short code preceded by a '/' character. </p><p> You can manage your canned responses from this page or create new ones using the \"Add canned response\" button.</p><p>Open the <a target=\"_blank\" href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\">Canned Responses handbook</a> in another tab for a helping hand.</p><p>Also, check out the all-new <a href=\"https://www.chatwoot.com/tools/canned-responses-library\" target=\"_blank\">Canned Responses Library</a>.</p>",
     "LIST": {
       "404": "ഈ അക്കൗണ്ടിൽ ക്യാൻഡ് പ്രതികരണങ്ങളൊന്നും ലഭ്യമല്ല.",
       "TITLE": "ക്യാൻഡ് പ്രതികരണങ്ങൾ നിയന്ത്രിക്കുക",
-      "DESC": "മുൻ‌നിശ്ചയിച്ച മറുപടി ടെം‌പ്ലേറ്റുകളാണ് ക്യാൻഡ് പ്രതികരണങ്ങൾ‌, അവ ടിക്കറ്റുകൾ‌ക്ക് വേഗത്തിൽ‌ മറുപടികൾ‌ അയയ്‌ക്കാൻ‌ ഉപയോഗിക്കാം.",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
       "TABLE_HEADER": [
-        "ഹ്രസ്വ കോഡ്",
+        "Short code",
         "ഉള്ളടക്കം",
         "പ്രവർത്തനങ്ങൾ"
       ]
     },
     "ADD": {
-      "TITLE": "ക്യാൻഡ് പ്രതികരണം ചേർക്കുക",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation.",
+      "TITLE": "Add canned response",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
       "CANCEL_BUTTON_TEXT": "റദ്ദാക്കുക",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "ഹ്രസ്വ കോഡ്",
-          "PLACEHOLDER": "Please enter a short code",
-          "ERROR": "ഹ്രസ്വ കോഡ് ആവശ്യമാണ്"
+          "LABEL": "Short code",
+          "PLACEHOLDER": "Please enter a short code.",
+          "ERROR": "Short Code is required."
         },
         "CONTENT": {
-          "LABEL": "ഉള്ളടക്കം",
-          "PLACEHOLDER": "ദയവായി ഒരു ഉള്ളടക്കം നൽകുക",
-          "ERROR": "ഉള്ളടക്കം ആവശ്യമാണ്"
+          "LABEL": "സന്ദേശം",
+          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "ERROR": "Message is required."
         },
         "SUBMIT": "സമർപ്പിക്കുക"
       },
       "API": {
-        "SUCCESS_MESSAGE": "ക്യാൻഡ് പ്രതികരണം വിജയകരമായി ചേർത്തു",
-        "ERROR_MESSAGE": "വൂട്ട് സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക"
+        "SUCCESS_MESSAGE": "Canned response added successfully.",
+        "ERROR_MESSAGE": "സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക"
       }
     },
     "EDIT": {
-      "TITLE": "ക്യാൻഡ് പ്രതികരണം എഡിറ്റുചെയ്യുക",
+      "TITLE": "Edit canned response",
       "CANCEL_BUTTON_TEXT": "റദ്ദാക്കുക",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "ഹ്രസ്വ കോഡ്",
-          "PLACEHOLDER": "ദയവായി ഒരു ഹ്രസ്വ കോഡ് നൽകുക",
-          "ERROR": "ഹ്രസ്വ കോഡ് ആവശ്യമാണ്"
+          "LABEL": "Short code",
+          "PLACEHOLDER": "Please enter a shortcode.",
+          "ERROR": "Short code is required."
         },
         "CONTENT": {
-          "LABEL": "ഉള്ളടക്കം",
-          "PLACEHOLDER": "ദയവായി ഒരു ഉള്ളടക്കം നൽകുക",
-          "ERROR": "ഉള്ളടക്കം ആവശ്യമാണ്"
+          "LABEL": "സന്ദേശം",
+          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "ERROR": "Message is required."
         },
         "SUBMIT": "സമർപ്പിക്കുക"
       },
       "BUTTON_TEXT": "എഡിറ്റുചെയ്യുക",
       "API": {
-        "SUCCESS_MESSAGE": "ക്യാൻഡ്  പ്രതികരണം വിജയകരമായി അപ്‌ഡേറ്റുചെയ്‌തു",
-        "ERROR_MESSAGE": "വൂട്ട് സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക"
+        "SUCCESS_MESSAGE": "Canned response is updated successfully.",
+        "ERROR_MESSAGE": "സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "ഇല്ലാതാക്കുക",
       "API": {
-        "SUCCESS_MESSAGE": "ക്യാൻഡ് പ്രതികരണം വിജയകരമായി ഇല്ലാതാക്കി",
-        "ERROR_MESSAGE": "വൂട്ട് സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക"
+        "SUCCESS_MESSAGE": "Canned response deleted successfully.",
+        "ERROR_MESSAGE": "സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക"
       },
       "CONFIRM": {
-        "TITLE": "ഇല്ലാതാക്കൽ സ്ഥിരീകരിക്കുക",
+        "TITLE": "Confirm deletion",
         "MESSAGE": "ഇല്ലാതാക്കണമെന്ന് ഉറപ്പാണോ",
-        "YES": "അതെ, ഇല്ലാതാക്കുക",
-        "NO": "ഇല്ല, സൂക്ഷിക്കുക"
+        "YES": "Yes, delete ",
+        "NO": "No, keep "
       }
     }
   }

@@ -101,7 +101,7 @@ class Message < ApplicationRecord
   # [:external_error : Can specify if the message creation failed due to an error at external API
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
                                          :external_created_at, :story_sender, :story_id, :external_error,
-                                         :translations, :in_reply_to_external_id], coder: JSON
+                                         :translations, :in_reply_to_external_id, :is_unsupported], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
@@ -118,7 +118,7 @@ class Message < ApplicationRecord
   belongs_to :account
   belongs_to :inbox
   belongs_to :conversation, touch: true
-  belongs_to :sender, polymorphic: true, required: false
+  belongs_to :sender, polymorphic: true, optional: true
 
   has_many :attachments, dependent: :destroy, autosave: true, before_add: :validate_attachments_limit
   has_one :csat_survey_response, dependent: :destroy_async
@@ -139,8 +139,8 @@ class Message < ApplicationRecord
       conversation_id: conversation.display_id,
       conversation: conversation_push_event_data
     )
-    data.merge!(echo_id: echo_id) if echo_id.present?
-    data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
+    data[:echo_id] = echo_id if echo_id.present?
+    data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
     merge_sender_attributes(data)
   end
 
@@ -163,8 +163,8 @@ class Message < ApplicationRecord
   end
 
   def merge_sender_attributes(data)
-    data.merge!(sender: sender.push_event_data) if sender && !sender.is_a?(AgentBot)
-    data.merge!(sender: sender.push_event_data(inbox)) if sender.is_a?(AgentBot)
+    data[:sender] = sender.push_event_data if sender && !sender.is_a?(AgentBot)
+    data[:sender] = sender.push_event_data(inbox) if sender.is_a?(AgentBot)
     data
   end
 
@@ -184,7 +184,7 @@ class Message < ApplicationRecord
       sender: sender.try(:webhook_data),
       source_id: source_id
     }
-    data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
+    data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
     data
   end
 
@@ -299,6 +299,10 @@ class Message < ApplicationRecord
   end
 
   def dispatch_update_event
+    # ref: https://github.com/rails/rails/issues/44500
+    # we want to skip the update event if the message is not updated
+    return if previous_changes.blank?
+
     Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self, performed_by: Current.executed_by,
                                                                             previous_changes: previous_changes)
   end

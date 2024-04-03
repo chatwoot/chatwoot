@@ -48,6 +48,10 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
     @outgoing_echo ? recipient_id : sender_id
   end
 
+  def message_is_unsupported?
+    message[:is_unsupported].present? && @messaging[:message][:is_unsupported] == true
+  end
+
   def sender_id
     @messaging[:sender][:id]
   end
@@ -118,7 +122,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def message_params
-    {
+    params = {
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
       message_type: message_type,
@@ -129,6 +133,9 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
         in_reply_to_external_id: message_reply_attributes
       }
     }
+
+    params[:content_attributes][:is_unsupported] = true if message_is_unsupported?
+    params
   end
 
   def already_sent_from_chatwoot?

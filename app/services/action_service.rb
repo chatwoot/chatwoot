@@ -3,6 +3,7 @@ class ActionService
 
   def initialize(conversation)
     @conversation = conversation.reload
+    @account = @conversation.account
   end
 
   def mute_conversation(_params)
@@ -49,8 +50,10 @@ class ActionService
   end
 
   def assign_team(team_ids = [])
-    return unassign_team if team_ids[0].zero?
-    return unless team_belongs_to_account?(team_ids)
+    return unassign_team if team_ids[0]&.zero?
+    # check if team belongs to account only if team_id is present
+    # if team_id is nil, then it means that the team is being unassigned
+    return unless !team_ids[0].nil? && team_belongs_to_account?(team_ids)
 
     @conversation.update!(team_id: team_ids[0])
   end
@@ -87,3 +90,5 @@ class ActionService
     @conversation.additional_attributes['type'] == 'tweet'
   end
 end
+
+ActionService.include_mod_with('ActionService')

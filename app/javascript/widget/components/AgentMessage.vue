@@ -19,11 +19,7 @@
           <reply-to-chip :reply-to="replyTo" />
         </div>
         <div class="flex gap-1">
-          <drag-wrapper
-            class="space-y-2"
-            direction="right"
-            @dragged="toggleReply"
-          >
+          <div class="space-y-2">
             <AgentMessageBubble
               v-if="shouldDisplayAgentMessage"
               :content-type="contentType"
@@ -54,7 +50,7 @@
                 <file-bubble v-else :url="attachment.data_url" />
               </div>
             </div>
-          </drag-wrapper>
+          </div>
           <div class="flex flex-col justify-end">
             <message-reply-button
               class="transition-opacity delay-75 opacity-0 group-hover:opacity-100 sm:opacity-0"
@@ -96,7 +92,6 @@ import messageMixin from '../mixins/messageMixin';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 import ReplyToChip from 'widget/components/ReplyToChip.vue';
-import DragWrapper from 'widget/components/DragWrapper.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
@@ -109,7 +104,6 @@ export default {
     FileBubble,
     MessageReplyButton,
     ReplyToChip,
-    DragWrapper,
   },
   mixins: [timeMixin, configMixin, messageMixin, darkModeMixin],
   props: {

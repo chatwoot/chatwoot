@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed flex items-center justify-center w-screen h-screen bg-white/70 top-0 left-0 z-50"
+    class="fixed flex items-center justify-center w-screen h-screen bg-modal-backdrop-light dark:bg-modal-backdrop-dark top-0 left-0 z-50"
   >
     <div
       v-on-clickaway="onClose"

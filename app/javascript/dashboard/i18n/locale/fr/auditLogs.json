@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "Ajouter des journaux d'audit",
     "LOADING": "Récupération des journaux d'audit",
     "SEARCH_404": "Il n'y a aucun élément correspondant à cette requête",
-    "SIDEBAR_TXT": "<p><b>Les journaux d'audit</b> </p><p> Les journaux d'audit sont des traces pour les événements et les actions dans un système Chatwoot. </p>",
+    "SIDEBAR_TXT": "</p><b>Les journaux d'audit</b> </p><p>Les journaux d'audit contiennent des événements et des actions associés un système Chatwoot. </p>",
     "LIST": {
       "404": "Il n'y a aucun journal d'audit disponible dans ce compte.",
       "TITLE": "Gérer les journaux d’audit",

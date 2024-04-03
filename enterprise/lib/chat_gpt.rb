@@ -4,13 +4,13 @@ class ChatGpt
   end
 
   def initialize(context_sections = '')
-    @model = 'gpt-4'
+    @model = 'gpt-4-0125-preview'
     @messages = [system_message(context_sections)]
   end
 
-  def generate_response(input, previous_messages = [])
+  def generate_response(input, previous_messages = [], role = 'user')
     @messages += previous_messages
-    @messages << { 'role': 'user', 'content': input } if input.present?
+    @messages << { 'role': role, 'content': input } if input.present?
 
     response = request_gpt
     JSON.parse(response['choices'][0]['message']['content'].strip)
@@ -53,7 +53,7 @@ class ChatGpt
 
   def request_gpt
     headers = { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{ENV.fetch('OPENAI_API_KEY')}" }
-    body = { model: @model, messages: @messages }.to_json
+    body = { model: @model, messages: @messages, response_format: { type: 'json_object' } }.to_json
     Rails.logger.info "Requesting Chat GPT with body: #{body}"
     response = HTTParty.post("#{self.class.base_uri}/v1/chat/completions", headers: headers, body: body)
     Rails.logger.info "Chat GPT response: #{response.body}"

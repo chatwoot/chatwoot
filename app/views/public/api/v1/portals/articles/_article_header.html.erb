@@ -30,9 +30,8 @@
 </h1>
 <div class="flex flex-col items-start justify-between w-full pt-6 md:flex-row md:items-center">
   <div class="flex items-start space-x-1">
-    <div class="pr-px mt-0.5 min-w-[20px] min-h-[20px]">
-      <%= render "public/api/v1/portals/thumbnail", author: article.author, size: 5 %>
-    </div>
-    <span class="flex items-center text-base font-medium text-slate-600 dark:text-slate-400"><%= "#{I18n.t('public_portal.common.by')} #{article.author&.available_name || article.author&.name || ''}" %> • <%= I18n.t('public_portal.common.last_updated_on', last_updated_on: article.updated_at.strftime("%b %d, %Y")) %></span>
+    <span class="flex items-center text-base font-medium text-slate-600 dark:text-slate-400">
+     <%= I18n.t('public_portal.common.last_updated_on', last_updated_on: article.updated_at.strftime("%b %d, %Y")) %>
+    </span>
   </div>
 </div>

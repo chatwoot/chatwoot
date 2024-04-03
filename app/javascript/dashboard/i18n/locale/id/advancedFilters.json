@@ -1,18 +1,18 @@
 {
   "FILTER": {
-    "TITLE": "Filter Percakapan",
-    "SUBTITLE": "Tambahkan filter di bawah ini dan tekan 'Terapkan filter' untuk menyaring percakapan.",
+    "TITLE": "Filter percakapan",
+    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
     "EDIT_CUSTOM_FILTER": "Edit Folder",
     "CUSTOM_VIEWS_SUBTITLE": "Tambahkan atau hapus filter dan perbarui folder Anda.",
-    "ADD_NEW_FILTER": "Tambahkan Filter",
-    "FILTER_DELETE_ERROR": "Anda harus memiliki setidaknya satu filter untuk disimpan",
+    "ADD_NEW_FILTER": "Add filter",
+    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
     "SUBMIT_BUTTON_LABEL": "Terapkan filter",
     "UPDATE_BUTTON_LABEL": "Perbarui folder",
     "CANCEL_BUTTON_LABEL": "Batalkan",
-    "CLEAR_BUTTON_LABEL": "Hapus Filter",
-    "EMPTY_VALUE_ERROR": "Nilai dibutuhkan",
+    "CLEAR_BUTTON_LABEL": "Clear filters",
     "FOLDER_LABEL": "Nama Folder",
     "FOLDER_QUERY_LABEL": "Kueri Folder",
+    "EMPTY_VALUE_ERROR": "Nilai dibutuhkan.",
     "TOOLTIP_LABEL": "Filter percakapan",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "DAN",
@@ -36,15 +36,15 @@
     },
     "ATTRIBUTES": {
       "STATUS": "Status",
-      "ASSIGNEE_NAME": "Nama Penerima Tugas",
-      "INBOX_NAME": "Nama Kotak Masuk",
+      "ASSIGNEE_NAME": "Assignee name",
+      "INBOX_NAME": "Nama kotak masuk",
       "TEAM_NAME": "Nama Tim",
-      "CONVERSATION_IDENTIFIER": "Pengenal Percakapan",
-      "CAMPAIGN_NAME": "Nama Kampanye",
+      "CONVERSATION_IDENTIFIER": "Conversation identifier",
+      "CAMPAIGN_NAME": "Campaign name",
       "LABELS": "Label",
-      "BROWSER_LANGUAGE": "Bahasa Browser",
+      "BROWSER_LANGUAGE": "Browser language",
       "PRIORITY": "Prioritas",
-      "COUNTRY_NAME": "Nama Negara",
+      "COUNTRY_NAME": "Country name",
       "REFERER_LINK": "Tautan Referer",
       "CUSTOM_ATTRIBUTE_LIST": "Daftar",
       "CUSTOM_ATTRIBUTE_TEXT": "Teks",
@@ -52,28 +52,28 @@
       "CUSTOM_ATTRIBUTE_LINK": "Tautan",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Kotak centang",
       "CREATED_AT": "Dibuat pada",
-      "LAST_ACTIVITY": "Aktivitas Terakhir"
+      "LAST_ACTIVITY": "Aktivitas terakhir"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Filter Standar",
-      "ADDITIONAL_FILTERS": "Filter Tambahan",
-      "CUSTOM_ATTRIBUTES": "Atribut Kustom"
+      "STANDARD_FILTERS": "Standard filters",
+      "ADDITIONAL_FILTERS": "Additional filters",
+      "CUSTOM_ATTRIBUTES": "Custom attributes"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
         "TITLE": "Apakah Anda ingin menyimpan filter ini?",
         "LABEL": "Beri nama pada filter ini",
-        "PLACEHOLDER": "Masukkan nama untuk filter ini",
-        "ERROR_MESSAGE": "Nama dibutuhkan",
+        "PLACEHOLDER": "Name your filter to refer it later.",
+        "ERROR_MESSAGE": "Nama dibutuhkan.",
         "SAVE_BUTTON": "Simpan filter",
         "CANCEL_BUTTON": "Batalkan",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder berhasil dibuat",
-          "ERROR_MESSAGE": "Galat saat membuat folder"
+          "SUCCESS_MESSAGE": "Folder berhasil dibuat.",
+          "ERROR_MESSAGE": "Galat saat membuat folder."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment berhasil dibuat",
-          "ERROR_MESSAGE": "Galat saat membuat segment"
+          "SUCCESS_MESSAGE": "Segment berhasil dibuat.",
+          "ERROR_MESSAGE": "Galat saat membuat segment."
         }
       },
       "EDIT": {
@@ -83,19 +83,19 @@
         "DELETE_BUTTON": "Hapus filter",
         "MODAL": {
           "CONFIRM": {
-            "TITLE": "Konfirmasi Penghapusan",
+            "TITLE": "Konfirmasi penghapusan",
             "MESSAGE": "Apakah Anda yakin ingin menghapus filter ",
-            "YES": "Ya, Hapus",
-            "NO": "Tidak, Simpan"
+            "YES": "Yes, delete",
+            "NO": "Tidak, simpan"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder berhasil dihapus",
-          "ERROR_MESSAGE": "Galat saat menghapus folder"
+          "SUCCESS_MESSAGE": "Folder berhasil dihapus.",
+          "ERROR_MESSAGE": "Galat saat menghapus folder."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment berhasil dihapus",
-          "ERROR_MESSAGE": "Galat saat menghapus segment"
+          "SUCCESS_MESSAGE": "Segment berhasil dihapus.",
+          "ERROR_MESSAGE": "Galat saat menghapus segment."
         }
       }
     }

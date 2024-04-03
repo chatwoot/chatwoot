@@ -28,6 +28,7 @@ module Redis::RedisKeys
 
   ## Internal Installation related keys
   CHATWOOT_INSTALLATION_ONBOARDING = 'CHATWOOT_INSTALLATION_ONBOARDING'.freeze
+  CHATWOOT_INSTALLATION_CONFIG_RESET_WARNING = 'CHATWOOT_CONFIG_RESET_WARNING'.freeze
   LATEST_CHATWOOT_VERSION = 'LATEST_CHATWOOT_VERSION'.freeze
   # Check if a message create with same source-id is in progress?
   MESSAGE_SOURCE_KEY = 'MESSAGE_SOURCE_KEY::%<id>s'.freeze
@@ -38,4 +39,5 @@ module Redis::RedisKeys
   FACEBOOK_MESSAGE_MUTEX = 'FB_MESSAGE_CREATE_LOCK::%<sender_id>s::%<recipient_id>s'.freeze
   IG_MESSAGE_MUTEX = 'IG_MESSAGE_CREATE_LOCK::%<sender_id>s::%<ig_account_id>s'.freeze
   SLACK_MESSAGE_MUTEX = 'SLACK_MESSAGE_LOCK::%<conversation_id>s::%<reference_id>s'.freeze
+  EMAIL_MESSAGE_MUTEX = 'EMAIL_CHANNEL_LOCK::%<inbox_id>s'.freeze
 end

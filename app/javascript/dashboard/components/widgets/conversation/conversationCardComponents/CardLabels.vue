@@ -5,7 +5,7 @@
     class="label-container mt-0.5 mx-2 mb-0"
   >
     <div
-      class="labels-wrap flex items-end min-w-0 flex-shrink"
+      class="labels-wrap flex items-end min-w-0 flex-shrink gap-y-1 flex-wrap"
       :class="{ expand: showAllLabels }"
     >
       <woot-label
@@ -15,6 +15,7 @@
         :description="label.description"
         :color="label.color"
         variant="smooth"
+        class="!mb-0 max-w-[calc(100%-0.5rem)]"
         small
         :class="{ hidden: !showAllLabels && index > labelPosition }"
       />
@@ -96,22 +97,10 @@ export default {
 .labels-wrap {
   &.expand {
     @apply h-auto overflow-visible flex-row flex-wrap;
-
-    .label {
-      @apply mb-1;
-    }
-
-    .show-more--button {
-      @apply mb-1;
-    }
   }
 
   .secondary {
     @apply border border-solid border-slate-100 dark:border-slate-700;
-  }
-
-  .label {
-    @apply mb-0;
   }
 }
 

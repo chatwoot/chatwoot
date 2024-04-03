@@ -7,16 +7,16 @@
         "CANCEL": "Annuleren",
         "DESC": "Webhook events bieden je realtime informatie over wat er gebeurt in je Chatwoot account. Voer een geldige URL in om een callback te configureren.",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "Gebeurtenissen",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated"
+            "CONVERSATION_CREATED": "Gesprek aangemaakt",
+            "CONVERSATION_STATUS_CHANGED": "Gespreksstatus veranderd",
+            "CONVERSATION_UPDATED": "Gesprek bijgewerkt",
+            "MESSAGE_CREATED": "Bericht aangemaakt",
+            "MESSAGE_UPDATED": "Bericht bijgewerkt",
+            "WEBWIDGET_TRIGGERED": "Live chat widget geopend door de gebruiker",
+            "CONTACT_CREATED": "Contact aangemaakt",
+            "CONTACT_UPDATED": "Contact aangemaakt"
           }
         },
         "END_POINT": {
@@ -24,7 +24,7 @@
           "PLACEHOLDER": "Voorbeeld: https://voorbeeld/api/webhook",
           "ERROR": "Voer een geldige URL in"
         },
-        "EDIT_SUBMIT": "Update webhook",
+        "EDIT_SUBMIT": "Webhook bijwerken",
         "ADD_SUBMIT": "Maak webhook"
       },
       "TITLE": "Webhook",
@@ -44,9 +44,9 @@
       },
       "EDIT": {
         "BUTTON_TEXT": "Bewerken",
-        "TITLE": "Edit webhook",
+        "TITLE": "Webhook bewerken",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
+          "SUCCESS_MESSAGE": "Webhook configuratie succesvol bijgewerkt",
           "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
         }
       },
@@ -54,7 +54,7 @@
         "CANCEL": "annuleren",
         "TITLE": "Nieuwe webhook toevoegen",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
+          "SUCCESS_MESSAGE": "Webhook configuratie succesvol toegevoegd",
           "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
         }
       },
@@ -66,7 +66,7 @@
         },
         "CONFIRM": {
           "TITLE": "Verwijdering bevestigen",
-          "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
+          "MESSAGE": "Weet je zeker dat je de webhook wilt verwijderen? (%{webhookURL})",
           "YES": "Ja, verwijderen ",
           "NO": "Nee, Bewaar het"
         }
@@ -75,82 +75,82 @@
     "SLACK": {
       "DELETE": "Verwijderen",
       "DELETE_CONFIRMATION": {
-        "TITLE": "Delete the integration",
-        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+        "TITLE": "Integratie verwijderen",
+        "MESSAGE": "Weet u zeker dat u de integratie wilt verwijderen? Dit zal leiden tot verlies van toegang tot gesprekken op uw Slack werkruimte."
       },
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
         "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>",
-        "SELECTED": "selected"
+        "SELECTED": "geselecteerd"
       },
       "SELECT_CHANNEL": {
-        "OPTION_LABEL": "Select a channel",
+        "OPTION_LABEL": "Selecteer een kanaal",
         "UPDATE": "Vernieuwen",
-        "BUTTON_TEXT": "Connect channel",
+        "BUTTON_TEXT": "Kanaal koppelen",
         "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
-        "ATTENTION_REQUIRED": "Attention required",
+        "ATTENTION_REQUIRED": "Aandacht vereist",
         "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
       },
       "UPDATE_ERROR": "There was an error updating the integration, please try again",
-      "UPDATE_SUCCESS": "The channel is connected successfully",
+      "UPDATE_SUCCESS": "Het kanaal is succesvol verbonden",
       "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
     },
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
+      "CLICK_HERE_TO_JOIN": "Klik hier om deel te nemen",
+      "LEAVE_THE_ROOM": "Gesprek verlaten",
+      "START_VIDEO_CALL_HELP_TEXT": "Start een nieuw videogesprek met de klant",
       "JOIN_ERROR": "There was an error joining the call, please try again",
       "CREATE_ERROR": "There was an error creating a meeting link, please try again"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "AI Assist",
-      "WITH_AI": " %{option} with AI ",
+      "AI_ASSIST": "AI Assistent",
+      "WITH_AI": " %{option} met AI ",
       "OPTIONS": {
-        "REPLY_SUGGESTION": "Reply Suggestion",
-        "SUMMARIZE": "Summarize",
-        "REPHRASE": "Improve Writing",
-        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
-        "SHORTEN": "Shorten",
-        "EXPAND": "Expand",
-        "MAKE_FRIENDLY": "Change message tone to friendly",
-        "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "REPLY_SUGGESTION": "Antwoord suggestie",
+        "SUMMARIZE": "Samenvatten",
+        "REPHRASE": "Verbeter schrijven",
+        "FIX_SPELLING_GRAMMAR": "Repareer spelling en grammatica",
+        "SHORTEN": "Verkorten",
+        "EXPAND": "Uitklappen",
+        "MAKE_FRIENDLY": "Wijzig berichttoon naar vriendelijk",
+        "MAKE_FORMAL": "Gebruik formele toon",
+        "SIMPLIFY": "Vereenvoudigen"
       },
       "ASSISTANCE_MODAL": {
-        "DRAFT_TITLE": "Draft content",
-        "GENERATED_TITLE": "Generated content",
-        "AI_WRITING": "AI is writing",
+        "DRAFT_TITLE": "Concept inhoud",
+        "GENERATED_TITLE": "Gegenereerde inhoud",
+        "AI_WRITING": "AI schrijft",
         "BUTTONS": {
-          "APPLY": "Use this suggestion",
+          "APPLY": "Deze suggestie gebruiken",
           "CANCEL": "Annuleren"
         }
       },
       "CTA_MODAL": {
-        "TITLE": "Integrate with OpenAI",
+        "TITLE": "Integreer met OpenAI",
         "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
-        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "KEY_PLACEHOLDER": "Voer je OpenAI API-sleutel in",
         "BUTTONS": {
-          "NEED_HELP": "Need help?",
-          "DISMISS": "Dismiss",
-          "FINISH": "Finish Setup"
+          "NEED_HELP": "Hulp nodig?",
+          "DISMISS": "Negeer",
+          "FINISH": "Installatie voltooien"
         },
-        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
-        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+        "DISMISS_MESSAGE": "U kunt OpenAI integratie later instellen wanneer u wilt.",
+        "SUCCESS_MESSAGE": "OpenAI integratie installatie succesvol"
       },
-      "TITLE": "Improve With AI",
-      "SUMMARY_TITLE": "Summary with AI",
-      "REPLY_TITLE": "Reply suggestion with AI",
+      "TITLE": "Verbeter met AI",
+      "SUMMARY_TITLE": "Samenvatting met AI",
+      "REPLY_TITLE": "Antwoord suggesties met AI",
       "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
       "TONE": {
-        "TITLE": "Tone",
+        "TITLE": "Toon",
         "OPTIONS": {
-          "PROFESSIONAL": "Professional",
-          "FRIENDLY": "Friendly"
+          "PROFESSIONAL": "Professioneel",
+          "FRIENDLY": "Vriendelijk"
         }
       },
       "BUTTONS": {
-        "GENERATE": "Generate",
-        "GENERATING": "Generating...",
+        "GENERATE": "Genereer",
+        "GENERATING": "Genereren...",
         "CANCEL": "Annuleren"
       },
       "GENERATE_ERROR": "There was an error processing the content, please try again"
@@ -158,15 +158,15 @@
     "DELETE": {
       "BUTTON_TEXT": "Verwijderen",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "Integratie succesvol verwijderd"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "Verbinden"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
+      "TITLE": "Dashboard apps",
+      "HEADER_BTN_TXT": "Voeg een nieuwe dashboard app toe",
       "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
       "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
       "LIST": {
@@ -176,8 +176,8 @@
           "Naam",
           "Endpoint"
         ],
-        "EDIT_TOOLTIP": "Edit app",
-        "DELETE_TOOLTIP": "Delete app"
+        "EDIT_TOOLTIP": "Bewerk app",
+        "DELETE_TOOLTIP": "App verwijderen"
       },
       "FORM": {
         "TITLE_LABEL": "Naam",
@@ -188,7 +188,7 @@
         "URL_ERROR": "A valid URL is required"
       },
       "CREATE": {
-        "HEADER": "Add a new dashboard app",
+        "HEADER": "Voeg een nieuwe dashboard app toe",
         "FORM_SUBMIT": "Bevestigen",
         "FORM_CANCEL": "Annuleren",
         "API_SUCCESS": "Dashboard app configured successfully",
@@ -202,10 +202,10 @@
         "API_ERROR": "We couldn't update the app. Please try again later"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
+        "CONFIRM_YES": "Ja, verwijderen",
+        "CONFIRM_NO": "Nee, behouden",
         "TITLE": "Verwijdering bevestigen",
-        "MESSAGE": "Are you sure to delete the app - %{appName}?",
+        "MESSAGE": "Weet u zeker dat u de app - %{appName} wilt verwijderen?",
         "API_SUCCESS": "Dashboard app deleted successfully",
         "API_ERROR": "We couldn't delete the app. Please try again later"
       }

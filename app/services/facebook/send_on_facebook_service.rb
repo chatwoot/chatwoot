@@ -7,7 +7,12 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
 
   def perform_reply
     send_message_to_facebook fb_text_message_params if message.content.present?
-    send_message_to_facebook fb_attachment_message_params if message.attachments.present?
+
+    if message.attachments.present?
+      message.attachments.each do |attachment|
+        send_message_to_facebook fb_attachment_message_params(attachment)
+      end
+    end
   rescue Facebook::Messenger::FacebookError => e
     # TODO : handle specific errors or else page will get disconnected
     handle_facebook_error(e)
@@ -41,8 +46,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
     "#{error_code} - #{error_message}"
   end
 
-  def fb_attachment_message_params
-    attachment = message.attachments.first
+  def fb_attachment_message_params(attachment)
     {
       recipient: { id: contact.get_source_id(inbox.id) },
       message: {
@@ -62,14 +66,6 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
     return attachment.file_type if %w[image audio video file].include? attachment.file_type
 
     'file'
-  end
-
-  def fb_message_params
-    if message.attachments.blank?
-      fb_text_message_params
-    else
-      fb_attachment_message_params
-    end
   end
 
   def sent_first_outgoing_message_after_24_hours?
