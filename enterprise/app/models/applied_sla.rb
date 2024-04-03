@@ -68,7 +68,7 @@ class AppliedSla < ApplicationRecord
 
     return unless saved_change_to_sla_status?
 
-    conversation.dispatch_updated_event
+    conversation.dispatch_conversation_updated_event
   end
 
   def ensure_account_id

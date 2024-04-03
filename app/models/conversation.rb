@@ -207,8 +207,8 @@ class Conversation < ApplicationRecord
     "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{uuid}"
   end
 
-  def dispatch_updated_event
-    dispatcher_dispatch(CONVERSATION_UPDATED)
+  def dispatch_conversation_updated_event(previous_changes = nil)
+    dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
   end
 
   private
