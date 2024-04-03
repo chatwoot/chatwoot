@@ -69,6 +69,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
       @conversation.bot_handoff!
     elsif params[:status].present?
       set_conversation_status
+      @conversation.update_assignee(nil) if params[:status] == 'resolved'
       @status = @conversation.save!
     else
       @status = @conversation.toggle_status
@@ -184,6 +185,19 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def assignee?
     @conversation.assignee_id? && Current.user == @conversation.assignee
   end
+
+
+  def send_notification_when_open
+    @conversation.inbox.members.each do |agent|
+      NotificationBuilder.new(
+        notification_type: 'conversation_creation',
+        user: agent,
+        account: @conversation.account,
+        primary_actor: @conversation
+      ).perform
+    end
+  end
+
 end
 
 Api::V1::Accounts::ConversationsController.prepend_mod_with('Api::V1::Accounts::ConversationsController')

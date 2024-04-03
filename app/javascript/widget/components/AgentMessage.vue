@@ -146,6 +146,21 @@ export default {
     },
     agentName() {
       if (this.message.sender) {
+        if (window.chatwootWebChannel.websiteName === 'AzarOnline') {
+          return (
+            this.message.sender.azar_display_name || this.message.sender.name
+          );
+        }
+        if (window.chatwootWebChannel.websiteName === 'MonoVM') {
+          return (
+            this.message.sender.mono_display_name || this.message.sender.name
+          );
+        }
+        if (window.chatwootWebChannel.websiteName === '1Gbits') {
+          return (
+            this.message.sender.gbits_display_name || this.message.sender.name
+          );
+        }
         return this.message.sender.available_name || this.message.sender.name;
       }
 

@@ -4,6 +4,8 @@
 #
 #  id                     :integer          not null, primary key
 #  availability           :integer          default("online")
+#  azar_display_name      :string
+#  azar_message_signature :text
 #  confirmation_sent_at   :datetime
 #  confirmation_token     :string
 #  confirmed_at           :datetime
@@ -13,9 +15,13 @@
 #  display_name           :string
 #  email                  :string
 #  encrypted_password     :string           default(""), not null
+#  gbits_display_name     :string
+#  gbits_message_signature :text
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
 #  message_signature      :text
+#  mono_display_name       :string
+#  mono_message_signature  :text
 #  name                   :string           not null
 #  provider               :string           default("email"), not null
 #  pubsub_token           :string

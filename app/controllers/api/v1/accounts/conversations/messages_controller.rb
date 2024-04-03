@@ -7,6 +7,11 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     user = Current.user || @resource
     mb = Messages::MessageBuilder.new(user, @conversation, params)
     @message = mb.perform
+    if @conversation.assignee_id.nil?
+      @agent = user
+      @conversation.update_assignee(@agent)
+      render partial: 'api/v1/models/agent', formats: [:json], locals: { resource: @agent }
+    end
   rescue StandardError => e
     render_could_not_create_error(e.message)
   end

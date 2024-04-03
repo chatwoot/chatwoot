@@ -5825,6 +5825,15 @@
         "display_name": {
           "type": "string"
         },
+        "azar_display_name": {
+          "type": "string"
+        },
+        "mono_display_name": {
+          "type": "string"
+        },
+        "gbits_display_name": {
+          "type": "string"
+        },
         "email": {
           "type": "string"
         },

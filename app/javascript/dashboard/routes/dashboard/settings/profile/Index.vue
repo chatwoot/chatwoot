@@ -50,6 +50,39 @@
               @input="$v.displayName.$touch"
             />
           </label>
+          <label :class="{ error: $v.azarDisplayName.$error }">
+            {{ $t('PROFILE_SETTINGS.FORM.AZAR_DISPLAY_NAME.LABEL') }}
+            <input
+              v-model="azarDisplayName"
+              type="text"
+              :placeholder="
+                $t('PROFILE_SETTINGS.FORM.AZAR_DISPLAY_NAME.PLACEHOLDER')
+              "
+              @input="$v.azarDisplayName.$touch"
+            />
+          </label>
+          <label :class="{ error: $v.monoDisplayName.$error }">
+            {{ $t('PROFILE_SETTINGS.FORM.MONO_DISPLAY_NAME.LABEL') }}
+            <input
+              v-model="monoDisplayName"
+              type="text"
+              :placeholder="
+                $t('PROFILE_SETTINGS.FORM.MONO_DISPLAY_NAME.PLACEHOLDER')
+              "
+              @input="$v.monoDisplayName.$touch"
+            />
+          </label>
+          <label :class="{ error: $v.gbitsDisplayName.$error }">
+            {{ $t('PROFILE_SETTINGS.FORM.GBITS_DISPLAY_NAME.LABEL') }}
+            <input
+              v-model="gbitsDisplayName"
+              type="text"
+              :placeholder="
+                $t('PROFILE_SETTINGS.FORM.GBITS_DISPLAY_NAME.PLACEHOLDER')
+              "
+              @input="$v.gbitsDisplayName.$touch"
+            />
+          </label>
           <label
             v-if="!globalConfig.disableUserProfileUpdate"
             :class="{ error: $v.email.$error }"
@@ -155,6 +188,9 @@ export default {
       avatarUrl: '',
       name: '',
       displayName: '',
+      azarDisplayName: '',
+      monoDisplayName: '',
+      gbitsDisplayName: '',
       email: '',
       isProfileUpdating: false,
       errorMessage: '',
@@ -188,6 +224,9 @@ export default {
       minLength: minLength(1),
     },
     displayName: {},
+    azarDisplayName: {},
+    monoDisplayName: {},
+    gbitsDisplayName: {},
     email: {
       required,
       email,
@@ -218,6 +257,9 @@ export default {
   methods: {
     initializeUser() {
       this.name = this.currentUser.name;
+      this.azarDisplayName = this.currentUser.azar_display_name;
+      this.monoDisplayName = this.currentUser.mono_display_name;
+      this.gbitsDisplayName = this.currentUser.gbits_display_name;
       this.email = this.currentUser.email;
       this.avatarUrl = this.currentUser.avatar_url;
       this.displayName = this.currentUser.display_name;
@@ -235,6 +277,9 @@ export default {
       try {
         await this.$store.dispatch('updateProfile', {
           name: this.name,
+          azarDisplayName: this.azarDisplayName,
+          monoDisplayName: this.monoDisplayName,
+          gbitsDisplayName: this.gbitsDisplayName,
           email: this.email,
           avatar: this.avatarFile,
           displayName: this.displayName,

@@ -14,7 +14,7 @@
 
 # ------- Branding Related Config ------- #
 - name: INSTALLATION_NAME
-  value: 'Chatwoot'
+  value: 'AILiveChat'
   display_title: 'Installation Name'
   description: 'The installation wide name that would be used in the dashboard, title etc.'
 - name: LOGO_THUMBNAIL
@@ -30,29 +30,29 @@
   display_title: 'Logo Dark Mode'
   description: 'The logo that would be used on the dashboard, login page etc. for dark mode'
 - name: BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://www.ailivechat.io'
   display_title: 'Brand URL'
   description: 'The URL that would be used in emails under the section “Powered By”'
 - name: WIDGET_BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://www.ailivechat.io'
   display_title: 'Widget Brand URL'
   description: 'The URL that would be used in the widget under the section “Powered By”'
 - name: BRAND_NAME
-  value: 'Chatwoot'
+  value: 'AILiveChat'
   display_title: 'Brand Name'
   description: 'The name that would be used in emails and the widget'
 - name: TERMS_URL
-  value: 'https://www.chatwoot.com/terms-of-service'
+  value: 'https://www.ailivechat.io/terms-of-service'
   display_title: 'Terms URL'
   description: 'The terms of service URL displayed in Signup Page'
 - name: PRIVACY_URL
-  value: 'https://www.chatwoot.com/privacy-policy'
+  value: 'https://www.ailivechat.io/privacy-policy'
   display_title: 'Privacy URL'
   description: 'The privacy policy URL displayed in the app'
 - name: DISPLAY_MANIFEST
   value: true
-  display_title: 'Chatwoot Metadata'
-  description: 'Display default Chatwoot metadata like favicons and upgrade warnings'
+  display_title: 'AILiveChat Metadata'
+  description: 'Display default AILiveChat metadata like favicons and upgrade warnings'
   type: boolean
 # ------- End of Branding Related Config ------- #
 
@@ -127,30 +127,30 @@
 - name: CHATWOOT_INBOX_TOKEN
   value:
   display_title: 'Inbox Token'
-  description: 'The Chatwoot Inbox Token for Contact Support in Cloud'
+  description: 'The AILiveChat Inbox Token for Contact Support in Cloud'
   locked: false
 - name: CHATWOOT_INBOX_HMAC_KEY
   value:
   display_title: 'Inbox HMAC Key'
-  description: 'The Chatwoot Inbox HMAC Key for Contact Support in Cloud'
+  description: 'The AILiveChat Inbox HMAC Key for Contact Support in Cloud'
   locked: false
 - name: CHATWOOT_CLOUD_PLANS
   value:
   description: 'Config to store stripe plans for cloud'
 - name: DEPLOYMENT_ENV
   value: self-hosted
-  description: 'The deployment environment of the installation, to differentiate between Chatwoot cloud and self-hosted'
+  description: 'The deployment environment of the installation, to differentiate between AILiveChat cloud and self-hosted'
 - name: ANALYTICS_TOKEN
   value:
   display_title: 'Analytics Token'
-  description: 'The June.so analytics token for Chatwoot cloud'
+  description: 'The June.so analytics token for AILiveChat cloud'
 - name: CLEARBIT_API_KEY
   value:
   display_title: 'Clearbit API Key'
   description: 'This API key is used for onboarding the users, to pre-fill account data.'
-# ------- End of Chatwoot Internal Config for Cloud ----#
+# ------- End of AILiveChat Internal Config for Cloud ----#
 
-# ------- Chatwoot Internal Config for Self Hosted ----#
+# ------- AILiveChat Internal Config for Self Hosted ----#
 - name: INSTALLATION_PRICING_PLAN
   value: 'community'
   description: 'The pricing plan for the installation, retrieved from the billing API'
@@ -159,14 +159,14 @@
   description: 'The number of licenses purchased for the installation, retrieved from the billing API'
 - name: CHATWOOT_SUPPORT_WEBSITE_TOKEN
   value:
-  description: 'The Chatwoot website token, used to identify the Chatwoot inbox and display the "Contact Support" option on the billing page'
+  description: 'The AILiveChat website token, used to identify the AILiveChat inbox and display the "Contact Support" option on the billing page'
 - name: CHATWOOT_SUPPORT_SCRIPT_URL
   value:
-  description: 'The Chatwoot script base URL, to display the "Contact Support" option on the billing page'
+  description: 'The AILiveChat script base URL, to display the "Contact Support" option on the billing page'
 - name: CHATWOOT_SUPPORT_IDENTIFIER_HASH
   value:
-  description: 'The Chatwoot identifier hash, to validate the contact in the live chat window.'
-# ------- End of Chatwoot Internal Config for Self Hosted ----#
+  description: 'The AILiveChat identifier hash, to validate the contact in the live chat window.'
+# ------- End of AILiveChat Internal Config for Self Hosted ----#
 
 ## ------ Configs added for enterprise clients ------ ##
 - name: API_CHANNEL_NAME

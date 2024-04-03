@@ -113,6 +113,21 @@
         "ERROR": "Please enter a valid display name",
         "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
       },
+      "AZAR_DISPLAY_NAME": {
+        "LABEL": "Display name on AzarOnline.com",
+        "ERROR": "Please enter a valid display name for AzarOnline.com",
+        "PLACEHOLDER": "Please enter a display name, this would be displayed in AzarOnline.com conversations"
+      },
+      "MONO_DISPLAY_NAME": {
+        "LABEL": "Display name on MonoVM.com",
+        "ERROR": "Please enter a valid display name for MonoVM.com",
+        "PLACEHOLDER": "Please enter a display name, this would be displayed in MonoVM.com conversations"
+      },
+      "GBITS_DISPLAY_NAME": {
+        "LABEL": "Display name on 1Gbits.com",
+        "ERROR": "Please enter a valid display name for 1Gbits.com",
+        "PLACEHOLDER": "Please enter a display name, this would be displayed in 1Gbits.com conversations"
+      },
       "AVAILABILITY": {
         "LABEL": "Availability",
         "STATUSES_LIST": ["Online", "Busy", "Offline"],
