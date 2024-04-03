@@ -79,7 +79,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
 
   def set_conversation_based_on_inbox_config
     if @inbox.lock_to_single_conversation
-      instagram_direct_message_conversation.first || build_conversation
+      instagram_direct_message_conversation.order(created_at: :desc).first || build_conversation
     else
       find_or_build_for_multiple_conversations
     end

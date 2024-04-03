@@ -58,7 +58,7 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
 
   def set_conversation_based_on_inbox_config
     if @inbox.lock_to_single_conversation
-      Conversation.find_by(conversation_params) || build_conversation
+      Conversation.where(conversation_params).order(created_at: :desc).first || build_conversation
     else
       find_or_build_for_multiple_conversations
     end
