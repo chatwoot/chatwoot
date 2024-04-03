@@ -5,6 +5,9 @@ const calculateThreshold = (timeOffset, threshold) => {
   return timeOffset + threshold - currentTime;
 };
 
+const findMissedSlaEventByType = (events, type) =>
+  events.find(event => event?.event_type.toUpperCase() === type);
+
 const findMostUrgentSLAStatus = SLAStatuses => {
   // Sort the SLAs based on the threshold and return the most urgent SLA
   SLAStatuses.sort(
@@ -44,14 +47,14 @@ const formatSLATime = seconds => {
 const createSLAObject = (
   type,
   {
-    first_response_time_threshold: frtThreshold,
-    next_response_time_threshold: nrtThreshold,
-    resolution_time_threshold: rtThreshold,
+    sla_first_response_time_threshold: frtThreshold,
+    sla_next_response_time_threshold: nrtThreshold,
+    sla_resolution_time_threshold: rtThreshold,
+    created_at: createdAt,
   } = {},
   {
     first_reply_created_at: firstReplyCreatedAt,
     waiting_since: waitingSince,
-    created_at: createdAt,
     status,
   } = {}
 ) => {
@@ -81,24 +84,26 @@ const createSLAObject = (
   return SLAStatus ? { ...SLAStatus, type } : null;
 };
 
-const evaluateSLAConditions = (sla, chat) => {
+const evaluateSLAConditions = (appliedSla, slaEvent, chat) => {
   // Filter out the SLA based on conditions and update the object with the breach status(icon, isSlaMissed)
   const SLATypes = ['FRT', 'NRT', 'RT'];
-  return SLATypes.map(type => createSLAObject(type, sla, chat))
+  return SLATypes.map(type => createSLAObject(type, appliedSla, chat))
     .filter(SLAStatus => SLAStatus && SLAStatus.condition)
     .map(SLAStatus => ({
       ...SLAStatus,
-      icon: SLAStatus.threshold <= 0 ? 'flame' : 'alarm',
-      isSlaMissed: SLAStatus.threshold <= 0,
+      icon: findMissedSlaEventByType(slaEvent, SLAStatus.type)
+        ? 'flame'
+        : 'alarm',
+      isSlaMissed: !!findMissedSlaEventByType(slaEvent, SLAStatus.type),
     }));
 };
 
-export const evaluateSLAStatus = (sla, chat) => {
-  if (!sla || !chat)
+export const evaluateSLAStatus = (appliedSla, slaEvent, chat) => {
+  if (!appliedSla || !chat)
     return { type: '', threshold: '', icon: '', isSlaMissed: false };
 
   // Filter out the SLA and create the object for each breach
-  const SLAStatuses = evaluateSLAConditions(sla, chat);
+  const SLAStatuses = evaluateSLAConditions(appliedSla, slaEvent, chat);
 
   // Return the most urgent SLA which is latest to breach or has breached
   const mostUrgent = findMostUrgentSLAStatus(SLAStatuses);
@@ -106,7 +111,7 @@ export const evaluateSLAStatus = (sla, chat) => {
     ? {
         type: mostUrgent.type,
         threshold: formatSLATime(
-          mostUrgent.threshold <= 0
+          findMissedSlaEventByType(slaEvent, mostUrgent.type)
             ? -mostUrgent.threshold
             : mostUrgent.threshold
         ),

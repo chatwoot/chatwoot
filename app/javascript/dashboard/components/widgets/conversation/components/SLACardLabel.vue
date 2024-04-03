@@ -39,7 +39,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import { evaluateSLAStatus } from '../helpers/SLAHelper';
 
 const REFRESH_INTERVAL = 60000;
@@ -62,15 +61,15 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      activeSLA: 'sla/getSLAById',
-    }),
     slaPolicyId() {
       return this.chat?.sla_policy_id;
     },
-    sla() {
+    appliedSLA() {
       if (!this.slaPolicyId) return null;
-      return this.activeSLA(this.slaPolicyId);
+      return this.chat?.applied_sla;
+    },
+    slaEvents() {
+      return this.chat?.sla_events;
     },
     hasSlaThreshold() {
       return this.slaStatus?.threshold;
@@ -114,7 +113,11 @@ export default {
       }, REFRESH_INTERVAL);
     },
     updateSlaStatus() {
-      this.slaStatus = evaluateSLAStatus(this.sla, this.chat);
+      this.slaStatus = evaluateSLAStatus(
+        this.appliedSLA,
+        this.slaEvents,
+        this.chat
+      );
     },
   },
 };
