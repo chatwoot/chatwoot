@@ -49,7 +49,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import { evaluateSLAStatus, allMissedSLAs } from '../helpers/SLAHelper';
 import SLAPopoverCard from './SLAPopoverCard.vue';
 
@@ -72,20 +71,24 @@ export default {
   data() {
     return {
       timer: null,
-      slaStatus: {},
       showSlaPopover: false,
+      slaStatus: {
+        threshold: null,
+        isSlaMissed: false,
+        type: null,
+        icon: null,
+      },
     };
   },
   computed: {
-    ...mapGetters({
-      activeSLA: 'sla/getSLAById',
-    }),
     slaPolicyId() {
       return this.chat?.sla_policy_id;
     },
-    sla() {
-      if (!this.slaPolicyId) return null;
-      return this.activeSLA(this.slaPolicyId);
+    appliedSLA() {
+      return this.chat?.applied_sla;
+    },
+    slaEvents() {
+      return this.chat?.sla_events;
     },
     hasSlaThreshold() {
       return this.slaStatus?.threshold;
@@ -100,7 +103,7 @@ export default {
     },
     slaStatusText() {
       const upperCaseType = this.slaStatus?.type?.toUpperCase(); // FRT, NRT, or RT
-      const statusKey = this.isSlaMissed ? 'BREACH' : 'DUE';
+      const statusKey = this.isSlaMissed ? 'MISSED' : 'DUE';
 
       return this.$t(`CONVERSATION.HEADER.SLA_STATUS.${upperCaseType}`, {
         status: this.$t(`CONVERSATION.HEADER.SLA_STATUS.${statusKey}`),
@@ -132,7 +135,7 @@ export default {
       }, REFRESH_INTERVAL);
     },
     updateSlaStatus() {
-      this.slaStatus = evaluateSLAStatus(this.sla, this.chat);
+      this.slaStatus = evaluateSLAStatus(this.appliedSLA, this.chat);
     },
   },
 };

@@ -1,9 +1,14 @@
 <template>
-  <div v-show="activeLabels.length" ref="labelContainer">
+  <div
+    v-if="activeLabels.length || $slots.before"
+    ref="labelContainer"
+    v-resize="computeVisibleLabelPosition"
+  >
     <div
       class="flex items-end flex-shrink min-w-0 gap-y-1"
       :class="{ 'h-auto overflow-visible flex-row flex-wrap': showAllLabels }"
     >
+      <slot name="before" />
       <woot-label
         v-for="(label, index) in activeLabels"
         :key="label.id"
@@ -55,24 +60,34 @@ export default {
     },
   },
   mounted() {
+    // the problem here is that there is a certain amount of delay between the conversation
+    // card being mounted and the resize event eventually being triggered
+    // This means we need to run the function immediately after the component is mounted
+    // Happens especially when used in a virtual list.
+    // We can make the first trigger, a standard part of the directive, in case
+    // we face this issue again
     this.computeVisibleLabelPosition();
   },
   methods: {
     onShowLabels(e) {
       e.stopPropagation();
       this.showAllLabels = !this.showAllLabels;
+      this.$nextTick(() => this.computeVisibleLabelPosition());
     },
     computeVisibleLabelPosition() {
+      const beforeSlot = this.$slots.before ? 100 : 0;
       const labelContainer = this.$refs.labelContainer;
-      const labels = this.$refs.labelContainer.querySelectorAll('.label');
+      if (!labelContainer) return;
+
+      const labels = Array.from(labelContainer.querySelectorAll('.label'));
       let labelOffset = 0;
       this.showExpandLabelButton = false;
-      Array.from(labels).forEach((label, index) => {
+      labels.forEach((label, index) => {
         labelOffset += label.offsetWidth + 8;
-        if (labelOffset < labelContainer.clientWidth - 16) {
+        if (labelOffset < labelContainer.clientWidth - 16 - beforeSlot) {
           this.labelPosition = index;
         } else {
-          this.showExpandLabelButton = true;
+          this.showExpandLabelButton = labels.length > 1;
         }
       });
     },

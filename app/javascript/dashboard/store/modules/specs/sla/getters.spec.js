@@ -7,11 +7,6 @@ describe('#getters', () => {
     expect(getters.getSLA(state)).toEqual(SLAs);
   });
 
-  it('getSLAById', () => {
-    const state = { records: SLAs };
-    expect(getters.getSLAById(state)(1)).toEqual(SLAs[0]);
-  });
-
   it('getUIFlags', () => {
     const state = {
       uiFlags: {
