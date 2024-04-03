@@ -150,11 +150,10 @@ RSpec.describe 'Applied SLAs API', type: :request do
             headers: administrator.create_new_auth_token
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body)
-
-        expect(body.size).to eq(2)
-        expect(body.first).to include('id')
-        expect(body.first).to include('sla_policy_id' => sla_policy1.id)
-        expect(body.first).to include('conversation_id' => conversation1.id)
+        expect(body['payload'].size).to eq(2)
+        expect(body['payload'].first).to include('applied_sla')
+        expect(body['payload'].first['conversation']['id']).to eq(conversation1.id)
+        expect(body['meta']).to include('total_applied_slas' => 2)
       end
 
       it 'filters applied slas based on a date range' do
@@ -167,7 +166,7 @@ RSpec.describe 'Applied SLAs API', type: :request do
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body)
 
-        expect(body.size).to eq(1)
+        expect(body['payload'].size).to eq(1)
       end
 
       it 'filters applied slas based on a date range and agent ids' do
@@ -181,7 +180,7 @@ RSpec.describe 'Applied SLAs API', type: :request do
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body)
 
-        expect(body.size).to eq(3)
+        expect(body['payload'].size).to  eq(3)
       end
 
       it 'filters applied slas based on sla policy ids' do
@@ -195,7 +194,7 @@ RSpec.describe 'Applied SLAs API', type: :request do
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body)
 
-        expect(body.size).to eq(2)
+        expect(body['payload'].size).to eq(2)
       end
 
       it 'filters applied slas based on labels' do
@@ -211,7 +210,7 @@ RSpec.describe 'Applied SLAs API', type: :request do
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body)
 
-        expect(body.size).to eq(2)
+        expect(body['payload'].size).to eq(2)
       end
     end
   end
