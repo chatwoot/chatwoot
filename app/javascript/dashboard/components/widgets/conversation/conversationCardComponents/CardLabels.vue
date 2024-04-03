@@ -72,6 +72,7 @@ export default {
     onShowLabels(e) {
       e.stopPropagation();
       this.showAllLabels = !this.showAllLabels;
+      this.$nextTick(() => this.computeVisibleLabelPosition());
     },
     computeVisibleLabelPosition() {
       const beforeSlot = this.$slots.before ? 100 : 0;
