@@ -541,7 +541,7 @@ export default {
         return;
       }
 
-      if (canReply || this.isAWhatsAppChannel) {
+      if (!this.isAStringeeChannel && (canReply || this.isAWhatsAppChannel)) {
         this.replyType = REPLY_EDITOR_MODES.REPLY;
       } else {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
@@ -893,7 +893,8 @@ export default {
       this.$store.dispatch('draftMessages/setReplyEditorMode', {
         mode,
       });
-      if (canReply || this.isAWhatsAppChannel) this.replyType = mode;
+      if (!this.isAStringeeChannel && (canReply || this.isAWhatsAppChannel))
+        this.replyType = mode;
       if (this.showRichContentEditor) {
         if (this.isRecordingAudio) {
           this.toggleAudioRecorder();

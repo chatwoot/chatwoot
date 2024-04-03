@@ -1,15 +1,14 @@
 class Stringee::CallEventsService
-
   pattr_initialize [:inbox!, :params!]
 
   def perform
     set_contact
     set_conversation
     set_assignee
-    @message = @conversation.messages.create!(message_params)
-    Rails.logger.info('Message created')
-    @message.save!
     read_message
+
+    @message = @conversation.messages.create!(message_params)
+    @message.save!
   end
 
   private
@@ -24,6 +23,7 @@ class Stringee::CallEventsService
 
   def set_contact
     contact_inbox = ::ContactInboxWithContactBuilder.new(
+      source_id: incoming? ? params[:from][:alias] : params[:to][:alias],
       inbox: @inbox,
       contact_attributes: contact_attributes
     ).perform
@@ -33,8 +33,8 @@ class Stringee::CallEventsService
   end
 
   def set_assignee
-    stringee_user_id = params[:request_from_user_id]
-    agent = User.find_by(email: stringee_user_id.sub('_', '@'))
+    stringee_user_id = incoming? ? params[:to][:number] : params[:request_from_user_id]
+    agent = User.from_email(stringee_user_id.sub('_', '@'))
     return unless agent
 
     @conversation.assignee_id = agent.id
@@ -51,16 +51,12 @@ class Stringee::CallEventsService
   end
 
   def message_content
-    content = ''
-    if is_missed_call
-      content = 'Cuộc gọi nhỡ ' +
-      'trong ' + params[:duration] + ' giây.'
+    if missed_call?
+      I18n.t('conversations.messages.stringee.missed_call', duration: params[:duration].to_s)
     else
-      content = 'Cuộc gọi ' +
-        is_incomming ? 'đến ' : 'đi ' +
-        'trong ' + params[:answerDuration] + ' giây.'
+      call_type = incoming? ? 'incoming_call' : 'outgoing_call'
+      I18n.t("conversations.messages.stringee.#{call_type}", answer_duration: params[:answerDuration].to_s)
     end
-    content
   end
 
   def message_additional_attributes
@@ -78,7 +74,7 @@ class Stringee::CallEventsService
       content: message_content,
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
-      message_type: is_incomming ? :incoming : :outgoing,
+      message_type: incoming? ? :incoming : :outgoing,
       sender: @contact,
       source_id: params[:call_id],
       additional_attributes: message_additional_attributes
@@ -86,9 +82,9 @@ class Stringee::CallEventsService
   end
 
   def read_message
-    return if is_incomming && is_missed_call
+    return if incoming? && missed_call?
 
-    last_seen_at = @message.created_at + 1.second
+    last_seen_at = DateTime.now.utc + 10.seconds
     @conversation.agent_last_seen_at = last_seen_at
     @conversation.assignee_last_seen_at = last_seen_at
     @conversation.save!
@@ -107,17 +103,20 @@ class Stringee::CallEventsService
     @conversation = ::Conversation.create!(conversation_params)
   end
 
-  def is_incomming
+  def incoming?
     params[:callCreatedReason] == 'EXTERNAL_CALL_IN'
   end
 
-  def is_missed_call
-    params[:endCallCause] != 'USER_END_CALL'
+  def missed_call?
+    params[:endCallCause] != 'USER_END_CALL' || params[:answeredTime].zero?
   end
 
   def contact_attributes
+    number = incoming? ? params[:from][:number] : params[:to][:number]
+    number.prepend('+') unless number.start_with?('+')
     {
-      phone_number: is_incomming ? params[:from][:number] : params[:to][:number]
+      name: number,
+      phone_number: number
     }
   end
 end
