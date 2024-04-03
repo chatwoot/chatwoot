@@ -70,7 +70,6 @@ export default {
       return this.chat?.sla_policy_id;
     },
     appliedSLA() {
-      if (!this.slaPolicyId) return null;
       return this.chat?.applied_sla;
     },
     slaEvents() {
@@ -89,7 +88,7 @@ export default {
     },
     slaStatusText() {
       const upperCaseType = this.slaStatus?.type?.toUpperCase(); // FRT, NRT, or RT
-      const statusKey = this.isSlaMissed ? 'BREACH' : 'DUE';
+      const statusKey = this.isSlaMissed ? 'MISSED' : 'DUE';
 
       return this.$t(`CONVERSATION.HEADER.SLA_STATUS.${upperCaseType}`, {
         status: this.$t(`CONVERSATION.HEADER.SLA_STATUS.${statusKey}`),
@@ -118,11 +117,7 @@ export default {
       }, REFRESH_INTERVAL);
     },
     updateSlaStatus() {
-      this.slaStatus = evaluateSLAStatus(
-        this.appliedSLA,
-        this.slaEvents,
-        this.chat
-      );
+      this.slaStatus = evaluateSLAStatus(this.appliedSLA, this.chat);
     },
   },
 };
