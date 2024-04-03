@@ -202,6 +202,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isAStringeeChannel: {
+      type: Boolean,
+      default: false,
+    },
     isWebWidgetInbox: {
       type: Boolean,
       default: false,
@@ -314,6 +318,7 @@ export default {
         delete: this.hasText || this.hasAttachments,
         cannedResponse: this.isOutgoing && this.hasText,
         replyTo: !this.data.private && this.inboxSupportsReplyTo.outgoing,
+        downloadRecord: this.isAStringeeChannel,
       };
     },
     contentAttributes() {

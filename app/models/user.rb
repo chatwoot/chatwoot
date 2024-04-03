@@ -175,6 +175,7 @@ class User < ApplicationRecord
       'jti' => "#{api_key_sid}-#{now}",
       'iss' => api_key_sid,
       'exp' => exp,
+      'rest_api' => true,
       'icc_api' => true,
       'userId' => stringee_user_id
     }

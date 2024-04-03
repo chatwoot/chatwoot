@@ -10,6 +10,7 @@ export const INBOX_TYPES = {
   LINE: 'Channel::Line',
   SMS: 'Channel::Sms',
   ZALO: 'Channel::ZaloOa',
+  STRINGEE: 'Channel::StringeePhoneCall',
 };
 
 export const INBOX_FEATURES = {
@@ -58,6 +59,9 @@ export default {
     },
     isAZaloOaChannel() {
       return this.channelType === INBOX_TYPES.ZALO;
+    },
+    isAStringeeChannel() {
+      return this.channelType === INBOX_TYPES.STRINGEE;
     },
     isAWebWidgetInbox() {
       return this.channelType === INBOX_TYPES.WEB;
