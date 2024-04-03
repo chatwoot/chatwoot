@@ -63,6 +63,13 @@
             >
               {{ contactPanelToggleText }}
             </woot-button>
+            <woot-button
+              v-tooltip="$t('CHATBOT_SETTINGS.BOT_STATUS')"
+              icon="chatbot-icon"
+              :color-scheme="botStatus ? 'secondary' : 'alert'"
+              variant="smooth"
+              @click="toggleBotButton"
+            />
           </div>
         </div>
       </div>
@@ -88,6 +95,7 @@ import Thumbnail from '../Thumbnail.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
+import ChatbotAPI from '../../../api/chatbot.js';
 
 export default {
   components: {
@@ -114,6 +122,16 @@ export default {
       type: Boolean,
       default: false,
     },
+    conversationId: {
+      type: Number,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      botStatusMap: {}, // Map to store bot status for each conversation ID
+      showBotIcon: false,
+    };
   },
   computed: {
     ...mapGetters({
@@ -173,13 +191,45 @@ export default {
     hasMultipleInboxes() {
       return this.$store.getters['inboxes/getInboxes'].length > 1;
     },
+    botStatus() {
+      return this.botStatusMap[this.conversationId] || false;
+    },
   },
-
+  watch: {
+    // below function takes can take another parameter oldVal
+    async conversationId(newVal) {
+      if (this.currentChat.meta.channel === 'Channel::WebWidget') {
+        this.showBotIcon = true;
+      } else {
+        this.showBotIcon = false;
+      }
+      // This function will be triggered whenever the conversationId prop changes
+      const res = await ChatbotAPI.fetchChatbotStatus(newVal);
+      const status = res.data.status;
+      this.$set(this.botStatusMap, newVal, status);
+    },
+  },
+  async mounted() {
+    if (this.currentChat.meta.channel === 'Channel::WebWidget') {
+      this.showBotIcon = true;
+    } else {
+      this.showBotIcon = false;
+    }
+    const res = await ChatbotAPI.fetchChatbotStatus(this.conversationId);
+    const status = res.data.status;
+    this.$set(this.botStatusMap, this.conversationId, status);
+  },
   methods: {
     handleKeyEvents(e) {
       if (hasPressedAltAndOKey(e)) {
         this.$emit('contact-panel-toggle');
       }
+    },
+    async toggleBotButton() {
+      const payload = new FormData();
+      payload.append('conversation_id', this.conversationId);
+      const res = await ChatbotAPI.toggleChatbotStatus(payload);
+      this.$set(this.botStatusMap, this.conversationId, res.data.status);
     },
   },
 };

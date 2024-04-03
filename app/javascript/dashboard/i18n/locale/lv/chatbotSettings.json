@@ -1,0 +1,51 @@
+{
+  "CHATBOT_SETTINGS": {
+    "CHATBOT": "Čatsbots",
+    "BOT_STATUS": "Čatsbota statuss",
+    "NEW_BOT": "Jauns Čatsbots",
+    "CONNECT_INBOX": "Pievienot Inbox",
+    "LAST_TRAINED_AT": "Pēdējoreiz apmācīts: ",
+    "CHATBOT_ID": "Čatsbota ID: ",
+    "BROWSE_FILES": "Pārlūkot failus",
+    "UPDATE": "Atjaunināt",
+    "CHATBOT_INBOX_CONNECT": "Savienot Čatsbotu ar Inbox",
+    "FILE_TYPES": {
+      "DOC": ".doc",
+      "PDF": ".pdf",
+      "TXT": ".txt"
+    },
+    "UPLOAD": {
+      "FILE": "Fails",
+      "TEXT": "Teksts",
+      "WEBSITE": "Mājaslapa"
+    },
+    "FORM": {
+      "CONNECT_INBOX": "Pievienot Inbox",
+      "ADD_URL": "Pievienot URL",
+      "NAME": {
+        "LABEL": "Čatsbota nosaukums",
+        "PLACEHOLDER": "Piemērs: Čatsbots 1"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Čatsbota apraksts",
+        "PLACEHOLDER": "Īss apraksts par šo Čatsbotu."
+      },
+      "SUBMIT_CREATE": "Izveidot Čatsbotu"
+    },
+    "SIDEBAR_TXT": "<p><b>Izveidot Čatsbotu</b></p> <p>Čatsbots ļauj jums apmācīt botu, izmantojot savus personīgos datus. <br /> Bots, kas apmācīts ar personīgiem datiem, atbild tikai uz jautājumiem, kas balstīti uz datiem, uz kuriem tas ir apmācīts.</p>",
+    "LIST": {
+      "404": "Šajā kontā nav izveidoti Čatsboti.",
+      "EDIT_BOT": "Rediģēt"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Dzēst",
+      "CONFIRM": {
+        "TITLE": "Apstiprināt dzēšanu",
+        "PLACE_HOLDER": "Lūdzu, ierakstiet {chatbotName}, lai apstiprinātu",
+        "MESSAGE": "Dzēšot Čatsbotu, tas tiks neatgriezeniski izdzēsts kopā ar datiem, uz kuriem tas ir apmācīts.",
+        "YES": "Dzēst ",
+        "NO": "Atcelt"
+      }
+    }
+  }
+}

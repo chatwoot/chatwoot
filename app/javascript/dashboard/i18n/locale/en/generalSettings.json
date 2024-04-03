@@ -52,7 +52,9 @@
     "LEARN_MORE": "Learn more",
     "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
     "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
-    "OPEN_BILLING": "Open billing"
+    "OPEN_BILLING": "Open billing",
+    "BANNER_CHATBOT_CREATION": "Chatbot Creation in Progress",
+    "BANNER_CHATBOT_FAIL": "Chatbot Creation Failed"
   },
   "FORMS": {
     "MULTISELECT": {

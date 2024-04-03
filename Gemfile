@@ -174,6 +174,11 @@ gem 'omniauth-rails_csrf_protection', '~> 1.0'
 gem 'keycloak'
 gem 'omniauth-keycloak'
 
+#gem for chatbot api calls
+gem 'http'
+#unique ID generator
+gem 'securerandom'
+
 ## Gems for reponse bot
 # adds cosine similarity to postgres using vector extension
 gem 'neighbor'
