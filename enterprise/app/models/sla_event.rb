@@ -31,8 +31,17 @@ class SlaEvent < ApplicationRecord
   enum event_type: { frt: 0, nrt: 1, rt: 2 }
 
   before_validation :ensure_applied_sla_id, :ensure_account_id, :ensure_inbox_id, :ensure_sla_policy_id
-
   after_create_commit :create_notifications
+
+  def push_event_data
+    {
+      id: id,
+      event_type: event_type,
+      meta: meta,
+      created_at: created_at.to_i,
+      updated_at: updated_at.to_i
+    }
+  end
 
   private
 
