@@ -86,7 +86,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def find_or_build_for_multiple_conversations
-    last_conversation = instagram_direct_message_conversation..where.not(status: :resolved).order(created_at: :desc).first
+    last_conversation = instagram_direct_message_conversation.where.not(status: :resolved).order(created_at: :desc).first
 
     return build_conversation if last_conversation.nil?
 
