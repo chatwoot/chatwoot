@@ -17,6 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 sv:
+  prompt: "%{client_message}"
   hello: "Hej världen"
   messages:
     reset_password_success: Woot! Begäran om återställning av lösenord lyckades. Kontrollera din e-post för instruktioner.

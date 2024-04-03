@@ -17,6 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 cs:
+  prompt: "%{client_message}"
   hello: "Ahoj svět"
   messages:
     reset_password_success: Woot! Žádost o obnovení hesla byla úspěšná. Zkontrolujte svůj e-mail pro pokyny.

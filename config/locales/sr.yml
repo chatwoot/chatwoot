@@ -17,6 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 sr-Latn:
+  prompt: "%{client_message}"
   hello: "Zdravo svete"
   messages:
     reset_password_success: Opa! Zahtev za resetovanjem lozinke je uspešan. Proverite vašu e-poštu za uputstvo.
