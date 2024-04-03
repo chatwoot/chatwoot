@@ -57,6 +57,7 @@ class Conversation < ApplicationRecord
   include ActivityMessageHandler
   include UrlHelper
   include SortHandler
+  include PushDataHelper
   include ConversationMuteHelpers
 
   validates :account_id, presence: true
@@ -169,18 +170,6 @@ class Conversation < ApplicationRecord
 
   def unread_incoming_messages
     unread_messages.where(account_id: account_id).incoming.last(10)
-  end
-
-  def push_event_data
-    Conversations::EventDataPresenter.new(self).push_data
-  end
-
-  def lock_event_data
-    Conversations::EventDataPresenter.new(self).lock_data
-  end
-
-  def webhook_data
-    Conversations::EventDataPresenter.new(self).push_data
   end
 
   def cached_label_list_array
