@@ -207,6 +207,13 @@ class Conversation < ApplicationRecord
     "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{uuid}"
   end
 
+  def push_sla_change_event
+    # right now we simply use `CONVERSATION_UPDATED` event to notify the frontend
+    # we can eventually start using `CONVERSATION_SLA_UPDATED` event as required later
+    # for now the updated event should suffice
+    dispatcher_dispatch(CONVERSATION_UPDATED)
+  end
+
   private
 
   def execute_after_update_commit_callbacks

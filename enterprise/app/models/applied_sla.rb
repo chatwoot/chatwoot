@@ -20,7 +20,7 @@
 class AppliedSla < ApplicationRecord
   belongs_to :account
   belongs_to :sla_policy
-  belongs_to :conversation, touch: true
+  belongs_to :conversation
 
   has_many :sla_events, dependent: :destroy
 
@@ -41,6 +41,8 @@ class AppliedSla < ApplicationRecord
                                       }
   scope :missed, -> { where(sla_status: :missed) }
 
+  after_update_commit :push_conversation_event
+
   def push_event_data
     {
       id: id,
@@ -58,6 +60,12 @@ class AppliedSla < ApplicationRecord
   end
 
   private
+
+  def push_conversation_event
+    return unless saved_change_to_sla_status?
+
+    conversation.push_sla_change_event
+  end
 
   def ensure_account_id
     self.account_id ||= sla_policy&.account_id
