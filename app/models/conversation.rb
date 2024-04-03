@@ -207,6 +207,10 @@ class Conversation < ApplicationRecord
     "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{uuid}"
   end
 
+  def dispatch_updated_event
+    dispatcher_dispatch(CONVERSATION_UPDATED)
+  end
+
   private
 
   def execute_after_update_commit_callbacks
