@@ -2,11 +2,19 @@ module Integrations::Slack::SlackMessageHelper
   def process_message_payload
     return unless conversation
 
-    create_message unless message_exists?
-    { status: 'success' }
+    handle_conversation
+    success_response
   rescue Slack::Web::Api::Errors::MissingScope => e
     ChatwootExceptionTracker.new(e, account: conversation.account).capture_exception
     disable_and_reauthorize
+  end
+
+  def handle_conversation
+    create_message unless message_exists?
+  end
+
+  def success_response
+    { status: 'success' }
   end
 
   def disable_and_reauthorize
