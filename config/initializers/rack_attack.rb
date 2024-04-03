@@ -20,8 +20,10 @@ class Rack::Attack
       @remote_ip ||= (env['action_dispatch.remote_ip'] || ip).to_s
     end
 
+    # kashin staging '34.145.164.240'
+    # kashin production '34.86.236.185'
     def allowed_ip?
-      allowed_ips = ['127.0.0.1', '::1']
+      allowed_ips = ['127.0.0.1', '::1', '34.145.164.240', '34.86.236.185']
       allowed_ips.include?(remote_ip)
     end
 
