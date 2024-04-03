@@ -74,19 +74,19 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
 
   def instagram_direct_message_conversation
     Conversation.where(conversation_params)
-                .where("additional_attributes ->> 'type' = 'instagram_direct_message'")
+                .where("additional_attributes ->> 'type' = 'instagram_direct_message'").order(created_at: :desc).first
   end
 
   def set_conversation_based_on_inbox_config
     if @inbox.lock_to_single_conversation
-      instagram_direct_message_conversation.first || build_conversation
+      instagram_direct_message_conversation || build_conversation
     else
       find_or_build_for_multiple_conversations
     end
   end
 
   def find_or_build_for_multiple_conversations
-    last_conversation = instagram_direct_message_conversation.order(created_at: :desc).first
+    last_conversation = instagram_direct_message_conversation
 
     if last_conversation.nil? || last_conversation.resolved?
       build_conversation
