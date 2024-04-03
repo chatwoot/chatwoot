@@ -1,5 +1,9 @@
 <template>
-  <div ref="labelContainer" v-resize="computeVisibleLabelPosition">
+  <div
+    v-if="activeLabels.length || $slots.before"
+    ref="labelContainer"
+    v-resize="computeVisibleLabelPosition"
+  >
     <div
       class="flex items-end flex-shrink min-w-0 gap-y-1"
       :class="{ 'h-auto overflow-visible flex-row flex-wrap': showAllLabels }"

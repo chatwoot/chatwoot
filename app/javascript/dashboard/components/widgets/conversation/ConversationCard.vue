@@ -87,12 +87,8 @@
         </span>
       </div>
       <card-labels :conversation-id="chat.id" class="mt-0.5 mx-2 mb-0">
-        <template #before>
-          <SLA-card-label
-            v-if="hasSlaPolicyId"
-            :chat="chat"
-            class="ltr:mr-1 rtl:ml-1"
-          />
+        <template v-if="hasSlaPolicyId" #before>
+          <SLA-card-label :chat="chat" class="ltr:mr-1 rtl:ml-1" />
         </template>
       </card-labels>
     </div>
