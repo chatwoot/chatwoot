@@ -6,7 +6,7 @@ class ChatbotAPI extends ApiClient {
   constructor() {
     super('chatbot', { accountScoped: true });
     this.baseUrl = window.chatwootConfig.hostURL;
-    this.microserviceUrl = process.env.MICROSERVICE_URL;
+    this.microserviceUrl = window.chatwootConfig.microserviceUrl;
   }
 
   // api call to microservice

@@ -46,7 +46,8 @@
         enabledLanguages: <%= available_locales_with_name.to_json.html_safe %>,
         selectedLocale: '<%= I18n.locale %>',
         keycloakClientId: '<%= ENV.fetch('KEYCLOAK_CLIENT_ID', nil) %>',
-        keycloakCallbackUrl: '<%= ENV.fetch('KEYCLOAK_CALLBACK_URL', nil) %>'
+        keycloakCallbackUrl: '<%= ENV.fetch('KEYCLOAK_CALLBACK_URL', nil) %>',
+        microserviceUrl: '<%= ENV.fetch('MICROSERVICE_URL', nil) %>'
       }
       window.globalConfig = <%= raw @global_config.to_json %>
       window.browserConfig = {
