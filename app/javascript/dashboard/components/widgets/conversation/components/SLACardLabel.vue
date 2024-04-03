@@ -57,7 +57,12 @@ export default {
   data() {
     return {
       timer: null,
-      slaStatus: {},
+      slaStatus: {
+        threshold: null,
+        isSlaMissed: false,
+        type: null,
+        icon: null,
+      },
     };
   },
   computed: {
