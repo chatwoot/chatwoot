@@ -1,18 +1,8 @@
-import { format } from 'date-fns';
-
 const calculateThreshold = (timeOffset, threshold) => {
   // Calculate the time left for the SLA to breach or the time since the SLA has breached
   if (threshold === null) return null;
   const currentTime = Math.floor(Date.now() / 1000);
   return timeOffset + threshold - currentTime;
-};
-
-const calculateMissedSLATime = threshold => {
-  // Since the threshold is negative (indicating the SLA has been breached),
-  // convert it to positive to get the time since the breach in milliseconds.
-  const breachTimeInMs = Date.now() + threshold * 1000;
-  // breachTimeInMs represents the correct past time of the breach.
-  return format(new Date(breachTimeInMs), 'PP'); // Format the date in the format of 'Month DD, YYYY'
 };
 
 const findMostUrgentSLAStatus = SLAStatuses => {
@@ -88,14 +78,6 @@ const createSLAObject = (
   };
 
   const SLAStatus = SLATypes[type];
-  if (SLAStatus && SLAStatus.threshold <= 0) {
-    // If the SLA has breached, return the missed SLA time
-    return {
-      ...SLAStatus,
-      type,
-      missedSLATime: calculateMissedSLATime(SLAStatus.threshold),
-    };
-  }
   return SLAStatus ? { ...SLAStatus, type } : null;
 };
 
@@ -132,24 +114,4 @@ export const evaluateSLAStatus = (appliedSla, chat) => {
         isSlaMissed: mostUrgent.isSlaMissed,
       }
     : { type: '', threshold: '', icon: '', isSlaMissed: false };
-};
-
-export const allMissedSLAs = (sla, chat) => {
-  if (!sla || !chat) return false;
-
-  const SLAThresholdMap = {
-    FRT: 'first_response_time_threshold',
-    NRT: 'next_response_time_threshold',
-    RT: 'resolution_time_threshold',
-  };
-
-  // Filter out SLA types that do not exist in the 'sla' parameter
-  const validSLATypes = Object.keys(SLAThresholdMap).filter(
-    type => sla[SLAThresholdMap[type]] !== null
-  );
-
-  // Filter out the SLA and create the object for each breach and return only the breached SLAs
-  return validSLATypes
-    .map(type => createSLAObject(type, sla, chat))
-    .filter(SLAStatus => SLAStatus && SLAStatus.threshold <= 0);
 };

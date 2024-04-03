@@ -7,8 +7,8 @@
     <div
       class="flex items-center w-full truncate"
       :class="showExtendedInfo ? 'h-[26px] px-1.5' : 'h-5 px-2'"
-      @mouseover="showSlaPopover = true"
-      @mouseleave="showSlaPopover = false"
+      @mouseover="openSlaPopover()"
+      @mouseleave="closeSlaPopover()"
     >
       <div
         class="flex items-center gap-1"
@@ -41,15 +41,15 @@
       </span>
     </div>
     <SLA-popover-card
-      v-if="showExtendedInfo && showSlaPopover && missedSLAs.length"
-      :all-missed-slas="missedSLAs"
+      v-if="showExtendedInfo && showSlaPopover && slaEvents.length"
+      :all-missed-slas="slaEvents"
       class="right-0 top-7"
     />
   </div>
 </template>
 
 <script>
-import { evaluateSLAStatus, allMissedSLAs } from '../helpers/SLAHelper';
+import { evaluateSLAStatus } from '../helpers/SLAHelper';
 import SLAPopoverCard from './SLAPopoverCard.vue';
 
 const REFRESH_INTERVAL = 60000;
@@ -109,9 +109,6 @@ export default {
         status: this.$t(`CONVERSATION.HEADER.SLA_STATUS.${statusKey}`),
       });
     },
-    missedSLAs() {
-      return allMissedSLAs(this.sla, this.chat);
-    },
   },
   watch: {
     chat() {
@@ -136,6 +133,13 @@ export default {
     },
     updateSlaStatus() {
       this.slaStatus = evaluateSLAStatus(this.appliedSLA, this.chat);
+    },
+    openSlaPopover() {
+      if (!this.showExtendedInfo) return;
+      this.showSlaPopover = true;
+    },
+    closeSlaPopover() {
+      this.showSlaPopover = false;
     },
   },
 };

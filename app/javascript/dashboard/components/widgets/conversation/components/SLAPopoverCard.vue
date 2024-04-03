@@ -1,10 +1,16 @@
 <script setup>
+import { format, fromUnixTime } from 'date-fns';
+
 defineProps({
   allMissedSlas: {
     type: Array,
     default: () => [],
   },
 });
+
+const formatDate = timestamp => format(fromUnixTime(timestamp), 'PP');
+
+const upperCase = str => str.toUpperCase();
 </script>
 <template>
   <div
@@ -12,13 +18,17 @@ defineProps({
   >
     <div
       v-for="missedSLA in allMissedSlas"
-      :key="missedSLA.type"
+      :key="missedSLA.id"
       class="flex items-center justify-between w-full"
     >
       <span
         class="text-sm font-normal tracking-[-0.6%] w-[140px] truncate text-slate-900 dark:text-slate-50"
       >
-        {{ $t(`CONVERSATION.HEADER.SLA_POPOVER.${missedSLA.type}`) }}
+        {{
+          $t(
+            `CONVERSATION.HEADER.SLA_POPOVER.${upperCase(missedSLA.event_type)}`
+          )
+        }}
       </span>
       <span
         class="text-sm font-normal tracking-[-0.6%] text-slate-600 dark:text-slate-200"
@@ -28,7 +38,7 @@ defineProps({
       <span
         class="text-sm font-normal tracking-[-0.6%] text-slate-900 dark:text-slate-50"
       >
-        {{ missedSLA.missedSLATime }}
+        {{ formatDate(missedSLA.created_at) }}
       </span>
     </div>
   </div>
