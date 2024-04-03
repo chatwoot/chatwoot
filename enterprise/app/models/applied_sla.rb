@@ -20,7 +20,7 @@
 class AppliedSla < ApplicationRecord
   belongs_to :account
   belongs_to :sla_policy
-  belongs_to :conversation
+  belongs_to :conversation, touch: true
 
   has_many :sla_events, dependent: :destroy
 

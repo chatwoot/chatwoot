@@ -1,9 +1,10 @@
 <template>
-  <div v-show="activeLabels.length" ref="labelContainer">
+  <div ref="labelContainer" v-resize="computeVisibleLabelPosition">
     <div
       class="flex items-end flex-shrink min-w-0 gap-y-1"
       :class="{ 'h-auto overflow-visible flex-row flex-wrap': showAllLabels }"
     >
+      <slot name="before" />
       <woot-label
         v-for="(label, index) in activeLabels"
         :key="label.id"
@@ -49,30 +50,23 @@ export default {
       labelPosition: -1,
     };
   },
-  watch: {
-    activeLabels() {
-      this.$nextTick(() => this.computeVisibleLabelPosition());
-    },
-  },
-  mounted() {
-    this.computeVisibleLabelPosition();
-  },
   methods: {
     onShowLabels(e) {
       e.stopPropagation();
       this.showAllLabels = !this.showAllLabels;
     },
     computeVisibleLabelPosition() {
+      const beforeSlot = this.$slots.before ? 100 : 0;
       const labelContainer = this.$refs.labelContainer;
       const labels = this.$refs.labelContainer.querySelectorAll('.label');
       let labelOffset = 0;
       this.showExpandLabelButton = false;
       Array.from(labels).forEach((label, index) => {
         labelOffset += label.offsetWidth + 8;
-        if (labelOffset < labelContainer.clientWidth - 16) {
+        if (labelOffset < labelContainer.clientWidth - 16 - beforeSlot) {
           this.labelPosition = index;
         } else {
-          this.showExpandLabelButton = true;
+          this.showExpandLabelButton = labels.length > 1;
         }
       });
     },
