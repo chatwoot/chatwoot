@@ -50,6 +50,15 @@ export default {
       labelPosition: -1,
     };
   },
+  mounted() {
+    // the problem here is that there is a certain amount of delay between the conversation
+    // card being mounted and the resize event eventually being triggered
+    // This means we need to run the function immidiately after the component is mounted
+    // Happens especially when used in a virtual list.
+    // We can make the first trigger, a standard part of the directive, in case
+    // we face this issue again
+    this.computeVisibleLabelPosition();
+  },
   methods: {
     onShowLabels(e) {
       e.stopPropagation();
