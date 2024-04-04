@@ -12,6 +12,7 @@ export default {
         this.conversationId
       );
     },
+    // TODO - Get rid of this from the mixin
     activeLabels() {
       return this.accountLabels.filter(({ title }) =>
         this.savedLabels.includes(title)
