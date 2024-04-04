@@ -237,9 +237,8 @@ GEM
       railties (>= 5.0.0)
     faker (3.2.0)
       i18n (>= 1.8.11, < 2)
-    faraday (2.7.4)
-      faraday-net_http (>= 2.0, < 3.1)
-      ruby2_keywords (>= 0.0.4)
+    faraday (2.9.0)
+      faraday-net_http (>= 2.0, < 3.2)
     faraday-follow_redirects (0.3.0)
       faraday (>= 1, < 3)
     faraday-mashify (0.1.1)
@@ -247,7 +246,8 @@ GEM
       hashie
     faraday-multipart (1.0.4)
       multipart-post (~> 2)
-    faraday-net_http (3.0.2)
+    faraday-net_http (3.1.0)
+      net-http
     faraday-net_http_persistent (2.1.0)
       faraday (~> 2.5)
       net-http-persistent (~> 4.0)
@@ -394,7 +394,8 @@ GEM
       hana (~> 1.3)
       regexp_parser (~> 2.0)
       uri_template (~> 0.7)
-    jwt (2.7.0)
+    jwt (2.8.1)
+      base64
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.2)
@@ -470,6 +471,8 @@ GEM
     multipart-post (2.3.0)
     neighbor (0.2.3)
       activerecord (>= 5.2)
+    net-http (0.4.1)
+      uri
     net-http-persistent (4.0.2)
       connection_pool (~> 2.2)
     net-imap (0.4.9)
@@ -515,11 +518,11 @@ GEM
       hashie (>= 3.4.6)
       rack (>= 2.2.3)
       rack-protection
-    omniauth-google-oauth2 (1.1.1)
+    omniauth-google-oauth2 (1.1.2)
       jwt (>= 2.0)
-      oauth2 (~> 2.0.6)
+      oauth2 (~> 2.0)
       omniauth (~> 2.0)
-      omniauth-oauth2 (~> 1.8.0)
+      omniauth-oauth2 (~> 1.8)
     omniauth-oauth2 (1.8.0)
       oauth2 (>= 1.4, < 3)
       omniauth (~> 2.0)
@@ -559,7 +562,7 @@ GEM
       activesupport (>= 3.0.0)
     raabro (1.4.0)
     racc (1.7.3)
-    rack (2.2.8.1)
+    rack (2.2.9)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
     rack-contrib (2.4.0)
@@ -568,7 +571,8 @@ GEM
       rack (>= 2.0.0)
     rack-mini-profiler (3.2.0)
       rack (>= 1.2.0)
-    rack-protection (3.1.0)
+    rack-protection (3.2.0)
+      base64 (>= 0.1.0)
       rack (~> 2.2, >= 2.2.4)
     rack-proxy (0.7.6)
       rack
@@ -790,11 +794,12 @@ GEM
     unf_ext (0.0.8.2)
     unicode-display_width (2.4.2)
     uniform_notifier (1.16.0)
+    uri (0.13.0)
     uri_template (0.7.0)
     valid_email2 (4.0.6)
       activemodel (>= 3.2)
       mail (~> 2.5)
-    version_gem (1.1.3)
+    version_gem (1.1.4)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.2.1)
@@ -907,7 +912,7 @@ DEPENDENCIES
   newrelic-sidekiq-metrics (>= 1.6.2)
   newrelic_rpm
   omniauth (>= 2.1.2)
-  omniauth-google-oauth2
+  omniauth-google-oauth2 (>= 1.1.2)
   omniauth-oauth2
   omniauth-rails_csrf_protection (~> 1.0)
   pg

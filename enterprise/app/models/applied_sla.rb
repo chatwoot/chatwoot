@@ -40,7 +40,36 @@ class AppliedSla < ApplicationRecord
                                         end
                                       }
   scope :missed, -> { where(sla_status: :missed) }
+
+  after_update_commit :push_conversation_event
+
+  def push_event_data
+    {
+      id: id,
+      sla_id: sla_policy_id,
+      sla_status: sla_status,
+      created_at: created_at.to_i,
+      updated_at: updated_at.to_i,
+      sla_description: sla_policy.description,
+      sla_name: sla_policy.name,
+      sla_first_response_time_threshold: sla_policy.first_response_time_threshold,
+      sla_next_response_time_threshold: sla_policy.next_response_time_threshold,
+      sla_only_during_business_hours: sla_policy.only_during_business_hours,
+      sla_resolution_time_threshold: sla_policy.resolution_time_threshold
+    }
+  end
+
   private
+
+  def push_conversation_event
+    # right now we simply use `CONVERSATION_UPDATED` event to notify the frontend
+    # we can eventually start using `CONVERSATION_SLA_UPDATED` event as required later
+    # for now the updated event should suffice
+
+    return unless saved_change_to_sla_status?
+
+    conversation.dispatch_conversation_updated_event
+  end
 
   def ensure_account_id
     self.account_id ||= sla_policy&.account_id
