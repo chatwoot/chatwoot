@@ -41,7 +41,7 @@
       </span>
     </div>
     <SLA-popover-card
-      v-if="showExtendedInfo && showSlaPopover && slaEvents.length"
+      v-if="showSlaPopoverCard"
       :all-missed-slas="slaEvents"
       class="right-0 top-7"
     />
@@ -108,6 +108,11 @@ export default {
       return this.$t(`CONVERSATION.HEADER.SLA_STATUS.${upperCaseType}`, {
         status: this.$t(`CONVERSATION.HEADER.SLA_STATUS.${statusKey}`),
       });
+    },
+    showSlaPopoverCard() {
+      return (
+        this.showExtendedInfo && this.showSlaPopover && this.slaEvents.length
+      );
     },
   },
   watch: {
