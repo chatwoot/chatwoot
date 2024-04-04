@@ -40,11 +40,7 @@
         {{ slaStatus.threshold }}
       </span>
     </div>
-    <SLA-popover-card
-      v-if="showSlaPopoverCard"
-      :all-missed-slas="slaEvents"
-      class="right-0 top-7"
-    />
+    <SLA-popover-card v-if="showSlaPopoverCard" :all-missed-slas="slaEvents" />
   </div>
 </template>
 

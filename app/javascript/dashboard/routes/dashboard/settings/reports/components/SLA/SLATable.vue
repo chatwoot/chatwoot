@@ -38,6 +38,7 @@
         :sla-name="slaReport.applied_sla.sla_name"
         :conversation="slaReport.conversation"
         :conversation-id="slaReport.conversation.id"
+        :sla-events="slaReport.sla_events"
       />
     </div>
     <table-footer

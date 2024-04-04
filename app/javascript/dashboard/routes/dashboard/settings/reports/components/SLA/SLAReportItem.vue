@@ -1,6 +1,8 @@
 <script setup>
+import { ref } from 'vue';
 import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.vue';
 import CardLabels from 'dashboard/components/widgets/conversation/conversationCardComponents/CardLabels.vue';
+import SLAPopoverCard from 'dashboard/components/widgets/conversation/components/SLAPopoverCard.vue';
 defineProps({
   slaName: {
     type: String,
@@ -14,7 +16,13 @@ defineProps({
     type: Object,
     required: true,
   },
+  slaEvents: {
+    type: Array,
+    default: () => [],
+  },
 });
+
+const showSlaPopoverCard = ref(false);
 </script>
 
 <template>
@@ -58,9 +66,18 @@ defineProps({
     <div
       class="flex items-center col-span-2 px-0 py-2 text-sm tracking-[0.5] text-slate-700 dark:text-slate-100 rtl:text-right"
     >
-      <woot-button color-scheme="secondary" variant="link">
+      <woot-button
+        color-scheme="secondary"
+        variant="link"
+        @click="showSlaPopoverCard = !showSlaPopoverCard"
+      >
         {{ $t('SLA_REPORTS.TABLE.VIEW_DETAILS') }}
       </woot-button>
+      <SLA-popover-card
+        v-if="showSlaPopoverCard"
+        :all-missed-slas="slaEvents"
+        class="right-0 top-7"
+      />
     </div>
   </div>
 </template>
