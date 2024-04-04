@@ -50,6 +50,7 @@ class Sla::EvaluateAppliedSlaService
   end
 
   def get_last_message_id(conversation)
+    # TODO: refactor the method to fetch last message without reply
     conversation.messages.where(message_type: :incoming).last&.id
   end
 

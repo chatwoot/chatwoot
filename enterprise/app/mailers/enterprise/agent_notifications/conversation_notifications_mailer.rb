@@ -29,4 +29,10 @@ module Enterprise::AgentNotifications::ConversationNotificationsMailer
     @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
     send_mail_with_liquid(to: @agent.email, subject: "Conversation [ID - #{@conversation.display_id}] missed SLA for resolution time") and return
   end
+
+  def liquid_droppables
+    super.merge({
+                  sla_policy: @sla_policy
+                })
+  end
 end
