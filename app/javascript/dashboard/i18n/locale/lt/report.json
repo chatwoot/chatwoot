@@ -37,7 +37,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Kliento laukimo laikas",
-        "TOOLTIP_TEXT": "Laukimo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -441,7 +441,8 @@
       "LOADING_MESSAGE": "Įkeliama pokalbio metrika...",
       "OPEN": "Atidaryti",
       "UNATTENDED": "Be priežiūros",
-      "UNASSIGNED": "Ne priskirtas"
+      "UNASSIGNED": "Ne priskirtas",
+      "PENDING": "Laukiama"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Pokalbių srautas",

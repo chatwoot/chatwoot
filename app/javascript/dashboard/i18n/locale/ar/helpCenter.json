@@ -319,12 +319,13 @@
       "HEADERS": {
         "TITLE": "العنوان",
         "CATEGORY": "الفئة",
-        "READ_COUNT": "عدد القراءات",
+        "READ_COUNT": "Views",
         "STATUS": "الحالة",
         "LAST_EDITED": "آخر تعديل"
       },
       "COLUMNS": {
-        "BY": "بواسطة"
+        "BY": "بواسطة",
+        "AUTHOR_NOT_AVAILABLE": "Author is not available"
       }
     },
     "EDIT_ARTICLE": {

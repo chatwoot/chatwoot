@@ -1,21 +1,10 @@
 module Enterprise::Account::ConversationsResolutionSchedulerJob
   def perform
     super
-
-    resolve_captain_conversations
-  end
-
-  private
-
-  def resolve_captain_conversations
-    CaptainInbox.all.find_each(batch_size: 100) do |captain_inbox|
-      inbox = captain_inbox.inbox
-
-      next if inbox.email?
-
-      Captain::InboxPendingConversationsResolutionJob.perform_later(
-        inbox
-      )
+    Account.feature_response_bot.all.find_each(batch_size: 100) do |account|
+      account.inboxes.each do |inbox|
+        ResponseBot::InboxPendingConversationsResolutionJob.perform_later(inbox) if inbox.response_bot_enabled?
+      end
     end
   end
 end

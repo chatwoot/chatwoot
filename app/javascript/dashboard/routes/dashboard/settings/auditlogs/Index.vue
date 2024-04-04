@@ -19,7 +19,7 @@
           class="woot-table w-full"
         >
           <colgroup>
-            <col class="w-[60%]" />
+            <col class="w-3/5" />
             <col />
             <col />
           </colgroup>

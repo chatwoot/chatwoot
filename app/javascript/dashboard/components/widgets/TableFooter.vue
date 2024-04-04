@@ -1,7 +1,7 @@
 <template>
   <footer
     v-if="isFooterVisible"
-    class="bg-white dark:bg-slate-800 h-[60px] border-t border-solid border-slate-75 dark:border-slate-700/50 flex items-center justify-between py-0 px-4"
+    class="bg-white dark:bg-slate-800 h-12 border-t border-solid border-slate-75 dark:border-slate-700/50 flex items-center justify-between px-6"
   >
     <div class="left-aligned-wrap">
       <div class="text-xs text-slate-600 dark:text-slate-200">
@@ -98,9 +98,7 @@ export default {
   },
   computed: {
     pageFooterIconClass() {
-      return this.isRTLView
-        ? 'margin-right-minus-slab'
-        : 'margin-left-minus-slab';
+      return this.isRTLView ? '-mr-3' : '-ml-3';
     },
     isFooterVisible() {
       return this.totalCount && !(this.firstIndex > this.totalCount);

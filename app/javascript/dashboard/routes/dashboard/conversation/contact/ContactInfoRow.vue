@@ -1,15 +1,15 @@
 <template>
-  <div class="-ml-1">
+  <div class="ltr:-ml-1 rtl:-mr-1 h-5 w-full">
     <a
       v-if="href"
       :href="href"
-      class="flex items-center mb-2 text-slate-800 dark:text-slate-100 hover:underline"
+      class="flex items-center gap-2 text-slate-800 dark:text-slate-100 hover:underline"
     >
       <emoji-or-icon
         :icon="icon"
         :emoji="emoji"
         icon-size="14"
-        class="mr-2 ml-1 rtl:mr-1 rtl:ml-2"
+        class="ltr:ml-1 rtl:mr-1 flex-shrink-0"
       />
       <span
         v-if="value"
@@ -29,20 +29,20 @@
         size="tiny"
         color-scheme="secondary"
         icon="clipboard"
-        class-names="copy-button"
+        class-names="p-0"
         @click="onCopy"
       />
     </a>
 
     <div
       v-else
-      class="flex items-center mb-2 text-slate-800 dark:text-slate-100"
+      class="flex items-center gap-2 text-slate-800 dark:text-slate-100"
     >
       <emoji-or-icon
         :icon="icon"
         :emoji="emoji"
         icon-size="14"
-        class="mr-2 ml-1 rtl:mr-1 rtl:ml-2"
+        class="ltr:ml-1 rtl:mr-1 flex-shrink-0"
       />
       <span
         v-if="value"
@@ -97,8 +97,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-.copy-button {
-  @apply ml-1 rtl:ml-0 rtl:mr-1;
-}
-</style>

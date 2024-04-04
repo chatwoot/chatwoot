@@ -1,77 +1,60 @@
 {
   "INBOX": {
     "LIST": {
-      "TITLE": "My Inbox",
-      "DISPLAY_DROPDOWN": "عرض",
-      "LOADING": "جار جلب الإشعارات",
-      "404": "لا توجد إشعارات نشطة في هذه المجموعة.",
-      "NO_NOTIFICATIONS": "لا توجد إشعارات",
-      "NOTE": "الإشعارات من جميع صناديق الوارد المشترك بها",
-      "NO_MESSAGES_AVAILABLE": "عذرًا! لا يمكن جلب الرسائل",
-      "SNOOZED_UNTIL": "تأجيل حتى",
-      "SNOOZED_UNTIL_TOMORROW": "تأجيل حتى الغد",
-      "SNOOZED_UNTIL_NEXT_WEEK": "تأجيل حتى الأسبوع القادم"
+      "TITLE": "صندوق الوارد",
+      "DISPLAY_DROPDOWN": "Display",
+      "LOADING": "Fetching notifications",
+      "EOF": "تم تحميل كافة الإشعارات 🎉",
+      "404": "There are no active notifications in this group.",
+      "NO_NOTIFICATIONS": "No notifications",
+      "NOTE": "Notifications from all subscribed inboxes",
+      "SNOOZED_UNTIL": "Snoozed until",
+      "SNOOZED_UNTIL_TOMORROW": "غفوة حتى الغد",
+      "SNOOZED_UNTIL_NEXT_WEEK": "غفوة حتى الأسبوع القادم"
     },
     "ACTION_HEADER": {
-      "SNOOZE": "تأجيل الإشعار",
-      "DELETE": "حذف الإشعار",
-      "BACK": "العودة"
+      "SNOOZE": "Snooze notification",
+      "DELETE": "Delete notification"
     },
     "TYPES": {
-      "CONVERSATION_MENTION": "تم ذكرك في محادثة",
-      "CONVERSATION_CREATION": "تم إنشاء محادثة جديدة",
-      "CONVERSATION_ASSIGNMENT": "تم تعيين محادثة لك",
-      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "رسالة جديدة في محادثة معينة لك",
-      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "رسالة جديدة في محادثة تشارك فيها",
-      "SLA_MISSED_FIRST_RESPONSE": "تم تجاوز الهدف الأول للرد للمحادثة",
-      "SLA_MISSED_NEXT_RESPONSE": "تم تجاوز الهدف التالي للرد للمحادثة",
-      "SLA_MISSED_RESOLUTION": "تم تجاوز الهدف النهائي للحل للمحادثة"
+      "CONVERSATION_MENTION": "You have been mentioned in a conversation",
+      "CONVERSATION_CREATION": "New conversation created",
+      "CONVERSATION_ASSIGNMENT": "A conversation has been assigned to you",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "New message in an assigned conversation",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "New message in a conversation you are participating in"
     },
-    "TYPES_NEXT": {
-      "CONVERSATION_MENTION": "Mentioned",
-      "CONVERSATION_ASSIGNMENT": "Assigned to you",
-      "CONVERSATION_CREATION": "New Conversation",
-      "SLA_MISSED_FIRST_RESPONSE": "SLA breach",
-      "SLA_MISSED_NEXT_RESPONSE": "SLA breach",
-      "SLA_MISSED_RESOLUTION": "SLA breach",
-      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "رسالة جديدة",
-      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "رسالة جديدة",
-      "SNOOZED_UNTIL": "Snoozed for {time}",
-      "SNOOZED_ENDS": "Snooze ended"
-    },
-    "NO_CONTENT": "لم يتم العثور على محتوى",
     "MENU_ITEM": {
-      "MARK_AS_READ": "تحديد كمقروء",
-      "MARK_AS_UNREAD": "تحديد كغير مقروء",
-      "SNOOZE": "تأجيل",
+      "MARK_AS_READ": "Mark as read",
+      "MARK_AS_UNREAD": "وضع علامة كغير مقروء",
+      "SNOOZE": "غفوة",
       "DELETE": "حذف",
       "MARK_ALL_READ": "تحديد الكل كمقروء",
-      "DELETE_ALL": "حذف الكل",
-      "DELETE_ALL_READ": "حذف كل المقروء"
+      "DELETE_ALL": "Delete all",
+      "DELETE_ALL_READ": "Delete all read"
     },
     "DISPLAY_MENU": {
-      "SORT": "فرز",
-      "DISPLAY": "عرض :",
+      "SORT": "Sort",
+      "DISPLAY": "Display :",
       "SORT_OPTIONS": {
-        "NEWEST": "الأحدث",
-        "OLDEST": "الأقدم",
+        "NEWEST": "Newest",
+        "OLDEST": "Oldest",
         "PRIORITY": "الأولوية"
       },
       "DISPLAY_OPTIONS": {
-        "SNOOZED": "مؤجل",
-        "READ": "قراءة",
+        "SNOOZED": "غفوة",
+        "READ": "قرائة",
         "LABELS": "الوسوم",
-        "CONVERSATION_ID": "معرف المحادثة"
+        "CONVERSATION_ID": "Conversation ID"
       }
     },
     "ALERTS": {
-      "MARK_AS_READ": "تم وضع علامة الإشعار كمقروء",
-      "MARK_AS_UNREAD": "تم وضع علامة الإشعار كغير مقروء",
-      "SNOOZE": "تم تأجيل الإشعار",
-      "DELETE": "تم حذف الإشعار",
-      "MARK_ALL_READ": "تم تحديد جميع الإشعارات كمقروءة",
-      "DELETE_ALL": "تم حذف كل الإشعارات",
-      "DELETE_ALL_READ": "تم حذف كل الإشعارات المقروءة"
+      "MARK_AS_READ": "Notification marked as read",
+      "MARK_AS_UNREAD": "Notification marked as unread",
+      "SNOOZE": "Notification snoozed",
+      "DELETE": "Notification deleted",
+      "MARK_ALL_READ": "All notifications marked as read",
+      "DELETE_ALL": "All notifications deleted",
+      "DELETE_ALL_READ": "All read notifications deleted"
     }
   }
 }

@@ -64,8 +64,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.modal-container .modal-footer {
-  padding: var(--space-normal) var(--space-medium);
-}
-</style>

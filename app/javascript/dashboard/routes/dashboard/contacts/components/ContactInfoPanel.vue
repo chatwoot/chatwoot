@@ -1,7 +1,7 @@
 <template>
   <div
-    class="w-[25%] bg-white dark:bg-slate-900 contact--panel"
-    :class="{ 'border-left': showAvatar }"
+    class="w-1/4 bg-white dark:bg-slate-900 border-slate-50 dark:border-slate-800/50 h-full text-sm overflow-y-auto relative"
+    :class="showAvatar ? 'border-l border-solid ' : 'border-r border-solid'"
   >
     <contact-info
       :show-close-button="showCloseButton"
@@ -150,9 +150,6 @@ export default {
   .contact--profile {
     @apply pb-3 mb-4;
   }
-}
-.contact--panel {
-  @apply border-r border-slate-50 dark:border-slate-800/50 h-full text-sm overflow-y-auto relative;
 }
 
 .list-group {

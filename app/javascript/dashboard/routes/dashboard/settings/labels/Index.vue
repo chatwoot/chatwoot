@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 overflow-auto p-4">
+  <div class="flex-1 overflow-auto">
     <woot-button
       color-scheme="success"
       class-names="button--fixed-top"
@@ -8,8 +8,8 @@
     >
       {{ $t('LABEL_MGMT.HEADER_BTN_TXT') }}
     </woot-button>
-    <div class="flex flex-row gap-4">
-      <div class="w-[60%]">
+    <div class="flex flex-row gap-4 p-8">
+      <div class="w-full xl:w-3/5">
         <p
           v-if="!uiFlags.isFetching && !records.length"
           class="flex h-full items-center flex-col justify-center"
@@ -73,7 +73,7 @@
         </table>
       </div>
 
-      <div class="w-[34%]">
+      <div class="w-1/3 hidden xl:block">
         <span v-dompurify-html="$t('LABEL_MGMT.SIDEBAR_TXT')" />
       </div>
     </div>
@@ -197,6 +197,7 @@ export default {
 .label-color--display {
   @apply rounded h-4 w-4 mr-1 rtl:mr-0 rtl:ml-1 border border-solid border-slate-50 dark:border-slate-700;
 }
+
 .label-title {
   span {
     @apply w-60 inline-block;

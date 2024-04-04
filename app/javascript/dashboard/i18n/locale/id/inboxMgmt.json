@@ -569,7 +569,7 @@
       "UPDATE": "Perbarui pengaturan jam kerja",
       "TOGGLE_AVAILABILITY": "Aktifkan ketersediaan bisnis untuk kotak masuk ini",
       "UNAVAILABLE_MESSAGE_LABEL": "Pesan tidak tersedia untuk pengunjung",
-      "TOGGLE_HELP": "Mengaktifkan ketersediaan bisnis akan menunjukkan jam yang tersedia di widget obrolan langsung meskipun semua agen sedang offline. Di luar jam buka yang tersedia, pengunjung dapat diperingatkan dengan pesan dan formulir pra-obrolan.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Aktifkan ketersediaan untuk hari ini",
         "UNAVAILABLE": "Tidak tersedia",

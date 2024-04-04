@@ -31,6 +31,7 @@ pl:
       disposable_email: Nie zezwalamy na jednorazowe konta e-mail
       invalid_email: Wprowadzono nieprawidłowy adres e-mail
       email_already_exists: "Już zarejestrowałeś się na konto %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Rejestracja nie powiodła się
     data_import:
       data_type:
@@ -67,25 +68,25 @@ pl:
     utc_warning: Generowany raport jest w strefie czasowej UTC
     agent_csv:
       agent_name: Nazwa agenta
-      conversations_count: Liczba rozmów
-      avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
-      avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     inbox_csv:
       inbox_name: Nazwa skrzynki odbiorczej
       inbox_type: Typ skrzynki odbiorczej
       conversations_count: Ilość rozmów
-      avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
-      avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     label_csv:
       label_title: Etykieta
       conversations_count: Ilość rozmów
-      avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
-      avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     team_csv:
       team_name: Nazwa zespołu
       conversations_count: Liczba rozmów
-      avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
-      avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: Strefa czasowa
     default_group_by: dnia
@@ -101,10 +102,12 @@ pl:
         recorded_at: Data nagrania
   notifications:
     notification_title:
-      conversation_creation: "[Nowa rozmowa] - #%{display_id} został utworzony w %{inbox_name}"
-      conversation_assignment: "[Przypisane do Ciebie] - #%{display_id} został przypisany do Ciebie"
-      assigned_conversation_new_message: "[Nowa wiadomość] - #%{display_id} %{content}"
-      conversation_mention: "Zostałeś wspomniany w konwersacji [ID - %{display_id}] przez %{name}"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} wspomniał o Tobie w historii: "
@@ -221,10 +224,31 @@ pl:
       back_to_home: Go to home page
   slack_unfurl:
     fields:
-      name: Nazwa
+      name: Imię
       email: E-mail
       phone_number: Phone
       company_name: Firma
       inbox_name: Skrzynka odbiorcza
       inbox_type: Inbox Type
     button: Otwórz rozmowę
+  time_units:
+    days:
+      one: "%{count} day"
+      few: "%{count} days"
+      many: "%{count} days"
+      other: "%{count} days"
+    hours:
+      one: "%{count} hour"
+      few: "%{count} hours"
+      many: "%{count} hours"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minute"
+      few: "%{count} minutes"
+      many: "%{count} minutes"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} second"
+      few: "%{count} seconds"
+      many: "%{count} seconds"
+      other: "%{count} seconds"

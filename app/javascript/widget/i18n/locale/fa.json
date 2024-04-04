@@ -80,7 +80,8 @@
     },
     "CAMPAIGN_HEADER": "لطفا قبل از شروع گفتگو نام و ایمیل خود را وارد کنید",
     "IS_REQUIRED": "مورد نیاز است",
-    "REQUIRED": "ضروری"
+    "REQUIRED": "ضروری",
+    "REGEX_ERROR": "Please provide a valid input"
   },
   "FILE_SIZE_LIMIT": "فایل ضمیمه شده بیشتر از {MAXIMUM_FILE_UPLOAD_SIZE} است",
   "CHAT_FORM": {

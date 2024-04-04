@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CsatMetrics.vue computes response count correctly 1`] = `
-<div class="flex flex-wrap mx-0 bg-white dark:bg-slate-800 rounded-[4px] p-4 mb-5 border border-solid border-slate-75 dark:border-slate-700">
-  <csat-metric-card-stub label="CSAT_REPORTS.METRIC.TOTAL_RESPONSES.LABEL" value="100" infotext="CSAT_REPORTS.METRIC.TOTAL_RESPONSES.TOOLTIP"></csat-metric-card-stub>
-  <csat-metric-card-stub label="CSAT_REPORTS.METRIC.SATISFACTION_SCORE.LABEL" value="--" infotext="CSAT_REPORTS.METRIC.SATISFACTION_SCORE.TOOLTIP" disabled="true"></csat-metric-card-stub>
-  <csat-metric-card-stub label="CSAT_REPORTS.METRIC.RESPONSE_RATE.LABEL" value="90%" infotext="CSAT_REPORTS.METRIC.RESPONSE_RATE.TOOLTIP"></csat-metric-card-stub>
+<div class="flex-col lg:flex-row flex flex-wrap mx-0 bg-white dark:bg-slate-800 rounded-[4px] p-4 mb-5 border border-solid border-slate-75 dark:border-slate-700">
+  <csat-metric-card-stub label="CSAT_REPORTS.METRIC.TOTAL_RESPONSES.LABEL" value="100" infotext="CSAT_REPORTS.METRIC.TOTAL_RESPONSES.TOOLTIP" class="xs:w-full sm:max-w-[50%] lg:w-1/6 lg:max-w-[16%]"></csat-metric-card-stub>
+  <csat-metric-card-stub label="CSAT_REPORTS.METRIC.SATISFACTION_SCORE.LABEL" value="--" infotext="CSAT_REPORTS.METRIC.SATISFACTION_SCORE.TOOLTIP" disabled="true" class="xs:w-full sm:max-w-[50%] lg:w-1/6 lg:max-w-[16%]"></csat-metric-card-stub>
+  <csat-metric-card-stub label="CSAT_REPORTS.METRIC.RESPONSE_RATE.LABEL" value="90%" infotext="CSAT_REPORTS.METRIC.RESPONSE_RATE.TOOLTIP" class="xs:w-full sm:max-w-[50%] lg:w-1/6 lg:max-w-[16%]"></csat-metric-card-stub>
   <!---->
 </div>
 `;

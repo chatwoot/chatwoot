@@ -30,7 +30,7 @@
           :show-avatar="false"
           :contact="contact"
         />
-        <div class="w-[75%] h-full">
+        <div class="w-3/4 h-full">
           <woot-tabs :index="selectedTabIndex" @change="onClickTabChange">
             <woot-tabs-item
               v-for="tab in tabs"

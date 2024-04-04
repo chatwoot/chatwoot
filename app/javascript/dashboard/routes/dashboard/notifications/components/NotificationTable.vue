@@ -1,5 +1,7 @@
 <template>
-  <section class="notification--table-wrap bg-white dark:bg-slate-900">
+  <section
+    class="h-full flex-shrink flex-grow overflow-hidden py-8 px-4 bg-white dark:bg-slate-900"
+  >
     <woot-submit-button
       v-if="notificationMetadata.unreadCount"
       class="button nice success button--fixed-top"
@@ -134,10 +136,6 @@ export default {
 
 .notification--title {
   @apply text-sm m-0 text-slate-800 dark:text-slate-100;
-}
-
-.notification--table-wrap {
-  @apply overflow-hidden hover:overflow-y-auto flex-shrink flex-grow h-full py-8 px-12;
 }
 
 .notifications-table {

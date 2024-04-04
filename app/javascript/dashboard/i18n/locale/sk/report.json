@@ -37,7 +37,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -441,7 +441,8 @@
       "LOADING_MESSAGE": "Loading conversation metrics...",
       "OPEN": "Otvoriť",
       "UNATTENDED": "Unattended",
-      "UNASSIGNED": "Nepriradené"
+      "UNASSIGNED": "Nepriradené",
+      "PENDING": "Čaká sa na"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",

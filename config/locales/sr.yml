@@ -31,6 +31,7 @@ sr-Latn:
       disposable_email: Ne dozvoljavamo potrošne e-pošte
       invalid_email: Uneli ste neispravnu e-poštu
       email_already_exists: "Već ste registrovali nalog sa %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Registracija nije uspela
     data_import:
       data_type:
@@ -67,25 +68,25 @@ sr-Latn:
     utc_warning: Generisani izveštaj je u UTC vremenskoj zoni
     agent_csv:
       agent_name: Naziv agenta
-      conversations_count: Broj razgovora
-      avg_first_response_time: Prosečno vreme prvog odgovora (minuti)
-      avg_resolution_time: Prosečno vreme rešavanja (minuti)
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     inbox_csv:
       inbox_name: Naziv prijemnog sandučeta
       inbox_type: Vrsta prijemnog sandučeta
       conversations_count: Broj razgovora
-      avg_first_response_time: Prosečno vreme prvog odgovora (minuti)
-      avg_resolution_time: Prosečno vreme rešavanja (minuti)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     label_csv:
       label_title: Oznaka
       conversations_count: Broj razgovora
-      avg_first_response_time: Prosečno vreme prvog odgovora (minuti)
-      avg_resolution_time: Prosečno vreme rešavanja (minuti)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     team_csv:
       team_name: Naziv tima
       conversations_count: Broj razgovora
-      avg_first_response_time: Prosečno vreme prvog odgovora (minuti)
-      avg_resolution_time: Prosečno vreme rešavanja (minuti)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: Timezone
     default_group_by: dan
@@ -101,10 +102,12 @@ sr-Latn:
         recorded_at: Snimljen dana
   notifications:
     notification_title:
-      conversation_creation: "[Novi razgovor] - #%{display_id} je napravljen u %{inbox_name}"
-      conversation_assignment: "[Dodeljeno vama] - #%{display_id} je dodeljen vama"
-      assigned_conversation_new_message: "[Nova poruka] - #%{display_id} %{content}"
-      conversation_mention: "Pomenuti ste u razgovoru [ID - %{display_id}] od strane %{name}"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} vas je pomenuo u priči: "
@@ -228,3 +231,20 @@ sr-Latn:
       inbox_name: Prijemno sanduče
       inbox_type: Inbox Type
     button: Otvoren razgovor
+  time_units:
+    days:
+      one: "%{count} day"
+      few: "%{count} days"
+      other: "%{count} days"
+    hours:
+      one: "%{count} hour"
+      few: "%{count} hours"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minute"
+      few: "%{count} minutes"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} second"
+      few: "%{count} seconds"
+      other: "%{count} seconds"

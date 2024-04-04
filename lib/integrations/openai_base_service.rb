@@ -1,8 +1,8 @@
 class Integrations::OpenaiBaseService
-  # 3.5 support 4,096 tokens
+  # 3.5 support 16,385 tokens
   # 1 token is approx 4 characters
-  # 4,096 * 4 = 16,384 characters, sticking to 15,000 to be safe
-  TOKEN_LIMIT = 15_000
+  # 16385 * 4 = 65540 characters, sticking to 50,000 to be safe
+  TOKEN_LIMIT = 50_000
   API_URL = 'https://api.openai.com/v1/chat/completions'.freeze
   GPT_MODEL = 'gpt-3.5-turbo'.freeze
 
@@ -31,7 +31,6 @@ class Integrations::OpenaiBaseService
   def cache_key
     return nil unless event_is_cacheable?
 
-    conversation = find_conversation
     return nil unless conversation
 
     # since the value from cache depends on the conversation last_activity_at, it will always be fresh
@@ -52,8 +51,8 @@ class Integrations::OpenaiBaseService
     Redis::Alfred.setex(cache_key, response)
   end
 
-  def find_conversation
-    hook.account.conversations.find_by(display_id: event['data']['conversation_display_id'])
+  def conversation
+    @conversation ||= hook.account.conversations.find_by(display_id: event['data']['conversation_display_id'])
   end
 
   def valid_event_name?

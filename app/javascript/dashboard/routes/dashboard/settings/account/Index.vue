@@ -7,7 +7,7 @@
         <div
           class="flex-grow-0 flex-shrink-0 flex-[25%] min-w-0 py-4 pr-6 pl-0"
         >
-          <h4 class="block-title text-black-900 dark:text-slate-200">
+          <h4 class="text-lg font-medium text-black-900 dark:text-slate-200">
             {{ $t('GENERAL_SETTINGS.FORM.GENERAL_SECTION.TITLE') }}
           </h4>
           <p>{{ $t('GENERAL_SETTINGS.FORM.GENERAL_SECTION.NOTE') }}</p>
@@ -87,12 +87,12 @@
       </div>
 
       <div
-        class="p-4 border-slate-25 dark:border-slate-700 text-black-900 dark:text-slate-300 row"
+        class="p-4 border-slate-25 dark:border-slate-700 text-black-900 dark:text-slate-300 flex flex-row"
       >
         <div
           class="flex-grow-0 flex-shrink-0 flex-[25%] min-w-0 py-4 pr-6 pl-0"
         >
-          <h4 class="block-title text-black-900 dark:text-slate-200">
+          <h4 class="text-lg font-medium text-black-900 dark:text-slate-200">
             {{ $t('GENERAL_SETTINGS.FORM.ACCOUNT_ID.TITLE') }}
           </h4>
           <p>

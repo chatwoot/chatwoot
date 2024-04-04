@@ -31,6 +31,7 @@ ar:
       disposable_email: نحن لا نسمح باسخدام عناوين البريد الإلكتروني المؤقتة
       invalid_email: لقد قمت بإدخال عنوان بريد إلكتروني غير صالح
       email_already_exists: "لقد قمت بالفعل بتسجيل حساب سابقاً بالعنوان %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: فشلت عملية التسجيل
     data_import:
       data_type:
@@ -50,7 +51,7 @@ ar:
     dyte:
       invalid_message_type: "Invalid message type. Action not permitted"
     slack:
-      invalid_channel_id: "Invalid slack channel. Please try again"
+      invalid_channel_id: "قناة Slack غير صحيحة. الرجاء المحاولة مرة أخرى"
     inboxes:
       imap:
         socket_error: الرجاء التحقق من اتصال الشبكة، عنوان IMAP وحاول مرة أخرى.
@@ -67,25 +68,25 @@ ar:
     utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: اسم الموظف
-      conversations_count: عدد المحادثات
-      avg_first_response_time: متوسط وقت الرد الأول (الدقائق)
-      avg_resolution_time: متوسط وقت المحادثة (الدقائق)
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     inbox_csv:
       inbox_name: اسم صندوق الوارد
       inbox_type: نوع صندوق البريد
       conversations_count: عدد المحادثات
-      avg_first_response_time: متوسط وقت الرد الأول (الدقائق)
-      avg_resolution_time: متوسط وقت المحادثة (الدقائق)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     label_csv:
       label_title: الوسم
       conversations_count: عدد المحادثات
-      avg_first_response_time: متوسط وقت الرد الأول (الدقائق)
-      avg_resolution_time: متوسط وقت المحادثة (الدقائق)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     team_csv:
       team_name: اسم الفريق
       conversations_count: عدد المحادثات
-      avg_first_response_time: متوسط وقت الرد الأول (الدقائق)
-      avg_resolution_time: متوسط وقت المحادثة (الدقائق)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: Timezone
     default_group_by: اليوم
@@ -101,10 +102,12 @@ ar:
         recorded_at: تاريخ التسجيل
   notifications:
     notification_title:
-      conversation_creation: "[محادثة جديدة] - #%{display_id} تم إنشاؤها في %{inbox_name}"
-      conversation_assignment: "[تعيين لك] - #%{display_id} تم تعيينه لك"
-      assigned_conversation_new_message: "[رسالة جديدة] - #%{display_id} %{content}"
-      conversation_mention: "تمت الإشارة إليك في المحادثة [ID - %{display_id}] من قبل %{name}"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "أشار %{story_sender} إليك في القصة: "
@@ -179,7 +182,7 @@ ar:
       name: "الاتصال الكامل"
       description: "التكامل الكامل يساعد على إثراء ملفات تعريف الزوار. تحديد المستخدمين بمجرد مشاركتهم عنوان البريد الإلكتروني الخاص بهم وتقديم خدمة العملاء الخاصة بهم. قم بتوصيل اتصالك الكامل بحسابك عن طريق مشاركة مفتاح API للاتصال الكامل."
     google_translate:
-      name: "Google Translate"
+      name: "ترجمة Google"
       description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
     openai:
       name: "OpenAI"
@@ -189,42 +192,71 @@ ar:
       search_placeholder: Search for article by title or body...
       empty_placeholder: لم يتم العثور على النتائج.
       loading_placeholder: يبحث...
-      results_title: Search results
+      results_title: نتائج البحث
     toc_header: 'On this page'
     hero:
       sub_title: Search for the articles here or browse the categories below.
     common:
       home: الرئيسية
       last_updated_on: Last updated on %{last_updated_on}
-      view_all_articles: View all
-      article: article
+      view_all_articles: عرض الكل
+      article: مقال
       articles: المقالات
       author: المؤلف
-      authors: authors
+      authors: المؤلفون
       other: other
       others: others
-      by: By
-      no_articles: There are no articles here
+      by: بواسطة
+      no_articles: لا توجد مقالات
     footer:
       made_with: Made with
     header:
       go_to_homepage: Website
       appearance:
-        system: System
+        system: النظام
         light: Light
         dark: Dark
       featured_articles: Featured Articles
       uncategorized: Uncategorized
     404:
-      title: Page not found
-      description: We couldn't find the page you were looking for.
-      back_to_home: Go to home page
+      title: لم يتم العثور على الصفحة
+      description: لم نتمكن من العثور على الصفحة التي تبحث عنها.
+      back_to_home: الذهاب إلى الصفحة الرئيسية
   slack_unfurl:
     fields:
       name: الاسم
       email: البريد الإلكتروني
-      phone_number: Phone
+      phone_number: هاتف
       company_name: الشركة
       inbox_name: صندوق الوارد
       inbox_type: Inbox Type
     button: فتح المحادثة
+  time_units:
+    days:
+      zero: "%{count} days"
+      one: "%{count} day"
+      two: "%{count} days"
+      few: "%{count} days"
+      many: "%{count} days"
+      other: "%{count} days"
+    hours:
+      zero: "%{count} hours"
+      one: "%{count} hour"
+      two: "%{count} hours"
+      few: "%{count} hours"
+      many: "%{count} hours"
+      other: "%{count} hours"
+    minutes:
+      zero: "%{count} minutes"
+      one: "%{count} minute"
+      two: "%{count} minutes"
+      few: "%{count} minutes"
+      many: "%{count} minutes"
+      other: "%{count} minutes"
+    seconds:
+      zero: "%{count} seconds"
+      one: "%{count} second"
+      two: "%{count} seconds"
+      few: "%{count} seconds"
+      many: "%{count} seconds"
+      other: "%{count} seconds"

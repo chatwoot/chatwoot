@@ -1,14 +1,14 @@
 <template>
   <div
-    class="flex px-4 items-center justify-between w-full h-16 pt-2 sticky top-0 z-50 bg-white dark:bg-slate-900"
+    class="flex p-6 items-center justify-between w-full h-16 sticky top-0 z-50 bg-white dark:bg-slate-900"
   >
     <div class="flex items-center">
       <woot-sidemenu-icon />
       <div class="flex items-center my-0 mx-2">
-        <h3 class="text-2xl text-slate-800 dark:text-slate-100 mb-0">
+        <h3 class="text-xl text-slate-800 dark:text-slate-100 font-medium mb-0">
           {{ headerTitle }}
         </h3>
-        <span class="text-sm text-slate-600 dark:text-slate-300 my-0 mx-2">{{
+        <span class="text-sm text-slate-600 dark:text-slate-300 mx-2 mt-0.5">{{
           `(${count})`
         }}</span>
       </div>
@@ -232,6 +232,7 @@ export default {
 .dropdown-pane--open {
   @apply absolute top-10 right-0 z-50 min-w-[8rem];
 }
+
 .dropdown-arrow {
   @apply ml-1 rtl:ml-0 rtl:mr-1;
 }

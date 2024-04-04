@@ -31,6 +31,7 @@ pt_BR:
       disposable_email: Não permitimos e-mails descartáveis
       invalid_email: Você digitou um email inválido
       email_already_exists: "Você já se cadastrou para uma conta com %{email}"
+      invalid_params: 'Inválido, por favor, verifique os parâmetros de inscrição e tente novamente'
       failed: Registro falhou
     data_import:
       data_type:
@@ -67,25 +68,25 @@ pt_BR:
     utc_warning: O relatório gerado está em fuso horário UTC
     agent_csv:
       agent_name: Nome do Agente
-      conversations_count: Contagem de conversas
-      avg_first_response_time: Tempo médio de primeira resposta (minutos)
-      avg_resolution_time: Tempo médio de resolução (minutos)
+      conversations_count: Conversas atribuídas
+      avg_first_response_time: Tempo médio de primeira resposta (minutos
+      avg_resolution_time: Avg resolution time
     inbox_csv:
       inbox_name: Nome da Caixa de Entrada
       inbox_type: Tipo da Caixa de Entrada
       conversations_count: Nº de Conversas
-      avg_first_response_time: Média de tempo da primeira resposta (minutos)
-      avg_resolution_time: Tempo médio de resolução (minutos)
+      avg_first_response_time: Tempo médio de primeira resposta (minutos
+      avg_resolution_time: Avg resolution time
     label_csv:
       label_title: Nome do campo
       conversations_count: Nº de Conversas
-      avg_first_response_time: Tempo médio de primeira resposta (minutos)
-      avg_resolution_time: Tempo médio de resolução (minutos)
+      avg_first_response_time: Tempo médio de primeira resposta (minutos
+      avg_resolution_time: Avg resolution time
     team_csv:
       team_name: Nome do departamento
       conversations_count: Contagem de conversas
-      avg_first_response_time: Tempo médio de primeira resposta (minutos)
-      avg_resolution_time: Tempo médio de resolução (minutos)
+      avg_first_response_time: Tempo médio de primeira resposta (minutos
+      avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: Timezone
     default_group_by: dia
@@ -101,10 +102,12 @@ pt_BR:
         recorded_at: Data de gravação
   notifications:
     notification_title:
-      conversation_creation: "[Nova conversa] - #%{display_id} foi criado em %{inbox_name}"
-      conversation_assignment: "[Atribuído a você] - #%{display_id} foi atribuído a você"
-      assigned_conversation_new_message: "[Nova mensagem] - #%{display_id} %{content}"
-      conversation_mention: "Você foi mencionado na conversa [ID - %{display_id}] por %{name}"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} mencionou você na conversa: "
@@ -228,3 +231,16 @@ pt_BR:
       inbox_name: Caixa de Entrada
       inbox_type: Tipo de Caixa de Entrada
     button: Abrir conversa
+  time_units:
+    days:
+      one: "%{count} day"
+      other: "%{count} days"
+    hours:
+      one: "%{count} hour"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minute"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} second"
+      other: "%{count} seconds"

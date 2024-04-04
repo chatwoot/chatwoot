@@ -20,7 +20,7 @@
     "IN_A_FEW_MINUTES": "Зазвичай, відповідаємо за декілька хвилин",
     "IN_A_FEW_HOURS": "Зазвичай, відповідаємо за декілька годин",
     "IN_A_DAY": "Зазвичай, відповідаємо протягом доби",
-    "BACK_IN": "We will be back online"
+    "BACK_IN": "Ми повернемось в мережу"
   },
   "DAY_NAMES": [
     "Неділя",
@@ -34,9 +34,9 @@
   "START_CONVERSATION": "Розпочати розмову",
   "END_CONVERSATION": "Закінчити спілкування",
   "CONTINUE_CONVERSATION": "Продовжити спілкування",
-  "YOU": "You",
+  "YOU": "Ви",
   "START_NEW_CONVERSATION": "Розпочати нову розмову",
-  "VIEW_UNREAD_MESSAGES": "You have unread messages",
+  "VIEW_UNREAD_MESSAGES": "У Вас є непрочитані повідомлення",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Переглянути нові повідомлення",
     "CLOSE_MESSAGES_BUTTON": "Закрити",
@@ -68,8 +68,8 @@
         "LABEL": "Номер телефону",
         "PLACEHOLDER": "Будь ласка, введіть номер телефону",
         "REQUIRED_ERROR": "Номер телефону є обов'язковим",
-        "DIAL_CODE_VALID_ERROR": "Please select a country code",
-        "VALID_ERROR": "Please enter a valid phone number",
+        "DIAL_CODE_VALID_ERROR": "Будь ласка, оберіть код країни",
+        "VALID_ERROR": "Будь ласка, введіть правильний номер телефону",
         "DROPDOWN_EMPTY": "Результатів не знайдено"
       },
       "MESSAGE": {
@@ -80,7 +80,8 @@
     },
     "CAMPAIGN_HEADER": "Будь ласка, надайте своє ім'я та електронну пошту перед початком бесіди",
     "IS_REQUIRED": "обов'язково",
-    "REQUIRED": "Обов'язково"
+    "REQUIRED": "Обов'язково",
+    "REGEX_ERROR": "Будь ласка, введіть коректний текст"
   },
   "FILE_SIZE_LIMIT": "Файл перевищує ліміт вкладення {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
@@ -109,9 +110,9 @@
     }
   },
   "PORTAL": {
-    "POPULAR_ARTICLES": "Popular Articles",
+    "POPULAR_ARTICLES": "Популярні статті",
     "VIEW_ALL_ARTICLES": "Переглянути всі статті",
-    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+    "IFRAME_LOAD_ERROR": "Помилка при завантаженні статті, будь ласка, оновіть сторінку та повторіть спробу."
   },
   "ATTACHMENTS": {
     "image": {

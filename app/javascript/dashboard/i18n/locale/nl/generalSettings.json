@@ -2,8 +2,8 @@
   "GENERAL_SETTINGS": {
     "TITLE": "Accountinstellingen",
     "SUBMIT": "Instellingen bijwerken",
-    "BACK": "Back",
-    "DISMISS": "Dismiss",
+    "BACK": "Terug",
+    "DISMISS": "Negeer",
     "UPDATE": {
       "ERROR": "Instellingen konden niet worden bijgewerkt, probeer het opnieuw!",
       "SUCCESS": "Accountinstellingen succesvol bijgewerkt"
@@ -24,7 +24,7 @@
         "ERROR": "Voer een geldige accountnaam in"
       },
       "LANGUAGE": {
-        "LABEL": "Site language",
+        "LABEL": "Taal",
         "PLACEHOLDER": "Uw accountnaam",
         "ERROR": ""
       },
@@ -52,20 +52,20 @@
     "LEARN_MORE": "Learn more",
     "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
     "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
-    "OPEN_BILLING": "Open billing"
+    "OPEN_BILLING": "Openstaande facturering"
   },
   "FORMS": {
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Press enter to select",
       "ENTER_TO_REMOVE": "Press enter to remove",
-      "SELECT_ONE": "Select one",
-      "SELECT": "Select"
+      "SELECT_ONE": "Selecteer een",
+      "SELECT": "Selecteer"
     }
   },
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Notifications",
     "MARK_ALL_DONE": "Mark All Done",
-    "DELETE_TITLE": "deleted",
+    "DELETE_TITLE": "verwijderd",
     "UNREAD_NOTIFICATION": {
       "TITLE": "Unread Notifications",
       "ALL_NOTIFICATIONS": "View all notifications",
@@ -74,19 +74,19 @@
     },
     "LIST": {
       "LOADING_MESSAGE": "Loading notifications...",
-      "404": "No Notifications",
+      "404": "Geen meldingen",
       "TABLE_HEADER": [
         "Naam",
-        "Phone Number",
+        "Telefoonnummer",
         "Gesprekken",
-        "Last Contacted"
+        "Laatste contact"
       ]
     },
     "TYPE_LABEL": {
       "conversation_creation": "New conversation",
       "conversation_assignment": "Conversation Assigned",
-      "assigned_conversation_new_message": "New Message",
-      "participating_conversation_new_message": "New Message",
+      "assigned_conversation_new_message": "Nieuw bericht",
+      "participating_conversation_new_message": "Nieuw bericht",
       "conversation_mention": "Mention"
     }
   },
@@ -101,7 +101,7 @@
   "COMMAND_BAR": {
     "SEARCH_PLACEHOLDER": "Search or jump to",
     "SECTIONS": {
-      "GENERAL": "General",
+      "GENERAL": "Algemeen",
       "REPORTS": "Rapporten",
       "CONVERSATION": "Gesprek",
       "CHANGE_ASSIGNEE": "Change Assignee",
@@ -111,8 +111,9 @@
       "ADD_LABEL": "Add label to the conversation",
       "REMOVE_LABEL": "Remove label from the conversation",
       "SETTINGS": "Instellingen",
-      "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance"
+      "AI_ASSIST": "AI-assistent",
+      "APPEARANCE": "Weergave",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
@@ -134,7 +135,7 @@
       "GO_TO_NOTIFICATIONS": "Go to Notifications",
       "ADD_LABELS_TO_CONVERSATION": "Add label to the conversation",
       "ASSIGN_AN_AGENT": "Assign an agent",
-      "AI_ASSIST": "AI Assist",
+      "AI_ASSIST": "AI-assistent",
       "ASSIGN_PRIORITY": "Assign priority",
       "ASSIGN_A_TEAM": "Assign a team",
       "MUTE_CONVERSATION": "Mute conversation",
@@ -143,17 +144,18 @@
       "REOPEN_CONVERSATION": "Reopen conversation",
       "RESOLVE_CONVERSATION": "Resolve conversation",
       "SEND_TRANSCRIPT": "Send an email transcript",
-      "SNOOZE_CONVERSATION": "Snooze Conversation",
-      "UNTIL_NEXT_REPLY": "Until next reply",
-      "UNTIL_NEXT_WEEK": "Until next week",
-      "UNTIL_TOMORROW": "Until tomorrow",
-      "UNTIL_NEXT_MONTH": "Until next month",
+      "SNOOZE_CONVERSATION": "Demp gesprek",
+      "UNTIL_NEXT_REPLY": "Tot de volgende reactie",
+      "UNTIL_NEXT_WEEK": "Tot volgende week",
+      "UNTIL_TOMORROW": "Tot morgen",
+      "UNTIL_NEXT_MONTH": "Tot volgende maand",
       "AN_HOUR_FROM_NOW": "Until an hour from now",
       "CUSTOM": "Custom...",
       "CHANGE_APPEARANCE": "Change Appearance",
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "Systeem"
+      "SYSTEM_MODE": "Systeem",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     }
   },
   "DASHBOARD_APPS": {

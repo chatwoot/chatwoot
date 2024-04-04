@@ -39,7 +39,7 @@
       },
       "FB": {
         "HELP": "PS: Door in te loggen krijgen we alleen toegang tot berichten van uw Pagina. Chatwood heeft nooit toegang tot je privéberichten.",
-        "CHOOSE_PAGE": "Choose Page",
+        "CHOOSE_PAGE": "Kies pagina",
         "CHOOSE_PLACEHOLDER": "Select a page from the list",
         "INBOX_NAME": "Inbox Name",
         "ADD_NAME": "Add a name for your inbox",
@@ -58,7 +58,7 @@
         "DESC": "Maak een kanaal voor uw website en begin met het ondersteunen van uw klanten via onze website widget.",
         "LOADING_MESSAGE": "Website ondersteuningskanaal aanmaken",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "Avatar kanaal"
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
@@ -157,10 +157,10 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
+        "TITLE": "SMS-kanaal",
         "DESC": "Start supporting your customers via SMS.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "API-aanbieder",
           "TWILIO": "Twilio",
           "BANDWIDTH": "Bandbreedte"
         },
@@ -179,12 +179,12 @@
             "ERROR": "Dit veld is verplicht"
           },
           "API_SECRET": {
-            "LABEL": "API Secret",
+            "LABEL": "API-geheim",
             "PLACEHOLDER": "Please enter your Bandwith API Secret",
             "ERROR": "Dit veld is verplicht"
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
+            "LABEL": "Applicatie-ID",
             "PLACEHOLDER": "Please enter your Bandwidth Application ID",
             "ERROR": "Dit veld is verplicht"
           },
@@ -212,10 +212,10 @@
         "TITLE": "WhatsApp Channel",
         "DESC": "Start supporting your customers via WhatsApp.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "API-aanbieder",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
-          "360_DIALOG": "360Dialog"
+          "360_DIALOG": "360dialog"
         },
         "INBOX_NAME": {
           "LABEL": "Inbox Name",
@@ -243,9 +243,9 @@
           "ERROR": "Please enter a valid value."
         },
         "API_KEY": {
-          "LABEL": "API key",
+          "LABEL": "API-sleutel",
           "SUBTITLE": "Configure the WhatsApp API key.",
-          "PLACEHOLDER": "API key",
+          "PLACEHOLDER": "API-sleutel",
           "ERROR": "Please enter a valid value."
         },
         "API_CALLBACK": {
@@ -260,7 +260,7 @@
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
+        "TITLE": "API-kanaal",
         "DESC": "Integrate with API channel and start supporting your customers.",
         "CHANNEL_NAME": {
           "LABEL": "Kanaal naam",
@@ -297,7 +297,7 @@
         "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
+        "TITLE": "LINE-kanaal",
         "DESC": "Integrate with LINE channel and start supporting your customers.",
         "CHANNEL_NAME": {
           "LABEL": "Kanaal naam",
@@ -339,7 +339,7 @@
         }
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
+        "TITLE": "Kies een kanaal",
         "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
@@ -569,7 +569,7 @@
       "UPDATE": "Update business hours settings",
       "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
       "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Enable availability for this day",
         "UNAVAILABLE": "Unavailable",

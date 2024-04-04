@@ -17,18 +17,24 @@
       <label :class="{ error: $v.url.$error }" class="mb-2">
         {{ $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.SUBSCRIPTIONS.LABEL') }}
       </label>
-      <div v-for="event in supportedWebhookEvents" :key="event">
-        <input
-          :id="event"
-          v-model="subscriptions"
-          type="checkbox"
-          :value="event"
-          name="subscriptions"
-          class="checkbox"
-        />
-        <span class="text-sm">
-          {{ `${getEventLabel(event)} (${event})` }}
-        </span>
+      <div class="flex flex-col gap-2.5 mb-4">
+        <div
+          v-for="event in supportedWebhookEvents"
+          :key="event"
+          class="flex items-center"
+        >
+          <input
+            :id="event"
+            v-model="subscriptions"
+            type="checkbox"
+            :value="event"
+            name="subscriptions"
+            class="checkbox"
+          />
+          <label :for="event" class="text-sm">
+            {{ `${getEventLabel(event)} (${event})` }}
+          </label>
+        </div>
       </div>
     </div>
 

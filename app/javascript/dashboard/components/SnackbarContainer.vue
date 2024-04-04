@@ -1,5 +1,9 @@
 <template>
-  <transition-group name="toast-fade" tag="div" class="ui-snackbar-container">
+  <transition-group
+    name="toast-fade"
+    tag="div"
+    class="left-0 my-0 mx-auto max-w-[25rem] overflow-hidden absolute right-0 text-center top-4 z-[9999]"
+  >
     <woot-snackbar
       v-for="snackMessage in snackMessages"
       :key="snackMessage.key"

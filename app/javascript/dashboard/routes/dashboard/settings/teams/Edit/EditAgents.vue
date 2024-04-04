@@ -1,6 +1,11 @@
 <template>
-  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%]">
-    <form class="mx-0 flex flex-wrap" @submit.prevent="addAgents">
+  <div
+    class="border border-slate-25 overflow-x-auto dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+  >
+    <form
+      class="mx-0 flex flex-wrap overflow-x-auto"
+      @submit.prevent="addAgents"
+    >
       <div class="w-full">
         <page-header
           :header-title="headerTitle"

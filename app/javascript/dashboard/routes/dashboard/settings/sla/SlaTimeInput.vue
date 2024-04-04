@@ -1,8 +1,38 @@
+<template>
+  <div class="relative mt-2 w-full">
+    <woot-input
+      v-model="thresholdTime"
+      :class="{ error: $v.thresholdTime.$error }"
+      class="w-full [&>input]:pr-24"
+      :label="label"
+      :placeholder="placeholder"
+      :error="getThresholdTimeErrorMessage"
+      @input="onThresholdTimeChange"
+    />
+    <div class="absolute right-px h-9 top-[27px] flex items-center">
+      <select
+        v-model="thresholdUnitValue"
+        class="h-full rounded-[4px] hover:cursor-pointer font-medium border-1 border-solid bg-transparent border-transparent dark:border-transparent mb-0 py-0 pl-2 pr-7 text-slate-600 dark:text-slate-300 dark:focus:border-woot-500 focus:border-woot-500 text-sm"
+        @change="onThresholdUnitChange"
+      >
+        <option
+          v-for="(option, index) in options"
+          :key="index"
+          :value="option.value"
+        >
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+  </div>
+</template>
+
 <script>
+import validationMixin from './validationMixin';
 import validations from './validations';
-import { useVuelidate } from '@vuelidate/core';
 
 export default {
+  mixins: [validationMixin],
   props: {
     threshold: {
       type: Number,
@@ -21,35 +51,18 @@ export default {
       default: '',
     },
   },
-  emits: ['unit', 'isInValid', 'updateThreshold'],
-  setup() {
-    return { v$: useVuelidate() };
-  },
   data() {
     return {
       thresholdTime: this.threshold || '',
       thresholdUnitValue: this.thresholdUnit,
       options: [
-        { value: 'Minutes', label: 'minutes' },
-        { value: 'Hours', label: 'hours' },
-        { value: 'Days', label: 'days' },
+        { value: 'Minutes', label: 'Minutes' },
+        { value: 'Hours', label: 'Hours' },
+        { value: 'Days', label: 'Days' },
       ],
     };
   },
   validations,
-  computed: {
-    thresholdTimeErrorMessage() {
-      let errorMessage = '';
-      if (this.v$.thresholdTime.$error) {
-        if (!this.v$.thresholdTime.numeric || !this.v$.thresholdTime.minValue) {
-          errorMessage = this.$t(
-            'SLA.FORM.THRESHOLD_TIME.INVALID_FORMAT_ERROR'
-          );
-        }
-      }
-      return errorMessage;
-    },
-  },
   watch: {
     threshold: {
       immediate: true,
@@ -71,50 +84,11 @@ export default {
       this.$emit('unit', this.thresholdUnitValue);
     },
     onThresholdTimeChange() {
-      this.v$.thresholdTime.$touch();
-      const isInvalid = this.v$.thresholdTime.$invalid;
+      this.$v.thresholdTime.$touch();
+      const isInvalid = this.$v.thresholdTime.$invalid;
       this.$emit('isInValid', isInvalid);
-      this.$emit(
-        'updateThreshold',
-        this.thresholdTime ? Number(this.thresholdTime) : null
-      );
+      this.$emit('input', Number(this.thresholdTime));
     },
   },
 };
 </script>
-
-<template>
-  <div class="flex items-center w-full gap-3">
-    <woot-input
-      v-model="thresholdTime"
-      type="number"
-      :class="{ error: v$.thresholdTime.$error }"
-      class="flex-grow"
-      :styles="{
-        borderRadius: '0.75rem',
-        padding: '0.375rem 0.75rem',
-        fontSize: '0.875rem',
-      }"
-      :label="label"
-      :placeholder="placeholder"
-      :error="thresholdTimeErrorMessage"
-      @update:model-value="onThresholdTimeChange"
-    />
-    <!-- the mt-7 handles the label offset -->
-    <div class="mt-7">
-      <select
-        v-model="thresholdUnitValue"
-        class="px-4 py-1.5 min-w-[6.5rem] h-10 text-sm font-medium border-0 rounded-xl hover:cursor-pointer pr-7"
-        @change="onThresholdUnitChange"
-      >
-        <option
-          v-for="(option, index) in options"
-          :key="index"
-          :value="option.value"
-        >
-          {{ option.label }}
-        </option>
-      </select>
-    </div>
-  </div>
-</template>

@@ -2,10 +2,20 @@
   <div
     class="flex gap-2 py-2 ltr:pl-4 rtl:pl-2 h-14 ltr:pr-2 rtl:pr-4 rtl:border-r justify-between items-center w-full border-b border-slate-50 dark:border-slate-800/50"
   >
+    <woot-button
+      variant="clear link"
+      class="flex md:hidden !pt-1 !pb-1 rounded-md ltr:pr-1 rtl:pl-1 !no-underline"
+      size="medium"
+      color-scheme="primary"
+      icon="chevron-left"
+      @click="onClickGoToInboxList"
+    >
+      {{ $t('INBOX.ACTION_HEADER.BACK') }}
+    </woot-button>
     <pagination-button
       v-if="totalLength > 1"
       :total-length="totalLength"
-      :current-index="currentIndex"
+      :current-index="currentIndex + 1"
       @next="onClickNext"
       @prev="onClickPrev"
     />
@@ -16,6 +26,7 @@
         size="small"
         color-scheme="secondary"
         icon="snooze"
+        class="[&>span]:hidden md:[&>span]:inline-flex"
         @click="openSnoozeNotificationModal"
       >
         {{ $t('INBOX.ACTION_HEADER.SNOOZE') }}
@@ -25,6 +36,7 @@
         size="small"
         color-scheme="secondary"
         variant="hollow"
+        class="[&>span]:hidden md:[&>span]:inline-flex"
         @click="deleteNotification"
       >
         {{ $t('INBOX.ACTION_HEADER.DELETE') }}
@@ -41,6 +53,7 @@
     </woot-modal>
   </div>
 </template>
+
 <script>
 import { mapGetters } from 'vuex';
 import { getUnixTime } from 'date-fns';
@@ -73,14 +86,10 @@ export default {
     },
   },
   data() {
-    return {
-      showCustomSnoozeModal: false,
-    };
+    return { showCustomSnoozeModal: false };
   },
   computed: {
-    ...mapGetters({
-      meta: 'notifications/getMeta',
-    }),
+    ...mapGetters({ meta: 'notifications/getMeta' }),
   },
   mounted() {
     bus.$on(CMD_SNOOZE_NOTIFICATION, this.onCmdSnoozeNotification);
@@ -96,15 +105,17 @@ export default {
     hideCustomSnoozeModal() {
       this.showCustomSnoozeModal = false;
     },
-    snoozeNotification(snoozedUntil) {
-      this.$store
-        .dispatch('notifications/snooze', {
+    async snoozeNotification(snoozedUntil) {
+      try {
+        await this.$store.dispatch('notifications/snooze', {
           id: this.activeNotification?.id,
           snoozedUntil,
-        })
-        .then(() => {
-          this.showAlert(this.$t('INBOX.ALERTS.SNOOZE'));
         });
+
+        this.showAlert(this.$t('INBOX.ALERTS.SNOOZE'));
+      } catch (error) {
+        // Silently fail without any change in the UI
+      }
     },
     onCmdSnoozeNotification(snoozeType) {
       if (snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME) {
@@ -132,13 +143,16 @@ export default {
         .then(() => {
           this.showAlert(this.$t('INBOX.ALERTS.DELETE'));
         });
-      this.$router.push({ name: 'inbox_view' });
+      this.$router.replace({ name: 'inbox_view' });
     },
     onClickNext() {
       this.$emit('next');
     },
     onClickPrev() {
       this.$emit('prev');
+    },
+    onClickGoToInboxList() {
+      this.$router.replace({ name: 'inbox_view' });
     },
   },
 };

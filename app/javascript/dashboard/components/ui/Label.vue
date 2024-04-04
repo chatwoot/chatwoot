@@ -1,18 +1,25 @@
 <template>
-  <div :class="labelClass" :style="labelStyle" :title="description">
+  <div
+    class="ltr:mr-1 rtl:ml-1 mb-1"
+    :class="labelClass"
+    :style="labelStyle"
+    :title="description"
+  >
     <span v-if="icon" class="label-action--button">
       <fluent-icon :icon="icon" size="12" class="label--icon cursor-pointer" />
     </span>
     <span
       v-if="['smooth', 'dashed'].includes(variant) && title && !icon"
       :style="{ background: color }"
-      class="label-color-dot"
+      class="label-color-dot flex-shrink-0"
     />
-    <span v-if="!href">{{ title }}</span>
+    <span v-if="!href" class="whitespace-nowrap text-ellipsis overflow-hidden">
+      {{ title }}
+    </span>
     <a v-else :href="href" :style="anchorStyle">{{ title }}</a>
     <button
       v-if="showClose"
-      class="label-close--button"
+      class="label-close--button p-0"
       :style="{ color: textColor }"
       @click="onClick"
     >
@@ -104,7 +111,7 @@ export default {
 
 <style scoped lang="scss">
 .label {
-  @apply inline-flex items-center font-medium gap-1 mr-1 rtl:ml-1 rtl:mr-0 mb-1 p-1 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 border border-solid border-slate-75 dark:border-slate-600 h-6;
+  @apply inline-flex items-center font-medium text-xs rounded-[4px] gap-1 p-1 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 border border-solid border-slate-75 dark:border-slate-600 h-6;
 
   &.small {
     @apply text-xs py-0.5 px-1 leading-tight h-5;

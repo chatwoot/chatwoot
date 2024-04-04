@@ -1,13 +1,15 @@
 <template>
   <form @submit.prevent="changePassword()">
-    <div class="profile--settings--row text-black-900 dark:text-slate-300 row">
-      <div class="columns small-3">
-        <h4 class="block-title text-black-900 dark:text-slate-200">
+    <div
+      class="profile--settings--row text-black-900 dark:text-slate-300 flex items-center"
+    >
+      <div class="w-1/4">
+        <h4 class="text-lg text-black-900 dark:text-slate-200">
           {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE') }}
         </h4>
         <p>{{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.NOTE') }}</p>
       </div>
-      <div class="columns small-9 medium-5">
+      <div class="w-[45%] p-4">
         <woot-input
           v-model="currentPassword"
           type="password"
@@ -72,6 +74,7 @@
 import { required, minLength } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 
 export default {
   mixins: [alertMixin],
@@ -123,10 +126,9 @@ export default {
         });
         this.errorMessage = this.$t('PROFILE_SETTINGS.PASSWORD_UPDATE_SUCCESS');
       } catch (error) {
-        this.errorMessage = this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
-        if (error?.response?.data?.message) {
-          this.errorMessage = error.response.data.message;
-        }
+        this.errorMessage =
+          parseAPIErrorResponse(error) ||
+          this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
       } finally {
         this.isPasswordChanging = false;
         this.showAlert(this.errorMessage);

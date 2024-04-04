@@ -8,7 +8,7 @@
       :chat="currentChat"
       :is-inbox-view="isInboxView"
       :is-contact-panel-open="isContactPanelOpen"
-      :show-back-button="isOnExpandedLayout"
+      :show-back-button="isOnExpandedLayout && !isInboxView"
       @contact-panel-toggle="onToggleContactPanel"
     />
     <woot-tabs
@@ -35,7 +35,10 @@
         :is-contact-panel-open="isContactPanelOpen"
         @contact-panel-toggle="onToggleContactPanel"
       />
-      <empty-state v-else :is-on-expanded-layout="isOnExpandedLayout" />
+      <empty-state
+        v-if="!currentChat.id && !isInboxView"
+        :is-on-expanded-layout="isOnExpandedLayout"
+      />
       <div
         v-show="showContactPanel"
         class="conversation-sidebar-wrap basis-full sm:basis-[17.5rem] md:basis-[18.75rem] lg:basis-[19.375rem] xl:basis-[20.625rem] 2xl:basis-[25rem] rtl:border-r border-slate-50 dark:border-slate-700 h-auto overflow-auto z-10 flex-shrink-0 flex-grow-0"

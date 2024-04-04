@@ -13,7 +13,7 @@
       </div>
       <span
         v-if="activeDialCode"
-        class="flex bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-normal text-base leading-normal py-2 pl-2 pr-0"
+        class="flex bg-white dark:bg-slate-900 font-medium text-slate-800 dark:text-slate-100 font-normal text-base leading-normal py-2 pl-2 pr-0"
       >
         {{ activeDialCode }}
       </span>
@@ -254,7 +254,7 @@ export default {
 <style scoped lang="scss">
 .phone-input--wrap {
   .phone-input {
-    @apply flex items-center justify-start mb-4 rounded-md border border-solid border-slate-200 dark:border-slate-600;
+    @apply flex items-center dark:bg-slate-900 justify-start mb-4 rounded-md border border-solid border-slate-200 dark:border-slate-600;
 
     &.has-error {
       @apply border border-solid border-red-400 dark:border-red-400;
@@ -262,7 +262,11 @@ export default {
   }
 
   .phone-input--field {
-    @apply mb-0 rounded-tl-none rounded-bl-none border-0;
+    @apply mb-0 rounded-tl-none rounded-bl-none border-0 w-full dark:bg-slate-900 text-base px-1.5;
+
+    &::placeholder {
+      @apply font-normal;
+    }
   }
 
   .country-dropdown {

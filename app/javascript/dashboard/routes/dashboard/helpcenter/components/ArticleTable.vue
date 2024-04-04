@@ -1,38 +1,38 @@
 <template>
-  <div class="w-full">
+  <div class="flex-1">
     <div
-      class="my-0 py-0 px-4 grid grid-cols-6 z-10 md:grid-cols-7 lg:grid-cols-8 gap-4 border-b border-slate-100 dark:border-slate-700 sticky top-16 bg-white dark:bg-slate-900"
+      class="hidden lg:grid py-0 px-6 h-12 content-center grid-cols-12 z-10 gap-4 border-b border-slate-50 dark:border-slate-700 sticky top-16 bg-white dark:bg-slate-900"
       :class="{ draggable: onCategoryPage }"
     >
       <div
-        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 ltr:text-left rtl:text-right col-span-4"
+        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-left rtl:text-right col-span-6"
       >
         {{ $t('HELP_CENTER.TABLE.HEADERS.TITLE') }}
       </div>
       <div
-        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-left"
+        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-left rtl:text-right col-span-2"
       >
         {{ $t('HELP_CENTER.TABLE.HEADERS.CATEGORY') }}
       </div>
       <div
-        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-left hidden lg:block"
+        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-left rtl:text-right hidden lg:block"
       >
         {{ $t('HELP_CENTER.TABLE.HEADERS.READ_COUNT') }}
       </div>
       <div
-        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-left"
+        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-left rtl:text-right"
       >
         {{ $t('HELP_CENTER.TABLE.HEADERS.STATUS') }}
       </div>
       <div
-        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-right hidden md:block"
+        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-right rtl:text-left hidden md:block col-span-2"
       >
         {{ $t('HELP_CENTER.TABLE.HEADERS.LAST_EDITED') }}
       </div>
     </div>
     <draggable
       tag="div"
-      class="border-t-0 px-4"
+      class="border-t-0 px-4 pb-4"
       :disabled="!dragEnabled"
       :list="localArticles"
       ghost-class="article-ghost-class"
@@ -46,6 +46,7 @@
         :class="{ draggable: onCategoryPage }"
         :title="article.title"
         :author="article.author"
+        :show-drag-icon="dragEnabled"
         :category="article.category"
         :views="article.views"
         :status="article.status"
@@ -58,7 +59,7 @@
       :current-page="currentPage"
       :total-count="totalCount"
       :page-size="pageSize"
-      class="dark:bg-slate-900 sticky bottom-0 border-t-0 px-4"
+      class="dark:bg-slate-900 sticky bottom-0"
       @page-change="onPageChange"
     />
   </div>
@@ -78,7 +79,7 @@ export default {
   props: {
     articles: {
       type: Array,
-      default: () => {},
+      default: () => [],
     },
     totalCount: {
       type: Number,
@@ -95,7 +96,7 @@ export default {
   },
   data() {
     return {
-      localArticles: [],
+      localArticles: this.articles || [],
     };
   },
   computed: {
@@ -155,6 +156,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+/*
+The .article-ghost-class class is maintained as the vueDraggable doesn't allow multiple classes
+to be passed in the ghost-class prop.
+ */
 .article-ghost-class {
   @apply opacity-50 bg-slate-50 dark:bg-slate-800;
 }

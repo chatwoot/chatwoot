@@ -3,13 +3,16 @@ import { CAMPAIGN_TYPES } from '../constants/campaign';
 export default {
   computed: {
     campaignType() {
-      const pageURL = window.location.href;
-      return pageURL.substring(pageURL.lastIndexOf('/') + 1);
+      const campaignTypeMap = {
+        ongoing_campaigns: CAMPAIGN_TYPES.ONGOING,
+        one_off: CAMPAIGN_TYPES.ONE_OFF,
+      };
+      return campaignTypeMap[this.$route.name];
     },
     isOngoingType() {
       return this.campaignType === CAMPAIGN_TYPES.ONGOING;
     },
-    isOnOffType() {
+    isOneOffType() {
       return this.campaignType === CAMPAIGN_TYPES.ONE_OFF;
     },
   },

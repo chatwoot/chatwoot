@@ -5,7 +5,7 @@
         <path d="M20 12l-8-8-12 12" fill-rule="evenodd" stroke-width="1px" />
       </svg>
     </div>
-    <div class="header flex-between">
+    <div class="header flex items-center justify-between">
       <span>{{ $t('BULK_ACTION.UPDATE.CHANGE_STATUS') }}</span>
       <woot-button
         size="tiny"

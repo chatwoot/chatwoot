@@ -112,7 +112,7 @@
         "FIX_SPELLING_GRAMMAR": "Pataisykite rašybą ir gramatiką",
         "SHORTEN": "Sutrumpinti",
         "EXPAND": "Išskleisti",
-        "MAKE_FRIENDLY": "Change message tone to friendly",
+        "MAKE_FRIENDLY": "Pakeisti pranešimo toną į draugišką",
         "MAKE_FORMAL": "Naudokite oficialų toną",
         "SIMPLIFY": "Supaprastinti"
       },
@@ -121,12 +121,12 @@
         "GENERATED_TITLE": "Sugeneruotas turinys",
         "AI_WRITING": "AI rašo",
         "BUTTONS": {
-          "APPLY": "Use this suggestion",
+          "APPLY": "Naudoti šį pasiūlymą",
           "CANCEL": "Atšaukti"
         }
       },
       "CTA_MODAL": {
-        "TITLE": "Integrate with OpenAI",
+        "TITLE": "Integruoti su OpenAI",
         "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
         "KEY_PLACEHOLDER": "Įveskite savo OpenAI API raktą",
         "BUTTONS": {

@@ -31,6 +31,7 @@ lt:
       disposable_email: Neleidžiame naudoti vienkartinių el. laiškų
       invalid_email: Įvedėte neteisingą el. pašto adresą
       email_already_exists: "Jūs jau užregistravote paskyrą su %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Prisijungimas nesėkmingas
     data_import:
       data_type:
@@ -67,25 +68,25 @@ lt:
     utc_warning: Sugeneruota ataskaita yra UTC laiko juostoje
     agent_csv:
       agent_name: Agento Vardas
-      conversations_count: Pokalbių skaičius
-      avg_first_response_time: Vidutinis pirmojo reagavimo laikas (minutėmis)
-      avg_resolution_time: Vidutinis sprendimo laikas(Minutėmis)
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     inbox_csv:
       inbox_name: Gautų laiškų aplanko pavadinimas
       inbox_type: Gautų laiškų aplanko tipas
       conversations_count: Pokalbių kiekis
-      avg_first_response_time: Vidutinis pirmojo reagavimo laikas (minutėmis)
-      avg_resolution_time: Vidutinis sprendimo laikas(Minutėmis)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     label_csv:
       label_title: Etiketė
       conversations_count: Pokalbių kiekis
-      avg_first_response_time: Vidutinis pirmojo reagavimo laikas (minutėmis)
-      avg_resolution_time: Vidutinis sprendimo laikas(Minutėmis)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     team_csv:
       team_name: Komandos pavadinimas
       conversations_count: Pokalbių skaičius
-      avg_first_response_time: Vidutinis pirmojo reagavimo laikas (minutėmis)
-      avg_resolution_time: Vidutinis sprendimo laikas(Minutėmis)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: Laiko zona
     default_group_by: diena
@@ -101,10 +102,12 @@ lt:
         recorded_at: Įrašo data
   notifications:
     notification_title:
-      conversation_creation: "[Naujas pokalbis] – #%{display_id} buvo sukurtas %{inbox_name}"
-      conversation_assignment: "[Priskirta jums] – jums buvo priskirta #%{display_id}"
-      assigned_conversation_new_message: "[Naujas pranešimas] – #%{display_id} %{content}"
-      conversation_mention: "Jus %{name} paminėjo [ID - %{display_id}] pokalbyje"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} paminėjo jus pasakojime: "
@@ -228,3 +231,24 @@ lt:
       inbox_name: Gautų laiškų aplankas
       inbox_type: Gautų laiškų aplanko tipas
     button: Atidaryti pokalbį
+  time_units:
+    days:
+      one: "%{count} day"
+      few: "%{count} days"
+      many: "%{count} days"
+      other: "%{count} days"
+    hours:
+      one: "%{count} hour"
+      few: "%{count} hours"
+      many: "%{count} hours"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minute"
+      few: "%{count} minutes"
+      many: "%{count} minutes"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} second"
+      few: "%{count} seconds"
+      many: "%{count} seconds"
+      other: "%{count} seconds"

@@ -39,10 +39,10 @@
     },
     "MERGE_CONTACT": "Kişileri birleştir",
     "CONTACT_ACTIONS": "Kişi Eylemleri",
-    "MUTE_CONTACT": "Konuşmayı Sessize Al",
-    "UNMUTE_CONTACT": "Konuşmanın Sesini Aç",
-    "MUTED_SUCCESS": "Bu konuşma 6 saatliğine sessize alındı",
-    "UNMUTED_SUCCESS": "Bu görüşmenin sesi kapatıldı",
+    "MUTE_CONTACT": "Block Contact",
+    "UNMUTE_CONTACT": "Unblock Contact",
+    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
+    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
     "SEND_TRANSCRIPT": "Transkript Gönder",
     "EDIT_LABEL": "Düzenle",
     "SIDEBAR_SECTIONS": {
@@ -79,7 +79,13 @@
     "TITLE": "Kişileri Dışa Aktar",
     "DESC": "Kişileri CSV dosyası olarak dışa aktar.",
     "SUCCESS_MESSAGE": "Dışa aktarma işlemi devam ediyor, dışa aktarma dosyası indirmeye hazır olduğunda e-posta ile bildirileceksiniz.",
-    "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
+    "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin",
+    "CONFIRM": {
+      "TITLE": "Kişileri Dışa Aktar",
+      "MESSAGE": "Are you sure you want to export all contacts?",
+      "YES": "Yes, Export",
+      "NO": "No, Cancel"
+    }
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -339,7 +345,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Geçerli değer gereklidir",
-      "INVALID_URL": "Geçersiz URL"
+      "INVALID_URL": "Geçersiz URL",
+      "INVALID_INPUT": "Geçersiz giriş"
     }
   },
   "MERGE_CONTACTS": {
@@ -357,7 +364,7 @@
     "SUMMARY": {
       "TITLE": "Özet",
       "DELETE_WARNING": "<strong>%{primaryContactName}</strong> kişisi silinecek.",
-      "ATTRIBUTE_WARNING": "Contact details of <strong>%{primaryContactName}</strong> will be copied to <strong>%{parentContactName}</strong>."
+      "ATTRIBUTE_WARNING": "Şu: <strong>%{primaryContactName}</strong> kişinin iletişim bilgileri, şu<strong>%{parentContactName}</strong> kişiye kopyalanacaktır."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"

@@ -569,7 +569,7 @@
       "UPDATE": "Actualizarea setărilor orelor de lucru",
       "TOGGLE_AVAILABILITY": "Activați disponibilitatea afacerii pentru acest inbox",
       "UNAVAILABLE_MESSAGE_LABEL": "Mesaj indisponibil pentru vizitatori",
-      "TOGGLE_HELP": "Activarea disponibilității afacerii va afișa orele disponibile pe widget-ul de chat live, chiar dacă toți agenții sunt offline. În afara orelor disponibile, vizitorii pot fi avertizați cu un mesaj și un formular de pre-chat.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Activați disponibilitatea pentru această zi",
         "UNAVAILABLE": "Indisponibil",

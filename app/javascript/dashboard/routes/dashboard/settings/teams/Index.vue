@@ -1,7 +1,7 @@
 <template>
-  <div class="flex-1 overflow-auto p-4">
-    <div class="flex flex-row gap-4">
-      <div class="w-[60%]">
+  <div class="flex-1 overflow-auto">
+    <div class="flex flex-row gap-4 p-8">
+      <div class="w-full md:w-3/5">
         <p
           v-if="!teamsList.length"
           class="flex h-full items-center flex-col justify-center"
@@ -56,7 +56,7 @@
         </table>
       </div>
 
-      <div class="w-[34%]">
+      <div class="hidden md:block w-1/3">
         <span
           v-dompurify-html="
             $t('TEAMS_SETTINGS.SIDEBAR_TXT', {

@@ -160,6 +160,9 @@
     "TRIAL_MESSAGE": "dias de teste restantes.",
     "TRAIL_BUTTON": "Comprar agora",
     "DELETED_USER": "Deletar Usuário",
+    "EMAIL_VERIFICATION_PENDING": "Parece que você ainda não verificou seu endereço de e-mail. Por favor, verifique sua caixa de entrada pelo e-mail de verificação.",
+    "RESEND_VERIFICATION_MAIL": "Reenviar email de verificação",
+    "EMAIL_VERIFICATION_SENT": "O e-mail de verificação foi enviado. Por favor, verifique sua caixa de entrada.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Conta Suspensa",
       "MESSAGE": "Sua conta está suspensa. Por favor, entre em contato com a equipe de suporte para mais informações."
@@ -197,6 +200,7 @@
     "CURRENTLY_VIEWING_ACCOUNT": "Visualização atual:",
     "SWITCH": "Trocar",
     "CONVERSATIONS": "Conversas",
+    "INBOX": "Caixa de Entrada",
     "ALL_CONVERSATIONS": "Todas as conversas",
     "MENTIONED_CONVERSATIONS": "Menções",
     "PARTICIPATING_CONVERSATIONS": "Participantes",
@@ -238,6 +242,7 @@
     "REPORTS_INBOX": "Caixa de Entrada",
     "REPORTS_TEAM": "Times",
     "SET_AVAILABILITY_TITLE": "Defina como",
+    "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Visão geral",
     "FACEBOOK_REAUTHORIZE": "Sua conexão com o Facebook expirou! Por favor, reconecte sua página do Facebook para continuar os serviços",

@@ -1,7 +1,7 @@
 <template>
   <button
     type="button"
-    class="toggle-button"
+    class="toggle-button p-0"
     :class="{ active: value, small: size === 'small' }"
     role="switch"
     :aria-checked="value.toString()"

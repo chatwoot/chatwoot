@@ -39,6 +39,17 @@
           "PLACEHOLDER": "Unesite ključ prilagođenog atributa",
           "ERROR": "Ključ je neophodan",
           "IN_VALID": "Neispravan ključ"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Regex Pattern",
+          "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Cue",
+          "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Enable regex validation"
         }
       },
       "API": {
@@ -93,6 +104,17 @@
       "EMPTY_RESULT": {
         "404": "Nema kreiranih prilagođenih atributa",
         "NOT_FOUND": "Nema podešenih prilagođenih atributa"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Regex Pattern",
+        "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Cue",
+        "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Enable regex validation"
       }
     }
   }

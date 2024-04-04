@@ -48,7 +48,7 @@
       v-on-clickaway="closeDropdown"
       class="dropdown-pane dropdown-pane--open"
     >
-      <woot-dropdown-menu>
+      <woot-dropdown-menu class="mb-0">
         <woot-dropdown-item v-if="!isPending">
           <woot-button
             variant="clear"

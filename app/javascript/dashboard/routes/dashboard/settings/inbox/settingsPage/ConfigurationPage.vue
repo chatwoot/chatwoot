@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isATwilioChannel" class="settings--content">
+  <div v-if="isATwilioChannel" class="mx-8">
     <settings-section
       :title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.TITLE')"
       :sub-title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE')"
@@ -7,7 +7,7 @@
       <woot-code :script="inbox.callback_webhook_url" lang="html" />
     </settings-section>
   </div>
-  <div v-else-if="isALineChannel" class="settings--content">
+  <div v-else-if="isALineChannel" class="mx-8">
     <settings-section
       :title="$t('INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.TITLE')"
       :sub-title="$t('INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE')"
@@ -16,7 +16,7 @@
     </settings-section>
   </div>
   <div v-else-if="isAWebWidgetInbox">
-    <div class="settings--content">
+    <div class="mx-8">
       <settings-section
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_HEADING')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_SUB_HEAD')"
@@ -48,7 +48,7 @@
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_VERIFICATION')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_DESCRIPTION')"
       >
-        <div class="enter-to-send--checkbox">
+        <div class="flex items-center gap-2">
           <input
             id="hmacMandatory"
             v-model="hmacMandatory"
@@ -62,7 +62,7 @@
       </settings-section>
     </div>
   </div>
-  <div v-else-if="isAPIInbox" class="settings--content">
+  <div v-else-if="isAPIInbox" class="mx-8">
     <settings-section
       :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER')"
       :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER_SUB_TEXT')"
@@ -80,7 +80,7 @@
       :title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_VERIFICATION')"
       :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_DESCRIPTION')"
     >
-      <div class="enter-to-send--checkbox">
+      <div class="flex items-center gap-2">
         <input
           id="hmacMandatory"
           v-model="hmacMandatory"
@@ -94,7 +94,7 @@
     </settings-section>
   </div>
   <div v-else-if="isAnEmailChannel">
-    <div class="settings--content">
+    <div class="mx-8">
       <settings-section
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_TITLE')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_SUB_TEXT')"
@@ -110,7 +110,7 @@
     />
   </div>
   <div v-else-if="isAWhatsAppChannel && !isATwilioChannel">
-    <div v-if="inbox.provider_config" class="settings--content">
+    <div v-if="inbox.provider_config" class="mx-8">
       <settings-section
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_WEBHOOK_TITLE')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_WEBHOOK_SUBHEADER')"
@@ -129,11 +129,13 @@
           $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_SUBHEADER')
         "
       >
-        <div class="whatsapp-settings--content">
+        <div
+          class="whatsapp-settings--content items-center flex flex-1 justify-between mt-2"
+        >
           <woot-input
             v-model.trim="whatsAppInboxAPIKey"
             type="text"
-            class="input"
+            class="flex-1 mr-2"
             :placeholder="
               $t(
                 'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_PLACEHOLDER'
@@ -238,22 +240,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .whatsapp-settings--content {
-  align-items: center;
-  display: flex;
-  flex: 1;
-  justify-content: space-between;
-  margin-top: var(--space-small);
-
-  .input {
-    flex: 1;
-    margin-right: var(--space-small);
-    ::v-deep input {
-      margin-bottom: 0;
-    }
+  ::v-deep input {
+    margin-bottom: 0;
   }
-}
-
-.hmac-link-to-docs {
-  margin-top: var(--space-small);
 }
 </style>

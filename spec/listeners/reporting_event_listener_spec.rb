@@ -32,6 +32,37 @@ describe ReportingEventListener do
         expect(account.reporting_events.where(name: 'conversation_resolved')[0]['value_in_business_hours']).to be 144_000.0
       end
     end
+
+    describe 'conversation_bot_resolved' do
+      # create an agent bot
+      let!(:agent_bot_inbox) { create(:inbox, account: account) }
+      let!(:agent_bot) { create(:agent_bot, account: account) }
+      let!(:bot_resolved_conversation) { create(:conversation, account: account, inbox: agent_bot_inbox, assignee: user) }
+
+      before do
+        create(:agent_bot_inbox, agent_bot: agent_bot, inbox: agent_bot_inbox)
+      end
+
+      it 'creates a conversation_bot_resolved event if resolved conversation does not have human interaction' do
+        event = Events::Base.new('conversation.resolved', Time.zone.now, conversation: bot_resolved_conversation)
+        listener.conversation_resolved(event)
+        expect(account.reporting_events.where(name: 'conversation_bot_resolved').count).to be 1
+      end
+
+      it 'does not create a conversation_bot_resolved event if resolved conversation inbox does not have active bot' do
+        bot_resolved_conversation.update(inbox: inbox)
+        event = Events::Base.new('conversation.resolved', Time.zone.now, conversation: bot_resolved_conversation)
+        listener.conversation_resolved(event)
+        expect(account.reporting_events.where(name: 'conversation_bot_resolved').count).to be 0
+      end
+
+      it 'does not create a conversation_bot_resolved event if resolved conversation has human interaction' do
+        create(:message, message_type: 'outgoing', account: account, inbox: agent_bot_inbox, conversation: bot_resolved_conversation)
+        event = Events::Base.new('conversation.resolved', Time.zone.now, conversation: bot_resolved_conversation)
+        listener.conversation_resolved(event)
+        expect(account.reporting_events.where(name: 'conversation_bot_resolved').count).to be 0
+      end
+    end
   end
 
   describe '#reply_created' do

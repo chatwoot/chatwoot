@@ -1,17 +1,45 @@
+<script setup>
+import { computed } from 'vue';
+
+const props = defineProps({
+  latitude: {
+    type: Number,
+    default: undefined,
+  },
+  longitude: {
+    type: Number,
+    default: undefined,
+  },
+  name: {
+    type: String,
+    default: '',
+  },
+});
+
+const mapUrl = computed(
+  () => `https://maps.google.com/?q=${props.latitude},${props.longitude}`
+);
+</script>
+
 <template>
-  <div class="location message-text__wrap">
-    <div class="icon-wrap">
-      <fluent-icon icon="location" class="file--icon" size="32" />
-    </div>
-    <div class="meta">
+  <div
+    class="flex flex-row items-center justify-start gap-1 w-full py-1 px-0 cursor-pointer overflow-hidden"
+  >
+    <fluent-icon
+      icon="location"
+      class="text-slate-600 dark:text-slate-200 leading-none my-0 flex items-center flex-shrink-0"
+      size="32"
+    />
+    <div class="flex flex-col items-start flex-1 min-w-0">
       <h5
-        class="text-block-title overflow-hidden whitespace-nowrap text-ellipsis"
+        class="text-sm text-slate-800 dark:text-slate-100 truncate m-0 w-full"
+        :title="name"
       >
         {{ name }}
       </h5>
-      <div class="link-wrap">
+      <div class="flex items-center">
         <a
-          class="download clear link button small"
+          class="text-woot-600 dark:text-woot-600 text-xs underline"
           rel="noreferrer noopener nofollow"
           target="_blank"
           :href="mapUrl"
@@ -22,49 +50,3 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    latitude: {
-      type: Number,
-      default: undefined,
-    },
-    longitude: {
-      type: Number,
-      default: undefined,
-    },
-    name: {
-      type: String,
-      default: '',
-    },
-  },
-  computed: {
-    mapUrl() {
-      return `https://maps.google.com/?q=${this.latitude},${this.longitude}`;
-    },
-  },
-};
-</script>
-
-<style lang="scss" scoped>
-.location {
-  @apply flex flex-row py-1 px-0 cursor-pointer;
-
-  .icon-wrap {
-    @apply text-slate-600 dark:text-slate-200 leading-none my-0 mx-1;
-  }
-
-  .text-block-title {
-    @apply m-0 text-slate-800 dark:text-slate-100 break-words;
-  }
-
-  .meta {
-    @apply flex flex-col items-center pr-4;
-  }
-
-  .link-wrap {
-    @apply flex;
-  }
-}
-</style>

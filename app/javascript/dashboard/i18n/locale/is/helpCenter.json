@@ -319,12 +319,13 @@
       "HEADERS": {
         "TITLE": "Title",
         "CATEGORY": "Category",
-        "READ_COUNT": "Read count",
+        "READ_COUNT": "Views",
         "STATUS": "Staða",
         "LAST_EDITED": "Last edited"
       },
       "COLUMNS": {
-        "BY": "by"
+        "BY": "by",
+        "AUTHOR_NOT_AVAILABLE": "Author is not available"
       }
     },
     "EDIT_ARTICLE": {

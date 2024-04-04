@@ -37,7 +37,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Vevő várakozási idő",
-        "TOOLTIP_TEXT": "Várakozási idő: %{metricValue} (%{conversationCount} függvényében)"
+        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -441,7 +441,8 @@
       "LOADING_MESSAGE": "Beszélgetési metrikák betöltése...",
       "OPEN": "Megnyitás",
       "UNATTENDED": "Figyelmen kívül hagyott",
-      "UNASSIGNED": "Gazdátlan"
+      "UNASSIGNED": "Gazdátlan",
+      "PENDING": "Függőben lévő"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Beszélgetés forgalom",

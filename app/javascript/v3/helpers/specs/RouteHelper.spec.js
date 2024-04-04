@@ -1,4 +1,4 @@
-import { validateRouteAccess } from '../RouteHelper';
+import { validateRouteAccess, isOnOnboardingView } from '../RouteHelper';
 import { clearBrowserSessionCookies } from 'dashboard/store/utils/api';
 import { replaceRouteWithReload } from '../CommonHelper';
 import Cookies from 'js-cookie';
@@ -65,5 +65,26 @@ describe('#validateRouteAccess', () => {
     validateRouteAccess({ name: 'reset_password' }, next);
     expect(clearBrowserSessionCookies).not.toHaveBeenCalled();
     expect(next).toHaveBeenCalledWith();
+  });
+});
+
+describe('isOnOnboardingView', () => {
+  test('returns true for a route with onboarding name', () => {
+    const route = { name: 'onboarding_welcome' };
+    expect(isOnOnboardingView(route)).toBe(true);
+  });
+
+  test('returns false for a route without onboarding name', () => {
+    const route = { name: 'home' };
+    expect(isOnOnboardingView(route)).toBe(false);
+  });
+
+  test('returns false for a route with null name', () => {
+    const route = { name: null };
+    expect(isOnOnboardingView(route)).toBe(false);
+  });
+
+  test('returns false for an  undefined route object', () => {
+    expect(isOnOnboardingView()).toBe(false);
   });
 });

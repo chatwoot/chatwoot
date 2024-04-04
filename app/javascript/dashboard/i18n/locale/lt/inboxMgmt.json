@@ -569,7 +569,7 @@
       "UPDATE": "Atnaujinti darbo laiko nustatymus",
       "TOGGLE_AVAILABILITY": "Leisti verslo pasiekiamumą šiam gautų laiškų aplankui",
       "UNAVAILABLE_MESSAGE_LABEL": "Pranešimas lankytojams apie nepasiekiamumą",
-      "TOGGLE_HELP": "Leidus įmonės pasiekiamumą bus rodomos galimos darbo valandos tiesioginio pokalbio valdiklyje, net jei visi agentai neprisijungę. Ne darbo valandomis lankytojai gali būti įspėti pranešimu ir išankstinio pokalbio forma.",
+      "TOGGLE_HELP": "Nustačius darbo laiką, bus rodomos darbo valandos chato valdiklyje, net jei visi agentai neprisijungę. Ne darbo valandomis lankytojai gali būti įspėti pranešimu ir išankstinio pokalbio forma.",
       "DAY": {
         "ENABLE": "Įgalinti pasiekiamumą šiai dienai",
         "UNAVAILABLE": "Nepasiekiamas",

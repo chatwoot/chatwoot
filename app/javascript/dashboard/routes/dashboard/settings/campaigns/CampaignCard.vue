@@ -1,10 +1,12 @@
 <template>
   <div
-    class="bg-white dark:bg-slate-800 mb-2 border border-slate-50 dark:border-slate-900 rounded-md px-5 py-4"
+    class="px-5 py-4 mb-2 bg-white border rounded-md dark:bg-slate-800 border-slate-50 dark:border-slate-900"
   >
     <div class="flex flex-row items-start justify-between">
       <div class="flex flex-col">
-        <div class="text-base font-medium -mt-1 mb-1">
+        <div
+          class="mb-1 -mt-1 text-base font-medium text-slate-900 dark:text-slate-100"
+        >
           {{ campaign.title }}
         </div>
         <div
@@ -35,14 +37,14 @@
       </div>
     </div>
 
-    <div class="flex flex-row mt-5 items-center space-x-3">
+    <div class="flex flex-row items-center mt-5 space-x-3">
       <woot-label
         small
         :title="campaignStatus"
         :color-scheme="colorScheme"
-        class="text-xs mr-3"
+        class="mr-3 text-xs"
       />
-      <inbox-name :inbox="campaign.inbox" class="ltr:ml-0 rtl:mr-0 mb-1" />
+      <inbox-name :inbox="campaign.inbox" class="mb-1 ltr:ml-0 rtl:mr-0" />
       <user-avatar-with-name
         v-if="campaign.sender"
         :user="campaign.sender"
@@ -50,13 +52,13 @@
       />
       <div
         v-if="campaign.trigger_rules.url"
-        class="text-xs text-woot-600 mb-1 text-truncate w-1/4"
+        class="w-1/4 mb-1 text-xs text-woot-600 text-truncate"
       >
         {{ campaign.trigger_rules.url }}
       </div>
       <div
         v-if="campaign.scheduled_at"
-        class="text-xs text-slate-700 dark:text-slate-500 mb-1"
+        class="mb-1 text-xs text-slate-700 dark:text-slate-500"
       >
         {{ messageStamp(new Date(campaign.scheduled_at), 'LLL d, h:mm a') }}
       </div>

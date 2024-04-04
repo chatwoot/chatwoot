@@ -49,7 +49,8 @@ class Digitaltolk::AddConversationReplyService
       content: @params[:content],
       private: false,
       sender: sender,
-      content_type: content_type
+      content_type: content_type,
+      customized: true
     }
   end
 

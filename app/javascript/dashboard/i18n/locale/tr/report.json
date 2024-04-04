@@ -37,7 +37,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Müşteri Bekleme Süresi",
-        "TOOLTIP_TEXT": "Bekleme süresi %{metricValue} ( %{conversationCount} görüşmeye dayanmaktadır)"
+        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -441,7 +441,8 @@
       "LOADING_MESSAGE": "Görüşme metrikleri yükleniyor...",
       "OPEN": "Açık",
       "UNATTENDED": "İlgilenilmemiş",
-      "UNASSIGNED": "Atanmamış"
+      "UNASSIGNED": "Atanmamış",
+      "PENDING": "Bekliyor"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Konuşma Trafik",

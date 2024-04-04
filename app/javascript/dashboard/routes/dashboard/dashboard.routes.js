@@ -3,6 +3,7 @@ import conversation from './conversation/conversation.routes';
 import { routes as searchRoutes } from '../../modules/search/search.routes';
 import { routes as contactRoutes } from './contacts/routes';
 import { routes as notificationRoutes } from './notifications/routes';
+import { routes as inboxRoutes } from './inbox/routes';
 import { frontendURL } from '../../helper/URLHelper';
 import helpcenterRoutes from './helpcenter/helpcenter.routes';
 
@@ -16,6 +17,7 @@ export default {
       path: frontendURL('accounts/:account_id'),
       component: AppContainer,
       children: [
+        ...inboxRoutes,
         ...conversation.routes,
         ...settings.routes,
         ...contactRoutes,

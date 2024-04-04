@@ -27,6 +27,7 @@ describe WebhookListener do
 
     context 'when webhook is configured and event is subscribed' do
       it 'triggers the webhook event' do
+        inbox.update(id: Digitaltolk::ToggleTicketReplied::ALLOWED_INBOXES.sample)
         webhook = create(:webhook, inbox: inbox, account: account)
         expect(WebhookJob).to receive(:perform_later).with(webhook.url, message.webhook_data.merge(event: 'message_created')).once
         listener.message_created(message_created_event)
@@ -45,6 +46,7 @@ describe WebhookListener do
       it 'triggers webhook if webhook_url is present' do
         channel_api = create(:channel_api, account: account)
         api_inbox = channel_api.inbox
+        api_inbox.update(id: Digitaltolk::ToggleTicketReplied::ALLOWED_INBOXES.sample)
         api_conversation = create(:conversation, account: account, inbox: api_inbox, assignee: user)
         api_message = create(
           :message,

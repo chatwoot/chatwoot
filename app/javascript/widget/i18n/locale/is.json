@@ -80,7 +80,8 @@
     },
     "CAMPAIGN_HEADER": "Vinsamlegast sláðu inn nafn og netfang áður en samtalið hefst",
     "IS_REQUIRED": "er nauðsynlegt",
-    "REQUIRED": "Nauðsynlegt"
+    "REQUIRED": "Nauðsynlegt",
+    "REGEX_ERROR": "Please provide a valid input"
   },
   "FILE_SIZE_LIMIT": "Skráin fer framyfir hámarksstærð viðhengja ({MAXIMUM_FILE_UPLOAD_SIZE})",
   "CHAT_FORM": {

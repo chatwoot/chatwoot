@@ -26,7 +26,7 @@
         <inbox-display-menu
           v-if="showInboxDisplayMenu"
           v-on-clickaway="openInboxDisplayMenu"
-          class="absolute top-8"
+          class="absolute top-9 ltr:left-0 rtl:right-0"
           @filter="onFilterChange"
         />
       </div>
@@ -49,7 +49,7 @@
       <inbox-option-menu
         v-if="showInboxOptionMenu"
         v-on-clickaway="openInboxOptionsMenu"
-        class="absolute top-9"
+        class="absolute top-9 ltr:right-0 ltr:md:right-[unset] rtl:left-0 rtl:md:left-[unset]"
         @option-click="onInboxOptionMenuClick"
       />
     </div>
@@ -69,11 +69,28 @@ export default {
     InboxDisplayMenu,
   },
   mixins: [clickaway, alertMixin],
+  props: {
+    isContextMenuOpen: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       showInboxDisplayMenu: false,
       showInboxOptionMenu: false,
     };
+  },
+  watch: {
+    isContextMenuOpen: {
+      handler(val) {
+        if (val) {
+          this.showInboxDisplayMenu = false;
+          this.showInboxOptionMenu = false;
+        }
+      },
+      immediate: true,
+    },
   },
   methods: {
     markAllRead() {
@@ -99,22 +116,19 @@ export default {
       this.showInboxOptionMenu = !this.showInboxOptionMenu;
     },
     onInboxOptionMenuClick(key) {
-      this.showInboxOptionMenu = false;
-      if (key === 'mark_all_read') {
-        this.markAllRead();
-      }
-      if (key === 'delete_all') {
-        this.deleteAll();
-      }
-      if (key === 'delete_all_read') {
-        this.deleteAllRead();
-      }
+      const actions = {
+        mark_all_read: () => this.markAllRead(),
+        delete_all: () => this.deleteAll(),
+        delete_all_read: () => this.deleteAllRead(),
+      };
+      const action = actions[key];
+      if (action) action();
+      this.$emit('redirect');
     },
     onFilterChange(option) {
       this.$emit('filter', option);
       this.showInboxDisplayMenu = false;
-      if (this.$route.name === 'inbox_view') return;
-      this.$router.push({ name: 'inbox_view' });
+      this.$emit('redirect');
     },
   },
 };

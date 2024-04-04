@@ -7,7 +7,7 @@
       :key="metric.KEY"
       class="p-4 rounded-md mb-3"
     >
-      <chart-stats :metric="metric" />
+      <chart-stats :metric="metric" :account-summary-key="accountSummaryKey" />
       <div class="mt-4 h-72">
         <woot-loading-state
           v-if="accountReport.isFetching[metric.KEY]"
@@ -37,15 +37,6 @@ import format from 'date-fns/format';
 import { formatTime } from '@chatwoot/utils';
 import reportMixin from 'dashboard/mixins/reportMixin';
 import ChartStats from './components/ChartElements/ChartStats.vue';
-const REPORTS_KEYS = {
-  CONVERSATIONS: 'conversations_count',
-  INCOMING_MESSAGES: 'incoming_messages_count',
-  OUTGOING_MESSAGES: 'outgoing_messages_count',
-  FIRST_RESPONSE_TIME: 'avg_first_response_time',
-  RESOLUTION_TIME: 'avg_resolution_time',
-  RESOLUTION_COUNT: 'resolutions_count',
-  REPLY_TIME: 'reply_time',
-};
 
 export default {
   components: { ChartStats },
@@ -55,18 +46,22 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    reportKeys: {
+      type: Object,
+      default: () => ({
+        CONVERSATIONS: 'conversations_count',
+        INCOMING_MESSAGES: 'incoming_messages_count',
+        OUTGOING_MESSAGES: 'outgoing_messages_count',
+        FIRST_RESPONSE_TIME: 'avg_first_response_time',
+        RESOLUTION_TIME: 'avg_resolution_time',
+        RESOLUTION_COUNT: 'resolutions_count',
+        REPLY_TIME: 'reply_time',
+      }),
+    },
   },
   computed: {
     metrics() {
-      const reportKeys = [
-        'CONVERSATIONS',
-        'FIRST_RESPONSE_TIME',
-        'REPLY_TIME',
-        'RESOLUTION_TIME',
-        'RESOLUTION_COUNT',
-        'INCOMING_MESSAGES',
-        'OUTGOING_MESSAGES',
-      ];
+      const reportKeys = Object.keys(this.reportKeys);
       const infoText = {
         FIRST_RESPONSE_TIME: this.$t(
           `REPORT.METRICS.FIRST_RESPONSE_TIME.INFO_TEXT`
@@ -75,11 +70,11 @@ export default {
       };
       return reportKeys.map(key => ({
         NAME: this.$t(`REPORT.METRICS.${key}.NAME`),
-        KEY: REPORTS_KEYS[key],
+        KEY: this.reportKeys[key],
         DESC: this.$t(`REPORT.METRICS.${key}.DESC`),
         INFO_TEXT: infoText[key],
         TOOLTIP_TEXT: `REPORT.METRICS.${key}.TOOLTIP_TEXT`,
-        trend: this.calculateTrend(REPORTS_KEYS[key]),
+        trend: this.calculateTrend(this.reportKeys[key]),
       }));
     },
   },

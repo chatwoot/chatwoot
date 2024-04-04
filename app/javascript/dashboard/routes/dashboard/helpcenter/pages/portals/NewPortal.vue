@@ -13,7 +13,7 @@
       class="flex flex-row overflow-auto py-4 pl-4 rtl:pl-0 rtl:pr-4 h-full bg-slate-50 dark:bg-slate-800"
     >
       <woot-wizard
-        class="hide-for-small-only w-[25%]"
+        class="hidden md:block w-1/4"
         :global-config="globalConfig"
         :items="items"
       />

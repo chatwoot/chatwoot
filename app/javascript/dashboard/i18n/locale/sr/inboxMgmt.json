@@ -569,7 +569,7 @@
       "UPDATE": "Izmena podešavanja radnog vremena",
       "TOGGLE_AVAILABILITY": "Omogući vreme dostupnosti za ovo prijemno sanduče",
       "UNAVAILABLE_MESSAGE_LABEL": "Poruka nedostupnosti za posetioce",
-      "TOGGLE_HELP": "Omogućavanje vremena dostupnosti će prikazati dostupno vreme na vidžetu ćaskanja čak i kada su svi agenti nedostupni. Van radnih sati posetioci će biti upozoreni porukom i formularom pre ćaskanja.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Omogućite dostupnost za ovaj dan",
         "UNAVAILABLE": "Nedostupan",

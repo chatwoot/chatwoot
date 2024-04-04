@@ -23,20 +23,20 @@
     "BACK_IN": "We will be back online"
   },
   "DAY_NAMES": [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday"
+    "الأحد",
+    "الإثنين",
+    "الثلاثاء",
+    "الأربعاء",
+    "الخميس",
+    "الجمعة",
+    "السبت"
   ],
   "START_CONVERSATION": "ابدأ المحادثة",
   "END_CONVERSATION": "إنهاء المحادثة",
   "CONTINUE_CONVERSATION": "متابعة المحادثة",
-  "YOU": "You",
+  "YOU": "أنت",
   "START_NEW_CONVERSATION": "ابدأ محادثة جديدة",
-  "VIEW_UNREAD_MESSAGES": "You have unread messages",
+  "VIEW_UNREAD_MESSAGES": "لديك رسائل غير مقروءة",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "عرض الرسائل الجديدة",
     "CLOSE_MESSAGES_BUTTON": "أغلق",
@@ -68,7 +68,7 @@
         "LABEL": "رقم الهاتف",
         "PLACEHOLDER": "الرجاء إدخال رقم الهاتف الخاص بك",
         "REQUIRED_ERROR": "رقم الهاتف مطلوب",
-        "DIAL_CODE_VALID_ERROR": "Please select a country code",
+        "DIAL_CODE_VALID_ERROR": "الرجاء اختيار رمز البلد",
         "VALID_ERROR": "Please enter a valid phone number",
         "DROPDOWN_EMPTY": "لم يتم العثور على النتائج"
       },
@@ -80,7 +80,8 @@
     },
     "CAMPAIGN_HEADER": "الرجاء تقديم اسمك و بريدك الإلكتروني قبل بدء المحادثة",
     "IS_REQUIRED": "مطلوب",
-    "REQUIRED": "مطلوب"
+    "REQUIRED": "مطلوب",
+    "REGEX_ERROR": "Please provide a valid input"
   },
   "FILE_SIZE_LIMIT": "حجم الملف يتجاوز حد الاقصى وهو {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {

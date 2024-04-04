@@ -66,6 +66,7 @@ RSpec.describe Message do
         content: message.content,
         conversation_id: message.conversation.display_id,
         created_at: message.created_at.to_i,
+        customized: message.customized,
         external_source_ids: message.external_source_ids,
         id: message.id,
         inbox_id: message.inbox_id,

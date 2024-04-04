@@ -112,7 +112,8 @@
       "REMOVE_LABEL": "برچسب را از مکالمه حذف کنید",
       "SETTINGS": "تنظیمات",
       "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "ظاهری"
+      "APPEARANCE": "ظاهری",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "به داشبورد مکالمه بروید",
@@ -153,7 +154,8 @@
       "CHANGE_APPEARANCE": "تغییر ظاهر",
       "LIGHT_MODE": "روشن",
       "DARK_MODE": "تیره",
-      "SYSTEM_MODE": "سیستم"
+      "SYSTEM_MODE": "سیستم",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     }
   },
   "DASHBOARD_APPS": {

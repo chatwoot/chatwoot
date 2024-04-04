@@ -4,7 +4,7 @@
       <fluent-icon icon="document" class="file--icon" size="32" />
     </div>
     <div class="meta">
-      <h5 class="text-block-title">
+      <h5 class="attachment-name text-slate-700 dark:text-slate-400">
         {{ decodeURI(fileName) }}
       </h5>
       <a
@@ -62,7 +62,7 @@ export default {
     margin-right: $space-slab;
   }
 
-  .text-block-title {
+  .attachment-name {
     margin: 0;
     color: $color-white;
     font-weight: $font-weight-bold;

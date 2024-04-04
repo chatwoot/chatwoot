@@ -113,6 +113,13 @@
         </woot-button>
       </div>
     </div>
+    <woot-confirm-modal
+      ref="confirmExportContactsDialog"
+      :title="$t('EXPORT_CONTACTS.CONFIRM.TITLE')"
+      :description="$t('EXPORT_CONTACTS.CONFIRM.MESSAGE')"
+      :confirm-label="$t('EXPORT_CONTACTS.CONFIRM.YES')"
+      :cancel-label="$t('EXPORT_CONTACTS.CONFIRM.NO')"
+    />
   </header>
 </template>
 
@@ -175,8 +182,13 @@ export default {
     toggleImport() {
       this.$emit('on-toggle-import');
     },
-    submitExport() {
-      this.$emit('on-export-submit');
+    async submitExport() {
+      const ok =
+        await this.$refs.confirmExportContactsDialog.showConfirmation();
+
+      if (ok) {
+        this.$emit('on-export-submit');
+      }
     },
     submitSearch() {
       this.$emit('on-search-submit');

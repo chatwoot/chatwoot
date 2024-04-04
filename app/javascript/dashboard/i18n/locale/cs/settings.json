@@ -160,6 +160,9 @@
     "TRIAL_MESSAGE": "dní zbývá zkušební verze.",
     "TRAIL_BUTTON": "Koupit nyní",
     "DELETED_USER": "Deleted User",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Account Suspended",
       "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
@@ -197,6 +200,7 @@
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
     "CONVERSATIONS": "Konverzace",
+    "INBOX": "Inbox",
     "ALL_CONVERSATIONS": "All Conversations",
     "MENTIONED_CONVERSATIONS": "Zmínky",
     "PARTICIPATING_CONVERSATIONS": "Participating",
@@ -238,6 +242,7 @@
     "REPORTS_INBOX": "Inbox",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Overview",
     "FACEBOOK_REAUTHORIZE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",

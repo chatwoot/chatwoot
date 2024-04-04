@@ -112,7 +112,8 @@
       "REMOVE_LABEL": "Remover etiqueta da conversa",
       "SETTINGS": "Confirgurações",
       "AI_ASSIST": "Assistente Open AI",
-      "APPEARANCE": "Tema"
+      "APPEARANCE": "Tema",
+      "SNOOZE_NOTIFICATION": "Adiar Notificação"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Ir para Painel de Conversação",
@@ -153,7 +154,8 @@
       "CHANGE_APPEARANCE": "Alterar Tema",
       "LIGHT_MODE": "Claro",
       "DARK_MODE": "Escuro",
-      "SYSTEM_MODE": "Sistema"
+      "SYSTEM_MODE": "Sistema",
+      "SNOOZE_NOTIFICATION": "Adiar Notificação"
     }
   },
   "DASHBOARD_APPS": {

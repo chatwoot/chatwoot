@@ -112,7 +112,8 @@
       "REMOVE_LABEL": "Remover etiqueta da conversa",
       "SETTINGS": "Configurações",
       "AI_ASSIST": "Assistente IA",
-      "APPEARANCE": "Aspeto"
+      "APPEARANCE": "Aspeto",
+      "SNOOZE_NOTIFICATION": "Suspender notificação"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Ir para o painel de conversação",
@@ -153,7 +154,8 @@
       "CHANGE_APPEARANCE": "Alterar Aspeto",
       "LIGHT_MODE": "Claro",
       "DARK_MODE": "Escuro",
-      "SYSTEM_MODE": "Sistema"
+      "SYSTEM_MODE": "Sistema",
+      "SNOOZE_NOTIFICATION": "Suspender notificação"
     }
   },
   "DASHBOARD_APPS": {

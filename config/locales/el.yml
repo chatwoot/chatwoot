@@ -31,6 +31,7 @@ el:
       disposable_email: Δεν επιτρέπονται προσωρινά emails
       invalid_email: Έχετε καταχωρήσει ακατάλληλο email
       email_already_exists: "Έχει ήδη καταχωρηθεί λογαριασμός στο %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Η εγγραφή απέτυχε
     data_import:
       data_type:
@@ -67,25 +68,25 @@ el:
     utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Όνομα Πράκτορα
-      conversations_count: Αριθμός συνομιλιών
-      avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
-      avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     inbox_csv:
       inbox_name: Όνομα Κιβωτίου
       inbox_type: Τύπος κιβωτίου εισερχόμενων
       conversations_count: Αριθμός συνομιλιών
-      avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
-      avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     label_csv:
       label_title: Ετικέτα
       conversations_count: Αριθμός συνομιλιών
-      avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
-      avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     team_csv:
       team_name: Όνομα ομάδας
       conversations_count: Αριθμός συνομιλιών
-      avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
-      avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: Timezone
     default_group_by: ημέρα
@@ -101,10 +102,12 @@ el:
         recorded_at: Ημερομηνία καταγραφής
   notifications:
     notification_title:
-      conversation_creation: "[Νέα συνομιλία] - #%{display_id} δημιουργήθηκε στο %{inbox_name}"
-      conversation_assignment: "[Ανατέθηκε σε εσάς] - #%{display_id} σας έχει ανατεθεί"
-      assigned_conversation_new_message: "[Νέο μήνυμα] - #%{display_id} %{content}"
-      conversation_mention: "Έχετε αναφερθεί σε συζήτηση [ID - %{display_id}] από %{name}"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "Ο %{story_sender} σας ανέφερε στην ιστορία: "
@@ -228,3 +231,16 @@ el:
       inbox_name: Εισερχόμενα
       inbox_type: Inbox Type
     button: Άνοιγμα συνομιλίας
+  time_units:
+    days:
+      one: "%{count} day"
+      other: "%{count} days"
+    hours:
+      one: "%{count} hour"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minute"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} second"
+      other: "%{count} seconds"

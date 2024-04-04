@@ -80,7 +80,8 @@
     },
     "CAMPAIGN_HEADER": "Görüşmeye başlamadan önce lütfen isminizi ve e-posta adresinizi belirtiniz",
     "IS_REQUIRED": "zorunlu",
-    "REQUIRED": "Zorunlu"
+    "REQUIRED": "Zorunlu",
+    "REGEX_ERROR": "Lütfen geçerli bir giriş yapın"
   },
   "FILE_SIZE_LIMIT": "Dosya {MAXIMUM_FILE_UPLOAD_SIZE} sınırını aşıyor",
   "CHAT_FORM": {

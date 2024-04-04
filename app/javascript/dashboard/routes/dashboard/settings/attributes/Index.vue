@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 overflow-auto p-4">
+  <div class="flex-1 overflow-auto">
     <woot-button
       color-scheme="success"
       class-names="button--fixed-top"

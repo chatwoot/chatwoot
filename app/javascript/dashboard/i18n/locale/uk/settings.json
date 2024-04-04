@@ -152,7 +152,7 @@
     "SELECTOR_SUBTITLE": "Виберіть обліковий запис із наступного списку",
     "PROFILE_SETTINGS": "Налаштування облікового запису",
     "KEYBOARD_SHORTCUTS": "Комбінації клавіш",
-    "APPEARANCE": "Change Appearance",
+    "APPEARANCE": "Змінити зовнішній вигляд",
     "SUPER_ADMIN_CONSOLE": "Консоль адміна",
     "LOGOUT": "Вийти"
   },
@@ -160,6 +160,9 @@
     "TRIAL_MESSAGE": "днів пробного періоду залишилося.",
     "TRAIL_BUTTON": "Придбати зараз",
     "DELETED_USER": "Видалений користувач",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Обліковий запис призупинено",
       "MESSAGE": "Ваш обліковий запис призупинено. Будь ласка, зверніться до служби підтримки для отримання додаткової інформації."
@@ -197,6 +200,7 @@
     "CURRENTLY_VIEWING_ACCOUNT": "Зараз переглядається:",
     "SWITCH": "Перемкнути",
     "CONVERSATIONS": "Бесіди",
+    "INBOX": "Вхідні",
     "ALL_CONVERSATIONS": "Всі розмови",
     "MENTIONED_CONVERSATIONS": "Згадування",
     "PARTICIPATING_CONVERSATIONS": "Підключені агенти",
@@ -238,6 +242,7 @@
     "REPORTS_INBOX": "Канал",
     "REPORTS_TEAM": "Команда",
     "SET_AVAILABILITY_TITLE": "Позначити себе як",
+    "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Огляд",
     "FACEBOOK_REAUTHORIZE": "Підключення до Facebook закінчилося, будь ласка, поновіть сторінку Facebook, щоб продовжити роботу служб",

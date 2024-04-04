@@ -5,7 +5,7 @@
     </div>
     <div class="conversation-details">
       <div class="meta-wrap">
-        <div class="flex-container">
+        <div class="flex">
           <woot-label
             class="conversation-id"
             :title="`#${id}`"
@@ -21,16 +21,13 @@
         </div>
       </div>
       <div class="user-details">
-        <h5
-          v-if="name"
-          class="text-block-title name text-slate-800 dark:text-slate-100"
-        >
+        <h5 v-if="name" class="text-sm name text-slate-800 dark:text-slate-100">
           <span class="pre-text"> {{ $t('SEARCH.FROM') }}: </span>
           {{ name }}
         </h5>
         <h5
           v-if="email"
-          class="text-block-title email text-slate-700 dark:text-slate-200 overflow-hidden whitespace-nowrap text-ellipsis"
+          class="text-sm email text-slate-700 dark:text-slate-200 overflow-hidden whitespace-nowrap text-ellipsis"
         >
           <span class="pre-text">{{ $t('SEARCH.EMAIL') }}:</span>
           {{ email }}

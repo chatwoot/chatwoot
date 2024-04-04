@@ -25,4 +25,9 @@ class ResponseSource < ApplicationRecord
   has_many :responses, dependent: :destroy_async
 
   accepts_nested_attributes_for :response_documents
+
+  def get_responses(query)
+    embedding = Openai::EmbeddingsService.new.get_embedding(query)
+    responses.active.nearest_neighbors(:embedding, embedding, distance: 'cosine').first(5)
+  end
 end

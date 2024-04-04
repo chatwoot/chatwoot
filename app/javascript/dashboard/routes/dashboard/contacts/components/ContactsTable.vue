@@ -135,7 +135,7 @@ export default {
                   status={row.availability_status}
                 />
                 <div class="user-block">
-                  <h6 class="sub-block-title overflow-hidden whitespace-nowrap text-ellipsis">
+                  <h6 class="text-base overflow-hidden whitespace-nowrap text-ellipsis">
                     <router-link
                       to={`/app/accounts/${this.$route.params.accountId}/contacts/${row.id}`}
                       class="user-name"

@@ -5,7 +5,7 @@
         <path d="M20 12l-8-8-12 12" fill-rule="evenodd" stroke-width="1px" />
       </svg>
     </div>
-    <div class="header flex-between">
+    <div class="header flex items-center justify-between">
       <span>{{ $t('BULK_ACTION.LABELS.ASSIGN_LABELS') }}</span>
       <woot-button
         size="tiny"
@@ -17,7 +17,9 @@
     </div>
     <div class="labels-list">
       <header class="labels-list__header">
-        <div class="label-list-search flex-between">
+        <div
+          class="label-list-search h-8 flex justify-between items-center gap-2"
+        >
           <fluent-icon icon="search" class="search-icon" size="16" />
           <input
             ref="search"
@@ -138,7 +140,7 @@ export default {
   }
 
   .label--search_input {
-    @apply border-0 text-xs m-0 dark:bg-transparent bg-transparent h-[unset];
+    @apply border-0 text-xs m-0 dark:bg-transparent bg-transparent h-[unset] w-full;
   }
 }
 

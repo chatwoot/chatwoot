@@ -1,26 +1,110 @@
-<script>
-import AddSLA from './AddSLA.vue';
-import SettingsLayout from '../SettingsLayout.vue';
-import SLAEmptyState from './components/SLAEmptyState.vue';
-import SLAHeader from './components/SLAHeader.vue';
-import SLAListItem from './components/SLAListItem.vue';
-import SLAListItemLoading from './components/SLAListItemLoading.vue';
-import SLAPaywallEnterprise from './components/SLAPaywallEnterprise.vue';
+<template>
+  <div class="flex-1 overflow-auto p-4">
+    <woot-button
+      color-scheme="success"
+      class-names="button--fixed-top"
+      icon="add-circle"
+      @click="openAddPopup"
+    >
+      {{ $t('SLA.HEADER_BTN_TXT') }}
+    </woot-button>
+    <div class="flex flex-row gap-4">
+      <div class="w-full xl:w-3/5">
+        <p
+          v-if="!uiFlags.isFetching && !records.length"
+          class="flex h-full items-center flex-col justify-center"
+        >
+          {{ $t('SLA.LIST.404') }}
+        </p>
+        <woot-loading-state
+          v-if="uiFlags.isFetching"
+          :message="$t('SLA.LOADING')"
+        />
+        <table v-if="!uiFlags.isFetching && records.length" class="woot-table">
+          <thead>
+            <th v-for="thHeader in $t('SLA.LIST.TABLE_HEADER')" :key="thHeader">
+              {{ thHeader }}
+            </th>
+          </thead>
+          <tbody>
+            <tr v-for="sla in records" :key="sla.title">
+              <td>
+                <span
+                  class="inline-block overflow-hidden whitespace-nowrap text-ellipsis"
+                >
+                  {{ sla.name }}
+                </span>
+              </td>
+              <td>{{ sla.description }}</td>
+              <td>
+                <span class="flex items-center">
+                  {{ displayTime(sla.first_response_time_threshold) }}
+                </span>
+              </td>
+              <td>
+                <span class="flex items-center">
+                  {{ displayTime(sla.next_response_time_threshold) }}
+                </span>
+              </td>
+              <td>
+                <span class="flex items-center">
+                  {{ displayTime(sla.resolution_time_threshold) }}
+                </span>
+              </td>
+              <td>
+                <span class="flex items-center">
+                  {{ sla.only_during_business_hours }}
+                </span>
+              </td>
+              <td class="button-wrapper">
+                <woot-button
+                  v-tooltip.top="$t('SLA.FORM.DELETE')"
+                  variant="smooth"
+                  color-scheme="alert"
+                  size="tiny"
+                  icon="dismiss-circle"
+                  class-names="grey-btn"
+                  :is-loading="loading[sla.id]"
+                  @click="openDeletePopup(sla)"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
+      <div class="w-1/3 hidden xl:block">
+        <span v-dompurify-html="$t('SLA.SIDEBAR_TXT')" />
+      </div>
+    </div>
+    <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
+      <add-SLA @close="hideAddPopup" />
+    </woot-modal>
+
+    <woot-delete-modal
+      :show.sync="showDeleteConfirmationPopup"
+      :on-close="closeDeletePopup"
+      :on-confirm="confirmDeletion"
+      :title="$t('SLA.DELETE.CONFIRM.TITLE')"
+      :message="$t('SLA.DELETE.CONFIRM.MESSAGE')"
+      :message-value="deleteMessage"
+      :confirm-text="deleteConfirmText"
+      :reject-text="deleteRejectText"
+    />
+  </div>
+</template>
+<script>
 import { mapGetters } from 'vuex';
 import { convertSecondsToTimeUnit } from '@chatwoot/utils';
-import { useAlert } from 'dashboard/composables';
+
+import AddSLA from './AddSLA.vue';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     AddSLA,
-    SettingsLayout,
-    SLAEmptyState,
-    SLAHeader,
-    SLAListItem,
-    SLAListItemLoading,
-    SLAPaywallEnterprise,
   },
+  mixins: [alertMixin],
   data() {
     return {
       loading: {},
@@ -31,11 +115,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       records: 'sla/getSLA',
-      currentUser: 'getCurrentUser',
-      accountId: 'getCurrentAccountId',
       uiFlags: 'sla/getUIFlags',
     }),
     deleteConfirmText() {
@@ -47,21 +127,12 @@ export default {
     deleteMessage() {
       return ` ${this.selectedResponse.name}`;
     },
-    isBehindAPaywall() {
-      return !this.isFeatureEnabledonAccount(this.accountId, 'sla');
-    },
-    isSuperAdmin() {
-      return this.currentUser.type === 'SuperAdmin';
-    },
   },
   mounted() {
     this.$store.dispatch('sla/get');
   },
   methods: {
     openAddPopup() {
-      if (this.isBehindAPaywall) {
-        return;
-      }
       this.showAddPopup = true;
     },
     hideAddPopup() {
@@ -83,10 +154,10 @@ export default {
       this.$store
         .dispatch('sla/delete', id)
         .then(() => {
-          useAlert(this.$t('SLA.DELETE.API.SUCCESS_MESSAGE'));
+          this.showAlert(this.$t('SLA.DELETE.API.SUCCESS_MESSAGE'));
         })
         .catch(() => {
-          useAlert(this.$t('SLA.DELETE.API.ERROR_MESSAGE'));
+          this.showAlert(this.$t('SLA.DELETE.API.ERROR_MESSAGE'));
         })
         .finally(() => {
           this.loading[this.selectedResponse.id] = false;
@@ -101,67 +172,6 @@ export default {
       if (!time) return '-';
       return `${time}${unit}`;
     },
-    onClickCTA() {
-      this.$router.push({
-        name: 'billing_settings_index',
-        params: { accountId: this.accountId },
-      });
-    },
   },
 };
 </script>
-
-<template>
-  <SettingsLayout
-    :is-loading="uiFlags.isFetching"
-    :loading-message="$t('SLA.LOADING')"
-  >
-    <template #header>
-      <SLAHeader :show-actions="records.length > 0" @add="openAddPopup" />
-    </template>
-    <template #loading>
-      <SLAListItemLoading v-for="ii in 2" :key="ii" class="mb-3" />
-    </template>
-    <template #body>
-      <SLAPaywallEnterprise
-        v-if="isBehindAPaywall"
-        :is-super-admin="isSuperAdmin"
-        :is-on-chatwoot-cloud="isOnChatwootCloud"
-        @upgrade="onClickCTA"
-      />
-      <SLAEmptyState
-        v-else-if="!records.length"
-        @primary-action="openAddPopup"
-      />
-      <div v-else class="flex flex-col w-full h-full gap-3">
-        <SLAListItem
-          v-for="sla in records"
-          :key="sla.title"
-          :sla-name="sla.name"
-          :description="sla.description"
-          :first-response="displayTime(sla.first_response_time_threshold)"
-          :next-response="displayTime(sla.next_response_time_threshold)"
-          :resolution-time="displayTime(sla.resolution_time_threshold)"
-          :has-business-hours="sla.only_during_business_hours"
-          :is-loading="loading[sla.id]"
-          @delete="openDeletePopup(sla)"
-        />
-      </div>
-
-      <woot-modal v-model:show="showAddPopup" :on-close="hideAddPopup">
-        <AddSLA @close="hideAddPopup" />
-      </woot-modal>
-
-      <woot-delete-modal
-        v-model:show="showDeleteConfirmationPopup"
-        :on-close="closeDeletePopup"
-        :on-confirm="confirmDeletion"
-        :title="$t('SLA.DELETE.CONFIRM.TITLE')"
-        :message="$t('SLA.DELETE.CONFIRM.MESSAGE')"
-        :message-value="deleteMessage"
-        :confirm-text="deleteConfirmText"
-        :reject-text="deleteRejectText"
-      />
-    </template>
-  </SettingsLayout>
-</template>

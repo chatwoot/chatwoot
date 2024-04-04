@@ -569,7 +569,7 @@
       "UPDATE": "עדכן את הגדרות שעות הפעילות",
       "TOGGLE_AVAILABILITY": "הפעל זמינות עסקית עבור תיבת הדואר הנכנס הזו",
       "UNAVAILABLE_MESSAGE_LABEL": "הודעה לא זמינה למבקרים",
-      "TOGGLE_HELP": "הפעלת זמינות עסקית תציג את השעות הזמינות בווידג'ט צ'אט חי גם אם כל הסוכנים אינם מקוונים. מחוץ לשעות הזמינות ניתן להזהיר מבקרים באמצעות הודעה וטופס צ'אט מראש.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "אפשר זמינות ליום זה",
         "UNAVAILABLE": "אינו זמין",

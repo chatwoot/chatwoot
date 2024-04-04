@@ -7,7 +7,7 @@
 }
 
 .tabs {
-  @apply border-r-0 border-l-0 border-t-0 flex min-w-[6.25rem] py-0 px-4;
+  @apply border-r-0 border-l-0 border-t-0 flex min-w-[6.25rem] py-0 px-4 list-none mb-0;
 }
 
 .tabs--with-scroll {
@@ -31,7 +31,7 @@
 }
 
 .tabs-title {
-  @apply flex-shrink-0 my-0 mx-2 ;
+  @apply flex-shrink-0 my-0 mx-2;
 
   .badge {
     @apply bg-slate-50 dark:bg-slate-800 rounded-md text-slate-600 dark:text-slate-100 h-5 flex items-center justify-center text-xxs font-semibold my-0 mx-1 px-1 py-0;
@@ -53,7 +53,7 @@
   }
 
   a {
-    @apply flex items-center flex-row border-b border-transparent text-slate-500 dark:text-slate-200 text-sm top-[1px] relative;
+    @apply flex items-center flex-row border-b py-2.5 select-none cursor-pointer border-transparent text-slate-500 dark:text-slate-200 text-sm top-[1px] relative;
     transition: border-color 0.15s $swift-ease-out-function;
   }
 

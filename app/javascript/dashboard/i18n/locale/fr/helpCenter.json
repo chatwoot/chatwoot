@@ -319,12 +319,13 @@
       "HEADERS": {
         "TITLE": "Titre",
         "CATEGORY": "Catégorie",
-        "READ_COUNT": "Nombre de lectures",
+        "READ_COUNT": "Views",
         "STATUS": "État",
         "LAST_EDITED": "Dernière modification"
       },
       "COLUMNS": {
-        "BY": "par"
+        "BY": "par",
+        "AUTHOR_NOT_AVAILABLE": "L'auteur n'est pas disponible"
       }
     },
     "EDIT_ARTICLE": {

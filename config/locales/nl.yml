@@ -31,6 +31,7 @@ nl:
       disposable_email: Wij staan geen verwijderbare e-mails toe
       invalid_email: Je hebt een ongeldig e-mailadres ingevoerd
       email_already_exists: "Je hebt je al aangemeld voor een account bij %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Aanmelden mislukt
     data_import:
       data_type:
@@ -67,25 +68,25 @@ nl:
     utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Agent naam
-      conversations_count: Aantal gesprekken
-      avg_first_response_time: Gem. eerste reactie (minuten)
-      avg_resolution_time: Gemiddelde tijd tot oplossing (minuten)
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     inbox_csv:
       inbox_name: Naam postvak
       inbox_type: Inbox type
       conversations_count: Aantal conversaties
-      avg_first_response_time: Gem. eerste reactie (minuten)
-      avg_resolution_time: Gemiddelde tijd tot oplossing (minuten)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     label_csv:
       label_title: Label
       conversations_count: Aantal conversaties
-      avg_first_response_time: Gem. eerste reactie (minuten)
-      avg_resolution_time: Gemiddelde tijd tot oplossing (minuten)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     team_csv:
       team_name: Team Naam
       conversations_count: Aantal gesprekken
-      avg_first_response_time: Gem. eerste reactie (minuten)
-      avg_resolution_time: Gemiddelde tijd tot oplossing (minuten)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: Timezone
     default_group_by: dag
@@ -101,10 +102,12 @@ nl:
         recorded_at: Datum opgenomen
   notifications:
     notification_title:
-      conversation_creation: "[New conversation] - #%{display_id} is aangemaakt in %{inbox_name}"
-      conversation_assignment: "[Toegewezen aan jou] - #%{display_id} is aan jou toegewezen"
-      assigned_conversation_new_message: "[Nieuw bericht] - #%{display_id} %{content}"
-      conversation_mention: "Je bent genoemd in gesprek [ID - %{display_id}] door %{name}"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} heeft je genoemd in het verhaal: "
@@ -228,3 +231,16 @@ nl:
       inbox_name: Postvak In
       inbox_type: Inbox Type
     button: Open conversation
+  time_units:
+    days:
+      one: "%{count} day"
+      other: "%{count} days"
+    hours:
+      one: "%{count} hour"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minute"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} second"
+      other: "%{count} seconds"

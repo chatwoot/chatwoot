@@ -15,15 +15,17 @@
         v-if="icon"
         :icon="icon"
         :class="iconClass"
-        class="mr-2 ml-4 rtl:ml-2 rtl:mr-4"
+        class="mr-2 ml-1 rtl:ml-2 rtl:mr-1 hidden md:block"
       />
       <slot />
-      <span class="text-slate-900 dark:text-slate-100">{{ headerTitle }}</span>
+      <span class="text-slate-900 font-medium text-2xl dark:text-slate-100">
+        {{ headerTitle }}
+      </span>
     </h1>
     <router-link
       v-if="showNewButton && isAdmin"
       :to="buttonRoute"
-      class="button success button--fixed-top"
+      class="button success button--fixed-top px-3.5 py-1 rounded-[5px] flex gap-2"
     >
       <fluent-icon icon="add-circle" />
       <span class="button__content">

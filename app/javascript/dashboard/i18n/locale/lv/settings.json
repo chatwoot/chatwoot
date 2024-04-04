@@ -160,6 +160,9 @@
     "TRIAL_MESSAGE": "izmēģinājuma dienas atlikušas.",
     "TRAIL_BUTTON": "Pirkt Tagad",
     "DELETED_USER": "Dzēsts Lietotājs",
+    "EMAIL_VERIFICATION_PENDING": "Izskatās, ka Jūs vēl neesat verificējis savu e-pasta adresi. Lūdzu, izlasiet savā iesūtnē verifikācijas e-pasta ziņojumu.",
+    "RESEND_VERIFICATION_MAIL": "Sūtīt verifikācijas e-pastu atkārtoti",
+    "EMAIL_VERIFICATION_SENT": "Verifikācijas e-pasts ir nosūtīts. Lūdzu, pārbaudiet savu iesūtni.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Konts Iesaldēts",
       "MESSAGE": "Jūsu konts ir iesaldēts. Lai iegūtu papildu informāciju, lūdzu, sazinieties ar atbalsta komandu."
@@ -197,6 +200,7 @@
     "CURRENTLY_VIEWING_ACCOUNT": "Pašlaik skatās:",
     "SWITCH": "Pārslēgt",
     "CONVERSATIONS": "Sarunas",
+    "INBOX": "Iesūtne",
     "ALL_CONVERSATIONS": "Visas Sarunas",
     "MENTIONED_CONVERSATIONS": "Pieminēšanas",
     "PARTICIPATING_CONVERSATIONS": "Piedalās",
@@ -238,6 +242,7 @@
     "REPORTS_INBOX": "Iesūtne",
     "REPORTS_TEAM": "Komanda",
     "SET_AVAILABILITY_TITLE": "Iestatīt sevi kā",
+    "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Pārskats",
     "FACEBOOK_REAUTHORIZE": "Jūsu Facebook savienojuma derīguma termiņš ir beidzies. Lūdzu, atkārtoti pievienojiet savu Facebook lapu, lai turpinātu pakalpojumus",

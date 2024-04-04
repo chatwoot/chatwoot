@@ -8,6 +8,7 @@
 #  content                   :text
 #  content_attributes        :json
 #  content_type              :integer          default("text"), not null
+#  customized                :boolean          default(FALSE)
 #  external_source_ids       :jsonb
 #  message_type              :integer          not null
 #  private                   :boolean          default(FALSE), not null

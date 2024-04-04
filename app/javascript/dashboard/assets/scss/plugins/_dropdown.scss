@@ -1,46 +1,7 @@
 .dropdown-pane {
-  @include elegant-card;
-  @include border-light;
-  box-sizing: content-box;
-  padding: var(--space-small);
-  width: fit-content;
-  z-index: var(--z-index-very-high);
+  @apply border rounded-lg hidden relative invisible shadow-lg border-slate-25 dark:border-slate-700 box-content p-2 w-fit z-[9999];
 
   &.dropdown-pane--open {
-    @apply bg-white dark:bg-slate-800;
-    display: block;
-    visibility: visible;
-  }
-
-  &.dropdowm--bottom {
-    &::before {
-      @include arrow(top, var(--color-border-light), 14px);
-      position: absolute;
-      right: 6px;
-      top: -14px;
-    }
-
-    &::after {
-      @include arrow(top, $color-white, var(--space-slab));
-      position: absolute;
-      right: var(--space-small);
-      top: -12px;
-    }
-  }
-
-  &.dropdowm--top {
-    &::before {
-      @include arrow(bottom, var(--color-border-light), 14px);
-      bottom: -14px;
-      position: absolute;
-      right: 6px;
-    }
-
-    &::after {
-      @include arrow(bottom, $color-white, var(--space-slab));
-      bottom: -12px;
-      position: absolute;
-      right: var(--space-small);
-    }
+    @apply bg-white absolute dark:bg-slate-800 block visible;
   }
 }

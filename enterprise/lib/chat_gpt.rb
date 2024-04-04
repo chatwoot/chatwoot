@@ -4,13 +4,13 @@ class ChatGpt
   end
 
   def initialize(context_sections = '')
-    @model = 'gpt-4-1106-preview'
+    @model = 'gpt-4-0125-preview'
     @messages = [system_message(context_sections)]
   end
 
-  def generate_response(input, previous_messages = [])
+  def generate_response(input, previous_messages = [], role = 'user')
     @messages += previous_messages
-    @messages << { 'role': 'user', 'content': input } if input.present?
+    @messages << { 'role': role, 'content': input } if input.present?
 
     response = request_gpt
     JSON.parse(response['choices'][0]['message']['content'].strip)

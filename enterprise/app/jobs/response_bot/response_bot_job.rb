@@ -1,4 +1,4 @@
-class ResponseBotJob < ApplicationJob
+class ResponseBot::ResponseBotJob < ApplicationJob
   queue_as :medium
 
   def perform(conversation)

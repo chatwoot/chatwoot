@@ -569,7 +569,7 @@
       "UPDATE": "更新服務時間設定",
       "TOGGLE_AVAILABILITY": "啟用收件匣可用服務時間",
       "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "TOGGLE_HELP": "啟用服務時間將會在 live chat 小工具上顯示你的服務時間，就算所有客服都不在線上。若不在服務時間內，訪客將會被提醒及傳送 pre-chat 表單",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Enable availability for this day",
         "UNAVAILABLE": "無法使用",

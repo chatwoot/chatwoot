@@ -1,4 +1,9 @@
-import { required, minLength, minValue, decimal } from '@vuelidate/validators';
+import {
+  required,
+  minLength,
+  minValue,
+  decimal,
+} from 'vuelidate/lib/validators';
 
 export default {
   name: {

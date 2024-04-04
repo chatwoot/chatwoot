@@ -1,5 +1,5 @@
 <template>
-  <div class="settings--content">
+  <div class="mx-8">
     <div class="widget-builder-container">
       <div class="settings-container w-100 lg:w-[40%]">
         <div class="settings-content">
@@ -123,7 +123,7 @@
           </form>
         </div>
       </div>
-      <div class="widget-container w-100 lg:w-[60%]">
+      <div class="widget-container w-100 lg:w-3/5">
         <input-radio-group
           name="widget-view-options"
           :items="getWidgetViewOptions"
@@ -422,9 +422,9 @@ export default {
   display: flex;
   flex-direction: row;
   padding: var(--space-one);
-  @include breakpoint(900px down) {
-    flex-direction: column;
-  }
+  // @include breakpoint(900px down) {
+  //   flex-direction: column;
+  // }
 }
 
 .settings-container {
@@ -450,10 +450,11 @@ export default {
     padding: var(--space-one) var(--space-one) var(--space-one) var(--space-one);
     @apply bg-slate-50 dark:bg-slate-700;
 
-    @include breakpoint(500px down) {
-      background: none;
-    }
+    // @include breakpoint(500px down) {
+    //   background: none;
+    // }
   }
+
   .widget-script {
     @apply mx-5 p-2.5 bg-slate-50 dark:bg-slate-700;
   }

@@ -2,11 +2,19 @@ import { mapGetters } from 'vuex';
 import { formatTime } from '@chatwoot/utils';
 
 export default {
+  props: {
+    accountSummaryKey: {
+      type: String,
+      default: 'getAccountSummary',
+    },
+  },
   computed: {
     ...mapGetters({
-      accountSummary: 'getAccountSummary',
       accountReport: 'getAccountReports',
     }),
+    accountSummary() {
+      return this.$store.getters[this.accountSummaryKey];
+    },
   },
   methods: {
     calculateTrend(key) {

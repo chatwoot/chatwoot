@@ -1,7 +1,7 @@
 <template>
   <div class="wrap">
     <div class="header">
-      <h5 class="block-title text-black-900 dark:text-slate-200">
+      <h5 class="text-lg text-black-900 dark:text-slate-200">
         {{ $t('EVENTS.HEADER.TITLE') }}
       </h5>
     </div>

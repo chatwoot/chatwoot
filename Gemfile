@@ -3,8 +3,8 @@ source 'https://rubygems.org'
 ruby '3.2.2'
 
 ##-- base gems for rails --##
-gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~> 7.0.8.0'
+gem 'rack-cors', '2.0.0', require: 'rack/cors'
+gem 'rails', '~> 7.0.8.1'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 

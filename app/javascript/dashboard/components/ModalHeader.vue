@@ -3,7 +3,7 @@
     <img v-if="headerImage" :src="headerImage" alt="No image" />
     <h2
       ref="modalHeaderTitle"
-      class="text-slate-800 text-lg dark:text-slate-100"
+      class="text-slate-800 text-lg font-semibold dark:text-slate-50"
     >
       {{ headerTitle }}
     </h2>

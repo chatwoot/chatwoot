@@ -37,7 +37,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} conversations)"
+        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -441,7 +441,8 @@
       "LOADING_MESSAGE": "Memuat metrik percakapan...",
       "OPEN": "Terbuka",
       "UNATTENDED": "Tidak Ditangani",
-      "UNASSIGNED": "Belum Ditugaskan"
+      "UNASSIGNED": "Belum Ditugaskan",
+      "PENDING": "Ditunda"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Lalu Lintas Percakapan",

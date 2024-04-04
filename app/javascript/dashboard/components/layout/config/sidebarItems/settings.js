@@ -40,6 +40,7 @@ const settings = accountId => ({
     'settings_teams_list',
     'settings_teams_new',
     'settings_csat_templates',
+    'sla_list',
   ],
   menuItems: [
     {
@@ -166,6 +167,15 @@ const settings = accountId => ({
       toState: frontendURL(`accounts/${accountId}/settings/csat_templates`),
       toStateName: 'settings_csat_templates',
       featureFlag: FEATURE_FLAGS.CSAT_TEMPLATES,
+    },
+    {
+      icon: 'document-list-clock',
+      label: 'SLA',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/settings/sla/list`),
+      toStateName: 'sla_list',
+      featureFlag: FEATURE_FLAGS.SLA,
+      beta: true,
     },
   ],
 });

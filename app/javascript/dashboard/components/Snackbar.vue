@@ -1,11 +1,17 @@
 <template>
   <div>
-    <div class="ui-snackbar">
-      <div class="ui-snackbar-text">
+    <div
+      class="shadow-sm bg-slate-800 dark:bg-slate-700 rounded-[4px] items-center gap-3 inline-flex mb-2 max-w-[25rem] min-h-[1.875rem] min-w-[15rem] px-6 py-3 text-left"
+    >
+      <div class="text-white dark:text-white text-sm font-medium">
         {{ message }}
       </div>
-      <div v-if="action" class="ui-snackbar-action">
-        <router-link v-if="action.type == 'link'" :to="action.to">
+      <div v-if="action">
+        <router-link
+          v-if="action.type == 'link'"
+          :to="action.to"
+          class="text-woot-500 dark:text-woot-500 cursor-pointer font-medium hover:text-woot-600 dark:hover:text-woot-600 select-none"
+        >
           {{ action.message }}
         </router-link>
       </div>

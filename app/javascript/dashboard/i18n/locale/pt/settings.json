@@ -160,6 +160,9 @@
     "TRIAL_MESSAGE": "dias de teste restantes.",
     "TRAIL_BUTTON": "Comprar agora",
     "DELETED_USER": "Utilizador Excluído",
+    "EMAIL_VERIFICATION_PENDING": "Parece que o seu endereço de e-mail ainda não foi verificado. Por favor, confira a sua caixa de entrada e siga as instruções para concluir a verificação.",
+    "RESEND_VERIFICATION_MAIL": "Reenviar e-mail de verificação",
+    "EMAIL_VERIFICATION_SENT": "O e-mail de verificação foi enviado. Por favor, confira a sua caixa de entrada.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Conta Suspensa",
       "MESSAGE": "A sua conta está suspensa. Entre em contato com a equipa de suporte para obter mais informações."
@@ -197,6 +200,7 @@
     "CURRENTLY_VIEWING_ACCOUNT": "Atualmente visualizando:",
     "SWITCH": "Alternar",
     "CONVERSATIONS": "Conversas",
+    "INBOX": "Caixa de Entrada",
     "ALL_CONVERSATIONS": "Todas as conversas",
     "MENTIONED_CONVERSATIONS": "Menções",
     "PARTICIPATING_CONVERSATIONS": "Participando",
@@ -238,6 +242,7 @@
     "REPORTS_INBOX": "Caixa de Entrada",
     "REPORTS_TEAM": "Equipa",
     "SET_AVAILABILITY_TITLE": "Defina-se como",
+    "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Visão geral",
     "FACEBOOK_REAUTHORIZE": "A sua ligação ao Facebook caducou, volte a ligar a página para poder continuar a utilizar os serviços",

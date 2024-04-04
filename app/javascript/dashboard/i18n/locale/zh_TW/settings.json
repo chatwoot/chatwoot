@@ -160,6 +160,9 @@
     "TRIAL_MESSAGE": "剩餘試用期天數",
     "TRAIL_BUTTON": "立即購買",
     "DELETED_USER": "刪除使用者",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Account Suspended",
       "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
@@ -197,6 +200,7 @@
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
     "CONVERSATIONS": "會話",
+    "INBOX": "收件匣",
     "ALL_CONVERSATIONS": "所有對話",
     "MENTIONED_CONVERSATIONS": "Mentions",
     "PARTICIPATING_CONVERSATIONS": "Participating",
@@ -238,6 +242,7 @@
     "REPORTS_INBOX": "收件匣",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "總覽",
     "FACEBOOK_REAUTHORIZE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",

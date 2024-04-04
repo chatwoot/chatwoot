@@ -132,7 +132,7 @@ RSpec.describe ReplyMailbox do
       end
 
       it 'html_content is empty' do
-        expect(conversation.messages.last.attachments.count).to eq(0)
+        expect(conversation.messages.last.attachments.count).to eq(1)
 
         html_full_content = conversation.messages.last.content_attributes[:email][:html_content][:full]
         expect(html_full_content).to be_nil

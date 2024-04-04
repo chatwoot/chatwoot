@@ -319,12 +319,13 @@
       "HEADERS": {
         "TITLE": "Titel",
         "CATEGORY": "Kategori",
-        "READ_COUNT": "Læse antal",
+        "READ_COUNT": "Views",
         "STATUS": "Status",
         "LAST_EDITED": "Sidst redigeret"
       },
       "COLUMNS": {
-        "BY": "af"
+        "BY": "af",
+        "AUTHOR_NOT_AVAILABLE": "Author is not available"
       }
     },
     "EDIT_ARTICLE": {

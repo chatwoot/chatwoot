@@ -3,11 +3,10 @@
     class="bg-white dark:bg-slate-900 flex justify-between items-center py-2 px-4 border-b border-slate-50 dark:border-slate-800/50 flex-col md:flex-row"
   >
     <div
-      class="flex-1 w-full min-w-0 flex flex-col md:flex-row items-center justify-center"
+      class="flex-1 w-full min-w-0 flex flex-col items-center justify-center"
+      :class="isInboxView ? 'sm:flex-row' : 'md:flex-row'"
     >
-      <div
-        class="flex justify-start items-center mr-4 rtl:mr-0 rtl:ml-4 min-w-0 w-[inherit]"
-      >
+      <div class="flex justify-start items-center min-w-0 w-fit max-w-full">
         <back-button
           v-if="showBackButton"
           :back-url="backButtonUrl"
@@ -20,9 +19,11 @@
           :status="currentContact.availability_status"
         />
         <div
-          class="items-start flex flex-col ml-2 rtl:ml-0 rtl:mr-2 min-w-0 w-[inherit] overflow-hidden"
+          class="items-start flex flex-col ml-2 rtl:ml-0 rtl:mr-2 min-w-0 w-fit overflow-hidden"
         >
-          <div class="flex items-center flex-row gap-1 m-0 p-0 w-[inherit]">
+          <div
+            class="flex items-center flex-row gap-1 m-0 p-0 w-fit max-w-full"
+          >
             <woot-button
               variant="link"
               color-scheme="secondary"
@@ -30,7 +31,7 @@
               @click.prevent="$emit('contact-panel-toggle')"
             >
               <span
-                class="text-base leading-tight text-slate-900 dark:text-slate-100"
+                class="text-base leading-tight font-medium text-slate-900 dark:text-slate-100"
               >
                 {{ currentContact.name }}
               </span>
@@ -66,7 +67,7 @@
         </div>
       </div>
       <div
-        class="header-actions-wrap items-center flex flex-row flex-grow justify-end mt-3 lg:mt-0 rtl:relative rtl:left-6"
+        class="header-actions-wrap items-center flex flex-row flex-grow justify-end mt-3 lg:mt-0"
         :class="{ 'justify-end': isContactPanelOpen }"
       >
         <more-actions :conversation-id="currentChat.id" />
@@ -87,7 +88,6 @@ import Thumbnail from '../Thumbnail.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
-import { frontendURL } from 'dashboard/helper/URLHelper';
 
 export default {
   components: {
@@ -128,9 +128,6 @@ export default {
         params: { accountId, inbox_id: inboxId, label, teamId },
         name,
       } = this.$route;
-      if (this.isInboxView) {
-        return frontendURL(`accounts/${accountId}/inbox`);
-      }
       return conversationListPageURL({
         accountId,
         inboxId,

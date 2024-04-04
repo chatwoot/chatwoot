@@ -1,5 +1,5 @@
 <template>
-  <div class="my-2 mx-8">
+  <div class="mx-8">
     <settings-section
       :title="$t('INBOX_MGMT.BUSINESS_HOURS.TITLE')"
       :sub-title="$t('INBOX_MGMT.BUSINESS_HOURS.SUBTITLE')"
@@ -9,11 +9,14 @@
           <input
             v-model="isBusinessHoursEnabled"
             type="checkbox"
+            class="ltr:mr-2 rtl:ml-2"
             name="toggle-business-hours"
           />
           {{ $t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_AVAILABILITY') }}
         </label>
-        <p>{{ $t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_HELP') }}</p>
+        <p class="text-slate-700 dark:text-slate-300 mb-4">
+          {{ $t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_HELP') }}
+        </p>
         <div v-if="isBusinessHoursEnabled" class="mb-6">
           <div class="max-w-[37.5rem]">
             <label class="unavailable-input-wrap">

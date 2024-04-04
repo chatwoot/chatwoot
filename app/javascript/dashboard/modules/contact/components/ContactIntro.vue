@@ -8,10 +8,10 @@
     />
 
     <div class="contact--details">
-      <h2 class="block-title contact--name">
+      <h2 class="text-lg contact--name">
         {{ contact.name }}
       </h2>
-      <h3 class="sub-block-title contact--work">
+      <h3 class="text-base contact--work">
         {{ contact.title }}
         <i v-if="company.name" class="icon ion-minus-round" />
         <span class="company-name">{{ company.name }}</span>

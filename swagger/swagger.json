@@ -894,6 +894,149 @@
         }
       }
     },
+    "/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/public_inbox_identifier"
+        },
+        {
+          "$ref": "#/parameters/public_contact_identifier"
+        },
+        {
+          "$ref": "#/parameters/conversation_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Conversations API"
+        ],
+        "operationId": "get-single-conversation",
+        "summary": "Get a single conversation",
+        "description": "Retrieves the details of a specific conversation",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/public_conversation"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Conversation not found"
+          }
+        }
+      }
+    },
+    "/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/toggle_status": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/public_inbox_identifier"
+        },
+        {
+          "$ref": "#/parameters/public_contact_identifier"
+        },
+        {
+          "$ref": "#/parameters/conversation_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Conversations API"
+        ],
+        "operationId": "resolve-conversation",
+        "summary": "Resolve a conversation",
+        "description": "Marks a conversation as resolved",
+        "responses": {
+          "200": {
+            "description": "Conversation resolved successfully",
+            "schema": {
+              "$ref": "#/definitions/public_conversation"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Conversation not found"
+          }
+        }
+      }
+    },
+    "/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/toggle_typing": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/public_inbox_identifier"
+        },
+        {
+          "$ref": "#/parameters/public_contact_identifier"
+        },
+        {
+          "$ref": "#/parameters/conversation_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Conversations API"
+        ],
+        "operationId": "toggle-typing-status",
+        "summary": "Toggle typing status",
+        "description": "Toggles the typing status in a conversation",
+        "parameters": [
+          {
+            "name": "typing_status",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Typing status, either 'on' or 'off'"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typing status toggled successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Conversation not found"
+          }
+        }
+      }
+    },
+    "/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/update_last_seen": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/public_inbox_identifier"
+        },
+        {
+          "$ref": "#/parameters/public_contact_identifier"
+        },
+        {
+          "$ref": "#/parameters/conversation_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Conversations API"
+        ],
+        "operationId": "update-last-seen",
+        "summary": "Update last seen",
+        "description": "Updates the last seen time of the contact in a conversation",
+        "responses": {
+          "200": {
+            "description": "Last seen updated successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Conversation not found"
+          }
+        }
+      }
+    },
     "/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/messages": {
       "parameters": [
         {
@@ -2732,6 +2875,7 @@
             "in": "query",
             "type": "string",
             "enum": [
+              "all",
               "open",
               "resolved",
               "pending",
@@ -2832,6 +2976,7 @@
             "in": "query",
             "type": "string",
             "enum": [
+              "all",
               "open",
               "resolved",
               "pending",
@@ -3172,6 +3317,64 @@
           },
           "403": {
             "description": "Access denied"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Conversations"
+        ],
+        "operationId": "update-conversation",
+        "summary": "Update Conversation",
+        "description": "Update Conversation Attributes",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          },
+          {
+            "agentBotApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "priority": {
+                  "type": "string",
+                  "enum": [
+                    "urgent",
+                    "high",
+                    "medium",
+                    "low",
+                    "none"
+                  ],
+                  "description": "The priority of the conversation"
+                },
+                "sla_policy_id": {
+                  "type": "number",
+                  "description": "The ID of the SLA policy (Available only in Enterprise edition)"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Conversation not found"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
@@ -6364,6 +6567,7 @@
         "content_type": {
           "type": "string",
           "enum": [
+            "text",
             "input_email",
             "cards",
             "input_select",

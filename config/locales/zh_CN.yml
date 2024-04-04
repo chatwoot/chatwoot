@@ -31,6 +31,7 @@ zh_CN:
       disposable_email: 我们不允许可用的电子邮件
       invalid_email: 您输入了一个无效的电子邮件
       email_already_exists: "您已经注册了 %{email} 的帐户"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: 注册失败
     data_import:
       data_type:
@@ -67,25 +68,25 @@ zh_CN:
     utc_warning: 生成的报表在 UTC 时区
     agent_csv:
       agent_name: 客服名称
-      conversations_count: 对话数量
-      avg_first_response_time: 平均首次响应时间(分钟)
-      avg_resolution_time: 平均解决时间(分钟)
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     inbox_csv:
       inbox_name: 收件箱名称
       inbox_type: 收件箱类型
       conversations_count: No. of conversations
-      avg_first_response_time: 平均首次响应时间(分钟)
-      avg_resolution_time: 平均解决时间(分钟)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     label_csv:
       label_title: 标签
       conversations_count: No. of conversations
-      avg_first_response_time: 平均首次响应时间(分钟)
-      avg_resolution_time: 平均解决时间(分钟)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     team_csv:
       team_name: 团队名称
       conversations_count: 对话数量
-      avg_first_response_time: 平均首次响应时间(分钟)
-      avg_resolution_time: 平均解决时间(分钟)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: 时区
     default_group_by: 天
@@ -101,10 +102,12 @@ zh_CN:
         recorded_at: 录制日期
   notifications:
     notification_title:
-      conversation_creation: "[新会话] - #%{display_id} 中创建了 %{inbox_name}"
-      conversation_assignment: "[分配给您] - #%{display_id} 已分配会话给您"
-      assigned_conversation_new_message: "[新信息] - #%{display_id} %{content}"
-      conversation_mention: "您在会话中被提及 [ID - %{display_id}] by %{name}"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} 会话中提到了你: "
@@ -228,3 +231,12 @@ zh_CN:
       inbox_name: 收件箱
       inbox_type: 收件箱类型
     button: 重新打开会话
+  time_units:
+    days:
+      other: "%{count} days"
+    hours:
+      other: "%{count} hours"
+    minutes:
+      other: "%{count} minutes"
+    seconds:
+      other: "%{count} seconds"

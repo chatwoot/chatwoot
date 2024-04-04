@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "3.6.0",
+  "version": "3.7.0",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/**/*.{js,vue}",
@@ -32,7 +32,7 @@
   "dependencies": {
     "@braid/vue-formulate": "^2.5.2",
     "@chatwoot/prosemirror-schema": "1.0.5",
-    "@chatwoot/utils": "^0.0.21",
+    "@chatwoot/utils": "^0.0.23",
     "@hcaptcha/vue-hcaptcha": "^0.3.2",
     "@june-so/analytics-next": "^2.0.0",
     "@radix-ui/colors": "^1.0.1",
@@ -56,7 +56,6 @@
     "date-fns": "2.21.1",
     "date-fns-tz": "^1.3.3",
     "dompurify": "2.2.7",
-    "foundation-sites": "~6.5.3",
     "highlight.js": "~10.4.1",
     "idb": "^7.1.1",
     "ionicons": "~2.0.1",

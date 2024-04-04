@@ -20,7 +20,7 @@
     "IN_A_FEW_MINUTES": "Paprastai atsako per kelias minutes",
     "IN_A_FEW_HOURS": "Paprastai atsako per kelias valandas",
     "IN_A_DAY": "Paprastai atsako per dieną",
-    "BACK_IN": "Mes grįšime online"
+    "BACK_IN": "Mes grįšime"
   },
   "DAY_NAMES": [
     "Sekmadienis",
@@ -80,7 +80,8 @@
     },
     "CAMPAIGN_HEADER": "Prieš pradėdami pokalbį nurodykite savo vardą ir el. pašto adresą",
     "IS_REQUIRED": "reikalingas",
-    "REQUIRED": "Reikalingas"
+    "REQUIRED": "Reikalingas",
+    "REGEX_ERROR": "Please provide a valid input"
   },
   "FILE_SIZE_LIMIT": "Failas viršija {MAXIMUM_FILE_UPLOAD_SIZE} apribojimą",
   "CHAT_FORM": {

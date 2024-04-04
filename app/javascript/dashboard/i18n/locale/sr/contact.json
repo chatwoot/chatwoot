@@ -39,10 +39,10 @@
     },
     "MERGE_CONTACT": "Spoji kontakt",
     "CONTACT_ACTIONS": "Akcije nad kontaktom",
-    "MUTE_CONTACT": "Utišaj razgovor",
-    "UNMUTE_CONTACT": "Poništi utišanje razgovora",
-    "MUTED_SUCCESS": "Ovaj razgovor je utišan za narednih 6 sati",
-    "UNMUTED_SUCCESS": "Ovaj razgovor više nije utišan",
+    "MUTE_CONTACT": "Block Contact",
+    "UNMUTE_CONTACT": "Unblock Contact",
+    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
+    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
     "SEND_TRANSCRIPT": "Pošalji transkript",
     "EDIT_LABEL": "Uredi",
     "SIDEBAR_SECTIONS": {
@@ -79,7 +79,13 @@
     "TITLE": "Export Contacts",
     "DESC": "Export contacts to a CSV file.",
     "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "Pojavila se greška, molim vas pokušajte ponovo"
+    "ERROR_MESSAGE": "Pojavila se greška, molim vas pokušajte ponovo",
+    "CONFIRM": {
+      "TITLE": "Export Contacts",
+      "MESSAGE": "Are you sure you want to export all contacts?",
+      "YES": "Yes, Export",
+      "NO": "No, Cancel"
+    }
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -339,7 +345,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Ispravna vrednost je obavezna",
-      "INVALID_URL": "Neispravna adresa"
+      "INVALID_URL": "Neispravna adresa",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {

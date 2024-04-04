@@ -6,6 +6,7 @@
     <input
       ref="searchInput"
       type="search"
+      class="dark:bg-slate-900"
       :placeholder="$t('SEARCH.INPUT_PLACEHOLDER')"
       :value="searchQuery"
       @focus="onFocus"
@@ -73,7 +74,7 @@ export default {
 <style lang="scss" scoped>
 .input-container {
   transition: border-bottom 0.2s ease-in-out;
-  @apply relative flex items-center py-2 px-4 rounded-sm border border-solid border-slate-100 dark:border-slate-800;
+  @apply relative flex items-center py-2 px-4 h-14 gap-2 rounded-sm border border-solid border-slate-100 dark:border-slate-800;
 
   input[type='search'] {
     @apply w-full m-0 shadow-none border-transparent active:border-transparent active:shadow-none hover:border-transparent hover:shadow-none focus:border-transparent focus:shadow-none;
@@ -96,6 +97,6 @@ export default {
 }
 
 .helper-label {
-  @apply m-0;
+  @apply m-0 whitespace-nowrap;
 }
 </style>
