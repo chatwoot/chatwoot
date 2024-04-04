@@ -508,7 +508,7 @@
   },
   "SLA_REPORTS": {
     "HEADER": "SLA Reports",
-    "NO_RECORDS": "There are no SLA reports available.",
+    "NO_RECORDS": "SLA applied conversations are not available.",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",
@@ -524,7 +524,8 @@
         "POLICY_BREACHED": "Policy missed",
         "CONVERSATION": "Conversation",
         "AGENT": "Agent"
-      }
+      },
+      "VIEW_DETAILS": "View Details"
     }
   }
 }
