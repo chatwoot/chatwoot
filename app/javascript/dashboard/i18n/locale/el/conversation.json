@@ -69,8 +69,14 @@
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
         "RT": "RT {status}",
-        "BREACH": "breach",
+        "MISSED": "missed",
         "DUE": "due"
+      },
+      "SLA_POPOVER": {
+        "FRT": "Χρόνος πρώτης ανταπόκρισης",
+        "NRT": "Next Response Time",
+        "RT": "Χρόνος ανάλυσης",
+        "MISSED": "missed on"
       }
     },
     "RESOLVE_DROPDOWN": {
