@@ -18,8 +18,6 @@ ENV NODE_OPTIONS ${NODE_OPTIONS}
 
 ENV BUNDLE_PATH="/gems"
 
-RUN apk add --update --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/main vips
-
 RUN apk update && apk add --no-cache \
     openssl \
     tar \
@@ -96,8 +94,6 @@ ENV BUNDLE_FORCE_RUBY_PLATFORM ${BUNDLE_FORCE_RUBY_PLATFORM}
 ARG RAILS_ENV=production
 ENV RAILS_ENV ${RAILS_ENV}
 ENV BUNDLE_PATH="/gems"
-
-RUN apk add --update --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/main vips
 
 RUN apk update && apk add --no-cache \
   build-base \
