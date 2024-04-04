@@ -1,14 +1,17 @@
 <template>
   <footer
     v-if="isFooterVisible"
-    class="bg-white dark:bg-slate-800 h-12 border-t border-solid border-slate-75 dark:border-slate-700/50 flex items-center justify-between px-6"
+    class="bg-transparent dark:bg-transparent h-12 flex items-center justify-between px-6"
   >
     <div class="left-aligned-wrap">
-      <div class="text-xs text-slate-600 dark:text-slate-200">
-        <strong>{{ firstIndex }}</strong>
-        - <strong>{{ lastIndex }}</strong> of
-        <strong>{{ totalCount }}</strong> items
-      </div>
+      <span class="text-sm text-slate-600 dark:text-slate-200">
+        {{
+          $t('GENERAL.SHOWING_RESULTS', {
+            currentItemCount: `${firstIndex}-${lastIndex}`,
+            totalItems: totalCount,
+          })
+        }}
+      </span>
     </div>
     <div class="right-aligned-wrap">
       <div
@@ -21,55 +24,57 @@
           color-scheme="secondary"
           class-names="goto-first"
           :is-disabled="hasFirstPage"
+          class="dark:!bg-slate-800"
           @click="onFirstPage"
         >
-          <fluent-icon icon="chevron-left" size="18" />
-          <fluent-icon
-            icon="chevron-left"
-            size="18"
-            :class="pageFooterIconClass"
-          />
+          <fluent-icon icon="chevrons-left" size="20" icon-lib="lucide" />
         </woot-button>
         <woot-button
           size="small"
           variant="smooth"
           color-scheme="secondary"
           :is-disabled="hasPrevPage"
+          class="dark:!bg-slate-800"
           @click="onPrevPage"
         >
-          <fluent-icon icon="chevron-left" size="18" />
+          <fluent-icon icon="chevron-left-single" size="20" icon-lib="lucide" />
         </woot-button>
-        <woot-button
-          size="small"
-          variant="smooth"
-          color-scheme="secondary"
-          @click.prevent
+
+        <div
+          class="flex px-3 items-center gap-3 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-100"
         >
-          {{ currentPage }}
-        </woot-button>
+          <span class="text-sm text-slate-800 dark:text-slate-100">
+            {{ currentPage }}
+          </span>
+          <span>/</span>
+          <span class="text-sm text-slate-600 dark:text-slate-200">
+            {{ totalPages }}
+          </span>
+        </div>
         <woot-button
           size="small"
           variant="smooth"
           color-scheme="secondary"
           :is-disabled="hasNextPage"
+          class="dark:!bg-slate-800"
           @click="onNextPage"
         >
-          <fluent-icon icon="chevron-right" size="18" />
+          <fluent-icon
+            icon="chevron-right-single"
+            size="20"
+            icon-lib="lucide"
+          />
         </woot-button>
         <woot-button
           size="small"
           variant="smooth"
           color-scheme="secondary"
           class-names="goto-last"
+          class="dark:!bg-slate-800"
           :is-disabled="hasLastPage"
           @click="onLastPage"
         >
-          <fluent-icon icon="chevron-right" size="18" />
-          <fluent-icon
-            icon="chevron-right"
-            size="18"
-            :class="pageFooterIconClass"
-          />
+          <fluent-icon icon="chevrons-right" size="20" icon-lib="lucide" />
         </woot-button>
       </div>
     </div>
@@ -97,6 +102,9 @@ export default {
     },
   },
   computed: {
+    totalPages() {
+      return Math.ceil(this.totalCount / this.pageSize);
+    },
     pageFooterIconClass() {
       return this.isRTLView ? '-mr-3' : '-ml-3';
     },
@@ -113,7 +121,7 @@ export default {
       return this.searchQuery !== '' ? 'show' : '';
     },
     hasLastPage() {
-      return !!Math.ceil(this.totalCount / this.pageSize);
+      return this.currentPage === this.totalPages || this.totalPages === 1;
     },
     hasFirstPage() {
       return this.currentPage === 1;
