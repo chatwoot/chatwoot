@@ -1,5 +1,5 @@
 const calculateThreshold = (timeOffset, threshold) => {
-  // Calculate the time left for the SLA to breach or the time since the SLA has breached
+  // Calculate the time left for the SLA to breach or the time since the SLA has missed
   if (threshold === null) return null;
   const currentTime = Math.floor(Date.now() / 1000);
   return timeOffset + threshold - currentTime;
@@ -100,7 +100,7 @@ export const evaluateSLAStatus = (appliedSla, chat) => {
   // Filter out the SLA and create the object for each breach
   const SLAStatuses = evaluateSLAConditions(appliedSla, chat);
 
-  // Return the most urgent SLA which is latest to breach or has breached
+  // Return the most urgent SLA which is latest to breach or has missed
   const mostUrgent = findMostUrgentSLAStatus(SLAStatuses);
   return mostUrgent
     ? {
