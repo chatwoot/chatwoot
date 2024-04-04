@@ -6,7 +6,7 @@
   >
     <div
       class="flex items-center w-full truncate"
-      :class="showExtendedInfo ? 'h-[26px] px-1.5' : 'h-5 px-2'"
+      :class="showExtendedInfo ? 'h-[26px] px-1.5' : 'h-5 px-2 gap-1'"
       @mouseover="openSlaPopover()"
       @mouseleave="closeSlaPopover()"
     >
