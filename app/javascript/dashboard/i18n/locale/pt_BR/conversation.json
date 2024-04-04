@@ -69,8 +69,14 @@
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
         "RT": "RT {status}",
-        "BREACH": "violação",
+        "MISSED": "missed",
         "DUE": "devido"
+      },
+      "SLA_POPOVER": {
+        "FRT": "Tempo da Primeira Resposta",
+        "NRT": "",
+        "RT": "Tempo de resolução",
+        "MISSED": "missed on"
       }
     },
     "RESOLVE_DROPDOWN": {
