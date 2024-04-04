@@ -9,6 +9,21 @@ RSpec.describe SlaEvent, type: :model do
     it { is_expected.to belong_to(:inbox) }
   end
 
+  describe 'push_event_data' do
+    it 'returns the correct hash' do
+      sla_event = create(:sla_event)
+      expect(sla_event.push_event_data).to eq(
+        {
+          id: sla_event.id,
+          event_type: 'frt',
+          meta: sla_event.meta,
+          created_at: sla_event.created_at.to_i,
+          updated_at: sla_event.updated_at.to_i
+        }
+      )
+    end
+  end
+
   describe 'validates_factory' do
     it 'creates valid sla event object' do
       sla_event = create(:sla_event)
