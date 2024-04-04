@@ -5,10 +5,11 @@
       <SLAMetrics
         :hit-rate="slaMetrics.hitRate"
         :no-of-breaches="slaMetrics.numberOfSLABreaches"
-        :is-loading="uiFlags.isLoading"
+        :is-loading="uiFlags.isFetchingMetrics"
       />
       <SLATable
         :sla-reports="slaReports"
+        :is-loading="uiFlags.isFetching"
         :current-page="Number(slaMeta.currentPage)"
         :total-count="Number(slaMeta.count)"
         @page-change="onPageChange"

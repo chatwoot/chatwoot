@@ -26,20 +26,30 @@
           class="col-span-2 px-0 py-2 text-xs font-medium text-left uppercase text-slate-700 dark:text-slate-100 rtl:text-right"
         />
       </div>
+
       <div
-        v-show="!slaReports.length"
+        v-if="isLoading"
+        class="flex items-center justify-center h-32 bg-white dark:bg-slate-900"
+      >
+        <spinner />
+        <span>{{ $t('SLA_REPORTS.LOADING') }}</span>
+      </div>
+      <div v-if="slaReports.length && !isLoading">
+        <SLA-report-item
+          v-for="slaReport in slaReports"
+          :key="slaReport.applied_sla.id"
+          :sla-name="slaReport.applied_sla.sla_name"
+          :conversation="slaReport.conversation"
+          :conversation-id="slaReport.conversation.id"
+          :sla-events="slaReport.sla_events"
+        />
+      </div>
+      <div
+        v-if="!slaReports.length && !isLoading"
         class="flex items-center justify-center h-32 bg-white dark:bg-slate-900"
       >
         {{ $t('SLA_REPORTS.NO_RECORDS') }}
       </div>
-      <SLA-report-item
-        v-for="slaReport in slaReports"
-        :key="slaReport.applied_sla.id"
-        :sla-name="slaReport.applied_sla.sla_name"
-        :conversation="slaReport.conversation"
-        :conversation-id="slaReport.conversation.id"
-        :sla-events="slaReport.sla_events"
-      />
     </div>
     <table-footer
       v-if="shouldShowFooter"
@@ -55,11 +65,13 @@
 <script>
 import TableFooter from 'dashboard/components/widgets/TableFooter.vue';
 import SLAReportItem from './SLAReportItem.vue';
+import Spinner from 'shared/components/Spinner.vue';
 export default {
   name: 'SLATable',
   components: {
     SLAReportItem,
     TableFooter,
+    Spinner,
   },
   props: {
     slaReports: {
@@ -77,6 +89,10 @@ export default {
     pageSize: {
       type: Number,
       default: 3,
+    },
+    isLoading: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

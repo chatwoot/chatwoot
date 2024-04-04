@@ -509,6 +509,7 @@
   "SLA_REPORTS": {
     "HEADER": "SLA Reports",
     "NO_RECORDS": "SLA applied conversations are not available.",
+    "LOADING": "Loading SLA data...",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",
