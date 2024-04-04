@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import TableFooter from 'dashboard/components/ui/TableFooter.vue';
+import TableFooter from 'dashboard/components/widgets/TableFooter.vue';
 import SLAReportItem from './SLAReportItem.vue';
 export default {
   name: 'SLATable',
