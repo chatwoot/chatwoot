@@ -1,9 +1,9 @@
 <template>
   <footer
     v-if="isFooterVisible"
-    class="bg-transparent dark:bg-transparent h-12 flex items-center justify-between px-6"
+    class="bg-white dark:bg-slate-900 h-12 flex items-center justify-between px-6"
   >
-    <div class="left-aligned-wrap">
+    <div>
       <span class="text-sm text-slate-700 dark:text-slate-200 font-medium">
         {{
           $t('GENERAL.SHOWING_RESULTS', {
@@ -13,35 +13,55 @@
         }}
       </span>
     </div>
-    <div class="right-aligned-wrap">
+    <div>
       <div
         v-if="totalCount"
-        class="primary button-group pagination-button-group"
+        class="flex items-center bg-slate-50 dark:bg-slate-800 h-8 rounded-lg"
       >
         <woot-button
           size="small"
           variant="smooth"
           color-scheme="secondary"
-          class-names="goto-first"
           :is-disabled="hasFirstPage"
-          class="dark:!bg-slate-800"
+          class-names="dark:!bg-slate-800 !opacity-100 rounded-l-lg rounded-r-none"
+          :class="
+            hasFirstPage
+              ? 'hover:!bg-slate-50 dark:hover:!bg-slate-800'
+              : 'dark:hover:!bg-slate-700/50'
+          "
           @click="onFirstPage"
         >
-          <fluent-icon icon="chevrons-left" size="20" icon-lib="lucide" />
+          <fluent-icon
+            icon="chevrons-left"
+            size="20"
+            icon-lib="lucide"
+            :class="hasFirstPage && 'opacity-40'"
+          />
         </woot-button>
+        <div class="bg-slate-75 dark:bg-slate-700/50 w-px rounded-sm h-4" />
         <woot-button
           size="small"
           variant="smooth"
           color-scheme="secondary"
           :is-disabled="hasPrevPage"
-          class="dark:!bg-slate-800"
+          class-names="dark:!bg-slate-800 !opacity-100 rounded-none"
+          :class="
+            hasPrevPage
+              ? 'hover:!bg-slate-50 dark:hover:!bg-slate-800'
+              : 'dark:hover:!bg-slate-700/50'
+          "
           @click="onPrevPage"
         >
-          <fluent-icon icon="chevron-left-single" size="20" icon-lib="lucide" />
+          <fluent-icon
+            icon="chevron-left-single"
+            size="20"
+            icon-lib="lucide"
+            :class="hasPrevPage && 'opacity-40'"
+          />
         </woot-button>
 
         <div
-          class="flex px-3 items-center gap-3 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-100"
+          class="flex px-3 items-center gap-3 tabular-nums bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-100"
         >
           <span class="text-sm text-slate-800 dark:text-slate-100">
             {{ currentPage }}
@@ -56,25 +76,41 @@
           variant="smooth"
           color-scheme="secondary"
           :is-disabled="hasNextPage"
-          class="dark:!bg-slate-800"
+          class-names="dark:!bg-slate-800 !opacity-100 rounded-none"
+          :class="
+            hasNextPage
+              ? 'hover:!bg-slate-50 dark:hover:!bg-slate-800'
+              : 'dark:hover:!bg-slate-700/50'
+          "
           @click="onNextPage"
         >
           <fluent-icon
             icon="chevron-right-single"
             size="20"
             icon-lib="lucide"
+            :class="hasNextPage && 'opacity-40'"
           />
         </woot-button>
+        <div class="bg-slate-75 dark:bg-slate-700/50 w-px rounded-sm h-4" />
         <woot-button
           size="small"
           variant="smooth"
           color-scheme="secondary"
-          class-names="goto-last"
-          class="dark:!bg-slate-800"
+          class-names="dark:!bg-slate-800 rounded-r-lg rounded-l-none !opacity-100"
+          :class="
+            hasLastPage
+              ? 'hover:!bg-slate-50 dark:hover:!bg-slate-800'
+              : 'dark:hover:!bg-slate-700/50'
+          "
           :is-disabled="hasLastPage"
           @click="onLastPage"
         >
-          <fluent-icon icon="chevrons-right" size="20" icon-lib="lucide" />
+          <fluent-icon
+            icon="chevrons-right"
+            size="20"
+            icon-lib="lucide"
+            :class="hasLastPage && 'opacity-40'"
+          />
         </woot-button>
       </div>
     </div>
@@ -104,9 +140,6 @@ export default {
   computed: {
     totalPages() {
       return Math.ceil(this.totalCount / this.pageSize);
-    },
-    pageFooterIconClass() {
-      return this.isRTLView ? '-mr-3' : '-ml-3';
     },
     isFooterVisible() {
       return this.totalCount && !(this.firstIndex > this.totalCount);
@@ -168,12 +201,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.goto-first,
-.goto-last {
-  i:last-child {
-    @apply -ml-1;
-  }
-}
-</style>
