@@ -66,18 +66,20 @@ const showSlaPopoverCard = ref(false);
     <div
       class="flex items-center col-span-2 px-0 py-2 text-sm tracking-[0.5] text-slate-700 dark:text-slate-100 rtl:text-right"
     >
-      <woot-button
-        color-scheme="secondary"
-        variant="link"
-        @click="showSlaPopoverCard = !showSlaPopoverCard"
-      >
-        {{ $t('SLA_REPORTS.TABLE.VIEW_DETAILS') }}
-      </woot-button>
-      <SLA-popover-card
-        v-if="showSlaPopoverCard"
-        :all-missed-slas="slaEvents"
-        class="right-0 top-7"
-      />
+      <div class="relative">
+        <woot-button
+          color-scheme="secondary"
+          variant="link"
+          @click="showSlaPopoverCard = !showSlaPopoverCard"
+        >
+          {{ $t('SLA_REPORTS.TABLE.VIEW_DETAILS') }}
+        </woot-button>
+        <SLA-popover-card
+          v-if="showSlaPopoverCard"
+          :all-missed-slas="slaEvents"
+          class="right-0"
+        />
+      </div>
     </div>
   </div>
 </template>
