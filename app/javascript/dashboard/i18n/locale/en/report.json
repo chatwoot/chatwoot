@@ -521,7 +521,7 @@
     },
     "TABLE": {
       "HEADER": {
-        "POLICY_BREACHED": "Policy breached",
+        "POLICY_BREACHED": "Policy missed",
         "CONVERSATION": "Conversation",
         "AGENT": "Agent"
       }

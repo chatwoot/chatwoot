@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="min-w-full border-t border-x rounded-xl border-slate-75 dark:border-slate-800/50"
+      class="min-w-full border-t border-x rounded-xl border-slate-75 dark:border-slate-700/50"
     >
       <!-- Header -->
       <div
@@ -45,14 +45,14 @@
       :current-page="currentPage"
       :total-count="totalCount"
       :page-size="pageSize"
-      class="dark:bg-slate-900 sticky bottom-0 border-none"
+      class="bg-slate-25 dark:bg-slate-900 sticky bottom-0 border-none"
       @page-change="onPageChange"
     />
   </div>
 </template>
 
 <script>
-import TableFooter from 'dashboard/components/widgets/TableFooter.vue';
+import TableFooter from 'dashboard/components/ui/TableFooter.vue';
 import SLAReportItem from './SLAReportItem.vue';
 export default {
   name: 'SLATable',

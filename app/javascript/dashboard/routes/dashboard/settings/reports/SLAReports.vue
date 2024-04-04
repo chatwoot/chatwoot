@@ -1,17 +1,19 @@
 <template>
-  <div class="flex flex-col flex-1 gap-6 p-4 overflow-auto font-inter">
+  <div class="flex flex-col flex-1 p-4 overflow-auto font-inter">
     <SLAReportFilters @filter-change="onFilterChange" />
-    <SLAMetrics
-      :hit-rate="slaMetrics.hitRate"
-      :no-of-breaches="slaMetrics.numberOfSLABreaches"
-      :is-loading="uiFlags.isLoading"
-    />
-    <SLATable
-      :sla-reports="slaReports"
-      :current-page="Number(slaMeta.currentPage)"
-      :total-count="Number(slaMeta.count)"
-      @page-change="onPageChange"
-    />
+    <div class="flex flex-col gap-6">
+      <SLAMetrics
+        :hit-rate="slaMetrics.hitRate"
+        :no-of-breaches="slaMetrics.numberOfSLABreaches"
+        :is-loading="uiFlags.isLoading"
+      />
+      <SLATable
+        :sla-reports="slaReports"
+        :current-page="Number(slaMeta.currentPage)"
+        :total-count="Number(slaMeta.count)"
+        @page-change="onPageChange"
+      />
+    </div>
   </div>
 </template>
 <script>
