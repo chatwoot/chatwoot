@@ -45,11 +45,7 @@
           color-scheme="secondary"
           :is-disabled="hasPrevPage"
           class-names="dark:!bg-slate-800 !opacity-100 rounded-none"
-          :class="
-            hasPrevPage
-              ? 'hover:!bg-slate-50 dark:hover:!bg-slate-800'
-              : 'dark:hover:!bg-slate-700/50'
-          "
+          :class="buttonClass(hasPrevPage)"
           @click="onPrevPage"
         >
           <fluent-icon
@@ -77,11 +73,7 @@
           color-scheme="secondary"
           :is-disabled="hasNextPage"
           class-names="dark:!bg-slate-800 !opacity-100 rounded-none"
-          :class="
-            hasNextPage
-              ? 'hover:!bg-slate-50 dark:hover:!bg-slate-800'
-              : 'dark:hover:!bg-slate-700/50'
-          "
+          :class="buttonClass(hasNextPage)"
           @click="onNextPage"
         >
           <fluent-icon
@@ -97,11 +89,7 @@
           variant="smooth"
           color-scheme="secondary"
           class-names="dark:!bg-slate-800 rounded-r-lg rounded-l-none !opacity-100"
-          :class="
-            hasLastPage
-              ? 'hover:!bg-slate-50 dark:hover:!bg-slate-800'
-              : 'dark:hover:!bg-slate-700/50'
-          "
+          :class="buttonClass(hasLastPage)"
           :is-disabled="hasLastPage"
           @click="onLastPage"
         >
@@ -167,6 +155,12 @@ export default {
     },
   },
   methods: {
+    buttonClass(hasPage) {
+      if (hasPage) {
+        return 'dark:hover:!bg-slate-50 dark:!bg-slate-800 rounded-r-lg rounded-l-none';
+      }
+      return 'dark:hover:!bg-slate-700/50';
+    },
     onNextPage() {
       if (this.hasNextPage) {
         return;
