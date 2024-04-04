@@ -2,7 +2,7 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
   include Sift
   include DateRangeHelper
 
-  RESULTS_PER_PAGE = 3
+  RESULTS_PER_PAGE = 25
 
   before_action :set_applied_slas, only: [:index, :metrics, :download]
   before_action :set_current_page, only: [:index]
