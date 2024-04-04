@@ -4,7 +4,7 @@
     class="bg-transparent dark:bg-transparent h-12 flex items-center justify-between px-6"
   >
     <div class="left-aligned-wrap">
-      <span class="text-sm text-slate-600 dark:text-slate-200">
+      <span class="text-sm text-slate-700 dark:text-slate-200 font-medium">
         {{
           $t('GENERAL.SHOWING_RESULTS', {
             currentItemCount: `${firstIndex}-${lastIndex}`,
