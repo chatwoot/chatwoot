@@ -69,8 +69,14 @@
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
         "RT": "RT {status}",
-        "BREACH": "breach",
+        "MISSED": "missed",
         "DUE": "due"
+      },
+      "SLA_POPOVER": {
+        "FRT": "وقت الاستجابة الأولى",
+        "NRT": "Next Response Time",
+        "RT": "وقت إغلاق المحادثات",
+        "MISSED": "missed on"
       }
     },
     "RESOLVE_DROPDOWN": {
