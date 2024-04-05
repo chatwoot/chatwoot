@@ -60,7 +60,7 @@
         <span class="text-sm text-slate-800 dark:text-slate-75">
           {{ currentPage }}
         </span>
-        <span class="text-slate-600 dark:bg-slate-500">/</span>
+        <span class="text-slate-600 dark:text-slate-500">/</span>
         <span class="text-sm text-slate-600 dark:text-slate-500">
           {{ totalPages }}
         </span>
