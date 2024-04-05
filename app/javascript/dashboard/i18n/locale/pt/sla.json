@@ -2,11 +2,18 @@
   "SLA": {
     "HEADER": "SLA",
     "ADD_ACTION": "Adicionar SLA",
+    "ADD_ACTION_LONG": "Criar uma nova Política de SLA",
     "DESCRIPTION": "Service Level Agreements (SLA) são contratos que definem expectativas claras entre a sua equipa e os clientes. Estabelecem normas para tempos de resposta e de resolução, criando um quadro de responsabilização e garantindo uma experiência coerente e de qualidade.",
     "LEARN_MORE": "Saiba mais sobre SLA",
     "LOADING": "A carregar SLAs",
     "LIST": {
       "404": "Não há SLAs disponíveis nesta conta.",
+      "EMPTY": {
+        "TITLE_1": "P0 da empresa",
+        "DESC_1": "Questões levantadas pelos clientes empresariais que requerem atenção imediata.",
+        "TITLE_2": "Empresa P1",
+        "DESC_2": "Questões levantadas pelos clientes empresariais, que têm de ser rapidamente reconhecidas."
+      },
       "BUSINESS_HOURS_ON": "Horário comercial ativado",
       "BUSINESS_HOURS_OFF": "Horário comercial desativado",
       "RESPONSE_TYPES": {
