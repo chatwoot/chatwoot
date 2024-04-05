@@ -4,8 +4,8 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
 
   RESULTS_PER_PAGE = 25
 
-  before_action :set_applied_slas, only: [:index, :metrics]
-  before_action :missed_applied_slas, only: [:index]
+  before_action :set_applied_slas, only: [:index, :metrics, :download]
+  before_action :missed_applied_slas, only: [:index, :metrics, :download]
   before_action :set_current_page, only: [:index]
   before_action :check_admin_authorization?
 
@@ -22,6 +22,13 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
     @hit_rate = hit_rate
   end
 
+  def download
+    @missed_applied_slas = missed_applied_slas
+    response.headers['Content-Type'] = 'text/csv'
+    response.headers['Content-Disposition'] = 'attachment; filename=breached_conversation.csv'
+    render layout: false, formats: [:csv]
+  end
+
   private
 
   def total_applied_slas
@@ -29,7 +36,7 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
   end
 
   def number_of_sla_misses
-    @number_of_sla_misses ||= @applied_slas.missed.count
+    @number_of_sla_misses ||= missed_applied_slas.count
   end
 
   def hit_rate
