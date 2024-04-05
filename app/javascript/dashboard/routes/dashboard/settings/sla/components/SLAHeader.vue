@@ -1,5 +1,12 @@
 <script setup>
 import BaseSettingsHeader from '../../components/BaseSettingsHeader.vue';
+
+defineProps({
+  showActions: {
+    type: Boolean,
+    default: true,
+  },
+});
 </script>
 <template>
   <base-settings-header
@@ -9,7 +16,7 @@ import BaseSettingsHeader from '../../components/BaseSettingsHeader.vue';
     href="/"
     icon-name="document-list-clock"
   >
-    <template #actions>
+    <template v-if="showActions" #actions>
       <woot-button
         color-scheme="primary"
         icon="plus-sign"
