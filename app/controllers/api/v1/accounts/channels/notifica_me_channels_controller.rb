@@ -17,9 +17,9 @@ class Api::V1::Accounts::Channels::NotificaMeChannelsController < Api::V1::Accou
       format: :json
     )
     if response.success?
-      render :json => { data: { channels: response.parsed_response }}, status: 200
+      render json: { data: { channels: response.parsed_response }}, status: 200
     else
-      render :json => { error: response.parsed_response }, status: 422
+      render json: { error: response.parsed_response }, status: 422
     end
   end
 
@@ -27,6 +27,7 @@ class Api::V1::Accounts::Channels::NotificaMeChannelsController < Api::V1::Accou
     ActiveRecord::Base.transaction do
       build_inbox
       setup_webhooks
+      render json: @inbox, status: 200
     rescue StandardError => e
       Rails.logger.error("NotificaMe channel create error #{e}, #{e.backtrace}")
       render_could_not_create_error(e.message)
