@@ -8,14 +8,14 @@
         class="grid content-center h-12 grid-cols-12 gap-4 px-6 py-0 border-b bg-slate-25 border-slate-75 dark:border-slate-800 rounded-t-xl dark:bg-slate-900"
       >
         <div
-          class="flex items-center font-medium text-xs py-2 px-0 tracking-[10%] text-slate-700 dark:text-slate-100 text-left rtl:text-right uppercase col-span-2"
-        >
-          {{ $t('SLA_REPORTS.TABLE.HEADER.POLICY_BREACHED') }}
-        </div>
-        <div
           class="flex items-center col-span-6 px-0 py-2 text-xs font-medium text-left uppercase text-slate-700 dark:text-slate-100 rtl:text-right"
         >
           {{ $t('SLA_REPORTS.TABLE.HEADER.CONVERSATION') }}
+        </div>
+        <div
+          class="flex items-center font-medium text-xs py-2 px-0 tracking-[10%] text-slate-700 dark:text-slate-100 text-left rtl:text-right uppercase col-span-2"
+        >
+          {{ $t('SLA_REPORTS.TABLE.HEADER.POLICY_BREACHED') }}
         </div>
         <div
           class="flex items-center px-0 text-xs font-medium text-left uppercase col-span-2py-2 text-slate-700 dark:text-slate-100 rtl:text-right"
