@@ -4,7 +4,7 @@
     :loading-message="$t('SLA.LOADING')"
   >
     <template #header>
-      <SLA-header @click="openAddPopup" />
+      <SLA-header :show-actions="records.length > 0" @click="openAddPopup" />
     </template>
     <template #loading>
       <SLAListItemLoading v-for="ii in 2" :key="ii" class="mb-3" />
@@ -13,7 +13,7 @@
       <div v-if="!records.length" class="w-full min-h-[12rem] relative">
         <div class="w-full space-y-3">
           <SLA-list-item
-            class="opacity-25"
+            class="opacity-25 dark:opacity-20"
             :sla-name="$t('SLA.LIST.EMPTY.TITLE_1')"
             :description="$t('SLA.LIST.EMPTY.DESC_1')"
             first-response="20m"
@@ -22,7 +22,7 @@
             has-business-hours
           />
           <SLA-list-item
-            class="opacity-25"
+            class="opacity-25 dark:opacity-20"
             :sla-name="$t('SLA.LIST.EMPTY.TITLE_2')"
             :description="$t('SLA.LIST.EMPTY.DESC_2')"
             first-response="2h"
@@ -34,9 +34,17 @@
         <div
           class="absolute inset-0 flex flex-col items-center justify-center w-full h-full bg-gradient-to-t from-white dark:from-slate-900 to-transparent"
         >
-          <p class="text-sm">
+          <p class="max-w-xs text-base font-medium text-center">
             {{ $t('SLA.LIST.404') }}
           </p>
+          <woot-button
+            color-scheme="primary"
+            icon="plus-sign"
+            class="px-5 mt-4 rounded-xl"
+            @click="openAddPopup"
+          >
+            {{ $t('SLA.ADD_ACTION_LONG') }}
+          </woot-button>
         </div>
       </div>
       <div v-if="records.length" class="flex flex-col w-full h-full gap-3">
