@@ -17,6 +17,9 @@ db_migrate:
 db_seed:
 	RAILS_ENV=$(RAILS_ENV) bundle exec rails db:seed
 
+db_reset:
+	RAILS_ENV=$(RAILS_ENV) bundle exec rails db:reset
+
 db:
 	RAILS_ENV=$(RAILS_ENV) bundle exec rails db:chatwoot_prepare
 
@@ -49,4 +52,4 @@ debug_worker:
 docker: 
 	docker build -t $(APP_NAME) -f ./docker/Dockerfile .
 
-.PHONY: setup db_create db_migrate db_seed db console server burn docker run force_run debug debug_worker
+.PHONY: setup db_create db_migrate db_seed db_reset db console server burn docker run force_run debug debug_worker
