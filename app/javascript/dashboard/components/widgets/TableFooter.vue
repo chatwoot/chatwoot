@@ -11,7 +11,6 @@
         })
       }}
     </span>
-
     <div
       v-if="totalCount"
       class="flex items-center bg-slate-50 dark:bg-slate-800 h-8 rounded-lg"
@@ -98,90 +97,75 @@
   </footer>
 </template>
 
-<script>
-export default {
-  components: {},
-  props: {
-    currentPage: {
-      type: Number,
-      default: 1,
-    },
-    pageSize: {
-      type: Number,
-      default: 25,
-    },
-    totalCount: {
-      type: Number,
-      default: 0,
-    },
+<script setup>
+import { computed, defineEmits } from 'vue';
+
+// Props
+const props = defineProps({
+  currentPage: {
+    type: Number,
+    default: 1,
   },
-  computed: {
-    totalPages() {
-      return Math.ceil(this.totalCount / this.pageSize);
-    },
-    isFooterVisible() {
-      return this.totalCount && !(this.firstIndex > this.totalCount);
-    },
-    firstIndex() {
-      return this.pageSize * (this.currentPage - 1) + 1;
-    },
-    lastIndex() {
-      return Math.min(this.totalCount, this.pageSize * this.currentPage);
-    },
-    searchButtonClass() {
-      return this.searchQuery !== '' ? 'show' : '';
-    },
-    hasLastPage() {
-      return this.currentPage === this.totalPages || this.totalPages === 1;
-    },
-    hasFirstPage() {
-      return this.currentPage === 1;
-    },
-    hasNextPage() {
-      return this.currentPage === Math.ceil(this.totalCount / this.pageSize);
-    },
-    hasPrevPage() {
-      return this.currentPage === 1;
-    },
+  pageSize: {
+    type: Number,
+    default: 25,
   },
-  methods: {
-    buttonClass(hasPage) {
-      if (hasPage) {
-        return 'hover:!bg-slate-50 dark:hover:!bg-slate-800';
-      }
-      return 'dark:hover:!bg-slate-700/50';
-    },
-    onNextPage() {
-      if (this.hasNextPage) {
-        return;
-      }
-      const newPage = this.currentPage + 1;
-      this.onPageChange(newPage);
-    },
-    onPrevPage() {
-      if (this.hasPrevPage) {
-        return;
-      }
-      const newPage = this.currentPage - 1;
-      this.onPageChange(newPage);
-    },
-    onFirstPage() {
-      if (this.hasFirstPage) {
-        return;
-      }
-      const newPage = 1;
-      this.onPageChange(newPage);
-    },
-    onLastPage() {
-      if (this.hasLastPage) {
-        return;
-      }
-      const newPage = Math.ceil(this.totalCount / this.pageSize);
-      this.onPageChange(newPage);
-    },
-    onPageChange(page) {
-      this.$emit('page-change', page);
-    },
+  totalCount: {
+    type: Number,
+    default: 0,
   },
-};
+});
+
+const totalPages = computed(() => Math.ceil(props.totalCount / props.pageSize));
+const firstIndex = computed(() => props.pageSize * (props.currentPage - 1) + 1);
+const lastIndex = computed(() =>
+  Math.min(props.totalCount, props.pageSize * props.currentPage)
+);
+const isFooterVisible = computed(
+  () => props.totalCount && !(firstIndex.value > props.totalCount)
+);
+
+const hasLastPage = computed(
+  () => props.currentPage === totalPages.value || totalPages.value === 1
+);
+const hasFirstPage = computed(() => props.currentPage === 1);
+const hasNextPage = computed(() => props.currentPage === totalPages.value);
+const hasPrevPage = computed(() => props.currentPage === 1);
+
+const emit = defineEmits(['page-change']);
+
+function buttonClass(hasPage) {
+  if (hasPage) {
+    return 'hover:!bg-slate-50 dark:hover:!bg-slate-800';
+  }
+  return 'dark:hover:!bg-slate-700/50';
+}
+
+function onPageChange(newPage) {
+  emit('page-change', newPage);
+}
+
+function onNextPage() {
+  if (!onNextPage.value) {
+    onPageChange(props.currentPage + 1);
+  }
+}
+
+function onPrevPage() {
+  if (!hasPrevPage.value) {
+    onPageChange(props.currentPage - 1);
+  }
+}
+
+function onFirstPage() {
+  if (!hasFirstPage.value) {
+    onPageChange(1);
+  }
+}
+
+function onLastPage() {
+  if (!hasLastPage.value) {
+    onPageChange(totalPages.value);
+  }
+}
 </script>
