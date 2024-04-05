@@ -2,11 +2,18 @@
   "SLA": {
     "HEADER": "SLA",
     "ADD_ACTION": "",
+    "ADD_ACTION_LONG": "Create a new SLA Policy",
     "DESCRIPTION": "Contratos de Nível de Serviço são contratos que definem expectativas claras entre sua equipe e os clientes. Estabelecem normas para tempos de resposta e de resolução, criando um quadro de responsabilização e garantindo uma experiência coerente e de qualidade.",
     "LEARN_MORE": "Saiba mais sobre SLA",
     "LOADING": "Buscando SLAs",
     "LIST": {
       "404": ".",
+      "EMPTY": {
+        "TITLE_1": "Enterprise P0",
+        "DESC_1": "Issues raised by enterprise customers, that require immediate attention.",
+        "TITLE_2": "Enterprise P1",
+        "DESC_2": "Issues raised by enterprise customers, that needs to be acknowledged quickly."
+      },
       "BUSINESS_HOURS_ON": "Horários de funcionamento",
       "BUSINESS_HOURS_OFF": "Horário comercial desligado",
       "RESPONSE_TYPES": {
