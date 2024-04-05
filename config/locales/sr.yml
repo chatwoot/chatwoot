@@ -147,6 +147,8 @@ sr-Latn:
       ways_to_reach_you_message_body: "Pružite timu način da vas kontaktira."
       email_input_box_message_body: "Budite obavešteni putem e-poruke"
       csat_input_message_body: "Molim vas ocenite ovaj razgovor"
+      bot_entered_chat: "Bot je ušao u čet"
+      long_message_issue: "Prevše znakova unosa, molimo skratite poruku"
     reply:
       email:
         header:

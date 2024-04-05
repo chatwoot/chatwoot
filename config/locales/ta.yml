@@ -147,6 +147,8 @@ ta:
       ways_to_reach_you_message_body: "உங்களை அடைய அணிக்கு ஒரு வழியைக் கொடுங்கள்."
       email_input_box_message_body: "இமெயில் மூலம் அறிய"
       csat_input_message_body: "Please rate the conversation"
+      bot_entered_chat: "பாட் அனுப்பினார்"
+      long_message_issue: "அதிக உள்ளீடு எண்ணிக்கை, செய்யவும் சுருக்கமாக்கவும்"
     reply:
       email:
         header:

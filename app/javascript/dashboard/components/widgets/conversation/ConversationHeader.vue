@@ -64,7 +64,11 @@
               {{ contactPanelToggleText }}
             </woot-button>
             <woot-button
-              v-tooltip="$t('CHATBOT_SETTINGS.BOT_STATUS')"
+              v-tooltip="
+                botStatusMap[conversationId]
+                  ? $t('CHATBOT_SETTINGS.BOT_STATUS_ACTIVE')
+                  : $t('CHATBOT_SETTINGS.BOT_STATUS_INACTIVE')
+              "
               icon="chatbot-icon"
               :color-scheme="botStatus ? 'secondary' : 'alert'"
               variant="smooth"

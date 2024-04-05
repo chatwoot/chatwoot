@@ -1,4 +1,5 @@
 require 'securerandom'
+require 'http'
 
 class Api::V1::Widget::ChatbotController < ApplicationController
   include ChatbotHelper
@@ -8,6 +9,7 @@ class Api::V1::Widget::ChatbotController < ApplicationController
     account_id = params[:accountId]
     website_token = params[:website_token]
     inbox_id = params[:inbox_id]
+    inbox_name = params[:inbox_name]
     last_trained_at = DateTime.now.strftime('%B %d, %Y at %I:%M %p')
     begin
       if account_id
@@ -20,6 +22,7 @@ class Api::V1::Widget::ChatbotController < ApplicationController
           account_id: account_id
         )
         if chatbot.save
+          ChatbotHelper::CHATBOT_ID_TO_INBOX_NAME_MAPPING[chatbot_id] = inbox_name
           ChatbotHelper::WEBSITE_TOKEN_TO_CHATBOT_ID_MAPPING[website_token] = chatbot_id
           ChatbotHelper::INBOX_ID_TO_WEBSITE_TOKEN_MAPPING[inbox_id] = website_token
           render json: { chatbot_id: chatbot.chatbot_id }, status: :created
@@ -131,12 +134,41 @@ class Api::V1::Widget::ChatbotController < ApplicationController
     end
   end
 
+  # [GET] http://localhost:3000/api/v1/widget/chatbot-id-to-name
+  def chatbot_id_to_name
+    chatbot_id = params[:chatbot_id]
+    begin
+      name = ChatbotHelper::CHATBOT_ID_TO_INBOX_NAME_MAPPING[chatbot_id]
+      render json: { name: name }, status: :ok
+    rescue StandardError => e
+      render json: { error: e.message }, status: :unprocessable_entity
+    end
+  end
+
+  # [POST] http://localhost:3000/api/v1/widget/create-chatbot-microservice
+  def create_chatbot_microservice
+    url = ENV.fetch('MICROSERVICE_URL', nil) + '/chatbot'
+    data = params.to_unsafe_h
+
+    begin
+      response = HTTP.post(url, form: data)
+      return JSON.parse(response.body) if response.code == 200 || response.code == 201
+
+      { error: "Unexpected response code: #{response.code}" }
+    rescue HTTP::Error => e
+      # Handle HTTP errors
+      { error: e.message }
+    end
+  end
+
   # [PUT] http://localhost:3000/api/v1/widget/update-bot-info
   def update_bot_info
     chatbot_id = params[:chatbot_id]
     new_bot_name = params[:new_bot_name]
     website_token = params[:website_token]
     inbox_id = params[:inbox_id]
+    inbox_name = params[:inbox_name]
+    ChatbotHelper::CHATBOT_ID_TO_INBOX_NAME_MAPPING[chatbot_id] = inbox_name if inbox_name != ''
     begin
       chatbot = Chatbot.find_by(chatbot_id: chatbot_id)
       if chatbot
@@ -151,6 +183,31 @@ class Api::V1::Widget::ChatbotController < ApplicationController
       render json: { error: e.message }, status: :unprocessable_entity
     end
   end
+
+  # # cron job to sync map of ruby and python microservice daily at 2 am
+  # def sync_maps_with_microservice
+  #   url = ENV.fetch('MICROSERVICE_URL', nil) # Replace 'MICROSERVICE_URL' with the actual URL of your Python microservice
+  #   data = {
+  #     website_token_to_chatbot_id_mapping: WEBSITE_TOKEN_TO_CHATBOT_ID_MAPPING,
+  #     inbox_id_to_website_token_mapping: INBOX_ID_TO_WEBSITE_TOKEN_MAPPING,
+  #     conversation_id_to_bot_status_mapping: CONVERSATION_ID_TO_BOT_STATUS_MAPPING,
+  #     chatbot_id_to_inbox_name_mapping: CHATBOT_ID_TO_INBOX_NAME_MAPPING
+  #   }
+
+  #   begin
+  #     response = HTTP.post(url, json: data)
+  #     if response.status.success?
+  #       # Handle success
+  #       render json: { message: 'Maps data synced with microservice successfully' }, status: :ok
+  #     else
+  #       # Handle failure
+  #       render json: { error: 'Failed to sync maps data with microservice' }, status: :unprocessable_entity
+  #     end
+  #   rescue HTTP::Error => e
+  #     # Handle exceptions
+  #     render json: { error: e.message }, status: :unprocessable_entity
+  #   end
+  # end
 end
 
 # app/workers/old_bot_train_worker.rb

@@ -2,6 +2,9 @@
     "CHATBOT_SETTINGS": {
       "CHATBOT": "Keskusteluohjelma",
       "BOT_STATUS": "Keskusteluohjelman tila",
+      "BOT_STATUS_ACTIVE": "Keskustelurobotti aktiivinen",
+      "BOT_STATUS_INACTIVE": "Keskustelurobotti ei aktiivinen",
+      "CONNECTED_INBOX": "Liitetty postilaatikko: ",
       "NEW_BOT": "Uusi keskusteluohjelma",
       "CONNECT_INBOX": "Yhdistä postilaatikkoon",
       "LAST_TRAINED_AT": "Viimeksi koulutettu: ",

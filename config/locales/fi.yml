@@ -147,6 +147,8 @@ fi:
       ways_to_reach_you_message_body: "Anna tiimillemme tapa tavoittaa sinut."
       email_input_box_message_body: "Saa ilmoitus sähköpostitse"
       csat_input_message_body: "Voisitko antaa palautetta saamastasi palvelusta?"
+      bot_entered_chat: "Botti on liittynyt keskusteluun"
+      long_message_issue: "Liian monta syöttömerkkiä, ole hyvä ja lyhennä viestiä"
     reply:
       email:
         header:

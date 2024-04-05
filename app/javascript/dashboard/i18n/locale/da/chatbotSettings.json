@@ -2,6 +2,9 @@
     "CHATBOT_SETTINGS": {
       "CHATBOT": "Chatbot",
       "BOT_STATUS": "Chatbot Status",
+      "BOT_STATUS_ACTIVE": "Chatbot Aktiv",
+      "BOT_STATUS_INACTIVE": "Chatbot Inaktiv",
+      "CONNECTED_INBOX": "Tilsluttet Indbakke: ",
       "NEW_BOT": "Ny Chatbot",
       "CONNECT_INBOX": "Tilslut Indbakke",
       "LAST_TRAINED_AT": "Senest Trænet: ",

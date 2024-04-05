@@ -17,18 +17,34 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     conversation_id = conversation_id.to_s
     client_message = @message[:content]
     @message.save!
-    bot_res = HTTP.post(
-      ENV.fetch('MICROSERVICE_URL', nil) + '/prompt',
-      form: { chatbot_id: chatbot_ID, user_message: client_message },
-      headers: { 'Content-Type' => 'application/x-www-form-urlencoded' }
-    )
-    return unless ChatbotHelper::CONVERSATION_ID_TO_BOT_STATUS_MAPPING[conversation_id] != false
-    response_body = bot_res.body.to_s
-    response_hash = JSON.parse(response_body)
-    bot_message = response_hash['message']
-    ChatbotHelper::CONVERSATION_ID_TO_BOT_STATUS_MAPPING[conversation_id] = true
-    email_collect = MessageTemplates::Template::EmailCollect.new(conversation: @conversation)
-    email_collect.chatbot(bot_message)
+    max_character_count = ENV.fetch('WIDGET_CHARACTER_COUNT', 0).to_i
+    if client_message.length > max_character_count
+      long_msg_issue = I18n.t('conversations.templates.long_message_issue')
+      email_collect = MessageTemplates::Template::EmailCollect.new(conversation: @conversation)
+      email_collect.chatbot(long_msg_issue)
+    else
+      # Check if the conversation is present and the chatbot is active
+      if ChatbotHelper::CONVERSATION_ID_TO_BOT_STATUS_MAPPING[conversation_id] == true && conversation.present?
+        # Start the typing GIF
+        trigger_chatbot_typing_status(conversation_id, true)
+      end
+      bot_res = HTTP.post(
+        ENV.fetch('MICROSERVICE_URL', nil) + '/prompt',
+        form: { chatbot_id: chatbot_ID, user_message: client_message },
+        headers: { 'Content-Type' => 'application/x-www-form-urlencoded' }
+      )
+      return unless ChatbotHelper::CONVERSATION_ID_TO_BOT_STATUS_MAPPING[conversation_id] != false
+
+      response_body = bot_res.body.to_s
+      response_hash = JSON.parse(response_body)
+      bot_message = response_hash['message']
+      ChatbotHelper::CONVERSATION_ID_TO_BOT_STATUS_MAPPING[conversation_id] = true
+      email_collect = MessageTemplates::Template::EmailCollect.new(conversation: @conversation)
+      email_collect.chatbot(bot_message)
+      return unless conversation.present?
+
+      trigger_chatbot_typing_status(conversation_id, false)
+    end
   end
 
   def update
@@ -47,6 +63,21 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   private
+
+  def trigger_chatbot_typing_status(conversation_id, typing_status)
+    # Fetch the conversation object based on the conversation_id
+    @conversation = Conversation.find(conversation_id)
+    # Get the current_user object (or an appropriate user object)
+    @current_user = @conversation.assignee
+
+    typing_status_manager = ::Conversations::TypingStatusManager.new(
+      @conversation,
+      @current_user,
+      typing_status: typing_status ? 'on' : 'off',
+      is_private: false
+    )
+    typing_status_manager.toggle_typing_status
+  end
 
   def build_attachment
     return if params[:message][:attachments].blank?

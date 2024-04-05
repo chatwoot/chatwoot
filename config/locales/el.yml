@@ -147,6 +147,8 @@ el:
       ways_to_reach_you_message_body: "Δώστε στην ομάδα ένα τρόπο να φτάσει σε σας."
       email_input_box_message_body: "Ειδοποιηθείτε με email"
       csat_input_message_body: "Παρακαλώ αξιολογήστε τη συνομιλία"
+      bot_entered_chat: "Ο Chatbot έχει εισέλθει στη συνομιλία"
+      long_message_issue: "Πάρα πολλοί χαρακτήρες εισόδου, παρακαλώ συντομεύστε το μήνυμα"
     reply:
       email:
         header:

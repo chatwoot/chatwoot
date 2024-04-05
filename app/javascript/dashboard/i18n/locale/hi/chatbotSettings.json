@@ -2,6 +2,9 @@
     "CHATBOT_SETTINGS": {
       "CHATBOT": "चैटबॉट",
       "BOT_STATUS": "चैटबॉट स्थिति",
+      "BOT_STATUS_ACTIVE": "चैटबॉट सक्रिय",
+      "BOT_STATUS_INACTIVE": "चैटबॉट निष्क्रिय",
+      "CONNECTED_INBOX": "कनेक्टेड इनबॉक्स: ",
       "NEW_BOT": "नया चैटबॉट",
       "CONNECT_INBOX": "इनबॉक्स से कनेक्ट करें",
       "LAST_TRAINED_AT": "अंतिम प्रशिक्षण किया गया: ",

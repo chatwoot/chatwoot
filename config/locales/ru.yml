@@ -147,6 +147,8 @@ ru:
       ways_to_reach_you_message_body: "Оставьте ваш email для связи"
       email_input_box_message_body: "Получать уведомления по email"
       csat_input_message_body: "Пожалуйста, оцените разговор"
+      bot_entered_chat: "Бот вошел в чат"
+      long_message_issue: "Слишком много символов ввода, пожалуйста, сократите сообщение"
     reply:
       email:
         header:

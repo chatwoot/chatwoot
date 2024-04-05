@@ -2,6 +2,9 @@
     "CHATBOT_SETTINGS": {
       "CHATBOT": "צ'אטבוט",
       "BOT_STATUS": "מצב צ'אטבוט",
+      "BOT_STATUS_ACTIVE": "צ'אטבוט פעיל",
+      "BOT_STATUS_INACTIVE": "צ'אטבוט לא פעיל",
+      "CONNECTED_INBOX": "תיבת דואר נכנס מחוברת: ",
       "NEW_BOT": "צ'אטבוט חדש",
       "CONNECT_INBOX": "חיבור תיבת הדואר הנכנס",
       "LAST_TRAINED_AT": "אוכלוסיה אחרונה ב: ",
