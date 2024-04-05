@@ -21,12 +21,8 @@
         variant="smooth"
         color-scheme="secondary"
         :is-disabled="hasFirstPage"
-        class-names="dark:!bg-slate-800 !opacity-100 rounded-l-lg rounded-r-none"
-        :class="
-          hasFirstPage
-            ? 'hover:!bg-slate-50 dark:hover:!bg-slate-800'
-            : 'dark:hover:!bg-slate-700/50'
-        "
+        class-names="dark:!bg-slate-800 !opacity-100 ltr:rounded-l-lg ltr:rounded-r-none rtl:rounded-r-lg rtl:rounded-l-none"
+        :class="buttonClass(hasFirstPage)"
         @click="onFirstPage"
       >
         <fluent-icon
@@ -86,7 +82,7 @@
         size="small"
         variant="smooth"
         color-scheme="secondary"
-        class-names="dark:!bg-slate-800 rounded-r-lg rounded-l-none !opacity-100"
+        class-names="dark:!bg-slate-800 !opacity-100 ltr:rounded-r-lg ltr:rounded-l-none rtl:rounded-l-lg rtl:rounded-r-none"
         :class="buttonClass(hasLastPage)"
         :is-disabled="hasLastPage"
         @click="onLastPage"
