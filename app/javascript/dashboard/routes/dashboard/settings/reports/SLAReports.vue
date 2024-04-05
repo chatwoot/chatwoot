@@ -1,6 +1,14 @@
 <template>
   <div class="flex flex-col flex-1 px-4 pt-4 overflow-auto font-inter">
     <SLAReportFilters @filter-change="onFilterChange" />
+    <woot-button
+      color-scheme="success"
+      class-names="button--fixed-top"
+      icon="arrow-download"
+      @click="downloadReports"
+    >
+      {{ $t('SLA_REPORTS.DOWNLOAD_SLA_REPORTS') }}
+    </woot-button>
     <div class="flex flex-col gap-6">
       <SLAMetrics
         :hit-rate="slaMetrics.hitRate"
@@ -22,7 +30,7 @@ import { mapGetters } from 'vuex';
 import SLAMetrics from './components/SLA/SLAMetrics.vue';
 import SLATable from './components/SLA/SLATable.vue';
 import SLAReportFilters from './components/SLA/SLAReportFilters.vue';
-
+import { generateFileName } from '../../../../helper/downloadHelper';
 export default {
   name: 'SLAReports',
   components: {
@@ -71,6 +79,17 @@ export default {
       this.to = to;
       this.fetchSLAReports();
       this.fetchSLAMetrics();
+    },
+    downloadReports() {
+      const type = 'sla';
+      try {
+        this.$store.dispatch('slaReports/download', {
+          fileName: generateFileName({ type, to: this.to }),
+          ...this.requestPayload,
+        });
+      } catch (error) {
+        this.showAlert(this.$t('REPORT.SLA_REPORTS.DOWNLOAD_FAILED'));
+      }
     },
   },
 };
