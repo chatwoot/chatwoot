@@ -278,26 +278,26 @@
         }
       },
       "NOTIFICA_ME_CHANNEL": {
-        "TITLE": "NotificaMe Channel",
-        "DESC": "Integrate with NotificaMe Hub.",
+        "TITLE": "Canal do NotificaMe",
+        "DESC": "Integração NotificaMe Hub.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "Nome do Canal",
+          "PLACEHOLDER": "Por favor escolha um nome para o canal",
+          "ERROR": "Esse campo é obrigatório"
         },
         "CHANNEL": {
-          "LABEL": "Channel",
-          "SUBTITLE": "Choose channel",
-          "PLACEHOLDER": "Choose a channel, if empty, put the channel token first"
+          "LABEL": "Canal do NotificaMe",
+          "SUBTITLE": "Escolha um Canal",
+          "PLACEHOLDER": "Escolha um canal, se estiver vazio, coloque o token de autenticação primeiro"
         },
         "CHANNEL_TOKEN": {
-          "LABEL": "Channel Token",
-          "SUBTITLE": "Configure channel token",
-          "PLACEHOLDER": "Configure channel token"
+          "LABEL": "Token da conta do NotificaMe Hub",
+          "SUBTITLE": "Preencha o token",
+          "PLACEHOLDER": "Preencha o token"
         },
-        "SUBMIT_BUTTON": "Create NotificaMe Channel",
+        "SUBMIT_BUTTON": "Criar Canal do NotificaMe Hub",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the NotificaMe channel"
+          "ERROR_MESSAGE": "Não foi possível criar o canal do NotificaMe Hub"
         }
       },
       "EMAIL_CHANNEL": {
