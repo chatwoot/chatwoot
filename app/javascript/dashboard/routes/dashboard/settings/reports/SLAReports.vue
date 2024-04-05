@@ -4,7 +4,7 @@
     <div class="flex flex-col gap-6">
       <SLAMetrics
         :hit-rate="slaMetrics.hitRate"
-        :no-of-breaches="slaMetrics.numberOfSLABreaches"
+        :no-of-breaches="slaMetrics.numberOfSLAMisses"
         :is-loading="uiFlags.isFetchingMetrics"
       />
       <SLATable

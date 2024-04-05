@@ -10,7 +10,7 @@
 ] %>
 <%= CSV.generate_line headers %>
 
-<% @breached_slas.each do |sla| %>
+<% @missed_applied_slas.each do |sla| %>
   <% breached_events = sla.sla_events.map(&:event_type).join(', ') %>
   <% conversation = sla.conversation %>
   <%= CSV.generate_line([

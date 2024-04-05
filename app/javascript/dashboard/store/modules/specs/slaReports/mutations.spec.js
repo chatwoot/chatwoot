@@ -27,7 +27,7 @@ describe('#mutations', () => {
         hit_rate: '100%',
       });
       expect(state.metrics).toEqual({
-        numberOfSLABreaches: 1,
+        numberOfSLAMisses: 1,
         hitRate: '100%',
       });
     });
@@ -37,7 +37,7 @@ describe('#mutations', () => {
     it('set meta', () => {
       const state = { meta: {} };
       mutations[types.SET_SLA_REPORTS_META](state, {
-        total_applied_slas: 1,
+        count: 1,
         current_page: 1,
       });
       expect(state.meta).toEqual({

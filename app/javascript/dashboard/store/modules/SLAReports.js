@@ -5,7 +5,7 @@ import SLAReportsAPI from '../../api/slaReports';
 export const state = {
   records: [],
   metrics: {
-    numberOfSLABreaches: 0,
+    numberOfSLAMisses: 0,
     hitRate: '0%',
   },
   uiFlags: {
@@ -72,19 +72,16 @@ export const mutations = {
   [types.SET_SLA_REPORTS]: MutationHelpers.set,
   [types.SET_SLA_REPORTS_METRICS](
     _state,
-    { number_of_sla_breaches: numberOfSLABreaches, hit_rate: hitRate }
+    { number_of_sla_misses: numberOfSLAMisses, hit_rate: hitRate }
   ) {
     _state.metrics = {
-      numberOfSLABreaches,
+      numberOfSLAMisses,
       hitRate,
     };
   },
-  [types.SET_SLA_REPORTS_META](
-    _state,
-    { total_applied_slas: totalAppliedSLAs, current_page: currentPage }
-  ) {
+  [types.SET_SLA_REPORTS_META](_state, { count, current_page: currentPage }) {
     _state.meta = {
-      count: totalAppliedSLAs,
+      count,
       currentPage,
     };
   },

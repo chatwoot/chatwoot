@@ -17,6 +17,6 @@ json.payload do
 end
 
 json.meta do
-  json.total_applied_slas @total_applied_slas
+  json.count @count
   json.current_page @current_page
 end
