@@ -34,7 +34,7 @@
         <div
           class="absolute inset-0 flex flex-col items-center justify-center w-full h-full bg-gradient-to-t from-white dark:from-slate-900 to-transparent"
         >
-          <p class="max-w-xs text-base font-medium text-center">
+          <p class="max-w-xs text-sm font-medium text-center">
             {{ $t('SLA.LIST.404') }}
           </p>
           <woot-button
