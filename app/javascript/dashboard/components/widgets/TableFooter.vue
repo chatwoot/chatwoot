@@ -145,27 +145,24 @@ function onPageChange(newPage) {
   emit('page-change', newPage);
 }
 
-function onNextPage() {
+const onNextPage = () => {
   if (!onNextPage.value) {
     onPageChange(props.currentPage + 1);
   }
-}
-
-function onPrevPage() {
+};
+const onPrevPage = () => {
   if (!hasPrevPage.value) {
     onPageChange(props.currentPage - 1);
   }
-}
-
-function onFirstPage() {
+};
+const onFirstPage = () => {
   if (!hasFirstPage.value) {
     onPageChange(1);
   }
-}
-
-function onLastPage() {
+};
+const onLastPage = () => {
   if (!hasLastPage.value) {
     onPageChange(totalPages.value);
   }
-}
+};
 </script>
