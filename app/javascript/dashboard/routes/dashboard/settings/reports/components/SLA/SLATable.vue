@@ -34,7 +34,7 @@
         <spinner />
         <span>{{ $t('SLA_REPORTS.LOADING') }}</span>
       </div>
-      <div v-if="slaReports.length && !isLoading">
+      <div v-else-if="slaReports.length > 0">
         <SLA-report-item
           v-for="slaReport in slaReports"
           :key="slaReport.applied_sla.id"
@@ -45,7 +45,7 @@
         />
       </div>
       <div
-        v-if="!slaReports.length && !isLoading"
+        v-else
         class="flex items-center justify-center h-32 bg-white dark:bg-slate-900"
       >
         {{ $t('SLA_REPORTS.NO_RECORDS') }}
