@@ -1,5 +1,5 @@
 {
   "GENERAL": {
-    "SHOWING_RESULTS": "Showing {currentItemCount} of {totalItems} items"
+    "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items"
   }
 }
