@@ -54,7 +54,8 @@
               :key="channel.id"
               :value="channel.id"
             >
-              {{ channel.type }}: {{ channel.name }}
+              {{ channelsLabels[channel.type] || channel.type }}:
+              {{ channel.name }}
             </option>
           </select>
         </label>
@@ -93,6 +94,12 @@ export default {
       notificaMeToken: '',
       notificaMeType: '',
       channels: [],
+      channelsLabels: {
+        telegram: 'Telegram',
+        facebook: 'Facebook',
+        whatsapp_business_account: 'Whatsapp API Oficial',
+        sms: 'SMS',
+      },
     };
   },
   computed: {
