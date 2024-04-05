@@ -24,7 +24,7 @@ defineProps({
 
 <template>
   <div
-    class="grid content-center items-center h-16 grid-cols-12 gap-4 px-6 py-0 w-full bg-white border-b border-slate-75 dark:border-slate-800/50 dark:bg-slate-900"
+    class="grid content-center items-center h-16 grid-cols-12 gap-4 px-6 py-0 w-full bg-white border-b last:border-b-0 last:rounded-b-xl border-slate-75 dark:border-slate-800/50 dark:bg-slate-900"
   >
     <div
       class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] text-slate-700 dark:text-slate-100 rtl:text-right"
