@@ -88,7 +88,7 @@ export default {
     },
     pageSize: {
       type: Number,
-      default: 3,
+      default: 25,
     },
     isLoading: {
       type: Boolean,
