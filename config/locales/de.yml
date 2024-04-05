@@ -147,6 +147,8 @@ de:
       ways_to_reach_you_message_body: "Geben Sie dem Team einen Weg, Sie zu erreichen."
       email_input_box_message_body: "Lassen Sie sich per E-Mail benachrichtigen"
       csat_input_message_body: "Bitte bewerte die Unterhaltung"
+      bot_entered_chat: "Bot ist dem Chat beigetreten"
+      long_message_issue: "Zu viele Eingabezeichen, bitte kürze die Nachricht"
     reply:
       email:
         header:

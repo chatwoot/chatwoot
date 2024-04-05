@@ -1,52 +1,54 @@
 {
-    "CHATBOT_SETTINGS": {
-      "CHATBOT": "Chatbot",
-      "BOT_STATUS": "Status do Chatbot",
-      "NEW_BOT": "Novo Chatbot",
+  "CHATBOT_SETTINGS": {
+    "CHATBOT": "Chatbot",
+    "BOT_STATUS": "Status do Chatbot",
+    "BOT_STATUS_ACTIVE": "Chatbot Ativo",
+    "BOT_STATUS_INACTIVE": "Chatbot Inativo",
+    "CONNECTED_INBOX": "Caixa de entrada conectada:",
+    "NEW_BOT": "Novo Chatbot",
+    "CONNECT_INBOX": "Conectar à Caixa de Entrada",
+    "LAST_TRAINED_AT": "Último Treinamento em: ",
+    "CHATBOT_ID": "ID do Chatbot: ",
+    "BROWSE_FILES": "Navegar nos Arquivos",
+    "UPDATE": "Atualizar",
+    "CHATBOT_INBOX_CONNECT": "Conectar Chatbot com Caixa de Entrada",
+    "FILE_TYPES": {
+      "DOC": ".doc",
+      "PDF": ".pdf",
+      "TXT": ".txt"
+    },
+    "UPLOAD": {
+      "FILE": "Arquivo",
+      "TEXT": "Texto",
+      "WEBSITE": "Website"
+    },
+    "FORM": {
       "CONNECT_INBOX": "Conectar à Caixa de Entrada",
-      "LAST_TRAINED_AT": "Último Treinamento em: ",
-      "CHATBOT_ID": "ID do Chatbot: ",
-      "BROWSE_FILES": "Navegar nos Arquivos",
-      "UPDATE": "Atualizar",
-      "CHATBOT_INBOX_CONNECT": "Conectar Chatbot com Caixa de Entrada",
-      "FILE_TYPES": {
-        "DOC": ".doc",
-        "PDF": ".pdf",
-        "TXT": ".txt"
+      "ADD_URL": "Adicionar URL",
+      "NAME": {
+        "LABEL": "Nome do Chatbot",
+        "PLACEHOLDER": "Exemplo: Chatbot 1"
       },
-      "UPLOAD": {
-        "FILE": "Arquivo",
-        "TEXT": "Texto",
-        "WEBSITE": "Website"
+      "DESCRIPTION": {
+        "LABEL": "Descrição do Chatbot",
+        "PLACEHOLDER": "Breve descrição sobre este Chatbot."
       },
-      "FORM": {
-        "CONNECT_INBOX": "Conectar à Caixa de Entrada",
-        "ADD_URL": "Adicionar URL",
-        "NAME": {
-          "LABEL": "Nome do Chatbot",
-          "PLACEHOLDER": "Exemplo: Chatbot 1"
-        },
-        "DESCRIPTION": {
-          "LABEL": "Descrição do Chatbot",
-          "PLACEHOLDER": "Breve descrição sobre este Chatbot."
-        },
-        "SUBMIT_CREATE": "Criar Chatbot"
-      },
-      "SIDEBAR_TXT": "<p><b>Criar Chatbot</b></p> <p>O Chatbot permite que você treine o bot com seus próprios dados pessoais. <br /> Um bot treinado em dados pessoais responde às consultas apenas com base nos dados nos quais foi treinado.</p>",
-      "LIST": {
-        "404": "Não há chatbots criados nesta conta.",
-        "EDIT_BOT": "Editar"
-      },
-      "DELETE": {
-        "BUTTON_TEXT": "Excluir",
-        "CONFIRM": {
-          "TITLE": "Confirmar Exclusão",
-          "PLACE_HOLDER": "Por favor, digite {chatbotName} para confirmar",
-          "MESSAGE": "Excluir o Chatbot irá excluir permanentemente este bot e os dados nos quais ele foi treinado.",
-          "YES": "Excluir ",
-          "NO": "Cancelar"
-        }
+      "SUBMIT_CREATE": "Criar Chatbot"
+    },
+    "SIDEBAR_TXT": "<p><b>Criar Chatbot</b></p> <p>O Chatbot permite que você treine o bot com seus próprios dados pessoais. <br /> Um bot treinado em dados pessoais responde às consultas apenas com base nos dados nos quais foi treinado.</p>",
+    "LIST": {
+      "404": "Não há chatbots criados nesta conta.",
+      "EDIT_BOT": "Editar"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Excluir",
+      "CONFIRM": {
+        "TITLE": "Confirmar Exclusão",
+        "PLACE_HOLDER": "Por favor, digite {chatbotName} para confirmar",
+        "MESSAGE": "Excluir o Chatbot irá excluir permanentemente este bot e os dados nos quais ele foi treinado.",
+        "YES": "Excluir ",
+        "NO": "Cancelar"
       }
     }
   }
-  
+}

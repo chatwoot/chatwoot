@@ -147,6 +147,8 @@ lt:
       ways_to_reach_you_message_body: "Suteikite komandai būdą, kaip su jumis susisiekti."
       email_input_box_message_body: "Gaukite perspėjimą el. paštu"
       csat_input_message_body: "Prašome įvertinti pokalbį"
+      bot_entered_chat: "Robotas įsilipo į pokalbį"
+      long_message_issue: "Per daug įvestų simbolių, prašome sutrumpinti žinutę"
     reply:
       email:
         header:

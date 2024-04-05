@@ -147,6 +147,8 @@ pt_BR:
       ways_to_reach_you_message_body: "Informe uma forma para entrarmos em contato com você."
       email_input_box_message_body: "Seja notificado por e-mail"
       csat_input_message_body: "Por favor, classifique a conversa"
+      bot_entered_chat: "O bot entrou no chat"
+      long_message_issue: "Muitos caracteres de entrada, por favor, encurte a mensagem"
     reply:
       email:
         header:

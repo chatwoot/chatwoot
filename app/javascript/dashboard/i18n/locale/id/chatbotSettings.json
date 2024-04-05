@@ -1,52 +1,54 @@
 {
-    "CHATBOT_SETTINGS": {
-      "CHATBOT": "Chatbot",
-      "BOT_STATUS": "Status Chatbot",
-      "NEW_BOT": "Chatbot Baru",
+  "CHATBOT_SETTINGS": {
+    "CHATBOT": "Chatbot",
+    "BOT_STATUS": "Status Chatbot",
+    "BOT_STATUS_ACTIVE": "Chatbot Aktif",
+    "BOT_STATUS_INACTIVE": "Chatbot Nonaktif",
+    "CONNECTED_INBOX": "Kotak Masuk Tersambung: ",
+    "NEW_BOT": "Chatbot Baru",
+    "CONNECT_INBOX": "Hubungkan Inbox",
+    "LAST_TRAINED_AT": "Terakhir Dilatih Pada: ",
+    "CHATBOT_ID": "ID Chatbot: ",
+    "BROWSE_FILES": "Telusuri Berkas",
+    "UPDATE": "Perbarui",
+    "CHATBOT_INBOX_CONNECT": "Hubungkan Chatbot Dengan Inbox",
+    "FILE_TYPES": {
+      "DOC": ".doc",
+      "PDF": ".pdf",
+      "TXT": ".txt"
+    },
+    "UPLOAD": {
+      "FILE": "Berkas",
+      "TEXT": "Teks",
+      "WEBSITE": "Situs Web"
+    },
+    "FORM": {
       "CONNECT_INBOX": "Hubungkan Inbox",
-      "LAST_TRAINED_AT": "Terakhir Dilatih Pada: ",
-      "CHATBOT_ID": "ID Chatbot: ",
-      "BROWSE_FILES": "Telusuri Berkas",
-      "UPDATE": "Perbarui",
-      "CHATBOT_INBOX_CONNECT": "Hubungkan Chatbot Dengan Inbox",
-      "FILE_TYPES": {
-        "DOC": ".doc",
-        "PDF": ".pdf",
-        "TXT": ".txt"
+      "ADD_URL": "Tambah URL",
+      "NAME": {
+        "LABEL": "Nama Chatbot",
+        "PLACEHOLDER": "Contoh: Chatbot 1"
       },
-      "UPLOAD": {
-        "FILE": "Berkas",
-        "TEXT": "Teks",
-        "WEBSITE": "Situs Web"
+      "DESCRIPTION": {
+        "LABEL": "Deskripsi Chatbot",
+        "PLACEHOLDER": "Deskripsi singkat tentang Chatbot ini."
       },
-      "FORM": {
-        "CONNECT_INBOX": "Hubungkan Inbox",
-        "ADD_URL": "Tambah URL",
-        "NAME": {
-          "LABEL": "Nama Chatbot",
-          "PLACEHOLDER": "Contoh: Chatbot 1"
-        },
-        "DESCRIPTION": {
-          "LABEL": "Deskripsi Chatbot",
-          "PLACEHOLDER": "Deskripsi singkat tentang Chatbot ini."
-        },
-        "SUBMIT_CREATE": "Buat Chatbot"
-      },
-      "SIDEBAR_TXT": "<p><b>Buat Chatbot</b></p> <p>Chatbot memungkinkan Anda melatih bot dengan data pribadi Anda sendiri. <br /> Bot yang dilatih dengan data pribadi hanya akan menjawab pertanyaan berdasarkan data yang dilatih.</p>",
-      "LIST": {
-        "404": "Tidak ada chatbot yang dibuat pada akun ini.",
-        "EDIT_BOT": "Edit"
-      },
-      "DELETE": {
-        "BUTTON_TEXT": "Hapus",
-        "CONFIRM": {
-          "TITLE": "Konfirmasi Penghapusan",
-          "PLACE_HOLDER": "Silakan ketik {chatbotName} untuk mengkonfirmasi",
-          "MESSAGE": "Menghapus Chatbot akan secara permanen menghapus bot ini dan data di mana ia dilatih.",
-          "YES": "Hapus ",
-          "NO": "Batal"
-        }
+      "SUBMIT_CREATE": "Buat Chatbot"
+    },
+    "SIDEBAR_TXT": "<p><b>Buat Chatbot</b></p> <p>Chatbot memungkinkan Anda melatih bot dengan data pribadi Anda sendiri. <br /> Bot yang dilatih dengan data pribadi hanya akan menjawab pertanyaan berdasarkan data yang dilatih.</p>",
+    "LIST": {
+      "404": "Tidak ada chatbot yang dibuat pada akun ini.",
+      "EDIT_BOT": "Edit"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Hapus",
+      "CONFIRM": {
+        "TITLE": "Konfirmasi Penghapusan",
+        "PLACE_HOLDER": "Silakan ketik {chatbotName} untuk mengkonfirmasi",
+        "MESSAGE": "Menghapus Chatbot akan secara permanen menghapus bot ini dan data di mana ia dilatih.",
+        "YES": "Hapus ",
+        "NO": "Batal"
       }
     }
   }
-  
+}

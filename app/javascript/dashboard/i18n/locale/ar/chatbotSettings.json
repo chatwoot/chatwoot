@@ -2,6 +2,9 @@
     "CHATBOT_SETTINGS": {
       "CHATBOT": "الروبوت الدردشة",
       "BOT_STATUS": "حالة الروبوت الدردشة",
+      "BOT_STATUS_ACTIVE": "الروبوت الدردشة نشط",
+      "BOT_STATUS_INACTIVE": "الروبوت الدردشة غير نشط",
+      "CONNECTED_INBOX": "البريد الوارد المتصل: ",
       "NEW_BOT": "روبوت دردشة جديد",
       "CONNECT_INBOX": "الاتصال بالبريد الوارد",
       "LAST_TRAINED_AT": "آخر تدريب في: ",

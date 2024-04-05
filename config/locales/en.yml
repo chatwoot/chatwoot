@@ -170,6 +170,7 @@ en:
       email_input_box_message_body: "Get notified by email"
       csat_input_message_body: "Please rate the conversation"
       bot_entered_chat: "Bot has entered the chat"
+      long_message_issue: "Too many input characters , please shorten the message"
     reply:
       email:
         header:

@@ -2,6 +2,9 @@
     "CHATBOT_SETTINGS": {
       "CHATBOT": "Chatbot",
       "BOT_STATUS": "Chatbot-Status",
+      "BOT_STATUS_ACTIVE": "Chatbot Aktiv",
+      "BOT_STATUS_INACTIVE": "Chatbot Inaktiv",
+      "CONNECTED_INBOX": "Verbundene Posteingang: ",
       "NEW_BOT": "Neuer Chatbot",
       "CONNECT_INBOX": "Postfach verbinden",
       "LAST_TRAINED_AT": "Zuletzt trainiert am: ",

@@ -2,6 +2,9 @@
     "CHATBOT_SETTINGS": {
       "CHATBOT": "Ρομπότ συνομιλίας",
       "BOT_STATUS": "Κατάσταση ρομπότ συνομιλίας",
+      "BOT_STATUS_ACTIVE": "Ενεργό Chatbot",
+      "BOT_STATUS_INACTIVE": "Ανενεργό Chatbot",
+      "CONNECTED_INBOX": "Συνδεδεμένος Εισερχόμενος Φάκελος: ",
       "NEW_BOT": "Νέο ρομπότ συνομιλίας",
       "CONNECT_INBOX": "Σύνδεση εισερχομένων μηνυμάτων",
       "LAST_TRAINED_AT": "Τελευταία εκπαίδευση στις: ",

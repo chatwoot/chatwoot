@@ -147,6 +147,8 @@ ml:
       ways_to_reach_you_message_body: "നിങ്ങളിലേക്ക് എത്താൻ ടീമിന് ഒരു വഴി നൽകുക."
       email_input_box_message_body: "ഇമെയിൽ വഴി അറിയിപ്പ് നേടുക"
       csat_input_message_body: "Please rate the conversation"
+      bot_entered_chat: "ബോട്ട് ചാറ്റിൽ ചേര്‍ന്നു"
+      long_message_issue: "നൽകിയ അക്കങ്ങളുടെ പരിധിയും കൂടുതലാണ്, ദയവായി സന്ദേശം ചുരുക്കുക"
     reply:
       email:
         header:

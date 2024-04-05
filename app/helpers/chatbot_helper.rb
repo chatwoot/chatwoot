@@ -6,6 +6,8 @@ module ChatbotHelper
 
   CONVERSATION_ID_TO_BOT_STATUS_MAPPING = {}
 
+  CHATBOT_ID_TO_INBOX_NAME_MAPPING = {}
+
   def self.toggle_bot_status(conversation_id)
     CONVERSATION_ID_TO_BOT_STATUS_MAPPING[conversation_id] = !CONVERSATION_ID_TO_BOT_STATUS_MAPPING[conversation_id]
   end

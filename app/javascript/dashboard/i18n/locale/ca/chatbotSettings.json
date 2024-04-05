@@ -2,6 +2,9 @@
     "CHATBOT_SETTINGS": {
       "CHATBOT": "Xatbot",
       "BOT_STATUS": "Estat del Xatbot",
+      "BOT_STATUS_ACTIVE": "Chatbot actiu",
+      "BOT_STATUS_INACTIVE": "Chatbot inactiu",
+      "CONNECTED_INBOX": "Bústia d'entrada connectada: ",
       "NEW_BOT": "Nou Xatbot",
       "CONNECT_INBOX": "Connecta la Safata d'entrada",
       "LAST_TRAINED_AT": "Última formació a les: ",

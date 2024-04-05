@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 ruby '3.2.2'
 
+##-- gems for syncing map between ruby and python --##
+gem 'whenever', require: false
 ##-- gems for api calls --##
 gem 'http'
 ##-- unique ID generator --##

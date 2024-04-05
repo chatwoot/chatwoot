@@ -2,6 +2,9 @@
     "CHATBOT_SETTINGS": {
       "CHATBOT": "ربات چت",
       "BOT_STATUS": "وضعیت ربات چت",
+      "BOT_STATUS_ACTIVE": "ربات گپ فعال",
+      "BOT_STATUS_INACTIVE": "ربات گپ غیرفعال",
+      "CONNECTED_INBOX": "صندوق ورودی متصل شده: ",
       "NEW_BOT": "ربات چت جدید",
       "CONNECT_INBOX": "اتصال به صندوق دریافت",
       "LAST_TRAINED_AT": "آخرین آموزش در: ",

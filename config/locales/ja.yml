@@ -147,6 +147,8 @@ ja:
       ways_to_reach_you_message_body: "チームがあなたに連絡する方法を設定してください"
       email_input_box_message_body: "Eメールで通知を受ける"
       csat_input_message_body: "Please rate the conversation"
+      bot_entered_chat: "ボットがチャットに入室しました"
+      long_message_issue: "入力文字数が多すぎます。メッセージを短くしてください"
     reply:
       email:
         header:

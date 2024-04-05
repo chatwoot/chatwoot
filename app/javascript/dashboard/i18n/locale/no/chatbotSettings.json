@@ -1,52 +1,54 @@
 {
-    "CHATBOT_SETTINGS": {
-      "CHATBOT": "Chatbot",
-      "BOT_STATUS": "Chatbot Status",
-      "NEW_BOT": "Ny Chatbot",
+  "CHATBOT_SETTINGS": {
+    "CHATBOT": "Chatbot",
+    "BOT_STATUS": "Chatbot Status",
+    "BOT_STATUS_ACTIVE": "Aktiv chatbot",
+    "BOT_STATUS_INACTIVE": "Inaktiv chatbot",
+    "CONNECTED_INBOX": "Tilkoblet innboks:",
+    "NEW_BOT": "Ny Chatbot",
+    "CONNECT_INBOX": "Koble til innboks",
+    "LAST_TRAINED_AT": "Sist trent på: ",
+    "CHATBOT_ID": "Chatbot ID: ",
+    "BROWSE_FILES": "Bla gjennom filer",
+    "UPDATE": "Oppdater",
+    "CHATBOT_INBOX_CONNECT": "Koble Chatbot til innboks",
+    "FILE_TYPES": {
+      "DOC": ".doc",
+      "PDF": ".pdf",
+      "TXT": ".txt"
+    },
+    "UPLOAD": {
+      "FILE": "Fil",
+      "TEXT": "Tekst",
+      "WEBSITE": "Nettsted"
+    },
+    "FORM": {
       "CONNECT_INBOX": "Koble til innboks",
-      "LAST_TRAINED_AT": "Sist trent på: ",
-      "CHATBOT_ID": "Chatbot ID: ",
-      "BROWSE_FILES": "Bla gjennom filer",
-      "UPDATE": "Oppdater",
-      "CHATBOT_INBOX_CONNECT": "Koble Chatbot til innboks",
-      "FILE_TYPES": {
-        "DOC": ".doc",
-        "PDF": ".pdf",
-        "TXT": ".txt"
+      "ADD_URL": "Legg til URL",
+      "NAME": {
+        "LABEL": "Chatbot-navn",
+        "PLACEHOLDER": "Eksempel: Chatbot 1"
       },
-      "UPLOAD": {
-        "FILE": "Fil",
-        "TEXT": "Tekst",
-        "WEBSITE": "Nettsted"
+      "DESCRIPTION": {
+        "LABEL": "Chatbot-beskrivelse",
+        "PLACEHOLDER": "Kort beskrivelse av denne Chatbot."
       },
-      "FORM": {
-        "CONNECT_INBOX": "Koble til innboks",
-        "ADD_URL": "Legg til URL",
-        "NAME": {
-          "LABEL": "Chatbot-navn",
-          "PLACEHOLDER": "Eksempel: Chatbot 1"
-        },
-        "DESCRIPTION": {
-          "LABEL": "Chatbot-beskrivelse",
-          "PLACEHOLDER": "Kort beskrivelse av denne Chatbot."
-        },
-        "SUBMIT_CREATE": "Opprett Chatbot"
-      },
-      "SIDEBAR_TXT": "<p><b>Opprett Chatbot</b></p> <p>Chatbot lar deg trene boten på dine egne personlige data. <br /> En bot som er trent på personlige data svarer bare basert på dataene den er blitt trent på.</p>",
-      "LIST": {
-        "404": "Det er ingen chatboter opprettet på denne kontoen.",
-        "EDIT_BOT": "Rediger"
-      },
-      "DELETE": {
-        "BUTTON_TEXT": "Slett",
-        "CONFIRM": {
-          "TITLE": "Bekreft sletting",
-          "PLACE_HOLDER": "Vennligst skriv {chatbotName} for å bekrefte",
-          "MESSAGE": "Sletting av Chatbot vil permanent slette denne boten og dataene den er trent på.",
-          "YES": "Slett ",
-          "NO": "Avbryt"
-        }
+      "SUBMIT_CREATE": "Opprett Chatbot"
+    },
+    "SIDEBAR_TXT": "<p><b>Opprett Chatbot</b></p> <p>Chatbot lar deg trene boten på dine egne personlige data. <br /> En bot som er trent på personlige data svarer bare basert på dataene den er blitt trent på.</p>",
+    "LIST": {
+      "404": "Det er ingen chatboter opprettet på denne kontoen.",
+      "EDIT_BOT": "Rediger"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Slett",
+      "CONFIRM": {
+        "TITLE": "Bekreft sletting",
+        "PLACE_HOLDER": "Vennligst skriv {chatbotName} for å bekrefte",
+        "MESSAGE": "Sletting av Chatbot vil permanent slette denne boten og dataene den er trent på.",
+        "YES": "Slett ",
+        "NO": "Avbryt"
       }
     }
   }
-  
+}
