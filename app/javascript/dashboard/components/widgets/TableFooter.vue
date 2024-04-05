@@ -103,11 +103,8 @@
 </template>
 
 <script>
-import rtlMixin from 'shared/mixins/rtlMixin';
-
 export default {
   components: {},
-  mixins: [rtlMixin],
   props: {
     currentPage: {
       type: Number,
@@ -154,7 +151,7 @@ export default {
   methods: {
     buttonClass(hasPage) {
       if (hasPage) {
-        return 'dark:hover:!bg-slate-50 dark:!bg-slate-800 rounded-r-lg rounded-l-none';
+        return 'hover:!bg-slate-50 dark:hover:!bg-slate-800';
       }
       return 'dark:hover:!bg-slate-700/50';
     },
