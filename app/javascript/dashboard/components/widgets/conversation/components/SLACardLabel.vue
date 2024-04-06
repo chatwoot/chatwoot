@@ -1,12 +1,12 @@
 <template>
   <div
     v-if="hasSlaThreshold"
-    class="relative flex items-center border cursor-pointer min-w-fit border-slate-75 dark:border-slate-700"
-    :class="showExtendedInfo ? 'rounded-lg' : 'rounded'"
+    class="relative flex items-center border cursor-pointer min-w-fit border-slate-100 dark:border-slate-700"
+    :class="showExtendedInfo ? 'h-[26px] rounded-lg' : 'rounded h-5'"
   >
     <div
       class="flex items-center w-full truncate"
-      :class="showExtendedInfo ? 'h-[26px] px-1.5' : 'h-5 px-2 gap-1'"
+      :class="showExtendedInfo ? 'px-1.5' : 'px-2 gap-1'"
       @mouseover="openSlaPopover()"
       @mouseleave="closeSlaPopover()"
     >
@@ -14,7 +14,7 @@
         class="flex items-center gap-1"
         :class="
           showExtendedInfo &&
-          'ltr:pr-1.5 rtl:pl-1.5 ltr:border-r rtl:border-l border-solid border-slate-75 dark:border-slate-700'
+          'ltr:pr-1.5 rtl:pl-1.5 ltr:border-r rtl:border-l border-solid border-slate-100 dark:border-slate-700'
         "
       >
         <fluent-icon
