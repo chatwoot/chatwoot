@@ -151,16 +151,10 @@ export default {
       axios
         .post(url, data, config)
         .then(response => {
-          // if (!response.data.error) {
           this.access_token = response.data.access_token;
           this.refresh_token = response.data.refresh_token;
           this.expires_in = response.data.expires_in;
           this.fetchOaData(this.access_token);
-          // } else {
-          //  this.hasError = true;
-          //  this.errorStateMessage = response.data.error_name;
-          //  this.errorStateDescription = response.data.error_description;
-          // }
         })
         .catch(error => {
           this.hasError = true;

@@ -113,6 +113,8 @@ vi:
       instagram_story_content: "%{story_sender} đã đề cập đến bạn trong hội thoại: "
       instagram_deleted_story_content: Hội thoại này không còn nữa.
       stringee:
+        incoming_calling: "Đang có cuộc gọi đến..."
+        outgoing_calling: "Đang có cuộc gọi đi..."
         missed_call: "Cuộc gọi nhỡ trong %{duration} giây."
         incoming_call: "Cuộc gọi đến trong %{answer_duration} giây."
         outgoing_call: "Cuộc gọi đi trong %{answer_duration} giây."

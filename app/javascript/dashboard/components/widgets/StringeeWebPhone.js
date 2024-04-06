@@ -1,5 +1,7 @@
 import Cookies from 'js-cookie';
 import agents from '../../api/agents';
+import conversations from '../../api/conversations';
+
 /* eslint-disable no-undef */
 /* eslint-disable no-console */
 export default function initStringeeWebPhone(user_id, access_token) {
@@ -29,9 +31,26 @@ export default function initStringeeWebPhone(user_id, access_token) {
     StringeeSoftPhone.config({ showMode: 'none' });
   });
 
-  StringeeSoftPhone.on('requestNewToken', async () => {
-    console.log('requestNewToken+++++++');
+  StringeeSoftPhone.on('signalingstate', function (state) {
+    console.log('signalingstate', state);
+    if (state.code === 5 || state.code === 6)
+      StringeeSoftPhone.config({ showMode: 'none' });
+  });
 
+  StringeeSoftPhone.on('incomingCall', async incomingcall => {
+    try {
+      const response = await conversations.findByMessage(incomingcall.callId);
+      const displayId = response.data.display_id;
+      const accountId = window.location.pathname.split('/')[3];
+
+      const url = `/app/accounts/${accountId}/conversations/${displayId}`;
+      if (!window.location.href.endsWith(url)) window.location.href = url;
+    } catch (error) {
+      console.error('Error opening contact page:', error);
+    }
+  });
+
+  StringeeSoftPhone.on('requestNewToken', async () => {
     try {
       const response = await agents.newStringeeToken(user_id);
       const newToken = response.data.token;
