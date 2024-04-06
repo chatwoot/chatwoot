@@ -2,18 +2,17 @@
 #
 # Table name: channel_notifica_me
 #
-#  id            :bigint           not null, primary key
-#  channel_token :string           not null
-#  channel_type  :string           not null
-#  name          :string           not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  account_id    :integer          not null
-#  channel_id    :string           not null
+#  id                :bigint           not null, primary key
+#  notifica_me_token :string           not null
+#  notifica_me_type  :string           not null
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  account_id        :integer          not null
+#  notifica_me_id    :string           not null
 #
 # Indexes
 #
-#  index_channel_notifica_me  (channel_id,channel_type,channel_token) UNIQUE
+#  index_channel_notifica_me  (notifica_me_id,notifica_me_type,notifica_me_token) UNIQUE
 #
 
 class Channel::NotificaMe < ApplicationRecord
