@@ -5,6 +5,7 @@ import SLAReportsAPI from '../../api/slaReports';
 export const state = {
   records: [],
   metrics: {
+    numberOfConversations: 0,
     numberOfSLAMisses: 0,
     hitRate: '0%',
   },
@@ -72,11 +73,16 @@ export const mutations = {
   [types.SET_SLA_REPORTS]: MutationHelpers.set,
   [types.SET_SLA_REPORTS_METRICS](
     _state,
-    { number_of_sla_misses: numberOfSLAMisses, hit_rate: hitRate }
+    {
+      number_of_sla_misses: numberOfSLAMisses,
+      hit_rate: hitRate,
+      total_applied_slas: numberOfConversations,
+    }
   ) {
     _state.metrics = {
       numberOfSLAMisses,
       hitRate,
+      numberOfConversations,
     };
   },
   [types.SET_SLA_REPORTS_META](_state, { count, current_page: currentPage }) {

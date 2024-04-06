@@ -5,6 +5,7 @@
       <SLAMetrics
         :hit-rate="slaMetrics.hitRate"
         :no-of-breaches="slaMetrics.numberOfSLAMisses"
+        :no-of-conversations="slaMetrics.numberOfConversations"
         :is-loading="uiFlags.isFetchingMetrics"
       />
       <SLATable

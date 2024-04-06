@@ -518,6 +518,10 @@
       "NO_OF_BREACHES": {
         "LABEL": "Number of Breaches",
         "TOOLTIP": "The total SLA breaches in a certain period."
+      },
+      "NO_OF_CONVERSATIONS": {
+        "LABEL": "Number of Conversations",
+        "TOOLTIP": "The total number of conversations that had SLAs applied."
       }
     },
     "TABLE": {
