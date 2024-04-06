@@ -19,7 +19,7 @@ defineProps({
       {{ buttonText }}
     </span>
     <slot name="rightIcon" />
-    <div v-if="$slots.dropdown" class="absolute right-0 top-10">
+    <div v-if="$slots.dropdown" class="absolute right-0 top-10" @click.stop>
       <slot name="dropdown" />
     </div>
   </button>
