@@ -12,6 +12,14 @@ class StringeeChannel extends ApiClient {
       user_ids: agentList,
     });
   }
+
+  channelNumbers() {
+    return axios.get(`${this.url}`);
+  }
+
+  numberToCall() {
+    return axios.get(`${this.url}/number_to_call`);
+  }
 }
 
 export default new StringeeChannel();

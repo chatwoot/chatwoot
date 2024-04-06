@@ -112,7 +112,7 @@
           @click="toggleEditModal"
         />
         <woot-button
-          v-if="contact.phone_number"
+          v-if="contact.phone_number && stringeeAccessToken"
           v-tooltip="$t('CALL_CONTACT.TITLE')"
           title="$t('CALL_CONTACT.BUTTON_LABEL')"
           icon="call"
@@ -189,7 +189,7 @@ import timeMixin from 'dashboard/mixins/time';
 import ContactInfoRow from './ContactInfoRow.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import SocialIcons from './SocialIcons.vue';
-
+import Cookies from 'js-cookie';
 import EditContact from './EditContact.vue';
 import NewConversation from './NewConversation.vue';
 import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal.vue';
@@ -203,6 +203,7 @@ import {
   isAInboxViewRoute,
   getConversationDashboardRoute,
 } from '../../../../helper/routeHelpers';
+import stringeeChannel from '../../../../api/channel/stringeeChannel';
 
 export default {
   components: {
@@ -242,6 +243,7 @@ export default {
       showConversationModal: false,
       showMergeModal: false,
       showDeleteModal: false,
+      stringeeAccessToken: Cookies.get('stringee_access_token'),
     };
   },
   computed: {
@@ -279,9 +281,11 @@ export default {
     },
   },
   methods: {
-    handleMakeCall(phoneNumber) {
+    async handleMakeCall(phoneNumber) {
+      const response = await stringeeChannel.numberToCall();
+      const fromNumber = response.data.number;
       StringeeSoftPhone.config({ showMode: 'full' });
-      StringeeSoftPhone.makeCall('+842873018880', phoneNumber, () => {});
+      StringeeSoftPhone.makeCall(fromNumber, phoneNumber, () => {});
     },
     toggleMergeModal() {
       this.showMergeModal = !this.showMergeModal;

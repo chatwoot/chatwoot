@@ -53,6 +53,7 @@ import NotificationPanel from 'dashboard/routes/dashboard/notifications/componen
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import wootConstants from 'dashboard/constants/globals';
 import StringeeWebPhone from 'dashboard/components/widgets/StringeeWebPhone.js';
+import stringeeChannel from '../../api/channel/stringeeChannel';
 
 export default {
   components: {
@@ -125,10 +126,12 @@ export default {
   },
 
   methods: {
-    loadStringeeWebPhone() {
+    async loadStringeeWebPhone() {
       const access_token = Cookies.get('stringee_access_token');
       if (access_token) {
-        StringeeWebPhone(this.currentUserId, access_token);
+        const response = await stringeeChannel.channelNumbers();
+        const fromNumbers = response.data;
+        StringeeWebPhone(this.currentUserId, access_token, fromNumbers);
         const container = document.querySelector('.stringee_iframe_wrapper');
         container.classList.add('centered');
       }
