@@ -3,7 +3,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   include DateRangeHelper
   include HmacConcern
 
-  before_action :conversation, except: [:index, :meta, :search, :create, :filter]
+  before_action :conversation, except: [:index, :meta, :search, :create, :filter, :find_by_message]
   before_action :inbox, :contact, :contact_inbox, only: [:create]
 
   def index
@@ -110,6 +110,17 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def custom_attributes
     @conversation.custom_attributes = params.permit(custom_attributes: {})[:custom_attributes]
     @conversation.save!
+  end
+
+  def find_by_message
+    source_id = params[:source_id].strip
+    message = Message.find_by(source_id: source_id)
+
+    if message
+      render json: { display_id: message.conversation.display_id }
+    else
+      render json: { display_id: nil }, status: :not_found
+    end
   end
 
   private
