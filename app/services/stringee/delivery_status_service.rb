@@ -22,6 +22,7 @@ class Stringee::DeliveryStatusService
 
     @conversation.assignee_id = agent.id
     @conversation.save!
+    ::AutoAssignment::StringeeAssignmentService.new(inbox: @conversation.inbox).pop_push_to_right_queue(agent.id)
   end
 
   def message_content
