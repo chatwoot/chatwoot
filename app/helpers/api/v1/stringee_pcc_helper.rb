@@ -62,7 +62,7 @@ module Api::V1::StringeePccHelper
     HTTParty.post(
       'https://icc-api.stringee.com/v1/queue',
       headers: { 'Content-Type' => 'application/json', 'X-STRINGEE-AUTH' => generate_access_token },
-      body: { name: name, get_list_agents_url: "#{ENV.fetch('FRONTEND_URL')}/webhooks/stringee" }.to_json
+      body: { name: name, get_list_agents_url: "#{ENV.fetch('FRONTEND_URL')}/webhooks/stringee/agents" }.to_json
     )
   end
 
