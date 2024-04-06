@@ -14,25 +14,35 @@ class Webhooks::StringeeController < ActionController::API
     inbox = Channel::StringeePhoneCall.find_by(queue_id: queue_id)&.inbox
     return unless inbox
 
-    users = ::AutoAssignment::StringeeAssignmentService.new(inbox: inbox).perform
+    call = request_body['calls'].first  # one queue is for only one number, so there should be one call at a time
+    from_number = call['from']
+    last_conversation = find_last_conversation(inbox, from_number)
 
-    response_data = generate_response_data(request_body, users)
+    users = ::AutoAssignment::StringeeAssignmentService.new(inbox: inbox, last_conversation: last_conversation).perform
+
+    call_id = call['callId']
+    response_data = generate_response_data(call_id, users)
+
     render json: response_data.to_json
   end
 
   private
 
-  def generate_response_data(request_body, users)
+  def find_last_conversation(inbox, from_number)
+    from_number.prepend('+') unless from_number.start_with?('+')
+    contact = Contact.find_by(phone_number: from_number)
+    return unless contact
+
+    inbox.conversations.where(contact_id: contact.id).order(updated_at: :desc).first
+  end
+
+  def generate_response_data(call_id, users)
+    agents = agent_list_for_call(users)
+
     response_data = {
       version: 2,
       calls: []
     }
-
-    call = request_body['calls'].first  # one queue is for only one number, so there should be one call at a time
-    call_id = call['callId']
-
-    agents = agent_list_for_call(users)
-
     response_data[:calls] << {
       callId: call_id,
       agents: agents
@@ -43,7 +53,7 @@ class Webhooks::StringeeController < ActionController::API
 
   def agent_list_for_call(users)
     agents = []
-    return agents if users&.empty?
+    return agents if users.blank?
 
     users.each do |user|
       agents <<

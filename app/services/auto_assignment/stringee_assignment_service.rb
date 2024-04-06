@@ -1,13 +1,25 @@
 class AutoAssignment::StringeeAssignmentService
-  pattr_initialize [:inbox!]
+  pattr_initialize [:inbox!, :last_conversation]
 
   # allowed member ids = [assignable online agents supplied by the assignement service]
   # the values of allowed member ids should be in string format
   def perform
     reset_queue unless validate_queue?
 
+    pop_push_to_left_queue(last_conversation&.assignee_id) if last_conversation&.assignee_id.present?
+
     user_ids = members_from_allowed_agent_ids
-    User.where(id: user_ids) if user_ids.present?
+    return if user_ids.blank?
+
+    order_by_clause = user_ids.map { |id| "WHEN #{id} THEN #{user_ids.index(id)}" }.join(' ')
+    User.order(Arel.sql("CASE id #{order_by_clause} END")).where(id: user_ids)
+  end
+
+  def pop_push_to_right_queue(user_id)
+    return unless queue.include?(user_id.to_s)
+
+    remove_agent_from_queue(user_id)
+    add_agent_to_right_queue(user_id)
   end
 
   private
@@ -26,7 +38,7 @@ class AutoAssignment::StringeeAssignmentService
     # Hence taking an intersection of online agents and allowed member ids
 
     # the online user ids are string, since its from redis, allowed member ids are integer, since its from active record
-    @allowed_online_agent_ids ||= online_agent_ids & allowed_agent_ids&.map(&:to_s)
+    online_agent_ids & allowed_agent_ids&.map(&:to_s)
   end
 
   def members_from_allowed_agent_ids
@@ -45,7 +57,26 @@ class AutoAssignment::StringeeAssignmentService
 
   def reset_queue
     clear_queue
-    add_agent_to_queue(inbox.inbox_members.map(&:user_id))
+    add_agent_to_left_queue(inbox.inbox_members.map(&:user_id))
+  end
+
+  def pop_push_to_left_queue(user_id)
+    return unless queue.include?(user_id.to_s)
+
+    remove_agent_from_queue(user_id)
+    add_agent_to_left_queue(user_id)
+  end
+
+  def add_agent_to_left_queue(user_id)
+    ::Redis::Alfred.lpush(round_robin_key, user_id)
+  end
+
+  def add_agent_to_right_queue(user_id)
+    ::Redis::Alfred.rpush(round_robin_key, user_id)
+  end
+
+  def remove_agent_from_queue(user_id)
+    ::Redis::Alfred.lrem(round_robin_key, user_id)
   end
 
   def queue
