@@ -4,6 +4,10 @@ defineProps({
     type: String,
     default: '',
   },
+  inputValue: {
+    type: String,
+    default: '',
+  },
 });
 </script>
 <template>
@@ -20,6 +24,7 @@ defineProps({
         type="text"
         class="w-full mb-0 text-sm bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-75 reset-base"
         placeholder="Search"
+        :value="inputValue"
         @input="$emit('input', $event.target.value)"
       />
     </div>
@@ -28,7 +33,7 @@ defineProps({
       variant="clear"
       color-scheme="primary"
       class="!px-1 !py-1.5"
-      @click="$emit('clear')"
+      @click="$emit('click')"
     >
       {{ buttonText }}
     </woot-button>
