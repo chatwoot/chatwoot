@@ -4,17 +4,18 @@ import conversations from '../../api/conversations';
 
 /* eslint-disable no-undef */
 /* eslint-disable no-console */
-export default function initStringeeWebPhone(user_id, access_token) {
+export default function initStringeeWebPhone(
+  user_id,
+  access_token,
+  fromNumbers
+) {
   var config = {
     showMode: 'none', // full | min | none
     top: '50%',
     left: '50%',
     arrowLeft: 0,
     arrowDisplay: 'none', // top | bottom | none
-    fromNumbers: [
-      { alias: 'Number-1', number: '+842873018880' },
-      { alias: 'Number-2', number: '+842871065445' },
-    ],
+    fromNumbers: fromNumbers,
   };
   StringeeSoftPhone.init(config);
 
@@ -27,17 +28,26 @@ export default function initStringeeWebPhone(user_id, access_token) {
     }
   });
 
-  StringeeSoftPhone.on('endCallBtnClick', () => {
+  StringeeSoftPhone.on('declineIncomingCallBtnClick', () => {
+    console.log('declineIncomingCallBtnClick');
     StringeeSoftPhone.config({ showMode: 'none' });
   });
 
-  StringeeSoftPhone.on('signalingstate', function (state) {
+  StringeeSoftPhone.on('endCallBtnClick', () => {
+    console.log('endCallBtnClick');
+    StringeeSoftPhone.config({ showMode: 'none' });
+  });
+
+  StringeeSoftPhone.on('signalingstate', state => {
     console.log('signalingstate', state);
     if (state.code === 5 || state.code === 6)
       StringeeSoftPhone.config({ showMode: 'none' });
   });
 
   StringeeSoftPhone.on('incomingCall', async incomingcall => {
+    window.onbeforeunload = () => {
+      // Do nothing to bypass the default confirmation to leave site in browser
+    };
     try {
       const response = await conversations.findByMessage(incomingcall.callId);
       const displayId = response.data.display_id;

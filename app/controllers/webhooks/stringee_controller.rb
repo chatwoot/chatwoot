@@ -1,4 +1,8 @@
 class Webhooks::StringeeController < ActionController::API
+  include SwitchLocale
+
+  around_action :switch_locale
+
   def process_payload
     Rails.logger.info('Stringee webhook received events')
     Webhooks::StringeeEventsJob.perform_later(params.to_unsafe_hash)

@@ -1,6 +1,22 @@
 class Api::V1::Accounts::Channels::StringeeChannelsController < Api::V1::Accounts::BaseController
   include Api::V1::StringeePccHelper
-  before_action :fetch_inbox, :current_agents_ids, except: [:create]
+  before_action :fetch_inbox, :current_agents_ids, only: [:destroy, :update_agents]
+
+  def index
+    stringee_phone_calls = Current.account.stringee_phone_calls.includes(:inbox)
+    channels_info = stringee_phone_calls.pluck('inboxes.name', :phone_number)
+    render json: channels_info.map { |inbox_name, phone_number| { alias: inbox_name, number: phone_number } }
+  end
+
+  def number_to_call
+    inboxes = Current.account.inboxes.where(channel_type: 'Channel::StringeePhoneCall')
+    inbox = inboxes.joins(:inbox_members).where(inbox_members: { user_id: Current.user.id }).first
+    if inbox
+      render json: { number: inbox.channel.phone_number }
+    else
+      render json: { number: nil }
+    end
+  end
 
   def create
     phone_number = params[:phone_number]
