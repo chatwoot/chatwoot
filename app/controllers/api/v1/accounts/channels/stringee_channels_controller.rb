@@ -9,7 +9,9 @@ class Api::V1::Accounts::Channels::StringeeChannelsController < Api::V1::Account
     queue_id = create_queue("#{inbox_name} queue")
     return if queue_id.blank?
 
-    number_id = add_number(phone_number, inbox_name, queue_id)
+    # TODO: need to consider with the way adding new number to Stringee
+    # number_id = add_number(phone_number, inbox_name, queue_id)
+    number_id = 'XXXXXX'
     return if number_id.blank?
 
     inbox = nil
@@ -24,7 +26,8 @@ class Api::V1::Accounts::Channels::StringeeChannelsController < Api::V1::Account
 
   def destroy
     current_agents_ids.each { |user_id| remove_agent_from_stringee(user_id) }
-    remove_number(@inbox.channel.number_id)
+    # TODO: need to consider with the way adding new number to Stringee
+    # remove_number(@inbox.channel.number_id)
     delete_queue(@inbox.channel.queue_id)
   end
 
