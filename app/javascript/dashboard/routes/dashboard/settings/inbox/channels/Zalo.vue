@@ -124,7 +124,9 @@ export default {
     startLogin() {
       this.hasLoginStarted = true;
       window.location.replace(
-        'https://oauth.zaloapp.com/v4/oa/permission?app_id=1705469258416327647&redirect_uri=' +
+        'https://oauth.zaloapp.com/v4/oa/permission?app_id=' +
+          window.chatwootConfig.zaloAppId +
+          '&redirect_uri=' +
           window.chatwootConfig.hostURL +
           '/zalo/callback&state=' +
           encodeURIComponent(this.accountId)
@@ -149,16 +151,10 @@ export default {
       axios
         .post(url, data, config)
         .then(response => {
-          // if (!response.data.error) {
           this.access_token = response.data.access_token;
           this.refresh_token = response.data.refresh_token;
           this.expires_in = response.data.expires_in;
           this.fetchOaData(this.access_token);
-          // } else {
-          //  this.hasError = true;
-          //  this.errorStateMessage = response.data.error_name;
-          //  this.errorStateDescription = response.data.error_description;
-          // }
         })
         .catch(error => {
           this.hasError = true;

@@ -36,6 +36,7 @@
         helpCenterURL: '<%= ENV.fetch('HELPCENTER_URL', '') %>',
         fbAppId: '<%= ENV.fetch('FB_APP_ID', nil) %>',
         zaloAppId: '<%= ENV.fetch('ZALO_APP_ID', nil) %>',
+        stringeeSID: '<%= ENV.fetch('STRINGEE_API_KEY_SID', nil) %>',
         zaloAppSecret: '<%= ENV.fetch('ZALO_APP_SECRET', nil) %>',
         googleOAuthClientId: '<%= ENV.fetch('GOOGLE_OAUTH_CLIENT_ID', nil) %>',
         googleOAuthCallbackUrl: '<%= ENV.fetch('GOOGLE_OAUTH_CALLBACK_URL', nil) %>',
@@ -62,6 +63,7 @@
       }
     </script>
     <% end %>
+    <script src="https://static.stringee.com/web_phone/lastest/js/StringeeSoftPhone-lastest.js"></script>
     <%= javascript_pack_tag @application_pack %>
     <%= stylesheet_pack_tag @application_pack %>
   </head>

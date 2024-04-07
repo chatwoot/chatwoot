@@ -45,6 +45,15 @@
     >
       <div class="menu-container">
         <menu-item
+          v-if="enabledOptions['downloadRecord']"
+          :option="{
+            icon: 'link',
+            label: $t('CONVERSATION.CONTEXT_MENU.DOWNLOAD_RECORD'),
+          }"
+          variant="icon"
+          @click="downloadRecord"
+        />
+        <menu-item
           v-if="enabledOptions['replyTo']"
           :option="{
             icon: 'arrow-reply',
@@ -111,6 +120,7 @@ import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import AddCannedModal from 'dashboard/routes/dashboard/settings/canned/AddCanned.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { conversationUrl, frontendURL } from '../../../helper/URLHelper';
+import Cookies from 'js-cookie';
 import {
   ACCOUNT_EVENTS,
   CONVERSATION_EVENTS,
@@ -172,6 +182,15 @@ export default {
     },
   },
   methods: {
+    downloadRecord() {
+      const url =
+        'https://api.stringee.com/v1/call/play/' +
+        this.message.source_id +
+        '?access_token=' +
+        Cookies.get('stringee_access_token');
+
+      window.open(url);
+    },
     async copyLinkToMessage() {
       const fullConversationURL =
         window.chatwootConfig.hostURL +

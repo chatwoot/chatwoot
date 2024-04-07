@@ -57,6 +57,13 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
     head :ok
   end
 
+  def new_stringee_token
+    new_token = @agent.stringee_access_token
+    @agent.custom_attributes['stringee_access_token'] = new_token
+    @agent.save!
+    render json: { token: new_token }
+  end
+
   private
 
   def check_authorization

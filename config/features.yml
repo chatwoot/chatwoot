@@ -7,6 +7,8 @@
   enabled: true
 - name: channel_zalo
   enabled: true
+- name: channel_stringee
+  enabled: true
 - name: channel_twitter
   enabled: true
 - name: ip_lookup

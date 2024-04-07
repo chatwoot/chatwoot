@@ -101,13 +101,23 @@
     "DESC": "Xoá chi tiết liên hệ",
     "CONFIRM": {
       "TITLE": "Xác nhận xoá",
-      "MESSAGE": "Bạn có muốn xoá? ",
+      "MESSAGE": "Bạn có muốn xoá ",
       "YES": "Có, Xoá",
       "NO": "Không, giữ"
     },
     "API": {
       "SUCCESS_MESSAGE": "Liên hệ đã được xóa thành công",
       "ERROR_MESSAGE": "Không thể xoá liên hệ. Vui lòng thử lại sau."
+    }
+  },
+  "CALL_CONTACT": {
+    "BUTTON_LABEL": "Gọi điện",
+    "TITLE": "Gọi điện cho liên hệ",
+    "CONFIRM": {
+      "TITLE": "Xác nhận gọi điện",
+      "MESSAGE": "Bạn có muốn gọi điện cho liên hệ này?",
+      "YES": "Có, gọi ngay",
+      "NO": "Không, quay lại"
     }
   },
   "CONTACT_FORM": {

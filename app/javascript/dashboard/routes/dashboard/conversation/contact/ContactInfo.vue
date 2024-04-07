@@ -112,6 +112,16 @@
           @click="toggleEditModal"
         />
         <woot-button
+          v-if="contact.phone_number && stringeeAccessToken"
+          v-tooltip="$t('CALL_CONTACT.TITLE')"
+          title="$t('CALL_CONTACT.BUTTON_LABEL')"
+          icon="call"
+          variant="smooth"
+          size="small"
+          color-scheme="success"
+          @click="confirmCalling"
+        />
+        <woot-button
           v-tooltip="$t('CONTACT_PANEL.MERGE_CONTACT')"
           title="$t('CONTACT_PANEL.MERGE_CONTACT')"
           icon="merge"
@@ -163,15 +173,23 @@
       :confirm-text="$t('DELETE_CONTACT.CONFIRM.YES')"
       :reject-text="$t('DELETE_CONTACT.CONFIRM.NO')"
     />
+    <woot-confirm-modal
+      ref="confirmCallingDialog"
+      :title="$t('CALL_CONTACT.CONFIRM.TITLE')"
+      :description="$t('CALL_CONTACT.CONFIRM.MESSAGE')"
+      :confirm-label="$t('CALL_CONTACT.CONFIRM.YES')"
+      :cancel-label="$t('CALL_CONTACT.CONFIRM.NO')"
+    />
   </div>
 </template>
+<!-- eslint-disable no-undef -->
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
 import timeMixin from 'dashboard/mixins/time';
 import ContactInfoRow from './ContactInfoRow.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import SocialIcons from './SocialIcons.vue';
-
+import Cookies from 'js-cookie';
 import EditContact from './EditContact.vue';
 import NewConversation from './NewConversation.vue';
 import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal.vue';
@@ -185,6 +203,7 @@ import {
   isAInboxViewRoute,
   getConversationDashboardRoute,
 } from '../../../../helper/routeHelpers';
+import stringeeChannel from '../../../../api/channel/stringeeChannel';
 
 export default {
   components: {
@@ -224,6 +243,7 @@ export default {
       showConversationModal: false,
       showMergeModal: false,
       showDeleteModal: false,
+      stringeeAccessToken: Cookies.get('stringee_access_token'),
     };
   },
   computed: {
@@ -261,6 +281,12 @@ export default {
     },
   },
   methods: {
+    async handleMakeCall(phoneNumber) {
+      const response = await stringeeChannel.numberToCall();
+      const fromNumber = response.data.number;
+      StringeeSoftPhone.config({ showMode: 'full' });
+      StringeeSoftPhone.makeCall(fromNumber, phoneNumber, () => {});
+    },
     toggleMergeModal() {
       this.showMergeModal = !this.showMergeModal;
     },
@@ -292,6 +318,13 @@ export default {
         return `${cityAndCountry} ${countryFlag}`;
       } catch (error) {
         return '';
+      }
+    },
+    async confirmCalling() {
+      const ok = await this.$refs.confirmCallingDialog.showConfirmation();
+
+      if (ok) {
+        this.handleMakeCall(this.contact.phone_number);
       }
     },
     async deleteContact({ id }) {

@@ -284,6 +284,24 @@
           "ERROR_MESSAGE": "Chúng tôi không thể lưu kênh api"
         }
       },
+      "STRINGEE_CHANNEL": {
+        "TITLE": "Kênh PhoneCall",
+        "DESC": "Tích hợp với kênh PhoneCall (tổng đài điện thoại) và bắt đầu hỗ trợ khách hàng của bạn.",
+        "CHANNEL_NAME": {
+          "LABEL": "Tên Kênh",
+          "PLACEHOLDER": "Vui lòng nhập tên kênh",
+          "ERROR": "Trường này là bắt buộc"
+        },
+        "PHONENUMBER": {
+          "LABEL": "Số điện thoại",
+          "SUBTITLE": "Nhập số điện thoại hotline mà bạn muốn tích hợp vào kênh tổng đài điện thoại này.",
+          "PLACEHOLDER": "Số điện thoại (hotline)"
+        },
+        "SUBMIT_BUTTON": "Tạo kênh PhoneCall",
+        "SAVE": {
+          "ERROR_MESSAGE": "Chúng tôi không thể lưu kênh PhoneCall này"
+        }
+      },
       "EMAIL_CHANNEL": {
         "TITLE": "Kênh Email",
         "DESC": "Tích hợp hộp thư đến email của bạn.",
@@ -294,7 +312,7 @@
         },
         "EMAIL": {
           "LABEL": "Email",
-          "SUBTITLE": "Provide the email address where your customers send support requests.",
+          "SUBTITLE": "Cung cấp địa chỉ email tiếp nhận yêu cầu hỗ trợ của khách hàng.",
           "PLACEHOLDER": "Email"
         },
         "SUBMIT_BUTTON": "Tạo kênh Email",

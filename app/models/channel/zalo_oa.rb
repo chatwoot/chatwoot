@@ -3,9 +3,9 @@
 # Table name: channel_zalo_oa
 #
 #  id              :bigint           not null, primary key
+#  expires_in      :integer          not null
 #  oa_access_token :string           not null
 #  refresh_token   :string           not null
-#  expires_in      :integer          not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  account_id      :integer          not null
@@ -14,6 +14,7 @@
 # Indexes
 #
 #  index_channel_zalo_oa_on_oa_id  (oa_id) UNIQUE
+#  index_channel_zalo_oa_on_oa_id_and_account_id  (oa_id,account_id) UNIQUE
 #
 
 class Channel::ZaloOa < ApplicationRecord
@@ -28,6 +29,7 @@ class Channel::ZaloOa < ApplicationRecord
   validates :account_id, presence: true
   validates :oa_id, presence: true
   validates :oa_id, uniqueness: true
+  validates :oa_id, :account_id, uniqueness: true
 
   def name
     'ZaloOa'

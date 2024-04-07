@@ -160,6 +160,29 @@ class User < ApplicationRecord
     find_by(email: email.downcase)
   end
 
+  def stringee_user_id
+    email.sub('@', '_')
+  end
+
+  def stringee_access_token
+    now = Time.now.to_i
+    exp = now + (2 * 30 * 24 * 60 * 60) # 2 months
+    api_key_sid = ENV.fetch('STRINGEE_API_KEY_SID', nil)
+    api_key_secret = ENV.fetch('STRINGEE_API_KEY_SECRET', nil)
+
+    header = { 'cty' => 'stringee-api;v=1' }
+    payload = {
+      'jti' => "#{api_key_sid}-#{now}",
+      'iss' => api_key_sid,
+      'exp' => exp,
+      'rest_api' => true,
+      'icc_api' => true,
+      'userId' => stringee_user_id
+    }
+
+    JWT.encode(payload, api_key_secret, 'HS256', header)
+  end
+
   private
 
   def remove_macros
