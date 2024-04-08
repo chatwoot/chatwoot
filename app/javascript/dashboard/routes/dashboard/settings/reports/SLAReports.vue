@@ -30,6 +30,7 @@
 import { mapGetters } from 'vuex';
 import SLAMetrics from './components/SLA/SLAMetrics.vue';
 import SLATable from './components/SLA/SLATable.vue';
+import alertMixin from 'shared/mixins/alertMixin';
 import SLAReportFilters from './components/SLA/SLAReportFilters.vue';
 import { generateFileName } from '../../../../helper/downloadHelper';
 export default {
@@ -39,6 +40,7 @@ export default {
     SLATable,
     SLAReportFilters,
   },
+  mixins: [alertMixin],
   data() {
     return {
       pageNumber: 1,
