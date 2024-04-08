@@ -13,7 +13,7 @@ class Sla::ProcessAccountAppliedSlasJob < ApplicationJob
     end
 
     user_sla_map = build_user_sla_map(missed_slas)
-    notify_users(user_sla_map, account)
+    notify_users(user_sla_map)
   end
 
   def build_user_sla_map(missed_slas)
@@ -32,9 +32,7 @@ class Sla::ProcessAccountAppliedSlasJob < ApplicationJob
     end
   end
 
-  def notify_users(user_sla_map, account)
-    admins = account.administrators
-
+  def notify_users(user_sla_map)
     user_sla_map.each do |user, sla_data|
       puts "Notifying user #{user.id} and #{admins.count} admins about #{sla_data.count} missed SLAs"
     end
