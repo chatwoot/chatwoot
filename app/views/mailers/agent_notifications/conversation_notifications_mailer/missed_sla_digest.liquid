@@ -1,0 +1,51 @@
+<p>Hello {{ user.available_name }},</p>
+<p>This is a digest of the missed SLAs in your conversations:</p>
+
+{% for conversation, missed_slas in missed_slas_by_conversation %}
+  <div style='margin-bottom: 20px;'>
+    <h3>Conversation: {{ conversation.display_id }}</h3>
+    <table style='width: 100%; border-collapse: collapse;'>
+      <thead>
+        <tr>
+          <th style='text-align: left; border-bottom: 1px solid #ccc; padding: 5px;'>
+            SLA Policy
+          </th>
+          <th style='text-align: left; border-bottom: 1px solid #ccc; padding: 5px;'>
+            Missed Event
+          </th>
+          <th style='text-align: left; border-bottom: 1px solid #ccc; padding: 5px;'>
+            Missed At
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for missed_sla in missed_slas %}
+          {% for sla_event in missed_sla.sla_events %}
+            <tr>
+              <td style='padding: 5px;'>
+                {{ missed_sla.applied_sla.sla_policy.name }}
+              </td>
+              <td style='padding: 5px;'>{{ sla_event.event }}</td>
+              <td style='padding: 5px;'>
+                {{ sla_event.created_at | date: '%b %d, %Y %I:%M %p' }}
+              </td>
+            </tr>
+          {% endfor %}
+        {% endfor %}
+      </tbody>
+    </table>
+    <p>
+      <a href='{{ conversation_url }}' target='_blank'>View Conversation</a>
+    </p>
+  </div>
+{% endfor %}
+
+<p>
+  Please take the necessary actions to address these missed SLAs and ensure
+  timely responses to the conversations.
+</p>
+
+<p>
+  Best regards,<br>
+  Your SLA Monitoring System
+</p>

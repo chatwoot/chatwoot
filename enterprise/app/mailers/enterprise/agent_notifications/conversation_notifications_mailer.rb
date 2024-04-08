@@ -1,38 +1,30 @@
 module Enterprise::AgentNotifications::ConversationNotificationsMailer
-  def sla_missed_first_response(conversation, agent, sla_policy)
+  def missed_slas_digest(user, missed_slas)
     return unless smtp_config_set_or_development?
 
-    @agent = agent
-    @conversation = conversation
-    @sla_policy = sla_policy
-    subject = "Conversation [ID - #{@conversation.display_id}] missed SLA for first response"
-    @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
-    send_mail_with_liquid(to: @agent.email, subject: subject) and return
-  end
+    @user = user
+    @missed_slas = missed_slas
+    subject = 'Missed SLAs Digest'
 
-  def sla_missed_next_response(conversation, agent, sla_policy)
-    return unless smtp_config_set_or_development?
+    # Group missed SLAs by conversation using each_with_object
+    @missed_slas_by_conversation = @missed_slas.each_with_object({}) do |missed_sla, result|
+      applied_sla = missed_sla[:applied_sla]
+      sla_events = missed_sla[:sla_events]
+      conversation = applied_sla.conversation
 
-    @agent = agent
-    @conversation = conversation
-    @sla_policy = sla_policy
-    @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
-    send_mail_with_liquid(to: @agent.email, subject: "Conversation [ID - #{@conversation.display_id}] missed SLA for next response") and return
-  end
+      result[conversation] ||= []
+      result[conversation] << {
+        sla_events: sla_events,
+        applied_sla: applied_sla
+      }
+    end
 
-  def sla_missed_resolution(conversation, agent, sla_policy)
-    return unless smtp_config_set_or_development?
-
-    @agent = agent
-    @conversation = conversation
-    @sla_policy = sla_policy
-    @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
-    send_mail_with_liquid(to: @agent.email, subject: "Conversation [ID - #{@conversation.display_id}] missed SLA for resolution time") and return
+    send_mail_with_liquid(to: @user.email, subject: subject) and return
   end
 
   def liquid_droppables
     super.merge({
-                  sla_policy: @sla_policy
+                  missed_slas_by_conversation: @missed_slas_by_conversation
                 })
   end
 end
