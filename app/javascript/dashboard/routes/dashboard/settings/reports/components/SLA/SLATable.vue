@@ -8,18 +8,17 @@
       >
         <table-header-cell
           :span="6"
-          label-key="SLA_REPORTS.TABLE.HEADER.CONVERSATION"
+          :label="$t('SLA_REPORTS.TABLE.HEADER.CONVERSATION')"
         />
         <table-header-cell
           :span="2"
-          label-key="SLA_REPORTS.TABLE.HEADER.POLICY_BREACHED"
+          :label="$t('SLA_REPORTS.TABLE.HEADER.POLICY')"
         />
-
         <table-header-cell
           :span="2"
-          label-key="SLA_REPORTS.TABLE.HEADER.AGENT"
+          :label="$t('SLA_REPORTS.TABLE.HEADER.AGENT')"
         />
-        <table-header-cell :span="2" label-key="" />
+        <table-header-cell :span="2" label="" />
       </div>
 
       <div
