@@ -8,6 +8,10 @@ defineProps({
     type: String,
     default: '',
   },
+  inputPlaceholder: {
+    type: String,
+    default: '',
+  },
 });
 </script>
 <template>
@@ -23,7 +27,7 @@ defineProps({
       <input
         type="text"
         class="w-full mb-0 text-sm bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-75 reset-base"
-        placeholder="Search"
+        :placeholder="inputPlaceholder"
         :value="inputValue"
         @input="$emit('input', $event.target.value)"
       />
