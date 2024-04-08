@@ -20,7 +20,6 @@ export default function initStringeeWebPhone(
   StringeeSoftPhone.init(config);
 
   StringeeSoftPhone.on('displayModeChange', event => {
-    console.log('displayModeChange', event);
     if (event === 'min') {
       StringeeSoftPhone.config({ arrowLeft: 75 });
     } else if (event === 'full') {
