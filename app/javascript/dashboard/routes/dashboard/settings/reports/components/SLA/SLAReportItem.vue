@@ -52,12 +52,7 @@ defineProps({
         v-if="conversation.assignee"
         :user="conversation.assignee"
       />
-      <span
-        v-else
-        class="text-slate-600 dark:text-slate-200 capitalize truncate"
-      >
-        ---
-      </span>
+      <span v-else class="text-slate-600 dark:text-slate-200"> --- </span>
     </div>
     <SLAViewDetails :sla-events="slaEvents" />
   </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col flex-1 px-4 pt-4 overflow-auto font-inter">
+  <div class="flex flex-col flex-1 px-4 pt-4 overflow-auto">
     <SLAReportFilters @filter-change="onFilterChange" />
     <div class="flex flex-col gap-6">
       <SLAMetrics
