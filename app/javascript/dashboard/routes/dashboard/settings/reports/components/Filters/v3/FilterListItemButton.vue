@@ -16,6 +16,7 @@ defineProps({
     @click="$emit('click')"
     @mouseenter="$emit('mouseenter')"
     @mouseleave="$emit('mouseleave')"
+    @focus="$emit('focus')"
   >
     <div class="inline-flex items-center gap-3 overflow-hidden">
       <span
