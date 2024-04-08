@@ -17,28 +17,19 @@ class Sla::ProcessAccountAppliedSlasJob < ApplicationJob
   end
 
   def build_user_sla_map(missed_slas)
-    user_sla_map = {}
-
-    missed_slas.each do |missed_sla|
+    missed_slas.each_with_object({}) do |missed_sla, user_missed_slas_map|
       applied_sla = missed_sla[:applied_sla]
       sla_events = missed_sla[:sla_events]
+      conversation = applied_sla.conversation
 
-      # get all participants of the conversation
-      users_to_notify = applied_sla.conversation.conversation_participants.map(&:user)
-      assignee = applied_sla.conversation.assignee
+      users_to_notify = conversation.conversation_participants.map(&:user)
+      users_to_notify << conversation.assignee if conversation.assignee.present?
 
-      users_to_notify.each do |user|
-        user_sla_map[user] ||= []
-        user_sla_map[user] << { sla_events: sla_events, applied_sla: applied_sla }
-      end
-
-      if assignee.present?
-        user_sla_map[assignee] ||= []
-        user_sla_map[assignee] << { sla_events: sla_events, applied_sla: applied_sla }
+      users_to_notify.uniq.each do |user|
+        user_missed_slas_map[user] ||= []
+        user_missed_slas_map[user] += [{ sla_events: sla_events, applied_sla: applied_sla }]
       end
     end
-
-    user_sla_map
   end
 
   def notify_users(user_sla_map, account)
