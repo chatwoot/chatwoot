@@ -14,7 +14,7 @@
     </span>
     <div
       v-if="isLoading"
-      class="w-12 h-6 mb-0.5 rounded-md bg-slate-50 dark:bg-slate-700 animate-pulse"
+      class="w-12 h-6 mb-0.5 rounded-md bg-slate-50 dark:bg-slate-800 animate-pulse"
     />
 
     <span v-else class="text-2xl font-medium text-slate-900 dark:text-slate-25">
