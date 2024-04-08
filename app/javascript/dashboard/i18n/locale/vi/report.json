@@ -441,7 +441,7 @@
       "LOADING_MESSAGE": "Đang tải số liệu cuộc hội thoại...",
       "OPEN": "Mở",
       "UNATTENDED": "Không giám sát",
-      "UNASSIGNED": "Chưa được phân công",
+      "UNASSIGNED": "Chưa phân công",
       "PENDING": "Chờ giải quyết"
     },
     "CONVERSATION_HEATMAP": {
