@@ -8,6 +8,7 @@ const props = defineProps({
   label: {
     type: String,
     required: true,
+    default: '',
   },
 });
 
@@ -31,7 +32,7 @@ const spanClass = computed(() => {
     class="flex items-center px-0 py-2 text-xs font-medium text-left uppercase text-slate-700 dark:text-slate-100 rtl:text-right"
     :class="spanClass"
   >
-    <slot v-if="label">
+    <slot>
       {{ label }}
     </slot>
   </div>

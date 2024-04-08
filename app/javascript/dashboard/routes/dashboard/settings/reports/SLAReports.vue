@@ -32,7 +32,7 @@ import SLAMetrics from './components/SLA/SLAMetrics.vue';
 import SLATable from './components/SLA/SLATable.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import SLAReportFilters from './components/SLA/SLAReportFilters.vue';
-import { generateFileName } from '../../../../helper/downloadHelper';
+import { generateFileName } from 'dashboard/helper/downloadHelper';
 export default {
   name: 'SLAReports',
   components: {
@@ -91,7 +91,7 @@ export default {
           ...this.requestPayload,
         });
       } catch (error) {
-        this.showAlert(this.$t('REPORT.SLA_REPORTS.DOWNLOAD_FAILED'));
+        this.showAlert(this.$t('SLA_REPORTS.DOWNLOAD_FAILED'));
       }
     },
   },
