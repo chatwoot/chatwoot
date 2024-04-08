@@ -89,7 +89,7 @@ export default {
           ...this.requestPayload,
         });
       } catch (error) {
-        this.showAlert(this.$t('REPORT.SLA_REPORTS.DOWNLOAD_FAILED'));
+        this.showAlert(this.$t('SLA_REPORTS.DOWNLOAD_FAILED'));
       }
     },
   },
