@@ -521,7 +521,7 @@
       },
       "NO_OF_CONVERSATIONS": {
         "LABEL": "Number of Conversations",
-        "TOOLTIP": "The total number of conversations that had SLAs applied."
+        "TOOLTIP": "Total number of conversations with SLA"
       }
     },
     "TABLE": {
