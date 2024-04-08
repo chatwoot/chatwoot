@@ -162,9 +162,19 @@ class Notification < ApplicationRecord
     # Should we do something about the case where user subscribed to both push and email ?
     # In future, we could probably add condition here to enqueue the job for 30 seconds later
     # when push enabled and then check in email job whether notification has been read already.
-    Notification::EmailNotificationJob.perform_later(self) if user_subscribed_to_notification?('email')
+    Notification::EmailNotificationJob.perform_later(self) if should_send_email? && user_subscribed_to_notification?('email')
 
     Notification::RemoveDuplicateNotificationJob.perform_later(self)
+  end
+
+  def should_send_email?
+    case notification_type
+    when 'sla_missed_first_response', 'sla_missed_next_response', 'sla_missed_resolution'
+      # we send an email digest for this anyway so no need to send individual emails
+      false
+    else
+      true
+    end
   end
 
   def user_subscribed_to_notification?(delivery_type)
