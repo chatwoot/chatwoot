@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import FilterListItemButton from './FilterListItemButton.vue';
 import FilterDropdownSearch from './FilterDropdownSearch.vue';
+import FilterDropdownEmptyState from './FilterDropdownEmptyState.vue';
 
 const props = defineProps({
   listItems: {
@@ -16,6 +17,14 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  emptyListMessage: {
+    type: String,
+    default: '',
+  },
+  inputPlaceholder: {
+    type: String,
+    default: '',
+  },
 });
 
 const searchTerm = ref('');
@@ -25,9 +34,13 @@ const onSearch = value => {
 };
 
 const filteredListItems = computed(() => {
-  return props.listItems.filter(item =>
+  return props.listItems?.filter(item =>
     item.name.toLowerCase().includes(searchTerm.value.toLowerCase())
   );
+});
+
+const isDropdownListEmpty = computed(() => {
+  return !filteredListItems.value.length;
 });
 </script>
 <template>
@@ -39,16 +52,21 @@ const filteredListItems = computed(() => {
         v-if="enableSearch && listItems.length"
         :button-text="inputButtonText"
         :input-value="searchTerm"
+        :input-placeholder="inputPlaceholder"
         @input="onSearch"
         @click="onSearch('')"
       />
     </slot>
     <slot name="listItem">
+      <filter-dropdown-empty-state
+        v-if="isDropdownListEmpty"
+        :message="emptyListMessage"
+      />
       <filter-list-item-button
         v-for="item in filteredListItems"
         :key="item.id"
         :button-text="item.name"
-        @click="$emit('click')"
+        @click="$emit('click', item)"
       />
     </slot>
   </div>
