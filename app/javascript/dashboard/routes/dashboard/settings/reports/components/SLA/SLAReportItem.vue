@@ -29,15 +29,13 @@ defineProps({
     <div
       class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] text-slate-700 dark:text-slate-100 rtl:text-right"
     >
-      <span
-        v-html="
-          $t('SLA_REPORTS.TABLE.COLUMN.CONVERSATION', {
-            conversationId: conversationId,
-            contactName: conversation.contact.name,
-          })
-        "
-      />
-
+      <span class="text-slate-700 dark:text-slate-200">
+        {{ `#${conversationId} ` }}
+      </span>
+      <span class="text-slate-600 dark:text-slate-300">with </span>
+      <span class="text-slate-700 dark:text-slate-200 capitalize truncate">{{
+        conversation.contact.name
+      }}</span>
       <card-labels
         class="w-[80%]"
         :conversation-id="conversationId"
