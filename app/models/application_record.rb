@@ -50,4 +50,4 @@ class ApplicationRecord < ActiveRecord::Base
   end
 end
 
-ApplicationRecord.include_mod_with('Enterprise::ApplicationRecord')
+ApplicationRecord.prepend_mod_with('ApplicationRecord')
