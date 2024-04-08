@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue';
+import { picoSearch } from '@scmmishra/pico-search';
 import FilterListItemButton from './FilterListItemButton.vue';
 import FilterDropdownSearch from './FilterDropdownSearch.vue';
 import FilterDropdownEmptyState from './FilterDropdownEmptyState.vue';
@@ -34,9 +35,8 @@ const onSearch = value => {
 };
 
 const filteredListItems = computed(() => {
-  return props.listItems?.filter(item =>
-    item.name.toLowerCase().includes(searchTerm.value.toLowerCase())
-  );
+  if (!searchTerm.value) return props.listItems;
+  return picoSearch(props.listItems, searchTerm.value, ['name']);
 });
 
 const isDropdownListEmpty = computed(() => {
