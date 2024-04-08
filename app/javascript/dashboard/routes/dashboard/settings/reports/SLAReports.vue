@@ -31,7 +31,7 @@ import { mapGetters } from 'vuex';
 import SLAMetrics from './components/SLA/SLAMetrics.vue';
 import SLATable from './components/SLA/SLATable.vue';
 import SLAReportFilters from './components/SLA/SLAReportFilters.vue';
-import { generateFileName } from '../../../../helper/downloadHelper';
+import { generateFileName } from 'dashboard/helper/downloadHelper';
 export default {
   name: 'SLAReports',
   components: {
