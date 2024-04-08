@@ -6,22 +6,27 @@ class Sla::EvaluateAppliedSlaService
   RT_THRESHOLD = 'rt'.freeze
 
   def perform
-    check_sla_thresholds
+    sla_events = []
+
+    check_sla_thresholds(sla_events)
 
     # We will calculate again in the next iteration
-    return unless applied_sla.conversation.resolved?
+    return [sla_events, applied_sla] unless applied_sla.conversation.resolved?
 
     # after conversation is resolved, we will check if the SLA was hit or missed
     handle_hit_sla(applied_sla)
+
+    [sla_events, applied_sla]
   end
 
   private
 
-  def check_sla_thresholds
+  def check_sla_thresholds(sla_events)
     [:first_response_time_threshold, :next_response_time_threshold, :resolution_time_threshold].each do |threshold|
       next if applied_sla.sla_policy.send(threshold).blank?
 
-      send("check_#{threshold}", applied_sla, applied_sla.conversation, applied_sla.sla_policy)
+      event = send("check_#{threshold}", applied_sla, applied_sla.conversation, applied_sla.sla_policy)
+      sla_events << event if event.present?
     end
   end
 
