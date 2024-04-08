@@ -1,7 +1,7 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import types from '../mutation-types';
 import SLAReportsAPI from '../../api/slaReports';
-import { downloadCsvFile } from '../../helper/downloadHelper';
+import { downloadCsvFile } from 'dashboard/helper/downloadHelper';
 export const state = {
   records: [],
   metrics: {
