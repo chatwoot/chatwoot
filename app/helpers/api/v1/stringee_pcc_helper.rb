@@ -15,7 +15,7 @@ module Api::V1::StringeePccHelper
     result = response.parsed_response
     return if response.code == 200 && result['r'].to_i.zero?
 
-    Rails.logger.error("Queue deleted result: #{result['message']}")
+    Rails.logger.warn("Queue deleted result: #{result['message']}")
   end
 
   def add_number(phone_number, nick_name, queue_id)
@@ -23,7 +23,7 @@ module Api::V1::StringeePccHelper
     result = response.parsed_response
     return result['numberID'] if response.code == 200 && result['r'].to_i.zero?
 
-    Rails.logger.error("Number added result: #{result['message']}")
+    Rails.logger.warn("Number added result: #{result['message']}")
   end
 
   def remove_number(number_id)
@@ -34,7 +34,7 @@ module Api::V1::StringeePccHelper
     result = response.parsed_response
     return if response.code == 200 && result['r'].to_i.zero?
 
-    Rails.logger.error("Number removed result: #{result['message']}")
+    Rails.logger.warn("Number removed result: #{result['message']}")
   end
 
   def create_agent(name, user_id)
@@ -42,7 +42,7 @@ module Api::V1::StringeePccHelper
     result = response.parsed_response
     return result['agentID'] if response.code == 200 && result['r'].to_i.zero?
 
-    Rails.logger.error("Agent created result: #{result['message']}")
+    Rails.logger.warn("Agent created result: #{result['message']}")
   end
 
   def delete_agent(agent_id)
@@ -53,7 +53,7 @@ module Api::V1::StringeePccHelper
     result = response.parsed_response
     return if response.code == 200 && result['r'].to_i.zero?
 
-    Rails.logger.error("Agent deleted result: #{result['message']}")
+    Rails.logger.warn("Agent deleted result: #{result['message']}")
   end
 
   private
