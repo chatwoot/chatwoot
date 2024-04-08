@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col flex-1 px-4 pt-4 overflow-auto font-inter">
+  <div class="flex flex-col flex-1 px-4 pt-4 overflow-auto">
     <SLAReportFilters @filter-change="onFilterChange" />
     <woot-button
       color-scheme="success"
@@ -13,6 +13,7 @@
       <SLAMetrics
         :hit-rate="slaMetrics.hitRate"
         :no-of-breaches="slaMetrics.numberOfSLAMisses"
+        :no-of-conversations="slaMetrics.numberOfConversations"
         :is-loading="uiFlags.isFetchingMetrics"
       />
       <SLATable

@@ -1,6 +1,8 @@
 <template>
   <div class="flex flex-col md:flex-row justify-between mb-4">
-    <div class="md:grid flex flex-col filter-container gap-3 w-full">
+    <div
+      class="md:grid flex-col gap-3 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+    >
       <reports-filters-date-range @on-range-change="onDateRangeChange" />
       <woot-date-range-picker
         v-if="isDateRangeSelected"

@@ -518,15 +518,22 @@
         "TOOLTIP": "Percentage of SLAs created were completed successfully"
       },
       "NO_OF_BREACHES": {
-        "LABEL": "Number of Breaches",
-        "TOOLTIP": "The total SLA breaches in a certain period."
+        "LABEL": "Number of Misses",
+        "TOOLTIP": "Total SLA misses in a certain period"
+      },
+      "NO_OF_CONVERSATIONS": {
+        "LABEL": "Number of Conversations",
+        "TOOLTIP": "Total number of conversations with SLA"
       }
     },
     "TABLE": {
       "HEADER": {
-        "POLICY_BREACHED": "Policy missed",
+        "POLICY_BREACHED": "Policy",
         "CONVERSATION": "Conversation",
         "AGENT": "Agent"
+      },
+      "COLUMN": {
+        "CONVERSATION": "<span class='text-slate-700 dark:text-slate-200'>#{conversationId}</span> with <span class='text-slate-700 dark:text-slate-200 capitalize truncate'>{contactName}</span>"
       },
       "VIEW_DETAILS": "View Details"
     }

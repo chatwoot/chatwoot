@@ -23,12 +23,14 @@ describe('#mutations', () => {
     it('set metrics', () => {
       const state = { metrics: {} };
       mutations[types.SET_SLA_REPORTS_METRICS](state, {
-        number_of_sla_breaches: 1,
+        number_of_sla_misses: 1,
         hit_rate: '100%',
+        total_applied_slas: 1,
       });
       expect(state.metrics).toEqual({
         numberOfSLAMisses: 1,
         hitRate: '100%',
+        numberOfConversations: 1,
       });
     });
   });
