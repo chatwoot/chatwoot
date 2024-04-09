@@ -1,0 +1,5 @@
+<% content_for :title, "Robin AI playground: #{@response_source.name}" %>
+<%= render_vue_component('PlaygroundIndex', {
+  responseSourceName: @response_source.name,
+  responseSourcePath: super_admin_response_source_path(@response_source)
+}) %>

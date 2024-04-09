@@ -11,6 +11,10 @@ const settings = accountId => ({
     'auditlogs_list',
     'billing_settings_index',
     'canned_list',
+    'chatbot_edit',
+    'chatbot_index',
+    'chatbot_connect_inbox',
+    'chatbot_new',
     'general_settings_index',
     'general_settings',
     'labels_list',
@@ -39,6 +43,7 @@ const settings = accountId => ({
     'settings_teams_finish',
     'settings_teams_list',
     'settings_teams_new',
+    'sla_list',
   ],
   menuItems: [
     {
@@ -158,13 +163,30 @@ const settings = accountId => ({
       featureFlag: FEATURE_FLAGS.AUDIT_LOGS,
       beta: true,
     },
-    //Added for OneHash Billing
+    // Added for OneHash Billing
     {
       icon: 'credit-card-person',
       label: 'BILLING',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/billing`),
       toStateName: 'billing_settings_index',
+    },
+    {
+      icon: 'document-list-clock',
+      label: 'SLA',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/settings/sla/list`),
+      toStateName: 'sla_list',
+      featureFlag: FEATURE_FLAGS.SLA,
+      beta: true,
+    },
+    // Added for OneHash AI Chatbot
+    {
+      icon: 'chatbot-icon',
+      label: 'CHATBOT',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/settings/chatbot`),
+      toStateName: 'chatbot_index',
     },
   ],
 });

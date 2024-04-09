@@ -1,0 +1,51 @@
+{
+  "CHATBOT_SETTINGS": {
+    "CHATBOT": "Chatbot",
+    "BOT_STATUS": "Chatbot Status",
+    "NEW_BOT": "Ny Chatbot",
+    "CONNECT_INBOX": "Tilslut Indbakke",
+    "LAST_TRAINED_AT": "Senest Trænet: ",
+    "CHATBOT_ID": "Chatbot ID: ",
+    "BROWSE_FILES": "Gennemse Filer",
+    "UPDATE": "Opdater",
+    "CHATBOT_INBOX_CONNECT": "Forbind Chatbot med Indbakke",
+    "FILE_TYPES": {
+      "DOC": ".doc",
+      "PDF": ".pdf",
+      "TXT": ".txt"
+    },
+    "UPLOAD": {
+      "FILE": "Fil",
+      "TEXT": "Tekst",
+      "WEBSITE": "Hjemmeside"
+    },
+    "FORM": {
+      "CONNECT_INBOX": "Tilslut Indbakke",
+      "ADD_URL": "Tilføj URL",
+      "NAME": {
+        "LABEL": "Chatbot Navn",
+        "PLACEHOLDER": "Eksempel: Chatbot 1"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Chatbot Beskrivelse",
+        "PLACEHOLDER": "Kort beskrivelse af denne Chatbot."
+      },
+      "SUBMIT_CREATE": "Opret Chatbot"
+    },
+    "SIDEBAR_TXT": "<p><b>Opret Chatbot</b></p> <p>Chatbot giver dig mulighed for at træne bot på dine egne personlige data. <br /> En bot trænet på personlige data svarer kun på forespørgsler baseret på de data, den er blevet trænet på.</p>",
+    "LIST": {
+      "404": "Der er ingen chatbot oprettet på denne konto.",
+      "EDIT_BOT": "Rediger"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Slet",
+      "CONFIRM": {
+        "TITLE": "Bekræft Sletning",
+        "PLACE_HOLDER": "Venligst skriv {chatbotName} for at bekræfte",
+        "MESSAGE": "Sletning af Chatbot vil permanent slette denne bot og de data, den er trænet på.",
+        "YES": "Slet ",
+        "NO": "Annuller"
+      }
+    }
+  }
+}

@@ -39,10 +39,10 @@
     },
     "MERGE_CONTACT": "Apvienot kontaktu",
     "CONTACT_ACTIONS": "Kontaktpersonu darbības",
-    "MUTE_CONTACT": "Izslēgt Sarunu",
-    "UNMUTE_CONTACT": "Ieslēgt Sarunu",
-    "MUTED_SUCCESS": "Šī saruna ir izslēgta uz 6 stundām",
-    "UNMUTED_SUCCESS": "Šī saruna ir ieslēgta",
+    "MUTE_CONTACT": "Bloķēt Kontaktpersonu",
+    "UNMUTE_CONTACT": "Atbloķēt Kontaktpersonu",
+    "MUTED_SUCCESS": "Šī kontaktpersona ir veiksmīgi bloķēta. Jūs nesaņemsit paziņojumus par turpmākajām sarunām.",
+    "UNMUTED_SUCCESS": "Šī kontaktpersona ir veiksmīgi atbloķēta.",
     "SEND_TRANSCRIPT": "Nosūtīt Transkriptu",
     "EDIT_LABEL": "Rediģēt",
     "SIDEBAR_SECTIONS": {
@@ -79,7 +79,13 @@
     "TITLE": "Eksportēt Kontaktpersonas",
     "DESC": "Eksportēt kontaktpersonas uz CSV failu.",
     "SUCCESS_MESSAGE": "Notiek eksportēšana, Jūs saņemsit paziņojumu pa e-pastu, kad eksporta fails būs gatavs lejupielādei.",
-    "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
+    "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz",
+    "CONFIRM": {
+      "TITLE": "Eksportēt Kontaktpersonas",
+      "MESSAGE": "Vai vēlaties eksportēt visas kontaktpersonas?",
+      "YES": "Jā, Eksportēt",
+      "NO": "Nē, Atcelt"
+    }
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -339,7 +345,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Nepieciešama derīga vērtība",
-      "INVALID_URL": "Nederīgs URL"
+      "INVALID_URL": "Nederīgs URL",
+      "INVALID_INPUT": "Nepareizi Ievadīts"
     }
   },
   "MERGE_CONTACTS": {

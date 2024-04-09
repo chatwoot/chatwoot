@@ -48,7 +48,8 @@
         keycloakRealm: '<%= ENV.fetch('KEYCLOAK_REALM', nil) %>',
         keycloakClientId: '<%= ENV.fetch('KEYCLOAK_CLIENT_ID', nil) %>',
         keycloakUrl: '<%= ENV.fetch('KEYCLOAK_URL', nil) %>',
-        keycloakCallbackUrl: '<%= ENV.fetch('KEYCLOAK_CALLBACK_URL', nil) %>'
+        keycloakCallbackUrl: '<%= ENV.fetch('KEYCLOAK_CALLBACK_URL', nil) %>',
+        microserviceUrl: '<%= ENV.fetch('MICROSERVICE_URL', nil) %>'
       }
       window.globalConfig = <%= raw @global_config.to_json %>
       window.browserConfig = {
@@ -67,7 +68,7 @@
     <%= javascript_pack_tag @application_pack %>
     <%= stylesheet_pack_tag @application_pack %>
   </head>
-  <body>
+  <body class="text-slate-600">
     <div id="app"></div>
     <noscript id="noscript">This app works best with JavaScript enabled.</noscript>
     <%= yield %>
