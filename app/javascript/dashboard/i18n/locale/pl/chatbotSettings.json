@@ -1,0 +1,51 @@
+{
+  "CHATBOT_SETTINGS": {
+    "CHATBOT": "Chatbot",
+    "BOT_STATUS": "Status chatbota",
+    "NEW_BOT": "Nowy chatbot",
+    "CONNECT_INBOX": "Połącz skrzynkę odbiorczą",
+    "LAST_TRAINED_AT": "Ostatnio przeszkolony o: ",
+    "CHATBOT_ID": "ID chatbota: ",
+    "BROWSE_FILES": "Przeglądaj pliki",
+    "UPDATE": "Aktualizuj",
+    "CHATBOT_INBOX_CONNECT": "Połącz Chatbota z skrzynką odbiorczą",
+    "FILE_TYPES": {
+      "DOC": ".doc",
+      "PDF": ".pdf",
+      "TXT": ".txt"
+    },
+    "UPLOAD": {
+      "FILE": "Plik",
+      "TEXT": "Tekst",
+      "WEBSITE": "Strona internetowa"
+    },
+    "FORM": {
+      "CONNECT_INBOX": "Połącz skrzynkę odbiorczą",
+      "ADD_URL": "Dodaj adres URL",
+      "NAME": {
+        "LABEL": "Nazwa chatbota",
+        "PLACEHOLDER": "Przykład: Chatbot 1"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Opis chatbota",
+        "PLACEHOLDER": "Krótki opis tego Chatbota."
+      },
+      "SUBMIT_CREATE": "Utwórz chatbota"
+    },
+    "SIDEBAR_TXT": "<p><b>Utwórz chatbota</b></p> <p>Chatbot pozwala trenować bota na własnych danych osobowych. <br /> Bot przeszkolony na danych osobowych odpowiada na zapytania tylko na podstawie danych, na których został przeszkolony.</p>",
+    "LIST": {
+      "404": "Na tym koncie nie ma utworzonych chatbotów.",
+      "EDIT_BOT": "Edytuj"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Usuń",
+      "CONFIRM": {
+        "TITLE": "Potwierdź usunięcie",
+        "PLACE_HOLDER": "Wpisz {chatbotName}, aby potwierdzić",
+        "MESSAGE": "Usunięcie Chatbota spowoduje trwałe usunięcie tego bota i danych, na których jest przeszkolony.",
+        "YES": "Usuń ",
+        "NO": "Anuluj"
+      }
+    }
+  }
+}

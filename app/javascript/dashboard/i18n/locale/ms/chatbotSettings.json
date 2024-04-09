@@ -1,0 +1,51 @@
+{
+  "CHATBOT_SETTINGS": {
+    "CHATBOT": "Chatbot",
+    "BOT_STATUS": "Status Chatbot",
+    "NEW_BOT": "Chatbot Baru",
+    "CONNECT_INBOX": "Sambung Peti Masuk",
+    "LAST_TRAINED_AT": "Terakhir Dilatih Pada: ",
+    "CHATBOT_ID": "ID Chatbot: ",
+    "BROWSE_FILES": "Layari Fail",
+    "UPDATE": "Kemaskini",
+    "CHATBOT_INBOX_CONNECT": "Sambung Chatbot Dengan Peti Masuk",
+    "FILE_TYPES": {
+      "DOC": ".doc",
+      "PDF": ".pdf",
+      "TXT": ".txt"
+    },
+    "UPLOAD": {
+      "FILE": "Fail",
+      "TEXT": "Teks",
+      "WEBSITE": "Laman Web"
+    },
+    "FORM": {
+      "CONNECT_INBOX": "Sambung Peti Masuk",
+      "ADD_URL": "Tambah URL",
+      "NAME": {
+        "LABEL": "Nama Chatbot",
+        "PLACEHOLDER": "Contoh: Chatbot 1"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Penerangan Chatbot",
+        "PLACEHOLDER": "Penerangan ringkas mengenai Chatbot ini."
+      },
+      "SUBMIT_CREATE": "Cipta Chatbot"
+    },
+    "SIDEBAR_TXT": "<p><b>Cipta Chatbot</b></p> <p>Chatbot membolehkan anda melatih bot menggunakan data peribadi anda sendiri. <br /> Sebuah bot yang dilatih menggunakan data peribadi hanya memberi respons kepada pertanyaan berdasarkan data yang dilatih.</p>",
+    "LIST": {
+      "404": "Tiada chatbot dicipta pada akaun ini.",
+      "EDIT_BOT": "Edit"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Padam",
+      "CONFIRM": {
+        "TITLE": "Sahkan Padam",
+        "PLACE_HOLDER": "Sila taip {chatbotName} untuk mengesahkan",
+        "MESSAGE": "Memadam Chatbot akan memadamkan bot ini secara kekal dan data di mana ia dilatih.",
+        "YES": "Padam ",
+        "NO": "Batal"
+      }
+    }
+  }
+}

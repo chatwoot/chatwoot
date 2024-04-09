@@ -1,0 +1,51 @@
+{
+  "CHATBOT_SETTINGS": {
+    "CHATBOT": "Čavrljanje",
+    "BOT_STATUS": "Status čavrljanja",
+    "NEW_BOT": "Novi čavrljanje",
+    "CONNECT_INBOX": "Poveži ulaznu poštu",
+    "LAST_TRAINED_AT": "Zadnji trenirani na: ",
+    "CHATBOT_ID": "ID čavrljanja: ",
+    "BROWSE_FILES": "Pregledaj datoteke",
+    "UPDATE": "Ažuriraj",
+    "CHATBOT_INBOX_CONNECT": "Poveži čavrljanje s ulaznom poštom",
+    "FILE_TYPES": {
+      "DOC": ".doc",
+      "PDF": ".pdf",
+      "TXT": ".txt"
+    },
+    "UPLOAD": {
+      "FILE": "Datoteka",
+      "TEXT": "Tekst",
+      "WEBSITE": "Web stranica"
+    },
+    "FORM": {
+      "CONNECT_INBOX": "Poveži ulaznu poštu",
+      "ADD_URL": "Dodaj URL",
+      "NAME": {
+        "LABEL": "Ime čavrljanja",
+        "PLACEHOLDER": "Primjer: Čavrljanje 1"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Opis čavrljanja",
+        "PLACEHOLDER": "Kratki opis ovog čavrljanja."
+      },
+      "SUBMIT_CREATE": "Stvori čavrljanje"
+    },
+    "SIDEBAR_TXT": "<p><b>Stvori čavrljanje</b></p> <p>Čavrljanje vam omogućuje obuku robota na vašim osobnim podacima. <br /> Robot obučen na osobnim podacima odgovara na upite samo na temelju podataka na kojima je obučen.</p>",
+    "LIST": {
+      "404": "Na ovom računu nisu stvoreni čavrljanje.",
+      "EDIT_BOT": "Uredi"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Izbriši",
+      "CONFIRM": {
+        "TITLE": "Potvrdi brisanje",
+        "PLACE_HOLDER": "Molimo unesite {chatbotName} za potvrdu",
+        "MESSAGE": "Brisanje čavrljanja trajno će izbrisati ovog bota i podatke na kojima je obučen.",
+        "YES": "Izbriši ",
+        "NO": "Odustani"
+      }
+    }
+  }
+}

@@ -25,11 +25,11 @@ jobs:
             echo "Deploying to EC2"
             sudo -i -u chatwoot <<EOF
             cd chatwoot 
-            git fetch -all
+            git fetch --all
             git reset --hard origin/develop
-            bundle install
-            yarn install
+            nvm use 20
+            bundle
+            yarn
             RAILS_ENV=production bundle exec rake db:migrate
-            sudo systemctl restart chatwoot.target
             EOF
             echo "Deployment complete"

@@ -1,0 +1,51 @@
+{
+  "CHATBOT_SETTINGS": {
+    "CHATBOT": "Xatbot",
+    "BOT_STATUS": "Estat del Xatbot",
+    "NEW_BOT": "Nou Xatbot",
+    "CONNECT_INBOX": "Connecta la Safata d'entrada",
+    "LAST_TRAINED_AT": "Última formació a les: ",
+    "CHATBOT_ID": "ID del Xatbot: ",
+    "BROWSE_FILES": "Navega pels Fitxers",
+    "UPDATE": "Actualitza",
+    "CHATBOT_INBOX_CONNECT": "Connecta el Xatbot amb la Safata d'entrada",
+    "FILE_TYPES": {
+      "DOC": ".doc",
+      "PDF": ".pdf",
+      "TXT": ".txt"
+    },
+    "UPLOAD": {
+      "FILE": "Fitxer",
+      "TEXT": "Text",
+      "WEBSITE": "Lloc web"
+    },
+    "FORM": {
+      "CONNECT_INBOX": "Connecta la Safata d'entrada",
+      "ADD_URL": "Afegeix una URL",
+      "NAME": {
+        "LABEL": "Nom del Xatbot",
+        "PLACEHOLDER": "Exemple: Xatbot 1"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descripció del Xatbot",
+        "PLACEHOLDER": "Breu descripció sobre aquest Xatbot."
+      },
+      "SUBMIT_CREATE": "Crea el Xatbot"
+    },
+    "SIDEBAR_TXT": "<p><b>Crea el Xatbot</b></p> <p>El Xatbot et permet entrenar un bot amb les teves pròpies dades personals. <br /> Un bot entrenat amb dades personals respon només a les consultes basades en les dades amb les quals està entrenat.</p>",
+    "LIST": {
+      "404": "No hi ha cap xatbot creat en aquest compte.",
+      "EDIT_BOT": "Edita"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Suprimeix",
+      "CONFIRM": {
+        "TITLE": "Confirma la Supressió",
+        "PLACE_HOLDER": "Escriu {chatbotName} per confirmar",
+        "MESSAGE": "Suprimir el Xatbot suprimirà permanentment aquest bot i les dades amb les quals està entrenat.",
+        "YES": "Suprimeix ",
+        "NO": "Cancel·la"
+      }
+    }
+  }
+}

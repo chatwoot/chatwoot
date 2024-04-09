@@ -41,5 +41,15 @@ RSpec.describe 'Agents API', type: :request do
         expect(response.body).to include('Account limit exceeded. Please purchase more licenses')
       end
     end
+
+    context 'when onboarding step is present in account custom attributes' do
+      it 'removes onboarding step from account custom attributes' do
+        account.update(custom_attributes: { onboarding_step: 'completed' })
+
+        post "/api/v1/accounts/#{account.id}/agents/bulk_create", params: bulk_create_params, headers: admin.create_new_auth_token
+
+        expect(account.reload.custom_attributes).not_to include('onboarding_step')
+      end
+    end
   end
 end

@@ -1,0 +1,51 @@
+{
+  "CHATBOT_SETTINGS": {
+    "CHATBOT": "Chattbot",
+    "BOT_STATUS": "Chattbotstatus",
+    "NEW_BOT": "Ny Chattbot",
+    "CONNECT_INBOX": "Anslut Inkorg",
+    "LAST_TRAINED_AT": "Senast tränad vid: ",
+    "CHATBOT_ID": "Chattbot ID: ",
+    "BROWSE_FILES": "Bläddra bland filer",
+    "UPDATE": "Uppdatera",
+    "CHATBOT_INBOX_CONNECT": "Anslut Chattbot med Inkorgen",
+    "FILE_TYPES": {
+      "DOC": ".doc",
+      "PDF": ".pdf",
+      "TXT": ".txt"
+    },
+    "UPLOAD": {
+      "FILE": "Fil",
+      "TEXT": "Text",
+      "WEBSITE": "Webbplats"
+    },
+    "FORM": {
+      "CONNECT_INBOX": "Anslut Inkorg",
+      "ADD_URL": "Lägg till URL",
+      "NAME": {
+        "LABEL": "Chattbotnamn",
+        "PLACEHOLDER": "Exempel: Chattbot 1"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Chattbotbeskrivning",
+        "PLACEHOLDER": "Kort beskrivning av denna Chattbot."
+      },
+      "SUBMIT_CREATE": "Skapa Chattbot"
+    },
+    "SIDEBAR_TXT": "<p><b>Skapa Chattbot</b></p> <p>Chattbot låter dig träna boten på dina egna personuppgifter. <br /> En bot tränad på personuppgifter svarar endast på frågor baserat på den data den är tränad på.</p>",
+    "LIST": {
+      "404": "Det finns inga chattbotar skapade på detta konto.",
+      "EDIT_BOT": "Redigera"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Ta bort",
+      "CONFIRM": {
+        "TITLE": "Bekräfta borttagning",
+        "PLACE_HOLDER": "Vänligen skriv {chatbotName} för att bekräfta",
+        "MESSAGE": "Att ta bort Chattboten kommer permanent att ta bort denna bot och datan den är tränad på.",
+        "YES": "Ta bort ",
+        "NO": "Avbryt"
+      }
+    }
+  }
+}

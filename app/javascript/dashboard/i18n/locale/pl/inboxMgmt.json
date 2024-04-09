@@ -569,7 +569,7 @@
       "UPDATE": "Zaktualizuj ustawienia godzin pracy",
       "TOGGLE_AVAILABILITY": "Włącz dostępność biznesową dla tej skrzynki odbiorczej",
       "UNAVAILABLE_MESSAGE_LABEL": "Wiadomość niedostępna dla odwiedzających",
-      "TOGGLE_HELP": "Włączenie dostępności biznesowej pokaże dostępne godziny na czacie na żywo, nawet jeśli wszyscy agenci są offline. Poza dostępnymi godzinami można ostrzec za pomocą wiadomości i formularza wstępnego czatu.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Włącz dostępność w tym dniu",
         "UNAVAILABLE": "Niedostępny",

@@ -34,7 +34,7 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
   def allowed_configs
     @allowed_configs = case @config
                        when 'facebook'
-                         %w[FB_APP_ID FB_VERIFY_TOKEN FB_APP_SECRET IG_VERIFY_TOKEN ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT]
+                         %w[FB_APP_ID FB_VERIFY_TOKEN FB_APP_SECRET IG_VERIFY_TOKEN FACEBOOK_API_VERSION ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT]
                        when 'email'
                          ['MAILER_INBOUND_EMAIL_DOMAIN']
                        else
