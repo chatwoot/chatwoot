@@ -61,10 +61,12 @@
               {{ $t('AGENT_MGMT.EDIT.CANCEL_BUTTON_TEXT') }}
             </button>
           </div>
+          <!-- To fix: resetting agent password -->
           <div class="w-[50%] text-right">
             <woot-button
               icon="lock-closed"
               variant="clear"
+              :is-disabled="true"
               @click.prevent="resetPassword"
             >
               {{ $t('AGENT_MGMT.EDIT.PASSWORD_RESET.ADMIN_RESET_BUTTON') }}
