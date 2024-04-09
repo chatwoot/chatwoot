@@ -23,7 +23,23 @@
 <% elsif @resource.confirmed? %>
   <p><%= link_to 'Login to my account', frontend_url('auth/sign_in') %></p>
 <% elsif account_user&.inviter.present? %>
-  <p><%= link_to 'Confirm my account', frontend_url('auth/password/edit', reset_password_token: @resource.send(:set_reset_password_token)) %></p>
+  <% keycloakUri = ENV.fetch('KEYCLOAK_URL', nil) %>
+  <% redirectUri = ENV.fetch('KEYCLOAK_CALLBACK_URL', nil) %>
+  <% clientId = ENV.fetch('KEYCLOAK_CLIENT_ID', nil) %>
+  <% realm = ENV.fetch('KEYCLOAK_REALM', nil)  %> <!-- Assuming realm is defined elsewhere -->
+  
+  <% root_url = "#{keycloakUri}/realms/#{realm}/protocol/openid-connect/auth" %>
+  <% responseType = 'code' %>
+  <% scope = 'openid' %>
+
+  <% query_string = URI.encode_www_form(
+      client_id: clientId,
+      redirect_uri: redirectUri,
+      response_type: responseType,
+      scope: scope
+  ) %>
+
+  <p><%= link_to 'Confirm my account', "#{root_url}?#{query_string}" %></p>
 <% else %>
   <p><%= link_to 'Confirm my account', frontend_url('auth/confirmation', confirmation_token: @token) %></p>
 <% end %>
