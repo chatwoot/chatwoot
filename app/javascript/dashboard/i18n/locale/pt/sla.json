@@ -9,7 +9,7 @@
     "LIST": {
       "404": "Não há SLAs disponíveis nesta conta.",
       "EMPTY": {
-        "TITLE_1": "P0 da empresa",
+        "TITLE_1": "Empresa P0",
         "DESC_1": "Questões levantadas pelos clientes empresariais que requerem atenção imediata.",
         "TITLE_2": "Empresa P1",
         "DESC_2": "Questões levantadas pelos clientes empresariais, que têm de ser rapidamente reconhecidas."
@@ -65,7 +65,7 @@
     },
     "ADD": {
       "TITLE": "Adicionar SLA",
-      "DESC": "SLAS: Acordos para um ótimo serviço!",
+      "DESC": "Friendly promises for great service!",
       "API": {
         "SUCCESS_MESSAGE": "SLA adicionado",
         "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
