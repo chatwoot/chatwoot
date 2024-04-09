@@ -73,9 +73,9 @@
         "DUE": "due"
       },
       "SLA_POPOVER": {
-        "FRT": "First Response Time",
-        "NRT": "Next Response Time",
-        "RT": "Resolution Time",
+        "FRT": "First response time",
+        "NRT": "Next response time",
+        "RT": "Resolution time",
         "MISSED": "missed on"
       }
     },
