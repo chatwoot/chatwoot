@@ -8,11 +8,11 @@ class CouponCodeDashboard < Administrate::BaseDashboard
     account_name: Field::String.with_options(searchable: true), # Allow searching by account name
     code: Field::String,
     partner: Field::String,
-    status: Field::String.with_options(searchable: true),  # Allow searching by status
-    redeemed_at: Field::DateTime.with_options(format: '%d %b %Y %H:%M:%S'), #Time shown on super_admin dashboard is in UTC
+    status: Field::String.with_options(searchable: true), # Allow searching by status
+    redeemed_at: Field::DateTime.with_options(format: '%d %b %Y %H:%M:%S'), # Time shown on super_admin dashboard is in UTC
     expiry_date: Field::DateTime.with_options(format: '%d %b %Y'),
     created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    updated_at: Field::DateTime
   }.freeze
 
   # COLLECTION_ATTRIBUTES

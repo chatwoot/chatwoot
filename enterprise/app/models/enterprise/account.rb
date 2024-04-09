@@ -80,7 +80,7 @@ module Enterprise::Account
       'type' => 'object',
       'properties' => {
         'inboxes' => { 'type': 'number' },
-        'agents' => { 'type': 'number' },
+        'agents' => { 'type': 'number' }
       },
       'required' => [],
       'additionalProperties' => false

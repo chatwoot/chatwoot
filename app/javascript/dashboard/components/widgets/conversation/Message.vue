@@ -1,7 +1,10 @@
 <template>
   <li v-if="shouldRenderMessage" :id="`message${data.id}`" :class="alignBubble">
     <div :class="wrapClass">
-      <div v-if="isFailed && !hasOneDayPassed" class="message-failed--alert">
+      <div
+        v-if="isFailed && !hasOneDayPassed && !isAnEmailInbox"
+        class="message-failed--alert"
+      >
         <woot-button
           v-tooltip.top-end="$t('CONVERSATION.TRY_AGAIN')"
           size="tiny"
@@ -200,6 +203,10 @@ export default {
       default: false,
     },
     isWebWidgetInbox: {
+      type: Boolean,
+      default: false,
+    },
+    isAnEmailInbox: {
       type: Boolean,
       default: false,
     },
@@ -570,7 +577,8 @@ export default {
 
         > img,
         > video {
-          @apply rounded-lg;
+          /** ensure that the bubble radius and image radius match*/
+          @apply rounded-[0.4rem];
         }
 
         > video {
@@ -593,8 +601,8 @@ export default {
         @apply text-woot-400 dark:text-woot-400;
       }
 
-      .text-block-title {
-        @apply text-slate-700 dark:text-slate-700;
+      .attachment-name {
+        @apply text-slate-700 dark:text-slate-200;
       }
 
       .download.button {

@@ -94,6 +94,11 @@ class Rack::Attack
     end
   end
 
+  ## Resend confirmation throttling
+  throttle('resend_confirmation/ip', limit: 5, period: 30.minutes) do |req|
+    req.ip if req.path_without_extentions == '/api/v1/profile/resend_confirmation' && req.post?
+  end
+
   ## Prevent Brute-Force Signup Attacks ###
   throttle('accounts/ip', limit: 5, period: 30.minutes) do |req|
     req.ip if req.path_without_extentions == '/api/v1/accounts' && req.post?
@@ -140,6 +145,12 @@ class Rack::Attack
   ## Prevent Abuse of attachment upload APIs ##
   throttle('/api/v1/accounts/:account_id/upload', limit: 60, period: 1.hour) do |req|
     match_data = %r{/api/v1/accounts/(?<account_id>\d+)/upload}.match(req.path)
+    match_data[:account_id] if match_data.present?
+  end
+
+  ## Prevent abuse of contact search api
+  throttle('/api/v1/accounts/:account_id/contacts/search', limit: 5, period: 1.minute) do |req|
+    match_data = %r{/api/v1/accounts/(?<account_id>\d+)/contacts/search}.match(req.path)
     match_data[:account_id] if match_data.present?
   end
 

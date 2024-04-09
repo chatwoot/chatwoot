@@ -1,0 +1,54 @@
+{
+  "CHATBOT_SETTINGS": {
+    "CHATBOT": "聊天机器人",
+    "BOT_STATUS": "聊天机器人状态",
+    "BOT_STATUS_ACTIVE": "聊天机器人已激活",
+    "BOT_STATUS_INACTIVE": "聊天机器人未激活",
+    "CONNECTED_INBOX": "已连接的收件箱：",
+    "NEW_BOT": "新建聊天机器人",
+    "CONNECT_INBOX": "连接收件箱",
+    "LAST_TRAINED_AT": "上次训练时间：",
+    "CHATBOT_ID": "聊天机器人ID：",
+    "BROWSE_FILES": "浏览文件",
+    "UPDATE": "更新",
+    "CHATBOT_INBOX_CONNECT": "将聊天机器人连接到收件箱",
+    "FILE_TYPES": {
+      "DOC": ".doc",
+      "PDF": ".pdf",
+      "TXT": ".txt"
+    },
+    "UPLOAD": {
+      "FILE": "文件",
+      "TEXT": "文本",
+      "WEBSITE": "网站"
+    },
+    "FORM": {
+      "CONNECT_INBOX": "连接收件箱",
+      "ADD_URL": "添加网址",
+      "NAME": {
+        "LABEL": "聊天机器人名称",
+        "PLACEHOLDER": "示例：聊天机器人 1"
+      },
+      "DESCRIPTION": {
+        "LABEL": "聊天机器人描述",
+        "PLACEHOLDER": "关于此聊天机器人的简短描述。"
+      },
+      "SUBMIT_CREATE": "创建聊天机器人"
+    },
+    "SIDEBAR_TXT": "<p><b>创建聊天机器人</b></p> <p>聊天机器人允许您在自己的个人数据上训练机器人。<br /> 在个人数据上训练的机器人仅根据其训练数据回复查询。</p>",
+    "LIST": {
+      "404": "此帐户上没有创建任何聊天机器人。",
+      "EDIT_BOT": "编辑"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "删除",
+      "CONFIRM": {
+        "TITLE": "确认删除",
+        "PLACE_HOLDER": "请输入{chatbotName}以确认",
+        "MESSAGE": "删除聊天机器人将永久删除此机器人以及其训练数据。",
+        "YES": "删除 ",
+        "NO": "取消"
+      }
+    }
+  }
+}

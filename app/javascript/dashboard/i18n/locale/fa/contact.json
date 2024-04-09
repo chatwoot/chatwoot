@@ -39,10 +39,10 @@
     },
     "MERGE_CONTACT": "ادغام مخاطبین",
     "CONTACT_ACTIONS": "اقدامات مخاطب",
-    "MUTE_CONTACT": "بی‌صدا کردن گفتگو",
-    "UNMUTE_CONTACT": "خارج کردن از حالت بی صدا",
-    "MUTED_SUCCESS": "این گفتگو به مدت ۶ ساعت بی‌صدا است",
-    "UNMUTED_SUCCESS": "این گفتگو از حالت بی صدا خارج شده است",
+    "MUTE_CONTACT": "Block Contact",
+    "UNMUTE_CONTACT": "Unblock Contact",
+    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
+    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
     "SEND_TRANSCRIPT": "ارسال رونوشت",
     "EDIT_LABEL": "ویرایش",
     "SIDEBAR_SECTIONS": {
@@ -79,7 +79,13 @@
     "TITLE": "خروجی گرفتن مخاطب ها",
     "DESC": "خروجی گرفتن مخاطب ها از طریق CSV",
     "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
+    "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید",
+    "CONFIRM": {
+      "TITLE": "خروجی گرفتن مخاطب ها",
+      "MESSAGE": "Are you sure you want to export all contacts?",
+      "YES": "Yes, Export",
+      "NO": "No, Cancel"
+    }
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -339,7 +345,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "مقدار معتبر مورد نیاز است",
-      "INVALID_URL": "URL نامعتبر"
+      "INVALID_URL": "URL نامعتبر",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {

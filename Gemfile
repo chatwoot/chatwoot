@@ -2,9 +2,16 @@ source 'https://rubygems.org'
 
 ruby '3.2.2'
 
+##-- gems for syncing map between ruby and python --##
+gem 'whenever', require: false
+##-- gems for api calls --##
+gem 'http'
+##-- unique ID generator --##
+gem 'securerandom'
+
 ##-- base gems for rails --##
-gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~> 7.0.8.0'
+gem 'rack-cors', '2.0.0', require: 'rack/cors'
+gem 'rails', '~> 7.0.8.1'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -39,6 +46,8 @@ gem 'rack-attack', '>= 6.7.0'
 gem 'down'
 # authentication type to fetch and send mail over oauth2.0
 gem 'gmail_xoauth'
+# Lock net-smtp to 0.3.4 to avoid issues with gmail_xoauth2
+gem 'net-smtp',  '~> 0.3.4'
 # Prevent CSV injection
 gem 'csv-safe'
 # read xls file
@@ -76,7 +85,7 @@ gem 'devise_token_auth'
 gem 'jwt'
 gem 'pundit'
 # super admin
-gem 'administrate', '>= 0.19.0'
+gem 'administrate', '>= 0.20.1'
 gem 'administrate-field-active_storage', '>= 1.0.1'
 gem 'administrate-field-belongs_to_search', '>= 0.9.0'
 
@@ -116,7 +125,7 @@ gem 'sentry-ruby', require: false
 gem 'sentry-sidekiq', '>= 5.14.0', require: false
 
 ##-- background job processing --##
-gem 'sidekiq', '>= 7.1.3'
+gem 'sidekiq', '>= 7.2.1'
 # We want cron jobs
 gem 'sidekiq-cron', '>= 1.12.0'
 
@@ -168,10 +177,9 @@ gem 'omniauth', '>= 2.1.2'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection', '~> 1.0'
 
-#need for keycloak
+# need for keycloak
 gem 'keycloak'
 gem 'omniauth-keycloak'
-
 
 ## Gems for reponse bot
 # adds cosine similarity to postgres using vector extension

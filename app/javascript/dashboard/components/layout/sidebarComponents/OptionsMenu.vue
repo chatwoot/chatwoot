@@ -109,6 +109,7 @@
 import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
 import Auth from '../../../api/auth';
+import { logoutFromKeycloakSession } from '../../../../../javascript/v3/api/auth';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import AvailabilityStatus from 'dashboard/components/layout/AvailabilityStatus.vue';
@@ -151,6 +152,7 @@ export default {
       this.$emit('close');
     },
     logout() {
+      logoutFromKeycloakSession(this.currentUser);
       Auth.logout();
     },
     onClickAway() {

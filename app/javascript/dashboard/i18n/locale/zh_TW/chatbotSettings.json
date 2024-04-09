@@ -1,0 +1,54 @@
+{
+  "CHATBOT_SETTINGS": {
+    "CHATBOT": "聊天機器人",
+    "BOT_STATUS": "聊天機器人狀態",
+    "BOT_STATUS_ACTIVE": "聊天機器人啟用",
+    "BOT_STATUS_INACTIVE": "聊天機器人停用",
+    "CONNECTED_INBOX": "已連結收件匣：",
+    "NEW_BOT": "新建聊天機器人",
+    "CONNECT_INBOX": "連接收件匣",
+    "LAST_TRAINED_AT": "上次訓練時間：",
+    "CHATBOT_ID": "聊天機器人ID：",
+    "BROWSE_FILES": "瀏覽檔案",
+    "UPDATE": "更新",
+    "CHATBOT_INBOX_CONNECT": "連接聊天機器人到收件匣",
+    "FILE_TYPES": {
+      "DOC": ".doc",
+      "PDF": ".pdf",
+      "TXT": ".txt"
+    },
+    "UPLOAD": {
+      "FILE": "檔案",
+      "TEXT": "文本",
+      "WEBSITE": "網站"
+    },
+    "FORM": {
+      "CONNECT_INBOX": "連接收件匣",
+      "ADD_URL": "新增網址",
+      "NAME": {
+        "LABEL": "聊天機器人名稱",
+        "PLACEHOLDER": "範例：聊天機器人 1"
+      },
+      "DESCRIPTION": {
+        "LABEL": "聊天機器人描述",
+        "PLACEHOLDER": "關於此聊天機器人的簡短描述。"
+      },
+      "SUBMIT_CREATE": "建立聊天機器人"
+    },
+    "SIDEBAR_TXT": "<p><b>建立聊天機器人</b></p> <p>聊天機器人允許您在自己的個人資料上訓練機器人。<br /> 在個人資料上訓練的機器人僅根據其訓練資料回覆查詢。</p>",
+    "LIST": {
+      "404": "此帳戶上沒有建立任何聊天機器人。",
+      "EDIT_BOT": "編輯"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "刪除",
+      "CONFIRM": {
+        "TITLE": "確認刪除",
+        "PLACE_HOLDER": "請輸入 {chatbotName} 以確認",
+        "MESSAGE": "刪除聊天機器人將永久刪除此機器人及其訓練資料。",
+        "YES": "刪除 ",
+        "NO": "取消"
+      }
+    }
+  }
+}

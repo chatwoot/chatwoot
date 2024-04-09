@@ -2,13 +2,14 @@
   <div
     v-if="!authUIFlags.isFetching && !accountUIFlags.isFetchingItem"
     id="app"
-    class="app-wrapper h-full flex-grow-0 min-h-0 w-full"
+    class="flex-grow-0 w-full h-full min-h-0 app-wrapper"
     :class="{ 'app-rtl--wrapper': isRTLView }"
     :dir="isRTLView ? 'rtl' : 'ltr'"
   >
     <update-banner :latest-chatwoot-version="latestChatwootVersion" />
     <template v-if="currentAccountId">
-      <payment-pending-banner />
+      <pending-email-verification-banner v-if="hideOnOnboardingView" />
+      <payment-pending-banner v-if="hideOnOnboardingView" />
       <upgrade-banner />
     </template>
     <transition name="fade" mode="out-in">
@@ -32,14 +33,18 @@ import NetworkNotification from './components/NetworkNotification.vue';
 import UpdateBanner from './components/app/UpdateBanner.vue';
 import UpgradeBanner from './components/app/UpgradeBanner.vue';
 import PaymentPendingBanner from './components/app/PaymentPendingBanner.vue';
+import PendingEmailVerificationBanner from './components/app/PendingEmailVerificationBanner.vue';
 import vueActionCable from './helper/actionCable';
 import WootSnackbarBox from './components/SnackbarContainer.vue';
 import rtlMixin from 'shared/mixins/rtlMixin';
 import { setColorTheme } from './helper/themeHelper';
+import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 import {
   registerSubscription,
   verifyServiceWorkerExistence,
 } from './helper/pushHelper';
+import { checkKeycloakSession } from '../../javascript/v3/api/auth';
+import Auth from './api/auth';
 
 export default {
   name: 'App',
@@ -52,6 +57,7 @@ export default {
     PaymentPendingBanner,
     WootSnackbarBox,
     UpgradeBanner,
+    PendingEmailVerificationBanner,
   },
 
   mixins: [rtlMixin],
@@ -76,6 +82,9 @@ export default {
       const { accounts = [] } = this.currentUser || {};
       return accounts.length > 0;
     },
+    hideOnOnboardingView() {
+      return !isOnOnboardingView(this.$route);
+    },
   },
 
   watch: {
@@ -90,10 +99,19 @@ export default {
       }
     },
   },
-  mounted() {
+  async mounted() {
     this.initializeColorTheme();
     this.listenToThemeChanges();
     this.setLocale(window.chatwootConfig.selectedLocale);
+    setTimeout(() => {
+      checkKeycloakSession(this.currentUser).then(res => {
+        if (res.message === 'Session expired. Please log in again.') {
+          Auth.logout();
+        } else if (res.message === 'No Session Info.') {
+          Auth.logout();
+        }
+      });
+    }, 2000);
   },
   methods: {
     initializeColorTheme() {

@@ -14,7 +14,7 @@ class AccountUserDashboard < Administrate::BaseDashboard
     id: Field::Number,
     role: Field::Select.with_options(collection: AccountUser.roles.keys),
     created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    updated_at: Field::DateTime
   }.freeze
 
   # COLLECTION_ATTRIBUTES

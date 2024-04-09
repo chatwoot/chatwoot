@@ -1,0 +1,73 @@
+{
+  "SLA": {
+    "HEADER": "SLA",
+    "HEADER_BTN_TXT": "Add SLA",
+    "LOADING": "Fetching SLAs",
+    "SEARCH_404": "ഈ ചോദ്യവുമായി പൊരുത്തപ്പെടുന്ന ഇനങ്ങളൊന്നുമില്ല",
+    "SIDEBAR_TXT": "<p><b>SLA</b> <p>Think of Service Level Agreements (SLAs) like friendly promises between a service provider and a customer.</p> <p> These promises set clear expectations for things like how quickly the team will respond to issues, making sure you always get a reliable and top-notch experience!</p>",
+    "LIST": {
+      "404": "There are no SLAs available in this account.",
+      "TITLE": "Manage SLA",
+      "DESC": "SLAs: Friendly promises for great service!",
+      "TABLE_HEADER": [
+        "പേര്",
+        "വിവരണം",
+        "FRT",
+        "NRT",
+        "RT",
+        "Business Hours"
+      ]
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "SLA Name",
+        "PLACEHOLDER": "SLA Name",
+        "REQUIRED_ERROR": "SLA name is required",
+        "MINIMUM_LENGTH_ERROR": "കുറഞ്ഞ ദൈർഘ്യം 2 ആവശ്യമാണ്",
+        "VALID_ERROR": "അക്ഷരമാല, അക്കങ്ങൾ, ഹൈഫൻ, അണ്ടർ സ്‌കോർ എന്നിവ മാത്രമേ അനുവദിക്കൂ"
+      },
+      "DESCRIPTION": {
+        "LABEL": "വിവരണം",
+        "PLACEHOLDER": "SLA for premium customers"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "LABEL": "First Response Time",
+        "PLACEHOLDER": "5"
+      },
+      "NEXT_RESPONSE_TIME": {
+        "LABEL": "Next Response Time",
+        "PLACEHOLDER": "5"
+      },
+      "RESOLUTION_TIME": {
+        "LABEL": "മിഴിവ് സമയം",
+        "PLACEHOLDER": "60"
+      },
+      "BUSINESS_HOURS": {
+        "LABEL": "Business Hours",
+        "PLACEHOLDER": "Only during business hours"
+      },
+      "THRESHOLD_TIME": {
+        "INVALID_FORMAT_ERROR": "Threshold should be a number and greater than zero"
+      },
+      "EDIT": "എഡിറ്റുചെയ്യുക",
+      "CREATE": "സൃഷ്ടിക്കുക",
+      "DELETE": "ഇല്ലാതാക്കുക",
+      "CANCEL": "റദ്ദാക്കുക"
+    },
+    "ADD": {
+      "TITLE": "Add SLA",
+      "DESC": "SLAs: Friendly promises for great service!",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA added successfully",
+        "ERROR_MESSAGE": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit SLA",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA updated successfully",
+        "ERROR_MESSAGE": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
+      }
+    }
+  }
+}

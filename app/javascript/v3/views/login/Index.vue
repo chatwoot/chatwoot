@@ -2,7 +2,7 @@
   <main
     class="flex flex-col bg-white min-h-screen w-full py-20 sm:px-6 lg:px-8 dark:bg-slate-900 items-center justify-center"
   >
-    <section class="max-w-5xl mx-auto">
+    <!-- <section class="max-w-5xl mx-auto">
       <img
         :src="globalConfig.logo"
         :alt="globalConfig.installationName"
@@ -45,6 +45,7 @@
             name="email_address"
             type="text"
             data-testid="email_input"
+            :tabindex="1"
             required
             :label="$t('LOGIN.EMAIL.LABEL')"
             :placeholder="$t('LOGIN.EMAIL.PLACEHOLDER')"
@@ -57,30 +58,36 @@
             name="password"
             data-testid="password_input"
             required
+            :tabindex="2"
             :label="$t('LOGIN.PASSWORD.LABEL')"
             :placeholder="$t('LOGIN.PASSWORD.PLACEHOLDER')"
             :has-error="$v.credentials.password.$error"
             @input="$v.credentials.password.$touch"
           >
             <p v-if="!globalConfig.disableUserProfileUpdate">
-              <router-link to="auth/reset/password" class="text-link">
+              <router-link
+                to="auth/reset/password"
+                class="text-link text-sm"
+                tabindex="4"
+              >
                 {{ $t('LOGIN.FORGOT_PASSWORD') }}
               </router-link>
             </p>
           </form-input>
           <submit-button
             :disabled="loginApi.showLoading"
+            :tabindex="3"
             :button-text="$t('LOGIN.SUBMIT')"
             :loading="loginApi.showLoading"
           />
         </form>
         <GoogleOAuthButton v-if="showGoogleOAuth" />
-        <OIDCButton v-if="showOIDC"/>
       </div>
       <div v-else class="flex items-center justify-center">
         <spinner color-scheme="primary" size="" />
       </div>
-    </section>
+    </section> -->
+    <redirectLoader />
   </main>
 </template>
 
@@ -91,10 +98,11 @@ import SubmitButton from '../../components/Button/SubmitButton.vue';
 import { mapGetters } from 'vuex';
 import { parseBoolean } from '@chatwoot/utils';
 import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
-import OIDCButton from '../../components/SSO/OIDC/Button.vue';
 import FormInput from '../../components/Form/Input.vue';
 import { login } from '../../api/auth';
 import Spinner from 'shared/components/Spinner.vue';
+import RedirectLoader from 'shared/components/RedirectLoader.vue';
+
 const ERROR_MESSAGES = {
   'no-account-found': 'LOGIN.OAUTH.NO_ACCOUNT_FOUND',
   'business-account-only': 'LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY',
@@ -104,9 +112,8 @@ export default {
   components: {
     FormInput,
     GoogleOAuthButton,
-    //KEYCLOAK OIDC
-    OIDCButton,
     Spinner,
+    RedirectLoader,
     SubmitButton,
   },
   mixins: [globalConfigMixin],
@@ -150,9 +157,6 @@ export default {
     showGoogleOAuth() {
       return Boolean(window.chatwootConfig.googleOAuthClientId);
     },
-    showOIDC() {
-      return Boolean(window.chatwootConfig.keycloakClientId);
-    },
     showSignupLink() {
       return parseBoolean(window.chatwootConfig.signupEnabled);
     },
@@ -171,6 +175,11 @@ export default {
         this.$router.replace({ query: { ...query, error: undefined } });
       });
     }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.redirectToKeycloak();
+    }, 3000);
   },
   methods: {
     showAlert(message) {
@@ -210,6 +219,24 @@ export default {
           this.loginApi.hasErrored = true;
           this.showAlert(response?.message || this.$t('LOGIN.API.UNAUTH'));
         });
+    },
+    redirectToKeycloak() {
+      const realm = window.chatwootConfig.keycloakRealm;
+      const clientId = window.chatwootConfig.keycloakClientId;
+      const redirectUri = window.chatwootConfig.keycloakCallbackUrl;
+      const keycloakUri = window.chatwootConfig.keycloakUrl;
+      const baseUrl = `${keycloakUri}/realms/${realm}/protocol/openid-connect/auth`;
+      const responseType = 'code';
+      const scope = 'openid';
+
+      const queryString = new URLSearchParams({
+        client_id: clientId,
+        redirect_uri: redirectUri,
+        response_type: responseType,
+        scope: scope,
+      }).toString();
+
+      window.location.href = `${baseUrl}?${queryString}`;
     },
   },
 };

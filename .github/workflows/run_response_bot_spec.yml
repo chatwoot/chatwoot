@@ -40,7 +40,7 @@ jobs:
         options: --entrypoint redis-server
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         ref: ${{ github.event.pull_request.head.ref }}
         repository: ${{ github.event.pull_request.head.repo.full_name }}
@@ -49,7 +49,7 @@ jobs:
       with:
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
       with:
         node-version: 20
         cache: yarn
@@ -73,11 +73,12 @@ jobs:
           spec/enterprise/controllers/api/v1/accounts/response_sources_controller_spec.rb \
           spec/enterprise/services/enterprise/message_templates/response_bot_service_spec.rb \
           spec/enterprise/controllers/enterprise/api/v1/accounts/inboxes_controller_spec.rb:47 \
+          spec/enterprise/jobs/enterprise/account/conversations_resolution_scheduler_job_spec.rb \
           --profile=10 \
           --format documentation
 
     - name: Upload rails log folder
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: rails-log-folder
