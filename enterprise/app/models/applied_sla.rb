@@ -39,7 +39,7 @@ class AppliedSla < ApplicationRecord
                                           joins(:conversation).where(conversations: { assigned_agent_id: assigned_agent_id })
                                         end
                                       }
-  scope :missed, -> { where(sla_status: :missed) }
+  scope :missed, -> { where(sla_status: %i[missed active_with_misses]) }
 
   after_update_commit :push_conversation_event
 

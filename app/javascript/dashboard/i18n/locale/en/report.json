@@ -508,15 +508,29 @@
   },
   "SLA_REPORTS": {
     "HEADER": "SLA Reports",
+    "NO_RECORDS": "SLA applied conversations are not available.",
+    "LOADING": "Loading SLA data...",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",
         "TOOLTIP": "Percentage of SLAs created were completed successfully"
       },
-      "NO_OF_BREACHES": {
-        "LABEL": "Number of Breaches",
-        "TOOLTIP": "The total SLA breaches in a certain period."
+      "NO_OF_MISSES": {
+        "LABEL": "Number of Misses",
+        "TOOLTIP": "Total SLA misses in a certain period"
+      },
+      "NO_OF_CONVERSATIONS": {
+        "LABEL": "Number of Conversations",
+        "TOOLTIP": "Total number of conversations with SLA"
       }
+    },
+    "TABLE": {
+      "HEADER": {
+        "POLICY": "Policy",
+        "CONVERSATION": "Conversation",
+        "AGENT": "Agent"
+      },
+      "VIEW_DETAILS": "View Details"
     }
   }
 }
