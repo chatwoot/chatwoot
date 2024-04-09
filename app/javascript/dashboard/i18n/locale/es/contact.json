@@ -296,6 +296,8 @@
     "BUTTON": "Añadir atributo personalizado",
     "NOT_AVAILABLE": "No hay atributos personalizados disponibles para este contacto.",
     "COPY_SUCCESSFUL": "Copiado al portapapeles satisfactoriamente",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Copiar atributo",
       "DELETE": "Eliminar atributo",
