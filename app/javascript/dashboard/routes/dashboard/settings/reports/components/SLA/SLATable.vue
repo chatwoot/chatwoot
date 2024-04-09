@@ -23,7 +23,7 @@
 
       <div
         v-if="isLoading"
-        class="flex items-center justify-center h-32 bg-white dark:bg-slate-900"
+        class="flex items-center rounded-b-xl justify-center h-32 bg-white dark:bg-slate-900"
       >
         <spinner />
         <span>{{ $t('SLA_REPORTS.LOADING') }}</span>
@@ -40,7 +40,7 @@
       </div>
       <div
         v-else
-        class="flex items-center justify-center h-32 bg-white dark:bg-slate-900"
+        class="flex items-center justify-center rounded-b-xl h-32 bg-white dark:bg-slate-900"
       >
         {{ $t('SLA_REPORTS.NO_RECORDS') }}
       </div>
@@ -50,7 +50,6 @@
       :current-page="currentPage"
       :total-count="totalCount"
       :page-size="pageSize"
-      class="bg-slate-25 dark:bg-slate-900 sticky bottom-0 border-none mt-4"
       @page-change="onPageChange"
     />
   </div>

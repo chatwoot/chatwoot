@@ -1,7 +1,7 @@
 <template>
   <footer
     v-if="isFooterVisible"
-    class="bg-white dark:bg-slate-900 h-12 flex items-center justify-between px-6"
+    class="h-12 flex items-center justify-between px-6"
   >
     <table-footer-results
       :first-index="firstIndex"
