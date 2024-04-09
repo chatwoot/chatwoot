@@ -1,0 +1,54 @@
+{
+  "CHATBOT_SETTINGS": {
+    "CHATBOT": "Четбот",
+    "BOT_STATUS": "Статус четбота",
+    "BOT_STATUS_ACTIVE": "Aktivan Četbot",
+    "BOT_STATUS_INACTIVE": "Neaktivan Četbot",
+    "CONNECTED_INBOX": "Povezani Inbox:",
+    "NEW_BOT": "Нови четбот",
+    "CONNECT_INBOX": "Повежи инбокс",
+    "LAST_TRAINED_AT": "Последњи трениран на: ",
+    "CHATBOT_ID": "ИД четбота: ",
+    "BROWSE_FILES": "Претражи датотеке",
+    "UPDATE": "Ажурирање",
+    "CHATBOT_INBOX_CONNECT": "Повежи Четбот са Инбоксом",
+    "FILE_TYPES": {
+      "DOC": ".doc",
+      "PDF": ".pdf",
+      "TXT": ".txt"
+    },
+    "UPLOAD": {
+      "FILE": "Датотека",
+      "TEXT": "Текст",
+      "WEBSITE": "Вебсајт"
+    },
+    "FORM": {
+      "CONNECT_INBOX": "Повежи инбокс",
+      "ADD_URL": "Додај УРЛ",
+      "NAME": {
+        "LABEL": "Име четбота",
+        "PLACEHOLDER": "Пример: Четбот 1"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Опис четбота",
+        "PLACEHOLDER": "Кратак опис овог Четбота."
+      },
+      "SUBMIT_CREATE": "Направи Четбота"
+    },
+    "SIDEBAR_TXT": "<p><b>Направи Четбота</b></p> <p>Четбот вам омогућава да обучите бота на вашим личним подацима. <br /> Бот обучен на личним подацима одговара на упите само на основу података на којима је обучен.</p>",
+    "LIST": {
+      "404": "Нема четбота креираних на овом налогу.",
+      "EDIT_BOT": "Уреди"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Обриши",
+      "CONFIRM": {
+        "TITLE": "Потврди брисање",
+        "PLACE_HOLDER": "Молимо унесите {chatbotName} за потврду",
+        "MESSAGE": "Брисање Четбота ће трајно обрисати овог бота и податке на којима је обучен.",
+        "YES": "Обриши ",
+        "NO": "Откажи"
+      }
+    }
+  }
+}

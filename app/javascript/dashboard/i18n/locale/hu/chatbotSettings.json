@@ -1,0 +1,54 @@
+{
+  "CHATBOT_SETTINGS": {
+    "CHATBOT": "Chatbot",
+    "BOT_STATUS": "Chatbot Állapot",
+    "BOT_STATUS_ACTIVE": "Aktív Chatbot",
+    "BOT_STATUS_INACTIVE": "Inaktív Chatbot",
+    "CONNECTED_INBOX": "Csatlakoztatott Beérkező: ",
+    "NEW_BOT": "Új Chatbot",
+    "CONNECT_INBOX": "Csatlakozás a Beérkező Levelekhez",
+    "LAST_TRAINED_AT": "Utoljára Képzett: ",
+    "CHATBOT_ID": "Chatbot Azonosító: ",
+    "BROWSE_FILES": "Fájlok Böngészése",
+    "UPDATE": "Frissítés",
+    "CHATBOT_INBOX_CONNECT": "Chatbot Csatlakoztatása a Beérkező Levelekhez",
+    "FILE_TYPES": {
+      "DOC": ".doc",
+      "PDF": ".pdf",
+      "TXT": ".txt"
+    },
+    "UPLOAD": {
+      "FILE": "Fájl",
+      "TEXT": "Szöveg",
+      "WEBSITE": "Weboldal"
+    },
+    "FORM": {
+      "CONNECT_INBOX": "Csatlakozás a Beérkező Levelekhez",
+      "ADD_URL": "URL Hozzáadása",
+      "NAME": {
+        "LABEL": "Chatbot Neve",
+        "PLACEHOLDER": "Példa: Chatbot 1"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Chatbot Leírása",
+        "PLACEHOLDER": "Rövid leírás erről a Chatbot-ról."
+      },
+      "SUBMIT_CREATE": "Chatbot Létrehozása"
+    },
+    "SIDEBAR_TXT": "<p><b>Chatbot Létrehozása</b></p> <p>A Chatbot lehetővé teszi, hogy saját személyes adatain tanítsa a botot. <br /> A személyes adatokon tanított bot csak azokra az adatokra válaszol, amelyekre tanították.</p>",
+    "LIST": {
+      "404": "Nincsenek chatbotok létrehozva ezen a fiókon.",
+      "EDIT_BOT": "Szerkesztés"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Törlés",
+      "CONFIRM": {
+        "TITLE": "Törlés Megerősítése",
+        "PLACE_HOLDER": "Kérjük, írja be {chatbotName}-t a megerősítéshez",
+        "MESSAGE": "A Chatbot törlése véglegesen törli ezt a botot és azon az adaton alapul, amelyen tanították.",
+        "YES": "Törlés ",
+        "NO": "Mégse"
+      }
+    }
+  }
+}

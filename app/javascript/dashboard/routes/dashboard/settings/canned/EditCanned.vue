@@ -22,7 +22,7 @@
           <div class="editor-wrap">
             <woot-message-editor
               v-model="content"
-              class="message-editor"
+              class="message-editor [&>div]:px-1"
               :class="{ editor_warning: $v.content.$error }"
               :enable-variables="true"
               :enable-canned-responses="false"

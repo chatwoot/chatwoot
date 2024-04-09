@@ -65,6 +65,8 @@ describe Telegram::IncomingMessageService do
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
         expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(Contact.all.first.additional_attributes['social_telegram_user_id']).to eq(23)
+        expect(Contact.all.first.additional_attributes['social_telegram_user_name']).to eq('sojan')
         expect(telegram_channel.inbox.messages.first.content).to eq('test')
       end
     end
@@ -105,6 +107,8 @@ describe Telegram::IncomingMessageService do
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
         expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(Contact.all.first.additional_attributes['social_telegram_user_id']).to eq(23)
+        expect(Contact.all.first.additional_attributes['social_telegram_user_name']).to eq('sojan')
         expect(telegram_channel.inbox.messages.first.attachments.first.file_type).to eq('audio')
       end
     end
@@ -251,6 +255,30 @@ describe Telegram::IncomingMessageService do
         expect(Contact.all.first.name).to eq('Sojan Jose')
         expect(telegram_channel.inbox.messages.first.attachments.first.file_type).to eq('location')
       end
+
+      it 'creates appropriate conversations, message and contacts if venue is present' do
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'message' => {
+            'location': {
+              'latitude': 37.7893768,
+              'longitude': -122.3895553
+            },
+            venue: {
+              title: 'San Francisco'
+            }
+          }.merge(message_params)
+        }.with_indifferent_access
+        described_class.new(inbox: telegram_channel.inbox, params: params).perform
+        expect(telegram_channel.inbox.conversations.count).not_to eq(0)
+        expect(Contact.all.first.name).to eq('Sojan Jose')
+
+        attachment = telegram_channel.inbox.messages.first.attachments.first
+        expect(attachment.file_type).to eq('location')
+        expect(attachment.coordinates_lat).to eq(37.7893768)
+        expect(attachment.coordinates_long).to eq(-122.3895553)
+        expect(attachment.fallback_title).to eq('San Francisco')
+      end
     end
 
     context 'when valid callback_query params' do
@@ -277,6 +305,7 @@ describe Telegram::IncomingMessageService do
         described_class.new(inbox: telegram_channel.inbox, params: params).perform
         expect(telegram_channel.inbox.conversations.count).not_to eq(0)
         expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(Contact.all.first.additional_attributes['social_telegram_user_id']).to eq(5_171_248)
         expect(telegram_channel.inbox.messages.first.content).to eq('Option 1')
       end
     end

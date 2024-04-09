@@ -115,7 +115,7 @@ RSpec.describe Conversation do
     let!(:conversation) do
       create(:conversation, status: 'open', account: account, assignee: old_assignee)
     end
-    let(:assignment_mailer) { double(deliver: true) }
+    let(:assignment_mailer) { instance_double(AssignmentMailer, deliver: true) }
     let(:label) { create(:label, account: account) }
 
     before do
@@ -142,7 +142,7 @@ RSpec.describe Conversation do
     it 'runs after_update callbacks' do
       conversation.update(
         status: :resolved,
-        contact_last_seen_at: Time.now,
+        contact_last_seen_at: Time.zone.now,
         assignee: new_assignee
       )
       status_change = conversation.status_change
@@ -193,7 +193,7 @@ RSpec.describe Conversation do
     it 'creates conversation activities' do
       conversation.update(
         status: :resolved,
-        contact_last_seen_at: Time.now,
+        contact_last_seen_at: Time.zone.now,
         assignee: new_assignee,
         label_list: [label.title]
       )
@@ -372,9 +372,9 @@ RSpec.describe Conversation do
       expect(conversation.reload.resolved?).to be(true)
     end
 
-    it 'marks conversation as muted in redis' do
+    it 'blocks the contact' do
       mute!
-      expect(Redis::Alfred.get(conversation.send(:mute_key))).not_to be_nil
+      expect(conversation.reload.contact.blocked?).to be(true)
     end
 
     it 'creates mute message' do
@@ -400,10 +400,9 @@ RSpec.describe Conversation do
       expect { unmute! }.not_to(change { conversation.reload.status })
     end
 
-    it 'marks conversation as muted in redis' do
-      expect { unmute! }
-        .to change { Redis::Alfred.get(conversation.send(:mute_key)) }
-        .to nil
+    it 'unblocks the contact' do
+      unmute!
+      expect(conversation.reload.contact.blocked?).to be(false)
     end
 
     it 'creates unmute message' do
@@ -549,6 +548,17 @@ RSpec.describe Conversation do
     end
   end
 
+  describe 'when conversation is created by blocked contact' do
+    let(:account) { create(:account) }
+    let(:blocked_contact) { create(:contact, account: account, blocked: true) }
+    let(:inbox) { create(:inbox, account: account) }
+
+    it 'creates conversation in resolved state' do
+      conversation = create(:conversation, account: account, contact: blocked_contact, inbox: inbox)
+      expect(conversation.status).to eq('resolved')
+    end
+  end
+
   describe '#botinbox: when conversation created inside inbox with agent bot' do
     let!(:bot_inbox) { create(:agent_bot_inbox) }
     let(:conversation) { create(:conversation, inbox: bot_inbox.inbox) }
@@ -611,7 +621,7 @@ RSpec.describe Conversation do
             account: conversation.account,
             inbox: facebook_inbox,
             conversation: conversation,
-            created_at: Time.now - 48.hours
+            created_at: 48.hours.ago
           )
 
           expect(conversation.can_reply?).to be true
@@ -626,7 +636,7 @@ RSpec.describe Conversation do
             account: conversation.account,
             inbox: facebook_inbox,
             conversation: conversation,
-            created_at: Time.now - 48.hours
+            created_at: 48.hours.ago
           )
 
           expect(conversation.can_reply?).to be false
@@ -646,7 +656,7 @@ RSpec.describe Conversation do
             account: conversation.account,
             inbox: api_channel.inbox,
             conversation: conversation,
-            created_at: Time.now - 13.hours
+            created_at: 13.hours.ago
           )
 
           expect(api_channel.additional_attributes['agent_reply_time_window']).to be_nil
@@ -662,7 +672,7 @@ RSpec.describe Conversation do
             account: conversation.account,
             inbox: api_channel_with_limit.inbox,
             conversation: conversation,
-            created_at: Time.now - 13.hours
+            created_at: 13.hours.ago
           )
 
           expect(api_channel_with_limit.additional_attributes['agent_reply_time_window']).to eq '12'

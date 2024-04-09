@@ -8,6 +8,7 @@ import {
   buildConversationList,
   isOnMentionsView,
   isOnUnattendedView,
+  isOnFoldersView,
 } from './helpers/actionHelpers';
 import messageReadActions from './actions/messageReadActions';
 import messageTranslateActions from './actions/messageTranslateActions';
@@ -321,12 +322,12 @@ const actions = {
       inbox_id: inboxId,
       meta: { sender },
     } = conversation;
-
     const hasAppliedFilters = !!appliedFilters.length;
     const isMatchingInboxFilter =
       !currentInbox || Number(currentInbox) === inboxId;
     if (
       !hasAppliedFilters &&
+      !isOnFoldersView(rootState) &&
       !isOnMentionsView(rootState) &&
       !isOnUnattendedView(rootState) &&
       isMatchingInboxFilter

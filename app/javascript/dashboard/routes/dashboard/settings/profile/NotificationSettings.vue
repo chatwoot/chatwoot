@@ -1,24 +1,26 @@
 <template>
   <div id="profile-settings-notifications">
-    <div class="profile--settings--row text-black-900 dark:text-slate-300 row">
-      <div class="columns small-3">
-        <h4 class="block-title text-black-900 dark:text-slate-200">
+    <div
+      class="profile--settings--row text-black-900 dark:text-slate-300 flex items-center"
+    >
+      <div class="w-1/4">
+        <h4 class="text-lg text-black-900 dark:text-slate-200">
           {{ $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE') }}
         </h4>
         <p>
           {{ $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NOTE') }}
         </p>
       </div>
-      <div class="columns small-9">
-        <div class="notification-items--wrapper">
-          <span class="text-block-title notification-label">
+      <div class="w-[45%] p-4">
+        <div class="mb-4">
+          <span class="text-sm notification-label">
             {{
               $t(
                 'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPE.TITLE'
               )
             }}
           </span>
-          <div>
+          <div class="flex items-center gap-2 mb-1">
             <input
               id="audio_enable_alert_none"
               v-model="enableAudioAlerts"
@@ -35,7 +37,7 @@
               }}
             </label>
           </div>
-          <div>
+          <div class="flex items-center gap-2 mb-1">
             <input
               id="audio_enable_alert_mine"
               v-model="enableAudioAlerts"
@@ -52,7 +54,7 @@
               }}
             </label>
           </div>
-          <div>
+          <div class="flex items-center gap-2 mb-1">
             <input
               id="audio_enable_alert_all"
               v-model="enableAudioAlerts"
@@ -70,8 +72,8 @@
             </label>
           </div>
         </div>
-        <div class="notification-items--wrapper">
-          <span class="text-block-title notification-label">
+        <div class="mb-4">
+          <span class="text-sm notification-label">
             {{
               $t(
                 'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.DEFAULT_TONE.TITLE'
@@ -81,7 +83,7 @@
           <div>
             <select
               v-model="notificationTone"
-              class="tone-selector"
+              class="tone-selector mb-0"
               @change="handleAudioToneChange"
             >
               <option
@@ -94,15 +96,15 @@
             </select>
           </div>
         </div>
-        <div class="notification-items--wrapper">
-          <span class="text-block-title notification-label">
+        <div class="mb-1">
+          <span class="text-sm notification-label">
             {{
               $t(
                 'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.CONDITIONS.TITLE'
               )
             }}
           </span>
-          <div>
+          <div class="flex items-center gap-2 mb-1">
             <input
               id="audio_alert_when_tab_is_inactive"
               v-model="playAudioWhenTabIsInactive"
@@ -119,7 +121,7 @@
               }}
             </label>
           </div>
-          <div>
+          <div class="flex items-center gap-2 mb-1">
             <input
               id="audio_alert_until_all_conversations_are_read"
               v-model="alertIfUnreadConversationExist"
@@ -139,17 +141,19 @@
         </div>
       </div>
     </div>
-    <div class="profile--settings--row text-black-900 dark:text-slate-300 row">
-      <div class="columns small-3">
-        <h4 class="block-title text-black-900 dark:text-slate-200">
+    <div
+      class="profile--settings--row text-black-900 dark:text-slate-300 flex items-center"
+    >
+      <div class="w-1/4">
+        <h4 class="text-lg text-black-900 dark:text-slate-200">
           {{ $t('PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.TITLE') }}
         </h4>
         <p>
           {{ $t('PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.NOTE') }}
         </p>
       </div>
-      <div class="columns small-9">
-        <div>
+      <div class="w-[45%] p-4">
+        <div class="flex items-center gap-2 mb-1">
           <input
             v-model="selectedEmailFlags"
             class="notification--checkbox"
@@ -166,7 +170,7 @@
           </label>
         </div>
 
-        <div>
+        <div class="flex items-center gap-2 mb-1">
           <input
             v-model="selectedEmailFlags"
             class="notification--checkbox"
@@ -183,7 +187,7 @@
           </label>
         </div>
 
-        <div>
+        <div class="flex items-center gap-2 mb-1">
           <input
             v-model="selectedEmailFlags"
             class="notification--checkbox"
@@ -200,7 +204,7 @@
           </label>
         </div>
 
-        <div>
+        <div class="flex items-center gap-2 mb-1">
           <input
             v-model="selectedEmailFlags"
             class="notification--checkbox"
@@ -216,7 +220,7 @@
             }}
           </label>
         </div>
-        <div>
+        <div class="flex items-center gap-2 mb-1">
           <input
             v-model="selectedEmailFlags"
             class="notification--checkbox"
@@ -236,15 +240,15 @@
     </div>
     <div
       v-if="vapidPublicKey && hasPushAPISupport"
-      class="profile--settings--row text-black-900 dark:text-slate-300 row push-row"
+      class="profile--settings--row text-black-900 dark:text-slate-300 flex items-center push-row"
     >
-      <div class="columns small-3">
-        <h4 class="block-title text-black-900 dark:text-slate-200">
+      <div class="w-1/4">
+        <h4 class="text-lg text-black-900 dark:text-slate-200">
           {{ $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.TITLE') }}
         </h4>
         <p>{{ $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.NOTE') }}</p>
       </div>
-      <div class="columns small-9">
+      <div class="w-[45%] p-4">
         <p v-if="hasEnabledPushPermissions">
           {{
             $t(
@@ -264,7 +268,7 @@
             @click="onRequestPermissions"
           />
         </div>
-        <div>
+        <div class="flex items-center gap-2 mb-1">
           <input
             v-model="selectedPushFlags"
             class="notification--checkbox"
@@ -281,7 +285,7 @@
           </label>
         </div>
 
-        <div>
+        <div class="flex items-center gap-2 mb-1">
           <input
             v-model="selectedPushFlags"
             class="notification--checkbox"
@@ -298,7 +302,7 @@
           </label>
         </div>
 
-        <div>
+        <div class="flex items-center gap-2 mb-1">
           <input
             v-model="selectedPushFlags"
             class="notification--checkbox"
@@ -315,7 +319,7 @@
           </label>
         </div>
 
-        <div>
+        <div class="flex items-center gap-2 mb-1">
           <input
             v-model="selectedPushFlags"
             class="notification--checkbox"
@@ -332,7 +336,7 @@
           </label>
         </div>
 
-        <div>
+        <div class="flex items-center gap-2 mb-1">
           <input
             v-model="selectedPushFlags"
             class="notification--checkbox"
@@ -523,10 +527,6 @@ export default {
 
 .push-notification--button {
   margin-bottom: var(--space-one);
-}
-
-.notification-items--wrapper {
-  margin-bottom: var(--space-smaller);
 }
 
 .notification-label {

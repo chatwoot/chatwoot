@@ -43,7 +43,7 @@ describe Webhooks::InstagramEventsJob do
         instagram_inbox.reload
 
         expect(instagram_inbox.contacts.count).to be 1
-        expect(instagram_inbox.contacts.last.additional_attributes['social_profiles']['instagram']).to eq 'some_user_name'
+        expect(instagram_inbox.contacts.last.additional_attributes['social_instagram_user_name']).to eq 'some_user_name'
         expect(instagram_inbox.conversations.count).to be 1
         expect(instagram_inbox.messages.count).to be 1
         expect(instagram_inbox.messages.last.content_attributes['is_unsupported']).to be_nil
@@ -59,7 +59,7 @@ describe Webhooks::InstagramEventsJob do
         instagram_inbox.reload
 
         expect(instagram_inbox.contacts.count).to be 1
-        expect(instagram_inbox.contacts.last.additional_attributes['social_profiles']['instagram']).to eq 'some_user_name'
+        expect(instagram_inbox.contacts.last.additional_attributes['social_instagram_user_name']).to eq 'some_user_name'
         expect(instagram_inbox.conversations.count).to be 1
         expect(instagram_inbox.messages.count).to be 1
 
@@ -170,7 +170,7 @@ describe Webhooks::InstagramEventsJob do
         instagram_inbox.reload
 
         expect(instagram_inbox.contacts.count).to be 1
-        expect(instagram_inbox.contacts.last.additional_attributes['social_profiles']['instagram']).to eq 'some_user_name'
+        expect(instagram_inbox.contacts.last.additional_attributes['social_instagram_user_name']).to eq 'some_user_name'
         expect(instagram_inbox.conversations.count).to be 1
         expect(instagram_inbox.messages.count).to be 1
         expect(instagram_inbox.messages.last.content_attributes['is_unsupported']).to be true

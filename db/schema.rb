@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_25_142810) do
+ActiveRecord::Schema[7.0].define(version: 2024_04_02_132842) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -115,6 +115,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_25_142810) do
     t.integer "bot_type", default: 0
     t.jsonb "bot_config", default: {}
     t.index ["account_id"], name: "index_agent_bots_on_account_id"
+  end
+
+  create_table "applied_slas", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "sla_policy_id", null: false
+    t.bigint "conversation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "sla_status", default: 0
+    t.index ["account_id", "sla_policy_id", "conversation_id"], name: "index_applied_slas_on_account_sla_policy_conversation", unique: true
+    t.index ["account_id"], name: "index_applied_slas_on_account_id"
+    t.index ["conversation_id"], name: "index_applied_slas_on_conversation_id"
+    t.index ["sla_policy_id"], name: "index_applied_slas_on_sla_policy_id"
   end
 
   create_table "articles", force: :cascade do |t|
@@ -266,7 +279,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_25_142810) do
     t.string "imap_login", default: ""
     t.string "imap_password", default: ""
     t.boolean "imap_enable_ssl", default: true
-    t.datetime "imap_inbox_synced_at"
     t.boolean "smtp_enabled", default: false
     t.string "smtp_address", default: ""
     t.integer "smtp_port", default: 0
@@ -382,6 +394,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_25_142810) do
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
   end
 
+  create_table "chatbots", force: :cascade do |t|
+    t.integer "account_id", default: 0, null: false
+    t.string "chatbot_id", null: false
+    t.datetime "last_trained_at"
+    t.string "chatbot_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "contact_inboxes", force: :cascade do |t|
     t.bigint "contact_id"
     t.bigint "inbox_id"
@@ -408,10 +429,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_25_142810) do
     t.string "identifier"
     t.jsonb "custom_attributes", default: {}
     t.datetime "last_activity_at", precision: nil
+    t.integer "contact_type", default: 0
+    t.string "middle_name", default: ""
+    t.string "last_name", default: ""
+    t.string "location", default: ""
+    t.string "country_code", default: ""
+    t.boolean "blocked", default: false, null: false
     t.index "lower((email)::text), account_id", name: "index_contacts_on_lower_email_account_id"
     t.index ["account_id", "email", "phone_number", "identifier"], name: "index_contacts_on_nonempty_fields", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
     t.index ["account_id"], name: "index_contacts_on_account_id"
     t.index ["account_id"], name: "index_resolved_contact_account_id", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
+    t.index ["blocked"], name: "index_contacts_on_blocked"
     t.index ["email", "account_id"], name: "uniq_email_per_account_contact", unique: true
     t.index ["identifier", "account_id"], name: "uniq_identifier_per_account_contact", unique: true
     t.index ["name", "email", "phone_number", "identifier"], name: "index_contacts_on_name_email_phone_number_identifier", opclass: :gin_trgm_ops, using: :gin
@@ -515,6 +543,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_25_142810) do
     t.datetime "updated_at", null: false
     t.text "attribute_description"
     t.jsonb "attribute_values", default: []
+    t.string "regex_pattern"
+    t.string "regex_cue"
     t.index ["account_id"], name: "index_custom_attribute_definitions_on_account_id"
     t.index ["attribute_key", "attribute_model"], name: "attribute_key_model_index", unique: true
   end
@@ -768,7 +798,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_25_142810) do
     t.jsonb "subscription_attributes", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "identifier"
+    t.text "identifier"
     t.index ["identifier"], name: "index_notification_subscriptions_on_identifier", unique: true
     t.index ["user_id"], name: "index_notification_subscriptions_on_user_id"
   end
@@ -786,6 +816,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_25_142810) do
     t.datetime "updated_at", null: false
     t.datetime "snoozed_until"
     t.datetime "last_activity_at", default: -> { "CURRENT_TIMESTAMP" }
+    t.jsonb "meta", default: {}
     t.index ["account_id"], name: "index_notifications_on_account_id"
     t.index ["last_activity_at"], name: "index_notifications_on_last_activity_at"
     t.index ["primary_actor_type", "primary_actor_id"], name: "uniq_primary_actor_per_account_notifications"
@@ -876,12 +907,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_25_142810) do
 
   create_table "sla_policies", force: :cascade do |t|
     t.string "name", null: false
-    t.float "frt_threshold"
-    t.float "rt_threshold"
+    t.float "first_response_time_threshold"
+    t.float "next_response_time_threshold"
     t.boolean "only_during_business_hours", default: false
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "description"
+    t.float "resolution_time_threshold"
     t.index ["account_id"], name: "index_sla_policies_on_account_id"
   end
 

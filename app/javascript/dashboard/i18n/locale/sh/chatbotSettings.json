@@ -1,0 +1,54 @@
+{
+  "CHATBOT_SETTINGS": {
+    "CHATBOT": "Četbot",
+    "BOT_STATUS": "Status četbota",
+    "BOT_STATUS_ACTIVE": "Aktivan chatbot",
+    "BOT_STATUS_INACTIVE": "Neaktivan chatbot",
+    "CONNECTED_INBOX": "Povezani pristigla pošta:",
+    "NEW_BOT": "Novi četbot",
+    "CONNECT_INBOX": "Poveži Inbox",
+    "LAST_TRAINED_AT": "Posljednji trenirani na: ",
+    "CHATBOT_ID": "ID četbota: ",
+    "BROWSE_FILES": "Pregledaj datoteke",
+    "UPDATE": "Ažuriraj",
+    "CHATBOT_INBOX_CONNECT": "Poveži četbota sa Inboxom",
+    "FILE_TYPES": {
+      "DOC": ".doc",
+      "PDF": ".pdf",
+      "TXT": ".txt"
+    },
+    "UPLOAD": {
+      "FILE": "Datoteka",
+      "TEXT": "Tekst",
+      "WEBSITE": "Web stranica"
+    },
+    "FORM": {
+      "CONNECT_INBOX": "Poveži Inbox",
+      "ADD_URL": "Dodaj URL",
+      "NAME": {
+        "LABEL": "Ime četbota",
+        "PLACEHOLDER": "Primjer: Četbot 1"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Opis četbota",
+        "PLACEHOLDER": "Kratki opis ovog četbota."
+      },
+      "SUBMIT_CREATE": "Kreiraj četbota"
+    },
+    "SIDEBAR_TXT": "<p><b>Kreiraj četbota</b></p> <p>Četbot vam omogućava obuku bota na vašim osobnim podacima. <br /> Bot obučen na osobnim podacima odgovara samo na upite temeljene na podacima na kojima je obučen.</p>",
+    "LIST": {
+      "404": "Na ovom računu nema kreiranih četbota.",
+      "EDIT_BOT": "Uredi"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Izbriši",
+      "CONFIRM": {
+        "TITLE": "Potvrdi brisanje",
+        "PLACE_HOLDER": "Molimo unesite {chatbotName} za potvrdu",
+        "MESSAGE": "Brisanje četbota trajno će izbrisati ovog bota i podatke na kojima je obučen.",
+        "YES": "Izbriši ",
+        "NO": "Otkaži"
+      }
+    }
+  }
+}

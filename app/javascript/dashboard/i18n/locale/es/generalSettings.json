@@ -112,7 +112,8 @@
       "REMOVE_LABEL": "Eliminar etiqueta de la conversación",
       "SETTINGS": "Ajustes",
       "AI_ASSIST": "Asistencia AI",
-      "APPEARANCE": "Apariencia"
+      "APPEARANCE": "Apariencia",
+      "SNOOZE_NOTIFICATION": "Posponer notificación"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Ir al panel de conversaciones",
@@ -153,7 +154,8 @@
       "CHANGE_APPEARANCE": "Cambiar apariencia",
       "LIGHT_MODE": "Claro",
       "DARK_MODE": "Oscuro",
-      "SYSTEM_MODE": "Sistema"
+      "SYSTEM_MODE": "Sistema",
+      "SNOOZE_NOTIFICATION": "Posponer notificación"
     }
   },
   "DASHBOARD_APPS": {

@@ -7,6 +7,7 @@ import automation from './automation.json';
 import bulkActions from './bulkActions.json';
 import campaign from './campaign.json';
 import cannedMgmt from './cannedMgmt.json';
+import chatbotSettings from './chatbotSettings.json';
 import chatlist from './chatlist.json';
 import contact from './contact.json';
 import contactFilters from './contactFilters.json';
@@ -29,6 +30,8 @@ import settings from './settings.json';
 import signup from './signup.json';
 import teamsSettings from './teamsSettings.json';
 import whatsappTemplates from './whatsappTemplates.json';
+import sla from './sla.json';
+import inbox from './inbox.json';
 
 export default {
   ...advancedFilters,
@@ -40,6 +43,7 @@ export default {
   ...bulkActions,
   ...campaign,
   ...cannedMgmt,
+  ...chatbotSettings,
   ...chatlist,
   ...contact,
   ...contactFilters,
@@ -60,6 +64,8 @@ export default {
   ...setNewPassword,
   ...settings,
   ...signup,
+  ...sla,
   ...teamsSettings,
   ...whatsappTemplates,
+  ...inbox,
 };

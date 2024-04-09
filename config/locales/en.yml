@@ -30,6 +30,7 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
+  prompt: "%{client_message}"
   hello: "Hello world"
   messages:
     reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.
@@ -45,6 +46,7 @@ en:
       disposable_email: We do not allow disposable emails
       invalid_email: You have entered an invalid email
       email_already_exists: "You have already signed up for an account with %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Signup failed
     data_import:
       data_type:
@@ -82,25 +84,25 @@ en:
     utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Agent name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     inbox_csv:
       inbox_name: Inbox name
       inbox_type: Inbox type
       conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     label_csv:
       label_title: Label
       conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     team_csv:
       team_name: Team name
       conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: Timezone
     default_group_by: day
@@ -117,10 +119,15 @@ en:
 
   notifications:
     notification_title:
-      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
-      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
-      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
-      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
+      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
+      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} mentioned you in the story: "
@@ -152,6 +159,9 @@ en:
       labels:
         added: "%{user_name} added %{labels}"
         removed: "%{user_name} removed %{labels}"
+      sla:
+        added: "%{user_name} added SLA policy %{sla_name}"
+        removed: "%{user_name} removed SLA policy %{sla_name}"
       muted: "%{user_name} has muted the conversation"
       unmuted: "%{user_name} has unmuted the conversation"
     templates:
@@ -159,6 +169,8 @@ en:
       ways_to_reach_you_message_body: "Give the team a way to reach you."
       email_input_box_message_body: "Get notified by email"
       csat_input_message_body: "Please rate the conversation"
+      bot_entered_chat: "Bot has entered the chat"
+      long_message_issue: "Too many input characters , please shorten the message"
     reply:
       email:
         header:
@@ -244,3 +256,16 @@ en:
      inbox_name: Inbox
      inbox_type: Inbox Type
     button: Open conversation
+  time_units:
+    days:
+      one: "%{count} day"
+      other: "%{count} days"
+    hours:
+      one: "%{count} hour"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minute"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} second"
+      other: "%{count} seconds"

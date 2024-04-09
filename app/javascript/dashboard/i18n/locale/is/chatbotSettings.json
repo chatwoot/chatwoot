@@ -1,0 +1,54 @@
+{
+  "CHATBOT_SETTINGS": {
+    "CHATBOT": "Chatbot",
+    "BOT_STATUS": "Estado del Chatbot",
+    "BOT_STATUS_ACTIVE": "Virktivegur Spjallvélinn",
+    "BOT_STATUS_INACTIVE": "Óvirktivegur Spjallvélinn",
+    "CONNECTED_INBOX": "Tengdur Innbox: ",
+    "NEW_BOT": "Nuevo Chatbot",
+    "CONNECT_INBOX": "Conectar Bandeja de Entrada",
+    "LAST_TRAINED_AT": "Último Entrenamiento En: ",
+    "CHATBOT_ID": "ID del Chatbot: ",
+    "BROWSE_FILES": "Explorar Archivos",
+    "UPDATE": "Actualizar",
+    "CHATBOT_INBOX_CONNECT": "Conectar Chatbot con la Bandeja de Entrada",
+    "FILE_TYPES": {
+      "DOC": ".doc",
+      "PDF": ".pdf",
+      "TXT": ".txt"
+    },
+    "UPLOAD": {
+      "FILE": "Archivo",
+      "TEXT": "Texto",
+      "WEBSITE": "Sitio Web"
+    },
+    "FORM": {
+      "CONNECT_INBOX": "Conectar Bandeja de Entrada",
+      "ADD_URL": "Agregar URL",
+      "NAME": {
+        "LABEL": "Nombre del Chatbot",
+        "PLACEHOLDER": "Ejemplo: Chatbot 1"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descripción del Chatbot",
+        "PLACEHOLDER": "Breve descripción sobre este Chatbot."
+      },
+      "SUBMIT_CREATE": "Crear Chatbot"
+    },
+    "SIDEBAR_TXT": "<p><b>Crear Chatbot</b></p> <p>El Chatbot te permite entrenar al bot con tus propios datos personales. <br /> Un bot entrenado en datos personales responde a las consultas solo en función de los datos en los que ha sido entrenado.</p>",
+    "LIST": {
+      "404": "No hay chatbots creados en esta cuenta.",
+      "EDIT_BOT": "Editar"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Eliminar",
+      "CONFIRM": {
+        "TITLE": "Confirmar Eliminación",
+        "PLACE_HOLDER": "Por favor, escriba {chatbotName} para confirmar",
+        "MESSAGE": "Eliminar el Chatbot eliminará permanentemente este bot y los datos en los que está entrenado.",
+        "YES": "Eliminar ",
+        "NO": "Cancelar"
+      }
+    }
+  }
+}
