@@ -136,9 +136,9 @@ export default {
       }
     },
     redirectToHref() {
-      const keyclaokUrl = window.chatwootConfig.keyclaokUrl;
+      const keycloakUrl = window.chatwootConfig.keycloakUrl;
       const keycloakRealm = window.chatwootConfig.keycloakRealm;
-      const hrefURL = `${keyclaokUrl}/realms/${keycloakRealm}/account/#/security/signingin`;
+      const hrefURL = `${keycloakUrl}/realms/${keycloakRealm}/account/#/security/signingin`;
       window.open(hrefURL, '_blank');
     },
   },

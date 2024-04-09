@@ -102,7 +102,7 @@ export default {
       }
     });
   },
-  mounted() {
+  async mounted() {
     this.initializeColorTheme();
     this.listenToThemeChanges();
     this.setLocale(window.chatwootConfig.selectedLocale);

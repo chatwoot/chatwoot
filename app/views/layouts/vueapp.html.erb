@@ -47,7 +47,7 @@
         selectedLocale: '<%= I18n.locale %>',
         keycloakRealm: '<%= ENV.fetch('KEYCLOAK_REALM', nil) %>',
         keycloakClientId: '<%= ENV.fetch('KEYCLOAK_CLIENT_ID', nil) %>',
-        keyclaokUrl: '<%= ENV.fetch('KEYCLOAK_URL', nil) %>',
+        keycloakUrl: '<%= ENV.fetch('KEYCLOAK_URL', nil) %>',
         keycloakCallbackUrl: '<%= ENV.fetch('KEYCLOAK_CALLBACK_URL', nil) %>'
       }
       window.globalConfig = <%= raw @global_config.to_json %>
