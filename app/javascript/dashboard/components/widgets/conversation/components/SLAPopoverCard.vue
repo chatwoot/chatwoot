@@ -79,6 +79,33 @@ const allMissedSlas = [
     updated_at: 1712645713,
     created_at: 1712645713,
   },
+  {
+    id: 73,
+    event_type: 'nrt',
+    meta: {
+      message_id: 962,
+    },
+    updated_at: 1712645713,
+    created_at: 1712645713,
+  },
+  {
+    id: 74,
+    event_type: 'nrt',
+    meta: {
+      message_id: 962,
+    },
+    updated_at: 1712645713,
+    created_at: 1712645713,
+  },
+  {
+    id: 75,
+    event_type: 'nrt',
+    meta: {
+      message_id: 962,
+    },
+    updated_at: 1712645713,
+    created_at: 1712645713,
+  },
 ];
 
 const nrtMisses = allMissedSlas.filter(
@@ -93,9 +120,7 @@ const rtMiss = allMissedSlas.find(missedSLA => missedSLA.event_type === 'rt');
   <div
     class="absolute flex flex-col items-start bg-[#fdfdfd] dark:bg-slate-800 z-50 p-4 border border-solid border-slate-75 dark:border-slate-700 w-[384px] rounded-xl gap-4 max-h-96 overflow-auto"
   >
-    <span
-      class="text-sm font-medium text-slate-900 dark:text-slate-200 sticky top-0"
-    >
+    <span class="text-sm font-medium text-slate-900 dark:text-slate-200">
       SLA Misses
     </span>
 
@@ -112,6 +137,17 @@ const rtMiss = allMissedSlas.find(missedSLA => missedSLA.event_type === 'rt');
       :show-label="index === 0"
       :created-at="frtMiss.created_at"
     />
+    <div class="flex flex-col items-end w-full">
+      <woot-button
+        size="small"
+        icon="plus-sign"
+        variant="link"
+        color-scheme="secondary"
+        class="hover:!no-underline hover:!bg-transparent dark:hover:!bg-transparent"
+      >
+        24 more items
+      </woot-button>
+    </div>
 
     <SLA-event-item
       v-if="rtMiss"
