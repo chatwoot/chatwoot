@@ -33,7 +33,7 @@ RSpec.describe 'Applied SLAs API', type: :request do
         body = JSON.parse(response.body)
 
         expect(body).to include('total_applied_slas' => 1)
-        expect(body).to include('number_of_sla_breaches' => 1)
+        expect(body).to include('number_of_sla_misses' => 1)
         expect(body).to include('hit_rate' => '0.0%')
       end
 
@@ -48,7 +48,7 @@ RSpec.describe 'Applied SLAs API', type: :request do
         body = JSON.parse(response.body)
 
         expect(body).to include('total_applied_slas' => 1)
-        expect(body).to include('number_of_sla_breaches' => 0)
+        expect(body).to include('number_of_sla_misses' => 0)
         expect(body).to include('hit_rate' => '100%')
       end
 
@@ -64,7 +64,7 @@ RSpec.describe 'Applied SLAs API', type: :request do
         body = JSON.parse(response.body)
 
         expect(body).to include('total_applied_slas' => 3)
-        expect(body).to include('number_of_sla_breaches' => 1)
+        expect(body).to include('number_of_sla_misses' => 1)
         expect(body).to include('hit_rate' => '66.67%')
       end
 
@@ -80,7 +80,7 @@ RSpec.describe 'Applied SLAs API', type: :request do
         body = JSON.parse(response.body)
 
         expect(body).to include('total_applied_slas' => 2)
-        expect(body).to include('number_of_sla_breaches' => 1)
+        expect(body).to include('number_of_sla_misses' => 1)
         expect(body).to include('hit_rate' => '50.0%')
       end
 
@@ -98,7 +98,7 @@ RSpec.describe 'Applied SLAs API', type: :request do
         body = JSON.parse(response.body)
 
         expect(body).to include('total_applied_slas' => 2)
-        expect(body).to include('number_of_sla_breaches' => 1)
+        expect(body).to include('number_of_sla_misses' => 1)
         expect(body).to include('hit_rate' => '50.0%')
       end
     end
@@ -128,7 +128,7 @@ RSpec.describe 'Applied SLAs API', type: :request do
 
         csv_data = CSV.parse(response.body)
         csv_data.reject! { |row| row.all?(&:nil?) }
-        expect(csv_data.size).to eq(2)
+        expect(csv_data.size).to eq(3)
         expect(csv_data[1][0].to_i).to eq(conversation1.display_id)
       end
     end
@@ -145,21 +145,20 @@ RSpec.describe 'Applied SLAs API', type: :request do
     context 'when it is an authenticated user' do
       it 'returns the applied slas' do
         create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1)
-        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation2)
+        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation2, sla_status: 'missed')
         get "/api/v1/accounts/#{account.id}/applied_slas",
             headers: administrator.create_new_auth_token
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body)
-
-        expect(body.size).to eq(2)
-        expect(body.first).to include('id')
-        expect(body.first).to include('sla_policy_id' => sla_policy1.id)
-        expect(body.first).to include('conversation_id' => conversation1.id)
+        expect(body['payload'].size).to eq(1)
+        expect(body['payload'].first).to include('applied_sla')
+        expect(body['payload'].first['conversation']['id']).to eq(conversation2.id)
+        expect(body['meta']).to include('count' => 1)
       end
 
       it 'filters applied slas based on a date range' do
-        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1, created_at: 10.days.ago)
-        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation2, created_at: 3.days.ago)
+        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1, created_at: 10.days.ago, sla_status: 'missed')
+        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation2, created_at: 3.days.ago, sla_status: 'missed')
 
         get "/api/v1/accounts/#{account.id}/applied_slas",
             params: { since: 5.days.ago.to_time.to_i.to_s, until: Time.zone.today.to_time.to_i.to_s },
@@ -167,13 +166,13 @@ RSpec.describe 'Applied SLAs API', type: :request do
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body)
 
-        expect(body.size).to eq(1)
+        expect(body['payload'].size).to eq(1)
       end
 
       it 'filters applied slas based on a date range and agent ids' do
         create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1, created_at: 10.days.ago)
-        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation3, created_at: 3.days.ago)
-        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation2, created_at: 3.days.ago)
+        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation3, created_at: 3.days.ago, sla_status: 'missed')
+        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation2, created_at: 3.days.ago, sla_status: 'active_with_misses')
 
         get "/api/v1/accounts/#{account.id}/applied_slas",
             params: { agent_ids: [agent2.id] },
@@ -181,13 +180,13 @@ RSpec.describe 'Applied SLAs API', type: :request do
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body)
 
-        expect(body.size).to eq(3)
+        expect(body['payload'].size).to eq(2)
       end
 
       it 'filters applied slas based on sla policy ids' do
-        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1)
+        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1, sla_status: 'missed')
         create(:applied_sla, sla_policy: sla_policy1, conversation: conversation2)
-        create(:applied_sla, sla_policy: sla_policy2, conversation: conversation2)
+        create(:applied_sla, sla_policy: sla_policy2, conversation: conversation2, sla_status: 'active_with_misses')
 
         get "/api/v1/accounts/#{account.id}/applied_slas",
             params: { sla_policy_id: sla_policy1.id },
@@ -195,15 +194,15 @@ RSpec.describe 'Applied SLAs API', type: :request do
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body)
 
-        expect(body.size).to eq(2)
+        expect(body['payload'].size).to eq(1)
       end
 
       it 'filters applied slas based on labels' do
         conversation2.update_labels('label1')
         conversation3.update_labels('label1')
-        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1, created_at: 10.days.ago)
-        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation2, created_at: 3.days.ago)
-        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation3, created_at: 3.days.ago)
+        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1, created_at: 10.days.ago, sla_status: 'active_with_misses')
+        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation2, created_at: 3.days.ago, sla_status: 'missed')
+        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation3, created_at: 3.days.ago, sla_status: 'missed')
 
         get "/api/v1/accounts/#{account.id}/applied_slas",
             params: { label_list: ['label1'] },
@@ -211,7 +210,7 @@ RSpec.describe 'Applied SLAs API', type: :request do
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body)
 
-        expect(body.size).to eq(2)
+        expect(body['payload'].size).to eq(2)
       end
     end
   end

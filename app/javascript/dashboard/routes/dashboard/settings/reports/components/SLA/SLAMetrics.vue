@@ -13,9 +13,18 @@
       class="w-full sm:w-px h-full border border-slate-75 dark:border-slate-700/50"
     />
     <SLAMetricCard
-      :label="$t('SLA_REPORTS.METRICS.NO_OF_BREACHES.LABEL')"
+      :label="$t('SLA_REPORTS.METRICS.NO_OF_MISSES.LABEL')"
       :value="noOfBreaches"
-      :tool-tip="$t('SLA_REPORTS.METRICS.NO_OF_BREACHES.TOOLTIP')"
+      :tool-tip="$t('SLA_REPORTS.METRICS.NO_OF_MISSES.TOOLTIP')"
+      :is-loading="isLoading"
+    />
+    <div
+      class="w-full sm:w-px h-full border border-slate-75 dark:border-slate-700/50"
+    />
+    <SLAMetricCard
+      :label="$t('SLA_REPORTS.METRICS.NO_OF_CONVERSATIONS.LABEL')"
+      :value="noOfConversations"
+      :tool-tip="$t('SLA_REPORTS.METRICS.NO_OF_CONVERSATIONS.TOOLTIP')"
       :is-loading="isLoading"
     />
   </div>
@@ -29,6 +38,10 @@ defineProps({
     required: true,
   },
   noOfBreaches: {
+    type: Number,
+    required: true,
+  },
+  noOfConversations: {
     type: Number,
     required: true,
   },
