@@ -23,7 +23,7 @@ const formatDate = timestamp =>
     <div class="w-1/2">
       <span
         v-if="showLabel"
-        class="text-sm font-normal tracking-[-0.6%] w-[140px] truncate text-slate-500 dark:text-slate-50"
+        class="text-sm font-normal tracking-[-0.6%] w-[140px] truncate text-slate-500 dark:text-slate-200"
       >
         {{ label }}
       </span>
