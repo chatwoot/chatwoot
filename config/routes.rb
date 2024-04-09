@@ -88,6 +88,7 @@ Rails.application.routes.draw do
               collection do
                 post :create
                 get :create
+                get :secret_key
               end
             end
           end

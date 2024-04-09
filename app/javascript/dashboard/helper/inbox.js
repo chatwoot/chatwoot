@@ -81,6 +81,12 @@ export const getInboxClassByType = (type, phoneNumber) => {
     case INBOX_TYPES.LINE:
       return 'brand-line';
 
+    case INBOX_TYPES.STRINGEE:
+      return 'headphones';
+
+    case INBOX_TYPES.ZALO:
+      return 'snooze';
+
     default:
       return 'chat';
   }
