@@ -510,6 +510,8 @@
     "HEADER": "SLA Reports",
     "NO_RECORDS": "SLA applied conversations are not available.",
     "LOADING": "Loading SLA data...",
+    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
+    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",
