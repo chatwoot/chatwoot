@@ -103,15 +103,6 @@ export default {
     this.initializeColorTheme();
     this.listenToThemeChanges();
     this.setLocale(window.chatwootConfig.selectedLocale);
-    if (this.currentAccountId){
-      checkKeycloakSession(this.currentUser).then(res => {
-        if (res.message === 'Session expired. Please log in again.') {
-          Auth.logout();
-        } else if (res.message === 'No Session Info.') {
-          Auth.logout();
-        }
-      });
-    }
   },
   methods: {
     initializeColorTheme() {
@@ -144,6 +135,14 @@ export default {
           }
         })
       );
+
+      checkKeycloakSession(this.currentUser).then(res => {
+        if (res.message === 'Session expired. Please log in again.') {
+          Auth.logout();
+        } else if (res.message === 'No Session Info.') {
+          Auth.logout();
+        }
+      });
     },
   },
 };
