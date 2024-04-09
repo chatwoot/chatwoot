@@ -50,7 +50,7 @@
       :current-page="currentPage"
       :total-count="totalCount"
       :page-size="pageSize"
-      class="bg-slate-25 dark:bg-slate-900 sticky bottom-0 border-none mt-4"
+      class="border-none"
       @page-change="onPageChange"
     />
   </div>
