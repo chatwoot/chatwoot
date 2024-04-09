@@ -65,7 +65,7 @@
     },
     "ADD": {
       "TITLE": "Pievienot SLA",
-      "DESC": "SLA: Draudzīgi solījumi priekš lieliska servisa!",
+      "DESC": "Friendly promises for great service!",
       "API": {
         "SUCCESS_MESSAGE": "SLA ir veiksmīgi pievienots",
         "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
