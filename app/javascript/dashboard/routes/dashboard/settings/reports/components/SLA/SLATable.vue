@@ -50,7 +50,6 @@
       :current-page="currentPage"
       :total-count="totalCount"
       :page-size="pageSize"
-      class="border-none"
       @page-change="onPageChange"
     />
   </div>
