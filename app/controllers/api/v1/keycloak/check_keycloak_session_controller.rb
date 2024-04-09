@@ -23,7 +23,7 @@ class Api::V1::Keycloak::CheckKeycloakSessionController < ApplicationController
           render json: { message: 'Session expired. Please log in again.' }
         end
       else
-        # Handle case where no record is found for the email
+        render json: { message: 'No Session Info.' }
       end
     end
   end
