@@ -1,7 +1,8 @@
 <script setup>
-import { ref } from 'vue';
-import SLAEventItem from './SLAEventItem.vue';
+import { ref, computed } from 'vue';
+
 import wootConstants from 'dashboard/constants/globals';
+import SLAEventItem from './SLAEventItem.vue';
 
 const { SLA_MISS_TYPES } = wootConstants;
 
@@ -11,17 +12,25 @@ const props = defineProps({
     required: true,
   },
 });
-
-const nrtMisses = props.slaMissedEvents.filter(
-  slaEvent => slaEvent.event_type === SLA_MISS_TYPES.NRT
-);
-const frtMiss = props.slaMissedEvents.filter(
-  slaEvent => slaEvent.event_type === SLA_MISS_TYPES.FRT
-);
-const rtMiss = props.slaMissedEvents.filter(
-  slaEvent => slaEvent.event_type === SLA_MISS_TYPES.RT
-);
 const showAllNRT = ref(false);
+
+const nrtMisses = computed(() =>
+  props.slaMissedEvents.filter(
+    slaEvent => slaEvent.event_type === SLA_MISS_TYPES.NRT
+  )
+);
+const frtMisses = computed(() =>
+  props.slaMissedEvents.filter(
+    slaEvent => slaEvent.event_type === SLA_MISS_TYPES.FRT
+  )
+);
+const rtMisses = computed(() =>
+  props.slaMissedEvents.filter(
+    slaEvent => slaEvent.event_type === SLA_MISS_TYPES.RT
+  )
+);
+
+const shouldShowMoreNRTButton = computed(() => nrtMisses.value.length > 6);
 const toggleShowAllNRT = () => {
   showAllNRT.value = !showAllNRT.value;
 };
@@ -34,9 +43,9 @@ const toggleShowAllNRT = () => {
       {{ $t('SLA.EVENTS.TITLE') }}
     </span>
     <SLA-event-item
-      v-if="frtMiss.length"
+      v-if="frtMisses.length"
       :label="$t('SLA.EVENTS.FRT')"
-      :items="frtMiss"
+      :items="frtMisses"
     />
     <SLA-event-item
       v-if="nrtMisses.length"
@@ -44,7 +53,10 @@ const toggleShowAllNRT = () => {
       :items="showAllNRT ? nrtMisses : nrtMisses.slice(0, 6)"
     >
       <template #showMore>
-        <div v-if="nrtMisses.length > 6" class="flex flex-col items-end w-full">
+        <div
+          v-if="shouldShowMoreNRTButton"
+          class="flex flex-col items-end w-full"
+        >
           <woot-button
             size="small"
             :icon="!showAllNRT ? 'plus-sign' : ''"
@@ -63,9 +75,9 @@ const toggleShowAllNRT = () => {
       </template>
     </SLA-event-item>
     <SLA-event-item
-      v-if="rtMiss.length > 6"
+      v-if="rtMisses.length"
       :label="$t('SLA.EVENTS.RT')"
-      :items="rtMiss"
+      :items="rtMisses"
     />
   </div>
 </template>
