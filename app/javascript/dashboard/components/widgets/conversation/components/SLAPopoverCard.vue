@@ -1,7 +1,7 @@
 <script setup>
 import SLAEventItem from './SLAEventItem.vue';
 
-const allMissedSlas = [
+const slaMissedEvents = [
   {
     id: 64,
     event_type: 'frt',
@@ -108,32 +108,30 @@ const allMissedSlas = [
   },
 ];
 
-const nrtMisses = allMissedSlas.filter(
-  missedSLA => missedSLA.event_type === 'nrt'
+const nrtMisses = slaMissedEvents.filter(
+  slaEvent => slaEvent.event_type === 'nrt'
 );
-
-const frtMiss = allMissedSlas.find(missedSLA => missedSLA.event_type === 'frt');
-
-const rtMiss = allMissedSlas.find(missedSLA => missedSLA.event_type === 'rt');
+const frtMiss = slaMissedEvents.find(slaEvent => slaEvent.event_type === 'frt');
+const rtMiss = slaMissedEvents.find(slaEvent => slaEvent.event_type === 'rt');
 </script>
 <template>
   <div
     class="absolute flex flex-col items-start bg-[#fdfdfd] dark:bg-slate-800 z-50 p-4 border border-solid border-slate-75 dark:border-slate-700 w-[384px] rounded-xl gap-4 max-h-96 overflow-auto"
   >
     <span class="text-sm font-medium text-slate-900 dark:text-slate-200">
-      SLA Misses
+      {{ $t('SLA.EVENTS.TITLE') }}
     </span>
 
     <SLA-event-item
       v-if="frtMiss"
-      label="FRT Misses"
+      :label="$t('SLA.EVENTS.FRT')"
       :created-at="frtMiss.created_at"
     />
 
     <SLA-event-item
       v-for="(missedSLA, index) in nrtMisses"
       :key="missedSLA.id"
-      label="NRT Misses"
+      :label="$t('SLA.EVENTS.NRT')"
       :show-label="index === 0"
       :created-at="frtMiss.created_at"
     />
@@ -145,13 +143,13 @@ const rtMiss = allMissedSlas.find(missedSLA => missedSLA.event_type === 'rt');
         color-scheme="secondary"
         class="hover:!no-underline hover:!bg-transparent dark:hover:!bg-transparent"
       >
-        24 more items
+        {{ $t('SLA.EVENTS.SHOW_MORE', { count: nrtMisses.length }) }}
       </woot-button>
     </div>
 
     <SLA-event-item
       v-if="rtMiss"
-      label="RT Misses"
+      :label="$t('SLA.EVENTS.RT')"
       :created-at="rtMiss.created_at"
     />
   </div>
