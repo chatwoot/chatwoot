@@ -13,6 +13,7 @@ import bulkActions from './modules/bulkActions';
 import campaigns from './modules/campaigns';
 import cannedResponse from './modules/cannedResponse';
 import categories from './modules/helpCenterCategories';
+import chatbot from './modules/chatbot';
 import contactConversations from './modules/contactConversations';
 import contactLabels from './modules/contactLabels';
 import contactNotes from './modules/contactNotes';
@@ -38,6 +39,7 @@ import macros from './modules/macros';
 import notifications from './modules/notifications';
 import portals from './modules/helpCenterPortals';
 import reports from './modules/reports';
+import sla from './modules/sla';
 import teamMembers from './modules/teamMembers';
 import teams from './modules/teams';
 import userNotificationSettings from './modules/userNotificationSettings';
@@ -79,6 +81,7 @@ export default new Vuex.Store({
     campaigns,
     cannedResponse,
     categories,
+    chatbot,
     contactConversations,
     contactLabels,
     contactNotes,
@@ -109,6 +112,7 @@ export default new Vuex.Store({
     userNotificationSettings,
     webhooks,
     draftMessages,
+    sla,
   },
   plugins,
 });

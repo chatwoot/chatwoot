@@ -1,0 +1,51 @@
+{
+  "CHATBOT_SETTINGS": {
+    "CHATBOT": "Sohbet Botu",
+    "BOT_STATUS": "Sohbet Botu Durumu",
+    "NEW_BOT": "Yeni Sohbet Botu",
+    "CONNECT_INBOX": "Gelen Kutusuyla Bağlantı Kur",
+    "LAST_TRAINED_AT": "Son Eğitim Zamanı: ",
+    "CHATBOT_ID": "Sohbet Botu Kimliği: ",
+    "BROWSE_FILES": "Dosyalara Göz At",
+    "UPDATE": "Güncelle",
+    "CHATBOT_INBOX_CONNECT": "Sohbet Botunu Gelen Kutusuyla Bağla",
+    "FILE_TYPES": {
+      "DOC": ".doc",
+      "PDF": ".pdf",
+      "TXT": ".txt"
+    },
+    "UPLOAD": {
+      "FILE": "Dosya",
+      "TEXT": "Metin",
+      "WEBSITE": "Web Sitesi"
+    },
+    "FORM": {
+      "CONNECT_INBOX": "Gelen Kutusuyla Bağlantı Kur",
+      "ADD_URL": "URL Ekle",
+      "NAME": {
+        "LABEL": "Sohbet Botu Adı",
+        "PLACEHOLDER": "Örnek: Sohbet Botu 1"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Sohbet Botu Açıklaması",
+        "PLACEHOLDER": "Bu Sohbet Botu hakkında kısa bir açıklama."
+      },
+      "SUBMIT_CREATE": "Sohbet Botu Oluştur"
+    },
+    "SIDEBAR_TXT": "<p><b>Sohbet Botu Oluştur</b></p> <p>Sohbet Botu, kendi kişisel verilerinizle botunuzu eğitmenizi sağlar. <br /> Kişisel verilerle eğitilen bir bot, yalnızca eğitildiği verilere dayalı olarak sorgulara yanıt verir.</p>",
+    "LIST": {
+      "404": "Bu hesapta oluşturulmuş bir sohbet botu bulunmuyor.",
+      "EDIT_BOT": "Düzenle"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Sil",
+      "CONFIRM": {
+        "TITLE": "Silme İşlemini Onayla",
+        "PLACE_HOLDER": "Lütfen {chatbotName} yazarak onaylayın",
+        "MESSAGE": "Sohbet Botunu silmek, bu botu ve üzerinde eğitildiği verileri kalıcı olarak silecektir.",
+        "YES": "Sil ",
+        "NO": "İptal"
+      }
+    }
+  }
+}

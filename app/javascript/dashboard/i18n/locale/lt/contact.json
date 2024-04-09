@@ -39,10 +39,10 @@
     },
     "MERGE_CONTACT": "Sujungti kontaktą",
     "CONTACT_ACTIONS": "Kontakto veiksmai",
-    "MUTE_CONTACT": "Tildyti pokalbį",
-    "UNMUTE_CONTACT": "Įjungti pokalbio garsą",
-    "MUTED_SUCCESS": "Šis pokalbis nutildytas 6 valandoms",
-    "UNMUTED_SUCCESS": "Įjungtas šio pokalbio garsas",
+    "MUTE_CONTACT": "Užblokuoti kontaktą",
+    "UNMUTE_CONTACT": "Atblokuoti kontaktą",
+    "MUTED_SUCCESS": "Šis kontaktas sėkmingai užblokuotas. Jūs negausite pranešimų apie būsimus pokalbius.",
+    "UNMUTED_SUCCESS": "Šis kontaktas sėkmingai atblokuotas.",
     "SEND_TRANSCRIPT": "Siųsti stenogramą",
     "EDIT_LABEL": "Redaguoti",
     "SIDEBAR_SECTIONS": {
@@ -71,7 +71,7 @@
       "SUBMIT": "Importuoti",
       "CANCEL": "Atšaukti"
     },
-    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "SUCCESS_MESSAGE": "Jūs gausite pranešimą el. paštu, kai importas bus užbaigtas.",
     "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą"
   },
   "EXPORT_CONTACTS": {
@@ -79,7 +79,13 @@
     "TITLE": "Eksportuoti Kontaktus",
     "DESC": "Eksportuoti kontaktus į CSV failą.",
     "SUCCESS_MESSAGE": "Vykdomas eksportavimas. Jums bus pranešta el. paštu, kai eksporto failas bus paruoštas įkelti.",
-    "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą"
+    "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą",
+    "CONFIRM": {
+      "TITLE": "Eksportuoti Kontaktus",
+      "MESSAGE": "Ar esate tikri, kad norite išeksportuoti visus kontaktus?",
+      "YES": "Taip, išeksportuoti",
+      "NO": "Ne, atšaukti"
+    }
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -339,7 +345,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Reikalinga tinkama vertė",
-      "INVALID_URL": "Neteisingas URL"
+      "INVALID_URL": "Neteisingas URL",
+      "INVALID_INPUT": "Neteisinga įvestis"
     }
   },
   "MERGE_CONTACTS": {

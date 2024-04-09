@@ -1,7 +1,7 @@
 module Enterprise::MessageTemplates::HookExecutionService
   def trigger_templates
     super
-    ResponseBotJob.perform_later(conversation) if should_process_response_bot?
+    ResponseBot::ResponseBotJob.perform_later(conversation) if should_process_response_bot?
   end
 
   def should_process_response_bot?

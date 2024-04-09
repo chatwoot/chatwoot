@@ -3,6 +3,15 @@ import { frontendURL } from '../../../../helper/URLHelper';
 
 const primaryMenuItems = accountId => [
   {
+    icon: 'mail-inbox',
+    key: 'inboxView',
+    label: 'INBOX_VIEW',
+    featureFlag: FEATURE_FLAGS.INBOX_VIEW,
+    toState: frontendURL(`accounts/${accountId}/inbox-view`),
+    toStateName: 'inbox_view',
+    roles: ['administrator', 'agent'],
+  },
+  {
     icon: 'chat',
     key: 'conversations',
     label: 'CONVERSATIONS',
@@ -34,7 +43,7 @@ const primaryMenuItems = accountId => [
     label: 'CAMPAIGNS',
     featureFlag: FEATURE_FLAGS.CAMPAIGNS,
     toState: frontendURL(`accounts/${accountId}/campaigns`),
-    toStateName: 'settings_account_campaigns',
+    toStateName: 'ongoing_campaigns',
     roles: ['administrator'],
   },
   {

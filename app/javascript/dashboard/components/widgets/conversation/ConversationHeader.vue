@@ -3,11 +3,10 @@
     class="bg-white dark:bg-slate-900 flex justify-between items-center py-2 px-4 border-b border-slate-50 dark:border-slate-800/50 flex-col md:flex-row"
   >
     <div
-      class="flex-1 w-full min-w-0 flex flex-col md:flex-row items-center justify-center"
+      class="flex-1 w-full min-w-0 flex flex-col items-center justify-center"
+      :class="isInboxView ? 'sm:flex-row' : 'md:flex-row'"
     >
-      <div
-        class="flex justify-start items-center mr-4 rtl:mr-0 rtl:ml-4 min-w-0 w-[inherit]"
-      >
+      <div class="flex justify-start items-center min-w-0 w-fit max-w-full">
         <back-button
           v-if="showBackButton"
           :back-url="backButtonUrl"
@@ -20,9 +19,11 @@
           :status="currentContact.availability_status"
         />
         <div
-          class="items-start flex flex-col ml-2 rtl:ml-0 rtl:mr-2 min-w-0 w-[inherit] overflow-hidden"
+          class="items-start flex flex-col ml-2 rtl:ml-0 rtl:mr-2 min-w-0 w-fit overflow-hidden"
         >
-          <div class="flex items-center flex-row gap-1 m-0 p-0 w-[inherit]">
+          <div
+            class="flex items-center flex-row gap-1 m-0 p-0 w-fit max-w-full"
+          >
             <woot-button
               variant="link"
               color-scheme="secondary"
@@ -30,7 +31,7 @@
               @click.prevent="$emit('contact-panel-toggle')"
             >
               <span
-                class="text-base leading-tight text-slate-900 dark:text-slate-100"
+                class="text-base leading-tight font-medium text-slate-900 dark:text-slate-100"
               >
                 {{ currentContact.name }}
               </span>
@@ -62,11 +63,18 @@
             >
               {{ contactPanelToggleText }}
             </woot-button>
+            <woot-button
+              v-tooltip="$t('CHATBOT_SETTINGS.BOT_STATUS')"
+              icon="chatbot-icon"
+              :color-scheme="botStatus ? 'secondary' : 'alert'"
+              variant="smooth"
+              @click="toggleBotButton"
+            />
           </div>
         </div>
       </div>
       <div
-        class="header-actions-wrap items-center flex flex-row flex-grow justify-end mt-3 lg:mt-0 rtl:relative rtl:left-6"
+        class="header-actions-wrap items-center flex flex-row flex-grow justify-end mt-3 lg:mt-0"
         :class="{ 'justify-end': isContactPanelOpen }"
       >
         <more-actions :conversation-id="currentChat.id" />
@@ -87,7 +95,7 @@ import Thumbnail from '../Thumbnail.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
-import { frontendURL } from 'dashboard/helper/URLHelper';
+import ChatbotAPI from '../../../api/chatbot.js';
 
 export default {
   components: {
@@ -114,6 +122,16 @@ export default {
       type: Boolean,
       default: false,
     },
+    conversationId: {
+      type: Number,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      botStatusMap: {}, // Map to store bot status for each conversation ID
+      showBotIcon: false,
+    };
   },
   computed: {
     ...mapGetters({
@@ -128,9 +146,6 @@ export default {
         params: { accountId, inbox_id: inboxId, label, teamId },
         name,
       } = this.$route;
-      if (this.isInboxView) {
-        return frontendURL(`accounts/${accountId}/inbox`);
-      }
       return conversationListPageURL({
         accountId,
         inboxId,
@@ -176,13 +191,45 @@ export default {
     hasMultipleInboxes() {
       return this.$store.getters['inboxes/getInboxes'].length > 1;
     },
+    botStatus() {
+      return this.botStatusMap[this.conversationId] || false;
+    },
   },
-
+  watch: {
+    // below function takes can take another parameter oldVal
+    async conversationId(newVal) {
+      if (this.currentChat.meta.channel === 'Channel::WebWidget') {
+        this.showBotIcon = true;
+      } else {
+        this.showBotIcon = false;
+      }
+      // This function will be triggered whenever the conversationId prop changes
+      const res = await ChatbotAPI.fetchChatbotStatus(newVal);
+      const status = res.data.status;
+      this.$set(this.botStatusMap, newVal, status);
+    },
+  },
+  async mounted() {
+    if (this.currentChat.meta.channel === 'Channel::WebWidget') {
+      this.showBotIcon = true;
+    } else {
+      this.showBotIcon = false;
+    }
+    const res = await ChatbotAPI.fetchChatbotStatus(this.conversationId);
+    const status = res.data.status;
+    this.$set(this.botStatusMap, this.conversationId, status);
+  },
   methods: {
     handleKeyEvents(e) {
       if (hasPressedAltAndOKey(e)) {
         this.$emit('contact-panel-toggle');
       }
+    },
+    async toggleBotButton() {
+      const payload = new FormData();
+      payload.append('conversation_id', this.conversationId);
+      const res = await ChatbotAPI.toggleChatbotStatus(payload);
+      this.$set(this.botStatusMap, this.conversationId, res.data.status);
     },
   },
 };

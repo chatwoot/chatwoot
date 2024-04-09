@@ -1,0 +1,51 @@
+{
+  "CHATBOT_SETTINGS": {
+    "CHATBOT": "Trợ lý ảo",
+    "BOT_STATUS": "Trạng thái Trợ lý ảo",
+    "NEW_BOT": "Trợ lý ảo mới",
+    "CONNECT_INBOX": "Kết nối Hộp thư đến",
+    "LAST_TRAINED_AT": "Đã huấn luyện lần cuối vào: ",
+    "CHATBOT_ID": "ID của Trợ lý ảo: ",
+    "BROWSE_FILES": "Duyệt tệp",
+    "UPDATE": "Cập nhật",
+    "CHATBOT_INBOX_CONNECT": "Kết nối Trợ lý ảo với Hộp thư đến",
+    "FILE_TYPES": {
+      "DOC": ".doc",
+      "PDF": ".pdf",
+      "TXT": ".txt"
+    },
+    "UPLOAD": {
+      "FILE": "Tệp",
+      "TEXT": "Văn bản",
+      "WEBSITE": "Trang web"
+    },
+    "FORM": {
+      "CONNECT_INBOX": "Kết nối Hộp thư đến",
+      "ADD_URL": "Thêm URL",
+      "NAME": {
+        "LABEL": "Tên Trợ lý ảo",
+        "PLACEHOLDER": "Ví dụ: Trợ lý ảo 1"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Mô tả Trợ lý ảo",
+        "PLACEHOLDER": "Mô tả ngắn về Trợ lý ảo này."
+      },
+      "SUBMIT_CREATE": "Tạo Trợ lý ảo"
+    },
+    "SIDEBAR_TXT": "<p><b>Tạo Trợ lý ảo</b></p> <p>Trợ lý ảo cho phép bạn huấn luyện bot trên dữ liệu cá nhân của bạn. <br /> Một bot được huấn luyện trên dữ liệu cá nhân trả lời các truy vấn chỉ dựa trên dữ liệu mà nó đã được huấn luyện.</p>",
+    "LIST": {
+      "404": "Không có trợ lý ảo nào được tạo trên tài khoản này.",
+      "EDIT_BOT": "Chỉnh sửa"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Xóa",
+      "CONFIRM": {
+        "TITLE": "Xác nhận Xóa",
+        "PLACE_HOLDER": "Vui lòng nhập {chatbotName} để xác nhận",
+        "MESSAGE": "Xóa Trợ lý ảo sẽ xóa vĩnh viễn trợ lý ảo này và dữ liệu mà nó được huấn luyện trên đó.",
+        "YES": "Xóa ",
+        "NO": "Hủy"
+      }
+    }
+  }
+}

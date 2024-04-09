@@ -1,0 +1,51 @@
+{
+  "CHATBOT_SETTINGS": {
+    "CHATBOT": "Pokalbis",
+    "BOT_STATUS": "Pokalbio būsena",
+    "NEW_BOT": "Naujas pokalbis",
+    "CONNECT_INBOX": "Prisijungti prie gautos pašto dėžutės",
+    "LAST_TRAINED_AT": "Paskutinį kartą apmokytas: ",
+    "CHATBOT_ID": "Pokalbio ID: ",
+    "BROWSE_FILES": "Naršyti failus",
+    "UPDATE": "Atnaujinti",
+    "CHATBOT_INBOX_CONNECT": "Prisijungti pokalbį prie gautos pašto dėžutės",
+    "FILE_TYPES": {
+      "DOC": ".doc",
+      "PDF": ".pdf",
+      "TXT": ".txt"
+    },
+    "UPLOAD": {
+      "FILE": "Failas",
+      "TEXT": "Tekstas",
+      "WEBSITE": "Svetainė"
+    },
+    "FORM": {
+      "CONNECT_INBOX": "Prisijungti prie gautos pašto dėžutės",
+      "ADD_URL": "Pridėti URL",
+      "NAME": {
+        "LABEL": "Pokalbio pavadinimas",
+        "PLACEHOLDER": "Pavyzdys: Pokalbis 1"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Pokalbio aprašymas",
+        "PLACEHOLDER": "Trumpas aprašymas apie šį pokalbį."
+      },
+      "SUBMIT_CREATE": "Sukurti pokalbį"
+    },
+    "SIDEBAR_TXT": "<p><b>Sukurti pokalbį</b></p> <p>Pokalbis leidžia jums apmokyti bota naudojant savo asmeninius duomenis. <br /> Botas, apmokytas asmeniniais duomenimis, atsako tik į užklausas, pagrįstas tuo, ką jis buvo apmokytas.</p>",
+    "LIST": {
+      "404": "Šiame paskyre nėra sukurtų pokalbių.",
+      "EDIT_BOT": "Redaguoti"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Ištrinti",
+      "CONFIRM": {
+        "TITLE": "Patvirtinti ištrynimą",
+        "PLACE_HOLDER": "Norėdami patvirtinti, įveskite {chatbotName}",
+        "MESSAGE": "Ištrinant pokalbį, jis bus negrįžtamai ištrintas kartu su jo apmokytomis duomenimis.",
+        "YES": "Ištrinti ",
+        "NO": "Atšaukti"
+      }
+    }
+  }
+}

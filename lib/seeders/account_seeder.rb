@@ -88,7 +88,7 @@ class Seeders::AccountSeeder
   end
 
   def create_conversation(contact_inbox:, conversation_data:)
-    assignee = User.find_by(email: conversation_data['assignee']) if conversation_data['assignee'].present?
+    assignee = User.from_email(conversation_data['assignee']) if conversation_data['assignee'].present?
     conversation = contact_inbox.conversations.create!(account: contact_inbox.inbox.account, contact: contact_inbox.contact,
                                                        inbox: contact_inbox.inbox, assignee: assignee)
     create_messages(conversation: conversation, messages: conversation_data['messages'])
@@ -111,7 +111,7 @@ class Seeders::AccountSeeder
     if message_data['message_type'] == 'incoming'
       conversation.contact
     elsif message_data['sender'].present?
-      User.find_by(email: message_data['sender'])
+      User.from_email(message_data['sender'])
     end
   end
 
