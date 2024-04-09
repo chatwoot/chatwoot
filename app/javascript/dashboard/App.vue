@@ -99,15 +99,6 @@ export default {
       }
     },
   },
-  beforeMount() {
-    checkKeycloakSession(this.currentUser).then(res => {
-      if (res.message === 'Session expired. Please log in again.') {
-        Auth.logout();
-      } else if (res.message === 'No Session Info.') {
-        Auth.logout();
-      }
-    });
-  },
   async mounted() {
     this.initializeColorTheme();
     this.listenToThemeChanges();
@@ -144,6 +135,14 @@ export default {
           }
         })
       );
+
+      checkKeycloakSession(this.currentUser).then(res => {
+        if (res.message === 'Session expired. Please log in again.') {
+          Auth.logout();
+        } else if (res.message === 'No Session Info.') {
+          Auth.logout();
+        }
+      });
     },
   },
 };
