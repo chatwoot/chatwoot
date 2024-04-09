@@ -65,7 +65,7 @@
     },
     "ADD": {
       "TITLE": "Añadir SLA",
-      "DESC": "SLA: ¡Promesas amistosas para un gran servicio!",
+      "DESC": "Friendly promises for great service!",
       "API": {
         "SUCCESS_MESSAGE": "SLA añadido correctamente",
         "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
