@@ -224,7 +224,7 @@ export default {
       const realm = window.chatwootConfig.keycloakRealm;
       const clientId = window.chatwootConfig.keycloakClientId;
       const redirectUri = window.chatwootConfig.keycloakCallbackUrl;
-      const keycloakUri = window.chatwootConfig.keyclaokUrl;
+      const keycloakUri = window.chatwootConfig.keycloakUrl;
       const baseUrl = `${keycloakUri}/realms/${realm}/protocol/openid-connect/auth`;
       const responseType = 'code';
       const scope = 'openid';
