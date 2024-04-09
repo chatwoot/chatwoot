@@ -1,5 +1,5 @@
 <script setup>
-import { format, fromUnixTime } from 'date-fns';
+import SLAEventItem from './SLAEventItem.vue';
 
 const allMissedSlas = [
   {
@@ -44,7 +44,7 @@ const allMissedSlas = [
     created_at: 1712645713,
   },
   {
-    id: 69,
+    id: 70,
     event_type: 'nrt',
     meta: {
       message_id: 962,
@@ -53,7 +53,7 @@ const allMissedSlas = [
     created_at: 1712645713,
   },
   {
-    id: 69,
+    id: 71,
     event_type: 'nrt',
     meta: {
       message_id: 962,
@@ -62,7 +62,7 @@ const allMissedSlas = [
     created_at: 1712645713,
   },
   {
-    id: 69,
+    id: 72,
     event_type: 'nrt',
     meta: {
       message_id: 962,
@@ -71,25 +71,7 @@ const allMissedSlas = [
     created_at: 1712645713,
   },
   {
-    id: 69,
-    event_type: 'nrt',
-    meta: {
-      message_id: 962,
-    },
-    updated_at: 1712645713,
-    created_at: 1712645713,
-  },
-  {
-    id: 69,
-    event_type: 'nrt',
-    meta: {
-      message_id: 962,
-    },
-    updated_at: 1712645713,
-    created_at: 1712645713,
-  },
-  {
-    id: 69,
+    id: 73,
     event_type: 'nrt',
     meta: {
       message_id: 962,
@@ -106,9 +88,6 @@ const nrtMisses = allMissedSlas.filter(
 const frtMiss = allMissedSlas.find(missedSLA => missedSLA.event_type === 'frt');
 
 const rtMiss = allMissedSlas.find(missedSLA => missedSLA.event_type === 'rt');
-
-const formatDate = timestamp =>
-  format(fromUnixTime(timestamp), 'MMM dd, yyyy, hh:mm a');
 </script>
 <template>
   <div
@@ -120,51 +99,24 @@ const formatDate = timestamp =>
       SLA Misses
     </span>
 
-    <div v-if="frtMiss" class="flex items-center justify-between w-full">
-      <span
-        class="text-sm font-normal tracking-[-0.6%] w-[140px] truncate text-slate-500 dark:text-slate-50"
-      >
-        FRT Misses
-      </span>
-      <span
-        class="text-sm font-normal tracking-[-0.6%] text-slate-900 dark:text-slate-50"
-      >
-        {{ formatDate(frtMiss.created_at) }}
-      </span>
-    </div>
-    <div
+    <SLA-event-item
+      v-if="frtMiss"
+      label="FRT Misses"
+      :created-at="frtMiss.created_at"
+    />
+
+    <SLA-event-item
       v-for="(missedSLA, index) in nrtMisses"
       :key="missedSLA.id"
-      class="flex items-center justify-between w-full"
-    >
-      <div class="w-1/2">
-        <span
-          v-if="index === 0"
-          class="text-sm font-normal tracking-[-0.6%] w-[140px] truncate text-slate-500 dark:text-slate-50"
-        >
-          NRT Misses
-        </span>
-      </div>
-      <div class="w-1/2 text-right">
-        <span
-          class="text-sm font-normal tracking-[-0.6%] text-slate-900 dark:text-slate-50"
-        >
-          {{ formatDate(missedSLA.created_at) }}
-        </span>
-      </div>
-    </div>
+      label="NRT Misses"
+      :show-label="index === 0"
+      :created-at="frtMiss.created_at"
+    />
 
-    <div v-if="rtMiss" class="flex items-center justify-between w-full">
-      <span
-        class="text-sm font-normal tracking-[-0.6%] w-[140px] truncate text-slate-500 dark:text-slate-50"
-      >
-        RT Misses
-      </span>
-      <span
-        class="text-sm font-normal tracking-[-0.6%] text-slate-900 dark:text-slate-50"
-      >
-        {{ formatDate(rtMiss.created_at) }}
-      </span>
-    </div>
+    <SLA-event-item
+      v-if="rtMiss"
+      label="RT Misses"
+      :created-at="rtMiss.created_at"
+    />
   </div>
 </template>
