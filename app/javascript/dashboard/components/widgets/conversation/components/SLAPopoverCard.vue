@@ -12,18 +12,20 @@ const props = defineProps({
     required: true,
   },
 });
-const showAllNRT = ref(false);
 
-const nrtMisses = computed(() =>
-  props.slaMissedEvents.filter(
-    slaEvent => slaEvent.event_type === SLA_MISS_TYPES.NRT
-  )
-);
+const shouldShowAllNrts = ref(false);
+
 const frtMisses = computed(() =>
   props.slaMissedEvents.filter(
     slaEvent => slaEvent.event_type === SLA_MISS_TYPES.FRT
   )
 );
+const nrtMisses = computed(() => {
+  const missedEvents = props.slaMissedEvents.filter(
+    slaEvent => slaEvent.event_type === SLA_MISS_TYPES.NRT
+  );
+  return shouldShowAllNrts.value ? missedEvents : missedEvents.slice(0, 6);
+});
 const rtMisses = computed(() =>
   props.slaMissedEvents.filter(
     slaEvent => slaEvent.event_type === SLA_MISS_TYPES.RT
@@ -32,7 +34,7 @@ const rtMisses = computed(() =>
 
 const shouldShowMoreNRTButton = computed(() => nrtMisses.value.length > 6);
 const toggleShowAllNRT = () => {
-  showAllNRT.value = !showAllNRT.value;
+  shouldShowAllNrts.value = !shouldShowAllNrts.value;
 };
 </script>
 <template>
@@ -43,14 +45,14 @@ const toggleShowAllNRT = () => {
       {{ $t('SLA.EVENTS.TITLE') }}
     </span>
     <SLA-event-item
-      v-if="frtMisses.length"
+      v-if="frtMisses"
       :label="$t('SLA.EVENTS.FRT')"
       :items="frtMisses"
     />
     <SLA-event-item
-      v-if="nrtMisses.length"
+      v-if="nrtMisses"
       :label="$t('SLA.EVENTS.NRT')"
-      :items="showAllNRT ? nrtMisses : nrtMisses.slice(0, 6)"
+      :items="nrtMisses"
     >
       <template #showMore>
         <div
@@ -59,14 +61,14 @@ const toggleShowAllNRT = () => {
         >
           <woot-button
             size="small"
-            :icon="!showAllNRT ? 'plus-sign' : ''"
+            :icon="!shouldShowAllNrts ? 'plus-sign' : ''"
             variant="link"
             color-scheme="secondary"
             class="hover:!no-underline !gap-1 hover:!bg-transparent dark:hover:!bg-transparent"
             @click="toggleShowAllNRT"
           >
             {{
-              showAllNRT
+              shouldShowAllNrts
                 ? $t('SLA.EVENTS.HIDE', { count: nrtMisses.length })
                 : $t('SLA.EVENTS.SHOW_MORE', { count: nrtMisses.length })
             }}
@@ -75,7 +77,7 @@ const toggleShowAllNRT = () => {
       </template>
     </SLA-event-item>
     <SLA-event-item
-      v-if="rtMisses.length"
+      v-if="rtMisses"
       :label="$t('SLA.EVENTS.RT')"
       :items="rtMisses"
     />
