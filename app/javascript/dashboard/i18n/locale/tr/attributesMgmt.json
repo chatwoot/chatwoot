@@ -39,6 +39,17 @@
           "PLACEHOLDER": "Özel nitelik anahtarını girin",
           "ERROR": "Anahtar gerekli",
           "IN_VALID": "Geçersiz anahtar"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Düzenli İfade",
+          "PLACEHOLDER": "Lütfen özel nitelikli düzenli deseni giriniz. (İsteğe bağlı)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Düzenli ifade ipucu",
+          "PLACEHOLDER": "Lütfen düzenli ifade ipucunu girin (İsteğe bağlı)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Düzenli ifade doğrulamasını aç"
         }
       },
       "API": {
@@ -93,6 +104,17 @@
       "EMPTY_RESULT": {
         "404": "Oluşturulmuş özel nitelik yok",
         "NOT_FOUND": "Yapılandırılmış özel nitelikler yok"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Düzenli İfade",
+        "PLACEHOLDER": "Lütfen özel nitelikli düzenli deseni giriniz. (İsteğe bağlı)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Düzenli ifade ipucu",
+        "PLACEHOLDER": "Lütfen düzenli ifade ipucunu girin (İsteğe bağlı)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Düzenli ifade doğrulamasını aç"
       }
     }
   }

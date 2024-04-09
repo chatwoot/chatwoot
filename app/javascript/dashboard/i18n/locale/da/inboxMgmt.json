@@ -569,7 +569,7 @@
       "UPDATE": "Opdater indstillinger for åbningstider",
       "TOGGLE_AVAILABILITY": "Aktiver forretningstilgængelighed for denne indbakke",
       "UNAVAILABLE_MESSAGE_LABEL": "Utilgængelig besked til besøgende",
-      "TOGGLE_HELP": "Aktivering af forretningstilgængelighed vil vise de tilgængelige timer på live chat widget, selvom alle agenter er offline. Udenfor tilgængelige timer kan livreddere advares med en besked og en pre-chat formular.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Aktiver tilgængelighed for denne dag",
         "UNAVAILABLE": "Unavailable",

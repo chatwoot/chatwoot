@@ -372,9 +372,9 @@ RSpec.describe Conversation do
       expect(conversation.reload.resolved?).to be(true)
     end
 
-    it 'marks conversation as muted in redis' do
+    it 'blocks the contact' do
       mute!
-      expect(Redis::Alfred.get(conversation.send(:mute_key))).not_to be_nil
+      expect(conversation.reload.contact.blocked?).to be(true)
     end
 
     it 'creates mute message' do
@@ -400,10 +400,9 @@ RSpec.describe Conversation do
       expect { unmute! }.not_to(change { conversation.reload.status })
     end
 
-    it 'marks conversation as muted in redis' do
-      expect { unmute! }
-        .to change { Redis::Alfred.get(conversation.send(:mute_key)) }
-        .to nil
+    it 'unblocks the contact' do
+      unmute!
+      expect(conversation.reload.contact.blocked?).to be(false)
     end
 
     it 'creates unmute message' do
@@ -546,6 +545,17 @@ RSpec.describe Conversation do
 
     it 'returns push event payload' do
       expect(push_event_data).to eq(expected_data)
+    end
+  end
+
+  describe 'when conversation is created by blocked contact' do
+    let(:account) { create(:account) }
+    let(:blocked_contact) { create(:contact, account: account, blocked: true) }
+    let(:inbox) { create(:inbox, account: account) }
+
+    it 'creates conversation in resolved state' do
+      conversation = create(:conversation, account: account, contact: blocked_contact, inbox: inbox)
+      expect(conversation.status).to eq('resolved')
     end
   end
 

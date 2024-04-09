@@ -94,7 +94,6 @@
   patch:
     $ref: ./public/inboxes/contacts/update.yml
 
-
 /public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations:
   parameters:
     - $ref: '#/parameters/public_inbox_identifier'
@@ -103,6 +102,38 @@
     $ref: ./public/inboxes/conversations/create.yml
   get:
     $ref: ./public/inboxes/conversations/index.yml
+
+/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}:
+  parameters:
+    - $ref: '#/parameters/public_inbox_identifier'
+    - $ref: '#/parameters/public_contact_identifier'
+    - $ref: '#/parameters/conversation_id'
+  get:
+    $ref: ./public/inboxes/conversations/show.yml
+
+/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/toggle_status:
+  parameters:
+    - $ref: '#/parameters/public_inbox_identifier'
+    - $ref: '#/parameters/public_contact_identifier'
+    - $ref: '#/parameters/conversation_id'
+  post:
+    $ref: ./public/inboxes/conversations/toggle_status.yml
+
+/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/toggle_typing:
+  parameters:
+    - $ref: '#/parameters/public_inbox_identifier'
+    - $ref: '#/parameters/public_contact_identifier'
+    - $ref: '#/parameters/conversation_id'
+  post:
+    $ref: ./public/inboxes/conversations/toggle_typing.yml
+
+/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/update_last_seen:
+  parameters:
+    - $ref: '#/parameters/public_inbox_identifier'
+    - $ref: '#/parameters/public_contact_identifier'
+    - $ref: '#/parameters/conversation_id'
+  post:
+    $ref: ./public/inboxes/conversations/update_last_seen.yml
 
 /public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/messages:
   parameters:
@@ -308,6 +339,8 @@
     - $ref: '#/parameters/conversation_id'
   get:
     $ref: ./application/conversation/show.yml
+  patch:
+    $ref: ./application/conversation/update.yml
 /api/v1/accounts/{account_id}/conversations/{conversation_id}/toggle_status:
   parameters:
     - $ref: '#/parameters/account_id'

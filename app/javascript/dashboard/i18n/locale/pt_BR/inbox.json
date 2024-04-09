@@ -1,0 +1,60 @@
+{
+  "INBOX": {
+    "LIST": {
+      "TITLE": "Caixa de Entrada",
+      "DISPLAY_DROPDOWN": "Exibir",
+      "LOADING": "Carregando notificações",
+      "EOF": "Todas as notificações carregadas 🎉",
+      "404": "Não há conversas ativas neste grupo.",
+      "NO_NOTIFICATIONS": "Nenhuma notificação",
+      "NOTE": "Notificações de todas as caixas inscritas",
+      "SNOOZED_UNTIL": "Suspender até",
+      "SNOOZED_UNTIL_TOMORROW": "Adiado até amanhã",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Adiada até a próxima semana"
+    },
+    "ACTION_HEADER": {
+      "SNOOZE": "Adiar notificação",
+      "DELETE": "Excluir notificação"
+    },
+    "TYPES": {
+      "CONVERSATION_MENTION": "Você foi mencionado em uma conversa",
+      "CONVERSATION_CREATION": "Nova conversa criada",
+      "CONVERSATION_ASSIGNMENT": "Uma conversa foi atribuída a você",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nova mensagem em uma conversa atribuída",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Nova mensagem em uma conversa na qual você participa"
+    },
+    "MENU_ITEM": {
+      "MARK_AS_READ": "Marcar como lido",
+      "MARK_AS_UNREAD": "Marcar como não lida",
+      "SNOOZE": "Adiar",
+      "DELETE": "Excluir",
+      "MARK_ALL_READ": "Marcar todas como lidas",
+      "DELETE_ALL": "Excluir todos",
+      "DELETE_ALL_READ": "Excluir todos os lidos"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Ordenar",
+      "DISPLAY": "Exibir :",
+      "SORT_OPTIONS": {
+        "NEWEST": "Mais recente",
+        "OLDEST": "Mais antigo",
+        "PRIORITY": "Prioridade"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "Adiado",
+        "READ": "Lida",
+        "LABELS": "Marcadores",
+        "CONVERSATION_ID": "Conversas"
+      }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "Notificação marcada como lida",
+      "MARK_AS_UNREAD": "Notificação marcada como não lida",
+      "SNOOZE": "Notificação adiada",
+      "DELETE": "Notificação excluída",
+      "MARK_ALL_READ": "Todas as notificações marcadas como lidas",
+      "DELETE_ALL": "Todas as notificações excluídas",
+      "DELETE_ALL_READ": "Todas as notificações lidas foram excluídas"
+    }
+  }
+}
