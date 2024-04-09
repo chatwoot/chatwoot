@@ -244,6 +244,7 @@
     "CAMPAIGNS": "Kampagnen",
     "ONGOING": "Im Gange",
     "ONE_OFF": "Einmalig",
+    "REPORTS_SLA": "SLA",
     "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Agenten",
     "REPORTS_LABEL": "Labels",
