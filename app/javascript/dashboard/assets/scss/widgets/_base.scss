@@ -63,12 +63,12 @@ input:focus {
 }
 
 // Inputs
-input[type='text'],
-input[type='number'],
-input[type='password'],
-input[type='date'],
-input[type='email'],
-input[type='url'] {
+input[type='text']:not(.reset-base),
+input[type='number']:not(.reset-base),
+input[type='password']:not(.reset-base),
+input[type='date']:not(.reset-base),
+input[type='email']:not(.reset-base),
+input[type='url']:not(.reset-base) {
   @apply block box-border w-full transition-colors focus:border-woot-500 dark:focus:border-woot-600 duration-[0.25s] ease-[ease-in-out] h-10 appearance-none mx-0 mt-0 mb-4 p-2 rounded-md text-base font-normal bg-white dark:bg-slate-900 focus:bg-white focus:dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-solid border-slate-200 dark:border-slate-600;
 
   &[disabled] {
