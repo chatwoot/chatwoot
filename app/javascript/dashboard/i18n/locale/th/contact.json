@@ -296,6 +296,8 @@
     "BUTTON": "เพิ่มแอตทริบิวต์เเบบกำหนดเอง",
     "NOT_AVAILABLE": "ไม่มีแอตทริบิวต์ที่กำหนดเองสำหรับผู้ติดต่อรายนี้",
     "COPY_SUCCESSFUL": "คัดลอกไปยังคริปบอร์ดเเล้ว",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "คัดลอกแอตทริบิวต์",
       "DELETE": "ลบแอตทริบิวต์",
