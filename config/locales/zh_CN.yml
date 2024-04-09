@@ -147,6 +147,8 @@ zh_CN:
       ways_to_reach_you_message_body: "给团队一个联系您的方法。"
       email_input_box_message_body: "通过电子邮件得到通知"
       csat_input_message_body: "请为会话评分"
+      bot_entered_chat: "机器人已进入聊天"
+      long_message_issue: "输入字符过多，请缩短消息"
     reply:
       email:
         header:

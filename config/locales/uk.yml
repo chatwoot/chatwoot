@@ -147,6 +147,8 @@ uk:
       ways_to_reach_you_message_body: "Дайте команді можливість з вами зв'язатися."
       email_input_box_message_body: "Отримувати сповіщення електронною поштою"
       csat_input_message_body: "Будь ласка, оцініть розмову"
+      bot_entered_chat: "Бот увійшов у чат"
+      long_message_issue: "Занадто багато символів введено, будь ласка, скоротіть повідомлення"
     reply:
       email:
         header:

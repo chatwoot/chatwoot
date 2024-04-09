@@ -147,6 +147,8 @@ tr:
       ways_to_reach_you_message_body: "Ekibin size ulaşması için bir bilgi verin."
       email_input_box_message_body: "E-posta ile haberdar olun"
       csat_input_message_body: "Lütfen görüşmeyi değerlendirin"
+      bot_entered_chat: "Bot sohbete katıldı"
+      long_message_issue: "Çok fazla giriş karakteri, lütfen mesajı kısaltın"
     reply:
       email:
         header:

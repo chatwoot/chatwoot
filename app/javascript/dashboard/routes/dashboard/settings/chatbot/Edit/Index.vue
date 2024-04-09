@@ -1,7 +1,12 @@
 <template>
   <div class="overflow-auto p-4 max-w-full my-auto flex flex-wrap h-full">
     <div class="mx-0 flex flex-wrap">
-      <back-button class="absolute top-[17px] left-[420px]" />
+      <template v-if="isHamburgerMenuOpen">
+        <back-button class="absolute top-[17px] left-[420px]" />
+      </template>
+      <template v-else>
+        <back-button class="absolute top-[17px] left-[240px]" />
+      </template>
       <div class="flex-shrink-0 flex-grow-0 w-[65%]">
         <form class="mx-0 flex flex-wrap" @submit.prevent="handleSubmit">
           <woot-input
@@ -45,6 +50,12 @@
               <h6>
                 {{ $t('CHATBOT_SETTINGS.LAST_TRAINED_AT') }}
                 {{ last_trained_at }}
+              </h6>
+            </div>
+            <div class="w-full">
+              <h6>
+                {{ $t('CHATBOT_SETTINGS.CONNECTED_INBOX') }}
+                {{ connectedInbox }}
               </h6>
             </div>
           </div>
@@ -125,6 +136,9 @@ export default {
       showToast: false,
       toastMessage: '',
       inbox_id: '',
+      connectedInbox: null,
+      updatedInboxName: '',
+      isHamburgerMenuOpen: true,
     };
   },
   computed: {
@@ -132,6 +146,7 @@ export default {
       currentAccountId: 'getCurrentAccountId',
       inboxesList: 'inboxes/getInboxes',
     }),
+    ...mapGetters({ uiSettings: 'getUISettings' }),
     filteredInboxes() {
       return this.inboxesList.filter(
         inbox => inbox.channel_type === 'Channel::WebWidget'
@@ -142,12 +157,24 @@ export default {
   watch: {
     $route(to) {
       this.fetchChatbotData(to.params.chatbotId);
+      this.connectedInbox = this.getChatbotName(this.chatbot_id);
     },
+    'uiSettings.show_secondary_sidebar': function (newVal) {
+      this.isHamburgerMenuOpen = newVal;
+    },
+  },
+  created() {
+    this.isHamburgerMenuOpen = this.uiSettings.show_secondary_sidebar;
   },
   async mounted() {
     this.fetchChatbotData(this.$route.params.chatbotId);
+    this.connectedInbox = this.getChatbotName(this.chatbot_id);
   },
   methods: {
+    async getChatbotName(chatbot_id) {
+      const res = await ChatbotAPI.ChatbotIdToChatbotName(chatbot_id);
+      this.connectedInbox = res.data.name;
+    },
     fetchChatbotData(data) {
       if (data) {
         const [chatbotID, lastTrainedAt] = data.split('@');
@@ -189,6 +216,7 @@ export default {
         this.isButtonActive = true;
         this.website_token = selectedInboxData.website_token;
         this.inbox_id = selectedInboxData.id;
+        this.updatedInboxName = selectedInboxData.name;
       }
     },
     resetData() {
@@ -215,6 +243,7 @@ export default {
         payload.append('new_bot_name', new_bot_name);
         payload.append('website_token', this.website_token);
         payload.append('inbox_id', this.inbox_id);
+        payload.append('inbox_name', this.updatedInboxName);
         this.submitInProgress = true;
         try {
           const res = await ChatbotAPI.editBotInfo(payload);

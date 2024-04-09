@@ -2,6 +2,9 @@
   "CHATBOT_SETTINGS": {
     "CHATBOT": "챗봇",
     "BOT_STATUS": "챗봇 상태",
+    "BOT_STATUS_ACTIVE": "챗봇 활성화됨",
+    "BOT_STATUS_INACTIVE": "챗봇 비활성화됨",
+    "CONNECTED_INBOX": "연결된 받은 편지함: ",
     "NEW_BOT": "새로운 챗봇",
     "CONNECT_INBOX": "인박스 연결",
     "LAST_TRAINED_AT": "마지막 훈련 시간: ",

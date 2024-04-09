@@ -2,6 +2,9 @@
   "CHATBOT_SETTINGS": {
     "CHATBOT": "Чатбот",
     "BOT_STATUS": "Статус чатбота",
+    "BOT_STATUS_ACTIVE": "Активный чатбот",
+    "BOT_STATUS_INACTIVE": "Неактивный чатбот",
+    "CONNECTED_INBOX": "Подключенный почтовый ящик:",
     "NEW_BOT": "Новый чатбот",
     "CONNECT_INBOX": "Подключить к почте",
     "LAST_TRAINED_AT": "Последний тренировочный сеанс: ",

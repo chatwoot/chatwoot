@@ -1,7 +1,14 @@
 <template>
   <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%]">
-    <h2>{{ $t('CHATBOT_SETTINGS.CHATBOT_INBOX_CONNECT') }}</h2>
-    <back-button class="absolute top-[17px] left-[420px]" />
+    <br />
+    <h1>{{ $t('CHATBOT_SETTINGS.CHATBOT_INBOX_CONNECT') }}</h1>
+    <br />
+    <template v-if="isHamburgerMenuOpen">
+      <back-button class="absolute top-[17px] left-[420px]" />
+    </template>
+    <template v-else>
+      <back-button class="absolute top-[17px] left-[240px]" />
+    </template>
     <div class="inbox-dropdown-container">
       <div class="custom-select">
         <select
@@ -66,11 +73,13 @@ export default {
       showToast: false,
       toastMessage: '',
       inbox_id: '',
+      inbox_name: '',
       showBlueBanner: false,
       showRedBanner: false,
       userDismissedBlueBanner: false,
       userDismissedRedBanner: false,
       chatbot_id: '',
+      isHamburgerMenuOpen: true,
     };
   },
   computed: {
@@ -81,6 +90,7 @@ export default {
       botText: 'chatbot/getBotText',
       botUrls: 'chatbot/getBotUrls',
     }),
+    ...mapGetters({ uiSettings: 'getUISettings' }),
     filteredInboxes() {
       return this.inboxesList.filter(
         inbox => inbox.channel_type === 'Channel::WebWidget'
@@ -92,6 +102,14 @@ export default {
     redBannerMessage() {
       return this.$t('GENERAL_SETTINGS.BANNER_CHATBOT_FAIL');
     },
+  },
+  watch: {
+    'uiSettings.show_secondary_sidebar': function (newVal) {
+      this.isHamburgerMenuOpen = newVal;
+    },
+  },
+  created() {
+    this.isHamburgerMenuOpen = this.uiSettings.show_secondary_sidebar;
   },
   methods: {
     ...mapActions('chatbot', [
@@ -108,6 +126,7 @@ export default {
         payload.append('accountId', this.currentAccountId);
         payload.append('website_token', this.website_token);
         payload.append('inbox_id', this.inbox_id);
+        payload.append('inbox_name', this.inbox_name);
         const res = await ChatbotAPI.storeToDb(payload);
         const formData = new FormData();
         formData.append('bot_text', this.botText);
@@ -144,6 +163,7 @@ export default {
           inbox => inbox.id === this.selectedInbox
         );
         this.isButtonActive = true;
+        this.inbox_name = selectedInboxData.name;
         this.website_token = selectedInboxData.website_token;
         this.inbox_id = selectedInboxData.id;
       } else {
@@ -162,8 +182,14 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  font-size: x-large;
+}
+
 .inbox-dropdown-container {
-  margin-bottom: 20px;
+  margin-bottom: 100%; /* Adjust the margin as needed */
+  max-height: 35vh; /* Limit the maximum height of the container */
+  overflow-y: auto; /* Enable vertical scrolling if content overflows */
 }
 
 .custom-select {

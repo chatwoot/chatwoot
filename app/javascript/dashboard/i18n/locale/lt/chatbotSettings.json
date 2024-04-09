@@ -2,6 +2,9 @@
   "CHATBOT_SETTINGS": {
     "CHATBOT": "Pokalbis",
     "BOT_STATUS": "Pokalbio būsena",
+    "BOT_STATUS_ACTIVE": "Aktyvus pokalbių robotas",
+    "BOT_STATUS_INACTIVE": "Neaktyvus pokalbių robotas",
+    "CONNECTED_INBOX": "Prijungtas pašto dėžutė: ",
     "NEW_BOT": "Naujas pokalbis",
     "CONNECT_INBOX": "Prisijungti prie gautos pašto dėžutės",
     "LAST_TRAINED_AT": "Paskutinį kartą apmokytas: ",

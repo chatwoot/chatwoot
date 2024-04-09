@@ -2,6 +2,9 @@
   "CHATBOT_SETTINGS": {
     "CHATBOT": "聊天机器人",
     "BOT_STATUS": "聊天机器人状态",
+    "BOT_STATUS_ACTIVE": "聊天机器人活跃",
+    "BOT_STATUS_INACTIVE": "聊天机器人不活跃",
+    "CONNECTED_INBOX": "已连接收件箱：",
     "NEW_BOT": "新建聊天机器人",
     "CONNECT_INBOX": "连接收件箱",
     "LAST_TRAINED_AT": "上次训练时间：",

@@ -2,6 +2,9 @@
   "CHATBOT_SETTINGS": {
     "CHATBOT": "Trợ lý ảo",
     "BOT_STATUS": "Trạng thái Trợ lý ảo",
+    "BOT_STATUS_ACTIVE": "Chatbot Đang Hoạt Động",
+    "BOT_STATUS_INACTIVE": "Chatbot Không Hoạt Động",
+    "CONNECTED_INBOX": "Hộp Thư Đã Kết Nối: ",
     "NEW_BOT": "Trợ lý ảo mới",
     "CONNECT_INBOX": "Kết nối Hộp thư đến",
     "LAST_TRAINED_AT": "Đã huấn luyện lần cuối vào: ",

@@ -2,6 +2,9 @@
   "CHATBOT_SETTINGS": {
     "CHATBOT": "Chattbot",
     "BOT_STATUS": "Chattbotstatus",
+    "BOT_STATUS_ACTIVE": "Aktiv Chatbot",
+    "BOT_STATUS_INACTIVE": "Inaktiv Chatbot",
+    "CONNECTED_INBOX": "Ansluten Inkorg:",
     "NEW_BOT": "Ny Chattbot",
     "CONNECT_INBOX": "Anslut Inkorg",
     "LAST_TRAINED_AT": "Senast tränad vid: ",

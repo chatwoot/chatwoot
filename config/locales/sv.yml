@@ -147,6 +147,8 @@ sv:
       ways_to_reach_you_message_body: "Ge teamet ett sätt att nå dig."
       email_input_box_message_body: "Få meddelande via e-post"
       csat_input_message_body: "Please rate the conversation"
+      bot_entered_chat: "Bot har anslutit sig till chatten"
+      long_message_issue: "För många inmatningstecken, vänligen förkorta meddelandet"
     reply:
       email:
         header:

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="outer-div">
     <form class="file-upload-form">
       <label for="file" class="file-upload-label">
         <div class="file-upload-design">
@@ -45,6 +45,11 @@ export default {
 </script>
 
 <style scoped>
+.outer-div {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+}
+
 .file-upload-form {
   width: fit-content;
   height: fit-content;
@@ -68,7 +73,7 @@ export default {
   border: 2px dashed rgb(82, 82, 82);
   box-shadow: 0px 0px 200px -50px rgba(0, 0, 0, 0.719);
   justify-content: center;
-  margin-left: 150%;
+  margin-left: 60%;
 }
 .file-upload-design {
   display: flex;

@@ -2,6 +2,9 @@
   "CHATBOT_SETTINGS": {
     "CHATBOT": "Chatbot",
     "BOT_STATUS": "Stav chatbota",
+    "BOT_STATUS_ACTIVE": "Aktívny chatbot",
+    "BOT_STATUS_INACTIVE": "Neaktívny chatbot",
+    "CONNECTED_INBOX": "Pripojená doručená pošta:",
     "NEW_BOT": "Nový chatbot",
     "CONNECT_INBOX": "Pripojiť Inbox",
     "LAST_TRAINED_AT": "Posledné trénované na: ",

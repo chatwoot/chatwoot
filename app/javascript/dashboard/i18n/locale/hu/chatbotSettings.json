@@ -2,6 +2,9 @@
   "CHATBOT_SETTINGS": {
     "CHATBOT": "Chatbot",
     "BOT_STATUS": "Chatbot Állapot",
+    "BOT_STATUS_ACTIVE": "Aktív Chatbot",
+    "BOT_STATUS_INACTIVE": "Inaktív Chatbot",
+    "CONNECTED_INBOX": "Csatlakoztatott Beérkező: ",
     "NEW_BOT": "Új Chatbot",
     "CONNECT_INBOX": "Csatlakozás a Beérkező Levelekhez",
     "LAST_TRAINED_AT": "Utoljára Képzett: ",

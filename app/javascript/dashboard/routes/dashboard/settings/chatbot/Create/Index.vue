@@ -4,9 +4,14 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
       rel="stylesheet"
     />
-    <back-button class="absolute top-[17px] left-[420px]" />
+    <template v-if="isHamburgerMenuOpen">
+      <back-button class="absolute top-[17px] left-[420px]" />
+    </template>
+    <template v-else>
+      <back-button class="absolute top-[17px] left-[240px]" />
+    </template>
     <!-- sidebar icons -->
-    <div class="sidebar">
+    <div class="sidebar" :class="{ 'hamburger-open': isHamburgerMenuOpen }">
       <div
         class="icon"
         :class="{ active: showFileUploader }"
@@ -44,7 +49,7 @@
       </div>
     </div>
     <!-- content: [file , text, website] -->
-    <div class="content">
+    <div class="content" :class="{ 'hamburger-open': isHamburgerMenuOpen }">
       <!-- file uploader component -->
       <div v-if="showFileUploader" class="uploader">
         <file-uploader />
@@ -135,12 +140,14 @@ export default {
       websiteInput: '',
       isTextInputFocused: false,
       isLoading: false,
+      isHamburgerMenuOpen: false,
     };
   },
   computed: {
     ...mapState({
       botText: state => state.chatbot.botText,
     }),
+    ...mapGetters({ uiSettings: 'getUISettings' }),
     ...mapGetters('chatbot', ['getBotFiles', 'getBotUrls']),
     botFiles() {
       return this.getBotFiles;
@@ -149,8 +156,14 @@ export default {
       return this.getBotUrls;
     },
   },
+  watch: {
+    'uiSettings.show_secondary_sidebar': function (newVal) {
+      this.isHamburgerMenuOpen = newVal;
+    },
+  },
   created() {
     this.showFileUploader = true;
+    this.isHamburgerMenuOpen = this.uiSettings.show_secondary_sidebar;
   },
   methods: {
     ...mapActions('chatbot', [
@@ -181,8 +194,6 @@ export default {
       if (websiteUrl) {
         this.addBotUrl(websiteUrl);
         this.websiteInput = '';
-      } else {
-        console.error('Empty website URL');
       }
     },
     setText() {
@@ -200,10 +211,12 @@ export default {
 </script>
 
 <style scoped>
-.content,
-.sidebar {
-  margin-top: -65%;
-}
+/* .sidebar,
+.content {
+  margin-top: -60%;
+  display: flex;
+} */
+
 .file-item,
 .url-item {
   display: flex;
@@ -243,18 +256,21 @@ input {
 }
 
 .button {
-  border: none;
-  display: flex;
-  padding: 0.75rem 1.5rem;
+  justify-content: center;
   background-color: #488aec;
+  margin-left: -150%;
+  display: flex;
   color: #ffffff;
+  text-transform: uppercase;
+  text-align: center;
+  vertical-align: middle;
+  align-items: center;
+  width: auto;
+  border: none;
+  padding: 0.75rem 1.5rem;
   font-size: 0.75rem;
   line-height: 1rem;
   font-weight: 700;
-  text-align: center;
-  text-transform: uppercase;
-  vertical-align: middle;
-  align-items: center;
   border-radius: 0.5rem;
   user-select: none;
   gap: 0.75rem;
@@ -262,11 +278,10 @@ input {
     0 4px 6px -1px #488aec31,
     0 2px 4px -1px #488aec17;
   transition: all 0.6s ease;
-  width: auto;
   max-width: 100%;
   margin: 0 auto;
-  position: fixed;
-  z-index: 999;
+  position: absolute;
+  /* z-index: 999; */
 }
 
 .button:hover {
@@ -291,8 +306,8 @@ input {
 }
 
 .sidebar {
-  width: 200px;
-  padding: 20px;
+  /* width: 200px; */
+  /* padding: 20px; */
   display: flex;
   flex-direction: column;
 }
@@ -311,7 +326,7 @@ input {
 }
 
 .content {
-  padding: 20px;
+  /* padding: 20px; */
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -353,5 +368,194 @@ input {
 /* Hide scrollbar for Firefox */
 .website-urls-container {
   scrollbar-width: none;
+}
+/* CLOSED HAMBURGER CSS */
+/* For desktop up to 768px */
+@media screen and (max-width: 768px) {
+  .sidebar,
+  .content {
+    margin-top: -121%;
+  }
+}
+
+/* For screens between 769px and 868px */
+@media screen and (min-width: 768px) and (max-width: 868px) {
+  .sidebar,
+  .content {
+    margin-top: -107%;
+  }
+}
+
+/* For screens between 869px and 968px */
+@media screen and (min-width: 869px) and (max-width: 968px) {
+  .sidebar,
+  .content {
+    margin-top: -94%;
+  }
+}
+
+/* For screens between 969px and 1068px */
+@media screen and (min-width: 969px) and (max-width: 1068px) {
+  .sidebar,
+  .content {
+    margin-top: -85%;
+  }
+}
+
+/* For screens between 1069px and 1168px */
+@media screen and (min-width: 1069px) and (max-width: 1168px) {
+  .sidebar,
+  .content {
+    margin-top: -78%;
+  }
+}
+
+/* For screens between 1169px and 1268px */
+@media screen and (min-width: 1169px) and (max-width: 1268px) {
+  .sidebar,
+  .content {
+    margin-top: -71%;
+  }
+}
+
+/* For screens between 1269px and 1368px */
+@media screen and (min-width: 1269px) and (max-width: 1368px) {
+  .sidebar,
+  .content {
+    margin-top: -67%;
+  }
+}
+
+/* For screens between 1369px and 1468px */
+@media screen and (min-width: 1369px) and (max-width: 1468px) {
+  .sidebar,
+  .content {
+    margin-top: -60%;
+  }
+}
+
+/* For screens between 1469px and 1568px */
+@media screen and (min-width: 1469px) and (max-width: 1568px) {
+  .sidebar,
+  .content {
+    margin-top: -58%;
+  }
+}
+
+/* For screens wider than 1569px */
+@media screen and (min-width: 1569px) {
+  .sidebar,
+  .content {
+    margin-top: -40%;
+  }
+}
+
+/* For screens between 300px and 400px */
+@media screen and (min-width: 300px) and (max-width: 400px) {
+  .sidebar,
+  .content {
+    margin-top: -245%;
+  }
+}
+
+/* For screens between 401px and 500px */
+@media screen and (min-width: 401px) and (max-width: 500px) {
+  .sidebar,
+  .content {
+    margin-top: -300%;
+  }
+}
+
+/* For screens between 501px and 600px */
+@media screen and (min-width: 501px) and (max-width: 600px) {
+  .sidebar,
+  .content {
+    margin-top: -160%;
+  }
+}
+
+/* For screens between 601px and 700px */
+@media screen and (min-width: 601px) and (max-width: 700px) {
+  .sidebar,
+  .content {
+    margin-top: -133%;
+  }
+}
+
+/* OPEN HAMBURGER CSS */
+
+/* For screens between 300px and 400px */
+@media screen and (min-width: 300px) and (max-width: 400px) {
+  .sidebar,
+  .content {
+    margin-top: -245%;
+  }
+}
+
+/* For screens between 401px and 500px */
+@media screen and (min-width: 401px) and (max-width: 500px) {
+  .sidebar,
+  .content {
+    margin-top: -300%;
+  }
+}
+
+/* For screens between 501px and 600px */
+@media screen and (min-width: 501px) and (max-width: 600px) {
+  .sidebar,
+  .content {
+    margin-top: -160%;
+  }
+}
+
+/* For screens between 601px and 700px */
+@media screen and (min-width: 601px) and (max-width: 700px) {
+  .sidebar,
+  .content {
+    margin-top: -133%;
+  }
+}
+.sidebar.hamburger-open,
+.content.hamburger-open {
+  /* For screens up to 768px */
+  @media screen and (max-width: 768px) {
+    margin-top: -170%;
+  }
+  /* For screens between 769px and 868px */
+  @media screen and (min-width: 769px) and (max-width: 868px) {
+    margin-top: -140%;
+  }
+  /* For screens between 869px and 968px */
+  @media screen and (min-width: 869px) and (max-width: 968px) {
+    margin-top: -118%;
+  }
+  /* For screens between 969px and 1068px */
+  @media screen and (min-width: 969px) and (max-width: 1068px) {
+    margin-top: -105%;
+  }
+  /* For screens between 1069px and 1168px */
+  @media screen and (min-width: 1069px) and (max-width: 1168px) {
+    margin-top: -95%;
+  }
+  /* For screens between 1169px and 1268px */
+  @media screen and (min-width: 1169px) and (max-width: 1268px) {
+    margin-top: -85%;
+  }
+  /* For screens between 1269px and 1368px */
+  @media screen and (min-width: 1269px) and (max-width: 1368px) {
+    margin-top: -80%;
+  }
+  /* For screens between 1369px and 1468px */
+  @media screen and (min-width: 1369px) and (max-width: 1468px) {
+    margin-top: -70%;
+  }
+  /* For screens between 1469px and 1568px */
+  @media screen and (min-width: 1469px) and (max-width: 1568px) {
+    margin-top: -65%;
+  }
+  /* For screens wider than 1569px */
+  @media screen and (min-width: 1569px) {
+    margin-top: -40%;
+  }
 }
 </style>

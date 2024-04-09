@@ -147,6 +147,8 @@ ro:
       ways_to_reach_you_message_body: "Dă-i echipei o modalitate de a te contacta."
       email_input_box_message_body: "Primește notificări prin e-mail"
       csat_input_message_body: "Vă rugăm să evaluați conversația"
+      bot_entered_chat: "Botul a intrat în chat"
+      long_message_issue: "Prea multe caractere de intrare, vă rugăm să scurtați mesajul"
     reply:
       email:
         header:
