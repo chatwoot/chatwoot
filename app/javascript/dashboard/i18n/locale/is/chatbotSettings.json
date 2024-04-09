@@ -2,6 +2,9 @@
   "CHATBOT_SETTINGS": {
     "CHATBOT": "Chatbot",
     "BOT_STATUS": "Estado del Chatbot",
+    "BOT_STATUS_ACTIVE": "Virktivegur Spjallvélinn",
+    "BOT_STATUS_INACTIVE": "Óvirktivegur Spjallvélinn",
+    "CONNECTED_INBOX": "Tengdur Innbox: ",
     "NEW_BOT": "Nuevo Chatbot",
     "CONNECT_INBOX": "Conectar Bandeja de Entrada",
     "LAST_TRAINED_AT": "Último Entrenamiento En: ",

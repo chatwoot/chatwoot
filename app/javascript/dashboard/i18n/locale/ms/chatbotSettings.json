@@ -2,6 +2,9 @@
   "CHATBOT_SETTINGS": {
     "CHATBOT": "Chatbot",
     "BOT_STATUS": "Status Chatbot",
+    "BOT_STATUS_ACTIVE": "Chatbot Aktif",
+    "BOT_STATUS_INACTIVE": "Chatbot Tidak Aktif",
+    "CONNECTED_INBOX": "Peti Masuk Tersambung: ",
     "NEW_BOT": "Chatbot Baru",
     "CONNECT_INBOX": "Sambung Peti Masuk",
     "LAST_TRAINED_AT": "Terakhir Dilatih Pada: ",

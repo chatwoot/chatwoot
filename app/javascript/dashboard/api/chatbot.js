@@ -9,13 +9,17 @@ class ChatbotAPI extends ApiClient {
     this.microserviceUrl = window.chatwootConfig.microserviceUrl;
   }
 
-  // api call to microservice
+  // api call to backend to microservice
   async createChatbot(data) {
-    return axios.post(`${this.microserviceUrl}/chatbot`, data, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    return axios.post(
+      `${this.baseUrl}/api/v1/widget/create-chatbot-microservice`,
+      data,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
   }
 
   // api call to ruby backend to store bot info in db
@@ -62,6 +66,12 @@ class ChatbotAPI extends ApiClient {
   async fetchChatbotStatus(conversation_id) {
     return axios.get(
       `${this.baseUrl}/api/v1/widget/chatbot-status?conversation_id=${conversation_id}`
+    );
+  }
+
+  async ChatbotIdToChatbotName(chatbot_id) {
+    return axios.get(
+      `${this.baseUrl}/api/v1/widget/chatbot-id-to-name?chatbot_id=${chatbot_id}`
     );
   }
 }

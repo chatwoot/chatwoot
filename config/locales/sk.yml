@@ -147,6 +147,8 @@ sk:
       ways_to_reach_you_message_body: "Poskytnite tímu spôsob, ako sa s vami spojiť."
       email_input_box_message_body: "Dostať upozornenie e-mailom"
       csat_input_message_body: "Prosím, ohodnoťte konverzáciu"
+      bot_entered_chat: "Bot vstúpil do chatu"
+      long_message_issue: "Príliš veľa znakov vstupu, prosím, skráťte správu"
     reply:
       email:
         header:

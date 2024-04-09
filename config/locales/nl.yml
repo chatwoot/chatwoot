@@ -147,6 +147,8 @@ nl:
       ways_to_reach_you_message_body: "Geef het team een manier om je te bereiken."
       email_input_box_message_body: "Ontvang een melding via e-mail"
       csat_input_message_body: "Please rate the conversation"
+      bot_entered_chat: "Bot is de chat binnengegaan"
+      long_message_issue: "Te veel invoertekens, verkort alstublieft het bericht"
     reply:
       email:
         header:

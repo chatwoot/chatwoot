@@ -2,6 +2,9 @@
   "CHATBOT_SETTINGS": {
     "CHATBOT": "Čatsbots",
     "BOT_STATUS": "Čatsbota statuss",
+    "BOT_STATUS_ACTIVE": "Aktīvais čatsbots",
+    "BOT_STATUS_INACTIVE": "Neaktīvais čatsbots",
+    "CONNECTED_INBOX": "Pieslēgta ienākošā pastkaste: ",
     "NEW_BOT": "Jauns Čatsbots",
     "CONNECT_INBOX": "Pievienot Inbox",
     "LAST_TRAINED_AT": "Pēdējoreiz apmācīts: ",

@@ -2,6 +2,9 @@
   "CHATBOT_SETTINGS": {
     "CHATBOT": "چیٹ باٹ",
     "BOT_STATUS": "چیٹ باٹ کی حالت",
+    "BOT_STATUS_ACTIVE": "چیٹ بوٹ فعال ہے",
+    "BOT_STATUS_INACTIVE": "چیٹ بوٹ غیر فعال ہے",
+    "CONNECTED_INBOX": "منسلک ان باکس:",
     "NEW_BOT": "نیا چیٹ باٹ",
     "CONNECT_INBOX": "ان باکس سے منسلک کریں",
     "LAST_TRAINED_AT": "آخری تربیت حاصل ہوئی: ",

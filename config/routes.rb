@@ -301,6 +301,18 @@ Rails.application.routes.draw do
             end
           end
         end
+        # chatbot routes
+        post '/store-to-db', to: 'chatbot#store_to_db'
+        post '/old-bot-train', to: 'chatbot#old_bot_train'
+        post '/change-bot-name', to: 'chatbot#change_bot_name'
+        get '/chatbot-with-account-id', to: 'chatbot#fetch_chatbot_with_account_id'
+        delete '/chatbot-with-chatbot-id', to: 'chatbot#delete_chatbot_with_chatbot_id'
+        put '/update-bot-info', to: 'chatbot#update_bot_info'
+        post '/toggle-chatbot-status', to: 'chatbot#toggle_chatbot_status'
+        get '/is-inbox-widget', to: 'chatbot#inbox_widget'
+        get '/chatbot-status', to: 'chatbot#chatbot_status'
+        get '/chatbot-id-to-name', to: 'chatbot#chatbot_id_to_name'
+        post '/create-chatbot-microservice', to: 'chatbot#create_chatbot_microservice'
       end
     end
 
@@ -509,21 +521,5 @@ Rails.application.routes.draw do
   # ----------------------------------------------------------------------
   # Routes for testing
   resources :widget_tests, only: [:index] unless Rails.env.production?
-
-  # Routes for Chatbot
-  namespace :api do
-    namespace :v1 do
-      namespace :widget do
-        post '/store-to-db', to: 'chatbot#store_to_db'
-        post '/old-bot-train', to: 'chatbot#old_bot_train'
-        post '/change-bot-name', to: 'chatbot#change_bot_name'
-        get '/chatbot-with-account-id', to: 'chatbot#fetch_chatbot_with_account_id'
-        delete '/chatbot-with-chatbot-id', to: 'chatbot#delete_chatbot_with_chatbot_id'
-        put '/update-bot-info', to: 'chatbot#update_bot_info'
-        post '/toggle-chatbot-status', to: 'chatbot#toggle_chatbot_status'
-        get '/is-inbox-widget', to: 'chatbot#inbox_widget'
-        get '/chatbot-status', to: 'chatbot#chatbot_status'
-      end
-    end
-  end
+  # ----------------------------------------------------------------------
 end

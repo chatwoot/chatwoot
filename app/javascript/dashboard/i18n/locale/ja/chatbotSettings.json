@@ -2,6 +2,9 @@
   "CHATBOT_SETTINGS": {
     "CHATBOT": "チャットボット",
     "BOT_STATUS": "チャットボットの状態",
+    "BOT_STATUS_ACTIVE": "チャットボット アクティブ",
+    "BOT_STATUS_INACTIVE": "チャットボット 非アクティブ",
+    "CONNECTED_INBOX": "接続された受信トレイ: ",
     "NEW_BOT": "新しいチャットボット",
     "CONNECT_INBOX": "インボックスに接続",
     "LAST_TRAINED_AT": "最終トレーニング日：",

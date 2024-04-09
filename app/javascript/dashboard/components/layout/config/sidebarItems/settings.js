@@ -181,13 +181,13 @@ const settings = accountId => ({
       beta: true,
     },
     // Added for OneHash AI Chatbot
-    {
-      icon: 'chatbot-icon',
-      label: 'CHATBOT',
-      hasSubMenu: false,
-      toState: frontendURL(`accounts/${accountId}/settings/chatbot`),
-      toStateName: 'chatbot_index',
-    },
+    // {
+    //   icon: 'chatbot-icon',
+    //   label: 'CHATBOT',
+    //   hasSubMenu: false,
+    //   toState: frontendURL(`accounts/${accountId}/settings/chatbot`),
+    //   toStateName: 'chatbot_index',
+    // },
   ],
 });
 

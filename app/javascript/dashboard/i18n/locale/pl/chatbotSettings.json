@@ -2,6 +2,9 @@
   "CHATBOT_SETTINGS": {
     "CHATBOT": "Chatbot",
     "BOT_STATUS": "Status chatbota",
+    "BOT_STATUS_ACTIVE": "Aktywny czatbot",
+    "BOT_STATUS_INACTIVE": "Nieaktywny czatbot",
+    "CONNECTED_INBOX": "Połączona skrzynka odbiorcza:",
     "NEW_BOT": "Nowy chatbot",
     "CONNECT_INBOX": "Połącz skrzynkę odbiorczą",
     "LAST_TRAINED_AT": "Ostatnio przeszkolony o: ",

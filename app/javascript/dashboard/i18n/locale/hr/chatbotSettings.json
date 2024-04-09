@@ -2,6 +2,9 @@
   "CHATBOT_SETTINGS": {
     "CHATBOT": "Čavrljanje",
     "BOT_STATUS": "Status čavrljanja",
+    "BOT_STATUS_ACTIVE": "Aktivan Chatbot",
+    "BOT_STATUS_INACTIVE": "Neaktivan Chatbot",
+    "CONNECTED_INBOX": "Povezani ulazni sandučić: ",
     "NEW_BOT": "Novi čavrljanje",
     "CONNECT_INBOX": "Poveži ulaznu poštu",
     "LAST_TRAINED_AT": "Zadnji trenirani na: ",

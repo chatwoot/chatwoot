@@ -147,6 +147,8 @@ fr:
       ways_to_reach_you_message_body: "Donnez à l'équipe un moyen de vous recontacter."
       email_input_box_message_body: "Recevez des notifications par courriel"
       csat_input_message_body: "Veuillez évaluer la conversation"
+      bot_entered_chat: "Le bot est entré dans la conversation"
+      long_message_issue: "Trop de caractères saisis, veuillez raccourcir le message"
     reply:
       email:
         header:

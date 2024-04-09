@@ -2,6 +2,9 @@
   "CHATBOT_SETTINGS": {
     "CHATBOT": "Klepetalnik",
     "BOT_STATUS": "Status klepetalnika",
+    "BOT_STATUS_ACTIVE": "Aktiven pogovorni bot",
+    "BOT_STATUS_INACTIVE": "Neaktiven pogovorni bot",
+    "CONNECTED_INBOX": "Povezana prejeta pošta:",
     "NEW_BOT": "Novi klepetalnik",
     "CONNECT_INBOX": "Poveži nabiralnik",
     "LAST_TRAINED_AT": "Nazadnje trenirano ob: ",

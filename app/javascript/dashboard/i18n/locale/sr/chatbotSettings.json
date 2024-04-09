@@ -2,6 +2,9 @@
   "CHATBOT_SETTINGS": {
     "CHATBOT": "Четбот",
     "BOT_STATUS": "Статус четбота",
+    "BOT_STATUS_ACTIVE": "Aktivan Četbot",
+    "BOT_STATUS_INACTIVE": "Neaktivan Četbot",
+    "CONNECTED_INBOX": "Povezani Inbox:",
     "NEW_BOT": "Нови четбот",
     "CONNECT_INBOX": "Повежи инбокс",
     "LAST_TRAINED_AT": "Последњи трениран на: ",

@@ -147,6 +147,8 @@ vi:
       ways_to_reach_you_message_body: "Trong lúc chờ đội ngũ hỗ trợ phản hồi, bạn hãy để lại email để nhận được thông báo nhanh nhất nhé."
       email_input_box_message_body: "Nhận thông báo qua email"
       csat_input_message_body: "Bạn hãy vui lòng đánh giá hội thoại"
+      bot_entered_chat: "Bot đã tham gia vào cuộc trò chuyện"
+      long_message_issue: "Quá nhiều ký tự đầu vào, vui lòng rút ngắn tin nhắn"
     reply:
       email:
         header:

@@ -147,6 +147,8 @@ zh_TW:
       ways_to_reach_you_message_body: "給個聯繫方式讓團隊可以聯繫到您。"
       email_input_box_message_body: "透過電子郵件得到通知。"
       csat_input_message_body: "Please rate the conversation"
+      bot_entered_chat: "機器人已進入聊天"
+      long_message_issue: "輸入字符過多，請縮短消息"
     reply:
       email:
         header:

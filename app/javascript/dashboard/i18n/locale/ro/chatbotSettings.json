@@ -2,6 +2,9 @@
   "CHATBOT_SETTINGS": {
     "CHATBOT": "Chatbot",
     "BOT_STATUS": "Stare Chatbot",
+    "BOT_STATUS_ACTIVE": "Chatbot Activ",
+    "BOT_STATUS_INACTIVE": "Chatbot Inactiv",
+    "CONNECTED_INBOX": "Inbox Conectat:",
     "NEW_BOT": "Chatbot Nou",
     "CONNECT_INBOX": "Conectare la Inbox",
     "LAST_TRAINED_AT": "Ultima Antrenare la: ",
@@ -49,4 +52,3 @@
     }
   }
 }
-

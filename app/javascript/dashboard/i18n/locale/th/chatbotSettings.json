@@ -2,6 +2,9 @@
   "CHATBOT_SETTINGS": {
     "CHATBOT": "แชทบอท",
     "BOT_STATUS": "สถานะแชทบอท",
+    "BOT_STATUS_ACTIVE": "Chatbot ทำงานอยู่",
+    "BOT_STATUS_INACTIVE": "Chatbot ไม่ทำงาน",
+    "CONNECTED_INBOX": "Inbox ที่เชื่อมต่อ:",
     "NEW_BOT": "สร้างแชทบอทใหม่",
     "CONNECT_INBOX": "เชื่อมต่อกล่องจดหมายขาเข้า",
     "LAST_TRAINED_AT": "ฝึกอบรมล่าสุดเมื่อ: ",
@@ -49,4 +52,3 @@
     }
   }
 }
-

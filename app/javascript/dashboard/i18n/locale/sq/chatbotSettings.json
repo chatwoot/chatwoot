@@ -2,6 +2,9 @@
   "CHATBOT_SETTINGS": {
     "CHATBOT": "Chatbot",
     "BOT_STATUS": "Statusi i Chatbotit",
+    "BOT_STATUS_ACTIVE": "Chatbot Aktiv",
+    "BOT_STATUS_INACTIVE": "Chatbot Joaktiv",
+    "CONNECTED_INBOX": "Inbox i Lidhur:",
     "NEW_BOT": "Chatbot i Ri",
     "CONNECT_INBOX": "Lidhni Inbox-in",
     "LAST_TRAINED_AT": "Trenuar i Fundit në: ",

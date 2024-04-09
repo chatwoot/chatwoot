@@ -2,6 +2,9 @@
   "CHATBOT_SETTINGS": {
     "CHATBOT": "Sohbet Botu",
     "BOT_STATUS": "Sohbet Botu Durumu",
+    "BOT_STATUS_ACTIVE": "Chatbot Aktif",
+    "BOT_STATUS_INACTIVE": "Chatbot Pasif",
+    "CONNECTED_INBOX": "Bağlı Inbox:",
     "NEW_BOT": "Yeni Sohbet Botu",
     "CONNECT_INBOX": "Gelen Kutusuyla Bağlantı Kur",
     "LAST_TRAINED_AT": "Son Eğitim Zamanı: ",

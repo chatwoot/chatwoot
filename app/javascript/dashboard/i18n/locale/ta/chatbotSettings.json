@@ -2,6 +2,9 @@
   "CHATBOT_SETTINGS": {
     "CHATBOT": "சொந்த செயலியை",
     "BOT_STATUS": "செயலியின் நிலை",
+    "BOT_STATUS_ACTIVE": "சார்பில் உள்ள செயல்திறன்",
+    "BOT_STATUS_INACTIVE": "செயல்திறன் செயல்திறன் இல்லை",
+    "CONNECTED_INBOX": "இணைக்கப்பட்ட இன்பாக்ஸ்:",
     "NEW_BOT": "புதிய செயலியை",
     "CONNECT_INBOX": "இன்பாக்ஸ் இணைக்கவும்",
     "LAST_TRAINED_AT": "கடைசி பயிற்சிக்கப்பட்ட நேரம்: ",

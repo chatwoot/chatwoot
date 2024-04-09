@@ -2,6 +2,13 @@ source 'https://rubygems.org'
 
 ruby '3.2.2'
 
+##-- gems for syncing map between ruby and python --##
+gem 'whenever', require: false
+##-- gems for api calls --##
+gem 'http'
+##-- unique ID generator --##
+gem 'securerandom'
+
 ##-- base gems for rails --##
 gem 'rack-cors', '2.0.0', require: 'rack/cors'
 gem 'rails', '~> 7.0.8.1'
@@ -173,11 +180,6 @@ gem 'omniauth-rails_csrf_protection', '~> 1.0'
 # need for keycloak
 gem 'keycloak'
 gem 'omniauth-keycloak'
-
-#gem for chatbot api calls
-gem 'http'
-#unique ID generator
-gem 'securerandom'
 
 ## Gems for reponse bot
 # adds cosine similarity to postgres using vector extension

@@ -2,6 +2,9 @@
   "CHATBOT_SETTINGS": {
     "CHATBOT": "聊天機器人",
     "BOT_STATUS": "聊天機器人狀態",
+    "BOT_STATUS_ACTIVE": "聊天機器人啟用",
+    "BOT_STATUS_INACTIVE": "聊天機器人停用",
+    "CONNECTED_INBOX": "已連結收件匣：",
     "NEW_BOT": "新建聊天機器人",
     "CONNECT_INBOX": "連接收件匣",
     "LAST_TRAINED_AT": "上次訓練時間：",

@@ -1,6 +1,5 @@
 <template>
   <div class="flex-1 overflow-auto p-4">
-    <!-- <div class="flex-grow flex-shrink min-w-0 p-6 overflow-auto"> -->
     <router-link :to="addAccountScoping(`settings/chatbot/create`)">
       <woot-button
         class-names="button--fixed-top"
@@ -11,7 +10,6 @@
         {{ $t('CHATBOT_SETTINGS.NEW_BOT') }}
       </woot-button>
     </router-link>
-    <!-- </div> -->
     <div class="flex flex-row gap-4">
       <div class="w-[60%]">
         <p
@@ -38,8 +36,10 @@
                       chatbot.chatbot_name === ''
                     "
                   >
-                    <span class="chatbot-id">{{ $t('CHATBOT_SETTINGS.CHATBOT') }} -
-                      {{ chatbot.chatbot_id.slice(-4) }}</span>
+                    <span class="chatbot-id">
+                      {{ $t('CHATBOT_SETTINGS.CHATBOT') }} -
+                      {{ chatbot.chatbot_id.slice(-4) }}
+                    </span>
                   </template>
                   <template v-else>
                     {{ chatbot.chatbot_name }}
@@ -134,7 +134,7 @@ export default {
       globalConfig: 'globalConfig/get',
       currentAccountId: 'getCurrentAccountId',
     }),
-    formattedLastTrainedAt(lastTrainedAt) {
+    formattedLastTrainedAt() {
       return lastTrainedAt => {
         if (lastTrainedAt) {
           const lastTrainedAtUTC = new Date(lastTrainedAt);
