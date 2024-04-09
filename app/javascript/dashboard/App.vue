@@ -43,6 +43,8 @@ import {
   registerSubscription,
   verifyServiceWorkerExistence,
 } from './helper/pushHelper';
+import { checkKeycloakSession } from '../../javascript/v3/api/auth';
+import Auth from './api/auth';
 
 export default {
   name: 'App',
@@ -97,7 +99,14 @@ export default {
       }
     },
   },
-  mounted() {
+  beforeMount() {
+    checkKeycloakSession(this.currentUser).then(res => {
+      if (res.message === 'Session expired. Please log in again.') {
+        Auth.logout();
+      }
+    });
+  },
+  async mounted() {
     this.initializeColorTheme();
     this.listenToThemeChanges();
     this.setLocale(window.chatwootConfig.selectedLocale);

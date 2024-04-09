@@ -17,11 +17,11 @@
               :alt="globalConfig.installationName"
               class="h-14 w-auto hidden dark:block"
             />
-            <h2
+            <!-- <h2
               class="mb-7 mt-2 text-left text-3xl font-medium text-slate-900 dark:text-woot-50"
             >
               {{ $t('REGISTER.TRY_WOOT') }}
-            </h2>
+            </h2> -->
           </div>
           <signup-form />
           <div
