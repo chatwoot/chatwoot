@@ -296,6 +296,8 @@
     "BUTTON": "添加自定义属性",
     "NOT_AVAILABLE": "此联系人没有可用的自定义属性。",
     "COPY_SUCCESSFUL": "已成功复制到剪贴板",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "复制属性",
       "DELETE": "删除属性",
