@@ -18,6 +18,10 @@ class Api::V1::Accounts::Channels::ZaloChannelsController < Api::V1::Accounts::B
     handle_exception(e)
   end
 
+  def secret_key
+    render json: { secret_key: ENV.fetch('ZALO_APP_SECRET', nil) }
+  end
+
   private
 
   def handle_exception(exception)

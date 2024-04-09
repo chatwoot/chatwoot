@@ -3,14 +3,15 @@ import ApiClient from '../ApiClient';
 
 class ZaloChannel extends ApiClient {
   constructor() {
-    super('zalo_indicators', { accountScoped: true });
+    super('channels/zalo_channel', { accountScoped: true });
   }
 
   create(params) {
-    return axios.post(
-      `${this.url.replace(this.resource, '')}channels/zalo_channel`,
-      params
-    );
+    return axios.post(`${this.url}`, params);
+  }
+
+  secretKey() {
+    return axios.get(`${this.url}/secret_key`);
   }
 
   reauthorizeZaloOa({ omniauthToken, inboxId }) {
