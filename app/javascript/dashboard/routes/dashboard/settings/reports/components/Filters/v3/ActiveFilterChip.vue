@@ -39,18 +39,16 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['toggleDropdown', 'removeFilter', 'addFilter']);
-const toggleDropdown = () => {
-  emit('toggleDropdown', props.type);
-};
-
-const removeFilter = () => {
-  emit('removeFilter', props.type);
-};
-
-const addFilter = item => {
-  emit('addFilter', item);
-};
+const emit = defineEmits([
+  'toggleDropdown',
+  'removeFilter',
+  'addFilter',
+  'closeDropdown',
+]);
+const toggleDropdown = () => emit('toggleDropdown', props.type);
+const removeFilter = () => emit('removeFilter', props.type);
+const addFilter = item => emit('addFilter', item);
+const closeDropdown = () => emit('closeDropdown');
 </script>
 
 <template>
@@ -63,7 +61,7 @@ const addFilter = item => {
     <template v-if="showMenu && activeFilterType === type" #dropdown>
       <filter-list-dropdown
         v-if="options"
-        v-on-clickaway="closeActiveFilterDropdown"
+        v-on-clickaway="closeDropdown"
         :list-items="options"
         :active-filter-id="id"
         :input-placeholder="placeholder"

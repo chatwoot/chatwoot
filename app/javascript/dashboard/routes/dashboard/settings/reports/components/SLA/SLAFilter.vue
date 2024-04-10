@@ -17,6 +17,7 @@
         :show-menu="showSubDropdownMenu"
         enable-search
         @toggleDropdown="openActiveFilterDropdown"
+        @closeDropdown="closeActiveFilterDropdown"
         @addFilter="addFilter"
         @removeFilter="removeFilter"
       />
