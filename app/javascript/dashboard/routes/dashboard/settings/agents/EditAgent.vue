@@ -65,6 +65,7 @@
             <woot-button
               icon="lock-closed"
               variant="clear"
+              :is-disabled="true"
               @click.prevent="resetPassword"
             >
               {{ $t('AGENT_MGMT.EDIT.PASSWORD_RESET.ADMIN_RESET_BUTTON') }}
