@@ -85,7 +85,7 @@
             size="tiny"
             variant="smooth"
             icon="delete"
-            color-scheme="secondary"
+            color-scheme="alert"
             :disabled="locale.code === selectedLocaleCode"
             @click="deleteLocale(locale.code)"
           />

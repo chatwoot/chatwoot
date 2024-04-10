@@ -7,7 +7,7 @@
 #  id                    :integer          not null, primary key
 #  additional_attributes :jsonb
 #  blocked               :boolean          default(FALSE), not null
-#  contact_type          :integer          default(0)
+#  contact_type          :integer          default("visitor")
 #  country_code          :string           default("")
 #  custom_attributes     :jsonb
 #  email                 :string
@@ -61,6 +61,7 @@ class Contact < ApplicationRecord
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
+  before_save :sync_contact_attributes
 
   scope :order_on_last_activity_at, lambda { |direction|
     order(
@@ -165,6 +166,10 @@ class Contact < ApplicationRecord
     email_format
   end
 
+  def self.from_email(email)
+    find_by(email: email.downcase)
+  end
+
   private
 
   def ip_lookup
@@ -198,6 +203,10 @@ class Contact < ApplicationRecord
   def prepare_jsonb_attributes
     self.additional_attributes = {} if additional_attributes.blank?
     self.custom_attributes = {} if custom_attributes.blank?
+  end
+
+  def sync_contact_attributes
+    ::Contacts::SyncAttributes.new(self).perform
   end
 
   def dispatch_create_event

@@ -23,6 +23,30 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
     head :ok
   end
 
+  def bulk_create
+    emails = params[:emails]
+
+    emails.each do |email|
+      builder = AgentBuilder.new(
+        email: email,
+        name: email.split('@').first,
+        inviter: current_user,
+        account: Current.account
+      )
+      begin
+        builder.perform
+      rescue ActiveRecord::RecordInvalid => e
+        Rails.logger.info "[Agent#bulk_create] ignoring email #{email}, errors: #{e.record.errors}"
+      end
+    end
+
+    # This endpoint is used to bulk create agents during onboarding
+    # onboarding_step key in present in Current account custom attributes, since this is a one time operation
+    Current.account.custom_attributes.delete('onboarding_step')
+    Current.account.save!
+    head :ok
+  end
+
   private
 
   def check_authorization
