@@ -1,16 +1,14 @@
 <template>
-  <div>
-    <label
-      v-if="label"
-      :for="name"
-      class="flex justify-between text-sm font-medium leading-6 text-slate-900 dark:text-white"
-      :class="{ 'text-red-500': hasError }"
-    >
-      {{ label }}
+  <with-label
+    :label="label"
+    :icon="icon"
+    :name="name"
+    :has-error="hasError"
+    :error-message="errorMessage"
+  >
+    <template #rightOfLabel>
       <slot />
-    </label>
-</div>
-</template>
+    </template>
     <input
       :id="name"
       :name="name"
@@ -37,7 +35,11 @@
   </with-label>
 </template>
 <script>
+import WithLabel from './WithLabel.vue';
 export default {
+  components: {
+    WithLabel,
+  },
   props: {
     label: {
       type: String,
@@ -51,6 +53,10 @@ export default {
       type: String,
       default: 'text',
     },
+    tabindex: {
+      type: Number,
+      default: undefined,
+    },
     required: {
       type: Boolean,
       default: false,
@@ -61,6 +67,10 @@ export default {
     },
     value: {
       type: [String, Number],
+      default: '',
+    },
+    icon: {
+      type: String,
       default: '',
     },
     hasError: {
@@ -74,6 +84,11 @@ export default {
     dataTestid: {
       type: String,
       default: '',
+    },
+    spacing: {
+      type: String,
+      default: 'base',
+      validator: value => ['base', 'compact'].includes(value),
     },
   },
   methods: {
