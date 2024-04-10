@@ -19,7 +19,7 @@ defineProps({
     type: Boolean,
     default: false,
   },
-  placeholder: {
+  placeholderI18nKey: {
     type: String,
     default: '',
   },
@@ -82,7 +82,9 @@ const closeDropdown = () => {
             <template v-if="item.options && isHovered(item.id)" #dropdown>
               <filter-list-dropdown
                 :list-items="item.options"
-                :input-placeholder="placeholder"
+                :input-placeholder="
+                  $t(`${placeholderI18nKey}.${item.type.toUpperCase()}`)
+                "
                 :enable-search="enableSearch"
                 class="flex flex-col w-[216px] overflow-y-auto top-0 left-36"
                 @click="addFilter"

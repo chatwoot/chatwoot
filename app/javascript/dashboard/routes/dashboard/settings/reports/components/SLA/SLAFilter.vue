@@ -30,10 +30,10 @@
     <!-- Add filter and clear filter button -->
     <div class="flex items-center gap-2">
       <add-filter-chip
+        placeholder-i18n-key="SLA_REPORTS.DROPDOWN.INPUT_PLACEHOLDER"
         :name="$t('SLA_REPORTS.DROPDOWN.ADD_FIlTER')"
         :menu-option="filterListMenuItems"
         :show-menu="showDropdownMenu"
-        :placeholder="$t('SLA_REPORTS.DROPDOWN.SEARCH')"
         :empty-state-message="$t('SLA_REPORTS.DROPDOWN.NO_FILTER')"
         @toggleDropdown="showDropdown"
         @closeDropdown="closeDropdown"
