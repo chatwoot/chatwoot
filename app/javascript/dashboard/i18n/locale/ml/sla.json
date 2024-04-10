@@ -83,6 +83,14 @@
         "YES": "അതെ, ഇല്ലാതാക്കുക ",
         "NO": "ഇല്ല, സൂക്ഷിക്കുക"
       }
+    },
+    "EVENTS": {
+      "TITLE": "SLA Misses",
+      "FRT": "ആദ്യ പ്രതികരണ സമയം",
+      "NRT": "Next response time",
+      "RT": "Resolution time",
+      "SHOW_MORE": "{count} more",
+      "HIDE": "Hide {count} rows"
     }
   }
 }
