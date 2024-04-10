@@ -71,12 +71,6 @@
         "RT": "RT {status}",
         "MISSED": "missed",
         "DUE": "due"
-      },
-      "SLA_POPOVER": {
-        "FRT": "First Response Time",
-        "NRT": "Next Response Time",
-        "RT": "解決時間",
-        "MISSED": "missed on"
       }
     },
     "RESOLVE_DROPDOWN": {
