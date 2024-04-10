@@ -9,6 +9,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  id: {
+    type: Number,
+    required: true,
+  },
   type: {
     type: String,
     required: true,
