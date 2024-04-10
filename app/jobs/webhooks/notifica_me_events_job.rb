@@ -201,6 +201,79 @@ class Webhooks::NotificaMeEventsJob < ApplicationJob
 }
 =end
 
+=begin
+{
+   "type":"MESSAGE",
+   "id":"66ba7478-9a4b-445e-8586-8e5e8ca848b4",
+   "timestamp":"2024-04-10 06:44:39 pm",
+   "subscriptionId":"b9fc5428-a397-44f1-9826-18097000e6e8",
+   "channel":"telegram",
+   "direction":"IN",
+   "message":{
+      "id":"66ba7478-9a4b-445e-8586-8e5e8ca848b4",
+      "from":"6917951225",
+      "to":"b9fc5428-a397-44f1-9826-18097000e6e8",
+      "direction":"IN",
+      "channel":"telegram",
+      "visitor":{
+         "name":"Silvia Heinzen",
+         "firstName":"Silvia",
+         "lastName":"Heinzen",
+         "picture":""
+      },
+      "group":{
+         "id":"",
+         "name":""
+      },
+      "isGroup":"false",
+      "contents":[
+         {
+            "type":"text",
+            "text":"Oi"
+         }
+      ],
+      "timestamp":"2024-04-10 06:44:39 pm"
+   },
+   "hub_access_token":"f20018fa-eb17-11ee-880c-0efa6ad28f4f.b9fc5428-a397-44f1-9826-18097000e6e8",
+   "controller":"webhooks/notifica_me",
+   "action":"process_payload",
+   "channel_id":"b9fc5428-a397-44f1-9826-18097000e6e8",
+   "notifica_me":{
+      "type":"MESSAGE",
+      "id":"66ba7478-9a4b-445e-8586-8e5e8ca848b4",
+      "timestamp":"2024-04-10 06:44:39 pm",
+      "subscriptionId":"b9fc5428-a397-44f1-9826-18097000e6e8",
+      "channel":"telegram",
+      "direction":"IN",
+      "message":{
+         "id":"66ba7478-9a4b-445e-8586-8e5e8ca848b4",
+         "from":"6917951225",
+         "to":"b9fc5428-a397-44f1-9826-18097000e6e8",
+         "direction":"IN",
+         "channel":"telegram",
+         "visitor":{
+            "name":"Silvia Heinzen",
+            "firstName":"Silvia",
+            "lastName":"Heinzen",
+            "picture":""
+         },
+         "group":{
+            "id":"",
+            "name":""
+         },
+         "isGroup":"false",
+         "contents":[
+            {
+               "type":"text",
+               "text":"Oi"
+            }
+         ],
+         "timestamp":"2024-04-10 06:44:39 pm"
+      }
+   }
+}
+=end
+
   def perform(params = {})
     Rails.logger.error("NotificaMe params webhook #{params}")
     channel = Channel::NotificaMe.find_by(notifica_me_id: params['channel_id'])
