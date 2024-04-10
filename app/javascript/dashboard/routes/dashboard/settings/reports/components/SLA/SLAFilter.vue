@@ -7,17 +7,11 @@
       <filter-button
         v-for="filter in activeFilters"
         :key="filter.type"
+        right-icon="chevron-down"
         :button-text="filter.name"
         class="bg-slate-50 dark:bg-slate-800 hover:bg-slate-75 dark:hover:bg-slate-800"
         @click="openActiveFilterDropdown(filter.type)"
       >
-        <template #rightIcon>
-          <fluent-icon
-            icon="chevron-down"
-            size="18"
-            class="flex-shrink-0 text-slate-900 dark:text-slate-50"
-          />
-        </template>
         <template
           v-if="showSubDropdownMenu && activeFilterType === filter.type"
           #dropdown
@@ -51,15 +45,9 @@
     <div class="flex items-center gap-2">
       <filter-button
         :button-text="$t('SLA_REPORTS.DROPDOWN.ADD_FIlTER')"
+        left-icon="filter"
         @click="showDropdown"
       >
-        <template #leftIcon>
-          <fluent-icon
-            icon="filter"
-            size="18"
-            class="flex-shrink-0 text-slate-900 dark:text-slate-50"
-          />
-        </template>
         <!-- Dropdown with search and sub-dropdown -->
         <template v-if="showDropdownMenu" #dropdown>
           <filter-list-dropdown
