@@ -13,7 +13,7 @@
         </woot-button>
         <SLA-popover-card
           v-if="showSlaPopoverCard"
-          :all-missed-slas="slaEvents"
+          :sla-missed-events="slaEvents"
           class="right-0"
         />
       </div>
