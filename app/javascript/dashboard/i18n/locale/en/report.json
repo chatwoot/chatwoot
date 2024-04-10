@@ -140,23 +140,8 @@
     ],
     "BUSINESS_HOURS": "Business Hours",
     "FILTER_ACTIONS": {
-      "ADD_FIlTER": "Add filter",
-      "CLEAR_ALL": "Clear all",
       "CLEAR_FILTER": "Clear filter",
-      "EMPTY_LIST": "No results found",
-      "NO_FILTER": "No filters available",
-      "INPUT_PLACEHOLDER": {
-        "SLA": "SLA name",
-        "AGENTS": "Agent name",
-        "INBOXES": "Inbox name",
-        "LABELS": "Label name",
-        "TEAMS": "Team name"
-      },
-      "SLA": "SLA Policy",
-      "INBOXES": "Inbox",
-      "AGENTS": "Agent",
-      "LABELS": "Label",
-      "TEAMS": "Team"
+      "EMPTY_LIST": "No results found"
     }
   },
   "AGENT_REPORTS": {
