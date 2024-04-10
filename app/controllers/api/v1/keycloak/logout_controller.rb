@@ -1,7 +1,7 @@
 class Api::V1::Keycloak::LogoutController < ApplicationController
-    def logout_from_keycloak
+    def create
       email = params['email']
-      session_info = KeycloakSessionsInfo.find_by(email: email)
+      session_info = KeycloakSessionInfo.find_by(email: email)
   
       realm = ENV.fetch('KEYCLOAK_REALM', nil)
       keycloak_url = ENV.fetch('KEYCLOAK_URL', nil)
@@ -24,6 +24,8 @@ class Api::V1::Keycloak::LogoutController < ApplicationController
                                      'Content-Type' => 'application/x-www-form-urlencoded'
                                    }
                                  })
+        Rails.logger.info("KeyCloak Logout API Response: #{response}")
+        session_info.destroy
       else
         # Handle case where no record is found for the email
       end
