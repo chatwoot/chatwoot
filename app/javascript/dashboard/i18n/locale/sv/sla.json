@@ -83,6 +83,14 @@
         "YES": "Ja, ta bort ",
         "NO": "Nej, behåll "
       }
+    },
+    "EVENTS": {
+      "TITLE": "SLA Misses",
+      "FRT": "Första svarstiden",
+      "NRT": "Next response time",
+      "RT": "Resolution time",
+      "SHOW_MORE": "{count} more",
+      "HIDE": "Hide {count} rows"
     }
   }
 }
