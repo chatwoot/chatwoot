@@ -7,7 +7,7 @@
 #  id                    :integer          not null, primary key
 #  additional_attributes :jsonb
 #  blocked               :boolean          default(FALSE), not null
-#  contact_type          :integer          default("visitor")
+#  contact_type          :integer          default(0)
 #  country_code          :string           default("")
 #  custom_attributes     :jsonb
 #  email                 :string
