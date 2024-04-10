@@ -83,6 +83,14 @@
         "YES": "Igen, Törlés ",
         "NO": "Nem, Mégse "
       }
+    },
+    "EVENTS": {
+      "TITLE": "SLA Misses",
+      "FRT": "Első reakció idő",
+      "NRT": "Next response time",
+      "RT": "Resolution time",
+      "SHOW_MORE": "{count} more",
+      "HIDE": "Hide {count} rows"
     }
   }
 }
