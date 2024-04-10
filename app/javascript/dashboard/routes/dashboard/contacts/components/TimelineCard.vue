@@ -6,7 +6,7 @@
     <div class="card-wrap">
       <div class="header">
         <div class="text-wrap">
-          <h6 class="text-sm">
+          <h6 class="text-block-title">
             {{ eventType }}
           </h6>
           <span class="event-path">on {{ eventPath }}</span>

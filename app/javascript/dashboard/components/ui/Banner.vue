@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex items-center justify-center h-12 gap-4 px-4 py-3 text-xs text-white banner dark:text-white"
+    class="banner flex items-center h-12 gap-4 text-white dark:text-white text-xs py-3 px-4 justify-center"
     :class="bannerClasses"
   >
     <span class="banner-message">
@@ -18,7 +18,7 @@
       <woot-button
         v-if="hasActionButton"
         size="tiny"
-        :icon="actionButtonIcon"
+        icon="arrow-right"
         :variant="actionButtonVariant"
         color-scheme="primary"
         class-names="banner-action__button"
@@ -66,10 +66,6 @@ export default {
     actionButtonLabel: {
       type: String,
       default: '',
-    },
-    actionButtonIcon: {
-      type: String,
-      default: 'arrow-right',
     },
     colorScheme: {
       type: String,

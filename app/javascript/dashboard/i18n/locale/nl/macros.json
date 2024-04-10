@@ -1,6 +1,6 @@
 {
   "MACROS": {
-    "HEADER": "Macro's",
+    "HEADER": "Macros",
     "HEADER_BTN_TXT": "Add a new macro",
     "HEADER_BTN_TXT_SAVE": "Save macro",
     "LOADING": "Fetching macros",

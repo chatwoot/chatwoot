@@ -44,7 +44,7 @@
                     </span>
                     <span
                       v-if="isLocaleDefault(locale.code)"
-                      class="text-sm text-slate-300 dark:text-slate-200"
+                      class="fs-small text-slate-300 dark:text-slate-200"
                     >
                       {{ `(${$t('HELP_CENTER.PORTAL.DEFAULT')})` }}
                     </span>

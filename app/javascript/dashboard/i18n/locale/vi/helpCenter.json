@@ -319,13 +319,12 @@
       "HEADERS": {
         "TITLE": "Tiêu đề",
         "CATEGORY": "Loại",
-        "READ_COUNT": "Views",
+        "READ_COUNT": "Số lượt đọc",
         "STATUS": "Trạng thái",
         "LAST_EDITED": "Sửa lần cuối"
       },
       "COLUMNS": {
-        "BY": "bởi",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "BY": "bởi"
       }
     },
     "EDIT_ARTICLE": {

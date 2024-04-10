@@ -41,12 +41,13 @@ class Enterprise::Billing::HandleStripeEventService
   def update_limits
     account.update_usage_limits
   end
-
+  
   def process_subscription_deleted
     return if account.blank?
 
     Enterprise::Billing::CreateStripeCustomerService.new(account: account).perform
   end
+
 
   def ensure_event_context(event)
     @event = event
@@ -64,4 +65,5 @@ class Enterprise::Billing::HandleStripeEventService
     subscription_plan = SubscriptionPlan.find_by(stripe_price_id: price_id)
     return subscription_plan.plan_name if subscription_plan.present?
   end
+
 end

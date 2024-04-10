@@ -146,6 +146,6 @@ export default {
   }
 }
 .button--note {
-  @apply text-yellow-600 dark:text-yellow-600 bg-transparent dark:bg-transparent;
+  @apply text-yellow-600 dark:text-yellow-600;
 }
 </style>

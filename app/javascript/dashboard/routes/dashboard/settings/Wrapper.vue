@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-1 h-full justify-between flex-col m-0 bg-slate-25 dark:bg-slate-900 overflow-auto"
+    class="flex flex-1 h-full justify-between flex-col m-0 bg-slate-25 dark:bg-slate-900"
   >
     <settings-header
       button-route="new"

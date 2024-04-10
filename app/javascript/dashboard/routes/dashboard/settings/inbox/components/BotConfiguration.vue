@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-8">
+  <div class="settings--content">
     <loading-state v-if="uiFlags.isFetching || uiFlags.isFetchingAgentBot" />
     <form
       v-else
@@ -10,7 +10,7 @@
         :title="$t('AGENT_BOTS.BOT_CONFIGURATION.TITLE')"
         :sub-title="$t('AGENT_BOTS.BOT_CONFIGURATION.DESC')"
       >
-        <div class="w-3/5">
+        <div class="w-[60%]">
           <label>
             <select v-model="selectedAgentBotId">
               <option value="" disabled selected>

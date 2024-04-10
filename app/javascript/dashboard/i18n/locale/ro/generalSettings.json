@@ -112,8 +112,7 @@
       "REMOVE_LABEL": "Eliminarea etichetei din conversație",
       "SETTINGS": "Setări",
       "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "APPEARANCE": "Appearance"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Accesați Tabloul de bord conversație",
@@ -154,8 +153,7 @@
       "CHANGE_APPEARANCE": "Change Appearance",
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "Sistem",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SYSTEM_MODE": "Sistem"
     }
   },
   "DASHBOARD_APPS": {

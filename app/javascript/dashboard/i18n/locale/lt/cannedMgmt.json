@@ -27,7 +27,7 @@
         },
         "CONTENT": {
           "LABEL": "Žinutė",
-          "PLACEHOLDER": "Parašykite žinutę, kurią norėsite išsaugoti kaip šabloną vėlesniam naudojimui.",
+          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
           "ERROR": "Yra reikalingas pranešimas."
         },
         "SUBMIT": "Pateikti"
@@ -48,7 +48,7 @@
         },
         "CONTENT": {
           "LABEL": "Žinutė",
-          "PLACEHOLDER": "Parašykite žinutę, kurią norėsite išsaugoti kaip šabloną vėlesniam naudojimui.",
+          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
           "ERROR": "Yra reikalingas pranešimas."
         },
         "SUBMIT": "Pateikti"

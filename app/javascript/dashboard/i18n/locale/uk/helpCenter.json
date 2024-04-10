@@ -319,13 +319,12 @@
       "HEADERS": {
         "TITLE": "Назва",
         "CATEGORY": "Категорія",
-        "READ_COUNT": "Views",
+        "READ_COUNT": "Лічильник прочитань",
         "STATUS": "Статус",
         "LAST_EDITED": "Останній раз відредагований"
       },
       "COLUMNS": {
-        "BY": "від",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "BY": "від"
       }
     },
     "EDIT_ARTICLE": {

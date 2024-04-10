@@ -37,7 +37,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Klienta gaidīšanas laiks",
-        "TOOLTIP_TEXT": "Gaidīšanas laiks ir %{metricValue} (pamatojoties uz %{conversationCount} atbildēm)"
+        "TOOLTIP_TEXT": "Gaidīšanas laiks ir %{metricValue} (pamatojoties uz %{conversationCount} sarunām)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -441,8 +441,7 @@
       "LOADING_MESSAGE": "Notiek sarunu metrikas ielāde...",
       "OPEN": "Atvērt",
       "UNATTENDED": "Bez uzraudzības",
-      "UNASSIGNED": "Nav piešķirtas",
-      "PENDING": "Gaida"
+      "UNASSIGNED": "Nav piešķirtas"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Sarunu Satiksme",

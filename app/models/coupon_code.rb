@@ -14,6 +14,7 @@
 #  account_id   :integer
 #
 class CouponCode < ApplicationRecord
-  belongs_to :account, optional: true
-  validates :code, uniqueness: true
+    belongs_to :account, optional: true
+    validates :code, uniqueness: true
+
 end

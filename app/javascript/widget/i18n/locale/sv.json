@@ -80,8 +80,7 @@
     },
     "CAMPAIGN_HEADER": "Ange ditt namn och e-post innan du startar konversationen",
     "IS_REQUIRED": "är obligatoriskt",
-    "REQUIRED": "Obligatoriskt",
-    "REGEX_ERROR": "Please provide a valid input"
+    "REQUIRED": "Obligatoriskt"
   },
   "FILE_SIZE_LIMIT": "Filen överskrider gränsen för {MAXIMUM_FILE_UPLOAD_SIZE} bifogade filer",
   "CHAT_FORM": {

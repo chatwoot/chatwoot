@@ -39,10 +39,10 @@
     },
     "MERGE_CONTACT": "Îmbinare contact",
     "CONTACT_ACTIONS": "Acțiuni contact",
-    "MUTE_CONTACT": "Block Contact",
-    "UNMUTE_CONTACT": "Unblock Contact",
-    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
-    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
+    "MUTE_CONTACT": "Silențios conversația",
+    "UNMUTE_CONTACT": "Sunet conversația",
+    "MUTED_SUCCESS": "Această conversație este dezactivată pentru 6 ore",
+    "UNMUTED_SUCCESS": "Această conversație este reactivată",
     "SEND_TRANSCRIPT": "Trimite Transcriere",
     "EDIT_LABEL": "Editare",
     "SIDEBAR_SECTIONS": {
@@ -79,13 +79,7 @@
     "TITLE": "Exportă contacte",
     "DESC": "Exportă contactele într-un fișier CSV.",
     "SUCCESS_MESSAGE": "Exportul este în desfășurare, veți fi notificat prin e-mail când fișierul de export este gata de descărcare.",
-    "ERROR_MESSAGE": "A apărut o eroare, încercați din nou",
-    "CONFIRM": {
-      "TITLE": "Exportă contacte",
-      "MESSAGE": "Are you sure you want to export all contacts?",
-      "YES": "Yes, Export",
-      "NO": "No, Cancel"
-    }
+    "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -345,8 +339,7 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Este necesară o valoare validă",
-      "INVALID_URL": "URL invalid",
-      "INVALID_INPUT": "Invalid Input"
+      "INVALID_URL": "URL invalid"
     }
   },
   "MERGE_CONTACTS": {

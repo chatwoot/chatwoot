@@ -5,7 +5,6 @@ import {
   isAConversationRoute,
   routeIsAccessibleFor,
   validateLoggedInRoutes,
-  isAInboxViewRoute,
 } from '../routeHelpers';
 
 describe('#getCurrentAccount', () => {
@@ -133,12 +132,5 @@ describe('getConversationDashboardRoute', () => {
       'inbox_dashboard'
     );
     expect(getConversationDashboardRoute('non_existent_route')).toBeNull();
-  });
-});
-
-describe('isAInboxViewRoute', () => {
-  it('returns true if inbox view route name is provided', () => {
-    expect(isAInboxViewRoute('inbox_view_conversation')).toBe(true);
-    expect(isAInboxViewRoute('inbox_conversation')).toBe(false);
   });
 });

@@ -1,7 +1,7 @@
 <template>
   <div class="flex-1 overflow-auto p-4">
     <div class="flex flex-row gap-4">
-      <div class="w-full lg:w-3/5">
+      <div class="w-[60%]">
         <woot-loading-state
           v-if="uiFlags.isFetching"
           :message="$t('AGENT_BOTS.LIST.LOADING')"
@@ -23,7 +23,7 @@
         </p>
       </div>
 
-      <div class="hidden lg:block w-1/3">
+      <div class="w-[34%]">
         <p v-html="$t('AGENT_BOTS.SIDEBAR_TXT')" />
       </div>
     </div>
@@ -94,11 +94,9 @@ export default {
 .bots-list {
   list-style: none;
 }
-
 .nowrap {
   white-space: nowrap;
 }
-
 .white-text {
   color: white;
 }

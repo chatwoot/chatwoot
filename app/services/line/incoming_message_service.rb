@@ -139,14 +139,7 @@ class Line::IncomingMessageService
   def contact_attributes
     {
       name: line_contact_info['displayName'],
-      avatar_url: line_contact_info['pictureUrl'],
-      additional_attributes: additional_attributes
-    }
-  end
-
-  def additional_attributes
-    {
-      social_line_user_id: line_contact_info['userId']
+      avatar_url: line_contact_info['pictureUrl']
     }
   end
 

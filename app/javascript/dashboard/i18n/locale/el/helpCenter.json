@@ -319,13 +319,12 @@
       "HEADERS": {
         "TITLE": "Τίτλος",
         "CATEGORY": "Κατηγορία",
-        "READ_COUNT": "Views",
+        "READ_COUNT": "Πλήθος ανάγνωσεων",
         "STATUS": "Κατάσταση",
         "LAST_EDITED": "Τελευταία επεξεργασία"
       },
       "COLUMNS": {
-        "BY": "από",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "BY": "από"
       }
     },
     "EDIT_ARTICLE": {

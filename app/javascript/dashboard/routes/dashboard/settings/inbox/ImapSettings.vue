@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-8">
+  <div class="settings--content">
     <settings-section
       :title="$t('INBOX_MGMT.IMAP.TITLE')"
       :sub-title="$t('INBOX_MGMT.IMAP.SUBTITLE')"
@@ -10,17 +10,16 @@
           <input
             v-model="isIMAPEnabled"
             type="checkbox"
-            class="ltr:mr-2 rtl:ml-2"
             name="toggle-imap-enable"
           />
           {{ $t('INBOX_MGMT.IMAP.TOGGLE_AVAILABILITY') }}
         </label>
         <p>{{ $t('INBOX_MGMT.IMAP.TOGGLE_HELP') }}</p>
-        <div v-if="isIMAPEnabled" class="mb-6">
+        <div v-if="isIMAPEnabled" class="imap-details-wrap">
           <woot-input
             v-model.trim="address"
             :class="{ error: $v.address.$error }"
-            class="max-w-[75%] w-full"
+            class="medium-9 columns"
             :label="$t('INBOX_MGMT.IMAP.ADDRESS.LABEL')"
             :placeholder="$t('INBOX_MGMT.IMAP.ADDRESS.PLACE_HOLDER')"
             @blur="$v.address.$touch"
@@ -29,7 +28,7 @@
             v-model="port"
             type="number"
             :class="{ error: $v.port.$error }"
-            class="max-w-[75%] w-full"
+            class="medium-9 columns"
             :label="$t('INBOX_MGMT.IMAP.PORT.LABEL')"
             :placeholder="$t('INBOX_MGMT.IMAP.PORT.PLACE_HOLDER')"
             @blur="$v.port.$touch"
@@ -37,7 +36,7 @@
           <woot-input
             v-model="login"
             :class="{ error: $v.login.$error }"
-            class="max-w-[75%] w-full"
+            class="medium-9 columns"
             :label="$t('INBOX_MGMT.IMAP.LOGIN.LABEL')"
             :placeholder="$t('INBOX_MGMT.IMAP.LOGIN.PLACE_HOLDER')"
             @blur="$v.login.$touch"
@@ -45,7 +44,7 @@
           <woot-input
             v-model="password"
             :class="{ error: $v.password.$error }"
-            class="max-w-[75%] w-full"
+            class="medium-9 columns"
             :label="$t('INBOX_MGMT.IMAP.PASSWORD.LABEL')"
             :placeholder="$t('INBOX_MGMT.IMAP.PASSWORD.PLACE_HOLDER')"
             type="password"
@@ -55,7 +54,6 @@
             <input
               v-model="isSSLEnabled"
               type="checkbox"
-              class="ltr:mr-2 rtl:ml-2"
               name="toggle-enable-ssl"
             />
             {{ $t('INBOX_MGMT.IMAP.ENABLE_SSL') }}
@@ -145,6 +143,9 @@ export default {
             imap_login: this.login,
             imap_password: this.password,
             imap_enable_ssl: this.isSSLEnabled,
+            imap_inbox_synced_at: this.isIMAPEnabled
+              ? new Date().toISOString()
+              : undefined,
           },
         };
 
@@ -161,3 +162,8 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.imap-details-wrap {
+  margin-bottom: var(--space-medium);
+}
+</style>

@@ -319,13 +319,12 @@
       "HEADERS": {
         "TITLE": "Nosaukums",
         "CATEGORY": "Kategorija",
-        "READ_COUNT": "Skatījumu skaits",
+        "READ_COUNT": "Lasīšanas skaits",
         "STATUS": "Statuss",
         "LAST_EDITED": "Pēdējo reizi rediģēts"
       },
       "COLUMNS": {
-        "BY": "persona",
-        "AUTHOR_NOT_AVAILABLE": "Autors nav pieejams"
+        "BY": "persona"
       }
     },
     "EDIT_ARTICLE": {

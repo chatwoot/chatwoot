@@ -12,11 +12,11 @@
       @delete="onDeleteNote"
     />
 
-    <div v-if="isFetching" class="text-center p-4 text-base">
+    <div v-if="isFetching" class="text-center p-normal fs-default">
       <spinner size="" />
       <span>{{ $t('NOTES.FETCHING_NOTES') }}</span>
     </div>
-    <div v-else-if="!notes.length" class="text-center p-4 text-base">
+    <div v-else-if="!notes.length" class="text-center p-normal fs-default">
       <span>{{ $t('NOTES.NOT_AVAILABLE') }}</span>
     </div>
   </div>

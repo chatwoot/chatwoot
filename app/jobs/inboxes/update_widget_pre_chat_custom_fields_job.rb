@@ -12,9 +12,7 @@ class Inboxes::UpdateWidgetPreChatCustomFieldsJob < ApplicationJob
           pre_chat_field.deep_merge({
                                       'label' => custom_attribute['attribute_display_name'],
                                       'placeholder' => custom_attribute['attribute_display_name'],
-                                      'values' => custom_attribute['attribute_values'],
-                                      'regex_pattern' => custom_attribute['regex_pattern'],
-                                      'regex_cue' => custom_attribute['regex_cue']
+                                      'values' => custom_attribute['attribute_values']
                                     })
       end
       web_widget.save!

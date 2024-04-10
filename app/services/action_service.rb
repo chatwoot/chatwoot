@@ -3,7 +3,6 @@ class ActionService
 
   def initialize(conversation)
     @conversation = conversation.reload
-    @account = @conversation.account
   end
 
   def mute_conversation(_params)
@@ -90,5 +89,3 @@ class ActionService
     @conversation.additional_attributes['type'] == 'tweet'
   end
 end
-
-ActionService.include_mod_with('ActionService')

@@ -319,13 +319,12 @@
       "HEADERS": {
         "TITLE": "כותרת",
         "CATEGORY": "קטגוריה",
-        "READ_COUNT": "Views",
+        "READ_COUNT": "ספירת קריאה",
         "STATUS": "מצב",
         "LAST_EDITED": "עריכה אחרונה"
       },
       "COLUMNS": {
-        "BY": "על ידי",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "BY": "על ידי"
       }
     },
     "EDIT_ARTICLE": {

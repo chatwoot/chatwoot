@@ -4,7 +4,7 @@
     <table class="woot-table">
       <thead>
         <tr>
-          <td class="ltr:pl-2.5 rtl:pr-2.5">
+          <td>
             <div class="flex items-center">
               <input
                 name="select-all-agents"
@@ -15,10 +15,10 @@
               />
             </div>
           </td>
-          <td class="text-slate-800 dark:text-slate-100 ltr:pl-2.5 rtl:pr-2.5">
+          <td class="text-slate-800 dark:text-slate-100">
             {{ $t('TEAMS_SETTINGS.AGENTS.AGENT') }}
           </td>
-          <td class="text-slate-800 dark:text-slate-100 ltr:pl-2.5 rtl:pr-2.5">
+          <td class="text-slate-800 dark:text-slate-100">
             {{ $t('TEAMS_SETTINGS.AGENTS.EMAIL') }}
           </td>
         </tr>
@@ -57,7 +57,7 @@
         </tr>
       </tbody>
     </table>
-    <div class="flex items-center justify-between mt-2">
+    <div class="flex items-center justify-between">
       <p>
         {{
           $t('TEAMS_SETTINGS.AGENTS.SELECTED_COUNT', {

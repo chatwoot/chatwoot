@@ -93,8 +93,8 @@ class Notification::PushNotificationService
   def fcm_options
     {
       notification: {
-        title: notification.push_message_title,
-        body: notification.push_message_body,
+        title: notification.notification_type.titleize,
+        body: notification.push_message_title,
         sound: 'default'
       },
       android: { priority: 'high' },

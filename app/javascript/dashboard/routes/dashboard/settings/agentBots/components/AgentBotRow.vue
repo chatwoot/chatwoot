@@ -1,5 +1,5 @@
 <template>
-  <tr class="space-x-2">
+  <tr>
     <td class="agent-bot--details">
       <div class="agent-bot--link">
         {{ agentBot.name }}
@@ -9,7 +9,7 @@
         <show-more :text="agentBot.description" :limit="120" />
       </div>
     </td>
-    <td class="flex justify-end gap-1">
+    <td class="button-wrapper">
       <woot-button
         v-if="isACSMLTypeBot"
         v-tooltip.top="$t('AGENT_BOTS.EDIT.BUTTON_TEXT')"
@@ -74,5 +74,14 @@ export default {
 
 .agent-bot--details {
   width: 90%;
+}
+
+.button-wrapper {
+  max-width: var(--space-mega);
+  min-width: auto;
+
+  button:nth-child(2) {
+    margin-left: var(--space-normal);
+  }
 }
 </style>

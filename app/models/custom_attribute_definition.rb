@@ -10,8 +10,6 @@
 #  attribute_model        :integer          default("conversation_attribute")
 #  attribute_values       :jsonb
 #  default_value          :integer
-#  regex_cue              :string
-#  regex_pattern          :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  account_id             :bigint

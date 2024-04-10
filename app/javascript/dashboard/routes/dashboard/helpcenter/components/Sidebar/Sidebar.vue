@@ -1,19 +1,18 @@
 <template>
   <div
-    class="h-full overflow-auto w-60 flex flex-col bg-white dark:bg-slate-900 border-r dark:border-slate-700 rtl:border-r-0 rtl:border-l border-slate-50 text-sm"
+    class="h-full overflow-auto w-60 flex flex-col bg-white dark:bg-slate-900 border-r dark:border-slate-700 rtl:border-r-0 rtl:border-l border-slate-50 text-sm px-2 pb-8"
   >
     <sidebar-header
       :thumbnail-src="thumbnailSrc"
       :header-title="headerTitle"
       :sub-title="subTitle"
       :portal-link="portalLink"
-      class="px-4"
       @open-popover="openPortalPopover"
     />
     <transition-group
       name="menu-list"
       tag="ul"
-      class="py-2 px-4 list-none ml-0 mb-0"
+      class="pt-2 list-none ml-0 mb-0"
     >
       <secondary-nav-item
         v-for="menuItem in accessibleMenuItems"
@@ -75,6 +74,9 @@ export default {
       type: Array,
       default: () => [],
     },
+  },
+  data() {
+    return {};
   },
   computed: {
     hasCategory() {

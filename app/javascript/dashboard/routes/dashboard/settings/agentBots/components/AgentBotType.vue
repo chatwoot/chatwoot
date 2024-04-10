@@ -1,5 +1,5 @@
 <template>
-  <span class="inline-flex items-center gap-1">
+  <span>
     <img
       v-tooltip="botTypeConfig[botType].label"
       class="agent-bot-type--thumbnail"
