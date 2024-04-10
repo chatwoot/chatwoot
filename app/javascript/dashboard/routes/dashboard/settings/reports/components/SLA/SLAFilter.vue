@@ -117,6 +117,11 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
+import {
+  buildFilterList,
+  getActiveFilter,
+  getFilterType,
+} from './helpers/SLAFilterHelpers';
 import FilterButton from '../Filters/v3/FilterButton.vue';
 import FilterListDropdown from '../Filters/v3/FilterListDropdown.vue';
 import FilterListItemButton from '../Filters/v3/FilterListItemButton.vue';
@@ -180,7 +185,7 @@ export default {
         key => this.appliedFilters[key]
       );
       const activeFilterTypes = activeFilters.map(key =>
-        this.getFilterType(key, 'keyToType')
+        getFilterType(key, 'keyToType')
       );
       return filterTypes
         .filter(({ type }) => !activeFilterTypes.includes(type))
@@ -188,7 +193,7 @@ export default {
           id,
           name,
           type,
-          options: this.buildFilterList(this[type], type),
+          options: buildFilterList(this[type], type),
         }));
     },
     activeFilters() {
@@ -198,13 +203,17 @@ export default {
         key => this.appliedFilters[key]
       );
       return activeKey.map(key => {
-        const filterType = this.getFilterType(key, 'keyToType');
-        const item = this.getActiveFilterName(filterType, key);
+        const filterType = getFilterType(key, 'keyToType');
+        const item = getActiveFilter(
+          this[filterType],
+          filterType,
+          this.appliedFilters[key]
+        );
         return {
           id: item.id,
           name: filterType === 'labels' ? item.title : item.name,
           type: filterType,
-          options: this.buildFilterList(this[filterType], filterType),
+          options: buildFilterList(this[filterType], filterType),
         };
       });
     },
@@ -215,50 +224,15 @@ export default {
   methods: {
     addFilter(item) {
       const { type, id, name } = item;
-      const filterKey = this.getFilterType(type, 'typeToKey');
+      const filterKey = getFilterType(type, 'typeToKey');
       this.appliedFilters[filterKey] = type === 'labels' ? name : id;
       this.$emit('filter-change', this.appliedFilters);
       this.resetDropdown();
     },
     removeFilter(type) {
-      const filterKey = this.getFilterType(type, 'typeToKey');
+      const filterKey = getFilterType(type, 'typeToKey');
       this.appliedFilters[filterKey] = null;
       this.$emit('filter-change', this.appliedFilters);
-    },
-    buildFilterList(items, type) {
-      // Build the filter list for the dropdown
-      return items.map(item => ({
-        id: item.id,
-        name: type === 'labels' ? item.title : item.name,
-        type,
-      }));
-    },
-    getActiveFilterName(type, key) {
-      return this[type].find(filterItem =>
-        type === 'labels'
-          ? filterItem.title === this.appliedFilters[key]
-          : filterItem.id.toString() === this.appliedFilters[key].toString()
-      );
-    },
-    getFilterType(input, direction) {
-      // Method is used to map the filter key to the filter type
-      const filterMap = {
-        keyToType: {
-          assigned_agent_id: 'agents',
-          inbox_id: 'inboxes',
-          team_id: 'teams',
-          sla_policy_id: 'sla',
-          label_list: 'labels',
-        },
-        typeToKey: {
-          agents: 'assigned_agent_id',
-          inboxes: 'inbox_id',
-          teams: 'team_id',
-          sla: 'sla_policy_id',
-          labels: 'label_list',
-        },
-      };
-      return filterMap[direction][input];
     },
     clearAllFilters() {
       this.appliedFilters = {
