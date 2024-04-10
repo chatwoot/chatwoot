@@ -8,7 +8,7 @@
         v-for="filter in activeFilters"
         v-bind="filter"
         :key="filter.type"
-        :input-placeholder="
+        :placeholder="
           $t(
             `SLA_REPORTS.DROPDOWN.INPUT_PLACEHOLDER.${filter.type.toUpperCase()}`
           )
@@ -29,49 +29,17 @@
     />
     <!-- Add filter and clear filter button -->
     <div class="flex items-center gap-2">
-      <filter-button
-        :button-text="$t('SLA_REPORTS.DROPDOWN.ADD_FIlTER')"
-        left-icon="filter"
-        @click="showDropdown"
-      >
-        <!-- Dropdown with search and sub-dropdown -->
-        <template v-if="showDropdownMenu" #dropdown>
-          <filter-list-dropdown
-            v-on-clickaway="closeDropdown"
-            class="left-0 md:right-0 top-10"
-          >
-            <template #listItem>
-              <filter-dropdown-empty-state
-                v-if="!filterListMenuItems.length"
-                :message="$t('SLA_REPORTS.DROPDOWN.NO_FILTER')"
-              />
-              <filter-list-item-button
-                v-for="item in filterListMenuItems"
-                :key="item.id"
-                :button-text="item.name"
-                @mouseenter="showSubMenu(item.id)"
-                @mouseleave="hideSubMenu"
-                @focus="showSubMenu(item.id)"
-              >
-                <!-- Submenu with search and clear button  -->
-                <template v-if="item.options && isHovered(item.id)" #dropdown>
-                  <filter-list-dropdown
-                    :list-items="item.options"
-                    :input-placeholder="
-                      $t(
-                        `SLA_REPORTS.DROPDOWN.INPUT_PLACEHOLDER.${item.type.toUpperCase()}`
-                      )
-                    "
-                    enable-search
-                    class="flex flex-col w-[216px] overflow-y-auto top-0 left-36"
-                    @click="addFilter"
-                  />
-                </template>
-              </filter-list-item-button>
-            </template>
-          </filter-list-dropdown>
-        </template>
-      </filter-button>
+      <add-filter-chip
+        :name="$t('SLA_REPORTS.DROPDOWN.ADD_FIlTER')"
+        :menu-option="filterListMenuItems"
+        :show-menu="showDropdownMenu"
+        :placeholder="$t('SLA_REPORTS.DROPDOWN.SEARCH')"
+        :empty-state-message="$t('SLA_REPORTS.DROPDOWN.NO_FILTER')"
+        @toggleDropdown="showDropdown"
+        @closeDropdown="closeDropdown"
+        @addFilter="addFilter"
+      />
+
       <!-- Dividing line between Add filter and Clear all filter button -->
       <div
         v-if="hasActiveFilters"
@@ -95,25 +63,20 @@ import {
   getFilterType,
 } from './helpers/SLAFilterHelpers';
 import FilterButton from '../Filters/v3/FilterButton.vue';
-import FilterListDropdown from '../Filters/v3/FilterListDropdown.vue';
-import FilterListItemButton from '../Filters/v3/FilterListItemButton.vue';
-import FilterDropdownEmptyState from '../Filters/v3/FilterDropdownEmptyState.vue';
 import ActiveFilterChip from '../Filters/v3/ActiveFilterChip.vue';
+import AddFilterChip from '../Filters/v3/AddFilterChip.vue';
 
 export default {
   components: {
     FilterButton,
-    FilterListDropdown,
-    FilterListItemButton,
-    FilterDropdownEmptyState,
     ActiveFilterChip,
+    AddFilterChip,
   },
   data() {
     return {
       showDropdownMenu: false,
       showSubDropdownMenu: false,
       activeFilterType: '',
-      hoveredItemId: null,
       appliedFilters: {
         assigned_agent_id: null,
         inbox_id: null,
@@ -237,16 +200,6 @@ export default {
     resetDropdown() {
       this.closeDropdown();
       this.closeActiveFilterDropdown();
-      this.hoveredItemId = null;
-    },
-    showSubMenu(itemId) {
-      this.hoveredItemId = itemId;
-    },
-    hideSubMenu() {
-      this.hoveredItemId = null;
-    },
-    isHovered(itemId) {
-      return this.hoveredItemId?.toString() === itemId.toString();
     },
   },
 };

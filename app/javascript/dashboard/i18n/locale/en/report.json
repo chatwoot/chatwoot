@@ -522,6 +522,7 @@
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "No results found",
       "NO_FILTER": "No filters available",
+      "SEARCH": "Search filter",
       "INPUT_PLACEHOLDER": {
         "SLA": "SLA name",
         "AGENTS": "Agent name",
