@@ -83,6 +83,14 @@
         "YES": "เอาเลย ",
         "NO": "ไม่อะเก็บไว้ "
       }
+    },
+    "EVENTS": {
+      "TITLE": "SLA Misses",
+      "FRT": "First response time",
+      "NRT": "Next response time",
+      "RT": "Resolution time",
+      "SHOW_MORE": "{count} more",
+      "HIDE": "Hide {count} rows"
     }
   }
 }
