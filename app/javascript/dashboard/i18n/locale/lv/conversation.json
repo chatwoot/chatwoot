@@ -69,14 +69,8 @@
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
         "RT": "RT {status}",
-        "MISSED": "missed",
-        "DUE": "due"
-      },
-      "SLA_POPOVER": {
-        "FRT": "Pirmās Atbildes Laiks",
-        "NRT": "Nākamās Atbildes Laiks",
-        "RT": "Atrisināšanas Laiks",
-        "MISSED": "missed on"
+        "MISSED": "nokavēti",
+        "DUE": "jābeidz"
       }
     },
     "RESOLVE_DROPDOWN": {
