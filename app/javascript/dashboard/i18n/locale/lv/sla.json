@@ -2,24 +2,24 @@
   "SLA": {
     "HEADER": "SLA",
     "ADD_ACTION": "Pievienot SLA",
-    "ADD_ACTION_LONG": "Create a new SLA Policy",
-    "DESCRIPTION": "Service Level Agreements (SLAs) are contracts that define clear expectations between your team and customers. They establish standards for response and resolution times, creating a framework for accountability and ensures a consistent, high-quality experience.",
-    "LEARN_MORE": "Learn more about SLA",
+    "ADD_ACTION_LONG": "Izveidot jaunu SLA politiku",
+    "DESCRIPTION": "Pakalpojuma līmeņa līgumi (SLA) ir līgumi, kas nosaka skaidras cerības starp jūsu komandu un klientiem. Tie nosaka atbildes un atrisināšanas laika standartus, veidojot pārskatatbildības sistēmu un nodrošinot konsekventu, augstas kvalitātes pieredzi.",
+    "LEARN_MORE": "Uzzināt vairāk par SLA",
     "LOADING": "Notiek SLA iegūšana",
     "LIST": {
       "404": "Šim kontam nav piesaistīti SLA līgumi.",
       "EMPTY": {
         "TITLE_1": "Enterprise P0",
-        "DESC_1": "Issues raised by enterprise customers, that require immediate attention.",
+        "DESC_1": "Uzņēmuma klientu izvirzītās problēmas, kurām nepieciešama tūlītēja uzmanība.",
         "TITLE_2": "Enterprise P1",
-        "DESC_2": "Issues raised by enterprise customers, that needs to be acknowledged quickly."
+        "DESC_2": "Uzņēmuma klientu izvirzītās problēmas, uz kurām ātri jāreaģē."
       },
-      "BUSINESS_HOURS_ON": "Business hours on",
-      "BUSINESS_HOURS_OFF": "Business hours off",
+      "BUSINESS_HOURS_ON": "Darba laiks ieslēgts",
+      "BUSINESS_HOURS_OFF": "Darba laiks izslēgts",
       "RESPONSE_TYPES": {
-        "FRT": "First response time threshold",
-        "NRT": "Next response time threshold",
-        "RT": "Resolution time threshold",
+        "FRT": "Pirmās atbildes laika slieksnis",
+        "NRT": "Nākamās atbildes laika slieksnis",
+        "RT": "Atrisināšanas laika slieksnis",
         "SHORT_HAND": {
           "FRT": "FRT",
           "NRT": "NRT",
@@ -65,24 +65,32 @@
     },
     "ADD": {
       "TITLE": "Pievienot SLA",
-      "DESC": "Friendly promises for great service!",
+      "DESC": "Draudzīgi solījumi priekš lieliska servisa!",
       "API": {
         "SUCCESS_MESSAGE": "SLA ir veiksmīgi pievienots",
         "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
       }
     },
     "DELETE": {
-      "TITLE": "Delete SLA",
+      "TITLE": "Dzēst SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA deleted successfully",
+        "SUCCESS_MESSAGE": "SLA ir veiksmīgi izdzēsts",
         "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
       },
       "CONFIRM": {
         "TITLE": "Apstiprināt Dzēšanu",
-        "MESSAGE": "Are you sure you want to delete ",
+        "MESSAGE": "Vai tiešām vēlaties dzēst ",
         "YES": "Jā, Dzēst ",
         "NO": "Nē, Paturēt "
       }
+    },
+    "EVENTS": {
+      "TITLE": "Nokavētie SLA",
+      "FRT": "Pirmās reakcijas laiks",
+      "NRT": "Nākamās reakcijas laiks",
+      "RT": "Atrisināšanas laiks",
+      "SHOW_MORE": "{count} vairāk",
+      "HIDE": "Slēpt {count} rindas"
     }
   }
 }
