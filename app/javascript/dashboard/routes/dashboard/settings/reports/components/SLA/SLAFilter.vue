@@ -9,7 +9,6 @@
         v-bind="filter"
         :key="filter.type"
         :button-text="filter.name"
-        :empty-list-message="$t('SLA_REPORTS.DROPDOWN.EMPTY_LIST')"
         :input-placeholder="
           $t(
             `SLA_REPORTS.DROPDOWN.INPUT_PLACEHOLDER.${filter.type.toUpperCase()}`
@@ -58,7 +57,6 @@
                 <template v-if="item.options && isHovered(item.id)" #dropdown>
                   <filter-list-dropdown
                     :list-items="item.options"
-                    :empty-list-message="$t('SLA_REPORTS.DROPDOWN.EMPTY_LIST')"
                     :input-placeholder="
                       $t(
                         `SLA_REPORTS.DROPDOWN.INPUT_PLACEHOLDER.${item.type.toUpperCase()}`

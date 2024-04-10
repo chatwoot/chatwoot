@@ -14,10 +14,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  emptyListMessage: {
-    type: String,
-    default: '',
-  },
   inputPlaceholder: {
     type: String,
     default: '',
@@ -65,7 +61,7 @@ const isFilterActive = id => {
     <slot name="listItem">
       <filter-dropdown-empty-state
         v-if="isDropdownListEmpty"
-        :message="emptyListMessage"
+        :message="$t('REPORT.FILTER_ACTIONS.EMPTY_LIST')"
       />
       <filter-list-item-button
         v-for="item in filteredListItems"
