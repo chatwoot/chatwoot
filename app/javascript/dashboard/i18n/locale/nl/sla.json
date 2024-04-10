@@ -83,6 +83,14 @@
         "YES": "Ja, verwijderen ",
         "NO": "Nee, Behouden "
       }
+    },
+    "EVENTS": {
+      "TITLE": "SLA Misses",
+      "FRT": "Eerste reactietijd",
+      "NRT": "Next response time",
+      "RT": "Resolution time",
+      "SHOW_MORE": "{count} more",
+      "HIDE": "Hide {count} rows"
     }
   }
 }
