@@ -5,10 +5,10 @@
     :class="showExtendedInfo ? 'h-[26px] rounded-lg' : 'rounded h-5'"
   >
     <div
+      v-on-clickaway="closeSlaPopover"
       class="flex items-center w-full truncate"
       :class="showExtendedInfo ? 'px-1.5' : 'px-2 gap-1'"
       @mouseover="openSlaPopover()"
-      @mouseleave="closeSlaPopover()"
     >
       <div
         class="flex items-center gap-1"
@@ -42,7 +42,7 @@
     </div>
     <SLA-popover-card
       v-if="showSlaPopoverCard"
-      :all-missed-slas="slaEvents"
+      :sla-missed-events="slaEvents"
       class="right-0 top-7"
     />
   </div>
@@ -51,6 +51,7 @@
 <script>
 import { evaluateSLAStatus } from '../helpers/SLAHelper';
 import SLAPopoverCard from './SLAPopoverCard.vue';
+import { mixin as clickaway } from 'vue-clickaway';
 
 const REFRESH_INTERVAL = 60000;
 
@@ -58,6 +59,7 @@ export default {
   components: {
     SLAPopoverCard,
   },
+  mixins: [clickaway],
   props: {
     chat: {
       type: Object,
