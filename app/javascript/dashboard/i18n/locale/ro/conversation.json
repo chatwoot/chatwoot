@@ -71,12 +71,6 @@
         "RT": "RT {status}",
         "MISSED": "missed",
         "DUE": "due"
-      },
-      "SLA_POPOVER": {
-        "FRT": "Primul timp de răspuns",
-        "NRT": "Next Response Time",
-        "RT": "Timp Rezolutie",
-        "MISSED": "missed on"
       }
     },
     "RESOLVE_DROPDOWN": {
