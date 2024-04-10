@@ -19,6 +19,7 @@ class Api::V1::Keycloak::CheckKeycloakSessionController < ApplicationController
             'token': access_token
           }
         })
+        Rails.logger.info("KeyCloak Session Check Response: #{introspect_res}")
         if introspect_res["active"]===false
           render json: { message: 'Session expired. Please log in again.' }
         end
