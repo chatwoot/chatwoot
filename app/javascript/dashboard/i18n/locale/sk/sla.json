@@ -83,6 +83,14 @@
         "YES": "Áno, vymazať ",
         "NO": "Nie, ponechať "
       }
+    },
+    "EVENTS": {
+      "TITLE": "SLA Misses",
+      "FRT": "Čas do prvej reakcie",
+      "NRT": "Next response time",
+      "RT": "Resolution time",
+      "SHOW_MORE": "{count} more",
+      "HIDE": "Hide {count} rows"
     }
   }
 }
