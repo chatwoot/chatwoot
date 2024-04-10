@@ -83,6 +83,14 @@
         "YES": "Kyllä, poista ",
         "NO": "Ei, säilytä "
       }
+    },
+    "EVENTS": {
+      "TITLE": "SLA Misses",
+      "FRT": "Ensimmäinen vasteaika",
+      "NRT": "Next response time",
+      "RT": "Resolution time",
+      "SHOW_MORE": "{count} more",
+      "HIDE": "Hide {count} rows"
     }
   }
 }
