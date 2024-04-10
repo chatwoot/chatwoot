@@ -45,12 +45,12 @@ const toggleShowAllNRT = () => {
       {{ $t('SLA.EVENTS.TITLE') }}
     </span>
     <SLA-event-item
-      v-if="frtMisses"
+      v-if="frtMisses.length"
       :label="$t('SLA.EVENTS.FRT')"
       :items="frtMisses"
     />
     <SLA-event-item
-      v-if="nrtMisses"
+      v-if="nrtMisses.length"
       :label="$t('SLA.EVENTS.NRT')"
       :items="nrtMisses"
     >
@@ -77,7 +77,7 @@ const toggleShowAllNRT = () => {
       </template>
     </SLA-event-item>
     <SLA-event-item
-      v-if="rtMisses"
+      v-if="rtMisses.length"
       :label="$t('SLA.EVENTS.RT')"
       :items="rtMisses"
     />
