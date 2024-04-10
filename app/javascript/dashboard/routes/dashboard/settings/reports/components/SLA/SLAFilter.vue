@@ -8,7 +8,6 @@
         v-for="filter in activeFilters"
         v-bind="filter"
         :key="filter.type"
-        :button-text="filter.name"
         :input-placeholder="
           $t(
             `SLA_REPORTS.DROPDOWN.INPUT_PLACEHOLDER.${filter.type.toUpperCase()}`
