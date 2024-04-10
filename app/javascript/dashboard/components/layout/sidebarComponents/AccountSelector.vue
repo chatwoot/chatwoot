@@ -45,7 +45,7 @@
 
     <div
       v-if="globalConfig.createNewAccountFromDashboard"
-      class="modal-footer delete-item"
+      class="flex justify-end items-center p-8 gap-2"
     >
       <button
         class="button success large expanded nice"

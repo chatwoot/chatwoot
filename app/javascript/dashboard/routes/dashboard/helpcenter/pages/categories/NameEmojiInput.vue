@@ -2,7 +2,7 @@
   <div class="flex items-center relative">
     <woot-button
       variant="hollow"
-      class="absolute [&>span]:flex [&>span]:items-center [&>span]:justify-center z-10 top-[25px] h-[2.45rem] w-[2.45rem] !text-slate-400 dark:!text-slate-600 dark:!bg-slate-900 !p-0"
+      class="absolute [&>span]:flex [&>span]:items-center [&>span]:justify-center z-10 top-[28px] h-[2.5rem] w-[2.45rem] !text-slate-400 dark:!text-slate-600 dark:!bg-slate-900 !p-0"
       color-scheme="secondary"
       @click="toggleEmojiPicker"
     >

@@ -54,7 +54,7 @@
       </label>
     </div>
 
-    <div class="medium-8 columns messagingServiceHelptext">
+    <div class="max-w-[65%] w-full messagingServiceHelptext">
       <label for="useMessagingService">
         <input
           id="useMessagingService"
@@ -84,7 +84,7 @@
         }}</span>
       </label>
     </div>
-    <div class="medium-8 columns messagingServiceHelptext">
+    <div class="max-w-[65%] w-full messagingServiceHelptext">
       <label for="useAPIKey">
         <input
           id="useAPIKey"
