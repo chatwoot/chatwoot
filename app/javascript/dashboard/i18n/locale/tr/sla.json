@@ -83,6 +83,14 @@
         "YES": "Evet, Sil ",
         "NO": "Hayır, Tut"
       }
+    },
+    "EVENTS": {
+      "TITLE": "SLA Misses",
+      "FRT": "İlk yanıt süresi",
+      "NRT": "Next response time",
+      "RT": "Resolution time",
+      "SHOW_MORE": "{count} more",
+      "HIDE": "Hide {count} rows"
     }
   }
 }
