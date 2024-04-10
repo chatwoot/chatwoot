@@ -40,7 +40,7 @@
         "DESC": "( Kopā )"
       },
       "BOT_HANDOFF_COUNT": {
-        "NAME": "Handoff Count",
+        "NAME": "Nodošanas Skaits",
         "DESC": "( Kopā )"
       },
       "REPLY_TIME": {
@@ -442,23 +442,23 @@
     }
   },
   "BOT_REPORTS": {
-    "HEADER": "Bot Reports",
+    "HEADER": "Robotu Atskaites",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
-        "LABEL": "No. of Conversations",
-        "TOOLTIP": "Total number of conversations handled by the bot"
+        "LABEL": "Sarunu Skaits",
+        "TOOLTIP": "Kopējais robota apstrādāto sarunu skaits"
       },
       "TOTAL_RESPONSES": {
-        "LABEL": "Total Responses",
-        "TOOLTIP": "Total number of responses sent by the bot"
+        "LABEL": "Kopējais atbilžu skaits",
+        "TOOLTIP": "Kopējais robota nosūtīto atbilžu skaits"
       },
       "RESOLUTION_RATE": {
-        "LABEL": "Resolution Rate",
-        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+        "LABEL": "Atrisināšanas Apjoms",
+        "TOOLTIP": "Kopējais robota atrisināto sarunu skaits / kopējais robota apstrādāto sarunu skaits * 100"
       },
       "HANDOFF_RATE": {
-        "LABEL": "Handoff Rate",
-        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+        "LABEL": "Nodošanas Apjoms",
+        "TOOLTIP": "Kopējais aģentiem nodoto sarunu skaits / kopējais robota apstrādāto sarunu skaits * 100"
       }
     }
   },
@@ -507,32 +507,32 @@
     "SATURDAY": "Sestdiena"
   },
   "SLA_REPORTS": {
-    "HEADER": "SLA Reports",
-    "NO_RECORDS": "SLA applied conversations are not available.",
-    "LOADING": "Loading SLA data...",
-    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
-    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "HEADER": "SLA Atskaites",
+    "NO_RECORDS": "SLA sarunas nav pieejamas.",
+    "LOADING": "Notiek SLA datu ielāde...",
+    "DOWNLOAD_SLA_REPORTS": "Lejupielādēt SLA atskaites",
+    "DOWNLOAD_FAILED": "Neizdevās lejupielādēt SLA atskaites",
     "METRICS": {
       "HIT_RATE": {
-        "LABEL": "Hit Rate",
-        "TOOLTIP": "Percentage of SLAs created were completed successfully"
+        "LABEL": "Rezultātu Līmenis",
+        "TOOLTIP": "Izveidoto SLA procentuālā daļa tika veiksmīgi pabeigta"
       },
       "NO_OF_MISSES": {
-        "LABEL": "Number of Misses",
-        "TOOLTIP": "Total SLA misses in a certain period"
+        "LABEL": "Nokavēto Skaits",
+        "TOOLTIP": "Kopējais nokavēto SLA skaits noteiktā periodā"
       },
       "NO_OF_CONVERSATIONS": {
-        "LABEL": "Number of Conversations",
-        "TOOLTIP": "Total number of conversations with SLA"
+        "LABEL": "Sarunu Skaits",
+        "TOOLTIP": "Kopējais sarunu skaits ar SLA"
       }
     },
     "TABLE": {
       "HEADER": {
-        "POLICY": "Policy",
+        "POLICY": "Politika",
         "CONVERSATION": "Saruna",
         "AGENT": "Aģents"
       },
-      "VIEW_DETAILS": "View Details"
+      "VIEW_DETAILS": "Skatīt Detaļas"
     }
   }
 }
