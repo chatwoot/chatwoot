@@ -1,13 +1,13 @@
 <template>
   <div
     v-if="!provider"
-    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full md:w-full max-w-full md:max-w-[75%] flex-shrink-0 flex-grow-0"
+    class="wizard-body small-12 medium-9 columns height-auto"
   >
     <page-header
       :header-title="$t('INBOX_MGMT.ADD.EMAIL_PROVIDER.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.EMAIL_PROVIDER.DESCRIPTION')"
     />
-    <div class="flex flex-row flex-wrap mx-0 mt-6">
+    <div class="row channel-list">
       <channel-selector
         v-for="emailProvider in emailProviderList"
         :key="emailProvider.key"
@@ -63,3 +63,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.channel-list {
+  margin-top: var(--space-medium);
+}
+</style>

@@ -6,7 +6,7 @@
       :header-content="message"
       :header-content-value="messageValue"
     />
-    <div class="flex justify-end items-center gap-2 p-8">
+    <div class="modal-footer delete-item">
       <woot-button variant="clear" class="action-button" @click="onClose">
         {{ rejectText }}
       </woot-button>

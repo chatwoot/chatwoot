@@ -319,13 +319,12 @@
       "HEADERS": {
         "TITLE": "Название",
         "CATEGORY": "Категория",
-        "READ_COUNT": "Views",
+        "READ_COUNT": "Счетчик просмотров",
         "STATUS": "Статус",
         "LAST_EDITED": "Последнее изменение"
       },
       "COLUMNS": {
-        "BY": "От",
-        "AUTHOR_NOT_AVAILABLE": "Автор недоступен"
+        "BY": "От"
       }
     },
     "EDIT_ARTICLE": {

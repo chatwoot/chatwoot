@@ -319,13 +319,12 @@
       "HEADERS": {
         "TITLE": "Titlu",
         "CATEGORY": "Categorie",
-        "READ_COUNT": "Views",
+        "READ_COUNT": "Contor citire",
         "STATUS": "Status",
         "LAST_EDITED": "Ultima modificare"
       },
       "COLUMNS": {
-        "BY": "de",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "BY": "de"
       }
     },
     "EDIT_ARTICLE": {

@@ -1,12 +1,10 @@
 <template>
   <transition name="popover-animation">
-    <div
-      class="min-w-[15rem] max-w-[22.5rem] p-6 overflow-y-auto border-l rtl:border-r rtl:border-l-0 border-solid border-slate-50 dark:border-slate-700"
-    >
+    <div class="article-settings--container">
       <h3 class="text-base text-slate-800 dark:text-slate-100">
         {{ $t('HELP_CENTER.ARTICLE_SETTINGS.TITLE') }}
       </h3>
-      <div class="mt-4 mb-6">
+      <div class="form-wrap">
         <label>
           {{ $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.CATEGORY.LABEL') }}
           <multiselect-dropdown
@@ -66,7 +64,6 @@
           {{ $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.META_DESCRIPTION.LABEL') }}
           <textarea
             v-model="metaDescription"
-            class="text-sm"
             rows="3"
             type="text"
             :placeholder="
@@ -98,7 +95,7 @@
           />
         </label>
       </div>
-      <div class="flex flex-col">
+      <div class="action-buttons">
         <woot-button
           icon="archive"
           size="small"
@@ -244,24 +241,35 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.article-settings--container {
+  @apply flex-[0.3] min-w-[15rem] max-w-[22.5rem] py-2 pl-4 rtl:pl-0 rtl:pr-4 ml-4 rtl:ml-0 rtl:mr-4 overflow-y-auto border-l rtl:border-r rtl:border-l-0 border-solid border-slate-50 dark:border-slate-700;
+
+  .form-wrap {
+    @apply mt-4 mb-6;
+
+    textarea {
+      @apply text-sm;
+    }
+  }
+
+  .action-buttons {
+    @apply flex flex-col;
+  }
+}
 ::v-deep {
   .multiselect {
     @apply mb-0;
   }
-
   .multiselect__content-wrapper {
     @apply hidden;
   }
-
   .multiselect--active .multiselect__tags {
     padding-right: var(--space-small) !important;
     @apply rounded-md;
   }
-
   .multiselect__placeholder {
     @apply text-slate-300 dark:text-slate-200 pt-2 mb-0;
   }
-
   .multiselect__select {
     @apply hidden;
   }

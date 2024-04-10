@@ -12,7 +12,7 @@ jest.mock('../../../utils/api', () => ({
   getHeaderExpiry: jest.fn(),
 }));
 jest.mock('js-cookie', () => ({
-  get: jest.fn(),
+  getJSON: jest.fn(),
 }));
 
 const commit = jest.fn();
@@ -155,14 +155,14 @@ describe('#actions', () => {
 
   describe('#setUser', () => {
     it('sends correct actions if user is logged in', async () => {
-      Cookies.get.mockImplementation(() => true);
+      Cookies.getJSON.mockImplementation(() => true);
       actions.setUser({ commit, dispatch });
       expect(commit.mock.calls).toEqual([]);
       expect(dispatch.mock.calls).toEqual([['validityCheck']]);
     });
 
     it('sends correct actions if user is not logged in', async () => {
-      Cookies.get.mockImplementation(() => false);
+      Cookies.getJSON.mockImplementation(() => false);
       actions.setUser({ commit, dispatch });
       expect(commit.mock.calls).toEqual([
         [types.default.CLEAR_USER],

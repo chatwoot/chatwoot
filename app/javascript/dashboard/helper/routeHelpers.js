@@ -86,6 +86,3 @@ export const getConversationDashboardRoute = routeName => {
       return null;
   }
 };
-
-export const isAInboxViewRoute = routeName =>
-  ['inbox_view_conversation'].includes(routeName);

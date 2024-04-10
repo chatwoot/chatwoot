@@ -1,7 +1,7 @@
 <template>
   <div class="contact-attribute">
     <div class="title-wrap">
-      <h4 class="text-sm title">
+      <h4 class="text-block-title title">
         <div class="title--icon">
           <emoji-or-icon :icon="icon" :emoji="emoji" />
         </div>
@@ -9,22 +9,17 @@
       </h4>
     </div>
     <div v-show="isEditing">
-      <div class="mb-2 w-full flex items-center">
+      <div class="input-group small">
         <input
           ref="inputfield"
           v-model="editedValue"
           type="text"
-          class="!h-8 ltr:rounded-r-none rtl:rounded-l-none !mb-0 !text-sm"
+          class="input-group-field"
           autofocus="true"
           @keyup.enter="onUpdate"
         />
-        <div>
-          <woot-button
-            size="small"
-            icon="ion-checkmark"
-            class="rounded-l-none rtl:rounded-r-none"
-            @click="onUpdate"
-          />
+        <div class="input-group-button">
+          <woot-button size="small" icon="ion-checkmark" @click="onUpdate" />
         </div>
       </div>
     </div>

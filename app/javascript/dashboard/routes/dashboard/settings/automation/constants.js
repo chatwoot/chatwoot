@@ -611,9 +611,4 @@ export const AUTOMATION_ACTION_TYPES = [
     label: 'Change Priority',
     inputType: 'search_select',
   },
-  {
-    key: 'add_sla',
-    label: 'Add SLA',
-    inputType: 'search_select',
-  },
 ];

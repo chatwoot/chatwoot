@@ -14,7 +14,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "เรากำลังออนไลน์",
-    "OFFLINE": "เราไม่อยู่"
+    "OFFLINE": "ออฟไลน์"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "ปกติจะตอบกลับภายในไม่กี่นาที",
@@ -80,8 +80,7 @@
     },
     "CAMPAIGN_HEADER": "โปรดแจ้งชื่อ และ อีเมลื ก่อนเริ่มการสนทนา",
     "IS_REQUIRED": "is required",
-    "REQUIRED": "โปรดระบุ",
-    "REGEX_ERROR": "Please provide a valid input"
+    "REQUIRED": "โปรดระบุ"
   },
   "FILE_SIZE_LIMIT": "ไฟล์ใหเกินกว่า {MAXIMUM_FILE_UPLOAD_SIZE} ที่กำหนดไว้",
   "CHAT_FORM": {

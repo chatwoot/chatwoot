@@ -1,7 +1,7 @@
 <template>
   <div class="py-3 px-4">
     <div class="flex items-center mb-1">
-      <h4 class="text-sm flex items-center m-0 w-full error">
+      <h4 class="text-block-title flex items-center m-0 w-full error">
         <div v-if="isAttributeTypeCheckbox" class="checkbox-wrap">
           <input
             v-model="editedValue"
@@ -12,7 +12,7 @@
         </div>
         <div class="flex items-center justify-between w-full">
           <span
-            class="attribute-name w-full text-slate-800 dark:text-slate-100 font-medium text-sm mb-0"
+            class="attribute-name"
             :class="{ error: $v.editedValue.$error }"
           >
             {{ label }}
@@ -32,24 +32,19 @@
     </div>
     <div v-if="notAttributeTypeCheckboxAndList">
       <div v-show="isEditing">
-        <div class="mb-2 w-full flex items-center">
+        <div class="input-group small">
           <input
             ref="inputfield"
             v-model="editedValue"
             :type="inputType"
-            class="!h-8 ltr:rounded-r-none rtl:rounded-l-none !mb-0 !text-sm"
+            class="input-group-field"
             autofocus="true"
             :class="{ error: $v.editedValue.$error }"
             @blur="$v.editedValue.$touch"
             @keyup.enter="onUpdate"
           />
-          <div>
-            <woot-button
-              size="small"
-              icon="checkmark"
-              class="rounded-l-none rtl:rounded-r-none"
-              @click="onUpdate"
-            />
+          <div class="input-group-button">
+            <woot-button size="small" icon="checkmark" @click="onUpdate" />
           </div>
         </div>
         <span
@@ -131,26 +126,18 @@ import { required, url } from 'vuelidate/lib/validators';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import { isValidURL } from '../helper/URLHelper';
-import customAttributeMixin from '../mixins/customAttributeMixin';
 const DATE_FORMAT = 'yyyy-MM-dd';
 
 export default {
   components: {
     MultiselectDropdown,
   },
-  mixins: [customAttributeMixin],
   props: {
     label: { type: String, required: true },
     values: { type: Array, default: () => [] },
     value: { type: [String, Number, Boolean], default: '' },
     showActions: { type: Boolean, default: false },
     attributeType: { type: String, default: 'text' },
-    attributeRegex: {
-      type: String,
-      default: null,
-    },
-    regexCue: { type: String, default: null },
-    regexEnabled: { type: Boolean, default: false },
     attributeKey: { type: String, required: true },
     contactId: { type: Number, default: null },
   },
@@ -217,11 +204,6 @@ export default {
       if (this.$v.editedValue.url) {
         return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.INVALID_URL');
       }
-      if (!this.$v.editedValue.regexValidation) {
-        return this.regexCue
-          ? this.regexCue
-          : this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.INVALID_INPUT');
-      }
       return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.REQUIRED');
     },
   },
@@ -239,15 +221,7 @@ export default {
       };
     }
     return {
-      editedValue: {
-        required,
-        regexValidation: value => {
-          return !(
-            this.attributeRegex &&
-            !this.getRegexp(this.attributeRegex).test(value)
-          );
-        },
-      },
+      editedValue: { required },
     };
   },
   mounted() {
@@ -311,6 +285,7 @@ export default {
   @apply my-0 mr-2 ml-0;
 }
 .attribute-name {
+  @apply w-full text-slate-800 dark:text-slate-100;
   &.error {
     @apply text-red-400 dark:text-red-500;
   }

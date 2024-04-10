@@ -5,11 +5,11 @@
     show
     :on-close="onClose"
   >
-    <div class="content">
+    <div class="column content">
       <p>
         <b>{{ $t('TRANSLATE_MODAL.ORIGINAL_CONTENT') }}</b>
       </p>
-      <p v-dompurify-html="content" class="mb-0" />
+      <p v-dompurify-html="content" />
       <br />
       <hr />
       <div v-if="translationsAvailable">

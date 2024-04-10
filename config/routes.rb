@@ -52,9 +52,7 @@ Rails.application.routes.draw do
             resource :contact_merge, only: [:create]
           end
           resource :bulk_actions, only: [:create]
-          resources :agents, only: [:index, :create, :update, :destroy] do
-            post :bulk_create, on: :collection
-          end
+          resources :agents, only: [:index, :create, :update, :destroy]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
           end
@@ -86,7 +84,7 @@ Rails.application.routes.draw do
           namespace :channels do
             resource :twilio_channel, only: [:create]
           end
-          resources :conversations, only: [:index, :create, :show, :update] do
+          resources :conversations, only: [:index, :create, :show] do
             collection do
               get :meta
               get :search
@@ -183,11 +181,9 @@ Rails.application.routes.draw do
             collection do
               post :read_all
               get :unread_count
-              post :destroy_all
             end
             member do
               post :snooze
-              post :unread
             end
           end
           resource :notification_settings, only: [:show, :update]
@@ -249,11 +245,6 @@ Rails.application.routes.draw do
       # end of account scoped api routes
       # ----------------------------------
 
-      namespace :keycloak do
-        resources :logout, only: [:create]
-        resources :check_keycloak_session, only: [:create]
-      end
-
       namespace :integrations do
         resources :webhooks, only: [:create]
       end
@@ -264,7 +255,6 @@ Rails.application.routes.draw do
           post :availability
           post :auto_offline
           put :set_active_account
-          post :resend_confirmation
         end
       end
 
@@ -301,42 +291,20 @@ Rails.application.routes.draw do
             end
           end
         end
-        # chatbot routes
-        post '/store-to-db', to: 'chatbot#store_to_db'
-        post '/old-bot-train', to: 'chatbot#old_bot_train'
-        post '/change-bot-name', to: 'chatbot#change_bot_name'
-        get '/chatbot-with-account-id', to: 'chatbot#fetch_chatbot_with_account_id'
-        delete '/chatbot-with-chatbot-id', to: 'chatbot#delete_chatbot_with_chatbot_id'
-        put '/update-bot-info', to: 'chatbot#update_bot_info'
-        post '/toggle-chatbot-status', to: 'chatbot#toggle_chatbot_status'
-        get '/is-inbox-widget', to: 'chatbot#inbox_widget'
-        get '/chatbot-status', to: 'chatbot#chatbot_status'
-        get '/chatbot-id-to-name', to: 'chatbot#chatbot_id_to_name'
-        post '/create-chatbot-microservice', to: 'chatbot#create_chatbot_microservice'
       end
     end
 
     namespace :v2 do
-      resources :accounts, only: [:create] do
-        scope module: :accounts do
-          resources :summary_reports, only: [] do
-            collection do
-              get :agent
-              get :team
-            end
-          end
-          resources :reports, only: [:index] do
-            collection do
-              get :summary
-              get :bot_summary
-              get :agents
-              get :inboxes
-              get :labels
-              get :teams
-              get :conversations
-              get :conversation_traffic
-              get :bot_metrics
-            end
+      resources :accounts, only: [], module: :accounts do
+        resources :reports, only: [:index] do
+          collection do
+            get :summary
+            get :agents
+            get :inboxes
+            get :labels
+            get :teams
+            get :conversations
+            get :conversation_traffic
           end
         end
       end
@@ -393,9 +361,8 @@ Rails.application.routes.draw do
         resources :inboxes do
           scope module: :inboxes do
             resources :contacts, only: [:create, :show, :update] do
-              resources :conversations, only: [:index, :create, :show] do
+              resources :conversations, only: [:index, :create] do
                 member do
-                  post :toggle_status
                   post :toggle_typing
                   post :update_last_seen
                 end
@@ -439,7 +406,7 @@ Rails.application.routes.draw do
   post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
-  # OneHash Stripe Billing Route
+  #OneHash Stripe Billing Route
   post 'webhooks/stripe', to: 'webhooks/stripe#process_payload'
 
   namespace :twitter do
@@ -483,10 +450,7 @@ Rails.application.routes.draw do
 
       resources :coupon_codes, only: [:index, :show, :edit, :update]
       resources :access_tokens, only: [:index, :show]
-      resources :response_sources, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
-        get :chat, on: :member
-        post :chat, on: :member, action: :process_chat
-      end
+      resources :response_sources, only: [:index, :show, :new, :create, :edit, :update, :destroy]
       resources :response_documents, only: [:index, :show, :new, :create, :edit, :update, :destroy]
       resources :responses, only: [:index, :show, :new, :create, :edit, :update, :destroy]
       resources :installation_configs, only: [:index, :new, :create, :show, :edit, :update]
@@ -521,5 +485,4 @@ Rails.application.routes.draw do
   # ----------------------------------------------------------------------
   # Routes for testing
   resources :widget_tests, only: [:index] unless Rails.env.production?
-  # ----------------------------------------------------------------------
 end

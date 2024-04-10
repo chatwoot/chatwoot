@@ -78,7 +78,7 @@ describe('MoveActions', () => {
 
       expect(window.bus.$emit).toBeCalledWith(
         'newToastMessage',
-        'This contact is blocked successfully. You will not be notified of any future conversations.',
+        'This conversation is muted for 6 hours',
         undefined
       );
     });
@@ -104,7 +104,7 @@ describe('MoveActions', () => {
 
       expect(window.bus.$emit).toBeCalledWith(
         'newToastMessage',
-        'This contact is unblocked successfully.',
+        'This conversation is unmuted',
         undefined
       );
     });

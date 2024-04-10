@@ -1,5 +1,3 @@
-# TODO: Move this values to features.yml itself
-# No need to replicate the same values in two places
 custom_branding:
   name: 'Custom Branding'
   description: 'Apply your own branding to this installation.'

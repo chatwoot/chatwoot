@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
-  >
+  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%]">
     <div v-if="!hasLoginStarted" class="login-init h-full">
       <a href="#" @click="startLogin()">
         <img
@@ -43,7 +41,7 @@
             "
           />
         </div>
-        <div class="w-3/5">
+        <div class="w-[60%]">
           <div class="w-full">
             <div class="input-wrap" :class="{ error: $v.selectedPage.$error }">
               {{ $t('INBOX_MGMT.ADD.FB.CHOOSE_PAGE') }}
@@ -285,16 +283,3 @@ export default {
   },
 };
 </script>
-<style scoped lang="scss">
-.login-init {
-  @apply pt-[30%] text-center;
-
-  p {
-    @apply p-6;
-  }
-
-  > a > img {
-    @apply w-60;
-  }
-}
-</style>

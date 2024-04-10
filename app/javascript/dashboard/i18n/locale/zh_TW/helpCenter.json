@@ -319,13 +319,12 @@
       "HEADERS": {
         "TITLE": "標題",
         "CATEGORY": "Category",
-        "READ_COUNT": "Views",
+        "READ_COUNT": "Read count",
         "STATUS": "狀態",
         "LAST_EDITED": "Last edited"
       },
       "COLUMNS": {
-        "BY": "by",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "BY": "by"
       }
     },
     "EDIT_ARTICLE": {

@@ -3,7 +3,7 @@
     <button
       v-for="keyOption in senderNameKeyOptions"
       :key="keyOption.key"
-      class="text-slate-800 dark:text-slate-100 cursor-pointer p-0"
+      class="text-slate-800 dark:text-slate-100 cursor-pointer"
       @click="toggleSenderNameType(keyOption.key)"
     >
       <preview-card

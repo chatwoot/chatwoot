@@ -6,9 +6,8 @@
     <conversation-header
       v-if="currentChat.id"
       :chat="currentChat"
-      :is-inbox-view="isInboxView"
       :is-contact-panel-open="isContactPanelOpen"
-      :show-back-button="isOnExpandedLayout && !isInboxView"
+      :show-back-button="isOnExpandedLayout"
       @contact-panel-toggle="onToggleContactPanel"
     />
     <woot-tabs
@@ -31,14 +30,10 @@
       <messages-view
         v-if="currentChat.id"
         :inbox-id="inboxId"
-        :is-inbox-view="isInboxView"
         :is-contact-panel-open="isContactPanelOpen"
         @contact-panel-toggle="onToggleContactPanel"
       />
-      <empty-state
-        v-if="!currentChat.id && !isInboxView"
-        :is-on-expanded-layout="isOnExpandedLayout"
-      />
+      <empty-state v-else :is-on-expanded-layout="isOnExpandedLayout" />
       <div
         v-show="showContactPanel"
         class="conversation-sidebar-wrap basis-full sm:basis-[17.5rem] md:basis-[18.75rem] lg:basis-[19.375rem] xl:basis-[20.625rem] 2xl:basis-[25rem] rtl:border-r border-slate-50 dark:border-slate-700 h-auto overflow-auto z-10 flex-shrink-0 flex-grow-0"
@@ -84,10 +79,6 @@ export default {
       type: [Number, String],
       default: '',
       required: false,
-    },
-    isInboxView: {
-      type: Boolean,
-      default: false,
     },
     isContactPanelOpen: {
       type: Boolean,

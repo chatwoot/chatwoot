@@ -103,7 +103,7 @@
       "CREATE_ERROR": "Помилка при створенні посилання на зустріч, будь ласка, спробуйте знову"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "ШІ асистент",
+      "AI_ASSIST": "AI Assist",
       "WITH_AI": " %{option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Reply Suggestion",
@@ -131,7 +131,7 @@
         "KEY_PLACEHOLDER": "Enter your OpenAI API key",
         "BUTTONS": {
           "NEED_HELP": "Потрібна допомога?",
-          "DISMISS": "Відхилити",
+          "DISMISS": "Dismiss",
           "FINISH": "Finish Setup"
         },
         "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",

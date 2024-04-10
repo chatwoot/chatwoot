@@ -80,8 +80,7 @@
     },
     "CAMPAIGN_HEADER": "Silahkan input nama dan email anda sebelum memulai percakapan",
     "IS_REQUIRED": "dibutuhkan",
-    "REQUIRED": "Diperlukan",
-    "REGEX_ERROR": "Please provide a valid input"
+    "REQUIRED": "Diperlukan"
   },
   "FILE_SIZE_LIMIT": "File melebihi batas {MAXIMUM_FILE_UPLOAD_SIZE} lampiran",
   "CHAT_FORM": {

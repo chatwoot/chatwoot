@@ -19,8 +19,6 @@ const state = {
       avg_first_response_time: false,
       avg_resolution_time: false,
       resolutions_count: false,
-      bot_resolutions_count: false,
-      bot_handoffs_count: false,
       reply_time: false,
     },
     data: {
@@ -30,8 +28,6 @@ const state = {
       avg_first_response_time: [],
       avg_resolution_time: [],
       resolutions_count: [],
-      bot_resolutions_count: [],
-      bot_handoffs_count: [],
       reply_time: [],
     },
   },
@@ -43,13 +39,6 @@ const state = {
     outgoing_messages_count: 0,
     reply_time: 0,
     resolutions_count: 0,
-    bot_resolutions_count: 0,
-    bot_handoffs_count: 0,
-    previous: {},
-  },
-  botSummary: {
-    bot_resolutions_count: 0,
-    bot_handoffs_count: 0,
     previous: {},
   },
   overview: {
@@ -70,9 +59,6 @@ const getters = {
   },
   getAccountSummary(_state) {
     return _state.accountSummary;
-  },
-  getBotSummary(_state) {
-    return _state.botSummary;
   },
   getAccountConversationMetric(_state) {
     return _state.overview.accountConversationMetric;
@@ -134,20 +120,6 @@ export const actions = {
     )
       .then(accountSummary => {
         commit(types.default.SET_ACCOUNT_SUMMARY, accountSummary.data);
-      })
-      .catch(() => {
-        commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
-      });
-  },
-  fetchBotSummary({ commit }, reportObj) {
-    Report.getBotSummary({
-      from: reportObj.from,
-      to: reportObj.to,
-      groupBy: reportObj.groupBy,
-      businessHours: reportObj.businessHours,
-    })
-      .then(botSummary => {
-        commit(types.default.SET_BOT_SUMMARY, botSummary.data);
       })
       .catch(() => {
         commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
@@ -270,9 +242,6 @@ const mutations = {
   },
   [types.default.SET_ACCOUNT_SUMMARY](_state, summaryData) {
     _state.accountSummary = summaryData;
-  },
-  [types.default.SET_BOT_SUMMARY](_state, summaryData) {
-    _state.botSummary = summaryData;
   },
   [types.default.SET_ACCOUNT_CONVERSATION_METRIC](_state, metricData) {
     _state.overview.accountConversationMetric = metricData;
