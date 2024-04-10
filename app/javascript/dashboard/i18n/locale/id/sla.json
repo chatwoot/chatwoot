@@ -83,6 +83,14 @@
         "YES": "Ya, Hapus ",
         "NO": "Tidak, Simpan "
       }
+    },
+    "EVENTS": {
+      "TITLE": "SLA Misses",
+      "FRT": "Waktu respons pertama",
+      "NRT": "Next response time",
+      "RT": "Resolution time",
+      "SHOW_MORE": "{count} more",
+      "HIDE": "Hide {count} rows"
     }
   }
 }
