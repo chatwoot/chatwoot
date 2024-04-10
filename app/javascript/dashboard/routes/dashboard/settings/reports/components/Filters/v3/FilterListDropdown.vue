@@ -14,10 +14,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  buttonText: {
-    type: String,
-    default: '',
-  },
   emptyListMessage: {
     type: String,
     default: '',
@@ -60,7 +56,6 @@ const isFilterActive = id => {
     <slot name="search">
       <filter-dropdown-search
         v-if="enableSearch && listItems.length"
-        :button-text="buttonText"
         :input-value="searchTerm"
         :input-placeholder="inputPlaceholder"
         @input="onSearch"

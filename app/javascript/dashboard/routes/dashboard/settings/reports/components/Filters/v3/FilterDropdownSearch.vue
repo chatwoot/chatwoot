@@ -1,9 +1,5 @@
 <script setup>
 defineProps({
-  buttonText: {
-    type: String,
-    default: '',
-  },
   inputValue: {
     type: String,
     default: '',
@@ -34,14 +30,14 @@ defineProps({
     </div>
     <!-- Clear filter button -->
     <woot-button
-      v-if="buttonText && !inputValue"
+      v-if="!inputValue"
       size="small"
       variant="clear"
       color-scheme="primary"
       class="!px-1 !py-1.5"
       @click="$emit('click')"
     >
-      {{ buttonText }}
+      {{ $t('REPORT.FILTER_ACTIONS.CLEAR_FILTER') }}
     </woot-button>
   </div>
 </template>

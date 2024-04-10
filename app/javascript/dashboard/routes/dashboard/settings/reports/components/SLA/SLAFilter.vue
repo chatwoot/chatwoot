@@ -9,7 +9,6 @@
         v-bind="filter"
         :key="filter.type"
         :button-text="filter.name"
-        :clear-button-text="$t('SLA_REPORTS.DROPDOWN.CLEAR_FILTER')"
         :empty-list-message="$t('SLA_REPORTS.DROPDOWN.EMPTY_LIST')"
         :input-placeholder="
           $t(

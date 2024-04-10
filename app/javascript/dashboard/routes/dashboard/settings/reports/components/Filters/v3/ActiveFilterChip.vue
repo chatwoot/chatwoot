@@ -25,10 +25,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  clearButtonText: {
-    type: String,
-    default: '',
-  },
   emptyListMessage: {
     type: String,
     default: '',
@@ -70,7 +66,6 @@ const addFilter = item => {
         v-on-clickaway="closeActiveFilterDropdown"
         :list-items="options"
         :active-filter-id="id"
-        :button-text="clearButtonText"
         :empty-list-message="emptyListMessage"
         :input-placeholder="placeholder"
         :enable-search="enableSearch"
