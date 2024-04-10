@@ -34,7 +34,7 @@ defineProps({
     </div>
     <!-- Clear filter button -->
     <woot-button
-      v-if="buttonText"
+      v-if="buttonText && !inputValue"
       size="small"
       variant="clear"
       color-scheme="primary"

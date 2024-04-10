@@ -35,7 +35,7 @@
               )
             "
             enable-search
-            class="flex flex-col w-[240px] overflow-y-auto right-0 top-10"
+            class="flex flex-col w-[240px] overflow-y-auto left-0 md:left-auto md:right-0 top-10"
             @click="addFilter"
             @removeFilter="removeFilter(filter.type)"
           />
@@ -50,8 +50,6 @@
     <!-- Add filter and clear filter button -->
     <div class="flex items-center gap-2">
       <filter-button
-        class="bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800"
-        :class="{ 'ltr:ml-2 rtl:mr-2': hasActiveFilters }"
         :button-text="$t('SLA_REPORTS.DROPDOWN.ADD_FIlTER')"
         @click="showDropdown"
       >

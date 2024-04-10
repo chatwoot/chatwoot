@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col flex-1 px-4 pt-4 overflow-auto">
+  <div class="flex flex-col flex-1 gap-6 px-4 pt-4 overflow-auto">
     <SLAReportFilters @filter-change="onFilterChange" />
     <woot-button
       color-scheme="success"

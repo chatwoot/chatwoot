@@ -1,18 +1,19 @@
 <template>
-  <div class="flex flex-col justify-between mb-4 md:flex-row">
-    <div class="flex flex-col w-full gap-3 md:grid filter-container">
-      <reports-filters-date-range @on-range-change="onDateRangeChange" />
-      <woot-date-range-picker
-        v-if="isDateRangeSelected"
-        show-range
-        class="no-margin auto-width"
-        :value="customDateRange"
-        :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
-        :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
-        @change="onCustomDateRangeChange"
-      />
-      <SLA-filter @filter-change="emitFilterChange" />
-    </div>
+  <div class="flex flex-col flex-wrap w-full gap-3 md:flex-row">
+    <reports-filters-date-range
+      class="sm:min-w-[200px] tiny h-8"
+      @on-range-change="onDateRangeChange"
+    />
+    <woot-date-range-picker
+      v-if="isDateRangeSelected"
+      show-range
+      class="no-margin auto-width sm:min-w-[240px] small h-8"
+      :value="customDateRange"
+      :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
+      :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
+      @change="onCustomDateRangeChange"
+    />
+    <SLA-filter @filter-change="emitFilterChange" />
   </div>
 </template>
 <script>
@@ -91,9 +92,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.filter-container {
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-}
-</style>
