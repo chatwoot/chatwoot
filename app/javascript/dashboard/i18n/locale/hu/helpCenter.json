@@ -319,13 +319,12 @@
       "HEADERS": {
         "TITLE": "Cím",
         "CATEGORY": "Kategória",
-        "READ_COUNT": "Views",
+        "READ_COUNT": "Olvasói szám",
         "STATUS": "Státusz",
         "LAST_EDITED": "Utoljára szerkesztve"
       },
       "COLUMNS": {
-        "BY": "általa:",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "BY": "általa:"
       }
     },
     "EDIT_ARTICLE": {

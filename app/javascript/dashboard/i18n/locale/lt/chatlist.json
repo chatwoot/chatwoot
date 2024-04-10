@@ -53,28 +53,28 @@
     },
     "SORT_ORDER_ITEMS": {
       "last_activity_at_asc": {
-        "TEXT": "Paskutinė veikla: nuo seniausio"
+        "TEXT": "Last activity: Oldest first"
       },
       "last_activity_at_desc": {
-        "TEXT": "Paskutinė veikla: nuo naujausio"
+        "TEXT": "Last activity: Newest first"
       },
       "created_at_desc": {
-        "TEXT": "Sukurta: nuo naujausio"
+        "TEXT": "Created at: Newest first"
       },
       "created_at_asc": {
-        "TEXT": "Sukurta: nuo seniausio"
+        "TEXT": "Created at: Oldest first"
       },
       "priority_desc": {
-        "TEXT": "Prioritetas: nuo aukščiausio"
+        "TEXT": "Priority: Highest first"
       },
       "priority_asc": {
-        "TEXT": "Prioritetas: nuo žemiausio"
+        "TEXT": "Priority: Lowest first"
       },
       "waiting_since_asc": {
-        "TEXT": "Laukia atsakymo: nuo ilgiausio"
+        "TEXT": "Pending Response: Longest first"
       },
       "waiting_since_desc": {
-        "TEXT": "Laukia atsakymo: nuo trumpiausio"
+        "TEXT": "Pending Response: Shortest first"
       }
     },
     "ATTACHMENTS": {

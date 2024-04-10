@@ -36,11 +36,9 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
-        contact_emails = response_body['payload'].pluck('email')
-        contact_inboxes_source_ids = response_body['payload'].flat_map { |c| c['contact_inboxes'].pluck('source_id') }
-
-        expect(contact_emails).to include(contact.email)
-        expect(contact_inboxes_source_ids).to include(contact_inbox.source_id)
+        expect(response_body['payload'].first['email']).to eq(contact.email)
+        expect(response_body['payload'].first['contact_inboxes'].first['source_id']).to eq(contact_inbox.source_id)
+        expect(response_body['payload'].first['contact_inboxes'].first['inbox']['name']).to eq(contact_inbox.inbox.name)
       end
 
       it 'returns all contacts without contact inboxes' do
@@ -50,11 +48,8 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
-
-        contact_emails = response_body['payload'].pluck('email')
-        contact_inboxes = response_body['payload'].pluck('contact_inboxes').flatten.compact
-        expect(contact_emails).to include(contact.email)
-        expect(contact_inboxes).to eq([])
+        expect(response_body['payload'].first['email']).to eq(contact.email)
+        expect(response_body['payload'].first['contact_inboxes'].blank?).to be(true)
       end
 
       it 'returns all contacts with company name desc order' do
@@ -197,7 +192,7 @@ RSpec.describe 'Contacts API', type: :request do
       let(:admin) { create(:user, account: account, role: :administrator) }
 
       it 'enqueues a contact export job' do
-        expect(Account::ContactsExportJob).to receive(:perform_later).with(account.id, nil, admin.email).once
+        expect(Account::ContactsExportJob).to receive(:perform_later).with(account.id, nil).once
 
         get "/api/v1/accounts/#{account.id}/contacts/export",
             headers: admin.create_new_auth_token,
@@ -207,7 +202,7 @@ RSpec.describe 'Contacts API', type: :request do
       end
 
       it 'enqueues a contact export job with sent_columns' do
-        expect(Account::ContactsExportJob).to receive(:perform_later).with(account.id, %w[phone_number email], admin.email).once
+        expect(Account::ContactsExportJob).to receive(:perform_later).with(account.id, %w[phone_number email]).once
 
         get "/api/v1/accounts/#{account.id}/contacts/export",
             headers: admin.create_new_auth_token,
@@ -556,27 +551,6 @@ RSpec.describe 'Contacts API', type: :request do
               headers: admin.create_new_auth_token
         expect(response).to have_http_status(:success)
         expect(Avatar::AvatarFromUrlJob).to have_been_enqueued.with(contact, 'http://example.com/avatar.png')
-      end
-
-      it 'allows blocking of contact' do
-        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
-              params: { blocked: true },
-              headers: admin.create_new_auth_token,
-              as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(contact.reload.blocked).to be(true)
-      end
-
-      it 'allows unblocking of contact' do
-        contact.update(blocked: true)
-        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
-              params: { blocked: false },
-              headers: admin.create_new_auth_token,
-              as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(contact.reload.blocked).to be(false)
       end
     end
   end

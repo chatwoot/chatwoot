@@ -53,28 +53,28 @@
     },
     "SORT_ORDER_ITEMS": {
       "last_activity_at_asc": {
-        "TEXT": "Остання активність: спочатку старіші"
+        "TEXT": "Last activity: Oldest first"
       },
       "last_activity_at_desc": {
-        "TEXT": "Остання активність: спочатку нові"
+        "TEXT": "Last activity: Newest first"
       },
       "created_at_desc": {
-        "TEXT": "Створено: спочатку нові"
+        "TEXT": "Created at: Newest first"
       },
       "created_at_asc": {
-        "TEXT": "Створено у: спочатку старіші"
+        "TEXT": "Created at: Oldest first"
       },
       "priority_desc": {
-        "TEXT": "Пріоритет: спочатку найвищий"
+        "TEXT": "Priority: Highest first"
       },
       "priority_asc": {
-        "TEXT": "Пріоритет: спочатку низький"
+        "TEXT": "Priority: Lowest first"
       },
       "waiting_since_asc": {
-        "TEXT": "Очікує відповіді: спочатку довгі"
+        "TEXT": "Pending Response: Longest first"
       },
       "waiting_since_desc": {
-        "TEXT": "Очікує відповіді: спершу короткі"
+        "TEXT": "Pending Response: Shortest first"
       }
     },
     "ATTACHMENTS": {

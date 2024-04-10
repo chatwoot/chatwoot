@@ -5,11 +5,10 @@
         <label class="input-group-label">
           {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.TO') }}
         </label>
-        <div class="rounded-none flex-1 min-w-0 m-0 whitespace-nowrap">
+        <div class="input-group-field">
           <woot-input
             v-model.trim="$v.toEmailsVal.$model"
             type="text"
-            class="[&>input]:mb-0 [&>input]:border-transparent [&>input]:h-8 [&>input]:text-sm [&>input]:!border-0 [&>input]:border-none"
             :class="{ error: $v.toEmailsVal.$error }"
             :placeholder="$t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.PLACEHOLDER')"
             @blur="onBlur"
@@ -22,10 +21,9 @@
         <label class="input-group-label">
           {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.LABEL') }}
         </label>
-        <div class="rounded-none flex-1 min-w-0 m-0 whitespace-nowrap">
+        <div class="input-group-field">
           <woot-input
             v-model.trim="$v.ccEmailsVal.$model"
-            class="[&>input]:mb-0 [&>input]:border-transparent [&>input]:h-8 [&>input]:text-sm [&>input]:!border-0 [&>input]:border-none"
             type="text"
             :class="{ error: $v.ccEmailsVal.$error }"
             :placeholder="$t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.PLACEHOLDER')"
@@ -50,11 +48,10 @@
         <label class="input-group-label">
           {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.LABEL') }}
         </label>
-        <div class="rounded-none flex-1 min-w-0 m-0 whitespace-nowrap">
+        <div class="input-group-field">
           <woot-input
             v-model.trim="$v.bccEmailsVal.$model"
             type="text"
-            class="[&>input]:mb-0 [&>input]:border-transparent [&>input]:h-8 [&>input]:text-sm [&>input]:!border-0 [&>input]:border-none"
             :class="{ error: $v.bccEmailsVal.$error }"
             :placeholder="
               $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.PLACEHOLDER')
@@ -153,10 +150,13 @@ export default {
   @apply text-sm text-red-500 dark:text-red-500;
 }
 .input-group {
-  @apply border-b border-solid border-slate-75 dark:border-slate-700 my-1 flex items-center gap-2;
+  @apply border-b border-solid border-slate-75 dark:border-slate-700 my-1;
 
   .input-group-label {
     @apply border-transparent bg-transparent text-xs font-semibold pl-0;
+  }
+  .input-group-field::v-deep input {
+    @apply mb-0 border-transparent;
   }
 }
 

@@ -45,8 +45,12 @@ module Api::V2::Accounts::ReportsHelper
   def generate_readable_report_metrics(report_metric)
     [
       report_metric[:conversations_count],
-      Reports::TimeFormatPresenter.new(report_metric[:avg_first_response_time]).format,
-      Reports::TimeFormatPresenter.new(report_metric[:avg_resolution_time]).format
+      time_to_minutes(report_metric[:avg_first_response_time]),
+      time_to_minutes(report_metric[:avg_resolution_time])
     ]
+  end
+
+  def time_to_minutes(time_in_seconds)
+    (time_in_seconds / 60).to_i
   end
 end

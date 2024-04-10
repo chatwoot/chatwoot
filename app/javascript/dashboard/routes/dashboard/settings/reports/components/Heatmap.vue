@@ -217,7 +217,7 @@ $marker-height: var(--space-two);
     font-weight: var(--font-weight-bold);
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: end;
     justify-content: center;
     @apply text-slate-800 dark:text-slate-200;
 

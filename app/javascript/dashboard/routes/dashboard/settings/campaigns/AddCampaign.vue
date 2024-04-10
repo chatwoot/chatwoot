@@ -61,7 +61,7 @@
         </label>
 
         <label
-          v-if="isOneOffType"
+          v-if="isOnOffType"
           class="multiselect-wrap--small"
           :class="{ error: $v.selectedAudience.$error }"
         >
@@ -106,7 +106,7 @@
           </span>
         </label>
 
-        <label v-if="isOneOffType">
+        <label v-if="isOnOffType">
           {{ $t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.LABEL') }}
           <woot-date-time-picker
             :value="scheduledAt"

@@ -2,7 +2,7 @@
   <woot-button
     v-tooltip.right="$t(`SIDEBAR.PROFILE_SETTINGS`)"
     variant="link"
-    class="items-center flex rounded-full"
+    class="current-user"
     @click="handleClick"
   >
     <thumbnail
@@ -38,3 +38,12 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+.current-user {
+  align-items: center;
+  display: flex;
+  border-radius: 50%;
+  border: 2px solid var(--white);
+}
+</style>

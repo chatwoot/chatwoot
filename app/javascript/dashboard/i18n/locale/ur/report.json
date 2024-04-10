@@ -37,7 +37,7 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} conversations)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -441,8 +441,7 @@
       "LOADING_MESSAGE": "Loading conversation metrics...",
       "OPEN": "کھولیں۔",
       "UNATTENDED": "Unattended",
-      "UNASSIGNED": "نا مقرر کیا ہوا",
-      "PENDING": "زیر التواء"
+      "UNASSIGNED": "نا مقرر کیا ہوا"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",

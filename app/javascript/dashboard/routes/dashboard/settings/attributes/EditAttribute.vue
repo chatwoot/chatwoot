@@ -70,30 +70,6 @@
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.ERROR') }}
           </label>
         </div>
-        <div v-if="isAttributeTypeText">
-          <input
-            v-model="regexEnabled"
-            type="checkbox"
-            @input="toggleRegexEnabled"
-          />
-          {{ $t('ATTRIBUTES_MGMT.ADD.FORM.ENABLE_REGEX.LABEL') }}
-        </div>
-        <woot-input
-          v-if="isAttributeTypeText && isRegexEnabled"
-          v-model="regexPattern"
-          :label="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_PATTERN.LABEL')"
-          type="text"
-          :placeholder="
-            $t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_PATTERN.PLACEHOLDER')
-          "
-        />
-        <woot-input
-          v-if="isAttributeTypeText && isRegexEnabled"
-          v-model="regexCue"
-          :label="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_CUE.LABEL')"
-          type="text"
-          :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_CUE.PLACEHOLDER')"
-        />
       </div>
       <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
         <woot-button :is-loading="isUpdating" :disabled="isButtonDisabled">
@@ -112,10 +88,9 @@ import { mapGetters } from 'vuex';
 import { required, minLength } from 'vuelidate/lib/validators';
 import { ATTRIBUTE_TYPES } from './constants';
 import alertMixin from 'shared/mixins/alertMixin';
-import customAttributeMixin from '../../../../mixins/customAttributeMixin';
 export default {
   components: {},
-  mixins: [alertMixin, customAttributeMixin],
+  mixins: [alertMixin],
   props: {
     selectedAttribute: {
       type: Object,
@@ -131,9 +106,6 @@ export default {
       displayName: '',
       description: '',
       attributeType: 0,
-      regexPattern: null,
-      regexCue: null,
-      regexEnabled: false,
       types: ATTRIBUTE_TYPES,
       show: true,
       attributeKey: '',
@@ -180,7 +152,6 @@ export default {
         this.isAttributeTypeList && this.isTouched && this.values.length === 0
       );
     },
-
     pageTitle() {
       return `${this.$t('ATTRIBUTES_MGMT.EDIT.TITLE')} - ${
         this.selectedAttribute.attribute_display_name
@@ -202,12 +173,6 @@ export default {
     isAttributeTypeList() {
       return this.attributeType === 6;
     },
-    isAttributeTypeText() {
-      return this.attributeType === 0;
-    },
-    isRegexEnabled() {
-      return this.regexEnabled;
-    },
   },
   mounted() {
     this.setFormValues();
@@ -224,16 +189,10 @@ export default {
       this.$refs.tagInput.$el.focus();
     },
     setFormValues() {
-      const regexPattern = this.selectedAttribute.regex_pattern
-        ? this.getRegexp(this.selectedAttribute.regex_pattern).source
-        : null;
       this.displayName = this.selectedAttribute.attribute_display_name;
       this.description = this.selectedAttribute.attribute_description;
       this.attributeType = this.selectedAttributeType;
       this.attributeKey = this.selectedAttribute.attribute_key;
-      this.regexPattern = regexPattern;
-      this.regexCue = this.selectedAttribute.regex_cue;
-      this.regexEnabled = regexPattern != null;
       this.values = this.setAttributeListValue;
     },
     async editAttributes() {
@@ -241,21 +200,14 @@ export default {
       if (this.$v.$invalid) {
         return;
       }
-      if (!this.regexEnabled) {
-        this.regexPattern = null;
-        this.regexCue = null;
-      }
       try {
         await this.$store.dispatch('attributes/update', {
           id: this.selectedAttribute.id,
           attribute_description: this.description,
           attribute_display_name: this.displayName,
           attribute_values: this.updatedAttributeListValues,
-          regex_pattern: this.regexPattern
-            ? new RegExp(this.regexPattern).toString()
-            : null,
-          regex_cue: this.regexCue,
         });
+
         this.alertMessage = this.$t('ATTRIBUTES_MGMT.EDIT.API.SUCCESS_MESSAGE');
         this.onClose();
       } catch (error) {
@@ -265,9 +217,6 @@ export default {
       } finally {
         this.showAlert(this.alertMessage);
       }
-    },
-    toggleRegexEnabled() {
-      this.regexEnabled = !this.regexEnabled;
     },
   },
 };

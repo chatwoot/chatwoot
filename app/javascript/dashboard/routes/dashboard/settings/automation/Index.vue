@@ -9,7 +9,7 @@
       {{ $t('AUTOMATION.HEADER_BTN_TXT') }}
     </woot-button>
     <div class="flex flex-row gap-4">
-      <div class="w-full lg:w-3/5">
+      <div class="w-[60%]">
         <p
           v-if="!uiFlags.isFetching && !records.length"
           class="flex h-full items-center flex-col justify-center"
@@ -77,7 +77,7 @@
         </table>
       </div>
 
-      <div class="hidden lg:block w-1/3">
+      <div class="w-[34%]">
         <span v-dompurify-html="$t('AUTOMATION.SIDEBAR_TXT')" />
       </div>
     </div>
@@ -153,8 +153,6 @@ export default {
     ...mapGetters({
       records: ['automations/getAutomations'],
       uiFlags: 'automations/getUIFlags',
-      accountId: 'getCurrentAccountId',
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
     // Delete Modal
     deleteConfirmText() {
@@ -170,9 +168,6 @@ export default {
     deleteMessage() {
       return ` ${this.selectedResponse.name}?`;
     },
-    isSLAEnabled() {
-      return this.isFeatureEnabledonAccount(this.accountId, 'sla');
-    },
   },
   mounted() {
     this.$store.dispatch('inboxes/get');
@@ -182,7 +177,6 @@ export default {
     this.$store.dispatch('labels/get');
     this.$store.dispatch('campaigns/get');
     this.$store.dispatch('automations/get');
-    if (this.isSLAEnabled) this.$store.dispatch('sla/get');
   },
   methods: {
     openAddPopup() {

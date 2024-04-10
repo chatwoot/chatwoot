@@ -11,7 +11,6 @@
   enabled: false
 - name: disable_branding
   enabled: false
-  premium:  true
 - name: email_continuity_on_api_channel
   enabled: false
 - name: help_center
@@ -56,16 +55,9 @@
   enabled: false
 - name: audit_logs
   enabled: false
-  premium: true
 - name: response_bot
   enabled: false
-  premium: true
 - name: message_reply_to
   enabled: false
 - name: insert_article_in_reply
   enabled: false
-- name: inbox_view
-  enabled: false
-- name: sla
-  enabled: false
-  premium: true

@@ -72,14 +72,3 @@ export const setNewPassword = async ({
 
 export const resetPassword = async ({ email }) =>
   wootAPI.post('auth/password', { email });
-
-export const logoutFromKeycloakSession = async currentUser =>
-  wootAPI.post('api/v1/keycloak/logout', currentUser);
-
-export const checkKeycloakSession = async currentUser => {
-  const res = await wootAPI.post(
-    'api/v1/keycloak/check_keycloak_session',
-    currentUser
-  );
-  return res.data;
-};

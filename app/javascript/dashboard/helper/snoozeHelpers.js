@@ -55,7 +55,7 @@ export const findSnoozeTime = (snoozeType, currentDate = new Date()) => {
 
   return parsedDate ? getUnixTime(parsedDate) : null;
 };
-export const snoozedReopenTime = snoozedUntil => {
+export const conversationReopenTime = snoozedUntil => {
   if (!snoozedUntil) {
     return null;
   }

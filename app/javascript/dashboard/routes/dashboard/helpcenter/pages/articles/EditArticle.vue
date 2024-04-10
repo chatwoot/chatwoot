@@ -1,8 +1,8 @@
 <template>
-  <div class="article-container flex w-full overflow-auto">
+  <div class="article-container">
     <div
-      class="flex-1 flex-shrink-0 overflow-auto px-6"
-      :class="{ 'flex-grow-1 flex-shrink-0': showArticleSettings }"
+      class="edit-article--container"
+      :class="{ 'is-sidebar-open': showArticleSettings }"
     >
       <edit-article-header
         :back-button-label="$t('HELP_CENTER.HEADER.TITLES.ALL_ARTICLES')"
@@ -15,7 +15,7 @@
         @show="showArticleInPortal"
         @update-meta="updateMeta"
       />
-      <div v-if="isFetching" class="text-center p-4 text-base h-full">
+      <div v-if="isFetching" class="text-center p-normal fs-default h-full">
         <spinner size="" />
         <span>{{ $t('HELP_CENTER.EDIT_ARTICLE.LOADING') }}</span>
       </div>
@@ -45,7 +45,6 @@
     />
   </div>
 </template>
-
 <script>
 import { mapGetters } from 'vuex';
 import EditArticleHeader from '../../components/Header/EditArticleHeader.vue';
@@ -108,11 +107,7 @@ export default {
   },
   methods: {
     onClickGoBack() {
-      if (window.history.length > 2) {
-        this.$router.go(-1);
-      } else {
-        this.$router.push({ name: 'list_all_locale_articles' });
-      }
+      this.$router.push({ name: 'list_all_locale_articles' });
     },
     fetchArticleDetails() {
       this.$store.dispatch('articles/show', {
@@ -215,3 +210,24 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.article-container {
+  display: flex;
+  padding: 0 var(--space-normal);
+  width: 100%;
+  flex: 1;
+  overflow: auto;
+
+  .edit-article--container {
+    flex: 1;
+    flex-shrink: 0;
+    overflow: auto;
+  }
+
+  .is-sidebar-open {
+    flex-grow: 1;
+    flex-shrink: 0;
+  }
+}
+</style>

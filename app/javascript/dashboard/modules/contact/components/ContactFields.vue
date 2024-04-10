@@ -1,6 +1,6 @@
 <template>
   <div class="contact-fields">
-    <h3 class="text-lg title">
+    <h3 class="block-title title">
       {{ $t('CONTACTS_PAGE.FIELDS') }}
     </h3>
     <attribute
