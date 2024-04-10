@@ -14,7 +14,7 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  inputButtonText: {
+  buttonText: {
     type: String,
     default: '',
   },
@@ -25,6 +25,10 @@ const props = defineProps({
   inputPlaceholder: {
     type: String,
     default: '',
+  },
+  activeFilterId: {
+    type: Number,
+    default: null,
   },
 });
 
@@ -42,19 +46,25 @@ const filteredListItems = computed(() => {
 const isDropdownListEmpty = computed(() => {
   return !filteredListItems.value.length;
 });
+
+const isFilterActive = id => {
+  if (!props.activeFilterId) return false;
+  return id === props.activeFilterId;
+};
 </script>
 <template>
   <div
-    class="z-20 w-40 bg-white border shadow dark:bg-slate-800 rounded-xl border-slate-50 dark:border-slate-700/50 max-h-72"
+    class="absolute z-20 w-40 bg-white border shadow dark:bg-slate-800 rounded-xl border-slate-50 dark:border-slate-700/50 max-h-[400px]"
+    @click.stop
   >
     <slot name="search">
       <filter-dropdown-search
         v-if="enableSearch && listItems.length"
-        :button-text="inputButtonText"
+        :button-text="buttonText"
         :input-value="searchTerm"
         :input-placeholder="inputPlaceholder"
         @input="onSearch"
-        @click="onSearch('')"
+        @click="$emit('removeFilter')"
       />
     </slot>
     <slot name="listItem">
@@ -65,6 +75,7 @@ const isDropdownListEmpty = computed(() => {
       <filter-list-item-button
         v-for="item in filteredListItems"
         :key="item.id"
+        :is-active="isFilterActive(item.id)"
         :button-text="item.name"
         @click="$emit('click', item)"
       />

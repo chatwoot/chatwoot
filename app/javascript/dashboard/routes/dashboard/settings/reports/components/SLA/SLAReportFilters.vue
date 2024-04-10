@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-col md:flex-row justify-between mb-4">
-    <div class="md:grid flex flex-col filter-container gap-3 w-full">
+  <div class="flex flex-col justify-between mb-4 md:flex-row">
+    <div class="flex flex-col w-full gap-3 md:grid filter-container">
       <reports-filters-date-range @on-range-change="onDateRangeChange" />
       <woot-date-range-picker
         v-if="isDateRangeSelected"
@@ -11,12 +11,14 @@
         :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
         @change="onCustomDateRangeChange"
       />
+      <SLA-filter @filter-change="emitFilterChange" />
     </div>
   </div>
 </template>
 <script>
 import WootDateRangePicker from 'dashboard/components/ui/DateRangePicker.vue';
 import ReportsFiltersDateRange from '../Filters/DateRange.vue';
+import SLAFilter from '../SLA/SLAFilter.vue';
 import subDays from 'date-fns/subDays';
 import { DATE_RANGE_OPTIONS } from '../../constants';
 import { getUnixStartOfDay, getUnixEndOfDay } from 'helpers/DateHelper';
@@ -25,6 +27,7 @@ export default {
   components: {
     WootDateRangePicker,
     ReportsFiltersDateRange,
+    SLAFilter,
   },
 
   data() {
@@ -70,7 +73,12 @@ export default {
       this.$emit('filter-change', {
         from,
         to,
+        ...this.selectedGroupByFilter,
       });
+    },
+    emitFilterChange(params) {
+      this.selectedGroupByFilter = params;
+      this.emitChange();
     },
     onDateRangeChange(selectedRange) {
       this.selectedDateRange = selectedRange;
@@ -86,6 +94,6 @@ export default {
 
 <style scoped>
 .filter-container {
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 }
 </style>
