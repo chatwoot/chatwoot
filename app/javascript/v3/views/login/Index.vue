@@ -2,7 +2,7 @@
   <main
     class="flex flex-col bg-white min-h-screen w-full py-20 sm:px-6 lg:px-8 dark:bg-slate-900 items-center justify-center"
   >
-    <section class="max-w-5xl mx-auto">
+    <!-- <section class="max-w-5xl mx-auto">
       <img
         :src="globalConfig.logo"
         :alt="globalConfig.installationName"
@@ -30,8 +30,8 @@
           {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
         </router-link>
       </p>
-    </section>
-    <section
+    </section> -->
+    <!-- <section
       class="bg-white shadow sm:mx-auto mt-10 sm:w-full sm:max-w-lg dark:bg-slate-800 p-11 sm:shadow-lg sm:rounded-lg"
       :class="{
         'mb-8 mt-15': !showGoogleOAuth,
@@ -75,26 +75,27 @@
           />
         </form>
         <GoogleOAuthButton v-if="showGoogleOAuth" />
-        <OIDCButton v-if="showOIDC"/>
       </div>
       <div v-else class="flex items-center justify-center">
         <spinner color-scheme="primary" size="" />
       </div>
-    </section>
+    </section> -->
+    <redirectLoader />
   </main>
 </template>
 
 <script>
 import { required, email } from 'vuelidate/lib/validators';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import SubmitButton from '../../components/Button/SubmitButton.vue';
+// import SubmitButton from '../../components/Button/SubmitButton.vue';
 import { mapGetters } from 'vuex';
 import { parseBoolean } from '@chatwoot/utils';
-import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
-import OIDCButton from '../../components/SSO/OIDC/Button.vue';
-import FormInput from '../../components/Form/Input.vue';
+// import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
+// import FormInput from '../../components/Form/Input.vue';
 import { login } from '../../api/auth';
-import Spinner from 'shared/components/Spinner.vue';
+// import Spinner from 'shared/components/Spinner.vue';
+import RedirectLoader from 'shared/components/RedirectLoader.vue';
+
 const ERROR_MESSAGES = {
   'no-account-found': 'LOGIN.OAUTH.NO_ACCOUNT_FOUND',
   'business-account-only': 'LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY',
@@ -102,12 +103,11 @@ const ERROR_MESSAGES = {
 
 export default {
   components: {
-    FormInput,
-    GoogleOAuthButton,
-    //KEYCLOAK OIDC
-    OIDCButton,
-    Spinner,
-    SubmitButton,
+    // FormInput,
+    // GoogleOAuthButton,
+    RedirectLoader,
+    // Spinner,
+    // SubmitButton,
   },
   mixins: [globalConfigMixin],
   props: {
@@ -150,9 +150,6 @@ export default {
     showGoogleOAuth() {
       return Boolean(window.chatwootConfig.googleOAuthClientId);
     },
-    showOIDC() {
-      return Boolean(window.chatwootConfig.keycloakClientId);
-    },
     showSignupLink() {
       return parseBoolean(window.chatwootConfig.signupEnabled);
     },
@@ -171,6 +168,11 @@ export default {
         this.$router.replace({ query: { ...query, error: undefined } });
       });
     }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.redirectToKeycloak();
+    }, 3000);
   },
   methods: {
     showAlert(message) {
@@ -210,6 +212,24 @@ export default {
           this.loginApi.hasErrored = true;
           this.showAlert(response?.message || this.$t('LOGIN.API.UNAUTH'));
         });
+    },
+    redirectToKeycloak() {
+      const realm = window.chatwootConfig.keycloakRealm;
+      const clientId = window.chatwootConfig.keycloakClientId;
+      const redirectUri = window.chatwootConfig.keycloakCallbackUrl;
+      const keycloakUri = window.chatwootConfig.keycloakUrl;
+      const baseUrl = `${keycloakUri}/realms/${realm}/protocol/openid-connect/auth`;
+      const responseType = 'code';
+      const scope = 'openid';
+
+      const queryString = new URLSearchParams({
+        client_id: clientId,
+        redirect_uri: redirectUri,
+        response_type: responseType,
+        scope: scope,
+      }).toString();
+
+      window.location.href = `${baseUrl}?${queryString}`;
     },
   },
 };
