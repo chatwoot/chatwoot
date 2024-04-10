@@ -83,6 +83,14 @@
         "YES": "예, 삭제합니다. ",
         "NO": "아니요, 유지해주세요. "
       }
+    },
+    "EVENTS": {
+      "TITLE": "SLA Misses",
+      "FRT": "첫 번째 응답 시간",
+      "NRT": "Next response time",
+      "RT": "Resolution time",
+      "SHOW_MORE": "{count} more",
+      "HIDE": "Hide {count} rows"
     }
   }
 }
