@@ -89,7 +89,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { mixin as clickaway } from 'vue-clickaway';
 import {
   buildFilterList,
   getActiveFilter,
@@ -109,7 +108,6 @@ export default {
     FilterDropdownEmptyState,
     ActiveFilterChip,
   },
-  mixins: [clickaway],
   data() {
     return {
       showDropdownMenu: false,
