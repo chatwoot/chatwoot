@@ -4,37 +4,25 @@
   >
     <!-- Active filters section -->
     <div v-if="hasActiveFilters" class="flex flex-wrap gap-2 md:flex-nowrap">
-      <filter-button
+      <active-filter-chip
         v-for="filter in activeFilters"
+        v-bind="filter"
         :key="filter.type"
-        right-icon="chevron-down"
         :button-text="filter.name"
-        class="bg-slate-50 dark:bg-slate-800 hover:bg-slate-75 dark:hover:bg-slate-800"
-        @click="openActiveFilterDropdown(filter.type)"
-      >
-        <template
-          v-if="showSubDropdownMenu && activeFilterType === filter.type"
-          #dropdown
-        >
-          <filter-list-dropdown
-            v-if="filter.options"
-            v-on-clickaway="closeActiveFilterDropdown"
-            :list-items="filter.options"
-            :active-filter-id="filter.id"
-            :button-text="$t('SLA_REPORTS.DROPDOWN.CLEAR_FILTER')"
-            :empty-list-message="$t('SLA_REPORTS.DROPDOWN.EMPTY_LIST')"
-            :input-placeholder="
-              $t(
-                `SLA_REPORTS.DROPDOWN.INPUT_PLACEHOLDER.${filter.type.toUpperCase()}`
-              )
-            "
-            enable-search
-            class="flex flex-col w-[240px] overflow-y-auto left-0 md:left-auto md:right-0 top-10"
-            @click="addFilter"
-            @removeFilter="removeFilter(filter.type)"
-          />
-        </template>
-      </filter-button>
+        :clear-button-text="$t('SLA_REPORTS.DROPDOWN.CLEAR_FILTER')"
+        :empty-list-message="$t('SLA_REPORTS.DROPDOWN.EMPTY_LIST')"
+        :input-placeholder="
+          $t(
+            `SLA_REPORTS.DROPDOWN.INPUT_PLACEHOLDER.${filter.type.toUpperCase()}`
+          )
+        "
+        :active-filter-type="activeFilterType"
+        :show-menu="showSubDropdownMenu"
+        enable-search
+        @toggleDropdown="openActiveFilterDropdown"
+        @addFilter="addFilter"
+        @removeFilter="removeFilter"
+      />
     </div>
     <!-- Dividing line between Active filters and Add filter button -->
     <div
@@ -114,6 +102,7 @@ import FilterButton from '../Filters/v3/FilterButton.vue';
 import FilterListDropdown from '../Filters/v3/FilterListDropdown.vue';
 import FilterListItemButton from '../Filters/v3/FilterListItemButton.vue';
 import FilterDropdownEmptyState from '../Filters/v3/FilterDropdownEmptyState.vue';
+import ActiveFilterChip from '../Filters/v3/ActiveFilterChip.vue';
 
 export default {
   components: {
@@ -121,6 +110,7 @@ export default {
     FilterListDropdown,
     FilterListItemButton,
     FilterDropdownEmptyState,
+    ActiveFilterChip,
   },
   mixins: [clickaway],
   data() {

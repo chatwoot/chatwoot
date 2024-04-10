@@ -1,0 +1,83 @@
+<script setup>
+import FilterButton from './FilterButton.vue';
+import FilterListDropdown from './FilterListDropdown.vue';
+
+import { defineEmits } from 'vue';
+
+const props = defineProps({
+  name: {
+    type: String,
+    required: true,
+  },
+  type: {
+    type: String,
+    required: true,
+  },
+  options: {
+    type: Array,
+    default: () => [],
+  },
+  activeFilterType: {
+    type: String,
+    default: '',
+  },
+  showMenu: {
+    type: Boolean,
+    default: false,
+  },
+  clearButtonText: {
+    type: String,
+    default: '',
+  },
+  emptyListMessage: {
+    type: String,
+    default: '',
+  },
+  placeholder: {
+    type: String,
+    default: '',
+  },
+  enableSearch: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const emit = defineEmits(['toggleDropdown', 'removeFilter', 'addFilter']);
+const toggleDropdown = () => {
+  emit('toggleDropdown', props.type);
+};
+
+const removeFilter = () => {
+  emit('removeFilter', props.type);
+};
+
+const addFilter = item => {
+  emit('addFilter', item);
+};
+</script>
+
+<template>
+  <filter-button
+    right-icon="chevron-down"
+    :button-text="name"
+    class="bg-slate-50 dark:bg-slate-800 hover:bg-slate-75 dark:hover:bg-slate-800"
+    @click="toggleDropdown"
+  >
+    <template v-if="showMenu && activeFilterType === type" #dropdown>
+      <filter-list-dropdown
+        v-if="options"
+        v-on-clickaway="closeActiveFilterDropdown"
+        :list-items="options"
+        :active-filter-id="id"
+        :button-text="clearButtonText"
+        :empty-list-message="emptyListMessage"
+        :input-placeholder="placeholder"
+        :enable-search="enableSearch"
+        class="flex flex-col w-[240px] overflow-y-auto left-0 md:left-auto md:right-0 top-10"
+        @click="addFilter"
+        @removeFilter="removeFilter"
+      />
+    </template>
+  </filter-button>
+</template>
