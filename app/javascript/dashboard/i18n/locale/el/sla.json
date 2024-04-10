@@ -83,6 +83,14 @@
         "YES": "Ναι, Διέγραψε τον/την ",
         "NO": "Όχι, Κράτησε τον/την"
       }
+    },
+    "EVENTS": {
+      "TITLE": "SLA Misses",
+      "FRT": "Χρόνος πρώτης ανταπόκρισης",
+      "NRT": "Next response time",
+      "RT": "Resolution time",
+      "SHOW_MORE": "{count} more",
+      "HIDE": "Hide {count} rows"
     }
   }
 }
