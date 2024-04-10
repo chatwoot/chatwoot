@@ -17,13 +17,13 @@
               :alt="globalConfig.installationName"
               class="h-14 w-auto hidden dark:block"
             />
-            <h2
+            <!-- <h2
               class="mb-7 mt-2 text-left text-3xl font-medium text-slate-900 dark:text-woot-50"
             >
               {{ $t('REGISTER.TRY_WOOT') }}
-            </h2>
+            </h2> -->
           </div>
-          <signup-form />
+          <!-- <signup-form /> -->
           <div
             class="text-sm text-slate-800 dark:text-woot-50 px-1 flex justify-center items-center gap-1"
           >
@@ -57,13 +57,13 @@
 <script>
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import SignupForm from './components/Signup/Form.vue';
+// import SignupForm from './components/Signup/Form.vue';
 import Testimonials from './components/Testimonials/Index.vue';
 import Spinner from 'shared/components/Spinner.vue';
 
 export default {
   components: {
-    SignupForm,
+    // SignupForm,
     Spinner,
     Testimonials,
   },
