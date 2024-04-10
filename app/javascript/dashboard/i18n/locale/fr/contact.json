@@ -39,10 +39,10 @@
     },
     "MERGE_CONTACT": "Fusionner le contact",
     "CONTACT_ACTIONS": "Actions du contact",
-    "MUTE_CONTACT": "Mettre la conversation en sourdine",
-    "UNMUTE_CONTACT": "Réactiver le son de conversation",
-    "MUTED_SUCCESS": "Cette conversation est mise en sourdine pendant 6 heures",
-    "UNMUTED_SUCCESS": "Cette conversation n'est plus muette",
+    "MUTE_CONTACT": "Block Contact",
+    "UNMUTE_CONTACT": "Unblock Contact",
+    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
+    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
     "SEND_TRANSCRIPT": "Envoyer la transcription",
     "EDIT_LABEL": "Modifier",
     "SIDEBAR_SECTIONS": {
@@ -79,7 +79,13 @@
     "TITLE": "Exporter les contacts",
     "DESC": "Exporter les contacts vers un fichier CSV.",
     "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer"
+    "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer",
+    "CONFIRM": {
+      "TITLE": "Exporter les contacts",
+      "MESSAGE": "Are you sure you want to export all contacts?",
+      "YES": "Yes, Export",
+      "NO": "No, Cancel"
+    }
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -339,7 +345,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Une valeur valide est requise",
-      "INVALID_URL": "URL invalide"
+      "INVALID_URL": "URL invalide",
+      "INVALID_INPUT": "Entrée invalide"
     }
   },
   "MERGE_CONTACTS": {

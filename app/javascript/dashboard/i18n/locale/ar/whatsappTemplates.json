@@ -2,7 +2,7 @@
     "WHATSAPP_TEMPLATES": {
         "MODAL": {
             "TITLE": "قوالب Whatsapp",
-            "SUBTITLE": "حدد قالب ما تريد إرساله",
+            "SUBTITLE": "حدد القالب الذي تريد إرساله",
             "TEMPLATE_SELECTED_SUBTITLE": "معالجة %{templateName}"
         },
         "PICKER": {

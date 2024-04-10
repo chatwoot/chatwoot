@@ -1,0 +1,60 @@
+{
+  "INBOX": {
+    "LIST": {
+      "TITLE": "Inbox",
+      "DISPLAY_DROPDOWN": "Display",
+      "LOADING": "Fetching notifications",
+      "EOF": "Toate notificările încărcate 🎉",
+      "404": "There are no active notifications in this group.",
+      "NO_NOTIFICATIONS": "No notifications",
+      "NOTE": "Notifications from all subscribed inboxes",
+      "SNOOZED_UNTIL": "Amânare până la",
+      "SNOOZED_UNTIL_TOMORROW": "Amânat până mâine",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Amânat până săptămâna viitoare"
+    },
+    "ACTION_HEADER": {
+      "SNOOZE": "Snooze notification",
+      "DELETE": "Delete notification"
+    },
+    "TYPES": {
+      "CONVERSATION_MENTION": "You have been mentioned in a conversation",
+      "CONVERSATION_CREATION": "New conversation created",
+      "CONVERSATION_ASSIGNMENT": "A conversation has been assigned to you",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "New message in an assigned conversation",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "New message in a conversation you are participating in"
+    },
+    "MENU_ITEM": {
+      "MARK_AS_READ": "Mark as read",
+      "MARK_AS_UNREAD": "Marcheaza ca necitit",
+      "SNOOZE": "Amânați",
+      "DELETE": "Şterge",
+      "MARK_ALL_READ": "Marcare totală ca citit",
+      "DELETE_ALL": "Delete all",
+      "DELETE_ALL_READ": "Delete all read"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Sort",
+      "DISPLAY": "Display :",
+      "SORT_OPTIONS": {
+        "NEWEST": "Newest",
+        "OLDEST": "Oldest",
+        "PRIORITY": "Prioritate"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "Amânat",
+        "READ": "Citește",
+        "LABELS": "Etichete",
+        "CONVERSATION_ID": "Conversation ID"
+      }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "Notification marked as read",
+      "MARK_AS_UNREAD": "Notification marked as unread",
+      "SNOOZE": "Notification snoozed",
+      "DELETE": "Notification deleted",
+      "MARK_ALL_READ": "All notifications marked as read",
+      "DELETE_ALL": "All notifications deleted",
+      "DELETE_ALL_READ": "All read notifications deleted"
+    }
+  }
+}

@@ -31,6 +31,7 @@ vi:
       disposable_email: Chúng tôi không cho phép các email dùng một lần
       invalid_email: Bạn đã nhập một email không hợp lệ
       email_already_exists: "Bạn đã đăng ký một tài khoản với %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Đăng ký thât bại
     data_import:
       data_type:
@@ -67,25 +68,25 @@ vi:
     utc_warning: Báo cáo đã được tạo với múi giờ UTC
     agent_csv:
       agent_name: Tên tổng đài viên
-      conversations_count: Số hội thoại
-      avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
-      avg_resolution_time: Thời gian giải quyết trung bình (phút)
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     inbox_csv:
       inbox_name: Tên kênh
       inbox_type: Kiểu kênh
       conversations_count: Số hội thoại
-      avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
-      avg_resolution_time: Thời gian giải quyết trung bình (phút)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     label_csv:
       label_title: Nhãn
       conversations_count: Số hội thoại
-      avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
-      avg_resolution_time: Thời gian giải quyết trung bình (phút)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     team_csv:
       team_name: Tên nhóm
       conversations_count: Số hội thoại
-      avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
-      avg_resolution_time: Thời gian giải quyết trung bình (phút)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: Múi giờ
     default_group_by: ngày
@@ -101,10 +102,12 @@ vi:
         recorded_at: Ngày nghi
   notifications:
     notification_title:
-      conversation_creation: "[Hội thoại mới] - #%{display_id} đã được tạo trong %{inbox_name}"
-      conversation_assignment: "[Phân công cho bạn] - #%{display_id} đã được phân công cho bạn"
-      assigned_conversation_new_message: "[Tin nhắn mới] - #%{display_id} %{content}"
-      conversation_mention: "Bạn đã được nhắn đến trong hội thoại [ID - %{display_id}] bởi %{name}"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} đã đề cập đến bạn trong hội thoại: "
@@ -228,3 +231,12 @@ vi:
       inbox_name: Hộp thư đến
       inbox_type: Inbox Type
     button: Mở cuộc trò chuyện
+  time_units:
+    days:
+      other: "%{count} days"
+    hours:
+      other: "%{count} hours"
+    minutes:
+      other: "%{count} minutes"
+    seconds:
+      other: "%{count} seconds"

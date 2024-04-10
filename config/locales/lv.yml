@@ -31,6 +31,7 @@ lv:
       disposable_email: Mēs nepieļaujam vienreizējās lietošanas e-pasta adreses
       invalid_email: Jūs esat ievadījis nederīgu e-pasta adresi
       email_already_exists: "Jūs jau esat reģistrējis kontu ar %{email}"
+      invalid_params: 'Kļūda. Lūdzu, pārbaudiet pierakstīšanās parametrus un mēģiniet vēlreiz'
       failed: Reģistrēšanās neizdevās
     data_import:
       data_type:
@@ -67,25 +68,25 @@ lv:
     utc_warning: Izveidotais pārskats atbilst UTC laika joslai
     agent_csv:
       agent_name: Aģenta vārds
-      conversations_count: Sarunu skaits
-      avg_first_response_time: Vidējais pirmās reakcijas laiks (Minūtes)
-      avg_resolution_time: Vidējais atrisināšanas laiks (Minūtes)
+      conversations_count: Piešķirtās sarunas
+      avg_first_response_time: Vidējais pirmās reakcijas laiks
+      avg_resolution_time: Vidējais atrisināšanas laiks
     inbox_csv:
       inbox_name: Iesūtnes nosaukums
       inbox_type: Iesūtnes tips
       conversations_count: Sarunu skaits
-      avg_first_response_time: Vidējais pirmās reakcijas laiks (Minūtes)
-      avg_resolution_time: Vidējais atrisināšanas laiks (Minūtes)
+      avg_first_response_time: Vidējais pirmās reakcijas laiks
+      avg_resolution_time: Vidējais atrisināšanas laiks
     label_csv:
       label_title: Etiķete
       conversations_count: Sarunu skaits
-      avg_first_response_time: Vidējais pirmās atbildes laiks (Minūtes)
-      avg_resolution_time: Vidējais atrisināšanas laiks (minūtes)
+      avg_first_response_time: Vidējais pirmās reakcijas laiks
+      avg_resolution_time: Vidējais atrisināšanas laiks
     team_csv:
       team_name: Komandas nosaukums
       conversations_count: Sarunu skaits
-      avg_first_response_time: Vidējais pirmās atbildes laiks (Minūtes)
-      avg_resolution_time: Vidējais atrisinājuma laiks (Minūtes)
+      avg_first_response_time: Vidējais pirmās reakcijas laiks
+      avg_resolution_time: Vidējais atrisināšanas laiks
     conversation_traffic_csv:
       timezone: Laika zona
     default_group_by: diena
@@ -101,10 +102,12 @@ lv:
         recorded_at: Reģistrētais datums
   notifications:
     notification_title:
-      conversation_creation: "[Jauna saruna] - #%{display_id} ir izveidota iesūtnē %{inbox_name}"
-      conversation_assignment: "[Piešķirts Jums] - Jums ir piešķirts #%{display_id}"
-      assigned_conversation_new_message: "[Jauns ziņojums] - #%{display_id} %{content}"
-      conversation_mention: "Jūs pieminēja sarunā [ID - %{display_id}] kā %{name}"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} pieminēja jūs stāstā: "
@@ -228,3 +231,20 @@ lv:
       inbox_name: Iesūtne
       inbox_type: Iesūtnes Veids
     button: Atvērt sarunu
+  time_units:
+    days:
+      zero: "%{count} dienas"
+      one: "%{count} diena"
+      other: "%{count} dienas"
+    hours:
+      zero: "%{count} stundas"
+      one: "%{count} stunda"
+      other: "%{count} stundas"
+    minutes:
+      zero: "%{count} minūtes"
+      one: "%{count} minūte"
+      other: "%{count} minūtes"
+    seconds:
+      zero: "%{count} sekundes"
+      one: "%{count} sekunde"
+      other: "%{count} sekundes"
