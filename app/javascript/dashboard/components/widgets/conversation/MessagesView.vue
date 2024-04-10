@@ -12,10 +12,7 @@
         variant="smooth"
         size="tiny"
         color-scheme="secondary"
-        class="rounded-bl-calc rtl:rotate-180 rounded-tl-calc fixed z-10 bg-white dark:bg-slate-700 border-slate-50 dark:border-slate-600 border-solid border border-r-0 box-border"
-        :class="
-          isInboxView ? 'top-52 md:top-40' : 'top-[9.5rem] md:top-[6.25rem]'
-        "
+        class="rounded-bl-calc rtl:rotate-180 rounded-tl-calc fixed top-[9.5rem] md:top-[6.25rem] z-10 bg-white dark:bg-slate-700 border-slate-50 dark:border-slate-600 border-solid border border-r-0 box-border"
         :icon="isRightOrLeftIcon"
         @click="onToggleContactPanel"
       />
@@ -36,7 +33,6 @@
         :is-a-whatsapp-channel="isAWhatsAppChannel"
         :is-web-widget-inbox="isAWebWidgetInbox"
         :is-a-facebook-inbox="isAFacebookInbox"
-        :is-an-email-inbox="isAnEmailChannel"
         :is-instagram="isInstagramDM"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :in-reply-to="getInReplyToMessage(message)"
@@ -76,16 +72,11 @@
       class="conversation-footer"
       :class="{ 'modal-mask': isPopoutReplyBox }"
     >
-      <div
-        v-if="isAnyoneTyping"
-        class="items-center flex h-0 absolute w-full -top-7"
-      >
-        <div
-          class="flex py-2 pr-4 pl-5 shadow-md rounded-full bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 text-xs font-semibold my-2.5 mx-auto"
-        >
+      <div v-if="isAnyoneTyping" class="typing-indicator-wrap">
+        <div class="typing-indicator">
           {{ typingUserNames }}
           <img
-            class="ltr:ml-2 rtl:mr-2 w-6"
+            class="gif"
             src="~dashboard/assets/images/typing.gif"
             alt="Someone is typing"
           />
@@ -147,10 +138,6 @@ export default {
   ],
   props: {
     isContactPanelOpen: {
-      type: Boolean,
-      default: false,
-    },
-    isInboxView: {
       type: Boolean,
       default: false,
     },
@@ -552,8 +539,6 @@ export default {
 
 <style scoped lang="scss">
 .modal-mask {
-  @apply absolute;
-
   &::v-deep {
     .ProseMirror-woot-style {
       @apply max-h-[25rem];

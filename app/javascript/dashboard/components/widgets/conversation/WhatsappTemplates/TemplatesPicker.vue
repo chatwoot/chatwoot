@@ -1,6 +1,6 @@
 <template>
   <div class="w-full">
-    <div class="templates__list-search gap-1">
+    <div class="templates__list-search">
       <fluent-icon icon="search" class="search-icon" size="16" />
       <input
         ref="search"
@@ -17,7 +17,7 @@
           @click="$emit('onSelect', template)"
         >
           <div>
-            <div class="flex items-center justify-between mb-2.5">
+            <div class="flex-between">
               <p class="label-title">
                 {{ template.name }}
               </p>
@@ -97,6 +97,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.flex-between {
+  @apply flex justify-between mb-2.5;
+}
+
 .templates__list-search {
   @apply items-center flex bg-slate-25 dark:bg-slate-900 mb-2.5 py-0 px-2.5 rounded-md border border-solid border-slate-100 dark:border-slate-700;
 
@@ -105,7 +109,7 @@ export default {
   }
 
   .templates__search-input {
-    @apply bg-transparent border-0 text-xs h-9 m-0;
+    @apply bg-transparent border-0 text-xs h-auto m-0;
   }
 }
 .template__list-container {

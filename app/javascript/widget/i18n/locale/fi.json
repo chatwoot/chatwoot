@@ -80,8 +80,7 @@
     },
     "CAMPAIGN_HEADER": "Ole hyvä ja anna nimesi ja sähköpostisi ennen keskustelun aloittamista",
     "IS_REQUIRED": "on vaadittu",
-    "REQUIRED": "Pakollinen",
-    "REGEX_ERROR": "Please provide a valid input"
+    "REQUIRED": "Pakollinen"
   },
   "FILE_SIZE_LIMIT": "Tiedosto ylittää sallitun {MAXIMUM_FILE_UPLOAD_SIZE} liitteen rajan",
   "CHAT_FORM": {

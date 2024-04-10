@@ -14,13 +14,8 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
   end
 
   def perform_reply
-    if message.attachments.present?
-      message.attachments.each do |attachment|
-        send_to_facebook_page attachment_message_params(attachment)
-      end
-    end
-
-    send_to_facebook_page message_params if message.content.present?
+    send_to_facebook_page attachament_message_params if message.attachments.present?
+    send_to_facebook_page message_params
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: message.account, user: message.sender).capture_exception
     # TODO : handle specific errors or else page will get disconnected
@@ -38,7 +33,8 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
     merge_human_agent_tag(params)
   end
 
-  def attachment_message_params(attachment)
+  def attachament_message_params
+    attachment = message.attachments.first
     params = {
       recipient: { id: contact.get_source_id(inbox.id) },
       message: {

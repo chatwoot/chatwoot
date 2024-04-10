@@ -6,12 +6,11 @@ class ReplyMailbox < ApplicationMailbox
   EMAIL_PART_PATTERN = /^reply\+([0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})$/i
 
   before_processing :conversation_uuid_from_to_address,
-                    :find_relative_conversation
+                    :find_relative_conversation,
+                    :verify_decoded_params,
+                    :decorate_mail
 
   def process
-    return if @conversation.blank?
-
-    decorate_mail
     create_message
     add_attachments_to_message
   end
@@ -79,8 +78,12 @@ class ReplyMailbox < ApplicationMailbox
     find_conversation_by_message_id(in_reply_to_addresses) if @conversation.blank?
   end
 
+  def verify_decoded_params
+    raise 'Conversation uuid not found' if conversation_uuid.nil?
+  end
+
   def validate_resource(resource)
-    Rails.logger.error "[App::Mailboxes::ReplyMailbox] Email conversation with uuid: #{conversation_uuid} not found" if resource.nil?
+    raise "Email conversation with uuid: #{conversation_uuid} not found" if resource.nil?
 
     resource
   end

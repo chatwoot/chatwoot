@@ -4,7 +4,6 @@
 #
 #  id                   :bigint           not null, primary key
 #  last_activity_at     :datetime
-#  meta                 :jsonb
 #  notification_type    :integer          not null
 #  primary_actor_type   :string           not null
 #  read_at              :datetime
@@ -39,10 +38,7 @@ class Notification < ApplicationRecord
     conversation_assignment: 2,
     assigned_conversation_new_message: 3,
     conversation_mention: 4,
-    participating_conversation_new_message: 5,
-    sla_missed_first_response: 6,
-    sla_missed_next_response: 7,
-    sla_missed_resolution: 8
+    participating_conversation_new_message: 5
   }.freeze
 
   enum notification_type: NOTIFICATION_TYPES
@@ -50,7 +46,6 @@ class Notification < ApplicationRecord
   before_create :set_last_activity_at
   after_create_commit :process_notification_delivery, :dispatch_create_event
   after_destroy_commit :dispatch_destroy_event
-  after_update_commit :dispatch_update_event
 
   PRIMARY_ACTORS = ['Conversation'].freeze
 
@@ -65,18 +60,21 @@ class Notification < ApplicationRecord
       secondary_actor: secondary_actor&.push_event_data,
       user: user&.push_event_data,
       created_at: created_at.to_i,
-      last_activity_at: last_activity_at.to_i,
-      snoozed_until: snoozed_until,
-      meta: meta,
       account_id: account_id
 
     }
     if primary_actor.present?
-      payload[:primary_actor] = primary_actor&.push_event_data
-      # TODO: Rename push_message_title to push_message_body
-      payload[:push_message_title] = push_message_body
+      payload[:primary_actor] = primary_actor_data
+      payload[:push_message_title] = push_message_title
     end
     payload
+  end
+
+  def primary_actor_data
+    {
+      id: primary_actor.push_event_data[:id],
+      meta: primary_actor.push_event_data[:meta]
+    }
   end
 
   def fcm_push_data
@@ -89,41 +87,21 @@ class Notification < ApplicationRecord
     }
   end
 
-  # rubocop:disable Metrics/MethodLength
+  # TODO: move to a data presenter
   def push_message_title
-    notification_title_map = {
-      'conversation_creation' => 'notifications.notification_title.conversation_creation',
-      'conversation_assignment' => 'notifications.notification_title.conversation_assignment',
-      'assigned_conversation_new_message' => 'notifications.notification_title.assigned_conversation_new_message',
-      'participating_conversation_new_message' => 'notifications.notification_title.assigned_conversation_new_message',
-      'conversation_mention' => 'notifications.notification_title.conversation_mention',
-      'sla_missed_first_response' => 'notifications.notification_title.sla_missed_first_response',
-      'sla_missed_next_response' => 'notifications.notification_title.sla_missed_next_response',
-      'sla_missed_resolution' => 'notifications.notification_title.sla_missed_resolution'
-    }
-
-    i18n_key = notification_title_map[notification_type]
-    return '' unless i18n_key
-
-    if notification_type == 'conversation_creation'
-      I18n.t(i18n_key, display_id: conversation.display_id, inbox_name: primary_actor.inbox.name)
-    elsif %w[conversation_assignment assigned_conversation_new_message participating_conversation_new_message
-             conversation_mention].include?(notification_type)
-      I18n.t(i18n_key, display_id: conversation.display_id)
-    else
-      I18n.t(i18n_key, display_id: primary_actor.display_id)
-    end
-  end
-  # rubocop:enable Metrics/MethodLength
-
-  def push_message_body
     case notification_type
     when 'conversation_creation'
-      message_body(conversation.messages.first)
-    when 'assigned_conversation_new_message', 'participating_conversation_new_message', 'conversation_mention'
-      message_body(secondary_actor)
+      I18n.t('notifications.notification_title.conversation_creation', display_id: conversation.display_id, inbox_name: primary_actor.inbox.name)
     when 'conversation_assignment'
-      message_body(conversation.messages.incoming.last)
+      I18n.t('notifications.notification_title.conversation_assignment', display_id: conversation.display_id)
+    when 'assigned_conversation_new_message', 'participating_conversation_new_message'
+      I18n.t(
+        'notifications.notification_title.assigned_conversation_new_message',
+        display_id: conversation.display_id,
+        content: content
+      )
+    when 'conversation_mention'
+      "[##{conversation&.display_id}] #{transform_user_mention_content content}"
     else
       ''
     end
@@ -133,28 +111,11 @@ class Notification < ApplicationRecord
     primary_actor
   end
 
+  def content
+    transform_user_mention_content(secondary_actor&.content&.truncate_words(10) || '')
+  end
+
   private
-
-  def message_body(actor)
-    sender_name = sender_name(actor)
-    content = message_content(actor)
-    "#{sender_name}: #{content}"
-  end
-
-  def sender_name(actor)
-    actor.try(:sender)&.name || ''
-  end
-
-  def message_content(actor)
-    content = actor.try(:content)
-    attachments = actor.try(:attachments)
-
-    if content.present?
-      transform_user_mention_content(content.truncate_words(10))
-    else
-      attachments.present? ? I18n.t('notifications.attachment') : I18n.t('notifications.no_content')
-    end
-  end
 
   def process_notification_delivery
     Notification::PushNotificationJob.perform_later(self) if user_subscribed_to_notification?('push')
@@ -177,10 +138,6 @@ class Notification < ApplicationRecord
 
   def dispatch_create_event
     Rails.configuration.dispatcher.dispatch(NOTIFICATION_CREATED, Time.zone.now, notification: self)
-  end
-
-  def dispatch_update_event
-    Rails.configuration.dispatcher.dispatch(NOTIFICATION_UPDATED, Time.zone.now, notification: self)
   end
 
   def dispatch_destroy_event

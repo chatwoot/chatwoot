@@ -210,7 +210,7 @@
           }
         ],
         "CREATE_FLOW_PAGE": {
-          "BACK_BUTTON": "Terug",
+          "BACK_BUTTON": "Back",
           "BASIC_SETTINGS_PAGE": {
             "HEADER": "Create Portal",
             "TITLE": "Help center information",
@@ -319,13 +319,12 @@
       "HEADERS": {
         "TITLE": "Titel",
         "CATEGORY": "Categorie",
-        "READ_COUNT": "Views",
+        "READ_COUNT": "Read count",
         "STATUS": "Status",
         "LAST_EDITED": "Last edited"
       },
       "COLUMNS": {
-        "BY": "by",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "BY": "by"
       }
     },
     "EDIT_ARTICLE": {
@@ -452,7 +451,7 @@
       "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
       "PREVIEW_LINK": "Preview article",
       "CANCEL": "Sluiten",
-      "BACK": "Terug",
+      "BACK": "Back",
       "BACK_RESULTS": "Back to results"
     },
     "UPGRADE_PAGE": {

@@ -37,7 +37,7 @@
     "ATTRIBUTES": {
       "STATUS": "Статус",
       "ASSIGNEE_NAME": "Имя назначенного",
-      "INBOX_NAME": "Имя источника",
+      "INBOX_NAME": "Inbox name",
       "TEAM_NAME": "Название команды",
       "CONVERSATION_IDENTIFIER": "Идентификатор беседы",
       "CAMPAIGN_NAME": "Название кампании",

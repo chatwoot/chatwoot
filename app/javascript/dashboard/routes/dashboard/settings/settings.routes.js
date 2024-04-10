@@ -8,7 +8,6 @@ import auditlogs from './auditlogs/audit.routes';
 import billing from './billing/billing.routes';
 import campaigns from './campaigns/campaigns.routes';
 import canned from './canned/canned.routes';
-import chatbot from './chatbot/chatbot.routes';
 import inbox from './inbox/inbox.routes';
 import integrationapps from './integrationapps/integrations.routes';
 import integrations from './integrations/integrations.routes';
@@ -17,7 +16,6 @@ import macros from './macros/macros.routes';
 import profile from './profile/profile.routes';
 import reports from './reports/reports.routes';
 import store from '../../../store';
-import sla from './sla/sla.routes';
 import teams from './teams/teams.routes';
 
 export default {
@@ -42,7 +40,6 @@ export default {
     ...billing.routes,
     ...campaigns.routes,
     ...canned.routes,
-    ...chatbot.routes,
     ...inbox.routes,
     ...integrationapps.routes,
     ...integrations.routes,
@@ -50,7 +47,6 @@ export default {
     ...macros.routes,
     ...profile.routes,
     ...reports.routes,
-    ...sla.routes,
     ...teams.routes,
   ],
 };

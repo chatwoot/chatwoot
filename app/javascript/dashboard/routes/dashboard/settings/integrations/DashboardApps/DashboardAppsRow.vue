@@ -1,12 +1,14 @@
 <template>
   <tr>
-    <td class="w-40 max-w-[10rem] truncate" :title="app.title">
+    <td>
       {{ app.title }}
     </td>
-    <td class="max-w-xs truncate" :title="app.content[0].url">
-      {{ app.content[0].url }}
+    <td class="dashboard-app-label-url">
+      <span class="overflow-hidden whitespace-nowrap text-ellipsis">
+        {{ app.content[0].url }}
+      </span>
     </td>
-    <td class="flex justify-end gap-1">
+    <td class="button-wrapper">
       <woot-button
         v-tooltip.top="
           $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.EDIT_TOOLTIP')

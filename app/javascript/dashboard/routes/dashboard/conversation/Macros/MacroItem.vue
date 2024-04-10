@@ -3,13 +3,14 @@
     <span class="overflow-hidden whitespace-nowrap text-ellipsis">{{
       macro.name
     }}</span>
-    <div class="macros-actions flex items-center gap-1">
+    <div class="macros-actions">
       <woot-button
         v-tooltip.left-start="$t('MACROS.EXECUTE.PREVIEW')"
         size="tiny"
         variant="smooth"
         color-scheme="secondary"
         icon="info"
+        class="margin-right-smaller"
         @click="toggleMacroPreview(macro)"
       />
       <woot-button

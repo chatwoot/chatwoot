@@ -112,8 +112,7 @@
       "REMOVE_LABEL": "Pašalinti pokalbio etiketę",
       "SETTINGS": "Nustatymai",
       "AI_ASSIST": "AI pagalba",
-      "APPEARANCE": "Išvaizda",
-      "SNOOZE_NOTIFICATION": "Atidėti pranešimą"
+      "APPEARANCE": "Išvaizda"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Eikite į Pokalbio informacijos skydelį",
@@ -154,8 +153,7 @@
       "CHANGE_APPEARANCE": "Keisti išvaizdą",
       "LIGHT_MODE": "Šviesus",
       "DARK_MODE": "Tamsus",
-      "SYSTEM_MODE": "Sistema",
-      "SNOOZE_NOTIFICATION": "Atidėti pranešimą"
+      "SYSTEM_MODE": "Sistema"
     }
   },
   "DASHBOARD_APPS": {

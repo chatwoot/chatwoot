@@ -144,7 +144,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import automationMethodsMixin from 'dashboard/mixins/automations/methodsMixin';
 import automationValidationsMixin from 'dashboard/mixins/automations/validationsMixin';
@@ -174,6 +173,7 @@ export default {
       automationTypes: JSON.parse(JSON.stringify(AUTOMATIONS)),
       automationRuleEvent: AUTOMATION_RULE_EVENTS[0].key,
       automationRuleEvents: AUTOMATION_RULE_EVENTS,
+      automationActionTypes: AUTOMATION_ACTION_TYPES,
       automationMutated: false,
       show: true,
       automation: {
@@ -202,10 +202,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      accountId: 'getCurrentAccountId',
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
-    }),
     hasAutomationMutated() {
       if (
         this.automation.conditions[0].values ||
@@ -213,12 +209,6 @@ export default {
       )
         return true;
       return false;
-    },
-    automationActionTypes() {
-      const isSLAEnabled = this.isFeatureEnabled('sla');
-      return isSLAEnabled
-        ? AUTOMATION_ACTION_TYPES
-        : AUTOMATION_ACTION_TYPES.filter(action => action.key !== 'add_sla');
     },
   },
   mounted() {
@@ -230,11 +220,6 @@ export default {
     this.$store.dispatch('campaigns/get');
     this.allCustomAttributes = this.$store.getters['attributes/getAttributes'];
     this.manifestCustomAttributes();
-  },
-  methods: {
-    isFeatureEnabled(flag) {
-      return this.isFeatureEnabledonAccount(this.accountId, flag);
-    },
   },
 };
 </script>

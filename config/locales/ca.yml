@@ -17,7 +17,6 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 ca:
-  prompt: "%{client_message}"
   hello: "Hola món"
   messages:
     reset_password_success: Woot! S'ha restablert la contrasenya amb èxit. Revisa el correu per més instruccions.
@@ -32,7 +31,6 @@ ca:
       disposable_email: Els correus d'un sol ús no s'accepten
       invalid_email: Heu introduït un correu electrònic no vàlid
       email_already_exists: "Ja us heu registrat amb el compte %{email}"
-      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: El registre ha fallat
     data_import:
       data_type:
@@ -69,25 +67,25 @@ ca:
     utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Agent name
-      conversations_count: Assigned conversations
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
     inbox_csv:
       inbox_name: Inbox name
       inbox_type: Inbox type
       conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
     label_csv:
       label_title: Label
       conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
     team_csv:
       team_name: Team name
       conversations_count: Conversations count
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
     conversation_traffic_csv:
       timezone: Timezone
     default_group_by: day
@@ -103,12 +101,10 @@ ca:
         recorded_at: Recorded date
   notifications:
     notification_title:
-      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
-      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
-      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
-      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
-    attachment: "Attachment"
-    no_content: "No content"
+      conversation_creation: "[Nova conversació] - #%{display_id} ha estat creada a %{inbox_name}"
+      conversation_assignment: "[Assignada a tu] - #%{display_id} t'ha sigut assignada"
+      assigned_conversation_new_message: "[Nou missatge] - #%{display_id} %{content}"
+      conversation_mention: "Has sigut esmentat a la conversació [ID - %{display_id} per %{name}"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} mentioned you in the story: "
@@ -147,8 +143,6 @@ ca:
       ways_to_reach_you_message_body: "Fes saber a l'equip la forma de posar-nos en contacte amb tu."
       email_input_box_message_body: "Rep les notificacions per correu electrònic"
       csat_input_message_body: "Please rate the conversation"
-      bot_entered_chat: "Bot has entered the chat"
-      long_message_issue: "Too many input characters , please shorten the message"
     reply:
       email:
         header:
@@ -234,16 +228,3 @@ ca:
       inbox_name: Inbox
       inbox_type: Inbox Type
     button: Open conversation
-  time_units:
-    days:
-      one: "%{count} day"
-      other: "%{count} days"
-    hours:
-      one: "%{count} hour"
-      other: "%{count} hours"
-    minutes:
-      one: "%{count} minute"
-      other: "%{count} minutes"
-    seconds:
-      one: "%{count} second"
-      other: "%{count} seconds"

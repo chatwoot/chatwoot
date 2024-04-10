@@ -22,24 +22,19 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
       i.value = value
       i.save!
     end
-    redirect_to super_admin_settings_path, notice: "App Configs - #{@config.titleize} updated successfully"
+    # rubocop:disable Rails/I18nLocaleTexts
+    redirect_to super_admin_settings_path, notice: 'App Configs updated successfully'
+    # rubocop:enable Rails/I18nLocaleTexts
   end
 
   private
 
   def set_config
-    @config = params[:config] || 'general'
+    @config = params[:config]
   end
 
   def allowed_configs
-    @allowed_configs = case @config
-                       when 'facebook'
-                         %w[FB_APP_ID FB_VERIFY_TOKEN FB_APP_SECRET IG_VERIFY_TOKEN FACEBOOK_API_VERSION ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT]
-                       when 'email'
-                         ['MAILER_INBOUND_EMAIL_DOMAIN']
-                       else
-                         %w[ENABLE_ACCOUNT_SIGNUP]
-                       end
+    @allowed_configs = %w[FB_APP_ID FB_VERIFY_TOKEN FB_APP_SECRET]
   end
 end
 

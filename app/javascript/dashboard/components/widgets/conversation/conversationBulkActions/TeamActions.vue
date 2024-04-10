@@ -5,7 +5,7 @@
         <path d="M20 12l-8-8-12 12" fill-rule="evenodd" stroke-width="1px" />
       </svg>
     </div>
-    <div class="header flex items-center justify-between">
+    <div class="header flex-between">
       <span>{{ $t('BULK_ACTION.TEAMS.TEAM_SELECT_LABEL') }}</span>
       <woot-button
         size="tiny"
@@ -19,9 +19,7 @@
       <div class="team__list-container">
         <ul>
           <li class="search-container">
-            <div
-              class="agent-list-search h-8 flex justify-between items-center gap-2"
-            >
+            <div class="agent-list-search flex-between">
               <fluent-icon icon="search" class="search-icon" size="16" />
               <input
                 ref="search"
@@ -35,21 +33,15 @@
           <template v-if="filteredTeams.length">
             <li v-for="team in filteredTeams" :key="team.id">
               <div class="team__list-item" @click="assignTeam(team)">
-                <span
-                  class="my-0 ltr:ml-2 rtl:mr-2 text-slate-800 dark:text-slate-75"
-                >
-                  {{ team.name }}
-                </span>
+                <span class="reports-option__title">{{ team.name }}</span>
               </div>
             </li>
           </template>
           <li v-else>
             <div class="team__list-item">
-              <span
-                class="my-0 ltr:ml-2 rtl:mr-2 text-slate-800 dark:text-slate-75"
-              >
-                {{ $t('BULK_ACTION.TEAMS.NO_TEAMS_AVAILABLE') }}
-              </span>
+              <span class="reports-option__title">{{
+                $t('BULK_ACTION.TEAMS.NO_TEAMS_AVAILABLE')
+              }}</span>
             </div>
           </li>
         </ul>
@@ -114,7 +106,7 @@ export default {
       }
 
       .agent--search_input {
-        @apply border-0 text-xs m-0 dark:bg-transparent bg-transparent w-full h-[unset];
+        @apply border-0 text-xs m-0 dark:bg-transparent bg-transparent h-[unset];
       }
     }
   }

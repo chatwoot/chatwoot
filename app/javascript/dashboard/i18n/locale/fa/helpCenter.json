@@ -319,13 +319,12 @@
       "HEADERS": {
         "TITLE": "عنوان",
         "CATEGORY": "دسته‌بندی",
-        "READ_COUNT": "نمایش‌ها",
+        "READ_COUNT": "تعداد خوانده شده",
         "STATUS": "وضعیت",
         "LAST_EDITED": "آخرین ویرایش"
       },
       "COLUMNS": {
-        "BY": "توسط",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "BY": "توسط"
       }
     },
     "EDIT_ARTICLE": {

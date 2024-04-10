@@ -4,10 +4,6 @@ const accountData = {
   id: 1,
   name: 'Company one',
   locale: 'en',
-  features: {
-    auto_resolve_conversations: false,
-    agent_management: false,
-  },
 };
 
 describe('#getters', () => {
@@ -32,33 +28,5 @@ describe('#getters', () => {
       isUpdating: false,
       isDeleting: false,
     });
-  });
-
-  it('isFeatureEnabledonAccount', () => {
-    const state = {
-      records: [accountData],
-    };
-    const rootGetters = {
-      getCurrentUser: {
-        type: 'SuperAdmin',
-      },
-    };
-    expect(
-      getters.isFeatureEnabledonAccount(
-        state,
-        null,
-        null,
-        rootGetters
-      )(1, 'auto_resolve_conversations')
-    ).toEqual(true);
-  });
-
-  it('isFeatureEnabledGlobally', () => {
-    const state = {
-      records: [accountData],
-    };
-    expect(
-      getters.isFeatureEnabledGlobally(state)(1, 'auto_resolve_conversations')
-    ).toEqual(false);
   });
 });

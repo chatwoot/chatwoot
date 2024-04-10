@@ -1,7 +1,7 @@
 <template>
   <div class="bulk-action__container">
-    <div class="flex items-center justify-between">
-      <label class="bulk-action__panel flex items-center justify-between">
+    <div class="flex-between">
+      <label class="bulk-action__panel flex-between">
         <input
           ref="selectAllCheck"
           type="checkbox"
@@ -18,13 +18,14 @@
           }}
         </span>
       </label>
-      <div class="bulk-action__actions flex gap-1 items-center">
+      <div class="bulk-action__actions flex-between">
         <woot-button
           v-tooltip="$t('BULK_ACTION.LABELS.ASSIGN_LABELS')"
           size="tiny"
           variant="smooth"
           color-scheme="secondary"
           icon="tag"
+          class="margin-right-smaller"
           @click="toggleLabelActions"
         />
         <woot-button
@@ -33,6 +34,7 @@
           variant="smooth"
           color-scheme="secondary"
           icon="repeat"
+          class="margin-right-smaller"
           @click="toggleUpdateActions"
         />
         <woot-button
@@ -41,6 +43,7 @@
           variant="smooth"
           color-scheme="secondary"
           icon="person-assign"
+          class="margin-right-smaller"
           @click="toggleAgentList"
         />
         <woot-button

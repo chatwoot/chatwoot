@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="menu text-slate-800 dark:text-slate-100"
-    role="button"
-    @click.stop="$emit('click')"
-  >
+  <div class="menu" role="button" @click.stop="$emit('click')">
     <fluent-icon
       v-if="variant === 'icon' && option.icon"
       :icon="option.icon"
@@ -52,7 +48,6 @@ export default {
 .menu {
   width: calc(var(--space-mega) * 2);
   @apply flex items-center flex-nowrap p-1 rounded-sm overflow-hidden cursor-pointer;
-
   .menu-label {
     @apply my-0 mx-2 text-xs flex-shrink-0;
   }

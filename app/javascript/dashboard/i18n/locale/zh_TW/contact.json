@@ -39,10 +39,10 @@
     },
     "MERGE_CONTACT": "Merge contact",
     "CONTACT_ACTIONS": "Contact actions",
-    "MUTE_CONTACT": "Block Contact",
-    "UNMUTE_CONTACT": "Unblock Contact",
-    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
-    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
+    "MUTE_CONTACT": "將對話靜音",
+    "UNMUTE_CONTACT": "將對話解除靜音",
+    "MUTED_SUCCESS": "將對話靜音 6 小時",
+    "UNMUTED_SUCCESS": "對話已解除靜音",
     "SEND_TRANSCRIPT": "Send Transcript",
     "EDIT_LABEL": "編輯",
     "SIDEBAR_SECTIONS": {
@@ -79,13 +79,7 @@
     "TITLE": "Export Contacts",
     "DESC": "Export contacts to a CSV file.",
     "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "出現錯誤，請重試",
-    "CONFIRM": {
-      "TITLE": "Export Contacts",
-      "MESSAGE": "Are you sure you want to export all contacts?",
-      "YES": "Yes, Export",
-      "NO": "No, Cancel"
-    }
+    "ERROR_MESSAGE": "出現錯誤，請重試"
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -345,8 +339,7 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL",
-      "INVALID_INPUT": "Invalid Input"
+      "INVALID_URL": "Invalid URL"
     }
   },
   "MERGE_CONTACTS": {

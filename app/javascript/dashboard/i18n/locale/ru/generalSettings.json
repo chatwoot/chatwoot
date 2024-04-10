@@ -112,8 +112,7 @@
       "REMOVE_LABEL": "Удалить метку из разговора",
       "SETTINGS": "Настройки",
       "AI_ASSIST": "Помощь ИИ",
-      "APPEARANCE": "Образец",
-      "SNOOZE_NOTIFICATION": "Отложить уведомление"
+      "APPEARANCE": "Образец"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Перейти к панели разговоров",
@@ -154,8 +153,7 @@
       "CHANGE_APPEARANCE": "Изменить внешний вид",
       "LIGHT_MODE": "Светлая",
       "DARK_MODE": "Тёмная",
-      "SYSTEM_MODE": "Система",
-      "SNOOZE_NOTIFICATION": "Отложить уведомление"
+      "SYSTEM_MODE": "Система"
     }
   },
   "DASHBOARD_APPS": {

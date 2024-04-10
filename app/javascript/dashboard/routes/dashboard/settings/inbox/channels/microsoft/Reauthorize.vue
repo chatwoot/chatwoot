@@ -1,10 +1,10 @@
 <template>
-  <div class="mx-8">
+  <div class="settings--content">
     <settings-section
       :title="$t('INBOX_MGMT.MICROSOFT.TITLE')"
       :sub-title="$t('INBOX_MGMT.MICROSOFT.SUBTITLE')"
     >
-      <div class="mb-6">
+      <div class="smtp-details-wrap">
         <form @submit.prevent="requestAuthorization">
           <woot-submit-button
             icon="brand-twitter"

@@ -3,9 +3,7 @@
     <div class="flex justify-between items-center mt-0 mb-2 mx-0 h-12">
       <div class="flex items-center">
         <woot-sidemenu-icon />
-        <h1
-          class="my-0 mx-2 text-2xl text-slate-800 dark:text-slate-100 font-medium"
-        >
+        <h1 class="my-0 mx-2 text-2xl text-slate-800 dark:text-slate-100">
           {{ $t('HELP_CENTER.PORTAL.HEADER') }}
         </h1>
       </div>

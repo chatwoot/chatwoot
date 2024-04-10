@@ -82,7 +82,7 @@
       "CANCEL": "取消"
     },
     "PRIORITY": {
-      "TITLE": "優先",
+      "TITLE": "Priority",
       "OPTIONS": {
         "NONE": "無",
         "URGENT": "Urgent",

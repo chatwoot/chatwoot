@@ -26,7 +26,7 @@
           <woot-color-picker v-model="color" />
         </label>
       </div>
-      <div class="w-full flex items-center gap-2">
+      <div class="w-full">
         <input v-model="showOnSidebar" type="checkbox" :value="true" />
         <label for="conversation_creation">
           {{ $t('LABEL_MGMT.FORM.SHOW_ON_SIDEBAR.LABEL') }}
