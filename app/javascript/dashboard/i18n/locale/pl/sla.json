@@ -83,6 +83,14 @@
         "YES": "Tak, usuń ",
         "NO": "Nie, zachowaj "
       }
+    },
+    "EVENTS": {
+      "TITLE": "SLA Misses",
+      "FRT": "Czas pierwszej odpowiedzi",
+      "NRT": "Next response time",
+      "RT": "Resolution time",
+      "SHOW_MORE": "{count} more",
+      "HIDE": "Hide {count} rows"
     }
   }
 }
