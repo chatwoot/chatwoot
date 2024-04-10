@@ -57,6 +57,7 @@
             {{ $t('PROFILE_SETTINGS.FORM.EMAIL.LABEL') }}
             <input
               v-model.trim="email"
+              disabled="true"
               type="email"
               :placeholder="$t('PROFILE_SETTINGS.FORM.EMAIL.PLACEHOLDER')"
               @input="$v.email.$touch"

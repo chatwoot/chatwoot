@@ -10,7 +10,7 @@
         <p>{{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.NOTE') }}</p>
       </div>
       <div class="w-[45%] p-4">
-        <woot-input
+        <!-- <woot-input
           v-model="currentPassword"
           type="password"
           :class="{ error: $v.currentPassword.$error }"
@@ -63,6 +63,9 @@
             !$v.passwordConfirmation.isEqPassword
           "
         >
+          {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.BTN_TEXT') }}
+        </woot-button> -->
+        <woot-button @click="redirectToHref">
           {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.BTN_TEXT') }}
         </woot-button>
       </div>
@@ -133,6 +136,12 @@ export default {
         this.isPasswordChanging = false;
         this.showAlert(this.errorMessage);
       }
+    },
+    redirectToHref() {
+      const keycloakUrl = window.chatwootConfig.keycloakUrl;
+      const keycloakRealm = window.chatwootConfig.keycloakRealm;
+      const hrefURL = `${keycloakUrl}/realms/${keycloakRealm}/account/#/security/signingin`;
+      window.open(hrefURL, '_blank');
     },
   },
 };
