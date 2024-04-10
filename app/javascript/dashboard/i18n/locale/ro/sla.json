@@ -83,6 +83,14 @@
         "YES": "Da, șterge ",
         "NO": "Nu, păstreaza "
       }
+    },
+    "EVENTS": {
+      "TITLE": "SLA Misses",
+      "FRT": "Primul răspuns",
+      "NRT": "Next response time",
+      "RT": "Resolution time",
+      "SHOW_MORE": "{count} more",
+      "HIDE": "Hide {count} rows"
     }
   }
 }
