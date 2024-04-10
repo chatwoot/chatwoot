@@ -245,6 +245,11 @@ Rails.application.routes.draw do
       # end of account scoped api routes
       # ----------------------------------
 
+      namespace :keycloak do
+        resources :logout, only: [:create]
+        resources :check_keycloak_session, only: [:create] 
+      end
+
       namespace :integrations do
         resources :webhooks, only: [:create]
       end
