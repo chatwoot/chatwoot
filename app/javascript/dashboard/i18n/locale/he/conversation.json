@@ -71,12 +71,6 @@
         "RT": "RT {status}",
         "MISSED": "missed",
         "DUE": "due"
-      },
-      "SLA_POPOVER": {
-        "FRT": "זמן תגובה ראשון",
-        "NRT": "Next Response Time",
-        "RT": "זמן רזולוציה",
-        "MISSED": "missed on"
       }
     },
     "RESOLVE_DROPDOWN": {
