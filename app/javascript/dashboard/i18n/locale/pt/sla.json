@@ -1,0 +1,73 @@
+{
+  "SLA": {
+    "HEADER": "SLA",
+    "HEADER_BTN_TXT": "Adicionar SLA",
+    "LOADING": "A carregar SLAs",
+    "SEARCH_404": "Não existem itens correspondentes a esta consulta",
+    "SIDEBAR_TXT": "<p><b>SLA</b> <p>Pense nos Service Level Agreements (SLA) como acordos entre um fornecedor de serviço e um cliente.</p> <p> Estes acordos definem expectativas claras para parâmetros como a rapidez com que a equipa responderá a pedidos de suporte, garantindo os níveis de qualidade de serviço esperados!</p>",
+    "LIST": {
+      "404": "Não há SLAs disponíveis nesta conta.",
+      "TITLE": "Gerir SLA",
+      "DESC": "SLAS: Acordos para um ótimo serviço!",
+      "TABLE_HEADER": [
+        "Nome:",
+        "Descrição",
+        "FRT",
+        "NRT",
+        "RT",
+        "Horário comercial"
+      ]
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nome SLA",
+        "PLACEHOLDER": "Nome SLA",
+        "REQUIRED_ERROR": "Necessário nome de SLA",
+        "MINIMUM_LENGTH_ERROR": "O tamanho mínimo obrigatório é 2",
+        "VALID_ERROR": "Apenas são permitidos Alfabetos, Números, Hífen e Underscores"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descrição",
+        "PLACEHOLDER": "SLA para clientes premium"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "LABEL": "Primeiro tempo de resposta",
+        "PLACEHOLDER": "5"
+      },
+      "NEXT_RESPONSE_TIME": {
+        "LABEL": "Próximo tempo de resposta",
+        "PLACEHOLDER": "5"
+      },
+      "RESOLUTION_TIME": {
+        "LABEL": "Tempo de resolução",
+        "PLACEHOLDER": "60"
+      },
+      "BUSINESS_HOURS": {
+        "LABEL": "Horário comercial",
+        "PLACEHOLDER": "Apenas durante o horário de trabalho"
+      },
+      "THRESHOLD_TIME": {
+        "INVALID_FORMAT_ERROR": "Limite deve ser um número e maior que zero"
+      },
+      "EDIT": "Alterar",
+      "CREATE": "Criar",
+      "DELETE": "excluir",
+      "CANCEL": "cancelar"
+    },
+    "ADD": {
+      "TITLE": "Adicionar SLA",
+      "DESC": "SLAS: Acordos para um ótimo serviço!",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA adicionado",
+        "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Editar SLA",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA atualizado",
+        "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
+      }
+    }
+  }
+}

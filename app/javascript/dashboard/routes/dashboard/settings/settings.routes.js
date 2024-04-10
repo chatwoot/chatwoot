@@ -16,6 +16,7 @@ import macros from './macros/macros.routes';
 import profile from './profile/profile.routes';
 import reports from './reports/reports.routes';
 import store from '../../../store';
+import sla from './sla/sla.routes';
 import teams from './teams/teams.routes';
 
 export default {
@@ -47,6 +48,7 @@ export default {
     ...macros.routes,
     ...profile.routes,
     ...reports.routes,
+    ...sla.routes,
     ...teams.routes,
   ],
 };
