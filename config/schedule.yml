@@ -26,3 +26,9 @@ remove_stale_contact_inboxes_job.rb:
   cron: '30 22 * * *'
   class: 'Internal::RemoveStaleContactInboxesJob'
   queue: scheduled_jobs
+
+# executed At every 5th minute..
+trigger_conversations_first_reply_scheduler_job:
+  cron: '*/5 * * * *'
+  class: 'Migration::ConversationsFirstReplySchedulerJob'
+  queue: scheduled_jobs
