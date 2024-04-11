@@ -35,6 +35,7 @@ RSpec.describe Imap::MicrosoftFetchEmailService do
           allow(imap).to receive(:search).with(%w[SINCE 25-Oct-2020]).and_return([1])
           allow(imap).to receive(:fetch).with([1], 'BODY.PEEK[HEADER]').and_return([email_header])
           allow(imap).to receive(:fetch).with(1, 'RFC822').and_return([imap_fetch_mail])
+          allow(imap).to receive(:logout)
 
           result = described_class.new(channel: microsoft_channel).perform
 
