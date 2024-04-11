@@ -58,7 +58,6 @@ import SLAPaywall from './components/SLAPaywall.vue';
 
 import { mapGetters } from 'vuex';
 import { convertSecondsToTimeUnit } from '@chatwoot/utils';
-import { differenceInDays } from 'date-fns';
 import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
@@ -85,7 +84,9 @@ export default {
       isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
       records: 'sla/getSLA',
       uiFlags: 'sla/getUIFlags',
+      accountId: 'getCurrentAccountId',
       getAccount: 'accounts/getAccount',
+      isTrialAccount: 'accounts/isTrialAccount',
     }),
     deleteConfirmText() {
       return this.$t('SLA.DELETE.CONFIRM.YES');
@@ -101,14 +102,12 @@ export default {
         return false;
       }
 
-      const isTrial = this.isTrialAccount();
+      const isTrial = this.isTrialAccount(this.accountId);
       const currentPlan = this.currentPlan();
       if (isTrial) return false;
       if (!currentPlan) return true;
 
-      if (currentPlan === 'Business' || currentPlan === 'Enterprise')
-        return false;
-      return true;
+      return ['Hacker', 'Startup'].includes(currentPlan);
     },
   },
   mounted() {
@@ -117,17 +116,6 @@ export default {
   methods: {
     openAddPopup() {
       this.showAddPopup = true;
-    },
-    isTrialAccount() {
-      // check if account is less than 15 days old
-      const account = this.getAccount(this.accountId);
-      if (!account) return false;
-
-      const createdAt = new Date(account.created_at);
-
-      const diffDays = differenceInDays(new Date(), createdAt);
-
-      return diffDays <= 15;
     },
     currentPlan() {
       const account = this.getAccount(this.accountId);

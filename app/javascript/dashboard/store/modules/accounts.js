@@ -1,11 +1,14 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
 import AccountAPI from '../../api/account';
+import { differenceInDays } from 'date-fns';
 import EnterpriseAccountAPI from '../../api/enterprise/account';
 import { throwErrorMessage } from '../utils/api';
 
 const findRecordById = ($state, id) =>
   $state.records.find(record => record.id === Number(id)) || {};
+
+const TRIAL_PERIOD_DAYS = 15;
 
 const state = {
   records: [],
@@ -19,10 +22,17 @@ const state = {
 
 export const getters = {
   getAccount: $state => id => {
-    return $state.records.find(record => record.id === Number(id)) || {};
+    return findRecordById($state, id);
   },
   getUIFlags($state) {
     return $state.uiFlags;
+  },
+  isTrialAccount: $state => id => {
+    const account = findRecordById($state, id);
+    const createdAt = new Date(account.created_at);
+    const diffDays = differenceInDays(new Date(), createdAt);
+
+    return diffDays <= TRIAL_PERIOD_DAYS;
   },
   isFeatureEnabledonAccount:
     ($state, _, __, rootGetters) => (id, featureName) => {
