@@ -23,6 +23,7 @@ export const SDK_CSS = `
 
 .woot-widget-holder iframe {
   border: 0;
+  color-scheme: normal;
   height: 100% !important;
   width: 100% !important;
   max-height: 100vh !important;
