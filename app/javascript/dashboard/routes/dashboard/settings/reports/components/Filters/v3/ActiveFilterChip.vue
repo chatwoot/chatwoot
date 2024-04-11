@@ -2,8 +2,6 @@
 import FilterButton from './FilterButton.vue';
 import FilterListDropdown from './FilterListDropdown.vue';
 
-import { defineEmits } from 'vue';
-
 const props = defineProps({
   name: {
     type: String,

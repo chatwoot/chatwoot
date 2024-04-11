@@ -4,7 +4,7 @@ import FilterListDropdown from './FilterListDropdown.vue';
 import FilterListItemButton from './FilterListItemButton.vue';
 import FilterDropdownEmptyState from './FilterDropdownEmptyState.vue';
 
-import { defineEmits, ref } from 'vue';
+import { ref } from 'vue';
 
 defineProps({
   name: {
