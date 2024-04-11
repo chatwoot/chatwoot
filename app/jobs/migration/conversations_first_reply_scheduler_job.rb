@@ -2,15 +2,13 @@
 class Migration::ConversationsFirstReplySchedulerJob < ApplicationJob
   queue_as :scheduled_jobs
 
-  def perform(account)
-    account.conversations.each do |conversation|
+  def perform
+    conversations = Conversation.where(first_reply_created_at: nil)
+    conversations.each do |conversation|
       # rubocop:disable Rails/SkipsModelValidations
-      if conversation.messages.outgoing.where("(additional_attributes->'campaign_id') is null").count.positive?
-        conversation.update_columns(first_reply_created_at: conversation.messages.outgoing.where("(additional_attributes->'campaign_id') is null")
-        .first.created_at)
-      else
-        conversation.update_columns(first_reply_created_at: nil)
-      end
+      outgoing_messages = conversation.messages.outgoing.where(private: false).where("(additional_attributes->'campaign_id') is null")
+      first_reply_created_at = outgoing_messages.first&.created_at
+      conversation.update_columns(first_reply_created_at: first_reply_created_at) if first_reply_created_at.present?
       # rubocop:enable Rails/SkipsModelValidations
     end
   end
