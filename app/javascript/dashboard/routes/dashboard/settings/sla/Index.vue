@@ -10,44 +10,12 @@
       <SLAListItemLoading v-for="ii in 2" :key="ii" class="mb-3" />
     </template>
     <template #body>
-      <div v-if="!records.length" class="w-full min-h-[12rem] relative">
-        <div class="w-full space-y-3">
-          <SLA-list-item
-            class="opacity-25 dark:opacity-20"
-            :sla-name="$t('SLA.LIST.EMPTY.TITLE_1')"
-            :description="$t('SLA.LIST.EMPTY.DESC_1')"
-            first-response="20m"
-            next-response="1h"
-            resolution-time="24h"
-            has-business-hours
-          />
-          <SLA-list-item
-            class="opacity-25 dark:opacity-20"
-            :sla-name="$t('SLA.LIST.EMPTY.TITLE_2')"
-            :description="$t('SLA.LIST.EMPTY.DESC_2')"
-            first-response="2h"
-            next-response="4h"
-            resolution-time="4d"
-            has-business-hours
-          />
-        </div>
-        <div
-          class="absolute inset-0 flex flex-col items-center justify-center w-full h-full bg-gradient-to-t from-white dark:from-slate-900 to-transparent"
-        >
-          <p class="max-w-xs text-sm font-medium text-center">
-            {{ $t('SLA.LIST.404') }}
-          </p>
-          <woot-button
-            color-scheme="primary"
-            icon="plus-sign"
-            class="px-5 mt-4 rounded-xl"
-            @click="openAddPopup"
-          >
-            {{ $t('SLA.ADD_ACTION_LONG') }}
-          </woot-button>
-        </div>
-      </div>
-      <div v-if="records.length" class="flex flex-col w-full h-full gap-3">
+      <SLAEmptyState
+        v-if="!records.length"
+        class="w-full min-h-[12rem] relative"
+        @primary-action="openAddPopup"
+      />
+      <div v-else-if="records.length" class="flex flex-col w-full h-full gap-3">
         <SLA-list-item
           v-for="sla in records"
           :key="sla.title"
@@ -84,6 +52,7 @@ import SettingsLayout from '../SettingsLayout.vue';
 import SLAHeader from './components/SLAHeader.vue';
 import SLAListItem from './components/SLAListItem.vue';
 import SLAListItemLoading from './components/SLAListItemLoading.vue';
+import SLAEmptyState from './components/SLAEmptyState.vue';
 import { mapGetters } from 'vuex';
 import { convertSecondsToTimeUnit } from '@chatwoot/utils';
 
@@ -97,6 +66,7 @@ export default {
     SLAListItem,
     SLAListItemLoading,
     SettingsLayout,
+    SLAEmptyState,
   },
   mixins: [alertMixin],
   data() {
