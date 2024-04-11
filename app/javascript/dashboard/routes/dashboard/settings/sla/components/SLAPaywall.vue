@@ -31,17 +31,15 @@ function routeToBilling() {
           <fluent-icon size="14" class="text-woot-500" icon="lock-closed" />
         </span>
         <span class="text-base font-medium text-slate-900">
-          Upgrade to create SLAs
+          {{ $t('SLA.PAYWALL.TITLE') }}
         </span>
       </div>
-      <p class="text-sm font-normal tracking-[0.5%] mt-4">
-        SLA management is available on the
-        <span class="font-medium text-slate-900">Business and Enterprise</span>
-        plans only.
-      </p>
+      <p
+        class="text-sm font-normal tracking-[0.5%] mt-4"
+        v-html="$t('SLA.PAYWALL.AVAILABLE_ON')"
+      />
       <p class="text-sm font-normal tracking-[0.5%]">
-        Upgrade now to get access to advanced features like team management,
-        automations, custom attributes, and more.
+        {{ $t('SLA.PAYWALL.UPGRADE_PROMPT') }}
       </p>
       <woot-button
         color-scheme="primary"
@@ -50,10 +48,10 @@ function routeToBilling() {
         is-expanded
         @click="routeToBilling"
       >
-        Upgrade Now
+        {{ $t('SLA.PAYWALL.UPGRADE_NOW') }}
       </woot-button>
       <p class="mt-2 text-xs tracking-tighter text-center">
-        You can change or cancel your plan anytime
+        {{ $t('SLA.PAYWALL.CANCEL_ANYTIME') }}
       </p>
     </div>
   </base-empty-state>
