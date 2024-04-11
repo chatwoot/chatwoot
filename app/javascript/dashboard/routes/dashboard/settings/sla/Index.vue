@@ -103,8 +103,9 @@ export default {
       }
 
       const isTrial = this.isTrialAccount(this.accountId);
-      const currentPlan = this.currentPlan();
       if (isTrial) return false;
+
+      const currentPlan = this.currentPlan();
       if (!currentPlan) return true;
 
       return ['Hacker', 'Startup'].includes(currentPlan);
