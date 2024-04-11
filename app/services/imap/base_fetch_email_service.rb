@@ -3,8 +3,13 @@ require 'net/imap'
 class Imap::BaseFetchEmailService
   pattr_initialize [:channel!]
 
-  def perform
+  def fetch_emails
     # Override this method
+  end
+
+  def perform
+    fetch_emails
+    terminate_imap_connection
   end
 
   private
@@ -103,6 +108,13 @@ class Imap::BaseFetchEmailService
     imap.authenticate(authentication_type, channel.imap_login, imap_password)
     imap.select('INBOX')
     imap
+  end
+
+  def terminate_imap_connection
+    imap.logout # Attempt to logout gracefully
+  rescue Net::IMAP::Error => e
+    Rails.logger.info "Logout failed for #{channel.email} - #{e.message}."
+    imap.disconnect
   end
 
   def build_mail_from_string(raw_email_content)
