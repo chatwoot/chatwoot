@@ -8,8 +8,10 @@ class Imap::BaseFetchEmailService
   end
 
   def perform
-    fetch_emails
+    inbound_emails = fetch_emails
     terminate_imap_connection
+
+    inbound_emails
   end
 
   private
@@ -111,10 +113,10 @@ class Imap::BaseFetchEmailService
   end
 
   def terminate_imap_connection
-    imap.logout # Attempt to logout gracefully
+    imap_client.logout
   rescue Net::IMAP::Error => e
     Rails.logger.info "Logout failed for #{channel.email} - #{e.message}."
-    imap.disconnect
+    imap_client.disconnect
   end
 
   def build_mail_from_string(raw_email_content)
