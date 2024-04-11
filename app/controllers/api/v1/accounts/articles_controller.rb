@@ -6,7 +6,7 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
 
   def index
     @portal_articles = @portal.articles
-    @all_articles = @portal_articles.search(list_params)
+    @all_articles = @portal_articles.vector_search(list_params)
     @articles_count = @all_articles.count
 
     @articles = if list_params[:category_slug].present?

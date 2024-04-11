@@ -35,6 +35,8 @@ class Article < ApplicationRecord
            dependent: :nullify,
            inverse_of: 'root_article'
 
+  has_one :article_embedding, dependent: :destroy
+
   belongs_to :root_article,
              class_name: :Article,
              foreign_key: :associated_article_id,
@@ -56,6 +58,8 @@ class Article < ApplicationRecord
   # ensuring that the position is always set correctly
   before_create :add_position_to_article
   after_save :category_id_changed_action, if: :saved_change_to_category_id?
+
+  after_save :add_article_embedding, if: -> { saved_change_to_title? || saved_change_to_description? || saved_change_to_content? }
 
   enum status: { draft: 0, published: 1, archived: 2 }
 
@@ -81,6 +85,35 @@ class Article < ApplicationRecord
       }
     }
   )
+
+  def self.vector_search(params)
+    embedding = Openai::EmbeddingsService.new.get_embedding(params['query'])
+    records = joins(
+      :category
+    ).search_by_category_slug(
+      params[:category_slug]
+    ).search_by_category_locale(params[:locale]).search_by_author(params[:author_id]).search_by_status(params[:status])
+    filtered_article_ids = records.pluck(:id)
+
+    # Fetch nearest neighbors and their distances, then filter directly
+
+    # experimenting with filtering results based on result threshold
+    # distance_threshold = 0.2
+    # if using add the filter block to the below query
+    # .filter { |ae| ae.neighbor_distance <= distance_threshold }
+
+    article_ids = ArticleEmbedding.where(article_id: filtered_article_ids)
+                                  .nearest_neighbors(:embedding, embedding, distance: 'cosine')
+                                  .limit(5)
+                                  .pluck(:article_id)
+
+    # Fetch the articles by the IDs obtained from the nearest neighbors search
+    where(id: article_ids)
+  end
+
+  def add_article_embedding
+    build_article_embedding.save
+  end
 
   def self.search(params)
     records = joins(

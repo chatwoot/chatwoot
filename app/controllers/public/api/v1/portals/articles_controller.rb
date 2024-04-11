@@ -7,7 +7,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
 
   def index
     @articles = @portal.articles
-    @articles = @articles.search(list_params) if list_params.present?
+    @articles = @articles.vector_search(list_params) if list_params.present?
     order_by_sort_param
     @articles.page(list_params[:page]) if list_params[:page].present?
   end
