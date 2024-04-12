@@ -83,7 +83,7 @@ import { required, minLength, email } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import alertMixin from 'shared/mixins/alertMixin';
-import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
+import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals ';
 import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
 import FormInput from '../../../../../components/Form/Input.vue';
 import SubmitButton from '../../../../../components/Button/SubmitButton.vue';

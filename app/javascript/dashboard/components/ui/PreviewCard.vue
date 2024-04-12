@@ -14,13 +14,16 @@
       }"
     >
       <div class="items-center flex font-medium p-1 text-sm">{{ heading }}</div>
-      <fluent-icon
+      <!-- <fluent-icon
         v-if="active"
         icon="checkmark-circle"
         type="solid"
         size="24"
         class="text-woot-500 dark:text-woot-500"
-      />
+      /> -->
+      <div>
+        <input type="radio" name="hotkey" value="enter" />
+      </div>
     </div>
     <div
       class="text-slate-700 dark:text-slate-200 text-xs leading-[1.4] px-3 pt-3 pb-0 text-start"
