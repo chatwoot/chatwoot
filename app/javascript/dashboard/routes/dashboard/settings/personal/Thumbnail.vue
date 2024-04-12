@@ -1,47 +1,37 @@
 <template>
   <div
+    class="relative rounded-xl"
     :class="thumbnailBoxClass"
     :style="{ height: size, width: size }"
     :title="title"
   >
-    <!-- Using v-show instead of v-if to avoid flickering as v-if removes dom elements.  -->
-    <slot>
-      <img
-        v-show="shouldShowImage"
-        :src="src"
-        draggable="false"
-        :class="thumbnailClass"
-        @load="onImgLoad"
-        @error="onImgError"
-      />
-      <Avatar
-        v-show="!shouldShowImage"
-        :username="userNameWithoutEmoji"
-        :class="thumbnailClass"
-        :size="avatarSize"
-      />
-      <!-- Show image on hover -->
-      <img
-        v-show="!shouldShowImage"
-        src="/upload.png"
-        draggable="false"
-        :class="thumbnailClass"
-        @load="onImgLoad"
-        @error="onImgError"
-      />
-    </slot>
     <img
-      v-if="badgeSrc"
-      class="source-badge"
-      :style="badgeStyle"
-      :src="uploadImage"
-      alt="Badge"
+      class="rounded-xl"
+      src="https://picsum.photos/200"
+      draggable="false"
+      :class="thumbnailClass"
+      @load="onImgLoad"
+      @error="onImgError"
     />
     <div
-      v-if="showStatusIndicator"
-      :class="`source-badge user-online-status user-online-status--${status}`"
-      :style="statusStyle"
-    />
+      class="absolute select-none w-6 h-6 z-10 p-1 -top-2 -right-2 border border-white dark:border-white rounded-full flex items-center justify-center bg-slate-200 dark:bg-slate-700"
+    >
+      <fluent-icon
+        icon="dismiss"
+        size="16"
+        class="text-slate-700 dark:text-slate-200"
+      />
+    </div>
+    <div
+      :style="{ height: size, width: size }"
+      class="absolute top-0 left-0 rounded-xl select-none flex items-center justify-center bg-modal-backdrop-dark dark:bg-modal-backdrop-dark"
+    >
+      <fluent-icon
+        icon="avatar-upload"
+        size="32"
+        class="text-white dark:text-white"
+      />
+    </div>
   </div>
 </template>
 <script>

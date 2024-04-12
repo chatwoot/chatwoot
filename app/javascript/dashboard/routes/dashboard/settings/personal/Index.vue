@@ -10,7 +10,7 @@
         <span class="text-slate-900 dark:text-slate-25 text-normal font-medium">
           Profile picture
         </span>
-        <!-- <thumbnail src="" username="John Doe" size="72px" /> -->
+        <thumbnail src="" username="John Doe" size="72px" />
       </div>
       <personal-wrapper
         header="Personal message signature"
@@ -27,6 +27,52 @@
             :has-error="true"
             :error-message="$t('REGISTER.FULL_NAME.ERROR')"
           />
+          <form-select
+            name="timezone"
+            spacing="compact"
+            label="Ding"
+            placeholder="Ding"
+            class="max-w-xl"
+          >
+            <option
+              v-for="file in audioFiles"
+              :key="file.label"
+              :value="file.value"
+            >
+              {{ file.label }}
+            </option>
+          </form-select>
+          <div
+            class="flex flex-row p-2 justify-between max-w-xl h-10 rounded-md border border-solid border-slate-75 dark:border-slate-600"
+          >
+            <div
+              class="flex flex-row gap-1 border-r border-slate-75 justify-center items-center grow"
+            >
+              <input type="radio" name="hotkey" value="enter" />
+              <label>None</label>
+            </div>
+            <div
+              class="flex flex-row gap-1 border-r border-slate-75 justify-center items-center grow"
+            >
+              <input type="radio" name="hotkey" value="enter" />
+              <label>Assigned</label>
+            </div>
+            <div class="flex flex-row gap-1 grow justify-center items-center">
+              <input type="radio" name="hotkey" value="enter" />
+              <label>All</label>
+            </div>
+          </div>
+          <div class="flex flex-row gap-1 items-center justify-start">
+            <input
+              type="checkbox"
+              name="send"
+              :checked="true"
+              class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-woot-600 dark:checked:bg-woot-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
+            />
+            <label>
+              Send audio alerts only if the browser window is not active
+            </label>
+          </div>
         </template>
       </personal-wrapper>
 
@@ -56,15 +102,12 @@
   </div>
 </template>
 <script setup>
-import { ref } from 'vue';
 import MessageSignature from '../profile/MessageSignature.vue';
-// import Thumbnail from './Thumbnail.vue';
+import Thumbnail from './Thumbnail.vue';
 import PersonalWrapper from './PersonalWrapper.vue';
 import PreviewCard from 'dashboard/components/ui/PreviewCard.vue';
 import FormInput from 'v3/components/Form/Input.vue';
-const credentials = ref({
-  fullName: '',
-});
+import FormSelect from 'v3/components/Form/Select.vue';
 const keyOptions = [
   {
     key: 'enter',
@@ -78,5 +121,9 @@ const keyOptions = [
     heading: 'Enter key',
     content: 'Send messages by pressing the Enter key',
   },
+];
+const audioFiles = [
+  { label: 'Ding', value: 'ding' },
+  { label: 'Dong', value: 'dong' },
 ];
 </script>
