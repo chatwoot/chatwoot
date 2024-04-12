@@ -87,6 +87,9 @@ export default {
       return !allowMessagesAfterResolved && status === 'resolved';
     },
     showEmailTranscriptButton() {
+      return this.hasEmail;
+    },
+    hasEmail() {
       return this.currentUser && this.currentUser.has_email;
     },
     hasReplyTo() {
@@ -141,8 +144,7 @@ export default {
       this.inReplyTo = message;
     },
     async sendTranscript() {
-      const { has_email: hasEmail } = this.currentUser;
-      if (hasEmail) {
+      if (this.hasEmail) {
         try {
           await sendEmailTranscript();
           window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {
