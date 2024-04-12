@@ -35,6 +35,7 @@ describe('#SLAReports API', () => {
         inbox_id: 1,
         team_id: 1,
         sla_policy_id: 1,
+        label_list: ['label1'],
       });
       expect(axiosMock.get).toHaveBeenCalledWith('/api/v1/applied_slas', {
         params: {
@@ -45,6 +46,7 @@ describe('#SLAReports API', () => {
           inbox_id: 1,
           team_id: 1,
           sla_policy_id: 1,
+          label_list: ['label1'],
         },
       });
     });
@@ -56,6 +58,7 @@ describe('#SLAReports API', () => {
         inbox_id: 1,
         team_id: 1,
         sla_policy_id: 1,
+        label_list: ['label1'],
       });
       expect(axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/applied_slas/metrics',
@@ -67,6 +70,7 @@ describe('#SLAReports API', () => {
             inbox_id: 1,
             team_id: 1,
             sla_policy_id: 1,
+            label_list: ['label1'],
           },
         }
       );

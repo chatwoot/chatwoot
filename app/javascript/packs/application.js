@@ -31,6 +31,7 @@ import VueDOMPurifyHTML from 'vue-dompurify-html';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
 import AnalyticsPlugin from '../dashboard/helper/AnalyticsHelper/plugin';
 import resizeDirective from '../dashboard/helper/directives/resize.js';
+import { directive as onClickaway } from 'vue-clickaway';
 
 Vue.config.env = process.env;
 
@@ -80,6 +81,7 @@ Vue.component('woot-wizard', WootWizard);
 Vue.component('fluent-icon', FluentIcon);
 
 Vue.directive('resize', resizeDirective);
+Vue.directive('on-clickaway', onClickaway);
 const i18nConfig = new VueI18n({
   locale: 'en',
   messages: i18n,
