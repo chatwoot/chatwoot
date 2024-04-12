@@ -87,7 +87,7 @@ class Article < ApplicationRecord
   )
 
   def self.vector_search(params)
-    embedding = Openai::EmbeddingsService.new.get_embedding(params['query'])
+    embedding = Openai::EmbeddingsService.new.get_embedding(params['query'], 'text-embedding-3-small')
     records = joins(
       :category
     ).search_by_category_slug(

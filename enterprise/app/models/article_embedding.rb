@@ -17,6 +17,6 @@ class ArticleEmbedding < ApplicationRecord
   private
 
   def update_response_embedding
-    self.embedding = Openai::EmbeddingsService.new.get_embedding(term)
+    self.embedding = Openai::EmbeddingsService.new.get_embedding(term, 'text-embedding-3-small')
   end
 end
