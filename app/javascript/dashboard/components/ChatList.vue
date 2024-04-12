@@ -16,7 +16,7 @@
     >
       <div class="flex max-w-[85%] justify-center items-center">
         <h1
-          class="text-xl break-words overflow-hidden whitespace-nowrap font-medium text-ellipsis text-black-900 dark:text-slate-100 mb-0"
+          class="text-base break-words overflow-hidden whitespace-nowrap font-medium text-ellipsis text-black-900 dark:text-slate-100 mb-0"
           :title="pageTitle"
         >
           {{ pageTitle }}
@@ -1057,7 +1057,7 @@ export default {
 
   ::v-deep {
     .tabs {
-      @apply p-0;
+      @apply p-0 text-xs;
     }
   }
 }

@@ -1,19 +1,19 @@
 {
   "FILTER": {
-    "TITLE": "Lọc cuộc hội thoại",
-    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
-    "EDIT_CUSTOM_FILTER": "Edit Folder",
-    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
-    "ADD_NEW_FILTER": "Add filter",
-    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
-    "SUBMIT_BUTTON_LABEL": "Áp dụng bộ lọc",
-    "UPDATE_BUTTON_LABEL": "Update folder",
-    "CANCEL_BUTTON_LABEL": "Huỷ",
-    "CLEAR_BUTTON_LABEL": "Clear filters",
-    "FOLDER_LABEL": "Folder Name",
+    "TITLE": "Tìm kiếm nâng cao",
+    "SUBTITLE": "Nhấn Thêm điều kiện hoặc nhấn dấu X sau mỗi điều kiện để thêm bớt điều kiện tìm kiếm.",
+    "EDIT_CUSTOM_FILTER": "Điều chỉnh tìm kiếm đã lưu",
+    "CUSTOM_VIEWS_SUBTITLE": "Thêm bớt điều kiện và cập nhật tìm kiếm đã lưu.",
+    "ADD_NEW_FILTER": "Thêm điều kiện",
+    "FILTER_DELETE_ERROR": "Vui lòng chọn ít nhất một điều kiện để có thể áp dụng!",
+    "SUBMIT_BUTTON_LABEL": "Tìm kiếm",
+    "UPDATE_BUTTON_LABEL": "Lưu lại tìm kiếm này",
+    "CANCEL_BUTTON_LABEL": "Bỏ qua",
+    "CLEAR_BUTTON_LABEL": "Hủy bỏ tìm kiếm",
+    "FOLDER_LABEL": "Tên tìm kiếm đã lưu",
     "FOLDER_QUERY_LABEL": "Folder Query",
-    "EMPTY_VALUE_ERROR": "Giá trị bắt buộc có.",
-    "TOOLTIP_LABEL": "Lọc cuộc hội thoại",
+    "EMPTY_VALUE_ERROR": "Chưa hoàn thành điều kiện này, bạn có thể chọn xóa nó đi.",
+    "TOOLTIP_LABEL": "Tìm kiếm nâng cao",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "VÀ",
       "OR": "HOẶC"
@@ -21,38 +21,38 @@
     "OPERATOR_LABELS": {
       "equal_to": "Bằng",
       "not_equal_to": "Không bằng",
-      "contains": "Chứa",
+      "contains": "Bao gồm",
       "does_not_contain": "Không bao gồm",
       "is_present": "Có",
       "is_not_present": "Không có",
       "is_greater_than": "Lớn hơn",
       "is_less_than": "Nhỏ hơn",
       "days_before": "Khoảng x ngày trước",
-      "starts_with": "Starts with"
+      "starts_with": "Bắt đầu với"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Đúng",
       "FALSE": "Sai"
     },
     "ATTRIBUTES": {
-      "STATUS": "Trạng thái",
-      "ASSIGNEE_NAME": "Assignee name",
-      "INBOX_NAME": "Tên kênh",
-      "TEAM_NAME": "Tên nhóm",
-      "CONVERSATION_IDENTIFIER": "Conversation identifier",
-      "CAMPAIGN_NAME": "Campaign name",
-      "LABELS": "Nhãn",
-      "BROWSER_LANGUAGE": "Browser language",
-      "PRIORITY": "Priority",
-      "COUNTRY_NAME": "Country name",
-      "REFERER_LINK": "Liên kết người giới thiệu",
+      "STATUS": "Trạng thái cuộc hội thoại",
+      "ASSIGNEE_NAME": "Người phụ trách",
+      "INBOX_NAME": "Kênh hội thoại",
+      "TEAM_NAME": "Nhóm làm việc",
+      "CONVERSATION_IDENTIFIER": "Định danh cuộc hội thoại",
+      "CAMPAIGN_NAME": "Tên chiến dịch",
+      "LABELS": "Nhãn phân loại",
+      "BROWSER_LANGUAGE": "Ngôn ngữ trình duyệt",
+      "PRIORITY": "Mức độ ưu tiên",
+      "COUNTRY_NAME": "Tên quốc gia",
+      "REFERER_LINK": "Referral link",
       "CUSTOM_ATTRIBUTE_LIST": "Danh sách",
       "CUSTOM_ATTRIBUTE_TEXT": "Văn bản",
       "CUSTOM_ATTRIBUTE_NUMBER": "Số",
       "CUSTOM_ATTRIBUTE_LINK": "Liên kết",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Hộp kiểm",
-      "CREATED_AT": "Tạo vào lúc",
-      "LAST_ACTIVITY": "Last activity"
+      "CREATED_AT": "Thời gian tạo",
+      "LAST_ACTIVITY": "Hoạt động lần cuối"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard filters",
@@ -61,15 +61,15 @@
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "Bạn có muốn lưu bộ lọc này không?",
-        "LABEL": "Đặt tên bộ lọc này",
-        "PLACEHOLDER": "Name your filter to refer it later.",
+        "TITLE": "Bạn có muốn lưu tìm kiếm này không?",
+        "LABEL": "Đặt tên tìm kiếm này",
+        "PLACEHOLDER": "Đặt tên dễ nhớ dễ hiểu để sử dụng sau này.",
         "ERROR_MESSAGE": "Cần phải có tên.",
-        "SAVE_BUTTON": "Lưu bộ lọc",
-        "CANCEL_BUTTON": "Huỷ",
+        "SAVE_BUTTON": "Lưu tìm kiếm",
+        "CANCEL_BUTTON": "Bỏ qua",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Thư mục được tạo thành công.",
-          "ERROR_MESSAGE": "Có lỗi xảy ra lúc tạo thư mục."
+          "SUCCESS_MESSAGE": "Tìm kiếm được lưu thành công.",
+          "ERROR_MESSAGE": "Có lỗi xảy ra lúc lưu tìm kiếm."
         },
         "API_SEGMENTS": {
           "SUCCESS_MESSAGE": "Phân khúc được tạo thành công.",
@@ -77,21 +77,21 @@
         }
       },
       "EDIT": {
-        "EDIT_BUTTON": "Edit folder"
+        "EDIT_BUTTON": "Sửa tìm kiếm này"
       },
       "DELETE": {
-        "DELETE_BUTTON": "Xoá bộ lọc",
+        "DELETE_BUTTON": "Xoá tìm kiếm này",
         "MODAL": {
           "CONFIRM": {
             "TITLE": "Xác nhận xoá",
-            "MESSAGE": "Bạn có chắc chắn muốn xoá bộ lọc ",
-            "YES": "Yes, delete",
-            "NO": "Không, giữ nó"
+            "MESSAGE": "Bạn có chắc chắn muốn xoá tìm kiếm ",
+            "YES": "Có, hãy xóa",
+            "NO": "Không, giữ lại"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Thư mục bị xoá thành công.",
-          "ERROR_MESSAGE": "Có lỗi xảy ra lúc xoá thư mục."
+          "SUCCESS_MESSAGE": "Tìm kiếm bị xoá thành công.",
+          "ERROR_MESSAGE": "Có lỗi xảy ra lúc xoá tìm kiếm."
         },
         "API_SEGMENTS": {
           "SUCCESS_MESSAGE": "Phân khúc được xoá thành công.",

@@ -1,20 +1,20 @@
 {
   "CONVERSATION": {
-    "SELECT_A_CONVERSATION": "Vui lòng chọn một cuộc trò chuyện từ ngăn bên trái",
+    "SELECT_A_CONVERSATION": "Vui lòng chọn một cuộc hội thoại từ danh sách bên trái",
     "CSAT_REPLY_MESSAGE": "Bạn hãy vui lòng đánh giá hội thoại",
     "404": "Xin lỗi, chúng tôi không thể tìm thấy hội thoại. Vui lòng thử lại",
     "SWITCH_VIEW_LAYOUT": "Chuyển đổi bố cục",
     "DASHBOARD_APP_TAB_MESSAGES": "Tin nhắn",
     "UNVERIFIED_SESSION": "Danh tính của người dùng này không được xác thực",
-    "NO_MESSAGE_1": "Uh oh! Có vẻ như không có tin nhắn nào từ khách hàng trong hộp thư đến của bạn.",
+    "NO_MESSAGE_1": "Có vẻ như chưa có tin nhắn nào từ khách hàng trong kênh hội thoại của bạn.",
     "NO_MESSAGE_2": " gửi tin nhắn đến trang của bạn!",
-    "NO_INBOX_1": "Hola! Có vẻ như bạn chưa thêm bất kỳ hộp thư đến nào.",
+    "NO_INBOX_1": "Hola! Có vẻ như bạn chưa thêm bất kỳ kênh hội thoại nào.",
     "NO_INBOX_2": " để bắt đầu",
-    "NO_INBOX_AGENT": "Uh Oh! Có vẻ như bạn không thuộc bất kỳ hộp thư đến nào. Vui lòng liên hệ với quản trị viên của bạn",
-    "SEARCH_MESSAGES": "Tìm kiếm tin nhắn trong các hội thoại",
+    "NO_INBOX_AGENT": "Có vẻ như bạn chưa được phân công vào kênh hội thoại nào. Vui lòng liên hệ với quản trị viên của bạn",
+    "SEARCH_MESSAGES": "Tìm kiếm liên hệ, hội thoại hay tin nhắn",
     "EMPTY_STATE": {
-      "CMD_BAR": "to open command menu",
-      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+      "CMD_BAR": "là phím tắt để truy cập nhanh chức năng",
+      "KEYBOARD_SHORTCUTS": "là phím tắt để tra cứu danh sách phím tắt"
     },
     "SEARCH": {
       "TITLE": "Tìm kiếm tin nhắn",
@@ -26,7 +26,7 @@
     "UNREAD_MESSAGES": "Tin nhắn chưa đọc",
     "UNREAD_MESSAGE": "Tin nhắn chưa đọc",
     "CLICK_HERE": "Click vào đây",
-    "LOADING_INBOXES": "Đang tải hộp thư đến",
+    "LOADING_INBOXES": "Đang tải kênh hội thoại",
     "LOADING_CONVERSATIONS": "Đang tải cuộc trò chuyện",
     "CANNOT_REPLY": "Bạn không thể trả lời do",
     "24_HOURS_WINDOW": "Giới hạn thời lượng tin nhắn 24 giờ",

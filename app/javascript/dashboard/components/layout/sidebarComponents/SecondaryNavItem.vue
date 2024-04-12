@@ -2,7 +2,7 @@
   <li v-show="isMenuItemVisible" class="mt-1">
     <div v-if="hasSubMenu" class="flex justify-between">
       <span
-        class="text-sm text-slate-700 dark:text-slate-200 font-semibold my-2 px-2 pt-1"
+        class="text-base text-slate-700 dark:text-slate-200 font-bold my-2 px-2 pt-1"
       >
         {{ $t(`SIDEBAR.${menuItem.label}`) }}
       </span>
