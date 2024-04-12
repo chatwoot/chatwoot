@@ -138,7 +138,11 @@
         "groupBy": "Mês"
       }
     ],
-    "BUSINESS_HOURS": "Horários de funcionamento"
+    "BUSINESS_HOURS": "Horários de funcionamento",
+    "FILTER_ACTIONS": {
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "Nenhum resultado encontrado"
+    }
   },
   "AGENT_REPORTS": {
     "HEADER": "Visão Geral de Agentes",
@@ -512,6 +516,26 @@
     "LOADING": "Loading SLA data...",
     "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
     "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "DROPDOWN": {
+      "ADD_FIlTER": "Adicionar filtro",
+      "CLEAR_ALL": "Clear all",
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "Nenhum resultado encontrado",
+      "NO_FILTER": "No filters available",
+      "SEARCH": "Search filter",
+      "INPUT_PLACEHOLDER": {
+        "SLA": "SLA name",
+        "AGENTS": "Nome do Agente",
+        "INBOXES": "Nome da Caixa de Entrada",
+        "LABELS": "Nome do marcador",
+        "TEAMS": "Nome do departamento"
+      },
+      "SLA": "Política SLA",
+      "INBOXES": "Caixa de Entrada",
+      "AGENTS": "Agente",
+      "LABELS": "Nome do campo",
+      "TEAMS": "Times"
+    },
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",
