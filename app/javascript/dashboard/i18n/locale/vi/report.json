@@ -138,7 +138,11 @@
         "groupBy": "Tháng"
       }
     ],
-    "BUSINESS_HOURS": "Giờ làm việc"
+    "BUSINESS_HOURS": "Giờ làm việc",
+    "FILTER_ACTIONS": {
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "Không tìm thấy kết quả"
+    }
   },
   "AGENT_REPORTS": {
     "HEADER": "Tổng quan đại lý",
@@ -512,6 +516,26 @@
     "LOADING": "Loading SLA data...",
     "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
     "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "DROPDOWN": {
+      "ADD_FIlTER": "Add filter",
+      "CLEAR_ALL": "Clear all",
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "Không tìm thấy kết quả",
+      "NO_FILTER": "No filters available",
+      "SEARCH": "Search filter",
+      "INPUT_PLACEHOLDER": {
+        "SLA": "SLA name",
+        "AGENTS": "Tên tổng đài viên",
+        "INBOXES": "Tên kênh",
+        "LABELS": "Tên nhãn",
+        "TEAMS": "Tên nhóm"
+      },
+      "SLA": "SLA Policy",
+      "INBOXES": "Hộp thư đến",
+      "AGENTS": "Nhà cung cấp",
+      "LABELS": "Nhãn",
+      "TEAMS": "Nhóm"
+    },
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",
