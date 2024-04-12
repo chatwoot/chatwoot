@@ -92,7 +92,7 @@ RSpec.describe 'Applied SLAs API', type: :request do
         create(:applied_sla, sla_policy: sla_policy1, conversation: conversation3, created_at: 3.days.ago)
 
         get "/api/v1/accounts/#{account.id}/applied_slas/metrics",
-            params: { label_list: ['label1'] },
+            params: { label_list: 'label1' },
             headers: administrator.create_new_auth_token
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body)
@@ -205,7 +205,7 @@ RSpec.describe 'Applied SLAs API', type: :request do
         create(:applied_sla, sla_policy: sla_policy1, conversation: conversation3, created_at: 3.days.ago, sla_status: 'missed')
 
         get "/api/v1/accounts/#{account.id}/applied_slas",
-            params: { label_list: ['label1'] },
+            params: { label_list: 'label1' },
             headers: administrator.create_new_auth_token
         expect(response).to have_http_status(:success)
         body = JSON.parse(response.body)
