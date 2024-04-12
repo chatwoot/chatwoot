@@ -8,6 +8,10 @@ defineProps({
     type: String,
     default: '',
   },
+  showClearFilter: {
+    type: Boolean,
+    default: false,
+  },
 });
 </script>
 <template>
@@ -30,7 +34,7 @@ defineProps({
     </div>
     <!-- Clear filter button -->
     <woot-button
-      v-if="!inputValue"
+      v-if="!inputValue && showClearFilter"
       size="small"
       variant="clear"
       color-scheme="primary"

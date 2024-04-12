@@ -60,6 +60,7 @@ const closeDropdown = () => emit('closeDropdown');
       <filter-list-dropdown
         v-if="options"
         v-on-clickaway="closeDropdown"
+        show-clear-filter
         :list-items="options"
         :active-filter-id="id"
         :input-placeholder="placeholder"

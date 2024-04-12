@@ -22,6 +22,10 @@ const props = defineProps({
     type: Number,
     default: null,
   },
+  showClearFilter: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const searchTerm = ref('');
@@ -54,6 +58,7 @@ const isFilterActive = id => {
         v-if="enableSearch && listItems.length"
         :input-value="searchTerm"
         :input-placeholder="inputPlaceholder"
+        :show-clear-filter="showClearFilter"
         @input="onSearch"
         @click="$emit('removeFilter')"
       />
