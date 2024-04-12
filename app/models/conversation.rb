@@ -6,7 +6,7 @@
 #  additional_attributes  :jsonb
 #  agent_last_seen_at     :datetime
 #  assignee_last_seen_at  :datetime
-#  cached_label_list      :string
+#  cached_label_list      :text
 #  contact_last_seen_at   :datetime
 #  custom_attributes      :jsonb
 #  first_reply_created_at :datetime
@@ -57,10 +57,12 @@ class Conversation < ApplicationRecord
   include ActivityMessageHandler
   include UrlHelper
   include SortHandler
+  include PushDataHelper
   include ConversationMuteHelpers
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
+  validates :contact_id, presence: true
   before_validation :validate_additional_attributes
   validates :additional_attributes, jsonb_attributes_length: true
   validates :custom_attributes, jsonb_attributes_length: true
@@ -103,7 +105,7 @@ class Conversation < ApplicationRecord
   has_many :attachments, through: :messages
 
   before_save :ensure_snooze_until_reset
-  before_create :mark_conversation_pending_if_bot
+  before_create :determine_conversation_status
   before_create :ensure_waiting_since
 
   after_update_commit :execute_after_update_commit_callbacks
@@ -170,18 +172,6 @@ class Conversation < ApplicationRecord
     unread_messages.where(account_id: account_id).incoming.last(10)
   end
 
-  def push_event_data
-    Conversations::EventDataPresenter.new(self).push_data
-  end
-
-  def lock_event_data
-    Conversations::EventDataPresenter.new(self).lock_data
-  end
-
-  def webhook_data
-    Conversations::EventDataPresenter.new(self).push_data
-  end
-
   def cached_label_list_array
     (cached_label_list || '').split(',').map(&:strip)
   end
@@ -206,6 +196,10 @@ class Conversation < ApplicationRecord
     "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{uuid}"
   end
 
+  def dispatch_conversation_updated_event(previous_changes = nil)
+    dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
+  end
+
   private
 
   def execute_after_update_commit_callbacks
@@ -226,7 +220,9 @@ class Conversation < ApplicationRecord
     self.additional_attributes = {} unless additional_attributes.is_a?(Hash)
   end
 
-  def mark_conversation_pending_if_bot
+  def determine_conversation_status
+    self.status = :resolved and return if contact.blocked?
+
     # Message template hooks aren't executed for conversations from campaigns
     # So making these conversations open for agent visibility
     return if campaign.present?
@@ -242,13 +238,17 @@ class Conversation < ApplicationRecord
   def notify_conversation_updation
     return unless previous_changes.keys.present? && allowed_keys?
 
-    dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
+    dispatch_conversation_updated_event(previous_changes)
+  end
+
+  def list_of_keys
+    %w[team_id assignee_id status snoozed_until custom_attributes label_list waiting_since first_reply_created_at
+       priority]
   end
 
   def allowed_keys?
     (
-      previous_changes.keys.intersect?(%w[team_id assignee_id status snoozed_until custom_attributes label_list waiting_since first_reply_created_at
-                                          priority]) ||
+      previous_changes.keys.intersect?(list_of_keys) ||
       (previous_changes['additional_attributes'].present? && previous_changes['additional_attributes'][1].keys.intersect?(%w[conversation_language]))
     )
   end
@@ -309,5 +309,6 @@ class Conversation < ApplicationRecord
   end
 end
 
-Conversation.include_mod_with('EnterpriseConversationConcern')
+Conversation.include_mod_with('Concerns::Conversation')
 Conversation.include_mod_with('SentimentAnalysisHelper')
+Conversation.prepend_mod_with('Conversation')

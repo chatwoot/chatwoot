@@ -78,7 +78,7 @@ Rails.application.routes.draw do
           namespace :channels do
             resource :twilio_channel, only: [:create]
           end
-          resources :conversations, only: [:index, :create, :show] do
+          resources :conversations, only: [:index, :create, :show, :update] do
             collection do
               get :meta
               get :search
@@ -139,6 +139,12 @@ Rails.application.routes.draw do
             end
           end
           resources :csat_survey_responses, only: [:index] do
+            collection do
+              get :metrics
+              get :download
+            end
+          end
+          resources :applied_slas, only: [:index] do
             collection do
               get :metrics
               get :download
@@ -303,12 +309,14 @@ Rails.application.routes.draw do
           resources :reports, only: [:index] do
             collection do
               get :summary
+              get :bot_summary
               get :agents
               get :inboxes
               get :labels
               get :teams
               get :conversations
               get :conversation_traffic
+              get :bot_metrics
             end
           end
         end
@@ -366,8 +374,9 @@ Rails.application.routes.draw do
         resources :inboxes do
           scope module: :inboxes do
             resources :contacts, only: [:create, :show, :update] do
-              resources :conversations, only: [:index, :create] do
+              resources :conversations, only: [:index, :create, :show] do
                 member do
+                  post :toggle_status
                   post :toggle_typing
                   post :update_last_seen
                 end
@@ -452,7 +461,10 @@ Rails.application.routes.draw do
       end
 
       resources :access_tokens, only: [:index, :show]
-      resources :response_sources, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+      resources :response_sources, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
+        get :chat, on: :member
+        post :chat, on: :member, action: :process_chat
+      end
       resources :response_documents, only: [:index, :show, :new, :create, :edit, :update, :destroy]
       resources :responses, only: [:index, :show, :new, :create, :edit, :update, :destroy]
       resources :installation_configs, only: [:index, :new, :create, :show, :edit, :update]

@@ -12,10 +12,12 @@
             />
           </div>
           <div class="flex flex-col justify-center m-0 mx-4 flex-1">
-            <h3 class="text-xl text-slate-800 dark:text-slate-100">
+            <h3
+              class="text-xl font-medium mb-1 text-slate-800 dark:text-slate-100"
+            >
               {{ integration.name }}
             </h3>
-            <p>
+            <p class="text-slate-700 dark:text-slate-200">
               {{ integration.description }}
             </p>
           </div>
