@@ -440,7 +440,7 @@
       "HEADER": "Mở cuộc hội thoại",
       "LOADING_MESSAGE": "Đang tải số liệu cuộc hội thoại...",
       "OPEN": "Mở",
-      "UNATTENDED": "Không giám sát",
+      "UNATTENDED": "Chưa tiếp nhận",
       "UNASSIGNED": "Chưa phân công",
       "PENDING": "Chờ giải quyết"
     },
@@ -457,7 +457,7 @@
       "TABLE_HEADER": {
         "AGENT": "Người dùng",
         "OPEN": "MỞ",
-        "UNATTENDED": "Không giám sát",
+        "UNATTENDED": "Chưa tiếp nhận",
         "STATUS": "Trạng thái"
       }
     },
