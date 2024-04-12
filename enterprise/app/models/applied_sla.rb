@@ -30,14 +30,14 @@ class AppliedSla < ApplicationRecord
   enum sla_status: { active: 0, hit: 1, missed: 2, active_with_misses: 3 }
 
   scope :filter_by_date_range, ->(range) { where(created_at: range) if range.present? }
-  scope :filter_by_inbox_id, ->(inbox_id) { where(inbox_id: inbox_id) if inbox_id.present? }
-  scope :filter_by_team_id, ->(team_id) { where(team_id: team_id) if team_id.present? }
+  scope :filter_by_inbox_id, ->(inbox_id) { joins(:conversation).where(conversations: { inbox_id: inbox_id }) if inbox_id.present? }
+  scope :filter_by_team_id, ->(team_id) { joins(:conversation).where(conversations: { team_id: team_id }) if team_id.present? }
   scope :filter_by_sla_policy_id, ->(sla_policy_id) { where(sla_policy_id: sla_policy_id) if sla_policy_id.present? }
-  scope :filter_by_label_list, ->(label_list) { joins(:conversation).where(conversations: { cached_label_list: label_list }) if label_list.present? }
+  scope :filter_by_label_list, lambda { |label_list|
+                                 joins(:conversation).where('conversations.cached_label_list LIKE ?', "%#{label_list}%") if label_list.present?
+                               }
   scope :filter_by_assigned_agent_id, lambda { |assigned_agent_id|
-                                        if assigned_agent_id.present?
-                                          joins(:conversation).where(conversations: { assigned_agent_id: assigned_agent_id })
-                                        end
+                                        joins(:conversation).where(conversations: { assignee_id: assigned_agent_id }) if assigned_agent_id.present?
                                       }
   scope :missed, -> { where(sla_status: %i[missed active_with_misses]) }
 
