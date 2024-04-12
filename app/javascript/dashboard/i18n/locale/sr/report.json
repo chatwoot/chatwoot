@@ -138,7 +138,11 @@
         "groupBy": "Mesec"
       }
     ],
-    "BUSINESS_HOURS": "Radno vreme"
+    "BUSINESS_HOURS": "Radno vreme",
+    "FILTER_ACTIONS": {
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "Ništa nije pronađeno"
+    }
   },
   "AGENT_REPORTS": {
     "HEADER": "Pregled agenata",
@@ -512,6 +516,26 @@
     "LOADING": "Loading SLA data...",
     "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
     "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "DROPDOWN": {
+      "ADD_FIlTER": "Add filter",
+      "CLEAR_ALL": "Clear all",
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "Ništa nije pronađeno",
+      "NO_FILTER": "No filters available",
+      "SEARCH": "Search filter",
+      "INPUT_PLACEHOLDER": {
+        "SLA": "SLA name",
+        "AGENTS": "Naziv agenta",
+        "INBOXES": "Naziv prijemnog sandučeta",
+        "LABELS": "Naziv oznake",
+        "TEAMS": "Naziv tima"
+      },
+      "SLA": "SLA Policy",
+      "INBOXES": "Prijemno sanduče",
+      "AGENTS": "Agent",
+      "LABELS": "Oznaka",
+      "TEAMS": "Tim"
+    },
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",
