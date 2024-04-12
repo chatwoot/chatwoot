@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col flex-1 px-4 pt-4 overflow-auto">
+  <div class="flex flex-col flex-1 gap-6 px-4 pt-4 overflow-auto">
     <SLAReportFilters @filter-change="onFilterChange" />
     <woot-button
       color-scheme="success"
@@ -44,8 +44,15 @@ export default {
   data() {
     return {
       pageNumber: 1,
-      from: 0,
-      to: 0,
+      activeFilter: {
+        from: 0,
+        to: 0,
+        assigned_agent_id: null,
+        inbox_id: null,
+        team_id: null,
+        sla_policy_id: null,
+        label_list: null,
+      },
     };
   },
   computed: {
@@ -57,6 +64,11 @@ export default {
     }),
   },
   mounted() {
+    this.$store.dispatch('agents/get');
+    this.$store.dispatch('inboxes/get');
+    this.$store.dispatch('teams/get');
+    this.$store.dispatch('labels/get');
+    this.$store.dispatch('sla/get');
     this.fetchSLAMetrics();
     this.fetchSLAReports();
   },
@@ -64,22 +76,17 @@ export default {
     fetchSLAReports({ pageNumber } = {}) {
       this.$store.dispatch('slaReports/get', {
         page: pageNumber || this.pageNumber,
-        from: this.from,
-        to: this.to,
+        ...this.activeFilter,
       });
     },
     fetchSLAMetrics() {
-      this.$store.dispatch('slaReports/getMetrics', {
-        from: this.from,
-        to: this.to,
-      });
+      this.$store.dispatch('slaReports/getMetrics', this.activeFilter);
     },
     onPageChange(pageNumber) {
       this.fetchSLAReports({ pageNumber });
     },
-    onFilterChange({ from, to }) {
-      this.from = from;
-      this.to = to;
+    onFilterChange(params) {
+      this.activeFilter = params;
       this.fetchSLAReports();
       this.fetchSLAMetrics();
     },
