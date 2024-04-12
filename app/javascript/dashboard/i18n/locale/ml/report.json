@@ -138,7 +138,11 @@
         "groupBy": "മാസം"
       }
     ],
-    "BUSINESS_HOURS": "Business Hours"
+    "BUSINESS_HOURS": "Business Hours",
+    "FILTER_ACTIONS": {
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "ഒരു ഫലവും കണ്ടെത്താനായില്ല"
+    }
   },
   "AGENT_REPORTS": {
     "HEADER": "ഏജന്റുമാരുടെ അവലോകനം",
@@ -512,6 +516,26 @@
     "LOADING": "Loading SLA data...",
     "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
     "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "DROPDOWN": {
+      "ADD_FIlTER": "Add filter",
+      "CLEAR_ALL": "Clear all",
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "ഒരു ഫലവും കണ്ടെത്താനായില്ല",
+      "NO_FILTER": "No filters available",
+      "SEARCH": "Search filter",
+      "INPUT_PLACEHOLDER": {
+        "SLA": "SLA name",
+        "AGENTS": "Agent name",
+        "INBOXES": "Inbox name",
+        "LABELS": "ലേബൽ നാമം",
+        "TEAMS": "ടീമിന്റെ പേര്"
+      },
+      "SLA": "SLA Policy",
+      "INBOXES": "ഇൻബോക്സ്",
+      "AGENTS": "ഏജന്റ്",
+      "LABELS": "Label",
+      "TEAMS": "Team"
+    },
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",
