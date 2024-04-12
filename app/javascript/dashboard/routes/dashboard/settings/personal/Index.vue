@@ -38,7 +38,7 @@
             your preference of writing.
           </p>
           <div class="flex flex-col md:flex-row gap-4">
-            <div class="flex-1 p-4 border">
+            <div class="flex-1 p-4 rounded-xl border border-slate-200">
               <div class="flex flex-row justify-between">
                 <div class="text-sm">Enter (↵)</div>
                 <input type="radio" name="hotkey" value="enter" />
