@@ -24,12 +24,13 @@
     </div>
     <!-- Dividing line between Active filters and Add filter button -->
     <div
-      v-if="hasActiveFilters"
+      v-if="hasActiveFilters && !isAllFilterSelected"
       class="w-full h-px border md:w-px md:h-5 border-slate-75 dark:border-slate-800"
     />
     <!-- Add filter and clear filter button -->
     <div class="flex items-center gap-2">
       <add-filter-chip
+        v-if="!isAllFilterSelected"
         placeholder-i18n-key="SLA_REPORTS.DROPDOWN.INPUT_PLACEHOLDER"
         :name="$t('SLA_REPORTS.DROPDOWN.ADD_FIlTER')"
         :menu-option="filterListMenuItems"
@@ -154,7 +155,10 @@ export default {
       });
     },
     hasActiveFilters() {
-      return this.activeFilters.length > 0;
+      return Object.values(this.appliedFilters).some(value => value !== null);
+    },
+    isAllFilterSelected() {
+      return !this.filterListMenuItems.length;
     },
   },
   methods: {
