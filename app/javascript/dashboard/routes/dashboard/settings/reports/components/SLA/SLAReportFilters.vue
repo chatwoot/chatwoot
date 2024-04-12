@@ -1,22 +1,25 @@
 <template>
-  <div class="flex flex-col md:flex-row justify-between mb-4">
-    <div class="md:grid flex flex-col filter-container gap-3 w-full">
-      <reports-filters-date-range @on-range-change="onDateRangeChange" />
-      <woot-date-range-picker
-        v-if="isDateRangeSelected"
-        show-range
-        class="no-margin auto-width"
-        :value="customDateRange"
-        :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
-        :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
-        @change="onCustomDateRangeChange"
-      />
-    </div>
+  <div class="flex flex-col flex-wrap w-full gap-3 md:flex-row">
+    <reports-filters-date-range
+      class="sm:min-w-[200px] tiny h-8"
+      @on-range-change="onDateRangeChange"
+    />
+    <woot-date-range-picker
+      v-if="isDateRangeSelected"
+      show-range
+      class="no-margin auto-width sm:min-w-[240px] small h-8"
+      :value="customDateRange"
+      :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
+      :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
+      @change="onCustomDateRangeChange"
+    />
+    <SLA-filter @filter-change="emitFilterChange" />
   </div>
 </template>
 <script>
 import WootDateRangePicker from 'dashboard/components/ui/DateRangePicker.vue';
 import ReportsFiltersDateRange from '../Filters/DateRange.vue';
+import SLAFilter from '../SLA/SLAFilter.vue';
 import subDays from 'date-fns/subDays';
 import { DATE_RANGE_OPTIONS } from '../../constants';
 import { getUnixStartOfDay, getUnixEndOfDay } from 'helpers/DateHelper';
@@ -25,6 +28,7 @@ export default {
   components: {
     WootDateRangePicker,
     ReportsFiltersDateRange,
+    SLAFilter,
   },
 
   data() {
@@ -70,7 +74,12 @@ export default {
       this.$emit('filter-change', {
         from,
         to,
+        ...this.selectedGroupByFilter,
       });
+    },
+    emitFilterChange(params) {
+      this.selectedGroupByFilter = params;
+      this.emitChange();
     },
     onDateRangeChange(selectedRange) {
       this.selectedDateRange = selectedRange;
@@ -83,9 +92,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.filter-container {
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-}
-</style>
