@@ -1,14 +1,22 @@
+# == Schema Information
+#
+# Table name: article_embeddings
+#
+#  id         :bigint           not null, primary key
+#  embedding  :vector(1536)
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  article_id :bigint           not null
+#
 class ArticleEmbedding < ApplicationRecord
   belongs_to :article
   has_neighbors :embedding, normalize: true
 
   before_save :update_response_embedding
 
-  enum status: { pending: 0, active: 1 }
-
   private
 
   def update_response_embedding
-    self.embedding = Openai::EmbeddingsService.new.get_embedding("#{article.title}: #{article.description} - #{article.content}")
+    self.embedding = Openai::EmbeddingsService.new.get_embedding(term)
   end
 end
