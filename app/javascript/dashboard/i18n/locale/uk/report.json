@@ -138,7 +138,11 @@
         "groupBy": "Місяць"
       }
     ],
-    "BUSINESS_HOURS": "Робочий час"
+    "BUSINESS_HOURS": "Робочий час",
+    "FILTER_ACTIONS": {
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "Результатів не знайдено"
+    }
   },
   "AGENT_REPORTS": {
     "HEADER": "Огляд Агентів",
@@ -512,6 +516,26 @@
     "LOADING": "Loading SLA data...",
     "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
     "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "DROPDOWN": {
+      "ADD_FIlTER": "Add filter",
+      "CLEAR_ALL": "Clear all",
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "Результатів не знайдено",
+      "NO_FILTER": "No filters available",
+      "SEARCH": "Search filter",
+      "INPUT_PLACEHOLDER": {
+        "SLA": "SLA name",
+        "AGENTS": "Ім'я агента",
+        "INBOXES": "Назва Джерела",
+        "LABELS": "Назва мітки",
+        "TEAMS": "Назва команди"
+      },
+      "SLA": "SLA Policy",
+      "INBOXES": "Вхідні",
+      "AGENTS": "Агент",
+      "LABELS": "Мітка",
+      "TEAMS": "Команда"
+    },
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",
