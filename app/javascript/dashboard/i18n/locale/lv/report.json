@@ -138,7 +138,11 @@
         "groupBy": "Mēnesis"
       }
     ],
-    "BUSINESS_HOURS": "Darba Laiks"
+    "BUSINESS_HOURS": "Darba Laiks",
+    "FILTER_ACTIONS": {
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "Nav atrasts"
+    }
   },
   "AGENT_REPORTS": {
     "HEADER": "Aģentu Pārskats",
@@ -512,6 +516,26 @@
     "LOADING": "Notiek SLA datu ielāde...",
     "DOWNLOAD_SLA_REPORTS": "Lejupielādēt SLA atskaites",
     "DOWNLOAD_FAILED": "Neizdevās lejupielādēt SLA atskaites",
+    "DROPDOWN": {
+      "ADD_FIlTER": "Pievienot filtru",
+      "CLEAR_ALL": "Clear all",
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "Nav atrasts",
+      "NO_FILTER": "No filters available",
+      "SEARCH": "Search filter",
+      "INPUT_PLACEHOLDER": {
+        "SLA": "SLA name",
+        "AGENTS": "Aģenta vārds",
+        "INBOXES": "Iesūtnes nosaukums",
+        "LABELS": "Etiķetes nosaukums",
+        "TEAMS": "Komandas nosaukums"
+      },
+      "SLA": "SLA politika",
+      "INBOXES": "Iesūtne",
+      "AGENTS": "Aģents",
+      "LABELS": "Etiķete",
+      "TEAMS": "Komanda"
+    },
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Rezultātu Līmenis",
