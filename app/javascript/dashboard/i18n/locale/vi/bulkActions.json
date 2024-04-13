@@ -1,40 +1,40 @@
 {
   "BULK_ACTION": {
     "CONVERSATIONS_SELECTED": "%{conversationCount} cuộc hội thoại đã được chọn",
-    "AGENT_SELECT_LABEL": "Chọn thành viên",
-    "ASSIGN_CONFIRMATION_LABEL": "Bạn có chắc chắn để chỉ định %{conversationCount} %{conversationLabel} tới",
-    "UNASSIGN_CONFIRMATION_LABEL": "Bạn có chắc chắn hủy chỉ định %{conversationCount} %{conversationLabel}?",
+    "AGENT_SELECT_LABEL": "Chọn người phụ trách",
+    "ASSIGN_CONFIRMATION_LABEL": "Bạn có chắc chắn phân công %{conversationCount} %{conversationLabel} cho",
+    "UNASSIGN_CONFIRMATION_LABEL": "Bạn có chắc chắn hủy phân công %{conversationCount} %{conversationLabel}?",
     "GO_BACK_LABEL": "Trở về",
-    "ASSIGN_LABEL": "Gán",
+    "ASSIGN_LABEL": "Phân công",
     "YES": "Có",
-    "ASSIGN_AGENT_TOOLTIP": "Gán tổng đài viên",
-    "ASSIGN_TEAM_TOOLTIP": "Gán nhóm",
+    "ASSIGN_AGENT_TOOLTIP": "Phân công người phụ trách",
+    "ASSIGN_TEAM_TOOLTIP": "Phân công nhóm phụ trách",
     "ASSIGN_SUCCESFUL": "Cuộc hội thoại đã được phân công thành công.",
-    "ASSIGN_FAILED": "Failed to assign conversations. Please try again.",
-    "RESOLVE_SUCCESFUL": "Cuộc hội thoại đã được giải quyết thành công.",
-    "RESOLVE_FAILED": "Failed to resolve conversations. Please try again.",
+    "ASSIGN_FAILED": "Phân công cuộc hội thoại thất bại, vui lòng thử lại!",
+    "RESOLVE_SUCCESFUL": "Cuộc hội thoại đã được đánh dấu hoàn thành.",
+    "RESOLVE_FAILED": "Cập nhật tình trạng thất bại, vui lòng thử lại!",
     "ALL_CONVERSATIONS_SELECTED_ALERT": "Chỉ những cuộc hội thoại hiển thị trên trang này mới có thể được chọn.",
-    "AGENT_LIST_LOADING": "Đang tải điện thoại viên",
+    "AGENT_LIST_LOADING": "Đang nạp danh sách người phụ trách",
     "UPDATE": {
       "CHANGE_STATUS": "Thay đổi trạng thái",
-      "SNOOZE_UNTIL_NEXT_REPLY": "Báo lại cho đến khi có câu trả lời tiếp theo.",
+      "SNOOZE_UNTIL_NEXT_REPLY": "Tạm ngưng chờ phản hồi",
       "UPDATE_SUCCESFUL": "Đã cập nhật trạng thái cuộc hội thoại thành công.",
-      "UPDATE_FAILED": "Failed to update conversations. Please try again."
+      "UPDATE_FAILED": "Cập nhật cuộc hội thoại thất bại, vui lòng thử lại."
     },
     "LABELS": {
-      "ASSIGN_LABELS": "Assign labels",
+      "ASSIGN_LABELS": "Gắn nhãn phân loại",
       "NO_LABELS_FOUND": "Không tìm thấy nhãn nào cho",
       "ASSIGN_SELECTED_LABELS": "Gán các nhãn đã chọn",
-      "ASSIGN_SUCCESFUL": "Các nhãn được gán thành công.",
-      "ASSIGN_FAILED": "Failed to assign labels. Please try again."
+      "ASSIGN_SUCCESFUL": "Các nhãn được gắn thành công.",
+      "ASSIGN_FAILED": "Gắn nhãn thất bại, vui lòng thử lại."
     },
     "TEAMS": {
-      "TEAM_SELECT_LABEL": "Chọn nhóm",
+      "TEAM_SELECT_LABEL": "Phân công nhóm phụ trách",
       "NONE": "Không có",
-      "NO_TEAMS_AVAILABLE": "Chưa có nhóm nào được thêm vào tài khoản này.",
-      "ASSIGN_SELECTED_TEAMS": "Chỉ định nhóm đã chọn.",
-      "ASSIGN_SUCCESFUL": "Các nhóm được chỉ định thành công.",
-      "ASSIGN_FAILED": "Failed to assign team. Please try again."
+      "NO_TEAMS_AVAILABLE": "Chưa có nhóm làm việc nào.",
+      "ASSIGN_SELECTED_TEAMS": "Phân công các nhóm đã chọn.",
+      "ASSIGN_SUCCESFUL": "Các nhóm được phân công thành công.",
+      "ASSIGN_FAILED": "Phân công nhóm thất bại, vui lòng thử lại."
     }
   }
 }
