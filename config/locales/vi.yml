@@ -123,12 +123,12 @@ vi:
         error_code: "Error code: %{error_code}"
     activity:
       status:
-        resolved: "Cuộc trò chuyện được đánh dấu là đã giải quyết bởi %{user_name}"
-        contact_resolved: "Hội thoại đã được giải quyết bởi %{contact_name}"
-        open: "Cuộc trò chuyện đã được mở lại bởi %{user_name}"
-        pending: "Hội thoại được đánh dấu là chưa giải quyết bởi %{user_name}"
-        snoozed: "Hội thoại đã được tạm dừng lại bởi %{user_name}"
-        auto_resolved: "Hội thoại được đánh dấu là đã giải quyết bởi hệ thống vì %{duration} ngày không hoạt động"
+        resolved: "Hội thoại được đánh dấu hoàn thành bởi %{user_name}"
+        contact_resolved: "Hội thoại được đánh dấu hoàn thành bởi khách hàng %{contact_name}"
+        open: "Hội thoại đã được mở lại bởi %{user_name}"
+        pending: "Hội thoại được đánh dấu chờ giải quyết bởi %{user_name}"
+        snoozed: "Hội thoại đã được tạm ngưng lại bởi %{user_name}"
+        auto_resolved: "Hội thoại được đánh dấu hoàn thành bởi hệ thống vì %{duration} ngày không hoạt động"
         system_auto_open: Hệ thống mở lại hội thoại do có tin nhắn mới.
       priority:
         added: '%{user_name} thiết lập độ ưu tiên thành %{new_priority}'
@@ -136,22 +136,22 @@ vi:
         removed: '%{user_name} bỏ mức độ ưu tiên'
       assignee:
         self_assigned: "%{user_name} phân công chính mình vào hội thoại này"
-        assigned: "Chỉ định %{assignee_name} bởi %{user_name}"
-        removed: "Cuộc hội thoại chưa được chỉ định bởi %{user_name}"
+        assigned: "Phân công %{assignee_name} bởi %{user_name}"
+        removed: "Hủy phân công cuộc hội thoại bởi %{user_name}"
       team:
-        assigned: "Chỉ định %{team_name} bởi %{user_name}"
-        assigned_with_assignee: "Phân công cho %{assignee_name} thông qua %{team_name} bởi %{user_name}"
-        removed: "Huỷ phân công cho %{team_name} bởi %{user_name}"
+        assigned: "Phân công cho nhóm %{team_name} bởi %{user_name}"
+        assigned_with_assignee: "Phân công cho %{assignee_name} thông qua nhóm %{team_name} bởi %{user_name}"
+        removed: "Huỷ phân công cho nhóm %{team_name} bởi %{user_name}"
       labels:
-        added: "%{user_name} thêm %{labels}"
-        removed: "%{user_name} xoá %{labels}"
+        added: "%{user_name} gắn nhãn %{labels}"
+        removed: "%{user_name} gỡ nhãn %{labels}"
       muted: "%{user_name} đã tắt tiếng hội thoại"
-      unmuted: "%{user_name} đã bật tiếng cuộc trò chuyện"
+      unmuted: "%{user_name} đã bật tiếng hội thoại"
     templates:
       greeting_message_body: "%{account_name} thường trả lời trong vài giờ."
       ways_to_reach_you_message_body: "Trong lúc chờ đội ngũ hỗ trợ phản hồi, bạn hãy để lại email để nhận được thông báo nhanh nhất nhé."
       email_input_box_message_body: "Nhận thông báo qua email"
-      csat_input_message_body: "Bạn hãy vui lòng đánh giá hội thoại"
+      csat_input_message_body: "Bạn hãy vui lòng đánh giá cuộc hội thoại"
     reply:
       email:
         header:

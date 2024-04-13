@@ -27,7 +27,7 @@
         "TEXT": "Chờ giải quyết"
       },
       "snoozed": {
-        "TEXT": "Tạm dừng"
+        "TEXT": "Tạm ngưng"
       },
       "resolved": {
         "TEXT": "Đã hoàn thành"
@@ -72,10 +72,10 @@
         "TEXT": "Độ ưu tiên thấp trước"
       },
       "waiting_since_asc": {
-        "TEXT": "Tạm ngưng dài trước"
+        "TEXT": "Tạm ngưng dài nhất trước"
       },
       "waiting_since_desc": {
-        "TEXT": "Tạm ngưng ngắn trước"
+        "TEXT": "Tạm ngưng ngắn nhất trước"
       }
     },
     "ATTACHMENTS": {
