@@ -207,6 +207,7 @@ import {
 import { conversationListPageURL } from '../helper/URLHelper';
 import {
   isOnMentionsView,
+  isOnUnreadView,
   isOnUnattendedView,
 } from '../store/modules/conversations/helpers/actionHelpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
@@ -463,8 +464,8 @@ export default {
       if (this.conversationType === 'mention') {
         return this.$t('CHAT_LIST.MENTION_HEADING');
       }
-      if (this.conversationType === 'participating') {
-        return this.$t('CONVERSATION_PARTICIPANTS.SIDEBAR_MENU_TITLE');
+      if (this.conversationType === 'unread') {
+        return this.$t('CHAT_LIST.UNREAD_HEADING');
       }
       if (this.conversationType === 'unattended') {
         return this.$t('CHAT_LIST.UNATTENDED_HEADING');
@@ -906,6 +907,8 @@ export default {
           conversationType = 'mention';
         } else if (isOnUnattendedView({ route: { name } })) {
           conversationType = 'unattended';
+        } else if (isOnUnreadView({ route: { name } })) {
+          conversationType = 'unread';
         }
         this.$router.push(
           conversationListPageURL({

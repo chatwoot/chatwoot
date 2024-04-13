@@ -23,8 +23,8 @@ export const conversationUrl = ({
     url = `accounts/${accountId}/custom_view/${foldersId}/conversations/${id}`;
   } else if (conversationType === 'mention') {
     url = `accounts/${accountId}/mentions/conversations/${id}`;
-  } else if (conversationType === 'participating') {
-    url = `accounts/${accountId}/participating/conversations/${id}`;
+  } else if (conversationType === 'unread') {
+    url = `accounts/${accountId}/unread/conversations/${id}`;
   } else if (conversationType === 'unattended') {
     url = `accounts/${accountId}/unattended/conversations/${id}`;
   }
@@ -52,6 +52,7 @@ export const conversationListPageURL = ({
     const urlMap = {
       mention: 'mentions/conversations',
       unattended: 'unattended/conversations',
+      unread: 'unread/conversations',
     };
     url = `accounts/${accountId}/${urlMap[conversationType]}`;
   }
