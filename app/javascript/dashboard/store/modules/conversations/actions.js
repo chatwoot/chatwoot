@@ -7,6 +7,7 @@ import { createPendingMessage } from 'dashboard/helper/commons';
 import {
   buildConversationList,
   isOnMentionsView,
+  isOnUnreadView,
   isOnUnattendedView,
   isOnFoldersView,
 } from './helpers/actionHelpers';
@@ -329,6 +330,7 @@ const actions = {
       !hasAppliedFilters &&
       !isOnFoldersView(rootState) &&
       !isOnMentionsView(rootState) &&
+      !isOnUnreadView(rootState) &&
       !isOnUnattendedView(rootState) &&
       isMatchingInboxFilter
     ) {
@@ -345,6 +347,12 @@ const actions = {
 
   addUnattended({ dispatch, rootState }, conversation) {
     if (isOnUnattendedView(rootState)) {
+      dispatch('updateConversation', conversation);
+    }
+  },
+
+  addUnread({ dispatch, rootState }, conversation) {
+    if (isOnUnreadView(rootState)) {
       dispatch('updateConversation', conversation);
     }
   },

@@ -141,22 +141,22 @@ export default {
       }),
     },
     {
-      path: frontendURL('accounts/:accountId/participating/conversations'),
-      name: 'conversation_participating',
+      path: frontendURL('accounts/:accountId/unread/conversations'),
+      name: 'conversation_unread',
       roles: ['administrator', 'agent'],
       component: ConversationView,
-      props: () => ({ conversationType: 'participating' }),
+      props: () => ({ conversationType: 'unread' }),
     },
     {
       path: frontendURL(
-        'accounts/:accountId/participating/conversations/:conversationId'
+        'accounts/:accountId/unread/conversations/:conversationId'
       ),
-      name: 'conversation_through_participating',
+      name: 'conversation_through_unread',
       roles: ['administrator', 'agent'],
       component: ConversationView,
       props: route => ({
         conversationId: route.params.conversationId,
-        conversationType: 'participating',
+        conversationType: 'unread',
       }),
     },
   ],

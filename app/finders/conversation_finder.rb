@@ -108,12 +108,23 @@ class ConversationFinder
     when 'mention'
       conversation_ids = current_account.mentions.where(user: current_user).pluck(:conversation_id)
       @conversations = @conversations.where(id: conversation_ids)
-    when 'participating'
-      @conversations = current_user.participating_conversations.where(account_id: current_account.id)
+    when 'unread'
+      @conversations = unread_conversations(current_account.id)
     when 'unattended'
       @conversations = @conversations.unattended
     end
     @conversations
+  end
+
+  def unread_conversations(account_id)
+    subquery = "SELECT conversation_id, MAX(created_at) AS latest_incoming_created_at
+                FROM messages
+                WHERE account_id = #{account_id} AND message_type = #{Message.message_types[:incoming]}
+                GROUP BY conversation_id"
+
+    Conversation.joins("INNER JOIN (#{subquery}) AS latest_incoming ON conversations.id = latest_incoming.conversation_id")
+                .where('conversations.agent_last_seen_at is null or conversations.agent_last_seen_at < latest_incoming.latest_incoming_created_at')
+                .where(account_id: account_id)
   end
 
   def filter_by_query
