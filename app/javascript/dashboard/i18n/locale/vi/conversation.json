@@ -302,7 +302,7 @@
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "đang tham gia",
-    "SIDEBAR_TITLE": "Tham gia cuộc hội thoại",
+    "SIDEBAR_TITLE": "Người tham gia hội thoại này",
     "NO_RECORDS_FOUND": "Không tìm thấy kết quả",
     "ADD_PARTICIPANTS": "Chọn người tham gia",
     "REMANING_PARTICIPANTS_TEXT": "+%{count} người khác",
@@ -310,7 +310,7 @@
     "TOTAL_PARTICIPANTS_TEXT": "%{count} người đang tham gia.",
     "TOTAL_PARTICIPANT_TEXT": "%{count} người đang tham gia.",
     "NO_PARTICIPANTS_TEXT": "Chưa có ai tham gia!.",
-    "WATCH_CONVERSATION": "Tham gia cuộc hội thoại",
+    "WATCH_CONVERSATION": "Tham gia vào hội thoại",
     "YOU_ARE_WATCHING": "Bạn đang tham gia",
     "API": {
       "ERROR_MESSAGE": "Không thể cập nhật, thử lại!",

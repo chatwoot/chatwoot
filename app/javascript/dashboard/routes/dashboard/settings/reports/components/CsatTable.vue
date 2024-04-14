@@ -138,7 +138,7 @@ export default {
         feedbackText: response.feedback_message || '---',
         conversationId: response.conversation_id,
         createdAgo: this.dynamicTime(response.created_at),
-        createdAt: this.messageStamp(response.created_at, 'LLL d yyyy, h:mm a'),
+        createdAt: this.messageStamp(response.created_at, 'dd/MM, HH:mm'),
       }));
     },
   },

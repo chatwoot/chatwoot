@@ -18,7 +18,7 @@
     "CREATED_AT_LABEL": "Đã tạo",
     "NEW_MESSAGE": "Tin nhắn mới",
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "Không tìm thấy cuộc hội thoại nào",
+      "NO_RECORDS_FOUND": "Không tìm thấy cuộc hội thoại nào khác",
       "TITLE": "Lịch sử hội thoại"
     },
     "LABELS": {
@@ -48,7 +48,7 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Thông tin tùy chỉnh",
       "CONTACT_LABELS": "Nhãn danh bạ",
-      "PREVIOUS_CONVERSATIONS": "Hội thoại trước đó"
+      "PREVIOUS_CONVERSATIONS": "Lịch sử hội thoại"
     }
   },
   "EDIT_CONTACT": {
