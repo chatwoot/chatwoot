@@ -44,12 +44,24 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "Mới nhất",
-        "OLDEST": "Cũ nhất:"
+        "LATEST": "Bắt đầu từ:",
+        "OLDEST": "Bắt đầu từ:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Hoạt động gần nhất:",
-        "ACTIVE": "Hoạt động gần nhất"
+        "NOT_ACTIVE": "Tương tác cuối:",
+        "ACTIVE": "Tương tác cuối:"
+      },
+      "TIME_LABEL": {
+        "MINUTE_AGO": "phút trước",
+        "MINUTES_AGO": "phút trước",
+        "HOUR_AGO": "giờ trước",
+        "HOURS_AGO": "giờ trước",
+        "DAY_AGO": "ngày trước",
+        "DAYS_AGO": "ngày trước",
+        "MONTH_AGO": "tháng trước",
+        "MONTHS_AGO": "tháng trước",
+        "YEAR_AGO": "năm trước",
+        "YEARS_AGO": "năm trước"
       }
     },
     "SORT_ORDER_ITEMS": {

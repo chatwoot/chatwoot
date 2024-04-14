@@ -52,10 +52,9 @@ export default {
     createdAt() {
       const createdTimeDiff = Date.now() - this.createdAtTimestamp * 1000;
       const isBeforeAMonth = createdTimeDiff > DAY_IN_MILLI_SECONDS * 30;
+      const timeAgo = this.localizeTimeAgo(this.createdAtTimeAgo);
       return !isBeforeAMonth
-        ? `${this.$t('CHAT_LIST.CHAT_TIME_STAMP.CREATED.LATEST')} ${
-            this.createdAtTimeAgo
-          }`
+        ? `${this.$t('CHAT_LIST.CHAT_TIME_STAMP.CREATED.LATEST')} ${timeAgo}`
         : `${this.$t(
             'CHAT_LIST.CHAT_TIME_STAMP.CREATED.OLDEST'
           )} ${this.dateFormat(this.createdAtTimestamp)}`;
@@ -64,10 +63,11 @@ export default {
       const lastActivityTimeDiff =
         Date.now() - this.lastActivityTimestamp * 1000;
       const isNotActive = lastActivityTimeDiff > DAY_IN_MILLI_SECONDS * 30;
+      const timeAgo = this.localizeTimeAgo(this.lastActivityAtTimeAgo);
       return !isNotActive
-        ? `${this.$t('CHAT_LIST.CHAT_TIME_STAMP.LAST_ACTIVITY.ACTIVE')} ${
-            this.lastActivityAtTimeAgo
-          }`
+        ? `${this.$t(
+            'CHAT_LIST.CHAT_TIME_STAMP.LAST_ACTIVITY.ACTIVE'
+          )} ${timeAgo}`
         : `${this.$t(
             'CHAT_LIST.CHAT_TIME_STAMP.LAST_ACTIVITY.NOT_ACTIVE'
           )} ${this.dateFormat(this.lastActivityTimestamp)}`;
