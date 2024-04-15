@@ -49,6 +49,7 @@
         keycloakClientId: '<%= ENV.fetch('KEYCLOAK_CLIENT_ID', nil) %>',
         keycloakUrl: '<%= ENV.fetch('KEYCLOAK_URL', nil) %>',
         keycloakCallbackUrl: '<%= ENV.fetch('KEYCLOAK_CALLBACK_URL', nil) %>',
+        onehashCalUrl: '<%= ENV.fetch('ONEHASH_CAL_URL', nil) %>'
       }
       window.globalConfig = <%= raw @global_config.to_json %>
       window.browserConfig = {

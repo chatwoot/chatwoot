@@ -80,7 +80,7 @@
         <spinner color-scheme="primary" size="" />
       </div>
     </section> -->
-    <redirectLoader />
+    <!-- <redirectLoader /> -->
   </main>
 </template>
 
@@ -94,7 +94,7 @@ import { parseBoolean } from '@chatwoot/utils';
 // import FormInput from '../../components/Form/Input.vue';
 import { login } from '../../api/auth';
 // import Spinner from 'shared/components/Spinner.vue';
-import RedirectLoader from 'shared/components/RedirectLoader.vue';
+// import RedirectLoader from 'shared/components/RedirectLoader.vue';
 
 const ERROR_MESSAGES = {
   'no-account-found': 'LOGIN.OAUTH.NO_ACCOUNT_FOUND',
@@ -105,7 +105,7 @@ export default {
   components: {
     // FormInput,
     // GoogleOAuthButton,
-    RedirectLoader,
+    // RedirectLoader,
     // Spinner,
     // SubmitButton,
   },
@@ -170,9 +170,7 @@ export default {
     }
   },
   mounted() {
-    setTimeout(() => {
-      this.redirectToKeycloak();
-    }, 3000);
+    this.redirectToKeycloak();
   },
   methods: {
     showAlert(message) {
