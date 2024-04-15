@@ -1,5 +1,5 @@
 # ensure vector extension is enabled via response bot service
-class Features::HelpcenterEmbeddingSearchService
+class Features::HelpcenterEmbeddingSearchService < Features::BaseService
   def enable_in_installation
     create_tables
   end
