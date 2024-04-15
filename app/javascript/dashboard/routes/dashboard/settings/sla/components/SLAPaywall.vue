@@ -9,6 +9,13 @@ const { proxy } = getCurrentInstance();
 const route = proxy.$route;
 const router = proxy.$router;
 
+defineProps({
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
+});
+
 function routeToBilling() {
   const accountId = route.params.accountId;
 
@@ -38,21 +45,28 @@ function routeToBilling() {
         class="text-sm font-normal tracking-[0.5%] mt-4"
         v-html="$t('SLA.PAYWALL.AVAILABLE_ON')"
       />
-      <p class="text-sm font-normal tracking-[0.5%]">
-        {{ $t('SLA.PAYWALL.UPGRADE_PROMPT') }}
-      </p>
-      <woot-button
-        color-scheme="primary"
-        class="w-full mt-2 text-center rounded-xl"
-        size="expanded"
-        is-expanded
-        @click="routeToBilling"
-      >
-        {{ $t('SLA.PAYWALL.UPGRADE_NOW') }}
-      </woot-button>
-      <p class="mt-2 text-xs tracking-tighter text-center">
-        {{ $t('SLA.PAYWALL.CANCEL_ANYTIME') }}
-      </p>
+      <template v-if="isAdmin">
+        <p class="text-sm font-normal tracking-[0.5%]">
+          {{ $t('SLA.PAYWALL.UPGRADE_PROMPT') }}
+        </p>
+        <woot-button
+          color-scheme="primary"
+          class="w-full mt-2 text-center rounded-xl"
+          size="expanded"
+          is-expanded
+          @click="routeToBilling"
+        >
+          {{ $t('SLA.PAYWALL.UPGRADE_NOW') }}
+        </woot-button>
+        <p class="mt-2 text-xs tracking-tighter text-center">
+          {{ $t('SLA.PAYWALL.CANCEL_ANYTIME') }}
+        </p>
+      </template>
+      <template v-else>
+        <p class="text-sm font-normal tracking-[0.5%]">
+          {{ $t('SLA.PAYWALL.ASK_ADMIN') }}
+        </p>
+      </template>
     </div>
   </base-empty-state>
 </template>

@@ -11,6 +11,7 @@
       "AVAILABLE_ON": "SLA management is available on the <span class=\"font-medium text-slate-900\">Business and Enterprise</span> plans only.",
       "UPGRADE_PROMPT": "Upgrade now to get access to advanced features like team management, automations, custom attributes, and more.",
       "UPGRADE_NOW": "Upgrade now",
+      "ASK_ADMIN": "Ask your admin to upgrade and get access to advanced features like team management, automations, custom attributes, and more.",
       "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     },
     "LIST": {
