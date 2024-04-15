@@ -16,6 +16,7 @@ class CSATReportsAPI extends ApiClient {
     rating,
     question_id,
     label,
+    question,
   } = {}) {
     return axios.get(this.url, {
       params: {
@@ -29,11 +30,12 @@ class CSATReportsAPI extends ApiClient {
         rating,
         question_id,
         label,
+        question,
       },
     });
   }
 
-  getQuestions({ from, to, user_ids, inbox_id, team_id, rating, label } = {}) {
+  getQuestions({ from, to, user_ids, inbox_id, team_id, rating, label, question } = {}) {
     return axios.get(`${this.url}/questions`, {
       params: {
         since: from,
@@ -43,12 +45,13 @@ class CSATReportsAPI extends ApiClient {
         inbox_id,
         team_id,
         rating,
-        label
+        label,
+        question,
       },
     });
   }
 
-  download({ from, to, user_ids, inbox_id, team_id, rating, label } = {}) {
+  download({ from, to, user_ids, inbox_id, team_id, rating, label, question } = {}) {
     return axios.get(`${this.url}/download`, {
       params: {
         since: from,
@@ -58,15 +61,16 @@ class CSATReportsAPI extends ApiClient {
         inbox_id,
         team_id,
         rating,
-        label
+        label,
+        question,
       },
     });
   }
 
-  getMetrics({ from, to, user_ids, inbox_id, team_id, rating, label } = {}) {
+  getMetrics({ from, to, user_ids, inbox_id, team_id, rating, label, question } = {}) {
     // no ratings for metrics
     return axios.get(`${this.url}/metrics`, {
-      params: { since: from, until: to, user_ids, inbox_id, team_id, rating, label },
+      params: { since: from, until: to, user_ids, inbox_id, team_id, rating, label, question },
     });
   }
 }

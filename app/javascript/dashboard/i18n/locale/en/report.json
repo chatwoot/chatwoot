@@ -416,6 +416,9 @@
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Choose Agents"
+      },
+      "QUESTIONS": {
+        "PLACEHOLDER": "Choose Questions"
       }
     },
     "TABLE": {

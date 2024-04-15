@@ -43,6 +43,7 @@ class CsatSurveyResponse < ApplicationRecord
   scope :filter_by_inbox_id, ->(inbox_id) { joins(:conversation).where(conversations: { inbox_id: inbox_id }) if inbox_id.present? }
   scope :filter_by_team_id, ->(team_id) { joins(:conversation).where(conversations: { team_id: team_id }) if team_id.present? }
   scope :filter_by_label, ->(label) { joins(:conversation).where(conversations: { cached_label_list: label }) if label.present? }
+  scope :filter_by_question, ->(question) { where(csat_template_question_id: question) if question.present? }
   # filter by rating value
   scope :filter_by_rating, ->(rating) { where(rating: rating) if rating.present? }
 

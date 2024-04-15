@@ -3,7 +3,7 @@ module "postgres" {
   name                   = local.system_name
   instance_class         = "db.t4g.medium"
   engine                 = "postgres"
-  engine_version         = "15.4"
+  engine_version         = "15.5"
   parameter_group_family = "postgres15"
   db_port                = 5432
   db_name                = "outline"

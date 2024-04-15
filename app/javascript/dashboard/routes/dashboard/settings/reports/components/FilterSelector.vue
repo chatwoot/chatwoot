@@ -41,6 +41,11 @@
         @rating-filter-selection="handleRatingFilterSelection"
         :multiple="multipleRatings"
       />
+      <reports-filters-questions
+        v-if="showQuestionFilter"
+        @question-filter-selection="handleRatingQuestionSelection"
+        :multiple="multipleQuestions"
+      />
     </div>
     <div v-if="showBusinessHoursSwitch" class="flex items-baseline">
       <span class="text-sm whitespace-nowrap mx-2">
@@ -61,6 +66,7 @@ import ReportsFiltersLabels from './Filters/Labels.vue';
 import ReportsFiltersInboxes from './Filters/Inboxes.vue';
 import ReportsFiltersTeams from './Filters/Teams.vue';
 import ReportsFiltersRatings from './Filters/Ratings.vue';
+import ReportsFiltersQuestions from './Filters/Questions.vue';
 import subDays from 'date-fns/subDays';
 import { DATE_RANGE_OPTIONS } from '../constants';
 import { getUnixStartOfDay, getUnixEndOfDay } from 'helpers/DateHelper';
@@ -75,6 +81,7 @@ export default {
     ReportsFiltersInboxes,
     ReportsFiltersTeams,
     ReportsFiltersRatings,
+    ReportsFiltersQuestions,
   },
   props: {
     filterItemsList: {
@@ -109,6 +116,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    showQuestionFilter: {
+      type: Boolean,
+      default: false,
+    },
     multipleInboxes: {
       type: Boolean,
       default: false,
@@ -124,6 +135,10 @@ export default {
     multipleRatings: {
       type: Boolean,
       default: false,
+    },
+    multipleQuestions: {
+      type: Boolean,
+      default: false,
     }
   },
   data() {
@@ -136,6 +151,7 @@ export default {
       selectedTeam: null,
       selectedRating: null,
       selectedAgents: [],
+      selectedQuestion: [],
       customDateRange: [new Date(), new Date()],
       businessHoursSelected: false,
     };
@@ -199,6 +215,7 @@ export default {
         selectedInbox,
         selectedTeam,
         selectedRating,
+        selectedQuestion,
       } = this;
       this.$emit('filter-change', {
         from,
@@ -210,6 +227,7 @@ export default {
         selectedInbox,
         selectedTeam,
         selectedRating,
+        selectedQuestion,
       });
     },
     onDateRangeChange(selectedRange) {
@@ -244,6 +262,10 @@ export default {
     },
     handleRatingFilterSelection(selectedRating) {
       this.selectedRating = selectedRating;
+      this.emitChange();
+    },
+    handleRatingQuestionSelection(selectedQuestion){
+      this.selectedQuestion = selectedQuestion;
       this.emitChange();
     },
   },

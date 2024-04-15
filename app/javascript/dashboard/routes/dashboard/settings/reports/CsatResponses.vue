@@ -7,11 +7,13 @@
       :show-labels-filter="true"
       :show-team-filter="isTeamsEnabled"
       :show-business-hours-switch="false"
+      :show-question-filter="true"
       @filter-change="onFilterChange"
       :multiple-labels="true"
       :multiple-teams="true"
       :multiple-inboxes="true"
       :multiple-ratings="true"
+      :multiple-questions="true"
     />
     <woot-button
       color-scheme="success"
@@ -64,6 +66,7 @@ export default {
       team: [],
       rating: [],
       label: [],
+      question: [],
       groudByQuestions: false,
     };
   },
@@ -81,6 +84,7 @@ export default {
         team_id: this.team,
         rating: this.rating,
         label: this.label,
+        question: this.question,
       };
     },
     isTeamsEnabled() {
@@ -128,7 +132,8 @@ export default {
       selectedInbox,
       selectedTeam,
       selectedRating,
-      selectedLabel
+      selectedLabel,
+      selectedQuestion,
     }) {
       // do not track filter change on inital load
       if (this.from !== 0 && this.to !== 0) {
@@ -145,7 +150,7 @@ export default {
       this.team = selectedTeam && selectedTeam.map(el => el.id);
       this.rating = selectedRating && selectedRating.map(el => el.value);
       this.label =  selectedLabel && selectedLabel.map(el => el.title);
-
+      this.question = selectedQuestion && selectedQuestion.map(el => el.id);
       this.getAllData();
     },
   },
