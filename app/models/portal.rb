@@ -23,10 +23,6 @@
 #  index_portals_on_custom_domain          (custom_domain) UNIQUE
 #  index_portals_on_slug                   (slug) UNIQUE
 #
-# Foreign Keys
-#
-#  fk_rails_...  (channel_web_widget_id => channel_web_widgets.id)
-#
 class Portal < ApplicationRecord
   include Rails.application.routes.url_helpers
 
