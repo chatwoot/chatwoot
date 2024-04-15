@@ -26,6 +26,8 @@
         :open-in-new-page="true"
         :to="helpDocsURL"
       />
+      <all-products @toggle-menu="toggleProducts" />
+      <products-menu :show="showProductsMenu" @close="toggleProducts" />
       <notification-bell @open-notification-panel="openNotificationPanel" />
       <agent-details @toggle-menu="toggleOptions" />
       <options-menu
@@ -42,8 +44,10 @@
 import Logo from './Logo.vue';
 import PrimaryNavItem from './PrimaryNavItem.vue';
 import OptionsMenu from './OptionsMenu.vue';
+import ProductsMenu from './ProductsMenu.vue';
 import AgentDetails from './AgentDetails.vue';
 import NotificationBell from './NotificationBell.vue';
+import AllProducts from './AllProducts.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import { ACCOUNT_EVENTS } from '../../../helper/AnalyticsHelper/events';
@@ -55,6 +59,8 @@ export default {
     OptionsMenu,
     AgentDetails,
     NotificationBell,
+    AllProducts,
+    ProductsMenu,
   },
   props: {
     isACustomBrandedInstance: {
@@ -86,6 +92,7 @@ export default {
     return {
       helpDocsURL: wootConstants.DOCS_URL,
       showOptionsMenu: false,
+      showProductsMenu: false,
     };
   },
   methods: {
@@ -102,6 +109,9 @@ export default {
     openNotificationPanel() {
       this.$track(ACCOUNT_EVENTS.OPENED_NOTIFICATIONS);
       this.$emit('open-notification-panel');
+    },
+    toggleProducts() {
+      this.showProductsMenu = !this.showProductsMenu;
     },
   },
 };
