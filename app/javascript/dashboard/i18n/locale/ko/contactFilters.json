@@ -44,7 +44,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "체크박스",
       "CREATED_AT": "에 만들어짐",
       "LAST_ACTIVITY": "지난 활동",
-      "REFERER_LINK": "Referrer link"
+      "REFERER_LINK": "Referrer link",
+      "BLOCKED": "Blocked"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "기본 필터",
