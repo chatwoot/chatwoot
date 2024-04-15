@@ -10,6 +10,7 @@
       :option-height="24"
       :show-labels="false"
       @input="handleInput"
+      :multiple="multiple"
     />
   </div>
 </template>
@@ -18,6 +19,12 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'ReportsFiltersInboxes',
+  props: {
+    multiple: {
+      type: Boolean,
+      default: false,
+    }
+  },
   data() {
     return {
       selectedOption: null,

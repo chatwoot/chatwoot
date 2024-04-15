@@ -23,6 +23,10 @@ class ContactPolicy < ApplicationPolicy
     true
   end
 
+  def email_search?
+    true
+  end
+
   def filter?
     true
   end

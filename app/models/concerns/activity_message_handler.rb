@@ -50,7 +50,7 @@ module ActivityMessageHandler
   def handle_close_change(user_name)
     return unless saved_change_to_closed?
 
-    close_change_activity(user_name) 
+    close_change_activity(user_name)
   end
 
   def status_change_activity(user_name)
@@ -86,15 +86,13 @@ module ActivityMessageHandler
     closed_status = closed? ? 'closed' : 'unclosed'
 
     content = if user_name
-      "Conversation was #{closed_status} by #{user_name}"
-    else
-      if closed?
-        "Conversation was #{closed_status} by the system due to inactivity"
-      else
-        "Conversation was #{closed_status}"
-      end
-    end
-     
+                "Conversation was #{closed_status} by #{user_name}"
+              elsif closed?
+                "Conversation was #{closed_status} by the system due to inactivity"
+              else
+                "Conversation was #{closed_status}"
+              end
+
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 

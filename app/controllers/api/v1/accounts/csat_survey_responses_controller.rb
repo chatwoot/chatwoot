@@ -45,6 +45,7 @@ class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::Base
                                                  .filter_by_inbox_id(params[:inbox_id])
                                                  .filter_by_team_id(params[:team_id])
                                                  .filter_by_rating(params[:rating])
+                                                 .filter_by_label(params[:label])
   end
 
   def set_current_page_surveys

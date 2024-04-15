@@ -173,7 +173,7 @@ class Inbox < ApplicationRecord
 
   def csat_template_enabled?
     return false unless csat_survey_enabled
-    
+
     csat_template.present? && csat_template.csat_template_questions.present?
   end
 

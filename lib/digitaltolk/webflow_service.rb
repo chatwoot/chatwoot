@@ -83,37 +83,37 @@ class Digitaltolk::WebflowService
   #     "params": {
   #       "triggerType": "form_submission",
   #       "payload": {
-  #         "name": "Info kontakt", 
-  #         "siteId": "6476e981f6a8eff9068d9af2", 
-  #         "data": {
-  #           "Name-kom": "Test JM", 
-  #           "Email-kom": "jmanuel.derecho@gmail.com", 
-  #           "phone-kom": "", 
-  #           "Bok．nr．": "#3364311", 
-  #           "Subject": "Mejl för tolk", 
-  #           "Meddelande": "Hej! Har bokat tolk men ser inte tolkens mejladress någonstans. Behöver den för att skicka video länk."
-  #         }, 
-  #         "submittedAt": "2024-02-01T15:35:45.897Z", 
-  #         "id": "65bbba510f02b427c7024707", 
-  #         "formId": "64dd32123cda9a590ffbf718"
-  #     }, 
-  #     "controller": "webhooks/webflow", 
-  #     "action": "process_payload", 
-  #     "webflow": {
-  #       "triggerType": "form_submission", 
-  #       "payload": {
-  #         "name": "Info kontakt", 
+  #         "name": "Info kontakt",
   #         "siteId": "6476e981f6a8eff9068d9af2",
   #         "data": {
-  #           "Name-kom": "Test JM", 
-  #           "Email-kom": "jmanuel.derecho@gmail.com", 
-  #           "phone-kom": "", 
-  #           "Bok．nr．": "#3364311", 
-  #           "Subject": "Mejl för tolk", 
+  #           "Name-kom": "Test JM",
+  #           "Email-kom": "jmanuel.derecho@gmail.com",
+  #           "phone-kom": "",
+  #           "Bok．nr．": "#3364311",
+  #           "Subject": "Mejl för tolk",
   #           "Meddelande": "Hej! Har bokat tolk men ser inte tolkens mejladress någonstans. Behöver den för att skicka video länk."
-  #         }, 
-  #         "submittedAt": "2024-02-01T15:35:45.897Z", 
-  #         "id": "65bbba510f02b427c7024707", 
+  #         },
+  #         "submittedAt": "2024-02-01T15:35:45.897Z",
+  #         "id": "65bbba510f02b427c7024707",
+  #         "formId": "64dd32123cda9a590ffbf718"
+  #     },
+  #     "controller": "webhooks/webflow",
+  #     "action": "process_payload",
+  #     "webflow": {
+  #       "triggerType": "form_submission",
+  #       "payload": {
+  #         "name": "Info kontakt",
+  #         "siteId": "6476e981f6a8eff9068d9af2",
+  #         "data": {
+  #           "Name-kom": "Test JM",
+  #           "Email-kom": "jmanuel.derecho@gmail.com",
+  #           "phone-kom": "",
+  #           "Bok．nr．": "#3364311",
+  #           "Subject": "Mejl för tolk",
+  #           "Meddelande": "Hej! Har bokat tolk men ser inte tolkens mejladress någonstans. Behöver den för att skicka video länk."
+  #         },
+  #         "submittedAt": "2024-02-01T15:35:45.897Z",
+  #         "id": "65bbba510f02b427c7024707",
   #         "formId": "64dd32123cda9a590ffbf718"
   #        }
   #      }

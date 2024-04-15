@@ -10,6 +10,7 @@
       :option-height="24"
       :show-labels="false"
       @input="handleInput"
+      :multiple="multiple"
     >
       <template slot="singleLabel" slot-scope="props">
         <div class="flex items-center gap-2">
@@ -45,6 +46,12 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'ReportsFiltersLabels',
+  props: {
+    multiple: {
+      type: Boolean,
+      default: false,
+    }
+  },
   data() {
     return {
       selectedOption: null,

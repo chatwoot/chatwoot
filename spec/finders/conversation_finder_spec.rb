@@ -101,7 +101,7 @@ describe ConversationFinder do
                                        assigned_count: 3,
                                        unassigned_count: 1,
                                        all_count: 4,
-                                       all_inbox_open_count: {inbox.id => 4},
+                                       all_inbox_open_count: { inbox.id => 4 },
                                        my_teams_open_count: {}
                                      })
       end

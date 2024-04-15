@@ -214,9 +214,9 @@ class Conversation < ApplicationRecord
   end
 
   def clear_draft_message
-    if Redis::Alfred.exists?(draft_message_key)
-      Redis::Alfred.delete(draft_message_key)
-    end
+    return unless Redis::Alfred.exists?(draft_message_key)
+
+    Redis::Alfred.delete(draft_message_key)
   end
 
   def send_with_quoted_thread?
@@ -239,7 +239,7 @@ class Conversation < ApplicationRecord
     return if inbox.send_csat_on_all_reply?
     return if Digitaltolk::MailHelper.csat_disabled?(messages.incoming.last)
 
-    CsatSurveyWorker.perform_in(5.seconds, self.id)
+    CsatSurveyWorker.perform_in(5.seconds, id)
   end
 
   def ensure_snooze_until_reset

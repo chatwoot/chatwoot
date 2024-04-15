@@ -10,6 +10,7 @@ class Digitaltolk::FixInvalidConversation
     return if conversation.messages.blank?
     return unless first_message.present?
     return unless email_from_body.present?
+
     puts "\n conversion_id_fixing: #{conversation.id}"
 
     begin
@@ -42,13 +43,11 @@ class Digitaltolk::FixInvalidConversation
       next if msg.content_attributes.blank?
       next if msg.content_attributes.dig(:email, :from).blank?
       next if msg.content_attributes.dig(:email, :from) != Digitaltolk::MailHelper::INVALID_LOOPIA_EMAIL
-    
+
       msg.content_attributes[:email][:from] = [email_from_body]
 
-      if msg.content_attributes.dig(:email, :cc).present?
-        if msg.content_attributes.dig(:email, :cc).to_a.exclude?(email_from_body)
-          msg.content_attributes[:email][:cc] = nil
-        end
+      if msg.content_attributes.dig(:email, :cc).present? && msg.content_attributes.dig(:email, :cc).to_a.exclude?(email_from_body)
+        msg.content_attributes[:email][:cc] = nil
       end
       msg.save
       puts "fixed_message_id: #{msg&.id}"
@@ -69,7 +68,7 @@ class Digitaltolk::FixInvalidConversation
     email_regex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/
     match = first_message.content.to_s.match(email_regex)
     return if match.nil?
-    
+
     @email_from_body = match[0]
   end
 

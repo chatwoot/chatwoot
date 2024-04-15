@@ -23,7 +23,7 @@ class CsatTemplateQuestion < ApplicationRecord
       question.csat_template_id = 0
       question.save
     end
-    
+
     question.reload
   end
 end

@@ -18,6 +18,7 @@
       @filter-change="onFilterChange"
       @group-by-filter-change="onGroupByFilterChange"
       @business-hours-toggle="onBusinessHoursToggle"
+      @custom-filter-change="onCustomFilterChange"
     />
     <report-container v-if="filterItemsList.length" :group-by="groupBy" />
   </div>
@@ -69,6 +70,10 @@ export default {
     return {
       from: 0,
       to: 0,
+      selectedLabel: [],
+      selectedTeam: [],
+      selectedInbox: [],
+      selectedRating: [],
       selectedFilter: null,
       groupBy: GROUP_BY_FILTER[1],
       groupByfilterItemsList: this.$t('REPORT.GROUP_BY_DAY_OPTIONS'),
@@ -87,10 +92,14 @@ export default {
   methods: {
     fetchAllData() {
       if (this.selectedFilter) {
-        const { from, to, groupBy, businessHours } = this;
+        const { from, to, selectedLabel, selectedTeam, selectedInbox, selectedRating, groupBy, businessHours } = this;
         this.$store.dispatch('fetchAccountSummary', {
           from,
           to,
+          selectedLabel,
+          selectedTeam,
+          selectedInbox,
+          selectedRating,
           type: this.type,
           id: this.selectedFilter.id,
           groupBy: groupBy.period,
@@ -200,6 +209,17 @@ export default {
         reportType: this.type,
       });
     },
+    onCustomFilterChange(payload) {
+      if (payload) {
+        const {selectedLabel, selectedTeam, selectedInbox, selectedRating} = payload;
+      
+        this.selectedLabel = selectedLabel
+        this.selectedInbox = selectedInbox
+        this.selectedTeam = selectedTeam
+        this.selectedRating = selectedRating
+        this.fetchAllData()
+      }
+    }
   },
 };
 </script>

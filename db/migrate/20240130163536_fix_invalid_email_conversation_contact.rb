@@ -3,10 +3,10 @@ class FixInvalidEmailConversationContact < ActiveRecord::Migration[7.0]
     webflow_email = '{{email}}@loopia.invalid'
     contact = Contact.where("email LIKE '%#{webflow_email}%'").first
 
-    if contact.present?
-      contact.conversations.each do |conversation|
-        FixInvalidConversation.new(conversation).call
-      end
+    return unless contact.present?
+
+    contact.conversations.each do |conversation|
+      FixInvalidConversation.new(conversation).call
     end
   end
 
@@ -61,7 +61,7 @@ class FixInvalidEmailConversationContact < ActiveRecord::Migration[7.0]
       email_regex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/
       match = first_message.content.match(email_regex)
       return if match.nil?
-      
+
       @email_from_body = match[0]
     end
 

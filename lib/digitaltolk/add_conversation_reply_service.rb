@@ -21,7 +21,7 @@ class Digitaltolk::AddConversationReplyService
 
   def result_data
     {
-      success: @message.persisted?,
+      success: @message.persisted?
     }.merge(error_data).merge(success_data)
   end
 

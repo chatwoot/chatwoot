@@ -24,21 +24,25 @@
       <reports-filters-labels
         v-if="showLabelsFilter"
         @labels-filter-selection="handleLabelsFilterSelection"
+        :multiple="multipleLabels"
       />
       <reports-filters-teams
         v-if="showTeamFilter"
         @team-filter-selection="handleTeamFilterSelection"
+        :multiple="multipleTeams"
       />
       <reports-filters-inboxes
         v-if="showInboxFilter"
         @inbox-filter-selection="handleInboxFilterSelection"
+        :multiple="multipleInboxes"
       />
       <reports-filters-ratings
         v-if="showRatingFilter"
         @rating-filter-selection="handleRatingFilterSelection"
+        :multiple="multipleRatings"
       />
     </div>
-    <div v-if="showBusinessHoursSwitch" class="flex items-center">
+    <div v-if="showBusinessHoursSwitch" class="flex items-baseline">
       <span class="text-sm whitespace-nowrap mx-2">
         {{ $t('REPORT.BUSINESS_HOURS') }}
       </span>
@@ -105,6 +109,22 @@ export default {
       type: Boolean,
       default: true,
     },
+    multipleInboxes: {
+      type: Boolean,
+      default: false,
+    },
+    multipleLabels: {
+      type: Boolean,
+      default: false,
+    },
+    multipleTeams: {
+      type: Boolean,
+      default: false,
+    },
+    multipleRatings: {
+      type: Boolean,
+      default: false,
+    }
   },
   data() {
     return {

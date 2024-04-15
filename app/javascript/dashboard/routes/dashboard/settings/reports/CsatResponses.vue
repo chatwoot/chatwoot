@@ -4,9 +4,14 @@
       :show-agents-filter="true"
       :show-inbox-filter="true"
       :show-rating-filter="true"
+      :show-labels-filter="true"
       :show-team-filter="isTeamsEnabled"
       :show-business-hours-switch="false"
       @filter-change="onFilterChange"
+      :multiple-labels="true"
+      :multiple-teams="true"
+      :multiple-inboxes="true"
+      :multiple-ratings="true"
     />
     <woot-button
       color-scheme="success"
@@ -55,9 +60,10 @@ export default {
       from: 0,
       to: 0,
       userIds: [],
-      inbox: null,
-      team: null,
-      rating: null,
+      inbox: [],
+      team: [],
+      rating: [],
+      label: [],
       groudByQuestions: false,
     };
   },
@@ -74,6 +80,7 @@ export default {
         inbox_id: this.inbox,
         team_id: this.team,
         rating: this.rating,
+        label: this.label,
       };
     },
     isTeamsEnabled() {
@@ -121,6 +128,7 @@ export default {
       selectedInbox,
       selectedTeam,
       selectedRating,
+      selectedLabel
     }) {
       // do not track filter change on inital load
       if (this.from !== 0 && this.to !== 0) {
@@ -132,10 +140,11 @@ export default {
 
       this.from = from;
       this.to = to;
-      this.userIds = selectedAgents.map(el => el.id);
-      this.inbox = selectedInbox?.id;
-      this.team = selectedTeam?.id;
-      this.rating = selectedRating?.value;
+      this.userIds = selectedAgents && selectedAgents.map(el => el.id);
+      this.inbox = selectedInbox &&selectedInbox.map(el => el.id);
+      this.team = selectedTeam && selectedTeam.map(el => el.id);
+      this.rating = selectedRating && selectedRating.map(el => el.value);
+      this.label =  selectedLabel && selectedLabel.map(el => el.title);
 
       this.getAllData();
     },

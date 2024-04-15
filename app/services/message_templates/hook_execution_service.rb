@@ -72,8 +72,8 @@ class MessageTemplates::HookExecutionService
       last_csat_reached = conversation.messages.csat.count >= csat_template.questions_count
       if inbox.email?
         return if last_csat_reached
-      else
-        return if last_csat_reached || conversation.messages.unanswered_csat.exists?
+      elsif last_csat_reached || conversation.messages.unanswered_csat.exists?
+        return
       end
     elsif conversation.messages.csat.present?
       return

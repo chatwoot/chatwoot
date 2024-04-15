@@ -9,8 +9,16 @@
       {{ $t('REPORT.DOWNLOAD_AGENT_REPORTS') }}
     </woot-button>
     <report-filter-selector
+      :show-labels-filter="true"
+      :show-inbox-filter="true"
+      :show-team-filter="true"
       :show-agents-filter="false"
       :show-group-by-filter="true"
+      :show-rating-filter="true"
+      :multiple-labels="true"
+      :multiple-teams="true"
+      :multiple-inboxes="true"
+      :multiple-ratings="true"
       @filter-change="onFilterChange"
     />
     <report-container :group-by="groupBy" />
@@ -49,6 +57,10 @@ export default {
     return {
       from: 0,
       to: 0,
+      selectedLabel: [],
+      selectedTeam: [],
+      selectedInbox: [],
+      selectedRating: [],
       groupBy: GROUP_BY_FILTER[1],
       businessHours: false,
     };
@@ -67,7 +79,7 @@ export default {
     fetchAccountSummary() {
       try {
         this.$store.dispatch('fetchAccountSummary', this.getRequestPayload());
-      } catch {
+      } catch (error) {
         this.showAlert(this.$t('REPORT.SUMMARY_FETCHING_FAILED'));
       }
     },
@@ -92,11 +104,15 @@ export default {
       });
     },
     getRequestPayload() {
-      const { from, to, groupBy, businessHours } = this;
+      const { from, to, selectedLabel, selectedTeam, selectedInbox, selectedRating, groupBy, businessHours } = this;
 
       return {
         from,
         to,
+        selectedLabel,
+        selectedTeam,
+        selectedInbox,
+        selectedRating,
         groupBy: groupBy?.period,
         businessHours,
       };
@@ -109,15 +125,19 @@ export default {
       )}.csv`;
       this.$store.dispatch('downloadAgentReports', { from, to, fileName });
     },
-    onFilterChange({ from, to, groupBy, businessHours }) {
+    onFilterChange({ from, to, selectedLabel, selectedTeam, selectedInbox, selectedRating, groupBy, businessHours }) {
       this.from = from;
       this.to = to;
+      this.selectedLabel = selectedLabel && selectedLabel.map(label => label.title);
+      this.selectedTeam = selectedTeam && selectedTeam.map(team => team.id);
+      this.selectedInbox = selectedInbox && selectedInbox.map(inbox => inbox.id);
+      this.selectedRating = selectedRating && selectedRating.map(rating => rating.value)
       this.groupBy = groupBy;
       this.businessHours = businessHours;
       this.fetchAllData();
 
       this.$track(REPORTS_EVENTS.FILTER_REPORT, {
-        filterValue: { from, to, groupBy, businessHours },
+        filterValue: { from, to, selectedLabel, selectedTeam, selectedInbox, selectedRating, groupBy, businessHours },
         reportType: 'conversations',
       });
     },

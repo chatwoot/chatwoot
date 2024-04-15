@@ -36,7 +36,7 @@ class Digitaltolk::AddConversationService
         name: identify_contact_name,
         email: email_address,
         additional_attributes: {
-          source_id: "email:"
+          source_id: 'email:'
         }
       }
     ).perform

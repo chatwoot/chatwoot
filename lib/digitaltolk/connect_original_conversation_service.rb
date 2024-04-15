@@ -1,5 +1,6 @@
 class Digitaltolk::ConnectOriginalConversationService
   attr_accessor :conversation, :original_conversation
+
   include Rails.application.routes.url_helpers
 
   def initialize(conversation, original_conversation)
@@ -15,8 +16,8 @@ class Digitaltolk::ConnectOriginalConversationService
   private
 
   def private_message_params
-    { 
-      content: "This conversation originates from [#{@original_conversation.display_id}](#{original_url})", 
+    {
+      content: "This conversation originates from [#{@original_conversation.display_id}](#{original_url})",
       private: true
     }
   end

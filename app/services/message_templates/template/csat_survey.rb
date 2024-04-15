@@ -7,7 +7,7 @@ class MessageTemplates::Template::CsatSurvey
 
       if csat_template_question
         MessageCsatTemplateQuestion.find_or_create_by(
-          message_id: new_csat.id, 
+          message_id: new_csat.id,
           csat_template_question_id: csat_template_question.id
         )
       end

@@ -19,9 +19,7 @@ class Public::Api::V1::CsatSurveyController < PublicController
   end
 
   def set_message
-    if message_id.present?
-      @message = @conversation.messages.find_by(id: message_id)
-    end    
+    @message = @conversation.messages.find_by(id: message_id) if message_id.present?
 
     @message ||= @conversation.messages.find_by!(content_type: 'input_csat')
   end

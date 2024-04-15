@@ -13,6 +13,10 @@ class ReportsAPI extends ApiClient {
     from,
     to,
     type = 'account',
+    selectedLabel,
+    selectedTeam,
+    selectedInbox,
+    selectedRating,
     id,
     groupBy,
     businessHours,
@@ -22,6 +26,12 @@ class ReportsAPI extends ApiClient {
         metric,
         since: from,
         until: to,
+        custom_filter: {
+          selected_label: selectedLabel,
+          selected_team: selectedTeam,
+          selected_inbox: selectedInbox,
+          selected_rating: selectedRating
+        },
         type,
         id,
         group_by: groupBy,
@@ -32,11 +42,17 @@ class ReportsAPI extends ApiClient {
   }
 
   // eslint-disable-next-line default-param-last
-  getSummary(since, until, type = 'account', id, groupBy, businessHours) {
+  getSummary(since, until, type = 'account', selectedLabel, selectedTeam, selectedInbox, selectedRating, id, groupBy, businessHours) {
     return axios.get(`${this.url}/summary`, {
       params: {
         since,
         until,
+        custom_filter: {
+          selected_label: selectedLabel,
+          selected_team: selectedTeam,
+          selected_inbox: selectedInbox,
+          selected_rating: selectedRating
+        },
         type,
         id,
         group_by: groupBy,

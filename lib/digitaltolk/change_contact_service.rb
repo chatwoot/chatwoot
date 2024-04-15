@@ -9,7 +9,7 @@ class Digitaltolk::ChangeContactService
   end
 
   def perform
-    return false unless @email =~ Digitaltolk::MailHelper::EMAIL_REGEX 
+    return false unless Digitaltolk::MailHelper::EMAIL_REGEX.match?(@email)
 
     ActiveRecord::Base.transaction do
       find_or_create_contact
@@ -50,7 +50,7 @@ class Digitaltolk::ChangeContactService
         @contact_inbox = ContactInboxBuilder.new(
           contact: @contact,
           inbox: @inbox,
-          source_id: @email,
+          source_id: @email
         ).perform
       end
     end

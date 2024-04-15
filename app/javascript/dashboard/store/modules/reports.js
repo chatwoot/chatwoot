@@ -128,6 +128,10 @@ export const actions = {
       reportObj.from,
       reportObj.to,
       reportObj.type,
+      reportObj.selectedLabel,
+      reportObj.selectedTeam,
+      reportObj.selectedInbox,
+      reportObj.selectedRating,
       reportObj.id,
       reportObj.groupBy,
       reportObj.businessHours
@@ -135,7 +139,7 @@ export const actions = {
       .then(accountSummary => {
         commit(types.default.SET_ACCOUNT_SUMMARY, accountSummary.data);
       })
-      .catch(() => {
+      .catch((error) => {
         commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
       });
   },

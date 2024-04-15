@@ -19,7 +19,7 @@ class Digitaltolk::AddMessageService
   def create_message
     return unless content.present?
 
-    Messages::MessageBuilder.new(sender, @conversation, message_params).perform 
+    Messages::MessageBuilder.new(sender, @conversation, message_params).perform
   end
 
   def message_type

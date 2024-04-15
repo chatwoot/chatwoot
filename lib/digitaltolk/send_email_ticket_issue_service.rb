@@ -12,7 +12,7 @@ class Digitaltolk::SendEmailTicketIssueService
     service = Digitaltolk::SendEmailTicketService.new(account, user, params, for_issue: true)
     result = service.perform
     @errors = service.errors
-    
+
     result
   end
 end

@@ -131,6 +131,7 @@ Rails.application.routes.draw do
               get :active
               get :search
               get :phone_search
+              get :email_search
               post :filter
               post :import
               get :export
