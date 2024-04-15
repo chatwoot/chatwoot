@@ -38,7 +38,7 @@ By default, it renders:
     <% else %>
       <title><%= @portal.page_title%></title>
     <% end %>
-    
+
     <% unless @theme_from_params.blank? %>
     <%# this adds the theme from params, ensuring that there a localstorage value set %>
     <%# this will further trigger the next script to ensure color mode is toggled without a FOUC %>
@@ -75,13 +75,13 @@ By default, it renders:
     --dynamic-portal-bg-gradient: <%= generate_gradient_to_bottom('dark') %>;
     --dynamic-hover-bg-color: <%= generate_portal_hover_color(@portal.color , 'dark') %>;
   }
-  
+
   html.light {
     --dynamic-portal-bg: <%= generate_portal_bg(@portal.color, 'light') %>;
     --dynamic-portal-bg-gradient: <%= generate_gradient_to_bottom('light') %>;
     --dynamic-hover-bg-color: <%= generate_portal_hover_color(@portal.color , 'light') %>;
   }
-  
+
   /* Portal background */
   #portal-bg {
     background: var(--dynamic-portal-bg);
@@ -128,4 +128,7 @@ By default, it renders:
       tocHeader: '<%= I18n.t('public_portal.toc_header') %>'
     };
   </script>
+  <% if @portal.channel_web_widget.present? %>
+  <%= @portal.channel_web_widget.web_widget_script.html_safe %>
+  <% end %>
 </html>
