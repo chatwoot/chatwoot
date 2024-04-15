@@ -1,5 +1,6 @@
 import {
   format,
+  isSameDay,
   isSameYear,
   fromUnixTime,
   formatDistanceToNow,
@@ -7,16 +8,19 @@ import {
 
 export default {
   methods: {
-    messageStamp(time, dateFormat = 'h:mm a') {
+    messageStamp(time, dateFormat = 'HH:mm') {
       const unixTime = fromUnixTime(time);
       return format(unixTime, dateFormat);
     },
-    messageTimestamp(time, dateFormat = 'MMM d, yyyy') {
+    messageTimestamp(time, dateFormat = 'dd/MM/yyyy') {
       const messageTime = fromUnixTime(time);
       const now = new Date();
       const messageDate = format(messageTime, dateFormat);
       if (!isSameYear(messageTime, now)) {
-        return format(messageTime, 'LLL d y, h:mm a');
+        return format(messageTime, 'dd/MM/yyyy, HH:mm');
+      }
+      if (isSameDay(messageTime, now)) {
+        return format(messageTime, 'HH:mm');
       }
       return messageDate;
     },
@@ -24,7 +28,7 @@ export default {
       const unixTime = fromUnixTime(time);
       return formatDistanceToNow(unixTime, { addSuffix: true });
     },
-    dateFormat(time, dateFormat = 'MMM d, yyyy') {
+    dateFormat(time, dateFormat = 'dd/MM/yyyy') {
       const unixTime = fromUnixTime(time);
       return format(unixTime, dateFormat);
     },
@@ -59,6 +63,51 @@ export default {
         .replace(' year ago', `y${suffix}`)
         .replace(' years ago', `y${suffix}`);
       return convertToShortTime;
+    },
+    localizeTimeAgo(time) {
+      const newTime = time
+        .replace(/about|over|almost|/g, '')
+        .replace(
+          'minute ago',
+          this.$t('CHAT_LIST.CHAT_TIME_STAMP.TIME_LABEL.MINUTE_AGO')
+        )
+        .replace(
+          'minutes ago',
+          this.$t('CHAT_LIST.CHAT_TIME_STAMP.TIME_LABEL.MINUTES_AGO')
+        )
+        .replace(
+          'hour ago',
+          this.$t('CHAT_LIST.CHAT_TIME_STAMP.TIME_LABEL.HOUR_AGO')
+        )
+        .replace(
+          'hours ago',
+          this.$t('CHAT_LIST.CHAT_TIME_STAMP.TIME_LABEL.HOURS_AGO')
+        )
+        .replace(
+          'day ago',
+          this.$t('CHAT_LIST.CHAT_TIME_STAMP.TIME_LABEL.DAY_AGO')
+        )
+        .replace(
+          'days ago',
+          this.$t('CHAT_LIST.CHAT_TIME_STAMP.TIME_LABEL.DAYS_AGO')
+        )
+        .replace(
+          'month ago',
+          this.$t('CHAT_LIST.CHAT_TIME_STAMP.TIME_LABEL.MONTH_AGO')
+        )
+        .replace(
+          'months ago',
+          this.$t('CHAT_LIST.CHAT_TIME_STAMP.TIME_LABEL.MONTHS_AGO')
+        )
+        .replace(
+          'year ago',
+          this.$t('CHAT_LIST.CHAT_TIME_STAMP.TIME_LABEL.YEAR_AGO')
+        )
+        .replace(
+          'years ago',
+          this.$t('CHAT_LIST.CHAT_TIME_STAMP.TIME_LABEL.YEARS_AGO')
+        );
+      return newTime;
     },
   },
 };

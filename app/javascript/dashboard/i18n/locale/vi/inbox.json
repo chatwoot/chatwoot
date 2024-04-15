@@ -9,8 +9,8 @@
       "NO_NOTIFICATIONS": "No notifications",
       "NOTE": "Notifications from all subscribed inboxes",
       "SNOOZED_UNTIL": "Snoozed until",
-      "SNOOZED_UNTIL_TOMORROW": "Tạm dừng đến ngày mai",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Tạm dừng đến tuần sau"
+      "SNOOZED_UNTIL_TOMORROW": "Tạm ngưng đến ngày mai",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Tạm ngưng đến tuần sau"
     },
     "ACTION_HEADER": {
       "SNOOZE": "Snooze notification",
@@ -41,7 +41,7 @@
         "PRIORITY": "Priority"
       },
       "DISPLAY_OPTIONS": {
-        "SNOOZED": "Tạm dừng",
+        "SNOOZED": "Tạm ngưng",
         "READ": "\bĐọc",
         "LABELS": "Nhãn",
         "CONVERSATION_ID": "Conversation ID"

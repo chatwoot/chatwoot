@@ -60,7 +60,7 @@
         v-if="campaign.scheduled_at"
         class="mb-1 text-xs text-slate-700 dark:text-slate-500"
       >
-        {{ messageStamp(new Date(campaign.scheduled_at), 'LLL d, h:mm a') }}
+        {{ messageStamp(new Date(campaign.scheduled_at), 'dd/MM, HH:mm') }}
       </div>
     </div>
   </div>

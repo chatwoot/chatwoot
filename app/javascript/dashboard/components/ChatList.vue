@@ -16,17 +16,11 @@
     >
       <div class="flex max-w-[85%] justify-center items-center">
         <h1
-          class="text-xl break-words overflow-hidden whitespace-nowrap font-medium text-ellipsis text-black-900 dark:text-slate-100 mb-0"
+          class="text-base break-words overflow-hidden whitespace-nowrap font-medium text-ellipsis text-black-900 dark:text-slate-100 mb-0"
           :title="pageTitle"
         >
           {{ pageTitle }}
         </h1>
-        <span
-          v-if="!hasAppliedFiltersOrActiveFolders"
-          class="p-1 my-0.5 mx-1 rounded-md capitalize bg-slate-50 dark:bg-slate-800 text-xxs text-slate-600 dark:text-slate-300"
-        >
-          {{ $t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${activeStatus}.TEXT`) }}
-        </span>
       </div>
       <div class="flex items-center gap-1">
         <div v-if="hasAppliedFilters && !hasActiveFolders">
@@ -65,8 +59,12 @@
             @click="onClickOpenDeleteFoldersModal"
           />
         </div>
+        <conversation-basic-filter
+          v-if="!hasAppliedFiltersOrActiveFolders"
+          @changeFilter="onBasicFilterChange"
+        />
         <woot-button
-          v-else
+          v-if="!hasActiveFolders"
           v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
           variant="smooth"
           color-scheme="secondary"
@@ -74,7 +72,7 @@
           size="tiny"
           @click="onToggleAdvanceFiltersModal"
         />
-        <conversation-basic-filter
+        <conversation-sort
           v-if="!hasAppliedFiltersOrActiveFolders"
           @changeFilter="onBasicFilterChange"
         />
@@ -182,6 +180,7 @@ import VirtualList from 'vue-virtual-scroll-list';
 
 import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter.vue';
 import ConversationBasicFilter from './widgets/conversation/ConversationBasicFilter.vue';
+import ConversationSort from './widgets/conversation/ConversationSort.vue';
 import ChatTypeTabs from './widgets/ChatTypeTabs.vue';
 import ConversationItem from './ConversationItem.vue';
 import timeMixin from '../mixins/time';
@@ -207,6 +206,7 @@ import {
 import { conversationListPageURL } from '../helper/URLHelper';
 import {
   isOnMentionsView,
+  isOnUnreadView,
   isOnUnattendedView,
 } from '../store/modules/conversations/helpers/actionHelpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
@@ -222,6 +222,7 @@ export default {
     DeleteCustomViews,
     ConversationBulkActions,
     ConversationBasicFilter,
+    ConversationSort,
     IntersectionObserver,
     VirtualList,
   },
@@ -463,8 +464,8 @@ export default {
       if (this.conversationType === 'mention') {
         return this.$t('CHAT_LIST.MENTION_HEADING');
       }
-      if (this.conversationType === 'participating') {
-        return this.$t('CONVERSATION_PARTICIPANTS.SIDEBAR_MENU_TITLE');
+      if (this.conversationType === 'unread') {
+        return this.$t('CHAT_LIST.UNREAD_HEADING');
       }
       if (this.conversationType === 'unattended') {
         return this.$t('CHAT_LIST.UNATTENDED_HEADING');
@@ -906,6 +907,8 @@ export default {
           conversationType = 'mention';
         } else if (isOnUnattendedView({ route: { name } })) {
           conversationType = 'unattended';
+        } else if (isOnUnreadView({ route: { name } })) {
+          conversationType = 'unread';
         }
         this.$router.push(
           conversationListPageURL({
@@ -1057,7 +1060,7 @@ export default {
 
   ::v-deep {
     .tabs {
-      @apply p-0;
+      @apply p-0 text-xs;
     }
   }
 }

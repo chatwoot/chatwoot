@@ -124,7 +124,7 @@ export default {
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;
-      return this.messageStamp(createdAt);
+      return this.messageStamp(createdAt, 'dd/MM, HH:mm');
     },
     isFailed() {
       const { status = '' } = this.message;

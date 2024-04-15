@@ -2,23 +2,23 @@
   "SEARCH": {
     "TABS": {
       "ALL": "Tất cả",
-      "CONTACTS": "Danh bạ",
-      "CONVERSATIONS": "Các cuộc hội thoại",
+      "CONTACTS": "Liên hệ",
+      "CONVERSATIONS": "Cuộc hội thoại",
       "MESSAGES": "Tin nhắn"
     },
     "SECTION": {
-      "CONTACTS": "Danh bạ",
-      "CONVERSATIONS": "Các cuộc hội thoại",
+      "CONTACTS": "Liên hệ",
+      "CONVERSATIONS": "Cuộc hội thoại",
       "MESSAGES": "Tin nhắn"
     },
-    "EMPTY_STATE": "No %{item} found for query '%{query}'",
-    "EMPTY_STATE_FULL": "No results found for query '%{query}'",
-    "PLACEHOLDER_KEYBINDING": "/ to focus",
-    "INPUT_PLACEHOLDER": "Type 3 or more characters to search",
-    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results. ",
+    "EMPTY_STATE": "Không tìm thấy %{item} nào cho tìm kiếm '%{query}'",
+    "EMPTY_STATE_FULL": "Không tìm thấy kết quả nào cho tìm kiếm '%{query}'",
+    "PLACEHOLDER_KEYBINDING": "thêm / trước cụm từ muốn ưu tiên",
+    "INPUT_PLACEHOLDER": "Nhập từ 3 ký tự trở lên để tìm kiếm",
+    "EMPTY_STATE_DEFAULT": "Để có kết quả tốt hơn, hãy tìm theo email, số điện thoại hoặc nội dung tin nhắn. ",
     "BOT_LABEL": "Bot",
-    "READ_MORE": "Read more",
-    "WROTE": "wrote:",
+    "READ_MORE": "Xem thêm",
+    "WROTE": "đã nhắn:",
     "FROM": "từ",
     "EMAIL": "email"
   }

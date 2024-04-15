@@ -537,10 +537,6 @@ export default {
 
       this.setCCAndToEmailsFromLastChat();
 
-      if (this.isOnPrivateNote) {
-        return;
-      }
-
       if (!this.isAStringeeChannel && (canReply || this.isAWhatsAppChannel)) {
         this.replyType = REPLY_EDITOR_MODES.REPLY;
       } else {

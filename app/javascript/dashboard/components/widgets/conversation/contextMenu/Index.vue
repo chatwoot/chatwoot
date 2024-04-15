@@ -130,7 +130,7 @@ export default {
       snoozeOption: {
         key: wootConstants.STATUS_TYPE.SNOOZED,
         label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.SNOOZE.TITLE'),
-        icon: 'snooze',
+        icon: 'alert-snooze',
       },
       priorityConfig: {
         key: 'priority',
