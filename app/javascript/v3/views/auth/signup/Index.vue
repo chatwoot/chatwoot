@@ -1,6 +1,6 @@
 <template>
   <div class="h-full w-full dark:bg-slate-900">
-    <div v-show="!isLoading" class="flex h-full">
+    <!-- <div v-show="!isLoading" class="flex h-full">
       <div
         class="flex-1 min-h-[640px] inline-flex items-center h-full justify-center overflow-auto py-6"
       >
@@ -17,13 +17,13 @@
               :alt="globalConfig.installationName"
               class="h-14 w-auto hidden dark:block"
             />
-            <!-- <h2
+            <h2
               class="mb-7 mt-2 text-left text-3xl font-medium text-slate-900 dark:text-woot-50"
             >
               {{ $t('REGISTER.TRY_WOOT') }}
-            </h2> -->
+            </h2>
           </div>
-          <!-- <signup-form /> -->
+          <signup-form />
           <div
             class="text-sm text-slate-800 dark:text-woot-50 px-1 flex justify-center items-center gap-1"
           >
@@ -44,13 +44,13 @@
         class="flex-1"
         @resize-containers="resizeContainers"
       />
-    </div>
-    <div
+    </div> -->
+    <!-- <div
       v-show="isLoading"
       class="flex items-center justify-center h-full w-full"
     >
       <spinner color-scheme="primary" size="" />
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -58,14 +58,14 @@
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 // import SignupForm from './components/Signup/Form.vue';
-import Testimonials from './components/Testimonials/Index.vue';
-import Spinner from 'shared/components/Spinner.vue';
+// import Testimonials from './components/Testimonials/Index.vue';
+// import Spinner from 'shared/components/Spinner.vue';
 
 export default {
   components: {
     // SignupForm,
-    Spinner,
-    Testimonials,
+    // Spinner,
+    // Testimonials,
   },
   mixins: [globalConfigMixin],
   data() {
@@ -80,9 +80,30 @@ export default {
   beforeMount() {
     this.isLoading = this.isAChatwootInstance;
   },
+  mounted() {
+    this.redirectToKeycloak();
+  },
   methods: {
     resizeContainers() {
       this.isLoading = false;
+    },
+    redirectToKeycloak() {
+      const realm = window.chatwootConfig.keycloakRealm;
+      const clientId = window.chatwootConfig.keycloakClientId;
+      const redirectUri = window.chatwootConfig.keycloakCallbackUrl;
+      const keycloakUri = window.chatwootConfig.keycloakUrl;
+      const baseUrl = `${keycloakUri}/realms/${realm}/protocol/openid-connect/registrations`;
+      const responseType = 'code';
+      const scope = 'openid';
+
+      const queryString = new URLSearchParams({
+        client_id: clientId,
+        redirect_uri: redirectUri,
+        response_type: responseType,
+        scope: scope,
+      }).toString();
+
+      window.location.href = `${baseUrl}?${queryString}`;
     },
   },
 };
