@@ -45,6 +45,7 @@ import userNotificationSettings from './modules/userNotificationSettings';
 import summaryReports from './modules/summaryReports';
 import webhooks from './modules/webhooks';
 import draftMessages from './modules/draftMessages';
+import SLAReports from './modules/SLAReports';
 
 import LogRocket from 'logrocket';
 import createPlugin from 'logrocket-vuex';
@@ -113,6 +114,7 @@ export default new Vuex.Store({
     webhooks,
     draftMessages,
     sla,
+    slaReports: SLAReports,
   },
   plugins,
 });
