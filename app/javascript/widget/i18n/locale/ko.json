@@ -112,7 +112,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "Popular Articles",
     "VIEW_ALL_ARTICLES": "View all articles",
-    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+    "IFRAME_LOAD_ERROR": "문서를 불러오는 중 오류가 발생했습니다. 페이지를 새로고침 한 후 다시 시도해 주세요."
   },
   "ATTACHMENTS": {
     "image": {

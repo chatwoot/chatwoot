@@ -296,6 +296,8 @@
     "BUTTON": "Aggiungi attributo personalizzato",
     "NOT_AVAILABLE": "Non sono disponibili attributi personalizzati per questo contatto.",
     "COPY_SUCCESSFUL": "Copiato negli appunti con successo",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Copia attributo",
       "DELETE": "Elimina attributo",
