@@ -35,8 +35,6 @@ class Article < ApplicationRecord
            dependent: :nullify,
            inverse_of: 'root_article'
 
-  has_many :article_embeddings, dependent: :destroy
-
   belongs_to :root_article,
              class_name: :Article,
              foreign_key: :associated_article_id,
@@ -58,8 +56,6 @@ class Article < ApplicationRecord
   # ensuring that the position is always set correctly
   before_create :add_position_to_article
   after_save :category_id_changed_action, if: :saved_change_to_category_id?
-
-  after_save :add_article_embedding, if: -> { saved_change_to_title? || saved_change_to_description? || saved_change_to_content? }
 
   enum status: { draft: 0, published: 1, archived: 2 }
 
@@ -85,70 +81,6 @@ class Article < ApplicationRecord
       }
     }
   )
-
-  def self.vector_search(params)
-    embedding = Openai::EmbeddingsService.new.get_embedding(params['query'], 'text-embedding-3-small')
-    records = joins(
-      :category
-    ).search_by_category_slug(
-      params[:category_slug]
-    ).search_by_category_locale(params[:locale]).search_by_author(params[:author_id]).search_by_status(params[:status])
-    filtered_article_ids = records.pluck(:id)
-
-    # Fetch nearest neighbors and their distances, then filter directly
-
-    # experimenting with filtering results based on result threshold
-    # distance_threshold = 0.2
-    # if using add the filter block to the below query
-    # .filter { |ae| ae.neighbor_distance <= distance_threshold }
-
-    article_ids = ArticleEmbedding.where(article_id: filtered_article_ids)
-                                  .nearest_neighbors(:embedding, embedding, distance: 'cosine')
-                                  .limit(5)
-                                  .pluck(:article_id)
-
-    # Fetch the articles by the IDs obtained from the nearest neighbors search
-    where(id: article_ids)
-  end
-
-  def add_article_embedding
-    return unless account.feature_enabled?('help_center_embedding_search')
-
-    terms = generate_article_search_terms
-
-    article_embeddings.destroy_all
-    terms.each do |term|
-      article_embeddings.create!(term: term)
-    end
-  end
-
-  def article_prompt
-    <<~SYSTEM_PROMPT_MESSAGE
-      For the provided article content, generate potential search query keywords and snippets that can be used to generate the embeddings.
-
-      Ensure the search terms are as diverse as possible but capture the essence of the article and are super related to the articles. Don't return any terms if there aren't any terms of relevance.
-
-      Always return results in valid JSON of the following format
-
-      {#{'  '}
-      "search_terms": []#{' '}
-      }
-    SYSTEM_PROMPT_MESSAGE
-  end
-
-  def generate_article_search_terms
-    messages = [
-      { role: 'system', content: article_prompt },
-      { role: 'user', content: "title: #{title} \n content: #{content}" }
-    ]
-    headers = { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{ENV.fetch('OPENAI_API_KEY')}" }
-    body = { model: 'gpt-4-turbo', messages: messages, response_format: { type: 'json_object' } }.to_json
-    Rails.logger.info "Requesting Chat GPT with body: #{body}"
-    response = HTTParty.post('https://api.openai.com/v1/chat/completions', headers: headers, body: body)
-    Rails.logger.info "Chat GPT response: #{response.body}"
-    JSON.parse(response.body)
-    JSON.parse(response.parsed_response['choices'][0]['message']['content'])['search_terms']
-  end
 
   def self.search(params)
     records = joins(
@@ -238,3 +170,4 @@ class Article < ApplicationRecord
     self.slug ||= "#{Time.now.utc.to_i}-#{title.underscore.parameterize(separator: '-')}" if title.present?
   end
 end
+Article.include_mod_with('Concerns::Article')
