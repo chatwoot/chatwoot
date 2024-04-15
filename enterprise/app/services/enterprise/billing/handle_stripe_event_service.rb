@@ -61,7 +61,7 @@ class Enterprise::Billing::HandleStripeEventService
   end
 
   def features_to_update
-    %w[help_center campaigns team_management channel_twitter channel_facebook channel_email]
+    %w[help_center campaigns team_management sla channel_twitter channel_facebook channel_email]
   end
 
   def subscription
