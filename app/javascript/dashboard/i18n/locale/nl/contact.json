@@ -296,6 +296,8 @@
     "BUTTON": "Aangepast attribuut toevoegen",
     "NOT_AVAILABLE": "Er zijn geen aangepaste attributen beschikbaar voor deze contactpersoon.",
     "COPY_SUCCESSFUL": "Succesvol gekopieerd naar klembord",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Kopieer attribuut",
       "DELETE": "Attribuut verwijderen",
