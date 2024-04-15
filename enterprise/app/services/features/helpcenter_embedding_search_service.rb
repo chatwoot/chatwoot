@@ -8,7 +8,7 @@ class Features::HelpcenterEmbeddingSearchService < Features::BaseService
     drop_tables
   end
 
-  def featuture_enabled?
+  def feature_enabled?
     vector_extension_enabled? && MIGRATION_VERSION.table_exists?(:article_embeddings)
   end
 
