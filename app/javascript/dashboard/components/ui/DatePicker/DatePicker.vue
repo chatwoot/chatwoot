@@ -152,6 +152,26 @@ const openYear = (year, calenderType) => {
   }
   setViewMode(calenderType, 'month');
 };
+
+const resetDatePicker = () => {
+  // Reset the start and end dates to default values
+  startCurrentDate.value = startOfDay(new Date()); // Resets to today at start of the day
+  endCurrentDate.value = addMonths(startOfDay(new Date()), 1); // Resets to one month ahead
+
+  // Reset selected start and end dates
+  selectedStartDate.value = startOfDay(subDays(new Date(), 6));
+  selectedEndDate.value = endOfDay(new Date());
+
+  // Resetting selectingEndDate and any other flags
+  selectingEndDate.value = false;
+
+  // Reset selected range
+  selectedRange.value = 'last7days';
+
+  // Reset view modes if they are being used to toggle between different calendar views
+  calendarViews.value.start = 'week';
+  calendarViews.value.end = 'week';
+};
 </script>
 
 <template>
@@ -209,7 +229,7 @@ const openYear = (year, calenderType) => {
           />
         </div>
       </div>
-      <CalendarFooter />
+      <CalendarFooter @clear="resetDatePicker" />
     </div>
   </div>
 </template>
