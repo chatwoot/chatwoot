@@ -1,9 +1,5 @@
 <script setup>
 import { ref, watch } from 'vue';
-import CalendarDateRange from './components/CalendarDateRange.vue';
-import CalendarYear from './components/CalendarYear.vue';
-import CalendarMonth from './components/CalendarMonth.vue';
-import CalendarWeek from './components/CalendarWeek.vue';
 import { getActiveDateRange } from './helpers/DatePickerHelper';
 import {
   startOfMonth,
@@ -20,7 +16,12 @@ import {
   addYears,
 } from 'date-fns';
 
-// Setup reactive state
+import CalendarDateRange from './components/CalendarDateRange.vue';
+import CalendarYear from './components/CalendarYear.vue';
+import CalendarMonth from './components/CalendarMonth.vue';
+import CalendarWeek from './components/CalendarWeek.vue';
+import CalendarFooter from './components/CalendarFooter.vue';
+
 const calendarViews = ref({
   start: 'week',
   end: 'week',
@@ -149,14 +150,13 @@ const openYear = (year, calenderType) => {
   } else {
     endCurrentDate.value = newDate;
   }
-  // Change view to month after setting year
   setViewMode(calenderType, 'month');
 };
 </script>
 
 <template>
   <div
-    class="flex absolute z-30 max-w-[880px] h-full w-full max-h-[490px] divide-x divide-slate-50 dark:divide-slate-700/50 font-inter rounded-2xl border border-slate-50 dark:border-slate-800 bg-white dark:bg-slate-800"
+    class="flex absolute z-30 shadow-md max-w-[880px] h-full w-full max-h-[490px] divide-x divide-slate-50 dark:divide-slate-700/50 font-inter rounded-2xl border border-slate-50 dark:border-slate-800 bg-white dark:bg-slate-800"
   >
     <!-- Custom date range picker to the left -->
     <CalendarDateRange
@@ -209,7 +209,7 @@ const openYear = (year, calenderType) => {
           />
         </div>
       </div>
-      <div class="h-[52px] w-full" />
+      <CalendarFooter />
     </div>
   </div>
 </template>
