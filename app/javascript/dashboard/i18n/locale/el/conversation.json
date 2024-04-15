@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Αναβλήθηκε μέχρι αύριο",
       "SNOOZED_UNTIL_NEXT_WEEK": "Αναβολή έως την επόμενη εβδομάδα",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Αναβολή έως την επόμενη απάντηση"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Αναβολή έως την επόμενη απάντηση",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Σήμανση ως εκκρεμής",
