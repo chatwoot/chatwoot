@@ -1,0 +1,175 @@
+<script setup>
+import { addDays, isWithinInterval } from 'date-fns';
+import {
+  month,
+  year,
+  getWeeksForMonth,
+  isToday,
+  dayIsInRange,
+  isCurrentMonth,
+  isLastDayOfMonth,
+  isStartOrEndDate,
+  isHoveringDayInRange,
+} from '../helpers/DatePickerHelper';
+
+import CalendarWeekLabel from './CalendarWeekLabel.vue';
+import CalendarAction from './CalendarAction.vue';
+
+const props = defineProps({
+  calendarType: {
+    type: String,
+    default: 'start',
+  },
+  currentDate: Date,
+  startCurrentDate: Date,
+  endCurrentDate: Date,
+  selectedStartDate: Date,
+  selectingEndDate: Boolean,
+  selectedEndDate: Date,
+  hoveredEndDate: Date,
+});
+
+const emit = defineEmits([
+  'update-hovered-end-date',
+  'select-date',
+  'prev',
+  'next',
+  'set-view',
+]);
+
+const emitHoveredEndDate = day => {
+  emit('update-hovered-end-date', day);
+};
+
+const emitSelectDate = day => {
+  emit('select-date', day);
+};
+
+const onClickPrev = type => {
+  emit('prev', type);
+};
+
+const onClickNext = type => {
+  emit('next', type);
+};
+
+const setViewMode = (type, mode) => {
+  emit('set-view', type, mode);
+};
+
+const weeks = calendarType => {
+  return getWeeksForMonth(
+    calendarType === 'start' ? props.startCurrentDate : props.endCurrentDate
+  );
+};
+
+const isSelectedStartOrEndDate = day => {
+  return isStartOrEndDate(day, props.selectedStartDate, props.selectedEndDate);
+};
+
+const isInRange = day => {
+  return dayIsInRange(day, props.selectedStartDate, props.selectedEndDate);
+};
+
+const isInCurrentMonth = day => {
+  return isCurrentMonth(
+    day,
+    props.calendarType === 'start'
+      ? props.startCurrentDate
+      : props.endCurrentDate
+  );
+};
+
+const isHoveringInRange = day => {
+  return isHoveringDayInRange(
+    day,
+    props.selectedStartDate,
+    props.selectingEndDate,
+    props.hoveredEndDate
+  );
+};
+
+const isNextDayInRange = currentDay => {
+  if (
+    props.selectedStartDate &&
+    !props.selectedEndDate &&
+    props.hoveredEndDate
+  ) {
+    // If a start date is selected, and we're hovering (but haven't clicked an end date yet)
+    const nextDay = addDays(currentDay, 1);
+    return isWithinInterval(nextDay, {
+      start: props.selectedStartDate,
+      end: props.hoveredEndDate,
+    });
+  }
+  if (props.selectedStartDate && props.selectedEndDate) {
+    // Normal range checking between selected start and end dates
+    const nextDay = addDays(currentDay, 1);
+    return isWithinInterval(nextDay, {
+      start: props.selectedStartDate,
+      end: props.selectedEndDate,
+    });
+  }
+  return false;
+};
+
+const dayClasses = day => ({
+  'text-slate-500 dark:text-slate-400': !isInCurrentMonth(day),
+  'text-slate-800 dark:text-slate-50 hover:text-slate-800 dark:hover:text-white hover:bg-woot-100 dark:hover:bg-woot-700':
+    isInCurrentMonth(day),
+  'bg-woot-600 dark:bg-woot-600 text-white dark:text-white':
+    isSelectedStartOrEndDate(day) && isInCurrentMonth(day),
+  'bg-woot-50 dark:bg-woot-800':
+    (isInRange(day) || isHoveringInRange(day)) &&
+    !isSelectedStartOrEndDate(day) &&
+    isInCurrentMonth(day),
+  'border border-woot-200 dark:border-woot-700 text-woot-600 dark:text-woot-600':
+    isToday(props.currentDate, day) && !isSelectedStartOrEndDate(day),
+});
+</script>
+
+<template>
+  <div class="flex flex-col w-full gap-2 max-h-[312px]">
+    <CalendarAction
+      view-mode="month"
+      :calendar-type="calendarType"
+      :first-button-label="
+        month(calendarType === 'start' ? startCurrentDate : endCurrentDate)
+      "
+      :button-label="
+        year(calendarType === 'start' ? startCurrentDate : endCurrentDate)
+      "
+      @prev="onClickPrev"
+      @next="onClickNext"
+      @set-view="setViewMode"
+    />
+    <CalendarWeekLabel />
+    <div
+      v-for="week in weeks(calendarType)"
+      :key="week[0].getTime()"
+      class="grid max-w-md grid-cols-7 gap-2 mx-auto overflow-hidden rounded-lg"
+    >
+      <div
+        v-for="day in week"
+        :key="day.getTime()"
+        class="flex relative items-center justify-center w-9 h-8 py-1.5 px-2 font-medium text-sm rounded-lg cursor-pointer"
+        :class="dayClasses(day)"
+        @mouseenter="emitHoveredEndDate(day)"
+        @mouseleave="emitHoveredEndDate(null)"
+        @click="emitSelectDate(day)"
+      >
+        {{ day.getDate() }}
+        <span
+          v-if="
+            (isInRange(day) || isHoveringInRange(day)) &&
+            isNextDayInRange(day) &&
+            !isLastDayOfMonth(day) &&
+            isInCurrentMonth(day)
+          "
+          class="absolute bottom-0 w-6 h-8 -right-4 bg-woot-50 dark:bg-woot-800 -z-10"
+          :class="{ '-top-px': isToday(currentDate, day) }"
+        />
+      </div>
+    </div>
+  </div>
+</template>

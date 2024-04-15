@@ -13,6 +13,7 @@
       :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
       @change="onCustomDateRangeChange"
     />
+    <woot-date-picker />
     <SLA-filter @filter-change="emitFilterChange" />
   </div>
 </template>
