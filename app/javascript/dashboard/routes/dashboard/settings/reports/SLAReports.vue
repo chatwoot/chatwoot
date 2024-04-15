@@ -53,6 +53,17 @@ export default {
         sla_policy_id: null,
         label_list: null,
       },
+      requestPayload() {
+        return {
+          from: this.from,
+          to: this.to,
+          assigned_agent_id: this.assigned_agent_id,
+          inbox_id: this.inbox_id,
+          team_id: this.team_id,
+          sla_policy_id: this.sla_policy_id,
+          label_list: this.label_list,
+        };
+      },
     };
   },
   computed: {
@@ -94,7 +105,7 @@ export default {
       const type = 'sla';
       try {
         this.$store.dispatch('slaReports/download', {
-          fileName: generateFileName({ type, to: this.to }),
+          fileName: generateFileName({ type, to: this.requestPayload.to }),
           ...this.requestPayload,
         });
       } catch (error) {
