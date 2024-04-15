@@ -1,9 +1,5 @@
 <script setup>
 defineProps({
-  buttonText: {
-    type: String,
-    default: '',
-  },
   inputValue: {
     type: String,
     default: '',
@@ -12,13 +8,17 @@ defineProps({
     type: String,
     default: '',
   },
+  showClearFilter: {
+    type: Boolean,
+    default: false,
+  },
 });
 </script>
 <template>
   <div
     class="flex items-center justify-between h-10 min-h-[40px] sticky top-0 bg-white z-10 dark:bg-slate-800 gap-2 px-3 border-b rounded-t-xl border-slate-50 dark:border-slate-700"
   >
-    <div class="flex items-center gap-2">
+    <div class="flex items-center w-full gap-2">
       <fluent-icon
         icon="search"
         size="18"
@@ -32,14 +32,16 @@ defineProps({
         @input="$emit('input', $event.target.value)"
       />
     </div>
+    <!-- Clear filter button -->
     <woot-button
+      v-if="!inputValue && showClearFilter"
       size="small"
       variant="clear"
       color-scheme="primary"
       class="!px-1 !py-1.5"
       @click="$emit('click')"
     >
-      {{ buttonText }}
+      {{ $t('REPORT.FILTER_ACTIONS.CLEAR_FILTER') }}
     </woot-button>
   </div>
 </template>
