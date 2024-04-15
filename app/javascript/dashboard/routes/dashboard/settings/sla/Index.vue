@@ -10,7 +10,7 @@
       <SLAListItemLoading v-for="ii in 2" :key="ii" class="mb-3" />
     </template>
     <template #body>
-      <SLAPaywall v-if="isBehindAPaywall" />
+      <SLAPaywall v-if="isBehindAPaywall" :is-admin="isAdmin" />
       <SLAEmptyState
         v-else-if="!records.length"
         @primary-action="openAddPopup"
@@ -59,6 +59,7 @@ import SLAPaywall from './components/SLAPaywall.vue';
 import { mapGetters } from 'vuex';
 import { convertSecondsToTimeUnit } from '@chatwoot/utils';
 import alertMixin from 'shared/mixins/alertMixin';
+import adminMixin from 'dashboard/mixins/isAdmin';
 
 export default {
   components: {
@@ -70,7 +71,7 @@ export default {
     SLAListItemLoading,
     SLAPaywall,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, adminMixin],
   data() {
     return {
       loading: {},
