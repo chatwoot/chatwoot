@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Ditunda hingga",
       "SNOOZED_UNTIL_TOMORROW": "Ditunda hingga besok",
       "SNOOZED_UNTIL_NEXT_WEEK": "Ditunda hingga minggu depan",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Ditunda hingga balasan selanjutnya"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Ditunda hingga balasan selanjutnya",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Tandai sebagai tertunda",
