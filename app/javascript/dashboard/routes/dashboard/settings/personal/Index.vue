@@ -6,12 +6,7 @@
       <h2 class="font-medium text-slate-900 dark:text-white text-2xl">
         Profile Settings
       </h2>
-      <div>
-        <span class="text-slate-900 dark:text-slate-25 text-normal font-medium">
-          Profile picture
-        </span>
-        <thumbnail src="" username="John Doe" size="72px" />
-      </div>
+      <user-profile-picture username="John Doe" size="72px" />
       <personal-wrapper
         header="Personal message signature"
         description="Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes."
@@ -103,7 +98,7 @@
 </template>
 <script setup>
 import MessageSignature from '../profile/MessageSignature.vue';
-import Thumbnail from './Thumbnail.vue';
+import UserProfilePicture from './UserProfilePicture.vue';
 import PersonalWrapper from './PersonalWrapper.vue';
 import PreviewCard from 'dashboard/components/ui/PreviewCard.vue';
 import FormInput from 'v3/components/Form/Input.vue';
