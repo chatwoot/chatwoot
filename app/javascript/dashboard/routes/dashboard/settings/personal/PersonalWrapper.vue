@@ -1,22 +1,22 @@
 <template>
-  <div class="flex flex-col gap-6 w-full items-start">
+  <div class="flex flex-col items-start w-full gap-6">
     <div
-      class="flex flex-col gap-4 divide-y divide-slate-200 dark:divide-slate-700"
+      class="flex flex-col w-full gap-4 divide-y divide-slate-200 dark:divide-slate-700"
     >
       <h4
         v-if="header"
-        class="text-slate-900 dark:text-slate-25 text-lg font-medium"
+        class="text-lg font-medium text-slate-900 dark:text-slate-25"
       >
         {{ header }}
       </h4>
       <p
         v-if="description"
-        class="text-slate-600 dark:text-slate-400 text-sm font-normal mb-0 pt-4"
+        class="pt-4 mb-0 text-sm font-normal text-slate-600 dark:text-slate-400"
       >
         {{ description }}
       </p>
     </div>
-    <div v-if="$slots.settingsItem" class="w-full flex flex-col gap-6">
+    <div v-if="$slots.settingsItem" class="flex flex-col w-full gap-6">
       <slot name="settingsItem" />
       <woot-button
         v-if="showActionButton"
@@ -24,7 +24,7 @@
         class="rounded-xl w-fit"
         @click="$emit('click')"
       >
-        Save
+        {{ buttonText }}
       </woot-button>
     </div>
   </div>
@@ -43,6 +43,10 @@ defineProps({
   showActionButton: {
     type: Boolean,
     default: true,
+  },
+  buttonText: {
+    type: String,
+    default: 'Save',
   },
 });
 </script>
