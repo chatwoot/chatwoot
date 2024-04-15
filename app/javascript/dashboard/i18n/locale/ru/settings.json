@@ -83,7 +83,10 @@
         "CONVERSATION_CREATION": "Отправлять email уведомление, когда новый диалог создан",
         "CONVERSATION_MENTION": "Отправлять email уведомление, когда вас упоминают в диалоге",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Отправлять email уведомления при создании нового сообщения в назначенном диалоге",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Отправлять уведомления по электронной почте, когда в разговоре создается новое сообщение"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Отправлять уведомления по электронной почте, когда в разговоре создается новое сообщение",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
       },
       "API": {
         "UPDATE_SUCCESS": "Настройки уведомлений сохранены",
@@ -98,7 +101,10 @@
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Отправлять push уведомления при создании нового сообщения в назначенном диалоге",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Отправлять push-уведомления при создании нового сообщения в участвующем разговоре",
         "HAS_ENABLED_PUSH": "Вы включили push уведомления для этого браузера.",
-        "REQUEST_PUSH": "Включить push-уведомления"
+        "REQUEST_PUSH": "Включить push-уведомления",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Изображение профиля"
@@ -199,6 +205,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Сейчас просматривается:",
     "SWITCH": "Переключить",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Диалоги",
     "INBOX": "Электронная почта",
     "ALL_CONVERSATIONS": "Диалоги",
@@ -237,6 +244,8 @@
     "CAMPAIGNS": "Кампании",
     "ONGOING": "Повторяющиеся",
     "ONE_OFF": "Единоразовые",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Бот",
     "REPORTS_AGENT": "Операторы",
     "REPORTS_LABEL": "Категории",
     "REPORTS_INBOX": "Электронная почта",
