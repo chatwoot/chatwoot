@@ -112,7 +112,10 @@ class Article < ApplicationRecord
   end
 
   def add_article_embedding
+    return unless account.feature_enabled?('help_center_embedding_search')
+
     terms = generate_article_search_terms
+
     article_embeddings.destroy_all
     terms.each do |term|
       article_embeddings.create!(term: term)
