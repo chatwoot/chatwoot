@@ -8,6 +8,10 @@ class Features::HelpcenterEmbeddingSearchService
     drop_tables
   end
 
+  def featuture_enabled?
+    vector_extension_enabled? && MIGRATION_VERSION.table_exists?(:article_embeddings)
+  end
+
   def create_tables
     return unless vector_extension_enabled?
 
