@@ -83,7 +83,10 @@
         "CONVERSATION_CREATION": "Send e-postvarsler når en ny samtale opprettes",
         "CONVERSATION_MENTION": "Send varsel på e-post når du er nevnt i en samtale",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send e-postvarsler når en ny melding opprettes i en tilordnet samtale",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
       },
       "API": {
         "UPDATE_SUCCESS": "Dine varslingsinnstillinger er oppdatert",
@@ -98,7 +101,10 @@
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push-varsler når en ny melding opprettes i en tilordnet samtale",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Du har aktivert push-varsler for denne nettleseren.",
-        "REQUEST_PUSH": "Aktiver push-varsler"
+        "REQUEST_PUSH": "Aktiver push-varsler",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profilbilde"
@@ -199,6 +205,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Samtaler",
     "INBOX": "Inbox",
     "ALL_CONVERSATIONS": "All Conversations",
@@ -237,6 +244,8 @@
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Agenter",
     "REPORTS_LABEL": "Etiketter",
     "REPORTS_INBOX": "Inbox",

@@ -83,7 +83,10 @@
         "CONVERSATION_CREATION": "புதிய உரையாடல் உருவாக்கப்படும்போது ஈ-மெயிலில் அறிவிப்புகளை அனுப்பவும்",
         "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
       },
       "API": {
         "UPDATE_SUCCESS": "உங்களின் அறிவிப்பு விருப்பத்தேர்வுகள் வெற்றிகரமாக புதுப்பிக்கப்பட்டன",
@@ -98,7 +101,10 @@
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "இந்த பிரௌசருக்கான புஷ் அறிவிப்புகளை இயக்கியுள்ளீர்கள்.",
-        "REQUEST_PUSH": "புஷ் அறிவிப்புகளை இயக்கு"
+        "REQUEST_PUSH": "புஷ் அறிவிப்புகளை இயக்கு",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
       },
       "PROFILE_IMAGE": {
         "LABEL": "சுயவிவர படம்"
@@ -199,6 +205,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "உரையாடல்கள்",
     "INBOX": "Inbox",
     "ALL_CONVERSATIONS": "All Conversations",
@@ -237,6 +244,8 @@
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "ஏஜென்ட்கள்",
     "REPORTS_LABEL": "Labels",
     "REPORTS_INBOX": "Inbox",

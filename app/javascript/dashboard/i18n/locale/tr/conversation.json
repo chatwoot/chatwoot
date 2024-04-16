@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Susturulacak kadar ertelendi",
       "SNOOZED_UNTIL_TOMORROW": "yarına ertelendi",
       "SNOOZED_UNTIL_NEXT_WEEK": "Önümüzdeki haftaya ertelendi",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Bir sonraki yanıta kadar ertelendi"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Bir sonraki yanıta kadar ertelendi",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Beklemede olarak işaretle",

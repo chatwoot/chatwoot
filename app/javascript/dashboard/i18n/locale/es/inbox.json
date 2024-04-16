@@ -4,37 +4,41 @@
       "TITLE": "Bandeja de entrada",
       "DISPLAY_DROPDOWN": "Mostrar",
       "LOADING": "Cargando notificaciones",
-      "EOF": "Todas las notificaciones cargadas 🎉",
-      "404": "There are no active notifications in this group.",
-      "NO_NOTIFICATIONS": "No notifications",
-      "NOTE": "Notifications from all subscribed inboxes",
+      "404": "No hay notificaciones activas en este grupo.",
+      "NO_NOTIFICATIONS": "Sin notificaciones",
+      "NOTE": "Notificaciones de todas las entradas suscritas",
+      "NO_MESSAGES_AVAILABLE": "¡Ups! No se pueden obtener mensajes",
       "SNOOZED_UNTIL": "Posponer hasta",
       "SNOOZED_UNTIL_TOMORROW": "Pospuesto hasta mañana",
       "SNOOZED_UNTIL_NEXT_WEEK": "Pospuesto hasta la próxima semana"
     },
     "ACTION_HEADER": {
-      "SNOOZE": "Snooze notification",
-      "DELETE": "Delete notification"
+      "SNOOZE": "Posponer notificación",
+      "DELETE": "Borrar notificación",
+      "BACK": "Atrás"
     },
     "TYPES": {
-      "CONVERSATION_MENTION": "You have been mentioned in a conversation",
-      "CONVERSATION_CREATION": "New conversation created",
-      "CONVERSATION_ASSIGNMENT": "A conversation has been assigned to you",
-      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "New message in an assigned conversation",
-      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "New message in a conversation you are participating in"
+      "CONVERSATION_MENTION": "Has sido mencionado en una conversación",
+      "CONVERSATION_CREATION": "Nueva conversación creada",
+      "CONVERSATION_ASSIGNMENT": "Se te ha asignado una conversación",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nuevo mensaje en una conversación asignada",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Nuevo mensaje en una conversación en la que estás participando",
+      "SLA_MISSED_FIRST_RESPONSE": "Falta la siguiente respuesta del SLA para la conversación",
+      "SLA_MISSED_NEXT_RESPONSE": "Falta la siguiente respuesta del SLA para la conversación",
+      "SLA_MISSED_RESOLUTION": "Falta la siguiente respuesta del SLA para la conversación"
     },
     "MENU_ITEM": {
-      "MARK_AS_READ": "Mark as read",
+      "MARK_AS_READ": "Marcar como leído",
       "MARK_AS_UNREAD": "Marcar como no leído",
       "SNOOZE": "Posponer",
       "DELETE": "Eliminar",
       "MARK_ALL_READ": "Marcar todo como leído",
-      "DELETE_ALL": "Delete all",
-      "DELETE_ALL_READ": "Delete all read"
+      "DELETE_ALL": "Eliminar todo",
+      "DELETE_ALL_READ": "Borrar todos los leídos"
     },
     "DISPLAY_MENU": {
-      "SORT": "Sort",
-      "DISPLAY": "Display :",
+      "SORT": "Ordenar",
+      "DISPLAY": "Mostrar:",
       "SORT_OPTIONS": {
         "NEWEST": "Más reciente",
         "OLDEST": "Más antiguo",

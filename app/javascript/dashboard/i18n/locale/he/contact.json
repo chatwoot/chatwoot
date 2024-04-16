@@ -296,6 +296,8 @@
     "BUTTON": "הוסף מאפיין מותאם אישית",
     "NOT_AVAILABLE": "אין מאפיינים מותאמים אישית זמינים עבור איש קשר זה.",
     "COPY_SUCCESSFUL": "הועתק ללוח בהצלחה",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "העתק מאפיין",
       "DELETE": "מחק מאפיין",

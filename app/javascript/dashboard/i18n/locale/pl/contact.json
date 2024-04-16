@@ -296,6 +296,8 @@
     "BUTTON": "Dodaj niestandardowy atrybut",
     "NOT_AVAILABLE": "Brak dostępnych niestandardowych atrybutów dla tego kontaktu.",
     "COPY_SUCCESSFUL": "Skopiowano pomyślnie",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Kopiuj atrybut",
       "DELETE": "Usuń atrybut",

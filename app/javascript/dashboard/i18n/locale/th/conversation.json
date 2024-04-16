@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "พักการสนทนาจนถึงพรุ่งนี้",
       "SNOOZED_UNTIL_NEXT_WEEK": "พักการสนทนาจนถึงสัปดาห์หน้า",
-      "SNOOZED_UNTIL_NEXT_REPLY": "พักการสนทนาจนกว่าจะมีการตอบกลับถัดไป"
+      "SNOOZED_UNTIL_NEXT_REPLY": "พักการสนทนาจนกว่าจะมีการตอบกลับถัดไป",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "ทำเครื่องหมายว่าอยู่ระหว่างดำเนินการ",
