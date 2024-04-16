@@ -191,7 +191,7 @@ const handleDateChange = () => {
 </script>
 
 <template>
-  <div class="relative">
+  <div class="relative font-inter">
     <DatePickerButton
       :selected-start-date="selectedStartDate"
       :selected-end-date="selectedEndDate"
@@ -215,7 +215,7 @@ const handleDateChange = () => {
           <!-- Calendars for Start and End Dates -->
           <div
             v-for="calendar in ['start', 'end']"
-            :key="calendar + '-calendar'"
+            :key="`${calendar}-calendar'`"
             class="flex flex-col items-center gap-2 px-5 min-w-[340px] max-h-[352px]"
           >
             <CalendarYear
