@@ -82,7 +82,9 @@ export default {
   },
   computed: {
     ...mapGetters({
+      globalConfig: 'globalConfig/get',
       isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       records: 'sla/getSLA',
       currentUser: 'getCurrentUser',
       uiFlags: 'sla/getUIFlags',
@@ -97,7 +99,7 @@ export default {
       return ` ${this.selectedResponse.name}`;
     },
     isBehindAPaywall() {
-      return this.isEnterprise && this.enterprisePlanName === 'community';
+      return !this.isFeatureEnabledonAccount('sla');
     },
     isSuperAdmin() {
       return this.currentUser.type === 'SuperAdmin';
