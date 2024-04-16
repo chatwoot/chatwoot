@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue';
 import { getActiveDateRange } from './helpers/DatePickerHelper';
 import {
+  isValid,
   startOfMonth,
   subDays,
   startOfDay,
@@ -16,11 +17,14 @@ import {
   addYears,
 } from 'date-fns';
 
+import DatePickerButton from './components/DatePickerButton.vue';
 import CalendarDateRange from './components/CalendarDateRange.vue';
 import CalendarYear from './components/CalendarYear.vue';
 import CalendarMonth from './components/CalendarMonth.vue';
 import CalendarWeek from './components/CalendarWeek.vue';
 import CalendarFooter from './components/CalendarFooter.vue';
+
+const showDatePicker = ref(false);
 
 const calendarViews = ref({
   start: 'week',
@@ -34,6 +38,8 @@ const selectedEndDate = ref(endOfDay(new Date()));
 const selectingEndDate = ref(false);
 const selectedRange = ref('last7days');
 const hoveredEndDate = ref(null);
+
+const emit = defineEmits(['change']);
 
 watch(selectedRange, newRange => {
   if (newRange !== 'custom') {
@@ -172,64 +178,83 @@ const resetDatePicker = () => {
   calendarViews.value.start = 'week';
   calendarViews.value.end = 'week';
 };
+
+const handleDateChange = () => {
+  if (!isValid(selectedStartDate.value) || !isValid(selectedEndDate.value)) {
+    // show toast message
+    return bus.$emit('newToastMessage', 'Please select a valid time range');
+  }
+  const dates = [selectedStartDate.value, selectedEndDate.value];
+  showDatePicker.value = false;
+  return emit('change', dates);
+};
 </script>
 
 <template>
-  <div
-    class="flex absolute top-32 z-30 shadow-md select-none max-w-[880px] h-full w-full max-h-[490px] divide-x divide-slate-50 dark:divide-slate-700/50 font-inter rounded-2xl border border-slate-50 dark:border-slate-800 bg-white dark:bg-slate-800"
-  >
-    <!-- Custom date range picker to the left -->
-    <CalendarDateRange
+  <div class="relative">
+    <DatePickerButton
+      :selected-start-date="selectedStartDate"
+      :selected-end-date="selectedEndDate"
       :selected-range="selectedRange"
-      @set-range="setDateRange"
+      @open="showDatePicker = !showDatePicker"
     />
-    <div class="flex flex-col w-[680px]">
-      <div class="h-[82px] w-full" />
-      <div
-        class="flex justify-around py-5 border-b divide-x h-fit divide-slate-50 dark:divide-slate-700/50 border-slate-50 dark:border-slate-700/50"
-      >
-        <!-- Calendars for Start and End Dates -->
+    <div
+      v-if="showDatePicker"
+      class="flex absolute top-9 left-0 z-30 shadow-md select-none w-[880px] h-[408px] divide-x divide-slate-50 dark:divide-slate-700/50 rounded-2xl border border-slate-50 dark:border-slate-800 bg-white dark:bg-slate-800"
+    >
+      <!-- Custom date range picker to the left -->
+      <CalendarDateRange
+        :selected-range="selectedRange"
+        @set-range="setDateRange"
+      />
+      <div class="flex flex-col w-[680px]">
+        <!-- <div class="h-[82px] w-full"  h-[490px] wrapper add input/> -->
         <div
-          v-for="calendar in ['start', 'end']"
-          :key="calendar + '-calendar'"
-          class="flex flex-col items-center gap-2 px-5 min-w-[340px] max-h-[352px]"
+          class="flex justify-around py-5 border-b divide-x h-fit divide-slate-50 dark:divide-slate-700/50 border-slate-50 dark:border-slate-700/50"
         >
-          <CalendarYear
-            v-if="calendarViews[calendar] === 'year'"
-            :calendar-type="calendar"
-            :start-current-date="startCurrentDate"
-            :end-current-date="endCurrentDate"
-            @select-year="openYear"
-          />
-          <CalendarMonth
-            v-else-if="calendarViews[calendar] === 'month'"
-            :calendar-type="calendar"
-            :start-current-date="startCurrentDate"
-            :end-current-date="endCurrentDate"
-            @select-month="openMonth"
-            @set-view="setViewMode"
-            @prev="previousYear"
-            @next="nextYear"
-          />
-          <CalendarWeek
-            v-else-if="calendarViews[calendar] === 'week'"
-            :calendar-type="calendar"
-            :current-date="currentDate"
-            :start-current-date="startCurrentDate"
-            :end-current-date="endCurrentDate"
-            :selected-start-date="selectedStartDate"
-            :selected-end-date="selectedEndDate"
-            :selecting-end-date="selectingEndDate"
-            :hovered-end-date="hoveredEndDate"
-            @update-hovered-end-date="hoveredEndDate = $event"
-            @select-date="selectDate"
-            @set-view="setViewMode"
-            @prev="previousMonth"
-            @next="nextMonth"
-          />
+          <!-- Calendars for Start and End Dates -->
+          <div
+            v-for="calendar in ['start', 'end']"
+            :key="calendar + '-calendar'"
+            class="flex flex-col items-center gap-2 px-5 min-w-[340px] max-h-[352px]"
+          >
+            <CalendarYear
+              v-if="calendarViews[calendar] === 'year'"
+              :calendar-type="calendar"
+              :start-current-date="startCurrentDate"
+              :end-current-date="endCurrentDate"
+              @select-year="openYear"
+            />
+            <CalendarMonth
+              v-else-if="calendarViews[calendar] === 'month'"
+              :calendar-type="calendar"
+              :start-current-date="startCurrentDate"
+              :end-current-date="endCurrentDate"
+              @select-month="openMonth"
+              @set-view="setViewMode"
+              @prev="previousYear"
+              @next="nextYear"
+            />
+            <CalendarWeek
+              v-else-if="calendarViews[calendar] === 'week'"
+              :calendar-type="calendar"
+              :current-date="currentDate"
+              :start-current-date="startCurrentDate"
+              :end-current-date="endCurrentDate"
+              :selected-start-date="selectedStartDate"
+              :selected-end-date="selectedEndDate"
+              :selecting-end-date="selectingEndDate"
+              :hovered-end-date="hoveredEndDate"
+              @update-hovered-end-date="hoveredEndDate = $event"
+              @select-date="selectDate"
+              @set-view="setViewMode"
+              @prev="previousMonth"
+              @next="nextMonth"
+            />
+          </div>
         </div>
+        <CalendarFooter @change="handleDateChange" @clear="resetDatePicker" />
       </div>
-      <CalendarFooter @clear="resetDatePicker" />
     </div>
   </div>
 </template>

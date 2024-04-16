@@ -6,7 +6,7 @@ const onClickClear = () => {
 };
 
 const onClickApply = () => {
-  emit('clear');
+  emit('change');
 };
 </script>
 

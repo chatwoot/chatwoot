@@ -16,17 +16,17 @@ const setDateRange = range => {
 </script>
 
 <template>
-  <div class="w-[200px] flex flex-col">
+  <div class="w-[200px] flex flex-col items-start">
     <h4
-      class="px-5 py-4 text-sm font-medium capitalize text-slate-600 dark:text-slate-200"
+      class="w-full px-5 py-4 text-sm font-medium capitalize text-start text-slate-600 dark:text-slate-200"
     >
       DATE RANGE
     </h4>
-    <ul>
-      <li
+    <div class="flex flex-col items-start w-full">
+      <button
         v-for="range in dateRanges"
         :key="range.label"
-        class="px-5 py-3 text-sm font-medium list-none cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700"
+        class="w-full px-5 py-3 text-sm font-medium border-none rounded-none text-start hover:bg-slate-50 dark:hover:bg-slate-700"
         :class="
           range.value === selectedRange
             ? 'text-slate-800 dark:text-slate-50 bg-slate-50 dark:bg-slate-700'
@@ -35,7 +35,7 @@ const setDateRange = range => {
         @click="setDateRange(range)"
       >
         {{ range.label }}
-      </li>
-    </ul>
+      </button>
+    </div>
   </div>
 </template>
