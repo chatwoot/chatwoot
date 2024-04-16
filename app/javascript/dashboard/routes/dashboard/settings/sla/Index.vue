@@ -10,10 +10,7 @@
       <SLAListItemLoading v-for="ii in 2" :key="ii" class="mb-3" />
     </template>
     <template #body>
-      <SLAPaywallEnterprise
-        v-if="isBehindAPaywall || true"
-        :is-admin="isSuperAdmin"
-      />
+      <SLAPaywallEnterprise v-if="isBehindAPaywall" :is-admin="isSuperAdmin" />
       <SLAEmptyState
         v-else-if="!records.length"
         @primary-action="openAddPopup"
