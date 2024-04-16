@@ -87,31 +87,6 @@ export const dayIsInRange = (date, startDate, endDate) => {
   );
 };
 
-// export const isUpcomingDayInRange = (
-//   day,
-//   startDate,
-//   endDate,
-//   hoveredEndDate
-// ) => {
-//   // If a start date is selected, and hovering is active but no end date is yet clicked
-//   if (startDate && !endDate && hoveredEndDate) {
-//     const nextDay = addDays(day, 1);
-//     return isWithinInterval(nextDay, {
-//       start: startDate,
-//       end: hoveredEndDate,
-//     });
-//   }
-//   // Normal range checking between selected start and end dates
-//   if (startDate && endDate) {
-//     const nextDay = addDays(day, 1);
-//     return isWithinInterval(nextDay, {
-//       start: startDate,
-//       end: endDate,
-//     });
-//   }
-//   return false;
-// };
-
 export const isHoveringDayInRange = (
   day,
   startDate,
@@ -131,36 +106,32 @@ export const isHoveringDayInRange = (
 };
 
 export const getActiveDateRange = (range, currentDate) => {
-  let start = currentDate;
-  let end = currentDate;
+  const ranges = {
+    last7days: () => ({
+      start: startOfDay(subDays(currentDate, 6)),
+      end: endOfDay(currentDate),
+    }),
+    last30days: () => ({
+      start: startOfDay(subDays(currentDate, 29)),
+      end: endOfDay(currentDate),
+    }),
+    last3months: () => ({
+      start: startOfDay(subMonths(currentDate, 3)),
+      end: endOfDay(currentDate),
+    }),
+    last6months: () => ({
+      start: startOfDay(subMonths(currentDate, 6)),
+      end: endOfDay(currentDate),
+    }),
+    lastYear: () => ({
+      start: startOfDay(subMonths(currentDate, 12)),
+      end: endOfDay(currentDate),
+    }),
+    custom: () => {
+      return { start: currentDate, end: currentDate };
+    },
+  };
 
-  switch (range) {
-    case 'last7days':
-      start = startOfDay(subDays(currentDate, 6));
-      end = endOfDay(currentDate);
-      break;
-    case 'last30days':
-      start = startOfDay(subDays(currentDate, 29));
-      end = endOfDay(currentDate);
-      break;
-    case 'last3months':
-      start = startOfDay(subMonths(currentDate, 3));
-      end = endOfDay(currentDate);
-      break;
-    case 'last6months':
-      start = startOfDay(subMonths(currentDate, 6));
-      end = endOfDay(currentDate);
-      break;
-    case 'lastYear':
-      start = startOfDay(subMonths(currentDate, 12));
-      end = endOfDay(currentDate);
-      break;
-    case 'custom':
-      // Assuming custom range logic is handled elsewhere
-      break;
-    default:
-      break;
-  }
-
-  return { start, end };
+  const result = ranges[range];
+  return result ? result() : { start: currentDate, end: currentDate };
 };
