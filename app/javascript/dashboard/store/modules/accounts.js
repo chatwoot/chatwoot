@@ -36,12 +36,6 @@ export const getters = {
   },
   isFeatureEnabledonAccount: $state => (id, featureName) => {
     const { features = {} } = findRecordById($state, id);
-
-    return features[featureName] || false;
-  },
-  // There are some features which can be enabled/disabled globally
-  isFeatureEnabledGlobally: $state => (id, featureName) => {
-    const { features = {} } = findRecordById($state, id);
     return features[featureName] || false;
   },
 };
