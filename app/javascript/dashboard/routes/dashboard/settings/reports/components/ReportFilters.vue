@@ -108,6 +108,7 @@
           v-model="currentSelectedFilter"
           track-by="id"
           label="name"
+          open-direction="below"
           :placeholder="multiselectLabel"
           selected-label
           :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
@@ -125,6 +126,7 @@
         <multiselect
           v-model="currentDateRangeSelection"
           track-by="name"
+          open-direction="below"
           label="name"
           :placeholder="$t('FORMS.MULTISELECT.SELECT_ONE')"
           selected-label
