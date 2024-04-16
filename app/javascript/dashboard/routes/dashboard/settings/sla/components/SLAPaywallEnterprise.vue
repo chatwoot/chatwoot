@@ -1,12 +1,19 @@
 <script setup>
 import BaseEmptyState from './BaseEmptyState.vue';
 
-defineProps({
-  isAdmin: {
+const props = defineProps({
+  isSuperAdmin: {
+    type: Boolean,
+    default: false,
+  },
+  isOnChatwootCloud: {
     type: Boolean,
     default: false,
   },
 });
+
+const emit = defineEmits(['click']);
+const i18nKey = props.isOnChatwootCloud ? 'PAYWALL' : 'ENTERPRISE_PAYWALL';
 </script>
 
 <template>
@@ -29,13 +36,27 @@ defineProps({
         </span>
       </div>
       <p
-        class="text-sm font-normal tracking-[0.5%]"
-        v-html="$t('SLA.ENTERPRISE_PAYWALL.AVAILABLE_ON')"
+        class="text-sm font-normal"
+        v-html="$t(`SLA.${i18nKey}.AVAILABLE_ON`)"
       />
-      <template v-if="isAdmin">
-        <p class="text-sm font-normal tracking-[0.5%]">
-          {{ $t('SLA.PAYWALL.UPGRADE_PROMPT') }}
-        </p>
+      <p class="text-sm font-normal">
+        {{ $t(`SLA.${i18nKey}.UPGRADE_PROMPT`) }}
+        <span v-if="!isOnChatwootCloud && !isSuperAdmin">
+          {{ $t('SLA.ENTERPRISE_PAYWALL.ASK_ADMIN') }}
+        </span>
+      </p>
+      <template v-if="isOnChatwootCloud">
+        <woot-button
+          color-scheme="primary"
+          class="w-full mt-2 text-center rounded-xl"
+          size="expanded"
+          is-expanded
+          @click="emit('click')"
+        >
+          {{ $t('SLA.PAYWALL.UPGRADE_NOW') }}
+        </woot-button>
+      </template>
+      <template v-if="isSuperAdmin">
         <a href="/super_admin" class="block w-full">
           <woot-button
             color-scheme="primary"
@@ -46,11 +67,6 @@ defineProps({
             {{ $t('SLA.PAYWALL.UPGRADE_NOW') }}
           </woot-button>
         </a>
-      </template>
-      <template v-else>
-        <p class="text-sm font-normal tracking-[0.5%]">
-          {{ $t('SLA.PAYWALL.ASK_ADMIN') }}
-        </p>
       </template>
     </div>
   </base-empty-state>

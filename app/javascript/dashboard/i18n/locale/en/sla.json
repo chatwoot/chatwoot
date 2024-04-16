@@ -8,14 +8,14 @@
     "LOADING": "Fetching SLAs",
     "PAYWALL": {
       "TITLE": "Upgrade to create SLAs",
-      "AVAILABLE_ON": "SLA management is available on the Business and Enterprise plans only.",
-      "UPGRADE_PROMPT": "Upgrade now to get access to advanced features like team management, automations, custom attributes, and more.",
-      "UPGRADE_NOW": "Upgrade now",
-      "ASK_ADMIN": "Ask your administrator to upgrade and get access to advanced features like team management, automations, custom attributes, and more.",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "AVAILABLE_ON": "The SLA feature is only available in the Business and Enterprise plans.",
+      "UPGRADE_PROMPT": "Upgrade your plan to get access to advanced features like team management, automations, custom attributes, and more.",
+      "UPGRADE_NOW": "Upgrade now"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "SLA management is available on the Enterprise plan only."
+      "AVAILABLE_ON": "The SLA feature is only available in the paid plans.",
+      "UPGRADE_PROMPT": "Upgrade to a paid plan to access advanced features like audit logs, agent capacity, and more.",
+      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
     },
     "LIST": {
       "404": "There are no SLAs available in this account.",
