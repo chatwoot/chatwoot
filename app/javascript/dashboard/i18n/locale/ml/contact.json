@@ -296,6 +296,8 @@
     "BUTTON": "Add custom attribute",
     "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "COPY_SUCCESSFUL": "ക്ലിപ്പ്ബോർഡിലേക്ക് വിജയകരമായി പകർത്തി",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Copy attribute",
       "DELETE": "Delete attribute",

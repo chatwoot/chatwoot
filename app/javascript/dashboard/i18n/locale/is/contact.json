@@ -296,6 +296,8 @@
     "BUTTON": "Bæta við sérsniðnum eiginleika",
     "NOT_AVAILABLE": "Engir sérsniðnir eiginleikar eru tiltækir fyrir þennan tengilið.",
     "COPY_SUCCESSFUL": "Afritað á klemmuspjald",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Afrita eiginleika",
       "DELETE": "Eyða eiginleika",

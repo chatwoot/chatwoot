@@ -187,7 +187,7 @@
     "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
+    "BUTTON_LABEL": "チャットを開始",
     "TITLE": "New conversation",
     "DESC": "Start a new conversation by sending a new message.",
     "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
@@ -296,6 +296,8 @@
     "BUTTON": "Add custom attribute",
     "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Copy attribute",
       "DELETE": "Delete attribute",

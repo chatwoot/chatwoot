@@ -296,6 +296,8 @@
     "BUTTON": "Tambahkan atribut kustom",
     "NOT_AVAILABLE": "Tidak ada atribut kustom yang tersedia untuk kontak ini.",
     "COPY_SUCCESSFUL": "Berhasil disalin ke clipboard",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Salin Atribut",
       "DELETE": "Hapus Atribut",

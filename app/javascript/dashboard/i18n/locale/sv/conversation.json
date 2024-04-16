@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Snoozad till",
       "SNOOZED_UNTIL_TOMORROW": "Snoozad till imorgon",
       "SNOOZED_UNTIL_NEXT_WEEK": "Snoozad till nästa vecka",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozad till nästa svar"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozad till nästa svar",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Markera som väntande",

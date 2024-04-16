@@ -296,6 +296,8 @@
     "BUTTON": "Belirli bir özellik ekle",
     "NOT_AVAILABLE": "Bu kişi için belirlenmiş bir özellik yok.",
     "COPY_SUCCESSFUL": "Panoya başarıyla kopyalandı",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Özellik kopyala",
       "DELETE": "Özellik sil",
