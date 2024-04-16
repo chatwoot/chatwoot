@@ -34,19 +34,11 @@ export const getters = {
 
     return diffDays <= TRIAL_PERIOD_DAYS;
   },
-  isFeatureEnabledonAccount:
-    ($state, _, __, rootGetters) => (id, featureName) => {
-      // If a user is SuperAdmin and has access to the account, then they would see all the available features
-      const isUserASuperAdmin =
-        rootGetters.getCurrentUser?.type === 'SuperAdmin';
-      if (isUserASuperAdmin) {
-        return true;
-      }
+  isFeatureEnabledonAccount: $state => (id, featureName) => {
+    const { features = {} } = findRecordById($state, id);
 
-      const { features = {} } = findRecordById($state, id);
-
-      return features[featureName] || false;
-    },
+    return features[featureName] || false;
+  },
   // There are some features which can be enabled/disabled globally
   isFeatureEnabledGlobally: $state => (id, featureName) => {
     const { features = {} } = findRecordById($state, id);
