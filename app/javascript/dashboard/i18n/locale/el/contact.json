@@ -296,6 +296,8 @@
     "BUTTON": "Προσθήκη προσαρμοσμένης ιδιότητας",
     "NOT_AVAILABLE": "Δεν υπάρχουν διαθέσιμες προσαρμοσμένες ιδιότητες για αυτήν την επαφή.",
     "COPY_SUCCESSFUL": "Αντιγράφτηκε με επιτυχία στο πρόχειρο",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Αντιγραφή ιδιότητας",
       "DELETE": "Διαγραφή ιδιότητας",

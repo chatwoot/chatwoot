@@ -87,7 +87,10 @@
       "conversation_assignment": "การสนทนาที่ถูกมอบหมาย",
       "assigned_conversation_new_message": "ข้อความใหม่",
       "participating_conversation_new_message": "ข้อความใหม่",
-      "conversation_mention": "กล่าวถึง"
+      "conversation_mention": "กล่าวถึง",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
