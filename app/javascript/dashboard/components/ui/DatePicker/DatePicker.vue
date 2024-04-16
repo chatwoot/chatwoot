@@ -176,7 +176,7 @@ const resetDatePicker = () => {
 
 <template>
   <div
-    class="flex absolute top-32 z-30 shadow-md max-w-[880px] h-full w-full max-h-[490px] divide-x divide-slate-50 dark:divide-slate-700/50 font-inter rounded-2xl border border-slate-50 dark:border-slate-800 bg-white dark:bg-slate-800"
+    class="flex absolute top-32 z-30 shadow-md select-none max-w-[880px] h-full w-full max-h-[490px] divide-x divide-slate-50 dark:divide-slate-700/50 font-inter rounded-2xl border border-slate-50 dark:border-slate-800 bg-white dark:bg-slate-800"
   >
     <!-- Custom date range picker to the left -->
     <CalendarDateRange
