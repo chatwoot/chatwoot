@@ -37,6 +37,6 @@ class Features::HelpcenterEmbeddingSearchService < Features::BaseService
       t.vector :embedding, limit: 1536
       t.timestamps
     end
-    MIGRATION_VERSION.add_index :article_embeddingsk, :embedding, using: :ivfflat, opclass: :vector_l2_ops
+    MIGRATION_VERSION.add_index :article_embeddings, :embedding, using: :ivfflat, opclass: :vector_l2_ops
   end
 end
