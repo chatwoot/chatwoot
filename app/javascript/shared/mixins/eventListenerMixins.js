@@ -2,24 +2,32 @@ import { isActiveElementTypeable, isEscape } from '../helpers/KeyboardHelpers';
 
 import { createKeybindingsHandler } from 'tinykeys';
 
+// this is a store that stores the handler globally, and only gets reset on reload
+const taggedHandlers = [];
+
 export default {
-  data() {
-    return {
-      keyboardHandler: null,
-    };
-  },
   mounted() {
     const events = this.getKeyboardEvents();
     if (events) {
       const wrappedEvents = this.wrapEventsInKeybindingsHandler(events);
-      this.keyboardHandler = createKeybindingsHandler(wrappedEvents);
-      document.addEventListener('keydown', this.keyboardHandler);
+      const keydownHandler = createKeybindingsHandler(wrappedEvents);
+      this.appendToHandler(keydownHandler);
+      document.addEventListener('keydown', keydownHandler);
     }
   },
   beforeDestroy() {
-    document.removeEventListener('keydown', this.keyboardHandler);
+    if (this.$el && this.$el.dataset.keydownHandlerIndex) {
+      const handlerToRemove =
+        taggedHandlers[this.$el.dataset.keydownHandlerIndex];
+      document.removeEventListener('keydown', handlerToRemove);
+    }
   },
   methods: {
+    appendToHandler(keydownHandler) {
+      const indexToAppend = taggedHandlers.push(keydownHandler) - 1;
+      const root = this.$el;
+      root.dataset.keydownHandlerIndex = indexToAppend;
+    },
     getKeyboardEvents() {
       return null;
     },
