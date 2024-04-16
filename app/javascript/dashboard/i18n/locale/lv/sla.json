@@ -1,22 +1,31 @@
 {
   "SLA": {
     "HEADER": "SLA",
-    "HEADER_BTN_TXT": "Pievienot SLA",
+    "ADD_ACTION": "Pievienot SLA",
+    "ADD_ACTION_LONG": "Izveidot jaunu SLA politiku",
+    "DESCRIPTION": "Pakalpojuma līmeņa līgumi (SLA) ir līgumi, kas nosaka skaidras cerības starp jūsu komandu un klientiem. Tie nosaka atbildes un atrisināšanas laika standartus, veidojot pārskatatbildības sistēmu un nodrošinot konsekventu, augstas kvalitātes pieredzi.",
+    "LEARN_MORE": "Uzzināt vairāk par SLA",
     "LOADING": "Notiek SLA iegūšana",
-    "SEARCH_404": "Šim vaicājumam nav atbilstošu vienumu",
-    "SIDEBAR_TXT": "<p><b>SLA</b> <p>Uztveriet Pakalpojuma Līmeņa Vienošanos (SLA) kā draudzīgu solījumu starp pakalpojumu sniedzēju un klientu.</p> <p> Šis solījums skaidri nosaka cik ātri komanda reaģēs uz problēmām un nodrošina, ka Jūs vienmēr saņemsiet uzticamu un izcilu pakalpojumu!</p>",
     "LIST": {
       "404": "Šim kontam nav piesaistīti SLA līgumi.",
-      "TITLE": "Pārvaldīt SLA",
-      "DESC": "SLA: Draudzīgi solījumi priekš lieliska servisa!",
-      "TABLE_HEADER": [
-        "Nosaukums",
-        "Apraksts",
-        "FRT",
-        "NRT",
-        "RT",
-        "Darba Laiks"
-      ]
+      "EMPTY": {
+        "TITLE_1": "Enterprise P0",
+        "DESC_1": "Uzņēmuma klientu izvirzītās problēmas, kurām nepieciešama tūlītēja uzmanība.",
+        "TITLE_2": "Enterprise P1",
+        "DESC_2": "Uzņēmuma klientu izvirzītās problēmas, uz kurām ātri jāreaģē."
+      },
+      "BUSINESS_HOURS_ON": "Darba laiks ieslēgts",
+      "BUSINESS_HOURS_OFF": "Darba laiks izslēgts",
+      "RESPONSE_TYPES": {
+        "FRT": "Pirmās atbildes laika slieksnis",
+        "NRT": "Nākamās atbildes laika slieksnis",
+        "RT": "Atrisināšanas laika slieksnis",
+        "SHORT_HAND": {
+          "FRT": "FRT",
+          "NRT": "NRT",
+          "RT": "RT"
+        }
+      }
     },
     "FORM": {
       "NAME": {
@@ -56,18 +65,32 @@
     },
     "ADD": {
       "TITLE": "Pievienot SLA",
-      "DESC": "SLA: Draudzīgi solījumi priekš lieliska servisa!",
+      "DESC": "Draudzīgi solījumi priekš lieliska servisa!",
       "API": {
         "SUCCESS_MESSAGE": "SLA ir veiksmīgi pievienots",
         "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
       }
     },
-    "EDIT": {
-      "TITLE": "Rediģēt SLA",
+    "DELETE": {
+      "TITLE": "Dzēst SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA ir veiksmīgi atjaunināts",
+        "SUCCESS_MESSAGE": "SLA ir veiksmīgi izdzēsts",
         "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
+      },
+      "CONFIRM": {
+        "TITLE": "Apstiprināt Dzēšanu",
+        "MESSAGE": "Vai tiešām vēlaties dzēst ",
+        "YES": "Jā, Dzēst ",
+        "NO": "Nē, Paturēt "
       }
+    },
+    "EVENTS": {
+      "TITLE": "Nokavētie SLA",
+      "FRT": "Pirmās reakcijas laiks",
+      "NRT": "Nākamās reakcijas laiks",
+      "RT": "Atrisināšanas laiks",
+      "SHOW_MORE": "{count} vairāk",
+      "HIDE": "Slēpt {count} rindas"
     }
   }
 }

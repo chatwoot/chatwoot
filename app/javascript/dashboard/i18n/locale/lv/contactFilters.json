@@ -44,7 +44,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Izvēles rūtiņa",
       "CREATED_AT": "Izveidots",
       "LAST_ACTIVITY": "Pēdējās Darbības",
-      "REFERER_LINK": "Atsauces sniedzēja saite"
+      "REFERER_LINK": "Atsauces sniedzēja saite",
+      "BLOCKED": "Bloķēts"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standarta Filtri",
