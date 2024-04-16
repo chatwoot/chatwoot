@@ -9,6 +9,7 @@
         :on-mark-all-done-click="onMarkAllDoneClick"
       />
       <table-footer
+        class="border-t border-slate-75 dark:border-slate-700/50"
         :current-page="Number(meta.currentPage)"
         :total-count="meta.count"
         :page-size="15"

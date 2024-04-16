@@ -1,18 +1,24 @@
 <template>
-  <div class="relative mt-2 w-full">
+  <div class="flex items-center w-full gap-3">
     <woot-input
       v-model="thresholdTime"
       :class="{ error: $v.thresholdTime.$error }"
-      class="w-full [&>input]:pr-24"
+      class="flex-grow"
+      :styles="{
+        borderRadius: '12px',
+        padding: '6px 12px',
+        fontSize: '14px',
+      }"
       :label="label"
       :placeholder="placeholder"
       :error="getThresholdTimeErrorMessage"
       @input="onThresholdTimeChange"
     />
-    <div class="absolute right-px h-9 top-[27px] flex items-center">
+    <!-- the mt-7 handles the label offset -->
+    <div class="mt-7">
       <select
         v-model="thresholdUnitValue"
-        class="h-full rounded-[4px] hover:cursor-pointer font-medium border-1 border-solid bg-transparent border-transparent dark:border-transparent mb-0 py-0 pl-2 pr-7 text-slate-600 dark:text-slate-300 dark:focus:border-woot-500 focus:border-woot-500 text-sm"
+        class="px-4 py-1.5 min-w-[6.5rem] h-10 text-sm font-medium border-0 bg-slate-50 rounded-xl hover:cursor-pointer pr-7 text-slate-800 dark:text-slate-300"
         @change="onThresholdUnitChange"
       >
         <option
@@ -56,9 +62,9 @@ export default {
       thresholdTime: this.threshold || '',
       thresholdUnitValue: this.thresholdUnit,
       options: [
-        { value: 'Minutes', label: 'Minutes' },
-        { value: 'Hours', label: 'Hours' },
-        { value: 'Days', label: 'Days' },
+        { value: 'Minutes', label: 'minutes' },
+        { value: 'Hours', label: 'hours' },
+        { value: 'Days', label: 'days' },
       ],
     };
   },

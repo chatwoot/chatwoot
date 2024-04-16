@@ -21,4 +21,33 @@ describe('#getters', () => {
       isFetchingMetrics: false,
     });
   });
+
+  it('getMeta', () => {
+    const state = {
+      meta: {
+        count: 0,
+        currentPage: 1,
+      },
+    };
+    expect(getters.getMeta(state)).toEqual({
+      count: 0,
+      currentPage: 1,
+    });
+  });
+
+  it('getMetrics', () => {
+    const state = {
+      metrics: {
+        numberOfConversations: 27,
+        numberOfSLAMisses: 25,
+        hitRate: '7.41%',
+      },
+    };
+
+    expect(getters.getMetrics(state)).toEqual({
+      numberOfConversations: 27,
+      numberOfSLAMisses: 25,
+      hitRate: '7.41%',
+    });
+  });
 });

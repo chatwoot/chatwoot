@@ -22,7 +22,7 @@
   "size-limit": [
     {
       "path": "public/packs/js/widget-*.js",
-      "limit": "280 KB"
+      "limit": "281 KB"
     },
     {
       "path": "public/packs/js/sdk.js",

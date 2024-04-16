@@ -83,7 +83,10 @@
         "CONVERSATION_CREATION": "Yeni bir konuşma oluşturulduğunda e-posta bildirimleri gönder",
         "CONVERSATION_MENTION": "Bir konuşmada adım geçtiğinde e-posta bildirimleri gönder",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Atanmış bir konuşmada yeni bir mesaj oluşturulduğunda e-posta bildirimleri gönder",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Katıldığım bir konuşmada yeni bir mesaj oluşturulduğunda e-posta bildirimleri gönder"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Katıldığım bir konuşmada yeni bir mesaj oluşturulduğunda e-posta bildirimleri gönder",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
       },
       "API": {
         "UPDATE_SUCCESS": "Bildirim tercihleriniz başarıyla güncellendi",
@@ -98,7 +101,10 @@
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Atanmış bir konuşmada yeni bir mesaj oluşturulduğunda anlık bildirimler gönderin",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Katıldığım bir konuşmada yeni bir mesaj oluşturulduğunda anlık bildirimler gönderin",
         "HAS_ENABLED_PUSH": "Bu tarayıcı için bildirim özelliğini etkinleştirdiniz.",
-        "REQUEST_PUSH": "Bildirimlerini etkinleştirin"
+        "REQUEST_PUSH": "Bildirimlerini etkinleştirin",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profil Resmi"
@@ -199,6 +205,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Şu an görüntülüyor:",
     "SWITCH": "Değiştir",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Konuşmalar",
     "INBOX": "Gelen Kutusu",
     "ALL_CONVERSATIONS": "Tüm Görüşmeler",
@@ -237,6 +244,8 @@
     "CAMPAIGNS": "Kampanyalar",
     "ONGOING": "Devam Eden",
     "ONE_OFF": "Tek Seferlik",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Kullanıcılar",
     "REPORTS_LABEL": "Etiketler",
     "REPORTS_INBOX": "Gelen kutusu",

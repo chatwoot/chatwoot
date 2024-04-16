@@ -296,6 +296,8 @@
     "BUTTON": "Pridať vlastné atribúty",
     "NOT_AVAILABLE": "Pre tento kontakt nie sú k dispozícii žiadne vlastné atribúty.",
     "COPY_SUCCESSFUL": "Úspešne nakopírované",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Kopírovať atribút",
       "DELETE": "Vymazaž atribút",

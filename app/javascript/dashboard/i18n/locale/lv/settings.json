@@ -83,7 +83,10 @@
         "CONVERSATION_CREATION": "Nosūtīt e -pasta paziņojumus, kad tiek izveidota jauna saruna",
         "CONVERSATION_MENTION": "Nosūtīt e -pasta paziņojumus, kad tiekat pieminēts sarunā",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nosūtīt e -pasta paziņojumus, kad piešķirtā sarunā tiek izveidots jauns ziņojums",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Sūtīt e-pasta paziņojumus, kad sarunā tiek izveidots jauns ziņojums"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Sūtīt e-pasta paziņojumus, kad sarunā tiek izveidots jauns ziņojums",
+        "SLA_MISSED_FIRST_RESPONSE": "Nosūtīt e-pasta paziņojumus, ja sarunā tiek nokavēts pirmās atbildes SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Nosūtīt e-pasta paziņojumus, ja sarunā tiek nokavēts nākamās atbildes SLA",
+        "SLA_MISSED_RESOLUTION": "Nosūtīt e-pasta paziņojumus, ja sarunā tiek nokavēts atrisināšanas SLA"
       },
       "API": {
         "UPDATE_SUCCESS": "Jūsu paziņojumu preferences ir veiksmīgi atjauninātas",
@@ -98,7 +101,10 @@
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nosūtīt push paziņojumus, kad piešķirtā sarunā tiek izveidots jauns ziņojums",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Sūtīt push paziņojumus, kad sarunā tiek izveidots jauns ziņojums",
         "HAS_ENABLED_PUSH": "Jūs esat iespējojis push šajā pārlūkprogrammā.",
-        "REQUEST_PUSH": "Iespējot push paziņojumus"
+        "REQUEST_PUSH": "Iespējot push paziņojumus",
+        "SLA_MISSED_FIRST_RESPONSE": "Nosūtīt push paziņojumus, ja sarunā tiek nokavēts pirmās atbildes SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Nosūtīt push paziņojumus, ja sarunā tiek nokavēts nākamās atbildes SLA",
+        "SLA_MISSED_RESOLUTION": "Nosūtīt push paziņojumus, ja sarunā tiek nokavēts atrisināšanas SLA"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profila Attēls"
@@ -199,6 +205,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Pašlaik skatās:",
     "SWITCH": "Pārslēgt",
+    "INBOX_VIEW": "Iesūtnes Skats",
     "CONVERSATIONS": "Sarunas",
     "INBOX": "Iesūtne",
     "ALL_CONVERSATIONS": "Visas Sarunas",
@@ -237,6 +244,8 @@
     "CAMPAIGNS": "Kampaņas",
     "ONGOING": "Notiekošs",
     "ONE_OFF": "Vienreizējs",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Aģenti",
     "REPORTS_LABEL": "Etiķetes",
     "REPORTS_INBOX": "Iesūtne",
