@@ -1,37 +1,49 @@
-import {
-  isActiveElementTypeable,
-  isEscape,
-  buildHotKeys,
-} from '../helpers/KeyboardHelpers';
+import { isActiveElementTypeable, isEscape } from '../helpers/KeyboardHelpers';
+
+import { createKeybindingsHandler } from 'tinykeys';
 
 export default {
+  data() {
+    return {
+      keyboardHandler: null,
+    };
+  },
   mounted() {
-    document.addEventListener('keydown', this.onKeyDownHandler);
+    const events = this.getKeyboardEvents();
+    if (events) {
+      const wrappedEvents = this.wrapEventsInKeybindingsHandler(events);
+      this.keyboardHandler = createKeybindingsHandler(wrappedEvents);
+      document.addEventListener('keydown', this.keyboardHandler);
+    }
   },
   beforeDestroy() {
-    document.removeEventListener('keydown', this.onKeyDownHandler);
+    document.removeEventListener('keydown', this.keyboardHandler);
   },
   methods: {
-    onKeyDownHandler(e) {
-      const isTypeable = isActiveElementTypeable(e);
+    getKeyboardEvents() {
+      return null;
+    },
+    wrapEventsInKeybindingsHandler(events) {
+      const wrappedEvents = {};
+      Object.keys(events).forEach(eventName => {
+        wrappedEvents[eventName] = this.keydownWrapper(events[eventName]);
+      });
 
-      if (isTypeable) {
-        if (isEscape(e)) {
-          e.target.blur();
-        }
+      return wrappedEvents;
+    },
+    keydownWrapper(handler) {
+      return e => {
+        const isTypeable = isActiveElementTypeable(e);
 
-        const hasPressedCommandPlusAltAndEKey =
-          buildHotKeys(e) === 'alt+meta+e';
-
-        // Added this to blur the input field when the user presses Command + Option + E (Mac) or Ctrl + Alt + E (Windows)
-        // Only case for Resolve conversation and open next conversation in the list
-        if (!hasPressedCommandPlusAltAndEKey) {
+        if (isTypeable) {
+          if (isEscape(e)) {
+            e.target.blur();
+          }
           return;
         }
-        e.target.blur();
-      }
 
-      this.handleKeyEvents(e);
+        handler(e);
+      };
     },
   },
 };
