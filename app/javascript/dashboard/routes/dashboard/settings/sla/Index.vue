@@ -87,6 +87,7 @@ export default {
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       records: 'sla/getSLA',
       currentUser: 'getCurrentUser',
+      accountId: 'getCurrentAccountId',
       uiFlags: 'sla/getUIFlags',
     }),
     deleteConfirmText() {
@@ -99,7 +100,7 @@ export default {
       return ` ${this.selectedResponse.name}`;
     },
     isBehindAPaywall() {
-      return !this.isFeatureEnabledonAccount('sla');
+      return !this.isFeatureEnabledonAccount(this.accountId, 'sla');
     },
     isSuperAdmin() {
       return this.currentUser.type === 'SuperAdmin';
@@ -110,13 +111,10 @@ export default {
   },
   methods: {
     openAddPopup() {
+      if (this.isBehindAPaywall) {
+        return;
+      }
       this.showAddPopup = true;
-    },
-    currentPlan() {
-      const account = this.getAccount(this.accountId);
-      if (!account) return '';
-
-      return account.custom_attributes?.plan_name || '';
     },
     hideAddPopup() {
       this.showAddPopup = false;
