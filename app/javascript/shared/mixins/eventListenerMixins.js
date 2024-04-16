@@ -41,16 +41,23 @@ export default {
     },
     keydownWrapper(handler) {
       return e => {
+        const actionToPerform =
+          typeof handler === 'function' ? handler : handler.action;
+        const allowOnFocusedInput =
+          typeof handler === 'function' ? false : handler.allowOnFocusedInput;
+
         const isTypeable = isActiveElementTypeable(e);
 
         if (isTypeable) {
           if (isEscape(e)) {
             e.target.blur();
           }
-          return;
+
+          if (!allowOnFocusedInput) return;
+          e.target.blur();
         }
 
-        handler(e);
+        actionToPerform(e);
       };
     },
   },

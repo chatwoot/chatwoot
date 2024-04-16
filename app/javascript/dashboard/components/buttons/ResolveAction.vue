@@ -157,8 +157,9 @@ export default {
   methods: {
     getKeyboardEvents() {
       return {
-        'Alt+KeyM': () => {
-          this.$refs.arrowDownButton?.$el.click();
+        'Alt+KeyM': {
+          action: () => this.$refs.arrowDownButton?.$el.click(),
+          allowOnFocusedInput: true,
         },
         'Alt+KeyE': this.resolveOrToast,
         '$mod+Alt+KeyE': async event => {
