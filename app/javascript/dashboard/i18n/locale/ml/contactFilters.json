@@ -44,7 +44,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Created At",
       "LAST_ACTIVITY": "അവസാന പ്രവർത്തനം",
-      "REFERER_LINK": "Referrer link"
+      "REFERER_LINK": "Referrer link",
+      "BLOCKED": "Blocked"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard Filters",
