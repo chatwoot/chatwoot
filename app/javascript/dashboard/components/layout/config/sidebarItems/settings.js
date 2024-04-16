@@ -143,14 +143,6 @@ const settings = accountId => ({
       featureFlag: FEATURE_FLAGS.INTEGRATIONS,
     },
     {
-      icon: 'credit-card-person',
-      label: 'BILLING',
-      hasSubMenu: false,
-      toState: frontendURL(`accounts/${accountId}/settings/billing`),
-      toStateName: 'billing_settings_index',
-      showOnlyOnCloud: true,
-    },
-    {
       icon: 'key',
       label: 'AUDIT_LOGS',
       hasSubMenu: false,
@@ -169,6 +161,14 @@ const settings = accountId => ({
       isEnterpriseOnly: true,
       featureFlag: FEATURE_FLAGS.SLA,
       beta: true,
+    },
+    {
+      icon: 'credit-card-person',
+      label: 'BILLING',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/settings/billing`),
+      toStateName: 'billing_settings_index',
+      showOnlyOnCloud: true,
     },
   ],
 });
