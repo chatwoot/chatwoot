@@ -10,7 +10,10 @@
       <SLAListItemLoading v-for="ii in 2" :key="ii" class="mb-3" />
     </template>
     <template #body>
-      <SLAPaywall v-if="isBehindAPaywall" :is-admin="isAdmin" />
+      <SLAPaywallEnterprise
+        v-if="isBehindAPaywall || true"
+        :is-admin="isSuperAdmin"
+      />
       <SLAEmptyState
         v-else-if="!records.length"
         @primary-action="openAddPopup"
@@ -54,12 +57,12 @@ import SLAEmptyState from './components/SLAEmptyState.vue';
 import SLAHeader from './components/SLAHeader.vue';
 import SLAListItem from './components/SLAListItem.vue';
 import SLAListItemLoading from './components/SLAListItemLoading.vue';
-import SLAPaywall from './components/SLAPaywall.vue';
+import SLAPaywallEnterprise from './components/SLAPaywallEnterprise.vue';
 
 import { mapGetters } from 'vuex';
 import { convertSecondsToTimeUnit } from '@chatwoot/utils';
 import alertMixin from 'shared/mixins/alertMixin';
-import adminMixin from 'dashboard/mixins/isAdmin';
+import configMixin from 'shared/mixins/configMixin';
 
 export default {
   components: {
@@ -69,9 +72,9 @@ export default {
     SLAHeader,
     SLAListItem,
     SLAListItemLoading,
-    SLAPaywall,
+    SLAPaywallEnterprise,
   },
-  mixins: [alertMixin, adminMixin],
+  mixins: [alertMixin, configMixin],
   data() {
     return {
       loading: {},
@@ -84,10 +87,8 @@ export default {
     ...mapGetters({
       isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
       records: 'sla/getSLA',
+      currentUser: 'getCurrentUser',
       uiFlags: 'sla/getUIFlags',
-      accountId: 'getCurrentAccountId',
-      getAccount: 'accounts/getAccount',
-      isTrialAccount: 'accounts/isTrialAccount',
     }),
     deleteConfirmText() {
       return this.$t('SLA.DELETE.CONFIRM.YES');
@@ -99,17 +100,10 @@ export default {
       return ` ${this.selectedResponse.name}`;
     },
     isBehindAPaywall() {
-      if (!this.isOnChatwootCloud) {
-        return false;
-      }
-
-      const isTrial = this.isTrialAccount(this.accountId);
-      if (isTrial) return false;
-
-      const currentPlan = this.currentPlan();
-      if (!currentPlan) return true;
-
-      return ['Hacker', 'Startup'].includes(currentPlan);
+      return this.isEnterprise && this.enterprisePlanName === 'community';
+    },
+    isSuperAdmin() {
+      return this.currentUser.type === 'SuperAdmin';
     },
   },
   mounted() {
