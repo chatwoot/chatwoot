@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "غفوة حتى الغد",
       "SNOOZED_UNTIL_NEXT_WEEK": "غفوة حتى الأسبوع القادم",
-      "SNOOZED_UNTIL_NEXT_REPLY": "غفوة حتى الرد التالي"
+      "SNOOZED_UNTIL_NEXT_REPLY": "غفوة حتى الرد التالي",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "تحديد كمعلق",

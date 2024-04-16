@@ -1,22 +1,31 @@
 {
   "SLA": {
     "HEADER": "SLA",
-    "HEADER_BTN_TXT": "Adicionar SLA",
+    "ADD_ACTION": "Adicionar SLA",
+    "ADD_ACTION_LONG": "Criar uma nova Política de SLA",
+    "DESCRIPTION": "Service Level Agreements (SLA) são contratos que definem expectativas claras entre a sua equipa e os clientes. Estabelecem normas para tempos de resposta e de resolução, criando um quadro de responsabilização e garantindo uma experiência coerente e de qualidade.",
+    "LEARN_MORE": "Saiba mais sobre SLA",
     "LOADING": "A carregar SLAs",
-    "SEARCH_404": "Não existem itens correspondentes a esta consulta",
-    "SIDEBAR_TXT": "<p><b>SLA</b> <p>Pense nos Service Level Agreements (SLA) como acordos entre um fornecedor de serviço e um cliente.</p> <p> Estes acordos definem expectativas claras para parâmetros como a rapidez com que a equipa responderá a pedidos de suporte, garantindo os níveis de qualidade de serviço esperados!</p>",
     "LIST": {
       "404": "Não há SLAs disponíveis nesta conta.",
-      "TITLE": "Gerir SLA",
-      "DESC": "SLAS: Acordos para um ótimo serviço!",
-      "TABLE_HEADER": [
-        "Nome:",
-        "Descrição",
-        "FRT",
-        "NRT",
-        "RT",
-        "Horário comercial"
-      ]
+      "EMPTY": {
+        "TITLE_1": "Empresa P0",
+        "DESC_1": "Questões levantadas pelos clientes empresariais que requerem atenção imediata.",
+        "TITLE_2": "Empresa P1",
+        "DESC_2": "Questões levantadas pelos clientes empresariais, que têm de ser rapidamente reconhecidas."
+      },
+      "BUSINESS_HOURS_ON": "Horário comercial ativado",
+      "BUSINESS_HOURS_OFF": "Horário comercial desativado",
+      "RESPONSE_TYPES": {
+        "FRT": "Limite de tempo da primeira resposta",
+        "NRT": "Limite de tempo da próxima resposta",
+        "RT": "Limite de tempo de resolução",
+        "SHORT_HAND": {
+          "FRT": "FRT",
+          "NRT": "NRT",
+          "RT": "RT"
+        }
+      }
     },
     "FORM": {
       "NAME": {
@@ -56,18 +65,32 @@
     },
     "ADD": {
       "TITLE": "Adicionar SLA",
-      "DESC": "SLAS: Acordos para um ótimo serviço!",
+      "DESC": "Friendly promises for great service!",
       "API": {
         "SUCCESS_MESSAGE": "SLA adicionado",
         "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
       }
     },
-    "EDIT": {
-      "TITLE": "Editar SLA",
+    "DELETE": {
+      "TITLE": "Apagar SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA atualizado",
+        "SUCCESS_MESSAGE": "SLA apagado",
         "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirmar Exclusão",
+        "MESSAGE": "Tem a certeza que quer apagar ",
+        "YES": "Sim, excluir ",
+        "NO": "Não, Manter "
       }
+    },
+    "EVENTS": {
+      "TITLE": "SLA Misses",
+      "FRT": "Primeiro tempo de resposta",
+      "NRT": "Next response time",
+      "RT": "Resolution time",
+      "SHOW_MORE": "{count} more",
+      "HIDE": "Hide {count} rows"
     }
   }
 }

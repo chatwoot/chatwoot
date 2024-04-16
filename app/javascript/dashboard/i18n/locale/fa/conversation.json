@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "به تعویق افتاده تا",
       "SNOOZED_UNTIL_TOMORROW": "تا فردا به تعویق افتاد",
       "SNOOZED_UNTIL_NEXT_WEEK": "تا هفته آینده به تعویق افتاد",
-      "SNOOZED_UNTIL_NEXT_REPLY": "تا پاسخ بعدی به تعویق افتاد"
+      "SNOOZED_UNTIL_NEXT_REPLY": "تا پاسخ بعدی به تعویق افتاد",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "علامت گذاری به عنوان در انتظار",

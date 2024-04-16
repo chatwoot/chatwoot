@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Відкладено до",
       "SNOOZED_UNTIL_TOMORROW": "Відкладено до завтра",
       "SNOOZED_UNTIL_NEXT_WEEK": "Відкладено до наступного тижня",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Відкладено до наступної відповіді"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Відкладено до наступної відповіді",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Позначити як \"В очікуванні\"",

@@ -4,24 +4,28 @@
       "TITLE": "صندوق ورودی",
       "DISPLAY_DROPDOWN": "Display",
       "LOADING": "Fetching notifications",
-      "EOF": "همه اعلان ها بارگیری شدند 🎉",
       "404": "There are no active notifications in this group.",
       "NO_NOTIFICATIONS": "No notifications",
       "NOTE": "آگاه‌سازی‌ها از همه صندوق‌های ورودی مشترک",
+      "NO_MESSAGES_AVAILABLE": "Oops! Not able to fetch messages",
       "SNOOZED_UNTIL": "به تعویق افتاده تا",
       "SNOOZED_UNTIL_TOMORROW": "تا فردا به تعویق افتاد",
       "SNOOZED_UNTIL_NEXT_WEEK": "تا هفته آینده به تعویق افتاد"
     },
     "ACTION_HEADER": {
       "SNOOZE": "به تعویق انداختن آگاه‌سازی",
-      "DELETE": "حذف آگاه‌سازی"
+      "DELETE": "حذف آگاه‌سازی",
+      "BACK": "بازگشت"
     },
     "TYPES": {
       "CONVERSATION_MENTION": "You have been mentioned in a conversation",
       "CONVERSATION_CREATION": "New conversation created",
       "CONVERSATION_ASSIGNMENT": "A conversation has been assigned to you",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "New message in an assigned conversation",
-      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "New message in a conversation you are participating in"
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "New message in a conversation you are participating in",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA target first response missed for conversation",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA target next response missed for conversation",
+      "SLA_MISSED_RESOLUTION": "SLA target resolution missed for conversation"
     },
     "MENU_ITEM": {
       "MARK_AS_READ": "Mark as read",

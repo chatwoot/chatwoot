@@ -87,7 +87,10 @@
       "conversation_assignment": "Przypisanie rozmowy",
       "assigned_conversation_new_message": "Nowa wiadomość",
       "participating_conversation_new_message": "Nowa wiadomość",
-      "conversation_mention": "Wzmianka"
+      "conversation_mention": "Wzmianka",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {

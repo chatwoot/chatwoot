@@ -35,9 +35,17 @@
         "NAME": "Contagem de Resolução",
         "DESC": "( Total )"
       },
+      "BOT_RESOLUTION_COUNT": {
+        "NAME": "Contagem de Resolução",
+        "DESC": "( Total )"
+      },
+      "BOT_HANDOFF_COUNT": {
+        "NAME": "Contagem de transferências",
+        "DESC": "( Total )"
+      },
       "REPLY_TIME": {
         "NAME": "Tempo de espera do cliente",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "TOOLTIP_TEXT": "O tempo de espera é %{metricValue} (com base em %{conversationCount} respostas)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -130,7 +138,11 @@
         "groupBy": "Mês"
       }
     ],
-    "BUSINESS_HOURS": "Horários de funcionamento"
+    "BUSINESS_HOURS": "Horários de funcionamento",
+    "FILTER_ACTIONS": {
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "Nenhum resultado encontrado"
+    }
   },
   "AGENT_REPORTS": {
     "HEADER": "Visão Geral de Agentes",
@@ -433,6 +445,27 @@
       }
     }
   },
+  "BOT_REPORTS": {
+    "HEADER": "Relatórios do Bot",
+    "METRIC": {
+      "TOTAL_CONVERSATIONS": {
+        "LABEL": "Nº de Conversas",
+        "TOOLTIP": "Número total de conversas tratadas pelo bot"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total de respostas",
+        "TOOLTIP": "Número total de respostas enviadas pelo bot"
+      },
+      "RESOLUTION_RATE": {
+        "LABEL": "Tempo de resolução",
+        "TOOLTIP": "Número total de conversas resolvidas pelo bot / número total de conversas manipuladas pelo bot * 100"
+      },
+      "HANDOFF_RATE": {
+        "LABEL": "Taxa de entrega",
+        "TOOLTIP": "Número total de conversas entregues a agentes / número total de conversas mantidas pelo bot * 100"
+      }
+    }
+  },
   "OVERVIEW_REPORTS": {
     "HEADER": "Visão geral",
     "LIVE": "Disponível",
@@ -476,5 +509,54 @@
     "THURSDAY": "Quinta-feira",
     "FRIDAY": "Sexta-feira",
     "SATURDAY": "Sábado"
+  },
+  "SLA_REPORTS": {
+    "HEADER": "SLA Reports",
+    "NO_RECORDS": "SLA applied conversations are not available.",
+    "LOADING": "Loading SLA data...",
+    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
+    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "DROPDOWN": {
+      "ADD_FIlTER": "Adicionar filtro",
+      "CLEAR_ALL": "Clear all",
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "Nenhum resultado encontrado",
+      "NO_FILTER": "No filters available",
+      "SEARCH": "Search filter",
+      "INPUT_PLACEHOLDER": {
+        "SLA": "SLA name",
+        "AGENTS": "Nome do Agente",
+        "INBOXES": "Nome da Caixa de Entrada",
+        "LABELS": "Nome do marcador",
+        "TEAMS": "Nome do departamento"
+      },
+      "SLA": "Política SLA",
+      "INBOXES": "Caixa de Entrada",
+      "AGENTS": "Agente",
+      "LABELS": "Nome do campo",
+      "TEAMS": "Times"
+    },
+    "METRICS": {
+      "HIT_RATE": {
+        "LABEL": "Hit Rate",
+        "TOOLTIP": "Percentage of SLAs created were completed successfully"
+      },
+      "NO_OF_MISSES": {
+        "LABEL": "Number of Misses",
+        "TOOLTIP": "Total SLA misses in a certain period"
+      },
+      "NO_OF_CONVERSATIONS": {
+        "LABEL": "Number of Conversations",
+        "TOOLTIP": "Total number of conversations with SLA"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "POLICY": "Policy",
+        "CONVERSATION": "Conversas",
+        "AGENT": "Agente"
+      },
+      "VIEW_DETAILS": "View Details"
+    }
   }
 }
