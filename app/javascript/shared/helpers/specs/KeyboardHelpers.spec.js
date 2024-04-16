@@ -33,10 +33,17 @@ describe('#KeyboardHelpers', () => {
   });
 
   describe('#buildHotKeys', () => {
+    const altEvent = new KeyboardEvent('keydown', {
+      altKey: true,
+      code: 'Alt',
+    });
+
+    // TODO: replace this with the rest later
+
     it('returns hot keys', () => {
-      expect(buildHotKeys({ altKey: true, key: 'alt' })).toEqual('alt');
-      expect(buildHotKeys({ ctrlKey: true, key: 'a' })).toEqual('ctrl+a');
-      expect(buildHotKeys({ metaKey: true, key: 'b' })).toEqual('meta+b');
+      expect(buildHotKeys(altEvent)).toEqual('alt');
+      expect(buildHotKeys({ ctrlKey: true, code: 'KeyA' })).toEqual('ctrl+a');
+      expect(buildHotKeys({ metaKey: true, code: 'KeyA' })).toEqual('meta+b');
     });
   });
 });
