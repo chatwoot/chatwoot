@@ -83,6 +83,7 @@ describe('#SLAReports API', () => {
         inbox_id: 1,
         team_id: 1,
         sla_policy_id: 1,
+        label_list: ['label1'],
       });
       expect(axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/applied_slas/download',
@@ -94,6 +95,7 @@ describe('#SLAReports API', () => {
             inbox_id: 1,
             team_id: 1,
             sla_policy_id: 1,
+            label_list: ['label1'],
           },
         }
       );
