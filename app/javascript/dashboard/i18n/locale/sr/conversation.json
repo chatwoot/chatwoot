@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Odloženo do sutra",
       "SNOOZED_UNTIL_NEXT_WEEK": "Odloženo do sledeće nedelje",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Odloženo do sledećeg odgovora"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Odloženo do sledećeg odgovora",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Označeno na čekanju",

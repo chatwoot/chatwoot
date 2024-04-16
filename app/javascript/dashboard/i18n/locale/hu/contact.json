@@ -296,6 +296,8 @@
     "BUTTON": "Speciális attribútum hozzáadása",
     "NOT_AVAILABLE": "Ehhez a névjegyhez nem állnak rendelkezésre egyéni tulajdonságok.",
     "COPY_SUCCESSFUL": "Vágólapra másolva",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Attribútum másolása",
       "DELETE": "Attribútum törlése",

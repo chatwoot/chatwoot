@@ -1,22 +1,31 @@
 {
   "SLA": {
     "HEADER": "SLA",
-    "HEADER_BTN_TXT": "Добавить SLA",
+    "ADD_ACTION": "Добавить SLA",
+    "ADD_ACTION_LONG": "Create a new SLA Policy",
+    "DESCRIPTION": "Service Level Agreements (SLAs) are contracts that define clear expectations between your team and customers. They establish standards for response and resolution times, creating a framework for accountability and ensures a consistent, high-quality experience.",
+    "LEARN_MORE": "Learn more about SLA",
     "LOADING": "Получение SLA",
-    "SEARCH_404": "Нет вебхуков, соответствующих запросу",
-    "SIDEBAR_TXT": "<p><b>SLA</b> <p>Подумайте о соглашениях об уровне обслуживания (SLA) как о дружественных обещаниях между поставщиком услуг и клиентом.</p> <p> Эти обещания устанавливают четкие ожидания в отношении таких вещей, как быстрое реагирование команды на проблемы, Вы всегда получите надежный и высококлассный опыт!</p>",
     "LIST": {
       "404": "В этой учетной записи нет доступных SLA.",
-      "TITLE": "Настроить SLA",
-      "DESC": "SLAs: Дружеские обещания для отличного обслуживания!",
-      "TABLE_HEADER": [
-        "Имя",
-        "Описание",
-        "FRT",
-        "NRT",
-        "RT",
-        "Время работы"
-      ]
+      "EMPTY": {
+        "TITLE_1": "Enterprise P0",
+        "DESC_1": "Issues raised by enterprise customers, that require immediate attention.",
+        "TITLE_2": "Enterprise P1",
+        "DESC_2": "Issues raised by enterprise customers, that needs to be acknowledged quickly."
+      },
+      "BUSINESS_HOURS_ON": "Время работы включено",
+      "BUSINESS_HOURS_OFF": "Время работы выключено",
+      "RESPONSE_TYPES": {
+        "FRT": "Порог времени первого ответа",
+        "NRT": "Порог времени следующего ответа",
+        "RT": "Порог времени решения",
+        "SHORT_HAND": {
+          "FRT": "FRT",
+          "NRT": "NRT",
+          "RT": "RT"
+        }
+      }
     },
     "FORM": {
       "NAME": {
@@ -56,18 +65,32 @@
     },
     "ADD": {
       "TITLE": "Добавить SLA",
-      "DESC": "SLAs: Дружеские обещания для отличного обслуживания!",
+      "DESC": "Friendly promises for great service!",
       "API": {
         "SUCCESS_MESSAGE": "SLA успешно добавлено",
         "ERROR_MESSAGE": "Произошла ошибка, попробуйте еще раз"
       }
     },
-    "EDIT": {
-      "TITLE": "Редактировать SLA",
+    "DELETE": {
+      "TITLE": "Delete SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA успешно обновлено",
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
         "ERROR_MESSAGE": "Произошла ошибка, попробуйте еще раз"
+      },
+      "CONFIRM": {
+        "TITLE": "Подтвердите удаление",
+        "MESSAGE": "Are you sure you want to delete ",
+        "YES": "Да, удалить ",
+        "NO": "Нет, не удалять "
       }
+    },
+    "EVENTS": {
+      "TITLE": "SLA Misses",
+      "FRT": "Время первого ответа",
+      "NRT": "Next response time",
+      "RT": "Resolution time",
+      "SHOW_MORE": "{count} more",
+      "HIDE": "Hide {count} rows"
     }
   }
 }

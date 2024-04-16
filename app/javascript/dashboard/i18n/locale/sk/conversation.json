@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Odložené do zajtra",
       "SNOOZED_UNTIL_NEXT_WEEK": "Odložené do ďalšieho týždňa",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Odložené do ďalšej odpovede"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Odložené do ďalšej odpovede",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Označiť ako čakajúce na vybavenie",

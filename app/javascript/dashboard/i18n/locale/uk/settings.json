@@ -83,7 +83,10 @@
         "CONVERSATION_CREATION": "Надсилати сповіщення при створенні нової бесіди",
         "CONVERSATION_MENTION": "Надсилати сповіщення електронною поштою, коли вас згадують в розмові",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Надсилати сповіщення при створенні нового повідомлення у призначеній розмові",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Надсилати поштові листи, коли нове повідомлення створюється в призначеній розмові"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Надсилати поштові листи, коли нове повідомлення створюється в призначеній розмові",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
       },
       "API": {
         "UPDATE_SUCCESS": "Налаштування сповіщень для вашого акаунту оновлено успішно",
@@ -98,7 +101,10 @@
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Надсилати push-повідомлення, коли нове повідомлення створюється в призначеній розмові",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Надсилати push-повідомлення, коли нове повідомлення створюється в призначеній розмові",
         "HAS_ENABLED_PUSH": "Ви увімкнули push для цього браузера.",
-        "REQUEST_PUSH": "Увімкнути push-сповіщення"
+        "REQUEST_PUSH": "Увімкнути push-сповіщення",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Зображення облікового запису"
@@ -199,6 +205,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Зараз переглядається:",
     "SWITCH": "Перемкнути",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Бесіди",
     "INBOX": "Вхідні",
     "ALL_CONVERSATIONS": "Всі розмови",
@@ -237,6 +244,8 @@
     "CAMPAIGNS": "Розсилки",
     "ONGOING": "У процесі",
     "ONE_OFF": "Один з",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Бот",
     "REPORTS_AGENT": "Агенти",
     "REPORTS_LABEL": "Мітки",
     "REPORTS_INBOX": "Канал",

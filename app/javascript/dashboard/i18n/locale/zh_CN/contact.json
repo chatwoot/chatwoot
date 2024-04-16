@@ -15,7 +15,7 @@
     "INITIATED_FROM": "启动自：",
     "INITIATED_AT": "发起于",
     "IP_ADDRESS": "IP 地址",
-    "CREATED_AT_LABEL": "Created",
+    "CREATED_AT_LABEL": "创建时间",
     "NEW_MESSAGE": "新消息",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "此联系人没有关联到以前的会话。",
@@ -34,15 +34,15 @@
         "TITLE": "添加标签",
         "PLACEHOLDER": "搜索标签",
         "NO_RESULT": "未找到标签",
-        "CREATE_LABEL": "Create new label"
+        "CREATE_LABEL": "创建新标签"
       }
     },
     "MERGE_CONTACT": "合并联系人",
     "CONTACT_ACTIONS": "联系人操作",
-    "MUTE_CONTACT": "Block Contact",
-    "UNMUTE_CONTACT": "Unblock Contact",
-    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
-    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
+    "MUTE_CONTACT": "屏蔽联系人",
+    "UNMUTE_CONTACT": "解除屏蔽联系人",
+    "MUTED_SUCCESS": "已成功屏蔽此联系人。您将不会收到任何未来对话的通知。",
+    "UNMUTED_SUCCESS": "此联系人已成功解除屏蔽。",
     "SEND_TRANSCRIPT": "发送客服记录",
     "EDIT_LABEL": "编辑",
     "SIDEBAR_SECTIONS": {
@@ -71,20 +71,20 @@
       "SUBMIT": "导入",
       "CANCEL": "取消"
     },
-    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "SUCCESS_MESSAGE": "导入完成时将通过电子邮件通知您。",
     "ERROR_MESSAGE": "出现错误，请重试"
   },
   "EXPORT_CONTACTS": {
-    "BUTTON_LABEL": "Export",
-    "TITLE": "Export Contacts",
-    "DESC": "Export contacts to a CSV file.",
+    "BUTTON_LABEL": "导出",
+    "TITLE": "导出联系人",
+    "DESC": "导出联系人到 CSV 文件。",
     "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
     "ERROR_MESSAGE": "出现错误，请重试",
     "CONFIRM": {
-      "TITLE": "Export Contacts",
-      "MESSAGE": "Are you sure you want to export all contacts?",
-      "YES": "Yes, Export",
-      "NO": "No, Cancel"
+      "TITLE": "导出联系人",
+      "MESSAGE": "您确定要导出所有联系人吗？",
+      "YES": "是的，导出",
+      "NO": "否，取消"
     }
   },
   "DELETE_NOTE": {
@@ -134,9 +134,9 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "输入联系人的电话号码",
         "LABEL": "电话号码",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
+        "HELP": "电话号码应为E.164格式，例如+14155555 [+][国家代码][地区代码][本地电话号码]。您可以从下拉菜单中选择拨号代码。",
         "ERROR": "电话号码应为空或E.164格式",
-        "DIAL_CODE_ERROR": "Please select a dial code from the list",
+        "DIAL_CODE_ERROR": "请从列表中选择拨号代码",
         "DUPLICATE": "此电话号码正在用于另一个联系人。"
       },
       "LOCATION": {
@@ -148,15 +148,15 @@
         "LABEL": "公司名称"
       },
       "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
+        "PLACEHOLDER": "输入国家/地区名称",
         "LABEL": "国家",
-        "SELECT_PLACEHOLDER": "Select",
+        "SELECT_PLACEHOLDER": "选择",
         "REMOVE": "删除",
-        "SELECT_COUNTRY": "Select Country"
+        "SELECT_COUNTRY": "选择国家/地区"
       },
       "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
+        "PLACEHOLDER": "输入城市名称",
+        "LABEL": "城市名称"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -196,8 +196,8 @@
         "LABEL": "发送至"
       },
       "INBOX": {
-        "LABEL": "Via Inbox",
-        "PLACEHOLDER": "Choose source inbox",
+        "LABEL": "通过收件箱：",
+        "PLACEHOLDER": "选择来源收件箱",
         "ERROR": "选择一个收件箱"
       },
       "SUBJECT": {
@@ -211,8 +211,8 @@
         "ERROR": "消息不能为空"
       },
       "ATTACHMENTS": {
-        "SELECT": "Choose files",
-        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+        "SELECT": "选择文件",
+        "HELP_TEXT": "拖放文件到此处或选择要附加的文件"
       },
       "SUBMIT": "发送消息",
       "CANCEL": "取消",
@@ -229,7 +229,7 @@
     "FILTER_CONTACTS": "过滤器",
     "FILTER_CONTACTS_SAVE": "保存过滤器",
     "FILTER_CONTACTS_DELETE": "删除过滤器",
-    "FILTER_CONTACTS_EDIT": "Edit segment",
+    "FILTER_CONTACTS_EDIT": "编辑分段",
     "LIST": {
       "LOADING_MESSAGE": "正在加载联系人列表...",
       "404": "没有搜索到联系人🔍",
@@ -260,7 +260,7 @@
     },
     "FOOTER": {
       "DUE_DATE": "截止日期",
-      "LABEL_TITLE": "Set type"
+      "LABEL_TITLE": "设置类型"
     }
   },
   "NOTES": {
@@ -296,6 +296,8 @@
     "BUTTON": "添加自定义属性",
     "NOT_AVAILABLE": "此联系人没有可用的自定义属性。",
     "COPY_SUCCESSFUL": "已成功复制到剪贴板",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "复制属性",
       "DELETE": "删除属性",
@@ -346,7 +348,7 @@
     "VALIDATIONS": {
       "REQUIRED": "需要有效的值",
       "INVALID_URL": "无效的 URL",
-      "INVALID_INPUT": "Invalid Input"
+      "INVALID_INPUT": "无效输入"
     }
   },
   "MERGE_CONTACTS": {

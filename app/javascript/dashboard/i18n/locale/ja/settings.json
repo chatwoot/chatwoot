@@ -83,7 +83,10 @@
         "CONVERSATION_CREATION": "新しい会話が作成されたときにメールで通知を送信する",
         "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "割り当てられた会話で新しいメッセージが作成されたときにメールで通知を送信します",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
       },
       "API": {
         "UPDATE_SUCCESS": "通知設定が正常に更新されました",
@@ -98,7 +101,10 @@
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "割り当てられた会話で新しいメッセージが作成されたときにプッシュ通知を送信する",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "このブラウザーでプッシュ通知を有効にしました。",
-        "REQUEST_PUSH": "プッシュ通知を有効にする"
+        "REQUEST_PUSH": "プッシュ通知を有効にする",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
       },
       "PROFILE_IMAGE": {
         "LABEL": "プロフィール画像"
@@ -199,6 +205,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "会話データ",
     "INBOX": "Inbox",
     "ALL_CONVERSATIONS": "All Conversations",
@@ -237,6 +244,8 @@
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "担当者",
     "REPORTS_LABEL": "ラベル",
     "REPORTS_INBOX": "Inbox",

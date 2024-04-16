@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Amânare până la",
       "SNOOZED_UNTIL_TOMORROW": "Amânat până mâine",
       "SNOOZED_UNTIL_NEXT_WEEK": "Amânat până săptămâna viitoare",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Amânat până la următorul răspuns"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Amânat până la următorul răspuns",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Marchează ca în așteptare",
