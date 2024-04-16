@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Snooze tot",
       "SNOOZED_UNTIL_TOMORROW": "Snoozed tot morgen",
       "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed tot volgende week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed tot volgende antwoord"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed tot volgende antwoord",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Markeren als in afwachting van",

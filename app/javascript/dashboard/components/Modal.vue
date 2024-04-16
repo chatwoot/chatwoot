@@ -7,7 +7,13 @@
       @mousedown="handleMouseDown"
     >
       <div
-        :class="modalContainerClassName"
+        :class="{
+          'modal-container rtl:text-right shadow-md max-h-full overflow-auto relative bg-white dark:bg-slate-800 skip-context-menu': true,
+          'rounded-xl w-[37.5rem]': !fullWidth,
+          'items-center rounded-none flex h-full justify-center w-full':
+            fullWidth,
+          [size]: true,
+        }"
         @mouse.stop
         @mousedown="event => event.stopPropagation()"
       >
@@ -16,7 +22,7 @@
           color-scheme="secondary"
           icon="dismiss"
           variant="clear"
-          class="absolute ltr:right-2 rtl:left-2 top-2 z-10"
+          class="absolute z-10 ltr:right-2 rtl:left-2 top-2"
           @click="close"
         />
         <slot />
@@ -60,15 +66,6 @@ export default {
     };
   },
   computed: {
-    modalContainerClassName() {
-      let className =
-        'modal-container rtl:text-right shadow-md rounded-sm max-h-full overflow-auto relative w-[37.5rem] bg-white dark:bg-slate-800 skip-context-menu';
-      if (this.fullWidth) {
-        return `${className} items-center rounded-none flex h-full justify-center w-full`;
-      }
-
-      return `${className} ${this.size}`;
-    },
     modalClassName() {
       const modalClassNameMap = {
         centered: '',

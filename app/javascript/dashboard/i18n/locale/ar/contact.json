@@ -296,6 +296,8 @@
     "BUTTON": "إضافة سمة خاصة",
     "NOT_AVAILABLE": "لا توجد سمات مخصصة متاحة لجهة الاتصال هذه.",
     "COPY_SUCCESSFUL": "تم النسخ إلى الحافظة بنجاح",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "نسخ السمة",
       "DELETE": "حذف السمة",

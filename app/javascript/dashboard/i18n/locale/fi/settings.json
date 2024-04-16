@@ -83,7 +83,10 @@
         "CONVERSATION_CREATION": "Lähetä sähköposti-ilmoitus, kun keskustelu on määritetty minulle",
         "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Lähetä sähköposti-ilmoitus, kun uusi viesti saapuu minulle osoitettuun keskusteluun",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
       },
       "API": {
         "UPDATE_SUCCESS": "Ilmoitusasetuksesi päivitetään onnistuneesti",
@@ -98,7 +101,10 @@
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Lähetä push-ilmoitus, kun uusi viesti saapuu minulle osoitettuun keskusteluun",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Tämän selaimen push-ilmoitukset on otettu käyttöön.",
-        "REQUEST_PUSH": "Ota push-ilmoitukset käyttöön"
+        "REQUEST_PUSH": "Ota push-ilmoitukset käyttöön",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profiilikuva"
@@ -199,6 +205,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Keskustelut",
     "INBOX": "Inbox",
     "ALL_CONVERSATIONS": "All Conversations",
@@ -237,6 +244,8 @@
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Botti",
     "REPORTS_AGENT": "Edustajat",
     "REPORTS_LABEL": "Tunnisteet",
     "REPORTS_INBOX": "Inbox",
