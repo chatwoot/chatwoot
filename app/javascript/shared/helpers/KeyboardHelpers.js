@@ -112,7 +112,9 @@ export const hasPressedCommandPlusKKey = e => {
  * @returns {string} - The hotkey pattern string.
  */
 export const buildHotKeys = e => {
-  const key = e.key.toLowerCase();
+  // remove the prefix "key"
+  const key = e.code.toLowerCase().replace('key', '');
+
   if (['shift', 'meta', 'alt', 'control'].includes(key)) {
     return key;
   }

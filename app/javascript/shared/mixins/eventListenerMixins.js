@@ -1,7 +1,7 @@
 import {
   isActiveElementTypeable,
   isEscape,
-  hasPressedCommandPlusAltAndEKey,
+  buildHotKeys,
 } from '../helpers/KeyboardHelpers';
 
 export default {
@@ -19,9 +19,13 @@ export default {
         if (isEscape(e)) {
           e.target.blur();
         }
+
+        const hasPressedCommandPlusAltAndEKey =
+          buildHotKeys(e) === 'alt+meta+e';
+
         // Added this to blur the input field when the user presses Command + Option + E (Mac) or Ctrl + Alt + E (Windows)
         // Only case for Resolve conversation and open next conversation in the list
-        if (!hasPressedCommandPlusAltAndEKey(e)) {
+        if (!hasPressedCommandPlusAltAndEKey) {
           return;
         }
         e.target.blur();
