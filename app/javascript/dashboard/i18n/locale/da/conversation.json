@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Udsat til i morgen",
       "SNOOZED_UNTIL_NEXT_WEEK": "Udsat indtil næste uge",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Udsat indtil næste svar"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Udsat indtil næste svar",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Markér som afventende",

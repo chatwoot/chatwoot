@@ -63,6 +63,9 @@ el:
         name: δεν πρέπει να ξεκινά ή να τελειώνει με σύμβολα, και δεν πρέπει να περιέχει τους χαρακτήρες < > / \ @
     custom_filters:
       number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
+      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
+      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
+      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
   reports:
     period: Περίοδος αναφοράς %{since} έως %{until}
     utc_warning: The report generated is in UTC timezone
@@ -89,6 +92,15 @@ el:
       avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: Timezone
+    sla_csv:
+      conversation_id: Conversation ID
+      sla_policy_breached: SLA Policy
+      assignee: Assignee
+      team: Ομάδα
+      inbox: Εισερχόμενα
+      labels: Ετικέτες
+      conversation_link: Link to the Conversation
+      breached_events: Breached Events
     default_group_by: ημέρα
     csat:
       headers:
@@ -106,6 +118,9 @@ el:
       conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
       assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
       conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
+      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
+      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
     attachment: "Attachment"
     no_content: "No content"
   conversations:
@@ -139,6 +154,9 @@ el:
       labels:
         added: "Ο %{user_name} πρόσθεσε ετικέτες %{labels}"
         removed: "Ο %{user_name} αφαίρεσε τις ετικέτες %{labels}"
+      sla:
+        added: "%{user_name} added SLA policy %{sla_name}"
+        removed: "%{user_name} removed SLA policy %{sla_name}"
       muted: "Ο χρήστης %{user_name} σίγασε την συνομιλία"
       unmuted: "Ο χρήστης %{user_name} επανάφερε από την σίγαση την συνομιλία"
     templates:

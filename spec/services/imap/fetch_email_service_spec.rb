@@ -30,6 +30,7 @@ RSpec.describe Imap::FetchEmailService do
           allow(imap).to receive(:search).with(%w[SINCE 25-Oct-2020]).and_return([1])
           allow(imap).to receive(:fetch).with([1], 'BODY.PEEK[HEADER]').and_return([email_header])
           allow(imap).to receive(:fetch).with(1, 'RFC822').and_return([imap_fetch_mail])
+          allow(imap).to receive(:logout)
 
           result = described_class.new(channel: imap_email_channel).perform
 
@@ -39,6 +40,7 @@ RSpec.describe Imap::FetchEmailService do
           expect(imap).to have_received(:fetch).with([1], 'BODY.PEEK[HEADER]')
           expect(imap).to have_received(:fetch).with(1, 'RFC822')
           expect(logger).to have_received(:info).with("[IMAP::FETCH_EMAIL_SERVICE] Fetching mails from #{imap_email_channel.email}, found 1.")
+          expect(imap).to have_received(:logout)
         end
       end
 
@@ -51,6 +53,7 @@ RSpec.describe Imap::FetchEmailService do
 
           allow(imap).to receive(:search).with(%w[SINCE 25-Oct-2020]).and_return([1])
           allow(imap).to receive(:fetch).with([1], 'BODY.PEEK[HEADER]').and_return([email_header])
+          allow(imap).to receive(:logout)
 
           result = described_class.new(channel: imap_email_channel).perform
 

@@ -296,6 +296,8 @@
     "BUTTON": "افزودن ویژگی سفارشی",
     "NOT_AVAILABLE": "هیچ ویژگی سفارشی برای این مخاطب موجود نیست.",
     "COPY_SUCCESSFUL": "با موفقیت در کلیپ‌بورد کپی شد",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "کپی ویژگی",
       "DELETE": "حذف ویژگی",

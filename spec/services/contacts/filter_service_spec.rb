@@ -7,9 +7,9 @@ describe Contacts::FilterService do
   let!(:first_user) { create(:user, account: account) }
   let!(:second_user) { create(:user, account: account) }
   let!(:inbox) { create(:inbox, account: account, enable_auto_assignment: false) }
-  let(:en_contact) { create(:contact, account: account, additional_attributes: { 'browser_language': 'en' }) }
-  let(:el_contact) { create(:contact, account: account, additional_attributes: { 'browser_language': 'el' }) }
-  let(:cs_contact) { create(:contact, account: account, additional_attributes: { 'browser_language': 'cs' }) }
+  let!(:en_contact) { create(:contact, account: account, additional_attributes: { 'country_code': 'uk' }) }
+  let!(:el_contact) { create(:contact, account: account, additional_attributes: { 'country_code': 'gr' }) }
+  let!(:cs_contact) { create(:contact, account: account, additional_attributes: { 'country_code': 'cz' }) }
 
   before do
     create(:inbox_member, user: first_user, inbox: inbox)
@@ -37,6 +37,8 @@ describe Contacts::FilterService do
   end
 
   describe '#perform' do
+    let!(:params) { { payload: [], page: 1 } }
+
     before do
       en_contact.update_labels(%w[random_label support])
       cs_contact.update_labels('support')
@@ -46,90 +48,7 @@ describe Contacts::FilterService do
       cs_contact.update!(custom_attributes: { customer_type: 'platinum', signed_in_at: '2022-01-19' })
     end
 
-    context 'with query present' do
-      let!(:params) { { payload: [], page: 1 } }
-      let(:payload) do
-        [
-          {
-            attribute_key: 'browser_language',
-            filter_operator: 'equal_to',
-            values: ['en'],
-            query_operator: nil
-          }.with_indifferent_access
-        ]
-      end
-
-      context 'with label filter' do
-        it 'returns equal_to filter results properly' do
-          params[:payload] = [
-            {
-              attribute_key: 'labels',
-              filter_operator: 'equal_to',
-              values: ['support'],
-              query_operator: nil
-            }.with_indifferent_access
-          ]
-
-          result = filter_service.new(params, first_user).perform
-          expect(result[:contacts].length).to be 2
-          expect(result[:contacts].first.label_list).to include('support')
-          expect(result[:contacts].last.label_list).to include('support')
-        end
-
-        it 'returns not_equal_to filter results properly' do
-          params[:payload] = [
-            {
-              attribute_key: 'labels',
-              filter_operator: 'not_equal_to',
-              values: ['support'],
-              query_operator: nil
-            }.with_indifferent_access
-          ]
-
-          result = filter_service.new(params, first_user).perform
-          expect(result[:contacts].length).to be 1
-          expect(result[:contacts].first.id).to eq el_contact.id
-        end
-
-        it 'returns is_present filter results properly' do
-          params[:payload] = [
-            {
-              attribute_key: 'labels',
-              filter_operator: 'is_present',
-              values: [],
-              query_operator: nil
-            }.with_indifferent_access
-          ]
-
-          result = filter_service.new(params, first_user).perform
-          expect(result[:contacts].length).to be 2
-          expect(result[:contacts].first.label_list).to include('support')
-          expect(result[:contacts].last.label_list).to include('support')
-        end
-
-        it 'returns is_not_present filter results properly' do
-          params[:payload] = [
-            {
-              attribute_key: 'labels',
-              filter_operator: 'is_not_present',
-              values: [],
-              query_operator: nil
-            }.with_indifferent_access
-          ]
-
-          result = filter_service.new(params, first_user).perform
-          expect(result[:contacts].length).to be 1
-          expect(result[:contacts].first.id).to eq el_contact.id
-        end
-      end
-
-      it 'filter contacts by additional_attributes' do
-        params[:payload] = payload
-        result = filter_service.new(params, first_user).perform
-        expect(result[:count]).to be 1
-        expect(result[:contacts].first.id).to eq(en_contact.id)
-      end
-
+    context 'with standard attributes - name' do
       it 'filter contacts by name' do
         params[:payload] = [
           {
@@ -145,7 +64,168 @@ describe Contacts::FilterService do
         expect(result[:contacts].length).to be 1
         expect(result[:contacts].first.name).to eq(en_contact.name)
       end
+    end
 
+    context 'with standard attributes - blocked' do
+      it 'filter contacts by blocked' do
+        blocked_contact = create(:contact, account: account, blocked: true)
+        params = { payload: [{ attribute_key: 'blocked', filter_operator: 'equal_to', values: ['true'],
+                               query_operator: nil }.with_indifferent_access] }
+        result = filter_service.new(params, first_user).perform
+        expect(result[:count]).to be 1
+        expect(result[:contacts].first.id).to eq(blocked_contact.id)
+      end
+
+      it 'filter contacts by not_blocked' do
+        params = { payload: [{ attribute_key: 'blocked', filter_operator: 'equal_to', values: [false],
+                               query_operator: nil }.with_indifferent_access] }
+        result = filter_service.new(params, first_user).perform
+        # existing contacts are not blocked
+        expect(result[:count]).to be 3
+      end
+    end
+
+    context 'with standard attributes - label' do
+      it 'returns equal_to filter results properly' do
+        params[:payload] = [
+          {
+            attribute_key: 'labels',
+            filter_operator: 'equal_to',
+            values: ['support'],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        result = filter_service.new(params, first_user).perform
+        expect(result[:contacts].length).to be 2
+        expect(result[:contacts].first.label_list).to include('support')
+        expect(result[:contacts].last.label_list).to include('support')
+      end
+
+      it 'returns not_equal_to filter results properly' do
+        params[:payload] = [
+          {
+            attribute_key: 'labels',
+            filter_operator: 'not_equal_to',
+            values: ['support'],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        result = filter_service.new(params, first_user).perform
+        expect(result[:contacts].length).to be 1
+        expect(result[:contacts].first.id).to eq el_contact.id
+      end
+
+      it 'returns is_present filter results properly' do
+        params[:payload] = [
+          {
+            attribute_key: 'labels',
+            filter_operator: 'is_present',
+            values: [],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        result = filter_service.new(params, first_user).perform
+        expect(result[:contacts].length).to be 2
+        expect(result[:contacts].first.label_list).to include('support')
+        expect(result[:contacts].last.label_list).to include('support')
+      end
+
+      it 'returns is_not_present filter results properly' do
+        params[:payload] = [
+          {
+            attribute_key: 'labels',
+            filter_operator: 'is_not_present',
+            values: [],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        result = filter_service.new(params, first_user).perform
+        expect(result[:contacts].length).to be 1
+        expect(result[:contacts].first.id).to eq el_contact.id
+      end
+    end
+
+    context 'with standard attributes - last_activity_at' do
+      before do
+        Time.zone = 'UTC'
+        el_contact.update(last_activity_at: (Time.zone.today - 4.days))
+        cs_contact.update(last_activity_at: (Time.zone.today - 5.days))
+        en_contact.update(last_activity_at: (Time.zone.today - 2.days))
+      end
+
+      it 'filter by last_activity_at 3_days_before and custom_attributes' do
+        params[:payload] = [
+          {
+            attribute_key: 'last_activity_at',
+            filter_operator: 'days_before',
+            values: [3],
+            query_operator: 'AND'
+          }.with_indifferent_access,
+          {
+            attribute_key: 'contact_additional_information',
+            filter_operator: 'equal_to',
+            values: ['test custom data'],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        expected_count = Contact.where(
+          "last_activity_at < ? AND
+          custom_attributes->>'contact_additional_information' = ?",
+          (Time.zone.today - 3.days),
+          'test custom data'
+        ).count
+
+        result = filter_service.new(params, first_user).perform
+        expect(result[:contacts].length).to be expected_count
+        expect(result[:contacts].first.id).to eq(el_contact.id)
+      end
+
+      it 'filter by last_activity_at 2_days_before and custom_attributes' do
+        params[:payload] = [
+          {
+            attribute_key: 'last_activity_at',
+            filter_operator: 'days_before',
+            values: [2],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        expected_count = Contact.where('last_activity_at < ?', (Time.zone.today - 2.days)).count
+
+        result = filter_service.new(params, first_user).perform
+        expect(result[:contacts].length).to be expected_count
+        expect(result[:contacts].pluck(:id)).to include(el_contact.id)
+        expect(result[:contacts].pluck(:id)).to include(cs_contact.id)
+        expect(result[:contacts].pluck(:id)).not_to include(en_contact.id)
+      end
+    end
+
+    context 'with additional attributes' do
+      let(:payload) do
+        [
+          {
+            attribute_key: 'country_code',
+            filter_operator: 'equal_to',
+            values: ['uk'],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+      end
+
+      it 'filter contacts by additional_attributes' do
+        params[:payload] = payload
+        result = filter_service.new(params, first_user).perform
+        expect(result[:count]).to be 1
+        expect(result[:contacts].first.id).to eq(en_contact.id)
+      end
+    end
+
+    context 'with custom attributes' do
       it 'filter by custom_attributes and labels' do
         params[:payload] = [
           {
@@ -181,9 +261,9 @@ describe Contacts::FilterService do
             query_operator: 'AND'
           }.with_indifferent_access,
           {
-            attribute_key: 'browser_language',
+            attribute_key: 'country_code',
             filter_operator: 'equal_to',
-            values: ['el'],
+            values: ['GR'],
             query_operator: 'AND'
           }.with_indifferent_access,
           {
@@ -219,62 +299,6 @@ describe Contacts::FilterService do
 
         expect(result[:contacts].length).to be expected_count
         expect(result[:contacts].pluck(:id)).to include(el_contact.id)
-      end
-
-      context 'with x_days_before filter' do
-        before do
-          Time.zone = 'UTC'
-          el_contact.update(last_activity_at: (Time.zone.today - 4.days))
-          cs_contact.update(last_activity_at: (Time.zone.today - 5.days))
-          en_contact.update(last_activity_at: (Time.zone.today - 2.days))
-        end
-
-        it 'filter by last_activity_at 3_days_before and custom_attributes' do
-          params[:payload] = [
-            {
-              attribute_key: 'last_activity_at',
-              filter_operator: 'days_before',
-              values: [3],
-              query_operator: 'AND'
-            }.with_indifferent_access,
-            {
-              attribute_key: 'contact_additional_information',
-              filter_operator: 'equal_to',
-              values: ['test custom data'],
-              query_operator: nil
-            }.with_indifferent_access
-          ]
-
-          expected_count = Contact.where(
-            "last_activity_at < ? AND
-            custom_attributes->>'contact_additional_information' = ?",
-            (Time.zone.today - 3.days),
-            'test custom data'
-          ).count
-
-          result = filter_service.new(params, first_user).perform
-          expect(result[:contacts].length).to be expected_count
-          expect(result[:contacts].first.id).to eq(el_contact.id)
-        end
-
-        it 'filter by last_activity_at 2_days_before and custom_attributes' do
-          params[:payload] = [
-            {
-              attribute_key: 'last_activity_at',
-              filter_operator: 'days_before',
-              values: [2],
-              query_operator: nil
-            }.with_indifferent_access
-          ]
-
-          expected_count = Contact.where('last_activity_at < ?', (Time.zone.today - 2.days)).count
-
-          result = filter_service.new(params, first_user).perform
-          expect(result[:contacts].length).to be expected_count
-          expect(result[:contacts].pluck(:id)).to include(el_contact.id)
-          expect(result[:contacts].pluck(:id)).to include(cs_contact.id)
-          expect(result[:contacts].pluck(:id)).not_to include(en_contact.id)
-        end
       end
     end
   end
