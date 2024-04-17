@@ -1,14 +1,24 @@
 <template>
-  <woot-message-editor
-    id="message-signature-input"
-    v-model="messageSignature"
-    class="message-editor h-[10rem]"
-    :is-format-mode="true"
-    :placeholder="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE.PLACEHOLDER')"
-    :enabled-menu-options="customEditorMenuList"
-    :enable-suggestions="false"
-    :show-image-resize-toolbar="true"
-  />
+  <div class="flex flex-col gap-6">
+    <woot-message-editor
+      id="message-signature-input"
+      v-model="messageSignature"
+      class="message-editor h-[10rem]"
+      :is-format-mode="true"
+      :placeholder="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE.PLACEHOLDER')"
+      :enabled-menu-options="customEditorMenuList"
+      :enable-suggestions="false"
+      :show-image-resize-toolbar="true"
+    />
+    <woot-button
+      class="w-fit"
+      :is-loading="isUpdating"
+      type="button"
+      @click.prevent="updateSignature"
+    >
+      {{ $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.BTN_TEXT') }}
+    </woot-button>
+  </div>
 </template>
 
 <script>

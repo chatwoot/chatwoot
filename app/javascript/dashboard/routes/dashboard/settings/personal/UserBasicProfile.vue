@@ -5,16 +5,24 @@
         Profile picture
       </span>
       <div
-        class="relative rounded-xl h-[72px] w-[72px]"
+        class="relative rounded-xl h-[72px] w-[72px] cursor-pointer"
         :title="title"
         @mouse-over="showUpload"
+        @click="openFileInput"
       >
         <img
           class="rounded-xl h-[72px] w-[72px]"
-          src="https://i.pravatar.cc/300"
+          :src="src"
           draggable="false"
           @load="onImgLoad"
           @error="onImgError"
+        />
+        <input
+          ref="file"
+          type="file"
+          accept="image/png, image/jpeg, image/jpg, image/gif, image/webp"
+          style="display: none"
+          @change="handleImageUpload"
         />
         <div
           class="absolute z-10 flex items-center justify-center w-6 h-6 p-1 border border-white rounded-full select-none -top-2 -right-2 dark:border-white bg-slate-200 dark:bg-slate-700"
@@ -36,50 +44,10 @@
         </div>
       </div>
     </div>
-    <div class="pt-6">
-      <form-input
-        name="full_name"
-        class="flex-1"
-        :class="{ error: false }"
-        :label="$t('REGISTER.FULL_NAME.LABEL')"
-        placeholder="Enter your name"
-        :has-error="false"
-        :error-message="$t('REGISTER.FULL_NAME.ERROR')"
-      />
-      <form-input
-        name="display_name"
-        class="flex-1"
-        :class="{ error: false }"
-        label="Display name"
-        placeholder="Enter your display name"
-        :has-error="false"
-        :error-message="$t('REGISTER.FULL_NAME.ERROR')"
-      />
-      <form-input
-        name="email"
-        class="flex-1"
-        :class="{ error: false }"
-        label="Email"
-        placeholder="Enter your email"
-        :has-error="false"
-        :error-message="$t('REGISTER.FULL_NAME.ERROR')"
-      />
-      <woot-button
-        color-scheme="primary"
-        class="rounded-xl w-fit"
-        @click="$emit('click')"
-      >
-        Update profile
-      </woot-button>
-    </div>
   </div>
 </template>
 <script>
-import FormInput from 'v3/components/Form/Input.vue';
 export default {
-  components: {
-    FormInput,
-  },
   props: {
     src: {
       type: String,
@@ -124,6 +92,17 @@ export default {
     },
     showUpload() {
       this.showUploadIcon = true;
+    },
+    openFileInput() {
+      // Trigger click event on the hidden file input
+      this.$refs.file.click();
+    },
+    handleImageUpload(event) {
+      const [file] = event.target.files;
+      this.$emit('change', {
+        file,
+        url: file ? URL.createObjectURL(file) : null,
+      });
     },
   },
 };
