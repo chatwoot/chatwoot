@@ -34,7 +34,10 @@ const onClickSetView = (type, mode) => {
 
 <template>
   <div class="flex items-start justify-between w-full h-9">
-    <button @click="onClickPrev(calendarType)">
+    <button
+      class="p-1 rounded-lg hover:bg-slate-75 dark:hover:bg-slate-700/50 rtl:rotate-180"
+      @click="onClickPrev(calendarType)"
+    >
       <fluent-icon
         icon="chevron-left"
         size="14"
@@ -58,7 +61,10 @@ const onClickSetView = (type, mode) => {
         {{ buttonLabel }}
       </button>
     </div>
-    <button @click="onClickNext(calendarType)">
+    <button
+      class="p-1 rounded-lg hover:bg-slate-75 dark:hover:bg-slate-700/50 rtl:rotate-180"
+      @click="onClickNext(calendarType)"
+    >
       <fluent-icon
         icon="chevron-right"
         size="14"

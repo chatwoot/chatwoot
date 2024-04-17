@@ -131,7 +131,7 @@ const dayClasses = day => ({
     <div
       v-for="week in weeks(calendarType)"
       :key="week[0].getTime()"
-      class="max-w-md mx-auto overflow-hidden rounded-lg grid grid-cols-7 gap-2"
+      class="grid max-w-md grid-cols-7 gap-2 mx-auto overflow-hidden rounded-lg"
     >
       <div
         v-for="day in week"
@@ -150,7 +150,7 @@ const dayClasses = day => ({
             !isLastDayOfMonth(day) &&
             isInCurrentMonth(day)
           "
-          class="absolute bottom-0 w-6 h-8 -right-4 bg-woot-50 dark:bg-woot-800 -z-10"
+          class="absolute bottom-0 w-6 h-8 ltr:-right-4 rtl:-left-4 bg-woot-50 dark:bg-woot-800 -z-10"
           :class="{ '-top-px': isToday(currentDate, day) }"
         />
       </div>
