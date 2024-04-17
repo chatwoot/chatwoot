@@ -19,6 +19,30 @@
             <message-signature />
           </template>
         </personal-wrapper>
+
+        <personal-wrapper
+          header="Hot key to send messages"
+          description="You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your
+          preference of writing."
+          :show-action-button="false"
+        >
+          <template #settingsItem>
+            <div class="flex flex-col justify-between w-full gap-4 sm:flex-row">
+              <button
+                v-for="keyOption in keyOptions"
+                :key="keyOption.key"
+                class="p-0 cursor-pointer"
+              >
+                <hot-key-card
+                  :heading="keyOption.heading"
+                  :content="keyOption.content"
+                  :src="keyOption.src"
+                  :active="keyOption.key === 'enter'"
+                />
+              </button>
+            </div>
+          </template>
+        </personal-wrapper>
       </div>
     </div>
   </div>
@@ -27,4 +51,22 @@
 import UserBasicProfile from './UserBasicProfile.vue';
 import MessageSignature from './MessageSignature.vue';
 import PersonalWrapper from './PersonalWrapper.vue';
+import HotKeyCard from './HotKeyCard.vue';
+
+const keyOptions = [
+  {
+    key: 'enter',
+    src: '/assets/images/dashboard/profile/hot-key-enter.svg',
+    heading: 'Enter (↵)',
+    content:
+      'Send messages by pressing Enter key instead of clicking send button.',
+  },
+  {
+    key: 'cmd_enter',
+    src: '/assets/images/dashboard/profile/hot-key-ctrl-enter.svg',
+    heading: 'CMD / Ctrl + Enter (⌘ + ↵)',
+    content:
+      'Send messages by pressing Enter key instead of clicking send button.',
+  },
+];
 </script>
