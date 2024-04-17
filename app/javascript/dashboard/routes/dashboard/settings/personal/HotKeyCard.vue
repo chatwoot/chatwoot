@@ -9,15 +9,14 @@
       class="flex justify-between items-center px-2 w-full h-10 rounded-t-[5px]"
     >
       <div class="flex items-center p-1 text-sm font-medium">{{ heading }}</div>
-      <!-- <fluent-icon
-        v-if="active"
-        icon="checkmark-circle"
-        type="solid"
-        size="24"
-        class="text-woot-500 dark:text-woot-500"
-      /> -->
       <div>
-        <input type="radio" name="hotkey" value="enter" :checked="active" />
+        <!-- Show radio button, if the card is active, set radio button checked -->
+        <input
+          :checked="active"
+          type="radio"
+          name="hotkey"
+          @change="$emit('update', 'enter')"
+        />
       </div>
     </div>
     <div
@@ -35,6 +34,10 @@
 <script>
 export default {
   props: {
+    active: {
+      type: Boolean,
+      default: false,
+    },
     heading: {
       type: String,
       default: '',
@@ -42,14 +45,6 @@ export default {
     content: {
       type: String,
       default: '',
-    },
-    active: {
-      type: Boolean,
-      default: false,
-    },
-    buttonText: {
-      type: String,
-      default: 'Active',
     },
     src: {
       type: String,

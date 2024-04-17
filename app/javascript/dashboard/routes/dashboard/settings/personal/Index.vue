@@ -86,36 +86,35 @@
                   :heading="keyOption.heading"
                   :content="keyOption.content"
                   :src="keyOption.src"
-                  :active="keyOption.key === 'enter'"
+                  :active="isEditorHotKeyEnabled(uiSettings, keyOption.key)"
+                  @click="toggleEditorMessageKey(keyOption.key)"
                 />
               </button>
             </div>
           </template>
         </personal-wrapper>
-        <change-password />
+        <change-password v-if="!globalConfig.disableUserProfileUpdate" />
         <personal-wrapper
           header="Audio notifications"
           description="Enable audio notifications in dashboard for new messages and conversations."
           :show-action-button="false"
         >
           <template #settingsItem>
-            <audio-notifications />
-          </template>
-        </personal-wrapper>
-        <personal-wrapper
-          header="Notification preferences"
-          :show-action-button="false"
-        >
-          <template #settingsItem>
-            <notification-preferences />
+            <notification-settings />
           </template>
         </personal-wrapper>
         <personal-wrapper
           header="Access Token"
-          description="This token can be used if you are building an API based integration."
+          :description="
+            useInstallationName(
+              $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE'),
+              globalConfig.installationName
+            )
+          "
           :show-action-button="false"
         >
           <template #settingsItem>
+            <!-- TODO: Use masked text -->
             <access-token />
           </template>
         </personal-wrapper>
@@ -129,8 +128,6 @@ import MessageSignature from './MessageSignature.vue';
 import PersonalWrapper from './PersonalWrapper.vue';
 import HotKeyCard from './HotKeyCard.vue';
 import ChangePassword from './ChangePassword.vue';
-import NotificationPreferences from './NotificationPreferences.vue';
-import AudioNotifications from './AudioNotifications.vue';
 import AccessToken from './AccessToken.vue';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import uiSettingsMixin, {
@@ -141,6 +138,7 @@ import { required, minLength, email } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from '../../../../store/utils/api';
 import { hasValidAvatarUrl } from 'dashboard/helper/URLHelper';
+import NotificationSettings from './NotificationSettings.vue';
 
 export default {
   components: {
@@ -149,8 +147,7 @@ export default {
     PersonalWrapper,
     HotKeyCard,
     ChangePassword,
-    NotificationPreferences,
-    AudioNotifications,
+    NotificationSettings,
     AccessToken,
   },
   mixins: [alertMixin, globalConfigMixin, uiSettingsMixin],
