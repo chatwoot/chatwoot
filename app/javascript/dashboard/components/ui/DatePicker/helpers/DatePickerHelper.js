@@ -1,4 +1,5 @@
 import {
+  parse,
   startOfDay,
   subDays,
   endOfDay,
@@ -31,6 +32,11 @@ export const dateRanges = [
   { label: 'Last year', value: 'lastYear' },
   { label: 'Custom date range', value: 'custom' },
 ];
+
+export function parseDateFromDMY(dateString) {
+  const [day, month, year] = dateString.split('/');
+  return parse(`${year}-${month}-${day}`, 'yyyy-MM-dd', new Date());
+}
 
 export const month = currentDate => format(currentDate, 'MMMM');
 export const year = currentDate => format(currentDate, 'yyyy');

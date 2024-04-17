@@ -3,7 +3,7 @@ import { calendarWeeks } from '../helpers/DatePickerHelper';
 </script>
 
 <template>
-  <div class="grid max-w-md grid-cols-7 gap-2 mx-auto">
+  <div class="max-w-md mx-auto grid grid-cols-7 gap-2">
     <div
       v-for="day in calendarWeeks"
       :key="day.id"

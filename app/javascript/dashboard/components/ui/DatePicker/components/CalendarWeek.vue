@@ -131,7 +131,7 @@ const dayClasses = day => ({
     <div
       v-for="week in weeks(calendarType)"
       :key="week[0].getTime()"
-      class="grid max-w-md grid-cols-7 gap-2 mx-auto overflow-hidden rounded-lg"
+      class="max-w-md mx-auto overflow-hidden rounded-lg grid grid-cols-7 gap-2"
     >
       <div
         v-for="day in week"
