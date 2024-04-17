@@ -29,13 +29,14 @@ RSpec.describe Message do
       end
 
       it 'adds error in case of message flooding' do
-        stub_const('Limits::CONVERSATION_MESSAGE_PER_MINUTE_LIMIT', 2)
-        conversation = message.conversation
-        create(:message, conversation: conversation)
-        conv_new_message = build(:message, conversation: message.conversation)
+        with_modified_env 'CONVERSATION_MESSAGE_PER_MINUTE_LIMIT': '2' do
+          conversation = message.conversation
+          create(:message, conversation: conversation)
+          conv_new_message = build(:message, conversation: message.conversation)
 
-        expect(conv_new_message.valid?).to be false
-        expect(conv_new_message.errors[:base]).to eq(['Too many messages'])
+          expect(conv_new_message.valid?).to be false
+          expect(conv_new_message.errors[:base]).to eq(['Too many messages'])
+        end
       end
     end
   end

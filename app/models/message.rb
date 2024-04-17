@@ -235,7 +235,7 @@ class Message < ApplicationRecord
 
     # there are cases where automations can result in message loops, we need to prevent such cases.
     errors.add(:base, 'Too many messages') if conversation.messages.where('created_at >= ?',
-                                                                          1.minute.ago).count >= Limits::CONVERSATION_MESSAGE_PER_MINUTE_LIMIT
+                                                                          1.minute.ago).count >= Limits.conversation_message_per_minute_limit
   end
 
   def ensure_processed_message_content
