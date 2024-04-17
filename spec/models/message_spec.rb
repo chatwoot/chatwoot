@@ -27,6 +27,17 @@ RSpec.describe Message do
         expect(message.errors[:processed_message_content]).to include('is too long (maximum is 150000 characters)')
         expect(message.errors[:content]).to include('is too long (maximum is 150000 characters)')
       end
+
+      it 'adds error in case of message flooding' do
+        with_modified_env CONVERSATION_MESSAGE_PER_MINUTE_LIMIT: '2' do
+          create(:message, conversation: message.conversation)
+          message.conversation.messages.reload
+          conv_new_message = build(:message, conversation: message.conversation)
+
+          expect(conv_new_message.valid?).to be false
+          expect(conv_new_message.errors[:base]).to eq(['Too many messages'])
+        end
+      end
     end
   end
 

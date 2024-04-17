@@ -59,6 +59,7 @@ class Message < ApplicationRecord
   }.to_json.freeze
 
   before_validation :ensure_content_type
+  before_validation :prevent_message_flooding
   before_save :ensure_processed_message_content
   before_save :ensure_in_reply_to
 
@@ -226,6 +227,14 @@ class Message < ApplicationRecord
   end
 
   private
+
+  def prevent_message_flooding
+    return if conversation.blank?
+
+    # there are cases where automations can result in message loops, we need to prevent such cases.
+    errors.add(:base, 'Too many messages') if conversation.messages.where('created_at >= ?',
+                                                                          1.minute.ago).count >= Limits::CONVERSATION_MESSAGE_PER_MINUTE_LIMIT
+  end
 
   def ensure_processed_message_content
     text_content_quoted = content_attributes.dig(:email, :text_content, :quoted)
