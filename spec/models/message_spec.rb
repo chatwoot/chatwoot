@@ -11,7 +11,7 @@ RSpec.describe Message do
   end
 
   describe 'length validations' do
-    let(:message) { create(:message) }
+    let!(:message) { create(:message) }
 
     context 'when it validates name length' do
       it 'valid when within limit' do
@@ -29,14 +29,13 @@ RSpec.describe Message do
       end
 
       it 'adds error in case of message flooding' do
-        with_modified_env CONVERSATION_MESSAGE_PER_MINUTE_LIMIT: '2' do
-          create(:message, conversation: message.conversation)
-          message.conversation.messages.reload
-          conv_new_message = build(:message, conversation: message.conversation)
+        stub_const('Limits::CONVERSATION_MESSAGE_PER_MINUTE_LIMIT', 2)
+        conversation = message.conversation
+        create(:message, conversation: conversation)
+        conv_new_message = build(:message, conversation: message.conversation)
 
-          expect(conv_new_message.valid?).to be false
-          expect(conv_new_message.errors[:base]).to eq(['Too many messages'])
-        end
+        expect(conv_new_message.valid?).to be false
+        expect(conv_new_message.errors[:base]).to eq(['Too many messages'])
       end
     end
   end

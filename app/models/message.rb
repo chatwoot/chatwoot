@@ -229,6 +229,8 @@ class Message < ApplicationRecord
   private
 
   def prevent_message_flooding
+    # Added this to cover the validation specs in messages
+    # We can revisit and see if we can remove this later
     return if conversation.blank?
 
     # there are cases where automations can result in message loops, we need to prevent such cases.
