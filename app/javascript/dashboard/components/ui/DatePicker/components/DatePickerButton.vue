@@ -13,14 +13,14 @@ const props = defineProps({
 });
 
 const formatDateRange = computed(() => {
-  let startDate = props.selectedStartDate;
-  let endDate = props.selectedEndDate;
+  const startDate = props.selectedStartDate;
+  const endDate = props.selectedEndDate;
 
   if (!isValid(startDate) || !isValid(endDate)) {
     return 'Select a date range';
   }
 
-  let formatString = isSameYear(startDate, endDate)
+  const formatString = isSameYear(startDate, endDate)
     ? 'MMM d' // Same year: "Apr 1"
     : 'MMM d yyyy'; // Different years: "Apr 1 2025"
 

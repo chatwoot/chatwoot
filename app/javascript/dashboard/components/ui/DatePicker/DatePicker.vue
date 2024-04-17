@@ -7,15 +7,16 @@ import {
   subDays,
   startOfDay,
   endOfDay,
+  isBefore,
   subMonths,
   addMonths,
   isSameMonth,
   differenceInCalendarMonths,
-  differenceInCalendarYears,
   setMonth,
   setYear,
   subYears,
   addYears,
+  isAfter,
 } from 'date-fns';
 
 import DatePickerButton from './components/DatePickerButton.vue';
@@ -28,7 +29,6 @@ import CalendarFooter from './components/CalendarFooter.vue';
 const showDatePicker = ref(false);
 const calendarViews = ref({ start: 'week', end: 'week' });
 const currentDate = ref(new Date());
-
 const startCurrentDate = ref(startOfDay(currentDate.value)); // Today's date at the start of the day (starts the current month)
 const endCurrentDate = ref(addMonths(startOfDay(currentDate.value), 1)); // One month ahead of today at the start of the day (starts the next month)
 const selectedStartDate = ref(startOfDay(subDays(currentDate.value, 6)));
@@ -50,9 +50,30 @@ watch(selectedRange, newRange => {
     selectingEndDate.value = false;
   } else if (!selectingEndDate.value) {
     startCurrentDate.value = startOfDay(currentDate.value);
-    endCurrentDate.value = addMonths(startOfDay(currentDate.value), 1);
   }
 });
+
+// Watcher to ensure dates are always in logical order
+watch(
+  [startCurrentDate, endCurrentDate],
+  ([newStart, newEnd], [oldStart, oldEnd]) => {
+    const monthDifference = differenceInCalendarMonths(newEnd, newStart);
+
+    if (newStart !== oldStart) {
+      if (isAfter(newStart, newEnd) || monthDifference === 0) {
+        // Adjust the end date forward if the start date is adjusted and is after the end date or in the same month
+        endCurrentDate.value = addMonths(newStart, 1);
+      }
+    }
+    if (newEnd !== oldEnd) {
+      if (isBefore(newEnd, newStart) || monthDifference === 0) {
+        // Adjust the start date backward if the end date is adjusted and is before the start date or in the same month
+        startCurrentDate.value = subMonths(newEnd, 1);
+      }
+    }
+  },
+  { immediate: true, deep: true }
+);
 
 const setDateRange = range => {
   selectedRange.value = range.value;
@@ -68,27 +89,10 @@ const moveCalendar = (calendar, direction, period = 'month') => {
   };
 
   const adjust = adjustFunctions[period][direction];
-  const differenceFn =
-    period === 'month' ? differenceInCalendarMonths : differenceInCalendarYears;
-
-  const difference = differenceFn(endCurrentDate.value, startCurrentDate.value);
-
   if (calendar === 'start') {
     startCurrentDate.value = adjust(startCurrentDate.value, 1);
-    if (direction === 'next' && difference <= 1) {
-      endCurrentDate.value = adjust(
-        endCurrentDate.value,
-        difference === 0 ? 2 : 1
-      );
-    }
   } else if (calendar === 'end') {
     endCurrentDate.value = adjust(endCurrentDate.value, 1);
-    if (direction === 'prev' && difference <= 1) {
-      startCurrentDate.value = adjust(
-        startCurrentDate.value,
-        difference === 0 ? 2 : 1
-      );
-    }
   }
 };
 
@@ -105,24 +109,23 @@ const selectDate = day => {
 };
 
 const setViewMode = (calendar, mode) => {
+  selectedRange.value = 'custom';
   calendarViews.value[calendar] = mode;
 };
 
-const openCalender = (index, calenderType, period = 'month') => {
+const openCalendar = (index, calendarType, period = 'month') => {
   const current =
-    calenderType === 'start' ? startCurrentDate.value : endCurrentDate.value;
-  const isPeriodMonth = period === 'month';
-  const newDate = isPeriodMonth
-    ? setMonth(startOfMonth(current), index)
-    : setYear(current, index);
-  const viewMode = isPeriodMonth ? 'week' : 'month';
-
-  if (calenderType === 'start') {
+    calendarType === 'start' ? startCurrentDate.value : endCurrentDate.value;
+  const newDate =
+    period === 'month'
+      ? setMonth(startOfMonth(current), index)
+      : setYear(current, index);
+  if (calendarType === 'start') {
     startCurrentDate.value = newDate;
   } else {
     endCurrentDate.value = newDate;
   }
-  setViewMode(calenderType, viewMode);
+  setViewMode(calendarType, period === 'month' ? 'week' : 'month');
 };
 
 const resetDatePicker = () => {
@@ -138,10 +141,11 @@ const resetDatePicker = () => {
 
 const emitDateRange = () => {
   if (!isValid(selectedStartDate.value) || !isValid(selectedEndDate.value)) {
-    return bus.$emit('newToastMessage', 'Please select a valid time range');
+    bus.$emit('newToastMessage', 'Please select a valid time range');
+  } else {
+    showDatePicker.value = false;
+    emit('change', [selectedStartDate.value, selectedEndDate.value]);
   }
-  showDatePicker.value = false;
-  return emit('change', [selectedStartDate.value, selectedEndDate.value]);
 };
 </script>
 
@@ -177,14 +181,14 @@ const emitDateRange = () => {
               :calendar-type="calendar"
               :start-current-date="startCurrentDate"
               :end-current-date="endCurrentDate"
-              @select-year="openCalender($event, calendar, 'year')"
+              @select-year="openCalendar($event, calendar, 'year')"
             />
             <CalendarMonth
               v-else-if="calendarViews[calendar] === 'month'"
               :calendar-type="calendar"
               :start-current-date="startCurrentDate"
               :end-current-date="endCurrentDate"
-              @select-month="openCalender($event, calendar)"
+              @select-month="openCalendar($event, calendar)"
               @set-view="setViewMode"
               @prev="moveCalendar(calendar, 'prev', 'year')"
               @next="moveCalendar(calendar, 'next', 'year')"

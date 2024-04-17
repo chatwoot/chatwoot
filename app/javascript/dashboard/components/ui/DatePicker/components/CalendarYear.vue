@@ -13,12 +13,22 @@ const props = defineProps({
   endCurrentDate: Date,
 });
 
-const currentYear = getYear(new Date());
-const startYear = ref(currentYear - (currentYear % 10) - 5);
+const calculateStartYear = date => {
+  const year = getYear(date);
+  return year - (year % 10); // Align with the beginning of a decade
+};
 
-const years = computed(() => {
-  return Array.from({ length: 10 }, (_, i) => startYear.value + i);
-});
+const startYear = ref(
+  calculateStartYear(
+    props.calendarType === 'start'
+      ? props.startCurrentDate
+      : props.endCurrentDate
+  )
+);
+
+const years = computed(() =>
+  Array.from({ length: 10 }, (_, i) => startYear.value + i)
+);
 
 const firstYear = computed(() => years.value[0]);
 const lastYear = computed(() => years.value[years.value.length - 1]);
@@ -32,11 +42,11 @@ const activeYear = computed(() => {
 });
 
 const onClickPrev = () => {
-  startYear.value = subYears(new Date(startYear.value, 0), 10).getFullYear();
+  startYear.value = subYears(new Date(startYear.value, 0, 1), 10).getFullYear();
 };
 
 const onClickNext = () => {
-  startYear.value = addYears(new Date(startYear.value, 0), 10).getFullYear();
+  startYear.value = addYears(new Date(startYear.value, 0, 1), 10).getFullYear();
 };
 
 const emit = defineEmits(['select-year']);
@@ -61,7 +71,7 @@ const selectYear = year => {
         :key="year"
         class="p-2 text-sm font-medium text-center text-slate-800 dark:text-slate-50 w-[144px] h-10 rounded-lg py-2.5 px-2 hover:bg-slate-75 dark:hover:bg-slate-700"
         :class="{
-          'bg-woot-600 dark:bg-woot-600 text-white dark:text-white hover:bg-woot-500 dark:bg-woot-700':
+          'bg-woot-600 dark:bg-woot-600 text-white dark:text-white hover:bg-woot-500 dark:hover:bg-woot-700':
             year === activeYear,
         }"
         @click="selectYear(year)"
