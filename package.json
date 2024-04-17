@@ -32,7 +32,7 @@
   "dependencies": {
     "@braid/vue-formulate": "^2.5.2",
     "@chatwoot/prosemirror-schema": "1.0.5",
-    "@chatwoot/utils": "^0.0.23",
+    "@chatwoot/utils": "^0.0.24",
     "@hcaptcha/vue-hcaptcha": "^0.3.2",
     "@june-so/analytics-next": "^2.0.0",
     "@radix-ui/colors": "^1.0.1",
