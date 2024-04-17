@@ -44,13 +44,12 @@ const emitHoveredEndDate = day => {
 const emitSelectDate = day => {
   emit('select-date', day);
 };
-
-const onClickPrev = type => {
-  emit('prev', type);
+const onClickPrev = () => {
+  emit('prev');
 };
 
-const onClickNext = type => {
-  emit('next', type);
+const onClickNext = () => {
+  emit('next');
 };
 
 const setViewMode = (type, mode) => {

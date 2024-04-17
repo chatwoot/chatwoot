@@ -41,8 +41,8 @@ const onClickNext = () => {
 
 const emit = defineEmits(['select-year']);
 
-const selectYear = (year, type) => {
-  emit('select-year', year, type);
+const selectYear = year => {
+  emit('select-year', year);
 };
 </script>
 
@@ -64,7 +64,7 @@ const selectYear = (year, type) => {
           'bg-woot-600 dark:bg-woot-600 text-white dark:text-white hover:bg-woot-500 dark:bg-woot-700':
             year === activeYear,
         }"
-        @click="selectYear(year, calendarType)"
+        @click="selectYear(year)"
       >
         {{ year }}
       </button>

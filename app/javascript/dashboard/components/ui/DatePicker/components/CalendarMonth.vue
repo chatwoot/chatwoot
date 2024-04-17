@@ -32,16 +32,16 @@ const setViewMode = (type, mode) => {
   emit('set-view', type, mode);
 };
 
-const onClickPrev = type => {
-  emit('prev', type);
+const onClickPrev = () => {
+  emit('prev');
 };
 
-const onClickNext = type => {
-  emit('next', type);
+const onClickNext = () => {
+  emit('next');
 };
 
-const selectMonth = (index, type) => {
-  emit('select-month', index, type);
+const selectMonth = index => {
+  emit('select-month', index);
 };
 </script>
 
@@ -70,7 +70,7 @@ const selectMonth = (index, type) => {
           'bg-woot-600 dark:bg-woot-600 text-white dark:text-white hover:bg-woot-500 dark:bg-woot-700':
             index === activeMonthIndex,
         }"
-        @click="selectMonth(index, calendarType)"
+        @click="selectMonth(index)"
       >
         {{ month }}
       </button>
