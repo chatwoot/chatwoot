@@ -44,7 +44,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Tạo vào lúc",
       "LAST_ACTIVITY": "Hành động cuối cùng",
-      "REFERER_LINK": "Liên kết người gới thiệu"
+      "REFERER_LINK": "Liên kết người gới thiệu",
+      "BLOCKED": "Blocked"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Bộ lọc tiêu chuẩn",

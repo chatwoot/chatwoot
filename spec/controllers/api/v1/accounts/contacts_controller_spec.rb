@@ -338,20 +338,52 @@ RSpec.describe 'Contacts API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
-      let!(:contact1) { create(:contact, :with_email, account: account) }
-      let!(:contact2) { create(:contact, :with_email, name: 'testcontact', account: account, email: 'test@test.com') }
+      let!(:contact1) { create(:contact, :with_email, account: account, additional_attributes: { country_code: 'US' }) }
+      let!(:contact2) do
+        create(:contact, :with_email, name: 'testcontact', account: account, email: 'test@test.com', additional_attributes: { country_code: 'US' })
+      end
 
       it 'returns all contacts when query is empty' do
         post "/api/v1/accounts/#{account.id}/contacts/filter",
-             params: {
-               payload: []
-             },
+             params: { payload: [
+               attribute_key: 'country_code',
+               filter_operator: 'equal_to',
+               values: ['US']
+             ] },
              headers: admin.create_new_auth_token,
              as: :json
 
         expect(response).to have_http_status(:success)
         expect(response.body).to include(contact2.email)
         expect(response.body).to include(contact1.email)
+      end
+
+      it 'returns error the query operator is invalid' do
+        post "/api/v1/accounts/#{account.id}/contacts/filter",
+             params: { payload: [
+               attribute_key: 'country_code',
+               filter_operator: 'eq',
+               values: ['US']
+             ] },
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include('Invalid operator. The allowed operators for country_code are [equal_to,not_equal_to]')
+      end
+
+      it 'returns error the query value is invalid' do
+        post "/api/v1/accounts/#{account.id}/contacts/filter",
+             params: { payload: [
+               attribute_key: 'country_code',
+               filter_operator: 'equal_to',
+               values: []
+             ] },
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include('Invalid value. The values provided for country_code are invalid"')
       end
     end
   end

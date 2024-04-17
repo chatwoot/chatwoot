@@ -83,7 +83,10 @@
         "CONVERSATION_CREATION": "Να στέλνεται ειδοποίηση όταν δημιουργείται μια νέα συνομιλία",
         "CONVERSATION_MENTION": "Αποστολή ειδοποιήσεων email όταν αναφέρεστε σε μια συνομιλία",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Αποστολή ειδοποίησης email όταν ένα νέο μήνυμα δημιουργείται σε συνομιλία που έχει αναληφθεί",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
       },
       "API": {
         "UPDATE_SUCCESS": "Οι προτιμήσεις σας για τις ειδοποιήσεις ενημερώθηκαν",
@@ -98,7 +101,10 @@
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Αποστολή ειδοποίησης push όταν ένα νέο μήνυμα δημιουργείται σε συνομιλία που έχει αναληφθεί",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Έχετε ενεργοποιήσει τις ειδοποιήσεις push για αυτόν τον browser.",
-        "REQUEST_PUSH": "Ενεργοποποίηση των ειδοποιήσεων push"
+        "REQUEST_PUSH": "Ενεργοποποίηση των ειδοποιήσεων push",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Εικόνα Προφίλ"
@@ -199,6 +205,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Τρέχουσα προβολή:",
     "SWITCH": "Εναλλαγή",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Συζητήσεις",
     "INBOX": "Εισερχόμενα",
     "ALL_CONVERSATIONS": "Όλες Οι Συνομιλίες",
@@ -237,6 +244,8 @@
     "CAMPAIGNS": "Καμπάνιες",
     "ONGOING": "Σε Εξέλιξη",
     "ONE_OFF": "Ένα/μία από",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Πράκτορες",
     "REPORTS_LABEL": "Ετικέτες",
     "REPORTS_INBOX": "Εισερχόμενα",
