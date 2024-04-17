@@ -48,7 +48,7 @@ watch(selectedRange, newRange => {
         ? startOfMonth(addMonths(selectedStartDate.value, 1))
         : selectedEndDate.value;
     selectingEndDate.value = false;
-  } else {
+  } else if (!selectingEndDate.value) {
     startCurrentDate.value = startOfDay(currentDate.value);
     endCurrentDate.value = addMonths(startOfDay(currentDate.value), 1);
   }

@@ -1,5 +1,4 @@
 <script setup>
-import { addDays, isWithinInterval } from 'date-fns';
 import {
   month,
   year,
@@ -10,6 +9,7 @@ import {
   isLastDayOfMonth,
   isStartOrEndDate,
   isHoveringDayInRange,
+  isHoveringNextDayInRange,
 } from '../helpers/DatePickerHelper';
 
 import CalendarWeekLabel from './CalendarWeekLabel.vue';
@@ -88,28 +88,13 @@ const isHoveringInRange = day => {
   );
 };
 
-const isNextDayInRange = currentDay => {
-  if (
-    props.selectedStartDate &&
-    !props.selectedEndDate &&
+const isNextDayInRange = day => {
+  return isHoveringNextDayInRange(
+    day,
+    props.selectedStartDate,
+    props.selectedEndDate,
     props.hoveredEndDate
-  ) {
-    // If a start date is selected, and we're hovering (but haven't clicked an end date yet)
-    const nextDay = addDays(currentDay, 1);
-    return isWithinInterval(nextDay, {
-      start: props.selectedStartDate,
-      end: props.hoveredEndDate,
-    });
-  }
-  if (props.selectedStartDate && props.selectedEndDate) {
-    // Normal range checking between selected start and end dates
-    const nextDay = addDays(currentDay, 1);
-    return isWithinInterval(nextDay, {
-      start: props.selectedStartDate,
-      end: props.selectedEndDate,
-    });
-  }
-  return false;
+  );
 };
 
 const dayClasses = day => ({

@@ -36,6 +36,7 @@ export const month = currentDate => format(currentDate, 'MMMM');
 export const year = currentDate => format(currentDate, 'yyyy');
 
 export const chunk = (array, size) =>
+  // Used to chunk an array into smaller arrays to match the number of columns in a table
   Array.from({ length: Math.ceil(array.length / size) }, (_, index) =>
     array.slice(index * size, index * size + size)
   );
@@ -101,6 +102,31 @@ export const isHoveringDayInRange = (
         end: hoveredEndDate,
       });
     }
+  }
+  return false;
+};
+
+export const isHoveringNextDayInRange = (
+  day,
+  startDate,
+  endDate,
+  hoveredEndDate
+) => {
+  if (startDate && !endDate && hoveredEndDate) {
+    // If a start date is selected, and we're hovering (but haven't clicked an end date yet)
+    const nextDay = addDays(day, 1);
+    return isWithinInterval(nextDay, {
+      start: startDate,
+      end: hoveredEndDate,
+    });
+  }
+  if (startDate && endDate) {
+    // Normal range checking between selected start and end dates
+    const nextDay = addDays(day, 1);
+    return isWithinInterval(nextDay, {
+      start: startDate,
+      end: endDate,
+    });
   }
   return false;
 };
