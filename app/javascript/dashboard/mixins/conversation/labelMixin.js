@@ -4,10 +4,15 @@ export default {
   computed: {
     ...mapGetters({ accountLabels: 'labels/getLabels' }),
     savedLabels() {
+      // If conversationLabels is passed as prop, use it
+      if (this.conversationLabels)
+        return this.conversationLabels.split(',').map(item => item.trim());
+      // Otherwise, get labels from store
       return this.$store.getters['conversationLabels/getConversationLabels'](
         this.conversationId
       );
     },
+    // TODO - Get rid of this from the mixin
     activeLabels() {
       return this.accountLabels.filter(({ title }) =>
         this.savedLabels.includes(title)

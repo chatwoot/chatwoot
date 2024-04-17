@@ -29,33 +29,6 @@ export default {
     conversationId() {
       return this.currentChat.id;
     },
-
-    filteredAttributes() {
-      return Object.keys(this.customAttributes).map(key => {
-        const item = this.attributes.find(
-          attribute => attribute.attribute_key === key
-        );
-        if (item) {
-          return {
-            ...item,
-            value: this.customAttributes[key],
-          };
-        }
-
-        return {
-          ...item,
-          value: this.customAttributes[key],
-          attribute_description: key,
-          attribute_display_name: key,
-          attribute_display_type: this.attributeDisplayType(
-            this.customAttributes[key]
-          ),
-          attribute_key: key,
-          attribute_model: this.attributeType,
-          id: Math.random(),
-        };
-      });
-    },
   },
   methods: {
     isAttributeNumber(attributeValue) {

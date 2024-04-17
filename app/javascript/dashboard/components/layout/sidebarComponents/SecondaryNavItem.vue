@@ -2,7 +2,7 @@
   <li v-show="isMenuItemVisible" class="mt-1">
     <div v-if="hasSubMenu" class="flex justify-between">
       <span
-        class="text-sm text-slate-700 dark:text-slate-200 font-semibold my-2 px-2 pt-1"
+        class="px-2 pt-1 my-2 text-sm font-semibold text-slate-700 dark:text-slate-200"
       >
         {{ $t(`SIDEBAR.${menuItem.label}`) }}
       </span>
@@ -19,7 +19,7 @@
     </div>
     <router-link
       v-else
-      class="rounded-lg leading-4 font-medium flex items-center p-2 m-0 text-sm text-slate-700 dark:text-slate-100 hover:bg-slate-25 dark:hover:bg-slate-800"
+      class="flex items-center p-2 m-0 text-sm font-medium leading-4 rounded-lg text-slate-700 dark:text-slate-100 hover:bg-slate-25 dark:hover:bg-slate-800"
       :class="computedClass"
       :to="menuItem && menuItem.toState"
     >
@@ -31,7 +31,7 @@
       {{ $t(`SIDEBAR.${menuItem.label}`) }}
       <span
         v-if="showChildCount(menuItem.count)"
-        class="rounded-md text-xxs font-medium mx-1 py-0 px-1"
+        class="px-1 py-0 mx-1 font-medium rounded-md text-xxs"
         :class="{
           'text-slate-300 dark:text-slate-600': isCountZero && !isActiveView,
           'text-slate-600 dark:text-slate-50': !isCountZero && !isActiveView,
@@ -46,13 +46,13 @@
         v-if="menuItem.beta"
         data-view-component="true"
         label="Beta"
-        class="px-1 mx-1 inline-block font-medium leading-4 border border-green-400 text-green-500 rounded-lg text-xxs"
+        class="inline-block px-1 mx-1 font-medium leading-4 text-green-500 border border-green-400 rounded-lg text-xxs"
       >
         {{ $t('SIDEBAR.BETA') }}
       </span>
     </router-link>
 
-    <ul v-if="hasSubMenu" class="list-none ml-0 mb-0">
+    <ul v-if="hasSubMenu" class="mb-0 ml-0 list-none">
       <secondary-child-nav-item
         v-for="child in menuItem.children"
         :key="child.id"
@@ -94,6 +94,7 @@
 import { mapGetters } from 'vuex';
 
 import adminMixin from '../../../mixins/isAdmin';
+import configMixin from 'shared/mixins/configMixin';
 import {
   getInboxClassByType,
   getInboxWarningIconClass,
@@ -107,7 +108,7 @@ import {
 
 export default {
   components: { SecondaryChildNavItem },
-  mixins: [adminMixin],
+  mixins: [adminMixin, configMixin],
   props: {
     menuItem: {
       type: Object,
@@ -132,15 +133,33 @@ export default {
     },
     isMenuItemVisible() {
       if (this.menuItem.globalConfigFlag) {
+        // this checks for the `csmlEditorHost` flag in the global config
+        // if this is present, we toggle the CSML editor menu item
+        // TODO: This is very specific, and can be handled better, fix it
         return !!this.globalConfig[this.menuItem.globalConfigFlag];
       }
+
+      let isFeatureEnabled = true;
+      if (this.menuItem.featureFlag) {
+        isFeatureEnabled = this.isFeatureEnabledonAccount(
+          this.accountId,
+          this.menuItem.featureFlag
+        );
+      }
+
+      if (this.menuItem.isEnterpriseOnly) {
+        if (!this.isEnterprise) return false;
+        return isFeatureEnabled || this.globalConfig.displayManifest;
+      }
+
       if (this.menuItem.featureFlag) {
         return this.isFeatureEnabledonAccount(
           this.accountId,
           this.menuItem.featureFlag
         );
       }
-      return true;
+
+      return isFeatureEnabled;
     },
     isAllConversations() {
       return (

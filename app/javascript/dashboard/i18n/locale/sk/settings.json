@@ -83,7 +83,10 @@
         "CONVERSATION_CREATION": "Odosielať e-mailové upozornenia pri vytvorení novej konverzácie",
         "CONVERSATION_MENTION": "Odosielať e-mailové upozornenia keď som spomenutý v konverzácii",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Odosielať e-mailové oznámenia pri vytvorení novej správy v priradenej konverzácii",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
       },
       "API": {
         "UPDATE_SUCCESS": "Vaše nastavenia oznámení sa úspešne aktualizovali",
@@ -98,7 +101,10 @@
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Odosielať Push oznámenia pri vytvorení novej správy v priradenej konverzácii",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Pre tento prehliadač ste povolili oznámenia Push.",
-        "REQUEST_PUSH": "Povoliť oznámenia Push"
+        "REQUEST_PUSH": "Povoliť oznámenia Push",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profilová fotka"
@@ -199,6 +205,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Rozhovory",
     "INBOX": "Schránka",
     "ALL_CONVERSATIONS": "Všetky konverzácie",
@@ -237,6 +244,8 @@
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Agenti",
     "REPORTS_LABEL": "Labels",
     "REPORTS_INBOX": "Schránka",

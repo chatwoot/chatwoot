@@ -296,6 +296,8 @@
     "BUTTON": "Ajouter un attribut personnalisé",
     "NOT_AVAILABLE": "Il n'y a aucun attribut personnalisé disponible pour ce contact.",
     "COPY_SUCCESSFUL": "Copié dans le presse-papiers avec succès",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Copier l'attribut",
       "DELETE": "Supprimer l'attribut",
