@@ -43,6 +43,33 @@
             </div>
           </template>
         </personal-wrapper>
+        <change-password />
+        <personal-wrapper
+          header="Audio notifications"
+          description="Enable audio notifications in dashboard for new messages and conversations."
+          :show-action-button="false"
+        >
+          <template #settingsItem>
+            <audio-notifications />
+          </template>
+        </personal-wrapper>
+        <personal-wrapper
+          header="Notification preferences"
+          :show-action-button="false"
+        >
+          <template #settingsItem>
+            <notification-preferences />
+          </template>
+        </personal-wrapper>
+        <personal-wrapper
+          header="Access Token"
+          description="This token can be used if you are building an API based integration."
+          :show-action-button="false"
+        >
+          <template #settingsItem>
+            <access-token />
+          </template>
+        </personal-wrapper>
       </div>
     </div>
   </div>
@@ -52,6 +79,10 @@ import UserBasicProfile from './UserBasicProfile.vue';
 import MessageSignature from './MessageSignature.vue';
 import PersonalWrapper from './PersonalWrapper.vue';
 import HotKeyCard from './HotKeyCard.vue';
+import ChangePassword from './ChangePassword.vue';
+import NotificationPreferences from './NotificationPreferences.vue';
+import AudioNotifications from './AudioNotifications.vue';
+import AccessToken from './AccessToken.vue';
 
 const keyOptions = [
   {
