@@ -8,10 +8,10 @@ class Digitaltolk::FixInvalidConversation
   def call
     return if conversation.blank?
     return if conversation.messages.blank?
-    return unless first_message.present?
-    return unless email_from_body.present?
+    return if first_message.blank?
+    return if email_from_body.blank?
 
-    puts "\n conversion_id_fixing: #{conversation.id}"
+    Rails.logger.debug { "\n conversion_id_fixing: #{conversation.id}" }
 
     begin
       ActiveRecord::Base.transaction do
@@ -19,9 +19,9 @@ class Digitaltolk::FixInvalidConversation
         fix_conversation_contact
         fix_message_email
       end
-      puts "\n conversion_id_fixed: #{conversation.id}"
+      Rails.logger.debug { "\n conversion_id_fixed: #{conversation.id}" }
     rescue StandardError => e
-      puts "invalid_conversation_error: #{conversation.id}"
+      Rails.logger.debug { "invalid_conversation_error: #{conversation.id}" }
       Rails.logger.error e.message
       Rails.logger.error e.backtrace.first
     end
@@ -33,12 +33,12 @@ class Digitaltolk::FixInvalidConversation
     return if @contact.blank?
 
     @conversation.update_column(:contact_id, @contact.id)
-    print '.'
+    Rails.logger.debug '.'
   end
 
   def fix_message_email
     @conversation.messages.incoming.where("content_attributes::text LIKE '%#{Digitaltolk::MailHelper::INVALID_LOOPIA_EMAIL}%'").each do |msg|
-      puts "fixing_message_id: #{msg&.id}"
+      Rails.logger.debug { "fixing_message_id: #{msg&.id}" }
       next if msg.blank?
       next if msg.content_attributes.blank?
       next if msg.content_attributes.dig(:email, :from).blank?
@@ -50,7 +50,7 @@ class Digitaltolk::FixInvalidConversation
         msg.content_attributes[:email][:cc] = nil
       end
       msg.save
-      puts "fixed_message_id: #{msg&.id}"
+      Rails.logger.debug { "fixed_message_id: #{msg&.id}" }
     end
   end
 

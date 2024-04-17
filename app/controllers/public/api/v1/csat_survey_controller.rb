@@ -29,7 +29,7 @@ class Public::Api::V1::CsatSurveyController < PublicController
   end
 
   def message_id
-    params.dig(:message_id)
+    params[:message_id]
   end
 
   def check_csat_locked

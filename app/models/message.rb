@@ -118,6 +118,22 @@ class Message < ApplicationRecord
       .where(csat_survey_responses: { id: nil })
   }
 
+  scope :filter_by_label, lambda { |selected_label|
+    joins(:conversation).where(conversations: { cached_label_list: selected_label }) if selected_label.present?
+  }
+
+  scope :filter_by_team, lambda { |selected_team|
+    joins(:conversation).where(conversations: { team_id: selected_team }) if selected_team.present?
+  }
+
+  scope :filter_by_inbox, lambda { |selected_inbox|
+    where(inbox_id: selected_inbox) if selected_inbox.present?
+  }
+
+  scope :filter_by_rating, lambda { |selected_rating|
+    where(conversation_id: ::CsatSurveyResponse.where(rating: selected_rating).select(:conversation_id)) if selected_rating.present?
+  }
+
   # TODO: Get rid of default scope
   # https://stackoverflow.com/a/1834250/939299
   # if you want to change order, use `reorder`

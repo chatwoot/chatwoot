@@ -24,12 +24,12 @@ class FixInvalidEmailConversationContact2 < ActiveRecord::Migration[7.0]
       return if conversation.messages.blank?
       return if conversation.messages.count > 1
       return if first_message.present?
-      return unless email_from_body.present?
+      return if email_from_body.blank?
 
       find_or_create_original_contact
       fix_conversation_contact
       fix_message_email
-      puts "\n Successfully fix conversation data! #{conversation.id}"
+      Rails.logger.debug { "\n Successfully fix conversation data! #{conversation.id}" }
     end
 
     private
@@ -38,7 +38,7 @@ class FixInvalidEmailConversationContact2 < ActiveRecord::Migration[7.0]
       return if @contact.blank?
 
       conversation.update_column(:contact_id, @contact.id)
-      print '.'
+      Rails.logger.debug '.'
     end
 
     def fix_message_email

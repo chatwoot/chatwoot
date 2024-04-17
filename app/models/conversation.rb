@@ -90,6 +90,22 @@ class Conversation < ApplicationRecord
     ).sort_on_last_user_message_at
   }
 
+  scope :filter_by_label, lambda { |selected_label|
+    where(cached_label_list: selected_label) if selected_label.present?
+  }
+
+  scope :filter_by_team, lambda { |selected_team|
+    where(team_id: selected_team) if selected_team.present?
+  }
+
+  scope :filter_by_inbox, lambda { |selected_inbox|
+    where(inbox_id: selected_inbox) if selected_inbox.present?
+  }
+
+  scope :filter_by_rating, lambda { |selected_rating|
+    where(id: ::CsatSurveyResponse.where(rating: selected_rating).select(:conversation_id)) if selected_rating.present?
+  }
+
   belongs_to :account
   belongs_to :inbox
   belongs_to :assignee, class_name: 'User', optional: true, inverse_of: :assigned_conversations
@@ -220,7 +236,7 @@ class Conversation < ApplicationRecord
   end
 
   def send_with_quoted_thread?
-    custom_attributes.dig('send_quoted_thread')
+    custom_attributes['send_quoted_thread']
   end
 
   private

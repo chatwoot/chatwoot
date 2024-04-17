@@ -9,7 +9,7 @@ class Digitaltolk::AddMessageService
   end
 
   def perform
-    return unless @conversation.present?
+    return if @conversation.blank?
 
     create_message
   end
@@ -17,7 +17,7 @@ class Digitaltolk::AddMessageService
   private
 
   def create_message
-    return unless content.present?
+    return if content.blank?
 
     Messages::MessageBuilder.new(sender, @conversation, message_params).perform
   end

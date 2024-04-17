@@ -1,16 +1,16 @@
 class Digitaltolk::DigitaltolkMailer < ApplicationMailer
   def send_email(params)
     return unless smtp_config_set_or_development?
-    return unless params.dig(:to).present?
-    return unless params.dig(:from).present?
+    return if params[:to].blank?
+    return if params[:from].blank?
 
-    @form_name = params.dig(:form_name)
-    @content = params.dig(:data)
+    @form_name = params[:form_name]
+    @content = params[:data]
 
     email_params = {
-      to: params.dig(:to),
-      reply_to: params.dig(:from),
-      subject: params.dig(:subject)
+      to: params[:to],
+      reply_to: params[:from],
+      subject: params[:subject]
     }
 
     mail(email_params) do |format|

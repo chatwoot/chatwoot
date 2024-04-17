@@ -5,9 +5,9 @@ class CsatSurveyWorker
   def perform(conversation_id)
     conversation = Conversation.find(conversation_id)
 
-    return unless conversation.present?
+    return if conversation.blank?
     return unless conversation.inbox.csat_survey_enabled?
-    return unless conversation.messages.csat.present?
+    return if conversation.messages.csat.blank?
 
     # send the email
     ConversationReplyMailer.with(account: conversation.account).csat_survey(conversation).deliver_later

@@ -1,5 +1,5 @@
 class Digitaltolk::MailHelper
-  INVALID_LOOPIA_EMAIL = '{{email}}@loopia.invalid'
+  INVALID_LOOPIA_EMAIL = '{{email}}@loopia.invalid'.freeze
   EMAIL_REGEX = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/
   NO_REPLY_EMAIL_REGEX = /\b(?:no-?reply|do-?not-?reply|donotreply)\b/i
 
@@ -66,8 +66,8 @@ class Digitaltolk::MailHelper
 
     convo = message.conversation
     return false if convo.blank?
-    return true if convo.custom_attributes.dig('block_csat')
-    return true if convo.contact.custom_attributes.dig('block_csat')
+    return true if convo.custom_attributes['block_csat']
+    return true if convo.contact.custom_attributes['block_csat']
 
     last_message = convo.messages.incoming.last
     return true if last_message.blank?

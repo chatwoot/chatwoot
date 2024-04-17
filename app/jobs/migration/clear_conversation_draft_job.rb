@@ -11,10 +11,10 @@ class Migration::ClearConversationDraftJob < ApplicationJob
         key = format(Redis::Alfred::CONVERSATION_DRAFT_MESSAGE, conversation_id: convo.id, account_id: account.id)
         convo.clear_draft_message
         counter += 1
-        print '.'
+        Rails.logger.debug '.'
       end
     end
 
-    puts "\ncleared_conversation_drafts: #{counter}"
+    Rails.logger.debug { "\ncleared_conversation_drafts: #{counter}" }
   end
 end

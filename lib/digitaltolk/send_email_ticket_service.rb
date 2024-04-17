@@ -51,9 +51,9 @@ class Digitaltolk::SendEmailTicketService
 
   def conversation_params
     {
-      subject: params.dig(:title),
-      content: params.dig(:body),
-      inbox_id: params.dig(:inbox_id),
+      subject: params[:title],
+      content: params[:body],
+      inbox_id: params[:inbox_id],
       email: params.dig(:requester, :email),
       assignee_id: nil,
       account_id: @account.id
@@ -102,7 +102,7 @@ class Digitaltolk::SendEmailTicketService
   end
 
   def recipient_type
-    params.dig(:recipient_type)
+    params[:recipient_type]
   end
 
   def inbox
@@ -110,15 +110,15 @@ class Digitaltolk::SendEmailTicketService
   end
 
   def inbox_id
-    params.dig(:inbox_id)
+    params[:inbox_id]
   end
 
   def booking_id
-    params.dig(:booking_id).to_s
+    params[:booking_id].to_s
   end
 
   def booking_issue_id
-    params.dig(:booking_issue_id).to_s
+    params[:booking_issue_id].to_s
   end
 
   def validate_params
@@ -151,6 +151,6 @@ class Digitaltolk::SendEmailTicketService
   def create_message
     return if @errors.present?
 
-    @message = Digitaltolk::AddMessageService.new(@user, @conversation, @params.dig(:body)).perform
+    @message = Digitaltolk::AddMessageService.new(@user, @conversation, @params[:body]).perform
   end
 end

@@ -22,7 +22,7 @@ class Api::V1::Accounts::CsatTemplatesController < Api::V1::Accounts::BaseContro
     # rubocop:enable Rails/SkipsModelValidations
 
     inboxes = Current.account.inboxes.where(id: inbox_id_params)
-    return unless inboxes.present?
+    return if inboxes.blank?
 
     inboxes.each do |inbox|
       inbox.update(csat_template_id: @template.id)

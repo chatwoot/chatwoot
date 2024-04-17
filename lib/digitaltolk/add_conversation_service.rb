@@ -44,7 +44,7 @@ class Digitaltolk::AddConversationService
   end
 
   def email_address
-    params.dig(:email)
+    params[:email]
   end
 
   def identify_contact_name
@@ -53,16 +53,16 @@ class Digitaltolk::AddConversationService
 
   def conversation_params
     {
-      account_id: params.dig(:account_id),
-      assignee_id: params.dig(:assignee_id),
+      account_id: params[:account_id],
+      assignee_id: params[:assignee_id],
       contact_id: @contact.id,
-      inbox_id: params.dig(:inbox_id),
-      source_id: params.dig(:email),
+      inbox_id: params[:inbox_id],
+      source_id: params[:email],
       additional_attributes: {
-        mail_subject: params.dig(:subject)
+        mail_subject: params[:subject]
       },
       message: {
-        content: params.dig(:content)
+        content: params[:content]
       }
     }
   end

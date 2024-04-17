@@ -132,7 +132,7 @@ class MailPresenter < SimpleDelegator
     return true if @mail['X-Autoreply'].try(:value).present?
     return true if @mail['X-Autorespond'].try(:value).present?
     return true if @mail['Auto-Submitted'].try(:value).present? && @mail['Auto-Submitted'].try(:value).to_s != 'no'
-    return true if @mail['Precedence'].try(:value).to_s.downcase == 'auto_reply'
+    return true if @mail['Precedence'].try(:value).to_s.casecmp('auto_reply').zero?
 
     false
   end

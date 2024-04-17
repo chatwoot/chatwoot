@@ -7,7 +7,7 @@ class FixOldDtUrl < ActiveRecord::Migration[7.0]
       next unless new_content.downcase.include?('booking issue')
 
       new_content = new_content.gsub(old_url, new_url)
-      puts new_content
+      Rails.logger.debug new_content
       message.update_column(:content, new_content)
     end
   end

@@ -92,7 +92,7 @@ class Imap::ImapMailbox
   end
 
   def connect_original_conversation
-    return unless @conversation.present?
+    return if @conversation.blank?
 
     message = (@inbox.messages.find_by(source_id: in_reply_to) if in_reply_to.present?)
     message ||= find_message_by_references

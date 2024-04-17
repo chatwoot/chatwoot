@@ -17,23 +17,15 @@ module ReportHelper
   end
 
   def custom_filter(collection)
-    return collection if collection.blank?
-
-    case collection.model_name.name
-    when 'Conversation'
-      filter_conversations(collection)
-    when 'Message'
-      filter_messages(collection)
-    when 'ReportingEvent'
-      filter_reporting_events(collection)
-    else
-      collection
-    end
+    collection.filter_by_label(selected_label)
+              .filter_by_team(selected_team)
+              .filter_by_inbox(selected_inbox)
+              .filter_by_rating(selected_rating)
   end
 
   def get_filter(key)
     filter = params.dig(:custom_filter, key)
-    return [] unless filter.present?
+    return [] if filter.blank?
 
     filter.to_unsafe_h.values
   end
@@ -52,48 +44,6 @@ module ReportHelper
 
   def selected_rating
     get_filter(:selected_rating)
-  end
-
-  def filter_conversations(collection)
-    collection = collection.where(cached_label_list: selected_label) if selected_label.present?
-
-    collection = collection.where(team_id: selected_team) if selected_team.present?
-
-    collection = collection.where(inbox_id: selected_inbox) if selected_inbox.present?
-
-    if selected_rating.present?
-      collection = collection.joins(:csat_survey_responses).where(csat_survey_responses: { rating: selected_rating }).distinct
-    end
-
-    collection
-  end
-
-  def filter_messages(collection)
-    collection = collection.joins(:conversation).where(conversations: { cached_label_list: selected_label }) if selected_label.present?
-
-    collection = collection.joins(:conversation).where(conversations: { team_id: selected_team }) if selected_team.present?
-
-    collection = collection.where(inbox_id: selected_inbox) if selected_inbox.present?
-
-    if selected_rating.present?
-      collection = collection.joins(conversation: :csat_survey_responses).where(csat_survey_responses: { rating: selected_rating }).distinct
-    end
-
-    collection
-  end
-
-  def filter_reporting_events(collection)
-    collection = collection.joins(:conversation).where(conversations: { cached_label_list: selected_label }) if selected_label.present?
-
-    collection = collection.joins(:conversation).where(conversations: { team_id: selected_team }) if selected_team.present?
-
-    collection = collection.where(inbox_id: selected_inbox) if selected_inbox.present?
-
-    if selected_rating.present?
-      collection = collection.joins(conversation: :csat_survey_responses).where(csat_survey_responses: { rating: selected_rating }).distinct
-    end
-
-    collection
   end
 
   def conversations_count

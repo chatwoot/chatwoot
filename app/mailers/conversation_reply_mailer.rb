@@ -159,7 +159,7 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def custom_message_id
-    last_message = @message || @messages&.reject { |m| m.customized }&.last
+    last_message = @message || @messages&.reject(&:customized)&.last
 
     return if last_message.blank?
     return last_message.source_id if last_message&.source_id.present?

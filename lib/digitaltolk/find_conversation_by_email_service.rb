@@ -23,14 +23,14 @@ class Digitaltolk::FindConversationByEmailService
   end
 
   def email
-    params.dig(:email).to_s.strip.downcase
+    params[:email].to_s.strip.downcase
   end
 
   def limit
-    params.dig(:limit).presence || 10
+    params[:limit].presence || 10
   end
 
   def current_page
-    params.dig(:page).presence || 1
+    params[:page].presence || 1
   end
 end

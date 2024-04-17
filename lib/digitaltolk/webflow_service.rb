@@ -1,7 +1,7 @@
 class Digitaltolk::WebflowService
   attr_accessor :params
 
-  INFO_EMAIL = 'info@digitaltolk.se'
+  INFO_EMAIL = 'info@digitaltolk.se'.freeze
 
   def initialize(params)
     @params = params
@@ -63,7 +63,7 @@ class Digitaltolk::WebflowService
   end
 
   def from_email
-    form_data.dig('Email-kom')
+    form_data['Email-kom']
   end
 
   def subject
@@ -71,11 +71,11 @@ class Digitaltolk::WebflowService
   end
 
   def trigger_event
-    webflow_params.dig(:triggerType)
+    webflow_params[:triggerType]
   end
 
   def form_submission?
-    trigger_event.to_s.downcase == 'form_submission'
+    trigger_event.to_s.casecmp('form_submission').zero?
   end
 
   # def test_webhook_data
