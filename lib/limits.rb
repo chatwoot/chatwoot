@@ -6,6 +6,6 @@ module Limits
   GREETING_MESSAGE_MAX_LENGTH = 10_000
 
   def self.conversation_message_per_minute_limit
-    (ENV['CONVERSATION_MESSAGE_PER_MINUTE_LIMIT'] || 60).to_i
+    ENV.fetch('CONVERSATION_MESSAGE_PER_MINUTE_LIMIT', '200').to_i
   end
 end
