@@ -9,7 +9,7 @@
         size="14"
         icon="information"
         type="outline"
-        class="flex flex-shrink-0 text-sm font-normal sm:font-medium text-slate-500 dark:text-slate-500"
+        class="inline-flex items-center gap-1 text-sm font-medium text-slate-700 dark:text-slate-200"
       />
     </span>
     <div
