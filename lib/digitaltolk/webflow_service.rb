@@ -32,6 +32,7 @@ class Digitaltolk::WebflowService
 
       second_interval = (5 * (index + 1))
       Rails.logger.warn "Sent webform email for #{from_email}"
+      Rails.logger.warn email_params(recipient_email)
       DigitaltolkEmailWorker.perform_in(second_interval.seconds, email_params(recipient_email).to_json)
     end
   end
@@ -63,7 +64,7 @@ class Digitaltolk::WebflowService
   end
 
   def from_email
-    form_data['Email-kom']
+    form_data['Email-kom'] || form_data['Email']
   end
 
   def subject
