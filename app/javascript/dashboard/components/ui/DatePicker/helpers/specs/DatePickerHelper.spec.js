@@ -1,0 +1,240 @@
+import {
+  month,
+  year,
+  parseDateFromDMY,
+  getWeeksForMonth,
+  isToday,
+  isCurrentMonth,
+  isLastDayOfMonth,
+  dayIsInRange,
+  getActiveDateRange,
+  isHoveringDayInRange,
+  isHoveringNextDayInRange,
+  chunk,
+} from '../DatePickerHelper';
+
+describe('Date formatting functions', () => {
+  const testDate = new Date(2020, 4, 15); // July 15, 2020
+
+  it('returns the correct month name from a date', () => {
+    expect(month(testDate)).toBe('May');
+  });
+
+  it('returns the correct year from a date', () => {
+    expect(year(testDate)).toBe('2020');
+  });
+
+  describe('parseDateFromDMY', () => {
+    it('converts a date string from "DD/MM/YYYY" format to a Date object', () => {
+      const input = '31/12/2020';
+      const expected = new Date(2020, 11, 31);
+      expect(parseDateFromDMY(input)).toEqual(expected);
+    });
+  });
+});
+
+describe('chunk', () => {
+  const array = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+  it('correctly chunks an array into smaller arrays of given size', () => {
+    const expected = [
+      [1, 2, 3],
+      [4, 5, 6],
+      [7, 8, 9],
+    ];
+    expect(chunk(array, 3)).toEqual(expected);
+  });
+
+  it('handles arrays that do not divide evenly by the chunk size', () => {
+    const expected = [[1, 2], [3, 4], [5, 6], [7, 8], [9]];
+    expect(chunk(array, 2)).toEqual(expected);
+  });
+});
+
+describe('getWeeksForMonth', () => {
+  it('returns the correct weeks array for a month starting on Monday', () => {
+    const date = new Date(2020, 3, 1); // April 2020
+    const weeks = getWeeksForMonth(date, 1);
+    expect(weeks.length).toBe(6);
+    expect(weeks[0][0]).toEqual(new Date(2020, 2, 30)); // Check if first day of the first week is correct
+  });
+});
+
+describe('isToday', () => {
+  it('returns true if the dates are the same', () => {
+    const today = new Date();
+    const alsoToday = new Date(today);
+    expect(isToday(today, alsoToday)).toBeTruthy();
+  });
+
+  it('returns false if the dates are not the same', () => {
+    const today = new Date();
+    const notToday = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate() - 1
+    );
+    expect(isToday(today, notToday)).toBeFalsy();
+  });
+});
+
+describe('isCurrentMonth', () => {
+  const referenceDate = new Date(2020, 6, 15); // July 15, 2020
+
+  it('returns true if the day is in the same month as the reference date', () => {
+    const testDay = new Date(2020, 6, 1);
+    expect(isCurrentMonth(testDay, referenceDate)).toBeTruthy();
+  });
+
+  it('returns false if the day is not in the same month as the reference date', () => {
+    const testDay = new Date(2020, 5, 30);
+    expect(isCurrentMonth(testDay, referenceDate)).toBeFalsy();
+  });
+});
+
+describe('isLastDayOfMonth', () => {
+  it('returns true if the day is the last day of the month', () => {
+    const testDay = new Date(2020, 6, 31); // July 31, 2020
+    expect(isLastDayOfMonth(testDay)).toBeTruthy();
+  });
+
+  it('returns false if the day is not the last day of the month', () => {
+    const testDay = new Date(2020, 6, 30); // July 30, 2020
+    expect(isLastDayOfMonth(testDay)).toBeFalsy();
+  });
+});
+
+describe('dayIsInRange', () => {
+  it('returns true if the date is within the range', () => {
+    const start = new Date(2020, 1, 10);
+    const end = new Date(2020, 1, 20);
+    const testDate = new Date(2020, 1, 15);
+    expect(dayIsInRange(testDate, start, end)).toBeTruthy();
+  });
+
+  it('returns false if the date is outside the range', () => {
+    const start = new Date(2020, 1, 10);
+    const end = new Date(2020, 1, 20);
+    const testDate = new Date(2020, 1, 9);
+    expect(dayIsInRange(testDate, start, end)).toBeFalsy();
+  });
+});
+
+describe('isHoveringDayInRange', () => {
+  const startDate = new Date(2020, 6, 10);
+  const endDate = new Date(2020, 6, 20);
+  const hoveredEndDate = new Date(2020, 6, 15);
+
+  it('returns true if the day is within the start and hovered end dates', () => {
+    const testDay = new Date(2020, 6, 12);
+    expect(
+      isHoveringDayInRange(testDay, startDate, endDate, hoveredEndDate)
+    ).toBeTruthy();
+  });
+
+  it('returns false if the day is outside the hovered date range', () => {
+    const testDay = new Date(2020, 6, 16);
+    expect(
+      isHoveringDayInRange(testDay, startDate, endDate, hoveredEndDate)
+    ).toBeFalsy();
+  });
+});
+
+describe('isHoveringNextDayInRange', () => {
+  const startDate = new Date(2020, 6, 10);
+  const hoveredEndDate = new Date(2020, 6, 15);
+
+  it('returns true if the next day after the given day is within the start and hovered end dates', () => {
+    const testDay = new Date(2020, 6, 14);
+    expect(
+      isHoveringNextDayInRange(testDay, startDate, null, hoveredEndDate)
+    ).toBeTruthy();
+  });
+
+  it('returns false if the next day is outside the start and hovered end dates', () => {
+    const testDay = new Date(2020, 6, 15);
+    expect(
+      isHoveringNextDayInRange(testDay, startDate, null, hoveredEndDate)
+    ).toBeFalsy();
+  });
+});
+
+describe('getActiveDateRange', () => {
+  const currentDate = new Date(2020, 5, 15, 12, 0); // May 15, 2020, at noon
+
+  beforeAll(() => {
+    // Mocking the current date to ensure consistency in tests
+    jest.useFakeTimers().setSystemTime(currentDate.getTime());
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
+  });
+
+  it('returns the correct range for "last7days"', () => {
+    const range = getActiveDateRange('last7days', new Date());
+    const expectedStart = new Date(2020, 5, 9);
+    expectedStart.setHours(0, 0, 0, 0);
+    const expectedEnd = new Date();
+    expectedEnd.setHours(23, 59, 59, 999);
+
+    expect(range.start).toEqual(expectedStart);
+    expect(range.end).toEqual(expectedEnd);
+  });
+
+  it('returns the correct range for "last30days"', () => {
+    const range = getActiveDateRange('last30days', new Date());
+    const expectedStart = new Date(2020, 4, 17);
+    expectedStart.setHours(0, 0, 0, 0);
+    const expectedEnd = new Date();
+    expectedEnd.setHours(23, 59, 59, 999);
+
+    expect(range.start).toEqual(expectedStart);
+    expect(range.end).toEqual(expectedEnd);
+  });
+
+  it('returns the correct range for "last3months"', () => {
+    const range = getActiveDateRange('last3months', new Date());
+    const expectedStart = new Date(2020, 2, 15);
+    expectedStart.setHours(0, 0, 0, 0);
+    const expectedEnd = new Date();
+    expectedEnd.setHours(23, 59, 59, 999);
+
+    expect(range.start).toEqual(expectedStart);
+    expect(range.end).toEqual(expectedEnd);
+  });
+
+  it('returns the correct range for "last6months"', () => {
+    const range = getActiveDateRange('last6months', new Date());
+    const expectedStart = new Date(2019, 11, 15);
+    expectedStart.setHours(0, 0, 0, 0);
+    const expectedEnd = new Date();
+    expectedEnd.setHours(23, 59, 59, 999);
+
+    expect(range.start).toEqual(expectedStart);
+    expect(range.end).toEqual(expectedEnd);
+  });
+
+  it('returns the correct range for "lastYear"', () => {
+    const range = getActiveDateRange('lastYear', new Date());
+    const expectedStart = new Date(2019, 5, 15);
+    expectedStart.setHours(0, 0, 0, 0);
+    const expectedEnd = new Date();
+    expectedEnd.setHours(23, 59, 59, 999);
+
+    expect(range.start).toEqual(expectedStart);
+    expect(range.end).toEqual(expectedEnd);
+  });
+
+  it('returns the correct range for "custom date range"', () => {
+    const range = getActiveDateRange('custom', new Date());
+    expect(range.start).toEqual(new Date(currentDate));
+    expect(range.end).toEqual(new Date(currentDate));
+  });
+
+  it('handles an unknown range label gracefully', () => {
+    const range = getActiveDateRange('unknown', new Date());
+    expect(range.start).toEqual(new Date(currentDate));
+    expect(range.end).toEqual(new Date(currentDate));
+  });
+});
