@@ -21,7 +21,7 @@ class Rack::Attack
     end
 
     def allowed_ip?
-      allowed_ips = ['127.0.0.1', '::1']
+      allowed_ips = ['127.0.0.1', '::1', ENV.fetch('RACK_ATTACK_ALLOWED_IP', '127.0.0.1')]
       allowed_ips.include?(remote_ip)
     end
 
@@ -30,6 +30,10 @@ class Rack::Attack
     def path_without_extentions
       path[/^[^.]+/]
     end
+  end
+
+  safelist('allow from localhost') do |req|
+    req.allowed_ip?
   end
 
   ### Throttle Spammy Clients ###
