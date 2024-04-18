@@ -14,6 +14,7 @@ import {
   isWithinInterval,
 } from 'date-fns';
 
+// Constants for calendar and date ranges
 export const calendarWeeks = [
   { id: 1, label: 'M' },
   { id: 2, label: 'T' },
@@ -33,16 +34,16 @@ export const dateRanges = [
   { label: 'Custom date range', value: 'custom' },
 ];
 
-export function parseDateFromDMY(dateString) {
+export const parseDateFromDMY = dateString => {
   const [day, month, year] = dateString.split('/');
   return parse(`${year}-${month}-${day}`, 'yyyy-MM-dd', new Date());
-}
+};
 
 export const month = currentDate => format(currentDate, 'MMMM');
 export const year = currentDate => format(currentDate, 'yyyy');
 
+// Utility functions for calendar operations
 export const chunk = (array, size) =>
-  // Used to chunk an array into smaller arrays to match the number of columns in a table
   Array.from({ length: Math.ceil(array.length / size) }, (_, index) =>
     array.slice(index * size, index * size + size)
   );
@@ -51,24 +52,20 @@ export const getWeeksForMonth = (date, weekStartsOn = 1) => {
   const startOfTheMonth = startOfMonth(date);
   const startOfTheFirstWeek = startOfWeek(startOfTheMonth, { weekStartsOn });
   const endOfTheLastWeek = addDays(startOfTheFirstWeek, 41); // Covering six weeks to fill the calendar
-
   return chunk(
     eachDayOfInterval({ start: startOfTheFirstWeek, end: endOfTheLastWeek }),
     7
   );
 };
 
-export const isToday = (currentDate, date) => {
-  return (
-    date.getDate() === currentDate.getDate() &&
-    date.getMonth() === currentDate.getMonth() &&
-    date.getFullYear() === currentDate.getFullYear()
-  );
-};
+// Date comparison functions
+export const isToday = (currentDate, date) =>
+  date.getDate() === currentDate.getDate() &&
+  date.getMonth() === currentDate.getMonth() &&
+  date.getFullYear() === currentDate.getFullYear();
 
-export const isCurrentMonth = (day, referenceDate) => {
-  return isSameMonth(day, referenceDate);
-};
+export const isCurrentMonth = (day, referenceDate) =>
+  isSameMonth(day, referenceDate);
 
 export const isLastDayOfMonth = day => {
   const lastDay = endOfMonth(day);
@@ -94,20 +91,16 @@ export const dayIsInRange = (date, startDate, endDate) => {
   );
 };
 
+// Handling hovering states in date range pickers
 export const isHoveringDayInRange = (
   day,
   startDate,
   endDate,
   hoveredEndDate
 ) => {
-  if (endDate && hoveredEndDate) {
+  if (endDate && hoveredEndDate && startDate <= hoveredEndDate) {
     // Ensure the start date is not after the hovered end date
-    if (startDate <= hoveredEndDate) {
-      return isWithinInterval(day, {
-        start: startDate,
-        end: hoveredEndDate,
-      });
-    }
+    return isWithinInterval(day, { start: startDate, end: hoveredEndDate });
   }
   return false;
 };
@@ -121,22 +114,17 @@ export const isHoveringNextDayInRange = (
   if (startDate && !endDate && hoveredEndDate) {
     // If a start date is selected, and we're hovering (but haven't clicked an end date yet)
     const nextDay = addDays(day, 1);
-    return isWithinInterval(nextDay, {
-      start: startDate,
-      end: hoveredEndDate,
-    });
+    return isWithinInterval(nextDay, { start: startDate, end: hoveredEndDate });
   }
   if (startDate && endDate) {
     // Normal range checking between selected start and end dates
     const nextDay = addDays(day, 1);
-    return isWithinInterval(nextDay, {
-      start: startDate,
-      end: endDate,
-    });
+    return isWithinInterval(nextDay, { start: startDate, end: endDate });
   }
   return false;
 };
 
+// Helper func to determine active date ranges based on user selection
 export const getActiveDateRange = (range, currentDate) => {
   const ranges = {
     last7days: () => ({
@@ -159,11 +147,10 @@ export const getActiveDateRange = (range, currentDate) => {
       start: startOfDay(subMonths(currentDate, 12)),
       end: endOfDay(currentDate),
     }),
-    custom: () => {
-      return { start: currentDate, end: currentDate };
-    },
+    custom: () => ({ start: currentDate, end: currentDate }),
   };
 
-  const result = ranges[range];
-  return result ? result() : { start: currentDate, end: currentDate };
+  return (
+    ranges[range] || (() => ({ start: currentDate, end: currentDate }))
+  )();
 };
