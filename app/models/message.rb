@@ -234,8 +234,10 @@ class Message < ApplicationRecord
     return if conversation.blank?
 
     # there are cases where automations can result in message loops, we need to prevent such cases.
-    errors.add(:base, 'Too many messages') if conversation.messages.where('created_at >= ?',
-                                                                          1.minute.ago).count >= Limits.conversation_message_per_minute_limit
+    if conversation.messages.where('created_at >= ?', 1.minute.ago).count >= Limits.conversation_message_per_minute_limit
+      Rails.logger.error "Too many message: Account Id - #{account_id} : Conversation id - #{conversation_id}"
+      errors.add(:base, 'Too many messages')
+    end
   end
 
   def ensure_processed_message_content
