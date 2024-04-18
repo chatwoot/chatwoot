@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col gap-2 items-start justify-center min-w-[10rem]">
     <span
-      class="inline-flex items-center gap-1 text-sm font-medium text-slate-700 dark:text-slate-200"
+      class="inline-flex items-center gap-1 text-sm font-medium text-primary-700"
     >
       {{ label }}
       <fluent-icon
