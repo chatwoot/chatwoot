@@ -7,15 +7,15 @@
     "LEARN_MORE": "Saiba mais sobre SLA",
     "LOADING": "A carregar SLAs",
     "PAYWALL": {
-      "TITLE": "Upgrade to create SLAs",
-      "AVAILABLE_ON": "The SLA feature is only available in the Business and Enterprise plans.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to advanced features like team management, automations, custom attributes, and more.",
-      "UPGRADE_NOW": "Upgrade now"
+      "TITLE": "Upgrade para criar SLAs",
+      "AVAILABLE_ON": "O recurso SLA apenas está disponível nos planos Business e Enterprise.",
+      "UPGRADE_PROMPT": "Faça upgrade do seu plano para obter acesso a recursos avançados, como gestão de equipas, automações, atributos personalizados e muito mais.",
+      "UPGRADE_NOW": "Fazer upgrade agora"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "The SLA feature is only available in the paid plans.",
-      "UPGRADE_PROMPT": "Upgrade to a paid plan to access advanced features like audit logs, agent capacity, and more.",
-      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      "AVAILABLE_ON": "O recurso SLA apenas está disponível nos planos pagos.",
+      "UPGRADE_PROMPT": "Faça upgrade para um plano pago para obter recursos avançados, como logs de auditoria, capacidade de agentes e muito mais.",
+      "ASK_ADMIN": "Por favor, entre em contato com o administrador para atualização."
     },
     "LIST": {
       "404": "Não há SLAs disponíveis nesta conta.",
@@ -76,7 +76,7 @@
     },
     "ADD": {
       "TITLE": "Adicionar SLA",
-      "DESC": "Friendly promises for great service!",
+      "DESC": "Acordos para um ótimo serviço!",
       "API": {
         "SUCCESS_MESSAGE": "SLA adicionado",
         "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
@@ -96,12 +96,12 @@
       }
     },
     "EVENTS": {
-      "TITLE": "SLA Misses",
+      "TITLE": "SLA Perdidas",
       "FRT": "Primeiro tempo de resposta",
-      "NRT": "Next response time",
-      "RT": "Resolution time",
-      "SHOW_MORE": "{count} more",
-      "HIDE": "Hide {count} rows"
+      "NRT": "Tempo para a próxima resposta",
+      "RT": "Tempo de resolução",
+      "SHOW_MORE": "{count} mais",
+      "HIDE": "Ocultar {count} linhas"
     }
   }
 }
