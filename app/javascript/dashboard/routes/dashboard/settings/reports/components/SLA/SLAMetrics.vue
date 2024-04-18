@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col w-full gap-4 px-6 py-4 bg-white border sm:flex-row sm:gap-14 dark:bg-slate-900 rounded-xl border-slate-75 dark:border-slate-700/50"
+    class="flex sm:flex-row flex-col w-full gap-4 sm:gap-14 bg-white dark:bg-slate-900 rounded-xl border border-slate-75 dark:border-slate-700/50 px-6 py-4"
   >
     <SLAMetricCard
       :label="$t('SLA_REPORTS.METRICS.HIT_RATE.LABEL')"
@@ -10,7 +10,7 @@
     />
 
     <div
-      class="w-full h-full border sm:w-px border-slate-75 dark:border-slate-700/50"
+      class="w-full sm:w-px h-full border border-slate-75 dark:border-slate-700/50"
     />
     <SLAMetricCard
       :label="$t('SLA_REPORTS.METRICS.NO_OF_MISSES.LABEL')"
@@ -19,7 +19,7 @@
       :is-loading="isLoading"
     />
     <div
-      class="w-full h-full border sm:w-px border-slate-75 dark:border-slate-700/50"
+      class="w-full sm:w-px h-full border border-slate-75 dark:border-slate-700/50"
     />
     <SLAMetricCard
       :label="$t('SLA_REPORTS.METRICS.NO_OF_CONVERSATIONS.LABEL')"
