@@ -44,7 +44,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "چک باکس",
       "CREATED_AT": "ایجاد شده در",
       "LAST_ACTIVITY": "آخرین فعالیت",
-      "REFERER_LINK": "پیوند ارجاع‌دهنده"
+      "REFERER_LINK": "پیوند ارجاع‌دهنده",
+      "BLOCKED": "Blocked"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "فیلترهای استاندارد",

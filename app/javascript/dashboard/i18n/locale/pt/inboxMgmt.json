@@ -457,7 +457,7 @@
       }
     },
     "TABS": {
-      "SETTINGS": "Confirgurações",
+      "SETTINGS": "Configurações",
       "COLLABORATORS": "Colaboradores",
       "CONFIGURATION": "Configuração",
       "CAMPAIGN": "Campanhas",
@@ -466,7 +466,7 @@
       "WIDGET_BUILDER": "Construtor de Widgets",
       "BOT_CONFIGURATION": "Configuração do bot"
     },
-    "SETTINGS": "Confirgurações",
+    "SETTINGS": "Configurações",
     "FEATURES": {
       "LABEL": "Características",
       "DISPLAY_FILE_PICKER": "Mostrar o selecionador de ficheiros no widget",

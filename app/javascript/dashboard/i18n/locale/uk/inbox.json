@@ -4,24 +4,28 @@
       "TITLE": "Вхідні",
       "DISPLAY_DROPDOWN": "Відобразити",
       "LOADING": "Завантаження сповіщень",
-      "EOF": "Всі сповіщення завантажено 🎉",
       "404": "Немає активних сповіщень у цій групі.",
       "NO_NOTIFICATIONS": "Немає сповіщень",
       "NOTE": "Сповіщення від усіх підписок на вхідні повідомлення",
+      "NO_MESSAGES_AVAILABLE": "Oops! Not able to fetch messages",
       "SNOOZED_UNTIL": "Відкладено до",
       "SNOOZED_UNTIL_TOMORROW": "Відкладено до завтра",
       "SNOOZED_UNTIL_NEXT_WEEK": "Відкладено до наступного тижня"
     },
     "ACTION_HEADER": {
       "SNOOZE": "Відключити сповіщення",
-      "DELETE": "Видалити сповіщення"
+      "DELETE": "Видалити сповіщення",
+      "BACK": "Назад"
     },
     "TYPES": {
       "CONVERSATION_MENTION": "Ви були згадані в розмові",
       "CONVERSATION_CREATION": "Діалог створено",
       "CONVERSATION_ASSIGNMENT": "Розмова була призначена для вас",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Нове повідомлення в призначеній розмові",
-      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Нове повідомлення в розмові, яке ви берете участь в"
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Нове повідомлення в розмові, яке ви берете участь в",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA target first response missed for conversation",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA target next response missed for conversation",
+      "SLA_MISSED_RESOLUTION": "SLA target resolution missed for conversation"
     },
     "MENU_ITEM": {
       "MARK_AS_READ": "Позначити як прочитане",

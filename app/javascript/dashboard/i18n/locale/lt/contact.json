@@ -296,6 +296,8 @@
     "BUTTON": "Pridėti personalizuotą požymį",
     "NOT_AVAILABLE": "Nėra personalizuotų požymių šiam kontaktui.",
     "COPY_SUCCESSFUL": "Sėkmingai nukopijuota į iškarpinę",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Kopijuoti požymį",
       "DELETE": "Ištrinti požymį",
