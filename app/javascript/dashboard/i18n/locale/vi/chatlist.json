@@ -1,80 +1,93 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Đang tải các cuộc trò chuyện",
-    "LOAD_MORE_CONVERSATIONS": "Tải thêm các cuộc trò chuyện",
-    "EOF": "Tất cả các cuộc trò chuyện đã được tải 🎉",
+    "LOADING": "Đang nạp dữ liệu hội thoại",
+    "LOAD_MORE_CONVERSATIONS": "Nạp thêm dữ liệu",
+    "EOF": "Tất cả các cuộc hội thoại đã được nạp 🎉",
     "LIST": {
-      "404": "Không có bất kì hoạt động trò chuyện nào trong nhóm."
+      "404": "Chưa có cuộc hội thoại nào trong kênh này."
     },
     "TAB_HEADING": "Các cuộc hội thoại",
-    "MENTION_HEADING": "Nhắn đến",
-    "UNATTENDED_HEADING": "Không giám sát",
+    "MENTION_HEADING": "Nhắn đến tôi",
+    "UNREAD_HEADING": "Chưa đọc tin",
+    "UNATTENDED_HEADING": "Chưa tiếp nhận",
     "SEARCH": {
       "INPUT": "Tìm kiếm cho người, đoạn chat, lưu trữ trả lời .."
     },
     "FILTER_ALL": "Tất cả",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "Của tôi",
-      "unassigned": "Chưa được phân công",
+      "me": "Đang phụ trách",
+      "unassigned": "Chưa phân công",
       "all": "Tất cả"
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Mở"
-      },
-      "resolved": {
-        "TEXT": "Đã được giải quyết"
+        "TEXT": "Đang giải quyết"
       },
       "pending": {
         "TEXT": "Chờ giải quyết"
       },
       "snoozed": {
-        "TEXT": "Tạm dừng"
+        "TEXT": "Tạm ngưng"
+      },
+      "resolved": {
+        "TEXT": "Đã hoàn thành"
       },
       "all": {
         "TEXT": "Tất cả"
       }
     },
     "VIEW_FILTER": "Xem",
-    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "SORT_TOOLTIP_LABEL": "Sắp xếp theo",
     "CHAT_SORT": {
       "STATUS": "Trạng thái",
-      "ORDER_BY": "Order by"
+      "ORDER_BY": "Sắp xếp"
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "Đã tạo",
-        "OLDEST": "Tạo vào lúc:"
+        "LATEST": "Bắt đầu từ:",
+        "OLDEST": "Bắt đầu từ:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Last activity:",
-        "ACTIVE": "Last activity"
+        "NOT_ACTIVE": "Tương tác cuối:",
+        "ACTIVE": "Tương tác cuối:"
+      },
+      "TIME_LABEL": {
+        "MINUTE_AGO": "phút trước",
+        "MINUTES_AGO": "phút trước",
+        "HOUR_AGO": "giờ trước",
+        "HOURS_AGO": "giờ trước",
+        "DAY_AGO": "ngày trước",
+        "DAYS_AGO": "ngày trước",
+        "MONTH_AGO": "tháng trước",
+        "MONTHS_AGO": "tháng trước",
+        "YEAR_AGO": "năm trước",
+        "YEARS_AGO": "năm trước"
       }
     },
     "SORT_ORDER_ITEMS": {
       "last_activity_at_asc": {
-        "TEXT": "Last activity: Oldest first"
+        "TEXT": "Hoạt động cũ trước"
       },
       "last_activity_at_desc": {
-        "TEXT": "Last activity: Newest first"
+        "TEXT": "Hoạt động mới trước"
       },
       "created_at_desc": {
-        "TEXT": "Created at: Newest first"
+        "TEXT": "Ngày tạo cũ trước"
       },
       "created_at_asc": {
-        "TEXT": "Created at: Oldest first"
+        "TEXT": "Ngày tạo mới trước"
       },
       "priority_desc": {
-        "TEXT": "Priority: Highest first"
+        "TEXT": "Độ ưu tiên cao trước"
       },
       "priority_asc": {
-        "TEXT": "Priority: Lowest first"
+        "TEXT": "Độ ưu tiên thấp trước"
       },
       "waiting_since_asc": {
-        "TEXT": "Pending Response: Longest first"
+        "TEXT": "Tạm ngưng dài nhất trước"
       },
       "waiting_since_desc": {
-        "TEXT": "Pending Response: Shortest first"
+        "TEXT": "Tạm ngưng ngắn nhất trước"
       }
     },
     "ATTACHMENTS": {

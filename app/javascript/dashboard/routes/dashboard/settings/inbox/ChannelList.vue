@@ -50,7 +50,8 @@ export default {
       return [
         { key: 'website', name: 'Website' },
         { key: 'facebook', name: 'Messenger' },
-        { key: 'whatsapp', name: 'WhatsApp' },
+        { key: 'zalo', name: 'Zalo' },
+        { key: 'stringee', name: 'PhoneCall' },
         { key: 'sms', name: 'SMS' },
         { key: 'email', name: 'Email' },
         {
@@ -59,6 +60,7 @@ export default {
           thumbnail: apiChannelThumbnail,
         },
         { key: 'telegram', name: 'Telegram' },
+        { key: 'whatsapp', name: 'WhatsApp' },
         { key: 'line', name: 'Line' },
       ];
     },

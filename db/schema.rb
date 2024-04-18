@@ -325,6 +325,17 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_15_210313) do
     t.index ["phone_number"], name: "index_channel_sms_on_phone_number", unique: true
   end
 
+  create_table "channel_stringee", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.string "phone_number", null: false
+    t.string "queue_id", null: false
+    t.string "number_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["phone_number", "account_id"], name: "index_channel_stringee_on_phone_number_and_account_id", unique: true
+    t.index ["phone_number"], name: "index_channel_stringee_on_phone_number", unique: true
+  end
+
   create_table "channel_telegram", force: :cascade do |t|
     t.string "bot_name"
     t.integer "account_id", null: false
@@ -390,6 +401,18 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_15_210313) do
     t.jsonb "message_templates", default: {}
     t.datetime "message_templates_last_updated", precision: nil
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
+  end
+
+  create_table "channel_zalo_oa", force: :cascade do |t|
+    t.string "oa_access_token", null: false
+    t.string "refresh_token", null: false
+    t.integer "expires_in", null: false
+    t.integer "account_id", null: false
+    t.string "oa_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index "oa_id", name: "index_channel_zalo_oa_on_oa_id", unique: true
+    t.index ["oa_id", "account_id"], name: "index_channel_zalo_oa_on_oa_id_and_account_id", unique: true
   end
 
   create_table "contact_inboxes", force: :cascade do |t|

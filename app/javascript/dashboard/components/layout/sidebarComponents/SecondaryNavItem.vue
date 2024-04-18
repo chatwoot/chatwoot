@@ -2,7 +2,7 @@
   <li v-show="isMenuItemVisible" class="mt-1">
     <div v-if="hasSubMenu" class="flex justify-between">
       <span
-        class="px-2 pt-1 my-2 text-sm font-semibold text-slate-700 dark:text-slate-200"
+        class="px-2 pt-1 my-2 text-base font-semibold text-slate-700 dark:text-slate-200"
       >
         {{ $t(`SIDEBAR.${menuItem.label}`) }}
       </span>
@@ -104,6 +104,7 @@ import SecondaryChildNavItem from './SecondaryChildNavItem.vue';
 import {
   isOnMentionsView,
   isOnUnattendedView,
+  isOnUnreadView,
 } from '../../../store/modules/conversations/helpers/actionHelpers';
 
 export default {
@@ -179,6 +180,12 @@ export default {
         this.menuItem.toStateName === 'conversation_unattended'
       );
     },
+    isUnread() {
+      return (
+        isOnUnreadView({ route: this.$route }) &&
+        this.menuItem.toStateName === 'conversation_unread'
+      );
+    },
     isTeamsSettings() {
       return (
         this.$store.state.route.name === 'settings_teams_edit' &&
@@ -213,6 +220,7 @@ export default {
       if (
         this.isAllConversations ||
         this.isMentions ||
+        this.isUnread ||
         this.isUnattended ||
         this.isCurrentRoute
       ) {

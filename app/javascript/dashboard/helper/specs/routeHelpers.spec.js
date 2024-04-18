@@ -118,6 +118,9 @@ describe('getConversationDashboardRoute', () => {
       getConversationDashboardRoute('conversation_through_unattended')
     ).toEqual('conversation_unattended');
     expect(
+      getConversationDashboardRoute('conversation_through_unread')
+    ).toEqual('conversation_unread');
+    expect(
       getConversationDashboardRoute('conversations_through_label')
     ).toEqual('label_conversations');
     expect(getConversationDashboardRoute('conversations_through_team')).toEqual(
@@ -127,8 +130,8 @@ describe('getConversationDashboardRoute', () => {
       getConversationDashboardRoute('conversations_through_folders')
     ).toEqual('folder_conversations');
     expect(
-      getConversationDashboardRoute('conversation_through_participating')
-    ).toEqual('conversation_participating');
+      getConversationDashboardRoute('conversation_through_unread')
+    ).toEqual('conversation_unread');
     expect(getConversationDashboardRoute('conversation_through_inbox')).toEqual(
       'inbox_dashboard'
     );

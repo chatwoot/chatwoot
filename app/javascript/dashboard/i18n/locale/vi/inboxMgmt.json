@@ -9,7 +9,7 @@
       {
         "title": "Chọn kênh",
         "route": "settings_inbox_new",
-        "body": "Chọn nhà cung cấp bạn muốn tích hợp với Chatwoot."
+        "body": "Chọn kênh liên hệ bạn muốn tích hợp với Chatwoot."
       },
       {
         "title": "Tạo Hộp thư đến",
@@ -17,9 +17,9 @@
         "body": "Xác thực tài khoản của bạn và tạo hộp thư đến."
       },
       {
-        "title": "Thêm đại lý",
+        "title": "Thêm người dùng",
         "route": "settings_inboxes_add_agents",
-        "body": "Thêm đại lý vào hộp thư đến đã tạo."
+        "body": "Thêm người dùng vào hộp thư đến đã tạo."
       },
       {
         "title": "Tới rồi!",
@@ -38,9 +38,16 @@
         "PLACEHOLDER": "Nhập tên trang web của bạn (ví dụ: Acme Inc)"
       },
       "FB": {
-        "HELP": "Tái bút: Bằng cách đăng nhập, chúng tôi chỉ có quyền truy cập vào các tin nhắn trên Trang của bạn. Chatwoot không bao giờ có thể truy cập tin nhắn riêng tư của bạn.",
+        "HELP": "Lưu ý: Bằng cách đăng nhập, chúng tôi chỉ có quyền truy cập vào các tin nhắn trên Trang của bạn. Chatwoot không bao giờ có thể truy cập tin nhắn riêng tư của bạn.",
         "CHOOSE_PAGE": "Chọn trang",
         "CHOOSE_PLACEHOLDER": "Chọn một trang từ danh sách",
+        "INBOX_NAME": "Tên hộp thư đến",
+        "ADD_NAME": "Thêm tên cho hộp thư đến của bạn",
+        "PICK_NAME": "Chọn tên Hộp thư đến của bạn",
+        "PICK_A_VALUE": "Chọn một giá trị"
+      },
+      "ZALO": {
+        "HELP": "Lưu ý: Bằng cách đăng nhập, chúng tôi chỉ có quyền truy cập vào các tin nhắn trong trang Zalo OA của bạn. Chatwoot không bao giờ có thể truy cập tin nhắn riêng tư của bạn.",
         "INBOX_NAME": "Tên hộp thư đến",
         "ADD_NAME": "Thêm tên cho hộp thư đến của bạn",
         "PICK_NAME": "Chọn tên Hộp thư đến của bạn",
@@ -160,7 +167,7 @@
         "TITLE": "Kênh SMS",
         "DESC": "Bắt đầu hỗ trợ khách hàng thông qua SMS.",
         "PROVIDERS": {
-          "LABEL": "Nhà cung cấp API",
+          "LABEL": "Người dùng API",
           "TWILIO": "Twilio",
           "BANDWIDTH": "Bandwidth"
         },
@@ -212,7 +219,7 @@
         "TITLE": "Kênh WhatsApp",
         "DESC": "Bắt đầu hỗ trợ khách hàng thông qua WhatsApp.",
         "PROVIDERS": {
-          "LABEL": "Nhà cung cấp API",
+          "LABEL": "Người dùng API",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "Đám mây WhatsApp",
           "360_DIALOG": "360Dialog"
@@ -277,6 +284,24 @@
           "ERROR_MESSAGE": "Chúng tôi không thể lưu kênh api"
         }
       },
+      "STRINGEE_CHANNEL": {
+        "TITLE": "Kênh PhoneCall",
+        "DESC": "Tích hợp với kênh PhoneCall (tổng đài điện thoại) và bắt đầu hỗ trợ khách hàng của bạn.",
+        "CHANNEL_NAME": {
+          "LABEL": "Tên Kênh",
+          "PLACEHOLDER": "Vui lòng nhập tên kênh",
+          "ERROR": "Trường này là bắt buộc"
+        },
+        "PHONENUMBER": {
+          "LABEL": "Số điện thoại",
+          "SUBTITLE": "Nhập số điện thoại hotline mà bạn muốn tích hợp vào kênh tổng đài điện thoại này.",
+          "PLACEHOLDER": "Số điện thoại (hotline)"
+        },
+        "SUBMIT_BUTTON": "Tạo kênh PhoneCall",
+        "SAVE": {
+          "ERROR_MESSAGE": "Chúng tôi không thể lưu kênh PhoneCall này"
+        }
+      },
       "EMAIL_CHANNEL": {
         "TITLE": "Kênh Email",
         "DESC": "Tích hợp hộp thư đến email của bạn.",
@@ -287,7 +312,7 @@
         },
         "EMAIL": {
           "LABEL": "Email",
-          "SUBTITLE": "Provide the email address where your customers send support requests.",
+          "SUBTITLE": "Cung cấp địa chỉ email tiếp nhận yêu cầu hỗ trợ của khách hàng.",
           "PLACEHOLDER": "Email"
         },
         "SUBMIT_BUTTON": "Tạo kênh Email",
@@ -340,13 +365,13 @@
       },
       "AUTH": {
         "TITLE": "Chọn kênh",
-        "DESC": "Chatwoot hỗ trợ các tiện ích trò chuyện trực tiếp, Facebook Messenger, hồ sơ Twitter, WhatsApp, Email, v. v., dưới dạng các kênh. Nếu bạn muốn xây dựng một kênh tùy chỉnh, bạn có thể tạo kênh này bằng cách sử dụng kênh API. Để bắt đầu, hãy chọn một trong các kênh bên dưới."
+        "DESC": "Chatwoot hỗ trợ tích hợp Website Live-chat, Zalo OA, Facebook Messenger, SMS, Email, v. v., dưới dạng các kênh. Nếu bạn muốn xây dựng một kênh tùy chỉnh mới, bạn có thể sử dụng kênh API. Để bắt đầu, hãy chọn một trong các kênh bên dưới."
       },
       "AGENTS": {
         "TITLE": "Nhà Cung Cấp",
-        "DESC": "Tại đây bạn có thể thêm các tác nhân để quản lý hộp thư đến mới tạo của mình. Chỉ những đại lý được chọn này mới có quyền truy cập vào hộp thư đến của bạn. Các nhân viên không thuộc hộp thư đến này sẽ không thể xem hoặc trả lời thư trong hộp thư đến này khi họ đăng nhập. <br> <b>PS:</b> Với tư cách là quản trị viên, nếu bạn cần quyền truy cập vào tất cả các hộp thư đến, bạn nên thêm mình làm đại lý cho tất cả các hộp thư đến mà bạn tạo.",
-        "VALIDATION_ERROR": "Thêm ít nhất một đại lý vào hộp thư đến mới của bạn",
-        "PICK_AGENTS": "Chọn đại lý cho hộp thư đến"
+        "DESC": "Tại đây bạn có thể thêm các tác nhân để quản lý hộp thư đến mới tạo của mình. Chỉ những người dùng được chọn này mới có quyền truy cập vào hộp thư đến của bạn. Các nhân viên không thuộc hộp thư đến này sẽ không thể xem hoặc trả lời thư trong hộp thư đến này khi họ đăng nhập. <br> <b>PS:</b> Với tư cách là quản trị viên, nếu bạn cần quyền truy cập vào tất cả các hộp thư đến, bạn nên thêm mình làm người dùng cho tất cả các hộp thư đến mà bạn tạo.",
+        "VALIDATION_ERROR": "Thêm ít nhất một người dùng vào hộp thư đến mới của bạn",
+        "PICK_AGENTS": "Chọn người dùng cho hộp thư đến"
       },
       "DETAILS": {
         "TITLE": "Chi tiết Hộp thư đến",
@@ -370,16 +395,18 @@
     },
     "DETAILS": {
       "LOADING_FB": "Xác thực bạn bằng Facebook...",
+      "LOADING_ZALO": "Xác thực bạn bằng Zalo...",
       "ERROR_FB_AUTH": "Đã xảy ra sự cố, Vui lòng làm mới trang...",
       "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
       "CREATING_CHANNEL": "Tạo Hộp thư đến của bạn...",
       "TITLE": "Cấu hình chi tiết hộp thư đến",
-      "DESC": ""
+      "DESC": "",
+      "DESC_ZALO": "Bạn có thể lấy tên hộp thư trong Chatwoot là tên Zalo OA của bạn. Bạn cũng có thể điều chỉnh tên hộp thư để nhận dạng tốt hơn."
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Thêm các nhà cung cấp",
-      "ADD_AGENTS": "Thêm các nhà cung cấp vào hộp thư đến của bạn..."
+      "BUTTON_TEXT": "Thêm các người dùng",
+      "ADD_AGENTS": "Thêm các người dùng vào hộp thư đến của bạn..."
     },
     "FINISH": {
       "TITLE": "Hộp thư đến của bạn đã sẵn sàng!",
@@ -458,7 +485,7 @@
     },
     "TABS": {
       "SETTINGS": "Cài đặt",
-      "COLLABORATORS": "Cộng tác viên",
+      "COLLABORATORS": "Người dùng",
       "CONFIGURATION": "Cấu hình",
       "CAMPAIGN": "Chiến dịch",
       "PRE_CHAT_FORM": "Biểu mẫu trước khi trò chuyện",
@@ -477,14 +504,14 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Tập lệnh Messenger",
       "MESSENGER_SUB_HEAD": "Đặt nút này bên trong thẻ body của bạn",
-      "INBOX_AGENTS": "Nhà cung cấp",
-      "INBOX_AGENTS_SUB_TEXT": "Thêm hoặc xóa tác nhân khỏi hộp thư đến này",
-      "AGENT_ASSIGNMENT": "Phân công cuộc trò chuyện",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Cập nhật phân công cuộc trò chuyện",
+      "INBOX_AGENTS": "Phân quyền cho kênh",
+      "INBOX_AGENTS_SUB_TEXT": "Thêm hoặc xóa người dùng khỏi kênh này",
+      "AGENT_ASSIGNMENT": "Phân công trực kênh",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Cập nhật phân công trực kênh",
       "UPDATE": "Cập nhật",
       "ENABLE_EMAIL_COLLECT_BOX": "Bật hộp thu thập email",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Bật hoặc tắt hộp thu thập email trên cuộc trò chuyện mới",
-      "AUTO_ASSIGNMENT": "Bật tự động chuyển nhượng",
+      "AUTO_ASSIGNMENT": "Bật tự động phân công",
       "ENABLE_CSAT": "Bật chỉ số đo lường sự hài lòng khách hàng",
       "SENDER_NAME_SECTION": "Enable Agent Name in Email",
       "ENABLE_CSAT_SUB_TEXT": "Bật / Tắt khảo sát CSAT (Mức độ hài lòng của khách hàng) sau khi giải quyết cuộc trò chuyện",
@@ -495,7 +522,7 @@
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Bật hoặc tắt nhiều cuộc trò chuyện cho cùng một liên hệ trong hộp thư đến này",
       "INBOX_UPDATE_TITLE": "Cài đặt Hộp thư đến",
       "INBOX_UPDATE_SUB_TEXT": "Cập nhật cài đặt hộp thư đến của bạn",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Bật hoặc tắt tính năng tự động gán các cuộc hội thoại mới cho các tác nhân được thêm vào hộp thư đến này.",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Bật hoặc tắt tính năng tự động phân công cho người dùng đã được phân quyền trong kênh này.",
       "HMAC_VERIFICATION": "Xác thực danh tính người dùng",
       "HMAC_DESCRIPTION": "With this key you can generate a secret token that can be used to verify the identity of your users.",
       "HMAC_LINK_TO_DOCS": "You can read more here.",
@@ -569,7 +596,7 @@
       "UPDATE": "Cập nhật tuỳ chỉnh giờ làm việc",
       "TOGGLE_AVAILABILITY": "Kích hoạt tính khả dụng của doanh nghiệp cho hộp thư đến này",
       "UNAVAILABLE_MESSAGE_LABEL": "Thông báo không có sẵn cho khách truy cập",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
+      "TOGGLE_HELP": "Việc kích hoạt tính khả dụng của doanh nghiệp sẽ hiển thị giờ có sẵn trên tiện ích trò chuyện trực tiếp ngay cả khi tất cả các người dùng đều ngoại tuyến. Ngoài giờ có sẵn, khách truy cập có thể được cảnh báo bằng thông điệp và biểu mẫu trò chuyện trước.",
       "DAY": {
         "ENABLE": "Kích hoạt tính khả dụng cho hôm nay",
         "UNAVAILABLE": "Không có sẵn",

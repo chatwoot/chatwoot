@@ -178,6 +178,8 @@ gem 'reverse_markdown'
 # Sentiment analysis
 gem 'informers'
 
+gem 'digest'
+
 ### Gems required only in specific deployment environments ###
 ##############################################################
 

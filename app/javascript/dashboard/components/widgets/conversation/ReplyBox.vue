@@ -399,7 +399,8 @@ export default {
         this.isAnEmailChannel ||
         this.isASmsInbox ||
         this.isATelegramChannel ||
-        this.isALineChannel
+        this.isALineChannel ||
+        this.isAZaloOaChannel
       );
     },
     replyButtonLabel() {
@@ -536,11 +537,7 @@ export default {
 
       this.setCCAndToEmailsFromLastChat();
 
-      if (this.isOnPrivateNote) {
-        return;
-      }
-
-      if (canReply || this.isAWhatsAppChannel) {
+      if (!this.isAStringeeChannel && (canReply || this.isAWhatsAppChannel)) {
         this.replyType = REPLY_EDITOR_MODES.REPLY;
       } else {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
@@ -892,7 +889,8 @@ export default {
       this.$store.dispatch('draftMessages/setReplyEditorMode', {
         mode,
       });
-      if (canReply || this.isAWhatsAppChannel) this.replyType = mode;
+      if (!this.isAStringeeChannel && (canReply || this.isAWhatsAppChannel))
+        this.replyType = mode;
       if (this.showRichContentEditor) {
         if (this.isRecordingAudio) {
           this.toggleAudioRecorder();

@@ -1,6 +1,6 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Không có sẵn",
+    "NOT_AVAILABLE": "Chưa nhập",
     "EMAIL_ADDRESS": "Địa chỉ email",
     "PHONE_NUMBER": "Số điện thoại",
     "IDENTIFIER": "Định danh",
@@ -18,12 +18,12 @@
     "CREATED_AT_LABEL": "Đã tạo",
     "NEW_MESSAGE": "Tin nhắn mới",
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "Không có cuộc trò chuyện trước đó được liên kết với liên hệ này.",
-      "TITLE": "Cuộc trò chuyện trước đó"
+      "NO_RECORDS_FOUND": "Không tìm thấy cuộc hội thoại nào khác",
+      "TITLE": "Lịch sử hội thoại"
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Nhãn danh bạ",
+        "TITLE": "Nhãn liên hệ",
         "ERROR": "Không thể sửa nhãn"
       },
       "CONVERSATION": {
@@ -38,17 +38,17 @@
       }
     },
     "MERGE_CONTACT": "Hợp nhất liên hệ",
-    "CONTACT_ACTIONS": "Hành động với liên hệ",
-    "MUTE_CONTACT": "Block Contact",
-    "UNMUTE_CONTACT": "Unblock Contact",
-    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
-    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
-    "SEND_TRANSCRIPT": "Gửi bản ghi",
+    "CONTACT_ACTIONS": "Thao tác với liên hệ",
+    "MUTE_CONTACT": "Khóa liên lạc",
+    "UNMUTE_CONTACT": "Mở khóa liên lạc",
+    "MUTED_SUCCESS": "Đã khóa liên lạc thành công, bạn sẽ không còn nhận thông báo hội thoại nào từ liên hệ này nữa.",
+    "UNMUTED_SUCCESS": "Mở khóa liên lạc thành công.",
+    "SEND_TRANSCRIPT": "Gửi bản sao",
     "EDIT_LABEL": "Chỉnh sửa",
     "SIDEBAR_SECTIONS": {
-      "CUSTOM_ATTRIBUTES": "Thuộc tính tùy chỉnh",
+      "CUSTOM_ATTRIBUTES": "Thông tin tùy chỉnh",
       "CONTACT_LABELS": "Nhãn danh bạ",
-      "PREVIOUS_CONVERSATIONS": "Cuộc trò chuyện trước đó"
+      "PREVIOUS_CONVERSATIONS": "Lịch sử hội thoại"
     }
   },
   "EDIT_CONTACT": {
@@ -101,13 +101,23 @@
     "DESC": "Xoá chi tiết liên hệ",
     "CONFIRM": {
       "TITLE": "Xác nhận xoá",
-      "MESSAGE": "Bạn có muốn xoá? ",
+      "MESSAGE": "Bạn có muốn xoá ",
       "YES": "Có, Xoá",
       "NO": "Không, giữ"
     },
     "API": {
       "SUCCESS_MESSAGE": "Liên hệ đã được xóa thành công",
       "ERROR_MESSAGE": "Không thể xoá liên hệ. Vui lòng thử lại sau."
+    }
+  },
+  "CALL_CONTACT": {
+    "BUTTON_LABEL": "Gọi điện",
+    "TITLE": "Gọi điện cho liên hệ",
+    "CONFIRM": {
+      "TITLE": "Xác nhận gọi điện",
+      "MESSAGE": "Bạn có muốn gọi điện cho liên hệ này?",
+      "YES": "Có, gọi ngay",
+      "NO": "Không, quay lại"
     }
   },
   "CONTACT_FORM": {
@@ -292,8 +302,8 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Thêm thuộc tính",
-    "BUTTON": "Thêm thuộc tính tùy chỉnh",
+    "ADD_BUTTON_TEXT": "Thêm thông tin tùy chỉnh",
+    "BUTTON": "Thêm thông tin tùy chỉnh",
     "NOT_AVAILABLE": "Không có thuộc tính tuỳ chỉnh nào có sẵn cho liên hệ này.",
     "COPY_SUCCESSFUL": "Đã sao chép mã thành công",
     "SHOW_MORE": "Show all attributes",
@@ -304,14 +314,14 @@
       "EDIT": "Sửa thuộc tính"
     },
     "ADD": {
-      "TITLE": "Tạo thuộc tính tùy chỉnh",
+      "TITLE": "Tạo tthông tin tùy chỉnh",
       "DESC": "Thêm thông tin tuỳ chỉnh vào liên hệ này."
     },
     "FORM": {
-      "CREATE": "Thêm thuộc tính",
+      "CREATE": "Thêm thông tin tùy chỉnh",
       "CANCEL": "Huỷ",
       "NAME": {
-        "LABEL": "Tên thuộc tính tùy chỉnh",
+        "LABEL": "Tên thông tin tùy chỉnh",
         "PLACEHOLDER": "Ví dụ: shopify id",
         "ERROR": "Tên thuộc tính tuỳ chỉnh không hợp lệ"
       },

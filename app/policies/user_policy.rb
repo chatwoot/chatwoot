@@ -18,4 +18,8 @@ class UserPolicy < ApplicationPolicy
   def bulk_create?
     @account_user.administrator?
   end
+
+  def new_stringee_token?
+    @account_user.administrator?
+  end
 end

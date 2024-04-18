@@ -49,6 +49,18 @@
       "LAST_ACTIVITY": {
         "NOT_ACTIVE": "Last activity:",
         "ACTIVE": "Last activity"
+      },
+      "TIME_LABEL": {
+        "MINUTE_AGO": "minute ago",
+        "MINUTES_AGO": "minutes ago",
+        "HOUR_AGO": "hour ago",
+        "HOURS_AGO": "hours ago",
+        "DAY_AGO": "day ago",
+        "DAYS_AGO": "days ago",
+        "MONTH_AGO": "month ago",
+        "MONTHS_AGO": "months ago",
+        "YEAR_AGO": "year ago",
+        "YEARS_AGO": "years ago"
       }
     },
     "SORT_ORDER_ITEMS": {

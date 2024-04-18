@@ -82,6 +82,7 @@ import { minValue } from 'vuelidate/lib/validators';
 import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
 import SettingsSection from '../../../../../components/SettingsSection.vue';
+import StringeeChannelAPI from '../../../../../api/channel/stringeeChannel';
 
 export default {
   components: {
@@ -150,6 +151,13 @@ export default {
       const agentList = this.selectedAgents.map(el => el.id);
       this.isAgentListUpdating = true;
       try {
+        if (this.inbox.channel_type === 'Channel::StringeePhoneCall') {
+          await StringeeChannelAPI.updateAgents({
+            inboxId: this.inbox.id,
+            agentList,
+          });
+        }
+
         await this.$store.dispatch('inboxMembers/create', {
           inboxId: this.inbox.id,
           agentList,

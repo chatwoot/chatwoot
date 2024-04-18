@@ -46,6 +46,7 @@ Rails.application.routes.draw do
           resource :bulk_actions, only: [:create]
           resources :agents, only: [:index, :create, :update, :destroy] do
             post :bulk_create, on: :collection
+            get :new_stringee_token, on: :member
           end
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
@@ -77,12 +78,26 @@ Rails.application.routes.draw do
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
             resource :twilio_channel, only: [:create]
+            resources :stringee_channels, only: [:index, :create, :destroy], param: :inbox_id do
+              collection do
+                patch :update_agents
+                get :number_to_call
+              end
+            end
+            resource :zalo_channel, only: [] do
+              collection do
+                post :create
+                get :create
+                get :secret_key
+              end
+            end
           end
           resources :conversations, only: [:index, :create, :show, :update] do
             collection do
               get :meta
               get :search
               post :filter
+              get :find_by_message
             end
             scope module: :conversations do
               resources :messages, only: [:index, :create, :destroy] do
@@ -420,6 +435,10 @@ Rails.application.routes.draw do
   post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
+  post 'webhooks/zalo', to: 'webhooks/zalo#process_payload'
+  get '/zalo/callback', to: 'zalo/callback#create'
+  post 'webhooks/stringee/events', to: 'webhooks/stringee#process_payload'
+  post 'webhooks/stringee/agents', to: 'webhooks/stringee#agents'
 
   namespace :twitter do
     resource :callback, only: [:show]

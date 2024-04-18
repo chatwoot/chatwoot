@@ -31,12 +31,18 @@ export const setAuthCredentials = response => {
     expires: differenceInDays(expiryDate, new Date()),
   });
   setUser(response.data.data, expiryDate);
+
+  Cookies.set(
+    'stringee_access_token',
+    response.data.data.custom_attributes.stringee_access_token
+  );
 };
 
 export const clearBrowserSessionCookies = () => {
   Cookies.remove('cw_d_session_info');
   Cookies.remove('auth_data');
   Cookies.remove('user');
+  Cookies.remove('stringee_access_token');
 };
 
 export const clearLocalStorageOnLogout = () => {

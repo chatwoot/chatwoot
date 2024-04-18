@@ -110,6 +110,16 @@
       "ERROR_MESSAGE": "Could not delete contact. Please try again later."
     }
   },
+  "CALL_CONTACT": {
+    "BUTTON_LABEL": "Make a call",
+    "TITLE": "Calling to contact's phone number",
+    "CONFIRM": {
+      "TITLE": "Confirm phone calling",
+      "MESSAGE": "Are you sure to make a call to this contact?",
+      "YES": "Yes, call now",
+      "NO": "No, get back"
+    }
+  },
   "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Submit",

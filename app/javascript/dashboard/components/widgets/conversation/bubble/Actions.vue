@@ -159,7 +159,7 @@ export default {
       return MESSAGE_STATUS.SENT === this.messageStatus;
     },
     readableTime() {
-      return this.messageTimestamp(this.createdAt, 'LLL d, h:mm a');
+      return this.messageTimestamp(this.createdAt, 'dd/MM, HH:mm');
     },
     screenName() {
       const { additional_attributes: additionalAttributes = {} } =
@@ -202,6 +202,7 @@ export default {
         this.isATwilioChannel ||
         this.isAFacebookInbox ||
         this.isASmsInbox ||
+        this.isAZaloOaChannel ||
         this.isATelegramChannel
       ) {
         return this.sourceId && this.isSent;
@@ -221,6 +222,7 @@ export default {
         this.isAWhatsAppChannel ||
         this.isATwilioChannel ||
         this.isASmsInbox ||
+        this.isAZaloOaChannel ||
         this.isAFacebookInbox
       ) {
         return this.sourceId && this.isDelivered;
@@ -242,6 +244,7 @@ export default {
       if (
         this.isAWhatsAppChannel ||
         this.isATwilioChannel ||
+        this.isAZaloOaChannel ||
         this.isAFacebookInbox
       ) {
         return this.sourceId && this.isRead;

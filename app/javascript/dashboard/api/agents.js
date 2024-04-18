@@ -12,6 +12,10 @@ class Agents extends ApiClient {
       emails,
     });
   }
+
+  newStringeeToken(id) {
+    return axios.get(`${this.url}/${id}/new_stringee_token`);
+  }
 }
 
 export default new Agents();
