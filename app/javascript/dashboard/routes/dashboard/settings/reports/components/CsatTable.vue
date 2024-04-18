@@ -1,7 +1,6 @@
 <template>
   <div class="csat--table-container">
     <ve-table
-      max-height="calc(100vh - 21.875rem)"
       :fixed-header="true"
       :border-around="true"
       :columns="columns"

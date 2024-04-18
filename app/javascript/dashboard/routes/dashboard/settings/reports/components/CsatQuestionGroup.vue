@@ -6,7 +6,6 @@
         :responses="responsesFromQuestion(question.content)"
       >
         <ve-table
-          max-height="calc(100vh - 21.875rem)"
           :fixed-header="true"
           :border-around="true"
           :columns="columns()"
