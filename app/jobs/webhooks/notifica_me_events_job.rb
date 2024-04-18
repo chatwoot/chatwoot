@@ -289,7 +289,8 @@ class Webhooks::NotificaMeEventsJob < ApplicationJob
 
   def process_event_params(channel, params)
     if params['type'] == 'MESSAGE_STATUS'
-      message = Message.find_by(source_id: params['messageId'])
+      source_id = params['messageStatus']['code'] == 'SENT' ? params['messageId'] : params['messageStatus']['providerMessage_id']
+      message = Message.find_by(source_id: source_id)
       unless message
         unless params['retried']
           Rails.logger.warn("NotificaMe Message source id #{params['messageId']} not found try again")
@@ -304,7 +305,7 @@ class Webhooks::NotificaMeEventsJob < ApplicationJob
       if params['messageStatus']['code'] == 'REJECTED'
         message.update!(status: :failed, external_error: params['messageStatus']['description'])
       elsif params['messageStatus']['code'] == 'SENT'
-        message.update!(status: :sent) if index < Message.statuses[:sent] || message.status == :failed
+        message.update!(status: :sent, source_id: params['messageStatus']['providerMessage_id']) if index < Message.statuses[:sent] || message.status == :failed
       elsif params['messageStatus']['code'] == 'DELIVERED'
         message.update!(status: :delivered) if index < Message.statuses[:delivered] || message.status == :failed
       end

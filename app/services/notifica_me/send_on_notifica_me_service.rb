@@ -20,7 +20,7 @@ class NotificaMe::SendOnNotificaMeService < Base::SendOnChannelService
         format: :json
       )
       if response.success?
-        message.update!(source_id: response.parsed_response["id"], status: :sent)
+        message.update!(source_id: response.parsed_response["id"])
       else
         raise "Error on send mensagem to NotificaMe: #{response.parsed_response}"
       end
