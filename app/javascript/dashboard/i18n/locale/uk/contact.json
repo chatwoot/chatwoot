@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Свої атрибути",
       "CONTACT_LABELS": "Мітки контакту",
-      "PREVIOUS_CONVERSATIONS": "Попередні бесіди"
+      "PREVIOUS_CONVERSATIONS": "Попередні бесіди",
+      "NO_RECORDS_FOUND": "Атрибути не знайдено"
     }
   },
   "EDIT_CONTACT": {
