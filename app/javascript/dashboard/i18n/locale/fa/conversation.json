@@ -280,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "ایجاد ویژگی",
+    "NO_RECORDS_FOUND": "هیچ ویژگی یافت نشد",
     "UPDATE": {
       "SUCCESS": "ویژگی با موفقیت به روز شد",
       "ERROR": "امکان به روزرسانی ویژگی وجود ندارد. لطفاً بعداً دوباره امتحان کنید"
