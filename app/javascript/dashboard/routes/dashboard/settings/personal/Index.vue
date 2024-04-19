@@ -15,48 +15,54 @@
           @update="updateUser"
         />
 
-        <form @submit.prevent="updateUser('profile')">
-          <label :class="{ error: $v.name.$error }">
-            {{ $t('PROFILE_SETTINGS.FORM.NAME.LABEL') }}
-            <input
-              v-model="name"
-              type="text"
-              :placeholder="$t('PROFILE_SETTINGS.FORM.NAME.PLACEHOLDER')"
-              @input="$v.name.$touch"
-            />
-            <span v-if="$v.name.$error" class="message">
-              {{ $t('PROFILE_SETTINGS.FORM.NAME.ERROR') }}
-            </span>
-          </label>
-          <label :class="{ error: $v.displayName.$error }">
-            {{ $t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.LABEL') }}
-            <input
-              v-model="displayName"
-              type="text"
-              :placeholder="
-                $t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.PLACEHOLDER')
-              "
-              @input="$v.displayName.$touch"
-            />
-          </label>
-          <label
+        <form
+          class="flex flex-col gap-6"
+          @submit.prevent="updateUser('profile')"
+        >
+          <form-input
+            v-model="name"
+            type="text"
+            name="name"
+            :class="{ error: $v.name.$error }"
+            :label="$t('PROFILE_SETTINGS.FORM.NAME.LABEL')"
+            :placeholder="$t('PROFILE_SETTINGS.FORM.NAME.PLACEHOLDER')"
+            :has-error="$v.name.$error"
+            :error-message="$t('PROFILE_SETTINGS.FORM.NAME.ERROR')"
+            @blur="$v.name.$touch"
+          />
+          <form-input
+            v-model="displayName"
+            type="text"
+            name="displayName"
+            :class="{ error: $v.displayName.$error }"
+            :label="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.LABEL')"
+            :placeholder="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.PLACEHOLDER')"
+            :has-error="$v.displayName.$error"
+            :error-message="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.ERROR')"
+            @blur="$v.displayName.$touch"
+          />
+          <form-input
             v-if="!globalConfig.disableUserProfileUpdate"
+            v-model="email"
+            type="email"
+            name="email"
             :class="{ error: $v.email.$error }"
+            :label="$t('PROFILE_SETTINGS.FORM.EMAIL.LABEL')"
+            :placeholder="$t('PROFILE_SETTINGS.FORM.EMAIL.PLACEHOLDER')"
+            :has-error="$v.email.$error"
+            :error-message="$t('PROFILE_SETTINGS.FORM.EMAIL.ERROR')"
+            @blur="$v.email.$touch"
+          />
+          <v3-button
+            type="submit"
+            color-scheme="primary"
+            variant="solid"
+            icon="copy"
+            show-right-icon
+            size="large"
           >
-            {{ $t('PROFILE_SETTINGS.FORM.EMAIL.LABEL') }}
-            <input
-              v-model.trim="email"
-              type="email"
-              :placeholder="$t('PROFILE_SETTINGS.FORM.EMAIL.PLACEHOLDER')"
-              @input="$v.email.$touch"
-            />
-            <span v-if="$v.email.$error" class="message">
-              {{ $t('PROFILE_SETTINGS.FORM.EMAIL.ERROR') }}
-            </span>
-          </label>
-          <woot-button type="submit" :is-loading="isProfileUpdating">
             {{ $t('PROFILE_SETTINGS.BTN_TEXT') }}
-          </woot-button>
+          </v3-button>
         </form>
 
         <personal-wrapper
@@ -139,6 +145,8 @@ import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from '../../../../store/utils/api';
 import { hasValidAvatarUrl } from 'dashboard/helper/URLHelper';
 import NotificationSettings from './NotificationSettings.vue';
+import FormInput from 'v3/components/Form/Input.vue';
+import V3Button from 'v3/components/Form/Button.vue';
 
 export default {
   components: {
@@ -149,6 +157,8 @@ export default {
     ChangePassword,
     NotificationSettings,
     AccessToken,
+    FormInput,
+    V3Button,
   },
   mixins: [alertMixin, globalConfigMixin, uiSettingsMixin],
   data() {

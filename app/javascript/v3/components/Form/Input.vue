@@ -20,15 +20,13 @@
       :data-testid="dataTestid"
       :value="value"
       :class="{
-        'focus:outline-red-600 outline-red-600 dark:focus:outline-red-600 dark:outline-red-600':
-          hasError,
-        'outline-slate-200 dark:outline-slate-600 dark:focus:outline-woot-500 focus:outline-woot-500':
-          !hasError,
+        'outline-ruby-600 focus:outline-ruby-600': hasError,
+        'outline-ash-200  focus:outline-primary-500': !hasError,
         'px-3 py-3': spacing === 'base',
         'px-3 py-2 mb-0': spacing === 'compact',
         'pl-9': icon,
       }"
-      class="block w-full border-none rounded-md shadow-sm appearance-none outline outline-1 focus:outline-2 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 sm:text-sm sm:leading-6 dark:bg-slate-800"
+      class="block w-full h-10 ltr:pl-3 ltr:pr-2 rtl:pl-2 rtl:pr-3 py-2.5 !border-none shadow-sm appearance-none reset-base rounded-xl outline outline-1 focus:outline-1 text-ash-900 placeholder:text-ash-200 sm:text-sm sm:leading-6"
       @input="onInput"
       @blur="$emit('blur')"
     />
