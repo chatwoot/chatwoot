@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Editează atribut personalizat",
       "CONTACT_LABELS": "Etichete de contact",
-      "PREVIOUS_CONVERSATIONS": "Conversații anterioare"
+      "PREVIOUS_CONVERSATIONS": "Conversații anterioare",
+      "NO_RECORDS_FOUND": "Nu s-au găsit atribute"
     }
   },
   "EDIT_CONTACT": {
