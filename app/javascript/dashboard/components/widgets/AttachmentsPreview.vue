@@ -23,9 +23,7 @@
         </span>
       </div>
       <div class="w-[30%] justify-center">
-        <span
-          class="overflow-hidden text-xs item text-ellipsis whitespace-nowrap"
-        >
+        <span class="overflow-hidden text-xs text-ellipsis whitespace-nowrap">
           {{ formatFileSize(attachment.resource) }}
         </span>
       </div>
