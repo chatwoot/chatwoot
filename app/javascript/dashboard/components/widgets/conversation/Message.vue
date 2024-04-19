@@ -409,9 +409,6 @@ export default {
         : false;
     },
     errorMessageTooltip() {
-      if (this.isMessageDeleted) {
-        return '';
-      }
       if (this.isFailed) {
         return this.externalError || this.$t(`CONVERSATION.SEND_FAILED`);
       }
