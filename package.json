@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "3.7.0",
+  "version": "3.8.0",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/**/*.{js,vue}",
@@ -22,7 +22,7 @@
   "size-limit": [
     {
       "path": "public/packs/js/widget-*.js",
-      "limit": "280 KB"
+      "limit": "281 KB"
     },
     {
       "path": "public/packs/js/sdk.js",
@@ -63,7 +63,7 @@
     "libphonenumber-js": "^1.10.24",
     "logrocket": "^3.0.1",
     "logrocket-vuex": "^0.0.3",
-    "markdown-it": "^13.0.1",
+    "markdown-it": "^13.0.2",
     "markdown-it-link-attributes": "^4.0.1",
     "md5": "^2.3.0",
     "ninja-keys": "^1.2.2",

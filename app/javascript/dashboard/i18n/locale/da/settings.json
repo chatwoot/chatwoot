@@ -83,7 +83,10 @@
         "CONVERSATION_CREATION": "Send e-mail notifikationer når en ny samtale er oprettet",
         "CONVERSATION_MENTION": "Send e-mail notifikationer, når du er nævnt i en samtale",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send e-mail notifikationer når en ny besked er oprettet i en tildelt samtale",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
       },
       "API": {
         "UPDATE_SUCCESS": "Dine notifikationsindstillinger er opdateret",
@@ -98,7 +101,10 @@
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push-notifikationer, når en ny besked oprettes i en tildelt samtale",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Du har aktiveret push for denne browser.",
-        "REQUEST_PUSH": "Aktivér push-notifikationer"
+        "REQUEST_PUSH": "Aktivér push-notifikationer",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profilbillede"
@@ -199,6 +205,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Vises nu:",
     "SWITCH": "Skift",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Samtaler",
     "INBOX": "Indbakke",
     "ALL_CONVERSATIONS": "Alle Samtaler",
@@ -237,6 +244,8 @@
     "CAMPAIGNS": "Kampagner",
     "ONGOING": "Igangværende",
     "ONE_OFF": "En rabat",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Agenter",
     "REPORTS_LABEL": "Etiketter",
     "REPORTS_INBOX": "Indbakke",

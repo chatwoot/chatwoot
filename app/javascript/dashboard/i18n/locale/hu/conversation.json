@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Halasztás eddig",
       "SNOOZED_UNTIL_TOMORROW": "Halasztás holnapig",
       "SNOOZED_UNTIL_NEXT_WEEK": "Halasztás jövő hétig",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Halasztás következő válaszig"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Halasztás következő válaszig",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Függőben levőként megjelölés",

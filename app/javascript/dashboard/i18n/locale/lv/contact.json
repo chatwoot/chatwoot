@@ -296,6 +296,8 @@
     "BUTTON": "Pievienot pielāgotu īpašību",
     "NOT_AVAILABLE": "Šai kontaktpersonai nav pieejamas pielāgotas īpašības.",
     "COPY_SUCCESSFUL": "Veiksmīgi nokopēts uz clipboard",
+    "SHOW_MORE": "Rādīt visus atribūtus",
+    "SHOW_LESS": "Rādīt mazāk atribūtu",
     "ACTIONS": {
       "COPY": "Kopēt īpašību",
       "DELETE": "Dzēst īpašību",
