@@ -4,6 +4,9 @@ import {
   subDays,
   endOfDay,
   subMonths,
+  addMonths,
+  subYears,
+  addYears,
   startOfMonth,
   isSameMonth,
   format,
@@ -26,12 +29,18 @@ export const calendarWeeks = [
 ];
 
 export const dateRanges = [
-  { label: 'Last 7 days', value: 'last7days' },
-  { label: 'Last 30 days', value: 'last30days' },
-  { label: 'Last 3 months', value: 'last3months' },
-  { label: 'Last 6 months', value: 'last6months' },
-  { label: 'Last year', value: 'lastYear' },
-  { label: 'Custom date range', value: 'custom' },
+  { label: 'DATE_PICKER.DATE_RANGE_OPTIONS.LAST_7_DAYS', value: 'last7days' },
+  { label: 'DATE_PICKER.DATE_RANGE_OPTIONS.LAST_30_DAYS', value: 'last30days' },
+  {
+    label: 'DATE_PICKER.DATE_RANGE_OPTIONS.LAST_3_MONTHS',
+    value: 'last3months',
+  },
+  {
+    label: 'DATE_PICKER.DATE_RANGE_OPTIONS.LAST_6_MONTHS',
+    value: 'last6months',
+  },
+  { label: 'DATE_PICKER.DATE_RANGE_OPTIONS.LAST_YEAR', value: 'lastYear' },
+  { label: 'DATE_PICKER.DATE_RANGE_OPTIONS.CUSTOM_RANGE', value: 'custom' },
 ];
 
 export const parseDateFromDMY = dateString => {
@@ -56,6 +65,28 @@ export const getWeeksForMonth = (date, weekStartsOn = 1) => {
     eachDayOfInterval({ start: startOfTheFirstWeek, end: endOfTheLastWeek }),
     7
   );
+};
+
+export const moveCalendarDate = (
+  calendar,
+  startCurrentDate,
+  endCurrentDate,
+  direction,
+  period
+) => {
+  const adjustFunctions = {
+    month: { prev: subMonths, next: addMonths },
+    year: { prev: subYears, next: addYears },
+  };
+
+  const adjust = adjustFunctions[period][direction];
+
+  if (calendar === 'start') {
+    const newStart = adjust(startCurrentDate, 1);
+    return { start: newStart, end: endCurrentDate };
+  }
+  const newEnd = adjust(endCurrentDate, 1);
+  return { start: startCurrentDate, end: newEnd };
 };
 
 // Date comparison functions

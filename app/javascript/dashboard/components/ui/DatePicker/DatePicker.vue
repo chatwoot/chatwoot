@@ -1,6 +1,9 @@
 <script setup>
 import { ref, watch } from 'vue';
-import { getActiveDateRange } from './helpers/DatePickerHelper';
+import {
+  getActiveDateRange,
+  moveCalendarDate,
+} from './helpers/DatePickerHelper';
 import {
   format,
   isValid,
@@ -15,8 +18,6 @@ import {
   differenceInCalendarMonths,
   setMonth,
   setYear,
-  subYears,
-  addYears,
   isAfter,
 } from 'date-fns';
 
@@ -106,17 +107,15 @@ const setDateRange = range => {
 };
 
 const moveCalendar = (calendar, direction, period = 'month') => {
-  const adjustFunctions = {
-    month: { prev: subMonths, next: addMonths },
-    year: { prev: subYears, next: addYears },
-  };
-
-  const adjust = adjustFunctions[period][direction];
-  if (calendar === 'start') {
-    startCurrentDate.value = adjust(startCurrentDate.value, 1);
-  } else if (calendar === 'end') {
-    endCurrentDate.value = adjust(endCurrentDate.value, 1);
-  }
+  const { start, end } = moveCalendarDate(
+    calendar,
+    startCurrentDate.value,
+    endCurrentDate.value,
+    direction,
+    period
+  );
+  startCurrentDate.value = start;
+  endCurrentDate.value = end;
 };
 
 const selectDate = day => {
@@ -181,7 +180,7 @@ const emitDateRange = () => {
     bus.$emit('newToastMessage', 'Please select a valid time range');
   } else {
     showDatePicker.value = false;
-    emit('change', [selectedStartDate.value, selectedEndDate.value]);
+    emit('dateRangeChanged', [selectedStartDate.value, selectedEndDate.value]);
   }
 };
 </script>

@@ -57,7 +57,11 @@ const validateDate = dateString => {
 <template>
   <div class="h-[82px] flex flex-col items-start px-5 gap-1.5 pt-4 w-full">
     <span class="text-sm font-medium text-slate-800 dark:text-slate-50">
-      {{ calendarType === 'start' ? 'Start Date' : 'End Date' }}
+      {{
+        calendarType === 'start'
+          ? $t('DATE_PICKER.DATE_RANGE_INPUT.START')
+          : $t('DATE_PICKER.DATE_RANGE_INPUT.END')
+      }}
     </span>
     <input
       type="text"

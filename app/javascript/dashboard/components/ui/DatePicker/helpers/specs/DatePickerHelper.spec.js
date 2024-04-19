@@ -10,6 +10,7 @@ import {
   getActiveDateRange,
   isHoveringDayInRange,
   isHoveringNextDayInRange,
+  moveCalendarDate,
   chunk,
 } from '../DatePickerHelper';
 
@@ -57,6 +58,56 @@ describe('getWeeksForMonth', () => {
     const weeks = getWeeksForMonth(date, 1);
     expect(weeks.length).toBe(6);
     expect(weeks[0][0]).toEqual(new Date(2020, 2, 30)); // Check if first day of the first week is correct
+  });
+});
+
+describe('moveCalendarDate', () => {
+  it('handles the year transition when moving the start date backward by one month from January', () => {
+    const startDate = new Date(2021, 0, 1);
+    const endDate = new Date(2021, 0, 31);
+    const result = moveCalendarDate(
+      'start',
+      startDate,
+      endDate,
+      'prev',
+      'month'
+    );
+    const expectedStartDate = new Date(2020, 11, 1);
+    expect(result.start.toISOString()).toEqual(expectedStartDate.toISOString());
+    expect(result.end.toISOString()).toEqual(endDate.toISOString());
+  });
+
+  it('handles the year transition when moving the start date forward by one month from January', () => {
+    const startDate = new Date(2020, 0, 1);
+    const endDate = new Date(2020, 1, 31);
+    const result = moveCalendarDate(
+      'start',
+      startDate,
+      endDate,
+      'next',
+      'month'
+    );
+    const expectedStartDate = new Date(2020, 1, 1);
+    expect(result.start.toISOString()).toEqual(expectedStartDate.toISOString());
+    expect(result.end.toISOString()).toEqual(endDate.toISOString());
+  });
+
+  it('handles the year transition when moving the end date forward by one month from December', () => {
+    const startDate = new Date(2021, 11, 1);
+    const endDate = new Date(2021, 11, 31);
+    const result = moveCalendarDate('end', startDate, endDate, 'next', 'month');
+    const expectedEndDate = new Date(2022, 0, 31);
+    expect(result.start).toEqual(startDate);
+    expect(result.end.toISOString()).toEqual(expectedEndDate.toISOString());
+  });
+  it('handles the year transition when moving the end date backward by one month from December', () => {
+    const startDate = new Date(2021, 11, 1);
+    const endDate = new Date(2021, 11, 31);
+    const result = moveCalendarDate('end', startDate, endDate, 'prev', 'month');
+    const expectedEndDate = new Date(2021, 10, 30);
+
+    expect(result.start).toEqual(startDate);
+    expect(result.end.toISOString()).toEqual(expectedEndDate.toISOString());
   });
 });
 

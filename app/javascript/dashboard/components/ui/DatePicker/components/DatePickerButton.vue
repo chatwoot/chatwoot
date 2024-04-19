@@ -57,7 +57,7 @@ const openDatePicker = () => {
       size="16"
     />
     <span class="text-sm font-medium text-slate-800 dark:text-slate-50">
-      {{ activeDateRange }}
+      {{ $t(activeDateRange) }}
     </span>
     <span class="text-sm font-medium text-slate-600 dark:text-slate-200">
       {{ formatDateRange }}
