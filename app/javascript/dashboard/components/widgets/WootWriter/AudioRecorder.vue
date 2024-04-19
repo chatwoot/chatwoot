@@ -236,4 +236,13 @@ export default {
 .vjs-record.video-js .vjs-control.vjs-record-indicator:before {
   @apply text-slate-600 dark:text-slate-200 bg-transparent dark:bg-transparent;
 }
+// Added to fix  div overlays the screen and takes over the button clicks
+// https://github.com/collab-project/videojs-record/issues/688
+// https://github.com/collab-project/videojs-record/pull/709
+.vjs-record.video-js .vjs-control.vjs-record-indicator.vjs-hidden,
+.vjs-record.video-js .vjs-control.vjs-record-indicator,
+.vjs-record.video-js .vjs-control.vjs-record-indicator:before,
+.vjs-record.video-js .vjs-control.vjs-record-indicator:after {
+  @apply pointer-events-none;
+}
 </style>

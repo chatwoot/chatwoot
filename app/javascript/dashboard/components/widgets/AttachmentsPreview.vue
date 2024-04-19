@@ -1,5 +1,5 @@
 <template>
-  <div class="preview-item__wrap flex overflow-auto max-h-[12.5rem]">
+  <div class="flex overflow-auto max-h-[12.5rem]">
     <div
       v-for="(attachment, index) in filteredAttachments"
       :key="attachment.id"
@@ -8,7 +8,7 @@
       <div class="max-w-[4rem] flex-shrink-0 w-6 flex items-center">
         <img
           v-if="isTypeImage(attachment.resource)"
-          class="image-thumb"
+          class="object-cover w-6 h-6 rounded-sm"
           :src="attachment.thumb"
         />
         <span v-else class="relative w-6 h-6 text-lg text-left -top-px">
@@ -31,68 +31,53 @@
       </div>
       <div class="flex items-center justify-center">
         <woot-button
-          class="remove--attachment clear secondary"
+          class="!w-6 !h-6 text-sm rounded-md hover:bg-slate-50 dark:hover:bg-slate-800 clear secondary"
           icon="dismiss"
-          @click="() => onRemoveAttachment(index)"
+          @click="onRemoveAttachment(index)"
         />
       </div>
     </div>
   </div>
 </template>
-<script>
+
+<script setup>
+import { computed } from 'vue';
 import { formatBytes } from 'shared/helpers/FileHelper';
-export default {
-  props: {
-    attachments: {
-      type: Array,
-      default: () => [],
-    },
-    removeAttachment: {
-      type: Function,
-      default: () => {},
-    },
+
+const props = defineProps({
+  attachments: {
+    type: Array,
+    default: () => [],
   },
-  computed: {
-    filteredAttachments() {
-      // Only render non recorded audio files and other attachments
-      return this.attachments.filter(
-        attachment => !attachment?.isRecordedAudio
-      );
-    },
-  },
-  methods: {
-    onRemoveAttachment(index) {
-      this.removeAttachment(index);
-    },
-    formatFileSize(file) {
-      const size = file.byte_size || file.size;
-      return formatBytes(size, 0);
-    },
-    isTypeImage(file) {
-      const type = file.content_type || file.type;
-      return type.includes('image');
-    },
-    fileName(file) {
-      return file.filename || file.name;
-    },
-  },
+});
+
+const emits = defineEmits(['remove-attachment']);
+
+const filteredAttachments = computed(() => {
+  return props.attachments.filter(attachment => !attachment?.isRecordedAudio);
+});
+
+const onRemoveAttachment = itemIndex => {
+  const updatedAttachments = filteredAttachments.value.filter(
+    (item, index) => itemIndex !== index
+  );
+  const recordedAudios = props.attachments.filter(
+    attachment => attachment?.isRecordedAudio
+  );
+  emits('remove-attachment', [...updatedAttachments, ...recordedAudios]);
+};
+
+const formatFileSize = file => {
+  const size = file.byte_size || file.size;
+  return formatBytes(size, 0);
+};
+
+const isTypeImage = file => {
+  const type = file.content_type || file.type;
+  return type.includes('image');
+};
+
+const fileName = file => {
+  return file.filename || file.name;
 };
 </script>
-<style lang="scss" scoped>
-.image-thumb {
-  @apply w-6 h-6 object-cover rounded-sm;
-}
-
-.file-name-wrap,
-.file-size-wrap {
-  @apply flex items-center py-0 px-1;
-
-  > .item {
-    @apply m-0 overflow-hidden text-xs font-medium;
-  }
-}
-
-.remove--attachment {
-  @apply w-6 h-6 rounded-md text-sm cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800;
-}
-</style>
