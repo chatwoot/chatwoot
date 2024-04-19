@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "حسب ضرورت اوصاف",
       "CONTACT_LABELS": "کانٹیکٹ لیبلز",
-      "PREVIOUS_CONVERSATIONS": "پچھلی بات چیت"
+      "PREVIOUS_CONVERSATIONS": "پچھلی بات چیت",
+      "NO_RECORDS_FOUND": "No attributes found"
     }
   },
   "EDIT_CONTACT": {
