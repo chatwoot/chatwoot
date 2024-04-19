@@ -108,8 +108,8 @@
     --color-teal-800: 0 133 115;
     --color-teal-900: 13 61 56;
   }
-
-  .dark {
+  // scss-lint:disable QualifyingElement
+  body.dark {
     --color-amber-100: 57 39 15;
     --color-amber-200: 67 46 18;
     --color-amber-25: 31 19 0;
