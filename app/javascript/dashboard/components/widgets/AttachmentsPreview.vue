@@ -1,7 +1,7 @@
 <template>
   <div class="preview-item__wrap flex overflow-auto max-h-[12.5rem]">
     <div
-      v-for="(attachment, index) in attachments"
+      v-for="(attachment, index) in filteredAttachments"
       :key="attachment.id"
       class="preview-item flex items-center p-1 bg-slate-50 dark:bg-slate-800 gap-1 rounded-md w-[15rem] mb-1"
     >
@@ -11,7 +11,7 @@
           class="image-thumb"
           :src="attachment.thumb"
         />
-        <span v-else class="w-6 h-6 text-lg relative -top-px text-left">
+        <span v-else class="relative w-6 h-6 text-lg text-left -top-px">
           📄
         </span>
       </div>
@@ -24,14 +24,13 @@
       </div>
       <div class="w-[30%] justify-center">
         <span
-          class="item overflow-hidden text-xs text-ellipsis whitespace-nowrap"
+          class="overflow-hidden text-xs item text-ellipsis whitespace-nowrap"
         >
           {{ formatFileSize(attachment.resource) }}
         </span>
       </div>
       <div class="flex items-center justify-center">
         <woot-button
-          v-if="!isTypeAudio(attachment.resource)"
           class="remove--attachment clear secondary"
           icon="dismiss"
           @click="() => onRemoveAttachment(index)"
@@ -53,6 +52,14 @@ export default {
       default: () => {},
     },
   },
+  computed: {
+    filteredAttachments() {
+      // Only render non recorded audio files and other attachments
+      return this.attachments.filter(
+        attachment => !attachment?.isRecordedAudio
+      );
+    },
+  },
   methods: {
     onRemoveAttachment(index) {
       this.removeAttachment(index);
@@ -64,10 +71,6 @@ export default {
     isTypeImage(file) {
       const type = file.content_type || file.type;
       return type.includes('image');
-    },
-    isTypeAudio(file) {
-      const type = file.content_type || file.type;
-      return type.includes('audio');
     },
     fileName(file) {
       return file.filename || file.name;

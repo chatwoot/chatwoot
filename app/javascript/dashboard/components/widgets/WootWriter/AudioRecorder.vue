@@ -231,7 +231,9 @@ export default {
     @apply bg-transparent max-h-60 min-h-[3rem] pt-4 px-0 pb-0 resize-none;
   }
 }
-.video-js .vjs-control-bar {
-  background-color: transparent;
+// Added to override the default text and bg style to support dark and light mode.
+.video-js .vjs-control-bar,
+.vjs-record.video-js .vjs-control.vjs-record-indicator:before {
+  @apply text-slate-600 dark:text-slate-200 bg-transparent dark:bg-transparent;
 }
 </style>
