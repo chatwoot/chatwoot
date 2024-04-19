@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "سمات مخصصة",
       "CONTACT_LABELS": "تصنفيات جهات الاتصال",
-      "PREVIOUS_CONVERSATIONS": "المحادثات السابقة"
+      "PREVIOUS_CONVERSATIONS": "المحادثات السابقة",
+      "NO_RECORDS_FOUND": "لم يتم العثور على سمات"
     }
   },
   "EDIT_CONTACT": {
