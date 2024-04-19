@@ -86,7 +86,7 @@
           :id="data.id"
           :sender="data.sender"
           :story-sender="storySender"
-          :external-error="messageToolTip"
+          :external-error="errorMessageTooltip"
           :story-id="`${storyId}`"
           :is-a-tweet="isATweet"
           :is-a-whatsapp-channel="isAWhatsAppChannel"
@@ -408,7 +408,7 @@ export default {
           }
         : false;
     },
-    messageToolTip() {
+    errorMessageTooltip() {
       if (this.isMessageDeleted) {
         return '';
       }
