@@ -296,6 +296,8 @@
     "BUTTON": "Tilføj brugerdefineret attribut",
     "NOT_AVAILABLE": "Der er ingen brugerdefinerede attributter tilgængelige for denne kontakt.",
     "COPY_SUCCESSFUL": "Kopiering til udklipsholder lykkedes",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Kopier attribut",
       "DELETE": "Slet egenskab",
