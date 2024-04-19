@@ -315,6 +315,11 @@ class Message < ApplicationRecord
     send_reply
     execute_message_template_hooks
     update_contact_activity
+    auto_assign_agent
+  end
+
+  def auto_assign_agent
+    conversation.auto_assign_to_latest_agent
   end
 
   def update_contact_activity

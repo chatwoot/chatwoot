@@ -25,6 +25,9 @@ class TriggerScheduledItemsJob < ApplicationJob
 
     # Job to close conversations
     Internal::RemoveStaleConversationsJob.perform_later
+
+    # Job to auto assign conversations
+    Internal::AutoAssignConversationsJob.perform_later
   end
 end
 

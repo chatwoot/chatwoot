@@ -76,6 +76,7 @@ class Conversation < ApplicationRecord
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
+  scope :attended, -> { where.not(first_reply_created_at: nil) }
   scope :unattended, -> { where(first_reply_created_at: nil).or(where.not(waiting_since: nil)) }
   scope :resolvable, lambda { |auto_resolve_duration|
     return none if auto_resolve_duration.to_i.zero?
@@ -237,6 +238,17 @@ class Conversation < ApplicationRecord
 
   def send_with_quoted_thread?
     custom_attributes['send_quoted_thread']
+  end
+
+  def auto_assign_to_latest_agent
+    return if assignee_id.present?
+    return if latest_agent.blank?
+
+    update(assignee_id: latest_agent.id)
+  end
+
+  def latest_agent
+    messages.outgoing.where.not(sender_id: nil).last&.sender
   end
 
   private
