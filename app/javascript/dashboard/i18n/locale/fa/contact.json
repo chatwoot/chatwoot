@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "ویژگی‌های سفارشی",
       "CONTACT_LABELS": "تماس با برچسب ها",
-      "PREVIOUS_CONVERSATIONS": "گفتگوهای قبلی"
+      "PREVIOUS_CONVERSATIONS": "گفتگوهای قبلی",
+      "NO_RECORDS_FOUND": "هیچ ویژگی یافت نشد"
     }
   },
   "EDIT_CONTACT": {
