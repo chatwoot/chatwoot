@@ -1,14 +1,16 @@
 <template>
   <div
-    class="flex flex-col min-w-[15rem] max-h-[21.25rem] w-[23rem] rounded-md border border-solid border-slate-75 dark:border-slate-600"
+    class="flex flex-col min-w-[15rem] max-h-[21.25rem] sm:w-[23rem] rounded-md border border-solid border-ash-200"
     :class="{
-      'border border-solid border-woot-300 dark:border-woot-400': active,
+      'border border-solid border-primary-300 ': active,
     }"
   >
     <div
       class="flex justify-between items-center px-2 w-full h-10 rounded-t-[5px]"
     >
-      <div class="flex items-center p-1 text-sm font-medium">{{ heading }}</div>
+      <div class="flex items-center p-1 text-base font-medium text-ash-900">
+        {{ heading }}
+      </div>
       <div>
         <!-- Show radio button, if the card is active, set radio button checked -->
         <input
@@ -20,7 +22,7 @@
       </div>
     </div>
     <div
-      class="text-slate-700 dark:text-slate-200 text-xs leading-[1.4] px-3 pb-0 text-start"
+      class="text-slate-700 dark:text-slate-200 text-sm leading-[1.4] px-3 pb-0 text-start"
     >
       {{ content }}
     </div>

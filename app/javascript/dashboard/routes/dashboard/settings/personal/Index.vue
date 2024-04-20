@@ -3,67 +3,70 @@
     <div
       class="flex flex-col h-full p-5 pt-16 mx-auto my-0 bg-white dark:bg-slate-900 font-inter"
     >
-      <div class="flex flex-col gap-8 sm:max-w-3xl">
-        <h2 class="text-2xl font-medium text-slate-900 dark:text-white">
-          Profile Settings
-        </h2>
-        <user-basic-profile
-          :src="avatarUrl"
-          :display-name="displayName"
-          size="72px"
-          @change="handleImageUpload"
-          @update="updateUser"
-        />
+      <div class="flex flex-col gap-16 sm:max-w-3xl">
+        <div class="flex flex-col gap-6">
+          <h2 class="mt-4 text-2xl font-medium text-ash-900">
+            Profile Settings
+          </h2>
+          <user-basic-profile
+            :src="avatarUrl"
+            :name="name"
+            size="72px"
+            @change="handleImageUpload"
+            @update="updateUser"
+            @delete="deleteAvatar"
+          />
 
-        <form
-          class="flex flex-col gap-6"
-          @submit.prevent="updateUser('profile')"
-        >
-          <form-input
-            v-model="name"
-            type="text"
-            name="name"
-            :class="{ error: $v.name.$error }"
-            :label="$t('PROFILE_SETTINGS.FORM.NAME.LABEL')"
-            :placeholder="$t('PROFILE_SETTINGS.FORM.NAME.PLACEHOLDER')"
-            :has-error="$v.name.$error"
-            :error-message="$t('PROFILE_SETTINGS.FORM.NAME.ERROR')"
-            @blur="$v.name.$touch"
-          />
-          <form-input
-            v-model="displayName"
-            type="text"
-            name="displayName"
-            :class="{ error: $v.displayName.$error }"
-            :label="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.LABEL')"
-            :placeholder="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.PLACEHOLDER')"
-            :has-error="$v.displayName.$error"
-            :error-message="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.ERROR')"
-            @blur="$v.displayName.$touch"
-          />
-          <form-input
-            v-if="!globalConfig.disableUserProfileUpdate"
-            v-model="email"
-            type="email"
-            name="email"
-            :class="{ error: $v.email.$error }"
-            :label="$t('PROFILE_SETTINGS.FORM.EMAIL.LABEL')"
-            :placeholder="$t('PROFILE_SETTINGS.FORM.EMAIL.PLACEHOLDER')"
-            :has-error="$v.email.$error"
-            :error-message="$t('PROFILE_SETTINGS.FORM.EMAIL.ERROR')"
-            @blur="$v.email.$touch"
-          />
-          <v3-button
-            type="submit"
-            color-scheme="primary"
-            variant="solid"
-            icon="copy"
-            show-right-icon
-            size="large"
+          <form
+            class="flex flex-col gap-6"
+            @submit.prevent="updateUser('profile')"
           >
-            {{ $t('PROFILE_SETTINGS.BTN_TEXT') }}
-          </v3-button>
-        </form>
+            <form-input
+              v-model="name"
+              type="text"
+              name="name"
+              :class="{ error: $v.name.$error }"
+              :label="$t('PROFILE_SETTINGS.FORM.NAME.LABEL')"
+              :placeholder="$t('PROFILE_SETTINGS.FORM.NAME.PLACEHOLDER')"
+              :has-error="$v.name.$error"
+              :error-message="$t('PROFILE_SETTINGS.FORM.NAME.ERROR')"
+              @blur="$v.name.$touch"
+            />
+            <form-input
+              v-model="displayName"
+              type="text"
+              name="displayName"
+              :class="{ error: $v.displayName.$error }"
+              :label="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.LABEL')"
+              :placeholder="
+                $t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.PLACEHOLDER')
+              "
+              :has-error="$v.displayName.$error"
+              :error-message="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.ERROR')"
+              @blur="$v.displayName.$touch"
+            />
+            <form-input
+              v-if="!globalConfig.disableUserProfileUpdate"
+              v-model="email"
+              type="email"
+              name="email"
+              :class="{ error: $v.email.$error }"
+              :label="$t('PROFILE_SETTINGS.FORM.EMAIL.LABEL')"
+              :placeholder="$t('PROFILE_SETTINGS.FORM.EMAIL.PLACEHOLDER')"
+              :has-error="$v.email.$error"
+              :error-message="$t('PROFILE_SETTINGS.FORM.EMAIL.ERROR')"
+              @blur="$v.email.$touch"
+            />
+            <v3-button
+              type="submit"
+              color-scheme="primary"
+              variant="solid"
+              size="large"
+            >
+              {{ $t('PROFILE_SETTINGS.BTN_TEXT') }}
+            </v3-button>
+          </form>
+        </div>
 
         <personal-wrapper
           header="Personal message signature"
@@ -82,11 +85,13 @@
           :show-action-button="false"
         >
           <template #settingsItem>
-            <div class="flex flex-col justify-between w-full gap-4 sm:flex-row">
+            <div
+              class="flex flex-col justify-between w-full gap-5 sm:gap-4 sm:flex-row"
+            >
               <button
                 v-for="keyOption in keyOptions"
                 :key="keyOption.key"
-                class="p-0 cursor-pointer"
+                class="reset-base"
               >
                 <hot-key-card
                   :heading="keyOption.heading"
@@ -107,6 +112,15 @@
         >
           <template #settingsItem>
             <notification-settings />
+          </template>
+        </personal-wrapper>
+        <personal-wrapper
+          header="Notification preferences"
+          description=""
+          :show-action-button="false"
+        >
+          <template #settingsItem>
+            <notification-preferences />
           </template>
         </personal-wrapper>
         <personal-wrapper
@@ -145,6 +159,7 @@ import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from '../../../../store/utils/api';
 import { hasValidAvatarUrl } from 'dashboard/helper/URLHelper';
 import NotificationSettings from './NotificationSettings.vue';
+import NotificationPreferences from './NotificationPreferences.vue';
 import FormInput from 'v3/components/Form/Input.vue';
 import V3Button from 'v3/components/Form/Button.vue';
 
@@ -159,6 +174,7 @@ export default {
     AccessToken,
     FormInput,
     V3Button,
+    NotificationPreferences,
   },
   mixins: [alertMixin, globalConfigMixin, uiSettingsMixin],
   data() {

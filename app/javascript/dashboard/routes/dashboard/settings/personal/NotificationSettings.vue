@@ -1,5 +1,5 @@
 <template>
-  <div id="profile-settings-notifications" class="flex flex-col gap-4">
+  <div id="profile-settings-notifications" class="flex flex-col gap-6">
     <form-select
       v-model="notificationTone"
       name="timezone"
@@ -20,15 +20,15 @@
 
     <div>
       <label
-        class="flex justify-between pb-1 text-sm font-medium leading-6 text-slate-900 dark:text-white"
+        class="flex justify-between pb-1 text-sm font-medium leading-6 text-ash-900"
       >
         Alert events for conversations
       </label>
       <div
-        class="flex flex-row justify-between h-10 max-w-xl p-2 border border-solid rounded-md border-slate-75 dark:border-slate-600"
+        class="flex flex-row justify-between h-10 max-w-xl p-2 border border-solid rounded-md border-ash-200"
       >
         <div
-          class="flex flex-row items-center justify-center gap-1 border-r border-slate-75 grow"
+          class="flex flex-row items-center justify-center gap-2 px-4 border-r border-ash-200 grow"
         >
           <input
             id="audio_enable_alert_none"
@@ -38,10 +38,15 @@
             value="none"
             @input="handleAudioInput"
           />
-          <label>None</label>
+          <label
+            class="text-sm font-medium text-ash-900"
+            :class="{ 'text-ash-400': enableAudioAlerts !== 'none' }"
+          >
+            None
+          </label>
         </div>
         <div
-          class="flex flex-row items-center justify-center gap-1 border-r border-slate-75 grow"
+          class="flex flex-row items-center justify-center gap-2 px-4 border-r border-ash-200 grow"
         >
           <input
             id="audio_enable_alert_mine"
@@ -51,9 +56,14 @@
             value="mine"
             @input="handleAudioInput"
           />
-          <label>Assigned</label>
+          <label
+            class="text-sm font-medium text-ash-900"
+            :class="{ 'text-ash-400': enableAudioAlerts !== 'mine' }"
+          >
+            Assigned
+          </label>
         </div>
-        <div class="flex flex-row items-center justify-center gap-1 grow">
+        <div class="flex flex-row items-center justify-center gap-2 px-4 grow">
           <input
             id="audio_enable_alert_all"
             v-model="enableAudioAlerts"
@@ -62,7 +72,12 @@
             value="all"
             @input="handleAudioInput"
           />
-          <label>All</label>
+          <label
+            class="text-sm font-medium text-ash-900"
+            :class="{ 'text-ash-400': enableAudioAlerts !== 'all' }"
+          >
+            All
+          </label>
         </div>
       </div>
     </div>
@@ -98,298 +113,6 @@
         </label>
       </div>
     </div>
-
-    <div>
-      <h4 class="text-lg font-medium text-slate-900 dark:text-slate-25">
-        Notification preferences
-      </h4>
-      <!-- Draw a line -->
-      <div class="flex flex-row items-center justify-between gap-4">
-        <div class="flex-grow h-0.5 bg-slate-50 dark:bg-slate-700" />
-      </div>
-      <div
-        class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
-      >
-        <table-header-cell :span="6" label="Notification type" />
-        <table-header-cell :span="3" label="Email" />
-        <table-header-cell :span="3" label="Push notification">
-          <div class="flex flex-row items-center justify-center gap-1">
-            <span
-              class="text-xs font-medium uppercase text-slate-700 dark:text-slate-100 rtl:text-right"
-            >
-              Push notification
-            </span>
-            <woot-switch
-              :value="!hasEnabledPushPermissions"
-              @input="onRequestPermissions()"
-            />
-          </div>
-        </table-header-cell>
-      </div>
-      <div
-        class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
-      >
-        <div
-          class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] text-slate-700 dark:text-slate-100 rtl:text-right"
-        >
-          <span class="text-slate-700 dark:text-slate-200">
-            A new conversation is created
-          </span>
-        </div>
-        <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedEmailFlags"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-woot-600 dark:checked:bg-woot-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-            type="checkbox"
-            value="email_conversation_creation"
-            @input="handleEmailInput"
-          />
-        </div>
-        <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            type="checkbox"
-            name="email"
-            :checked="false"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-woot-600 dark:checked:bg-woot-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-          />
-        </div>
-      </div>
-      <div
-        class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
-      >
-        <div
-          class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] text-slate-700 dark:text-slate-100 rtl:text-right"
-        >
-          <span class="text-slate-700 dark:text-slate-200">
-            Conversation is assigned to you
-          </span>
-        </div>
-        <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedEmailFlags"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-woot-600 dark:checked:bg-woot-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-            type="checkbox"
-            value="email_conversation_assignment"
-            @input="handleEmailInput"
-          />
-        </div>
-        <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedPushFlags"
-            type="checkbox"
-            value="push_conversation_creation"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-woot-600 dark:checked:bg-woot-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-            @input="handlePushInput"
-          />
-        </div>
-      </div>
-      <div
-        class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
-      >
-        <div
-          class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] text-slate-700 dark:text-slate-100 rtl:text-right"
-        >
-          <span class="text-slate-700 dark:text-slate-200">
-            You are mentioned in a conversation
-          </span>
-        </div>
-        <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedEmailFlags"
-            type="checkbox"
-            value="email_conversation_mention"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-woot-600 dark:checked:bg-woot-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-            @input="handleEmailInput"
-          />
-        </div>
-        <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedPushFlags"
-            type="checkbox"
-            value="push_conversation_mention"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-woot-600 dark:checked:bg-woot-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-            @input="handlePushInput"
-          />
-        </div>
-      </div>
-      <div
-        class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
-      >
-        <div
-          class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] text-slate-700 dark:text-slate-100 rtl:text-right"
-        >
-          <span class="text-slate-700 dark:text-slate-200">
-            New message is created in an assigned conversation
-          </span>
-        </div>
-        <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedEmailFlags"
-            type="checkbox"
-            value="email_conversation_message"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-woot-600 dark:checked:bg-woot-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-            @input="handleEmailInput"
-          />
-        </div>
-        <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedPushFlags"
-            type="checkbox"
-            value="push_assigned_conversation_new_message"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-woot-600 dark:checked:bg-woot-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-            @input="handlePushInput"
-          />
-        </div>
-      </div>
-      <div
-        class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
-      >
-        <div
-          class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] text-slate-700 dark:text-slate-100 rtl:text-right"
-        >
-          <span class="text-slate-700 dark:text-slate-200">
-            New message is created in an participating conversation
-          </span>
-        </div>
-        <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedEmailFlags"
-            type="checkbox"
-            value="email_participating_conversation_new_message"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-woot-600 dark:checked:bg-woot-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-            @input="handleEmailInput"
-          />
-        </div>
-        <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedPushFlags"
-            type="checkbox"
-            value="push_participating_conversation_new_message"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-woot-600 dark:checked:bg-woot-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-            @input="handlePushInput"
-          />
-        </div>
-      </div>
-      <div
-        v-if="isSLAEnabled"
-        class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
-      >
-        <div
-          class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] text-slate-700 dark:text-slate-100 rtl:text-right"
-        >
-          <span class="text-slate-700 dark:text-slate-200">
-            Conversation misses first response SLA
-          </span>
-        </div>
-        <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedEmailFlags"
-            type="checkbox"
-            value="email_sla_missed_first_response"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-woot-600 dark:checked:bg-woot-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-          />
-        </div>
-        <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedPushFlags"
-            type="checkbox"
-            value="push_sla_missed_first_response"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-woot-600 dark:checked:bg-woot-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-            @input="handlePushInput"
-          />
-        </div>
-      </div>
-      <div
-        v-if="isSLAEnabled"
-        class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
-      >
-        <div
-          class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] text-slate-700 dark:text-slate-100 rtl:text-right"
-        >
-          <span class="text-slate-700 dark:text-slate-200">
-            Conversation misses next response SLA
-          </span>
-        </div>
-        <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedEmailFlags"
-            type="checkbox"
-            value="email_sla_missed_next_response"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-woot-600 dark:checked:bg-woot-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-          />
-        </div>
-        <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedPushFlags"
-            type="checkbox"
-            value="push_sla_missed_next_response"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-woot-600 dark:checked:bg-woot-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-            @input="handlePushInput"
-          />
-        </div>
-      </div>
-      <div
-        v-if="isSLAEnabled"
-        class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
-      >
-        <div
-          class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] text-slate-700 dark:text-slate-100 rtl:text-right"
-        >
-          <span class="text-slate-700 dark:text-slate-200">
-            Conversation misses resolution SLA
-          </span>
-        </div>
-        <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedEmailFlags"
-            type="checkbox"
-            value="email_sla_missed_resolution"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-woot-600 dark:checked:bg-woot-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-          />
-        </div>
-        <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedPushFlags"
-            type="checkbox"
-            value="push_sla_missed_resolution"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-woot-600 dark:checked:bg-woot-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-            @input="handlePushInput"
-          />
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -399,7 +122,6 @@ import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import FormSelect from 'v3/components/Form/Select.vue';
-import TableHeaderCell from 'dashboard/components/widgets/TableHeaderCell.vue';
 import {
   hasPushPermissions,
   requestPushPermissions,
@@ -410,7 +132,6 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 export default {
   components: {
     FormSelect,
-    TableHeaderCell,
   },
   mixins: [alertMixin, configMixin, uiSettingsMixin],
   data() {

@@ -1,21 +1,25 @@
 <template>
   <div>
-    <div class="flex flex-col gap-2 mt-2">
-      <span class="font-medium text-slate-900 dark:text-slate-25 text-normal">
-        Profile picture
-      </span>
+    <div class="flex flex-col gap-2">
+      <span class="font-medium text-ash-90"> Profile picture </span>
       <div
         class="relative rounded-xl h-[72px] w-[72px] cursor-pointer"
-        :title="title"
-        @mouse-over="showUpload"
-        @click="openFileInput"
+        :title="name"
+        @mouseover="showUpload"
+        @mouseleave="hideUpload"
       >
         <img
+          v-if="shouldShowImage"
           class="rounded-xl h-[72px] w-[72px]"
           :src="src"
           draggable="false"
           @load="onImgLoad"
           @error="onImgError"
+        />
+        <Avatar
+          v-show="!shouldShowImage"
+          :username="userNameWithoutEmoji"
+          :size="72"
         />
         <input
           ref="file"
@@ -24,36 +28,41 @@
           style="display: none"
           @change="handleImageUpload"
         />
-        <div
-          class="absolute z-10 flex items-center justify-center w-6 h-6 p-1 border border-white rounded-full select-none -top-2 -right-2 dark:border-white bg-slate-200 dark:bg-slate-700"
+        <button
+          v-if="src && showUploadIcon"
+          class="absolute z-10 flex items-center justify-center w-6 h-6 p-1 border border-white rounded-full select-none reset-base -top-2 -right-2 dark:border-white bg-slate-200 dark:bg-slate-700"
+          @click="onAvatarDelete"
         >
           <fluent-icon
             icon="dismiss"
             size="16"
             class="text-slate-800 dark:text-slate-200"
           />
-        </div>
-        <div
-          class="absolute h-[72px] w-[72px] top-0 left-0 rounded-xl select-none flex items-center justify-center bg-modal-backdrop-dark dark:bg-modal-backdrop-dark"
+        </button>
+        <button
+          v-if="showUploadIcon"
+          class="reset-base absolute h-[72px] w-[72px] top-0 left-0 rounded-xl select-none flex items-center justify-center bg-modal-backdrop-dark dark:bg-modal-backdrop-dark"
+          @click="openFileInput"
         >
-          <fluent-icon
-            icon="avatar-upload"
-            size="32"
-            class="text-white dark:text-white"
-          />
-        </div>
+          <fluent-icon icon="avatar-upload" size="32" class="text-white" />
+        </button>
       </div>
     </div>
   </div>
 </template>
 <script>
+import Avatar from 'v3/components/Form/Avatar.vue';
+import { removeEmoji } from 'shared/helpers/emoji';
 export default {
+  components: {
+    Avatar,
+  },
   props: {
     src: {
       type: String,
       default: '',
     },
-    title: {
+    name: {
       type: String,
       default: '',
     },
@@ -66,6 +75,9 @@ export default {
     };
   },
   computed: {
+    userNameWithoutEmoji() {
+      return removeEmoji(this.name);
+    },
     shouldShowImage() {
       if (!this.src) {
         return false;
@@ -73,7 +85,7 @@ export default {
       if (this.hasImageLoaded) {
         return !this.imgError;
       }
-      return false;
+      return true;
     },
   },
   watch: {
@@ -93,6 +105,9 @@ export default {
     showUpload() {
       this.showUploadIcon = true;
     },
+    hideUpload() {
+      this.showUploadIcon = false;
+    },
     openFileInput() {
       // Trigger click event on the hidden file input
       this.$refs.file.click();
@@ -103,6 +118,9 @@ export default {
         file,
         url: file ? URL.createObjectURL(file) : null,
       });
+    },
+    onAvatarDelete() {
+      this.$emit('delete');
     },
   },
 };

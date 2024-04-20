@@ -3,10 +3,15 @@
     class="inline-flex items-center gap-1 text-sm font-medium reset-base rounded-xl w-fit"
     :type="type"
     :class="buttonClasses"
-    :disabled="isDisabled || isLoading"
+    :disabled="isDisabled"
     @click="handleClick"
   >
-    <fluent-icon :size="iconSize" :icon="icon" class="flex-shrink-0" />
+    <fluent-icon
+      v-if="icon"
+      :size="iconSize"
+      :icon="icon"
+      class="flex-shrink-0"
+    />
     <span
       v-if="$slots.default"
       class="text-sm font-medium truncate"
@@ -14,7 +19,12 @@
     >
       <slot />
     </span>
-    <fluent-icon :size="iconSize" icon="chevron-right" class="flex-shrink-0" />
+    <fluent-icon
+      v-if="rightIcon"
+      :size="iconSize"
+      icon="chevron-right"
+      class="flex-shrink-0"
+    />
   </button>
 </template>
 <script>
@@ -60,41 +70,21 @@ export default {
       type: Boolean,
       default: false,
     },
+    rightIcon: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
-    // variantClasses() {
-    //   if (this.variant.includes('link')) {
-    //     return `clear ${this.variant}`;
-    //   }
-    //   return this.variant;
-    // },
-    // hasOnlyIcon() {
-    //   const hasEmojiOrIcon = this.emoji || this.icon;
-    //   return !this.$slots.default && hasEmojiOrIcon;
-    // },
-    // hasOnlyIconClasses() {
-    //   return this.hasOnlyIcon ? 'button--only-icon' : '';
-    // },
-
     buttonClasses() {
-      return [
-        this.colorClass,
-        this.sizeClass,
-        // this.variantClasses,
-        // this.hasOnlyIconClasses,
-        // this.size,
-        // this.colorClass,
-        // this.classNames,
-        // this.isDisabled ? 'disabled' : '',
-        // this.isExpanded ? 'expanded' : '',
-      ];
+      return [this.colorClass, this.sizeClass];
     },
     colorClass() {
       if (this.colorScheme === 'primary') {
         return 'bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-700 focus:ring focus:ring-offset-1 focus:ring-primary-400';
       }
       if (this.colorScheme === 'secondary') {
-        return 'bg-ash-100 text-white hover:bg-ash-200 active:bg-ash-200 focus:ring focus:ring-offset-1 focus:ring-ash-400';
+        return 'bg-ash-100 text-ash-900 hover:bg-ash-200 active:bg-ash-200 focus:ring focus:ring-offset-1 focus:ring-ash-400';
       }
       if (this.colorScheme === 'danger') {
         return 'bg-ruby-600 text-white hover:bg-ruby-700 active:bg-ruby-700 focus:ring focus:ring-offset-1 focus:ring-ruby-400';

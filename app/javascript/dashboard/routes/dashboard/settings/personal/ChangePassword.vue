@@ -46,10 +46,11 @@
         @blur="$v.passwordConfirmation.$touch"
       />
 
-      <woot-button
-        class="w-fit"
-        :is-loading="isPasswordChanging"
+      <v3-button
         type="submit"
+        color-scheme="primary"
+        variant="solid"
+        size="large"
         :disabled="
           !currentPassword ||
           !passwordConfirmation ||
@@ -57,7 +58,7 @@
         "
       >
         {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.BTN_TEXT') }}
-      </woot-button>
+      </v3-button>
     </div>
   </form>
 </template>
@@ -67,8 +68,12 @@ import { required, minLength } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
+import V3Button from 'v3/components/Form/Button.vue';
 
 export default {
+  components: {
+    V3Button,
+  },
   mixins: [alertMixin],
   data() {
     return {

@@ -10,14 +10,15 @@
       :enable-suggestions="false"
       :show-image-resize-toolbar="true"
     />
-    <woot-button
-      class="w-fit"
-      :is-loading="isUpdating"
-      type="button"
+    <v3-button
+      type="submit"
+      color-scheme="primary"
+      variant="solid"
+      size="large"
       @click.prevent="updateSignature"
     >
       {{ $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.BTN_TEXT') }}
-    </woot-button>
+    </v3-button>
   </div>
 </template>
 
@@ -27,10 +28,12 @@ import { mapGetters } from 'vuex';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import { MESSAGE_SIGNATURE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
+import V3Button from 'v3/components/Form/Button.vue';
 
 export default {
   components: {
     WootMessageEditor,
+    V3Button,
   },
   mixins: [alertMixin],
   data() {

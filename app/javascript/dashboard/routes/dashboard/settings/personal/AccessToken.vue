@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row justify-between gap-4">
+  <div class="flex flex-row justify-between gap-4 mb-8">
     <form-input
       name="access_token"
       class="flex-1"
@@ -10,17 +10,19 @@
       :has-error="false"
       :error-message="$t('REGISTER.FULL_NAME.ERROR')"
     />
-    <woot-button
-      icon="copy"
+    <v3-button
+      type="submit"
+      size="large"
+      icon="text-copy"
       variant="hollow"
       color-scheme="secondary"
-      class="rounded-xl w-fit"
       @click="$emit('click')"
     >
       Copy
-    </woot-button>
+    </v3-button>
   </div>
 </template>
 <script setup>
 import FormInput from 'v3/components/Form/Input.vue';
+import V3Button from 'v3/components/Form/Button.vue';
 </script>
