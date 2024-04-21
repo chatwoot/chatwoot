@@ -20,14 +20,14 @@
       :style="{ color: widgetColor }"
       @click="startConversation"
     >
-      <span class="pr-2 text-sm">
+      <span class="ltr:pr-2 rtl:pl-2 text-sm">
         {{
           hasConversation
             ? $t('CONTINUE_CONVERSATION')
             : $t('START_CONVERSATION')
         }}
       </span>
-      <fluent-icon icon="arrow-right" size="14" />
+      <fluent-icon icon="arrow-right" size="14" class="rtl:rotate-180" />
     </button>
   </div>
 </template>

@@ -14,13 +14,13 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "متواجدون لخدمتك",
-    "OFFLINE": "نحن بعيدون في الوقت الحالي"
+    "OFFLINE": "نحن خارج أوقات العمل حاليًا"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "عادة نقوم بالرد خلال بضع دقائق",
-    "IN_A_FEW_HOURS": "عادة نقوم بالرد خلال بضع ساعات",
+    "IN_A_FEW_MINUTES": "عادة ما نقوم بالرد خلال بضع دقائق",
+    "IN_A_FEW_HOURS": "عادة ما نقوم بالرد خلال بضع ساعات",
     "IN_A_DAY": "عادة نقوم بالرد خلال يوم واحد",
-    "BACK_IN": "We will be back online"
+    "BACK_IN": "سنكون متواجدين قريباً"
   },
   "DAY_NAMES": [
     "الأحد",
@@ -69,7 +69,7 @@
         "PLACEHOLDER": "الرجاء إدخال رقم الهاتف الخاص بك",
         "REQUIRED_ERROR": "رقم الهاتف مطلوب",
         "DIAL_CODE_VALID_ERROR": "الرجاء اختيار رمز البلد",
-        "VALID_ERROR": "Please enter a valid phone number",
+        "VALID_ERROR": "الرجاء ادخال رقم جوال صحيح",
         "DROPDOWN_EMPTY": "لم يتم العثور على النتائج"
       },
       "MESSAGE": {
@@ -81,7 +81,7 @@
     "CAMPAIGN_HEADER": "الرجاء تقديم اسمك و بريدك الإلكتروني قبل بدء المحادثة",
     "IS_REQUIRED": "مطلوب",
     "REQUIRED": "مطلوب",
-    "REGEX_ERROR": "Please provide a valid input"
+    "REGEX_ERROR": "الرجاء تزويدنا بمدخل صحيح"
   },
   "FILE_SIZE_LIMIT": "حجم الملف يتجاوز حد الاقصى وهو {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
@@ -105,14 +105,14 @@
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
+      "CLICK_HERE_TO_JOIN": "اضغط هنا للإنضمام",
+      "LEAVE_THE_ROOM": "مغادرة المكالمة"
     }
   },
   "PORTAL": {
-    "POPULAR_ARTICLES": "Popular Articles",
-    "VIEW_ALL_ARTICLES": "View all articles",
-    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+    "POPULAR_ARTICLES": "المقالات الشائعة",
+    "VIEW_ALL_ARTICLES": "عرض كل المقالات",
+    "IFRAME_LOAD_ERROR": "حدث خطأ أثناء تحميل المقالة، يرجى تحديث الصفحة والمحاولة مرة أخرى."
   },
   "ATTACHMENTS": {
     "image": {

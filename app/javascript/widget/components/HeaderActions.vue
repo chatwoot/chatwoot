@@ -126,6 +126,11 @@ export default {
 .actions {
   button {
     margin-left: $space-normal;
+
+    [dir='rtl'] & {
+      margin-left: unset;
+      margin-right: $space-normal;
+    }
   }
 
   span {

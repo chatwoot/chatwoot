@@ -8,7 +8,7 @@
         <div v-if="hasReplyTo" class="flex justify-end mt-2 mb-1 text-xs">
           <reply-to-chip :reply-to="replyTo" />
         </div>
-        <div class="flex justify-end gap-1">
+        <div class="flex rtl:flex-row-reverse justify-end gap-1">
           <div class="flex flex-col justify-end">
             <message-reply-button
               v-if="!isInProgress && !isFailed"

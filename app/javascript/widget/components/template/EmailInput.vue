@@ -22,7 +22,11 @@
           color: textColor,
         }"
       >
-        <fluent-icon v-if="!isUpdating" icon="chevron-right" />
+        <fluent-icon
+          v-if="!isUpdating"
+          icon="chevron-right"
+          class="rtl:rotate-180"
+        />
         <spinner v-else class="mx-2" />
       </button>
     </form>
