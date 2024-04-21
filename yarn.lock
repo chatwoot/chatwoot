@@ -14357,7 +14357,7 @@ lodash.uniq@4.5.0, lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
-lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.17.5, lodash@^4.7.0:
+lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.17.5, lodash@^4.7.0:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -18726,6 +18726,11 @@ slice-ansi@^5.0.0:
     ansi-styles "^6.0.0"
     is-fullwidth-code-point "^4.0.0"
 
+smooth-dnd@^0.6.3:
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/smooth-dnd/-/smooth-dnd-0.6.3.tgz#e2eb0b6686b030ff8227ce0df9ea3b72b250a7f3"
+  integrity sha512-MT9YZK2+/GOWYLDUUrsaFpQ02DOGVxFRsX006uWdh3k2sZhKajDU6hkufznw3WFR6nO9ZqSfP5n21ekOUORwXg==
+
 snapdragon-node@^2.0.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/snapdragon-node/-/snapdragon-node-2.1.1.tgz#6c175f86ff14bdb0724563e8f3c1b021a286853b"
@@ -20554,6 +20559,14 @@ vue-dompurify-html@^2.5.2:
   dependencies:
     dompurify "^2.3.4"
 
+vue-drag-n-drop@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/vue-drag-n-drop/-/vue-drag-n-drop-1.3.0.tgz#9d528b5f95f7788d03e4b5c02070f28258aec73e"
+  integrity sha512-bC641L1n/xL1KLrhoKduPDUWqilUQnrYvemh2dbsVKhDbrmAtNYOeGrErhqaPkLfoeVUwJa0Mklfz6niL5rPDg==
+  dependencies:
+    lodash "^4.17.13"
+    vue-smooth-dnd "^0.2.1"
+
 vue-easytable@2.5.5:
   version "2.5.5"
   resolved "https://registry.yarnpkg.com/vue-easytable/-/vue-easytable-2.5.5.tgz#0d0ac244beb853859c76191c117311b5cf9654b5"
@@ -20626,6 +20639,13 @@ vue-router@~3.5.2:
   version "3.5.4"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.5.4.tgz#c453c0b36bc75554de066fefc3f2a9c3212aca70"
   integrity sha512-x+/DLAJZv2mcQ7glH2oV9ze8uPwcI+H+GgTgTmb5I55bCgY3+vXWIsqbYUzbBSZnwFHEJku4eoaH/x98veyymQ==
+
+vue-smooth-dnd@^0.2.1:
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/vue-smooth-dnd/-/vue-smooth-dnd-0.2.8.tgz#356a14609dcaf66fc47a6aaf24dfb0710df5ac99"
+  integrity sha512-sJ+ZyjO2V6qbdHNVd8ICj4PCE+Yw4X8A7TehLPLm3HzHb1LmLFLBEelJAiWpijgs0mHC3XVzRqCox5SQsj2vqA==
+  dependencies:
+    smooth-dnd "^0.6.3"
 
 vue-style-loader@^4.1.0:
   version "4.1.3"

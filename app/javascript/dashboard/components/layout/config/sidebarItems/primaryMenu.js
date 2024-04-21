@@ -29,6 +29,15 @@ const primaryMenuItems = accountId => [
     roles: ['administrator', 'agent'],
   },
   {
+    icon: 'book-contacts',
+    key: 'pipelines',
+    label: 'PIPELINES',
+    featureFlag: FEATURE_FLAGS.CRM,
+    toState: frontendURL(`accounts/${accountId}/pipelines`),
+    toStateName: 'pipelines_dashboard',
+    roles: ['administrator', 'agent'],
+  },
+  {
     icon: 'arrow-trending-lines',
     key: 'reports',
     label: 'REPORTS',
