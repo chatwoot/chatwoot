@@ -43,6 +43,16 @@ export const dateRanges = [
   { label: 'DATE_PICKER.DATE_RANGE_OPTIONS.CUSTOM_RANGE', value: 'custom' },
 ];
 
+export const DATE_RANGE_TYPES = {
+  LAST_7_DAYS: 'last7days',
+  LAST_30_DAYS: 'last30days',
+  LAST_3_MONTHS: 'last3months',
+  LAST_6_MONTHS: 'last6months',
+  LAST_YEAR: 'lastYear',
+  CUSTOM_RANGE: 'custom',
+};
+
+// Utility functions for date operations
 export const parseDateFromDMY = dateString => {
   const [day, month, year] = dateString.split('/');
   return parse(`${year}-${month}-${day}`, 'yyyy-MM-dd', new Date());

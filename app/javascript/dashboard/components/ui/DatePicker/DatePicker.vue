@@ -3,6 +3,7 @@ import { ref, watch } from 'vue';
 import {
   getActiveDateRange,
   moveCalendarDate,
+  DATE_RANGE_TYPES,
 } from './helpers/DatePickerHelper';
 import {
   format,
@@ -29,6 +30,8 @@ import CalendarMonth from './components/CalendarMonth.vue';
 import CalendarWeek from './components/CalendarWeek.vue';
 import CalendarFooter from './components/CalendarFooter.vue';
 
+const { LAST_7_DAYS, CUSTOM_RANGE } = DATE_RANGE_TYPES;
+
 const showDatePicker = ref(false);
 const calendarViews = ref({ start: 'week', end: 'week' });
 const currentDate = ref(new Date());
@@ -37,7 +40,7 @@ const endCurrentDate = ref(addMonths(startOfDay(currentDate.value), 1)); // One 
 const selectedStartDate = ref(startOfDay(subDays(currentDate.value, 6)));
 const selectedEndDate = ref(endOfDay(currentDate.value));
 const selectingEndDate = ref(false);
-const selectedRange = ref('last7days');
+const selectedRange = ref(LAST_7_DAYS);
 const hoveredEndDate = ref(null);
 
 const manualStartDate = ref('');
@@ -46,8 +49,8 @@ const manualEndDate = ref('');
 const emit = defineEmits(['change']);
 
 watch(selectedRange, newRange => {
-  if (newRange !== 'custom') {
-    const isLast7days = newRange === 'last7days';
+  if (newRange !== CUSTOM_RANGE) {
+    const isLast7days = newRange === LAST_7_DAYS;
     startCurrentDate.value = selectedStartDate.value;
     endCurrentDate.value =
       isLast7days && isSameMonth(selectedStartDate.value, selectedEndDate.value)
@@ -119,7 +122,7 @@ const moveCalendar = (calendar, direction, period = 'month') => {
 };
 
 const selectDate = day => {
-  selectedRange.value = 'custom';
+  selectedRange.value = CUSTOM_RANGE;
   if (!selectingEndDate.value || day < selectedStartDate.value) {
     selectedStartDate.value = day;
     selectedEndDate.value = null;
@@ -131,7 +134,7 @@ const selectDate = day => {
 };
 
 const setViewMode = (calendar, mode) => {
-  selectedRange.value = 'custom';
+  selectedRange.value = CUSTOM_RANGE;
   calendarViews.value[calendar] = mode;
 };
 
@@ -170,7 +173,7 @@ const resetDatePicker = () => {
   selectedStartDate.value = startOfDay(subDays(currentDate.value, 6));
   selectedEndDate.value = endOfDay(currentDate.value);
   selectingEndDate.value = false;
-  selectedRange.value = 'last7days';
+  selectedRange.value = LAST_7_DAYS;
   // Reset view modes if they are being used to toggle between different calendar views
   calendarViews.value = { start: 'week', end: 'week' };
 };
@@ -219,7 +222,7 @@ const emitDateRange = () => {
               :compare-date="
                 calendar === 'start' ? manualEndDate : manualStartDate
               "
-              :is-disabled="selectedRange !== 'custom'"
+              :is-disabled="selectedRange !== CUSTOM_RANGE"
               @update="
                 calendar === 'start'
                   ? (manualStartDate = $event)
