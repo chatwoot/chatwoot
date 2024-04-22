@@ -4,7 +4,7 @@
       name="access_token"
       class="flex-1"
       type="password"
-      value="1234567890"
+      :value="value"
       :class="{ error: false }"
       placeholder="Please enter your new password"
       :has-error="false"
@@ -16,7 +16,7 @@
       icon="text-copy"
       variant="hollow"
       color-scheme="secondary"
-      @click="$emit('click')"
+      @click="onClick"
     >
       Copy
     </v3-button>
@@ -25,4 +25,17 @@
 <script setup>
 import FormInput from 'v3/components/Form/Input.vue';
 import V3Button from 'v3/components/Form/Button.vue';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
+
+const props = defineProps({
+  value: {
+    type: String,
+    default: '',
+  },
+});
+
+const onClick = async e => {
+  e.preventDefault();
+  await copyTextToClipboard(props.value);
+};
 </script>

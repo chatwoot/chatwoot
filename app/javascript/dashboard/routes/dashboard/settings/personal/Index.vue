@@ -134,8 +134,7 @@
           :show-action-button="false"
         >
           <template #settingsItem>
-            <!-- TODO: Use masked text -->
-            <access-token />
+            <access-token :value="currentUser.access_token" />
           </template>
         </personal-wrapper>
       </div>
