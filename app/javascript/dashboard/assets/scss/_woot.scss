@@ -40,3 +40,139 @@
 .hide {
   @apply hidden;
 }
+
+@layer base {
+  :root {
+    --color-amber-100: 255 243 208;
+    --color-amber-200: 255 236 183;
+    --color-amber-25: 254 253 251;
+    --color-amber-300: 255 224 161;
+    --color-amber-400: 245 208 140;
+    --color-amber-50: 255 249 237;
+    --color-amber-500: 228 187 120;
+    --color-amber-600: 214 163 92;
+    --color-amber-700: 214 163 92;
+    --color-amber-800: 255 186 26;
+    --color-amber-900: 145 89 48;
+    --color-amber-950: 79 52 34;
+
+    --color-ash-100: 235 235 239;
+    --color-ash-200: 228 228 233;
+    --color-ash-25: 252 252 253;
+    --color-ash-300: 221 221 227;
+    --color-ash-400: 211 212 219;
+    --color-ash-50: 249 249 251;
+    --color-ash-500: 185 187 198;
+    --color-ash-600: 139 141 152;
+    --color-ash-700: 126 128 138;
+    --color-ash-75: 242 242 245;
+    --color-ash-800: 96 100 108;
+    --color-ash-900: 28 32 36;
+
+    --color-primary-100: 222 234 255;
+    --color-primary-200: 206 223 255;
+    --color-primary-25: 252 253 254;
+    --color-primary-300: 186 209 255;
+    --color-primary-400: 163 190 255;
+    --color-primary-50: 246 249 255;
+    --color-primary-500: 131 164 250;
+    --color-primary-600: 69 110 255;
+    --color-primary-700: 57 95 241;
+    --color-primary-75: 236 242 255;
+    --color-primary-800: 53 88 217;
+    --color-primary-900: 27 44 99;
+
+    --color-ruby-100: 255 220 225;
+    --color-ruby-200: 255 206 214;
+    --color-ruby-25: 255 252 253;
+    --color-ruby-300: 248 191 200;
+    --color-ruby-400: 239 172 184;
+    --color-ruby-50: 255 247 248;
+    --color-ruby-500: 229 146 163;
+    --color-ruby-600: 229 70 102;
+    --color-ruby-700: 220 59 93;
+    --color-ruby-75: 254 234 237;
+    --color-ruby-800: 202 36 77;
+    --color-ruby-900: 100 23 43;
+
+    --color-teal-100: 224 248 243;
+    --color-teal-200: 204 243 234;
+    --color-teal-25: 250 254 253;
+    --color-teal-300: 184 234 224;
+    --color-teal-400: 161 222 210;
+    --color-teal-50: 243 251 249;
+    --color-teal-500: 83 185 171;
+    --color-teal-600: 18 165 148;
+    --color-teal-700: 13 155 138;
+    --color-teal-75: 236 249 255;
+    --color-teal-800: 0 133 115;
+    --color-teal-900: 13 61 56;
+  }
+  // scss-lint:disable QualifyingElement
+  body.dark {
+    --color-amber-100: 57 39 15;
+    --color-amber-200: 67 46 18;
+    --color-amber-25: 31 19 0;
+    --color-amber-300: 83 57 22;
+    --color-amber-400: 111 77 29;
+    --color-amber-50: 37 24 4;
+    --color-amber-500: 169 118 42;
+    --color-amber-600: 169 118 42;
+    --color-amber-700: 255 203 71;
+    --color-amber-800: 255 204 77;
+    --color-amber-900: 255 231 179;
+    --color-amber-950: 255 231 179;
+
+    --color-ash-100: 46 48 53;
+    --color-ash-200: 53 55 60;
+    --color-ash-25: 24 24 26;
+    --color-ash-300: 60 63 68;
+    --color-ash-400: 70 75 80;
+    --color-ash-50: 27 27 31;
+    --color-ash-500: 90 97 101;
+    --color-ash-600: 105 110 119;
+    --color-ash-700: 120 127 133;
+    --color-ash-75: 39 40 45;
+    --color-ash-800: 173 177 184;
+    --color-ash-900: 237 238 240;
+
+    --color-primary-100: 24 43 109;
+    --color-primary-200: 31 53 129;
+    --color-primary-25: 11 16 31;
+    --color-primary-300: 40 64 146;
+    --color-primary-400: 48 76 168;
+    --color-primary-50: 16 23 41;
+    --color-primary-500: 57 89 196;
+    --color-primary-600: 69 110 255;
+    --color-primary-700: 58 96 240;
+    --color-primary-75: 20 34 81;
+    --color-primary-800: 140 177 255;
+    --color-primary-900: 210 225 255;
+
+    --color-ruby-100: 78 19 37;
+    --color-ruby-200: 94 26 46;
+    --color-ruby-25: 25 17 19;
+    --color-ruby-300: 111 37 57;
+    --color-ruby-400: 136 52 71;
+    --color-ruby-50: 30 21 23;
+    --color-ruby-500: 179 68 90;
+    --color-ruby-600: 229 70 102;
+    --color-ruby-700: 236 90 114;
+    --color-ruby-75: 58 20 30;
+    --color-ruby-800: 255 148 157;
+    --color-ruby-900: 254 210 225;
+
+    --color-teal-100: 2 59 55;
+    --color-teal-200: 8 72 67;
+    --color-teal-25: 13 21 20;
+    --color-teal-300: 28 105 97;
+    --color-teal-400: 28 105 97;
+    --color-teal-50: 17 28 27;
+    --color-teal-500: 32 126 115;
+    --color-teal-600: 41 163 131;
+    --color-teal-700: 14 179 158;
+    --color-teal-75: 13 45 42;
+    --color-teal-800: 11 216 182;
+    --color-teal-900: 173 240 221;
+  }
+}
