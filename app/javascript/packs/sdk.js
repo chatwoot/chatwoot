@@ -171,6 +171,27 @@ const runSDK = ({ baseUrl, websiteToken }) => {
 
       window.$chatwoot.resetTriggered = true;
     },
+    i18n: {
+      locale: locale,
+      dir: () => {
+        return [
+          'ar',
+          'arc',
+          'dv',
+          'fa',
+          'ha',
+          'he',
+          'khw',
+          'ks',
+          'ku',
+          'ps',
+          'ur',
+          'yi',
+        ].includes(locale)
+          ? 'rtl'
+          : 'ltr';
+      },
+    },
   };
 
   IFrameHelper.createFrame({

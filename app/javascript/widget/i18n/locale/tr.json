@@ -133,5 +133,6 @@
     "fallback": {
       "CONTENT": "bir url paylaştı"
     }
-  }
+  },
+  "REPLYING_TO": "Replaying to"
 }

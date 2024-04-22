@@ -133,5 +133,6 @@
     "fallback": {
       "CONTENT": "on jakanut URL-osoitteen"
     }
-  }
+  },
+  "REPLYING_TO": "Replaying to"
 }

@@ -133,5 +133,6 @@
     "fallback": {
       "CONTENT": "je podelio link"
     }
-  }
+  },
+  "REPLYING_TO": "Replaying to"
 }

@@ -21,7 +21,8 @@ export const setBubbleText = bubbleText => {
 };
 
 export const createBubbleIcon = ({ className, path, target }) => {
-  let bubbleClassName = `${className} woot-elements--${window.$chatwoot.position}`;
+  const { i18n, position } = window.$chatwoot;
+  let bubbleClassName = `${className} woot-elements--${position} woot-elements--${i18n.dir()}`;
   const bubbleIcon = document.createElementNS(
     'http://www.w3.org/2000/svg',
     'svg'

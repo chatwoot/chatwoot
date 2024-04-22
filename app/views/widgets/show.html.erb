@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<%= @web_widget.account.locale %>" dir="<%= I18n.dir %>">
+<html lang="<%= @web_widget.account.locale %>" dir="<%= I18n.dir(@web_widget.account.locale) %>">
   <head>
     <title><%= @global_config['INSTALLATION_NAME'] %></title>
     <%= csrf_meta_tags %>

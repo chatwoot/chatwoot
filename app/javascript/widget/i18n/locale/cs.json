@@ -133,5 +133,6 @@
     "fallback": {
       "CONTENT": "sdílel URL"
     }
-  }
+  },
+  "REPLYING_TO": "Replaying to"
 }

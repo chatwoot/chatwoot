@@ -97,6 +97,19 @@ export const SDK_CSS = `
   align-items: center;
 }
 
+.woot-widget-bubble.woot-widget--expanded.woot-elements--rtl {
+  flex-direction: row-reverse;
+}
+
+.woot-widget-bubble.woot-widget--expanded.woot-elements--rtl svg {
+  margin: 14px 16px 14px 8px;
+}
+
+.woot-widget-bubble.woot-widget--expanded.woot-elements--rtl div {
+   padding-right: unset;
+   padding-left: 20px;
+}
+
 .woot-widget-bubble.woot-widget--expanded div {
   align-items: center;
   color: #fff;

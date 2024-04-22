@@ -740,7 +740,20 @@ export const getLanguageName = (languageCode = '') => {
 };
 
 export const getLanguageDirection = (languageCode = '') => {
-  const rtlLanguageIds = ['ar', 'as', 'fa', 'he', 'ku', 'ur'];
+  const rtlLanguageIds = [
+    'ar',
+    'arc',
+    'dv',
+    'fa',
+    'ha',
+    'he',
+    'khw',
+    'ks',
+    'ku',
+    'ps',
+    'ur',
+    'yi',
+  ];
   return rtlLanguageIds.includes(languageCode);
 };
 

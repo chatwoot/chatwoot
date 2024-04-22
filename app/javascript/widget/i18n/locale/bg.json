@@ -133,5 +133,6 @@
     "fallback": {
       "CONTENT": "сподели линк"
     }
-  }
+  },
+  "REPLYING_TO": "Replaying to"
 }

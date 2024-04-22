@@ -133,5 +133,6 @@
     "fallback": {
       "CONTENT": "pasidalino URL"
     }
-  }
+  },
+  "REPLYING_TO": "Replaying to"
 }

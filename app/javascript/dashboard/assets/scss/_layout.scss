@@ -1,6 +1,5 @@
 // scss-lint:disable SpaceAfterPropertyColon
-@import '~shared/assets/fonts/inter';
-@import '~shared/assets/fonts/readexpro';
+@import 'shared/assets/fonts/inter';
 // Inter,
 html,
 body {
@@ -21,20 +20,6 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
-
-  [dir='rtl'] & {
-    font-family:
-      'Readex Pro',
-      -apple-system,
-      system-ui,
-      BlinkMacSystemFont,
-      'Segoe UI',
-      Roboto,
-      'Helvetica Neue',
-      Tahoma,
-      Arial,
-      sans-serif !important;
-  }
 }
 
 .app-wrapper {

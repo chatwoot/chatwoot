@@ -119,11 +119,10 @@ export default {
     },
     updateHTMLLangAndDir() {
       const html = document.documentElement;
-      html.setAttribute('lang', this.$i18n.locale);
-      html.setAttribute('dir', this.isRTLView ? 'rtl' : 'ltr');
-    },
-    updateRTLDirectionView() {
-      this.updateHTMLLangAndDir();
+      if (html) {
+        html.setAttribute('lang', this.$i18n.locale);
+        html.setAttribute('dir', this.isRTLView ? 'rtl' : 'ltr');
+      }
     },
     async initializeAccount() {
       await this.$store.dispatch('accounts/get');

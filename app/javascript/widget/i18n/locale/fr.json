@@ -133,5 +133,6 @@
     "fallback": {
       "CONTENT": "a partagé une URL"
     }
-  }
+  },
+  "REPLYING_TO": "Replaying to"
 }

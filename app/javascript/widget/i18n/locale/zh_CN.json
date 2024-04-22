@@ -133,5 +133,6 @@
     "fallback": {
       "CONTENT": "分享了一个网址"
     }
-  }
+  },
+  "REPLYING_TO": "Replaying to"
 }

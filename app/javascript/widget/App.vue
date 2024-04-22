@@ -43,13 +43,20 @@ import {
 } from './constants/widgetBusEvents';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 import { SDK_SET_BUBBLE_VISIBILITY } from '../shared/constants/sharedFrameEvents';
+import rtlMixin from 'widget/mixins/rtlMixin';
 
 export default {
   name: 'App',
   components: {
     Spinner,
   },
-  mixins: [availabilityMixin, configMixin, routerMixin, darkModeMixin],
+  mixins: [
+    availabilityMixin,
+    configMixin,
+    routerMixin,
+    darkModeMixin,
+    rtlMixin,
+  ],
   data() {
     return {
       isMobile: false,
@@ -155,6 +162,7 @@ export default {
       } else if (hasLocaleWithoutVariation) {
         this.$root.$i18n.locale = localeWithoutVariation;
       }
+      this.updateDocumentRootView(this.$root.$i18n.locale);
     },
     registerUnreadEvents() {
       bus.$on(ON_AGENT_MESSAGE_RECEIVED, () => {

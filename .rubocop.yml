@@ -108,6 +108,7 @@ Naming/VariableNumber:
 Naming/MemoizedInstanceVariableName:
   Exclude:
     - 'app/models/message.rb'
+    - 'app/controllers/widget_tests_controller.rb'
 Style/GuardClause:
   Exclude:
     - 'app/builders/account_builder.rb'

@@ -6,7 +6,7 @@
         hasEndConversationEnabled &&
         showEndConversationButton
       "
-      class="button transparent compact"
+      class="button transparent compact rtl:rotate-180"
       :title="$t('END_CONVERSATION')"
       @click="resolveConversation"
     >

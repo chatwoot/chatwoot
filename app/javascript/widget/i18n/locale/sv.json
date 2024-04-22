@@ -133,5 +133,6 @@
     "fallback": {
       "CONTENT": "har delat en webbadress"
     }
-  }
+  },
+  "REPLYING_TO": "Replaying to"
 }

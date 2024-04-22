@@ -133,5 +133,6 @@
     "fallback": {
       "CONTENT": "ഒരു യു. ആർ. എൽ പങ്കിട്ടു"
     }
-  }
+  },
+  "REPLYING_TO": "Replaying to"
 }

@@ -133,5 +133,6 @@
     "fallback": {
       "CONTENT": "có một đường dẫn chia sẻ"
     }
-  }
+  },
+  "REPLYING_TO": "Replaying to"
 }

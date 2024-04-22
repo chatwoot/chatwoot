@@ -1,7 +1,6 @@
 module I18n
-  def self.dir
-    rtl_locales = [:ar, :arc, :dv, :fa, :ha, :khw, :ks, :ku, :ps, :ur, :yi]
-
-    rtl_locales.include?(locale) ? 'rtl' : 'ltr'
+  def self.dir(locale)
+    rtl_locales = [:ar, :arc, :dv, :fa, :ha, :he, :khw, :ks, :ku, :ps, :ur, :yi]
+    rtl_locales.include?(locale.to_sym) ? 'rtl' : 'ltr'
   end
 end

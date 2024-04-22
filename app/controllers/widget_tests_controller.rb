@@ -4,6 +4,7 @@ class WidgetTestsController < ActionController::Base
   before_action :ensure_widget_type
   before_action :ensure_widget_style
   before_action :ensure_dark_mode
+  before_action :ensure_widget_locale
 
   def index
     render
@@ -29,6 +30,10 @@ class WidgetTestsController < ActionController::Base
 
   def inbox_id
     @inbox_id ||= params[:inbox_id] || Channel::WebWidget.first.inbox.id
+  end
+
+  def ensure_widget_locale
+    @widget_locale ||= params[:locale] || 'en'
   end
 
   def ensure_web_widget

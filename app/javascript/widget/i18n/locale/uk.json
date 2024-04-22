@@ -133,5 +133,6 @@
     "fallback": {
       "CONTENT": "поділився посиланням"
     }
-  }
+  },
+  "REPLYING_TO": "Replaying to"
 }

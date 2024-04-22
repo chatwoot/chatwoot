@@ -133,5 +133,6 @@
     "fallback": {
       "CONTENT": "έχει μοιράσει ένα σύνδεσμο"
     }
-  }
+  },
+  "REPLYING_TO": "Replaying to"
 }

@@ -133,5 +133,6 @@
     "fallback": {
       "CONTENT": "ได้เเชร์ลิ้ง"
     }
-  }
+  },
+  "REPLYING_TO": "Replaying to"
 }

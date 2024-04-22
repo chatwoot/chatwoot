@@ -133,5 +133,6 @@
     "fallback": {
       "CONTENT": "URLを共有しています"
     }
-  }
+  },
+  "REPLYING_TO": "Replaying to"
 }

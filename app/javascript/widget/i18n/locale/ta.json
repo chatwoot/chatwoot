@@ -133,5 +133,6 @@
     "fallback": {
       "CONTENT": "ஒரு URL ஐப் பகிர்ந்துள்ளார்"
     }
-  }
+  },
+  "REPLYING_TO": "Replaying to"
 }
