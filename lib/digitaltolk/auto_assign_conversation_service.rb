@@ -15,10 +15,14 @@ class Digitaltolk::AutoAssignConversationService
   private
 
   def auto_assign!
-    Rails.logger.warn "unassigned-left: #{unassigned_conversations.count}"
-    unassigned_conversations.limit(30).each do |convo|
+    Rails.logger.warn "unassigned-left: #{unassigned_csats.count}"
+    unassigned_conversations.limit(20).each do |convo|
       convo.auto_assign_to_latest_agent
       Rails.logger.warn "auto-assigned: #{convo.display_id}"
+    end
+
+    unassigned_csats.limit(20).each do |csat|
+      csat.update_column(:assigned_agent_id, csat.conversation.assignee_id)
     end
   end
 
@@ -27,5 +31,11 @@ class Digitaltolk::AutoAssignConversationService
            .attended
            .unassigned
            .where(id: Message.where.not(sender_id: nil).outgoing.select(:conversation_id))
+  end
+
+  def unassigned_csats
+    account.csat_survey_responses
+           .where(assigned_agent_id: nil)
+           .joins(:conversation).merge(Conversation.assigned)
   end
 end
