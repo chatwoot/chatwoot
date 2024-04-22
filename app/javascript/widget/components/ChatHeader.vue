@@ -6,7 +6,7 @@
     <div class="flex items-center">
       <button
         v-if="showBackButton"
-        class="-ml-3 px-2"
+        class="ltr:-ml-3 rtl:-mr-3 px-2 rtl:rotate-180"
         @click="onBackButtonClick"
       >
         <fluent-icon
@@ -17,7 +17,7 @@
       </button>
       <img
         v-if="avatarUrl"
-        class="h-8 w-8 rounded-full mr-3"
+        class="h-8 w-8 rounded-full ltr:mr-3 rtl:ml-3"
         :src="avatarUrl"
         alt="avatar"
       />
@@ -26,7 +26,7 @@
           class="font-medium text-base leading-4 flex items-center"
           :class="$dm('text-black-900', 'dark:text-slate-50')"
         >
-          <span v-dompurify-html="title" class="mr-1" />
+          <span v-dompurify-html="title" class="ltr:mr-1 rtl:ml-2" />
           <div
             :class="`h-2 w-2 rounded-full
               ${isOnline ? 'bg-green-500' : 'hidden'}`"

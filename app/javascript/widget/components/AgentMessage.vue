@@ -18,7 +18,7 @@
         <div v-if="hasReplyTo" class="flex mt-2 mb-1 text-xs">
           <reply-to-chip :reply-to="replyTo" />
         </div>
-        <div class="flex gap-1">
+        <div class="flex rtl:flex-row-reverse gap-1">
           <div class="space-y-2">
             <AgentMessageBubble
               v-if="shouldDisplayAgentMessage"

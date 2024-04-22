@@ -9,8 +9,10 @@
       :style="{ color: widgetColor }"
       @click="$emit('view-all')"
     >
-      <span class="pr-2 text-sm">{{ $t('PORTAL.VIEW_ALL_ARTICLES') }}</span>
-      <fluent-icon icon="arrow-right" size="14" />
+      <span class="ltr:pr-2 rtl:pl-2 text-sm">{{
+        $t('PORTAL.VIEW_ALL_ARTICLES')
+      }}</span>
+      <fluent-icon icon="arrow-right" size="14" class="rtl:rotate-180" />
     </button>
   </div>
 </template>

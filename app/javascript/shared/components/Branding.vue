@@ -75,6 +75,11 @@ export default {
   margin-right: $space-smaller;
   max-width: $space-slab;
   max-height: $space-slab;
+
+  [dir='rtl'] & {
+    margin-right: 0;
+    margin-left: $space-smaller;
+  }
 }
 
 .branding--link {

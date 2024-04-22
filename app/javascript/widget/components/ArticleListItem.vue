@@ -4,11 +4,13 @@
     role="button"
     @click="onClick"
   >
-    <button class="underline-offset-2 text-sm leading-6 text-left">
+    <button
+      class="underline-offset-2 text-sm leading-6 ltr:text-left rtl:text-right"
+    >
       {{ title }}
     </button>
     <span class="pl-1 arrow">
-      <fluent-icon icon="arrow-right" size="14" />
+      <fluent-icon icon="arrow-right" size="14" class="rtl:rotate-180" />
     </span>
   </li>
 </template>

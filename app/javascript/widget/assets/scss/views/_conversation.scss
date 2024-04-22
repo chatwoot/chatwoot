@@ -11,6 +11,12 @@
     margin: 0 0 $space-micro $space-small;
     max-width: 88%;
 
+    [dir='rtl'] & {
+      flex-direction: row-reverse;
+      margin: 0 $space-small $space-micro 0;
+      margin-right: auto;
+    }
+
     .avatar-wrap {
       flex-shrink: 0;
       height: $space-medium;
@@ -46,6 +52,10 @@
     font-weight: $font-weight-medium;
     margin: $space-small 0;
     padding-left: $space-micro;
+
+    [dir='rtl'] & {
+      text-align: left;
+    }
   }
 
   .has-attachment {
@@ -95,9 +105,19 @@
     max-width: 85%;
     text-align: right;
 
+    [dir='rtl'] & {
+      flex-direction: row-reverse;
+      text-align: left;
+    }
+
     .message-wrap {
       margin-right: $space-small;
       max-width: 100%;
+
+      [dir='rtl'] & {
+        margin-left: $space-small;
+        margin-right: unset;
+      }
     }
 
     .in-progress,
@@ -182,6 +202,10 @@
   overflow: hidden;
   text-align: right;
 
+  [dir='rtl'] & {
+    text-align: left;
+  }
+
   .chat-bubble-wrap {
     .chat-bubble {
       border-bottom-right-radius: $space-smaller;
@@ -201,6 +225,10 @@
 
   .close-unread-wrap {
     text-align: right;
+
+    [dir='rtl'] & {
+      text-align: left;
+    }
   }
 }
 
@@ -215,6 +243,10 @@
   padding: $space-slab $space-normal;
   text-align: left;
   word-break: break-word;
+
+  [dir='rtl'] & {
+    text-align: right;
+  }
 
   :not([audio]) {
     max-width: 100%;
