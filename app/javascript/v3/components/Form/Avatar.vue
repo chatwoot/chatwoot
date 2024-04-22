@@ -1,6 +1,7 @@
 <template>
   <div
-    class="rounded-xl h-[72px] w-[72px] flex leading-[100%] font-medium items-center justify-center text-center cursor-default bg-ash-200 text-ash-900"
+    class="rounded-xl flex leading-[100%] font-medium items-center justify-center text-center cursor-default"
+    :class="`h-[${size}px] w-[${size}]px ${colorClass}`"
     :style="style"
     aria-hidden="true"
   >
@@ -8,36 +9,36 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'Avatar',
-  props: {
-    username: {
-      type: String,
-      default: '',
-    },
-    size: {
-      type: Number,
-      default: 40,
-    },
-  },
-  computed: {
-    style() {
-      return {
-        fontSize: `${Math.floor(this.size / 2.5)}px`,
-      };
-    },
-    userInitial() {
-      const parts = this.username.split(/[ -]/);
-      let initials = parts.reduce((acc, curr) => acc + curr.charAt(0), '');
+<script setup>
+import { computed } from 'vue';
 
-      if (initials.length > 2 && initials.search(/[A-Z]/) !== -1) {
-        initials = initials.replace(/[a-z]+/g, '');
-      }
-      initials = initials.substring(0, 2).toUpperCase();
-
-      return initials;
-    },
-  },
+const colors = {
+  1: 'bg-ash-200 text-ash-900',
+  2: 'bg-amber-200 text-amber-900',
 };
+
+const props = defineProps({
+  username: {
+    type: String,
+    default: '',
+  },
+  size: {
+    type: Number,
+    default: 72,
+  },
+});
+
+const style = computed(() => ({
+  fontSize: `${Math.floor(props.size / 2.5)}px`,
+}));
+
+const colorClass = computed(() => {
+  return colors[(props.username.length % 2) + 1];
+});
+
+const userInitial = computed(() => {
+  const parts = props.username.split(/[ -]/).filter(Boolean);
+  let initials = parts.map(part => part[0].toUpperCase()).join('');
+  return initials.slice(0, 2);
+});
 </script>
