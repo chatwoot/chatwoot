@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex flex-col gap-2">
-      <span class="font-medium text-ash-90"> Profile picture </span>
+      <span class="text-sm font-medium text-ash-900"> Profile picture </span>
       <div
         class="relative rounded-xl h-[72px] w-[72px] cursor-pointer"
         :title="name"

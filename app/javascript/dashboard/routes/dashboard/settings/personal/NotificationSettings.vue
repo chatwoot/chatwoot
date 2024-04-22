@@ -33,7 +33,7 @@
           <input
             id="audio_enable_alert_none"
             v-model="enableAudioAlerts"
-            class="notification--checkbox"
+            class="notification--checkbox accent-primary-600"
             type="radio"
             value="none"
             @input="handleAudioInput"
@@ -51,7 +51,7 @@
           <input
             id="audio_enable_alert_mine"
             v-model="enableAudioAlerts"
-            class="notification--checkbox"
+            class="notification--checkbox accent-primary-600"
             type="radio"
             value="mine"
             @input="handleAudioInput"
@@ -67,7 +67,7 @@
           <input
             id="audio_enable_alert_all"
             v-model="enableAudioAlerts"
-            class="notification--checkbox"
+            class="notification--checkbox accent-primary-600"
             type="radio"
             value="all"
             @input="handleAudioInput"
@@ -87,30 +87,32 @@
       >
         Alert conditions
       </label>
-      <div class="flex flex-row items-center justify-start gap-2">
-        <input
-          id="audio_alert_when_tab_is_inactive"
-          v-model="playAudioWhenTabIsInactive"
-          type="checkbox"
-          value="tab_is_inactive"
-          class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-woot-600 dark:checked:bg-woot-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-          @input="handleAudioAlertConditions"
-        />
-        <label>
-          Send audio alerts only if the browser window is not active
-        </label>
-      </div>
-      <div class="flex flex-row items-center justify-start gap-2">
-        <input
-          v-model="alertIfUnreadConversationExist"
-          class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-woot-600 dark:checked:bg-woot-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-          type="checkbox"
-          value="conversations_are_read"
-          @input="handleAudioAlertConditions"
-        />
-        <label>
-          Send alerts every 30s until all the assigned conversations are read
-        </label>
+      <div class="flex flex-col gap-2">
+        <div class="flex flex-row items-start gap-2">
+          <input
+            id="audio_alert_when_tab_is_inactive"
+            v-model="playAudioWhenTabIsInactive"
+            type="checkbox"
+            value="tab_is_inactive"
+            class="mb-0 mt-0.5 border-[1.5px] flex-shrink-0 shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-primary-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
+            @input="handleAudioAlertConditions"
+          />
+          <label class="text-sm font-normal text-ash-900">
+            Send audio alerts only if the browser window is not active
+          </label>
+        </div>
+        <div class="flex flex-row items-start gap-2">
+          <input
+            v-model="alertIfUnreadConversationExist"
+            class="mb-0 mt-0.5 border-[1.5px] flex-shrink-0 shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-primary-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
+            type="checkbox"
+            value="conversations_are_read"
+            @input="handleAudioAlertConditions"
+          />
+          <label class="text-sm font-normal text-ash-900">
+            Send alerts every 30s until all the assigned conversations are read
+          </label>
+        </div>
       </div>
     </div>
   </div>

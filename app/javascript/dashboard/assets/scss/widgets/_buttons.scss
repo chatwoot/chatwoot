@@ -1,6 +1,6 @@
 // scss-lint:disable SpaceAfterPropertyColon
 // scss-lint:disable MergeableSelector
-button:not(.reset-base) {
+.button {
   font-family: inherit;
   transition:
     background-color 0.25s ease-out,

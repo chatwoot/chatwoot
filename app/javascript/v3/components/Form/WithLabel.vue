@@ -3,14 +3,14 @@
     <label
       v-if="label"
       :for="name"
-      class="flex justify-between text-sm font-medium leading-6 text-ash-900"
+      class="flex justify-between mb-0.5 text-sm font-medium leading-6 text-ash-900"
     >
       <slot name="label">
         {{ label }}
       </slot>
       <slot name="rightOfLabel" />
     </label>
-    <div class="w-full">
+    <div class="flex flex-col w-full gap-1">
       <div class="relative flex items-center w-full">
         <fluent-icon
           v-if="icon"
@@ -22,7 +22,7 @@
       </div>
       <span
         v-if="errorMessage && hasError"
-        class="text-xs text-ruby-800 leading-2"
+        class="mt-0.5 text-xs text-ruby-800 leading-2"
       >
         {{ errorMessage }}
       </span>

@@ -14,15 +14,15 @@
             Email
           </span>
         </table-header-cell>
-        <table-header-cell :span="3" label="Push notification">
+        <table-header-cell :span="4" label="Push notification">
           <div class="flex flex-row items-center justify-center gap-1">
             <span class="text-sm font-medium uppercase text-ash-900">
               Push notification
             </span>
-            <!-- <woot-switch
+            <v3-switch
               :value="!hasEnabledPushPermissions"
               @input="onRequestPermissions()"
-            /> -->
+            />
           </div>
         </table-header-cell>
       </div>
@@ -305,10 +305,12 @@ import {
   verifyServiceWorkerExistence,
 } from '../../../../helper/pushHelper';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import V3Switch from 'v3/components/Form/Switch.vue';
 
 export default {
   components: {
     TableHeaderCell,
+    V3Switch,
   },
   mixins: [alertMixin, configMixin, uiSettingsMixin],
   data() {

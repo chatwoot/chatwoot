@@ -105,7 +105,7 @@ textarea {
 }
 
 .error {
-  input,
+  input:not(.reset-base),
   input:not([type]),
   textarea,
   select,
