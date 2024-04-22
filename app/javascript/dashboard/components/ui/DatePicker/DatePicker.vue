@@ -35,10 +35,15 @@ const { LAST_7_DAYS, CUSTOM_RANGE } = DATE_RANGE_TYPES;
 const showDatePicker = ref(false);
 const calendarViews = ref({ start: 'week', end: 'week' });
 const currentDate = ref(new Date());
-const startCurrentDate = ref(startOfDay(currentDate.value)); // Today's date at the start of the day (starts the current month)
-const endCurrentDate = ref(addMonths(startOfDay(currentDate.value), 1)); // One month ahead of today at the start of the day (starts the next month)
 const selectedStartDate = ref(startOfDay(subDays(currentDate.value, 6)));
 const selectedEndDate = ref(endOfDay(currentDate.value));
+// Setting the start end end calendar
+const startCurrentDate = ref(startOfDay(selectedStartDate.value));
+const endCurrentDate = ref(
+  isSameMonth(selectedStartDate.value, selectedEndDate.value)
+    ? startOfMonth(addMonths(selectedEndDate.value, 1)) // Moves to the start of the next month if dates are in the same month (Mounted case LAST_7_DAYS)
+    : startOfMonth(selectedEndDate.value) // Always shows the month of the end date starting from the first (Mounted case LAST_7_DAYS)
+);
 const selectingEndDate = ref(false);
 const selectedRange = ref(LAST_7_DAYS);
 const hoveredEndDate = ref(null);
@@ -48,8 +53,13 @@ const manualEndDate = ref('');
 
 const emit = defineEmits(['change']);
 
+// Watcher will set the start and end dates based on the selected range
 watch(selectedRange, newRange => {
   if (newRange !== CUSTOM_RANGE) {
+    // If selecting a range other than last 7 days, set the start and end dates to the selected start and end dates
+    // If selecting last 7 days, set the start date to the selected start date
+    // and the end date to one month ahead of the start date if the start date and end date are in the same month
+    // Otherwise set the end date to the selected end date
     const isLast7days = newRange === LAST_7_DAYS;
     startCurrentDate.value = selectedStartDate.value;
     endCurrentDate.value =
@@ -58,10 +68,12 @@ watch(selectedRange, newRange => {
         : selectedEndDate.value;
     selectingEndDate.value = false;
   } else if (!selectingEndDate.value) {
+    // If selecting a custom range and not selecting an end date, set the start date to the selected start date
     startCurrentDate.value = startOfDay(currentDate.value);
   }
 });
 
+// Watcher will set the input values based on the selected start and end dates
 watch(
   [selectedStartDate, selectedEndDate],
   ([newStart, newEnd]) => {
@@ -81,6 +93,7 @@ watch(
 );
 
 // Watcher to ensure dates are always in logical order
+// This watch is will ensure that the start date is always before the end date
 watch(
   [startCurrentDate, endCurrentDate],
   ([newStart, newEnd], [oldStart, oldEnd]) => {

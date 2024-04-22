@@ -1,5 +1,4 @@
 <script setup>
-import { defineProps, defineEmits } from 'vue';
 import { parseDateFromDMY } from '../helpers/DatePickerHelper';
 
 import { isValid, startOfDay, endOfDay, isBefore, isAfter } from 'date-fns';
