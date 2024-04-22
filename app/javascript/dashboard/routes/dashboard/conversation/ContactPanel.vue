@@ -235,7 +235,7 @@ export default {
       if (this.contactId && !this.loadingContactDetails) {
         this.loadingContactDetails = true;
         this.$store.dispatch('contacts/show', { id: this.contactId }).then(() => {
-          this.isLoadingContactDetails = false;
+          this.loadingContactDetails = false;
         });
       }
     },
