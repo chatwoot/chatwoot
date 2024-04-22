@@ -1,7 +1,7 @@
 <template>
   <button
     type="button"
-    class="p-0 toggle-button"
+    class="p-0 toggle-button bg-primary-600"
     :class="{ active: value, small: size === 'small' }"
     role="switch"
     :aria-checked="value.toString()"
@@ -26,7 +26,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .toggle-button {
-  @apply bg-slate-200 dark:bg-slate-600;
   --toggle-button-box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px,
     rgba(59, 130, 246, 0.5) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
     rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
@@ -41,10 +40,6 @@ export default {
   transition-property: background-color;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   width: 34px;
-
-  &.active {
-    background-color: var(--w-500);
-  }
 
   &.small {
     width: 22px;

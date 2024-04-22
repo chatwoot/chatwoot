@@ -9,20 +9,17 @@
             Notification type
           </span>
         </table-header-cell>
-        <table-header-cell :span="3" label="Email">
+        <table-header-cell :span="2" label="Email">
           <span class="text-sm font-medium uppercase text-ash-900">
             Email
           </span>
         </table-header-cell>
-        <table-header-cell :span="3" label="Push notification">
-          <div class="flex flex-row items-center justify-center gap-1">
+        <table-header-cell :span="4" label="Push notification">
+          <div class="flex items-center justify-between gap-2">
             <span class="text-sm font-medium uppercase text-ash-900">
               Push notification
             </span>
-            <!-- <v3-switch
-              :value="!hasEnabledPushPermissions"
-              @input="onRequestPermissions()"
-            /> -->
+            <v3-switch :value="true" @input="onRequestPermissions()" />
           </div>
         </table-header-cell>
       </div>
@@ -37,7 +34,7 @@
           </span>
         </div>
         <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
+          class="flex items-center gap-2 col-span-2 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
         >
           <input
             v-model="selectedEmailFlags"
@@ -48,7 +45,7 @@
           />
         </div>
         <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
+          class="flex items-center gap-2 col-span-4 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
         >
           <input
             type="checkbox"
@@ -69,7 +66,7 @@
           </span>
         </div>
         <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
+          class="flex items-center gap-2 col-span-2 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
         >
           <input
             v-model="selectedEmailFlags"
@@ -80,7 +77,7 @@
           />
         </div>
         <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
+          class="flex items-center gap-2 col-span-4 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
         >
           <input
             v-model="selectedPushFlags"
@@ -102,7 +99,7 @@
           </span>
         </div>
         <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
+          class="flex items-center gap-2 col-span-2 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
         >
           <input
             v-model="selectedEmailFlags"
@@ -113,7 +110,7 @@
           />
         </div>
         <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
+          class="flex items-center gap-2 col-span-4 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
         >
           <input
             v-model="selectedPushFlags"
@@ -135,7 +132,7 @@
           </span>
         </div>
         <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
+          class="flex items-center gap-2 col-span-2 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
         >
           <input
             v-model="selectedEmailFlags"
@@ -146,7 +143,7 @@
           />
         </div>
         <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
+          class="flex items-center gap-2 col-span-4 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
         >
           <input
             v-model="selectedPushFlags"
@@ -168,7 +165,7 @@
           </span>
         </div>
         <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
+          class="flex items-center gap-2 col-span-2 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
         >
           <input
             v-model="selectedEmailFlags"
@@ -179,7 +176,7 @@
           />
         </div>
         <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
+          class="flex items-center gap-2 col-span-4 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
         >
           <input
             v-model="selectedPushFlags"
@@ -202,7 +199,7 @@
           </span>
         </div>
         <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
+          class="flex items-center gap-2 col-span-2 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
         >
           <input
             v-model="selectedEmailFlags"
@@ -212,7 +209,7 @@
           />
         </div>
         <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
+          class="flex items-center gap-2 col-span-4 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
         >
           <input
             v-model="selectedPushFlags"
@@ -235,7 +232,7 @@
           </span>
         </div>
         <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
+          class="flex items-center gap-2 col-span-2 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
         >
           <input
             v-model="selectedEmailFlags"
@@ -245,7 +242,7 @@
           />
         </div>
         <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
+          class="flex items-center gap-2 col-span-4 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
         >
           <input
             v-model="selectedPushFlags"
@@ -268,7 +265,7 @@
           </span>
         </div>
         <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
+          class="flex items-center gap-2 col-span-2 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
         >
           <input
             v-model="selectedEmailFlags"
@@ -278,7 +275,7 @@
           />
         </div>
         <div
-          class="flex items-center gap-2 col-span-3 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
+          class="flex items-center gap-2 col-span-4 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
         >
           <input
             v-model="selectedPushFlags"
@@ -305,12 +302,12 @@ import {
   verifyServiceWorkerExistence,
 } from '../../../../helper/pushHelper';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-// import V3Switch from 'v3/components/Form/Switch.vue';
+import V3Switch from 'v3/components/Form/Switch.vue';
 
 export default {
   components: {
     TableHeaderCell,
-    // V3Switch,
+    V3Switch,
   },
   mixins: [alertMixin, configMixin, uiSettingsMixin],
   data() {
