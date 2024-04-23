@@ -12,5 +12,9 @@ export default {
     isEnterprise() {
       return window.chatwootConfig.isEnterprise === 'true';
     },
+    enterprisePlanName() {
+      // returns "community" or "enterprise"
+      return window.chatwootConfig?.enterprisePlanName;
+    },
   },
 };
