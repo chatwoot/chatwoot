@@ -539,7 +539,7 @@
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Taxa de acerto",
-        "TOOLTIP": "Percentage of SLAs created were completed successfully"
+        "TOOLTIP": "Porcentagem de SLAs criados foram concluídos com êxito"
       },
       "NO_OF_MISSES": {
         "LABEL": "Número de Erros",
@@ -547,7 +547,7 @@
       },
       "NO_OF_CONVERSATIONS": {
         "LABEL": "Nº de Conversas",
-        "TOOLTIP": "Total number of conversations with SLA"
+        "TOOLTIP": "Número total de conversas com SLA"
       }
     },
     "TABLE": {
