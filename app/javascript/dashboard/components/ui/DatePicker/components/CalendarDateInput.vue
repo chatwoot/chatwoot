@@ -1,54 +1,49 @@
 <script setup>
-import { parseDateFromDMY } from '../helpers/DatePickerHelper';
-
-import { isValid, startOfDay, endOfDay, isBefore, isAfter } from 'date-fns';
+import { computed } from 'vue';
+import { parse, isValid, isAfter, isBefore } from 'date-fns';
+import { getIntlDateFormatForLocale } from '../helpers/DatePickerHelper';
 
 const props = defineProps({
   calendarType: {
     type: String,
     default: '',
   },
-  dateValue: {
-    type: String,
-    default: '',
-  },
-  compareDate: {
-    type: String,
-    default: '',
-  },
+  dateValue: Date,
+  compareDate: Date,
   isDisabled: Boolean,
 });
 
 const emit = defineEmits(['update', 'validate', 'error']);
 
-const updateDate = newValue => {
-  emit('update', newValue);
-};
+const dateFormat = computed(() => getIntlDateFormatForLocale()?.toUpperCase());
 
-const validateDate = dateString => {
-  const parsedDate = parseDateFromDMY(dateString);
+const localDateValue = computed({
+  get: () => props.dateValue?.toLocaleDateString(navigator.language) || '',
+  set: newValue => {
+    const format = getIntlDateFormatForLocale();
+    const parsedDate = parse(newValue, format, new Date());
+    if (isValid(parsedDate)) {
+      emit('update', parsedDate);
+    }
+  },
+});
 
-  if (!isValid(parsedDate)) {
-    emit('error', 'Please select a valid time range');
+const validateDate = () => {
+  if (!isValid(props.dateValue)) {
+    emit('error', `Please enter the date in valid format: ${dateFormat.value}`);
     return;
   }
 
-  if (props.calendarType === 'start') {
-    if (
-      props.compareDate &&
-      isAfter(parsedDate, parseDateFromDMY(props.compareDate))
-    ) {
-      emit('error', 'Start date must be before end date');
-    } else {
-      emit('validate', startOfDay(parsedDate));
-    }
-  } else if (
-    props.compareDate &&
-    isBefore(parsedDate, parseDateFromDMY(props.compareDate))
-  ) {
-    emit('error', 'End date must be after start date');
+  const { calendarType, compareDate, dateValue } = props;
+  const isStartCalendar = calendarType === 'start';
+  const isEndCalendar = calendarType === 'end';
+
+  if (compareDate && isStartCalendar && isAfter(dateValue, compareDate)) {
+    emit('error', 'Start date must be before the end date.');
+  } else if (compareDate && isEndCalendar && isBefore(dateValue, compareDate)) {
+    emit('error', 'End date must be after the start date.');
   } else {
-    emit('validate', endOfDay(parsedDate));
+    emit('validate', dateValue);
   }
 };
 </script>
@@ -63,13 +58,12 @@ const validateDate = dateString => {
       }}
     </span>
     <input
+      v-model="localDateValue"
       type="text"
-      :value="dateValue"
-      class="reset-base border bg-slate-25 dark:bg-slate-900 border-slate-50 dark:border-slate-700/50 w-full disabled:text-slate-200 dark:disabled:text-slate-700 disabled:cursor-not-allowed text-slate-800 dark:text-slate-50 px-1.5 py-1 text-sm rounded-xl h-10"
-      placeholder="DD/MM/YYYY"
+      class="reset-base border bg-slate-25 dark:bg-slate-900 ring-offset-ash-900 border-slate-50 dark:border-slate-700/50 w-full disabled:text-slate-200 dark:disabled:text-slate-700 disabled:cursor-not-allowed text-slate-800 dark:text-slate-50 px-1.5 py-1 text-sm rounded-xl h-10"
+      :placeholder="dateFormat"
       :disabled="isDisabled"
-      @input="updateDate($event.target.value)"
-      @change="validateDate($event.target.value)"
+      @keypress.enter="validateDate"
     />
   </div>
 </template>

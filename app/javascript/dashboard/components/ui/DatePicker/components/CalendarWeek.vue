@@ -1,7 +1,7 @@
 <script setup>
 import {
-  month,
-  year,
+  monthName,
+  yearName,
   getWeeksForMonth,
   isToday,
   dayIsInRange,
@@ -118,10 +118,10 @@ const dayClasses = day => ({
       view-mode="month"
       :calendar-type="calendarType"
       :first-button-label="
-        month(calendarType === 'start' ? startCurrentDate : endCurrentDate)
+        monthName(calendarType === 'start' ? startCurrentDate : endCurrentDate)
       "
       :button-label="
-        year(calendarType === 'start' ? startCurrentDate : endCurrentDate)
+        yearName(calendarType === 'start' ? startCurrentDate : endCurrentDate)
       "
       @prev="onClickPrev"
       @next="onClickNext"

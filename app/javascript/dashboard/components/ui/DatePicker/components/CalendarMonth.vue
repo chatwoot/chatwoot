@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { format, getMonth, setMonth, startOfMonth } from 'date-fns';
-import { year } from '../helpers/DatePickerHelper';
+import { yearName } from '../helpers/DatePickerHelper';
 
 import CalendarAction from './CalendarAction.vue';
 
@@ -51,7 +51,7 @@ const selectMonth = index => {
       view-mode="year"
       :calendar-type="calendarType"
       :button-label="
-        year(
+        yearName(
           calendarType === 'start' ? startCurrentDate : endCurrentDate,
           'month'
         )

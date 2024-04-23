@@ -1,7 +1,7 @@
 import {
-  month,
-  year,
-  parseDateFromDMY,
+  monthName,
+  yearName,
+  getIntlDateFormatForLocale,
   getWeeksForMonth,
   isToday,
   isCurrentMonth,
@@ -15,22 +15,33 @@ import {
 } from '../DatePickerHelper';
 
 describe('Date formatting functions', () => {
-  const testDate = new Date(2020, 4, 15); // July 15, 2020
+  const testDate = new Date(2020, 4, 15); // May 15, 2020
+
+  beforeEach(() => {
+    jest.spyOn(navigator, 'language', 'get').mockReturnValue('en-US');
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
 
   it('returns the correct month name from a date', () => {
-    expect(month(testDate)).toBe('May');
+    expect(monthName(testDate)).toBe('May');
   });
 
   it('returns the correct year from a date', () => {
-    expect(year(testDate)).toBe('2020');
+    expect(yearName(testDate)).toBe('2020');
   });
 
-  describe('parseDateFromDMY', () => {
-    it('converts a date string from "DD/MM/YYYY" format to a Date object', () => {
-      const input = '31/12/2020';
-      const expected = new Date(2020, 11, 31);
-      expect(parseDateFromDMY(input)).toEqual(expected);
-    });
+  it('returns the correct date format for the current locale en-US', () => {
+    const expected = 'MM/dd/yyyy';
+    expect(getIntlDateFormatForLocale()).toBe(expected);
+  });
+
+  it('returns the correct date format for the current locale en-IN', () => {
+    jest.spyOn(navigator, 'language', 'get').mockReturnValue('en-IN');
+    const expected = 'dd/MM/yyyy';
+    expect(getIntlDateFormatForLocale()).toBe(expected);
   });
 });
 

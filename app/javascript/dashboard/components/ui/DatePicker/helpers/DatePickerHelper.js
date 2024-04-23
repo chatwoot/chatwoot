@@ -1,5 +1,4 @@
 import {
-  parse,
   startOfDay,
   subDays,
   endOfDay,
@@ -53,13 +52,22 @@ export const DATE_RANGE_TYPES = {
 };
 
 // Utility functions for date operations
-export const parseDateFromDMY = dateString => {
-  const [day, month, year] = dateString.split('/');
-  return parse(`${year}-${month}-${day}`, 'yyyy-MM-dd', new Date());
-};
+export const monthName = currentDate => format(currentDate, 'MMMM');
+export const yearName = currentDate => format(currentDate, 'yyyy');
 
-export const month = currentDate => format(currentDate, 'MMMM');
-export const year = currentDate => format(currentDate, 'yyyy');
+export const getIntlDateFormatForLocale = () => {
+  const year = 2222;
+  const month = 12;
+  const day = 15;
+  const date = new Date(year, month - 1, day);
+  const formattedDate = new Intl.DateTimeFormat(navigator.language).format(
+    date
+  );
+  return formattedDate
+    .replace(`${year}`, 'yyyy')
+    .replace(`${month}`, 'MM')
+    .replace(`${day}`, 'dd');
+};
 
 // Utility functions for calendar operations
 export const chunk = (array, size) =>

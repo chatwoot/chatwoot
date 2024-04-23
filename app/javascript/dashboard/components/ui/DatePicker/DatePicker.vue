@@ -6,7 +6,6 @@ import {
   DATE_RANGE_TYPES,
 } from './helpers/DatePickerHelper';
 import {
-  format,
   isValid,
   startOfMonth,
   subDays,
@@ -35,7 +34,7 @@ const { LAST_7_DAYS, CUSTOM_RANGE } = DATE_RANGE_TYPES;
 const showDatePicker = ref(false);
 const calendarViews = ref({ start: 'week', end: 'week' });
 const currentDate = ref(new Date());
-const selectedStartDate = ref(startOfDay(subDays(currentDate.value, 6)));
+const selectedStartDate = ref(startOfDay(subDays(currentDate.value, 6))); // LAST_7_DAYS
 const selectedEndDate = ref(endOfDay(currentDate.value));
 // Setting the start end end calendar
 const startCurrentDate = ref(startOfDay(selectedStartDate.value));
@@ -48,8 +47,8 @@ const selectingEndDate = ref(false);
 const selectedRange = ref(LAST_7_DAYS);
 const hoveredEndDate = ref(null);
 
-const manualStartDate = ref('');
-const manualEndDate = ref('');
+const manualStartDate = ref(selectedStartDate.value);
+const manualEndDate = ref(selectedEndDate.value);
 
 const emit = defineEmits(['change']);
 
@@ -78,15 +77,15 @@ watch(
   [selectedStartDate, selectedEndDate],
   ([newStart, newEnd]) => {
     if (isValid(newStart)) {
-      manualStartDate.value = format(newStart, 'dd/MM/yyyy');
+      manualStartDate.value = newStart;
     } else {
-      manualStartDate.value = '';
+      manualStartDate.value = selectedStartDate.value;
     }
 
     if (isValid(newEnd)) {
-      manualEndDate.value = format(newEnd, 'dd/MM/yyyy');
+      manualEndDate.value = newEnd;
     } else {
-      manualEndDate.value = '';
+      manualEndDate.value = selectedEndDate.value;
     }
   },
   { immediate: true }
@@ -174,6 +173,7 @@ const updateManualInput = (newDate, calendarType) => {
     selectedEndDate.value = newDate;
     endCurrentDate.value = newDate;
   }
+  selectingEndDate.value = false;
 };
 
 const handleManualInputError = message => {
