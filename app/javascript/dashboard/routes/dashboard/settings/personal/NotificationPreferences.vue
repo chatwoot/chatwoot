@@ -1,6 +1,6 @@
 <template>
   <div id="profile-settings-notifications" class="flex flex-col gap-6">
-    <div>
+    <div class="hidden sm:block">
       <div
         class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
       >
@@ -23,216 +23,73 @@
           </div>
         </table-header-cell>
       </div>
-      <div
-        class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
-      >
+      <div v-for="(notification, index) in notificationTypes" :key="index">
         <div
-          class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
+          class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
         >
-          <span class="text-sm text-ash-900">
-            {{
-              $t(
-                'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.CONVERSATION_CREATED'
-              )
-            }}
-          </span>
+          <div
+            class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
+          >
+            <span class="text-sm text-ash-900">{{
+              $t(notification.label)
+            }}</span>
+          </div>
+          <notification-check-box
+            v-for="(type, typeIndex) in ['email', 'push']"
+            :key="typeIndex"
+            :type="type"
+            :value="`${type}_${notification.value}`"
+            :span="type === 'push' ? 4 : 2"
+            :selected-flags="
+              type === 'email' ? selectedEmailFlags : selectedPushFlags
+            "
+            @input="handleInput"
+          />
         </div>
-        <notification-check-box
-          value="email_conversation_creation"
-          :selected-flags="selectedEmailFlags"
-          @input="handleEmailInput"
-        />
-        <notification-check-box
-          :value="'push_conversation_creation'"
-          :span="4"
-          :selected-flags="selectedPushFlags"
-          @input="handlePushInput"
-        />
       </div>
-      <div
-        class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
-      >
+    </div>
+
+    <div class="flex flex-col gap-6 sm:hidden">
+      <span class="text-sm font-medium uppercase text-ash-900">
+        {{ $t('PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.TITLE') }}
+      </span>
+      <div class="flex flex-col gap-2">
         <div
-          class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
+          v-for="(notification, index) in notificationTypes"
+          :key="index"
+          class="flex flex-row items-center gap-2"
         >
-          <span class="text-sm text-ash-900">
-            {{
-              $t(
-                'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.CONVERSATION_ASSIGNED'
-              )
-            }}
-          </span>
+          <notification-check-box
+            type="email"
+            :value="`email_${notification.value}`"
+            :selected-flags="selectedEmailFlags"
+            @input="handleEmailInput"
+          />
+          <span class="text-sm text-ash-900">{{ $t(notification.label) }}</span>
         </div>
-        <notification-check-box
-          :value="'email_conversation_assignment'"
-          :selected-flags="selectedEmailFlags"
-          @input="handleEmailInput"
-        />
-        <notification-check-box
-          :value="'push_conversation_assignment'"
-          :span="4"
-          :selected-flags="selectedPushFlags"
-          @input="handlePushInput"
-        />
       </div>
-      <div
-        class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
-      >
-        <div
-          class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
-        >
-          <span class="text-sm text-ash-900">
-            {{
-              $t(
-                'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.CONVERSATION_MENTION'
-              )
-            }}
-          </span>
-        </div>
-        <notification-check-box
-          :value="'email_conversation_mention'"
-          :selected-flags="selectedEmailFlags"
-          @input="handleEmailInput"
-        />
-        <notification-check-box
-          :value="'push_conversation_mention'"
-          :span="4"
-          :selected-flags="selectedPushFlags"
-          @input="handlePushInput"
-        />
+
+      <div class="flex items-center justify-between gap-2">
+        <span class="text-sm font-medium uppercase text-ash-900">
+          {{ $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.TITLE') }}
+        </span>
+        <v3-switch :value="true" @input="onRequestPermissions()" />
       </div>
-      <div
-        class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
-      >
+
+      <div class="flex flex-col gap-2">
         <div
-          class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
+          v-for="(notification, index) in notificationTypes"
+          :key="index"
+          class="flex flex-row items-center gap-2"
         >
-          <span class="text-sm text-ash-900">
-            {{
-              $t(
-                'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.ASSIGNED_CONVERSATION_NEW_MESSAGE'
-              )
-            }}
-          </span>
+          <notification-check-box
+            type="push"
+            :value="`push_${notification.value}`"
+            :selected-flags="selectedPushFlags"
+            @input="handleInput"
+          />
+          <span class="text-sm text-ash-900">{{ $t(notification.label) }}</span>
         </div>
-        <notification-check-box
-          :value="'email_assigned_conversation_new_message'"
-          :selected-flags="selectedEmailFlags"
-          @input="handleEmailInput"
-        />
-        <notification-check-box
-          :value="'push_assigned_conversation_new_message'"
-          :span="4"
-          :selected-flags="selectedPushFlags"
-          @input="handlePushInput"
-        />
-      </div>
-      <div
-        class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
-      >
-        <div
-          class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
-        >
-          <span class="text-sm text-ash-900">
-            {{
-              $t(
-                'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.PARTICIPATING_CONVERSATION_NEW_MESSAGE'
-              )
-            }}
-          </span>
-        </div>
-        <notification-check-box
-          :value="'email_participating_conversation_new_message'"
-          :selected-flags="selectedEmailFlags"
-          @input="handleEmailInput"
-        />
-        <notification-check-box
-          :value="'push_participating_conversation_new_message'"
-          :span="4"
-          :selected-flags="selectedPushFlags"
-          @input="handlePushInput"
-        />
-      </div>
-      <div
-        v-if="isSLAEnabled"
-        class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
-      >
-        <div
-          class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
-        >
-          <span class="text-sm text-ash-900">
-            {{
-              $t(
-                'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.SLA_MISSED_FIRST_RESPONSE'
-              )
-            }}
-          </span>
-        </div>
-        <notification-check-box
-          :value="'email_sla_missed_first_response'"
-          :selected-flags="selectedEmailFlags"
-          @input="handleEmailInput"
-        />
-        <notification-check-box
-          :value="'push_sla_missed_first_response'"
-          :span="4"
-          :selected-flags="selectedPushFlags"
-          @input="handlePushInput"
-        />
-      </div>
-      <div
-        v-if="isSLAEnabled"
-        class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
-      >
-        <div
-          class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
-        >
-          <span class="text-sm text-ash-900">
-            {{
-              $t(
-                'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.SLA_MISSED_NEXT_RESPONSE'
-              )
-            }}
-          </span>
-        </div>
-        <notification-check-box
-          :value="'email_sla_missed_next_response'"
-          :selected-flags="selectedEmailFlags"
-          @input="handleEmailInput"
-        />
-        <notification-check-box
-          :value="'push_sla_missed_next_response'"
-          :span="4"
-          :selected-flags="selectedPushFlags"
-          @input="handlePushInput"
-        />
-      </div>
-      <div
-        v-if="isSLAEnabled"
-        class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
-      >
-        <div
-          class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] text-ash-900 rtl:text-right"
-        >
-          <span class="text-sm text-ash-900">
-            {{
-              $t(
-                'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.SLA_MISSED_RESOLUTION'
-              )
-            }}
-          </span>
-        </div>
-        <notification-check-box
-          :value="'email_sla_missed_resolution'"
-          :selected-flags="selectedEmailFlags"
-          @input="handleEmailInput"
-        />
-        <notification-check-box
-          :value="'push_sla_missed_resolution'"
-          :span="4"
-          :selected-flags="selectedPushFlags"
-          @input="handlePushInput"
-        />
       </div>
     </div>
   </div>
@@ -266,17 +123,46 @@ export default {
       selectedPushFlags: [],
       enableAudioAlerts: false,
       hasEnabledPushPermissions: false,
-      playAudioWhenTabIsInactive: false,
-      alertIfUnreadConversationExist: false,
-      notificationTone: 'ding',
-      notificationAlertTones: [
+      notificationTypes: [
         {
-          value: 'ding',
-          label: 'Ding',
+          label:
+            'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.CONVERSATION_CREATED',
+          value: 'conversation_creation',
         },
         {
-          value: 'bell',
-          label: 'Bell',
+          label:
+            'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.CONVERSATION_ASSIGNED',
+          value: 'conversation_assignment',
+        },
+        {
+          label:
+            'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.CONVERSATION_MENTION',
+          value: 'conversation_mention',
+        },
+        {
+          label:
+            'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.ASSIGNED_CONVERSATION_NEW_MESSAGE',
+          value: 'assigned_conversation_new_message',
+        },
+        {
+          label:
+            'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.PARTICIPATING_CONVERSATION_NEW_MESSAGE',
+          value: 'participating_conversation_new_message',
+        },
+        {
+          label:
+            'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.SLA_MISSED_FIRST_RESPONSE',
+          value: 'sla_missed_first_response',
+        },
+        {
+          label:
+            'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.SLA_MISSED_NEXT_RESPONSE',
+          value: 'sla_missed_next_response',
+        },
+        {
+          label:
+            'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.SLA_MISSED_RESOLUTION',
+          value: 'sla_missed_resolution',
         },
       ],
     };
@@ -303,31 +189,14 @@ export default {
     pushFlags(value) {
       this.selectedPushFlags = value;
     },
-    uiSettings(value) {
-      this.notificationUISettings(value);
-    },
   },
   mounted() {
     if (hasPushPermissions()) {
       this.getPushSubscription();
     }
-    this.notificationUISettings(this.uiSettings);
     this.$store.dispatch('userNotificationSettings/get');
   },
   methods: {
-    notificationUISettings(uiSettings) {
-      const {
-        enable_audio_alerts: enableAudio = false,
-        always_play_audio_alert: alwaysPlayAudioAlert,
-        alert_if_unread_assigned_conversation_exist:
-          alertIfUnreadConversationExist,
-        notification_tone: notificationTone,
-      } = uiSettings;
-      this.enableAudioAlerts = enableAudio;
-      this.playAudioWhenTabIsInactive = !alwaysPlayAudioAlert;
-      this.alertIfUnreadConversationExist = alertIfUnreadConversationExist;
-      this.notificationTone = notificationTone || 'ding';
-    },
     onRegistrationSuccess() {
       this.hasEnabledPushPermissions = true;
     },
@@ -360,6 +229,13 @@ export default {
         this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
       } catch (error) {
         this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_ERROR'));
+      }
+    },
+    handleInput(type, e) {
+      if (type === 'email') {
+        this.handleEmailInput(e);
+      } else {
+        this.handlePushInput(e);
       }
     },
     handleEmailInput(e) {

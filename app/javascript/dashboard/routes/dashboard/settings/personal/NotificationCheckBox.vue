@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, watch } from 'vue';
 import { defineProps } from 'vue';
 
 const props = defineProps({
@@ -30,14 +30,25 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  type: {
+    type: String,
+    required: true,
+  },
 });
 
 const emit = defineEmits(['input']);
 
 const localValue = ref(props.value);
-const localFlags = computed(() => props.selectedFlags);
+const localFlags = ref(props.selectedFlags);
+
+watch(
+  () => props.selectedFlags,
+  newValue => {
+    localFlags.value = newValue;
+  }
+);
 
 const handleInput = e => {
-  emit('input', e);
+  emit('input', props.type, e);
 };
 </script>
