@@ -6,66 +6,22 @@
       <div class="flex flex-col gap-16 sm:max-w-[720px]">
         <div class="flex flex-col gap-6">
           <h2 class="mt-4 text-2xl font-medium text-ash-900">
-            Profile Settings
+            {{ $t('PROFILE_SETTINGS.TITLE') }}
           </h2>
-          <user-basic-profile
+          <user-profile-picture
             :src="avatarUrl"
             :name="name"
             size="72px"
             @change="handleImageUpload"
-            @update="updateUser"
             @delete="deleteAvatar"
           />
-
-          <form
-            class="flex flex-col gap-6"
-            @submit.prevent="updateUser('profile')"
-          >
-            <form-input
-              v-model="name"
-              type="text"
-              name="name"
-              :class="{ error: $v.name.$error }"
-              :label="$t('PROFILE_SETTINGS.FORM.NAME.LABEL')"
-              :placeholder="$t('PROFILE_SETTINGS.FORM.NAME.PLACEHOLDER')"
-              :has-error="$v.name.$error"
-              :error-message="$t('PROFILE_SETTINGS.FORM.NAME.ERROR')"
-              @blur="$v.name.$touch"
-            />
-            <form-input
-              v-model="displayName"
-              type="text"
-              name="displayName"
-              :class="{ error: $v.displayName.$error }"
-              :label="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.LABEL')"
-              :placeholder="
-                $t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.PLACEHOLDER')
-              "
-              :has-error="$v.displayName.$error"
-              :error-message="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.ERROR')"
-              @blur="$v.displayName.$touch"
-            />
-            <form-input
-              v-if="!globalConfig.disableUserProfileUpdate"
-              v-model="email"
-              type="email"
-              name="email"
-              :class="{ error: $v.email.$error }"
-              :label="$t('PROFILE_SETTINGS.FORM.EMAIL.LABEL')"
-              :placeholder="$t('PROFILE_SETTINGS.FORM.EMAIL.PLACEHOLDER')"
-              :has-error="$v.email.$error"
-              :error-message="$t('PROFILE_SETTINGS.FORM.EMAIL.ERROR')"
-              @blur="$v.email.$touch"
-            />
-            <v3-button
-              type="submit"
-              color-scheme="primary"
-              variant="solid"
-              size="large"
-            >
-              {{ $t('PROFILE_SETTINGS.BTN_TEXT') }}
-            </v3-button>
-          </form>
+          <user-basic-details
+            :name="name"
+            :display-name="displayName"
+            :email="email"
+            :email-enabled="!globalConfig.disableUserProfileUpdate"
+            @update-user="updateUser"
+          />
         </div>
 
         <personal-wrapper
@@ -142,7 +98,6 @@
   </div>
 </template>
 <script>
-import UserBasicProfile from './UserBasicProfile.vue';
 import MessageSignature from './MessageSignature.vue';
 import PersonalWrapper from './PersonalWrapper.vue';
 import HotKeyCard from './HotKeyCard.vue';
@@ -153,27 +108,25 @@ import uiSettingsMixin, {
   isEditorHotKeyEnabled,
 } from 'dashboard/mixins/uiSettings';
 import alertMixin from 'shared/mixins/alertMixin';
-import { required, minLength, email } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from '../../../../store/utils/api';
 import { hasValidAvatarUrl } from 'dashboard/helper/URLHelper';
 import NotificationSettings from './NotificationSettings.vue';
 import NotificationPreferences from './NotificationPreferences.vue';
-import FormInput from 'v3/components/Form/Input.vue';
-import V3Button from 'v3/components/Form/Button.vue';
+import UserProfilePicture from './UserProfilePicture.vue';
+import UserBasicDetails from './UserBasicDetails.vue';
 
 export default {
   components: {
-    UserBasicProfile,
     MessageSignature,
     PersonalWrapper,
     HotKeyCard,
     ChangePassword,
     NotificationSettings,
     AccessToken,
-    FormInput,
-    V3Button,
     NotificationPreferences,
+    UserProfilePicture,
+    UserBasicDetails,
   },
   mixins: [alertMixin, globalConfigMixin, uiSettingsMixin],
   data() {
@@ -202,17 +155,6 @@ export default {
         },
       ],
     };
-  },
-  validations: {
-    name: {
-      required,
-      minLength: minLength(1),
-    },
-    displayName: {},
-    email: {
-      required,
-      email,
-    },
   },
   computed: {
     ...mapGetters({
@@ -245,12 +187,6 @@ export default {
     },
     isEditorHotKeyEnabled,
     async updateUser() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        this.showAlert(this.$t('PROFILE_SETTINGS.FORM.ERROR'));
-        return;
-      }
-
       this.isProfileUpdating = true;
       const hasEmailChanged = this.currentUser.email !== this.email;
       try {
