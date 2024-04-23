@@ -37,12 +37,12 @@
             }}
           </span>
         </div>
-        <notification-item
+        <notification-check-box
           value="email_conversation_creation"
           :selected-email-flags="selectedEmailFlags"
           @input="handleEmailInput"
         />
-        <notification-item
+        <notification-check-box
           :value="'push_conversation_creation'"
           :span="4"
           :selected-email-flags="selectedPushFlags"
@@ -63,12 +63,12 @@
             }}
           </span>
         </div>
-        <notification-item
+        <notification-check-box
           :value="'email_conversation_assignment'"
           :selected-email-flags="selectedEmailFlags"
           @input="handleEmailInput"
         />
-        <notification-item
+        <notification-check-box
           :value="'push_conversation_assignment'"
           :span="4"
           :selected-email-flags="selectedPushFlags"
@@ -89,12 +89,12 @@
             }}
           </span>
         </div>
-        <notification-item
+        <notification-check-box
           :value="'email_conversation_mention'"
           :selected-email-flags="selectedEmailFlags"
           @input="handleEmailInput"
         />
-        <notification-item
+        <notification-check-box
           :value="'push_conversation_mention'"
           :span="4"
           :selected-email-flags="selectedPushFlags"
@@ -115,12 +115,12 @@
             }}
           </span>
         </div>
-        <notification-item
+        <notification-check-box
           :value="'email_assigned_conversation_new_message'"
           :selected-email-flags="selectedEmailFlags"
           @input="handleEmailInput"
         />
-        <notification-item
+        <notification-check-box
           :value="'push_assigned_conversation_new_message'"
           :span="4"
           :selected-email-flags="selectedPushFlags"
@@ -141,12 +141,12 @@
             }}
           </span>
         </div>
-        <notification-item
+        <notification-check-box
           :value="'email_participating_conversation_new_message'"
           :selected-email-flags="selectedEmailFlags"
           @input="handleEmailInput"
         />
-        <notification-item
+        <notification-check-box
           :value="'push_participating_conversation_new_message'"
           :span="4"
           :selected-email-flags="selectedPushFlags"
@@ -168,12 +168,12 @@
             }}
           </span>
         </div>
-        <notification-item
+        <notification-check-box
           :value="'email_sla_missed_first_response'"
           :selected-email-flags="selectedEmailFlags"
           @input="handleEmailInput"
         />
-        <notification-item
+        <notification-check-box
           :value="'push_sla_missed_first_response'"
           :span="4"
           :selected-email-flags="selectedPushFlags"
@@ -195,12 +195,12 @@
             }}
           </span>
         </div>
-        <notification-item
+        <notification-check-box
           :value="'email_sla_missed_next_response'"
           :selected-email-flags="selectedEmailFlags"
           @input="handleEmailInput"
         />
-        <notification-item
+        <notification-check-box
           :value="'push_sla_missed_next_response'"
           :span="4"
           :selected-email-flags="selectedPushFlags"
@@ -222,12 +222,12 @@
             }}
           </span>
         </div>
-        <notification-item
+        <notification-check-box
           :value="'email_sla_missed_resolution'"
           :selected-email-flags="selectedEmailFlags"
           @input="handleEmailInput"
         />
-        <notification-item
+        <notification-check-box
           :value="'push_sla_missed_resolution'"
           :span="4"
           :selected-email-flags="selectedPushFlags"
@@ -251,13 +251,13 @@ import {
 } from '../../../../helper/pushHelper';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import V3Switch from 'v3/components/Form/Switch.vue';
-import NotificationItem from './NotificationItem.vue';
+import NotificationCheckBox from './NotificationCheckBox.vue';
 
 export default {
   components: {
     TableHeaderCell,
     V3Switch,
-    NotificationItem,
+    NotificationCheckBox,
   },
   mixins: [alertMixin, configMixin, uiSettingsMixin],
   data() {
