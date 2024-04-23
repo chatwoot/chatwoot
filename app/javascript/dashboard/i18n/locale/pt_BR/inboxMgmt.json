@@ -160,7 +160,7 @@
         "TITLE": "Canal SMS",
         "DESC": "Comece a apoiar seus clientes via SMS.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "Provedor de API",
           "TWILIO": "Twilio",
           "BANDWIDTH": "Bandwidth"
         },
@@ -212,7 +212,7 @@
         "TITLE": "Canal do WhatsApp",
         "DESC": "Comece a apoiar seus clientes via WhatsApp.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "Provedor de API",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "Cloud do WhatsApp",
           "360_DIALOG": "360Dialog"
