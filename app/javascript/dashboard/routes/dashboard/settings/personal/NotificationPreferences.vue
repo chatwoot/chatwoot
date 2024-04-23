@@ -27,7 +27,7 @@
         class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
       >
         <div
-          class="flex items-center gap-2 col-span-6 px-0 py-2 tracking-[0.5] rtl:text-right"
+          class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
         >
           <span class="text-sm text-ash-900">
             {{
@@ -39,13 +39,13 @@
         </div>
         <notification-check-box
           value="email_conversation_creation"
-          :selected-email-flags="selectedEmailFlags"
+          :selected-flags="selectedEmailFlags"
           @input="handleEmailInput"
         />
         <notification-check-box
           :value="'push_conversation_creation'"
           :span="4"
-          :selected-email-flags="selectedPushFlags"
+          :selected-flags="selectedPushFlags"
           @input="handlePushInput"
         />
       </div>
@@ -65,13 +65,13 @@
         </div>
         <notification-check-box
           :value="'email_conversation_assignment'"
-          :selected-email-flags="selectedEmailFlags"
+          :selected-flags="selectedEmailFlags"
           @input="handleEmailInput"
         />
         <notification-check-box
           :value="'push_conversation_assignment'"
           :span="4"
-          :selected-email-flags="selectedPushFlags"
+          :selected-flags="selectedPushFlags"
           @input="handlePushInput"
         />
       </div>
@@ -91,13 +91,13 @@
         </div>
         <notification-check-box
           :value="'email_conversation_mention'"
-          :selected-email-flags="selectedEmailFlags"
+          :selected-flags="selectedEmailFlags"
           @input="handleEmailInput"
         />
         <notification-check-box
           :value="'push_conversation_mention'"
           :span="4"
-          :selected-email-flags="selectedPushFlags"
+          :selected-flags="selectedPushFlags"
           @input="handlePushInput"
         />
       </div>
@@ -117,13 +117,13 @@
         </div>
         <notification-check-box
           :value="'email_assigned_conversation_new_message'"
-          :selected-email-flags="selectedEmailFlags"
+          :selected-flags="selectedEmailFlags"
           @input="handleEmailInput"
         />
         <notification-check-box
           :value="'push_assigned_conversation_new_message'"
           :span="4"
-          :selected-email-flags="selectedPushFlags"
+          :selected-flags="selectedPushFlags"
           @input="handlePushInput"
         />
       </div>
@@ -143,13 +143,13 @@
         </div>
         <notification-check-box
           :value="'email_participating_conversation_new_message'"
-          :selected-email-flags="selectedEmailFlags"
+          :selected-flags="selectedEmailFlags"
           @input="handleEmailInput"
         />
         <notification-check-box
           :value="'push_participating_conversation_new_message'"
           :span="4"
-          :selected-email-flags="selectedPushFlags"
+          :selected-flags="selectedPushFlags"
           @input="handlePushInput"
         />
       </div>
@@ -170,13 +170,13 @@
         </div>
         <notification-check-box
           :value="'email_sla_missed_first_response'"
-          :selected-email-flags="selectedEmailFlags"
+          :selected-flags="selectedEmailFlags"
           @input="handleEmailInput"
         />
         <notification-check-box
           :value="'push_sla_missed_first_response'"
           :span="4"
-          :selected-email-flags="selectedPushFlags"
+          :selected-flags="selectedPushFlags"
           @input="handlePushInput"
         />
       </div>
@@ -197,13 +197,13 @@
         </div>
         <notification-check-box
           :value="'email_sla_missed_next_response'"
-          :selected-email-flags="selectedEmailFlags"
+          :selected-flags="selectedEmailFlags"
           @input="handleEmailInput"
         />
         <notification-check-box
           :value="'push_sla_missed_next_response'"
           :span="4"
-          :selected-email-flags="selectedPushFlags"
+          :selected-flags="selectedPushFlags"
           @input="handlePushInput"
         />
       </div>
@@ -224,13 +224,13 @@
         </div>
         <notification-check-box
           :value="'email_sla_missed_resolution'"
-          :selected-email-flags="selectedEmailFlags"
+          :selected-flags="selectedEmailFlags"
           @input="handleEmailInput"
         />
         <notification-check-box
           :value="'push_sla_missed_resolution'"
           :span="4"
-          :selected-email-flags="selectedPushFlags"
+          :selected-flags="selectedPushFlags"
           @input="handlePushInput"
         />
       </div>

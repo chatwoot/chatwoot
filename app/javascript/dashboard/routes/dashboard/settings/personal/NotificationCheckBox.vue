@@ -26,7 +26,7 @@ const props = defineProps({
     type: Number,
     default: 2,
   },
-  selectedEmailFlags: {
+  selectedFlags: {
     type: Array,
     required: true,
   },
@@ -35,7 +35,7 @@ const props = defineProps({
 const emit = defineEmits(['input']);
 
 const localValue = ref(props.value);
-const localFlags = computed(() => props.selectedEmailFlags);
+const localFlags = computed(() => props.selectedFlags);
 
 const handleInput = e => {
   emit('input', e);
