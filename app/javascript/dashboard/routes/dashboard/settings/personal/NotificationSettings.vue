@@ -1,20 +1,26 @@
 <template>
   <div id="profile-settings-notifications" class="flex flex-col gap-6">
     <form-select
-      v-model="notificationTone"
-      name="timezone"
+      v-model="alertTone"
+      name="alertTone"
       spacing="compact"
-      label="Alert tone"
-      placeholder="Ding"
+      :value="alertTone"
+      :options="alertTones"
+      :label="
+        $t(
+          'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.DEFAULT_TONE.TITLE'
+        )
+      "
       class="max-w-xl"
       @input="handleAudioToneChange"
     >
       <option
-        v-for="file in notificationAlertTones"
-        :key="file.label"
-        :value="file.value"
+        v-for="tone in alertTones"
+        :key="tone.label"
+        :value="tone.value"
+        :selected="tone.value === alertTone"
       >
-        {{ file.label }}
+        {{ tone.label }}
       </option>
     </form-select>
 
@@ -37,7 +43,7 @@
           <input
             id="audio_enable_alert_none"
             v-model="enableAudioAlerts"
-            class="notification--checkbox accent-primary-600"
+            class="accent-primary-600"
             type="radio"
             value="none"
             @input="handleAudioInput"
@@ -59,7 +65,7 @@
           <input
             id="audio_enable_alert_mine"
             v-model="enableAudioAlerts"
-            class="notification--checkbox accent-primary-600"
+            class="accent-primary-600"
             type="radio"
             value="mine"
             @input="handleAudioInput"
@@ -79,7 +85,7 @@
           <input
             id="audio_enable_alert_all"
             v-model="enableAudioAlerts"
-            class="notification--checkbox accent-primary-600"
+            class="accent-primary-600"
             type="radio"
             value="all"
             @input="handleAudioInput"
@@ -152,12 +158,6 @@ import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import FormSelect from 'v3/components/Form/Select.vue';
-import {
-  hasPushPermissions,
-  requestPushPermissions,
-  verifyServiceWorkerExistence,
-} from '../../../../helper/pushHelper';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 export default {
   components: {
@@ -166,14 +166,11 @@ export default {
   mixins: [alertMixin, configMixin, uiSettingsMixin],
   data() {
     return {
-      selectedEmailFlags: [],
-      selectedPushFlags: [],
       enableAudioAlerts: false,
-      hasEnabledPushPermissions: false,
       playAudioWhenTabIsInactive: false,
       alertIfUnreadConversationExist: false,
-      notificationTone: 'ding',
-      notificationAlertTones: [
+      alertTone: 'ding',
+      alertTones: [
         {
           value: 'ding',
           label: 'Ding',
@@ -188,33 +185,15 @@ export default {
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
-      emailFlags: 'userNotificationSettings/getSelectedEmailFlags',
-      pushFlags: 'userNotificationSettings/getSelectedPushFlags',
       uiSettings: 'getUISettings',
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
-    hasPushAPISupport() {
-      return !!('Notification' in window);
-    },
-    isSLAEnabled() {
-      return this.isFeatureEnabledonAccount(this.accountId, FEATURE_FLAGS.SLA);
-    },
   },
   watch: {
-    emailFlags(value) {
-      this.selectedEmailFlags = value;
-    },
-    pushFlags(value) {
-      this.selectedPushFlags = value;
-    },
     uiSettings(value) {
       this.notificationUISettings(value);
     },
   },
   mounted() {
-    if (hasPushPermissions()) {
-      this.getPushSubscription();
-    }
     this.notificationUISettings(this.uiSettings);
     this.$store.dispatch('userNotificationSettings/get');
   },
@@ -225,62 +204,12 @@ export default {
         always_play_audio_alert: alwaysPlayAudioAlert,
         alert_if_unread_assigned_conversation_exist:
           alertIfUnreadConversationExist,
-        notification_tone: notificationTone,
+        notification_tone: alertTone,
       } = uiSettings;
       this.enableAudioAlerts = enableAudio;
       this.playAudioWhenTabIsInactive = !alwaysPlayAudioAlert;
       this.alertIfUnreadConversationExist = alertIfUnreadConversationExist;
-      this.notificationTone = notificationTone || 'ding';
-    },
-    onRegistrationSuccess() {
-      this.hasEnabledPushPermissions = true;
-    },
-    onRequestPermissions() {
-      requestPushPermissions({
-        onSuccess: this.onRegistrationSuccess,
-      });
-    },
-    getPushSubscription() {
-      verifyServiceWorkerExistence(registration =>
-        registration.pushManager
-          .getSubscription()
-          .then(subscription => {
-            if (!subscription) {
-              this.hasEnabledPushPermissions = false;
-            } else {
-              this.hasEnabledPushPermissions = true;
-            }
-          })
-          // eslint-disable-next-line no-console
-          .catch(error => console.log(error))
-      );
-    },
-    async updateNotificationSettings() {
-      try {
-        this.$store.dispatch('userNotificationSettings/update', {
-          selectedEmailFlags: this.selectedEmailFlags,
-          selectedPushFlags: this.selectedPushFlags,
-        });
-        this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
-      } catch (error) {
-        this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_ERROR'));
-      }
-    },
-    handleEmailInput(e) {
-      this.selectedEmailFlags = this.toggleInput(
-        this.selectedEmailFlags,
-        e.target.value
-      );
-
-      this.updateNotificationSettings();
-    },
-    handlePushInput(e) {
-      this.selectedPushFlags = this.toggleInput(
-        this.selectedPushFlags,
-        e.target.value
-      );
-
-      this.updateNotificationSettings();
+      this.alertTone = alertTone || 'ding';
     },
     handleAudioInput(e) {
       this.enableAudioAlerts = e.target.value;
@@ -306,38 +235,6 @@ export default {
       this.updateUISettings({ notification_tone: value });
       this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
     },
-    toggleInput(selected, current) {
-      if (selected.includes(current)) {
-        const newSelectedFlags = selected.filter(flag => flag !== current);
-        return newSelectedFlags;
-      }
-      return [...selected, current];
-    },
   },
 };
 </script>
-
-<style lang="scss" scoped>
-@import '~dashboard/assets/scss/variables.scss';
-
-.notification--checkbox {
-  font-size: $font-size-large;
-}
-
-.push-notification--button {
-  margin-bottom: var(--space-one);
-}
-
-.notification-label {
-  display: flex;
-  font-weight: var(--font-weight-bold);
-  margin-bottom: var(--space-small);
-}
-
-.tone-selector {
-  height: var(--space-large);
-  padding-bottom: var(--space-micro);
-  padding-top: var(--space-micro);
-  width: var(--space-mega);
-}
-</style>
