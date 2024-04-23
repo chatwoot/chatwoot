@@ -14,8 +14,7 @@
     />
     <span
       v-if="$slots.default && !iconOnly"
-      class="text-sm font-medium truncate"
-      :class="{ 'text-left rtl:text-right': size !== 'expanded' }"
+      class="text-sm font-medium text-left truncate rtl:text-right"
     >
       <slot />
     </span>
@@ -121,14 +120,12 @@ const iconSize = computed(() => {
   }
   return 16;
 });
-
-const handleClick = () => {
-  emits('click');
-};
-
 const buttonClasses = computed(() => [
   colorClass.value,
   sizeClass.value,
   props.classNames,
 ]);
+const handleClick = () => {
+  emits('click');
+};
 </script>
