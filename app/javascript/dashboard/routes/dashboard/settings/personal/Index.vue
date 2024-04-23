@@ -72,7 +72,7 @@
           :show-action-button="false"
         >
           <template #settingsItem>
-            <notification-settings />
+            <audio-notifications />
           </template>
         </profile-wrapper>
         <profile-wrapper
@@ -115,8 +115,8 @@ import alertMixin from 'shared/mixins/alertMixin';
 import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from '../../../../store/utils/api';
 import { hasValidAvatarUrl } from 'dashboard/helper/URLHelper';
-import NotificationSettings from './NotificationSettings.vue';
 import NotificationPreferences from './NotificationPreferences.vue';
+import AudioNotifications from './AudioNotifications.vue';
 import UserProfilePicture from './UserProfilePicture.vue';
 import UserBasicDetails from './UserBasicDetails.vue';
 
@@ -126,11 +126,11 @@ export default {
     ProfileWrapper,
     HotKeyCard,
     ChangePassword,
-    NotificationSettings,
     AccessToken,
     NotificationPreferences,
     UserProfilePicture,
     UserBasicDetails,
+    AudioNotifications,
   },
   mixins: [alertMixin, globalConfigMixin, uiSettingsMixin],
   data() {

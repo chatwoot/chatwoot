@@ -37,27 +37,17 @@
             }}
           </span>
         </div>
-        <div
-          class="flex items-center gap-2 col-span-2 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedEmailFlags"
-            class="m-0 border-[1.5px] checked:bg-primary-600 shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-            type="checkbox"
-            value="email_conversation_creation"
-            @input="handleEmailInput"
-          />
-        </div>
-        <div
-          class="flex items-center gap-2 col-span-4 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            type="checkbox"
-            name="email"
-            :checked="false"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-primary-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-          />
-        </div>
+        <notification-item
+          value="email_conversation_creation"
+          :selected-email-flags="selectedEmailFlags"
+          @input="handleEmailInput"
+        />
+        <notification-item
+          :value="'push_conversation_creation'"
+          :span="4"
+          :selected-email-flags="selectedPushFlags"
+          @input="handlePushInput"
+        />
       </div>
       <div
         class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
@@ -73,28 +63,17 @@
             }}
           </span>
         </div>
-        <div
-          class="flex items-center gap-2 col-span-2 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedEmailFlags"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-primary-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-            type="checkbox"
-            value="email_conversation_assignment"
-            @input="handleEmailInput"
-          />
-        </div>
-        <div
-          class="flex items-center gap-2 col-span-4 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedPushFlags"
-            type="checkbox"
-            value="push_conversation_creation"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-primary-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-            @input="handlePushInput"
-          />
-        </div>
+        <notification-item
+          :value="'email_conversation_assignment'"
+          :selected-email-flags="selectedEmailFlags"
+          @input="handleEmailInput"
+        />
+        <notification-item
+          :value="'push_conversation_assignment'"
+          :span="4"
+          :selected-email-flags="selectedPushFlags"
+          @input="handlePushInput"
+        />
       </div>
       <div
         class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
@@ -110,28 +89,17 @@
             }}
           </span>
         </div>
-        <div
-          class="flex items-center gap-2 col-span-2 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedEmailFlags"
-            type="checkbox"
-            value="email_conversation_mention"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-primary-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-            @input="handleEmailInput"
-          />
-        </div>
-        <div
-          class="flex items-center gap-2 col-span-4 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedPushFlags"
-            type="checkbox"
-            value="push_conversation_mention"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-primary-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-            @input="handlePushInput"
-          />
-        </div>
+        <notification-item
+          :value="'email_conversation_mention'"
+          :selected-email-flags="selectedEmailFlags"
+          @input="handleEmailInput"
+        />
+        <notification-item
+          :value="'push_conversation_mention'"
+          :span="4"
+          :selected-email-flags="selectedPushFlags"
+          @input="handlePushInput"
+        />
       </div>
       <div
         class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
@@ -147,28 +115,17 @@
             }}
           </span>
         </div>
-        <div
-          class="flex items-center gap-2 col-span-2 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedEmailFlags"
-            type="checkbox"
-            value="email_conversation_message"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-primary-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-            @input="handleEmailInput"
-          />
-        </div>
-        <div
-          class="flex items-center gap-2 col-span-4 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedPushFlags"
-            type="checkbox"
-            value="push_assigned_conversation_new_message"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-primary-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-            @input="handlePushInput"
-          />
-        </div>
+        <notification-item
+          :value="'email_assigned_conversation_new_message'"
+          :selected-email-flags="selectedEmailFlags"
+          @input="handleEmailInput"
+        />
+        <notification-item
+          :value="'push_assigned_conversation_new_message'"
+          :span="4"
+          :selected-email-flags="selectedPushFlags"
+          @input="handlePushInput"
+        />
       </div>
       <div
         class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
@@ -184,28 +141,17 @@
             }}
           </span>
         </div>
-        <div
-          class="flex items-center gap-2 col-span-2 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedEmailFlags"
-            type="checkbox"
-            value="email_participating_conversation_new_message"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-primary-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-            @input="handleEmailInput"
-          />
-        </div>
-        <div
-          class="flex items-center gap-2 col-span-4 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedPushFlags"
-            type="checkbox"
-            value="push_participating_conversation_new_message"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-primary-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-            @input="handlePushInput"
-          />
-        </div>
+        <notification-item
+          :value="'email_participating_conversation_new_message'"
+          :selected-email-flags="selectedEmailFlags"
+          @input="handleEmailInput"
+        />
+        <notification-item
+          :value="'push_participating_conversation_new_message'"
+          :span="4"
+          :selected-email-flags="selectedPushFlags"
+          @input="handlePushInput"
+        />
       </div>
       <div
         v-if="isSLAEnabled"
@@ -222,27 +168,17 @@
             }}
           </span>
         </div>
-        <div
-          class="flex items-center gap-2 col-span-2 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedEmailFlags"
-            type="checkbox"
-            value="email_sla_missed_first_response"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-primary-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-          />
-        </div>
-        <div
-          class="flex items-center gap-2 col-span-4 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedPushFlags"
-            type="checkbox"
-            value="push_sla_missed_first_response"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-primary-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-            @input="handlePushInput"
-          />
-        </div>
+        <notification-item
+          :value="'email_sla_missed_first_response'"
+          :selected-email-flags="selectedEmailFlags"
+          @input="handleEmailInput"
+        />
+        <notification-item
+          :value="'push_sla_missed_first_response'"
+          :span="4"
+          :selected-email-flags="selectedPushFlags"
+          @input="handlePushInput"
+        />
       </div>
       <div
         v-if="isSLAEnabled"
@@ -259,27 +195,17 @@
             }}
           </span>
         </div>
-        <div
-          class="flex items-center gap-2 col-span-2 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedEmailFlags"
-            type="checkbox"
-            value="email_sla_missed_next_response"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-primary-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-          />
-        </div>
-        <div
-          class="flex items-center gap-2 col-span-4 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedPushFlags"
-            type="checkbox"
-            value="push_sla_missed_next_response"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-primary-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-            @input="handlePushInput"
-          />
-        </div>
+        <notification-item
+          :value="'email_sla_missed_next_response'"
+          :selected-email-flags="selectedEmailFlags"
+          @input="handleEmailInput"
+        />
+        <notification-item
+          :value="'push_sla_missed_next_response'"
+          :span="4"
+          :selected-email-flags="selectedPushFlags"
+          @input="handlePushInput"
+        />
       </div>
       <div
         v-if="isSLAEnabled"
@@ -296,27 +222,17 @@
             }}
           </span>
         </div>
-        <div
-          class="flex items-center gap-2 col-span-2 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedEmailFlags"
-            type="checkbox"
-            value="email_sla_missed_resolution"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-primary-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-          />
-        </div>
-        <div
-          class="flex items-center gap-2 col-span-4 py-2 px-0 text-sm tracking-[0.5] text-slate-700 dark:text-slate-50 text-left rtl:text-right"
-        >
-          <input
-            v-model="selectedPushFlags"
-            type="checkbox"
-            value="push_sla_missed_resolution"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-primary-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
-            @input="handlePushInput"
-          />
-        </div>
+        <notification-item
+          :value="'email_sla_missed_resolution'"
+          :selected-email-flags="selectedEmailFlags"
+          @input="handleEmailInput"
+        />
+        <notification-item
+          :value="'push_sla_missed_resolution'"
+          :span="4"
+          :selected-email-flags="selectedPushFlags"
+          @input="handlePushInput"
+        />
       </div>
     </div>
   </div>
@@ -335,11 +251,13 @@ import {
 } from '../../../../helper/pushHelper';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import V3Switch from 'v3/components/Form/Switch.vue';
+import NotificationItem from './NotificationItem.vue';
 
 export default {
   components: {
     TableHeaderCell,
     V3Switch,
+    NotificationItem,
   },
   mixins: [alertMixin, configMixin, uiSettingsMixin],
   data() {
@@ -449,7 +367,6 @@ export default {
         this.selectedEmailFlags,
         e.target.value
       );
-
       this.updateNotificationSettings();
     },
     handlePushInput(e) {
@@ -494,28 +411,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-@import '~dashboard/assets/scss/variables.scss';
-
-.notification--checkbox {
-  font-size: $font-size-large;
-}
-
-.push-notification--button {
-  margin-bottom: var(--space-one);
-}
-
-.notification-label {
-  display: flex;
-  font-weight: var(--font-weight-bold);
-  margin-bottom: var(--space-small);
-}
-
-.tone-selector {
-  height: var(--space-large);
-  padding-bottom: var(--space-micro);
-  padding-top: var(--space-micro);
-  width: var(--space-mega);
-}
-</style>
