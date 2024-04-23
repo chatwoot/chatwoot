@@ -29,25 +29,23 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    active: {
-      type: Boolean,
-      default: false,
-    },
-    heading: {
-      type: String,
-      default: '',
-    },
-    content: {
-      type: String,
-      default: '',
-    },
-    src: {
-      type: String,
-      default: '',
-    },
+<script setup>
+defineProps({
+  active: {
+    type: Boolean,
+    default: false,
   },
-};
+  heading: {
+    type: String,
+    default: '',
+  },
+  content: {
+    type: String,
+    default: '',
+  },
+  src: {
+    type: String,
+    default: '',
+  },
+});
 </script>

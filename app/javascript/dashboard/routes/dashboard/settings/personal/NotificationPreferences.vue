@@ -6,18 +6,18 @@
       >
         <table-header-cell :span="6" label="Notification type">
           <span class="text-sm font-normal uppercase text-ash-900">
-            Notification type
+            {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPE_TITLE') }}
           </span>
         </table-header-cell>
         <table-header-cell :span="2" label="Email">
           <span class="text-sm font-medium uppercase text-ash-900">
-            Email
+            {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.EMAIL') }}
           </span>
         </table-header-cell>
         <table-header-cell :span="4" label="Push notification">
           <div class="flex items-center justify-between gap-2">
             <span class="text-sm font-medium uppercase text-ash-900">
-              Push notification
+              {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.PUSH') }}
             </span>
             <v3-switch :value="true" @input="onRequestPermissions()" />
           </div>
@@ -30,7 +30,11 @@
           class="flex items-center gap-2 col-span-6 px-0 py-2 tracking-[0.5] rtl:text-right"
         >
           <span class="text-sm text-ash-900">
-            A new conversation is created
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.CONVERSATION_CREATED'
+              )
+            }}
           </span>
         </div>
         <div
@@ -62,7 +66,11 @@
           class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
         >
           <span class="text-sm text-ash-900">
-            Conversation is assigned to you
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.CONVERSATION_ASSIGNED'
+              )
+            }}
           </span>
         </div>
         <div
@@ -95,7 +103,11 @@
           class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
         >
           <span class="text-sm text-ash-900">
-            You are mentioned in a conversation
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.CONVERSATION_MENTION'
+              )
+            }}
           </span>
         </div>
         <div
@@ -128,7 +140,11 @@
           class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
         >
           <span class="text-sm text-ash-900">
-            New message is created in an assigned conversation
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.ASSIGNED_CONVERSATION_NEW_MESSAGE'
+              )
+            }}
           </span>
         </div>
         <div
@@ -161,7 +177,11 @@
           class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
         >
           <span class="text-sm text-ash-900">
-            New message is created in an participating conversation
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.PARTICIPATING_CONVERSATION_NEW_MESSAGE'
+              )
+            }}
           </span>
         </div>
         <div
@@ -195,7 +215,11 @@
           class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
         >
           <span class="text-sm text-ash-900">
-            Conversation misses first response SLA
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.SLA_MISSED_FIRST_RESPONSE'
+              )
+            }}
           </span>
         </div>
         <div
@@ -228,7 +252,11 @@
           class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
         >
           <span class="text-sm text-ash-900">
-            Conversation misses next response SLA
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.SLA_MISSED_NEXT_RESPONSE'
+              )
+            }}
           </span>
         </div>
         <div
@@ -261,7 +289,11 @@
           class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] text-ash-900 rtl:text-right"
         >
           <span class="text-sm text-ash-900">
-            Conversation misses resolution SLA
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.SLA_MISSED_RESOLUTION'
+              )
+            }}
           </span>
         </div>
         <div

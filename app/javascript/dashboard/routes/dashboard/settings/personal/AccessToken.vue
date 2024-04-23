@@ -18,7 +18,7 @@
       color-scheme="secondary"
       @click="onClick"
     >
-      Copy
+      {{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.COPY') }}
     </v3-button>
   </div>
 </template>

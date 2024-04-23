@@ -22,7 +22,11 @@
       <label
         class="flex justify-between pb-1 text-sm font-medium leading-6 text-ash-900"
       >
-        Alert events for conversations
+        {{
+          $t(
+            'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPE.TITLE'
+          )
+        }}
       </label>
       <div
         class="flex flex-row justify-between h-10 max-w-xl p-2 border border-solid rounded-md border-ash-200"
@@ -42,7 +46,11 @@
             class="text-sm font-medium text-ash-900"
             :class="{ 'text-ash-400': enableAudioAlerts !== 'none' }"
           >
-            None
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPE.NONE'
+              )
+            }}
           </label>
         </div>
         <div
@@ -60,7 +68,11 @@
             class="text-sm font-medium text-ash-900"
             :class="{ 'text-ash-400': enableAudioAlerts !== 'mine' }"
           >
-            Assigned
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPE.ASSIGNED'
+              )
+            }}
           </label>
         </div>
         <div class="flex flex-row items-center justify-center gap-2 px-4 grow">
@@ -76,7 +88,11 @@
             class="text-sm font-medium text-ash-900"
             :class="{ 'text-ash-400': enableAudioAlerts !== 'all' }"
           >
-            All
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPE.ALL_CONVERSATIONS'
+              )
+            }}
           </label>
         </div>
       </div>
@@ -85,7 +101,11 @@
       <label
         class="flex justify-between pb-1 text-sm font-medium leading-6 text-slate-900 dark:text-white"
       >
-        Alert conditions
+        {{
+          $t(
+            'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.CONDITIONS.TITLE'
+          )
+        }}
       </label>
       <div class="flex flex-col gap-2">
         <div class="flex flex-row items-start gap-2">
@@ -98,7 +118,11 @@
             @input="handleAudioAlertConditions"
           />
           <label class="text-sm font-normal text-ash-900">
-            Send audio alerts only if the browser window is not active
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.CONDITIONS.CONDITION_ONE'
+              )
+            }}
           </label>
         </div>
         <div class="flex flex-row items-start gap-2">
@@ -110,7 +134,11 @@
             @input="handleAudioAlertConditions"
           />
           <label class="text-sm font-normal text-ash-900">
-            Send alerts every 30s until all the assigned conversations are read
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.CONDITIONS.CONDITION_TWO'
+              )
+            }}
           </label>
         </div>
       </div>

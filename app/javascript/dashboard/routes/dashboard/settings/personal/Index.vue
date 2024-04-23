@@ -12,8 +12,8 @@
             :src="avatarUrl"
             :name="name"
             size="72px"
-            @change="handleImageUpload"
-            @delete="deleteAvatar"
+            @change="updateProfilePicture"
+            @delete="deleteProfilePicture"
           />
           <user-basic-details
             :name="name"
@@ -25,8 +25,10 @@
         </div>
 
         <personal-wrapper
-          header="Personal message signature"
-          description="Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes."
+          :header="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.TITLE')"
+          :description="
+            $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.NOTE')
+          "
           :show-action-button="false"
         >
           <template #settingsItem>
@@ -35,9 +37,8 @@
         </personal-wrapper>
 
         <personal-wrapper
-          header="Hot key to send messages"
-          description="You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your
-          preference of writing."
+          :header="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.TITLE')"
+          :description="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.NOTE')"
           :show-action-button="false"
         >
           <template #settingsItem>
@@ -62,8 +63,12 @@
         </personal-wrapper>
         <change-password v-if="!globalConfig.disableUserProfileUpdate" />
         <personal-wrapper
-          header="Audio notifications"
-          description="Enable audio notifications in dashboard for new messages and conversations."
+          :header="
+            $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE')
+          "
+          :description="
+            $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NOTE')
+          "
           :show-action-button="false"
         >
           <template #settingsItem>
@@ -71,8 +76,7 @@
           </template>
         </personal-wrapper>
         <personal-wrapper
-          header="Notification preferences"
-          description=""
+          :header="$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TITLE')"
           :show-action-button="false"
         >
           <template #settingsItem>
@@ -80,7 +84,7 @@
           </template>
         </personal-wrapper>
         <personal-wrapper
-          header="Access Token"
+          :header="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE')"
           :description="
             useInstallationName(
               $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE'),
@@ -142,16 +146,22 @@ export default {
         {
           key: 'enter',
           src: '/assets/images/dashboard/profile/hot-key-enter.svg',
-          heading: 'Enter (↵)',
-          content:
-            'Send messages by pressing Enter key instead of clicking send button.',
+          heading: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.HEADING'
+          ),
+          content: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.CONTENT'
+          ),
         },
         {
           key: 'cmd_enter',
           src: '/assets/images/dashboard/profile/hot-key-ctrl-enter.svg',
-          heading: 'CMD / Ctrl + Enter (⌘ + ↵)',
-          content:
-            'Send messages by pressing Enter key instead of clicking send button.',
+          heading: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.HEADING'
+          ),
+          content: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.CONTENT'
+          ),
         },
       ],
     };
@@ -186,15 +196,16 @@ export default {
       this.displayName = this.currentUser.display_name;
     },
     isEditorHotKeyEnabled,
-    async updateUser() {
+    async updateUser(user) {
+      const { name, email, displayName } = user;
       this.isProfileUpdating = true;
-      const hasEmailChanged = this.currentUser.email !== this.email;
+      const hasEmailChanged = this.currentUser.email !== email;
       try {
         await this.$store.dispatch('updateProfile', {
-          name: this.name,
-          email: this.email,
+          name: name,
+          email: email,
           avatar: this.avatarFile,
-          displayName: this.displayName,
+          displayName: displayName,
         });
         this.isProfileUpdating = false;
         if (hasEmailChanged) {
@@ -212,11 +223,11 @@ export default {
         this.showAlert(this.errorMessage);
       }
     },
-    handleImageUpload({ file, url }) {
+    updateProfilePicture({ file, url }) {
       this.avatarFile = file;
       this.avatarUrl = url;
     },
-    async deleteAvatar() {
+    async deleteProfilePicture() {
       try {
         await this.$store.dispatch('deleteAvatar');
         this.avatarUrl = '';
