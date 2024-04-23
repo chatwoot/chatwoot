@@ -1,11 +1,11 @@
 <template>
   <div class="heatmap-container">
-    <template v-if="isLoading">
+    <template v-if="isLoading || true">
       <div class="heatmap-labels">
         <div
           v-for="ii in 7"
           :key="ii"
-          class="loading-cell heatmap-axis-label"
+          class="w-full rounded-sm bg-slate-100 dark:bg-slate-900 animate-loader-pulse heatmap-axis-label"
         />
       </div>
       <div class="grid gap-[5px] w-full min-w-[700px]">
@@ -17,7 +17,7 @@
           <div
             v-for="jj in 24"
             :key="jj"
-            class="h-8 heatmap-tile animate-loader-pulse"
+            class="w-full h-8 rounded-sm bg-slate-100 dark:bg-slate-900 animate-loader-pulse"
           >
             <div class="heatmap-tile__label animate-loader-pulse" />
           </div>
@@ -182,21 +182,16 @@ $marker-height: var(--space-two);
 }
 
 .heatmap-labels {
-  display: grid;
-  grid-template-rows: 1fr;
-  gap: $tile-gap;
-  flex-shrink: 0;
+  @apply grid gap-[5px] flex-shrink-0;
 
   .heatmap-axis-label {
-    height: $tile-height;
-    min-width: 70px;
+    @apply h-8 min-w-[70px] text-slate-800 dark:text-slate-200;
     font-size: var(--font-size-micro);
     font-weight: var(--font-weight-bold);
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     justify-content: center;
-    @apply text-slate-800 dark:text-slate-200;
 
     time {
       font-size: var(--font-size-micro);
