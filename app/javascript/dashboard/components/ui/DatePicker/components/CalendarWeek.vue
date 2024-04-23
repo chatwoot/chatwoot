@@ -116,7 +116,7 @@ const dayClasses = day => ({
     (isInRange(day) || isHoveringInRange(day)) &&
     !isSelectedStartOrEndDate(day) &&
     isInCurrentMonth(day),
-  'border border-woot-200 dark:border-woot-700 text-woot-600 dark:text-woot-600':
+  'outline outline-1 outline-woot-200 -outline-offset-1 dark:outline-woot-700 text-woot-600 dark:text-woot-600':
     isToday(props.currentDate, day) && !isSelectedStartOrEndDate(day),
 });
 </script>
@@ -164,11 +164,6 @@ const dayClasses = day => ({
             isInCurrentMonth(day)
           "
           class="absolute bottom-0 w-6 h-8 ltr:-right-4 rtl:-left-4 bg-woot-50 dark:bg-woot-800 -z-10"
-          :class="{
-            '-top-px':
-              isToday(currentDate, day) &&
-              day.getTime() !== props.selectedStartDate.getTime(),
-          }"
         />
       </div>
     </div>
