@@ -1,6 +1,6 @@
 <template>
   <div class="heatmap-container">
-    <template v-if="isLoading || true">
+    <template v-if="isLoading">
       <div class="heatmap-labels">
         <div
           v-for="ii in 7"
@@ -158,45 +158,23 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$tile-height: 1.875rem;
-$tile-gap: var(--space-smaller);
-$container-gap-row: var(--space-one);
-$container-gap-column: var(--space-two);
-$marker-height: var(--space-two);
-
-@media screen and (max-width: 768px) {
-  .heatmap-container {
-    overflow-y: auto;
-  }
-}
-
 .heatmap-container {
-  display: grid;
-  position: relative;
-  width: 100%;
-  gap: $container-gap-row $container-gap-column;
+  @apply grid relative w-full gap-x-4 gap-y-2.5 overflow-y-hidden md:overflow-y-auto;
   grid-template-columns: 80px 1fr;
-  min-height: calc(
+  /** min-height: calc(
     7 * #{$tile-height} + 6 * #{$tile-gap} + #{$container-gap-row} + #{$marker-height}
-  );
+  ); */
+  min-height: calc(7 * 32 + 6 * 5 + 10 + 20);
 }
 
 .heatmap-labels {
   @apply grid gap-[5px] flex-shrink-0;
 
   .heatmap-axis-label {
-    @apply h-8 min-w-[70px] text-slate-800 dark:text-slate-200;
-    font-size: var(--font-size-micro);
-    font-weight: var(--font-weight-bold);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: center;
+    @apply h-8 min-w-[70px] text-slate-800 dark:text-slate-200 text-[10px] font-semibold flex flex-col items-end justify-center;
 
     time {
-      font-size: var(--font-size-micro);
-      font-weight: var(--font-weight-normal);
-      @apply text-slate-700 dark:text-slate-200;
+      @apply text-slate-700 dark:text-slate-200 font-normal;
     }
   }
 }
