@@ -1,11 +1,11 @@
 <template>
   <div class="heatmap-container">
     <template v-if="isLoading">
-      <div class="heatmap-labels">
+      <div class="grid gap-[5px] flex-shrink-0">
         <div
           v-for="ii in 7"
           :key="ii"
-          class="w-full rounded-sm bg-slate-100 dark:bg-slate-900 animate-loader-pulse heatmap-axis-label"
+          class="w-full rounded-sm bg-slate-100 dark:bg-slate-900 animate-loader-pulse h-8 min-w-[70px]"
         />
       </div>
       <div class="grid gap-[5px] w-full min-w-[700px]">
@@ -24,19 +24,29 @@
         </div>
       </div>
       <div class="heatmap-timeline" />
-      <div class="heatmap-markers">
-        <div v-for="ii in 24" :key="ii">{{ ii - 1 }} – {{ ii }}</div>
+      <div
+        class="grid grid-cols-[repeat(24,_1fr)] gap-[5px] w-full text-[8px] font-semibold h-5 text-slate-800 dark:text-slate-200"
+      >
+        <div
+          v-for="ii in 24"
+          :key="ii"
+          class="flex items-center justify-center"
+        >
+          {{ ii - 1 }} – {{ ii }}
+        </div>
       </div>
     </template>
     <template v-else>
-      <div class="heatmap-labels">
+      <div class="grid gap-[5px] flex-shrink-0">
         <div
           v-for="dateKey in processedData.keys()"
           :key="dateKey"
-          class="heatmap-axis-label"
+          class="h-8 min-w-[70px] text-slate-800 dark:text-slate-200 text-[10px] font-semibold flex flex-col items-end justify-center"
         >
           {{ getDayOfTheWeek(new Date(dateKey)) }}
-          <time>{{ formatDate(dateKey) }}</time>
+          <time class="font-normal text-slate-700 dark:text-slate-200">
+            {{ formatDate(dateKey) }}
+          </time>
         </div>
       </div>
       <div class="grid gap-[5px] w-full min-w-[700px]">
@@ -57,8 +67,16 @@
         </div>
       </div>
       <div class="heatmap-timeline" />
-      <div class="heatmap-markers">
-        <div v-for="ii in 24" :key="ii">{{ ii - 1 }} – {{ ii }}</div>
+      <div
+        class="grid grid-cols-[repeat(24,_1fr)] gap-[5px] w-full text-[8px] font-semibold h-5 text-slate-800 dark:text-slate-200"
+      >
+        <div
+          v-for="ii in 24"
+          :key="ii"
+          class="flex items-center justify-center"
+        >
+          {{ ii - 1 }} – {{ ii }}
+        </div>
       </div>
     </template>
   </div>
@@ -159,41 +177,9 @@ export default {
 
 <style scoped lang="scss">
 .heatmap-container {
-  @apply grid relative w-full gap-x-4 gap-y-2.5 overflow-y-hidden md:overflow-y-auto;
+  @apply grid relative w-full gap-x-4 gap-y-2.5 overflow-y-scroll md:overflow-visible;
   grid-template-columns: 80px 1fr;
-  /** min-height: calc(
-    7 * #{$tile-height} + 6 * #{$tile-gap} + #{$container-gap-row} + #{$marker-height}
-  ); */
-  min-height: calc(7 * 32 + 6 * 5 + 10 + 20);
-}
-
-.heatmap-labels {
-  @apply grid gap-[5px] flex-shrink-0;
-
-  .heatmap-axis-label {
-    @apply h-8 min-w-[70px] text-slate-800 dark:text-slate-200 text-[10px] font-semibold flex flex-col items-end justify-center;
-
-    time {
-      @apply text-slate-700 dark:text-slate-200 font-normal;
-    }
-  }
-}
-
-.heatmap-markers {
-  display: grid;
-  grid-template-columns: repeat(24, 1fr);
-  gap: $tile-gap;
-  width: 100%;
-  font-size: var(--font-size-nano);
-  font-weight: var(--font-weight-bold);
-  height: $marker-height;
-  color: var(--color-body);
-  @apply text-slate-800 dark:text-slate-200;
-
-  div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+  min-height: calc(7 * 32px + 6 * 5px + 10px + 20px);
+  /** 7 * tile-height + 6 * tile-gap + container-gap-row + marker-height */
 }
 </style>
