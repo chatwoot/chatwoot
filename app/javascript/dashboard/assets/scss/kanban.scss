@@ -1,0 +1,129 @@
+// scss-lint:disable all
+$ease-out: all .3s cubic-bezier(0.23, 1, 0.32, 1);
+
+ul.drag-list,
+ul.drag-inner-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.drag-container {
+  margin: 20px auto;
+  max-width: 1000px;
+}
+
+.drag-list {
+  align-items: flex-start;
+  display: flex;
+
+  @media (max-width: 690px) {
+    display: block;
+  }
+}
+
+.drag-column {
+  background: rgba(black, 0.2);
+  flex: 1;
+  margin: 0 10px;
+  overflow: hidden;
+  position: relative;
+
+  @media (max-width: 690px) {
+    margin-bottom: 30px;
+  }
+
+  h2 {
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin: 0;
+    text-transform: uppercase;
+  }
+}
+
+.drag-column-header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.drag-inner-list {
+  color: #ffffff;
+  min-height: 50px;
+}
+
+.drag-item {
+  cursor: pointer;
+  height: 100px;
+  margin: 10px;
+  padding: 10px;
+  transition: $ease-out;
+
+  @apply bg-white dark:bg-black-900;
+
+  &.is-moving {
+    transform: scale(1.5);
+    @apply bg-slate-100 dark:bg-black-800;
+  }
+}
+
+.drag-header-more {
+  cursor: pointer;
+}
+
+.drag-options {
+  height: 100%;
+  left: 0;
+  opacity: 0;
+  padding: 10px;
+  position: absolute;
+  top: 44px;
+  transform: translateX(100%);
+  transition: $ease-out;
+  width: 100%;
+
+  &.active {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  &-label {
+    display: block;
+    margin: 0 0 5px;
+
+    input {
+      opacity: 0.6;
+    }
+
+    span {
+      display: inline-block;
+      font-size: 0.9rem;
+      font-weight: 400;
+      margin-left: 5px;
+    }
+  }
+}
+
+.gu-mirror {
+  list-style-type: none;
+  margin: 0 !important;
+  opacity: 0.8;
+  position: fixed !important;
+  z-index: 9999 !important;
+}
+
+.gu-hide {
+  display: none !important;
+}
+
+.gu-unselectable {
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+}
+
+.gu-transit {
+  opacity: 0.2;
+}
