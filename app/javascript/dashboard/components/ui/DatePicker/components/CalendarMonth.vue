@@ -1,7 +1,11 @@
 <script setup>
 import { computed } from 'vue';
 import { format, getMonth, setMonth, startOfMonth } from 'date-fns';
-import { yearName } from '../helpers/DatePickerHelper';
+import {
+  yearName,
+  CALENDAR_TYPES,
+  CALENDAR_PERIODS,
+} from '../helpers/DatePickerHelper';
 
 import CalendarAction from './CalendarAction.vue';
 
@@ -14,13 +18,16 @@ const props = defineProps({
   endCurrentDate: Date,
 });
 
+const { START_CALENDAR } = CALENDAR_TYPES;
+const { MONTH, YEAR } = CALENDAR_PERIODS;
+
 const months = Array.from({ length: 12 }, (_, index) =>
   format(setMonth(startOfMonth(new Date()), index), 'MMM')
 );
 
 const activeMonthIndex = computed(() => {
   const date =
-    props.calendarType === 'start'
+    props.calendarType === START_CALENDAR
       ? props.startCurrentDate
       : props.endCurrentDate;
   return getMonth(date);
@@ -48,12 +55,12 @@ const selectMonth = index => {
 <template>
   <div class="flex flex-col w-full gap-2 max-h-[312px]">
     <CalendarAction
-      view-mode="year"
+      :view-mode="YEAR"
       :calendar-type="calendarType"
       :button-label="
         yearName(
-          calendarType === 'start' ? startCurrentDate : endCurrentDate,
-          'month'
+          calendarType === START_CALENDAR ? startCurrentDate : endCurrentDate,
+          MONTH
         )
       "
       @set-view="setViewMode"

@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { getYear, addYears, subYears } from 'date-fns';
+import { CALENDAR_TYPES } from '../helpers/DatePickerHelper';
 
 import CalendarAction from './CalendarAction.vue';
 
@@ -13,6 +14,8 @@ const props = defineProps({
   endCurrentDate: Date,
 });
 
+const { START_CALENDAR } = CALENDAR_TYPES;
+
 const calculateStartYear = date => {
   const year = getYear(date);
   return year - (year % 10); // Align with the beginning of a decade
@@ -20,7 +23,7 @@ const calculateStartYear = date => {
 
 const startYear = ref(
   calculateStartYear(
-    props.calendarType === 'start'
+    props.calendarType === START_CALENDAR
       ? props.startCurrentDate
       : props.endCurrentDate
   )
@@ -35,7 +38,7 @@ const lastYear = computed(() => years.value[years.value.length - 1]);
 
 const activeYear = computed(() => {
   const date =
-    props.calendarType === 'start'
+    props.calendarType === START_CALENDAR
       ? props.startCurrentDate
       : props.endCurrentDate;
   return getYear(date);

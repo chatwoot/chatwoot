@@ -52,6 +52,17 @@ export const DATE_RANGE_TYPES = {
   CUSTOM_RANGE: 'custom',
 };
 
+export const CALENDAR_TYPES = {
+  START_CALENDAR: 'start',
+  END_CALENDAR: 'end',
+};
+
+export const CALENDAR_PERIODS = {
+  WEEK: 'week',
+  MONTH: 'month',
+  YEAR: 'year',
+};
+
 // Utility functions for date operations
 export const monthName = currentDate => format(currentDate, 'MMMM');
 export const yearName = currentDate => format(currentDate, 'yyyy');

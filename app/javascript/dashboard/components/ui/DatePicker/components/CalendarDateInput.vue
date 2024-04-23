@@ -1,7 +1,10 @@
 <script setup>
 import { computed } from 'vue';
 import { parse, isValid, isAfter, isBefore } from 'date-fns';
-import { getIntlDateFormatForLocale } from '../helpers/DatePickerHelper';
+import {
+  getIntlDateFormatForLocale,
+  CALENDAR_TYPES,
+} from '../helpers/DatePickerHelper';
 
 const props = defineProps({
   calendarType: {
@@ -14,6 +17,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update', 'validate', 'error']);
+
+const { START_CALENDAR, END_CALENDAR } = CALENDAR_TYPES;
 
 const dateFormat = computed(() => getIntlDateFormatForLocale()?.toUpperCase());
 
@@ -35,8 +40,8 @@ const validateDate = () => {
   }
 
   const { calendarType, compareDate, dateValue } = props;
-  const isStartCalendar = calendarType === 'start';
-  const isEndCalendar = calendarType === 'end';
+  const isStartCalendar = calendarType === START_CALENDAR;
+  const isEndCalendar = calendarType === END_CALENDAR;
 
   if (compareDate && isStartCalendar && isAfter(dateValue, compareDate)) {
     emit('error', 'Start date must be before the end date.');
@@ -52,7 +57,7 @@ const validateDate = () => {
   <div class="h-[82px] flex flex-col items-start px-5 gap-1.5 pt-4 w-full">
     <span class="text-sm font-medium text-slate-800 dark:text-slate-50">
       {{
-        calendarType === 'start'
+        calendarType === START_CALENDAR
           ? $t('DATE_PICKER.DATE_RANGE_INPUT.START')
           : $t('DATE_PICKER.DATE_RANGE_INPUT.END')
       }}

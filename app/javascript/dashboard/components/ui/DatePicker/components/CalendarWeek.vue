@@ -9,6 +9,8 @@ import {
   isLastDayOfMonth,
   isHoveringDayInRange,
   isHoveringNextDayInRange,
+  CALENDAR_TYPES,
+  CALENDAR_PERIODS,
 } from '../helpers/DatePickerHelper';
 
 import CalendarWeekLabel from './CalendarWeekLabel.vue';
@@ -36,6 +38,9 @@ const emit = defineEmits([
   'set-view',
 ]);
 
+const { START_CALENDAR } = CALENDAR_TYPES;
+const { MONTH } = CALENDAR_PERIODS;
+
 const emitHoveredEndDate = day => {
   emit('update-hovered-end-date', day);
 };
@@ -57,7 +62,9 @@ const setViewMode = (type, mode) => {
 
 const weeks = calendarType => {
   return getWeeksForMonth(
-    calendarType === 'start' ? props.startCurrentDate : props.endCurrentDate
+    calendarType === START_CALENDAR
+      ? props.startCurrentDate
+      : props.endCurrentDate
   );
 };
 
@@ -75,7 +82,7 @@ const isInRange = day => {
 const isInCurrentMonth = day => {
   return isCurrentMonth(
     day,
-    props.calendarType === 'start'
+    props.calendarType === START_CALENDAR
       ? props.startCurrentDate
       : props.endCurrentDate
   );
@@ -117,13 +124,17 @@ const dayClasses = day => ({
 <template>
   <div class="flex flex-col w-full gap-2 max-h-[312px]">
     <CalendarAction
-      view-mode="month"
+      :view-mode="MONTH"
       :calendar-type="calendarType"
       :first-button-label="
-        monthName(calendarType === 'start' ? startCurrentDate : endCurrentDate)
+        monthName(
+          calendarType === START_CALENDAR ? startCurrentDate : endCurrentDate
+        )
       "
       :button-label="
-        yearName(calendarType === 'start' ? startCurrentDate : endCurrentDate)
+        yearName(
+          calendarType === START_CALENDAR ? startCurrentDate : endCurrentDate
+        )
       "
       @prev="onClickPrev"
       @next="onClickNext"

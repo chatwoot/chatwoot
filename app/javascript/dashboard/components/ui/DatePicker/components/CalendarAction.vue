@@ -1,4 +1,6 @@
 <script setup>
+import { CALENDAR_PERIODS } from '../helpers/DatePickerHelper';
+
 defineProps({
   calendarType: {
     type: String,
@@ -18,6 +20,8 @@ defineProps({
   },
 });
 const emit = defineEmits(['prev', 'next', 'set-view']);
+
+const { YEAR } = CALENDAR_PERIODS;
 
 const onClickPrev = type => {
   emit('prev', type);
@@ -56,7 +60,7 @@ const onClickSetView = (type, mode) => {
         v-if="buttonLabel"
         class="p-0 text-sm font-medium text-center text-slate-800 dark:text-slate-50"
         :class="{ 'hover:text-woot-600 dark:hover:text-woot-600': viewMode }"
-        @click="onClickSetView(calendarType, 'year')"
+        @click="onClickSetView(calendarType, YEAR)"
       >
         {{ buttonLabel }}
       </button>
