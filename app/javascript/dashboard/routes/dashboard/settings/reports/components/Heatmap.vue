@@ -8,10 +8,18 @@
           class="loading-cell heatmap-axis-label"
         />
       </div>
-      <div class="heatmap-grid">
-        <div v-for="ii in 7" :key="ii" class="heatmap-grid-row">
-          <div v-for="jj in 24" :key="jj" class="heatmap-tile loading-cell">
-            <div class="heatmap-tile__label loading-cell" />
+      <div class="grid gap-[5px] w-full min-w-[700px]">
+        <div
+          v-for="ii in 7"
+          :key="ii"
+          class="grid gap-[5px] grid-cols-[repeat(24,_1fr)]"
+        >
+          <div
+            v-for="jj in 24"
+            :key="jj"
+            class="h-8 heatmap-tile animate-loader-pulse"
+          >
+            <div class="heatmap-tile__label animate-loader-pulse" />
           </div>
         </div>
       </div>
@@ -31,17 +39,17 @@
           <time>{{ formatDate(dateKey) }}</time>
         </div>
       </div>
-      <div class="heatmap-grid">
+      <div class="grid gap-[5px] w-full min-w-[700px]">
         <div
           v-for="dateKey in processedData.keys()"
           :key="dateKey"
-          class="heatmap-grid-row"
+          class="grid gap-[5px] grid-cols-[repeat(24,_1fr)]"
         >
           <div
             v-for="data in processedData.get(dateKey)"
             :key="data.timestamp"
             v-tooltip.top="getCountTooltip(data.value)"
-            class="heatmap-tile"
+            class="h-8 rounded-sm shadow-inner dark:outline dark:outline-1 shadow-black"
             :class="getHeatmapLevelClass(data.value)"
           >
             <div class="heatmap-tile__label" />
@@ -121,75 +129,44 @@ export default {
       return days[dayIndex];
     },
     getHeatmapLevelClass(value) {
-      if (!value) return '';
+      if (!value)
+        return 'outline-slate-100 dark:outline-slate-700 dark:bg-slate-700/40 bg-slate-50/50';
 
-      const level = [...this.quantileRange, Infinity].findIndex(
+      let level = [...this.quantileRange, Infinity].findIndex(
         range => value <= range && value > 0
       );
 
-      if (level > 6) {
-        return 'l6';
+      if (level > 6) level = 5;
+
+      if (level === 0) {
+        return 'outline-slate-100 dark:outline-slate-700 dark:bg-slate-700/40 bg-slate-50/50';
       }
 
-      return `l${level}`;
+      const classes = [
+        'bg-woot-50 dark:bg-woot-800/40 dark:outline-woot-800/80',
+        'bg-woot-100 dark:bg-woot-800/30 dark:outline-woot-800/80',
+        'bg-woot-200 dark:bg-woot-500/40 dark:outline-woot-700/80',
+        'bg-woot-300 dark:bg-woot-500/60 dark:outline-woot-600/80',
+        'bg-woot-600 dark:bg-woot-500/80 dark:outline-woot-500/80',
+        'bg-woot-800 dark:bg-woot-500 dark:outline-woot-400/80',
+      ];
+
+      return classes[level - 1];
     },
   },
 };
 </script>
 
 <style scoped lang="scss">
-$heatmap-colors: (
-  level-1: var(--w-50),
-  level-2: var(--w-100),
-  level-3: var(--w-300),
-  level-4: var(--w-500),
-  level-5: var(--w-700),
-  level-6: var(--w-900),
-);
-
-$heatmap-hover-border-color: (
-  level-1: var(--w-25),
-  level-2: var(--w-50),
-  level-3: var(--w-100),
-  level-4: var(--w-300),
-  level-5: var(--w-500),
-  level-6: var(--w-700),
-);
-
 $tile-height: 1.875rem;
 $tile-gap: var(--space-smaller);
 $container-gap-row: var(--space-one);
 $container-gap-column: var(--space-two);
 $marker-height: var(--space-two);
 
-@mixin heatmap-level($level) {
-  $color: map-get($heatmap-colors, 'level-#{$level}');
-  background-color: $color;
-  &:hover {
-    border: 1px solid map-get($heatmap-hover-border-color, 'level-#{$level}');
-  }
-}
-
 @media screen and (max-width: 768px) {
   .heatmap-container {
     overflow-y: auto;
-  }
-}
-
-.loading-cell {
-  background-color: var(--color-background-light);
-  border: 0px;
-
-  animation: loading-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes loading-pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
   }
 }
 
@@ -225,65 +202,6 @@ $marker-height: var(--space-two);
       font-size: var(--font-size-micro);
       font-weight: var(--font-weight-normal);
       @apply text-slate-700 dark:text-slate-200;
-    }
-  }
-}
-
-.heatmap-grid {
-  display: grid;
-  grid-template-rows: 1fr;
-  gap: $tile-gap;
-  min-width: 700px;
-  width: 100%;
-
-  .heatmap-grid-row {
-    display: grid;
-    gap: $tile-gap;
-    grid-template-columns: repeat(24, 1fr);
-  }
-
-  .heatmap-tile {
-    width: auto;
-    height: $tile-height;
-    border-radius: var(--border-radius-normal);
-
-    &:hover {
-      box-shadow: var(--shadow-large);
-
-      transform: translateY(-2px);
-      transition:
-        transform 0.2s ease-in-out,
-        box-shadow 0.2s ease-in-out;
-    }
-
-    &:not(.l1):not(.l2):not(.l3):not(.l4):not(.l5):not(.l6) {
-      background-color: var(--color-background-light);
-      border: 1px solid var(--color-border-light);
-
-      &:hover {
-        transform: translateY(0);
-        box-shadow: none;
-        border: 1px solid var(--color-border-light);
-      }
-    }
-
-    &.l1 {
-      @include heatmap-level(1);
-    }
-    &.l2 {
-      @include heatmap-level(2);
-    }
-    &.l3 {
-      @include heatmap-level(3);
-    }
-    &.l4 {
-      @include heatmap-level(4);
-    }
-    &.l5 {
-      @include heatmap-level(5);
-    }
-    &.l6 {
-      @include heatmap-level(6);
     }
   }
 }
