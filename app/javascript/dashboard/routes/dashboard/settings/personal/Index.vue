@@ -24,7 +24,7 @@
           />
         </div>
 
-        <personal-wrapper
+        <profile-wrapper
           :header="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.TITLE')"
           :description="
             $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.NOTE')
@@ -34,9 +34,9 @@
           <template #settingsItem>
             <message-signature />
           </template>
-        </personal-wrapper>
+        </profile-wrapper>
 
-        <personal-wrapper
+        <profile-wrapper
           :header="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.TITLE')"
           :description="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.NOTE')"
           :show-action-button="false"
@@ -60,9 +60,9 @@
               </button>
             </div>
           </template>
-        </personal-wrapper>
+        </profile-wrapper>
         <change-password v-if="!globalConfig.disableUserProfileUpdate" />
-        <personal-wrapper
+        <profile-wrapper
           :header="
             $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE')
           "
@@ -74,16 +74,16 @@
           <template #settingsItem>
             <notification-settings />
           </template>
-        </personal-wrapper>
-        <personal-wrapper
+        </profile-wrapper>
+        <profile-wrapper
           :header="$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TITLE')"
           :show-action-button="false"
         >
           <template #settingsItem>
             <notification-preferences />
           </template>
-        </personal-wrapper>
-        <personal-wrapper
+        </profile-wrapper>
+        <profile-wrapper
           :header="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE')"
           :description="
             useInstallationName(
@@ -96,14 +96,14 @@
           <template #settingsItem>
             <access-token :value="currentUser.access_token" />
           </template>
-        </personal-wrapper>
+        </profile-wrapper>
       </div>
     </div>
   </div>
 </template>
 <script>
 import MessageSignature from './MessageSignature.vue';
-import PersonalWrapper from './PersonalWrapper.vue';
+import ProfileWrapper from './ProfileWrapper.vue';
 import HotKeyCard from './HotKeyCard.vue';
 import ChangePassword from './ChangePassword.vue';
 import AccessToken from './AccessToken.vue';
@@ -123,7 +123,7 @@ import UserBasicDetails from './UserBasicDetails.vue';
 export default {
   components: {
     MessageSignature,
-    PersonalWrapper,
+    ProfileWrapper,
     HotKeyCard,
     ChangePassword,
     NotificationSettings,
@@ -246,3 +246,4 @@ export default {
   },
 };
 </script>
+./ProfileWrapper.vue
