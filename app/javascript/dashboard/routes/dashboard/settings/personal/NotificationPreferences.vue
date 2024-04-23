@@ -30,9 +30,9 @@
           <div
             class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
           >
-            <span class="text-sm text-ash-900">{{
-              $t(notification.label)
-            }}</span>
+            <span class="text-sm text-ash-900">
+              {{ $t(notification.label) }}
+            </span>
           </div>
           <notification-check-box
             v-for="(type, typeIndex) in ['email', 'push']"
