@@ -74,35 +74,38 @@ const colorClass = computed(() => {
   if (props.isDisabled) {
     return 'bg-ash-200 text-ash-600 cursor-not-allowed';
   }
-  if (props.colorScheme === 'primary') {
-    if (props.variant === 'outline') {
-      return 'text-primary-800 border  border-primary-400 hover:text-primary-600 active:text-primary-600 focus:ring focus:ring-offset-1 focus:ring-primary-400';
-    }
-    if (props.variant === 'ghost') {
-      return 'text-primary-800 hover:text-primary-600 active:text-primary-600 focus:ring focus:ring-offset-1 focus:ring-primary-400';
-    }
-    return 'bg-primary-600 border border-primary-600 text-white hover:bg-primary-700 active:bg-primary-700 focus:ring focus:ring-offset-1 focus:ring-primary-400';
-  }
-  if (props.colorScheme === 'secondary') {
-    if (props.variant === 'outline') {
-      return 'text-ash-800 border border-ash-400 hover:text-ash-600 active:text-ash-600 focus:ring focus:ring-offset-1 focus:ring-ash-400';
-    }
-    if (props.variant === 'ghost') {
-      return 'text-ash-800 hover:text-ash-600 active:text-ash-600 focus:ring focus:ring-offset-1 focus:ring-ash-400';
-    }
-    return 'bg-ash-100 text-ash-900 hover:bg-ash-200 active:bg-ash-200 focus:ring focus:ring-offset-1 focus:ring-ash-400';
-  }
-  if (props.colorScheme === 'danger') {
-    if (props.variant === 'outline') {
-      return 'text-ruby-800 border border-ruby-400 hover:text-ruby-600 active:text-ruby-600 focus:ring focus:ring-offset-1 focus:ring-ruby-400';
-    }
-    if (props.variant === 'ghost') {
-      return 'text-ruby-800 hover:text-ruby-600 active:text-ruby-600 focus:ring focus:ring-offset-1 focus:ring-ruby-400';
-    }
 
-    return 'bg-ruby-600 text-white hover:bg-ruby-700 active:bg-ruby-700 focus:ring focus:ring-offset-1 focus:ring-ruby-400';
-  }
-  return 'bg-primary-500 text-white';
+  const styleMap = {
+    primary: {
+      outline:
+        'text-primary-800 border  border-primary-400 hover:text-primary-600 active:text-primary-600 focus:ring focus:ring-offset-1 focus:ring-primary-400',
+      ghost:
+        'text-primary-800 hover:text-primary-600 active:text-primary-600 focus:ring focus:ring-offset-1 focus:ring-primary-400',
+      default:
+        'bg-primary-600 border border-primary-600 text-white hover:bg-primary-700 active:bg-primary-700 focus:ring focus:ring-offset-1 focus:ring-primary-400',
+    },
+    secondary: {
+      outline:
+        'text-ash-800 border border-ash-400 hover:text-ash-600 active:text-ash-600 focus:ring focus:ring-offset-1 focus:ring-ash-400',
+      ghost:
+        'text-ash-800 hover:text-ash-600 active:text-ash-600 focus:ring focus:ring-offset-1 focus:ring-ash-400',
+      default:
+        'bg-ash-100 text-ash-900 hover:bg-ash-200 active:bg-ash-200 focus:ring focus:ring-offset-1 focus:ring-ash-400',
+    },
+    danger: {
+      outline:
+        'text-ruby-800 border border-ruby-400 hover:text-ruby-600 active:text-ruby-600 focus:ring focus:ring-offset-1 focus:ring-ruby-400',
+      ghost:
+        'text-ruby-800 hover:text-ruby-600 active:text-ruby-600 focus:ring focus:ring-offset-1 focus:ring-ruby-400',
+      default:
+        'bg-ruby-600 text-white hover:bg-ruby-700 active:bg-ruby-700 focus:ring focus:ring-offset-1 focus:ring-ruby-400',
+    },
+  };
+
+  const schemeStyles = styleMap[props.colorScheme] || {};
+  const variantStyle = schemeStyles[props.variant] || schemeStyles.default;
+
+  return variantStyle;
 });
 
 const sizeClass = computed(() => {
@@ -113,15 +116,10 @@ const sizeClass = computed(() => {
 });
 
 const iconSize = computed(() => {
-  switch (props.size) {
-    case 'medium':
-      return 16;
-    case 'large':
-      return 18;
-
-    default:
-      return 16;
+  if (props.size === 'medium') {
+    return 14;
   }
+  return 16;
 });
 
 const handleClick = () => {
