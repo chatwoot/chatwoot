@@ -6,6 +6,8 @@ class Public::Api::V1::PortalsController < Public::Api::V1::Portals::BaseControl
 
   def show; end
 
+  def sitemap; end
+
   private
 
   def portal

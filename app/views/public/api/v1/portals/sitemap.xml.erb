@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex>
+  <% @portal.articles.where(status: :published).each do |article| %>
+    <sitemap>
+      <loc><%= generate_article_link(@portal.slug, article.slug, false, false) %></loc>
+    </sitemap>
+  <% end %>
+</sitemapindex>
