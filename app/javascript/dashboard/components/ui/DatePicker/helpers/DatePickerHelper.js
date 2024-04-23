@@ -13,6 +13,7 @@ import {
   addDays,
   eachDayOfInterval,
   endOfMonth,
+  isSameDay,
   isWithinInterval,
 } from 'date-fns';
 
@@ -121,23 +122,27 @@ export const isLastDayOfMonth = day => {
   return day.getDate() === lastDay.getDate();
 };
 
-export const isStartOrEndDate = (day, startDate, endDate) => {
-  const startMatch =
-    startDate && day.toDateString() === startDate.toDateString();
-  const endMatch = endDate && day.toDateString() === endDate.toDateString();
-  return startMatch || endMatch;
-};
-
 export const dayIsInRange = (date, startDate, endDate) => {
-  if (startDate && endDate && startDate > endDate) {
+  if (startDate && endDate) {
+    // Normalize dates to ignore time differences
+    const startOfDayStart = startOfDay(startDate);
+    const startOfDayEnd = startOfDay(endDate);
+
+    // Check if the date is the same as the start date
+    if (isSameDay(date, startOfDayStart)) {
+      return true;
+    }
+
     // Swap if start is greater than end
-    [startDate, endDate] = [endDate, startDate];
+    if (startOfDayStart > startOfDayEnd) {
+      [startOfDayStart, startOfDayEnd] = [startOfDayEnd, startOfDayStart];
+    }
+    return isWithinInterval(date, {
+      start: startOfDayStart,
+      end: startOfDayEnd,
+    });
   }
-  return (
-    startDate &&
-    endDate &&
-    isWithinInterval(date, { start: startDate, end: endDate })
-  );
+  return false;
 };
 
 // Handling hovering states in date range pickers

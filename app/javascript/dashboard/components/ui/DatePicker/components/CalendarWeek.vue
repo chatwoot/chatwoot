@@ -7,7 +7,6 @@ import {
   dayIsInRange,
   isCurrentMonth,
   isLastDayOfMonth,
-  isStartOrEndDate,
   isHoveringDayInRange,
   isHoveringNextDayInRange,
 } from '../helpers/DatePickerHelper';
@@ -63,7 +62,10 @@ const weeks = calendarType => {
 };
 
 const isSelectedStartOrEndDate = day => {
-  return isStartOrEndDate(day, props.selectedStartDate, props.selectedEndDate);
+  return (
+    dayIsInRange(day, props.selectedStartDate, props.selectedStartDate) ||
+    dayIsInRange(day, props.selectedEndDate, props.selectedEndDate)
+  );
 };
 
 const isInRange = day => {
@@ -151,7 +153,11 @@ const dayClasses = day => ({
             isInCurrentMonth(day)
           "
           class="absolute bottom-0 w-6 h-8 ltr:-right-4 rtl:-left-4 bg-woot-50 dark:bg-woot-800 -z-10"
-          :class="{ '-top-px': isToday(currentDate, day) }"
+          :class="{
+            '-top-px':
+              isToday(currentDate, day) &&
+              day.getTime() !== props.selectedStartDate.getTime(),
+          }"
         />
       </div>
     </div>

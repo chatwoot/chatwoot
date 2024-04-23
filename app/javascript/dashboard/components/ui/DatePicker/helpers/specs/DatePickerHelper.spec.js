@@ -174,6 +174,13 @@ describe('dayIsInRange', () => {
     expect(dayIsInRange(testDate, start, end)).toBeTruthy();
   });
 
+  it('returns true if the date is the same as the start date', () => {
+    const start = new Date(2020, 1, 10);
+    const end = new Date(2020, 1, 20);
+    const testDate = new Date(2020, 1, 10);
+    expect(dayIsInRange(testDate, start, end)).toBeTruthy();
+  });
+
   it('returns false if the date is outside the range', () => {
     const start = new Date(2020, 1, 10);
     const end = new Date(2020, 1, 20);
