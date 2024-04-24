@@ -61,8 +61,6 @@
     "ionicons": "~2.0.1",
     "js-cookie": "^3.0.5",
     "libphonenumber-js": "^1.10.24",
-    "logrocket": "^3.0.1",
-    "logrocket-vuex": "^0.0.3",
     "markdown-it": "^13.0.2",
     "markdown-it-link-attributes": "^4.0.1",
     "md5": "^2.3.0",
