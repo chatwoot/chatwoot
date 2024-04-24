@@ -42,19 +42,20 @@
 }
 
 @layer base {
+  // scss-lint:disable PropertySortOrder
   :root {
-    --color-amber-100: 255 243 208;
-    --color-amber-200: 255 236 183;
     --color-amber-25: 254 253 251;
-    --color-amber-300: 255 224 161;
-    --color-amber-400: 245 208 140;
     --color-amber-50: 255 249 237;
-    --color-amber-500: 228 187 120;
+    --color-amber-75: 255 243 208;
+    --color-amber-100: 255 236 183;
+    --color-amber-200: 255 224 161;
+    --color-amber-300: 245 208 140;
+    --color-amber-400: 228 187 120;
+    --color-amber-500: 214 163 92;
     --color-amber-600: 214 163 92;
-    --color-amber-700: 214 163 92;
-    --color-amber-800: 255 186 26;
-    --color-amber-900: 145 89 48;
-    --color-amber-950: 79 52 34;
+    --color-amber-700: 255 186 26;
+    --color-amber-800: 145 89 48;
+    --color-amber-900: 79 52 34;
 
     --color-ash-100: 235 235 239;
     --color-ash-200: 228 228 233;
@@ -110,18 +111,18 @@
   }
   // scss-lint:disable QualifyingElement
   body.dark {
+    --color-amber-25: 31 19 0;
+    --color-amber-50: 37 24 4;
+    --color-amber-75: 48 32 11;
     --color-amber-100: 57 39 15;
     --color-amber-200: 67 46 18;
-    --color-amber-25: 31 19 0;
     --color-amber-300: 83 57 22;
     --color-amber-400: 111 77 29;
-    --color-amber-50: 37 24 4;
     --color-amber-500: 169 118 42;
     --color-amber-600: 169 118 42;
     --color-amber-700: 255 203 71;
     --color-amber-800: 255 204 77;
     --color-amber-900: 255 231 179;
-    --color-amber-950: 255 231 179;
 
     --color-ash-100: 46 48 53;
     --color-ash-200: 53 55 60;
@@ -148,7 +149,6 @@
     --color-primary-700: 21 116 231;
     --color-primary-800: 126 182 255;
     --color-primary-900: 205 227 255;
-
 
     --color-ruby-100: 78 19 37;
     --color-ruby-200: 94 26 46;
