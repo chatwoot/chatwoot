@@ -4,7 +4,7 @@
       <div
         class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
       >
-        <table-header-cell :span="6" label="Notification type">
+        <table-header-cell :span="7" label="Notification type">
           <span class="text-sm font-normal uppercase text-ash-900">
             {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPE_TITLE') }}
           </span>
@@ -14,12 +14,14 @@
             {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.EMAIL') }}
           </span>
         </table-header-cell>
-        <table-header-cell :span="4" label="Push notification">
-          <div class="flex items-center justify-between gap-2">
-            <span class="text-sm font-medium uppercase text-ash-900">
+        <table-header-cell :span="3" label="Push notification">
+          <div class="flex items-center justify-between gap-1">
+            <span
+              class="text-sm font-medium uppercase text-ash-900 whitespace-nowrap"
+            >
               {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.PUSH') }}
             </span>
-            <v3-switch :value="true" @input="onRequestPermissions()" />
+            <form-switch :value="true" @input="onRequestPermissions()" />
           </div>
         </table-header-cell>
       </div>
@@ -28,7 +30,7 @@
           class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
         >
           <div
-            class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
+            class="flex items-center gap-2 col-span-7 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
           >
             <span class="text-sm text-ash-900">
               {{ $t(notification.label) }}
@@ -39,7 +41,7 @@
             :key="typeIndex"
             :type="type"
             :value="`${type}_${notification.value}`"
-            :span="type === 'push' ? 4 : 2"
+            :span="type === 'push' ? 3 : 2"
             :selected-flags="
               type === 'email' ? selectedEmailFlags : selectedPushFlags
             "
@@ -73,7 +75,7 @@
         <span class="text-sm font-medium uppercase text-ash-900">
           {{ $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.TITLE') }}
         </span>
-        <v3-switch :value="true" @input="onRequestPermissions()" />
+        <form-switch :value="true" @input="onRequestPermissions()" />
       </div>
 
       <div class="flex flex-col gap-2">
@@ -107,13 +109,13 @@ import {
   verifyServiceWorkerExistence,
 } from '../../../../helper/pushHelper';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import V3Switch from 'v3/components/Form/Switch.vue';
+import FormSwitch from 'v3/components/Form/Switch.vue';
 import NotificationCheckBox from './NotificationCheckBox.vue';
 
 export default {
   components: {
     TableHeaderCell,
-    V3Switch,
+    FormSwitch,
     NotificationCheckBox,
   },
   mixins: [alertMixin, configMixin, uiSettingsMixin],
