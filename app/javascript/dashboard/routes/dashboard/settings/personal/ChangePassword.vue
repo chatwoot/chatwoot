@@ -4,75 +4,80 @@
       <h4 class="text-lg font-medium text-slate-900 dark:text-slate-25">
         Change password
       </h4>
-      <woot-input
+      <form-input
         v-model="currentPassword"
         type="password"
+        name="currentPassword"
         :class="{ error: $v.currentPassword.$error }"
         :label="$t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.LABEL')"
         :placeholder="$t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.PLACEHOLDER')"
-        :error="
+        :has-error="$v.currentPassword.$error"
+        :error-message="
           $v.currentPassword.$error
             ? $t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.ERROR')
             : ''
         "
         @blur="$v.currentPassword.$touch"
       />
-
-      <woot-input
+      <form-input
         v-model="password"
         type="password"
+        name="password"
         :class="{ error: $v.password.$error }"
         :label="$t('PROFILE_SETTINGS.FORM.PASSWORD.LABEL')"
         :placeholder="$t('PROFILE_SETTINGS.FORM.PASSWORD.PLACEHOLDER')"
-        :error="
+        :has-error="$v.password.$error"
+        :error-message="
           $v.password.$error ? $t('PROFILE_SETTINGS.FORM.PASSWORD.ERROR') : ''
         "
         @blur="$v.password.$touch"
       />
 
-      <woot-input
+      <form-input
         v-model="passwordConfirmation"
         type="password"
+        name="passwordConfirmation"
         :class="{ error: $v.passwordConfirmation.$error }"
         :label="$t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.LABEL')"
         :placeholder="
           $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.PLACEHOLDER')
         "
-        :error="
+        :has-error="$v.passwordConfirmation.$error"
+        :error-message="
           $v.passwordConfirmation.$error
             ? $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.ERROR')
             : ''
         "
         @blur="$v.passwordConfirmation.$touch"
       />
-
-      <v3-button
+      <form-button
         type="submit"
         color-scheme="primary"
         variant="solid"
         size="large"
-        :disabled="
+        :is-disabled="
           !currentPassword ||
           !passwordConfirmation ||
           !$v.passwordConfirmation.isEqPassword
         "
       >
         {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.BTN_TEXT') }}
-      </v3-button>
+      </form-button>
     </div>
   </form>
 </template>
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
-import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
-import V3Button from 'v3/components/Form/Button.vue';
+import FormButton from 'v3/components/Form/Button.vue';
+import FormInput from 'v3/components/Form/Input.vue';
 
 export default {
   components: {
-    V3Button,
+    FormButton,
+    FormInput,
   },
   mixins: [alertMixin],
   data() {
@@ -101,12 +106,6 @@ export default {
       },
     },
   },
-  computed: {
-    ...mapGetters({
-      currentUser: 'getCurrentUser',
-      currentUserId: 'getCurrentUserID',
-    }),
-  },
   methods: {
     async changePassword() {
       this.$v.$touch();
@@ -134,18 +133,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-@import '~dashboard/assets/scss/mixins.scss';
-
-.profile--settings--row {
-  @include border-normal-bottom;
-  padding: var(--space-normal);
-  .small-3 {
-    padding: var(--space-normal) var(--space-medium) var(--space-normal) 0;
-  }
-  .small-9 {
-    padding: var(--space-normal);
-  }
-}
-</style>
