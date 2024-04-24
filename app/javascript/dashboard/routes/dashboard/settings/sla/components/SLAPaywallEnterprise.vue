@@ -45,7 +45,7 @@ const i18nKey = props.isOnChatwootCloud ? 'PAYWALL' : 'ENTERPRISE_PAYWALL';
           {{ $t('SLA.ENTERPRISE_PAYWALL.ASK_ADMIN') }}
         </span>
       </p>
-      <template v-if="isOnChatwootCloud">
+      <template v-if="isOnChatwootCloud || true">
         <woot-button
           color-scheme="primary"
           class="w-full mt-2 text-center rounded-xl"
@@ -55,8 +55,11 @@ const i18nKey = props.isOnChatwootCloud ? 'PAYWALL' : 'ENTERPRISE_PAYWALL';
         >
           {{ $t('SLA.PAYWALL.UPGRADE_NOW') }}
         </woot-button>
+        <span class="mt-2 text-xs tracking-tight text-center">
+          {{ $t('SLA.PAYWALL.CANCEL_ANYTIME') }}
+        </span>
       </template>
-      <template v-if="isSuperAdmin">
+      <template v-else-if="isSuperAdmin">
         <a href="/super_admin" class="block w-full">
           <woot-button
             color-scheme="primary"
