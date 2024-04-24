@@ -94,7 +94,10 @@
           :show-action-button="false"
         >
           <template #settingsItem>
-            <access-token :value="currentUser.access_token" />
+            <access-token
+              :value="currentUser.access_token"
+              @on-copy="onCopyToken"
+            />
           </template>
         </profile-wrapper>
       </div>
@@ -103,6 +106,7 @@
 </template>
 <script>
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import uiSettingsMixin, {
   isEditorHotKeyEnabled,
 } from 'dashboard/mixins/uiSettings';
@@ -242,6 +246,10 @@ export default {
       this.showAlert(
         this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.UPDATE_SUCCESS')
       );
+    },
+    async onCopyToken(value) {
+      await copyTextToClipboard(value);
+      this.showAlert(this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
     },
   },
 };

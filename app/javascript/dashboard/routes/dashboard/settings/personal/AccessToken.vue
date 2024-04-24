@@ -25,7 +25,6 @@
 <script setup>
 import FormInput from 'v3/components/Form/Input.vue';
 import FormButton from 'v3/components/Form/Button.vue';
-import { copyTextToClipboard } from 'shared/helpers/clipboard';
 
 const props = defineProps({
   value: {
@@ -34,8 +33,9 @@ const props = defineProps({
   },
 });
 
-const onClick = async e => {
-  e.preventDefault();
-  await copyTextToClipboard(props.value);
+const emit = defineEmits(['on-copy']);
+
+const onClick = () => {
+  emit('on-copy', props.value);
 };
 </script>
