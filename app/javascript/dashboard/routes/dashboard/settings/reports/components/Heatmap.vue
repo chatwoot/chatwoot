@@ -153,9 +153,7 @@ function getHeatmapLevelClass(value) {
             v-tooltip.top="getCountTooltip(data.value)"
             class="h-8 rounded-sm shadow-inner dark:outline dark:outline-1 shadow-black"
             :class="getHeatmapLevelClass(data.value)"
-          >
-            <div />
-          </div>
+          />
         </div>
       </div>
       <div />
