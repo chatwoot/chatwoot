@@ -77,15 +77,15 @@ const colorClass = computed(() => {
   const styleMap = {
     primary: {
       outline:
-        'text-primary-800 border  border-primary-400 hover:text-primary-600 active:text-primary-600 focus:ring focus:ring-offset-1 focus:ring-primary-400',
+        'text-primary-800 outline outline-1 -outline-offset-1  outline-primary-400 hover:text-primary-600 active:text-primary-600 focus:ring focus:ring-offset-1 focus:ring-primary-400',
       ghost:
         'text-primary-800 hover:text-primary-600 active:text-primary-600 focus:ring focus:ring-offset-1 focus:ring-primary-400',
       default:
-        'bg-primary-600 border border-primary-600 text-white hover:bg-primary-700 active:bg-primary-700 focus:ring focus:ring-offset-1 focus:ring-primary-400',
+        'bg-primary-600 outline-primary-600 text-white hover:bg-primary-700 active:bg-primary-700 focus:ring focus:ring-offset-1 focus:ring-primary-400',
     },
     secondary: {
       outline:
-        'text-ash-800 border border-ash-400 hover:text-ash-600 active:text-ash-600 focus:ring focus:ring-offset-1 focus:ring-ash-400',
+        'text-ash-800 outline outline-1 -outline-offset-1 outline-ash-400 hover:text-ash-600 active:text-ash-600 focus:ring focus:ring-offset-1 focus:ring-ash-400',
       ghost:
         'text-ash-800 hover:text-ash-600 active:text-ash-600 focus:ring focus:ring-offset-1 focus:ring-ash-400',
       default:
@@ -93,7 +93,7 @@ const colorClass = computed(() => {
     },
     danger: {
       outline:
-        'text-ruby-800 border border-ruby-400 hover:text-ruby-600 active:text-ruby-600 focus:ring focus:ring-offset-1 focus:ring-ruby-400',
+        'text-ruby-800 outline outline-1 -outline-offset-1 outline-ruby-400 hover:text-ruby-600 active:text-ruby-600 focus:ring focus:ring-offset-1 focus:ring-ruby-400',
       ghost:
         'text-ruby-800 hover:text-ruby-600 active:text-ruby-600 focus:ring focus:ring-offset-1 focus:ring-ruby-400',
       default:
@@ -109,9 +109,9 @@ const colorClass = computed(() => {
 
 const sizeClass = computed(() => {
   if (props.size === 'medium') {
-    return 'px-3 py-2 text-sm';
+    return 'h-8 px-3 py-1.5 text-sm';
   }
-  return 'px-4 py-2.5 text';
+  return 'h-10 px-4 py-2.5 text';
 });
 
 const iconSize = computed(() => {
