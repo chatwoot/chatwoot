@@ -207,10 +207,6 @@ group :development do
 end
 
 group :test do
-  # Cypress in rails.
-  gem 'cypress-on-rails'
-  # fast cleaning of database
-  gem 'database_cleaner'
   # mock http calls
   gem 'webmock'
   # test profiling
