@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Reporter jusqu'à",
       "SNOOZED_UNTIL_TOMORROW": "Reporté jusqu'à demain",
       "SNOOZED_UNTIL_NEXT_WEEK": "Reporté jusqu'à la semaine prochaine",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Reporté jusqu'à la prochaine réponse"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Reporté jusqu'à la prochaine réponse",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Marquer comme en attente",

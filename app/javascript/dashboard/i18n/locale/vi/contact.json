@@ -296,6 +296,8 @@
     "BUTTON": "Thêm thuộc tính tùy chỉnh",
     "NOT_AVAILABLE": "Không có thuộc tính tuỳ chỉnh nào có sẵn cho liên hệ này.",
     "COPY_SUCCESSFUL": "Đã sao chép mã thành công",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Sao chép thuộc tính",
       "DELETE": "Xoá thuộc tính",

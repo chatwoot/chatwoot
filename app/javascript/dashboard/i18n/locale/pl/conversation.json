@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Uśpione do",
       "SNOOZED_UNTIL_TOMORROW": "Uśpij do jutra",
       "SNOOZED_UNTIL_NEXT_WEEK": "Uśpione do następnego tygodnia",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Uśpione do następnej odpowiedzi"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Uśpione do następnej odpowiedzi",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Oznacz jako oczekujące",

@@ -1,3 +1,7 @@
+# TODO: Move this into models jbuilder
+# Currently the file there is used only for search endpoint.
+# Everywhere else we use conversation builder in partials folder
+
 json.meta do
   json.sender do
     json.partial! 'api/v1/models/contact', formats: [:json], resource: conversation.contact
@@ -48,3 +52,4 @@ json.last_activity_at conversation.last_activity_at.to_i
 json.priority conversation.priority
 json.waiting_since conversation.waiting_since.to_i.to_i
 json.sla_policy_id conversation.sla_policy_id
+json.partial! 'enterprise/api/v1/conversations/partials/conversation', conversation: conversation if ChatwootApp.enterprise?

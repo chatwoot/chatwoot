@@ -4,19 +4,23 @@
     :loading-message="$t('SLA.LOADING')"
   >
     <template #header>
-      <SLA-header @click="openAddPopup" />
+      <SLA-header :show-actions="records.length > 0" @click="openAddPopup" />
     </template>
     <template #loading>
       <SLAListItemLoading v-for="ii in 2" :key="ii" class="mb-3" />
     </template>
     <template #body>
-      <p
-        v-if="!records.length"
-        class="flex flex-col items-center justify-center h-full"
-      >
-        {{ $t('SLA.LIST.404') }}
-      </p>
-      <div v-if="records.length" class="flex flex-col w-full h-full gap-3">
+      <SLAPaywallEnterprise
+        v-if="isBehindAPaywall"
+        :is-super-admin="isSuperAdmin"
+        :is-on-chatwoot-cloud="isOnChatwootCloud"
+        @click="onClickCTA"
+      />
+      <SLAEmptyState
+        v-else-if="!records.length"
+        @primary-action="openAddPopup"
+      />
+      <div v-else class="flex flex-col w-full h-full gap-3">
         <SLA-list-item
           v-for="sla in records"
           :key="sla.title"
@@ -49,25 +53,30 @@
   </settings-layout>
 </template>
 <script>
+import AddSLA from './AddSLA.vue';
 import SettingsLayout from '../SettingsLayout.vue';
+import SLAEmptyState from './components/SLAEmptyState.vue';
 import SLAHeader from './components/SLAHeader.vue';
 import SLAListItem from './components/SLAListItem.vue';
 import SLAListItemLoading from './components/SLAListItemLoading.vue';
+import SLAPaywallEnterprise from './components/SLAPaywallEnterprise.vue';
+
 import { mapGetters } from 'vuex';
 import { convertSecondsToTimeUnit } from '@chatwoot/utils';
-
-import AddSLA from './AddSLA.vue';
 import alertMixin from 'shared/mixins/alertMixin';
+import configMixin from 'shared/mixins/configMixin';
 
 export default {
   components: {
     AddSLA,
+    SettingsLayout,
+    SLAEmptyState,
     SLAHeader,
     SLAListItem,
     SLAListItemLoading,
-    SettingsLayout,
+    SLAPaywallEnterprise,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, configMixin],
   data() {
     return {
       loading: {},
@@ -78,7 +87,12 @@ export default {
   },
   computed: {
     ...mapGetters({
+      globalConfig: 'globalConfig/get',
+      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       records: 'sla/getSLA',
+      currentUser: 'getCurrentUser',
+      accountId: 'getCurrentAccountId',
       uiFlags: 'sla/getUIFlags',
     }),
     deleteConfirmText() {
@@ -90,12 +104,21 @@ export default {
     deleteMessage() {
       return ` ${this.selectedResponse.name}`;
     },
+    isBehindAPaywall() {
+      return !this.isFeatureEnabledonAccount(this.accountId, 'sla');
+    },
+    isSuperAdmin() {
+      return this.currentUser.type === 'SuperAdmin';
+    },
   },
   mounted() {
     this.$store.dispatch('sla/get');
   },
   methods: {
     openAddPopup() {
+      if (this.isBehindAPaywall) {
+        return;
+      }
       this.showAddPopup = true;
     },
     hideAddPopup() {
@@ -134,6 +157,12 @@ export default {
       });
       if (!time) return '-';
       return `${time}${unit}`;
+    },
+    onClickCTA() {
+      this.$router.push({
+        name: 'billing_settings_index',
+        params: { accountId: this.accountId },
+      });
     },
   },
 };

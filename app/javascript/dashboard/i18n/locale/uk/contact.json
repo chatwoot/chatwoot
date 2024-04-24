@@ -296,6 +296,8 @@
     "BUTTON": "Додати користувацький атрибут",
     "NOT_AVAILABLE": "Немає ніяких користувацьких атрибутів для цього контакту.",
     "COPY_SUCCESSFUL": "Скопійовано до буферу обміну",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Копіювати атрибут",
       "DELETE": "Видалити атрибут",
