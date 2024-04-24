@@ -136,7 +136,6 @@
 <script>
 import FileUpload from 'vue-upload-component';
 import * as ActiveStorage from 'activestorage';
-import { hasPressedAltAndAKey } from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import inboxMixin from 'shared/mixins/inboxMixin';
@@ -340,10 +339,15 @@ export default {
     ActiveStorage.start();
   },
   methods: {
-    handleKeyEvents(e) {
-      if (hasPressedAltAndAKey(e)) {
-        this.$refs.upload.$children[1].$el.click();
-      }
+    getKeyboardEvents() {
+      return {
+        'Alt+KeyA': {
+          action: () => {
+            this.$refs.upload.$children[1].$el.click();
+          },
+          allowOnFocusedInput: true,
+        },
+      };
     },
     toggleMessageSignature() {
       this.setSignatureFlagForInbox(this.channelType, !this.sendWithSignature);
