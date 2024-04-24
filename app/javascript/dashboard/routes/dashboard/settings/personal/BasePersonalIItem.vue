@@ -13,7 +13,7 @@
     </div>
     <div v-if="$slots.settingsItem" class="flex flex-col w-full gap-6">
       <slot name="settingsItem" />
-      <v3-button
+      <form-button
         v-if="showActionButton"
         type="submit"
         color-scheme="primary"
@@ -21,13 +21,13 @@
         size="large"
       >
         {{ buttonText }}
-      </v3-button>
+      </form-button>
     </div>
   </div>
 </template>
 
 <script setup>
-import V3Button from 'v3/components/Form/Button.vue';
+import FormButton from 'v3/components/Form/Button.vue';
 defineProps({
   header: {
     type: String,

@@ -24,7 +24,7 @@
           />
         </div>
 
-        <profile-wrapper
+        <base-personal-i-item
           :header="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.TITLE')"
           :description="
             $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.NOTE')
@@ -34,9 +34,9 @@
           <template #settingsItem>
             <message-signature />
           </template>
-        </profile-wrapper>
+        </base-personal-i-item>
 
-        <profile-wrapper
+        <base-personal-i-item
           :header="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.TITLE')"
           :description="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.NOTE')"
           :show-action-button="false"
@@ -60,9 +60,9 @@
               </button>
             </div>
           </template>
-        </profile-wrapper>
+        </base-personal-i-item>
         <change-password v-if="!globalConfig.disableUserProfileUpdate" />
-        <profile-wrapper
+        <base-personal-i-item
           :header="
             $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE')
           "
@@ -74,16 +74,16 @@
           <template #settingsItem>
             <audio-notifications />
           </template>
-        </profile-wrapper>
-        <profile-wrapper
+        </base-personal-i-item>
+        <base-personal-i-item
           :header="$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TITLE')"
           :show-action-button="false"
         >
           <template #settingsItem>
             <notification-preferences />
           </template>
-        </profile-wrapper>
-        <profile-wrapper
+        </base-personal-i-item>
+        <base-personal-i-item
           :header="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE')"
           :description="
             useInstallationName(
@@ -99,7 +99,7 @@
               @on-copy="onCopyToken"
             />
           </template>
-        </profile-wrapper>
+        </base-personal-i-item>
       </div>
     </div>
   </div>
@@ -120,15 +120,15 @@ import UserBasicDetails from './UserBasicDetails.vue';
 import NotificationPreferences from './NotificationPreferences.vue';
 import AudioNotifications from './AudioNotifications.vue';
 import MessageSignature from './MessageSignature.vue';
-import ProfileWrapper from './ProfileWrapper.vue';
 import HotKeyCard from './HotKeyCard.vue';
 import ChangePassword from './ChangePassword.vue';
 import AccessToken from './AccessToken.vue';
+import BasePersonalIItem from './BasePersonalIItem.vue';
 
 export default {
   components: {
     MessageSignature,
-    ProfileWrapper,
+    BasePersonalIItem,
     HotKeyCard,
     ChangePassword,
     AccessToken,
