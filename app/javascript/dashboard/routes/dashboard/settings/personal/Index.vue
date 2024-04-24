@@ -102,11 +102,6 @@
   </div>
 </template>
 <script>
-import MessageSignature from './MessageSignature.vue';
-import ProfileWrapper from './ProfileWrapper.vue';
-import HotKeyCard from './HotKeyCard.vue';
-import ChangePassword from './ChangePassword.vue';
-import AccessToken from './AccessToken.vue';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import uiSettingsMixin, {
   isEditorHotKeyEnabled,
@@ -119,6 +114,11 @@ import NotificationPreferences from './NotificationPreferences.vue';
 import AudioNotifications from './AudioNotifications.vue';
 import UserProfilePicture from './UserProfilePicture.vue';
 import UserBasicDetails from './UserBasicDetails.vue';
+import MessageSignature from './MessageSignature.vue';
+import ProfileWrapper from './ProfileWrapper.vue';
+import HotKeyCard from './HotKeyCard.vue';
+import ChangePassword from './ChangePassword.vue';
+import AccessToken from './AccessToken.vue';
 
 export default {
   components: {
