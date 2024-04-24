@@ -1,5 +1,7 @@
 <template>
-  <div class="heatmap-container">
+  <div
+    class="grid relative w-full gap-x-4 gap-y-2.5 overflow-y-scroll md:overflow-visible grid-cols-[80px_1fr] min-h-72"
+  >
     <template v-if="isLoading">
       <div class="grid gap-[5px] flex-shrink-0">
         <div
@@ -18,12 +20,10 @@
             v-for="jj in 24"
             :key="jj"
             class="w-full h-8 rounded-sm bg-slate-100 dark:bg-slate-900 animate-loader-pulse"
-          >
-            <div class="heatmap-tile__label animate-loader-pulse" />
-          </div>
+          />
         </div>
       </div>
-      <div class="heatmap-timeline" />
+      <div />
       <div
         class="grid grid-cols-[repeat(24,_1fr)] gap-[5px] w-full text-[8px] font-semibold h-5 text-slate-800 dark:text-slate-200"
       >
@@ -62,11 +62,11 @@
             class="h-8 rounded-sm shadow-inner dark:outline dark:outline-1 shadow-black"
             :class="getHeatmapLevelClass(data.value)"
           >
-            <div class="heatmap-tile__label" />
+            <div />
           </div>
         </div>
       </div>
-      <div class="heatmap-timeline" />
+      <div />
       <div
         class="grid grid-cols-[repeat(24,_1fr)] gap-[5px] w-full text-[8px] font-semibold h-5 text-slate-800 dark:text-slate-200"
       >
@@ -174,12 +174,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-.heatmap-container {
-  @apply grid relative w-full gap-x-4 gap-y-2.5 overflow-y-scroll md:overflow-visible;
-  grid-template-columns: 80px 1fr;
-  min-height: calc(7 * 32px + 6 * 5px + 10px + 20px);
-  /** 7 * tile-height + 6 * tile-gap + container-gap-row + marker-height */
-}
-</style>
