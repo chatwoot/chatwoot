@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Suspender até",
       "SNOOZED_UNTIL_TOMORROW": "Adiado até amanhã",
       "SNOOZED_UNTIL_NEXT_WEEK": "Adiada até a próxima semana",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Adiado até à próxima resposta"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Adiado até à próxima resposta",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Marcar como pendente",

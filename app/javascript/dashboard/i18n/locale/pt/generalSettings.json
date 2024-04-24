@@ -87,7 +87,10 @@
       "conversation_assignment": "Conversa atribuída",
       "assigned_conversation_new_message": "Nova mensagem",
       "participating_conversation_new_message": "Nova mensagem",
-      "conversation_mention": "Mencionar"
+      "conversation_mention": "Mencionar",
+      "sla_missed_first_response": "SLA Perdido",
+      "sla_missed_next_response": "SLA Perdido",
+      "sla_missed_resolution": "SLA Perdido"
     }
   },
   "NETWORK": {

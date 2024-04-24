@@ -39,10 +39,10 @@
     },
     "MERGE_CONTACT": "Combinar contacto",
     "CONTACT_ACTIONS": "Acciones de contacto",
-    "MUTE_CONTACT": "Block Contact",
-    "UNMUTE_CONTACT": "Unblock Contact",
-    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
-    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
+    "MUTE_CONTACT": "Bloquear contacto",
+    "UNMUTE_CONTACT": "Desbloquear contacto",
+    "MUTED_SUCCESS": "Este contacto está bloqueado con éxito. No se te notificará de ninguna conversación futura.",
+    "UNMUTED_SUCCESS": "Este contacto está desbloqueado correctamente.",
     "SEND_TRANSCRIPT": "Enviar Transcripción",
     "EDIT_LABEL": "Editar",
     "SIDEBAR_SECTIONS": {
@@ -82,9 +82,9 @@
     "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo",
     "CONFIRM": {
       "TITLE": "Exportar contactos",
-      "MESSAGE": "Are you sure you want to export all contacts?",
-      "YES": "Yes, Export",
-      "NO": "No, Cancel"
+      "MESSAGE": "¿Está seguro que desea exportar todos los contactos?",
+      "YES": "Sí, exportar",
+      "NO": "No, cancelar"
     }
   },
   "DELETE_NOTE": {
@@ -296,6 +296,8 @@
     "BUTTON": "Añadir atributo personalizado",
     "NOT_AVAILABLE": "No hay atributos personalizados disponibles para este contacto.",
     "COPY_SUCCESSFUL": "Copiado al portapapeles satisfactoriamente",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Copiar atributo",
       "DELETE": "Eliminar atributo",

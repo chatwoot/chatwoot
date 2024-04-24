@@ -296,6 +296,8 @@
     "BUTTON": "Dodaj vlastite atribute",
     "NOT_AVAILABLE": "Nema dostupnih prilagođenih atributa za ovaj kontakt.",
     "COPY_SUCCESSFUL": "Uspešno kopirano na beležnicu",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Kopiraj atribut",
       "DELETE": "Obriši atribut",

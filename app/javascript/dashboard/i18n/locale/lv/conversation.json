@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Atlikts līdz",
       "SNOOZED_UNTIL_TOMORROW": "Atlikts līdz rītdienai",
       "SNOOZED_UNTIL_NEXT_WEEK": "Atlikts līdz nākamajai nedēļai",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Atlikts līdz nākamajai atbildei"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Atlikts līdz nākamajai atbildei",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "nokavēti",
+        "DUE": "jābeidz"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Atzīmēt kā neapstiprinātu",
