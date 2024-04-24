@@ -17,6 +17,12 @@
       @delete="onDelete"
       @copy="onCopy"
     />
+    <p
+      v-if="!displayedAttributes.length && emptyStateMessage"
+      class="p-3 text-center"
+    >
+      {{ emptyStateMessage }}
+    </p>
     <!-- Show more and show less buttons show it if the filteredAttributes length is greater than 5 -->
     <div v-if="filteredAttributes.length > 5" class="flex px-2 py-2">
       <woot-button
@@ -58,6 +64,10 @@ export default {
     attributeFrom: {
       type: String,
       required: true,
+    },
+    emptyStateMessage: {
+      type: String,
+      default: '',
     },
   },
   data() {
