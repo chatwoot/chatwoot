@@ -73,14 +73,14 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   def make_youtube_embed(youtube_match)
     video_id = youtube_match[1]
     %(
-      <iframe
-        width="560"
-        height="315"
+      <div style="position: relative; padding-bottom: 62.5%; height: 0;">
+       <iframe
         src="https://www.youtube.com/embed/#{video_id}"
         frameborder="0"
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-      ></iframe>
+        allowfullscreen></iframe>
+      </div>
     )
   end
 
@@ -88,7 +88,7 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
     video_id = loom_match[1]
     %(
       <div style="position: relative; padding-bottom: 62.5%; height: 0;">
-      <iframe
+        <iframe
          src="https://www.loom.com/embed/#{video_id}"
          frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen
          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
@@ -99,14 +99,15 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   def make_vimeo_embed(vimeo_match)
     video_id = vimeo_match[1]
     %(
-      <iframe
+      <div style="position: relative; padding-bottom: 62.5%; height: 0;">
+       <iframe
         src="https://player.vimeo.com/video/#{video_id}"
-        width="640"
-        height="360"
         frameborder="0"
         allow="autoplay; fullscreen; picture-in-picture"
         allowfullscreen
-      ></iframe>
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+       ></iframe>
+       </div>
     )
   end
 
