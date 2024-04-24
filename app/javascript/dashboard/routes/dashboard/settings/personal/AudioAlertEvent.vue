@@ -9,97 +9,64 @@
       class="flex flex-row justify-between h-10 max-w-xl p-2 border border-solid rounded-md border-ash-200"
     >
       <div
+        v-for="option in options"
+        :key="option.value"
         class="flex flex-row items-center justify-center gap-2 px-4 border-r border-ash-200 grow"
+        :class="{
+          'border-r-0': option.value === options[options.length - 1].value,
+        }"
       >
         <input
-          id="audio_enable_alert_none"
-          v-model="localAudioAlert"
+          :id="`radio-${option.value}`"
+          v-model="selectedValue"
           class="accent-primary-600"
           type="radio"
-          value="none"
-          @input="onChange"
+          :value="option.value"
+          @change="emitChange"
         />
         <label
+          :for="`radio-${option.value}`"
           class="text-sm font-medium text-ash-900"
-          :class="{ 'text-ash-400': localAudioAlert !== 'none' }"
+          :class="{ 'text-ash-400': selectedValue !== option.value }"
         >
-          {{
-            $t(
-              'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPE.NONE'
-            )
-          }}
-        </label>
-      </div>
-      <div
-        class="flex flex-row items-center justify-center gap-2 px-4 border-r border-ash-200 grow"
-      >
-        <input
-          id="audio_enable_alert_mine"
-          v-model="localAudioAlert"
-          class="accent-primary-600"
-          type="radio"
-          value="mine"
-          @input="onChange"
-        />
-        <label
-          class="text-sm font-medium text-ash-900"
-          :class="{ 'text-ash-400': localAudioAlert !== 'mine' }"
-        >
-          {{
-            $t(
-              'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPE.ASSIGNED'
-            )
-          }}
-        </label>
-      </div>
-      <div class="flex flex-row items-center justify-center gap-2 px-4 grow">
-        <input
-          id="audio_enable_alert_all"
-          v-model="localAudioAlert"
-          class="accent-primary-600"
-          type="radio"
-          value="all"
-          @input="onChange"
-        />
-        <label
-          class="text-sm font-medium text-ash-900"
-          :class="{ 'text-ash-400': localAudioAlert !== 'all' }"
-        >
-          {{
-            $t(
-              'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPE.ALL_CONVERSATIONS'
-            )
-          }}
+          {{ option.label }}
         </label>
       </div>
     </div>
   </div>
 </template>
+
 <script setup>
 import { ref, watch } from 'vue';
 
 const props = defineProps({
-  audioAlert: {
-    type: String,
-    default: '',
-  },
   label: {
     type: String,
     default: '',
   },
+  value: {
+    type: String,
+    default: 'all',
+  },
 });
 
-const localAudioAlert = ref(props.audioAlert);
+const options = [
+  { value: 'all', label: 'All' },
+  { value: 'mentions', label: 'Mentions' },
+  { value: 'none', label: 'None' },
+];
+
+const selectedValue = ref(props.value);
 
 watch(
-  () => props.audioAlert,
+  () => props.value,
   newValue => {
-    localAudioAlert.value = newValue;
+    selectedValue.value = newValue;
   }
 );
 
-const emit = defineEmits(['change']);
-const onChange = e => {
-  emit('change', e);
+const emit = defineEmits(['update']);
+const emitChange = e => {
+  emit('update', e);
 };
 </script>

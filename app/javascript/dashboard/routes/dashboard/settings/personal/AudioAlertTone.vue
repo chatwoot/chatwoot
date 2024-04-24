@@ -1,9 +1,9 @@
 <template>
   <form-select
-    v-model="localAlertTone"
+    v-model="selectedValue"
     name="alertTone"
     spacing="compact"
-    :value="localAlertTone"
+    :value="selectedValue"
     :options="alertTones"
     :label="label"
     class="max-w-xl"
@@ -13,18 +13,18 @@
       v-for="tone in alertTones"
       :key="tone.label"
       :value="tone.value"
-      :selected="tone.value === alertTone"
+      :selected="tone.value === selectedValue"
     >
       {{ tone.label }}
     </option>
   </form-select>
 </template>
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import FormSelect from 'v3/components/Form/Select.vue';
 
 const props = defineProps({
-  alertTone: {
+  value: {
     type: String,
     default: '',
   },
@@ -34,10 +34,18 @@ const props = defineProps({
   },
 });
 
-const localAlertTone = ref(props.alertTone);
+const selectedValue = ref(props.value);
+
+watch(
+  () => props.value,
+  newValue => {
+    selectedValue.value = newValue;
+  }
+);
+
 const emit = defineEmits(['change']);
 const onChange = () => {
-  emit('change', localAlertTone.value);
+  emit('change', selectedValue.value);
 };
 const alertTones = computed(() => [
   {

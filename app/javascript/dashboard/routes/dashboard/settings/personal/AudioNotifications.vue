@@ -1,7 +1,7 @@
 <template>
   <div id="profile-settings-notifications" class="flex flex-col gap-6">
     <audio-alert-tone
-      :alert-tone="alertTone"
+      :value="alertTone"
       :label="
         $t(
           'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.DEFAULT_TONE.TITLE'
@@ -14,11 +14,12 @@
       :label="
         $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPE.TITLE')
       "
-      :audio-alert="audioAlert"
-      @change="handleAudioInput"
+      :value="audioAlert"
+      @update="handAudioAlertChange"
     />
 
     <audio-alert-condition
+      :items="audioAlertConditions"
       :label="
         $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.CONDITIONS.TITLE')
       "
@@ -51,6 +52,7 @@ export default {
       playAudioWhenTabIsInactive: false,
       alertIfUnreadConversationExist: false,
       alertTone: 'ding',
+      audioAlertConditions: [],
     };
   },
   computed: {
@@ -80,9 +82,27 @@ export default {
       this.audioAlert = audioAlert;
       this.playAudioWhenTabIsInactive = !alwaysPlayAudioAlert;
       this.alertIfUnreadConversationExist = alertIfUnreadConversationExist;
+      this.audioAlertConditions = [
+        {
+          id: 'audio1',
+          label: this.$t(
+            'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.CONDITIONS.CONDITION_ONE'
+          ),
+          model: this.playAudioWhenTabIsInactive,
+          value: 'tab_is_inactive',
+        },
+        {
+          id: 'audio2',
+          label: this.$t(
+            'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.CONDITIONS.CONDITION_TWO'
+          ),
+          model: this.alertIfUnreadConversationExist,
+          value: 'conversations_are_read',
+        },
+      ];
       this.alertTone = alertTone || 'ding';
     },
-    handleAudioInput(e) {
+    handAudioAlertChange(e) {
       this.audioAlert = e.target.value;
       this.updateUISettings({
         enable_audio_alerts: this.audioAlert,
