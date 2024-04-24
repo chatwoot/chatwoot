@@ -3,7 +3,7 @@
     <woot-message-editor
       id="message-signature-input"
       v-model="messageSignature"
-      class="message-editor h-[10rem]"
+      class="message-editor h-[10rem] !px-3"
       :is-format-mode="true"
       :placeholder="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE.PLACEHOLDER')"
       :enabled-menu-options="customEditorMenuList"
@@ -83,15 +83,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.message-editor {
-  @apply px-3;
-
-  ::v-deep {
-    .ProseMirror-menubar {
-      @apply left-2;
-    }
-  }
-}
-</style>

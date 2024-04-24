@@ -8,17 +8,17 @@
     <div class="flex flex-col gap-2 items-center w-full rounded-t-[5px]">
       <div class="flex items-center justify-between w-full gap-1">
         <div class="flex items-center text-base font-medium text-ash-900">
-          {{ heading }}
+          {{ title }}
         </div>
         <input
           :checked="active"
           type="radio"
           name="hotkey"
-          @change="$emit('update', 'enter')"
+          @change="$emit('click')"
         />
       </div>
       <span class="text-ash-900 text-sm leading-[1.4] text-start">
-        {{ content }}
+        {{ description }}
       </span>
     </div>
 
@@ -35,11 +35,11 @@ defineProps({
     type: Boolean,
     default: false,
   },
-  heading: {
+  title: {
     type: String,
     default: '',
   },
-  content: {
+  description: {
     type: String,
     default: '',
   },

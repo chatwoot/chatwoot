@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center w-full overflow-y-auto">
     <div
-      class="flex flex-col h-full p-5 pt-16 mx-auto my-0 bg-white dark:bg-slate-900 font-inter"
+      class="flex flex-col h-full p-5 pt-16 mx-auto my-0 bg-white font-inter"
     >
       <div class="flex flex-col gap-16 sm:max-w-[720px]">
         <div class="flex flex-col gap-6">
@@ -46,16 +46,16 @@
               class="flex flex-col justify-between w-full gap-5 sm:gap-4 sm:flex-row"
             >
               <button
-                v-for="keyOption in keyOptions"
-                :key="keyOption.key"
+                v-for="hotKey in hotKeys"
+                :key="hotKey.key"
                 class="reset-base"
               >
                 <hot-key-card
-                  :heading="keyOption.heading"
-                  :content="keyOption.content"
-                  :src="keyOption.src"
-                  :active="isEditorHotKeyEnabled(uiSettings, keyOption.key)"
-                  @click="toggleEditorMessageKey(keyOption.key)"
+                  :title="hotKey.title"
+                  :description="hotKey.description"
+                  :src="hotKey.src"
+                  :active="isEditorHotKeyEnabled(uiSettings, hotKey.key)"
+                  @click="toggleHotKey(hotKey.key)"
                 />
               </button>
             </div>
@@ -142,26 +142,26 @@ export default {
       email: '',
       isProfileUpdating: false,
       errorMessage: '',
-      keyOptions: [
+      hotKeys: [
         {
           key: 'enter',
-          src: '/assets/images/dashboard/profile/hot-key-enter.svg',
-          heading: this.$t(
+          title: this.$t(
             'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.HEADING'
           ),
-          content: this.$t(
+          description: this.$t(
             'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.CONTENT'
           ),
+          src: '/assets/images/dashboard/profile/hot-key-enter.svg',
         },
         {
           key: 'cmd_enter',
-          src: '/assets/images/dashboard/profile/hot-key-ctrl-enter.svg',
-          heading: this.$t(
+          title: this.$t(
             'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.HEADING'
           ),
-          content: this.$t(
+          description: this.$t(
             'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.CONTENT'
           ),
+          src: '/assets/images/dashboard/profile/hot-key-ctrl-enter.svg',
         },
       ],
     };
@@ -237,7 +237,10 @@ export default {
         this.showAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_FAILED'));
       }
     },
-    toggleEditorMessageKey(key) {
+    toggleHotKey(key) {
+      this.hotKeys = this.hotKeys.map(hotKey =>
+        hotKey.key === key ? { ...hotKey, active: !hotKey.active } : hotKey
+      );
       this.updateUISettings({ editor_message_key: key });
       this.showAlert(
         this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.UPDATE_SUCCESS')
