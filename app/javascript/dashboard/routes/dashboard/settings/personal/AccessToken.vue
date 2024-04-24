@@ -10,7 +10,7 @@
       :has-error="false"
       :error-message="$t('REGISTER.FULL_NAME.ERROR')"
     />
-    <v3-button
+    <form-button
       type="submit"
       size="large"
       icon="text-copy"
@@ -19,12 +19,12 @@
       @click="onClick"
     >
       {{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.COPY') }}
-    </v3-button>
+    </form-button>
   </div>
 </template>
 <script setup>
 import FormInput from 'v3/components/Form/Input.vue';
-import V3Button from 'v3/components/Form/Button.vue';
+import FormButton from 'v3/components/Form/Button.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 
 const props = defineProps({

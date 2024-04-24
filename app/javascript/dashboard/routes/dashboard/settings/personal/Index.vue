@@ -110,10 +110,11 @@ import alertMixin from 'shared/mixins/alertMixin';
 import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from '../../../../store/utils/api';
 import { hasValidAvatarUrl } from 'dashboard/helper/URLHelper';
-import NotificationPreferences from './NotificationPreferences.vue';
-import AudioNotifications from './AudioNotifications.vue';
+
 import UserProfilePicture from './UserProfilePicture.vue';
 import UserBasicDetails from './UserBasicDetails.vue';
+import NotificationPreferences from './NotificationPreferences.vue';
+import AudioNotifications from './AudioNotifications.vue';
 import MessageSignature from './MessageSignature.vue';
 import ProfileWrapper from './ProfileWrapper.vue';
 import HotKeyCard from './HotKeyCard.vue';
@@ -140,7 +141,6 @@ export default {
       name: '',
       displayName: '',
       email: '',
-      isProfileUpdating: false,
       errorMessage: '',
       hotKeys: [
         {
@@ -198,7 +198,6 @@ export default {
     isEditorHotKeyEnabled,
     async updateUser(user) {
       const { name, email, displayName } = user;
-      this.isProfileUpdating = true;
       const hasEmailChanged = this.currentUser.email !== email;
       try {
         await this.$store.dispatch('updateProfile', {
@@ -207,7 +206,6 @@ export default {
           avatar: this.avatarFile,
           displayName: displayName,
         });
-        this.isProfileUpdating = false;
         if (hasEmailChanged) {
           clearCookiesOnLogout();
           this.errorMessage = this.$t('PROFILE_SETTINGS.AFTER_EMAIL_CHANGED');
@@ -219,7 +217,6 @@ export default {
           this.errorMessage = error.response.data.error;
         }
       } finally {
-        this.isProfileUpdating = false;
         this.showAlert(this.errorMessage);
       }
     },

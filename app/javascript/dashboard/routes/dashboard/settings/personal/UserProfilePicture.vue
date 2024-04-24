@@ -31,7 +31,7 @@
         />
         <button
           v-if="src && shouldShowUploadIcon"
-          class="absolute z-10 flex items-center justify-center w-6 h-6 p-1 border border-white rounded-full select-none reset-base -top-2 -right-2 dark:border-white bg-slate-200 dark:bg-slate-700"
+          class="absolute z-10 flex items-center justify-center w-6 h-6 p-1 border border-white rounded-full select-none reset-base -top-2 -right-2 bg-ash-300"
           @click="onAvatarDelete"
         >
           <fluent-icon

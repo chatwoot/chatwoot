@@ -34,24 +34,24 @@
       :error-message="$t('PROFILE_SETTINGS.FORM.EMAIL.ERROR')"
       @blur="$v.userEmail.$touch"
     />
-    <v3-button
+    <form-button
       type="submit"
       color-scheme="primary"
       variant="solid"
       size="large"
     >
       {{ $t('PROFILE_SETTINGS.BTN_TEXT') }}
-    </v3-button>
+    </form-button>
   </form>
 </template>
 <script>
-import V3Button from 'v3/components/Form/Button.vue';
+import FormButton from 'v3/components/Form/Button.vue';
 import FormInput from 'v3/components/Form/Input.vue';
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import alertMixin from 'shared/mixins/alertMixin';
 export default {
   components: {
-    V3Button,
+    FormButton,
     FormInput,
   },
   mixins: [alertMixin],
