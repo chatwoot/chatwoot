@@ -134,26 +134,24 @@ export const isLastDayOfMonth = day => {
 };
 
 export const dayIsInRange = (date, startDate, endDate) => {
-  if (startDate && endDate) {
-    // Normalize dates to ignore time differences
-    const startOfDayStart = startOfDay(startDate);
-    const startOfDayEnd = startOfDay(endDate);
-
-    // Check if the date is the same as the start date
-    if (isSameDay(date, startOfDayStart)) {
-      return true;
-    }
-
-    // Swap if start is greater than end
-    if (startOfDayStart > startOfDayEnd) {
-      [startOfDayStart, startOfDayEnd] = [startOfDayEnd, startOfDayStart];
-    }
-    return isWithinInterval(date, {
+  if (!startDate || !endDate) {
+    return false;
+  }
+  // Normalize dates to ignore time differences
+  let startOfDayStart = startOfDay(startDate);
+  let startOfDayEnd = startOfDay(endDate);
+  // Swap if start is greater than end
+  if (startOfDayStart > startOfDayEnd) {
+    [startOfDayStart, startOfDayEnd] = [startOfDayEnd, startOfDayStart];
+  }
+  // Check if the date is within the interval or is the same as the start date
+  return (
+    isSameDay(date, startOfDayStart) ||
+    isWithinInterval(date, {
       start: startOfDayStart,
       end: startOfDayEnd,
-    });
-  }
-  return false;
+    })
+  );
 };
 
 // Handling hovering states in date range pickers
