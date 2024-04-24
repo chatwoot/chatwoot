@@ -1,3 +1,95 @@
+<script setup>
+import { computed, defineProps } from 'vue';
+
+import format from 'date-fns/format';
+import getDay from 'date-fns/getDay';
+
+import { getQuantileIntervals } from '@chatwoot/utils';
+
+import { groupHeatmapByDay } from 'helpers/ReportsDataHelper';
+import { useI18n } from 'dashboard/composables/useI18n';
+
+const { t } = useI18n();
+const props = defineProps({
+  heatData: {
+    type: Array,
+    default: () => [],
+  },
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const processedData = computed(() => {
+  return groupHeatmapByDay(props.heatData);
+});
+
+const quantileRange = computed(() => {
+  const flattendedData = props.heatData.map(data => data.value);
+  return getQuantileIntervals(flattendedData, [0.2, 0.4, 0.6, 0.8, 0.9, 0.99]);
+});
+
+function getCountTooltip(value) {
+  if (!value) {
+    return t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.NO_CONVERSATIONS');
+  }
+
+  if (value === 1) {
+    return t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.CONVERSATION', {
+      count: value,
+    });
+  }
+
+  return t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.CONVERSATIONS', {
+    count: value,
+  });
+}
+
+function formatDate(dateString) {
+  return format(new Date(dateString), 'MMM d, yyyy');
+}
+
+function getDayOfTheWeek(date) {
+  const dayIndex = getDay(date);
+  const days = [
+    t('DAYS_OF_WEEK.SUNDAY'),
+    t('DAYS_OF_WEEK.MONDAY'),
+    t('DAYS_OF_WEEK.TUESDAY'),
+    t('DAYS_OF_WEEK.WEDNESDAY'),
+    t('DAYS_OF_WEEK.THURSDAY'),
+    t('DAYS_OF_WEEK.FRIDAY'),
+    t('DAYS_OF_WEEK.SATURDAY'),
+  ];
+  return days[dayIndex];
+}
+function getHeatmapLevelClass(value) {
+  if (!value)
+    return 'outline-slate-100 dark:outline-slate-700 dark:bg-slate-700/40 bg-slate-50/50';
+
+  let level = [...quantileRange.value, Infinity].findIndex(
+    range => value <= range && value > 0
+  );
+
+  if (level > 6) level = 5;
+
+  if (level === 0) {
+    return 'outline-slate-100 dark:outline-slate-700 dark:bg-slate-700/40 bg-slate-50/50';
+  }
+
+  const classes = [
+    'bg-woot-50 dark:bg-woot-800/40 dark:outline-woot-800/80',
+    'bg-woot-100 dark:bg-woot-800/30 dark:outline-woot-800/80',
+    'bg-woot-200 dark:bg-woot-500/40 dark:outline-woot-700/80',
+    'bg-woot-300 dark:bg-woot-500/60 dark:outline-woot-600/80',
+    'bg-woot-600 dark:bg-woot-500/80 dark:outline-woot-500/80',
+    'bg-woot-800 dark:bg-woot-500 dark:outline-woot-400/80',
+  ];
+
+  return classes[level - 1];
+}
+</script>
+
 <template>
   <div
     class="grid relative w-full gap-x-4 gap-y-2.5 overflow-y-scroll md:overflow-visible grid-cols-[80px_1fr] min-h-72"
@@ -81,96 +173,3 @@
     </template>
   </div>
 </template>
-<script>
-import { getQuantileIntervals } from '@chatwoot/utils';
-import format from 'date-fns/format';
-import getDay from 'date-fns/getDay';
-
-import { groupHeatmapByDay } from 'helpers/ReportsDataHelper';
-
-export default {
-  name: 'Heatmap',
-  props: {
-    heatData: {
-      type: Array,
-      default: () => [],
-    },
-    isLoading: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  computed: {
-    processedData() {
-      return groupHeatmapByDay(this.heatData);
-    },
-    quantileRange() {
-      const flattendedData = this.heatData.map(data => data.value);
-      return getQuantileIntervals(
-        flattendedData,
-        [0.2, 0.4, 0.6, 0.8, 0.9, 0.99]
-      );
-    },
-  },
-  methods: {
-    getCountTooltip(value) {
-      if (!value) {
-        return this.$t(
-          'OVERVIEW_REPORTS.CONVERSATION_HEATMAP.NO_CONVERSATIONS'
-        );
-      }
-
-      if (value === 1) {
-        return this.$t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.CONVERSATION', {
-          count: value,
-        });
-      }
-
-      return this.$t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.CONVERSATIONS', {
-        count: value,
-      });
-    },
-    formatDate(dateString) {
-      return format(new Date(dateString), 'MMM d, yyyy');
-    },
-    getDayOfTheWeek(date) {
-      const dayIndex = getDay(date);
-      const days = [
-        this.$t('DAYS_OF_WEEK.SUNDAY'),
-        this.$t('DAYS_OF_WEEK.MONDAY'),
-        this.$t('DAYS_OF_WEEK.TUESDAY'),
-        this.$t('DAYS_OF_WEEK.WEDNESDAY'),
-        this.$t('DAYS_OF_WEEK.THURSDAY'),
-        this.$t('DAYS_OF_WEEK.FRIDAY'),
-        this.$t('DAYS_OF_WEEK.SATURDAY'),
-      ];
-      return days[dayIndex];
-    },
-    getHeatmapLevelClass(value) {
-      if (!value)
-        return 'outline-slate-100 dark:outline-slate-700 dark:bg-slate-700/40 bg-slate-50/50';
-
-      let level = [...this.quantileRange, Infinity].findIndex(
-        range => value <= range && value > 0
-      );
-
-      if (level > 6) level = 5;
-
-      if (level === 0) {
-        return 'outline-slate-100 dark:outline-slate-700 dark:bg-slate-700/40 bg-slate-50/50';
-      }
-
-      const classes = [
-        'bg-woot-50 dark:bg-woot-800/40 dark:outline-woot-800/80',
-        'bg-woot-100 dark:bg-woot-800/30 dark:outline-woot-800/80',
-        'bg-woot-200 dark:bg-woot-500/40 dark:outline-woot-700/80',
-        'bg-woot-300 dark:bg-woot-500/60 dark:outline-woot-600/80',
-        'bg-woot-600 dark:bg-woot-500/80 dark:outline-woot-500/80',
-        'bg-woot-800 dark:bg-woot-500 dark:outline-woot-400/80',
-      ];
-
-      return classes[level - 1];
-    },
-  },
-};
-</script>
