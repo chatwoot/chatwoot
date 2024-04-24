@@ -1,5 +1,6 @@
 class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   YOUTUBE_REGEX = %r{https?://(?:www\.)?(?:youtube\.com/watch\?v=|youtu\.be/)([^&/]+)}
+  LOOM_REGEX = %r{https?://(?:www\.)?loom\.com/share/([^&/]+)}
   VIMEO_REGEX = %r{https?://(?:www\.)?vimeo\.com/(\d+)}
   MP4_REGEX = %r{https?://(?:www\.)?.+\.(mp4)}
 
@@ -41,23 +42,19 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
 
   def render_embedded_content(node)
     link_url = node.url
+    embedding_methods = {
+      YOUTUBE_REGEX => :make_youtube_embed,
+      VIMEO_REGEX => :make_vimeo_embed,
+      MP4_REGEX => :make_video_embed,
+      LOOM_REGEX => :make_loom_embed
+    }
 
-    youtube_match = link_url.match(YOUTUBE_REGEX)
-    if youtube_match
-      out(make_youtube_embed(youtube_match))
-      return true
-    end
-
-    vimeo_match = link_url.match(VIMEO_REGEX)
-    if vimeo_match
-      out(make_vimeo_embed(vimeo_match))
-      return true
-    end
-
-    mp4_match = link_url.match(MP4_REGEX)
-    if mp4_match
-      out(make_video_embed(link_url))
-      return true
+    embedding_methods.each do |regex, method|
+      match = link_url.match(regex)
+      if match
+        out(send(method, match))
+        return true
+      end
     end
 
     false
@@ -82,6 +79,21 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
         src="https://www.youtube.com/embed/#{video_id}"
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    )
+  end
+
+  def make_loom_embed(loom_match)
+    video_id = loom_match[1]
+    %(
+      <iframe
+        src="https://www.loom.com/embed/#{video_id}"
+        width="640"
+        height="360"
+        frameborder="0"
+        webkitallowfullscreen
+        mozallowfullscreen
         allowfullscreen
       ></iframe>
     )
