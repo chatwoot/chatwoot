@@ -2,7 +2,7 @@
   <div
     class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full px-4 py-0 border-t-0 border-b-0 border-l-2 border-r-0 border-transparent border-solid cursor-pointer conversation hover:bg-slate-25 dark:hover:bg-slate-800 group"
     :class="{
-      'animate-card-select bg-slate-25 dark:bg-slate-800 border-woot-500':
+      'animate-card-select bg-slate-25 dark:bg-slate-800 border-woot-500 active':
         isActiveChat,
       'unread-chat': hasUnread,
       'has-inbox-name': showInboxName,
