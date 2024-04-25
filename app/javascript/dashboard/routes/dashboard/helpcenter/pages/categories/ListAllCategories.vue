@@ -1,63 +1,3 @@
-<template>
-  <div class="w-full max-w-5xl">
-    <header class="flex items-center justify-between mb-4">
-      <div class="flex items-center w-full gap-3">
-        <label
-          class="mb-0 text-base font-normal text-slate-800 dark:text-slate-100"
-        >
-          {{ $t('HELP_CENTER.PORTAL.EDIT.CATEGORIES.TITLE') }}
-        </label>
-        <select
-          :value="currentLocaleCode"
-          class="w-[15%] h-8 mb-0 py-0.5"
-          @change="changeCurrentCategory"
-        >
-          <option
-            v-for="allowedLocaleCode in allowedLocaleCodes"
-            :key="allowedLocaleCode"
-            :value="allowedLocaleCode"
-          >
-            {{ allowedLocaleCode }}
-          </option>
-        </select>
-      </div>
-      <div class="items-center flex-none">
-        <woot-button
-          size="small"
-          variant="smooth"
-          color-scheme="primary"
-          icon="add"
-          @click="openAddCategoryModal"
-        >
-          {{ $t('HELP_CENTER.PORTAL.EDIT.CATEGORIES.NEW_CATEGORY') }}
-        </woot-button>
-      </div>
-    </header>
-    <div class="category-list">
-      <category-list-item
-        :categories="categoriesByLocaleCode"
-        @delete="deleteCategory"
-        @edit="openEditCategoryModal"
-      />
-    </div>
-    <edit-category
-      v-if="showEditCategoryModal"
-      :show.sync="showEditCategoryModal"
-      :portal-name="currentPortalName"
-      :locale="selectedCategory.locale"
-      :category="selectedCategory"
-      :selected-portal-slug="currentPortalSlug"
-      @cancel="closeEditCategoryModal"
-    />
-    <add-category
-      v-if="showAddCategoryModal"
-      :show.sync="showAddCategoryModal"
-      :portal-name="currentPortalName"
-      :locale="currentLocaleCode"
-      @cancel="closeAddCategoryModal"
-    />
-  </div>
-</template>
 <script setup>
 import { useRoute } from 'dashboard/composables/route';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
@@ -161,3 +101,64 @@ function changeCurrentCategory(event) {
   fetchCategoriesByPortalSlugAndLocale(localeCode);
 }
 </script>
+
+<template>
+  <div class="w-full max-w-5xl">
+    <header class="flex items-center justify-between mb-4">
+      <div class="flex items-center w-full gap-3">
+        <label
+          class="mb-0 text-base font-normal text-slate-800 dark:text-slate-100"
+        >
+          {{ $t('HELP_CENTER.PORTAL.EDIT.CATEGORIES.TITLE') }}
+        </label>
+        <select
+          :value="currentLocaleCode"
+          class="w-[15%] h-8 mb-0 py-0.5"
+          @change="changeCurrentCategory"
+        >
+          <option
+            v-for="allowedLocaleCode in allowedLocaleCodes"
+            :key="allowedLocaleCode"
+            :value="allowedLocaleCode"
+          >
+            {{ allowedLocaleCode }}
+          </option>
+        </select>
+      </div>
+      <div class="items-center flex-none">
+        <woot-button
+          size="small"
+          variant="smooth"
+          color-scheme="primary"
+          icon="add"
+          @click="openAddCategoryModal"
+        >
+          {{ $t('HELP_CENTER.PORTAL.EDIT.CATEGORIES.NEW_CATEGORY') }}
+        </woot-button>
+      </div>
+    </header>
+    <div class="category-list">
+      <category-list-item
+        :categories="categoriesByLocaleCode"
+        @delete="deleteCategory"
+        @edit="openEditCategoryModal"
+      />
+    </div>
+    <edit-category
+      v-if="showEditCategoryModal"
+      :show.sync="showEditCategoryModal"
+      :portal-name="currentPortalName"
+      :locale="selectedCategory.locale"
+      :category="selectedCategory"
+      :selected-portal-slug="currentPortalSlug"
+      @cancel="closeEditCategoryModal"
+    />
+    <add-category
+      v-if="showAddCategoryModal"
+      :show.sync="showAddCategoryModal"
+      :portal-name="currentPortalName"
+      :locale="currentLocaleCode"
+      @cancel="closeAddCategoryModal"
+    />
+  </div>
+</template>
