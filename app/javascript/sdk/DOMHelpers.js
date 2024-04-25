@@ -1,9 +1,13 @@
 import { SDK_CSS } from './sdk.js';
+import { SDK_CSS_STANDARD } from './sdk_standard.js';
 import { IFrameHelper } from './IFrameHelper';
 
 export const loadCSS = () => {
   const css = document.createElement('style');
-  css.innerHTML = `${SDK_CSS}`;
+  css.innerHTML =
+    window.$chatwoot.type === 'expanded_bubble'
+      ? `${SDK_CSS}`
+      : `${SDK_CSS_STANDARD}`;
   document.body.appendChild(css);
 };
 
