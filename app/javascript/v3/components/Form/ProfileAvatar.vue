@@ -49,7 +49,7 @@
 </template>
 <script setup>
 import { computed, ref } from 'vue';
-import InitialsAvatar from 'v3/components/Form/InitialsAvatar.vue';
+import InitialsAvatar from './InitialsAvatar.vue';
 const props = defineProps({
   src: {
     type: String,
