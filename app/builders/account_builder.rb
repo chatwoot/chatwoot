@@ -12,6 +12,7 @@ class AccountBuilder
     ActiveRecord::Base.transaction do
       @account = create_account
       @user = create_and_link_user
+      SalesPipeline.generate_template(@account.id)
     end
     [@user, @account]
   rescue StandardError => e

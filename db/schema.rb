@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_04_15_210313) do
+ActiveRecord::Schema[7.0].define(version: 2024_04_24_145716) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -411,7 +411,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_15_210313) do
     t.string "oa_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index "oa_id", name: "index_channel_zalo_oa_on_oa_id", unique: true
     t.index ["oa_id", "account_id"], name: "index_channel_zalo_oa_on_oa_id_and_account_id", unique: true
   end
 
@@ -865,6 +864,19 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_15_210313) do
     t.index ["inbox_id"], name: "index_reporting_events_on_inbox_id"
     t.index ["name"], name: "index_reporting_events_on_name"
     t.index ["user_id"], name: "index_reporting_events_on_user_id"
+  end
+
+  create_table "sales_pipelines", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.integer "stage_type", null: false
+    t.string "short_name", null: false
+    t.string "name", null: false
+    t.string "description"
+    t.integer "status", null: false
+    t.boolean "disabled", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "short_name"], name: "index_sales_pipelines_on_account_id_and_short_name", unique: true
   end
 
   create_table "sla_events", force: :cascade do |t|
