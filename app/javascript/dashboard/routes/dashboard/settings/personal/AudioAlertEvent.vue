@@ -19,7 +19,7 @@
         <input
           :id="`radio-${option.value}`"
           v-model="selectedValue"
-          class="shadow cursor-pointer grid place-items-center border-2 border-ash-200 appearance-none rounded-full w-5 h-5 checked:bg-primary-600 before:content-[''] before:bg-primary-600 before:border-4 before:rounded-full before:border-ash-25 checked:before:w-[16px] checked:before:h-[16px] checked:border checked:border-primary-600"
+          class="shadow cursor-pointer grid place-items-center border-2 border-ash-200 appearance-none rounded-full w-4 h-4 checked:bg-primary-600 before:content-[''] before:bg-primary-600 before:border-4 before:rounded-full before:border-ash-25 checked:before:w-[14px] checked:before:h-[14px] checked:border checked:border-primary-600"
           type="radio"
           :value="option.value"
           @change="emitChange"
@@ -51,9 +51,9 @@ const props = defineProps({
 });
 
 const options = [
-  { value: 'all', label: 'All' },
-  { value: 'mentions', label: 'Mentions' },
   { value: 'none', label: 'None' },
+  { value: 'assigned', label: 'Assigned' },
+  { value: 'all', label: 'All' },
 ];
 
 const selectedValue = ref(props.value);

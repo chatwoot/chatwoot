@@ -9,6 +9,7 @@
       placeholder="Please enter your new password"
       :has-error="false"
       :error-message="$t('REGISTER.FULL_NAME.ERROR')"
+      disabled
     />
     <form-button
       type="submit"

@@ -1,8 +1,6 @@
 <template>
   <div class="flex items-center w-full overflow-y-auto">
-    <div
-      class="flex flex-col h-full p-5 pt-16 mx-auto my-0 bg-white dark:bg-slate-900 font-inter"
-    >
+    <div class="flex flex-col h-full p-5 pt-16 mx-auto my-0 font-inter">
       <div class="flex flex-col gap-16 sm:max-w-[720px]">
         <div class="flex flex-col gap-6">
           <h2 class="mt-4 text-2xl font-medium text-ash-900">
