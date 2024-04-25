@@ -19,7 +19,7 @@
     </span>
     <fluent-icon
       v-if="!$slots.default"
-      :size="iconSize"
+      size="1.16em"
       icon="chevron-right"
       class="flex-shrink-0"
     />
@@ -35,7 +35,8 @@ const props = defineProps({
   },
   size: {
     type: String,
-    default: '',
+    default: 'large',
+    validator: value => ['medium', 'large'].includes(value),
   },
   icon: {
     type: String,
@@ -50,6 +51,12 @@ const props = defineProps({
 const emits = defineEmits(['click']);
 const attrs = useAttrs();
 
+const baseClasses = {
+  outline: 'outline outline-1 -outline-offset-1 focus:ring focus:ring-offset-1',
+  ghost: 'hover:text-600 active:text-600 focus:ring focus:ring-offset-1',
+  default: ' hover:bg-700 active:bg-700 focus:ring focus:ring-offset-1',
+};
+
 const colorClass = computed(() => {
   if (attrs.disabled) {
     return 'bg-ash-200 text-ash-600 cursor-not-allowed';
@@ -57,28 +64,19 @@ const colorClass = computed(() => {
 
   const styleMap = {
     primary: {
-      outline:
-        'text-primary-800 outline outline-1 -outline-offset-1  outline-primary-400 hover:text-primary-600 active:text-primary-600 focus:ring focus:ring-offset-1 focus:ring-primary-400',
-      ghost:
-        'text-primary-800 hover:text-primary-600 active:text-primary-600 focus:ring focus:ring-offset-1 focus:ring-primary-400',
-      default:
-        'bg-primary-600 outline-primary-600 text-white hover:bg-primary-700 active:bg-primary-700 focus:ring focus:ring-offset-1 focus:ring-primary-400',
+      outline: `${baseClasses.outline} outline-primary-400 hover:text-primary-600 active:text-primary-600 focus:ring-primary-400`,
+      ghost: `${baseClasses.ghost} focus:ring-primary-400`,
+      default: `${baseClasses.default} bg-primary-600 text-white focus:ring-primary-400`,
     },
     secondary: {
-      outline:
-        'text-ash-800 outline outline-1 -outline-offset-1 outline-ash-400 hover:text-ash-600 active:text-ash-600 focus:ring focus:ring-offset-1 focus:ring-ash-400',
-      ghost:
-        'text-ash-800 hover:text-ash-600 active:text-ash-600 focus:ring focus:ring-offset-1 focus:ring-ash-400',
-      default:
-        'bg-ash-100 text-ash-900 hover:bg-ash-200 active:bg-ash-200 focus:ring focus:ring-offset-1 focus:ring-ash-400',
+      outline: `${baseClasses.outline} outline-ash-400 hover:text-ash-600 active:text-ash-600 focus:ring-ash-400`,
+      ghost: `${baseClasses.ghost} focus:ring-ash-400`,
+      default: `${baseClasses.default} bg-ash-100 text-ash-900 focus:ring-ash-400`,
     },
     danger: {
-      outline:
-        'text-ruby-800 outline outline-1 -outline-offset-1 outline-ruby-400 hover:text-ruby-600 active:text-ruby-600 focus:ring focus:ring-offset-1 focus:ring-ruby-400',
-      ghost:
-        'text-ruby-800 hover:text-ruby-600 active:text-ruby-600 focus:ring focus:ring-offset-1 focus:ring-ruby-400',
-      default:
-        'bg-ruby-600 text-white hover:bg-ruby-700 active:bg-ruby-700 focus:ring focus:ring-offset-1 focus:ring-ruby-400',
+      outline: `${baseClasses.outline} outline-ruby-400 hover:text-ruby-600 active:text-ruby-600 focus:ring-ruby-400`,
+      ghost: `${baseClasses.ghost} focus:ring-ruby-400`,
+      default: `${baseClasses.default} bg-ruby-600 text-white focus:ring-ruby-400`,
     },
   };
 
