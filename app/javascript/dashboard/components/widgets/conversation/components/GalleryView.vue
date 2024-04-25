@@ -12,7 +12,7 @@
       @click="onClose"
     >
       <div
-        class="z-10 flex items-center justify-between w-full h-16 px-6 py-2 bg-white dark:bg-slate-900"
+        class="bg-white dark:bg-slate-900 z-10 flex items-center justify-between w-full h-16 px-6 py-2"
         @click.stop
       >
         <div
@@ -167,7 +167,7 @@
           />
         </div>
       </div>
-      <div class="z-10 flex items-center justify-center w-full h-16 px-6 py-2">
+      <div class="flex items-center justify-center w-full h-16 px-6 py-2 z-10">
         <div
           class="items-center rounded-sm flex font-semibold justify-center min-w-[5rem] p-1 bg-slate-25 dark:bg-slate-800 text-slate-600 dark:text-slate-200 text-sm"
         >

@@ -1,15 +1,15 @@
 <template>
-  <div class="relative mt-2 phone-input--wrap">
+  <div class="phone-input--wrap relative mt-2">
     <div
-      class="flex items-center justify-start w-full border border-solid rounded outline-none phone-input"
+      class="phone-input rounded w-full flex items-center justify-start outline-none border border-solid"
       :class="inputHasError"
     >
       <div
-        class="flex items-center justify-between h-full px-2 py-2 cursor-pointer country-emoji--wrap"
+        class="country-emoji--wrap h-full cursor-pointer flex items-center justify-between px-2 py-2"
         :class="dropdownClass"
         @click="toggleCountryDropdown"
       >
-        <h5 v-if="activeCountry.emoji" class="mb-0 text-xl">
+        <h5 v-if="activeCountry.emoji" class="text-xl mb-0">
           {{ activeCountry.emoji }}
         </h5>
         <fluent-icon v-else icon="globe" class="fluent-icon" size="20" />
@@ -17,7 +17,7 @@
       </div>
       <span
         v-if="activeDialCode"
-        class="py-2 pl-2 pr-0 text-base"
+        class="py-2 pr-0 pl-2 text-base"
         :class="$dm('text-slate-700', 'dark:text-slate-50')"
       >
         {{ activeDialCode }}
@@ -25,7 +25,7 @@
       <input
         :value="phoneNumber"
         type="phoneInput"
-        class="w-full h-full py-2 pl-2 pr-3 leading-tight border-0 rounded-r outline-none"
+        class="border-0 w-full py-2 pl-2 pr-3 leading-tight outline-none h-full rounded-r"
         name="phoneNumber"
         :placeholder="placeholder"
         :class="inputLightAndDarkModeColor"
@@ -38,7 +38,7 @@
       ref="dropdown"
       v-on-clickaway="closeDropdown"
       :class="dropdownBackgroundClass"
-      class="absolute z-10 h-48 px-0 pt-0 pb-1 pl-1 pr-1 overflow-y-auto rounded shadow-lg country-dropdown top-12"
+      class="country-dropdown h-48 overflow-y-auto z-10 absolute top-12 px-0 pt-0 pl-1 pr-1 pb-1 rounded shadow-lg"
     >
       <div class="sticky top-0" :class="dropdownBackgroundClass">
         <input
@@ -46,7 +46,7 @@
           v-model="searchCountry"
           type="text"
           placeholder="Search country"
-          class="w-full h-8 px-3 py-2 mt-1 mb-1 text-sm border border-solid rounded outline-none dropdown-search"
+          class="dropdown-search h-8 text-sm mb-1 mt-1 w-full rounded py-2 px-3 outline-none border border-solid"
           :class="[$dm('bg-slate-50', 'dark:bg-slate-600'), inputBorderColor]"
         />
       </div>
@@ -54,7 +54,7 @@
         v-for="(country, index) in items"
         ref="dropdownItem"
         :key="index"
-        class="flex items-center h-8 px-2 py-2 rounded cursor-pointer country-dropdown--item"
+        class="country-dropdown--item h-8 flex items-center cursor-pointer rounded py-2 px-2"
         :class="[
           dropdownItemClass,
           country.id === activeCountryCode ? activeDropdownItemClass : '',
@@ -65,14 +65,14 @@
         <span v-if="country.emoji" class="mr-2 text-xl">{{
           country.emoji
         }}</span>
-        <span class="text-sm leading-5 truncate">
+        <span class="truncate text-sm leading-5">
           {{ country.name }}
         </span>
         <span class="ml-2 text-xs">{{ country.dial_code }}</span>
       </div>
       <div v-if="items.length === 0">
         <span
-          class="flex justify-center mt-4 text-sm text-center"
+          class="text-sm mt-4 justify-center text-center flex"
           :class="$dm('text-slate-700', 'dark:text-slate-50')"
         >
           {{ $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.DROPDOWN_EMPTY') }}

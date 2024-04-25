@@ -24,12 +24,12 @@
         class="flex-1 max-w-full overflow-hidden whitespace-nowrap text-ellipsis"
       >
         <h5
-          class="mb-0 overflow-hidden text-sm mention--user-name text-slate-900 dark:text-slate-100 whitespace-nowrap text-ellipsis"
+          class="mention--user-name mb-0 text-sm text-slate-900 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis"
         >
           {{ agent.name }}
         </h5>
         <div
-          class="overflow-hidden text-xs mention--email whitespace-nowrap text-ellipsis text-slate-700 dark:text-slate-300"
+          class="mention--email overflow-hidden whitespace-nowrap text-ellipsis text-slate-700 dark:text-slate-300 text-xs"
         >
           {{ agent.email }}
         </div>
