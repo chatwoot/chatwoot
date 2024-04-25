@@ -17,7 +17,7 @@ export const useStoreGetters = () => {
   );
 };
 
-export const mapGetter = key => {
+export const mapGetter = () => {
   const store = useStore();
-  return computed(() => store.getters[key]);
+  return getter => computed(() => store.getters[getter]);
 };

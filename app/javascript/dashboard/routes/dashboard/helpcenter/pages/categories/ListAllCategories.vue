@@ -2,7 +2,7 @@
 import { useRoute } from 'dashboard/composables/route';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { useI18n } from 'dashboard/composables/useI18n';
-import { useAlert } from 'dashboard/composables/useAlert';
+import { useAlert, useTrack } from 'dashboard/composables';
 
 import { defineComponent, ref, computed } from 'vue';
 
@@ -81,7 +81,7 @@ async function deleteCategory(category) {
       categoryId: category.id,
     });
     alertMessage.value = t('HELP_CENTER.CATEGORY.DELETE.API.SUCCESS_MESSAGE');
-    this.$track(PORTALS_EVENTS.DELETE_CATEGORY, {
+    useTrack(PORTALS_EVENTS.DELETE_CATEGORY, {
       hasArticles: category?.meta?.articles_count !== 0,
     });
   } catch (error) {
