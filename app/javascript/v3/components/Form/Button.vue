@@ -4,7 +4,12 @@
     :class="buttonClasses"
     v-bind="$attrs"
   >
-    <fluent-icon v-if="icon && !trailingIcon" size="1.16em" :icon="icon" class="flex-shrink-0" />
+    <fluent-icon
+      v-if="icon && !trailingIcon"
+      size="1.16em"
+      :icon="icon"
+      class="flex-shrink-0"
+    />
     <span
       v-if="$slots.default"
       class="text-sm font-medium truncate ltr:text-left rtl:text-right"
