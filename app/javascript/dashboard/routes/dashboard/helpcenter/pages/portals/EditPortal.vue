@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="flex-1">
     <settings-header
       button-route="new"
       :header-title="$t('HELP_CENTER.PORTAL.EDIT.HEADER_TEXT')"
@@ -100,9 +100,6 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.wrapper {
-  flex: 1;
-}
 ::v-deep .tabs {
   padding-left: 0;
 }

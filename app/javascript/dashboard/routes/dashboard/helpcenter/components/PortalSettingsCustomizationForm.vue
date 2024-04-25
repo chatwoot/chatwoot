@@ -149,12 +149,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 ::v-deep {
-  input {
-    @apply mb-1;
-  }
-  .help-text {
-    @apply mb-0;
-  }
   .colorpicker--selected {
     @apply mb-0;
   }

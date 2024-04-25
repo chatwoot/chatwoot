@@ -9,7 +9,7 @@
         </label>
         <select
           :value="currentLocaleCode"
-          class="w-[15%] select-locale"
+          class="w-[15%] h-8 mb-0 py-0.5"
           @change="changeCurrentCategory"
         >
           <option
@@ -169,8 +169,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.select-locale {
-  @apply h-8 mb-0 py-0.5;
-}
-</style>
