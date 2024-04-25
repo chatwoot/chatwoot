@@ -12,9 +12,9 @@
       <slot />
     </span>
     <fluent-icon
-      v-if="!$slots.default"
+      v-if="trailingIcon"
       size="1.16em"
-      icon="chevron-right"
+      :icon="trailingIcon"
       class="flex-shrink-0"
     />
   </button>
@@ -26,7 +26,7 @@ const props = defineProps({
   variant: {
     type: String,
     default: 'solid',
-    validator: value => ['outline', 'ghost', 'solid'].includes(value)
+    validator: value => ['outline', 'ghost', 'solid'].includes(value),
   },
   size: {
     type: String,
@@ -40,7 +40,11 @@ const props = defineProps({
   colorScheme: {
     type: String,
     default: 'primary',
-    validator: value => ['primary', 'secondary', 'danger'].includes(value)
+    validator: value => ['primary', 'secondary', 'danger'].includes(value),
+  },
+  trailingIcon: {
+    type: String,
+    default: '',
   },
 });
 
