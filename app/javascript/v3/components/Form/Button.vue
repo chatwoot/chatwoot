@@ -25,7 +25,8 @@ import { computed, defineProps, useAttrs } from 'vue';
 const props = defineProps({
   variant: {
     type: String,
-    default: '',
+    default: 'solid',
+    validator: value => ['outline', 'ghost', 'solid'].includes(value)
   },
   size: {
     type: String,
@@ -39,6 +40,7 @@ const props = defineProps({
   colorScheme: {
     type: String,
     default: 'primary',
+    validator: value => ['primary', 'secondary', 'danger'].includes(value)
   },
 });
 
@@ -47,7 +49,7 @@ const attrs = useAttrs();
 const baseClasses = {
   outline: 'outline outline-1 -outline-offset-1 focus:ring focus:ring-offset-1',
   ghost: 'hover:text-600 active:text-600 focus:ring focus:ring-offset-1',
-  default: 'hover:bg-700 active:bg-700 focus:ring focus:ring-offset-1',
+  solid: 'hover:bg-700 active:bg-700 focus:ring focus:ring-offset-1',
 };
 
 const colorClass = computed(() => {
@@ -59,24 +61,22 @@ const colorClass = computed(() => {
     primary: {
       outline: `${baseClasses.outline} outline-primary-400 hover:text-primary-600 active:text-primary-600 focus:ring-primary-400`,
       ghost: `${baseClasses.ghost} focus:ring-primary-400`,
-      default: `${baseClasses.default} bg-primary-600 text-white focus:ring-primary-400`,
+      solid: `${baseClasses.solid} bg-primary-600 text-white focus:ring-primary-400`,
     },
     secondary: {
       outline: `${baseClasses.outline} outline-ash-400 hover:text-ash-600 active:text-ash-600 focus:ring-ash-400`,
       ghost: `${baseClasses.ghost} focus:ring-ash-400`,
-      default: `${baseClasses.default} bg-ash-100 text-ash-900 focus:ring-ash-400`,
+      solid: `${baseClasses.solid} bg-ash-100 text-ash-900 focus:ring-ash-400`,
     },
     danger: {
       outline: `${baseClasses.outline} outline-ruby-400 hover:text-ruby-600 active:text-ruby-600 focus:ring-ruby-400`,
       ghost: `${baseClasses.ghost} focus:ring-ruby-400`,
-      default: `${baseClasses.default} bg-ruby-600 text-white focus:ring-ruby-400`,
+      solid: `${baseClasses.solid} bg-ruby-600 text-white focus:ring-ruby-400`,
     },
   };
 
-  const schemeStyles = styleMap[props.colorScheme] || {};
-  const variantStyle = schemeStyles[props.variant] || schemeStyles.default;
-
-  return variantStyle;
+  const schemeStyles = styleMap[props.colorScheme];
+  return schemeStyles[props.variant] || schemeStyles.solid;
 });
 
 const sizeClass = computed(() => {
