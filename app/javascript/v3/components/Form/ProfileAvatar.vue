@@ -11,14 +11,14 @@
       <fluent-icon icon="person" type="filled" size="40" class="text-ash-50" />
     </div>
     <img
-      v-if="shouldShowImage"
+      v-else-if="shouldShowImage"
       class="rounded-xl h-[72px] w-[72px]"
       :src="src"
       draggable="false"
       @load="onImageLoad"
       @error="onImageLoadError"
     />
-    <initials-avatar v-if="!shouldShowImage" username="name" :size="72" />
+    <initials-avatar v-else-if="!shouldShowImage" :name="name" :size="72" />
 
     <input
       ref="fileInputRef"
