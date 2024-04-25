@@ -77,7 +77,6 @@
   </div>
 </template>
 <script>
-import { hasPressedAltAndOKey } from 'shared/helpers/KeyboardHelpers';
 import { mapGetters } from 'vuex';
 import agentMixin from '../../../mixins/agentMixin.js';
 import BackButton from '../BackButton.vue';
@@ -182,10 +181,12 @@ export default {
   },
 
   methods: {
-    handleKeyEvents(e) {
-      if (hasPressedAltAndOKey(e)) {
-        this.$emit('contact-panel-toggle');
-      }
+    getKeyboardEvents() {
+      return {
+        'Alt+KeyO': {
+          action: () => this.$emit('contact-panel-toggle'),
+        },
+      };
     },
   },
 };
