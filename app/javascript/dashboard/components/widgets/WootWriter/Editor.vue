@@ -78,8 +78,6 @@ const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 import {
   hasPressedEnterAndNotCmdOrShift,
   hasPressedCommandAndEnter,
-  hasPressedAltAndPKey,
-  hasPressedAltAndLKey,
 } from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
@@ -522,13 +520,21 @@ export default {
     isCmdPlusEnterToSendEnabled() {
       return isEditorHotKeyEnabled(this.uiSettings, 'cmd_enter');
     },
-    handleKeyEvents(e) {
-      if (hasPressedAltAndPKey(e)) {
-        this.focusEditorInputField();
-      }
-      if (hasPressedAltAndLKey(e)) {
-        this.focusEditorInputField();
-      }
+    getKeyboardEvents() {
+      return {
+        'Alt+KeyP': {
+          action: () => {
+            this.focusEditorInputField();
+          },
+          allowOnFocusedInput: true,
+        },
+        'Alt+KeyL': {
+          action: () => {
+            this.focusEditorInputField();
+          },
+          allowOnFocusedInput: true,
+        },
+      };
     },
     focusEditorInputField(pos = 'end') {
       const { tr } = this.editorView.state;
