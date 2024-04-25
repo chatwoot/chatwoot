@@ -2,6 +2,7 @@
 import { useRoute } from 'dashboard/composables/route';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { useI18n } from 'dashboard/composables/useI18n';
+import { useAlert } from 'dashboard/composables/useAlert';
 
 import { defineComponent, ref, computed } from 'vue';
 
@@ -73,10 +74,6 @@ async function fetchCategoriesByPortalSlugAndLocale(localeCode) {
   });
 }
 
-function showAlert(message, action) {
-  bus.$emit('newToastMessage', message, action);
-}
-
 async function deleteCategory(category) {
   try {
     await store.dispatch('categories/delete', {
@@ -92,7 +89,7 @@ async function deleteCategory(category) {
     alertMessage.value =
       errorMessage || t('HELP_CENTER.CATEGORY.DELETE.API.ERROR_MESSAGE');
   } finally {
-    showAlert(alertMessage.value);
+    useAlert(alertMessage.value);
   }
 }
 function changeCurrentCategory(event) {
