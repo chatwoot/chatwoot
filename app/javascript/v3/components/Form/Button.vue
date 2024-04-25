@@ -45,17 +45,13 @@ const props = defineProps({
     type: String,
     default: 'primary',
   },
-  iconOnly: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 const emits = defineEmits(['click']);
 const attrs = useAttrs();
 
 const colorClass = computed(() => {
-  if (props.isDisabled) {
+  if (attrs.disabled) {
     return 'bg-ash-200 text-ash-600 cursor-not-allowed';
   }
 
