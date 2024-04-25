@@ -15,6 +15,12 @@ import { computed } from 'vue';
 const colors = {
   1: 'bg-ash-200 text-ash-900',
   2: 'bg-amber-200 text-amber-900',
+  3: 'bg-pink-100 text-pink-800',
+  4: 'bg-purple-100 text-purple-800',
+  5: 'bg-indigo-100 text-indigo-800',
+  6: 'bg-grass-100 text-grass-800',
+  7: 'bg-mint-100 text-mint-800',
+  8: 'bg-orange-100 text-orange-800',
 };
 
 const props = defineProps({
@@ -33,7 +39,7 @@ const style = computed(() => ({
 }));
 
 const colorClass = computed(() => {
-  return colors[(props.username.length % 2) + 1];
+  return colors[(props.username.length % 8) + 1];
 });
 
 const userInitial = computed(() => {
