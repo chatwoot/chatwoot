@@ -7,7 +7,7 @@
     @click="handleClick"
   >
     <fluent-icon
-      v-if="icon && !iconOnly"
+      v-if="shouldShowLeftIcon"
       :size="iconSize"
       :icon="icon"
       class="flex-shrink-0"
@@ -19,7 +19,7 @@
       <slot />
     </span>
     <fluent-icon
-      v-if="rightIcon || iconOnly"
+      v-if="shouldShowRightIcon"
       :size="iconSize"
       icon="chevron-right"
       class="flex-shrink-0"
@@ -33,6 +33,7 @@ const props = defineProps({
   type: {
     type: String,
     default: 'submit',
+    validator: value => ['button', 'submit', 'reset'].includes(value),
   },
   variant: {
     type: String,
@@ -68,6 +69,14 @@ const props = defineProps({
   },
 });
 const emits = defineEmits(['click']);
+
+const shouldShowRightIcon = computed(() => {
+  return props.rightIcon || props.iconOnly;
+});
+
+const shouldShowLeftIcon = computed(() => {
+  return props.icon && !props.iconOnly;
+});
 
 const colorClass = computed(() => {
   if (props.isDisabled) {
@@ -125,7 +134,9 @@ const buttonClasses = computed(() => [
   sizeClass.value,
   props.classNames,
 ]);
-const handleClick = () => {
-  emits('click');
+const handleClick = event => {
+  if (!props.isDisabled) {
+    emits('click', event);
+  }
 };
 </script>
