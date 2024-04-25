@@ -1,5 +1,5 @@
 <script setup>
-import { computed, defineProps } from 'vue';
+import { computed } from 'vue';
 
 import format from 'date-fns/format';
 import getDay from 'date-fns/getDay';
