@@ -100,8 +100,8 @@ export default {
       ];
       this.alertTone = alertTone || 'ding';
     },
-    handAudioAlertChange(e) {
-      this.audioAlert = e.target.value;
+    handAudioAlertChange(value) {
+      this.audioAlert = value;
       this.updateUISettings({
         enable_audio_alerts: this.audioAlert,
       });

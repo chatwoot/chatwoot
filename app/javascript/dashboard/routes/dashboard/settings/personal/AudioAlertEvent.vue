@@ -37,6 +37,7 @@
 
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'dashboard/composables/useI18n';
 
 const props = defineProps({
   label: {
@@ -49,10 +50,27 @@ const props = defineProps({
   },
 });
 
+const { t } = useI18n();
+
 const options = [
-  { value: 'none', label: 'None' },
-  { value: 'assigned', label: 'Assigned' },
-  { value: 'all', label: 'All' },
+  {
+    value: 'none',
+    label: t(
+      'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPES.NONE'
+    ),
+  },
+  {
+    value: 'mine',
+    label: t(
+      'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPES.MINE'
+    ),
+  },
+  {
+    value: 'all',
+    label: t(
+      'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPES.ALL'
+    ),
+  },
 ];
 
 const emit = defineEmits(['update']);

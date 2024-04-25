@@ -63,6 +63,11 @@
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Notifications",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "ALERT_TYPES": {
+          "NONE": "None",
+          "MINE": "Assigned",
+          "ALL": "All"
+        },
         "ALERT_TYPE": {
           "TITLE": "Alert events for conversations:",
           "NONE": "None",

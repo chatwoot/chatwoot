@@ -38,5 +38,6 @@ const style = computed(() => ({
 const colorClass = computed(() => {
   return colors[(props.name.length % 8) + 1];
 });
-const initial = userInitial(props.name);
+
+const initial = computed(() => userInitial(props.name));
 </script>
