@@ -26,7 +26,7 @@
         'px-3 py-2 mb-0': spacing === 'compact',
         'pl-9': icon,
       }"
-      disabled
+      :disabled="disabled"
       class="block w-full h-10 ltr:pl-3 ltr:pr-2 rtl:pl-2 rtl:pr-3 py-2.5 !border-none shadow-sm appearance-none reset-base rounded-xl outline outline-1 focus:outline-1 text-ash-900 placeholder:text-ash-200 sm:text-sm sm:leading-6"
       @input="onInput"
       @blur="$emit('blur')"
