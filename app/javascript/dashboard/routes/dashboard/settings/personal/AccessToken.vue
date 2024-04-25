@@ -14,7 +14,7 @@
       type="submit"
       size="large"
       icon="text-copy"
-      variant="hollow"
+      variant="ghost"
       color-scheme="secondary"
       @click="onClick"
     >
