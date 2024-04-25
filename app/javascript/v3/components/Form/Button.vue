@@ -54,7 +54,7 @@ const attrs = useAttrs();
 const baseClasses = {
   outline: 'outline outline-1 -outline-offset-1 focus:ring focus:ring-offset-1',
   ghost: 'hover:text-600 active:text-600 focus:ring focus:ring-offset-1',
-  default: ' hover:bg-700 active:bg-700 focus:ring focus:ring-offset-1',
+  default: 'hover:bg-700 active:bg-700 focus:ring focus:ring-offset-1',
 };
 
 const colorClass = computed(() => {
@@ -66,17 +66,17 @@ const colorClass = computed(() => {
     primary: {
       outline: `${baseClasses.outline} outline-primary-400 hover:text-primary-600 active:text-primary-600 focus:ring-primary-400`,
       ghost: `${baseClasses.ghost} focus:ring-primary-400`,
-      default: `bg-primary-600 text-white ${baseClasses.default} focus:ring-primary-400`,
+      default: `${baseClasses.default} bg-primary-600 text-white focus:ring-primary-400`,
     },
     secondary: {
       outline: `${baseClasses.outline} outline-ash-400 hover:text-ash-600 active:text-ash-600 focus:ring-ash-400`,
       ghost: `${baseClasses.ghost} focus:ring-ash-400`,
-      default: `bg-ash-100 text-ash-900 ${baseClasses.default} focus:ring-ash-400`,
+      default: `${baseClasses.default} bg-ash-100 text-ash-900 focus:ring-ash-400`,
     },
     danger: {
       outline: `${baseClasses.outline} outline-ruby-400 hover:text-ruby-600 active:text-ruby-600 focus:ring-ruby-400`,
       ghost: `${baseClasses.ghost} focus:ring-ruby-400`,
-      default: `bg-ruby-600 text-white ${baseClasses.default} focus:ring-ruby-400`,
+      default: `${baseClasses.default} bg-ruby-600 text-white focus:ring-ruby-400`,
     },
   };
 
