@@ -9,11 +9,12 @@
       class="flex flex-row justify-between h-10 max-w-xl p-2 border border-solid rounded-xl border-ash-200"
     >
       <div
-        v-for="option in options"
+        v-for="option in alertEvents"
         :key="option.value"
         class="flex flex-row items-center justify-center gap-2 px-4 border-r border-ash-200 grow"
         :class="{
-          'border-r-0': option.value === options[options.length - 1].value,
+          'border-r-0':
+            option.value === alertEvents[alertEvents.length - 1].value,
         }"
       >
         <input
@@ -52,7 +53,7 @@ const props = defineProps({
 
 const { t } = useI18n();
 
-const options = [
+const alertEvents = [
   {
     value: 'none',
     label: t(
