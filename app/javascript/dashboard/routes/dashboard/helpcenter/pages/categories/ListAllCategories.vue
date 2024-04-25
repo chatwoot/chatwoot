@@ -1,9 +1,9 @@
 <template>
-  <div class="w-full pl-4">
-    <header class="flex justify-between items-center mb-4">
+  <div class="w-full max-w-5xl">
+    <header class="flex items-center justify-between mb-4">
       <div class="flex items-center w-full gap-3">
         <label
-          class="font-normal mb-0 text-base text-slate-800 dark:text-slate-100"
+          class="mb-0 text-base font-normal text-slate-800 dark:text-slate-100"
         >
           {{ $t('HELP_CENTER.PORTAL.EDIT.CATEGORIES.TITLE') }}
         </label>
@@ -21,7 +21,7 @@
           </option>
         </select>
       </div>
-      <div class="flex-none items-center">
+      <div class="items-center flex-none">
         <woot-button
           size="small"
           variant="smooth"

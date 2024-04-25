@@ -1,25 +1,20 @@
 <template>
-  <div
-    class="pt-3 bg-white dark:bg-slate-900 h-full border border-solid border-transparent px-6 pb-6 dark:border-transparent w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+  <SettingsLayout
+    :title="
+      $t('HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.CUSTOMIZATION_PAGE.TITLE')
+    "
   >
-    <div class="w-full">
-      <h3 class="text-lg text-black-900 dark:text-slate-200">
-        {{
-          $t('HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.CUSTOMIZATION_PAGE.TITLE')
-        }}
-      </h3>
-    </div>
     <div
-      class="my-4 mx-0 border-b border-solid border-slate-25 dark:border-slate-800"
+      class="mx-0 my-4 border-b border-solid border-slate-25 dark:border-slate-800"
     >
-      <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+      <div class="flex-grow-0 flex-shrink-0">
         <div class="mb-4">
           <label>
             {{ $t('HELP_CENTER.PORTAL.ADD.THEME_COLOR.LABEL') }}
           </label>
           <woot-color-picker v-model="color" />
           <p
-            class="mt-1 mb-0 text-xs text-slate-600 dark:text-slate-400 not-italic"
+            class="mt-1 mb-0 text-xs not-italic text-slate-600 dark:text-slate-400"
           >
             {{ $t('HELP_CENTER.PORTAL.ADD.THEME_COLOR.HELP_TEXT') }}
           </p>
@@ -59,7 +54,7 @@
         </div>
       </div>
     </div>
-    <div class="flex justify-end">
+    <template #footer-right>
       <woot-button
         :is-loading="isSubmitting"
         :is-disabled="$v.$invalid"
@@ -71,8 +66,8 @@
           )
         }}
       </woot-button>
-    </div>
-  </div>
+    </template>
+  </SettingsLayout>
 </template>
 
 <script>
@@ -81,11 +76,12 @@ import { getRandomColor } from 'dashboard/helper/labelColor';
 
 import alertMixin from 'shared/mixins/alertMixin';
 import wootConstants from 'dashboard/constants/globals';
+import SettingsLayout from './Layout/SettingsLayout.vue';
 
 const { EXAMPLE_URL } = wootConstants;
 
 export default {
-  components: {},
+  components: { SettingsLayout },
   mixins: [alertMixin],
   props: {
     portal: {

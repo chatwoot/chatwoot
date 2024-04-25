@@ -1,6 +1,6 @@
 <template>
-  <div class="portal-locales">
-    <div class="button-container">
+  <div class="w-full h-full max-w-5xl space-y-4 bg-white dark:bg-slate-900">
+    <div class="flex justify-end">
       <woot-button
         variant="smooth"
         size="small"
@@ -11,14 +11,12 @@
         {{ $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.ADD') }}
       </woot-button>
     </div>
-    <div class="locale-container">
-      <locale-item-table
-        :locales="locales"
-        :selected-locale-code="currentPortal.meta.default_locale"
-        @change-default-locale="changeDefaultLocale"
-        @delete="deletePortalLocale"
-      />
-    </div>
+    <locale-item-table
+      :locales="locales"
+      :selected-locale-code="currentPortal.meta.default_locale"
+      @change-default-locale="changeDefaultLocale"
+      @delete="deletePortalLocale"
+    />
     <woot-modal
       :show.sync="isAddLocaleModalOpen"
       :on-close="closeAddLocaleModal"
@@ -142,15 +140,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.portal-locales {
-  @apply w-full bg-white dark:bg-slate-900 h-full py-0 pr-0 pl-4;
-  .button-container {
-    @apply flex justify-end;
-  }
-  .locale-container {
-    @apply mt-4;
-  }
-}
-</style>

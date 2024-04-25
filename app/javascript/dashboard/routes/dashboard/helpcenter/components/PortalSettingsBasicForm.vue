@@ -1,83 +1,72 @@
 <template>
-  <div
-    class="pt-3 bg-white dark:bg-slate-900 h-full border border-solid border-transparent px-6 pb-6 dark:border-transparent w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+  <SettingsLayout
+    :title="
+      $t('HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.BASIC_SETTINGS_PAGE.TITLE')
+    "
   >
-    <div class="w-full">
-      <h3 class="text-lg text-black-900 dark:text-slate-200">
-        {{
-          $t(
-            'HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.BASIC_SETTINGS_PAGE.TITLE'
-          )
-        }}
-      </h3>
-    </div>
-    <div
-      class="my-4 mx-0 border-b border-solid border-slate-25 dark:border-slate-800"
-    >
-      <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
-        <div class="mb-4">
-          <div class="flex items-center flex-row">
-            <woot-avatar-uploader
-              ref="imageUpload"
-              :label="$t('HELP_CENTER.PORTAL.ADD.LOGO.LABEL')"
-              :src="logoUrl"
-              @change="onFileChange"
-            />
-            <div v-if="showDeleteButton" class="avatar-delete-btn">
-              <woot-button
-                type="button"
-                color-scheme="alert"
-                variant="hollow"
-                size="small"
-                @click="deleteAvatar"
-              >
-                {{ $t('PROFILE_SETTINGS.DELETE_AVATAR') }}
-              </woot-button>
-            </div>
+    <div>
+      <div class="mb-4">
+        <div class="flex flex-row items-center">
+          <woot-avatar-uploader
+            ref="imageUpload"
+            :label="$t('HELP_CENTER.PORTAL.ADD.LOGO.LABEL')"
+            :src="logoUrl"
+            @change="onFileChange"
+          />
+          <div v-if="showDeleteButton" class="avatar-delete-btn">
+            <woot-button
+              type="button"
+              color-scheme="alert"
+              variant="hollow"
+              size="small"
+              @click="deleteAvatar"
+            >
+              {{ $t('PROFILE_SETTINGS.DELETE_AVATAR') }}
+            </woot-button>
           </div>
-          <p
-            class="mt-1 mb-0 text-xs text-slate-600 dark:text-slate-400 not-italic"
-          >
-            {{ $t('HELP_CENTER.PORTAL.ADD.LOGO.HELP_TEXT') }}
-          </p>
         </div>
-        <div class="mb-4">
-          <woot-input
-            v-model.trim="name"
-            :class="{ error: $v.name.$error }"
-            :error="nameError"
-            :label="$t('HELP_CENTER.PORTAL.ADD.NAME.LABEL')"
-            :placeholder="$t('HELP_CENTER.PORTAL.ADD.NAME.PLACEHOLDER')"
-            :help-text="$t('HELP_CENTER.PORTAL.ADD.NAME.HELP_TEXT')"
-            @blur="$v.name.$touch"
-            @input="onNameChange"
-          />
-        </div>
-        <div class="mb-4">
-          <woot-input
-            v-model.trim="slug"
-            :class="{ error: $v.slug.$error }"
-            :error="slugError"
-            :label="$t('HELP_CENTER.PORTAL.ADD.SLUG.LABEL')"
-            :placeholder="$t('HELP_CENTER.PORTAL.ADD.SLUG.PLACEHOLDER')"
-            :help-text="domainHelpText"
-            @blur="$v.slug.$touch"
-          />
-        </div>
-        <div class="mb-4">
-          <woot-input
-            v-model.trim="domain"
-            :class="{ error: $v.domain.$error }"
-            :label="$t('HELP_CENTER.PORTAL.ADD.DOMAIN.LABEL')"
-            :placeholder="$t('HELP_CENTER.PORTAL.ADD.DOMAIN.PLACEHOLDER')"
-            :help-text="domainExampleHelpText"
-            :error="domainError"
-            @blur="$v.domain.$touch"
-          />
-        </div>
+        <p
+          class="mt-1 mb-0 text-xs not-italic text-slate-600 dark:text-slate-400"
+        >
+          {{ $t('HELP_CENTER.PORTAL.ADD.LOGO.HELP_TEXT') }}
+        </p>
+      </div>
+      <div class="mb-4">
+        <woot-input
+          v-model.trim="name"
+          :class="{ error: $v.name.$error }"
+          :error="nameError"
+          :label="$t('HELP_CENTER.PORTAL.ADD.NAME.LABEL')"
+          :placeholder="$t('HELP_CENTER.PORTAL.ADD.NAME.PLACEHOLDER')"
+          :help-text="$t('HELP_CENTER.PORTAL.ADD.NAME.HELP_TEXT')"
+          @blur="$v.name.$touch"
+          @input="onNameChange"
+        />
+      </div>
+      <div class="mb-4">
+        <woot-input
+          v-model.trim="slug"
+          :class="{ error: $v.slug.$error }"
+          :error="slugError"
+          :label="$t('HELP_CENTER.PORTAL.ADD.SLUG.LABEL')"
+          :placeholder="$t('HELP_CENTER.PORTAL.ADD.SLUG.PLACEHOLDER')"
+          :help-text="domainHelpText"
+          @blur="$v.slug.$touch"
+        />
+      </div>
+      <div class="mb-4">
+        <woot-input
+          v-model.trim="domain"
+          :class="{ error: $v.domain.$error }"
+          :label="$t('HELP_CENTER.PORTAL.ADD.DOMAIN.LABEL')"
+          :placeholder="$t('HELP_CENTER.PORTAL.ADD.DOMAIN.PLACEHOLDER')"
+          :help-text="domainExampleHelpText"
+          :error="domainError"
+          @blur="$v.domain.$touch"
+        />
       </div>
     </div>
-    <div class="flex justify-end">
+    <template #footer-right>
       <woot-button
         :is-loading="isSubmitting"
         :is-disabled="$v.$invalid"
@@ -85,8 +74,8 @@
       >
         {{ submitButtonText }}
       </woot-button>
-    </div>
-  </div>
+    </template>
+  </SettingsLayout>
 </template>
 
 <script>
@@ -101,10 +90,13 @@ import { hasValidAvatarUrl } from 'dashboard/helper/URLHelper';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { uploadFile } from 'dashboard/helper/uploadHelper';
 
+import SettingsLayout from './Layout/SettingsLayout.vue';
+
 const { EXAMPLE_URL } = wootConstants;
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 
 export default {
+  components: { SettingsLayout },
   mixins: [alertMixin],
   props: {
     portal: {
