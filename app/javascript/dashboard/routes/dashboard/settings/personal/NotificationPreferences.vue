@@ -30,7 +30,7 @@
           class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
         >
           <div
-            class="flex items-center gap-2 col-span-7 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
+            class="flex flex-row items-start gap-2 col-span-7 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
           >
             <span class="text-sm text-ash-900">
               {{ $t(notification.label) }}
@@ -55,11 +55,11 @@
       <span class="text-sm font-medium uppercase text-ash-900">
         {{ $t('PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.TITLE') }}
       </span>
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col gap-4">
         <div
           v-for="(notification, index) in notificationTypes"
           :key="index"
-          class="flex flex-row items-center gap-2"
+          class="flex flex-row items-start gap-2"
         >
           <notification-check-box
             type="email"
@@ -71,18 +71,18 @@
         </div>
       </div>
 
-      <div class="flex items-center justify-between gap-2">
+      <div class="flex items-center justify-start gap-2">
         <span class="text-sm font-medium uppercase text-ash-900">
           {{ $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.TITLE') }}
         </span>
         <form-switch :value="true" @input="onRequestPermissions()" />
       </div>
 
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col gap-4">
         <div
           v-for="(notification, index) in notificationTypes"
           :key="index"
-          class="flex flex-row items-center gap-2"
+          class="flex flex-row items-start gap-2"
         >
           <notification-check-box
             type="push"

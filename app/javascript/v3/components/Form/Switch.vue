@@ -56,7 +56,7 @@ export default {
   }
 
   span {
-    @apply bg-white dark:bg-slate-900;
+    @apply bg-white dark:bg-white;
     --space-one-point-five: 0.9375rem;
     border-radius: 100%;
     box-shadow: var(--toggle-button-box-shadow);

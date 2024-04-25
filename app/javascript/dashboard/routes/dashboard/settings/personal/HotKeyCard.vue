@@ -4,6 +4,7 @@
     :class="{
       'border border-solid border-primary-300 ': active,
     }"
+    @click="$emit('click')"
   >
     <div class="flex flex-col gap-2 items-center w-full rounded-t-[5px]">
       <div class="flex items-center justify-between w-full gap-1">
@@ -14,8 +15,7 @@
           :checked="active"
           type="radio"
           name="hotkey"
-          class="shadow grid place-items-center border-2 border-ash-200 appearance-none rounded-full w-5 h-5 checked:bg-primary-600 before:content-[''] before:bg-primary-600 before:border-4 before:rounded-full before:border-ash-25 checked:before:w-[18px] checked:before:h-[18px] checked:border checked:border-primary-600"
-          @change="$emit('click')"
+          class="shadow cursor-pointer grid place-items-center border-2 border-ash-200 appearance-none rounded-full w-5 h-5 checked:bg-primary-600 before:content-[''] before:bg-primary-600 before:border-4 before:rounded-full before:border-ash-25 checked:before:w-[18px] checked:before:h-[18px] checked:border checked:border-primary-600"
         />
       </div>
       <span class="text-ash-900 text-sm line-clamp-2 leading-[1.4] text-start">

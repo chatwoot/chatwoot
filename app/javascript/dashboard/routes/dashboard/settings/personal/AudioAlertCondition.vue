@@ -16,7 +16,7 @@
           v-model="item.model"
           type="checkbox"
           :value="item.value"
-          class="mb-0 mt-0.5 border-[1.5px] flex-shrink-0 shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-primary-600 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
+          class="mt-1 dark:border-slate-600 checked:bg-primary-600 dark:checked:bg-primary-600 shadow appearance-none rounded-[4px] w-4 h-4 focus:ring-1 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center after:text-center after:text-xs after:font-bold after:relative"
           @input="onChange"
         />
         <label class="text-sm font-normal text-ash-900">
