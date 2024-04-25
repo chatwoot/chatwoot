@@ -1,25 +1,24 @@
 <template>
   <button
     class="inline-flex items-center gap-1 text-sm font-medium reset-base rounded-xl w-fit"
-    :type="type"
     :class="buttonClasses"
-    :disabled="isDisabled"
+    v-bind="$attrs"
     @click="handleClick"
   >
     <fluent-icon
-      v-if="shouldShowLeftIcon"
+      v-if="icon"
       :size="iconSize"
       :icon="icon"
       class="flex-shrink-0"
     />
     <span
-      v-if="$slots.default && !iconOnly"
-      class="text-sm font-medium text-left truncate rtl:text-right"
+      v-if="$slots.default"
+      class="text-sm font-medium truncate ltr:text-left rtl:text-right"
     >
       <slot />
     </span>
     <fluent-icon
-      v-if="shouldShowRightIcon"
+      v-if="!$slots.default"
       :size="iconSize"
       icon="chevron-right"
       class="flex-shrink-0"
@@ -27,14 +26,9 @@
   </button>
 </template>
 <script setup>
-import { computed, defineProps } from 'vue';
+import { computed, defineProps, useAttrs } from 'vue';
 
 const props = defineProps({
-  type: {
-    type: String,
-    default: 'submit',
-    validator: value => ['button', 'submit', 'reset'].includes(value),
-  },
   variant: {
     type: String,
     default: '',
@@ -51,32 +45,14 @@ const props = defineProps({
     type: String,
     default: 'primary',
   },
-  classNames: {
-    type: [String, Object],
-    default: '',
-  },
-  isDisabled: {
-    type: Boolean,
-    default: false,
-  },
-  rightIcon: {
-    type: Boolean,
-    default: false,
-  },
   iconOnly: {
     type: Boolean,
     default: false,
   },
 });
+
 const emits = defineEmits(['click']);
-
-const shouldShowRightIcon = computed(() => {
-  return props.rightIcon || props.iconOnly;
-});
-
-const shouldShowLeftIcon = computed(() => {
-  return props.icon && !props.iconOnly;
-});
+const attrs = useAttrs();
 
 const colorClass = computed(() => {
   if (props.isDisabled) {
@@ -125,17 +101,15 @@ const sizeClass = computed(() => {
 
 const iconSize = computed(() => {
   if (props.size === 'medium') {
-    return 14;
+    return '1em';
   }
-  return 16;
+  return '1.2em';
 });
-const buttonClasses = computed(() => [
-  colorClass.value,
-  sizeClass.value,
-  props.classNames,
-]);
+
+const buttonClasses = computed(() => [colorClass.value, sizeClass.value]);
+
 const handleClick = event => {
-  if (!props.isDisabled) {
+  if (attrs.disabled) {
     emits('click', event);
   }
 };
