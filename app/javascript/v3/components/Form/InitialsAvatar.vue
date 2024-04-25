@@ -24,7 +24,7 @@ const colors = {
 };
 
 const props = defineProps({
-  username: {
+  name: {
     type: String,
     default: '',
   },
@@ -39,11 +39,11 @@ const style = computed(() => ({
 }));
 
 const colorClass = computed(() => {
-  return colors[(props.username.length % 8) + 1];
+  return colors[(props.name.length % 8) + 1];
 });
 
 const userInitial = computed(() => {
-  const parts = props.username.split(/[ -]/).filter(Boolean);
+  const parts = props.name.split(/[ -]/).filter(Boolean);
   let initials = parts.map(part => part[0].toUpperCase()).join('');
   return initials.slice(0, 2);
 });

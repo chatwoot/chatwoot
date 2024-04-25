@@ -18,11 +18,7 @@
       @load="onImageLoad"
       @error="onImageLoadError"
     />
-    <initials-avatar
-      v-if="!shouldShowImage"
-      :username="userNameWithoutEmoji"
-      :size="72"
-    />
+    <initials-avatar v-if="!shouldShowImage" username="name" :size="72" />
 
     <input
       ref="fileInputRef"
@@ -54,7 +50,6 @@
 <script setup>
 import { computed, ref } from 'vue';
 import InitialsAvatar from 'v3/components/Form/InitialsAvatar.vue';
-import { removeEmoji } from 'shared/helpers/emoji';
 const props = defineProps({
   src: {
     type: String,
@@ -72,7 +67,6 @@ const hasImageLoaded = ref(false);
 const imageLoadedError = ref(false);
 const shouldShowUploadIcon = ref(false);
 const fileInputRef = ref(null);
-const userNameWithoutEmoji = computed(() => removeEmoji(props.name));
 
 const shouldShowFallback = computed(() => !props.src && !props.name);
 
