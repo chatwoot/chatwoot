@@ -3,14 +3,13 @@ import { useRoute } from 'dashboard/composables/route';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { useI18n } from 'dashboard/composables/useI18n';
 import { useAlert, useTrack } from 'dashboard/composables';
+import { PORTALS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 import { defineComponent, ref, computed } from 'vue';
 
 import CategoryListItem from './CategoryListItem.vue';
 import AddCategory from './AddCategory.vue';
 import EditCategory from './EditCategory.vue';
-
-import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 
 defineComponent({
   name: 'ListAllCategories',
@@ -38,7 +37,6 @@ const categoriesByLocaleCode = computed(() => {
 
 const currentPortal = computed(() => {
   const slug = currentPortalSlug.value;
-  window.getters = getters;
   if (slug) return getters['portals/portalBySlug'].value(slug);
 
   return getters['portals/allPortals'].value[0];
