@@ -100,7 +100,7 @@
       <attachment-preview
         class="flex-col mt-4"
         :attachments="attachedFiles"
-        :remove-attachment="removeAttachment"
+        @remove-attachment="removeAttachment"
       />
     </div>
     <message-signature-missing-alert
@@ -937,6 +937,13 @@ export default {
       this.bccEmails = '';
       this.toEmails = '';
     },
+    clearRecorder() {
+      this.isRecordingAudio = false;
+      // Only clear the recorded audio when we click toggle button.
+      this.attachedFiles = this.attachedFiles.filter(
+        file => !file?.isRecordedAudio
+      );
+    },
     toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
     },
@@ -944,8 +951,7 @@ export default {
       this.isRecordingAudio = !this.isRecordingAudio;
       this.isRecorderAudioStopped = !this.isRecordingAudio;
       if (!this.isRecordingAudio) {
-        this.clearMessage();
-        this.clearEmailField();
+        this.clearRecorder();
       }
     },
     toggleAudioRecorderPlayPause() {
@@ -989,7 +995,13 @@ export default {
       }
     },
     onFinishRecorder(file) {
-      return file && this.onFileUpload(file);
+      // Added a new key isRecordedAudio to the file to find it's and recorded audio
+      // Because to filter and show only non recorded audio and other attachments
+      const autoRecordedFile = {
+        ...file,
+        isRecordedAudio: true,
+      };
+      return file && this.onFileUpload(autoRecordedFile);
     },
     toggleTyping(status) {
       const conversationId = this.currentChat.id;
@@ -1015,13 +1027,12 @@ export default {
           isPrivate: this.isPrivate,
           thumb: reader.result,
           blobSignedId: blob ? blob.signed_id : undefined,
+          isRecordedAudio: file?.isRecordedAudio || false,
         });
       };
     },
-    removeAttachment(itemIndex) {
-      this.attachedFiles = this.attachedFiles.filter(
-        (item, index) => itemIndex !== index
-      );
+    removeAttachment(attachments) {
+      this.attachedFiles = attachments;
     },
     setReplyToInPayload(payload) {
       if (this.inReplyTo?.id) {
