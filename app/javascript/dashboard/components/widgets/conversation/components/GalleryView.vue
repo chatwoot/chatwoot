@@ -12,7 +12,7 @@
       @click="onClose"
     >
       <div
-        class="bg-white dark:bg-slate-900 z-10 flex items-center justify-between w-full h-16 px-6 py-2"
+        class="z-10 flex items-center justify-between w-full h-16 px-6 py-2 bg-white dark:bg-slate-900"
         @click.stop
       >
         <div
@@ -167,7 +167,7 @@
           />
         </div>
       </div>
-      <div class="flex items-center justify-center w-full h-16 px-6 py-2 z-10">
+      <div class="z-10 flex items-center justify-center w-full h-16 px-6 py-2">
         <div
           class="items-center rounded-sm flex font-semibold justify-center min-w-[5rem] p-1 bg-slate-25 dark:bg-slate-800 text-slate-600 dark:text-slate-200 text-sm"
         >
@@ -182,11 +182,6 @@
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
-import {
-  isEscape,
-  hasPressedArrowLeftKey,
-  hasPressedArrowRightKey,
-} from 'shared/helpers/KeyboardHelpers';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import timeMixin from 'dashboard/mixins/time';
 
@@ -304,20 +299,30 @@ export default {
       this.activeAttachment = attachment;
       this.activeFileType = type;
     },
-    onKeyDownHandler(e) {
-      if (isEscape(e)) {
-        this.onClose();
-      } else if (hasPressedArrowLeftKey(e)) {
-        this.onClickChangeAttachment(
-          this.allAttachments[this.activeImageIndex - 1],
-          this.activeImageIndex - 1
-        );
-      } else if (hasPressedArrowRightKey(e)) {
-        this.onClickChangeAttachment(
-          this.allAttachments[this.activeImageIndex + 1],
-          this.activeImageIndex + 1
-        );
-      }
+    getKeyboardEvents() {
+      return {
+        Escape: {
+          action: () => {
+            this.onClose();
+          },
+        },
+        ArrowLeft: {
+          action: () => {
+            this.onClickChangeAttachment(
+              this.allAttachments[this.activeImageIndex - 1],
+              this.activeImageIndex - 1
+            );
+          },
+        },
+        ArrowRight: {
+          action: () => {
+            this.onClickChangeAttachment(
+              this.allAttachments[this.activeImageIndex + 1],
+              this.activeImageIndex + 1
+            );
+          },
+        },
+      };
     },
     onClickDownload() {
       const { file_type: type, data_url: url } = this.activeAttachment;

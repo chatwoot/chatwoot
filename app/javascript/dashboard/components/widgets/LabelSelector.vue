@@ -35,11 +35,6 @@ import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import LabelDropdown from 'shared/components/ui/label/LabelDropdown.vue';
 import { mixin as clickaway } from 'vue-clickaway';
 import adminMixin from 'dashboard/mixins/isAdmin';
-import {
-  buildHotKeys,
-  isEscape,
-  isActiveElementTypeable,
-} from 'shared/helpers/KeyboardHelpers';
 
 export default {
   components: {
@@ -88,17 +83,19 @@ export default {
     closeDropdownLabel() {
       this.showSearchDropdownLabel = false;
     },
-
-    handleKeyEvents(e) {
-      const keyPattern = buildHotKeys(e);
-
-      if (keyPattern === 'l' && !isActiveElementTypeable(e)) {
-        this.toggleLabels();
-        e.preventDefault();
-      } else if (isEscape(e) && this.showSearchDropdownLabel) {
-        this.closeDropdownLabel();
-        e.preventDefault();
-      }
+    getKeyboardEvents() {
+      return {
+        KeyL: {
+          action: e => {
+            this.toggleLabels();
+            e.preventDefault();
+          },
+        },
+        Escape: {
+          action: () => this.closeDropdownLabel(),
+          allowOnFocusedInput: true,
+        },
+      };
     },
   },
 };

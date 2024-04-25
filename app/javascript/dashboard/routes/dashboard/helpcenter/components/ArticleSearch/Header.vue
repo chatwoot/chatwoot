@@ -35,10 +35,6 @@
 
 <script>
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import {
-  buildHotKeys,
-  isActiveElementTypeable,
-} from 'shared/helpers/KeyboardHelpers';
 
 export default {
   name: 'ChatwootSearch',
@@ -71,13 +67,15 @@ export default {
     onBlur() {
       this.isInputFocused = false;
     },
-    handleKeyEvents(e) {
-      const keyPattern = buildHotKeys(e);
-
-      if (keyPattern === '/' && !isActiveElementTypeable(e)) {
-        e.preventDefault();
-        this.$refs.searchInput.focus();
-      }
+    getKeyboardEvents() {
+      return {
+        Slash: {
+          action: e => {
+            e.preventDefault();
+            this.$refs.searchInput.focus();
+          },
+        },
+      };
     },
   },
 };

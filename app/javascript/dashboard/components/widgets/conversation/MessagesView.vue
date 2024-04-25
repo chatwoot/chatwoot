@@ -12,7 +12,7 @@
         variant="smooth"
         size="tiny"
         color-scheme="secondary"
-        class="rounded-bl-calc rtl:rotate-180 rounded-tl-calc fixed z-10 bg-white dark:bg-slate-700 border-slate-50 dark:border-slate-600 border-solid border border-r-0 box-border"
+        class="box-border fixed z-10 bg-white border border-r-0 border-solid rounded-bl-calc rtl:rotate-180 rounded-tl-calc dark:bg-slate-700 border-slate-50 dark:border-slate-600"
         :class="
           isInboxView ? 'top-52 md:top-40' : 'top-[9.5rem] md:top-[6.25rem]'
         "
@@ -78,14 +78,14 @@
     >
       <div
         v-if="isAnyoneTyping"
-        class="items-center flex h-0 absolute w-full -top-7"
+        class="absolute flex items-center w-full h-0 -top-7"
       >
         <div
           class="flex py-2 pr-4 pl-5 shadow-md rounded-full bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 text-xs font-semibold my-2.5 mx-auto"
         >
           {{ typingUserNames }}
           <img
-            class="ltr:ml-2 rtl:mr-2 w-6"
+            class="w-6 ltr:ml-2 rtl:mr-2"
             src="~dashboard/assets/images/typing.gif"
             alt="Someone is typing"
           />
@@ -122,7 +122,6 @@ import aiMixin from 'dashboard/mixins/aiMixin';
 // utils
 import { getTypingUsersText } from '../../../helper/commons';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
-import { isEscape } from 'shared/helpers/KeyboardHelpers';
 import { LocalStorage } from 'shared/helpers/localStorage';
 
 // constants
@@ -418,10 +417,12 @@ export default {
     closePopoutReplyBox() {
       this.isPopoutReplyBox = false;
     },
-    handleKeyEvents(e) {
-      if (isEscape(e)) {
-        this.closePopoutReplyBox();
-      }
+    getKeyboardEvents() {
+      return {
+        Escape: {
+          action: () => this.closePopoutReplyBox(),
+        },
+      };
     },
     addScrollListener() {
       this.conversationPanel = this.$el.querySelector('.conversation-panel');

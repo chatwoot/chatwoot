@@ -41,7 +41,6 @@ import adminMixin from 'dashboard/mixins/aiMixin';
 import aiMixin from 'dashboard/mixins/isAdmin';
 import { CMD_AI_ASSIST } from 'dashboard/routes/dashboard/commands/commandBarBusEvents';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import AIAssistanceCTAButton from './AIAssistanceCTAButton.vue';
 
@@ -87,14 +86,17 @@ export default {
   },
 
   methods: {
-    onKeyDownHandler(event) {
-      const keyPattern = buildHotKeys(event);
-      const shouldRevertTheContent =
-        ['meta+z', 'ctrl+z'].includes(keyPattern) && !!this.initialMessage;
-      if (shouldRevertTheContent) {
-        this.$emit('replace-text', this.initialMessage);
-        this.initialMessage = '';
-      }
+    getKeyboardEvents() {
+      return {
+        '$mod+KeyZ': {
+          action: () => {
+            if (this.initialMessage) {
+              this.$emit('replace-text', this.initialMessage);
+              this.initialMessage = '';
+            }
+          },
+        },
+      };
     },
     hideAIAssistanceModal() {
       this.recordAnalytics('DISMISS_AI_SUGGESTION', {

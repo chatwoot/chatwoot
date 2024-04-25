@@ -11,7 +11,6 @@
 <script>
 import wootConstants from 'dashboard/constants/globals';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import { hasPressedAltAndNKey } from 'shared/helpers/KeyboardHelpers';
 
 export default {
   mixins: [eventListenerMixins],
@@ -31,14 +30,18 @@ export default {
     },
   },
   methods: {
-    handleKeyEvents(e) {
-      if (hasPressedAltAndNKey(e)) {
-        if (this.activeTab === wootConstants.ASSIGNEE_TYPE.ALL) {
-          this.onTabChange(0);
-        } else {
-          this.onTabChange(this.activeTabIndex + 1);
-        }
-      }
+    getKeyboardEvents() {
+      return {
+        'Alt+KeyN': {
+          action: () => {
+            if (this.activeTab === wootConstants.ASSIGNEE_TYPE.ALL) {
+              this.onTabChange(0);
+            } else {
+              this.onTabChange(this.activeTabIndex + 1);
+            }
+          },
+        },
+      };
     },
     onTabChange(selectedTabIndex) {
       if (this.items[selectedTabIndex].key !== this.activeTab) {
