@@ -32,7 +32,10 @@
           :show-action-button="false"
         >
           <template #settingsItem>
-            <message-signature />
+            <message-signature
+              :message-signature="currentUser.message_signature"
+              @update-signature="updateSignature"
+            />
           </template>
         </base-personal-i-item>
 
@@ -250,6 +253,26 @@ export default {
     async onCopyToken(value) {
       await copyTextToClipboard(value);
       this.showAlert(this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
+    },
+    async updateSignature(messageSignature) {
+      try {
+        await this.$store.dispatch('updateProfile', {
+          message_signature: messageSignature || '',
+        });
+        this.errorMessage = this.$t(
+          'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_SUCCESS'
+        );
+      } catch (error) {
+        this.errorMessage = this.$t(
+          'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_ERROR'
+        );
+        if (error?.response?.data?.message) {
+          this.errorMessage = error.response.data.message;
+        }
+      } finally {
+        this.isUpdating = false;
+        this.showAlert(this.errorMessage);
+      }
     },
   },
 };
