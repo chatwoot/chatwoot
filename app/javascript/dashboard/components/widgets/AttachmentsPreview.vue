@@ -1,7 +1,7 @@
 <template>
   <div class="flex overflow-auto max-h-[12.5rem]">
     <div
-      v-for="(attachment, index) in filteredAttachments"
+      v-for="(attachment, index) in nonRecordedAudioAttachments"
       :key="attachment.id"
       class="preview-item flex items-center p-1 bg-slate-50 dark:bg-slate-800 gap-1 rounded-md w-[15rem] mb-1"
     >
@@ -51,18 +51,21 @@ const props = defineProps({
 
 const emits = defineEmits(['remove-attachment']);
 
-const filteredAttachments = computed(() => {
+const nonRecordedAudioAttachments = computed(() => {
   return props.attachments.filter(attachment => !attachment?.isRecordedAudio);
 });
 
+const recordedAudioAttachments = computed(() =>
+  props.attachments.filter(attachment => attachment.isRecordedAudio)
+);
+
 const onRemoveAttachment = itemIndex => {
-  const updatedAttachments = filteredAttachments.value.filter(
-    (item, index) => itemIndex !== index
+  emits(
+    'remove-attachment',
+    nonRecordedAudioAttachments.value
+      .filter((_, index) => index !== itemIndex)
+      .concat(recordedAudioAttachments.value)
   );
-  const recordedAudios = props.attachments.filter(
-    attachment => attachment?.isRecordedAudio
-  );
-  emits('remove-attachment', [...updatedAttachments, ...recordedAudios]);
 };
 
 const formatFileSize = file => {
