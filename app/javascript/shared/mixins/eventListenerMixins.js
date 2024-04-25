@@ -54,7 +54,6 @@ export default {
           }
 
           if (!allowOnFocusedInput) return;
-          e.target.blur();
         }
 
         actionToPerform(e);

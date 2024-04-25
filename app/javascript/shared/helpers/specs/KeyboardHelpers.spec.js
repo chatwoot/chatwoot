@@ -10,13 +10,13 @@ import {
 describe('#KeyboardHelpers', () => {
   describe('#isEnter', () => {
     it('return correct values', () => {
-      expect(isEnter({ keyCode: 13 })).toEqual(true);
+      expect(isEnter({ key: 'Enter' })).toEqual(true);
     });
   });
 
   describe('#isEscape', () => {
     it('return correct values', () => {
-      expect(isEscape({ keyCode: 27 })).toEqual(true);
+      expect(isEscape({ key: 'Escape' })).toEqual(true);
     });
   });
 
@@ -43,7 +43,7 @@ describe('#KeyboardHelpers', () => {
     it('returns hot keys', () => {
       expect(buildHotKeys(altEvent)).toEqual('alt');
       expect(buildHotKeys({ ctrlKey: true, code: 'KeyA' })).toEqual('ctrl+a');
-      expect(buildHotKeys({ metaKey: true, code: 'KeyA' })).toEqual('meta+b');
+      expect(buildHotKeys({ metaKey: true, code: 'KeyB' })).toEqual('meta+b');
     });
   });
 });
