@@ -127,7 +127,7 @@ import MessageSignature from './MessageSignature.vue';
 import HotKeyCard from './HotKeyCard.vue';
 import ChangePassword from './ChangePassword.vue';
 import AccessToken from './AccessToken.vue';
-import BasePersonalItem from './BasePersonalIItem.vue';
+import BasePersonalItem from './BasePersonalItem.vue';
 
 export default {
   components: {
