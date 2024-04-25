@@ -5,12 +5,7 @@
     v-bind="$attrs"
     @click="handleClick"
   >
-    <fluent-icon
-      v-if="icon"
-      :size="iconSize"
-      :icon="icon"
-      class="flex-shrink-0"
-    />
+    <fluent-icon v-if="icon" size="1.16em" :icon="icon" class="flex-shrink-0" />
     <span
       v-if="$slots.default"
       class="text-sm font-medium truncate ltr:text-left rtl:text-right"
@@ -91,13 +86,6 @@ const sizeClass = computed(() => {
     return 'h-8 px-3 py-1.5 text-sm';
   }
   return 'h-10 px-4 py-2.5 text';
-});
-
-const iconSize = computed(() => {
-  if (props.size === 'medium') {
-    return '1em';
-  }
-  return '1.2em';
 });
 
 const buttonClasses = computed(() => [colorClass.value, sizeClass.value]);

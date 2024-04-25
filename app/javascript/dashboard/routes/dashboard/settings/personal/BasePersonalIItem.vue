@@ -13,21 +13,11 @@
     </div>
     <div v-if="$slots.settingsItem" class="flex flex-col w-full gap-6">
       <slot name="settingsItem" />
-      <form-button
-        v-if="showActionButton"
-        type="submit"
-        color-scheme="primary"
-        variant="solid"
-        size="large"
-      >
-        {{ buttonText }}
-      </form-button>
     </div>
   </div>
 </template>
 
 <script setup>
-import FormButton from 'v3/components/Form/Button.vue';
 defineProps({
   header: {
     type: String,
@@ -36,14 +26,6 @@ defineProps({
   description: {
     type: String,
     default: '',
-  },
-  showActionButton: {
-    type: Boolean,
-    default: true,
-  },
-  buttonText: {
-    type: String,
-    default: 'Save',
   },
 });
 </script>

@@ -23,8 +23,6 @@
       :label="
         $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.CONDITIONS.TITLE')
       "
-      :play-audio-when-tab-is-inactive="playAudioWhenTabIsInactive"
-      :alert-if-unread-conversation-exist="alertIfUnreadConversationExist"
       @change="handleAudioAlertConditions"
     />
   </div>

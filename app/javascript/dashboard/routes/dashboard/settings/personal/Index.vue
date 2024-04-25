@@ -24,12 +24,11 @@
           />
         </div>
 
-        <base-personal-i-item
+        <base-personal-item
           :header="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.TITLE')"
           :description="
             $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.NOTE')
           "
-          :show-action-button="false"
         >
           <template #settingsItem>
             <message-signature
@@ -37,12 +36,11 @@
               @update-signature="updateProfile"
             />
           </template>
-        </base-personal-i-item>
+        </base-personal-item>
 
-        <base-personal-i-item
+        <base-personal-item
           :header="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.TITLE')"
           :description="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.NOTE')"
-          :show-action-button="false"
         >
           <template #settingsItem>
             <div
@@ -63,30 +61,28 @@
               </button>
             </div>
           </template>
-        </base-personal-i-item>
+        </base-personal-item>
         <change-password v-if="!globalConfig.disableUserProfileUpdate" />
-        <base-personal-i-item
+        <base-personal-item
           :header="
             $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE')
           "
           :description="
             $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NOTE')
           "
-          :show-action-button="false"
         >
           <template #settingsItem>
             <audio-notifications />
           </template>
-        </base-personal-i-item>
-        <base-personal-i-item
+        </base-personal-item>
+        <base-personal-item
           :header="$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TITLE')"
-          :show-action-button="false"
         >
           <template #settingsItem>
             <notification-preferences />
           </template>
-        </base-personal-i-item>
-        <base-personal-i-item
+        </base-personal-item>
+        <base-personal-item
           :header="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE')"
           :description="
             useInstallationName(
@@ -94,7 +90,6 @@
               globalConfig.installationName
             )
           "
-          :show-action-button="false"
         >
           <template #settingsItem>
             <access-token
@@ -102,7 +97,7 @@
               @on-copy="onCopyToken"
             />
           </template>
-        </base-personal-i-item>
+        </base-personal-item>
       </div>
     </div>
   </div>
@@ -125,12 +120,12 @@ import MessageSignature from './MessageSignature.vue';
 import HotKeyCard from './HotKeyCard.vue';
 import ChangePassword from './ChangePassword.vue';
 import AccessToken from './AccessToken.vue';
-import BasePersonalIItem from './BasePersonalIItem.vue';
+import BasePersonalItem from './BasePersonalIItem.vue';
 
 export default {
   components: {
     MessageSignature,
-    BasePersonalIItem,
+    BasePersonalItem,
     HotKeyCard,
     ChangePassword,
     AccessToken,
