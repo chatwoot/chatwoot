@@ -9,7 +9,7 @@
       :id="`mention-item-${index}`"
       :key="agent.id"
       :class="{ active: index === selectedIndex }"
-      class="last:mb-2 items-center rounded-md flex p-2"
+      class="flex items-center p-2 rounded-md last:mb-2"
       @click="onAgentSelect(index)"
       @mouseover="onHover(index)"
     >
@@ -24,12 +24,12 @@
         class="flex-1 max-w-full overflow-hidden whitespace-nowrap text-ellipsis"
       >
         <h5
-          class="mention--user-name mb-0 text-sm text-slate-900 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis"
+          class="mb-0 overflow-hidden text-sm mention--user-name text-slate-900 dark:text-slate-100 whitespace-nowrap text-ellipsis"
         >
           {{ agent.name }}
         </h5>
         <div
-          class="mention--email overflow-hidden whitespace-nowrap text-ellipsis text-slate-700 dark:text-slate-300 text-xs"
+          class="overflow-hidden text-xs mention--email whitespace-nowrap text-ellipsis text-slate-700 dark:text-slate-300"
         >
           {{ agent.email }}
         </div>
@@ -75,9 +75,10 @@ export default {
   },
 
   methods: {
-    handleKeyboardEvent(e) {
-      this.processKeyDownEvent(e);
-      this.$el.scrollTop = 50 * this.selectedIndex;
+    adjustScroll() {
+      this.$nextTick(() => {
+        this.$el.scrollTop = 50 * this.selectedIndex;
+      });
     },
     onHover(index) {
       this.selectedIndex = index;

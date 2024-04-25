@@ -1,23 +1,23 @@
 <template>
   <div
-    class="shadow-xl hover:shadow-lg bg-white dark:bg-slate-900 mt-2 max-h-96 scroll-py-2 p-5 overflow-y-auto text-sm text-slate-700 dark:text-slate-100 border border-solid border-slate-50 dark:border-slate-800 rounded-lg"
+    class="p-5 mt-2 overflow-y-auto text-sm bg-white border border-solid rounded-lg shadow-xl hover:shadow-lg dark:bg-slate-900 max-h-96 scroll-py-2 text-slate-700 dark:text-slate-100 border-slate-50 dark:border-slate-800"
   >
     <div
       v-if="isLoading"
-      class="font-medium text-sm text-slate-400 dark:text-slate-700"
+      class="text-sm font-medium text-slate-400 dark:text-slate-700"
     >
       {{ loadingPlaceholder }}
     </div>
     <ul
       v-if="shouldShowResults"
-      class="bg-white dark:bg-slate-900 gap-4 flex flex-col text-sm text-slate-700 dark:text-slate-100"
+      class="flex flex-col gap-4 text-sm bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-100"
       role="listbox"
     >
       <li
         v-for="(article, index) in items"
         :id="article.id"
         :key="article.id"
-        class="group flex border border-solid hover:bg-slate-25 dark:hover:bg-slate-800 border-slate-100 dark:border-slate-800 rounded-lg cursor-pointer select-none items-center p-4"
+        class="flex items-center p-4 border border-solid rounded-lg cursor-pointer select-none group hover:bg-slate-25 dark:hover:bg-slate-800 border-slate-100 dark:border-slate-800"
         :class="isSearchItemActive(index)"
         role="option"
         tabindex="-1"
@@ -30,11 +30,11 @@
         >
           <span
             v-dompurify-html="prepareContent(article.title)"
-            class="flex-auto truncate text-base font-semibold leading-6 w-full overflow-hidden text-ellipsis whitespace-nowrap"
+            class="flex-auto w-full overflow-hidden text-base font-semibold leading-6 truncate text-ellipsis whitespace-nowrap"
           />
           <div
             v-dompurify-html="prepareContent(article.content)"
-            class="line-clamp-2 text-ellipsis whitespace-nowrap overflow-hidden text-slate-600 dark:text-slate-300 text-sm"
+            class="overflow-hidden text-sm line-clamp-2 text-ellipsis whitespace-nowrap text-slate-600 dark:text-slate-300"
           />
         </a>
       </li>
@@ -42,7 +42,7 @@
 
     <div
       v-if="showEmptyResults"
-      class="font-medium text-sm text-slate-400 dark:text-slate-700"
+      class="text-sm font-medium text-slate-400 dark:text-slate-700"
     >
       {{ emptyPlaceholder }}
     </div>
@@ -109,9 +109,10 @@ export default {
     generateArticleUrl(article) {
       return `/hc/${article.portal.slug}/articles/${article.slug}`;
     },
-    handleKeyboardEvent(e) {
-      this.processKeyDownEvent(e);
-      this.$el.scrollTop = 102 * this.selectedIndex;
+    adjustScroll() {
+      this.$nextTick(() => {
+        this.$el.scrollTop = 102 * this.selectedIndex;
+      });
     },
     prepareContent(content) {
       return this.highlightContent(
