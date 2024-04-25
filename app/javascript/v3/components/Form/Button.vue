@@ -19,7 +19,7 @@
     </span>
     <fluent-icon
       v-if="!$slots.default"
-      :size="iconSize"
+      size="1.16em"
       icon="chevron-right"
       class="flex-shrink-0"
     />
@@ -35,7 +35,7 @@ const props = defineProps({
   },
   size: {
     type: String,
-    default: '',
+    default: 'large',
     validator: value => ['medium', 'large'].includes(value),
   },
   icon: {
