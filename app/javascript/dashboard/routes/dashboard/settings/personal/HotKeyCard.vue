@@ -23,10 +23,11 @@
       </span>
     </div>
 
-    <div v-if="src">
-      <img :src="src" class="object-cover w-full" />
+    <div>
+      <img :src="lightImage" class="block object-cover w-full dark:hidden" />
+      <img :src="darkImage" class="hidden object-cover w-full dark:block" />
     </div>
-    <slot v-else />
+    <slot />
   </div>
 </template>
 
@@ -44,7 +45,11 @@ defineProps({
     type: String,
     default: '',
   },
-  src: {
+  lightImage: {
+    type: String,
+    default: '',
+  },
+  darkImage: {
     type: String,
     default: '',
   },

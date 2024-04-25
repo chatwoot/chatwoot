@@ -54,7 +54,8 @@
                 <hot-key-card
                   :title="hotKey.title"
                   :description="hotKey.description"
-                  :src="hotKey.src"
+                  :light-image="hotKey.lightImage"
+                  :dark-image="hotKey.darkImage"
                   :active="isEditorHotKeyEnabled(uiSettings, hotKey.key)"
                   @click="toggleHotKey(hotKey.key)"
                 />
@@ -161,7 +162,8 @@ export default {
           description: this.$t(
             'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.CONTENT'
           ),
-          src: '/assets/images/dashboard/profile/hot-key-enter.svg',
+          lightImage: '/assets/images/dashboard/profile/hot-key-enter.svg',
+          darkImage: '/assets/images/dashboard/profile/hot-key-enter-dark.svg',
         },
         {
           key: 'cmd_enter',
@@ -171,7 +173,9 @@ export default {
           description: this.$t(
             'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.CONTENT'
           ),
-          src: '/assets/images/dashboard/profile/hot-key-ctrl-enter.svg',
+          lightImage: '/assets/images/dashboard/profile/hot-key-ctrl-enter.svg',
+          darkImage:
+            '/assets/images/dashboard/profile/hot-key-ctrl-enter-dark.svg',
         },
       ],
     };

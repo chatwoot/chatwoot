@@ -52,7 +52,7 @@
         color-scheme="primary"
         variant="solid"
         size="large"
-        :is-disabled="
+        :disabled="
           !currentPassword ||
           !passwordConfirmation ||
           !$v.passwordConfirmation.isEqPassword
