@@ -4,14 +4,8 @@
     @mouseover="onImageOver"
     @mouseleave="onImageOut"
   >
-    <div
-      v-if="shouldShowFallback"
-      class="flex items-center justify-center h-[72px] w-[72px] rounded-xl bg-ash-300"
-    >
-      <fluent-icon icon="person" type="filled" size="40" class="text-ash-50" />
-    </div>
     <img
-      v-else-if="shouldShowImage"
+      v-if="shouldShowImage"
       class="rounded-xl h-[72px] w-[72px]"
       :src="src"
       draggable="false"
@@ -68,8 +62,6 @@ const imageLoadedError = ref(false);
 const shouldShowUploadIcon = ref(false);
 const fileInputRef = ref(null);
 
-const shouldShowFallback = computed(() => !props.src && !props.name);
-
 const shouldShowImage = computed(() => {
   if (!props.src) {
     return false;
@@ -86,6 +78,7 @@ const onImageLoadError = () => {
 
 const onImageLoad = () => {
   hasImageLoaded.value = true;
+  imageLoadedError.value = false;
 };
 
 const onImageOver = () => {
