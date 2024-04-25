@@ -9,7 +9,7 @@
       :id="`mention-item-${index}`"
       :key="agent.id"
       :class="{ active: index === selectedIndex }"
-      class="flex items-center p-2 rounded-md last:mb-2"
+      class="last:mb-2 items-center rounded-md flex p-2"
       @click="onAgentSelect(index)"
       @mouseover="onHover(index)"
     >

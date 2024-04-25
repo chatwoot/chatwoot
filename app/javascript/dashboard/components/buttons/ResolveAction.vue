@@ -117,7 +117,6 @@ export default {
       showActionsDropdown: false,
       STATUS_TYPE: wootConstants.STATUS_TYPE,
       showCustomSnoozeModal: false,
-      keyboardHandler: null,
     };
   },
   computed: {
