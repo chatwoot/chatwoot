@@ -20,7 +20,7 @@
             :display-name="displayName"
             :email="email"
             :email-enabled="!globalConfig.disableUserProfileUpdate"
-            @update-user="updateUser"
+            @update-user="updateProfile"
           />
         </div>
 
@@ -33,8 +33,8 @@
         >
           <template #settingsItem>
             <message-signature
-              :message-signature="currentUser.message_signature"
-              @update-signature="updateSignature"
+              :message-signature="messageSignature"
+              @update-signature="updateProfile"
             />
           </template>
         </base-personal-i-item>
@@ -116,7 +116,6 @@ import uiSettingsMixin, {
 import alertMixin from 'shared/mixins/alertMixin';
 import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from '../../../../store/utils/api';
-import { hasValidAvatarUrl } from 'dashboard/helper/URLHelper';
 
 import UserProfilePicture from './UserProfilePicture.vue';
 import UserBasicDetails from './UserBasicDetails.vue';
@@ -148,7 +147,8 @@ export default {
       name: '',
       displayName: '',
       email: '',
-      errorMessage: '',
+      alertMessage: '',
+      messageSignature: '',
       hotKeys: [
         {
           key: 'enter',
@@ -179,9 +179,6 @@ export default {
       currentUserId: 'getCurrentUserID',
       globalConfig: 'globalConfig/get',
     }),
-    showDeleteButton() {
-      return hasValidAvatarUrl(this.avatarUrl);
-    },
   },
   watch: {
     currentUserId(newCurrentUserId, prevCurrentUserId) {
@@ -201,30 +198,43 @@ export default {
       this.email = this.currentUser.email;
       this.avatarUrl = this.currentUser.avatar_url;
       this.displayName = this.currentUser.display_name;
+      this.messageSignature = this.currentUser.message_signature;
     },
     isEditorHotKeyEnabled,
-    async updateUser(user) {
-      const { name, email, displayName } = user;
-      const hasEmailChanged = this.currentUser.email !== email;
+    async updateProfile(userAttributes, type = 'profile') {
+      const { name, email, displayName, messageSignature } = userAttributes;
+      const hasEmailChanged =
+        this.currentUser.email !== email && type === 'profile';
       try {
         await this.$store.dispatch('updateProfile', {
-          name: name,
-          email: email,
-          avatar: this.avatarFile,
-          displayName: displayName,
+          name: name || this.name,
+          email: email || this.email,
+          avatar: this.avatarFile || '',
+          displayName: displayName || this.displayName,
+          message_signature: messageSignature || '',
         });
         if (hasEmailChanged) {
           clearCookiesOnLogout();
-          this.errorMessage = this.$t('PROFILE_SETTINGS.AFTER_EMAIL_CHANGED');
+          this.alertMessage = this.$t('PROFILE_SETTINGS.AFTER_EMAIL_CHANGED');
         }
-        this.errorMessage = this.$t('PROFILE_SETTINGS.UPDATE_SUCCESS');
+        this.alertMessage =
+          type !== 'signature'
+            ? this.$t('PROFILE_SETTINGS.UPDATE_SUCCESS')
+            : this.$t(
+                'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_SUCCESS'
+              );
       } catch (error) {
-        this.errorMessage = this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
+        this.alertMessage =
+          type === 'signature'
+            ? this.$t('RESET_PASSWORD.API.ERROR_MESSAGE')
+            : this.$t(
+                'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_ERROR'
+              );
         if (error?.response?.data?.error) {
-          this.errorMessage = error.response.data.error;
+          this.alertMessage = error.response.data.error;
         }
       } finally {
-        this.showAlert(this.errorMessage);
+        this.showAlert(this.alertMessage);
       }
     },
     updateProfilePicture({ file, url }) {
@@ -254,27 +264,6 @@ export default {
       await copyTextToClipboard(value);
       this.showAlert(this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
     },
-    async updateSignature(messageSignature) {
-      try {
-        await this.$store.dispatch('updateProfile', {
-          message_signature: messageSignature || '',
-        });
-        this.errorMessage = this.$t(
-          'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_SUCCESS'
-        );
-      } catch (error) {
-        this.errorMessage = this.$t(
-          'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_ERROR'
-        );
-        if (error?.response?.data?.message) {
-          this.errorMessage = error.response.data.message;
-        }
-      } finally {
-        this.isUpdating = false;
-        this.showAlert(this.errorMessage);
-      }
-    },
   },
 };
 </script>
-./ProfileWrapper.vue
