@@ -3,6 +3,7 @@
     class="inline-flex items-center gap-1 text-sm font-medium reset-base rounded-xl w-fit"
     :class="buttonClasses"
     v-bind="$attrs"
+    @click="$emit('click')"
   >
     <fluent-icon
       v-if="icon && !trailingIcon"
