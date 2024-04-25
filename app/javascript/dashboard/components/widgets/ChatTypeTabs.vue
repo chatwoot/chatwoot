@@ -10,10 +10,10 @@
 </template>
 <script>
 import wootConstants from 'dashboard/constants/globals';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 
 export default {
-  mixins: [eventListenerMixins],
+  mixins: [keyboardEventListenerMixins],
   props: {
     items: {
       type: Array,

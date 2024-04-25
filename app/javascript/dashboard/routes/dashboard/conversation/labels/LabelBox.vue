@@ -50,7 +50,7 @@ import LabelDropdown from 'shared/components/ui/label/LabelDropdown.vue';
 import AddLabel from 'shared/components/ui/dropdown/AddLabel.vue';
 import { mixin as clickaway } from 'vue-clickaway';
 import adminMixin from 'dashboard/mixins/isAdmin';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
 
 export default {
@@ -60,7 +60,12 @@ export default {
     AddLabel,
   },
 
-  mixins: [clickaway, conversationLabelMixin, adminMixin, eventListenerMixins],
+  mixins: [
+    clickaway,
+    conversationLabelMixin,
+    adminMixin,
+    keyboardEventListenerMixins,
+  ],
   props: {
     conversationId: {
       type: Number,

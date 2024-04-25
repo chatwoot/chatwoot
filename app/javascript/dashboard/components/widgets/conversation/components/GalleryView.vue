@@ -182,7 +182,7 @@
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import timeMixin from 'dashboard/mixins/time';
 
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
@@ -200,7 +200,7 @@ export default {
   components: {
     Thumbnail,
   },
-  mixins: [eventListenerMixins, clickaway, timeMixin],
+  mixins: [keyboardEventListenerMixins, clickaway, timeMixin],
   props: {
     show: {
       type: Boolean,

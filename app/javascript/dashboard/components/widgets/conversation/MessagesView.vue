@@ -116,7 +116,7 @@ import conversationMixin, {
 } from '../../../mixins/conversations';
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import configMixin from 'shared/mixins/configMixin';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import aiMixin from 'dashboard/mixins/aiMixin';
 
 // utils
@@ -140,7 +140,7 @@ export default {
   mixins: [
     conversationMixin,
     inboxMixin,
-    eventListenerMixins,
+    keyboardEventListenerMixins,
     configMixin,
     aiMixin,
   ],

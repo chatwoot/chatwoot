@@ -136,7 +136,7 @@
 <script>
 import FileUpload from 'vue-upload-component';
 import * as ActiveStorage from 'activestorage';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -153,7 +153,7 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'ReplyBottomPanel',
   components: { FileUpload, VideoCallButton, AIAssistanceButton },
-  mixins: [eventListenerMixins, uiSettingsMixin, inboxMixin],
+  mixins: [keyboardEventListenerMixins, uiSettingsMixin, inboxMixin],
   props: {
     mode: {
       type: String,

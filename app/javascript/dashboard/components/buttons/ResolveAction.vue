@@ -91,7 +91,7 @@ import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
@@ -109,7 +109,7 @@ export default {
     WootDropdownMenu,
     CustomSnoozeModal,
   },
-  mixins: [clickaway, alertMixin, eventListenerMixins],
+  mixins: [clickaway, alertMixin, keyboardEventListenerMixins],
   props: { conversationId: { type: [String, Number], required: true } },
   data() {
     return {

@@ -8,12 +8,12 @@
   </ul>
 </template>
 <script>
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 export default {
   name: 'WootDropdownMenu',
   componentName: 'WootDropdownMenu',
 
-  mixins: [eventListenerMixins],
+  mixins: [keyboardEventListenerMixins],
 
   props: {
     placement: {

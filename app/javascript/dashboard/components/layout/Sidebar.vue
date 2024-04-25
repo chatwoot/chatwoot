@@ -36,7 +36,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 
 import PrimarySidebar from './sidebarComponents/Primary.vue';
 import SecondarySidebar from './sidebarComponents/Secondary.vue';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import router from '../../routes';
 
 export default {
@@ -44,7 +44,7 @@ export default {
     PrimarySidebar,
     SecondarySidebar,
   },
-  mixins: [adminMixin, alertMixin, eventListenerMixins],
+  mixins: [adminMixin, alertMixin, keyboardEventListenerMixins],
   props: {
     showSecondarySidebar: {
       type: Boolean,

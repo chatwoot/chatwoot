@@ -34,11 +34,11 @@
 </template>
 
 <script>
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 
 export default {
   name: 'ChatwootSearch',
-  mixins: [eventListenerMixins],
+  mixins: [keyboardEventListenerMixins],
   props: {
     title: {
       type: String,

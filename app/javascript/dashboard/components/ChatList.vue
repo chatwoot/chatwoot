@@ -185,7 +185,7 @@ import ConversationBasicFilter from './widgets/conversation/ConversationBasicFil
 import ChatTypeTabs from './widgets/ChatTypeTabs.vue';
 import ConversationItem from './ConversationItem.vue';
 import timeMixin from '../mixins/time';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import conversationMixin from '../mixins/conversations';
 import wootConstants from 'dashboard/constants/globals';
 import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
@@ -223,7 +223,7 @@ export default {
   mixins: [
     timeMixin,
     conversationMixin,
-    eventListenerMixins,
+    keyboardEventListenerMixins,
     alertMixin,
     filterMixin,
     uiSettingsMixin,

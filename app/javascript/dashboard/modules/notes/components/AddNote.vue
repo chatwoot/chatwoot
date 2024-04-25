@@ -23,12 +23,12 @@
 
 <script>
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 export default {
   components: {
     WootMessageEditor,
   },
-  mixins: [eventListenerMixins],
+  mixins: [keyboardEventListenerMixins],
   data() {
     return {
       noteContent: '',

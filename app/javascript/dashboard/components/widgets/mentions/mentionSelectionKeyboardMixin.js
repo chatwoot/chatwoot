@@ -1,7 +1,7 @@
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 
 export default {
-  mixins: [eventListenerMixins],
+  mixins: [keyboardEventListenerMixins],
   methods: {
     moveSelectionUp() {
       if (!this.selectedIndex) {
