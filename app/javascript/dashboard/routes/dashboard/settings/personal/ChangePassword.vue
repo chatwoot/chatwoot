@@ -1,9 +1,6 @@
 <template>
   <form @submit.prevent="changePassword()">
     <div class="flex flex-col w-full gap-4">
-      <h4 class="text-lg font-medium text-slate-900 dark:text-slate-25">
-        Change password
-      </h4>
       <form-input
         v-model="currentPassword"
         type="password"

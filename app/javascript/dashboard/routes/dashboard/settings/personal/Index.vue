@@ -62,7 +62,15 @@
             </div>
           </template>
         </base-personal-item>
-        <change-password v-if="!globalConfig.disableUserProfileUpdate" />
+        <base-personal-item
+          :header="$t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE')"
+          description=""
+        >
+          <template #settingsItem>
+            <change-password v-if="!globalConfig.disableUserProfileUpdate" />
+          </template>
+        </base-personal-item>
+
         <base-personal-item
           :header="
             $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE')
