@@ -3,7 +3,6 @@ import {
   isEscape,
   hasPressedShift,
   hasPressedCommand,
-  buildHotKeys,
   isActiveElementTypeable,
 } from '../KeyboardHelpers';
 
@@ -29,21 +28,6 @@ describe('#KeyboardHelpers', () => {
   describe('#hasPressedCommand', () => {
     it('return correct values', () => {
       expect(hasPressedCommand({ metaKey: true })).toEqual(true);
-    });
-  });
-
-  describe('#buildHotKeys', () => {
-    const altEvent = new KeyboardEvent('keydown', {
-      altKey: true,
-      code: 'Alt',
-    });
-
-    // TODO: replace this with the rest later
-
-    it('returns hot keys', () => {
-      expect(buildHotKeys(altEvent)).toEqual('alt');
-      expect(buildHotKeys({ ctrlKey: true, code: 'KeyA' })).toEqual('ctrl+a');
-      expect(buildHotKeys({ metaKey: true, code: 'KeyB' })).toEqual('meta+b');
     });
   });
 });
