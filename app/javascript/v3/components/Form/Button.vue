@@ -3,7 +3,6 @@
     class="inline-flex items-center gap-1 text-sm font-medium reset-base rounded-xl w-fit"
     :class="buttonClasses"
     v-bind="$attrs"
-    @click="handleClick"
   >
     <fluent-icon v-if="icon" size="1.16em" :icon="icon" class="flex-shrink-0" />
     <span
@@ -43,7 +42,6 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['click']);
 const attrs = useAttrs();
 
 const baseClasses = {
@@ -89,10 +87,4 @@ const sizeClass = computed(() => {
 });
 
 const buttonClasses = computed(() => [colorClass.value, sizeClass.value]);
-
-const handleClick = event => {
-  if (attrs.disabled) {
-    emits('click', event);
-  }
-};
 </script>
