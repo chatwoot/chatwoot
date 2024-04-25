@@ -21,7 +21,10 @@
             >
               {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.PUSH') }}
             </span>
-            <form-switch :value="true" @input="onRequestPermissions()" />
+            <form-switch
+              :value="hasEnabledPushPermissions"
+              @input="onRequestPermissions"
+            />
           </div>
         </table-header-cell>
       </div>
@@ -75,7 +78,10 @@
         <span class="text-sm font-medium uppercase text-ash-900">
           {{ $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.TITLE') }}
         </span>
-        <form-switch :value="true" @input="onRequestPermissions()" />
+        <form-switch
+          :value="hasEnabledPushPermissions"
+          @input="onRequestPermissions"
+        />
       </div>
 
       <div class="flex flex-col gap-4">

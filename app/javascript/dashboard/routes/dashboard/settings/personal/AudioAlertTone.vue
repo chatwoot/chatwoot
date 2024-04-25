@@ -7,7 +7,6 @@
     :options="alertTones"
     :label="label"
     class="max-w-xl"
-    @input="onChange"
   >
     <option
       v-for="tone in alertTones"
@@ -20,7 +19,7 @@
   </form-select>
 </template>
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed } from 'vue';
 import FormSelect from 'v3/components/Form/Select.vue';
 
 const props = defineProps({
@@ -34,19 +33,6 @@ const props = defineProps({
   },
 });
 
-const selectedValue = ref(props.value);
-
-watch(
-  () => props.value,
-  newValue => {
-    selectedValue.value = newValue;
-  }
-);
-
-const emit = defineEmits(['change']);
-const onChange = () => {
-  emit('change', selectedValue.value);
-};
 const alertTones = computed(() => [
   {
     value: 'ding',
@@ -57,4 +43,13 @@ const alertTones = computed(() => [
     label: 'Bell',
   },
 ]);
+
+const emit = defineEmits(['change']);
+
+const selectedValue = computed({
+  get: () => props.value,
+  set: value => {
+    emit('change', value);
+  },
+});
 </script>

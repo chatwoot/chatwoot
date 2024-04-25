@@ -1,13 +1,23 @@
 <template>
   <button
     type="button"
-    class="p-0 toggle-button bg-primary-600"
-    :class="{ active: value, small: size === 'small' }"
+    class="relative flex-shrink-0 h-4 p-0 shadow-inner w-7 rounded-3xl"
+    :class="
+      value ? 'bg-primary-600 shadow-primary-800' : 'shadow-ash-400 bg-ash-200'
+    "
     role="switch"
     :aria-checked="value.toString()"
     @click="onClick"
   >
-    <span aria-hidden="true" :class="{ active: value }" />
+    <span
+      aria-hidden="true"
+      class="rounded-full bg-white top-0.5 absolute dark:bg-white w-3 h-3 translate-y-0 duration-200 transition-transform ease-in-out"
+      :class="
+        value
+          ? 'ltr:translate-x-0 rtl:translate-x-[12px]'
+          : 'ltr:-translate-x-[12px] rtl:translate-x-0'
+      "
+    />
   </button>
 </template>
 
@@ -15,7 +25,6 @@
 export default {
   props: {
     value: { type: Boolean, default: false },
-    size: { type: String, default: '' },
   },
   methods: {
     onClick() {
@@ -24,53 +33,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.toggle-button {
-  --toggle-button-box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px,
-    rgba(59, 130, 246, 0.5) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
-    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-  border-radius: var(--border-radius-large);
-  border: 2px solid transparent;
-  cursor: pointer;
-  display: flex;
-  flex-shrink: 0;
-  height: 19px;
-  position: relative;
-  transition-duration: 200ms;
-  transition-property: background-color;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  width: 34px;
-
-  &.small {
-    width: 22px;
-    height: 14px;
-
-    span {
-      height: var(--space-one);
-      width: var(--space-one);
-
-      &.active {
-        transform: translate(var(--space-small), var(--space-zero));
-      }
-    }
-  }
-
-  span {
-    @apply bg-white dark:bg-white;
-    --space-one-point-five: 0.9375rem;
-    border-radius: 100%;
-    box-shadow: var(--toggle-button-box-shadow);
-    display: inline-block;
-    height: var(--space-one-point-five);
-    transform: translate(0, 0);
-    transition-duration: 200ms;
-    transition-property: transform;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    width: var(--space-one-point-five);
-
-    &.active {
-      transform: translate(var(--space-one-point-five), var(--space-zero));
-    }
-  }
-}
-</style>

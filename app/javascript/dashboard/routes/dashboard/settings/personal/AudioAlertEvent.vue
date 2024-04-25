@@ -6,7 +6,7 @@
       {{ label }}
     </label>
     <div
-      class="flex flex-row justify-between h-10 max-w-xl p-2 border border-solid rounded-md border-ash-200"
+      class="flex flex-row justify-between h-10 max-w-xl p-2 border border-solid rounded-xl border-ash-200"
     >
       <div
         v-for="option in options"
@@ -22,7 +22,6 @@
           class="shadow cursor-pointer grid place-items-center border-2 border-ash-200 appearance-none rounded-full w-4 h-4 checked:bg-primary-600 before:content-[''] before:bg-primary-600 before:border-4 before:rounded-full before:border-ash-25 checked:before:w-[14px] checked:before:h-[14px] checked:border checked:border-primary-600"
           type="radio"
           :value="option.value"
-          @change="emitChange"
         />
         <label
           :for="`radio-${option.value}`"
@@ -37,7 +36,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps({
   label: {
@@ -56,17 +55,12 @@ const options = [
   { value: 'all', label: 'All' },
 ];
 
-const selectedValue = ref(props.value);
-
-watch(
-  () => props.value,
-  newValue => {
-    selectedValue.value = newValue;
-  }
-);
-
 const emit = defineEmits(['update']);
-const emitChange = e => {
-  emit('update', e);
-};
+
+const selectedValue = computed({
+  get: () => props.value,
+  set: value => {
+    emit('update', value);
+  },
+});
 </script>
