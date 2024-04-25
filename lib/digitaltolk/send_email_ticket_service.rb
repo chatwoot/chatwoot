@@ -54,7 +54,7 @@ class Digitaltolk::SendEmailTicketService
       subject: params[:title],
       content: params[:body],
       inbox_id: params[:inbox_id],
-      email: params.dig(:requester, :email),
+      email: params_email,
       assignee_id: nil,
       account_id: @account.id
     }
@@ -63,13 +63,19 @@ class Digitaltolk::SendEmailTicketService
   def find_or_create_conversation
     return if @errors.present?
 
-    if for_issue
-      if booking_issue_id
-        @conversation = conversations.where("custom_attributes ->> 'booking_id' = ?", booking_id)
-                                     .where("custom_attributes ->> 'booking_issue_id' = ?", booking_issue_id).last
+    if find_contact_by_email
+      if for_issue
+        if booking_issue_id
+          convos = conversations.where("custom_attributes ->> 'booking_id' = ?", booking_id)
+                  .where("custom_attributes ->> 'booking_issue_id' = ?", booking_issue_id)
+          convos = filter_conversation_by_email(convos)
+          @conversation = convos.last
+        end
+      else
+        convos = conversations.where("custom_attributes ->> 'booking_id' = ?", booking_id)
+        convos = filter_conversation_by_email(convos)
+        @conversation = convos.last
       end
-    else
-      @conversation = conversations.where("custom_attributes ->> 'booking_id' = ?", booking_id).last
     end
 
     return if @conversation.present?
@@ -77,6 +83,22 @@ class Digitaltolk::SendEmailTicketService
     create_conversation
     assign_booking_id
     assign_booking_issue_id if for_issue
+  end
+
+  def filter_conversation_by_email(convos)
+    if find_contact_by_email.present?
+      convos = convos.where(contact_id: find_contact_by_email.id)
+    end
+
+    convos
+  end
+
+  def params_email
+    params.dig(:requester, :email).to_s.downcase.strip
+  end
+
+  def find_contact_by_email
+    @contact ||= @account.contacts.find_by(email: params_email)
   end
 
   def create_conversation
