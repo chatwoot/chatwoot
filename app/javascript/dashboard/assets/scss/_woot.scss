@@ -42,19 +42,20 @@
 }
 
 @layer base {
+  // scss-lint:disable PropertySortOrder
   :root {
-    --color-amber-100: 255 243 208;
-    --color-amber-200: 255 236 183;
     --color-amber-25: 254 253 251;
-    --color-amber-300: 255 224 161;
-    --color-amber-400: 245 208 140;
     --color-amber-50: 255 249 237;
-    --color-amber-500: 228 187 120;
+    --color-amber-75: 255 243 208;
+    --color-amber-100: 255 236 183;
+    --color-amber-200: 255 224 161;
+    --color-amber-300: 245 208 140;
+    --color-amber-400: 228 187 120;
+    --color-amber-500: 214 163 92;
     --color-amber-600: 214 163 92;
-    --color-amber-700: 214 163 92;
-    --color-amber-800: 255 186 26;
-    --color-amber-900: 145 89 48;
-    --color-amber-950: 79 52 34;
+    --color-amber-700: 255 186 26;
+    --color-amber-800: 145 89 48;
+    --color-amber-900: 79 52 34;
 
     --color-ash-100: 235 235 239;
     --color-ash-200: 228 228 233;
@@ -69,18 +70,18 @@
     --color-ash-800: 96 100 108;
     --color-ash-900: 28 32 36;
 
-    --color-primary-100: 222 234 255;
-    --color-primary-200: 206 223 255;
-    --color-primary-25: 252 253 254;
-    --color-primary-300: 186 209 255;
-    --color-primary-400: 163 190 255;
-    --color-primary-50: 246 249 255;
-    --color-primary-500: 131 164 250;
-    --color-primary-600: 69 110 255;
-    --color-primary-700: 57 95 241;
-    --color-primary-75: 236 242 255;
-    --color-primary-800: 53 88 217;
-    --color-primary-900: 27 44 99;
+    --color-primary-25: 251 253 255;
+    --color-primary-50: 245 249 255;
+    --color-primary-75: 233 243 255;
+    --color-primary-100: 218 236 255;
+    --color-primary-200: 201 226 255;
+    --color-primary-300: 181 213 255;
+    --color-primary-400: 155 195 252;
+    --color-primary-500: 117 171 247;
+    --color-primary-600: 39 129 246;
+    --color-primary-700: 16 115 233;
+    --color-primary-800: 8 109 224;
+    --color-primary-900: 11 50 101;
 
     --color-ruby-100: 255 220 225;
     --color-ruby-200: 255 206 214;
@@ -110,18 +111,18 @@
   }
   // scss-lint:disable QualifyingElement
   body.dark {
+    --color-amber-25: 31 19 0;
+    --color-amber-50: 37 24 4;
+    --color-amber-75: 48 32 11;
     --color-amber-100: 57 39 15;
     --color-amber-200: 67 46 18;
-    --color-amber-25: 31 19 0;
     --color-amber-300: 83 57 22;
     --color-amber-400: 111 77 29;
-    --color-amber-50: 37 24 4;
     --color-amber-500: 169 118 42;
     --color-amber-600: 169 118 42;
     --color-amber-700: 255 203 71;
     --color-amber-800: 255 204 77;
     --color-amber-900: 255 231 179;
-    --color-amber-950: 255 231 179;
 
     --color-ash-100: 46 48 53;
     --color-ash-200: 53 55 60;
@@ -136,18 +137,18 @@
     --color-ash-800: 173 177 184;
     --color-ash-900: 237 238 240;
 
-    --color-primary-100: 24 43 109;
-    --color-primary-200: 31 53 129;
-    --color-primary-25: 11 16 31;
-    --color-primary-300: 40 64 146;
-    --color-primary-400: 48 76 168;
-    --color-primary-50: 16 23 41;
-    --color-primary-500: 57 89 196;
-    --color-primary-600: 69 110 255;
-    --color-primary-700: 58 96 240;
-    --color-primary-75: 20 34 81;
-    --color-primary-800: 140 177 255;
-    --color-primary-900: 210 225 255;
+    --color-primary-25: 10 17 28;
+    --color-primary-50: 15 24 38;
+    --color-primary-75: 15 39 72;
+    --color-primary-100: 10 49 99;
+    --color-primary-200: 18 61 117;
+    --color-primary-300: 29 74 134;
+    --color-primary-400: 40 89 156;
+    --color-primary-500: 48 106 186;
+    --color-primary-600: 39 129 246;
+    --color-primary-700: 21 116 231;
+    --color-primary-800: 126 182 255;
+    --color-primary-900: 205 227 255;
 
     --color-ruby-100: 78 19 37;
     --color-ruby-200: 94 26 46;
