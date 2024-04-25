@@ -5,12 +5,13 @@
     :style="style"
     aria-hidden="true"
   >
-    <slot>{{ userInitial }}</slot>
+    <slot>{{ initial }}</slot>
   </div>
 </template>
 
 <script setup>
 import { computed } from 'vue';
+import { userInitial } from 'v3/helpers/CommonHelper';
 
 const colors = {
   1: 'bg-ash-200 text-ash-900',
@@ -42,9 +43,5 @@ const colorClass = computed(() => {
   return colors[(props.name.length % 8) + 1];
 });
 
-const userInitial = computed(() => {
-  const parts = props.name.split(/[ -]/).filter(Boolean);
-  let initials = parts.map(part => part[0].toUpperCase()).join('');
-  return initials.slice(0, 2);
-});
+const initial = userInitial(props.name);
 </script>
