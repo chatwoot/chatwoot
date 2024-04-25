@@ -54,7 +54,7 @@ const attrs = useAttrs();
 const baseClasses = {
   outline: 'outline outline-1 -outline-offset-1 focus:ring focus:ring-offset-1',
   ghost: 'hover:text-600 active:text-600 focus:ring focus:ring-offset-1',
-  default: ' hover:bg-700 active:bg-700 focus:ring focus:ring-offset-1',
+  default: 'hover:bg-700 active:bg-700 focus:ring focus:ring-offset-1',
 };
 
 const colorClass = computed(() => {
