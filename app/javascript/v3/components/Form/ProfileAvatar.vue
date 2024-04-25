@@ -108,13 +108,13 @@ const openFileInput = () => {
 
 const onImageUpload = event => {
   const [file] = event.target.files;
-  emits('change', {
+  emits('change-avatar', {
     file,
     url: file ? URL.createObjectURL(file) : null,
   });
 };
 
 const onAvatarDelete = () => {
-  emits('delete');
+  emits('delete-avatar');
 };
 </script>
