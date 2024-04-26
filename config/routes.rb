@@ -393,6 +393,7 @@ Rails.application.routes.draw do
   end
 
   get 'hc/:slug', to: 'public/api/v1/portals#show'
+  get 'hc/:slug/sitemap.xml', to: 'public/api/v1/portals#sitemap'
   get 'hc/:slug/:locale', to: 'public/api/v1/portals#show'
   get 'hc/:slug/:locale/articles', to: 'public/api/v1/portals/articles#index'
   get 'hc/:slug/:locale/categories', to: 'public/api/v1/portals/categories#index'
