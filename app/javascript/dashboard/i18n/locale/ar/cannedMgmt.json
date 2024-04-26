@@ -10,7 +10,7 @@
       "TITLE": "إدارة الردود الجاهزة",
       "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
       "TABLE_HEADER": [
-        "Short code",
+        "كود مختصر",
         "المحتوى",
         "الإجراءات"
       ]
@@ -21,55 +21,55 @@
       "CANCEL_BUTTON_TEXT": "إلغاء",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short code",
-          "PLACEHOLDER": "Please enter a short code.",
-          "ERROR": "Short Code is required."
+          "LABEL": "كود مختصر",
+          "PLACEHOLDER": "من فضلك ادخل الكود مختصر.",
+          "ERROR": "الكود مختصر مطلوب."
         },
         "CONTENT": {
           "LABEL": "رسالة",
-          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
-          "ERROR": "Message is required."
+          "PLACEHOLDER": "من فضلك ادخل نص لرسالة التي ترغب في حفظها كقالب لاستخدامها لاحقاُ.",
+          "ERROR": "الرسالة مطلوبة."
         },
         "SUBMIT": "إرسال"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Canned response added successfully.",
+        "SUCCESS_MESSAGE": "تم إضافة الرد المعد مسبقاً بنجاح.",
         "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
       }
     },
     "EDIT": {
-      "TITLE": "Edit canned response",
+      "TITLE": "تعديل الرد المعد مسبقاً",
       "CANCEL_BUTTON_TEXT": "إلغاء",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short code",
-          "PLACEHOLDER": "Please enter a shortcode.",
-          "ERROR": "Short code is required."
+          "LABEL": "كود مختصر",
+          "PLACEHOLDER": "من فضلك ادخل الكود مختصر.",
+          "ERROR": "الكود مختصر مطلوب."
         },
         "CONTENT": {
           "LABEL": "رسالة",
-          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "PLACEHOLDER": "من فضلك ادخل نص لرسالة التي ترغب في حفظها كقالب لاستخدامها لاحقاُ.",
           "ERROR": "الرسالة مطلوبة."
         },
         "SUBMIT": "إرسال"
       },
       "BUTTON_TEXT": "تعديل",
       "API": {
-        "SUCCESS_MESSAGE": "Canned response is updated successfully.",
+        "SUCCESS_MESSAGE": "تم تحديث الرد المعد مسبقاً بنجاح.",
         "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "حذف",
       "API": {
-        "SUCCESS_MESSAGE": "Canned response deleted successfully.",
+        "SUCCESS_MESSAGE": "تم حذف الرد المعد مسبقاً بنجاح.",
         "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
       },
       "CONFIRM": {
         "TITLE": "تأكيد الحذف",
         "MESSAGE": "هل أنت متأكد من الحذف ",
-        "YES": "Yes, delete ",
-        "NO": "No, keep "
+        "YES": "نعم, حذف ",
+        "NO": "لا, قم بالابقاء عليه "
       }
     }
   }
