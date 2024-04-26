@@ -21,6 +21,10 @@ module ChatwootApp
     @custom ||= root.join('custom').exist?
   end
 
+  def help_center_root
+    URI.parse(ENV.fetch('HELPCENTER_URL', '')).host || URI.parse(ENV.fetch('FRONTEND_URL', '')).host
+  end
+
   def self.extensions
     if custom?
       %w[enterprise custom]
