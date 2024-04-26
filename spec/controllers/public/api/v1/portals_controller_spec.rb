@@ -9,6 +9,7 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
     create(:portal, slug: 'test-portal-1', account_id: account.id)
     create(:portal, slug: 'test-portal-2', account_id: account.id)
     create_list(:article, 3, account: account, author: agent, portal: portal, status: :published)
+    create_list(:article, 2, account: account, author: agent, portal: portal, status: :draft)
   end
 
   describe 'GET /public/api/v1/portals/{portal_slug}' do
