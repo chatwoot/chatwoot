@@ -51,8 +51,8 @@ RSpec.describe Imap::MicrosoftFetchEmailService do
       end
     end
 
-    context 'when new emails are available in the mailbox' do
-      it 'fetches the emails and returns the emails that are not present in the db' do
+    context 'when the interval is passed during an IMAP Sync' do
+      it 'fetches the emails based on the interval specified in the job' do
         travel_to '26.10.2020 10:00'.to_datetime do
           email_object = create_inbound_email_from_fixture('only_text.eml')
           email_header = Net::IMAP::FetchData.new(1, 'BODY[HEADER]' => eml_content_with_message_id)
