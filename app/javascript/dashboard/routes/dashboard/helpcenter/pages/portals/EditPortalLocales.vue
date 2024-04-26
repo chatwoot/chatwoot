@@ -1,35 +1,3 @@
-<template>
-  <div class="w-full h-full max-w-5xl space-y-4 bg-white dark:bg-slate-900">
-    <div class="flex justify-end">
-      <woot-button
-        variant="smooth"
-        size="small"
-        color-scheme="primary"
-        class="header-action-buttons"
-        @click="addLocale"
-      >
-        {{ $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.ADD') }}
-      </woot-button>
-    </div>
-    <LocaleItemTable
-      v-if="currentPortal"
-      :locales="locales"
-      :selected-locale-code="currentPortal.meta.default_locale"
-      @change-default-locale="changeDefaultLocale"
-      @delete="deletePortalLocale"
-    />
-    <woot-modal
-      :show.sync="isAddLocaleModalOpen"
-      :on-close="closeAddLocaleModal"
-    >
-      <AddLocale
-        :show="isAddLocaleModalOpen"
-        :portal="currentPortal"
-        @cancel="closeAddLocaleModal"
-      />
-    </woot-modal>
-  </div>
-</template>
 <script setup>
 import LocaleItemTable from 'dashboard/routes/dashboard/helpcenter/components/PortalListItemTable.vue';
 import AddLocale from 'dashboard/routes/dashboard/helpcenter/components/AddLocale.vue';
@@ -139,3 +107,36 @@ function addLocale() {
   isAddLocaleModalOpen.value = true;
 }
 </script>
+
+<template>
+  <div class="w-full h-full max-w-5xl space-y-4 bg-white dark:bg-slate-900">
+    <div class="flex justify-end">
+      <woot-button
+        variant="smooth"
+        size="small"
+        color-scheme="primary"
+        class="header-action-buttons"
+        @click="addLocale"
+      >
+        {{ $t('HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.HEADER.ADD') }}
+      </woot-button>
+    </div>
+    <LocaleItemTable
+      v-if="currentPortal"
+      :locales="locales"
+      :selected-locale-code="currentPortal.meta.default_locale"
+      @change-default-locale="changeDefaultLocale"
+      @delete="deletePortalLocale"
+    />
+    <woot-modal
+      :show.sync="isAddLocaleModalOpen"
+      :on-close="closeAddLocaleModal"
+    >
+      <AddLocale
+        :show="isAddLocaleModalOpen"
+        :portal="currentPortal"
+        @cancel="closeAddLocaleModal"
+      />
+    </woot-modal>
+  </div>
+</template>
