@@ -19,7 +19,6 @@ const selectedCategory = ref({});
 const currentLocaleCode = ref('en');
 const showEditCategoryModal = ref(false);
 const showAddCategoryModal = ref(false);
-const alertMessage = ref('');
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -73,21 +72,22 @@ async function fetchCategoriesByPortalSlugAndLocale(localeCode) {
 }
 
 async function deleteCategory(category) {
+  let alertMessage = '';
   try {
     await store.dispatch('categories/delete', {
       portalSlug: currentPortalSlug.value,
       categoryId: category.id,
     });
-    alertMessage.value = t('HELP_CENTER.CATEGORY.DELETE.API.SUCCESS_MESSAGE');
+    alertMessage = t('HELP_CENTER.CATEGORY.DELETE.API.SUCCESS_MESSAGE');
     useTrack(PORTALS_EVENTS.DELETE_CATEGORY, {
       hasArticles: category?.meta?.articles_count !== 0,
     });
   } catch (error) {
     const errorMessage = error?.message;
-    alertMessage.value =
+    alertMessage =
       errorMessage || t('HELP_CENTER.CATEGORY.DELETE.API.ERROR_MESSAGE');
   } finally {
-    useAlert(alertMessage.value);
+    useAlert(alertMessage);
   }
 }
 function changeCurrentCategory(event) {
