@@ -1,19 +1,16 @@
 <script setup>
 import PortalSettingsCustomizationForm from 'dashboard/routes/dashboard/helpcenter/components/PortalSettingsCustomizationForm.vue';
-import { getRandomColor } from 'dashboard/helper/labelColor';
 import { PORTALS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 import { useAlert, useTrack } from 'dashboard/composables';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { useRoute, useRouter } from 'dashboard/composables/route';
 import { useI18n } from 'dashboard/composables/useI18n';
-import { defineComponent, ref, onMounted, computed } from 'vue';
+import { defineComponent, onMounted, computed } from 'vue';
 
 defineComponent({
   name: 'PortalCustomization',
 });
-
-const color = ref('#000');
 
 const getters = useStoreGetters();
 const route = useRoute();
@@ -32,7 +29,6 @@ const currentPortal = computed(() => {
 
 onMounted(() => {
   store.dispatch('portals/index');
-  color.value = getRandomColor();
 });
 
 async function updatePortalSettings(portalObj) {
