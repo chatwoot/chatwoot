@@ -236,7 +236,6 @@ class Message < ApplicationRecord
     # there are cases where automations can result in message loops, we need to prevent such cases.
     if conversation.messages.where('created_at >= ?', 1.minute.ago).count >= Limits.conversation_message_per_minute_limit
       Rails.logger.error "Too many message: Account Id - #{account_id} : Conversation id - #{conversation_id}"
-      errors.add(:base, 'Too many messages')
     end
   end
 
