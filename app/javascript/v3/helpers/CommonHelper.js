@@ -3,6 +3,8 @@ export const replaceRouteWithReload = url => {
 };
 
 export const userInitial = name => {
+  if (!name) return '';
+
   const parts = name.split(/[ -]/).filter(Boolean);
   let initials = parts.map(part => part[0].toUpperCase()).join('');
   return initials.slice(0, 2);

@@ -8,8 +8,8 @@
       <profile-avatar
         :src="src"
         :name="userNameWithoutEmoji"
-        @change-avatar="updateProfilePicture"
-        @delete-avatar="deleteProfilePicture"
+        @change="updateProfilePicture"
+        @delete="deleteProfilePicture"
       />
     </div>
   </div>

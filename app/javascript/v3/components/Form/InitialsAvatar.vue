@@ -1,8 +1,8 @@
 <template>
   <div
     class="rounded-xl flex leading-[100%] font-medium items-center justify-center text-center cursor-default"
-    :class="`h-[${size}px] w-[${size}]px ${colorClass}`"
-    :style="style"
+    :class="`h-[${size}px] w-[${size}px] ${colorClass}`"
+    :style="fontSizeStyle"
     aria-hidden="true"
   >
     <slot>{{ initial }}</slot>
@@ -32,7 +32,7 @@ const props = defineProps({
     default: 72,
   },
 });
-const style = computed(() => ({
+const fontSizeStyle = computed(() => ({
   fontSize: `${Math.floor(props.size / 2.5)}px`,
 }));
 const colorClass = computed(() => {
