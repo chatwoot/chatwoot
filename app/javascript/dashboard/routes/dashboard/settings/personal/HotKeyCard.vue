@@ -14,7 +14,7 @@
         <input
           :checked="active"
           type="radio"
-          name="hotkey"
+          :name="`hotkey-${title}`"
           class="shadow cursor-pointer grid place-items-center border-2 border-ash-200 appearance-none rounded-full w-5 h-5 checked:bg-primary-600 before:content-[''] before:bg-primary-600 before:border-4 before:rounded-full before:border-ash-25 checked:before:w-[18px] checked:before:h-[18px] checked:border checked:border-primary-600"
         />
       </div>
@@ -24,10 +24,17 @@
     </div>
 
     <div>
-      <img :src="lightImage" class="block object-cover w-full dark:hidden" />
-      <img :src="darkImage" class="hidden object-cover w-full dark:block" />
+      <img
+        :src="lightImage"
+        :alt="`Light themed image for ${title}`"
+        class="block object-cover w-full dark:hidden"
+      />
+      <img
+        :src="darkImage"
+        :alt="`Dark themed image for ${title}`"
+        class="hidden object-cover w-full dark:block"
+      />
     </div>
-    <slot />
   </div>
 </template>
 

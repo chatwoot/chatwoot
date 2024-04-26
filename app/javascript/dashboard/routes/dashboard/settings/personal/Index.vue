@@ -50,6 +50,7 @@
                 class="reset-base"
               >
                 <hot-key-card
+                  :key="hotKey.title"
                   :title="hotKey.title"
                   :description="hotKey.description"
                   :light-image="hotKey.lightImage"
@@ -63,7 +64,6 @@
         </base-personal-item>
         <base-personal-item
           :header="$t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE')"
-          description=""
         >
           <template #settingsItem>
             <change-password v-if="!globalConfig.disableUserProfileUpdate" />
@@ -121,11 +121,11 @@ import { clearCookiesOnLogout } from '../../../../store/utils/api';
 
 import UserProfilePicture from './UserProfilePicture.vue';
 import UserBasicDetails from './UserBasicDetails.vue';
-import NotificationPreferences from './NotificationPreferences.vue';
-import AudioNotifications from './AudioNotifications.vue';
 import MessageSignature from './MessageSignature.vue';
 import HotKeyCard from './HotKeyCard.vue';
 import ChangePassword from './ChangePassword.vue';
+import NotificationPreferences from './NotificationPreferences.vue';
+import AudioNotifications from './AudioNotifications.vue';
 import AccessToken from './AccessToken.vue';
 import BasePersonalItem from './BasePersonalItem.vue';
 
@@ -210,6 +210,11 @@ export default {
       const { name, email, displayName, messageSignature } = userAttributes;
       const hasEmailChanged =
         this.currentUser.email !== email && type === 'profile';
+      if (type === 'profile') {
+        this.name = name || this.name;
+        this.email = email || this.email;
+        this.displayName = displayName || this.displayName;
+      }
       try {
         await this.$store.dispatch('updateProfile', {
           name: name || this.name,

@@ -1,20 +1,30 @@
 <template>
   <div id="profile-settings-notifications" class="flex flex-col gap-6">
+    <!-- Layout for desktop devices -->
     <div class="hidden sm:block">
       <div
         class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
       >
-        <table-header-cell :span="7" label="Notification type">
+        <table-header-cell
+          :span="7"
+          label="`${$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPE_TITLE')}`"
+        >
           <span class="text-sm font-normal uppercase text-ash-900">
             {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPE_TITLE') }}
           </span>
         </table-header-cell>
-        <table-header-cell :span="2" label="Email">
+        <table-header-cell
+          :span="2"
+          label="`${$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.EMAIL')}`"
+        >
           <span class="text-sm font-medium uppercase text-ash-900">
             {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.EMAIL') }}
           </span>
         </table-header-cell>
-        <table-header-cell :span="3" label="Push notification">
+        <table-header-cell
+          :span="3"
+          label="`${$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.PUSH')}`"
+        >
           <div class="flex items-center justify-between gap-1">
             <span
               class="text-sm font-medium uppercase text-ash-900 whitespace-nowrap"
@@ -28,7 +38,10 @@
           </div>
         </table-header-cell>
       </div>
-      <div v-for="(notification, index) in notificationTypes" :key="index">
+      <div
+        v-for="(notification, index) in filteredNotificationTypes"
+        :key="index"
+      >
         <div
           class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
         >
@@ -53,14 +66,14 @@
         </div>
       </div>
     </div>
-
+    <!--  Layout for mobile devices -->
     <div class="flex flex-col gap-6 sm:hidden">
       <span class="text-sm font-medium uppercase text-ash-900">
         {{ $t('PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.TITLE') }}
       </span>
       <div class="flex flex-col gap-4">
         <div
-          v-for="(notification, index) in notificationTypes"
+          v-for="(notification, index) in filteredNotificationTypes"
           :key="index"
           class="flex flex-row items-start gap-2"
         >
@@ -86,7 +99,7 @@
 
       <div class="flex flex-col gap-4">
         <div
-          v-for="(notification, index) in notificationTypes"
+          v-for="(notification, index) in filteredNotificationTypes"
           :key="index"
           class="flex flex-row items-start gap-2"
         >
@@ -188,6 +201,17 @@ export default {
     },
     isSLAEnabled() {
       return this.isFeatureEnabledonAccount(this.accountId, FEATURE_FLAGS.SLA);
+    },
+    filteredNotificationTypes() {
+      return this.notificationTypes.filter(notification =>
+        this.isSLAEnabled
+          ? true
+          : ![
+              'sla_missed_first_response',
+              'sla_missed_next_response',
+              'sla_missed_resolution',
+            ].includes(notification.value)
+      );
     },
   },
   watch: {
