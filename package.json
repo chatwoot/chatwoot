@@ -70,6 +70,7 @@
     "postcss-loader": "^4.2.0",
     "semver": "7.5.3",
     "tailwindcss": "^3.3.2",
+    "tinykeys": "^2.1.0",
     "turbolinks": "^5.2.0",
     "url-loader": "^2.0.0",
     "urlpattern-polyfill": "^6.0.2",

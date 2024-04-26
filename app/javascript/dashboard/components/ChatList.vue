@@ -185,7 +185,7 @@ import ConversationBasicFilter from './widgets/conversation/ConversationBasicFil
 import ChatTypeTabs from './widgets/ChatTypeTabs.vue';
 import ConversationItem from './ConversationItem.vue';
 import timeMixin from '../mixins/time';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import conversationMixin from '../mixins/conversations';
 import wootConstants from 'dashboard/constants/globals';
 import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
@@ -199,11 +199,6 @@ import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import countries from 'shared/constants/countries';
 import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
-
-import {
-  hasPressedAltAndJKey,
-  hasPressedAltAndKKey,
-} from 'shared/helpers/KeyboardHelpers';
 import { conversationListPageURL } from '../helper/URLHelper';
 import {
   isOnMentionsView,
@@ -228,7 +223,7 @@ export default {
   mixins: [
     timeMixin,
     conversationMixin,
-    eventListenerMixins,
+    keyboardEventListenerMixins,
     alertMixin,
     filterMixin,
     uiSettingsMixin,
@@ -691,29 +686,39 @@ export default {
         lastConversationIndex,
       };
     },
-    handleKeyEvents(e) {
-      if (hasPressedAltAndJKey(e)) {
-        const { allConversations, activeConversationIndex } =
-          this.getKeyboardListenerParams();
-        if (activeConversationIndex === -1) {
-          allConversations[0].click();
-        }
-        if (activeConversationIndex >= 1) {
-          allConversations[activeConversationIndex - 1].click();
-        }
+    handlePreviousConversation() {
+      const { allConversations, activeConversationIndex } =
+        this.getKeyboardListenerParams();
+      if (activeConversationIndex === -1) {
+        allConversations[0].click();
       }
-      if (hasPressedAltAndKKey(e)) {
-        const {
-          allConversations,
-          activeConversationIndex,
-          lastConversationIndex,
-        } = this.getKeyboardListenerParams();
-        if (activeConversationIndex === -1) {
-          allConversations[lastConversationIndex].click();
-        } else if (activeConversationIndex < lastConversationIndex) {
-          allConversations[activeConversationIndex + 1].click();
-        }
+      if (activeConversationIndex >= 1) {
+        allConversations[activeConversationIndex - 1].click();
       }
+    },
+    handleNextConversation() {
+      const {
+        allConversations,
+        activeConversationIndex,
+        lastConversationIndex,
+      } = this.getKeyboardListenerParams();
+      if (activeConversationIndex === -1) {
+        allConversations[lastConversationIndex].click();
+      } else if (activeConversationIndex < lastConversationIndex) {
+        allConversations[activeConversationIndex + 1].click();
+      }
+    },
+    getKeyboardEvents() {
+      return {
+        'Alt+KeyJ': {
+          action: () => this.handlePreviousConversation(),
+          allowOnFocusedInput: true,
+        },
+        'Alt+KeyK': {
+          action: () => this.handleNextConversation(),
+          allowOnFocusedInput: true,
+        },
+      };
     },
     resetAndFetchData() {
       this.appliedFilter = [];
