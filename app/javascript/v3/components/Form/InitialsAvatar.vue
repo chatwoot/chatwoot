@@ -12,7 +12,6 @@
 <script setup>
 import { computed } from 'vue';
 import { userInitial } from 'v3/helpers/CommonHelper';
-
 const colors = {
   1: 'bg-ash-200 text-ash-900',
   2: 'bg-amber-200 text-amber-900',
@@ -23,7 +22,6 @@ const colors = {
   7: 'bg-mint-100 text-mint-800',
   8: 'bg-orange-100 text-orange-800',
 };
-
 const props = defineProps({
   name: {
     type: String,
@@ -34,14 +32,12 @@ const props = defineProps({
     default: 72,
   },
 });
-
 const style = computed(() => ({
   fontSize: `${Math.floor(props.size / 2.5)}px`,
 }));
-
 const colorClass = computed(() => {
   return colors[(props.name.length % 8) + 1];
 });
 
-const initial = userInitial(props.name);
+const initial = computed(() => userInitial(props.name));
 </script>
