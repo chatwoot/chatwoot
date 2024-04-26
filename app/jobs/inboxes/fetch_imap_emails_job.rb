@@ -3,13 +3,13 @@ require 'net/imap'
 class Inboxes::FetchImapEmailsJob < MutexApplicationJob
   queue_as :scheduled_jobs
 
-  def perform(channel)
+  def perform(channel, interval = 1)
     return unless should_fetch_email?(channel)
 
     key = format(::Redis::Alfred::EMAIL_MESSAGE_MUTEX, inbox_id: channel.inbox.id)
 
     with_lock(key, 5.minutes) do
-      process_email_for_channel(channel)
+      process_email_for_channel(channel, interval)
     end
   rescue *ExceptionList::IMAP_EXCEPTIONS => e
     Rails.logger.error "Authorization error for email channel - #{channel.inbox.id} : #{e.message}"
@@ -28,11 +28,11 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
     channel.imap_enabled? && !channel.reauthorization_required?
   end
 
-  def process_email_for_channel(channel)
+  def process_email_for_channel(channel, interval)
     inbound_emails = if channel.microsoft?
-                       Imap::MicrosoftFetchEmailService.new(channel: channel).perform
+                       Imap::MicrosoftFetchEmailService.new(channel: channel, interval: interval).perform
                      else
-                       Imap::FetchEmailService.new(channel: channel).perform
+                       Imap::FetchEmailService.new(channel: channel, interval: interval).perform
                      end
     inbound_emails.map do |inbound_mail|
       process_mail(inbound_mail, channel)
