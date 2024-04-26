@@ -175,9 +175,6 @@ gem 'pgvector'
 # Convert Website HTML to Markdown
 gem 'reverse_markdown'
 
-# Sentiment analysis
-gem 'informers'
-
 ### Gems required only in specific deployment environments ###
 ##############################################################
 
