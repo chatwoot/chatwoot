@@ -12,7 +12,7 @@
           <label>
             {{ $t('HELP_CENTER.PORTAL.ADD.THEME_COLOR.LABEL') }}
           </label>
-          <woot-color-picker v-model="color" />
+          <woot-color-picker v-model="state.color" />
           <p
             class="mt-1 mb-0 text-xs not-italic text-slate-600 dark:text-slate-400"
           >
@@ -21,7 +21,7 @@
         </div>
         <div class="mb-4">
           <woot-input
-            v-model.trim="pageTitle"
+            v-model="state.pageTitle"
             :label="$t('HELP_CENTER.PORTAL.ADD.PAGE_TITLE.LABEL')"
             :placeholder="$t('HELP_CENTER.PORTAL.ADD.PAGE_TITLE.PLACEHOLDER')"
             :help-text="$t('HELP_CENTER.PORTAL.ADD.PAGE_TITLE.HELP_TEXT')"
@@ -29,7 +29,7 @@
         </div>
         <div class="mb-4">
           <woot-input
-            v-model.trim="headerText"
+            v-model="state.headerText"
             :label="$t('HELP_CENTER.PORTAL.ADD.HEADER_TEXT.LABEL')"
             :placeholder="$t('HELP_CENTER.PORTAL.ADD.HEADER_TEXT.PLACEHOLDER')"
             :help-text="$t('HELP_CENTER.PORTAL.ADD.HEADER_TEXT.HELP_TEXT')"
@@ -37,19 +37,19 @@
         </div>
         <div class="mb-4">
           <woot-input
-            v-model.trim="homePageLink"
+            v-model="state.homePageLink"
             :label="$t('HELP_CENTER.PORTAL.ADD.HOME_PAGE_LINK.LABEL')"
             :placeholder="
               $t('HELP_CENTER.PORTAL.ADD.HOME_PAGE_LINK.PLACEHOLDER')
             "
             :help-text="homepageExampleHelpText"
             :error="
-              $v.homePageLink.$error
+              v$.homePageLink.$error
                 ? $t('HELP_CENTER.PORTAL.ADD.HOME_PAGE_LINK.ERROR')
                 : ''
             "
-            :class="{ error: $v.homePageLink.$error }"
-            @blur="$v.homePageLink.$touch"
+            :class="{ error: v$.homePageLink.$error }"
+            @blur="v$.homePageLink.$touch"
           />
         </div>
       </div>
@@ -57,7 +57,7 @@
     <template #footer-right>
       <woot-button
         :is-loading="isSubmitting"
-        :is-disabled="$v.$invalid"
+        :is-disabled="v$.$invalid"
         @click="onSubmitClick"
       >
         {{
@@ -70,82 +70,92 @@
   </SettingsLayout>
 </template>
 
-<script>
-import { url } from 'vuelidate/lib/validators';
+<script setup>
 import { getRandomColor } from 'dashboard/helper/labelColor';
-
-import alertMixin from 'shared/mixins/alertMixin';
-import wootConstants from 'dashboard/constants/globals';
 import SettingsLayout from './Layout/SettingsLayout.vue';
-
+import wootConstants from 'dashboard/constants/globals';
 const { EXAMPLE_URL } = wootConstants;
 
-export default {
-  components: { SettingsLayout },
-  mixins: [alertMixin],
-  props: {
-    portal: {
-      type: Object,
-      default: () => ({}),
-    },
-    isSubmitting: {
-      type: Boolean,
-      default: false,
-    },
+import { useVuelidate } from '@vuelidate/core';
+import { url } from '@vuelidate/validators';
+
+import {
+  defineComponent,
+  reactive,
+  computed,
+  onMounted,
+  defineEmits,
+} from 'vue';
+import { useI18n } from 'dashboard/composables/useI18n';
+
+defineComponent({
+  name: 'PortalSettingsCustomizationForm',
+});
+
+const { t } = useI18n();
+
+const props = defineProps({
+  portal: {
+    type: Object,
+    default: () => ({}),
   },
-  data() {
-    return {
-      color: '#000',
-      pageTitle: '',
-      headerText: '',
-      homePageLink: '',
-      alertMessage: '',
-    };
+  isSubmitting: {
+    type: Boolean,
+    default: false,
   },
-  validations: {
-    homePageLink: {
-      url,
-    },
-  },
-  computed: {
-    homepageExampleHelpText() {
-      return this.$t('HELP_CENTER.PORTAL.ADD.HOME_PAGE_LINK.HELP_TEXT', {
-        exampleURL: EXAMPLE_URL,
-      });
-    },
-  },
-  mounted() {
-    this.color = getRandomColor();
-    this.updateDataFromStore();
-  },
-  methods: {
-    updateDataFromStore() {
-      const { portal } = this;
-      if (portal) {
-        this.color = portal.color || getRandomColor();
-        this.pageTitle = portal.page_title || '';
-        this.headerText = portal.header_text || '';
-        this.homePageLink = portal.homepage_link || '';
-        this.alertMessage = '';
-      }
-    },
-    onSubmitClick() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        return;
-      }
-      const portal = {
-        id: this.portal.id,
-        slug: this.portal.slug,
-        color: this.color,
-        page_title: this.pageTitle,
-        header_text: this.headerText,
-        homepage_link: this.homePageLink,
-      };
-      this.$emit('submit', portal);
-    },
-  },
+});
+
+const emit = defineEmits(['submit']);
+
+const state = reactive({
+  color: getRandomColor(),
+  pageTitle: '',
+  headerText: '',
+  homePageLink: '',
+});
+
+const rules = {
+  homePageLink: { url },
 };
+
+const homepageExampleHelpText = computed(() => {
+  return t('HELP_CENTER.PORTAL.ADD.HOME_PAGE_LINK.HELP_TEXT', {
+    exampleURL: EXAMPLE_URL,
+  });
+});
+
+const v$ = useVuelidate(rules, state);
+
+function updateDataFromStore() {
+  const { portal } = props;
+  if (portal) {
+    state.color = portal.color || getRandomColor();
+    state.pageTitle = portal.page_title || '';
+    state.headerText = portal.header_text || '';
+    state.homePageLink = portal.homepage_link || '';
+  }
+}
+
+function onSubmitClick() {
+  v$.$touch();
+  if (v$.$invalid) {
+    return;
+  }
+
+  const portal = {
+    id: this.portal.id,
+    slug: this.portal.slug,
+    color: this.color,
+    page_title: this.pageTitle,
+    header_text: this.headerText,
+    homepage_link: this.homePageLink,
+  };
+  emit('submit', portal);
+}
+
+onMounted(() => {
+  updateDataFromStore();
+});
 </script>
 <style lang="scss" scoped>
 ::v-deep {
