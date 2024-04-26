@@ -1,7 +1,7 @@
 <template>
   <div
     class="rounded-xl flex leading-[100%] font-medium items-center justify-center text-center cursor-default"
-    :class="`h-[${size}px] w-[${size}]px ${colorClass}`"
+    :class="`h-[${size}px] w-[${size}px] ${colorClass}`"
     :style="style"
     aria-hidden="true"
   >
