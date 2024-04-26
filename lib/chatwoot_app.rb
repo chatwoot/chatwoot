@@ -21,7 +21,7 @@ module ChatwootApp
     @custom ||= root.join('custom').exist?
   end
 
-  def help_center_root
+  def self.help_center_root
     ENV.fetch('HELPCENTER_URL', nil) || ENV.fetch('FRONTEND_URL', nil)
   end
 
