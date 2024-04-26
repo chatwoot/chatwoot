@@ -7,6 +7,7 @@
     <img
       v-if="shouldShowImage"
       class="rounded-xl h-[72px] w-[72px]"
+      :alt="name"
       :src="src"
       draggable="false"
       @load="onImageLoad"
@@ -62,15 +63,7 @@ const imageLoadedError = ref(false);
 const shouldShowUploadIcon = ref(false);
 const fileInputRef = ref(null);
 
-const shouldShowImage = computed(() => {
-  if (!props.src) {
-    return false;
-  }
-  if (hasImageLoaded.value) {
-    return !imageLoadedError.value;
-  }
-  return true;
-});
+const shouldShowImage = computed(() => props.src && !imageLoadedError.value);
 
 const onImageLoadError = () => {
   imageLoadedError.value = true;
