@@ -151,7 +151,6 @@ GEM
     base64 (0.1.1)
     bcrypt (3.1.20)
     bindex (0.8.1)
-    blingfire (0.1.8)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
     brakeman (5.4.1)
@@ -316,15 +315,15 @@ GEM
     google-cloud-translate-v3 (0.6.0)
       gapic-common (>= 0.17.1, < 2.a)
       google-cloud-errors (~> 1.0)
-    google-protobuf (3.25.2)
-    google-protobuf (3.25.2-arm64-darwin)
-    google-protobuf (3.25.2-x86_64-darwin)
-    google-protobuf (3.25.2-x86_64-linux)
+    google-protobuf (3.25.3)
+    google-protobuf (3.25.3-arm64-darwin)
+    google-protobuf (3.25.3-x86_64-darwin)
+    google-protobuf (3.25.3-x86_64-linux)
     googleapis-common-protos (1.4.0)
       google-protobuf (~> 3.14)
       googleapis-common-protos-types (~> 1.2)
       grpc (~> 1.27)
-    googleapis-common-protos-types (1.11.0)
+    googleapis-common-protos-types (1.14.0)
       google-protobuf (~> 3.18)
     googleauth (1.5.2)
       faraday (>= 0.17.3, < 3.a)
@@ -335,14 +334,17 @@ GEM
       signet (>= 0.16, < 2.a)
     groupdate (6.2.1)
       activesupport (>= 5.2)
-    grpc (1.54.3)
-      google-protobuf (~> 3.21)
+    grpc (1.62.0)
+      google-protobuf (~> 3.25)
       googleapis-common-protos-types (~> 1.0)
-    grpc (1.54.3-x86_64-darwin)
-      google-protobuf (~> 3.21)
+    grpc (1.62.0-arm64-darwin)
+      google-protobuf (~> 3.25)
       googleapis-common-protos-types (~> 1.0)
-    grpc (1.54.3-x86_64-linux)
-      google-protobuf (~> 3.21)
+    grpc (1.62.0-x86_64-darwin)
+      google-protobuf (~> 3.25)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.62.0-x86_64-linux)
+      google-protobuf (~> 3.25)
       googleapis-common-protos-types (~> 1.0)
     haikunator (1.1.1)
     hairtrigger (1.0.0)
@@ -371,10 +373,6 @@ GEM
     image_processing (1.12.2)
       mini_magick (>= 4.9.5, < 5)
       ruby-vips (>= 2.0.17, < 3)
-    informers (0.2.0)
-      blingfire (>= 0.1.7)
-      numo-narray
-      onnxruntime (>= 0.5.1)
     io-console (0.6.0)
     irb (1.7.2)
       reline (>= 0.3.6)
@@ -500,7 +498,6 @@ GEM
       racc (~> 1.4)
     nokogiri (1.16.4-x86_64-linux)
       racc (~> 1.4)
-    numo-narray (0.9.2.1)
     oauth (1.1.0)
       oauth-tty (~> 1.0, >= 1.0.1)
       snaky_hash (~> 2.0)
@@ -529,14 +526,6 @@ GEM
     omniauth-rails_csrf_protection (1.0.1)
       actionpack (>= 4.2)
       omniauth (~> 2.0)
-    onnxruntime (0.7.6)
-      ffi
-    onnxruntime (0.7.6-arm64-darwin)
-      ffi
-    onnxruntime (0.7.6-x86_64-darwin)
-      ffi
-    onnxruntime (0.7.6-x86_64-linux)
-      ffi
     openssl (3.1.0)
     orm_adapter (0.5.0)
     os (1.1.4)
@@ -892,7 +881,6 @@ DEPENDENCIES
   hashie
   html2text!
   image_processing
-  informers
   jbuilder
   json_refs
   json_schemer
