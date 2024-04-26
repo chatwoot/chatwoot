@@ -7,6 +7,7 @@
     <img
       v-if="shouldShowImage"
       class="rounded-xl h-[72px] w-[72px]"
+      :alt="name"
       :src="src"
       draggable="false"
       @load="onImageLoad"
@@ -23,7 +24,7 @@
     />
     <button
       v-if="src && shouldShowUploadIcon"
-      class="absolute z-10 flex items-center justify-center w-6 h-6 p-1 border border-white rounded-full select-none reset-base -top-2 -right-2 bg-ash-300"
+      class="absolute z-10 flex items-center justify-center w-6 h-6 p-1 border border-white rounded-full select-none dark:border-ash-75 reset-base -top-2 -right-2 bg-ash-300"
       @click="onAvatarDelete"
     >
       <fluent-icon
@@ -62,15 +63,7 @@ const imageLoadedError = ref(false);
 const shouldShowUploadIcon = ref(false);
 const fileInputRef = ref(null);
 
-const shouldShowImage = computed(() => {
-  if (!props.src) {
-    return false;
-  }
-  if (hasImageLoaded.value) {
-    return !imageLoadedError.value;
-  }
-  return true;
-});
+const shouldShowImage = computed(() => props.src && !imageLoadedError.value);
 
 const onImageLoadError = () => {
   imageLoadedError.value = true;
