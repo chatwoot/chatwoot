@@ -7,7 +7,7 @@ class Public::Api::V1::PortalsController < Public::Api::V1::Portals::BaseControl
   def show; end
 
   def sitemap
-    @help_center_url = @poratl.custom_domain || ENV.fetch('HELPCENTER_URL')
+    @help_center_url = @portal.custom_domain || ENV.fetch('HELPCENTER_URL')
   end
 
   private
