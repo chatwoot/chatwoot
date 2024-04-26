@@ -48,7 +48,7 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
         links = parsed_xml.css('loc')
 
         links.each do |link|
-          expect(link.text).to match(%r{www\.example\.com/hc/test-portal/articles/\d+})
+          expect(link.text).to match(%r{https://www\.example\.com/hc/test-portal/articles/\d+})
         end
 
         expect(links.length).to eq 3
