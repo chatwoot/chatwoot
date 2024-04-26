@@ -12,6 +12,7 @@
       </woot-button>
     </div>
     <LocaleItemTable
+      v-if="currentPortal"
       :locales="locales"
       :selected-locale-code="currentPortal.meta.default_locale"
       @change-default-locale="changeDefaultLocale"
@@ -38,14 +39,13 @@ import { useAlert, useTrack } from 'dashboard/composables';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { useRoute } from 'dashboard/composables/route';
 import { useI18n } from 'dashboard/composables/useI18n';
-import { defineComponent, ref, onMounted, computed } from 'vue';
+import { defineComponent, ref, onBeforeMount, computed } from 'vue';
 
 defineComponent({
   name: 'EditPortalLocales',
 });
 
 const isAddLocaleModalOpen = ref(false);
-const lastPortalSlug = ref(undefined);
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -62,7 +62,7 @@ const currentPortal = computed(() => {
   return getters['portals/allPortals'].value[0];
 });
 const locales = computed(() => {
-  return currentPortal.value.config.allowed_locales;
+  return currentPortal.value?.config.allowed_locales;
 });
 const allowedLocales = computed(() => {
   return Object.keys(locales.value).map(key => {
@@ -70,8 +70,12 @@ const allowedLocales = computed(() => {
   });
 });
 
-onMounted(() => {
-  lastPortalSlug.value = currentPortalSlug.value;
+async function fetchPortals() {
+  await store.dispatch('portals/index');
+}
+
+onBeforeMount(() => {
+  fetchPortals();
 });
 
 async function updatePortalLocales({
@@ -114,7 +118,7 @@ function deletePortalLocale({ localeCode }) {
     code => code !== localeCode
   );
 
-  const defaultLocale = currentPortal.value.meta.default_locale;
+  const defaultLocale = currentPortal.value?.meta.default_locale;
 
   updatePortalLocales({
     allowedLocales: updatedLocales,
@@ -127,6 +131,7 @@ function deletePortalLocale({ localeCode }) {
     from: route.name,
   });
 }
+
 function closeAddLocaleModal() {
   isAddLocaleModalOpen.value = false;
 }
