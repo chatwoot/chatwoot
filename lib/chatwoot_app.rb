@@ -22,7 +22,7 @@ module ChatwootApp
   end
 
   def help_center_root
-    URI.parse(ENV.fetch('HELPCENTER_URL', '')).host || URI.parse(ENV.fetch('FRONTEND_URL', '')).host
+    ENV.fetch('HELPCENTER_URL', nil) || ENV.fetch('FRONTEND_URL', nil)
   end
 
   def self.extensions
