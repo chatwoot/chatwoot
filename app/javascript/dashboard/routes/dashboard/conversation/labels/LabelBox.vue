@@ -50,13 +50,8 @@ import LabelDropdown from 'shared/components/ui/label/LabelDropdown.vue';
 import AddLabel from 'shared/components/ui/dropdown/AddLabel.vue';
 import { mixin as clickaway } from 'vue-clickaway';
 import adminMixin from 'dashboard/mixins/isAdmin';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
-import {
-  buildHotKeys,
-  isEscape,
-  isActiveElementTypeable,
-} from 'shared/helpers/KeyboardHelpers';
 
 export default {
   components: {
@@ -65,7 +60,12 @@ export default {
     AddLabel,
   },
 
-  mixins: [clickaway, conversationLabelMixin, adminMixin, eventListenerMixins],
+  mixins: [
+    clickaway,
+    conversationLabelMixin,
+    adminMixin,
+    keyboardEventListenerMixins,
+  ],
   props: {
     conversationId: {
       type: Number,
@@ -93,16 +93,23 @@ export default {
     closeDropdownLabel() {
       this.showSearchDropdownLabel = false;
     },
-    handleKeyEvents(e) {
-      const keyPattern = buildHotKeys(e);
-
-      if (keyPattern === 'l' && !isActiveElementTypeable(e)) {
-        this.toggleLabels();
-        e.preventDefault();
-      } else if (isEscape(e) && this.showSearchDropdownLabel) {
-        this.closeDropdownLabel();
-        e.preventDefault();
-      }
+    getKeyboardEvents() {
+      return {
+        KeyL: {
+          action: e => {
+            e.preventDefault();
+            this.toggleLabels();
+          },
+        },
+        Escape: {
+          action: () => {
+            if (this.showSearchDropdownLabel) {
+              this.toggleLabels();
+            }
+          },
+          allowOnFocusedInput: true,
+        },
+      };
     },
   },
 };
