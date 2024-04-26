@@ -50,9 +50,7 @@ class V2::ReportBuilder
     {
       conversations_count: conversations.count,
       avg_first_response_time: avg_first_response_time_summary,
-      avg_resolution_time: avg_resolution_time_summary,
-      resolutions_count: resolutions.count,
-      reply_time: reply_time_summary
+      avg_resolution_time: avg_resolution_time_summary
     }
   end
 
