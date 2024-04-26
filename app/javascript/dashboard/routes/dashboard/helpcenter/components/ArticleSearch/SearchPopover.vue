@@ -35,10 +35,7 @@
 <script>
 import { debounce } from '@chatwoot/utils';
 import { mixin as clickaway } from 'vue-clickaway';
-import {
-  isEscape,
-  isActiveElementTypeable,
-} from 'shared/helpers/KeyboardHelpers';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 
 import SearchHeader from './Header.vue';
 import SearchResults from './SearchResults.vue';
@@ -55,7 +52,7 @@ export default {
     SearchResults,
     ArticleView,
   },
-  mixins: [clickaway, portalMixin, alertMixin],
+  mixins: [clickaway, portalMixin, alertMixin, keyboardEventListenerMixins],
   props: {
     selectedPortalSlug: {
       type: String,
@@ -97,10 +94,6 @@ export default {
   mounted() {
     this.fetchArticlesByQuery(this.searchQuery);
     this.debounceSearch = debounce(this.fetchArticlesByQuery, 500, false);
-    document.body.addEventListener('keydown', this.closeOnEsc);
-  },
-  beforeDestroy() {
-    document.body.removeEventListener('keydown', this.closeOnEsc);
   },
   methods: {
     generateArticleUrl(article) {
@@ -158,11 +151,15 @@ export default {
       );
       this.onClose();
     },
-    closeOnEsc(e) {
-      if (isEscape(e) && !isActiveElementTypeable(e)) {
-        e.preventDefault();
-        this.onClose();
-      }
+    getKeyboardEvents() {
+      return {
+        Escape: {
+          action: () => {
+            this.onClose();
+          },
+          allowOnFocusedInput: true,
+        },
+      };
     },
   },
 };
