@@ -112,14 +112,14 @@
           "ERROR": "هذا الحقل مطلوب"
         },
         "API_KEY": {
-          "USE_API_KEY": "Use API Key Authentication",
-          "LABEL": "API Key SID",
-          "PLACEHOLDER": "Please enter your API Key SID",
+          "USE_API_KEY": "استخدم مفتاح مصادقة API",
+          "LABEL": "مفتاح API SID",
+          "PLACEHOLDER": "الرجاء إدخال معرف مفتاح واجهة برمجة التطبيقات API الخاص بك",
           "ERROR": "هذا الحقل مطلوب"
         },
         "API_KEY_SECRET": {
-          "LABEL": "API Key Secret",
-          "PLACEHOLDER": "Please enter your API Key Secret",
+          "LABEL": "مفتاح سر API",
+          "PLACEHOLDER": "الرجاء إدخال سر مفتاح API الخاص بك",
           "ERROR": "هذا الحقل مطلوب"
         },
         "MESSAGING_SERVICE_SID": {
@@ -357,7 +357,7 @@
         "DESC": "لقد تم بنجاح ربط صفحة فيسبوك الخاصة بك مع Chatwoot. في المرة القادمة التي يرسل فيها العملاء رسالة إلى صفحتك، ستظهر المحادثة تلقائيًا على صندوق الوارد الخاص بك هنا.<br>نحن نزودك أيضًا بالكود النصي لصندوق دردشة الماسنجر والذي يمكنك إضافته بسهولة إلى الموقع الخاص بك لاستقبال الرسائل من الزوار كذلك. بمجرد أن يتم ذلك على موقع الويب الخاص بك، يمكن للعملاء مراسلتك من موقع الويب الخاص بك بدون الحاجة لأي أدوات خارجية وستظهر المحادثة هنا على Chatwoot.<br>رائع، أليس كذلك؟ نحن بالتأكيد نحاول أن نكون الأفضل :)"
       },
       "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
+        "TITLE": "حدد مزود البريد الإلكتروني الخاص بك",
         "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
       },
       "MICROSOFT": {
