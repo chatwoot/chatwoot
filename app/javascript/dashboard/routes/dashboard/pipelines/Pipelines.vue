@@ -2,24 +2,25 @@
   <div
     class="flex justify-between flex-col h-full m-0 flex-1 bg-white dark:bg-slate-900"
   >
-    <Kanban :stages="statuses" :blocks="blocks" @update-block="updateBlock">
-      <div v-for="stage in statuses" :slot="stage" :key="stage">
+    <Kanban :statuses="statuses" :blocks="blocks" @update-block="updateBlock">
+      <div
+        v-for="stage in stages"
+        :slot="stage.short_name"
+        :key="stage.short_name"
+      >
         <h2>
-          {{ stage }}
-          <a>+</a>
+          {{ stage.name }}
+          <a href="" @click.prevent="() => addBlock(stage.short_name)">+</a>
         </h2>
       </div>
       <div v-for="item in blocks" :slot="item.id" :key="item.id">
-        <div v-if="item.status === 'on-hold'">
+        <div v-if="item.status === 'Prospecting'">
           {{ item.title }}
         </div>
         <div v-else>
           <strong>id:</strong> {{ item.id }}
           <div>{{ item.title }}</div>
         </div>
-      </div>
-      <div v-for="stage in statuses" :key="stage" :slot="`footer-${stage}`">
-        <a href="" @click.prevent="() => addBlock(stage)">+ Add new block</a>
       </div>
     </Kanban>
   </div>
@@ -29,6 +30,7 @@
 import faker from 'faker';
 import { debounce } from 'lodash';
 import Kanban from '../../../components/Kanban.vue';
+import boardsAPI from '../../../api/boards.js';
 
 export default {
   name: 'app',
@@ -37,28 +39,38 @@ export default {
   },
   data() {
     return {
-      statuses: ['on-hold', 'in-progress', 'needs-review', 'approved'],
+      statuses: [],
+      stages: [],
       blocks: [],
     };
   },
   mounted() {
-    for (let i = 0; i <= 10; i += 1) {
-      this.blocks.push({
-        id: i,
-        status: this.statuses[Math.floor(Math.random() * 4)],
-        title: faker.company.bs(),
-      });
-    }
+    boardsAPI.get().then(response => {
+      const stagesByType = response.data.filter(
+        item => item.stage_type === 'deals'
+      );
+      this.stages = stagesByType;
+      this.statuses = stagesByType.map(item => item.short_name);
+
+      for (let i = 0; i <= 15; i += 1) {
+        this.blocks.push({
+          id: i,
+          status:
+            this.statuses[Math.floor(Math.random() * this.statuses.length)],
+          title: faker.company.bs(),
+        });
+      }
+    });
   },
 
   methods: {
     updateBlock: debounce(function find(id, status) {
       this.blocks.find(b => b.id === Number(id)).status = status;
     }, 500),
-    addBlock: debounce(function push(stage) {
+    addBlock: debounce(function push(status) {
       this.blocks.push({
         id: this.blocks.length,
-        status: stage,
+        status: status,
         title: faker.company.bs(),
       });
     }, 500),
@@ -68,11 +80,6 @@ export default {
 
 <style lang="scss">
 @import '../../../assets/scss/kanban.scss';
-
-$on-hold: #fb7d44;
-$in-progress: #2a92bf;
-$needs-review: #f4ce46;
-$approved: #00b961;
 
 * {
   box-sizing: border-box;
@@ -97,35 +104,26 @@ $approved: #00b961;
     }
   }
 
-  &-on-hold {
-    .drag-column-header,
-    .is-moved,
-    .drag-options {
-      background: $on-hold;
-    }
-  }
+  $status-colors: (
+    New: #c89e07,
+    Contacting: #2a92bf,
+    Converted: #00b961,
+    Unqualified: #5b4b1f,
+    Prospecting: #c89e07,
+    Qualified: #478ad1,
+    Working: #2a92bf,
+    Closure: #09918f,
+    Won: #00b961,
+    Lost: #5b4b1f,
+  );
 
-  &-in-progress {
-    .drag-column-header,
-    .is-moved,
-    .drag-options {
-      background: $in-progress;
-    }
-  }
-
-  &-needs-review {
-    .drag-column-header,
-    .is-moved,
-    .drag-options {
-      background: $needs-review;
-    }
-  }
-
-  &-approved {
-    .drag-column-header,
-    .is-moved,
-    .drag-options {
-      background: $approved;
+  @each $status, $color in $status-colors {
+    &-#{$status} {
+      .drag-column-header,
+      .is-moved,
+      .drag-options {
+        background: map-get($status-colors, $status);
+      }
     }
   }
 }

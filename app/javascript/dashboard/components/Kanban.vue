@@ -1,21 +1,21 @@
 <template>
-  <div class="drag-container">
+  <div :style="{ maxWidth: maxWidth }" class="drag-container">
     <ul class="drag-list">
       <li
-        v-for="stage in stages"
-        :key="stage"
+        v-for="status in statuses"
+        :key="status"
         class="drag-column"
-        :class="{ ['drag-column-' + stage]: true }"
+        :class="{ ['drag-column-' + status]: true }"
       >
         <span class="drag-column-header">
-          <slot :name="stage">
-            <h2>{{ stage }}</h2>
+          <slot :name="status">
+            <h2>{{ status }}</h2>
           </slot>
         </span>
         <div class="drag-options" />
-        <ul ref="list" class="drag-inner-list" :data-status="stage">
+        <ul ref="list" class="drag-inner-list" :data-status="status">
           <li
-            v-for="block in getBlocks(stage)"
+            v-for="block in getBlocks(status)"
             :key="block[idProp]"
             class="drag-item text-slate-900 dark:text-slate-100 text-sm"
             :data-block-id="block[idProp]"
@@ -27,7 +27,7 @@
           </li>
         </ul>
         <div class="drag-column-footer">
-          <slot :name="`footer-${stage}`" />
+          <slot :name="`footer-${status}`" />
         </div>
       </li>
     </ul>
@@ -40,7 +40,7 @@ import { Machine } from 'xstate';
 
 export default {
   props: {
-    stages: {
+    statuses: {
       type: Array,
       required: true,
     },
@@ -75,6 +75,9 @@ export default {
   computed: {
     localBlocks() {
       return this.blocks;
+    },
+    maxWidth() {
+      return (this.statuses.length * 250).toString() + 'px';
     },
   },
 

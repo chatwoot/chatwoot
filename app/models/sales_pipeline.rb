@@ -18,6 +18,7 @@
 #  index_sales_pipelines_on_account_id_and_short_name  (account_id,short_name) UNIQUE
 #
 class SalesPipeline < ApplicationRecord
+  belongs_to :account
   validates :account_id, presence: true
   validates :stage_type, presence: true
   validates :short_name, presence: true
@@ -37,9 +38,9 @@ class SalesPipeline < ApplicationRecord
 
                            { account_id: account_id,
                              stage_type: :leads,
-                             short_name: 'Working',
-                             name: 'Đang theo dõi',
-                             description: 'Lead đang trao đổi để nuôi dưỡng, phát triển',
+                             short_name: 'Contacting',
+                             name: 'Đang liên hệ',
+                             description: 'Lead đang liên hệ để nuôi dưỡng, phát triển',
                              status: :ongoing },
 
                            { account_id: account_id,
@@ -59,7 +60,7 @@ class SalesPipeline < ApplicationRecord
                            { account_id: account_id,
                              stage_type: :deals,
                              short_name: 'Prospecting',
-                             name: 'Khách hàng tiềm năng',
+                             name: 'Tiềm năng',
                              description: 'Deal tiềm năng mới được chuyển đổi từ Lead',
                              status: :ongoing },
 
@@ -72,9 +73,9 @@ class SalesPipeline < ApplicationRecord
 
                            { account_id: account_id,
                              stage_type: :deals,
-                             short_name: 'Quote',
-                             name: 'Báo giá',
-                             description: 'Gửi báo giá sang khách hàng',
+                             short_name: 'Working',
+                             name: 'Đang trao đổi',
+                             description: 'Trao đổi chi tiết về sản phẩm dịch vụ',
                              status: :ongoing },
 
                            { account_id: account_id,
@@ -94,7 +95,7 @@ class SalesPipeline < ApplicationRecord
                            { account_id: account_id,
                              stage_type: :deals,
                              short_name: 'Lost',
-                             name: 'Không chốt được',
+                             name: 'Đã mất',
                              description: 'Deal thất bại',
                              status: :ended }
                          ])
