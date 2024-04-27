@@ -68,6 +68,26 @@
             <change-password v-if="!globalConfig.disableUserProfileUpdate" />
           </template>
         </base-personal-item>
+
+        <base-personal-item
+          :header="
+            $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE')
+          "
+          :description="
+            $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NOTE')
+          "
+        >
+          <template #settingsItem>
+            <audio-notifications />
+          </template>
+        </base-personal-item>
+        <base-personal-item
+          :header="$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TITLE')"
+        >
+          <template #settingsItem>
+            <notification-preferences />
+          </template>
+        </base-personal-item>
       </div>
     </div>
   </div>
@@ -87,6 +107,8 @@ import MessageSignature from './MessageSignature.vue';
 import BasePersonalItem from './BasePersonalItem.vue';
 import HotKeyCard from './HotKeyCard.vue';
 import ChangePassword from './ChangePassword.vue';
+import NotificationPreferences from './NotificationPreferences.vue';
+import AudioNotifications from './AudioNotifications.vue';
 
 export default {
   components: {
@@ -96,6 +118,8 @@ export default {
     UserBasicDetails,
     HotKeyCard,
     ChangePassword,
+    NotificationPreferences,
+    AudioNotifications,
   },
   mixins: [alertMixin, globalConfigMixin, uiSettingsMixin],
   data() {
