@@ -35,6 +35,39 @@
             />
           </template>
         </base-personal-item>
+        <base-personal-item
+          :header="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.TITLE')"
+          :description="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.NOTE')"
+        >
+          <template #settingsItem>
+            <div
+              class="flex flex-col justify-between w-full gap-5 sm:gap-4 sm:flex-row"
+            >
+              <button
+                v-for="hotKey in hotKeys"
+                :key="hotKey.key"
+                class="reset-base"
+              >
+                <hot-key-card
+                  :key="hotKey.title"
+                  :title="hotKey.title"
+                  :description="hotKey.description"
+                  :light-image="hotKey.lightImage"
+                  :dark-image="hotKey.darkImage"
+                  :active="isEditorHotKeyEnabled(uiSettings, hotKey.key)"
+                  @click="toggleHotKey(hotKey.key)"
+                />
+              </button>
+            </div>
+          </template>
+        </base-personal-item>
+        <base-personal-item
+          :header="$t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE')"
+        >
+          <template #settingsItem>
+            <change-password v-if="!globalConfig.disableUserProfileUpdate" />
+          </template>
+        </base-personal-item>
       </div>
     </div>
   </div>
@@ -52,6 +85,8 @@ import UserProfilePicture from './UserProfilePicture.vue';
 import UserBasicDetails from './UserBasicDetails.vue';
 import MessageSignature from './MessageSignature.vue';
 import BasePersonalItem from './BasePersonalItem.vue';
+import HotKeyCard from './HotKeyCard.vue';
+import ChangePassword from './ChangePassword.vue';
 
 export default {
   components: {
@@ -59,6 +94,8 @@ export default {
     BasePersonalItem,
     UserProfilePicture,
     UserBasicDetails,
+    HotKeyCard,
+    ChangePassword,
   },
   mixins: [alertMixin, globalConfigMixin, uiSettingsMixin],
   data() {
@@ -70,6 +107,31 @@ export default {
       email: '',
       alertMessage: '',
       messageSignature: '',
+      hotKeys: [
+        {
+          key: 'enter',
+          title: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.HEADING'
+          ),
+          description: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.CONTENT'
+          ),
+          lightImage: '/assets/images/dashboard/profile/hot-key-enter.svg',
+          darkImage: '/assets/images/dashboard/profile/hot-key-enter-dark.svg',
+        },
+        {
+          key: 'cmd_enter',
+          title: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.HEADING'
+          ),
+          description: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.CONTENT'
+          ),
+          lightImage: '/assets/images/dashboard/profile/hot-key-ctrl-enter.svg',
+          darkImage:
+            '/assets/images/dashboard/profile/hot-key-ctrl-enter-dark.svg',
+        },
+      ],
     };
   },
   computed: {
@@ -153,6 +215,15 @@ export default {
       } catch (error) {
         this.showAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_FAILED'));
       }
+    },
+    toggleHotKey(key) {
+      this.hotKeys = this.hotKeys.map(hotKey =>
+        hotKey.key === key ? { ...hotKey, active: !hotKey.active } : hotKey
+      );
+      this.updateUISettings({ editor_message_key: key });
+      this.showAlert(
+        this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.UPDATE_SUCCESS')
+      );
     },
   },
 };
