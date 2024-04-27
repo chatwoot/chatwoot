@@ -244,7 +244,7 @@ class Conversation < ApplicationRecord
     return if assignee_id.present?
     return if latest_agent.blank?
 
-    update(assignee_id: latest_agent.id)
+    update_column(:assignee_id, latest_agent.id)
   end
 
   def latest_agent
