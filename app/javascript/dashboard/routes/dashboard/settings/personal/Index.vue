@@ -104,18 +104,17 @@ export default {
       const { name, email, displayName, signature } = userAttributes;
       const hasEmailChanged =
         this.currentUser.email !== email && type === 'profile';
-      if (type === 'profile') {
-        this.name = name || this.name;
-        this.email = email || this.email;
-        this.displayName = displayName || this.displayName;
-      }
+      this.name = name || this.name;
+      this.email = email || this.email;
+      this.displayName = displayName || this.displayName;
+      this.messageSignature = signature || this.messageSignature;
       try {
         await this.$store.dispatch('updateProfile', {
-          name: name || this.name,
-          email: email || this.email,
-          avatar: this.avatarFile || '',
-          displayName: displayName || this.displayName,
-          message_signature: signature || this.messageSignature,
+          name: this.name,
+          email: this.email,
+          display_name: this.displayName,
+          message_signature: signature,
+          avatar: this.avatarFile,
         });
         if (hasEmailChanged) {
           clearCookiesOnLogout();
