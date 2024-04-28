@@ -33,9 +33,14 @@ import Kanban from '../../../components/Kanban.vue';
 import boardsAPI from '../../../api/boards.js';
 
 export default {
-  name: 'app',
   components: {
     Kanban,
+  },
+  props: {
+    selectedStageType: {
+      type: Object,
+      default: null,
+    },
   },
   data() {
     return {
@@ -44,26 +49,34 @@ export default {
       blocks: [],
     };
   },
-  mounted() {
-    boardsAPI.get().then(response => {
-      const stagesByType = response.data.filter(
-        item => item.stage_type === 'deals'
-      );
-      this.stages = stagesByType;
-      this.statuses = stagesByType.map(item => item.short_name);
-
-      for (let i = 0; i <= 15; i += 1) {
-        this.blocks.push({
-          id: i,
-          status:
-            this.statuses[Math.floor(Math.random() * this.statuses.length)],
-          title: faker.company.bs(),
-        });
-      }
-    });
+  watch: {
+    selectedStageType() {
+      this.loadBoard();
+    },
   },
 
   methods: {
+    loadBoard() {
+      boardsAPI.get().then(response => {
+        const stagesByType = response.data.filter(
+          item =>
+            this.selectedStageType.value === 'all' ||
+            item.stage_type === this.selectedStageType.value
+        );
+        this.stages = stagesByType;
+        this.statuses = stagesByType.map(item => item.short_name);
+
+        this.blocks = [];
+        for (let i = 0; i <= 15; i += 1) {
+          this.blocks.push({
+            id: i,
+            status:
+              this.statuses[Math.floor(Math.random() * this.statuses.length)],
+            title: faker.company.bs(),
+          });
+        }
+      });
+    },
     updateBlock: debounce(function find(id, status) {
       this.blocks.find(b => b.id === Number(id)).status = status;
     }, 500),
