@@ -7,7 +7,7 @@
       label="name"
       :placeholder="$t('FORMS.MULTISELECT.SELECT_ONE')"
       selected-label
-      :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+      select-label=""
       deselect-label=""
       :options="options"
       :searchable="false"

@@ -2,9 +2,9 @@
     "PIPELINE_PAGE": {
         "HEADER": "Kinh doanh",
         "STAGE_TYPE": {
-            "LEADS": "Giai đoạn khách hàng tiềm năng",
+            "LEADS": "Giai đoạn tiềm năng",
             "DEALS": "Giai đoạn bán hàng",
-            "ALL": "Tất cả giai đoạn"
+            "BOTH": "Cả hai giai đoạn"
         }
     }
 }

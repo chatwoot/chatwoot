@@ -34,8 +34,8 @@ export const STAGE_TYPE_OPTIONS = {
   },
   3: {
     id: 3,
-    value: 'all',
-    translationKey: 'PIPELINE_PAGE.STAGE_TYPE.ALL',
+    value: 'both',
+    translationKey: 'PIPELINE_PAGE.STAGE_TYPE.BOTH',
   },
 };
 

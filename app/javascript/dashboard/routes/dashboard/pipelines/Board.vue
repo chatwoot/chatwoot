@@ -3,23 +3,19 @@
     class="flex justify-between flex-col h-full m-0 flex-1 bg-white dark:bg-slate-900"
   >
     <Kanban :statuses="statuses" :blocks="blocks" @update-block="updateBlock">
-      <div
-        v-for="stage in stages"
-        :slot="stage.short_name"
-        :key="stage.short_name"
-      >
+      <div v-for="stage in stages" :slot="stage.code" :key="stage.code">
         <h2>
           {{ stage.name }}
-          <a href="" @click.prevent="() => addBlock(stage.short_name)">+</a>
+          <a href="" @click.prevent="() => addBlock(stage.code)">+</a>
         </h2>
       </div>
       <div v-for="item in blocks" :slot="item.id" :key="item.id">
-        <div v-if="item.status === 'Prospecting'">
-          {{ item.title }}
-        </div>
-        <div v-else>
-          <strong>id:</strong> {{ item.id }}
-          <div>{{ item.title }}</div>
+        <div>
+          <div>
+            <strong>{{ item.title }}</strong>
+          </div>
+          <div>{{ item.lastActivityAt }}</div>
+          id: {{ item.id }}
         </div>
       </div>
     </Kanban>
@@ -31,6 +27,7 @@ import faker from 'faker';
 import { debounce } from 'lodash';
 import Kanban from '../../../components/Kanban.vue';
 import boardsAPI from '../../../api/boards.js';
+import { format } from 'date-fns';
 
 export default {
   components: {
@@ -57,24 +54,32 @@ export default {
 
   methods: {
     loadBoard() {
+      const stageType = this.selectedStageType.value;
       boardsAPI.get().then(response => {
         const stagesByType = response.data.filter(
           item =>
-            this.selectedStageType.value === 'all' ||
-            item.stage_type === this.selectedStageType.value
+            stageType === 'both' ||
+            item.stage_type === 'both' ||
+            item.stage_type === stageType
         );
         this.stages = stagesByType;
-        this.statuses = stagesByType.map(item => item.short_name);
+        this.statuses = stagesByType.map(item => item.code);
 
         this.blocks = [];
-        for (let i = 0; i <= 15; i += 1) {
-          this.blocks.push({
-            id: i,
-            status:
-              this.statuses[Math.floor(Math.random() * this.statuses.length)],
-            title: faker.company.bs(),
+        boardsAPI.search(stageType).then(searchResponse => {
+          const contacts = searchResponse.data;
+          this.blocks = contacts.map(item => {
+            return {
+              id: item.id,
+              status: item.code,
+              title: item.name,
+              lastActivityAt: format(
+                new Date(item.last_activity_at),
+                'dd/MM HH:mm'
+              ),
+            };
           });
-        }
+        });
       });
     },
     updateBlock: debounce(function find(id, status) {
@@ -119,8 +124,8 @@ export default {
 
   $status-colors: (
     New: #c89e07,
-    Contacting: #2a92bf,
-    Converted: #00b961,
+    Contacting: #bbc807,
+    Converted: #78c807,
     Unqualified: #5b4b1f,
     Prospecting: #c89e07,
     Qualified: #478ad1,

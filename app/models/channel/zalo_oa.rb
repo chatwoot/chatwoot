@@ -14,7 +14,6 @@
 # Indexes
 #
 #  index_channel_zalo_oa_on_oa_id  (oa_id) UNIQUE
-#  index_channel_zalo_oa_on_oa_id_and_account_id  (oa_id,account_id) UNIQUE
 #
 
 class Channel::ZaloOa < ApplicationRecord
