@@ -79,13 +79,7 @@ const { EXAMPLE_URL } = wootConstants;
 import { useVuelidate } from '@vuelidate/core';
 import { url } from '@vuelidate/validators';
 
-import {
-  defineComponent,
-  reactive,
-  computed,
-  onMounted,
-  defineEmits,
-} from 'vue';
+import { defineComponent, reactive, computed, onMounted } from 'vue';
 import { useI18n } from 'dashboard/composables/useI18n';
 
 defineComponent({
