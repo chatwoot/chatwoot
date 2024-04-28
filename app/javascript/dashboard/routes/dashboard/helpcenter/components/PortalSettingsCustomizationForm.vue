@@ -1,75 +1,3 @@
-<template>
-  <SettingsLayout
-    :title="
-      $t('HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.CUSTOMIZATION_PAGE.TITLE')
-    "
-  >
-    <div
-      class="mx-0 my-4 border-b border-solid border-slate-25 dark:border-slate-800"
-    >
-      <div class="flex-grow-0 flex-shrink-0">
-        <div class="mb-4">
-          <label>
-            {{ $t('HELP_CENTER.PORTAL.ADD.THEME_COLOR.LABEL') }}
-          </label>
-          <woot-color-picker v-model="state.color" />
-          <p
-            class="mt-1 mb-0 text-xs not-italic text-slate-600 dark:text-slate-400"
-          >
-            {{ $t('HELP_CENTER.PORTAL.ADD.THEME_COLOR.HELP_TEXT') }}
-          </p>
-        </div>
-        <div class="mb-4">
-          <woot-input
-            v-model="state.pageTitle"
-            :label="$t('HELP_CENTER.PORTAL.ADD.PAGE_TITLE.LABEL')"
-            :placeholder="$t('HELP_CENTER.PORTAL.ADD.PAGE_TITLE.PLACEHOLDER')"
-            :help-text="$t('HELP_CENTER.PORTAL.ADD.PAGE_TITLE.HELP_TEXT')"
-          />
-        </div>
-        <div class="mb-4">
-          <woot-input
-            v-model="state.headerText"
-            :label="$t('HELP_CENTER.PORTAL.ADD.HEADER_TEXT.LABEL')"
-            :placeholder="$t('HELP_CENTER.PORTAL.ADD.HEADER_TEXT.PLACEHOLDER')"
-            :help-text="$t('HELP_CENTER.PORTAL.ADD.HEADER_TEXT.HELP_TEXT')"
-          />
-        </div>
-        <div class="mb-4">
-          <woot-input
-            v-model="state.homePageLink"
-            :label="$t('HELP_CENTER.PORTAL.ADD.HOME_PAGE_LINK.LABEL')"
-            :placeholder="
-              $t('HELP_CENTER.PORTAL.ADD.HOME_PAGE_LINK.PLACEHOLDER')
-            "
-            :help-text="homepageExampleHelpText"
-            :error="
-              v$.homePageLink.$error
-                ? $t('HELP_CENTER.PORTAL.ADD.HOME_PAGE_LINK.ERROR')
-                : ''
-            "
-            :class="{ error: v$.homePageLink.$error }"
-            @blur="v$.homePageLink.$touch"
-          />
-        </div>
-      </div>
-    </div>
-    <template #footer-right>
-      <woot-button
-        :is-loading="isSubmitting"
-        :is-disabled="v$.$invalid"
-        @click="onSubmitClick"
-      >
-        {{
-          $t(
-            'HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.CUSTOMIZATION_PAGE.UPDATE_PORTAL_BUTTON'
-          )
-        }}
-      </woot-button>
-    </template>
-  </SettingsLayout>
-</template>
-
 <script setup>
 import { getRandomColor } from 'dashboard/helper/labelColor';
 import SettingsLayout from './Layout/SettingsLayout.vue';
@@ -151,6 +79,79 @@ onMounted(() => {
   updateDataFromStore();
 });
 </script>
+
+<template>
+  <SettingsLayout
+    :title="
+      $t('HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.CUSTOMIZATION_PAGE.TITLE')
+    "
+  >
+    <div
+      class="mx-0 my-4 border-b border-solid border-slate-25 dark:border-slate-800"
+    >
+      <div class="flex-grow-0 flex-shrink-0">
+        <div class="mb-4">
+          <label>
+            {{ $t('HELP_CENTER.PORTAL.ADD.THEME_COLOR.LABEL') }}
+          </label>
+          <woot-color-picker v-model="state.color" />
+          <p
+            class="mt-1 mb-0 text-xs not-italic text-slate-600 dark:text-slate-400"
+          >
+            {{ $t('HELP_CENTER.PORTAL.ADD.THEME_COLOR.HELP_TEXT') }}
+          </p>
+        </div>
+        <div class="mb-4">
+          <woot-input
+            v-model="state.pageTitle"
+            :label="$t('HELP_CENTER.PORTAL.ADD.PAGE_TITLE.LABEL')"
+            :placeholder="$t('HELP_CENTER.PORTAL.ADD.PAGE_TITLE.PLACEHOLDER')"
+            :help-text="$t('HELP_CENTER.PORTAL.ADD.PAGE_TITLE.HELP_TEXT')"
+          />
+        </div>
+        <div class="mb-4">
+          <woot-input
+            v-model="state.headerText"
+            :label="$t('HELP_CENTER.PORTAL.ADD.HEADER_TEXT.LABEL')"
+            :placeholder="$t('HELP_CENTER.PORTAL.ADD.HEADER_TEXT.PLACEHOLDER')"
+            :help-text="$t('HELP_CENTER.PORTAL.ADD.HEADER_TEXT.HELP_TEXT')"
+          />
+        </div>
+        <div class="mb-4">
+          <woot-input
+            v-model="state.homePageLink"
+            :label="$t('HELP_CENTER.PORTAL.ADD.HOME_PAGE_LINK.LABEL')"
+            :placeholder="
+              $t('HELP_CENTER.PORTAL.ADD.HOME_PAGE_LINK.PLACEHOLDER')
+            "
+            :help-text="homepageExampleHelpText"
+            :error="
+              v$.homePageLink.$error
+                ? $t('HELP_CENTER.PORTAL.ADD.HOME_PAGE_LINK.ERROR')
+                : ''
+            "
+            :class="{ error: v$.homePageLink.$error }"
+            @blur="v$.homePageLink.$touch"
+          />
+        </div>
+      </div>
+    </div>
+    <template #footer-right>
+      <woot-button
+        :is-loading="isSubmitting"
+        :is-disabled="v$.$invalid"
+        @click="onSubmitClick"
+      >
+        {{
+          $t(
+            'HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.CUSTOMIZATION_PAGE.UPDATE_PORTAL_BUTTON'
+          )
+        }}
+      </woot-button>
+    </template>
+  </SettingsLayout>
+</template>
+
 <style lang="scss" scoped>
 ::v-deep {
   .colorpicker--selected {
