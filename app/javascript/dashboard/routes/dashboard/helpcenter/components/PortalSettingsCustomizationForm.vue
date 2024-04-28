@@ -59,19 +59,20 @@ function updateDataFromStore() {
 }
 
 function onSubmitClick() {
-  v$.$touch();
-  if (v$.$invalid) {
+  v$.value.$touch();
+  if (v$.value.$invalid) {
     return;
   }
 
   const portal = {
-    id: this.portal.id,
-    slug: this.portal.slug,
-    color: this.color,
-    page_title: this.pageTitle,
-    header_text: this.headerText,
-    homepage_link: this.homePageLink,
+    id: props.portal.id,
+    slug: props.portal.slug,
+    color: state.color,
+    page_title: state.pageTitle,
+    header_text: state.headerText,
+    homepage_link: state.homePageLink,
   };
+
   emit('submit', portal);
 }
 
