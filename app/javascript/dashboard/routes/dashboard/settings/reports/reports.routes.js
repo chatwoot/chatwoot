@@ -7,7 +7,9 @@ const LabelReports = () => import('./LabelReports.vue');
 const InboxReports = () => import('./InboxReports.vue');
 const TeamReports = () => import('./TeamReports.vue');
 const CsatResponses = () => import('./CsatResponses.vue');
+const BotReports = () => import('./BotReports.vue');
 const LiveReports = () => import('./LiveReports.vue');
+const SLAReports = () => import('./SLAReports.vue');
 
 export default {
   routes: [
@@ -63,6 +65,23 @@ export default {
           name: 'csat_reports',
           roles: ['administrator'],
           component: CsatResponses,
+        },
+      ],
+    },
+    {
+      path: frontendURL('accounts/:accountId/reports'),
+      component: SettingsContent,
+      props: {
+        headerTitle: 'BOT_REPORTS.HEADER',
+        icon: 'bot',
+        keepAlive: false,
+      },
+      children: [
+        {
+          path: 'bot',
+          name: 'bot_reports',
+          roles: ['administrator'],
+          component: BotReports,
         },
       ],
     },
@@ -130,6 +149,23 @@ export default {
           name: 'team_reports',
           roles: ['administrator'],
           component: TeamReports,
+        },
+      ],
+    },
+    {
+      path: frontendURL('accounts/:accountId/reports'),
+      component: SettingsContent,
+      props: {
+        headerTitle: 'SLA_REPORTS.HEADER',
+        icon: 'document-list-clock',
+        keepAlive: false,
+      },
+      children: [
+        {
+          path: 'sla',
+          name: 'sla_reports',
+          roles: ['administrator'],
+          component: SLAReports,
         },
       ],
     },

@@ -75,9 +75,10 @@ export default {
   },
 
   methods: {
-    handleKeyboardEvent(e) {
-      this.processKeyDownEvent(e);
-      this.$el.scrollTop = 50 * this.selectedIndex;
+    adjustScroll() {
+      this.$nextTick(() => {
+        this.$el.scrollTop = 50 * this.selectedIndex;
+      });
     },
     onHover(index) {
       this.selectedIndex = index;

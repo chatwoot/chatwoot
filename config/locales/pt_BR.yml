@@ -63,32 +63,44 @@ pt_BR:
         name: 'não deve iniciar ou terminar com símbolos e não deve ter os caracteres: < > / \ @.'
     custom_filters:
       number_of_records: Limite atingido. O número máximo de filtros personalizados permitidos para um usuário por conta é de 50.
+      invalid_attribute: Chave de atributo inválido - [%{key}]. A chave deve ser uma das [%{allowed_keys}] ou um atributo personalizado definido na conta.
+      invalid_operator: Operador inválido. Os operadores permitidos para %{attribute_name} são [%{allowed_keys}].
+      invalid_value: Valor inválido. Os valores fornecidos para %{attribute_name} são inválidos
   reports:
     period: Reportando o período %{since} a %{until}
     utc_warning: O relatório gerado está em fuso horário UTC
     agent_csv:
       agent_name: Nome do Agente
       conversations_count: Conversas atribuídas
-      avg_first_response_time: Tempo médio de primeira resposta (minutos
-      avg_resolution_time: Avg resolution time
+      avg_first_response_time: Tempo médio de primeira resposta
+      avg_resolution_time: Tempo médio de resolução
     inbox_csv:
       inbox_name: Nome da Caixa de Entrada
       inbox_type: Tipo da Caixa de Entrada
       conversations_count: Nº de Conversas
-      avg_first_response_time: Tempo médio de primeira resposta (minutos
-      avg_resolution_time: Avg resolution time
+      avg_first_response_time: Tempo médio de primeira resposta
+      avg_resolution_time: Tempo médio de resolução
     label_csv:
       label_title: Nome do campo
       conversations_count: Nº de Conversas
-      avg_first_response_time: Tempo médio de primeira resposta (minutos
-      avg_resolution_time: Avg resolution time
+      avg_first_response_time: Tempo médio de primeira resposta
+      avg_resolution_time: Tempo médio de resolução
     team_csv:
       team_name: Nome do departamento
       conversations_count: Contagem de conversas
-      avg_first_response_time: Tempo médio de primeira resposta (minutos
-      avg_resolution_time: Avg resolution time
+      avg_first_response_time: Tempo médio de primeira resposta
+      avg_resolution_time: Tempo médio de resolução
     conversation_traffic_csv:
-      timezone: Timezone
+      timezone: Fuso horário
+    sla_csv:
+      conversation_id: Conversas
+      sla_policy_breached: Política SLA
+      assignee: Responsável
+      team: Times
+      inbox: Caixa de Entrada
+      labels: Marcadores
+      conversation_link: Link para a conversa
+      breached_events: Eventos Violados
     default_group_by: dia
     csat:
       headers:
@@ -102,12 +114,15 @@ pt_BR:
         recorded_at: Data de gravação
   notifications:
     notification_title:
-      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
-      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
-      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
-      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
-    attachment: "Attachment"
-    no_content: "No content"
+      conversation_creation: ""
+      conversation_assignment: "Uma conversa (#%{display_id}) foi atribuída a você"
+      assigned_conversation_new_message: "Uma nova mensagem é criada na conversa (#%{display_id})"
+      conversation_mention: "Você foi mencionado em uma conversa (#%{display_id})"
+      sla_missed_first_response: "Primeira resposta da meta de SLA perdida para conversa (#%{display_id})"
+      sla_missed_next_response: ""
+      sla_missed_resolution: "Resolução de meta de SLA perdida para conversa (#%{display_id})"
+    attachment: "Anexo"
+    no_content: "Sem conteúdo"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} mencionou você na conversa: "
@@ -139,6 +154,9 @@ pt_BR:
       labels:
         added: "%{user_name} adicionou %{labels}"
         removed: "%{user_name} removeu %{labels}"
+      sla:
+        added: "%{user_name} adicionou política de SLA %{sla_name}"
+        removed: "%{user_name} removeu a política de SLA %{sla_name}"
       muted: "%{user_name} silenciou a conversa"
       unmuted: "%{user_name} reativou a conversa"
     templates:
@@ -182,7 +200,7 @@ pt_BR:
       name: "Contato completo"
       description: "A integração de contatos completos ajuda a enriquecer perfis de visitantes. Identifique os usuários assim que eles compartilham seu endereço de e-mail e ofereça um atendimento ao cliente personalizado. Conecte seu FullContact à sua conta compartilhando a chave de API de Contato Fullcot."
     google_translate:
-      name: "Google Tradutor"
+      name: "Tradutor do Google"
       description: "Torne isso mais fácil para agentes traduzirem mensagens adicionando uma integração com o Tradutor do Google. O Tradutor do Google ajuda a identificar automaticamente o idioma e convertê-lo para o idioma escolhido pelo administrador de conta/agente."
     openai:
       name: "OpenAI"
@@ -233,14 +251,14 @@ pt_BR:
     button: Abrir conversa
   time_units:
     days:
-      one: "%{count} day"
-      other: "%{count} days"
+      one: "%{count} dia"
+      other: "%{count} dias"
     hours:
-      one: "%{count} hour"
-      other: "%{count} hours"
+      one: "%{count} hora"
+      other: "%{count} horas"
     minutes:
-      one: "%{count} minute"
-      other: "%{count} minutes"
+      one: "%{count} minuto"
+      other: "%{count} minutos"
     seconds:
-      one: "%{count} second"
-      other: "%{count} seconds"
+      one: "%{count} segundo"
+      other: "%{count} segundos"

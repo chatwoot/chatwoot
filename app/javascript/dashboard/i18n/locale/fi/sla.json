@@ -1,22 +1,31 @@
 {
   "SLA": {
     "HEADER": "SLA",
-    "HEADER_BTN_TXT": "Add SLA",
+    "ADD_ACTION": "Add SLA",
+    "ADD_ACTION_LONG": "Create a new SLA Policy",
+    "DESCRIPTION": "Service Level Agreements (SLAs) are contracts that define clear expectations between your team and customers. They establish standards for response and resolution times, creating a framework for accountability and ensures a consistent, high-quality experience.",
+    "LEARN_MORE": "Learn more about SLA",
     "LOADING": "Fetching SLAs",
-    "SEARCH_404": "Tätä hakua vastaavia kohteita ei löydy",
-    "SIDEBAR_TXT": "<p><b>SLA</b> <p>Think of Service Level Agreements (SLAs) like friendly promises between a service provider and a customer.</p> <p> These promises set clear expectations for things like how quickly the team will respond to issues, making sure you always get a reliable and top-notch experience!</p>",
     "LIST": {
       "404": "There are no SLAs available in this account.",
-      "TITLE": "Manage SLA",
-      "DESC": "SLAs: Friendly promises for great service!",
-      "TABLE_HEADER": [
-        "Nimi",
-        "Kuvaus",
-        "FRT",
-        "NRT",
-        "RT",
-        "Business Hours"
-      ]
+      "EMPTY": {
+        "TITLE_1": "Enterprise P0",
+        "DESC_1": "Issues raised by enterprise customers, that require immediate attention.",
+        "TITLE_2": "Enterprise P1",
+        "DESC_2": "Issues raised by enterprise customers, that needs to be acknowledged quickly."
+      },
+      "BUSINESS_HOURS_ON": "Business hours on",
+      "BUSINESS_HOURS_OFF": "Business hours off",
+      "RESPONSE_TYPES": {
+        "FRT": "First response time threshold",
+        "NRT": "Next response time threshold",
+        "RT": "Resolution time threshold",
+        "SHORT_HAND": {
+          "FRT": "FRT",
+          "NRT": "NRT",
+          "RT": "RT"
+        }
+      }
     },
     "FORM": {
       "NAME": {
@@ -56,18 +65,32 @@
     },
     "ADD": {
       "TITLE": "Add SLA",
-      "DESC": "SLAs: Friendly promises for great service!",
+      "DESC": "Friendly promises for great service!",
       "API": {
         "SUCCESS_MESSAGE": "SLA added successfully",
         "ERROR_MESSAGE": "Tapahtui virhe, yritä uudelleen"
       }
     },
-    "EDIT": {
-      "TITLE": "Edit SLA",
+    "DELETE": {
+      "TITLE": "Delete SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA updated successfully",
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
         "ERROR_MESSAGE": "Tapahtui virhe, yritä uudelleen"
+      },
+      "CONFIRM": {
+        "TITLE": "Vahvista poistaminen",
+        "MESSAGE": "Are you sure you want to delete ",
+        "YES": "Kyllä, poista ",
+        "NO": "Ei, säilytä "
       }
+    },
+    "EVENTS": {
+      "TITLE": "SLA Misses",
+      "FRT": "Ensimmäinen vasteaika",
+      "NRT": "Next response time",
+      "RT": "Resolution time",
+      "SHOW_MORE": "{count} more",
+      "HIDE": "Hide {count} rows"
     }
   }
 }

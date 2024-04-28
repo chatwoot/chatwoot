@@ -5,8 +5,8 @@ class AutomationRules::ConditionValidationService
     @rule = rule
     @account = rule.account
 
-    file = File.read('./lib/filters/filter_keys.json')
-    @filters = JSON.parse(file)
+    file = File.read('./lib/filters/filter_keys.yml')
+    @filters = YAML.safe_load(file)
 
     @conversation_filters = @filters['conversations']
     @contact_filters = @filters['contacts']

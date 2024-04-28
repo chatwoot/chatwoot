@@ -78,10 +78,8 @@ const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 import {
   hasPressedEnterAndNotCmdOrShift,
   hasPressedCommandAndEnter,
-  hasPressedAltAndPKey,
-  hasPressedAltAndLKey,
 } from 'shared/helpers/KeyboardHelpers';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 import {
@@ -121,7 +119,7 @@ const createState = (
 export default {
   name: 'WootMessageEditor',
   components: { TagAgents, CannedResponse, VariableList },
-  mixins: [eventListenerMixins, uiSettingsMixin, alertMixin],
+  mixins: [keyboardEventListenerMixins, uiSettingsMixin, alertMixin],
   props: {
     value: { type: String, default: '' },
     editorId: { type: String, default: '' },
@@ -522,13 +520,21 @@ export default {
     isCmdPlusEnterToSendEnabled() {
       return isEditorHotKeyEnabled(this.uiSettings, 'cmd_enter');
     },
-    handleKeyEvents(e) {
-      if (hasPressedAltAndPKey(e)) {
-        this.focusEditorInputField();
-      }
-      if (hasPressedAltAndLKey(e)) {
-        this.focusEditorInputField();
-      }
+    getKeyboardEvents() {
+      return {
+        'Alt+KeyP': {
+          action: () => {
+            this.focusEditorInputField();
+          },
+          allowOnFocusedInput: true,
+        },
+        'Alt+KeyL': {
+          action: () => {
+            this.focusEditorInputField();
+          },
+          allowOnFocusedInput: true,
+        },
+      };
     },
     focusEditorInputField(pos = 'end') {
       const { tr } = this.editorView.state;

@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Atidėta iki",
       "SNOOZED_UNTIL_TOMORROW": "Atidėta iki rytojaus",
       "SNOOZED_UNTIL_NEXT_WEEK": "Atidėta iki kitos savaitės",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Atidėta iki kito atsakymo"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Atidėta iki kito atsakymo",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Pažymėti kaip laukiantį",

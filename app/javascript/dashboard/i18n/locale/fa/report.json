@@ -35,6 +35,14 @@
         "NAME": "تعداد مسائل حل شده",
         "DESC": "( جمع کل )"
       },
+      "BOT_RESOLUTION_COUNT": {
+        "NAME": "تعداد مسائل حل شده",
+        "DESC": "( جمع کل )"
+      },
+      "BOT_HANDOFF_COUNT": {
+        "NAME": "Handoff Count",
+        "DESC": "( جمع کل )"
+      },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
         "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
@@ -130,7 +138,11 @@
         "groupBy": "ماه"
       }
     ],
-    "BUSINESS_HOURS": "ساعت کاری"
+    "BUSINESS_HOURS": "ساعت کاری",
+    "FILTER_ACTIONS": {
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "نتیجه‌ای یافت نشد"
+    }
   },
   "AGENT_REPORTS": {
     "HEADER": "نمای کلی ایجنت ها",
@@ -433,6 +445,27 @@
       }
     }
   },
+  "BOT_REPORTS": {
+    "HEADER": "گزارش‌های ربات",
+    "METRIC": {
+      "TOTAL_CONVERSATIONS": {
+        "LABEL": "No. of Conversations",
+        "TOOLTIP": "Total number of conversations handled by the bot"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total Responses",
+        "TOOLTIP": "Total number of responses sent by the bot"
+      },
+      "RESOLUTION_RATE": {
+        "LABEL": "Resolution Rate",
+        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+      },
+      "HANDOFF_RATE": {
+        "LABEL": "Handoff Rate",
+        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+      }
+    }
+  },
   "OVERVIEW_REPORTS": {
     "HEADER": "بررسی اجمالی",
     "LIVE": "زنده",
@@ -476,5 +509,54 @@
     "THURSDAY": "پنج‌شنبه",
     "FRIDAY": "جمعه",
     "SATURDAY": "شنبه"
+  },
+  "SLA_REPORTS": {
+    "HEADER": "SLA Reports",
+    "NO_RECORDS": "SLA applied conversations are not available.",
+    "LOADING": "Loading SLA data...",
+    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
+    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "DROPDOWN": {
+      "ADD_FIlTER": "افزودن فیلتر",
+      "CLEAR_ALL": "Clear all",
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "نتیجه‌ای یافت نشد",
+      "NO_FILTER": "No filters available",
+      "SEARCH": "Search filter",
+      "INPUT_PLACEHOLDER": {
+        "SLA": "SLA name",
+        "AGENTS": "اسم ایجنت",
+        "INBOXES": "نام صندوق ورودی",
+        "LABELS": "نام برچسب",
+        "TEAMS": "نام تیم"
+      },
+      "SLA": "SLA Policy",
+      "INBOXES": "صندوق ورودی",
+      "AGENTS": "ایجنت",
+      "LABELS": "برچسب",
+      "TEAMS": "تیم‌"
+    },
+    "METRICS": {
+      "HIT_RATE": {
+        "LABEL": "Hit Rate",
+        "TOOLTIP": "Percentage of SLAs created were completed successfully"
+      },
+      "NO_OF_MISSES": {
+        "LABEL": "Number of Misses",
+        "TOOLTIP": "Total SLA misses in a certain period"
+      },
+      "NO_OF_CONVERSATIONS": {
+        "LABEL": "Number of Conversations",
+        "TOOLTIP": "Total number of conversations with SLA"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "POLICY": "Policy",
+        "CONVERSATION": "گفتگو",
+        "AGENT": "ایجنت"
+      },
+      "VIEW_DETAILS": "View Details"
+    }
   }
 }
