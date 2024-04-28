@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1">
+  <div class="wrapper">
     <settings-header
       button-route="new"
       :header-title="$t('HELP_CENTER.PORTAL.EDIT.HEADER_TEXT')"
@@ -24,7 +24,7 @@
           />
         </woot-tabs>
       </setting-intro-banner>
-      <div class="flex flex-wrap max-w-full px-8 py-4 my-auto">
+      <div class="p-4 max-w-full my-auto flex flex-wrap">
         <router-view />
       </div>
     </div>
@@ -100,6 +100,9 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.wrapper {
+  flex: 1;
+}
 ::v-deep .tabs {
   padding-left: 0;
 }
