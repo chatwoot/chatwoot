@@ -1,0 +1,19 @@
+{
+  "DATE_PICKER": {
+    "APPLY_BUTTON": "Anvend",
+    "CLEAR_BUTTON": "Clear",
+    "DATE_RANGE_INPUT": {
+      "START": "Start Date",
+      "END": "End Date"
+    },
+    "DATE_RANGE_OPTIONS": {
+      "TITLE": "DATE RANGE",
+      "LAST_7_DAYS": "Seneste 7 dage",
+      "LAST_30_DAYS": "Seneste 30 dage",
+      "LAST_3_MONTHS": "Seneste 3 måneder",
+      "LAST_6_MONTHS": "Seneste 6 måneder",
+      "LAST_YEAR": "Sidste år",
+      "CUSTOM_RANGE": "Tilpasset datointerval"
+    }
+  }
+}
