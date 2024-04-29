@@ -11,11 +11,7 @@
       <div
         v-for="option in alertEvents"
         :key="option.value"
-        class="flex flex-row items-center justify-center gap-2 px-4 border-r border-ash-200 grow"
-        :class="{
-          'border-r-0':
-            option.value === alertEvents[alertEvents.length - 1].value,
-        }"
+        class="flex flex-row items-center justify-center gap-2 px-4 border-r border-ash-200 grow last:border-r-0"
       >
         <input
           :id="`radio-${option.value}`"
@@ -27,10 +23,9 @@
         <label
           :for="`radio-${option.value}`"
           class="text-sm font-medium"
-          :class="{
-            'text-ash-800': selectedValue !== option.value,
-            'text-ash-900': selectedValue === option.value,
-          }"
+          :class="
+            selectedValue === option.value ? 'text-ash-900' : 'text-ash-800'
+          "
         >
           {{ option.label }}
         </label>

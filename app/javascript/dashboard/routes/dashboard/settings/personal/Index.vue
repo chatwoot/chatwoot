@@ -72,9 +72,7 @@
         >
           <audio-notifications />
         </form-section>
-        <form-section
-          :header="$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TITLE')"
-        >
+        <form-section :header="$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TITLE')">
           <template #settingsItem>
             <notification-preferences />
           </template>
