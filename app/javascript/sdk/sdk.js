@@ -218,6 +218,7 @@ export const SDK_CSS = `
 .woot-widget-bubble.woot--close {
   transform: translateX(0px) scale(1) rotate(0deg);
   transition: transform 300ms ease, opacity 100ms ease, visibility 0ms linear 0ms, bottom 0ms linear 0ms;
+  border-radius: 50%;
 }
 .woot-widget-bubble.woot--close.woot--hide {
   transform: translateX(8px) scale(.75) rotate(45deg);
