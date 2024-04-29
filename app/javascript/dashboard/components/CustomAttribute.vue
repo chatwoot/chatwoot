@@ -12,7 +12,7 @@
         </div>
         <div class="flex items-center justify-between w-full">
           <span
-            class="w-full inline-flex gap-1.5 items-center font-medium whitespace-nowrap text-sm mb-0"
+            class="w-full inline-flex gap-1.5 items-start font-medium whitespace-nowrap text-sm mb-0"
             :class="
               $v.editedValue.$error
                 ? 'text-red-400 dark:text-red-500'
@@ -23,7 +23,7 @@
             <helper-text-popup
               v-if="description"
               :message="description"
-              class="bottom-2"
+              class="mt-0.5"
             />
           </span>
           <woot-button
