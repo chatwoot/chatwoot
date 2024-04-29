@@ -1,4 +1,4 @@
-import { frontendURL } from '../../../../helper/URLHelper';
+import { frontendURL } from 'dashboard/helper/URLHelper';
 
 const Index = () => import('./Index.vue');
 
