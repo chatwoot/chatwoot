@@ -22,54 +22,47 @@
           />
         </div>
 
-        <base-personal-item
+        <form-section
           :header="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.TITLE')"
           :description="
             $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.NOTE')
           "
         >
-          <template #settingsItem>
-            <message-signature
-              :message-signature="messageSignature"
-              @update-signature="updateProfile"
-            />
-          </template>
-        </base-personal-item>
-        <base-personal-item
+          <message-signature
+            :message-signature="messageSignature"
+            @update-signature="updateSignature"
+          />
+        </form-section>
+        <form-section
           :header="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.TITLE')"
           :description="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.NOTE')"
         >
-          <template #settingsItem>
-            <div
-              class="flex flex-col justify-between w-full gap-5 sm:gap-4 sm:flex-row"
+          <div
+            class="flex flex-col justify-between w-full gap-5 sm:gap-4 sm:flex-row"
+          >
+            <button
+              v-for="hotKey in hotKeys"
+              :key="hotKey.key"
+              class="px-0 reset-base"
             >
-              <button
-                v-for="hotKey in hotKeys"
-                :key="hotKey.key"
-                class="reset-base"
-              >
-                <hot-key-card
-                  :key="hotKey.title"
-                  :title="hotKey.title"
-                  :description="hotKey.description"
-                  :light-image="hotKey.lightImage"
-                  :dark-image="hotKey.darkImage"
-                  :active="isEditorHotKeyEnabled(uiSettings, hotKey.key)"
-                  @click="toggleHotKey(hotKey.key)"
-                />
-              </button>
-            </div>
-          </template>
-        </base-personal-item>
-        <base-personal-item
+              <hot-key-card
+                :key="hotKey.title"
+                :title="hotKey.title"
+                :description="hotKey.description"
+                :light-image="hotKey.lightImage"
+                :dark-image="hotKey.darkImage"
+                :active="isEditorHotKeyEnabled(uiSettings, hotKey.key)"
+                @click="toggleHotKey(hotKey.key)"
+              />
+            </button>
+          </div>
+        </form-section>
+        <form-section
           :header="$t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE')"
         >
-          <template #settingsItem>
-            <change-password v-if="!globalConfig.disableUserProfileUpdate" />
-          </template>
-        </base-personal-item>
-
-        <base-personal-item
+          <change-password v-if="!globalConfig.disableUserProfileUpdate" />
+        </form-section>
+        <form-section
           :header="
             $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE')
           "
@@ -77,17 +70,15 @@
             $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NOTE')
           "
         >
-          <template #settingsItem>
-            <audio-notifications />
-          </template>
-        </base-personal-item>
-        <base-personal-item
+          <audio-notifications />
+        </form-section>
+        <form-section
           :header="$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TITLE')"
         >
           <template #settingsItem>
             <notification-preferences />
           </template>
-        </base-personal-item>
+        </form-section>
       </div>
     </div>
   </div>
@@ -104,16 +95,16 @@ import { clearCookiesOnLogout } from 'dashboard/store/utils/api.js';
 import UserProfilePicture from './UserProfilePicture.vue';
 import UserBasicDetails from './UserBasicDetails.vue';
 import MessageSignature from './MessageSignature.vue';
-import BasePersonalItem from './BasePersonalItem.vue';
 import HotKeyCard from './HotKeyCard.vue';
 import ChangePassword from './ChangePassword.vue';
 import NotificationPreferences from './NotificationPreferences.vue';
 import AudioNotifications from './AudioNotifications.vue';
+import FormSection from 'dashboard/components/FormSection.vue';
 
 export default {
   components: {
     MessageSignature,
-    BasePersonalItem,
+    FormSection,
     UserProfilePicture,
     UserBasicDetails,
     HotKeyCard,
@@ -129,7 +120,6 @@ export default {
       name: '',
       displayName: '',
       email: '',
-      alertMessage: '',
       messageSignature: '',
       hotKeys: [
         {
@@ -165,13 +155,6 @@ export default {
       globalConfig: 'globalConfig/get',
     }),
   },
-  watch: {
-    currentUserId(newCurrentUserId, prevCurrentUserId) {
-      if (prevCurrentUserId !== newCurrentUserId) {
-        this.initializeUser();
-      }
-    },
-  },
   mounted() {
     if (this.currentUserId) {
       this.initializeUser();
@@ -186,44 +169,51 @@ export default {
       this.messageSignature = this.currentUser.message_signature;
     },
     isEditorHotKeyEnabled,
-    async updateProfile(userAttributes, type = 'profile') {
-      const { name, email, displayName, signature } = userAttributes;
-      const hasEmailChanged =
-        this.currentUser.email !== email && type === 'profile';
+    async updateProfile(userAttributes) {
+      const { name, email, displayName } = userAttributes;
+      const hasEmailChanged = this.currentUser.email !== email;
       this.name = name || this.name;
       this.email = email || this.email;
       this.displayName = displayName || this.displayName;
-      this.messageSignature = signature || this.messageSignature;
+      let alertMessage = this.$t('PROFILE_SETTINGS.UPDATE_SUCCESS');
       try {
         await this.$store.dispatch('updateProfile', {
           name: this.name,
           email: this.email,
           display_name: this.displayName,
-          message_signature: signature,
           avatar: this.avatarFile,
         });
         if (hasEmailChanged) {
           clearCookiesOnLogout();
           this.alertMessage = this.$t('PROFILE_SETTINGS.AFTER_EMAIL_CHANGED');
         }
-        this.alertMessage =
-          type !== 'signature'
-            ? this.$t('PROFILE_SETTINGS.UPDATE_SUCCESS')
-            : this.$t(
-                'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_SUCCESS'
-              );
       } catch (error) {
-        this.alertMessage =
-          type === 'signature'
-            ? this.$t('RESET_PASSWORD.API.ERROR_MESSAGE')
-            : this.$t(
-                'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_ERROR'
-              );
+        alertMessage = this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
+
         if (error?.response?.data?.error) {
-          this.alertMessage = error.response.data.error;
+          alertMessage = error.response.data.error;
         }
       } finally {
-        this.showAlert(this.alertMessage);
+        this.showAlert(alertMessage);
+      }
+    },
+    async updateSignature(signature) {
+      let alertMessage = this.$t(
+        'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_SUCCESS'
+      );
+      try {
+        await this.$store.dispatch('updateProfile', {
+          message_signature: signature,
+        });
+      } catch (error) {
+        alertMessage = this.$t(
+          'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_ERROR'
+        );
+        if (error?.response?.data?.error) {
+          alertMessage = error.response.data.error;
+        }
+      } finally {
+        this.showAlert(alertMessage);
       }
     },
     updateProfilePicture({ file, url }) {

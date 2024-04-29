@@ -11,8 +11,8 @@
         {{ description }}
       </p>
     </div>
-    <div v-if="$slots.settingsItem" class="flex flex-col w-full gap-6">
-      <slot name="settingsItem" />
+    <div v-if="$slots.default" class="flex flex-col w-full gap-6">
+      <slot />
     </div>
   </div>
 </template>

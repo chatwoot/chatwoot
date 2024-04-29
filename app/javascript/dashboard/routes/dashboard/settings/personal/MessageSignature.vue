@@ -1,26 +1,24 @@
 <template>
-  <div class="flex flex-col gap-6">
-    <form class="flex flex-col gap-6" @submit.prevent="updateSignature()">
-      <woot-message-editor
-        id="message-signature-input"
-        v-model="signature"
-        class="message-editor h-[10rem] !px-3"
-        :is-format-mode="true"
-        :placeholder="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE.PLACEHOLDER')"
-        :enabled-menu-options="customEditorMenuList"
-        :enable-suggestions="false"
-        :show-image-resize-toolbar="true"
-      />
-      <form-button
-        type="submit"
-        color-scheme="primary"
-        variant="solid"
-        size="large"
-      >
-        {{ $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.BTN_TEXT') }}
-      </form-button>
-    </form>
-  </div>
+  <form class="flex flex-col gap-6" @submit.prevent="updateSignature()">
+    <woot-message-editor
+      id="message-signature-input"
+      v-model="signature"
+      class="message-editor h-[10rem] !px-3"
+      :is-format-mode="true"
+      :placeholder="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE.PLACEHOLDER')"
+      :enabled-menu-options="customEditorMenuList"
+      :enable-suggestions="false"
+      :show-image-resize-toolbar="true"
+    />
+    <form-button
+      type="submit"
+      color-scheme="primary"
+      variant="solid"
+      size="large"
+    >
+      {{ $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.BTN_TEXT') }}
+    </form-button>
+  </form>
 </template>
 <script setup>
 import { defineProps, ref, watch } from 'vue';
@@ -47,6 +45,6 @@ watch(
 );
 
 const updateSignature = () => {
-  emit('update-signature', { signature: signature.value }, 'signature');
+  emit('update-signature', signature.value);
 };
 </script>

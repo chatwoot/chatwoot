@@ -78,6 +78,12 @@ export default {
       userName: this.name,
       userDisplayName: this.displayName,
       userEmail: this.email,
+      inputStyles: {
+        borderRadius: '12px',
+        padding: '6px 12px',
+        fontSize: '14px',
+        marginBottom: '2px',
+      },
     };
   },
   validations: {
@@ -89,16 +95,6 @@ export default {
     userEmail: {
       required,
       email,
-    },
-  },
-  computed: {
-    inputStyles() {
-      return {
-        borderRadius: '12px',
-        padding: '6px 12px',
-        fontSize: '14px',
-        marginBottom: '2px',
-      };
     },
   },
   watch: {
