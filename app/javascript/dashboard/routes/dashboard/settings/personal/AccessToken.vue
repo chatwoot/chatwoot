@@ -1,0 +1,44 @@
+<template>
+  <div class="flex flex-row justify-between gap-4 mb-8">
+    <woot-input
+      name="access_token"
+      class="flex-1"
+      :styles="{
+        borderRadius: '12px',
+        padding: '6px 12px',
+        fontSize: '14px',
+        marginBottom: '2px',
+      }"
+      type="password"
+      :value="value"
+      :class="{ error: false }"
+      placeholder="Please enter your new password"
+      :has-error="false"
+      :error-message="$t('REGISTER.FULL_NAME.ERROR')"
+      disabled
+    />
+    <form-button
+      type="submit"
+      size="large"
+      icon="text-copy"
+      variant="outline"
+      color-scheme="secondary"
+      @click="onClick"
+    >
+      {{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.COPY') }}
+    </form-button>
+  </div>
+</template>
+<script setup>
+import FormButton from 'v3/components/Form/Button.vue';
+const props = defineProps({
+  value: {
+    type: String,
+    default: '',
+  },
+});
+const emit = defineEmits(['on-copy']);
+const onClick = () => {
+  emit('on-copy', props.value);
+};
+</script>

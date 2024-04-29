@@ -73,7 +73,7 @@ const colorClass = computed(() => {
       solid: `${baseClasses.solid} bg-primary-600 text-white focus:ring-primary-400`,
     },
     secondary: {
-      outline: `${baseClasses.outline} outline-ash-400 hover:text-ash-600 active:text-ash-600 focus:ring-ash-400`,
+      outline: `${baseClasses.outline} outline-ash-400 hover:text-ash-900 active:text-ash-900 focus:ring-ash-400`,
       ghost: `${baseClasses.ghost} focus:ring-ash-400`,
       solid: `${baseClasses.solid} bg-ash-100 text-ash-900 focus:ring-ash-400`,
     },
