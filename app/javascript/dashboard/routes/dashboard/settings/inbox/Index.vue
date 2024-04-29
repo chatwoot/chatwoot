@@ -137,6 +137,29 @@ import adminMixin from '../../../../mixins/isAdmin';
 import accountMixin from '../../../../mixins/account';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
+// remove bruh
+
+window.chatwootSettings = {
+  position: 'right',
+  type: 'expanded_bubble',
+  launcherTitle: 'Chat with us',
+};
+(function (d, t) {
+  var BASE_URL = 'http://localhost:3000';
+  var g = d.createElement(t),
+    s = d.getElementsByTagName(t)[0];
+  g.src = BASE_URL + '/packs/js/sdk.js';
+  g.defer = true;
+  g.async = true;
+  s.parentNode.insertBefore(g, s);
+  g.onload = function () {
+    window.chatwootSDK.run({
+      websiteToken: 'd7P48riNUSsTQkrQcEsPFd5i',
+      baseUrl: BASE_URL,
+    });
+  };
+})(document, 'script');
+
 export default {
   components: {
     Settings,
