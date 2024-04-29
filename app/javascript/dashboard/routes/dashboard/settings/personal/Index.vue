@@ -33,6 +33,35 @@
             @update-signature="updateSignature"
           />
         </form-section>
+        <form-section
+          :header="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.TITLE')"
+          :description="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.NOTE')"
+        >
+          <div
+            class="flex flex-col justify-between w-full gap-5 sm:gap-4 sm:flex-row"
+          >
+            <button
+              v-for="hotKey in hotKeys"
+              :key="hotKey.key"
+              class="px-0 reset-base"
+            >
+              <hot-key-card
+                :key="hotKey.title"
+                :title="hotKey.title"
+                :description="hotKey.description"
+                :light-image="hotKey.lightImage"
+                :dark-image="hotKey.darkImage"
+                :active="isEditorHotKeyEnabled(uiSettings, hotKey.key)"
+                @click="toggleHotKey(hotKey.key)"
+              />
+            </button>
+          </div>
+        </form-section>
+        <form-section
+          :header="$t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE')"
+        >
+          <change-password v-if="!globalConfig.disableUserProfileUpdate" />
+        </form-section>
       </div>
     </div>
   </div>
@@ -49,6 +78,8 @@ import { clearCookiesOnLogout } from 'dashboard/store/utils/api.js';
 import UserProfilePicture from './UserProfilePicture.vue';
 import UserBasicDetails from './UserBasicDetails.vue';
 import MessageSignature from './MessageSignature.vue';
+import HotKeyCard from './HotKeyCard.vue';
+import ChangePassword from './ChangePassword.vue';
 import FormSection from 'dashboard/components/FormSection.vue';
 
 export default {
@@ -57,6 +88,8 @@ export default {
     FormSection,
     UserProfilePicture,
     UserBasicDetails,
+    HotKeyCard,
+    ChangePassword,
   },
   mixins: [alertMixin, globalConfigMixin, uiSettingsMixin],
   data() {
@@ -67,6 +100,31 @@ export default {
       displayName: '',
       email: '',
       messageSignature: '',
+      hotKeys: [
+        {
+          key: 'enter',
+          title: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.HEADING'
+          ),
+          description: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.CONTENT'
+          ),
+          lightImage: '/assets/images/dashboard/profile/hot-key-enter.svg',
+          darkImage: '/assets/images/dashboard/profile/hot-key-enter-dark.svg',
+        },
+        {
+          key: 'cmd_enter',
+          title: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.HEADING'
+          ),
+          description: this.$t(
+            'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.CONTENT'
+          ),
+          lightImage: '/assets/images/dashboard/profile/hot-key-ctrl-enter.svg',
+          darkImage:
+            '/assets/images/dashboard/profile/hot-key-ctrl-enter-dark.svg',
+        },
+      ],
     };
   },
   computed: {
@@ -155,6 +213,15 @@ export default {
       } catch (error) {
         this.showAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_FAILED'));
       }
+    },
+    toggleHotKey(key) {
+      this.hotKeys = this.hotKeys.map(hotKey =>
+        hotKey.key === key ? { ...hotKey, active: !hotKey.active } : hotKey
+      );
+      this.updateUISettings({ editor_message_key: key });
+      this.showAlert(
+        this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.UPDATE_SUCCESS')
+      );
     },
   },
 };
