@@ -1,0 +1,19 @@
+{
+  "DATE_PICKER": {
+    "APPLY_BUTTON": "Áp dụng",
+    "CLEAR_BUTTON": "Clear",
+    "DATE_RANGE_INPUT": {
+      "START": "Start Date",
+      "END": "End Date"
+    },
+    "DATE_RANGE_OPTIONS": {
+      "TITLE": "DATE RANGE",
+      "LAST_7_DAYS": "7 ngày cuối",
+      "LAST_30_DAYS": "30 ngày cuối",
+      "LAST_3_MONTHS": "3 tháng vừa qua",
+      "LAST_6_MONTHS": "6 tháng vừa qua",
+      "LAST_YEAR": "Năm ngoái",
+      "CUSTOM_RANGE": "Phạm vi ngày tùy chỉnh"
+    }
+  }
+}
