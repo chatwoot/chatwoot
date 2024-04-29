@@ -117,7 +117,7 @@ export default {
       const updatePayload = {
         name: this.name,
         email: this.email,
-        display_name: this.displayName,
+        displayName: this.displayName,
         avatar: this.avatarFile,
       };
 
