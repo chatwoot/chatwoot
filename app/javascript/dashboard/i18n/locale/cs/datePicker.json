@@ -1,0 +1,19 @@
+{
+  "DATE_PICKER": {
+    "APPLY_BUTTON": "Použít",
+    "CLEAR_BUTTON": "Clear",
+    "DATE_RANGE_INPUT": {
+      "START": "Start Date",
+      "END": "End Date"
+    },
+    "DATE_RANGE_OPTIONS": {
+      "TITLE": "DATE RANGE",
+      "LAST_7_DAYS": "Posledních 7 dní",
+      "LAST_30_DAYS": "Posledních 30 dní",
+      "LAST_3_MONTHS": "Poslední 3 měsíce",
+      "LAST_6_MONTHS": "Posledních 6 měsíců",
+      "LAST_YEAR": "Poslední rok",
+      "CUSTOM_RANGE": "Vlastní časové rozmezí"
+    }
+  }
+}
