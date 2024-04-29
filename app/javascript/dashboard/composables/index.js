@@ -1,8 +1,10 @@
 import { getCurrentInstance } from 'vue';
-export const useTrack = (eventName, payload) => {
+
+export const useTrack = () => {
   const vm = getCurrentInstance();
   if (!vm) throw new Error('must be called in setup');
-  return vm.proxy.$track(eventName, payload);
+
+  return vm.proxy.$track;
 };
 
 export function useAlert(message, action) {
