@@ -1,7 +1,7 @@
 <template>
   <button
     type="button"
-    class="relative flex-shrink-0 h-4 p-0 shadow-inner w-7 rounded-3xl"
+    class="relative flex-shrink-0 h-4 p-0 border-none shadow-inner w-7 rounded-3xl"
     :class="
       value ? 'bg-primary-600 shadow-primary-800' : 'shadow-ash-400 bg-ash-200'
     "
