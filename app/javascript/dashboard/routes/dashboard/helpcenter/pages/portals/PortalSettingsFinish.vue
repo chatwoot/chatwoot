@@ -22,18 +22,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
-export default {
-  components: {
-    EmptyState,
-  },
-  methods: {
-    changeRoute() {
-      this.$router.push({
-        name: 'list_all_portals',
-      });
-    },
-  },
-};
+import { defineComponent } from 'vue';
+defineComponent({
+  name: 'PortalSettingsFinish',
+});
 </script>
