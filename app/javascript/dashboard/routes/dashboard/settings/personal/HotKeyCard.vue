@@ -2,7 +2,7 @@
   <div
     class="flex flex-col gap-4 w-full h-fit sm:max-h-[220px] p-4 sm:max-w-[350px] rounded-md border border-solid border-ash-200"
     :class="{
-      'border border-solid border-primary-300 ': active,
+      'border-primary-300 ': active,
     }"
     @click="$emit('click')"
   >
