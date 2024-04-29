@@ -10,6 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
     "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
     "FORM": {
+      "PICTURE": "Profile Picture",
       "AVATAR": "Profile Image",
       "ERROR": "Please fix form errors",
       "REMOVE_IMAGE": "Remove",
