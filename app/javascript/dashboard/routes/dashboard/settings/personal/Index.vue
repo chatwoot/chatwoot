@@ -37,25 +37,25 @@
           :header="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.TITLE')"
           :description="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.NOTE')"
         >
-            <div
-              class="flex flex-col justify-between w-full gap-5 sm:gap-4 sm:flex-row"
+          <div
+            class="flex flex-col justify-between w-full gap-5 sm:gap-4 sm:flex-row"
+          >
+            <button
+              v-for="hotKey in hotKeys"
+              :key="hotKey.key"
+              class="px-0 reset-base"
             >
-              <button
-                v-for="hotKey in hotKeys"
-                :key="hotKey.key"
-                class="reset-base"
-              >
-                <hot-key-card
-                  :key="hotKey.title"
-                  :title="hotKey.title"
-                  :description="hotKey.description"
-                  :light-image="hotKey.lightImage"
-                  :dark-image="hotKey.darkImage"
-                  :active="isEditorHotKeyEnabled(uiSettings, hotKey.key)"
-                  @click="toggleHotKey(hotKey.key)"
-                />
-              </button>
-            </div>
+              <hot-key-card
+                :key="hotKey.title"
+                :title="hotKey.title"
+                :description="hotKey.description"
+                :light-image="hotKey.lightImage"
+                :dark-image="hotKey.darkImage"
+                :active="isEditorHotKeyEnabled(uiSettings, hotKey.key)"
+                @click="toggleHotKey(hotKey.key)"
+              />
+            </button>
+          </div>
         </form-section>
         <form-section
           :header="$t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE')"
@@ -78,7 +78,6 @@ import { clearCookiesOnLogout } from 'dashboard/store/utils/api.js';
 import UserProfilePicture from './UserProfilePicture.vue';
 import UserBasicDetails from './UserBasicDetails.vue';
 import MessageSignature from './MessageSignature.vue';
-import BasePersonalItem from './BasePersonalItem.vue';
 import HotKeyCard from './HotKeyCard.vue';
 import ChangePassword from './ChangePassword.vue';
 import FormSection from 'dashboard/components/FormSection.vue';

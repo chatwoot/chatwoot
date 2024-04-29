@@ -76,6 +76,12 @@ export default {
       passwordConfirmation: '',
       isPasswordChanging: false,
       errorMessage: '',
+      inputStyles: {
+        borderRadius: '12px',
+        padding: '6px 12px',
+        fontSize: '14px',
+        marginBottom: '2px',
+      },
     };
   },
   validations: {
@@ -96,14 +102,6 @@ export default {
     },
   },
   computed: {
-    inputStyles() {
-      return {
-        borderRadius: '12px',
-        padding: '6px 12px',
-        fontSize: '14px',
-        marginBottom: '2px',
-      };
-    },
     isButtonDisabled() {
       return (
         !this.currentPassword ||
@@ -119,20 +117,19 @@ export default {
         this.showAlert(this.$t('PROFILE_SETTINGS.FORM.ERROR'));
         return;
       }
+      let alertMessage = this.$t('PROFILE_SETTINGS.PASSWORD_UPDATE_SUCCESS');
       try {
         await this.$store.dispatch('updateProfile', {
           password: this.password,
           password_confirmation: this.passwordConfirmation,
           current_password: this.currentPassword,
         });
-        this.errorMessage = this.$t('PROFILE_SETTINGS.PASSWORD_UPDATE_SUCCESS');
       } catch (error) {
-        this.errorMessage =
+        alertMessage =
           parseAPIErrorResponse(error) ||
           this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
       } finally {
-        this.isPasswordChanging = false;
-        this.showAlert(this.errorMessage);
+        this.showAlert(alertMessage);
       }
     },
   },
