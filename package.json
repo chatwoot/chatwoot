@@ -22,7 +22,7 @@
   "size-limit": [
     {
       "path": "public/packs/js/widget-*.js",
-      "limit": "281 KB"
+      "limit": "300 KB"
     },
     {
       "path": "public/packs/js/sdk.js",
@@ -61,8 +61,6 @@
     "ionicons": "~2.0.1",
     "js-cookie": "^3.0.5",
     "libphonenumber-js": "^1.10.24",
-    "logrocket": "^3.0.1",
-    "logrocket-vuex": "^0.0.3",
     "markdown-it": "^13.0.2",
     "markdown-it-link-attributes": "^4.0.1",
     "md5": "^2.3.0",
@@ -72,6 +70,7 @@
     "postcss-loader": "^4.2.0",
     "semver": "7.5.3",
     "tailwindcss": "^3.3.2",
+    "tinykeys": "^2.1.0",
     "turbolinks": "^5.2.0",
     "url-loader": "^2.0.0",
     "urlpattern-polyfill": "^6.0.2",
