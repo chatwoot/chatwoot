@@ -25,7 +25,8 @@ import FormSelect from 'v3/components/Form/Select.vue';
 const props = defineProps({
   value: {
     type: String,
-    default: '',
+    required: true,
+    validator: value => ['ding', 'bell'].includes(value),
   },
   label: {
     type: String,
