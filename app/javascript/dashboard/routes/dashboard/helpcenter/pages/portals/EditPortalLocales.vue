@@ -18,6 +18,7 @@ const isAddLocaleModalOpen = ref(false);
 const getters = useStoreGetters();
 const store = useStore();
 const route = useRoute();
+const track = useTrack();
 const { t } = useI18n();
 
 const currentPortalSlug = computed(() => {
@@ -76,7 +77,7 @@ function changeDefaultLocale({ localeCode }) {
     messageKey: 'CHANGE_DEFAULT_LOCALE',
   });
 
-  useTrack(PORTALS_EVENTS.SET_DEFAULT_LOCALE, {
+  track(PORTALS_EVENTS.SET_DEFAULT_LOCALE, {
     newLocale: localeCode,
     from: route.name,
   });
@@ -94,7 +95,7 @@ function deletePortalLocale({ localeCode }) {
     messageKey: 'DELETE_LOCALE',
   });
 
-  useTrack(PORTALS_EVENTS.DELETE_LOCALE, {
+  track(PORTALS_EVENTS.DELETE_LOCALE, {
     deletedLocale: localeCode,
     from: route.name,
   });

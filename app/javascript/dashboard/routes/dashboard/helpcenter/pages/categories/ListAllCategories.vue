@@ -23,6 +23,7 @@ const showAddCategoryModal = ref(false);
 const getters = useStoreGetters();
 const store = useStore();
 const route = useRoute();
+const track = useTrack();
 const { t } = useI18n();
 const currentPortalSlug = computed(() => {
   return route.params.portalSlug;
@@ -79,7 +80,7 @@ async function deleteCategory(category) {
       categoryId: category.id,
     });
     alertMessage = t('HELP_CENTER.CATEGORY.DELETE.API.SUCCESS_MESSAGE');
-    useTrack(PORTALS_EVENTS.DELETE_CATEGORY, {
+    track(PORTALS_EVENTS.DELETE_CATEGORY, {
       hasArticles: category?.meta?.articles_count !== 0,
     });
   } catch (error) {

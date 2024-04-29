@@ -16,6 +16,7 @@ const getters = useStoreGetters();
 const route = useRoute();
 const router = useRouter();
 const store = useStore();
+const track = useTrack();
 const { t } = useI18n();
 
 const uiFlags = getters['portals/uiFlagsIn'];
@@ -41,7 +42,7 @@ async function updatePortalSettings(portalObj) {
     });
     alertMessage = t('HELP_CENTER.PORTAL.ADD.API.SUCCESS_MESSAGE_FOR_UPDATE');
 
-    useTrack(PORTALS_EVENTS.ONBOARD_CUSTOMIZATION, {
+    track(PORTALS_EVENTS.ONBOARD_CUSTOMIZATION, {
       hasHomePageLink: Boolean(portalObj.homepage_link),
       hasPageTitle: Boolean(portalObj.page_title),
       hasHeaderText: Boolean(portalObj.headerText),
