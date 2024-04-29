@@ -17,26 +17,30 @@ class Telegram::SendAttachmentsService
   pattr_initialize [:message!]
 
   def perform
-    grouped_attachments = group_attachments_by_type
-    attachment_message_id = nil
+    @attachment_message_id = nil
 
-    grouped_attachments.each do |type, attachments|
-      response = case type
-                 when :media, :audio
-                   media_group_request(channel.chat_id(message), attachments, channel.reply_to_message_id(message))
-                 else
-                   send_individual_attachments(attachments)
-                 end
-
-      break unless handle_response(response)
-
-      attachment_message_id ||= extract_attachment_message_id(response)
+    group_attachments_by_type.each do |type, attachments|
+      process_attachments_by_type(type, attachments)
+      break if @attachment_message_id.nil?
     end
 
-    attachment_message_id
+    @attachment_message_id
   end
 
   private
+
+  def process_attachments_by_type(type, attachments)
+    response = send_attachments(type, attachments)
+    @attachment_message_id ||= extract_attachment_message_id(response) if handle_response(response)
+  end
+
+  def send_attachments(type, attachments)
+    if [:media, :audio].include?(type)
+      media_group_request(channel.chat_id(message), attachments, channel.reply_to_message_id(message))
+    else
+      send_individual_attachments(attachments)
+    end
+  end
 
   def group_attachments_by_type
     attachments_by_type = { document: [], audio: [], media: [] }
