@@ -1,4 +1,4 @@
-export const SDK_CSS = `
+export const SDK_CSS_STANDARD = `
 :root {
   --b-100: #F2F3F7;
   --s-700: #37546D;
@@ -55,6 +55,16 @@ export const SDK_CSS = `
   z-index: 2147483000 !important;
   border-radius: 50%;
   border-radius: 100% 100% 100% 100% / 100% 100% 0% 100%;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 55%,
+    98% 70%,
+    96% 80%,
+    98% 90%,
+    101% 100%,
+    0 100%
+  );
   overflow: hidden;
 }
 
