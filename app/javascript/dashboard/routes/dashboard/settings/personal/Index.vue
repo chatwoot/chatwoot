@@ -22,19 +22,17 @@
           />
         </div>
 
-        <base-personal-item
+        <form-section
           :header="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.TITLE')"
           :description="
             $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.NOTE')
           "
         >
-          <template #settingsItem>
-            <message-signature
-              :message-signature="messageSignature"
-              @update-signature="updateProfile"
-            />
-          </template>
-        </base-personal-item>
+          <message-signature
+            :message-signature="messageSignature"
+            @update-signature="updateSignature"
+          />
+        </form-section>
       </div>
     </div>
   </div>
@@ -51,12 +49,12 @@ import { clearCookiesOnLogout } from 'dashboard/store/utils/api.js';
 import UserProfilePicture from './UserProfilePicture.vue';
 import UserBasicDetails from './UserBasicDetails.vue';
 import MessageSignature from './MessageSignature.vue';
-import BasePersonalItem from './BasePersonalItem.vue';
+import FormSection from 'dashboard/components/FormSection.vue';
 
 export default {
   components: {
     MessageSignature,
-    BasePersonalItem,
+    FormSection,
     UserProfilePicture,
     UserBasicDetails,
   },
@@ -68,7 +66,6 @@ export default {
       name: '',
       displayName: '',
       email: '',
-      alertMessage: '',
       messageSignature: '',
     };
   },
@@ -78,13 +75,6 @@ export default {
       currentUserId: 'getCurrentUserID',
       globalConfig: 'globalConfig/get',
     }),
-  },
-  watch: {
-    currentUserId(newCurrentUserId, prevCurrentUserId) {
-      if (prevCurrentUserId !== newCurrentUserId) {
-        this.initializeUser();
-      }
-    },
   },
   mounted() {
     if (this.currentUserId) {
@@ -100,44 +90,51 @@ export default {
       this.messageSignature = this.currentUser.message_signature;
     },
     isEditorHotKeyEnabled,
-    async updateProfile(userAttributes, type = 'profile') {
-      const { name, email, displayName, signature } = userAttributes;
-      const hasEmailChanged =
-        this.currentUser.email !== email && type === 'profile';
+    async updateProfile(userAttributes) {
+      const { name, email, displayName } = userAttributes;
+      const hasEmailChanged = this.currentUser.email !== email;
       this.name = name || this.name;
       this.email = email || this.email;
       this.displayName = displayName || this.displayName;
-      this.messageSignature = signature || this.messageSignature;
+      let alertMessage = this.$t('PROFILE_SETTINGS.UPDATE_SUCCESS');
       try {
         await this.$store.dispatch('updateProfile', {
           name: this.name,
           email: this.email,
           display_name: this.displayName,
-          message_signature: signature,
           avatar: this.avatarFile,
         });
         if (hasEmailChanged) {
           clearCookiesOnLogout();
           this.alertMessage = this.$t('PROFILE_SETTINGS.AFTER_EMAIL_CHANGED');
         }
-        this.alertMessage =
-          type !== 'signature'
-            ? this.$t('PROFILE_SETTINGS.UPDATE_SUCCESS')
-            : this.$t(
-                'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_SUCCESS'
-              );
       } catch (error) {
-        this.alertMessage =
-          type === 'signature'
-            ? this.$t('RESET_PASSWORD.API.ERROR_MESSAGE')
-            : this.$t(
-                'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_ERROR'
-              );
+        alertMessage = this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
+
         if (error?.response?.data?.error) {
-          this.alertMessage = error.response.data.error;
+          alertMessage = error.response.data.error;
         }
       } finally {
-        this.showAlert(this.alertMessage);
+        this.showAlert(alertMessage);
+      }
+    },
+    async updateSignature(signature) {
+      let alertMessage = this.$t(
+        'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_SUCCESS'
+      );
+      try {
+        await this.$store.dispatch('updateProfile', {
+          message_signature: signature,
+        });
+      } catch (error) {
+        alertMessage = this.$t(
+          'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_ERROR'
+        );
+        if (error?.response?.data?.error) {
+          alertMessage = error.response.data.error;
+        }
+      } finally {
+        this.showAlert(alertMessage);
       }
     },
     updateProfilePicture({ file, url }) {
