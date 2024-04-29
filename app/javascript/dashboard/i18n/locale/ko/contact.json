@@ -296,6 +296,8 @@
     "BUTTON": "사용자 지정 속성 추가하기",
     "NOT_AVAILABLE": "이 연락처에 사용 가능한 커스텀 속성이 없습니다.",
     "COPY_SUCCESSFUL": "클립보드에 성공적으로 복사됨",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "속성 복사하기",
       "DELETE": "속성 삭제하기",

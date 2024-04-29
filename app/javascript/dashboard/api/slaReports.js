@@ -37,6 +37,7 @@ class SLAReportsAPI extends ApiClient {
     inbox_id,
     team_id,
     sla_policy_id,
+    label_list,
   } = {}) {
     return axios.get(`${this.url}/download`, {
       params: {
@@ -45,6 +46,7 @@ class SLAReportsAPI extends ApiClient {
         assigned_agent_id,
         inbox_id,
         team_id,
+        label_list,
         sla_policy_id,
       },
     });

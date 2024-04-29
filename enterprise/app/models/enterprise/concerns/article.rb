@@ -39,6 +39,10 @@ module Enterprise::Concerns::Article
   def add_article_embedding
     return unless account.feature_enabled?('help_center_embedding_search')
 
+    Portal::ArticleIndexingJob.perform_later(self)
+  end
+
+  def generate_and_save_article_seach_terms
     terms = generate_article_search_terms
     article_embeddings.destroy_all
     terms.each { |term| article_embeddings.create!(term: term) }
