@@ -28,6 +28,12 @@ environment.loaders.keys().forEach(loaderName => {
 environment.plugins.prepend('VueLoaderPlugin', new VueLoaderPlugin());
 environment.loaders.prepend('vue', vue);
 
+environment.loaders.append('mjs-comptaibility-loader', {
+  test: /\.mjs$/,
+  include: /node_modules/,
+  type: 'javascript/auto',
+});
+
 environment.loaders.append('opus-ogg', {
   test: /encoderWorker\.min\.js$/,
   loader: 'file-loader',
