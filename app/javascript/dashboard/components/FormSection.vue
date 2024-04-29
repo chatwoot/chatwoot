@@ -1,8 +1,8 @@
 <template>
   <div class="flex flex-col items-start w-full gap-6">
     <div class="flex flex-col w-full gap-4">
-      <h4 v-if="header" class="text-lg font-medium text-ash-900">
-        {{ header }}
+      <h4 v-if="title" class="text-lg font-medium text-ash-900">
+        {{ title }}
       </h4>
       <div class="flex flex-row items-center justify-between">
         <div class="flex-grow h-px bg-ash-200" />
@@ -19,7 +19,7 @@
 
 <script setup>
 defineProps({
-  header: {
+  title: {
     type: String,
     default: '',
   },
