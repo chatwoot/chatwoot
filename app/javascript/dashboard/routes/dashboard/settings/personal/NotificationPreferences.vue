@@ -126,7 +126,7 @@ import {
   hasPushPermissions,
   requestPushPermissions,
   verifyServiceWorkerExistence,
-} from '../../../../helper/pushHelper';
+} from 'dashboard/helper/pushHelper.js';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import FormSwitch from 'v3/components/Form/Switch.vue';
 import NotificationCheckBox from './NotificationCheckBox.vue';
