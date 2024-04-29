@@ -23,6 +23,15 @@
           :key="element.name"
           class="bg-white dark:bg-gray-800"
         >
+          <div v-if="element.name === 'linear'" class="conversation--actions">
+            <accordion-item
+              title="Linear"
+              :is-open="isContactSidebarItemOpen('is_linear_open')"
+              @click="value => toggleSidebarUIState('is_linear_open', value)"
+            >
+              <linear :conversation-id="conversationId" />
+            </accordion-item>
+          </div>
           <div
             v-if="element.name === 'conversation_actions'"
             class="conversation--actions"
@@ -145,6 +154,7 @@ import CustomAttributes from './customAttributes/CustomAttributes.vue';
 import draggable from 'vuedraggable';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import MacrosList from './Macros/List.vue';
+import Linear from './linear/index.vue';
 
 export default {
   components: {
@@ -157,6 +167,7 @@ export default {
     ConversationParticipant,
     draggable,
     MacrosList,
+    Linear,
   },
   mixins: [alertMixin, uiSettingsMixin],
   props: {
