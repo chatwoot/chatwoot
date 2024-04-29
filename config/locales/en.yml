@@ -30,6 +30,7 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
+  prompt: "%{client_message}"
   hello: "Hello world"
   messages:
     reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.

@@ -11,6 +11,10 @@ const settings = accountId => ({
     'auditlogs_list',
     'billing_settings_index',
     'canned_list',
+    'chatbot_index',
+    'chatbot_new',
+    'chatbot_edit',
+    'chatbot_connect_inbox',
     'general_settings_index',
     'general_settings',
     'labels_list',
@@ -175,6 +179,14 @@ const settings = accountId => ({
       toStateName: 'sla_list',
       featureFlag: FEATURE_FLAGS.SLA,
       beta: true,
+    },
+    // Added for OneHash ai chatbot
+    {
+      icon: 'chatbot-icon',
+      label: 'CHATBOT',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/settings/chatbot`),
+      toStateName: 'chatbot_index',
     },
   ],
 });
