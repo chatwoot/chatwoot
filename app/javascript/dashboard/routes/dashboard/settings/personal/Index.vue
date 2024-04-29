@@ -90,52 +90,57 @@ export default {
       this.messageSignature = this.currentUser.message_signature;
     },
     isEditorHotKeyEnabled,
+    async dispatchUpdate(payload, successMessage, errorMessage) {
+      let alertMessage = '';
+      try {
+        await this.$store.dispatch('updateProfile', payload);
+        alertMessage = successMessage;
+
+        return true; // return the value so that the status can be known
+      } catch (error) {
+        alertMessage = error?.response?.data?.error
+          ? error.response.data.error
+          : errorMessage;
+
+        return false; // return the value so that the status can be known
+      } finally {
+        this.showAlert(alertMessage);
+      }
+    },
     async updateProfile(userAttributes) {
       const { name, email, displayName } = userAttributes;
       const hasEmailChanged = this.currentUser.email !== email;
       this.name = name || this.name;
       this.email = email || this.email;
       this.displayName = displayName || this.displayName;
-      let alertMessage = this.$t('PROFILE_SETTINGS.UPDATE_SUCCESS');
-      try {
-        await this.$store.dispatch('updateProfile', {
-          name: this.name,
-          email: this.email,
-          display_name: this.displayName,
-          avatar: this.avatarFile,
-        });
-        if (hasEmailChanged) {
-          clearCookiesOnLogout();
-          this.alertMessage = this.$t('PROFILE_SETTINGS.AFTER_EMAIL_CHANGED');
-        }
-      } catch (error) {
-        alertMessage = this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
 
-        if (error?.response?.data?.error) {
-          alertMessage = error.response.data.error;
-        }
-      } finally {
-        this.showAlert(alertMessage);
-      }
+      const updatePayload = {
+        name: this.name,
+        email: this.email,
+        display_name: this.displayName,
+        avatar: this.avatarFile,
+      };
+
+      const success = await this.dispatchUpdate(
+        updatePayload,
+        hasEmailChanged
+          ? this.$t('PROFILE_SETTINGS.AFTER_EMAIL_CHANGED')
+          : this.$t('PROFILE_SETTINGS.UPDATE_SUCCESS'),
+        this.$t('RESET_PASSWORD.API.ERROR_MESSAGE')
+      );
+
+      if (hasEmailChanged && success) clearCookiesOnLogout();
     },
     async updateSignature(signature) {
-      let alertMessage = this.$t(
+      const payload = { message_signature: signature };
+      let successMessage = this.$t(
         'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_SUCCESS'
       );
-      try {
-        await this.$store.dispatch('updateProfile', {
-          message_signature: signature,
-        });
-      } catch (error) {
-        alertMessage = this.$t(
-          'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_ERROR'
-        );
-        if (error?.response?.data?.error) {
-          alertMessage = error.response.data.error;
-        }
-      } finally {
-        this.showAlert(alertMessage);
-      }
+      let errorMessage = this.$t(
+        'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_ERROR'
+      );
+
+      await this.dispatchUpdate(payload, successMessage, errorMessage);
     },
     updateProfilePicture({ file, url }) {
       this.avatarFile = file;
