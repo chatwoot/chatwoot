@@ -46,7 +46,7 @@ import uiSettingsMixin, {
 } from 'dashboard/mixins/uiSettings';
 import alertMixin from 'shared/mixins/alertMixin';
 import { mapGetters } from 'vuex';
-import { clearCookiesOnLogout } from '../../../../store/utils/api';
+import { clearCookiesOnLogout } from 'dashboard/store/utils/api.js';
 
 import UserProfilePicture from './UserProfilePicture.vue';
 import UserBasicDetails from './UserBasicDetails.vue';

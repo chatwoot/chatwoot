@@ -128,7 +128,6 @@ export default {
         this.showAlert(this.$t('PROFILE_SETTINGS.FORM.ERROR'));
         return;
       }
-      // Assume no parameters are needed here
       this.$emit('update-user', {
         name: this.userName,
         displayName: this.userDisplayName,
