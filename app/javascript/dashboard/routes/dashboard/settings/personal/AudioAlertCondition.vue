@@ -12,8 +12,7 @@
         class="flex flex-row items-start gap-2"
       >
         <CheckBox
-          :id="item.id"
-          :model="item.model"
+          :is-checked="item.model"
           :value="item.value"
           @update="onChange"
         />

@@ -52,17 +52,20 @@
               {{ $t(notification.label) }}
             </span>
           </div>
-          <notification-check-box
+          <div
             v-for="(type, typeIndex) in ['email', 'push']"
             :key="typeIndex"
-            :type="type"
-            :value="`${type}_${notification.value}`"
-            :span="type === 'push' ? 3 : 2"
-            :selected-flags="
-              type === 'email' ? selectedEmailFlags : selectedPushFlags
-            "
-            @input="handleInput"
-          />
+            class="flex items-start gap-2 px-0 text-sm tracking-[0.5] text-left rtl:text-right"
+            :class="`col-span-${type === 'push' ? 3 : 2}`"
+          >
+            <CheckBox
+              :value="`${type}_${notification.value}`"
+              :is-checked="
+                checkFlagStatus(type, notification.value, selectedPushFlags)
+              "
+              @update="id => handleInput(type, id)"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -77,11 +80,11 @@
           :key="index"
           class="flex flex-row items-start gap-2"
         >
-          <notification-check-box
-            type="email"
+          <CheckBox
+            :id="`email_${notification.value}`"
             :value="`email_${notification.value}`"
-            :selected-flags="selectedEmailFlags"
-            @input="handleEmailInput"
+            :is-checked="checkFlagStatus('email', notification.value)"
+            @update="handleEmailInput"
           />
           <span class="text-sm text-ash-900">{{ $t(notification.label) }}</span>
         </div>
@@ -103,11 +106,11 @@
           :key="index"
           class="flex flex-row items-start gap-2"
         >
-          <notification-check-box
-            type="push"
+          <CheckBox
+            :id="`push_${notification.value}`"
             :value="`push_${notification.value}`"
-            :selected-flags="selectedPushFlags"
-            @input="handleInput"
+            :is-checked="checkFlagStatus('push', notification.value)"
+            @update="handlePushInput"
           />
           <span class="text-sm text-ash-900">{{ $t(notification.label) }}</span>
         </div>
@@ -122,6 +125,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import TableHeaderCell from 'dashboard/components/widgets/TableHeaderCell.vue';
+import CheckBox from 'v3/components/Form/CheckBox.vue';
 import {
   hasPushPermissions,
   requestPushPermissions,
@@ -129,13 +133,13 @@ import {
 } from 'dashboard/helper/pushHelper.js';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import FormSwitch from 'v3/components/Form/Switch.vue';
-import NotificationCheckBox from './NotificationCheckBox.vue';
 
 export default {
   components: {
     TableHeaderCell,
     FormSwitch,
-    NotificationCheckBox,
+
+    CheckBox,
   },
   mixins: [alertMixin, configMixin, uiSettingsMixin],
   data() {
@@ -229,6 +233,11 @@ export default {
     this.$store.dispatch('userNotificationSettings/get');
   },
   methods: {
+    checkFlagStatus(type, flagType) {
+      const selectedFlags =
+        type === 'email' ? this.selectedEmailFlags : this.selectedPushFlags;
+      return selectedFlags.includes(`${type}_${flagType}`);
+    },
     onRegistrationSuccess() {
       this.hasEnabledPushPermissions = true;
     },
@@ -263,28 +272,7 @@ export default {
         this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_ERROR'));
       }
     },
-    handleInput(type, e) {
-      if (type === 'email') {
-        this.handleEmailInput(e);
-      } else {
-        this.handlePushInput(e);
-      }
-    },
-    handleEmailInput(e) {
-      this.selectedEmailFlags = this.toggleInput(
-        this.selectedEmailFlags,
-        e.target.value
-      );
-      this.updateNotificationSettings();
-    },
-    handlePushInput(e) {
-      this.selectedPushFlags = this.toggleInput(
-        this.selectedPushFlags,
-        e.target.value
-      );
 
-      this.updateNotificationSettings();
-    },
     handleAudioInput(e) {
       this.enableAudioAlerts = e.target.value;
       this.updateUISettings({
@@ -308,6 +296,21 @@ export default {
     handleAudioToneChange(value) {
       this.updateUISettings({ notification_tone: value });
       this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
+    },
+    handleInput(type, id) {
+      if (type === 'email') {
+        this.handleEmailInput(id);
+      } else {
+        this.handlePushInput(id);
+      }
+    },
+    handleEmailInput(id) {
+      this.selectedEmailFlags = this.toggleInput(this.selectedEmailFlags, id);
+      this.updateNotificationSettings();
+    },
+    handlePushInput(id) {
+      this.selectedPushFlags = this.toggleInput(this.selectedPushFlags, id);
+      this.updateNotificationSettings();
     },
     toggleInput(selected, current) {
       if (selected.includes(current)) {
