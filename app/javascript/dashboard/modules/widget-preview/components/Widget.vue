@@ -35,8 +35,14 @@
         @click="toggleWidget"
       >
         <img
-          v-if="!isWidgetVisible"
-          src="~dashboard/assets/images/bubble-logo.svg"
+          v-if="!isWidgetVisible && widgetBubbleType === 'standard'"
+          id="standard-icon"
+          src="~dashboard/assets/images/white-chat-icon-350.svg"
+          alt=""
+        />
+        <img
+          v-if="!isWidgetVisible && widgetBubbleType !== 'standard'"
+          src="~dashboard/assets/images/white-chat-icon-expanded-240-inc.svg"
           alt=""
         />
         <div>
@@ -178,6 +184,7 @@ export default {
         'bubble-close': this.isWidgetVisible,
         'bubble-expanded':
           !this.isWidgetVisible && this.widgetBubbleType === 'expanded_bubble',
+        'beak-standard': this.widgetBubbleType === 'standard',
       };
     },
     getWidgetBubbleLauncherTitle() {
@@ -308,5 +315,26 @@ export default {
     width: auto !important;
     height: var(--space-larger) !important;
   }
+  .beak-standard {
+    border-radius: 50%;
+    border-radius: 100% 100% 100% 100% / 100% 100% 0% 100%;
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% 55%,
+      98% 70%,
+      96% 80%,
+      98% 90%,
+      101% 100%,
+      0 100%
+    );
+  }
+}
+#standard-icon {
+  margin: auto;
+  display: block;
+  width: 38px;
+  height: 38px;
+  margin-left: 2.5px;
 }
 </style>
