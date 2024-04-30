@@ -11,8 +11,6 @@
       }"
       type="password"
       :value="value"
-      :class="{ error: false }"
-      :has-error="false"
       readonly
     />
     <form-button
