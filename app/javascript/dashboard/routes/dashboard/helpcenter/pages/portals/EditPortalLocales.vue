@@ -110,7 +110,7 @@ function addLocale() {
 </script>
 
 <template>
-  <div class="w-full h-full max-w-5xl space-y-4 bg-white dark:bg-slate-900">
+  <div class="w-full h-full max-w-6xl space-y-4 bg-white dark:bg-slate-900">
     <div class="flex justify-end">
       <woot-button
         variant="smooth"
