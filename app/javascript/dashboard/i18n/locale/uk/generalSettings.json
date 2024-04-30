@@ -89,8 +89,8 @@
       "participating_conversation_new_message": "Нове повідомлення",
       "conversation_mention": "Відмітка",
       "sla_missed_first_response": "SLA Missed",
-      "sla_missed_next_response": "SLA Missed",
-      "sla_missed_resolution": "SLA Missed"
+      "sla_missed_next_response": "SLA пропущено",
+      "sla_missed_resolution": "SLA пропущено"
     }
   },
   "NETWORK": {
