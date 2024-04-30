@@ -179,15 +179,12 @@ export default {
   },
   methods: {
     toggleSort() {
-      if (!this.records.length) return;
-
       this.records.sort((a, b) => {
         if (this.sortOrder === 'asc') {
           return a.short_code.localeCompare(b.short_code);
         }
         return b.short_code.localeCompare(a.short_code);
       });
-
       this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
     },
     showAlert(message) {
