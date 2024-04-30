@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Thuộc tính tùy chỉnh",
       "CONTACT_LABELS": "Nhãn danh bạ",
-      "PREVIOUS_CONVERSATIONS": "Cuộc trò chuyện trước đó"
+      "PREVIOUS_CONVERSATIONS": "Cuộc trò chuyện trước đó",
+      "NO_RECORDS_FOUND": "Không có thuộc tính nào được tìm thấy"
     }
   },
   "EDIT_CONTACT": {

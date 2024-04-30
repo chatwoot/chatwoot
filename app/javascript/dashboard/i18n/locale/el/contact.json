@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Προσαρμοζόμενες Ιδιότητες",
       "CONTACT_LABELS": "Ετικέτες Επαφών",
-      "PREVIOUS_CONVERSATIONS": "Προηγούμενες συνομιλίες"
+      "PREVIOUS_CONVERSATIONS": "Προηγούμενες συνομιλίες",
+      "NO_RECORDS_FOUND": "Δεν βρέθηκαν ιδιότητες"
     }
   },
   "EDIT_CONTACT": {

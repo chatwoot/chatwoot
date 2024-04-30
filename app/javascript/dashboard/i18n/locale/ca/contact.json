@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Atributs personalitzats",
       "CONTACT_LABELS": "Etiquetes de contactes",
-      "PREVIOUS_CONVERSATIONS": "Converses prèvies"
+      "PREVIOUS_CONVERSATIONS": "Converses prèvies",
+      "NO_RECORDS_FOUND": "No attributes found"
     }
   },
   "EDIT_CONTACT": {

@@ -280,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Buat atribut",
+    "NO_RECORDS_FOUND": "Tidak ditemukan atribut",
     "UPDATE": {
       "SUCCESS": "Atribut berhasil diperbarui",
       "ERROR": "Tidak dapat memperbarui atribut. Silakan coba lagi nanti"

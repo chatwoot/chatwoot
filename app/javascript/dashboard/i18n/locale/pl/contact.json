@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Niestandardowe atrybuty",
       "CONTACT_LABELS": "Etykiety kontaktu",
-      "PREVIOUS_CONVERSATIONS": "Poprzednie rozmowy"
+      "PREVIOUS_CONVERSATIONS": "Poprzednie rozmowy",
+      "NO_RECORDS_FOUND": "Brak wyników"
     }
   },
   "EDIT_CONTACT": {

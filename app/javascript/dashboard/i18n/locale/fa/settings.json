@@ -84,9 +84,9 @@
         "CONVERSATION_MENTION": "هنگامی که از شما در گفتگو نام برده می‌شود، از طریق ایمیل آگاه‌سازی ارسال کن",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "با ایجاد پیام جدید در مکالمه اختصاصی ، اعلان های ایمیل را ارسال کنید",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "هنگامی که یک پیام جدید در یک مکالمه شرکت کننده ایجاد می شود، اعلان های ایمیل ارسال کنید",
-        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+        "SLA_MISSED_FIRST_RESPONSE": "هر وقت گفتگویی سیاست SLA مربوط به اولین زمان پاسخ را نقض کرد ایمیل ارسال کن",
+        "SLA_MISSED_NEXT_RESPONSE": "هر وقت گفتگویی سیاست SLA مربوط به زمان پاسخ بعدی را نقض کرد ایمیل ارسال کن",
+        "SLA_MISSED_RESOLUTION": "هر وقت گفتگویی سیاست SLA مربوط به زمان حل موضوع را نقض کرد ایمیل ارسال کن"
       },
       "API": {
         "UPDATE_SUCCESS": "تغییرات تنظیمات اعلامیه‌ها با موفقیت ثبت شد",
@@ -102,9 +102,9 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "هنگامی که یک پیام جدید در یک مکالمه شرکت کننده ایجاد می شود، اعلان فشار ارسال کنید",
         "HAS_ENABLED_PUSH": "در این مرورگر پوش نوتیفیکیشن را فعال کرده‌اید",
         "REQUEST_PUSH": "فعال کردن پوش نوتیفیکیشن",
-        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+        "SLA_MISSED_FIRST_RESPONSE": "هر وقت گفتگویی سیاست SLA مربوط به اولین زمان پاسخ را نقض کرد پوش ارسال کن",
+        "SLA_MISSED_NEXT_RESPONSE": "هر وقت گفتگویی سیاست SLA مربوط به زمان پاسخ بعدی را نقض کرد پوش ارسال کن",
+        "SLA_MISSED_RESOLUTION": "هر وقت گفتگویی سیاست SLA مربوط به زمان حل موضوع را نقض کرد پوش ارسال کن"
       },
       "PROFILE_IMAGE": {
         "LABEL": "عکس پروفایل"
@@ -166,9 +166,9 @@
     "TRIAL_MESSAGE": "روز تا اتمام دوره آزمایشی باقی است.",
     "TRAIL_BUTTON": "الان بخرید",
     "DELETED_USER": "کاربر حذف شده",
-    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
-    "RESEND_VERIFICATION_MAIL": "Resend verification email",
-    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "EMAIL_VERIFICATION_PENDING": "ظاهرا هنوز ایمیل خود را تایید نکرده اید. لطفا ایمیل خود را برای تایید بررسی کنید.",
+    "RESEND_VERIFICATION_MAIL": "ارسال مجدد ایمیل تایید",
+    "EMAIL_VERIFICATION_SENT": "ایمیل تایید ارسال شد. لطفا ایمیل خود را بررسی کنید.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "حساب‌کاربری معلق شده است",
       "MESSAGE": "حساب‌کاربری شما به حالت تعلیق درآمده. لطفا برای اطلاعات بیشتر با تیم پشتیبانی تماس بگیرید."
@@ -320,7 +320,6 @@
       "GO_TO_REPORTS_SIDEBAR": "به نوار کناری گزارش ها بروید",
       "MOVE_TO_NEXT_TAB": "به برگه بعدی در فهرست مکالمه بروید",
       "GO_TO_SETTINGS": "برو به تنظیمات",
-      "SWITCH_CONVERSATION_STATUS": "به وضعیت مکالمه بعدی بروید",
       "SWITCH_TO_PRIVATE_NOTE": "رفتن به یادداشت خصوصی",
       "SWITCH_TO_REPLY": "رفتن به پاسخ",
       "TOGGLE_SNOOZE_DROPDOWN": "تغییر حالت بازکردن تعویق"

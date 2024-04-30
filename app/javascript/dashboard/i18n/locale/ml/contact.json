@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "ഇഷ്‌ടാനുസൃത ആട്രിബ്യൂട്ടുകൾ",
       "CONTACT_LABELS": "Contact Labels",
-      "PREVIOUS_CONVERSATIONS": "മുമ്പത്തെ സംഭാഷണങ്ങൾ"
+      "PREVIOUS_CONVERSATIONS": "മുമ്പത്തെ സംഭാഷണങ്ങൾ",
+      "NO_RECORDS_FOUND": "No attributes found"
     }
   },
   "EDIT_CONTACT": {
