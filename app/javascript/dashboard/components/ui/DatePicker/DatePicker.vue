@@ -66,7 +66,7 @@ watch(selectedRange, newRange => {
     const isLast7days = newRange === LAST_7_DAYS;
     startCurrentDate.value = selectedStartDate.value;
     endCurrentDate.value =
-      isLast7days && isSameMonth(selectedStartDate.value, selectedEndDate.value)
+      isLast7days || isSameMonth(selectedStartDate.value, selectedEndDate.value)
         ? startOfMonth(addMonths(selectedStartDate.value, 1))
         : selectedEndDate.value;
     selectingEndDate.value = false;
