@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center w-full overflow-y-auto">
     <div class="flex flex-col h-full p-5 pt-16 mx-auto my-0 font-inter">
-      <div class="flex flex-col gap-16 sm:max-w-[720px]">
+      <div class="flex flex-col gap-16 pb-8 sm:max-w-[720px]">
         <div class="flex flex-col gap-6">
           <h2 class="mt-4 text-2xl font-medium text-ash-900">
             {{ $t('PROFILE_SETTINGS.TITLE') }}
@@ -62,6 +62,19 @@
         >
           <change-password v-if="!globalConfig.disableUserProfileUpdate" />
         </form-section>
+        <form-section
+          :header="
+            $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE')
+          "
+          :description="
+            $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NOTE')
+          "
+        >
+          <audio-notifications />
+        </form-section>
+        <form-section :header="$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TITLE')">
+          <notification-preferences />
+        </form-section>
       </div>
     </div>
   </div>
@@ -80,6 +93,8 @@ import UserBasicDetails from './UserBasicDetails.vue';
 import MessageSignature from './MessageSignature.vue';
 import HotKeyCard from './HotKeyCard.vue';
 import ChangePassword from './ChangePassword.vue';
+import NotificationPreferences from './NotificationPreferences.vue';
+import AudioNotifications from './AudioNotifications.vue';
 import FormSection from 'dashboard/components/FormSection.vue';
 
 export default {
@@ -90,6 +105,8 @@ export default {
     UserBasicDetails,
     HotKeyCard,
     ChangePassword,
+    NotificationPreferences,
+    AudioNotifications,
   },
   mixins: [alertMixin, globalConfigMixin, uiSettingsMixin],
   data() {
