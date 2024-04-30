@@ -5,7 +5,7 @@
     >
       {{ label }}
     </label>
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-4">
       <div
         v-for="item in items"
         :key="item.id"

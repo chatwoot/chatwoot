@@ -9,7 +9,7 @@
           :span="7"
           label="`${$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPE_TITLE')}`"
         >
-          <span class="text-sm font-normal uppercase text-ash-900">
+          <span class="text-sm font-normal normal-case text-ash-900">
             {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPE_TITLE') }}
           </span>
         </table-header-cell>
@@ -17,7 +17,7 @@
           :span="2"
           label="`${$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.EMAIL')}`"
         >
-          <span class="text-sm font-medium uppercase text-ash-900">
+          <span class="text-sm font-medium normal-case text-ash-900">
             {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.EMAIL') }}
           </span>
         </table-header-cell>
@@ -27,7 +27,7 @@
         >
           <div class="flex items-center justify-between gap-1">
             <span
-              class="text-sm font-medium uppercase text-ash-900 whitespace-nowrap"
+              class="text-sm font-medium normal-case text-ash-900 whitespace-nowrap"
             >
               {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.PUSH') }}
             </span>
@@ -43,7 +43,7 @@
         :key="index"
       >
         <div
-          class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
+          class="grid items-center content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
         >
           <div
             class="flex flex-row items-start gap-2 col-span-7 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
@@ -71,7 +71,7 @@
     </div>
     <!--  Layout for mobile devices -->
     <div class="flex flex-col gap-6 sm:hidden">
-      <span class="text-sm font-medium uppercase text-ash-900">
+      <span class="text-sm font-medium normal-case text-ash-900">
         {{ $t('PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.TITLE') }}
       </span>
       <div class="flex flex-col gap-4">
@@ -91,7 +91,7 @@
       </div>
 
       <div class="flex items-center justify-start gap-2">
-        <span class="text-sm font-medium uppercase text-ash-900">
+        <span class="text-sm font-medium normal-case text-ash-900">
           {{ $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.TITLE') }}
         </span>
         <form-switch
