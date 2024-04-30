@@ -107,12 +107,12 @@ export default {
       });
       this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
     },
-    handleAudioAlertConditions(condition, value) {
-      if (condition === 'tab_is_inactive') {
+    handleAudioAlertConditions(id, value) {
+      if (id === 'tab_is_inactive') {
         this.updateUISettings({
           always_play_audio_alert: !value,
         });
-      } else if (condition === 'conversations_are_read') {
+      } else if (id === 'conversations_are_read') {
         this.updateUISettings({
           alert_if_unread_assigned_conversation_exist: value,
         });
