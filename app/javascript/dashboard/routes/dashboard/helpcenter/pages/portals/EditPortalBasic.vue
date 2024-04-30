@@ -1,3 +1,75 @@
+<script setup>
+import PortalSettingsBasicForm from 'dashboard/routes/dashboard/helpcenter/components/PortalSettingsBasicForm.vue';
+
+import { useAlert } from 'dashboard/composables';
+import { useStoreGetters, useStore } from 'dashboard/composables/store';
+import { useRoute, useRouter } from 'dashboard/composables/route';
+import { useI18n } from 'dashboard/composables/useI18n';
+import { defineComponent, computed, ref, onMounted } from 'vue';
+
+defineComponent({ name: 'EditPortalBasic' });
+
+const getters = useStoreGetters();
+const route = useRoute();
+const router = useRouter();
+const store = useStore();
+const { t } = useI18n();
+
+const uiFlags = getters['portals/uiFlagsIn'];
+
+const lastPortalSlug = ref(null);
+
+const currentPortalSlug = computed(() => {
+  return route.params.portalSlug;
+});
+
+const currentPortal = computed(() => {
+  const slug = route.params.portalSlug;
+  return getters['portals/portalBySlug'].value(slug);
+});
+
+onMounted(() => {
+  lastPortalSlug.value = currentPortalSlug.value;
+});
+
+async function updatePortalSettings(portalObj) {
+  let alertMessage = '';
+
+  try {
+    const portalSlug = lastPortalSlug.value;
+    await store.dispatch('portals/update', { ...portalObj, portalSlug });
+
+    alertMessage = t('HELP_CENTER.PORTAL.ADD.API.SUCCESS_MESSAGE_FOR_UPDATE');
+
+    if (lastPortalSlug.value !== portalObj.slug) {
+      await store.dispatch('portals/index');
+      router.replace({
+        name: route.name,
+        params: { portalSlug: portalObj.slug },
+      });
+    }
+  } catch (error) {
+    alertMessage =
+      error?.message ||
+      t('HELP_CENTER.PORTAL.ADD.API.ERROR_MESSAGE_FOR_UPDATE');
+  } finally {
+    useAlert(alertMessage);
+  }
+}
+async function deleteLogo() {
+  try {
+    const portalSlug = lastPortalSlug.value;
+    await store.dispatch('portals/deleteLogo', {
+      portalSlug,
+    });
+  } catch (error) {
+    useAlert(
+      error?.message || t('HELP_CENTER.PORTAL.ADD.LOGO.IMAGE_DELETE_ERROR')
+    );
+  }
+}
+</script>
+
 <template>
   <portal-settings-basic-form
     v-if="currentPortal"
@@ -10,80 +82,3 @@
     @delete-logo="deleteLogo"
   />
 </template>
-
-<script>
-import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
-
-import PortalSettingsBasicForm from 'dashboard/routes/dashboard/helpcenter/components/PortalSettingsBasicForm.vue';
-
-export default {
-  components: {
-    PortalSettingsBasicForm,
-  },
-  mixins: [alertMixin],
-  data() {
-    return {
-      lastPortalSlug: undefined,
-      alertMessage: '',
-    };
-  },
-  computed: {
-    ...mapGetters({
-      uiFlags: 'portals/uiFlagsIn',
-    }),
-    currentPortalSlug() {
-      return this.$route.params.portalSlug;
-    },
-    currentPortal() {
-      return this.$store.getters['portals/portalBySlug'](
-        this.currentPortalSlug
-      );
-    },
-  },
-  mounted() {
-    this.lastPortalSlug = this.currentPortalSlug;
-  },
-  methods: {
-    async updatePortalSettings(portalObj) {
-      try {
-        const portalSlug = this.lastPortalSlug;
-        await this.$store.dispatch('portals/update', {
-          ...portalObj,
-          portalSlug,
-        });
-        this.alertMessage = this.$t(
-          'HELP_CENTER.PORTAL.ADD.API.SUCCESS_MESSAGE_FOR_UPDATE'
-        );
-
-        if (this.lastPortalSlug !== portalObj.slug) {
-          await this.$store.dispatch('portals/index');
-          this.$router.replace({
-            name: this.$route.name,
-            params: { portalSlug: portalObj.slug },
-          });
-        }
-      } catch (error) {
-        this.alertMessage =
-          error?.message ||
-          this.$t('HELP_CENTER.PORTAL.ADD.API.ERROR_MESSAGE_FOR_UPDATE');
-      } finally {
-        this.showAlert(this.alertMessage);
-      }
-    },
-    async deleteLogo() {
-      try {
-        const portalSlug = this.lastPortalSlug;
-        await this.$store.dispatch('portals/deleteLogo', {
-          portalSlug,
-        });
-      } catch (error) {
-        this.alertMessage =
-          error?.message ||
-          this.$t('HELP_CENTER.PORTAL.ADD.LOGO.IMAGE_DELETE_ERROR');
-        this.showAlert(this.alertMessage);
-      }
-    },
-  },
-};
-</script>
