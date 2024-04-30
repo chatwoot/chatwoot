@@ -51,7 +51,6 @@
 <script>
 import { evaluateSLAStatus } from '../helpers/SLAHelper';
 import SLAPopoverCard from './SLAPopoverCard.vue';
-import { mixin as clickaway } from 'vue-clickaway';
 
 const REFRESH_INTERVAL = 60000;
 
@@ -59,7 +58,6 @@ export default {
   components: {
     SLAPopoverCard,
   },
-  mixins: [clickaway],
   props: {
     chat: {
       type: Object,

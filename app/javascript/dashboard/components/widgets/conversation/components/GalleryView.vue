@@ -180,7 +180,6 @@
   </woot-modal>
 </template>
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import timeMixin from 'dashboard/mixins/time';
@@ -200,7 +199,7 @@ export default {
   components: {
     Thumbnail,
   },
-  mixins: [keyboardEventListenerMixins, clickaway, timeMixin],
+  mixins: [keyboardEventListenerMixins, timeMixin],
   props: {
     show: {
       type: Boolean,
