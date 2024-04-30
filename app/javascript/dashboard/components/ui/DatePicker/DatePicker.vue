@@ -31,7 +31,7 @@ import CalendarMonth from './components/CalendarMonth.vue';
 import CalendarWeek from './components/CalendarWeek.vue';
 import CalendarFooter from './components/CalendarFooter.vue';
 
-const { LAST_7_DAYS, CUSTOM_RANGE } = DATE_RANGE_TYPES;
+const { LAST_7_DAYS, LAST_30_DAYS, CUSTOM_RANGE } = DATE_RANGE_TYPES;
 const { START_CALENDAR, END_CALENDAR } = CALENDAR_TYPES;
 const { WEEK, MONTH, YEAR } = CALENDAR_PERIODS;
 
@@ -59,14 +59,16 @@ const emit = defineEmits(['change']);
 // Watcher will set the start and end dates based on the selected range
 watch(selectedRange, newRange => {
   if (newRange !== CUSTOM_RANGE) {
-    // If selecting a range other than last 7 days, set the start and end dates to the selected start and end dates
-    // If selecting last 7 days, set the start date to the selected start date
+    // If selecting a range other than last 7 days or last 30 days, set the start and end dates to the selected start and end dates
+    // If selecting last 7 days or last 30 days is, set the start date to the selected start date
     // and the end date to one month ahead of the start date if the start date and end date are in the same month
     // Otherwise set the end date to the selected end date
-    const isLast7days = newRange === LAST_7_DAYS;
+    const isLastSevenOrThirtyDays =
+      newRange === LAST_7_DAYS || newRange === LAST_30_DAYS;
     startCurrentDate.value = selectedStartDate.value;
     endCurrentDate.value =
-      isLast7days && isSameMonth(selectedStartDate.value, selectedEndDate.value)
+      isLastSevenOrThirtyDays &&
+      isSameMonth(selectedStartDate.value, selectedEndDate.value)
         ? startOfMonth(addMonths(selectedStartDate.value, 1))
         : selectedEndDate.value;
     selectingEndDate.value = false;
