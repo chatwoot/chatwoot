@@ -12,9 +12,7 @@
       type="password"
       :value="value"
       :class="{ error: false }"
-      placeholder="Please enter your new password"
       :has-error="false"
-      :error-message="$t('REGISTER.FULL_NAME.ERROR')"
       disabled
     />
     <form-button

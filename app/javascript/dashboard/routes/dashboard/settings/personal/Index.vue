@@ -34,7 +34,7 @@
           />
         </form-section>
         <form-section
-          :header="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.TITLE')"
+          :title="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.TITLE')"
           :description="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.NOTE')"
         >
           <div
@@ -58,25 +58,23 @@
           </div>
         </form-section>
         <form-section
-          :header="$t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE')"
+          :title="$t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE')"
         >
           <change-password v-if="!globalConfig.disableUserProfileUpdate" />
         </form-section>
         <form-section
-          :header="
-            $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE')
-          "
+          :title="$t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE')"
           :description="
             $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NOTE')
           "
         >
           <audio-notifications />
         </form-section>
-        <form-section :header="$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TITLE')">
+        <form-section :title="$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TITLE')">
           <notification-preferences />
         </form-section>
         <form-section
-          :header="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE')"
+          :title="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE')"
           :description="
             useInstallationName(
               $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE'),
