@@ -133,6 +133,7 @@ import {
 } from 'dashboard/helper/pushHelper.js';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import FormSwitch from 'v3/components/Form/Switch.vue';
+import { NOTIFICATION_TYPES } from './constants';
 
 export default {
   components: {
@@ -148,48 +149,7 @@ export default {
       selectedPushFlags: [],
       enableAudioAlerts: false,
       hasEnabledPushPermissions: false,
-      notificationTypes: [
-        {
-          label:
-            'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.CONVERSATION_CREATED',
-          value: 'conversation_creation',
-        },
-        {
-          label:
-            'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.CONVERSATION_ASSIGNED',
-          value: 'conversation_assignment',
-        },
-        {
-          label:
-            'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.CONVERSATION_MENTION',
-          value: 'conversation_mention',
-        },
-        {
-          label:
-            'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.ASSIGNED_CONVERSATION_NEW_MESSAGE',
-          value: 'assigned_conversation_new_message',
-        },
-        {
-          label:
-            'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.PARTICIPATING_CONVERSATION_NEW_MESSAGE',
-          value: 'participating_conversation_new_message',
-        },
-        {
-          label:
-            'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.SLA_MISSED_FIRST_RESPONSE',
-          value: 'sla_missed_first_response',
-        },
-        {
-          label:
-            'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.SLA_MISSED_NEXT_RESPONSE',
-          value: 'sla_missed_next_response',
-        },
-        {
-          label:
-            'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.SLA_MISSED_RESOLUTION',
-          value: 'sla_missed_resolution',
-        },
-      ],
+      notificationTypes: NOTIFICATION_TYPES,
     };
   },
   computed: {
