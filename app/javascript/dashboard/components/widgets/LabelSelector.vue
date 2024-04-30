@@ -33,7 +33,6 @@
 import AddLabel from 'shared/components/ui/dropdown/AddLabel.vue';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import LabelDropdown from 'shared/components/ui/label/LabelDropdown.vue';
-import { mixin as clickaway } from 'vue-clickaway';
 import adminMixin from 'dashboard/mixins/isAdmin';
 
 export default {
@@ -42,7 +41,7 @@ export default {
     LabelDropdown,
   },
 
-  mixins: [clickaway, adminMixin, keyboardEventListenerMixins],
+  mixins: [adminMixin, keyboardEventListenerMixins],
 
   props: {
     allLabels: {

@@ -5,19 +5,16 @@
     >
       {{ label }}
     </label>
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-4">
       <div
         v-for="item in items"
         :key="item.id"
         class="flex flex-row items-start gap-2"
       >
-        <input
-          :id="item.id"
-          v-model="item.model"
-          type="checkbox"
+        <CheckBox
+          :is-checked="item.model"
           :value="item.value"
-          class="flex-shrink-0 mt-0.5 border-ash-200 border checked:border-none checked:bg-primary-600 dark:checked:bg-primary-600 shadow appearance-none rounded-[4px] w-4 h-4 focus:ring-1 after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center after:text-center after:text-xs after:font-bold after:relative"
-          @input="onChange"
+          @update="onChange"
         />
         <label class="text-sm font-normal text-ash-900">
           {{ item.label }}
@@ -27,6 +24,7 @@
   </div>
 </template>
 <script setup>
+import CheckBox from 'v3/components/Form/CheckBox.vue';
 defineProps({
   label: {
     type: String,
@@ -38,7 +36,7 @@ defineProps({
   },
 });
 const emit = defineEmits(['change']);
-const onChange = e => {
-  emit('change', e);
+const onChange = (id, value) => {
+  emit('change', id, value);
 };
 </script>

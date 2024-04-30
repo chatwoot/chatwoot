@@ -21,7 +21,7 @@
   </form>
 </template>
 <script setup>
-import { defineProps, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import { MESSAGE_SIGNATURE_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 import FormButton from 'v3/components/Form/Button.vue';

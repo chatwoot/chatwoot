@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center w-full overflow-y-auto">
     <div class="flex flex-col h-full p-5 pt-16 mx-auto my-0 font-inter">
-      <div class="flex flex-col gap-16 sm:max-w-[720px]">
+      <div class="flex flex-col gap-16 pb-8 sm:max-w-[720px]">
         <div class="flex flex-col gap-6">
           <h2 class="mt-4 text-2xl font-medium text-ash-900">
             {{ $t('PROFILE_SETTINGS.TITLE') }}
@@ -23,7 +23,7 @@
         </div>
 
         <form-section
-          :header="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.TITLE')"
+          :title="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.TITLE')"
           :description="
             $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.NOTE')
           "
@@ -182,52 +182,57 @@ export default {
       this.messageSignature = this.currentUser.message_signature;
     },
     isEditorHotKeyEnabled,
+    async dispatchUpdate(payload, successMessage, errorMessage) {
+      let alertMessage = '';
+      try {
+        await this.$store.dispatch('updateProfile', payload);
+        alertMessage = successMessage;
+
+        return true; // return the value so that the status can be known
+      } catch (error) {
+        alertMessage = error?.response?.data?.error
+          ? error.response.data.error
+          : errorMessage;
+
+        return false; // return the value so that the status can be known
+      } finally {
+        this.showAlert(alertMessage);
+      }
+    },
     async updateProfile(userAttributes) {
       const { name, email, displayName } = userAttributes;
       const hasEmailChanged = this.currentUser.email !== email;
       this.name = name || this.name;
       this.email = email || this.email;
       this.displayName = displayName || this.displayName;
-      let alertMessage = this.$t('PROFILE_SETTINGS.UPDATE_SUCCESS');
-      try {
-        await this.$store.dispatch('updateProfile', {
-          name: this.name,
-          email: this.email,
-          display_name: this.displayName,
-          avatar: this.avatarFile,
-        });
-        if (hasEmailChanged) {
-          clearCookiesOnLogout();
-          this.alertMessage = this.$t('PROFILE_SETTINGS.AFTER_EMAIL_CHANGED');
-        }
-      } catch (error) {
-        alertMessage = this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
 
-        if (error?.response?.data?.error) {
-          alertMessage = error.response.data.error;
-        }
-      } finally {
-        this.showAlert(alertMessage);
-      }
+      const updatePayload = {
+        name: this.name,
+        email: this.email,
+        displayName: this.displayName,
+        avatar: this.avatarFile,
+      };
+
+      const success = await this.dispatchUpdate(
+        updatePayload,
+        hasEmailChanged
+          ? this.$t('PROFILE_SETTINGS.AFTER_EMAIL_CHANGED')
+          : this.$t('PROFILE_SETTINGS.UPDATE_SUCCESS'),
+        this.$t('RESET_PASSWORD.API.ERROR_MESSAGE')
+      );
+
+      if (hasEmailChanged && success) clearCookiesOnLogout();
     },
     async updateSignature(signature) {
-      let alertMessage = this.$t(
+      const payload = { message_signature: signature };
+      let successMessage = this.$t(
         'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_SUCCESS'
       );
-      try {
-        await this.$store.dispatch('updateProfile', {
-          message_signature: signature,
-        });
-      } catch (error) {
-        alertMessage = this.$t(
-          'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_ERROR'
-        );
-        if (error?.response?.data?.error) {
-          alertMessage = error.response.data.error;
-        }
-      } finally {
-        this.showAlert(alertMessage);
-      }
+      let errorMessage = this.$t(
+        'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.API_ERROR'
+      );
+
+      await this.dispatchUpdate(payload, successMessage, errorMessage);
     },
     updateProfilePicture({ file, url }) {
       this.avatarFile = file;

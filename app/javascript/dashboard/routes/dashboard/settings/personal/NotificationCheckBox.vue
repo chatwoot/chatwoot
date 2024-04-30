@@ -15,7 +15,6 @@
 
 <script setup>
 import { ref, watch } from 'vue';
-import { defineProps } from 'vue';
 
 const props = defineProps({
   value: {
