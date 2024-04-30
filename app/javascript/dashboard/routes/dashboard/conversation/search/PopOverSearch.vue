@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
 import timeMixin from '../../../../mixins/time';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
@@ -50,7 +49,7 @@ export default {
       },
     },
   },
-  mixins: [timeMixin, messageFormatterMixin, clickaway],
+  mixins: [timeMixin, messageFormatterMixin],
   props: {
     isOnExpandedLayout: {
       type: Boolean,
