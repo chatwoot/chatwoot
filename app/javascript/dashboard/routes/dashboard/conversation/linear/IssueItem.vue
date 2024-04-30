@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col gap-2">
-    <div class="flex flex-col">
-      <div class="flex items-center gap-1">
+    <div class="flex flex-col gap-2">
+      <div class="flex items-center justify-between group">
         <!-- <woot-button
           size="tiny"
           variant="link"
@@ -13,24 +13,20 @@
           :href="issue.link"
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-block rounded-sm mb-0 break-all py-0.5 text-woot-600"
+          class="inline-block rounded-sm mb-0 break-all py-0.5 text-primary-600"
         >
-          {{ issue.identifier }}
+          {{ `${issue.identifier}  ${issue.title}` }}
         </a>
         <woot-button
           size="small"
           variant="clear"
-          color-scheme="primary"
-          class="!px-2 hover:!bg-transparent dark:hover:!bg-transparent underline"
+          color-scheme="secondary"
+          class="!px-2 hover:!bg-transparent hidden dark:hover:!bg-transparent underline group-hover:block"
           @click="deleteIssue(issue)"
         >
           Unlink
         </woot-button>
       </div>
-
-      <span class="text-sm font-medium text-slate-900 dark:text-slate-25">
-        {{ issue.title }}
-      </span>
 
       <span class="text-sm font-normal text-slate-900 dark:text-slate-25">
         {{ issue.description }}

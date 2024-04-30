@@ -3501,6 +3501,11 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.50.0.tgz#9e93b850f0f3fa35f5fa59adfd03adae8488e484"
   integrity sha512-NCC3zz2+nvYd+Ckfh87rA47zfu2QsQpvc6k1yzTk+b9KzRj0wkGa8LSoGOXN6Zv4lRf/EIoZ80biDh9HOI+RNQ==
 
+"@graphql-typed-document-node/core@^3.1.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.2.0.tgz#5f3d96ec6b2354ad6d8a28bf216a1d97b5426861"
+  integrity sha512-mB9oAsNCm9aM3/SOv4YtBMqZbYj10R7dkq8byBqxGY/ncFwhf2oQzMV+LCRlWoDSEBJ3COiR1yeDvMtsoOsuFQ==
+
 "@hcaptcha/vue-hcaptcha@^0.3.2":
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/@hcaptcha/vue-hcaptcha/-/vue-hcaptcha-0.3.2.tgz#0f77d6fc19bc47eadb6b2181eee5fc132441a942"
@@ -3871,6 +3876,15 @@
     tslib "^2.4.1"
     typescript "^4.9.5"
     unfetch "^4.1.0"
+
+"@linear/sdk@^20.0.0":
+  version "20.0.0"
+  resolved "https://registry.yarnpkg.com/@linear/sdk/-/sdk-20.0.0.tgz#a15afb3abf3cd2d48375f42d39d99d127dc2aa17"
+  integrity sha512-LljgBsSRzU++Jl7eIJhL8Z8Btso+rFN4lWeV3fg0RVfONlW0PEPLkaKJDBdA2NQ2TzpMTCJ6xcDwvIvDSQo6Ww==
+  dependencies:
+    "@graphql-typed-document-node/core" "^3.1.0"
+    graphql "^15.4.0"
+    isomorphic-unfetch "^3.1.0"
 
 "@lit-labs/ssr-dom-shim@^1.0.0", "@lit-labs/ssr-dom-shim@^1.1.0":
   version "1.1.1"
@@ -11933,6 +11947,11 @@ graphemer@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/graphemer/-/graphemer-1.4.0.tgz#fb2f1d55e0e3a1849aeffc90c4fa0dd53a0e66c6"
   integrity sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==
+
+graphql@^15.4.0:
+  version "15.8.0"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-15.8.0.tgz#33410e96b012fa3bdb1091cc99a94769db212b38"
+  integrity sha512-5gghUc24tP9HRznNpV2+FIoq3xKkj5dTQqf4v0CpdPbFVwFkWoxOM+o+2OC9ZSvjEMTjfmG9QT+gcvggTwW1zw==
 
 handle-thing@^2.0.0:
   version "2.0.1"

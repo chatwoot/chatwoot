@@ -35,6 +35,7 @@
     "@chatwoot/utils": "^0.0.23",
     "@hcaptcha/vue-hcaptcha": "^0.3.2",
     "@june-so/analytics-next": "^2.0.0",
+    "@linear/sdk": "^20.0.0",
     "@radix-ui/colors": "^1.0.1",
     "@rails/actioncable": "6.1.3",
     "@rails/ujs": "^7.0.3-1",
