@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row justify-between gap-4 mb-8">
+  <div class="flex flex-row justify-between gap-4">
     <woot-input
       name="access_token"
       class="flex-1 focus:[&>input]:!border-slate-200 focus:[&>input]:dark:!border-slate-600 [&>input]:cursor-not-allowed"
