@@ -34,7 +34,7 @@
           />
         </form-section>
         <form-section
-          :header="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.TITLE')"
+          :title="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.TITLE')"
           :description="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.NOTE')"
         >
           <div
@@ -58,22 +58,34 @@
           </div>
         </form-section>
         <form-section
-          :header="$t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE')"
+          :title="$t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE')"
         >
           <change-password v-if="!globalConfig.disableUserProfileUpdate" />
         </form-section>
         <form-section
-          :header="
-            $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE')
-          "
+          :title="$t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE')"
           :description="
             $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NOTE')
           "
         >
           <audio-notifications />
         </form-section>
-        <form-section :header="$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TITLE')">
+        <form-section :title="$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TITLE')">
           <notification-preferences />
+        </form-section>
+        <form-section
+          :title="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE')"
+          :description="
+            useInstallationName(
+              $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE'),
+              globalConfig.installationName
+            )
+          "
+        >
+          <access-token
+            :value="currentUser.access_token"
+            @on-copy="onCopyToken"
+          />
         </form-section>
       </div>
     </div>
@@ -87,6 +99,7 @@ import uiSettingsMixin, {
 import alertMixin from 'shared/mixins/alertMixin';
 import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from 'dashboard/store/utils/api.js';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
 
 import UserProfilePicture from './UserProfilePicture.vue';
 import UserBasicDetails from './UserBasicDetails.vue';
@@ -96,6 +109,7 @@ import ChangePassword from './ChangePassword.vue';
 import NotificationPreferences from './NotificationPreferences.vue';
 import AudioNotifications from './AudioNotifications.vue';
 import FormSection from 'dashboard/components/FormSection.vue';
+import AccessToken from './AccessToken.vue';
 
 export default {
   components: {
@@ -107,6 +121,7 @@ export default {
     ChangePassword,
     NotificationPreferences,
     AudioNotifications,
+    AccessToken,
   },
   mixins: [alertMixin, globalConfigMixin, uiSettingsMixin],
   data() {
@@ -239,6 +254,10 @@ export default {
       this.showAlert(
         this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.UPDATE_SUCCESS')
       );
+    },
+    async onCopyToken(value) {
+      await copyTextToClipboard(value);
+      this.showAlert(this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
     },
   },
 };
