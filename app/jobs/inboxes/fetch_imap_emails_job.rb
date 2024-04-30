@@ -12,8 +12,7 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
       process_email_for_channel(channel)
     end
   rescue *ExceptionList::IMAP_EXCEPTIONS => e
-    Rails.logger.error e
-    channel.authorization_error!
+    Rails.logger.error "Authorization error for email channel - #{channel.inbox.id} : #{e.message}"
   rescue EOFError, OpenSSL::SSL::SSLError, Net::IMAP::NoResponseError, Net::IMAP::BadResponseError, Net::IMAP::InvalidResponseError => e
     Rails.logger.error e
   rescue LockAcquisitionError
