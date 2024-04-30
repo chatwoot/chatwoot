@@ -57,8 +57,7 @@ const props = defineProps({
 const attrs = useAttrs();
 
 const baseClasses = {
-  outline:
-    'outline outline-1 -outline-offset-1 focus:outline focus:outline-offset-1',
+  outline: 'outline outline-1 -outline-offset-1',
   ghost: 'hover:text-600 active:text-600 focus:outline focus:outline-offset-1',
   solid:
     'hover:bg-700 active:bg-700 focus:outline focus:outline-offset-1 focus:outline-2',
@@ -71,17 +70,17 @@ const colorClass = computed(() => {
 
   const styleMap = {
     primary: {
-      outline: `${baseClasses.outline} outline-primary-400 hover:text-primary-600 active:text-primary-600 focus:outline-primary-400`,
+      outline: `${baseClasses.outline} outline-primary-400 hover:text-primary-600 active:text-primary-600`,
       ghost: `${baseClasses.ghost} focus:outline-primary-400`,
       solid: `${baseClasses.solid} bg-primary-600 text-white focus:outline-primary-400`,
     },
     secondary: {
-      outline: `${baseClasses.outline} outline-ash-400 hover:text-ash-900 active:text-ash-900 focus:outline-ash-400`,
+      outline: `${baseClasses.outline} outline-ash-400 hover:text-ash-900 active:text-ash-900 `,
       ghost: `${baseClasses.ghost} focus:outline-ash-400`,
       solid: `${baseClasses.solid} bg-ash-100 text-ash-900 focus:outline-ash-400`,
     },
     danger: {
-      outline: `${baseClasses.outline} outline-ruby-400 hover:text-ruby-600 active:text-ruby-600 focus:outline-ruby-400`,
+      outline: `${baseClasses.outline} outline-ruby-400 hover:text-ruby-600 active:text-ruby-600`,
       ghost: `${baseClasses.ghost} focus:outline-ruby-400`,
       solid: `${baseClasses.solid} bg-ruby-600 text-white focus:outline-ruby-400`,
     },

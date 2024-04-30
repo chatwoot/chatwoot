@@ -2,7 +2,7 @@
   <div class="flex flex-row justify-between gap-4 mb-8">
     <woot-input
       name="access_token"
-      class="flex-1"
+      class="flex-1 focus:[&>input]:!border-slate-200 focus:[&>input]:dark:!border-slate-600 [&>input]:cursor-not-allowed"
       :styles="{
         borderRadius: '12px',
         padding: '6px 12px',
