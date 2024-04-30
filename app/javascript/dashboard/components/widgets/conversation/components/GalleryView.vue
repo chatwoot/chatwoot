@@ -180,14 +180,8 @@
   </woot-modal>
 </template>
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
-import {
-  isEscape,
-  hasPressedArrowLeftKey,
-  hasPressedArrowRightKey,
-} from 'shared/helpers/KeyboardHelpers';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import timeMixin from 'dashboard/mixins/time';
 
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
@@ -205,7 +199,7 @@ export default {
   components: {
     Thumbnail,
   },
-  mixins: [eventListenerMixins, clickaway, timeMixin],
+  mixins: [keyboardEventListenerMixins, timeMixin],
   props: {
     show: {
       type: Boolean,
@@ -304,20 +298,30 @@ export default {
       this.activeAttachment = attachment;
       this.activeFileType = type;
     },
-    onKeyDownHandler(e) {
-      if (isEscape(e)) {
-        this.onClose();
-      } else if (hasPressedArrowLeftKey(e)) {
-        this.onClickChangeAttachment(
-          this.allAttachments[this.activeImageIndex - 1],
-          this.activeImageIndex - 1
-        );
-      } else if (hasPressedArrowRightKey(e)) {
-        this.onClickChangeAttachment(
-          this.allAttachments[this.activeImageIndex + 1],
-          this.activeImageIndex + 1
-        );
-      }
+    getKeyboardEvents() {
+      return {
+        Escape: {
+          action: () => {
+            this.onClose();
+          },
+        },
+        ArrowLeft: {
+          action: () => {
+            this.onClickChangeAttachment(
+              this.allAttachments[this.activeImageIndex - 1],
+              this.activeImageIndex - 1
+            );
+          },
+        },
+        ArrowRight: {
+          action: () => {
+            this.onClickChangeAttachment(
+              this.allAttachments[this.activeImageIndex + 1],
+              this.activeImageIndex + 1
+            );
+          },
+        },
+      };
     },
     onClickDownload() {
       const { file_type: type, data_url: url } = this.activeAttachment;
