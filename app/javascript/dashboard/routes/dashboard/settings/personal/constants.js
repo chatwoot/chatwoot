@@ -35,3 +35,18 @@ export const NOTIFICATION_TYPES = [
     value: 'sla_missed_resolution',
   },
 ];
+
+export const ALERT_EVENTS = [
+  {
+    value: 'none',
+    label: 'none',
+  },
+  {
+    value: 'mine',
+    label: 'mine',
+  },
+  {
+    value: 'all',
+    label: 'all',
+  },
+];

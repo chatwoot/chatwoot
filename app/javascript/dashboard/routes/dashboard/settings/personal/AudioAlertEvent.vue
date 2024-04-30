@@ -27,7 +27,11 @@
             selectedValue === option.value ? 'text-ash-900' : 'text-ash-800'
           "
         >
-          {{ option.label }}
+          {{
+            $t(
+              `PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPES.${option.label.toUpperCase()}`
+            )
+          }}
         </label>
       </div>
     </div>
@@ -36,7 +40,7 @@
 
 <script setup>
 import { computed } from 'vue';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { ALERT_EVENTS } from './constants';
 
 const props = defineProps({
   label: {
@@ -49,28 +53,7 @@ const props = defineProps({
   },
 });
 
-const { t } = useI18n();
-
-const alertEvents = [
-  {
-    value: 'none',
-    label: t(
-      'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPES.NONE'
-    ),
-  },
-  {
-    value: 'mine',
-    label: t(
-      'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPES.MINE'
-    ),
-  },
-  {
-    value: 'all',
-    label: t(
-      'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPES.ALL'
-    ),
-  },
-];
+const alertEvents = ALERT_EVENTS;
 
 const emit = defineEmits(['update']);
 

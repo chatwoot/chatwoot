@@ -9,7 +9,7 @@
           :span="7"
           label="`${$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPE_TITLE')}`"
         >
-          <span class="text-sm font-normal normal-case text-ash-900">
+          <span class="text-sm font-normal normal-case text-ash-800">
             {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPE_TITLE') }}
           </span>
         </table-header-cell>
