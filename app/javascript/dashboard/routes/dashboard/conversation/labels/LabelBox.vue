@@ -48,7 +48,6 @@ import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner.vue';
 import LabelDropdown from 'shared/components/ui/label/LabelDropdown.vue';
 import AddLabel from 'shared/components/ui/dropdown/AddLabel.vue';
-import { mixin as clickaway } from 'vue-clickaway';
 import adminMixin from 'dashboard/mixins/isAdmin';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
@@ -60,12 +59,7 @@ export default {
     AddLabel,
   },
 
-  mixins: [
-    clickaway,
-    conversationLabelMixin,
-    adminMixin,
-    keyboardEventListenerMixins,
-  ],
+  mixins: [conversationLabelMixin, adminMixin, keyboardEventListenerMixins],
   props: {
     conversationId: {
       type: Number,
