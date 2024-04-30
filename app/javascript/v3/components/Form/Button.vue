@@ -3,6 +3,7 @@
     class="inline-flex items-center gap-1 text-sm font-medium reset-base rounded-xl w-fit"
     :class="buttonClasses"
     v-bind="$attrs"
+    @click="onClick"
   >
     <fluent-icon
       v-if="icon && !trailingIcon"
@@ -56,9 +57,10 @@ const props = defineProps({
 const attrs = useAttrs();
 
 const baseClasses = {
-  outline: 'outline outline-1 -outline-offset-1 focus:ring focus:ring-offset-1',
-  ghost: 'hover:text-600 active:text-600 focus:ring focus:ring-offset-1',
-  solid: 'hover:bg-700 active:bg-700 focus:ring focus:ring-offset-1',
+  outline: 'outline outline-1 -outline-offset-1',
+  ghost: 'hover:text-600 active:text-600 focus:outline focus:outline-offset-1',
+  solid:
+    'hover:bg-700 active:bg-700 focus:outline focus:outline-offset-1 focus:outline-2',
 };
 
 const colorClass = computed(() => {
@@ -68,19 +70,19 @@ const colorClass = computed(() => {
 
   const styleMap = {
     primary: {
-      outline: `${baseClasses.outline} outline-primary-400 hover:text-primary-600 active:text-primary-600 focus:ring-primary-400`,
-      ghost: `${baseClasses.ghost} focus:ring-primary-400`,
-      solid: `${baseClasses.solid} bg-primary-600 text-white focus:ring-primary-400`,
+      outline: `${baseClasses.outline} outline-primary-400 hover:text-primary-600 active:text-primary-600`,
+      ghost: `${baseClasses.ghost} focus:outline-primary-400`,
+      solid: `${baseClasses.solid} bg-primary-600 text-white focus:outline-primary-400`,
     },
     secondary: {
-      outline: `${baseClasses.outline} outline-ash-400 hover:text-ash-600 active:text-ash-600 focus:ring-ash-400`,
-      ghost: `${baseClasses.ghost} focus:ring-ash-400`,
-      solid: `${baseClasses.solid} bg-ash-100 text-ash-900 focus:ring-ash-400`,
+      outline: `${baseClasses.outline} outline-ash-400 hover:text-ash-900 active:text-ash-900 `,
+      ghost: `${baseClasses.ghost} focus:outline-ash-400`,
+      solid: `${baseClasses.solid} bg-ash-100 text-ash-900 focus:outline-ash-400`,
     },
     danger: {
-      outline: `${baseClasses.outline} outline-ruby-400 hover:text-ruby-600 active:text-ruby-600 focus:ring-ruby-400`,
-      ghost: `${baseClasses.ghost} focus:ring-ruby-400`,
-      solid: `${baseClasses.solid} bg-ruby-600 text-white focus:ring-ruby-400`,
+      outline: `${baseClasses.outline} outline-ruby-400 hover:text-ruby-600 active:text-ruby-600`,
+      ghost: `${baseClasses.ghost} focus:outline-ruby-400`,
+      solid: `${baseClasses.solid} bg-ruby-600 text-white focus:outline-ruby-400`,
     },
   };
 
@@ -96,4 +98,13 @@ const sizeClass = computed(() => {
 });
 
 const buttonClasses = computed(() => [colorClass.value, sizeClass.value]);
+
+const emit = defineEmits(['click']);
+
+const onClick = () => {
+  if (props.disabled) {
+    return;
+  }
+  emit('click');
+};
 </script>
