@@ -83,7 +83,6 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import countries from 'shared/constants/countries.js';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import mentionSelectionKeyboardMixin from 'dashboard/components/widgets/mentions/mentionSelectionKeyboardMixin.js';
@@ -94,12 +93,7 @@ export default {
   components: {
     FluentIcon,
   },
-  mixins: [
-    mentionSelectionKeyboardMixin,
-    FormulateInputMixin,
-    darkModeMixin,
-    clickaway,
-  ],
+  mixins: [mentionSelectionKeyboardMixin, FormulateInputMixin, darkModeMixin],
   props: {
     placeholder: {
       type: String,
