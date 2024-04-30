@@ -13,7 +13,7 @@
       :value="value"
       :class="{ error: false }"
       :has-error="false"
-      disabled
+      readonly
     />
     <form-button
       type="submit"
