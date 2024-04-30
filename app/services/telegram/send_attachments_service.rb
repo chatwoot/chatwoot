@@ -17,21 +17,23 @@ class Telegram::SendAttachmentsService
   pattr_initialize [:message!]
 
   def perform
-    @attachment_message_id = nil
+    attachment_message_id = nil
 
     group_attachments_by_type.each do |type, attachments|
-      process_attachments_by_type(type, attachments)
-      break if @attachment_message_id.nil?
+      attachment_message_id = process_attachments_by_type(type, attachments)
+      break if attachment_message_id.nil?
     end
 
-    @attachment_message_id
+    attachment_message_id
   end
 
   private
 
   def process_attachments_by_type(type, attachments)
     response = send_attachments(type, attachments)
-    @attachment_message_id ||= extract_attachment_message_id(response) if handle_response(response)
+    return extract_attachment_message_id(response) if handle_response(response)
+
+    nil
   end
 
   def send_attachments(type, attachments)
@@ -43,7 +45,7 @@ class Telegram::SendAttachmentsService
   end
 
   def group_attachments_by_type
-    attachments_by_type = { document: [], audio: [], media: [] }
+    attachments_by_type = { media: [], audio: [], document: [] }
 
     message.attachments.each do |attachment|
       type = attachment_type(attachment[:file_type])
