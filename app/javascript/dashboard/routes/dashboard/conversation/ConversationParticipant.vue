@@ -78,7 +78,6 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import Spinner from 'shared/components/Spinner.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import { mapGetters } from 'vuex';
@@ -92,7 +91,7 @@ export default {
     ThumbnailGroup,
     MultiselectDropdownItems,
   },
-  mixins: [alertMixin, agentMixin, clickaway],
+  mixins: [alertMixin, agentMixin],
   props: {
     conversationId: {
       type: [Number, String],

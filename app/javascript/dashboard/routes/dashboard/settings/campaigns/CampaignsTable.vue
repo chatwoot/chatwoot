@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import campaignMixin from 'shared/mixins/campaignMixin';
@@ -34,7 +33,7 @@ export default {
     CampaignCard,
   },
 
-  mixins: [clickaway, campaignMixin],
+  mixins: [campaignMixin],
 
   props: {
     campaigns: {
