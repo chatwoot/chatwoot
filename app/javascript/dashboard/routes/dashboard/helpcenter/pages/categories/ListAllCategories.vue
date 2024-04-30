@@ -99,7 +99,7 @@ function changeCurrentCategory(event) {
 </script>
 
 <template>
-  <div class="w-full max-w-5xl">
+  <div class="w-full max-w-6xl">
     <header class="flex items-center justify-between mb-4">
       <div class="flex items-center w-full gap-3">
         <label
