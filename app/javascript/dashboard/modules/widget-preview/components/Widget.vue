@@ -184,6 +184,7 @@ export default {
         'bubble-close': this.isWidgetVisible,
         'bubble-expanded':
           !this.isWidgetVisible && this.widgetBubbleType === 'expanded_bubble',
+        'beak-standard': this.widgetBubbleType === 'standard',
       };
     },
     getWidgetBubbleLauncherTitle() {
@@ -313,6 +314,20 @@ export default {
     color: var(--white);
     width: auto !important;
     height: var(--space-larger) !important;
+  }
+  .beak-standard {
+    border-radius: 50%;
+    border-radius: 100% 100% 100% 100% / 100% 100% 0% 100%;
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% 55%,
+      98% 70%,
+      96% 80%,
+      98% 90%,
+      101% 100%,
+      0 100%
+    );
   }
 }
 #standard-icon {
