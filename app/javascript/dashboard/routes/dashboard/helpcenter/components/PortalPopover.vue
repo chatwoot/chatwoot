@@ -47,13 +47,11 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import PortalSwitch from './PortalSwitch.vue';
 export default {
   components: {
     PortalSwitch,
   },
-  mixins: [clickaway],
   props: {
     portals: {
       type: Array,

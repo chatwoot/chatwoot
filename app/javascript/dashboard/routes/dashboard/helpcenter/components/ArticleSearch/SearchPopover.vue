@@ -34,7 +34,6 @@
 
 <script>
 import { debounce } from '@chatwoot/utils';
-import { mixin as clickaway } from 'vue-clickaway';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 
 import SearchHeader from './Header.vue';
@@ -52,7 +51,7 @@ export default {
     SearchResults,
     ArticleView,
   },
-  mixins: [clickaway, portalMixin, alertMixin, keyboardEventListenerMixins],
+  mixins: [portalMixin, alertMixin, keyboardEventListenerMixins],
   props: {
     selectedPortalSlug: {
       type: String,
