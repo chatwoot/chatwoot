@@ -26,8 +26,8 @@ export default {
       const indexToAppend = taggedHandlers.push(keydownHandler) - 1;
       const root = this.$el;
       if (root && root.dataset) {
-        // For the components with the top level v-if Vue renders it is an empty comment in DOM
-        // so we need to check if the root element has a dataset property
+        // For the components with a top level v-if Vue renders it as an empty comment in the DOM
+        // so we need to check if the root element has a dataset property to ensure it is a valid element
         document.addEventListener('keydown', keydownHandler);
         root.dataset.keydownHandlerIndex = indexToAppend;
       }
