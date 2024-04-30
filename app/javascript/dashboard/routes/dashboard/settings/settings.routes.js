@@ -18,6 +18,7 @@ import reports from './reports/reports.routes';
 import store from '../../../store';
 import sla from './sla/sla.routes';
 import teams from './teams/teams.routes';
+import personal from './personal/personal.routes';
 
 export default {
   routes: [
@@ -50,5 +51,6 @@ export default {
     ...reports.routes,
     ...sla.routes,
     ...teams.routes,
+    ...personal.routes,
   ],
 };

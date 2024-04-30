@@ -1,53 +1,62 @@
 {
   "SLA": {
     "HEADER": "SLA",
-    "HEADER_BTN_TXT": "Add SLA",
-    "LOADING": "Fetching SLAs",
-    "SEARCH_404": "Não existem itens correspondentes a esta consulta",
-    "SIDEBAR_TXT": "<p><b>SLA</b> <p>Think of Service Level Agreements (SLAs) like friendly promises between a service provider and a customer.</p> <p> These promises set clear expectations for things like how quickly the team will respond to issues, making sure you always get a reliable and top-notch experience!</p>",
+    "ADD_ACTION": "",
+    "ADD_ACTION_LONG": "Create a new SLA Policy",
+    "DESCRIPTION": "Contratos de Nível de Serviço são contratos que definem expectativas claras entre sua equipe e os clientes. Estabelecem normas para tempos de resposta e de resolução, criando um quadro de responsabilização e garantindo uma experiência coerente e de qualidade.",
+    "LEARN_MORE": "Saiba mais sobre SLA",
+    "LOADING": "Buscando SLAs",
     "LIST": {
-      "404": "There are no SLAs available in this account.",
-      "TITLE": "Manage SLA",
-      "DESC": "SLAs: Friendly promises for great service!",
-      "TABLE_HEADER": [
-        "Nome",
-        "Descrição",
-        "FRT",
-        "NRT",
-        "RT",
-        "Horário de funcionamento"
-      ]
+      "404": ".",
+      "EMPTY": {
+        "TITLE_1": "Enterprise P0",
+        "DESC_1": "Issues raised by enterprise customers, that require immediate attention.",
+        "TITLE_2": "Enterprise P1",
+        "DESC_2": "Issues raised by enterprise customers, that needs to be acknowledged quickly."
+      },
+      "BUSINESS_HOURS_ON": "Horários de funcionamento",
+      "BUSINESS_HOURS_OFF": "Horário comercial desligado",
+      "RESPONSE_TYPES": {
+        "FRT": "Próximo limite de tempo de resposta",
+        "NRT": "Próximo limite de tempo de resposta",
+        "RT": "Limite de tempo de resolução",
+        "SHORT_HAND": {
+          "FRT": "",
+          "NRT": "",
+          "RT": ""
+        }
+      }
     },
     "FORM": {
       "NAME": {
-        "LABEL": "SLA Name",
-        "PLACEHOLDER": "SLA Name",
-        "REQUIRED_ERROR": "SLA name is required",
+        "LABEL": "",
+        "PLACEHOLDER": "",
+        "REQUIRED_ERROR": "",
         "MINIMUM_LENGTH_ERROR": "Tamanho mínimo 2 é necessário",
         "VALID_ERROR": "Somente Letras, Números, Hífen e Sublinhado são permitidos"
       },
       "DESCRIPTION": {
         "LABEL": "Descrição",
-        "PLACEHOLDER": "SLA for premium customers"
+        "PLACEHOLDER": ""
       },
       "FIRST_RESPONSE_TIME": {
         "LABEL": "Tempo da Primeira Resposta",
         "PLACEHOLDER": "5"
       },
       "NEXT_RESPONSE_TIME": {
-        "LABEL": "Next Response Time",
+        "LABEL": "",
         "PLACEHOLDER": "5"
       },
       "RESOLUTION_TIME": {
         "LABEL": "Tempo de resolução",
-        "PLACEHOLDER": "60"
+        "PLACEHOLDER": ""
       },
       "BUSINESS_HOURS": {
         "LABEL": "Horário de funcionamento",
-        "PLACEHOLDER": "Only during business hours"
+        "PLACEHOLDER": ""
       },
       "THRESHOLD_TIME": {
-        "INVALID_FORMAT_ERROR": "Threshold should be a number and greater than zero"
+        "INVALID_FORMAT_ERROR": ""
       },
       "EDIT": "Alterar",
       "CREATE": "Criar",
@@ -55,19 +64,33 @@
       "CANCEL": "Cancelar"
     },
     "ADD": {
-      "TITLE": "Add SLA",
-      "DESC": "SLAs: Friendly promises for great service!",
+      "TITLE": "",
+      "DESC": "Friendly promises for great service!",
       "API": {
-        "SUCCESS_MESSAGE": "SLA added successfully",
+        "SUCCESS_MESSAGE": "",
         "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
       }
     },
-    "EDIT": {
-      "TITLE": "Edit SLA",
+    "DELETE": {
+      "TITLE": "Excluir SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA updated successfully",
+        "SUCCESS_MESSAGE": "SLA excluído com sucesso",
         "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirmar exclusão",
+        "MESSAGE": "Tem certeza que deseja excluir ",
+        "YES": "Sim, excluir ",
+        "NO": "Não, Mantenha "
       }
+    },
+    "EVENTS": {
+      "TITLE": "SLA Misses",
+      "FRT": "Primeira resposta",
+      "NRT": "Next response time",
+      "RT": "Resolution time",
+      "SHOW_MORE": "{count} more",
+      "HIDE": "Hide {count} rows"
     }
   }
 }
