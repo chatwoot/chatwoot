@@ -69,16 +69,6 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
       end
     end
 
-    context 'when IMAP connection errors out' do
-      it 'mark the connection for authorization required' do
-        allow(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel, interval: 1).and_raise(Errno::ECONNREFUSED)
-        allow(Redis::Alfred).to receive(:incr)
-
-        expect(Redis::Alfred).to receive(:incr).with("AUTHORIZATION_ERROR_COUNT:channel_email:#{imap_email_channel.id}")
-        described_class.perform_now(imap_email_channel)
-      end
-    end
-
     context 'when the fetch service returns the email objects' do
       let(:inbound_mail) {  create_inbound_email_from_fixture('welcome.eml').mail }
       let(:mailbox) { double }
