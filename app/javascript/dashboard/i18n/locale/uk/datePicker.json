@@ -1,10 +1,10 @@
 {
   "DATE_PICKER": {
     "APPLY_BUTTON": "Підтвердити",
-    "CLEAR_BUTTON": "Clear",
+    "CLEAR_BUTTON": "Очистити",
     "DATE_RANGE_INPUT": {
-      "START": "Start Date",
-      "END": "End Date"
+      "START": "Дата початку",
+      "END": "Дата закінчення"
     },
     "DATE_RANGE_OPTIONS": {
       "TITLE": "DATE RANGE",
