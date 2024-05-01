@@ -4,6 +4,7 @@
       <page-header
         :header-title="pageTitle"
         @on-filter-change="onFilterChange"
+        @on-toggle-filter="onToggleFilters"
         @on-input-search="onInputSearch"
         @on-search-submit="onSearchSubmit"
       />
@@ -25,6 +26,20 @@
       :show="showCreateModal"
       @cancel="onToggleCreate"
     />
+    <woot-modal
+      :show.sync="showFiltersModal"
+      :on-close="closeAdvanceFiltersModal"
+      size="medium"
+    >
+      <contacts-advanced-filters
+        v-if="showFiltersModal"
+        :on-close="closeAdvanceFiltersModal"
+        :initial-filter-types="contactFilterItems"
+        :initial-applied-filters="appliedFilter"
+        @applyFilter="onApplyFilter"
+        @clearFilters="clearFilters"
+      />
+    </woot-modal>
   </div>
 </template>
 
@@ -37,6 +52,8 @@ import ContactInfoPanel from '../contacts/components/ContactInfoPanel.vue';
 import boardsAPI from '../../../api/boards.js';
 import CreateContact from '../conversation/contact/CreateContact.vue';
 import filterQueryGenerator from '../../../helper/filterQueryGenerator';
+import ContactsAdvancedFilters from '../contacts/components/ContactsAdvancedFilters.vue';
+import contactFilterItems from '../contacts/contactFilterItems';
 
 const DEFAULT_PAGE = 0;
 const FILTER_TYPE_CONTACT = 1;
@@ -47,6 +64,9 @@ export default {
     Board,
     ContactInfoPanel,
     CreateContact,
+    ContactsAdvancedFilters,
+    // eslint-disable-next-line vue/no-unused-components
+    contactFilterItems,
   },
   data() {
     return {
@@ -57,7 +77,14 @@ export default {
       defaultContact: null,
       searchQuery: '',
       showCreateModal: false,
+      showFiltersModal: false,
       appliedFilter: [],
+      contactFilterItems: contactFilterItems.map(filter => ({
+        ...filter,
+        attributeName: this.$t(
+          `CONTACTS_FILTER.ATTRIBUTES.${filter.attributeI18nKey}`
+        ),
+      })),
       filterType: FILTER_TYPE_CONTACT,
     };
   },
@@ -81,9 +108,6 @@ export default {
     hasAppliedFilters() {
       return this.getAppliedContactFilters.length;
     },
-    hasActiveSegments() {
-      return this.activeSegment && this.segmentsId !== 0;
-    },
     pageTitle() {
       return this.$t('PIPELINE_PAGE.HEADER');
     },
@@ -97,6 +121,13 @@ export default {
   methods: {
     onSelectedContact(contactId) {
       this.selectedContactId = contactId;
+    },
+    onToggleFilters() {
+      this.showFiltersModal = true;
+    },
+    closeAdvanceFiltersModal() {
+      this.showFiltersModal = false;
+      this.appliedFilter = [];
     },
     onFilterChange(selectedStageType) {
       this.selectedContactId = '';

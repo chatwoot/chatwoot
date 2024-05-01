@@ -39,12 +39,27 @@
             {{ $t('CONTACTS_PAGE.SEARCH_BUTTON') }}
           </woot-button>
         </div>
+        <div class="relative">
+          <div
+            v-if="hasAppliedFilters"
+            class="absolute h-2 w-2 top-1 right-3 bg-slate-500 dark:bg-slate-500 rounded-full"
+          />
+          <woot-button
+            class="clear"
+            color-scheme="secondary"
+            icon="filter"
+            @click="toggleFilter"
+          >
+            {{ $t('CONTACTS_PAGE.FILTER_CONTACTS') }}
+          </woot-button>
+        </div>
       </div>
     </div>
   </header>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import adminMixin from 'dashboard/mixins/isAdmin';
 import StageTypeFilter from '../settings/reports/components/Filters/StageType.vue';
 
@@ -67,6 +82,12 @@ export default {
     searchButtonClass() {
       return this.searchQuery !== '' ? 'show' : '';
     },
+    ...mapGetters({
+      getAppliedContactFilters: 'contacts/getAppliedContactFilters',
+    }),
+    hasAppliedFilters() {
+      return this.getAppliedContactFilters.length;
+    },
   },
   methods: {
     submitSearch() {
@@ -77,6 +98,9 @@ export default {
     },
     onFilterChange(selectedStageType) {
       this.$emit('on-filter-change', selectedStageType);
+    },
+    toggleFilter() {
+      this.$emit('on-toggle-filter');
     },
   },
 };
