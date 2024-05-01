@@ -136,8 +136,7 @@
 <script>
 import FileUpload from 'vue-upload-component';
 import * as ActiveStorage from 'activestorage';
-import { hasPressedAltAndAKey } from 'shared/helpers/KeyboardHelpers';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -154,7 +153,7 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'ReplyBottomPanel',
   components: { FileUpload, VideoCallButton, AIAssistanceButton },
-  mixins: [eventListenerMixins, uiSettingsMixin, inboxMixin],
+  mixins: [keyboardEventListenerMixins, uiSettingsMixin, inboxMixin],
   props: {
     mode: {
       type: String,
@@ -340,10 +339,15 @@ export default {
     ActiveStorage.start();
   },
   methods: {
-    handleKeyEvents(e) {
-      if (hasPressedAltAndAKey(e)) {
-        this.$refs.upload.$children[1].$el.click();
-      }
+    getKeyboardEvents() {
+      return {
+        'Alt+KeyA': {
+          action: () => {
+            this.$refs.upload.$children[1].$el.click();
+          },
+          allowOnFocusedInput: true,
+        },
+      };
     },
     toggleMessageSignature() {
       this.setSignatureFlagForInbox(this.channelType, !this.sendWithSignature);

@@ -153,8 +153,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 
 import CannedResponse from './CannedResponse.vue';
 import ReplyToMessage from './ReplyToMessage.vue';
@@ -178,7 +178,6 @@ import {
   replaceVariablesInMessage,
 } from '@chatwoot/utils';
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
-import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
@@ -218,13 +217,13 @@ export default {
     ArticleSearchPopover,
   },
   mixins: [
-    clickaway,
     inboxMixin,
     uiSettingsMixin,
     alertMixin,
     messageFormatterMixin,
     rtlMixin,
     fileUploadMixin,
+    keyboardEventListenerMixins,
   ],
   props: {
     popoutReplyBox: {
@@ -701,24 +700,41 @@ export default {
         this.$store.dispatch('draftMessages/delete', { key });
       }
     },
-    handleKeyEvents(e) {
-      const keyCode = buildHotKeys(e);
-      if (keyCode === 'escape') {
-        this.hideEmojiPicker();
-        this.hideMentions();
-      } else if (keyCode === 'meta+k') {
-        const ninja = document.querySelector('ninja-keys');
-        ninja.open();
-        e.preventDefault();
-      } else if (keyCode === 'enter' && this.isAValidEvent('enter')) {
-        this.onSendReply();
-        e.preventDefault();
-      } else if (
-        ['meta+enter', 'ctrl+enter'].includes(keyCode) &&
-        this.isAValidEvent('cmd_enter')
-      ) {
-        this.onSendReply();
-      }
+    getKeyboardEvents() {
+      return {
+        Escape: {
+          action: () => {
+            this.hideEmojiPicker();
+            this.hideMentions();
+          },
+          allowOnFocusedInput: true,
+        },
+        '$mod+KeyK': {
+          action: e => {
+            e.preventDefault();
+            const ninja = document.querySelector('ninja-keys');
+            ninja.open();
+          },
+          allowOnFocusedInput: true,
+        },
+        Enter: {
+          action: e => {
+            if (this.isAValidEvent('enter')) {
+              this.onSendReply();
+              e.preventDefault();
+            }
+          },
+          allowOnFocusedInput: true,
+        },
+        '$mod+Enter': {
+          action: () => {
+            if (this.isAValidEvent('cmd_enter')) {
+              this.onSendReply();
+            }
+          },
+          allowOnFocusedInput: true,
+        },
+      };
     },
     isAValidEvent(selectedKey) {
       return (
