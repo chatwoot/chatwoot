@@ -258,7 +258,7 @@ class Conversation < ApplicationRecord
   end
 
   def set_display_id
-    reload
+    reload_attribute(:display_id)
   end
 
   def notify_status_change
