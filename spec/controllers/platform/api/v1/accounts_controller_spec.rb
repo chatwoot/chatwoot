@@ -45,26 +45,35 @@ RSpec.describe 'Platform Accounts API', type: :request do
         expect(json_response['features']['agent_management']).to be(true)
       end
 
-      it 'creates an account with feature flags' do
-        InstallationConfig.where(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').first_or_create!(value: [{ 'name' => 'inbox_management',
-                                                                                                    'enabled' => true },
-                                                                                                  { 'name' => 'disable_branding',
-                                                                                                    'enabled' => true },
-                                                                                                  { 'name' => 'help_center',
-                                                                                                    'enabled' => false }])
+      context 'when an account is created with feature flags' do
+        before do
+          InstallationConfig.where(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').first_or_create!(
+            value: [{ 'name' => 'inbox_management', 'enabled' => true },
+                    { 'name' => 'disable_branding', 'enabled' => true },
+                    { 'name' => 'help_center', 'enabled' => false }]
+          )
+          post '/platform/api/v1/accounts', params: { name: 'Test Account', features: {
+            ip_lookup: true,
+            help_center: true,
+            disable_branding: false
+          } }, headers: { api_access_token: platform_app.access_token.token }, as: :json
+        end
 
-        post '/platform/api/v1/accounts', params: { name: 'Test Account', features: {
-          ip_lookup: true,
-          help_center: true,
-          disable_branding: false
-        } }, headers: { api_access_token: platform_app.access_token.token }, as: :json
+        it 'creates an account and sets features' do
+          expect(Account.count).to eq(2)
+          account = Account.last
+          expect(account.name).to eq('Test Account')
+          expect(account.enabled_features).to eq(%w[inbox_management ip_lookup help_center].index_with(true))
+        end
 
-        json_response = response.parsed_body
-        expect(json_response['name']).to include('Test Account')
-        expect(json_response['features']['inbox_management']).to be(true)
-        expect(json_response['features']['ip_lookup']).to be(true)
-        expect(json_response['features']['help_center']).to be(true)
-        expect(json_response['features']['disable_branding']).to be_nil
+        it 'responds with account data' do
+          json_response = response.parsed_body
+          expect(json_response['name']).to include('Test Account')
+          expect(json_response['features']['inbox_management']).to be(true)
+          expect(json_response['features']['ip_lookup']).to be(true)
+          expect(json_response['features']['help_center']).to be(true)
+          expect(json_response['features']['disable_branding']).to be_nil
+        end
       end
 
       it 'creates an account with limits settings' do
