@@ -22,7 +22,7 @@
         "body": "ایجنت ها را به صندوق ورودی ساخته شده تخصیص می‌دهد."
       },
       {
-        "title": "ماشالله!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "دیگه می‌تونی بترکونی"
       }
@@ -43,7 +43,7 @@
         "CHOOSE_PLACEHOLDER": "از لیست صفحه مورد نظر را انتخاب کنید",
         "INBOX_NAME": "عنوان صندوق ورودی",
         "ADD_NAME": "یک اسم به صندوق ورودی خود اضافه کنید",
-        "PICK_NAME": "یک اسم برای صندوق ورودی خود انتخاب کنید",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "یک مقدار انتخاب کنید"
       },
       "TWITTER": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "آدرس URL وب هوک",
-          "PLACEHOLDER": "نشانی وب Webhook خود را وارد کنید",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "لطفا آدرس URL صحیحی وارد کنید"
         },
         "CHANNEL_DOMAIN": {
@@ -175,12 +175,12 @@
           },
           "API_KEY": {
             "LABEL": "API key",
-            "PLACEHOLDER": "لطفاً کلید Bandwith API خود را وارد کنید",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "پر کردن این فیلد ضروری است"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "لطفا Bandwith API Secret خود را وارد کنید",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "پر کردن این فیلد ضروری است"
           },
           "APPLICATION_ID": {
@@ -239,7 +239,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "رمز تأیید وب هوک",
-          "PLACEHOLDER": "یک رمز تأیید را وارد کنید که می خواهید برای وب هوک های فیس بوک پیکربندی کنید.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "لطفا یک مقدار معتبر وارد کنید."
         },
         "API_KEY": {
@@ -269,7 +269,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "آدرس URL وب هوک",
-          "SUBTITLE": "آدرس کال بک خود را جهت دریافت اطلاعات رویداد های وارد کنید.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "آدرس URL وب هوک"
         },
         "SUBMIT_BUTTON": "ایجاد کانال API",
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "کانال ایمیل",
-        "DESC": "صندوق ورودی ایمیل خود را ادغام کنید.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "عنوان کانال",
           "PLACEHOLDER": "لطفا اسم یک کانال را وارد کنید",
@@ -345,7 +345,7 @@
       "AGENTS": {
         "TITLE": "ایجنت ها",
         "DESC": "در اینجا می‌توانید ایجنت ها را به صندوق‌ ورودی خود اختصاص دهید. توجه داشته باشید که فقط ایجنت هایی که در اینجا معرفی شده باشند می‌توانند به پیام‌های این صندوق پاسخ بدهند. دیگر ایجنت ها نخواهند توانست پیام‌های این صندوق را ببینید یا به آن‌ها پاسخی بدهند. <br> <b>پانویس:</b>به عنوان مدیر اگر می‌خواهید به همه صندوق‌های ورودی دسترسی داشته باشید می‌بایست خود را به عنوان ایجنت به همه صندوق‌ها اضافه کنید.",
-        "VALIDATION_ERROR": "حداقل یک ایجنت به اینباکس جدید اضافه کنید",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "انتخاب ایجنت ها برای این صندوق ورودی"
       },
       "DETAILS": {
@@ -406,7 +406,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "نام ارسال کننده",
-        "SUB_TEXT": "نامی را انتخاب کنید که به مشتری شما هنگام دریافت ایمیل از اپراتور شما نشان داده می شود.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "به عنوان مثال:",
         "FRIENDLY": {
           "TITLE": "دوستانه",
@@ -508,12 +508,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "اجازه دادن به پیام ها پس از حل شدن مکالمه",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "به کاربران اجازه دهید حتی پس از حل شدن مکالمه پیام ارسال کنند.",
       "WHATSAPP_SECTION_SUBHEADER": "این کلید API برای ادغام با API های WhatsApp استفاده می شود.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "کلید به روز شده را وارد کنید تا از آن برای ادغام با واتساپ API استفاده شود.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API key",
       "WHATSAPP_SECTION_UPDATE_TITLE": "کلید API را به روز کنید",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "کلید API جدید را در اینجا وارد کنید",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "اعمال شود",
-      "WHATSAPP_WEBHOOK_TITLE": "رمز تأیید وب هوک",
+      "WHATSAPP_WEBHOOK_TITLE": "توکن تایید Webhook",
       "WHATSAPP_WEBHOOK_SUBHEADER": "این توکن برای تأیید صحت نقطه پایانی webhook استفاده می شود.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "به‌روزرسانی تنظیمات فرم قبل از گفتگو"
     },
@@ -585,7 +585,7 @@
       "NOTE_TEXT": "برای فعال کردن SMTP، لطفا IMAP را پیکربندی کنید.",
       "UPDATE": "به‌روزرسانی تنظیمات IMAP",
       "TOGGLE_AVAILABILITY": "پیکربندی IMAP را برای این صندوق ورودی فعال کنید",
-      "TOGGLE_HELP": "در حال فعال کردن IMAP به کاربر در دریافت ایمیل کمک می‌کند",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "تنظیمات IMAP با موفقیت به‌روزرسانی شد",
         "ERROR_MESSAGE": "به‌روزرسانی تنظیمات IMAP ممکن نیست"
