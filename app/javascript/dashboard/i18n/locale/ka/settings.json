@@ -10,6 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
     "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
     "FORM": {
+      "PICTURE": "Profile Picture",
       "AVATAR": "Profile Image",
       "ERROR": "Please fix form errors",
       "REMOVE_IMAGE": "Remove",
@@ -56,13 +57,19 @@
       },
       "ACCESS_TOKEN": {
         "TITLE": "Access Token",
-        "NOTE": "This token can be used if you are building an API based integration"
+        "NOTE": "This token can be used if you are building an API based integration",
+        "COPY": "Copy"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Notifications",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "ALERT_TYPES": {
+          "NONE": "None",
+          "MINE": "Assigned",
+          "ALL": "All"
+        },
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
+          "TITLE": "Alert events for conversations:",
           "NONE": "None",
           "ASSIGNED": "Assigned Conversations",
           "ALL_CONVERSATIONS": "All Conversations"
@@ -87,6 +94,22 @@
         "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
         "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "Email",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        }
       },
       "API": {
         "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
