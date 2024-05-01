@@ -1,4 +1,5 @@
 class Digitaltolk::SendEmailTicketService
+  include DateRangeHelper
   attr_accessor :account, :user, :params, :errors, :conversation, :for_issue
 
   CUSTOMER_TYPE = 2
@@ -19,6 +20,7 @@ class Digitaltolk::SendEmailTicketService
         find_or_create_conversation
         validate_data
         create_message
+        update_status
       end
     rescue StandardError => e
       Rails.logger.error e
@@ -173,6 +175,27 @@ class Digitaltolk::SendEmailTicketService
   def create_message
     return if @errors.present?
 
-    @message = Digitaltolk::AddMessageService.new(@user, @conversation, @params[:body]).perform
+    @message = Digitaltolk::AddMessageService.new(sender, @conversation, @params[:body]).perform
+  end
+
+  def find_user_by_email
+    User.find_by(email: created_by_email)
+  end
+
+  def created_by_email
+    params.dig(:created_by, :email).to_s.downcase.strip
+  end
+
+  def sender
+    # find_user_by_email || @user
+    @user
+  end
+
+  def update_status
+    return if @errors.present?
+
+    @conversation.status = params[:status]
+    @conversation.snoozed_until = parse_date_time(params[:snoozed_until].to_s) if params[:snoozed_until]
+    @conversation.save
   end
 end
