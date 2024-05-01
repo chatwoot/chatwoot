@@ -100,9 +100,7 @@
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12",
     "dragula": "^3.7.2",
-    "xstate": "^4.6.7",
-    "faker": "^4.1.0",
-    "lodash": "^4.17.4"
+    "xstate": "^4.6.7"
   },
   "devDependencies": {
     "@babel/core": "7.13.16",

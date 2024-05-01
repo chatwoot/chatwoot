@@ -7,6 +7,7 @@
         :header-content="$t('CREATE_CONTACT.DESC')"
       />
       <contact-form
+        :contact="contact"
         :in-progress="uiFlags.isCreating"
         :on-submit="onSubmit"
         @success="onSuccess"

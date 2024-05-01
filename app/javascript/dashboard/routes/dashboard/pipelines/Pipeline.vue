@@ -4,34 +4,71 @@
       <page-header
         :header-title="pageTitle"
         @on-filter-change="onFilterChange"
+        @on-input-search="onInputSearch"
+        @on-search-submit="onSearchSubmit"
       />
-      <board :selected-stage-type="selectedStageType" />
+      <board
+        :stages="stages"
+        :contacts="records"
+        :selected-contact-id="selectedContactId"
+        @on-selected-contact="onSelectedContact"
+        @add-contact-click="addContactClick"
+      />
     </div>
+    <contact-info-panel
+      v-if="showContactViewPane"
+      :contact="selectedContact"
+      :on-close="closeContactInfoPanel"
+    />
+    <create-contact
+      :contact="defaultContact"
+      :show="showCreateModal"
+      @cancel="onToggleCreate"
+    />
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 import PageHeader from './Header.vue';
 import Board from './Board.vue';
+import ContactInfoPanel from '../contacts/components/ContactInfoPanel.vue';
+import boardsAPI from '../../../api/boards.js';
+import CreateContact from '../conversation/contact/CreateContact.vue';
 import filterQueryGenerator from '../../../helper/filterQueryGenerator';
-import { CONTACTS_EVENTS } from '../../../helper/AnalyticsHelper/events';
+
+const DEFAULT_PAGE = 0;
+const FILTER_TYPE_CONTACT = 1;
 
 export default {
   components: {
     PageHeader,
     Board,
+    ContactInfoPanel,
+    CreateContact,
   },
   data() {
     return {
+      stages: [],
+      contacts: [],
       selectedStageType: null,
+      selectedContactId: '',
+      defaultContact: null,
       searchQuery: '',
       showCreateModal: false,
+      appliedFilter: [],
+      filterType: FILTER_TYPE_CONTACT,
     };
   },
   computed: {
-    pageTitle() {
-      return this.$t('PIPELINE_PAGE.HEADER');
-    },
+    ...mapGetters({
+      records: 'contacts/getContacts',
+      uiFlags: 'contacts/getUIFlags',
+      meta: 'contacts/getMeta',
+      segments: 'customViews/getCustomViews',
+      getAppliedContactFilters: 'contacts/getAppliedContactFilters',
+    }),
     selectedContact() {
       if (this.selectedContactId) {
         const contact = this.records.find(
@@ -41,58 +78,59 @@ export default {
       }
       return undefined;
     },
+    hasAppliedFilters() {
+      return this.getAppliedContactFilters.length;
+    },
+    hasActiveSegments() {
+      return this.activeSegment && this.segmentsId !== 0;
+    },
+    pageTitle() {
+      return this.$t('PIPELINE_PAGE.HEADER');
+    },
     showContactViewPane() {
-      return false;
-      // return this.selectedContactId !== '';
+      return this.selectedContactId !== '';
     },
     wrapClass() {
       return this.showContactViewPane ? 'w-[75%]' : 'w-full';
     },
   },
-  mounted() {
-    this.fetchContacts(this.pageParameter);
-  },
   methods: {
+    onSelectedContact(contactId) {
+      this.selectedContactId = contactId;
+    },
     onFilterChange(selectedStageType) {
-      this.selectedStageType = selectedStageType;
+      this.selectedContactId = '';
+      this.selectedStageType = selectedStageType.value;
+      const stageType = this.selectedStageType;
+      boardsAPI.get().then(response => {
+        const stagesByType = response.data.filter(
+          item =>
+            stageType === 'both' ||
+            item.stage_type === 'both' ||
+            item.stage_type === stageType
+        );
+        this.stages = stagesByType;
+        this.fetchContacts();
+      });
     },
-    getSortAttribute() {
-      let sortAttr = Object.keys(this.sortConfig).reduce((acc, sortKey) => {
-        const sortOrder = this.sortConfig[sortKey];
-        if (sortOrder) {
-          const sortOrderSign = sortOrder === 'asc' ? '' : '-';
-          return `${sortOrderSign}${sortKey}`;
-        }
-        return acc;
-      }, '');
-      if (!sortAttr) {
-        this.sortConfig = { last_activity_at: 'desc' };
-        sortAttr = '-last_activity_at';
+    fetchContacts() {
+      let value = '';
+      if (this.searchQuery.charAt(0) === '+') {
+        value = this.searchQuery.substring(1);
+      } else {
+        value = this.searchQuery;
       }
-      return sortAttr;
-    },
-    fetchContacts(page) {
-      if (this.isContactAndLabelDashboard) {
-        this.updatePageParam(page);
-        let value = '';
-        if (this.searchQuery.charAt(0) === '+') {
-          value = this.searchQuery.substring(1);
-        } else {
-          value = this.searchQuery;
-        }
-        const requestParams = {
-          page,
-          sortAttr: this.getSortAttribute(),
-          label: this.label,
-        };
-        if (!value) {
-          this.$store.dispatch('contacts/get', requestParams);
-        } else {
-          this.$store.dispatch('contacts/search', {
-            search: encodeURIComponent(value),
-            ...requestParams,
-          });
-        }
+      const requestParams = {
+        page: DEFAULT_PAGE,
+        stageType: this.selectedStageType,
+      };
+      if (!value) {
+        this.$store.dispatch('contacts/get', requestParams);
+      } else {
+        this.$store.dispatch('contacts/search', {
+          search: encodeURIComponent(value),
+          ...requestParams,
+        });
       }
     },
 
@@ -121,17 +159,9 @@ export default {
     onToggleCreate() {
       this.showCreateModal = !this.showCreateModal;
     },
-    onSortChange(params) {
-      this.sortConfig = params;
-      this.fetchContacts(this.meta.currentPage);
-
-      const sortBy =
-        Object.entries(params).find(pair => Boolean(pair[1])) || [];
-
-      this.$track(CONTACTS_EVENTS.APPLY_SORT, {
-        appliedOn: sortBy[0],
-        order: sortBy[1],
-      });
+    addContactClick(stageId) {
+      this.defaultContact = { stage_id: stageId };
+      this.onToggleCreate();
     },
     onApplyFilter(payload) {
       this.closeContactInfoPanel();

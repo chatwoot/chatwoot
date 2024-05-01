@@ -328,6 +328,7 @@ export default {
         name: this.name,
         email: this.email,
         phone_number: this.setPhoneNumber,
+        stage_id: this.contact.stage_id,
         additional_attributes: {
           ...this.contact.additional_attributes,
           description: this.description,

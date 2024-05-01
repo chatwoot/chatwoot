@@ -76,11 +76,7 @@ Rails.application.routes.draw do
           resources :sla_policies, only: [:index, :create, :show, :update, :destroy]
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
           namespace :sales_pipelines do
-            resources :boards, only: [:index] do
-              collection do
-                get :search
-              end
-            end
+            resources :boards, only: [:index]
           end
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do

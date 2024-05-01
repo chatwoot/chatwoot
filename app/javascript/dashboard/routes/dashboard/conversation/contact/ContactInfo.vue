@@ -341,7 +341,10 @@ export default {
           this.$router.push({
             name: 'inbox_view',
           });
-        } else if (this.$route.name !== 'contacts_dashboard') {
+        } else if (
+          this.$route.name !== 'contacts_dashboard' &&
+          this.$route.name !== 'pipelines_dashboard'
+        ) {
           this.$router.push({
             name: 'contacts_dashboard',
           });

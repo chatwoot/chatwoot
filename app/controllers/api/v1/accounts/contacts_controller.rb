@@ -25,7 +25,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
 
     contacts = resolved_contacts.where(
-      'name ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search OR contacts.identifier LIKE :search
+      'contacts.name ILIKE :search OR contacts.email ILIKE :search OR contacts.phone_number ILIKE :search OR contacts.identifier LIKE :search
         OR contacts.additional_attributes->>\'company_name\' ILIKE :search',
       search: "%#{params[:q].strip}%"
     )
@@ -123,7 +123,16 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     @resolved_contacts = Current.account.contacts.resolved_contacts
 
     @resolved_contacts = @resolved_contacts.tagged_with(params[:labels], any: true) if params[:labels].present?
+    @resolved_contacts = contacts_by_stage_type if params[:stage_type].present?
+
     @resolved_contacts
+  end
+
+  def contacts_by_stage_type
+    stage_type = Stage::STAGE_TYPE_MAPPING[params[:stage_type]]
+    both_type = Stage::STAGE_TYPE_MAPPING['both']
+    @resolved_contacts.joins(:stage)
+                      .where("stages.stage_type = #{stage_type} or stages.stage_type = #{both_type} or #{stage_type} = #{both_type}")
   end
 
   def set_current_page
@@ -133,7 +142,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def fetch_contacts(contacts)
     contacts_with_avatar = filtrate(contacts)
                            .includes([{ avatar_attachment: [:blob] }])
-                           .page(@current_page).per(RESULTS_PER_PAGE)
+
+    contacts_with_avatar = contacts_with_avatar.page(@current_page).per(RESULTS_PER_PAGE) if @current_page.to_i.positive?
 
     return contacts_with_avatar.includes([{ contact_inboxes: [:inbox] }]) if @include_contact_inboxes
 
@@ -152,7 +162,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def permitted_params
-    params.permit(:name, :identifier, :email, :phone_number, :avatar, :blocked, :avatar_url, additional_attributes: {}, custom_attributes: {})
+    params.permit(:name, :identifier, :email, :phone_number, :stage_id, :avatar, :blocked, :avatar_url, additional_attributes: {},
+                                                                                                        custom_attributes: {})
   end
 
   def contact_custom_attributes

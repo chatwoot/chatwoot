@@ -2,19 +2,28 @@
   <div
     class="flex justify-between flex-col h-full m-0 flex-1 bg-white dark:bg-slate-900"
   >
-    <Kanban :statuses="statuses" :blocks="blocks" @update-block="updateBlock">
+    <Kanban :statuses="statuses" :blocks="blocks" @update-block="updateStage">
       <div v-for="stage in stages" :slot="stage.code" :key="stage.code">
         <h2>
           {{ stage.name }}
-          <a href="" @click.prevent="() => addBlock(stage.code)">+</a>
+          <a href="" @click.prevent="() => addContact(stage.id)">+</a>
         </h2>
       </div>
-      <div v-for="item in blocks" :slot="item.id" :key="item.id">
+      <div
+        v-for="item in blocks"
+        :slot="item.id"
+        :key="item.id"
+        @dblclick="onClickContact(item.id)"
+      >
         <div>
-          <div>
+          <div
+            :class="{
+              'text-woot-600 dark:text-woot-600': selectedContactId == item.id,
+            }"
+          >
             <strong>{{ item.title }}</strong>
           </div>
-          <div>{{ item.lastActivityAt }}</div>
+          <div>{{ item.formattedUpdatedAt }}</div>
           id: {{ item.id }}
         </div>
       </div>
@@ -23,75 +32,91 @@
 </template>
 
 <script>
-import faker from 'faker';
-import { debounce } from 'lodash';
 import Kanban from '../../../components/Kanban.vue';
-import boardsAPI from '../../../api/boards.js';
-import { format } from 'date-fns';
+import timeMixin from '../../../mixins/time.js';
 
 export default {
   components: {
     Kanban,
   },
+  mixins: [timeMixin],
   props: {
-    selectedStageType: {
-      type: Object,
+    stages: {
+      type: Array,
       default: null,
+    },
+    contacts: {
+      type: Array,
+      default: null,
+    },
+    selectedContactId: {
+      type: [String, Number],
+      default: '',
     },
   },
   data() {
     return {
       statuses: [],
-      stages: [],
       blocks: [],
     };
   },
   watch: {
-    selectedStageType() {
-      this.loadBoard();
+    stages() {
+      this.loadStatuses();
+    },
+    contacts() {
+      this.syncBlockItems();
     },
   },
 
   methods: {
-    loadBoard() {
-      const stageType = this.selectedStageType.value;
-      boardsAPI.get().then(response => {
-        const stagesByType = response.data.filter(
-          item =>
-            stageType === 'both' ||
-            item.stage_type === 'both' ||
-            item.stage_type === stageType
-        );
-        this.stages = stagesByType;
-        this.statuses = stagesByType.map(item => item.code);
+    loadStatuses() {
+      this.statuses = this.stages.map(item => item.code);
+    },
 
-        this.blocks = [];
-        boardsAPI.search(stageType).then(searchResponse => {
-          const contacts = searchResponse.data;
-          this.blocks = contacts.map(item => {
-            return {
-              id: item.id,
-              status: item.code,
-              title: item.name,
-              lastActivityAt: format(
-                new Date(item.last_activity_at),
-                'dd/MM HH:mm'
-              ),
-            };
-          });
-        });
+    syncBlockItems() {
+      this.contacts.forEach(contact => {
+        if (!contact.stage_id) return;
+
+        const stage = this.stages.find(item => item.id === contact.stage_id);
+        if (!stage) return;
+
+        const contactInBlock = {
+          id: contact.id,
+          status: stage.code,
+          title: contact.name,
+          updatedAt: contact.updated_at,
+          formattedUpdatedAt: this.dateFormat(
+            contact.updated_at,
+            'dd/MM hh:mm'
+          ),
+        };
+
+        const index = this.blocks.findIndex(item => item.id === contact.id);
+        if (index >= 0) this.blocks.splice(index, 1);
+        this.blocks.push(contactInBlock);
+      });
+      this.blocks = this.blocks.filter(block =>
+        this.contacts.some(contact => contact.id === block.id)
+      );
+      this.blocks.sort((a, b) => {
+        return b.updatedAt - a.updatedAt;
       });
     },
-    updateBlock: debounce(function find(id, status) {
-      this.blocks.find(b => b.id === Number(id)).status = status;
-    }, 500),
-    addBlock: debounce(function push(status) {
-      this.blocks.push({
-        id: this.blocks.length,
-        status: status,
-        title: faker.company.bs(),
-      });
-    }, 500),
+
+    onClickContact(contactId) {
+      this.$emit('on-selected-contact', contactId);
+    },
+
+    async updateStage(id, status) {
+      const stage = this.stages.find(item => item.code === status);
+      const contactItem = { id, stage_id: stage.id };
+      await this.$store.dispatch('contacts/update', contactItem);
+    },
+
+    addContact(stageId) {
+      this.$emit('add-contact-click', stageId);
+    },
   },
 };
 </script>
@@ -101,6 +126,10 @@ export default {
 
 * {
   box-sizing: border-box;
+}
+
+.drag-item-selection {
+  @apply bg-white dark:bg-black-600;
 }
 
 .drag-column {
@@ -140,7 +169,7 @@ export default {
       .drag-column-header,
       .is-moved,
       .drag-options {
-        background: map-get($status-colors, $status);
+        background: $color;
       }
     }
   }
