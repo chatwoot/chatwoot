@@ -228,7 +228,8 @@ Rails.application.routes.draw do
             end
             resource :linear, controller: 'linear', only: [] do
               collection do
-                post :list
+                get :teams
+                get :labels
               end
             end
           end

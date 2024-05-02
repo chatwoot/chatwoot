@@ -16,24 +16,45 @@ class Linear
     )
   end
 
-  def list_issues
+  def teams
     query = <<~GRAPHQL
       query {
-        issues(first: 5) {
+        teams {
           nodes {
             id
-            title
+            name
           }
         }
       }
     GRAPHQL
+    execute_query(query)
+  end
 
-    begin
-      response = @client.query(query)
-      response.data.issues.nodes
-    rescue StandardError => e
-      # return error message
-      e.message
-    end
+  def labels(team_id)
+    query = <<~GRAPHQL
+      query {
+        team(id: "#{team_id}") {
+          labels {
+            nodes {
+              id
+              name
+            }
+          }
+        }
+      }
+    GRAPHQL
+    execute_query(query)
+  end
+
+  private
+
+  def execute_query(query)
+    @client.query(query).data.to_h
+  rescue Graphlient::Errors::GraphQLError => e
+    { error: "GraphQL Error: #{e.message}" }
+  rescue Graphlient::Errors::ServerError => e
+    { error: "Server Error: #{e.message}" }
+  rescue StandardError => e
+    { error: "Unexpected Error: #{e.message}" }
   end
 end
