@@ -280,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Creare atribut",
+    "NO_RECORDS_FOUND": "Nu s-au găsit atribute",
     "UPDATE": {
       "SUCCESS": "Atribut actualizat cu succes",
       "ERROR": "Imposibil de actualizat atributul. Vă rugăm să încercați din nou mai târziu"

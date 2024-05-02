@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "自訂屬性",
       "CONTACT_LABELS": "聯絡人標籤",
-      "PREVIOUS_CONVERSATIONS": "上一次對話"
+      "PREVIOUS_CONVERSATIONS": "上一次對話",
+      "NO_RECORDS_FOUND": "No attributes found"
     }
   },
   "EDIT_CONTACT": {

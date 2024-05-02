@@ -40,7 +40,7 @@
         "DESC": "( Всего )"
       },
       "BOT_HANDOFF_COUNT": {
-        "NAME": "Handoff Count",
+        "NAME": "Количество передач",
         "DESC": "( Всего )"
       },
       "REPLY_TIME": {
@@ -140,7 +140,7 @@
     ],
     "BUSINESS_HOURS": "Время работы",
     "FILTER_ACTIONS": {
-      "CLEAR_FILTER": "Clear filter",
+      "CLEAR_FILTER": "Очистить фильтр",
       "EMPTY_LIST": "Результаты не найдены"
     }
   },
@@ -519,7 +519,7 @@
     "DROPDOWN": {
       "ADD_FIlTER": "Добавить фильтр",
       "CLEAR_ALL": "Clear all",
-      "CLEAR_FILTER": "Clear filter",
+      "CLEAR_FILTER": "Очистить фильтр",
       "EMPTY_LIST": "Результаты не найдены",
       "NO_FILTER": "No filters available",
       "SEARCH": "Search filter",
@@ -530,7 +530,7 @@
         "LABELS": "Название категории",
         "TEAMS": "Название команды"
       },
-      "SLA": "SLA Policy",
+      "SLA": "Политика SLA",
       "INBOXES": "Электронная почта",
       "AGENTS": "Оператор",
       "LABELS": "Метка",
@@ -547,16 +547,16 @@
       },
       "NO_OF_CONVERSATIONS": {
         "LABEL": "Number of Conversations",
-        "TOOLTIP": "Total number of conversations with SLA"
+        "TOOLTIP": "Общее количество разговоров с SLA"
       }
     },
     "TABLE": {
       "HEADER": {
-        "POLICY": "Policy",
+        "POLICY": "Политика",
         "CONVERSATION": "Диалоги",
         "AGENT": "Оператор"
       },
-      "VIEW_DETAILS": "View Details"
+      "VIEW_DETAILS": "Просмотреть подробности"
     }
   }
 }
