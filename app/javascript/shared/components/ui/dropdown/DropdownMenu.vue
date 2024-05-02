@@ -36,20 +36,8 @@ export default {
     getKeyboardEvents() {
       const menuButtons = this.dropdownMenuButtons();
       return {
-        ArrowUp: {
-          action: e => {
-            e.preventDefault();
-            this.focusPreviousButton(menuButtons);
-          },
-          allowOnFocusedInput: false,
-        },
-        ArrowDown: {
-          action: e => {
-            e.preventDefault();
-            this.focusNextButton(menuButtons);
-          },
-          allowOnFocusedInput: false,
-        },
+        ArrowUp: () => this.focusPreviousButton(menuButtons),
+        ArrowDown: () => this.focusNextButton(menuButtons),
       };
     },
     focusPreviousButton(menuButtons) {
