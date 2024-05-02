@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Vlastné atribúty",
       "CONTACT_LABELS": "Označenia kontaktov",
-      "PREVIOUS_CONVERSATIONS": "Prechádzajúce konverzácie"
+      "PREVIOUS_CONVERSATIONS": "Prechádzajúce konverzácie",
+      "NO_RECORDS_FOUND": "Žiadne atribúty neboli nájdené"
     }
   },
   "EDIT_CONTACT": {

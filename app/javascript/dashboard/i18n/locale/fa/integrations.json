@@ -103,7 +103,7 @@
       "CREATE_ERROR": "در ایجاد پیوند جلسه خطایی روی داد، لطفاً دوباره امتحان کنید"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "AI Assist",
+      "AI_ASSIST": "دستیار هوش مصنوعی",
       "WITH_AI": " %{option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Reply Suggestion",

@@ -4,8 +4,8 @@
     "LOADING_CHART": "در حال دریافت اطلاعات...",
     "NO_ENOUGH_DATA": "متاسفانه اطلاعات کافی دریافت نشد، لطفا بعدا دوباره امتحان کنید",
     "DOWNLOAD_AGENT_REPORTS": "دانلود گزارش ایجنت",
-    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
-    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
+    "DATA_FETCHING_FAILED": "خطا در دریافت اطلاعات، لطفا بعدا دوباره تلاش کنید.",
+    "SUMMARY_FETCHING_FAILED": "خطا در دریافت خلاصه، لطفا بعدا دوباره تلاش کنید.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "گفتگوها",
@@ -40,12 +40,12 @@
         "DESC": "( جمع کل )"
       },
       "BOT_HANDOFF_COUNT": {
-        "NAME": "Handoff Count",
+        "NAME": "تعداد پاسخ های رباتی",
         "DESC": "( جمع کل )"
       },
       "REPLY_TIME": {
-        "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "NAME": "زمان انتظار مشتری",
+        "TOOLTIP_TEXT": "زمان انتظار %{metricValue} (بر اساس %{conversationCount} پاسخ)"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -140,12 +140,12 @@
     ],
     "BUSINESS_HOURS": "ساعت کاری",
     "FILTER_ACTIONS": {
-      "CLEAR_FILTER": "Clear filter",
+      "CLEAR_FILTER": "پاک کردن فیلتر",
       "EMPTY_LIST": "نتیجه‌ای یافت نشد"
     }
   },
   "AGENT_REPORTS": {
-    "HEADER": "نمای کلی ایجنت ها",
+    "HEADER": "نمای کلی اپراتور ها",
     "LOADING_CHART": "در حال دریافت اطلاعات...",
     "NO_ENOUGH_DATA": "متاسفانه اطلاعات کافی دریافت نشد، لطفا بعدا دوباره امتحان کنید",
     "DOWNLOAD_AGENT_REPORTS": "دانلود گزارش ایجنت",
@@ -416,10 +416,10 @@
     "HEADER": "گزارشات رضایت مشتری",
     "NO_RECORDS": "هیچ پاسخ برای نظرسنجی رضایت مشتری در دسترس نیست.",
     "DOWNLOAD": "دانلود گزارش CSAT",
-    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
+    "DOWNLOAD_FAILED": "خطا در دانلود گزارش های CSAT",
     "FILTERS": {
       "AGENTS": {
-        "PLACEHOLDER": "ایجنت را انتخاب کنید"
+        "PLACEHOLDER": "اپراتور را انتخاب کنید"
       }
     },
     "TABLE": {
@@ -449,20 +449,20 @@
     "HEADER": "گزارش‌های ربات",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
-        "LABEL": "No. of Conversations",
-        "TOOLTIP": "Total number of conversations handled by the bot"
+        "LABEL": "تعداد گفتگوها",
+        "TOOLTIP": "تعداد کل گفتگوهای رسیدگی شده توسط ربات"
       },
       "TOTAL_RESPONSES": {
-        "LABEL": "Total Responses",
-        "TOOLTIP": "Total number of responses sent by the bot"
+        "LABEL": "مجموع پاسخ ها",
+        "TOOLTIP": "تعداد کل پاسخ های ارسال شده توسط ربات"
       },
       "RESOLUTION_RATE": {
-        "LABEL": "Resolution Rate",
-        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+        "LABEL": "نرخ حل شدن مساله",
+        "TOOLTIP": "تعداد کل گفتگوهای حل شده توسط ربات / تعداد کل گفتگو های رسیدگی شده توسط ربات * ۱۰۰"
       },
       "HANDOFF_RATE": {
-        "LABEL": "Handoff Rate",
-        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+        "LABEL": "نرخ پاسخ ربات",
+        "TOOLTIP": "تعداد کل گفتگوهایی که به اپراتور ها اختصاص داده شده / تعداد کل گفتگوهایی که توسط ربات رسیدگی شده * ۱۰۰"
       }
     }
   },
@@ -484,9 +484,9 @@
       "CONVERSATIONS": "%{count} گفتگو"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "گفتگوهای ایجنت ها",
-      "LOADING_MESSAGE": "در حال بارگیری معیارهای ایجنت...",
-      "NO_AGENTS": "هیچ مکالمه ای توسط ایجنت ها وجود ندارد",
+      "HEADER": "گفتگوهای اپراتور ها",
+      "LOADING_MESSAGE": "در حال بارگیری معیارهای اپراتور...",
+      "NO_AGENTS": "هیچ مکالمه ای توسط اپراتور ها وجود ندارد",
       "TABLE_HEADER": {
         "AGENT": "ایجنت",
         "OPEN": "باز",
@@ -495,7 +495,7 @@
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "وضعیت ایجنت",
+      "HEADER": "وضعیت اپراتور",
       "ONLINE": "آنلاین",
       "BUSY": "مشغول",
       "OFFLINE": "آفلاین"
@@ -511,26 +511,26 @@
     "SATURDAY": "شنبه"
   },
   "SLA_REPORTS": {
-    "HEADER": "SLA Reports",
-    "NO_RECORDS": "SLA applied conversations are not available.",
-    "LOADING": "Loading SLA data...",
-    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
-    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "HEADER": "گزارش‌های SLA",
+    "NO_RECORDS": "گفتگویی که SLA در آن اعمال شده باشد در دسترس نیست.",
+    "LOADING": "در حال دریافت اطلاعات SLA...",
+    "DOWNLOAD_SLA_REPORTS": "دانلود گزارش SLA",
+    "DOWNLOAD_FAILED": "خطا در دانلود گزارش های SLA",
     "DROPDOWN": {
       "ADD_FIlTER": "افزودن فیلتر",
-      "CLEAR_ALL": "Clear all",
-      "CLEAR_FILTER": "Clear filter",
+      "CLEAR_ALL": "حذف همه",
+      "CLEAR_FILTER": "پاک کردن فیلتر",
       "EMPTY_LIST": "نتیجه‌ای یافت نشد",
-      "NO_FILTER": "No filters available",
-      "SEARCH": "Search filter",
+      "NO_FILTER": "هیچ فیلتری موجود نیست",
+      "SEARCH": "فیلتر جستجو",
       "INPUT_PLACEHOLDER": {
-        "SLA": "SLA name",
+        "SLA": "نام SLA",
         "AGENTS": "اسم ایجنت",
         "INBOXES": "نام صندوق ورودی",
         "LABELS": "نام برچسب",
         "TEAMS": "نام تیم"
       },
-      "SLA": "SLA Policy",
+      "SLA": "سیاست SLA",
       "INBOXES": "صندوق ورودی",
       "AGENTS": "ایجنت",
       "LABELS": "برچسب",
@@ -538,25 +538,25 @@
     },
     "METRICS": {
       "HIT_RATE": {
-        "LABEL": "Hit Rate",
-        "TOOLTIP": "Percentage of SLAs created were completed successfully"
+        "LABEL": "نرخ برخورد",
+        "TOOLTIP": "درصد SLA های ایجاد شده که با موفقیت رعایت شده"
       },
       "NO_OF_MISSES": {
-        "LABEL": "Number of Misses",
-        "TOOLTIP": "Total SLA misses in a certain period"
+        "LABEL": "تعداد از دست رفته",
+        "TOOLTIP": "تعداد SLA های نقض شده در یک بازه زمانی"
       },
       "NO_OF_CONVERSATIONS": {
-        "LABEL": "Number of Conversations",
-        "TOOLTIP": "Total number of conversations with SLA"
+        "LABEL": "تعداد گفتگوها",
+        "TOOLTIP": "تعداد گفتگوهای مطابق با SLA"
       }
     },
     "TABLE": {
       "HEADER": {
-        "POLICY": "Policy",
+        "POLICY": "سیاست",
         "CONVERSATION": "گفتگو",
         "AGENT": "ایجنت"
       },
-      "VIEW_DETAILS": "View Details"
+      "VIEW_DETAILS": "مشاهده جزئیات"
     }
   }
 }

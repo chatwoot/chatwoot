@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "שדות מותאמים אישית",
       "CONTACT_LABELS": "תגיות אנשי קשר",
-      "PREVIOUS_CONVERSATIONS": "שיחות קודמות"
+      "PREVIOUS_CONVERSATIONS": "שיחות קודמות",
+      "NO_RECORDS_FOUND": "לא נמצאו מאפיינים"
     }
   },
   "EDIT_CONTACT": {
