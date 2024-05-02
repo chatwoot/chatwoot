@@ -17,7 +17,7 @@
         <button class="cursor-pointer reset-base" @click="toggleMasked">
           <fluent-icon
             class="absolute top-3 ltr:right-4 rtl:left-4"
-            :icon="maskedIcon"
+            :icon="`${inputType === 'password' ? 'eye-hide' : 'eye-show'}`"
             :size="16"
           />
         </button>
@@ -46,10 +46,8 @@ const props = defineProps({
 });
 const emit = defineEmits(['on-copy']);
 const inputType = ref('password');
-const maskedIcon = ref('eye-hide');
 const toggleMasked = () => {
   inputType.value = inputType.value === 'password' ? 'text' : 'password';
-  maskedIcon.value = maskedIcon.value === 'eye-hide' ? 'eye-show' : 'eye-hide';
 };
 const onClick = () => {
   emit('on-copy', props.value);
