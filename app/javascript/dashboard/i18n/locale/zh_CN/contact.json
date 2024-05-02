@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "自定义属性",
       "CONTACT_LABELS": "联系人标签",
-      "PREVIOUS_CONVERSATIONS": "上一次对话"
+      "PREVIOUS_CONVERSATIONS": "上一次对话",
+      "NO_RECORDS_FOUND": "未找到属性"
     }
   },
   "EDIT_CONTACT": {

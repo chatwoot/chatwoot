@@ -280,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Создать атрибут",
+    "NO_RECORDS_FOUND": "Атрибуты не найдены",
     "UPDATE": {
       "SUCCESS": "Атрибут успешно обновлен",
       "ERROR": "Не удается обновить атрибут. Повторите попытку позже"

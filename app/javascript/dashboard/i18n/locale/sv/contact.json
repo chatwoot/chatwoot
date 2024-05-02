@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Egna egenskaper",
       "CONTACT_LABELS": "Etiketter för kontakt",
-      "PREVIOUS_CONVERSATIONS": "Tidigare konversationer"
+      "PREVIOUS_CONVERSATIONS": "Tidigare konversationer",
+      "NO_RECORDS_FOUND": "Inga attribut hittades"
     }
   },
   "EDIT_CONTACT": {

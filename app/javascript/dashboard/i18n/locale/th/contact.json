@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "แอตทริบิวต์ที่กำหนดเอง",
       "CONTACT_LABELS": "ป้ายกำกับผู้ติดต่อ",
-      "PREVIOUS_CONVERSATIONS": "การสนทนาก่อนหน้า"
+      "PREVIOUS_CONVERSATIONS": "การสนทนาก่อนหน้า",
+      "NO_RECORDS_FOUND": "ไม่พบข้อมูล"
     }
   },
   "EDIT_CONTACT": {

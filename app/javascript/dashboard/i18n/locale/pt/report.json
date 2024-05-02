@@ -140,7 +140,7 @@
     ],
     "BUSINESS_HOURS": "Horário comercial",
     "FILTER_ACTIONS": {
-      "CLEAR_FILTER": "Clear filter",
+      "CLEAR_FILTER": "Limpar filtros",
       "EMPTY_LIST": "Nenhum resultado encontrado"
     }
   },
@@ -473,7 +473,7 @@
       "HEADER": "Conversas Abertas",
       "LOADING_MESSAGE": "A importar métricas de conversa...",
       "OPEN": "Abertas",
-      "UNATTENDED": "Por tratar",
+      "UNATTENDED": "Por responder",
       "UNASSIGNED": "Não atribuído",
       "PENDING": "Pendente"
     },
@@ -489,9 +489,9 @@
       "NO_AGENTS": "Não existem conversas por agentes",
       "TABLE_HEADER": {
         "AGENT": "Representante",
-        "OPEN": "ABRIR",
-        "UNATTENDED": "Por tratar",
-        "STATUS": "SItuação"
+        "OPEN": "Abertas",
+        "UNATTENDED": "Por responder",
+        "STATUS": "Estado"
       }
     },
     "AGENT_STATUS": {
@@ -511,15 +511,15 @@
     "SATURDAY": "Sábado"
   },
   "SLA_REPORTS": {
-    "HEADER": "SLA Reports",
-    "NO_RECORDS": "SLA applied conversations are not available.",
-    "LOADING": "Loading SLA data...",
-    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
-    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "HEADER": "Relatórios SLA",
+    "NO_RECORDS": "Conversas com SLA aplicados não estão disponíveis.",
+    "LOADING": "A importar dados de SLA...",
+    "DOWNLOAD_SLA_REPORTS": "Download relatórios de SLA",
+    "DOWNLOAD_FAILED": "Falha ao efetuar download dos relatórios de SLA",
     "DROPDOWN": {
       "ADD_FIlTER": "Adicionar filtro",
-      "CLEAR_ALL": "Clear all",
-      "CLEAR_FILTER": "Clear filter",
+      "CLEAR_ALL": "Limpar tudo",
+      "CLEAR_FILTER": "Limpar filtros",
       "EMPTY_LIST": "Nenhum resultado encontrado",
       "NO_FILTER": "No filters available",
       "SEARCH": "Search filter",

@@ -280,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Attribut erstellen",
+    "NO_RECORDS_FOUND": "Keine Attribute gefunden",
     "UPDATE": {
       "SUCCESS": "Attribut erfolgreich aktualisiert",
       "ERROR": "Attribut kann nicht aktualisiert werden. Bitte versuchen Sie es später noch einmal"
