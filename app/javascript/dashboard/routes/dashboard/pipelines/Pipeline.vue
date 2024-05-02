@@ -118,6 +118,9 @@ export default {
       return this.showContactViewPane ? 'w-[75%]' : 'w-full';
     },
   },
+  mounted() {
+    this.$store.dispatch('contacts/clearContactFilters');
+  },
   methods: {
     onSelectedContact(contactId) {
       this.selectedContactId = contactId;
@@ -155,14 +158,17 @@ export default {
         page: DEFAULT_PAGE,
         stageType: this.selectedStageType,
       };
-      if (!value) {
-        this.$store.dispatch('contacts/get', requestParams);
-      } else {
+      if (value) {
         this.$store.dispatch('contacts/search', {
           search: encodeURIComponent(value),
           ...requestParams,
         });
-      }
+      } else if (this.hasAppliedFilters) {
+        this.$store.dispatch('contacts/filter', {
+          ...requestParams,
+          queryPayload: this.getAppliedContactFilters,
+        });
+      } else this.$store.dispatch('contacts/get', requestParams);
     },
 
     onInputSearch(event) {
@@ -198,13 +204,15 @@ export default {
       this.closeContactInfoPanel();
       this.segmentsQuery = filterQueryGenerator(payload);
       this.$store.dispatch('contacts/filter', {
+        page: DEFAULT_PAGE,
+        stageType: this.selectedStageType,
         queryPayload: filterQueryGenerator(payload),
       });
       this.showFiltersModal = false;
     },
     clearFilters() {
       this.$store.dispatch('contacts/clearContactFilters');
-      this.fetchContacts(this.pageParameter);
+      this.fetchContacts();
     },
   },
 };

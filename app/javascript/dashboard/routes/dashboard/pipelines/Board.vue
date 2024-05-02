@@ -88,7 +88,7 @@ export default {
           updatedAt: contact.updated_at,
           formattedUpdatedAt: this.dateFormat(
             contact.updated_at,
-            'dd/MM hh:mm'
+            'dd/MM HH:mm'
           ),
         };
 
