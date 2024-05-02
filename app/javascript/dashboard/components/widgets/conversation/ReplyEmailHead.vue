@@ -9,7 +9,7 @@
           <woot-input
             v-model.trim="$v.toEmailsVal.$model"
             type="text"
-            class="[&>input]:mb-0 [&>input]:border-transparent [&>input]:h-8 [&>input]:text-sm [&>input]:!border-0 [&>input]:border-none"
+            class="[&>input]:!mb-0 [&>input]:border-transparent [&>input]:h-8 [&>input]:text-sm [&>input]:!border-0 [&>input]:border-none"
             :class="{ error: $v.toEmailsVal.$error }"
             :placeholder="$t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.PLACEHOLDER')"
             @blur="onBlur"
@@ -25,7 +25,7 @@
         <div class="rounded-none flex-1 min-w-0 m-0 whitespace-nowrap">
           <woot-input
             v-model.trim="$v.ccEmailsVal.$model"
-            class="[&>input]:mb-0 [&>input]:border-transparent [&>input]:h-8 [&>input]:text-sm [&>input]:!border-0 [&>input]:border-none"
+            class="[&>input]:!mb-0 [&>input]:border-transparent [&>input]:h-8 [&>input]:text-sm [&>input]:!border-0 [&>input]:border-none"
             type="text"
             :class="{ error: $v.ccEmailsVal.$error }"
             :placeholder="$t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.PLACEHOLDER')"
@@ -54,7 +54,7 @@
           <woot-input
             v-model.trim="$v.bccEmailsVal.$model"
             type="text"
-            class="[&>input]:mb-0 [&>input]:border-transparent [&>input]:h-8 [&>input]:text-sm [&>input]:!border-0 [&>input]:border-none"
+            class="[&>input]:!mb-0 [&>input]:border-transparent [&>input]:h-8 [&>input]:text-sm [&>input]:!border-0 [&>input]:border-none"
             :class="{ error: $v.bccEmailsVal.$error }"
             :placeholder="
               $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.PLACEHOLDER')
