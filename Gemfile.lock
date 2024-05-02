@@ -333,6 +333,14 @@ GEM
       multi_json (~> 1.11)
       os (>= 0.9, < 2.0)
       signet (>= 0.16, < 2.a)
+    graphlient (0.8.0)
+      faraday (~> 2.0)
+      graphql-client
+    graphql (2.3.2)
+      base64
+    graphql-client (0.22.0)
+      activesupport (>= 3.0)
+      graphql (>= 1.13.0)
     groupdate (6.2.1)
       activesupport (>= 5.2)
     grpc (1.62.0)
@@ -876,6 +884,7 @@ DEPENDENCIES
   google-cloud-dialogflow-v2
   google-cloud-storage
   google-cloud-translate-v3
+  graphlient
   groupdate
   grpc
   haikunator

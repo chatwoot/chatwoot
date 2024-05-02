@@ -220,6 +220,9 @@ en:
     openai:
       name: "OpenAI"
       description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
+    linear:
+      name: "Linear"
+      description: "Connect your account with Linear to get realtime updates on the status of your conversations."
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
