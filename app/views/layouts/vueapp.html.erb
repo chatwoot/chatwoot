@@ -54,7 +54,7 @@
       window.browserConfig = {
         browser_name: '<%= browser.name %>',
       }
-      window.errorLoggingConfig = '<%= ENV.fetch('SENTRY_DSN', '') %>'
+      window.errorLoggingConfig = '<%= ENV.fetch('SENTRY_FRONTEND_DSN', '') || ENV.fetch('SENTRY_DSN', '') %>'
     </script>
     <% if @global_config['ANALYTICS_TOKEN'].present? %>
     <script>
