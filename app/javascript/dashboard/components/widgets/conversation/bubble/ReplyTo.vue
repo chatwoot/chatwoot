@@ -10,6 +10,7 @@
     @click="scrollToMessage"
   >
     <message-preview
+      class="cursor-pointer"
       :message="message"
       :show-message-type="false"
       :default-empty-message="$t('CONVERSATION.REPLY_MESSAGE_NOT_FOUND')"
