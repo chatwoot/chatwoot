@@ -116,7 +116,7 @@ pt_BR:
     notification_title:
       conversation_creation: ""
       conversation_assignment: "Uma conversa (#%{display_id}) foi atribuída a você"
-      assigned_conversation_new_message: "Uma nova mensagem é criada na conversa (#%{display_id})"
+      assigned_conversation_new_message: "Uma nova mensagem foi criada na conversa (#%{display_id})"
       conversation_mention: "Você foi mencionado em uma conversa (#%{display_id})"
       sla_missed_first_response: "Primeira resposta da meta de SLA perdida para conversa (#%{display_id})"
       sla_missed_next_response: ""

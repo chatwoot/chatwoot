@@ -22,7 +22,7 @@
         "body": "Pievienojiet aģentus izveidotajai iesūtnei."
       },
       {
-        "title": "Gatavs!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "Jūs varat sākt darboties!"
       }
@@ -43,7 +43,7 @@
         "CHOOSE_PLACEHOLDER": "Izvēlieties lapu no saraksta",
         "INBOX_NAME": "Iesūtnes Nosaukums",
         "ADD_NAME": "Pievienojiet savas iesūtnes nosaukumu",
-        "PICK_NAME": "Izvēlieties savai iesūtnei nosaukumu",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "Izvēlieties vērtību"
       },
       "TWITTER": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Ievadiet savu Webhook URL",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Lūdzu, ievadiet derīgu URL"
         },
         "CHANNEL_DOMAIN": {
@@ -143,7 +143,7 @@
           "ERROR": "Šis lauks ir nepieciešams"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Tālruņa numurs",
+          "LABEL": "Telefona numurs",
           "PLACEHOLDER": "Lūdzu, ievadiet tālruņa numuru, no kura tiks nosūtīts ziņojums.",
           "ERROR": "Lūdzu, norādiet derīgu tālruņa numuru, kas sākas ar zīmi “+” un nesatur atstarpes."
         },
@@ -175,12 +175,12 @@
           },
           "API_KEY": {
             "LABEL": "API atslēga",
-            "PLACEHOLDER": "Lūdzu, ievadiet savu Bandwith API atslēgu",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "Šis lauks ir nepieciešams"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Lūdzu, ievadiet savu Bandwith API Secret",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "Šis lauks ir nepieciešams"
           },
           "APPLICATION_ID": {
@@ -239,7 +239,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook Pārbaudes Token",
-          "PLACEHOLDER": "Ievadiet verifikācijas token, kuru vēlaties nokonfigurēt priekš Facebook webhooks.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Lūdzu, ievadiet derīgu vērtību."
         },
         "API_KEY": {
@@ -269,7 +269,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "SUBTITLE": "Konfigurēt URL, kurā vēlaties saņemt notikumu atzvanus.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "Webhook URL"
         },
         "SUBMIT_BUTTON": "Izveidot API kanālu",
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "E-pasta Kanāls",
-        "DESC": "Integrēt savu e-pasta iesūtni.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Kanāla Nosaukums",
           "PLACEHOLDER": "Lūdzu, ievadiet kanāla nosaukumu",
@@ -345,7 +345,7 @@
       "AGENTS": {
         "TITLE": "Aģenti",
         "DESC": "Šeit Jūs varat pievienot aģentus, lai pārvaldītu savu jaunizveidoto iesūtni. Tikai šiem atlasītajiem aģentiem būs piekļuve Jūsu iesūtnei. Aģenti, kas neietilpst šajā iesūtnē, nevarēs redzēt ziņojumus vai atbildēt uz ziņojumiem šajā iesūtnē, kad būs pierakstījušies sistēmā. <br> <b>PS:</b> Ja jums kā administratoram ir nepieciešama piekļuve pie visām iesūtnēm, jums ir jāpievieno sevi kā aģentu visām izveidotajām iesūtnēm.",
-        "VALIDATION_ERROR": "Pievienojiet savai jaunajai Iesūtnei vismaz vienu aģentu",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Izvēlieties aģentus priekš iesūtnes"
       },
       "DETAILS": {
@@ -406,7 +406,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sūtītāja vārds",
-        "SUB_TEXT": "Izvēlieties vārdu, kas uzrādīsies Jūsu klientam kad viņš saņems e-pasta ziņojumus no Jūsu aģentiem.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "Piemēram:",
         "FRIENDLY": {
           "TITLE": "Draudzīgs",
@@ -508,12 +508,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Atļaut ziņojumus pēc sarunas pabeigšanas",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Ļaut galalietotājiem sūtīt ziņojumus pat pēc sarunas atrisināšanas.",
       "WHATSAPP_SECTION_SUBHEADER": "Šī API atslēga tiek izmantota integrācijai ar WhatsApp API.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Ievadiet atjaunināto atslēgu, kas tiks izmantota integrācijai ar WhatsApp API.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API atslēga",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Atjaunināt API atslēgu",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Ievadiet šeit jauno API atslēgu",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Atjaunināt",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Pārbaudes Token",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verifikācijas Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Šis marķieris tiek izmantots, lai pārbaudītu webhook endpoint autentiskumu.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atjaunināt pirms-tērzēšanas veidlapas iestatījumus"
     },
@@ -585,7 +585,7 @@
       "NOTE_TEXT": "Lai iespējotu SMTP, lūdzu, nokonfigurējiet IMAP.",
       "UPDATE": "Atjaunināt IMAP iestatījumus",
       "TOGGLE_AVAILABILITY": "Iespējot IMAP konfigurāciju šai iesūtnei",
-      "TOGGLE_HELP": "Iespējojot IMAP, lietotājs varēs saņemt e-pastu",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "IMAP iestatījumi ir veiksmīgi atjaunināti",
         "ERROR_MESSAGE": "Nevar atjaunināt IMAP iestatījumus"

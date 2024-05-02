@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Brugerdefinerede Egenskaber",
       "CONTACT_LABELS": "Kontakt Labels",
-      "PREVIOUS_CONVERSATIONS": "Tidligere Samtaler"
+      "PREVIOUS_CONVERSATIONS": "Tidligere Samtaler",
+      "NO_RECORDS_FOUND": "Ingen attributter fundet"
     }
   },
   "EDIT_CONTACT": {
