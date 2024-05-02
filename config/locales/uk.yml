@@ -62,7 +62,7 @@ uk:
       validations:
         name: не повинно починатись або закінчуватися символами, і він не повинен мати < > / \ @ символів.
     custom_filters:
-      number_of_records: Досягнуто ліміту. Максимальна кількість дозволених користувацьких фільтрів для користувача на кожну обліковку становить 50.
+      number_of_records: Досягнуто ліміту. Максимальна кількість дозволених користувацьких фільтрів для користувача на рахунок становить 50.
       invalid_attribute: Некоректний ключ атрибута - [%{key}]. Ключ повинен бути одним з [%{allowed_keys}] або налаштованим атрибутом, визначеним в обліковому записі.
       invalid_operator: Некоректний оператор. Дозволені оператори для %{attribute_name} є [%{allowed_keys}].
       invalid_value: Невірне значення. Надані значення для %{attribute_name} є неприпустимі
@@ -118,9 +118,9 @@ uk:
       conversation_assignment: "Розмова (#%{display_id}) була призначена вам"
       assigned_conversation_new_message: "Нове повідомлення створено в розмові (#%{display_id})"
       conversation_mention: "Ви були згадані в розмові (#%{display_id})"
-      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
-      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
-      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
+      sla_missed_first_response: "Перша відповідь на SLA пропущена для розмови (#%{display_id})"
+      sla_missed_next_response: "Наступна відповідь SLA пропущена для розмови (#%{display_id})"
+      sla_missed_resolution: "Дозвіл SLA пропущений для розмови (#%{display_id})"
     attachment: "Вкладення"
     no_content: "Немає вмісту"
   conversations:
@@ -191,17 +191,17 @@ uk:
       name: "Slack"
       description: "Slack - це інструмент чату, який об'єднує ваші комунікації разом в одному місці. Інтегруючи Slack, ви можете отримати повідомлення про всі нові діалоги у вашому обліковому записі прямо в Slack."
     webhooks:
-      name: "Веб-хук"
-      description: "Вебхуки автоматично повідомляють про те, що відбувається у вашому обліковому записі Chatwoot. Ви можете скористатись веб-хуками для обміну подіями з вашими улюбленими додатками, такими як Slack чи Github. Натисніть на Налаштування, щоб налаштувати web-хуки."
+      name: "Веб-хуки"
+      description: "Веб-хуки автоматично повідомляють про те, що відбувається у вашому обліковому записі Chatwoot. Ви можете скористатись веб-хуками для обміну подіями з вашими улюбленими додатками, такими як Slack чи Github. Натисніть на Налаштування, щоб налаштувати веб-хуки."
     dialogflow:
       name: "Dialogflow"
-      description: "Створюйте чатів з допомогою Dialogflow та швидко під'єднайте їх до вхідних каналів. Дозвольте ботам обробляти запити перед передачею їх агенту."
+      description: "Створюйте чати з допомогою Dialogflow та швидко під'єднайте їх до вхідних каналів. Дозвольте ботам обробляти запити перед передачею їх агенту."
     fullcontact:
       name: "Fullcontact"
-      description: "Інтеграція FullContact допомагає збагачувати профілі відвідувачів. Визначте користувачів, як тільки вони поділяться адресою електронної пошти та пропонують їм адаптовану службу клієнтів. Під'єднайте ваш FullContact до вашого аккаунту, поділившись ключем FullContact API."
+      description: "Інтеграція FullContact допомагає збагачувати профілі відвідувачів. Визначайте користувачів, як тільки вони поділяться адресою електронної пошти та пропонуйте їм адаптовану службу клієнтів. Під'єднайте ваш FullContact до вашого акаунту, поділившись ключем FullContact API."
     google_translate:
       name: "Google Translate"
-      description: "Зробіть простішим життя агентів перекладаючи повідомлення за допомогою Google Translate. Google Translate сам ідентифікує та перекладає у обрану дміністратором чи агентом мову."
+      description: "Зробіть простішим життя агентів перекладаючи повідомлення за допомогою Google Translate. Google Translate сам ідентифікує та перекладає на обрану адміністратором чи агентом мову."
     openai:
       name: "OpenAI"
       description: "Інтегруйте потужні AI функції в Chatwoot, використовуючи моделі GPT з OpenAI."
@@ -251,22 +251,22 @@ uk:
     button: Відкрити розмову
   time_units:
     days:
-      one: "%{count} день"
+      one: "%{count} день(ів)"
       few: "%{count} days"
-      many: "%{count} days"
+      many: "%{count} днів"
       other: "%{count} days"
     hours:
-      one: "%{count} година"
+      one: "%{count} годин(а)"
       few: "%{count} hours"
-      many: "%{count} hours"
+      many: "%{count} годин"
       other: "%{count} hours"
     minutes:
-      one: "%{count} хвилина"
+      one: "%{count} хвилин(а)"
       few: "%{count} minutes"
-      many: "%{count} minutes"
+      many: "%{count} хвилин"
       other: "%{count} minutes"
     seconds:
-      one: "%{count} секунда"
-      few: "%{count} seconds"
-      many: "%{count} seconds"
+      one: "%{count} секунд(a)"
+      few: "%{count} секунд"
+      many: "%{count} секунд"
       other: "%{count} seconds"
