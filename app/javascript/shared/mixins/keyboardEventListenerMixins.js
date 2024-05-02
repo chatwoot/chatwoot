@@ -1,6 +1,6 @@
 import { isActiveElementTypeable, isEscape } from '../helpers/KeyboardHelpers';
 
-import { createKeybindingsHandler } from 'tinykeys';
+import { createKeybindingsHandler } from 'shared/helpers/keybindings';
 import * as Sentry from '@sentry/browser';
 
 // this is a store that stores the handler globally, and only gets reset on reload
