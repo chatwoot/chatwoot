@@ -96,3 +96,15 @@ export const getArticleSearchURL = ({
 
   return `${host}/${portalSlug}/articles?${queryParams.toString()}`;
 };
+
+export const hasValidAvatarUrl = avatarUrl => {
+  try {
+    const { host: avatarUrlHost } = new URL(avatarUrl);
+    const isFromGravatar = ['www.gravatar.com', 'gravatar'].includes(
+      avatarUrlHost
+    );
+    return avatarUrl && !isFromGravatar;
+  } catch (error) {
+    return false;
+  }
+};

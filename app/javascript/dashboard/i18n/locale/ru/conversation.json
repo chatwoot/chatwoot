@@ -41,12 +41,15 @@
     "SAVE_CONTACT": "Сохранить",
     "UPLOADING_ATTACHMENTS": "Загрузка вложений...",
     "REPLIED_TO_STORY": "Ответил на вашу историю",
+    "UNSUPPORTED_MESSAGE": "Это сообщение не поддерживается.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "Это сообщение не поддерживается. Вы можете просмотреть это сообщение в приложении Facebook Messenger.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "Это сообщение не поддерживается. Вы можете просмотреть это сообщение в приложении Instagram.",
     "SUCCESS_DELETE_MESSAGE": "Сообщение успешно удалено",
     "FAIL_DELETE_MESSSAGE": "Не удалось удалить сообщение! Попробуйте еще раз",
     "NO_RESPONSE": "Нет ответа",
     "RATING_TITLE": "Оценка",
     "FEEDBACK_TITLE": "Обратная связь",
-    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
+    "REPLY_MESSAGE_NOT_FOUND": "Сообщение недоступно",
     "CARD": {
       "SHOW_LABELS": "Показать метки",
       "HIDE_LABELS": "Скрыть метки"
@@ -61,7 +64,14 @@
       "SNOOZED_UNTIL": "Отложить до",
       "SNOOZED_UNTIL_TOMORROW": "Отложено до завтра",
       "SNOOZED_UNTIL_NEXT_WEEK": "Отложено до следующей недели",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Отложить до следующего ответа"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Отложить до следующего ответа",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Отметить как ожидающие",
@@ -139,8 +149,9 @@
       "PRIVATE_NOTE": "Личная заметка",
       "SEND": "Отправить",
       "CREATE": "Добавить заметку",
-      "DISMISS_REPLY": "Dismiss reply",
-      "REPLYING_TO": "Replying to:",
+      "INSERT_READ_MORE": "Читать далее",
+      "DISMISS_REPLY": "Удалить ответ",
+      "REPLYING_TO": "Ответить:",
       "TIP_FORMAT_ICON": "Показать редактор текста",
       "TIP_EMOJI_ICON": "Показать emoji панель",
       "TIP_ATTACH_ICON": "Прикрепить файлы",
@@ -195,7 +206,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Копировать",
-      "REPLY_TO": "Reply to this message",
+      "REPLY_TO": "Ответить на это сообщение",
       "DELETE": "Удалить",
       "CREATE_A_CANNED_RESPONSE": "Добавить в шаблонные ответы",
       "TRANSLATE": "Перевести",
@@ -269,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Создать атрибут",
+    "NO_RECORDS_FOUND": "Атрибуты не найдены",
     "UPDATE": {
       "SUCCESS": "Атрибут успешно обновлен",
       "ERROR": "Не удается обновить атрибут. Повторите попытку позже"

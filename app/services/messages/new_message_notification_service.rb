@@ -21,7 +21,8 @@ class Messages::NewMessageNotificationService
         notification_type: 'participating_conversation_new_message',
         user: participant,
         account: account,
-        primary_actor: message
+        primary_actor: message.conversation,
+        secondary_actor: message
       ).perform
     end
   end
@@ -35,7 +36,8 @@ class Messages::NewMessageNotificationService
       notification_type: 'assigned_conversation_new_message',
       user: conversation.assignee,
       account: account,
-      primary_actor: message
+      primary_actor: message.conversation,
+      secondary_actor: message
     ).perform
   end
 

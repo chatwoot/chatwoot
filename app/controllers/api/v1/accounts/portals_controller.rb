@@ -47,6 +47,11 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     head :ok
   end
 
+  def logo
+    @portal.logo.purge if @portal.logo.attached?
+    head :ok
+  end
+
   def process_attached_logo
     blob_id = params[:blob_id]
     blob = ActiveStorage::Blob.find_by(id: blob_id)

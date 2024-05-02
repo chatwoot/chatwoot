@@ -87,8 +87,8 @@
     },
     "CONDITION": {
       "DELETE_MESSAGE": "Kaydetmek için en az bir koşul eklemelisiniz",
-      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
+      "CONTACT_CUSTOM_ATTR_LABEL": "İletişim Özel Nitelikleri",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Konuşma Özel Nitelikleri"
     },
     "ACTION": {
       "DELETE_MESSAGE": "Kaydetmek için en az bir olay seçmelisiniz",
@@ -111,7 +111,7 @@
       "UPLOAD_ERROR": "Ek yüklenemedi, Tekrar deneyin",
       "LABEL_IDLE": "Dosya Yükle",
       "LABEL_UPLOADING": "Yükleniyor ...",
-      "LABEL_UPLOADED": "Successfully Uploaded",
+      "LABEL_UPLOADED": "Başarıyla Yüklendi",
       "LABEL_UPLOAD_FAILED": "Yükleme Başarısız"
     }
   }

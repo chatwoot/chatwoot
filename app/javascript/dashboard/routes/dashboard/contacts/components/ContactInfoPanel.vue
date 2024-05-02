@@ -1,7 +1,7 @@
 <template>
   <div
-    class="w-[25%] bg-white dark:bg-slate-900 contact--panel"
-    :class="{ 'border-left': showAvatar }"
+    class="relative w-1/4 h-full overflow-y-auto text-sm bg-white dark:bg-slate-900 border-slate-50 dark:border-slate-800/50"
+    :class="showAvatar ? 'border-l border-solid ' : 'border-r border-solid'"
   >
     <contact-info
       :show-close-button="showCloseButton"
@@ -38,12 +38,12 @@
                 :contact-id="contact.id"
                 attribute-type="contact_attribute"
                 attribute-class="conversation--attribute"
+                attribute-from="contact_panel"
                 :custom-attributes="contact.custom_attributes"
+                :empty-state-message="
+                  $t('CONTACT_PANEL.SIDEBAR_SECTIONS.NO_RECORDS_FOUND')
+                "
                 class="even"
-              />
-              <custom-attribute-selector
-                attribute-type="contact_attribute"
-                :contact-id="contact.id"
               />
             </accordion-item>
           </div>
@@ -85,7 +85,6 @@ import ContactConversations from 'dashboard/routes/dashboard/conversation/Contac
 import ContactInfo from 'dashboard/routes/dashboard/conversation/contact/ContactInfo.vue';
 import ContactLabel from 'dashboard/routes/dashboard/contacts/components/ContactLabels.vue';
 import CustomAttributes from 'dashboard/routes/dashboard/conversation/customAttributes/CustomAttributes.vue';
-import CustomAttributeSelector from 'dashboard/routes/dashboard/conversation/customAttributes/CustomAttributeSelector.vue';
 import draggable from 'vuedraggable';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
@@ -96,7 +95,6 @@ export default {
     ContactInfo,
     ContactLabel,
     CustomAttributes,
-    CustomAttributeSelector,
     draggable,
   },
   mixins: [uiSettingsMixin],
@@ -150,9 +148,6 @@ export default {
   .contact--profile {
     @apply pb-3 mb-4;
   }
-}
-.contact--panel {
-  @apply border-r border-slate-50 dark:border-slate-800/50 h-full text-sm overflow-y-auto relative;
 }
 
 .list-group {

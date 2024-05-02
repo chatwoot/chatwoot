@@ -1,18 +1,18 @@
 {
   "FILTER": {
-    "TITLE": "Tapisan Perbualan",
-    "SUBTITLE": "Tambahkan tapisan di bawah dan tekan \"Gunakan Tetapan\" untuk menapis perbualan.",
+    "TITLE": "Tapiskan perbualan",
+    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
     "EDIT_CUSTOM_FILTER": "Edit Folder",
     "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
-    "ADD_NEW_FILTER": "Tambahan Tapisan",
-    "FILTER_DELETE_ERROR": "Kamu perlukan sekurang-kurangnya satu tapisan untuk simpan tetapan",
+    "ADD_NEW_FILTER": "Add filter",
+    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
     "SUBMIT_BUTTON_LABEL": "Tetapkan tapisan",
     "UPDATE_BUTTON_LABEL": "Update folder",
     "CANCEL_BUTTON_LABEL": "Batalkan",
-    "CLEAR_BUTTON_LABEL": "Kosongkan tapisan",
-    "EMPTY_VALUE_ERROR": "Nilai diperlukan",
+    "CLEAR_BUTTON_LABEL": "Clear filters",
     "FOLDER_LABEL": "Folder Name",
     "FOLDER_QUERY_LABEL": "Folder Query",
+    "EMPTY_VALUE_ERROR": "Nilai diperlukan.",
     "TOOLTIP_LABEL": "Tapiskan perbualan",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "DAN",
@@ -36,44 +36,44 @@
     },
     "ATTRIBUTES": {
       "STATUS": "Status",
-      "ASSIGNEE_NAME": "Nama pernerima tugasas",
-      "INBOX_NAME": "Nama Peti Inbox",
-      "TEAM_NAME": "Nama pasukan",
-      "CONVERSATION_IDENTIFIER": "Pengecam Perbualan",
-      "CAMPAIGN_NAME": "Nama Kempen",
+      "ASSIGNEE_NAME": "Assignee name",
+      "INBOX_NAME": "Inbox name",
+      "TEAM_NAME": "Team name",
+      "CONVERSATION_IDENTIFIER": "Conversation identifier",
+      "CAMPAIGN_NAME": "Campaign name",
       "LABELS": "Label",
-      "BROWSER_LANGUAGE": "Bahasa Pelayar",
+      "BROWSER_LANGUAGE": "Browser language",
       "PRIORITY": "Priority",
-      "COUNTRY_NAME": "Nama Negara",
+      "COUNTRY_NAME": "Country name",
       "REFERER_LINK": "Perujuk pautan",
       "CUSTOM_ATTRIBUTE_LIST": "Senarai",
       "CUSTOM_ATTRIBUTE_TEXT": "Teks",
       "CUSTOM_ATTRIBUTE_NUMBER": "Nombor",
       "CUSTOM_ATTRIBUTE_LINK": "Pautan",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Kotak Semak",
-      "CREATED_AT": "Dicipta Pada",
-      "LAST_ACTIVITY": "Aktiviti Terakhir"
+      "CREATED_AT": "Created at",
+      "LAST_ACTIVITY": "Last activity"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Penapis Standard",
-      "ADDITIONAL_FILTERS": "Penapis Tambahan",
-      "CUSTOM_ATTRIBUTES": "Atribut Tersuai"
+      "STANDARD_FILTERS": "Standard filters",
+      "ADDITIONAL_FILTERS": "Additional filters",
+      "CUSTOM_ATTRIBUTES": "Custom attributes"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
         "TITLE": "Adakah kamu ingin menetapkan penapis ini?",
         "LABEL": "Namakan penapis ini",
-        "PLACEHOLDER": "Masukan nama untuk penapis ini",
-        "ERROR_MESSAGE": "Nama diperlukan",
+        "PLACEHOLDER": "Name your filter to refer it later.",
+        "ERROR_MESSAGE": "Nama diperlukan.",
         "SAVE_BUTTON": "Tetapkan penapis",
         "CANCEL_BUTTON": "Batal",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder telah ditetapkan",
-          "ERROR_MESSAGE": "Ralat apabilia menetapkan folder ini"
+          "SUCCESS_MESSAGE": "Folder telah ditetapkan.",
+          "ERROR_MESSAGE": "Ralat apabilia menetapkan folder ini."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segmen telah berjaya ditetapkan",
-          "ERROR_MESSAGE": "Segmen tidak berjaya ditetapkan"
+          "SUCCESS_MESSAGE": "Segmen telah berjaya ditetapkan.",
+          "ERROR_MESSAGE": "Segmen tidak berjaya ditetapkan."
         }
       },
       "EDIT": {
@@ -83,19 +83,19 @@
         "DELETE_BUTTON": "Padam tapisan",
         "MODAL": {
           "CONFIRM": {
-            "TITLE": "Sahkan untuk dipadam",
+            "TITLE": "Confirm deletion",
             "MESSAGE": "Adakah anda pasti hendak padamkan tapisan ini ",
-            "YES": "Baik, Padamkan",
-            "NO": "Tidak, simpankan"
+            "YES": "Yes, delete",
+            "NO": "No, keep it"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder ini sudah dipadamkan",
-          "ERROR_MESSAGE": "Ralat apabila padamkan folder ini"
+          "SUCCESS_MESSAGE": "Folder ini sudah dipadamkan.",
+          "ERROR_MESSAGE": "Ralat apabila padamkan folder ini."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segmen berjaya dipadam",
-          "ERROR_MESSAGE": "Ralat apabilia memadamkan segmen"
+          "SUCCESS_MESSAGE": "Segmen berjaya dipadam.",
+          "ERROR_MESSAGE": "Ralat apabilia memadamkan segmen."
         }
       }
     }

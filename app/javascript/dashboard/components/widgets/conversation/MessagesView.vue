@@ -12,7 +12,10 @@
         variant="smooth"
         size="tiny"
         color-scheme="secondary"
-        class="rounded-bl-calc rtl:rotate-180 rounded-tl-calc fixed top-[9.5rem] md:top-[6.25rem] z-10 bg-white dark:bg-slate-700 border-slate-50 dark:border-slate-600 border-solid border border-r-0 box-border"
+        class="rounded-bl-calc rtl:rotate-180 rounded-tl-calc fixed z-10 bg-white dark:bg-slate-700 border-slate-50 dark:border-slate-600 border-solid border border-r-0 box-border"
+        :class="
+          isInboxView ? 'top-52 md:top-40' : 'top-[9.5rem] md:top-[6.25rem]'
+        "
         :icon="isRightOrLeftIcon"
         @click="onToggleContactPanel"
       />
@@ -32,6 +35,9 @@
         :is-a-tweet="isATweet"
         :is-a-whatsapp-channel="isAWhatsAppChannel"
         :is-web-widget-inbox="isAWebWidgetInbox"
+        :is-a-facebook-inbox="isAFacebookInbox"
+        :is-an-email-inbox="isAnEmailChannel"
+        :is-instagram="isInstagramDM"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :in-reply-to="getInReplyToMessage(message)"
       />
@@ -54,6 +60,8 @@
         :is-a-tweet="isATweet"
         :is-a-whatsapp-channel="isAWhatsAppChannel"
         :is-web-widget-inbox="isAWebWidgetInbox"
+        :is-a-facebook-inbox="isAFacebookInbox"
+        :is-instagram-dm="isInstagramDM"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :in-reply-to="getInReplyToMessage(message)"
       />
@@ -68,11 +76,16 @@
       class="conversation-footer"
       :class="{ 'modal-mask': isPopoutReplyBox }"
     >
-      <div v-if="isAnyoneTyping" class="typing-indicator-wrap">
-        <div class="typing-indicator">
+      <div
+        v-if="isAnyoneTyping"
+        class="items-center flex h-0 absolute w-full -top-7"
+      >
+        <div
+          class="flex py-2 pr-4 pl-5 shadow-md rounded-full bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 text-xs font-semibold my-2.5 mx-auto"
+        >
           {{ typingUserNames }}
           <img
-            class="gif"
+            class="ltr:ml-2 rtl:mr-2 w-6"
             src="~dashboard/assets/images/typing.gif"
             alt="Someone is typing"
           />
@@ -103,18 +116,16 @@ import conversationMixin, {
 } from '../../../mixins/conversations';
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import configMixin from 'shared/mixins/configMixin';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import aiMixin from 'dashboard/mixins/aiMixin';
 
 // utils
 import { getTypingUsersText } from '../../../helper/commons';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
-import { isEscape } from 'shared/helpers/KeyboardHelpers';
 import { LocalStorage } from 'shared/helpers/localStorage';
 
 // constants
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
@@ -129,12 +140,16 @@ export default {
   mixins: [
     conversationMixin,
     inboxMixin,
-    eventListenerMixins,
+    keyboardEventListenerMixins,
     configMixin,
     aiMixin,
   ],
   props: {
     isContactPanelOpen: {
+      type: Boolean,
+      default: false,
+    },
+    isInboxView: {
       type: Boolean,
       default: false,
     },
@@ -284,19 +299,16 @@ export default {
     unreadMessageCount() {
       return this.currentChat.unread_count || 0;
     },
+    isInstagramDM() {
+      return this.conversationType === 'instagram_direct_message';
+    },
     inboxSupportsReplyTo() {
-      if (
-        !this.isFeatureEnabledonAccount(
-          this.accountId,
-          FEATURE_FLAGS.MESSAGE_REPLY_TO
-        )
-      ) {
-        return {};
-      }
-      return {
-        incoming: this.inboxHasFeature(INBOX_FEATURES.REPLY_TO),
-        outgoing: this.inboxHasFeature(INBOX_FEATURES.REPLY_TO_OUTGOING),
-      };
+      const incoming = this.inboxHasFeature(INBOX_FEATURES.REPLY_TO);
+      const outgoing =
+        this.inboxHasFeature(INBOX_FEATURES.REPLY_TO_OUTGOING) &&
+        !this.is360DialogWhatsAppChannel;
+
+      return { incoming, outgoing };
     },
   },
 
@@ -349,7 +361,7 @@ export default {
       // method available in mixin, need to ensure that integrations are present
       await this.fetchIntegrationsIfRequired();
 
-      if (!this.isAIIntegrationEnabled) {
+      if (!this.isLabelSuggestionFeatureEnabled) {
         return;
       }
 
@@ -405,10 +417,12 @@ export default {
     closePopoutReplyBox() {
       this.isPopoutReplyBox = false;
     },
-    handleKeyEvents(e) {
-      if (isEscape(e)) {
-        this.closePopoutReplyBox();
-      }
+    getKeyboardEvents() {
+      return {
+        Escape: {
+          action: () => this.closePopoutReplyBox(),
+        },
+      };
     },
     addScrollListener() {
       this.conversationPanel = this.$el.querySelector('.conversation-panel');
@@ -539,6 +553,8 @@ export default {
 
 <style scoped lang="scss">
 .modal-mask {
+  @apply absolute;
+
   &::v-deep {
     .ProseMirror-woot-style {
       @apply max-h-[25rem];

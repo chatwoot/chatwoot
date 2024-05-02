@@ -68,6 +68,11 @@ export const AUTOMATIONS = {
         attributeI18nKey: 'ADD_LABEL',
       },
       {
+        key: 'remove_label',
+        name: 'Remove a label',
+        attributeI18nKey: 'REMOVE_LABEL',
+      },
+      {
         key: 'send_email_to_team',
         name: 'Send an email to team',
         attributeI18nKey: 'SEND_EMAIL_TO_TEAM',
@@ -557,6 +562,11 @@ export const AUTOMATION_ACTION_TYPES = [
     inputType: 'multi_select',
   },
   {
+    key: 'remove_label',
+    label: 'Remove a label',
+    inputType: 'multi_select',
+  },
+  {
     key: 'send_email_to_team',
     label: 'Send an email to team',
     inputType: 'team_message',
@@ -599,6 +609,11 @@ export const AUTOMATION_ACTION_TYPES = [
   {
     key: 'change_priority',
     label: 'Change Priority',
+    inputType: 'search_select',
+  },
+  {
+    key: 'add_sla',
+    label: 'Add SLA',
     inputType: 'search_select',
   },
 ];

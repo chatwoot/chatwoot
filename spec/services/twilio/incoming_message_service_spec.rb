@@ -169,5 +169,65 @@ describe Twilio::IncomingMessageService do
         expect(twilio_sms_channel.inbox.conversations.count).to eq(1)
       end
     end
+
+    context 'when a message with an attachment is received' do
+      before do
+        stub_request(:get, 'https://chatwoot-assets.local/sample.png')
+          .to_return(status: 200, body: 'image data', headers: {})
+      end
+
+      let(:params_with_attachment) do
+        {
+          SmsSid: 'SMxx',
+          From: '+12345',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          Body: 'testing3',
+          NumMedia: '1',
+          MediaContentType0: 'image/jpeg',
+          MediaUrl0: 'https://chatwoot-assets.local/sample.png'
+        }
+      end
+
+      it 'creates a new message with media in existing conversation' do
+        described_class.new(params: params_with_attachment).perform
+        expect(conversation.reload.messages.last.content).to eq('testing3')
+        expect(conversation.reload.messages.last.attachments.count).to eq(1)
+        expect(conversation.reload.messages.last.attachments.first.file_type).to eq('image')
+      end
+    end
+
+    context 'when there is an error downloading the attachment' do
+      before do
+        stub_request(:get, 'https://chatwoot-assets.local/sample.png')
+          .to_raise(Down::Error.new('Download error'))
+
+        stub_request(:get, 'https://chatwoot-assets.local/sample.png')
+          .to_return(status: 200, body: 'image data', headers: {})
+      end
+
+      let(:params_with_attachment_error) do
+        {
+          SmsSid: 'SMxx',
+          From: '+12345',
+          AccountSid: 'ACxxx',
+          MessagingServiceSid: twilio_channel.messaging_service_sid,
+          Body: 'testing3',
+          NumMedia: '1',
+          MediaContentType0: 'image/jpeg',
+          MediaUrl0: 'https://chatwoot-assets.local/sample.png'
+        }
+      end
+
+      it 'retries downloading the attachment without a token after an error' do
+        expect do
+          described_class.new(params: params_with_attachment_error).perform
+        end.not_to raise_error
+
+        expect(conversation.reload.messages.last.content).to eq('testing3')
+        expect(conversation.reload.messages.last.attachments.count).to eq(1)
+        expect(conversation.reload.messages.last.attachments.first.file_type).to eq('image')
+      end
+    end
   end
 end

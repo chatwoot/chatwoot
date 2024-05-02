@@ -36,9 +36,11 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
-        expect(response_body['payload'].first['email']).to eq(contact.email)
-        expect(response_body['payload'].first['contact_inboxes'].first['source_id']).to eq(contact_inbox.source_id)
-        expect(response_body['payload'].first['contact_inboxes'].first['inbox']['name']).to eq(contact_inbox.inbox.name)
+        contact_emails = response_body['payload'].pluck('email')
+        contact_inboxes_source_ids = response_body['payload'].flat_map { |c| c['contact_inboxes'].pluck('source_id') }
+
+        expect(contact_emails).to include(contact.email)
+        expect(contact_inboxes_source_ids).to include(contact_inbox.source_id)
       end
 
       it 'returns all contacts without contact inboxes' do
@@ -48,8 +50,11 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
-        expect(response_body['payload'].first['email']).to eq(contact.email)
-        expect(response_body['payload'].first['contact_inboxes'].blank?).to be(true)
+
+        contact_emails = response_body['payload'].pluck('email')
+        contact_inboxes = response_body['payload'].pluck('contact_inboxes').flatten.compact
+        expect(contact_emails).to include(contact.email)
+        expect(contact_inboxes).to eq([])
       end
 
       it 'returns all contacts with company name desc order' do
@@ -192,7 +197,7 @@ RSpec.describe 'Contacts API', type: :request do
       let(:admin) { create(:user, account: account, role: :administrator) }
 
       it 'enqueues a contact export job' do
-        expect(Account::ContactsExportJob).to receive(:perform_later).with(account.id, nil).once
+        expect(Account::ContactsExportJob).to receive(:perform_later).with(account.id, nil, admin.email).once
 
         get "/api/v1/accounts/#{account.id}/contacts/export",
             headers: admin.create_new_auth_token,
@@ -202,7 +207,7 @@ RSpec.describe 'Contacts API', type: :request do
       end
 
       it 'enqueues a contact export job with sent_columns' do
-        expect(Account::ContactsExportJob).to receive(:perform_later).with(account.id, %w[phone_number email]).once
+        expect(Account::ContactsExportJob).to receive(:perform_later).with(account.id, %w[phone_number email], admin.email).once
 
         get "/api/v1/accounts/#{account.id}/contacts/export",
             headers: admin.create_new_auth_token,
@@ -333,20 +338,52 @@ RSpec.describe 'Contacts API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
-      let!(:contact1) { create(:contact, :with_email, account: account) }
-      let!(:contact2) { create(:contact, :with_email, name: 'testcontact', account: account, email: 'test@test.com') }
+      let!(:contact1) { create(:contact, :with_email, account: account, additional_attributes: { country_code: 'US' }) }
+      let!(:contact2) do
+        create(:contact, :with_email, name: 'testcontact', account: account, email: 'test@test.com', additional_attributes: { country_code: 'US' })
+      end
 
       it 'returns all contacts when query is empty' do
         post "/api/v1/accounts/#{account.id}/contacts/filter",
-             params: {
-               payload: []
-             },
+             params: { payload: [
+               attribute_key: 'country_code',
+               filter_operator: 'equal_to',
+               values: ['US']
+             ] },
              headers: admin.create_new_auth_token,
              as: :json
 
         expect(response).to have_http_status(:success)
         expect(response.body).to include(contact2.email)
         expect(response.body).to include(contact1.email)
+      end
+
+      it 'returns error the query operator is invalid' do
+        post "/api/v1/accounts/#{account.id}/contacts/filter",
+             params: { payload: [
+               attribute_key: 'country_code',
+               filter_operator: 'eq',
+               values: ['US']
+             ] },
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include('Invalid operator. The allowed operators for country_code are [equal_to,not_equal_to]')
+      end
+
+      it 'returns error the query value is invalid' do
+        post "/api/v1/accounts/#{account.id}/contacts/filter",
+             params: { payload: [
+               attribute_key: 'country_code',
+               filter_operator: 'equal_to',
+               values: []
+             ] },
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include('Invalid value. The values provided for country_code are invalid"')
       end
     end
   end
@@ -551,6 +588,27 @@ RSpec.describe 'Contacts API', type: :request do
               headers: admin.create_new_auth_token
         expect(response).to have_http_status(:success)
         expect(Avatar::AvatarFromUrlJob).to have_been_enqueued.with(contact, 'http://example.com/avatar.png')
+      end
+
+      it 'allows blocking of contact' do
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              params: { blocked: true },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.blocked).to be(true)
+      end
+
+      it 'allows unblocking of contact' do
+        contact.update(blocked: true)
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              params: { blocked: false },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.blocked).to be(false)
       end
     end
   end

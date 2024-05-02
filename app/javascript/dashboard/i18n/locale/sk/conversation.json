@@ -41,6 +41,9 @@
     "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Prílohy sa nahrávajú...",
     "REPLIED_TO_STORY": "Replied to your story",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Správa bola úspešne odstránená",
     "FAIL_DELETE_MESSSAGE": "Správu sa nepodarilo vymazať! Skúste to znova",
     "NO_RESPONSE": "Žiadna odpoveď",
@@ -61,7 +64,14 @@
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Odložené do zajtra",
       "SNOOZED_UNTIL_NEXT_WEEK": "Odložené do ďalšieho týždňa",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Odložené do ďalšej odpovede"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Odložené do ďalšej odpovede",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Označiť ako čakajúce na vybavenie",
@@ -139,6 +149,7 @@
       "PRIVATE_NOTE": "Súkromná správa",
       "SEND": "Poslať",
       "CREATE": "Pridať poznámku",
+      "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Zobraziť rozšírený textový editor",
@@ -269,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Vytvoriť atribút",
+    "NO_RECORDS_FOUND": "Žiadne atribúty neboli nájdené",
     "UPDATE": {
       "SUCCESS": "Atribút úspešne nahraný",
       "ERROR": "Nie je možné aktualizovať atribút. Skúste to prosím neskôr"

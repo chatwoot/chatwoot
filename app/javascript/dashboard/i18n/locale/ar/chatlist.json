@@ -43,7 +43,7 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "Created",
+        "LATEST": "مضاف",
         "OLDEST": "تم إنشاؤها في:"
       },
       "LAST_ACTIVITY": {
@@ -51,18 +51,30 @@
         "ACTIVE": "النشاط الأخير"
       }
     },
-    "CHAT_SORT_FILTER_ITEMS": {
-      "latest": {
-        "TEXT": "النشاط الأخير"
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "اخر نشاط: آلأقدم أولا"
       },
-      "sort_on_created_at": {
-        "TEXT": "تم إنشاؤها في"
+      "last_activity_at_desc": {
+        "TEXT": "اخر نشاط: الأحدث أولا"
       },
-      "sort_on_priority": {
-        "TEXT": "الأولوية"
+      "created_at_desc": {
+        "TEXT": "Created at: Newest first"
       },
-      "sort_on_waiting_since": {
-        "TEXT": "Pending Response"
+      "created_at_asc": {
+        "TEXT": "Created at: Oldest first"
+      },
+      "priority_desc": {
+        "TEXT": "Priority: Highest first"
+      },
+      "priority_asc": {
+        "TEXT": "Priority: Lowest first"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Pending Response: Longest first"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Pending Response: Shortest first"
       }
     },
     "ATTACHMENTS": {
@@ -99,7 +111,7 @@
         },
         "LAST_USER_MESSAGE_AT": {
           "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "LABEL": "أخر رسالة"
         }
       }
     },

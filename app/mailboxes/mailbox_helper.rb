@@ -2,6 +2,7 @@ module MailboxHelper
   private
 
   def create_message
+    Rails.logger.info "[MailboxHelper] Creating message #{processed_mail.message_id}"
     return if @conversation.messages.find_by(source_id: processed_mail.message_id).present?
 
     @message = @conversation.messages.create!(
@@ -36,6 +37,7 @@ module MailboxHelper
   end
 
   def process_regular_attachments(attachments)
+    Rails.logger.info "[MailboxHelper] Processing regular attachments for message with ID: #{processed_mail.message_id}"
     attachments.each do |mail_attachment|
       attachment = @message.attachments.new(
         account_id: @conversation.account_id,
@@ -46,6 +48,8 @@ module MailboxHelper
   end
 
   def process_inline_attachments(attachments)
+    Rails.logger.info "[MailboxHelper] Processing inline attachments for message with ID: #{processed_mail.message_id}"
+
     # create an instance variable here, the `embed_inline_image_source`
     # updates them directly. And then the value is eventaully used to update the message content
     @html_content = processed_mail.serialized_data[:html_content][:full]
@@ -76,10 +80,15 @@ module MailboxHelper
 
   def embed_plain_text_email_with_inline_image(mail_attachment)
     attachment_name = mail_attachment[:original].filename
+    img_tag = "<img src=\"#{inline_image_url(mail_attachment[:blob])}\" alt=\"#{attachment_name}\">"
 
-    @text_content = @text_content.gsub(
-      "[image: #{attachment_name}]", "<img src=\"#{inline_image_url(mail_attachment[:blob])}\" alt=\"#{attachment_name}\">"
-    )
+    tag_to_replace = "[image: #{attachment_name}]"
+
+    if @text_content.include?(tag_to_replace)
+      @text_content = @text_content.gsub(tag_to_replace, img_tag)
+    else
+      @text_content += "\n\n#{img_tag}"
+    end
   end
 
   def inline_image_url(blob)
@@ -98,7 +107,9 @@ module MailboxHelper
         }
       }
     ).perform
+
     @contact = @contact_inbox.contact
+    Rails.logger.info "[MailboxHelper] Contact created with ID: #{@contact.id} for inbox with ID: #{@inbox.id}"
   end
 
   def notification_email_from_chatwoot?

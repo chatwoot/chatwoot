@@ -28,7 +28,6 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import { VeTable } from 'vue-easytable';
 import { getCountryFlag } from 'dashboard/helper/flag';
 
@@ -45,7 +44,7 @@ export default {
     Spinner,
     VeTable,
   },
-  mixins: [clickaway, timeMixin, rtlMixin],
+  mixins: [timeMixin, rtlMixin],
   props: {
     contacts: {
       type: Array,
@@ -135,7 +134,7 @@ export default {
                   status={row.availability_status}
                 />
                 <div class="user-block">
-                  <h6 class="sub-block-title overflow-hidden whitespace-nowrap text-ellipsis">
+                  <h6 class="text-base overflow-hidden whitespace-nowrap text-ellipsis">
                     <router-link
                       to={`/app/accounts/${this.$route.params.accountId}/contacts/${row.id}`}
                       class="user-name"

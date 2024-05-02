@@ -41,6 +41,9 @@
     "SAVE_CONTACT": "Mentés",
     "UPLOADING_ATTACHMENTS": "Csatolt fileok feltöltése...",
     "REPLIED_TO_STORY": "Válaszolt a storydra",
+    "UNSUPPORTED_MESSAGE": "Ez az üzenet nem támogatott.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "Ez az üzenet nem támogatott. Ezt az üzenetet a Facebook Messenger alkalmazásban tekintheti meg.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "Ez az üzenet nem támogatott. Ezt az üzenetet az Instagram alkalmazásban tekintheti meg.",
     "SUCCESS_DELETE_MESSAGE": "Üzenet törölve",
     "FAIL_DELETE_MESSSAGE": "Nem tudtad törölni az üzenetet! Próbáld újra",
     "NO_RESPONSE": "Nincs válasz",
@@ -61,7 +64,14 @@
       "SNOOZED_UNTIL": "Halasztás eddig",
       "SNOOZED_UNTIL_TOMORROW": "Halasztás holnapig",
       "SNOOZED_UNTIL_NEXT_WEEK": "Halasztás jövő hétig",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Halasztás következő válaszig"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Halasztás következő válaszig",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Függőben levőként megjelölés",
@@ -139,6 +149,7 @@
       "PRIVATE_NOTE": "Privát üzenet",
       "SEND": "Elküldés",
       "CREATE": "Megjegyzés hozzáadása",
+      "INSERT_READ_MORE": "Tudj meg többet",
       "DISMISS_REPLY": "Válasz elutasítása",
       "REPLYING_TO": "Válaszolva a következőre:",
       "TIP_FORMAT_ICON": "Rich szövegszerkesztő mutatása",
@@ -269,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Attribútum hozzáadása",
+    "NO_RECORDS_FOUND": "Nem található tulajdonság",
     "UPDATE": {
       "SUCCESS": "Tulajdonság sikeresen frissítve",
       "ERROR": "Nem lehet frissíteni a tulajdonságot. Kérlek, próbáld újra"

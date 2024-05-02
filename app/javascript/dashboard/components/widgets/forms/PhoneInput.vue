@@ -5,7 +5,7 @@
         class="cursor-pointer py-2 pr-1.5 pl-2 rounded-tl-md rounded-bl-md flex items-center justify-center gap-1.5 bg-slate-25 dark:bg-slate-700 h-10 w-14"
         @click="toggleCountryDropdown"
       >
-        <h5 v-if="activeCountry.emoji" class="mb-0">
+        <h5 v-if="activeCountry" class="mb-0">
           {{ activeCountry.emoji }}
         </h5>
         <fluent-icon v-else icon="globe" class="fluent-icon" size="16" />
@@ -13,7 +13,7 @@
       </div>
       <span
         v-if="activeDialCode"
-        class="flex bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-normal text-base leading-normal py-2 pl-2 pr-0"
+        class="flex bg-white dark:bg-slate-900 font-medium text-slate-800 dark:text-slate-100 font-normal text-base leading-normal py-2 pl-2 pr-0"
       >
         {{ activeDialCode }}
       </span>
@@ -74,15 +74,10 @@
 <script>
 import countries from 'shared/constants/countries.js';
 import parsePhoneNumber from 'libphonenumber-js';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import {
-  hasPressedArrowUpKey,
-  hasPressedArrowDownKey,
-  isEnter,
-} from 'shared/helpers/KeyboardHelpers';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 
 export default {
-  mixins: [eventListenerMixins],
+  mixins: [keyboardEventListenerMixins],
   props: {
     value: {
       type: [String, Number],
@@ -183,6 +178,7 @@ export default {
       this.$emit('blur', e.target.value);
     },
     dropdownItem() {
+      if (!this.showDropdown) return [];
       return Array.from(
         this.$refs.dropdown.querySelectorAll(
           'div.country-dropdown div.country-dropdown--item'
@@ -190,34 +186,27 @@ export default {
       );
     },
     focusedItem() {
+      if (!this.showDropdown) return [];
       return Array.from(
         this.$refs.dropdown.querySelectorAll('div.country-dropdown div.focus')
       );
     },
     focusedItemIndex() {
+      if (!this.showDropdown) return -1;
       return Array.from(this.dropdownItem()).indexOf(this.focusedItem()[0]);
     },
-    onKeyDownHandler(e) {
-      const { showDropdown, filteredCountriesBySearch, onSelectCountry } = this;
-      const { selectedIndex } = this;
-
-      if (showDropdown) {
-        if (hasPressedArrowDownKey(e)) {
-          e.preventDefault();
-          this.selectedIndex = Math.min(
-            selectedIndex + 1,
-            filteredCountriesBySearch.length - 1
-          );
-          this.$refs.dropdown.scrollTop = this.focusedItemIndex() * 28;
-        } else if (hasPressedArrowUpKey(e)) {
-          e.preventDefault();
-          this.selectedIndex = Math.max(selectedIndex - 1, 0);
-          this.$refs.dropdown.scrollTop = this.focusedItemIndex() * 28 - 56;
-        } else if (isEnter(e)) {
-          e.preventDefault();
-          onSelectCountry(filteredCountriesBySearch[selectedIndex]);
-        }
-      }
+    moveUp() {
+      if (!this.showDropdown) return;
+      this.selectedIndex = Math.max(this.selectedIndex - 1, 0);
+      this.$refs.dropdown.scrollTop = this.focusedItemIndex() * 28 - 56;
+    },
+    moveDown() {
+      if (!this.showDropdown) return;
+      this.selectedIndex = Math.min(
+        this.selectedIndex + 1,
+        this.filteredCountriesBySearch.length - 1
+      );
+      this.$refs.dropdown.scrollTop = this.focusedItemIndex() * 28 - 56;
     },
     onSelectCountry(country) {
       this.activeCountryCode = country.id;
@@ -234,6 +223,33 @@ export default {
         this.activeCountryCode = number.country;
         this.activeDialCode = number.countryCallingCode;
       }
+    },
+    getKeyboardEvents() {
+      return {
+        ArrowUp: {
+          action: e => {
+            e.preventDefault();
+            this.moveUp();
+          },
+          allowOnFocusedInput: true,
+        },
+        ArrowDown: {
+          action: e => {
+            e.preventDefault();
+            this.moveDown();
+          },
+          allowOnFocusedInput: true,
+        },
+        Enter: {
+          action: e => {
+            e.preventDefault();
+            this.onSelectCountry(
+              this.filteredCountriesBySearch[this.selectedIndex]
+            );
+          },
+          allowOnFocusedInput: true,
+        },
+      };
     },
     toggleCountryDropdown() {
       this.showDropdown = !this.showDropdown;
@@ -254,7 +270,7 @@ export default {
 <style scoped lang="scss">
 .phone-input--wrap {
   .phone-input {
-    @apply flex items-center justify-start mb-4 rounded-md border border-solid border-slate-200 dark:border-slate-600;
+    @apply flex items-center dark:bg-slate-900 justify-start mb-4 rounded-md border border-solid border-slate-200 dark:border-slate-600;
 
     &.has-error {
       @apply border border-solid border-red-400 dark:border-red-400;
@@ -262,7 +278,11 @@ export default {
   }
 
   .phone-input--field {
-    @apply mb-0 rounded-tl-none rounded-bl-none border-0;
+    @apply mb-0 rounded-tl-none rounded-bl-none border-0 w-full dark:bg-slate-900 text-base px-1.5;
+
+    &::placeholder {
+      @apply font-normal;
+    }
   }
 
   .country-dropdown {

@@ -2,7 +2,7 @@
   "ATTRIBUTES_MGMT": {
     "HEADER": "Atributos Personalizados",
     "HEADER_BTN_TXT": "Criar atributo personalizado",
-    "LOADING": "Buscando atributos",
+    "LOADING": "Buscando atributos personalizados",
     "SIDEBAR_TXT": "<p><b>Atributos personalizados</b> <p>Um atributo personalizado rastreia fatos sobre seus contatos/conversas — como o plano de inscrição, ou quando eles compraram o primeiro item, etc. <br /><br />Para criar um atributo personalizado, basta clicar em <b>\"Criar atributo\"</b> Você também pode editar ou apagar um atributo já criado.</p>",
     "ADD": {
       "TITLE": "Adicionar atributo personalizado",
@@ -39,6 +39,17 @@
           "PLACEHOLDER": "Digite a chave de atributo personalizada",
           "ERROR": "A chave é obrigatória",
           "IN_VALID": "Chave inválida"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Regex Pattern",
+          "PLACEHOLDER": "Por favor, insira o padrão de expressão regular para atributo personalizado. (Opcional)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Cue",
+          "PLACEHOLDER": "Por favor, insira uma dica para o padrão de expressão regular. (Opcional)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Habilitar validação do regex"
         }
       },
       "API": {
@@ -93,6 +104,17 @@
       "EMPTY_RESULT": {
         "404": "Não há atributos personalizados criados",
         "NOT_FOUND": "Não há atributos personalizados configurados"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Regex Pattern",
+        "PLACEHOLDER": "Por favor, insira o padrão de expressão regular para atributo personalizado. (Opcional)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Cue",
+        "PLACEHOLDER": "Por favor, insira uma dica para o padrão de expressão regular. (Opcional)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Habilitar validação do regex"
       }
     }
   }

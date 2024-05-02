@@ -4,6 +4,7 @@ import {
   isValidURL,
   conversationListPageURL,
   getArticleSearchURL,
+  hasValidAvatarUrl,
 } from '../URLHelper';
 
 describe('#URL Helpers', () => {
@@ -162,6 +163,31 @@ describe('#URL Helpers', () => {
         host: 'myurl.com',
       });
       expect(url).toBe('myurl.com/news/articles?page=1&locale=en');
+    });
+  });
+
+  describe('hasValidAvatarUrl', () => {
+    test('should return true for valid non-Gravatar URL', () => {
+      expect(hasValidAvatarUrl('https://chatwoot.com/avatar.jpg')).toBe(true);
+    });
+
+    test('should return false for a Gravatar URL (www.gravatar.com)', () => {
+      expect(hasValidAvatarUrl('https://www.gravatar.com/avatar.jpg')).toBe(
+        false
+      );
+    });
+
+    test('should return false for a Gravatar URL (gravatar)', () => {
+      expect(hasValidAvatarUrl('https://gravatar/avatar.jpg')).toBe(false);
+    });
+
+    test('should handle invalid URL', () => {
+      expect(hasValidAvatarUrl('invalid-url')).toBe(false); // or expect an error, depending on function design
+    });
+
+    test('should return false for empty or undefined URL', () => {
+      expect(hasValidAvatarUrl('')).toBe(false);
+      expect(hasValidAvatarUrl()).toBe(false);
     });
   });
 });

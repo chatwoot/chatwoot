@@ -34,7 +34,7 @@
           />
           <div
             v-dompurify-html="prepareContent(article.content)"
-            class="line-clamp-2 text-ellipsis text-slate-600 dark:text-slate-300 text-sm"
+            class="line-clamp-2 text-ellipsis whitespace-nowrap overflow-hidden text-slate-600 dark:text-slate-300 text-sm"
           />
         </a>
       </li>
@@ -109,9 +109,10 @@ export default {
     generateArticleUrl(article) {
       return `/hc/${article.portal.slug}/articles/${article.slug}`;
     },
-    handleKeyboardEvent(e) {
-      this.processKeyDownEvent(e);
-      this.$el.scrollTop = 102 * this.selectedIndex;
+    adjustScroll() {
+      this.$nextTick(() => {
+        this.$el.scrollTop = 102 * this.selectedIndex;
+      });
     },
     prepareContent(content) {
       return this.highlightContent(

@@ -22,7 +22,7 @@
         "body": "Ajouter des agents à la boîte de réception créée."
       },
       {
-        "title": "Voilà !",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "Vous êtes paré !"
       }
@@ -43,7 +43,7 @@
         "CHOOSE_PLACEHOLDER": "Sélectionnez une page dans la liste",
         "INBOX_NAME": "Nom de la boîte de réception",
         "ADD_NAME": "Ajouter un nom pour votre boîte de réception",
-        "PICK_NAME": "Choisissez un nom pour votre boîte de réception",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "Choisir une valeur"
       },
       "TWITTER": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "URL du Webhook",
-          "PLACEHOLDER": "Entrez votre URL Webhook",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Veuillez entrer une URL valide"
         },
         "CHANNEL_DOMAIN": {
@@ -175,12 +175,12 @@
           },
           "API_KEY": {
             "LABEL": "Clé de l'API",
-            "PLACEHOLDER": "Veuillez entrer votre clé API Bandwith",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "Ce champ est requis"
           },
           "API_SECRET": {
             "LABEL": "Secret API",
-            "PLACEHOLDER": "Veuillez entrer votre secret API Bandwith",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "Ce champ est requis"
           },
           "APPLICATION_ID": {
@@ -239,7 +239,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Jeton de vérification du Webhook",
-          "PLACEHOLDER": "Entrez un jeton de vérification que vous voulez configurer pour les webhooks de Facebook.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Veuillez saisir une adresse de courriel valide."
         },
         "API_KEY": {
@@ -269,7 +269,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "URL du Webhook",
-          "SUBTITLE": "Configurez l'URL où vous souhaitez recevoir des callbacks sur les événements.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "URL du Webhook"
         },
         "SUBMIT_BUTTON": "Créer un canal API",
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Canal Courriel",
-        "DESC": "Intégrez votre boîte de réception de courriel.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Nom du canal",
           "PLACEHOLDER": "Veuillez entrer un nom de canal",
@@ -345,7 +345,7 @@
       "AGENTS": {
         "TITLE": "Agents",
         "DESC": "Ici vous pouvez ajouter des agents pour gérer votre boîte de réception nouvellement créée. Seuls ces agents sélectionnés auront accès à votre boîte de réception. Les agents qui ne font pas partie de cette boîte de réception ne seront pas en mesure de voir ou de répondre aux messages de cette boîte de réception lorsqu'ils se connectent. <br> <b>PS :</b> En tant qu'administrateur, si vous avez besoin d'accéder à toutes les boîtes de réception, vous devriez vous ajouter en tant qu'agent à toutes les boîtes de réception que vous créez.",
-        "VALIDATION_ERROR": "Ajouter au moins un agent à votre nouvelle boîte de réception",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Sélectionner les agents de la boîte de réception"
       },
       "DETAILS": {
@@ -406,7 +406,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Nom de l'expéditeur",
-        "SUB_TEXT": "Sélectionnez le nom présenté à votre client quand il reçoit des emails de vos agents.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "Par exemple:",
         "FRIENDLY": {
           "TITLE": "Amical",
@@ -508,7 +508,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Autoriser les messages après résolution de la conversation",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Autoriser les utilisateurs à envoyer des messages même après la résolution de la conversation.",
       "WHATSAPP_SECTION_SUBHEADER": "Cette clé API est utilisée pour l'intégration avec les API WhatsApp.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Entrez la clé mise à jour à utiliser pour l'intégration avec les API WhatsApp.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "Clé de l'API",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Mettre à jour la clé API",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Entrez la nouvelle clé API ici",
@@ -569,7 +569,7 @@
       "UPDATE": "Mettre à jour les paramètres des heures de bureau",
       "TOGGLE_AVAILABILITY": "Activer la disponibilité aux heures de bureau pour cette boîte de réception",
       "UNAVAILABLE_MESSAGE_LABEL": "Message d'indisponibilité pour les visiteurs",
-      "TOGGLE_HELP": "Activer la disponibilité aux heures de bureau montrera les heures disponibles sur le widget chat en direct même si tous les agents sont hors ligne. En dehors des heures disponibles, les visiteurs peuvent être avertis avec un message et un formulaire de préconversation.",
+      "TOGGLE_HELP": "Activer la disponibilité professionnelle montrera les heures disponibles sur le widget chat en direct même si tous les agents sont hors ligne. En dehors des heures disponibles, les visiteurs peuvent être avertis avec un message et un formulaire de préconversation.",
       "DAY": {
         "ENABLE": "Activer la disponibilité pour ce jour",
         "UNAVAILABLE": "Non disponible",
@@ -585,7 +585,7 @@
       "NOTE_TEXT": "Pour activer le SMTP, veuillez configurer IMAP.",
       "UPDATE": "Modifier les paramètres IMAP",
       "TOGGLE_AVAILABILITY": "Activer la configuration IMAP pour cette boîte de réception",
-      "TOGGLE_HELP": "Activer IMAP aidera l'utilisateur à recevoir des emails",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "Paramètres IMAP mis à jour avec succès",
         "ERROR_MESSAGE": "Impossible de mettre à jour les paramètres IMAP"

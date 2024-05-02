@@ -22,7 +22,7 @@
         "body": "Tambahkan agen ke kotak masuk yang dibuat."
       },
       {
-        "title": "Voila!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "Kotak masuk Anda sudah siap!"
       }
@@ -43,7 +43,7 @@
         "CHOOSE_PLACEHOLDER": "Pilih halaman dari daftar",
         "INBOX_NAME": "Nama Kotak Masuk",
         "ADD_NAME": "Tambahkan nama untuk kotak masuk Anda",
-        "PICK_NAME": "Pilih Nama Kotak Masuk Anda",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "Pilih"
       },
       "TWITTER": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "URL Webhook",
-          "PLACEHOLDER": "Masukkan URL Webhook Anda",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Harap masukkan URL yang valid"
         },
         "CHANNEL_DOMAIN": {
@@ -143,7 +143,7 @@
           "ERROR": "Bagian ini diperlukan"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Nomor Telpon",
+          "LABEL": "Nomor Telepon",
           "PLACEHOLDER": "Silakan masukkan nomor telepon dari mana pesan akan dikirim.",
           "ERROR": "Berikan nomor telepon yang valid yang dimulai dengan tanda `+` dan tidak mengandung spasi."
         },
@@ -175,12 +175,12 @@
           },
           "API_KEY": {
             "LABEL": "API Key",
-            "PLACEHOLDER": "Masukkan Kunci API Bandwith Anda",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "Bagian ini diperlukan"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Masukkan Bandwith API Secret Anda",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "Bagian ini diperlukan"
           },
           "APPLICATION_ID": {
@@ -239,7 +239,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Token Verifikasi Webhook",
-          "PLACEHOLDER": "Masukkan token verifikasi yang ingin Anda konfigurasikan untuk webhook facebook.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Harap masukkan nilai yang valid."
         },
         "API_KEY": {
@@ -269,7 +269,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "URL Webhook",
-          "SUBTITLE": "Konfigurasikan URL tempat Anda ingin menerima Callback.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "URL Webhook"
         },
         "SUBMIT_BUTTON": "Buat Channel API",
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Channel Email",
-        "DESC": "Integrasikan kotak masuk email Anda.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Nama Channel",
           "PLACEHOLDER": "Harap masukkan nama channel",
@@ -345,7 +345,7 @@
       "AGENTS": {
         "TITLE": "Agen",
         "DESC": "Di sini Anda dapat menambahkan agen untuk mengelola kotak masuk yang baru Anda buat. Hanya agen terpilih ini yang akan memiliki akses ke kotak masuk Anda. Agen yang bukan bagian dari kotak masuk ini tidak akan dapat melihat atau menanggapi pesan di kotak masuk ini saat mereka masuk. <br> <b> Keterangan: </b> Sebagai administrator, jika Anda memerlukan akses ke semua kotak masuk, Anda harus menambahkan diri Anda sebagai agen ke semua kotak masuk yang Anda buat.",
-        "VALIDATION_ERROR": "Tambahkan setidaknya satu agen ke Kotak Masuk baru Anda",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Pilih agen untuk kotak masuk"
       },
       "DETAILS": {
@@ -406,7 +406,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Ramah",
@@ -508,7 +508,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Izinkan pesan setelah percakapan diselesaikan",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Izinkan pengguna akhir mengirim pesan bahkan setelah percakapan diselesaikan.",
       "WHATSAPP_SECTION_SUBHEADER": "Kunci API ini digunakan untuk integrasi dengan API WhatsApp.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Masukkan kunci yang diperbarui untuk digunakan untuk integrasi dengan API WhatsApp.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API Key",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Perbarui Kunci API",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Masukkan Kunci API baru di sini",
@@ -569,7 +569,7 @@
       "UPDATE": "Perbarui pengaturan jam kerja",
       "TOGGLE_AVAILABILITY": "Aktifkan ketersediaan bisnis untuk kotak masuk ini",
       "UNAVAILABLE_MESSAGE_LABEL": "Pesan tidak tersedia untuk pengunjung",
-      "TOGGLE_HELP": "Mengaktifkan ketersediaan bisnis akan menunjukkan jam yang tersedia di widget obrolan langsung meskipun semua agen sedang offline. Di luar jam buka yang tersedia, pengunjung dapat diperingatkan dengan pesan dan formulir pra-obrolan.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Aktifkan ketersediaan untuk hari ini",
         "UNAVAILABLE": "Tidak tersedia",
@@ -585,7 +585,7 @@
       "NOTE_TEXT": "Untuk mengaktifkan SMTP, konfigurasikan IMAP.",
       "UPDATE": "Perbarui setelan IMAP",
       "TOGGLE_AVAILABILITY": "Aktifkan konfigurasi IMAP untuk kotak masuk ini",
-      "TOGGLE_HELP": "Mengaktifkan IMAP akan membantu pengguna menerima email",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "Setelan IMAP berhasil diperbarui",
         "ERROR_MESSAGE": "Tidak dapat memperbarui setelan IMAP"

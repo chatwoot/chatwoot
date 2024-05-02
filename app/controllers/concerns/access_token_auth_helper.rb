@@ -1,7 +1,8 @@
 module AccessTokenAuthHelper
   BOT_ACCESSIBLE_ENDPOINTS = {
-    'api/v1/accounts/conversations' => %w[toggle_status create],
-    'api/v1/accounts/conversations/messages' => ['create']
+    'api/v1/accounts/conversations' => %w[toggle_status toggle_priority create update],
+    'api/v1/accounts/conversations/messages' => ['create'],
+    'api/v1/accounts/conversations/assignments' => ['create']
   }.freeze
 
   def ensure_access_token
@@ -14,7 +15,14 @@ module AccessTokenAuthHelper
     render_unauthorized('Invalid Access Token') && return if @access_token.blank?
 
     @resource = @access_token.owner
-    Current.user = @resource if current_user.is_a?(User)
+    Current.user = @resource if allowed_current_user_type?(@resource)
+  end
+
+  def allowed_current_user_type?(resource)
+    return true if resource.is_a?(User)
+    return true if resource.is_a?(AgentBot)
+
+    false
   end
 
   def validate_bot_access_token!

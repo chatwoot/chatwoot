@@ -1,0 +1,108 @@
+{
+  "SLA": {
+    "HEADER": "SLA",
+    "ADD_ACTION": "Adicionar SLA",
+    "ADD_ACTION_LONG": "Criar uma nova Política de SLA",
+    "DESCRIPTION": "Service Level Agreements (SLA) são contratos que definem expectativas claras entre a sua equipa e os clientes. Estabelecem normas para tempos de resposta e de resolução, criando um quadro de responsabilização e garantindo uma experiência coerente e de qualidade.",
+    "LEARN_MORE": "Saiba mais sobre SLA",
+    "LOADING": "A carregar SLAs",
+    "PAYWALL": {
+      "TITLE": "Upgrade para criar SLAs",
+      "AVAILABLE_ON": "O recurso SLA apenas está disponível nos planos Business e Enterprise.",
+      "UPGRADE_PROMPT": "Faça upgrade do seu plano para obter acesso a recursos avançados, como gestão de equipas, automações, atributos personalizados e muito mais.",
+      "UPGRADE_NOW": "Fazer upgrade agora",
+      "CANCEL_ANYTIME": "Pode alterar ou cancelar o plano a qualquer momento"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "O recurso SLA apenas está disponível nos planos pagos.",
+      "UPGRADE_PROMPT": "Faça upgrade para um plano pago para obter recursos avançados, como logs de auditoria, capacidade de agentes e muito mais.",
+      "ASK_ADMIN": "Por favor, entre em contato com o administrador para atualização."
+    },
+    "LIST": {
+      "404": "Não há SLAs disponíveis nesta conta.",
+      "EMPTY": {
+        "TITLE_1": "Empresa P0",
+        "DESC_1": "Questões levantadas pelos clientes empresariais que requerem atenção imediata.",
+        "TITLE_2": "Empresa P1",
+        "DESC_2": "Questões levantadas pelos clientes empresariais, que têm de ser rapidamente reconhecidas."
+      },
+      "BUSINESS_HOURS_ON": "Horário comercial ativado",
+      "BUSINESS_HOURS_OFF": "Horário comercial desativado",
+      "RESPONSE_TYPES": {
+        "FRT": "Limite de tempo da primeira resposta",
+        "NRT": "Limite de tempo da próxima resposta",
+        "RT": "Limite de tempo de resolução",
+        "SHORT_HAND": {
+          "FRT": "FRT",
+          "NRT": "NRT",
+          "RT": "RT"
+        }
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nome SLA",
+        "PLACEHOLDER": "Nome SLA",
+        "REQUIRED_ERROR": "Necessário nome de SLA",
+        "MINIMUM_LENGTH_ERROR": "O tamanho mínimo obrigatório é 2",
+        "VALID_ERROR": "Apenas são permitidos Alfabetos, Números, Hífen e Underscores"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descrição",
+        "PLACEHOLDER": "SLA para clientes premium"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "LABEL": "Primeiro tempo de resposta",
+        "PLACEHOLDER": "5"
+      },
+      "NEXT_RESPONSE_TIME": {
+        "LABEL": "Próximo tempo de resposta",
+        "PLACEHOLDER": "5"
+      },
+      "RESOLUTION_TIME": {
+        "LABEL": "Tempo de resolução",
+        "PLACEHOLDER": "60"
+      },
+      "BUSINESS_HOURS": {
+        "LABEL": "Horário comercial",
+        "PLACEHOLDER": "Apenas durante o horário de trabalho"
+      },
+      "THRESHOLD_TIME": {
+        "INVALID_FORMAT_ERROR": "Limite deve ser um número e maior que zero"
+      },
+      "EDIT": "Alterar",
+      "CREATE": "Criar",
+      "DELETE": "excluir",
+      "CANCEL": "cancelar"
+    },
+    "ADD": {
+      "TITLE": "Adicionar SLA",
+      "DESC": "Acordos para um ótimo serviço!",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA adicionado",
+        "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
+      }
+    },
+    "DELETE": {
+      "TITLE": "Apagar SLA",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA apagado",
+        "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirmar Exclusão",
+        "MESSAGE": "Tem a certeza que quer apagar ",
+        "YES": "Sim, excluir ",
+        "NO": "Não, Manter "
+      }
+    },
+    "EVENTS": {
+      "TITLE": "SLA Perdidas",
+      "FRT": "Primeiro tempo de resposta",
+      "NRT": "Tempo para a próxima resposta",
+      "RT": "Tempo de resolução",
+      "SHOW_MORE": "{count} mais",
+      "HIDE": "Ocultar {count} linhas"
+    }
+  }
+}

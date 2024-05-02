@@ -141,6 +141,28 @@ RSpec.describe 'Agent Bot API', type: :request do
         expect(agent_bot.reload.name).not_to eq('test_updated')
         expect(response.body).not_to include(global_bot.access_token.token)
       end
+
+      it 'updates avatar' do
+        # no avatar before upload
+        expect(agent_bot.avatar.attached?).to be(false)
+        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+        patch "/api/v1/accounts/#{account.id}/agent_bots/#{agent_bot.id}",
+              headers: admin.create_new_auth_token,
+              params: valid_params.merge(avatar: file)
+
+        expect(response).to have_http_status(:success)
+        agent_bot.reload
+        expect(agent_bot.avatar.attached?).to be(true)
+      end
+
+      it 'updated avatar with avatar_url' do
+        patch "/api/v1/accounts/#{account.id}/agent_bots/#{agent_bot.id}",
+              headers: admin.create_new_auth_token,
+              params: valid_params.merge(avatar_url: 'http://example.com/avatar.png'),
+              as: :json
+        expect(response).to have_http_status(:success)
+        expect(Avatar::AvatarFromUrlJob).to have_been_enqueued.with(agent_bot, 'http://example.com/avatar.png')
+      end
     end
   end
 
@@ -180,6 +202,31 @@ RSpec.describe 'Agent Bot API', type: :request do
 
         expect(response).to have_http_status(:not_found)
         expect(account.agent_bots.size).not_to eq(0)
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/accounts/{account.id}/agent_bots/:id/avatar' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/agent_bots/#{agent_bot.id}"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before do
+        agent_bot.avatar.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+      end
+
+      it 'delete agent_bot avatar' do
+        delete "/api/v1/accounts/#{account.id}/agent_bots/#{agent_bot.id}/avatar",
+               headers: admin.create_new_auth_token,
+               as: :json
+
+        expect { agent_bot.avatar.attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        expect(response).to have_http_status(:success)
       end
     end
   end

@@ -2,8 +2,8 @@ require 'rails_helper'
 
 shared_examples_for 'liqudable' do
   context 'when liquid is present in content' do
-    let(:contact) { create(:contact, name: 'john', phone_number: '+912883') }
-    let(:conversation) { create(:conversation, id: 1, contact: contact) }
+    let(:contact) { create(:contact, name: 'john', phone_number: '+912883', custom_attributes: { customer_type: 'platinum' }) }
+    let(:conversation) { create(:conversation, id: 1, contact: contact, custom_attributes: { priority: 'high' }) }
 
     context 'when message is incoming' do
       let(:message) { build(:message, conversation: conversation, message_type: 'incoming') }
@@ -22,6 +22,14 @@ shared_examples_for 'liqudable' do
         message.content = 'hey {{contact.name}} how are you?'
         message.save!
         expect(message.content).to eq 'hey John how are you?'
+      end
+
+      it 'set replaces liquid custom attributes in message' do
+        message.content = 'Are you a {{contact.custom_attribute.customer_type}} customer,
+        If yes then the priority is {{conversation.custom_attribute.priority}}'
+        message.save!
+        expect(message.content).to eq 'Are you a platinum customer,
+        If yes then the priority is high'
       end
 
       it 'process liquid operators like default value' do

@@ -1,6 +1,6 @@
 /* eslint arrow-body-style: 0 */
-import ConversationView from './ConversationView';
 import { frontendURL } from '../../../helper/URLHelper';
+const ConversationView = () => import('./ConversationView');
 
 export default {
   routes: [

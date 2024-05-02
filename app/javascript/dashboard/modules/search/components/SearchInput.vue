@@ -8,7 +8,9 @@
     >
       <div class="search-input">
         <fluent-icon icon="search" size="14px" class="search--icon" />
-        <span class="text-ellipsis search-placeholder">
+        <span
+          class="text-ellipsis overflow-hidden whitespace-nowrap search-placeholder"
+        >
           {{ $t('CONVERSATION.SEARCH_MESSAGES') }}
         </span>
       </div>

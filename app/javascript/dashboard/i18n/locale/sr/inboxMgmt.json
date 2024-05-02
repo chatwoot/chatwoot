@@ -22,7 +22,7 @@
         "body": "Dodajte agente napravljenom prijamnom sandučetu."
       },
       {
-        "title": "Izvolite!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "Sve je spremno za početak!"
       }
@@ -43,7 +43,7 @@
         "CHOOSE_PLACEHOLDER": "Izaberite stranicu iz spiska",
         "INBOX_NAME": "Naziv prijemnog sandučeta",
         "ADD_NAME": "Dodajte naziv vašem prijemnom sandučetu",
-        "PICK_NAME": "Izaberite naziv vašeg prijemnog sandučeta",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "Izaberite vrednost"
       },
       "TWITTER": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Adresa veb zakačke",
-          "PLACEHOLDER": "Unesite adresu veb zakačke",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Molim vas unesite ispravnu adresu"
         },
         "CHANNEL_DOMAIN": {
@@ -175,12 +175,12 @@
           },
           "API_KEY": {
             "LABEL": "API ključ",
-            "PLACEHOLDER": "Molim vas unesite Bandwidth API ključ",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "Ovo polje je obavezno"
           },
           "API_SECRET": {
             "LABEL": "API tajna",
-            "PLACEHOLDER": "Molim vas unesite Bandwidth API tajnu",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "Ovo polje je obavezno"
           },
           "APPLICATION_ID": {
@@ -239,7 +239,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Token potvrde veb zakačke",
-          "PLACEHOLDER": "Unesite token potvrde koji želite da podesite za fejsbuk veb zakačke.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Molim vas unesite ispravnu vrednost."
         },
         "API_KEY": {
@@ -269,7 +269,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "Adresa veb zakačke",
-          "SUBTITLE": "Podesite adresu gde želite da primate povratne pozive za događaje.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "Adresa veb zakačke"
         },
         "SUBMIT_BUTTON": "Napravite API kanal",
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Kanal e-pošte",
-        "DESC": "Integrišite prijemno sanduče vaše e-pošte.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Naziv kanala",
           "PLACEHOLDER": "Molim vas unesite naziv kanala",
@@ -345,7 +345,7 @@
       "AGENTS": {
         "TITLE": "Agenti",
         "DESC": "Ovde možete da dodate agente da upravljaju vašim novokreiranim poštaniskim sandučetom. Samo ovi agenti će imati pristup vašem poštanskom sandučetu. Agenti koji nisu deo ovog poštanskog sandučeta neće moći da vide ili odgovaraju na poruke u ovom poštanskom sandučetu kada se prijave. <br> <b>PS:</b> Kao administrator, ako vam je potreban pristup svim poštanskim sandučićima, trebalo bi da dodate sebe kao agenta u sve poštanske sandučiće koje napravite.",
-        "VALIDATION_ERROR": "Dodajte najmanje jednog agenta novom poštanskom sandučetu",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Izaberite agente za prijemno sanduče"
       },
       "DETAILS": {
@@ -406,7 +406,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Friendly",
@@ -508,12 +508,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Dozvoli poruke nakon rešavanja razgovora",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Dozvolite krajnjim korisnicima da šalju poruke čak i kada je razgovor rešen.",
       "WHATSAPP_SECTION_SUBHEADER": "Ovaj API ključ se koristi za integraciju sa WhatsApp API-jima.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API ključ",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Primeni",
-      "WHATSAPP_WEBHOOK_TITLE": "Token potvrde veb zakačke",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
@@ -569,7 +569,7 @@
       "UPDATE": "Izmena podešavanja radnog vremena",
       "TOGGLE_AVAILABILITY": "Omogući vreme dostupnosti za ovo prijemno sanduče",
       "UNAVAILABLE_MESSAGE_LABEL": "Poruka nedostupnosti za posetioce",
-      "TOGGLE_HELP": "Omogućavanje vremena dostupnosti će prikazati dostupno vreme na vidžetu ćaskanja čak i kada su svi agenti nedostupni. Van radnih sati posetioci će biti upozoreni porukom i formularom pre ćaskanja.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Omogućite dostupnost za ovaj dan",
         "UNAVAILABLE": "Nedostupan",
@@ -585,7 +585,7 @@
       "NOTE_TEXT": "Da bi ste omogućili SMTP, molim vas podesite IMAP.",
       "UPDATE": "Izmenite IMAP podešavanja",
       "TOGGLE_AVAILABILITY": "Omogući IMAP podešavanja za ovo prijemno sanduče",
-      "TOGGLE_HELP": "Omogućavanje IMAP-a će pomoći korisniku da prima e-poruke",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "IMAP podešavanja su uspešno izmenjena",
         "ERROR_MESSAGE": "Nije bilo moguče izmeniti IMAP podešavanja"

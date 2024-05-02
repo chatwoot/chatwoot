@@ -22,7 +22,7 @@
       v-if="isHelpCenterEnabled"
       class="flex h-full min-h-0 overflow-hidden flex-1 px-0 bg-white dark:bg-slate-900"
     >
-      <router-view />
+      <router-view @reload-locale="fetchPortalAndItsCategories" />
       <command-bar />
       <account-selector
         :show-account-modal="showAccountModal"

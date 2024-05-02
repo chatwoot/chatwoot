@@ -1,5 +1,5 @@
 <template>
-  <div v-on-clickaway="closeSearch" class="max-w-6xl w-full relative my-4">
+  <div v-on-clickaway="closeSearch" class="max-w-5xl w-full relative my-4">
     <public-search-input
       v-model="searchTerm"
       :search-placeholder="searchTranslations.searchPlaceholder"
@@ -23,8 +23,6 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
-
 import SearchSuggestions from './SearchSuggestions.vue';
 import PublicSearchInput from './PublicSearchInput.vue';
 
@@ -35,7 +33,6 @@ export default {
     PublicSearchInput,
     SearchSuggestions,
   },
-  mixins: [clickaway],
   props: {
     value: {
       type: [String, Number],
@@ -82,6 +79,10 @@ export default {
     currentPage() {
       this.clearSearchTerm();
     },
+  },
+
+  beforeDestroy() {
+    clearTimeout(this.typingTimer);
   },
 
   methods: {

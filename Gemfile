@@ -3,8 +3,8 @@ source 'https://rubygems.org'
 ruby '3.2.2'
 
 ##-- base gems for rails --##
-gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~> 7.0.8.0'
+gem 'rack-cors', '2.0.0', require: 'rack/cors'
+gem 'rails', '~> 7.0.8.1'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -39,6 +39,8 @@ gem 'rack-attack', '>= 6.7.0'
 gem 'down'
 # authentication type to fetch and send mail over oauth2.0
 gem 'gmail_xoauth'
+# Lock net-smtp to 0.3.4 to avoid issues with gmail_xoauth2
+gem 'net-smtp',  '~> 0.3.4'
 # Prevent CSV injection
 gem 'csv-safe'
 
@@ -67,16 +69,16 @@ gem 'webpacker'
 gem 'barnes'
 
 ##--- gems for authentication & authorization ---##
-gem 'devise', '>= 4.9.3'
+gem 'devise', '>= 4.9.4'
 gem 'devise-secure_password', git: 'https://github.com/chatwoot/devise-secure_password', branch: 'chatwoot'
 gem 'devise_token_auth'
 # authorization
 gem 'jwt'
 gem 'pundit'
 # super admin
-gem 'administrate', '>= 0.19.0'
-gem 'administrate-field-active_storage'
-gem 'administrate-field-belongs_to_search'
+gem 'administrate', '>= 0.20.1'
+gem 'administrate-field-active_storage', '>= 1.0.2'
+gem 'administrate-field-belongs_to_search', '>= 0.9.0'
 
 ##--- gems for pubsub service ---##
 # https://karolgalanciak.com/blog/2019/11/30/from-activerecord-callbacks-to-publish-slash-subscribe-pattern-and-event-driven-design/
@@ -109,14 +111,14 @@ gem 'elastic-apm', require: false
 gem 'newrelic_rpm', require: false
 gem 'newrelic-sidekiq-metrics', '>= 1.6.2', require: false
 gem 'scout_apm', require: false
-gem 'sentry-rails', '>= 5.12.0', require: false
+gem 'sentry-rails', '>= 5.14.0', require: false
 gem 'sentry-ruby', require: false
-gem 'sentry-sidekiq', '>= 5.12.0', require: false
+gem 'sentry-sidekiq', '>= 5.15.0', require: false
 
 ##-- background job processing --##
-gem 'sidekiq', '>= 7.1.3'
+gem 'sidekiq', '>= 7.2.4'
 # We want cron jobs
-gem 'sidekiq-cron', '>= 1.10.1'
+gem 'sidekiq-cron', '>= 1.12.0'
 
 ##-- Push notification service --##
 gem 'fcm'
@@ -159,11 +161,11 @@ gem 'lograge', '~> 0.14.0', require: false
 # worked with microsoft refresh token
 gem 'omniauth-oauth2'
 
-gem 'audited', '~> 5.4', '>= 5.4.0'
+gem 'audited', '~> 5.4', '>= 5.4.1'
 
 # need for google auth
-gem 'omniauth'
-gem 'omniauth-google-oauth2'
+gem 'omniauth', '>= 2.1.2'
+gem 'omniauth-google-oauth2', '>= 1.1.2'
 gem 'omniauth-rails_csrf_protection', '~> 1.0'
 
 ## Gems for reponse bot
@@ -172,9 +174,6 @@ gem 'neighbor'
 gem 'pgvector'
 # Convert Website HTML to Markdown
 gem 'reverse_markdown'
-
-# Sentiment analysis
-gem 'informers'
 
 ### Gems required only in specific deployment environments ###
 ##############################################################
@@ -198,8 +197,10 @@ group :development do
   gem 'squasher'
 
   # profiling
-  gem 'rack-mini-profiler', '>= 3.1.1', require: false
+  gem 'rack-mini-profiler', '>= 3.2.0', require: false
   gem 'stackprof'
+  # Should install the associated chrome extension to view query logs
+  gem 'meta_request', '>= 0.8.0'
 end
 
 group :test do
@@ -222,7 +223,7 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'climate_control'
   gem 'debug', '~> 1.8'
-  gem 'factory_bot_rails'
+  gem 'factory_bot_rails', '>= 6.4.3'
   gem 'listen'
   gem 'mock_redis'
   gem 'pry-rails'

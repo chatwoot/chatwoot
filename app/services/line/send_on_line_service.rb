@@ -6,7 +6,8 @@ class Line::SendOnLineService < Base::SendOnChannelService
   end
 
   def perform_reply
-    response = channel.client.push_message(message.conversation.contact_inbox.source_id, [{ type: 'text', text: message.content }])
+    response = channel.client.push_message(message.conversation.contact_inbox.source_id, build_payload)
+
     return if response.blank?
 
     parsed_json = JSON.parse(response.body)
@@ -18,6 +19,37 @@ class Line::SendOnLineService < Base::SendOnChannelService
       # If the request is not successful, update the message status to failed and save the external error
       message.update!(status: :failed, external_error: external_error(parsed_json))
     end
+  end
+
+  def build_payload
+    if message.content && message.attachments.any?
+      [text_message, *attachments]
+    elsif message.content.nil? && message.attachments.any?
+      attachments
+    else
+      text_message
+    end
+  end
+
+  def attachments
+    message.attachments.map do |attachment|
+      # Support only image and video for now, https://developers.line.biz/en/reference/messaging-api/#image-message
+      next unless attachment.file_type == 'image' || attachment.file_type == 'video'
+
+      {
+        type: attachment.file_type,
+        originalContentUrl: attachment.download_url,
+        previewImageUrl: attachment.download_url
+      }
+    end
+  end
+
+  # https://developers.line.biz/en/reference/messaging-api/#text-message
+  def text_message
+    {
+      type: 'text',
+      text: message.content
+    }
   end
 
   # https://developers.line.biz/en/reference/messaging-api/#error-responses

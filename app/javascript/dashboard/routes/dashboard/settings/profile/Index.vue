@@ -4,8 +4,8 @@
       <div
         class="flex flex-row border-b border-slate-50 dark:border-slate-700 items-center flex p-4"
       >
-        <div class="w-[25%] py-4 pr-6 ml-0">
-          <h4 class="block-title text-black-900 dark:text-slate-200">
+        <div class="w-1/4 py-4 pr-6 ml-0">
+          <h4 class="text-lg text-black-900 dark:text-slate-200">
             {{ $t('PROFILE_SETTINGS.FORM.PROFILE_SECTION.TITLE') }}
           </h4>
           <p>{{ $t('PROFILE_SETTINGS.FORM.PROFILE_SECTION.NOTE') }}</p>
@@ -75,19 +75,19 @@
     <div
       class="border-b border-slate-50 dark:border-slate-700 items-center flex p-4 text-black-900 dark:text-slate-300 row"
     >
-      <div class="w-[25%] py-4 pr-6 ml-0">
-        <h4 class="block-title text-black-900 dark:text-slate-200">
+      <div class="w-1/4 py-4 pr-6 ml-0">
+        <h4 class="text-lg text-black-900 dark:text-slate-200">
           {{ $t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.TITLE') }}
         </h4>
         <p>
           {{ $t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.NOTE') }}
         </p>
       </div>
-      <div class="p-4 w-[45%] flex flex-row">
+      <div class="p-4 w-[45%] flex gap-4 flex-row">
         <button
           v-for="keyOption in keyOptions"
           :key="keyOption.key"
-          class="cursor-pointer mr-4"
+          class="cursor-pointer p-0"
           @click="toggleEditorMessageKey(keyOption.key)"
         >
           <preview-card
@@ -104,8 +104,8 @@
     <div
       class="border-b border-slate-50 dark:border-slate-700 items-center flex p-4 text-black-900 dark:text-slate-300 row"
     >
-      <div class="w-[25%] py-4 pr-6 ml-0">
-        <h4 class="block-title text-black-900 dark:text-slate-200">
+      <div class="w-1/4 py-4 pr-6 ml-0">
+        <h4 class="text-lg text-black-900 dark:text-slate-200">
           {{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE') }}
         </h4>
         <p>
@@ -128,6 +128,7 @@
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from '../../../../store/utils/api';
+import { hasValidAvatarUrl } from 'dashboard/helper/URLHelper';
 import NotificationSettings from './NotificationSettings.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import ChangePassword from './ChangePassword.vue';
@@ -198,6 +199,9 @@ export default {
       currentUserId: 'getCurrentUserID',
       globalConfig: 'globalConfig/get',
     }),
+    showDeleteButton() {
+      return hasValidAvatarUrl(this.avatarUrl);
+    },
   },
   watch: {
     currentUserId(newCurrentUserId, prevCurrentUserId) {
@@ -264,9 +268,6 @@ export default {
       } catch (error) {
         this.showAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_FAILED'));
       }
-    },
-    showDeleteButton() {
-      return this.avatarUrl && !this.avatarUrl.includes('www.gravatar.com');
     },
     toggleEditorMessageKey(key) {
       this.updateUISettings({ editor_message_key: key });

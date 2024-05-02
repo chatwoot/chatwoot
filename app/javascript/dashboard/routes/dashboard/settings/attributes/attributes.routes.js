@@ -1,6 +1,6 @@
-import SettingsContent from '../Wrapper';
-import AttributesHome from './Index';
 import { frontendURL } from '../../../../helper/URLHelper';
+const SettingsContent = () => import('../Wrapper.vue');
+const AttributesHome = () => import('./Index.vue');
 
 export default {
   routes: [

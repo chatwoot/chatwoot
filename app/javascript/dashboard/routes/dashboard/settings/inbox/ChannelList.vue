@@ -1,6 +1,9 @@
 <template>
-  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%] h-auto">
+  <div
+    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+  >
     <page-header
+      class="max-w-4xl"
       :header-title="$t('INBOX_MGMT.ADD.AUTH.TITLE')"
       :header-content="
         useInstallationName(
@@ -9,7 +12,9 @@
         )
       "
     />
-    <div class="mt-6 mx-0 flex flex-wrap">
+    <div
+      class="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 mx-0 max-w-3xl"
+    >
       <channel-item
         v-for="channel in channelList"
         :key="channel.key"
@@ -82,12 +87,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-.height-auto {
-  height: auto;
-}
-
-.channel-list {
-  margin-top: var(--space-medium);
-}
-</style>

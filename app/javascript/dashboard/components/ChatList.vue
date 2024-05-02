@@ -1,14 +1,14 @@
 <template>
   <div
-    class="conversations-list-wrap flex-basis-clamp flex-shrink-0 flex-basis-custom overflow-hidden flex flex-col border-r rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-800/50"
-    :class="{
-      hide: !showConversationList,
-      'list--full-width': isOnExpandedLayout,
-    }"
+    class="flex flex-col flex-shrink-0 overflow-hidden border-r conversations-list-wrap rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-800/50"
+    :class="[
+      { hidden: !showConversationList },
+      isOnExpandedLayout ? 'basis-full' : 'flex-basis-clamp',
+    ]"
   >
     <slot />
     <div
-      class="flex items-center justify-between py-0 px-4"
+      class="flex items-center justify-between px-4 py-0"
       :class="{
         'pb-3 border-b border-slate-75 dark:border-slate-700':
           hasAppliedFiltersOrActiveFolders,
@@ -16,7 +16,7 @@
     >
       <div class="flex max-w-[85%] justify-center items-center">
         <h1
-          class="text-xl break-words overflow-hidden whitespace-nowrap text-ellipsis text-black-900 dark:text-slate-100 mb-0"
+          class="text-xl font-medium break-words truncate text-black-900 dark:text-slate-100"
           :title="pageTitle"
         >
           {{ pageTitle }}
@@ -107,7 +107,7 @@
 
     <p
       v-if="!chatListLoading && !conversationList.length"
-      class="overflow-auto p-4 flex justify-center items-center"
+      class="flex items-center justify-center p-4 overflow-auto"
     >
       {{ $t('CHAT_LIST.LIST.404') }}
     </p>
@@ -126,49 +126,36 @@
       @assign-team="onAssignTeamsForBulk"
     />
     <div
-      ref="activeConversation"
-      class="conversations-list flex-1"
+      ref="conversationList"
+      class="flex-1 conversations-list"
       :class="{ 'overflow-hidden': isContextMenuOpen }"
     >
-      <div>
-        <conversation-card
-          v-for="chat in conversationList"
-          :key="chat.id"
-          :active-label="label"
-          :team-id="teamId"
-          :folders-id="foldersId"
-          :chat="chat"
-          :conversation-type="conversationType"
-          :show-assignee="showAssigneeInConversationCard"
-          :selected="isConversationSelected(chat.id)"
-          @select-conversation="selectConversation"
-          @de-select-conversation="deSelectConversation"
-          @assign-agent="onAssignAgent"
-          @assign-team="onAssignTeam"
-          @assign-label="onAssignLabels"
-          @update-conversation-status="toggleConversationStatus"
-          @context-menu-toggle="onContextMenuToggle"
-          @mark-as-unread="markAsUnread"
-          @assign-priority="assignPriority"
-        />
-      </div>
-      <div v-if="chatListLoading" class="text-center">
-        <span class="spinner mt-4 mb-4" />
-      </div>
-
-      <woot-button
-        v-if="!hasCurrentPageEndReached && !chatListLoading"
-        variant="clear"
-        size="expanded"
-        class="load-more--button"
-        @click="loadMoreConversations"
+      <virtual-list
+        ref="conversationVirtualList"
+        :data-key="'id'"
+        :data-sources="conversationList"
+        :data-component="itemComponent"
+        :extra-props="virtualListExtraProps"
+        class="w-full h-full overflow-auto"
+        footer-tag="div"
       >
-        {{ $t('CHAT_LIST.LOAD_MORE_CONVERSATIONS') }}
-      </woot-button>
-
-      <p v-if="showEndOfListMessage" class="text-center text-muted p-4">
-        {{ $t('CHAT_LIST.EOF') }}
-      </p>
+        <template #footer>
+          <div v-if="chatListLoading" class="text-center">
+            <span class="mt-4 mb-4 spinner" />
+          </div>
+          <p
+            v-if="showEndOfListMessage"
+            class="p-4 text-center text-slate-400 dark:text-slate-300"
+          >
+            {{ $t('CHAT_LIST.EOF') }}
+          </p>
+          <intersection-observer
+            v-if="!showEndOfListMessage && !chatListLoading"
+            :options="infiniteLoaderOptions"
+            @observed="loadMoreConversations"
+          />
+        </template>
+      </virtual-list>
     </div>
     <woot-modal
       :show.sync="showAdvancedFilters"
@@ -191,13 +178,14 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import VirtualList from 'vue-virtual-scroll-list';
 
 import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter.vue';
 import ConversationBasicFilter from './widgets/conversation/ConversationBasicFilter.vue';
 import ChatTypeTabs from './widgets/ChatTypeTabs.vue';
-import ConversationCard from './widgets/conversation/ConversationCard.vue';
+import ConversationItem from './ConversationItem.vue';
 import timeMixin from '../mixins/time';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import conversationMixin from '../mixins/conversations';
 import wootConstants from 'dashboard/constants/globals';
 import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
@@ -211,36 +199,49 @@ import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import countries from 'shared/constants/countries';
 import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
-
-import {
-  hasPressedAltAndJKey,
-  hasPressedAltAndKKey,
-} from 'shared/helpers/KeyboardHelpers';
 import { conversationListPageURL } from '../helper/URLHelper';
 import {
   isOnMentionsView,
   isOnUnattendedView,
 } from '../store/modules/conversations/helpers/actionHelpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
+import IntersectionObserver from './IntersectionObserver.vue';
 
 export default {
   components: {
     AddCustomViews,
     ChatTypeTabs,
-    ConversationCard,
+    // eslint-disable-next-line vue/no-unused-components
+    ConversationItem,
     ConversationAdvancedFilter,
     DeleteCustomViews,
     ConversationBulkActions,
     ConversationBasicFilter,
+    IntersectionObserver,
+    VirtualList,
   },
   mixins: [
     timeMixin,
     conversationMixin,
-    eventListenerMixins,
+    keyboardEventListenerMixins,
     alertMixin,
     filterMixin,
     uiSettingsMixin,
   ],
+  provide() {
+    return {
+      // Actions to be performed on virtual list item and context menu.
+      selectConversation: this.selectConversation,
+      deSelectConversation: this.deSelectConversation,
+      assignAgent: this.onAssignAgent,
+      assignTeam: this.onAssignTeam,
+      assignLabels: this.onAssignLabels,
+      updateConversationStatus: this.toggleConversationStatus,
+      toggleContextMenu: this.onContextMenuToggle,
+      markAsUnread: this.markAsUnread,
+      assignPriority: this.assignPriority,
+    };
+  },
   props: {
     conversationInbox: {
       type: [String, Number],
@@ -275,7 +276,7 @@ export default {
     return {
       activeAssigneeTab: wootConstants.ASSIGNEE_TYPE.ME,
       activeStatus: wootConstants.STATUS_TYPE.OPEN,
-      activeSortBy: wootConstants.SORT_BY_TYPE.LATEST,
+      activeSortBy: wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC,
       showAdvancedFilters: false,
       advancedFilterTypes: advancedFilterTypes.map(filter => ({
         ...filter,
@@ -291,6 +292,21 @@ export default {
       selectedInboxes: [],
       isContextMenuOpen: false,
       appliedFilter: [],
+      infiniteLoaderOptions: {
+        root: this.$refs.conversationList,
+        rootMargin: '100px 0px 100px 0px',
+      },
+
+      itemComponent: ConversationItem,
+      // virtualListExtraProps is to pass the props to the conversationItem component.
+      virtualListExtraProps: {
+        label: this.label,
+        teamId: this.teamId,
+        foldersId: this.foldersId,
+        conversationType: this.conversationType,
+        showAssignee: false,
+        isConversationSelected: this.isConversationSelected,
+      },
     };
   },
   computed: {
@@ -501,6 +517,9 @@ export default {
     },
   },
   watch: {
+    teamId() {
+      this.updateVirtualListProps('teamId', this.teamId);
+    },
     activeTeam() {
       this.resetAndFetchData();
     },
@@ -509,15 +528,21 @@ export default {
     },
     label() {
       this.resetAndFetchData();
+      this.updateVirtualListProps('label', this.label);
     },
     conversationType() {
       this.resetAndFetchData();
+      this.updateVirtualListProps('conversationType', this.conversationType);
     },
     activeFolder() {
       this.resetAndFetchData();
+      this.updateVirtualListProps('foldersId', this.foldersId);
     },
     chatLists() {
       this.chatsOnView = this.conversationList;
+    },
+    showAssigneeInConversationCard(newVal) {
+      this.updateVirtualListProps('showAssignee', newVal);
     },
   },
   mounted() {
@@ -535,6 +560,12 @@ export default {
     });
   },
   methods: {
+    updateVirtualListProps(key, value) {
+      this.virtualListExtraProps = {
+        ...this.virtualListExtraProps,
+        [key]: value,
+      };
+    },
     onApplyFilter(payload) {
       this.resetBulkActions();
       this.foldersQuery = filterQueryGenerator(payload);
@@ -555,7 +586,10 @@ export default {
       const { conversations_filter_by: filterBy = {} } = this.uiSettings;
       const { status, order_by: orderBy } = filterBy;
       this.activeStatus = status || wootConstants.STATUS_TYPE.OPEN;
-      this.activeSortBy = orderBy || wootConstants.SORT_BY_TYPE.LATEST;
+      this.activeSortBy =
+        Object.keys(wootConstants.SORT_BY_TYPE).find(
+          sortField => sortField === orderBy
+        ) || wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC;
     },
     onClickOpenAddFoldersModal() {
       this.showAddFoldersModal = true;
@@ -635,10 +669,10 @@ export default {
       );
     },
     getKeyboardListenerParams() {
-      const allConversations = this.$refs.activeConversation.querySelectorAll(
+      const allConversations = this.$refs.conversationList.querySelectorAll(
         'div.conversations-list div.conversation'
       );
-      const activeConversation = this.$refs.activeConversation.querySelector(
+      const activeConversation = this.$refs.conversationList.querySelector(
         'div.conversations-list div.conversation.active'
       );
       const activeConversationIndex = [...allConversations].indexOf(
@@ -652,29 +686,39 @@ export default {
         lastConversationIndex,
       };
     },
-    handleKeyEvents(e) {
-      if (hasPressedAltAndJKey(e)) {
-        const { allConversations, activeConversationIndex } =
-          this.getKeyboardListenerParams();
-        if (activeConversationIndex === -1) {
-          allConversations[0].click();
-        }
-        if (activeConversationIndex >= 1) {
-          allConversations[activeConversationIndex - 1].click();
-        }
+    handlePreviousConversation() {
+      const { allConversations, activeConversationIndex } =
+        this.getKeyboardListenerParams();
+      if (activeConversationIndex === -1) {
+        allConversations[0].click();
       }
-      if (hasPressedAltAndKKey(e)) {
-        const {
-          allConversations,
-          activeConversationIndex,
-          lastConversationIndex,
-        } = this.getKeyboardListenerParams();
-        if (activeConversationIndex === -1) {
-          allConversations[lastConversationIndex].click();
-        } else if (activeConversationIndex < lastConversationIndex) {
-          allConversations[activeConversationIndex + 1].click();
-        }
+      if (activeConversationIndex >= 1) {
+        allConversations[activeConversationIndex - 1].click();
       }
+    },
+    handleNextConversation() {
+      const {
+        allConversations,
+        activeConversationIndex,
+        lastConversationIndex,
+      } = this.getKeyboardListenerParams();
+      if (activeConversationIndex === -1) {
+        allConversations[lastConversationIndex].click();
+      } else if (activeConversationIndex < lastConversationIndex) {
+        allConversations[activeConversationIndex + 1].click();
+      }
+    },
+    getKeyboardEvents() {
+      return {
+        'Alt+KeyJ': {
+          action: () => this.handlePreviousConversation(),
+          allowOnFocusedInput: true,
+        },
+        'Alt+KeyK': {
+          action: () => this.handleNextConversation(),
+          allowOnFocusedInput: true,
+        },
+      };
     },
     resetAndFetchData() {
       this.appliedFilter = [];
@@ -694,9 +738,12 @@ export default {
     fetchConversations() {
       this.$store
         .dispatch('fetchAllConversations', this.conversationFilters)
-        .then(() => this.$emit('conversation-load'));
+        .then(this.emitConversationLoaded);
     },
     loadMoreConversations() {
+      if (this.hasCurrentPageEndReached || this.chatListLoading) {
+        return;
+      }
       if (!this.hasAppliedFiltersOrActiveFolders) {
         this.fetchConversations();
       }
@@ -715,7 +762,7 @@ export default {
           queryData: filterQueryGenerator(payload),
           page,
         })
-        .then(() => this.$emit('conversation-load'));
+        .then(this.emitConversationLoaded);
       this.showAdvancedFilters = false;
     },
     fetchSavedFilteredConversations(payload) {
@@ -725,7 +772,7 @@ export default {
           queryData: payload,
           page,
         })
-        .then(() => this.$emit('conversation-load'));
+        .then(this.emitConversationLoaded);
     },
     updateAssigneeTab(selectedTab) {
       if (this.activeAssigneeTab !== selectedTab) {
@@ -736,6 +783,20 @@ export default {
           this.fetchConversations();
         }
       }
+    },
+    emitConversationLoaded() {
+      this.$emit('conversation-load');
+      this.$nextTick(() => {
+        // Addressing a known issue in the virtual list library where dynamically added items
+        // might not render correctly. This workaround involves a slight manual adjustment
+        // to the scroll position, triggering the list to refresh its rendering.
+        const virtualList = this.$refs.conversationVirtualList;
+        const scrollToOffset = virtualList?.scrollToOffset;
+        const currentOffset = virtualList?.getOffset() || 0;
+        if (scrollToOffset) {
+          scrollToOffset(currentOffset + 1);
+        }
+      });
     },
     resetBulkActions() {
       this.selectedConversations = [];
@@ -978,22 +1039,8 @@ export default {
 </style>
 
 <style scoped lang="scss">
-.conversations-list-wrap {
-  &.hide {
-    @apply hidden;
-  }
-
-  &.list--full-width {
-    @apply basis-full;
-  }
-}
-
 .conversations-list {
   @apply overflow-hidden hover:overflow-y-auto;
-}
-
-.load-more--button {
-  @apply text-center rounded-none;
 }
 
 .tab--chat-type {

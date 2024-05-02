@@ -28,15 +28,15 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
 
     conversation.contact_last_seen_at = DateTime.now.utc
     conversation.save!
-    ::Conversations::MarkMessagesAsReadJob.perform_later(conversation.id, conversation.contact_last_seen_at)
+    ::Conversations::UpdateMessageStatusJob.perform_later(conversation.id, conversation.contact_last_seen_at)
     head :ok
   end
 
   def transcript
-    if permitted_params[:email].present? && conversation.present?
+    if conversation.present? && conversation.contact.present? && conversation.contact.email.present?
       ConversationReplyMailer.with(account: conversation.account).conversation_transcript(
         conversation,
-        permitted_params[:email]
+        conversation.contact.email
       )&.deliver_later
     end
     head :ok

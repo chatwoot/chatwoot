@@ -18,13 +18,13 @@ import Label from './ui/Label';
 import LoadingState from './widgets/LoadingState';
 import Modal from './Modal';
 import ModalHeader from './ModalHeader';
-import ReportStatsCard from './widgets/ReportStatsCard';
 import SidemenuIcon from './SidemenuIcon';
 import Spinner from 'shared/components/Spinner';
 import SubmitButton from './buttons/FormSubmitButton';
 import Tabs from './ui/Tabs/Tabs';
 import TabsItem from './ui/Tabs/TabsItem';
 import Thumbnail from './widgets/Thumbnail.vue';
+import DatePicker from './ui/DatePicker/DatePicker.vue';
 
 const WootUIKit = {
   AvatarUploader,
@@ -46,13 +46,13 @@ const WootUIKit = {
   LoadingState,
   Modal,
   ModalHeader,
-  ReportStatsCard,
   SidemenuIcon,
   Spinner,
   SubmitButton,
   Tabs,
   TabsItem,
   Thumbnail,
+  DatePicker,
   install(Vue) {
     const keys = Object.keys(this);
     keys.pop(); // remove 'install' from keys

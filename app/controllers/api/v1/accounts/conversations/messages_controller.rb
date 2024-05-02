@@ -18,6 +18,15 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     end
   end
 
+  def retry
+    return if message.blank?
+
+    message.update!(status: :sent, content_attributes: {})
+    ::SendReplyJob.perform_later(message.id)
+  rescue StandardError => e
+    render_could_not_create_error(e.message)
+  end
+
   def translate
     return head :ok if already_translated_content_available?
 

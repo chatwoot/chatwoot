@@ -41,6 +41,9 @@
     "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Dodavanje priloga...",
     "REPLIED_TO_STORY": "Replied to your story",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Poruka je uspešno obrisana",
     "FAIL_DELETE_MESSSAGE": "Nije bilo moguće obrisati poruku! Pokušajte ponovo",
     "NO_RESPONSE": "Nema odgovora",
@@ -61,7 +64,14 @@
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Odloženo do sutra",
       "SNOOZED_UNTIL_NEXT_WEEK": "Odloženo do sledeće nedelje",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Odloženo do sledećeg odgovora"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Odloženo do sledećeg odgovora",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Označeno na čekanju",
@@ -139,6 +149,7 @@
       "PRIVATE_NOTE": "Privatna beleška",
       "SEND": "Pošalji",
       "CREATE": "Dodaj belešku",
+      "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Prikaži bogat uređivač teksta",
@@ -269,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Napravi atribut",
+    "NO_RECORDS_FOUND": "Nijedan atribut nije pronađen",
     "UPDATE": {
       "SUCCESS": "Atribut je uspešno izmenjen",
       "ERROR": "Nije bilo moguće izmeniti atribut. Molim vas pokušajte ponovo"

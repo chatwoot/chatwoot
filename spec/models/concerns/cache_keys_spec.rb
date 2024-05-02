@@ -14,6 +14,7 @@ RSpec.describe CacheKeys do
   before do
     allow(Redis::Alfred).to receive(:delete)
     allow(Redis::Alfred).to receive(:set)
+    allow(Redis::Alfred).to receive(:setex)
     allow(Rails.configuration.dispatcher).to receive(:dispatch)
   end
 
@@ -27,28 +28,11 @@ RSpec.describe CacheKeys do
     end
   end
 
-  describe '#invalidate_cache_key_for' do
-    it 'deletes the cache key' do
-      test_model.invalidate_cache_key_for('label')
-      expect(Redis::Alfred).to have_received(:delete).with('idb-cache-key-account-1-label')
-    end
-
-    it 'dispatches a cache update event' do
-      test_model.invalidate_cache_key_for('label')
-      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
-        CacheKeys::ACCOUNT_CACHE_INVALIDATED,
-        kind_of(ActiveSupport::TimeWithZone),
-        cache_keys: test_model.cache_keys,
-        account: test_model
-      )
-    end
-  end
-
   describe '#update_cache_key' do
     it 'updates the cache key' do
       allow(Time).to receive(:now).and_return(Time.parse('2023-05-29 00:00:00 UTC'))
       test_model.update_cache_key('label')
-      expect(Redis::Alfred).to have_received(:set).with('idb-cache-key-account-1-label', Time.now.utc.to_i)
+      expect(Redis::Alfred).to have_received(:setex).with('idb-cache-key-account-1-label', kind_of(Integer), CacheKeys::CACHE_KEYS_EXPIRY)
     end
 
     it 'dispatches a cache update event' do
@@ -66,8 +50,20 @@ RSpec.describe CacheKeys do
     it 'invalidates all cache keys for cacheable models' do
       test_model.reset_cache_keys
       test_model.class.cacheable_models.each do |model|
-        expect(Redis::Alfred).to have_received(:delete).with("idb-cache-key-account-1-#{model.name.underscore}")
+        expect(Redis::Alfred).to have_received(:setex).with("idb-cache-key-account-1-#{model.name.underscore}", kind_of(Integer),
+                                                            CacheKeys::CACHE_KEYS_EXPIRY)
       end
+    end
+
+    it 'dispatches a cache update event' do
+      test_model.reset_cache_keys
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+        CacheKeys::ACCOUNT_CACHE_INVALIDATED,
+        kind_of(ActiveSupport::TimeWithZone),
+        cache_keys: test_model.cache_keys,
+        account: test_model
+      )
     end
   end
 end

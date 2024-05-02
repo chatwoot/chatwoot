@@ -18,4 +18,9 @@ class ContactDrop < BaseDrop
   def last_name
     @obj.try(:name).try(:split).try(:last).try(:capitalize) if @obj.try(:name).try(:split).try(:size) > 1
   end
+
+  def custom_attribute
+    custom_attributes = @obj.try(:custom_attributes) || {}
+    custom_attributes.transform_keys(&:to_s)
+  end
 end

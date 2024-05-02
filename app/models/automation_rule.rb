@@ -19,6 +19,7 @@
 #
 class AutomationRule < ApplicationRecord
   include Rails.application.routes.url_helpers
+  include Reauthorizable
 
   belongs_to :account
   has_many_attached :files
@@ -28,12 +29,19 @@ class AutomationRule < ApplicationRecord
   validate :query_operator_presence
   validates :account_id, presence: true
 
+  after_update_commit :reauthorized!, if: -> { saved_change_to_conditions? }
+
   scope :active, -> { where(active: true) }
 
-  CONDITIONS_ATTRS = %w[content email country_code status message_type browser_language assignee_id team_id referer city company inbox_id
-                        mail_subject phone_number priority conversation_language].freeze
-  ACTIONS_ATTRS = %w[send_message add_label send_email_to_team assign_team assign_agent send_webhook_event mute_conversation send_attachment
-                     change_status resolve_conversation snooze_conversation change_priority send_email_transcript].freeze
+  def conditions_attributes
+    %w[content email country_code status message_type browser_language assignee_id team_id referer city company inbox_id
+       mail_subject phone_number priority conversation_language]
+  end
+
+  def actions_attributes
+    %w[send_message add_label remove_label send_email_to_team assign_team assign_agent send_webhook_event mute_conversation
+       send_attachment change_status resolve_conversation snooze_conversation change_priority send_email_transcript].freeze
+  end
 
   def file_base_data
     files.map do |file|
@@ -55,7 +63,7 @@ class AutomationRule < ApplicationRecord
     return if conditions.blank?
 
     attributes = conditions.map { |obj, _| obj['attribute_key'] }
-    conditions = attributes - CONDITIONS_ATTRS
+    conditions = attributes - conditions_attributes
     conditions -= account.custom_attribute_definitions.pluck(:attribute_key)
     errors.add(:conditions, "Automation conditions #{conditions.join(',')} not supported.") if conditions.any?
   end
@@ -64,7 +72,7 @@ class AutomationRule < ApplicationRecord
     return if actions.blank?
 
     attributes = actions.map { |obj, _| obj['action_name'] }
-    actions = attributes - ACTIONS_ATTRS
+    actions = attributes - actions_attributes
 
     errors.add(:actions, "Automation actions #{actions.join(',')} not supported.") if actions.any?
   end
@@ -78,3 +86,4 @@ class AutomationRule < ApplicationRecord
 end
 
 AutomationRule.include_mod_with('Audit::AutomationRule')
+AutomationRule.prepend_mod_with('AutomationRule')

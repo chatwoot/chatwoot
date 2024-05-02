@@ -8,6 +8,7 @@
       id="chat-input"
       ref="chatInput"
       v-model="userInput"
+      :rows="1"
       :aria-label="$t('CHAT_PLACEHOLDER')"
       :placeholder="$t('CHAT_PLACEHOLDER')"
       class="form-input user-message-input is-focused"
@@ -48,7 +49,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { mixin as clickaway } from 'vue-clickaway';
 
 import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
@@ -68,7 +68,7 @@ export default {
     FluentIcon,
     ResizableTextArea,
   },
-  mixins: [clickaway, configMixin, darkModeMixin],
+  mixins: [configMixin, darkModeMixin],
   props: {
     onSendMessage: {
       type: Function,

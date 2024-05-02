@@ -22,7 +22,7 @@
         "body": "Pridėti agentus pire gautų laiškų oplanko."
       },
       {
-        "title": "Voila!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "Esate pasiruošę pradėti!"
       }
@@ -43,7 +43,7 @@
         "CHOOSE_PLACEHOLDER": "Psirinkti puslapį iš sąrašo",
         "INBOX_NAME": "Gautų Laiškų Aplanko Pavadinimas",
         "ADD_NAME": "Prašome įrašyti gautų laiškų aplanko pavadinimą",
-        "PICK_NAME": "Pasirinkite Gautų Laiškų Aplanko Pavadinimą",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "Pasirinkti reikšmę"
       },
       "TWITTER": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Įveskite savo Webhook URL",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Prašome įvesti tesingą URL adresą"
         },
         "CHANNEL_DOMAIN": {
@@ -175,12 +175,12 @@
           },
           "API_KEY": {
             "LABEL": "API raktas",
-            "PLACEHOLDER": "Įveskite savo Bandwith API Key",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "Šis laukas yra privalomas"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Įveskite savo Bandwith API Secret",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "Šis laukas yra privalomas"
           },
           "APPLICATION_ID": {
@@ -239,7 +239,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook Tikrinti Prieigos Raktą",
-          "PLACEHOLDER": "Įveskite patvirtinimo prieigos raktą, kurį norite sukonfigūruoti Facebook Webhooks.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Prašau įveskite teisingą reikšmę."
         },
         "API_KEY": {
@@ -269,7 +269,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "SUBTITLE": "Sukonfigūruokite URL, į kurį norite gauti atgalinius skambučius.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "Webhook URL"
         },
         "SUBMIT_BUTTON": "Sukurti API kanalą",
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "El. pašto kanalas",
-        "DESC": "Integruokite el. pašto dėžutę.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Kanalo Pavadinimas",
           "PLACEHOLDER": "Prašome įrašyti kanalo pavadinimą",
@@ -345,7 +345,7 @@
       "AGENTS": {
         "TITLE": "Agentai",
         "DESC": "Čia galite pridėti agentų, kad galėtumėte tvarkyti naujai sukurtus gautų laiškų aplanką. Tik šie pasirinkti agentai turės prieigą prie jūsų gautų laiškų aplanko. Agentai, kurie nėra šio dalis, prisijungę negalės matyti pranešimų arba atsakyti į juos. <br> <b>PS:</b> Jei jums reikia prieigos prie visų gautų laiškų aplankų, turėtumėte įtraukti save kaip agentą prie visų sukurtų aplankų, kaip administratorius.",
-        "VALIDATION_ERROR": "Pridėkite bent vieną agentą prie naujojo gautų laiškų aplanko",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Pasirinkite agentus gautų laiškų aplankams"
       },
       "DETAILS": {
@@ -406,7 +406,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Siuntėjo vardas",
-        "SUB_TEXT": "Pasirinkite vardą, kuris bus rodomas jūsų klientui, kai jis gauna el. laiškus iš jūsų agentų.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "Pvz:",
         "FRIENDLY": {
           "TITLE": "Draugiškas",
@@ -508,12 +508,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Leisti pranešimus pokalbiui pasibaigus",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Leiskite galutiniams vartotojams siųsti pranešimus net pokalbiui pasibaigus.",
       "WHATSAPP_SECTION_SUBHEADER": "Šis API Raktas naudojamas integracijai su WhatsApp API.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Įveskite atnaujintą raktą, kuris bus naudojamas integruojant su WhatsApp API.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API raktas",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Atnaujinti API raktą",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Įveskite naują API Raktą čia",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Atnaujinti",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Tikrinti Prieigos Raktą",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Patikros Prieigos Raktas",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Šis prieigos raktas naudojamas „webhook“ galutinio taško autentiškumui patikrinti.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atnaujinkite išankstinio pokalbio internetu formos nustatymus"
     },
@@ -569,7 +569,7 @@
       "UPDATE": "Atnaujinti darbo laiko nustatymus",
       "TOGGLE_AVAILABILITY": "Leisti verslo pasiekiamumą šiam gautų laiškų aplankui",
       "UNAVAILABLE_MESSAGE_LABEL": "Pranešimas lankytojams apie nepasiekiamumą",
-      "TOGGLE_HELP": "Leidus įmonės pasiekiamumą bus rodomos galimos darbo valandos tiesioginio pokalbio valdiklyje, net jei visi agentai neprisijungę. Ne darbo valandomis lankytojai gali būti įspėti pranešimu ir išankstinio pokalbio forma.",
+      "TOGGLE_HELP": "Nustačius darbo laiką, bus rodomos darbo valandos chato valdiklyje, net jei visi agentai neprisijungę. Ne darbo valandomis lankytojai gali būti įspėti pranešimu ir išankstinio pokalbio forma.",
       "DAY": {
         "ENABLE": "Įgalinti pasiekiamumą šiai dienai",
         "UNAVAILABLE": "Nepasiekiamas",
@@ -585,7 +585,7 @@
       "NOTE_TEXT": "Norėdami įjungti SMTP, sukonfigūruokite IMAP.",
       "UPDATE": "Atnaujinti IMAP nustatymus",
       "TOGGLE_AVAILABILITY": "Leisti IMAP konfigūraciją šiam gautų laiškų aplankui",
-      "TOGGLE_HELP": "Įjungus IMAP, vartotojas galės gauti el. laiškus",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "IMAP nustatymai atnaujinti sėkmingai",
         "ERROR_MESSAGE": "Nepavyko atnaujinti IMAP nustatymų"

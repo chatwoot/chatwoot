@@ -87,12 +87,15 @@
       "conversation_assignment": "שיחה הוקצתה",
       "assigned_conversation_new_message": "הודעה חדשה",
       "participating_conversation_new_message": "הודעה חדשה",
-      "conversation_mention": "אִזְכּוּר"
+      "conversation_mention": "אִזְכּוּר",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "מנותק מ-Chatwoot"
+      "OFFLINE": "לא מחובר"
     },
     "BUTTON": {
       "REFRESH": "רענן"
@@ -112,7 +115,8 @@
       "REMOVE_LABEL": "הסר תווית מהשיחה",
       "SETTINGS": "הגדרות",
       "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance"
+      "APPEARANCE": "Appearance",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "עבור ללוח המחוונים לשיחה",
@@ -153,7 +157,8 @@
       "CHANGE_APPEARANCE": "Change Appearance",
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "System"
+      "SYSTEM_MODE": "System",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     }
   },
   "DASHBOARD_APPS": {

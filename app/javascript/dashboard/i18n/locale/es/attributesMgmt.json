@@ -39,6 +39,17 @@
           "PLACEHOLDER": "Introducir clave de atributo personalizado",
           "ERROR": "Clave es requerida",
           "IN_VALID": "Llave Invalida"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Patrón de Regex",
+          "PLACEHOLDER": "Por favor, introduzca el patrón de regex de atributo personalizado. (Opcional)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Cue",
+          "PLACEHOLDER": "Por favor ingrese la pista de patrones regex. (opcional)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Habilitar validación regex"
         }
       },
       "API": {
@@ -93,6 +104,17 @@
       "EMPTY_RESULT": {
         "404": "No hay atributos personalizados creados",
         "NOT_FOUND": "No hay atributos personalizados configurados"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Patrón de Regex",
+        "PLACEHOLDER": "Por favor, introduzca el patrón de regex de atributo personalizado. (Opcional)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Cue",
+        "PLACEHOLDER": "Por favor ingrese la pista de patrones regex. (opcional)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Habilitar validación regex"
       }
     }
   }

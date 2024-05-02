@@ -1,5 +1,19 @@
+// scss-lint:disable SpaceAfterPropertyColon
+@import 'shared/assets/fonts/inter';
+// Inter,
 html,
 body {
+  font-family:
+    'PlusJakarta',
+    -apple-system,
+    system-ui,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    Tahoma,
+    Arial,
+    sans-serif !important;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   height: 100%;

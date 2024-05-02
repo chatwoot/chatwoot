@@ -7,11 +7,11 @@ describe ChatwootHub do
     expect(described_class.installation_identifier).to eq installation_identifier
   end
 
-  context 'when fetching latest_version' do
+  context 'when fetching sync_with_hub' do
     it 'get latest version from chatwoot hub' do
       version = '1.1.1'
       allow(RestClient).to receive(:post).and_return({ version: version }.to_json)
-      expect(described_class.latest_version).to eq version
+      expect(described_class.sync_with_hub['version']).to eq version
       expect(RestClient).to have_received(:post).with(described_class::PING_URL, described_class.instance_config
         .merge(described_class.instance_metrics).to_json, { content_type: :json, accept: :json })
     end
@@ -20,7 +20,7 @@ describe ChatwootHub do
       version = '1.1.1'
       with_modified_env DISABLE_TELEMETRY: 'true' do
         allow(RestClient).to receive(:post).and_return({ version: version }.to_json)
-        expect(described_class.latest_version).to eq version
+        expect(described_class.sync_with_hub['version']).to eq version
         expect(RestClient).to have_received(:post).with(described_class::PING_URL,
                                                         described_class.instance_config.to_json, { content_type: :json, accept: :json })
       end
@@ -28,7 +28,7 @@ describe ChatwootHub do
 
     it 'returns nil when chatwoot hub is down' do
       allow(RestClient).to receive(:post).and_raise(ExceptionList::REST_CLIENT_EXCEPTIONS.sample)
-      expect(described_class.latest_version).to be_nil
+      expect(described_class.sync_with_hub).to be_nil
     end
   end
 

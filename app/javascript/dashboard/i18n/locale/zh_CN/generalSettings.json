@@ -51,8 +51,8 @@
     "UPDATE_CHATWOOT": "Chatwoot 有可用更新%{latestChatwootVersion}，请更新您的应用。",
     "LEARN_MORE": "了解更多",
     "PAYMENT_PENDING": "您的付款尚未完成。请更新您的付款信息以继续使用Chatwoot",
-    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
-    "OPEN_BILLING": "Open billing"
+    "LIMITS_UPGRADE": "您的账户已超过使用限制，请升级您的计划以继续使用Chatwoot",
+    "OPEN_BILLING": "查看计费"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -87,12 +87,15 @@
       "conversation_assignment": "对话已分配",
       "assigned_conversation_new_message": "新消息",
       "participating_conversation_new_message": "新消息",
-      "conversation_mention": "提及"
+      "conversation_mention": "提及",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "TEXT": "已与 Chatwoot 断开链接"
+      "OFFLINE": "离线的"
     },
     "BUTTON": {
       "REFRESH": "刷新"
@@ -112,7 +115,8 @@
       "REMOVE_LABEL": "从对话移除标签",
       "SETTINGS": "设置",
       "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance"
+      "APPEARANCE": "Appearance",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "转到对话面板",
@@ -153,14 +157,15 @@
       "CHANGE_APPEARANCE": "Change Appearance",
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "System"
+      "SYSTEM_MODE": "System",
+      "SNOOZE_NOTIFICATION": "推迟通知"
     }
   },
   "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "Loading Dashboard App..."
+    "LOADING_MESSAGE": "正在加载仪表板应用..."
   },
   "COMMON": {
-    "OR": "Or",
+    "OR": "或",
     "CLICK_HERE": "点击这里"
   }
 }
