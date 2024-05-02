@@ -41,14 +41,14 @@ export default {
             e.preventDefault();
             this.focusPreviousButton(menuButtons);
           },
-          allowOnFocusedInput: true,
+          allowOnFocusedInput: false,
         },
         ArrowDown: {
           action: e => {
             e.preventDefault();
             this.focusNextButton(menuButtons);
           },
-          allowOnFocusedInput: true,
+          allowOnFocusedInput: false,
         },
       };
     },
