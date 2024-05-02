@@ -1,6 +1,7 @@
 import { isActiveElementTypeable, isEscape } from '../helpers/KeyboardHelpers';
 
 import { createKeybindingsHandler } from 'tinykeys';
+import * as Sentry from '@sentry/browser';
 
 // this is a store that stores the handler globally, and only gets reset on reload
 const taggedHandlers = [];
@@ -45,22 +46,31 @@ export default {
     },
     keydownWrapper(handler) {
       return e => {
-        const actionToPerform =
-          typeof handler === 'function' ? handler : handler.action;
-        const allowOnFocusedInput =
-          typeof handler === 'function' ? false : handler.allowOnFocusedInput;
+        const isFunction = typeof handler === 'function';
+        const actionToPerform = isFunction ? handler : handler.action;
+        const allowOnFocusedInput = isFunction
+          ? false
+          : handler.allowOnFocusedInput;
 
-        const isTypeable = isActiveElementTypeable(e);
+        try {
+          const isTypeable = isActiveElementTypeable(e);
 
-        if (isTypeable) {
-          if (isEscape(e)) {
-            e.target.blur();
+          if (isTypeable) {
+            if (isEscape(e)) e.target.blur();
+            if (!allowOnFocusedInput) return;
           }
 
-          if (!allowOnFocusedInput) return;
+          actionToPerform(e);
+        } catch {
+          // ignore errors
+          Sentry.captureException(e, {
+            context: {
+              component: this.$options?.name,
+              isFunction: isFunction,
+              allowOnFocusedInput: allowOnFocusedInput,
+            },
+          });
         }
-
-        actionToPerform(e);
       };
     },
   },
