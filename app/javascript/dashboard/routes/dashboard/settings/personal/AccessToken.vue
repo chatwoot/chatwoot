@@ -18,10 +18,7 @@
           class="absolute top-1.5 ltr:right-0.5 rtl:left-0.5"
           @click="toggleMasked"
         >
-          <fluent-icon
-            :icon="`${inputType === 'password' ? 'eye-hide' : 'eye-show'}`"
-            :size="16"
-          />
+          <fluent-icon :icon="maskIcon" :size="16" />
         </button>
       </template>
     </woot-input>
@@ -38,7 +35,7 @@
   </div>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import FormButton from 'v3/components/Form/Button.vue';
 const props = defineProps({
   value: {
@@ -51,6 +48,11 @@ const inputType = ref('password');
 const toggleMasked = () => {
   inputType.value = inputType.value === 'password' ? 'text' : 'password';
 };
+
+const maskIcon = computed(() => {
+  return inputType.value === 'password' ? 'eye-hide' : 'eye-show';
+});
+
 const onClick = () => {
   emit('on-copy', props.value);
 };
