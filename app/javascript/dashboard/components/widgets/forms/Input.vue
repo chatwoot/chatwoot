@@ -15,6 +15,7 @@
     <span v-if="error" class="message">
       {{ error }}
     </span>
+    <slot name="masked" />
   </label>
 </template>
 
