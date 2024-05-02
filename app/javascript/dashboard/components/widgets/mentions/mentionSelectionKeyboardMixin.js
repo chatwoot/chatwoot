@@ -22,10 +22,7 @@ export default {
     getKeyboardEvents() {
       return {
         ArrowUp: {
-          action: e => {
-            this.moveSelectionUp();
-            e.preventDefault();
-          },
+          action: this.moveSelectionUp,
           allowOnFocusedInput: true,
         },
         'Control+KeyP': {
@@ -36,10 +33,7 @@ export default {
           allowOnFocusedInput: true,
         },
         ArrowDown: {
-          action: e => {
-            this.moveSelectionDown();
-            e.preventDefault();
-          },
+          action: this.moveSelectionDown,
           allowOnFocusedInput: true,
         },
         'Control+KeyN': {

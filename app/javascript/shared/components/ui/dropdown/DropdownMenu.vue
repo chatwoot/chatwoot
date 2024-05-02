@@ -37,17 +37,11 @@ export default {
       const menuButtons = this.dropdownMenuButtons();
       return {
         ArrowUp: {
-          action: e => {
-            e.preventDefault();
-            this.focusPreviousButton(menuButtons);
-          },
+          action: () => this.focusPreviousButton(menuButtons),
           allowOnFocusedInput: true,
         },
         ArrowDown: {
-          action: e => {
-            e.preventDefault();
-            this.focusNextButton(menuButtons);
-          },
+          action: () => this.focusNextButton(menuButtons),
           allowOnFocusedInput: true,
         },
       };
