@@ -2,16 +2,16 @@
   "FILTER": {
     "TITLE": "Фільтрувати діалоги",
     "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
-    "EDIT_CUSTOM_FILTER": "Edit Folder",
-    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
-    "ADD_NEW_FILTER": "Add filter",
-    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
+    "EDIT_CUSTOM_FILTER": "Редагувати папку",
+    "CUSTOM_VIEWS_SUBTITLE": "Додайте або видаліть фільтри та оновіть папку.",
+    "ADD_NEW_FILTER": "Додати фільтр",
+    "FILTER_DELETE_ERROR": "Ой, здається ми нічого не можемо зберегти! Будь ласка, додайте принаймні один фільтр, щоб зберегти його.",
     "SUBMIT_BUTTON_LABEL": "Застосувати фільтри",
-    "UPDATE_BUTTON_LABEL": "Update folder",
+    "UPDATE_BUTTON_LABEL": "Оновити папку",
     "CANCEL_BUTTON_LABEL": "Скасувати",
-    "CLEAR_BUTTON_LABEL": "Clear filters",
-    "FOLDER_LABEL": "Folder Name",
-    "FOLDER_QUERY_LABEL": "Folder Query",
+    "CLEAR_BUTTON_LABEL": "Очистити фільтри",
+    "FOLDER_LABEL": "Ім'я папки",
+    "FOLDER_QUERY_LABEL": "Запит папки",
     "EMPTY_VALUE_ERROR": "Необхідно вказати значення.",
     "TOOLTIP_LABEL": "Фільтрувати діалоги",
     "QUERY_DROPDOWN_LABELS": {
@@ -36,15 +36,15 @@
     },
     "ATTRIBUTES": {
       "STATUS": "Статус",
-      "ASSIGNEE_NAME": "Assignee name",
+      "ASSIGNEE_NAME": "Ім'я виконавця",
       "INBOX_NAME": "Назва Джерела",
       "TEAM_NAME": "Назва команди",
-      "CONVERSATION_IDENTIFIER": "Conversation identifier",
-      "CAMPAIGN_NAME": "Campaign name",
+      "CONVERSATION_IDENTIFIER": "Номер діалогу",
+      "CAMPAIGN_NAME": "Назва Кампанії",
       "LABELS": "Мітки",
-      "BROWSER_LANGUAGE": "Browser language",
+      "BROWSER_LANGUAGE": "Мова браузера",
       "PRIORITY": "Пріоритет",
-      "COUNTRY_NAME": "Country name",
+      "COUNTRY_NAME": "Назва країни",
       "REFERER_LINK": "Посилання",
       "CUSTOM_ATTRIBUTE_LIST": "Список",
       "CUSTOM_ATTRIBUTE_TEXT": "Текст",
@@ -55,15 +55,15 @@
       "LAST_ACTIVITY": "Остання активність"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard filters",
-      "ADDITIONAL_FILTERS": "Additional filters",
-      "CUSTOM_ATTRIBUTES": "Custom attributes"
+      "STANDARD_FILTERS": "Стандартні фільтри",
+      "ADDITIONAL_FILTERS": "Додаткові фільтри",
+      "CUSTOM_ATTRIBUTES": "Спеціальні атрибути"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
         "TITLE": "Зберегти цей фільтр?",
         "LABEL": "Назвіть цей фільтр",
-        "PLACEHOLDER": "Name your filter to refer it later.",
+        "PLACEHOLDER": "Назвіть ваш фільтр, щоб пізніше його описати.",
         "ERROR_MESSAGE": "Назва обов'язкова.",
         "SAVE_BUTTON": "Зберегти фільтр",
         "CANCEL_BUTTON": "Скасувати",
@@ -77,7 +77,7 @@
         }
       },
       "EDIT": {
-        "EDIT_BUTTON": "Edit folder"
+        "EDIT_BUTTON": "Редагувати папку"
       },
       "DELETE": {
         "DELETE_BUTTON": "Видалити фільтр",
@@ -85,7 +85,7 @@
           "CONFIRM": {
             "TITLE": "Підтвердіть видалення",
             "MESSAGE": "Ви впевнені, що хочете видалити фільтр ",
-            "YES": "Yes, delete",
+            "YES": "Так, видалити",
             "NO": "Ні, зберегти це"
           }
         },

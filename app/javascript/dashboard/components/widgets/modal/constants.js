@@ -54,12 +54,6 @@ export const SHORTCUT_KEYS = [
     secondKey: 'S',
   },
   {
-    id: 10,
-    label: 'SWITCH_CONVERSATION_STATUS',
-    firstKey: 'Alt / ⌥',
-    secondKey: 'B',
-  },
-  {
     id: 11,
     label: 'SWITCH_TO_PRIVATE_NOTE',
     firstKey: 'Alt / ⌥',

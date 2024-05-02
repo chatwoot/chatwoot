@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Персонализирани атрибути",
       "CONTACT_LABELS": "Етикети на контакта",
-      "PREVIOUS_CONVERSATIONS": "Предишни разговори"
+      "PREVIOUS_CONVERSATIONS": "Предишни разговори",
+      "NO_RECORDS_FOUND": "Няма намерени атрибути"
     }
   },
   "EDIT_CONTACT": {
@@ -296,6 +297,8 @@
     "BUTTON": "Добавяне на персонализиран атрибут",
     "NOT_AVAILABLE": "Няма персонализирани атрибути за този контакт.",
     "COPY_SUCCESSFUL": "Успешно копиране в клипборда",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Копиране на атрибут",
       "DELETE": "Изтриване на атрибут",

@@ -109,9 +109,10 @@ export default {
     generateArticleUrl(article) {
       return `/hc/${article.portal.slug}/articles/${article.slug}`;
     },
-    handleKeyboardEvent(e) {
-      this.processKeyDownEvent(e);
-      this.$el.scrollTop = 102 * this.selectedIndex;
+    adjustScroll() {
+      this.$nextTick(() => {
+        this.$el.scrollTop = 102 * this.selectedIndex;
+      });
     },
     prepareContent(content) {
       return this.highlightContent(
