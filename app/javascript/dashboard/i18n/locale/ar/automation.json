@@ -87,8 +87,8 @@
     },
     "CONDITION": {
       "DELETE_MESSAGE": "يجب أن يكون لديك على الأقل شرط واحد للحفظ",
-      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
+      "CONTACT_CUSTOM_ATTR_LABEL": "سمة مخصصة لجهة اتصال",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "سمة مخصصة للمحادثة"
     },
     "ACTION": {
       "DELETE_MESSAGE": "يجب أن يكون لديك على الأقل شرط واحد للحفظ",
@@ -111,7 +111,7 @@
       "UPLOAD_ERROR": "تعذر تحميل المرفق، الرجاء المحاولة مرة أخرى",
       "LABEL_IDLE": "ارفع المرفق",
       "LABEL_UPLOADING": "جاري الرفع...",
-      "LABEL_UPLOADED": "Successfully Uploaded",
+      "LABEL_UPLOADED": "تم الرفع بنجاح",
       "LABEL_UPLOAD_FAILED": "فشل الرفع"
     }
   }

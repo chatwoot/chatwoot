@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Personalizuoti Požymiai",
       "CONTACT_LABELS": "Kontakto Žymeklis",
-      "PREVIOUS_CONVERSATIONS": "Ankstesni pokalbiai"
+      "PREVIOUS_CONVERSATIONS": "Ankstesni pokalbiai",
+      "NO_RECORDS_FOUND": "Požymių nerasta"
     }
   },
   "EDIT_CONTACT": {

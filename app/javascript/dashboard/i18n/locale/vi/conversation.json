@@ -280,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Tạo thuộc tính",
+    "NO_RECORDS_FOUND": "Không có thuộc tính nào được tìm thấy",
     "UPDATE": {
       "SUCCESS": "Thuộc tính cập nhật thành công",
       "ERROR": "Không thể cập nhật thuộc tính. Vui lòng thử lại sau"

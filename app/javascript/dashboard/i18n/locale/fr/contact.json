@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Attributs personnalisés",
       "CONTACT_LABELS": "Libellés des contacts",
-      "PREVIOUS_CONVERSATIONS": "Conversations précédentes"
+      "PREVIOUS_CONVERSATIONS": "Conversations précédentes",
+      "NO_RECORDS_FOUND": "Aucun attribut trouvé"
     }
   },
   "EDIT_CONTACT": {

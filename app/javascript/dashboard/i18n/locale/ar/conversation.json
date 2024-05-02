@@ -149,7 +149,7 @@
       "PRIVATE_NOTE": "إضافة ملاحظة خاصة",
       "SEND": "إرسال",
       "CREATE": "إضافة ملاحظة",
-      "INSERT_READ_MORE": "Read more",
+      "INSERT_READ_MORE": "اقرأ المزيد",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "عرض محرر النصوص",
@@ -280,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "إنشاء سمة جديدة",
+    "NO_RECORDS_FOUND": "لم يتم العثور على سمات",
     "UPDATE": {
       "SUCCESS": "تم تحديث السمة المخصصة بنجاح",
       "ERROR": "غير قادر على تحديث السمة. الرجاء المحاولة مرة أخرى لاحقاً"
