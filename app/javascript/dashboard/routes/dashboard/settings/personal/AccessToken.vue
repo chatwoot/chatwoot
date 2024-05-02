@@ -14,9 +14,11 @@
       readonly
     >
       <template #masked>
-        <button class="cursor-pointer reset-base" @click="toggleMasked">
+        <button
+          class="absolute top-1.5 ltr:right-0.5 rtl:left-0.5"
+          @click="toggleMasked"
+        >
           <fluent-icon
-            class="absolute top-3 ltr:right-4 rtl:left-4"
             :icon="`${inputType === 'password' ? 'eye-hide' : 'eye-show'}`"
             :size="16"
           />
