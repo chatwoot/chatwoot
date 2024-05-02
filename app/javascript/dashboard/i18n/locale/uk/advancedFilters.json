@@ -1,7 +1,7 @@
 {
   "FILTER": {
     "TITLE": "Фільтрувати діалоги",
-    "SUBTITLE": "Додайте свої фільтри нижче і натисніть \"Застосувати фільтри\", щоб прибрати безлад у чаті.",
+    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
     "EDIT_CUSTOM_FILTER": "Редагувати папку",
     "CUSTOM_VIEWS_SUBTITLE": "Додайте або видаліть фільтри та оновіть папку.",
     "ADD_NEW_FILTER": "Додати фільтр",
