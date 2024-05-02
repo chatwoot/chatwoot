@@ -22,7 +22,11 @@ export default {
     getKeyboardEvents() {
       return {
         ArrowUp: {
-          action: this.moveSelectionUp,
+          action: e => {
+            this.moveSelectionUp();
+            console.log('ArrowUp in mentionSelectionKeyboardMixin');
+            e.preventDefault();
+          },
           allowOnFocusedInput: true,
         },
         'Control+KeyP': {
@@ -33,7 +37,11 @@ export default {
           allowOnFocusedInput: true,
         },
         ArrowDown: {
-          action: this.moveSelectionDown,
+          action: e => {
+            this.moveSelectionDown();
+            console.log('ArrowDown in mentionSelectionKeyboardMixin');
+            e.preventDefault();
+          },
           allowOnFocusedInput: true,
         },
         'Control+KeyN': {
@@ -46,6 +54,7 @@ export default {
         Enter: {
           action: e => {
             this.onSelect();
+            console.log('Enter in mentionSelectionKeyboardMixin');
             e.preventDefault();
           },
           allowOnFocusedInput: true,

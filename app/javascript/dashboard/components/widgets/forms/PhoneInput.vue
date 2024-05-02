@@ -227,15 +227,25 @@ export default {
     getKeyboardEvents() {
       return {
         ArrowUp: {
-          action: this.moveUp,
+          action: e => {
+            e.preventDefault();
+            console.log('ArrowUp in PhoneInput');
+            this.moveUp();
+          },
           allowOnFocusedInput: true,
         },
         ArrowDown: {
-          action: this.moveDown,
+          action: e => {
+            e.preventDefault();
+            console.log('ArrowDown in PhoneInput');
+            this.moveDown();
+          },
           allowOnFocusedInput: true,
         },
         Enter: {
-          action: () => {
+          action: e => {
+            e.preventDefault();
+            console.log('Enter in PhoneInput');
             this.onSelectCountry(
               this.filteredCountriesBySearch[this.selectedIndex]
             );
