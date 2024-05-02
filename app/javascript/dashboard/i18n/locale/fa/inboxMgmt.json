@@ -22,7 +22,7 @@
         "body": "ایجنت ها را به صندوق ورودی ساخته شده تخصیص می‌دهد."
       },
       {
-        "title": "ماشالله!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "دیگه می‌تونی بترکونی"
       }
@@ -43,7 +43,7 @@
         "CHOOSE_PLACEHOLDER": "از لیست صفحه مورد نظر را انتخاب کنید",
         "INBOX_NAME": "عنوان صندوق ورودی",
         "ADD_NAME": "یک اسم به صندوق ورودی خود اضافه کنید",
-        "PICK_NAME": "یک اسم برای صندوق ورودی خود انتخاب کنید",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "یک مقدار انتخاب کنید"
       },
       "TWITTER": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "آدرس URL وب هوک",
-          "PLACEHOLDER": "نشانی وب Webhook خود را وارد کنید",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "لطفا آدرس URL صحیحی وارد کنید"
         },
         "CHANNEL_DOMAIN": {
@@ -112,14 +112,14 @@
           "ERROR": "پر کردن این فیلد ضروری است"
         },
         "API_KEY": {
-          "USE_API_KEY": "Use API Key Authentication",
+          "USE_API_KEY": "استفاده از API Key Authentication",
           "LABEL": "API Key SID",
-          "PLACEHOLDER": "Please enter your API Key SID",
+          "PLACEHOLDER": "لطفا API Key SID را وارد کنید",
           "ERROR": "پر کردن این فیلد ضروری است"
         },
         "API_KEY_SECRET": {
           "LABEL": "API Key Secret",
-          "PLACEHOLDER": "Please enter your API Key Secret",
+          "PLACEHOLDER": "لطفا API Key Secret را وارد کنید",
           "ERROR": "پر کردن این فیلد ضروری است"
         },
         "MESSAGING_SERVICE_SID": {
@@ -175,12 +175,12 @@
           },
           "API_KEY": {
             "LABEL": "API key",
-            "PLACEHOLDER": "لطفاً کلید Bandwith API خود را وارد کنید",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "پر کردن این فیلد ضروری است"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "لطفا Bandwith API Secret خود را وارد کنید",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "پر کردن این فیلد ضروری است"
           },
           "APPLICATION_ID": {
@@ -239,7 +239,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "رمز تأیید وب هوک",
-          "PLACEHOLDER": "یک رمز تأیید را وارد کنید که می خواهید برای وب هوک های فیس بوک پیکربندی کنید.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "لطفا یک مقدار معتبر وارد کنید."
         },
         "API_KEY": {
@@ -269,7 +269,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "آدرس URL وب هوک",
-          "SUBTITLE": "آدرس کال بک خود را جهت دریافت اطلاعات رویداد های وارد کنید.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "آدرس URL وب هوک"
         },
         "SUBMIT_BUTTON": "ایجاد کانال API",
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "کانال ایمیل",
-        "DESC": "صندوق ورودی ایمیل خود را ادغام کنید.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "عنوان کانال",
           "PLACEHOLDER": "لطفا اسم یک کانال را وارد کنید",
@@ -345,7 +345,7 @@
       "AGENTS": {
         "TITLE": "ایجنت ها",
         "DESC": "در اینجا می‌توانید ایجنت ها را به صندوق‌ ورودی خود اختصاص دهید. توجه داشته باشید که فقط ایجنت هایی که در اینجا معرفی شده باشند می‌توانند به پیام‌های این صندوق پاسخ بدهند. دیگر ایجنت ها نخواهند توانست پیام‌های این صندوق را ببینید یا به آن‌ها پاسخی بدهند. <br> <b>پانویس:</b>به عنوان مدیر اگر می‌خواهید به همه صندوق‌های ورودی دسترسی داشته باشید می‌بایست خود را به عنوان ایجنت به همه صندوق‌ها اضافه کنید.",
-        "VALIDATION_ERROR": "حداقل یک ایجنت به اینباکس جدید اضافه کنید",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "انتخاب ایجنت ها برای این صندوق ورودی"
       },
       "DETAILS": {
@@ -371,8 +371,8 @@
     "DETAILS": {
       "LOADING_FB": "در حال احراز هویت با فیس بوک...",
       "ERROR_FB_AUTH": "اشکالی پیش آمد.. لطفا دوباره سعی کنید...",
-      "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
-      "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
+      "ERROR_FB_UNAUTHORIZED": "شما اجازه انجام این کار را ندارید. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "لطفا مطمئن شوید که با کنترل کامل به صفحه فیس بوک دسترسی دارید. اینجا می‌توانید درباره نقش‌های فیسبوک بیشتر بخوانید <a href=\" https://www.facebook.com/help/187316341316631\">راهنما</a>.",
       "CREATING_CHANNEL": "در حال ساخت صندوق ورودی...",
       "TITLE": "تنظیمات صفحه ورودی",
       "DESC": ""
@@ -406,19 +406,19 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "نام ارسال کننده",
-        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
-        "FOR_EG": "For eg:",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
+        "FOR_EG": "به عنوان مثال:",
         "FRIENDLY": {
           "TITLE": "دوستانه",
           "FROM": "از",
-          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+          "SUBTITLE": "نام اپراتوری که پاسخ را ارسال کرده است را به نام فرستنده اضافه کنید تا پیام دوستانه تر شود."
         },
         "PROFESSIONAL": {
           "TITLE": "حرفه ای",
-          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+          "SUBTITLE": "فقط از نام تجاری پیکربندی شده به عنوان نام فرستنده در هدر ایمیل استفاده کنید."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ Configure your business name",
+          "BUTTON_TEXT": "+ نام کسب و کار خود را وارد کنید",
           "PLACEHOLDER": "نام کسب و کار خود را وارد کنید",
           "SAVE_BUTTON_TEXT": "ذخیره"
         }
@@ -479,8 +479,8 @@
       "MESSENGER_SUB_HEAD": "این دکمه را در تگ body قرار دهید",
       "INBOX_AGENTS": "ایجنت ها",
       "INBOX_AGENTS_SUB_TEXT": "اضافه کردن یا حذف کردن دسترسی ایجنت به صندوق ورودی",
-      "AGENT_ASSIGNMENT": "واگذاری مکالمه",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "تنظیمات واگذاری مکالمه را به روز کنید",
+      "AGENT_ASSIGNMENT": "اختصاص گفتگو",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "بروز رسانی تنظیمات اختصاص گفتگو",
       "UPDATE": "اعمال شود",
       "ENABLE_EMAIL_COLLECT_BOX": "فعال سازی فرم دریافت ایمیل از کاربر",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "فعال یا غیرفعال کردن فرم دریافت ایمیل از کاربر",
@@ -488,7 +488,7 @@
       "ENABLE_CSAT": "فعال کردن رضایت مشتری",
       "SENDER_NAME_SECTION": "فعال سازی نام اپراتور در ایمیل",
       "ENABLE_CSAT_SUB_TEXT": "پس از پایان گفتگو ، نظرسنجی CSAT (رضایت مشتری) را فعال/غیرفعال کنید",
-      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
+      "SENDER_NAME_SECTION_TEXT": "فعال/غیرفعال کردن نمایش نام اپراتور در ایمیل، اگر غیرفعال باشد نام کسب و کار نشان داده می شود",
       "ENABLE_CONTINUITY_VIA_EMAIL": "ادامه مکالمه را از طریق ایمیل فعال کنید",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "اگر آدرس ایمیل تماس در دسترس باشد، مکالمات از طریق ایمیل ادامه خواهد یافت.",
       "LOCK_TO_SINGLE_CONVERSATION": "قفل کردن مکالمه تکی",
@@ -508,12 +508,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "اجازه دادن به پیام ها پس از حل شدن مکالمه",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "به کاربران اجازه دهید حتی پس از حل شدن مکالمه پیام ارسال کنند.",
       "WHATSAPP_SECTION_SUBHEADER": "این کلید API برای ادغام با API های WhatsApp استفاده می شود.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "کلید به روز شده را وارد کنید تا از آن برای ادغام با واتساپ API استفاده شود.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API key",
       "WHATSAPP_SECTION_UPDATE_TITLE": "کلید API را به روز کنید",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "کلید API جدید را در اینجا وارد کنید",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "اعمال شود",
-      "WHATSAPP_WEBHOOK_TITLE": "رمز تأیید وب هوک",
+      "WHATSAPP_WEBHOOK_TITLE": "توکن تایید Webhook",
       "WHATSAPP_WEBHOOK_SUBHEADER": "این توکن برای تأیید صحت نقطه پایانی webhook استفاده می شود.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "به‌روزرسانی تنظیمات فرم قبل از گفتگو"
     },
@@ -527,7 +527,7 @@
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "محدودیت تخصیص خودکار",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "لطفا مقداری بزرگ‌تر از عدد 0 وارد کنید",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "حداکثر تعداد مکالماتی را که می توان به طور خودکار به یک نماینده اختصاص داد، از این صندوق ورودی محدود کنید"
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "حداکثر تعداد مکالماتی را که می توان به طور خودکار به یک اپراتور اختصاص داد، از این صندوق ورودی محدود کنید"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "احراز هویت مجدد",
@@ -569,7 +569,7 @@
       "UPDATE": "تنظیمات ساعات کاری را به روز کنید",
       "TOGGLE_AVAILABILITY": "دسترس بودن کسب و کار را برای این صندوق فعال کردن",
       "UNAVAILABLE_MESSAGE_LABEL": "پیامی برای بازدیدکنندگان در دسترس نیست",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
+      "TOGGLE_HELP": "فعال کردن در دسترس بودن کسب کار ، ساعات موجود در ویجت چت زنده را نشان می دهد حتی اگر همه اپراتور ها آفلاین باشند. خارج از ساعات موجود می توان با پیام و فرم قبل از چت ، به کاربران هشدار داد.",
       "DAY": {
         "ENABLE": "در دسترس بودن را برای این روز فعال کنید",
         "UNAVAILABLE": "غیر قابل دسترسی",
@@ -585,7 +585,7 @@
       "NOTE_TEXT": "برای فعال کردن SMTP، لطفا IMAP را پیکربندی کنید.",
       "UPDATE": "به‌روزرسانی تنظیمات IMAP",
       "TOGGLE_AVAILABILITY": "پیکربندی IMAP را برای این صندوق ورودی فعال کنید",
-      "TOGGLE_HELP": "در حال فعال کردن IMAP به کاربر در دریافت ایمیل کمک می‌کند",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "تنظیمات IMAP با موفقیت به‌روزرسانی شد",
         "ERROR_MESSAGE": "به‌روزرسانی تنظیمات IMAP ممکن نیست"

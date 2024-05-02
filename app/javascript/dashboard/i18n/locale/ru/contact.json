@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Пользовательские атрибуты",
       "CONTACT_LABELS": "Ярлыки контактов",
-      "PREVIOUS_CONVERSATIONS": "Предыдущие диалоги"
+      "PREVIOUS_CONVERSATIONS": "Предыдущие диалоги",
+      "NO_RECORDS_FOUND": "Атрибуты не найдены"
     }
   },
   "EDIT_CONTACT": {
