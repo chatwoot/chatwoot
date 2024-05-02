@@ -31,6 +31,8 @@ class Linear
   end
 
   def labels(team_id)
+    raise ArgumentError, 'Missing team id' if team_id.blank?
+
     query = <<~GRAPHQL
       query {
         team(id: "#{team_id}") {
@@ -49,7 +51,14 @@ class Linear
   private
 
   def execute_query(query)
-    @client.query(query).data.to_h
+    response = @client.query(query)
+    Rails.logger.debug { "GraphQL Response: #{response.inspect}" }
+    unless response.data
+      raise StandardError, "Error retrieving data: #{response.errors.messages}" if response.errors.any?
+
+      return { error: 'No data returned' }
+    end
+    response.data.to_h
   rescue Graphlient::Errors::GraphQLError => e
     { error: "GraphQL Error: #{e.message}" }
   rescue Graphlient::Errors::ServerError => e
