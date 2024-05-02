@@ -55,9 +55,6 @@ export function createKeybindingsHandler(keyBindingMap) {
     return [parseKeybinding(key), keyBindingMap[key]];
   });
 
-  let possibleMatches = new Map();
-  let timer = null;
-
   return event => {
     if (!(event instanceof KeyboardEvent)) {
       return;
@@ -66,32 +63,12 @@ export function createKeybindingsHandler(keyBindingMap) {
     // eslint-disable-next-line no-console
     console.log(event.key, event.code, event.getModifierState('Control'));
 
-    keyBindings.forEach(keyBinding => {
-      let sequence = keyBinding[0];
-      let callback = keyBinding[1];
+    keyBindings.forEach(([key, callback]) => {
+      let expectedPress = parseKeybinding(key);
 
-      let prev = possibleMatches.get(sequence);
-      let remainingExpectedPresses = prev ?? sequence;
-      let currentExpectedPress = remainingExpectedPresses[0];
-
-      let matches = match(event, currentExpectedPress);
-
-      if (!matches) {
-        if (!getModifierState(event, event.key)) {
-          possibleMatches.delete(sequence);
-        }
-      } else if (remainingExpectedPresses.length > 1) {
-        possibleMatches.set(sequence, remainingExpectedPresses.slice(1));
-      } else {
-        possibleMatches.delete(sequence);
+      if (match(event, expectedPress)) {
         callback(event);
       }
     });
-
-    if (timer) {
-      clearTimeout(timer);
-    }
-
-    timer = setTimeout(possibleMatches.clear.bind(possibleMatches), 1000);
   };
 }
