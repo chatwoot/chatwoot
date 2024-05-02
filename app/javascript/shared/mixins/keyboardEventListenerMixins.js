@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { isActiveElementTypeable, isEscape } from '../helpers/KeyboardHelpers';
 
 import { createKeybindingsHandler } from 'shared/helpers/keybindings';
@@ -57,6 +58,8 @@ export default {
 
           if (isTypeable) {
             if (isEscape(e)) e.target.blur();
+            console.log('isTypeable', isTypeable);
+            console.log('allowOnFocusedInput', allowOnFocusedInput);
             if (!allowOnFocusedInput) return;
           }
 
