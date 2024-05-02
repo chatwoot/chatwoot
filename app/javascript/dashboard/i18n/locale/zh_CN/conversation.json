@@ -280,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "创建属性",
+    "NO_RECORDS_FOUND": "未找到属性",
     "UPDATE": {
       "SUCCESS": "已成功更新属性",
       "ERROR": "无法更新属性，请稍后再试。"

@@ -1,25 +1,37 @@
 {
   "SLA": {
     "HEADER": "SLA",
-    "ADD_ACTION": "Add SLA",
-    "ADD_ACTION_LONG": "Create a new SLA Policy",
-    "DESCRIPTION": "Service Level Agreements (SLAs) are contracts that define clear expectations between your team and customers. They establish standards for response and resolution times, creating a framework for accountability and ensures a consistent, high-quality experience.",
-    "LEARN_MORE": "Learn more about SLA",
-    "LOADING": "Fetching SLAs",
+    "ADD_ACTION": "اضافه کردن SLA",
+    "ADD_ACTION_LONG": "ایجاد سیاست SLA جدید",
+    "DESCRIPTION": "قراردادهای سطح خدمات (SLA) قراردادهایی هستند که انتظارات واضحی را بین تیم شما و مشتریان تعریف می کنند. آنها استانداردهایی را برای زمان پاسخگویی و حل موضوعات تعریف می کنند، در قالب چارچوبی مه برای پاسخگویی ایجاد می کنند تجربه ای پایدار و با کیفیت را به مشتری ارائه می کنند.",
+    "LEARN_MORE": "اطلاعات بیشتری درباره SLA",
+    "LOADING": "در حال گرفتن SLAها",
+    "PAYWALL": {
+      "TITLE": "برای ایجاد SLA بروز رسانی کنید",
+      "AVAILABLE_ON": "قابلیت SLA فقط در نسخه Business و Enterprise وجود دارد.",
+      "UPGRADE_PROMPT": "برای دسترسی به ویژگی‌های پیشرفته مانند مدیریت تیم، اتوماسیون، ویژگی‌های سفارشی و موارد دیگر، طرح خود را ارتقا دهید.",
+      "UPGRADE_NOW": "حالا ارتقا دهید",
+      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "قابلیت SLA فقط در نسخه Business و Enterprise وجود دارد.",
+      "UPGRADE_PROMPT": "برای دسترسی به ویژگی‌های پیشرفته مانند گزارش‌های حسابرسی، ظرفیت اپراتور و غیره، به یک طرح پولی ارتقا دهید.",
+      "ASK_ADMIN": "لطفاً برای ارتقا با ادمین خود تماس بگیرید."
+    },
     "LIST": {
-      "404": "There are no SLAs available in this account.",
+      "404": "هیچ SLA در این حساب‌کاربری وجود ندارد.",
       "EMPTY": {
         "TITLE_1": "Enterprise P0",
-        "DESC_1": "Issues raised by enterprise customers, that require immediate attention.",
+        "DESC_1": "مسائلی که توسط مشتریان سازمانی مطرح می شود و نیاز به توجه فوری دارد.",
         "TITLE_2": "Enterprise P1",
-        "DESC_2": "Issues raised by enterprise customers, that needs to be acknowledged quickly."
+        "DESC_2": "مسائلی که توسط مشتریان سازمانی مطرح می شود، باید به سرعت مورد تایید قرار گیرد."
       },
-      "BUSINESS_HOURS_ON": "Business hours on",
-      "BUSINESS_HOURS_OFF": "Business hours off",
+      "BUSINESS_HOURS_ON": "در ساعت کاری",
+      "BUSINESS_HOURS_OFF": "خارج از ساعت کاری",
       "RESPONSE_TYPES": {
-        "FRT": "First response time threshold",
-        "NRT": "Next response time threshold",
-        "RT": "Resolution time threshold",
+        "FRT": "آستانه زمان اولین پاسخ",
+        "NRT": "آستانه زمان پاسخ بعدی",
+        "RT": "آستانه زمان حل موضوع",
         "SHORT_HAND": {
           "FRT": "FRT",
           "NRT": "NRT",
@@ -29,34 +41,34 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "SLA Name",
-        "PLACEHOLDER": "SLA Name",
-        "REQUIRED_ERROR": "SLA name is required",
+        "LABEL": "نام SLA",
+        "PLACEHOLDER": "نام SLA",
+        "REQUIRED_ERROR": "نام SLA الزامی است",
         "MINIMUM_LENGTH_ERROR": "باید بیشتر از 2 کاراکتر باشد",
         "VALID_ERROR": "فقط حروف ، اعداد ، خط تیره و زیر خط مجاز است"
       },
       "DESCRIPTION": {
         "LABEL": "توضیحات",
-        "PLACEHOLDER": "SLA for premium customers"
+        "PLACEHOLDER": "SLA برای مشتریان پولی"
       },
       "FIRST_RESPONSE_TIME": {
         "LABEL": "اولین زمان پاسخگویی",
         "PLACEHOLDER": "۵"
       },
       "NEXT_RESPONSE_TIME": {
-        "LABEL": "Next Response Time",
+        "LABEL": "زمان پاسخگویی بعدی",
         "PLACEHOLDER": "۵"
       },
       "RESOLUTION_TIME": {
         "LABEL": "زمان تا حل شدن مساله",
-        "PLACEHOLDER": "60"
+        "PLACEHOLDER": "۶۰"
       },
       "BUSINESS_HOURS": {
         "LABEL": "ساعت کاری",
-        "PLACEHOLDER": "Only during business hours"
+        "PLACEHOLDER": "تنها در طول ساعات کاری"
       },
       "THRESHOLD_TIME": {
-        "INVALID_FORMAT_ERROR": "Threshold should be a number and greater than zero"
+        "INVALID_FORMAT_ERROR": "آستانه باید یک عدد و بزرگتر از صفر باشد"
       },
       "EDIT": "ویرایش",
       "CREATE": "ايجاد كردن",
@@ -64,33 +76,33 @@
       "CANCEL": "انصراف"
     },
     "ADD": {
-      "TITLE": "Add SLA",
-      "DESC": "Friendly promises for great service!",
+      "TITLE": "اضافه کردن SLA",
+      "DESC": "وعده های دوستانه برای خدمات عالی!",
       "API": {
-        "SUCCESS_MESSAGE": "SLA added successfully",
+        "SUCCESS_MESSAGE": "SLA با موفقیت اضافه شد",
         "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
       }
     },
     "DELETE": {
-      "TITLE": "Delete SLA",
+      "TITLE": "حذف SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA deleted successfully",
+        "SUCCESS_MESSAGE": "SLA با موفقیت حذف شد",
         "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
       },
       "CONFIRM": {
         "TITLE": "تاییدیه حذف",
-        "MESSAGE": "Are you sure you want to delete ",
+        "MESSAGE": "آیا مطمئن هستید که می خواهید حذف کنید ",
         "YES": "بله، حذف شود ",
         "NO": "خیر، نگه‌دار "
       }
     },
     "EVENTS": {
-      "TITLE": "SLA Misses",
+      "TITLE": "SLA های از دست رفته",
       "FRT": "زمان تا اولین پاسخ",
-      "NRT": "Next response time",
-      "RT": "Resolution time",
-      "SHOW_MORE": "{count} more",
-      "HIDE": "Hide {count} rows"
+      "NRT": "زمان پاسخگویی بعدی",
+      "RT": "زمان تا حل شدن مساله",
+      "SHOW_MORE": "{count} بیشتر",
+      "HIDE": "مخفی کردم {count} مورد"
     }
   }
 }
