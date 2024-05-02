@@ -41,7 +41,7 @@
           "IN_VALID": "Невірний ключ"
         },
         "REGEX_PATTERN": {
-          "LABEL": "Regex Pattern",
+          "LABEL": "Шаблон регулярного виразу",
           "PLACEHOLDER": "Будь ласка, введіть користувацький атрибут regex pattern. (Необов'язково)"
         },
         "REGEX_CUE": {
