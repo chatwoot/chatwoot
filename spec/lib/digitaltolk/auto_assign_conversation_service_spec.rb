@@ -9,7 +9,7 @@ describe Digitaltolk::AutoAssignConversationService do
 
   describe '#perform' do
     it 'autoes assign' do
-      expect(conversation.assignee_id).to eq(nil)
+      expect(conversation.assignee_id).to be_nil
       create(:inbox_member, inbox: inbox, user: agent)
       create(:message, conversation: conversation, message_type: 'outgoing', sender: agent)
       service.perform
