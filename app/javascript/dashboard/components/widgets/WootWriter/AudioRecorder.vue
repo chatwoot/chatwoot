@@ -231,7 +231,18 @@ export default {
     @apply bg-transparent max-h-60 min-h-[3rem] pt-4 px-0 pb-0 resize-none;
   }
 }
-.video-js .vjs-control-bar {
-  background-color: transparent;
+// Added to override the default text and bg style to support dark and light mode.
+.video-js .vjs-control-bar,
+.vjs-record.video-js .vjs-control.vjs-record-indicator:before {
+  @apply text-slate-600 dark:text-slate-200 bg-transparent dark:bg-transparent;
+}
+// Added to fix  div overlays the screen and takes over the button clicks
+// https://github.com/collab-project/videojs-record/issues/688
+// https://github.com/collab-project/videojs-record/pull/709
+.vjs-record.video-js .vjs-control.vjs-record-indicator.vjs-hidden,
+.vjs-record.video-js .vjs-control.vjs-record-indicator,
+.vjs-record.video-js .vjs-control.vjs-record-indicator:before,
+.vjs-record.video-js .vjs-control.vjs-record-indicator:after {
+  @apply pointer-events-none;
 }
 </style>

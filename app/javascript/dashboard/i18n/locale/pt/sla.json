@@ -1,50 +1,74 @@
 {
   "SLA": {
     "HEADER": "SLA",
-    "HEADER_BTN_TXT": "Add SLA",
-    "LOADING": "Fetching SLAs",
-    "SEARCH_404": "Não existem itens correspondentes a esta consulta",
-    "SIDEBAR_TXT": "<p><b>SLA</b> <p>Think of Service Level Agreements (SLAs) like friendly promises between a service provider and a customer.</p> <p> These promises set clear expectations for things like how quickly the team will respond to issues, making sure you always get a reliable and top-notch experience!</p>",
+    "ADD_ACTION": "Adicionar SLA",
+    "ADD_ACTION_LONG": "Criar uma nova Política de SLA",
+    "DESCRIPTION": "Service Level Agreements (SLA) são contratos que definem expectativas claras entre a sua equipa e os clientes. Estabelecem normas para tempos de resposta e de resolução, criando um quadro de responsabilização e garantindo uma experiência coerente e de qualidade.",
+    "LEARN_MORE": "Saiba mais sobre SLA",
+    "LOADING": "A carregar SLAs",
+    "PAYWALL": {
+      "TITLE": "Upgrade para criar SLAs",
+      "AVAILABLE_ON": "O recurso SLA apenas está disponível nos planos Business e Enterprise.",
+      "UPGRADE_PROMPT": "Faça upgrade do seu plano para obter acesso a recursos avançados, como gestão de equipas, automações, atributos personalizados e muito mais.",
+      "UPGRADE_NOW": "Fazer upgrade agora",
+      "CANCEL_ANYTIME": "Pode alterar ou cancelar o plano a qualquer momento"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "O recurso SLA apenas está disponível nos planos pagos.",
+      "UPGRADE_PROMPT": "Faça upgrade para um plano pago para obter recursos avançados, como logs de auditoria, capacidade de agentes e muito mais.",
+      "ASK_ADMIN": "Por favor, entre em contato com o administrador para atualização."
+    },
     "LIST": {
-      "404": "There are no SLAs available in this account.",
-      "TITLE": "Manage SLA",
-      "DESC": "SLAs: Friendly promises for great service!",
-      "TABLE_HEADER": [
-        "Nome:",
-        "Descrição",
-        "FRT",
-        "NRT",
-        "RT",
-        "Horário comercial"
-      ]
+      "404": "Não há SLAs disponíveis nesta conta.",
+      "EMPTY": {
+        "TITLE_1": "Empresa P0",
+        "DESC_1": "Questões levantadas pelos clientes empresariais que requerem atenção imediata.",
+        "TITLE_2": "Empresa P1",
+        "DESC_2": "Questões levantadas pelos clientes empresariais, que têm de ser rapidamente reconhecidas."
+      },
+      "BUSINESS_HOURS_ON": "Horário comercial ativado",
+      "BUSINESS_HOURS_OFF": "Horário comercial desativado",
+      "RESPONSE_TYPES": {
+        "FRT": "Limite de tempo da primeira resposta",
+        "NRT": "Limite de tempo da próxima resposta",
+        "RT": "Limite de tempo de resolução",
+        "SHORT_HAND": {
+          "FRT": "FRT",
+          "NRT": "NRT",
+          "RT": "RT"
+        }
+      }
     },
     "FORM": {
       "NAME": {
-        "LABEL": "SLA Name",
-        "PLACEHOLDER": "SLA Name",
-        "REQUIRED_ERROR": "SLA name is required",
+        "LABEL": "Nome SLA",
+        "PLACEHOLDER": "Nome SLA",
+        "REQUIRED_ERROR": "Necessário nome de SLA",
         "MINIMUM_LENGTH_ERROR": "O tamanho mínimo obrigatório é 2",
         "VALID_ERROR": "Apenas são permitidos Alfabetos, Números, Hífen e Underscores"
       },
       "DESCRIPTION": {
         "LABEL": "Descrição",
-        "PLACEHOLDER": "SLA for premium customers"
+        "PLACEHOLDER": "SLA para clientes premium"
       },
       "FIRST_RESPONSE_TIME": {
-        "LABEL": "First Response Time(Seconds)",
-        "PLACEHOLDER": "300 for 5 minutes"
+        "LABEL": "Primeiro tempo de resposta",
+        "PLACEHOLDER": "5"
       },
       "NEXT_RESPONSE_TIME": {
-        "LABEL": "Next Response Time(Seconds)",
-        "PLACEHOLDER": "600 for 10 minutes"
+        "LABEL": "Próximo tempo de resposta",
+        "PLACEHOLDER": "5"
       },
       "RESOLUTION_TIME": {
-        "LABEL": "Resolution Time(Seconds)",
-        "PLACEHOLDER": "86400 for 1 day"
+        "LABEL": "Tempo de resolução",
+        "PLACEHOLDER": "60"
       },
       "BUSINESS_HOURS": {
         "LABEL": "Horário comercial",
-        "PLACEHOLDER": "Only during business hours"
+        "PLACEHOLDER": "Apenas durante o horário de trabalho"
+      },
+      "THRESHOLD_TIME": {
+        "INVALID_FORMAT_ERROR": "Limite deve ser um número e maior que zero"
       },
       "EDIT": "Alterar",
       "CREATE": "Criar",
@@ -52,19 +76,33 @@
       "CANCEL": "cancelar"
     },
     "ADD": {
-      "TITLE": "Add SLA",
-      "DESC": "SLAs: Friendly promises for great service!",
+      "TITLE": "Adicionar SLA",
+      "DESC": "Acordos para um ótimo serviço!",
       "API": {
-        "SUCCESS_MESSAGE": "SLA added successfully",
+        "SUCCESS_MESSAGE": "SLA adicionado",
         "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
       }
     },
-    "EDIT": {
-      "TITLE": "Edit SLA",
+    "DELETE": {
+      "TITLE": "Apagar SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA updated successfully",
+        "SUCCESS_MESSAGE": "SLA apagado",
         "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirmar Exclusão",
+        "MESSAGE": "Tem a certeza que quer apagar ",
+        "YES": "Sim, excluir ",
+        "NO": "Não, Manter "
       }
+    },
+    "EVENTS": {
+      "TITLE": "SLA Perdidas",
+      "FRT": "Primeiro tempo de resposta",
+      "NRT": "Tempo para a próxima resposta",
+      "RT": "Tempo de resolução",
+      "SHOW_MORE": "{count} mais",
+      "HIDE": "Ocultar {count} linhas"
     }
   }
 }

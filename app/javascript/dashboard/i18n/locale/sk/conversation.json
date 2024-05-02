@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Odložené do zajtra",
       "SNOOZED_UNTIL_NEXT_WEEK": "Odložené do ďalšieho týždňa",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Odložené do ďalšej odpovede"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Odložené do ďalšej odpovede",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Označiť ako čakajúce na vybavenie",
@@ -273,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Vytvoriť atribút",
+    "NO_RECORDS_FOUND": "Žiadne atribúty neboli nájdené",
     "UPDATE": {
       "SUCCESS": "Atribút úspešne nahraný",
       "ERROR": "Nie je možné aktualizovať atribút. Skúste to prosím neskôr"

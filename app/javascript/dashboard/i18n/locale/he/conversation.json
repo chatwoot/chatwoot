@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "נמנם עד מחר",
       "SNOOZED_UNTIL_NEXT_WEEK": "נמנם עד שבוע הבא",
-      "SNOOZED_UNTIL_NEXT_REPLY": "נמנם עד תגובה הבאה"
+      "SNOOZED_UNTIL_NEXT_REPLY": "נמנם עד תגובה הבאה",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "סמן כממתין",
@@ -273,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "צור תכונה",
+    "NO_RECORDS_FOUND": "לא נמצאו מאפיינים",
     "UPDATE": {
       "SUCCESS": "המאפיין עודכן בהצלחה",
       "ERROR": "לא ניתן לעדכן את המאפיין. בבקשה נסה שוב מאוחר יותר"

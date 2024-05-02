@@ -24,7 +24,7 @@
           />
         </woot-tabs>
       </setting-intro-banner>
-      <div class="p-4 max-w-full my-auto flex flex-wrap">
+      <div class="flex flex-wrap max-w-full px-8 py-4 my-auto">
         <router-view />
       </div>
     </div>

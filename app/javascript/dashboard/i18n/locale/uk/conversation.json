@@ -13,8 +13,8 @@
     "NO_INBOX_AGENT": "Ой! Схоже, ви не маєте доступу до скриньки \"Вхідні\". Будь ласка, зверніться до адміністратора",
     "SEARCH_MESSAGES": "Пошук повідомлень у розмовах",
     "EMPTY_STATE": {
-      "CMD_BAR": "to open command menu",
-      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+      "CMD_BAR": "відкрити командне меню",
+      "KEYBOARD_SHORTCUTS": "переглянути комбінації клавіш"
     },
     "SEARCH": {
       "TITLE": "Пошук повідомлень",
@@ -41,15 +41,15 @@
     "SAVE_CONTACT": "Зберегти",
     "UPLOADING_ATTACHMENTS": "Завантаження вкладень...",
     "REPLIED_TO_STORY": "Відповів(-ла) на вашу історію",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
-    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
-    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
+    "UNSUPPORTED_MESSAGE": "Це повідомлення не підтримується.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "Це повідомлення не підтримується. Ви можете переглянути це повідомлення у додатку Facebook Messenger",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "Це повідомлення не підтримується. Ви можете переглянути це повідомлення у додатку Instagram.",
     "SUCCESS_DELETE_MESSAGE": "Повідомлення успішно видалено",
     "FAIL_DELETE_MESSSAGE": "Не вдалося видалити повідомлення! Спробуйте ще раз",
     "NO_RESPONSE": "Немає відповіді",
     "RATING_TITLE": "Оцінка",
     "FEEDBACK_TITLE": "Зворотній зв'язок",
-    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
+    "REPLY_MESSAGE_NOT_FOUND": "Повідомлення недоступне",
     "CARD": {
       "SHOW_LABELS": "Показати мітки",
       "HIDE_LABELS": "Сховати мітки"
@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Відкладено до",
       "SNOOZED_UNTIL_TOMORROW": "Відкладено до завтра",
       "SNOOZED_UNTIL_NEXT_WEEK": "Відкладено до наступного тижня",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Відкладено до наступної відповіді"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Відкладено до наступної відповіді",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "пропущено",
+        "DUE": "до"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Позначити як \"В очікуванні\"",
@@ -143,8 +150,8 @@
       "SEND": "Надіслати",
       "CREATE": "Додати нотатку",
       "INSERT_READ_MORE": "Детальніше",
-      "DISMISS_REPLY": "Dismiss reply",
-      "REPLYING_TO": "Replying to:",
+      "DISMISS_REPLY": "Відхилити відповідь",
+      "REPLYING_TO": "Відповісти:",
       "TIP_FORMAT_ICON": "Показати текстовий редактор",
       "TIP_EMOJI_ICON": "Показати емодзі",
       "TIP_ATTACH_ICON": "Прикріпити файли",
@@ -156,7 +163,7 @@
       "STOP_AUDIO_RECORDING": "Зупинити аудіозапис",
       "": "",
       "EMAIL_HEAD": {
-        "TO": "TO",
+        "TO": "На",
         "ADD_BCC": "Додати bcc",
         "CC": {
           "LABEL": "CC",
@@ -199,7 +206,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Копіювати",
-      "REPLY_TO": "Reply to this message",
+      "REPLY_TO": "Відповісти на це повідомлення",
       "DELETE": "Видалити",
       "CREATE_A_CANNED_RESPONSE": "Додати швидку відповідь",
       "TRANSLATE": "Перекласти",
@@ -273,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Створити атрибут",
+    "NO_RECORDS_FOUND": "Атрибути не знайдено",
     "UPDATE": {
       "SUCCESS": "Атрибут успішно оновлено",
       "ERROR": "Не вдалося оновити атрибут. Будь ласка, спробуйте ще раз пізніше"

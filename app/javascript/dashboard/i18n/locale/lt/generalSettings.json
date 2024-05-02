@@ -87,7 +87,10 @@
       "conversation_assignment": "Pokalbis priskirtas",
       "assigned_conversation_new_message": "Naujas pranešimas",
       "participating_conversation_new_message": "Naujas pranešimas",
-      "conversation_mention": "Paminėjimas"
+      "conversation_mention": "Paminėjimas",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
@@ -113,7 +116,7 @@
       "SETTINGS": "Nustatymai",
       "AI_ASSIST": "AI pagalba",
       "APPEARANCE": "Išvaizda",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "Atidėti pranešimą"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Eikite į Pokalbio informacijos skydelį",
@@ -155,7 +158,7 @@
       "LIGHT_MODE": "Šviesus",
       "DARK_MODE": "Tamsus",
       "SYSTEM_MODE": "Sistema",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "Atidėti pranešimą"
     }
   },
   "DASHBOARD_APPS": {

@@ -153,6 +153,29 @@
 }
 
 .multiselect-wrap--small {
+  // To be removed one SLA reports date picker is created
+  &.tiny {
+    .multiselect.no-margin {
+      @apply min-h-[32px];
+    }
+
+    .multiselect__select {
+      @apply min-h-[32px] h-8;
+
+      &::before {
+        @apply top-[60%];
+      }
+    }
+
+    .multiselect__tags {
+      @apply min-h-[32px] max-h-[32px];
+
+      .multiselect__single {
+        @apply pt-1 pb-1;
+      }
+    }
+  }
+
   .multiselect__tags,
   .multiselect__input,
   .multiselect {
