@@ -446,7 +446,7 @@
     }
   },
   "BOT_REPORTS": {
-    "HEADER": "Bot Reports",
+    "HEADER": "Звіти з ботів",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
         "LABEL": "Кількість розмов",
