@@ -69,7 +69,7 @@ gem 'webpacker'
 gem 'barnes'
 
 ##--- gems for authentication & authorization ---##
-gem 'devise', '>= 4.9.3'
+gem 'devise', '>= 4.9.4'
 gem 'devise-secure_password', git: 'https://github.com/chatwoot/devise-secure_password', branch: 'chatwoot'
 gem 'devise_token_auth'
 # authorization
@@ -77,7 +77,7 @@ gem 'jwt'
 gem 'pundit'
 # super admin
 gem 'administrate', '>= 0.20.1'
-gem 'administrate-field-active_storage', '>= 1.0.1'
+gem 'administrate-field-active_storage', '>= 1.0.2'
 gem 'administrate-field-belongs_to_search', '>= 0.9.0'
 
 ##--- gems for pubsub service ---##
@@ -113,10 +113,10 @@ gem 'newrelic-sidekiq-metrics', '>= 1.6.2', require: false
 gem 'scout_apm', require: false
 gem 'sentry-rails', '>= 5.14.0', require: false
 gem 'sentry-ruby', require: false
-gem 'sentry-sidekiq', '>= 5.14.0', require: false
+gem 'sentry-sidekiq', '>= 5.15.0', require: false
 
 ##-- background job processing --##
-gem 'sidekiq', '>= 7.2.1'
+gem 'sidekiq', '>= 7.2.4'
 # We want cron jobs
 gem 'sidekiq-cron', '>= 1.12.0'
 
@@ -175,9 +175,6 @@ gem 'pgvector'
 # Convert Website HTML to Markdown
 gem 'reverse_markdown'
 
-# Sentiment analysis
-gem 'informers'
-
 ### Gems required only in specific deployment environments ###
 ##############################################################
 
@@ -203,7 +200,7 @@ group :development do
   gem 'rack-mini-profiler', '>= 3.2.0', require: false
   gem 'stackprof'
   # Should install the associated chrome extension to view query logs
-  gem 'meta_request'
+  gem 'meta_request', '>= 0.8.0'
 end
 
 group :test do

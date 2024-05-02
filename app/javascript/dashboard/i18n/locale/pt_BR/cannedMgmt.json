@@ -34,7 +34,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Resposta pronta adicionada com sucesso.",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Tente novamente."
       }
     },
     "EDIT": {
@@ -56,14 +56,14 @@
       "BUTTON_TEXT": "Alterar",
       "API": {
         "SUCCESS_MESSAGE": "Resposta pronta atualizada com sucesso.",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Tente novamente."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Excluir",
       "API": {
         "SUCCESS_MESSAGE": "Resposta pronta deletada com sucesso.",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Tente novamente."
       },
       "CONFIRM": {
         "TITLE": "Confirmar exclusão",

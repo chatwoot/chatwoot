@@ -310,5 +310,4 @@ class Conversation < ApplicationRecord
 end
 
 Conversation.include_mod_with('Concerns::Conversation')
-Conversation.include_mod_with('SentimentAnalysisHelper')
 Conversation.prepend_mod_with('Conversation')

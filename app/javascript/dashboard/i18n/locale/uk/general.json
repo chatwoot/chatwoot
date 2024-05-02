@@ -1,0 +1,5 @@
+{
+  "GENERAL": {
+    "SHOWING_RESULTS": "Показані {firstIndex}-{lastIndex} з елементів {totalCount}"
+  }
+}

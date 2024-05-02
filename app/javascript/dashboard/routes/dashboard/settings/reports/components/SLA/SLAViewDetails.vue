@@ -13,7 +13,7 @@
         </woot-button>
         <SLA-popover-card
           v-if="showSlaPopoverCard"
-          :all-missed-slas="slaEvents"
+          :sla-missed-events="slaEvents"
           class="right-0"
         />
       </div>
@@ -22,14 +22,11 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import SLAPopoverCard from 'dashboard/components/widgets/conversation/components/SLAPopoverCard.vue';
 export default {
   components: {
     SLAPopoverCard,
   },
-  mixins: [clickaway],
-
   props: {
     slaEvents: {
       type: Array,
