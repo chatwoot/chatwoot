@@ -61,9 +61,9 @@ export default {
           }
 
           actionToPerform(e);
-        } catch {
+        } catch (err) {
           // ignore errors
-          Sentry.captureException(e, {
+          Sentry.captureException(err, {
             context: {
               component: this.$options?.name,
               isFunction: isFunction,
