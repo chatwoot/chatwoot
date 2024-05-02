@@ -4,22 +4,19 @@ describe Redis::Config do
   context 'when single redis instance is used' do
     let(:redis_url) { 'redis://my-redis-instance:6379' }
     let(:redis_pasword) { 'some-strong-password' }
-    let(:redis_db_num) { '1' }
 
     before do
       described_class.instance_variable_set(:@config, nil)
-      with_modified_env REDIS_URL: redis_url, REDIS_PASSWORD: redis_pasword, REDIS_DB_NUM: redis_db_num,
-                        REDIS_SENTINELS: '', REDIS_SENTINEL_MASTER_NAME: '' do
+      with_modified_env REDIS_URL: redis_url, REDIS_PASSWORD: redis_pasword, REDIS_SENTINELS: '', REDIS_SENTINEL_MASTER_NAME: '' do
         described_class.config
       end
     end
 
     it 'checks for app redis config' do
       app_config = described_class.app
-      expect(app_config.keys).to contain_exactly(:url, :password, :db, :timeout, :reconnect_attempts, :ssl_params)
+      expect(app_config.keys).to contain_exactly(:url, :password, :timeout, :reconnect_attempts, :ssl_params)
       expect(app_config[:url]).to eq(redis_url)
       expect(app_config[:password]).to eq(redis_pasword)
-      expect(app_config[:db]).to eq(redis_db_num)
     end
   end
 
@@ -28,7 +25,6 @@ describe Redis::Config do
     let(:redis_sentinels) { 'sentinel_1:1234, sentinel_2:4321, sentinel_3' }
     let(:redis_master_name) { 'master-name' }
     let(:redis_pasword) { 'some-strong-password' }
-    let(:redis_db_num_default) { 0 }
 
     let(:expected_sentinels) do
       [
@@ -40,7 +36,7 @@ describe Redis::Config do
 
     before do
       described_class.instance_variable_set(:@config, nil)
-      with_modified_env REDIS_URL: redis_url, REDIS_PASSWORD: redis_pasword, REDIS_DB_NUM: nil, REDIS_SENTINELS: redis_sentinels,
+      with_modified_env REDIS_URL: redis_url, REDIS_PASSWORD: redis_pasword, REDIS_SENTINELS: redis_sentinels,
                         REDIS_SENTINEL_MASTER_NAME: redis_master_name do
         described_class.config
       end
@@ -52,10 +48,9 @@ describe Redis::Config do
     end
 
     it 'checks for app redis config' do
-      expect(described_class.app.keys).to contain_exactly(:url, :password, :db, :sentinels, :timeout, :reconnect_attempts, :ssl_params)
+      expect(described_class.app.keys).to contain_exactly(:url, :password, :sentinels, :timeout, :reconnect_attempts, :ssl_params)
       expect(described_class.app[:url]).to eq("redis://#{redis_master_name}")
       expect(described_class.app[:sentinels]).to match_array(expected_sentinels)
-      expect(described_class.app[:db]).to eq(redis_db_num_default)
     end
 
     context 'when redis sentinel is used with REDIS_SENTINEL_PASSWORD empty string' do
@@ -75,7 +70,7 @@ describe Redis::Config do
       end
 
       it 'checks for app redis config and sentinel passwords will be empty' do
-        expect(described_class.app.keys).to contain_exactly(:url, :password, :db, :sentinels, :timeout, :reconnect_attempts, :ssl_params)
+        expect(described_class.app.keys).to contain_exactly(:url, :password, :sentinels, :timeout, :reconnect_attempts, :ssl_params)
         expect(described_class.app[:url]).to eq("redis://#{redis_master_name}")
         expect(described_class.app[:sentinels]).to match_array(expected_sentinels.map { |s| s.except(:password) })
       end
@@ -98,7 +93,7 @@ describe Redis::Config do
       end
 
       it 'checks for app redis config and redis password is replaced in sentinel config' do
-        expect(described_class.app.keys).to contain_exactly(:url, :password, :db, :sentinels, :timeout, :reconnect_attempts, :ssl_params)
+        expect(described_class.app.keys).to contain_exactly(:url, :password, :sentinels, :timeout, :reconnect_attempts, :ssl_params)
         expect(described_class.app[:url]).to eq("redis://#{redis_master_name}")
         expect(described_class.app[:sentinels]).to match_array(expected_sentinels.map { |s| s.merge(password: redis_sentinel_password) })
       end
