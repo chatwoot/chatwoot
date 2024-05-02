@@ -5,7 +5,6 @@
       class="flex-1 [&>input]:!py-1.5 ltr:[&>input]:!pr-9 ltr:[&>input]:!pl-3 rtl:[&>input]:!pl-9 rtl:[&>input]:!pr-3 focus:[&>input]:!border-slate-200 focus:[&>input]:dark:!border-slate-600 [&>input]:cursor-not-allowed relative"
       :styles="{
         borderRadius: '12px',
-        padding: '6px 12px',
         fontSize: '14px',
         marginBottom: '2px',
       }"
