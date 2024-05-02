@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { isActiveElementTypeable, isEscape } from '../helpers/KeyboardHelpers';
 
-import { createKeybindingsHandler } from 'shared/helpers/keybindings';
+import { createKeybindingsHandler } from 'tinykeys';
 import * as Sentry from '@sentry/browser';
 
 // this is a store that stores the handler globally, and only gets reset on reload
@@ -58,8 +58,6 @@ export default {
 
           if (isTypeable) {
             if (isEscape(e)) e.target.blur();
-            console.log('isTypeable', isTypeable);
-            console.log('allowOnFocusedInput', allowOnFocusedInput);
             if (!allowOnFocusedInput) return;
           }
 
