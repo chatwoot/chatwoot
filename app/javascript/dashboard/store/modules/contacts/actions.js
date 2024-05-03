@@ -6,6 +6,7 @@ import types from '../../mutation-types';
 import ContactAPI from '../../../api/contacts';
 import AccountActionsAPI from '../../../api/accountActions';
 import AnalyticsHelper from '../../../helper/AnalyticsHelper';
+import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
 import { CONTACTS_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
 const buildContactFormData = contactParams => {
@@ -140,7 +141,7 @@ export const actions = {
 
   export: async ({ commit, state }) => {
     try {
-      const filters = state.appliedFilters;
+      const filters = filterQueryGenerator(state.appliedFilters);
       await ContactAPI.exportContacts({
         payload: filters,
       });
