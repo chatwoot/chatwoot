@@ -27,7 +27,7 @@ class Contacts::FilterService < FilterService
   end
 
   def base_relation
-    @account.contacts || Current.account.contacts
+    (@account || Current.account).contacts
   end
 
   def filter_config
