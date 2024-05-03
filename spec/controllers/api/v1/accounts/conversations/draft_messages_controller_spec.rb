@@ -5,7 +5,7 @@ RSpec.describe 'Conversation Draft Messages API', type: :request do
 
   describe 'POST /api/v1/accounts/{account.id}/conversations/<id>/draft_messages' do
     let(:conversation) { create(:conversation, account: account) }
-    let(:cache_key) { format(Redis::Alfred::CONVERSATION_DRAFT_MESSAGE, account_id: account.id, conversation_id: conversation.display_id) }
+    let(:cache_key) { format(Redis::Alfred::CONVERSATION_DRAFT_MESSAGE, id: conversation.id) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
