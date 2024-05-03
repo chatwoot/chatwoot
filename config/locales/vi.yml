@@ -74,6 +74,8 @@ vi:
       conversations_count: Assigned conversations
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      resolution_count: Số lượng giải quyết
+      avg_customer_waiting_time: Avg customer waiting time
     inbox_csv:
       inbox_name: Tên kênh
       inbox_type: Kiểu kênh
@@ -90,6 +92,8 @@ vi:
       conversations_count: Số hội thoại
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      resolution_count: Số lượng giải quyết
+      avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Múi giờ
     sla_csv:
