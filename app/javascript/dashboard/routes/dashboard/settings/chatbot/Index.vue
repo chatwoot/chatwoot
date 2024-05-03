@@ -36,10 +36,10 @@
                       chatbot.chatbot_name === ''
                     "
                   >
-                    <span class="chatbot-id"
-                      >{{ $t('CHATBOT_SETTINGS.CHATBOT') }} -
-                      {{ chatbot.chatbot_id.slice(-4) }}</span
-                    >
+                    <span class="chatbot-id">
+                      {{ $t('CHATBOT_SETTINGS.CHATBOT') }} -
+                      {{ chatbot.chatbot_id.slice(-4) }}
+                    </span>
                   </template>
                   <template v-else>
                     {{ chatbot.chatbot_name }}
