@@ -159,7 +159,7 @@ openai:
     },
   ]
   visible_properties: ['api_key', 'label_suggestion']
-  dyte:
+linear:
   id: linear
   logo: linear.png
   i18n_key: linear
