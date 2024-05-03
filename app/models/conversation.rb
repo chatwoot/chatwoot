@@ -261,7 +261,7 @@ class Conversation < ApplicationRecord
     # Display id is set via a trigger in the database
     # So we need to specifically fetch it after the record is created
     # We can't use reload because it will clear the previous changes, which we need for the dispatcher
-    self[:display_id] = self.class.where(:id => id).select(attr).first[attr]
+    self[:display_id] = self.class.where(:id => id).select(:display_id).first[:display_id]
   end
 
   def notify_status_change
