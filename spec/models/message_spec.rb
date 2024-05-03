@@ -107,15 +107,15 @@ RSpec.describe Message do
   end
 
   describe 'message create event' do
-    let(:conversation) { create(:conversation) }
+    let!(:conversation) { create(:conversation) }
+
+    before do
+      conversation.reload
+    end
 
     it 'updates the conversation first reply created at if it is the first outgoing message' do
       expect(conversation.first_reply_created_at).to be_nil
-      # print conversation object into logs
-      Rails.logger.error('----------- Debugging Conversation Object -----------')
-      Rails.logger.error(conversation.inspect)
-      Rails.logger.error('----------- Debugging Conversation Object -----------')
-      expect(conversation.reload.waiting_since).to eq conversation.created_at
+      expect(conversation.waiting_since).to eq conversation.created_at
 
       outgoing_message = create(:message, message_type: :outgoing, conversation: conversation)
 
