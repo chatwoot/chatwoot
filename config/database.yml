@@ -10,16 +10,30 @@ default: &default
     statement_timeout: <%= ENV["POSTGRES_STATEMENT_TIMEOUT"] || "14s" %>
 
 development:
-  <<: *default
-  database: "<%= ENV.fetch('POSTGRES_DATABASE', 'chatwoot_dev') %>"
-  username: "<%= ENV.fetch('POSTGRES_USERNAME', 'postgres') %>"
-  password: "<%= ENV.fetch('POSTGRES_PASSWORD', '') %>"
+  primary:
+    <<: *default
+    database: "<%= ENV.fetch('POSTGRES_DATABASE', 'chatwoot_dev') %>"
+    username: "<%= ENV.fetch('POSTGRES_USERNAME', 'postgres') %>"
+    password: "<%= ENV.fetch('POSTGRES_PASSWORD', '') %>"
+  primary_replica:
+    <<: *default
+    database: "<%= ENV.fetch('POSTGRES_DATABASE', 'chatwoot_dev') %>"
+    username: "<%= ENV.fetch('POSTGRES_USERNAME', 'postgres') %>"
+    password: "<%= ENV.fetch('POSTGRES_PASSWORD', '') %>"
+    replica: true
 
 test:
-  <<: *default
-  database: "<%= ENV.fetch('POSTGRES_DATABASE', 'chatwoot_test') %>"
-  username: "<%= ENV.fetch('POSTGRES_USERNAME', 'postgres') %>"
-  password: "<%= ENV.fetch('POSTGRES_PASSWORD', '') %>"
+  primary:
+    <<: *default
+    database: "<%= ENV.fetch('POSTGRES_DATABASE', 'chatwoot_test') %>"
+    username: "<%= ENV.fetch('POSTGRES_USERNAME', 'postgres') %>"
+    password: "<%= ENV.fetch('POSTGRES_PASSWORD', '') %>"
+  primary_replica:
+    <<: *default
+    database: "<%= ENV.fetch('POSTGRES_DATABASE', 'chatwoot_test') %>"
+    username: "<%= ENV.fetch('POSTGRES_USERNAME', 'postgres') %>"
+    password: "<%= ENV.fetch('POSTGRES_PASSWORD', '') %>"
+    replica: true
 
 production:
   primary:
