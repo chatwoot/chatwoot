@@ -280,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Nitelik Oluştur",
+    "NO_RECORDS_FOUND": "Nitelik bulunamadı",
     "UPDATE": {
       "SUCCESS": "Öznitelik başarıyla güncellendi",
       "ERROR": "Öznitelik güncellenemedi. Lütfen daha sonra tekrar deneyiniz"

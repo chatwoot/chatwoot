@@ -280,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Napravi atribut",
+    "NO_RECORDS_FOUND": "Nijedan atribut nije pronađen",
     "UPDATE": {
       "SUCCESS": "Atribut je uspešno izmenjen",
       "ERROR": "Nije bilo moguće izmeniti atribut. Molim vas pokušajte ponovo"
