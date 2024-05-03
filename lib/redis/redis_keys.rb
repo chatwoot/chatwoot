@@ -8,7 +8,7 @@ module Redis::RedisKeys
   CONVERSATION_MAILER_KEY = 'CONVERSATION::%<conversation_id>d'.freeze
   # Whether a conversation is muted ?
   CONVERSATION_MUTE_KEY = 'CONVERSATION::%<id>d::MUTED'.freeze
-  CONVERSATION_DRAFT_MESSAGE = 'CONVERSATION::DRAFT_MESSAGE::%<conversation_id>s::%<account_id>s'.freeze
+  CONVERSATION_DRAFT_MESSAGE = 'CONVERSATION::%<id>d::DRAFT_MESSAGE'.freeze
 
   ## User Keys
   # SSO Auth Tokens
