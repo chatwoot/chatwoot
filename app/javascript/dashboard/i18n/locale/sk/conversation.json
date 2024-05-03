@@ -280,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Vytvoriť atribút",
+    "NO_RECORDS_FOUND": "Žiadne atribúty neboli nájdené",
     "UPDATE": {
       "SUCCESS": "Atribút úspešne nahraný",
       "ERROR": "Nie je možné aktualizovať atribút. Skúste to prosím neskôr"

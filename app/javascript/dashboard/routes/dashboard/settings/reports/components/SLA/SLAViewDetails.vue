@@ -22,14 +22,11 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import SLAPopoverCard from 'dashboard/components/widgets/conversation/components/SLAPopoverCard.vue';
 export default {
   components: {
     SLAPopoverCard,
   },
-  mixins: [clickaway],
-
   props: {
     slaEvents: {
       type: Array,

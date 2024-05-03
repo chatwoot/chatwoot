@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Özel Nitelikler",
       "CONTACT_LABELS": "Kişi Etiketleri",
-      "PREVIOUS_CONVERSATIONS": "Önceki Sohbetler"
+      "PREVIOUS_CONVERSATIONS": "Önceki Sohbetler",
+      "NO_RECORDS_FOUND": "Nitelik bulunamadı"
     }
   },
   "EDIT_CONTACT": {

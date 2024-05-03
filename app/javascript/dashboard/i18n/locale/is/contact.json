@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Sérsniðnir Eiginleikar",
       "CONTACT_LABELS": "Merkingar Tengiliða",
-      "PREVIOUS_CONVERSATIONS": "Fyrri samtöl"
+      "PREVIOUS_CONVERSATIONS": "Fyrri samtöl",
+      "NO_RECORDS_FOUND": "Engir eiginleikar fundust"
     }
   },
   "EDIT_CONTACT": {

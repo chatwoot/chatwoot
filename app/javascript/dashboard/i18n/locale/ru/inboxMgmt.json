@@ -22,7 +22,7 @@
         "body": "Добавить агента в созданный источник."
       },
       {
-        "title": "Ура!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "Все готово!"
       }
@@ -43,7 +43,7 @@
         "CHOOSE_PLACEHOLDER": "Выберите страницу из списка",
         "INBOX_NAME": "Имя источника",
         "ADD_NAME": "Введите имя источника",
-        "PICK_NAME": "Выберите имя для источника",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "Выберите значение"
       },
       "TWITTER": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "URL вебхука",
-          "PLACEHOLDER": "Введите URL-адрес вебхука",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Пожалуйста, введите правильный URL"
         },
         "CHANNEL_DOMAIN": {
@@ -175,12 +175,12 @@
           },
           "API_KEY": {
             "LABEL": "Ключ API",
-            "PLACEHOLDER": "Пожалуйста, введите ваш Bandwith API Key",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "Это поле обязательно"
           },
           "API_SECRET": {
             "LABEL": "Секретный ключ API",
-            "PLACEHOLDER": "Пожалуйста, введите ваш секретный ключ аккаунта Bandwidth",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "Это поле обязательно"
           },
           "APPLICATION_ID": {
@@ -239,7 +239,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Вебхук верифицировать токен",
-          "PLACEHOLDER": "Введите контрольный токен, который вы хотите настроить для вебхуков Facebook.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Пожалуйста, введите правильное значение."
         },
         "API_KEY": {
@@ -269,7 +269,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "URL вебхука",
-          "SUBTITLE": "Добавьте URL, на который вы бы хотели получать callback-события.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "URL вебхука"
         },
         "SUBMIT_BUTTON": "Создайте источник API",
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Email источник",
-        "DESC": "Интегрируйте ваш почтовый ящик.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "имя источника",
           "PLACEHOLDER": "Пожалуйста введите имя источника",
@@ -345,7 +345,7 @@
       "AGENTS": {
         "TITLE": "Операторы",
         "DESC": "Здесь вы можете добавить операторов для управления только что созданным источником. Только эти операторы будут иметь доступ к вашему источнику. Операторы, которые не являются частью этого источника, не смогут видеть диалоги или отвечать на них. <br> <b>PS:</b> Если вам как администратору нужен доступ ко всем источникам, то вы должны добавить себя как операторы во все каналы, которые вы создаете.",
-        "VALIDATION_ERROR": "Добавьте хотя бы одного агента в новый канал",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Выберите агентов для канала"
       },
       "DETAILS": {
@@ -406,7 +406,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Имя отправителя",
-        "SUB_TEXT": "Выберите имя, отображаемое клиенту, когда он получает письма от ваших агентов.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "Например:",
         "FRIENDLY": {
           "TITLE": "Дружелюбный",
@@ -508,12 +508,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Разрешить отправлять сообщения после завершения разговора",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Разрешить пользователям отправлять сообщения даже после того, как разговор будет завершен.",
       "WHATSAPP_SECTION_SUBHEADER": "Этот ключ API используется для интеграции с API WhatsApp.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Введите обновленный ключ для интеграции с WhatsApp API.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "Ключ API",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Обновить ключ API",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Введите сюда новый ключ API",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Обновить",
-      "WHATSAPP_WEBHOOK_TITLE": "Вебхук верифицировать токен",
+      "WHATSAPP_WEBHOOK_TITLE": "Токен авторизации Webhook",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Этот токен используется для проверки подлинности конечной точки веб-хука.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Обновить настройки формы для чата"
     },
@@ -585,7 +585,7 @@
       "NOTE_TEXT": "Для включения SMTP, настройте IMAP.",
       "UPDATE": "Обновить настройки IMAP",
       "TOGGLE_AVAILABILITY": "Включить конфигурацию IMAP для этого ящика",
-      "TOGGLE_HELP": "Включение IMAP поможет пользователю получить электронную почту",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "Настройки IMAP успешно обновлены",
         "ERROR_MESSAGE": "Невозможно обновить настройки IMAP"

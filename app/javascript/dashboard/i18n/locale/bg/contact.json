@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Персонализирани атрибути",
       "CONTACT_LABELS": "Етикети на контакта",
-      "PREVIOUS_CONVERSATIONS": "Предишни разговори"
+      "PREVIOUS_CONVERSATIONS": "Предишни разговори",
+      "NO_RECORDS_FOUND": "Няма намерени атрибути"
     }
   },
   "EDIT_CONTACT": {
