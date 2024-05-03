@@ -62,8 +62,6 @@ jobs:
         rm -rf enterprise
         rm -rf spec/enterprise
 
-    - uses: mxschmitt/action-tmate@v3
-
     - name: Create database
       run: bundle exec rake db:create
 

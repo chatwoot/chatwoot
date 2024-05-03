@@ -29,8 +29,8 @@ production:
     password: "<%= ENV.fetch('POSTGRES_PASSWORD', 'chatwoot_prod') %>"
   primary_replica:
     <<: *default
-    host: "<%= ENV.fetch('POSTGRES_HOST_RR', 'localhost') %>"
-    database: "<%= ENV.fetch('POSTGRES_DATABASE', 'chatwoot_production') %>"
-    username: "<%= ENV.fetch('POSTGRES_USERNAME_RR', 'chatwoot_prod_readonly') %>"
-    password: "<%= ENV.fetch('POSTGRES_PASSWORD_RR', 'chatwoot_prod') %>"
+    host: "<%= ENV.fetch('POSTGRES_HOST_RR', nil) %>"
+    database: "<%= ENV.fetch('POSTGRES_DATABASE', nil) %>"
+    username: "<%= ENV.fetch('POSTGRES_USERNAME_RR', nil) %>"
+    password: "<%= ENV.fetch('POSTGRES_PASSWORD_RR', nil) %>"
     replica: true
