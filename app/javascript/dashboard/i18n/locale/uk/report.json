@@ -4,8 +4,8 @@
     "LOADING_CHART": "Завантаження даних діаграми...",
     "NO_ENOUGH_DATA": "Ми не отримали достатньо даних для генерації звіту. Будь ласка, спробуйте ще раз пізніше.",
     "DOWNLOAD_AGENT_REPORTS": "Завантажити звіти агентів",
-    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
-    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
+    "DATA_FETCHING_FAILED": "Не вдалося отримати дані. Будь ласка, повторіть спробу пізніше.",
+    "SUMMARY_FETCHING_FAILED": "Не вдалося отримати дані. Будь ласка, повторіть спробу пізніше.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Бесіди",
@@ -44,8 +44,8 @@
         "DESC": "(Загалом)"
       },
       "REPLY_TIME": {
-        "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "NAME": "Час очікування клієнта",
+        "TOOLTIP_TEXT": "Час очікування становить %{metricValue} (на основі відповідей %{conversationCount})"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -140,7 +140,7 @@
     ],
     "BUSINESS_HOURS": "Робочий час",
     "FILTER_ACTIONS": {
-      "CLEAR_FILTER": "Clear filter",
+      "CLEAR_FILTER": "Очистити фільтр",
       "EMPTY_LIST": "Результатів не знайдено"
     }
   },
@@ -416,7 +416,7 @@
     "HEADER": "Звіти CSAT",
     "NO_RECORDS": "Немає доступних відповідей для опитувань CSAT.",
     "DOWNLOAD": "Завантажити CSAT звіти",
-    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
+    "DOWNLOAD_FAILED": "Не вдалося завантажити звіти CSAT",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Виберіть Агентів"
@@ -446,23 +446,23 @@
     }
   },
   "BOT_REPORTS": {
-    "HEADER": "Bot Reports",
+    "HEADER": "Звіти з ботів",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
-        "LABEL": "No. of Conversations",
-        "TOOLTIP": "Total number of conversations handled by the bot"
+        "LABEL": "Кількість розмов",
+        "TOOLTIP": "Загальна кількість розмов, оброблених ботом"
       },
       "TOTAL_RESPONSES": {
-        "LABEL": "Total Responses",
-        "TOOLTIP": "Total number of responses sent by the bot"
+        "LABEL": "Всього відповідей",
+        "TOOLTIP": "Загальна кількість відповідей, надісланих ботом"
       },
       "RESOLUTION_RATE": {
-        "LABEL": "Resolution Rate",
-        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+        "LABEL": "Час вирішення",
+        "TOOLTIP": "Загальна кількість розмов, вирішених ботом / Всього кількості розмов, які обробляє бот * 100"
       },
       "HANDOFF_RATE": {
         "LABEL": "Handoff Rate",
-        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+        "TOOLTIP": "Загальна кількість розмов, переданих агентам / Загальна кількість розмов, яку обробляє бот * 100"
       }
     }
   },
@@ -511,26 +511,26 @@
     "SATURDAY": "Субота"
   },
   "SLA_REPORTS": {
-    "HEADER": "SLA Reports",
-    "NO_RECORDS": "SLA applied conversations are not available.",
-    "LOADING": "Loading SLA data...",
-    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
-    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "HEADER": "Звіти SLA",
+    "NO_RECORDS": "SLA розмови недоступні.",
+    "LOADING": "Завантаження SLA даних...",
+    "DOWNLOAD_SLA_REPORTS": "Завантажити CSAT звіти",
+    "DOWNLOAD_FAILED": "Не вдалося завантажити SLA звіти",
     "DROPDOWN": {
-      "ADD_FIlTER": "Add filter",
-      "CLEAR_ALL": "Clear all",
-      "CLEAR_FILTER": "Clear filter",
+      "ADD_FIlTER": "Додати фільтр",
+      "CLEAR_ALL": "Очистити все",
+      "CLEAR_FILTER": "Очистити фільтр",
       "EMPTY_LIST": "Результатів не знайдено",
-      "NO_FILTER": "No filters available",
-      "SEARCH": "Search filter",
+      "NO_FILTER": "Немає доступних фільтрів",
+      "SEARCH": "Фільтр пошуку",
       "INPUT_PLACEHOLDER": {
-        "SLA": "SLA name",
+        "SLA": "SLA назва",
         "AGENTS": "Ім'я агента",
         "INBOXES": "Назва Джерела",
         "LABELS": "Назва мітки",
         "TEAMS": "Назва команди"
       },
-      "SLA": "SLA Policy",
+      "SLA": "Політика SLA",
       "INBOXES": "Вхідні",
       "AGENTS": "Агент",
       "LABELS": "Мітка",
@@ -538,25 +538,25 @@
     },
     "METRICS": {
       "HIT_RATE": {
-        "LABEL": "Hit Rate",
-        "TOOLTIP": "Percentage of SLAs created were completed successfully"
+        "LABEL": "Рейтинг попадань",
+        "TOOLTIP": "Відсоток створених SLA був успішно завершений"
       },
       "NO_OF_MISSES": {
-        "LABEL": "Number of Misses",
-        "TOOLTIP": "Total SLA misses in a certain period"
+        "LABEL": "Кількість промахів",
+        "TOOLTIP": "Усього промахів SLA за певний період"
       },
       "NO_OF_CONVERSATIONS": {
-        "LABEL": "Number of Conversations",
-        "TOOLTIP": "Total number of conversations with SLA"
+        "LABEL": "Кількість розмов",
+        "TOOLTIP": "Загальна кількість розмов з SLA"
       }
     },
     "TABLE": {
       "HEADER": {
-        "POLICY": "Policy",
+        "POLICY": "Політика",
         "CONVERSATION": "Діалог",
         "AGENT": "Агент"
       },
-      "VIEW_DETAILS": "View Details"
+      "VIEW_DETAILS": "Переглянути деталі"
     }
   }
 }
