@@ -110,7 +110,7 @@ class Conversation < ApplicationRecord
 
   after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation
-  after_commit :set_display_id, unless: :display_id?
+  after_create_commit :set_display_id, unless: :display_id?
 
   delegate :auto_resolve_duration, to: :account
 
@@ -258,7 +258,10 @@ class Conversation < ApplicationRecord
   end
 
   def set_display_id
-    reload_attribute(:display_id)
+    # Display id is set via a trigger in the database
+    # So we need to specifically fetch it after the record is created
+    # We can't use reload because it will clear the previous changes, which we need for the dispatcher
+    self[:display_id] = self.class.where(:id => id).select(attr).first[attr]
   end
 
   def notify_status_change
