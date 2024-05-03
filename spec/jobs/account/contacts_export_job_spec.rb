@@ -14,8 +14,8 @@ RSpec.describe Account::ContactsExportJob do
   context 'when export_contacts' do
     before do
       create(:contact, account: account, phone_number: '+910808080818', email: 'test1@text.example')
-      8.times do
-        create(:contact, account: account)
+      8.times do |i|
+        create(:contact, account: account, email: "looped-#{i + 3}@text.example.com")
       end
       create(:contact, account: account, phone_number: '+910808080808', email: 'test2@text.example')
     end
@@ -35,7 +35,7 @@ RSpec.describe Account::ContactsExportJob do
     end
 
     it 'generates valid data export file' do
-      described_class.perform_now(account.id, [], [], user.id)
+      described_class.perform_now(account.id, %w[id name email phone_number column_not_present], [], user.id)
 
       csv_data = CSV.parse(account.contacts_export.download, headers: true)
       emails = csv_data.pluck('email')

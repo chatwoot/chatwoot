@@ -29,9 +29,7 @@ class Account::ContactsExportJob < ApplicationJob
   end
 
   def valid_headers(column_names)
-    columns = (column_names.presence || default_columns)
-    headers = columns.map { |column| column if Contact.column_names.include?(column) }
-    headers.compact
+    (column_names.presence || default_columns) & Contact.column_names
   end
 
   def attach_export_file(csv_data)
