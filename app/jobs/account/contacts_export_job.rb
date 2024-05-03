@@ -25,7 +25,8 @@ class Account::ContactsExportJob < ApplicationJob
   end
 
   def contacts
-    @account.contacts
+    result = ::Contacts::FilterService.new(@params, @current_user, @account).perform
+    result[:contacts]
   end
 
   def valid_headers(column_names)

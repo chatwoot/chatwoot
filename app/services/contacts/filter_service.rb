@@ -1,6 +1,11 @@
 class Contacts::FilterService < FilterService
   ATTRIBUTE_MODEL = 'contact_attribute'.freeze
 
+  def initialize(params, user, account = nil)
+    @account = account
+    super(params, user)
+  end
+
   def perform
     @contacts = query_builder(@filters['contacts'])
 
@@ -22,7 +27,7 @@ class Contacts::FilterService < FilterService
   end
 
   def base_relation
-    Current.account.contacts
+    @account.contacts || Current.account.contacts
   end
 
   def filter_config
