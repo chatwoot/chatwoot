@@ -280,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "צור תכונה",
+    "NO_RECORDS_FOUND": "לא נמצאו מאפיינים",
     "UPDATE": {
       "SUCCESS": "המאפיין עודכן בהצלחה",
       "ERROR": "לא ניתן לעדכן את המאפיין. בבקשה נסה שוב מאוחר יותר"

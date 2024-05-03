@@ -280,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Create attribute",
+    "NO_RECORDS_FOUND": "Няма намерени атрибути",
     "UPDATE": {
       "SUCCESS": "Атрибута е обновен успешно",
       "ERROR": "Атрибута не бе обновен. Моля, опитайте отново по-късно"

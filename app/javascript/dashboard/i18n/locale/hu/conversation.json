@@ -280,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Attribútum hozzáadása",
+    "NO_RECORDS_FOUND": "Nem található tulajdonság",
     "UPDATE": {
       "SUCCESS": "Tulajdonság sikeresen frissítve",
       "ERROR": "Nem lehet frissíteni a tulajdonságot. Kérlek, próbáld újra"
