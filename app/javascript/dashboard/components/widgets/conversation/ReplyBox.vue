@@ -667,7 +667,6 @@ export default {
 
         this.$store.dispatch('draftMessages/set', {
           key,
-          conversationId,
           message: draftToSave,
         });
       }
@@ -676,14 +675,9 @@ export default {
       this.saveDraft(conversationId, replyType);
       this.message = '';
     },
-    async getFromDraft() {
+    getFromDraft() {
       if (this.conversationIdByRoute) {
         const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
-        const conversationId = this.conversationIdByRoute;
-        await this.$store.dispatch('draftMessages/getFromRemote', {
-          key,
-          conversationId,
-        });
         const messageFromStore =
           this.$store.getters['draftMessages/get'](key) || '';
 
@@ -703,8 +697,7 @@ export default {
     removeFromDraft() {
       if (this.conversationIdByRoute) {
         const key = `draft-${this.conversationIdByRoute}-${this.replyType}`;
-        const conversationId = this.conversationIdByRoute;
-        this.$store.dispatch('draftMessages/delete', { key, conversationId });
+        this.$store.dispatch('draftMessages/delete', { key });
       }
     },
     getKeyboardEvents() {
