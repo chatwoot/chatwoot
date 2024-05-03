@@ -20,7 +20,7 @@ RSpec.describe Account::ContactsExportJob do
     {
       :attribute_key => 'country_code',
       :filter_operator => 'equal_to',
-      :values => 'IN',
+      :values => ['India'],
       :query_operator => 'and',
       :attribute_model => 'standard',
       :custom_attribute_type => ''
@@ -51,7 +51,7 @@ RSpec.describe Account::ContactsExportJob do
         create(:contact, account: account, email: "looped-#{i + 3}@text.example.com")
       end
       4.times do |i|
-        create(:contact, account: account, country_code: 'IN', email: "looped-#{i + 10}@text.example.com")
+        create(:contact, account: account, additional_attributes: { :country_code => 'India' }, email: "looped-#{i + 10}@text.example.com")
       end
       create(:contact, account: account, phone_number: '+910808080808', email: 'test2@text.example')
     end
@@ -89,18 +89,18 @@ RSpec.describe Account::ContactsExportJob do
       expect(csv_data.length).to eq(account.contacts.count)
     end
 
-    it 'returns filtered data when multiple filters is provided' do
+    it 'returns filtered data when multiple filters are provided' do
       described_class.perform_now(account.id, [], multiple_filters.with_indifferent_access, user.id)
       csv_data = CSV.parse(account.contacts_export.download, headers: true)
-      # since there are only 8 contacts with 'looped' in email
-      expect(csv_data.length).to eq(8)
+      # since there are only 4 contacts with 'looped' in email and 'India' as country_code
+      expect(csv_data.length).to eq(4)
     end
 
     it 'returns filtered data when a single filter is provided' do
       described_class.perform_now(account.id, [], single_filter.with_indifferent_access, user.id)
       csv_data = CSV.parse(account.contacts_export.download, headers: true)
-      # since there are only 4 contacts with 'looped' in email and 'IN' as country_code
-      expect(csv_data.length).to eq(4)
+      # since there are only 8 contacts with 'looped' in email
+      expect(csv_data.length).to eq(8)
     end
   end
 end
