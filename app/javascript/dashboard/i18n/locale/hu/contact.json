@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Egyedi atribútumok",
       "CONTACT_LABELS": "Kontakt címkéi",
-      "PREVIOUS_CONVERSATIONS": "Korábbi beszélgetések"
+      "PREVIOUS_CONVERSATIONS": "Korábbi beszélgetések",
+      "NO_RECORDS_FOUND": "Nem található tulajdonság"
     }
   },
   "EDIT_CONTACT": {

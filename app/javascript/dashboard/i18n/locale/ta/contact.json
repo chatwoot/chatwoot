@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Custom Attributes",
       "CONTACT_LABELS": "Contact Labels",
-      "PREVIOUS_CONVERSATIONS": "முந்தைய உரையாடல்கள்"
+      "PREVIOUS_CONVERSATIONS": "முந்தைய உரையாடல்கள்",
+      "NO_RECORDS_FOUND": "No attributes found"
     }
   },
   "EDIT_CONTACT": {

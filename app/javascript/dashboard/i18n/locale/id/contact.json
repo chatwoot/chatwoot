@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Atribut Kustom",
       "CONTACT_LABELS": "Label Kontak",
-      "PREVIOUS_CONVERSATIONS": "Percakapan Sebelumnya"
+      "PREVIOUS_CONVERSATIONS": "Percakapan Sebelumnya",
+      "NO_RECORDS_FOUND": "Tidak ditemukan atribut"
     }
   },
   "EDIT_CONTACT": {
