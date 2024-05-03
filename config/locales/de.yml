@@ -74,6 +74,8 @@ de:
       conversations_count: Assigned conversations
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      resolution_count: Auflösungsanzahl
+      avg_customer_waiting_time: Avg customer waiting time
     inbox_csv:
       inbox_name: Posteingangsname
       inbox_type: Posteingangstyp
@@ -90,6 +92,8 @@ de:
       conversations_count: Anzahl Gespräche
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      resolution_count: Auflösungsanzahl
+      avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Zeitzone
     sla_csv:
