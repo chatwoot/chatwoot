@@ -46,5 +46,11 @@ RSpec.describe Account::ContactsExportJob do
       expect(emails).to include('test1@text.example', 'test2@text.example')
       expect(phone_numbers).to include('+910808080818', '+910808080808')
     end
+
+    it 'returns all results when filter is not prvoided' do
+      described_class.perform_now(account.id, %w[id name email column_not_present], [], user.id)
+      csv_data = CSV.parse(account.contacts_export.download, headers: true)
+      expect(csv_data.length).to eq(account.contacts.count)
+    end
   end
 end
