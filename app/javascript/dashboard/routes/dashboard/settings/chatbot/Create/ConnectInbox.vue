@@ -1,52 +1,60 @@
 <template>
-  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%]">
-    <br />
-    <h1>{{ $t('CHATBOT_SETTINGS.CHATBOT_INBOX_CONNECT') }}</h1>
-    <br />
-    <template v-if="isHamburgerMenuOpen">
-      <back-button class="absolute top-[17px] left-[420px]" />
-    </template>
-    <template v-else>
-      <back-button class="absolute top-[17px] left-[240px]" />
-    </template>
-    <div class="inbox-dropdown-container">
-      <div class="custom-select">
-        <select
-          v-model="selectedInbox"
-          class="inbox-dropdown"
-          @change="allotWebsiteToken"
-        >
-          <option
-            v-for="inbox in filteredInboxes"
-            :key="inbox.id"
-            :value="inbox.id"
-          >
-            {{ inbox.name }}
-          </option>
-        </select>
-        <div class="arrow-down" />
-      </div>
-    </div>
+  <div
+    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+  >
     <woot-button
-      :is-disabled="!isButtonActive"
       class-names="button--fixed-top"
-      @click="createChatbot()"
+      color-scheme="primary"
+      @click="createChatbot"
     >
       {{ $t('CHATBOT_SETTINGS.FORM.SUBMIT_CREATE') }}
     </woot-button>
-    <div v-if="showToast" class="toast">{{ toastMessage }}</div>
+    <page-header
+      :header-title="$t('CHATBOT_SETTINGS.CREATE_FLOW.CONNECT.TITLE')"
+      :header-content="$t('CHATBOT_SETTINGS.CREATE_FLOW.CONNECT.DESC')"
+    />
+    <div class="flex flex-wrap">
+      <div class="mt-2 flex-grow-0 flex-shrink-0 flex-[80%]">
+        <label>
+          {{ $t('CHATBOT_SETTINGS.FORM.TITLE') }}
+          <select
+            v-model="selectedInbox"
+            class="inbox-dropdown"
+            @change="allotWebsiteToken"
+          >
+            <option
+              v-for="inbox in filteredInboxes"
+              :key="inbox.id"
+              :value="inbox.id"
+            >
+              {{ inbox.name }}
+            </option>
+          </select>
+        </label>
+      </div>
+    </div>
     <banner
-      v-if="!userDismissedBlueBanner && showBlueBanner"
+      v-if="!userDismissedBotCreatingMessage && showBotCreatingMessage"
       color-scheme="primary"
-      :banner-message="blueBannerMessage"
+      :banner-message="botCreatingMessage"
       has-close-button
       class="fixed top-0 left-0 w-full z-50"
       @close="dismissUpdateBanner"
     />
     <banner
-      v-if="!userDismissedRedBanner && showRedBanner"
+      v-if="!userDismissedBotCreatedMessage && showBotCreatedMessage"
+      color-scheme="primary"
+      :banner-message="botCreatedMessage"
+      has-close-button
+      class="fixed top-0 left-0 w-full z-50"
+      @close="dismissUpdateBanner"
+    />
+    <banner
+      v-if="
+        !userDismissedBotCreationFailureMessage && showBotCreationFailureMessage
+      "
       color-scheme="alert"
-      :banner-message="redBannerMessage"
+      :banner-message="botCreationFailureMessage"
       has-close-button
       class="fixed top-0 left-0 w-full z-50"
       @close="dismissUpdateBanner"
@@ -56,13 +64,13 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
-import BackButton from '../../../../../components/widgets/BackButton.vue';
 import ChatbotAPI from '../../../../../api/chatbot';
-import Banner from 'dashboard/components/ui/Banner.vue';
+import PageHeader from '../../SettingsSubPageHeader.vue';
+import Banner from '../../../../../../dashboard/components/ui/Banner.vue';
 
 export default {
   components: {
-    BackButton,
+    PageHeader,
     Banner,
   },
   data() {
@@ -70,16 +78,15 @@ export default {
       selectedInbox: null,
       website_token: '',
       isButtonActive: false,
-      showToast: false,
-      toastMessage: '',
       inbox_id: '',
       inbox_name: '',
-      showBlueBanner: false,
-      showRedBanner: false,
-      userDismissedBlueBanner: false,
-      userDismissedRedBanner: false,
+      showBotCreatingMessage: false,
+      showBotCreatedMessage: false,
+      showBotCreationFailureMessage: false,
+      userDismissedBotCreatingMessage: false,
+      userDismissedBotCreatedMessage: false,
+      userDismissedBotCreationFailureMessage: false,
       chatbot_id: '',
-      isHamburgerMenuOpen: true,
     };
   },
   computed: {
@@ -96,32 +103,20 @@ export default {
         inbox => inbox.channel_type === 'Channel::WebWidget'
       );
     },
-    blueBannerMessage() {
-      return this.$t('GENERAL_SETTINGS.BANNER_CHATBOT_CREATION');
+    botCreatingMessage() {
+      return this.$t('CHATBOT_SETTINGS.BANNER.CREATING');
     },
-    redBannerMessage() {
-      return this.$t('GENERAL_SETTINGS.BANNER_CHATBOT_FAIL');
+    botCreatedMessage() {
+      return this.$t('CHATBOT_SETTINGS.BANNER.CREATED');
     },
-  },
-  watch: {
-    'uiSettings.show_secondary_sidebar': function (newVal) {
-      this.isHamburgerMenuOpen = newVal;
+    botCreationFailureMessage() {
+      return this.$t('CHATBOT_SETTINGS.BANNER.FAIL');
     },
-  },
-  created() {
-    this.isHamburgerMenuOpen = this.uiSettings.show_secondary_sidebar;
   },
   methods: {
-    ...mapActions('chatbot', [
-      'addBotUrl',
-      'setBotText',
-      'addBotFiles',
-      'deleteBotFile',
-      'deleteBotUrl',
-    ]),
     async createChatbot() {
       try {
-        this.showBlueBanner = true;
+        this.showBotCreatingMessage = true;
         const payload = new FormData();
         payload.append('accountId', this.currentAccountId);
         payload.append('website_token', this.website_token);
@@ -140,22 +135,22 @@ export default {
           formData.append('bot_urls', this.botUrls[i]);
         }
         await ChatbotAPI.createChatbot(formData);
-        this.showBlueBanner = false;
+        this.showBotCreatingMessage = false;
+        this.showBotCreatedMessage = true;
         await this.$router.push({
           name: 'chatbot_index', // Name of the route to redirect to
           params: { accountId: this.currentAccountId }, // Parameters to pass to the route if any
         });
-        window.location.reload();
       } catch (error) {
-        this.showBlueBanner = false;
+        this.showBotCreatingMessage = false;
         await ChatbotAPI.deleteChatbotWithChatbotId(this.chatbot_id);
-        this.showRedBanner = true;
-        // this.showToastMessage('Chatbot creation failed !');
+        this.showBotCreationFailureMessage = true;
       }
     },
     dismissUpdateBanner() {
-      this.userDismissedBlueBanner = true;
-      this.userDismissedRedBanner = true;
+      this.userDismissedBotCreatingMessage = true;
+      this.userDismissedBotCreatedMessage = true;
+      this.userDismissedBotCreationFailureMessage = true;
     },
     allotWebsiteToken() {
       if (this.selectedInbox) {
@@ -170,89 +165,6 @@ export default {
         this.isButtonActive = false;
       }
     },
-    // showToastMessage(message) {
-    //   this.toastMessage = message;
-    //   this.showToast = true;
-    //   setTimeout(() => {
-    //     this.showToast = false;
-    //   }, 5000); // 5 seconds
-    // },
   },
 };
 </script>
-
-<style scoped>
-h1 {
-  font-size: x-large;
-}
-
-.inbox-dropdown-container {
-  margin-bottom: 100%; /* Adjust the margin as needed */
-  max-height: 35vh; /* Limit the maximum height of the container */
-  overflow-y: auto; /* Enable vertical scrolling if content overflows */
-}
-
-.custom-select {
-  position: relative;
-  width: 100%;
-}
-
-.inbox-dropdown {
-  width: 100%;
-  padding: 8px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-
-.arrow-down {
-  position: absolute;
-  top: calc(50% - 10px);
-  right: 10px;
-  width: 0;
-  height: 0;
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
-  border-top: 6px solid #777;
-}
-
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 9999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.spinner-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.toast {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgba(255, 0, 0, 0.8);
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  z-index: 9999;
-}
-.banner {
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  max-width: 24%;
-  width: auto;
-  z-index: 9999;
-  border-radius: 5px;
-}
-</style>

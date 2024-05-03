@@ -10,20 +10,17 @@
     "CONNECT_INBOX": "Connect Inbox",
     "LAST_TRAINED_AT": "Last Trained At: ",
     "CHATBOT_ID": "Chatbot ID: ",
-    "BROWSE_FILES": "Browse Files",
+    "BROWSE_FILES": "Click to select files",
     "UPDATE": "Update",
     "CHATBOT_INBOX_CONNECT": "Connect Chatbot With Inbox",
-    "FILE_TYPES": {
-      "DOC": ".doc",
-      "PDF": ".pdf",
-      "TXT": ".txt"
-    },
+    "SUPPORTED_FILE_TYPES": "Supported File Types: .pdf, .doc, .txt",
     "UPLOAD": {
-      "FILE": "File",
+      "FILE": "Files",
       "TEXT": "Text",
       "WEBSITE": "Website"
     },
     "FORM": {
+      "TITLE": "Inbox",
       "CONNECT_INBOX": "Connect Inbox",
       "ADD_URL": "Add URL",
       "NAME": {
@@ -36,7 +33,7 @@
       },
       "SUBMIT_CREATE": "Create Chatbot"
     },
-    "SIDEBAR_TXT": "<p><b>Create Chatbot</b></p> <p>Chatbot allows you to train bot on you own personal data. <br /> A bot trained on personal data replies to the queries only based on the data it is been trained on.</p>",
+    "SIDEBAR_TXT": "<p><b>Create Chatbot</b></p> <p>Introducing your very own personal data-trained ai chatbot!</p> <p>With its specialized training, this bot is designed to respond exclusively based on the data it's been trained on—your own personal data. Connect it to your website widget, and watch as it provides personalized and accurate responses to your visitors' queries.</p>",
     "LIST": {
       "404": "There are no chatbot created on this account.",
       "EDIT_BOT": "Edit"
@@ -50,6 +47,33 @@
         "YES": "Delete ",
         "NO": "Cancel"
       }
+    },
+    "CREATE_FLOW": {
+      "CREATE": {
+        "TITLE": "Upload Files",
+        "DESC": "Give your bot text, URLs, or PDF files to work with."
+      },
+      "CONNECT": {
+        "TITLE": "Connect Inbox",
+        "DESC": "Link the bot to your website inbox"
+      },
+      "WIZARD": [
+        {
+          "title": "Upload Files",
+          "route": "chatbot_new",
+          "body": "Provide your bot with text, urls, or PDF files."
+        },
+        {
+          "title": "Connect Inbox",
+          "route": "chatbot_connect_inbox",
+          "body": "Connect bot to your website widget inbox."
+        }
+      ]
+    },
+    "BANNER": {
+      "CREATING":"A notification will be sent to you once the chatbot has been built.",
+      "CREATED":"Chatbot creation completed",
+      "FAIL":"The construction of chatbot was unsuccessful."
     }
   }
 }

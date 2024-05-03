@@ -31,6 +31,8 @@ import teamsSettings from './teamsSettings.json';
 import whatsappTemplates from './whatsappTemplates.json';
 import sla from './sla.json';
 import inbox from './inbox.json';
+import chatbotSettings from './chatbotSettings.json';
+
 
 export default {
   ...advancedFilters,
@@ -42,6 +44,7 @@ export default {
   ...bulkActions,
   ...campaign,
   ...cannedMgmt,
+  ...chatbotSettings,
   ...chatlist,
   ...contact,
   ...contactFilters,

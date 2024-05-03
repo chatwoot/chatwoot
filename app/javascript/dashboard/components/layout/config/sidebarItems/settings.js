@@ -15,6 +15,7 @@ const settings = accountId => ({
     'chatbot_new',
     'chatbot_edit',
     'chatbot_connect_inbox',
+    'chatbot_finish',
     'general_settings_index',
     'general_settings',
     'labels_list',
