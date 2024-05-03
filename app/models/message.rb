@@ -288,7 +288,7 @@ class Message < ApplicationRecord
   end
 
   def dispatch_create_events
-    Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
+    DelayDispatchEventJob.set(wait: 2.seconds).perform_later(event_name: MESSAGE_CREATED, timestamp: Time.zone.now, message_id: id)
 
     if valid_first_reply?
       Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
