@@ -74,6 +74,8 @@ pl:
       conversations_count: Assigned conversations
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      resolution_count: Liczba rozwiązań
+      avg_customer_waiting_time: Avg customer waiting time
     inbox_csv:
       inbox_name: Nazwa skrzynki odbiorczej
       inbox_type: Typ skrzynki odbiorczej
@@ -90,6 +92,8 @@ pl:
       conversations_count: Liczba rozmów
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      resolution_count: Liczba rozwiązań
+      avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Strefa czasowa
     sla_csv:
