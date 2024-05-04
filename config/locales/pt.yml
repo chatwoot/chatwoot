@@ -74,6 +74,8 @@ pt:
       conversations_count: Conversas atribuídas
       avg_first_response_time: Média de tempo da primeira resposta
       avg_resolution_time: Média de tempo de resolução
+      resolution_count: Contagem de resolução
+      avg_customer_waiting_time: Avg customer waiting time
     inbox_csv:
       inbox_name: Nome da caixa de entrada
       inbox_type: Tipo de caixa de entrada
@@ -90,6 +92,8 @@ pt:
       conversations_count: Número de conversas
       avg_first_response_time: Média de tempo da primeira resposta
       avg_resolution_time: Média de tempo de resolução
+      resolution_count: Contagem de resolução
+      avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Fuso Horário
     sla_csv:
