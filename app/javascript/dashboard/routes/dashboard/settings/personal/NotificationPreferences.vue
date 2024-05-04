@@ -31,10 +31,6 @@
             >
               {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.PUSH') }}
             </span>
-            <form-switch
-              :value="hasEnabledPushPermissions"
-              @input="onRequestPermissions"
-            />
           </div>
         </table-header-cell>
       </div>
@@ -94,10 +90,6 @@
         <span class="text-sm font-medium normal-case text-ash-900">
           {{ $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.TITLE') }}
         </span>
-        <form-switch
-          :value="hasEnabledPushPermissions"
-          @input="onRequestPermissions"
-        />
       </div>
 
       <div class="flex flex-col gap-4">
@@ -115,6 +107,21 @@
           <span class="text-sm text-ash-900">{{ $t(notification.label) }}</span>
         </div>
       </div>
+    </div>
+
+    <div
+      class="flex items-center justify-between w-full gap-2 p-4 mt-3 text-sm border border-solid border-ash-200 rounded-xl"
+    >
+      <div class="flex flex-row items-center gap-1">
+        <fluent-icon icon="alert" class="text-ash-900" size="16" />
+        <span class="text-ash-900">
+          {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.BROWSER_PERMISSION') }}
+        </span>
+      </div>
+      <form-switch
+        :value="hasEnabledPushPermissions"
+        @input="onRequestPermissions"
+      />
     </div>
   </div>
 </template>
