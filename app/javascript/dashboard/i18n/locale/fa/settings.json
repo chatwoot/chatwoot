@@ -10,7 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "رمز عبورتان عوض شد",
     "AFTER_EMAIL_CHANGED": "پروفایلتان با موفقیت تغییر یافت، اطلاعات ورود به سیستم تغییر کرده لذا لطفا مجددا به سیستم وارد شوید",
     "FORM": {
-      "PICTURE": "Profile Picture",
+      "PICTURE": "عکس نمایه",
       "AVATAR": "عکس پروفایل",
       "ERROR": "لطفا ایرادات ذکر شده را برطرف کنید",
       "REMOVE_IMAGE": "حذف",
@@ -65,7 +65,7 @@
         "NOTE": "اعلان های صوتی را در داشبورد برای پیام ها و مکالمات جدید فعال کنید.",
         "ALERT_TYPES": {
           "NONE": "هیچکدام",
-          "MINE": "Assigned",
+          "MINE": "اختصاص داده",
           "ALL": "همه"
         },
         "ALERT_TYPE": {
@@ -96,8 +96,8 @@
         "SLA_MISSED_RESOLUTION": "هر وقت گفتگویی سیاست SLA مربوط به زمان حل موضوع را نقض کرد ایمیل ارسال کن"
       },
       "NOTIFICATIONS": {
-        "TITLE": "Notification preferences",
-        "TYPE_TITLE": "Notification type",
+        "TITLE": "تنظیمات آگاه‌سازی",
+        "TYPE_TITLE": "نوع آگاه‌سازی",
         "EMAIL": "ایمیل",
         "PUSH": "Push notification",
         "TYPES": {
