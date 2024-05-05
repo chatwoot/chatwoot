@@ -96,6 +96,13 @@ export default {
         return {
           ...item,
           ...item.custom_attributes,
+          stage_name: item.stage ? item.stage.name : null,
+          assignee_name_in_leads: item.assignee_in_leads
+            ? item.assignee_in_leads.name
+            : null,
+          assignee_name_in_deals: item.assignee_in_deals
+            ? item.assignee_in_deals.name
+            : null,
         };
       });
     },
@@ -215,6 +222,12 @@ export default {
         align: this.isRTLView ? 'right' : 'left',
       });
       salesColumn.children.push({
+        field: 'last_note',
+        key: 'last_note',
+        title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.LAST_NOTE'),
+        align: this.isRTLView ? 'right' : 'left',
+      });
+      salesColumn.children.push({
         field: 'assignee_name_in_leads',
         key: 'assignee_name_in_leads',
         sortBy: this.sortConfig.assignee_id_in_leads || '',
@@ -290,8 +303,8 @@ export default {
       return [
         nameColumn,
         basicColumn,
-        customColumn,
         salesColumn,
+        customColumn,
         trackingColumn,
       ];
     },

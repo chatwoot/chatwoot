@@ -149,6 +149,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def fetch_contacts(contacts)
     contacts_with_avatar = filtrate(contacts)
                            .includes([{ avatar_attachment: [:blob] }])
+                           .includes(:notes)
                            .includes(:stage)
                            .includes(:team)
                            .includes(:assignee_in_leads)

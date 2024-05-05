@@ -23,7 +23,7 @@
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Nhãn liên hệ",
+        "TITLE": "Nhãn phân loại",
         "ERROR": "Không thể sửa nhãn"
       },
       "CONVERSATION": {
@@ -37,34 +37,35 @@
         "CREATE_LABEL": "Tạo mới nhãn"
       }
     },
-    "MERGE_CONTACT": "Hợp nhất liên hệ",
-    "CONTACT_ACTIONS": "Thao tác với liên hệ",
+    "MERGE_CONTACT": "Hợp nhất khách hàng",
+    "CONTACT_ACTIONS": "Thao tác với khách hàng",
     "MUTE_CONTACT": "Khóa liên lạc",
     "UNMUTE_CONTACT": "Mở khóa liên lạc",
-    "MUTED_SUCCESS": "Đã khóa liên lạc thành công, bạn sẽ không còn nhận thông báo hội thoại nào từ liên hệ này nữa.",
+    "MUTED_SUCCESS": "Đã khóa liên lạc thành công, bạn sẽ không còn nhận thông báo hội thoại nào từ khách hàng này nữa.",
     "UNMUTED_SUCCESS": "Mở khóa liên lạc thành công.",
     "SEND_TRANSCRIPT": "Gửi bản sao",
     "EDIT_LABEL": "Chỉnh sửa",
     "SIDEBAR_SECTIONS": {
+      "CONTACT_ACTIONS": "Thông tin kinh doanh",
       "CUSTOM_ATTRIBUTES": "Thông tin tùy chỉnh",
-      "CONTACT_LABELS": "Nhãn danh bạ",
+      "CONTACT_LABELS": "Nhãn phân loại",
       "PREVIOUS_CONVERSATIONS": "Lịch sử hội thoại"
     }
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Chỉnh sửa liên hệ",
-    "TITLE": "Chỉnh sửa liên hệ",
-    "DESC": "Chỉnh sửa liên hệ chi tiết"
+    "BUTTON_LABEL": "Chỉnh sửa khách hàng",
+    "TITLE": "Chỉnh sửa khách hàng",
+    "DESC": "Chỉnh sửa khách hàng chi tiết"
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "Liên hệ mới",
-    "TITLE": "Tạo liên hệ mới",
-    "DESC": "Thêm thông tin cơ bản về liên hệ."
+    "BUTTON_LABEL": "khách hàng mới",
+    "TITLE": "Tạo khách hàng mới",
+    "DESC": "Thêm thông tin cơ bản về khách hàng."
   },
   "IMPORT_CONTACTS": {
     "BUTTON_LABEL": "Nhập",
-    "TITLE": "Nhập liên hệ",
-    "DESC": "Nhập liên hệ bằng một file CSV.",
+    "TITLE": "Nhập khách hàng",
+    "DESC": "Nhập khách hàng bằng một file CSV.",
     "DOWNLOAD_LABEL": "Tải xuống tệp CSV mẫu.",
     "FORM": {
       "LABEL": "Tệp CSV",
@@ -96,9 +97,9 @@
     }
   },
   "DELETE_CONTACT": {
-    "BUTTON_LABEL": "Xoá liên lạc",
-    "TITLE": "Xoá liên hệ",
-    "DESC": "Xoá chi tiết liên hệ",
+    "BUTTON_LABEL": "Xoá khách hàng",
+    "TITLE": "Xoá khách hàng",
+    "DESC": "Xoá chi tiết khách hàng",
     "CONFIRM": {
       "TITLE": "Xác nhận xoá",
       "MESSAGE": "Bạn có muốn xoá ",
@@ -106,16 +107,16 @@
       "NO": "Không, giữ"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Liên hệ đã được xóa thành công",
-      "ERROR_MESSAGE": "Không thể xoá liên hệ. Vui lòng thử lại sau."
+      "SUCCESS_MESSAGE": "Khách hàng đã được xóa thành công",
+      "ERROR_MESSAGE": "Không thể xoá khách hàng. Vui lòng thử lại sau."
     }
   },
   "CALL_CONTACT": {
     "BUTTON_LABEL": "Gọi điện",
-    "TITLE": "Gọi điện cho liên hệ",
+    "TITLE": "Gọi điện cho khách hàng",
     "CONFIRM": {
       "TITLE": "Xác nhận gọi điện",
-      "MESSAGE": "Bạn có muốn gọi điện cho liên hệ này?",
+      "MESSAGE": "Bạn có muốn gọi điện cho khách hàng này?",
       "YES": "Có, gọi ngay",
       "NO": "Không, quay lại"
     }
@@ -125,32 +126,32 @@
       "SUBMIT": "Gửi",
       "CANCEL": "Huỷ",
       "AVATAR": {
-        "LABEL": "Avatar của liên hệ"
+        "LABEL": "Avatar của khách hàng"
       },
       "NAME": {
-        "PLACEHOLDER": "Nhập tên đầy đủ của liên hệ",
+        "PLACEHOLDER": "Nhập tên đầy đủ của khách hàng",
         "LABEL": "Tên đầy đủ"
       },
       "BIO": {
-        "PLACEHOLDER": "Nhập tiểu sử của liên hệ",
+        "PLACEHOLDER": "Nhập tiểu sử của khách hàng",
         "LABEL": "Tiểu sử"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Nhập địa chỉ email của liên hệ",
+        "PLACEHOLDER": "Nhập địa chỉ email của khách hàng",
         "LABEL": "Email",
-        "DUPLICATE": "Địa chỉ email này đang được sử dụng cho một liên hệ khác.",
+        "DUPLICATE": "Địa chỉ email này đang được sử dụng cho một khách hàng khác.",
         "ERROR": "Vui lòng nhập một địa chỉ email hợp lệ."
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Nhập số điện thoại của liên hệ",
+        "PLACEHOLDER": "Nhập số điện thoại của khách hàng",
         "LABEL": "Số điện thoại",
         "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
         "ERROR": "Số điện thoại nên rỗng hoặc thuộc định dạng E.164",
         "DIAL_CODE_ERROR": "Please select a dial code from the list",
-        "DUPLICATE": "Số điện thoại này đang được dùng cho một liên hệ khác."
+        "DUPLICATE": "Số điện thoại này đang được dùng cho một khách hàng khác."
       },
       "LOCATION": {
-        "PLACEHOLDER": "Nhập vị trí của liên hệ",
+        "PLACEHOLDER": "Nhập vị trí của khách hàng",
         "LABEL": "Địa điểm"
       },
       "COMPANY_NAME": {
@@ -189,18 +190,18 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Hình đại diện liên hệ đã được xóa thành công",
-        "ERROR_MESSAGE": "Không thể xóa hình đại diện liên hệ. Vui lòng thử lại sau."
+        "SUCCESS_MESSAGE": "Hình đại diện khách hàng đã được xóa thành công",
+        "ERROR_MESSAGE": "Không thể xóa hình đại diện khách hàng. Vui lòng thử lại sau."
       }
     },
-    "SUCCESS_MESSAGE": "Liên hệ được lưu thành công",
+    "SUCCESS_MESSAGE": "khách hàng được lưu thành công",
     "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
   },
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "Bắt đầu cuộc hội thoại",
     "TITLE": "Tạo mới cuộc trò chuyện",
     "DESC": "Bắt đầu một cuộc hội thoại mới bằng cách thêm tin nhắn.",
-    "NO_INBOX": "Không tìm thấy kênh để bắt đầu cuộc trò chuyện với liên hệ này.",
+    "NO_INBOX": "Không tìm thấy kênh để bắt đầu cuộc trò chuyện với khách hàng này.",
     "FORM": {
       "TO": {
         "LABEL": "Đến"
@@ -233,19 +234,19 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "Khách hàng",
-    "FIELDS": "Trường của liên hệ",
+    "FIELDS": "Trường của khách hàng",
     "SEARCH_BUTTON": "Tìm kiếm",
-    "SEARCH_INPUT_PLACEHOLDER": "Tìm kiếm liên hệ",
+    "SEARCH_INPUT_PLACEHOLDER": "Tìm kiếm khách hàng",
     "FILTER_CONTACTS": "Lọc",
     "FILTER_CONTACTS_SAVE": "Lưu bộ lọc",
     "FILTER_CONTACTS_DELETE": "Xoá bộ lọc",
     "FILTER_CONTACTS_EDIT": "Sửa giai đoạn",
     "LIST": {
-      "LOADING_MESSAGE": "Đang tải liên hệ...",
-      "404": "Không có liên hệ nào khớp với tìm kiếm của bạn 🔍",
-      "NO_CONTACTS": "Không có liên hệ nào có sẵn",
+      "LOADING_MESSAGE": "Đang tải khách hàng...",
+      "404": "Không có khách hàng nào khớp với tìm kiếm của bạn 🔍",
+      "NO_CONTACTS": "Không có khách hàng nào có sẵn",
       "TABLE_HEADER": {
-        "GROUP_BASIC": "Thông tin liên hệ",
+        "GROUP_BASIC": "Thông tin khách hàng",
         "GROUP_CUSTOM": "Thông tin tùy chỉnh",
         "GROUP_SALES": "Thông tin kinh doanh",
         "GROUP_TRACKING": "Thông tin theo dõi",
@@ -254,12 +255,13 @@
         "CONVERSATIONS": "Các cuộc hội thoại",
         "LAST_ACTIVITY": "Tương tác cuối",
         "CREATED_AT": "Thời điểm tạo",
-        "STAGE_NAME": "Giai đoạn kinh doanh",
-        "LEAD_ASSIGNEE": "Phụ trách LEAD",
-        "DEAL_ASSIGNEE": "Phụ trách DEAL",
+        "STAGE_NAME": "Giai đoạn",
+        "LAST_NOTE": "Ghi chú mới nhất",
+        "LEAD_ASSIGNEE": "Phụ trách leads",
+        "DEAL_ASSIGNEE": "Phụ trách deals",
         "TEAM_NAME": "Nhóm phụ trách",
         "EMAIL_ADDRESS": "Email",
-        "INITIAL_CHANNEL": "Kênh tiếp nhận",
+        "INITIAL_CHANNEL": "Tiếp nhận qua kênh",
         "UPDATED_AT": "Cập nhật cuối",
         "LAST_STAGE_CHANGED": "Chuyển giai đoạn"
       },
@@ -268,7 +270,7 @@
   },
   "CONTACT_PROFILE": {
     "BACK_BUTTON": "Danh bạ",
-    "LOADING": "Đang tải hồ sơ liên hệ..."
+    "LOADING": "Đang tải hồ sơ khách hàng..."
   },
   "REMINDER": {
     "ADD_BUTTON": {
@@ -282,7 +284,7 @@
   },
   "NOTES": {
     "FETCHING_NOTES": "Đang tải về ghi chú...",
-    "NOT_AVAILABLE": "Không có ghi chú nào được tạo ra cho liên hệ này",
+    "NOT_AVAILABLE": "Không có ghi chú nào được tạo ra cho khách hàng này",
     "HEADER": {
       "TITLE": "Ghi chú"
     },
@@ -311,18 +313,18 @@
   "CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Thêm thông tin tùy chỉnh",
     "BUTTON": "Thêm thông tin tùy chỉnh",
-    "NOT_AVAILABLE": "Không có thuộc tính tuỳ chỉnh nào có sẵn cho liên hệ này.",
+    "NOT_AVAILABLE": "Không có thuộc tính tuỳ chỉnh nào có sẵn cho khách hàng này.",
     "COPY_SUCCESSFUL": "Đã sao chép mã thành công",
-    "SHOW_MORE": "Show all attributes",
-    "SHOW_LESS": "Show less attributes",
+    "SHOW_MORE": "Hiện tất cả thông tin",
+    "SHOW_LESS": "Ẩn bớt thông tin",
     "ACTIONS": {
-      "COPY": "Sao chép thuộc tính",
-      "DELETE": "Xoá thuộc tính",
-      "EDIT": "Sửa thuộc tính"
+      "COPY": "Sao chép thông tin",
+      "DELETE": "Xoá thông tin",
+      "EDIT": "Sửa thông tin"
     },
     "ADD": {
-      "TITLE": "Tạo tthông tin tùy chỉnh",
-      "DESC": "Thêm thông tin tuỳ chỉnh vào liên hệ này."
+      "TITLE": "Tạo thông tin tùy chỉnh",
+      "DESC": "Thêm thông tin tuỳ chỉnh vào khách hàng này."
     },
     "FORM": {
       "CREATE": "Thêm thông tin tùy chỉnh",
@@ -369,33 +371,33 @@
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Hợp nhất các liên hệ",
-    "DESCRIPTION": "Hợp nhất các liên hệ để kết hợp hai hồ sơ thành một, bao gồm tất cả các thuộc tính và hội thoại. Trong trường hợp xung đột, các thuộc tính của liên hệ Chính sẽ được ưu tiên.",
+    "TITLE": "Hợp nhất các khách hàng",
+    "DESCRIPTION": "Hợp nhất các khách hàng để kết hợp hai hồ sơ thành một, bao gồm tất cả các thuộc tính và hội thoại. Trong trường hợp xung đột, các thuộc tính của khách hàng Chính sẽ được ưu tiên.",
     "PRIMARY": {
-      "TITLE": "Liên hệ chính",
+      "TITLE": "Khách hàng chính",
       "HELP_LABEL": "Sẽ được xoá"
     },
     "PARENT": {
-      "TITLE": "Liên hệ cần gộp",
-      "PLACEHOLDER": "Tìm kiếm liên hệ",
+      "TITLE": "Khách hàng cần gộp",
+      "PLACEHOLDER": "Tìm kiếm khách hàng",
       "HELP_LABEL": "Được giữ"
     },
     "SUMMARY": {
       "TITLE": "Tóm tắt",
-      "DELETE_WARNING": "Liên hệ của <strong>%{primaryContactName}</strong> sẽ bị xoá.",
-      "ATTRIBUTE_WARNING": "\bChi tiết liên hệ của <strong>%{primaryContactName}</strong> \bsẽ được sao chép đến <strong>%{parentContactName}</strong>."
+      "DELETE_WARNING": "Khách hàng của <strong>%{primaryContactName}</strong> sẽ bị xoá.",
+      "ATTRIBUTE_WARNING": "\bChi tiết khách hàng của <strong>%{primaryContactName}</strong> \bsẽ được sao chép đến <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
       "ERROR": "ERROR_MESSAGE"
     },
     "FORM": {
-      "SUBMIT": " Hợp nhất các liên hệ",
+      "SUBMIT": " Hợp nhất các khách hàng",
       "CANCEL": "Huỷ",
       "CHILD_CONTACT": {
-        "ERROR": "Chọn một liên hệ con để gộp"
+        "ERROR": "Chọn khách hàng muốn hợp nhất"
       },
-      "SUCCESS_MESSAGE": "Liên hệ được gộp thành công",
-      "ERROR_MESSAGE": "Không thể hợp nhất liên lạc, thử lại!"
+      "SUCCESS_MESSAGE": "Khách hàng được hợp nhất thành công",
+      "ERROR_MESSAGE": "Không thể hợp nhất khách hàng, thử lại!"
     }
   }
 }

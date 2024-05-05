@@ -51,19 +51,7 @@
             </a>
           </div>
         </div>
-
-        <p v-if="additionalAttributes.description" class="break-words mb-0.5">
-          {{ additionalAttributes.description }}
-        </p>
         <div class="flex flex-col gap-2 items-start w-full">
-          <contact-info-row
-            :href="contact.email ? `mailto:${contact.email}` : ''"
-            :value="contact.email"
-            icon="mail"
-            emoji="✉️"
-            :title="$t('CONTACT_PANEL.EMAIL_ADDRESS')"
-            show-copy
-          />
           <contact-info-row
             :href="contact.phone_number ? `tel:${contact.phone_number}` : ''"
             :value="contact.phone_number"
@@ -73,26 +61,13 @@
             show-copy
           />
           <contact-info-row
-            v-if="contact.identifier"
-            :value="contact.identifier"
-            icon="contact-identify"
-            emoji="🪪"
-            :title="$t('CONTACT_PANEL.IDENTIFIER')"
+            :href="contact.email ? `mailto:${contact.email}` : ''"
+            :value="contact.email"
+            icon="mail"
+            emoji="✉️"
+            :title="$t('CONTACT_PANEL.EMAIL_ADDRESS')"
+            show-copy
           />
-          <contact-info-row
-            :value="additionalAttributes.company_name"
-            icon="building-bank"
-            emoji="🏢"
-            :title="$t('CONTACT_PANEL.COMPANY')"
-          />
-          <contact-info-row
-            v-if="location || additionalAttributes.location"
-            :value="location || additionalAttributes.location"
-            icon="map"
-            emoji="🌍"
-            :title="$t('CONTACT_PANEL.LOCATION')"
-          />
-          <social-icons :social-profiles="socialProfiles" />
         </div>
       </div>
       <div class="flex items-center w-full mt-0.5 gap-2">
@@ -188,7 +163,6 @@ import { mixin as clickaway } from 'vue-clickaway';
 import timeMixin from 'dashboard/mixins/time';
 import ContactInfoRow from './ContactInfoRow.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import SocialIcons from './SocialIcons.vue';
 import Cookies from 'js-cookie';
 import EditContact from './EditContact.vue';
 import NewConversation from './NewConversation.vue';
@@ -210,7 +184,6 @@ export default {
     ContactInfoRow,
     EditContact,
     Thumbnail,
-    SocialIcons,
     NewConversation,
     ContactMergeModal,
   },
