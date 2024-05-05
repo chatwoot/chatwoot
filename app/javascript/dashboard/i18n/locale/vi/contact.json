@@ -245,16 +245,23 @@
       "404": "Không có liên hệ nào khớp với tìm kiếm của bạn 🔍",
       "NO_CONTACTS": "Không có liên hệ nào có sẵn",
       "TABLE_HEADER": {
+        "GROUP_BASIC": "Thông tin liên hệ",
+        "GROUP_CUSTOM": "Thông tin tùy chỉnh",
+        "GROUP_SALES": "Thông tin kinh doanh",
+        "GROUP_TRACKING": "Thông tin theo dõi",
         "NAME": "Tên",
         "PHONE_NUMBER": "Số điện thoại",
         "CONVERSATIONS": "Các cuộc hội thoại",
-        "LAST_ACTIVITY": "Hành động cuối cùng",
-        "CREATED_AT": "Tạo vào lúc",
-        "COUNTRY": "Quốc gia",
-        "CITY": "Tỉnh / Thành phố",
-        "SOCIAL_PROFILES": "Hồ sơ xã hội",
-        "COMPANY": "Công ty",
-        "EMAIL_ADDRESS": "Email"
+        "LAST_ACTIVITY": "Tương tác cuối",
+        "CREATED_AT": "Thời điểm tạo",
+        "STAGE_NAME": "Giai đoạn kinh doanh",
+        "LEAD_ASSIGNEE": "Phụ trách LEAD",
+        "DEAL_ASSIGNEE": "Phụ trách DEAL",
+        "TEAM_NAME": "Nhóm phụ trách",
+        "EMAIL_ADDRESS": "Email",
+        "INITIAL_CHANNEL": "Kênh tiếp nhận",
+        "UPDATED_AT": "Cập nhật cuối",
+        "LAST_STAGE_CHANGED": "Chuyển giai đoạn"
       },
       "VIEW_DETAILS": "Xem chi tiết"
     }

@@ -20,6 +20,7 @@ class ContactInboxWithContactBuilder
     ActiveRecord::Base.transaction(requires_new: true) do
       build_contact_with_contact_inbox
       update_contact_avatar(@contact) unless @contact.avatar.attached?
+      initialize_contact_data
       @contact_inbox
     end
   end
@@ -29,6 +30,14 @@ class ContactInboxWithContactBuilder
   def build_contact_with_contact_inbox
     @contact = find_contact || create_contact
     @contact_inbox = create_contact_inbox
+  end
+
+  def initialize_contact_data
+    @contact.initial_channel_id = @inbox.channel_id
+    @contact.initial_channel_type = @inbox.channel.name
+    new_stage = Stage.find(account_id: @contact.account_id, code: 'New')
+    @contact.stage_id = new_stage.id if new_stage.present?
+    @contact.save!
   end
 
   def account

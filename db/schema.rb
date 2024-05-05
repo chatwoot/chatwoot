@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_04_28_065434) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_04_011130) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -447,6 +447,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_28_065434) do
     t.string "country_code", default: ""
     t.boolean "blocked", default: false, null: false
     t.integer "stage_id"
+    t.integer "team_id"
+    t.integer "assignee_id_in_leads"
+    t.integer "assignee_id_in_deals"
+    t.integer "initial_channel_id"
+    t.string "initial_channel_type"
+    t.datetime "first_reply_created_at"
+    t.datetime "last_stage_changed_at"
     t.index "lower((email)::text), account_id", name: "index_contacts_on_lower_email_account_id"
     t.index ["account_id", "email", "phone_number", "identifier"], name: "index_contacts_on_nonempty_fields", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
     t.index ["account_id"], name: "index_contacts_on_account_id"

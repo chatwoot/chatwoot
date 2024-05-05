@@ -26,7 +26,8 @@ export default {
     },
     dynamicTime(time) {
       const unixTime = fromUnixTime(time);
-      return formatDistanceToNow(unixTime, { addSuffix: true });
+      const timeAgo = formatDistanceToNow(unixTime, { addSuffix: true });
+      return this.localizeTimeAgo(timeAgo);
     },
     dateFormat(time, dateFormat = 'dd/MM/yyyy') {
       const unixTime = fromUnixTime(time);
@@ -51,7 +52,7 @@ export default {
         return timeMappings[time];
       }
       const convertToShortTime = time
-        .replace(/about|over|almost|/g, '')
+        .replace(/about|over|almost|less than|/g, '')
         .replace(' minute ago', `m${suffix}`)
         .replace(' minutes ago', `m${suffix}`)
         .replace(' hour ago', `h${suffix}`)
@@ -66,7 +67,7 @@ export default {
     },
     localizeTimeAgo(time) {
       const newTime = time
-        .replace(/about|over|almost|/g, '')
+        .replace(/about|over|almost|less than|/g, '')
         .replace(
           'minute ago',
           this.$t('CHAT_LIST.CHAT_TIME_STAMP.TIME_LABEL.MINUTE_AGO')

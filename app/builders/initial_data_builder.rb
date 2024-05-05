@@ -81,7 +81,7 @@ class InitialDataBuilder
   def build_custom_attributes # rubocop:disable Metrics/MethodLength
     CustomAttributeDefinition.create([
                                        { attribute_display_name: 'Chi nhánh',
-                                         attribute_key: 'chi_nhanh',
+                                         attribute_key: 'branch',
                                          attribute_display_type: :list,
                                          attribute_model: :contact_attribute,
                                          account_id: account_id,
@@ -89,7 +89,7 @@ class InitialDataBuilder
                                          attribute_values: ['Trụ sở', 'Chi nhánh 1', 'Chi nhánh 2'] },
 
                                        { attribute_display_name: 'Nguồn thông tin',
-                                         attribute_key: 'nguon_thong_tin',
+                                         attribute_key: 'data_source',
                                          attribute_display_type: :list,
                                          attribute_model: :contact_attribute,
                                          account_id: account_id,
@@ -97,14 +97,14 @@ class InitialDataBuilder
                                          attribute_values: ['Online', 'Trực tiếp', 'Giới thiệu'] },
 
                                        { attribute_display_name: 'Địa chỉ',
-                                         attribute_key: 'dia_chi',
+                                         attribute_key: 'address',
                                          attribute_display_type: :text,
                                          attribute_model: :contact_attribute,
                                          account_id: account_id,
                                          attribute_description: 'Địa chỉ' },
 
                                        { attribute_display_name: 'Số điện thoại phụ',
-                                         attribute_key: 'so_dien_thoai_phu',
+                                         attribute_key: 'secondary_phone_number',
                                          attribute_display_type: :text,
                                          attribute_model: :contact_attribute,
                                          account_id: account_id,
@@ -113,7 +113,7 @@ class InitialDataBuilder
                                          regex_cue: 'Chỉ bao gồm số và các dấu + . hoặc khoảng trắng' },
 
                                        { attribute_display_name: 'Email phụ',
-                                         attribute_key: 'email_phu',
+                                         attribute_key: 'secondary_email',
                                          attribute_display_type: :text,
                                          attribute_model: :contact_attribute,
                                          account_id: account_id,
@@ -122,7 +122,7 @@ class InitialDataBuilder
                                          regex_cue: 'Email hợp lệ nên là name@domain.xxx' },
 
                                        { attribute_display_name: 'Giới tính',
-                                         attribute_key: 'gioi_tinh',
+                                         attribute_key: 'gender',
                                          attribute_display_type: :list,
                                          attribute_model: :contact_attribute,
                                          account_id: account_id,
@@ -130,14 +130,14 @@ class InitialDataBuilder
                                          attribute_values: %w[Nam Nữ Khác] },
 
                                        { attribute_display_name: 'Ngày sinh',
-                                         attribute_key: 'ngay_sinh',
+                                         attribute_key: 'day_of_birth',
                                          attribute_display_type: :date,
                                          attribute_model: :contact_attribute,
                                          account_id: account_id,
                                          attribute_description: 'Ngày sinh' },
 
                                        { attribute_display_name: 'Nghề nghiệp',
-                                         attribute_key: 'nghe_nghiep',
+                                         attribute_key: 'occupation',
                                          attribute_display_type: :list,
                                          attribute_model: :contact_attribute,
                                          account_id: account_id,
