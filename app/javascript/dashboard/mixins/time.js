@@ -67,7 +67,11 @@ export default {
     },
     localizeTimeAgo(time) {
       const newTime = time
-        .replace(/about|over|almost|less than|/g, '')
+        .replace(/about|over|almost|/g, '')
+        .replace(
+          'less than a',
+          this.$t('CHAT_LIST.CHAT_TIME_STAMP.TIME_LABEL.LESS_THAN_A')
+        )
         .replace(
           'minute ago',
           this.$t('CHAT_LIST.CHAT_TIME_STAMP.TIME_LABEL.MINUTE_AGO')
