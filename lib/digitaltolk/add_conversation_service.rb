@@ -57,6 +57,7 @@ class Digitaltolk::AddConversationService
       assignee_id: params[:assignee_id],
       contact_id: @contact.id,
       inbox_id: params[:inbox_id],
+      team_id: params[:team_id],
       source_id: params[:email],
       additional_attributes: {
         mail_subject: params[:subject]

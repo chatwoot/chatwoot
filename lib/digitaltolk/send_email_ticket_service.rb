@@ -58,7 +58,8 @@ class Digitaltolk::SendEmailTicketService
       inbox_id: params[:inbox_id],
       email: params_email,
       assignee_id: nil,
-      account_id: @account.id
+      account_id: @account.id,
+      team_id: params[:team_id]
     }
   end
 

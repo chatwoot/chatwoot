@@ -9,6 +9,7 @@ describe Digitaltolk::SendEmailTicketService do
   let(:booking_id) { '3359288' }
   let(:email) { user.email }
   let(:creator) { create(:user, account: account) }
+  let(:team) { create(:team) }
 
   describe '#perform' do
     let(:status) { 'open' }
@@ -29,7 +30,8 @@ describe Digitaltolk::SendEmailTicketService do
         },
         dt_user_id: '123',
         inbox_id: inbox.id,
-        recipient_type: 2
+        recipient_type: 2,
+        team_id: team.id
       }
     end
 
@@ -38,6 +40,8 @@ describe Digitaltolk::SendEmailTicketService do
       expect(result[:success]).to be_truthy
       expect(result[:message]).to eq('Email sent!')
       expect(result[:conversation_id]).not_to be_nil
+      convo = inbox.conversations.find_by(display_id: result[:conversation_id])
+      expect(convo.team).to eq(team)
     end
 
     context 'with uniqueness of conversation' do
@@ -45,6 +49,7 @@ describe Digitaltolk::SendEmailTicketService do
         result = service.perform
         result2 = service.perform
         expect(result[:conversation_id]).to eq(result2[:conversation_id])
+
       end
 
       context 'with different email' do
