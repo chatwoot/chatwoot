@@ -10,9 +10,6 @@ export default {
       name: 'profile_settings',
       roles: ['administrator', 'agent'],
       component: SettingsContent,
-      props: {
-        showHeader: false,
-      },
       children: [
         {
           path: 'settings',
