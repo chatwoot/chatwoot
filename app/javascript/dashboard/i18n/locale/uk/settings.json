@@ -109,7 +109,8 @@
           "SLA_MISSED_FIRST_RESPONSE": "Розмова пропускає першу відповідь SLA",
           "SLA_MISSED_NEXT_RESPONSE": "Розмова пропускає наступну відповідь SLA",
           "SLA_MISSED_RESOLUTION": "Розмова пропускає SLA розширення"
-        }
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
       "API": {
         "UPDATE_SUCCESS": "Налаштування сповіщень для вашого акаунту оновлено успішно",
