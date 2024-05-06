@@ -400,7 +400,10 @@ export default {
       }
 
       try {
-        this.$store.dispatch('contacts/export', query);
+        this.$store.dispatch('contacts/export', {
+          ...query,
+          label: this.label,
+        });
         this.showAlert(this.$t('EXPORT_CONTACTS.SUCCESS_MESSAGE'));
       } catch (error) {
         this.showAlert(
