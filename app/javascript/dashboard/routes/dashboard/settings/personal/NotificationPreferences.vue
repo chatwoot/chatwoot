@@ -115,7 +115,7 @@
       <div class="flex flex-row items-center gap-2">
         <fluent-icon
           icon="alert"
-          class="flex-shrink-0 mt-0.5 text-ash-900"
+          class="flex-shrink-0 text-ash-900"
           size="18"
         />
         <span class="text-sm text-ash-900">
