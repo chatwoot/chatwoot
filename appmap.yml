@@ -1,0 +1,6 @@
+name: chatwoot
+packages:
+  - path: app
+  - path: lib
+language: ruby
+appmap_dir: tmp/appmap
