@@ -110,11 +110,15 @@
     </div>
 
     <div
-      class="flex items-center justify-between w-full gap-2 p-4 mt-3 text-sm border border-solid border-ash-200 rounded-xl"
+      class="flex items-center justify-between w-full gap-2 p-4 mt-3 border border-solid border-ash-200 rounded-xl dark:bg-ash-25"
     >
-      <div class="flex flex-row items-center gap-1">
-        <fluent-icon icon="alert" class="text-ash-900" size="16" />
-        <span class="text-ash-900">
+      <div class="flex flex-row items-center gap-2">
+        <fluent-icon
+          icon="alert"
+          class="flex-shrink-0 mt-0.5 text-ash-900"
+          size="18"
+        />
+        <span class="text-sm text-ash-900">
           {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.BROWSER_PERMISSION') }}
         </span>
       </div>
@@ -146,7 +150,6 @@ export default {
   components: {
     TableHeaderCell,
     FormSwitch,
-
     CheckBox,
   },
   mixins: [alertMixin, configMixin, uiSettingsMixin],
