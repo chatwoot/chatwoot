@@ -2,6 +2,16 @@ require 'rails_helper'
 
 RSpec.describe 'Contacts API', type: :request do
   let(:account) { create(:account) }
+  let(:email_filter) do
+    {
+      attribute_key: 'email',
+      filter_operator: 'contains',
+      values: 'looped',
+      query_operator: 'and',
+      attribute_model: 'standard',
+      custom_attribute_type: ''
+    }
+  end
 
   describe 'GET /api/v1/accounts/{account.id}/contacts' do
     context 'when it is an unauthenticated user' do
@@ -212,6 +222,18 @@ RSpec.describe 'Contacts API', type: :request do
         post "/api/v1/accounts/#{account.id}/contacts/export",
              headers: admin.create_new_auth_token,
              params: { column_names: %w[phone_number email] }
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'enqueues a contact export job with payload' do
+        expect(Account::ContactsExportJob).to receive(:perform_later).with(account.id, nil,
+                                                                           { 'payload' => [ActionController::Parameters.new(email_filter)] },
+                                                                           admin.id).once
+
+        post "/api/v1/accounts/#{account.id}/contacts/export",
+             headers: admin.create_new_auth_token,
+             params: { payload: [email_filter] }
 
         expect(response).to have_http_status(:success)
       end
