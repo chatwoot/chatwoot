@@ -61,7 +61,7 @@ RSpec.describe Account::ContactsExportJob do
       allow(AdministratorNotifications::ChannelNotificationsMailer).to receive(:with).with(account: account).and_return(mailer)
       allow(mailer).to receive(:contact_export_complete)
 
-      described_class.perform_now(account.id, [], [], user.id)
+      described_class.perform_now(account.id, [], {}, user.id)
 
       file_url = Rails.application.routes.url_helpers.rails_blob_url(account.contacts_export)
 
@@ -71,7 +71,7 @@ RSpec.describe Account::ContactsExportJob do
     end
 
     it 'generates valid data export file' do
-      described_class.perform_now(account.id, %w[id name email phone_number column_not_present], [], user.id)
+      described_class.perform_now(account.id, %w[id name email phone_number column_not_present], {}, user.id)
 
       csv_data = CSV.parse(account.contacts_export.download, headers: true)
       emails = csv_data.pluck('email')

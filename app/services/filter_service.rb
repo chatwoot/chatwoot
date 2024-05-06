@@ -201,7 +201,7 @@ class FilterService
   def query_builder(model_filters)
     # TODO: The filters should not be accessed via @params[:payload], and should be passed as is
     # The current implementation leaks some implementation details of the controllers into the service
-    @params[:payload].each_with_index do |query_hash, current_index|
+    @params[:payload]&.each_with_index do |query_hash, current_index|
       query_hash[:query_operator] = nil if current_index == @params[:payload].length - 1
       @query_string += " #{build_condition_query(model_filters, query_hash, current_index).strip}"
     end
