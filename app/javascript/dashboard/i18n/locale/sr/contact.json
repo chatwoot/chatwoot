@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Prilagođeni atributi",
       "CONTACT_LABELS": "Oznake kontakta",
-      "PREVIOUS_CONVERSATIONS": "Prethodni razgovor"
+      "PREVIOUS_CONVERSATIONS": "Prethodni razgovor",
+      "NO_RECORDS_FOUND": "Nijedan atribut nije pronađen"
     }
   },
   "EDIT_CONTACT": {

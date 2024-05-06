@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Mukautetut attribuutit",
       "CONTACT_LABELS": "Contact Labels",
-      "PREVIOUS_CONVERSATIONS": "Edelliset keskustelut"
+      "PREVIOUS_CONVERSATIONS": "Edelliset keskustelut",
+      "NO_RECORDS_FOUND": "Määritteitä ei löytynyt"
     }
   },
   "EDIT_CONTACT": {

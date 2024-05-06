@@ -22,7 +22,7 @@
         "body": "Add agents to the created inbox."
       },
       {
-        "title": "Voila!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "You are all set to go!"
       }
@@ -43,7 +43,7 @@
         "CHOOSE_PLACEHOLDER": "Select a page from the list",
         "INBOX_NAME": "Meno schránky",
         "ADD_NAME": "Pridať meno pre vašu schránku",
-        "PICK_NAME": "Vyberte si meno pre svoju schránku",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "Vybrať hodnotu"
       },
       "TWITTER": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Zadajte svoju Webhook URL",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Prosím zadajte platnú URL"
         },
         "CHANNEL_DOMAIN": {
@@ -175,12 +175,12 @@
           },
           "API_KEY": {
             "LABEL": "API kľúč",
-            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "Toto pole je povinné"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "Toto pole je povinné"
           },
           "APPLICATION_ID": {
@@ -239,7 +239,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Please enter a valid value."
         },
         "API_KEY": {
@@ -269,7 +269,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "SUBTITLE": "Nakonfigurujte adresu URL, na ktorú chcete prijímať spätné volania (callback) pri udalostiach.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "Webhook URL"
         },
         "SUBMIT_BUTTON": "Vytvoriť API kanál",
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Emailový kanál",
-        "DESC": "Integrácia e-mailovej schránky.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Názov kanálu",
           "PLACEHOLDER": "Zadajte názov kanála",
@@ -345,7 +345,7 @@
       "AGENTS": {
         "TITLE": "Agenti",
         "DESC": "Tu môžete pridať agentov na správu novovytvorenej schránky. Len títo vybraní agenti budú mať prístup k vašej schránke. Agenti, ktorí nie sú súčasťou tejto schránky, nebudú môcť po prihlásení vidieť správy v tejto schránke ani na ne reagovať. <br> <b>PS:</b> Ak ako správca potrebujete prístup ku všetkým schránkam, mali by ste sa pridať ako agent ku všetkým vytvoreným schránkam.",
-        "VALIDATION_ERROR": "Pridajte aspoň jedného agenta do novej schránky",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Vyberte agentov pre schránku"
       },
       "DETAILS": {
@@ -406,7 +406,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Friendly",
@@ -508,12 +508,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API kľúč",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Update",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verify Token",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
@@ -585,7 +585,7 @@
       "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Aktualizovať IMAP nastavenia",
       "TOGGLE_AVAILABILITY": "Povolenie konfigurácie IMAP pre túto schránku",
-      "TOGGLE_HELP": "Povolenie protokolu IMAP pomôže používateľovi prijímať e-maily",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "Úspešná aktualizácia nastavení IMAP",
         "ERROR_MESSAGE": "Nebolo možné aktualizovať nastavenia IMAP"

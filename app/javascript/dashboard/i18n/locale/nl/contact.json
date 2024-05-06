@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Aanpasbare attributen",
       "CONTACT_LABELS": "Contact Labels",
-      "PREVIOUS_CONVERSATIONS": "Vorige gesprekken"
+      "PREVIOUS_CONVERSATIONS": "Vorige gesprekken",
+      "NO_RECORDS_FOUND": "Geen attributen gevonden"
     }
   },
   "EDIT_CONTACT": {

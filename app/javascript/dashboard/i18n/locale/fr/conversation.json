@@ -69,7 +69,7 @@
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
         "RT": "RT {status}",
-        "MISSED": "missed",
+        "MISSED": "manqué",
         "DUE": "due"
       }
     },
@@ -280,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Créer un attribut",
+    "NO_RECORDS_FOUND": "Aucun attribut trouvé",
     "UPDATE": {
       "SUCCESS": "Attribut mis à jour avec succès",
       "ERROR": "Impossible de mettre à jour l'attribut. Veuillez réessayer plus tard"

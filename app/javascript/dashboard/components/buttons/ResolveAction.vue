@@ -88,7 +88,6 @@
 <script>
 import { getUnixTime } from 'date-fns';
 import { mapGetters } from 'vuex';
-import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
@@ -109,7 +108,7 @@ export default {
     WootDropdownMenu,
     CustomSnoozeModal,
   },
-  mixins: [clickaway, alertMixin, keyboardEventListenerMixins],
+  mixins: [alertMixin, keyboardEventListenerMixins],
   props: { conversationId: { type: [String, Number], required: true } },
   data() {
     return {
