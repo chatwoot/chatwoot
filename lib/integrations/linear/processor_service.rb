@@ -8,12 +8,16 @@ class Integrations::Linear::ProcessorService
     response['teams']['nodes'].map(&:as_json)
   end
 
-  # get labels for a team
-  def labels(team_id)
-    response = linear_client.labels(team_id)
+  def team_entites(team_id)
+    response = linear_client.team_entites(team_id)
     return response if response[:error]
 
-    response['team']['labels']['nodes'].map(&:as_json)
+    {
+      users: response['users']['nodes'].map(&:as_json),
+      projects: response['projects']['nodes'].map(&:as_json),
+      workflowStates: response['workflowStates']['nodes'].map(&:as_json),
+      issueLabels: response['issueLabels']['nodes'].map(&:as_json)
+    }
   end
 
   private

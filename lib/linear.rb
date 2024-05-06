@@ -1,5 +1,6 @@
 require 'graphlient'
 
+require_relative 'linear_queries'
 class Linear
   BASE_URL = 'https://api.linear.app/graphql'.freeze
 
@@ -17,42 +18,19 @@ class Linear
   end
 
   def teams
-    query = <<~GRAPHQL
-      query {
-        teams {
-          nodes {
-            id
-            name
-          }
-        }
-      }
-    GRAPHQL
-    execute_query(query)
+    execute_query(LinearQueries::TEAMS_QUERY)
   end
 
-  def labels(team_id)
+  def team_entites(team_id)
     raise ArgumentError, 'Missing team id' if team_id.blank?
 
-    query = <<~GRAPHQL
-      query {
-        team(id: "#{team_id}") {
-          labels {
-            nodes {
-              id
-              name
-            }
-          }
-        }
-      }
-    GRAPHQL
-    execute_query(query)
+    execute_query(LinearQueries.team_entites_query(team_id))
   end
 
   private
 
   def execute_query(query)
     response = @client.query(query)
-    Rails.logger.debug { "GraphQL Response: #{response.inspect}" }
     unless response.data
       raise StandardError, "Error retrieving data: #{response.errors.messages}" if response.errors.any?
 
