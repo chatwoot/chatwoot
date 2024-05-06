@@ -5,6 +5,8 @@ RSpec.describe Account::ContactsExportJob do
 
   let(:account) { create(:account) }
   let(:user) { create(:user, account: account, email: 'account-user-test@test.com') }
+  let(:label) { create(:label, title: 'spec-billing', maccount: account) }
+
   let(:email_filter) do
     {
       :attribute_key => 'email',
@@ -54,6 +56,7 @@ RSpec.describe Account::ContactsExportJob do
         create(:contact, account: account, additional_attributes: { :country_code => 'India' }, email: "looped-#{i + 10}@text.example.com")
       end
       create(:contact, account: account, phone_number: '+910808080808', email: 'test2@text.example')
+      Contact.last.add_labels(['spec-billing'])
     end
 
     it 'generates CSV file and attach to account' do
@@ -87,6 +90,13 @@ RSpec.describe Account::ContactsExportJob do
       described_class.perform_now(account.id, %w[id name email column_not_present], {}, user.id)
       csv_data = CSV.parse(account.contacts_export.download, headers: true)
       expect(csv_data.length).to eq(account.contacts.count)
+    end
+
+    it 'returns filtered data if labels are provided' do
+      described_class.perform_now(account.id, [], { :payload => nil, :label => 'spec-billing' }, user.id)
+      csv_data = CSV.parse(account.contacts_export.download, headers: true)
+      # since there is only 1 contact with 'spec-billing' label
+      expect(csv_data.length).to eq(1)
     end
 
     it 'returns filtered data when multiple filters are provided' do
