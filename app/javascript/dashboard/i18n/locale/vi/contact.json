@@ -37,6 +37,11 @@
         "CREATE_LABEL": "Tạo mới nhãn"
       }
     },
+    "ACTIONS":{
+      "ADD_NOTE": "Thêm ghi chú",
+      "CANCEL_ADD_NOTE": "Hủy",
+      "NO_NOTE": "Chưa có ghi chú nào"
+    },
     "MERGE_CONTACT": "Hợp nhất khách hàng",
     "CONTACT_ACTIONS": "Thao tác với khách hàng",
     "MUTE_CONTACT": "Khóa liên lạc",

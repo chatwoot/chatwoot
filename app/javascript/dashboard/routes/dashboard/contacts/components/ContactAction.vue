@@ -15,10 +15,27 @@
           contact.initial_channel_type
         }}
       </p>
-      <p v-if="contact.last_note" class="italic">
-        {{ contact.last_note }}
-      </p>
     </div>
+    <contact-details-item
+      compact
+      :title="$t('CONTACTS_PAGE.LIST.TABLE_HEADER.LAST_NOTE')"
+    >
+      <template v-slot:button>
+        <woot-button
+          icon="arrow-right"
+          variant="link"
+          size="small"
+          @click="onToggleAddNote"
+        >
+          {{ addOrCancelNoteLabel }}
+        </woot-button>
+      </template>
+    </contact-details-item>
+    <p v-if="contact.last_note" class="italic">
+      {{ contact.last_note }}
+    </p>
+    <p v-else class="italic">{{ $t('CONTACT_PANEL.ACTIONS.NO_NOTE') }}</p>
+    <add-note v-if="showNewNote" @add="onAddNote" />
     <div class="multiselect-wrap--small">
       <contact-details-item
         compact
@@ -81,6 +98,7 @@
 import alertMixin from 'shared/mixins/alertMixin';
 import ContactDetailsItem from 'dashboard/routes/dashboard/conversation/ContactDetailsItem.vue';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
+import AddNote from 'dashboard/modules/notes/components/AddNote.vue';
 import agentMixin from 'dashboard/mixins/agentMixin';
 import teamMixin from 'dashboard/mixins/conversation/teamMixin';
 
@@ -88,6 +106,7 @@ export default {
   components: {
     ContactDetailsItem,
     MultiselectDropdown,
+    AddNote,
   },
   mixins: [agentMixin, alertMixin, teamMixin],
   props: {
@@ -96,7 +115,17 @@ export default {
       default: () => ({}),
     },
   },
+  data() {
+    return {
+      showNewNote: false,
+    };
+  },
   computed: {
+    addOrCancelNoteLabel() {
+      return this.showNewNote
+        ? this.$t('CONTACT_PANEL.ACTIONS.CANCEL_ADD_NOTE')
+        : this.$t('CONTACT_PANEL.ACTIONS.ADD_NOTE');
+    },
     initialChannel() {
       return (
         this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.INITIAL_CHANNEL') +
@@ -106,7 +135,7 @@ export default {
     },
     assignedAgent: {
       get() {
-        return this.contact.assignee_id_in_leads;
+        return this.contact.assignee_in_leads;
       },
       set(agent) {
         const agentId = agent ? agent.id : 0;
@@ -138,6 +167,15 @@ export default {
     },
   },
   methods: {
+    onToggleAddNote() {
+      this.showNewNote = !this.showNewNote;
+    },
+    onAddNote(content) {
+      const contactId = this.contact.id;
+      this.$store.dispatch('contactNotes/create', { content, contactId });
+      this.$store.dispatch('contacts/show', { id: contactId });
+      this.onToggleAddNote();
+    },
     onClickAssignAgent(selectedItem) {
       if (this.assignedAgent && this.assignedAgent.id === selectedItem.id) {
         this.assignedAgent = null;
