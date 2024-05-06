@@ -110,7 +110,7 @@
     </div>
 
     <div
-      class="flex items-center justify-between w-full gap-2 p-4 border border-solid border-ash-200 rounded-xl dark:bg-ash-25"
+      class="flex items-center justify-between w-full gap-2 p-4 border border-solid border-ash-200 rounded-xl"
     >
       <div class="flex flex-row items-center gap-2">
         <fluent-icon
