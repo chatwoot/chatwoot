@@ -38,7 +38,6 @@ module AssignmentHandler
 
   def process_assignment_changes
     process_assignment_activities
-    process_participant_assignment
   end
 
   def process_assignment_activities
@@ -48,11 +47,5 @@ module AssignmentHandler
     elsif saved_change_to_assignee_id?
       create_assignee_change_activity(user_name)
     end
-  end
-
-  def process_participant_assignment
-    return unless saved_change_to_assignee_id? && assignee_id.present?
-
-    conversation_participants.find_or_create_by!(user_id: assignee_id)
   end
 end
