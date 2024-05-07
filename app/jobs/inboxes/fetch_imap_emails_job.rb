@@ -36,6 +36,9 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
     inbound_emails.map do |inbound_mail|
       process_mail(inbound_mail, channel)
     end
+  rescue OAuth2::Error => e
+    Rails.logger.error "Error for email channel - #{channel.inbox.id} : #{e.message}"
+    channel.authorization_error!
   end
 
   def process_mail(inbound_mail, channel)
