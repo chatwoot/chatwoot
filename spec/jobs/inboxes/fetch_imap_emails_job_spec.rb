@@ -71,7 +71,7 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
 
     context 'when IMAP OAuth errors out' do
       it 'marks the connection as requiring authorization' do
-        error_response = instance_double(OAuth2::ErrorResponse, error: 'invalid_grant')
+        error_response = double
         oauth_error = OAuth2::Error.new(error_response)
 
         allow(Imap::MicrosoftFetchEmailService).to receive(:new)
