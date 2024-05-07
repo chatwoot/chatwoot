@@ -275,7 +275,7 @@ export default {
       lastEmail: 'getLastEmailInSelectedChat',
       globalConfig: 'globalConfig/get',
       accountId: 'getCurrentAccountId',
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      isFeatureEnabledGlobally: 'accounts/isFeatureEnabledGlobally',
     }),
     currentContact() {
       return this.$store.getters['contacts/getContact'](
@@ -483,7 +483,7 @@ export default {
       );
     },
     enableSmartActions() {
-      const isFeatEnabled = this.isFeatureEnabledonAccount(
+      const isFeatEnabled = this.isFeatureEnabledGlobally(
         this.accountId,
         FEATURE_FLAGS.SMART_ACTIONS
       );

@@ -77,13 +77,13 @@ export default {
   },
   computed: {
     ...mapGetters({ 
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      isFeatureEnabledGlobally: 'accounts/isFeatureEnabledGlobally',
       currentChat: 'getSelectedChat',
       accountId: 'getCurrentAccountId',
       showSmartActions: 'showSmartActions',
     }),
     enableSmartActions() {
-      const isFeatEnabled = this.isFeatureEnabledonAccount(
+      const isFeatEnabled = this.isFeatureEnabledGlobally(
         this.accountId,
         FEATURE_FLAGS.SMART_ACTIONS
       );
