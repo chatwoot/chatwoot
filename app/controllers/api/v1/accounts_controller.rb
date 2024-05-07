@@ -126,6 +126,10 @@ class Api::V1::AccountsController < Api::BaseController
     params.permit(:account_name, :email, :name, :password, :locale, :domain, :support_email, :auto_resolve_duration, :user_full_name)
   end
 
+  def custom_attributes_params
+    params.permit(:industry, :company_size, :timezone)
+  end
+
   def check_signup_enabled
     raise ActionController::RoutingError, 'Not Found' if GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'false') == 'false'
   end
