@@ -64,7 +64,7 @@ RSpec.describe Account::ContactsExportJob do
       allow(AdministratorNotifications::ChannelNotificationsMailer).to receive(:with).with(account: account).and_return(mailer)
       allow(mailer).to receive(:contact_export_complete)
 
-      described_class.perform_now(account.id, [], {}, user.id)
+      described_class.perform_now(account.id, user.id, [], {})
 
       file_url = Rails.application.routes.url_helpers.rails_blob_url(account.contacts_export)
 
@@ -74,7 +74,7 @@ RSpec.describe Account::ContactsExportJob do
     end
 
     it 'generates valid data export file' do
-      described_class.perform_now(account.id, %w[id name email phone_number column_not_present], {}, user.id)
+      described_class.perform_now(account.id, user.id, %w[id name email phone_number column_not_present], {})
 
       csv_data = CSV.parse(account.contacts_export.download, headers: true)
       emails = csv_data.pluck('email')
@@ -87,27 +87,27 @@ RSpec.describe Account::ContactsExportJob do
     end
 
     it 'returns all results when filter is not prvoided' do
-      described_class.perform_now(account.id, %w[id name email column_not_present], {}, user.id)
+      described_class.perform_now(account.id, user.id, %w[id name email column_not_present], {})
       csv_data = CSV.parse(account.contacts_export.download, headers: true)
       expect(csv_data.length).to eq(account.contacts.count)
     end
 
     it 'returns filtered data if labels are provided' do
-      described_class.perform_now(account.id, [], { :payload => nil, :label => 'spec-billing' }, user.id)
+      described_class.perform_now(account.id, user.id, [], { :payload => nil, :label => 'spec-billing' })
       csv_data = CSV.parse(account.contacts_export.download, headers: true)
       # since there is only 1 contact with 'spec-billing' label
       expect(csv_data.length).to eq(1)
     end
 
     it 'returns filtered data when multiple filters are provided' do
-      described_class.perform_now(account.id, [], multiple_filters.with_indifferent_access, user.id)
+      described_class.perform_now(account.id, user.id, [], multiple_filters.with_indifferent_access)
       csv_data = CSV.parse(account.contacts_export.download, headers: true)
       # since there are only 4 contacts with 'looped' in email and 'India' as country_code
       expect(csv_data.length).to eq(4)
     end
 
     it 'returns filtered data when a single filter is provided' do
-      described_class.perform_now(account.id, [], single_filter.with_indifferent_access, user.id)
+      described_class.perform_now(account.id, user.id, [], single_filter.with_indifferent_access)
       csv_data = CSV.parse(account.contacts_export.download, headers: true)
       # since there are only 8 contacts with 'looped' in email
       expect(csv_data.length).to eq(8)

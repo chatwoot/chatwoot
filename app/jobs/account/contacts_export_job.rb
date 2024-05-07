@@ -1,7 +1,7 @@
 class Account::ContactsExportJob < ApplicationJob
   queue_as :low
 
-  def perform(account_id, column_names, params, user_id)
+  def perform(account_id, user_id, column_names, params)
     @account = Account.find(account_id)
     @params = params
     @current_user = User.find(user_id)
