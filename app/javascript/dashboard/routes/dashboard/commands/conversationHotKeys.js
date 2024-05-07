@@ -65,6 +65,8 @@ export default {
       this.setCommandbarData();
     },
     showSnoozeInChatList() {
+      // Added this to fix a bug where the snooze options were not showing up in the chat list
+      // dynamically when the showSnoozeInChatList data property was changed.
       this.setCommandbarData();
     },
   },
@@ -88,6 +90,7 @@ export default {
 
     statusActions() {
       if (this.showSnoozeInChatList) {
+        // Only show snooze options in the chat list when the showSnoozeInChatList data property is true.
         return this.prepareActions(CHAT_LIST_SNOOZE_CONVERSATION_ACTIONS);
       }
       const isOpen =
@@ -343,6 +346,10 @@ export default {
     },
 
     conversationHotKeys() {
+      // If the showSnoozeInChatList is true, then we need to show the snooze action
+      // And won't check for the route name, because we want to show the snooze action
+      // Even if current route is not a conversation route or inbox route.
+      // For eg: from the bulk action change status dropdown or from the context menu
       if (this.showSnoozeInChatList) {
         return this.statusActions;
       }

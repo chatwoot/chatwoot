@@ -66,6 +66,8 @@ onBeforeUnmount(() => {
 
 const updateConversations = key => {
   if (key === 'snoozed') {
+    // Added this bus emit to show the snooze option in the cmd bar,
+    // when the user clicks on the snooze option from the bulk action change status dropdown.
     bus.$emit(CMD_TOGGLE_CONVERSATIONS_SNOOZE);
     const ninja = document.querySelector('ninja-keys');
     ninja?.open({ parent: 'snooze_conversation' });

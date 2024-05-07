@@ -21,16 +21,6 @@ import {
 
 const SNOOZE_OPTIONS = wootConstants.SNOOZE_OPTIONS;
 
-export const OPEN_CONVERSATION_ACTIONS = [
-  {
-    id: 'resolve_conversation',
-    title: 'COMMAND_BAR.COMMANDS.RESOLVE_CONVERSATION',
-    section: 'COMMAND_BAR.SECTIONS.CONVERSATION',
-    icon: ICON_RESOLVE_CONVERSATION,
-    handler: () => bus.$emit(CMD_RESOLVE_CONVERSATION),
-  },
-];
-
 const createSnoozeHandlers = busEventName => {
   return Object.values(SNOOZE_OPTIONS).map(option => ({
     id: option,
@@ -42,7 +32,17 @@ const createSnoozeHandlers = busEventName => {
   }));
 };
 
-// Actions for the standard conversation
+export const OPEN_CONVERSATION_ACTIONS = [
+  {
+    id: 'resolve_conversation',
+    title: 'COMMAND_BAR.COMMANDS.RESOLVE_CONVERSATION',
+    section: 'COMMAND_BAR.SECTIONS.CONVERSATION',
+    icon: ICON_RESOLVE_CONVERSATION,
+    handler: () => bus.$emit(CMD_RESOLVE_CONVERSATION),
+  },
+];
+
+// Actions for the standard conversation snooze from the resolve action dropdown
 export const SNOOZE_CONVERSATION_ACTIONS = [
   {
     id: 'snooze_conversation',
