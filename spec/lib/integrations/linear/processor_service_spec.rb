@@ -2,8 +2,7 @@ require 'rails_helper'
 
 describe Integrations::Linear::ProcessorService do
   let(:account) { create(:account) }
-  let(:conversation) { create(:conversation, account: account) }
-  let(:processor) { described_class.new(account: account, conversation: conversation) }
+  let(:processor) { described_class.new(account: account) }
   let(:api_key) { 'valid_api_key' }
   let(:url) { 'https://api.linear.app/graphql' }
   let(:headers) { { 'Content-Type' => 'application/json', 'Authorization' => api_key } }

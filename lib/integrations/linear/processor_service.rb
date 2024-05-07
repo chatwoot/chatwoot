@@ -1,5 +1,5 @@
 class Integrations::Linear::ProcessorService
-  pattr_initialize [:account!, :conversation!]
+  pattr_initialize [:account!]
 
   def teams
     response = linear_client.teams
@@ -21,10 +21,6 @@ class Integrations::Linear::ProcessorService
   end
 
   private
-
-  def conversation_link
-    "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{account.id}/conversations/#{conversation.display_id}"
-  end
 
   def linear_hook
     @linear_hook ||= account.hooks.find_by!(app_id: 'linear')

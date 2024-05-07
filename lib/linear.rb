@@ -31,17 +31,18 @@ class Linear
 
   def execute_query(query)
     response = @client.query(query)
-    unless response.data
-      raise StandardError, "Error retrieving data: #{response.errors.messages}" if response.errors.any?
-
-      return { error: 'No data returned' }
-    end
+    log_and_return_error("Error retrieving data: #{response.errors.messages}") if response.data.nil? && response.errors.any?
     response.data.to_h
   rescue Graphlient::Errors::GraphQLError => e
-    { error: "GraphQL Error: #{e.message}" }
+    log_and_return_error("GraphQL Error: #{e.message}")
   rescue Graphlient::Errors::ServerError => e
-    { error: "Server Error: #{e.message}" }
+    log_and_return_error("Server Error: #{e.message}")
   rescue StandardError => e
-    { error: "Unexpected Error: #{e.message}" }
+    log_and_return_error("Unexpected Error: #{e.message}")
+  end
+
+  def log_and_return_error(message)
+    Rails.logger.error message
+    { error: message }
   end
 end
