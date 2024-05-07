@@ -990,7 +990,7 @@ export default {
         this.showAlert(this.$t('BULK_ACTION.TEAMS.ASSIGN_FAILED'));
       }
     },
-    async onUpdateConversations(status) {
+    async onUpdateConversations(status, snoozedUntil) {
       try {
         await this.$store.dispatch('bulkActions/process', {
           type: 'Conversation',
@@ -998,6 +998,7 @@ export default {
           fields: {
             status,
           },
+          snoozed_until: snoozedUntil,
         });
         this.selectedConversations = [];
         this.showAlert(this.$t('BULK_ACTION.UPDATE.UPDATE_SUCCESFUL'));

@@ -152,8 +152,8 @@ export default {
     submit(agent) {
       this.$emit('assign-agent', agent);
     },
-    updateConversations(status) {
-      this.$emit('update-conversations', status);
+    updateConversations(status, snoozedUntil) {
+      this.$emit('update-conversations', status, snoozedUntil);
     },
     assignLabels(labels) {
       this.$emit('assign-labels', labels);

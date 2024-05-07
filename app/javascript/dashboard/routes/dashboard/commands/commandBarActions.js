@@ -6,6 +6,7 @@ import {
   CMD_RESOLVE_CONVERSATION,
   CMD_SEND_TRANSCRIPT,
   CMD_SNOOZE_CONVERSATION,
+  CMD_CHAT_LIST_SNOOZE_CONVERSATION,
   CMD_UNMUTE_CONVERSATION,
 } from './commandBarBusEvents';
 
@@ -30,6 +31,18 @@ export const OPEN_CONVERSATION_ACTIONS = [
   },
 ];
 
+const createSnoozeHandlers = busEventName => {
+  return Object.values(SNOOZE_OPTIONS).map(option => ({
+    id: option,
+    title: `COMMAND_BAR.COMMANDS.${option.toUpperCase()}`,
+    parent: 'snooze_conversation',
+    section: 'COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION',
+    icon: ICON_SNOOZE_CONVERSATION,
+    handler: () => bus.$emit(busEventName, option),
+  }));
+};
+
+// Actions for the standard conversation
 export const SNOOZE_CONVERSATION_ACTIONS = [
   {
     id: 'snooze_conversation',
@@ -37,61 +50,18 @@ export const SNOOZE_CONVERSATION_ACTIONS = [
     icon: ICON_SNOOZE_CONVERSATION,
     children: Object.values(SNOOZE_OPTIONS),
   },
+  ...createSnoozeHandlers(CMD_SNOOZE_CONVERSATION),
+];
 
+// Actions for the chat list snooze options like bulk actions and the context menu
+export const CHAT_LIST_SNOOZE_CONVERSATION_ACTIONS = [
   {
-    id: SNOOZE_OPTIONS.UNTIL_NEXT_REPLY,
-    title: 'COMMAND_BAR.COMMANDS.UNTIL_NEXT_REPLY',
-    parent: 'snooze_conversation',
-    section: 'COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION',
+    id: 'snooze_conversation',
+    title: 'COMMAND_BAR.COMMANDS.SNOOZE_CONVERSATION',
     icon: ICON_SNOOZE_CONVERSATION,
-    handler: () =>
-      bus.$emit(CMD_SNOOZE_CONVERSATION, SNOOZE_OPTIONS.UNTIL_NEXT_REPLY),
+    children: Object.values(SNOOZE_OPTIONS),
   },
-  {
-    id: SNOOZE_OPTIONS.AN_HOUR_FROM_NOW,
-    title: 'COMMAND_BAR.COMMANDS.AN_HOUR_FROM_NOW',
-    parent: 'snooze_conversation',
-    section: 'COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION',
-    icon: ICON_SNOOZE_CONVERSATION,
-    handler: () =>
-      bus.$emit(CMD_SNOOZE_CONVERSATION, SNOOZE_OPTIONS.AN_HOUR_FROM_NOW),
-  },
-  {
-    id: SNOOZE_OPTIONS.UNTIL_TOMORROW,
-    title: 'COMMAND_BAR.COMMANDS.UNTIL_TOMORROW',
-    section: 'COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION',
-    parent: 'snooze_conversation',
-    icon: ICON_SNOOZE_CONVERSATION,
-    handler: () =>
-      bus.$emit(CMD_SNOOZE_CONVERSATION, SNOOZE_OPTIONS.UNTIL_TOMORROW),
-  },
-  {
-    id: SNOOZE_OPTIONS.UNTIL_NEXT_WEEK,
-    title: 'COMMAND_BAR.COMMANDS.UNTIL_NEXT_WEEK',
-    section: 'COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION',
-    parent: 'snooze_conversation',
-    icon: ICON_SNOOZE_CONVERSATION,
-    handler: () =>
-      bus.$emit(CMD_SNOOZE_CONVERSATION, SNOOZE_OPTIONS.UNTIL_NEXT_WEEK),
-  },
-  {
-    id: SNOOZE_OPTIONS.UNTIL_NEXT_MONTH,
-    title: 'COMMAND_BAR.COMMANDS.UNTIL_NEXT_MONTH',
-    section: 'COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION',
-    parent: 'snooze_conversation',
-    icon: ICON_SNOOZE_CONVERSATION,
-    handler: () =>
-      bus.$emit(CMD_SNOOZE_CONVERSATION, SNOOZE_OPTIONS.UNTIL_NEXT_MONTH),
-  },
-  {
-    id: SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME,
-    title: 'COMMAND_BAR.COMMANDS.CUSTOM',
-    section: 'COMMAND_BAR.SECTIONS.SNOOZE_CONVERSATION',
-    parent: 'snooze_conversation',
-    icon: ICON_SNOOZE_CONVERSATION,
-    handler: () =>
-      bus.$emit(CMD_SNOOZE_CONVERSATION, SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME),
-  },
+  ...createSnoozeHandlers(CMD_CHAT_LIST_SNOOZE_CONVERSATION),
 ];
 
 export const RESOLVED_CONVERSATION_ACTIONS = [

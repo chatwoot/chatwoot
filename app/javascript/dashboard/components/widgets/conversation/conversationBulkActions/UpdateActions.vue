@@ -1,12 +1,136 @@
+<script setup>
+import { useI18n } from 'dashboard/composables/useI18n';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { getUnixTime } from 'date-fns';
+
+import wootConstants from 'dashboard/constants/globals';
+import {
+  CMD_CHAT_LIST_SNOOZE_CONVERSATION,
+  CMD_TOGGLE_CONVERSATIONS_SNOOZE,
+} from 'dashboard/routes/dashboard/commands/commandBarBusEvents';
+import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
+
+import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
+import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
+
+const { t } = useI18n();
+
+const emits = defineEmits(['update', 'close']);
+
+const props = defineProps({
+  selectedInboxes: {
+    type: Array,
+    default: () => [],
+  },
+  conversationCount: {
+    type: Number,
+    default: 0,
+  },
+  showResolve: {
+    type: Boolean,
+    default: true,
+  },
+  showReopen: {
+    type: Boolean,
+    default: true,
+  },
+  showSnooze: {
+    type: Boolean,
+    default: true,
+  },
+});
+
+const showCustomTimeSnoozeModal = ref(false);
+const actions = ref([
+  { icon: 'checkmark', key: 'resolved' },
+  { icon: 'arrow-redo', key: 'open' },
+  { icon: 'send-clock', key: 'snoozed' },
+]);
+
+const onCmdSnoozeConversation = snoozeType => {
+  if (snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME) {
+    showCustomTimeSnoozeModal.value = true;
+  } else {
+    emits('update', 'snoozed', findSnoozeTime(snoozeType) || null);
+  }
+};
+
+onMounted(() => {
+  bus.$on(CMD_CHAT_LIST_SNOOZE_CONVERSATION, onCmdSnoozeConversation);
+});
+
+onBeforeUnmount(() => {
+  bus.$off(CMD_CHAT_LIST_SNOOZE_CONVERSATION, onCmdSnoozeConversation);
+});
+
+const updateConversations = key => {
+  if (key === 'snoozed') {
+    bus.$emit(CMD_TOGGLE_CONVERSATIONS_SNOOZE);
+    const ninja = document.querySelector('ninja-keys');
+    ninja?.open({ parent: 'snooze_conversation' });
+  } else {
+    emits('update', key);
+  }
+};
+
+const customSnoozeTime = customSnoozedTime => {
+  showCustomTimeSnoozeModal.value = false;
+  if (customSnoozedTime) {
+    emits('update', 'snoozed', getUnixTime(customSnoozedTime));
+  }
+};
+
+const hideCustomSnoozeModal = () => {
+  showCustomTimeSnoozeModal.value = false;
+};
+
+const onClose = () => {
+  if (!showCustomTimeSnoozeModal.value) {
+    emits('close');
+  }
+};
+
+const showAction = key => {
+  const actionsMap = {
+    resolved: props.showResolve,
+    open: props.showReopen,
+    snoozed: props.showSnooze,
+  };
+  return actionsMap[key] || false;
+};
+
+const actionLabel = key => {
+  const labelsMap = {
+    resolved: t('CONVERSATION.HEADER.RESOLVE_ACTION'),
+    open: t('CONVERSATION.HEADER.REOPEN_ACTION'),
+    snoozed: t('BULK_ACTION.UPDATE.SNOOZE_UNTIL'),
+  };
+  return labelsMap[key] || '';
+};
+</script>
+
 <template>
-  <div v-on-clickaway="onClose" class="actions-container">
-    <div class="triangle">
+  <div
+    v-on-clickaway="onClose"
+    class="absolute right-2 top-12 origin-top-right w-auto z-20 bg-white dark:bg-slate-800 rounded-lg border border-solid border-slate-50 dark:border-slate-700 shadow-md"
+  >
+    <div
+      class="right-[var(--triangle-position)] block z-10 absolute text-left -top-3"
+    >
       <svg height="12" viewBox="0 0 24 12" width="24">
-        <path d="M20 12l-8-8-12 12" fill-rule="evenodd" stroke-width="1px" />
+        <path
+          d="M20 12l-8-8-12 12"
+          fill-rule="evenodd"
+          stroke-width="1px"
+          class="fill-white dark:fill-slate-800 stroke-slate-50 dark:stroke-slate-600/50"
+        />
       </svg>
     </div>
-    <div class="header flex items-center justify-between">
-      <span>{{ $t('BULK_ACTION.UPDATE.CHANGE_STATUS') }}</span>
+    <div class="p-2.5 flex gap-1 items-center justify-between">
+      <span class="text-sm font-medium text-slate-600 dark:text-slate-100">
+        {{ $t('BULK_ACTION.UPDATE.CHANGE_STATUS') }}
+      </span>
       <woot-button
         size="tiny"
         variant="clear"
@@ -15,8 +139,8 @@
         @click="onClose"
       />
     </div>
-    <div class="container">
-      <woot-dropdown-menu>
+    <div class="px-2.5 pt-0 pb-2.5">
+      <woot-dropdown-menu class="m-0 list-none">
         <template v-for="action in actions">
           <woot-dropdown-item v-if="showAction(action.key)" :key="action.key">
             <woot-button
@@ -32,116 +156,14 @@
         </template>
       </woot-dropdown-menu>
     </div>
+    <woot-modal
+      :show.sync="showCustomTimeSnoozeModal"
+      :on-close="hideCustomSnoozeModal"
+    >
+      <custom-snooze-modal
+        @close="hideCustomSnoozeModal"
+        @choose-time="customSnoozeTime"
+      />
+    </woot-modal>
   </div>
 </template>
-
-<script>
-import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
-import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
-
-export default {
-  components: {
-    WootDropdownItem,
-    WootDropdownMenu,
-  },
-  props: {
-    selectedInboxes: {
-      type: Array,
-      default: () => [],
-    },
-    conversationCount: {
-      type: Number,
-      default: 0,
-    },
-    showResolve: {
-      type: Boolean,
-      default: true,
-    },
-    showReopen: {
-      type: Boolean,
-      default: true,
-    },
-    showSnooze: {
-      type: Boolean,
-      default: true,
-    },
-  },
-  data() {
-    return {
-      query: '',
-      selectedAction: null,
-      actions: [
-        {
-          icon: 'checkmark',
-          key: 'resolved',
-        },
-        {
-          icon: 'arrow-redo',
-          key: 'open',
-        },
-        {
-          icon: 'send-clock',
-          key: 'snoozed',
-        },
-      ],
-    };
-  },
-  methods: {
-    updateConversations(key) {
-      this.$emit('update', key);
-    },
-    goBack() {
-      this.selectedAgent = null;
-    },
-    onClose() {
-      this.$emit('close');
-    },
-    showAction(key) {
-      const actionsMap = {
-        resolved: this.showResolve,
-        open: this.showReopen,
-        snoozed: this.showSnooze,
-      };
-      return actionsMap[key] || false;
-    },
-    actionLabel(key) {
-      const labelsMap = {
-        resolved: this.$t('CONVERSATION.HEADER.RESOLVE_ACTION'),
-        open: this.$t('CONVERSATION.HEADER.REOPEN_ACTION'),
-        snoozed: this.$t('BULK_ACTION.UPDATE.SNOOZE_UNTIL_NEXT_REPLY'),
-      };
-      return labelsMap[key] || '';
-    },
-  },
-};
-</script>
-
-<style scoped lang="scss">
-.actions-container {
-  @apply absolute right-2 top-12 origin-top-right w-auto z-20 bg-white dark:bg-slate-800 rounded-lg border border-solid border-slate-50 dark:border-slate-700 shadow-md;
-
-  .header {
-    @apply p-2.5;
-
-    span {
-      @apply text-sm font-medium;
-    }
-  }
-  .container {
-    @apply px-2.5 pt-0 pb-2.5;
-  }
-
-  .triangle {
-    right: var(--triangle-position);
-    @apply block z-10 absolute text-left -top-3;
-
-    svg path {
-      @apply fill-white dark:fill-slate-800 stroke-slate-50 dark:stroke-slate-600/50;
-    }
-  }
-}
-
-ul {
-  @apply m-0 list-none;
-}
-</style>

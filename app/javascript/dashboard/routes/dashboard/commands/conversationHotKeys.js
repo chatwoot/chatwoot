@@ -1,7 +1,10 @@
 import { mapGetters } from 'vuex';
 import wootConstants from 'dashboard/constants/globals';
 
-import { CMD_AI_ASSIST } from './commandBarBusEvents';
+import {
+  CMD_AI_ASSIST,
+  CMD_TOGGLE_CONVERSATIONS_SNOOZE,
+} from './commandBarBusEvents';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import aiMixin from 'dashboard/mixins/aiMixin';
 import {
@@ -25,6 +28,7 @@ import {
 import {
   OPEN_CONVERSATION_ACTIONS,
   SNOOZE_CONVERSATION_ACTIONS,
+  CHAT_LIST_SNOOZE_CONVERSATION_ACTIONS,
   RESOLVED_CONVERSATION_ACTIONS,
   SEND_TRANSCRIPT_ACTION,
   UNMUTE_ACTION,
@@ -36,6 +40,11 @@ import {
 } from '../../../helper/routeHelpers';
 export default {
   mixins: [aiMixin],
+  data() {
+    return {
+      showSnoozeInChatList: false,
+    };
+  },
   watch: {
     assignableAgents() {
       this.setCommandbarData();
@@ -53,6 +62,9 @@ export default {
       this.setCommandbarData();
     },
     replyMode() {
+      this.setCommandbarData();
+    },
+    showSnoozeInChatList() {
       this.setCommandbarData();
     },
   },
@@ -75,6 +87,9 @@ export default {
     },
 
     statusActions() {
+      if (this.showSnoozeInChatList) {
+        return this.prepareActions(CHAT_LIST_SNOOZE_CONVERSATION_ACTIONS);
+      }
       const isOpen =
         this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
       const isSnoozed =
@@ -328,6 +343,9 @@ export default {
     },
 
     conversationHotKeys() {
+      if (this.showSnoozeInChatList) {
+        return this.statusActions;
+      }
       if (
         isAConversationRoute(this.$route.name) ||
         isAInboxViewRoute(this.$route.name)
@@ -349,7 +367,12 @@ export default {
       return [];
     },
   },
-
+  mounted() {
+    bus.$on(CMD_TOGGLE_CONVERSATIONS_SNOOZE, this.toggleSnoozeOptions);
+  },
+  destroyed() {
+    bus.$off(CMD_TOGGLE_CONVERSATIONS_SNOOZE, this.hideSnoozeOptions);
+  },
   methods: {
     onChangeAssignee(action) {
       this.$store.dispatch('assignAgent', {
@@ -375,6 +398,14 @@ export default {
         title: this.$t(action.title),
         section: this.$t(action.section),
       }));
+    },
+    toggleSnoozeOptions() {
+      // Used to show snooze notification items in cmd bar dynamically
+      this.showSnoozeInChatList = true;
+    },
+    hideSnoozeOptions() {
+      // Used to hide snooze notification items in cmd bar dynamically
+      this.showSnoozeInChatList = false;
     },
   },
 };

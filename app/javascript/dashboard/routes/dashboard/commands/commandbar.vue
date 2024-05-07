@@ -6,11 +6,12 @@
     hideBreadcrumbs
     :placeholder="placeholder"
     @selected="onSelected"
+    @closed="onClosed"
   />
 </template>
 
 <script>
-import 'ninja-keys';
+import '@chatwoot/ninja-keys';
 import conversationHotKeysMixin from './conversationHotKeys';
 import inboxHotKeysMixin from './inboxHotKeys';
 import goToCommandHotKeys from './goToCommandHotKeys';
@@ -71,6 +72,13 @@ export default {
         action: title,
       });
       this.setCommandbarData();
+    },
+    onClosed() {
+      // The showSnoozeInChatList is a data property which is in the conversationHotKeys
+      // It is used to show the snooze option in the chat list dynamically
+      // Only when the CMD_TOGGLE_CONVERSATIONS_SNOOZE bus event is emitted, it will be set to true
+      // And will set to false when the ninja-keys is closed
+      this.showSnoozeInChatList = false;
     },
   },
 };
