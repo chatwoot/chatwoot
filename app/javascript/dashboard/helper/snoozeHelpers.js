@@ -62,7 +62,7 @@ export const snoozedReopenTime = snoozedUntil => {
   const date = new Date(snoozedUntil);
 
   if (isToday(date)) {
-    return format(date, 'h.mmaaa');
+    return format(date, 'HH:mm');
   }
-  return snoozedUntil ? format(date, 'd MMM, h.mmaaa') : null;
+  return snoozedUntil ? format(date, 'dd/MM HH:mm') : null;
 };

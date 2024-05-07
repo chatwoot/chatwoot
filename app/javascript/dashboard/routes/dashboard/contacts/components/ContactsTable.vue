@@ -97,6 +97,9 @@ export default {
           ...item,
           ...item.custom_attributes,
           stage_name: item.stage ? item.stage.name : null,
+          action_description: item.current_action
+            ? item.current_action.additional_attributes.description
+            : null,
           assignee_name_in_leads: item.assignee_in_leads
             ? item.assignee_in_leads.name
             : null,
@@ -225,6 +228,12 @@ export default {
         field: 'last_note',
         key: 'last_note',
         title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.LAST_NOTE'),
+        align: this.isRTLView ? 'right' : 'left',
+      });
+      salesColumn.children.push({
+        field: 'action_description',
+        key: 'action_description',
+        title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.ACTION_DESCRIPTION'),
         align: this.isRTLView ? 'right' : 'left',
       });
       salesColumn.children.push({

@@ -10,6 +10,9 @@ json.assignee_in_leads resource.assignee_in_leads if resource.assignee_in_leads.
 json.assignee_in_deals resource.assignee_in_deals if resource.assignee_in_deals.present?
 json.team resource.team if resource.team.present?
 json.last_note resource.notes.order(created_at: :desc).first.content if resource.notes.present?
+if resource.conversations.where(conversation_type: :action).present?
+  json.current_action resource.conversations.where(conversation_type: :action).order(created_at: :desc).first
+end
 json.first_reply_created_at resource.first_reply_created_at
 json.initial_channel_type resource.initial_channel_type
 json.last_stage_changed_at resource.last_stage_changed_at.to_i if resource[:last_stage_changed_at].present?

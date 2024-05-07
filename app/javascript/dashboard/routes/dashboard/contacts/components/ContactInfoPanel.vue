@@ -26,17 +26,17 @@
           class="list-group-item"
         >
           <div
-            v-if="element.name === 'contact_actions'"
+            v-if="element.name === 'contact_sales_info'"
             class="conversation--actions"
           >
             <accordion-item
-              :title="$t('CONTACT_PANEL.SIDEBAR_SECTIONS.CONTACT_ACTIONS')"
+              :title="$t('CONTACT_PANEL.SIDEBAR_SECTIONS.CONTACT_SALES_INFO')"
               :is-open="isContactSidebarItemOpen('is_conv_actions_open')"
               @click="
                 value => toggleSidebarUIState('is_conv_actions_open', value)
               "
             >
-              <contact-action :contact="contact" />
+              <contact-sales-info :contact="contact" />
             </accordion-item>
           </div>
           <div v-if="element.name === 'contact_attributes'">
@@ -94,7 +94,7 @@
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
 import ContactConversations from 'dashboard/routes/dashboard/conversation/ContactConversations.vue';
 import ContactInfo from 'dashboard/routes/dashboard/conversation/contact/ContactInfo.vue';
-import ContactAction from 'dashboard/routes/dashboard/contacts/components/ContactAction.vue';
+import ContactSalesInfo from 'dashboard/routes/dashboard/contacts/components/ContactSalesInfo.vue';
 import ContactLabel from 'dashboard/routes/dashboard/contacts/components/ContactLabels.vue';
 import CustomAttributes from 'dashboard/routes/dashboard/conversation/customAttributes/CustomAttributes.vue';
 import draggable from 'vuedraggable';
@@ -105,7 +105,7 @@ export default {
     AccordionItem,
     ContactConversations,
     ContactInfo,
-    ContactAction,
+    ContactSalesInfo,
     ContactLabel,
     CustomAttributes,
     draggable,

@@ -8,6 +8,7 @@
 #  assignee_last_seen_at  :datetime
 #  cached_label_list      :text
 #  contact_last_seen_at   :datetime
+#  conversation_type      :integer          default("default_type"), not null
 #  custom_attributes      :jsonb
 #  first_reply_created_at :datetime
 #  identifier             :string
@@ -69,6 +70,7 @@ class Conversation < ApplicationRecord
   validates :uuid, uniqueness: true
   validate :validate_referer_url
 
+  enum conversation_type: { default_type: 0, action: 1 }
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
   enum priority: { low: 0, medium: 1, high: 2, urgent: 3 }
 

@@ -79,14 +79,6 @@
           @click="toggleConversationModal"
         />
         <woot-button
-          v-tooltip="$t('EDIT_CONTACT.BUTTON_LABEL')"
-          title="$t('EDIT_CONTACT.BUTTON_LABEL')"
-          icon="edit"
-          variant="smooth"
-          size="small"
-          @click="toggleEditModal"
-        />
-        <woot-button
           v-if="contact.phone_number && stringeeAccessToken"
           v-tooltip="$t('CALL_CONTACT.TITLE')"
           title="$t('CALL_CONTACT.BUTTON_LABEL')"
@@ -95,6 +87,14 @@
           size="small"
           color-scheme="success"
           @click="confirmCalling"
+        />
+        <woot-button
+          v-tooltip="$t('EDIT_CONTACT.BUTTON_LABEL')"
+          title="$t('EDIT_CONTACT.BUTTON_LABEL')"
+          icon="edit"
+          variant="smooth"
+          size="small"
+          @click="toggleEditModal"
         />
         <woot-button
           v-tooltip="$t('CONTACT_PANEL.MERGE_CONTACT')"

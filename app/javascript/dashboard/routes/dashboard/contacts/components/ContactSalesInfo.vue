@@ -31,11 +31,39 @@
         </woot-button>
       </template>
     </contact-details-item>
-    <p v-if="contact.last_note" class="italic">
-      {{ contact.last_note }}
-    </p>
-    <p v-else class="italic">{{ $t('CONTACT_PANEL.ACTIONS.NO_NOTE') }}</p>
-    <add-note v-if="showNewNote" @add="onAddNote" />
+    <div class="ml-1">
+      <p v-if="contact.last_note">
+        {{ contact.last_note }}
+      </p>
+      <p v-else class="italic">{{ $t('CONTACT_PANEL.ACTIONS.NO_NOTE') }}</p>
+    </div>
+    <add-note v-if="showAddNote" @add="onAddNote" />
+    <contact-details-item
+      compact
+      :title="$t('CONTACTS_PAGE.LIST.TABLE_HEADER.ACTION_DESCRIPTION')"
+    >
+      <template v-slot:button>
+        <woot-button
+          v-if="showAddActionButton"
+          icon="arrow-right"
+          variant="link"
+          size="small"
+          @click="toggleNewActionModal"
+        >
+          {{ $t('CONTACT_PANEL.ACTIONS.ADD_ACTION') }}
+        </woot-button>
+      </template>
+    </contact-details-item>
+    <div class="ml-1">
+      <p v-if="contact.current_action">{{ currentActionText }}</p>
+      <p v-else class="italic">{{ $t('CONTACT_PANEL.ACTIONS.NO_ACTION') }}</p>
+    </div>
+    <contact-new-action
+      v-if="contact.id"
+      :show="showNewActionModal"
+      :contact="contact"
+      @cancel="toggleNewActionModal"
+    />
     <div class="multiselect-wrap--small">
       <contact-details-item
         compact
@@ -99,16 +127,19 @@ import alertMixin from 'shared/mixins/alertMixin';
 import ContactDetailsItem from 'dashboard/routes/dashboard/conversation/ContactDetailsItem.vue';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import AddNote from 'dashboard/modules/notes/components/AddNote.vue';
+import ContactNewAction from './ContactNewAction.vue';
 import agentMixin from 'dashboard/mixins/agentMixin';
 import teamMixin from 'dashboard/mixins/conversation/teamMixin';
+import timeMixin from 'dashboard/mixins/time.js';
 
 export default {
   components: {
     ContactDetailsItem,
     MultiselectDropdown,
     AddNote,
+    ContactNewAction,
   },
-  mixins: [agentMixin, alertMixin, teamMixin],
+  mixins: [agentMixin, alertMixin, teamMixin, timeMixin],
   props: {
     contact: {
       type: Object,
@@ -117,20 +148,41 @@ export default {
   },
   data() {
     return {
-      showNewNote: false,
+      showNewActionModal: false,
+      showAddNote: false,
     };
   },
   computed: {
     addOrCancelNoteLabel() {
-      return this.showNewNote
+      return this.showAddNote
         ? this.$t('CONTACT_PANEL.ACTIONS.CANCEL_ADD_NOTE')
         : this.$t('CONTACT_PANEL.ACTIONS.ADD_NOTE');
     },
-    initialChannel() {
+    currentActionText() {
+      const action = this.contact.current_action;
+      let status = '';
+      switch (action.status) {
+        case 'snoozed':
+          status = this.dateFormat(action.snoozed_until, 'dd/MM HH:mm');
+          break;
+        case 'open':
+          status = 'Đang giải quyết';
+          break;
+        case 'resolved':
+          status = 'Đã hoàn thành';
+          break;
+        case 'pending':
+          status = 'Đang chờ';
+          break;
+        default:
+          break;
+      }
+      return action.additional_attributes.description + ' (' + status + ')';
+    },
+    showAddActionButton() {
       return (
-        this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.INITIAL_CHANNEL') +
-        ' ' +
-        this.contact.initial_channel_type
+        !this.contact.current_action ||
+        this.contact.current_action.status === 'resolved'
       );
     },
     assignedAgent: {
@@ -167,8 +219,11 @@ export default {
     },
   },
   methods: {
+    toggleNewActionModal() {
+      this.showNewActionModal = !this.showNewActionModal;
+    },
     onToggleAddNote() {
-      this.showNewNote = !this.showNewNote;
+      this.showAddNote = !this.showAddNote;
     },
     onAddNote(content) {
       const contactId = this.contact.id;

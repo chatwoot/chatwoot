@@ -40,7 +40,21 @@
     "ACTIONS":{
       "ADD_NOTE": "Thêm ghi chú",
       "CANCEL_ADD_NOTE": "Hủy",
-      "NO_NOTE": "Chưa có ghi chú nào"
+      "NO_NOTE": "Chưa có ghi chú nào",
+      "ADD_ACTION": "Thêm hành động",
+      "NO_ACTION": "Chưa có hành động nào"
+    },
+    "NEW_ACTION": {
+      "HEADER_TITLE": "Thêm hành động tiếp theo",
+      "HEADER_CONTENT": "Lập kế hoạch bằng cách hẹn giờ để liên lạc với khách hàng. Cuộc hội thoại mới sẽ tự động mở vào thời gian dự kiến.",
+      "CHANNEL": "Kênh liên lạc",
+      "DESCRIPTION": "Mô tả cho hành động",
+      "SNOOZED_TIME": "Thời gian dự kiến",
+      "PRIORITY": "Mức độ ưu tiên",
+      "ASSIGNEE": "Người phụ trách",
+      "TEAM": "Nhóm phụ trách",
+      "CANCEL": "Hủy",
+      "SUBMIT": "Lưu"
     },
     "MERGE_CONTACT": "Hợp nhất khách hàng",
     "CONTACT_ACTIONS": "Thao tác với khách hàng",
@@ -51,7 +65,7 @@
     "SEND_TRANSCRIPT": "Gửi bản sao",
     "EDIT_LABEL": "Chỉnh sửa",
     "SIDEBAR_SECTIONS": {
-      "CONTACT_ACTIONS": "Thông tin kinh doanh",
+      "CONTACT_SALES_INFO": "Thông tin kinh doanh",
       "CUSTOM_ATTRIBUTES": "Thông tin tùy chỉnh",
       "CONTACT_LABELS": "Nhãn phân loại",
       "PREVIOUS_CONVERSATIONS": "Lịch sử hội thoại"
@@ -63,7 +77,7 @@
     "DESC": "Chỉnh sửa khách hàng chi tiết"
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "khách hàng mới",
+    "BUTTON_LABEL": "Thêm khách hàng",
     "TITLE": "Tạo khách hàng mới",
     "DESC": "Thêm thông tin cơ bản về khách hàng."
   },
@@ -262,6 +276,7 @@
         "CREATED_AT": "Thời điểm tạo",
         "STAGE_NAME": "Giai đoạn",
         "LAST_NOTE": "Ghi chú mới nhất",
+        "ACTION_DESCRIPTION": "Hành động tiếp theo",
         "LEAD_ASSIGNEE": "Phụ trách leads",
         "DEAL_ASSIGNEE": "Phụ trách deals",
         "TEAM_NAME": "Nhóm phụ trách",

@@ -9,7 +9,7 @@ export const DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER = [
   { name: 'macros' },
 ];
 export const DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER = [
-  { name: 'contact_actions' },
+  { name: 'contact_sales_info' },
   { name: 'contact_attributes' },
   { name: 'contact_labels' },
   { name: 'previous_conversation' },
