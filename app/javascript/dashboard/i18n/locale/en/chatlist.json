@@ -51,6 +51,7 @@
         "ACTIVE": "Last activity"
       },
       "TIME_LABEL": {
+        "LESS_THAN_A": "less than a",
         "MINUTE_AGO": "minute ago",
         "MINUTES_AGO": "minutes ago",
         "HOUR_AGO": "hour ago",

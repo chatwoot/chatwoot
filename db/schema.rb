@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_04_15_210313) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_06_122901) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -411,8 +411,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_15_210313) do
     t.string "oa_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index "oa_id", name: "index_channel_zalo_oa_on_oa_id", unique: true
-    t.index ["oa_id", "account_id"], name: "index_channel_zalo_oa_on_oa_id_and_account_id", unique: true
+    t.index ["oa_id"], name: "index_channel_zalo_oa_on_oa_id", unique: true
   end
 
   create_table "contact_inboxes", force: :cascade do |t|
@@ -447,6 +446,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_15_210313) do
     t.string "location", default: ""
     t.string "country_code", default: ""
     t.boolean "blocked", default: false, null: false
+    t.integer "stage_id"
+    t.integer "team_id"
+    t.integer "assignee_id_in_leads"
+    t.integer "assignee_id_in_deals"
+    t.integer "initial_channel_id"
+    t.string "initial_channel_type"
+    t.datetime "first_reply_created_at"
+    t.datetime "last_stage_changed_at"
     t.index "lower((email)::text), account_id", name: "index_contacts_on_lower_email_account_id"
     t.index ["account_id", "email", "phone_number", "identifier"], name: "index_contacts_on_nonempty_fields", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
     t.index ["account_id"], name: "index_contacts_on_account_id"
@@ -496,6 +503,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_15_210313) do
     t.bigint "sla_policy_id"
     t.datetime "waiting_since"
     t.text "cached_label_list"
+    t.integer "conversation_type", default: 0, null: false
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"
@@ -895,6 +903,20 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_15_210313) do
     t.string "description"
     t.float "resolution_time_threshold"
     t.index ["account_id"], name: "index_sla_policies_on_account_id"
+  end
+
+  create_table "stages", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.integer "stage_type", null: false
+    t.string "code", null: false
+    t.string "name", null: false
+    t.string "description"
+    t.integer "status", null: false
+    t.boolean "disabled", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "allow_disabled", default: false, null: false
+    t.index ["account_id", "code"], name: "index_stages_on_account_id_and_code", unique: true
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|

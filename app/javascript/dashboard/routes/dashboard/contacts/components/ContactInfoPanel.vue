@@ -25,6 +25,20 @@
           :key="element.name"
           class="list-group-item"
         >
+          <div
+            v-if="element.name === 'contact_sales_info'"
+            class="conversation--actions"
+          >
+            <accordion-item
+              :title="$t('CONTACT_PANEL.SIDEBAR_SECTIONS.CONTACT_SALES_INFO')"
+              :is-open="isContactSidebarItemOpen('is_conv_actions_open')"
+              @click="
+                value => toggleSidebarUIState('is_conv_actions_open', value)
+              "
+            >
+              <contact-sales-info :contact="contact" />
+            </accordion-item>
+          </div>
           <div v-if="element.name === 'contact_attributes'">
             <accordion-item
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_ATTRIBUTES')"
@@ -80,6 +94,7 @@
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
 import ContactConversations from 'dashboard/routes/dashboard/conversation/ContactConversations.vue';
 import ContactInfo from 'dashboard/routes/dashboard/conversation/contact/ContactInfo.vue';
+import ContactSalesInfo from 'dashboard/routes/dashboard/contacts/components/ContactSalesInfo.vue';
 import ContactLabel from 'dashboard/routes/dashboard/contacts/components/ContactLabels.vue';
 import CustomAttributes from 'dashboard/routes/dashboard/conversation/customAttributes/CustomAttributes.vue';
 import draggable from 'vuedraggable';
@@ -90,6 +105,7 @@ export default {
     AccordionItem,
     ContactConversations,
     ContactInfo,
+    ContactSalesInfo,
     ContactLabel,
     CustomAttributes,
     draggable,
@@ -155,5 +171,16 @@ export default {
 
 .conversation--details {
   @apply py-0 px-4;
+}
+
+.conversation--actions .multiselect-wrap--small {
+  .multiselect {
+    @apply box-border pl-6;
+  }
+  .multiselect__element {
+    span {
+      @apply w-full;
+    }
+  }
 }
 </style>

@@ -4,23 +4,31 @@
 #
 # Table name: contacts
 #
-#  id                    :integer          not null, primary key
-#  additional_attributes :jsonb
-#  blocked               :boolean          default(FALSE), not null
-#  contact_type          :integer          default("visitor")
-#  country_code          :string           default("")
-#  custom_attributes     :jsonb
-#  email                 :string
-#  identifier            :string
-#  last_activity_at      :datetime
-#  last_name             :string           default("")
-#  location              :string           default("")
-#  middle_name           :string           default("")
-#  name                  :string           default("")
-#  phone_number          :string
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#  account_id            :integer          not null
+#  id                     :integer          not null, primary key
+#  additional_attributes  :jsonb
+#  assignee_id_in_deals   :integer
+#  assignee_id_in_leads   :integer
+#  blocked                :boolean          default(FALSE), not null
+#  contact_type           :integer          default("visitor")
+#  country_code           :string           default("")
+#  custom_attributes      :jsonb
+#  email                  :string
+#  first_reply_created_at :datetime
+#  identifier             :string
+#  initial_channel_type   :string
+#  last_activity_at       :datetime
+#  last_name              :string           default("")
+#  last_stage_changed_at  :datetime
+#  location               :string           default("")
+#  middle_name            :string           default("")
+#  name                   :string           default("")
+#  phone_number           :string
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  account_id             :integer          not null
+#  initial_channel_id     :integer
+#  stage_id               :integer
+#  team_id                :integer
 #
 # Indexes
 #
@@ -37,7 +45,7 @@
 
 # rubocop:enable Layout/LineLength
 
-class Contact < ApplicationRecord
+class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
   include Avatarable
   include AvailabilityStatusable
   include Labelable
@@ -51,6 +59,19 @@ class Contact < ApplicationRecord
             format: { with: /\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
 
   belongs_to :account
+  belongs_to :stage, optional: true
+  belongs_to :team, optional: true
+  belongs_to :assignee_in_leads, # rubocop:disable Rails/InverseOf
+             class_name: :User,
+             foreign_key: :assignee_id_in_leads,
+             optional: true
+  belongs_to :assignee_in_deals, # rubocop:disable Rails/InverseOf
+             class_name: :User,
+             foreign_key: :assignee_id_in_deals,
+             optional: true
+  belongs_to :initial_channel,
+             class_name: :Channel,
+             optional: true
   has_many :conversations, dependent: :destroy_async
   has_many :contact_inboxes, dependent: :destroy_async
   has_many :csat_survey_responses, dependent: :destroy_async
@@ -62,6 +83,7 @@ class Contact < ApplicationRecord
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
   before_save :sync_contact_attributes
+  after_save :stage_changed_action, if: :saved_change_to_stage_id?
 
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
 
@@ -77,6 +99,54 @@ class Contact < ApplicationRecord
     order(
       Arel::Nodes::SqlLiteral.new(
         sanitize_sql_for_order("\"contacts\".\"created_at\" #{direction}
+          NULLS LAST")
+      )
+    )
+  }
+  scope :order_on_last_stage_changed_at, lambda { |direction|
+    order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order("\"contacts\".\"last_stage_changed_at\" #{direction}
+          NULLS LAST")
+      )
+    )
+  }
+  scope :order_on_updated_at, lambda { |direction|
+    order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order("\"contacts\".\"updated_at\" #{direction}
+          NULLS LAST")
+      )
+    )
+  }
+  scope :order_on_stage_id, lambda { |direction|
+    order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order("\"contacts\".\"stage_id\" #{direction}
+          NULLS LAST")
+      )
+    )
+  }
+  scope :order_on_team_id, lambda { |direction|
+    order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order("\"contacts\".\"team_id\" #{direction}
+          NULLS LAST")
+      )
+    )
+  }
+  scope :order_on_assignee_id_in_deals, lambda { |direction|
+    order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order("\"contacts\".\"assignee_id_in_deals\" #{direction}
+          NULLS LAST")
+      )
+    )
+  }
+  scope :order_on_assignee_id_in_leads, lambda { |direction|
+    order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order("\"contacts\".\"assignee_id_in_leads\" #{direction}
           NULLS LAST")
       )
     )
@@ -221,5 +291,9 @@ class Contact < ApplicationRecord
 
   def dispatch_destroy_event
     Rails.configuration.dispatcher.dispatch(CONTACT_DELETED, Time.zone.now, contact: self)
+  end
+
+  def stage_changed_action
+    update_column(:last_stage_changed_at, DateTime.now.utc) # rubocop:disable Rails/SkipsModelValidations
   end
 end

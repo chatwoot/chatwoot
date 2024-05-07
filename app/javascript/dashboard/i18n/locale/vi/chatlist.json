@@ -52,6 +52,7 @@
         "ACTIVE": "Tương tác cuối:"
       },
       "TIME_LABEL": {
+        "LESS_THAN_A": "gần một",
         "MINUTE_AGO": "phút trước",
         "MINUTES_AGO": "phút trước",
         "HOUR_AGO": "giờ trước",

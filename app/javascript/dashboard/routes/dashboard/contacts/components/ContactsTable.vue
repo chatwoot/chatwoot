@@ -3,12 +3,15 @@
     class="contacts-table-wrap bg-white dark:bg-slate-900 flex-1 h-full overflow-hidden -mt-1"
   >
     <ve-table
+      style="width: 100%"
       :fixed-header="true"
       max-height="calc(100vh - 7.125rem)"
-      scroll-width="187rem"
+      scroll-width="300rem"
       :columns="columns"
       :table-data="tableData"
       :border-around="false"
+      :border-x="true"
+      :border-y="true"
       :sort-option="sortOption"
     />
 
@@ -30,14 +33,13 @@
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
 import { VeTable } from 'vue-easytable';
-import { getCountryFlag } from 'dashboard/helper/flag';
 
 import Spinner from 'shared/components/Spinner.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import timeMixin from 'dashboard/mixins/time';
 import rtlMixin from 'shared/mixins/rtlMixin';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
+import { format } from 'date-fns';
 
 export default {
   components: {
@@ -91,171 +93,228 @@ export default {
         return [];
       }
       return this.contacts.map(item => {
-        // Note: The attributes used here is in snake case
-        // as it simplier the sort attribute calculation
-        const additional = item.additional_attributes || {};
-        const { last_activity_at: lastActivityAt } = item;
-        const { created_at: createdAt } = item;
         return {
           ...item,
-          phone_number: item.phone_number || '---',
-          company: additional.company_name || '---',
-          profiles: additional.social_profiles || {},
-          city: additional.city || '---',
-          country: additional.country,
-          countryCode: additional.country_code,
-          conversationsCount: item.conversations_count || '---',
-          last_activity_at: lastActivityAt
-            ? this.dynamicTime(lastActivityAt)
-            : '---',
-          created_at: createdAt ? this.dynamicTime(createdAt) : '---',
+          ...item.custom_attributes,
+          stage_name: item.stage ? item.stage.name : null,
+          action_description: item.current_action
+            ? item.current_action.additional_attributes.description
+            : null,
+          assignee_name_in_leads: item.assignee_in_leads
+            ? item.assignee_in_leads.name
+            : null,
+          assignee_name_in_deals: item.assignee_in_deals
+            ? item.assignee_in_deals.name
+            : null,
         };
       });
     },
     columns() {
-      return [
-        {
-          field: 'name',
-          key: 'name',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.NAME'),
-          fixed: 'left',
-          align: this.isRTLView ? 'right' : 'left',
-          sortBy: this.sortConfig.name || '',
-          width: 300,
-          renderBodyCell: ({ row }) => (
-            <woot-button
-              variant="clear"
-              onClick={() => this.onClickContact(row.id)}
-            >
-              <div class="row--user-block">
-                <Thumbnail
-                  src={row.thumbnail}
-                  size="32px"
-                  username={row.name}
-                  status={row.availability_status}
-                />
-                <div class="user-block">
-                  <h6 class="text-base overflow-hidden whitespace-nowrap text-ellipsis">
-                    <router-link
-                      to={`/app/accounts/${this.$route.params.accountId}/contacts/${row.id}`}
-                      class="user-name"
-                    >
-                      {row.name}
-                    </router-link>
-                  </h6>
-                  <button class="button clear small link view-details--button">
-                    {this.$t('CONTACTS_PAGE.LIST.VIEW_DETAILS')}
-                  </button>
-                </div>
-              </div>
-            </woot-button>
-          ),
-        },
-        {
-          field: 'email',
-          key: 'email',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.EMAIL_ADDRESS'),
-          align: this.isRTLView ? 'right' : 'left',
-          sortBy: this.sortConfig.email || '',
-          width: 240,
-          renderBodyCell: ({ row }) => {
-            if (row.email)
-              return (
-                <div class="overflow-hidden whitespace-nowrap text-ellipsis text-woot-500 dark:text-woot-500">
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer nofollow"
-                    href={`mailto:${row.email}`}
+      const nameColumn = {
+        field: 'name',
+        key: 'name',
+        title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.NAME'),
+        fixed: 'left',
+        align: this.isRTLView ? 'right' : 'left',
+        sortBy: this.sortConfig.name || '',
+        renderBodyCell: ({ row }) => (
+          <woot-button
+            variant="clear"
+            onClick={() => this.onClickContact(row.id)}
+          >
+            <div class="row--user-block">
+              <Thumbnail
+                src={row.thumbnail}
+                size="32px"
+                username={row.name}
+                status={row.availability_status}
+              />
+              <div class="user-block">
+                <h6 class="text-base overflow-hidden whitespace-nowrap text-ellipsis">
+                  <router-link
+                    to={`/app/accounts/${this.$route.params.accountId}/contacts/${row.id}`}
+                    class="user-name"
                   >
-                    {row.email}
-                  </a>
-                </div>
-              );
-            return '---';
-          },
-        },
-        {
-          field: 'phone_number',
-          key: 'phone_number',
-          sortBy: this.sortConfig.phone_number || '',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.PHONE_NUMBER'),
-          align: this.isRTLView ? 'right' : 'left',
-        },
-        {
-          field: 'company',
-          key: 'company',
-          sortBy: this.sortConfig.company_name || '',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COMPANY'),
-          align: this.isRTLView ? 'right' : 'left',
-        },
-        {
-          field: 'city',
-          key: 'city',
-          sortBy: this.sortConfig.city || '',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CITY'),
-          align: this.isRTLView ? 'right' : 'left',
-        },
-        {
-          field: 'country',
-          key: 'country',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COUNTRY'),
-          align: this.isRTLView ? 'right' : 'left',
-          sortBy: this.sortConfig.country || '',
-          renderBodyCell: ({ row }) => {
-            if (row.country) {
-              return (
-                <div class="overflow-hidden whitespace-nowrap text-ellipsis">
-                  {`${getCountryFlag(row.countryCode)} ${row.country}`}
-                </div>
-              );
-            }
-            return '---';
-          },
-        },
-        {
-          field: 'profiles',
-          key: 'profiles',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.SOCIAL_PROFILES'),
-          align: this.isRTLView ? 'right' : 'left',
-          renderBodyCell: ({ row }) => {
-            const { profiles } = row;
-
-            const items = Object.keys(profiles);
-
-            if (!items.length) return '---';
-
-            return (
-              <div class="cell--social-profiles flex gap-0.5 items-center">
-                {items.map(
-                  profile =>
-                    profiles[profile] && (
-                      <a
-                        target="_blank"
-                        rel="noopener noreferrer nofollow"
-                        href={`https://${profile}.com/${profiles[profile]}`}
-                      >
-                        <FluentIcon icon={`brand-${profile}`} />
-                      </a>
-                    )
-                )}
+                    {row.name}
+                  </router-link>
+                </h6>
+                <button class="button clear small link view-details--button">
+                  {this.$t('CONTACTS_PAGE.LIST.VIEW_DETAILS')}
+                </button>
               </div>
-            );
+            </div>
+          </woot-button>
+        ),
+      };
+
+      const basicColumn = {
+        title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.GROUP_BASIC'),
+        children: [
+          {
+            field: 'email',
+            key: 'email',
+            title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.EMAIL_ADDRESS'),
+            align: this.isRTLView ? 'right' : 'left',
+            sortBy: this.sortConfig.email || '',
+            renderBodyCell: ({ row }) => {
+              if (row.email)
+                return (
+                  <div class="overflow-hidden whitespace-nowrap text-ellipsis text-woot-500 dark:text-woot-500">
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer nofollow"
+                      href={`mailto:${row.email}`}
+                    >
+                      {row.email}
+                    </a>
+                  </div>
+                );
+              return '---';
+            },
           },
-        },
-        {
-          field: 'last_activity_at',
-          key: 'last_activity_at',
-          sortBy: this.sortConfig.last_activity_at || '',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.LAST_ACTIVITY'),
+          {
+            field: 'phone_number',
+            key: 'phone_number',
+            sortBy: this.sortConfig.phone_number || '',
+            title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.PHONE_NUMBER'),
+            align: this.isRTLView ? 'right' : 'left',
+          },
+        ],
+      };
+
+      const customColumn = {
+        title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.GROUP_CUSTOM'),
+        children: [],
+      };
+      const custom_attribute_definitions =
+        this.$store.getters['attributes/getAttributes'];
+      custom_attribute_definitions.forEach(item => {
+        const column = {
+          field: item.attribute_key,
+          key: item.attribute_key,
+          title: item.attribute_display_name,
           align: this.isRTLView ? 'right' : 'left',
+        };
+        if (item.attribute_display_type === 'date') {
+          column.renderBodyCell = ({ row }) => {
+            if (row[item.attribute_key]) {
+              return format(new Date(row[item.attribute_key]), 'dd/MM/yyyy');
+            }
+            return null;
+          };
+        }
+        customColumn.children.push(column);
+      });
+
+      const salesColumn = {
+        title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.GROUP_SALES'),
+        children: [],
+      };
+      salesColumn.children.push({
+        field: 'initial_channel_type',
+        key: 'initial_channel_type',
+        sortBy: this.sortConfig.initial_channel_type || '',
+        title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.INITIAL_CHANNEL'),
+        align: this.isRTLView ? 'right' : 'left',
+      });
+      salesColumn.children.push({
+        field: 'stage_name',
+        key: 'stage_name',
+        sortBy: this.sortConfig.stage_id || '',
+        title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.STAGE_NAME'),
+        align: this.isRTLView ? 'right' : 'left',
+      });
+      salesColumn.children.push({
+        field: 'last_note',
+        key: 'last_note',
+        title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.LAST_NOTE'),
+        align: this.isRTLView ? 'right' : 'left',
+      });
+      salesColumn.children.push({
+        field: 'action_description',
+        key: 'action_description',
+        title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.ACTION_DESCRIPTION'),
+        align: this.isRTLView ? 'right' : 'left',
+      });
+      salesColumn.children.push({
+        field: 'assignee_name_in_leads',
+        key: 'assignee_name_in_leads',
+        sortBy: this.sortConfig.assignee_id_in_leads || '',
+        title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.LEAD_ASSIGNEE'),
+        align: this.isRTLView ? 'right' : 'left',
+      });
+      salesColumn.children.push({
+        field: 'assignee_name_in_deals',
+        key: 'assignee_name_in_deals',
+        sortBy: this.sortConfig.assignee_id_in_deals || '',
+        title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.DEAL_ASSIGNEE'),
+        align: this.isRTLView ? 'right' : 'left',
+      });
+      salesColumn.children.push({
+        field: 'team_name',
+        key: 'team_name',
+        sortBy: this.sortConfig.team_id || '',
+        title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.TEAM_NAME'),
+        align: this.isRTLView ? 'right' : 'left',
+      });
+
+      const trackingColumn = {
+        title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.GROUP_TRACKING'),
+        children: [],
+      };
+      trackingColumn.children.push({
+        field: 'last_stage_changed_at',
+        key: 'last_stage_changed_at',
+        sortBy: this.sortConfig.last_stage_changed_at || '',
+        renderBodyCell: ({ row }) => {
+          if (row.last_stage_changed_at)
+            return this.dynamicTime(row.last_stage_changed_at);
+          return '-';
         },
-        {
-          field: 'created_at',
-          key: 'created_at',
-          sortBy: this.sortConfig.created_at || '',
-          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CREATED_AT'),
-          align: this.isRTLView ? 'right' : 'left',
+        title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.LAST_STAGE_CHANGED'),
+        align: this.isRTLView ? 'right' : 'left',
+      });
+      trackingColumn.children.push({
+        field: 'last_activity_at',
+        key: 'last_activity_at',
+        sortBy: this.sortConfig.last_activity_at || '',
+        renderBodyCell: ({ row }) => {
+          if (row.last_activity_at)
+            return this.dynamicTime(row.last_activity_at);
+          return '-';
         },
+        title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.LAST_ACTIVITY'),
+        align: this.isRTLView ? 'right' : 'left',
+      });
+      trackingColumn.children.push({
+        field: 'updated_at',
+        key: 'updated_at',
+        sortBy: this.sortConfig.updated_at || '',
+        renderBodyCell: ({ row }) => {
+          if (row.updated_at) return this.dynamicTime(row.updated_at);
+          return '-';
+        },
+        title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.UPDATED_AT'),
+        align: this.isRTLView ? 'right' : 'left',
+      });
+      trackingColumn.children.push({
+        field: 'created_at',
+        key: 'created_at',
+        sortBy: this.sortConfig.created_at || '',
+        renderBodyCell: ({ row }) => {
+          if (row.created_at) return this.dynamicTime(row.created_at);
+          return '-';
+        },
+        title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CREATED_AT'),
+        align: this.isRTLView ? 'right' : 'left',
+      });
+
+      return [
+        nameColumn,
+        basicColumn,
+        salesColumn,
+        customColumn,
+        trackingColumn,
       ];
     },
   },

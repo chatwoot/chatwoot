@@ -1,0 +1,10 @@
+{
+    "PIPELINE_PAGE": {
+        "HEADER": "Kinh doanh",
+        "STAGE_TYPE": {
+            "LEADS": "Giai đoạn leads",
+            "DEALS": "Giai đoạn deals",
+            "BOTH": "Cả hai giai đoạn"
+        }
+    }
+}

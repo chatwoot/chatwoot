@@ -12,6 +12,7 @@ class AccountBuilder
     ActiveRecord::Base.transaction do
       @account = create_account
       @user = create_and_link_user
+      InitialDataBuilder.new(account_id: @account.id).perform
     end
     [@user, @account]
   rescue StandardError => e

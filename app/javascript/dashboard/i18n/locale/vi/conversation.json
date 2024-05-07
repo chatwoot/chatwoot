@@ -61,7 +61,7 @@
       "OPEN": "Xem",
       "CLOSE": "Đóng",
       "DETAILS": "chi tiết",
-      "SNOOZED_UNTIL": "Tạm ngưng cho đến",
+      "SNOOZED_UNTIL": "Bắt đầu vào lúc",
       "SNOOZED_UNTIL_TOMORROW": "Tạm ngưng đến ngày mai",
       "SNOOZED_UNTIL_NEXT_WEEK": "Tạm ngưng đến tuần sau",
       "SNOOZED_UNTIL_NEXT_REPLY": "Tạm ngưng chờ phản hồi",
@@ -274,7 +274,7 @@
       "CONVERSATION_ACTIONS": "Thông tin cuộc hội thoại này",
       "CONVERSATION_LABELS": "Nhãn phân loại",
       "CONVERSATION_INFO": "Thông tin tùy chỉnh của hội thoại",
-      "CONTACT_ATTRIBUTES": "Thông tin tùy chỉnh của liên hệ",
+      "CONTACT_ATTRIBUTES": "Thông tin tùy chỉnh",
       "PREVIOUS_CONVERSATION": "Lịch sử hội thoại",
       "MACROS": "Các lệnh tự động"
     }

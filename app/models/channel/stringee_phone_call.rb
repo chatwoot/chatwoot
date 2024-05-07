@@ -27,6 +27,6 @@ class Channel::StringeePhoneCall < ApplicationRecord
   validates :queue_id, presence: true
 
   def name
-    'Stringee'
+    'PhoneCall'
   end
 end

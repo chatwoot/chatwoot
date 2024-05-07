@@ -1,14 +1,13 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <woot-modal :show.sync="show" :on-close="onCancel" modal-type="right-aligned">
+  <woot-modal :show.sync="show" :on-close="onCancel">
     <div class="h-auto overflow-auto flex flex-col">
       <woot-modal-header
-        :header-title="$t('CREATE_CONTACT.TITLE')"
-        :header-content="$t('CREATE_CONTACT.DESC')"
+        :header-title="$t('CONTACT_PANEL.NEW_ACTION.HEADER_TITLE')"
+        :header-content="$t('CONTACT_PANEL.NEW_ACTION.HEADER_CONTENT')"
       />
-      <contact-form
+      <new-action-form
         :contact="contact"
-        :in-progress="uiFlags.isCreating"
         :on-submit="onSubmit"
         @success="onSuccess"
         @cancel="onCancel"
@@ -18,12 +17,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import ContactForm from './ContactForm.vue';
+import NewActionForm from './NewActionForm.vue';
 
 export default {
   components: {
-    ContactForm,
+    NewActionForm,
   },
   props: {
     show: {
@@ -35,13 +33,6 @@ export default {
       default: () => ({}),
     },
   },
-
-  computed: {
-    ...mapGetters({
-      uiFlags: 'contacts/getUIFlags',
-    }),
-  },
-
   methods: {
     onCancel() {
       this.$emit('cancel');
@@ -49,8 +40,12 @@ export default {
     onSuccess() {
       this.$emit('cancel');
     },
-    async onSubmit(contactItem) {
-      await this.$store.dispatch('contacts/create', contactItem);
+    async onSubmit(params, isFromWhatsApp) {
+      const data = await this.$store.dispatch('contactConversations/create', {
+        params,
+        isFromWhatsApp,
+      });
+      return data;
     },
   },
 };

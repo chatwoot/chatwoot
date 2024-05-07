@@ -9,7 +9,7 @@
     "SUBMIT_BUTTON_LABEL": "Tìm kiếm",
     "UPDATE_BUTTON_LABEL": "Lưu lại tìm kiếm này",
     "CANCEL_BUTTON_LABEL": "Bỏ qua",
-    "CLEAR_BUTTON_LABEL": "Hủy bỏ tìm kiếm",
+    "CLEAR_BUTTON_LABEL": "Hủy bỏ bộ lọc",
     "FOLDER_LABEL": "Tên tìm kiếm đã lưu",
     "FOLDER_QUERY_LABEL": "Folder Query",
     "EMPTY_VALUE_ERROR": "Chưa hoàn thành điều kiện này, bạn có thể chọn xóa nó đi.",
@@ -65,7 +65,7 @@
         "LABEL": "Đặt tên tìm kiếm này",
         "PLACEHOLDER": "Đặt tên dễ nhớ dễ hiểu để sử dụng sau này.",
         "ERROR_MESSAGE": "Cần phải có tên.",
-        "SAVE_BUTTON": "Lưu tìm kiếm",
+        "SAVE_BUTTON": "Lưu bộ lọc",
         "CANCEL_BUTTON": "Bỏ qua",
         "API_FOLDERS": {
           "SUCCESS_MESSAGE": "Tìm kiếm được lưu thành công.",
@@ -77,14 +77,14 @@
         }
       },
       "EDIT": {
-        "EDIT_BUTTON": "Sửa tìm kiếm này"
+        "EDIT_BUTTON": "Sửa bộ lọc này"
       },
       "DELETE": {
-        "DELETE_BUTTON": "Xoá tìm kiếm này",
+        "DELETE_BUTTON": "Xoá bộ lọc này",
         "MODAL": {
           "CONFIRM": {
             "TITLE": "Xác nhận xoá",
-            "MESSAGE": "Bạn có chắc chắn muốn xoá tìm kiếm ",
+            "MESSAGE": "Bạn có chắc chắn muốn xoá bộ lọc ",
             "YES": "Có, hãy xóa",
             "NO": "Không, giữ lại"
           }

@@ -20,6 +20,15 @@ const primaryMenuItems = accountId => [
     roles: ['administrator', 'agent'],
   },
   {
+    icon: 'contact-card-group',
+    key: 'pipelines',
+    label: 'PIPELINES',
+    featureFlag: FEATURE_FLAGS.CRM,
+    toState: frontendURL(`accounts/${accountId}/pipelines`),
+    toStateName: 'pipelines_dashboard',
+    roles: ['administrator', 'agent'],
+  },
+  {
     icon: 'book-contacts',
     key: 'contacts',
     label: 'CONTACTS',

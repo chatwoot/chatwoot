@@ -21,6 +21,24 @@ export const formatTime = timeInSeconds => {
   return `${days}d`;
 };
 
+export const STAGE_TYPE_OPTIONS = {
+  1: {
+    id: 1,
+    value: 'leads',
+    translationKey: 'PIPELINE_PAGE.STAGE_TYPE.LEADS',
+  },
+  2: {
+    id: 2,
+    value: 'deals',
+    translationKey: 'PIPELINE_PAGE.STAGE_TYPE.DEALS',
+  },
+  3: {
+    id: 3,
+    value: 'both',
+    translationKey: 'PIPELINE_PAGE.STAGE_TYPE.BOTH',
+  },
+};
+
 export const GROUP_BY_FILTER = {
   1: { id: 1, period: 'day' },
   2: { id: 2, period: 'week' },
