@@ -28,8 +28,9 @@ class Contacts::FilterService < FilterService
     end
   end
 
+  # TODO: @account.contacts.resolved_contacts ? to stay consistant with the behavior in ui
   def base_relation
-    (@account || Current.account).contacts
+    @account.contacts
   end
 
   def filter_config
