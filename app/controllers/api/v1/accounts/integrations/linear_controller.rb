@@ -23,8 +23,4 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
   def linear_processor_service
     Integrations::Linear::ProcessorService.new(account: Current.account)
   end
-
-  def permitted_params
-    params.permit(:conversation_id)
-  end
 end
