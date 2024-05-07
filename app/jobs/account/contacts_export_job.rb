@@ -29,9 +29,9 @@ class Account::ContactsExportJob < ApplicationJob
       result = ::Contacts::FilterService.new(@account, @current_user, @params).perform
       result[:contacts]
     elsif @params[:label].present?
-      @account.contacts.tagged_with(@params[:label], any: true)
+      @account.contacts.resolved_contacts.tagged_with(@params[:label], any: true)
     else
-      @account.contacts
+      @account.contacts.resolved_contacts
     end
   end
 

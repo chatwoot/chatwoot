@@ -56,7 +56,6 @@ RSpec.describe Account::ContactsExportJob do
         create(:contact, account: account, additional_attributes: { :country_code => 'India' }, email: "looped-#{i + 10}@text.example.com")
       end
       create(:contact, account: account, phone_number: '+910808080808', email: 'test2@text.example')
-      Contact.last.add_labels(['spec-billing'])
     end
 
     it 'generates CSV file and attach to account' do
@@ -86,17 +85,31 @@ RSpec.describe Account::ContactsExportJob do
       expect(phone_numbers).to include('+910808080818', '+910808080808')
     end
 
-    it 'returns all results when filter is not prvoided' do
+    it 'returns all resolved contacts as results when filter is not prvoided' do
+      create(:contact, account: account, email: nil, phone_number: nil)
       described_class.perform_now(account.id, user.id, %w[id name email column_not_present], {})
       csv_data = CSV.parse(account.contacts_export.download, headers: true)
-      expect(csv_data.length).to eq(account.contacts.count)
+      expect(csv_data.length).to eq(account.contacts.resolved_contacts.count)
     end
 
-    it 'returns filtered data if labels are provided' do
+    it 'returns resolved contacts filtered if labels are provided' do
+      # Adding label to a resolved contact
+      Contact.last.add_labels(['spec-billing'])
+      contact = create(:contact, account: account, email: nil, phone_number: nil)
+      contact.add_labels(['spec-billing'])
       described_class.perform_now(account.id, user.id, [], { :payload => nil, :label => 'spec-billing' })
       csv_data = CSV.parse(account.contacts_export.download, headers: true)
-      # since there is only 1 contact with 'spec-billing' label
+      # since there is only 1 resolved contact with 'spec-billing' label
       expect(csv_data.length).to eq(1)
+    end
+
+    # TODO: This returns unresolved contacts as well since filter service returns the same
+    # Change this when we make changes to filter service and ensure only resolved contacts are returned
+    it 'returns filtered data which inclues unresolved contacts when filter is provided' do
+      create(:contact, account: account, email: nil, phone_number: nil, additional_attributes: { :country_code => 'India' })
+      described_class.perform_now(account.id, user.id, [], { :payload => [city_filter] }.with_indifferent_access)
+      csv_data = CSV.parse(account.contacts_export.download, headers: true)
+      expect(csv_data.length).to eq(5)
     end
 
     it 'returns filtered data when multiple filters are provided' do
