@@ -69,3 +69,5 @@
 - name: sla
   enabled: false
   premium: true
+- name: smart_actions
+  enabled: false

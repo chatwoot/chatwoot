@@ -100,6 +100,12 @@ const getters = {
   getConversationLastSeen: _state => {
     return _state.conversationLastSeen;
   },
+  showSmartActions: _state => {
+    return _state.showSmartActions;
+  },
+  getSmartActions: _state => {
+    return _state.smartActions;
+  },
 };
 
 export default getters;

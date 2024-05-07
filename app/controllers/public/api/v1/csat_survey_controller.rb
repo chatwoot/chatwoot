@@ -1,6 +1,6 @@
 class Public::Api::V1::CsatSurveyController < PublicController
   before_action :set_conversation
-  before_action :set_message
+  before_action :message
 
   def show; end
 
@@ -18,9 +18,8 @@ class Public::Api::V1::CsatSurveyController < PublicController
     @conversation = Conversation.find_by!(uuid: params[:id])
   end
 
-  def set_message
+  def message
     @message = @conversation.messages.find_by(id: message_id) if message_id.present?
-
     @message ||= @conversation.messages.find_by!(content_type: 'input_csat')
   end
 

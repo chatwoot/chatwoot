@@ -21,4 +21,5 @@ export const FEATURE_FLAGS = {
   INBOX_VIEW: 'inbox_view',
   SLA: 'sla',
   RESPONSE_BOT: 'response_bot',
+  SMART_ACTIONS: 'smart_actions',
 };

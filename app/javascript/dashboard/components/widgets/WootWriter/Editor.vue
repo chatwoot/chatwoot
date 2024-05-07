@@ -1,5 +1,5 @@
 <template>
-  <div ref="editorRoot" class="relative editor-root">
+  <div ref="editorRoot" class="relative editor-root" :class="{ 'copilot-enabled': showCopilot }">
     <tag-agents
       v-if="showUserMentions && isPrivate"
       :search-key="mentionSearchKey"
@@ -15,6 +15,10 @@
       :search-key="variableSearchTerm"
       @click="insertVariable"
     />
+    <copilot 
+      :show-loading-smart-response-icon="loadingSmartResponse"
+      :show-copilot="showCopilot"
+      @ask-copilot="askCopilot"/>
     <input
       ref="imageUpload"
       type="file"
@@ -62,6 +66,7 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 import TagAgents from '../conversation/TagAgents.vue';
 import CannedResponse from '../conversation/CannedResponse.vue';
+import Copilot from '../conversation/Copilot.vue'
 import VariableList from '../conversation/VariableList.vue';
 import {
   appendSignature,
@@ -96,6 +101,7 @@ import {
   MESSAGE_EDITOR_MENU_OPTIONS,
   MESSAGE_EDITOR_IMAGE_RESIZES,
 } from 'dashboard/constants/editor';
+import CopilotVue from '../conversation/Copilot.vue';
 
 const createState = (
   content,
@@ -120,7 +126,7 @@ const createState = (
 
 export default {
   name: 'WootMessageEditor',
-  components: { TagAgents, CannedResponse, VariableList },
+  components: { TagAgents, CannedResponse, VariableList, Copilot },
   mixins: [eventListenerMixins, uiSettingsMixin, alertMixin],
   props: {
     value: { type: String, default: '' },
@@ -140,6 +146,7 @@ export default {
     allowSignature: { type: Boolean, default: false },
     channelType: { type: String, default: '' },
     showImageResizeToolbar: { type: Boolean, default: false }, // A kill switch to show or hide the image toolbar
+    enableSmartActions: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -165,6 +172,7 @@ export default {
       toolbarPosition: { top: 0, left: 0 },
       sizes: MESSAGE_EDITOR_IMAGE_RESIZES,
       selectedImageNode: null,
+      loadingSmartResponse: false,
     };
   },
   computed: {
@@ -284,6 +292,9 @@ export default {
       }
 
       return false;
+    },
+    showCopilot() {
+      return this.enableSmartActions && !this.isPrivate;
     },
   },
   watch: {
@@ -671,6 +682,7 @@ export default {
     onKeyup() {
       this.typingIndicator.start();
       this.updateImgToolbarOnDelete();
+      this.checkCoPilot();
     },
     onKeydown(event) {
       if (this.isEnterToSendEnabled()) {
@@ -699,6 +711,17 @@ export default {
       this.$nextTick(() => {
         scrollCursorIntoView(this.editorView);
       });
+    },
+    askCopilot(){
+      this.$emit('ask-copilot');
+    },
+    checkCoPilot(){
+      if (this.value[0] == ' ') {
+        this.loadingSmartResponse = true;
+        this.askCopilot()
+      } else {
+        this.loadingSmartResponse = false;
+      }
     },
   },
 };
@@ -794,5 +817,14 @@ export default {
 
 .editor-warning__message {
   @apply text-red-400 dark:text-red-400 font-normal text-sm pt-1 pb-0 px-0;
+}
+.copilot{
+  position: absolute;
+  bottom: 45px;
+  display: flex;
+  margin-right: 5px;
+}
+.copilot-enabled .ProseMirror.ProseMirror-woot-style{
+  margin-left: 125px;
 }
 </style>

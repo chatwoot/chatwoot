@@ -86,6 +86,7 @@
         :signature="signatureToApply"
         :allow-signature="true"
         :channel-type="channelType"
+        :enable-smart-actions="enableSmartActions"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
         @focus="onFocus"
@@ -94,6 +95,7 @@
         @toggle-canned-menu="toggleCannedMenu"
         @toggle-variables-menu="toggleVariablesMenu"
         @clear-selection="clearEditorSelection"
+        @ask-copilot="onAskCopilot"
       />
     </div>
     <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
@@ -197,6 +199,7 @@ import {
 
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const EmojiInput = () => import('shared/components/emoji/EmojiInput');
 
@@ -347,8 +350,11 @@ export default {
       return this.$store.getters['inboxes/getInbox'](this.inboxId);
     },
     messagePlaceHolder() {
-      return this.isPrivate
-        ? this.$t('CONVERSATION.FOOTER.PRIVATE_MSG_INPUT')
+      if (this.isPrivate) {
+        this.$t('CONVERSATION.FOOTER.PRIVATE_MSG_INPUT')
+      }
+      return this.enableSmartActions
+        ? this.$t('CONVERSATION.FOOTER.SMART_AI_INPUT')
         : this.$t('CONVERSATION.FOOTER.MSG_INPUT');
     },
     isMessageLengthReachingThreshold() {
@@ -475,6 +481,13 @@ export default {
         this.isAPIInbox ||
         this.isAWhatsAppChannel
       );
+    },
+    enableSmartActions() {
+      const isFeatEnabled = this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.SMART_ACTIONS
+      );
+      return isFeatEnabled && (this.isAnEmailChannel || this.isAWebWidgetInbox);
     },
     isSignatureEnabledForInbox() {
       return !this.isPrivate && this.sendWithSignature;
@@ -905,6 +918,24 @@ export default {
         this.$track(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
         this.message = updatedMessage;
       }, 100);
+    },
+    onAskCopilot() {
+       // todo: post request
+      const coPilotAnswer = 'Hello Johanna \n\nThanks for reaching out. Missing mandatory info for booking. Please specify booking duration and interpretation method: phone, video, or on-site? [test](link) okay!';
+
+      if (!coPilotAnswer) {
+        return;
+      }
+
+      let i = 0;
+      const interval = setInterval(() => {
+        if (i <= coPilotAnswer.length) {
+          this.message = coPilotAnswer.substring(0, i)
+          i++;
+        } else {
+          clearInterval(interval)
+        }
+      }, 10)
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
       const { can_reply: canReply } = this.currentChat;

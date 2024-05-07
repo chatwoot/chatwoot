@@ -25,7 +25,6 @@ class WebhookListener < BaseListener
   def message_created(event)
     message = extract_message_and_account(event)[0]
     inbox = message.inbox
-
     return unless message.webhook_sendable?
 
     payload = message.webhook_data.merge(event: __method__.to_s)

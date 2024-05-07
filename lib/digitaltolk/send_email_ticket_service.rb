@@ -95,11 +95,11 @@ class Digitaltolk::SendEmailTicketService
   end
 
   def params_email
-    params.dig(:requester, :email).to_s.downcase.strip
+    params.dig(:requester, :email).to_s
   end
 
   def find_contact_by_email
-    @find_contact_by_email ||= @account.contacts.find_by(email: params_email)
+    @find_contact_by_email ||= @account.contacts.from_email(params_email)
   end
 
   def create_conversation
@@ -144,21 +144,38 @@ class Digitaltolk::SendEmailTicketService
     params[:booking_issue_id].to_s
   end
 
-  def validate_params
-    @errors << 'Parameter booking_id is required' if booking_id.blank?
+  def validate_booking_id
+    return if booking_id.present?
 
+    @errors << 'Parameter booking_id is required'
+  end
+
+  def validate_recipient_type
     if recipient_type.blank?
       @errors << 'Recipient Type is required'
     elsif !for_customer? && !for_translator?
       @errors << "Unknown recipient_type #{recipient_type}"
     end
+  end
 
-    @errors << "Inbox with id #{inbox_id} was not found" if inbox.blank?
+  def validate_inbox
+    return if inbox.present?
 
+    @errors << "Inbox with id #{inbox_id} was not found"
+  end
+
+  def validate_booking_issue
     return unless for_issue
     return if booking_issue_id.present?
 
     @errors << 'Parameter booking_issue_id is required'
+  end
+
+  def validate_params
+    validate_booking_id
+    validate_recipient_type
+    validate_inbox
+    validate_booking_issue
   end
 
   def validate_data
@@ -178,11 +195,11 @@ class Digitaltolk::SendEmailTicketService
   end
 
   def find_user_by_email
-    User.find_by(email: created_by_email)
+    User.from_email(created_by_email)
   end
 
   def created_by_email
-    params.dig(:created_by, :email).to_s.downcase.strip
+    params.dig(:created_by, :email).to_s
   end
 
   def sender

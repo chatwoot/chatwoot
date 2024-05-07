@@ -18,7 +18,8 @@ const state = {
   conversationParticipants: [],
   conversationLastSeen: null,
   syncConversationsMessages: {},
-  total_csat_questions: 0,
+  showSmartActions: false,
+  smartActions: [],
 };
 
 // mutations
@@ -281,6 +282,14 @@ export const mutations = {
     { conversationId, messageId }
   ) {
     _state.syncConversationsMessages[conversationId] = messageId;
+  },
+
+  [types.SET_SMART_ACTIONS]( _state, data) {
+    Vue.set(_state, 'smartActions', data);
+  },
+
+  [types.DISPLAY_SMART_ACTIONS](_state, value) {
+    Vue.set(_state, 'showSmartActions', value);
   },
 };
 

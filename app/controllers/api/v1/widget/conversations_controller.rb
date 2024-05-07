@@ -74,7 +74,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   end
 
   def total_csat_questions
-    render json: { total: inbox.csat_template.questions_count }
+    render json: { total: inbox.csat_template&.questions_count }
   end
 
   def csat_template_status

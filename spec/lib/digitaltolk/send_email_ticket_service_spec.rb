@@ -49,7 +49,6 @@ describe Digitaltolk::SendEmailTicketService do
         result = service.perform
         result2 = service.perform
         expect(result[:conversation_id]).to eq(result2[:conversation_id])
-
       end
 
       context 'with different email' do

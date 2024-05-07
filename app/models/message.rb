@@ -149,6 +149,7 @@ class Message < ApplicationRecord
   has_one :message_csat_template_question, dependent: :destroy_async
   has_one :csat_template_question, through: :message_csat_template_question
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
+  has_many :smart_actions, dependent: :destroy_async
 
   after_create_commit :execute_after_create_commit_callbacks
 

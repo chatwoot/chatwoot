@@ -76,7 +76,9 @@ class Digitaltolk::FixInvalidConversation
     @contact = Contact.where("email LIKE '%#{email_from_body}%'").first
 
     if @contact.present?
+      # rubocop:disable Rails/SkipsModelValidations
       @contact.update_column(:name, identify_contact_name)
+      # rubocop:enable Rails/SkipsModelValidations
       @contact_inbox = ContactInbox.find_by(inbox: inbox, contact: @contact)
     else
       create_contact

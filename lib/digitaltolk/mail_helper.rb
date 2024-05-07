@@ -62,25 +62,26 @@ class Digitaltolk::MailHelper
   end
 
   def self.csat_disabled?(message)
-    return false if message.blank?
-
-    convo = message.conversation
-    return false if convo.blank?
-    return true if convo.custom_attributes['block_csat']
-    return true if convo.contact.custom_attributes['block_csat']
+    return false if message.blank? && (convo = message.conversation).blank?
+    return true if blocked_csat?(convo)
 
     last_message = convo.messages.incoming.last
     return true if last_message.blank?
 
-    email = message.conversation.contact.email
-
-    return true if no_reply_email?(email)
-    return true if auto_reply?(last_message)
-    return true if thank_you_reply?(last_message)
+    email = convo.contact.email
+    return true if csat_disabled_by?(email, last_message)
 
     false
   rescue StandardError => e
     Rails.logger.error e
     false
+  end
+
+  def self.blocked_csat?(convo)
+    convo.custom_attributes['block_csat'] || convo.contact.custom_attributes['block_csat']
+  end
+
+  def self.csat_disabled_by?(email, last_message)
+    no_reply_email?(email) || auto_reply?(last_message) || thank_you_reply?(last_message)
   end
 end

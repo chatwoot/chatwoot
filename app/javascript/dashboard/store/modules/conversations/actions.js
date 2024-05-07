@@ -2,6 +2,7 @@ import Vue from 'vue';
 import types from '../../mutation-types';
 import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
+import SmartActionApi from '../../../api/inbox/smart_action';
 import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
 import { createPendingMessage } from 'dashboard/helper/commons';
 import {
@@ -485,6 +486,15 @@ const actions = {
 
   setCurrentChatPriority({ commit }, { priority, conversationId }) {
     commit(types.ASSIGN_PRIORITY, { priority, conversationId });
+  },
+
+  async getSmartActions({ commit, dispatch }, { conversationId, messageId } ) {
+    const { data: { payload } } = await SmartActionApi.getSmartActions(conversationId, messageId);
+    commit(types.SET_SMART_ACTIONS, payload)
+  },
+
+  showSmartActions({ commit }, value) {
+    commit(types.DISPLAY_SMART_ACTIONS, value)
   },
 
   ...messageReadActions,

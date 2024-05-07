@@ -171,6 +171,8 @@ import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { getDayDifferenceFromNow } from 'shared/helpers/DateHelper';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -241,6 +243,10 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({ 
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      accountId: 'getCurrentAccountId',
+    }),
     attachments() {
       // Here it is used to get sender and created_at for each attachment
       return this.data?.attachments.map(attachment => ({
@@ -331,6 +337,7 @@ export default {
     },
     contextMenuEnabledOptions() {
       return {
+        smart_actions: this.enableSmartActions,
         copy: this.hasText,
         delete: this.hasText || this.hasAttachments,
         cannedResponse: this.isOutgoing && this.hasText,
@@ -411,6 +418,13 @@ export default {
         cc: this.contentAttributes.cc_emails,
         bcc: this.contentAttributes.bcc_emails,
       };
+    },
+    enableSmartActions(){
+      const isFeatEnabled = this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.SMART_ACTIONS
+      );
+      return isFeatEnabled && this.isIncoming && (this.isAnEmailInbox || this.isWebWidgetInbox);
     },
     hasAttachments() {
       return !!(this.data.attachments && this.data.attachments.length > 0);

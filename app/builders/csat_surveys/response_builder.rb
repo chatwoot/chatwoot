@@ -39,6 +39,8 @@ class CsatSurveys::ResponseBuilder
     return if (attrs = message.content_attributes[:submitted_values]).blank?
 
     attrs['csat_template_question_id'] = csat_template_question&.id
+    # rubocop:disable Rails/SkipsModelValidations
     message.update_column(:content_attributes, attrs)
+    # rubocop:enable Rails/SkipsModelValidations
   end
 end
