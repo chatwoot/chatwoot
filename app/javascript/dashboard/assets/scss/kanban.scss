@@ -10,7 +10,6 @@ ul.drag-inner-list {
 
 .drag-container {
   margin: 20px auto;
-  max-width: 1000px;
 }
 
 .drag-list {
@@ -29,6 +28,7 @@ ul.drag-inner-list {
   overflow: hidden;
   position: relative;
   border-radius: 10px;
+  width: 200px;
 
   @media (max-width: 690px) {
     margin-bottom: 30px;
@@ -56,9 +56,10 @@ ul.drag-inner-list {
 
 .drag-item {
   cursor: pointer;
-  height: 100px;
+  height: 110px;
   margin: 10px;
-  padding: 10px;
+  padding-left: 10px;
+  padding-top: 5px;
   border-radius: 10px;
   transition: $ease-out;
 

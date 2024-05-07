@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full flex flex-row">
+  <div class="w-full flex flex-row overflow-auto">
     <div class="flex flex-col h-full" :class="wrapClass">
       <page-header
         :header-title="pageTitle"

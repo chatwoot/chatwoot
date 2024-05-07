@@ -2,8 +2,8 @@
     "PIPELINE_PAGE": {
         "HEADER": "Kinh doanh",
         "STAGE_TYPE": {
-            "LEADS": "Giai đoạn tiềm năng",
-            "DEALS": "Giai đoạn bán hàng",
+            "LEADS": "Giai đoạn leads",
+            "DEALS": "Giai đoạn deals",
             "BOTH": "Cả hai giai đoạn"
         }
     }

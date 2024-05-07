@@ -21,10 +21,13 @@
               'text-woot-600 dark:text-woot-600': selectedContactId == item.id,
             }"
           >
-            <strong>{{ item.title }}</strong>
+            <p class="mb-1">
+              <strong>{{ item.title }}</strong>
+            </p>
           </div>
-          <div>{{ item.formattedUpdatedAt }}</div>
-          id: {{ item.id }}
+          <p class="mb-0">Phụ trách: {{ item.assignee }}</p>
+          <p class="mb-0">{{ item.lastNote }}</p>
+          <p class="mb-0">Thời gian: {{ item.formattedStageChangedAt }}</p>
         </div>
       </div>
     </Kanban>
@@ -81,15 +84,23 @@ export default {
         const stage = this.stages.find(item => item.id === contact.stage.id);
         if (!stage) return;
 
+        const assigneeInLeads = contact.assignee_in_leads
+          ? contact.assignee_in_leads.name
+          : '';
+        const assigneeInDeals = contact.assignee_in_deals
+          ? contact.assignee_in_deals.name
+          : '';
         const contactInBlock = {
           id: contact.id,
           status: stage.code,
           title: contact.name,
+          assignee:
+            stage.stage_type === 'leads' ? assigneeInLeads : assigneeInDeals,
+          lastNote: contact.last_note,
           updatedAt: contact.updated_at,
-          formattedUpdatedAt: this.dateFormat(
-            contact.updated_at,
-            'dd/MM HH:mm'
-          ),
+          formattedStageChangedAt: contact.last_stage_changed_at
+            ? this.dynamicTime(contact.last_stage_changed_at)
+            : null,
         };
 
         const index = this.blocks.findIndex(item => item.id === contact.id);

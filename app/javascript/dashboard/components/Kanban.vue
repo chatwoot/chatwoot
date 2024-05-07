@@ -1,5 +1,5 @@
 <template>
-  <div :style="{ maxWidth: maxWidth }" class="drag-container">
+  <div class="drag-container">
     <ul class="drag-list">
       <li
         v-for="status in statuses"
@@ -75,9 +75,6 @@ export default {
   computed: {
     localBlocks() {
       return this.blocks;
-    },
-    maxWidth() {
-      return (this.statuses.length * 250).toString() + 'px';
     },
   },
 
