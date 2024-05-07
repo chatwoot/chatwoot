@@ -15,8 +15,8 @@ class Integrations::Linear::ProcessorService
     {
       users: response['users']['nodes'].map(&:as_json),
       projects: response['projects']['nodes'].map(&:as_json),
-      workflowStates: response['workflowStates']['nodes'].map(&:as_json),
-      issueLabels: response['issueLabels']['nodes'].map(&:as_json)
+      states: response['workflowStates']['nodes'].map(&:as_json),
+      labels: response['issueLabels']['nodes'].map(&:as_json)
     }
   end
 

@@ -1,16 +1,16 @@
 <template>
-  <div class="flex-shrink flex-grow overflow-auto p-4">
+  <div class="flex-grow flex-shrink p-4 overflow-auto">
     <div class="flex flex-col">
-      <div v-if="uiFlags.isFetching" class="my-0 mx-auto">
+      <div v-if="uiFlags.isFetching" class="mx-auto my-0">
         <woot-loading-state :message="$t('INTEGRATION_APPS.FETCHING')" />
       </div>
 
       <div v-else class="w-full">
         <div>
           <div
-            v-for="item in integrationsList"
+            v-for="item in enabledIntegrations"
             :key="item.id"
-            class="bg-white dark:bg-slate-800 border border-solid border-slate-75 dark:border-slate-700/50 rounded-sm mb-4 p-4"
+            class="p-4 mb-4 bg-white border border-solid rounded-sm dark:bg-slate-800 border-slate-75 dark:border-slate-700/50"
           >
             <integration-item
               :integration-id="item.id"
@@ -36,8 +36,22 @@ export default {
   computed: {
     ...mapGetters({
       uiFlags: 'labels/getUIFlags',
+      accountId: 'getCurrentAccountId',
       integrationsList: 'integrations/getAppIntegrations',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
+    enabledIntegrations() {
+      const isLinearIntegrationEnabled = this.isFeatureEnabledonAccount(
+        this.accountId,
+        'linear_integration'
+      );
+      if (!isLinearIntegrationEnabled) {
+        return this.integrationsList.filter(
+          integration => integration.id !== 'linear'
+        );
+      }
+      return this.integrationsList;
+    },
   },
   mounted() {
     this.$store.dispatch('integrations/get');

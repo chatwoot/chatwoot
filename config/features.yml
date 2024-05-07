@@ -83,3 +83,5 @@
 - name: help_center_embedding_search
   enabled: false
   premium: true
+- name: linear_integration
+  enabled: false
