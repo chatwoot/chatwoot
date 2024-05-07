@@ -1,8 +1,10 @@
 class Contacts::FilterService < FilterService
   ATTRIBUTE_MODEL = 'contact_attribute'.freeze
 
-  def initialize(params, user, account = nil)
+  def initialize(account, user, params)
     @account = account
+    # TODO: Change the order of arguments in FilterService maybe?
+    # account, user, params makes more sense
     super(params, user)
   end
 
