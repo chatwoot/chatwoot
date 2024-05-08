@@ -5,6 +5,8 @@
             "LEADS": "Giai đoạn leads",
             "DEALS": "Giai đoạn deals",
             "BOTH": "Cả hai giai đoạn"
-        }
+        },
+        "ASSIGNEE_LABEL": "Phụ trách: ",
+        "TIME_IN_STAGE": "Thời gian: "
     }
 }

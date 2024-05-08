@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex justify-between flex-col h-full m-0 flex-1 bg-white dark:bg-slate-900"
+    class="flex justify-between flex-col h-full m-0 flex-1 bg-white dark:bg-slate-900 overflow-auto"
   >
     <Kanban :statuses="statuses" :blocks="blocks" @update-block="updateStage">
       <div v-for="stage in stages" :slot="stage.code" :key="stage.code">
@@ -25,9 +25,14 @@
               <strong>{{ item.title }}</strong>
             </p>
           </div>
-          <p class="mb-0">Phụ trách: {{ item.assignee }}</p>
-          <p class="mb-0">{{ item.lastNote }}</p>
-          <p class="mb-0">Thời gian: {{ item.formattedStageChangedAt }}</p>
+          <p class="mb-0">
+            {{ $t('PIPELINE_PAGE.ASSIGNEE_LABEL') }} {{ item.assignee }}
+          </p>
+          <p class="mb-0 truncate">{{ item.lastNote }}</p>
+          <p class="mb-0">
+            {{ $t('PIPELINE_PAGE.TIME_IN_STAGE') }}
+            {{ item.formattedStageChangedAt }}
+          </p>
         </div>
       </div>
     </Kanban>
@@ -79,7 +84,7 @@ export default {
 
     syncBlockItems() {
       this.contacts.forEach(contact => {
-        if (!contact.stage.id) return;
+        if (!contact.stage || !contact.stage.id) return;
 
         const stage = this.stages.find(item => item.id === contact.stage.id);
         if (!stage) return;
@@ -137,6 +142,12 @@ export default {
 
 * {
   box-sizing: border-box;
+}
+
+.truncate {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .drag-item-selection {
