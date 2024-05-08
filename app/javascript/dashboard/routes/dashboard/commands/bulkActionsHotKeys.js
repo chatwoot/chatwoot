@@ -14,7 +14,7 @@ import {
 
 const SNOOZE_OPTIONS = wootConstants.SNOOZE_OPTIONS;
 
-export const SNOOZE_CONVERSATION_ACTIONS = [
+export const SNOOZE_CONVERSATION_BULK_ACTIONS = [
   {
     id: 'bulk_action_snooze_conversation',
     title: 'COMMAND_BAR.COMMANDS.SNOOZE_CONVERSATION',
@@ -97,7 +97,7 @@ export const SNOOZE_CONVERSATION_ACTIONS = [
   },
 ];
 
-export const RESOLVED_CONVERSATION_ACTIONS = [
+export const RESOLVED_CONVERSATION_BULK_ACTIONS = [
   {
     id: 'bulk_action_reopen_conversation',
     title: 'COMMAND_BAR.COMMANDS.REOPEN_CONVERSATION',
@@ -107,7 +107,7 @@ export const RESOLVED_CONVERSATION_ACTIONS = [
   },
 ];
 
-export const OPEN_CONVERSATION_ACTIONS = [
+export const OPEN_CONVERSATION_BULK_ACTIONS = [
   {
     id: 'bulk_action_resolve_conversation',
     title: 'COMMAND_BAR.COMMANDS.RESOLVE_CONVERSATION',
@@ -127,9 +127,9 @@ export default {
       let actions = [];
       if (this.selectedConversations.length > 0) {
         actions = [
-          ...SNOOZE_CONVERSATION_ACTIONS,
-          ...RESOLVED_CONVERSATION_ACTIONS,
-          ...OPEN_CONVERSATION_ACTIONS,
+          ...SNOOZE_CONVERSATION_BULK_ACTIONS,
+          ...RESOLVED_CONVERSATION_BULK_ACTIONS,
+          ...OPEN_CONVERSATION_BULK_ACTIONS,
         ];
       }
       return this.prepareActions(actions);

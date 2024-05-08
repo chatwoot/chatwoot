@@ -40,8 +40,8 @@ const actions = ref([
 
 const updateConversations = key => {
   if (key === 'snoozed') {
-    // Added this bus emit to show the snooze option in the cmd bar,
-    // when the user clicks on the snooze option from the bulk action change status dropdown.
+    // If the user clicks on the snooze option from the bulk action change status dropdown.
+    // Open the snooze option for bulk action in the cmd bar.
     const ninja = document.querySelector('ninja-keys');
     ninja?.open({ parent: 'bulk_action_snooze_conversation' });
   } else {
