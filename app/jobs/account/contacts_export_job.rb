@@ -26,21 +26,13 @@ class Account::ContactsExportJob < ApplicationJob
 
   def contacts
     if @params.present? && @params[:payload].present? && @params[:payload].any?
-      result = ::Contacts::FilterService.new(@account, @current_user, modified_params).perform
+      result = ::Contacts::FilterService.new(@account, @current_user, @params).perform
       result[:contacts]
     elsif @params[:label].present?
       @account.contacts.resolved_contacts.tagged_with(@params[:label], any: true)
     else
       @account.contacts.resolved_contacts
     end
-  end
-
-  # TODO: Fix this on the controller level and ensure that we only accept valid params
-  # This is a temporary fix to ensure that we only accept valid params
-  def modified_params
-    params = @params.dup
-    params[:payload].last[:query_operator] = nil
-    params
   end
 
   def valid_headers(column_names)
