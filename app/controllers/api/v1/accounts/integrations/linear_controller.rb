@@ -18,6 +18,18 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
     end
   end
 
+  def create_issue
+    team_id = params[:team_id]
+    title = params[:title]
+    description = params[:description]
+    issue = linear_processor_service.create_issue(team_id, title, description)
+    if issue.is_a?(Hash) && issue[:error]
+      render json: { error: issue[:error] }, status: :unprocessable_entity
+    else
+      render json: issue, status: :ok
+    end
+  end
+
   private
 
   def linear_processor_service

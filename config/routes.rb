@@ -231,6 +231,7 @@ Rails.application.routes.draw do
               collection do
                 get :teams
                 get :team_entites
+                post :create_issue
               end
             end
           end
