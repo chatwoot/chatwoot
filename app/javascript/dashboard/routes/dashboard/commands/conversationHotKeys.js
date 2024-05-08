@@ -349,6 +349,7 @@ export default {
       return [];
     },
   },
+
   methods: {
     onChangeAssignee(action) {
       this.$store.dispatch('assignAgent', {
