@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import getUuid from 'widget/helpers/uuid';
 import 'video.js/dist/video-js.css';
 import 'videojs-record/dist/css/videojs.record.css';
 
@@ -28,6 +29,7 @@ import OpusRecorderEngine from 'videojs-record/dist/plugins/videojs.record.opus-
 
 import { format, addSeconds } from 'date-fns';
 import { AUDIO_FORMATS } from 'shared/constants/messages';
+import { convertWavToMp3 } from './utils/mp3ConversionUtils';
 
 WaveSurfer.microphone = MicrophonePlugin;
 
@@ -38,6 +40,10 @@ export default {
     audioRecordFormat: {
       type: String,
       default: AUDIO_FORMATS.WAV,
+    },
+    isAWhatsAppChannel: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -145,12 +151,17 @@ export default {
     stopRecord() {
       this.fireStateRecorderChanged('stopped');
     },
-    finishRecord() {
-      const file = new File(
-        [this.player.recordedData],
-        this.player.recordedData.name,
-        { type: this.player.recordedData.type }
-      );
+    async finishRecord() {
+      let recordedContent = this.player.recordedData;
+      let fileName = this.player.recordedData.name;
+      if (this.isAWhatsAppChannel) {
+        recordedContent = await convertWavToMp3(this.player.recordedData);
+        fileName = `${getUuid()}.mp3`;
+      }
+      const type = !this.isAWhatsAppChannel
+        ? this.player.recordedData.type
+        : 'audio/mp3';
+      const file = new File([recordedContent], fileName, { type });
       this.fireRecorderBlob(file);
     },
     progressRecord() {
@@ -231,11 +242,13 @@ export default {
     @apply bg-transparent max-h-60 min-h-[3rem] pt-4 px-0 pb-0 resize-none;
   }
 }
+
 // Added to override the default text and bg style to support dark and light mode.
 .video-js .vjs-control-bar,
 .vjs-record.video-js .vjs-control.vjs-record-indicator:before {
   @apply text-slate-600 dark:text-slate-200 bg-transparent dark:bg-transparent;
 }
+
 // Added to fix  div overlays the screen and takes over the button clicks
 // https://github.com/collab-project/videojs-record/issues/688
 // https://github.com/collab-project/videojs-record/pull/709
