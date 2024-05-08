@@ -25,36 +25,38 @@
     </div>
   </div>
 </template>
-<script>
-import { mapGetters } from 'vuex';
-import IntegrationItem from './IntegrationItem.vue';
 
-export default {
-  components: {
-    IntegrationItem,
-  },
-  computed: {
-    ...mapGetters({
-      uiFlags: 'labels/getUIFlags',
-      accountId: 'getCurrentAccountId',
-      integrationsList: 'integrations/getAppIntegrations',
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
-    }),
-    enabledIntegrations() {
-      const isLinearIntegrationEnabled = this.isFeatureEnabledonAccount(
-        this.accountId,
-        'linear_integration'
-      );
-      if (!isLinearIntegrationEnabled) {
-        return this.integrationsList.filter(
-          integration => integration.id !== 'linear'
-        );
-      }
-      return this.integrationsList;
-    },
-  },
-  mounted() {
-    this.$store.dispatch('integrations/get');
-  },
-};
+<script setup>
+import { useStoreGetters, useStore } from 'dashboard/composables/store';
+import { computed, onMounted } from 'vue';
+import IntegrationItem from './IntegrationItem.vue';
+const store = useStore();
+const getters = useStoreGetters();
+
+const uiFlags = getters['integrations/getUIFlags'];
+
+const accountId = getters.getCurrentAccountId;
+
+const integrationList = computed(() => {
+  return getters['integrations/getAppIntegrations'].value;
+});
+
+const isLinearIntegrationEnabled = computed(() => {
+  return getters['accounts/isFeatureEnabledonAccount'].value(
+    accountId.value,
+    'linear_integration'
+  );
+});
+const enabledIntegrations = computed(() => {
+  if (!isLinearIntegrationEnabled.value) {
+    return integrationList.value.filter(
+      integration => integration.id !== 'linear'
+    );
+  }
+  return integrationList.value;
+});
+
+onMounted(() => {
+  store.dispatch('integrations/get');
+});
 </script>
