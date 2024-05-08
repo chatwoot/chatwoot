@@ -288,7 +288,6 @@ export default {
       foldersQuery: {},
       showAddFoldersModal: false,
       showDeleteFoldersModal: false,
-      selectedConversations: [],
       selectedInboxes: [],
       isContextMenuOpen: false,
       appliedFilter: [],
@@ -329,6 +328,7 @@ export default {
       inboxesList: 'inboxes/getInboxes',
       campaigns: 'campaigns/getAllCampaigns',
       labels: 'labels/getLabels',
+      selectedConversations: 'bulkActions/getSelectedConversationIds',
     }),
     hasAppliedFilters() {
       return this.appliedFilters.length !== 0;
@@ -799,7 +799,7 @@ export default {
       });
     },
     resetBulkActions() {
-      this.selectedConversations = [];
+      this.$store.dispatch('bulkActions/clearSelectedConversationIds');
       this.selectedInboxes = [];
     },
     onBasicFilterChange(value, type) {
@@ -830,12 +830,16 @@ export default {
       return this.selectedConversations.includes(id);
     },
     selectConversation(conversationId, inboxId) {
-      this.selectedConversations.push(conversationId);
+      this.$store.dispatch(
+        'bulkActions/setSelectedConversationIds',
+        conversationId
+      );
       this.selectedInboxes.push(inboxId);
     },
     deSelectConversation(conversationId, inboxId) {
-      this.selectedConversations = this.selectedConversations.filter(
-        item => item !== conversationId
+      this.$store.dispatch(
+        'bulkActions/removeSelectedConversationIds',
+        conversationId
       );
       this.selectedInboxes = this.selectedInboxes.filter(
         item => item !== inboxId
@@ -843,7 +847,10 @@ export default {
     },
     selectAllConversations(check) {
       if (check) {
-        this.selectedConversations = this.conversationList.map(item => item.id);
+        this.$store.dispatch(
+          'bulkActions/setSelectedConversationIds',
+          this.conversationList.map(item => item.id)
+        );
         this.selectedInboxes = this.conversationList.map(item => item.inbox_id);
       } else {
         this.resetBulkActions();
@@ -859,7 +866,7 @@ export default {
             assignee_id: agent.id,
           },
         });
-        this.selectedConversations = [];
+        this.$store.dispatch('bulkActions/clearSelectedConversationIds');
         if (conversationId) {
           this.showAlert(
             this.$t(
@@ -957,7 +964,7 @@ export default {
             add: labels,
           },
         });
-        this.selectedConversations = [];
+        this.$store.dispatch('bulkActions/clearSelectedConversationIds');
         if (conversationId) {
           this.showAlert(
             this.$t(
@@ -984,7 +991,7 @@ export default {
             team_id: team.id,
           },
         });
-        this.selectedConversations = [];
+        this.$store.dispatch('bulkActions/clearSelectedConversationIds');
         this.showAlert(this.$t('BULK_ACTION.TEAMS.ASSIGN_SUCCESFUL'));
       } catch (err) {
         this.showAlert(this.$t('BULK_ACTION.TEAMS.ASSIGN_FAILED'));
@@ -1000,7 +1007,7 @@ export default {
           },
           snoozed_until: snoozedUntil,
         });
-        this.selectedConversations = [];
+        this.$store.dispatch('bulkActions/clearSelectedConversationIds');
         this.showAlert(this.$t('BULK_ACTION.UPDATE.UPDATE_SUCCESFUL'));
       } catch (err) {
         this.showAlert(this.$t('BULK_ACTION.UPDATE.UPDATE_FAILED'));

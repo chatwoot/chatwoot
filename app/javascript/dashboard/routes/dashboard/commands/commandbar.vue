@@ -13,6 +13,7 @@
 <script>
 import '@chatwoot/ninja-keys';
 import conversationHotKeysMixin from './conversationHotKeys';
+import bulkActionsHotKeysMixin from './bulkActionsHotKeys';
 import inboxHotKeysMixin from './inboxHotKeys';
 import goToCommandHotKeys from './goToCommandHotKeys';
 import appearanceHotKeys from './appearanceHotKeys';
@@ -27,6 +28,7 @@ export default {
     adminMixin,
     agentMixin,
     conversationHotKeysMixin,
+    bulkActionsHotKeysMixin,
     inboxHotKeysMixin,
     conversationLabelMixin,
     conversationTeamMixin,
@@ -47,6 +49,7 @@ export default {
       return [
         ...this.inboxHotKeys,
         ...this.conversationHotKeys,
+        ...this.bulkActionsHotKeys,
         ...this.goToCommandHotKeys,
         ...this.goToAppearanceHotKeys,
       ];
@@ -73,13 +76,7 @@ export default {
       });
       this.setCommandbarData();
     },
-    onClosed() {
-      // The showSnoozeInChatList is a data property which is in the conversationHotKeys
-      // It is used to show the snooze option in the chat list dynamically
-      // Only when the CMD_TOGGLE_CONVERSATIONS_SNOOZE bus event is emitted, it will be set to true
-      // And will set to false when the ninja-keys is closed
-      this.showSnoozeInChatList = false;
-    },
+    onClosed() {},
   },
 };
 </script>

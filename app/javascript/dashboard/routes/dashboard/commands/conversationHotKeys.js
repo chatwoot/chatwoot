@@ -1,10 +1,7 @@
 import { mapGetters } from 'vuex';
 import wootConstants from 'dashboard/constants/globals';
 
-import {
-  CMD_AI_ASSIST,
-  CMD_TOGGLE_CONVERSATIONS_SNOOZE,
-} from './commandBarBusEvents';
+import { CMD_AI_ASSIST } from './commandBarBusEvents';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import aiMixin from 'dashboard/mixins/aiMixin';
 import {
@@ -28,7 +25,6 @@ import {
 import {
   OPEN_CONVERSATION_ACTIONS,
   SNOOZE_CONVERSATION_ACTIONS,
-  CHAT_LIST_SNOOZE_CONVERSATION_ACTIONS,
   RESOLVED_CONVERSATION_ACTIONS,
   SEND_TRANSCRIPT_ACTION,
   UNMUTE_ACTION,
@@ -40,11 +36,6 @@ import {
 } from '../../../helper/routeHelpers';
 export default {
   mixins: [aiMixin],
-  data() {
-    return {
-      showSnoozeInChatList: false,
-    };
-  },
   watch: {
     assignableAgents() {
       this.setCommandbarData();
@@ -62,11 +53,6 @@ export default {
       this.setCommandbarData();
     },
     replyMode() {
-      this.setCommandbarData();
-    },
-    showSnoozeInChatList() {
-      // Added this to fix a bug where the snooze options were not showing up in the chat list
-      // dynamically when the showSnoozeInChatList data property was changed.
       this.setCommandbarData();
     },
   },
@@ -89,10 +75,6 @@ export default {
     },
 
     statusActions() {
-      if (this.showSnoozeInChatList) {
-        // Only show snooze options in the chat list when the showSnoozeInChatList data property is true.
-        return this.prepareActions(CHAT_LIST_SNOOZE_CONVERSATION_ACTIONS);
-      }
       const isOpen =
         this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
       const isSnoozed =
@@ -346,13 +328,6 @@ export default {
     },
 
     conversationHotKeys() {
-      // If the showSnoozeInChatList is true, then we need to show the snooze action
-      // And won't check for the route name, because we want to show the snooze action
-      // Even if current route is not a conversation route or inbox route.
-      // For eg: from the bulk action change status dropdown or from the context menu
-      if (this.showSnoozeInChatList) {
-        return this.statusActions;
-      }
       if (
         isAConversationRoute(this.$route.name) ||
         isAInboxViewRoute(this.$route.name)
@@ -373,12 +348,6 @@ export default {
 
       return [];
     },
-  },
-  mounted() {
-    bus.$on(CMD_TOGGLE_CONVERSATIONS_SNOOZE, this.toggleSnoozeOptions);
-  },
-  destroyed() {
-    bus.$off(CMD_TOGGLE_CONVERSATIONS_SNOOZE, this.hideSnoozeOptions);
   },
   methods: {
     onChangeAssignee(action) {
@@ -405,14 +374,6 @@ export default {
         title: this.$t(action.title),
         section: this.$t(action.section),
       }));
-    },
-    toggleSnoozeOptions() {
-      // Used to show snooze notification items in cmd bar dynamically
-      this.showSnoozeInChatList = true;
-    },
-    hideSnoozeOptions() {
-      // Used to hide snooze notification items in cmd bar dynamically
-      this.showSnoozeInChatList = false;
     },
   },
 };

@@ -1,18 +1,9 @@
 <script setup>
 import { useI18n } from 'dashboard/composables/useI18n';
-import { ref, onMounted, onBeforeUnmount } from 'vue';
-import { getUnixTime } from 'date-fns';
-
-import wootConstants from 'dashboard/constants/globals';
-import {
-  CMD_CHAT_LIST_SNOOZE_CONVERSATION,
-  CMD_TOGGLE_CONVERSATIONS_SNOOZE,
-} from 'dashboard/routes/dashboard/commands/commandBarBusEvents';
-import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
+import { ref } from 'vue';
 
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
-import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
 
 const { t } = useI18n();
 
@@ -41,56 +32,25 @@ const props = defineProps({
   },
 });
 
-const showCustomTimeSnoozeModal = ref(false);
 const actions = ref([
   { icon: 'checkmark', key: 'resolved' },
   { icon: 'arrow-redo', key: 'open' },
   { icon: 'send-clock', key: 'snoozed' },
 ]);
 
-const onCmdSnoozeConversation = snoozeType => {
-  if (snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME) {
-    showCustomTimeSnoozeModal.value = true;
-  } else {
-    emits('update', 'snoozed', findSnoozeTime(snoozeType) || null);
-  }
-};
-
-onMounted(() => {
-  bus.$on(CMD_CHAT_LIST_SNOOZE_CONVERSATION, onCmdSnoozeConversation);
-});
-
-onBeforeUnmount(() => {
-  bus.$off(CMD_CHAT_LIST_SNOOZE_CONVERSATION, onCmdSnoozeConversation);
-});
-
 const updateConversations = key => {
   if (key === 'snoozed') {
     // Added this bus emit to show the snooze option in the cmd bar,
     // when the user clicks on the snooze option from the bulk action change status dropdown.
-    bus.$emit(CMD_TOGGLE_CONVERSATIONS_SNOOZE);
     const ninja = document.querySelector('ninja-keys');
-    ninja?.open({ parent: 'snooze_conversation' });
+    ninja?.open({ parent: 'bulk_action_snooze_conversation' });
   } else {
     emits('update', key);
   }
 };
 
-const customSnoozeTime = customSnoozedTime => {
-  showCustomTimeSnoozeModal.value = false;
-  if (customSnoozedTime) {
-    emits('update', 'snoozed', getUnixTime(customSnoozedTime));
-  }
-};
-
-const hideCustomSnoozeModal = () => {
-  showCustomTimeSnoozeModal.value = false;
-};
-
 const onClose = () => {
-  if (!showCustomTimeSnoozeModal.value) {
-    emits('close');
-  }
+  emits('close');
 };
 
 const showAction = key => {
@@ -158,14 +118,5 @@ const actionLabel = key => {
         </template>
       </woot-dropdown-menu>
     </div>
-    <woot-modal
-      :show.sync="showCustomTimeSnoozeModal"
-      :on-close="hideCustomSnoozeModal"
-    >
-      <custom-snooze-modal
-        @close="hideCustomSnoozeModal"
-        @choose-time="customSnoozeTime"
-      />
-    </woot-modal>
   </div>
 </template>
