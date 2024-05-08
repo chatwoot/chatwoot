@@ -199,7 +199,7 @@ class FilterService
   end
 
   def query_builder(model_filters)
-    @params[:payload]&.each_with_index do |query_hash, current_index|
+    @params[:payload].each_with_index do |query_hash, current_index|
       @query_string += " #{build_condition_query(model_filters, query_hash, current_index).strip}"
     end
     base_relation.where(@query_string, @filter_values.with_indifferent_access)
