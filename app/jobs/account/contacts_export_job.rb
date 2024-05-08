@@ -4,7 +4,7 @@ class Account::ContactsExportJob < ApplicationJob
   def perform(account_id, user_id, column_names, params)
     @account = Account.find(account_id)
     @params = params
-    @current_user = User.find(user_id)
+    @account_user = @account.users.find(user_id)
 
     headers = valid_headers(column_names)
     generate_csv(headers)
@@ -26,7 +26,7 @@ class Account::ContactsExportJob < ApplicationJob
 
   def contacts
     if @params.present? && @params[:payload].present? && @params[:payload].any?
-      result = ::Contacts::FilterService.new(@account, @current_user, @params).perform
+      result = ::Contacts::FilterService.new(@account, @account_user, @params).perform
       result[:contacts]
     elsif @params[:label].present?
       @account.contacts.resolved_contacts.tagged_with(@params[:label], any: true)
@@ -52,7 +52,7 @@ class Account::ContactsExportJob < ApplicationJob
   def send_mail
     file_url = account_contact_export_url
     mailer = AdministratorNotifications::ChannelNotificationsMailer.with(account: @account)
-    mailer.contact_export_complete(file_url, @current_user.email)&.deliver_later
+    mailer.contact_export_complete(file_url, @account_user.email)&.deliver_later
   end
 
   def account_contact_export_url
