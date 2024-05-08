@@ -1,15 +1,16 @@
 module LinearMutations
-  ISSUE_CREATE = <<~GRAPHQL.freeze
-    mutation IssueCreate($input: IssueCreateInput!) {
-      issueCreate(
-        input: $input
-      ) {
-        success
-        issue {
-          id
-          title
+  def self.issue_create(input)
+    graphql_input = input.map { |key, value| "#{key}: \"#{value}\"" }.join(', ')
+    <<~GRAPHQL
+      mutation {
+        issueCreate(input: { #{graphql_input} }) {
+          success
+          issue {
+            id
+            title
+          }
         }
       }
-    }
-  GRAPHQL
+    GRAPHQL
+  end
 end

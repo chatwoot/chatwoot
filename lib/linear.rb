@@ -1,6 +1,7 @@
 require 'graphlient'
 
 require_relative 'linear_queries'
+require_relative 'linear_mutations'
 class Linear
   BASE_URL = 'https://api.linear.app/graphql'.freeze
 
@@ -32,7 +33,13 @@ class Linear
     raise ArgumentError, 'Missing title' if title.blank?
     raise ArgumentError, 'Missing description' if description.blank?
 
-    execute_mutation(LinearMutations::ISSUE_CREATE, input: { teamId: team_id, title: title, description: description })
+    variables = {
+      title: title,
+      description: description,
+      teamId: team_id
+    }
+
+    execute_mutation(LinearMutations.issue_create(variables))
   end
 
   private
@@ -49,8 +56,8 @@ class Linear
     log_and_return_error("Unexpected Error: #{e.message}")
   end
 
-  def execute_mutation(query, variables)
-    response = @client.query(query, variables: variables)
+  def execute_mutation(query)
+    response = @client.query(query)
     log_and_return_error("Error creating issue: #{response.errors.messages}") if response.data.nil? && response.errors.any?
     response.data.to_h
   end
