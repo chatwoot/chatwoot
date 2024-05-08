@@ -130,8 +130,8 @@ export default {
     }),
     attributes() {
       const attributeModel = this.selectedTabIndex
-        ? 'contact_attribute'
-        : 'conversation_attribute';
+        ? 'conversation_attribute'
+        : 'contact_attribute';
 
       return this.$store.getters['attributes/getAttributesByModel'](
         attributeModel
@@ -141,11 +141,11 @@ export default {
       return [
         {
           key: 0,
-          name: this.$t('ATTRIBUTES_MGMT.TABS.CONVERSATION'),
+          name: this.$t('ATTRIBUTES_MGMT.TABS.CONTACT'),
         },
         {
           key: 1,
-          name: this.$t('ATTRIBUTES_MGMT.TABS.CONTACT'),
+          name: this.$t('ATTRIBUTES_MGMT.TABS.CONVERSATION'),
         },
       ];
     },
