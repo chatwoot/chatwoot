@@ -82,6 +82,14 @@ const settings = accountId => ({
       featureFlag: FEATURE_FLAGS.LABELS,
     },
     {
+      icon: 'contact-card-group',
+      label: 'SALES_PIPELINES',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/settings/stages/list`),
+      toStateName: 'stages_list',
+      featureFlag: FEATURE_FLAGS.CRM,
+    },
+    {
       icon: 'code',
       label: 'CUSTOM_ATTRIBUTES',
       hasSubMenu: false,

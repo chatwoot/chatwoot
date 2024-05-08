@@ -130,7 +130,7 @@ import AddNote from 'dashboard/modules/notes/components/AddNote.vue';
 import ContactNewAction from './ContactNewAction.vue';
 import agentMixin from 'dashboard/mixins/agentMixin';
 import teamMixin from 'dashboard/mixins/conversation/teamMixin';
-import timeMixin from 'dashboard/mixins/time.js';
+import { format } from 'date-fns';
 
 export default {
   components: {
@@ -139,7 +139,7 @@ export default {
     AddNote,
     ContactNewAction,
   },
-  mixins: [agentMixin, alertMixin, teamMixin, timeMixin],
+  mixins: [agentMixin, alertMixin, teamMixin],
   props: {
     contact: {
       type: Object,
@@ -163,7 +163,7 @@ export default {
       let status = '';
       switch (action.status) {
         case 'snoozed':
-          status = this.dateFormat(action.snoozed_until, 'dd/MM HH:mm');
+          status = format(new Date(action.snoozed_until), 'dd/MM HH:mm');
           break;
         case 'open':
           status = 'Đang giải quyết';

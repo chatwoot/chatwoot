@@ -1,9 +1,9 @@
 {
-  "ATTRIBUTES_MGMT": {
-    "HEADER": "Thông tin tùy chỉnh",
-    "HEADER_BTN_TXT": "Thêm thông tin tùy chỉnh",
-    "LOADING": "Đang lấy thông tin tuỳ chỉnh",
-    "SIDEBAR_TXT": "<p><b>Thông tin tùy chỉnh</b> <p>Thông tin tùy chỉnh giúp lưu trữ thông tin thực tế của khách hàng và của cuộc hội thoại - như địa chỉ giao hàng hoặc sở thích của khách hàng, v. v. <br /><br />Để tạo một Thông tin Tùy chỉnh, chỉ cần nhấp vào <b>Thêm Thông tin Tùy chỉnh.</b> Bạn cũng có thể chỉnh sửa hoặc xóa Thông tin Tùy chỉnh hiện có bằng cách nhấp vào nút Chỉnh sửa hoặc Xóa.</p>",
+  "STAGES_MGMT": {
+    "HEADER": "Giai đoạn kinh doanh",
+    "HEADER_BTN_TXT": "Thêm giai đoạn",
+    "LOADING": "Đang lấy dữ liệu giai đoạn",
+    "SIDEBAR_TXT": "<p><b>Giai đoạn kinh doanh</b> <p>Thiết lập giai đoạn kinh doanh giúp điều chỉnh quy trình phễu bán hàng và chăm sóc khách hàng theo đúng thực tế của bạn. <br /><br />Để thay đổi tên hay mô tả của một giai đoạn, chỉ cần nhấn vào nút  <b>Sửa Thông tin Giai đoạn.</b> Bạn cũng có thể đơn giản hóa quy trình bằng cách lược bỏ một giai đoạn hiện có khi nhấn vào nút <b>Không sử dụng.</b></p>",
     "ADD": {
       "TITLE": "Thêm thông tin Tùy chỉnh",
       "SUBMIT": "Tạo",
@@ -11,12 +11,12 @@
       "FORM": {
         "NAME": {
           "LABEL": "Tên hiển thị",
-          "PLACEHOLDER": "Nhập tên hiển thị của thông tin tuỳ chỉnh",
+          "PLACEHOLDER": "Nhập tên hiển thị của giai đoạn",
           "ERROR": "Tên bắt buộc có"
         },
         "DESC": {
           "LABEL": "Mô tả",
-          "PLACEHOLDER": "Điền mô tả của thông tin tuỳ chỉnh",
+          "PLACEHOLDER": "Điền mô tả của giai đoạn",
           "ERROR": "Mô tả bắt buộc có"
         },
         "MODEL": {
@@ -36,7 +36,7 @@
         },
         "KEY": {
           "LABEL": "Khoá",
-          "PLACEHOLDER": "Nhập khoá của thông tin tuỳ chỉnh",
+          "PLACEHOLDER": "Nhập khoá của giai đoạn",
           "ERROR": "C\u001dần có khoá",
           "IN_VALID": "Khoá không hợp lệ"
         },
@@ -53,22 +53,22 @@
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Thông tin tuỳ chỉnh được thêm thành công!",
+        "SUCCESS_MESSAGE": "Giai đoạn được thêm thành công!",
         "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Xoá",
+      "BUTTON_TEXT": "Không sử dụng giai đoạn",
       "API": {
-        "SUCCESS_MESSAGE": "Thông tin tuỳ chỉnh bị xoá thành công.",
-        "ERROR_MESSAGE": "Không thể xoá thông tin tuỳ chỉnh. Thử lại."
+        "SUCCESS_MESSAGE": "Giai đoạn đã loại bỏ thành công.",
+        "ERROR_MESSAGE": "Không thể loại bỏ giai đoạn. Thử lại."
       },
       "CONFIRM": {
-        "TITLE": "Bạn có chắc muốn xoá - %{attributeName}",
-        "PLACE_HOLDER": "Vui lòng điền {attributeName} để xác nhận",
-        "MESSAGE": "Xoá sẽ loại bỏ thông tin tuỳ chỉnh",
-        "YES": "Xoá ",
-        "NO": "Huỷ"
+        "TITLE": "Bạn có chắc không muốn sử dụng giai đoạn - %{name}",
+        "PLACE_HOLDER": "Vui lòng điền {name} để xác nhận",
+        "MESSAGE": "Thao tác này sẽ loại bỏ giai đoạn khỏi quy trình phễu kinh doanh",
+        "YES": "Thực hiện ",
+        "NO": "Bỏ qua"
       }
     },
     "EDIT": {
@@ -81,29 +81,30 @@
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Thông tin tuỳ chỉnh được sửa thành công",
+        "SUCCESS_MESSAGE": "Giai đoạn được sửa thành công",
         "ERROR_MESSAGE": "Đã xảy ra lỗi khi cập nhật \bthuộc tính tuỳ chỉnh, vui lòng thử lại"
       }
     },
     "TABS": {
-      "HEADER": "Thông tin tùy chỉnh",
-      "CONVERSATION": "Của cuộc hội thoại",
-      "CONTACT": "Của khách hàng"
+      "HEADER": "Giai đoạn kinh doanh",
+      "LEADS": "Leads (tiềm năng)",
+      "DEALS": "Deals (thương lượng)",
+      "BOTH": "Cả hai giai đoạn"
     },
     "LIST": {
       "TABLE_HEADER": [
         "Tên",
         "Mô tả",
-        "Kiểu",
-        "Khoá"
+        "Ký hiệu",
+        "Giai đoạn"
       ],
       "BUTTONS": {
-        "EDIT": "Chỉnh sửa",
-        "DELETE": "Xoá"
+        "EDIT": "Chỉnh thông tin giai đoạn",
+        "DELETE": "Không sử dụng giai đoạn này"
       },
       "EMPTY_RESULT": {
-        "404": "Không có thông tin tuỳ chỉnh nào được tạo",
-        "NOT_FOUND": "Không có thông tin tuỳ chỉnh nào được cấu hình"
+        "404": "Không có giai đoạn nào có sẵn",
+        "NOT_FOUND": "Không có giai đoạn nào được cấu hình"
       },
       "REGEX_PATTERN": {
         "LABEL": "Regex Pattern",

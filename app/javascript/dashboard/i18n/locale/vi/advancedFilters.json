@@ -72,8 +72,8 @@
           "ERROR_MESSAGE": "Có lỗi xảy ra lúc lưu tìm kiếm."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Phân khúc được tạo thành công.",
-          "ERROR_MESSAGE": "Có lỗi xảy ra lúc tạo phân khúc."
+          "SUCCESS_MESSAGE": "Bộ lọc được tạo thành công.",
+          "ERROR_MESSAGE": "Có lỗi xảy ra lúc tạo bộ lọc."
         }
       },
       "EDIT": {
@@ -94,8 +94,8 @@
           "ERROR_MESSAGE": "Có lỗi xảy ra lúc xoá tìm kiếm."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Phân khúc được xoá thành công.",
-          "ERROR_MESSAGE": "Có lỗi xảy ra lúc xoá phân khúc."
+          "SUCCESS_MESSAGE": "Bộ lọc được xoá thành công.",
+          "ERROR_MESSAGE": "Có lỗi xảy ra lúc xoá bộ lọc."
         }
       }
     }

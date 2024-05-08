@@ -12,22 +12,22 @@
 
       <div class="w-full">
         <p
-          v-if="!uiFlags.isFetching && !attributes.length"
+          v-if="!uiFlags.isFetching && !stages.length"
           class="mt-12 flex items-center justify-center"
         >
-          {{ $t('ATTRIBUTES_MGMT.LIST.EMPTY_RESULT.404') }}
+          {{ $t('STAGES_MGMT.LIST.EMPTY_RESULT.404') }}
         </p>
         <woot-loading-state
           v-if="uiFlags.isFetching"
-          :message="$t('ATTRIBUTES_MGMT.LOADING')"
+          :message="$t('STAGES_MGMT.LOADING')"
         />
         <table
-          v-if="!uiFlags.isFetching && attributes.length"
+          v-if="!uiFlags.isFetching && stages.length"
           class="w-full mt-2 table-fixed woot-table"
         >
           <thead>
             <th
-              v-for="tableHeader in $t('ATTRIBUTES_MGMT.LIST.TABLE_HEADER')"
+              v-for="tableHeader in $t('STAGES_MGMT.LIST.TABLE_HEADER')"
               :key="tableHeader"
               class="pl-0 max-w-[6.25rem] min-w-[5rem]"
             >
@@ -35,45 +35,45 @@
             </th>
           </thead>
           <tbody>
-            <tr v-for="attribute in attributes" :key="attribute.attribute_key">
+            <tr v-for="stage in stages" :key="stage.code">
               <td
                 class="pl-0 max-w-[6.25rem] min-w-[5rem] overflow-hidden whitespace-nowrap text-ellipsis"
               >
-                {{ attribute.attribute_display_name }}
+                {{ stage.name }}
               </td>
               <td
-                class="pl-0 max-w-[10rem] min-w-[6.25rem] overflow-hidden whitespace-nowrap text-ellipsis"
+                class="pl-0 max-w-[15rem] min-w-[6.25rem] overflow-hidden whitespace-nowrap text-ellipsis"
               >
-                {{ attribute.attribute_description }}
+                {{ stage.description }}
               </td>
               <td
-                class="pl-0 max-w-[6.25rem] min-w-[5rem] overflow-hidden whitespace-nowrap text-ellipsis"
+                class="pl-0 max-w-[4.25rem] min-w-[4rem] overflow-hidden whitespace-nowrap text-ellipsis"
               >
-                {{ attribute.attribute_display_type }}
+                {{ stage.code }}
               </td>
               <td
-                class="attribute-key pl-0 max-w-[6.25rem] min-w-[5rem] overflow-hidden whitespace-nowrap text-ellipsis"
+                class="stage-key pl-0 max-w-[3.25rem] min-w-[3rem] overflow-hidden whitespace-nowrap text-ellipsis"
               >
-                {{ attribute.attribute_key }}
+                {{ stage.stage_type }}
               </td>
               <td class="button-wrapper">
                 <woot-button
-                  v-tooltip.top="$t('ATTRIBUTES_MGMT.LIST.BUTTONS.EDIT')"
+                  v-tooltip.top="$t('STAGES_MGMT.LIST.BUTTONS.EDIT')"
                   variant="smooth"
                   size="tiny"
                   color-scheme="secondary"
                   class-names="grey-btn"
                   icon="edit"
-                  @click="openEditPopup(attribute)"
+                  @click="openEditPopup(stage)"
                 />
                 <woot-button
-                  v-tooltip.top="$t('ATTRIBUTES_MGMT.LIST.BUTTONS.DELETE')"
+                  v-tooltip.top="$t('STAGES_MGMT.LIST.BUTTONS.DELETE')"
                   variant="smooth"
                   color-scheme="alert"
                   size="tiny"
                   icon="dismiss-circle"
                   class-names="grey-btn"
-                  @click="openDelete(attribute)"
+                  @click="openDelete(stage)"
                 />
               </td>
             </tr>
@@ -82,11 +82,11 @@
       </div>
     </div>
     <div class="hidden lg:block w-1/3">
-      <span v-dompurify-html="$t('ATTRIBUTES_MGMT.SIDEBAR_TXT')" />
+      <span v-dompurify-html="$t('STAGES_MGMT.SIDEBAR_TXT')" />
     </div>
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
-      <edit-attribute
-        :selected-attribute="selectedAttribute"
+      <edit-stage
+        :selected-stage="selectedStage"
         :is-updating="uiFlags.isUpdating"
         @on-close="hideEditPopup"
       />
@@ -95,10 +95,10 @@
       v-if="showDeletePopup"
       :show.sync="showDeletePopup"
       :title="confirmDeleteTitle"
-      :message="$t('ATTRIBUTES_MGMT.DELETE.CONFIRM.MESSAGE')"
+      :message="$t('STAGES_MGMT.DELETE.CONFIRM.MESSAGE')"
       :confirm-text="deleteConfirmText"
       :reject-text="deleteRejectText"
-      :confirm-value="selectedAttribute.attribute_display_name"
+      :confirm-value="selectedStage.name"
       :confirm-place-holder-text="confirmPlaceHolderText"
       @on-confirm="confirmDeletion"
       @on-close="closeDelete"
@@ -109,11 +109,11 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
-import EditAttribute from './EditAttribute.vue';
+import EditStage from './EditStage.vue';
 
 export default {
   components: {
-    EditAttribute,
+    EditStage,
   },
   mixins: [alertMixin],
   data() {
@@ -121,100 +121,102 @@ export default {
       selectedTabIndex: 0,
       showEditPopup: false,
       showDeletePopup: false,
-      selectedAttribute: {},
+      selectedStage: {},
     };
   },
   computed: {
     ...mapGetters({
-      uiFlags: 'attributes/getUIFlags',
+      uiFlags: 'stages/getUIFlags',
     }),
-    attributes() {
-      const attributeModel = this.selectedTabIndex
-        ? 'conversation_attribute'
-        : 'contact_attribute';
-
-      return this.$store.getters['attributes/getAttributesByModel'](
-        attributeModel
-      );
+    stages() {
+      const stageType = this.tabs[this.selectedTabIndex].type;
+      return this.$store.getters['stages/getStagesByType'](stageType);
     },
     tabs() {
       return [
         {
           key: 0,
-          name: this.$t('ATTRIBUTES_MGMT.TABS.CONTACT'),
+          name: this.$t('STAGES_MGMT.TABS.LEADS'),
+          type: 'leads',
         },
         {
           key: 1,
-          name: this.$t('ATTRIBUTES_MGMT.TABS.CONVERSATION'),
+          name: this.$t('STAGES_MGMT.TABS.DEALS'),
+          type: 'deals',
+        },
+        {
+          key: 2,
+          name: this.$t('STAGES_MGMT.TABS.BOTH'),
+          type: 'both',
         },
       ];
     },
     deleteConfirmText() {
-      return `${this.$t('ATTRIBUTES_MGMT.DELETE.CONFIRM.YES')} ${
-        this.selectedAttribute.attribute_display_name
+      return `${this.$t('STAGES_MGMT.DELETE.CONFIRM.YES')} ${
+        this.selectedStage.name
       }`;
     },
     deleteRejectText() {
-      return this.$t('ATTRIBUTES_MGMT.DELETE.CONFIRM.NO');
+      return this.$t('STAGES_MGMT.DELETE.CONFIRM.NO');
     },
     confirmDeleteTitle() {
-      return this.$t('ATTRIBUTES_MGMT.DELETE.CONFIRM.TITLE', {
-        attributeName: this.selectedAttribute.attribute_display_name,
+      return this.$t('STAGES_MGMT.DELETE.CONFIRM.TITLE', {
+        name: this.selectedStage.name,
       });
     },
     confirmPlaceHolderText() {
-      return `${this.$t('ATTRIBUTES_MGMT.DELETE.CONFIRM.PLACE_HOLDER', {
-        attributeName: this.selectedAttribute.attribute_display_name,
+      return `${this.$t('STAGES_MGMT.DELETE.CONFIRM.PLACE_HOLDER', {
+        name: this.selectedStage.name,
       })}`;
     },
   },
   mounted() {
-    this.fetchAttributes(this.selectedTabIndex);
+    this.fetchStages(this.selectedTabIndex);
   },
   methods: {
     onClickTabChange(index) {
       this.selectedTabIndex = index;
-      this.fetchAttributes(index);
+      this.fetchStages(index);
     },
-    fetchAttributes(index) {
-      this.$store.dispatch('attributes/get', index);
+    fetchStages(index) {
+      this.$store.dispatch('stages/get', index);
     },
-    async deleteAttributes({ id }) {
+    async deleteStage({ id }) {
       try {
-        await this.$store.dispatch('attributes/delete', id);
-        this.showAlert(this.$t('ATTRIBUTES_MGMT.DELETE.API.SUCCESS_MESSAGE'));
+        await this.$store.dispatch('stages/delete', id);
+        this.showAlert(this.$t('STAGES_MGMT.DELETE.API.SUCCESS_MESSAGE'));
       } catch (error) {
         const errorMessage =
           error?.response?.message ||
-          this.$t('ATTRIBUTES_MGMT.DELETE.API.ERROR_MESSAGE');
+          this.$t('STAGES_MGMT.DELETE.API.ERROR_MESSAGE');
         this.showAlert(errorMessage);
       }
     },
     openEditPopup(response) {
       this.showEditPopup = true;
-      this.selectedAttribute = response;
+      this.selectedStage = response;
     },
     hideEditPopup() {
       this.showEditPopup = false;
     },
     confirmDeletion() {
-      this.deleteAttributes(this.selectedAttribute);
+      this.deleteStage(this.selectedStage);
       this.closeDelete();
     },
     openDelete(value) {
       this.showDeletePopup = true;
-      this.selectedAttribute = value;
+      this.selectedStage = value;
     },
     closeDelete() {
       this.showDeletePopup = false;
-      this.selectedAttribute = {};
+      this.selectedStage = {};
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.attribute-key {
+.stage-key {
   font-family: monospace;
 }
 
