@@ -1,0 +1,122 @@
+{
+  "STAGES_MGMT": {
+    "HEADER": "Giai đoạn kinh doanh",
+    "HEADER_BTN_TXT": "Thêm giai đoạn",
+    "LOADING": "Đang lấy dữ liệu giai đoạn",
+    "SIDEBAR_TXT": "<p><b>Giai đoạn kinh doanh</b> <p>Thiết lập giai đoạn kinh doanh giúp điều chỉnh quy trình phễu bán hàng và chăm sóc khách hàng theo đúng thực tế của bạn. <br /><br />Để thay đổi tên hay mô tả của một giai đoạn, chỉ cần nhấn vào nút  <b>Sửa Thông tin Giai đoạn.</b> Bạn cũng có thể đơn giản hóa quy trình bằng cách lược bỏ một giai đoạn hiện có khi nhấn vào nút <b>Không sử dụng.</b></p>",
+    "ADD": {
+      "TITLE": "Thêm thông tin Tùy chỉnh",
+      "SUBMIT": "Tạo",
+      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Tên hiển thị",
+          "PLACEHOLDER": "Nhập tên hiển thị của giai đoạn",
+          "ERROR": "Tên bắt buộc có"
+        },
+        "DESC": {
+          "LABEL": "Mô tả",
+          "PLACEHOLDER": "Điền mô tả của giai đoạn",
+          "ERROR": "Mô tả bắt buộc có"
+        },
+        "MODEL": {
+          "LABEL": "Áp dụng cho",
+          "PLACEHOLDER": "Vui lòng chọn một",
+          "ERROR": "Mô hình bắt buộc có"
+        },
+        "TYPE": {
+          "LABEL": "Kiểu",
+          "PLACEHOLDER": "Vui lòng chọn một kiểu",
+          "ERROR": "Kiểu bắt buộc có",
+          "LIST": {
+            "LABEL": "Giá trị của danh sách",
+            "PLACEHOLDER": "Vui lòng nhập giá trị và ấn phím enter",
+            "ERROR": "Phải có ít nhất 1 giá trị"
+          }
+        },
+        "KEY": {
+          "LABEL": "Khoá",
+          "PLACEHOLDER": "Nhập khoá của giai đoạn",
+          "ERROR": "C\u001dần có khoá",
+          "IN_VALID": "Khoá không hợp lệ"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Regex Pattern",
+          "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Cue",
+          "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Enable regex validation"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Giai đoạn được thêm thành công!",
+        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Không sử dụng giai đoạn",
+      "API": {
+        "SUCCESS_MESSAGE": "Giai đoạn đã loại bỏ thành công.",
+        "ERROR_MESSAGE": "Không thể loại bỏ giai đoạn. Thử lại."
+      },
+      "CONFIRM": {
+        "TITLE": "Bạn có chắc không muốn sử dụng giai đoạn - %{name}",
+        "PLACE_HOLDER": "Vui lòng điền {name} để xác nhận",
+        "MESSAGE": "Thao tác này sẽ loại bỏ giai đoạn khỏi quy trình phễu kinh doanh",
+        "YES": "Thực hiện ",
+        "NO": "Bỏ qua"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Sửa Thông tin Tùy chỉnh",
+      "UPDATE_BUTTON_TEXT": "Cập nhật",
+      "TYPE": {
+        "LIST": {
+          "LABEL": "Giá trị của danh sách",
+          "PLACEHOLDER": "Vui lòng nhập giá trị và ấn phím enter"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Giai đoạn được sửa thành công",
+        "ERROR_MESSAGE": "Đã xảy ra lỗi khi cập nhật \bthuộc tính tuỳ chỉnh, vui lòng thử lại"
+      }
+    },
+    "TABS": {
+      "HEADER": "Giai đoạn kinh doanh",
+      "LEADS": "Leads (tiềm năng)",
+      "DEALS": "Deals (thương lượng)",
+      "BOTH": "Cả hai giai đoạn"
+    },
+    "LIST": {
+      "TABLE_HEADER": [
+        "Tên",
+        "Mô tả",
+        "Ký hiệu",
+        "Giai đoạn"
+      ],
+      "BUTTONS": {
+        "EDIT": "Chỉnh thông tin giai đoạn",
+        "DELETE": "Không sử dụng giai đoạn này"
+      },
+      "EMPTY_RESULT": {
+        "404": "Không có giai đoạn nào có sẵn",
+        "NOT_FOUND": "Không có giai đoạn nào được cấu hình"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Regex Pattern",
+        "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Cue",
+        "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Enable regex validation"
+      }
+    }
+  }
+}

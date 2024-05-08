@@ -5,6 +5,7 @@ import accounts from './modules/accounts';
 import agentBots from './modules/agentBots';
 import agents from './modules/agents';
 import articles from './modules/helpCenterArticles';
+import stages from './modules/stages';
 import attributes from './modules/attributes';
 import auth from './modules/auth';
 import auditlogs from './modules/auditlogs';
@@ -73,6 +74,7 @@ export default new Vuex.Store({
     agentBots,
     agents,
     articles,
+    stages,
     attributes,
     auth,
     automations,
