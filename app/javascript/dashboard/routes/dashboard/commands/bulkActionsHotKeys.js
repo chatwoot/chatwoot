@@ -123,7 +123,6 @@ export default {
       selectedConversations: 'bulkActions/getSelectedConversationIds',
     }),
     bulkActionsHotKeys() {
-      //   return this.prepareActions(INBOX_SNOOZE_EVENTS);
       let actions = [];
       if (this.selectedConversations.length > 0) {
         actions = [
@@ -145,9 +144,7 @@ export default {
       return actions.map(action => ({
         ...action,
         title: this.$t(action.title),
-        section: this.$t('COMMAND_BAR.SECTIONS.BULK_ACTIONS', {
-          selectedConversationsCount: this.selectedConversations.length,
-        }),
+        section: this.$t(action.section),
       }));
     },
   },
