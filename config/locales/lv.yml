@@ -75,7 +75,7 @@ lv:
       avg_first_response_time: Vidējais pirmās reakcijas laiks
       avg_resolution_time: Vidējais atrisināšanas laiks
       resolution_count: Atrisināšanas Skaits
-      avg_customer_waiting_time: Avg customer waiting time
+      avg_customer_waiting_time: Vidējais klientu gaidīšanas laiks
     inbox_csv:
       inbox_name: Iesūtnes nosaukums
       inbox_type: Iesūtnes tips
@@ -93,7 +93,7 @@ lv:
       avg_first_response_time: Vidējais pirmās reakcijas laiks
       avg_resolution_time: Vidējais atrisināšanas laiks
       resolution_count: Atrisināšanas Skaits
-      avg_customer_waiting_time: Avg customer waiting time
+      avg_customer_waiting_time: Vidējais klientu gaidīšanas laiks
     conversation_traffic_csv:
       timezone: Laika zona
     sla_csv:
