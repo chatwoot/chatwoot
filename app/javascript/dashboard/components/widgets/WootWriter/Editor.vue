@@ -3,17 +3,17 @@
     <tag-agents
       v-if="showUserMentions && isPrivate"
       :search-key="mentionSearchKey"
-      @click="insertMentionNode"
+      @click="content => insertSpecialContent('mention', content)"
     />
     <canned-response
       v-if="shouldShowCannedResponses"
       :search-key="cannedSearchTerm"
-      @click="insertCannedResponse"
+      @click="content => insertSpecialContent('cannedResponse', content)"
     />
     <variable-list
       v-if="shouldShowVariables"
       :search-key="variableSearchTerm"
-      @click="insertVariable"
+      @click="content => insertSpecialContent('varaible', content)"
     />
     <input
       ref="imageUpload"
