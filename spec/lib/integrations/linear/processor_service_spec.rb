@@ -67,4 +67,64 @@ describe Integrations::Linear::ProcessorService do
       end
     end
   end
+
+  describe '#create_issue' do
+    let(:params) do
+      {
+        title: 'Issue title',
+        team_id: 'team1',
+        description: 'Issue description',
+        assignee_id: 'user1',
+        priority: 2,
+        label_ids: %w[bug]
+      }
+    end
+    let(:issue_response) do
+      {
+        'issueCreate' => { 'issue' => { 'id' => 'issue1', 'title' => 'Issue title' } }
+      }
+    end
+
+    context 'when Linear client returns valid data' do
+      it 'returns parsed issue data' do
+        allow(linear_client).to receive(:create_issue).with(params).and_return(issue_response)
+        result = service.create_issue(params)
+        expect(result).to eq({ id: 'issue1', title: 'Issue title' })
+      end
+    end
+
+    context 'when Linear client returns an error' do
+      let(:error_response) { { error: 'Some error message' } }
+
+      it 'returns the error' do
+        allow(linear_client).to receive(:create_issue).with(params).and_return(error_response)
+        result = service.create_issue(params)
+        expect(result).to eq(error_response)
+      end
+    end
+  end
+
+  describe '#link_issue' do
+    let(:link) { 'https://example.com' }
+    let(:issue_id) { 'issue1' }
+    let(:link_response) { { id: issue_id, link: link } }
+
+    context 'when Linear client returns valid data' do
+      it 'returns parsed link data' do
+        allow(linear_client).to receive(:link_issue).with(link, issue_id).and_return(link_response)
+        result = service.link_issue(link, issue_id)
+        expect(result).to eq(link_response)
+      end
+    end
+
+    context 'when Linear client returns an error' do
+      let(:error_response) { { error: 'Some error message' } }
+
+      it 'returns the error' do
+        allow(linear_client).to receive(:link_issue).with(link, issue_id).and_return(error_response)
+        result = service.link_issue(link, issue_id)
+        expect(result).to eq(error_response)
+      end
+    end
+  end
 end
