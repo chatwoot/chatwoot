@@ -30,12 +30,10 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     );
   }
 
-  if (document.querySelector('meta[name="generator"][content^="Astro v"]')) {
-    // if this is an astro app
-    document.addEventListener('astro:before-swap', event =>
-      restoreWidgetInDOM(event.newDocument.body)
-    );
-  }
+  // if this is an astro app
+  document.addEventListener('astro:before-swap', event =>
+    restoreWidgetInDOM(event.newDocument.body)
+  );
 
   const chatwootSettings = window.chatwootSettings || {};
   let locale = chatwootSettings.locale;
