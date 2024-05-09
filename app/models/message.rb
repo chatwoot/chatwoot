@@ -288,7 +288,8 @@ class Message < ApplicationRecord
   end
 
   def dispatch_create_events
-    Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
+    # we are waiting for 2 seconds to dispatch the event so that the message also has attachments with it when sending back the event to frontend
+    DelayDispatchEventJob.set(wait: 2.seconds).perform_later(event_name: MESSAGE_CREATED, timestamp: Time.zone.now, message_id: id)
 
     if valid_first_reply?
       Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
@@ -303,8 +304,11 @@ class Message < ApplicationRecord
     # we want to skip the update event if the message is not updated
     return if previous_changes.blank?
 
-    Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self, performed_by: Current.executed_by,
-                                                                            previous_changes: previous_changes)
+    DelayDispatchEventJob.set(wait: 2.seconds).perform_later(event_name: MESSAGE_CREATED, timestamp: Time.zone.now, message_id: id,
+                                                             performed_by_id: Current.executed_by.id, previous_changes: previous_changes)
+
+    # Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self, performed_by: Current.executed_by,
+    # previous_changes: previous_changes)
   end
 
   def send_reply
