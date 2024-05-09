@@ -7,7 +7,7 @@ module Enterprise::Account
   end
 
   def subscribed_features
-    plan_features = InstallationConfig.find_by(name: 'CHATWOOT_CLOUD_PLAN_FEATURES').value
+    plan_features = InstallationConfig.find_by(name: 'CHATWOOT_CLOUD_PLAN_FEATURES')&.value
     return [] if plan_features.blank?
 
     plan_features[plan_name]
