@@ -424,22 +424,12 @@ export default {
           this.emitOnChange();
         },
         handleDOMEvents: {
-          keyup: () => {
-            this.onKeyup();
-          },
-          keydown: (view, event) => {
-            this.onKeydown(event);
-          },
-          focus: () => {
-            this.onFocus();
-          },
-          click: () => {
-            this.isEditorMouseFocusedOnAnImage();
-          },
-          blur: () => {
-            this.onBlur();
-          },
-          paste: (view, event) => {
+          keyup: this.onKeyup,
+          keydown: (_view, event) => this.onKeydown(event),
+          focus: this.onFocus,
+          click: this.isEditorMouseFocusedOnAnImage,
+          blur: this.onBlur,
+          paste: (_view, event) => {
             const data = event.clipboardData.files;
             if (data.length > 0) {
               event.preventDefault();
@@ -523,57 +513,73 @@ export default {
       this.editorView.dispatch(tr.setSelection(selection));
       this.editorView.focus();
     },
-    insertMentionNode(mentionItem) {
+    /**
+     * Inserts special content (mention, canned response, or variable) into the editor.
+     *
+     * @param {string} type - The type of special content to insert. Possible values: 'mention', 'canned_response', 'variable'.
+     * @param {Object|string} content - The content to insert, depending on the type.
+     *   - For 'mention' type: An object with 'id' and 'name' properties representing the user mention.
+     *   - For 'canned_response' type: A string representing the canned response.
+     *   - For 'variable' type: A string representing the variable name.
+     * @returns {boolean} - Always returns false.
+     */
+    insertSpecialContent(type, content) {
       if (!this.editorView) {
         return null;
       }
+
+      const method_map = {
+        mention: this.getMentionNode,
+        canned_response: this.getCannedResponseNode,
+        variable: this.getVariableNode,
+      };
+
+      // if type not in method_map return
+      if (!method_map[type]) {
+        return false;
+      }
+
+      let { node, from, to } = method_map[type](
+        content,
+        this.range.from,
+        this.range.to
+      );
+
+      this.insertNodeIntoEditor(node, from, to);
+
+      const event_map = {
+        mention: CONVERSATION_EVENTS.USED_MENTIONS,
+        canned_response: CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE,
+        variable: CONVERSATION_EVENTS.INSERTED_A_VARIABLE,
+      };
+
+      this.$track(event_map[type]);
+      return true;
+    },
+    getMentionNode(mentionItem, from, to) {
       const node = this.editorView.state.schema.nodes.mention.create({
         userId: mentionItem.id,
         userFullName: mentionItem.name,
       });
-
-      this.insertNodeIntoEditor(node, this.range.from, this.range.to);
-      this.$track(CONVERSATION_EVENTS.USED_MENTIONS);
-
-      return false;
+      return { node, from, to };
     },
-    insertCannedResponse(cannedItem) {
+    getCannedResponseNode(cannedItem, from, to) {
       const updatedMessage = replaceVariablesInMessage({
         message: cannedItem,
         variables: this.variables,
       });
 
-      if (!this.editorView) {
-        return null;
-      }
-
-      let node = new MessageMarkdownTransformer(messageSchema).parse(
+      const node = new MessageMarkdownTransformer(messageSchema).parse(
         updatedMessage
       );
 
-      const from =
-        node.textContent === updatedMessage
-          ? this.range.from
-          : this.range.from - 1;
+      from = node.textContent === updatedMessage ? from : from - 1;
 
-      this.insertNodeIntoEditor(node, from, this.range.to);
-
-      this.$track(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
-      return false;
+      return { node, from, to };
     },
-    insertVariable(variable) {
-      if (!this.editorView) {
-        return null;
-      }
-
-      const content = `{{${variable}}}`;
-      let node = this.editorView.state.schema.text(content);
-      const { from, to } = this.range;
-
-      this.insertNodeIntoEditor(node, from, to);
-      this.showVariables = false;
-      this.$track(CONVERSATION_EVENTS.INSERTED_A_VARIABLE);
-      return false;
+    getVariableNode(variable, from, to) {
+      const node = this.editorView.state.schema.text(`{{${variable}}}`);
+      return { node, from, to };
     },
     openFileBrowser() {
       this.$refs.imageUpload.click();
