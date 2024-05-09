@@ -24,7 +24,20 @@ class Integrations::Linear::ProcessorService
     response = linear_client.create_issue(params)
     return response if response[:error]
 
-    response
+    {
+      id: response['issueCreate']['issue']['id'],
+      title: response['issueCreate']['issue']['title']
+    }
+  end
+
+  def link_issue(link, issue_id)
+    response = linear_client.link_issue(link, issue_id)
+    return response if response[:error]
+
+    {
+      id: issue_id,
+      link: link
+    }
   end
 
   private

@@ -46,6 +46,13 @@ class Linear
     execute_mutation(LinearMutations.issue_create(variables))
   end
 
+  def link_issue(link, issue_id)
+    raise ArgumentError, 'Missing link' if link.blank?
+    raise ArgumentError, 'Missing issue id' if issue_id.blank?
+
+    execute_mutation(LinearMutations.issue_link(issue_id, link))
+  end
+
   private
 
   def validate_team_and_title(params)
@@ -56,14 +63,14 @@ class Linear
   def validate_priority(priority)
     return if priority.nil? || PRIORITY_LEVELS.include?(priority)
 
-    raise ArgumentError, 'Invalid priority value. Allowed values: 0, 1, 2, 3, 4'
+    raise ArgumentError, 'Invalid priority value. Priority must be 0, 1, 2, 3, or 4.'
   end
 
   def validate_label_ids(label_ids)
     return if label_ids.nil?
     return if label_ids.is_a?(Array) && label_ids.all?(String)
 
-    raise ArgumentError, 'labelIds must be an array of strings'
+    raise ArgumentError, 'label_ids must be an array of strings.'
   end
 
   def execute_query(query)

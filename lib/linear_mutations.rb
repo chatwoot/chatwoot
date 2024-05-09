@@ -31,4 +31,17 @@ module LinearMutations
       }
     GRAPHQL
   end
+
+  def self.issue_link(issue_id, link)
+    <<~GRAPHQL
+      mutation {
+        attachmentLinkURL(url: "#{link}", issueId: "#{issue_id}") {
+          success
+          attachment {
+            id
+          }
+        }
+      }
+    GRAPHQL
+  end
 end
