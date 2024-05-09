@@ -1,21 +1,21 @@
 <template>
   <main
-    class="flex flex-col bg-woot-25 min-h-screen w-full py-20 sm:px-6 lg:px-8 dark:bg-slate-900"
+    class="flex flex-col w-full min-h-screen py-20 bg-woot-25 sm:px-6 lg:px-8 dark:bg-slate-900"
   >
     <section class="max-w-5xl mx-auto">
       <img
         :src="globalConfig.logo"
         :alt="globalConfig.installationName"
-        class="mx-auto h-8 w-auto block dark:hidden"
+        class="block w-auto h-8 mx-auto dark:hidden"
       />
       <img
         v-if="globalConfig.logoDark"
         :src="globalConfig.logoDark"
         :alt="globalConfig.installationName"
-        class="mx-auto h-8 w-auto hidden dark:block"
+        class="hidden w-auto h-8 mx-auto dark:block"
       />
       <h2
-        class="mt-6 text-center text-3xl font-medium text-slate-900 dark:text-woot-50"
+        class="mt-6 text-3xl font-medium text-center text-slate-900 dark:text-woot-50"
       >
         {{
           useInstallationName($t('LOGIN.TITLE'), globalConfig.installationName)
@@ -23,10 +23,10 @@
       </h2>
       <p
         v-if="showSignupLink"
-        class="mt-3 text-center text-sm text-slate-600 dark:text-slate-400"
+        class="mt-3 text-sm text-center text-slate-600 dark:text-slate-400"
       >
         {{ $t('COMMON.OR') }}
-        <router-link to="auth/signup" class="text-link lowercase">
+        <router-link to="auth/signup" class="lowercase text-link">
           {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
         </router-link>
       </p>
@@ -68,7 +68,7 @@
             <p v-if="!globalConfig.disableUserProfileUpdate">
               <router-link
                 to="auth/reset/password"
-                class="text-link text-sm"
+                class="text-sm text-link"
                 tabindex="4"
               >
                 {{ $t('LOGIN.FORGOT_PASSWORD') }}
@@ -165,7 +165,7 @@ export default {
       const message = ERROR_MESSAGES[this.authError] ?? 'LOGIN.API.UNAUTH';
       this.showAlert(this.$t(message));
       // wait for idle state
-      window.requestIdleCallback(() => {
+      this.requestIdleCallbackPolyfill(() => {
         // Remove the error query param from the url
         const { query } = this.$route;
         this.$router.replace({ query: { ...query, error: undefined } });
@@ -173,6 +173,19 @@ export default {
     }
   },
   methods: {
+    // TODO: Remove this when Safari gets wider support
+    // Ref: https://caniuse.com/requestidlecallback
+    //
+    requestIdleCallbackPolyfill(callback) {
+      if (window.requestIdleCallback) {
+        window.requestIdleCallback(callback);
+      } else {
+        // Fallback for safari
+        // Using a delay of 0 allows the callback to be executed asynchronously
+        // in the next available event loop iteration, similar to requestIdleCallback
+        setTimeout(callback, 0);
+      }
+    },
     showAlert(message) {
       // Reset loading, current selected agent
       this.loginApi.showLoading = false;
