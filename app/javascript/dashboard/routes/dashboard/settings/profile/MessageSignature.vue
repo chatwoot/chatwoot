@@ -38,7 +38,7 @@ const signature = ref(props.messageSignature);
 const emit = defineEmits(['update-signature']);
 
 watch(
-  () => props.messageSignature,
+  () => props.messageSignature ?? '',
   newValue => {
     signature.value = newValue;
   }
