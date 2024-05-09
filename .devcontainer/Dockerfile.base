@@ -15,6 +15,8 @@ RUN if [ "$USER_GID" != "1000" ] || [ "$USER_UID" != "1000" ]; then \
         && chmod -R $USER_UID:$USER_GID /home/vscode; \
     fi
 
+
+
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
   && apt-get -y install --no-install-recommends \
     build-essential \
@@ -34,6 +36,9 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     npm \
     libyaml-dev
 
+# Install dependencies for ruby
+RUN sudo apt-get install libffi-dev
+
 # Install rbenv and ruby
 RUN git clone https://github.com/rbenv/rbenv.git ~/.rbenv \
     &&  echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc \
@@ -41,6 +46,8 @@ RUN git clone https://github.com/rbenv/rbenv.git ~/.rbenv \
 ENV PATH "/root/.rbenv/bin/:/root/.rbenv/shims/:$PATH"
 RUN git clone https://github.com/rbenv/ruby-build.git && \
     PREFIX=/usr/local ./ruby-build/install.sh
+
+RUN sudo apt-get install libffi-dev
 
 RUN rbenv install $RUBY_VERSION && \
     rbenv global $RUBY_VERSION && \
@@ -63,6 +70,9 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | s
 # Do the set up required for chatwoot app
 WORKDIR /workspace
 COPY . /workspace
+
+
+
 
 # set up ruby
 COPY Gemfile Gemfile.lock ./
