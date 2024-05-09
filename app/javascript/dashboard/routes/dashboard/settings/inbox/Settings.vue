@@ -622,7 +622,7 @@ export default {
       return false;
     },
     isReconnectionRequired() {
-      return true;
+      return false;
     },
   },
   watch: {
