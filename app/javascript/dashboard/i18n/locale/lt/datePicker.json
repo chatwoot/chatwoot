@@ -1,0 +1,19 @@
+{
+  "DATE_PICKER": {
+    "APPLY_BUTTON": "Taikyti",
+    "CLEAR_BUTTON": "Clear",
+    "DATE_RANGE_INPUT": {
+      "START": "Start Date",
+      "END": "End Date"
+    },
+    "DATE_RANGE_OPTIONS": {
+      "TITLE": "DATE RANGE",
+      "LAST_7_DAYS": "Paskutines 7 dienas",
+      "LAST_30_DAYS": "Paskutines 30 dienų",
+      "LAST_3_MONTHS": "Paskutinius 3 mėnesius",
+      "LAST_6_MONTHS": "Paskutinius 6 mėnesius",
+      "LAST_YEAR": "Paskutinius metus",
+      "CUSTOM_RANGE": "Pritaikytas datos intervalas"
+    }
+  }
+}

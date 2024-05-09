@@ -5,10 +5,10 @@
     :class="showExtendedInfo ? 'h-[26px] rounded-lg' : 'rounded h-5'"
   >
     <div
+      v-on-clickaway="closeSlaPopover"
       class="flex items-center w-full truncate"
       :class="showExtendedInfo ? 'px-1.5' : 'px-2 gap-1'"
       @mouseover="openSlaPopover()"
-      @mouseleave="closeSlaPopover()"
     >
       <div
         class="flex items-center gap-1"
@@ -42,14 +42,14 @@
     </div>
     <SLA-popover-card
       v-if="showSlaPopoverCard"
-      :all-missed-slas="slaEvents"
+      :sla-missed-events="slaEvents"
       class="right-0 top-7"
     />
   </div>
 </template>
 
 <script>
-import { evaluateSLAStatus } from '../helpers/SLAHelper';
+import { evaluateSLAStatus } from '@chatwoot/utils';
 import SLAPopoverCard from './SLAPopoverCard.vue';
 
 const REFRESH_INTERVAL = 60000;
@@ -137,7 +137,10 @@ export default {
       }, REFRESH_INTERVAL);
     },
     updateSlaStatus() {
-      this.slaStatus = evaluateSLAStatus(this.appliedSLA, this.chat);
+      this.slaStatus = evaluateSLAStatus({
+        appliedSla: this.appliedSLA,
+        chat: this.chat,
+      });
     },
     openSlaPopover() {
       if (!this.showExtendedInfo) return;

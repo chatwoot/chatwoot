@@ -74,15 +74,10 @@
 <script>
 import countries from 'shared/constants/countries.js';
 import parsePhoneNumber from 'libphonenumber-js';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import {
-  hasPressedArrowUpKey,
-  hasPressedArrowDownKey,
-  isEnter,
-} from 'shared/helpers/KeyboardHelpers';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 
 export default {
-  mixins: [eventListenerMixins],
+  mixins: [keyboardEventListenerMixins],
   props: {
     value: {
       type: [String, Number],
@@ -183,6 +178,7 @@ export default {
       this.$emit('blur', e.target.value);
     },
     dropdownItem() {
+      if (!this.showDropdown) return [];
       return Array.from(
         this.$refs.dropdown.querySelectorAll(
           'div.country-dropdown div.country-dropdown--item'
@@ -190,34 +186,27 @@ export default {
       );
     },
     focusedItem() {
+      if (!this.showDropdown) return [];
       return Array.from(
         this.$refs.dropdown.querySelectorAll('div.country-dropdown div.focus')
       );
     },
     focusedItemIndex() {
+      if (!this.showDropdown) return -1;
       return Array.from(this.dropdownItem()).indexOf(this.focusedItem()[0]);
     },
-    onKeyDownHandler(e) {
-      const { showDropdown, filteredCountriesBySearch, onSelectCountry } = this;
-      const { selectedIndex } = this;
-
-      if (showDropdown) {
-        if (hasPressedArrowDownKey(e)) {
-          e.preventDefault();
-          this.selectedIndex = Math.min(
-            selectedIndex + 1,
-            filteredCountriesBySearch.length - 1
-          );
-          this.$refs.dropdown.scrollTop = this.focusedItemIndex() * 28;
-        } else if (hasPressedArrowUpKey(e)) {
-          e.preventDefault();
-          this.selectedIndex = Math.max(selectedIndex - 1, 0);
-          this.$refs.dropdown.scrollTop = this.focusedItemIndex() * 28 - 56;
-        } else if (isEnter(e)) {
-          e.preventDefault();
-          onSelectCountry(filteredCountriesBySearch[selectedIndex]);
-        }
-      }
+    moveUp() {
+      if (!this.showDropdown) return;
+      this.selectedIndex = Math.max(this.selectedIndex - 1, 0);
+      this.$refs.dropdown.scrollTop = this.focusedItemIndex() * 28 - 56;
+    },
+    moveDown() {
+      if (!this.showDropdown) return;
+      this.selectedIndex = Math.min(
+        this.selectedIndex + 1,
+        this.filteredCountriesBySearch.length - 1
+      );
+      this.$refs.dropdown.scrollTop = this.focusedItemIndex() * 28 - 56;
     },
     onSelectCountry(country) {
       this.activeCountryCode = country.id;
@@ -234,6 +223,33 @@ export default {
         this.activeCountryCode = number.country;
         this.activeDialCode = number.countryCallingCode;
       }
+    },
+    getKeyboardEvents() {
+      return {
+        ArrowUp: {
+          action: e => {
+            e.preventDefault();
+            this.moveUp();
+          },
+          allowOnFocusedInput: true,
+        },
+        ArrowDown: {
+          action: e => {
+            e.preventDefault();
+            this.moveDown();
+          },
+          allowOnFocusedInput: true,
+        },
+        Enter: {
+          action: e => {
+            e.preventDefault();
+            this.onSelectCountry(
+              this.filteredCountriesBySearch[this.selectedIndex]
+            );
+          },
+          allowOnFocusedInput: true,
+        },
+      };
     },
     toggleCountryDropdown() {
       this.showDropdown = !this.showDropdown;

@@ -87,7 +87,10 @@
       "conversation_assignment": "Percakapan ditugaskan",
       "assigned_conversation_new_message": "Pesan Baru",
       "participating_conversation_new_message": "Pesan Baru",
-      "conversation_mention": "Mention"
+      "conversation_mention": "Mention",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {

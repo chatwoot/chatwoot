@@ -88,6 +88,8 @@ en:
       conversations_count: Assigned conversations
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      resolution_count: Resolution Count
+      avg_customer_waiting_time: Avg customer waiting time
     inbox_csv:
       inbox_name: Inbox name
       inbox_type: Inbox type
@@ -104,6 +106,8 @@ en:
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      resolution_count: Resolution Count
+      avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Timezone
     sla_csv:

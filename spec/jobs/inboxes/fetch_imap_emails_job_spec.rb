@@ -41,10 +41,19 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
     context 'when the channel is regular imap' do
       it 'calls the imap fetch service' do
         fetch_service = double
-        allow(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel).and_return(fetch_service)
+        allow(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel, interval: 1).and_return(fetch_service)
         allow(fetch_service).to receive(:perform).and_return([])
 
         described_class.perform_now(imap_email_channel)
+        expect(fetch_service).to have_received(:perform)
+      end
+
+      it 'calls the imap fetch service with the correct interval' do
+        fetch_service = double
+        allow(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel, interval: 4).and_return(fetch_service)
+        allow(fetch_service).to receive(:perform).and_return([])
+
+        described_class.perform_now(imap_email_channel, 4)
         expect(fetch_service).to have_received(:perform)
       end
     end
@@ -52,7 +61,7 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
     context 'when the channel is Microsoft' do
       it 'calls the Microsoft fetch service' do
         fetch_service = double
-        allow(Imap::MicrosoftFetchEmailService).to receive(:new).with(channel: microsoft_imap_email_channel).and_return(fetch_service)
+        allow(Imap::MicrosoftFetchEmailService).to receive(:new).with(channel: microsoft_imap_email_channel, interval: 1).and_return(fetch_service)
         allow(fetch_service).to receive(:perform).and_return([])
 
         described_class.perform_now(microsoft_imap_email_channel)
@@ -60,13 +69,21 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
       end
     end
 
-    context 'when IMAP connection errors out' do
-      it 'mark the connection for authorization required' do
-        allow(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel).and_raise(Errno::ECONNREFUSED)
+    context 'when IMAP OAuth errors out' do
+      it 'marks the connection as requiring authorization' do
+        error_response = double
+        oauth_error = OAuth2::Error.new(error_response)
+
+        allow(Imap::MicrosoftFetchEmailService).to receive(:new)
+          .with(channel: microsoft_imap_email_channel, interval: 1)
+          .and_raise(oauth_error)
+
         allow(Redis::Alfred).to receive(:incr)
 
-        expect(Redis::Alfred).to receive(:incr).with("AUTHORIZATION_ERROR_COUNT:channel_email:#{imap_email_channel.id}")
-        described_class.perform_now(imap_email_channel)
+        expect(Redis::Alfred).to receive(:incr)
+          .with("AUTHORIZATION_ERROR_COUNT:channel_email:#{microsoft_imap_email_channel.id}")
+
+        described_class.perform_now(microsoft_imap_email_channel)
       end
     end
 
@@ -80,14 +97,14 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
         allow(Imap::ImapMailbox).to receive(:new).and_return(mailbox)
         allow(ChatwootExceptionTracker).to receive(:new).and_return(exception_tracker)
 
-        allow(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel).and_return(fetch_service)
+        allow(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel, interval: 1).and_return(fetch_service)
         allow(fetch_service).to receive(:perform).and_return([inbound_mail])
       end
 
       it 'calls the mailbox to create emails' do
         allow(mailbox).to receive(:process)
 
-        expect(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel).and_return(fetch_service)
+        expect(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel, interval: 1).and_return(fetch_service)
         expect(fetch_service).to receive(:perform).and_return([inbound_mail])
         expect(mailbox).to receive(:process).with(inbound_mail, imap_email_channel)
 

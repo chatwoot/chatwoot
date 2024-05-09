@@ -80,3 +80,6 @@
 - name: sla
   enabled: false
   premium: true
+- name: help_center_embedding_search
+  enabled: false
+  premium: true

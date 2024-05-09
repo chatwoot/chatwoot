@@ -88,15 +88,9 @@
 <script>
 import { getUnixTime } from 'date-fns';
 import { mapGetters } from 'vuex';
-import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import {
-  hasPressedAltAndEKey,
-  hasPressedCommandPlusAltAndEKey,
-  hasPressedAltAndMKey,
-} from 'shared/helpers/KeyboardHelpers';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
@@ -114,7 +108,7 @@ export default {
     WootDropdownMenu,
     CustomSnoozeModal,
   },
-  mixins: [clickaway, alertMixin, eventListenerMixins],
+  mixins: [alertMixin, keyboardEventListenerMixins],
   props: { conversationId: { type: [String, Number], required: true } },
   data() {
     return {
@@ -159,37 +153,52 @@ export default {
     bus.$off(CMD_RESOLVE_CONVERSATION, this.onCmdResolveConversation);
   },
   methods: {
-    async handleKeyEvents(e) {
+    getKeyboardEvents() {
+      return {
+        'Alt+KeyM': {
+          action: () => this.$refs.arrowDownButton?.$el.click(),
+          allowOnFocusedInput: true,
+        },
+        'Alt+KeyE': this.resolveOrToast,
+        '$mod+Alt+KeyE': async event => {
+          const { all, activeIndex, lastIndex } = this.getConversationParams();
+          await this.resolveOrToast();
+
+          if (activeIndex < lastIndex) {
+            all[activeIndex + 1].click();
+          } else if (all.length > 1) {
+            all[0].click();
+            document.querySelector('.conversations-list').scrollTop = 0;
+          }
+
+          event.preventDefault();
+        },
+      };
+    },
+    getConversationParams() {
       const allConversations = document.querySelectorAll(
         '.conversations-list .conversation'
       );
-      if (hasPressedAltAndMKey(e)) {
-        if (this.$refs.arrowDownButton) {
-          this.$refs.arrowDownButton.$el.click();
-        }
-      }
-      if (hasPressedAltAndEKey(e)) {
-        const activeConversation = document.querySelector(
-          'div.conversations-list div.conversation.active'
-        );
-        const activeConversationIndex = [...allConversations].indexOf(
-          activeConversation
-        );
-        const lastConversationIndex = allConversations.length - 1;
-        try {
-          await this.toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
-        } catch (error) {
-          // error
-        }
-        if (hasPressedCommandPlusAltAndEKey(e)) {
-          if (activeConversationIndex < lastConversationIndex) {
-            allConversations[activeConversationIndex + 1].click();
-          } else if (allConversations.length > 1) {
-            allConversations[0].click();
-            document.querySelector('.conversations-list').scrollTop = 0;
-          }
-          e.preventDefault();
-        }
+
+      const activeConversation = document.querySelector(
+        'div.conversations-list div.conversation.active'
+      );
+      const activeConversationIndex = [...allConversations].indexOf(
+        activeConversation
+      );
+      const lastConversationIndex = allConversations.length - 1;
+
+      return {
+        all: allConversations,
+        activeIndex: activeConversationIndex,
+        lastIndex: lastConversationIndex,
+      };
+    },
+    async resolveOrToast() {
+      try {
+        await this.toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
+      } catch (error) {
+        // error
       }
     },
     onCmdSnoozeConversation(snoozeType) {

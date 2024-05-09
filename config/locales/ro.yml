@@ -63,6 +63,9 @@ ro:
         name: nu ar trebui să înceapă sau să se termine cu simboluri și nu ar trebui să aibă < > / \ @ caractere.
     custom_filters:
       number_of_records: Limita atinsă. Numărul maxim de filtre personalizate permise pentru un utilizator per cont este de 50.
+      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
+      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
+      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
   reports:
     period: Perioada de raportare %{since}-%{until}
     utc_warning: Raportul generat este în fusul orar UTC
@@ -89,6 +92,15 @@ ro:
       avg_resolution_time: Avg resolution time
     conversation_traffic_csv:
       timezone: Fus orar
+    sla_csv:
+      conversation_id: Conversation ID
+      sla_policy_breached: SLA Policy
+      assignee: Assignee
+      team: Echipa
+      inbox: Inbox
+      labels: Etichete
+      conversation_link: Link to the Conversation
+      breached_events: Breached Events
     default_group_by: zi
     csat:
       headers:
@@ -106,6 +118,9 @@ ro:
       conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
       assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
       conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
+      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
+      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
     attachment: "Attachment"
     no_content: "No content"
   conversations:
@@ -139,6 +154,9 @@ ro:
       labels:
         added: "%{user_name} adăugat %{labels}"
         removed: "%{user_name} eliminat %{labels}"
+      sla:
+        added: "%{user_name} added SLA policy %{sla_name}"
+        removed: "%{user_name} removed SLA policy %{sla_name}"
       muted: "%{user_name} a dezactivat conversația"
       unmuted: "%{user_name} a activat conversația"
     templates:

@@ -83,7 +83,6 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import countries from 'shared/constants/countries.js';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import mentionSelectionKeyboardMixin from 'dashboard/components/widgets/mentions/mentionSelectionKeyboardMixin.js';
@@ -94,12 +93,7 @@ export default {
   components: {
     FluentIcon,
   },
-  mixins: [
-    mentionSelectionKeyboardMixin,
-    FormulateInputMixin,
-    darkModeMixin,
-    clickaway,
-  ],
+  mixins: [mentionSelectionKeyboardMixin, FormulateInputMixin, darkModeMixin],
   props: {
     placeholder: {
       type: String,
@@ -220,25 +214,26 @@ export default {
     },
     dropdownItem() {
       // This function is used to get all the items in the dropdown.
+      if (!this.showDropdown) return [];
       return Array.from(
-        this.$refs.dropdown.querySelectorAll(
+        this.$refs.dropdown?.querySelectorAll(
           'div.country-dropdown div.country-dropdown--item'
         )
       );
     },
     focusedOrActiveItem(className) {
       // This function is used to get the focused or active item in the dropdown.
+      if (!this.showDropdown) return [];
       return Array.from(
-        this.$refs.dropdown.querySelectorAll(
+        this.$refs.dropdown?.querySelectorAll(
           `div.country-dropdown div.country-dropdown--item.${className}`
         )
       );
     },
-    handleKeyboardEvent(e) {
-      if (this.showDropdown) {
-        this.processKeyDownEvent(e);
+    adjustScroll() {
+      this.$nextTick(() => {
         this.scrollToFocusedOrActiveItem(this.focusedOrActiveItem('focus'));
-      }
+      });
     },
     onSelect() {
       this.onSelectCountry(this.items[this.selectedIndex]);

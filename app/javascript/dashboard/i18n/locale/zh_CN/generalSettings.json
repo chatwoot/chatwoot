@@ -87,7 +87,10 @@
       "conversation_assignment": "对话已分配",
       "assigned_conversation_new_message": "新消息",
       "participating_conversation_new_message": "新消息",
-      "conversation_mention": "提及"
+      "conversation_mention": "提及",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
@@ -155,14 +158,14 @@
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",
       "SYSTEM_MODE": "System",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "推迟通知"
     }
   },
   "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "Loading Dashboard App..."
+    "LOADING_MESSAGE": "正在加载仪表板应用..."
   },
   "COMMON": {
-    "OR": "Or",
+    "OR": "或",
     "CLICK_HERE": "点击这里"
   }
 }

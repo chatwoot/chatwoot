@@ -63,6 +63,9 @@ lv:
         name: nevajadzētu sākties vai beigties ar simboliem, un nevajadzētu saturēt <> / \ @ rakstzīmes.
     custom_filters:
       number_of_records: Sasniegts limits. Maksimālais atļauto pielāgoto filtru skaits vienam lietotājam ir 50.
+      invalid_attribute: Nederīga atribūta atslēga - [%{key}]. Atslēgai ir jābūt vienai no [%{allowed_keys}] vai pielāgotam atribūtam, kas definēts kontā.
+      invalid_operator: Nederīgs operators. Atļautie operatori priekš %{attribute_name} ir [%{allowed_keys}].
+      invalid_value: Nederīga vērtība. Norādītās vērtības priekš %{attribute_name} nav derīgas
   reports:
     period: Ziņošanas periods %{since} līdz %{until}
     utc_warning: Izveidotais pārskats atbilst UTC laika joslai
@@ -89,6 +92,15 @@ lv:
       avg_resolution_time: Vidējais atrisināšanas laiks
     conversation_traffic_csv:
       timezone: Laika zona
+    sla_csv:
+      conversation_id: Sarunas ID
+      sla_policy_breached: SLA politika
+      assignee: Uzdevuma saņēmējs
+      team: Komanda
+      inbox: Iesūtne
+      labels: Etiķetes
+      conversation_link: Saite uz sarunu
+      breached_events: Pārkāptie Notikumi
     default_group_by: diena
     csat:
       headers:
@@ -102,12 +114,15 @@ lv:
         recorded_at: Reģistrētais datums
   notifications:
     notification_title:
-      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
-      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
-      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
-      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
-    attachment: "Attachment"
-    no_content: "No content"
+      conversation_creation: "Saruna (#%{display_id}) ir izveidota mapē %{inbox_name}"
+      conversation_assignment: "Jums ir piešķirta saruna (#%{display_id})"
+      assigned_conversation_new_message: "Sarunā (#%{display_id}) ir izveidots jauns ziņojums"
+      conversation_mention: "Jūs esat pieminēts sarunā (#%{display_id})"
+      sla_missed_first_response: "SLA sarunas (#%{display_id}) pirmā atbilde nokavēta"
+      sla_missed_next_response: "SLA sarunas (#%{display_id}) nākamā atbilde nokavēta"
+      sla_missed_resolution: "SLA sarunas (#%{display_id}) atrisināšana nokavēta"
+    attachment: "Pielikums"
+    no_content: "Nav satura"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} pieminēja jūs stāstā: "
@@ -139,6 +154,9 @@ lv:
       labels:
         added: "%{user_name} pievienoja %{labels}"
         removed: "%{user_name} noņēma %{labels}"
+      sla:
+        added: "%{user_name} pievienoja SLA politiku %{sla_name}"
+        removed: "%{user_name} noņēma SLA politiku %{sla_name}"
       muted: "%{user_name} izslēdza sarunu"
       unmuted: "%{user_name} ieslēdza sarunu"
     templates:

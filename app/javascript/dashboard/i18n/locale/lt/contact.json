@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Personalizuoti Požymiai",
       "CONTACT_LABELS": "Kontakto Žymeklis",
-      "PREVIOUS_CONVERSATIONS": "Ankstesni pokalbiai"
+      "PREVIOUS_CONVERSATIONS": "Ankstesni pokalbiai",
+      "NO_RECORDS_FOUND": "Požymių nerasta"
     }
   },
   "EDIT_CONTACT": {
@@ -296,6 +297,8 @@
     "BUTTON": "Pridėti personalizuotą požymį",
     "NOT_AVAILABLE": "Nėra personalizuotų požymių šiam kontaktui.",
     "COPY_SUCCESSFUL": "Sėkmingai nukopijuota į iškarpinę",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Kopijuoti požymį",
       "DELETE": "Ištrinti požymį",

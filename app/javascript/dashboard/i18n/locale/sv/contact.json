@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Egna egenskaper",
       "CONTACT_LABELS": "Etiketter för kontakt",
-      "PREVIOUS_CONVERSATIONS": "Tidigare konversationer"
+      "PREVIOUS_CONVERSATIONS": "Tidigare konversationer",
+      "NO_RECORDS_FOUND": "Inga attribut hittades"
     }
   },
   "EDIT_CONTACT": {
@@ -296,6 +297,8 @@
     "BUTTON": "Add custom attribute",
     "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
     "COPY_SUCCESSFUL": "Kopierat till urklipp",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Copy attribute",
       "DELETE": "Delete attribute",

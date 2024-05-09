@@ -22,7 +22,7 @@
         "body": "Tilføj agenter til den oprettede indbakke."
       },
       {
-        "title": "Voila!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "Så er alt klart!"
       }
@@ -43,7 +43,7 @@
         "CHOOSE_PLACEHOLDER": "Vælg en side fra listen",
         "INBOX_NAME": "Indbakke Navn",
         "ADD_NAME": "Tilføj et navn til din indbakke",
-        "PICK_NAME": "Vælg et navn til din indbakke",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "Vælg en værdi"
       },
       "TWITTER": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Indtast din Webhook URL",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Angiv en gyldig URL"
         },
         "CHANNEL_DOMAIN": {
@@ -175,12 +175,12 @@
           },
           "API_KEY": {
             "LABEL": "API Nøgle",
-            "PLACEHOLDER": "Indtast venligst dit Båndbredde Konto ID",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "Dette felt er påkrævet"
           },
           "API_SECRET": {
             "LABEL": "API Hemmelighed",
-            "PLACEHOLDER": "Indtast venligst dit Bandwith API Secret",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "Dette felt er påkrævet"
           },
           "APPLICATION_ID": {
@@ -239,7 +239,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook Verificér Token",
-          "PLACEHOLDER": "Indtast en verificeringstoken, som du vil konfigurere for facebook webhooks.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Angiv en gyldig værdi."
         },
         "API_KEY": {
@@ -269,7 +269,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "SUBTITLE": "Indstil URL'en hvor du vil modtage callbacks på begivenheder.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "Webhook URL"
         },
         "SUBMIT_BUTTON": "Opret API-kanal",
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "E-mail Kanal",
-        "DESC": "Integrer din e-mail indbakke.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Kanalnavn",
           "PLACEHOLDER": "Indtast et kanalnavn",
@@ -345,7 +345,7 @@
       "AGENTS": {
         "TITLE": "Agenter",
         "DESC": "Her kan du tilføje agenter til at håndtere din nyoprettede indbakke. Kun disse valgte agenter vil have adgang til din indbakke. Agenter som ikke er en del af denne indbakke, vil ikke kunne se eller reagere på beskeder i denne indbakke, når de logger ind. <br> <b>PS:</b> Som administrator, hvis du har brug for adgang til alle indbakker, bør du tilføje dig selv som agent til alle indbakker, du opretter.",
-        "VALIDATION_ERROR": "Tilføj mindst én agent til din nye indbakke",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Vælg agenter for indbakken"
       },
       "DETAILS": {
@@ -406,7 +406,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Friendly",
@@ -508,12 +508,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Tillad beskeder efter samtalen løst",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Tillad slutbrugere at sende beskeder, selv efter samtalen er løst.",
       "WHATSAPP_SECTION_SUBHEADER": "Denne API-nøgle bruges til integration med WhatsApp API'erne.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API Nøgle",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Opdater",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verificér Token",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook verifikations token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
@@ -585,7 +585,7 @@
       "NOTE_TEXT": "For at aktivere SMTP skal du konfigurere IMAP.",
       "UPDATE": "Opdater indstillinger",
       "TOGGLE_AVAILABILITY": "Aktiver IMAP- konfiguration for denne indbakke",
-      "TOGGLE_HELP": "Aktivering af IMAP, vil hjælpe brugeren med at modtage e-mail",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "Indbakkeindstillinger opdateret",
         "ERROR_MESSAGE": "Kunne ikke opdatere IMAP-indstillinger"
