@@ -10,12 +10,31 @@ import {
   getUserCookieName,
   hasUserKeys,
 } from '../sdk/cookieHelpers';
-import { addClasses, removeClasses } from '../sdk/DOMHelpers';
+import {
+  addClasses,
+  removeClasses,
+  restoreWidgetInDOM,
+} from '../sdk/DOMHelpers';
 import { setCookieWithDomain } from '../sdk/cookieHelpers';
 import { SDK_SET_BUBBLE_VISIBILITY } from 'shared/constants/sharedFrameEvents';
+
 const runSDK = ({ baseUrl, websiteToken }) => {
   if (window.$chatwoot) {
     return;
+  }
+
+  if (window.Turbo) {
+    // if this is a Rails Turbo app
+    document.addEventListener('turbo:before-render', event =>
+      restoreWidgetInDOM(event.detail.newBody)
+    );
+  }
+
+  if (document.querySelector('meta[name="generator"][content^="Astro v"]')) {
+    // if this is an astro app
+    document.addEventListener('astro:before-swap', event =>
+      restoreWidgetInDOM(event.newDocument.body)
+    );
   }
 
   const chatwootSettings = window.chatwootSettings || {};

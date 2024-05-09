@@ -20,6 +20,12 @@ export const restoreElement = (id, newBody) => {
   }
 };
 
+export const restoreWidgetInDOM = newBody => {
+  restoreElement('cw-bubble-holder', newBody);
+  restoreElement('cw-widget-holder', newBody);
+  restoreElement('cw-widget-styles', newBody);
+};
+
 export const addClasses = (elm, classes) => {
   elm.classList.add(...classes.split(' '));
 };
