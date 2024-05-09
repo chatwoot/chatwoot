@@ -166,14 +166,12 @@ export default {
     async finishRecord() {
       let recordedContent = this.player.recordedData;
       let fileName = this.player.recordedData.name;
+      let type = this.player.recorderData.type;
       if (this.audioRecordFormat === AUDIO_FORMATS.MP3) {
         recordedContent = await convertWavToMp3(this.player.recordedData);
         fileName = `${getUuid()}.mp3`;
+        type = AUDIO_FORMATS.MP3;
       }
-      const type =
-        this.audioRecordFormat === AUDIO_FORMATS.MP3
-          ? this.player.recordedData.type
-          : AUDIO_FORMATS.MP3;
       const file = new File([recordedContent], fileName, { type });
       this.fireRecorderBlob(file);
     },
