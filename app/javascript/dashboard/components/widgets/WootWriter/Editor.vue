@@ -13,7 +13,7 @@
     <variable-list
       v-if="shouldShowVariables"
       :search-key="variableSearchTerm"
-      @click="content => insertSpecialContent('varaible', content)"
+      @click="content => insertSpecialContent('variable', content)"
     />
     <input
       ref="imageUpload"
@@ -81,10 +81,7 @@ import {
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
-import {
-  replaceVariablesInMessage,
-  createTypingIndicator,
-} from '@chatwoot/utils';
+import { createTypingIndicator } from '@chatwoot/utils';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { uploadFile } from 'dashboard/helper/uploadHelper';
@@ -93,6 +90,7 @@ import {
   MESSAGE_EDITOR_MENU_OPTIONS,
   MESSAGE_EDITOR_IMAGE_RESIZES,
 } from 'dashboard/constants/editor';
+import useSpecialContent from 'dashboard/composables/editor/useSpecialContent';
 
 export default {
   name: 'WootMessageEditor',
@@ -116,6 +114,11 @@ export default {
     allowSignature: { type: Boolean, default: false },
     channelType: { type: String, default: '' },
     showImageResizeToolbar: { type: Boolean, default: false }, // A kill switch to show or hide the image toolbar
+  },
+  setup() {
+    const { getContentNode } = useSpecialContent();
+
+    return { getContentNode };
   },
   data() {
     return {
@@ -521,65 +524,31 @@ export default {
      *   - For 'mention' type: An object with 'id' and 'name' properties representing the user mention.
      *   - For 'canned_response' type: A string representing the canned response.
      *   - For 'variable' type: A string representing the variable name.
-     * @returns {boolean} - Always returns false.
      */
     insertSpecialContent(type, content) {
       if (!this.editorView) {
-        return null;
+        return;
       }
 
-      const method_map = {
-        mention: this.getMentionNode,
-        canned_response: this.getCannedResponseNode,
-        variable: this.getVariableNode,
-      };
-
-      // if type not in method_map return
-      if (!method_map[type]) {
-        return false;
-      }
-
-      let { node, from, to } = method_map[type](
+      let { node, from, to } = this.getContentNode(
+        this.editorView,
+        type,
         content,
-        this.range.from,
-        this.range.to
+        this.range,
+        this.variables
       );
+
+      if (!node) return;
 
       this.insertNodeIntoEditor(node, from, to);
 
       const event_map = {
         mention: CONVERSATION_EVENTS.USED_MENTIONS,
-        canned_response: CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE,
+        cannedResponse: CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE,
         variable: CONVERSATION_EVENTS.INSERTED_A_VARIABLE,
       };
 
       this.$track(event_map[type]);
-      return true;
-    },
-    getMentionNode(mentionItem, from, to) {
-      const node = this.editorView.state.schema.nodes.mention.create({
-        userId: mentionItem.id,
-        userFullName: mentionItem.name,
-      });
-      return { node, from, to };
-    },
-    getCannedResponseNode(cannedItem, from, to) {
-      const updatedMessage = replaceVariablesInMessage({
-        message: cannedItem,
-        variables: this.variables,
-      });
-
-      const node = new MessageMarkdownTransformer(messageSchema).parse(
-        updatedMessage
-      );
-
-      from = node.textContent === updatedMessage ? from : from - 1;
-
-      return { node, from, to };
-    },
-    getVariableNode(variable, from, to) {
-      const node = this.editorView.state.schema.text(`{{${variable}}}`);
-      return { node, from, to };
     },
     openFileBrowser() {
       this.$refs.imageUpload.click();
