@@ -13,8 +13,6 @@ RSpec.describe 'Linear Integration API', type: :request do
   end
 
   describe 'GET /api/v1/accounts/:account_id/integrations/linear/teams' do
-    let(:path) { teams_api_v1_account_integrations_linear_path(account) }
-
     context 'when it is an authenticated user' do
       context 'when data is retrieved successfully' do
         let(:teams_data) { [{ 'id' => 'team1', 'name' => 'Team One' }] }
@@ -44,7 +42,6 @@ RSpec.describe 'Linear Integration API', type: :request do
 
   describe 'GET /api/v1/accounts/:account_id/integrations/linear/team_entites' do
     let(:team_id) { 'team1' }
-    let(:path) { team_entites_api_v1_account_integrations_linear_path(account) }
 
     context 'when it is an authenticated user' do
       context 'when data is retrieved successfully' do
@@ -78,6 +75,80 @@ RSpec.describe 'Linear Integration API', type: :request do
               params: { team_id: team_id },
               headers: agent.create_new_auth_token,
               as: :json
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.body).to include('error message')
+        end
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/:account_id/integrations/linear/create_issue' do
+    let(:issue_params) do
+      {
+        team_id: 'team1',
+        title: 'Sample Issue',
+        description: 'This is a sample issue.',
+        assignee_id: 'user1',
+        priority: 'high',
+        label_ids: ['label1']
+      }
+    end
+
+    context 'when it is an authenticated user' do
+      context 'when the issue is created successfully' do
+        let(:created_issue) { { 'id' => 'issue1', 'title' => 'Sample Issue' } }
+
+        it 'returns the created issue' do
+          allow(processor_service).to receive(:create_issue).with(issue_params.stringify_keys).and_return(created_issue)
+          post "/api/v1/accounts/#{account.id}/integrations/linear/create_issue",
+               params: issue_params,
+               headers: agent.create_new_auth_token,
+               as: :json
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to include('Sample Issue')
+        end
+      end
+
+      context 'when issue creation fails' do
+        it 'returns error message' do
+          allow(processor_service).to receive(:create_issue).with(issue_params.stringify_keys).and_return(error: 'error message')
+          post "/api/v1/accounts/#{account.id}/integrations/linear/create_issue",
+               params: issue_params,
+               headers: agent.create_new_auth_token,
+               as: :json
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.body).to include('error message')
+        end
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/:account_id/integrations/linear/link_issue' do
+    let(:link) { 'https://linear.app/issue1' }
+    let(:issue_id) { 'issue1' }
+
+    context 'when it is an authenticated user' do
+      context 'when the issue is linked successfully' do
+        let(:linked_issue) { { 'id' => 'issue1', 'link' => 'https://linear.app/issue1' } }
+
+        it 'returns the linked issue' do
+          allow(processor_service).to receive(:link_issue).with(link, issue_id).and_return(linked_issue)
+          post "/api/v1/accounts/#{account.id}/integrations/linear/link_issue",
+               params: { link: link, issue_id: issue_id },
+               headers: agent.create_new_auth_token,
+               as: :json
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to include('https://linear.app/issue1')
+        end
+      end
+
+      context 'when issue linking fails' do
+        it 'returns error message' do
+          allow(processor_service).to receive(:link_issue).with(link, issue_id).and_return(error: 'error message')
+          post "/api/v1/accounts/#{account.id}/integrations/linear/link_issue",
+               params: { link: link, issue_id: issue_id },
+               headers: agent.create_new_auth_token,
+               as: :json
           expect(response).to have_http_status(:unprocessable_entity)
           expect(response.body).to include('error message')
         end
