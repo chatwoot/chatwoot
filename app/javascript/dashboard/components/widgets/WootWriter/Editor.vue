@@ -47,11 +47,9 @@
 <script>
 import {
   messageSchema,
-  buildEditor,
   EditorView,
   MessageMarkdownTransformer,
   MessageMarkdownSerializer,
-  EditorState,
   Selection,
 } from '@chatwoot/prosemirror-schema';
 import {
@@ -70,6 +68,7 @@ import {
   scrollCursorIntoView,
   findNodeToInsertImage,
   setURLWithQueryAndSize,
+  createState,
 } from 'dashboard/helper/editorHelper';
 
 const TYPING_INDICATOR_IDLE_TIME = 4000;
@@ -94,27 +93,6 @@ import {
   MESSAGE_EDITOR_MENU_OPTIONS,
   MESSAGE_EDITOR_IMAGE_RESIZES,
 } from 'dashboard/constants/editor';
-
-const createState = (
-  content,
-  placeholder,
-  // eslint-disable-next-line default-param-last
-  plugins = [],
-  // eslint-disable-next-line default-param-last
-  methods = {},
-  enabledMenuOptions
-) => {
-  return EditorState.create({
-    doc: new MessageMarkdownTransformer(messageSchema).parse(content),
-    plugins: buildEditor({
-      schema: messageSchema,
-      placeholder,
-      methods,
-      plugins,
-      enabledMenuOptions,
-    }),
-  });
-};
 
 export default {
   name: 'WootMessageEditor',

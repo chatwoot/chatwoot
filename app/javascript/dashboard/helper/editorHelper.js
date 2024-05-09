@@ -2,7 +2,10 @@ import {
   messageSchema,
   MessageMarkdownTransformer,
   MessageMarkdownSerializer,
+  buildEditor,
+  EditorState,
 } from '@chatwoot/prosemirror-schema';
+
 import * as Sentry from '@sentry/browser';
 
 /**
@@ -281,3 +284,24 @@ export function setURLWithQueryAndSize(selectedImageNode, size, editorView) {
     }
   }
 }
+
+export const createState = (
+  content,
+  placeholder,
+  // eslint-disable-next-line default-param-last
+  plugins = [],
+  // eslint-disable-next-line default-param-last
+  methods = {},
+  enabledMenuOptions
+) => {
+  return EditorState.create({
+    doc: new MessageMarkdownTransformer(messageSchema).parse(content),
+    plugins: buildEditor({
+      schema: messageSchema,
+      placeholder,
+      methods,
+      plugins,
+      enabledMenuOptions,
+    }),
+  });
+};
