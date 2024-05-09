@@ -36,7 +36,7 @@ describe Linear do
 
       it 'raises an exception' do
         response = linear_client.teams
-        expect(response).to eq({ :error => 'Server Error: the server responded with status 422' })
+        expect(response).to eq({ :error => 'Error: the server responded with status 422' })
       end
     end
   end
@@ -76,7 +76,7 @@ describe Linear do
 
       it 'raises an exception' do
         response = linear_client.team_entites(team_id)
-        expect(response).to eq({ :error => 'Server Error: the server responded with status 422' })
+        expect(response).to eq({ :error => 'Error: the server responded with status 422' })
       end
     end
   end

@@ -20,6 +20,13 @@ class Integrations::Linear::ProcessorService
     }
   end
 
+  def create_issue(team_id, title, description)
+    response = linear_client.create_issue(team_id, title, description)
+    return response if response[:error]
+
+    response
+  end
+
   private
 
   def linear_hook
