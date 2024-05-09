@@ -85,6 +85,8 @@ class Linear
     response = @client.query(query)
     log_and_return_error("Error creating issue: #{response.errors.messages}") if response.data.nil? && response.errors.any?
     response.data.to_h
+  rescue StandardError => e
+    log_and_return_error("Error: #{e.message}")
   end
 
   def log_and_return_error(message)
