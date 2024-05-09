@@ -211,4 +211,42 @@ describe Linear do
       end
     end
   end
+
+  context 'when unlinking an issue' do
+    let(:link_id) { 'attachment1' }
+
+    context 'when the API response is success' do
+      before do
+        linear_client.instance_variable_set(:@client, client)
+        stub_request(:post, url)
+          .to_return(status: 200, body: { data: { attachmentLinkURL: { id: 'attachment1' } } }.to_json)
+      end
+
+      it 'unlinks an issue' do
+        response = linear_client.unlink_issue(link_id)
+        expect(response).to eq({ 'attachmentLinkURL' => { 'id' => 'attachment1' } })
+      end
+
+      context 'when the link_id is missing' do
+        let(:link_id) { '' }
+
+        it 'raises an exception' do
+          expect { linear_client.unlink_issue(link_id) }.to raise_error(ArgumentError, 'Missing  link id')
+        end
+      end
+    end
+
+    context 'when the API response is an error' do
+      before do
+        linear_client.instance_variable_set(:@client, client)
+        stub_request(:post, url)
+          .to_return(status: 422, body: { errors: [{ message: 'Error unlinking issue' }] }.to_json)
+      end
+
+      it 'raises an exception' do
+        response = linear_client.unlink_issue(link_id)
+        expect(response).to eq({ :error => 'Error: the server responded with status 422' })
+      end
+    end
+  end
 end

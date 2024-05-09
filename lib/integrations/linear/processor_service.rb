@@ -36,7 +36,17 @@ class Integrations::Linear::ProcessorService
 
     {
       id: issue_id,
-      link: link
+      link: link,
+      link_id: response.with_indifferent_access[:attachmentLinkURL][:attachment][:id]
+    }
+  end
+
+  def unlink_issue(link_id)
+    response = linear_client.unlink_issue(link_id)
+    return response if response[:error]
+
+    {
+      link_id: link_id
     }
   end
 

@@ -38,6 +38,17 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
     end
   end
 
+  def unlink_issue
+    link_id = params[:link_id]
+    issue = linear_processor_service.unlink_issue(link_id)
+
+    if issue.is_a?(Hash) && issue[:error]
+      render json: { error: issue[:error] }, status: :unprocessable_entity
+    else
+      render json: issue, status: :ok
+    end
+  end
+
   private
 
   def linear_processor_service
@@ -45,6 +56,6 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
   end
 
   def permitted_params
-    params.permit(:team_id, :link, :issue_id, :title, :description, :assignee_id, :priority, label_ids: [])
+    params.permit(:team_id, :link, :issue_id, :link_id, :title, :description, :assignee_id, :priority, label_ids: [])
   end
 end

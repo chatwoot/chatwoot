@@ -53,6 +53,12 @@ class Linear
     execute_mutation(LinearMutations.issue_link(issue_id, link))
   end
 
+  def unlink_issue(link_id)
+    raise ArgumentError, 'Missing  link id' if link_id.blank?
+
+    execute_mutation(LinearMutations.unlink_issue(link_id))
+  end
+
   private
 
   def validate_team_and_title(params)

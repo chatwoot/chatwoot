@@ -155,4 +155,36 @@ RSpec.describe 'Linear Integration API', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/accounts/:account_id/integrations/linear/unlink_issue' do
+    let(:link_id) { 'attachment1' }
+
+    context 'when it is an authenticated user' do
+      context 'when the issue is unlinked successfully' do
+        let(:unlinked_issue) { { 'id' => 'issue1', 'link' => 'https://linear.app/issue1' } }
+
+        it 'returns the unlinked issue' do
+          allow(processor_service).to receive(:unlink_issue).with(link_id).and_return(unlinked_issue)
+          post "/api/v1/accounts/#{account.id}/integrations/linear/unlink_issue",
+               params: { link_id: link_id },
+               headers: agent.create_new_auth_token,
+               as: :json
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to include('https://linear.app/issue1')
+        end
+      end
+
+      context 'when issue unlinking fails' do
+        it 'returns error message' do
+          allow(processor_service).to receive(:unlink_issue).with(link_id).and_return(error: 'error message')
+          post "/api/v1/accounts/#{account.id}/integrations/linear/unlink_issue",
+               params: { link_id: link_id },
+               headers: agent.create_new_auth_token,
+               as: :json
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.body).to include('error message')
+        end
+      end
+    end
+  end
 end

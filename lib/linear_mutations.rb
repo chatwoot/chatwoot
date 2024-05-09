@@ -44,4 +44,14 @@ module LinearMutations
       }
     GRAPHQL
   end
+
+  def self.unlink_issue(link_id)
+    <<~GRAPHQL
+      mutation {
+        attachmentDelete(id: "#{link_id}") {
+          success
+        }
+      }
+    GRAPHQL
+  end
 end
