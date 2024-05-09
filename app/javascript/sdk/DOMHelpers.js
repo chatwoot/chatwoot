@@ -4,7 +4,20 @@ import { IFrameHelper } from './IFrameHelper';
 export const loadCSS = () => {
   const css = document.createElement('style');
   css.innerHTML = `${SDK_CSS}`;
+  css.id = 'cw-widget-styles';
   document.body.appendChild(css);
+};
+
+// This is a method specific to Turbo
+// The body replacing strategy removes Chatwoot styles
+// as well as the widget, this help us get it back
+export const restoreElement = (id, newBody) => {
+  const element = document.getElementById(id);
+  const newElement = newBody.querySelector(`#${id}`);
+
+  if (element && !newElement) {
+    newBody.appendChild(element);
+  }
 };
 
 export const addClasses = (elm, classes) => {
