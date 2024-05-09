@@ -50,6 +50,14 @@ class Integrations::Linear::ProcessorService
     }
   end
 
+  def search_issue(term)
+    response = linear_client.search_issue(term)
+
+    return response if response[:error]
+
+    response['searchIssues']['nodes'].map(&:as_json)
+  end
+
   private
 
   def linear_hook

@@ -128,4 +128,54 @@ describe Integrations::Linear::ProcessorService do
       end
     end
   end
+
+  describe '#unlink_issue' do
+    let(:link_id) { 'attachment1' }
+    let(:unlink_response) { { link_id: link_id } }
+
+    context 'when Linear client returns valid data' do
+      it 'returns parsed unlink data' do
+        allow(linear_client).to receive(:unlink_issue).with(link_id).and_return(unlink_response)
+        result = service.unlink_issue(link_id)
+        expect(result).to eq(unlink_response)
+      end
+    end
+
+    context 'when Linear client returns an error' do
+      let(:error_response) { { error: 'Some error message' } }
+
+      it 'returns the error' do
+        allow(linear_client).to receive(:unlink_issue).with(link_id).and_return(error_response)
+        result = service.unlink_issue(link_id)
+        expect(result).to eq(error_response)
+      end
+    end
+  end
+
+  describe '#search_issue' do
+    let(:term) { 'search term' }
+    let(:search_response) do
+      {
+        'searchIssues' => { 'nodes' => [{ 'id' => 'issue1', 'title' => 'Issue title', 'description' => 'Issue description' }] }
+      }
+    end
+
+    context 'when Linear client returns valid data' do
+      it 'returns parsed search data' do
+        allow(linear_client).to receive(:search_issue).with(term).and_return(search_response)
+        result = service.search_issue(term)
+        expect(result).to contain_exactly({ 'id' => 'issue1', 'title' => 'Issue title', 'description' => 'Issue description' })
+      end
+    end
+
+    context 'when Linear client returns an error' do
+      let(:error_response) { { error: 'Some error message' } }
+
+      it 'returns the error' do
+        allow(linear_client).to receive(:search_issue).with(term).and_return(error_response)
+        result = service.search_issue(term)
+        expect(result).to eq(error_response)
+      end
+    end
+  end
 end

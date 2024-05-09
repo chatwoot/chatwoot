@@ -29,6 +29,12 @@ class Linear
     execute_query(LinearQueries.team_entites_query(team_id))
   end
 
+  def search_issue(term)
+    raise ArgumentError, 'Missing search term' if term.blank?
+
+    execute_query(LinearQueries.search_issue(term))
+  end
+
   def create_issue(params)
     validate_team_and_title(params)
     validate_priority(params[:priority])

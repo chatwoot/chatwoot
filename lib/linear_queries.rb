@@ -44,4 +44,18 @@ module LinearQueries
       }
     GRAPHQL
   end
+
+  def self.search_issue(term)
+    <<~GRAPHQL
+      query {
+        searchIssues(term: "#{term}") {
+          nodes {
+            id
+            title
+            description
+          }
+        }
+      }
+    GRAPHQL
+  end
 end

@@ -187,4 +187,36 @@ RSpec.describe 'Linear Integration API', type: :request do
       end
     end
   end
+
+  describe 'GET /api/v1/accounts/:account_id/integrations/linear/search_issue' do
+    let(:term) { 'issue' }
+
+    context 'when it is an authenticated user' do
+      context 'when search is successful' do
+        let(:search_results) { [{ 'id' => 'issue1', 'title' => 'Sample Issue' }] }
+
+        it 'returns search results' do
+          allow(processor_service).to receive(:search_issue).with(term).and_return(search_results)
+          get "/api/v1/accounts/#{account.id}/integrations/linear/search_issue",
+              params: { q: term },
+              headers: agent.create_new_auth_token,
+              as: :json
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to include('Sample Issue')
+        end
+      end
+
+      context 'when search fails' do
+        it 'returns error message' do
+          allow(processor_service).to receive(:search_issue).with(term).and_return(error: 'error message')
+          get "/api/v1/accounts/#{account.id}/integrations/linear/search_issue",
+              params: { q: term },
+              headers: agent.create_new_auth_token,
+              as: :json
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.body).to include('error message')
+        end
+      end
+    end
+  end
 end
