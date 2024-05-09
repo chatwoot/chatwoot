@@ -178,4 +178,31 @@ describe Integrations::Linear::ProcessorService do
       end
     end
   end
+
+  describe '#linked_issue' do
+    let(:url) { 'https://example.com' }
+    let(:linked_response) do
+      {
+        'attachmentsForURL' => { 'nodes' => [{ 'id' => 'attachment1', :issue => { 'id' => 'issue1' } }] }
+      }
+    end
+
+    context 'when Linear client returns valid data' do
+      it 'returns parsed linked data' do
+        allow(linear_client).to receive(:linked_issue).with(url).and_return(linked_response)
+        result = service.linked_issue(url)
+        expect(result).to contain_exactly({ 'id' => 'attachment1', 'issue' => { 'id' => 'issue1' } })
+      end
+    end
+
+    context 'when Linear client returns an error' do
+      let(:error_response) { { error: 'Some error message' } }
+
+      it 'returns the error' do
+        allow(linear_client).to receive(:linked_issue).with(url).and_return(error_response)
+        result = service.linked_issue(url)
+        expect(result).to eq(error_response)
+      end
+    end
+  end
 end

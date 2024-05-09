@@ -219,4 +219,36 @@ RSpec.describe 'Linear Integration API', type: :request do
       end
     end
   end
+
+  describe 'GET /api/v1/accounts/:account_id/integrations/linear/linked_issue' do
+    let(:link) { 'https://linear.app/issue1' }
+
+    context 'when it is an authenticated user' do
+      context 'when linked issue is found' do
+        let(:linked_issue) { [{ 'id' => 'issue1', 'title' => 'Sample Issue' }] }
+
+        it 'returns linked issue' do
+          allow(processor_service).to receive(:linked_issue).with(link).and_return(linked_issue)
+          get "/api/v1/accounts/#{account.id}/integrations/linear/linked_issue",
+              params: { link: link },
+              headers: agent.create_new_auth_token,
+              as: :json
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to include('Sample Issue')
+        end
+      end
+
+      context 'when linked issue is not found' do
+        it 'returns error message' do
+          allow(processor_service).to receive(:linked_issue).with(link).and_return(error: 'error message')
+          get "/api/v1/accounts/#{account.id}/integrations/linear/linked_issue",
+              params: { link: link },
+              headers: agent.create_new_auth_token,
+              as: :json
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.body).to include('error message')
+        end
+      end
+    end
+  end
 end

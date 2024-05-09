@@ -279,4 +279,34 @@ describe Linear do
       end
     end
   end
+
+  context 'when querying linked issues' do
+    let(:url) { 'https://example.com' }
+
+    context 'when the API response is success' do
+      before do
+        linear_client.instance_variable_set(:@client, client)
+        stub_request(:post, url)
+          .to_return(status: 200, body: { data: { linkedIssue: { id: 'issue1', title: 'Title' } } }.to_json)
+      end
+
+      it 'returns linked issues' do
+        response = linear_client.linked_issue(url)
+        expect(response).to eq({ 'linkedIssue' => { 'id' => 'issue1', 'title' => 'Title' } })
+      end
+    end
+
+    context 'when the API response is an error' do
+      before do
+        linear_client.instance_variable_set(:@client, client)
+        stub_request(:post, url)
+          .to_return(status: 422, body: { errors: [{ message: 'Error retrieving data' }] }.to_json)
+      end
+
+      it 'raises an exception' do
+        response = linear_client.linked_issue(url)
+        expect(response).to eq({ :error => 'Error: the server responded with status 422' })
+      end
+    end
+  end
 end

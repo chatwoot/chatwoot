@@ -235,6 +235,7 @@ Rails.application.routes.draw do
                 post :link_issue
                 post :unlink_issue
                 get :search_issue
+                get :linked_issue
               end
             end
           end

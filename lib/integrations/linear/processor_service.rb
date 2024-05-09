@@ -58,6 +58,13 @@ class Integrations::Linear::ProcessorService
     response['searchIssues']['nodes'].map(&:as_json)
   end
 
+  def linked_issue(url)
+    response = linear_client.linked_issue(url)
+    return response if response[:error]
+
+    response['attachmentsForURL']['nodes'].map(&:as_json)
+  end
+
   private
 
   def linear_hook

@@ -35,6 +35,12 @@ class Linear
     execute_query(LinearQueries.search_issue(term))
   end
 
+  def linked_issue(url)
+    raise ArgumentError, 'Missing link' if url.blank?
+
+    execute_query(LinearQueries.linked_issue(url))
+  end
+
   def create_issue(params)
     validate_team_and_title(params)
     validate_priority(params[:priority])

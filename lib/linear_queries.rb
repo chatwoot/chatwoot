@@ -58,4 +58,22 @@ module LinearQueries
       }
     GRAPHQL
   end
+
+  def self.linked_issue(url)
+    <<~GRAPHQL
+      query {
+        attachmentsForURL(url: "#{url}") {
+          nodes {
+            id
+            title
+            issue {
+              id
+              title
+              description
+            }
+          }
+        }
+      }
+    GRAPHQL
+  end
 end

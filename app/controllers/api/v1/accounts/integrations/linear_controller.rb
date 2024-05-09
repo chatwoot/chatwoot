@@ -49,6 +49,19 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
     end
   end
 
+  def linked_issue
+    render json: { error: 'Specify link with parameter link' }, status: :unprocessable_entity if params[:link].blank? && return
+
+    url = params[:link]
+    issues = linear_processor_service.linked_issue(url)
+
+    if issues.is_a?(Hash) && issues[:error]
+      render json: { error: issues[:error] }, status: :unprocessable_entity
+    else
+      render json: issues, status: :ok
+    end
+  end
+
   def search_issue
     render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
 
