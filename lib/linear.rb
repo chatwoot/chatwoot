@@ -2,17 +2,18 @@ require 'graphlient'
 
 require_relative 'linear_queries'
 require_relative 'linear_mutations'
+
 class Linear
   BASE_URL = 'https://api.linear.app/graphql'.freeze
+  PRIORITY_LEVELS = (0..4).to_a
 
   def initialize(api_key)
-    @api_key = api_key
-    raise ArgumentError, 'Missing Credentials' if @api_key.blank?
+    raise ArgumentError, 'Missing Credentials' if api_key.blank?
 
     @client = Graphlient::Client.new(
       BASE_URL,
       headers: {
-        'Authorization' => @api_key,
+        'Authorization' => api_key,
         'Content-Type' => 'application/json'
       }
     )
@@ -28,32 +29,49 @@ class Linear
     execute_query(LinearQueries.team_entites_query(team_id))
   end
 
-  def create_issue(team_id, title, description)
-    raise ArgumentError, 'Missing team id' if team_id.blank?
-    raise ArgumentError, 'Missing title' if title.blank?
-    raise ArgumentError, 'Missing description' if description.blank?
+  def create_issue(params)
+    validate_team_and_title(params)
+    validate_priority(params[:priority])
+    validate_label_ids(params[:label_ids])
 
     variables = {
-      title: title,
-      description: description,
-      teamId: team_id
-    }
+      title: params[:title],
+      teamId: params[:team_id],
+      description: params[:description],
+      assigneeId: params[:assignee_id],
+      priority: params[:priority],
+      labelIds: params[:label_ids]
+    }.compact
 
     execute_mutation(LinearMutations.issue_create(variables))
   end
 
   private
 
+  def validate_team_and_title(params)
+    raise ArgumentError, 'Missing team id' if params[:team_id].blank?
+    raise ArgumentError, 'Missing title' if params[:title].blank?
+  end
+
+  def validate_priority(priority)
+    return if priority.nil? || PRIORITY_LEVELS.include?(priority)
+
+    raise ArgumentError, 'Invalid priority value. Allowed values: 0, 1, 2, 3, 4'
+  end
+
+  def validate_label_ids(label_ids)
+    return if label_ids.nil?
+    return if label_ids.is_a?(Array) && label_ids.all?(String)
+
+    raise ArgumentError, 'labelIds must be an array of strings'
+  end
+
   def execute_query(query)
     response = @client.query(query)
     log_and_return_error("Error retrieving data: #{response.errors.messages}") if response.data.nil? && response.errors.any?
     response.data.to_h
-  rescue Graphlient::Errors::GraphQLError => e
-    log_and_return_error("GraphQL Error: #{e.message}")
-  rescue Graphlient::Errors::ServerError => e
-    log_and_return_error("Server Error: #{e.message}")
   rescue StandardError => e
-    log_and_return_error("Unexpected Error: #{e.message}")
+    log_and_return_error("Error: #{e.message}")
   end
 
   def execute_mutation(query)

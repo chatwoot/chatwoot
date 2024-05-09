@@ -20,8 +20,8 @@ class Integrations::Linear::ProcessorService
     }
   end
 
-  def create_issue(team_id, title, description)
-    response = linear_client.create_issue(team_id, title, description)
+  def create_issue(params)
+    response = linear_client.create_issue(params)
     return response if response[:error]
 
     response

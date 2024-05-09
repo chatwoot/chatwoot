@@ -19,10 +19,7 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
   end
 
   def create_issue
-    team_id = permitted_params[:team_id]
-    title = permitted_params[:title]
-    description = permitted_params[:description]
-    issue = linear_processor_service.create_issue(team_id, title, description)
+    issue = linear_processor_service.create_issue(permitted_params)
     if issue.is_a?(Hash) && issue[:error]
       render json: { error: issue[:error] }, status: :unprocessable_entity
     else
@@ -37,6 +34,6 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
   end
 
   def permitted_params
-    params.permit(:team_id, :title, :description)
+    params.permit(:team_id, :title, :description, :assignee_id, :priority, label_ids: [])
   end
 end
