@@ -124,8 +124,9 @@ RSpec.describe 'Linear Integration API', type: :request do
   end
 
   describe 'POST /api/v1/accounts/:account_id/integrations/linear/link_issue' do
-    let(:link) { 'https://linear.app/issue1' }
     let(:issue_id) { 'issue1' }
+    let(:conversation) { create(:conversation, account: account) }
+    let(:link) { "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{account.id}/conversations/#{conversation.display_id}" }
 
     context 'when it is an authenticated user' do
       context 'when the issue is linked successfully' do
@@ -134,7 +135,7 @@ RSpec.describe 'Linear Integration API', type: :request do
         it 'returns the linked issue' do
           allow(processor_service).to receive(:link_issue).with(link, issue_id).and_return(linked_issue)
           post "/api/v1/accounts/#{account.id}/integrations/linear/link_issue",
-               params: { link: link, issue_id: issue_id },
+               params: { conversation_id: conversation.display_id, issue_id: issue_id },
                headers: agent.create_new_auth_token,
                as: :json
           expect(response).to have_http_status(:ok)
@@ -146,7 +147,7 @@ RSpec.describe 'Linear Integration API', type: :request do
         it 'returns error message' do
           allow(processor_service).to receive(:link_issue).with(link, issue_id).and_return(error: 'error message')
           post "/api/v1/accounts/#{account.id}/integrations/linear/link_issue",
-               params: { link: link, issue_id: issue_id },
+               params: { conversation_id: conversation.display_id, issue_id: issue_id },
                headers: agent.create_new_auth_token,
                as: :json
           expect(response).to have_http_status(:unprocessable_entity)
