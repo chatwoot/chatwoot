@@ -11,32 +11,53 @@
         >
           <multiselect
             v-model="targetInbox"
-            class="no-margin"
-            label="name"
             track-by="id"
+            label="name"
             placeholder=""
-            :options="inboxes"
+            selected-label=""
+            select-label=""
+            deselect-label=""
             :max-height="160"
             :close-on-select="true"
-            :show-labels="false"
-          />
+            :options="[...inboxes]"
+          >
+            <template slot="singleLabel" slot-scope="{ option }">
+              <inbox-dropdown-item
+                v-if="option.name"
+                :name="option.name"
+                :inbox-identifier="computedInboxSource(option)"
+                :channel-type="option.channel_type"
+              />
+            </template>
+            <template slot="option" slot-scope="{ option }">
+              <inbox-dropdown-item
+                :name="option.name"
+                :inbox-identifier="computedInboxSource(option)"
+                :channel-type="option.channel_type"
+              />
+            </template>
+          </multiselect>
         </div>
 
         <label :class="{ error: $v.targetInbox.$error }">
           <span v-if="$v.targetInbox.$error" class="message">
-            {{ $t('NEW_CONVERSATION.FORM.INBOX.ERROR') }}
+            {{ $t('CONTACT_PANEL.NEW_ACTION.CHANNEL_ERROR') }}
           </span>
         </label>
       </div>
 
       <div class="w-[50%]">
         <woot-input
-          v-model="name"
+          v-model="description"
           :label="$t('CONTACT_PANEL.NEW_ACTION.DESCRIPTION')"
           type="text"
-          :class="{ error: $v.name.$error }"
-          :error="$v.name.$error ? $t('CAMPAIGN.ADD.FORM.TITLE.ERROR') : ''"
-          @blur="$v.name.$touch"
+          :class="{ error: $v.description.$error }"
+          :error="
+            $v.description.$error
+              ? $t('CONTACT_PANEL.NEW_ACTION.DESCRIPTION_ERROR')
+              : ''
+          "
+          @blur="$v.description.$touch"
         />
       </div>
     </div>
@@ -48,23 +69,20 @@
           <woot-date-time-picker
             :value="scheduledAt"
             :confirm-text="$t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.CONFIRM')"
-            @change="onChange"
+            @change="onScheduledAtChange"
           />
         </label>
       </div>
       <div class="w-[50%]">
-        <label :class="{ error: $v.name.$error }">
+        <label>
           {{ $t('CONTACT_PANEL.NEW_ACTION.PRIORITY') }}
         </label>
-        <div
-          class="multiselect-wrap--small"
-          :class="{ 'has-multi-select-error': $v.targetInbox.$error }"
-        >
+        <div class="multiselect-wrap--small">
           <multiselect
             v-model="priority"
             track-by="id"
             label="name"
-            :placeholder="$t('FORMS.MULTISELECT.SELECT')"
+            placeholder=""
             :max-height="160"
             :close-on-select="true"
             :options="priorityOptions"
@@ -97,7 +115,7 @@
 
         <label :class="{ error: $v.agent.$error }">
           <span v-if="$v.agent.$error" class="message">
-            {{ $t('NEW_CONVERSATION.FORM.INBOX.ERROR') }}
+            {{ $t('CONTACT_PANEL.NEW_ACTION.ASSIGNEE_ERROR') }}
           </span>
         </label>
       </div>
@@ -106,10 +124,7 @@
         <label>
           {{ $t('CONTACT_PANEL.NEW_ACTION.TEAM') }}
         </label>
-        <div
-          class="multiselect-wrap--small"
-          :class="{ 'has-multi-select-error': $v.team.$error }"
-        >
+        <div class="multiselect-wrap--small">
           <multiselect
             v-model="team"
             class="no-margin"
@@ -122,12 +137,6 @@
             :show-labels="false"
           />
         </div>
-
-        <label :class="{ error: $v.team.$error }">
-          <span v-if="$v.team.$error" class="message">
-            {{ $t('NEW_CONVERSATION.FORM.INBOX.ERROR') }}
-          </span>
-        </label>
       </div>
     </div>
 
@@ -147,11 +156,15 @@ import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import { required } from 'vuelidate/lib/validators';
 import WootDateTimePicker from 'dashboard/components/ui/DateTimePicker.vue';
+import InboxDropdownItem from 'dashboard/components/widgets/InboxDropdownItem.vue';
+import { getInboxSource } from 'dashboard/helper/inbox';
+import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import { CONVERSATION_PRIORITY } from '../../../../../shared/constants/messages.js';
 
 export default {
   components: {
     WootDateTimePicker,
+    InboxDropdownItem,
   },
   mixins: [alertMixin],
   props: {
@@ -170,18 +183,13 @@ export default {
   },
   data() {
     return {
-      name: '',
+      description: '',
       targetInbox: {},
       priority: {},
       agent: null,
       team: null,
       scheduledAt: null,
       priorityOptions: [
-        {
-          id: null,
-          name: this.$t('CONVERSATION.PRIORITY.OPTIONS.NONE'),
-          thumbnail: `/assets/images/dashboard/priority/none.svg`,
-        },
         {
           id: CONVERSATION_PRIORITY.URGENT,
           name: this.$t('CONVERSATION.PRIORITY.OPTIONS.URGENT'),
@@ -206,30 +214,116 @@ export default {
     };
   },
   validations: {
-    name: {
+    targetInbox: {
+      required,
+    },
+    description: {
+      required,
+    },
+    scheduledAt: {
       required,
     },
     agent: {
-      required,
-    },
-    team: {
-      required,
-    },
-    targetInbox: {
       required,
     },
   },
   computed: {
     ...mapGetters({
       conversationsUiFlags: 'contactConversations/getUIFlags',
-      inboxes: 'inboxes/getInboxes',
       agents: 'agents/getAgents',
       teams: 'teams/getTeams',
+      currentUser: 'getCurrentUser',
     }),
+    inboxes() {
+      const inboxList = this.contact.contactableInboxes || [];
+      return inboxList.map(inbox => ({
+        ...inbox.inbox,
+        sourceId: inbox.source_id,
+      }));
+    },
+    newMessagePayload() {
+      const content = this.$t('CONTACT_PANEL.NEW_ACTION.CONTENT', {
+        description: this.description,
+        userName: this.currentUser.name,
+      });
+      const payload = {
+        inbox_id: this.targetInbox.id,
+        source_id: this.targetInbox.sourceId,
+        contact_id: this.contact.id,
+        conversation_type: 'action',
+        status: 'snoozed',
+        snoozed_until: this.scheduledAt,
+        priority: this.priority ? this.priority.id : null,
+        assignee_id: this.agent ? this.agent.id : null,
+        team_id: this.team ? this.team.id : null,
+        additional_attributes: {
+          created_by: this.currentUser.id,
+          description: this.description,
+        },
+        message: {
+          content: content,
+          message_type: 'activity',
+          sender_id: this.currentUser.id,
+        },
+      };
+      return payload;
+    },
+  },
+  mounted() {
+    this.agent = this.contact.assignee_in_deals
+      ? this.contact.assignee_in_deals
+      : this.contact.assignee_in_leads;
+    this.team = this.contact.team;
   },
   methods: {
-    onChange(value) {
+    onScheduledAtChange(value) {
       this.scheduledAt = value;
+    },
+    computedInboxSource(inbox) {
+      if (!inbox.channel_type) return '';
+      const classByType = getInboxSource(
+        inbox.channel_type,
+        inbox.phone_number,
+        inbox
+      );
+      return classByType;
+    },
+    onCancel() {
+      this.$emit('cancel');
+    },
+    onSuccess() {
+      this.$emit('success');
+    },
+    onFormSubmit() {
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        return;
+      }
+      this.createConversation({
+        payload: this.newMessagePayload,
+      });
+    },
+    async createConversation({ payload }) {
+      try {
+        const data = await this.onSubmit(payload);
+        this.$store.dispatch('contacts/show', { id: this.contact.id });
+        const action = {
+          type: 'link',
+          to: `/app/accounts/${data.account_id}/conversations/${data.id}`,
+          message: this.$t('NEW_CONVERSATION.FORM.GO_TO_CONVERSATION'),
+        };
+        this.onSuccess();
+        this.showAlert(
+          this.$t('NEW_CONVERSATION.FORM.SUCCESS_MESSAGE'),
+          action
+        );
+      } catch (error) {
+        if (error instanceof ExceptionWithMessage) {
+          this.showAlert(error.data);
+        } else {
+          this.showAlert(this.$t('NEW_CONVERSATION.FORM.ERROR_MESSAGE'));
+        }
+      }
     },
   },
 };

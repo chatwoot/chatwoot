@@ -106,6 +106,25 @@ export const actions = {
       });
     }
   },
+  createSnoozedConversation: async ({ commit }, params) => {
+    commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
+      isCreating: true,
+    });
+    try {
+      const { data } = await ConversationApi.create(params);
+      commit(types.default.ADD_CONTACT_CONVERSATION, {
+        id: params.contact_id,
+        data,
+      });
+      return data;
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+      commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
+        isCreating: false,
+      });
+    }
+  },
   get: async ({ commit }, contactId) => {
     commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
       isFetching: true,

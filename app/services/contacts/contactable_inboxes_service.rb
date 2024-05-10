@@ -8,7 +8,7 @@ class Contacts::ContactableInboxesService
 
   private
 
-  def get_contactable_inbox(inbox)
+  def get_contactable_inbox(inbox) # rubocop:disable Metrics/CyclomaticComplexity
     case inbox.channel_type
     when 'Channel::TwilioSms'
       twilio_contactable_inbox(inbox)
@@ -22,7 +22,18 @@ class Contacts::ContactableInboxesService
       api_contactable_inbox(inbox)
     when 'Channel::WebWidget'
       website_contactable_inbox(inbox)
+    when 'Channel::StringeePhoneCall'
+      phonecall_contactable_inbox(inbox)
+    else
+      other_contactable_inbox(inbox)
     end
+  end
+
+  def other_contactable_inbox(inbox)
+    latest_contact_inbox = inbox.contact_inboxes.where(contact: @contact).last
+    return if latest_contact_inbox.blank? || latest_contact_inbox.conversations.blank?
+
+    { source_id: latest_contact_inbox.source_id, inbox: inbox }
   end
 
   def website_contactable_inbox(inbox)
@@ -52,6 +63,12 @@ class Contacts::ContactableInboxesService
 
     # Remove the plus since thats the format 360 dialog uses
     { source_id: @contact.phone_number.delete('+'), inbox: inbox }
+  end
+
+  def phonecall_contactable_inbox(inbox)
+    return unless @contact.phone_number
+
+    { source_id: @contact.phone_number, inbox: inbox }
   end
 
   def sms_contactable_inbox(inbox)

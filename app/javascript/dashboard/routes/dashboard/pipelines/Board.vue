@@ -84,7 +84,7 @@ export default {
 
     syncBlockItems() {
       this.contacts.forEach(contact => {
-        if (!contact.stage || !contact.stage.id) return;
+        if (!contact.stage?.id) return;
 
         const stage = this.stages.find(item => item.id === contact.stage.id);
         if (!stage) return;

@@ -48,13 +48,17 @@
       "HEADER_TITLE": "Thêm hành động tiếp theo",
       "HEADER_CONTENT": "Lập kế hoạch bằng cách hẹn giờ để liên lạc với khách hàng. Cuộc hội thoại mới sẽ tự động mở vào thời gian dự kiến.",
       "CHANNEL": "Kênh liên lạc",
+      "CHANNEL_ERROR": "Cần nhập kênh liên lạc",
       "DESCRIPTION": "Mô tả cho hành động",
+      "DESCRIPTION_ERROR": "Cần nhập mô tả cho hành động",
       "SNOOZED_TIME": "Thời gian dự kiến",
       "PRIORITY": "Mức độ ưu tiên",
       "ASSIGNEE": "Người phụ trách",
+      "ASSIGNEE_ERROR": "Cần nhập người phụ trách",
       "TEAM": "Nhóm phụ trách",
       "CANCEL": "Hủy",
-      "SUBMIT": "Lưu"
+      "SUBMIT": "Lưu",
+      "CONTENT": "Công việc %{description} được tạo bởi %{userName}"
     },
     "MERGE_CONTACT": "Hợp nhất khách hàng",
     "CONTACT_ACTIONS": "Thao tác với khách hàng",
