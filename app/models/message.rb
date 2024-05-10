@@ -304,11 +304,8 @@ class Message < ApplicationRecord
     # we want to skip the update event if the message is not updated
     return if previous_changes.blank?
 
-    DelayDispatchEventJob.set(wait: 2.seconds).perform_later(event_name: MESSAGE_CREATED, timestamp: Time.zone.now, message_id: id,
-                                                             performed_by_id: Current.executed_by.id, previous_changes: previous_changes)
-
-    # Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self, performed_by: Current.executed_by,
-    # previous_changes: previous_changes)
+    Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self, performed_by: Current.executed_by,
+                                                                            previous_changes: previous_changes)
   end
 
   def send_reply
