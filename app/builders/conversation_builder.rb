@@ -2,19 +2,30 @@ class ConversationBuilder
   pattr_initialize [:params!, :contact_inbox!]
 
   def perform
-    look_up_exising_conversation || create_new_conversation
+    look_up_single_conversation || update_existing_conversation || create_new_conversation
   end
 
   private
 
-  def look_up_exising_conversation
+  def look_up_single_conversation
     return unless @contact_inbox.inbox.lock_to_single_conversation?
 
     @contact_inbox.conversations.last
   end
 
+  def update_existing_conversation
+    last_conversation = @contact_inbox.conversations.where
+                                      .not(status: :resolved).last
+    return if last_conversation.blank?
+
+    conversation_type = { conversation_type: params[:conversation_type].presence || last_conversation.conversation_type }
+    last_conversation.update!(conversation_params.merge(conversation_type))
+    last_conversation
+  end
+
   def create_new_conversation
-    ::Conversation.create!(conversation_params)
+    conversation_type = { conversation_type: params[:conversation_type] || 'default_type' }
+    ::Conversation.create!(conversation_params.merge(conversation_type))
   end
 
   def conversation_params
@@ -34,8 +45,7 @@ class ConversationBuilder
       custom_attributes: custom_attributes,
       snoozed_until: params[:snoozed_until],
       assignee_id: params[:assignee_id],
-      team_id: params[:team_id],
-      conversation_type: params[:conversation_type] || 'default_type'
+      team_id: params[:team_id]
     }.merge(status)
   end
 end

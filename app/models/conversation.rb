@@ -64,7 +64,7 @@ class Conversation < ApplicationRecord
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   validates :contact_id, presence: true
-  before_validation :validate_additional_attributes
+  before_validation :validate_additional_attributes, :set_default_conversation_type
   validates :additional_attributes, jsonb_attributes_length: true
   validates :custom_attributes, jsonb_attributes_length: true
   validates :uuid, uniqueness: true
@@ -220,6 +220,10 @@ class Conversation < ApplicationRecord
 
   def validate_additional_attributes
     self.additional_attributes = {} unless additional_attributes.is_a?(Hash)
+  end
+
+  def set_default_conversation_type
+    self.conversation_type ||= :default_type
   end
 
   def determine_conversation_status

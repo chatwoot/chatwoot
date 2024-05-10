@@ -222,22 +222,22 @@
   },
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "Bắt đầu cuộc hội thoại",
-    "TITLE": "Tạo mới cuộc trò chuyện",
-    "DESC": "Bắt đầu một cuộc hội thoại mới bằng cách thêm tin nhắn.",
+    "TITLE": "Gửi tin nhắn",
+    "DESC": "Bắt đầu một cuộc hội thoại mới bằng cách gửi tin nhắn.",
     "NO_INBOX": "Không tìm thấy kênh để bắt đầu cuộc trò chuyện với khách hàng này.",
     "FORM": {
       "TO": {
         "LABEL": "Đến"
       },
       "INBOX": {
-        "LABEL": "Via Inbox",
-        "PLACEHOLDER": "Choose source inbox",
+        "LABEL": "Kênh liên lạc",
+        "PLACEHOLDER": "Chọn kênh để gửi tin nhắn",
         "ERROR": "Chọn kênh"
       },
       "SUBJECT": {
-        "LABEL": "Chủ đề",
-        "PLACEHOLDER": "Chủ đề",
-        "ERROR": "Chủ đề không được rỗng"
+        "LABEL": "Tiêu đề",
+        "PLACEHOLDER": "Tiêu đề",
+        "ERROR": "Tiêu đề không được rỗng"
       },
       "MESSAGE": {
         "LABEL": "Tin nhắn",
