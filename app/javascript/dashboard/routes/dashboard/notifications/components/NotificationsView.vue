@@ -22,6 +22,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import TableFooter from 'dashboard/components/widgets/TableFooter.vue';
+import ReconnectService from 'dashboard/helper/ReconnectService';
 
 import NotificationTable from './NotificationTable.vue';
 
@@ -30,6 +31,11 @@ export default {
   components: {
     NotificationTable,
     TableFooter,
+  },
+  data() {
+    return {
+      reconnectService: null,
+    };
   },
   computed: {
     ...mapGetters({
@@ -41,6 +47,16 @@ export default {
   },
   mounted() {
     this.$store.dispatch('notifications/get', { page: 1 });
+    this.reconnectService = new ReconnectService(
+      this.$store,
+      window.bus,
+      this.$route,
+      this.inboxFilters
+    );
+    this.reconnectService.setupEventListeners();
+  },
+  beforeUnmount() {
+    this.reconnectService.removeEventListeners();
   },
   methods: {
     onPageChange(page) {

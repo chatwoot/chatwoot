@@ -106,6 +106,28 @@ describe('isAConversationRoute', () => {
     expect(isAConversationRoute('conversations_through_team')).toBe(true);
     expect(isAConversationRoute('dashboard')).toBe(false);
   });
+
+  it('returns true if base conversation route name is provided and includeBase is true', () => {
+    expect(isAConversationRoute('home', true)).toBe(true);
+    expect(isAConversationRoute('conversation_mentions', true)).toBe(true);
+    expect(isAConversationRoute('conversation_unattended', true)).toBe(true);
+    expect(isAConversationRoute('inbox_dashboard', true)).toBe(true);
+    expect(isAConversationRoute('label_conversations', true)).toBe(true);
+    expect(isAConversationRoute('team_conversations', true)).toBe(true);
+    expect(isAConversationRoute('folder_conversations', true)).toBe(true);
+    expect(isAConversationRoute('conversation_participating', true)).toBe(true);
+  });
+
+  it('returns false if base conversation route name is provided and includeBase is false', () => {
+    expect(isAConversationRoute('home')).toBe(false);
+    expect(isAConversationRoute('conversation_mentions')).toBe(false);
+    expect(isAConversationRoute('conversation_unattended')).toBe(false);
+    expect(isAConversationRoute('inbox_dashboard')).toBe(false);
+    expect(isAConversationRoute('label_conversations')).toBe(false);
+    expect(isAConversationRoute('team_conversations')).toBe(false);
+    expect(isAConversationRoute('folder_conversations')).toBe(false);
+    expect(isAConversationRoute('conversation_participating')).toBe(false);
+  });
 });
 
 describe('getConversationDashboardRoute', () => {
@@ -140,5 +162,13 @@ describe('isAInboxViewRoute', () => {
   it('returns true if inbox view route name is provided', () => {
     expect(isAInboxViewRoute('inbox_view_conversation')).toBe(true);
     expect(isAInboxViewRoute('inbox_conversation')).toBe(false);
+  });
+
+  it('returns true if base inbox view route name is provided and includeBase is true', () => {
+    expect(isAInboxViewRoute('inbox_view', true)).toBe(true);
+  });
+
+  it('returns false if base inbox view route name is provided and includeBase is false', () => {
+    expect(isAInboxViewRoute('inbox_view')).toBe(false);
   });
 });

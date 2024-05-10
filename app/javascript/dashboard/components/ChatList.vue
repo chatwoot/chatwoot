@@ -179,6 +179,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import VirtualList from 'vue-virtual-scroll-list';
+import ReconnectService from 'dashboard/helper/ReconnectService';
 
 import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter.vue';
 import ConversationBasicFilter from './widgets/conversation/ConversationBasicFilter.vue';
@@ -306,6 +307,7 @@ export default {
         showAssignee: false,
         isConversationSelected: this.isConversationSelected,
       },
+      reconnectService: null,
     };
   },
   computed: {
@@ -558,6 +560,17 @@ export default {
     bus.$on('fetch_conversation_stats', () => {
       this.$store.dispatch('conversationStats/get', this.conversationFilters);
     });
+
+    this.reconnectService = new ReconnectService(
+      this.$store,
+      window.bus,
+      this.$route,
+      this.conversationFilters
+    );
+    this.reconnectService.setupEventListeners();
+  },
+  beforeUnmount() {
+    this.reconnectService.removeEventListeners();
   },
   methods: {
     updateVirtualListProps(key, value) {

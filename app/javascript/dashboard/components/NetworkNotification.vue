@@ -10,11 +10,13 @@
           size="18"
         />
         <span
-          class="text-xs tracking-wide font-medium px-2 text-yellow-700/70 dark:text-yellow-50"
+          class="text-xs tracking-wide px-2 font-medium text-yellow-700/70 dark:text-yellow-50"
         >
-          {{ $t('NETWORK.NOTIFICATION.OFFLINE') }}
+          {{ bannerText }}
         </span>
+
         <woot-button
+          v-if="!isReconnecting"
           :title="$t('NETWORK.BUTTON.REFRESH')"
           variant="clear"
           size="small"
@@ -46,27 +48,39 @@ export default {
   data() {
     return {
       showNotification: !navigator.onLine,
+      isReconnecting: false,
     };
   },
 
   computed: {
     ...mapGetters({ globalConfig: 'globalConfig/get' }),
+    bannerText() {
+      return this.isReconnecting
+        ? this.$t('NETWORK.NOTIFICATION.RECONNECT')
+        : this.$t('NETWORK.NOTIFICATION.OFFLINE');
+    },
   },
 
   mounted() {
     window.addEventListener('offline', this.updateOnlineStatus);
+    window.addEventListener('online', this.updateOnlineStatus);
     window.bus.$on(BUS_EVENTS.WEBSOCKET_DISCONNECT, () => {
-      // TODO: Remove this after completing the conversation list refetching
-      // TODO: DIRTY FIX : CLEAN UP THIS WITH PROPER FIX, DELAYING THE RECONNECT FOR NOW
-      // THE CABLE IS FIRING IS VERY COMMON AND THUS INTERFERING USER EXPERIENCE
-      setTimeout(() => {
-        this.updateOnlineStatus({ type: 'offline' });
-      }, 4000);
+      this.updateOnlineStatus({ type: 'offline' });
+    });
+    window.bus.$on(BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED, () => {
+      this.showNotification = false;
+      this.isReconnecting = false;
+    });
+    window.bus.$on(BUS_EVENTS.WEBSOCKET_RECONNECT, () => {
+      this.isReconnecting = true;
     });
   },
 
   beforeDestroy() {
     window.removeEventListener('offline', this.updateOnlineStatus);
+    window.removeEventListener('online', this.updateOnlineStatus);
+    window.bus.$off(BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED);
+    window.bus.$off(BUS_EVENTS.WEBSOCKET_RECONNECT);
   },
 
   methods: {

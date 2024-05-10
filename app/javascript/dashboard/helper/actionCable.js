@@ -1,6 +1,7 @@
 import AuthAPI from '../api/auth';
 import BaseActionCableConnector from '../../shared/helpers/BaseActionCableConnector';
 import DashboardAudioNotificationHelper from './AudioAlerts/DashboardAudioNotificationHelper';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
@@ -34,6 +35,7 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onReconnect = () => {
     this.syncActiveConversationMessages();
+    window.bus.$emit(BUS_EVENTS.WEBSOCKET_RECONNECT);
   };
 
   onDisconnected = () => {
