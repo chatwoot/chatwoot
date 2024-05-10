@@ -354,7 +354,7 @@ export default {
     },
     messagePlaceHolder() {
       if (this.isPrivate) {
-        $t('CONVERSATION.FOOTER.PRIVATE_MSG_INPUT')
+        return this.$t('CONVERSATION.FOOTER.PRIVATE_MSG_INPUT')
       }
 
       return this.enableCopilot
