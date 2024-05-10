@@ -89,7 +89,7 @@
       "CANCEL": "Cancel·la"
     },
     "PRIORITY": {
-      "TITLE": "Priority",
+      "TITLE": "Prioritat",
       "OPTIONS": {
         "NONE": "Ningú",
         "URGENT": "Urgent",
@@ -295,14 +295,14 @@
       "ERROR": "Unable to delete attribute. Please try again later"
     },
     "ATTRIBUTE_SELECT": {
-      "TITLE": "Add attributes",
+      "TITLE": "Afegir atributs",
       "PLACEHOLDER": "Search attributes",
       "NO_RESULT": "No attributes found"
     }
   },
   "EMAIL_HEADER": {
     "FROM": "From",
-    "TO": "To",
+    "TO": "Per",
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Subject"
