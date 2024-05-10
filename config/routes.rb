@@ -94,7 +94,11 @@ Rails.application.routes.draw do
                   post :retry
                 end
               end
-              resources :smart_actions, only: [:index, :create]
+              resources :smart_actions, only: [:index, :create] do
+                collection do
+                  get :event_data
+                end
+              end
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
               resource :participants, only: [:show, :create, :update, :destroy]

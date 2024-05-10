@@ -147,6 +147,7 @@ export default {
     channelType: { type: String, default: '' },
     showImageResizeToolbar: { type: Boolean, default: false }, // A kill switch to show or hide the image toolbar
     enableSmartActions: { type: Boolean, default: false },
+    enableCopilot: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -294,7 +295,7 @@ export default {
       return false;
     },
     showCopilot() {
-      return this.enableSmartActions && !this.isPrivate;
+      return this.enableCopilot && !this.isPrivate;
     },
   },
   watch: {
@@ -318,6 +319,9 @@ export default {
       this.reloadState(this.value);
     },
     isPrivate() {
+      this.reloadState(this.value);
+    },
+    enableCopilot(){
       this.reloadState(this.value);
     },
     updateSelectionWith(newValue, oldValue) {
@@ -716,7 +720,12 @@ export default {
       this.$emit('ask-copilot');
     },
     checkCoPilot(){
-      if (this.value[0] == ' ') {
+      if (!this.enableCopilot) {
+        this.loadingSmartResponse = false;
+        return;
+      }
+
+      if (this.value == ' ') {
         this.loadingSmartResponse = true;
         this.askCopilot()
       } else {

@@ -20,6 +20,7 @@ const state = {
   syncConversationsMessages: {},
   showSmartActions: false,
   smartActions: [],
+  smartActionsContext: {},
 };
 
 // mutations
@@ -291,6 +292,10 @@ export const mutations = {
   [types.DISPLAY_SMART_ACTIONS](_state, value) {
     Vue.set(_state, 'showSmartActions', value);
   },
+
+  [types.SET_SMART_ACTIONS_CONTEXT](_state, value) {
+    Vue.set(_state, 'smartActionsContext', value)
+  }
 };
 
 export default {

@@ -20,11 +20,27 @@
 #  index_smart_actions_on_message_id       (message_id)
 #
 class SmartAction < ApplicationRecord
-  store :custom_attributes, accessors: [:to, :from, :link]
+  store :custom_attributes, accessors: [:to, :from, :link, :content]
 
   belongs_to :conversation
   belongs_to :message
 
   validates :message_id, presence: true
   validates :conversation_id, presence: true
+
+  scope :ask_copilot, -> { where(event: 'ask_copilot') }
+
+  def event_data
+    {
+      id: id,
+      name: name,
+      label: label,
+      event: event,
+      content: content,
+      intent_type: intent_type,
+      message_id: message_id,
+      conversation_id: conversation_id,
+      created_at: created_at
+    }
+  end
 end

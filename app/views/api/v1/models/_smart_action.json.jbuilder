@@ -9,3 +9,4 @@ json.intent_type smart_action.intent_type
 json.from smart_action.from
 json.to smart_action.to
 json.link smart_action.link
+json.content smart_action.content

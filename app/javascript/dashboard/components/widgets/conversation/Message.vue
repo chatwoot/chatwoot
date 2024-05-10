@@ -344,6 +344,13 @@ export default {
         replyTo: !this.data.private && this.inboxSupportsReplyTo.outgoing,
       };
     },
+    enableSmartActions(){
+      const isFeatEnabled = this.isFeatureEnabledGlobally(
+        this.accountId,
+        FEATURE_FLAGS.SMART_ACTIONS
+      );
+      return isFeatEnabled && this.isIncoming && (this.isAnEmailInbox || this.isWebWidgetInbox);
+    },
     contentAttributes() {
       return this.data.content_attributes || {};
     },
@@ -418,13 +425,6 @@ export default {
         cc: this.contentAttributes.cc_emails,
         bcc: this.contentAttributes.bcc_emails,
       };
-    },
-    enableSmartActions(){
-      const isFeatEnabled = this.isFeatureEnabledGlobally(
-        this.accountId,
-        FEATURE_FLAGS.SMART_ACTIONS
-      );
-      return isFeatEnabled && this.isIncoming && (this.isAnEmailInbox || this.isWebWidgetInbox);
     },
     hasAttachments() {
       return !!(this.data.attachments && this.data.attachments.length > 0);

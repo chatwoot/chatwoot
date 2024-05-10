@@ -12,4 +12,15 @@ class Api::V1::Accounts::Conversations::SmartActionsController < Api::V1::Accoun
       message: builder.errors.present? ? builder.errors.join(', ') : 'Successfully created'
     }
   end
+
+  def event_data
+    # todo move to service action
+    case params[:event]
+    when 'ask_copilot'
+      event = @conversation.smart_actions.ask_copilot.last
+      render json: event.present? ? event.event_data : {}
+    else
+      render json: {success: false}
+    end
+  end
 end

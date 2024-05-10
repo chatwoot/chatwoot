@@ -14,9 +14,9 @@
         @click="hideSmartAction"
         class="float-right"
       />
-      <div v-if="smartActions.length" class="mt-8">
+      <div v-if="filteredSmartActions.length" class="mt-8">
         <h1 class="text-xl break-words overflow-hidden whitespace-nowrap font-medium text-ellipsis text-black-900 dark:text-slate-100 mb-0">
-          {{ smartActions.length }} smart actions detected from conversation
+          {{ filteredSmartActions.length }} smart actions detected from conversation
         </h1>
         <p class="text-slate-400 dark:text-slate-300">Proceed with each action and let AI do the rest e.g auto fill form</p>
       </div>
@@ -24,7 +24,7 @@
         <p class="text-slate-400 dark:text-slate-300">No smart actions found.</p>
       </div>
       <div class="mt-3 action-holder">
-        <div v-for="action in smartActions" v-bind:key="action.index" class="smart-action-item bg-slate-25 dark:bg-slate-900 m-0 h-full min-h-0">
+        <div v-for="action in filteredSmartActions" v-bind:key="action.index" class="smart-action-item bg-slate-25 dark:bg-slate-900 m-0 h-full min-h-0">
           <div class="capitalize float-right rounded-full bg-green-100 text-xs px-3 py-2 dark:text-slate-300 text-slate-700">{{ action.intent_type }}</div>
           <h1 class="text-black-900 dark:text-slate-400 text-2xl font-medum mb-2">{{ action.name }}</h1>
           <p class="text-slate-400 dark:text-slate-300 mb-3">{{ action.description }}</p>
@@ -37,7 +37,7 @@
             <woot-button
                 size="tiny"
                 class="smart-action-button"
-                @click="toggleBookingPanel"
+                @click="toggleBookingPanel(action)"
               >
               {{ action.label }}
               <fluent-icon 
@@ -97,18 +97,24 @@ export default {
   computed: {
     ...mapGetters({
       showSmartActions: 'showSmartActions',
-      smartActions: 'getSmartActions'
-    })
+      smartActions: 'getSmartActions',
+      context: 'getSmartActionsContext',
+    }),
+    filteredSmartActions() {
+      return this.smartActions.filter((action) => {
+        const scoped = this.context.messageId == null || this.context.messageId == action.message_id;
+        return action.event != 'ask_copilot' && scoped
+      })
+    },
   },
   
   methods: {
-    toggleBookingPanel() {
+    toggleBookingPanel(action) {
       this.showBookingPanel = !this.showBookingPane;
 
       setTimeout(function(){
         const iframe = document.getElementById('booking-iframe');
-        // TODO: url from smart action
-        iframe.src = 'https://www.digitaltolk.se/bokning';
+        iframe.src = action.link || 'https://www.digitaltolk.se/bokning';
       }, 500)
     },
     hideBookingPanel(){

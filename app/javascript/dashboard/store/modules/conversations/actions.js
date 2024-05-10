@@ -488,8 +488,9 @@ const actions = {
     commit(types.ASSIGN_PRIORITY, { priority, conversationId });
   },
 
-  async getSmartActions({ commit, dispatch }, { conversationId, messageId } ) {
-    const { data: { payload } } = await SmartActionApi.getSmartActions(conversationId, messageId);
+  // TODO: move to smart action module
+  async getSmartActions({ commit }, conversationId) {
+    const { data: { payload } } = await SmartActionApi.getSmartActions(conversationId);
     commit(types.SET_SMART_ACTIONS, payload)
   },
 
@@ -497,6 +498,13 @@ const actions = {
     commit(types.DISPLAY_SMART_ACTIONS, value)
   },
 
+  setSmartActionsContext({ commit }, { conversationId, messageId }) {
+    commit(types.SET_SMART_ACTIONS_CONTEXT, { conversationId, messageId })
+  },
+
+  async askCopilot({ _ }, conversationId) {
+    return await SmartActionApi.askCopilot(conversationId);
+  },
   ...messageReadActions,
   ...messageTranslateActions,
 };

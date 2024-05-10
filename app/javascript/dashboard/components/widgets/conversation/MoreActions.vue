@@ -118,7 +118,8 @@ export default {
     toggleSmartActions(){
       const conversationId =  this.currentChat.id;
       const messageId = null;
-      this.$store.dispatch('getSmartActions', { conversationId, messageId });
+      this.$store.dispatch('getSmartActions', conversationId)
+      this.$store.dispatch('setSmartActionsContext', { conversationId, messageId });
       this.$store.dispatch('showSmartActions', true);
     },
   },

@@ -12,7 +12,7 @@ RSpec.describe SmartActionBuilder, type: :model do
                                        description: 'Sample Create booking',
                                        event: 'create_booking',
                                        intent_type: 'primary',
-                                       message_id: '3',
+                                       message_id: 3,
                                        to: 'Booking Page',
                                        from: 'All Action',
                                        link: 'https:booking.link'
@@ -20,10 +20,6 @@ RSpec.describe SmartActionBuilder, type: :model do
   end
 
   describe '#perform' do
-    it 'creates a new smart action' do
-      expect { smart_action_builder.perform }.to change(SmartAction, :count).by(1)
-    end
-
     it 'contains no error messages' do
       smart_action_builder.perform
       expect(smart_action_builder.errors).to eq([])

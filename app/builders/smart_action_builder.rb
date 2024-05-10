@@ -39,7 +39,8 @@ class SmartActionBuilder
       :message_id,
       :to,
       :from,
-      :link
+      :link,
+      :content
     )
   end
 end

@@ -87,6 +87,7 @@
         :allow-signature="true"
         :channel-type="channelType"
         :enable-smart-actions="enableSmartActions"
+        :enable-copilot="enableCopilot"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
         @focus="onFocus"
@@ -276,6 +277,8 @@ export default {
       globalConfig: 'globalConfig/get',
       accountId: 'getCurrentAccountId',
       isFeatureEnabledGlobally: 'accounts/isFeatureEnabledGlobally',
+      smartActions: 'getSmartActions',
+      copilotResponse: 'getCopilotResponse',
     }),
     currentContact() {
       return this.$store.getters['contacts/getContact'](
@@ -351,11 +354,12 @@ export default {
     },
     messagePlaceHolder() {
       if (this.isPrivate) {
-        this.$t('CONVERSATION.FOOTER.PRIVATE_MSG_INPUT')
+        $t('CONVERSATION.FOOTER.PRIVATE_MSG_INPUT')
       }
-      return this.enableSmartActions
-        ? this.$t('CONVERSATION.FOOTER.SMART_AI_INPUT')
-        : this.$t('CONVERSATION.FOOTER.MSG_INPUT');
+
+      return this.enableCopilot
+      ? this.$t('CONVERSATION.FOOTER.SMART_AI_INPUT')
+      : this.$t('CONVERSATION.FOOTER.MSG_INPUT');
     },
     isMessageLengthReachingThreshold() {
       return this.message.length > this.maxLength - 50;
@@ -488,6 +492,9 @@ export default {
         FEATURE_FLAGS.SMART_ACTIONS
       );
       return isFeatEnabled && (this.isAnEmailChannel || this.isAWebWidgetInbox);
+    },
+    enableCopilot() {
+      return this.copilotResponse != null;
     },
     isSignatureEnabledForInbox() {
       return !this.isPrivate && this.sendWithSignature;
@@ -919,18 +926,19 @@ export default {
         this.message = updatedMessage;
       }, 100);
     },
-    onAskCopilot() {
-       // todo: post request
-      const coPilotAnswer = 'Hello Johanna \n\nThanks for reaching out. Missing mandatory info for booking. Please specify booking duration and interpretation method: phone, video, or on-site? [test](link) okay!';
+    async onAskCopilot() {
+      const conversationId = this.conversationId;
+      const response = await this.$store.dispatch('askCopilot', conversationId)
 
-      if (!coPilotAnswer) {
+      if (!response.data && !response.data.content && !response.data.content.length) {
         return;
       }
+      const answer = response.data.content;
 
       let i = 0;
       const interval = setInterval(() => {
-        if (i <= coPilotAnswer.length) {
-          this.message = coPilotAnswer.substring(0, i)
+        if (i <= answer.length) {
+          this.message = answer.substring(0, i)
           i++;
         } else {
           clearInterval(interval)
