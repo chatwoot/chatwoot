@@ -230,7 +230,7 @@ Rails.application.routes.draw do
             resource :linear, controller: 'linear', only: [] do
               collection do
                 get :teams
-                get :team_entites
+                get :team_entities
                 post :create_issue
                 post :link_issue
                 post :unlink_issue

@@ -23,10 +23,10 @@ class Linear
     execute_query(LinearQueries::TEAMS_QUERY)
   end
 
-  def team_entites(team_id)
+  def team_entities(team_id)
     raise ArgumentError, 'Missing team id' if team_id.blank?
 
-    execute_query(LinearQueries.team_entites_query(team_id))
+    execute_query(LinearQueries.team_entities_query(team_id))
   end
 
   def search_issue(term)

@@ -8,9 +8,9 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
     end
   end
 
-  def team_entites
+  def team_entities
     team_id = params[:team_id]
-    entites = linear_processor_service.team_entites(team_id)
+    entites = linear_processor_service.team_entities(team_id)
     if entites.is_a?(Hash) && entites[:error]
       render json: { error: entites[:error] }, status: :unprocessable_entity
     else

@@ -57,7 +57,7 @@ describe Linear do
       end
 
       it 'returns team entities' do
-        response = linear_client.team_entites(team_id)
+        response = linear_client.team_entities(team_id)
         expect(response).to eq({
                                  'users' => { 'nodes' => [{ 'id' => 'user1', 'name' => 'User One' }] },
                                  'projects' => { 'nodes' => [{ 'id' => 'project1', 'name' => 'Project One' }] },
@@ -75,7 +75,7 @@ describe Linear do
       end
 
       it 'raises an exception' do
-        response = linear_client.team_entites(team_id)
+        response = linear_client.team_entities(team_id)
         expect(response).to eq({ :error => 'Error: the server responded with status 422' })
       end
     end

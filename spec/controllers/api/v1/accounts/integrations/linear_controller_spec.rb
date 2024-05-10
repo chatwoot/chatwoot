@@ -40,7 +40,7 @@ RSpec.describe 'Linear Integration API', type: :request do
     end
   end
 
-  describe 'GET /api/v1/accounts/:account_id/integrations/linear/team_entites' do
+  describe 'GET /api/v1/accounts/:account_id/integrations/linear/team_entities' do
     let(:team_id) { 'team1' }
 
     context 'when it is an authenticated user' do
@@ -55,8 +55,8 @@ RSpec.describe 'Linear Integration API', type: :request do
         end
 
         it 'returns team entities data' do
-          allow(processor_service).to receive(:team_entites).with(team_id).and_return(team_entities_data)
-          get "/api/v1/accounts/#{account.id}/integrations/linear/team_entites",
+          allow(processor_service).to receive(:team_entities).with(team_id).and_return(team_entities_data)
+          get "/api/v1/accounts/#{account.id}/integrations/linear/team_entities",
               params: { team_id: team_id },
               headers: agent.create_new_auth_token,
               as: :json
@@ -70,8 +70,8 @@ RSpec.describe 'Linear Integration API', type: :request do
 
       context 'when data retrieval fails' do
         it 'returns error message' do
-          allow(processor_service).to receive(:team_entites).with(team_id).and_return(error: 'error message')
-          get "/api/v1/accounts/#{account.id}/integrations/linear/team_entites",
+          allow(processor_service).to receive(:team_entities).with(team_id).and_return(error: 'error message')
+          get "/api/v1/accounts/#{account.id}/integrations/linear/team_entities",
               params: { team_id: team_id },
               headers: agent.create_new_auth_token,
               as: :json

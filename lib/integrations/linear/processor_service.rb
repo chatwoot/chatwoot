@@ -8,8 +8,8 @@ class Integrations::Linear::ProcessorService
     response['teams']['nodes'].map(&:as_json)
   end
 
-  def team_entites(team_id)
-    response = linear_client.team_entites(team_id)
+  def team_entities(team_id)
+    response = linear_client.team_entities(team_id)
     return response if response[:error]
 
     {

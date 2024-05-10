@@ -203,6 +203,47 @@
         "API_SUCCESS": "Dashboard app deleted successfully",
         "API_ERROR": "We couldn't delete the app. Please try again later"
       }
+    },
+    "LINEAR": {
+      "ADD_OR_LINK": {
+        "TITLE": "Create/link linear issue",
+        "DESCRIPTION": "Create or link a linear issue to the conversation",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Title",
+            "PLACEHOLDER": "Enter title",
+            "REQUIRED_ERROR": "Title is required"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Description",
+            "PLACEHOLDER": "SLA for premium customers"
+          },
+          "TEAM": {
+            "LABEL": "Team",
+            "REQUIRED_ERROR": "Team is required"
+          },
+          "ASSIGNEE": {
+            "LABEL": "Assignee"
+          },
+          "PRIORITY": {
+            "LABEL": "Priority"
+          },
+          "LABEL": {
+            "LABEL": "Label"
+          },
+          "STATUS": {
+            "LABEL": "Status"
+          },
+          "PROJECT": {
+            "LABEL": "Project"
+          }
+        },
+        "CREATE": "Create",
+        "CANCEL": "Cancel",
+        "CREATE_ERROR": "There was an error creating the issue, please try again",
+        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
+        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+      }
     }
   }
 }

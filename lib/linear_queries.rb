@@ -10,7 +10,7 @@ module LinearQueries
     }
   GRAPHQL
 
-  def self.team_entites_query(team_id)
+  def self.team_entities_query(team_id)
     <<~GRAPHQL
       query {
         users {

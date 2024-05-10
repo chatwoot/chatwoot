@@ -35,7 +35,7 @@ describe Integrations::Linear::ProcessorService do
     end
   end
 
-  describe '#team_entites' do
+  describe '#team_entities' do
     let(:team_id) { 'team1' }
     let(:entities_response) do
       {
@@ -48,8 +48,8 @@ describe Integrations::Linear::ProcessorService do
 
     context 'when Linear client returns valid data' do
       it 'returns parsed entity data' do
-        allow(linear_client).to receive(:team_entites).with(team_id).and_return(entities_response)
-        result = service.team_entites(team_id)
+        allow(linear_client).to receive(:team_entities).with(team_id).and_return(entities_response)
+        result = service.team_entities(team_id)
         expect(result).to have_key(:users)
         expect(result).to have_key(:projects)
         expect(result).to have_key(:states)
@@ -61,8 +61,8 @@ describe Integrations::Linear::ProcessorService do
       let(:error_response) { { error: 'Some error message' } }
 
       it 'returns the error' do
-        allow(linear_client).to receive(:team_entites).with(team_id).and_return(error_response)
-        result = service.team_entites(team_id)
+        allow(linear_client).to receive(:team_entities).with(team_id).and_return(error_response)
+        result = service.team_entities(team_id)
         expect(result).to eq(error_response)
       end
     end
