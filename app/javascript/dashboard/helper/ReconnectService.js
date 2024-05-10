@@ -38,7 +38,7 @@ export default class ReconnectService {
 
   getSecondsSinceDisconnect() {
     return this.disconnectTime
-      ? differenceInSeconds(new Date(), this.disconnectTime)
+      ? Math.max(differenceInSeconds(new Date(), this.disconnectTime), 0)
       : 0;
   }
 
