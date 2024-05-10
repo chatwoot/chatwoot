@@ -77,16 +77,16 @@
   },
   "EXPORT_CONTACTS": {
     "BUTTON_LABEL": "Export",
-    "TITLE": "Export Contacts",
-    "DESC": "Export contacts to a CSV file.",
+    "TITLE": "Exporta contactes",
+    "DESC": "Exporta contactes a través d'un fitxer CSV.",
     "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
     "ERROR_MESSAGE": "S'ha produït un error; tornau-ho a provar",
     "CONFIRM": {
-      "TITLE": "Export Contacts",
-      "MESSAGE": "Are you sure you want to export all contacts?",
-      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
-      "YES": "Yes, Export",
-      "NO": "No, Cancel"
+      "TITLE": "Exporta contactes",
+      "MESSAGE": "Esteu segur que voleu exportar tots els contactes?",
+      "FILTERED_MESSAGE": "Esteu segur que voleu exportar tots els contactes filtrats?",
+      "YES": "Sí, Exporta",
+      "NO": "No, cancel·la"
     }
   },
   "DELETE_NOTE": {
@@ -152,13 +152,13 @@
       "COUNTRY": {
         "PLACEHOLDER": "Enter the country name",
         "LABEL": "Nom del país",
-        "SELECT_PLACEHOLDER": "Select",
+        "SELECT_PLACEHOLDER": "Selecciona",
         "REMOVE": "Suprimeix",
-        "SELECT_COUNTRY": "Select Country"
+        "SELECT_COUNTRY": "Selecciona país"
       },
       "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
+        "PLACEHOLDER": "Introdueix el nom de la ciutat",
+        "LABEL": "Nom de la ciutat"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -181,8 +181,8 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "L'avatar del contacte s'ha suprimit correctament",
+        "ERROR_MESSAGE": "No s'ha pogut esborrar l'avatar de contacte. Torneu-ho a provar."
       }
     },
     "SUCCESS_MESSAGE": "Contacte guardat correctament",
@@ -191,30 +191,30 @@
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "Inicia la conversa",
     "TITLE": "Nova conversació",
-    "DESC": "Start a new conversation by sending a new message.",
+    "DESC": "Inicia una conversa nova enviant un missatge nou.",
     "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "Per"
       },
       "INBOX": {
         "LABEL": "Inbox",
-        "PLACEHOLDER": "Choose source inbox",
+        "PLACEHOLDER": "Trieu la safata d'entrada d'origen",
         "ERROR": "Select an inbox"
       },
       "SUBJECT": {
-        "LABEL": "Subject",
-        "PLACEHOLDER": "Subject",
+        "LABEL": "Assumpte",
+        "PLACEHOLDER": "Assumpte",
         "ERROR": "Subject can't be empty"
       },
       "MESSAGE": {
         "LABEL": "Missatge",
         "PLACEHOLDER": "Write your message here",
-        "ERROR": "Message can't be empty"
+        "ERROR": "El missatge no pot estar buit"
       },
       "ATTACHMENTS": {
-        "SELECT": "Choose files",
-        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+        "SELECT": "Trieu fitxers",
+        "HELP_TEXT": "Arrossegueu i deixeu anar fitxers aquí o trieu fitxers per adjuntar"
       },
       "SUBMIT": "Send message",
       "CANCEL": "Cancel·la",
@@ -228,10 +228,10 @@
     "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "Cercar",
     "SEARCH_INPUT_PLACEHOLDER": "Cerca de contactes",
-    "FILTER_CONTACTS": "Filter",
-    "FILTER_CONTACTS_SAVE": "Save filter",
-    "FILTER_CONTACTS_DELETE": "Delete filter",
-    "FILTER_CONTACTS_EDIT": "Edit segment",
+    "FILTER_CONTACTS": "Filtre",
+    "FILTER_CONTACTS_SAVE": "Desa el filtre",
+    "FILTER_CONTACTS_DELETE": "Suprimir el filtre",
+    "FILTER_CONTACTS_EDIT": "Edita segment",
     "LIST": {
       "LOADING_MESSAGE": "Carregant contactes...",
       "404": "No hi ha cap contacte que coincideixi amb la vostra cerca 🔍",
@@ -257,16 +257,16 @@
   },
   "REMINDER": {
     "ADD_BUTTON": {
-      "BUTTON": "Add",
-      "TITLE": "Shift + Enter to create a task"
+      "BUTTON": "Afegir",
+      "TITLE": "Shift + Enter per crear una tasca"
     },
     "FOOTER": {
-      "DUE_DATE": "Due date",
-      "LABEL_TITLE": "Set type"
+      "DUE_DATE": "Data de venciment",
+      "LABEL_TITLE": "Establir tipus"
     }
   },
   "NOTES": {
-    "FETCHING_NOTES": "Fetching notes...",
+    "FETCHING_NOTES": "S'estan obtenint notes...",
     "NOT_AVAILABLE": "There are no notes created for this contact",
     "HEADER": {
       "TITLE": "Notes"
@@ -277,33 +277,33 @@
     "ADD": {
       "BUTTON": "Add",
       "PLACEHOLDER": "Add a note",
-      "TITLE": "Shift + Enter to create a note"
+      "TITLE": "Shift + Enter per crear una nota"
     },
     "CONTENT_HEADER": {
-      "DELETE": "Delete note"
+      "DELETE": "Suprimeix la nota"
     }
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Activities"
+      "TITLE": "Activitats"
     },
     "BUTTON": {
       "PILL_BUTTON_NOTES": "notes",
-      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_EVENTS": "esdeveniment",
       "PILL_BUTTON_CONVO": "converses"
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Add attributes",
-    "BUTTON": "Add custom attribute",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "ADD_BUTTON_TEXT": "Afegir atributs",
+    "BUTTON": "Afegir atributs personalitzats",
+    "NOT_AVAILABLE": "No hi ha atributs personalitzats disponibles per a aquest contacte.",
     "COPY_SUCCESSFUL": "S'ha copiat al porta-retalls amb èxit",
-    "SHOW_MORE": "Show all attributes",
-    "SHOW_LESS": "Show less attributes",
+    "SHOW_MORE": "Mostra tots els atributs",
+    "SHOW_LESS": "Mostra menys atributs",
     "ACTIONS": {
-      "COPY": "Copy attribute",
-      "DELETE": "Delete attribute",
-      "EDIT": "Edit attribute"
+      "COPY": "Copia l'atribut",
+      "DELETE": "Suprimeix l'atribut",
+      "EDIT": "Edita l'atribut"
     },
     "ADD": {
       "TITLE": "Create custom attribute",
@@ -335,7 +335,7 @@
         "ERROR": "Unable to delete attribute. Please try again later"
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Add attributes",
+        "TITLE": "Afegir atributs",
         "PLACEHOLDER": "Search attributes",
         "NO_RESULT": "No attributes found"
       },
