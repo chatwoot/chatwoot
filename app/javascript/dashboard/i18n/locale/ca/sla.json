@@ -97,12 +97,12 @@
       }
     },
     "EVENTS": {
-      "TITLE": "SLA Misses",
+      "TITLE": "Faltes SLA",
       "FRT": "Primer temps de resposta",
-      "NRT": "Next response time",
-      "RT": "Resolution time",
-      "SHOW_MORE": "{count} more",
-      "HIDE": "Hide {count} rows"
+      "NRT": "Pròxim temps de resposta",
+      "RT": "Temps de resolució",
+      "SHOW_MORE": "{count} més",
+      "HIDE": "Amaga {count} files"
     }
   }
 }
