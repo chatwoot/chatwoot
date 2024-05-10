@@ -24,6 +24,18 @@
           class="bg-white dark:bg-gray-800"
         >
           <div
+            v-if="element.name === 'linear' && isLinearIntegrationEnabled"
+            class="conversation--actions"
+          >
+            <accordion-item
+              title="Linear"
+              :is-open="isContactSidebarItemOpen('is_linear_open')"
+              @click="value => toggleSidebarUIState('is_linear_open', value)"
+            >
+              <linear :conversation-id="conversationId" />
+            </accordion-item>
+          </div>
+          <div
             v-if="element.name === 'conversation_actions'"
             class="conversation--actions"
           >
@@ -145,7 +157,8 @@ import CustomAttributes from './customAttributes/CustomAttributes.vue';
 import draggable from 'vuedraggable';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import MacrosList from './Macros/List.vue';
-
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import Linear from './linear/index.vue';
 export default {
   components: {
     AccordionItem,
@@ -157,6 +170,7 @@ export default {
     ConversationParticipant,
     draggable,
     MacrosList,
+    Linear,
   },
   mixins: [alertMixin, uiSettingsMixin],
   props: {
@@ -185,6 +199,8 @@ export default {
       currentChat: 'getSelectedChat',
       currentUser: 'getCurrentUser',
       uiFlags: 'inboxAssignableAgents/getUIFlags',
+      accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
     conversationAdditionalAttributes() {
       return this.currentConversationMetaData.additional_attributes || {};
@@ -209,6 +225,12 @@ export default {
     hasContactAttributes() {
       const { custom_attributes: customAttributes } = this.contact;
       return customAttributes && Object.keys(customAttributes).length;
+    },
+    isLinearIntegrationEnabled() {
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.LINEAR
+      );
     },
   },
   watch: {

@@ -205,6 +205,9 @@
       }
     },
     "LINEAR": {
+      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
+      "LOADING": "Fetching linear issues...",
+      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
         "DESCRIPTION": "Create or link a linear issue to the conversation",
@@ -240,9 +243,22 @@
         },
         "CREATE": "Create",
         "CANCEL": "Cancel",
+        "CREATE_SUCCESS": "Issue created successfully",
         "CREATE_ERROR": "There was an error creating the issue, please try again",
         "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
         "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+      },
+      "ISSUE": {
+        "STATUS": "Status",
+        "PRIORITY": "Priority",
+        "ASSIGNEE": "Assignee",
+        "LABELS": "Labels",
+        "CREATED_AT": "Created at"
+      },
+      "UNLINK": {
+        "TITLE": "Unlink",
+        "SUCCESS": "Issue unlinked successfully",
+        "ERROR": "There was an error unlinking the issue, please try again"
       }
     }
   }
