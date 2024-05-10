@@ -6,3 +6,15 @@ FROM ghcr.io/chatwoot/chatwoot_codespace:latest
 WORKDIR /workspace
 COPY . /workspace
 RUN yarn && gem install bundler && bundle install
+
+# Install the dependencies
+# RUN make burn 
+
+# # Run migrations
+# RUN make db
+
+# # Seed data
+# RUN make db_seed
+
+# # Start the server
+# RUN make run
