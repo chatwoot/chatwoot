@@ -68,8 +68,26 @@ module LinearQueries
             title
             issue {
               id
+              identifier
               title
               description
+              priority
+              createdAt
+              state {
+                name
+              }
+              state {
+                name
+              }
+              assignee {
+                name
+              }
+              labels {
+                nodes{
+                  id
+                  name
+                }
+              }
             }
           }
         }

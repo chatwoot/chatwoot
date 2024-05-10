@@ -1,5 +1,5 @@
 class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::BaseController
-  before_action :fetch_conversation, only: [:link_issue]
+  before_action :fetch_conversation, only: [:link_issue, :linked_issue]
 
   def teams
     teams = linear_processor_service.teams
@@ -51,10 +51,7 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
   end
 
   def linked_issue
-    render json: { error: 'Specify link with parameter link' }, status: :unprocessable_entity if params[:link].blank? && return
-
-    url = params[:link]
-    issues = linear_processor_service.linked_issue(url)
+    issues = linear_processor_service.linked_issue(conversation_link)
 
     if issues.is_a?(Hash) && issues[:error]
       render json: { error: issues[:error] }, status: :unprocessable_entity
