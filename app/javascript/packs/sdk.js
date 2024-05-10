@@ -30,6 +30,12 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     );
   }
 
+  if (window.Turbolinks) {
+    document.addEventListener('turbolinks:before-render', event =>
+      restoreWidgetInDOM(event.detail.newBody)
+    );
+  }
+
   // if this is an astro app
   document.addEventListener('astro:before-swap', event =>
     restoreWidgetInDOM(event.newDocument.body)
