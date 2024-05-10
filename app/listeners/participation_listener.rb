@@ -3,6 +3,11 @@ class ParticipationListener < BaseListener
 
   def assignee_changed(event)
     conversation, _account = extract_conversation_and_account(event)
-    conversation.conversation_participants.find_or_create_by!(user_id: conversation.assignee_id) if conversation.assignee_id.present?
+    return if conversation.assignee_id.blank?
+
+    conversation.conversation_participants.find_or_create_by!(user_id: conversation.assignee_id)
+  rescue ActiveRecord::RecordNotUnique, ActiveRecord::RecordInvalid
+    Rails.logger.warn "Failed to create conversation participant for account #{conversation.account.id} " \
+                      ": user #{conversation.assignee_id} : conversation #{conversation.id}"
   end
 end
