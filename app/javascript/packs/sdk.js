@@ -31,9 +31,9 @@ const runSDK = ({ baseUrl, websiteToken }) => {
   }
 
   if (window.Turbolinks) {
-    document.addEventListener('turbolinks:before-render', event =>
-      restoreWidgetInDOM(event.detail.newBody)
-    );
+    document.addEventListener('turbolinks:before-render', event => {
+      restoreWidgetInDOM(event.data.newBody);
+    });
   }
 
   // if this is an astro app
