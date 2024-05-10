@@ -546,6 +546,11 @@ export default {
     showAssigneeInConversationCard(newVal) {
       this.updateVirtualListProps('showAssignee', newVal);
     },
+    conversationFilters(newFilters, oldFilters) {
+      if (newFilters !== oldFilters && this.reconnectService) {
+        this.reconnectService.updateFilters(newFilters);
+      }
+    },
   },
   mounted() {
     this.setFiltersFromUISettings();
@@ -561,18 +566,21 @@ export default {
       this.$store.dispatch('conversationStats/get', this.conversationFilters);
     });
 
-    this.reconnectService = new ReconnectService(
-      this.$store,
-      window.bus,
-      this.$route,
-      this.conversationFilters
-    );
-    this.reconnectService.setupEventListeners();
+    this.setUpReconnectService();
   },
   beforeUnmount() {
     this.reconnectService.removeEventListeners();
   },
   methods: {
+    setUpReconnectService() {
+      this.reconnectService = new ReconnectService(
+        this.$store,
+        window.bus,
+        this.$route,
+        this.conversationFilters
+      );
+      this.reconnectService.setupEventListeners();
+    },
     updateVirtualListProps(key, value) {
       this.virtualListExtraProps = {
         ...this.virtualListExtraProps,

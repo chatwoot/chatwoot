@@ -106,21 +106,31 @@ export default {
       return !this.uiFlags.isFetching && !this.notifications.length;
     },
   },
+  watch: {
+    inboxFilters(newFilters, oldFilters) {
+      if (newFilters !== oldFilters && this.reconnectService) {
+        this.reconnectService.updateFilters(newFilters);
+      }
+    },
+  },
   mounted() {
     this.setSavedFilter();
     this.fetchNotifications();
-    this.reconnectService = new ReconnectService(
-      this.$store,
-      window.bus,
-      this.$route,
-      this.inboxFilters
-    );
-    this.reconnectService.setupEventListeners();
+    this.setUpReconnectService();
   },
   beforeUnmount() {
     this.reconnectService.removeEventListeners();
   },
   methods: {
+    setUpReconnectService() {
+      this.reconnectService = new ReconnectService(
+        this.$store,
+        window.bus,
+        this.$route,
+        this.inboxFilters
+      );
+      this.reconnectService.setupEventListeners();
+    },
     fetchNotifications() {
       this.page = 1;
       this.$store.dispatch('notifications/clear');

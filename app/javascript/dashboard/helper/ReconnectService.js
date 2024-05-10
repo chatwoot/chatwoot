@@ -24,6 +24,10 @@ export default class ReconnectService {
     return ReconnectService.instance;
   }
 
+  updateFilters(filters) {
+    this.filters = filters;
+  }
+
   setDisconnectTime() {
     this.disconnectTime = new Date();
   }
