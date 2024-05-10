@@ -25,12 +25,16 @@ export default {
     },
     userInitial() {
       const parts = this.username.split(/[ -]/);
-      let initials = parts.reduce((acc, curr) => acc + curr.charAt(0), '');
+      let initials = '';
 
-      if (initials.length > 2 && initials.search(/[A-Z]/) !== -1) {
-        initials = initials.replace(/[a-z]+/g, '');
+      if (parts.length === 1) {
+        initials = parts[0].substring(0, 2);
+      } else if (parts.length >= 2) {
+        const lastTwoWords = parts.slice(-2);
+        initials = lastTwoWords.reduce((acc, curr) => acc + curr.charAt(0), '');
       }
-      initials = initials.substring(0, 2).toUpperCase();
+
+      initials = initials.toUpperCase();
 
       return initials;
     },
