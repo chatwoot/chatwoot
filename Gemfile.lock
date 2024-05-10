@@ -335,14 +335,14 @@ GEM
       signet (>= 0.16, < 2.a)
     groupdate (6.2.1)
       activesupport (>= 5.2)
-    grpc (1.54.3)
-      google-protobuf (~> 3.21)
+    grpc (1.57.0)
+      google-protobuf (~> 3.23)
       googleapis-common-protos-types (~> 1.0)
-    grpc (1.54.3-x86_64-darwin)
-      google-protobuf (~> 3.21)
+    grpc (1.57.0-x86_64-darwin)
+      google-protobuf (~> 3.23)
       googleapis-common-protos-types (~> 1.0)
-    grpc (1.54.3-x86_64-linux)
-      google-protobuf (~> 3.21)
+    grpc (1.57.0-x86_64-linux)
+      google-protobuf (~> 3.23)
       googleapis-common-protos-types (~> 1.0)
     haikunator (1.1.1)
     hairtrigger (1.0.0)
@@ -888,7 +888,7 @@ DEPENDENCIES
   google-cloud-storage
   google-cloud-translate-v3
   groupdate
-  grpc
+  grpc (~> 1.57.0)
   haikunator
   hairtrigger
   hashie
