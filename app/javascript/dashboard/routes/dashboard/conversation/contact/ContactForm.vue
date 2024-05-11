@@ -123,6 +123,7 @@
           attribute-from="contact_form"
           :custom-attributes="customAttributes"
           class="even"
+          @customAttributeChanged="customAttributeChanged"
         />
       </accordion-item>
     </div>
@@ -259,6 +260,12 @@ export default {
     },
     onSuccess() {
       this.$emit('success');
+    },
+    customAttributeChanged(key, value) {
+      this.customAttributes = {
+        ...this.customAttributes,
+        [key]: value,
+      };
     },
     countryNameWithCode({ name, id }) {
       if (!id) return name;

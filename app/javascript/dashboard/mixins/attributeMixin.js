@@ -11,20 +11,12 @@ export default {
         this.attributeType
       );
     },
-    customAttributes() {
-      if (this.attributeType === 'conversation_attribute')
-        return this.currentChat.custom_attributes || {};
-      return this.contact.custom_attributes || {};
-    },
     contactIdentifier() {
       return (
         this.currentChat.meta?.sender?.id ||
         this.$route.params.contactId ||
         this.contactId
       );
-    },
-    contact() {
-      return this.$store.getters['contacts/getContact'](this.contactIdentifier);
     },
     conversationId() {
       return this.currentChat.id;

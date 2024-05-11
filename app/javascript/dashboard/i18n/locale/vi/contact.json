@@ -337,7 +337,7 @@
   "CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Thêm thông tin tùy chỉnh",
     "BUTTON": "Thêm thông tin tùy chỉnh",
-    "NOT_AVAILABLE": "Không có thuộc tính tuỳ chỉnh nào có sẵn cho khách hàng này.",
+    "NOT_AVAILABLE": "Không có thông tin tuỳ chỉnh nào có sẵn cho khách hàng này.",
     "COPY_SUCCESSFUL": "Đã sao chép mã thành công",
     "SHOW_MORE": "Hiện tất cả thông tin",
     "SHOW_LESS": "Ẩn bớt thông tin",
@@ -348,37 +348,37 @@
     },
     "ADD": {
       "TITLE": "Tạo thông tin tùy chỉnh",
-      "DESC": "Thêm thông tin tuỳ chỉnh vào khách hàng này."
+      "DESC": "Thêm thông tin tuỳ chỉnh cho khách hàng này."
     },
     "FORM": {
       "CREATE": "Thêm thông tin tùy chỉnh",
       "CANCEL": "Huỷ",
       "NAME": {
         "LABEL": "Tên thông tin tùy chỉnh",
-        "PLACEHOLDER": "Ví dụ: shopify id",
-        "ERROR": "Tên thuộc tính tuỳ chỉnh không hợp lệ"
+        "PLACEHOLDER": "Ví dụ: sở thích của khách hàng",
+        "ERROR": "Tên thông tin tuỳ chỉnh không hợp lệ"
       },
       "VALUE": {
-        "LABEL": "Giá trị của thuộc tính",
-        "PLACEHOLDER": "Ví dụ: 11901 "
+        "LABEL": "Giá trị của thông tin",
+        "PLACEHOLDER": "Ví dụ: thích mẫu mã đẹp "
       },
       "ADD": {
-        "TITLE": "Tạo thuộc tính mới ",
-        "SUCCESS": "Thuộc tính được thêm thành công",
-        "ERROR": "Không thể thêm thuộc tính. Vui lòng thử lại sau"
+        "TITLE": "Tạo thông tin mới ",
+        "SUCCESS": "Thông tin được thêm thành công",
+        "ERROR": "Không thể thêm thông tin. Vui lòng thử lại sau"
       },
       "UPDATE": {
-        "SUCCESS": "Thuộc tính được cập nhật thành công",
-        "ERROR": "Không thể cập nhật thuộc tính. Vui lòng thử lại sau"
+        "SUCCESS": "Thông tin được cập nhật thành công",
+        "ERROR": "Không thể cập nhật thông tin. Vui lòng thử lại sau"
       },
       "DELETE": {
-        "SUCCESS": "Thuộc tính được xoá thành công",
-        "ERROR": "Không thể xoá thuộc tính. Vui lòng thử lại sau"
+        "SUCCESS": "Thông tin được xoá thành công",
+        "ERROR": "Không thể xoá thông tin. Vui lòng thử lại sau"
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Thêm nhiều thuộc tính",
-        "PLACEHOLDER": "Tìm kiếm nhiều thuộc tính",
-        "NO_RESULT": "Không có thuộc tính nào được tìm thấy"
+        "TITLE": "Thêm nhiều thông tin",
+        "PLACEHOLDER": "Tìm kiếm nhiều thông tin",
+        "NO_RESULT": "Không có thông tin nào được tìm thấy"
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
@@ -396,7 +396,7 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "Hợp nhất các khách hàng",
-    "DESCRIPTION": "Hợp nhất các khách hàng để kết hợp hai hồ sơ thành một, bao gồm tất cả các thuộc tính và hội thoại. Trong trường hợp xung đột, các thuộc tính của khách hàng Chính sẽ được ưu tiên.",
+    "DESCRIPTION": "Hợp nhất các khách hàng để kết hợp hai hồ sơ thành một, bao gồm tất cả các thông tin và hội thoại. Trong trường hợp xung đột, các thông tin của khách hàng Chính sẽ được ưu tiên.",
     "PRIMARY": {
       "TITLE": "Khách hàng chính",
       "HELP_LABEL": "Sẽ được xoá"

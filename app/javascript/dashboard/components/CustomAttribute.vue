@@ -85,16 +85,6 @@
         </p>
         <div class="flex max-w-[2rem] gap-1 ml-1 rtl:mr-1 rtl:ml-0">
           <woot-button
-            v-if="showCopyAndDeleteButton"
-            v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.COPY')"
-            variant="link"
-            size="small"
-            color-scheme="secondary"
-            icon="clipboard"
-            class-names="hidden group-hover:flex !w-6 flex-shrink-0"
-            @click="onCopy"
-          />
-          <woot-button
             v-if="showEditButton"
             v-tooltip.right="$t('CUSTOM_ATTRIBUTES.ACTIONS.EDIT')"
             variant="link"
@@ -103,6 +93,16 @@
             icon="edit"
             class-names="hidden group-hover:flex !w-6 flex-shrink-0"
             @click="onEdit"
+          />
+          <woot-button
+            v-if="showCopyAndDeleteButton"
+            v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.COPY')"
+            variant="link"
+            size="small"
+            color-scheme="secondary"
+            icon="clipboard"
+            class-names="hidden group-hover:flex !w-6 flex-shrink-0"
+            @click="onCopy"
           />
         </div>
       </div>
@@ -170,7 +170,7 @@ export default {
       return this.value && this.showActions;
     },
     showEditButton() {
-      return !this.value && this.showActions;
+      return this.showActions;
     },
     displayValue() {
       if (this.isAttributeTypeDate) {
