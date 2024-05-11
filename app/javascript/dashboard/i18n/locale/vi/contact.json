@@ -223,8 +223,8 @@
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "Bắt đầu cuộc hội thoại",
     "TITLE": "Gửi tin nhắn",
-    "DESC": "Bắt đầu một cuộc hội thoại mới bằng cách gửi tin nhắn.",
-    "NO_INBOX": "Không tìm thấy kênh để bắt đầu cuộc trò chuyện với khách hàng này.",
+    "DESC": "Chọn một kênh đã từng tương tác hoặc chọn kênh email để gửi tin nhắn.",
+    "NO_INBOX": "Không tìm thấy kênh phù hợp để gửi tin nhắn cho khách hàng này.",
     "FORM": {
       "TO": {
         "LABEL": "Đến"

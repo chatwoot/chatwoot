@@ -10,25 +10,11 @@ import { CONTACTS_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
 const buildContactFormData = contactParams => {
   const formData = new FormData();
-  const { additional_attributes = {}, ...contactProperties } = contactParams;
+  const { ...contactProperties } = contactParams;
   Object.keys(contactProperties).forEach(key => {
     if (contactProperties[key]) {
       formData.append(key, contactProperties[key]);
     }
-  });
-  const { social_profiles, ...additionalAttributesProperties } =
-    additional_attributes;
-  Object.keys(additionalAttributesProperties).forEach(key => {
-    formData.append(
-      `additional_attributes[${key}]`,
-      additionalAttributesProperties[key]
-    );
-  });
-  Object.keys(social_profiles).forEach(key => {
-    formData.append(
-      `additional_attributes[social_profiles][${key}]`,
-      social_profiles[key]
-    );
   });
   return formData;
 };
