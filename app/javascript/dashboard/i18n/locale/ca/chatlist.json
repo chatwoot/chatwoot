@@ -99,15 +99,15 @@
     },
     "CHAT_SORT_BY_FILTER": {
       "TITLE": "Sort conversation",
-      "DROPDOWN_TITLE": "Sort by",
+      "DROPDOWN_TITLE": "Ordenat per",
       "ITEMS": {
         "LATEST": {
           "NAME": "Last activity at",
           "LABEL": "Last activity"
         },
         "CREATED_AT": {
-          "NAME": "Created at",
-          "LABEL": "Created at"
+          "NAME": "Creat per",
+          "LABEL": "Creat per"
         },
         "LAST_USER_MESSAGE_AT": {
           "NAME": "Last user message at",
