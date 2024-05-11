@@ -420,7 +420,7 @@
         "BUSINESS_NAME": {
           "BUTTON_TEXT": "+ Configure your business name",
           "PLACEHOLDER": "Enter your business name",
-          "SAVE_BUTTON_TEXT": "Save"
+          "SAVE_BUTTON_TEXT": "Desar"
         }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
