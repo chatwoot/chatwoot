@@ -35,8 +35,6 @@ class ContactInboxWithContactBuilder
   def initialize_contact_data
     @contact.initial_channel_id = @inbox.channel_id
     @contact.initial_channel_type = @inbox.channel.name
-    new_stage = Stage.find_by(account_id: @contact.account_id, code: 'New')
-    @contact.stage_id = new_stage.id if new_stage.present?
     @contact.save!
   end
 

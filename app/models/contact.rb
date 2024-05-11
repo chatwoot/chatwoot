@@ -78,7 +78,7 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :inboxes, through: :contact_inboxes
   has_many :messages, as: :sender, dependent: :destroy_async
   has_many :notes, dependent: :destroy_async
-  before_validation :prepare_contact_attributes
+  before_validation :prepare_contact_attributes, :set_default_stage_id
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
@@ -265,6 +265,11 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
   def prepare_contact_attributes
     prepare_email_attribute
     prepare_jsonb_attributes
+  end
+
+  def set_default_stage_id
+    new_stage = Stage.find_by(account_id: account_id, code: 'New')
+    self.stage_id = new_stage.id if new_stage.present?
   end
 
   def prepare_email_attribute
