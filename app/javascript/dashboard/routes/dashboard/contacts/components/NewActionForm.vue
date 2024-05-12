@@ -57,7 +57,6 @@
               ? $t('CONTACT_PANEL.NEW_ACTION.DESCRIPTION_ERROR')
               : ''
           "
-          @blur="$v.description.$touch"
         />
       </div>
     </div>
@@ -71,6 +70,11 @@
             :confirm-text="$t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.CONFIRM')"
             @change="onScheduledAtChange"
           />
+        </label>
+        <label :class="{ error: $v.scheduledAt.$error }">
+          <span v-if="$v.scheduledAt.$error" class="message">
+            {{ $t('CONTACT_PANEL.NEW_ACTION.SNOOZED_ERROR') }}
+          </span>
         </label>
       </div>
       <div class="w-[50%]">
@@ -270,6 +274,7 @@ export default {
     },
   },
   mounted() {
+    this.$store.dispatch('agents/get');
     this.agent = this.contact.assignee_in_deals
       ? this.contact.assignee_in_deals
       : this.contact.assignee_in_leads;

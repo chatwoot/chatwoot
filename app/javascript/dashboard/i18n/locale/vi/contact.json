@@ -52,6 +52,7 @@
       "DESCRIPTION": "Mô tả cho hành động",
       "DESCRIPTION_ERROR": "Cần nhập mô tả cho hành động",
       "SNOOZED_TIME": "Thời gian dự kiến",
+      "SNOOZED_ERROR": "Cần nhập thời gian dự kiến",
       "PRIORITY": "Mức độ ưu tiên",
       "ASSIGNEE": "Người phụ trách",
       "ASSIGNEE_ERROR": "Cần nhập người phụ trách",

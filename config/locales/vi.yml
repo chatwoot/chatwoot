@@ -70,7 +70,7 @@ vi:
     period: Thời gian báo cáo từ %{since} đến %{until}
     utc_warning: Báo cáo đã được tạo với múi giờ UTC
     agent_csv:
-      agent_name: Tên tổng đài viên
+      agent_name: Tên người dùng
       conversations_count: Assigned conversations
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time

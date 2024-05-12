@@ -181,6 +181,8 @@ export default {
     },
   },
   mounted() {
+    this.$store.dispatch('stages/get');
+    this.$store.dispatch('agents/get');
     this.setFilterAttributes();
     if (this.getAppliedContactFilters.length) {
       this.appliedFilters = [...this.getAppliedContactFilters];
