@@ -1,20 +1,20 @@
 {
   "CONTACTS_FILTER": {
     "TITLE": "Lọc liên hệ",
-    "SUBTITLE": "Thêm bộ lọc bên dưới và ấn 'áp dụng bộ lọc' để lọc liên hệ.",
-    "EDIT_CUSTOM_SEGMENT": "Edit Segment",
-    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your segment.",
-    "ADD_NEW_FILTER": "Thêm Bộ lọc",
+    "SUBTITLE": "Thêm bộ lọc bên dưới và ấn 'Áp dụng' để tìm kiếm khách hàng.",
+    "EDIT_CUSTOM_SEGMENT": "Sửa bộ lọc",
+    "CUSTOM_VIEWS_SUBTITLE": "Thêm hoặc xóa bộ lọc khách hàng.",
+    "ADD_NEW_FILTER": "Thêm điều kiện",
     "CLEAR_ALL_FILTERS": "Xoá tất cả bộ lọc",
     "FILTER_DELETE_ERROR": "Bạn nên có ít nhất 1 bộ lọc để lưu",
-    "SUBMIT_BUTTON_LABEL": "Gửi",
-    "UPDATE_BUTTON_LABEL": "Update Segment",
+    "SUBMIT_BUTTON_LABEL": "Áp dụng",
+    "UPDATE_BUTTON_LABEL": "Cập nhật bộ lọc",
     "CANCEL_BUTTON_LABEL": "Huỷ",
     "CLEAR_BUTTON_LABEL": "Xoá bộ lọc",
     "EMPTY_VALUE_ERROR": "Giá trị bắt buộc có",
-    "SEGMENT_LABEL": "Segment Name",
-    "SEGMENT_QUERY_LABEL": "Segment Query",
-    "TOOLTIP_LABEL": "Lọc liên hệ",
+    "SEGMENT_LABEL": "Tên bộ lọc",
+    "SEGMENT_QUERY_LABEL": "Tên mô tả bộ lọc",
+    "TOOLTIP_LABEL": "Bộ lọc khách hàng",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "VÀ",
       "OR": "HOẶC"
@@ -31,25 +31,26 @@
       "days_before": "Khoảng x ngày trước"
     },
     "ATTRIBUTES": {
-      "NAME": "Tên",
-      "EMAIL": "Thư điện tử",
-      "PHONE_NUMBER": "Số Điện Thoại",
-      "IDENTIFIER": "Định danh",
+      "NAME": "Tên khách hàng",
+      "EMAIL": "Email",
+      "PHONE_NUMBER": "Số điện thoại",
+      "INITIAL_CHANNEL": "Kênh tiếp cận",
       "CITY": "Tỉnh / Thành phố",
-      "COUNTRY": "Quốc gia",
+      "STAGE": "Giai đoạn",
+      "LEADS_ASSIGNEE": "Phụ trách leads",
+      "DEALS_ASSIGNEE": "Phụ trách deals",
+      "TEAM": "Nhóm phụ trách",
       "CUSTOM_ATTRIBUTE_LIST": "Danh sách",
       "CUSTOM_ATTRIBUTE_TEXT": "Văn bản",
       "CUSTOM_ATTRIBUTE_NUMBER": "Số",
       "CUSTOM_ATTRIBUTE_LINK": "Liên kết",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-      "CREATED_AT": "Tạo vào lúc",
-      "LAST_ACTIVITY": "Hành động cuối cùng",
-      "REFERER_LINK": "Liên kết người gới thiệu",
-      "BLOCKED": "Blocked"
+      "CREATED_AT": "Thời điểm tạo",
+      "LAST_ACTIVITY": "Tương tác cuối"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Bộ lọc tiêu chuẩn",
-      "ADDITIONAL_FILTERS": "Bộ lọc bổ sung",
+      "STANDARD_FILTERS": "Thông tin cố định",
+      "ADDITIONAL_FILTERS": "Thông tin bổ sung",
       "CUSTOM_ATTRIBUTES": "Thông tin tùy chỉnh"
     }
   }

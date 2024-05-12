@@ -263,7 +263,7 @@
     "FILTER_CONTACTS": "Lọc",
     "FILTER_CONTACTS_SAVE": "Lưu bộ lọc",
     "FILTER_CONTACTS_DELETE": "Xoá bộ lọc",
-    "FILTER_CONTACTS_EDIT": "Sửa giai đoạn",
+    "FILTER_CONTACTS_EDIT": "Sửa bộ lọc",
     "LIST": {
       "LOADING_MESSAGE": "Đang tải khách hàng...",
       "404": "Không có khách hàng nào khớp với tìm kiếm của bạn 🔍",

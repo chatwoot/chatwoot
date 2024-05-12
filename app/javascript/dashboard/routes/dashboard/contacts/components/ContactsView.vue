@@ -149,6 +149,9 @@ export default {
       meta: 'contacts/getMeta',
       segments: 'customViews/getCustomViews',
       getAppliedContactFilters: 'contacts/getAppliedContactFilters',
+      stages: 'stages/getStages',
+      agents: 'agents/getAgents',
+      teams: 'teams/getTeams',
     }),
     showEmptySearchResult() {
       const hasEmptyResults = !!this.searchQuery && this.records.length === 0;
@@ -408,6 +411,9 @@ export default {
       // So we are mapping it to find the input type of the attribute to show in the edit segment modal.
       const params = {
         countries: countries,
+        stages: this.stages,
+        agents: this.agents,
+        teams: this.teams,
         filterTypes: contactFilterItems,
         allCustomAttributes:
           this.$store.getters['attributes/getAttributesByModel'](

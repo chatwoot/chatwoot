@@ -1,7 +1,8 @@
 import {
   OPERATOR_TYPES_1,
-  OPERATOR_TYPES_3,
+  OPERATOR_TYPES_2,
   OPERATOR_TYPES_5,
+  OPERATOR_TYPES_6,
 } from 'dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
 const filterTypes = [
   {
@@ -17,7 +18,7 @@ const filterTypes = [
     attributeI18nKey: 'EMAIL',
     inputType: 'plain_text',
     dataType: 'text',
-    filterOperators: OPERATOR_TYPES_3,
+    filterOperators: OPERATOR_TYPES_6,
     attribute_type: 'standard',
   },
   {
@@ -25,31 +26,47 @@ const filterTypes = [
     attributeI18nKey: 'PHONE_NUMBER',
     inputType: 'plain_text',
     dataType: 'text',
-    filterOperators: OPERATOR_TYPES_3,
+    filterOperators: OPERATOR_TYPES_6,
     attribute_type: 'standard',
   },
   {
-    attributeKey: 'identifier',
-    attributeI18nKey: 'IDENTIFIER',
+    attributeKey: 'initial_channel_type',
+    attributeI18nKey: 'INITIAL_CHANNEL',
     inputType: 'plain_text',
-    dataType: 'number',
+    dataType: 'text',
     filterOperators: OPERATOR_TYPES_1,
     attribute_type: 'standard',
   },
   {
-    attributeKey: 'country_code',
-    attributeI18nKey: 'COUNTRY',
+    attributeKey: 'stage_id',
+    attributeI18nKey: 'STAGE',
     inputType: 'search_select',
     dataType: 'number',
-    filterOperators: OPERATOR_TYPES_1,
+    filterOperators: OPERATOR_TYPES_2,
     attribute_type: 'standard',
   },
   {
-    attributeKey: 'city',
-    attributeI18nKey: 'CITY',
-    inputType: 'plain_text',
-    dataType: 'Number',
-    filterOperators: OPERATOR_TYPES_3,
+    attributeKey: 'assignee_id_in_leads',
+    attributeI18nKey: 'LEADS_ASSIGNEE',
+    inputType: 'search_select',
+    dataType: 'number',
+    filterOperators: OPERATOR_TYPES_2,
+    attribute_type: 'standard',
+  },
+  {
+    attributeKey: 'assignee_id_in_deals',
+    attributeI18nKey: 'DEALS_ASSIGNEE',
+    inputType: 'search_select',
+    dataType: 'number',
+    filterOperators: OPERATOR_TYPES_2,
+    attribute_type: 'standard',
+  },
+  {
+    attributeKey: 'team_id',
+    attributeI18nKey: 'TEAM',
+    inputType: 'search_select',
+    dataType: 'number',
+    filterOperators: OPERATOR_TYPES_2,
     attribute_type: 'standard',
   },
   {
@@ -66,22 +83,6 @@ const filterTypes = [
     inputType: 'date',
     dataType: 'text',
     filterOperators: OPERATOR_TYPES_5,
-    attributeModel: 'standard',
-  },
-  {
-    attributeKey: 'referer',
-    attributeI18nKey: 'REFERER_LINK',
-    inputType: 'plain_text',
-    dataType: 'text',
-    filterOperators: OPERATOR_TYPES_5,
-    attributeModel: 'standard',
-  },
-  {
-    attributeKey: 'blocked',
-    attributeI18nKey: 'BLOCKED',
-    inputType: 'search_select',
-    dataType: 'text',
-    filterOperators: OPERATOR_TYPES_1,
     attributeModel: 'standard',
   },
 ];
@@ -104,16 +105,24 @@ export const filterAttributeGroups = [
         i18nKey: 'PHONE_NUMBER',
       },
       {
-        key: 'identifier',
-        i18nKey: 'IDENTIFIER',
+        key: 'initial_channel_type',
+        i18nKey: 'INITIAL_CHANNEL',
       },
       {
-        key: 'country_code',
-        i18nKey: 'COUNTRY',
+        key: 'stage_id',
+        i18nKey: 'STAGE',
       },
       {
-        key: 'city',
-        i18nKey: 'CITY',
+        key: 'assignee_id_in_leads',
+        i18nKey: 'LEADS_ASSIGNEE',
+      },
+      {
+        key: 'assignee_id_in_deals',
+        i18nKey: 'DEALS_ASSIGNEE',
+      },
+      {
+        key: 'team_id',
+        i18nKey: 'TEAM',
       },
       {
         key: 'created_at',
@@ -122,10 +131,6 @@ export const filterAttributeGroups = [
       {
         key: 'last_activity_at',
         i18nKey: 'LAST_ACTIVITY',
-      },
-      {
-        key: 'blocked',
-        i18nKey: 'BLOCKED',
       },
     ],
   },
