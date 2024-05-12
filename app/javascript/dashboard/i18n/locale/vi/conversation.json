@@ -219,6 +219,14 @@
         "DELETE": "Xoá",
         "CANCEL": "Huỷ"
       }
+    },
+    "CONTACT_STAGE": {
+      "TITLE": "Cập nhật tình trạng khách hàng",
+      "DESCRIPTION": "Bạn vừa đánh dấu hoàn thành cuộc hội thoại, bây giờ bạn có thể chuyển đổi tình trạng khách hàng ở đây.",
+      "STAGE": "Tình trạng khách hàng",
+      "STAGE_ERROR": "Cần chọn một tình trạng khách hàng",
+      "CANCEL": "Giữ nguyên",
+      "SUBMIT": "Chuyển đổi"
     }
   },
   "EMAIL_TRANSCRIPT": {

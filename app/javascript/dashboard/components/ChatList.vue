@@ -171,6 +171,12 @@
         @updateFolder="onUpdateSavedFilter"
       />
     </woot-modal>
+    <contact-stage-modal
+      v-if="showStageModal"
+      :contact="currentChat.contact"
+      :show="showStageModal"
+      @close="toggleStageModal"
+    />
   </div>
 </template>
 
@@ -198,6 +204,7 @@ import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import countries from 'shared/constants/countries';
 import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
+import ContactStageModal from 'dashboard/routes/dashboard/conversation/ContactStageModal.vue';
 
 import {
   hasPressedAltAndJKey,
@@ -225,6 +232,7 @@ export default {
     ConversationSort,
     IntersectionObserver,
     VirtualList,
+    ContactStageModal,
   },
   mixins: [
     timeMixin,
@@ -294,6 +302,7 @@ export default {
       foldersQuery: {},
       showAddFoldersModal: false,
       showDeleteFoldersModal: false,
+      showStageModal: false,
       selectedConversations: [],
       selectedInboxes: [],
       isContextMenuOpen: false,
@@ -566,6 +575,9 @@ export default {
     });
   },
   methods: {
+    toggleStageModal() {
+      this.showStageModal = !this.showStageModal;
+    },
     updateVirtualListProps(key, value) {
       this.virtualListExtraProps = {
         ...this.virtualListExtraProps,
@@ -1013,6 +1025,7 @@ export default {
         .then(() => {
           this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
           this.isLoading = false;
+          if (status === 'resolved') this.showStageModal = true;
         });
     },
     allSelectedConversationsStatus(status) {
