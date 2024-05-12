@@ -111,7 +111,7 @@ class Conversation < ApplicationRecord
   before_create :ensure_waiting_since
 
   after_update_commit :execute_after_update_commit_callbacks
-  after_create_commit :notify_conversation_creation
+  after_create_commit :notify_conversation_creation, :sync_contact_assignee
   after_commit :set_display_id, unless: :display_id?
 
   delegate :auto_resolve_duration, to: :account
@@ -239,6 +239,12 @@ class Conversation < ApplicationRecord
 
   def notify_conversation_creation
     dispatcher_dispatch(CONVERSATION_CREATED)
+  end
+
+  def sync_contact_assignee
+    return unless contact.conversations.where(conversation_type: :default_type).count == 1 && assignee_id.present?
+
+    contact.update(assignee_id_in_leads: assignee_id)
   end
 
   def notify_conversation_updation

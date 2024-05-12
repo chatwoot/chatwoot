@@ -42,7 +42,9 @@
       "CANCEL_ADD_NOTE": "Hủy",
       "NO_NOTE": "Chưa có ghi chú nào",
       "ADD_ACTION": "Thêm hành động",
-      "NO_ACTION": "Chưa có hành động nào"
+      "NO_ACTION": "Chưa có hành động nào",
+      "CHANGE_AGENT": "Người phụ trách khách hàng đã thay đổi",
+      "CHANGE_TEAM": "Nhóm phụ trách khách hàng đã thay đổi"
     },
     "NEW_ACTION": {
       "HEADER_TITLE": "Thêm hành động tiếp theo",

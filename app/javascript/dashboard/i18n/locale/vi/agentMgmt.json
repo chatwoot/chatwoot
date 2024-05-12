@@ -100,7 +100,7 @@
     "MULTI_SELECTOR": {
       "PLACEHOLDER": "Không có",
       "TITLE": {
-        "AGENT": "Chọn thành viên",
+        "AGENT": "Chọn người dùng",
         "TEAM": "Chọn nhóm"
       },
       "SEARCH": {

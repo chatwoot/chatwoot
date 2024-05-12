@@ -70,16 +70,13 @@
         :title="$t('CONTACTS_PAGE.LIST.TABLE_HEADER.LEAD_ASSIGNEE')"
       />
       <multiselect-dropdown
-        :options="agentsList"
-        :selected-item="contact.assignee_in_leads"
-        :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.AGENT')"
+        :options="agents"
+        :selected-item="leadAssignee"
         :multiselector-placeholder="$t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')"
-        :no-search-result="
-          $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.NO_RESULTS.AGENT')
-        "
         :input-placeholder="
           $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.AGENT')
         "
+        @click="onClickLeadAssignee"
       />
     </div>
     <div class="multiselect-wrap--small">
@@ -88,16 +85,13 @@
         :title="$t('CONTACTS_PAGE.LIST.TABLE_HEADER.DEAL_ASSIGNEE')"
       />
       <multiselect-dropdown
-        :options="agentsList"
-        :selected-item="contact.assignee_in_deals"
-        :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.AGENT')"
+        :options="agents"
+        :selected-item="dealAssignee"
         :multiselector-placeholder="$t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')"
-        :no-search-result="
-          $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.NO_RESULTS.AGENT')
-        "
         :input-placeholder="
           $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.AGENT')
         "
+        @click="onClickDealAssignee"
       />
     </div>
     <div class="multiselect-wrap--small">
@@ -106,15 +100,11 @@
         :title="$t('CONTACTS_PAGE.LIST.TABLE_HEADER.TEAM_NAME')"
       />
       <multiselect-dropdown
-        :options="teamsList"
-        :selected-item="contact.team"
-        :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.TEAM')"
+        :options="teams"
+        :selected-item="assignedTeam"
         :multiselector-placeholder="$t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')"
-        :no-search-result="
-          $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.NO_RESULTS.TEAM')
-        "
         :input-placeholder="
-          $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.INPUT')
+          $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.TEAM')
         "
         @click="onClickAssignTeam"
       />
@@ -123,6 +113,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import ContactDetailsItem from 'dashboard/routes/dashboard/conversation/ContactDetailsItem.vue';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
@@ -153,6 +144,10 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      agents: 'agents/getAgents',
+      teams: 'teams/getTeams',
+    }),
     addOrCancelNoteLabel() {
       return this.showAddNote
         ? this.$t('CONTACT_PANEL.ACTIONS.CANCEL_ADD_NOTE')
@@ -165,16 +160,10 @@ export default {
         case 'snoozed':
           status = format(new Date(action.snoozed_until), 'dd/MM HH:mm');
           break;
-        case 'open':
-          status = 'Đang giải quyết';
-          break;
-        case 'resolved':
-          status = 'Đã hoàn thành';
-          break;
-        case 'pending':
-          status = 'Đang chờ';
-          break;
         default:
+          status = this.$t(
+            'CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.' + action.status + '.TEXT'
+          );
           break;
       }
       return action.additional_attributes.description + ' (' + status + ')';
@@ -185,38 +174,54 @@ export default {
         this.contact.current_action.status === 'resolved'
       );
     },
-    assignedAgent: {
+    leadAssignee: {
       get() {
         return this.contact.assignee_in_leads;
       },
       set(agent) {
-        const agentId = agent ? agent.id : 0;
-        this.$store.dispatch('setCurrentChatAssignee', agent);
-        this.$store
-          .dispatch('assignAgent', {
-            conversationId: this.currentChat.id,
-            agentId,
-          })
-          .then(() => {
-            this.showAlert(this.$t('CONVERSATION.CHANGE_AGENT'));
-          });
+        const agentId = agent ? agent.id : null;
+        const contactItem = {
+          id: this.contact.id,
+          assignee_id_in_leads: agentId,
+        };
+        this.$store.dispatch('contacts/update', contactItem).then(() => {
+          this.showAlert(this.$t('CONTACT_PANEL.ACTIONS.CHANGE_AGENT'));
+        });
+      },
+    },
+    dealAssignee: {
+      get() {
+        return this.contact.assignee_in_deals;
+      },
+      set(agent) {
+        const agentId = agent ? agent.id : null;
+        const contactItem = {
+          id: this.contact.id,
+          assignee_id_in_deals: agentId,
+        };
+        this.$store.dispatch('contacts/update', contactItem).then(() => {
+          this.showAlert(this.$t('CONTACT_PANEL.ACTIONS.CHANGE_AGENT'));
+        });
       },
     },
     assignedTeam: {
       get() {
-        return this.contact.team_id;
+        return this.contact.team;
       },
       set(team) {
-        const conversationId = this.currentChat.id;
         const teamId = team ? team.id : 0;
-        this.$store.dispatch('setCurrentChatTeam', { team, conversationId });
-        this.$store
-          .dispatch('assignTeam', { conversationId, teamId })
-          .then(() => {
-            this.showAlert(this.$t('CONVERSATION.CHANGE_TEAM'));
-          });
+        const contactItem = {
+          id: this.contact.id,
+          team_id: teamId,
+        };
+        this.$store.dispatch('contacts/update', contactItem).then(() => {
+          this.showAlert(this.$t('CONTACT_PANEL.ACTIONS.CHANGE_TEAM'));
+        });
       },
     },
+  },
+  mounted() {
+    this.$store.dispatch('agents/get');
   },
   methods: {
     toggleNewActionModal() {
@@ -231,11 +236,18 @@ export default {
       this.$store.dispatch('contacts/show', { id: contactId });
       this.onToggleAddNote();
     },
-    onClickAssignAgent(selectedItem) {
-      if (this.assignedAgent && this.assignedAgent.id === selectedItem.id) {
-        this.assignedAgent = null;
+    onClickLeadAssignee(selectedItem) {
+      if (this.leadAssignee && this.leadAssignee.id === selectedItem.id) {
+        this.leadAssignee = null;
       } else {
-        this.assignedAgent = selectedItem;
+        this.leadAssignee = selectedItem;
+      }
+    },
+    onClickDealAssignee(selectedItem) {
+      if (this.dealAssignee && this.dealAssignee.id === selectedItem.id) {
+        this.dealAssignee = null;
+      } else {
+        this.dealAssignee = selectedItem;
       }
     },
 

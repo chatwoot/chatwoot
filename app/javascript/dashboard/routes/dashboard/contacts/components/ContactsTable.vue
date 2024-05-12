@@ -98,7 +98,7 @@ export default {
           ...item.custom_attributes,
           stage_name: item.stage ? item.stage.name : null,
           action_description: item.current_action
-            ? item.current_action.additional_attributes.description
+            ? this.currentActionText(item.current_action)
             : null,
           assignee_name_in_leads: item.assignee_in_leads
             ? item.assignee_in_leads.name
@@ -330,6 +330,20 @@ export default {
     this.setSortConfig();
   },
   methods: {
+    currentActionText(action) {
+      let status = '';
+      switch (action.status) {
+        case 'snoozed':
+          status = format(new Date(action.snoozed_until), 'dd/MM HH:mm');
+          break;
+        default:
+          status = this.$t(
+            'CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.' + action.status + '.TEXT'
+          );
+          break;
+      }
+      return action.additional_attributes.description + ' (' + status + ')';
+    },
     setSortConfig() {
       this.sortConfig = { [this.sortParam]: this.sortOrder };
     },
