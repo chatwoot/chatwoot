@@ -91,12 +91,10 @@ export default {
       try {
         this.isFetching = true;
         const response = await LinearAPI.getLinkedIssue(this.conversationId);
-        const { issues } = response.data;
+        const { issues = [] } = response.data;
         this.linkedIssue = issues.length ? issues[0] : null;
       } catch (error) {
-        this.showAlert(
-          this.$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.LOADING_ERROR')
-        );
+        this.showAlert(this.$t('INTEGRATION_SETTINGS.LINEAR.LOADING_ERROR'));
       } finally {
         this.isFetching = false;
       }

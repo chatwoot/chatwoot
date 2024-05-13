@@ -209,7 +209,14 @@
       "LOADING": "Fetching linear issues...",
       "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
       "CREATE": "Create",
-      "LINK": "Link",
+      "LINK": {
+        "SEARCH": "Search linear issues",
+        "SELECT": "Select issue",
+        "TITLE": "Link",
+        "EMPTY_LIST": "No linear issues found",
+        "LOADING": "Loading",
+        "ERROR": "There was an error fetching the linear issues, please try again"
+      },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
         "DESCRIPTION": "Create or link a linear issue to the conversation",

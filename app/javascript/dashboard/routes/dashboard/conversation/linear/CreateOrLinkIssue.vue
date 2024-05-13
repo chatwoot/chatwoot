@@ -75,7 +75,7 @@ export default {
         },
         {
           key: 1,
-          name: this.$t('INTEGRATION_SETTINGS.LINEAR.LINK'),
+          name: this.$t('INTEGRATION_SETTINGS.LINEAR.LINK.TITLE'),
         },
       ];
     },

@@ -4,20 +4,27 @@
       <multiselect
         v-model="selectedOptions"
         class="no-margin !pl-0"
-        placeholder="Type to search"
-        select-label="Select issue"
-        label="name"
+        :placeholder="$t('INTEGRATION_SETTINGS.LINEAR.LINK.SEARCH')"
+        :select-label="$t('INTEGRATION_SETTINGS.LINEAR.LINK.SELECT')"
+        label="title"
         track-by="id"
         :options="options"
         :option-height="24"
         :show-labels="false"
+        :max-height="500"
         @search-change="handleSearchChange"
         @select="handleInput"
       >
         <template #noResult>
-          {{ emptyText }}
+          <div class="flex items-center justify-center">
+            {{ emptyText }}
+          </div>
         </template>
-        <template #noOptions> No options </template>
+        <template #noOptions>
+          <div class="flex items-center justify-center">
+            {{ $t('INTEGRATION_SETTINGS.LINEAR.LINK.EMPTY_LIST') }}
+          </div>
+        </template>
       </multiselect>
     </div>
     <div class="flex items-center justify-end w-full gap-2 mt-8">
@@ -67,12 +74,12 @@ export default {
   computed: {
     emptyText() {
       if (this.isFetching) {
-        return 'Loading...';
+        return this.$t('INTEGRATION_SETTINGS.LINEAR.LINK.LOADING');
       }
       if (this.searchQuery) {
         return '';
       }
-      return 'No results found';
+      return this.$t('INTEGRATION_SETTINGS.LINEAR.LINK.EMPTY_LIST');
     },
     isSubmitDisabled() {
       return !this.selectedOptions || this.isLinking;
@@ -88,16 +95,9 @@ export default {
       try {
         this.isFetching = true;
         const response = await LinearAPI.searchIssues(value);
-        const options = response.data.map(issue => ({
-          id: issue.id,
-          name: issue.title,
-          description: issue.description,
-        }));
-        this.options = options;
+        this.options = response.data;
       } catch (error) {
-        this.showAlert(
-          this.$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.LOADING_TEAM_ERROR')
-        );
+        this.showAlert(this.$t('INTEGRATION_SETTINGS.LINEAR.LINK.ERROR'));
       } finally {
         this.isFetching = false;
       }
