@@ -229,7 +229,8 @@
             "REQUIRED_ERROR": "Title is required"
           },
           "DESCRIPTION": {
-            "LABEL": "Description"
+            "LABEL": "Description",
+            "PLACEHOLDER": "Enter description"
           },
           "TEAM": {
             "LABEL": "Team",

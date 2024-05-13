@@ -59,7 +59,7 @@ export default {
   },
   data() {
     return {
-      selectedOptions: [],
+      selectedOptions: null,
       options: [],
       inputStyles: {
         borderRadius: '12px',
