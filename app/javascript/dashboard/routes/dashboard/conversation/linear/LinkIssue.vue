@@ -40,7 +40,7 @@
         :is-loading="isLinking"
         @click.prevent="linkIssue"
       >
-        {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CREATE') }}
+        {{ $t('INTEGRATION_SETTINGS.LINEAR.LINK.TITLE') }}
       </woot-button>
     </div>
   </div>
@@ -111,14 +111,12 @@ export default {
         this.isLinking = true;
         await LinearAPI.link_issue(this.conversationId, issueId);
         this.showAlert(
-          this.$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CREATE_SUCCESS')
+          this.$t('INTEGRATION_SETTINGS.LINEAR.LINK.LINK_SUCCESS')
         );
         this.searchQuery = '';
         this.onClose();
       } catch (error) {
-        this.showAlert(
-          this.$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CREATE_ERROR')
-        );
+        this.showAlert(this.$t('INTEGRATION_SETTINGS.LINEAR.LINK.LINK_ERROR'));
       } finally {
         this.isLinking = false;
       }

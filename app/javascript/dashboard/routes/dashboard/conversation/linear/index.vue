@@ -91,8 +91,8 @@ export default {
       try {
         this.isFetching = true;
         const response = await LinearAPI.getLinkedIssue(this.conversationId);
-        const { issues = [] } = response.data;
-        this.linkedIssue = issues.length ? issues[0] : null;
+        const issues = response.data;
+        this.linkedIssue = issues && issues.length ? issues[0] : null;
       } catch (error) {
         this.showAlert(this.$t('INTEGRATION_SETTINGS.LINEAR.LOADING_ERROR'));
       } finally {
