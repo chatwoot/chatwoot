@@ -264,7 +264,7 @@ export default {
       this.adjustSelection('down');
     },
     onSelect() {
-      if (!this.showDropdown) return;
+      if (!this.showDropdown || this.selectedIndex === -1) return;
       this.onSelectCountry(this.items[this.selectedIndex]);
     },
     scrollToFocusedOrActiveItem(item) {
