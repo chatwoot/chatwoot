@@ -1,3 +1,93 @@
+<script setup>
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { useI18n } from 'dashboard/composables/useI18n';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+
+const { t } = useI18n();
+
+const showNotification = ref(!navigator.onLine);
+const isDisconnected = ref(false);
+const isReconnecting = ref(false);
+const isReconnected = ref(false);
+let reconnectTimeout = null;
+
+const bannerText = computed(() => {
+  if (isReconnecting.value) return t('NETWORK.NOTIFICATION.RECONNECTING');
+  if (isReconnected.value) return t('NETWORK.NOTIFICATION.RECONNECT_SUCCESS');
+  return t('NETWORK.NOTIFICATION.OFFLINE');
+});
+
+const iconName = computed(() => (isReconnected.value ? 'wifi' : 'wifi-off'));
+const canRefresh = computed(
+  () => !isReconnecting.value && !isReconnected.value
+);
+
+const refreshPage = () => {
+  window.location.reload();
+};
+
+const closeNotification = () => {
+  showNotification.value = false;
+  isReconnected.value = false;
+  clearTimeout(reconnectTimeout);
+};
+
+const updateOnlineStatus = event => {
+  // Case: Websocket is not disconnected
+  // If the user goes offline, show the notification
+  // If the user goes online, close the notification
+
+  // Case: Websocket is disconnected
+  // If the user goes offline, show the notification
+  // If the user goes online but the websocket is disconnected, don't close the notification
+  // If the user goes online and the websocket is not disconnected, close the notification
+
+  if (event.type === 'offline') {
+    showNotification.value = true;
+  } else if (event.type === 'online' && !isDisconnected.value) {
+    closeNotification();
+  }
+};
+
+const updateWebsocketStatus = () => {
+  isDisconnected.value = true;
+  showNotification.value = true;
+};
+
+const handleReconnecting = () => {
+  isReconnecting.value = true;
+  isReconnected.value = false;
+  showNotification.value = true;
+};
+
+const handleReconnectionCompleted = () => {
+  isReconnecting.value = false;
+  isReconnected.value = true;
+  showNotification.value = true;
+  reconnectTimeout = setTimeout(closeNotification, 2000);
+};
+
+onMounted(() => {
+  window.addEventListener('offline', updateOnlineStatus);
+  window.addEventListener('online', updateOnlineStatus);
+  window.bus.$on(BUS_EVENTS.WEBSOCKET_DISCONNECT, updateWebsocketStatus);
+  window.bus.$on(
+    BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED,
+    handleReconnectionCompleted
+  );
+  window.bus.$on(BUS_EVENTS.WEBSOCKET_RECONNECT, handleReconnecting);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('offline', updateOnlineStatus);
+  window.removeEventListener('online', updateOnlineStatus);
+  window.bus.$off(BUS_EVENTS.WEBSOCKET_DISCONNECT);
+  window.bus.$off(BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED);
+  window.bus.$off(BUS_EVENTS.WEBSOCKET_RECONNECT);
+  clearTimeout(reconnectTimeout);
+});
+</script>
+
 <template>
   <transition name="network-notification-fade" tag="div">
     <div v-show="showNotification" class="fixed top-4 left-2 z-50 group">
@@ -5,7 +95,7 @@
         class="flex items-center justify-between py-1 px-2 w-full rounded-lg shadow-lg bg-yellow-200 dark:bg-yellow-700 relative"
       >
         <fluent-icon
-          icon="wifi-off"
+          :icon="iconName"
           class="text-yellow-700/50 dark:text-yellow-50"
           size="18"
         />
@@ -14,15 +104,13 @@
         >
           {{ bannerText }}
         </span>
-
         <woot-button
-          v-if="!isReconnecting"
+          v-if="canRefresh"
           :title="$t('NETWORK.BUTTON.REFRESH')"
           variant="clear"
           size="small"
           color-scheme="warning"
           icon="arrow-clockwise"
-          class="visible transition-all duration-500 ease-in-out ml-1"
           @click="refreshPage"
         />
         <woot-button
@@ -36,67 +124,3 @@
     </div>
   </transition>
 </template>
-
-<script>
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import { mapGetters } from 'vuex';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
-
-export default {
-  mixins: [globalConfigMixin],
-
-  data() {
-    return {
-      showNotification: !navigator.onLine,
-      isReconnecting: false,
-    };
-  },
-
-  computed: {
-    ...mapGetters({ globalConfig: 'globalConfig/get' }),
-    bannerText() {
-      return this.isReconnecting
-        ? this.$t('NETWORK.NOTIFICATION.RECONNECT')
-        : this.$t('NETWORK.NOTIFICATION.OFFLINE');
-    },
-  },
-
-  mounted() {
-    window.addEventListener('offline', this.updateOnlineStatus);
-    window.addEventListener('online', this.updateOnlineStatus);
-    window.bus.$on(BUS_EVENTS.WEBSOCKET_DISCONNECT, () => {
-      this.updateOnlineStatus({ type: 'offline' });
-    });
-    window.bus.$on(BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED, () => {
-      this.showNotification = false;
-      this.isReconnecting = false;
-    });
-    window.bus.$on(BUS_EVENTS.WEBSOCKET_RECONNECT, () => {
-      this.isReconnecting = true;
-    });
-  },
-
-  beforeDestroy() {
-    window.removeEventListener('offline', this.updateOnlineStatus);
-    window.removeEventListener('online', this.updateOnlineStatus);
-    window.bus.$off(BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED);
-    window.bus.$off(BUS_EVENTS.WEBSOCKET_RECONNECT);
-  },
-
-  methods: {
-    refreshPage() {
-      window.location.reload();
-    },
-
-    closeNotification() {
-      this.showNotification = false;
-    },
-
-    updateOnlineStatus(event) {
-      if (event.type === 'offline') {
-        this.showNotification = true;
-      }
-    },
-  },
-};
-</script>

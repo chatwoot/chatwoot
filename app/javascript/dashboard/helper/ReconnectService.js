@@ -17,9 +17,14 @@ export default class ReconnectService {
     this.disconnectTime = null;
   }
 
-  static getInstance(store, bus) {
+  static getInstance(store, bus, route, filters) {
     if (!ReconnectService.instance) {
-      ReconnectService.instance = new ReconnectService(store, bus);
+      ReconnectService.instance = new ReconnectService(
+        store,
+        bus,
+        route,
+        filters
+      );
     }
     return ReconnectService.instance;
   }
@@ -44,6 +49,18 @@ export default class ReconnectService {
     return this.disconnectTime
       ? Math.max(differenceInSeconds(new Date(), this.disconnectTime), 0)
       : 0;
+  }
+
+  handleOnlineEvent() {
+    // if the disconnect time is greater than 3 hours, reload the page
+    // if the disconnect time is less than 3 hours, fetch the conversations/notifications
+    const seconds = this.getSecondsSinceDisconnect();
+    const threshold = 3 * 3600; // 3 hours
+    if (seconds >= threshold) {
+      // 10800 seconds equals 3 hours
+      window.location.reload();
+      this.resetDisconnectTime();
+    }
   }
 
   async fetchConversationsOnReconnect() {
@@ -89,6 +106,8 @@ export default class ReconnectService {
   }
 
   async fetchOnReconnect() {
+    // if the disconnect time is greater than 3 hours, reload the page
+    // if the disconnect time is less than 3 hours, fetch the conversations/notifications
     if (isAConversationRoute(this.route.name, true)) {
       await this.fetchConversationsOnReconnect();
     } else if (isAInboxViewRoute(this.route.name, true)) {
@@ -99,6 +118,9 @@ export default class ReconnectService {
   }
 
   setupEventListeners() {
+    // Added the online event listener, to handle the case where the user
+    // goes online for three hours and then back online, to force reload the page
+    window.addEventListener('online', () => this.handleOnlineEvent());
     this.bus.$on(BUS_EVENTS.WEBSOCKET_RECONNECT, () => this.fetchOnReconnect());
     this.bus.$on(BUS_EVENTS.WEBSOCKET_DISCONNECT, () =>
       this.setDisconnectTime()
@@ -106,6 +128,7 @@ export default class ReconnectService {
   }
 
   removeEventListeners() {
+    window.removeEventListener('online', () => this.handleOnlineEvent());
     this.bus.$off(BUS_EVENTS.WEBSOCKET_RECONNECT, () =>
       this.fetchOnReconnect()
     );
