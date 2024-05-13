@@ -61,12 +61,16 @@ export default {
       },
       isFetching: false,
       isLinking: false,
+      searchQuery: '',
     };
   },
   computed: {
     emptyText() {
       if (this.isFetching) {
         return 'Loading...';
+      }
+      if (this.searchQuery) {
+        return '';
       }
       return 'No results found';
     },
@@ -80,7 +84,7 @@ export default {
     },
     async handleSearchChange(value) {
       if (!value) return;
-
+      this.searchQuery = value;
       try {
         this.isFetching = true;
         const response = await LinearAPI.searchIssues(value);
@@ -109,6 +113,7 @@ export default {
         this.showAlert(
           this.$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CREATE_SUCCESS')
         );
+        this.searchQuery = '';
         this.onClose();
       } catch (error) {
         this.showAlert(

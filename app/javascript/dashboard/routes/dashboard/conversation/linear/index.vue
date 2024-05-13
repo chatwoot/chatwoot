@@ -2,7 +2,7 @@
   <div class="flex flex-col">
     <div class="flex flex-row gap-2">
       <woot-button
-        v-if="!isLoading && !issues.length"
+        v-if="shouldShowAddButton"
         variant="smooth"
         icon="add"
         size="tiny"
@@ -11,31 +11,29 @@
         {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK_BUTTON') }}
       </woot-button>
     </div>
-    <div v-if="isLoading" class="flex items-center justify-center">
+    <div v-if="isFetching" class="flex items-center justify-center">
       <span class="text-sm font-medium text-slate-800 dark:text-slate-100">
         {{ $t('INTEGRATION_SETTINGS.LINEAR.LOADING') }}
       </span>
     </div>
 
-    <div v-if="!isLoading && issues.length" class="flex flex-col gap-2">
+    <div v-if="shouldShowItem" class="flex flex-col gap-2">
       <issue-item
-        v-for="issue in issues"
-        :key="issue.issue.id"
-        :issue="issue.issue"
-        :link-id="issue.id"
+        :issue="linkedIssue.issue"
+        :link-id="linkedIssue.id"
         :conversation-id="conversationId"
         @unlink-issue="unlinkIssue"
       />
     </div>
     <woot-modal
-      :show.sync="showAddPopup"
-      :on-close="hideAddPopup"
+      :show.sync="showPopup"
+      :on-close="closePopup"
       class="!items-start [&>div]:!top-12"
     >
       <create-or-link-issue
         :conversation-id="conversationId"
         :account-id="currentAccountId"
-        @close="hideAddPopup"
+        @close="closePopup"
       />
     </woot-modal>
   </div>
@@ -62,44 +60,51 @@ export default {
   },
   data() {
     return {
-      isLoading: false,
-      showAddPopup: false,
-      issues: [],
+      isFetching: false,
+      showPopup: false,
+      linkedIssue: null,
     };
   },
   computed: {
     ...mapGetters({
       currentAccountId: 'getCurrentAccountId',
     }),
+    shouldShowAddButton() {
+      return !this.isFetching && !this.linkedIssue;
+    },
+    shouldShowItem() {
+      return !this.isFetching && this.linkedIssue;
+    },
   },
   mounted() {
-    this.loadIssues();
+    this.loadLinkedIssue();
   },
   methods: {
     showCreateIssuePopup() {
-      this.showAddPopup = true;
+      this.showPopup = true;
     },
-    hideAddPopup() {
-      this.showAddPopup = false;
-      this.loadIssues();
+    closePopup() {
+      this.showPopup = false;
+      this.loadLinkedIssue();
     },
-    async loadIssues() {
+    async loadLinkedIssue() {
       try {
-        this.isLoading = true;
+        this.isFetching = true;
         const response = await LinearAPI.getLinkedIssue(this.conversationId);
-        this.issues = response.data;
+        const { issues } = response.data;
+        this.linkedIssue = issues.length ? issues[0] : null;
       } catch (error) {
         this.showAlert(
           this.$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.LOADING_ERROR')
         );
       } finally {
-        this.isLoading = false;
+        this.isFetching = false;
       }
     },
     async unlinkIssue(linkId) {
       try {
         await LinearAPI.unlinkIssue(linkId);
-        this.issues = [];
+        this.linkedIssue = null;
         this.showAlert(this.$t('INTEGRATION_SETTINGS.LINEAR.UNLINK.SUCCESS'));
       } catch (error) {
         this.showAlert(
