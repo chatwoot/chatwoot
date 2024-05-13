@@ -3,7 +3,7 @@
     <div class="multiselect-wrap--small">
       <multiselect
         v-model="selectedOptions"
-        class="no-margin"
+        class="no-margin !pl-0"
         placeholder="Type to search"
         select-label="Select issue"
         label="name"

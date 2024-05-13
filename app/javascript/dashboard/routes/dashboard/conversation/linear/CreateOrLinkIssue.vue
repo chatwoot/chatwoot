@@ -9,7 +9,11 @@
 
     <div class="flex flex-col h-auto overflow-auto">
       <div class="flex flex-col px-8 pb-4">
-        <woot-tabs :index="selectedTabIndex" @change="onClickTabChange">
+        <woot-tabs
+          class="ltr:[&>ul]:pl-0 rtl:[&>ul]:pr-0"
+          :index="selectedTabIndex"
+          @change="onClickTabChange"
+        >
           <woot-tabs-item
             v-for="tab in tabs"
             :key="tab.key"

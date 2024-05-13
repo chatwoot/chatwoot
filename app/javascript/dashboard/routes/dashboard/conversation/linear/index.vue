@@ -27,7 +27,11 @@
         @unlink-issue="unlinkIssue"
       />
     </div>
-    <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
+    <woot-modal
+      :show.sync="showAddPopup"
+      :on-close="hideAddPopup"
+      class="!items-start [&>div]:!top-12"
+    >
       <create-or-link-issue
         :conversation-id="conversationId"
         :account-id="currentAccountId"
