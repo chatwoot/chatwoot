@@ -235,6 +235,7 @@ export default {
     },
   },
   mounted() {
+    this.$store.dispatch('agents/get');
     this.setContactObject();
     this.setDialCode();
   },

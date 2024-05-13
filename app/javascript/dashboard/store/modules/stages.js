@@ -19,18 +19,25 @@ export const getters = {
   getStages: _state => {
     return _state.records;
   },
-  getStagesByType: _state => stageType => {
-    return _state.records.filter(
-      record => record.stage_type === stageType || stageType === 'both'
-    );
+  getEnabledStages: _state => {
+    return _state.records.filter(record => record.disabled === false);
   },
+  getStagesByType:
+    _state =>
+    (stageType, disableIncluded = true) => {
+      return _state.records.filter(
+        record =>
+          (record.stage_type === stageType || stageType === 'both') &&
+          (record.disabled === false || disableIncluded)
+      );
+    },
 };
 
 export const actions = {
-  get: async function getStagesByType({ commit }) {
+  get: async ({ commit }) => {
     commit(types.SET_STAGE_UI_FLAG, { isFetching: true });
     try {
-      const response = await StageAPI.getStagesByType();
+      const response = await StageAPI.get();
       commit(types.SET_STAGE, response.data);
     } catch (error) {
       // Ignore error

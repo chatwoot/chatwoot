@@ -89,7 +89,7 @@ export default {
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
-      stages: 'stages/getStages',
+      stages: 'stages/getEnabledStages',
     }),
     currentContact() {
       return this.$store.getters['contacts/getContact'](

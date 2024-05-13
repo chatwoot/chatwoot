@@ -239,7 +239,12 @@ export default {
       currentUser: 'getCurrentUser',
     }),
     inboxes() {
-      const inboxList = this.contact.contactableInboxes || [];
+      const inboxList =
+        this.contact.contactableInboxes.filter(
+          item =>
+            this.contact.phone_number ||
+            item.inbox.channel_type !== 'Channel::StringeePhoneCall'
+        ) || [];
       return inboxList.map(inbox => ({
         ...inbox.inbox,
         sourceId: inbox.source_id,

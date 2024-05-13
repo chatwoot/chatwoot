@@ -19,7 +19,7 @@ class ContactInboxBuilder
       wa_source_id
     when 'Channel::Email'
       email_source_id
-    when 'Channel::Sms'
+    when 'Channel::Sms', 'Channel::StringeePhoneCall'
       phone_source_id
     when 'Channel::Api', 'Channel::WebWidget'
       SecureRandom.uuid

@@ -29,6 +29,7 @@ class InitialDataBuilder
                      name: 'Không phù hợp',
                      description: 'Lead rác hoặc không có nhu cầu - cần nhập nguyên nhân cụ thể',
                      status: :ended,
+                     disabled: true,
                      allow_disabled: true },
 
                    { account_id: account_id,
@@ -37,6 +38,7 @@ class InitialDataBuilder
                      name: 'Có quan tâm',
                      description: 'Lead đã được chuyển đổi để tiếp tục giai đoạn Deal',
                      status: :ongoing,
+                     disabled: true,
                      allow_disabled: true },
 
                    { account_id: account_id,
@@ -52,6 +54,7 @@ class InitialDataBuilder
                      name: 'Đang trao đổi',
                      description: 'Trao đổi chi tiết về sản phẩm dịch vụ',
                      status: :ongoing,
+                     disabled: true,
                      allow_disabled: true },
 
                    { account_id: account_id,
@@ -60,6 +63,7 @@ class InitialDataBuilder
                      name: 'Đang chốt',
                      description: 'Thương lượng thêm để chốt deal',
                      status: :ongoing,
+                     disabled: true,
                      allow_disabled: true },
 
                    { account_id: account_id,

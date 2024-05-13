@@ -22,7 +22,7 @@ class Api::V1::Accounts::StagesController < Api::V1::Accounts::BaseController
   private
 
   def fetch_stages
-    @stages = Current.account.stages
+    @stages = Current.account.stages.order(id: :asc)
     return if permitted_params[:stage_type].blank?
 
     stage_type = Stage::STAGE_TYPE_MAPPING[permitted_params[:stage_type]]

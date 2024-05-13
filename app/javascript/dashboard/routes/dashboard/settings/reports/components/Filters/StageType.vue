@@ -28,11 +28,9 @@ export default {
       ...option,
       name: this.$t(option.translationKey),
     }));
-    // TO-DO: change to get from last user's selection
     const defaultOption = translatedOptions[0];
     this.$emit(EVENT_NAME, defaultOption);
     return {
-      // relies on translations, need to move it to constants
       selectedOption: defaultOption,
       options: translatedOptions,
     };

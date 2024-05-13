@@ -6,7 +6,12 @@
       <div v-for="stage in stages" :slot="stage.code" :key="stage.code">
         <h2>
           {{ stage.name }}
-          <a href="" @click.prevent="() => addContact(stage.id)">+</a>
+          <a
+            v-tooltip.top-end="$t('PIPELINE_PAGE.ADD_CONTACT_TOOLTIP')"
+            href=""
+            @click.prevent="() => addContact(stage.id)"
+            >+
+          </a>
         </h2>
       </div>
       <div
@@ -99,8 +104,7 @@ export default {
           id: contact.id,
           status: stage.code,
           title: contact.name,
-          assignee:
-            stage.stage_type === 'leads' ? assigneeInLeads : assigneeInDeals,
+          assignee: assigneeInDeals || assigneeInLeads,
           lastNote: contact.last_note,
           updatedAt: contact.updated_at,
           formattedStageChangedAt: contact.last_stage_changed_at

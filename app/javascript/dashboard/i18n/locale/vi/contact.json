@@ -49,7 +49,7 @@
     "NEW_ACTION": {
       "HEADER_TITLE": "Thêm hành động tiếp theo",
       "HEADER_CONTENT": "Lập kế hoạch bằng cách hẹn giờ để liên lạc với khách hàng. Cuộc hội thoại mới sẽ tự động mở vào thời gian dự kiến.",
-      "CHANNEL": "Kênh liên lạc",
+      "CHANNEL": "Kênh có thể liên lạc",
       "CHANNEL_ERROR": "Cần nhập kênh liên lạc",
       "DESCRIPTION": "Mô tả cho hành động",
       "DESCRIPTION_ERROR": "Cần nhập mô tả cho hành động",

@@ -136,18 +136,18 @@ export default {
       return [
         {
           key: 0,
+          name: this.$t('STAGES_MGMT.TABS.BOTH'),
+          type: 'both',
+        },
+        {
+          key: 1,
           name: this.$t('STAGES_MGMT.TABS.LEADS'),
           type: 'leads',
         },
         {
-          key: 1,
+          key: 2,
           name: this.$t('STAGES_MGMT.TABS.DEALS'),
           type: 'deals',
-        },
-        {
-          key: 2,
-          name: this.$t('STAGES_MGMT.TABS.BOTH'),
-          type: 'both',
         },
       ];
     },
@@ -171,15 +171,11 @@ export default {
     },
   },
   mounted() {
-    this.fetchStages(this.selectedTabIndex);
+    this.$store.dispatch('stages/get');
   },
   methods: {
     onClickTabChange(index) {
       this.selectedTabIndex = index;
-      this.fetchStages(index);
-    },
-    fetchStages(index) {
-      this.$store.dispatch('stages/get', index);
     },
     async deleteStage({ id }) {
       try {
