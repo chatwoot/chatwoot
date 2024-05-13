@@ -4,7 +4,7 @@
       v-model="title"
       :class="{ error: $v.title.$error }"
       class="w-full"
-      :styles="inputStyles"
+      :styles="{ ...inputStyles, padding: '6px 12px' }"
       :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TITLE.LABEL')"
       :placeholder="
         $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TITLE.PLACEHOLDER')
@@ -22,6 +22,7 @@
       {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.DESCRIPTION.LABEL') }}
       <textarea
         v-model="description"
+        :style="{ ...inputStyles, padding: '8px 12px' }"
         rows="3"
         type="text"
         class="text-sm"
@@ -36,7 +37,7 @@
       {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TEAM.LABEL') }}
       <select
         v-model="teamId"
-        :styles="inputStyles"
+        :style="inputStyles"
         @change="onChangeTeam($event)"
       >
         <option v-for="item in teams" :key="item.name" :value="item.id">
@@ -51,7 +52,7 @@
     </label>
     <label>
       {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.ASSIGNEE.LABEL') }}
-      <select v-model="assigneeId" :styles="inputStyles">
+      <select v-model="assigneeId" :style="inputStyles">
         <option v-for="item in assignees" :key="item.name" :value="item.id">
           {{ item.name }}
         </option>
@@ -60,7 +61,7 @@
 
     <label>
       {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.LABEL.LABEL') }}
-      <select v-model="labelId" :styles="inputStyles">
+      <select v-model="labelId" :style="inputStyles">
         <option v-for="item in labels" :key="item.name" :value="item.id">
           {{ item.name }}
         </option>
@@ -69,7 +70,7 @@
 
     <label>
       {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.PRIORITY.LABEL') }}
-      <select v-model="priority" :styles="inputStyles">
+      <select v-model="priority" :style="inputStyles">
         <option v-for="item in priorities" :key="item.name" :value="item.id">
           {{ item.name }}
         </option>
@@ -78,7 +79,7 @@
 
     <label>
       {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.PROJECT.LABEL') }}
-      <select v-model="projectId" :styles="inputStyles">
+      <select v-model="projectId" :style="inputStyles">
         <option v-for="item in projects" :key="item.name" :value="item.id">
           {{ item.name }}
         </option>
@@ -87,7 +88,7 @@
 
     <label>
       {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.STATUS.LABEL') }}
-      <select v-model="stateId" :styles="inputStyles">
+      <select v-model="stateId" :style="inputStyles">
         <option v-for="item in statuses" :key="item.name" :value="item.id">
           {{ item.name }}
         </option>
@@ -178,7 +179,6 @@ export default {
       ],
       inputStyles: {
         borderRadius: '12px',
-        padding: '6px 12px',
         fontSize: '14px',
       },
     };
