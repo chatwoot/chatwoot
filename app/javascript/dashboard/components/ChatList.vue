@@ -173,7 +173,6 @@
     </woot-modal>
     <contact-stage-modal
       v-if="showStageModal"
-      :contact="currentChat.contact"
       :show="showStageModal"
       @close="toggleStageModal"
     />

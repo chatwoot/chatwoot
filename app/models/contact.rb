@@ -268,6 +268,8 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def set_default_stage_id
+    return if stage_id.present?
+
     new_stage = Stage.find_by(account_id: account_id, code: 'New')
     self.stage_id = new_stage.id if new_stage.present?
   end

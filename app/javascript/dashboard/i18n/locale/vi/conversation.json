@@ -221,12 +221,14 @@
       }
     },
     "CONTACT_STAGE": {
-      "TITLE": "Cập nhật tình trạng khách hàng",
+      "TITLE": "Cập nhật tình trạng khách hàng - %{name}",
       "DESCRIPTION": "Bạn vừa đánh dấu hoàn thành cuộc hội thoại, bây giờ bạn có thể chuyển đổi tình trạng khách hàng ở đây.",
-      "STAGE": "Tình trạng khách hàng",
-      "STAGE_ERROR": "Cần chọn một tình trạng khách hàng",
+      "STAGE": "Tình trạng hiện tại",
+      "NEW_STAGE": "Tình trạng mới",
+      "STAGE_ERROR": "Cần chọn một tình trạng mới để cập nhật",
       "CANCEL": "Giữ nguyên",
-      "SUBMIT": "Chuyển đổi"
+      "SUBMIT": "Cập nhật",
+      "CHANGE_STAGE": "Đã cập nhật tình trạng mới cho khách hàng"
     }
   },
   "EMAIL_TRANSCRIPT": {
