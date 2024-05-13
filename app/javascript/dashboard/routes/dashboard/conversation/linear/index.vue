@@ -28,7 +28,7 @@
       />
     </div>
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-      <add-issue
+      <create-or-link-issue
         :conversation-id="conversationId"
         :account-id="currentAccountId"
         @close="hideAddPopup"
@@ -41,13 +41,13 @@ import { mapGetters } from 'vuex';
 import IssueItem from './IssueItem.vue';
 import accountMixin from 'dashboard/mixins/account.js';
 import alertMixin from 'shared/mixins/alertMixin';
-import AddIssue from './AddIssue.vue';
+import CreateOrLinkIssue from './CreateOrLinkIssue.vue';
 import LinearAPI from 'dashboard/api/integrations/linear';
 
 export default {
   components: {
     IssueItem,
-    AddIssue,
+    CreateOrLinkIssue,
   },
   mixins: [accountMixin, alertMixin],
   props: {

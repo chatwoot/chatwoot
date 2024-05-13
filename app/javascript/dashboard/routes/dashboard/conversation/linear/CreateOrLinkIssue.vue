@@ -8,131 +8,28 @@
     />
 
     <div class="flex flex-col h-auto overflow-auto">
-      <div class="flex flex-col px-8 pb-4" @submit.prevent="onSubmit">
-        <woot-input
-          v-model="title"
-          :class="{ error: $v.title.$error }"
-          class="w-full"
-          :styles="inputStyles"
-          :label="
-            $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TITLE.LABEL')
-          "
-          :placeholder="
-            $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TITLE.PLACEHOLDER')
-          "
-          :error="
-            $v.title.$error
-              ? $t(
-                  'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TITLE.REQUIRED_ERROR'
-                )
-              : ''
-          "
-          @input="$v.title.$touch"
-        />
-        <label>
-          {{
-            $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.DESCRIPTION.LABEL')
-          }}
-          <textarea
-            v-model="description"
-            rows="3"
-            type="text"
-            class="text-sm"
-            :placeholder="
-              $t(
-                'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.DESCRIPTION.PLACEHOLDER'
-              )
-            "
+      <div class="flex flex-col px-8 pb-4">
+        <woot-tabs :index="selectedTabIndex" @change="onClickTabChange">
+          <woot-tabs-item
+            v-for="tab in tabs"
+            :key="tab.key"
+            :name="tab.name"
+            :show-badge="false"
           />
-        </label>
-        <label :class="{ error: $v.teamId.$error }">
-          {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TEAM.LABEL') }}
-          <select
-            v-model="teamId"
-            :styles="inputStyles"
-            @change="onChangeTeam($event)"
-          >
-            <option v-for="item in teams" :key="item.name" :value="item.id">
-              {{ item.name }}
-            </option>
-          </select>
-          <span v-if="$v.teamId.$error" class="message">
-            {{
-              $t(
-                'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TEAM.REQUIRED_ERROR'
-              )
-            }}
-          </span>
-        </label>
-        <label>
-          {{
-            $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.ASSIGNEE.LABEL')
-          }}
-          <select v-model="assigneeId" :styles="inputStyles">
-            <option v-for="item in assignees" :key="item.name" :value="item.id">
-              {{ item.name }}
-            </option>
-          </select>
-        </label>
+        </woot-tabs>
+      </div>
+      <div v-if="selectedTabIndex === 0" class="flex flex-col px-8 pb-4">
+        <create-issue
+          :account-id="accountId"
+          :conversation-id="conversationId"
+        />
+      </div>
 
-        <label>
-          {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.LABEL.LABEL') }}
-          <select v-model="labelId" :styles="inputStyles">
-            <option v-for="item in labels" :key="item.name" :value="item.id">
-              {{ item.name }}
-            </option>
-          </select>
-        </label>
-
-        <label>
-          {{
-            $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.PRIORITY.LABEL')
-          }}
-          <select v-model="priority" :styles="inputStyles">
-            <option
-              v-for="item in priorities"
-              :key="item.name"
-              :value="item.id"
-            >
-              {{ item.name }}
-            </option>
-          </select>
-        </label>
-
-        <label>
-          {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.PROJECT.LABEL') }}
-          <select v-model="projectId" :styles="inputStyles">
-            <option v-for="item in projects" :key="item.name" :value="item.id">
-              {{ item.name }}
-            </option>
-          </select>
-        </label>
-
-        <label>
-          {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.STATUS.LABEL') }}
-          <select v-model="stateId" :styles="inputStyles">
-            <option v-for="item in statuses" :key="item.name" :value="item.id">
-              {{ item.name }}
-            </option>
-          </select>
-        </label>
-
-        <div class="flex items-center justify-end w-full gap-2 mt-8">
-          <woot-button
-            class="px-4 rounded-xl button clear outline-woot-200/50 outline"
-            @click.prevent="onClose"
-          >
-            {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CANCEL') }}
-          </woot-button>
-          <woot-button
-            :is-disabled="isSubmitDisabled"
-            class="px-4 rounded-xl"
-            :is-loading="isCreating"
-            @click.prevent="createIssue"
-          >
-            {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CREATE') }}
-          </woot-button>
-        </div>
+      <div v-if="selectedTabIndex === 1" class="flex flex-col px-8 pb-4">
+        <link-issue
+          :conversation-id="conversationId"
+          @agents-filter-selection="handleAgentsFilterSelection"
+        />
       </div>
     </div>
   </div>
@@ -141,10 +38,16 @@
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
 import LinearAPI from 'dashboard/api/integrations/linear';
+import LinkIssue from './LinkIssue';
+import CreateIssue from './CreateIssue';
 
 import validations from './validations';
 
 export default {
+  components: {
+    LinkIssue,
+    CreateIssue,
+  },
   mixins: [alertMixin],
   props: {
     accountId: {
@@ -171,6 +74,7 @@ export default {
       projects: [],
       labels: [],
       statuses: [],
+      selectedTabIndex: 0,
       priorities: [
         {
           id: 0,
@@ -212,6 +116,18 @@ export default {
     isSubmitDisabled() {
       return this.$v.title.$invalid || this.isCreating;
     },
+    tabs() {
+      return [
+        {
+          key: 0,
+          name: this.$t('INTEGRATION_SETTINGS.LINEAR.CREATE'),
+        },
+        {
+          key: 1,
+          name: this.$t('INTEGRATION_SETTINGS.LINEAR.LINK'),
+        },
+      ];
+    },
   },
   mounted() {
     this.getTeams();
@@ -219,6 +135,9 @@ export default {
   methods: {
     onClose() {
       this.$emit('close');
+    },
+    onClickTabChange(index) {
+      this.selectedTabIndex = index;
     },
     onChangeTeam(event) {
       this.teamId = event.target.value;
@@ -301,6 +220,7 @@ export default {
         this.isCreating = false;
       }
     },
+    handleAgentsFilterSelection() {},
   },
 };
 </script>

@@ -208,6 +208,8 @@
       "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
       "LOADING": "Fetching linear issues...",
       "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
+      "CREATE": "Create",
+      "LINK": "Link",
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
         "DESCRIPTION": "Create or link a linear issue to the conversation",

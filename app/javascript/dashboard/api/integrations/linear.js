@@ -37,6 +37,10 @@ class LinearAPI extends ApiClient {
       link_id: linkId,
     });
   }
+
+  searchIssues(query) {
+    return axios.get(`${this.url}/search_issue?q=${query}`);
+  }
 }
 
 export default new LinearAPI();
