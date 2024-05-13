@@ -109,7 +109,7 @@ export default {
   watch: {
     inboxFilters(newFilters, oldFilters) {
       if (newFilters !== oldFilters && this.reconnectService) {
-        this.reconnectService.updateFilters(newFilters);
+        this.reconnectService.filters = newFilters;
       }
     },
   },

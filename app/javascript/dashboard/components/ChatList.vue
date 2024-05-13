@@ -341,13 +341,6 @@ export default {
     hasAppliedFiltersOrActiveFolders() {
       return this.hasAppliedFilters || this.hasActiveFolders;
     },
-    savedFoldersValue() {
-      if (this.hasActiveFolders) {
-        const payload = this.activeFolder.query;
-        this.fetchSavedFilteredConversations(payload);
-      }
-      return {};
-    },
     showEndOfListMessage() {
       return (
         this.conversationList.length &&
@@ -423,7 +416,6 @@ export default {
         labels: this.label ? [this.label] : undefined,
         teamId: this.teamId || undefined,
         conversationType: this.conversationType || undefined,
-        folders: this.hasActiveFolders ? this.savedFoldersValue : undefined,
       };
     },
     conversationListPagination() {
@@ -548,7 +540,7 @@ export default {
     },
     conversationFilters(newFilters, oldFilters) {
       if (newFilters !== oldFilters && this.reconnectService) {
-        this.reconnectService.updateFilters(newFilters);
+        this.reconnectService.filters = newFilters;
       }
     },
   },
