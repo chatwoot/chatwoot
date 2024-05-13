@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import VueRouter from 'vue-router';
 import axios from 'axios';
+import bus from './mitt.js';
 // Global Components
 import hljs from 'highlight.js';
 import Multiselect from 'vue-multiselect';
@@ -93,7 +94,7 @@ commonHelpers();
 
 window.WootConstants = constants;
 window.axios = createAxios(axios);
-window.bus = new Vue();
+window.bus = bus;
 initializeChatwootEvents();
 initializeAnalyticsEvents();
 initalizeRouter();
