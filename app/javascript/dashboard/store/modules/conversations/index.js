@@ -30,6 +30,14 @@ export const mutations = {
       );
       if (indexInCurrentList < 0) {
         newAllConversations.push(conversation);
+      } else if (conversation.id !== _state.selectedChatId) {
+        // If the conversation is already in the list, replace it
+        // Added this to fix the issue of the conversation not being updated
+        // When reconnecting to the websocket. If the selectedChatId is not
+        // the same as the conversation.id in the store, replace the existing conversation
+        // with the new one. else, keep the existing conversation, because it will cause
+        // the conversation and messages to be updated twice.
+        newAllConversations[indexInCurrentList] = conversation;
       }
     });
     _state.allConversations = newAllConversations;
