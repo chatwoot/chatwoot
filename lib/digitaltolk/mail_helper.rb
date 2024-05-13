@@ -62,7 +62,8 @@ class Digitaltolk::MailHelper
   end
 
   def self.csat_disabled?(message)
-    return false if message.blank? && (convo = message.conversation).blank?
+    return false if message.blank?
+    return false if (convo = message.conversation).blank?
     return true if blocked_csat?(convo)
 
     last_message = convo.messages.incoming.last
