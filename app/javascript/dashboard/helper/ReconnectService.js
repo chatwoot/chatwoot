@@ -171,7 +171,7 @@ export default class ReconnectService {
 
   async fetchOnReconnect() {
     // if the disconnect time is greater than 3 hours, reload the page
-    // if the disconnect time is less than 3 hours, fetch the conversations/notifications
+    // if the disconnect time is less than 3 hours, fetch the conversations/notifications/revalidate caches
     await this.revalidateCaches();
     await this.handleRouteSpecificFetch();
   }
