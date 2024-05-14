@@ -73,6 +73,7 @@ module LinearQueries
               description
               priority
               createdAt
+              url
               state {
                 name
               }

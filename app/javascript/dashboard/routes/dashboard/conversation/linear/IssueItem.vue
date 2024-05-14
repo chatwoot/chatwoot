@@ -3,7 +3,7 @@
     <div class="flex flex-col gap-2">
       <div class="flex items-center justify-between group">
         <a
-          :href="issue.link"
+          :href="issue.url"
           target="_blank"
           rel="noopener noreferrer"
           class="inline-block rounded-sm mb-0 break-all py-0.5 text-primary-600"
