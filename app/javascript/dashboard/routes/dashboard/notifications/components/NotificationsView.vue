@@ -45,20 +45,26 @@ export default {
       uiFlags: 'notifications/getUIFlags',
     }),
   },
+  watch: {
+    '$route.name'() {
+      if (this.reconnectService) {
+        this.reconnectService.route = this.$route;
+      }
+    },
+  },
   mounted() {
     this.$store.dispatch('notifications/get', { page: 1 });
-    this.reconnectService = new ReconnectService(
-      this.$store,
-      window.bus,
-      this.$route,
-      this.inboxFilters
-    );
-    this.reconnectService.setupEventListeners();
+    this.setUpReconnectService();
   },
-  beforeUnmount() {
-    this.reconnectService.removeEventListeners();
+  beforeDestroy() {
+    ReconnectService.resetInstance();
   },
   methods: {
+    setUpReconnectService() {
+      ReconnectService.resetInstance();
+      this.reconnectService = ReconnectService.getInstance(this.$route, {});
+      this.reconnectService.setupEventListeners();
+    },
     onPageChange(page) {
       window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
       this.$store.dispatch('notifications/get', { page });

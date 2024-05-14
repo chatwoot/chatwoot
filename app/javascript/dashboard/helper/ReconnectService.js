@@ -1,5 +1,7 @@
+import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { differenceInSeconds } from 'date-fns';
+
 import {
   isAConversationRoute,
   isAInboxViewRoute,
@@ -9,24 +11,32 @@ import {
 export default class ReconnectService {
   static instance;
 
-  constructor(store, bus, route, filters) {
-    this.store = store;
-    this.bus = bus;
+  constructor(route, filters) {
+    this.storeGetters = useStoreGetters();
+    this.storeActions = useStore();
+    this.bus = window.bus;
     this.route = route;
     this.filters = filters || {};
     this.disconnectTime = null;
+
+    // Store the event handler references
+    this.handleOnlineEvent = this.handleOnlineEvent.bind(this);
+    this.handleWebSocketReconnect = this.fetchOnReconnect.bind(this);
+    this.handleWebSocketDisconnect = this.setDisconnectTime.bind(this);
   }
 
-  static getInstance(store, bus, route, filters) {
+  static getInstance(route, filters) {
     if (!ReconnectService.instance) {
-      ReconnectService.instance = new ReconnectService(
-        store,
-        bus,
-        route,
-        filters
-      );
+      ReconnectService.instance = new ReconnectService(route, filters);
     }
     return ReconnectService.instance;
+  }
+
+  static resetInstance() {
+    if (ReconnectService.instance) {
+      ReconnectService.instance.removeEventListeners();
+      ReconnectService.instance = null;
+    }
   }
 
   setDisconnectTime() {
@@ -38,7 +48,7 @@ export default class ReconnectService {
   }
 
   isChatListLoading() {
-    return this.store.getters.getChatListLoadingStatus;
+    return this.storeGetters.getChatListLoadingStatus;
   }
 
   getSecondsSinceDisconnect() {
@@ -69,7 +79,7 @@ export default class ReconnectService {
         page: null,
         updatedWithin: this.getSecondsSinceDisconnect(),
       };
-      await this.store.dispatch('fetchAllConversations', filters);
+      await this.storeActions.dispatch('fetchAllConversations', filters);
     } catch (error) {
       // error
     } finally {
@@ -83,7 +93,7 @@ export default class ReconnectService {
         ...this.filters,
         page: 1,
       };
-      this.store.dispatch('notifications/index', filter);
+      this.storeActions.dispatch('notifications/index', filter);
     } catch (error) {
       // error
     } finally {
@@ -93,7 +103,7 @@ export default class ReconnectService {
 
   async fetchNotificationsOnReconnect() {
     try {
-      this.store.dispatch('notifications/get', { page: 1 });
+      this.storeActions.dispatch('notifications/get', { page: 1 });
     } catch (error) {
       // error
     } finally {
@@ -102,6 +112,16 @@ export default class ReconnectService {
   }
 
   async fetchOnReconnect() {
+    // Revalidate all caches on reconnect
+    const cacheKeys = await this.storeActions.dispatch('accounts/getCacheKeys');
+    this.storeActions.dispatch('labels/revalidate', {
+      newKey: cacheKeys.label,
+    });
+    this.storeActions.dispatch('inboxes/revalidate', {
+      newKey: cacheKeys.inbox,
+    });
+    this.storeActions.dispatch('teams/revalidate', { newKey: cacheKeys.team });
+
     // if the disconnect time is greater than 3 hours, reload the page
     // if the disconnect time is less than 3 hours, fetch the conversations/notifications
     if (isAConversationRoute(this.route.name, true)) {
@@ -114,22 +134,23 @@ export default class ReconnectService {
   }
 
   setupEventListeners() {
-    // Added the online event listener, to handle the case where the user
-    // goes online for three hours and then back online, to force reload the page
-    window.addEventListener('online', () => this.handleOnlineEvent());
-    this.bus.$on(BUS_EVENTS.WEBSOCKET_RECONNECT, () => this.fetchOnReconnect());
-    this.bus.$on(BUS_EVENTS.WEBSOCKET_DISCONNECT, () =>
-      this.setDisconnectTime()
+    window.addEventListener('online', this.handleOnlineEvent);
+    this.bus.$on(BUS_EVENTS.WEBSOCKET_RECONNECT, this.handleWebSocketReconnect);
+    this.bus.$on(
+      BUS_EVENTS.WEBSOCKET_DISCONNECT,
+      this.handleWebSocketDisconnect
     );
   }
 
   removeEventListeners() {
-    window.removeEventListener('online', () => this.handleOnlineEvent());
-    this.bus.$off(BUS_EVENTS.WEBSOCKET_RECONNECT, () =>
-      this.fetchOnReconnect()
+    window.removeEventListener('online', this.handleOnlineEvent);
+    this.bus.$off(
+      BUS_EVENTS.WEBSOCKET_RECONNECT,
+      this.handleWebSocketReconnect
     );
-    this.bus.$off(BUS_EVENTS.WEBSOCKET_DISCONNECT, () =>
-      this.resetDisconnectTime()
+    this.bus.$off(
+      BUS_EVENTS.WEBSOCKET_DISCONNECT,
+      this.handleWebSocketDisconnect
     );
   }
 }

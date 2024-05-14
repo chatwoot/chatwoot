@@ -1,9 +1,16 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useI18n } from 'dashboard/composables/useI18n';
+import { useRoute } from 'dashboard/composables/route';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import {
+  isAConversationRoute,
+  isAInboxViewRoute,
+  isNotificationRoute,
+} from 'dashboard/helper/routeHelpers';
 
 const { t } = useI18n();
+const route = useRoute();
 
 const showNotification = ref(!navigator.onLine);
 const isDisconnected = ref(false);
@@ -32,6 +39,37 @@ const closeNotification = () => {
   clearTimeout(reconnectTimeout);
 };
 
+const isInAnyOfTheRoutes = routeName => {
+  return (
+    isAConversationRoute(routeName, true) ||
+    isAInboxViewRoute(routeName, true) ||
+    isNotificationRoute(routeName, true)
+  );
+};
+
+const updateWebsocketStatus = () => {
+  isDisconnected.value = true;
+  showNotification.value = true;
+};
+
+const handleReconnectionCompleted = () => {
+  isDisconnected.value = false;
+  isReconnecting.value = false;
+  isReconnected.value = true;
+  showNotification.value = true;
+  reconnectTimeout = setTimeout(closeNotification, 2000);
+};
+
+const handleReconnecting = () => {
+  if (isInAnyOfTheRoutes(route.name)) {
+    isReconnecting.value = true;
+    isReconnected.value = false;
+    showNotification.value = true;
+  } else {
+    handleReconnectionCompleted();
+  }
+};
+
 const updateOnlineStatus = event => {
   // Case: Websocket is not disconnected
   // If the user goes offline, show the notification
@@ -45,26 +83,8 @@ const updateOnlineStatus = event => {
   if (event.type === 'offline') {
     showNotification.value = true;
   } else if (event.type === 'online' && !isDisconnected.value) {
-    closeNotification();
+    handleReconnectionCompleted();
   }
-};
-
-const updateWebsocketStatus = () => {
-  isDisconnected.value = true;
-  showNotification.value = true;
-};
-
-const handleReconnecting = () => {
-  isReconnecting.value = true;
-  isReconnected.value = false;
-  showNotification.value = true;
-};
-
-const handleReconnectionCompleted = () => {
-  isReconnecting.value = false;
-  isReconnected.value = true;
-  showNotification.value = true;
-  reconnectTimeout = setTimeout(closeNotification, 2000);
 };
 
 onMounted(() => {

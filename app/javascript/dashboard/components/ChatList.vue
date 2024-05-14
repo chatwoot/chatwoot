@@ -543,6 +543,11 @@ export default {
         this.reconnectService.filters = newFilters;
       }
     },
+    '$route.name'() {
+      if (this.reconnectService) {
+        this.reconnectService.route = this.$route;
+      }
+    },
   },
   mounted() {
     this.setFiltersFromUISettings();
@@ -560,14 +565,13 @@ export default {
 
     this.setUpReconnectService();
   },
-  beforeUnmount() {
-    this.reconnectService.removeEventListeners();
+  beforeDestroy() {
+    ReconnectService.resetInstance();
   },
   methods: {
     setUpReconnectService() {
-      this.reconnectService = new ReconnectService(
-        this.$store,
-        window.bus,
+      ReconnectService.resetInstance();
+      this.reconnectService = ReconnectService.getInstance(
         this.$route,
         this.conversationFilters
       );
