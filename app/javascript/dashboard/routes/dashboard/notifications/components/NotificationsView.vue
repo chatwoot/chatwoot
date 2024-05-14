@@ -48,6 +48,8 @@ export default {
   watch: {
     '$route.name'() {
       if (this.reconnectService) {
+        // If route is changed then update the reconnect service
+        // To support realtime data
         this.reconnectService.route = this.$route;
       }
     },
