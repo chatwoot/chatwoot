@@ -16,8 +16,16 @@ export default class ReconnectService {
     this.storeActions = useStore();
     this.bus = window.bus;
     this.route = route;
-    this.filters = filters || {};
     this.disconnectTime = null;
+
+    // Filter used for conversations and inbox notifications
+    this.filters = filters || {};
+
+    // For conversation folder and filters
+    this.hasActiveFilters = false;
+    this.hasActiveFolder = false;
+    this.activeFilters = null;
+    this.activeFolderQuery = null;
 
     // Store the event handler references
     this.handleOnlineEvent = this.handleOnlineEvent.bind(this);
@@ -69,6 +77,7 @@ export default class ReconnectService {
     }
   }
 
+  // Fetch conversations on reconnect
   async fetchConversationsOnReconnect() {
     if (this.isChatListLoading()) {
       return;
@@ -87,6 +96,21 @@ export default class ReconnectService {
     }
   }
 
+  // Fetch filtered or saved conversations on reconnect
+  async fetchFilteredOrSavedConversations(payload) {
+    try {
+      this.storeActions.dispatch('fetchFilteredConversations', {
+        queryData: payload,
+        page: 1,
+      });
+    } catch (error) {
+      // error
+    } finally {
+      this.bus.$emit(BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED);
+    }
+  }
+
+  // Fetch inbox notifications on reconnect
   async fetchInboxNotificationsOnReconnect() {
     try {
       const filter = {
@@ -101,6 +125,7 @@ export default class ReconnectService {
     }
   }
 
+  // Fetch notifications on reconnect
   async fetchNotificationsOnReconnect() {
     try {
       this.storeActions.dispatch('notifications/get', { page: 1 });
@@ -125,7 +150,13 @@ export default class ReconnectService {
     // if the disconnect time is greater than 3 hours, reload the page
     // if the disconnect time is less than 3 hours, fetch the conversations/notifications
     if (isAConversationRoute(this.route.name, true)) {
-      await this.fetchConversationsOnReconnect();
+      if (this.hasActiveFilters || this.hasActiveFolder) {
+        await this.fetchFilteredOrSavedConversations(
+          this.hasActiveFilters ? this.activeFilters : this.activeFolderQuery
+        );
+      } else {
+        await this.fetchConversationsOnReconnect();
+      }
     } else if (isAInboxViewRoute(this.route.name, true)) {
       await this.fetchInboxNotificationsOnReconnect();
     } else if (isNotificationRoute(this.route.name)) {

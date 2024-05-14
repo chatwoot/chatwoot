@@ -336,7 +336,7 @@ export default {
       return this.appliedFilters.length !== 0;
     },
     hasActiveFolders() {
-      return this.activeFolder && this.foldersId !== 0;
+      return Boolean(this.activeFolder && this.foldersId !== 0);
     },
     hasAppliedFiltersOrActiveFolders() {
       return this.hasAppliedFilters || this.hasActiveFolders;
@@ -546,6 +546,26 @@ export default {
     '$route.name'() {
       if (this.reconnectService) {
         this.reconnectService.route = this.$route;
+      }
+    },
+    hasActiveFolders(value) {
+      if (this.reconnectService) {
+        // If active folder is changed then update the reconnect service
+        // To support realtime data
+        this.reconnectService.hasActiveFolder = !!value;
+        this.reconnectService.activeFolderQuery = value
+          ? this.activeFolder.query
+          : null;
+      }
+    },
+    hasAppliedFilters(value) {
+      if (this.reconnectService) {
+        // If applied filters are changed then update the reconnect service
+        // To support realtime data
+        this.reconnectService.hasActiveFilters = !!value;
+        this.reconnectService.activeFilters = value
+          ? filterQueryGenerator(this.appliedFilter)
+          : null;
       }
     },
   },
