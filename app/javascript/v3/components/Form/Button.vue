@@ -26,7 +26,7 @@
   </button>
 </template>
 <script setup>
-import { computed, defineProps, useAttrs } from 'vue';
+import { computed, useAttrs } from 'vue';
 
 const props = defineProps({
   variant: {
