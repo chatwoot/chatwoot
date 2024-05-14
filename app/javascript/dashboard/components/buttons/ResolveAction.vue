@@ -82,6 +82,11 @@
         @choose-time="chooseSnoozeTime"
       />
     </woot-modal>
+    <contact-stage-modal
+      v-if="showStageModal"
+      :show="showStageModal"
+      @close="toggleStageModal"
+    />
   </div>
 </template>
 
@@ -100,6 +105,7 @@ import {
 import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import ContactStageModal from 'dashboard/routes/dashboard/conversation/ContactStageModal.vue';
 
 import wootConstants from 'dashboard/constants/globals';
 import {
@@ -113,6 +119,7 @@ export default {
     WootDropdownItem,
     WootDropdownMenu,
     CustomSnoozeModal,
+    ContactStageModal,
   },
   mixins: [clickaway, alertMixin, eventListenerMixins],
   props: { conversationId: { type: [String, Number], required: true } },
@@ -122,6 +129,7 @@ export default {
       showActionsDropdown: false,
       STATUS_TYPE: wootConstants.STATUS_TYPE,
       showCustomSnoozeModal: false,
+      showStageModal: false,
     };
   },
   computed: {
@@ -159,6 +167,9 @@ export default {
     bus.$off(CMD_RESOLVE_CONVERSATION, this.onCmdResolveConversation);
   },
   methods: {
+    toggleStageModal() {
+      this.showStageModal = !this.showStageModal;
+    },
     async handleKeyEvents(e) {
       const allConversations = document.querySelectorAll(
         '.conversations-list .conversation'
@@ -241,6 +252,7 @@ export default {
         .then(() => {
           this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
           this.isLoading = false;
+          if (status === 'resolved') this.showStageModal = true;
         });
     },
     openSnoozeModal() {

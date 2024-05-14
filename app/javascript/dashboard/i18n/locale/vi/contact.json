@@ -42,19 +42,26 @@
       "CANCEL_ADD_NOTE": "Hủy",
       "NO_NOTE": "Chưa có ghi chú nào",
       "ADD_ACTION": "Thêm hành động",
-      "NO_ACTION": "Chưa có hành động nào"
+      "NO_ACTION": "Chưa có hành động nào",
+      "CHANGE_AGENT": "Người phụ trách khách hàng đã thay đổi",
+      "CHANGE_TEAM": "Nhóm phụ trách khách hàng đã thay đổi"
     },
     "NEW_ACTION": {
       "HEADER_TITLE": "Thêm hành động tiếp theo",
       "HEADER_CONTENT": "Lập kế hoạch bằng cách hẹn giờ để liên lạc với khách hàng. Cuộc hội thoại mới sẽ tự động mở vào thời gian dự kiến.",
-      "CHANNEL": "Kênh liên lạc",
+      "CHANNEL": "Kênh có thể liên lạc",
+      "CHANNEL_ERROR": "Cần nhập kênh liên lạc",
       "DESCRIPTION": "Mô tả cho hành động",
+      "DESCRIPTION_ERROR": "Cần nhập mô tả cho hành động",
       "SNOOZED_TIME": "Thời gian dự kiến",
+      "SNOOZED_ERROR": "Cần nhập thời gian dự kiến",
       "PRIORITY": "Mức độ ưu tiên",
       "ASSIGNEE": "Người phụ trách",
+      "ASSIGNEE_ERROR": "Cần nhập người phụ trách",
       "TEAM": "Nhóm phụ trách",
       "CANCEL": "Hủy",
-      "SUBMIT": "Lưu"
+      "SUBMIT": "Lưu",
+      "CONTENT": "Công việc %{description} được tạo bởi %{userName}"
     },
     "MERGE_CONTACT": "Hợp nhất khách hàng",
     "CONTACT_ACTIONS": "Thao tác với khách hàng",
@@ -218,22 +225,22 @@
   },
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "Bắt đầu cuộc hội thoại",
-    "TITLE": "Tạo mới cuộc trò chuyện",
-    "DESC": "Bắt đầu một cuộc hội thoại mới bằng cách thêm tin nhắn.",
-    "NO_INBOX": "Không tìm thấy kênh để bắt đầu cuộc trò chuyện với khách hàng này.",
+    "TITLE": "Gửi tin nhắn",
+    "DESC": "Chọn một kênh đã từng tương tác hoặc chọn kênh email để gửi tin nhắn.",
+    "NO_INBOX": "Không tìm thấy kênh phù hợp để gửi tin nhắn cho khách hàng này.",
     "FORM": {
       "TO": {
         "LABEL": "Đến"
       },
       "INBOX": {
-        "LABEL": "Via Inbox",
-        "PLACEHOLDER": "Choose source inbox",
+        "LABEL": "Kênh liên lạc",
+        "PLACEHOLDER": "Chọn kênh để gửi tin nhắn",
         "ERROR": "Chọn kênh"
       },
       "SUBJECT": {
-        "LABEL": "Chủ đề",
-        "PLACEHOLDER": "Chủ đề",
-        "ERROR": "Chủ đề không được rỗng"
+        "LABEL": "Tiêu đề",
+        "PLACEHOLDER": "Tiêu đề",
+        "ERROR": "Tiêu đề không được rỗng"
       },
       "MESSAGE": {
         "LABEL": "Tin nhắn",
@@ -259,7 +266,7 @@
     "FILTER_CONTACTS": "Lọc",
     "FILTER_CONTACTS_SAVE": "Lưu bộ lọc",
     "FILTER_CONTACTS_DELETE": "Xoá bộ lọc",
-    "FILTER_CONTACTS_EDIT": "Sửa giai đoạn",
+    "FILTER_CONTACTS_EDIT": "Sửa bộ lọc",
     "LIST": {
       "LOADING_MESSAGE": "Đang tải khách hàng...",
       "404": "Không có khách hàng nào khớp với tìm kiếm của bạn 🔍",
@@ -333,7 +340,7 @@
   "CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Thêm thông tin tùy chỉnh",
     "BUTTON": "Thêm thông tin tùy chỉnh",
-    "NOT_AVAILABLE": "Không có thuộc tính tuỳ chỉnh nào có sẵn cho khách hàng này.",
+    "NOT_AVAILABLE": "Không có thông tin tuỳ chỉnh nào có sẵn cho khách hàng này.",
     "COPY_SUCCESSFUL": "Đã sao chép mã thành công",
     "SHOW_MORE": "Hiện tất cả thông tin",
     "SHOW_LESS": "Ẩn bớt thông tin",
@@ -344,37 +351,37 @@
     },
     "ADD": {
       "TITLE": "Tạo thông tin tùy chỉnh",
-      "DESC": "Thêm thông tin tuỳ chỉnh vào khách hàng này."
+      "DESC": "Thêm thông tin tuỳ chỉnh cho khách hàng này."
     },
     "FORM": {
       "CREATE": "Thêm thông tin tùy chỉnh",
       "CANCEL": "Huỷ",
       "NAME": {
         "LABEL": "Tên thông tin tùy chỉnh",
-        "PLACEHOLDER": "Ví dụ: shopify id",
-        "ERROR": "Tên thuộc tính tuỳ chỉnh không hợp lệ"
+        "PLACEHOLDER": "Ví dụ: sở thích của khách hàng",
+        "ERROR": "Tên thông tin tuỳ chỉnh không hợp lệ"
       },
       "VALUE": {
-        "LABEL": "Giá trị của thuộc tính",
-        "PLACEHOLDER": "Ví dụ: 11901 "
+        "LABEL": "Giá trị của thông tin",
+        "PLACEHOLDER": "Ví dụ: thích mẫu mã đẹp "
       },
       "ADD": {
-        "TITLE": "Tạo thuộc tính mới ",
-        "SUCCESS": "Thuộc tính được thêm thành công",
-        "ERROR": "Không thể thêm thuộc tính. Vui lòng thử lại sau"
+        "TITLE": "Tạo thông tin mới ",
+        "SUCCESS": "Thông tin được thêm thành công",
+        "ERROR": "Không thể thêm thông tin. Vui lòng thử lại sau"
       },
       "UPDATE": {
-        "SUCCESS": "Thuộc tính được cập nhật thành công",
-        "ERROR": "Không thể cập nhật thuộc tính. Vui lòng thử lại sau"
+        "SUCCESS": "Thông tin được cập nhật thành công",
+        "ERROR": "Không thể cập nhật thông tin. Vui lòng thử lại sau"
       },
       "DELETE": {
-        "SUCCESS": "Thuộc tính được xoá thành công",
-        "ERROR": "Không thể xoá thuộc tính. Vui lòng thử lại sau"
+        "SUCCESS": "Thông tin được xoá thành công",
+        "ERROR": "Không thể xoá thông tin. Vui lòng thử lại sau"
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Thêm nhiều thuộc tính",
-        "PLACEHOLDER": "Tìm kiếm nhiều thuộc tính",
-        "NO_RESULT": "Không có thuộc tính nào được tìm thấy"
+        "TITLE": "Thêm nhiều thông tin",
+        "PLACEHOLDER": "Tìm kiếm nhiều thông tin",
+        "NO_RESULT": "Không có thông tin nào được tìm thấy"
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
@@ -392,7 +399,7 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "Hợp nhất các khách hàng",
-    "DESCRIPTION": "Hợp nhất các khách hàng để kết hợp hai hồ sơ thành một, bao gồm tất cả các thuộc tính và hội thoại. Trong trường hợp xung đột, các thuộc tính của khách hàng Chính sẽ được ưu tiên.",
+    "DESCRIPTION": "Hợp nhất các khách hàng để kết hợp hai hồ sơ thành một, bao gồm tất cả các thông tin và hội thoại. Trong trường hợp xung đột, các thông tin của khách hàng Chính sẽ được ưu tiên.",
     "PRIMARY": {
       "TITLE": "Khách hàng chính",
       "HELP_LABEL": "Sẽ được xoá"

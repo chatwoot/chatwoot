@@ -40,11 +40,11 @@ export default {
     onSuccess() {
       this.$emit('cancel');
     },
-    async onSubmit(params, isFromWhatsApp) {
-      const data = await this.$store.dispatch('contactConversations/create', {
-        params,
-        isFromWhatsApp,
-      });
+    async onSubmit(params) {
+      const data = await this.$store.dispatch(
+        'contactConversations/createSnoozedConversation',
+        params
+      );
       return data;
     },
   },

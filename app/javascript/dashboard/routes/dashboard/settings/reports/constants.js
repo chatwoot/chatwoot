@@ -24,18 +24,18 @@ export const formatTime = timeInSeconds => {
 export const STAGE_TYPE_OPTIONS = {
   1: {
     id: 1,
-    value: 'leads',
-    translationKey: 'PIPELINE_PAGE.STAGE_TYPE.LEADS',
+    value: 'both',
+    translationKey: 'PIPELINE_PAGE.STAGE_TYPE.BOTH',
   },
   2: {
     id: 2,
+    value: 'leads',
+    translationKey: 'PIPELINE_PAGE.STAGE_TYPE.LEADS',
+  },
+  23: {
+    id: 3,
     value: 'deals',
     translationKey: 'PIPELINE_PAGE.STAGE_TYPE.DEALS',
-  },
-  3: {
-    id: 3,
-    value: 'both',
-    translationKey: 'PIPELINE_PAGE.STAGE_TYPE.BOTH',
   },
 };
 

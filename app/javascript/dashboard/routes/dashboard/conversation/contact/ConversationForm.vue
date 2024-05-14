@@ -382,7 +382,10 @@ export default {
         : this.$t('CONVERSATION.FOOTER.ENABLE_SIGN_TOOLTIP');
     },
     inboxes() {
-      const inboxList = this.contact.contactableInboxes || [];
+      const inboxList =
+        this.contact.contactableInboxes.filter(
+          item => item.inbox.channel_type !== 'Channel::StringeePhoneCall'
+        ) || [];
       return inboxList.map(inbox => ({
         ...inbox.inbox,
         sourceId: inbox.source_id,

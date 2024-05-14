@@ -5,6 +5,7 @@ export const getInboxSource = (type, phoneNumber, inbox) => {
     case INBOX_TYPES.WEB:
       return inbox.website_url || '';
 
+    case INBOX_TYPES.STRINGEE:
     case INBOX_TYPES.TWILIO:
     case INBOX_TYPES.WHATSAPP:
       return phoneNumber || '';
@@ -44,6 +45,12 @@ export const getReadableInboxByType = (type, phoneNumber) => {
 
     case INBOX_TYPES.LINE:
       return 'line';
+
+    case INBOX_TYPES.ZALO:
+      return 'ZaloOa';
+
+    case INBOX_TYPES.STRINGEE:
+      return 'phone';
 
     default:
       return 'chat';

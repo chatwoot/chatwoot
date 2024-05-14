@@ -3,11 +3,21 @@ module AssignmentHandler
   include Events::Types
 
   included do
+    before_validation :ensure_assignee_is_from_contact_assignee
     before_save :ensure_assignee_is_from_team
     after_commit :notify_assignment_change, :process_assignment_changes
   end
 
   private
+
+  def ensure_assignee_is_from_contact_assignee
+    return unless new_record? && conversation_type == :default_type
+
+    contact_assignee_id = contact.assignee_id_in_deals || contact.assignee_id_in_leads
+    return if contact_assignee_id.blank?
+
+    self.assignee_id = contact_assignee_id
+  end
 
   def ensure_assignee_is_from_team
     return unless team_id_changed?

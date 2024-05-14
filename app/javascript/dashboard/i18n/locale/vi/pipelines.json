@@ -4,8 +4,9 @@
         "STAGE_TYPE": {
             "LEADS": "Giai đoạn leads",
             "DEALS": "Giai đoạn deals",
-            "BOTH": "Cả hai giai đoạn"
+            "BOTH": "Tất cả giai đoạn"
         },
+        "ADD_CONTACT_TOOLTIP": "Tạo khách hàng mới",
         "ASSIGNEE_LABEL": "Phụ trách: ",
         "TIME_IN_STAGE": "Thời gian: "
     }

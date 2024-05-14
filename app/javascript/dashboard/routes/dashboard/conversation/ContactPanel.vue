@@ -89,6 +89,7 @@
                 class="even"
                 attribute-from="conversation_contact_panel"
                 :contact-id="contact.id"
+                :custom-attributes="contact.custom_attributes"
               />
             </accordion-item>
           </div>

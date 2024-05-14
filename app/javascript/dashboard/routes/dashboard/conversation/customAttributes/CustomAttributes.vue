@@ -59,6 +59,10 @@ export default {
       type: String,
       required: true,
     },
+    customAttributes: {
+      type: Object,
+      default: null,
+    },
   },
   data() {
     return {
@@ -117,6 +121,10 @@ export default {
       });
     },
     async onUpdate(key, value) {
+      if (this.attributeFrom === 'contact_form') {
+        this.$emit('customAttributeChanged', key, value);
+        return;
+      }
       const updatedAttributes = { ...this.customAttributes, [key]: value };
       try {
         if (this.attributeType === 'conversation_attribute') {
@@ -139,6 +147,10 @@ export default {
       }
     },
     async onDelete(key) {
+      if (this.attributeFrom === 'contact_form') {
+        this.$emit('customAttributeChanged', key, null);
+        return;
+      }
       try {
         const { [key]: remove, ...updatedAttributes } = this.customAttributes;
         if (this.attributeType === 'conversation_attribute') {

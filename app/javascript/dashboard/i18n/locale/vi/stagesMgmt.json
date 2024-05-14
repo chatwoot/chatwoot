@@ -3,86 +3,57 @@
     "HEADER": "Giai đoạn kinh doanh",
     "HEADER_BTN_TXT": "Thêm giai đoạn",
     "LOADING": "Đang lấy dữ liệu giai đoạn",
-    "SIDEBAR_TXT": "<p><b>Giai đoạn kinh doanh</b> <p>Thiết lập giai đoạn kinh doanh giúp điều chỉnh quy trình phễu bán hàng và chăm sóc khách hàng theo đúng thực tế của bạn. <br /><br />Để thay đổi tên hay mô tả của một giai đoạn, chỉ cần nhấn vào nút  <b>Sửa Thông tin Giai đoạn.</b> Bạn cũng có thể đơn giản hóa quy trình bằng cách lược bỏ một giai đoạn hiện có khi nhấn vào nút <b>Không sử dụng.</b></p>",
-    "ADD": {
-      "TITLE": "Thêm thông tin Tùy chỉnh",
-      "SUBMIT": "Tạo",
+    "SIDEBAR_TXT": "<p><b>Giai đoạn kinh doanh</b> <p>Tùy chỉnh các giai đoạn kinh doanh giúp điều chỉnh quy trình kinh doanh từ tiếp nhận khách hàng mới đến chốt deal theo đúng thực tế của bạn. <br /><br />Đối với các giai đoạn không sử dụng, chỉ cần nhấn chọn <b>Sử dụng</b> để bổ sung giai đoạn vào quy trình.<br />Đối với các giai đoạn đang sử dụng, nhấn chọn <b>Sửa thông tin</b> để điều chỉnh thông tin.<br />Có thể lược bỏ một số giai đoạn trung gian bằng cách nhấn <b>Không sử dụng</b> để lược bỏ giai đoạn khỏi quy trình.</p>",
+    "EDIT": {
+      "TITLE": "Sửa thông tin giai đoạn",
+      "SUBMIT": "Lưu",
       "CANCEL_BUTTON_TEXT": "Huỷ",
       "FORM": {
         "NAME": {
-          "LABEL": "Tên hiển thị",
+          "LABEL": "Tên giai đoạn",
           "PLACEHOLDER": "Nhập tên hiển thị của giai đoạn",
-          "ERROR": "Tên bắt buộc có"
+          "ERROR": "Tên bắt buộc phải có"
         },
         "DESC": {
           "LABEL": "Mô tả",
           "PLACEHOLDER": "Điền mô tả của giai đoạn",
           "ERROR": "Mô tả bắt buộc có"
         },
-        "MODEL": {
-          "LABEL": "Áp dụng cho",
-          "PLACEHOLDER": "Vui lòng chọn một",
-          "ERROR": "Mô hình bắt buộc có"
-        },
-        "TYPE": {
-          "LABEL": "Kiểu",
-          "PLACEHOLDER": "Vui lòng chọn một kiểu",
-          "ERROR": "Kiểu bắt buộc có",
-          "LIST": {
-            "LABEL": "Giá trị của danh sách",
-            "PLACEHOLDER": "Vui lòng nhập giá trị và ấn phím enter",
-            "ERROR": "Phải có ít nhất 1 giá trị"
-          }
-        },
-        "KEY": {
-          "LABEL": "Khoá",
-          "PLACEHOLDER": "Nhập khoá của giai đoạn",
-          "ERROR": "C\u001dần có khoá",
-          "IN_VALID": "Khoá không hợp lệ"
-        },
-        "REGEX_PATTERN": {
-          "LABEL": "Regex Pattern",
-          "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
-        },
-        "REGEX_CUE": {
-          "LABEL": "Regex Cue",
-          "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
-        },
-        "ENABLE_REGEX": {
-          "LABEL": "Enable regex validation"
-        }
-      },
-      "API": {
-        "SUCCESS_MESSAGE": "Giai đoạn được thêm thành công!",
-        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
-      }
-    },
-    "DELETE": {
-      "BUTTON_TEXT": "Không sử dụng giai đoạn",
-      "API": {
-        "SUCCESS_MESSAGE": "Giai đoạn đã loại bỏ thành công.",
-        "ERROR_MESSAGE": "Không thể loại bỏ giai đoạn. Thử lại."
-      },
-      "CONFIRM": {
-        "TITLE": "Bạn có chắc không muốn sử dụng giai đoạn - %{name}",
-        "PLACE_HOLDER": "Vui lòng điền {name} để xác nhận",
-        "MESSAGE": "Thao tác này sẽ loại bỏ giai đoạn khỏi quy trình phễu kinh doanh",
-        "YES": "Thực hiện ",
-        "NO": "Bỏ qua"
-      }
-    },
-    "EDIT": {
-      "TITLE": "Sửa Thông tin Tùy chỉnh",
-      "UPDATE_BUTTON_TEXT": "Cập nhật",
-      "TYPE": {
-        "LIST": {
-          "LABEL": "Giá trị của danh sách",
-          "PLACEHOLDER": "Vui lòng nhập giá trị và ấn phím enter"
+        "CODE": {
+          "LABEL": "Ký hiệu (cố định)"
         }
       },
       "API": {
         "SUCCESS_MESSAGE": "Giai đoạn được sửa thành công",
-        "ERROR_MESSAGE": "Đã xảy ra lỗi khi cập nhật \bthuộc tính tuỳ chỉnh, vui lòng thử lại"
+        "ERROR_MESSAGE": "Đã xảy ra lỗi khi cập nhật \bgiai đoạn, vui lòng thử lại"
+      }
+    },
+    "DISABLE": {
+      "BUTTON_TEXT": "Không sử dụng giai đoạn",
+      "API": {
+        "SUCCESS_MESSAGE": "Giai đoạn đã lược bỏ thành công.",
+        "ERROR_MESSAGE": "Không thể lược bỏ giai đoạn. Thử lại."
+      },
+      "CONFIRM": {
+        "TITLE": "Bạn có chắc muốn lược bỏ giai đoạn - %{name}",
+        "PLACE_HOLDER": "Vui lòng nhập lại tên giai đoạn để xác nhận",
+        "MESSAGE": "Thao tác này sẽ lược bỏ giai đoạn khỏi quy trình kinh doanh",
+        "YES": "Lược bỏ giai đoạn ",
+        "NO": "Bỏ qua"
+      }
+    },
+    "ENABLE": {
+      "BUTTON_TEXT": "Sử dụng giai đoạn",
+      "API": {
+        "SUCCESS_MESSAGE": "Giai đoạn đã bổ sung thành công.",
+        "ERROR_MESSAGE": "Không thể bổ sung giai đoạn. Thử lại."
+      },
+      "CONFIRM": {
+        "TITLE": "Bạn có chắc muốn bổ sung giai đoạn - %{name}",
+        "PLACE_HOLDER": "Vui lòng nhập lại tên giai đoạn để xác nhận",
+        "MESSAGE": "Thao tác này sẽ bổ sung giai đoạn vào quy trình kinh doanh",
+        "YES": "Bổ sung giai đoạn ",
+        "NO": "Bỏ qua"
       }
     },
     "TABS": {
@@ -95,16 +66,17 @@
       "TABLE_HEADER": [
         "Tên",
         "Mô tả",
-        "Ký hiệu",
-        "Giai đoạn"
+        "Ký hiệu"
       ],
       "BUTTONS": {
         "EDIT": "Chỉnh thông tin giai đoạn",
-        "DELETE": "Không sử dụng giai đoạn này"
+        "ENABLE": "Sử dụng giai đoạn này",
+        "DISABLE": "Không sử dụng giai đoạn này"
       },
       "EMPTY_RESULT": {
         "404": "Không có giai đoạn nào có sẵn",
-        "NOT_FOUND": "Không có giai đoạn nào được cấu hình"
+        "NOT_FOUND": "Không có giai đoạn nào được cấu hình",
+        "DISABLED_STATE": "(Không sử dụng)"
       },
       "REGEX_PATTERN": {
         "LABEL": "Regex Pattern",

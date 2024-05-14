@@ -1,6 +1,6 @@
 class Api::V1::Accounts::StagesController < Api::V1::Accounts::BaseController
   before_action :fetch_stages
-  before_action :fetch_stage, only: [:show, :update, :destroy]
+  before_action :fetch_stage, only: [:show, :update]
 
   def index
     render json: @stages.to_json
@@ -12,17 +12,13 @@ class Api::V1::Accounts::StagesController < Api::V1::Accounts::BaseController
 
   def update
     @stage.update!(permitted_payload)
-  end
-
-  def destroy
-    @stage.update!(disable: true) if @stage.allow_disabled == true
-    head :no_content
+    render json: @stage.to_json
   end
 
   private
 
   def fetch_stages
-    @stages = Current.account.stages
+    @stages = Current.account.stages.order(id: :asc)
     return if permitted_params[:stage_type].blank?
 
     stage_type = Stage::STAGE_TYPE_MAPPING[permitted_params[:stage_type]]
@@ -37,7 +33,8 @@ class Api::V1::Accounts::StagesController < Api::V1::Accounts::BaseController
   def permitted_payload
     params.require(:stage).permit(
       :name,
-      :description
+      :description,
+      :disabled
     )
   end
 

@@ -5,8 +5,15 @@
     <Kanban :statuses="statuses" :blocks="blocks" @update-block="updateStage">
       <div v-for="stage in stages" :slot="stage.code" :key="stage.code">
         <h2>
-          {{ stage.name }}
-          <a href="" @click.prevent="() => addContact(stage.id)">+</a>
+          <span v-tooltip.top-end="stage.description">
+            {{ stageCount(stage) }}
+          </span>
+          <a
+            v-tooltip.top-end="$t('PIPELINE_PAGE.ADD_CONTACT_TOOLTIP')"
+            href=""
+            @click.prevent="() => addContact(stage.id)"
+            >+
+          </a>
         </h2>
       </div>
       <div
@@ -76,15 +83,19 @@ export default {
       this.syncBlockItems();
     },
   },
-
   methods: {
     loadStatuses() {
       this.statuses = this.stages.map(item => item.code);
     },
-
+    stageCount(stage) {
+      const count = this.blocks.filter(
+        item => item.status === stage.code
+      ).length;
+      return count ? `${stage.name} (${count})` : stage.name;
+    },
     syncBlockItems() {
       this.contacts.forEach(contact => {
-        if (!contact.stage || !contact.stage.id) return;
+        if (!contact.stage?.id) return;
 
         const stage = this.stages.find(item => item.id === contact.stage.id);
         if (!stage) return;
@@ -99,8 +110,7 @@ export default {
           id: contact.id,
           status: stage.code,
           title: contact.name,
-          assignee:
-            stage.stage_type === 'leads' ? assigneeInLeads : assigneeInDeals,
+          assignee: assigneeInDeals || assigneeInLeads,
           lastNote: contact.last_note,
           updatedAt: contact.updated_at,
           formattedStageChangedAt: contact.last_stage_changed_at

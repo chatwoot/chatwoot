@@ -90,7 +90,7 @@
 
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
-import { required } from 'vuelidate/lib/validators';
+import { required, requiredIf } from 'vuelidate/lib/validators';
 import FilterInputBox from '../../../../components/widgets/FilterInput/Index.vue';
 import countries from 'shared/constants/countries.js';
 import { mapGetters } from 'vuex';
@@ -130,7 +130,12 @@ export default {
       required,
       $each: {
         values: {
-          required,
+          required: requiredIf(prop => {
+            return !(
+              prop.filter_operator === 'is_present' ||
+              prop.filter_operator === 'is_not_present'
+            );
+          }),
           ensureBetween0to999(value, prop) {
             if (prop.filter_operator === 'days_before') {
               return parseInt(value, 10) > 0 && parseInt(value, 10) < 999;
@@ -157,6 +162,9 @@ export default {
   computed: {
     ...mapGetters({
       getAppliedContactFilters: 'contacts/getAppliedContactFilters',
+      stages: 'stages/getStages',
+      agents: 'agents/getAgents',
+      teams: 'teams/getTeams',
     }),
     hasAppliedFilters() {
       return this.getAppliedContactFilters.length;
@@ -173,6 +181,8 @@ export default {
     },
   },
   mounted() {
+    this.$store.dispatch('stages/get');
+    this.$store.dispatch('agents/get');
     this.setFilterAttributes();
     if (this.getAppliedContactFilters.length) {
       this.appliedFilters = [...this.getAppliedContactFilters];
@@ -275,6 +285,13 @@ export default {
       switch (type) {
         case 'country_code':
           return countries;
+        case 'stage_id':
+          return this.stages;
+        case 'assignee_id_in_leads':
+        case 'assignee_id_in_deals':
+          return this.agents;
+        case 'team_id':
+          return this.teams;
         default:
           return undefined;
       }

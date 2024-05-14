@@ -219,6 +219,16 @@
         "DELETE": "Xoá",
         "CANCEL": "Huỷ"
       }
+    },
+    "CONTACT_STAGE": {
+      "TITLE": "Cập nhật tình trạng khách hàng - %{name}",
+      "DESCRIPTION": "Bạn vừa đánh dấu hoàn thành cuộc hội thoại, bây giờ bạn có thể chuyển đổi tình trạng khách hàng ở đây.",
+      "STAGE": "Tình trạng hiện tại",
+      "NEW_STAGE": "Tình trạng mới",
+      "STAGE_ERROR": "Cần chọn một tình trạng mới để cập nhật",
+      "CANCEL": "Giữ nguyên",
+      "SUBMIT": "Cập nhật",
+      "CHANGE_STAGE": "Đã cập nhật tình trạng mới cho khách hàng"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -271,9 +281,9 @@
     },
     "ACCORDION": {
       "CONTACT_DETAILS": "Chi tiết liên hệ",
-      "CONVERSATION_ACTIONS": "Thông tin cuộc hội thoại này",
+      "CONVERSATION_ACTIONS": "Thông tin hội thoại",
       "CONVERSATION_LABELS": "Nhãn phân loại",
-      "CONVERSATION_INFO": "Thông tin tùy chỉnh của hội thoại",
+      "CONVERSATION_INFO": "Thông tin bổ sung",
       "CONTACT_ATTRIBUTES": "Thông tin tùy chỉnh",
       "PREVIOUS_CONVERSATION": "Lịch sử hội thoại",
       "MACROS": "Các lệnh tự động"

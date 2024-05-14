@@ -18,128 +18,106 @@
     </div>
     <div>
       <div class="w-full">
-        <label :class="{ error: $v.name.$error }">
-          {{ $t('CONTACT_FORM.FORM.NAME.LABEL') }}
-          <input
-            v-model.trim="name"
-            type="text"
-            :placeholder="$t('CONTACT_FORM.FORM.NAME.PLACEHOLDER')"
-            @input="$v.name.$touch"
-          />
-        </label>
-
+        <div class="gap-2 flex flex-row">
+          <div class="w-[50%]">
+            <label :class="{ error: $v.name.$error }">
+              {{ $t('CONTACT_FORM.FORM.NAME.LABEL') }}
+              <input v-model.trim="name" type="text" @input="$v.name.$touch" />
+            </label>
+          </div>
+          <div class="w-[50%]">
+            <label
+              :class="{
+                error: isPhoneNumberNotValid,
+              }"
+            >
+              {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.LABEL') }}
+              <woot-phone-input
+                v-model="phoneNumber"
+                :value="phoneNumber"
+                :error="isPhoneNumberNotValid"
+                @input="onPhoneNumberInputChange"
+                @blur="$v.phoneNumber.$touch"
+                @setCode="setPhoneCode"
+              />
+              <span v-if="isPhoneNumberNotValid" class="message">
+                {{ phoneNumberError }}
+              </span>
+            </label>
+          </div>
+        </div>
         <label :class="{ error: $v.email.$error }">
           {{ $t('CONTACT_FORM.FORM.EMAIL_ADDRESS.LABEL') }}
-          <input
-            v-model.trim="email"
-            type="text"
-            :placeholder="$t('CONTACT_FORM.FORM.EMAIL_ADDRESS.PLACEHOLDER')"
-            @input="$v.email.$touch"
-          />
+          <input v-model.trim="email" type="text" @input="$v.email.$touch" />
           <span v-if="$v.email.$error" class="message">
             {{ $t('CONTACT_FORM.FORM.EMAIL_ADDRESS.ERROR') }}
           </span>
         </label>
       </div>
     </div>
-    <div class="w-full">
-      <label :class="{ error: $v.description.$error }">
-        {{ $t('CONTACT_FORM.FORM.BIO.LABEL') }}
-        <textarea
-          v-model.trim="description"
-          type="text"
-          :placeholder="$t('CONTACT_FORM.FORM.BIO.PLACEHOLDER')"
-          @input="$v.description.$touch"
-        />
-      </label>
-    </div>
-    <div>
-      <div class="w-full">
-        <label
-          :class="{
-            error: isPhoneNumberNotValid,
-          }"
-        >
-          {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.LABEL') }}
-          <woot-phone-input
-            v-model="phoneNumber"
-            :value="phoneNumber"
-            :error="isPhoneNumberNotValid"
-            :placeholder="$t('CONTACT_FORM.FORM.PHONE_NUMBER.PLACEHOLDER')"
-            @input="onPhoneNumberInputChange"
-            @blur="$v.phoneNumber.$touch"
-            @setCode="setPhoneCode"
-          />
-          <span v-if="isPhoneNumberNotValid" class="message">
-            {{ phoneNumberError }}
-          </span>
+    <div class="gap-2 flex flex-row">
+      <div class="w-[50%]">
+        <label>
+          {{ $t('CONTACT_PANEL.NEW_ACTION.ASSIGNEE') }}
         </label>
-        <div
-          v-if="isPhoneNumberNotValid || !phoneNumber"
-          class="relative mx-0 mt-0 mb-2.5 p-2 rounded-md text-sm border border-solid border-yellow-500 text-yellow-700 dark:border-yellow-700 bg-yellow-200/60 dark:bg-yellow-200/20 dark:text-yellow-400"
-        >
-          {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.HELP') }}
+        <div class="multiselect-wrap--small">
+          <multiselect
+            v-model="agent"
+            class="no-margin"
+            placeholder=""
+            label="name"
+            track-by="id"
+            :options="agents"
+            :max-height="160"
+            :close-on-select="true"
+            :show-labels="false"
+          />
+        </div>
+      </div>
+      <div class="w-[50%]">
+        <label>
+          {{ $t('CONTACT_PANEL.NEW_ACTION.TEAM') }}
+        </label>
+        <div class="multiselect-wrap--small">
+          <multiselect
+            v-model="team"
+            class="no-margin"
+            placeholder=""
+            label="name"
+            track-by="id"
+            :options="teams"
+            :max-height="160"
+            :close-on-select="true"
+            :show-labels="false"
+          />
         </div>
       </div>
     </div>
-    <woot-input
-      v-model.trim="companyName"
-      class="w-full"
-      :label="$t('CONTACT_FORM.FORM.COMPANY_NAME.LABEL')"
-      :placeholder="$t('CONTACT_FORM.FORM.COMPANY_NAME.PLACEHOLDER')"
-    />
-    <div>
-      <div class="w-full">
-        <label>
-          {{ $t('CONTACT_FORM.FORM.COUNTRY.LABEL') }}
-        </label>
-        <multiselect
-          v-model="country"
-          track-by="id"
-          label="name"
-          :placeholder="$t('CONTACT_FORM.FORM.COUNTRY.PLACEHOLDER')"
-          selected-label
-          :select-label="$t('CONTACT_FORM.FORM.COUNTRY.SELECT_PLACEHOLDER')"
-          :deselect-label="$t('CONTACT_FORM.FORM.COUNTRY.REMOVE')"
-          :custom-label="countryNameWithCode"
-          :max-height="160"
-          :options="countries"
-          :allow-empty="true"
-          :option-height="104"
-        />
-      </div>
-    </div>
-    <woot-input
-      v-model="city"
-      class="w-full"
-      :label="$t('CONTACT_FORM.FORM.CITY.LABEL')"
-      :placeholder="$t('CONTACT_FORM.FORM.CITY.PLACEHOLDER')"
-    />
-
-    <div class="w-full">
-      <label> Social Profiles </label>
-      <div
-        v-for="socialProfile in socialProfileKeys"
-        :key="socialProfile.key"
-        class="flex items-stretch w-full mb-4"
+    <div class="conversation--actions">
+      <accordion-item
+        :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_ATTRIBUTES')"
+        :is-open="isContactSidebarItemOpen('is_ct_custom_attr_open')"
+        compact
+        @click="value => toggleSidebarUIState('is_ct_custom_attr_open', value)"
       >
-        <span
-          class="flex items-center h-10 px-2 text-sm border-solid bg-slate-50 border-y ltr:border-l rtl:border-r ltr:rounded-l-md rtl:rounded-r-md dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-slate-200 dark:border-slate-600"
-        >
-          {{ socialProfile.prefixURL }}
-        </span>
-        <input
-          v-model="socialProfileUserNames[socialProfile.key]"
-          class="input-group-field ltr:rounded-l-none rtl:rounded-r-none !mb-0"
-          type="text"
+        <custom-attributes
+          :contact-id="contact.id"
+          attribute-type="contact_attribute"
+          attribute-class="conversation--attribute"
+          attribute-from="contact_form"
+          :custom-attributes="customAttributes"
+          class="even"
+          @customAttributeChanged="customAttributeChanged"
         />
-      </div>
+      </accordion-item>
     </div>
+
     <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
       <div class="w-full">
         <woot-submit-button
           :loading="inProgress"
           :button-text="$t('CONTACT_FORM.FORM.SUBMIT')"
+          @click="submitEnabled = true"
         />
         <button class="button clear" @click.prevent="onCancel">
           {{ $t('CONTACT_FORM.FORM.CANCEL') }}
@@ -150,6 +128,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import {
   DuplicateContactException,
@@ -159,9 +138,16 @@ import { required, email } from 'vuelidate/lib/validators';
 import countries from 'shared/constants/countries.js';
 import { isPhoneNumberValid } from 'shared/helpers/Validators';
 import parsePhoneNumber from 'libphonenumber-js';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
+import CustomAttributes from 'dashboard/routes/dashboard/conversation/customAttributes/CustomAttributes.vue';
 
 export default {
-  mixins: [alertMixin],
+  components: {
+    CustomAttributes,
+    AccordionItem,
+  },
+  mixins: [alertMixin, uiSettingsMixin],
   props: {
     contact: {
       type: Object,
@@ -178,9 +164,10 @@ export default {
   },
   data() {
     return {
+      submitEnabled: false,
       countries: countries,
-      companyName: '',
-      description: '',
+      agent: null,
+      team: null,
       email: '',
       name: '',
       phoneNumber: '',
@@ -191,19 +178,7 @@ export default {
         id: '',
         name: '',
       },
-      city: '',
-      socialProfileUserNames: {
-        facebook: '',
-        twitter: '',
-        linkedin: '',
-        github: '',
-      },
-      socialProfileKeys: [
-        { key: 'facebook', prefixURL: 'https://facebook.com/' },
-        { key: 'twitter', prefixURL: 'https://twitter.com/' },
-        { key: 'linkedin', prefixURL: 'https://linkedin.com/' },
-        { key: 'github', prefixURL: 'https://github.com/' },
-      ],
+      customAttributes: {},
     };
   },
   validations: {
@@ -214,11 +189,13 @@ export default {
     email: {
       email,
     },
-    companyName: {},
     phoneNumber: {},
-    bio: {},
   },
   computed: {
+    ...mapGetters({
+      agents: 'agents/getAgents',
+      teams: 'teams/getTeams',
+    }),
     parsePhoneNumber() {
       return parsePhoneNumber(this.phoneNumber);
     },
@@ -258,6 +235,7 @@ export default {
     },
   },
   mounted() {
+    this.$store.dispatch('agents/get');
     this.setContactObject();
     this.setDialCode();
   },
@@ -267,6 +245,12 @@ export default {
     },
     onSuccess() {
       this.$emit('success');
+    },
+    customAttributeChanged(key, value) {
+      this.customAttributes = {
+        ...this.customAttributes,
+        [key]: value,
+      };
     },
     countryNameWithCode({ name, id }) {
       if (!id) return name;
@@ -289,32 +273,14 @@ export default {
         phone_number: phoneNumber,
         name,
       } = this.contact;
-      const additionalAttributes = this.contact.additional_attributes || {};
 
       this.name = name || '';
       this.email = emailAddress || '';
       this.phoneNumber = phoneNumber || '';
-      this.companyName = additionalAttributes.company_name || '';
-      this.country = {
-        id: additionalAttributes.country_code || '',
-        name:
-          additionalAttributes.country ||
-          this.$t('CONTACT_FORM.FORM.COUNTRY.SELECT_COUNTRY'),
-      };
-      this.city = additionalAttributes.city || '';
-      this.description = additionalAttributes.description || '';
       this.avatarUrl = this.contact.thumbnail || '';
-      const {
-        social_profiles: socialProfiles = {},
-        screen_name: twitterScreenName,
-      } = additionalAttributes;
-      this.socialProfileUserNames = {
-        twitter: socialProfiles.twitter || twitterScreenName || '',
-        facebook: socialProfiles.facebook || '',
-        linkedin: socialProfiles.linkedin || '',
-        github: socialProfiles.github || '',
-        instagram: socialProfiles.instagram || '',
-      };
+      this.customAttributes = this.contact.custom_attributes || {};
+      this.agent = this.contact.assignee_in_leads || {};
+      this.team = this.contact.team || {};
     },
     getContactObject() {
       if (this.country === null) {
@@ -329,19 +295,9 @@ export default {
         email: this.email,
         phone_number: this.setPhoneNumber,
         stage_id: this.contact.stage_id,
-        additional_attributes: {
-          ...this.contact.additional_attributes,
-          description: this.description,
-          company_name: this.companyName,
-          country_code: this.country.id,
-          country:
-            this.country.name ===
-            this.$t('CONTACT_FORM.FORM.COUNTRY.SELECT_COUNTRY')
-              ? ''
-              : this.country.name,
-          city: this.city,
-          social_profiles: this.socialProfileUserNames,
-        },
+        custom_attributes: this.customAttributes,
+        assignee_id_in_leads: this.agent?.id,
+        team_id: this.team?.id,
       };
       if (this.avatarFile) {
         contactObject.avatar = this.avatarFile;
@@ -369,6 +325,7 @@ export default {
       }
     },
     async handleSubmit() {
+      if (!this.submitEnabled) return;
       this.$v.$touch();
       if (this.$v.$invalid || this.isPhoneNumberNotValid) {
         return;

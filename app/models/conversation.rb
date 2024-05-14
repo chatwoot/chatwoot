@@ -64,7 +64,7 @@ class Conversation < ApplicationRecord
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   validates :contact_id, presence: true
-  before_validation :validate_additional_attributes
+  before_validation :validate_additional_attributes, :set_default_conversation_type
   validates :additional_attributes, jsonb_attributes_length: true
   validates :custom_attributes, jsonb_attributes_length: true
   validates :uuid, uniqueness: true
@@ -111,7 +111,7 @@ class Conversation < ApplicationRecord
   before_create :ensure_waiting_since
 
   after_update_commit :execute_after_update_commit_callbacks
-  after_create_commit :notify_conversation_creation
+  after_create_commit :notify_conversation_creation, :sync_contact_assignee
   after_commit :set_display_id, unless: :display_id?
 
   delegate :auto_resolve_duration, to: :account
@@ -222,6 +222,10 @@ class Conversation < ApplicationRecord
     self.additional_attributes = {} unless additional_attributes.is_a?(Hash)
   end
 
+  def set_default_conversation_type
+    self.conversation_type ||= :default_type
+  end
+
   def determine_conversation_status
     self.status = :resolved and return if contact.blocked?
 
@@ -235,6 +239,12 @@ class Conversation < ApplicationRecord
 
   def notify_conversation_creation
     dispatcher_dispatch(CONVERSATION_CREATED)
+  end
+
+  def sync_contact_assignee
+    return unless contact.conversations.where(conversation_type: :default_type).count == 1 && assignee_id.present?
+
+    contact.update(assignee_id_in_leads: assignee_id)
   end
 
   def notify_conversation_updation

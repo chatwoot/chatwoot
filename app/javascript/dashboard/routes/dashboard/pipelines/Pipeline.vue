@@ -49,7 +49,6 @@ import { mapGetters } from 'vuex';
 import PageHeader from './Header.vue';
 import Board from './Board.vue';
 import ContactInfoPanel from '../contacts/components/ContactInfoPanel.vue';
-import boardsAPI from '../../../api/boards.js';
 import CreateContact from '../conversation/contact/CreateContact.vue';
 import filterQueryGenerator from '../../../helper/filterQueryGenerator';
 import ContactsAdvancedFilters from '../contacts/components/ContactsAdvancedFilters.vue';
@@ -92,7 +91,6 @@ export default {
     ...mapGetters({
       records: 'contacts/getContacts',
       uiFlags: 'contacts/getUIFlags',
-      meta: 'contacts/getMeta',
       segments: 'customViews/getCustomViews',
       getAppliedContactFilters: 'contacts/getAppliedContactFilters',
     }),
@@ -119,6 +117,7 @@ export default {
     },
   },
   mounted() {
+    this.$store.dispatch('stages/get');
     this.$store.dispatch('contacts/clearContactFilters');
   },
   methods: {
@@ -136,16 +135,11 @@ export default {
       this.selectedContactId = '';
       this.selectedStageType = selectedStageType.value;
       const stageType = this.selectedStageType;
-      boardsAPI.get().then(response => {
-        const stagesByType = response.data.filter(
-          item =>
-            stageType === 'both' ||
-            item.stage_type === 'both' ||
-            item.stage_type === stageType
-        );
-        this.stages = stagesByType;
-        this.fetchContacts();
-      });
+      this.stages = this.$store.getters['stages/getStagesByType'](
+        stageType,
+        false
+      );
+      this.fetchContacts();
     },
     fetchContacts() {
       let value = '';

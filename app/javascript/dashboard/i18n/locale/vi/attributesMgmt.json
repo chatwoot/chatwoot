@@ -4,6 +4,18 @@
     "HEADER_BTN_TXT": "Thêm thông tin tùy chỉnh",
     "LOADING": "Đang lấy thông tin tuỳ chỉnh",
     "SIDEBAR_TXT": "<p><b>Thông tin tùy chỉnh</b> <p>Thông tin tùy chỉnh giúp lưu trữ thông tin thực tế của khách hàng và của cuộc hội thoại - như địa chỉ giao hàng hoặc sở thích của khách hàng, v. v. <br /><br />Để tạo một Thông tin Tùy chỉnh, chỉ cần nhấp vào <b>Thêm Thông tin Tùy chỉnh.</b> Bạn cũng có thể chỉnh sửa hoặc xóa Thông tin Tùy chỉnh hiện có bằng cách nhấp vào nút Chỉnh sửa hoặc Xóa.</p>",
+    "ATTRIBUTE_MODELS": {
+      "CONVERSATION": "Hội thoại",
+      "CONTACT": "Khách hàng"
+    },
+    "ATTRIBUTE_TYPES": {
+      "TEXT": "Văn bản",
+      "NUMBER": "Số",
+      "LINK": "Link",
+      "DATE": "Ngày",
+      "LIST": "Danh sách chọn",
+      "CHECKBOX": "Đánh dấu"
+    },
     "ADD": {
       "TITLE": "Thêm thông tin Tùy chỉnh",
       "SUBMIT": "Tạo",
@@ -16,7 +28,7 @@
         },
         "DESC": {
           "LABEL": "Mô tả",
-          "PLACEHOLDER": "Điền mô tả của thông tin tuỳ chỉnh",
+          "PLACEHOLDER": "Nhập mô tả ý nghĩa của thông tin tuỳ chỉnh",
           "ERROR": "Mô tả bắt buộc có"
         },
         "MODEL": {
@@ -25,8 +37,8 @@
           "ERROR": "Mô hình bắt buộc có"
         },
         "TYPE": {
-          "LABEL": "Kiểu",
-          "PLACEHOLDER": "Vui lòng chọn một kiểu",
+          "LABEL": "Kiểu dữ liệu",
+          "PLACEHOLDER": "Vui lòng chọn một kiểu dữ liệu",
           "ERROR": "Kiểu bắt buộc có",
           "LIST": {
             "LABEL": "Giá trị của danh sách",
@@ -35,21 +47,21 @@
           }
         },
         "KEY": {
-          "LABEL": "Khoá",
-          "PLACEHOLDER": "Nhập khoá của thông tin tuỳ chỉnh",
-          "ERROR": "C\u001dần có khoá",
-          "IN_VALID": "Khoá không hợp lệ"
+          "LABEL": "Mã phân biệt",
+          "PLACEHOLDER": "Nhập mã phân biệt không có dấu, ký tự đặc biệt và không trùng lắp",
+          "ERROR": "Cần có mã phân biệt",
+          "IN_VALID": "Mã phân biệt không hợp lệ"
         },
         "REGEX_PATTERN": {
-          "LABEL": "Regex Pattern",
-          "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+          "LABEL": "Mẫu quy tắc",
+          "PLACEHOLDER": "Nhập mẫu quy tắc theo chuẩn regex pattern"
         },
         "REGEX_CUE": {
-          "LABEL": "Regex Cue",
-          "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+          "LABEL": "Thông báo khi nhập sai",
+          "PLACEHOLDER": "Nhập thông báo hiển thị khi người dùng nhập sai quy tắc"
         },
         "ENABLE_REGEX": {
-          "LABEL": "Enable regex validation"
+          "LABEL": "Kiểm tra quy tắc nhập dữ liệu"
         }
       },
       "API": {
@@ -95,7 +107,7 @@
         "Tên",
         "Mô tả",
         "Kiểu",
-        "Khoá"
+        "Mã phân biệt"
       ],
       "BUTTONS": {
         "EDIT": "Chỉnh sửa",
