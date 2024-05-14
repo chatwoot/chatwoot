@@ -76,6 +76,13 @@ export default {
       return !this.isFetching && this.linkedIssue;
     },
   },
+  watch: {
+    conversationId(newConversationId, prevConversationId) {
+      if (newConversationId && newConversationId !== prevConversationId) {
+        this.loadLinkedIssue();
+      }
+    },
+  },
   mounted() {
     this.loadLinkedIssue();
   },
