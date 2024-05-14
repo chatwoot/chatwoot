@@ -5,7 +5,9 @@
     <Kanban :statuses="statuses" :blocks="blocks" @update-block="updateStage">
       <div v-for="stage in stages" :slot="stage.code" :key="stage.code">
         <h2>
-          {{ stage.name }}
+          <span v-tooltip.top-end="stage.description">
+            {{ stageCount(stage) }}
+          </span>
           <a
             v-tooltip.top-end="$t('PIPELINE_PAGE.ADD_CONTACT_TOOLTIP')"
             href=""
@@ -81,12 +83,16 @@ export default {
       this.syncBlockItems();
     },
   },
-
   methods: {
     loadStatuses() {
       this.statuses = this.stages.map(item => item.code);
     },
-
+    stageCount(stage) {
+      const count = this.blocks.filter(
+        item => item.status === stage.code
+      ).length;
+      return count ? `${stage.name} (${count})` : stage.name;
+    },
     syncBlockItems() {
       this.contacts.forEach(contact => {
         if (!contact.stage?.id) return;

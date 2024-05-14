@@ -23,41 +23,38 @@
         />
         <table
           v-if="!uiFlags.isFetching && stages.length"
-          class="w-full mt-2 table-fixed woot-table"
+          class="woot-table mt-2"
         >
           <thead>
             <th
               v-for="tableHeader in $t('STAGES_MGMT.LIST.TABLE_HEADER')"
               :key="tableHeader"
-              class="pl-0 max-w-[6.25rem] min-w-[5rem]"
             >
               {{ tableHeader }}
             </th>
           </thead>
           <tbody>
             <tr v-for="stage in stages" :key="stage.code">
-              <td
-                class="pl-0 max-w-[6.25rem] min-w-[5rem] overflow-hidden whitespace-nowrap text-ellipsis"
-              >
-                {{ stage.name }}
+              <td>
+                <span
+                  :class="{ strikethrough: stage.disabled }"
+                  style="display: block"
+                >
+                  {{ stage.name }}
+                </span>
+                <span v-if="stage.disabled" class="text-xs italic">
+                  {{ $t('STAGES_MGMT.LIST.EMPTY_RESULT.DISABLED_STATE') }}
+                </span>
               </td>
-              <td
-                class="pl-0 max-w-[15rem] min-w-[6.25rem] overflow-hidden whitespace-nowrap text-ellipsis"
-              >
+              <td>
                 {{ stage.description }}
               </td>
-              <td
-                class="pl-0 max-w-[4.25rem] min-w-[4rem] overflow-hidden whitespace-nowrap text-ellipsis"
-              >
+              <td>
                 {{ stage.code }}
               </td>
-              <td
-                class="stage-key pl-0 max-w-[3.25rem] min-w-[3rem] overflow-hidden whitespace-nowrap text-ellipsis"
-              >
-                {{ stage.stage_type }}
-              </td>
-              <td class="button-wrapper">
+              <td>
                 <woot-button
+                  v-if="!stage.disabled"
                   v-tooltip.top="$t('STAGES_MGMT.LIST.BUTTONS.EDIT')"
                   variant="smooth"
                   size="tiny"
@@ -67,13 +64,24 @@
                   @click="openEditPopup(stage)"
                 />
                 <woot-button
-                  v-tooltip.top="$t('STAGES_MGMT.LIST.BUTTONS.DELETE')"
+                  v-if="stage.disabled"
+                  v-tooltip.top="$t('STAGES_MGMT.LIST.BUTTONS.ENABLE')"
+                  variant="smooth"
+                  color-scheme="primary"
+                  size="tiny"
+                  icon="checkmark-circle"
+                  class-names="grey-btn"
+                  @click="openEnable(stage)"
+                />
+                <woot-button
+                  v-else-if="stage.allow_disabled"
+                  v-tooltip.top="$t('STAGES_MGMT.LIST.BUTTONS.DISABLE')"
                   variant="smooth"
                   color-scheme="alert"
                   size="tiny"
                   icon="dismiss-circle"
                   class-names="grey-btn"
-                  @click="openDelete(stage)"
+                  @click="openDisable(stage)"
                 />
               </td>
             </tr>
@@ -92,17 +100,36 @@
       />
     </woot-modal>
     <woot-confirm-delete-modal
-      v-if="showDeletePopup"
-      :show.sync="showDeletePopup"
+      v-if="showDisablePopup"
+      :show.sync="showDisablePopup"
       :title="confirmDeleteTitle"
-      :message="$t('STAGES_MGMT.DELETE.CONFIRM.MESSAGE')"
+      :message="$t('STAGES_MGMT.DISABLE.CONFIRM.MESSAGE')"
       :confirm-text="deleteConfirmText"
       :reject-text="deleteRejectText"
       :confirm-value="selectedStage.name"
       :confirm-place-holder-text="confirmPlaceHolderText"
-      @on-confirm="confirmDeletion"
-      @on-close="closeDelete"
+      @on-confirm="confirmStageToggle"
+      @on-close="closeDisable"
     />
+    <woot-confirm-delete-modal
+      v-if="showEnablePopup"
+      :show.sync="showEnablePopup"
+      :title="confirmDeleteTitle"
+      :message="$t('STAGES_MGMT.ENABLE.CONFIRM.MESSAGE')"
+      :confirm-text="deleteConfirmText"
+      :reject-text="deleteRejectText"
+      :confirm-value="selectedStage.name"
+      :confirm-place-holder-text="confirmPlaceHolderText"
+      @on-confirm="confirmStageToggle"
+      @on-close="closeEnable"
+    />
+    <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
+      <edit-stage
+        :selected-stage="selectedStage"
+        :is-updating="uiFlags.isUpdating"
+        @on-close="hideEditPopup"
+      />
+    </woot-modal>
   </div>
 </template>
 
@@ -120,7 +147,8 @@ export default {
     return {
       selectedTabIndex: 0,
       showEditPopup: false,
-      showDeletePopup: false,
+      showDisablePopup: false,
+      showEnablePopup: false,
       selectedStage: {},
     };
   },
@@ -152,22 +180,35 @@ export default {
       ];
     },
     deleteConfirmText() {
-      return `${this.$t('STAGES_MGMT.DELETE.CONFIRM.YES')} ${
-        this.selectedStage.name
-      }`;
+      return `${this.$t(
+        'STAGES_MGMT.' +
+          (this.selectedStage.disabled ? 'ENABLE' : 'DISABLE') +
+          '.CONFIRM.YES'
+      )} ${this.selectedStage.name}`;
     },
     deleteRejectText() {
-      return this.$t('STAGES_MGMT.DELETE.CONFIRM.NO');
+      return this.$t(
+        'STAGES_MGMT.' +
+          (this.selectedStage.disabled ? 'ENABLE' : 'DISABLE') +
+          '.CONFIRM.NO'
+      );
     },
     confirmDeleteTitle() {
-      return this.$t('STAGES_MGMT.DELETE.CONFIRM.TITLE', {
-        name: this.selectedStage.name,
-      });
+      return this.$t(
+        'STAGES_MGMT.' +
+          (this.selectedStage.disabled ? 'ENABLE' : 'DISABLE') +
+          '.CONFIRM.TITLE',
+        {
+          name: this.selectedStage.name,
+        }
+      );
     },
     confirmPlaceHolderText() {
-      return `${this.$t('STAGES_MGMT.DELETE.CONFIRM.PLACE_HOLDER', {
-        name: this.selectedStage.name,
-      })}`;
+      return `${this.$t(
+        'STAGES_MGMT.' +
+          (this.selectedStage.disabled ? 'ENABLE' : 'DISABLE') +
+          '.CONFIRM.PLACE_HOLDER'
+      )}`;
     },
   },
   mounted() {
@@ -177,14 +218,29 @@ export default {
     onClickTabChange(index) {
       this.selectedTabIndex = index;
     },
-    async deleteStage({ id }) {
+    async toggleStage(selectedStage) {
+      const previousState = selectedStage.disabled;
       try {
-        await this.$store.dispatch('stages/delete', id);
-        this.showAlert(this.$t('STAGES_MGMT.DELETE.API.SUCCESS_MESSAGE'));
+        const stage = {
+          id: selectedStage.id,
+          disabled: !selectedStage.disabled,
+        };
+        await this.$store.dispatch('stages/update', stage);
+        this.showAlert(
+          this.$t(
+            'STAGES_MGMT.' +
+              (previousState ? 'ENABLE' : 'DISABLE') +
+              '.API.SUCCESS_MESSAGE'
+          )
+        );
       } catch (error) {
         const errorMessage =
           error?.response?.message ||
-          this.$t('STAGES_MGMT.DELETE.API.ERROR_MESSAGE');
+          this.$t(
+            'STAGES_MGMT.' +
+              (previousState ? 'ENABLE' : 'DISABLE') +
+              '.API.ERROR_MESSAGE'
+          );
         this.showAlert(errorMessage);
       }
     },
@@ -195,16 +251,25 @@ export default {
     hideEditPopup() {
       this.showEditPopup = false;
     },
-    confirmDeletion() {
-      this.deleteStage(this.selectedStage);
-      this.closeDelete();
+    confirmStageToggle() {
+      this.toggleStage(this.selectedStage);
+      this.closeDisable();
+      this.closeEnable();
     },
-    openDelete(value) {
-      this.showDeletePopup = true;
+    openDisable(value) {
+      this.showDisablePopup = true;
       this.selectedStage = value;
     },
-    closeDelete() {
-      this.showDeletePopup = false;
+    closeDisable() {
+      this.showDisablePopup = false;
+      this.selectedStage = {};
+    },
+    openEnable(value) {
+      this.showEnablePopup = true;
+      this.selectedStage = value;
+    },
+    closeEnable() {
+      this.showEnablePopup = false;
       this.selectedStage = {};
     },
   },
@@ -215,7 +280,9 @@ export default {
 .stage-key {
   font-family: monospace;
 }
-
+.strikethrough {
+  text-decoration: line-through;
+}
 ::v-deep {
   .tabs--container {
     .tabs {

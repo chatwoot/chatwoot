@@ -7,6 +7,7 @@ const settings = accountId => ({
     'agent_bots',
     'agent_list',
     'attributes_list',
+    'stages_list',
     'automation_list',
     'auditlogs_list',
     'billing_settings_index',

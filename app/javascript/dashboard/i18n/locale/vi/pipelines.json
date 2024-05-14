@@ -6,7 +6,7 @@
             "DEALS": "Giai đoạn deals",
             "BOTH": "Tất cả giai đoạn"
         },
-        "ADD_CONTACT_TOOLTIP": "Thêm khách hàng mới vào giai đoạn này",
+        "ADD_CONTACT_TOOLTIP": "Tạo khách hàng mới",
         "ASSIGNEE_LABEL": "Phụ trách: ",
         "TIME_IN_STAGE": "Thời gian: "
     }

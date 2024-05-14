@@ -8,7 +8,6 @@ export const state = {
     isFetching: false,
     isCreating: false,
     isUpdating: false,
-    isDeleting: false,
   },
 };
 
@@ -27,7 +26,9 @@ export const getters = {
     (stageType, disableIncluded = true) => {
       return _state.records.filter(
         record =>
-          (record.stage_type === stageType || stageType === 'both') &&
+          (record.stage_type === stageType ||
+            record.stage_type === 'both' ||
+            stageType === 'both') &&
           (record.disabled === false || disableIncluded)
       );
     },
@@ -55,17 +56,6 @@ export const actions = {
       throw new Error(errorMessage);
     } finally {
       commit(types.SET_STAGE_UI_FLAG, { isUpdating: false });
-    }
-  },
-  delete: async ({ commit }, id) => {
-    commit(types.SET_STAGE_UI_FLAG, { isDeleting: true });
-    try {
-      await StageAPI.delete(id);
-      commit(types.DELETE_STAGE, id);
-    } catch (error) {
-      throw new Error(error);
-    } finally {
-      commit(types.SET_STAGE_UI_FLAG, { isDeleting: false });
     }
   },
 };

@@ -49,8 +49,8 @@
         "KEY": {
           "LABEL": "Mã phân biệt",
           "PLACEHOLDER": "Nhập mã phân biệt không có dấu, ký tự đặc biệt và không trùng lắp",
-          "ERROR": "C\u001dần có khoá",
-          "IN_VALID": "Khoá không hợp lệ"
+          "ERROR": "Cần có mã phân biệt",
+          "IN_VALID": "Mã phân biệt không hợp lệ"
         },
         "REGEX_PATTERN": {
           "LABEL": "Mẫu quy tắc",
@@ -107,7 +107,7 @@
         "Tên",
         "Mô tả",
         "Kiểu",
-        "Khoá"
+        "Mã phân biệt"
       ],
       "BUTTONS": {
         "EDIT": "Chỉnh sửa",
