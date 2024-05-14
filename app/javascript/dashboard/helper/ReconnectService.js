@@ -110,6 +110,16 @@ export default class ReconnectService {
     }
   }
 
+  async fetchConversations() {
+    if (this.hasActiveFilters || this.hasActiveFolder) {
+      await this.fetchFilteredOrSavedConversations(
+        this.hasActiveFilters ? this.activeFilters : this.activeFolderQuery
+      );
+    } else {
+      await this.fetchConversationsOnReconnect();
+    }
+  }
+
   // Fetch inbox notifications on reconnect
   async fetchInboxNotificationsOnReconnect() {
     try {
@@ -136,8 +146,8 @@ export default class ReconnectService {
     }
   }
 
-  async fetchOnReconnect() {
-    // Revalidate all caches on reconnect
+  // Revalidate all caches on reconnect
+  async revalidateCaches() {
     const cacheKeys = await this.storeActions.dispatch('accounts/getCacheKeys');
     this.storeActions.dispatch('labels/revalidate', {
       newKey: cacheKeys.label,
@@ -146,22 +156,24 @@ export default class ReconnectService {
       newKey: cacheKeys.inbox,
     });
     this.storeActions.dispatch('teams/revalidate', { newKey: cacheKeys.team });
+  }
 
-    // if the disconnect time is greater than 3 hours, reload the page
-    // if the disconnect time is less than 3 hours, fetch the conversations/notifications
+  // Handle route specific fetch
+  async handleRouteSpecificFetch() {
     if (isAConversationRoute(this.route.name, true)) {
-      if (this.hasActiveFilters || this.hasActiveFolder) {
-        await this.fetchFilteredOrSavedConversations(
-          this.hasActiveFilters ? this.activeFilters : this.activeFolderQuery
-        );
-      } else {
-        await this.fetchConversationsOnReconnect();
-      }
+      await this.fetchConversations();
     } else if (isAInboxViewRoute(this.route.name, true)) {
       await this.fetchInboxNotificationsOnReconnect();
     } else if (isNotificationRoute(this.route.name)) {
       await this.fetchNotificationsOnReconnect();
     }
+  }
+
+  async fetchOnReconnect() {
+    // if the disconnect time is greater than 3 hours, reload the page
+    // if the disconnect time is less than 3 hours, fetch the conversations/notifications
+    await this.revalidateCaches();
+    await this.handleRouteSpecificFetch();
   }
 
   setupEventListeners() {
