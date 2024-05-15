@@ -55,6 +55,7 @@
           type="text"
           placeholder="Search"
           class="!h-8 !mb-0 !text-sm !border !border-solid !border-slate-200 dark:!border-slate-600"
+          @input="onSearchCountry"
         />
       </div>
       <div
@@ -119,15 +120,6 @@ export default {
   },
   data() {
     return {
-      countries: [
-        {
-          name: 'Select Country',
-          dial_code: '',
-          emoji: '',
-          id: '',
-        },
-        ...countries,
-      ],
       selectedIndex: -1,
       showDropdown: false,
       searchCountry: '',
@@ -137,6 +129,20 @@ export default {
     };
   },
   computed: {
+    countries() {
+      return [
+        {
+          name: this.dropdownFirstItemName,
+          dial_code: '',
+          emoji: '',
+          id: '',
+        },
+        ...countries,
+      ];
+    },
+    dropdownFirstItemName() {
+      return this.activeCountryCode ? 'Clear selection' : 'Select Country';
+    },
     filteredCountriesBySearch() {
       return this.countries.filter(country => {
         const { name, dial_code, id } = country;
@@ -190,28 +196,14 @@ export default {
     onBlur(e) {
       this.$emit('blur', e.target.value);
     },
-    dropdownItem() {
-      if (!this.showDropdown) return [];
-      return Array.from(
-        this.$refs.dropdown.querySelectorAll(
-          'div.country-dropdown div.country-dropdown--item'
-        )
-      );
-    },
-    focusedItem() {
-      if (!this.showDropdown) return [];
-      return Array.from(
-        this.$refs.dropdown.querySelectorAll('div.country-dropdown div.focus')
-      );
-    },
-    focusedItemIndex() {
-      if (!this.showDropdown) return -1;
-      return Array.from(this.dropdownItem()).indexOf(this.focusedItem()[0]);
+    onSearchCountry() {
+      // Reset selected index to 0
+      this.selectedIndex = 0;
     },
     moveUp() {
       if (!this.showDropdown) return;
       this.selectedIndex = Math.max(this.selectedIndex - 1, 0);
-      this.$refs.dropdown.scrollTop = this.focusedItemIndex() * 28 - 56;
+      this.scrollToSelected();
     },
     moveDown() {
       if (!this.showDropdown) return;
@@ -219,7 +211,18 @@ export default {
         this.selectedIndex + 1,
         this.filteredCountriesBySearch.length - 1
       );
-      this.$refs.dropdown.scrollTop = this.focusedItemIndex() * 28 - 56;
+      this.scrollToSelected();
+    },
+    scrollToSelected() {
+      this.$nextTick(() => {
+        const dropdown = this.$refs.dropdown;
+        const selectedItem = this.$refs.dropdownItem[this.selectedIndex];
+        const dropdownSearchbarHeight = 40;
+        if (selectedItem) {
+          const selectedItemTop = selectedItem.offsetTop;
+          dropdown.scrollTop = selectedItemTop - dropdownSearchbarHeight;
+        }
+      });
     },
     onSelectCountry(country) {
       if (!country || !this.showDropdown) return;
