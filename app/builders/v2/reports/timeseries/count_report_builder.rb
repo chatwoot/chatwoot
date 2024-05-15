@@ -2,7 +2,12 @@ class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::Bas
   def timeseries
     grouped_count.each_with_object([]) do |element, arr|
       event_date, event_count = element
-      arr << { value: event_count, timestamp: event_date.to_time.to_i }
+
+      # The `event_date` is in Date format (without time), such as "Wed, 15 May 2024".
+      # We need a timestamp for the start of the day. However, we can't use `event_date.to_time.to_i`
+      # because it converts the date to 12:00 AM server timezone.
+      # The desired output should be 12:00 AM in the specified timezone.
+      arr << { value: event_count, timestamp: event_date.in_time_zone(timezone).to_i }
     end
   end
 
