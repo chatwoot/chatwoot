@@ -41,7 +41,12 @@ module Api::V2::Accounts::ReportsHelper
   end
 
   def generate_report(report_params)
-    report_builder(report_params).short_summary
+    builder = V2::NewReportBuilder
+    {
+      conversations_count: builder.new(account, report_params.merge(metric: :conversations_count)),
+      avg_first_response_time: builder.new(account, report_params.merge(metric: :avg_first_response_time)),
+      avg_resolution_time: builder.new(account, report_params.merge(metric: :avg_resolution_time))
+    }
   end
 
   private

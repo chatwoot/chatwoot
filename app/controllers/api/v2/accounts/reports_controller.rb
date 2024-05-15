@@ -6,7 +6,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
 
   def index
     builder = V2::NewReportBuilder.new(Current.account, report_params)
-    data = builder.build
+    data = builder.timeseries
     render json: data
   end
 
@@ -15,7 +15,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def bot_summary
-    summary = V2::ReportBuilder.new(Current.account, current_summary_params).bot_summary
+    summary = V2::NewReportBuilder.new(Current.account, current_summary_params).bot_summary
     summary[:previous] = V2::ReportBuilder.new(Current.account, previous_summary_params).bot_summary
     render json: summary
   end
@@ -49,9 +49,14 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def conversations
-    return head :unprocessable_entity if params[:type].blank?
-
-    render json: conversation_metrics
+    case params[:type].to_sym
+    when :account
+      render json: V2::LiveReports::AccountReportsBuilder.new(Current.account).build
+    when :agent
+      render json: V2::LiveReports::AgentReportsBuilder.new(Current.account, conversation_params).build
+    else
+      head :unprocessable_entity
+    end
   end
 
   def bot_metrics
@@ -106,11 +111,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def conversation_params
-    {
-      type: params[:type].to_sym,
-      user_id: params[:user_id],
-      page: params[:page].presence || 1
-    }
+    { page: params[:page].presence || 1 }
   end
 
   def range
@@ -130,9 +131,5 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     summary = V2::ReportBuilder.new(Current.account, current_summary_params).summary
     summary[:previous] = V2::ReportBuilder.new(Current.account, previous_summary_params).summary
     summary
-  end
-
-  def conversation_metrics
-    V2::ReportBuilder.new(Current.account, conversation_params).conversation_metrics
   end
 end

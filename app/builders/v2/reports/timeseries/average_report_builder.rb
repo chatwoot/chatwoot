@@ -1,5 +1,5 @@
 class V2::Reports::Timeseries::AverageReportBuilder < V2::Reports::Timeseries::BaseTimeseriesBuilder
-  def build
+  def timeseries
     grouped_average_time = reporting_events.average(average_value_key)
     grouped_event_count = reporting_events.count
     grouped_average_time.each_with_object([]) do |element, arr|
@@ -10,6 +10,10 @@ class V2::Reports::Timeseries::AverageReportBuilder < V2::Reports::Timeseries::B
         count: grouped_event_count[event_date]
       }
     end
+  end
+
+  def aggregate_value
+    object_scope.average(average_value_key)
   end
 
   private
