@@ -6,12 +6,18 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
 
   def index
     builder = V2::NewReportBuilder.new(Current.account, report_params)
-    data = builder.build
+    data = builder.timeseries
     render json: data
   end
 
   def summary
     render json: summary_metrics
+  end
+
+  def bot_summary
+    summary = V2::NewReportBuilder.new(Current.account, current_summary_params).bot_summary
+    summary[:previous] = V2::ReportBuilder.new(Current.account, previous_summary_params).bot_summary
+    render json: summary
   end
 
   def agents
@@ -40,6 +46,22 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     @timezone = ActiveSupport::TimeZone[timezone_offset]
 
     generate_csv('conversation_traffic_reports', 'api/v2/accounts/reports/conversation_traffic')
+  end
+
+  def conversations
+    case params[:type].to_sym
+    when :account
+      render json: V2::LiveReports::AccountReportsBuilder.new(Current.account).build
+    when :agent
+      render json: V2::LiveReports::AgentReportsBuilder.new(Current.account, conversation_params).build
+    else
+      head :unprocessable_entity
+    end
+  end
+
+  def bot_metrics
+    bot_metrics = V2::Reports::BotMetricsBuilder.new(Current.account, params).metrics
+    render json: bot_metrics
   end
 
   private
@@ -89,11 +111,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def conversation_params
-    {
-      type: params[:type].to_sym,
-      user_id: params[:user_id],
-      page: params[:page].presence || 1
-    }
+    { page: params[:page].presence || 1 }
   end
 
   def range

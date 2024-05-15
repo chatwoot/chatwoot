@@ -46,11 +46,10 @@ class V2::ReportBuilder
     }
   end
 
-  def short_summary
+  def bot_summary
     {
-      conversations_count: conversations.count,
-      avg_first_response_time: avg_first_response_time_summary,
-      avg_resolution_time: avg_resolution_time_summary
+      bot_resolutions_count: bot_resolutions.count,
+      bot_handoffs_count: bot_handoffs.count
     }
   end
 

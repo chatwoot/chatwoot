@@ -1,9 +1,13 @@
 class V2::Reports::Timeseries::MetricCountReportBuilder < V2::Reports::Timeseries::BaseTimeseriesBuilder
-  def build
+  def timeseries
     grouped_count.each_with_object([]) do |element, arr|
       event_date, event_count = element
       arr << { value: event_count, timestamp: event_date.to_time.to_i }
     end
+  end
+
+  def aggregate_value
+    object_scope.count
   end
 
   private
