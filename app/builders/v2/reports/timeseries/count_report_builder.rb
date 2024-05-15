@@ -1,4 +1,4 @@
-class V2::Reports::Timeseries::MetricCountReportBuilder < V2::Reports::Timeseries::BaseTimeseriesBuilder
+class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::BaseTimeseriesBuilder
   def timeseries
     grouped_count.each_with_object([]) do |element, arr|
       event_date, event_count = element

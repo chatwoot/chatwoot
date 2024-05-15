@@ -1,4 +1,4 @@
-class V2::LiveReports::AgentReportsBuilder
+class V2::Reports::LiveReports::AgentReportsBuilder
   pattr_initialize :account, :params
   AGENT_RESULTS_PER_PAGE = 25
 

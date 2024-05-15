@@ -1,4 +1,4 @@
-class V2::LiveReports::AccountReportsBuilder
+class V2::Reports::LiveReports::AccountReportsBuilder
   pattr_initialize :account
 
   def build
