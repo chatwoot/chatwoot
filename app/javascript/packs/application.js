@@ -2,7 +2,7 @@ import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import VueRouter from 'vue-router';
 import axios from 'axios';
-import bus from './mitt.js';
+import bus from '../dashboard/helper/mitt';
 // Global Components
 import hljs from 'highlight.js';
 import Multiselect from 'vue-multiselect';
