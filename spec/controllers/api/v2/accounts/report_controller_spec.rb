@@ -18,7 +18,7 @@ RSpec.describe 'Reports API', type: :request do
                                    assignee: user, created_at: Time.current.in_time_zone(default_timezone).to_date)
   end
 
-  describe 'GET /api/v2/accounts/:account_id/reports/account' do
+  describe 'GET /api/v2/accounts/:account_id/reports' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         get "/api/v2/accounts/#{account.id}/reports"
