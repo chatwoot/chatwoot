@@ -29,6 +29,7 @@ class V2::Reports::Timeseries::AverageReportBuilder < V2::Reports::Timeseries::B
       group_by,
       :created_at,
       default_value: 0,
+      range: range,
       permit: %w[day week month year hour],
       time_zone: timezone
     )
