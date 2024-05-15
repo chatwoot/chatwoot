@@ -1,4 +1,4 @@
-class V2::NewReportBuilder < V2::BaseConversationReportBuilder
+class V2::ConversationReportBuilder < V2::BaseConversationReportBuilder
   include DateRangeHelper
 
   pattr_initialize :account, :params
