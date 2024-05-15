@@ -66,17 +66,18 @@ module Api::V2::Accounts::HeatmapHelper
   end
 
   def generate_heatmap_data(date, offset)
-    V2::NewReportBuilder.new(
-      Current.account, {
-        type: :account,
-        group_by: 'hour',
-        metric: 'conversations_count',
-        business_hours: false,
-        since: since_timestamp(date),
-        until: until_timestamp(date),
-        timezone_offset: offset
-      }
-    ).timeseries
+    report_params = {
+      type: :account,
+      group_by: 'hour',
+      metric: 'conversations_count',
+      business_hours: false
+    }
+
+    V2::ReportBuilder.new(Current.account, report_params.merge({
+                                                                 since: since_timestamp(date),
+                                                                 until: until_timestamp(date),
+                                                                 timezone_offset: offset
+                                                               })).build
   end
 
   def transform_data(data, zone_transform)

@@ -47,14 +47,9 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def conversations
-    case params[:type].to_sym
-    when :account
-      render json: V2::Reports::LiveReports::AccountReportsBuilder.new(Current.account).build
-    when :agent
-      render json: V2::Reports::LiveReports::AgentReportsBuilder.new(Current.account, conversation_params).build
-    else
-      head :unprocessable_entity
-    end
+    return head :unprocessable_entity if params[:type].blank?
+
+    render json: conversation_metrics
   end
 
   def bot_metrics
@@ -109,7 +104,11 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def conversation_params
-    { page: params[:page].presence || 1 }
+    {
+      type: params[:type].to_sym,
+      user_id: params[:user_id],
+      page: params[:page].presence || 1
+    }
   end
 
   def range
@@ -130,5 +129,9 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     current_summary = builder.new(Current.account, current_summary_params).send(method)
     previous_summary = builder.new(Current.account, previous_summary_params).send(method)
     current_summary.merge(previous: previous_summary)
+  end
+
+  def conversation_metrics
+    V2::ReportBuilder.new(Current.account, conversation_params).conversation_metrics
   end
 end
