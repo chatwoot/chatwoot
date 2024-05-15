@@ -53,7 +53,7 @@ class Sla::EvaluateAppliedSlaService
       if start_time.in_working_hours?
         start_time.to_i + threshold_seconds.working.seconds
       else
-        WorkingHours.next_working_time(start_time) + threshold_seconds.working.seconds
+        (WorkingHours.next_working_time(start_time) + threshold_seconds.working.seconds).to_i
       end
     else
       start_time.to_i + threshold_seconds
