@@ -5,7 +5,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   before_action :check_authorization
 
   def index
-    builder = V2::ReportBuilder.new(Current.account, report_params)
+    builder = V2::NewReportBuilder.new(Current.account, report_params)
     data = builder.build
     render json: data
   end
