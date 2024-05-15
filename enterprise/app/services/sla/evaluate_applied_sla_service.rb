@@ -49,7 +49,7 @@ class Sla::EvaluateAppliedSlaService
     Time.zone.now.to_i < threshold
   end
 
-  def calulate_threshold(start_time, threshold_seconds)
+  def calculate_threshold(start_time, threshold_seconds)
     if @business_hours_configured
       if start_time.in_working_hours?
         start_time.to_i + threshold_seconds.working.seconds
@@ -62,7 +62,7 @@ class Sla::EvaluateAppliedSlaService
   end
 
   def check_first_response_time_threshold(applied_sla, conversation, sla_policy)
-    threshold = calulate_threshold(conversation.created_at, sla_policy.first_response_time_threshold.to_i)
+    threshold = calculate_threshold(conversation.created_at, sla_policy.first_response_time_threshold.to_i)
 
     return if first_reply_was_within_threshold?(conversation, threshold)
     return if still_within_threshold?(threshold)
@@ -80,7 +80,7 @@ class Sla::EvaluateAppliedSlaService
     # Waiting on customer response, no need to check next response time threshold
     return if conversation.waiting_since.blank?
 
-    threshold = calulate_threshold(conversation.waiting_since, sla_policy.next_response_time_threshold.to_i)
+    threshold = calculate_threshold(conversation.waiting_since, sla_policy.next_response_time_threshold.to_i)
 
     return if still_within_threshold?(threshold)
 
@@ -99,7 +99,7 @@ class Sla::EvaluateAppliedSlaService
   def check_resolution_time_threshold(applied_sla, conversation, sla_policy)
     return if conversation.resolved?
 
-    threshold = calulate_threshold(conversation.created_at, sla_policy.resolution_time_threshold.to_i)
+    threshold = calculate_threshold(conversation.created_at, sla_policy.resolution_time_threshold.to_i)
 
     return if still_within_threshold?(threshold)
 
