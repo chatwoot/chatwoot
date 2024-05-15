@@ -27,8 +27,11 @@ class V2::Reports::Timeseries::AverageReportBuilder < V2::Reports::Timeseries::B
     metric_to_event_name[params[:metric].to_sym]
   end
 
+  def object_scope
+    scope.reporting_events.where(name: event_name, created_at: range)
+  end
+
   def reporting_events
-    object_scope = scope.reporting_events.where(name: event_name)
     @grouped_values = object_scope.group_by_period(
       group_by,
       :created_at,
