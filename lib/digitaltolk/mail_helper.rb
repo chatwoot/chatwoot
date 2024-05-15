@@ -49,6 +49,7 @@ class Digitaltolk::MailHelper
     %w[thank thanks tack].any? { |str| content.downcase.include?(str) }
   rescue StandardError => e
     Rails.logger.error e
+    Rails.logger.error e.backtrace.first
     false
   end
 
@@ -58,6 +59,7 @@ class Digitaltolk::MailHelper
     email =~ NO_REPLY_EMAIL_REGEX
   rescue StandardError => e
     Rails.logger.error e
+    Rails.logger.error e.backtrace.first
     false
   end
 
@@ -75,6 +77,7 @@ class Digitaltolk::MailHelper
     false
   rescue StandardError => e
     Rails.logger.error e
+    Rails.logger.error e.backtrace.first
     false
   end
 
