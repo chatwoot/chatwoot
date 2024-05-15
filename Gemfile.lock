@@ -200,10 +200,10 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
-    devise_token_auth (1.2.1)
+    devise_token_auth (1.2.3)
       bcrypt (~> 3.0)
       devise (> 3.5.2, < 5)
-      rails (>= 4.2.0, < 7.1)
+      rails (>= 4.2.0, < 7.2)
     diff-lcs (1.5.0)
     digest-crc (0.6.4)
       rake (>= 12.0.0, < 14.0.0)
@@ -474,7 +474,7 @@ GEM
       uri
     net-http-persistent (4.0.2)
       connection_pool (~> 2.2)
-    net-imap (0.4.10)
+    net-imap (0.4.11)
       date
       net-protocol
     net-pop (0.1.2)
@@ -489,7 +489,7 @@ GEM
       sidekiq
     newrelic_rpm (9.6.0)
       base64
-    nio4r (2.7.1)
+    nio4r (2.7.3)
     nokogiri (1.16.5)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
@@ -819,7 +819,7 @@ GEM
     working_hours (1.4.1)
       activesupport (>= 3.2)
       tzinfo
-    zeitwerk (2.6.13)
+    zeitwerk (2.6.14)
 
 PLATFORMS
   arm64-darwin-20
@@ -860,7 +860,7 @@ DEPENDENCIES
   debug (~> 1.8)
   devise (>= 4.9.4)
   devise-secure_password!
-  devise_token_auth
+  devise_token_auth (>= 1.2.3)
   dotenv-rails
   down
   elastic-apm
