@@ -34,6 +34,7 @@ class Sla::EvaluateAppliedSlaService
 
     WorkingHours::Config.working_hours = inbox_working_hours
     WorkingHours::Config.time_zone = inbox.timezone
+    Time.zone = inbox.timezone
   end
 
   def check_sla_thresholds
