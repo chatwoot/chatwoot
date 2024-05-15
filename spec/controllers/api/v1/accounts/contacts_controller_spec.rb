@@ -97,6 +97,8 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
+        # TODO: this spec has been flaky for a while, so adding a debug statement to see the response
+        Rails.logger.info(response_body)
         expect(response_body['payload'].first['email']).to eq(contact.email)
         expect(response_body['payload'].first['id']).to eq(contact.id)
         expect(response_body['payload'].last['email']).to eq(contact_4.email)
