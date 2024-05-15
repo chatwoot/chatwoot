@@ -28,7 +28,7 @@
         ref="phoneNumberInput"
         :value="phoneNumber"
         type="tel"
-        class="!mb-0 !rounded-tl-none !rounded-bl-none !border-0 !w-full dark:!bg-slate-900 text-base !px-1.5 placeholder:font-normal"
+        class="!mb-0 !rounded-tl-none !rounded-bl-none !border-0 font-normal !w-full dark:!bg-slate-900 text-base !px-1.5 placeholder:font-normal"
         :placeholder="placeholder"
         :readonly="readonly"
         :style="styles"
