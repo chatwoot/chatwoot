@@ -54,6 +54,7 @@ class V2::Reports::Timeseries::MetricCountReportBuilder < V2::Reports::Timeserie
       group_by,
       :created_at,
       default_value: 0,
+      range: range,
       permit: %w[day week month year hour],
       time_zone: timezone
     ).count
