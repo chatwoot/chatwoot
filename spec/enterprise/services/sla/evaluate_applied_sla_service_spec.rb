@@ -242,7 +242,7 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
       applied_sla.sla_policy.update(only_during_business_hours: true)
     end
 
-    context 'when first response threshold is not breached' do
+    context 'when first response threshold is not missed' do
       before { applied_sla.sla_policy.update(first_response_time_threshold: 2.hours) }
 
       it 'does nothing and SLA is still active' do
