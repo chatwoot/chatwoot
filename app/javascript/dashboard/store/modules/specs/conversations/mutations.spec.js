@@ -403,4 +403,54 @@ describe('#mutations', () => {
       expect(state.allConversations[0].attachments).toHaveLength(1);
     });
   });
+
+  describe('#SET_CHAT_LIST_FILTERS', () => {
+    it('set chat list filters', () => {
+      const conversationFilters = {
+        inboxId: 1,
+        assigneeType: 'me',
+        status: 'open',
+        sortBy: 'created_at',
+        page: 1,
+        labels: ['label'],
+        teamId: 1,
+        conversationType: 'mention',
+      };
+      const state = { conversationFilters: conversationFilters };
+      mutations[types.SET_CHAT_LIST_FILTERS](state, conversationFilters);
+      expect(state.conversationFilters).toEqual(conversationFilters);
+    });
+  });
+
+  describe('#UPDATE_CHAT_LIST_FILTERS', () => {
+    it('update chat list filters', () => {
+      const conversationFilters = {
+        inboxId: 1,
+        assigneeType: 'me',
+        status: 'open',
+        sortBy: 'created_at',
+        page: 1,
+        labels: ['label'],
+        teamId: 1,
+        conversationType: 'mention',
+      };
+      const state = { conversationFilters: conversationFilters };
+      mutations[types.UPDATE_CHAT_LIST_FILTERS](state, {
+        inboxId: 2,
+        updatedWithin: 20,
+        assigneeType: 'all',
+      });
+      expect(state.conversationFilters).toEqual({
+        inboxId: 2,
+        assigneeType: 'all',
+        status: 'open',
+        sortBy: 'created_at',
+        page: 1,
+        labels: ['label'],
+        teamId: 1,
+        conversationType: 'mention',
+        updatedWithin: 20,
+      });
+    });
+  });
 });
