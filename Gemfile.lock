@@ -628,7 +628,8 @@ GEM
     retriable (3.1.2)
     reverse_markdown (2.1.1)
       nokogiri
-    rexml (3.2.5)
+    rexml (3.2.8)
+      strscan (>= 3.0.9)
     rspec-core (3.12.2)
       rspec-support (~> 3.12.0)
     rspec-expectations (3.12.3)
@@ -758,6 +759,7 @@ GEM
     stackprof (0.2.25)
     statsd-ruby (1.5.0)
     stripe (8.5.0)
+    strscan (3.1.0)
     telephone_number (1.4.20)
     test-prof (1.2.1)
     thor (1.3.1)
