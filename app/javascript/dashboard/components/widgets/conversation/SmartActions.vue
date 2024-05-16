@@ -14,7 +14,7 @@
         @click="hideSmartAction"
         class="float-right"
       />
-      <div v-if="filteredSmartActions.length" class="mt-8">
+      <div v-if="filteredSmartActions.length">
         <h1 class="text-xl break-words overflow-hidden whitespace-nowrap font-medium text-ellipsis text-black-900 dark:text-slate-100 mb-0">
           {{ filteredSmartActions.length }} smart actions detected from conversation
         </h1>
@@ -25,13 +25,13 @@
       </div>
       <div class="mt-3 action-holder">
         <div v-for="action in filteredSmartActions" v-bind:key="action.index" class="smart-action-item bg-slate-25 dark:bg-slate-900 m-0 h-full min-h-0">
-          <div class="capitalize float-right rounded-full bg-green-100 text-xs px-3 py-2 dark:text-slate-300 text-slate-700">{{ action.intent_type }}</div>
+          <div class="capitalize float-right rounded-full bg-green-100 text-xs px-5 py-1 dark:text-slate-300 text-slate-700" :class="actionClass(action)">{{ intentType(action) }}</div>
           <h1 class="text-black-900 dark:text-slate-400 text-2xl font-medum mb-2">{{ action.name }}</h1>
           <p class="text-slate-400 dark:text-slate-300 mb-3">{{ action.description }}</p>
           <div class="text-slate-800 dark:text-slate-300 action-from-to mb-3">
-            <span class="mr-2">{{ action.from }}</span>
-            <span class="mr-2"> → </span>
-            <span class="mr-2">{{ action.to }}</span>
+            <span class="mr-3">{{ action.from }}</span>
+            <span class="mr-3"> → </span>
+            <span class="mr-3">{{ action.to }}</span>
           </div>
           <div>
             <woot-button
@@ -42,7 +42,7 @@
               {{ action.label }}
               <fluent-icon 
                 size="16"
-                class="-mt-0.5 align-middle text-slate-600 dark:text-slate-300 inline-block"
+                class="-mt-0.5 align-middle ml-2 text-slate-100 dark:text-slate-300 inline-block"
                 icon="arrow-up-right"
                 >
               </fluent-icon>
@@ -50,7 +50,7 @@
           </div>
         </div>
       </div>
-      <div class="absolute bottom-0 w-11/12">
+      <div class="absolute bg-white bottom-0 w-100">
         <woot-button
           size="medium"
           variant="clear"
@@ -64,7 +64,7 @@
           <fluent-icon v-else size="10" icon="chevron-right" type="solid" class="mt-1 mr-2"/>
           Learn what is mart action and how it works
         </div>
-        <p class="text-sm text-slate-800 dark:text-slate-300" v-if="openHelp">
+        <p class="text-sm text-slate-800 dark:text-slate-300 pr-2" v-if="openHelp">
           Smart action is an AI-powered feature designed to assist support agents in real-time conversation
           analysis. With this new tool, agents can seamlessly detect key actions and cues during ongoing conversations,
           empowering them to provide faster, more accurate assistance to customers.
@@ -101,11 +101,14 @@ export default {
       context: 'getSmartActionsContext',
     }),
     filteredSmartActions() {
-      return this.smartActions.filter((action) => {
+      return this.smartActions.reverse().filter((action) => {
         const scoped = this.context.messageId == null || this.context.messageId == action.message_id;
         return action.event != 'ask_copilot' && scoped
       })
     },
+    primaryAction(){
+      return this.filteredSmartActions[0];
+    }
   },
   
   methods: {
@@ -130,6 +133,12 @@ export default {
       if (!this.showBookingPanel) {
         this.$store.dispatch('showSmartActions', false)
       }
+    },
+    actionClass(action){
+      return (this.primaryAction && this.primaryAction.id === action.id) ? 'primary-action' : 'secondary-action';
+    },
+    intentType(action){
+      return action.intent_type || this.primaryAction === action ? 'Primary' : 'Secondary';
     }
   }
 }
@@ -148,7 +157,7 @@ export default {
     border-radius: 5px;
   }
   .action-holder{
-    max-height: 350px;
+    max-height: 450px;
     overflow-y: auto;
   }
   .smart-action-item{
@@ -181,5 +190,13 @@ export default {
   #booking-iframe{
     width: 100%;
     height: 100vh;
+  }
+  .primary-action{
+    border: 1px solid rgb(179, 250, 168);
+    background-color: rgb(209, 255, 209);
+  }
+  .secondary-action{
+    border: 1px solid rgb(255 245 178);
+    background-color: rgb(243 234 195);
   }
 </style>
