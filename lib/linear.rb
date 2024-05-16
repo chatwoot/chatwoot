@@ -1,5 +1,3 @@
-require 'graphlient'
-
 require_relative 'linear_queries'
 require_relative 'linear_mutations'
 
@@ -8,37 +6,44 @@ class Linear
   PRIORITY_LEVELS = (0..4).to_a
 
   def initialize(api_key)
+    @api_key = api_key
     raise ArgumentError, 'Missing Credentials' if api_key.blank?
-
-    @client = Graphlient::Client.new(
-      BASE_URL,
-      headers: {
-        'Authorization' => api_key,
-        'Content-Type' => 'application/json'
-      }
-    )
   end
 
   def teams
-    execute_query(LinearQueries::TEAMS_QUERY)
+    query = {
+      query: LinearQueries::TEAMS_QUERY
+    }
+    response = post(query)
+    process_response(response)
   end
 
   def team_entities(team_id)
-    raise ArgumentError, 'Missing team id' if team_id.blank?
-
-    execute_query(LinearQueries.team_entities_query(team_id))
+    query = {
+      query: LinearQueries.team_entities_query(team_id)
+    }
+    response = post(query)
+    process_response(response)
   end
 
   def search_issue(term)
     raise ArgumentError, 'Missing search term' if term.blank?
 
-    execute_query(LinearQueries.search_issue(term))
+    query = {
+      query: LinearQueries.search_issue(term)
+    }
+    response = post(query)
+    process_response(response)
   end
 
   def linked_issue(url)
     raise ArgumentError, 'Missing link' if url.blank?
 
-    execute_query(LinearQueries.linked_issue(url))
+    query = {
+      query: LinearQueries.linked_issue(url)
+    }
+    response = post(query)
+    process_response(response)
   end
 
   def create_issue(params)
@@ -54,21 +59,30 @@ class Linear
       priority: params[:priority],
       labelIds: params[:label_ids]
     }.compact
-
-    execute_mutation(LinearMutations.issue_create(variables))
+    mutation = LinearMutations.issue_create(variables)
+    response = post({ query: mutation })
+    process_response(response)
   end
 
   def link_issue(link, issue_id)
     raise ArgumentError, 'Missing link' if link.blank?
     raise ArgumentError, 'Missing issue id' if issue_id.blank?
 
-    execute_mutation(LinearMutations.issue_link(issue_id, link))
+    payload = {
+      query: LinearMutations.issue_link(issue_id, link)
+    }
+    response = post(payload)
+    process_response(response)
   end
 
   def unlink_issue(link_id)
     raise ArgumentError, 'Missing  link id' if link_id.blank?
 
-    execute_mutation(LinearMutations.unlink_issue(link_id))
+    payload = {
+      query: LinearMutations.unlink_issue(link_id)
+    }
+    response = post(payload)
+    process_response(response)
   end
 
   private
@@ -91,24 +105,17 @@ class Linear
     raise ArgumentError, 'label_ids must be an array of strings.'
   end
 
-  def execute_query(query)
-    response = @client.query(query)
-    log_and_return_error("Error retrieving data: #{response.errors.messages}") if response.data.nil? && response.errors.any?
-    response.data.to_h
-  rescue StandardError => e
-    log_and_return_error("Error: #{e.message}")
+  def post(payload)
+    HTTParty.post(
+      BASE_URL,
+      headers: { 'Authorization' => @api_key, 'Content-Type' => 'application/json' },
+      body: payload.to_json
+    )
   end
 
-  def execute_mutation(query)
-    response = @client.query(query)
-    log_and_return_error("Error creating issue: #{response.errors.messages}") if response.data.nil? && response.errors.any?
-    response.data.to_h
-  rescue StandardError => e
-    log_and_return_error("Error: #{e.message}")
-  end
+  def process_response(response)
+    return response.parsed_response['data'].with_indifferent_access if response.success?
 
-  def log_and_return_error(message)
-    Rails.logger.error message
-    { error: message }
+    { error: response.parsed_response, error_code: response.code }
   end
 end
