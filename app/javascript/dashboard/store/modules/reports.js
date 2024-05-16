@@ -7,6 +7,17 @@ import { REPORTS_EVENTS } from '../../helper/AnalyticsHelper/events';
 import { clampDataBetweenTimeline } from 'shared/helpers/ReportsDataHelper';
 import liveReports from '../../api/liveReports';
 
+const accountSummaryInitialData = {
+  avg_first_response_time: 0,
+  avg_resolution_time: 0,
+  conversations_count: 0,
+  incoming_messages_count: 0,
+  outgoing_messages_count: 0,
+  reply_time: 0,
+  resolutions_count: 0,
+  previous: {},
+};
+
 const state = {
   fetchingStatus: false,
   accountReport: {
@@ -29,16 +40,7 @@ const state = {
       reply_time: [],
     },
   },
-  accountSummary: {
-    avg_first_response_time: 0,
-    avg_resolution_time: 0,
-    conversations_count: 0,
-    incoming_messages_count: 0,
-    outgoing_messages_count: 0,
-    reply_time: 0,
-    resolutions_count: 0,
-    previous: {},
-  },
+  accountSummary: accountSummaryInitialData,
   overview: {
     uiFlags: {
       isFetchingAccountConversationMetric: false,
@@ -108,6 +110,7 @@ export const actions = {
     });
   },
   fetchAccountSummary({ commit }, reportObj) {
+    commit(types.default.SET_ACCOUNT_SUMMARY, accountSummaryInitialData);
     Report.getSummary(
       reportObj.from,
       reportObj.to,
