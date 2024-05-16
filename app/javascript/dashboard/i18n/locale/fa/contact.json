@@ -84,6 +84,7 @@
     "CONFIRM": {
       "TITLE": "خروجی گرفتن مخاطب ها",
       "MESSAGE": "آیا مطمئن هستید که می خواهید از همه مخاطبین خروجی بگیرید؟",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
       "YES": "بله، خروجی بگیر",
       "NO": "نه، انصراف"
     }

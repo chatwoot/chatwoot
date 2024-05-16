@@ -74,6 +74,8 @@ fa:
       conversations_count: گفتگو‌های اختصاص داده شده
       avg_first_response_time: میانگین زمان تا اولین پاسخ
       avg_resolution_time: میانگین زمان حل مشکل
+      resolution_count: تعداد مسائل حل شده
+      avg_customer_waiting_time: میانگین زمان انتظار مشتری
     inbox_csv:
       inbox_name: نام صندوق ورودی
       inbox_type: نوع صندوق ورودی
@@ -90,6 +92,8 @@ fa:
       conversations_count: Conversations count
       avg_first_response_time: میانگین زمان تا اولین پاسخ
       avg_resolution_time: میانگین زمان حل مشکل
+      resolution_count: تعداد مسائل حل شده
+      avg_customer_waiting_time: میانگین زمان انتظار مشتری
     conversation_traffic_csv:
       timezone: منطقه زمانی
     sla_csv:

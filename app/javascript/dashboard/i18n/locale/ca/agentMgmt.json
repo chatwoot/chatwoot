@@ -3,7 +3,7 @@
     "HEADER": "Agents",
     "HEADER_BTN_TXT": "Afegir Agent",
     "LOADING": "S'està recollint la llista d'agents",
-    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> Un <b>Agent</b> és membre del vostre equip d’atenció al client. </p><p> Els agents podran veure i respondre missatges dels teus usuaris. La llista mostra tots els agents que hi ha actualment al teu compte.</p><p> Fer clic a <b>Afegeix Agent</b> per afegir un agent nou. L’agent que afegeixes rebrà un correu electrònic amb un enllaç de confirmació per activar el seu compte, després del qual podrà accedir a Chatwoot i respondre als missatges. </p><p> L’accés a les funcions de Chatwoot es basa en els següents rols.</p><p> <b>Agent</b> - Els agents amb aquesta funció només poden accedir a les bústies d’entrada, als informes i a les converses. Poden assignar converses a altres agents o a ells mateixos i resoldre converses.</p><p> <b>Administrador</b> - L'administrador tindrà accés a totes les funcions de Chatwoot habilitades per al teu compte, inclosa la configuració, juntament amb tots els privilegis dels agents normals.</p>",
+    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> Un <b>Agent</b> és membre del vostre equip d’atenció al client. </p><p> Els agents podran veure i respondre missatges dels teus usuaris. La llista mostra tots els agents que hi ha actualment al teu compte.</p><p> Fer clic a <b>Afegeix Agent</b> per afegir un agent nou. L´agent que afegeixes rebrà un correu electrònic amb un enllaç de confirmació per activar el seu compte, després del qual podrà accedir a Chatwoot i respondre als missatges. </p><p> L´accés a les funcions de Chatwoot es basa en els següents rols.</p><p> <b>Agent</b> - Els agents amb aquesta funció només poden accedir a les bústies d´entrada, als informes i a les converses. Poden assignar converses a altres agents o a ells mateixos i resoldre converses.</p><p> <b>Administrador</b> - L´administrador tindrà accés a totes les funcions de Chatwoot habilitades per al teu compte, inclosa la configuració, juntament amb tots els privilegis dels agents normals.</p>",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrador/a",
       "AGENT": "Agent"
@@ -31,7 +31,7 @@
         "AGENT_TYPE": {
           "LABEL": "Tipus d'Agent",
           "PLACEHOLDER": "Selecciona un tipus",
-          "ERROR": "El tipus d'Agent és necessari"
+          "ERROR": "El rol és necessari"
         },
         "EMAIL": {
           "LABEL": "Adreça de correu electrònic",
@@ -76,8 +76,8 @@
         },
         "AGENT_AVAILABILITY": {
           "LABEL": "Disponibilitat",
-          "PLACEHOLDER": "Please select an availability status",
-          "ERROR": "Availability is required"
+          "PLACEHOLDER": "Seleccioneu un estat de disponibilitat",
+          "ERROR": "Es requereix disponibilitat"
         },
         "SUBMIT": "Editar l'agent"
       },
@@ -111,7 +111,7 @@
         "PLACEHOLDER": {
           "AGENT": "Cerca agents",
           "TEAM": "Cerca equips",
-          "INPUT": "Search for agents"
+          "INPUT": "Cerca agents"
         }
       }
     }
