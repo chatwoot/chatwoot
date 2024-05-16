@@ -63,9 +63,9 @@ ca:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
     custom_filters:
       number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
-      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
-      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
-      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
+      invalid_attribute: 'Clau d''atribut no vàlida: [%{key}]. La clau hauria de ser una de [%{allowed_keys}] o un atribut personalitzat definit al compte.'
+      invalid_operator: Operador no vàlid. Els operadors permesos per a %{attribute_name} son [%{allowed_keys}].
+      invalid_value: Valor no vàlid. Els valors proporcionats per a %{attribute_name} no són vàlids
   reports:
     period: Període d'informes %{since} a %{until}
     utc_warning: The report generated is in UTC timezone
@@ -74,6 +74,8 @@ ca:
       conversations_count: Assigned conversations
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      resolution_count: Total de resolucions
+      avg_customer_waiting_time: Avg customer waiting time
     inbox_csv:
       inbox_name: Inbox name
       inbox_type: Inbox type
@@ -90,6 +92,8 @@ ca:
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      resolution_count: Total de resolucions
+      avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Timezone
     sla_csv:
