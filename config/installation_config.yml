@@ -133,6 +133,15 @@
   locked: false
 # End of Microsoft Email Channel Config
 
+# MARK: Google OAuth & Email Config
+- name: GOOGLE_OAUTH_CLIENT_ID
+  display_title: 'Google Client ID'
+  locked: false
+- name: GOOGLE_OAUTH_CLIENT_SECRET
+  display_title: 'Google Client Secret'
+  locked: false
+# End of Google OAuth & Email Config
+
 # ------- Chatwoot Internal Config for Cloud ----#
 - name: CHATWOOT_INBOX_TOKEN
   value:
