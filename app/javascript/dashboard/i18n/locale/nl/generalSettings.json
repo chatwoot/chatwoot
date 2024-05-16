@@ -107,6 +107,7 @@
       "GENERAL": "Algemeen",
       "REPORTS": "Rapporten",
       "CONVERSATION": "Gesprek",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Change Assignee",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Change Team",

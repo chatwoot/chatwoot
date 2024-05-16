@@ -280,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Utwórz atrybut",
+    "NO_RECORDS_FOUND": "Brak wyników",
     "UPDATE": {
       "SUCCESS": "Atrybut zaktualizowany pomyślnie",
       "ERROR": "Nie można zaktualizować atrybutu. Spróbuj ponownie później"

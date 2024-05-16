@@ -46,25 +46,7 @@ import webhooks from './modules/webhooks';
 import draftMessages from './modules/draftMessages';
 import SLAReports from './modules/SLAReports';
 
-import LogRocket from 'logrocket';
-import createPlugin from 'logrocket-vuex';
-
 const plugins = [];
-
-if (window.logRocketProjectId) {
-  LogRocket.init(window.logRocketProjectId);
-  // eslint-disable-next-line func-names
-  const logRocketPlugin = createPlugin(LogRocket, function (mutation) {
-    const eventsToIgnore = ['SET_CURRENT_USER', 'AUTHENTICATE', 'CLEAR_USER'];
-    if (eventsToIgnore.includes(mutation.type)) {
-      return null;
-    }
-
-    return mutation;
-  });
-
-  plugins.push(logRocketPlugin);
-}
 
 Vue.use(Vuex);
 export default new Vuex.Store({

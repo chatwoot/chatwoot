@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "自定义属性",
       "CONTACT_LABELS": "联系人标签",
-      "PREVIOUS_CONVERSATIONS": "上一次对话"
+      "PREVIOUS_CONVERSATIONS": "上一次对话",
+      "NO_RECORDS_FOUND": "未找到属性"
     }
   },
   "EDIT_CONTACT": {
@@ -83,6 +84,7 @@
     "CONFIRM": {
       "TITLE": "导出联系人",
       "MESSAGE": "您确定要导出所有联系人吗？",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
       "YES": "是的，导出",
       "NO": "否，取消"
     }

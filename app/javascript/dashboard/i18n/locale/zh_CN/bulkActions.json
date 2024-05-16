@@ -17,7 +17,7 @@
     "AGENT_LIST_LOADING": "正在加载客服代表",
     "UPDATE": {
       "CHANGE_STATUS": "更改状态",
-      "SNOOZE_UNTIL_NEXT_REPLY": "推迟至下一个回复.",
+      "SNOOZE_UNTIL": "推迟",
       "UPDATE_SUCCESFUL": "对话状态更新成功。",
       "UPDATE_FAILED": "Failed to update conversations. Please try again."
     },
