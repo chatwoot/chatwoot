@@ -6,6 +6,18 @@
     "DESCRIPTION": "Los Acuerdos de Nivel de Servicio (SLA) son contratos que definen expectativas claras entre su equipo y sus clientes. Establecen normas para los tiempos de respuesta y resolución, creando un marco para la responsabilidad y garantiza una experiencia coherente y de alta calidad.",
     "LEARN_MORE": "Más información sobre SLA",
     "LOADING": "Obteniendo SLAs",
+    "PAYWALL": {
+      "TITLE": "Upgrade to create SLAs",
+      "AVAILABLE_ON": "The SLA feature is only available in the Business and Enterprise plans.",
+      "UPGRADE_PROMPT": "Upgrade your plan to get access to advanced features like team management, automations, custom attributes, and more.",
+      "UPGRADE_NOW": "Upgrade now",
+      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "The SLA feature is only available in the paid plans.",
+      "UPGRADE_PROMPT": "Upgrade to a paid plan to access advanced features like audit logs, agent capacity, and more.",
+      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+    },
     "LIST": {
       "404": "No hay SLAs disponibles en esta cuenta.",
       "EMPTY": {

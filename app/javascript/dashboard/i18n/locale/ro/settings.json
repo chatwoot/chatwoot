@@ -10,6 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "Parola ta a fost schimbată cu succes",
     "AFTER_EMAIL_CHANGED": "Profilul tău a fost actualizat cu succes, te rugăm să te autentifici din nou pentru că datele tale de autentificare au fost modificate",
     "FORM": {
+      "PICTURE": "Profile Picture",
       "AVATAR": "Imagine de profil",
       "ERROR": "Vă rugăm să remediați erorile din formular",
       "REMOVE_IMAGE": "Elimină",
@@ -56,13 +57,19 @@
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token acces",
-        "NOTE": "Acest token poate fi utilizat dacă construiți o integrare bazată pe API"
+        "NOTE": "Acest token poate fi utilizat dacă construiți o integrare bazată pe API",
+        "COPY": "Copiază"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificări audio",
         "NOTE": "Activați notificările audio în tabloul de bord pentru mesaje și conversații noi.",
+        "ALERT_TYPES": {
+          "NONE": "Nimic",
+          "MINE": "Assigned",
+          "ALL": "Toate"
+        },
         "ALERT_TYPE": {
-          "TITLE": "Evenimente de alertă:",
+          "TITLE": "Alert events for conversations:",
           "NONE": "Nimic",
           "ASSIGNED": "Conversații atribuite",
           "ALL_CONVERSATIONS": "Toate conversațiile"
@@ -87,6 +94,23 @@
         "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
         "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "E-mail",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
       "API": {
         "UPDATE_SUCCESS": "Preferințele de notificare sunt actualizate cu succes",
@@ -320,7 +344,6 @@
       "GO_TO_REPORTS_SIDEBAR": "Accesați bara laterală Rapoarte",
       "MOVE_TO_NEXT_TAB": "Deplasarea la fila următoare din lista de conversații",
       "GO_TO_SETTINGS": "Accesați Pagina Setări",
-      "SWITCH_CONVERSATION_STATUS": "Comutarea la următoarea stare a conversației",
       "SWITCH_TO_PRIVATE_NOTE": "Comutarea la Notă privată",
       "SWITCH_TO_REPLY": "Comutarea la Răspuns",
       "TOGGLE_SNOOZE_DROPDOWN": "Comutați snooze dropdown"

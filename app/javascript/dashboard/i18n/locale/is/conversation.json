@@ -280,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Create attribute",
+    "NO_RECORDS_FOUND": "Engir eiginleikar fundust",
     "UPDATE": {
       "SUCCESS": "Eiginleika breytt",
       "ERROR": "Ekki er hægt að uppfæra eigindina. Vinsamlegast reyndu aftur síðar"

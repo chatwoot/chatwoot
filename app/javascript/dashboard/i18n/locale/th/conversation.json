@@ -280,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "สร้างแอตทริบิวต์",
+    "NO_RECORDS_FOUND": "ไม่พบข้อมูล",
     "UPDATE": {
       "SUCCESS": "อัปเดตแอตทริบิวต์สำเร็จแล้ว",
       "ERROR": "ไม่สามารถอัปเดตแอตทริบิวต์ได้ โปรดลองใหม่อีกครั้ง"

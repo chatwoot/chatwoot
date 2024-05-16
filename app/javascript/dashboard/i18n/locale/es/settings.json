@@ -10,6 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "Su contraseña se ha cambiado correctamente",
     "AFTER_EMAIL_CHANGED": "Su perfil ha sido actualizado con éxito, por favor inicie sesión de nuevo cuando sus credenciales de inicio de sesión se hayan cambiado",
     "FORM": {
+      "PICTURE": "Profile Picture",
       "AVATAR": "Imagen de perfil",
       "ERROR": "Por favor, corrija los errores de formulario",
       "REMOVE_IMAGE": "Eliminar",
@@ -56,13 +57,19 @@
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token de acceso",
-        "NOTE": "Este token puede ser usado si estás construyendo una integración basada en API"
+        "NOTE": "Este token puede ser usado si estás construyendo una integración basada en API",
+        "COPY": "Copiar"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificaciones con sonido",
         "NOTE": "Active las notificaciones de sonido en el tablero para los mensajes nuevos y conversaciones.",
+        "ALERT_TYPES": {
+          "NONE": "Ninguna",
+          "MINE": "Assigned",
+          "ALL": "Todos"
+        },
         "ALERT_TYPE": {
-          "TITLE": "Eventos de alerta:",
+          "TITLE": "Alert events for conversations:",
           "NONE": "Ninguna",
           "ASSIGNED": "Conversaciones asignadas",
           "ALL_CONVERSATIONS": "Todas las conversaciones"
@@ -87,6 +94,23 @@
         "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
         "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "E-mail",
+        "PUSH": "Notificación push",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
       "API": {
         "UPDATE_SUCCESS": "Sus preferencias de notificación se actualizaron correctamente",
@@ -320,7 +344,6 @@
       "GO_TO_REPORTS_SIDEBAR": "Ir a la barra lateral de informes",
       "MOVE_TO_NEXT_TAB": "Mover a la siguiente pestaña en la lista de conversaciones",
       "GO_TO_SETTINGS": "Ir a Ajustes",
-      "SWITCH_CONVERSATION_STATUS": "Cambiar al siguiente estado de conversación",
       "SWITCH_TO_PRIVATE_NOTE": "Cambiar a nota privada",
       "SWITCH_TO_REPLY": "Cambiar a respuesta",
       "TOGGLE_SNOOZE_DROPDOWN": "Cambiar el menú desplegable"

@@ -140,7 +140,7 @@
     ],
     "BUSINESS_HOURS": "Horários de funcionamento",
     "FILTER_ACTIONS": {
-      "CLEAR_FILTER": "Clear filter",
+      "CLEAR_FILTER": "Limpar filtros",
       "EMPTY_LIST": "Nenhum resultado encontrado"
     }
   },
@@ -511,20 +511,20 @@
     "SATURDAY": "Sábado"
   },
   "SLA_REPORTS": {
-    "HEADER": "SLA Reports",
-    "NO_RECORDS": "SLA applied conversations are not available.",
-    "LOADING": "Loading SLA data...",
-    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
-    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "HEADER": "Relatórios SLA",
+    "NO_RECORDS": "Conversas com SLA aplicadas não estão disponíveis.",
+    "LOADING": "Carregando dados de SLA...",
+    "DOWNLOAD_SLA_REPORTS": "Baixar relatórios de SLA",
+    "DOWNLOAD_FAILED": "Falha ao baixar os relatórios de SLA",
     "DROPDOWN": {
       "ADD_FIlTER": "Adicionar filtro",
-      "CLEAR_ALL": "Clear all",
-      "CLEAR_FILTER": "Clear filter",
+      "CLEAR_ALL": "Limpar tudo",
+      "CLEAR_FILTER": "Limpar filtros",
       "EMPTY_LIST": "Nenhum resultado encontrado",
-      "NO_FILTER": "No filters available",
-      "SEARCH": "Search filter",
+      "NO_FILTER": "Não há filtros disponíveis",
+      "SEARCH": "Filtro de pesquisa",
       "INPUT_PLACEHOLDER": {
-        "SLA": "SLA name",
+        "SLA": "Nome do SLA",
         "AGENTS": "Nome do Agente",
         "INBOXES": "Nome da Caixa de Entrada",
         "LABELS": "Nome do marcador",
@@ -538,25 +538,25 @@
     },
     "METRICS": {
       "HIT_RATE": {
-        "LABEL": "Hit Rate",
-        "TOOLTIP": "Percentage of SLAs created were completed successfully"
+        "LABEL": "Taxa de acerto",
+        "TOOLTIP": "Porcentagem de SLAs criados foram concluídos com êxito"
       },
       "NO_OF_MISSES": {
-        "LABEL": "Number of Misses",
-        "TOOLTIP": "Total SLA misses in a certain period"
+        "LABEL": "Número de Erros",
+        "TOOLTIP": "Total de SLA perdidos em um determinado período"
       },
       "NO_OF_CONVERSATIONS": {
-        "LABEL": "Number of Conversations",
-        "TOOLTIP": "Total number of conversations with SLA"
+        "LABEL": "Nº de Conversas",
+        "TOOLTIP": "Número total de conversas com SLA"
       }
     },
     "TABLE": {
       "HEADER": {
-        "POLICY": "Policy",
+        "POLICY": "Política",
         "CONVERSATION": "Conversas",
         "AGENT": "Agente"
       },
-      "VIEW_DETAILS": "View Details"
+      "VIEW_DETAILS": "Ver detalhes"
     }
   }
 }

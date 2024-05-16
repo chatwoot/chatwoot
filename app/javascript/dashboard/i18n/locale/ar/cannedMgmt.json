@@ -1,8 +1,8 @@
 {
   "CANNED_MGMT": {
     "HEADER": "الردود السريعة",
-    "HEADER_BTN_TXT": "Add canned response",
-    "LOADING": "Fetching canned responses...",
+    "HEADER_BTN_TXT": "إضافة رد جاهز",
+    "LOADING": "جاري جلب الردود الجاهزة...",
     "SEARCH_404": "لا توجد عناصر مطابقة لهذا الاستعلام.",
     "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are pre-written reply templates that help you quickly respond to a conversation. To insert a canned response during a chat, agents can type a short code preceded by a '/' character. </p><p> You can manage your canned responses from this page or create new ones using the \"Add canned response\" button.</p><p>Open the <a target=\"_blank\" href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\">Canned Responses handbook</a> in another tab for a helping hand.</p><p>Also, check out the all-new <a href=\"https://www.chatwoot.com/tools/canned-responses-library\" target=\"_blank\">Canned Responses Library</a>.</p>",
     "LIST": {
@@ -10,66 +10,66 @@
       "TITLE": "إدارة الردود الجاهزة",
       "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
       "TABLE_HEADER": [
-        "Short code",
+        "كود مختصر",
         "المحتوى",
         "الإجراءات"
       ]
     },
     "ADD": {
-      "TITLE": "Add canned response",
+      "TITLE": "إضافة رد جاهز",
       "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
       "CANCEL_BUTTON_TEXT": "إلغاء",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short code",
-          "PLACEHOLDER": "Please enter a short code.",
-          "ERROR": "Short Code is required."
+          "LABEL": "كود مختصر",
+          "PLACEHOLDER": "من فضلك ادخل الكود مختصر.",
+          "ERROR": "الكود مختصر مطلوب."
         },
         "CONTENT": {
           "LABEL": "رسالة",
-          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
-          "ERROR": "Message is required."
+          "PLACEHOLDER": "من فضلك ادخل نص لرسالة التي ترغب في حفظها كقالب لاستخدامها لاحقاُ.",
+          "ERROR": "الرسالة مطلوبة."
         },
         "SUBMIT": "إرسال"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Canned response added successfully.",
+        "SUCCESS_MESSAGE": "تم إضافة الرد المعد مسبقاً بنجاح.",
         "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
       }
     },
     "EDIT": {
-      "TITLE": "Edit canned response",
+      "TITLE": "تعديل الرد المعد مسبقاً",
       "CANCEL_BUTTON_TEXT": "إلغاء",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short code",
-          "PLACEHOLDER": "Please enter a shortcode.",
-          "ERROR": "Short code is required."
+          "LABEL": "كود مختصر",
+          "PLACEHOLDER": "من فضلك ادخل الكود مختصر.",
+          "ERROR": "الكود مختصر مطلوب."
         },
         "CONTENT": {
           "LABEL": "رسالة",
-          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "PLACEHOLDER": "من فضلك ادخل نص لرسالة التي ترغب في حفظها كقالب لاستخدامها لاحقاُ.",
           "ERROR": "الرسالة مطلوبة."
         },
         "SUBMIT": "إرسال"
       },
       "BUTTON_TEXT": "تعديل",
       "API": {
-        "SUCCESS_MESSAGE": "Canned response is updated successfully.",
+        "SUCCESS_MESSAGE": "تم تحديث الرد المعد مسبقاً بنجاح.",
         "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "حذف",
       "API": {
-        "SUCCESS_MESSAGE": "Canned response deleted successfully.",
+        "SUCCESS_MESSAGE": "تم حذف الرد المعد مسبقاً بنجاح.",
         "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
       },
       "CONFIRM": {
         "TITLE": "تأكيد الحذف",
         "MESSAGE": "هل أنت متأكد من الحذف ",
-        "YES": "Yes, delete ",
-        "NO": "No, keep "
+        "YES": "نعم, حذف ",
+        "NO": "لا, قم بالابقاء عليه "
       }
     }
   }

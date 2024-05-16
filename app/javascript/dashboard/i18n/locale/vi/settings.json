@@ -10,6 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "Mật khẩu của bạn đã được thay đổi thành công",
     "AFTER_EMAIL_CHANGED": "Hồ sơ của bạn đã được cập nhật thành công, vui lòng đăng nhập lại khi thông tin đăng nhập của bạn được thay đổi",
     "FORM": {
+      "PICTURE": "Profile Picture",
       "AVATAR": "Hình ảnh hồ sơ cá nhân",
       "ERROR": "Vui lòng sửa lỗi biểu mẫu",
       "REMOVE_IMAGE": "Xoá",
@@ -56,13 +57,19 @@
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token truy cập",
-        "NOTE": "Có thể sử dụng Token này nếu bạn đang xây dựng tích hợp dựa trên API"
+        "NOTE": "Có thể sử dụng Token này nếu bạn đang xây dựng tích hợp dựa trên API",
+        "COPY": "Sao Chép"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Âm thanh Thông báo",
         "NOTE": "Bật âm thanh thông báo trong trang tổng quan cho các tin nhắn và cuộc trò chuyện mới.",
+        "ALERT_TYPES": {
+          "NONE": "Không có",
+          "MINE": "Assigned",
+          "ALL": "Tất cả"
+        },
         "ALERT_TYPE": {
-          "TITLE": "Sự kiện cảnh báo:",
+          "TITLE": "Alert events for conversations:",
           "NONE": "Không có",
           "ASSIGNED": "Cuộc trò chuyện được phân công",
           "ALL_CONVERSATIONS": "Tất cả cuộc trò chuyện"
@@ -87,6 +94,23 @@
         "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
         "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "Email",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
       "API": {
         "UPDATE_SUCCESS": "Tùy chọn thông báo của bạn đã được cập nhật thành công",
@@ -320,7 +344,6 @@
       "GO_TO_REPORTS_SIDEBAR": "Đi đến thanh bên Báo cáo",
       "MOVE_TO_NEXT_TAB": "Di chuyển đến tab tiếp theo trong danh sách cuộc trò chuyện",
       "GO_TO_SETTINGS": "Đi đến Cài đặt",
-      "SWITCH_CONVERSATION_STATUS": "Chuyển sang trạng thái cuộc trò chuyện tiếp theo",
       "SWITCH_TO_PRIVATE_NOTE": "Chuyển sang Ghi chú Riêng tư",
       "SWITCH_TO_REPLY": "Chuyển sang phản hồi",
       "TOGGLE_SNOOZE_DROPDOWN": "Chuyển đổi thả xuống tạm dừng"

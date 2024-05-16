@@ -71,13 +71,13 @@ gem 'barnes'
 ##--- gems for authentication & authorization ---##
 gem 'devise', '>= 4.9.4'
 gem 'devise-secure_password', git: 'https://github.com/chatwoot/devise-secure_password', branch: 'chatwoot'
-gem 'devise_token_auth'
+gem 'devise_token_auth', '>= 1.2.3'
 # authorization
 gem 'jwt'
 gem 'pundit'
 # super admin
 gem 'administrate', '>= 0.20.1'
-gem 'administrate-field-active_storage', '>= 1.0.1'
+gem 'administrate-field-active_storage', '>= 1.0.2'
 gem 'administrate-field-belongs_to_search', '>= 0.9.0'
 
 ##--- gems for pubsub service ---##
@@ -113,10 +113,10 @@ gem 'newrelic-sidekiq-metrics', '>= 1.6.2', require: false
 gem 'scout_apm', require: false
 gem 'sentry-rails', '>= 5.14.0', require: false
 gem 'sentry-ruby', require: false
-gem 'sentry-sidekiq', '>= 5.14.0', require: false
+gem 'sentry-sidekiq', '>= 5.15.0', require: false
 
 ##-- background job processing --##
-gem 'sidekiq', '>= 7.2.1'
+gem 'sidekiq', '>= 7.2.4'
 # We want cron jobs
 gem 'sidekiq-cron', '>= 1.12.0'
 
@@ -166,7 +166,7 @@ gem 'audited', '~> 5.4', '>= 5.4.1'
 # need for google auth
 gem 'omniauth', '>= 2.1.2'
 gem 'omniauth-google-oauth2', '>= 1.1.2'
-gem 'omniauth-rails_csrf_protection', '~> 1.0'
+gem 'omniauth-rails_csrf_protection', '~> 1.0', '>= 1.0.2'
 
 ## Gems for reponse bot
 # adds cosine similarity to postgres using vector extension
@@ -174,9 +174,6 @@ gem 'neighbor'
 gem 'pgvector'
 # Convert Website HTML to Markdown
 gem 'reverse_markdown'
-
-# Sentiment analysis
-gem 'informers'
 
 ### Gems required only in specific deployment environments ###
 ##############################################################

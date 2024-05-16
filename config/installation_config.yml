@@ -135,8 +135,13 @@
   description: 'The Chatwoot Inbox HMAC Key for Contact Support in Cloud'
   locked: false
 - name: CHATWOOT_CLOUD_PLANS
+  display_title: 'Cloud Plans'
   value:
   description: 'Config to store stripe plans for cloud'
+- name: CHATWOOT_CLOUD_PLAN_FEATURES
+  display_title: 'Planwise Features List'
+  value:
+  description: 'Config to features and their associated plans'
 - name: DEPLOYMENT_ENV
   value: self-hosted
   description: 'The deployment environment of the installation, to differentiate between Chatwoot cloud and self-hosted'

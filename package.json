@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "3.8.0",
+  "version": "3.9.0",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/**/*.{js,vue}",
@@ -22,7 +22,7 @@
   "size-limit": [
     {
       "path": "public/packs/js/widget-*.js",
-      "limit": "281 KB"
+      "limit": "300 KB"
     },
     {
       "path": "public/packs/js/sdk.js",
@@ -32,7 +32,7 @@
   "dependencies": {
     "@braid/vue-formulate": "^2.5.2",
     "@chatwoot/prosemirror-schema": "1.0.5",
-    "@chatwoot/utils": "^0.0.23",
+    "@chatwoot/utils": "^0.0.25",
     "@hcaptcha/vue-hcaptcha": "^0.3.2",
     "@june-so/analytics-next": "^2.0.0",
     "@radix-ui/colors": "^1.0.1",
@@ -44,6 +44,8 @@
     "@sentry/vue": "^6.19.7",
     "@sindresorhus/slugify": "1.1.0",
     "@tailwindcss/typography": "^0.5.9",
+    "@vuelidate/core": "^2.0.3",
+    "@vuelidate/validators": "^2.0.4",
     "activestorage": "^5.2.6",
     "autoprefixer": "^10.4.14",
     "axios": "^1.6.0",
@@ -60,9 +62,8 @@
     "idb": "^7.1.1",
     "ionicons": "~2.0.1",
     "js-cookie": "^3.0.5",
+    "lamejs": "1.2.0",
     "libphonenumber-js": "^1.10.24",
-    "logrocket": "^3.0.1",
-    "logrocket-vuex": "^0.0.3",
     "markdown-it": "^13.0.2",
     "markdown-it-link-attributes": "^4.0.1",
     "md5": "^2.3.0",
@@ -72,6 +73,7 @@
     "postcss-loader": "^4.2.0",
     "semver": "7.5.3",
     "tailwindcss": "^3.3.2",
+    "tinykeys": "^2.1.0",
     "turbolinks": "^5.2.0",
     "url-loader": "^2.0.0",
     "urlpattern-polyfill": "^6.0.2",
