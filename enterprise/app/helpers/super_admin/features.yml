@@ -67,7 +67,7 @@ help_center:
   enabled: true
   icon: 'icon-book-2-line'
 microsoft:
-  name: 'Microsoft Email'
+  name: 'Microsoft'
   description: 'Configuration for setting up Microsoft Email'
   enabled: true
   icon: 'icon-microsoft'
