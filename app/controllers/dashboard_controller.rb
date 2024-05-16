@@ -59,6 +59,8 @@ class DashboardController < ActionController::Base
       FACEBOOK_API_VERSION: GlobalConfigService.load('FACEBOOK_API_VERSION', 'v17.0'),
       IS_ENTERPRISE: ChatwootApp.enterprise?,
       AZURE_APP_ID: GlobalConfigService.load('AZURE_APP_ID', ''),
+      GOOGLE_OAUTH_CLIENT_ID: GlobalConfigService.load('GOOGLE_OAUTH_CLIENT_ID', nil),
+      GOOGLE_OAUTH_CALLBACK_URL: GlobalConfigService.load('GOOGLE_OAUTH_CALLBACK_URL', nil),
       GIT_SHA: GIT_HASH
     }
   end
