@@ -29,7 +29,6 @@ export default {
       name: this.$t(option.translationKey),
     }));
     const defaultOption = translatedOptions[0];
-    this.$emit(EVENT_NAME, defaultOption);
     return {
       selectedOption: defaultOption,
       options: translatedOptions,

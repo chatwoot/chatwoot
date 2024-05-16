@@ -69,9 +69,8 @@ export default {
   },
   data() {
     return {
-      stages: [],
       contacts: [],
-      selectedStageType: null,
+      selectedStageType: 'both',
       selectedContactId: '',
       defaultContact: null,
       searchQuery: '',
@@ -94,6 +93,12 @@ export default {
       segments: 'customViews/getCustomViews',
       getAppliedContactFilters: 'contacts/getAppliedContactFilters',
     }),
+    stages() {
+      return this.$store.getters['stages/getStagesByType'](
+        this.selectedStageType,
+        false
+      );
+    },
     selectedContact() {
       if (this.selectedContactId) {
         const contact = this.records.find(
@@ -119,6 +124,7 @@ export default {
   mounted() {
     this.$store.dispatch('stages/get');
     this.$store.dispatch('contacts/clearContactFilters');
+    this.fetchContacts();
   },
   methods: {
     onSelectedContact(contactId) {
@@ -134,11 +140,6 @@ export default {
     onFilterChange(selectedStageType) {
       this.selectedContactId = '';
       this.selectedStageType = selectedStageType.value;
-      const stageType = this.selectedStageType;
-      this.stages = this.$store.getters['stages/getStagesByType'](
-        stageType,
-        false
-      );
       this.fetchContacts();
     },
     fetchContacts() {
