@@ -19,6 +19,8 @@ class Linear
   end
 
   def team_entities(team_id)
+    raise ArgumentError, 'Missing team id' if team_id.blank?
+
     query = {
       query: LinearQueries.team_entities_query(team_id)
     }
