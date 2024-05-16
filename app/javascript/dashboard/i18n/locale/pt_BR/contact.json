@@ -84,6 +84,7 @@
     "CONFIRM": {
       "TITLE": "Exportar contatos",
       "MESSAGE": "Tem certeza de que deseja exportar todos os contatos?",
+      "FILTERED_MESSAGE": "Tem certeza de que deseja exportar todos os contatos filtrados?",
       "YES": "Sim, Exportar",
       "NO": "Não, Cancelar"
     }

@@ -17,7 +17,7 @@
     "AGENT_LIST_LOADING": "Agentai užkraunami",
     "UPDATE": {
       "CHANGE_STATUS": "Pakeisti būseną",
-      "SNOOZE_UNTIL_NEXT_REPLY": "Atidėti iki kito atsakymo.",
+      "SNOOZE_UNTIL": "Atidėti",
       "UPDATE_SUCCESFUL": "Pokalbio būsena atnaujinta sėkmingai.",
       "UPDATE_FAILED": "Nepavyko atnaujinti pokalbių. Bandykite dar kartą."
     },

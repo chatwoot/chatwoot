@@ -140,7 +140,7 @@
     ],
     "BUSINESS_HOURS": "Darba Laiks",
     "FILTER_ACTIONS": {
-      "CLEAR_FILTER": "Clear filter",
+      "CLEAR_FILTER": "Notīrīt filtru",
       "EMPTY_LIST": "Nav atrasts"
     }
   },
@@ -518,13 +518,13 @@
     "DOWNLOAD_FAILED": "Neizdevās lejupielādēt SLA atskaites",
     "DROPDOWN": {
       "ADD_FIlTER": "Pievienot filtru",
-      "CLEAR_ALL": "Clear all",
-      "CLEAR_FILTER": "Clear filter",
+      "CLEAR_ALL": "Notīrīt visu",
+      "CLEAR_FILTER": "Notīrīt filtru",
       "EMPTY_LIST": "Nav atrasts",
-      "NO_FILTER": "No filters available",
-      "SEARCH": "Search filter",
+      "NO_FILTER": "Nav pieejami filtri",
+      "SEARCH": "Meklēšanas filtrs",
       "INPUT_PLACEHOLDER": {
-        "SLA": "SLA name",
+        "SLA": "SLA nosaukums",
         "AGENTS": "Aģenta vārds",
         "INBOXES": "Iesūtnes nosaukums",
         "LABELS": "Etiķetes nosaukums",
