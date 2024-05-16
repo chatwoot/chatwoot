@@ -18,10 +18,9 @@ export const actions = {
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: false });
     }
   },
-  index: async ({ commit }, params = {}) => {
+  index: async ({ commit }, { page = 1, status, type, sortOrder } = {}) => {
     commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: true });
     try {
-      const { page = 1, status, type, sortOrder } = params;
       const {
         data: {
           data: { payload, meta },
