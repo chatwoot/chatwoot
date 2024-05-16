@@ -100,7 +100,8 @@ class Whatsapp::IncomingMessageBaseService
                       @contact_inbox.conversations.last
                     else
                       @contact_inbox.conversations
-                                    .where.not(status: :resolved).last
+                                    .where.not(status: :resolved)
+                                    .order(updated_at: :asc).last
                     end
     return if @conversation
 

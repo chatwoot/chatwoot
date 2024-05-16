@@ -15,7 +15,8 @@ class ConversationBuilder
 
   def update_existing_conversation
     last_conversation = @contact_inbox.conversations.where
-                                      .not(status: :resolved).last
+                                      .not(status: :resolved)
+                                      .order(updated_at: :asc).last
     return if last_conversation.blank?
 
     conversation_type = { conversation_type: params[:conversation_type].presence || last_conversation.conversation_type }

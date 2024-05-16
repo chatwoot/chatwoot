@@ -39,13 +39,13 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Số ngày sau đó mà vé sẽ tự động giải quyết nếu không có hoạt động nào",
-        "PLACEHOLDER": "30",
+        "LABEL": "Hội thoại không hoạt động sẽ tự đóng (hoàn thành) sau số ngày",
+        "PLACEHOLDER": "Nhập số ngày từ 1 đến 999",
         "ERROR": "Vui lòng điền thời lượng tự động giải quyết hợp lệ (tối thiểu 1 ngày và tối đa 999 ngày)"
       },
       "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "Tính liên tục của cuộc trò chuyện với email được kích hoạt cho tài khoản của bạn.",
-        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Bạn có thể nhận email trong miền tùy chỉnh của mình ngay bây giờ."
+        "INBOUND_EMAIL_ENABLED": "Tiếp tục cuộc hội thoại trên web qua email được kích hoạt cho tài khoản của bạn.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Bạn có thể nhận email trong tên miền tùy chỉnh của mình ngay bây giờ."
       }
     },
     "UPDATE_CHATWOOT": "Đã có bản cập nhật %{latestChatwootVersion} cho Chatwoot. Vui lòng cập nhật phiên bản của bạn.",

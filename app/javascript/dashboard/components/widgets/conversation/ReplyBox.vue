@@ -147,6 +147,24 @@
       ref="confirmDialog"
       :title="$t('CONVERSATION.REPLYBOX.UNDEFINED_VARIABLES.TITLE')"
       :description="undefinedVariableMessage"
+      :confirm-label="
+        $t('CONVERSATION.REPLYBOX.UNDEFINED_VARIABLES.CONFIRM.YES')
+      "
+      :cancel-label="
+        $t('CONVERSATION.REPLYBOX.UNDEFINED_VARIABLES.CONFIRM.CANCEL')
+      "
+    />
+
+    <woot-confirm-modal
+      ref="confirmResolved"
+      :title="$t('CONVERSATION.REPLYBOX.RESOLVED_CONVERSATION.TITLE')"
+      :description="$t('CONVERSATION.REPLYBOX.RESOLVED_CONVERSATION.MESSAGE')"
+      :confirm-label="
+        $t('CONVERSATION.REPLYBOX.RESOLVED_CONVERSATION.CONFIRM.YES')
+      "
+      :cancel-label="
+        $t('CONVERSATION.REPLYBOX.RESOLVED_CONVERSATION.CONFIRM.CANCEL')
+      "
     />
   </div>
 </template>
@@ -844,6 +862,15 @@ export default {
       }
     },
     async sendMessage(messagePayload) {
+      if (this.currentChat.status === 'resolved') {
+        const ok = await this.$refs.confirmResolved.showConfirmation();
+        if (ok) {
+          await this.$store.dispatch('toggleStatus', {
+            conversationId: this.currentChat.id,
+            status: 'open',
+          });
+        } else return;
+      }
       try {
         await this.$store.dispatch(
           'createPendingMessageAndSend',

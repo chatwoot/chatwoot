@@ -52,7 +52,7 @@ export default {
         return timeMappings[time];
       }
       const convertToShortTime = time
-        .replace(/about|over|almost|less than|/g, '')
+        .replace(/about|over|almost|/g, '')
         .replace(' minute ago', `m${suffix}`)
         .replace(' minutes ago', `m${suffix}`)
         .replace(' hour ago', `h${suffix}`)

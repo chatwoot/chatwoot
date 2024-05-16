@@ -183,6 +183,14 @@
           "YES": "Gửi",
           "CANCEL": "Huỷ"
         }
+      },
+      "RESOLVED_CONVERSATION": {
+        "TITLE": "Gửi tin nhắn khi hội thoại đã hoàn thành",
+        "MESSAGE": "Cuộc hội thoại này đã hoàn thành, nếu muốn tiếp tục gửi tin nhắn ở đây bạn cần xác nhận mở lại cuộc hội thoại.",
+        "CONFIRM": {
+          "YES": "Mở lại, gửi tin nhắn",
+          "CANCEL": "Bỏ qua, không gửi"
+        }
       }
     },
     "VISIBLE_TO_AGENTS": "Lưu ý riêng: Chỉ hiển thị với bạn và nhân viên nội bộ",

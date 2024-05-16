@@ -82,7 +82,8 @@ class Zalo::IncomingMessageService
                       @contact_inbox.conversations.last
                     else
                       @contact_inbox.conversations.where
-                                    .not(status: :resolved).last
+                                    .not(status: :resolved)
+                                    .order(updated_at: :asc).last
                     end
     return if @conversation
 
