@@ -17,7 +17,7 @@
     "AGENT_LIST_LOADING": "Đang tải điện thoại viên",
     "UPDATE": {
       "CHANGE_STATUS": "Thay đổi trạng thái",
-      "SNOOZE_UNTIL_NEXT_REPLY": "Báo lại cho đến khi có câu trả lời tiếp theo.",
+      "SNOOZE_UNTIL": "Báo lại",
       "UPDATE_SUCCESFUL": "Đã cập nhật trạng thái cuộc hội thoại thành công.",
       "UPDATE_FAILED": "Failed to update conversations. Please try again."
     },

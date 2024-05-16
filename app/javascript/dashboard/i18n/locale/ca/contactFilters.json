@@ -28,24 +28,24 @@
       "is_not_present": "No és present",
       "is_greater_than": "És més gran que",
       "is_lesser_than": "Is lesser than",
-      "days_before": "Is x days before"
+      "days_before": "És x dies abans"
     },
     "ATTRIBUTES": {
       "NAME": "Nom",
       "EMAIL": "Correu electrònic",
       "PHONE_NUMBER": "Número de telèfon",
       "IDENTIFIER": "Identifier",
-      "CITY": "City",
-      "COUNTRY": "Country",
-      "CUSTOM_ATTRIBUTE_LIST": "List",
+      "CITY": "Ciutat",
+      "COUNTRY": "País",
+      "CUSTOM_ATTRIBUTE_LIST": "Llista",
       "CUSTOM_ATTRIBUTE_TEXT": "Llista",
       "CUSTOM_ATTRIBUTE_NUMBER": "Número",
       "CUSTOM_ATTRIBUTE_LINK": "Enllaç",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Casella de selecció",
       "CREATED_AT": "Created At",
       "LAST_ACTIVITY": "Last Activity",
       "REFERER_LINK": "Referrer link",
-      "BLOCKED": "Blocked"
+      "BLOCKED": "Blocat"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard Filters",
