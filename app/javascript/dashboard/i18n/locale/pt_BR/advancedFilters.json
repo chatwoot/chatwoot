@@ -62,7 +62,7 @@
     "CUSTOM_VIEWS": {
       "ADD": {
         "TITLE": "Você quer salvar este filtro?",
-        "LABEL": "Nomeie este filtro",
+        "LABEL": "Nomear este filtro",
         "PLACEHOLDER": "Nomeie seu filtro para referenciá-lo posteriormente.",
         "ERROR_MESSAGE": "O nome é obrigatório.",
         "SAVE_BUTTON": "Salvar filtro",

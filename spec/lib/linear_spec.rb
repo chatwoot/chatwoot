@@ -6,9 +6,6 @@ describe Linear do
   let(:linear_client) { described_class.new(api_key) }
   let(:headers) { { 'Content-Type' => 'application/json', 'Authorization' => api_key } }
 
-  let(:schema) { JSON.parse(File.read('spec/fixtures/linear-schema.json')) }
-  let(:client) { Graphlient::Client.new(url, schema: Graphlient::Schema.new({ 'data' => schema }, nil), headers: headers) }
-
   it 'raises an exception if the API key is absent' do
     expect { described_class.new(nil) }.to raise_error(ArgumentError, 'Missing Credentials')
   end
@@ -16,9 +13,10 @@ describe Linear do
   context 'when querying teams' do
     context 'when the API response is success' do
       before do
-        linear_client.instance_variable_set(:@client, client)
         stub_request(:post, url)
-          .to_return(status: 200, body: { data: { teams: { nodes: [{ id: 'team1', name: 'Team One' }] } } }.to_json)
+          .to_return(status: 200,
+                     body: {  success: true, data: { teams: { nodes: [{ id: 'team1', name: 'Team One' }] } } }.to_json,
+                     headers: headers)
       end
 
       it 'returns team data' do
@@ -29,14 +27,14 @@ describe Linear do
 
     context 'when the API response is an error' do
       before do
-        linear_client.instance_variable_set(:@client, client)
         stub_request(:post, url)
-          .to_return(status: 422, body: { errors: [{ message: 'Error retrieving data' }] }.to_json)
+          .to_return(status: 422, body: { errors: [{ message: 'Error retrieving data' }] }.to_json,
+                     headers: headers)
       end
 
       it 'raises an exception' do
         response = linear_client.teams
-        expect(response).to eq({ :error => 'Error: the server responded with status 422' })
+        expect(response).to eq({ :error => { 'errors' => [{ 'message' => 'Error retrieving data' }] }, :error_code => 422 })
       end
     end
   end
@@ -46,14 +44,15 @@ describe Linear do
 
     context 'when the API response is success' do
       before do
-        linear_client.instance_variable_set(:@client, client)
         stub_request(:post, url)
-          .to_return(status: 200, body: { data: {
-            users: { nodes: [{ id: 'user1', name: 'User One' }] },
-            projects: { nodes: [{ id: 'project1', name: 'Project One' }] },
-            workflowStates: { nodes: [] },
-            issueLabels: { nodes: [{ id: 'bug', name: 'Bug' }] }
-          } }.to_json)
+          .to_return(status: 200,
+                     body: { success: true, data: {
+                       users: { nodes: [{ id: 'user1', name: 'User One' }] },
+                       projects: { nodes: [{ id: 'project1', name: 'Project One' }] },
+                       workflowStates: { nodes: [] },
+                       issueLabels: { nodes: [{ id: 'bug', name: 'Bug' }] }
+                     } }.to_json,
+                     headers: headers)
       end
 
       it 'returns team entities' do
@@ -69,14 +68,14 @@ describe Linear do
 
     context 'when the API response is an error' do
       before do
-        linear_client.instance_variable_set(:@client, client)
         stub_request(:post, url)
-          .to_return(status: 422, body: { errors: [{ message: 'Error retrieving data' }] }.to_json)
+          .to_return(status: 422, body: { errors: [{ message: 'Error retrieving data' }] }.to_json,
+                     headers: headers)
       end
 
       it 'raises an exception' do
         response = linear_client.team_entities(team_id)
-        expect(response).to eq({ :error => 'Error: the server responded with status 422' })
+        expect(response).to eq({ :error => { 'errors' => [{ 'message' => 'Error retrieving data' }] }, :error_code => 422 })
       end
     end
   end
@@ -95,9 +94,8 @@ describe Linear do
 
     context 'when the API response is success' do
       before do
-        linear_client.instance_variable_set(:@client, client)
         stub_request(:post, url)
-          .to_return(status: 200, body: { data: { issueCreate: { id: 'issue1', title: 'Title' } } }.to_json)
+          .to_return(status: 200, body: { success: true, data: { issueCreate: { id: 'issue1', title: 'Title' } } }.to_json, headers: headers)
       end
 
       it 'creates an issue' do
@@ -139,28 +137,26 @@ describe Linear do
 
       context 'when the API key is invalid' do
         before do
-          linear_client.instance_variable_set(:@client, client)
           stub_request(:post, url)
-            .to_return(status: 401, body: { errors: [{ message: 'Invalid API key' }] }.to_json)
+            .to_return(status: 401, body: { errors: [{ message: 'Invalid API key' }] }.to_json, headers: headers)
         end
 
         it 'raises an exception' do
           response = linear_client.create_issue(params)
-          expect(response).to eq({ :error => 'Error: the server responded with status 401' })
+          expect(response).to eq({ :error => { 'errors' => [{ 'message' => 'Invalid API key' }] }, :error_code => 401 })
         end
       end
     end
 
     context 'when the API response is an error' do
       before do
-        linear_client.instance_variable_set(:@client, client)
         stub_request(:post, url)
-          .to_return(status: 422, body: { errors: [{ message: 'Error creating issue' }] }.to_json)
+          .to_return(status: 422, body: { errors: [{ message: 'Error creating issue' }] }.to_json, headers: headers)
       end
 
       it 'raises an exception' do
         response = linear_client.create_issue(params)
-        expect(response).to eq({ :error => 'Error: the server responded with status 422' })
+        expect(response).to eq({ :error => { 'errors' => [{ 'message' => 'Error creating issue' }] }, :error_code => 422 })
       end
     end
   end
@@ -171,9 +167,8 @@ describe Linear do
 
     context 'when the API response is success' do
       before do
-        linear_client.instance_variable_set(:@client, client)
         stub_request(:post, url)
-          .to_return(status: 200, body: { data: { attachmentLinkURL: { id: 'attachment1' } } }.to_json)
+          .to_return(status: 200, body: { success: true, data: { attachmentLinkURL: { id: 'attachment1' } } }.to_json, headers: headers)
       end
 
       it 'links an issue' do
@@ -200,14 +195,13 @@ describe Linear do
 
     context 'when the API response is an error' do
       before do
-        linear_client.instance_variable_set(:@client, client)
         stub_request(:post, url)
-          .to_return(status: 422, body: { errors: [{ message: 'Error linking issue' }] }.to_json)
+          .to_return(status: 422, body: { errors: [{ message: 'Error linking issue' }] }.to_json, headers: headers)
       end
 
       it 'raises an exception' do
         response = linear_client.link_issue(link, issue_id)
-        expect(response).to eq({ :error => 'Error: the server responded with status 422' })
+        expect(response).to eq({ :error => { 'errors' => [{ 'message' => 'Error linking issue' }] }, :error_code => 422 })
       end
     end
   end
@@ -217,9 +211,8 @@ describe Linear do
 
     context 'when the API response is success' do
       before do
-        linear_client.instance_variable_set(:@client, client)
         stub_request(:post, url)
-          .to_return(status: 200, body: { data: { attachmentLinkURL: { id: 'attachment1' } } }.to_json)
+          .to_return(status: 200, body: { success: true, data: { attachmentLinkURL: { id: 'attachment1' } } }.to_json, headers: headers)
       end
 
       it 'unlinks an issue' do
@@ -238,14 +231,13 @@ describe Linear do
 
     context 'when the API response is an error' do
       before do
-        linear_client.instance_variable_set(:@client, client)
         stub_request(:post, url)
-          .to_return(status: 422, body: { errors: [{ message: 'Error unlinking issue' }] }.to_json)
+          .to_return(status: 422, body: { errors: [{ message: 'Error unlinking issue' }] }.to_json, headers: headers)
       end
 
       it 'raises an exception' do
         response = linear_client.unlink_issue(link_id)
-        expect(response).to eq({ :error => 'Error: the server responded with status 422' })
+        expect(response).to eq({ :error => { 'errors' => [{ 'message' => 'Error unlinking issue' }] }, :error_code => 422 })
       end
     end
   end
@@ -255,9 +247,9 @@ describe Linear do
 
     context 'when the API response is success' do
       before do
-        linear_client.instance_variable_set(:@client, client)
         stub_request(:post, url)
-          .to_return(status: 200, body: { data: { searchIssues: { nodes: [{ id: 'issue1', title: 'Title' }] } } }.to_json)
+          .to_return(status: 200, body: { success: true,
+                                          data: { searchIssues: { nodes: [{ id: 'issue1', title: 'Title' }] } } }.to_json, headers: headers)
       end
 
       it 'returns issues' do
@@ -268,44 +260,41 @@ describe Linear do
 
     context 'when the API response is an error' do
       before do
-        linear_client.instance_variable_set(:@client, client)
         stub_request(:post, url)
-          .to_return(status: 422, body: { errors: [{ message: 'Error retrieving data' }] }.to_json)
+          .to_return(status: 422, body: { errors: [{ message: 'Error retrieving data' }] }.to_json,
+                     headers: headers)
       end
 
       it 'raises an exception' do
         response = linear_client.search_issue(term)
-        expect(response).to eq({ :error => 'Error: the server responded with status 422' })
+        expect(response).to eq({ :error => { 'errors' => [{ 'message' => 'Error retrieving data' }] }, :error_code => 422 })
       end
     end
   end
 
   context 'when querying linked issues' do
-    let(:url) { 'https://example.com' }
-
     context 'when the API response is success' do
       before do
-        linear_client.instance_variable_set(:@client, client)
         stub_request(:post, url)
-          .to_return(status: 200, body: { data: { linkedIssue: { id: 'issue1', title: 'Title' } } }.to_json)
+          .to_return(status: 200, body: { success: true, data: { linkedIssue: { id: 'issue1', title: 'Title' } } }.to_json, headers: headers)
       end
 
       it 'returns linked issues' do
-        response = linear_client.linked_issue(url)
+        response = linear_client.linked_issue('app.chatwoot.com')
         expect(response).to eq({ 'linkedIssue' => { 'id' => 'issue1', 'title' => 'Title' } })
       end
     end
 
     context 'when the API response is an error' do
       before do
-        linear_client.instance_variable_set(:@client, client)
         stub_request(:post, url)
-          .to_return(status: 422, body: { errors: [{ message: 'Error retrieving data' }] }.to_json)
+          .to_return(status: 422, body: { errors: [{ message: 'Error retrieving data' }] }.to_json,
+                     headers: headers)
       end
 
       it 'raises an exception' do
-        response = linear_client.linked_issue(url)
-        expect(response).to eq({ :error => 'Error: the server responded with status 422' })
+        response = linear_client.linked_issue('app.chatwoot.com')
+        expect(response).to eq({ :error => { 'errors' => [{ 'message' => 'Error retrieving data' }] }, :error_code => 422 })
       end
     end
   end

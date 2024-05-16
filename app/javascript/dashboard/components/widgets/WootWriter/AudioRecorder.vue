@@ -33,6 +33,21 @@ import { convertWavToMp3 } from './utils/mp3ConversionUtils';
 
 WaveSurfer.microphone = MicrophonePlugin;
 
+const RECORDER_CONFIG = {
+  [AUDIO_FORMATS.WAV]: {
+    audioMimeType: 'audio/wav',
+    audioWorkerURL: waveWorker,
+  },
+  [AUDIO_FORMATS.MP3]: {
+    audioMimeType: 'audio/wav',
+    audioWorkerURL: waveWorker,
+  },
+  [AUDIO_FORMATS.OGG]: {
+    audioMimeType: 'audio/ogg',
+    audioWorkerURL: encoderWorker,
+  },
+};
+
 export default {
   name: 'WootAudioRecorder',
   mixins: [alertMixin],
@@ -94,14 +109,7 @@ export default {
             audioSampleRate: 48000,
             audioBitRate: 128,
             audioEngine: 'opus-recorder',
-            ...(this.audioRecordFormat === AUDIO_FORMATS.WAV && {
-              audioMimeType: 'audio/wav',
-              audioWorkerURL: waveWorker,
-            }),
-            ...(this.audioRecordFormat === AUDIO_FORMATS.OGG && {
-              audioMimeType: 'audio/ogg',
-              audioWorkerURL: encoderWorker,
-            }),
+            ...RECORDER_CONFIG[this.audioRecordFormat],
           },
         },
       },
@@ -139,7 +147,11 @@ export default {
   methods: {
     deviceReady() {
       if (this.player.record().engine instanceof OpusRecorderEngine) {
-        if (this.audioRecordFormat === AUDIO_FORMATS.WAV) {
+        if (
+          [AUDIO_FORMATS.WAV, AUDIO_FORMATS.MP3].includes(
+            this.audioRecordFormat
+          )
+        ) {
           this.player.record().engine.audioType = 'audio/wav';
         }
       }
@@ -154,13 +166,12 @@ export default {
     async finishRecord() {
       let recordedContent = this.player.recordedData;
       let fileName = this.player.recordedData.name;
-      if (this.isAWhatsAppChannel) {
+      let type = this.player.recordedData.type;
+      if (this.audioRecordFormat === AUDIO_FORMATS.MP3) {
         recordedContent = await convertWavToMp3(this.player.recordedData);
         fileName = `${getUuid()}.mp3`;
+        type = AUDIO_FORMATS.MP3;
       }
-      const type = !this.isAWhatsAppChannel
-        ? this.player.recordedData.type
-        : 'audio/mp3';
       const file = new File([recordedContent], fileName, { type });
       this.fireRecorderBlob(file);
     },
