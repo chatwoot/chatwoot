@@ -7,7 +7,7 @@
     "ADD_NEW_FILTER": "Adicionar filtro",
     "FILTER_DELETE_ERROR": "Ops! Parece que não podemos salvar nada! Por favor, adicione pelo menos um filtro para salvá-lo.",
     "SUBMIT_BUTTON_LABEL": "Aplicar filtros",
-    "UPDATE_BUTTON_LABEL": "Pasta de atualização",
+    "UPDATE_BUTTON_LABEL": "Atualizar pasta",
     "CANCEL_BUTTON_LABEL": "Cancelar",
     "CLEAR_BUTTON_LABEL": "Limpar filtros",
     "FOLDER_LABEL": "Nome da pasta",
@@ -38,7 +38,7 @@
       "STATUS": "SItuação",
       "ASSIGNEE_NAME": "Nome do responsável",
       "INBOX_NAME": "Nome da Caixa de Entrada",
-      "TEAM_NAME": "Nome do departamento",
+      "TEAM_NAME": "Nome do Time",
       "CONVERSATION_IDENTIFIER": "Identificador da conversa",
       "CAMPAIGN_NAME": "Nome da campanha",
       "LABELS": "Marcadores",
@@ -62,7 +62,7 @@
     "CUSTOM_VIEWS": {
       "ADD": {
         "TITLE": "Você quer salvar este filtro?",
-        "LABEL": "Nomeie este filtro",
+        "LABEL": "Nomear este filtro",
         "PLACEHOLDER": "Nomeie seu filtro para referenciá-lo posteriormente.",
         "ERROR_MESSAGE": "O nome é obrigatório.",
         "SAVE_BUTTON": "Salvar filtro",

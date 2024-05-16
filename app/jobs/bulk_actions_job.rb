@@ -1,4 +1,6 @@
 class BulkActionsJob < ApplicationJob
+  include DateRangeHelper
+
   queue_as :medium
   attr_accessor :records
 
@@ -23,6 +25,7 @@ class BulkActionsJob < ApplicationJob
     params = available_params(@params)
     records.each do |conversation|
       bulk_add_labels(conversation)
+      bulk_snoozed_until(conversation)
       conversation.update(params) if params
     end
   end
@@ -41,6 +44,10 @@ class BulkActionsJob < ApplicationJob
 
   def bulk_add_labels(conversation)
     conversation.add_labels(@params[:labels][:add]) if @params[:labels] && @params[:labels][:add]
+  end
+
+  def bulk_snoozed_until(conversation)
+    conversation.snoozed_until = parse_date_time(@params[:snoozed_until].to_s) if @params[:snoozed_until]
   end
 
   def remove_labels(conversation)

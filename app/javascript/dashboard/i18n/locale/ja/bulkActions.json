@@ -17,7 +17,7 @@
     "AGENT_LIST_LOADING": "エージェントを読み込む",
     "UPDATE": {
       "CHANGE_STATUS": "Change status",
-      "SNOOZE_UNTIL_NEXT_REPLY": "Snooze until next reply.",
+      "SNOOZE_UNTIL": "スヌーズ",
       "UPDATE_SUCCESFUL": "Conversation status updated successfully.",
       "UPDATE_FAILED": "Failed to update conversations. Please try again."
     },

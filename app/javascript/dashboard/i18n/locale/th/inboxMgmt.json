@@ -22,7 +22,7 @@
         "body": "เพิ่มพนักงานเพื่อสร้างกล่องข้อความ"
       },
       {
-        "title": "Voila!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "คุณพร้อมเเล้ว"
       }
@@ -43,7 +43,7 @@
         "CHOOSE_PLACEHOLDER": "เลือกหน้าจากรายชื่อ",
         "INBOX_NAME": "ชื่อกล่องข้อความ",
         "ADD_NAME": "เพิ่มชื่อให้กล่องข้อความของคุณ",
-        "PICK_NAME": "เลือกชื่อให้กล่องข้อความของคุณ",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "เลือกค่า"
       },
       "TWITTER": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "ลิ้ง Webhook",
-          "PLACEHOLDER": "กรอก Webhook URL",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "กรุณากรอกลิ้งที่ถูกต้อง"
         },
         "CHANNEL_DOMAIN": {
@@ -175,12 +175,12 @@
           },
           "API_KEY": {
             "LABEL": "API Key",
-            "PLACEHOLDER": "โปรดกรอก Bandwith API Key",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "ฟิลด์นี้จำเป็นต้องกรอก"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "โปรดกรอก Bandwith API Secret",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "ฟิลด์นี้จำเป็นต้องกรอก"
           },
           "APPLICATION_ID": {
@@ -239,7 +239,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "โปรดกรอกค่าที่ถูกต้อง"
         },
         "API_KEY": {
@@ -269,7 +269,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "ลิ้ง Webhook",
-          "SUBTITLE": "ตั้งค่าลิ้งที่ต้องการรับอีเวนท์",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "ลิ้ง Webhook"
         },
         "SUBMIT_BUTTON": "สร้างช่อง API",
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "ช่องอีเมล์",
-        "DESC": "ใช้งานกล่องข้อความอีเมล์",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "ชื่อช่อง",
           "PLACEHOLDER": "กรุณากรอกชื่อช่อง",
@@ -345,7 +345,7 @@
       "AGENTS": {
         "TITLE": "พนักงาน",
         "DESC": "คุณสามารถเพิ่มพนักงานเพื่อจัดการกล่องข้อความที่สร้างใหม่ พนักงานที่ได้รับสิทธิ์เท่านั้นที่สามารถเข้าถึงกล่องข้อความนี้ได้ พนักงานที่ไม่มีสิทธิ์จะไม่สามารถเห็นหรือใช้กล่องสนทนานี้ได้ <br><b>หมายเหตุ:</b>ในฐานะของผู้ดูแล คุณจะสามารถเพิ่มตัวเองในกล่องข้อความทุกกล่องที่คุณสร้าง",
-        "VALIDATION_ERROR": "ต้องเพิ่มพนักงานอย่างน้อยหนึ่งคนสำหรับกล่องข้อความใหม่",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "เลือกพนักงานสำหรับกล่องข้อความนี้"
       },
       "DETAILS": {
@@ -406,7 +406,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Friendly",
@@ -508,12 +508,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "อนุญาตให้รับข้อความหลังจากจบการสนทนาแล้ว",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "อนุญาตให้ลูกค้าส่งข้อความหลังจากจบการสนทนาแล้ว",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API Key",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "อัพเดท",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verify Token",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
@@ -585,7 +585,7 @@
       "NOTE_TEXT": "โปรดตั้งค่า IMAP หากคุณต้องการเปิดใช้ SMTP",
       "UPDATE": "อัปเดตการตั้งค่า IMAP",
       "TOGGLE_AVAILABILITY": "เปิดใช้งานการตั้งค่า IMAP สำหรับกล่องข้อความนี้",
-      "TOGGLE_HELP": "การเปิดใช้งาน IMAP จะช่วยให้ลูกค้าได้รับอีเมล",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "อัปเดตการตั้งค่า IMAP สำเร็จแล้ว",
         "ERROR_MESSAGE": "ไม่สามารถอัปเดตการตั้งค่า IMAP ได้"

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1">
+  <section class="flex-1">
     <settings-header
       button-route="new"
       :header-title="portalHeaderText"
@@ -10,16 +10,20 @@
       :show-new-button="false"
     />
     <div
-      class="flex flex-row overflow-auto py-4 pl-4 rtl:pl-0 rtl:pr-4 h-full bg-slate-50 dark:bg-slate-800"
+      class="grid grid-cols-[20rem_1fr] w-full h-full overflow-auto rtl:pl-0 rtl:pr-4 bg-slate-50 dark:bg-slate-800 p-5"
     >
       <woot-wizard
-        class="hidden md:block w-1/4"
+        class="hidden md:block"
         :global-config="globalConfig"
         :items="items"
       />
-      <router-view />
+      <div
+        class="w-full p-5 bg-white border border-transparent border-solid rounded-md shadow-sm dark:bg-slate-900 dark:border-transparent"
+      >
+        <router-view />
+      </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
