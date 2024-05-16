@@ -10,6 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "Şifreniz başarıyla değiştirildi",
     "AFTER_EMAIL_CHANGED": "Profiliniz başarıyla güncellendi, lütfen giriş bilgileriniz değiştiği için tekrar giriş yapın",
     "FORM": {
+      "PICTURE": "Profile Picture",
       "AVATAR": "Profil Resmi",
       "ERROR": "Lütfen form hatalarını düzeltin",
       "REMOVE_IMAGE": "Kaldır",
@@ -56,13 +57,19 @@
       },
       "ACCESS_TOKEN": {
         "TITLE": "Erişim Jetonu",
-        "NOTE": "Bu simge, API tabanlı bir entegrasyon oluşturuyorsanız kullanılabilir"
+        "NOTE": "Bu simge, API tabanlı bir entegrasyon oluşturuyorsanız kullanılabilir",
+        "COPY": "Kopyala"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Sesli Bildirimler",
         "NOTE": "Yeni mesajlar ve konuşmalar için panelde sesli bildirimleri etkinleştirin.",
+        "ALERT_TYPES": {
+          "NONE": "Hiç",
+          "MINE": "Assigned",
+          "ALL": "Hepsi"
+        },
         "ALERT_TYPE": {
-          "TITLE": "Uyarı olayları:",
+          "TITLE": "Alert events for conversations:",
           "NONE": "Hiçbiri",
           "ASSIGNED": "Atanmış Konuşmalar",
           "ALL_CONVERSATIONS": "Tüm Konuşmalar"
@@ -87,6 +94,23 @@
         "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
         "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "E-Posta",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
       "API": {
         "UPDATE_SUCCESS": "Bildirim tercihleriniz başarıyla güncellendi",
@@ -320,7 +344,6 @@
       "GO_TO_REPORTS_SIDEBAR": "Raporlar kenar çubuğuna git",
       "MOVE_TO_NEXT_TAB": "Konuşma listesinde bir sonraki sekmeye git",
       "GO_TO_SETTINGS": "Ayarlar'a git",
-      "SWITCH_CONVERSATION_STATUS": "Sonraki konuşma durumuna geç",
       "SWITCH_TO_PRIVATE_NOTE": "Özel Not'a geç",
       "SWITCH_TO_REPLY": "Yanıt'a geç",
       "TOGGLE_SNOOZE_DROPDOWN": "Snooze açılır menüsünü aç/kapat"

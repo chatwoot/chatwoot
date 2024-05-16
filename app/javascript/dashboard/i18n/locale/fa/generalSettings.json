@@ -50,9 +50,9 @@
     },
     "UPDATE_CHATWOOT": "به روزرسانی%{latestChatwootVersion} برای Chatwoot در دسترس است. لطفا نمونه خود را به روز کنید.",
     "LEARN_MORE": "بیشتر بدانید",
-    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
-    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
-    "OPEN_BILLING": "Open billing"
+    "PAYMENT_PENDING": "پرداخت شما در حال پردازش است. لطفاً اطلاعات پرداخت خود را برای ادامه استفاده از Chatwoot به روز کنید",
+    "LIMITS_UPGRADE": "حساب شما از محدودیت های استفاده فراتر رفته است، لطفاً برای ادامه استفاده از Chatwoot برنامه خود را ارتقا دهید",
+    "OPEN_BILLING": "باز کردن صورتحساب"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -88,9 +88,9 @@
       "assigned_conversation_new_message": "پیام جدید",
       "participating_conversation_new_message": "پیام جدید",
       "conversation_mention": "اشاره",
-      "sla_missed_first_response": "SLA Missed",
-      "sla_missed_next_response": "SLA Missed",
-      "sla_missed_resolution": "SLA Missed"
+      "sla_missed_first_response": "SLA های از دست رفته",
+      "sla_missed_next_response": "SLA های از دست رفته",
+      "sla_missed_resolution": "SLA های از دست رفته"
     }
   },
   "NETWORK": {
@@ -107,27 +107,28 @@
       "GENERAL": "عمومی",
       "REPORTS": "گزارشات",
       "CONVERSATION": "گفتگو",
-      "CHANGE_ASSIGNEE": "نماینده را تغییر دهید",
-      "CHANGE_PRIORITY": "Change Priority",
+      "BULK_ACTIONS": "Bulk Actions",
+      "CHANGE_ASSIGNEE": "اپراتور را تغییر دهید",
+      "CHANGE_PRIORITY": "تغییر اولویت",
       "CHANGE_TEAM": "تیم را تغییر دهید",
       "SNOOZE_CONVERSATION": "به تعویق انداختن مکالمه",
       "ADD_LABEL": "برچسب را به مکالمه اضافه کنید",
       "REMOVE_LABEL": "برچسب را از مکالمه حذف کنید",
       "SETTINGS": "تنظیمات",
-      "AI_ASSIST": "AI Assist",
+      "AI_ASSIST": "دستیار هوش مصنوعی",
       "APPEARANCE": "ظاهری",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "به تعویق انداختن آگاه‌سازی"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "به داشبورد مکالمه بروید",
       "GO_TO_CONTACTS_DASHBOARD": "به داشبورد مخاطبین بروید",
       "GO_TO_REPORTS_OVERVIEW": "به نمای کلی گزارش ها بروید",
       "GO_TO_CONVERSATION_REPORTS": "به گزارش های گفتگو بروید",
-      "GO_TO_AGENT_REPORTS": "به گزارش های ایجنت بروید",
+      "GO_TO_AGENT_REPORTS": "به گزارش های اپراتور بروید",
       "GO_TO_LABEL_REPORTS": "به گزارش برچسب بروید",
       "GO_TO_INBOX_REPORTS": "به گزارش صندوق ورودی بروید",
       "GO_TO_TEAM_REPORTS": "به گزارش تیم بروید",
-      "GO_TO_SETTINGS_AGENTS": "به تنظیمات ایجنت بروید",
+      "GO_TO_SETTINGS_AGENTS": "به تنظیمات اپراتور بروید",
       "GO_TO_SETTINGS_TEAMS": "به تنظیمات تیم بروید",
       "GO_TO_SETTINGS_INBOXES": "به تنظیمات صندوق ورودی بروید",
       "GO_TO_SETTINGS_LABELS": "به تنظیمات برچسب بروید",
@@ -137,8 +138,8 @@
       "GO_TO_SETTINGS_PROFILE": "به تنظیمات پروفایل بروید",
       "GO_TO_NOTIFICATIONS": "به اعلان ها بروید",
       "ADD_LABELS_TO_CONVERSATION": "برچسب را به مکالمه اضافه کنید",
-      "ASSIGN_AN_AGENT": "یک ایجنت تعیین کنید",
-      "AI_ASSIST": "AI Assist",
+      "ASSIGN_AN_AGENT": "یک اپراتور تعیین کنید",
+      "AI_ASSIST": "دستیار هوش مصنوعی",
       "ASSIGN_PRIORITY": "انتساب اولویت",
       "ASSIGN_A_TEAM": "یک تیم را تعیین کنید",
       "MUTE_CONVERSATION": "صدای گفتگو را قطع کن",
@@ -158,7 +159,7 @@
       "LIGHT_MODE": "روشن",
       "DARK_MODE": "تیره",
       "SYSTEM_MODE": "سیستم",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SNOOZE_NOTIFICATION": "به تعویق انداختن آگاه‌سازی"
     }
   },
   "DASHBOARD_APPS": {

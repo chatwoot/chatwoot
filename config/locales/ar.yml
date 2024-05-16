@@ -74,6 +74,8 @@ ar:
       conversations_count: Assigned conversations
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      resolution_count: عدد مرات الإغلاق
+      avg_customer_waiting_time: Avg customer waiting time
     inbox_csv:
       inbox_name: اسم صندوق الوارد
       inbox_type: نوع صندوق البريد
@@ -90,6 +92,8 @@ ar:
       conversations_count: عدد المحادثات
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      resolution_count: عدد مرات الإغلاق
+      avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Timezone
     sla_csv:
@@ -233,7 +237,7 @@ ar:
       appearance:
         system: النظام
         light: Light
-        dark: Dark
+        dark: مظلم
       featured_articles: Featured Articles
       uncategorized: Uncategorized
     404:

@@ -81,12 +81,12 @@
       "HELP_TEXT": {
         "TITLE": "استفاده از اسلک",
         "BODY": "<br/> <p> ما اکنون تمام مکالمات ورودی را در کانال <b><i> گفتگوهای مشتری </i> </b> داخل محل کار شما همگام سازی می کنیم. </p> <p> پاسخ به یک رشته مکالمه در کانال مکالمه <b><i> مشتری- مکالمات </ i> </b> از طریق برنامه پاسخی به مشتری ایجاد می کند. </ p> <p> پاسخ ها را با <b> <i> شروع کنید توجه: </i> </b> برای ایجاد یادداشت های خصوصی به جای پاسخ ها. </p> <p> اگر پاسخ دهنده در slack نمایه نماینده ای در برنامه تحت همان ایمیل داشته باشد ، پاسخ ها به همین ترتیب مرتبط می شوند. </ p> <p> وقتی ارسال کننده نمایه نماینده مرتبطی ندارد ، پاسخها از نمایه ربات انجام می شود. </p>",
-        "SELECTED": "selected"
+        "SELECTED": "انتخاب شد"
       },
       "SELECT_CHANNEL": {
-        "OPTION_LABEL": "Select a channel",
+        "OPTION_LABEL": "یک کانال انتخاب کنید",
         "UPDATE": "اعمال شود",
-        "BUTTON_TEXT": "Connect channel",
+        "BUTTON_TEXT": "اتصال کانال",
         "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
         "ATTENTION_REQUIRED": "Attention required",
         "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
@@ -103,10 +103,10 @@
       "CREATE_ERROR": "در ایجاد پیوند جلسه خطایی روی داد، لطفاً دوباره امتحان کنید"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "AI Assist",
+      "AI_ASSIST": "دستیار هوش مصنوعی",
       "WITH_AI": " %{option} with AI ",
       "OPTIONS": {
-        "REPLY_SUGGESTION": "Reply Suggestion",
+        "REPLY_SUGGESTION": "پیشنهاد پاسخ",
         "SUMMARIZE": "Summarize",
         "REPHRASE": "Improve Writing",
         "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
@@ -144,13 +144,13 @@
       "TONE": {
         "TITLE": "Tone",
         "OPTIONS": {
-          "PROFESSIONAL": "Professional",
+          "PROFESSIONAL": "حرفه‌ای",
           "FRIENDLY": "دوستانه"
         }
       },
       "BUTTONS": {
-        "GENERATE": "Generate",
-        "GENERATING": "Generating...",
+        "GENERATE": "تولید",
+        "GENERATING": "در حال تولید...",
         "CANCEL": "انصراف"
       },
       "GENERATE_ERROR": "There was an error processing the content, please try again"

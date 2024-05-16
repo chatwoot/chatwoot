@@ -63,9 +63,9 @@ ru:
         name: Не должен начинаться или заканчиваться символами, и у него Не должно быть < > / \ @ символов.
     custom_filters:
       number_of_records: Достигнут лимит. Максимальное количество разрешенных пользовательских фильтров для каждого пользователя - 50.
-      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
-      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
-      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
+      invalid_attribute: Недопустимый ключ атрибута - [%{key}]. Ключ должен быть одним из [%{allowed_keys}] или пользовательским атрибутом, указанным в учетной записи.
+      invalid_operator: Неверный оператор. Допустимыми операторами для %{attribute_name} являются [%{allowed_keys}].
+      invalid_value: Недопустимое значение. Значения, предоставленные для %{attribute_name} являются недопустимыми
   reports:
     period: Отчётный период с %{since} по %{until}
     utc_warning: Отчёт создан в часовом поясе UTC
@@ -74,6 +74,8 @@ ru:
       conversations_count: Назначенные диалоги
       avg_first_response_time: Среднее время первого ответа
       avg_resolution_time: Среднее время завершения
+      resolution_count: Количество завершенных
+      avg_customer_waiting_time: Avg customer waiting time
     inbox_csv:
       inbox_name: Имя источника
       inbox_type: Тип входящего сообщения
@@ -90,17 +92,19 @@ ru:
       conversations_count: Количество бесед
       avg_first_response_time: Среднее время первого ответа
       avg_resolution_time: Среднее время завершения
+      resolution_count: Количество завершенных
+      avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Часовой пояс
     sla_csv:
       conversation_id: ID диалога
-      sla_policy_breached: SLA Policy
-      assignee: Assignee
+      sla_policy_breached: Политика SLA
+      assignee: Назначено
       team: Команда
       inbox: Электронная почта
       labels: Категории
-      conversation_link: Link to the Conversation
-      breached_events: Breached Events
+      conversation_link: Ссылка на диалог
+      breached_events: Пропущенные события
     default_group_by: день
     csat:
       headers:
@@ -114,15 +118,15 @@ ru:
         recorded_at: Дата записи
   notifications:
     notification_title:
-      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
-      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
-      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
-      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
-      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
-      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
-      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
-    attachment: "Attachment"
-    no_content: "No content"
+      conversation_creation: "В %{inbox_name} создана беседа (#%{display_id})"
+      conversation_assignment: "Вам назначен диалог (#%{display_id})"
+      assigned_conversation_new_message: "Новое сообщение создано в разговоре (#%{display_id})"
+      conversation_mention: "Вас упомянули в разговоре (#%{display_id})"
+      sla_missed_first_response: "Целевой показатель SLA - пропущенный первый ответ для разговора (#%{display_id})"
+      sla_missed_next_response: "SLA целевой следующий ответ, пропущенный для разговора (#%{display_id})"
+      sla_missed_resolution: "Пропущен срок выполнения SLA для разговора (#%{display_id})"
+    attachment: "Вложение"
+    no_content: "Нет содержимого"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} упомянул Вас в истории: "
@@ -155,8 +159,8 @@ ru:
         added: "%{user_name} добавил %{labels}"
         removed: "%{user_name} удалил %{labels}"
       sla:
-        added: "%{user_name} added SLA policy %{sla_name}"
-        removed: "%{user_name} removed SLA policy %{sla_name}"
+        added: "%{user_name} добавил политику SLA %{sla_name}"
+        removed: "%{user_name} удалил политику SLA %{sla_name}"
       muted: "%{user_name} заглушил(а) этот разговор"
       unmuted: "%{user_name} включил(а) уведомления для разговора"
     templates:

@@ -106,7 +106,6 @@
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
 import { mapGetters } from 'vuex';
-import { mixin as clickaway } from 'vue-clickaway';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import AddCannedModal from 'dashboard/routes/dashboard/settings/canned/AddCanned.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
@@ -124,7 +123,7 @@ export default {
     TranslateModal,
     MenuItem,
   },
-  mixins: [alertMixin, clickaway, messageFormatterMixin],
+  mixins: [alertMixin, messageFormatterMixin],
   props: {
     message: {
       type: Object,

@@ -10,6 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "Din adgangskode er blevet ændret",
     "AFTER_EMAIL_CHANGED": "Din profil er blevet opdateret. Log venligst ind igen, da dine loginoplysninger er ændret",
     "FORM": {
+      "PICTURE": "Profile Picture",
       "AVATAR": "Profilbillede",
       "ERROR": "Ret venligst formularfejl",
       "REMOVE_IMAGE": "Fjern",
@@ -56,13 +57,19 @@
       },
       "ACCESS_TOKEN": {
         "TITLE": "Adgangs Token",
-        "NOTE": "Denne token kan bruges, hvis du bygger en API-baseret integration"
+        "NOTE": "Denne token kan bruges, hvis du bygger en API-baseret integration",
+        "COPY": "Kopiér"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Lyd Notifikationer",
         "NOTE": "Aktivér lydmeddelelser i dashboard for nye beskeder og samtaler.",
+        "ALERT_TYPES": {
+          "NONE": "Ingen",
+          "MINE": "Assigned",
+          "ALL": "Alle"
+        },
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
+          "TITLE": "Alert events for conversations:",
           "NONE": "Ingen",
           "ASSIGNED": "Tildelte Samtaler",
           "ALL_CONVERSATIONS": "Alle Samtaler"
@@ -87,6 +94,23 @@
         "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
         "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "E-mail",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
       "API": {
         "UPDATE_SUCCESS": "Dine notifikationsindstillinger er opdateret",
@@ -320,7 +344,6 @@
       "GO_TO_REPORTS_SIDEBAR": "Gå til Rapporter sidepanel",
       "MOVE_TO_NEXT_TAB": "Flyt til næste fane i samtalelisten",
       "GO_TO_SETTINGS": "Gå til Indstillinger",
-      "SWITCH_CONVERSATION_STATUS": "Skift til næste samtalestatus",
       "SWITCH_TO_PRIVATE_NOTE": "Skift til privat note",
       "SWITCH_TO_REPLY": "Skift til svar",
       "TOGGLE_SNOOZE_DROPDOWN": "Skift snooze dropdown"

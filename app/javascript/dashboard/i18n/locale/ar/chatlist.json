@@ -43,7 +43,7 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "Created",
+        "LATEST": "مضاف",
         "OLDEST": "تم إنشاؤها في:"
       },
       "LAST_ACTIVITY": {
@@ -53,10 +53,10 @@
     },
     "SORT_ORDER_ITEMS": {
       "last_activity_at_asc": {
-        "TEXT": "Last activity: Oldest first"
+        "TEXT": "اخر نشاط: آلأقدم أولا"
       },
       "last_activity_at_desc": {
-        "TEXT": "Last activity: Newest first"
+        "TEXT": "اخر نشاط: الأحدث أولا"
       },
       "created_at_desc": {
         "TEXT": "Created at: Newest first"
@@ -111,7 +111,7 @@
         },
         "LAST_USER_MESSAGE_AT": {
           "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "LABEL": "أخر رسالة"
         }
       }
     },

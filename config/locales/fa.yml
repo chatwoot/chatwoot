@@ -51,7 +51,7 @@ fa:
     dyte:
       invalid_message_type: "نوع پیام نامعتبر است. اقدام مجاز نیست"
     slack:
-      invalid_channel_id: "Invalid slack channel. Please try again"
+      invalid_channel_id: "کانال اسلک نامعتبر است. لطفا دوباره تلاش کنید"
     inboxes:
       imap:
         socket_error: لطفا اتصال شبکه، آدرس IMAP را بررسی کنید و دوباره امتحان کنید.
@@ -63,44 +63,48 @@ fa:
         name: نباید با نمادها شروع یا ختم شود و نباید دارای کاراکترهای < > / \ @ باشد.
     custom_filters:
       number_of_records: سررسید محدودیت. حداکثر تعداد قابل قبول فیلترها برای یک کاربر در هر اکانت 50 می باشند.
-      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
-      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
-      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
+      invalid_attribute: کلید ویژگی معتبر نیست (%{key}). کلید باید یکی از %{allowed_keys} باشد یا یک ویژگی سفارشی ایجاد شده در حساب.
+      invalid_operator: این عملیات مجاز نیست. عملیات های مجاز برای %{attribute_name} شامل %{allowed_keys} می باشد.
+      invalid_value: مقدار معتبر نیست. مقادیر ارائه شده برای %{attribute_name} معتبر نیست
   reports:
     period: زمان گزارش از %{since} تا %{until}
     utc_warning: گزارش تولید شده در منطقه زمانی UTC است
     agent_csv:
       agent_name: اسم ایجنت
-      conversations_count: Assigned conversations
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      conversations_count: گفتگو‌های اختصاص داده شده
+      avg_first_response_time: میانگین زمان تا اولین پاسخ
+      avg_resolution_time: میانگین زمان حل مشکل
+      resolution_count: تعداد مسائل حل شده
+      avg_customer_waiting_time: میانگین زمان انتظار مشتری
     inbox_csv:
       inbox_name: نام صندوق ورودی
       inbox_type: نوع صندوق ورودی
       conversations_count: تعداد گفتگوها
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      avg_first_response_time: میانگین زمان تا اولین پاسخ
+      avg_resolution_time: میانگین زمان حل مشکل
     label_csv:
       label_title: برچسب
       conversations_count: تعداد گفتگوها
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      avg_first_response_time: میانگین زمان تا اولین پاسخ
+      avg_resolution_time: میانگین زمان حل مشکل
     team_csv:
       team_name: نام تیم
       conversations_count: Conversations count
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      avg_first_response_time: میانگین زمان تا اولین پاسخ
+      avg_resolution_time: میانگین زمان حل مشکل
+      resolution_count: تعداد مسائل حل شده
+      avg_customer_waiting_time: میانگین زمان انتظار مشتری
     conversation_traffic_csv:
       timezone: منطقه زمانی
     sla_csv:
-      conversation_id: Conversation ID
-      sla_policy_breached: SLA Policy
-      assignee: Assignee
+      conversation_id: شناسه گفتگو
+      sla_policy_breached: سیاست SLA
+      assignee: مسئول
       team: تیم‌
       inbox: صندوق ورودی
       labels: برچسب‌ها
-      conversation_link: Link to the Conversation
-      breached_events: Breached Events
+      conversation_link: پیوند به گفتگو
+      breached_events: رویدادهای نقض شده
     default_group_by: روز
     csat:
       headers:
@@ -114,15 +118,15 @@ fa:
         recorded_at: تاریخ ثبت شده
   notifications:
     notification_title:
-      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
-      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
-      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
-      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
-      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
-      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
-      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
-    attachment: "Attachment"
-    no_content: "No content"
+      conversation_creation: "یک گفتگو جدید (%{display_id}) در %{inbox_name} ایجاد شده است"
+      conversation_assignment: "یک گفتگو جدید (%{display_id}) به شما اختصاص داده شده"
+      assigned_conversation_new_message: "یک پیام جدید در گفتگوی %{display_id} ارسال شده"
+      conversation_mention: "به نام شما در گفتگو (%{display_id}) اشاره شده است"
+      sla_missed_first_response: "سیاست SLA مربوط به اولین پاسخ در گفتگوی (%{display_id}) نقض شده"
+      sla_missed_next_response: "سیاست SLA مربوط به پاسخ بعدی در گفتگوی (%{display_id}) نقض شده"
+      sla_missed_resolution: "سیاست SLA مربوط به زمان حل موضوع در گفتگوی (%{display_id}) نقض شده"
+    attachment: "پیوست"
+    no_content: "فاقد محتوا"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} در داستان به شما اشاره کرده: "
@@ -155,8 +159,8 @@ fa:
         added: "%{user_name}، %{labels} را اضافه کرد"
         removed: "%{user_name}، %{labels} را حذف کرد"
       sla:
-        added: "%{user_name} added SLA policy %{sla_name}"
-        removed: "%{user_name} removed SLA policy %{sla_name}"
+        added: "%{user_name} سیاست SLA %{sla_name} را اضافه کرد"
+        removed: "%{user_name} سیاست SLA %{sla_name} را حذف کرد"
       muted: "%{user_name} مکالمه را بی صدا کرد"
       unmuted: "%{user_name} مکالمه را از حالت بی صدا خراج کرد"
     templates:
@@ -201,10 +205,10 @@ fa:
       description: "ادغام FullContact به غنی سازی پروفایل بازدیدکنندگان کمک می کند. به محض به اشتراک گذاشتن آدرس ایمیل کاربران ، آنها را شناسایی کرده و به آنها خدمات مشتری مناسب ارائه دهید. با به اشتراک گذاشتن کلید APC FullContact ، حساب FullContact خود را به حساب خود وصل کنید."
     google_translate:
       name: "مترجم گوگل"
-      description: "با افزودن Google Translate یکپارچه سازی، ترجمه پیام ها را برای نمایندگان آسان تر کنید. Google translate به شناسایی خودکار زبان و تبدیل آن به زبان انتخاب شده توسط نماینده/مدیر حساب کمک می کند."
+      description: "با افزودن Google Translate یکپارچه سازی، ترجمه پیام ها را برای اپراتور آسان تر کنید. Google translate به شناسایی خودکار زبان و تبدیل آن به زبان انتخاب شده توسط اپراتور/مدیر حساب کمک می کند."
     openai:
       name: "OpenAI"
-      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
+      description: "با استفاده از مدل‌های GPT از OpenAI، ویژگی‌های قدرتمند هوش مصنوعی را در Chatwoot اضافه کنید."
   public_portal:
     search:
       search_placeholder: جستجوی مقاله براساس عنوان یا متن...
@@ -221,10 +225,10 @@ fa:
       article: مقاله
       articles: مقالات
       author: نویسنده
-      authors: authors
-      other: other
-      others: others
-      by: By
+      authors: نویسنده ها
+      other: دیگر
+      others: دیگران
+      by: توسط
       no_articles: هنوز هیچ مقاله‌ای در اینجا وجود ندارد
     footer:
       made_with: ساخته شده با
@@ -234,8 +238,8 @@ fa:
         system: سیستم
         light: روشن
         dark: تیره
-      featured_articles: Featured Articles
-      uncategorized: Uncategorized
+      featured_articles: مقالات برگزیده
+      uncategorized: دسته بندی نشده
     404:
       title: صفحه یافت نشد
       description: ما نتوانستیم صفحه مورد نظر شما را پیدا کنیم.
@@ -251,14 +255,14 @@ fa:
     button: باز کردن گفتگو
   time_units:
     days:
-      one: "%{count} day"
-      other: "%{count} days"
+      one: "%{count} روز"
+      other: "%{count} روز"
     hours:
-      one: "%{count} hour"
-      other: "%{count} hours"
+      one: "%{count} ساعت"
+      other: "%{count} ساعت"
     minutes:
-      one: "%{count} minute"
-      other: "%{count} minutes"
+      one: "%{count} قیقه"
+      other: "%{count} قیقه"
     seconds:
-      one: "%{count} second"
-      other: "%{count} seconds"
+      one: "%{count} ثانیه"
+      other: "%{count} ثانیه"

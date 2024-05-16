@@ -10,6 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
     "AFTER_EMAIL_CHANGED": "നിങ്ങളുടെ പ്രൊഫൈൽ വിജയകരമായി അപ്‌ഡേറ്റു ചെയ്തിരിക്കുന്നു, ലോഗിൻ ക്രെഡൻഷ്യലുകൾ മാറ്റിയതിനാൽ ദയവായി വീണ്ടും ലോഗിൻ ചെയ്യുക",
     "FORM": {
+      "PICTURE": "Profile Picture",
       "AVATAR": "പ്രൊഫൈൽ ചിത്രം",
       "ERROR": "ദയവായി ഫോമിലെ പിശകുകൾ പരിഹരിക്കുക",
       "REMOVE_IMAGE": "നീക്കം ചെയ്യുക",
@@ -56,13 +57,19 @@
       },
       "ACCESS_TOKEN": {
         "TITLE": "ആക്സസ് ടോക്കൺ",
-        "NOTE": "നിങ്ങൾ ഒരു എപിഐ അടിസ്ഥാനമാക്കിയുള്ള സംയോജനം നിർമ്മിക്കുകയാണെങ്കിൽ ഈ ടോക്കൺ ഉപയോഗിക്കാൻ കഴിയും"
+        "NOTE": "നിങ്ങൾ ഒരു എപിഐ അടിസ്ഥാനമാക്കിയുള്ള സംയോജനം നിർമ്മിക്കുകയാണെങ്കിൽ ഈ ടോക്കൺ ഉപയോഗിക്കാൻ കഴിയും",
+        "COPY": "പകർത്തുക"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Notifications",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "ALERT_TYPES": {
+          "NONE": "ഒന്നുമില്ല",
+          "MINE": "Assigned",
+          "ALL": "എല്ലാം"
+        },
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
+          "TITLE": "Alert events for conversations:",
           "NONE": "ഒന്നുമില്ല",
           "ASSIGNED": "Assigned Conversations",
           "ALL_CONVERSATIONS": "All Conversations"
@@ -87,6 +94,23 @@
         "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
         "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "ഇമെയിൽ",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
       "API": {
         "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
@@ -320,7 +344,6 @@
       "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
       "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
       "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
       "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
       "SWITCH_TO_REPLY": "Switch to Reply",
       "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
