@@ -74,6 +74,8 @@ uk:
       conversations_count: Призначені розмови
       avg_first_response_time: Середній час першої відповіді
       avg_resolution_time: Середній час вирішення
+      resolution_count: Кількість вирішень
+      avg_customer_waiting_time: Avg customer waiting time
     inbox_csv:
       inbox_name: Назва Джерела
       inbox_type: Тип Джерела
@@ -90,6 +92,8 @@ uk:
       conversations_count: Кількість бесід
       avg_first_response_time: Середній час першої відповіді
       avg_resolution_time: Середній час вирішення
+      resolution_count: Кількість вирішень
+      avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Timezone
     sla_csv:

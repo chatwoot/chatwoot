@@ -7,16 +7,16 @@
     "LEARN_MORE": "Uzzināt vairāk par SLA",
     "LOADING": "Notiek SLA iegūšana",
     "PAYWALL": {
-      "TITLE": "Upgrade to create SLAs",
-      "AVAILABLE_ON": "The SLA feature is only available in the Business and Enterprise plans.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to advanced features like team management, automations, custom attributes, and more.",
-      "UPGRADE_NOW": "Upgrade now",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "TITLE": "Pārejiet uz maksas versiju, lai izveidotu SLA",
+      "AVAILABLE_ON": "SLA funkcija ir pieejama tikai Business un Enterprise versijās.",
+      "UPGRADE_PROMPT": "Pārejiet uz maksas versiju, lai iegūtu piekļuvi pie papildu funkcijām. Piemēram: komandas pārvaldībai, automatizācijai, pielāgotiem atribūtiem, un citām.",
+      "UPGRADE_NOW": "Pāriet uz maksas versiju tagad",
+      "CANCEL_ANYTIME": "Jūs varat jebkurā laikā mainīt vai atcelt savu versiju"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "The SLA feature is only available in the paid plans.",
-      "UPGRADE_PROMPT": "Upgrade to a paid plan to access advanced features like audit logs, agent capacity, and more.",
-      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      "AVAILABLE_ON": "SLA funkcija ir pieejama tikai maksas versijās.",
+      "UPGRADE_PROMPT": "Pārejiet uz maksas versiju, lai piekļūtu papildu funkcijām. Piemēram: audita žurnāliem, aģentu kapacitātei, un citām.",
+      "ASK_ADMIN": "Lai pārietu uz maksas versiju, lūdzu sazinieties ar savu administratoru."
     },
     "LIST": {
       "404": "Šim kontam nav piesaistīti SLA līgumi.",

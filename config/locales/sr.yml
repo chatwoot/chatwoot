@@ -74,6 +74,8 @@ sr-Latn:
       conversations_count: Assigned conversations
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      resolution_count: Broj rešenih
+      avg_customer_waiting_time: Avg customer waiting time
     inbox_csv:
       inbox_name: Naziv prijemnog sandučeta
       inbox_type: Vrsta prijemnog sandučeta
@@ -90,6 +92,8 @@ sr-Latn:
       conversations_count: Broj razgovora
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      resolution_count: Broj rešenih
+      avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Timezone
     sla_csv:

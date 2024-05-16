@@ -84,6 +84,7 @@
     "CONFIRM": {
       "TITLE": "Eksportēt Kontaktpersonas",
       "MESSAGE": "Vai vēlaties eksportēt visas kontaktpersonas?",
+      "FILTERED_MESSAGE": "Vai tiešām vēlaties eksportēt visas filtrētās kontaktpersonas?",
       "YES": "Jā, Eksportēt",
       "NO": "Nē, Atcelt"
     }

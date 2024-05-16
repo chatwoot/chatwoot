@@ -84,6 +84,7 @@
     "CONFIRM": {
       "TITLE": "导出联系人",
       "MESSAGE": "您确定要导出所有联系人吗？",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
       "YES": "是的，导出",
       "NO": "否，取消"
     }
