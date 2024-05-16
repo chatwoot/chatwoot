@@ -1,13 +1,13 @@
 {
   "DATE_PICKER": {
     "APPLY_BUTTON": "درخواست دادن",
-    "CLEAR_BUTTON": "Clear",
+    "CLEAR_BUTTON": "پاک کردن",
     "DATE_RANGE_INPUT": {
-      "START": "Start Date",
-      "END": "End Date"
+      "START": "تاریخ شروع",
+      "END": "تاریخ پایان"
     },
     "DATE_RANGE_OPTIONS": {
-      "TITLE": "DATE RANGE",
+      "TITLE": "محدوده زمانی",
       "LAST_7_DAYS": "در ۷ روز گذشته",
       "LAST_30_DAYS": "در ۳۰ روز گذشته",
       "LAST_3_MONTHS": "۳ ماه گذشته",
