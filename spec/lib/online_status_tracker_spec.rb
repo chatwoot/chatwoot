@@ -13,7 +13,7 @@ describe OnlineStatusTracker do
     end
 
     it 'returns only the online user ids with presence' do
-      expect(described_class.get_available_users(account.id).keys).to contain_exactly(user1.id.to_s)
+      expect(described_class.get_available_users(account.id).keys).to contain_exactly(user1.id.to_s, user2.id.to_s)
       expect(described_class.get_available_users(account.id).values).not_to include(user3.id)
     end
 
