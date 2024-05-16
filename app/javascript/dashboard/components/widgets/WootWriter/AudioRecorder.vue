@@ -166,7 +166,7 @@ export default {
     async finishRecord() {
       let recordedContent = this.player.recordedData;
       let fileName = this.player.recordedData.name;
-      let type = this.player.recorderData.type;
+      let type = this.player.recordedData.type;
       if (this.audioRecordFormat === AUDIO_FORMATS.MP3) {
         recordedContent = await convertWavToMp3(this.player.recordedData);
         fileName = `${getUuid()}.mp3`;
