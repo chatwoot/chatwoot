@@ -22,7 +22,6 @@
 <script>
 import { mapGetters } from 'vuex';
 import TableFooter from 'dashboard/components/widgets/TableFooter.vue';
-import ReconnectService from 'dashboard/helper/ReconnectService';
 
 import NotificationTable from './NotificationTable.vue';
 
@@ -32,11 +31,6 @@ export default {
     NotificationTable,
     TableFooter,
   },
-  data() {
-    return {
-      reconnectService: null,
-    };
-  },
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
@@ -45,28 +39,10 @@ export default {
       uiFlags: 'notifications/getUIFlags',
     }),
   },
-  watch: {
-    '$route.name'() {
-      if (this.reconnectService) {
-        // If route is changed then update the reconnect service
-        // To support realtime data
-        this.reconnectService.route = this.$route;
-      }
-    },
-  },
   mounted() {
     this.$store.dispatch('notifications/get', { page: 1 });
-    this.setUpReconnectService();
-  },
-  beforeDestroy() {
-    ReconnectService.resetInstance();
   },
   methods: {
-    setUpReconnectService() {
-      ReconnectService.resetInstance();
-      this.reconnectService = ReconnectService.getInstance(this.$route, {});
-      this.reconnectService.setupEventListeners();
-    },
     onPageChange(page) {
       window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
       this.$store.dispatch('notifications/get', { page });

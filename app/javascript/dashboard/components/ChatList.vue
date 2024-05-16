@@ -179,7 +179,6 @@
 <script>
 import { mapGetters } from 'vuex';
 import VirtualList from 'vue-virtual-scroll-list';
-import ReconnectService from 'dashboard/helper/ReconnectService';
 
 import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter.vue';
 import ConversationBasicFilter from './widgets/conversation/ConversationBasicFilter.vue';
@@ -307,7 +306,6 @@ export default {
         showAssignee: false,
         isConversationSelected: this.isConversationSelected,
       },
-      reconnectService: null,
     };
   },
   computed: {
@@ -317,6 +315,7 @@ export default {
       chatLists: 'getAllConversations',
       mineChatsList: 'getMineChats',
       allChatList: 'getAllStatusChats',
+      chatListFilters: 'getChatListFilters',
       unAssignedChatsList: 'getUnAssignedChats',
       chatListLoading: 'getChatListLoadingStatus',
       currentUserID: 'getCurrentUserID',
@@ -336,7 +335,7 @@ export default {
       return this.appliedFilters.length !== 0;
     },
     hasActiveFolders() {
-      return Boolean(this.activeFolder && this.foldersId !== 0);
+      return this.activeFolder && this.foldersId !== 0;
     },
     hasAppliedFiltersOrActiveFolders() {
       return this.hasAppliedFilters || this.hasActiveFolders;
@@ -528,7 +527,13 @@ export default {
       this.resetAndFetchData();
       this.updateVirtualListProps('conversationType', this.conversationType);
     },
-    activeFolder() {
+    activeFolder(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.$store.dispatch(
+          'customViews/setActiveConversationFolder',
+          newVal || null
+        );
+      }
       this.resetAndFetchData();
       this.updateVirtualListProps('foldersId', this.foldersId);
     },
@@ -538,40 +543,14 @@ export default {
     showAssigneeInConversationCard(newVal) {
       this.updateVirtualListProps('showAssignee', newVal);
     },
-    conversationFilters(newFilters, oldFilters) {
-      if (newFilters !== oldFilters && this.reconnectService) {
-        this.reconnectService.filters = newFilters;
-      }
-    },
-    '$route.name'() {
-      if (this.reconnectService) {
-        // If route is changed then update the reconnect service
-        // To support realtime data
-        this.reconnectService.route = this.$route;
-      }
-    },
-    hasActiveFolders(value) {
-      if (this.reconnectService) {
-        // If active folder is changed then update the reconnect service
-        // To support realtime data
-        this.reconnectService.hasActiveFolder = !!value;
-        this.reconnectService.activeFolderQuery = value
-          ? this.activeFolder.query
-          : null;
-      }
-    },
-    hasAppliedFilters(value) {
-      if (this.reconnectService) {
-        // If applied filters are changed then update the reconnect service
-        // To support realtime data
-        this.reconnectService.hasActiveFilters = !!value;
-        this.reconnectService.activeFilters = value
-          ? filterQueryGenerator(this.appliedFilter)
-          : null;
+    conversationFilters(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.$store.dispatch('updateChatListFilters', newVal);
       }
     },
   },
   mounted() {
+    this.$store.dispatch('setChatListFilters', this.conversationFilters);
     this.setFiltersFromUISettings();
     this.$store.dispatch('setChatStatusFilter', this.activeStatus);
     this.$store.dispatch('setChatSortFilter', this.activeSortBy);
@@ -584,21 +563,8 @@ export default {
     bus.$on('fetch_conversation_stats', () => {
       this.$store.dispatch('conversationStats/get', this.conversationFilters);
     });
-
-    this.setUpReconnectService();
-  },
-  beforeDestroy() {
-    ReconnectService.resetInstance();
   },
   methods: {
-    setUpReconnectService() {
-      ReconnectService.resetInstance();
-      this.reconnectService = ReconnectService.getInstance(
-        this.$route,
-        this.conversationFilters
-      );
-      this.reconnectService.setupEventListeners();
-    },
     updateVirtualListProps(key, value) {
       this.virtualListExtraProps = {
         ...this.virtualListExtraProps,
@@ -775,8 +741,9 @@ export default {
       this.fetchConversations();
     },
     fetchConversations() {
+      this.$store.dispatch('updateChatListFilters', this.conversationFilters);
       this.$store
-        .dispatch('fetchAllConversations', this.conversationFilters)
+        .dispatch('fetchAllConversations')
         .then(this.emitConversationLoaded);
     },
     loadMoreConversations() {

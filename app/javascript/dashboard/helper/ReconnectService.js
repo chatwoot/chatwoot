@@ -1,199 +1,131 @@
-import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { differenceInSeconds } from 'date-fns';
-
 import {
   isAConversationRoute,
   isAInboxViewRoute,
   isNotificationRoute,
 } from 'dashboard/helper/routeHelpers';
 
-export default class ReconnectService {
-  static instance;
-
-  constructor(route, filters) {
-    this.storeGetters = useStoreGetters();
-    this.storeActions = useStore();
-    this.bus = window.bus;
-    this.route = route;
+class ReconnectService {
+  constructor(store, router) {
+    this.store = store;
+    this.router = router;
     this.disconnectTime = null;
 
-    // Filter used for conversations and inbox notifications
-    this.filters = filters || {};
-
-    // For conversation folder and filters
-    this.hasActiveFilters = false;
-    this.hasActiveFolder = false;
-    this.activeFilters = null;
-    this.activeFolderQuery = null;
-
-    // Store the event handler references
-    this.handleOnlineEvent = this.handleOnlineEvent.bind(this);
-    this.handleWebSocketReconnect = this.fetchOnReconnect.bind(this);
-    this.handleWebSocketDisconnect = this.setDisconnectTime.bind(this);
+    this.setupEventListeners();
   }
 
-  static getInstance(route, filters) {
-    if (!ReconnectService.instance) {
-      ReconnectService.instance = new ReconnectService(route, filters);
-    }
-    return ReconnectService.instance;
-  }
+  disconnect = () => this.removeEventListeners();
 
-  static resetInstance() {
-    if (ReconnectService.instance) {
-      ReconnectService.instance.removeEventListeners();
-      ReconnectService.instance = null;
-    }
-  }
-
-  setDisconnectTime() {
-    this.disconnectTime = new Date();
-  }
-
-  resetDisconnectTime() {
-    this.disconnectTime = null;
-  }
-
-  isChatListLoading() {
-    return this.storeGetters.getChatListLoadingStatus;
-  }
-
-  getSecondsSinceDisconnect() {
-    return this.disconnectTime
+  getSecondsSinceDisconnect = () =>
+    this.disconnectTime
       ? Math.max(differenceInSeconds(new Date(), this.disconnectTime), 0)
       : 0;
-  }
 
-  handleOnlineEvent() {
-    // if the disconnect time is greater than 3 hours, reload the page
-    // if the disconnect time is less than 3 hours, fetch the conversations/notifications
-    const seconds = this.getSecondsSinceDisconnect();
-    const threshold = 3 * 3600; // 3 hours
-    if (seconds >= threshold) {
-      // 10800 seconds equals 3 hours
-      window.location.reload();
-      this.resetDisconnectTime();
-    }
-  }
+  handleOnlineEvent = () => {
+    if (this.getSecondsSinceDisconnect() >= 3 * 3600) window.location.reload();
+  };
 
-  // Fetch conversations on reconnect
-  async fetchConversationsOnReconnect() {
-    if (this.isChatListLoading()) {
-      return;
-    }
+  fetchConversationsOnReconnect = async () => {
     try {
-      const filters = {
-        ...this.filters,
+      await this.store.dispatch('updateChatListFilters', {
         page: null,
         updatedWithin: this.getSecondsSinceDisconnect(),
-      };
-      await this.storeActions.dispatch('fetchAllConversations', filters);
-    } catch (error) {
-      // error
+      });
+      await this.store.dispatch('fetchAllConversations');
     } finally {
-      this.bus.$emit(BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED);
+      window.bus.$emit(BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED);
     }
-  }
+  };
 
-  // Fetch filtered or saved conversations on reconnect
-  async fetchFilteredOrSavedConversations(payload) {
+  fetchFilteredOrSavedConversations = async payload => {
     try {
-      this.storeActions.dispatch('fetchFilteredConversations', {
+      await this.store.dispatch('fetchFilteredConversations', {
         queryData: payload,
         page: 1,
       });
-    } catch (error) {
-      // error
     } finally {
-      this.bus.$emit(BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED);
+      window.bus.$emit(BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED);
     }
-  }
+  };
 
-  async fetchConversations() {
-    if (this.hasActiveFilters || this.hasActiveFolder) {
-      await this.fetchFilteredOrSavedConversations(
-        this.hasActiveFilters ? this.activeFilters : this.activeFolderQuery
-      );
-    } else {
-      await this.fetchConversationsOnReconnect();
-    }
-  }
+  fetchConversations = async () => {
+    const {
+      getAppliedConversationFiltersQuery,
+      'customViews/getActiveConversationFolder': activeFolder,
+    } = this.store.getters;
+    const hasActiveFilters = getAppliedConversationFiltersQuery.length !== 0;
+    const hasActiveFolder = activeFolder !== null;
 
-  // Fetch inbox notifications on reconnect
-  async fetchInboxNotificationsOnReconnect() {
+    const query = hasActiveFilters
+      ? getAppliedConversationFiltersQuery
+      : activeFolder?.query;
+    await (hasActiveFilters || hasActiveFolder
+      ? this.fetchFilteredOrSavedConversations(query)
+      : this.fetchConversationsOnReconnect());
+  };
+
+  fetchInboxNotificationsOnReconnect = async () => {
     try {
-      const filter = {
+      await this.store.dispatch('notifications/index', {
         ...this.filters,
         page: 1,
-      };
-      this.storeActions.dispatch('notifications/index', filter);
-    } catch (error) {
-      // error
+      });
     } finally {
-      this.bus.$emit(BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED);
+      window.bus.$emit(BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED);
     }
-  }
+  };
 
-  // Fetch notifications on reconnect
-  async fetchNotificationsOnReconnect() {
+  fetchNotificationsOnReconnect = async () => {
     try {
-      this.storeActions.dispatch('notifications/get', { page: 1 });
-    } catch (error) {
-      // error
+      await this.store.dispatch('notifications/get', { page: 1 });
     } finally {
-      this.bus.$emit(BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED);
+      window.bus.$emit(BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED);
     }
-  }
+  };
 
-  // Revalidate all caches on reconnect
-  async revalidateCaches() {
-    const cacheKeys = await this.storeActions.dispatch('accounts/getCacheKeys');
-    this.storeActions.dispatch('labels/revalidate', {
-      newKey: cacheKeys.label,
-    });
-    this.storeActions.dispatch('inboxes/revalidate', {
-      newKey: cacheKeys.inbox,
-    });
-    this.storeActions.dispatch('teams/revalidate', { newKey: cacheKeys.team });
-  }
+  revalidateCaches = async () => {
+    const { label, inbox, team } = await this.store.dispatch(
+      'accounts/getCacheKeys'
+    );
+    await Promise.all([
+      this.store.dispatch('labels/revalidate', { newKey: label }),
+      this.store.dispatch('inboxes/revalidate', { newKey: inbox }),
+      this.store.dispatch('teams/revalidate', { newKey: team }),
+    ]);
+  };
 
-  // Handle route specific fetch
-  async handleRouteSpecificFetch() {
-    if (isAConversationRoute(this.route.name, true)) {
+  handleRouteSpecificFetch = async () => {
+    const currentRoute = this.router.currentRoute.name;
+    if (isAConversationRoute(currentRoute, true)) {
       await this.fetchConversations();
-    } else if (isAInboxViewRoute(this.route.name, true)) {
+    } else if (isAInboxViewRoute(currentRoute, true)) {
       await this.fetchInboxNotificationsOnReconnect();
-    } else if (isNotificationRoute(this.route.name)) {
+    } else if (isNotificationRoute(currentRoute)) {
       await this.fetchNotificationsOnReconnect();
     }
-  }
+  };
 
-  async fetchOnReconnect() {
-    // if the disconnect time is greater than 3 hours, reload the page
-    // if the disconnect time is less than 3 hours, fetch the conversations/notifications/revalidate caches
-    await this.revalidateCaches();
-    await this.handleRouteSpecificFetch();
-  }
+  onDisconnect = () => {
+    this.disconnectTime = new Date();
+  };
 
-  setupEventListeners() {
+  onReconnect = () => {
+    this.handleRouteSpecificFetch();
+    this.revalidateCaches();
+  };
+
+  setupEventListeners = () => {
     window.addEventListener('online', this.handleOnlineEvent);
-    this.bus.$on(BUS_EVENTS.WEBSOCKET_RECONNECT, this.handleWebSocketReconnect);
-    this.bus.$on(
-      BUS_EVENTS.WEBSOCKET_DISCONNECT,
-      this.handleWebSocketDisconnect
-    );
-  }
+    window.bus.$on(BUS_EVENTS.WEBSOCKET_RECONNECT, this.onReconnect);
+    window.bus.$on(BUS_EVENTS.WEBSOCKET_DISCONNECT, this.onDisconnect);
+  };
 
-  removeEventListeners() {
+  removeEventListeners = () => {
     window.removeEventListener('online', this.handleOnlineEvent);
-    this.bus.$off(
-      BUS_EVENTS.WEBSOCKET_RECONNECT,
-      this.handleWebSocketReconnect
-    );
-    this.bus.$off(
-      BUS_EVENTS.WEBSOCKET_DISCONNECT,
-      this.handleWebSocketDisconnect
-    );
-  }
+    window.bus.$off(BUS_EVENTS.WEBSOCKET_RECONNECT, this.onReconnect);
+    window.bus.$off(BUS_EVENTS.WEBSOCKET_DISCONNECT, this.onDisconnect);
+  };
 }
+
+export default ReconnectService;
