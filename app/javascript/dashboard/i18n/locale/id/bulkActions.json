@@ -17,7 +17,7 @@
     "AGENT_LIST_LOADING": "Sedang memuat agen",
     "UPDATE": {
       "CHANGE_STATUS": "Ubah status",
-      "SNOOZE_UNTIL_NEXT_REPLY": "Tunda hingga balasan berikutnya.",
+      "SNOOZE_UNTIL": "Tunda",
       "UPDATE_SUCCESFUL": "Status percakapan berhasil diperbarui.",
       "UPDATE_FAILED": "Failed to update conversations. Please try again."
     },
