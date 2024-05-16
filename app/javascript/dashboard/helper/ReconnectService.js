@@ -26,7 +26,7 @@ class ReconnectService {
     if (this.getSecondsSinceDisconnect() >= 10800) window.location.reload(); // Force reload if the user is disconnected for more than 3 hours
   };
 
-  fetchConversationsOnReconnect = async () => {
+  fetchConversations = async () => {
     await this.store.dispatch('updateChatListFilters', {
       page: null,
       updatedWithin: this.getSecondsSinceDisconnect(),
@@ -41,7 +41,7 @@ class ReconnectService {
     });
   };
 
-  fetchConversations = async () => {
+  fetchConversationsOnReconnect = async () => {
     const {
       getAppliedConversationFiltersQuery,
       'customViews/getActiveConversationFolder': activeFolder,
@@ -52,7 +52,7 @@ class ReconnectService {
     if (query) {
       await this.fetchFilteredOrSavedConversations(query);
     } else {
-      await this.fetchConversationsOnReconnect();
+      await this.fetchConversations();
     }
   };
 
@@ -65,15 +65,8 @@ class ReconnectService {
     }
   };
 
-  fetchInboxNotificationsOnReconnect = async () => {
-    await this.store.dispatch('notifications/index', {
-      ...this.filters,
-      page: 1,
-    });
-  };
-
-  fetchNotificationsOnReconnect = async () => {
-    await this.store.dispatch('notifications/get', { page: 1 });
+  fetchNotificationsOnReconnect = async filter => {
+    await this.store.dispatch('notifications/index', filter);
   };
 
   revalidateCaches = async () => {
@@ -90,12 +83,14 @@ class ReconnectService {
   handleRouteSpecificFetch = async () => {
     const currentRoute = this.router.currentRoute.name;
     if (isAConversationRoute(currentRoute, true)) {
-      await this.fetchConversations();
+      await this.fetchConversationsOnReconnect();
       await this.fetchConversationMessagesOnReconnect();
     } else if (isAInboxViewRoute(currentRoute, true)) {
-      await this.fetchInboxNotificationsOnReconnect();
+      const filters =
+        this.store.getters['notifications/getNotificationFilters'];
+      await this.fetchNotificationsOnReconnect({ ...filters, page: 1 });
     } else if (isNotificationRoute(currentRoute)) {
-      await this.fetchNotificationsOnReconnect();
+      await this.fetchNotificationsOnReconnect({ page: 1 });
     }
   };
 

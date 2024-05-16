@@ -18,9 +18,10 @@ export const actions = {
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: false });
     }
   },
-  index: async ({ commit }, { page = 1, status, type, sortOrder } = {}) => {
+  index: async ({ commit }, params = {}) => {
     commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: true });
     try {
+      const { page = 1, status, type, sortOrder } = params;
       const {
         data: {
           data: { payload, meta },
@@ -158,5 +159,12 @@ export const actions = {
   },
   clear({ commit }) {
     commit(types.CLEAR_NOTIFICATIONS);
+  },
+
+  setNotificationFilters: ({ commit }, filters) => {
+    commit(types.SET_NOTIFICATION_FILTERS, filters);
+  },
+  updateNotificationFilters: ({ commit }, filters) => {
+    commit(types.UPDATE_NOTIFICATION_FILTERS, filters);
   },
 };

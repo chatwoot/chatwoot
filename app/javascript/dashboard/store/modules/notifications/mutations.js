@@ -85,4 +85,14 @@ export const mutations = {
   [types.SNOOZE_NOTIFICATION]: ($state, { id, snoozed_until }) => {
     Vue.set($state.records[id], 'snoozed_until', snoozed_until);
   },
+
+  [types.SET_NOTIFICATION_FILTERS]: ($state, filters) => {
+    Vue.set($state, 'notificationFilters', filters);
+  },
+  [types.UPDATE_NOTIFICATION_FILTERS]: ($state, filters) => {
+    Vue.set($state, 'notificationFilters', {
+      ...$state.notificationFilters,
+      ...filters,
+    });
+  },
 };
