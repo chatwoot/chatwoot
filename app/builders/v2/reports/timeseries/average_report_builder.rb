@@ -6,7 +6,7 @@ class V2::Reports::Timeseries::AverageReportBuilder < V2::Reports::Timeseries::B
       event_date, average_time = element
       arr << {
         value: average_time,
-        timestamp: event_date.to_time.to_i,
+        timestamp: event_date.in_time_zone(timezone).to_i,
         count: grouped_event_count[event_date]
       }
     end
