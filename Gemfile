@@ -71,7 +71,7 @@ gem 'barnes'
 ##--- gems for authentication & authorization ---##
 gem 'devise', '>= 4.9.4'
 gem 'devise-secure_password', git: 'https://github.com/chatwoot/devise-secure_password', branch: 'chatwoot'
-gem 'devise_token_auth'
+gem 'devise_token_auth', '>= 1.2.3'
 # authorization
 gem 'jwt'
 gem 'pundit'
@@ -166,7 +166,7 @@ gem 'audited', '~> 5.4', '>= 5.4.1'
 # need for google auth
 gem 'omniauth', '>= 2.1.2'
 gem 'omniauth-google-oauth2', '>= 1.1.2'
-gem 'omniauth-rails_csrf_protection', '~> 1.0'
+gem 'omniauth-rails_csrf_protection', '~> 1.0', '>= 1.0.2'
 
 ## Gems for reponse bot
 # adds cosine similarity to postgres using vector extension
