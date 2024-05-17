@@ -28,6 +28,16 @@ export const mutations = {
   },
   [types.SET_NOTIFICATIONS]: ($state, data) => {
     data.forEach(notification => {
+      // Find existing notification with same primary_actor_id (primary_actor_id is unique)
+      const existingNotification = Object.values($state.records).find(
+        record => record.primary_actor_id === notification.primary_actor_id
+      );
+      // This is to handle the case where the same notification is received multiple times
+      // On reconnect, if there is existing notification with same primary_actor_id,
+      // it will be deleted and the new one will be added. So it will solve with duplicate notification
+      if (existingNotification) {
+        Vue.delete($state.records, existingNotification.id);
+      }
       Vue.set($state.records, notification.id, {
         ...($state.records[notification.id] || {}),
         ...notification,
