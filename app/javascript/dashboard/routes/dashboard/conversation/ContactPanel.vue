@@ -184,8 +184,6 @@ export default {
       currentChat: 'getSelectedChat',
       currentUser: 'getCurrentUser',
       uiFlags: 'inboxAssignableAgents/getUIFlags',
-      accountId: 'getCurrentAccountId',
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
     conversationAdditionalAttributes() {
       return this.currentConversationMetaData.additional_attributes || {};
