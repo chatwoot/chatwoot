@@ -1,7 +1,7 @@
 <template>
   <div class="relative" @mouseover="linkedIssue ? openIssue() : null">
     <woot-button
-      v-on-clickaway="closeSlaPopover"
+      v-on-clickaway="closeIssue"
       v-tooltip="tooltipText"
       variant="clear"
       color-scheme="secondary"
@@ -37,87 +37,84 @@
     </woot-modal>
   </div>
 </template>
-
-<script>
-import { mapGetters } from 'vuex';
-import IssueItem from './IssueItem.vue';
+<script setup>
 import LinearAPI from 'dashboard/api/integrations/linear';
 import CreateOrLinkIssue from './CreateOrLinkIssue.vue';
-import alertMixin from 'shared/mixins/alertMixin';
-export default {
-  components: {
-    IssueItem,
-    CreateOrLinkIssue,
+import { useAlert } from 'dashboard/composables';
+import { useStoreGetters } from 'dashboard/composables/store';
+import { useI18n } from 'dashboard/composables/useI18n';
+import { computed, ref, onMounted, watch } from 'vue';
+import IssueItem from './IssueItem.vue';
+
+const props = defineProps({
+  conversationId: {
+    type: [Number, String],
+    required: true,
   },
-  mixins: [alertMixin],
-  props: {
-    conversationId: {
-      type: [Number, String],
-      required: true,
-    },
-  },
-  data() {
-    return {
-      linkedIssue: null,
-      showIssue: false,
-      showPopup: false,
-    };
-  },
-  computed: {
-    ...mapGetters({
-      currentAccountId: 'getCurrentAccountId',
-    }),
-    shouldShowIssue() {
-      return this.showIssue && this.linkedIssue;
-    },
-    tooltipText() {
-      return this.linkedIssue === null
-        ? this.$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK_BUTTON')
-        : null;
-    },
-  },
-  watch: {
-    conversationId(newConversationId, prevConversationId) {
-      if (newConversationId && newConversationId !== prevConversationId) {
-        this.loadLinkedIssue();
-      }
-    },
-  },
-  mounted() {
-    this.loadLinkedIssue();
-  },
-  methods: {
-    closePopup() {
-      this.showPopup = false;
-      this.loadLinkedIssue();
-    },
-    async loadLinkedIssue() {
-      try {
-        const response = await LinearAPI.getLinkedIssue(this.conversationId);
-        const issues = response.data;
-        this.linkedIssue = issues && issues.length ? issues[0] : null;
-      } catch (error) {
-        this.showAlert(this.$t('INTEGRATION_SETTINGS.LINEAR.LOADING_ERROR'));
-      }
-    },
-    async unlinkIssue(linkId) {
-      try {
-        await LinearAPI.unlinkIssue(linkId);
-        this.linkedIssue = null;
-        this.showAlert(this.$t('INTEGRATION_SETTINGS.LINEAR.UNLINK.SUCCESS'));
-      } catch (error) {
-        this.showAlert(
-          this.$t('INTEGRATION_SETTINGS.LINEAR.UNLINK.DELETE_ERROR')
-        );
-      }
-    },
-    openIssue() {
-      if (!this.linkedIssue) this.showPopup = true;
-      this.showIssue = true;
-    },
-    closeSlaPopover() {
-      this.showIssue = false;
-    },
-  },
+});
+
+const getters = useStoreGetters();
+const { t } = useI18n();
+
+const linkedIssue = ref(null);
+const showIssue = ref(false);
+const showPopup = ref(false);
+
+const currentAccountId = getters.getCurrentAccountId;
+
+const tooltipText = computed(() => {
+  return linkedIssue.value === null
+    ? t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK_BUTTON')
+    : null;
+});
+
+const shouldShowIssue = computed(() => {
+  return showIssue.value && linkedIssue.value;
+});
+
+const loadLinkedIssue = async () => {
+  linkedIssue.value = null;
+  try {
+    const response = await LinearAPI.getLinkedIssue(props.conversationId);
+    const issues = response.data;
+    linkedIssue.value = issues && issues.length ? issues[0] : null;
+  } catch (error) {
+    useAlert(error?.message || t('INTEGRATION_SETTINGS.LINEAR.LOADING_ERROR'));
+  }
 };
+
+const unlinkIssue = async linkId => {
+  try {
+    await LinearAPI.unlinkIssue(linkId);
+    linkedIssue.value = null;
+    useAlert(t('INTEGRATION_SETTINGS.LINEAR.UNLINK.SUCCESS'));
+  } catch (error) {
+    useAlert(t('INTEGRATION_SETTINGS.LINEAR.UNLINK.DELETE_ERROR'));
+  }
+};
+
+const openIssue = () => {
+  if (!linkedIssue.value) showPopup.value = true;
+  showIssue.value = true;
+};
+
+const closePopup = () => {
+  showPopup.value = false;
+  loadLinkedIssue();
+};
+
+const closeIssue = () => {
+  showIssue.value = false;
+};
+
+watch(
+  () => props.conversationId,
+  () => {
+    loadLinkedIssue();
+  }
+);
+
+onMounted(() => {
+  loadLinkedIssue();
+});
 </script>
