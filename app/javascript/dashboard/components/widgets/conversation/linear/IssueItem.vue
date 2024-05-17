@@ -21,9 +21,9 @@
         </woot-button>
       </div>
 
-      <span class="text-sm font-normal text-slate-900 dark:text-slate-25">
+      <!-- <span class="text-sm font-normal text-slate-900 dark:text-slate-25">
         {{ issue.description }}
-      </span>
+      </span> -->
     </div>
 
     <div class="flex justify-between w-full">
