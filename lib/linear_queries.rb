@@ -80,9 +80,7 @@ module LinearQueries
               }
               state {
                 name
-              }
-              assignee {
-                name
+                color
               }
               labels {
                 nodes{
