@@ -221,7 +221,7 @@
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
-        "DESCRIPTION": "Create or link a linear issue to the conversation",
+        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
         "FORM": {
           "TITLE": {
             "LABEL": "Title",

@@ -72,7 +72,7 @@
       >
         <SLA-card-label v-if="hasSlaPolicyId" :chat="chat" show-extended-info />
         <linear
-          v-if="isLinearIntegrationEnabled"
+          v-if="isLinearIntegrationEnabled && isLinearFeatureEnabled"
           :conversation-id="currentChat.id"
         />
         <more-actions :conversation-id="currentChat.id" />
@@ -130,6 +130,7 @@ export default {
       currentChat: 'getSelectedChat',
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      appIntegrations: 'integrations/getAppIntegrations',
     }),
     chatMetadata() {
       return this.chat.meta;
@@ -188,6 +189,11 @@ export default {
       return this.chat?.sla_policy_id;
     },
     isLinearIntegrationEnabled() {
+      return this.appIntegrations.find(
+        integration => integration.id === 'linear' && !!integration.hooks.length
+      );
+    },
+    isLinearFeatureEnabled() {
       return this.isFeatureEnabledonAccount(
         this.accountId,
         FEATURE_FLAGS.LINEAR

@@ -1,10 +1,11 @@
 <template>
-  <div class="relative" @mouseover="openSlaPopover()">
+  <div class="relative" @mouseover="linkedIssue ? openIssue() : null">
     <woot-button
       v-on-clickaway="closeSlaPopover"
+      v-tooltip="tooltipText"
       variant="clear"
       color-scheme="secondary"
-      @click="openSlaPopover()"
+      @click="openIssue()"
     >
       <fluent-icon
         icon="linear"
@@ -12,11 +13,16 @@
         class="text-[#5E6AD2]"
         view-box="0 0 19 19"
       />
+      <span v-if="linkedIssue" class="text-xs font-medium text-ash-800">
+        {{ linkedIssue.issue.identifier }}
+      </span>
     </woot-button>
-    <linear-issue-details
-      v-if="showSlaPopoverCard"
+    <issue-item
+      v-if="shouldShowIssue"
       :issue="linkedIssue.issue"
+      :link-id="linkedIssue.id"
       class="absolute right-0 top-[46px]"
+      @unlink-issue="unlinkIssue"
     />
     <woot-modal
       :show.sync="showPopup"
@@ -34,15 +40,16 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import LinearIssueDetails from './LinearIssueDetails.vue';
+import IssueItem from './IssueItem.vue';
 import LinearAPI from 'dashboard/api/integrations/linear';
 import CreateOrLinkIssue from './CreateOrLinkIssue.vue';
-
+import alertMixin from 'shared/mixins/alertMixin';
 export default {
   components: {
-    LinearIssueDetails,
+    IssueItem,
     CreateOrLinkIssue,
   },
+  mixins: [alertMixin],
   props: {
     conversationId: {
       type: [Number, String],
@@ -52,7 +59,7 @@ export default {
   data() {
     return {
       linkedIssue: null,
-      showSlaPopover: false,
+      showIssue: false,
       showPopup: false,
     };
   },
@@ -60,8 +67,13 @@ export default {
     ...mapGetters({
       currentAccountId: 'getCurrentAccountId',
     }),
-    showSlaPopoverCard() {
-      return this.showSlaPopover && this.linkedIssue;
+    shouldShowIssue() {
+      return this.showIssue && this.linkedIssue;
+    },
+    tooltipText() {
+      return this.linkedIssue === null
+        ? this.$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK_BUTTON')
+        : null;
     },
   },
   watch: {
@@ -99,12 +111,12 @@ export default {
         );
       }
     },
-    openSlaPopover() {
+    openIssue() {
       if (!this.linkedIssue) this.showPopup = true;
-      this.showSlaPopover = true;
+      this.showIssue = true;
     },
     closeSlaPopover() {
-      this.showSlaPopover = false;
+      this.showIssue = false;
     },
   },
 };
