@@ -29,7 +29,7 @@ const assignee = computed(() => {
   }
   return {
     name: props.issue.assignee.name,
-    thumbnail: props.issue.assignee.avatarUrl,
+    thumbnail: props.issue.assignee?.avatarUrl || '',
   };
 });
 
@@ -54,8 +54,8 @@ const openIssue = () => {
   <div
     class="absolute flex flex-col items-start bg-[#fdfdfd] dark:bg-slate-800 z-50 px-4 py-3 border border-solid border-slate-75 dark:border-slate-700 w-[384px] rounded-xl gap-4 max-h-96 overflow-auto"
   >
-    <div class="flex flex-col">
-      <div class="flex flex-row justify-between w-full">
+    <div class="flex flex-col w-full">
+      <div class="flex flex-row justify-between">
         <div
           class="flex items-center justify-center gap-1 px-2 py-1 border rounded-lg border-ash-200"
         >
@@ -138,7 +138,11 @@ const openIssue = () => {
 
     <div class="flex items-center">
       <span class="text-xs text-ash-800">
-        {{ `Created at ${formattedDate}` }}
+        {{
+          $t('INTEGRATION_SETTINGS.LINEAR.ISSUE.CREATED_AT', {
+            createdAt: formattedDate,
+          })
+        }}
       </span>
     </div>
   </div>

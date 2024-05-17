@@ -264,7 +264,7 @@
         "PRIORITY": "Priority",
         "ASSIGNEE": "Assignee",
         "LABELS": "Labels",
-        "CREATED_AT": "Created at"
+        "CREATED_AT": "Created at %{createdAt}"
       },
       "UNLINK": {
         "TITLE": "Unlink",

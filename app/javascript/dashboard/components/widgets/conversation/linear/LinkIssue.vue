@@ -13,7 +13,6 @@
         :show-labels="false"
         :max-height="500"
         @search-change="handleSearchChange"
-        @select="handleInput"
       >
         <template #noResult>
           <div class="flex items-center justify-center">
@@ -45,82 +44,72 @@
     </div>
   </div>
 </template>
-<script>
-import alertMixin from 'shared/mixins/alertMixin';
+<script setup>
 import LinearAPI from 'dashboard/api/integrations/linear';
+import { useAlert } from 'dashboard/composables';
+import { useI18n } from 'dashboard/composables/useI18n';
+import { computed, ref } from 'vue';
 
-export default {
-  mixins: [alertMixin],
-  props: {
-    conversationId: {
-      type: [Number, String],
-      required: true,
-    },
+const props = defineProps({
+  conversationId: {
+    type: [Number, String],
+    required: true,
   },
-  data() {
-    return {
-      selectedOptions: null,
-      options: [],
-      inputStyles: {
-        borderRadius: '12px',
-        padding: '6px 12px',
-        fontSize: '14px',
-      },
-      isFetching: false,
-      isLinking: false,
-      searchQuery: '',
-    };
-  },
-  computed: {
-    emptyText() {
-      if (this.isFetching) {
-        return this.$t('INTEGRATION_SETTINGS.LINEAR.LINK.LOADING');
-      }
-      if (this.searchQuery) {
-        return '';
-      }
-      return this.$t('INTEGRATION_SETTINGS.LINEAR.LINK.EMPTY_LIST');
-    },
-    isSubmitDisabled() {
-      return !this.selectedOptions || this.isLinking;
-    },
-  },
-  methods: {
-    onClose() {
-      this.$emit('close');
-    },
-    async handleSearchChange(value) {
-      if (!value) return;
-      this.searchQuery = value;
-      try {
-        this.isFetching = true;
-        const response = await LinearAPI.searchIssues(value);
-        this.options = response.data;
-      } catch (error) {
-        this.showAlert(this.$t('INTEGRATION_SETTINGS.LINEAR.LINK.ERROR'));
-      } finally {
-        this.isFetching = false;
-      }
-    },
-    handleInput() {
-      this.$emit('agents-filter-selection', this.selectedOptions);
-    },
-    async linkIssue() {
-      const { id: issueId } = this.selectedOptions;
-      try {
-        this.isLinking = true;
-        await LinearAPI.link_issue(this.conversationId, issueId);
-        this.showAlert(
-          this.$t('INTEGRATION_SETTINGS.LINEAR.LINK.LINK_SUCCESS')
-        );
-        this.searchQuery = '';
-        this.onClose();
-      } catch (error) {
-        this.showAlert(this.$t('INTEGRATION_SETTINGS.LINEAR.LINK.LINK_ERROR'));
-      } finally {
-        this.isLinking = false;
-      }
-    },
-  },
+});
+const { t } = useI18n();
+
+const selectedOptions = ref(null);
+const options = ref([]);
+const isFetching = ref(false);
+const isLinking = ref(false);
+const searchQuery = ref('');
+
+const emptyText = computed(() => {
+  if (isFetching.value) {
+    return t('INTEGRATION_SETTINGS.LINEAR.LINK.LOADING');
+  }
+  if (searchQuery.value) {
+    return '';
+  }
+  return t('INTEGRATION_SETTINGS.LINEAR.LINK.EMPTY_LIST');
+});
+
+const isSubmitDisabled = computed(() => {
+  return !selectedOptions.value || isLinking.value;
+});
+
+const emits = defineEmits(['close']);
+
+const onClose = () => {
+  emits('close');
+};
+
+const handleSearchChange = async value => {
+  if (!value) return;
+  searchQuery.value = value;
+  try {
+    isFetching.value = true;
+    const response = await LinearAPI.searchIssues(value);
+    options.value = response.data;
+  } catch (error) {
+    useAlert(t('INTEGRATION_SETTINGS.LINEAR.LINK.ERROR'));
+  } finally {
+    isFetching.value = false;
+  }
+};
+
+const linkIssue = async () => {
+  const { id: issueId } = selectedOptions.value;
+  try {
+    isLinking.value = true;
+    await LinearAPI.link_issue(props.conversationId, issueId);
+    useAlert(t('INTEGRATION_SETTINGS.LINEAR.LINK.LINK_SUCCESS'));
+    searchQuery.value = '';
+    onClose();
+  } catch (error) {
+    useAlert(t('INTEGRATION_SETTINGS.LINEAR.LINK.LINK_ERROR'));
+  } finally {
+    isLinking.value = false;
+  }
 };
 </script>

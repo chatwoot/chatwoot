@@ -36,57 +36,46 @@
     </div>
   </div>
 </template>
-
-<script>
-import alertMixin from 'shared/mixins/alertMixin';
+<script setup>
+import { useI18n } from 'dashboard/composables/useI18n';
+import { computed, ref } from 'vue';
 import LinkIssue from './LinkIssue';
 import CreateIssue from './CreateIssue';
 
-import validations from './validations';
+defineProps({
+  accountId: {
+    type: [Number, String],
+    required: true,
+  },
+  conversationId: {
+    type: [Number, String],
+    required: true,
+  },
+});
 
-export default {
-  components: {
-    LinkIssue,
-    CreateIssue,
-  },
-  mixins: [alertMixin],
-  props: {
-    accountId: {
-      type: [Number, String],
-      required: true,
+const { t } = useI18n();
+
+const selectedTabIndex = ref(0);
+
+const emits = defineEmits(['close']);
+
+const tabs = computed(() => {
+  return [
+    {
+      key: 0,
+      name: t('INTEGRATION_SETTINGS.LINEAR.CREATE'),
     },
-    conversationId: {
-      type: [Number, String],
-      required: true,
+    {
+      key: 1,
+      name: t('INTEGRATION_SETTINGS.LINEAR.LINK.TITLE'),
     },
-  },
-  data() {
-    return {
-      selectedTabIndex: 0,
-    };
-  },
-  validations,
-  computed: {
-    tabs() {
-      return [
-        {
-          key: 0,
-          name: this.$t('INTEGRATION_SETTINGS.LINEAR.CREATE'),
-        },
-        {
-          key: 1,
-          name: this.$t('INTEGRATION_SETTINGS.LINEAR.LINK.TITLE'),
-        },
-      ];
-    },
-  },
-  methods: {
-    onClose() {
-      this.$emit('close');
-    },
-    onClickTabChange(index) {
-      this.selectedTabIndex = index;
-    },
-  },
+  ];
+});
+const onClose = () => {
+  emits('close');
+};
+
+const onClickTabChange = index => {
+  selectedTabIndex.value = index;
 };
 </script>

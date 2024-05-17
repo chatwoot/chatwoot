@@ -1,27 +1,21 @@
 <template>
   <div @submit.prevent="onSubmit">
     <woot-input
-      v-model="title"
-      :class="{ error: $v.title.$error }"
+      v-model="state.title"
+      :class="{ error: v$.title.$error }"
       class="w-full"
       :styles="{ ...inputStyles, padding: '6px 12px' }"
       :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TITLE.LABEL')"
       :placeholder="
         $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TITLE.PLACEHOLDER')
       "
-      :error="
-        $v.title.$error
-          ? $t(
-              'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TITLE.REQUIRED_ERROR'
-            )
-          : ''
-      "
-      @input="$v.title.$touch"
+      :error="nameError"
+      @input="v$.title.$touch"
     />
     <label>
       {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.DESCRIPTION.LABEL') }}
       <textarea
-        v-model="description"
+        v-model="state.description"
         :style="{ ...inputStyles, padding: '8px 12px' }"
         rows="3"
         type="text"
@@ -33,10 +27,10 @@
         "
       />
     </label>
-    <label :class="{ error: $v.teamId.$error }">
+    <label :class="{ error: v$.teamId.$error }">
       {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TEAM.LABEL') }}
       <select
-        v-model="teamId"
+        v-model="state.teamId"
         :style="inputStyles"
         @change="onChangeTeam($event)"
       >
@@ -44,15 +38,13 @@
           {{ item.name }}
         </option>
       </select>
-      <span v-if="$v.teamId.$error" class="message">
-        {{
-          $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TEAM.REQUIRED_ERROR')
-        }}
+      <span v-if="v$.teamId.$error" class="message">
+        {{ teamError }}
       </span>
     </label>
     <label>
       {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.ASSIGNEE.LABEL') }}
-      <select v-model="assigneeId" :style="inputStyles">
+      <select v-model="state.assigneeId" :style="inputStyles">
         <option v-for="item in assignees" :key="item.name" :value="item.id">
           {{ item.name }}
         </option>
@@ -61,7 +53,7 @@
 
     <label>
       {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.LABEL.LABEL') }}
-      <select v-model="labelId" :style="inputStyles">
+      <select v-model="state.labelId" :style="inputStyles">
         <option v-for="item in labels" :key="item.name" :value="item.id">
           {{ item.name }}
         </option>
@@ -70,7 +62,7 @@
 
     <label>
       {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.PRIORITY.LABEL') }}
-      <select v-model="priority" :style="inputStyles">
+      <select v-model="state.priority" :style="inputStyles">
         <option v-for="item in priorities" :key="item.name" :value="item.id">
           {{ item.name }}
         </option>
@@ -79,7 +71,7 @@
 
     <label>
       {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.PROJECT.LABEL') }}
-      <select v-model="projectId" :style="inputStyles">
+      <select v-model="state.projectId" :style="inputStyles">
         <option v-for="item in projects" :key="item.name" :value="item.id">
           {{ item.name }}
         </option>
@@ -88,7 +80,7 @@
 
     <label>
       {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.STATUS.LABEL') }}
-      <select v-model="stateId" :style="inputStyles">
+      <select v-model="state.stateId" :style="inputStyles">
         <option v-for="item in statuses" :key="item.name" :value="item.id">
           {{ item.name }}
         </option>
@@ -113,174 +105,169 @@
     </div>
   </div>
 </template>
-
-<script>
-import alertMixin from 'shared/mixins/alertMixin';
+<script setup>
 import LinearAPI from 'dashboard/api/integrations/linear';
-
+import { reactive, computed, onMounted, ref } from 'vue';
+import { useVuelidate } from '@vuelidate/core';
+import { useI18n } from 'dashboard/composables/useI18n';
+import { useAlert } from 'dashboard/composables';
 import validations from './validations';
 
-export default {
-  mixins: [alertMixin],
-  props: {
-    accountId: {
-      type: [Number, String],
-      required: true,
-    },
-    conversationId: {
-      type: [Number, String],
-      required: true,
-    },
+const props = defineProps({
+  accountId: {
+    type: [Number, String],
+    required: true,
   },
-  data() {
-    return {
-      title: '',
-      description: '',
-      teamId: '',
-      assigneeId: '',
-      projectId: '',
-      stateId: '',
-      labelId: '',
-      priority: 0,
-      teams: [],
-      assignees: [],
-      projects: [],
-      labels: [],
-      statuses: [],
-      selectedTabIndex: 0,
-      priorities: [
-        {
-          id: 0,
-          name: 'No priority',
-        },
-        {
-          id: 1,
-          name: 'Urgent',
-        },
-        {
-          id: 2,
-          name: 'High',
-        },
-        {
-          id: 3,
-          name: 'Normal',
-        },
-        {
-          id: 4,
-          name: 'Low',
-        },
-      ],
-      isCreating: false,
-      searchResults: [
-        {
-          id: 1,
-          title: 'Test',
-        },
-      ],
-      inputStyles: {
-        borderRadius: '12px',
-        fontSize: '14px',
-      },
-    };
+  conversationId: {
+    type: [Number, String],
+    required: true,
   },
-  validations,
-  computed: {
-    isSubmitDisabled() {
-      return this.$v.title.$invalid || this.isCreating;
-    },
+});
+
+const { t } = useI18n();
+
+const teams = ref([]);
+const assignees = ref([]);
+const projects = ref([]);
+const labels = ref([]);
+const statuses = ref([]);
+
+const priorities = [
+  {
+    id: 0,
+    name: 'No priority',
   },
-  mounted() {
-    this.getTeams();
+  {
+    id: 1,
+    name: 'Urgent',
   },
-  methods: {
-    onClose() {
-      this.$emit('close');
-    },
-    onClickTabChange(index) {
-      this.selectedTabIndex = index;
-    },
-    onChangeTeam(event) {
-      this.teamId = event.target.value;
-      this.assigneeId = '';
-      this.stateId = '';
-      this.labelId = '';
-      this.getTeamEntities();
-    },
-    async getTeams() {
-      try {
-        const response = await LinearAPI.getTeams();
-        this.teams = response.data;
-      } catch (error) {
-        this.showAlert(
-          this.$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.LOADING_TEAM_ERROR')
-        );
-      } finally {
-        this.isLoading = false;
-      }
-    },
-    async getTeamEntities() {
-      try {
-        const response = await LinearAPI.getTeamEntities(this.teamId);
-        const { users, labels, projects, states } = response.data;
-        this.assignees = users;
-        this.labels = labels;
-        this.statuses = states;
-        this.projects = projects;
-      } catch (error) {
-        this.showAlert(
-          this.$t(
-            'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.LOADING_TEAM_ENTITIES_ERROR'
-          )
-        );
-      } finally {
-        this.isLoading = false;
-      }
-    },
-    async createIssue() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        return;
-      }
-      const payload = {
-        team_id: this.teamId,
-        title: this.title,
-      };
-      if (this.description) {
-        payload.description = this.description;
-      }
-      if (this.assigneeId) {
-        payload.assignee_id = this.assigneeId;
-      }
-      if (this.projectId) {
-        payload.project_id = this.projectId;
-      }
-      if (this.stateId) {
-        payload.state_id = this.stateId;
-      }
-      if (this.priority) {
-        payload.priority = this.priority;
-      }
-      if (this.labelId) {
-        payload.label_ids = [this.labelId];
-      }
-      try {
-        this.isCreating = true;
-        const response = await LinearAPI.createIssue(payload);
-        const { id: issueId } = response.data;
-        await LinearAPI.link_issue(this.conversationId, issueId);
-        this.showAlert(
-          this.$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CREATE_SUCCESS')
-        );
-        this.onClose();
-      } catch (error) {
-        this.showAlert(
-          this.$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CREATE_ERROR')
-        );
-      } finally {
-        this.isCreating = false;
-      }
-    },
-    handleAgentsFilterSelection() {},
+  {
+    id: 2,
+    name: 'High',
   },
+  {
+    id: 3,
+    name: 'Normal',
+  },
+  {
+    id: 4,
+    name: 'Low',
+  },
+];
+
+const isCreating = ref(false);
+
+const inputStyles = {
+  borderRadius: '12px',
+  fontSize: '14px',
 };
+const emit = defineEmits(['close']);
+
+const state = reactive({
+  title: '',
+  description: '',
+  teamId: '',
+  assigneeId: '',
+  labelId: '',
+  stateId: '',
+  priority: '',
+  projectId: '',
+});
+
+const v$ = useVuelidate(validations, state);
+
+const isSubmitDisabled = computed(() => {
+  return v$.value.title.$invalid || isCreating.value;
+});
+
+const nameError = computed(() => {
+  return v$.value.title.$error
+    ? t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TITLE.REQUIRED_ERROR')
+    : '';
+});
+
+const teamError = computed(() => {
+  return v$.value.teamId.$error
+    ? t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TEAM.REQUIRED_ERROR')
+    : '';
+});
+
+const onClose = () => {
+  emit('close');
+};
+const getTeams = async () => {
+  try {
+    const response = await LinearAPI.getTeams();
+    teams.value = response.data;
+  } catch (error) {
+    useAlert(t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.LOADING_TEAM_ERROR'));
+  }
+};
+
+const getTeamEntities = async () => {
+  try {
+    const response = await LinearAPI.getTeamEntities(state.teamId);
+    assignees.value = response.data.users;
+    labels.value = response.data.labels;
+    statuses.value = response.data.states;
+    projects.value = response.data.projects;
+  } catch (error) {
+    useAlert(
+      t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.LOADING_TEAM_ENTITIES_ERROR')
+    );
+  }
+};
+
+const onChangeTeam = event => {
+  state.teamId = event.target.value;
+  state.assigneeId = '';
+  state.stateId = '';
+  state.labelId = '';
+  getTeamEntities();
+};
+
+const createIssue = async () => {
+  v$.value.$touch();
+  if (v$.value.$invalid) {
+    return;
+  }
+  const payload = {
+    team_id: state.teamId,
+    title: state.title,
+  };
+  if (state.description) {
+    payload.description = state.description;
+  }
+  if (state.assigneeId) {
+    payload.assignee_id = state.assigneeId;
+  }
+  if (state.projectId) {
+    payload.project_id = state.projectId;
+  }
+  if (state.stateId) {
+    payload.state_id = state.stateId;
+  }
+  if (state.priority) {
+    payload.priority = state.priority;
+  }
+  if (state.labelId) {
+    payload.label_ids = [state.labelId];
+  }
+  try {
+    isCreating.value = true;
+    const response = await LinearAPI.createIssue(payload);
+    const { id: issueId } = response.data;
+    await LinearAPI.link_issue(props.conversationId, issueId);
+    useAlert(t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CREATE_SUCCESS'));
+    onClose();
+  } catch (error) {
+    useAlert(t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CREATE_ERROR'));
+  } finally {
+    isCreating.value = false;
+  }
+};
+
+onMounted(() => {
+  getTeams();
+});
 </script>
