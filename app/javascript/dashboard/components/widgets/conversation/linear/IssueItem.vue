@@ -95,7 +95,7 @@ const openIssue = () => {
       <span class="mt-2 text-sm font-medium text-ash-900">
         {{ issue.title }}
       </span>
-      <span class="mt-1 text-sm text-ash-800">
+      <span v-if="issue.description" class="mt-1 text-sm text-ash-800">
         {{
           issue.description.length > 130
             ? issue.description.slice(0, 130) + '...'
