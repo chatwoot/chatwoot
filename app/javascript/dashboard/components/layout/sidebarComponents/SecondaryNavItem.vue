@@ -150,7 +150,7 @@ export default {
 
       if (this.menuItem.isEnterpriseOnly) {
         if (!this.isEnterprise) return false;
-        return isFeatureEnabled || this.globalConfig.displayManifest;
+        return isFeatureEnabled;
       }
 
       if (this.menuItem.featureFlag) {

@@ -468,7 +468,7 @@
   },
   "OVERVIEW_REPORTS": {
     "HEADER": "Tổng quan",
-    "LIVE": "Trực tuyến",
+    "LIVE": "Live",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Mở cuộc hội thoại",
       "LOADING_MESSAGE": "Đang tải số liệu cuộc hội thoại...",
@@ -476,12 +476,6 @@
       "UNATTENDED": "Chưa tiếp nhận",
       "UNASSIGNED": "Chưa phân công",
       "PENDING": "Chờ giải quyết"
-    },
-    "CONVERSATION_HEATMAP": {
-      "HEADER": "Conversation Traffic",
-      "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Cuộc hội thoại của người dùng",
@@ -498,17 +492,24 @@
       "HEADER": "Trạng thái người dùng",
       "ONLINE": "Trực Tuyến",
       "BUSY": "Bận",
-      "OFFLINE": "Không Trực Tuyến"
+      "OFFLINE": "Ngoại Tuyến"
     }
   },
+  "TRAFFIC_REPORTS": {
+    "HEADER": "Lưu lượng hội thoại",
+    "NO_CONVERSATIONS": "Không có hội thoại",
+    "CONVERSATION": "%{count} cuộc hội thoại",
+    "CONVERSATIONS": "%{count} cuộc hội thoại",
+    "DOWNLOAD_BUTTON": "Tải báo cáo"
+  },
   "DAYS_OF_WEEK": {
-    "SUNDAY": "Sunday",
-    "MONDAY": "Monday",
-    "TUESDAY": "Tuesday",
-    "WEDNESDAY": "Wednesday",
-    "THURSDAY": "Thursday",
-    "FRIDAY": "Friday",
-    "SATURDAY": "Saturday"
+    "SUNDAY": "Chủ nhật",
+    "MONDAY": "Thứ hai",
+    "TUESDAY": "Thứ ba",
+    "WEDNESDAY": "Thứ tư",
+    "THURSDAY": "Thứ năm",
+    "FRIDAY": "Thứ sáu",
+    "SATURDAY": "Thứ bảy"
   },
   "SLA_REPORTS": {
     "HEADER": "SLA Reports",

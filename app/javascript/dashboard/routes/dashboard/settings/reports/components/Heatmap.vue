@@ -3,13 +3,13 @@
     <template v-if="isLoading">
       <div class="heatmap-labels">
         <div
-          v-for="ii in 7"
+          v-for="ii in 14"
           :key="ii"
           class="loading-cell heatmap-axis-label"
         />
       </div>
       <div class="heatmap-grid">
-        <div v-for="ii in 7" :key="ii" class="heatmap-grid-row">
+        <div v-for="ii in 14" :key="ii" class="heatmap-grid-row">
           <div v-for="jj in 24" :key="jj" class="heatmap-tile loading-cell">
             <div class="heatmap-tile__label loading-cell" />
           </div>
@@ -89,23 +89,21 @@ export default {
   methods: {
     getCountTooltip(value) {
       if (!value) {
-        return this.$t(
-          'OVERVIEW_REPORTS.CONVERSATION_HEATMAP.NO_CONVERSATIONS'
-        );
+        return this.$t('TRAFFIC_REPORTS.NO_CONVERSATIONS');
       }
 
       if (value === 1) {
-        return this.$t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.CONVERSATION', {
+        return this.$t('TRAFFIC_REPORTS.CONVERSATION', {
           count: value,
         });
       }
 
-      return this.$t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.CONVERSATIONS', {
+      return this.$t('TRAFFIC_REPORTS.CONVERSATIONS', {
         count: value,
       });
     },
     formatDate(dateString) {
-      return format(new Date(dateString), 'MMM d, yyyy');
+      return format(new Date(dateString), 'dd/MM');
     },
     getDayOfTheWeek(date) {
       const dayIndex = getDay(date);
@@ -200,7 +198,7 @@ $marker-height: var(--space-two);
   gap: $container-gap-row $container-gap-column;
   grid-template-columns: 80px 1fr;
   min-height: calc(
-    7 * #{$tile-height} + 6 * #{$tile-gap} + #{$container-gap-row} + #{$marker-height}
+    14 * #{$tile-height} + 13 * #{$tile-gap} + #{$container-gap-row} + #{$marker-height}
   );
 }
 

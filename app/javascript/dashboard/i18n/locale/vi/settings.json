@@ -124,7 +124,7 @@
         "STATUSES_LIST": [
           "Trực Tuyến",
           "Bận",
-          "Không Trực Tuyến"
+          "Ngoại Tuyến"
         ],
         "SET_AVAILABILITY_SUCCESS": "Tính khả dụng đã được thiết lập thành công",
         "SET_AVAILABILITY_ERROR": "Không thể đặt, vui lòng thử lại"
@@ -222,7 +222,7 @@
     "AUDIT_LOGS": "Audit Logs",
     "INBOXES": "Kênh hội thoại",
     "NOTIFICATIONS": "Thông báo",
-    "CANNED_RESPONSES": "Thư mẫu phẩn hồi",
+    "CANNED_RESPONSES": "Tin nhắn mẫu",
     "INTEGRATIONS": "Tích hợp",
     "PROFILE_SETTINGS": "Cài Đặt Hồ Sơ",
     "ACCOUNT_SETTINGS": "Cài Đặt Tài Khoản",
@@ -242,6 +242,7 @@
     "NEW_TEAM": "Nhóm mới",
     "NEW_INBOX": "Kênh mới",
     "REPORTS_CONVERSATION": "Các cuộc hội thoại",
+    "REPORTS_TRAFFIC": "Lưu lượng hội thoại",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Chiến dịch",
     "ONGOING": "Đang diễn ra",

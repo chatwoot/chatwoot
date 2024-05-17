@@ -9,6 +9,7 @@ const TeamReports = () => import('./TeamReports.vue');
 const CsatResponses = () => import('./CsatResponses.vue');
 const BotReports = () => import('./BotReports.vue');
 const LiveReports = () => import('./LiveReports.vue');
+const TrafficReports = () => import('./TrafficReports.vue');
 const SLAReports = () => import('./SLAReports.vue');
 
 export default {
@@ -31,6 +32,23 @@ export default {
           name: 'account_overview_reports',
           roles: ['administrator'],
           component: LiveReports,
+        },
+      ],
+    },
+    {
+      path: frontendURL('accounts/:accountId/reports'),
+      component: SettingsContent,
+      props: {
+        headerTitle: 'TRAFFIC_REPORTS.HEADER',
+        icon: 'access-time',
+        keepAlive: false,
+      },
+      children: [
+        {
+          path: 'traffic',
+          name: 'traffic_reports',
+          roles: ['administrator'],
+          component: TrafficReports,
         },
       ],
     },
