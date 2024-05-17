@@ -74,8 +74,9 @@ module LinearQueries
               priority
               createdAt
               url
-              state {
+              assignee {
                 name
+                avatarUrl
               }
               state {
                 name
@@ -87,6 +88,8 @@ module LinearQueries
                 nodes{
                   id
                   name
+                  color
+                  description
                 }
               }
             }
