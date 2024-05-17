@@ -72,6 +72,7 @@ export default {
           thumbnail: agentInformation.thumbnail,
           open: agent.metric.open || 0,
           unattended: agent.metric.unattended || 0,
+          resolved: agent.metric.resolved || 0,
           status: agentInformation.availability_status,
         };
       });
@@ -118,6 +119,15 @@ export default {
           key: 'unattended',
           title: this.$t(
             'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.UNATTENDED'
+          ),
+          align: this.isRTLView ? 'right' : 'left',
+          width: 10,
+        },
+        {
+          field: 'resolved',
+          key: 'resolved',
+          title: this.$t(
+            'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.RESOLVED'
           ),
           align: this.isRTLView ? 'right' : 'left',
           width: 10,

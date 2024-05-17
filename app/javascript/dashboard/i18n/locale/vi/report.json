@@ -467,29 +467,30 @@
     }
   },
   "OVERVIEW_REPORTS": {
-    "HEADER": "Tổng quan",
+    "HEADER": "Tổng quan hội thoại",
     "LIVE": "Live",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Mở cuộc hội thoại",
+      "HEADER": "Thống kê hội thoại",
       "LOADING_MESSAGE": "Đang tải số liệu cuộc hội thoại...",
-      "OPEN": "Mở",
+      "OPEN": "Đang giải quyết",
       "UNATTENDED": "Chưa tiếp nhận",
       "UNASSIGNED": "Chưa phân công",
-      "PENDING": "Chờ giải quyết"
+      "RESOLVED": "Đã hoàn thành"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "Cuộc hội thoại của người dùng",
-      "LOADING_MESSAGE": "Đang tải chỉ số người dùng...",
-      "NO_AGENTS": "Không có cuộc hội thoại nào của các người dùng",
+      "HEADER": "Thống kê hội thoại theo nhân viên",
+      "LOADING_MESSAGE": "Đang tải số liệu theo nhân viên...",
+      "NO_AGENTS": "Không có cuộc hội thoại nào theo nhân viên",
       "TABLE_HEADER": {
-        "AGENT": "Người dùng",
-        "OPEN": "MỞ",
+        "AGENT": "Nhân viên",
+        "OPEN": "Đang giải quyết",
         "UNATTENDED": "Chưa tiếp nhận",
+        "RESOLVED": "Đã hoàn thành",
         "STATUS": "Trạng thái"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Trạng thái người dùng",
+      "HEADER": "Thống kê đăng nhập",
       "ONLINE": "Trực Tuyến",
       "BUSY": "Bận",
       "OFFLINE": "Ngoại Tuyến"
