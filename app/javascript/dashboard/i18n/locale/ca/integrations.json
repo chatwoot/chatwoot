@@ -7,13 +7,13 @@
         "CANCEL": "Cancel·la",
         "DESC": "Els esdeveniments de Webhook us proporcionen informació en temps real sobre el que passa al vostre compte de Chatwoot. Introduïu una URL vàlid per configurar un callback.",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "Esdeveniments",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
+            "CONVERSATION_CREATED": "Conversa Creada",
+            "CONVERSATION_STATUS_CHANGED": "Estat de la conversa canviat",
+            "CONVERSATION_UPDATED": "Conversa Actualitzada",
+            "MESSAGE_CREATED": "Missatge creat",
+            "MESSAGE_UPDATED": "Missatge actualitzat",
             "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
             "CONTACT_CREATED": "Contact created",
             "CONTACT_UPDATED": "Contact updated"
