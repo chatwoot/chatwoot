@@ -1,5 +1,5 @@
 <template>
-  <div class="relative" @mouseover="linkedIssue ? openIssue() : null">
+  <div class="relative" :class="linkedIssue ? 'group' : ''">
     <woot-button
       v-on-clickaway="closeIssue"
       v-tooltip="tooltipText"
@@ -18,10 +18,10 @@
       </span>
     </woot-button>
     <issue-item
-      v-if="shouldShowIssue"
+      v-if="linkedIssue"
       :issue="linkedIssue.issue"
       :link-id="linkedIssue.id"
-      class="absolute right-0 top-[46px]"
+      class="absolute right-0 top-[40px] invisible group-hover:visible"
       @unlink-issue="unlinkIssue"
     />
     <woot-modal
@@ -66,10 +66,6 @@ const tooltipText = computed(() => {
   return linkedIssue.value === null
     ? t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK_BUTTON')
     : null;
-});
-
-const shouldShowIssue = computed(() => {
-  return showIssue.value && linkedIssue.value;
 });
 
 const loadLinkedIssue = async () => {

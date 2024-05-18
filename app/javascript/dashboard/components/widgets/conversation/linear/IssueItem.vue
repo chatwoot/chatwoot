@@ -57,7 +57,7 @@ const openIssue = () => {
     <div class="flex flex-col w-full">
       <div class="flex flex-row justify-between">
         <div
-          class="flex items-center justify-center gap-1 px-2 py-1 border rounded-lg border-ash-200"
+          class="flex items-center justify-center gap-1 h-[24px] px-2 py-1 border rounded-lg border-ash-200"
         >
           <fluent-icon
             icon="linear"
@@ -69,21 +69,23 @@ const openIssue = () => {
             {{ issue.identifier }}
           </span>
         </div>
-        <div class="flex">
+        <div class="flex items-center gap-0.5">
           <woot-button
             variant="clear"
             color-scheme="secondary"
+            class="h-[24px]"
             @click="unlinkIssue"
           >
             <fluent-icon
               icon="unlink"
-              size="14"
+              size="12"
               type="outline"
               icon-lib="lucide"
             />
           </woot-button>
           <woot-button
             variant="clear"
+            class="h-[24px]"
             color-scheme="secondary"
             @click="openIssue"
           >
@@ -95,31 +97,34 @@ const openIssue = () => {
       <span class="mt-2 text-sm font-medium text-ash-900">
         {{ issue.title }}
       </span>
-      <span v-if="issue.description" class="mt-1 text-sm text-ash-800">
-        {{
-          issue.description.length > 130
-            ? issue.description.slice(0, 130) + '...'
-            : issue.description
-        }}
+      <span
+        v-if="issue.description"
+        class="mt-1 text-sm text-ash-800 line-clamp-3"
+      >
+        {{ issue.description }}
       </span>
     </div>
-    <div class="flex flex-row gap-2 divide-x divide-ash-200">
-      <user-avatar-with-name v-if="assignee" :user="assignee" />
-      <div class="flex items-center gap-1">
+    <div class="flex flex-row items-center h-6 gap-2">
+      <user-avatar-with-name v-if="assignee" :user="assignee" class="py-1" />
+      <div class="w-px h-3 bg-ash-200" />
+      <div class="flex items-center gap-1 py-1">
         <fluent-icon
           icon="status"
           size="14"
-          :class="`text-[${issue.state.color}]`"
+          :style="{
+            color: issue.state.color,
+          }"
         />
         <h6 class="text-xs text-slate-600">
           {{ issue.state.name }}
         </h6>
       </div>
-      <div class="flex items-center gap-1">
+      <div class="w-px h-3 bg-ash-200" />
+      <div class="flex items-center gap-1 py-1">
         <fluent-icon
           :icon="`priority-${priorityLabel.toLowerCase()}`"
           size="14"
-          view-box="0 0 14 14"
+          view-box="0 0 12 12"
         />
         <h6 class="text-xs text-slate-600">{{ priorityLabel }}</h6>
       </div>
@@ -135,7 +140,6 @@ const openIssue = () => {
         small
       />
     </div>
-
     <div class="flex items-center">
       <span class="text-xs text-ash-800">
         {{
