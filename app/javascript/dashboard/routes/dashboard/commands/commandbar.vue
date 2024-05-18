@@ -6,12 +6,11 @@
     hideBreadcrumbs
     :placeholder="placeholder"
     @selected="onSelected"
-    @closed="onClosed"
   />
 </template>
 
 <script>
-import '@chatwoot/ninja-keys';
+import 'ninja-keys';
 import conversationHotKeysMixin from './conversationHotKeys';
 import bulkActionsHotKeysMixin from './bulkActionsHotKeys';
 import inboxHotKeysMixin from './inboxHotKeys';
@@ -75,9 +74,6 @@ export default {
         action: title,
       });
       this.setCommandbarData();
-    },
-    onClosed() {
-      this.$store.dispatch('setContextMenuChatId', null);
     },
   },
 };

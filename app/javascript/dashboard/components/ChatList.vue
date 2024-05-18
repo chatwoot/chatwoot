@@ -1020,6 +1020,7 @@ export default {
           snoozedUntil,
         })
         .then(() => {
+          this.$store.dispatch('setContextMenuChatId', null);
           this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
         });
     },
