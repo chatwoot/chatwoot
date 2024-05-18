@@ -1,7 +1,7 @@
 {
   "INBOX": {
     "LIST": {
-      "TITLE": "Inbox",
+      "TITLE": "Safata d'entrada",
       "DISPLAY_DROPDOWN": "Display",
       "LOADING": "Fetching notifications",
       "404": "There are no active notifications in this group.",
@@ -33,7 +33,7 @@
       "SNOOZE": "Snooze",
       "DELETE": "Esborrar",
       "MARK_ALL_READ": "Marcar tots com a llegits",
-      "DELETE_ALL": "Delete all",
+      "DELETE_ALL": "Suprimeix tot",
       "DELETE_ALL_READ": "Delete all read"
     },
     "DISPLAY_MENU": {
@@ -48,7 +48,7 @@
         "SNOOZED": "Posposat",
         "READ": "Llegir",
         "LABELS": "Etiquetes",
-        "CONVERSATION_ID": "Conversation ID"
+        "CONVERSATION_ID": "ID de la conversa"
       }
     },
     "ALERTS": {
@@ -57,7 +57,7 @@
       "SNOOZE": "Notification snoozed",
       "DELETE": "Notification deleted",
       "MARK_ALL_READ": "All notifications marked as read",
-      "DELETE_ALL": "All notifications deleted",
+      "DELETE_ALL": "S'han suprimit totes les notificacions",
       "DELETE_ALL_READ": "All read notifications deleted"
     }
   }
