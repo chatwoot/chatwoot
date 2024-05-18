@@ -3,10 +3,10 @@ import { format } from 'date-fns';
 import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.vue';
 import { computed } from 'vue';
 const priorityMap = {
-  0: 'Low',
-  1: 'Medium',
-  2: 'High',
-  3: 'Urgent',
+  0: 'Urgent',
+  1: 'High',
+  2: 'Medium',
+  3: 'Low',
 };
 const props = defineProps({
   issue: {
