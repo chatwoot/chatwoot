@@ -39,8 +39,8 @@
 <script setup>
 import { useI18n } from 'dashboard/composables/useI18n';
 import { computed, ref } from 'vue';
-import LinkIssue from './LinkIssue';
-import CreateIssue from './CreateIssue';
+import LinkIssue from './LinkIssue.vue';
+import CreateIssue from './CreateIssue.vue';
 
 defineProps({
   accountId: {
