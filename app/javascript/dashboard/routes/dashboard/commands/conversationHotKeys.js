@@ -55,11 +55,15 @@ export default {
     replyMode() {
       this.setCommandbarData();
     },
+    contextMenuChatId() {
+      this.setCommandbarData();
+    },
   },
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
       replyMode: 'draftMessages/getReplyEditorMode',
+      contextMenuChatId: 'getContextMenuChatId',
     }),
     draftMessage() {
       return this.$store.getters['draftMessages/get'](this.draftKey);
@@ -93,6 +97,14 @@ export default {
       }
       return this.prepareActions(actions);
     },
+
+    snoozeConversationByContextMenu() {
+      if (this.contextMenuChatId) {
+        return this.prepareActions(SNOOZE_CONVERSATION_ACTIONS);
+      }
+      return [];
+    },
+
     priorityOptions() {
       return [
         {
@@ -328,6 +340,13 @@ export default {
     },
 
     conversationHotKeys() {
+      if (
+        isAConversationRoute(this.$route.name, true, false) &&
+        this.contextMenuChatId
+      ) {
+        // Added only for show snooze option in context menu
+        return this.snoozeConversationByContextMenu;
+      }
       if (
         isAConversationRoute(this.$route.name) ||
         isAInboxViewRoute(this.$route.name)

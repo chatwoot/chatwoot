@@ -16,7 +16,7 @@
       />
     </template>
     <menu-item
-      v-if="show(snoozeOption.key)"
+      v-if="showSnooze(snoozeOption.key)"
       :option="snoozeOption"
       variant="icon"
       @click="snoozeConversation()"
@@ -86,6 +86,10 @@ export default {
   },
   mixins: [agentMixin],
   props: {
+    chatId: {
+      type: Number,
+      default: null,
+    },
     status: {
       type: String,
       default: '',
@@ -213,7 +217,8 @@ export default {
     toggleStatus(status, snoozedUntil) {
       this.$emit('update-conversation', status, snoozedUntil);
     },
-    snoozeConversation() {
+    async snoozeConversation() {
+      await this.$store.dispatch('setContextMenuChatId', this.chatId);
       const ninja = document.querySelector('ninja-keys');
       ninja.open({ parent: 'snooze_conversation' });
     },
@@ -224,6 +229,10 @@ export default {
       // If the conversation status is same as the action, then don't display the option
       // i.e.: Don't show an option to resolve if the conversation is already resolved.
       return this.status !== key;
+    },
+    showSnooze() {
+      // Don't show snooze if the conversation is already snoozed/resolved/pending
+      return this.status === wootConstants.STATUS_TYPE.OPEN;
     },
     generateMenuLabelConfig(option, type = 'text') {
       return {
