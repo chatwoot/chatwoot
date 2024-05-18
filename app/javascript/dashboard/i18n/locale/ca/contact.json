@@ -34,15 +34,15 @@
         "TITLE": "Afegir etiquetes",
         "PLACEHOLDER": "Cerca etiquetes",
         "NO_RESULT": "No s'han trobat etiquetes",
-        "CREATE_LABEL": "Create new label"
+        "CREATE_LABEL": "Crea una etiqueta nova"
       }
     },
     "MERGE_CONTACT": "Reagrupa contacte",
     "CONTACT_ACTIONS": "Accions de contacte",
-    "MUTE_CONTACT": "Block Contact",
-    "UNMUTE_CONTACT": "Unblock Contact",
-    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
-    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
+    "MUTE_CONTACT": "Bloqueja el contacte",
+    "UNMUTE_CONTACT": "Desbloqueja el contacte",
+    "MUTED_SUCCESS": "Aquest contacte s'ha bloquejat correctament. No se us notificarà cap conversa futura.",
+    "UNMUTED_SUCCESS": "Aquest contacte s'ha desbloquejat correctament.",
     "SEND_TRANSCRIPT": "Envia la transcripció",
     "EDIT_LABEL": "Edita",
     "SIDEBAR_SECTIONS": {
@@ -72,7 +72,7 @@
       "SUBMIT": "Importa",
       "CANCEL": "Cancel·la"
     },
-    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "SUCCESS_MESSAGE": "Es notificarà per correu electrònic quan s'hagi completat la importació.",
     "ERROR_MESSAGE": "S'ha produït un error; tornau-ho a provar"
   },
   "EXPORT_CONTACTS": {
@@ -138,7 +138,7 @@
         "LABEL": "Número de telèfon",
         "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
         "ERROR": "Phone number should be either empty or of E.164 format",
-        "DIAL_CODE_ERROR": "Please select a dial code from the list",
+        "DIAL_CODE_ERROR": "Selecciona un codi de marcatge de la llista",
         "DUPLICATE": "This phone number is in use for another contact."
       },
       "LOCATION": {
