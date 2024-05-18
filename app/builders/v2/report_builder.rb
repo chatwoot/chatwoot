@@ -4,7 +4,7 @@ class V2::ReportBuilder
   attr_reader :account, :params
 
   DEFAULT_GROUP_BY = 'day'.freeze
-  AGENT_RESULTS_PER_PAGE = 25
+  AGENT_RESULTS_PER_PAGE = 10
 
   def initialize(account, params)
     @account = account

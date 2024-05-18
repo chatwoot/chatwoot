@@ -154,7 +154,7 @@ $heatmap-hover-border-color: (
   level-6: var(--w-700),
 );
 
-$tile-height: 1.875rem;
+$tile-height: 2.875rem;
 $tile-gap: var(--space-smaller);
 $container-gap-row: var(--space-one);
 $container-gap-column: var(--space-two);

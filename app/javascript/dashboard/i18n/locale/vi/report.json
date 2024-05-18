@@ -497,7 +497,7 @@
     }
   },
   "TRAFFIC_REPORTS": {
-    "HEADER": "Lưu lượng hội thoại",
+    "HEADER": "Lưu lượng hội thoại 24/7",
     "NO_CONVERSATIONS": "Không có hội thoại",
     "CONVERSATION": "%{count} cuộc hội thoại",
     "CONVERSATIONS": "%{count} cuộc hội thoại",

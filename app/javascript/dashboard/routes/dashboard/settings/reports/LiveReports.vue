@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 overflow-auto p-4">
+  <div class="flex-1 overflow-auto">
     <div class="flex flex-col md:flex-row items-center">
       <div
         class="flex-1 w-full max-w-full md:w-[65%] md:max-w-[65%] conversation-metric"

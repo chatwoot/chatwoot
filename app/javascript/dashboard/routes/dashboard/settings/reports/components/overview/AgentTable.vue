@@ -20,8 +20,8 @@
       <ve-pagination
         :total="agents.length"
         :page-index="pageIndex"
-        :page-size="25"
-        :page-size-option="[25]"
+        :page-size="10"
+        :page-size-option="[10]"
         @on-page-number-change="onPageNumberChange"
       />
     </div>
