@@ -44,8 +44,8 @@
         "LABEL": "SLA Name",
         "PLACEHOLDER": "SLA Name",
         "REQUIRED_ERROR": "SLA name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "MINIMUM_LENGTH_ERROR": "Es requereix una longitud mínima de 2",
+        "VALID_ERROR": "Només es permeten alfabets, números, guionet i guió baix"
       },
       "DESCRIPTION": {
         "LABEL": "Descripció",
