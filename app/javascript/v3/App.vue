@@ -47,7 +47,6 @@ export default {
 @tailwind components;
 @tailwind utilities;
 
-@import 'shared/assets/fonts/plus-jakarta';
 @import 'shared/assets/stylesheets/colors';
 @import 'shared/assets/stylesheets/spacing';
 @import 'shared/assets/stylesheets/font-size';
@@ -55,17 +54,8 @@ export default {
 
 html,
 body {
-  font-family:
-    'PlusJakarta',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    Oxygen-Sans,
-    Ubuntu,
-    Cantarell,
-    'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
   @apply h-full w-full;
 
   input,

@@ -6889,6 +6889,11 @@
     global "~4.4.0"
     is-function "^1.0.1"
 
+"@vitejs/plugin-vue2@^2.3.1":
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/@vitejs/plugin-vue2/-/plugin-vue2-2.3.1.tgz#53078d3d9d50d9863f1fbb1c1ef7791a5fcd4948"
+  integrity sha512-/ksaaz2SRLN11JQhLdEUhDzOn909WEk99q9t9w+N12GjQCljzv7GyvAbD/p20aBUjHkvpGOoQ+FCOkG+mjDF4A==
+
 "@vue/compiler-core@3.3.4":
   version "3.3.4"
   resolved "https://registry.yarnpkg.com/@vue/compiler-core/-/compiler-core-3.3.4.tgz#7fbf591c1c19e1acd28ffd284526e98b4f581128"
@@ -9206,10 +9211,10 @@ commondir@^1.0.1:
   resolved "https://registry.yarnpkg.com/commondir/-/commondir-1.0.1.tgz#ddd800da0c66127393cca5950ea968a3aaf1253b"
   integrity sha1-3dgA2gxmEnOTzKWVDqloo6rxJTs=
 
-company-email-validator@^1.0.8:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/company-email-validator/-/company-email-validator-1.0.8.tgz#b09e4a4c5d4e19eadafbfc8ed7688b39ad24d868"
-  integrity sha512-zxqY83XAdqxqjEGLAXZCv++3er280aquey/jWCSIFfW3pn85Y1Dk34ljhUpZvh0n4OM+gPsOLjIk6lvHmeSIWg==
+company-email-validator@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/company-email-validator/-/company-email-validator-1.1.0.tgz#ad7e0d7f75da4e443d7642e7926943c6eff78778"
+  integrity sha512-l+1UHQtGzea7OhSEDbjNzA8ISFarmfi3l+t5W/pwz3JSdCREwQHLmjjFSlHDIBnpClCp8JCg5h6sXu+F6vm3ag==
   dependencies:
     email-validator "^2.0.4"
 

@@ -25,13 +25,13 @@
         <form-input
           v-model.trim="credentials.email"
           name="email_address"
-          :has-error="$v.credentials.email.$error"
+          :has-error="v$.credentials.email.$error"
           :error-message="$t('RESET_PASSWORD.EMAIL.ERROR')"
           :placeholder="$t('RESET_PASSWORD.EMAIL.PLACEHOLDER')"
-          @input="$v.credentials.email.$touch"
+          @input="v$.credentials.email.$touch"
         />
         <SubmitButton
-          :disabled="$v.credentials.email.$invalid || resetPassword.showLoading"
+          :disabled="v$.credentials.email.$invalid || resetPassword.showLoading"
           :button-text="$t('RESET_PASSWORD.SUBMIT')"
           :loading="resetPassword.showLoading"
         />
@@ -47,16 +47,20 @@
 </template>
 
 <script>
-import { required, minLength, email } from 'vuelidate/lib/validators';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import { mapGetters } from 'vuex';
 import FormInput from '../../../../components/Form/Input.vue';
 import { resetPassword } from '../../../../api/auth';
 import SubmitButton from '../../../../components/Button/SubmitButton.vue';
+import useVuelidate from '@vuelidate/core';
+import { required, minLength, email } from '@vuelidate/validators';
 
 export default {
   components: { FormInput, SubmitButton },
   mixins: [globalConfigMixin],
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       credentials: { email: '' },
@@ -70,14 +74,16 @@ export default {
   computed: {
     ...mapGetters({ globalConfig: 'globalConfig/get' }),
   },
-  validations: {
-    credentials: {
-      email: {
-        required,
-        email,
-        minLength: minLength(4),
+  validations() {
+    return {
+      credentials: {
+        email: {
+          required,
+          email,
+          minLength: minLength(4),
+        },
       },
-    },
+    };
   },
   methods: {
     showAlert(message) {

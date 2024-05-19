@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import VueRouter from 'vue-router';
-import Vuelidate from 'vuelidate';
 import i18n from 'dashboard/i18n';
 import * as Sentry from '@sentry/vue';
 import { Integrations } from '@sentry/tracing';
@@ -13,9 +12,7 @@ import AnalyticsPlugin from 'dashboard/helper/AnalyticsHelper/plugin';
 import App from '../v3/App.vue';
 import router, { initalizeRouter } from '../v3/views/index';
 import store from '../v3/store';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
-
-Vue.config.env = process.env;
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
 if (window.errorLoggingConfig) {
   Sentry.init({
@@ -43,7 +40,6 @@ if (window.errorLoggingConfig) {
 
 Vue.use(VueRouter);
 Vue.use(VueI18n);
-Vue.use(Vuelidate);
 Vue.use(AnalyticsPlugin);
 Vue.component('fluent-icon', FluentIcon);
 

@@ -50,8 +50,8 @@
             required
             :label="$t('LOGIN.EMAIL.LABEL')"
             :placeholder="$t('LOGIN.EMAIL.PLACEHOLDER')"
-            :has-error="$v.credentials.email.$error"
-            @input="$v.credentials.email.$touch"
+            :has-error="v$.credentials.email.$error"
+            @input="v$.credentials.email.$touch"
           />
           <form-input
             v-model.trim="credentials.password"
@@ -62,8 +62,8 @@
             :tabindex="2"
             :label="$t('LOGIN.PASSWORD.LABEL')"
             :placeholder="$t('LOGIN.PASSWORD.PLACEHOLDER')"
-            :has-error="$v.credentials.password.$error"
-            @input="$v.credentials.password.$touch"
+            :has-error="v$.credentials.password.$error"
+            @input="v$.credentials.password.$touch"
           >
             <p v-if="!globalConfig.disableUserProfileUpdate">
               <router-link
@@ -91,7 +91,6 @@
 </template>
 
 <script>
-import { required, email } from 'vuelidate/lib/validators';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import SubmitButton from '../../components/Button/SubmitButton.vue';
 import { mapGetters } from 'vuex';
@@ -99,6 +98,8 @@ import { parseBoolean } from '@chatwoot/utils';
 import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
 import FormInput from '../../components/Form/Input.vue';
 import { login } from '../../api/auth';
+import { useVuelidate } from '@vuelidate/core';
+import { required, email } from '@vuelidate/validators';
 import Spinner from 'shared/components/Spinner.vue';
 const ERROR_MESSAGES = {
   'no-account-found': 'LOGIN.OAUTH.NO_ACCOUNT_FOUND',
@@ -121,6 +122,9 @@ export default {
     email: { type: String, default: '' },
     authError: { type: String, default: '' },
   },
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       // We need to initialize the component with any
@@ -137,16 +141,18 @@ export default {
       error: '',
     };
   },
-  validations: {
-    credentials: {
-      password: {
-        required,
+  validations() {
+    return {
+      credentials: {
+        password: {
+          required,
+        },
+        email: {
+          required,
+          email,
+        },
       },
-      email: {
-        required,
-        email,
-      },
-    },
+    };
   },
   computed: {
     ...mapGetters({ globalConfig: 'globalConfig/get' }),
@@ -193,7 +199,7 @@ export default {
       bus.$emit('newToastMessage', this.loginApi.message);
     },
     submitLogin() {
-      if (this.$v.credentials.email.$invalid && !this.email) {
+      if (this.v$.credentials.email.$invalid && !this.email) {
         this.showAlert(this.$t('LOGIN.EMAIL.ERROR'));
         return;
       }
