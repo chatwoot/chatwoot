@@ -17,7 +17,7 @@
     "AGENT_LIST_LOADING": "Загрузка агентов",
     "UPDATE": {
       "CHANGE_STATUS": "Изменить статус",
-      "SNOOZE_UNTIL_NEXT_REPLY": "Отложить до следующего ответа.",
+      "SNOOZE_UNTIL": "Отложено",
       "UPDATE_SUCCESFUL": "Статус беседы успешно обновлен.",
       "UPDATE_FAILED": "Не удалось обновить диалоги, попробуйте еще раз."
     },

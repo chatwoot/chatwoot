@@ -33,7 +33,7 @@
     "ATTRIBUTES": {
       "NAME": "نام",
       "EMAIL": "Email",
-      "PHONE_NUMBER": "Phone number",
+      "PHONE_NUMBER": "فون نمبر",
       "IDENTIFIER": "Identifier",
       "CITY": "شہر",
       "COUNTRY": "ملک",

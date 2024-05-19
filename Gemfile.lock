@@ -113,7 +113,7 @@ GEM
       kaminari (~> 1.2.2)
       sassc-rails (~> 2.1)
       selectize-rails (~> 0.6)
-    administrate-field-active_storage (1.0.1)
+    administrate-field-active_storage (1.0.2)
       administrate (>= 0.2.2)
       rails (>= 7.0)
     administrate-field-belongs_to_search (0.9.0)
@@ -148,10 +148,10 @@ GEM
     barnes (0.0.9)
       multi_json (~> 1)
       statsd-ruby (~> 1.1)
-    base64 (0.1.1)
+    base64 (0.2.0)
     bcrypt (3.1.20)
+    bigdecimal (3.1.7)
     bindex (0.8.1)
-    blingfire (0.1.8)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
     brakeman (5.4.1)
@@ -200,10 +200,10 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
-    devise_token_auth (1.2.1)
+    devise_token_auth (1.2.3)
       bcrypt (~> 3.0)
       devise (> 3.5.2, < 5)
-      rails (>= 4.2.0, < 7.1)
+      rails (>= 4.2.0, < 7.2)
     diff-lcs (1.5.0)
     digest-crc (0.6.4)
       rake (>= 12.0.0, < 14.0.0)
@@ -316,15 +316,15 @@ GEM
     google-cloud-translate-v3 (0.6.0)
       gapic-common (>= 0.17.1, < 2.a)
       google-cloud-errors (~> 1.0)
-    google-protobuf (3.25.2)
-    google-protobuf (3.25.2-arm64-darwin)
-    google-protobuf (3.25.2-x86_64-darwin)
-    google-protobuf (3.25.2-x86_64-linux)
+    google-protobuf (3.25.3)
+    google-protobuf (3.25.3-arm64-darwin)
+    google-protobuf (3.25.3-x86_64-darwin)
+    google-protobuf (3.25.3-x86_64-linux)
     googleapis-common-protos (1.4.0)
       google-protobuf (~> 3.14)
       googleapis-common-protos-types (~> 1.2)
       grpc (~> 1.27)
-    googleapis-common-protos-types (1.11.0)
+    googleapis-common-protos-types (1.14.0)
       google-protobuf (~> 3.18)
     googleauth (1.5.2)
       faraday (>= 0.17.3, < 3.a)
@@ -335,14 +335,17 @@ GEM
       signet (>= 0.16, < 2.a)
     groupdate (6.2.1)
       activesupport (>= 5.2)
-    grpc (1.54.3)
-      google-protobuf (~> 3.21)
+    grpc (1.62.0)
+      google-protobuf (~> 3.25)
       googleapis-common-protos-types (~> 1.0)
-    grpc (1.54.3-x86_64-darwin)
-      google-protobuf (~> 3.21)
+    grpc (1.62.0-arm64-darwin)
+      google-protobuf (~> 3.25)
       googleapis-common-protos-types (~> 1.0)
-    grpc (1.54.3-x86_64-linux)
-      google-protobuf (~> 3.21)
+    grpc (1.62.0-x86_64-darwin)
+      google-protobuf (~> 3.25)
+      googleapis-common-protos-types (~> 1.0)
+    grpc (1.62.0-x86_64-linux)
+      google-protobuf (~> 3.25)
       googleapis-common-protos-types (~> 1.0)
     haikunator (1.1.1)
     hairtrigger (1.0.0)
@@ -366,15 +369,11 @@ GEM
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
     httpclient (2.8.3)
-    i18n (1.14.4)
+    i18n (1.14.5)
       concurrent-ruby (~> 1.0)
     image_processing (1.12.2)
       mini_magick (>= 4.9.5, < 5)
       ruby-vips (>= 2.0.17, < 3)
-    informers (0.2.0)
-      blingfire (>= 0.1.7)
-      numo-narray
-      onnxruntime (>= 0.5.1)
     io-console (0.6.0)
     irb (1.7.2)
       reline (>= 0.3.6)
@@ -449,13 +448,13 @@ GEM
       net-imap
       net-pop
       net-smtp
-    marcel (1.0.2)
+    marcel (1.0.4)
     maxminddb (0.1.22)
     memoist (0.16.2)
     meta_request (0.8.2)
       rack-contrib (>= 1.1, < 3)
       railties (>= 3.0.0, < 8)
-    method_source (1.0.0)
+    method_source (1.1.0)
     mime-types (3.4.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2023.0218.1)
@@ -475,7 +474,7 @@ GEM
       uri
     net-http-persistent (4.0.2)
       connection_pool (~> 2.2)
-    net-imap (0.4.9)
+    net-imap (0.4.11)
       date
       net-protocol
     net-pop (0.1.2)
@@ -490,17 +489,16 @@ GEM
       sidekiq
     newrelic_rpm (9.6.0)
       base64
-    nio4r (2.7.0)
-    nokogiri (1.16.4)
+    nio4r (2.7.3)
+    nokogiri (1.16.5)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    nokogiri (1.16.4-arm64-darwin)
+    nokogiri (1.16.5-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.4-x86_64-darwin)
+    nokogiri (1.16.5-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.4-x86_64-linux)
+    nokogiri (1.16.5-x86_64-linux)
       racc (~> 1.4)
-    numo-narray (0.9.2.1)
     oauth (1.1.0)
       oauth-tty (~> 1.0, >= 1.0.1)
       snaky_hash (~> 2.0)
@@ -526,17 +524,9 @@ GEM
     omniauth-oauth2 (1.8.0)
       oauth2 (>= 1.4, < 3)
       omniauth (~> 2.0)
-    omniauth-rails_csrf_protection (1.0.1)
+    omniauth-rails_csrf_protection (1.0.2)
       actionpack (>= 4.2)
       omniauth (~> 2.0)
-    onnxruntime (0.7.6)
-      ffi
-    onnxruntime (0.7.6-arm64-darwin)
-      ffi
-    onnxruntime (0.7.6-x86_64-darwin)
-      ffi
-    onnxruntime (0.7.6-x86_64-linux)
-      ffi
     openssl (3.1.0)
     orm_adapter (0.5.0)
     os (1.1.4)
@@ -614,7 +604,7 @@ GEM
       ffi (~> 1.0)
     redis (5.0.6)
       redis-client (>= 0.9.0)
-    redis-client (0.19.1)
+    redis-client (0.22.1)
       connection_pool
     redis-namespace (1.10.0)
       redis (>= 4)
@@ -713,18 +703,19 @@ GEM
       activesupport (>= 4)
     selectize-rails (0.12.6)
     semantic_range (3.0.0)
-    sentry-rails (5.14.0)
+    sentry-rails (5.17.3)
       railties (>= 5.0)
-      sentry-ruby (~> 5.14.0)
-    sentry-ruby (5.14.0)
+      sentry-ruby (~> 5.17.3)
+    sentry-ruby (5.17.3)
+      bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
-    sentry-sidekiq (5.14.0)
-      sentry-ruby (~> 5.14.0)
+    sentry-sidekiq (5.17.3)
+      sentry-ruby (~> 5.17.3)
       sidekiq (>= 3.0)
     sexp_processor (4.17.0)
     shoulda-matchers (5.3.0)
       activesupport (>= 5.2.0)
-    sidekiq (7.2.1)
+    sidekiq (7.2.4)
       concurrent-ruby (< 2)
       connection_pool (>= 2.3.0)
       rack (>= 2.2.4)
@@ -828,7 +819,7 @@ GEM
     working_hours (1.4.1)
       activesupport (>= 3.2)
       tzinfo
-    zeitwerk (2.6.13)
+    zeitwerk (2.6.14)
 
 PLATFORMS
   arm64-darwin-20
@@ -846,7 +837,7 @@ DEPENDENCIES
   activerecord-import
   acts-as-taggable-on
   administrate (>= 0.20.1)
-  administrate-field-active_storage (>= 1.0.1)
+  administrate-field-active_storage (>= 1.0.2)
   administrate-field-belongs_to_search (>= 0.9.0)
   annotate
   attr_extras
@@ -869,7 +860,7 @@ DEPENDENCIES
   debug (~> 1.8)
   devise (>= 4.9.4)
   devise-secure_password!
-  devise_token_auth
+  devise_token_auth (>= 1.2.3)
   dotenv-rails
   down
   elastic-apm
@@ -892,7 +883,6 @@ DEPENDENCIES
   hashie
   html2text!
   image_processing
-  informers
   jbuilder
   json_refs
   json_schemer
@@ -914,7 +904,7 @@ DEPENDENCIES
   omniauth (>= 2.1.2)
   omniauth-google-oauth2 (>= 1.1.2)
   omniauth-oauth2
-  omniauth-rails_csrf_protection (~> 1.0)
+  omniauth-rails_csrf_protection (~> 1.0, >= 1.0.2)
   pg
   pg_search
   pgvector
@@ -943,9 +933,9 @@ DEPENDENCIES
   seed_dump
   sentry-rails (>= 5.14.0)
   sentry-ruby
-  sentry-sidekiq (>= 5.14.0)
+  sentry-sidekiq (>= 5.15.0)
   shoulda-matchers
-  sidekiq (>= 7.2.1)
+  sidekiq (>= 7.2.4)
   sidekiq-cron (>= 1.12.0)
   simplecov (= 0.17.1)
   slack-ruby-client (~> 2.2.0)

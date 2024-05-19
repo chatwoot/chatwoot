@@ -10,6 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "Ο κωδικός σας άλλαξε με επιτυχία",
     "AFTER_EMAIL_CHANGED": "Το προφίλ σας ενημερώθηκε επιτυχώς, παρακαλώ κάντε είσοδο (login) επειδή τα στοιχεία εισόδου σας έχουν αλλάξει",
     "FORM": {
+      "PICTURE": "Profile Picture",
       "AVATAR": "Εικόνα Προφίλ",
       "ERROR": "Παρακαλώ διορθώστε τα λάθη της φόρμας",
       "REMOVE_IMAGE": "Διαγραφή",
@@ -56,13 +57,19 @@
       },
       "ACCESS_TOKEN": {
         "TITLE": "Κώδικας Πρόσβασης (Access Token)",
-        "NOTE": "Χρησιμοποιείται σε περίπτωση εξωτερικής ενοποίησης της εφαρμογής με κώδικα (API)"
+        "NOTE": "Χρησιμοποιείται σε περίπτωση εξωτερικής ενοποίησης της εφαρμογής με κώδικα (API)",
+        "COPY": "Αντιγραφή"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Ειδοποιήσεις Ήχου",
         "NOTE": "Ενεργοποίηση ηχητικών ειδοποιήσεων για νέα μηνύματα και συνομιλίες.",
+        "ALERT_TYPES": {
+          "NONE": "Κανένα",
+          "MINE": "Assigned",
+          "ALL": "Όλες"
+        },
         "ALERT_TYPE": {
-          "TITLE": "Ειδοποίηση συμβάντων:",
+          "TITLE": "Alert events for conversations:",
           "NONE": "Κανένα",
           "ASSIGNED": "Ανατεθειμένες Συνομιλίες",
           "ALL_CONVERSATIONS": "Όλες Οι Συνομιλίες"
@@ -87,6 +94,23 @@
         "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
         "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "Email",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
       "API": {
         "UPDATE_SUCCESS": "Οι προτιμήσεις σας για τις ειδοποιήσεις ενημερώθηκαν",
@@ -320,7 +344,6 @@
       "GO_TO_REPORTS_SIDEBAR": "Πλευρική μπάρα αναφορών",
       "MOVE_TO_NEXT_TAB": "Μετακίνηση στην επόμενη καρτέλα στη λίστα συνομιλιών",
       "GO_TO_SETTINGS": "Μετάβαση στις ρυθμίσεις",
-      "SWITCH_CONVERSATION_STATUS": "Εναλλαγή στην επόμενη κατάσταση συνομιλίας",
       "SWITCH_TO_PRIVATE_NOTE": "Αλλαγή σε Ιδιωτική Σημείωση",
       "SWITCH_TO_REPLY": "Εναλλαγή σε απάντηση",
       "TOGGLE_SNOOZE_DROPDOWN": "Εναλλαγή αναβολής dropdown"

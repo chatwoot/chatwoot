@@ -3177,10 +3177,10 @@
     prosemirror-utils "^0.9.6"
     prosemirror-view "^1.17.2"
 
-"@chatwoot/utils@^0.0.23":
-  version "0.0.23"
-  resolved "https://registry.yarnpkg.com/@chatwoot/utils/-/utils-0.0.23.tgz#e961fd87ef9ee19c442bfcedac5fe0be2ef37726"
-  integrity sha512-BQ7DprXr7FIkSbHdDc1WonwH0rt/+B+WaaLaXNMjCcxJgkX/gZ8QMltruOfRp/S8cFyd9JfFQhNF0T9lz1OMvA==
+"@chatwoot/utils@^0.0.25":
+  version "0.0.25"
+  resolved "https://registry.yarnpkg.com/@chatwoot/utils/-/utils-0.0.25.tgz#7657286baa1ef833789f934991df63c4a9716595"
+  integrity sha512-2bGfRewHu0Bra47vHwJa3SdZ0VqXK/2q2ampcc6TT3z8ojSfZqpfMdb+1RKJ/Q1tQEYn/0rJTdWtLDRjePF92A==
   dependencies:
     date-fns "^2.29.1"
 
@@ -6793,6 +6793,20 @@
     source-map "0.5.6"
     tsconfig "^7.0.0"
 
+"@vuelidate/core@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@vuelidate/core/-/core-2.0.3.tgz#40468c5ed15b72bde880a026b0699c2f0f1ecede"
+  integrity sha512-AN6l7KF7+mEfyWG0doT96z+47ljwPpZfi9/JrNMkOGLFv27XVZvKzRLXlmDPQjPl/wOB1GNnHuc54jlCLRNqGA==
+  dependencies:
+    vue-demi "^0.13.11"
+
+"@vuelidate/validators@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@vuelidate/validators/-/validators-2.0.4.tgz#0a88a7b2b18f15fd9c384095593f369a6f7384e9"
+  integrity sha512-odTxtUZ2JpwwiQ10t0QWYJkkYrfd0SyFYhdHH44QQ1jDatlZgTh/KRzrWVmn/ib9Gq7H4hFD4e8ahoo5YlUlDw==
+  dependencies:
+    vue-demi "^0.13.11"
+
 "@webassemblyjs/ast@1.11.6", "@webassemblyjs/ast@^1.11.5":
   version "1.11.6"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.11.6.tgz#db046555d3c413f8966ca50a95176a0e2c642e24"
@@ -8559,20 +8573,10 @@ caniuse-api@^3.0.0:
     lodash.memoize "^4.1.2"
     lodash.uniq "^4.5.0"
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001214:
-  version "1.0.30001494"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001494.tgz"
-  integrity sha512-sY2B5Qyl46ZzfYDegrl8GBCzdawSLT4ThM9b9F+aDYUrAG2zCOyMbd2Tq34mS1g4ZKBfjRlzOohQMxx28x6wJg==
-
-caniuse-lite@^1.0.30001449, caniuse-lite@^1.0.30001517, caniuse-lite@^1.0.30001538:
-  version "1.0.30001538"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001538.tgz#9dbc6b9af1ff06b5eb12350c2012b3af56744f3f"
-  integrity sha512-HWJnhnID+0YMtGlzcp3T9drmBJUVDchPJ08tpUGFLs9CYlwWPH2uLgpHn8fND5pCgXVtnGS3H4QR9XLMHVNkHw==
-
-caniuse-lite@^1.0.30001503:
-  version "1.0.30001507"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001507.tgz#fae53f6286e7564783eadea9b447819410a59534"
-  integrity sha512-SFpUDoSLCaE5XYL2jfqe9ova/pbQHEmbheDf5r4diNwbAgR3qxM9NQtfsiSscjqoya5K7kFcHPUQ+VsUkIJR4A==
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001214, caniuse-lite@^1.0.30001449, caniuse-lite@^1.0.30001503, caniuse-lite@^1.0.30001517, caniuse-lite@^1.0.30001538:
+  version "1.0.30001616"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001616.tgz"
+  integrity sha512-RHVYKov7IcdNjVHJFNY/78RdG4oGVjbayxv8u5IO74Wv7Hlq4PnJE6mo/OjFijjVFNy5ijnCt6H3IIo4t+wfEw==
 
 capture-exit@^2.0.0:
   version "2.0.0"
@@ -14058,6 +14062,13 @@ klona@^2.0.4:
   resolved "https://registry.yarnpkg.com/klona/-/klona-2.0.4.tgz#7bb1e3affb0cb8624547ef7e8f6708ea2e39dfc0"
   integrity sha512-ZRbnvdg/NxqzC7L9Uyqzf4psi1OM4Cuc+sJAkQPjO6XkQIJTNbfK2Rsmbw8fx1p2mkZdp2FZYo2+LwXYY/uwIA==
 
+lamejs@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/lamejs/-/lamejs-1.2.0.tgz#0259f83db4666141a7b671b8caa6369d95177d08"
+  integrity sha512-xEYvsB2sZ9jIccqfUQpQEBdB6UYQDG/ta2xQkH7oEpENb0JHFJii965WVF8ErUMdZzoe7EdIruz1WpICdhZ9Pw==
+  dependencies:
+    use-strict "1.0.1"
+
 language-subtag-registry@~0.3.2:
   version "0.3.21"
   resolved "https://registry.yarnpkg.com/language-subtag-registry/-/language-subtag-registry-0.3.21.tgz#04ac218bea46f04cb039084602c6da9e788dd45a"
@@ -14395,16 +14406,6 @@ loglevel@^1.6.8:
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.7.1.tgz#005fde2f5e6e47068f935ff28573e125ef72f197"
   integrity sha512-Hesni4s5UkWkwCGJMQGAh71PaLUmKFM60dHvq0zi/vDhhrzuk+4GgNbTXJ12YYQJn6ZKBDNIjYcuQGKudvqrIw==
-
-logrocket-vuex@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/logrocket-vuex/-/logrocket-vuex-0.0.3.tgz#e11d65d384f0c9fdac72f984436cc038adf3db90"
-  integrity sha512-Xnl3pBEkc/bbtZ5JEtFwqNjVuLzVEohlBpyQHP47BlO+/6sFmSM2JcNWojysYUo4cp3IWpmWXcezax2+Cq4RsA==
-
-logrocket@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/logrocket/-/logrocket-3.0.1.tgz#c746e8df3d5fee999b152975e51db1908357a6f0"
-  integrity sha512-jOWG+jEzobKVxGytzZ+4KGm2kiMQMRTHab2uDWQyVZcHfEF38BlCH1yjQVY4LCmuQUwZitP9biMzJZnyUQ0dtQ==
 
 loose-envify@^1.1.0, loose-envify@^1.2.0, loose-envify@^1.4.0:
   version "1.4.0"
@@ -14889,6 +14890,11 @@ minipass@^3.0.0, minipass@^3.1.1:
   integrity sha512-Mgd2GdMVzY+x3IJ+oHnVM+KG3lA5c8tnabyJKmHSaG2kAGpudxuOf8ToDkhumF7UzME7DecbQE9uOZhNm7PuJg==
   dependencies:
     yallist "^4.0.0"
+
+minipass@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/minipass/-/minipass-5.0.0.tgz#3e9788ffb90b694a5d0ec94479a45b5d8738133d"
+  integrity sha512-3FnjYuehv9k6ovOEbyOswadCDPX1piCfhV8ncmYtHOjuPwylVWsghTLo7rabjC3Rx5xD4HDx8Wm1xnMF7S5qFQ==
 
 minizlib@^2.1.1:
   version "2.1.2"
@@ -19450,13 +19456,13 @@ tapable@^2.1.1, tapable@^2.2.0:
   integrity sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==
 
 tar@^6.0.2:
-  version "6.1.11"
-  resolved "https://registry.yarnpkg.com/tar/-/tar-6.1.11.tgz#6760a38f003afa1b2ffd0ffe9e9abbd0eab3d621"
-  integrity sha512-an/KZQzQUkZCkuoAA64hM92X0Urb6VpRhAFllDzz44U2mcD5scmT3zBc4VgVpkugF580+DQn8eAFSyoQt0tznA==
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/tar/-/tar-6.2.1.tgz#717549c541bc3c2af15751bea94b1dd068d4b03a"
+  integrity sha512-DZ4yORTwrbTj/7MZYq2w+/ZFdI6OZ/f9SFHR+71gIVUZhOQPHzVCLpvRnPgyaMpfWxxk/4ONva3GQSyNIKRv6A==
   dependencies:
     chownr "^2.0.0"
     fs-minipass "^2.0.0"
-    minipass "^3.0.0"
+    minipass "^5.0.0"
     minizlib "^2.1.1"
     mkdirp "^1.0.3"
     yallist "^4.0.0"
@@ -19624,6 +19630,11 @@ tinycolor2@^1.1.2:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/tinycolor2/-/tinycolor2-1.4.2.tgz#3f6a4d1071ad07676d7fa472e1fac40a719d8803"
   integrity sha512-vJhccZPs965sV/L2sU4oRQVAos0pQXwsvTLkWYdqJ+a8Q5kPFzJTuOFwy7UniPli44NKQGAglksjvOcpo95aZA==
+
+tinykeys@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/tinykeys/-/tinykeys-2.1.0.tgz#1341563e92a7fac9ca90053fddaf2b7553500298"
+  integrity sha512-/MESnqBD1xItZJn5oGQ4OsNORQgJfPP96XSGoyu4eLpwpL0ifO0SYR5OD76u0YMhMXsqkb0UqvI9+yXTh4xv8Q==
 
 titleize@^3.0.0:
   version "3.0.0"
@@ -20285,6 +20296,11 @@ urlpattern-polyfill@^6.0.2:
   dependencies:
     braces "^3.0.2"
 
+use-strict@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/use-strict/-/use-strict-1.0.1.tgz#0bb80d94f49a4a05192b84a8c7d34e95f1a7e3a0"
+  integrity sha512-IeiWvvEXfW5ltKVMkxq6FvNf2LojMKvB2OCeja6+ct24S1XOmQw2dGr2JyndwACWAGJva9B7yPHwAmeA9QCqAQ==
+
 use@^3.1.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/use/-/use-3.1.1.tgz#d50c8cac79a19fbc20f2911f56eb973f4e10070f"
@@ -20519,6 +20535,11 @@ vue-color@2.8.1:
     lodash.throttle "^4.0.0"
     material-colors "^1.0.0"
     tinycolor2 "^1.1.2"
+
+vue-demi@^0.13.11:
+  version "0.13.11"
+  resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.13.11.tgz#7d90369bdae8974d87b1973564ad390182410d99"
+  integrity sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==
 
 vue-docgen-api@^4.44.15:
   version "4.73.0"

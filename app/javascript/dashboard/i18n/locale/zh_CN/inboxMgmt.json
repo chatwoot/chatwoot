@@ -22,7 +22,7 @@
         "body": "将客服添加到创建的收件箱。"
       },
       {
-        "title": "Voila!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "你已设定状态为离开"
       }
@@ -43,7 +43,7 @@
         "CHOOSE_PLACEHOLDER": "从列表中选择一个页面",
         "INBOX_NAME": "收件箱名称",
         "ADD_NAME": "为收件箱添加名称",
-        "PICK_NAME": "选择收件箱名称",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "选择一个数值"
       },
       "TWITTER": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook 网址",
-          "PLACEHOLDER": "输入您的 Webhook URL",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "请输入一个有效的 URL"
         },
         "CHANNEL_DOMAIN": {
@@ -175,12 +175,12 @@
           },
           "API_KEY": {
             "LABEL": "API 密钥",
-            "PLACEHOLDER": "请输入您的Bandwidth API密钥",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "此字段是必填项"
           },
           "API_SECRET": {
             "LABEL": "API秘钥",
-            "PLACEHOLDER": "请输入您的 Bandwidth API 秘钥",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "此字段是必填项"
           },
           "APPLICATION_ID": {
@@ -239,7 +239,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook 验证令牌",
-          "PLACEHOLDER": "请输入您要配置为Facebook Webhook的验证令牌",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "请输入一个有效的值"
         },
         "API_KEY": {
@@ -269,7 +269,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook 网址",
-          "SUBTITLE": "配置您希望接收事件回调的URL",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "Webhook 网址"
         },
         "SUBMIT_BUTTON": "创建 API 频道",
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "电子邮件频道",
-        "DESC": "集成您的电子邮件收件箱",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "频道类型",
           "PLACEHOLDER": "请输入频道名称",
@@ -345,7 +345,7 @@
       "AGENTS": {
         "TITLE": "客服代理们",
         "DESC": "在这里您可以添加代理来管理您新创建的收件箱。只有这些选定的代理才能访问您的收件箱。 不属于此收件箱的代理人在登录时将无法看到或回复此收件箱中的消息。 <br> <b>PS：</b> 作为管理员，如果您需要访问所有收件箱， 您应该将自己添加到您创建的所有收件箱中。",
-        "VALIDATION_ERROR": "添加至少一个代理到您的新收件箱",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "为收件箱选择代理"
       },
       "DETAILS": {
@@ -406,7 +406,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "发件人姓名",
-        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "友好的",
@@ -508,7 +508,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API 密钥",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
@@ -585,7 +585,7 @@
       "NOTE_TEXT": "要启用 SMTP，请配置 IMAP。",
       "UPDATE": "更新 IMAP 设置",
       "TOGGLE_AVAILABILITY": "为此收件箱启用 IMAP 配置",
-      "TOGGLE_HELP": "启用 IMAP 将帮助用户接收电子邮件",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "IMAP 设置更新成功",
         "ERROR_MESSAGE": "无法更新 IMAP 设置"

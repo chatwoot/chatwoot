@@ -74,6 +74,8 @@ zh_CN:
       conversations_count: Assigned conversations
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      resolution_count: 已解决的数量
+      avg_customer_waiting_time: Avg customer waiting time
     inbox_csv:
       inbox_name: 收件箱名称
       inbox_type: 收件箱类型
@@ -90,6 +92,8 @@ zh_CN:
       conversations_count: 对话数量
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      resolution_count: 已解决的数量
+      avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: 时区
     sla_csv:

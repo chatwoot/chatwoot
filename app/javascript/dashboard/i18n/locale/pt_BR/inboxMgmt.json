@@ -22,7 +22,7 @@
         "body": "Adicionar agentes à caixa de entrada criada."
       },
       {
-        "title": "Voila!",
+        "title": "Então!",
         "route": "settings_inbox_finish",
         "body": "Está tudo pronto para começar!"
       }
@@ -43,7 +43,7 @@
         "CHOOSE_PLACEHOLDER": "Selecione uma página da lista",
         "INBOX_NAME": "Nome da Caixa de Entrada",
         "ADD_NAME": "Adicione um nome para sua caixa de entrada",
-        "PICK_NAME": "Escolha Um Nome Para Sua Caixa de Entrada",
+        "PICK_NAME": "Escolha um nome para sua caixa de entrada",
         "PICK_A_VALUE": "Escolha um valor"
       },
       "TWITTER": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "URL do webhook",
-          "PLACEHOLDER": "Digite a URL do Webhook",
+          "PLACEHOLDER": "Insira o URL do seu webhook",
           "ERROR": "Por favor, insira uma URL válida"
         },
         "CHANNEL_DOMAIN": {
@@ -143,7 +143,7 @@
           "ERROR": "Este campo é obrigatório"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Número de telefone",
+          "LABEL": "Número de Telefone",
           "PLACEHOLDER": "Por favor, insira o número de telefone do qual a mensagem será enviada.",
           "ERROR": "Por favor, forneça um número de telefone válido que comece com o símbolo \"+\" e não contenha espaços."
         },
@@ -160,7 +160,7 @@
         "TITLE": "Canal SMS",
         "DESC": "Comece a apoiar seus clientes via SMS.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "Provedor de API",
           "TWILIO": "Twilio",
           "BANDWIDTH": "Bandwidth"
         },
@@ -175,12 +175,12 @@
           },
           "API_KEY": {
             "LABEL": "Chave API",
-            "PLACEHOLDER": "Por favor, digite a sua chave da Bandwith API",
+            "PLACEHOLDER": "Insira sua chave API Bandwidth",
             "ERROR": "Este campo é obrigatório"
           },
           "API_SECRET": {
             "LABEL": "Chave secreta API",
-            "PLACEHOLDER": "Por favor, insira a sua chave da API Bandwith",
+            "PLACEHOLDER": "Insira sua API Secret do Bandwidth",
             "ERROR": "Este campo é obrigatório"
           },
           "APPLICATION_ID": {
@@ -212,7 +212,7 @@
         "TITLE": "Canal do WhatsApp",
         "DESC": "Comece a apoiar seus clientes via WhatsApp.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "Provedor de API",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "Cloud do WhatsApp",
           "360_DIALOG": "360Dialog"
@@ -239,7 +239,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Token de verificação do Webhook",
-          "PLACEHOLDER": "Digite um token de verificação que você deseja configurar para webhooks do Facebook.",
+          "PLACEHOLDER": "Insira um token de verificação que você deseja configurar para webhooks do Facebook.",
           "ERROR": "Por favor, insira um valor válido."
         },
         "API_KEY": {
@@ -269,7 +269,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "URL do Webhook",
-          "SUBTITLE": "Configure a URL onde deseja receber chamadas em eventos.",
+          "SUBTITLE": "Configure a URL onde você deseja receber retornos de chamada em eventos.",
           "PLACEHOLDER": "URL do Webhook"
         },
         "SUBMIT_BUTTON": "Criar canal de API",
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Canal de e-mail",
-        "DESC": "Integre sua caixa de email.",
+        "DESC": "Integre sua caixa de entrada de e-mail.",
         "CHANNEL_NAME": {
           "LABEL": "Nome do Canal",
           "PLACEHOLDER": "Por favor, insira um nome de canal",
@@ -345,7 +345,7 @@
       "AGENTS": {
         "TITLE": "Agentes",
         "DESC": "Aqui você pode adicionar agentes para gerenciar sua caixa de entrada recém-criada. Somente esses agentes selecionados terão acesso à sua caixa de entrada. Os agentes que não fazem parte desta caixa de entrada não poderão ver ou responder a mensagens nessa caixa de entrada quando fizerem login. <br> <b> PS: </b> Como administrador, se você precisar acessar todas as caixas de entrada, adicione-se como agente a todas as caixas de entrada criadas.",
-        "VALIDATION_ERROR": "Adicione ao menos um agente a sua nova caixa de entrada",
+        "VALIDATION_ERROR": "Adicione pelo menos um agente à sua nova caixa de entrada",
         "PICK_AGENTS": "Escolha agentes para a caixa de entrada"
       },
       "DETAILS": {
@@ -406,7 +406,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Nome do remetente",
-        "SUB_TEXT": "Selecione o nome a ser exibido para o seu cliente quando ele receber e-mails de seus agentes.",
+        "SUB_TEXT": "Selecione o nome mostrado ao seu cliente quando ele recebe e-mails dos seus agentes.",
         "FOR_EG": "Por ex:",
         "FRIENDLY": {
           "TITLE": "Amigável",
@@ -508,12 +508,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Permitir mensagens após a resolução da conversa",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permite que os usuários finais enviem mensagens mesmo depois que a conversa for resolvida.",
       "WHATSAPP_SECTION_SUBHEADER": "Esta chave de API é usada para a integração com as APIs do WhatsApp.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Digite a chave atualizada a ser usada para a integração com as APIs do WhatsApp.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Insira a nova chave API a ser utilizada para integração com as APIs do WhatsApp.",
       "WHATSAPP_SECTION_TITLE": "Chave API",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Atualizar Chave de API",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Digite a nova chave de API aqui",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Atualizar",
-      "WHATSAPP_WEBHOOK_TITLE": "Token de verificação do Webhook",
+      "WHATSAPP_WEBHOOK_TITLE": "Token de verificação Webhook",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Este token é usado para verificar a autenticidade do webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atualizar configurações do Formulário Pre Chat"
     },
@@ -585,7 +585,7 @@
       "NOTE_TEXT": "Para habilitar o SMTP, por favor configure o IMAP.",
       "UPDATE": "Atualizar configurações do IMAP",
       "TOGGLE_AVAILABILITY": "Habilitar a configuração IMAP para esta caixa de entrada",
-      "TOGGLE_HELP": "Habilitar o IMAP ajudará o usuário a receber e-mail",
+      "TOGGLE_HELP": "Ativar o IMAP ajudará o usuário a receber e-mails",
       "EDIT": {
         "SUCCESS_MESSAGE": "Configurações IMAP atualizadas com sucesso",
         "ERROR_MESSAGE": "Não é possível atualizar as configurações IMAP"

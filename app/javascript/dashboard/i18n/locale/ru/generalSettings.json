@@ -107,6 +107,7 @@
       "GENERAL": "Главное",
       "REPORTS": "Отчёты",
       "CONVERSATION": "Диалоги",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Изменить Назначенного",
       "CHANGE_PRIORITY": "Изменить приоритет",
       "CHANGE_TEAM": "Изменить команду",
