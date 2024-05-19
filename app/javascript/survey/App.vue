@@ -16,5 +16,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~survey/assets/scss/woot.scss';
+@import './assets/scss/woot.scss';
 </style>
