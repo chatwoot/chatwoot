@@ -8,7 +8,7 @@
     "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Các cuộc trò chuyện",
+        "NAME": "Các cuộc hội thoại",
         "DESC": "( Tổng cộng )"
       },
       "INCOMING_MESSAGES": {
@@ -20,7 +20,7 @@
         "DESC": "( Tổng cộng )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Thời gian phản hồi đầu tiên",
+        "NAME": "Thời gian phản hồi",
         "DESC": "( Trung bình )",
         "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
         "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là %{metricValue} (dựa trên %{conversationCount} cuộc hội thoại)"
@@ -49,8 +49,8 @@
       }
     },
     "DATE_RANGE_OPTIONS": {
-      "LAST_7_DAYS": "7 ngày cuối",
-      "LAST_30_DAYS": "30 ngày cuối",
+      "LAST_7_DAYS": "7 ngày vừa qua",
+      "LAST_30_DAYS": "30 ngày vừa qua",
       "LAST_3_MONTHS": "3 tháng vừa qua",
       "LAST_6_MONTHS": "6 tháng vừa qua",
       "LAST_YEAR": "Năm ngoái",
@@ -59,11 +59,11 @@
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "7 ngày cuối"
+        "name": "7 ngày vừa qua"
       },
       {
         "id": 1,
-        "name": "30 ngày cuối"
+        "name": "30 ngày vừa qua"
       },
       {
         "id": 2,
@@ -466,11 +466,31 @@
       }
     }
   },
+  "CONTACT_REPORTS": {
+    "HEADER": "Tình hình kinh doanh",
+    "CONVERSION_RATE": {
+      "HEADER": "Tỷ lệ chuyển đổi",
+      "LOADING_MESSAGE": "Đang tải tỷ lệ chuyển đổi..."
+    },
+    "ACCOUNT_CONTACTS": {
+      "HEADER": "Khách hàng theo các giai đoạn chính",
+      "LOADING_MESSAGE": "Đang tải số liệu khách hàng..."
+    },
+    "AGENT_CONTACTS": {
+      "HEADER": "Khách hàng theo nhân viên",
+      "LOADING_MESSAGE": "Đang tải số liệu theo nhân viên...",
+      "NO_AGENTS": "Không có khách hàng nào theo nhân viên",
+      "TABLE_HEADER": {
+        "AGENT": "Nhân viên",
+        "STATUS": "Trạng thái"
+      }
+    }
+  },
   "OVERVIEW_REPORTS": {
     "HEADER": "Tổng quan hội thoại",
     "LIVE": "Live",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Thống kê hội thoại",
+      "HEADER": "Hội thoại theo tình trạng",
       "LOADING_MESSAGE": "Đang tải số liệu cuộc hội thoại...",
       "OPEN": "Đang giải quyết",
       "UNATTENDED": "Chưa tiếp nhận",
@@ -478,7 +498,7 @@
       "RESOLVED": "Đã hoàn thành"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "Thống kê hội thoại theo nhân viên",
+      "HEADER": "Hội thoại theo nhân viên",
       "LOADING_MESSAGE": "Đang tải số liệu theo nhân viên...",
       "NO_AGENTS": "Không có cuộc hội thoại nào theo nhân viên",
       "TABLE_HEADER": {
@@ -490,7 +510,7 @@
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Thống kê đăng nhập",
+      "HEADER": "Tình trạng đăng nhập",
       "ONLINE": "Trực Tuyến",
       "BUSY": "Bận",
       "OFFLINE": "Ngoại Tuyến"

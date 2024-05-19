@@ -12,7 +12,7 @@ class InitialDataBuilder
                    { account_id: account_id,
                      stage_type: :leads,
                      code: 'New',
-                     name: 'Khách hàng mới',
+                     name: 'Mới',
                      description: 'Lead mới đến từ các kênh hội thoại hoặc tự nhập',
                      status: :ongoing },
 

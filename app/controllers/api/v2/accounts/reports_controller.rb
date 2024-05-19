@@ -54,6 +54,12 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render json: conversation_metrics
   end
 
+  def contacts
+    return head :unprocessable_entity if params[:type].blank?
+
+    render json: contact_metrics
+  end
+
   def bot_metrics
     bot_metrics = V2::Reports::BotMetricsBuilder.new(Current.account, params).metrics
     render json: bot_metrics
@@ -134,5 +140,9 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
 
   def conversation_metrics
     V2::ReportBuilder.new(Current.account, conversation_params).conversation_metrics
+  end
+
+  def contact_metrics
+    V2::ReportBuilder.new(Current.account, conversation_params).contact_metrics
   end
 end

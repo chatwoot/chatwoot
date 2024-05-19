@@ -5,6 +5,7 @@ const reports = accountId => ({
   parentNav: 'reports',
   routes: [
     'account_overview_reports',
+    'contact_reports',
     'traffic_reports',
     'conversation_reports',
     'csat_reports',
@@ -16,6 +17,14 @@ const reports = accountId => ({
     'sla_reports',
   ],
   menuItems: [
+    {
+      icon: 'contact-card-group',
+      label: 'REPORTS_CONTACT',
+      hasSubMenu: false,
+      featureFlag: FEATURE_FLAGS.CRM,
+      toState: frontendURL(`accounts/${accountId}/reports/contact`),
+      toStateName: 'contact_reports',
+    },
     {
       icon: 'arrow-trending-lines',
       label: 'REPORTS_OVERVIEW',
