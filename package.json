@@ -149,6 +149,8 @@
     "prettier": "^3.0.3",
     "rimraf": "^3.0.0",
     "size-limit": "^8.2.4",
+    "vite": "^5.0.0",
+    "vite-plugin-ruby": "^5.0.0",
     "webpack-dev-server": "^3"
   },
   "engines": {
