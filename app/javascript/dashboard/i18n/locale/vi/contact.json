@@ -272,7 +272,7 @@
       "404": "Không có khách hàng nào khớp với tìm kiếm của bạn 🔍",
       "NO_CONTACTS": "Không có khách hàng nào có sẵn",
       "TABLE_HEADER": {
-        "GROUP_BASIC": "Thông tin khách hàng",
+        "GROUP_BASIC": "Thông tin cá nhân",
         "GROUP_CUSTOM": "Thông tin tùy chỉnh",
         "GROUP_SALES": "Thông tin kinh doanh",
         "GROUP_TRACKING": "Thông tin theo dõi",
@@ -284,8 +284,7 @@
         "STAGE_NAME": "Giai đoạn",
         "LAST_NOTE": "Ghi chú mới nhất",
         "ACTION_DESCRIPTION": "Hành động tiếp theo",
-        "LEAD_ASSIGNEE": "Phụ trách leads",
-        "DEAL_ASSIGNEE": "Phụ trách deals",
+        "ASSIGNEE": "Người phụ trách",
         "TEAM_NAME": "Nhóm phụ trách",
         "EMAIL_ADDRESS": "Email",
         "INITIAL_CHANNEL": "Tiếp nhận qua kênh",

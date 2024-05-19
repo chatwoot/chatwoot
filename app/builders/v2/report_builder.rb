@@ -149,7 +149,7 @@ class V2::ReportBuilder
 
     result = {}
     stages.each do |stage|
-      result[stage.code] = @user ? stage.contacts.where(assignee_id_in_leads: @user.id).count : stage.contacts.count
+      result[stage.code] = @user ? stage.contacts.where(assignee_id: @user.id).count : stage.contacts.count
     end
     result
   end

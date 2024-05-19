@@ -6,8 +6,6 @@
 #
 #  id                     :integer          not null, primary key
 #  additional_attributes  :jsonb
-#  assignee_id_in_deals   :integer
-#  assignee_id_in_leads   :integer
 #  blocked                :boolean          default(FALSE), not null
 #  contact_type           :integer          default("visitor")
 #  country_code           :string           default("")
@@ -26,6 +24,7 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  account_id             :integer          not null
+#  assignee_id            :integer
 #  initial_channel_id     :integer
 #  stage_id               :integer
 #  team_id                :integer
@@ -61,14 +60,7 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
   belongs_to :account
   belongs_to :stage, optional: true
   belongs_to :team, optional: true
-  belongs_to :assignee_in_leads, # rubocop:disable Rails/InverseOf
-             class_name: :User,
-             foreign_key: :assignee_id_in_leads,
-             optional: true
-  belongs_to :assignee_in_deals, # rubocop:disable Rails/InverseOf
-             class_name: :User,
-             foreign_key: :assignee_id_in_deals,
-             optional: true
+  belongs_to :assignee, class_name: 'User', optional: true, inverse_of: :assigned_contacts
   belongs_to :initial_channel,
              class_name: :Channel,
              optional: true
@@ -135,18 +127,10 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
       )
     )
   }
-  scope :order_on_assignee_id_in_deals, lambda { |direction|
+  scope :order_on_assignee_id, lambda { |direction|
     order(
       Arel::Nodes::SqlLiteral.new(
-        sanitize_sql_for_order("\"contacts\".\"assignee_id_in_deals\" #{direction}
-          NULLS LAST")
-      )
-    )
-  }
-  scope :order_on_assignee_id_in_leads, lambda { |direction|
-    order(
-      Arel::Nodes::SqlLiteral.new(
-        sanitize_sql_for_order("\"contacts\".\"assignee_id_in_leads\" #{direction}
+        sanitize_sql_for_order("\"contacts\".\"assignee_id\" #{direction}
           NULLS LAST")
       )
     )

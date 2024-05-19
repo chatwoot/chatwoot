@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_06_122901) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_19_115257) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -448,8 +448,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_06_122901) do
     t.boolean "blocked", default: false, null: false
     t.integer "stage_id"
     t.integer "team_id"
-    t.integer "assignee_id_in_leads"
-    t.integer "assignee_id_in_deals"
+    t.integer "assignee_id"
     t.integer "initial_channel_id"
     t.string "initial_channel_type"
     t.datetime "first_reply_created_at"

@@ -280,9 +280,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('agents/get');
-    this.agent = this.contact.assignee_in_deals
-      ? this.contact.assignee_in_deals
-      : this.contact.assignee_in_leads;
+    this.agent = this.contact.assignee;
     this.team = this.contact.team;
   },
   methods: {

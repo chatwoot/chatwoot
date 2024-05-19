@@ -100,12 +100,7 @@ export default {
           action_description: item.current_action
             ? this.currentActionText(item.current_action)
             : null,
-          assignee_name_in_leads: item.assignee_in_leads
-            ? item.assignee_in_leads.name
-            : null,
-          assignee_name_in_deals: item.assignee_in_deals
-            ? item.assignee_in_deals.name
-            : null,
+          assignee_name: item.assignee ? item.assignee.name : null,
         };
       });
     },
@@ -237,17 +232,10 @@ export default {
         align: this.isRTLView ? 'right' : 'left',
       });
       salesColumn.children.push({
-        field: 'assignee_name_in_leads',
-        key: 'assignee_name_in_leads',
-        sortBy: this.sortConfig.assignee_id_in_leads || '',
-        title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.LEAD_ASSIGNEE'),
-        align: this.isRTLView ? 'right' : 'left',
-      });
-      salesColumn.children.push({
-        field: 'assignee_name_in_deals',
-        key: 'assignee_name_in_deals',
-        sortBy: this.sortConfig.assignee_id_in_deals || '',
-        title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.DEAL_ASSIGNEE'),
+        field: 'assignee_name',
+        key: 'assignee_name',
+        sortBy: this.sortConfig.assignee_id || '',
+        title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.ASSIGNEE'),
         align: this.isRTLView ? 'right' : 'left',
       });
       salesColumn.children.push({

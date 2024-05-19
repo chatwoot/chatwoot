@@ -6,8 +6,7 @@ json.phone_number resource.phone_number
 json.identifier resource.identifier
 json.thumbnail resource.avatar_url
 json.stage resource.stage if resource.stage.present?
-json.assignee_in_leads resource.assignee_in_leads if resource.assignee_in_leads.present?
-json.assignee_in_deals resource.assignee_in_deals if resource.assignee_in_deals.present?
+json.assignee resource.assignee if resource.assignee.present?
 json.team resource.team if resource.team.present?
 json.last_note resource.notes.order(created_at: :desc).first.content if resource.notes.present?
 if resource.conversations.where(conversation_type: :action).present?

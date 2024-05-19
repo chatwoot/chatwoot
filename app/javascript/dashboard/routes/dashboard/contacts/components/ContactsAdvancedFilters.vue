@@ -287,8 +287,7 @@ export default {
           return countries;
         case 'stage_id':
           return this.stages;
-        case 'assignee_id_in_leads':
-        case 'assignee_id_in_deals':
+        case 'assignee_id':
           return this.agents;
         case 'team_id':
           return this.teams;

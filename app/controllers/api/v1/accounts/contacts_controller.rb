@@ -10,8 +10,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   sort_on :last_stage_changed_at, internal_name: :order_on_last_stage_changed_at, type: :scope, scope_params: [:direction]
   sort_on :company, internal_name: :order_on_company_name, type: :scope, scope_params: [:direction]
   sort_on :stage_name, internal_name: :order_on_stage_id, type: :scope, scope_params: [:direction]
-  sort_on :assignee_name_in_leads, internal_name: :order_on_assignee_id_in_leads, type: :scope, scope_params: [:direction]
-  sort_on :assignee_name_in_deals, internal_name: :order_on_assignee_id_in_deals, type: :scope, scope_params: [:direction]
+  sort_on :assignee_name, internal_name: :order_on_assignee_id, type: :scope, scope_params: [:direction]
   sort_on :team_name, internal_name: :order_on_team_id, type: :scope, scope_params: [:direction]
   sort_on :city, internal_name: :order_on_city, type: :scope, scope_params: [:direction]
   sort_on :country, internal_name: :order_on_country_name, type: :scope, scope_params: [:direction]
@@ -152,8 +151,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
                            .includes(:notes)
                            .includes(:stage)
                            .includes(:team)
-                           .includes(:assignee_in_leads)
-                           .includes(:assignee_in_deals)
+                           .includes(:assignee)
 
     contacts_with_avatar = contacts_with_avatar.page(@current_page).per(RESULTS_PER_PAGE) if @current_page.to_i.positive?
 
@@ -174,8 +172,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def permitted_params
-    params.permit(:name, :identifier, :email, :phone_number, :stage_id, :avatar, :blocked, :assignee_id_in_leads,
-                  :assignee_id_in_deals, :team_id, :avatar_url, additional_attributes: {}, custom_attributes: {})
+    params.permit(:name, :identifier, :email, :phone_number, :stage_id, :avatar, :blocked, :assignee_id,
+                  :team_id, :avatar_url, additional_attributes: {}, custom_attributes: {})
   end
 
   def contact_custom_attributes

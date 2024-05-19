@@ -279,7 +279,7 @@ export default {
       this.phoneNumber = phoneNumber || '';
       this.avatarUrl = this.contact.thumbnail || '';
       this.customAttributes = this.contact.custom_attributes || {};
-      this.agent = this.contact.assignee_in_leads || {};
+      this.agent = this.contact.assignee || {};
       this.team = this.contact.team || {};
     },
     getContactObject() {
@@ -296,7 +296,7 @@ export default {
         phone_number: this.setPhoneNumber,
         stage_id: this.contact.stage_id,
         custom_attributes: this.customAttributes,
-        assignee_id_in_leads: this.agent?.id,
+        assignee_id: this.agent?.id,
         team_id: this.team?.id,
       };
       if (this.avatarFile) {

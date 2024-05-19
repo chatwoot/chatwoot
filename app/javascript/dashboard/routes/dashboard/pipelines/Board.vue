@@ -100,17 +100,11 @@ export default {
         const stage = this.stages.find(item => item.id === contact.stage.id);
         if (!stage) return;
 
-        const assigneeInLeads = contact.assignee_in_leads
-          ? contact.assignee_in_leads.name
-          : '';
-        const assigneeInDeals = contact.assignee_in_deals
-          ? contact.assignee_in_deals.name
-          : '';
         const contactInBlock = {
           id: contact.id,
           status: stage.code,
           title: contact.name,
-          assignee: assigneeInDeals || assigneeInLeads,
+          assignee: contact.assignee?.name,
           lastNote: contact.last_note,
           updatedAt: contact.updated_at,
           formattedStageChangedAt: contact.last_stage_changed_at

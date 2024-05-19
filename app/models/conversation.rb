@@ -244,7 +244,7 @@ class Conversation < ApplicationRecord
   def sync_contact_assignee
     return unless contact.conversations.where(conversation_type: :default_type).count == 1 && assignee_id.present?
 
-    contact.update(assignee_id_in_leads: assignee_id)
+    contact.update(assignee_id: assignee_id)
   end
 
   def notify_conversation_updation

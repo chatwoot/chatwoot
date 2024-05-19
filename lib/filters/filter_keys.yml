@@ -169,15 +169,7 @@ contacts:
       - "not_equal_to"
       - "is_present"
       - "is_not_present"
-  assignee_id_in_leads:
-    attribute_type: "standard"
-    data_type: "Number"
-    filter_operators:
-      - "equal_to"
-      - "not_equal_to"
-      - "is_present"
-      - "is_not_present"
-  assignee_id_in_deals:
+  assignee_id:
     attribute_type: "standard"
     data_type: "Number"
     filter_operators:

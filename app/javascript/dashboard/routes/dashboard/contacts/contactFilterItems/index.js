@@ -46,16 +46,8 @@ const filterTypes = [
     attribute_type: 'standard',
   },
   {
-    attributeKey: 'assignee_id_in_leads',
-    attributeI18nKey: 'LEADS_ASSIGNEE',
-    inputType: 'search_select',
-    dataType: 'number',
-    filterOperators: OPERATOR_TYPES_2,
-    attribute_type: 'standard',
-  },
-  {
-    attributeKey: 'assignee_id_in_deals',
-    attributeI18nKey: 'DEALS_ASSIGNEE',
+    attributeKey: 'assignee_id',
+    attributeI18nKey: 'ASSIGNEE_ID',
     inputType: 'search_select',
     dataType: 'number',
     filterOperators: OPERATOR_TYPES_2,
@@ -113,12 +105,8 @@ export const filterAttributeGroups = [
         i18nKey: 'STAGE',
       },
       {
-        key: 'assignee_id_in_leads',
-        i18nKey: 'LEADS_ASSIGNEE',
-      },
-      {
-        key: 'assignee_id_in_deals',
-        i18nKey: 'DEALS_ASSIGNEE',
+        key: 'assignee_id',
+        i18nKey: 'ASSIGNEE_ID',
       },
       {
         key: 'team_id',

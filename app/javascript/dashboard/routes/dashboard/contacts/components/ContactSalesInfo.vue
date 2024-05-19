@@ -67,31 +67,16 @@
     <div class="multiselect-wrap--small">
       <contact-details-item
         compact
-        :title="$t('CONTACTS_PAGE.LIST.TABLE_HEADER.LEAD_ASSIGNEE')"
+        :title="$t('CONTACTS_PAGE.LIST.TABLE_HEADER.ASSIGNEE')"
       />
       <multiselect-dropdown
         :options="agents"
-        :selected-item="leadAssignee"
+        :selected-item="assignee"
         :multiselector-placeholder="$t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')"
         :input-placeholder="
           $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.AGENT')
         "
-        @click="onClickLeadAssignee"
-      />
-    </div>
-    <div class="multiselect-wrap--small">
-      <contact-details-item
-        compact
-        :title="$t('CONTACTS_PAGE.LIST.TABLE_HEADER.DEAL_ASSIGNEE')"
-      />
-      <multiselect-dropdown
-        :options="agents"
-        :selected-item="dealAssignee"
-        :multiselector-placeholder="$t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')"
-        :input-placeholder="
-          $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.AGENT')
-        "
-        @click="onClickDealAssignee"
+        @click="onClickAssignee"
       />
     </div>
     <div class="multiselect-wrap--small">
@@ -174,30 +159,15 @@ export default {
         this.contact.current_action.status === 'resolved'
       );
     },
-    leadAssignee: {
+    assignee: {
       get() {
-        return this.contact.assignee_in_leads;
+        return this.contact.assignee;
       },
       set(agent) {
         const agentId = agent ? agent.id : null;
         const contactItem = {
           id: this.contact.id,
-          assignee_id_in_leads: agentId,
-        };
-        this.$store.dispatch('contacts/update', contactItem).then(() => {
-          this.showAlert(this.$t('CONTACT_PANEL.ACTIONS.CHANGE_AGENT'));
-        });
-      },
-    },
-    dealAssignee: {
-      get() {
-        return this.contact.assignee_in_deals;
-      },
-      set(agent) {
-        const agentId = agent ? agent.id : null;
-        const contactItem = {
-          id: this.contact.id,
-          assignee_id_in_deals: agentId,
+          assignee_id: agentId,
         };
         this.$store.dispatch('contacts/update', contactItem).then(() => {
           this.showAlert(this.$t('CONTACT_PANEL.ACTIONS.CHANGE_AGENT'));
@@ -236,18 +206,11 @@ export default {
       this.$store.dispatch('contacts/show', { id: contactId });
       this.onToggleAddNote();
     },
-    onClickLeadAssignee(selectedItem) {
-      if (this.leadAssignee && this.leadAssignee.id === selectedItem.id) {
-        this.leadAssignee = null;
+    onClickAssignee(selectedItem) {
+      if (this.assignee && this.assignee.id === selectedItem.id) {
+        this.assignee = null;
       } else {
-        this.leadAssignee = selectedItem;
-      }
-    },
-    onClickDealAssignee(selectedItem) {
-      if (this.dealAssignee && this.dealAssignee.id === selectedItem.id) {
-        this.dealAssignee = null;
-      } else {
-        this.dealAssignee = selectedItem;
+        this.assignee = selectedItem;
       }
     },
 

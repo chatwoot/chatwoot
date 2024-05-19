@@ -13,10 +13,7 @@ module AssignmentHandler
   def ensure_assignee_is_from_contact_assignee
     return unless new_record? && conversation_type == :default_type
 
-    contact_assignee_id = contact.assignee_id_in_deals || contact.assignee_id_in_leads
-    return if contact_assignee_id.blank?
-
-    self.assignee_id = contact_assignee_id
+    self.assignee_id = contact.assignee_id if contact.assignee_id.present?
   end
 
   def ensure_assignee_is_from_team
