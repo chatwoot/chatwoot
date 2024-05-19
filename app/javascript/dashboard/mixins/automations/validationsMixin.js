@@ -1,4 +1,4 @@
-import { required, requiredIf } from 'vuelidate/lib/validators';
+import { required, requiredIf } from '@vuelidate/validators';
 
 export default {
   validations: {

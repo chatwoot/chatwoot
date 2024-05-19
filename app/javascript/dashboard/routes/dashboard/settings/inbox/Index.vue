@@ -28,7 +28,7 @@
                 <img
                   v-else
                   class="woot-thumbnail"
-                  src="~dashboard/assets/images/flag.svg"
+                  src="dashboard/assets/images/flag.svg"
                   alt="No Page Image"
                 />
               </td>

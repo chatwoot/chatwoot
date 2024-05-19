@@ -243,17 +243,17 @@ import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead.vue';
 import CannedResponse from 'dashboard/components/widgets/conversation/CannedResponse.vue';
-import MessageSignatureMissingAlert from 'dashboard/components/widgets/conversation/MessageSignatureMissingAlert';
+import MessageSignatureMissingAlert from 'dashboard/components/widgets/conversation/MessageSignatureMissingAlert.vue';
 import InboxDropdownItem from 'dashboard/components/widgets/InboxDropdownItem.vue';
 import WhatsappTemplates from './WhatsappTemplates.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import { getInboxSource } from 'dashboard/helper/inbox';
-import { required, requiredIf } from 'vuelidate/lib/validators';
+import { required, requiredIf } from '@vuelidate/validators';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import FileUpload from 'vue-upload-component';
-import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
+import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.vue';
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
 import {
@@ -574,6 +574,7 @@ export default {
 .file-uploads {
   @apply text-start;
 }
+
 .multiselect-wrap--small.has-multi-select-error {
   ::v-deep {
     .multiselect__tags {
@@ -586,9 +587,11 @@ export default {
   .mention--box {
     @apply left-0 m-auto right-0 top-auto h-fit;
   }
+
   .multiselect .multiselect__content .multiselect__option span {
     @apply inline-flex w-6 text-slate-600 dark:text-slate-400;
   }
+
   .multiselect .multiselect__content .multiselect__option {
     @apply py-0.5 px-1;
   }

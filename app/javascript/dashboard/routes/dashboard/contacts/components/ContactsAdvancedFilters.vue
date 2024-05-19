@@ -90,7 +90,7 @@
 
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 import FilterInputBox from '../../../../components/widgets/FilterInput/Index.vue';
 import countries from 'shared/constants/countries.js';
 import { mapGetters } from 'vuex';

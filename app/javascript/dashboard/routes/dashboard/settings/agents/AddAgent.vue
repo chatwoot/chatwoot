@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { required, minLength, email } from 'vuelidate/lib/validators';
+import { required, minLength, email } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
 
 export default {

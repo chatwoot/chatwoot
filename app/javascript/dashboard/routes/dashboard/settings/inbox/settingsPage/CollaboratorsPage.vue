@@ -78,7 +78,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { minValue } from 'vuelidate/lib/validators';
+import { minValue } from '@vuelidate/validators';
 import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
 import SettingsSection from '../../../../../components/SettingsSection.vue';
@@ -191,8 +191,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/variables';
-@import '~dashboard/assets/scss/mixins';
+@import 'dashboard/assets/scss/variables';
+@import 'dashboard/assets/scss/mixins';
 
 .max-assignment-container {
   padding-top: var(--space-slab);

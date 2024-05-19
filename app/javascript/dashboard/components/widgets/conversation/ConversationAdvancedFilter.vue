@@ -80,7 +80,7 @@
 
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
-import { required, requiredIf } from 'vuelidate/lib/validators';
+import { required, requiredIf } from '@vuelidate/validators';
 import FilterInputBox from '../FilterInput/Index.vue';
 import languages from './advancedFilterItems/languages';
 import countries from 'shared/constants/countries.js';

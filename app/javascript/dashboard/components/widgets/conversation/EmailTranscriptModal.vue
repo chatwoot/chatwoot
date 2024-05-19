@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { required, minLength, email } from 'vuelidate/lib/validators';
+import { required, minLength, email } from '@vuelidate/validators';
 import alertMixin from 'shared/mixins/alertMixin';
 export default {
   mixins: [alertMixin],

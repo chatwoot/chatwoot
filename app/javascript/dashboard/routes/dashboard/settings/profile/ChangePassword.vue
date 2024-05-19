@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { required, minLength } from 'vuelidate/lib/validators';
+import { required, minLength } from '@vuelidate/validators';
 import alertMixin from 'shared/mixins/alertMixin';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import FormButton from 'v3/components/Form/Button.vue';

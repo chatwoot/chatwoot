@@ -6,18 +6,18 @@ import axios from 'axios';
 import hljs from 'highlight.js';
 import Multiselect from 'vue-multiselect';
 import VueFormulate from '@braid/vue-formulate';
-import WootSwitch from 'components/ui/Switch';
-import WootWizard from 'components/ui/Wizard';
+import WootSwitch from 'components/ui/Switch.vue';
+import WootWizard from 'components/ui/Wizard.vue';
 import { sync } from 'vuex-router-sync';
 import Vuelidate from 'vuelidate';
 import VTooltip from 'v-tooltip';
-import WootUiKit from '../dashboard/components';
-import App from '../dashboard/App';
-import i18n from '../dashboard/i18n';
-import createAxios from '../dashboard/helper/APIHelper';
-import commonHelpers, { isJSONValid } from '../dashboard/helper/commons';
-import router, { initalizeRouter } from '../dashboard/routes';
-import store from '../dashboard/store';
+import WootUiKit from '../dashboard/components/index.js';
+import App from '../dashboard/App.vue';
+import i18n from '../dashboard/i18n/index.js';
+import createAxios from '../dashboard/helper/APIHelper.js';
+import commonHelpers, { isJSONValid } from '../dashboard/helper/commons.js';
+import router, { initalizeRouter } from '../dashboard/routes/index.js';
+import store from '../dashboard/store/index.js';
 import constants from 'dashboard/constants/globals';
 import * as Sentry from '@sentry/vue';
 import 'vue-easytable/libs/theme-default/index.css';
@@ -25,15 +25,13 @@ import { Integrations } from '@sentry/tracing';
 import {
   initializeAnalyticsEvents,
   initializeChatwootEvents,
-} from '../dashboard/helper/scriptHelpers';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
+} from '../dashboard/helper/scriptHelpers.js';
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
-import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
-import AnalyticsPlugin from '../dashboard/helper/AnalyticsHelper/plugin';
+import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer.js';
+import AnalyticsPlugin from '../dashboard/helper/AnalyticsHelper/plugin.js';
 import resizeDirective from '../dashboard/helper/directives/resize.js';
 import { directive as onClickaway } from 'vue-clickaway';
-
-Vue.config.env = process.env;
 
 if (window.errorLoggingConfig) {
   Sentry.init({

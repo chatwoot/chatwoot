@@ -59,7 +59,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 import router from '../../../../index';
 
 import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';

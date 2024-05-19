@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { required, minLength } from 'vuelidate/lib/validators';
+import { required, minLength } from '@vuelidate/validators';
 
 import WootSubmitButton from '../../../../components/buttons/FormSubmitButton.vue';
 import Modal from '../../../../components/Modal.vue';

@@ -59,7 +59,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import UpgradePage from './UpgradePage';
+import UpgradePage from './UpgradePage.vue';
 import { frontendURL } from '../../../../helper/URLHelper';
 import Sidebar from 'dashboard/components/layout/Sidebar.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';

@@ -51,8 +51,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/variables';
-@import '~dashboard/assets/scss/mixins';
+@import 'dashboard/assets/scss/variables';
+@import 'dashboard/assets/scss/mixins';
 
 .colorpicker {
   position: relative;

@@ -109,7 +109,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { required, minLength } from 'vuelidate/lib/validators';
+import { required, minLength } from '@vuelidate/validators';
 import { ATTRIBUTE_TYPES } from './constants';
 import alertMixin from 'shared/mixins/alertMixin';
 import customAttributeMixin from '../../../../mixins/customAttributeMixin';
@@ -277,13 +277,16 @@ export default {
   padding: 0 var(--space-small) var(--space-small) 0;
   font-family: monospace;
 }
+
 .multiselect--wrap {
   margin-bottom: var(--space-normal);
+
   .error-message {
     color: var(--r-400);
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-normal);
   }
+
   .invalid {
     ::v-deep {
       .multiselect__tags {
@@ -292,13 +295,16 @@ export default {
     }
   }
 }
+
 ::v-deep {
   .multiselect {
     margin-bottom: 0;
   }
+
   .multiselect__content-wrapper {
     display: none;
   }
+
   .multiselect--active .multiselect__tags {
     border-radius: var(--border-radius-normal);
   }

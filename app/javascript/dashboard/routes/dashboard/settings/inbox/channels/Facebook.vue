@@ -5,7 +5,7 @@
     <div v-if="!hasLoginStarted" class="login-init h-full">
       <a href="#" @click="startLogin()">
         <img
-          src="~dashboard/assets/images/channels/facebook_login.png"
+          src="dashboard/assets/images/channels/facebook_login.png"
           alt="Facebook-logo"
         />
       </a>
@@ -90,7 +90,7 @@
 <script>
 /* eslint-env browser */
 /* global FB */
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
 import { mapGetters } from 'vuex';
 import ChannelApi from '../../../../../api/channels';

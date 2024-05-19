@@ -28,7 +28,7 @@
   </div>
 </template>
 
-<script>
+<script lang="jsx">
 import { VeTable, VePagination } from 'vue-easytable';
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
@@ -170,6 +170,7 @@ export default {
       .title {
         @apply text-sm m-0 leading-[1.2] text-slate-800 dark:text-slate-100;
       }
+
       .sub-title {
         @apply text-xs text-slate-600 dark:text-slate-200;
       }

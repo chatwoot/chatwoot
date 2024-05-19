@@ -26,7 +26,7 @@
 <script>
 import MacroNodes from './MacroNodes.vue';
 import MacroProperties from './MacroProperties.vue';
-import { required, requiredIf } from 'vuelidate/lib/validators';
+import { required, requiredIf } from '@vuelidate/validators';
 
 export default {
   components: {
@@ -129,13 +129,16 @@ export default {
 
 <style scoped>
 @tailwind components;
+
 @layer components {
   .macro-gradient-radial {
     background-image: radial-gradient(#ebf0f5 1.2px, transparent 0);
   }
+
   .macro-dark-gradient-radial {
     background-image: radial-gradient(#293f51 1.2px, transparent 0);
   }
+
   .macro-gradient-radial-size {
     background-size: 1rem 1rem;
   }

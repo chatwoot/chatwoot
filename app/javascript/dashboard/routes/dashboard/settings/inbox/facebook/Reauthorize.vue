@@ -5,7 +5,7 @@
   >
     <a class="fb--login" href="#" @click="tryFBlogin">
       <img
-        src="~dashboard/assets/images/channels/facebook_login.png"
+        src="dashboard/assets/images/channels/facebook_login.png"
         alt="Facebook-logo"
       />
     </a>
@@ -105,7 +105,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/variables';
+@import 'dashboard/assets/scss/variables';
 
 .fb--login {
   img {

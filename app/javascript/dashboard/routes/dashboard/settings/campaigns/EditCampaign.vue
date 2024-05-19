@@ -113,7 +113,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import campaignMixin from 'shared/mixins/campaignMixin';

@@ -45,7 +45,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/variables.scss';
+@import 'dashboard/assets/scss/variables.scss';
 .footer-wrap {
   width: 100%;
   display: flex;

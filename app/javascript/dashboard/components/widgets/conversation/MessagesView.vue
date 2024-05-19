@@ -86,7 +86,7 @@
           {{ typingUserNames }}
           <img
             class="ltr:ml-2 rtl:mr-2 w-6"
-            src="~dashboard/assets/images/typing.gif"
+            src="dashboard/assets/images/typing.gif"
             alt="Someone is typing"
           />
         </div>

@@ -157,7 +157,7 @@ import { mapGetters } from 'vuex';
 import Widget from 'dashboard/modules/widget-preview/components/Widget.vue';
 import InputRadioGroup from './components/InputRadioGroup.vue';
 import alertMixin from 'shared/mixins/alertMixin';
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 
@@ -416,7 +416,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/woot';
+@import 'dashboard/assets/scss/woot';
 
 .widget-builder-container {
   display: flex;

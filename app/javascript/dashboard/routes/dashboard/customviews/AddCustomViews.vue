@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { required, minLength } from 'vuelidate/lib/validators';
+import { required, minLength } from '@vuelidate/validators';
 import alertMixin from 'shared/mixins/alertMixin';
 import { CONTACTS_EVENTS } from '../../../helper/AnalyticsHelper/events';
 

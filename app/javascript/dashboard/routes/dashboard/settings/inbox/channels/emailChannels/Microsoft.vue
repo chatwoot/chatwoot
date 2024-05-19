@@ -29,7 +29,7 @@
 import alertMixin from 'shared/mixins/alertMixin';
 import microsoftClient from 'dashboard/api/channel/microsoftClient';
 import SettingsSubPageHeader from '../../../SettingsSubPageHeader.vue';
-import { required, email } from 'vuelidate/lib/validators';
+import { required, email } from '@vuelidate/validators';
 
 export default {
   components: { SettingsSubPageHeader },

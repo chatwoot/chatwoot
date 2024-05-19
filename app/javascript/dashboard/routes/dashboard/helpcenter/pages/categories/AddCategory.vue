@@ -68,7 +68,7 @@
 
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
-import { required, minLength } from 'vuelidate/lib/validators';
+import { required, minLength } from '@vuelidate/validators';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
 import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 import CategoryNameIconInput from './NameEmojiInput.vue';

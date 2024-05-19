@@ -1,30 +1,32 @@
-import HelpCenterLayout from './components/HelpCenterLayout';
+import HelpCenterLayout from './components/HelpCenterLayout.vue';
 import { getPortalRoute } from './helpers/routeHelper';
 
-const ListAllPortals = () => import('./pages/portals/ListAllPortals');
-const NewPortal = () => import('./pages/portals/NewPortal');
+const ListAllPortals = () => import('./pages/portals/ListAllPortals.vue');
+const NewPortal = () => import('./pages/portals/NewPortal.vue');
 
-const EditPortal = () => import('./pages/portals/EditPortal');
-const EditPortalBasic = () => import('./pages/portals/EditPortalBasic');
+const EditPortal = () => import('./pages/portals/EditPortal.vue');
+const EditPortalBasic = () => import('./pages/portals/EditPortalBasic.vue');
 const EditPortalCustomization = () =>
-  import('./pages/portals/EditPortalCustomization');
+  import('./pages/portals/EditPortalCustomization.vue');
 const EditPortalLocales = () => import('./pages/portals/EditPortalLocales.vue');
-const ShowPortal = () => import('./pages/portals/ShowPortal');
-const PortalDetails = () => import('./pages/portals/PortalDetails');
-const PortalCustomization = () => import('./pages/portals/PortalCustomization');
+const ShowPortal = () => import('./pages/portals/ShowPortal.vue');
+const PortalDetails = () => import('./pages/portals/PortalDetails.vue');
+const PortalCustomization = () =>
+  import('./pages/portals/PortalCustomization.vue');
 const PortalSettingsFinish = () =>
-  import('./pages/portals/PortalSettingsFinish');
+  import('./pages/portals/PortalSettingsFinish.vue');
 
-const ListAllCategories = () => import('./pages/categories/ListAllCategories');
-const NewCategory = () => import('./pages/categories/NewCategory');
-const EditCategory = () => import('./pages/categories/EditCategory');
+const ListAllCategories = () =>
+  import('./pages/categories/ListAllCategories.vue');
+const NewCategory = () => import('./pages/categories/NewCategory.vue');
+const EditCategory = () => import('./pages/categories/EditCategory.vue');
 const ListCategoryArticles = () =>
-  import('./pages/articles/ListCategoryArticles');
-const ListAllArticles = () => import('./pages/articles/ListAllArticles');
+  import('./pages/articles/ListCategoryArticles.vue');
+const ListAllArticles = () => import('./pages/articles/ListAllArticles.vue');
 const DefaultPortalArticles = () =>
-  import('./pages/articles/DefaultPortalArticles');
-const NewArticle = () => import('./pages/articles/NewArticle');
-const EditArticle = () => import('./pages/articles/EditArticle');
+  import('./pages/articles/DefaultPortalArticles.vue');
+const NewArticle = () => import('./pages/articles/NewArticle.vue');
+const EditArticle = () => import('./pages/articles/EditArticle.vue');
 
 const portalRoutes = [
   {

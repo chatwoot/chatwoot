@@ -711,10 +711,11 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~@chatwoot/prosemirror-schema/src/styles/base.scss';
+@import '@chatwoot/prosemirror-schema/src/styles/base.scss';
 
 .ProseMirror-menubar-wrapper {
   @apply flex flex-col;
+
   .ProseMirror-menubar {
     min-height: var(--space-two) !important;
     @apply -ml-2.5 pb-0 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-100;
@@ -723,6 +724,7 @@ export default {
       @apply bg-slate-75 dark:bg-slate-800;
     }
   }
+
   > .ProseMirror {
     @apply p-0 break-words text-slate-800 dark:text-slate-100;
 

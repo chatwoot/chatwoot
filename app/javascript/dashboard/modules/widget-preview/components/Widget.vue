@@ -36,7 +36,7 @@
       >
         <img
           v-if="!isWidgetVisible"
-          src="~dashboard/assets/images/bubble-logo.svg"
+          src="dashboard/assets/images/bubble-logo.svg"
           alt=""
         />
         <div>

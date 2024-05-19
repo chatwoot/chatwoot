@@ -188,7 +188,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/variables';
+@import 'dashboard/assets/scss/variables';
 
 .label-color--container {
   @apply flex items-center;

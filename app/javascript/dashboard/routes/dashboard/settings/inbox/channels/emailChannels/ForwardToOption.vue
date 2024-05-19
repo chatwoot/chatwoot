@@ -52,7 +52,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
-import { required, email } from 'vuelidate/lib/validators';
+import { required, email } from '@vuelidate/validators';
 import router from '../../../../../index';
 import PageHeader from '../../../SettingsSubPageHeader.vue';
 

@@ -41,7 +41,7 @@
 <script>
 import Modal from 'dashboard/components/Modal.vue';
 import alertMixin from 'shared/mixins/alertMixin';
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 import allLocales from 'shared/constants/locales.js';
 import { PORTALS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 export default {
@@ -137,6 +137,7 @@ export default {
   input {
     margin-bottom: 0;
   }
+
   .message {
     margin-top: 0;
   }

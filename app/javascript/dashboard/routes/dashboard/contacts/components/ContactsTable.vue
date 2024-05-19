@@ -27,7 +27,7 @@
   </section>
 </template>
 
-<script>
+<script lang="jsx">
 import { VeTable } from 'vue-easytable';
 import { getCountryFlag } from 'dashboard/helper/flag';
 
@@ -282,6 +282,7 @@ export default {
   .ve-table {
     @apply pb-8;
   }
+
   .row--user-block {
     @apply items-center flex text-left;
 
@@ -313,6 +314,7 @@ export default {
   .ve-table-header-th {
     font-size: var(--font-size-mini) !important;
   }
+
   .ve-table-sort {
     @apply -top-1;
   }

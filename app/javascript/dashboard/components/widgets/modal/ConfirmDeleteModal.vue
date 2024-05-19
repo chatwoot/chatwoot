@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 import Modal from '../../Modal.vue';
 
 export default {

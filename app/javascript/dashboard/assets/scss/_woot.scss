@@ -31,7 +31,6 @@
 
 @import 'plugins/multiselect';
 @import 'plugins/dropdown';
-@import '~shared/assets/stylesheets/ionicons';
 
 .tooltip {
   @apply bg-slate-900 text-white py-1 px-2 z-40 text-xs rounded-md dark:bg-slate-200 dark:text-slate-900;
@@ -42,6 +41,7 @@
 }
 
 @layer base {
+
   // scss-lint:disable PropertySortOrder
   :root {
     --color-amber-25: 254 253 251;
@@ -213,6 +213,7 @@
     --color-orange-800: 204 78 0;
     --color-orange-900: 88 45 29;
   }
+
   // scss-lint:disable QualifyingElement
   body.dark {
     --color-amber-25: 31 19 0;

@@ -1,4 +1,4 @@
-import lamejs from 'lamejs';
+import lamejs from '@breezystack/lamejs';
 /**
  * Encodes a mono channel audio stream to MP3 format.
  * @param {number} channels - Number of audio channels.

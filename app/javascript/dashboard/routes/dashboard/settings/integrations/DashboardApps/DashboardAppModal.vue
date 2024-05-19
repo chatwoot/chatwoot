@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { required, url } from 'vuelidate/lib/validators';
+import { required, url } from '@vuelidate/validators';
 import alertMixin from 'shared/mixins/alertMixin';
 
 export default {

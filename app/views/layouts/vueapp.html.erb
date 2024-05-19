@@ -63,14 +63,9 @@
       }
     </script>
     <% end %>
-    <% if @application_pack == 'v3app' %>
     <%= vite_client_tag %>
     <%= vite_javascript_tag @application_pack %>
     <%= vite_stylesheet_tag @application_pack %>
-    <% else %>
-    <%= javascript_pack_tag @application_pack %>
-    <%= stylesheet_pack_tag @application_pack %>
-    <% end %>
   </head>
   <body class="text-slate-600">
     <div id="app"></div>
