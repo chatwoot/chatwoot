@@ -5,6 +5,8 @@ const reports = accountId => ({
   parentNav: 'reports',
   routes: [
     'account_overview_reports',
+    'contact_reports',
+    'traffic_reports',
     'conversation_reports',
     'csat_reports',
     'bot_reports',
@@ -16,6 +18,14 @@ const reports = accountId => ({
   ],
   menuItems: [
     {
+      icon: 'contact-card-group',
+      label: 'REPORTS_CONTACT',
+      hasSubMenu: false,
+      featureFlag: FEATURE_FLAGS.CRM,
+      toState: frontendURL(`accounts/${accountId}/reports/contact`),
+      toStateName: 'contact_reports',
+    },
+    {
       icon: 'arrow-trending-lines',
       label: 'REPORTS_OVERVIEW',
       hasSubMenu: false,
@@ -23,18 +33,18 @@ const reports = accountId => ({
       toStateName: 'account_overview_reports',
     },
     {
+      icon: 'access-time',
+      label: 'REPORTS_TRAFFIC',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/reports/traffic`),
+      toStateName: 'traffic_reports',
+    },
+    {
       icon: 'chat',
       label: 'REPORTS_CONVERSATION',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/reports/conversation`),
       toStateName: 'conversation_reports',
-    },
-    {
-      icon: 'emoji',
-      label: 'CSAT',
-      hasSubMenu: false,
-      toState: frontendURL(`accounts/${accountId}/reports/csat`),
-      toStateName: 'csat_reports',
     },
     {
       icon: 'bot',
@@ -71,6 +81,14 @@ const reports = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/reports/teams`),
       toStateName: 'team_reports',
+    },
+    {
+      icon: 'emoji',
+      label: 'CSAT',
+      hasSubMenu: false,
+      featureFlag: FEATURE_FLAGS.SLA,
+      toState: frontendURL(`accounts/${accountId}/reports/csat`),
+      toStateName: 'csat_reports',
     },
     {
       icon: 'document-list-clock',

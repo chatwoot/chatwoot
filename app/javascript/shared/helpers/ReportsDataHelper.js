@@ -51,7 +51,7 @@ export const generateEmptyHeatmapData = () => {
   const data = [];
   const today = new Date();
 
-  let timeMarker = getUnixTime(startOfDay(subDays(today, 6)));
+  let timeMarker = getUnixTime(startOfDay(subDays(today, 13)));
   let endOfToday = getUnixTime(endOfDay(today));
 
   const oneHour = 3600;

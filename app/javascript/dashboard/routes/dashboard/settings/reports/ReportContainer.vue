@@ -55,7 +55,6 @@ export default {
         FIRST_RESPONSE_TIME: 'avg_first_response_time',
         RESOLUTION_TIME: 'avg_resolution_time',
         RESOLUTION_COUNT: 'resolutions_count',
-        REPLY_TIME: 'reply_time',
       }),
     },
   },
@@ -91,18 +90,18 @@ export default {
           const last_day = first_day + 6;
           const week_first_date = new Date(week_date.setDate(first_day));
           const week_last_date = new Date(week_date.setDate(last_day));
-          return `${format(week_first_date, 'dd-MMM')} - ${format(
+          return `${format(week_first_date, 'dd/MM')} - ${format(
             week_last_date,
-            'dd-MMM'
+            'dd/MM'
           )}`;
         }
         if (this.groupBy?.period === GROUP_BY_FILTER[3].period) {
-          return format(fromUnixTime(element.timestamp), 'MMM-yyyy');
+          return format(fromUnixTime(element.timestamp), 'MM/yyyy');
         }
         if (this.groupBy?.period === GROUP_BY_FILTER[4].period) {
           return format(fromUnixTime(element.timestamp), 'yyyy');
         }
-        return format(fromUnixTime(element.timestamp), 'dd-MMM');
+        return format(fromUnixTime(element.timestamp), 'dd/MM');
       });
       const datasets = METRIC_CHART[metric.KEY].datasets.map(dataset => {
         switch (dataset.type) {

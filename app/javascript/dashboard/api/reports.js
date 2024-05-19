@@ -55,6 +55,15 @@ class ReportsAPI extends ApiClient {
     });
   }
 
+  getContactMetric(type = 'account', page = 1) {
+    return axios.get(`${this.url}/contacts`, {
+      params: {
+        type,
+        page,
+      },
+    });
+  }
+
   getAgentReports({ from: since, to: until, businessHours }) {
     return axios.get(`${this.url}/agents`, {
       params: { since, until, business_hours: businessHours },

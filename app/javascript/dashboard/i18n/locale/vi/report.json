@@ -8,7 +8,7 @@
     "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Các cuộc trò chuyện",
+        "NAME": "Các cuộc hội thoại",
         "DESC": "( Tổng cộng )"
       },
       "INCOMING_MESSAGES": {
@@ -20,7 +20,7 @@
         "DESC": "( Tổng cộng )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Thời gian phản hồi đầu tiên",
+        "NAME": "Thời gian phản hồi",
         "DESC": "( Trung bình )",
         "INFO_TEXT": "Tổng số cuộc hội thoại được sử dụng để tính toán:",
         "TOOLTIP_TEXT": "Thời gian phản hồi đầu tiên là %{metricValue} (dựa trên %{conversationCount} cuộc hội thoại)"
@@ -49,8 +49,8 @@
       }
     },
     "DATE_RANGE_OPTIONS": {
-      "LAST_7_DAYS": "7 ngày cuối",
-      "LAST_30_DAYS": "30 ngày cuối",
+      "LAST_7_DAYS": "7 ngày vừa qua",
+      "LAST_30_DAYS": "30 ngày vừa qua",
       "LAST_3_MONTHS": "3 tháng vừa qua",
       "LAST_6_MONTHS": "6 tháng vừa qua",
       "LAST_YEAR": "Năm ngoái",
@@ -59,11 +59,11 @@
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "7 ngày cuối"
+        "name": "7 ngày vừa qua"
       },
       {
         "id": 1,
-        "name": "30 ngày cuối"
+        "name": "30 ngày vừa qua"
       },
       {
         "id": 2,
@@ -466,49 +466,71 @@
       }
     }
   },
+  "CONTACT_REPORTS": {
+    "HEADER": "Tình hình kinh doanh",
+    "CONVERSION_RATE": {
+      "HEADER": "Tỷ lệ chuyển đổi",
+      "LOADING_MESSAGE": "Đang tải tỷ lệ chuyển đổi..."
+    },
+    "ACCOUNT_CONTACTS": {
+      "HEADER": "Khách hàng theo các giai đoạn chính",
+      "LOADING_MESSAGE": "Đang tải số liệu khách hàng..."
+    },
+    "AGENT_CONTACTS": {
+      "HEADER": "Khách hàng theo nhân viên",
+      "LOADING_MESSAGE": "Đang tải số liệu theo nhân viên...",
+      "NO_AGENTS": "Không có khách hàng nào theo nhân viên",
+      "TABLE_HEADER": {
+        "AGENT": "Nhân viên",
+        "STATUS": "Trạng thái"
+      }
+    }
+  },
   "OVERVIEW_REPORTS": {
-    "HEADER": "Tổng quan",
-    "LIVE": "Trực tuyến",
+    "HEADER": "Tổng quan hội thoại",
+    "LIVE": "Live",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Mở cuộc hội thoại",
+      "HEADER": "Hội thoại theo tình trạng",
       "LOADING_MESSAGE": "Đang tải số liệu cuộc hội thoại...",
-      "OPEN": "Mở",
+      "OPEN": "Đang giải quyết",
       "UNATTENDED": "Chưa tiếp nhận",
       "UNASSIGNED": "Chưa phân công",
-      "PENDING": "Chờ giải quyết"
-    },
-    "CONVERSATION_HEATMAP": {
-      "HEADER": "Conversation Traffic",
-      "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations"
+      "RESOLVED": "Đã hoàn thành"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "Cuộc hội thoại của người dùng",
-      "LOADING_MESSAGE": "Đang tải chỉ số người dùng...",
-      "NO_AGENTS": "Không có cuộc hội thoại nào của các người dùng",
+      "HEADER": "Hội thoại theo nhân viên",
+      "LOADING_MESSAGE": "Đang tải số liệu theo nhân viên...",
+      "NO_AGENTS": "Không có cuộc hội thoại nào theo nhân viên",
       "TABLE_HEADER": {
-        "AGENT": "Người dùng",
-        "OPEN": "MỞ",
+        "AGENT": "Nhân viên",
+        "OPEN": "Đang giải quyết",
         "UNATTENDED": "Chưa tiếp nhận",
+        "RESOLVED": "Đã hoàn thành",
         "STATUS": "Trạng thái"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Trạng thái người dùng",
+      "HEADER": "Tình trạng đăng nhập",
       "ONLINE": "Trực Tuyến",
       "BUSY": "Bận",
-      "OFFLINE": "Không Trực Tuyến"
+      "OFFLINE": "Ngoại Tuyến"
     }
   },
+  "TRAFFIC_REPORTS": {
+    "HEADER": "Lưu lượng hội thoại 24/7",
+    "NO_CONVERSATIONS": "Không có hội thoại",
+    "CONVERSATION": "%{count} cuộc hội thoại",
+    "CONVERSATIONS": "%{count} cuộc hội thoại",
+    "DOWNLOAD_BUTTON": "Tải báo cáo"
+  },
   "DAYS_OF_WEEK": {
-    "SUNDAY": "Sunday",
-    "MONDAY": "Monday",
-    "TUESDAY": "Tuesday",
-    "WEDNESDAY": "Wednesday",
-    "THURSDAY": "Thursday",
-    "FRIDAY": "Friday",
-    "SATURDAY": "Saturday"
+    "SUNDAY": "Chủ nhật",
+    "MONDAY": "Thứ hai",
+    "TUESDAY": "Thứ ba",
+    "WEDNESDAY": "Thứ tư",
+    "THURSDAY": "Thứ năm",
+    "FRIDAY": "Thứ sáu",
+    "SATURDAY": "Thứ bảy"
   },
   "SLA_REPORTS": {
     "HEADER": "SLA Reports",

@@ -11,6 +11,7 @@
             {{ header }}
           </h5>
           <span
+            v-if="isLive"
             class="flex flex-row items-center pr-2 pl-2 m-1 rounded-sm text-green-400 dark:text-green-400 text-xs bg-green-100/30 dark:bg-green-100/20"
           >
             <span
@@ -63,6 +64,10 @@ export default {
     loadingMessage: {
       type: String,
       default: '',
+    },
+    isLive: {
+      type: Boolean,
+      default: true,
     },
   },
 };

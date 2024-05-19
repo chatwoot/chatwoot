@@ -4,7 +4,7 @@ class V2::ReportBuilder
   attr_reader :account, :params
 
   DEFAULT_GROUP_BY = 'day'.freeze
-  AGENT_RESULTS_PER_PAGE = 25
+  AGENT_RESULTS_PER_PAGE = 10
 
   def initialize(account, params)
     @account = account
@@ -66,6 +66,14 @@ class V2::ReportBuilder
       live_conversations
     else
       agent_metrics.sort_by { |hash| hash[:metric][:open] }.reverse
+    end
+  end
+
+  def contact_metrics
+    if params[:type].equal?(:account)
+      contacts_by_stage
+    else
+      agent_contacts.sort_by { |hash| hash[:metric][:New] }.reverse
     end
   end
 
@@ -132,7 +140,32 @@ class V2::ReportBuilder
       unattended: @open_conversations.unattended.count
     }
     metric[:unassigned] = @open_conversations.unassigned.count if params[:type].equal?(:account)
-    metric[:pending] = @open_conversations.pending.count if params[:type].equal?(:account)
+    metric[:resolved] = scope.conversations.where(account_id: @account.id).resolved.count
     metric
+  end
+
+  def contacts_by_stage
+    stages = Stage.where(account_id: @account.id)
+
+    result = {}
+    stages.each do |stage|
+      result[stage.code] = @user ? stage.contacts.where(assignee_id_in_leads: @user.id).count : stage.contacts.count
+    end
+    result
+  end
+
+  def agent_contacts
+    account_users = @account.account_users.page(params[:page]).per(AGENT_RESULTS_PER_PAGE)
+    account_users.each_with_object([]) do |account_user, arr|
+      @user = account_user.user
+      arr << {
+        id: @user.id,
+        name: @user.name,
+        email: @user.email,
+        thumbnail: @user.avatar_url,
+        availability: account_user.availability_status,
+        metric: contacts_by_stage
+      }
+    end
   end
 end

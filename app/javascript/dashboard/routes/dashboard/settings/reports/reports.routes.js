@@ -9,6 +9,8 @@ const TeamReports = () => import('./TeamReports.vue');
 const CsatResponses = () => import('./CsatResponses.vue');
 const BotReports = () => import('./BotReports.vue');
 const LiveReports = () => import('./LiveReports.vue');
+const ContactReports = () => import('./ContactReports.vue');
+const TrafficReports = () => import('./TrafficReports.vue');
 const SLAReports = () => import('./SLAReports.vue');
 
 export default {
@@ -24,13 +26,47 @@ export default {
       children: [
         {
           path: '',
-          redirect: 'overview',
+          redirect: 'contact',
         },
         {
           path: 'overview',
           name: 'account_overview_reports',
           roles: ['administrator'],
           component: LiveReports,
+        },
+      ],
+    },
+    {
+      path: frontendURL('accounts/:accountId/reports'),
+      component: SettingsContent,
+      props: {
+        headerTitle: 'CONTACT_REPORTS.HEADER',
+        icon: 'contact-card-group',
+        keepAlive: false,
+      },
+      children: [
+        {
+          path: 'contact',
+          name: 'contact_reports',
+          roles: ['administrator', 'agent'],
+          component: ContactReports,
+        },
+      ],
+    },
+    {
+      path: frontendURL('accounts/:accountId/reports'),
+      component: SettingsContent,
+      props: {
+        headerTitle: 'TRAFFIC_REPORTS.HEADER',
+        icon: 'access-time',
+        keepAlive: false,
+      },
+      children: [
+        {
+          path: 'traffic',
+          name: 'traffic_reports',
+          roles: ['administrator'],
+          component: TrafficReports,
         },
       ],
     },

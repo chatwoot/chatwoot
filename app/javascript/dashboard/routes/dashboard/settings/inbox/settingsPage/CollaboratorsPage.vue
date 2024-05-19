@@ -13,7 +13,7 @@
         :close-on-select="false"
         :clear-on-select="false"
         :hide-selected="true"
-        placeholder="Pick some"
+        :placeholder="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS_PLACEHOLDER')"
         selected-label
         :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
         :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"

@@ -62,6 +62,14 @@ const state = {
     accountConversationHeatmap: [],
     agentConversationMetric: [],
   },
+  contact: {
+    uiFlags: {
+      isFetchingAccountContactMetric: false,
+      isFetchingAgentContactMetric: false,
+    },
+    accountContactMetric: {},
+    agentContactMetric: [],
+  },
 };
 
 const getters = {
@@ -85,6 +93,15 @@ const getters = {
   },
   getOverviewUIFlags($state) {
     return $state.overview.uiFlags;
+  },
+  getAccountContactMetric(_state) {
+    return _state.contact.accountContactMetric;
+  },
+  getAgentContactMetric(_state) {
+    return _state.contact.agentContactMetric;
+  },
+  getContactUIFlags($state) {
+    return $state.contact.uiFlags;
   },
 };
 
@@ -179,6 +196,31 @@ export const actions = {
       })
       .catch(() => {
         commit(types.default.TOGGLE_AGENT_CONVERSATION_METRIC_LOADING, false);
+      });
+  },
+  fetchAccountContactMetric({ commit }, reportObj) {
+    commit(types.default.TOGGLE_ACCOUNT_CONTACT_METRIC_LOADING, true);
+    Report.getContactMetric(reportObj.type)
+      .then(accountContactMetric => {
+        commit(
+          types.default.SET_ACCOUNT_CONTACT_METRIC,
+          accountContactMetric.data
+        );
+        commit(types.default.TOGGLE_ACCOUNT_CONTACT_METRIC_LOADING, false);
+      })
+      .catch(() => {
+        commit(types.default.TOGGLE_ACCOUNT_CONTACT_METRIC_LOADING, false);
+      });
+  },
+  fetchAgentContactMetric({ commit }, reportObj) {
+    commit(types.default.TOGGLE_AGENT_CONTACT_METRIC_LOADING, true);
+    Report.getContactMetric(reportObj.type, reportObj.page)
+      .then(agentContactMetric => {
+        commit(types.default.SET_AGENT_CONTACT_METRIC, agentContactMetric.data);
+        commit(types.default.TOGGLE_AGENT_CONTACT_METRIC_LOADING, false);
+      })
+      .catch(() => {
+        commit(types.default.TOGGLE_AGENT_CONTACT_METRIC_LOADING, false);
       });
   },
   downloadAgentReports(_, reportObj) {
@@ -285,6 +327,18 @@ const mutations = {
   },
   [types.default.TOGGLE_AGENT_CONVERSATION_METRIC_LOADING](_state, flag) {
     _state.overview.uiFlags.isFetchingAgentConversationMetric = flag;
+  },
+  [types.default.SET_ACCOUNT_CONTACT_METRIC](_state, metricData) {
+    _state.contact.accountContactMetric = metricData;
+  },
+  [types.default.TOGGLE_ACCOUNT_CONTACT_METRIC_LOADING](_state, flag) {
+    _state.contact.uiFlags.isFetchingAccountContactMetric = flag;
+  },
+  [types.default.SET_AGENT_CONTACT_METRIC](_state, metricData) {
+    _state.contact.agentContactMetric = metricData;
+  },
+  [types.default.TOGGLE_AGENT_CONTACT_METRIC_LOADING](_state, flag) {
+    _state.contact.uiFlags.isFetchingAgentContactMetric = flag;
   },
 };
 

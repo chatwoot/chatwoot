@@ -8,13 +8,11 @@
     />
     <div v-if="isLoading" class="agents-loader">
       <spinner />
-      <span>{{
-        $t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.LOADING_MESSAGE')
-      }}</span>
+      <span>{{ $t('CONTACT_REPORTS.AGENT_CONTACTS.LOADING_MESSAGE') }}</span>
     </div>
     <empty-state
       v-else-if="!isLoading && !agentMetrics.length"
-      :title="$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.NO_AGENTS')"
+      :title="$t('CONTACT_REPORTS.AGENT_CONTACTS.NO_AGENTS')"
     />
     <div v-if="agentMetrics.length > 0" class="table-pagination">
       <ve-pagination
@@ -45,6 +43,10 @@ export default {
   },
   mixins: [rtlMixin],
   props: {
+    stages: {
+      type: Array,
+      default: () => [],
+    },
     agents: {
       type: Array,
       default: () => [],
@@ -66,19 +68,20 @@ export default {
     tableData() {
       return this.agentMetrics.map(agent => {
         const agentInformation = this.getAgentInformation(agent.id);
-        return {
+        const data = {
           agent: agentInformation.name,
           email: agentInformation.email,
           thumbnail: agentInformation.thumbnail,
-          open: agent.metric.open || 0,
-          unattended: agent.metric.unattended || 0,
-          resolved: agent.metric.resolved || 0,
           status: agentInformation.availability_status,
         };
+        this.stages.forEach(stage => {
+          data[stage.code] = agent.metric[stage.code] || 0;
+        });
+        return data;
       });
     },
     columns() {
-      return [
+      const columns = [
         {
           field: 'agent',
           key: 'agent',
@@ -105,34 +108,18 @@ export default {
             </div>
           ),
         },
-        {
-          field: 'open',
-          key: 'open',
-          title: this.$t(
-            'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.OPEN'
-          ),
-          align: this.isRTLView ? 'right' : 'left',
-          width: 10,
-        },
-        {
-          field: 'unattended',
-          key: 'unattended',
-          title: this.$t(
-            'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.UNATTENDED'
-          ),
-          align: this.isRTLView ? 'right' : 'left',
-          width: 10,
-        },
-        {
-          field: 'resolved',
-          key: 'resolved',
-          title: this.$t(
-            'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.RESOLVED'
-          ),
-          align: this.isRTLView ? 'right' : 'left',
-          width: 10,
-        },
       ];
+      this.stages.forEach(stage => {
+        if (!stage.allow_disabled)
+          columns.push({
+            field: stage.code,
+            key: stage.code,
+            title: stage.name,
+            align: this.isRTLView ? 'right' : 'left',
+            width: 10,
+          });
+      });
+      return columns;
     },
   },
   methods: {
