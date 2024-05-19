@@ -5,9 +5,12 @@ Vue.use(VueDOMPurifyHTML);
 
 const PlaygroundIndex = () =>
   import('../superadmin_pages/views/playground/Index.vue');
+const DashboardIndex = () =>
+  import('../superadmin_pages/views/dashboard/Index.vue');
 
 const ComponentMapping = {
   PlaygroundIndex: PlaygroundIndex,
+  DashboardIndex: DashboardIndex,
 };
 
 const renderComponent = (componentName, props) => {
