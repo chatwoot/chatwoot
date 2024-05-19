@@ -121,7 +121,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
 
 .actions {
   button {
@@ -136,6 +136,7 @@ export default {
   .close-button {
     display: none;
   }
+
   .rn-close-button {
     display: block !important;
   }

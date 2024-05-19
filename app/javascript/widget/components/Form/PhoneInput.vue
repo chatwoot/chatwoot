@@ -308,7 +308,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
+
 .phone-input--wrap {
   .phone-input {
     height: 2.8rem;

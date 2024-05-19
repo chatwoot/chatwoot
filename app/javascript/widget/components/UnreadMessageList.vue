@@ -99,7 +99,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~widget/assets/scss/variables';
+@import 'widget/assets/scss/variables';
 
 .unread-wrap {
   width: 100%;
@@ -146,6 +146,7 @@ export default {
       color: $color-body;
     }
   }
+
   .is-background-light {
     color: $color-body !important;
   }

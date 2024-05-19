@@ -164,7 +164,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
 
 .form {
   padding: $space-normal;

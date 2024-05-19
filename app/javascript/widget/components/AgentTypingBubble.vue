@@ -8,7 +8,7 @@
           :class="$dm('bg-white', 'dark:bg-slate-700')"
         >
           <img
-            src="~widget/assets/images/typing.gif"
+            src="/assets/images/typing.gif"
             alt="Agent is typing a message"
           />
         </div>
@@ -27,7 +27,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
+
 .agent-message-wrap {
   position: sticky;
   bottom: $space-smaller;

@@ -63,10 +63,9 @@ export default {
     },
     avatarUrl() {
       // eslint-disable-next-line
-      const BotImage = require('dashboard/assets/images/chatwoot_bot.png');
       const displayImage = this.useInboxAvatarForBot
         ? this.inboxAvatarUrl
-        : BotImage;
+        : '/assets/images/chatwoot_bot.png';
       if (this.isSenderExist(this.sender)) {
         const { avatar_url: avatarUrl } = this.sender;
         return avatarUrl;
@@ -106,7 +105,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
+
 .chat-bubble {
   max-width: 85%;
   padding: $space-normal;
@@ -119,10 +119,12 @@ export default {
   text-align: left;
   padding-bottom: $space-small;
   font-size: $font-size-small;
+
   .agent--name {
     font-weight: $font-weight-medium;
     margin-left: $space-smaller;
   }
+
   .company--name {
     color: $color-light-gray;
     margin-left: $space-smaller;

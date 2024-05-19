@@ -31,16 +31,19 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
+
 .banner {
   color: $color-white;
   font-size: $font-size-default;
   font-weight: $font-weight-bold;
   padding: $space-slab;
   text-align: center;
+
   &.success {
     background: $color-success;
   }
+
   &.error {
     background: $color-error;
   }

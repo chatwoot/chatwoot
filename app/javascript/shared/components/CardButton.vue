@@ -55,8 +55,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
-@import '~dashboard/assets/scss/mixins.scss';
+@import 'widget/assets/scss/variables.scss';
 
 .action-button {
   align-items: center;

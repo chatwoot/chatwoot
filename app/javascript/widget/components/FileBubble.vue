@@ -83,7 +83,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
 
 .file {
   .icon-wrap {
@@ -112,6 +112,7 @@ export default {
   .link-wrap {
     line-height: 1;
   }
+
   .meta {
     padding-right: $space-smaller;
   }

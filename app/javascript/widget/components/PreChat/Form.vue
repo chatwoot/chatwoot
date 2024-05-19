@@ -317,7 +317,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/variables.scss';
 ::v-deep {
   .wrapper[data-type='checkbox'] {
     .formulate-input-wrapper {
