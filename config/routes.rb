@@ -233,6 +233,7 @@ Rails.application.routes.draw do
                 get :team_entities
                 post :create_issue
                 post :link_issue
+                post :create_comment
                 post :unlink_issue
                 get :search_issue
                 get :linked_issue

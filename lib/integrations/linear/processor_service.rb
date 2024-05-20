@@ -41,6 +41,17 @@ class Integrations::Linear::ProcessorService
     }
   end
 
+  def create_comment(issue_id, comment)
+    response = linear_client.create_comment(issue_id, comment)
+
+    return response if response[:error]
+
+    {
+      id: response['commentCreate']['comment']['id'],
+      body: response['commentCreate']['comment']['body']
+    }
+  end
+
   def unlink_issue(link_id)
     response = linear_client.unlink_issue(link_id)
     return response if response[:error]

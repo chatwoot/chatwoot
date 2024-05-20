@@ -41,6 +41,10 @@ class LinearAPI extends ApiClient {
   searchIssues(query) {
     return axios.get(`${this.url}/search_issue?q=${query}`);
   }
+
+  createComment(data) {
+    return axios.post(`${this.url}/create_comment`, data);
+  }
 }
 
 export default new LinearAPI();

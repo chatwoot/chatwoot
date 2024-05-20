@@ -66,6 +66,20 @@ class Linear
     process_response(response)
   end
 
+  def create_comment(issue_id, body)
+    raise ArgumentError, 'Missing issue id' if issue_id.blank?
+    raise ArgumentError, 'Missing body' if body.blank?
+
+    variables = {
+      issueId: issue_id,
+      body: body
+    }
+
+    mutation = LinearMutations.create_comment(variables)
+    response = post({ query: mutation })
+    process_response(response)
+  end
+
   def link_issue(link, issue_id)
     raise ArgumentError, 'Missing link' if link.blank?
     raise ArgumentError, 'Missing issue id' if issue_id.blank?

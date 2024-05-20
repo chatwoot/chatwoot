@@ -17,7 +17,6 @@ module LinearMutations
     input.map { |key, value| "#{key}: #{graphql_value(value)}" }.join(', ')
   end
 
-  # Main mutation creation function
   def self.issue_create(input)
     <<~GRAPHQL
       mutation {
@@ -26,6 +25,20 @@ module LinearMutations
           issue {
             id
             title
+          }
+        }
+      }
+    GRAPHQL
+  end
+
+  def self.create_comment(input)
+    <<~GRAPHQL
+      mutation {
+        commentCreate(input: { #{graphql_input(input)} }) {
+          success
+          comment {
+            id
+            body
           }
         }
       }
