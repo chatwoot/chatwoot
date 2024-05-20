@@ -57,15 +57,35 @@ export default {
       bus.$emit('newToastMessage', message);
     },
     async onConfirm() {
-      if (this.contact.phone_number) {
-        const body = {
-          subscribeQuery: {
-            channel: 'whatsapp',
+      const subscribeQuery = [];
+      if (this.contact.phone_number || this.contact.email) {
+        if (this.contact.phone_number) {
+          subscribeQuery.push({
+            channel: 'WHATSAPP',
             accountId: this.currentAccountId,
             channelId: this.contact.phone_number,
             sourceType: 'CHATWOOT',
             subscribe: false,
-          },
+          });
+          subscribeQuery.push({
+            channel: 'SMS',
+            accountId: this.currentAccountId,
+            channelId: this.contact.phone_number,
+            sourceType: 'CHATWOOT',
+            subscribe: false,
+          });
+        }
+        if (this.contact.email) {
+          subscribeQuery.push({
+            channel: 'EMAIL',
+            accountId: this.currentAccountId,
+            channelId: this.contact.email,
+            sourceType: 'CHATWOOT',
+            subscribe: false,
+          });
+        }
+        const body = {
+          subscribeQuery,
         };
         this.onClose();
         this.showAlert('Unsubscribing contact');
