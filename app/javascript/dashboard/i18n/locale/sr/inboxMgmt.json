@@ -2,6 +2,7 @@
   "INBOX_MGMT": {
     "HEADER": "Prijemni sandučići",
     "SIDEBAR_TXT": "<p><b>Prijemno sanduče</b></p> <p> Kada povežete veb sajt ili fejsbuk stranicu sa Chatwoot, to se zove <b>prijemno sanduče</b>. Možete imati neograničen broj prijemnih sandučića na vašem Chatwoot nalogu. </p><p> Kliknite na <b>Dodaj prijemno sanduče</b> da bi ste povezali veb sajt ili Fejsbuk stranicu. </p><p> U glavnoj tabli, na jednom mestu možete videti sve razgovore iz svih vaših prijemnih sandučića i odgovarati na njih pod karticom 'Razgovori'. </p><p> Takođe možete videti razgovore u određenom prijemnom sandučetu klikom na ime prijemnog sandučeta u levom panelu glavne table. </p>",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected, you will not receive any new messages. <a class=\"underline\" href=\"%{actionUrl}\">Click here</a> to reconnect.",
     "LIST": {
       "404": "Nema prijamnih sandučeta povezanih sa ovim nalogom."
     },
