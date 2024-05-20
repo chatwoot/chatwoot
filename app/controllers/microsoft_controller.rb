@@ -12,6 +12,6 @@ class MicrosoftController < ApplicationController
   end
 
   def microsoft_indentity
-    @identity_json = ENV.fetch('AZURE_APP_ID', nil)
+    @identity_json = GlobalConfigService.load('AZURE_APP_ID', nil)
   end
 end
