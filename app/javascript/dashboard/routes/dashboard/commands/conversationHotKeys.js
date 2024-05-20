@@ -339,13 +339,6 @@ export default {
       ];
     },
 
-    shouldShowSnoozeOption() {
-      return (
-        isAConversationRoute(this.$route.name, true, false) &&
-        this.contextMenuChatId
-      );
-    },
-
     isConversationOrInboxRoute() {
       return (
         isAConversationRoute(this.$route.name) ||
@@ -370,7 +363,7 @@ export default {
 
     conversationHotKeys() {
       if (this.shouldShowSnoozeOption) {
-        return this.snoozeConversationByContextMenu;
+        return this.prepareActions(SNOOZE_CONVERSATION_ACTIONS);
       }
       if (this.isConversationOrInboxRoute) {
         return this.getDefaultConversationHotKeys;

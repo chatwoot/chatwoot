@@ -403,4 +403,12 @@ describe('#mutations', () => {
       expect(state.allConversations[0].attachments).toHaveLength(1);
     });
   });
+
+  describe('#SET_CONTEXT_MENU_CHAT_ID', () => {
+    it('sets the context menu chat id', () => {
+      const state = { contextMenuChatId: 1 };
+      mutations[types.SET_CONTEXT_MENU_CHAT_ID](state, 2);
+      expect(state.contextMenuChatId).toEqual(2);
+    });
+  });
 });
