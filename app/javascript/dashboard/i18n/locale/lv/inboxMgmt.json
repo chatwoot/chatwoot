@@ -2,6 +2,7 @@
   "INBOX_MGMT": {
     "HEADER": "Iesūtnes",
     "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> Chatwoot risinājumam pievienoto tīmekļa vietni vai Facebook lapu sauc par <b>Iesūtni</b>. Jūsu Chatwoot kontā var atrasties neierobežots iesūtņu skaits. </p><p> Noklikšķiniet uz <b>Pievienot Iesūtni</b> lai pievienotu tīmekļa vietni vai Facebook lapu. </p><p> Informācijas panelī Jūs varat apskatīt visas sarunas, no visām savām iesūtnēm, un atbildēt uz tām cilnē `Sarunas`. </p><p> Jūs varat arī apskatīt sarunas, kas piesaistītas noteiktai iesūtnei, noklikšķinot uz iesūtnes nosaukuma informācijas paneļa kreisajā rūtī. </p>",
+    "RECONNECTION_REQUIRED": "Jūsu iesūtne ir atvienota, jūs nesaņemsit jaunus ziņojumus. <a class=\"underline\" href=\"%{actionUrl}\">Noklikšķiniet šeit</a>, lai atkārtoti izveidotu savienojumu.",
     "LIST": {
       "404": "Šim kontam nav pievienota neviena Iesūtne."
     },
