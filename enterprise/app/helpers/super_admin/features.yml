@@ -75,6 +75,6 @@ microsoft:
 google:
   name: 'Google'
   description: 'Configuration for Google OAuth & Gmail API'
-  enabled: true,
+  enabled: true
   icon: 'icon-google'
   config_key: 'google'
