@@ -31,11 +31,6 @@ const filteredItems = computed(() => {
 const isListEmpty = computed(() => {
   return !filteredItems.value.length;
 });
-
-const isActive = id => {
-  if (!props.selectedId) return false;
-  return id === props.selectedId;
-};
 </script>
 <template>
   <div
@@ -53,7 +48,7 @@ const isActive = id => {
     <search-issue-item
       v-for="item in filteredItems"
       :key="item.id"
-      :is-active="isActive(item.id)"
+      :is-active="item.id === selectedId"
       :button-text="item.name"
       @click="$emit('click', item)"
     />

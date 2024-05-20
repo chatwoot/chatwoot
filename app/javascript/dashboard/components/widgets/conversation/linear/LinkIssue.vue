@@ -7,12 +7,12 @@
     >
       <template v-if="shouldShowDropdown" #dropdown>
         <search-list-dropdown
-          v-if="items"
+          v-if="issues"
           v-on-clickaway="toggleDropdown"
-          :items="items"
+          :items="issues"
           :selected-id="selectedOption.id"
           class="flex flex-col w-[240px] overflow-y-auto left-0 md:left-auto md:right-0 top-10"
-          @on-search="handleSearchChange"
+          @on-search="onSearch"
           @click="onSelectIssue"
         />
       </template>
@@ -35,13 +35,14 @@
     </div>
   </div>
 </template>
+
 <script setup>
-import LinearAPI from 'dashboard/api/integrations/linear';
-import { useAlert } from 'dashboard/composables';
+import { ref, computed } from 'vue';
 import { useI18n } from 'dashboard/composables/useI18n';
-import { computed, ref } from 'vue';
-import SearchListDropdown from './SearchListDropdown.vue';
+import { useAlert } from 'dashboard/composables';
+import LinearAPI from 'dashboard/api/integrations/linear';
 import SearchIssue from './SearchIssue.vue';
+import SearchListDropdown from './SearchListDropdown.vue';
 
 const props = defineProps({
   conversationId: {
@@ -49,27 +50,30 @@ const props = defineProps({
     required: true,
   },
 });
-const { t } = useI18n();
-const items = ref([]);
-const shouldShowDropdown = ref(false);
-const toggleDropdown = () => {
-  items.value = [];
-  shouldShowDropdown.value = !shouldShowDropdown.value;
-};
 
-const selectedOption = ref({
-  id: null,
-  name: '',
-});
+const emits = defineEmits(['close']);
+
+const { t } = useI18n();
+const issues = ref([]);
+const shouldShowDropdown = ref(false);
+const selectedOption = ref({ id: null, name: '' });
 const isFetching = ref(false);
 const isLinking = ref(false);
 const searchQuery = ref('');
 
+const toggleDropdown = () => {
+  issues.value = [];
+  shouldShowDropdown.value = !shouldShowDropdown.value;
+};
+
 const linkIssueTitle = computed(() => {
-  if (selectedOption.value.id) {
-    return selectedOption.value.name;
-  }
-  return t('INTEGRATION_SETTINGS.LINEAR.LINK.SELECT');
+  return selectedOption.value.id
+    ? selectedOption.value.name
+    : t('INTEGRATION_SETTINGS.LINEAR.LINK.SELECT');
+});
+
+const isSubmitDisabled = computed(() => {
+  return !selectedOption.value.id || isLinking.value;
 });
 
 const onSelectIssue = item => {
@@ -77,23 +81,17 @@ const onSelectIssue = item => {
   toggleDropdown();
 };
 
-const isSubmitDisabled = computed(() => {
-  return !selectedOption.value.id || isLinking.value;
-});
-
-const emits = defineEmits(['close']);
-
 const onClose = () => {
   emits('close');
 };
 
-const handleSearchChange = async value => {
+const onSearch = async value => {
   if (!value) return;
   searchQuery.value = value;
   try {
     isFetching.value = true;
     const response = await LinearAPI.searchIssues(value);
-    items.value = response.data.map(issue => ({
+    issues.value = response.data.map(issue => ({
       id: issue.id,
       name: `${issue.identifier} ${issue.title}`,
     }));
@@ -111,7 +109,7 @@ const linkIssue = async () => {
     await LinearAPI.link_issue(props.conversationId, issueId);
     useAlert(t('INTEGRATION_SETTINGS.LINEAR.LINK.LINK_SUCCESS'));
     searchQuery.value = '';
-    items.value = [];
+    issues.value = [];
     onClose();
   } catch (error) {
     useAlert(t('INTEGRATION_SETTINGS.LINEAR.LINK.LINK_ERROR'));
