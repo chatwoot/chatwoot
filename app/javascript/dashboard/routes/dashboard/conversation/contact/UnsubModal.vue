@@ -1,10 +1,9 @@
+<!-- eslint-disable vue/no-mutating-props -->
 <template>
   <modal :show.sync="show" :on-close="onClose">
     <woot-modal-header
       :header-title="`Unsubscribe - ${contact.name}`"
-      :header-content="
-        `Are you sure you want to unsubscribe ${contact.phone_number}?`
-      "
+      :header-content="`Are you sure you want to unsubscribe ${contact.phone_number}?`"
     />
     <div class="modal-footer delete-item">
       <woot-button variant="clear" class="action-button" @click="onClose">
@@ -60,8 +59,11 @@ export default {
     async onConfirm() {
       if (this.contact.phone_number) {
         const body = {
+          channel: 'whatsapp',
           accountId: this.currentAccountId,
-          phoneNumber: this.contact.phone_number,
+          channelId: this.contact.phone_number,
+          sourceType: 'CHATWOOT',
+          subscribe: false,
         };
         this.onClose();
         this.showAlert('Unsubscribing contact');
@@ -70,7 +72,7 @@ export default {
           console.log('START UNSUBSCRIBING PROCESS');
 
           await axios.post(
-            'https://app.bitespeed.co/cxIntegrations/chatwoot/unsubscribe',
+            'https://bjzaowfrg4.execute-api.us-east-1.amazonaws.com/contact/update/subscribe',
             body
           );
           this.showAlert('Contact unsubscribed successfully');
