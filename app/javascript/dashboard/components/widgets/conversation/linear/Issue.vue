@@ -2,12 +2,14 @@
 import { format } from 'date-fns';
 import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.vue';
 import { computed } from 'vue';
+
 const priorityMap = {
-  0: 'Urgent',
-  1: 'High',
-  2: 'Medium',
-  3: 'Low',
+  1: 'Urgent',
+  2: 'High',
+  3: 'Medium',
+  4: 'Low',
 };
+
 const props = defineProps({
   issue: {
     type: Object,
@@ -18,30 +20,30 @@ const props = defineProps({
     required: true,
   },
 });
+
 const emit = defineEmits(['unlink-issue']);
+
 const formattedDate = computed(() => {
   return format(new Date(props.issue.createdAt), 'hh:mm a, MMM dd');
 });
 
 const assignee = computed(() => {
-  if (!props.issue.assignee) {
-    return null;
-  }
-  return {
-    name: props.issue.assignee.name,
-    thumbnail: props.issue.assignee?.avatarUrl || '',
-  };
+  return props.issue.assignee
+    ? {
+        name: props.issue.assignee?.name || '',
+        thumbnail: props.issue.assignee?.avatarUrl || '',
+      }
+    : null;
 });
 
 const labels = computed(() => {
-  if (props.issue.labels.nodes.length) {
-    return props.issue.labels.nodes;
-  }
-  return [];
+  return props.issue.labels?.nodes || [];
 });
+
 const priorityLabel = computed(() => {
   return priorityMap[props.issue.priority];
 });
+
 const unlinkIssue = () => {
   emit('unlink-issue', props.linkId);
 };
@@ -50,6 +52,7 @@ const openIssue = () => {
   window.open(props.issue.url, '_blank');
 };
 </script>
+
 <template>
   <div
     class="absolute flex flex-col items-start bg-[#fdfdfd] dark:bg-slate-800 z-50 px-4 py-3 border border-solid border-slate-75 dark:border-slate-700 w-[384px] rounded-xl gap-4 max-h-96 overflow-auto"
@@ -111,16 +114,14 @@ const openIssue = () => {
         <fluent-icon
           icon="status"
           size="14"
-          :style="{
-            color: issue.state.color,
-          }"
+          :style="{ color: issue.state.color }"
         />
         <h6 class="text-xs text-slate-600">
           {{ issue.state.name }}
         </h6>
       </div>
-      <div class="w-px h-3 bg-ash-200" />
-      <div class="flex items-center gap-1 py-1">
+      <div v-if="priorityLabel" class="w-px h-3 bg-ash-200" />
+      <div v-if="priorityLabel" class="flex items-center gap-1 py-1">
         <fluent-icon
           :icon="`priority-${priorityLabel.toLowerCase()}`"
           size="14"

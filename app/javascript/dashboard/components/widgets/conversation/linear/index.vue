@@ -1,11 +1,11 @@
 <template>
-  <div class="relative" :class="linkedIssue ? 'group' : ''">
+  <div class="relative" :class="{ group: linkedIssue }">
     <woot-button
       v-on-clickaway="closeIssue"
       v-tooltip="tooltipText"
       variant="clear"
       color-scheme="secondary"
-      @click="openIssue()"
+      @click="openIssue"
     >
       <fluent-icon
         icon="linear"
@@ -17,7 +17,7 @@
         {{ linkedIssue.issue.identifier }}
       </span>
     </woot-button>
-    <issue-item
+    <issue
       v-if="linkedIssue"
       :issue="linkedIssue.issue"
       :link-id="linkedIssue.id"
@@ -25,7 +25,7 @@
       @unlink-issue="unlinkIssue"
     />
     <woot-modal
-      :show.sync="showPopup"
+      :show.sync="shouldShowPopup"
       :on-close="closePopup"
       class="!items-start [&>div]:!top-12"
     >
@@ -37,14 +37,15 @@
     </woot-modal>
   </div>
 </template>
+
 <script setup>
-import LinearAPI from 'dashboard/api/integrations/linear';
-import CreateOrLinkIssue from './CreateOrLinkIssue.vue';
+import { computed, ref, onMounted, watch } from 'vue';
 import { useAlert } from 'dashboard/composables';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useI18n } from 'dashboard/composables/useI18n';
-import { computed, ref, onMounted, watch } from 'vue';
-import IssueItem from './IssueItem.vue';
+import LinearAPI from 'dashboard/api/integrations/linear';
+import CreateOrLinkIssue from './CreateOrLinkIssue.vue';
+import Issue from './Issue.vue';
 
 const props = defineProps({
   conversationId: {
@@ -57,8 +58,8 @@ const getters = useStoreGetters();
 const { t } = useI18n();
 
 const linkedIssue = ref(null);
-const showIssue = ref(false);
-const showPopup = ref(false);
+const shouldShow = ref(false);
+const shouldShowPopup = ref(false);
 
 const currentAccountId = getters.getCurrentAccountId;
 
@@ -90,17 +91,17 @@ const unlinkIssue = async linkId => {
 };
 
 const openIssue = () => {
-  if (!linkedIssue.value) showPopup.value = true;
-  showIssue.value = true;
+  if (!linkedIssue.value) shouldShowPopup.value = true;
+  shouldShow.value = true;
 };
 
 const closePopup = () => {
-  showPopup.value = false;
+  shouldShowPopup.value = false;
   loadLinkedIssue();
 };
 
 const closeIssue = () => {
-  showIssue.value = false;
+  shouldShow.value = false;
 };
 
 watch(
