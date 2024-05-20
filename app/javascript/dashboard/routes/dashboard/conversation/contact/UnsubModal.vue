@@ -59,11 +59,13 @@ export default {
     async onConfirm() {
       if (this.contact.phone_number) {
         const body = {
-          channel: 'whatsapp',
-          accountId: this.currentAccountId,
-          channelId: this.contact.phone_number,
-          sourceType: 'CHATWOOT',
-          subscribe: false,
+          subscribeQuery: {
+            channel: 'whatsapp',
+            accountId: this.currentAccountId,
+            channelId: this.contact.phone_number,
+            sourceType: 'CHATWOOT',
+            subscribe: false,
+          },
         };
         this.onClose();
         this.showAlert('Unsubscribing contact');
