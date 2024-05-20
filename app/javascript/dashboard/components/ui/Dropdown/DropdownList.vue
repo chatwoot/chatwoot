@@ -1,9 +1,9 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { picoSearch } from '@scmmishra/pico-search';
-import FilterListItemButton from './FilterListItemButton.vue';
-import FilterDropdownSearch from './FilterDropdownSearch.vue';
-import FilterDropdownEmptyState from './FilterDropdownEmptyState.vue';
+import ListItemButton from './DropdownListItemButton.vue';
+import DropdownSearch from './DropdownSearch.vue';
+import DropdownEmptyState from './DropdownEmptyState.vue';
 
 const props = defineProps({
   listItems: {
@@ -54,7 +54,7 @@ const isFilterActive = id => {
     @click.stop
   >
     <slot name="search">
-      <filter-dropdown-search
+      <dropdown-search
         v-if="enableSearch && listItems.length"
         :input-value="searchTerm"
         :input-placeholder="inputPlaceholder"
@@ -64,11 +64,11 @@ const isFilterActive = id => {
       />
     </slot>
     <slot name="listItem">
-      <filter-dropdown-empty-state
+      <dropdown-empty-state
         v-if="isDropdownListEmpty"
         :message="$t('REPORT.FILTER_ACTIONS.EMPTY_LIST')"
       />
-      <filter-list-item-button
+      <list-item-button
         v-for="item in filteredListItems"
         :key="item.id"
         :is-active="isFilterActive(item.id)"
