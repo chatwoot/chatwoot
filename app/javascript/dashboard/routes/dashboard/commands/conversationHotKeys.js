@@ -339,33 +339,43 @@ export default {
       ];
     },
 
-    conversationHotKeys() {
-      if (
+    shouldShowSnoozeOption() {
+      return (
         isAConversationRoute(this.$route.name, true, false) &&
         this.contextMenuChatId
-      ) {
-        // Added only for show snooze option in context menu
-        return this.snoozeConversationByContextMenu;
-      }
-      if (
+      );
+    },
+
+    isConversationOrInboxRoute() {
+      return (
         isAConversationRoute(this.$route.name) ||
         isAInboxViewRoute(this.$route.name)
-      ) {
-        const defaultConversationHotKeys = [
-          ...this.statusActions,
-          ...this.conversationAdditionalActions,
-          ...this.assignAgentActions,
-          ...this.assignTeamActions,
-          ...this.labelActions,
-          ...this.assignPriorityActions,
-        ];
-        if (this.isAIIntegrationEnabled) {
-          return [...defaultConversationHotKeys, ...this.AIAssistActions];
-        }
-        return defaultConversationHotKeys;
-      }
+      );
+    },
 
+    conversationHotKeys() {
+      if (this.shouldShowSnoozeOption()) {
+        return this.snoozeConversationByContextMenu;
+      }
+      if (this.isConversationOrInboxRoute()) {
+        return this.getDefaultConversationHotKeys();
+      }
       return [];
+    },
+
+    getDefaultConversationHotKeys() {
+      const defaultConversationHotKeys = [
+        ...this.statusActions,
+        ...this.conversationAdditionalActions,
+        ...this.assignAgentActions,
+        ...this.assignTeamActions,
+        ...this.labelActions,
+        ...this.assignPriorityActions,
+      ];
+      if (this.isAIIntegrationEnabled) {
+        return [...defaultConversationHotKeys, ...this.AIAssistActions];
+      }
+      return defaultConversationHotKeys;
     },
   },
 
