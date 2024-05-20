@@ -1,8 +1,8 @@
 <script setup>
-import FilterButton from './FilterButton.vue';
-import FilterListDropdown from './FilterListDropdown.vue';
-import FilterListItemButton from './FilterListItemButton.vue';
-import FilterDropdownEmptyState from './FilterDropdownEmptyState.vue';
+import FilterButton from 'dashboard/components/ui/Dropdown/DropdownButton.vue';
+import FilterListDropdown from 'dashboard/components/ui/Dropdown/DropdownList.vue';
+import FilterListItemButton from 'dashboard/components/ui/Dropdown/DropdownListItemButton.vue';
+import FilterDropdownEmptyState from 'dashboard/components/ui/Dropdown/DropdownEmptyState.vue';
 
 import { ref } from 'vue';
 
