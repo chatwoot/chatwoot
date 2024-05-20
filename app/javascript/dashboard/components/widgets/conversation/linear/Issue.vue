@@ -1,6 +1,7 @@
 <script setup>
 import { format } from 'date-fns';
 import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.vue';
+import IssueHeader from './IssueHeader.vue';
 import { computed } from 'vue';
 
 const priorityMap = {
@@ -47,55 +48,19 @@ const priorityLabel = computed(() => {
 const unlinkIssue = () => {
   emit('unlink-issue', props.linkId);
 };
-
-const openIssue = () => {
-  window.open(props.issue.url, '_blank');
-};
 </script>
 
 <template>
   <div
-    class="absolute flex flex-col items-start bg-[#fdfdfd] dark:bg-slate-800 z-50 px-4 py-3 border border-solid border-slate-75 dark:border-slate-700 w-[384px] rounded-xl gap-4 max-h-96 overflow-auto"
+    class="absolute flex flex-col items-start bg-ash-50 dark:bg-slate-800 z-50 px-4 py-3 border border-solid border-ash-200 w-[384px] rounded-xl gap-4 max-h-96 overflow-auto"
   >
     <div class="flex flex-col w-full">
-      <div class="flex flex-row justify-between">
-        <div
-          class="flex items-center justify-center gap-1 h-[24px] px-2 py-1 border rounded-lg border-ash-200"
-        >
-          <fluent-icon
-            icon="linear"
-            size="19"
-            class="text-[#5E6AD2]"
-            view-box="0 0 19 19"
-          />
-          <span class="text-xs font-medium text-ash-900">
-            {{ issue.identifier }}
-          </span>
-        </div>
-        <div class="flex items-center gap-0.5">
-          <woot-button
-            variant="clear"
-            color-scheme="secondary"
-            class="h-[24px]"
-            @click="unlinkIssue"
-          >
-            <fluent-icon
-              icon="unlink"
-              size="12"
-              type="outline"
-              icon-lib="lucide"
-            />
-          </woot-button>
-          <woot-button
-            variant="clear"
-            class="h-[24px]"
-            color-scheme="secondary"
-            @click="openIssue"
-          >
-            <fluent-icon icon="arrow-up-right" size="14" />
-          </woot-button>
-        </div>
-      </div>
+      <issue-header
+        :identifier="issue.identifier"
+        :link-id="linkId"
+        :issue-url="issue.url"
+        @unlink-issue="unlinkIssue"
+      />
 
       <span class="mt-2 text-sm font-medium text-ash-900">
         {{ issue.title }}
@@ -109,14 +74,14 @@ const openIssue = () => {
     </div>
     <div class="flex flex-row items-center h-6 gap-2">
       <user-avatar-with-name v-if="assignee" :user="assignee" class="py-1" />
-      <div class="w-px h-3 bg-ash-200" />
+      <div v-if="assignee" class="w-px h-3 bg-ash-200" />
       <div class="flex items-center gap-1 py-1">
         <fluent-icon
           icon="status"
           size="14"
           :style="{ color: issue.state.color }"
         />
-        <h6 class="text-xs text-slate-600">
+        <h6 class="text-xs text-ash-900">
           {{ issue.state.name }}
         </h6>
       </div>
@@ -127,7 +92,7 @@ const openIssue = () => {
           size="14"
           view-box="0 0 12 12"
         />
-        <h6 class="text-xs text-slate-600">{{ priorityLabel }}</h6>
+        <h6 class="text-xs text-ash-900">{{ priorityLabel }}</h6>
       </div>
     </div>
     <div v-if="labels.length" class="flex flex-wrap items-center gap-1">

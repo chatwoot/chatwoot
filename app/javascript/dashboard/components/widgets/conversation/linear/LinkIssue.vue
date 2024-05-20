@@ -111,6 +111,7 @@ const linkIssue = async () => {
     await LinearAPI.link_issue(props.conversationId, issueId);
     useAlert(t('INTEGRATION_SETTINGS.LINEAR.LINK.LINK_SUCCESS'));
     searchQuery.value = '';
+    items.value = [];
     onClose();
   } catch (error) {
     useAlert(t('INTEGRATION_SETTINGS.LINEAR.LINK.LINK_ERROR'));
