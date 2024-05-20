@@ -2,6 +2,7 @@
   "INBOX_MGMT": {
     "HEADER": "Innhólf",
     "SIDEBAR_TXT": "<p><b>Innhólf</b></p> <p> Þegar þú tengir vefsíðu eða Facebook-síðu við Chatwoot er það kallað <b>Innhólf</b>. Þú getur haft ótakmörkuð innhólf á Chatwoot reikningnum þínum. </p><p> Smelltu á <b>Bæta við innhólfi</b> til að tengja vefsíðu eða Facebook-síðu. </p><p> Í stjórnborðinu geturðu séð öll samtölin úr öllum innhólfunum þínum á einum stað og svarað þeim undir flipanum 'Samtöl'. </p><p> Þú getur líka séð samtöl sem eru sértæk fyrir innhólf með því að smella á innhólfsnafnið í vinstri glugganum á mælaborðinu. </p>",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected, you will not receive any new messages. <a class=\"underline\" href=\"%{actionUrl}\">Click here</a> to reconnect.",
     "LIST": {
       "404": "Það eru engin innhólf tengd við þennan reikning."
     },
