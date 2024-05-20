@@ -31,6 +31,5 @@ defineProps({
         class="flex-shrink-0 text-slate-900 dark:text-slate-50"
       />
     </div>
-    <slot name="dropdown" />
   </button>
 </template>
