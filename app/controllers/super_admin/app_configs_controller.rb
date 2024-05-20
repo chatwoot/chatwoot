@@ -35,6 +35,8 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
     @allowed_configs = case @config
                        when 'facebook'
                          %w[FB_APP_ID FB_VERIFY_TOKEN FB_APP_SECRET IG_VERIFY_TOKEN FACEBOOK_API_VERSION ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT]
+                       when 'microsoft'
+                         %w[AZURE_APP_ID AZURE_APP_SECRET]
                        when 'email'
                          ['MAILER_INBOUND_EMAIL_DOMAIN']
                        else
