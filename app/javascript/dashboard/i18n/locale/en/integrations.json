@@ -210,7 +210,7 @@
       "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
       "CREATE": "Create",
       "LINK": {
-        "SEARCH": "Search linear issues",
+        "SEARCH": "Search issues",
         "SELECT": "Select issue",
         "TITLE": "Link",
         "EMPTY_LIST": "No linear issues found",

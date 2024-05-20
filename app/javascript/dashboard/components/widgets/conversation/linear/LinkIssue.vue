@@ -1,23 +1,30 @@
 <template>
-  <div class="flex flex-col">
-    <search-issue
-      :title="linkIssueTitle"
-      class="w-full bg-slate-50 dark:bg-slate-800 hover:bg-slate-75 dark:hover:bg-slate-800"
+  <div
+    class="flex flex-col justify-between"
+    :class="shouldShowDropdown ? 'h-[256px]' : 'gap-2'"
+  >
+    <filter-button
+      right-icon="chevron-down"
+      :button-text="linkIssueTitle"
+      class="justify-between w-full bg-slate-50 dark:bg-slate-800 hover:bg-slate-75 dark:hover:bg-slate-800"
       @click="toggleDropdown"
     >
       <template v-if="shouldShowDropdown" #dropdown>
-        <search-list-dropdown
+        <filter-list-dropdown
           v-if="issues"
           v-on-clickaway="toggleDropdown"
-          :items="issues"
-          :selected-id="selectedOption.id"
-          class="flex flex-col w-[240px] overflow-y-auto left-0 md:left-auto md:right-0 top-10"
+          :show-clear-filter="false"
+          :list-items="issues"
+          :active-filter-id="selectedOption.id"
+          :input-placeholder="$t('INTEGRATION_SETTINGS.LINEAR.LINK.SEARCH')"
+          enable-search
+          class="left-0 flex flex-col w-full overflow-y-auto h-fit max-h-[160px] md:left-auto md:right-0 top-10"
           @on-search="onSearch"
           @click="onSelectIssue"
         />
       </template>
-    </search-issue>
-    <div class="flex items-center justify-end w-full gap-2 mt-64">
+    </filter-button>
+    <div class="flex items-center justify-end w-full gap-2">
       <woot-button
         class="px-4 rounded-xl button clear outline-woot-200/50 outline"
         @click.prevent="onClose"
@@ -41,8 +48,8 @@ import { ref, computed } from 'vue';
 import { useI18n } from 'dashboard/composables/useI18n';
 import { useAlert } from 'dashboard/composables';
 import LinearAPI from 'dashboard/api/integrations/linear';
-import SearchIssue from './SearchIssue.vue';
-import SearchListDropdown from './SearchListDropdown.vue';
+import FilterButton from 'dashboard/components/ui/Dropdown/DropdownButton.vue';
+import FilterListDropdown from 'dashboard/components/ui/Dropdown/DropdownList.vue';
 
 const props = defineProps({
   conversationId: {
