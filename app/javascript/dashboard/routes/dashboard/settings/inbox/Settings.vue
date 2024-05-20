@@ -21,6 +21,11 @@
       </woot-tabs>
     </setting-intro-banner>
 
+    <inbox-reconnection-required
+      v-if="isReconnectionRequired"
+      class="mx-8 mt-5"
+    />
+
     <div v-if="selectedTabKey === 'inbox_settings'" class="mx-8">
       <settings-section
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_UPDATE_TITLE')"
@@ -287,7 +292,7 @@
         <label v-if="isAWebWidgetInbox">
           {{ $t('INBOX_MGMT.FEATURES.LABEL') }}
         </label>
-        <div v-if="isAWebWidgetInbox" class="pt-2 pb-4 flex gap-2">
+        <div v-if="isAWebWidgetInbox" class="flex gap-2 pt-2 pb-4">
           <input
             v-model="selectedFeatureFlags"
             type="checkbox"
@@ -298,7 +303,7 @@
             {{ $t('INBOX_MGMT.FEATURES.DISPLAY_FILE_PICKER') }}
           </label>
         </div>
-        <div v-if="isAWebWidgetInbox" class="pb-4 flex gap-2">
+        <div v-if="isAWebWidgetInbox" class="flex gap-2 pb-4">
           <input
             v-model="selectedFeatureFlags"
             type="checkbox"
@@ -309,7 +314,7 @@
             {{ $t('INBOX_MGMT.FEATURES.DISPLAY_EMOJI_PICKER') }}
           </label>
         </div>
-        <div v-if="isAWebWidgetInbox" class="pb-4 flex gap-2">
+        <div v-if="isAWebWidgetInbox" class="flex gap-2 pb-4">
           <input
             v-model="selectedFeatureFlags"
             type="checkbox"
@@ -320,7 +325,7 @@
             {{ $t('INBOX_MGMT.FEATURES.ALLOW_END_CONVERSATION') }}
           </label>
         </div>
-        <div v-if="isAWebWidgetInbox" class="pb-4 flex gap-2">
+        <div v-if="isAWebWidgetInbox" class="flex gap-2 pb-4">
           <input
             v-model="selectedFeatureFlags"
             type="checkbox"
@@ -435,6 +440,7 @@ import WeeklyAvailability from './components/WeeklyAvailability.vue';
 import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
 import ConfigurationPage from './settingsPage/ConfigurationPage.vue';
 import CollaboratorsPage from './settingsPage/CollaboratorsPage.vue';
+import InboxReconnectionRequired from './components/InboxReconnectionRequired';
 import WidgetBuilder from './WidgetBuilder.vue';
 import BotConfiguration from './components/BotConfiguration.vue';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
@@ -453,6 +459,7 @@ export default {
     WeeklyAvailability,
     WidgetBuilder,
     SenderNameExamplePreview,
+    InboxReconnectionRequired,
   },
   mixins: [alertMixin, configMixin, inboxMixin],
   data() {
@@ -612,6 +619,9 @@ export default {
         this.isAFacebookInbox
       )
         return true;
+      return false;
+    },
+    isReconnectionRequired() {
       return false;
     },
   },

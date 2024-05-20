@@ -123,6 +123,16 @@
   type: boolean
 # ------- End of Facebook Channel Related Config ------- #
 
+# MARK: Microsoft Email Channel Config
+- name: AZURE_APP_ID
+  display_title: 'Azure App ID'
+  description: 'The App ID that will be used to authenticate with customer Microsoft accounts. Find more details on setting up Azure here: https://chwt.app/dev/ms'
+  locked: false
+- name: AZURE_APP_SECRET
+  display_title: 'Azure App Secret'
+  locked: false
+# End of Microsoft Email Channel Config
+
 # ------- Chatwoot Internal Config for Cloud ----#
 - name: CHATWOOT_INBOX_TOKEN
   value:
