@@ -98,13 +98,6 @@ export default {
       return this.prepareActions(actions);
     },
 
-    snoozeConversationByContextMenu() {
-      if (this.contextMenuChatId) {
-        return this.prepareActions(SNOOZE_CONVERSATION_ACTIONS);
-      }
-      return [];
-    },
-
     priorityOptions() {
       return [
         {
@@ -343,6 +336,13 @@ export default {
       return (
         isAConversationRoute(this.$route.name) ||
         isAInboxViewRoute(this.$route.name)
+      );
+    },
+
+    shouldShowSnoozeOption() {
+      return (
+        isAConversationRoute(this.$route.name, true, false) &&
+        this.contextMenuChatId
       );
     },
 
