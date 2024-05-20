@@ -1025,6 +1025,9 @@ export default {
         });
     },
     hideCustomSnoozeModal() {
+      // if we select custom snooze and then the custom snooze modal is open
+      // Then if the custom snooze modal is closed and set the context menu chat id to null
+      this.$store.dispatch('setContextMenuChatId', null);
       this.showCustomSnoozeModal = false;
     },
   },

@@ -353,16 +353,6 @@ export default {
       );
     },
 
-    conversationHotKeys() {
-      if (this.shouldShowSnoozeOption()) {
-        return this.snoozeConversationByContextMenu;
-      }
-      if (this.isConversationOrInboxRoute()) {
-        return this.getDefaultConversationHotKeys();
-      }
-      return [];
-    },
-
     getDefaultConversationHotKeys() {
       const defaultConversationHotKeys = [
         ...this.statusActions,
@@ -376,6 +366,16 @@ export default {
         return [...defaultConversationHotKeys, ...this.AIAssistActions];
       }
       return defaultConversationHotKeys;
+    },
+
+    conversationHotKeys() {
+      if (this.shouldShowSnoozeOption) {
+        return this.snoozeConversationByContextMenu;
+      }
+      if (this.isConversationOrInboxRoute) {
+        return this.getDefaultConversationHotKeys;
+      }
+      return [];
     },
   },
 
