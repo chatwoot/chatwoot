@@ -2,7 +2,7 @@
   <ninja-keys
     ref="ninjakeys"
     :no-auto-load-md-icons="true"
-    hide-breadcrumbs
+    hideBreadcrumbs
     :placeholder="placeholder"
     @selected="onSelected"
     @closed="onClosed"
