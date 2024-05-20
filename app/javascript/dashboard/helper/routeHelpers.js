@@ -52,7 +52,11 @@ export const validateLoggedInRoutes = (to, user, roleWiseRoutes) => {
   return null;
 };
 
-export const isAConversationRoute = (routeName, includeBase = false) => {
+export const isAConversationRoute = (
+  routeName,
+  includeBase = false,
+  includeExtended = true
+) => {
   const baseRoutes = [
     'home',
     'conversation_mentions',
@@ -73,10 +77,13 @@ export const isAConversationRoute = (routeName, includeBase = false) => {
     'conversations_through_folders',
     'conversation_through_participating',
   ];
-  const routeNames = includeBase
-    ? [...baseRoutes, ...extendedRoutes]
-    : extendedRoutes;
-  return routeNames.includes(routeName);
+
+  const routes = [
+    ...(includeBase ? baseRoutes : []),
+    ...(includeExtended ? extendedRoutes : []),
+  ];
+
+  return routes.includes(routeName);
 };
 
 export const getConversationDashboardRoute = routeName => {

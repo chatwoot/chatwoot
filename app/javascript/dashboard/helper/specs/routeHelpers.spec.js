@@ -119,14 +119,37 @@ describe('isAConversationRoute', () => {
   });
 
   it('returns false if base conversation route name is provided and includeBase is false', () => {
-    expect(isAConversationRoute('home')).toBe(false);
-    expect(isAConversationRoute('conversation_mentions')).toBe(false);
-    expect(isAConversationRoute('conversation_unattended')).toBe(false);
-    expect(isAConversationRoute('inbox_dashboard')).toBe(false);
-    expect(isAConversationRoute('label_conversations')).toBe(false);
-    expect(isAConversationRoute('team_conversations')).toBe(false);
-    expect(isAConversationRoute('folder_conversations')).toBe(false);
-    expect(isAConversationRoute('conversation_participating')).toBe(false);
+    expect(isAConversationRoute('home', false)).toBe(false);
+    expect(isAConversationRoute('conversation_mentions', false)).toBe(false);
+    expect(isAConversationRoute('conversation_unattended', false)).toBe(false);
+    expect(isAConversationRoute('inbox_dashboard', false)).toBe(false);
+    expect(isAConversationRoute('label_conversations', false)).toBe(false);
+    expect(isAConversationRoute('team_conversations', false)).toBe(false);
+    expect(isAConversationRoute('folder_conversations', false)).toBe(false);
+    expect(isAConversationRoute('conversation_participating', false)).toBe(
+      false
+    );
+  });
+
+  it('returns true if base conversation route name is provided and includeBase and includeExtended is true', () => {
+    expect(isAConversationRoute('home', true, true)).toBe(true);
+    expect(isAConversationRoute('conversation_mentions', true, true)).toBe(
+      true
+    );
+    expect(isAConversationRoute('conversation_unattended', true, true)).toBe(
+      true
+    );
+    expect(isAConversationRoute('inbox_dashboard', true, true)).toBe(true);
+    expect(isAConversationRoute('label_conversations', true, true)).toBe(true);
+    expect(isAConversationRoute('team_conversations', true, true)).toBe(true);
+    expect(isAConversationRoute('folder_conversations', true, true)).toBe(true);
+    expect(isAConversationRoute('conversation_participating', true, true)).toBe(
+      true
+    );
+  });
+
+  it('returns false if base conversation route name is not provided', () => {
+    expect(isAConversationRoute('')).toBe(false);
   });
 });
 
