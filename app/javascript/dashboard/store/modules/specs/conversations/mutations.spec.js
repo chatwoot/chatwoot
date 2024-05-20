@@ -279,6 +279,66 @@ describe('#mutations', () => {
     });
   });
 
+  describe('#SET_ALL_CONVERSATION', () => {
+    it('set all conversation', () => {
+      const state = { allConversations: [{ id: 1 }] };
+      const data = [{ id: 1, name: 'test' }];
+      mutations[types.SET_ALL_CONVERSATION](state, data);
+      expect(state.allConversations).toEqual(data);
+    });
+
+    it('set all conversation in reconnect if selected chat id and conversation id is the same', () => {
+      const state = {
+        allConversations: [{ id: 1, status: 'open' }],
+        selectedChatId: 1,
+      };
+      const data = [{ id: 1, name: 'test', status: 'resolved' }];
+      mutations[types.SET_ALL_CONVERSATION](state, data);
+      expect(state.allConversations).toEqual(data);
+    });
+
+    it('set all conversation in reconnect if selected chat id and conversation id is the same then do not update messages', () => {
+      const state = {
+        allConversations: [{ id: 1, messages: [{ id: 1, content: 'test' }] }],
+        selectedChatId: 1,
+      };
+      const data = [
+        {
+          id: 1,
+          name: 'test',
+          messages: [{ id: 1, content: 'updated message' }],
+        },
+      ];
+      const expected = [
+        { id: 1, name: 'test', messages: [{ id: 1, content: 'test' }] },
+      ];
+      mutations[types.SET_ALL_CONVERSATION](state, data);
+      expect(state.allConversations).toEqual(expected);
+    });
+
+    it('set all conversation in reconnect if selected chat id and conversation id is not the same', () => {
+      const state = {
+        allConversations: [{ id: 1, status: 'open' }],
+        selectedChatId: 2,
+      };
+      const data = [{ id: 1, name: 'test', status: 'resolved' }];
+      mutations[types.SET_ALL_CONVERSATION](state, data);
+      expect(state.allConversations).toEqual(data);
+    });
+
+    it('set all conversation in reconnect if selected chat id and conversation id is not the same then update messages', () => {
+      const state = {
+        allConversations: [{ id: 1, messages: [{ id: 1, content: 'test' }] }],
+        selectedChatId: 2,
+      };
+      const data = [
+        { id: 1, name: 'test', messages: [{ id: 1, content: 'tested' }] },
+      ];
+      mutations[types.SET_ALL_CONVERSATION](state, data);
+      expect(state.allConversations).toEqual(data);
+    });
+  });
+
   describe('#SET_ALL_ATTACHMENTS', () => {
     it('set all attachments', () => {
       const state = {
