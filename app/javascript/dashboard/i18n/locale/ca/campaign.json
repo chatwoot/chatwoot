@@ -13,24 +13,24 @@
       "CREATE_BUTTON_TEXT": "Crear",
       "FORM": {
         "TITLE": {
-          "LABEL": "Title",
-          "PLACEHOLDER": "Please enter the title of campaign",
-          "ERROR": "Title is required"
+          "LABEL": "Títol",
+          "PLACEHOLDER": "Introduïu el títol de la campanya",
+          "ERROR": "El títol és necessari"
         },
         "SCHEDULED_AT": {
-          "LABEL": "Scheduled time",
-          "PLACEHOLDER": "Please select the time",
-          "CONFIRM": "Confirm",
-          "ERROR": "Scheduled time is required"
+          "LABEL": "Hora programada",
+          "PLACEHOLDER": "Selecciona l'hora",
+          "CONFIRM": "Confirma",
+          "ERROR": "Es requereix hora programada"
         },
         "AUDIENCE": {
-          "LABEL": "Audience",
+          "LABEL": "Públic",
           "PLACEHOLDER": "Select the customer labels",
           "ERROR": "Audience is required"
         },
         "INBOX": {
-          "LABEL": "Select Inbox",
-          "PLACEHOLDER": "Select Inbox",
+          "LABEL": "Selecciona Safata d'entrada",
+          "PLACEHOLDER": "Selecciona Safata d'entrada",
           "ERROR": "Inbox is required"
         },
         "MESSAGE": {
@@ -87,13 +87,13 @@
       "LOADING_MESSAGE": "Loading campaigns...",
       "404": "There are no campaigns created for this inbox.",
       "TABLE_HEADER": {
-        "TITLE": "Title",
+        "TITLE": "Títol",
         "MESSAGE": "Missatge",
-        "INBOX": "Inbox",
+        "INBOX": "Safata d'entrada",
         "STATUS": "Estat",
-        "SENDER": "Sender",
+        "SENDER": "Remitent",
         "URL": "URL",
-        "SCHEDULED_AT": "Scheduled time",
+        "SCHEDULED_AT": "Hora programada",
         "TIME_ON_PAGE": "Time(Seconds)",
         "CREATED_AT": "Created at"
       },
