@@ -70,6 +70,8 @@
     <div id="app"></div>
     <noscript id="noscript">This app works best with JavaScript enabled.</noscript>
     <%= yield %>
-    <%= @dashboard_scripts.html_safe %>
+    <% if @dashboard_scripts.present? %> 
+      <%= @dashboard_scripts.html_safe %>
+    <% end %>
   </body>
 </html>
