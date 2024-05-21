@@ -54,12 +54,13 @@ export default {
     ChatHeaderExpanded,
   },
   mixins: [configMixin],
+  // window.chatwootWebChannel.disableBranding || false
   data() {
     return {
       showPopoutButton: false,
       scrollPosition: 0,
       ticking: true,
-      disableBranding: window.chatwootWebChannel.disableBranding || false,
+      disableBranding: true,
       requestID: null,
     };
   },

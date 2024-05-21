@@ -1,6 +1,7 @@
 <template>
+  <!-- !disableBranding -->
   <div
-    v-if="globalConfig.brandName && !disableBranding"
+    v-if="globalConfig.brandName && false"
     class="px-0 py-3 flex justify-center"
   >
     <a
