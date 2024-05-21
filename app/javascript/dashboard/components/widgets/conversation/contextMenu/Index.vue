@@ -16,7 +16,7 @@
       />
     </template>
     <menu-item
-      v-if="showSnooze(snoozeOption.key)"
+      v-if="showSnooze"
       :option="snoozeOption"
       variant="icon"
       @click="snoozeConversation()"
@@ -209,6 +209,10 @@ export default {
         ...this.filteredAgentOnAvailability,
       ];
     },
+    showSnooze() {
+      // Don't show snooze if the conversation is already snoozed/resolved/pending
+      return this.status === wootConstants.STATUS_TYPE.OPEN;
+    },
   },
   mounted() {
     this.$store.dispatch('inboxAssignableAgents/fetch', [this.inboxId]);
@@ -229,10 +233,6 @@ export default {
       // If the conversation status is same as the action, then don't display the option
       // i.e.: Don't show an option to resolve if the conversation is already resolved.
       return this.status !== key;
-    },
-    showSnooze() {
-      // Don't show snooze if the conversation is already snoozed/resolved/pending
-      return this.status === wootConstants.STATUS_TYPE.OPEN;
     },
     generateMenuLabelConfig(option, type = 'text') {
       return {
