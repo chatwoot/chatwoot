@@ -66,12 +66,12 @@ class Linear
     process_response(response)
   end
 
-  def link_issue(link, issue_id)
+  def link_issue(link, issue_id, title)
     raise ArgumentError, 'Missing link' if link.blank?
     raise ArgumentError, 'Missing issue id' if issue_id.blank?
 
     payload = {
-      query: LinearMutations.issue_link(issue_id, link)
+      query: LinearMutations.issue_link(issue_id, link, title)
     }
     response = post(payload)
     process_response(response)
@@ -116,7 +116,7 @@ class Linear
   end
 
   def process_response(response)
-    return response.parsed_response['data'].with_indifferent_access if response.success?
+    return response.parsed_response['data'].with_indifferent_access if response.success? && !response.parsed_response['data'].nil?
 
     { error: response.parsed_response, error_code: response.code }
   end

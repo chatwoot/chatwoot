@@ -31,10 +31,10 @@ module LinearMutations
     GRAPHQL
   end
 
-  def self.issue_link(issue_id, link)
+  def self.issue_link(issue_id, link, title)
     <<~GRAPHQL
       mutation {
-        attachmentLinkURL(url: "#{link}", issueId: "#{issue_id}") {
+        attachmentLinkURL(url: "#{link}", issueId: "#{issue_id}", title: "#{title}") {
           success
           attachment {
             id
