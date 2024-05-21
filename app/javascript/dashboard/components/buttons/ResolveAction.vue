@@ -94,7 +94,6 @@ import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixi
 import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
-import LinearAPI from 'dashboard/api/integrations/linear';
 
 import wootConstants from 'dashboard/constants/globals';
 import {
@@ -120,10 +119,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      currentChat: 'getSelectedChat',
-      currentUser: 'getCurrentUser',
-    }),
+    ...mapGetters({ currentChat: 'getSelectedChat' }),
     isOpen() {
       return this.currentChat.status === wootConstants.STATUS_TYPE.OPEN;
     },
@@ -252,7 +248,6 @@ export default {
           snoozedUntil,
         })
         .then(() => {
-          this.updateLinearComment(status);
           this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
           this.isLoading = false;
         });
@@ -260,20 +255,6 @@ export default {
     openSnoozeModal() {
       const ninja = document.querySelector('ninja-keys');
       ninja.open({ parent: 'snooze_conversation' });
-    },
-    async updateLinearComment(status) {
-      if (status !== 'resolved') {
-        return;
-      }
-      const response = await LinearAPI.getLinkedIssue(this.currentChat.id);
-      const { data: issues } = response;
-      const linkedIssue = issues && issues.length ? issues[0] : null;
-      if (linkedIssue) {
-        await LinearAPI.createComment({
-          issue_id: linkedIssue.issue.id,
-          comment: `*The conversation has been resolved by **${this.currentUser.name}***`,
-        });
-      }
     },
   },
 };
