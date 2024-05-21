@@ -11,7 +11,7 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
   end
 
   def team_entities
-    team_id = params[:team_id]
+    team_id = permitted_params[:team_id]
     entites = linear_processor_service.team_entities(team_id)
     if entites.is_a?(Hash) && entites[:error]
       render json: { error: entites[:error] }, status: :unprocessable_entity
@@ -30,8 +30,9 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
   end
 
   def link_issue
-    issue_id = params[:issue_id]
-    issue = linear_processor_service.link_issue(conversation_link, issue_id)
+    issue_id = permitted_params[:issue_id]
+    title = permitted_params[:title]
+    issue = linear_processor_service.link_issue(conversation_link, issue_id, title)
     if issue.is_a?(Hash) && issue[:error]
       render json: { error: issue[:error] }, status: :unprocessable_entity
     else
@@ -40,7 +41,7 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
   end
 
   def unlink_issue
-    link_id = params[:link_id]
+    link_id = permitted_params[:link_id]
     issue = linear_processor_service.unlink_issue(link_id)
 
     if issue.is_a?(Hash) && issue[:error]

@@ -107,13 +107,14 @@ describe Integrations::Linear::ProcessorService do
   describe '#link_issue' do
     let(:link) { 'https://example.com' }
     let(:issue_id) { 'issue1' }
+    let(:title) { 'Title' }
     let(:link_issue_response) { { id: issue_id, link: link, 'attachmentLinkURL': { 'attachment': { 'id': 'attachment1' } } } }
     let(:link_response) { { id: issue_id, link: link, link_id: 'attachment1' } }
 
     context 'when Linear client returns valid data' do
       it 'returns parsed link data' do
-        allow(linear_client).to receive(:link_issue).with(link, issue_id).and_return(link_issue_response)
-        result = service.link_issue(link, issue_id)
+        allow(linear_client).to receive(:link_issue).with(link, issue_id, title).and_return(link_issue_response)
+        result = service.link_issue(link, issue_id, title)
         expect(result).to eq(link_response)
       end
     end
@@ -122,8 +123,8 @@ describe Integrations::Linear::ProcessorService do
       let(:error_response) { { error: 'Some error message' } }
 
       it 'returns the error' do
-        allow(linear_client).to receive(:link_issue).with(link, issue_id).and_return(error_response)
-        result = service.link_issue(link, issue_id)
+        allow(linear_client).to receive(:link_issue).with(link, issue_id, title).and_return(error_response)
+        result = service.link_issue(link, issue_id, title)
         expect(result).to eq(error_response)
       end
     end

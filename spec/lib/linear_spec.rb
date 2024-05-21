@@ -164,6 +164,7 @@ describe Linear do
   context 'when linking an issue' do
     let(:link) { 'https://example.com' }
     let(:issue_id) { 'issue1' }
+    let(:title) { 'Title' }
 
     context 'when the API response is success' do
       before do
@@ -172,7 +173,7 @@ describe Linear do
       end
 
       it 'links an issue' do
-        response = linear_client.link_issue(link, issue_id)
+        response = linear_client.link_issue(link, issue_id, title)
         expect(response).to eq({ 'attachmentLinkURL' => { 'id' => 'attachment1' } })
       end
 
@@ -180,7 +181,7 @@ describe Linear do
         let(:link) { '' }
 
         it 'raises an exception' do
-          expect { linear_client.link_issue(link, issue_id) }.to raise_error(ArgumentError, 'Missing link')
+          expect { linear_client.link_issue(link, issue_id, title) }.to raise_error(ArgumentError, 'Missing link')
         end
       end
 
@@ -188,7 +189,7 @@ describe Linear do
         let(:issue_id) { '' }
 
         it 'raises an exception' do
-          expect { linear_client.link_issue(link, issue_id) }.to raise_error(ArgumentError, 'Missing issue id')
+          expect { linear_client.link_issue(link, issue_id, title) }.to raise_error(ArgumentError, 'Missing issue id')
         end
       end
     end
@@ -200,7 +201,7 @@ describe Linear do
       end
 
       it 'raises an exception' do
-        response = linear_client.link_issue(link, issue_id)
+        response = linear_client.link_issue(link, issue_id, title)
         expect(response).to eq({ :error => { 'errors' => [{ 'message' => 'Error linking issue' }] }, :error_code => 422 })
       end
     end

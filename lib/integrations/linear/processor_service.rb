@@ -30,8 +30,8 @@ class Integrations::Linear::ProcessorService
     }
   end
 
-  def link_issue(link, issue_id)
-    response = linear_client.link_issue(link, issue_id)
+  def link_issue(link, issue_id, title)
+    response = linear_client.link_issue(link, issue_id, title)
     return response if response[:error]
 
     {
