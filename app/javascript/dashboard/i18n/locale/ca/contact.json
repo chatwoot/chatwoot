@@ -225,7 +225,7 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contactes",
-    "FIELDS": "Contact fields",
+    "FIELDS": "Camps de contacte",
     "SEARCH_BUTTON": "Cercar",
     "SEARCH_INPUT_PLACEHOLDER": "Cerca de contactes",
     "FILTER_CONTACTS": "Filtre",
@@ -240,8 +240,8 @@
         "NAME": "Nom",
         "PHONE_NUMBER": "Número de telèfon",
         "CONVERSATIONS": "Converses",
-        "LAST_ACTIVITY": "Last Activity",
-        "CREATED_AT": "Created At",
+        "LAST_ACTIVITY": "Darrera activitat",
+        "CREATED_AT": "Creat per",
         "COUNTRY": "País",
         "CITY": "Ciutat",
         "SOCIAL_PROFILES": "Social Profiles",
@@ -319,7 +319,7 @@
       },
       "VALUE": {
         "LABEL": "Attribute value",
-        "PLACEHOLDER": "Eg: 11901 "
+        "PLACEHOLDER": "Ex: 11901 "
       },
       "ADD": {
         "TITLE": "Crear nou atribut ",
@@ -348,20 +348,20 @@
       }
     },
     "VALIDATIONS": {
-      "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL",
-      "INVALID_INPUT": "Invalid Input"
+      "REQUIRED": "Un valor vàlid és necessari",
+      "INVALID_URL": "URL no vàlid",
+      "INVALID_INPUT": "Entrada incorrecta"
     }
   },
   "MERGE_CONTACTS": {
-    "TITLE": "Merge contacts",
+    "TITLE": "Fusiona contactes",
     "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’ s attributes will take precedence.",
     "PRIMARY": {
-      "TITLE": "Primary contact",
-      "HELP_LABEL": "To be deleted"
+      "TITLE": "Contacte principal",
+      "HELP_LABEL": "Per esborrar"
     },
     "PARENT": {
-      "TITLE": "Contact to merge",
+      "TITLE": "Contacte per fusionar",
       "PLACEHOLDER": "Search for a contact",
       "HELP_LABEL": "To be kept"
     },
