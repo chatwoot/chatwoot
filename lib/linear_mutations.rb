@@ -31,20 +31,6 @@ module LinearMutations
     GRAPHQL
   end
 
-  def self.create_comment(input)
-    <<~GRAPHQL
-      mutation {
-        commentCreate(input: { #{graphql_input(input)} }) {
-          success
-          comment {
-            id
-            body
-          }
-        }
-      }
-    GRAPHQL
-  end
-
   def self.issue_link(issue_id, link)
     <<~GRAPHQL
       mutation {

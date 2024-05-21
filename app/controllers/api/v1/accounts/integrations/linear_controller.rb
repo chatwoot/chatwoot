@@ -29,17 +29,6 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
     end
   end
 
-  def create_comment
-    issue_id = params[:issue_id]
-    comment = permitted_params[:comment]
-    issue = linear_processor_service.create_comment(issue_id, comment)
-    if issue.is_a?(Hash) && issue[:error]
-      render json: { error: issue[:error] }, status: :unprocessable_entity
-    else
-      render json: issue, status: :ok
-    end
-  end
-
   def link_issue
     issue_id = params[:issue_id]
     issue = linear_processor_service.link_issue(conversation_link, issue_id)

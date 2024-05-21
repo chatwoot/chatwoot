@@ -53,7 +53,6 @@ module LinearQueries
             id
             title
             description
-            identifier
           }
         }
       }
