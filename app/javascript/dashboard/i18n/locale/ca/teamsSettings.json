@@ -48,7 +48,7 @@
       },
       "WIZARD": [
         {
-          "title": "Team details",
+          "title": "Detalls de l'equip",
           "route": "settings_teams_edit",
           "body": "Change name, description and other details."
         },
