@@ -76,6 +76,7 @@ class ZeroharmDailyConversationReportJob < ApplicationJob
   end
 
   def fetch_order_ids(account_id, phone_numbers_and_dates)
+    # url = URI('http://localhost:3000/previousOrdersByPhoneNumber')
     url = URI('https://b3i4zxcefi.execute-api.us-east-1.amazonaws.com/previousOrdersByPhoneNumber')
 
     http = Net::HTTP.new(url.host, url.port)
@@ -118,7 +119,11 @@ class ZeroharmDailyConversationReportJob < ApplicationJob
   end
 
   def upload_csv(account_id, current_date, csv_content)
-    # Upload csv_content via ActiveStorage and print the URL
+    # for testing locally uncomment below
+    # puts csv_content
+    # local_file_path = "daily_conversation_report_#{account_id}_#{current_date}.csv"
+    # File.write(local_file_path, csv_content)
+    # # Upload csv_content via ActiveStorage and print the URL
     blob = ActiveStorage::Blob.create_and_upload!(
       io: StringIO.new(csv_content),
       filename: "daily_conversation_report_#{account_id}_#{current_date}.csv",
