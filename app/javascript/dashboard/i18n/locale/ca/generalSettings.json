@@ -59,7 +59,7 @@
       "ENTER_TO_SELECT": "Presiona retorn (tecla enter) per seleccionar",
       "ENTER_TO_REMOVE": "Presiona retorn (tecla enter) per eliminar",
       "SELECT_ONE": "Selecciona un",
-      "SELECT": "Select"
+      "SELECT": "Selecciona"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -106,7 +106,7 @@
     "SECTIONS": {
       "GENERAL": "General",
       "REPORTS": "Informes",
-      "CONVERSATION": "Conversation",
+      "CONVERSATION": "Conversa",
       "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Change Assignee",
       "CHANGE_PRIORITY": "Change Priority",
@@ -116,7 +116,7 @@
       "REMOVE_LABEL": "Remove label from the conversation",
       "SETTINGS": "Configuracions",
       "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance",
+      "APPEARANCE": "Aparença",
       "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
