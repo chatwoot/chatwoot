@@ -20,7 +20,7 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Primer Temps de Resposta",
         "DESC": "( Promig )",
         "INFO_TEXT": "Total number of conversations used for computation:",
         "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
@@ -45,16 +45,16 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "TOOLTIP_TEXT": "El temps d'espera és %{metricValue} (basat en %{conversationCount} respostes)"
       }
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "Últims 7 dies",
       "LAST_30_DAYS": "Últims 30 dies",
-      "LAST_3_MONTHS": "Last 3 months",
-      "LAST_6_MONTHS": "Last 6 months",
-      "LAST_YEAR": "Last year",
-      "CUSTOM_DATE_RANGE": "Custom date range"
+      "LAST_3_MONTHS": "Últims tres mesos",
+      "LAST_6_MONTHS": "Últims sis mesos",
+      "LAST_YEAR": "Darrer any",
+      "CUSTOM_DATE_RANGE": "Interval de dates personalitzat"
     },
     "DATE_RANGE": [
       {
@@ -67,19 +67,19 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Últims tres mesos"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Últims sis mesos"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Darrer any"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Interval de dates personalitzat"
       }
     ],
     "CUSTOM_DATE_RANGE": {
@@ -89,39 +89,39 @@
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
     "DURATION_FILTER_LABEL": "Duration",
     "GROUPING_OPTIONS": {
-      "DAY": "Day",
-      "WEEK": "Week",
-      "MONTH": "Month",
+      "DAY": "Dia",
+      "WEEK": "Setmana",
+      "MONTH": "Mes",
       "YEAR": "Any"
     },
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Dia"
       }
     ],
     "GROUP_BY_WEEK_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Dia"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Setmana"
       }
     ],
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Dia"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Setmana"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "Mes"
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
@@ -138,14 +138,14 @@
         "groupBy": "Month"
       }
     ],
-    "BUSINESS_HOURS": "Business Hours",
+    "BUSINESS_HOURS": "Horari comercial",
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Esborra els filtres",
       "EMPTY_LIST": "No s'ha trobat agents"
     }
   },
   "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
+    "HEADER": "Visió general dels agents",
     "LOADING_CHART": "S'estan carregant dades del gràfic...",
     "NO_ENOUGH_DATA": "No hem rebut suficients punts de dades per generar l'informe. Torneu-ho a provar més endavant.",
     "DOWNLOAD_AGENT_REPORTS": "Descarregar Informes d'Agent",
@@ -164,7 +164,7 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Primer Temps de Resposta",
         "DESC": "( Promig )",
         "INFO_TEXT": "Total number of conversations used for computation:",
         "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
@@ -191,19 +191,19 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Últims tres mesos"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Últims sis mesos"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Darrer any"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Interval de dates personalitzat"
       }
     ],
     "CUSTOM_DATE_RANGE": {
@@ -216,7 +216,7 @@
     "LOADING_CHART": "S'estan carregant dades del gràfic...",
     "NO_ENOUGH_DATA": "No hem rebut suficients punts de dades per generar l'informe. Torneu-ho a provar més endavant.",
     "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "FILTER_DROPDOWN_LABEL": "Selecciona l'etiqueta",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Converses",
@@ -231,7 +231,7 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Primer Temps de Resposta",
         "DESC": "(Mitjana)",
         "INFO_TEXT": "Total number of conversations used for computation:",
         "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
@@ -258,19 +258,19 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Últims tres mesos"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Últims sis mesos"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Darrer any"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Interval de dates personalitzat"
       }
     ],
     "CUSTOM_DATE_RANGE": {
@@ -283,7 +283,7 @@
     "LOADING_CHART": "S'estan carregant dades del gràfic...",
     "NO_ENOUGH_DATA": "No hem rebut suficients punts de dades per generar l'informe. Torneu-ho a provar més endavant.",
     "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
-    "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "FILTER_DROPDOWN_LABEL": "Selecciona Safata d'entrada",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Converses",
@@ -298,7 +298,7 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Primer Temps de Resposta",
         "DESC": "( Promig )",
         "INFO_TEXT": "Total number of conversations used for computation:",
         "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
@@ -325,19 +325,19 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Últims tres mesos"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Últims sis mesos"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Darrer any"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Interval de dates personalitzat"
       }
     ],
     "CUSTOM_DATE_RANGE": {
@@ -365,7 +365,7 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
+        "NAME": "Primer Temps de Resposta",
         "DESC": "( Promig )",
         "INFO_TEXT": "Total number of conversations used for computation:",
         "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
@@ -392,19 +392,19 @@
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "Últims tres mesos"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "Últims sis mesos"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "Darrer any"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "Interval de dates personalitzat"
       }
     ],
     "CUSTOM_DATE_RANGE": {
@@ -502,13 +502,13 @@
     }
   },
   "DAYS_OF_WEEK": {
-    "SUNDAY": "Sunday",
-    "MONDAY": "Monday",
-    "TUESDAY": "Tuesday",
-    "WEDNESDAY": "Wednesday",
-    "THURSDAY": "Thursday",
-    "FRIDAY": "Friday",
-    "SATURDAY": "Saturday"
+    "SUNDAY": "Diumenge",
+    "MONDAY": "Dilluns",
+    "TUESDAY": "Dimarts",
+    "WEDNESDAY": "Dimecres",
+    "THURSDAY": "Dijous",
+    "FRIDAY": "Divendres",
+    "SATURDAY": "Dissabte"
   },
   "SLA_REPORTS": {
     "HEADER": "Informes SLA",
