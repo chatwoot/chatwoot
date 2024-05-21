@@ -75,7 +75,7 @@
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",
-      "SNOOZE_UNTIL": "Snooze",
+      "SNOOZE_UNTIL": "Posposat",
       "SNOOZE": {
         "TITLE": "Snooze until",
         "NEXT_REPLY": "Next reply",
@@ -85,7 +85,7 @@
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "Snooze until",
-      "APPLY": "Snooze",
+      "APPLY": "Posposat",
       "CANCEL": "Cancel·la"
     },
     "PRIORITY": {
@@ -93,16 +93,16 @@
       "OPTIONS": {
         "NONE": "Ningú",
         "URGENT": "Urgent",
-        "HIGH": "High",
-        "MEDIUM": "Medium",
-        "LOW": "Low"
+        "HIGH": "Alta",
+        "MEDIUM": "Mitjana",
+        "LOW": "Baixa"
       },
       "CHANGE_PRIORITY": {
         "SELECT_PLACEHOLDER": "Ningú",
-        "INPUT_PLACEHOLDER": "Select priority",
+        "INPUT_PLACEHOLDER": "Selecciona la prioritat",
         "NO_RESULTS": "No s'ha trobat agents",
-        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
-        "FAILED": "Couldn't change priority. Please try again."
+        "SUCCESSFUL": "S'ha canviat la prioritat de l'identificador de conversa %{conversationId} a %{priority}",
+        "FAILED": "No s'ha pogut canviar la prioritat. Si us plau, torna-ho a provar."
       }
     },
     "CARD_CONTEXT_MENU": {
@@ -111,7 +111,7 @@
       "MARK_AS_UNREAD": "Mark as unread",
       "REOPEN": "Torna a obrir la conversa",
       "SNOOZE": {
-        "TITLE": "Snooze",
+        "TITLE": "Posposat",
         "NEXT_REPLY": "Until next reply",
         "TOMORROW": "Until tomorrow",
         "NEXT_WEEK": "Until next week"
@@ -238,17 +238,17 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hey 👋, Welcome to %{installationName}!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
-    "READ_LATEST_UPDATES": "Read our latest updates",
+    "TITLE": "Hola 👋, Benvingut a %{installationName}!",
+    "DESCRIPTION": "Gràcies per registrar-te. Volem que treguis el màxim profit de %{installationName}. Aquí teniu algunes coses que pots fer a %{installationName} perquè l'experiència sigui agradable.",
+    "READ_LATEST_UPDATES": "Llegiu les nostres últimes actualitzacions",
     "ALL_CONVERSATION": {
-      "TITLE": "All your conversations in one place",
-      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+      "TITLE": "Totes les teves converses en un sol lloc",
+      "DESCRIPTION": "Consulta totes les converses dels teus clients en un únic tauler. Podeu filtrar les converses pel canal d'entrada, l'etiqueta i l'estat."
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
-      "NEW_LINK": "Click here to invite a team member"
+      "TITLE": "Convida els membres del teu equip",
+      "DESCRIPTION": "Com que us esteu preparant per parlar amb el vostre client, feu venir els vostres companys d'equip per ajudar-vos. Pots convidar els teus companys d'equip afegint les seves adreces de correu electrònic a la llista d'agents.",
+      "NEW_LINK": "Feu clic aquí per convidar un membre de l'equip"
     },
     "INBOXES": {
       "TITLE": "Connect Inboxes",
@@ -266,7 +266,7 @@
     "SELF_ASSIGN": "Assign to me",
     "TEAM_LABEL": "Assigned Team",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "Ningú"
     },
     "ACCORDION": {
       "CONTACT_DETAILS": "Contact Details",
