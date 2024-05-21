@@ -15,3 +15,10 @@
   src: url('~shared/assets/fonts/Inter-Medium.woff2') format('woff2'),
        url('~shared/assets/fonts/Inter-Medium.woff') format('woff');
 }
+
+@font-face {
+  font-family: 'P22 Mackinac Pro Book';
+  src: url('~shared/assets/fonts/P22MackinacPro-Book.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}

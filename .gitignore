@@ -76,3 +76,5 @@ yarn-debug.log*
 .yarn-integrity
 
 /storybook-static
+
+.node-version

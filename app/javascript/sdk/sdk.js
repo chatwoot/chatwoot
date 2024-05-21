@@ -282,7 +282,7 @@ export const SDK_CSS = `
     border-radius: 16px;
     bottom: 104px;
     height: calc(90% - 64px - 20px);
-    max-height: 640px !important;
+    max-height: 750px !important;
     min-height: 250px !important;
     width: 400px !important;
  }
