@@ -1,31 +1,16 @@
 <template>
-  <div class="mx-8">
-    <settings-section
-      :title="$t('INBOX_MGMT.MICROSOFT.TITLE')"
-      :sub-title="$t('INBOX_MGMT.MICROSOFT.SUBTITLE')"
-    >
-      <div class="mb-6">
-        <form @submit.prevent="requestAuthorization">
-          <woot-submit-button
-            icon="brand-twitter"
-            button-text="Sign in with Microsoft"
-            type="submit"
-            :loading="isRequestingAuthorization"
-          />
-        </form>
-      </div>
-    </settings-section>
-  </div>
+  <inbox-reconnection-required
+    class="mx-8 mt-5"
+    @reauthorize="requestAuthorization"
+  />
 </template>
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
+import InboxReconnectionRequired from '../../components/InboxReconnectionRequired';
 import microsoftClient from '../../../../../../api/channel/microsoftClient';
-import SettingsSection from '../../../../../../components/SettingsSection.vue';
 
 export default {
-  components: {
-    SettingsSection,
-  },
+  components: { InboxReconnectionRequired },
   mixins: [alertMixin],
   props: {
     inbox: {
