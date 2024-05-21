@@ -85,7 +85,7 @@
       "UNCATEGORIZED": "Uncategorized",
       "SEARCH_RESULTS": "Search results for %{query}",
       "EMPTY_TEXT": "Search for articles to insert into replies.",
-      "SEARCH_LOADER": "Searching...",
+      "SEARCH_LOADER": "S'està cercant...",
       "INSERT_ARTICLE": "Insert",
       "NO_RESULT": "No articles found",
       "COPY_LINK": "Copy article link to clipboard",
@@ -181,7 +181,7 @@
               "EDIT": "Edit category",
               "DELETE": "Delete category"
             },
-            "EMPTY_TEXT": "No categories found"
+            "EMPTY_TEXT": "No s'han trobat categories"
           }
         },
         "EDIT_BASIC_INFO": {
@@ -239,7 +239,7 @@
           "LABEL": "Nom",
           "PLACEHOLDER": "Portal name",
           "HELP_TEXT": "The name will be used in the public facing portal internally.",
-          "ERROR": "Name is required"
+          "ERROR": "El valor és necessari"
         },
         "SLUG": {
           "LABEL": "Slug",
@@ -317,7 +317,7 @@
       "404": "No articles matches your search 🔍",
       "NO_ARTICLES": "There are no available articles",
       "HEADERS": {
-        "TITLE": "Title",
+        "TITLE": "Títol",
         "CATEGORY": "Category",
         "READ_COUNT": "Views",
         "STATUS": "Estat",
@@ -380,7 +380,7 @@
           "LABEL": "Nom",
           "PLACEHOLDER": "Category name",
           "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
-          "ERROR": "Name is required"
+          "ERROR": "El valor és necessari"
         },
         "SLUG": {
           "LABEL": "Slug",
@@ -391,7 +391,7 @@
         "DESCRIPTION": {
           "LABEL": "Descripció",
           "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "ERROR": "La descripció és necessària"
         },
         "BUTTONS": {
           "CREATE": "Create category",
@@ -411,7 +411,7 @@
           "LABEL": "Nom",
           "PLACEHOLDER": "Category name",
           "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
-          "ERROR": "Name is required"
+          "ERROR": "El valor és necessari"
         },
         "SLUG": {
           "LABEL": "Slug",
@@ -422,7 +422,7 @@
         "DESCRIPTION": {
           "LABEL": "Descripció",
           "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "ERROR": "La descripció és necessària"
         },
         "BUTTONS": {
           "CREATE": "Update category",
@@ -444,7 +444,7 @@
       "TITLE": "Search articles",
       "PLACEHOLDER": "Search articles",
       "NO_RESULT": "No articles found",
-      "SEARCHING": "Searching...",
+      "SEARCHING": "S'està cercant...",
       "SEARCH_BUTTON": "Cercar",
       "INSERT_ARTICLE": "Insert link",
       "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
@@ -456,7 +456,7 @@
       "BACK_RESULTS": "Back to results"
     },
     "UPGRADE_PAGE": {
-      "TITLE": "Help Center",
+      "TITLE": "Centre d'ajuda",
       "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
       "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
       "BUTTON": {
