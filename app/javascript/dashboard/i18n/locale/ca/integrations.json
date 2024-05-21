@@ -107,7 +107,7 @@
       "WITH_AI": " %{option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Reply Suggestion",
-        "SUMMARIZE": "Summarize",
+        "SUMMARIZE": "Resumir",
         "REPHRASE": "Improve Writing",
         "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
         "SHORTEN": "Shorten",
@@ -130,9 +130,9 @@
         "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
         "KEY_PLACEHOLDER": "Enter your OpenAI API key",
         "BUTTONS": {
-          "NEED_HELP": "Need help?",
+          "NEED_HELP": "Necessita ajuda?",
           "DISMISS": "Descartar",
-          "FINISH": "Finish Setup"
+          "FINISH": "Finalitza la configuració"
         },
         "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
         "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
@@ -202,9 +202,9 @@
         "API_ERROR": "We couldn't update the app. Please try again later"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
-        "TITLE": "Confirm deletion",
+        "CONFIRM_YES": "Sí, esborra-ho",
+        "CONFIRM_NO": "No, mantén-la",
+        "TITLE": "Confirma la supressió",
         "MESSAGE": "Are you sure to delete the app - %{appName}?",
         "API_SUCCESS": "Dashboard app deleted successfully",
         "API_ERROR": "We couldn't delete the app. Please try again later"
