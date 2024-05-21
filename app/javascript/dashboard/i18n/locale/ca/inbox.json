@@ -30,7 +30,7 @@
     "MENU_ITEM": {
       "MARK_AS_READ": "Mark as read",
       "MARK_AS_UNREAD": "Mark as unread",
-      "SNOOZE": "Snooze",
+      "SNOOZE": "Posposat",
       "DELETE": "Esborrar",
       "MARK_ALL_READ": "Marcar tots com a llegits",
       "DELETE_ALL": "Suprimeix tot",
