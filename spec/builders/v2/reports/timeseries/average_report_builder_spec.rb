@@ -22,7 +22,7 @@ describe V2::Reports::Timeseries::AverageReportBuilder do
       id: filter_id
     }
   end
-  let(:timezone_offset) { 0 }
+  let(:timezone_offset) { nil }
   let(:group_by) { 'day' }
   let(:metric) { 'avg_first_response_time' }
   let(:business_hours) { false }

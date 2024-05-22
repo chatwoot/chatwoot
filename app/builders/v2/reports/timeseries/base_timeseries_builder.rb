@@ -41,10 +41,6 @@ class V2::Reports::Timeseries::BaseTimeseriesBuilder
   end
 
   def timezone
-    @timezone ||= timezone_name_from_offset(timezone_offset)
-  end
-
-  def timezone_offset
-    @timezone_offset ||= params.fetch(:timezone_offset, 0).to_f
+    @timezone ||= timezone_name_from_offset(params[:timezone_offset])
   end
 end

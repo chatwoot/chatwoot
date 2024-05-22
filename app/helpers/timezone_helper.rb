@@ -6,8 +6,8 @@ module TimezoneHelper
   # https://github.com/rails/rails/pull/22243
   # https://github.com/rails/rails/issues/21501
   # https://github.com/rails/rails/issues/7297
-  def timezone_name_from_offset(offset = 0)
-    return 'UTC' if offset.zero?
+  def timezone_name_from_offset(offset)
+    return 'UTC' if offset.blank?
 
     offset_in_seconds = offset.to_f * 3600
     matching_zone = ActiveSupport::TimeZone.all.find do |zone|
