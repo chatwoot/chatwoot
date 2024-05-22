@@ -47,8 +47,14 @@ class ZeroharmDailyConversationReportJob < ApplicationJob
           REPLACE(contacts.phone_number, '+', '') AS customer_phone_number,
           contacts.name AS customer_name,
           users.name AS agent_name,
+          CASE
+            WHEN conversations.status = 0 THEN 'open'
+            WHEN conversations.status = 1 THEN 'resolved'
+            WHEN conversations.status = 2 THEN 'pending'
+            WHEN conversations.status = 3 THEN 'snoozed'
+          END AS conversation_status,
           reporting_events_first_response.value / 60.0 AS first_response_time_minutes,
-          reporting_events_conversation_resolved.value / 60.0 AS resolution_time_minutes,
+          latest_conversation_resolved.value / 60.0 AS resolution_time_minutes,
           conversations.cached_label_list AS labels
       FROM
           conversations
@@ -59,9 +65,14 @@ class ZeroharmDailyConversationReportJob < ApplicationJob
           LEFT JOIN reporting_events AS reporting_events_first_response
               ON conversations.id = reporting_events_first_response.conversation_id
               AND reporting_events_first_response.name = 'first_response'
-          LEFT JOIN reporting_events AS reporting_events_conversation_resolved
-              ON conversations.id = reporting_events_conversation_resolved.conversation_id
-              AND reporting_events_conversation_resolved.name = 'conversation_resolved'
+          LEFT JOIN LATERAL (
+              SELECT value
+              FROM reporting_events AS re
+              WHERE re.conversation_id = conversations.id
+              AND re.name = 'conversation_resolved'
+              ORDER BY re.created_at DESC
+              LIMIT 1
+          ) AS latest_conversation_resolved ON true
       WHERE
           conversations.account_id = :account_id
           AND conversations.updated_at >= NOW() - INTERVAL '24 hours'
@@ -105,13 +116,13 @@ class ZeroharmDailyConversationReportJob < ApplicationJob
     CSV.generate(headers: true) do |csv|
       csv << [
         'Conversation ID', 'Inbox Name',
-        'Customer Phone Number', 'Customer Name', 'Agent Name',
+        'Customer Phone Number', 'Customer Name', 'Agent Name', 'Conversation Status',
         'First Response Time (minutes)', 'Resolution Time (minutes)', 'Labels', 'Order ID'
       ]
       results.each do |row|
         csv << [
           row['conversation_display_id'], row['inbox_name'],
-          row['customer_phone_number'], row['customer_name'], row['agent_name'],
+          row['customer_phone_number'], row['customer_name'], row['agent_name'], row['conversation_status'],
           row['first_response_time_minutes'], row['resolution_time_minutes'], row['labels'], row['order_id']
         ]
       end
@@ -119,11 +130,12 @@ class ZeroharmDailyConversationReportJob < ApplicationJob
   end
 
   def upload_csv(account_id, current_date, csv_content)
-    # for testing locally uncomment below
+    # # for testing locally uncomment below
     # puts csv_content
     # local_file_path = "daily_conversation_report_#{account_id}_#{current_date}.csv"
     # File.write(local_file_path, csv_content)
-    # # Upload csv_content via ActiveStorage and print the URL
+
+    # Upload csv_content via ActiveStorage and print the URL
     blob = ActiveStorage::Blob.create_and_upload!(
       io: StringIO.new(csv_content),
       filename: "daily_conversation_report_#{account_id}_#{current_date}.csv",
