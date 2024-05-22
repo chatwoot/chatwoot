@@ -103,6 +103,7 @@
         :status="chat.status"
         :inbox-id="inbox.id"
         :priority="chat.priority"
+        :chat-id="chat.id"
         :has-unread-messages="hasUnread"
         @update-conversation="onUpdateConversation"
         @assign-agent="onAssignAgent"
