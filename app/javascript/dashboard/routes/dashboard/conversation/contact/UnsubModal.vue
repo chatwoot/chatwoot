@@ -91,13 +91,13 @@ export default {
         this.showAlert('Unsubscribing contact');
         try {
           // eslint-disable-next-line no-console
-          console.log('START UNSUBSCRIBING PROCESS');
+          console.log('starting unsubscribing process');
 
           await axios.put(
             'https://bjzaowfrg4.execute-api.us-east-1.amazonaws.com/contact/update/subscribe',
             body
           );
-          this.showAlert('Contact unsubscribed successfully');
+          this.showAlert('contact unsubscribed done');
           // eslint-disable-next-line no-console
           console.log('END UNSUB PROCESS');
         } catch (err) {
