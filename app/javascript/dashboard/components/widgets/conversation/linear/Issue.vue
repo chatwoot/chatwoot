@@ -30,12 +30,15 @@ const formattedDate = computed(() => {
 });
 
 const assignee = computed(() => {
-  return props.issue.assignee
-    ? {
-        name: props.issue.assignee?.name || '',
-        thumbnail: props.issue.assignee?.avatarUrl || '',
-      }
-    : null;
+  const assigneeDetails = props.issue.assignee;
+
+  if (!assigneeDetails) return null;
+  const { name, avatarUrl } = assigneeDetails;
+
+  return {
+    name,
+    thumbnail: avatarUrl,
+  };
 });
 
 const labels = computed(() => {
