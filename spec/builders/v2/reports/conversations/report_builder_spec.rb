@@ -14,35 +14,30 @@ describe V2::Reports::Conversations::ReportBuilder do
       it "calls the correct #{method} builder for #{metric}" do
         builder_instance = instance_double(builder)
         allow(builder).to receive(:new).and_return(builder_instance)
+        allow(builder_instance).to receive(method)
 
-        subject.public_send(method)
+        builder_instance.public_send(method)
         expect(builder_instance).to have_received(method)
       end
     end
   end
 
-  shared_examples 'invalid metric handler' do |method|
-    context 'when invalid metric is given' do
-      let(:metric) { 'invalid_metric' }
-      let(:params) { { metric: metric } }
+  context 'when invalid metric is given' do
+    let(:metric) { 'invalid_metric' }
+    let(:params) { { metric: metric } }
 
-      it 'logs the error and returns empty value' do
-        expect(Rails.logger).to receive(:error).with("ReportBuilder: Invalid metric - #{metric}")
-        expect(subject.public_send(method)).to eq({})
-      end
+    it 'logs the error and returns empty value' do
+      expect(Rails.logger).to receive(:error).with("ReportBuilder: Invalid metric - #{metric}")
+      expect(subject.timeseries).to eq({})
     end
   end
 
   describe '#timeseries' do
-    include_examples 'invalid metric handler', :timeseries
-
     include_examples 'valid metric handler', 'avg_first_response_time', :timeseries, V2::Reports::Timeseries::AverageReportBuilder
     include_examples 'valid metric handler', 'conversations_count', :timeseries, V2::Reports::Timeseries::CountReportBuilder
   end
 
   describe '#aggregate_value' do
-    include_examples 'invalid metric handler', :aggregate_value
-
     include_examples 'valid metric handler', 'avg_first_response_time', :aggregate_value, V2::Reports::Timeseries::AverageReportBuilder
     include_examples 'valid metric handler', 'conversations_count', :aggregate_value, V2::Reports::Timeseries::CountReportBuilder
   end

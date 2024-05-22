@@ -1,6 +1,4 @@
 class V2::Reports::Conversations::ReportBuilder < V2::Reports::Conversations::BaseReportBuilder
-  pattr_initialize :account, :params
-
   def timeseries
     perform_action(:timeseries)
   end
