@@ -77,6 +77,49 @@ class V2::ReportBuilder
     end
   end
 
+  def agent_contacts_by_stage
+    stages = Stage.where(account_id: @account.id)
+
+    result = {}
+    stages.each do |stage|
+      result[stage.code] = stage.contacts.where(assignee_id: params[:user_id]).count
+    end
+    result
+  end
+
+  def agent_conversations
+    conversations = @account.conversations.where(assignee_id: params[:user_id])
+    {
+      open: conversations.open.count,
+      unattended: conversations.unattended.count,
+      pending: conversations.pending.count,
+      resolved: conversations.resolved.count
+    }
+  end
+
+  def agent_planned
+    conversations = @account.conversations.where(assignee_id: params[:user_id]).where(conversation_type: :action)
+    planned = conversations.count
+    resolved = conversations.where(status: :resolved).count
+    {
+      planned: planned,
+      resolved: resolved,
+      ratio: (resolved / planned * 100).round(0)
+    }
+  end
+
+  def agent_planned_conversations
+    conversations = @account.conversations.where(assignee_id: params[:user_id]).where.not(snoozed_until: nil)
+
+    conversations.map do |conversation|
+      {
+        id: conversation.display_id,
+        startDate: conversation.snoozed_until,
+        title: "#{conversation.contact.name} | #{conversation.inbox.name}"
+      }
+    end
+  end
+
   private
 
   def metric_valid?

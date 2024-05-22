@@ -11,7 +11,7 @@
     "NO_INBOX_1": "Hola! Có vẻ như bạn chưa thêm bất kỳ kênh hội thoại nào.",
     "NO_INBOX_2": " để bắt đầu",
     "NO_INBOX_AGENT": "Có vẻ như bạn chưa được phân công vào kênh hội thoại nào. Vui lòng liên hệ với quản trị viên của bạn",
-    "SEARCH_MESSAGES": "Tìm kiếm liên hệ, hội thoại hay tin nhắn",
+    "SEARCH_MESSAGES": "Tìm kiếm khách hàng, hội thoại hay tin nhắn",
     "EMPTY_STATE": {
       "CMD_BAR": "là phím tắt để truy cập nhanh chức năng",
       "KEYBOARD_SHORTCUTS": "là phím tắt để tra cứu danh sách phím tắt"
@@ -62,9 +62,9 @@
       "CLOSE": "Đóng",
       "DETAILS": "chi tiết",
       "SNOOZED_UNTIL": "Bắt đầu vào lúc",
-      "SNOOZED_UNTIL_TOMORROW": "Tạm ngưng đến ngày mai",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Tạm ngưng đến tuần sau",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Tạm ngưng chờ phản hồi",
+      "SNOOZED_UNTIL_TOMORROW": "Lên lịch đến ngày mai",
+      "SNOOZED_UNTIL_NEXT_WEEK": "TLên lịch đến tuần sau",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Lên lịch chờ phản hồi",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -75,16 +75,16 @@
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Đánh dấu chờ giải quyết",
-      "SNOOZE_UNTIL": "Tạm ngưng đến khi",
+      "SNOOZE_UNTIL": "Lên lịch đến",
       "SNOOZE": {
-        "TITLE": "Tạm ngưng đến khi",
+        "TITLE": "Lên lịch đến khi",
         "NEXT_REPLY": "Có câu trả lời",
         "TOMORROW": "Đến ngày mai",
         "NEXT_WEEK": "Đến tuần sau"
       }
     },
     "CUSTOM_SNOOZE": {
-      "TITLE": "Tạm ngưng đến khi",
+      "TITLE": "Lên lịch đến khi",
       "APPLY": "Áp dụng",
       "CANCEL": "Huỷ"
     },
@@ -111,7 +111,7 @@
       "MARK_AS_UNREAD": "Đánh dấu chưa đọc",
       "REOPEN": "Mở lại hội thoại để tiếp tục",
       "SNOOZE": {
-        "TITLE": "Tạm ngưng cho đến:",
+        "TITLE": "Lên lịch hẹn đến:",
         "NEXT_REPLY": "chờ phản hồi",
         "TOMORROW": "Cho đến ngày mai",
         "NEXT_WEEK": "Cho đến tuần sau"
@@ -288,7 +288,7 @@
       "PLACEHOLDER": "Không có"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Chi tiết liên hệ",
+      "CONTACT_DETAILS": "Chi tiết khách hàng",
       "CONVERSATION_ACTIONS": "Thông tin hội thoại",
       "CONVERSATION_LABELS": "Nhãn phân loại",
       "CONVERSATION_INFO": "Thông tin bổ sung",

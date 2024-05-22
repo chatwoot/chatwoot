@@ -334,6 +334,10 @@ Rails.application.routes.draw do
               get :contacts
               get :conversation_traffic
               get :bot_metrics
+              get :agent_planned_metrics
+              get :agent_contacts_metrics
+              get :agent_conversations_metrics
+              get :agent_planned_conversations
             end
           end
         end

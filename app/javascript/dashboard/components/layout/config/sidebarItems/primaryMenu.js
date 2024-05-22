@@ -4,6 +4,15 @@ import { frontendURL } from '../../../../helper/URLHelper';
 const primaryMenuItems = accountId => [
   {
     icon: 'mail-inbox',
+    key: 'agentDashboard',
+    label: 'AGENT_DASHBOARD',
+    featureFlag: FEATURE_FLAGS.CRM,
+    toState: frontendURL(`accounts/${accountId}/agent-dashboard`),
+    toStateName: 'agent_dashboard',
+    roles: ['agent'],
+  },
+  {
+    icon: 'mail-inbox',
     key: 'inboxView',
     label: 'INBOX_VIEW',
     featureFlag: FEATURE_FLAGS.INBOX_VIEW,

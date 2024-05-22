@@ -27,7 +27,7 @@
         "TEXT": "Chờ giải quyết"
       },
       "snoozed": {
-        "TEXT": "Tạm ngưng"
+        "TEXT": "Lên lịch hẹn"
       },
       "resolved": {
         "TEXT": "Đã hoàn thành"
@@ -85,10 +85,10 @@
         "TEXT": "Độ ưu tiên thấp trước"
       },
       "waiting_since_asc": {
-        "TEXT": "Tạm ngưng dài nhất trước"
+        "TEXT": "Lịch hẹn xa nhất trước"
       },
       "waiting_since_desc": {
-        "TEXT": "Tạm ngưng ngắn nhất trước"
+        "TEXT": "Lịch hẹn gần nhất trước"
       }
     },
     "ATTACHMENTS": {

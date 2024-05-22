@@ -74,9 +74,12 @@ export default {
           thumbnail: agentInformation.thumbnail,
           status: agentInformation.availability_status,
         };
+        let total = 0;
         this.stages.forEach(stage => {
           data[stage.code] = agent.metric[stage.code] || 0;
+          total += data[stage.code];
         });
+        data.conversionRate = Math.round((data.Won / total) * 100);
         return data;
       });
     },
@@ -118,6 +121,15 @@ export default {
             align: this.isRTLView ? 'right' : 'left',
             width: 10,
           });
+      });
+      columns.push({
+        field: 'conversionRate',
+        key: 'conversionRate',
+        title: this.$t(
+          'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.CONVERSATION'
+        ),
+        align: this.isRTLView ? 'right' : 'left',
+        width: 10,
       });
       return columns;
     },

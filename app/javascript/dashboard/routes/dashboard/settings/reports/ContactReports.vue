@@ -99,6 +99,8 @@ export default {
       return metric;
     },
     conversionMetrics() {
+      if (!this.stages || this.stages.length === 0) return null;
+
       let metric = {};
       let total = 0;
       let qualifiedToWon = 0;
@@ -111,7 +113,7 @@ export default {
           qualifiedToWon += this.accountContactMetric[key];
       });
 
-      const newToWonName = `${this.stages.find(i => i.code === 'New').name} -> 
+      const newToWonName = `${this.stages.find(i => i.code === 'New').name} ->
         ${this.stages.find(i => i.code === 'Won').name}`;
       metric[newToWonName] =
         total === 0
@@ -120,7 +122,7 @@ export default {
 
       const qualifiedToWonName = `${
         this.stages.find(i => i.code === 'Qualified').name
-      } -> 
+      } ->
         ${this.stages.find(i => i.code === 'Won').name}`;
       metric[qualifiedToWonName] =
         qualifiedToWon === 0

@@ -3,10 +3,10 @@
     "HEADER": "Người dùng",
     "HEADER_BTN_TXT": "Thêm người dùng",
     "LOADING": "Tải danh sách người dùng",
-    "SIDEBAR_TXT": "<p><b>Người dùng</b></p> <p> Một <b>người dùng</b> là thành viên của nhóm Hỗ trợ khách hàng của bạn. </p><p> Người dùng sẽ có thể xem và trả lời tin nhắn từ liên hệ của bạn. Danh sách hiển thị tất cả các người dùng hiện có trong tài khoản của bạn. </p><p> Click vào <b>Thêm người dùng</b> để thêm mới người dùng. Người dùng mà bạn thêm sẽ nhận được email với liên kết xác nhận để kích hoạt tài khoản của họ, sau đó họ có thể truy cập Chatwoot và trả lời tin nhắn. </p><p> Quyền truy cập vào các tính năng của Chatwoot dựa trên các vai trò sau. </p><p> <b>Người dùng</b> - Người dùng có vai trò này chỉ có thể truy cập hộp thư đến, báo cáo và cuộc hội thoại. Họ có thể chỉ định các cuộc trò chuyện cho các người dùng khác hoặc chính họ và giải quyết các cuộc trò chuyện.</p><p> <b>Administrator</b> - Quản trị viên sẽ có quyền truy cập vào tất cả các tính năng Chatwoot được kích hoạt cho tài khoản của bạn, bao gồm cài đặt, cùng với tất cả các đặc quyền của một người dùng bình thường.</p>",
+    "SIDEBAR_TXT": "<p><b>Người dùng</b></p> <p> Một <b>người dùng</b> là người sử dụng nói chung, có thể là nhân viên hoặc quản trị hệ thống. </p><p> Người dùng sẽ có thể xem và trả lời tin nhắn từ khách hàng. Danh sách hiển thị tất cả các người dùng hiện có trong tổ chức. </p><p> Click vào <b>Thêm người dùng</b> để thêm mới người dùng. Người dùng mà bạn thêm sẽ nhận được email với liên kết xác nhận để kích hoạt tài khoản của họ, sau đó họ có thể truy cập Chatwoot và trả lời tin nhắn. </p><p> Quyền truy cập vào các tính năng của Chatwoot dựa trên các vai trò sau. </p><p> <b>Nhân viên</b> - Người dùng có vai trò này có thể truy cập bảng điều khiển, các kênh hội thoại, kinh doanh và khách hàng. Họ cũng có thể phân công cuộc hội thoại cho người dùng khác hoặc chính họ và hoàn thành các cuộc hội thoại.</p><p> <b>Quản trị</b> - Quản trị viên sẽ có quyền truy cập vào tất cả các tính năng Chatwoot được kích hoạt cho tổ chức của bạn, bao gồm cài đặt, cùng với tất cả các quyền của một nhân viên bình thường.</p>",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Quản trị viên",
-      "AGENT": "Người dùng"
+      "AGENT": "Nhân viên"
     },
     "LIST": {
       "404": "Không có tác nhân nào được liên kết với tài khoản này",
