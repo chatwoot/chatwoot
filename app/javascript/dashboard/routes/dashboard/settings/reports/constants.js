@@ -220,8 +220,15 @@ export const OVERVIEW_METRICS = {
   open: 'OPEN',
   unattended: 'UNATTENDED',
   unassigned: 'UNASSIGNED',
+  pending: 'PENDING',
   resolved: 'RESOLVED',
   online: 'ONLINE',
   busy: 'BUSY',
   offline: 'OFFLINE',
+};
+
+export const AGENT_PLAN = {
+  planned: 'PLANNED',
+  resolved: 'RESOLVED',
+  ratio: 'RATIO',
 };

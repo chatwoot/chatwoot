@@ -111,6 +111,22 @@ class ReportsAPI extends ApiClient {
       },
     });
   }
+
+  getAgentPlannedMetrics() {
+    return axios.get(`${this.url}/agent_planned_metrics`);
+  }
+
+  getAgentContactsMetrics() {
+    return axios.get(`${this.url}/agent_contacts_metrics`);
+  }
+
+  getAgentConversationsMetrics() {
+    return axios.get(`${this.url}/agent_conversations_metrics`);
+  }
+
+  getAgentPlannedConversations() {
+    return axios.get(`${this.url}/agent_planned_conversations`);
+  }
 }
 
 export default new ReportsAPI();

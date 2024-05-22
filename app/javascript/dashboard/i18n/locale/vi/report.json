@@ -495,6 +495,7 @@
       "OPEN": "Đang giải quyết",
       "UNATTENDED": "Chưa tiếp nhận",
       "UNASSIGNED": "Chưa phân công",
+      "PENDING": "Chờ giải quyết",
       "RESOLVED": "Đã hoàn thành"
     },
     "AGENT_CONVERSATIONS": {
@@ -506,7 +507,8 @@
         "OPEN": "Đang giải quyết",
         "UNATTENDED": "Chưa tiếp nhận",
         "RESOLVED": "Đã hoàn thành",
-        "STATUS": "Trạng thái"
+        "STATUS": "Trạng thái",
+        "CONVERSATION": "Chuyển đổi (%)"
       }
     },
     "AGENT_STATUS": {
@@ -514,6 +516,12 @@
       "ONLINE": "Trực Tuyến",
       "BUSY": "Bận",
       "OFFLINE": "Ngoại Tuyến"
+    },
+    "AGENT_PLAN": {
+      "HEADER": "Hội thoại theo lịch liên hệ",
+      "PLANNED": "Lên lịch",
+      "RESOLVED": "Đã giải quyết",
+      "RATIO": "Tỷ lệ %"
     }
   },
   "TRAFFIC_REPORTS": {

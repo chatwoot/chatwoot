@@ -65,6 +65,26 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render json: bot_metrics
   end
 
+  def agent_contacts_metrics
+    agent_contacts = V2::ReportBuilder.new(Current.account, user_params).agent_contacts_by_stage
+    render json: agent_contacts
+  end
+
+  def agent_conversations_metrics
+    agent_conversations = V2::ReportBuilder.new(Current.account, user_params).agent_conversations
+    render json: agent_conversations
+  end
+
+  def agent_planned_metrics
+    agent_planned = V2::ReportBuilder.new(Current.account, user_params).agent_planned
+    render json: agent_planned
+  end
+
+  def agent_planned_conversations
+    agent_planned_conversations = V2::ReportBuilder.new(Current.account, user_params).agent_planned_conversations
+    render json: agent_planned_conversations
+  end
+
   private
 
   def generate_csv(filename, template)
@@ -74,7 +94,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def check_authorization
-    raise Pundit::NotAuthorizedError unless Current.account_user.administrator?
+    raise Pundit::NotAuthorizedError unless Current.account_user.administrator? || Current.account_user.agent?
   end
 
   def common_params
@@ -116,6 +136,12 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
       type: params[:type].to_sym,
       user_id: params[:user_id],
       page: params[:page].presence || 1
+    }
+  end
+
+  def user_params
+    {
+      user_id: Current.user.id
     }
   end
 

@@ -39,6 +39,7 @@ import macros from './modules/macros';
 import notifications from './modules/notifications';
 import portals from './modules/helpCenterPortals';
 import reports from './modules/reports';
+import agentDashboard from './modules/agentDashboard';
 import sla from './modules/sla';
 import teamMembers from './modules/teamMembers';
 import teams from './modules/teams';
@@ -108,6 +109,7 @@ export default new Vuex.Store({
     notifications,
     portals,
     reports,
+    agentDashboard,
     teamMembers,
     teams,
     userNotificationSettings,
