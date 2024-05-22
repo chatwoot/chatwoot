@@ -71,10 +71,7 @@
         :class="{ 'justify-end': isContactPanelOpen }"
       >
         <SLA-card-label v-if="hasSlaPolicyId" :chat="chat" show-extended-info />
-        <linear
-          v-if="isLinearIntegrationEnabled && isLinearFeatureEnabled"
-          :conversation-id="currentChat.id"
-        />
+        <linear :conversation-id="currentChat.id" />
         <more-actions :conversation-id="currentChat.id" />
       </div>
     </div>

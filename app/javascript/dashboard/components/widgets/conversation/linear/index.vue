@@ -1,5 +1,5 @@
 <template>
-  <div class="relative" :class="{ group: linkedIssue }">
+  <div class="relative" :class="{ group: linkedIssue || shouldShowPopup }">
     <woot-button
       v-on-clickaway="closeIssue"
       v-tooltip="tooltipText"
@@ -24,6 +24,11 @@
       class="absolute right-0 top-[40px] invisible group-hover:visible"
       @unlink-issue="unlinkIssue"
     />
+    <CTAModal
+      v-if="shouldShowCTA"
+      class="absolute right-0 top-[40px]"
+      @on-dismiss="onDismissCTAModal"
+    />
     <woot-modal
       :show.sync="shouldShowPopup"
       :on-close="closePopup"
@@ -41,11 +46,13 @@
 <script setup>
 import { computed, ref, onMounted, watch } from 'vue';
 import { useAlert } from 'dashboard/composables';
-import { useStoreGetters } from 'dashboard/composables/store';
+import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { useI18n } from 'dashboard/composables/useI18n';
 import LinearAPI from 'dashboard/api/integrations/linear';
 import CreateOrLinkIssue from './CreateOrLinkIssue.vue';
 import Issue from './Issue.vue';
+import CTAModal from './CTAModal.vue';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const props = defineProps({
   conversationId: {
@@ -53,7 +60,7 @@ const props = defineProps({
     required: true,
   },
 });
-
+const store = useStore();
 const getters = useStoreGetters();
 const { t } = useI18n();
 
@@ -62,9 +69,37 @@ const shouldShow = ref(false);
 const shouldShowPopup = ref(false);
 
 const currentAccountId = getters.getCurrentAccountId;
+const uiSettings = getters.getUISettings;
+
+const currentUserRole = getters.getCurrentRole;
+
+const isAdmin = computed(() => {
+  return currentUserRole.value === 'administrator';
+});
+
+const isLinearFeatureEnabled = computed(() => {
+  return getters['accounts/isFeatureEnabledonAccount'].value(
+    currentAccountId.value,
+    FEATURE_FLAGS.LINEAR
+  );
+});
+const isLinearIntegrationEnabled = computed(() => {
+  return getters['integrations/getAppIntegrations'].value.find(
+    integration => integration.id === 'linear' && !!integration.hooks.length
+  );
+});
+
+const shouldShowCTA = computed(() => {
+  return (
+    isLinearFeatureEnabled.value &&
+    !uiSettings.is_linear_cta_modal_dismissed &&
+    !isLinearIntegrationEnabled.value &&
+    isAdmin.value
+  );
+});
 
 const tooltipText = computed(() => {
-  return linkedIssue.value === null
+  return linkedIssue.value === null && isLinearIntegrationEnabled.value
     ? t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK_BUTTON')
     : null;
 });
@@ -90,7 +125,21 @@ const unlinkIssue = async linkId => {
   }
 };
 
+const onDismissCTAModal = async () => {
+  try {
+    await store.dispatch('updateUISettings', {
+      uiSettings: {
+        ...uiSettings.value,
+        ...{ is_open_ai_cta_modal_dismissed: true },
+      },
+    });
+  } catch (error) {
+    useAlert(t('INTEGRATION_SETTINGS.LINEAR.UNLINK.DELETE_ERROR'));
+  }
+};
+
 const openIssue = () => {
+  if (!isLinearIntegrationEnabled.value) return;
   if (!linkedIssue.value) shouldShowPopup.value = true;
   shouldShow.value = true;
 };
@@ -112,6 +161,8 @@ watch(
 );
 
 onMounted(() => {
-  loadLinkedIssue();
+  if (isLinearIntegrationEnabled.value) {
+    loadLinkedIssue();
+  }
 });
 </script>
