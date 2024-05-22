@@ -7,6 +7,5 @@ FactoryBot.define do
     inbox_id { 1 }
     user_id { 1 }
     conversation_id { 1 }
-    created_at { Time.zone.now }
   end
 end
