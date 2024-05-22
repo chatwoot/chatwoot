@@ -93,7 +93,7 @@ export default {
           // eslint-disable-next-line no-console
           console.log('START UNSUBSCRIBING PROCESS');
 
-          await axios.post(
+          await axios.put(
             'https://bjzaowfrg4.execute-api.us-east-1.amazonaws.com/contact/update/subscribe',
             body
           );
