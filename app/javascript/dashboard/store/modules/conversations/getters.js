@@ -106,6 +106,10 @@ const getters = {
   getConversationLastSeen: _state => {
     return _state.conversationLastSeen;
   },
+
+  getContextMenuChatId: _state => {
+    return _state.contextMenuChatId;
+  },
 };
 
 export default getters;
