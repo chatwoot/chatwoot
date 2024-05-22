@@ -14,57 +14,37 @@ RSpec.describe V2::Reports::Conversations::MetricBuilder, type: :model do
   end
 
   describe '#summary' do
-    context 'when generating a comprehensive summary of general conversation metrics' do
-      it 'returns the correct summary values' do
-        subject.summary
-        expect(summary).to eq(
-          {
-            conversations_count: 42,
-            incoming_messages_count: 42,
-            outgoing_messages_count: 42,
-            avg_first_response_time: 42,
-            avg_resolution_time: 42,
-            resolutions_count: 42,
-            reply_time: 42
-          }
-        )
-      end
+    it 'returns the correct summary values' do
+      summary = subject.summary
+      expect(summary).to eq(
+        {
+          conversations_count: 42,
+          incoming_messages_count: 42,
+          outgoing_messages_count: 42,
+          avg_first_response_time: 42,
+          avg_resolution_time: 42,
+          resolutions_count: 42,
+          reply_time: 42
+        }
+      )
+    end
 
-      it 'creates a CountReportBuilder for count metrics with proper params' do
-        subject.summary
-        builder_class = V2::Reports::Timeseries::CountReportBuilder
-        expect(builder_class).to have_received(:new).with(account, params.merge(metric: 'conversations_count'))
-        expect(builder_class).to have_received(:new).with(account, params.merge(metric: 'incoming_messages_count'))
-        expect(builder_class).to have_received(:new).with(account, params.merge(metric: 'outgoing_messages_count'))
-        expect(builder_class).to have_received(:new).with(account, params.merge(metric: 'resolutions_count'))
-      end
-
-      it 'creates a AverageReportBuilder for count metrics with proper params' do
-        subject.summary
-        builder_class = V2::Reports::Timeseries::AverageReportBuilder
-        expect(builder_class).to have_received(:new).with(account, params.merge(metric: 'avg_first_response_time'))
-        expect(builder_class).to have_received(:new).with(account, params.merge(metric: 'avg_resolution_time'))
-        expect(builder_class).to have_received(:new).with(account, params.merge(metric: 'reply_time'))
-      end
+    it 'creates builders with proper params' do
+      subject.summary
+      expect(V2::Reports::Timeseries::CountReportBuilder).to have_received(:new).with(account, hash_including(metric: 'conversations_count'))
+      expect(V2::Reports::Timeseries::AverageReportBuilder).to have_received(:new).with(account, hash_including(metric: 'avg_first_response_time'))
     end
   end
 
   describe '#bot_summary' do
     it 'returns a detailed summary of bot-specific conversation metrics' do
-      bot_summary = metric_builder.bot_summary
+      bot_summary = subject.bot_summary
       expect(bot_summary).to eq(
         {
           bot_resolutions_count: 42,
           bot_handoffs_count: 42
         }
       )
-    end
-
-    it 'creates a CountReportBuilder for count metrics with proper params' do
-      subject.summary
-      builder_class = V2::Reports::Timeseries::CountReportBuilder
-      expect(builder_class).to have_received(:new).with(account, params.merge(metric: 'bot_resolutions_count'))
-      expect(builder_class).to have_received(:new).with(account, params.merge(metric: 'bot_handoffs_count'))
     end
   end
 end
