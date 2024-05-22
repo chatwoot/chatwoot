@@ -3,29 +3,29 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
 
   def teams
     teams = linear_processor_service.teams
-    if teams.is_a?(Hash) && teams[:error]
+    if teams[:error]
       render json: { error: teams[:error] }, status: :unprocessable_entity
     else
-      render json: teams, status: :ok
+      render json: teams[:data], status: :ok
     end
   end
 
   def team_entities
     team_id = permitted_params[:team_id]
-    entites = linear_processor_service.team_entities(team_id)
-    if entites.is_a?(Hash) && entites[:error]
-      render json: { error: entites[:error] }, status: :unprocessable_entity
+    team_entities = linear_processor_service.team_entities(team_id)
+    if team_entities[:error]
+      render json: { error: team_entities[:error] }, status: :unprocessable_entity
     else
-      render json: entites, status: :ok
+      render json: team_entities[:data], status: :ok
     end
   end
 
   def create_issue
     issue = linear_processor_service.create_issue(permitted_params)
-    if issue.is_a?(Hash) && issue[:error]
+    if issue[:error]
       render json: { error: issue[:error] }, status: :unprocessable_entity
     else
-      render json: issue, status: :ok
+      render json: issue[:data], status: :ok
     end
   end
 
@@ -33,10 +33,10 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
     issue_id = permitted_params[:issue_id]
     title = permitted_params[:title]
     issue = linear_processor_service.link_issue(conversation_link, issue_id, title)
-    if issue.is_a?(Hash) && issue[:error]
+    if issue[:error]
       render json: { error: issue[:error] }, status: :unprocessable_entity
     else
-      render json: issue, status: :ok
+      render json: issue[:data], status: :ok
     end
   end
 
@@ -44,20 +44,20 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
     link_id = permitted_params[:link_id]
     issue = linear_processor_service.unlink_issue(link_id)
 
-    if issue.is_a?(Hash) && issue[:error]
+    if issue[:error]
       render json: { error: issue[:error] }, status: :unprocessable_entity
     else
-      render json: issue, status: :ok
+      render json: issue[:data], status: :ok
     end
   end
 
   def linked_issue
-    issues = linear_processor_service.linked_issue(conversation_link)
+    issues = linear_processor_service.linked_issues(conversation_link)
 
-    if issues.is_a?(Hash) && issues[:error]
+    if issues[:error]
       render json: { error: issues[:error] }, status: :unprocessable_entity
     else
-      render json: issues, status: :ok
+      render json: issues[:data], status: :ok
     end
   end
 
@@ -66,10 +66,10 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
 
     term = params[:q]
     issues = linear_processor_service.search_issue(term)
-    if issues.is_a?(Hash) && issues[:error]
+    if issues[:error]
       render json: { error: issues[:error] }, status: :unprocessable_entity
     else
-      render json: issues, status: :ok
+      render json: issues[:data], status: :ok
     end
   end
 

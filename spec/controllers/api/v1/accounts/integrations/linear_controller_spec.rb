@@ -15,7 +15,7 @@ RSpec.describe 'Linear Integration API', type: :request do
   describe 'GET /api/v1/accounts/:account_id/integrations/linear/teams' do
     context 'when it is an authenticated user' do
       context 'when data is retrieved successfully' do
-        let(:teams_data) { [{ 'id' => 'team1', 'name' => 'Team One' }] }
+        let(:teams_data) { { data: [{ 'id' => 'team1', 'name' => 'Team One' }] } }
 
         it 'returns team data' do
           allow(processor_service).to receive(:teams).and_return(teams_data)
@@ -46,12 +46,12 @@ RSpec.describe 'Linear Integration API', type: :request do
     context 'when it is an authenticated user' do
       context 'when data is retrieved successfully' do
         let(:team_entities_data) do
-          {
+          { data: {
             users: [{ 'id' => 'user1', 'name' => 'User One' }],
             projects: [{ 'id' => 'project1', 'name' => 'Project One' }],
             states: [{ 'id' => 'state1', 'name' => 'State One' }],
             labels: [{ 'id' => 'label1', 'name' => 'Label One' }]
-          }
+          } }
         end
 
         it 'returns team entities data' do
@@ -96,7 +96,7 @@ RSpec.describe 'Linear Integration API', type: :request do
 
     context 'when it is an authenticated user' do
       context 'when the issue is created successfully' do
-        let(:created_issue) { { 'id' => 'issue1', 'title' => 'Sample Issue' } }
+        let(:created_issue) { { data: { 'id' => 'issue1', 'title' => 'Sample Issue' } } }
 
         it 'returns the created issue' do
           allow(processor_service).to receive(:create_issue).with(issue_params.stringify_keys).and_return(created_issue)
@@ -131,7 +131,7 @@ RSpec.describe 'Linear Integration API', type: :request do
 
     context 'when it is an authenticated user' do
       context 'when the issue is linked successfully' do
-        let(:linked_issue) { { 'id' => 'issue1', 'link' => 'https://linear.app/issue1' } }
+        let(:linked_issue) { { data: { 'id' => 'issue1', 'link' => 'https://linear.app/issue1' } } }
 
         it 'returns the linked issue' do
           allow(processor_service).to receive(:link_issue).with(link, issue_id, title).and_return(linked_issue)
@@ -163,7 +163,7 @@ RSpec.describe 'Linear Integration API', type: :request do
 
     context 'when it is an authenticated user' do
       context 'when the issue is unlinked successfully' do
-        let(:unlinked_issue) { { 'id' => 'issue1', 'link' => 'https://linear.app/issue1' } }
+        let(:unlinked_issue) { { data: { 'id' => 'issue1', 'link' => 'https://linear.app/issue1' } } }
 
         it 'returns the unlinked issue' do
           allow(processor_service).to receive(:unlink_issue).with(link_id).and_return(unlinked_issue)
@@ -195,7 +195,7 @@ RSpec.describe 'Linear Integration API', type: :request do
 
     context 'when it is an authenticated user' do
       context 'when search is successful' do
-        let(:search_results) { [{ 'id' => 'issue1', 'title' => 'Sample Issue' }] }
+        let(:search_results) { { data: [{ 'id' => 'issue1', 'title' => 'Sample Issue' }] } }
 
         it 'returns search results' do
           allow(processor_service).to receive(:search_issue).with(term).and_return(search_results)
@@ -228,10 +228,10 @@ RSpec.describe 'Linear Integration API', type: :request do
 
     context 'when it is an authenticated user' do
       context 'when linked issue is found' do
-        let(:linked_issue) { [{ 'id' => 'issue1', 'title' => 'Sample Issue' }] }
+        let(:linked_issue) { { data: [{ 'id' => 'issue1', 'title' => 'Sample Issue' }] } }
 
         it 'returns linked issue' do
-          allow(processor_service).to receive(:linked_issue).with(link).and_return(linked_issue)
+          allow(processor_service).to receive(:linked_issues).with(link).and_return(linked_issue)
           get "/api/v1/accounts/#{account.id}/integrations/linear/linked_issue",
               params: { conversation_id: conversation.display_id },
               headers: agent.create_new_auth_token,
@@ -243,7 +243,7 @@ RSpec.describe 'Linear Integration API', type: :request do
 
       context 'when linked issue is not found' do
         it 'returns error message' do
-          allow(processor_service).to receive(:linked_issue).with(link).and_return(error: 'error message')
+          allow(processor_service).to receive(:linked_issues).with(link).and_return(error: 'error message')
           get "/api/v1/accounts/#{account.id}/integrations/linear/linked_issue",
               params: { conversation_id: conversation.display_id },
               headers: agent.create_new_auth_token,

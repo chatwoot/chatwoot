@@ -20,7 +20,7 @@ describe Integrations::Linear::ProcessorService do
       it 'returns parsed team data' do
         allow(linear_client).to receive(:teams).and_return(teams_response)
         result = service.teams
-        expect(result).to contain_exactly({ 'id' => 'team1', 'name' => 'Team One' })
+        expect(result).to eq({ data: [{ 'id' => 'team1', 'name' => 'Team One' }] })
       end
     end
 
@@ -50,10 +50,10 @@ describe Integrations::Linear::ProcessorService do
       it 'returns parsed entity data' do
         allow(linear_client).to receive(:team_entities).with(team_id).and_return(entities_response)
         result = service.team_entities(team_id)
-        expect(result).to have_key(:users)
-        expect(result).to have_key(:projects)
-        expect(result).to have_key(:states)
-        expect(result).to have_key(:labels)
+        expect(result).to eq({ :data => { :users =>
+        [{ 'id' => 'user1', 'name' => 'User One' }],
+                                          :projects => [{ 'id' => 'project1', 'name' => 'Project One' }],
+                                          :states => [], :labels => [{ 'id' => 'bug', 'name' => 'Bug' }] } })
       end
     end
 
@@ -89,7 +89,7 @@ describe Integrations::Linear::ProcessorService do
       it 'returns parsed issue data' do
         allow(linear_client).to receive(:create_issue).with(params).and_return(issue_response)
         result = service.create_issue(params)
-        expect(result).to eq({ id: 'issue1', title: 'Issue title' })
+        expect(result).to eq({ data: { id: 'issue1', title: 'Issue title' } })
       end
     end
 
@@ -109,7 +109,7 @@ describe Integrations::Linear::ProcessorService do
     let(:issue_id) { 'issue1' }
     let(:title) { 'Title' }
     let(:link_issue_response) { { id: issue_id, link: link, 'attachmentLinkURL': { 'attachment': { 'id': 'attachment1' } } } }
-    let(:link_response) { { id: issue_id, link: link, link_id: 'attachment1' } }
+    let(:link_response) { { data: { id: issue_id, link: link, link_id: 'attachment1' } } }
 
     context 'when Linear client returns valid data' do
       it 'returns parsed link data' do
@@ -132,7 +132,7 @@ describe Integrations::Linear::ProcessorService do
 
   describe '#unlink_issue' do
     let(:link_id) { 'attachment1' }
-    let(:unlink_response) { { link_id: link_id } }
+    let(:unlink_response) { { data: { link_id: link_id } } }
 
     context 'when Linear client returns valid data' do
       it 'returns parsed unlink data' do
@@ -165,7 +165,7 @@ describe Integrations::Linear::ProcessorService do
       it 'returns parsed search data' do
         allow(linear_client).to receive(:search_issue).with(term).and_return(search_response)
         result = service.search_issue(term)
-        expect(result).to contain_exactly({ 'id' => 'issue1', 'title' => 'Issue title', 'description' => 'Issue description' })
+        expect(result).to eq({ :data => [{ 'description' => 'Issue description', 'id' => 'issue1', 'title' => 'Issue title' }] })
       end
     end
 
@@ -180,7 +180,7 @@ describe Integrations::Linear::ProcessorService do
     end
   end
 
-  describe '#linked_issue' do
+  describe '#linked_issues' do
     let(:url) { 'https://example.com' }
     let(:linked_response) do
       {
@@ -190,9 +190,9 @@ describe Integrations::Linear::ProcessorService do
 
     context 'when Linear client returns valid data' do
       it 'returns parsed linked data' do
-        allow(linear_client).to receive(:linked_issue).with(url).and_return(linked_response)
-        result = service.linked_issue(url)
-        expect(result).to contain_exactly({ 'id' => 'attachment1', 'issue' => { 'id' => 'issue1' } })
+        allow(linear_client).to receive(:linked_issues).with(url).and_return(linked_response)
+        result = service.linked_issues(url)
+        expect(result).to eq({ :data => [{ 'id' => 'attachment1', 'issue' => { 'id' => 'issue1' } }] })
       end
     end
 
@@ -200,8 +200,8 @@ describe Integrations::Linear::ProcessorService do
       let(:error_response) { { error: 'Some error message' } }
 
       it 'returns the error' do
-        allow(linear_client).to receive(:linked_issue).with(url).and_return(error_response)
-        result = service.linked_issue(url)
+        allow(linear_client).to receive(:linked_issues).with(url).and_return(error_response)
+        result = service.linked_issues(url)
         expect(result).to eq(error_response)
       end
     end

@@ -3,9 +3,9 @@ class Integrations::Linear::ProcessorService
 
   def teams
     response = linear_client.teams
-    return response if response[:error]
+    return { error: response[:error] } if response[:error]
 
-    response['teams']['nodes'].map(&:as_json)
+    { data: response['teams']['nodes'].map(&:as_json) }
   end
 
   def team_entities(team_id)
@@ -13,10 +13,12 @@ class Integrations::Linear::ProcessorService
     return response if response[:error]
 
     {
-      users: response['users']['nodes'].map(&:as_json),
-      projects: response['projects']['nodes'].map(&:as_json),
-      states: response['workflowStates']['nodes'].map(&:as_json),
-      labels: response['issueLabels']['nodes'].map(&:as_json)
+      data: {
+        users: response['users']['nodes'].map(&:as_json),
+        projects: response['projects']['nodes'].map(&:as_json),
+        states: response['workflowStates']['nodes'].map(&:as_json),
+        labels: response['issueLabels']['nodes'].map(&:as_json)
+      }
     }
   end
 
@@ -25,8 +27,8 @@ class Integrations::Linear::ProcessorService
     return response if response[:error]
 
     {
-      id: response['issueCreate']['issue']['id'],
-      title: response['issueCreate']['issue']['title']
+      data: { id: response['issueCreate']['issue']['id'],
+              title: response['issueCreate']['issue']['title'] }
     }
   end
 
@@ -35,9 +37,11 @@ class Integrations::Linear::ProcessorService
     return response if response[:error]
 
     {
-      id: issue_id,
-      link: link,
-      link_id: response.with_indifferent_access[:attachmentLinkURL][:attachment][:id]
+      data: {
+        id: issue_id,
+        link: link,
+        link_id: response.with_indifferent_access[:attachmentLinkURL][:attachment][:id]
+      }
     }
   end
 
@@ -46,7 +50,7 @@ class Integrations::Linear::ProcessorService
     return response if response[:error]
 
     {
-      link_id: link_id
+      data: { link_id: link_id }
     }
   end
 
@@ -55,14 +59,14 @@ class Integrations::Linear::ProcessorService
 
     return response if response[:error]
 
-    response['searchIssues']['nodes'].map(&:as_json)
+    { data: response['searchIssues']['nodes'].map(&:as_json) }
   end
 
-  def linked_issue(url)
-    response = linear_client.linked_issue(url)
+  def linked_issues(url)
+    response = linear_client.linked_issues(url)
     return response if response[:error]
 
-    response['attachmentsForURL']['nodes'].map(&:as_json)
+    { data: response['attachmentsForURL']['nodes'].map(&:as_json) }
   end
 
   private
