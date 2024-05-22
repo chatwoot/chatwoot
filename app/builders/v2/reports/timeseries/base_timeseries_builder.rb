@@ -1,4 +1,5 @@
 class V2::Reports::Timeseries::BaseTimeseriesBuilder
+  include TimezoneHelper
   include DateRangeHelper
   DEFAULT_GROUP_BY = 'day'.freeze
 
@@ -36,11 +37,11 @@ class V2::Reports::Timeseries::BaseTimeseriesBuilder
   end
 
   def group_by
-    @group_by ||= params[:group_by] || DEFAULT_GROUP_BY
+    @group_by ||= %w[day week month year hour].include?(params[:group_by]) ? params[:group_by] : DEFAULT_GROUP_BY
   end
 
   def timezone
-    @timezone ||= ActiveSupport::TimeZone[timezone_offset]&.name
+    @timezone ||= timezone_name_from_offset(timezone_offset)
   end
 
   def timezone_offset
