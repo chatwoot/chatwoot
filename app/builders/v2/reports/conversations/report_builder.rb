@@ -1,4 +1,4 @@
-class V2::Conversation::ReportBuilder < V2::Conversation::BaseReportBuilder
+class V2::Reports::Conversations::ReportBuilder < V2::Reports::Conversations::BaseReportBuilder
   pattr_initialize :account, :params
 
   def timeseries
