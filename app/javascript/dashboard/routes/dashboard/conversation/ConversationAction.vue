@@ -77,7 +77,7 @@
         compact
         :title="$t('CONVERSATION.CONTACT.CHANGE')"
       />
-      <div class="input-group small">
+      <div class="flex rounded-lg shadow-sm">
         <input
           ref="inputfield"
           v-model="changeContactEmail"
@@ -86,9 +86,7 @@
           autofocus="true"
           @keyup.enter="onChangeContact"
         />
-        <div class="input-group-button">
-          <woot-button size="small" icon="checkmark" @click="onChangeContact" />
-        </div>
+        <woot-button class="flex-shrink-0 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-e-md" icon="checkmark" @click="onChangeContact" />
       </div>
     </div>
     <contact-details-item

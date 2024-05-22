@@ -17,7 +17,8 @@ class Digitaltolk::ChangeContactService
       @email == @conversation.contact.email
     end
   rescue StandardError => e
-    Rails.logger.warning e
+    Rails.logger.warn e
+    Rails.logger.warn e.backtrace.first
     false
   end
 

@@ -16,6 +16,7 @@ module ActivityMessageHandler
     handle_label_change(user_name)
     handle_sla_policy_change(user_name)
     handle_close_change(user_name)
+    handle_contact_change(user_name)
   end
 
   def determine_user_name
@@ -51,6 +52,12 @@ module ActivityMessageHandler
     return unless saved_change_to_closed?
 
     close_change_activity(user_name)
+  end
+
+  def handle_contact_change(user_name)
+    return unless saved_change_to_contact_id?
+
+    contact_change_activity(user_name)
   end
 
   def status_change_activity(user_name)
@@ -94,6 +101,11 @@ module ActivityMessageHandler
               end
 
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
+  end
+
+  def contact_change_activity(user_name)
+    content = "Contact was changed to #{contact&.email} by #{user_name}"
+    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content))
   end
 
   def activity_message_params(content)
