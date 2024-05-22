@@ -1,6 +1,4 @@
-class V2::ConversationReportBuilder < V2::BaseConversationReportBuilder
-  include DateRangeHelper
-
+class V2::Conversation::ReportBuilder < V2::Conversation::BaseReportBuilder
   pattr_initialize :account, :params
 
   def timeseries

@@ -1,4 +1,4 @@
-class V2::ConversationMetricBuilder < V2::BaseConversationReportBuilder
+class V2::Conversation::MetricBuilder < V2::Conversation::BaseReportBuilder
   def summary
     {
       conversations_count: count('conversations_count'),

@@ -5,7 +5,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   before_action :check_authorization
 
   def index
-    builder = V2::ConversationReportBuilder.new(Current.account, report_params)
+    builder = V2::Conversation::ReportBuilder.new(Current.account, report_params)
     data = builder.timeseries
     render json: data
   end
@@ -125,7 +125,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def build_summary(method)
-    builder = V2::ConversationMetricBuilder
+    builder = V2::Conversation::MetricBuilder
     current_summary = builder.new(Current.account, current_summary_params).send(method)
     previous_summary = builder.new(Current.account, previous_summary_params).send(method)
     current_summary.merge(previous: previous_summary)

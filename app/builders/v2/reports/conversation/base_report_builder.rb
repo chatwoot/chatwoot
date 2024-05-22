@@ -1,4 +1,4 @@
-class V2::BaseConversationReportBuilder
+class V2::Conversation::BaseReportBuilder
   pattr_initialize :account, :params
 
   private
