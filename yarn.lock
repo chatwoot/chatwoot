@@ -3156,6 +3156,15 @@
     "@braid/vue-formulate-i18n" "^1.16.0"
     is-plain-object "^3.0.1"
 
+"@chatwoot/ninja-keys@1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@chatwoot/ninja-keys/-/ninja-keys-1.2.3.tgz#3c3f2b505f091ef4707fd1da39bb2ec6d12e7824"
+  integrity sha512-xM8d9P5ikDMZm2WbaCTk/TW5HFauylrU3cJ75fq5je6ixKwyhl/0kZbVN/vbbZN4+AUX/OaSIn6IJbtCgIF67g==
+  dependencies:
+    "@material/mwc-icon" "0.25.3"
+    hotkeys-js "3.8.7"
+    lit "2.2.6"
+
 "@chatwoot/prosemirror-schema@1.0.5":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@chatwoot/prosemirror-schema/-/prosemirror-schema-1.0.5.tgz#d6053692beae59d466ac0b04128fa157f59eb176"
@@ -15082,15 +15091,6 @@ nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
   integrity sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
-
-ninja-keys@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/ninja-keys/-/ninja-keys-1.2.2.tgz#c1e1ec1a98aee3a977ee77157ac4aa865348be88"
-  integrity sha512-ylo8jzKowi3XBHkgHRjBJaKQkl32WRLr7kRiA0ajiku11vHRDJ2xANtTScR5C7XlDwKEOYvUPesCKacUeeLAYw==
-  dependencies:
-    "@material/mwc-icon" "0.25.3"
-    hotkeys-js "3.8.7"
-    lit "2.2.6"
 
 no-case@^3.0.4:
   version "3.0.4"
