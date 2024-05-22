@@ -1,5 +1,5 @@
 class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::BaseController
-  before_action :fetch_conversation, only: [:link_issue, :linked_issue]
+  before_action :fetch_conversation, only: [:link_issue, :linked_issues]
 
   def teams
     teams = linear_processor_service.teams
@@ -51,7 +51,7 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
     end
   end
 
-  def linked_issue
+  def linked_issues
     issues = linear_processor_service.linked_issues(conversation_link)
 
     if issues[:error]
