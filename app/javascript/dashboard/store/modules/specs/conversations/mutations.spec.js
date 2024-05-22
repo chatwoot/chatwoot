@@ -464,6 +464,14 @@ describe('#mutations', () => {
     });
   });
 
+  describe('#SET_CONTEXT_MENU_CHAT_ID', () => {
+    it('sets the context menu chat id', () => {
+      const state = { contextMenuChatId: 1 };
+      mutations[types.SET_CONTEXT_MENU_CHAT_ID](state, 2);
+      expect(state.contextMenuChatId).toEqual(2);
+    });
+  });
+
   describe('#SET_CHAT_LIST_FILTERS', () => {
     it('set chat list filters', () => {
       const conversationFilters = {
@@ -511,14 +519,6 @@ describe('#mutations', () => {
         conversationType: 'mention',
         updatedWithin: 20,
       });
-    });
-  });
-
-  describe('#SET_CONTEXT_MENU_CHAT_ID', () => {
-    it('sets the context menu chat id', () => {
-      const state = { contextMenuChatId: 1 };
-      mutations[types.SET_CONTEXT_MENU_CHAT_ID](state, 2);
-      expect(state.contextMenuChatId).toEqual(2);
     });
   });
 });

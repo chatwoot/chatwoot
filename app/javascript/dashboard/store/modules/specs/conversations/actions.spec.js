@@ -653,6 +653,13 @@ describe('#addMentions', () => {
     });
   });
 
+  describe('#setContextMenuChatId', () => {
+    it('sets the context menu chat id', () => {
+      actions.setContextMenuChatId({ commit }, 1);
+      expect(commit.mock.calls).toEqual([[types.SET_CONTEXT_MENU_CHAT_ID, 1]]);
+    });
+  });
+
   describe('#setChatListFilters', () => {
     it('set chat list filters', () => {
       const filters = {
@@ -678,13 +685,6 @@ describe('#addMentions', () => {
       expect(commit.mock.calls).toEqual([
         [types.UPDATE_CHAT_LIST_FILTERS, { updatedWithin: 20 }],
       ]);
-    });
-  });
-  
-  describe('#setContextMenuChatId', () => {
-    it('sets the context menu chat id', () => {
-      actions.setContextMenuChatId({ commit }, 1);
-      expect(commit.mock.calls).toEqual([[types.SET_CONTEXT_MENU_CHAT_ID, 1]]);
     });
   });
 });

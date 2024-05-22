@@ -301,7 +301,7 @@ export const mutations = {
   [types.SET_CONTEXT_MENU_CHAT_ID](_state, chatId) {
     _state.contextMenuChatId = chatId;
   },
-    
+
   [types.SET_CHAT_LIST_FILTERS](_state, data) {
     _state.conversationFilters = data;
   },
