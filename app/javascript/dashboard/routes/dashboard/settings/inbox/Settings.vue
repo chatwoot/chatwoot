@@ -217,6 +217,21 @@
           </p>
         </label>
 
+        <label v-if="csatSurveyEnabled" class="w-3/4 pb-4">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.CSAT_VISIBLE') }}
+          <select v-model="csatResponseVisible">
+            <option :value="true">
+              {{ $t('INBOX_MGMT.EDIT.CSAT_VISIBLE.ENABLED') }}
+            </option>
+            <option :value="false">
+              {{ $t('INBOX_MGMT.EDIT.CSAT_VISIBLE.DISABLED') }}
+            </option>
+          </select>
+          <p class="pb-1 text-sm not-italic text-slate-600 dark:text-slate-400">
+            {{ $t('INBOX_MGMT.SETTINGS_POPUP.CSAT_VISIBLE_SUB_TEXT') }}
+          </p>
+        </label>
+
         <label v-if="isAWebWidgetInbox" class="w-3/4 pb-4">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.ALLOW_MESSAGES_AFTER_RESOLVED') }}
           <select v-model="allowMessagesAfterResolved">
@@ -470,6 +485,7 @@ export default {
       greetingMessage: '',
       emailCollectEnabled: false,
       csatSurveyEnabled: false,
+      csatResponseVisible: false,
       senderNameType: 'friendly',
       businessName: '',
       locktoSingleConversation: false,
@@ -670,6 +686,7 @@ export default {
         this.greetingMessage = this.inbox.greeting_message || '';
         this.emailCollectEnabled = this.inbox.enable_email_collect;
         this.csatSurveyEnabled = this.inbox.csat_survey_enabled;
+        this.csatResponseVisible = this.inbox.csat_response_visible;
         this.senderNameType = this.inbox.sender_name_type;
         this.businessName = this.inbox.business_name;
         this.allowMessagesAfterResolved =
@@ -693,6 +710,7 @@ export default {
           name: this.selectedInboxName,
           enable_email_collect: this.emailCollectEnabled,
           csat_survey_enabled: this.csatSurveyEnabled,
+          csat_response_visible: this.csatResponseVisible,
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
           greeting_enabled: this.greetingEnabled,
           greeting_message: this.greetingMessage || '',

@@ -130,6 +130,14 @@ class Message < ApplicationRecord
 
   after_update_commit :dispatch_update_event
 
+  def content_attributes_for(user)
+    if content_type == 'input_csat' && !inbox.csat_response_visible? && !user&.administrator?
+      content_attributes.except('submitted_values')
+    else
+      content_attributes
+    end
+  end
+
   def channel_token
     @token ||= inbox.channel.try(:page_access_token)
   end
@@ -139,7 +147,8 @@ class Message < ApplicationRecord
       created_at: created_at.to_i,
       message_type: message_type_before_type_cast,
       conversation_id: conversation.display_id,
-      conversation: conversation_push_event_data
+      conversation: conversation_push_event_data,
+      content_attributes: content_attributes_for(Current.user)
     )
     data[:echo_id] = echo_id if echo_id.present?
     data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
