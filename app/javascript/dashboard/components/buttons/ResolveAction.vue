@@ -73,25 +73,13 @@
         </woot-dropdown-item>
       </woot-dropdown-menu>
     </div>
-    <woot-modal
-      :show.sync="showCustomSnoozeModal"
-      :on-close="hideCustomSnoozeModal"
-    >
-      <custom-snooze-modal
-        @close="hideCustomSnoozeModal"
-        @choose-time="chooseSnoozeTime"
-      />
-    </woot-modal>
   </div>
 </template>
 
 <script>
-import { getUnixTime } from 'date-fns';
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
-import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
-import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 
@@ -99,14 +87,12 @@ import wootConstants from 'dashboard/constants/globals';
 import {
   CMD_REOPEN_CONVERSATION,
   CMD_RESOLVE_CONVERSATION,
-  CMD_SNOOZE_CONVERSATION,
 } from '../../routes/dashboard/commands/commandBarBusEvents';
 
 export default {
   components: {
     WootDropdownItem,
     WootDropdownMenu,
-    CustomSnoozeModal,
   },
   mixins: [alertMixin, keyboardEventListenerMixins],
   props: { conversationId: { type: [String, Number], required: true } },
@@ -115,7 +101,6 @@ export default {
       isLoading: false,
       showActionsDropdown: false,
       STATUS_TYPE: wootConstants.STATUS_TYPE,
-      showCustomSnoozeModal: false,
     };
   },
   computed: {
@@ -143,12 +128,10 @@ export default {
     },
   },
   mounted() {
-    bus.$on(CMD_SNOOZE_CONVERSATION, this.onCmdSnoozeConversation);
     bus.$on(CMD_REOPEN_CONVERSATION, this.onCmdOpenConversation);
     bus.$on(CMD_RESOLVE_CONVERSATION, this.onCmdResolveConversation);
   },
   destroyed() {
-    bus.$off(CMD_SNOOZE_CONVERSATION, this.onCmdSnoozeConversation);
     bus.$off(CMD_REOPEN_CONVERSATION, this.onCmdOpenConversation);
     bus.$off(CMD_RESOLVE_CONVERSATION, this.onCmdResolveConversation);
   },
@@ -200,28 +183,6 @@ export default {
       } catch (error) {
         // error
       }
-    },
-    onCmdSnoozeConversation(snoozeType) {
-      if (snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME) {
-        this.showCustomSnoozeModal = true;
-      } else {
-        this.toggleStatus(
-          this.STATUS_TYPE.SNOOZED,
-          findSnoozeTime(snoozeType) || null
-        );
-      }
-    },
-    chooseSnoozeTime(customSnoozeTime) {
-      this.showCustomSnoozeModal = false;
-      if (customSnoozeTime) {
-        this.toggleStatus(
-          this.STATUS_TYPE.SNOOZED,
-          getUnixTime(customSnoozeTime)
-        );
-      }
-    },
-    hideCustomSnoozeModal() {
-      this.showCustomSnoozeModal = false;
     },
     onCmdOpenConversation() {
       this.toggleStatus(this.STATUS_TYPE.OPEN);
