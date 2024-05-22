@@ -28,7 +28,7 @@ class LinearAPI extends ApiClient {
 
   getLinkedIssue(conversationId) {
     return axios.get(
-      `${this.url}/linked_issue?conversation_id=${conversationId}`
+      `${this.url}/linked_issues?conversation_id=${conversationId}`
     );
   }
 
