@@ -31,8 +31,8 @@ RSpec.describe V2::Reports::Conversations::MetricBuilder, type: :model do
 
     it 'creates builders with proper params' do
       subject.summary
-      expect(V2::Reports::Timeseries::CountReportBuilder).to have_received(:new).with(account, hash_including(metric: 'conversations_count'))
-      expect(V2::Reports::Timeseries::AverageReportBuilder).to have_received(:new).with(account, hash_including(metric: 'avg_first_response_time'))
+      expect(V2::Reports::Timeseries::CountReportBuilder).to have_received(:new).with(account, params.merge(metric: 'conversations_count'))
+      expect(V2::Reports::Timeseries::AverageReportBuilder).to have_received(:new).with(account, params.merge(metric: 'avg_first_response_time'))
     end
   end
 
