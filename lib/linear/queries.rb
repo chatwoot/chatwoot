@@ -1,4 +1,4 @@
-module LinearQueries
+module Linear::Queries
   TEAMS_QUERY = <<~GRAPHQL.freeze
     query {
       teams {
@@ -60,7 +60,7 @@ module LinearQueries
     GRAPHQL
   end
 
-  def self.linked_issue(url)
+  def self.linked_issues(url)
     <<~GRAPHQL
       query {
         attachmentsForURL(url: "#{url}") {

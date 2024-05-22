@@ -1,4 +1,4 @@
-module LinearMutations
+module Linear::Mutations
   def self.graphql_value(value)
     case value
     when String

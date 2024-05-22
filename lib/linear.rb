@@ -1,6 +1,3 @@
-require_relative 'linear_queries'
-require_relative 'linear_mutations'
-
 class Linear
   BASE_URL = 'https://api.linear.app/graphql'.freeze
   PRIORITY_LEVELS = (0..4).to_a
@@ -12,7 +9,7 @@ class Linear
 
   def teams
     query = {
-      query: LinearQueries::TEAMS_QUERY
+      query: Linear::Queries::TEAMS_QUERY
     }
     response = post(query)
     process_response(response)
@@ -22,7 +19,7 @@ class Linear
     raise ArgumentError, 'Missing team id' if team_id.blank?
 
     query = {
-      query: LinearQueries.team_entities_query(team_id)
+      query: Linear::Queries.team_entities_query(team_id)
     }
     response = post(query)
     process_response(response)
@@ -32,17 +29,17 @@ class Linear
     raise ArgumentError, 'Missing search term' if term.blank?
 
     query = {
-      query: LinearQueries.search_issue(term)
+      query: Linear::Queries.search_issue(term)
     }
     response = post(query)
     process_response(response)
   end
 
-  def linked_issue(url)
+  def linked_issues(url)
     raise ArgumentError, 'Missing link' if url.blank?
 
     query = {
-      query: LinearQueries.linked_issue(url)
+      query: Linear::Queries.linked_issues(url)
     }
     response = post(query)
     process_response(response)
@@ -61,7 +58,7 @@ class Linear
       priority: params[:priority],
       labelIds: params[:label_ids]
     }.compact
-    mutation = LinearMutations.issue_create(variables)
+    mutation = Linear::Mutations.issue_create(variables)
     response = post({ query: mutation })
     process_response(response)
   end
@@ -71,7 +68,7 @@ class Linear
     raise ArgumentError, 'Missing issue id' if issue_id.blank?
 
     payload = {
-      query: LinearMutations.issue_link(issue_id, link, title)
+      query: Linear::Mutations.issue_link(issue_id, link, title)
     }
     response = post(payload)
     process_response(response)
@@ -81,7 +78,7 @@ class Linear
     raise ArgumentError, 'Missing  link id' if link_id.blank?
 
     payload = {
-      query: LinearMutations.unlink_issue(link_id)
+      query: Linear::Mutations.unlink_issue(link_id)
     }
     response = post(payload)
     process_response(response)
