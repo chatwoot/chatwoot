@@ -6,7 +6,7 @@ class V2::Reports::Timeseries::BaseTimeseriesBuilder
   pattr_initialize :account, :params
 
   def scope
-    case params[:type]
+    case params[:type].to_sym
     when :account
       account
     when :inbox
