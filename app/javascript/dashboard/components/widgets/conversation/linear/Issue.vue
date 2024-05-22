@@ -25,7 +25,8 @@ const props = defineProps({
 const emit = defineEmits(['unlink-issue']);
 
 const formattedDate = computed(() => {
-  return format(new Date(props.issue.createdAt), 'hh:mm a, MMM dd');
+  const { createdAt } = props.issue;
+  return format(new Date(createdAt), 'hh:mm a, MMM dd');
 });
 
 const assignee = computed(() => {

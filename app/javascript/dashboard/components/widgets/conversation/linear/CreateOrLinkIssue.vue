@@ -38,7 +38,7 @@
 </template>
 <script setup>
 import { useI18n } from 'dashboard/composables/useI18n';
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import LinkIssue from './LinkIssue.vue';
 import CreateIssue from './CreateIssue.vue';
 
@@ -59,18 +59,16 @@ const selectedTabIndex = ref(0);
 
 const emits = defineEmits(['close']);
 
-const tabs = computed(() => {
-  return [
-    {
-      key: 0,
-      name: t('INTEGRATION_SETTINGS.LINEAR.CREATE'),
-    },
-    {
-      key: 1,
-      name: t('INTEGRATION_SETTINGS.LINEAR.LINK.TITLE'),
-    },
-  ];
-});
+const tabs = ref([
+  {
+    key: 0,
+    name: t('INTEGRATION_SETTINGS.LINEAR.CREATE'),
+  },
+  {
+    key: 1,
+    name: t('INTEGRATION_SETTINGS.LINEAR.LINK.TITLE'),
+  },
+]);
 const onClose = () => {
   emits('close');
 };
