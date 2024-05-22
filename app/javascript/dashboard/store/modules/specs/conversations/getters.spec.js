@@ -272,4 +272,11 @@ describe('#getters', () => {
       ]);
     });
   });
+
+  describe('#getContextMenuChatId', () => {
+    it('returns the context menu chat id', () => {
+      const state = { contextMenuChatId: 1 };
+      expect(getters.getContextMenuChatId(state)).toEqual(1);
+    });
+  });
 });
