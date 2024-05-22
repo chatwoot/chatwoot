@@ -222,7 +222,7 @@ RSpec.describe 'Linear Integration API', type: :request do
     end
   end
 
-  describe 'GET /api/v1/accounts/:account_id/integrations/linear/linked_issue' do
+  describe 'GET /api/v1/accounts/:account_id/integrations/linear/linked_issues' do
     let(:conversation) { create(:conversation, account: account) }
     let(:link) { "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{account.id}/conversations/#{conversation.display_id}" }
 
@@ -232,7 +232,7 @@ RSpec.describe 'Linear Integration API', type: :request do
 
         it 'returns linked issue' do
           allow(processor_service).to receive(:linked_issues).with(link).and_return(linked_issue)
-          get "/api/v1/accounts/#{account.id}/integrations/linear/linked_issue",
+          get "/api/v1/accounts/#{account.id}/integrations/linear/linked_issues",
               params: { conversation_id: conversation.display_id },
               headers: agent.create_new_auth_token,
               as: :json
@@ -244,7 +244,7 @@ RSpec.describe 'Linear Integration API', type: :request do
       context 'when linked issue is not found' do
         it 'returns error message' do
           allow(processor_service).to receive(:linked_issues).with(link).and_return(error: 'error message')
-          get "/api/v1/accounts/#{account.id}/integrations/linear/linked_issue",
+          get "/api/v1/accounts/#{account.id}/integrations/linear/linked_issues",
               params: { conversation_id: conversation.display_id },
               headers: agent.create_new_auth_token,
               as: :json
