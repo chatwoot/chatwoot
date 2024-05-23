@@ -117,6 +117,10 @@ const props = defineProps({
     type: [Number, String],
     required: true,
   },
+  title: {
+    type: String,
+    default: null,
+  },
 });
 
 const emit = defineEmits(['close']);
@@ -218,7 +222,7 @@ const createIssue = async () => {
     isCreating.value = true;
     const response = await LinearAPI.createIssue(payload);
     const { id: issueId } = response.data;
-    await LinearAPI.link_issue(props.conversationId, issueId);
+    await LinearAPI.link_issue(props.conversationId, issueId, props.title);
     useAlert(t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CREATE_SUCCESS'));
     onClose();
   } catch (error) {

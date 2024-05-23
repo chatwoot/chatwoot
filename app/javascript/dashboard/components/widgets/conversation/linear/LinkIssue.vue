@@ -56,6 +56,10 @@ const props = defineProps({
     type: [Number, String],
     required: true,
   },
+  title: {
+    type: String,
+    default: null,
+  },
 });
 
 const emits = defineEmits(['close']);
@@ -113,7 +117,7 @@ const linkIssue = async () => {
   const { id: issueId } = selectedOption.value;
   try {
     isLinking.value = true;
-    await LinearAPI.link_issue(props.conversationId, issueId);
+    await LinearAPI.link_issue(props.conversationId, issueId, props.title);
     useAlert(t('INTEGRATION_SETTINGS.LINEAR.LINK.LINK_SUCCESS'));
     searchQuery.value = '';
     issues.value = [];
