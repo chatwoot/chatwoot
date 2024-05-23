@@ -65,7 +65,7 @@
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
         "ALERT_TYPES": {
           "NONE": "Ningú",
-          "MINE": "Assigned",
+          "MINE": "Assignat",
           "ALL": "Totes"
         },
         "ALERT_TYPE": {
@@ -75,7 +75,7 @@
           "ALL_CONVERSATIONS": "All Conversations"
         },
         "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
+          "TITLE": "To d'alerta:"
         },
         "CONDITIONS": {
           "TITLE": "Alert conditions:",
@@ -205,7 +205,7 @@
       "COPY_SUCCESSFUL": "El codi s'ha copiat al porta-retalls amb èxit"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
+      "SHOW_MORE": "Mostra més",
       "SHOW_LESS": "Show Less"
     },
     "FILE_BUBBLE": {
