@@ -19,7 +19,7 @@
       "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
       "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
     },
-    "DEFAULT_USER": "System",
+    "DEFAULT_USER": "Sistema",
     "AUTOMATION_RULE": {
       "ADD": "%{agentName} created a new automation rule (#%{id})",
       "EDIT": "%{agentName} updated an automation rule (#%{id})",
