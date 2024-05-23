@@ -68,7 +68,7 @@ export default {
   },
   computed: {
     columns() {
-      return [
+      const baseColumns = [
         {
           field: 'agent',
           key: 'agent',
@@ -114,21 +114,28 @@ export default {
           align: this.isRTLView ? 'right' : 'left',
           width: 20,
         },
-        {
-          field: 'onlineTime',
-          key: 'onlineTime',
-          title: 'Online Time',
-          align: this.isRTLView ? 'right' : 'left',
-          width: 20,
-        },
-        {
-          field: 'busyTime',
-          key: 'busyTime',
-          title: 'Busy Time',
-          align: this.isRTLView ? 'right' : 'left',
-          width: 20,
-        },
       ];
+
+      if (this.type === 'agent') {
+        baseColumns.push(
+          {
+            field: 'onlineTime',
+            key: 'onlineTime',
+            title: 'Online Time',
+            align: this.isRTLView ? 'right' : 'left',
+            width: 20,
+          },
+          {
+            field: 'busyTime',
+            key: 'busyTime',
+            title: 'Busy Time',
+            align: this.isRTLView ? 'right' : 'left',
+            width: 20,
+          }
+        );
+      }
+
+      return baseColumns;
     },
     tableData() {
       return this.filterItemsList.map(team => {
