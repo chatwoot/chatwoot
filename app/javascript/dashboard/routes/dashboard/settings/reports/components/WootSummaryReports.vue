@@ -114,6 +114,20 @@ export default {
           align: this.isRTLView ? 'right' : 'left',
           width: 20,
         },
+        {
+          field: 'onlineTime',
+          key: 'onlineTime',
+          title: 'Online Time',
+          align: this.isRTLView ? 'right' : 'left',
+          width: 20,
+        },
+        {
+          field: 'busyTime',
+          key: 'busyTime',
+          title: 'Busy Time',
+          align: this.isRTLView ? 'right' : 'left',
+          width: 20,
+        },
       ];
     },
     tableData() {
@@ -126,6 +140,8 @@ export default {
             this.renderContent(typeMetrics.avg_first_response_time) || '--',
           avgResolutionTime:
             this.renderContent(typeMetrics.avg_resolution_time) || '--',
+          onlineTime: this.renderContent(typeMetrics.online_time) || '--',
+          busyTime: this.renderContent(typeMetrics.busy_time) || '--',
           resolutionsCount: typeMetrics.resolved_conversations_count || '--',
         };
       });
