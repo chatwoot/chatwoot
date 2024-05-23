@@ -88,6 +88,6 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
   end
 
   def permitted_params
-    params.permit(:team_id, :conversation_id, :issue_id, :link_id, :title, :description, :assignee_id, :priority, label_ids: [])
+    params.permit(:team_id, :project_id, :conversation_id, :issue_id, :link_id, :title, :description, :assignee_id, :priority, label_ids: [])
   end
 end
