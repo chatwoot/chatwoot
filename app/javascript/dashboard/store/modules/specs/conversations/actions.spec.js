@@ -652,4 +652,11 @@ describe('#addMentions', () => {
       ]);
     });
   });
+
+  describe('#setContextMenuChatId', () => {
+    it('sets the context menu chat id', () => {
+      actions.setContextMenuChatId({ commit }, 1);
+      expect(commit.mock.calls).toEqual([[types.SET_CONTEXT_MENU_CHAT_ID, 1]]);
+    });
+  });
 });

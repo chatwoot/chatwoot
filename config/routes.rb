@@ -228,6 +228,17 @@ Rails.application.routes.draw do
                 post :add_participant_to_meeting
               end
             end
+            resource :linear, controller: 'linear', only: [] do
+              collection do
+                get :teams
+                get :team_entities
+                post :create_issue
+                post :link_issue
+                post :unlink_issue
+                get :search_issue
+                get :linked_issues
+              end
+            end
           end
           resources :working_hours, only: [:update]
 
