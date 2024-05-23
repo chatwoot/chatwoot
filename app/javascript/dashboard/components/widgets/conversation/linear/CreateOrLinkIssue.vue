@@ -71,6 +71,7 @@ const title = computed(() => {
   const { meta: { sender: { name = null } = {} } = {}, created_at: createdAt } =
     props.conversation;
   return t('INTEGRATION_SETTINGS.LINEAR.LINK.LINK_TITLE', {
+    conversationId: props.conversation.id,
     name,
     timeAgo: timeAgo(createdAt),
   });
