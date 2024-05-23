@@ -8,8 +8,8 @@
       "SUBMIT": "Envia"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "Torna a enviar el missatge",
+      "ERROR_MESSAGE": "No s'ha pogut enviar, torna-ho a provar"
     }
   },
   "TEAM_AVAILABILITY": {
@@ -20,7 +20,7 @@
     "IN_A_FEW_MINUTES": "Normalment responem en pocs minuts",
     "IN_A_FEW_HOURS": "Normalment responem en poques hores",
     "IN_A_DAY": "Normalment respon en un dia",
-    "BACK_IN": "We will be back online"
+    "BACK_IN": "Tornarem a estar en línia"
   },
   "DAY_NAMES": [
     "Diumenge",
@@ -32,8 +32,8 @@
     "Dissabte"
   ],
   "START_CONVERSATION": "Inicia la conversa",
-  "END_CONVERSATION": "End Conversation",
-  "CONTINUE_CONVERSATION": "Continue conversation",
+  "END_CONVERSATION": "Finalitzar la conversa",
+  "CONTINUE_CONVERSATION": "Continua la conversa",
   "YOU": "Tu",
   "START_NEW_CONVERSATION": "Inicia una nova conversa",
   "VIEW_UNREAD_MESSAGES": "Tens missatges no llegits",
