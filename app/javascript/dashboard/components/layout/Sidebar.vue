@@ -20,7 +20,7 @@
       :teams="teams"
       :custom-views="customViews"
       :menu-config="activeSecondaryMenu"
-      :current-role="currentRole"
+      :current-user="currentUser"
       :is-on-chatwoot-cloud="isOnChatwootCloud"
       @add-label="showAddLabelPopup"
       @toggle-accounts="toggleAccountModal"
