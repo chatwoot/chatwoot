@@ -1,4 +1,4 @@
-ails.application.config.middleware.use OmniAuth::Builder do
+Rails.application.config.middleware.use OmniAuth::Builder do
   lazy_setup = lambda do
     client_id = GlobalConfigService.load('GOOGLE_OAUTH_CLIENT_ID', nil)
     client_secret = GlobalConfigService.load('GOOGLE_OAUTH_CLIENT_SECRET', nil)
