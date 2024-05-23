@@ -209,6 +209,75 @@
         "API_SUCCESS": "Aplikasi dasbor berhasil dihapus",
         "API_ERROR": "Kami tidak dapat menghapus aplikasi. Harap coba lagi nanti"
       }
+    },
+    "LINEAR": {
+      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
+      "LOADING": "Fetching linear issues...",
+      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
+      "CREATE": "Buat",
+      "LINK": {
+        "SEARCH": "Search issues",
+        "SELECT": "Select issue",
+        "TITLE": "Tautan",
+        "EMPTY_LIST": "No linear issues found",
+        "LOADING": "Loading",
+        "ERROR": "There was an error fetching the linear issues, please try again",
+        "LINK_SUCCESS": "Issue linked successfully",
+        "LINK_ERROR": "There was an error linking the issue, please try again",
+        "LINK_TITLE": "#%{conversationId}: %{name}"
+      },
+      "ADD_OR_LINK": {
+        "TITLE": "Create/link linear issue",
+        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Judul",
+            "PLACEHOLDER": "Enter title",
+            "REQUIRED_ERROR": "Judul wajib diisi"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Deskripsi",
+            "PLACEHOLDER": "Enter description"
+          },
+          "TEAM": {
+            "LABEL": "Tim",
+            "REQUIRED_ERROR": "Team is required"
+          },
+          "ASSIGNEE": {
+            "LABEL": "Assignee"
+          },
+          "PRIORITY": {
+            "LABEL": "Prioritas"
+          },
+          "LABEL": {
+            "LABEL": "Label"
+          },
+          "STATUS": {
+            "LABEL": "Status"
+          },
+          "PROJECT": {
+            "LABEL": "Project"
+          }
+        },
+        "CREATE": "Buat",
+        "CANCEL": "Batalkan",
+        "CREATE_SUCCESS": "Issue created successfully",
+        "CREATE_ERROR": "There was an error creating the issue, please try again",
+        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
+        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+      },
+      "ISSUE": {
+        "STATUS": "Status",
+        "PRIORITY": "Prioritas",
+        "ASSIGNEE": "Assignee",
+        "LABELS": "Label",
+        "CREATED_AT": "Created at %{createdAt}"
+      },
+      "UNLINK": {
+        "TITLE": "Unlink",
+        "SUCCESS": "Issue unlinked successfully",
+        "ERROR": "There was an error unlinking the issue, please try again"
+      }
     }
   }
 }
