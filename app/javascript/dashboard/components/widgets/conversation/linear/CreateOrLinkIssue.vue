@@ -42,7 +42,6 @@
   </div>
 </template>
 <script setup>
-import { fromUnixTime, formatDistanceToNow } from 'date-fns';
 import { useI18n } from 'dashboard/composables/useI18n';
 import { computed, ref } from 'vue';
 import LinkIssue from './LinkIssue.vue';
@@ -63,17 +62,11 @@ const { t } = useI18n();
 
 const selectedTabIndex = ref(0);
 
-const timeAgo = time => {
-  const unixTime = fromUnixTime(time);
-  return formatDistanceToNow(unixTime, { addSuffix: true });
-};
 const title = computed(() => {
-  const { meta: { sender: { name = null } = {} } = {}, created_at: createdAt } =
-    props.conversation;
+  const { meta: { sender: { name = null } = {} } = {} } = props.conversation;
   return t('INTEGRATION_SETTINGS.LINEAR.LINK.LINK_TITLE', {
     conversationId: props.conversation.id,
     name,
-    timeAgo: timeAgo(createdAt),
   });
 });
 
