@@ -53,28 +53,28 @@
     },
     "SORT_ORDER_ITEMS": {
       "last_activity_at_asc": {
-        "TEXT": "Last activity: Oldest first"
+        "TEXT": "آخرین فعالیت: قدیمی ترین اول"
       },
       "last_activity_at_desc": {
-        "TEXT": "Last activity: Newest first"
+        "TEXT": "آخرین فعالیت: جدید ترین اول"
       },
       "created_at_desc": {
-        "TEXT": "Created at: Newest first"
+        "TEXT": "زمان ایجاد: جدیدترین اول"
       },
       "created_at_asc": {
-        "TEXT": "Created at: Oldest first"
+        "TEXT": "زمان ایجاد: قدیمی ترین اول"
       },
       "priority_desc": {
-        "TEXT": "Priority: Highest first"
+        "TEXT": "اولویت: بالاترین اول"
       },
       "priority_asc": {
-        "TEXT": "Priority: Lowest first"
+        "TEXT": "اولویت: پایین ترین اول"
       },
       "waiting_since_asc": {
-        "TEXT": "Pending Response: Longest first"
+        "TEXT": "در انتظار پاسخ: بیشترین اول"
       },
       "waiting_since_desc": {
-        "TEXT": "Pending Response: Shortest first"
+        "TEXT": "در انتظار پاسخ: کم‌ترین اول"
       }
     },
     "ATTACHMENTS": {

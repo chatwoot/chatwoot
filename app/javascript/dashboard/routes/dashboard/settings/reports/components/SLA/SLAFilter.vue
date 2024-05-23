@@ -63,7 +63,7 @@ import {
   getActiveFilter,
   getFilterType,
 } from './helpers/SLAFilterHelpers';
-import FilterButton from '../Filters/v3/FilterButton.vue';
+import FilterButton from 'dashboard/components/ui/Dropdown/DropdownButton.vue';
 import ActiveFilterChip from '../Filters/v3/ActiveFilterChip.vue';
 import AddFilterChip from '../Filters/v3/AddFilterChip.vue';
 

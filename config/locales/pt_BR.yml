@@ -74,6 +74,8 @@ pt_BR:
       conversations_count: Conversas atribuídas
       avg_first_response_time: Tempo médio de primeira resposta
       avg_resolution_time: Tempo médio de resolução
+      resolution_count: Contagem de Resolução
+      avg_customer_waiting_time: Avg customer waiting time
     inbox_csv:
       inbox_name: Nome da Caixa de Entrada
       inbox_type: Tipo da Caixa de Entrada
@@ -90,6 +92,8 @@ pt_BR:
       conversations_count: Contagem de conversas
       avg_first_response_time: Tempo médio de primeira resposta
       avg_resolution_time: Tempo médio de resolução
+      resolution_count: Contagem de Resolução
+      avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Fuso horário
     sla_csv:
@@ -116,7 +120,7 @@ pt_BR:
     notification_title:
       conversation_creation: ""
       conversation_assignment: "Uma conversa (#%{display_id}) foi atribuída a você"
-      assigned_conversation_new_message: "Uma nova mensagem é criada na conversa (#%{display_id})"
+      assigned_conversation_new_message: "Uma nova mensagem foi criada na conversa (#%{display_id})"
       conversation_mention: "Você foi mencionado em uma conversa (#%{display_id})"
       sla_missed_first_response: "Primeira resposta da meta de SLA perdida para conversa (#%{display_id})"
       sla_missed_next_response: ""

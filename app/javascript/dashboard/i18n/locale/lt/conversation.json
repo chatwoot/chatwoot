@@ -280,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Sukurti požymį",
+    "NO_RECORDS_FOUND": "Požymių nerasta",
     "UPDATE": {
       "SUCCESS": "Požymis atnaujintas sėkmingai",
       "ERROR": "Nepavyko atnaujinti požymio. Pabandykite dar kartą vėliau"

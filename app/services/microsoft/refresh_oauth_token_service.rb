@@ -50,7 +50,7 @@ class Microsoft::RefreshOauthTokenService
 
   # Builds the OAuth strategy for Microsoft Graph
   def build_oauth_strategy
-    ::MicrosoftGraphAuth.new(nil, ENV.fetch('AZURE_APP_ID'), ENV.fetch('AZURE_APP_SECRET'))
+    ::MicrosoftGraphAuth.new(nil, GlobalConfigService.load('AZURE_APP_ID', ''), GlobalConfigService.load('AZURE_APP_SECRET', ''))
   end
 
   # Builds the token service using OAuth2

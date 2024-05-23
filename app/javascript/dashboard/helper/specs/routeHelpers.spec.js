@@ -106,6 +106,51 @@ describe('isAConversationRoute', () => {
     expect(isAConversationRoute('conversations_through_team')).toBe(true);
     expect(isAConversationRoute('dashboard')).toBe(false);
   });
+
+  it('returns true if base conversation route name is provided and includeBase is true', () => {
+    expect(isAConversationRoute('home', true)).toBe(true);
+    expect(isAConversationRoute('conversation_mentions', true)).toBe(true);
+    expect(isAConversationRoute('conversation_unattended', true)).toBe(true);
+    expect(isAConversationRoute('inbox_dashboard', true)).toBe(true);
+    expect(isAConversationRoute('label_conversations', true)).toBe(true);
+    expect(isAConversationRoute('team_conversations', true)).toBe(true);
+    expect(isAConversationRoute('folder_conversations', true)).toBe(true);
+    expect(isAConversationRoute('conversation_participating', true)).toBe(true);
+  });
+
+  it('returns false if base conversation route name is provided and includeBase is false', () => {
+    expect(isAConversationRoute('home', false)).toBe(false);
+    expect(isAConversationRoute('conversation_mentions', false)).toBe(false);
+    expect(isAConversationRoute('conversation_unattended', false)).toBe(false);
+    expect(isAConversationRoute('inbox_dashboard', false)).toBe(false);
+    expect(isAConversationRoute('label_conversations', false)).toBe(false);
+    expect(isAConversationRoute('team_conversations', false)).toBe(false);
+    expect(isAConversationRoute('folder_conversations', false)).toBe(false);
+    expect(isAConversationRoute('conversation_participating', false)).toBe(
+      false
+    );
+  });
+
+  it('returns true if base conversation route name is provided and includeBase and includeExtended is true', () => {
+    expect(isAConversationRoute('home', true, true)).toBe(true);
+    expect(isAConversationRoute('conversation_mentions', true, true)).toBe(
+      true
+    );
+    expect(isAConversationRoute('conversation_unattended', true, true)).toBe(
+      true
+    );
+    expect(isAConversationRoute('inbox_dashboard', true, true)).toBe(true);
+    expect(isAConversationRoute('label_conversations', true, true)).toBe(true);
+    expect(isAConversationRoute('team_conversations', true, true)).toBe(true);
+    expect(isAConversationRoute('folder_conversations', true, true)).toBe(true);
+    expect(isAConversationRoute('conversation_participating', true, true)).toBe(
+      true
+    );
+  });
+
+  it('returns false if base conversation route name is not provided', () => {
+    expect(isAConversationRoute('')).toBe(false);
+  });
 });
 
 describe('getConversationDashboardRoute', () => {

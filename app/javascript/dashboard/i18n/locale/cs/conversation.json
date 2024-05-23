@@ -280,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Vytvořit atribut",
+    "NO_RECORDS_FOUND": "Nebyly nalezeny žádné atributy",
     "UPDATE": {
       "SUCCESS": "Atribut byl úspěšně aktualizován",
       "ERROR": "Atribut nelze aktualizovat. Zkuste to prosím později"

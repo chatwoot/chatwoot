@@ -1,6 +1,6 @@
 <script setup>
-import FilterButton from './FilterButton.vue';
-import FilterListDropdown from './FilterListDropdown.vue';
+import FilterButton from 'dashboard/components/ui/Dropdown/DropdownButton.vue';
+import FilterListDropdown from 'dashboard/components/ui/Dropdown/DropdownList.vue';
 
 const props = defineProps({
   name: {

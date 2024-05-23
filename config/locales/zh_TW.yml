@@ -42,7 +42,7 @@ zh_TW:
       export:
         success: We will notify you once contacts export file is ready to view.
       email:
-        invalid: Invalid email
+        invalid: 無效的email
       phone_number:
         invalid: should be in e164 format
     categories:
@@ -74,6 +74,8 @@ zh_TW:
       conversations_count: Assigned conversations
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      resolution_count: 已解決的數量
+      avg_customer_waiting_time: Avg customer waiting time
     inbox_csv:
       inbox_name: 收件匣名稱
       inbox_type: 收件匣類型
@@ -90,6 +92,8 @@ zh_TW:
       conversations_count: 對話數量
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      resolution_count: 已解決的數量
+      avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Timezone
     sla_csv:

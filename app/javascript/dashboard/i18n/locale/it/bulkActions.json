@@ -17,7 +17,7 @@
     "AGENT_LIST_LOADING": "Caricamento agenti",
     "UPDATE": {
       "CHANGE_STATUS": "Cambia stato",
-      "SNOOZE_UNTIL_NEXT_REPLY": "Posticipa fino alla prossima risposta.",
+      "SNOOZE_UNTIL": "Posticipa",
       "UPDATE_SUCCESFUL": "Stato della conversazione aggiornata correttamente.",
       "UPDATE_FAILED": "Failed to update conversations. Please try again."
     },
