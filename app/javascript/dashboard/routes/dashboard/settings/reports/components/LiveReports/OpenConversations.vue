@@ -50,9 +50,11 @@ export default {
 </script>
 
 <template>
-  <div class="column small-12 medium-8 conversation-metric">
+  <div
+    class="flex-1 w-full max-w-full md:w-[65%] md:max-w-[65%] conversation-metric"
+  >
     <metric-card
-      class="overflow-visible min-h-[150px]"
+      class="!overflow-visible min-h-[150px]"
       :header="$t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.HEADER')"
       :is-loading="uiFlags.isFetchingAccountConversationMetric"
       loading-message="Loading metrics"

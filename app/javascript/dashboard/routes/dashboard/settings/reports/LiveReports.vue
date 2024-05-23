@@ -1,9 +1,9 @@
 <template>
   <div class="flex-1 overflow-auto p-4">
-    <div class="row">
+    <div class="flex">
       <open-conversations />
 
-      <div class="column small-12 medium-4 flex">
+      <div class="flex-1 w-full max-w-full md:w-[35%] md:max-w-[35%] flex">
         <metric-card
           :header="$t('OVERVIEW_REPORTS.AGENT_STATUS.HEADER')"
           class="flex-1"
