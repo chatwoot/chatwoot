@@ -87,7 +87,10 @@
       "conversation_assignment": "Беседа назначена",
       "assigned_conversation_new_message": "Новое сообщение",
       "participating_conversation_new_message": "Новое сообщение",
-      "conversation_mention": "Упоминание"
+      "conversation_mention": "Упоминание",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
@@ -104,6 +107,7 @@
       "GENERAL": "Главное",
       "REPORTS": "Отчёты",
       "CONVERSATION": "Диалоги",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Изменить Назначенного",
       "CHANGE_PRIORITY": "Изменить приоритет",
       "CHANGE_TEAM": "Изменить команду",
@@ -112,7 +116,8 @@
       "REMOVE_LABEL": "Удалить метку из разговора",
       "SETTINGS": "Настройки",
       "AI_ASSIST": "Помощь ИИ",
-      "APPEARANCE": "Образец"
+      "APPEARANCE": "Образец",
+      "SNOOZE_NOTIFICATION": "Отложить уведомление"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Перейти к панели разговоров",
@@ -153,7 +158,8 @@
       "CHANGE_APPEARANCE": "Изменить внешний вид",
       "LIGHT_MODE": "Светлая",
       "DARK_MODE": "Тёмная",
-      "SYSTEM_MODE": "Система"
+      "SYSTEM_MODE": "Система",
+      "SNOOZE_NOTIFICATION": "Отложить уведомление"
     }
   },
   "DASHBOARD_APPS": {

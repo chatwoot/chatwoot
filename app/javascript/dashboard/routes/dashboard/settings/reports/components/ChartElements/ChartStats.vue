@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <span class="text-sm">{{ metric.NAME }}</span>
+  <div class="text-slate-900 dark:text-slate-100">
+    <span class="text-sm">
+      {{ metric.NAME }}
+    </span>
     <div class="flex items-end">
       <div class="font-medium text-xl">
         {{ displayMetric(metric.KEY) }}

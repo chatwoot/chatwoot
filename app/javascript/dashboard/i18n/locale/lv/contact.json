@@ -39,16 +39,17 @@
     },
     "MERGE_CONTACT": "Apvienot kontaktu",
     "CONTACT_ACTIONS": "Kontaktpersonu darbības",
-    "MUTE_CONTACT": "Izslēgt Sarunu",
-    "UNMUTE_CONTACT": "Ieslēgt Sarunu",
-    "MUTED_SUCCESS": "Šī saruna ir izslēgta uz 6 stundām",
-    "UNMUTED_SUCCESS": "Šī saruna ir ieslēgta",
+    "MUTE_CONTACT": "Bloķēt Kontaktpersonu",
+    "UNMUTE_CONTACT": "Atbloķēt Kontaktpersonu",
+    "MUTED_SUCCESS": "Šī kontaktpersona ir veiksmīgi bloķēta. Jūs nesaņemsit paziņojumus par turpmākajām sarunām.",
+    "UNMUTED_SUCCESS": "Šī kontaktpersona ir veiksmīgi atbloķēta.",
     "SEND_TRANSCRIPT": "Nosūtīt Transkriptu",
     "EDIT_LABEL": "Rediģēt",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Pielāgot Īpašības",
       "CONTACT_LABELS": "Kontaktpersonu Etiķetes",
-      "PREVIOUS_CONVERSATIONS": "Iepriekšējās Sarunas"
+      "PREVIOUS_CONVERSATIONS": "Iepriekšējās Sarunas",
+      "NO_RECORDS_FOUND": "Īpašības nav atrastas"
     }
   },
   "EDIT_CONTACT": {
@@ -79,7 +80,14 @@
     "TITLE": "Eksportēt Kontaktpersonas",
     "DESC": "Eksportēt kontaktpersonas uz CSV failu.",
     "SUCCESS_MESSAGE": "Notiek eksportēšana, Jūs saņemsit paziņojumu pa e-pastu, kad eksporta fails būs gatavs lejupielādei.",
-    "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
+    "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz",
+    "CONFIRM": {
+      "TITLE": "Eksportēt Kontaktpersonas",
+      "MESSAGE": "Vai vēlaties eksportēt visas kontaktpersonas?",
+      "FILTERED_MESSAGE": "Vai tiešām vēlaties eksportēt visas filtrētās kontaktpersonas?",
+      "YES": "Jā, Eksportēt",
+      "NO": "Nē, Atcelt"
+    }
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -290,6 +298,8 @@
     "BUTTON": "Pievienot pielāgotu īpašību",
     "NOT_AVAILABLE": "Šai kontaktpersonai nav pieejamas pielāgotas īpašības.",
     "COPY_SUCCESSFUL": "Veiksmīgi nokopēts uz clipboard",
+    "SHOW_MORE": "Rādīt visus atribūtus",
+    "SHOW_LESS": "Rādīt mazāk atribūtu",
     "ACTIONS": {
       "COPY": "Kopēt īpašību",
       "DELETE": "Dzēst īpašību",
@@ -339,7 +349,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Nepieciešama derīga vērtība",
-      "INVALID_URL": "Nederīgs URL"
+      "INVALID_URL": "Nederīgs URL",
+      "INVALID_INPUT": "Nepareizi Ievadīts"
     }
   },
   "MERGE_CONTACTS": {

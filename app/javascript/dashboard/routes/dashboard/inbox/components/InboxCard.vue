@@ -3,7 +3,7 @@
     role="button"
     class="flex flex-col ltr:pl-5 rtl:pl-3 rtl:pr-5 ltr:pr-3 gap-2.5 py-3 w-full border-b border-slate-50 dark:border-slate-800/50 hover:bg-slate-25 dark:hover:bg-slate-800 cursor-pointer"
     :class="
-      isInboxCardActive
+      active
         ? 'bg-slate-25 dark:bg-slate-800 click-animation'
         : 'bg-white dark:bg-slate-900'
     "
@@ -23,26 +23,21 @@
       </div>
     </div>
 
-    <div class="flex flex-row justify-between items-center w-full">
-      <div class="flex gap-1.5 items-center max-w-[calc(100%-70px)]">
-        <Thumbnail
-          v-if="assigneeMeta"
-          :src="assigneeMeta.thumbnail"
-          :username="assigneeMeta.name"
-          size="16px"
-          class="relative bottom-0.5"
-        />
-        <div class="flex min-w-0">
-          <span
-            class="text-slate-800 dark:text-slate-50 text-sm overflow-hidden text-ellipsis whitespace-nowrap"
-            :class="isUnread ? 'font-medium' : 'font-normal'"
-          >
-            {{ pushTitle }}
-          </span>
-        </div>
-      </div>
+    <div class="flex flex-row justify-between items-center w-full gap-2">
+      <Thumbnail
+        v-if="assigneeMeta"
+        :src="assigneeMeta.thumbnail"
+        :username="assigneeMeta.name"
+        size="16px"
+      />
       <span
-        class="font-medium max-w-[60px] text-slate-600 dark:text-slate-300 text-xs whitespace-nowrap"
+        class="flex-1 text-slate-800 dark:text-slate-50 text-sm overflow-hidden text-ellipsis whitespace-nowrap"
+        :class="isUnread ? 'font-medium' : 'font-normal'"
+      >
+        {{ pushTitle }}
+      </span>
+      <span
+        class="font-medium text-slate-600 dark:text-slate-300 text-xs whitespace-nowrap"
       >
         {{ lastActivityAt }}
       </span>
@@ -61,6 +56,7 @@
     />
   </div>
 </template>
+
 <script>
 import PriorityIcon from './PriorityIcon.vue';
 import StatusIcon from './StatusIcon.vue';
@@ -84,6 +80,10 @@ export default {
       type: Object,
       default: () => {},
     },
+    active: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -94,9 +94,6 @@ export default {
   computed: {
     primaryActor() {
       return this.notificationItem?.primary_actor;
-    },
-    isInboxCardActive() {
-      return this.$route.params.conversation_id === this.primaryActor?.id;
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](
@@ -166,11 +163,11 @@ export default {
         id,
         primary_actor_id: primaryActorId,
         primary_actor_type: primaryActorType,
-        primary_actor: { id: conversationId, inbox_id: inboxId },
+        primary_actor: { inbox_id: inboxId },
         notification_type: notificationType,
       } = notification;
 
-      if (this.$route.params.conversation_id !== conversationId) {
+      if (this.$route.params.notification_id !== id) {
         this.$track(INBOX_EVENTS.OPEN_CONVERSATION_VIA_INBOX, {
           notificationType,
         });
@@ -184,13 +181,14 @@ export default {
 
         this.$router.push({
           name: 'inbox_view_conversation',
-          params: { inboxId, conversation_id: conversationId },
+          params: { inboxId, notification_id: id },
         });
       }
     },
     closeContextMenu() {
       this.isContextMenuOpen = false;
       this.contextMenuPosition = { x: null, y: null };
+      this.$emit('context-menu-close');
     },
     openContextMenu(e) {
       this.closeContextMenu();
@@ -200,6 +198,7 @@ export default {
         y: e.pageY || e.clientY,
       };
       this.isContextMenuOpen = true;
+      this.$emit('context-menu-open');
     },
     handleAction(key) {
       switch (key) {
@@ -218,17 +217,21 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .click-animation {
   animation: click-animation 0.3s ease-in-out;
 }
+
 @keyframes click-animation {
   0% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(0.99);
   }
+
   100% {
     transform: scale(1);
   }

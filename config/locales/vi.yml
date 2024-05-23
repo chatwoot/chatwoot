@@ -31,6 +31,7 @@ vi:
       disposable_email: Chúng tôi không cho phép các email dùng một lần
       invalid_email: Bạn đã nhập một email không hợp lệ
       email_already_exists: "Bạn đã đăng ký một tài khoản với %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Đăng ký thât bại
     data_import:
       data_type:
@@ -62,32 +63,48 @@ vi:
         name: không nên bắt đầu hoặc kết thúc bằng các ký hiệu và không nên có kí tự < > / \ @.
     custom_filters:
       number_of_records: Đã đạt giới hạn. Số lượng tuỳ chọn lọc tối đa cho mỗi mỗi người dùng mỗi tài khoản là 50.
+      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
+      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
+      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
   reports:
     period: Thời gian báo cáo từ %{since} đến %{until}
     utc_warning: Báo cáo đã được tạo với múi giờ UTC
     agent_csv:
       agent_name: Tên tổng đài viên
-      conversations_count: Số hội thoại
-      avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
-      avg_resolution_time: Thời gian giải quyết trung bình (phút)
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      resolution_count: Số lượng giải quyết
+      avg_customer_waiting_time: Avg customer waiting time
     inbox_csv:
       inbox_name: Tên kênh
       inbox_type: Kiểu kênh
       conversations_count: Số hội thoại
-      avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
-      avg_resolution_time: Thời gian giải quyết trung bình (phút)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     label_csv:
       label_title: Nhãn
       conversations_count: Số hội thoại
-      avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
-      avg_resolution_time: Thời gian giải quyết trung bình (phút)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     team_csv:
       team_name: Tên nhóm
       conversations_count: Số hội thoại
-      avg_first_response_time: Thời gian trung bình của phản hồi đầu tiên (phút)
-      avg_resolution_time: Thời gian giải quyết trung bình (phút)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      resolution_count: Số lượng giải quyết
+      avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Múi giờ
+    sla_csv:
+      conversation_id: Conversation ID
+      sla_policy_breached: SLA Policy
+      assignee: Assignee
+      team: Nhóm
+      inbox: Hộp thư đến
+      labels: Nhãn
+      conversation_link: Link to the Conversation
+      breached_events: Breached Events
     default_group_by: ngày
     csat:
       headers:
@@ -101,10 +118,15 @@ vi:
         recorded_at: Ngày nghi
   notifications:
     notification_title:
-      conversation_creation: "[Hội thoại mới] - #%{display_id} đã được tạo trong %{inbox_name}"
-      conversation_assignment: "[Phân công cho bạn] - #%{display_id} đã được phân công cho bạn"
-      assigned_conversation_new_message: "[Tin nhắn mới] - #%{display_id} %{content}"
-      conversation_mention: "Bạn đã được nhắn đến trong hội thoại [ID - %{display_id}] bởi %{name}"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
+      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
+      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} đã đề cập đến bạn trong hội thoại: "
@@ -136,6 +158,9 @@ vi:
       labels:
         added: "%{user_name} thêm %{labels}"
         removed: "%{user_name} xoá %{labels}"
+      sla:
+        added: "%{user_name} added SLA policy %{sla_name}"
+        removed: "%{user_name} removed SLA policy %{sla_name}"
       muted: "%{user_name} đã tắt tiếng hội thoại"
       unmuted: "%{user_name} đã bật tiếng cuộc trò chuyện"
     templates:
@@ -228,3 +253,12 @@ vi:
       inbox_name: Hộp thư đến
       inbox_type: Inbox Type
     button: Mở cuộc trò chuyện
+  time_units:
+    days:
+      other: "%{count} days"
+    hours:
+      other: "%{count} hours"
+    minutes:
+      other: "%{count} minutes"
+    seconds:
+      other: "%{count} seconds"

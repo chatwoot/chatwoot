@@ -115,7 +115,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { mixin as clickaway } from 'vue-clickaway';
 import rtlMixin from 'shared/mixins/rtlMixin';
 import NotificationPanelList from './NotificationPanelList.vue';
 
@@ -125,7 +124,7 @@ export default {
   components: {
     NotificationPanelList,
   },
-  mixins: [clickaway, rtlMixin],
+  mixins: [rtlMixin],
   data() {
     return {
       pageSize: 15,
@@ -139,9 +138,7 @@ export default {
       uiFlags: 'notifications/getUIFlags',
     }),
     notificationPanelFooterIconClass() {
-      return this.isRTLView
-        ? 'margin-right-minus-slab'
-        : 'margin-left-minus-slab';
+      return this.isRTLView ? '-mr-3' : '-ml-3';
     },
     totalUnreadNotifications() {
       return this.meta.unreadCount;

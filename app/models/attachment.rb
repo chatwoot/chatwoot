@@ -76,10 +76,12 @@ class Attachment < ApplicationRecord
       extension: extension,
       data_url: file_url,
       thumb_url: thumb_url,
-      file_size: file.byte_size
+      file_size: file.byte_size,
+      width: file.metadata[:width],
+      height: file.metadata[:height]
     }
 
-    metadata[:data_url] = metadata[:thumb_url] = external_url if message.instagram_story_mention?
+    metadata[:data_url] = metadata[:thumb_url] = external_url if message.inbox.instagram?
     metadata
   end
 

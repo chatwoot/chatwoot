@@ -41,9 +41,9 @@
     "SAVE_CONTACT": "Kaydet",
     "UPLOADING_ATTACHMENTS": "Dosyalar gönderiliyor...",
     "REPLIED_TO_STORY": "Hikayene cevap verildi",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
-    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
-    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
+    "UNSUPPORTED_MESSAGE": "Bu mesaj desteklenmiyor.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "Bu mesaj desteklenmiyor. Bu mesajı Facebook Messenger uygulamasında görüntüleyebilirsiniz.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "Bu mesaj desteklenmiyor. Bu mesajı Instagram uygulamasında görüntüleyebilirsiniz.",
     "SUCCESS_DELETE_MESSAGE": "Mesaj başarıyla silindi",
     "FAIL_DELETE_MESSSAGE": "Mesaj silinemiyor. Tekrar deneyin",
     "NO_RESPONSE": "Cevap Yok",
@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Susturulacak kadar ertelendi",
       "SNOOZED_UNTIL_TOMORROW": "yarına ertelendi",
       "SNOOZED_UNTIL_NEXT_WEEK": "Önümüzdeki haftaya ertelendi",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Bir sonraki yanıta kadar ertelendi"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Bir sonraki yanıta kadar ertelendi",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Beklemede olarak işaretle",
@@ -273,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Nitelik Oluştur",
+    "NO_RECORDS_FOUND": "Nitelik bulunamadı",
     "UPDATE": {
       "SUCCESS": "Öznitelik başarıyla güncellendi",
       "ERROR": "Öznitelik güncellenemedi. Lütfen daha sonra tekrar deneyiniz"

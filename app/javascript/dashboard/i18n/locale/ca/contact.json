@@ -15,7 +15,7 @@
     "INITIATED_FROM": "Iniciada des de",
     "INITIATED_AT": "Iniciada a les",
     "IP_ADDRESS": "Adreça IP",
-    "CREATED_AT_LABEL": "Created",
+    "CREATED_AT_LABEL": "Creat",
     "NEW_MESSAGE": "Nou missatge",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "No hi han converses prèvies associades a aquest contacte.",
@@ -39,16 +39,17 @@
     },
     "MERGE_CONTACT": "Reagrupa contacte",
     "CONTACT_ACTIONS": "Accions de contacte",
-    "MUTE_CONTACT": "Silencia la conversa",
-    "UNMUTE_CONTACT": "Desactiva el silenci de la conversa",
-    "MUTED_SUCCESS": "Aquesta conversa s'ha silenciat durant 6 hores",
-    "UNMUTED_SUCCESS": "La conversa te desactivat el silenci",
+    "MUTE_CONTACT": "Block Contact",
+    "UNMUTE_CONTACT": "Unblock Contact",
+    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
+    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
     "SEND_TRANSCRIPT": "Envia la transcripció",
     "EDIT_LABEL": "Edita",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Atributs personalitzats",
       "CONTACT_LABELS": "Etiquetes de contactes",
-      "PREVIOUS_CONVERSATIONS": "Converses prèvies"
+      "PREVIOUS_CONVERSATIONS": "Converses prèvies",
+      "NO_RECORDS_FOUND": "No s'han trobat atributs"
     }
   },
   "EDIT_CONTACT": {
@@ -75,11 +76,18 @@
     "ERROR_MESSAGE": "S'ha produït un error; tornau-ho a provar"
   },
   "EXPORT_CONTACTS": {
-    "BUTTON_LABEL": "Export",
-    "TITLE": "Export Contacts",
-    "DESC": "Export contacts to a CSV file.",
+    "BUTTON_LABEL": "Exporta",
+    "TITLE": "Exporta contactes",
+    "DESC": "Exporta contactes a través d'un fitxer CSV.",
     "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "S'ha produït un error; tornau-ho a provar"
+    "ERROR_MESSAGE": "S'ha produït un error; tornau-ho a provar",
+    "CONFIRM": {
+      "TITLE": "Exporta contactes",
+      "MESSAGE": "Esteu segur que voleu exportar tots els contactes?",
+      "FILTERED_MESSAGE": "Esteu segur que voleu exportar tots els contactes filtrats?",
+      "YES": "Sí, Exporta",
+      "NO": "No, cancel·la"
+    }
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -144,13 +152,13 @@
       "COUNTRY": {
         "PLACEHOLDER": "Enter the country name",
         "LABEL": "Nom del país",
-        "SELECT_PLACEHOLDER": "Select",
+        "SELECT_PLACEHOLDER": "Selecciona",
         "REMOVE": "Suprimeix",
-        "SELECT_COUNTRY": "Select Country"
+        "SELECT_COUNTRY": "Selecciona país"
       },
       "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
+        "PLACEHOLDER": "Introdueix el nom de la ciutat",
+        "LABEL": "Nom de la ciutat"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -173,8 +181,8 @@
     },
     "DELETE_AVATAR": {
       "API": {
-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+        "SUCCESS_MESSAGE": "L'avatar del contacte s'ha suprimit correctament",
+        "ERROR_MESSAGE": "No s'ha pogut esborrar l'avatar de contacte. Torneu-ho a provar."
       }
     },
     "SUCCESS_MESSAGE": "Contacte guardat correctament",
@@ -183,30 +191,30 @@
   "NEW_CONVERSATION": {
     "BUTTON_LABEL": "Inicia la conversa",
     "TITLE": "Nova conversació",
-    "DESC": "Start a new conversation by sending a new message.",
+    "DESC": "Inicia una conversa nova enviant un missatge nou.",
     "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "Per"
       },
       "INBOX": {
         "LABEL": "Inbox",
-        "PLACEHOLDER": "Choose source inbox",
+        "PLACEHOLDER": "Trieu la safata d'entrada d'origen",
         "ERROR": "Select an inbox"
       },
       "SUBJECT": {
-        "LABEL": "Subject",
-        "PLACEHOLDER": "Subject",
+        "LABEL": "Assumpte",
+        "PLACEHOLDER": "Assumpte",
         "ERROR": "Subject can't be empty"
       },
       "MESSAGE": {
         "LABEL": "Missatge",
         "PLACEHOLDER": "Write your message here",
-        "ERROR": "Message can't be empty"
+        "ERROR": "El missatge no pot estar buit"
       },
       "ATTACHMENTS": {
-        "SELECT": "Choose files",
-        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+        "SELECT": "Trieu fitxers",
+        "HELP_TEXT": "Arrossegueu i deixeu anar fitxers aquí o trieu fitxers per adjuntar"
       },
       "SUBMIT": "Send message",
       "CANCEL": "Cancel·la",
@@ -220,10 +228,10 @@
     "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "Cercar",
     "SEARCH_INPUT_PLACEHOLDER": "Cerca de contactes",
-    "FILTER_CONTACTS": "Filter",
-    "FILTER_CONTACTS_SAVE": "Save filter",
-    "FILTER_CONTACTS_DELETE": "Delete filter",
-    "FILTER_CONTACTS_EDIT": "Edit segment",
+    "FILTER_CONTACTS": "Filtre",
+    "FILTER_CONTACTS_SAVE": "Desa el filtre",
+    "FILTER_CONTACTS_DELETE": "Suprimir el filtre",
+    "FILTER_CONTACTS_EDIT": "Edita segment",
     "LIST": {
       "LOADING_MESSAGE": "Carregant contactes...",
       "404": "No hi ha cap contacte que coincideixi amb la vostra cerca 🔍",
@@ -234,8 +242,8 @@
         "CONVERSATIONS": "Converses",
         "LAST_ACTIVITY": "Last Activity",
         "CREATED_AT": "Created At",
-        "COUNTRY": "Country",
-        "CITY": "City",
+        "COUNTRY": "País",
+        "CITY": "Ciutat",
         "SOCIAL_PROFILES": "Social Profiles",
         "COMPANY": "Companyia",
         "EMAIL_ADDRESS": "Adreça de correu electrònic"
@@ -249,97 +257,100 @@
   },
   "REMINDER": {
     "ADD_BUTTON": {
-      "BUTTON": "Add",
-      "TITLE": "Shift + Enter to create a task"
+      "BUTTON": "Afegir",
+      "TITLE": "Shift + Enter per crear una tasca"
     },
     "FOOTER": {
-      "DUE_DATE": "Due date",
-      "LABEL_TITLE": "Set type"
+      "DUE_DATE": "Data de venciment",
+      "LABEL_TITLE": "Establir tipus"
     }
   },
   "NOTES": {
-    "FETCHING_NOTES": "Fetching notes...",
+    "FETCHING_NOTES": "S'estan obtenint notes...",
     "NOT_AVAILABLE": "There are no notes created for this contact",
     "HEADER": {
       "TITLE": "Notes"
     },
     "LIST": {
-      "LABEL": "added a note"
+      "LABEL": "afegeix una nota"
     },
     "ADD": {
-      "BUTTON": "Add",
-      "PLACEHOLDER": "Add a note",
-      "TITLE": "Shift + Enter to create a note"
+      "BUTTON": "Afegir",
+      "PLACEHOLDER": "Afegeix una nota",
+      "TITLE": "Shift + Enter per crear una nota"
     },
     "CONTENT_HEADER": {
-      "DELETE": "Delete note"
+      "DELETE": "Suprimeix la nota"
     }
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Activities"
+      "TITLE": "Activitats"
     },
     "BUTTON": {
       "PILL_BUTTON_NOTES": "notes",
-      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_EVENTS": "esdeveniment",
       "PILL_BUTTON_CONVO": "converses"
     }
   },
   "CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Add attributes",
-    "BUTTON": "Add custom attribute",
-    "NOT_AVAILABLE": "There are no custom attributes available for this contact.",
+    "ADD_BUTTON_TEXT": "Afegir atributs",
+    "BUTTON": "Afegir atributs personalitzats",
+    "NOT_AVAILABLE": "No hi ha atributs personalitzats disponibles per a aquest contacte.",
     "COPY_SUCCESSFUL": "S'ha copiat al porta-retalls amb èxit",
+    "SHOW_MORE": "Mostra tots els atributs",
+    "SHOW_LESS": "Mostra menys atributs",
     "ACTIONS": {
-      "COPY": "Copy attribute",
-      "DELETE": "Delete attribute",
-      "EDIT": "Edit attribute"
+      "COPY": "Copia l'atribut",
+      "DELETE": "Suprimeix l'atribut",
+      "EDIT": "Edita l'atribut"
     },
     "ADD": {
-      "TITLE": "Create custom attribute",
-      "DESC": "Add custom information to this contact."
+      "TITLE": "Crear atribut personalitzat",
+      "DESC": "Afegeix informació personalitzada a aquest contacte."
     },
     "FORM": {
-      "CREATE": "Add attribute",
+      "CREATE": "Afegir atribut",
       "CANCEL": "Cancel·la",
       "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "LABEL": "Personalitza el nom de l'atribut",
+        "PLACEHOLDER": "P. ex.: identificador de Shopify",
+        "ERROR": "El nom de l'atribut personalitzat no és vàlid"
       },
       "VALUE": {
         "LABEL": "Attribute value",
         "PLACEHOLDER": "Eg: 11901 "
       },
       "ADD": {
-        "TITLE": "Create new attribute ",
-        "SUCCESS": "Attribute added successfully",
-        "ERROR": "Unable to add attribute. Please try again later"
+        "TITLE": "Crear nou atribut ",
+        "SUCCESS": "Atribut afegit correctament",
+        "ERROR": "No es pot afegir l'atribut. Si us plau, intenta-ho més tard"
       },
       "UPDATE": {
-        "SUCCESS": "Attribute updated successfully",
-        "ERROR": "Unable to update attribute. Please try again later"
+        "SUCCESS": "Atribut actualitzat correctament",
+        "ERROR": "No es pot actualitzar l'atribut. Si us plau, intenta-ho més tard"
       },
       "DELETE": {
-        "SUCCESS": "Attribute deleted successfully",
-        "ERROR": "Unable to delete attribute. Please try again later"
+        "SUCCESS": "Atribut esborrat correctament",
+        "ERROR": "No es pot esborrar l'atribut. Si us plau, intenta-ho més tard"
       },
       "ATTRIBUTE_SELECT": {
-        "TITLE": "Add attributes",
-        "PLACEHOLDER": "Search attributes",
-        "NO_RESULT": "No attributes found"
+        "TITLE": "Afegir atributs",
+        "PLACEHOLDER": "Cerca atributs",
+        "NO_RESULT": "No s'han trobat atributs"
       },
       "ATTRIBUTE_TYPE": {
         "LIST": {
-          "PLACEHOLDER": "Select value",
-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
-          "NO_RESULT": "No result found"
+          "PLACEHOLDER": "Selecciona valor",
+          "SEARCH_INPUT_PLACEHOLDER": "Cerca valor",
+          "NO_RESULT": "No s'ha trobat cap resultat"
         }
       }
     },
     "VALIDATIONS": {
       "REQUIRED": "Valid value is required",
-      "INVALID_URL": "Invalid URL"
+      "INVALID_URL": "Invalid URL",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {
@@ -355,7 +366,7 @@
       "HELP_LABEL": "To be kept"
     },
     "SUMMARY": {
-      "TITLE": "Summary",
+      "TITLE": "Resum",
       "DELETE_WARNING": "Contact of <strong>%{primaryContactName}</strong> will be deleted.",
       "ATTRIBUTE_WARNING": "Contact details of <strong>%{primaryContactName}</strong> will be copied to <strong>%{parentContactName}</strong>."
     },
@@ -363,13 +374,13 @@
       "ERROR": "ERROR_MESSAGE"
     },
     "FORM": {
-      "SUBMIT": " Merge contacts",
+      "SUBMIT": " Fusiona contactes",
       "CANCEL": "Cancel·la",
       "CHILD_CONTACT": {
-        "ERROR": "Select a child contact to merge"
+        "ERROR": "Seleccioneu un contacte fill per fusionar"
       },
-      "SUCCESS_MESSAGE": "Contact merged successfully",
-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
+      "SUCCESS_MESSAGE": "Contacte fusionat correctament",
+      "ERROR_MESSAGE": "No s'ha pogut fusionar els contactes, torna-ho a provar!"
     }
   }
 }

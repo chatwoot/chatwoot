@@ -80,7 +80,8 @@
     },
     "CAMPAIGN_HEADER": "Geef uw naam en e-mail voordat u het gesprek begint",
     "IS_REQUIRED": "is vereist",
-    "REQUIRED": "Vereist"
+    "REQUIRED": "Vereist",
+    "REGEX_ERROR": "Please provide a valid input"
   },
   "FILE_SIZE_LIMIT": "Bestand overschrijdt de bijlagelimiet van {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {

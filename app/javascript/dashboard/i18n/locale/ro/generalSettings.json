@@ -87,7 +87,10 @@
       "conversation_assignment": "Conversație atribuită",
       "assigned_conversation_new_message": "Trimite mesaj nou",
       "participating_conversation_new_message": "Trimite mesaj nou",
-      "conversation_mention": "Menţiune"
+      "conversation_mention": "Menţiune",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
@@ -104,6 +107,7 @@
       "GENERAL": "General",
       "REPORTS": "Rapoarte",
       "CONVERSATION": "Conversație",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Modificarea cesionarului",
       "CHANGE_PRIORITY": "Modificarea priorității",
       "CHANGE_TEAM": "Schimbarea echipei",
@@ -112,7 +116,8 @@
       "REMOVE_LABEL": "Eliminarea etichetei din conversație",
       "SETTINGS": "Setări",
       "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance"
+      "APPEARANCE": "Appearance",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Accesați Tabloul de bord conversație",
@@ -153,7 +158,8 @@
       "CHANGE_APPEARANCE": "Change Appearance",
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "Sistem"
+      "SYSTEM_MODE": "Sistem",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     }
   },
   "DASHBOARD_APPS": {

@@ -22,7 +22,7 @@
         "body": "Adicionar agentes à caixa de entrada criada."
       },
       {
-        "title": "Voila!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "Está tudo pronto para começar!"
       }
@@ -43,7 +43,7 @@
         "CHOOSE_PLACEHOLDER": "Escolher uma página da lista",
         "INBOX_NAME": "Nome Caixa de Entrada",
         "ADD_NAME": "Escolha um nome para a sua caixa de entrada",
-        "PICK_NAME": "Escolha um nome a sua caixa de entrada",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "Escolha um valor"
       },
       "TWITTER": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "URL do Webhook",
-          "PLACEHOLDER": "Introduza o seu URL Webhook",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Por favor, insira uma URL válida"
         },
         "CHANNEL_DOMAIN": {
@@ -175,12 +175,12 @@
           },
           "API_KEY": {
             "LABEL": "Chave da API",
-            "PLACEHOLDER": "Por favor insira a palavra passe da API Bandwidth",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "Este campo é obrigatório"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Por favor insira a palavra passe da API Bandwidth",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "Este campo é obrigatório"
           },
           "APPLICATION_ID": {
@@ -239,7 +239,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook de Verificação de Token",
-          "PLACEHOLDER": "Digite um token de verificação que deseja configurar para webhooks do Facebook.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Por favor, insira um valor válido."
         },
         "API_KEY": {
@@ -269,7 +269,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "URL do Webhook",
-          "SUBTITLE": "Configurar a URL onde quer receber mensagens de retorno.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "URL do Webhook"
         },
         "SUBMIT_BUTTON": "Criar canal API",
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Canal de e-mail",
-        "DESC": "Integrar a caixa de entrada.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Nome do Canal",
           "PLACEHOLDER": "Por favor, insira um nome de canal",
@@ -345,7 +345,7 @@
       "AGENTS": {
         "TITLE": "agentes",
         "DESC": "Aqui você pode adicionar agentes para gerenciar a sua caixa de entrada recém-criada. Apenas esses agentes selecionados terão acesso à sua caixa de entrada. Agentes que não fazem parte desta caixa de entrada não serão capazes de ver ou responder a mensagens nesta caixa de entrada quando eles acessarem. <br> <b>PS:</b> como administrador, se precisar de acesso a todas as caixas de entrada, você deve se adicionar como agente em todas as caixas de entrada que você criar.",
-        "VALIDATION_ERROR": "Adicionar pelo menos um agente à sua nova caixa de entrada",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Escolha os agentes da caixa de entrada"
       },
       "DETAILS": {
@@ -406,7 +406,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Nome do remetente",
-        "SUB_TEXT": "Selecione o nome a apresentar ao seu cliente quando ele receber e-mails dos seus agentes.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "Por exemplo:",
         "FRIENDLY": {
           "TITLE": "Amigável",
@@ -457,7 +457,7 @@
       }
     },
     "TABS": {
-      "SETTINGS": "Confirgurações",
+      "SETTINGS": "Configurações",
       "COLLABORATORS": "Colaboradores",
       "CONFIGURATION": "Configuração",
       "CAMPAIGN": "Campanhas",
@@ -466,7 +466,7 @@
       "WIDGET_BUILDER": "Construtor de Widgets",
       "BOT_CONFIGURATION": "Configuração do bot"
     },
-    "SETTINGS": "Confirgurações",
+    "SETTINGS": "Configurações",
     "FEATURES": {
       "LABEL": "Características",
       "DISPLAY_FILE_PICKER": "Mostrar o selecionador de ficheiros no widget",
@@ -508,12 +508,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Permitir mensagens após a resolução da conversa",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permite que os utilizadores finais enviem mensagens após a conversa estar resolvida.",
       "WHATSAPP_SECTION_SUBHEADER": "Esta chave de API é usada para a integração com as APIs do WhatsApp.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Escreva a chave atualizada a ser usada para a integração com as APIs do WhatsApp.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "Chave da API",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Atualizar Chave de API",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Digite a nova chave da API aqui",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Atualização",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook de Verificação de Token",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook de Verificação do Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Este token é usado para verificar a autenticidade do endpoint do webhook.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atualizar configurações do Formulário Pre Chat"
     },
@@ -569,7 +569,7 @@
       "UPDATE": "Atualizar as configurações do horário comercial",
       "TOGGLE_AVAILABILITY": "Definir a disponibilidade para essa caixa de entrada",
       "UNAVAILABLE_MESSAGE_LABEL": "Mensagem indisponível para os visitantes",
-      "TOGGLE_HELP": "Está opção mostrará as horas de disponibilidade no widget da conversa, mesmo que todos os agentes estejam offline. Os visitantes serão avisados dos horários disponíveis através de uma mensagem no formulário de pré-chat.",
+      "TOGGLE_HELP": "Está opção mostrará as horas de disponibilidade no widget da conversa, mesmo que todos os agentes estejam offline. Quem solicitar o serviço fora de horas poderá ser avisado dos horários disponíveis através de uma mensagem e do formulário de pré-chat.",
       "DAY": {
         "ENABLE": "Permitir a disponibilidade para este dia",
         "UNAVAILABLE": "Indisponível",
@@ -585,7 +585,7 @@
       "NOTE_TEXT": "Para ativar o SMTP, por favor configure o IMAP.",
       "UPDATE": "Atualizar configurações IMAP",
       "TOGGLE_AVAILABILITY": "Ativar a configuração IMAP para esta caixa de entrada",
-      "TOGGLE_HELP": "Habilitar o IMAP ajudará o utilizador a receber o email",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "Configurações IMAP atualizadas com sucesso",
         "ERROR_MESSAGE": "Não foi possível atualizar as configurações do IMAP"

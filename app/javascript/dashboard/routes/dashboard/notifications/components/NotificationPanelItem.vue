@@ -1,9 +1,10 @@
 <template>
-  <div>
+  <div class="w-full">
     <woot-button
       size="expanded"
       color-scheme="secondary"
       variant="link"
+      class="w-full"
       @click="onClickOpenNotification()"
     >
       <div

@@ -80,10 +80,15 @@ module MailboxHelper
 
   def embed_plain_text_email_with_inline_image(mail_attachment)
     attachment_name = mail_attachment[:original].filename
+    img_tag = "<img src=\"#{inline_image_url(mail_attachment[:blob])}\" alt=\"#{attachment_name}\">"
 
-    @text_content = @text_content.gsub(
-      "[image: #{attachment_name}]", "<img src=\"#{inline_image_url(mail_attachment[:blob])}\" alt=\"#{attachment_name}\">"
-    )
+    tag_to_replace = "[image: #{attachment_name}]"
+
+    if @text_content.include?(tag_to_replace)
+      @text_content = @text_content.gsub(tag_to_replace, img_tag)
+    else
+      @text_content += "\n\n#{img_tag}"
+    end
   end
 
   def inline_image_url(blob)

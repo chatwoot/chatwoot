@@ -1,85 +1,23 @@
 <template>
   <div
-    class="conversations-list-wrap flex-basis-clamp flex-shrink-0 overflow-hidden flex flex-col border-r rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-800/50"
-    :class="{
-      hide: !showConversationList,
-      'list--full-width': isOnExpandedLayout,
-    }"
+    class="flex flex-col flex-shrink-0 overflow-hidden border-r conversations-list-wrap rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-800/50"
+    :class="[
+      { hidden: !showConversationList },
+      isOnExpandedLayout ? 'basis-full' : 'flex-basis-clamp',
+    ]"
   >
     <slot />
-    <div
-      class="flex items-center justify-between py-0 px-4"
-      :class="{
-        'pb-3 border-b border-slate-75 dark:border-slate-700':
-          hasAppliedFiltersOrActiveFolders,
-      }"
-    >
-      <div class="flex max-w-[85%] justify-center items-center">
-        <h1
-          class="text-xl break-words overflow-hidden whitespace-nowrap text-ellipsis text-black-900 dark:text-slate-100 mb-0"
-          :title="pageTitle"
-        >
-          {{ pageTitle }}
-        </h1>
-        <span
-          v-if="!hasAppliedFiltersOrActiveFolders"
-          class="p-1 my-0.5 mx-1 rounded-md capitalize bg-slate-50 dark:bg-slate-800 text-xxs text-slate-600 dark:text-slate-300"
-        >
-          {{ $t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${activeStatus}.TEXT`) }}
-        </span>
-      </div>
-      <div class="flex items-center gap-1">
-        <div v-if="hasAppliedFilters && !hasActiveFolders">
-          <woot-button
-            v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON')"
-            size="tiny"
-            variant="smooth"
-            color-scheme="secondary"
-            icon="save"
-            @click="onClickOpenAddFoldersModal"
-          />
-          <woot-button
-            v-tooltip.top-end="$t('FILTER.CLEAR_BUTTON_LABEL')"
-            size="tiny"
-            variant="smooth"
-            color-scheme="alert"
-            icon="dismiss-circle"
-            @click="resetAndFetchData"
-          />
-        </div>
-        <div v-if="hasActiveFolders">
-          <woot-button
-            v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.EDIT.EDIT_BUTTON')"
-            size="tiny"
-            variant="smooth"
-            color-scheme="secondary"
-            icon="edit"
-            @click="onToggleAdvanceFiltersModal"
-          />
-          <woot-button
-            v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
-            size="tiny"
-            variant="smooth"
-            color-scheme="alert"
-            icon="delete"
-            @click="onClickOpenDeleteFoldersModal"
-          />
-        </div>
-        <woot-button
-          v-else
-          v-tooltip.right="$t('FILTER.TOOLTIP_LABEL')"
-          variant="smooth"
-          color-scheme="secondary"
-          icon="filter"
-          size="tiny"
-          @click="onToggleAdvanceFiltersModal"
-        />
-        <conversation-basic-filter
-          v-if="!hasAppliedFiltersOrActiveFolders"
-          @changeFilter="onBasicFilterChange"
-        />
-      </div>
-    </div>
+    <chat-list-header
+      :page-title="pageTitle"
+      :has-applied-filters="hasAppliedFilters"
+      :has-active-folders="hasActiveFolders"
+      :active-status="activeStatus"
+      @add-folders="onClickOpenAddFoldersModal"
+      @delete-folders="onClickOpenDeleteFoldersModal"
+      @filters-modal="onToggleAdvanceFiltersModal"
+      @reset-filters="resetAndFetchData"
+      @basic-filter-change="onBasicFilterChange"
+    />
 
     <add-custom-views
       v-if="showAddFoldersModal"
@@ -107,7 +45,7 @@
 
     <p
       v-if="!chatListLoading && !conversationList.length"
-      class="overflow-auto p-4 flex justify-center items-center"
+      class="flex items-center justify-center p-4 overflow-auto"
     >
       {{ $t('CHAT_LIST.LIST.404') }}
     </p>
@@ -127,7 +65,7 @@
     />
     <div
       ref="conversationList"
-      class="conversations-list flex-1"
+      class="flex-1 conversations-list"
       :class="{ 'overflow-hidden': isContextMenuOpen }"
     >
       <virtual-list
@@ -136,14 +74,17 @@
         :data-sources="conversationList"
         :data-component="itemComponent"
         :extra-props="virtualListExtraProps"
-        class="w-full overflow-auto h-full"
+        class="w-full h-full overflow-auto"
         footer-tag="div"
       >
         <template #footer>
           <div v-if="chatListLoading" class="text-center">
-            <span class="spinner mt-4 mb-4" />
+            <span class="mt-4 mb-4 spinner" />
           </div>
-          <p v-if="showEndOfListMessage" class="text-center text-muted p-4">
+          <p
+            v-if="showEndOfListMessage"
+            class="p-4 text-center text-slate-400 dark:text-slate-300"
+          >
             {{ $t('CHAT_LIST.EOF') }}
           </p>
           <intersection-observer
@@ -170,6 +111,15 @@
         @updateFolder="onUpdateSavedFilter"
       />
     </woot-modal>
+    <woot-modal
+      :show.sync="showCustomSnoozeModal"
+      :on-close="hideCustomSnoozeModal"
+    >
+      <custom-snooze-modal
+        @close="hideCustomSnoozeModal"
+        @choose-time="chooseSnoozeTime"
+      />
+    </woot-modal>
   </div>
 </template>
 
@@ -177,12 +127,12 @@
 import { mapGetters } from 'vuex';
 import VirtualList from 'vue-virtual-scroll-list';
 
+import ChatListHeader from './ChatListHeader.vue';
 import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter.vue';
-import ConversationBasicFilter from './widgets/conversation/ConversationBasicFilter.vue';
 import ChatTypeTabs from './widgets/ChatTypeTabs.vue';
 import ConversationItem from './ConversationItem.vue';
 import timeMixin from '../mixins/time';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import conversationMixin from '../mixins/conversations';
 import wootConstants from 'dashboard/constants/globals';
 import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
@@ -196,21 +146,21 @@ import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import countries from 'shared/constants/countries';
 import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
-
-import {
-  hasPressedAltAndJKey,
-  hasPressedAltAndKKey,
-} from 'shared/helpers/KeyboardHelpers';
 import { conversationListPageURL } from '../helper/URLHelper';
 import {
   isOnMentionsView,
   isOnUnattendedView,
 } from '../store/modules/conversations/helpers/actionHelpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
+import { CMD_SNOOZE_CONVERSATION } from 'dashboard/routes/dashboard/commands/commandBarBusEvents';
+import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
+import { getUnixTime } from 'date-fns';
+import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
 import IntersectionObserver from './IntersectionObserver.vue';
 
 export default {
   components: {
+    ChatListHeader,
     AddCustomViews,
     ChatTypeTabs,
     // eslint-disable-next-line vue/no-unused-components
@@ -218,14 +168,14 @@ export default {
     ConversationAdvancedFilter,
     DeleteCustomViews,
     ConversationBulkActions,
-    ConversationBasicFilter,
     IntersectionObserver,
     VirtualList,
+    CustomSnoozeModal,
   },
   mixins: [
     timeMixin,
     conversationMixin,
-    eventListenerMixins,
+    keyboardEventListenerMixins,
     alertMixin,
     filterMixin,
     uiSettingsMixin,
@@ -290,7 +240,6 @@ export default {
       foldersQuery: {},
       showAddFoldersModal: false,
       showDeleteFoldersModal: false,
-      selectedConversations: [],
       selectedInboxes: [],
       isContextMenuOpen: false,
       appliedFilter: [],
@@ -298,6 +247,7 @@ export default {
         root: this.$refs.conversationList,
         rootMargin: '100px 0px 100px 0px',
       },
+      showCustomSnoozeModal: false,
 
       itemComponent: ConversationItem,
       // virtualListExtraProps is to pass the props to the conversationItem component.
@@ -331,12 +281,14 @@ export default {
       inboxesList: 'inboxes/getInboxes',
       campaigns: 'campaigns/getAllCampaigns',
       labels: 'labels/getLabels',
+      selectedConversations: 'bulkActions/getSelectedConversationIds',
+      contextMenuChatId: 'getContextMenuChatId',
     }),
     hasAppliedFilters() {
       return this.appliedFilters.length !== 0;
     },
     hasActiveFolders() {
-      return this.activeFolder && this.foldersId !== 0;
+      return Boolean(this.activeFolder && this.foldersId !== 0);
     },
     hasAppliedFiltersOrActiveFolders() {
       return this.hasAppliedFilters || this.hasActiveFolders;
@@ -560,6 +512,11 @@ export default {
     bus.$on('fetch_conversation_stats', () => {
       this.$store.dispatch('conversationStats/get', this.conversationFilters);
     });
+
+    bus.$on(CMD_SNOOZE_CONVERSATION, this.onCmdSnoozeConversation);
+  },
+  beforeDestroy() {
+    bus.$off(CMD_SNOOZE_CONVERSATION, this.onCmdSnoozeConversation);
   },
   methods: {
     updateVirtualListProps(key, value) {
@@ -688,29 +645,39 @@ export default {
         lastConversationIndex,
       };
     },
-    handleKeyEvents(e) {
-      if (hasPressedAltAndJKey(e)) {
-        const { allConversations, activeConversationIndex } =
-          this.getKeyboardListenerParams();
-        if (activeConversationIndex === -1) {
-          allConversations[0].click();
-        }
-        if (activeConversationIndex >= 1) {
-          allConversations[activeConversationIndex - 1].click();
-        }
+    handlePreviousConversation() {
+      const { allConversations, activeConversationIndex } =
+        this.getKeyboardListenerParams();
+      if (activeConversationIndex === -1) {
+        allConversations[0].click();
       }
-      if (hasPressedAltAndKKey(e)) {
-        const {
-          allConversations,
-          activeConversationIndex,
-          lastConversationIndex,
-        } = this.getKeyboardListenerParams();
-        if (activeConversationIndex === -1) {
-          allConversations[lastConversationIndex].click();
-        } else if (activeConversationIndex < lastConversationIndex) {
-          allConversations[activeConversationIndex + 1].click();
-        }
+      if (activeConversationIndex >= 1) {
+        allConversations[activeConversationIndex - 1].click();
       }
+    },
+    handleNextConversation() {
+      const {
+        allConversations,
+        activeConversationIndex,
+        lastConversationIndex,
+      } = this.getKeyboardListenerParams();
+      if (activeConversationIndex === -1) {
+        allConversations[lastConversationIndex].click();
+      } else if (activeConversationIndex < lastConversationIndex) {
+        allConversations[activeConversationIndex + 1].click();
+      }
+    },
+    getKeyboardEvents() {
+      return {
+        'Alt+KeyJ': {
+          action: () => this.handlePreviousConversation(),
+          allowOnFocusedInput: true,
+        },
+        'Alt+KeyK': {
+          action: () => this.handleNextConversation(),
+          allowOnFocusedInput: true,
+        },
+      };
     },
     resetAndFetchData() {
       this.appliedFilter = [];
@@ -791,7 +758,7 @@ export default {
       });
     },
     resetBulkActions() {
-      this.selectedConversations = [];
+      this.$store.dispatch('bulkActions/clearSelectedConversationIds');
       this.selectedInboxes = [];
     },
     onBasicFilterChange(value, type) {
@@ -822,12 +789,16 @@ export default {
       return this.selectedConversations.includes(id);
     },
     selectConversation(conversationId, inboxId) {
-      this.selectedConversations.push(conversationId);
+      this.$store.dispatch(
+        'bulkActions/setSelectedConversationIds',
+        conversationId
+      );
       this.selectedInboxes.push(inboxId);
     },
     deSelectConversation(conversationId, inboxId) {
-      this.selectedConversations = this.selectedConversations.filter(
-        item => item !== conversationId
+      this.$store.dispatch(
+        'bulkActions/removeSelectedConversationIds',
+        conversationId
       );
       this.selectedInboxes = this.selectedInboxes.filter(
         item => item !== inboxId
@@ -835,7 +806,10 @@ export default {
     },
     selectAllConversations(check) {
       if (check) {
-        this.selectedConversations = this.conversationList.map(item => item.id);
+        this.$store.dispatch(
+          'bulkActions/setSelectedConversationIds',
+          this.conversationList.map(item => item.id)
+        );
         this.selectedInboxes = this.conversationList.map(item => item.inbox_id);
       } else {
         this.resetBulkActions();
@@ -851,7 +825,7 @@ export default {
             assignee_id: agent.id,
           },
         });
-        this.selectedConversations = [];
+        this.$store.dispatch('bulkActions/clearSelectedConversationIds');
         if (conversationId) {
           this.showAlert(
             this.$t(
@@ -949,7 +923,7 @@ export default {
             add: labels,
           },
         });
-        this.selectedConversations = [];
+        this.$store.dispatch('bulkActions/clearSelectedConversationIds');
         if (conversationId) {
           this.showAlert(
             this.$t(
@@ -976,13 +950,13 @@ export default {
             team_id: team.id,
           },
         });
-        this.selectedConversations = [];
+        this.$store.dispatch('bulkActions/clearSelectedConversationIds');
         this.showAlert(this.$t('BULK_ACTION.TEAMS.ASSIGN_SUCCESFUL'));
       } catch (err) {
         this.showAlert(this.$t('BULK_ACTION.TEAMS.ASSIGN_FAILED'));
       }
     },
-    async onUpdateConversations(status) {
+    async onUpdateConversations(status, snoozedUntil) {
       try {
         await this.$store.dispatch('bulkActions/process', {
           type: 'Conversation',
@@ -990,8 +964,9 @@ export default {
           fields: {
             status,
           },
+          snoozed_until: snoozedUntil,
         });
-        this.selectedConversations = [];
+        this.$store.dispatch('bulkActions/clearSelectedConversationIds');
         this.showAlert(this.$t('BULK_ACTION.UPDATE.UPDATE_SUCCESFUL'));
       } catch (err) {
         this.showAlert(this.$t('BULK_ACTION.UPDATE.UPDATE_FAILED'));
@@ -1018,6 +993,43 @@ export default {
     onContextMenuToggle(state) {
       this.isContextMenuOpen = state;
     },
+    onCmdSnoozeConversation(snoozeType) {
+      if (snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME) {
+        this.showCustomSnoozeModal = true;
+      } else {
+        this.toggleStatus(
+          wootConstants.STATUS_TYPE.SNOOZED,
+          findSnoozeTime(snoozeType) || null
+        );
+      }
+    },
+    chooseSnoozeTime(customSnoozeTime) {
+      this.showCustomSnoozeModal = false;
+      if (customSnoozeTime) {
+        this.toggleStatus(
+          wootConstants.STATUS_TYPE.SNOOZED,
+          getUnixTime(customSnoozeTime)
+        );
+      }
+    },
+    toggleStatus(status, snoozedUntil) {
+      this.$store
+        .dispatch('toggleStatus', {
+          conversationId: this.currentChat?.id || this.contextMenuChatId,
+          status,
+          snoozedUntil,
+        })
+        .then(() => {
+          this.$store.dispatch('setContextMenuChatId', null);
+          this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
+        });
+    },
+    hideCustomSnoozeModal() {
+      // if we select custom snooze and then the custom snooze modal is open
+      // Then if the custom snooze modal is closed and set the context menu chat id to null
+      this.$store.dispatch('setContextMenuChatId', null);
+      this.showCustomSnoozeModal = false;
+    },
   },
 };
 </script>
@@ -1031,22 +1043,8 @@ export default {
 </style>
 
 <style scoped lang="scss">
-.conversations-list-wrap {
-  &.hide {
-    @apply hidden;
-  }
-
-  &.list--full-width {
-    @apply basis-full;
-  }
-}
-
 .conversations-list {
   @apply overflow-hidden hover:overflow-y-auto;
-}
-
-.load-more--button {
-  @apply text-center rounded-none;
 }
 
 .tab--chat-type {

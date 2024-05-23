@@ -1,0 +1,64 @@
+{
+  "INBOX": {
+    "LIST": {
+      "TITLE": "Вхідні",
+      "DISPLAY_DROPDOWN": "Відобразити",
+      "LOADING": "Завантаження сповіщень",
+      "404": "Немає активних сповіщень у цій групі.",
+      "NO_NOTIFICATIONS": "Немає сповіщень",
+      "NOTE": "Сповіщення від усіх підписок на вхідні повідомлення",
+      "NO_MESSAGES_AVAILABLE": "Ой! Не вдалося отримати повідомлення",
+      "SNOOZED_UNTIL": "Відкладено до",
+      "SNOOZED_UNTIL_TOMORROW": "Відкладено до завтра",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Відкладено до наступного тижня"
+    },
+    "ACTION_HEADER": {
+      "SNOOZE": "Відключити сповіщення",
+      "DELETE": "Видалити сповіщення",
+      "BACK": "Назад"
+    },
+    "TYPES": {
+      "CONVERSATION_MENTION": "Ви були згадані в розмові",
+      "CONVERSATION_CREATION": "Діалог створено",
+      "CONVERSATION_ASSIGNMENT": "Розмова була призначена для вас",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Нове повідомлення в призначеній розмові",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Нове повідомлення в розмові, в якій ви берете участь",
+      "SLA_MISSED_FIRST_RESPONSE": "Перша відповідь на SLA пропущена для розмови",
+      "SLA_MISSED_NEXT_RESPONSE": "Запропонована відповідь SLA відсутня для розмови",
+      "SLA_MISSED_RESOLUTION": "Цільова роздільна здатність SLA відсутня для розмови"
+    },
+    "MENU_ITEM": {
+      "MARK_AS_READ": "Позначити як прочитане",
+      "MARK_AS_UNREAD": "Позначити як непрочитане",
+      "SNOOZE": "Відкласти",
+      "DELETE": "Видалити",
+      "MARK_ALL_READ": "Позначити всі як прочитані",
+      "DELETE_ALL": "Видалити все",
+      "DELETE_ALL_READ": "Видалити всі прочитані"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Сортувати",
+      "DISPLAY": "Відобразити :",
+      "SORT_OPTIONS": {
+        "NEWEST": "Новіші",
+        "OLDEST": "Старіші",
+        "PRIORITY": "Пріоритет"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "Відкладено",
+        "READ": "Прочитано",
+        "LABELS": "Мітки",
+        "CONVERSATION_ID": "ID бесіди"
+      }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "Повідомлення помічено як прочитане",
+      "MARK_AS_UNREAD": "Повідомлення помічено як непрочитане",
+      "SNOOZE": "Сповіщення відключено",
+      "DELETE": "Сповіщення видалено",
+      "MARK_ALL_READ": "Повідомлення помічено як прочитане",
+      "DELETE_ALL": "Сповіщення видалено",
+      "DELETE_ALL_READ": "Всі прочитані повідомлення видалено"
+    }
+  }
+}

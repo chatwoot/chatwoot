@@ -1,23 +1,23 @@
 {
   "AUDIT_LOGS": {
-    "HEADER": "Dzienniki audytowe",
-    "HEADER_BTN_TXT": "Dodaj dziennik audytowy",
-    "LOADING": "Pobieranie dzienników audytowych...",
+    "HEADER": "Dzienniki Audytu",
+    "HEADER_BTN_TXT": "Dodaj Dzienniki Audytu",
+    "LOADING": "Pobieranie Dzienników Audytu",
     "SEARCH_404": "Brak elementów pasujących do tego zapytania",
-    "SIDEBAR_TXT": "<p><b>Dzienniki audytowe</b> </p><p>Dzienniki audytowe śledzą zdarzenia i działania w systemie Chatwoot.</p>",
+    "SIDEBAR_TXT": "<p><b>Dzienniki Audytu</b></p><p>Dzienniki Audytu to ślady działań i zdarzeń w systemie Chatwoot.</p>",
     "LIST": {
-      "404": "Nie ma dostępnych dzienników audytowych dla tego konta.",
-      "TITLE": "Zarządzaj dziennikami audytowymi",
-      "DESC": "Dziennik audytu śledzi zdarzenia i działania w systemie Chatwoot.",
+      "404": "Brak dostępnych Dzienników Audytu na tym koncie.",
+      "TITLE": "Zarządzaj Dziennikami Audytu",
+      "DESC": "Dzienniki Audytu to ślady działań i zdarzeń w systemie Chatwoot.",
       "TABLE_HEADER": [
-        "Użytkownik",
+        "Aktywność",
         "Akcja",
         "Adres IP"
       ]
     },
     "API": {
-      "SUCCESS_MESSAGE": "Dzienniki audytowe pomyślnie pobrane.",
-      "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot. Spróbuj ponownie później."
+      "SUCCESS_MESSAGE": "Dzienniki Audytu pobrane pomyślnie",
+      "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot, proszę spróbować później"
     },
     "DEFAULT_USER": "System",
     "AUTOMATION_RULE": {
@@ -52,17 +52,17 @@
       "DELETE": "%{agentName} usunął zespół (#%{id})"
     },
     "MACRO": {
-      "ADD": "%{agentName} dodał nową makroinstrukcję (#%{id})",
+      "ADD": "%{agentName} utworzył nowe makro (#%{id})",
       "EDIT": "%{agentName} zaktualizował makroinstrukcję (#%{id})",
       "DELETE": "%{agentName} usunął makroinstrukcję (#%{id})"
     },
     "INBOX_MEMBER": {
-      "ADD": "%{agentName} dodał %{user} do skrzynki odbiorczej (#%{inbox_id})",
-      "REMOVE": "%{agentName} usunął %{user} ze skrzynki odbiorczej (#%{inbox_id})"
+      "ADD": "%{agentName} dodał %{user} do skrzynki odbiorczej(#%{inbox_id})",
+      "REMOVE": "%{agentName} usunął %{user} ze skrzynki odbiorczej(#%{inbox_id})"
     },
     "TEAM_MEMBER": {
-      "ADD": "%{agentName} dodał %{user} do zespołu (#%{team_id})",
-      "REMOVE": "%{agentName} usunął %{user} z zespołu (#%{team_id})"
+      "ADD": "%{agentName} dodał %{user} do zespołu(#%{team_id})",
+      "REMOVE": "%{agentName} usunął %{user} z zespołu(#%{team_id})"
     },
     "ACCOUNT": {
       "EDIT": "%{agentName} zaktualizował konfigurację konta (#%{id})"

@@ -319,12 +319,13 @@
       "HEADERS": {
         "TITLE": "Pavadinimas",
         "CATEGORY": "Kategorija",
-        "READ_COUNT": "Peržiūrų skaičius",
+        "READ_COUNT": "Views",
         "STATUS": "Būsena",
         "LAST_EDITED": "Paskutinį kartą redaguota"
       },
       "COLUMNS": {
-        "BY": "pateikė"
+        "BY": "pateikė",
+        "AUTHOR_NOT_AVAILABLE": "Author is not available"
       }
     },
     "EDIT_ARTICLE": {

@@ -11,7 +11,7 @@ RSpec.describe Message do
   end
 
   describe 'length validations' do
-    let(:message) { create(:message) }
+    let!(:message) { create(:message) }
 
     context 'when it validates name length' do
       it 'valid when within limit' do
@@ -26,6 +26,17 @@ RSpec.describe Message do
 
         expect(message.errors[:processed_message_content]).to include('is too long (maximum is 150000 characters)')
         expect(message.errors[:content]).to include('is too long (maximum is 150000 characters)')
+      end
+
+      it 'adds error in case of message flooding' do
+        with_modified_env 'CONVERSATION_MESSAGE_PER_MINUTE_LIMIT': '2' do
+          conversation = message.conversation
+          create(:message, conversation: conversation)
+          conv_new_message = build(:message, conversation: message.conversation)
+
+          expect(conv_new_message.valid?).to be false
+          expect(conv_new_message.errors[:base]).to eq(['Too many messages'])
+        end
       end
     end
   end
@@ -96,7 +107,11 @@ RSpec.describe Message do
   end
 
   describe 'message create event' do
-    let(:conversation) { create(:conversation) }
+    let!(:conversation) { create(:conversation) }
+
+    before do
+      conversation.reload
+    end
 
     it 'updates the conversation first reply created at if it is the first outgoing message' do
       expect(conversation.first_reply_created_at).to be_nil

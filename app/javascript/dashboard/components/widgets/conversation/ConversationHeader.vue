@@ -1,13 +1,12 @@
 <template>
   <div
-    class="bg-white dark:bg-slate-900 flex justify-between items-center py-2 px-4 border-b border-slate-50 dark:border-slate-800/50 flex-col md:flex-row"
+    class="flex flex-col items-center justify-between px-4 py-2 bg-white border-b dark:bg-slate-900 border-slate-50 dark:border-slate-800/50 md:flex-row"
   >
     <div
-      class="flex-1 w-full min-w-0 flex flex-col md:flex-row items-center justify-center"
+      class="flex flex-col items-center justify-center flex-1 w-full min-w-0"
+      :class="isInboxView ? 'sm:flex-row' : 'md:flex-row'"
     >
-      <div
-        class="flex justify-start items-center mr-4 rtl:mr-0 rtl:ml-4 min-w-0 w-[inherit]"
-      >
+      <div class="flex items-center justify-start max-w-full min-w-0 w-fit">
         <back-button
           v-if="showBackButton"
           :back-url="backButtonUrl"
@@ -20,9 +19,11 @@
           :status="currentContact.availability_status"
         />
         <div
-          class="items-start flex flex-col ml-2 rtl:ml-0 rtl:mr-2 min-w-0 w-[inherit] overflow-hidden"
+          class="flex flex-col items-start min-w-0 ml-2 overflow-hidden rtl:ml-0 rtl:mr-2 w-fit"
         >
-          <div class="flex items-center flex-row gap-1 m-0 p-0 w-[inherit]">
+          <div
+            class="flex flex-row items-center max-w-full gap-1 p-0 m-0 w-fit"
+          >
             <woot-button
               variant="link"
               color-scheme="secondary"
@@ -30,7 +31,7 @@
               @click.prevent="$emit('contact-panel-toggle')"
             >
               <span
-                class="text-base leading-tight text-slate-900 dark:text-slate-100"
+                class="text-base font-medium leading-tight text-slate-900 dark:text-slate-100"
               >
                 {{ currentContact.name }}
               </span>
@@ -45,7 +46,7 @@
           </div>
 
           <div
-            class="conversation--header--actions items-center flex text-xs gap-2 text-ellipsis overflow-hidden whitespace-nowrap"
+            class="flex items-center gap-2 overflow-hidden text-xs conversation--header--actions text-ellipsis whitespace-nowrap"
           >
             <inbox-name v-if="hasMultipleInboxes" :inbox="inbox" />
             <span
@@ -66,28 +67,28 @@
         </div>
       </div>
       <div
-        class="header-actions-wrap items-center flex flex-row flex-grow justify-end mt-3 lg:mt-0 rtl:relative rtl:left-6"
+        class="flex flex-row items-center justify-end flex-grow gap-2 mt-3 header-actions-wrap lg:mt-0"
         :class="{ 'justify-end': isContactPanelOpen }"
       >
+        <SLA-card-label v-if="hasSlaPolicyId" :chat="chat" show-extended-info />
         <more-actions :conversation-id="currentChat.id" />
       </div>
     </div>
   </div>
 </template>
 <script>
-import { hasPressedAltAndOKey } from 'shared/helpers/KeyboardHelpers';
 import { mapGetters } from 'vuex';
 import agentMixin from '../../../mixins/agentMixin.js';
 import BackButton from '../BackButton.vue';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import InboxName from '../InboxName.vue';
 import MoreActions from './MoreActions.vue';
 import Thumbnail from '../Thumbnail.vue';
+import SLACardLabel from './components/SLACardLabel.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
-import { frontendURL } from 'dashboard/helper/URLHelper';
 
 export default {
   components: {
@@ -95,8 +96,9 @@ export default {
     InboxName,
     MoreActions,
     Thumbnail,
+    SLACardLabel,
   },
-  mixins: [inboxMixin, agentMixin, eventListenerMixins],
+  mixins: [inboxMixin, agentMixin, keyboardEventListenerMixins],
   props: {
     chat: {
       type: Object,
@@ -128,9 +130,6 @@ export default {
         params: { accountId, inbox_id: inboxId, label, teamId },
         name,
       } = this.$route;
-      if (this.isInboxView) {
-        return frontendURL(`accounts/${accountId}/inbox`);
-      }
       return conversationListPageURL({
         accountId,
         inboxId,
@@ -176,13 +175,18 @@ export default {
     hasMultipleInboxes() {
       return this.$store.getters['inboxes/getInboxes'].length > 1;
     },
+    hasSlaPolicyId() {
+      return this.chat?.sla_policy_id;
+    },
   },
 
   methods: {
-    handleKeyEvents(e) {
-      if (hasPressedAltAndOKey(e)) {
-        this.$emit('contact-panel-toggle');
-      }
+    getKeyboardEvents() {
+      return {
+        'Alt+KeyO': {
+          action: () => this.$emit('contact-panel-toggle'),
+        },
+      };
     },
   },
 };

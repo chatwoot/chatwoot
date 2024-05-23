@@ -22,7 +22,7 @@
         "body": "Lisää edustajia luotuun saapuneet-kansioon."
       },
       {
-        "title": "Noniin!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "Kaikki valmiina!"
       }
@@ -43,7 +43,7 @@
         "CHOOSE_PLACEHOLDER": "Valitse sivu listasta",
         "INBOX_NAME": "Kansion nimi",
         "ADD_NAME": "Lisää kansiolle nimi",
-        "PICK_NAME": "Valitse kansion nimi",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "Valitse arvo"
       },
       "TWITTER": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhookin URL",
-          "PLACEHOLDER": "Enter your Webhook URL",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Anna kelvollinen URL-osoite"
         },
         "CHANNEL_DOMAIN": {
@@ -175,12 +175,12 @@
           },
           "API_KEY": {
             "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "Tämä kenttä on pakollinen"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "Tämä kenttä on pakollinen"
           },
           "APPLICATION_ID": {
@@ -239,7 +239,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Please enter a valid value."
         },
         "API_KEY": {
@@ -269,7 +269,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhookin URL",
-          "SUBTITLE": "Määritä URL-osoite, johon haluat vastaanottaa callbackin tapahtumista.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "Webhook-URL"
         },
         "SUBMIT_BUTTON": "Luo API-kanava",
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Sähköpostikanava",
-        "DESC": "Integroi sähköpostisi saapuneet-kansioon.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Kanavan nimi",
           "PLACEHOLDER": "Ole hyvä ja anna kanavan nimi",
@@ -345,7 +345,7 @@
       "AGENTS": {
         "TITLE": "Edustajat",
         "DESC": "Täällä voit lisätä edustajia hallitsemaan juuri luotua saapuneet-kansiota. Vain näillä valituilla edustajilla on pääsy tähän saapuneet-kansioon. Edustajat, jotka eivät kuulu tähän saapuneet-kansioon, eivät pysty näkemään tai vastaamaan viesteihin tässä saapuneet-kansiossa, kun he kirjautuvat. <br> <b>PS:</b> Jos tarvitset ylläpitäjänä pääsyn kaikkiin saapuneisiin, sinun pitäisi lisätä itsesi edustajaksi kaikkiin laatikoihin, jotka luot.",
-        "VALIDATION_ERROR": "Lisää vähintään yksi edustaja postilaatikolle",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Valitse edustajat postilaatikolle"
       },
       "DETAILS": {
@@ -406,7 +406,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Friendly",
@@ -508,12 +508,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API Key",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Päivitä",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verify Token",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
@@ -569,7 +569,7 @@
       "UPDATE": "Update business hours settings",
       "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
       "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Enable availability for this day",
         "UNAVAILABLE": "Unavailable",
@@ -585,7 +585,7 @@
       "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Update IMAP settings",
       "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "IMAP settings updated successfully",
         "ERROR_MESSAGE": "Unable to update IMAP settings"

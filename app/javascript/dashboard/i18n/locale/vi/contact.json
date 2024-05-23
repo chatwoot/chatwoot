@@ -39,16 +39,17 @@
     },
     "MERGE_CONTACT": "Hợp nhất liên hệ",
     "CONTACT_ACTIONS": "Hành động với liên hệ",
-    "MUTE_CONTACT": "Tắt tiếng cuộc trò chuyện",
-    "UNMUTE_CONTACT": "Bật tiếng cuộc trò chuyện",
-    "MUTED_SUCCESS": "Cuộc trò chuyện này bị tắt tiếng trong 6 giờ",
-    "UNMUTED_SUCCESS": "Cuộc trò chuyện này được bật tiếng",
+    "MUTE_CONTACT": "Block Contact",
+    "UNMUTE_CONTACT": "Unblock Contact",
+    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
+    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
     "SEND_TRANSCRIPT": "Gửi bản ghi",
     "EDIT_LABEL": "Chỉnh sửa",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Thuộc tính tùy chỉnh",
       "CONTACT_LABELS": "Nhãn danh bạ",
-      "PREVIOUS_CONVERSATIONS": "Cuộc trò chuyện trước đó"
+      "PREVIOUS_CONVERSATIONS": "Cuộc trò chuyện trước đó",
+      "NO_RECORDS_FOUND": "Không có thuộc tính nào được tìm thấy"
     }
   },
   "EDIT_CONTACT": {
@@ -79,7 +80,14 @@
     "TITLE": "Export Contacts",
     "DESC": "Export contacts to a CSV file.",
     "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
+    "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại",
+    "CONFIRM": {
+      "TITLE": "Export Contacts",
+      "MESSAGE": "Are you sure you want to export all contacts?",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
+      "YES": "Yes, Export",
+      "NO": "No, Cancel"
+    }
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -290,6 +298,8 @@
     "BUTTON": "Thêm thuộc tính tùy chỉnh",
     "NOT_AVAILABLE": "Không có thuộc tính tuỳ chỉnh nào có sẵn cho liên hệ này.",
     "COPY_SUCCESSFUL": "Đã sao chép mã thành công",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Sao chép thuộc tính",
       "DELETE": "Xoá thuộc tính",
@@ -339,7 +349,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Giá trị hợp lệ bắt buộc có",
-      "INVALID_URL": "URL không hợp lệ"
+      "INVALID_URL": "URL không hợp lệ",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {

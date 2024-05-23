@@ -31,6 +31,7 @@ uk:
       disposable_email: Ми не дозволяємо використувати одноразові адреси електронної пошти
       invalid_email: Ви ввели неправильну адресу електронної пошти
       email_already_exists: "Ви вже зареєстровані з адресою %{email}"
+      invalid_params: 'Неправильно, будь ласка, перевірте параметри реєстрації та повторіть спробу'
       failed: Помилка реєстрації
     data_import:
       data_type:
@@ -39,7 +40,7 @@ uk:
       import:
         failed: Файл порожній
       export:
-        success: We will notify you once contacts export file is ready to view.
+        success: Ми повідомимо Вас, коли файл експорту контактів буде готовий до перегляду.
       email:
         invalid: Невірний email
       phone_number:
@@ -50,7 +51,7 @@ uk:
     dyte:
       invalid_message_type: "Невірний тип повідомлення. Дію не дозволено"
     slack:
-      invalid_channel_id: "Invalid slack channel. Please try again"
+      invalid_channel_id: "Недійсний канал slack. Будь ласка, спробуйте ще раз"
     inboxes:
       imap:
         socket_error: Перевірте підключення до мережі, адреса IMAP і повторіть спробу.
@@ -61,33 +62,49 @@ uk:
       validations:
         name: не повинно починатись або закінчуватися символами, і він не повинен мати < > / \ @ символів.
     custom_filters:
-      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
+      number_of_records: Досягнуто ліміту. Максимальна кількість дозволених користувацьких фільтрів для користувача на рахунок становить 50.
+      invalid_attribute: Некоректний ключ атрибута - [%{key}]. Ключ повинен бути одним з [%{allowed_keys}] або налаштованим атрибутом, визначеним в обліковому записі.
+      invalid_operator: Некоректний оператор. Дозволені оператори для %{attribute_name} є [%{allowed_keys}].
+      invalid_value: Невірне значення. Надані значення для %{attribute_name} є неприпустимі
   reports:
     period: Період звіту %{since} до %{until}
     utc_warning: Звіт створено в часовій зоні UTC
     agent_csv:
       agent_name: Ім'я агента
-      conversations_count: Кількість бесід
-      avg_first_response_time: Середній час першої відповіді (Хвилин)
-      avg_resolution_time: Середній час вирішення (Хвилин)
+      conversations_count: Призначені розмови
+      avg_first_response_time: Середній час першої відповіді
+      avg_resolution_time: Середній час вирішення
+      resolution_count: Кількість вирішень
+      avg_customer_waiting_time: Avg customer waiting time
     inbox_csv:
       inbox_name: Назва Джерела
       inbox_type: Тип Джерела
       conversations_count: '№ розмов'
-      avg_first_response_time: Середній час першої відповіді (Хвилин)
-      avg_resolution_time: Середній час вирішення (Хвилин)
+      avg_first_response_time: Середній час першої відповіді
+      avg_resolution_time: Середній час вирішення
     label_csv:
       label_title: Мітка
       conversations_count: '№ розмов'
-      avg_first_response_time: Середній час першої відповіді (Хвилин)
-      avg_resolution_time: Середній час вирішення (Хвилин)
+      avg_first_response_time: Середній час першої відповіді
+      avg_resolution_time: Середній час вирішення
     team_csv:
       team_name: Назва команди
       conversations_count: Кількість бесід
-      avg_first_response_time: Середній час першої відповіді (Хвилин)
-      avg_resolution_time: Середній час вирішення (Хвилин)
+      avg_first_response_time: Середній час першої відповіді
+      avg_resolution_time: Середній час вирішення
+      resolution_count: Кількість вирішень
+      avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Timezone
+    sla_csv:
+      conversation_id: ID бесіди
+      sla_policy_breached: Політика SLA
+      assignee: Assignee
+      team: Команда
+      inbox: Вхідні
+      labels: Мітки
+      conversation_link: Посилання на бесіду
+      breached_events: Breached Events
     default_group_by: день
     csat:
       headers:
@@ -101,17 +118,22 @@ uk:
         recorded_at: Дата запису
   notifications:
     notification_title:
-      conversation_creation: "[Новий діалог] - #%{display_id} було створено в %{inbox_name}"
-      conversation_assignment: "[Призначено вам] - #%{display_id} було призначено вам"
-      assigned_conversation_new_message: "[Нове повідомлення] - #%{display_id} %{content}"
-      conversation_mention: "Ви були згадані в діалозі [ID - %{display_id}] від %{name}"
+      conversation_creation: "Розмова (#%{display_id}) була створена в %{inbox_name}"
+      conversation_assignment: "Розмова (#%{display_id}) була призначена вам"
+      assigned_conversation_new_message: "Нове повідомлення створено в розмові (#%{display_id})"
+      conversation_mention: "Ви були згадані в розмові (#%{display_id})"
+      sla_missed_first_response: "Перша відповідь на SLA пропущена для розмови (#%{display_id})"
+      sla_missed_next_response: "Наступна відповідь SLA пропущена для розмови (#%{display_id})"
+      sla_missed_resolution: "Дозвіл SLA пропущений для розмови (#%{display_id})"
+    attachment: "Вкладення"
+    no_content: "Немає вмісту"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} згадав вас у сторіс: "
       instagram_deleted_story_content: Ця історія більше не доступна.
       deleted: Це повідомлення було видалено
       delivery_status:
-        error_code: "Error code: %{error_code}"
+        error_code: "Код помилки: %{error_code}"
     activity:
       status:
         resolved: "Розмова була відмічена як вирішена %{user_name}"
@@ -136,6 +158,9 @@ uk:
       labels:
         added: "%{user_name} додав %{labels}"
         removed: "%{user_name} видалив %{labels}"
+      sla:
+        added: "%{user_name} додав політику SLA %{sla_name}"
+        removed: "%{user_name} видалив політику SLA %{sla_name}"
       muted: "%{user_name} включив безвучний режим"
       unmuted: "%{user_name} виключив безвучний режим"
     templates:
@@ -170,17 +195,17 @@ uk:
       name: "Slack"
       description: "Slack - це інструмент чату, який об'єднує ваші комунікації разом в одному місці. Інтегруючи Slack, ви можете отримати повідомлення про всі нові діалоги у вашому обліковому записі прямо в Slack."
     webhooks:
-      name: "Веб-хук"
-      description: "Вебхуки автоматично повідомляють про те, що відбувається у вашому обліковому записі Chatwoot. Ви можете скористатись веб-хуками для обміну подіями з вашими улюбленими додатками, такими як Slack чи Github. Натисніть на Налаштування, щоб налаштувати web-хуки."
+      name: "Веб-хуки"
+      description: "Веб-хуки автоматично повідомляють про те, що відбувається у вашому обліковому записі Chatwoot. Ви можете скористатись веб-хуками для обміну подіями з вашими улюбленими додатками, такими як Slack чи Github. Натисніть на Налаштування, щоб налаштувати веб-хуки."
     dialogflow:
       name: "Dialogflow"
-      description: "Створюйте чатів з допомогою Dialogflow та швидко під'єднайте їх до вхідних каналів. Дозвольте ботам обробляти запити перед передачею їх агенту."
+      description: "Створюйте чати з допомогою Dialogflow та швидко під'єднайте їх до вхідних каналів. Дозвольте ботам обробляти запити перед передачею їх агенту."
     fullcontact:
       name: "Fullcontact"
-      description: "Інтеграція FullContact допомагає збагачувати профілі відвідувачів. Визначте користувачів, як тільки вони поділяться адресою електронної пошти та пропонують їм адаптовану службу клієнтів. Під'єднайте ваш FullContact до вашого аккаунту, поділившись ключем FullContact API."
+      description: "Інтеграція FullContact допомагає збагачувати профілі відвідувачів. Визначайте користувачів, як тільки вони поділяться адресою електронної пошти та пропонуйте їм адаптовану службу клієнтів. Під'єднайте ваш FullContact до вашого акаунту, поділившись ключем FullContact API."
     google_translate:
       name: "Google Translate"
-      description: "Зробіть простішим життя агентів перекладаючи повідомлення за допомогою Google Translate. Google Translate сам ідентифікує та перекладає у обрану дміністратором чи агентом мову."
+      description: "Зробіть простішим життя агентів перекладаючи повідомлення за допомогою Google Translate. Google Translate сам ідентифікує та перекладає на обрану адміністратором чи агентом мову."
     openai:
       name: "OpenAI"
       description: "Інтегруйте потужні AI функції в Chatwoot, використовуючи моделі GPT з OpenAI."
@@ -190,41 +215,62 @@ uk:
       empty_placeholder: Результатів не знайдено.
       loading_placeholder: Шукаємо...
       results_title: Результати пошуку
-    toc_header: 'On this page'
+    toc_header: 'На цій сторінці'
     hero:
       sub_title: Шукайте тут або перегляньте категорії нижче.
     common:
       home: Головна
       last_updated_on: Востаннє оновлено %{last_updated_on}
-      view_all_articles: View all
+      view_all_articles: Переглянути все
       article: статті
       articles: статті
       author: автор
-      authors: authors
-      other: other
-      others: others
-      by: By
+      authors: автори
+      other: інше
+      others: інші
+      by: Від
       no_articles: Тут немає статей
     footer:
       made_with: Зроблено з
     header:
-      go_to_homepage: Website
+      go_to_homepage: Вебсайт
       appearance:
-        system: System
-        light: Light
-        dark: Dark
-      featured_articles: Featured Articles
-      uncategorized: Uncategorized
+        system: Системна
+        light: Світла
+        dark: Темна
+      featured_articles: Вибрані статті
+      uncategorized: Без категорії
     404:
-      title: Page not found
-      description: We couldn't find the page you were looking for.
-      back_to_home: Go to home page
+      title: Сторінку не знайдено
+      description: Ми не змогли знайти сторінку, яку Ви шукали.
+      back_to_home: Перейти на головну сторінку
   slack_unfurl:
     fields:
       name: Ім'я
       email: Email
-      phone_number: Phone
+      phone_number: Телефон
       company_name: Організація
       inbox_name: Вхідні
-      inbox_type: Inbox Type
+      inbox_type: Тип Джерела
     button: Відкрити розмову
+  time_units:
+    days:
+      one: "%{count} день(ів)"
+      few: "%{count} days"
+      many: "%{count} днів"
+      other: "%{count} days"
+    hours:
+      one: "%{count} годин(а)"
+      few: "%{count} hours"
+      many: "%{count} годин"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} хвилин(а)"
+      few: "%{count} minutes"
+      many: "%{count} хвилин"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} секунд(a)"
+      few: "%{count} секунд"
+      many: "%{count} секунд"
+      other: "%{count} seconds"

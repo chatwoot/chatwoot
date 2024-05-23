@@ -87,7 +87,10 @@
       "conversation_assignment": "Beszélgetés hozzárendelve",
       "assigned_conversation_new_message": "Új üzenet",
       "participating_conversation_new_message": "Új üzenet",
-      "conversation_mention": "Megemlítés"
+      "conversation_mention": "Megemlítés",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
@@ -104,6 +107,7 @@
       "GENERAL": "Általános",
       "REPORTS": "Jelentések",
       "CONVERSATION": "Beszélgetés",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Felelős megváltoztatása",
       "CHANGE_PRIORITY": "Prioritás megváltoztatása",
       "CHANGE_TEAM": "Csapat megváltoztatása",
@@ -112,7 +116,8 @@
       "REMOVE_LABEL": "Címke eltávolítása a beszélgetésről",
       "SETTINGS": "Beállítások",
       "AI_ASSIST": "AI segítség",
-      "APPEARANCE": "Megjelenés"
+      "APPEARANCE": "Megjelenés",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Ugrás a beszélgetések kezdőoldalára",
@@ -153,7 +158,8 @@
       "CHANGE_APPEARANCE": "Megjelenés módosítása",
       "LIGHT_MODE": "Világos mód",
       "DARK_MODE": "Sötét mód",
-      "SYSTEM_MODE": "Rendszer"
+      "SYSTEM_MODE": "Rendszer",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     }
   },
   "DASHBOARD_APPS": {

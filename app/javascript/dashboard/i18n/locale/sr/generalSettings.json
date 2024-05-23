@@ -87,7 +87,10 @@
       "conversation_assignment": "Dodeljen razgovoru",
       "assigned_conversation_new_message": "Nova poruka",
       "participating_conversation_new_message": "Nova poruka",
-      "conversation_mention": "Pominjanje"
+      "conversation_mention": "Pominjanje",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
@@ -104,6 +107,7 @@
       "GENERAL": "Opšta",
       "REPORTS": "Izveštaji",
       "CONVERSATION": "Razgovor",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Promeni dodeljenog",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Promeni tim",
@@ -112,7 +116,8 @@
       "REMOVE_LABEL": "Ukloni oznaku sa razgovora",
       "SETTINGS": "Podešavanja",
       "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance"
+      "APPEARANCE": "Appearance",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Idi na radnu tablu razgovora",
@@ -153,7 +158,8 @@
       "CHANGE_APPEARANCE": "Change Appearance",
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "System"
+      "SYSTEM_MODE": "System",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     }
   },
   "DASHBOARD_APPS": {

@@ -25,10 +25,10 @@ as well as a link to its edit page.
 
   <div>
     <%= link_to(
-      t("administrate.actions.edit_resource", name: page.page_title),
-      [:edit, namespace, page.resource],
-      class: "button",
-    ) if accessible_action?(:edit, page.resource) %>
+            t("administrate.actions.edit"),
+            [:edit, namespace,  page.resource.becomes(User)],
+            class: "button",
+          ) if authorized_action? page.resource, :edit %>
   </div>
 </header>
 

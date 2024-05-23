@@ -248,7 +248,7 @@ export default {
 }
 
 .label {
-  @apply bg-woot-50 dark:bg-woot-600 text-woot-700 dark:text-woot-100 text-xs;
+  @apply bg-woot-50 dark:bg-woot-600 text-woot-700 dark:text-woot-100 text-xs inline-block px-2 py-1 rounded-sm cursor-default whitespace-nowrap;
 }
 
 .date-error {

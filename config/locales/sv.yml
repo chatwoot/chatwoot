@@ -31,6 +31,7 @@ sv:
       disposable_email: Vi tillåter inte engångsadresser
       invalid_email: Du har angett en ogiltig e-postadress
       email_already_exists: "Du har redan registrerat dig för ett konto med %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Registrering misslyckades
     data_import:
       data_type:
@@ -62,32 +63,48 @@ sv:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
     custom_filters:
       number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
+      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
+      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
+      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
   reports:
     period: Rapporteringsperiod %{since} till %{until}
     utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Agent name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      resolution_count: Antal lösta
+      avg_customer_waiting_time: Avg customer waiting time
     inbox_csv:
       inbox_name: Inbox name
       inbox_type: Inbox type
       conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     label_csv:
       label_title: Label
       conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     team_csv:
       team_name: Team name
       conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      resolution_count: Antal lösta
+      avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Timezone
+    sla_csv:
+      conversation_id: Conversation ID
+      sla_policy_breached: SLA Policy
+      assignee: Assignee
+      team: Team
+      inbox: Inkorg
+      labels: Etiketter
+      conversation_link: Link to the Conversation
+      breached_events: Breached Events
     default_group_by: day
     csat:
       headers:
@@ -101,10 +118,15 @@ sv:
         recorded_at: Recorded date
   notifications:
     notification_title:
-      conversation_creation: "[Ny konversation] - #%{display_id} har skapats i %{inbox_name}"
-      conversation_assignment: "[Tilldelad dig] - #%{display_id} har tilldelats dig"
-      assigned_conversation_new_message: "[Nytt meddelande] - #%{display_id} %{content}"
-      conversation_mention: "Du har nämnts i konversationen [ID - %{display_id}] av %{name}"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
+      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
+      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
+    attachment: "Bilaga"
+    no_content: "Inget innehåll"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} mentioned you in the story: "
@@ -136,6 +158,9 @@ sv:
       labels:
         added: "%{user_name} har lagt till %{labels}"
         removed: "%{user_name} tog bort %{labels}"
+      sla:
+        added: "%{user_name} added SLA policy %{sla_name}"
+        removed: "%{user_name} removed SLA policy %{sla_name}"
       muted: "%{user_name} har tystat konversationen"
       unmuted: "%{user_name} har avtystat konversationen"
     templates:
@@ -228,3 +253,16 @@ sv:
       inbox_name: Inkorg
       inbox_type: Typ av inkorg
     button: Öppna konversation
+  time_units:
+    days:
+      one: "%{count} day"
+      other: "%{count} days"
+    hours:
+      one: "%{count} hour"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minute"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} second"
+      other: "%{count} seconds"

@@ -31,6 +31,7 @@ fr:
       disposable_email: Nous n'autorisons pas les courriels jetables
       invalid_email: Vous avez entré un courriel non valide
       email_already_exists: "Vous avez déjà créé un compte avec %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: L'inscription a échoué
     data_import:
       data_type:
@@ -62,32 +63,48 @@ fr:
         name: 'ne doit pas commencer ou se terminer par des symboles, et ne doit pas comporter les caractères suivants : "< > / \ @".'
     custom_filters:
       number_of_records: Limite atteinte. Le nombre maximum de filtres personnalisés autorisés pour un utilisateur par compte est de 50.
+      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
+      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
+      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
   reports:
     period: Période de rapport %{since} à %{until}
     utc_warning: Le rapport généré est dans le fuseau horaire UTC
     agent_csv:
       agent_name: Nom de l'agent
-      conversations_count: Nombre de conversations
-      avg_first_response_time: Temps de réponse moyen (Minutes)
-      avg_resolution_time: Temps moyen de résolution (Minutes)
+      conversations_count: Conversations assignées
+      avg_first_response_time: Temps moyen pour une première réponse
+      avg_resolution_time: Temps nécessaire pour résoudre une demande (en moyenne)
+      resolution_count: Nombre de résolutions
+      avg_customer_waiting_time: Avg customer waiting time
     inbox_csv:
       inbox_name: Nom de la boîte de réception
       inbox_type: Type de boîte de réception
       conversations_count: Nbre de conversations
-      avg_first_response_time: Temps de réponse moyen (Minutes)
-      avg_resolution_time: Temps moyen de résolution (Minutes)
+      avg_first_response_time: Temps moyen pour une première réponse
+      avg_resolution_time: Temps nécessaire pour résoudre une demande (en moyenne)
     label_csv:
       label_title: Libellé
       conversations_count: Nbre de conversations
-      avg_first_response_time: Temps de réponse moyen (Minutes)
-      avg_resolution_time: Temps moyen de résolution (Minutes)
+      avg_first_response_time: Temps moyen pour une première réponse
+      avg_resolution_time: Temps nécessaire pour résoudre une demande (en moyenne)
     team_csv:
       team_name: Nom de l'équipe
       conversations_count: Nombre de conversations
-      avg_first_response_time: Temps de réponse moyen (Minutes)
-      avg_resolution_time: Temps moyen de résolution (Minutes)
+      avg_first_response_time: Temps moyen pour une première réponse
+      avg_resolution_time: Temps nécessaire pour résoudre une demande (en moyenne)
+      resolution_count: Nombre de résolutions
+      avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Fuseau horaire
+    sla_csv:
+      conversation_id: Conversation ID
+      sla_policy_breached: SLA Policy
+      assignee: Assignee
+      team: Équipes
+      inbox: Boîte de réception
+      labels: Étiquettes
+      conversation_link: Link to the Conversation
+      breached_events: Breached Events
     default_group_by: jour
     csat:
       headers:
@@ -101,10 +118,15 @@ fr:
         recorded_at: Date d'enregistrement
   notifications:
     notification_title:
-      conversation_creation: "[Nouvelle conversation] - #%{display_id} a été créé dans %{inbox_name}"
-      conversation_assignment: "[Vous a été assigné] - #%{display_id} vous a été assigné"
-      assigned_conversation_new_message: "[Nouveau message] - #%{display_id} %{content}"
-      conversation_mention: "Vous avez été mentionné dans la conversation [ID - %{display_id}] par %{name}"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
+      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
+      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} vous a mentionné dans la story: "
@@ -136,6 +158,9 @@ fr:
       labels:
         added: "%{user_name} a ajouté %{labels}"
         removed: "%{user_name} a supprimé %{labels}"
+      sla:
+        added: "%{user_name} added SLA policy %{sla_name}"
+        removed: "%{user_name} removed SLA policy %{sla_name}"
       muted: "%{user_name} a mis la conversation en sourdine"
       unmuted: "%{user_name} a rétabli le son de la conversation"
     templates:
@@ -228,3 +253,16 @@ fr:
       inbox_name: Boîte de réception
       inbox_type: Type de boîte de réception
     button: Ouvrir la conversation
+  time_units:
+    days:
+      one: "%{count} jour"
+      other: "%{count} days"
+    hours:
+      one: "%{count} heure"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minute"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} seconde"
+      other: "%{count} seconds"

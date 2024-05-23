@@ -1,5 +1,7 @@
 <template>
-  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%] h-auto">
+  <div
+    class="flex-grow-0 flex-shrink-0 w-full h-full max-w-full px-6 pt-3 pb-6 bg-white border border-transparent border-solid dark:bg-slate-900 dark:border-transparent"
+  >
     <empty-state
       :title="$t('HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.FINISH_PAGE.TITLE')"
       :message="
@@ -8,7 +10,7 @@
     >
       <div class="w-full text-center">
         <router-link
-          class="button success nice"
+          class="rounded button success nice"
           :to="{
             name: 'list_all_portals',
           }"
@@ -20,23 +22,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
-export default {
-  components: {
-    EmptyState,
-  },
-  methods: {
-    changeRoute() {
-      this.$router.push({
-        name: 'list_all_portals',
-      });
-    },
-  },
-};
+import { defineComponent } from 'vue';
+defineComponent({
+  name: 'PortalSettingsFinish',
+});
 </script>
-<style lang="scss" scoped>
-.wizard-body {
-  @apply pb-3;
-}
-</style>

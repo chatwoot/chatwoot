@@ -1,0 +1,64 @@
+{
+  "INBOX": {
+    "LIST": {
+      "TITLE": "Boîte de réception",
+      "DISPLAY_DROPDOWN": "Display",
+      "LOADING": "Chargement des notifications",
+      "404": "Il n'y a aucune notification active dans ce groupe.",
+      "NO_NOTIFICATIONS": "Aucune notification",
+      "NOTE": "Notifications from all subscribed inboxes",
+      "NO_MESSAGES_AVAILABLE": "Oops! Not able to fetch messages",
+      "SNOOZED_UNTIL": "Reporter jusqu'à",
+      "SNOOZED_UNTIL_TOMORROW": "Reporté jusqu'à demain",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Reporté jusqu'à la semaine prochaine"
+    },
+    "ACTION_HEADER": {
+      "SNOOZE": "Snooze notification",
+      "DELETE": "Supprimer la notification",
+      "BACK": "Précédent"
+    },
+    "TYPES": {
+      "CONVERSATION_MENTION": "Vous avez été cité dans une conversation",
+      "CONVERSATION_CREATION": "Nouvelle conversation créée",
+      "CONVERSATION_ASSIGNMENT": "Une conversation vous a été attribuée",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nouveau message dans une conversation attribuée",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Nouveau message dans une conversation à laquelle vous participez",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA target first response missed for conversation",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA target next response missed for conversation",
+      "SLA_MISSED_RESOLUTION": "SLA target resolution missed for conversation"
+    },
+    "MENU_ITEM": {
+      "MARK_AS_READ": "Marquer comme lu",
+      "MARK_AS_UNREAD": "Marquer comme non lu",
+      "SNOOZE": "Reporter",
+      "DELETE": "Supprimer",
+      "MARK_ALL_READ": "Tout marquer comme lu",
+      "DELETE_ALL": "Tout supprimer",
+      "DELETE_ALL_READ": "Delete all read"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Trier",
+      "DISPLAY": "Display :",
+      "SORT_OPTIONS": {
+        "NEWEST": "Newest",
+        "OLDEST": "Oldest",
+        "PRIORITY": "Priorité"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "Reporté",
+        "READ": "Lu",
+        "LABELS": "Étiquettes",
+        "CONVERSATION_ID": "Conversation ID"
+      }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "Notification marquée comme lue",
+      "MARK_AS_UNREAD": "Notification marquée comme non lue",
+      "SNOOZE": "Notification en veille",
+      "DELETE": "Notification supprimée",
+      "MARK_ALL_READ": "Toutes les notifications sont marquées comme lues",
+      "DELETE_ALL": "Toutes les notifications sont supprimées",
+      "DELETE_ALL_READ": "Toutes les notifications lues ont été supprimées"
+    }
+  }
+}

@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-row gap-4">
-    <div class="w-[60%]">
+    <div class="w-full lg:w-3/5">
       <table v-if="hasConnectedHooks" class="woot-table">
         <thead>
           <th v-for="hookHeader in hookHeaders" :key="hookHeader">
@@ -22,7 +22,7 @@
             <td v-if="isHookTypeInbox" class="break-words">
               {{ inboxName(hook) }}
             </td>
-            <td class="button-wrapper">
+            <td class="flex justify-end gap-1">
               <woot-button
                 v-tooltip.top="$t('INTEGRATION_APPS.LIST.DELETE.BUTTON_TEXT')"
                 variant="smooth"
@@ -36,7 +36,7 @@
           </tr>
         </tbody>
       </table>
-      <p v-else class="flex h-full items-center flex-col justify-center">
+      <p v-else class="flex flex-col items-center justify-center h-full">
         {{
           $t('INTEGRATION_APPS.NO_HOOK_CONFIGURED', {
             integrationId: integration.id,
@@ -44,7 +44,7 @@
         }}
       </p>
     </div>
-    <div class="w-[34%]">
+    <div class="hidden w-1/3 lg:block">
       <p>
         <b>{{ integration.name }}</b>
       </p>

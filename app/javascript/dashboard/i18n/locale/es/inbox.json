@@ -1,0 +1,64 @@
+{
+  "INBOX": {
+    "LIST": {
+      "TITLE": "Bandeja de entrada",
+      "DISPLAY_DROPDOWN": "Mostrar",
+      "LOADING": "Cargando notificaciones",
+      "404": "No hay notificaciones activas en este grupo.",
+      "NO_NOTIFICATIONS": "Sin notificaciones",
+      "NOTE": "Notificaciones de todas las entradas suscritas",
+      "NO_MESSAGES_AVAILABLE": "¡Ups! No se pueden obtener mensajes",
+      "SNOOZED_UNTIL": "Posponer hasta",
+      "SNOOZED_UNTIL_TOMORROW": "Pospuesto hasta mañana",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Pospuesto hasta la próxima semana"
+    },
+    "ACTION_HEADER": {
+      "SNOOZE": "Posponer notificación",
+      "DELETE": "Borrar notificación",
+      "BACK": "Atrás"
+    },
+    "TYPES": {
+      "CONVERSATION_MENTION": "Has sido mencionado en una conversación",
+      "CONVERSATION_CREATION": "Nueva conversación creada",
+      "CONVERSATION_ASSIGNMENT": "Se te ha asignado una conversación",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nuevo mensaje en una conversación asignada",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Nuevo mensaje en una conversación en la que estás participando",
+      "SLA_MISSED_FIRST_RESPONSE": "Falta la siguiente respuesta del SLA para la conversación",
+      "SLA_MISSED_NEXT_RESPONSE": "Falta la siguiente respuesta del SLA para la conversación",
+      "SLA_MISSED_RESOLUTION": "Falta la siguiente respuesta del SLA para la conversación"
+    },
+    "MENU_ITEM": {
+      "MARK_AS_READ": "Marcar como leído",
+      "MARK_AS_UNREAD": "Marcar como no leído",
+      "SNOOZE": "Posponer",
+      "DELETE": "Eliminar",
+      "MARK_ALL_READ": "Marcar todo como leído",
+      "DELETE_ALL": "Eliminar todo",
+      "DELETE_ALL_READ": "Borrar todos los leídos"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Ordenar",
+      "DISPLAY": "Mostrar:",
+      "SORT_OPTIONS": {
+        "NEWEST": "Más reciente",
+        "OLDEST": "Más antiguo",
+        "PRIORITY": "Prioridad"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "Postpuestas",
+        "READ": "Leído",
+        "LABELS": "Etiquetas",
+        "CONVERSATION_ID": "ID de conversación"
+      }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "Notificación marcada como leída",
+      "MARK_AS_UNREAD": "Notificación marcada como no leída",
+      "SNOOZE": "Notificación pospuesta",
+      "DELETE": "Notificación eliminada",
+      "MARK_ALL_READ": "Todas las notificaciones marcadas como leídas",
+      "DELETE_ALL": "Todas las notificaciones eliminadas",
+      "DELETE_ALL_READ": "Todas las notificaciones leídas eliminadas"
+    }
+  }
+}

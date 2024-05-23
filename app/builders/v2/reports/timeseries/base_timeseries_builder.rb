@@ -1,11 +1,12 @@
 class V2::Reports::Timeseries::BaseTimeseriesBuilder
+  include TimezoneHelper
   include DateRangeHelper
   DEFAULT_GROUP_BY = 'day'.freeze
 
   pattr_initialize :account, :params
 
   def scope
-    case params[:type]
+    case params[:type].to_sym
     when :account
       account
     when :inbox
@@ -36,14 +37,10 @@ class V2::Reports::Timeseries::BaseTimeseriesBuilder
   end
 
   def group_by
-    @group_by ||= params[:group_by] || DEFAULT_GROUP_BY
+    @group_by ||= %w[day week month year hour].include?(params[:group_by]) ? params[:group_by] : DEFAULT_GROUP_BY
   end
 
   def timezone
-    @timezone ||= ActiveSupport::TimeZone[timezone_offset]&.name
-  end
-
-  def timezone_offset
-    @timezone_offset ||= params.fetch(:timezone_offset, 0).to_f
+    @timezone ||= timezone_name_from_offset(params[:timezone_offset])
   end
 end

@@ -1,8 +1,7 @@
 <template>
-  <div class="flex-1 overflow-auto p-4">
-    <!-- List Canned Response -->
-    <div class="flex flex-row gap-4">
-      <div class="w-[60%]">
+  <div class="flex-1 overflow-auto">
+    <div class="flex flex-row gap-4 p-8">
+      <div class="w-full lg:w-3/5">
         <p
           v-if="!inboxesList.length"
           class="flex h-full items-center flex-col justify-center"
@@ -99,7 +98,7 @@
         </table>
       </div>
 
-      <div class="w-[34%]">
+      <div class="w-1/3 hidden lg:block">
         <span
           v-dompurify-html="
             useInstallationName(

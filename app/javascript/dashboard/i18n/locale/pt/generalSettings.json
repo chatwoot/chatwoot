@@ -87,7 +87,10 @@
       "conversation_assignment": "Conversa atribuída",
       "assigned_conversation_new_message": "Nova mensagem",
       "participating_conversation_new_message": "Nova mensagem",
-      "conversation_mention": "Mencionar"
+      "conversation_mention": "Mencionar",
+      "sla_missed_first_response": "SLA Perdido",
+      "sla_missed_next_response": "SLA Perdido",
+      "sla_missed_resolution": "SLA Perdido"
     }
   },
   "NETWORK": {
@@ -104,6 +107,7 @@
       "GENERAL": "Geral",
       "REPORTS": "relatórios",
       "CONVERSATION": "Conversa",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Alterar Responsável",
       "CHANGE_PRIORITY": "Alterar Prioridade",
       "CHANGE_TEAM": "Alterar Equipa",
@@ -112,7 +116,8 @@
       "REMOVE_LABEL": "Remover etiqueta da conversa",
       "SETTINGS": "Configurações",
       "AI_ASSIST": "Assistente IA",
-      "APPEARANCE": "Aspeto"
+      "APPEARANCE": "Aspeto",
+      "SNOOZE_NOTIFICATION": "Suspender notificação"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Ir para o painel de conversação",
@@ -153,7 +158,8 @@
       "CHANGE_APPEARANCE": "Alterar Aspeto",
       "LIGHT_MODE": "Claro",
       "DARK_MODE": "Escuro",
-      "SYSTEM_MODE": "Sistema"
+      "SYSTEM_MODE": "Sistema",
+      "SNOOZE_NOTIFICATION": "Suspender notificação"
     }
   },
   "DASHBOARD_APPS": {

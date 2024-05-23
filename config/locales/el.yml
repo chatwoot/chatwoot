@@ -31,6 +31,7 @@ el:
       disposable_email: Δεν επιτρέπονται προσωρινά emails
       invalid_email: Έχετε καταχωρήσει ακατάλληλο email
       email_already_exists: "Έχει ήδη καταχωρηθεί λογαριασμός στο %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Η εγγραφή απέτυχε
     data_import:
       data_type:
@@ -62,32 +63,48 @@ el:
         name: δεν πρέπει να ξεκινά ή να τελειώνει με σύμβολα, και δεν πρέπει να περιέχει τους χαρακτήρες < > / \ @
     custom_filters:
       number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
+      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
+      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
+      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
   reports:
     period: Περίοδος αναφοράς %{since} έως %{until}
     utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Όνομα Πράκτορα
-      conversations_count: Αριθμός συνομιλιών
-      avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
-      avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      resolution_count: Αριθμός Αναλύσεων
+      avg_customer_waiting_time: Avg customer waiting time
     inbox_csv:
       inbox_name: Όνομα Κιβωτίου
       inbox_type: Τύπος κιβωτίου εισερχόμενων
       conversations_count: Αριθμός συνομιλιών
-      avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
-      avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     label_csv:
       label_title: Ετικέτα
       conversations_count: Αριθμός συνομιλιών
-      avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
-      avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     team_csv:
       team_name: Όνομα ομάδας
       conversations_count: Αριθμός συνομιλιών
-      avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
-      avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      resolution_count: Αριθμός Αναλύσεων
+      avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Timezone
+    sla_csv:
+      conversation_id: Conversation ID
+      sla_policy_breached: SLA Policy
+      assignee: Assignee
+      team: Ομάδα
+      inbox: Εισερχόμενα
+      labels: Ετικέτες
+      conversation_link: Link to the Conversation
+      breached_events: Breached Events
     default_group_by: ημέρα
     csat:
       headers:
@@ -101,10 +118,15 @@ el:
         recorded_at: Ημερομηνία καταγραφής
   notifications:
     notification_title:
-      conversation_creation: "[Νέα συνομιλία] - #%{display_id} δημιουργήθηκε στο %{inbox_name}"
-      conversation_assignment: "[Ανατέθηκε σε εσάς] - #%{display_id} σας έχει ανατεθεί"
-      assigned_conversation_new_message: "[Νέο μήνυμα] - #%{display_id} %{content}"
-      conversation_mention: "Έχετε αναφερθεί σε συζήτηση [ID - %{display_id}] από %{name}"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
+      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
+      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "Ο %{story_sender} σας ανέφερε στην ιστορία: "
@@ -136,6 +158,9 @@ el:
       labels:
         added: "Ο %{user_name} πρόσθεσε ετικέτες %{labels}"
         removed: "Ο %{user_name} αφαίρεσε τις ετικέτες %{labels}"
+      sla:
+        added: "%{user_name} added SLA policy %{sla_name}"
+        removed: "%{user_name} removed SLA policy %{sla_name}"
       muted: "Ο χρήστης %{user_name} σίγασε την συνομιλία"
       unmuted: "Ο χρήστης %{user_name} επανάφερε από την σίγαση την συνομιλία"
     templates:
@@ -228,3 +253,16 @@ el:
       inbox_name: Εισερχόμενα
       inbox_type: Inbox Type
     button: Άνοιγμα συνομιλίας
+  time_units:
+    days:
+      one: "%{count} day"
+      other: "%{count} days"
+    hours:
+      one: "%{count} hour"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minute"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} second"
+      other: "%{count} seconds"

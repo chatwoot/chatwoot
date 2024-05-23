@@ -10,6 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "您的密码已成功更改。",
     "AFTER_EMAIL_CHANGED": "您的个人资料已成功更新，请在您的登录凭据更改后重新登录",
     "FORM": {
+      "PICTURE": "Profile Picture",
       "AVATAR": "头像",
       "ERROR": "请修正表单错误",
       "REMOVE_IMAGE": "删除",
@@ -56,13 +57,19 @@
       },
       "ACCESS_TOKEN": {
         "TITLE": "访问令牌",
-        "NOTE": "如果您正在构建基于 API 的集成，这个令牌可以被使用"
+        "NOTE": "如果您正在构建基于 API 的集成，这个令牌可以被使用",
+        "COPY": "复制"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "语音通知",
         "NOTE": "在仪表盘中为新消息和对话启用音频通知。",
+        "ALERT_TYPES": {
+          "NONE": "啥都没有",
+          "MINE": "Assigned",
+          "ALL": "所有的"
+        },
         "ALERT_TYPE": {
-          "TITLE": "提醒事件：",
+          "TITLE": "Alert events for conversations:",
           "NONE": "啥都没有",
           "ASSIGNED": "分配会话",
           "ALL_CONVERSATIONS": "所有会话"
@@ -83,7 +90,27 @@
         "CONVERSATION_CREATION": "当对话分配给我时发送电子邮件通知",
         "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "在已分配的会话中创建新消息时发送电子邮件通知",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "Email",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
       "API": {
         "UPDATE_SUCCESS": "您的通知设置已成功更新",
@@ -98,7 +125,10 @@
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "在已分配的会话中创建新消息时发送推送通知",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "您已启用此浏览器的推送。",
-        "REQUEST_PUSH": "启用推送通知"
+        "REQUEST_PUSH": "启用推送通知",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
       },
       "PROFILE_IMAGE": {
         "LABEL": "头像"
@@ -160,6 +190,9 @@
     "TRIAL_MESSAGE": "剩余试用期天数",
     "TRAIL_BUTTON": "立即购买",
     "DELETED_USER": "Deleted User",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Account Suspended",
       "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
@@ -196,7 +229,9 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "会话",
+    "INBOX": "收件箱",
     "ALL_CONVERSATIONS": "所有会话",
     "MENTIONED_CONVERSATIONS": "提及",
     "PARTICIPATING_CONVERSATIONS": "参与者",
@@ -233,16 +268,19 @@
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "机器人",
     "REPORTS_AGENT": "客服",
     "REPORTS_LABEL": "标签",
     "REPORTS_INBOX": "收件箱",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Overview",
     "FACEBOOK_REAUTHORIZE": "您的 Facebook 连接已过期，请重新连接您的 Facebook 页面以继续服务",
     "HELP_CENTER": {
-      "TITLE": "Help Center",
+      "TITLE": "帮助中心",
       "ALL_ARTICLES": "All Articles",
       "MY_ARTICLES": "My Articles",
       "DRAFT": "Draft",
@@ -306,7 +344,6 @@
       "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
       "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
       "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
       "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
       "SWITCH_TO_REPLY": "Switch to Reply",
       "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"

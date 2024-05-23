@@ -3,7 +3,7 @@
     "TITLE": "Configuració del compte",
     "SUBMIT": "Actualització de la configuració",
     "BACK": "Enrere",
-    "DISMISS": "Dismiss",
+    "DISMISS": "Descartar",
     "UPDATE": {
       "ERROR": "No s'ha pogut actualitzar la configuració, torna-ho a provar!",
       "SUCCESS": "La configuració del compte s'ha actualitzat correctament"
@@ -15,8 +15,8 @@
         "NOTE": ""
       },
       "ACCOUNT_ID": {
-        "TITLE": "Account ID",
-        "NOTE": "This ID is required if you are building an API based integration"
+        "TITLE": "ID del compte",
+        "NOTE": "Aquest identificador és necessari si esteu creant una integració basada en API"
       },
       "NAME": {
         "LABEL": "Nom del compte",
@@ -24,7 +24,7 @@
         "ERROR": "Introduïu un nom de compte vàlid"
       },
       "LANGUAGE": {
-        "LABEL": "Site language",
+        "LABEL": "Idioma del lloc",
         "PLACEHOLDER": "El nom del vostre compte",
         "ERROR": ""
       },
@@ -41,7 +41,7 @@
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "El nombre de dies després que un ticket es resolgui automàticament si no hi ha activitat",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
+        "ERROR": "Introduïu una durada de resolució automàtica vàlida (mínim 1 dia i màxim 999 dies)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "La continuïtat de converses amb correus electrònics està habilitada per al vostre compte.",
@@ -49,8 +49,8 @@
       }
     },
     "UPDATE_CHATWOOT": "L'actualització %{latestChatwootVersion} per Chatwoot està disponible. Si us plau, actualitza l'instancia.",
-    "LEARN_MORE": "Learn more",
-    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "LEARN_MORE": "Aprèn més",
+    "PAYMENT_PENDING": "El teu pagament està pendent. Actualitzeu la vostra informació de pagament per continuar utilitzant Chatwoot",
     "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
     "OPEN_BILLING": "Open billing"
   },
@@ -87,7 +87,10 @@
       "conversation_assignment": "Conversació Assignada",
       "assigned_conversation_new_message": "Missatge Nou",
       "participating_conversation_new_message": "Missatge Nou",
-      "conversation_mention": "Menció"
+      "conversation_mention": "Menció",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
@@ -104,6 +107,7 @@
       "GENERAL": "General",
       "REPORTS": "Informes",
       "CONVERSATION": "Conversation",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Change Assignee",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Change Team",
@@ -112,7 +116,8 @@
       "REMOVE_LABEL": "Remove label from the conversation",
       "SETTINGS": "Configuracions",
       "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance"
+      "APPEARANCE": "Appearance",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
@@ -153,7 +158,8 @@
       "CHANGE_APPEARANCE": "Change Appearance",
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "System"
+      "SYSTEM_MODE": "System",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     }
   },
   "DASHBOARD_APPS": {

@@ -21,7 +21,7 @@
           )
         }}
       </p>
-      <div class="column log-in-form space-y-5">
+      <div class="space-y-5">
         <form-input
           v-model.trim="credentials.email"
           name="email_address"

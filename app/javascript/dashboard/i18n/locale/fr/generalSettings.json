@@ -87,7 +87,10 @@
       "conversation_assignment": "Conversation assignée",
       "assigned_conversation_new_message": "Nouveau message",
       "participating_conversation_new_message": "Nouveau message",
-      "conversation_mention": "Mention"
+      "conversation_mention": "Mention",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
@@ -104,6 +107,7 @@
       "GENERAL": "Général",
       "REPORTS": "Rapports",
       "CONVERSATION": "Conversation",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Changer de responsable",
       "CHANGE_PRIORITY": "Modifier la priorité",
       "CHANGE_TEAM": "Changer d’équipe",
@@ -112,7 +116,8 @@
       "REMOVE_LABEL": "Supprimer l'étiquette de la conversation",
       "SETTINGS": "Paramètres",
       "AI_ASSIST": "Assistance IA",
-      "APPEARANCE": "Apparence"
+      "APPEARANCE": "Apparence",
+      "SNOOZE_NOTIFICATION": "Mettre la notification en veille"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Aller au tableau de bord des conversations",
@@ -153,7 +158,8 @@
       "CHANGE_APPEARANCE": "Changer l'apparence",
       "LIGHT_MODE": "Clair",
       "DARK_MODE": "Sombre",
-      "SYSTEM_MODE": "Système"
+      "SYSTEM_MODE": "Système",
+      "SNOOZE_NOTIFICATION": "Mettre la notification en veille"
     }
   },
   "DASHBOARD_APPS": {

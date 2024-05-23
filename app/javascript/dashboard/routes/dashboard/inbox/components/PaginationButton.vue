@@ -19,7 +19,7 @@
       />
     </div>
     <div class="flex items-center gap-1 whitespace-nowrap">
-      <span class="text-sm font-medium text-gray-600">
+      <span class="text-sm font-medium text-gray-600 tabular-nums">
         {{ totalLength <= 1 ? '1' : currentIndex }}
       </span>
       <span
@@ -28,7 +28,7 @@
       >
         /
       </span>
-      <span v-if="totalLength > 1" class="text-sm text-slate-400">
+      <span v-if="totalLength > 1" class="text-sm text-slate-400 tabular-nums">
         {{ totalLength }}
       </span>
     </div>

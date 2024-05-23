@@ -8,8 +8,8 @@
   >
     <update-banner :latest-chatwoot-version="latestChatwootVersion" />
     <template v-if="currentAccountId">
-      <pending-email-verification-banner />
-      <payment-pending-banner />
+      <pending-email-verification-banner v-if="hideOnOnboardingView" />
+      <payment-pending-banner v-if="hideOnOnboardingView" />
       <upgrade-banner />
     </template>
     <transition name="fade" mode="out-in">
@@ -38,6 +38,7 @@ import vueActionCable from './helper/actionCable';
 import WootSnackbarBox from './components/SnackbarContainer.vue';
 import rtlMixin from 'shared/mixins/rtlMixin';
 import { setColorTheme } from './helper/themeHelper';
+import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 import {
   registerSubscription,
   verifyServiceWorkerExistence,
@@ -78,6 +79,9 @@ export default {
     hasAccounts() {
       const { accounts = [] } = this.currentUser || {};
       return accounts.length > 0;
+    },
+    hideOnOnboardingView() {
+      return !isOnOnboardingView(this.$route);
     },
   },
 

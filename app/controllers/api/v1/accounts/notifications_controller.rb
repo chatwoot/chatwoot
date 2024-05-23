@@ -7,8 +7,8 @@ class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseContro
   before_action :set_current_page, only: [:index]
 
   def index
+    @notifications = notification_finder.notifications
     @unread_count = notification_finder.unread_count
-    @notifications = notification_finder.perform
     @count = notification_finder.count
   end
 
@@ -54,7 +54,8 @@ class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseContro
   end
 
   def snooze
-    @notification.update(snoozed_until: parse_date_time(params[:snoozed_until].to_s)) if params[:snoozed_until]
+    updated_meta = (@notification.meta || {}).merge('last_snoozed_at' => nil)
+    @notification.update(snoozed_until: parse_date_time(params[:snoozed_until].to_s), meta: updated_meta) if params[:snoozed_until]
     render json: @notification
   end
 

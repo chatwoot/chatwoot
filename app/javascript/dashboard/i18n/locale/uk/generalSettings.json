@@ -3,7 +3,7 @@
     "TITLE": "Налаштування облікового запису",
     "SUBMIT": "Оновити налаштування",
     "BACK": "Назад",
-    "DISMISS": "Dismiss",
+    "DISMISS": "Відхилити",
     "UPDATE": {
       "ERROR": "Не вдалося оновити налаштування, спробуйте ще раз!",
       "SUCCESS": "Налаштування облікового запису успішно оновлено"
@@ -52,7 +52,7 @@
     "LEARN_MORE": "Детальніше",
     "PAYMENT_PENDING": "Очікується ваш платіж. Будь ласка, оновіть вашу платіжну інформацію, щоб продовжити використовувати Chatwoot",
     "LIMITS_UPGRADE": "В вашому обліковому записі перевищено ліміт використання, будь ласка, поновіть ваш план, щоб продовжити використання Chatwoot",
-    "OPEN_BILLING": "Open billing"
+    "OPEN_BILLING": "Відкрити рахунок"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -87,7 +87,10 @@
       "conversation_assignment": "Діалог призначений",
       "assigned_conversation_new_message": "Нове повідомлення",
       "participating_conversation_new_message": "Нове повідомлення",
-      "conversation_mention": "Відмітка"
+      "conversation_mention": "Відмітка",
+      "sla_missed_first_response": "SLA пропущено",
+      "sla_missed_next_response": "SLA пропущено",
+      "sla_missed_resolution": "SLA пропущено"
     }
   },
   "NETWORK": {
@@ -104,6 +107,7 @@
       "GENERAL": "Загальні",
       "REPORTS": "Звіти",
       "CONVERSATION": "Діалог",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Змінити виконавця",
       "CHANGE_PRIORITY": "Змінити пріоритет",
       "CHANGE_TEAM": "Змінити команду",
@@ -111,8 +115,9 @@
       "ADD_LABEL": "Додати мітку до діалогу",
       "REMOVE_LABEL": "Видалити мітку з діалогу",
       "SETTINGS": "Налаштування",
-      "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance"
+      "AI_ASSIST": "ШІ асистент",
+      "APPEARANCE": "Оформлення",
+      "SNOOZE_NOTIFICATION": "Відключити сповіщення"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Перейти до панелі керування бесід",
@@ -134,7 +139,7 @@
       "GO_TO_NOTIFICATIONS": "Перейти до сповіщень",
       "ADD_LABELS_TO_CONVERSATION": "Додати мітку до діалогу",
       "ASSIGN_AN_AGENT": "Призначити агента",
-      "AI_ASSIST": "AI Assist",
+      "AI_ASSIST": "ШІ асистент",
       "ASSIGN_PRIORITY": "Призначити пріоритет",
       "ASSIGN_A_TEAM": "Призначити команду",
       "MUTE_CONVERSATION": "Вимкнути звук для розмови",
@@ -147,20 +152,21 @@
       "UNTIL_NEXT_REPLY": "До наступної відповіді",
       "UNTIL_NEXT_WEEK": "До наступного тижня",
       "UNTIL_TOMORROW": "До завтра",
-      "UNTIL_NEXT_MONTH": "Until next month",
-      "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "CUSTOM": "Custom...",
-      "CHANGE_APPEARANCE": "Change Appearance",
-      "LIGHT_MODE": "Light",
-      "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "System"
+      "UNTIL_NEXT_MONTH": "До наступного місяця",
+      "AN_HOUR_FROM_NOW": "На годину з цього моменту",
+      "CUSTOM": "Власний...",
+      "CHANGE_APPEARANCE": "Змінити зовнішній вигляд",
+      "LIGHT_MODE": "Світла",
+      "DARK_MODE": "Темна",
+      "SYSTEM_MODE": "Система",
+      "SNOOZE_NOTIFICATION": "Відключити сповіщення"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Завантаження дашборду..."
   },
   "COMMON": {
-    "OR": "Or",
+    "OR": "Або",
     "CLICK_HERE": "натисніть тут"
   }
 }

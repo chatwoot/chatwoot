@@ -41,9 +41,9 @@
     "SAVE_CONTACT": "Saglabāt",
     "UPLOADING_ATTACHMENTS": "Notiek pielikumu augšupielāde...",
     "REPLIED_TO_STORY": "Atbildēja uz Jūsu stāstu",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
-    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
-    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
+    "UNSUPPORTED_MESSAGE": "Šis ziņojums netiek atbalstīts.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "Šis ziņojums netiek atbalstīts. Šo ziņojumu Jūs varat apskatīt lietotnē Facebook Messenger.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "Šis ziņojums netiek atbalstīts. Šo ziņojumu Jūs varat apskatīt lietotnē Instagram.",
     "SUCCESS_DELETE_MESSAGE": "Ziņojums veiksmīgi izdzēsts",
     "FAIL_DELETE_MESSSAGE": "Nevarēja izdzēst ziņojumu! Mēģiniet vēlreiz",
     "NO_RESPONSE": "Nav atbildes",
@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Atlikts līdz",
       "SNOOZED_UNTIL_TOMORROW": "Atlikts līdz rītdienai",
       "SNOOZED_UNTIL_NEXT_WEEK": "Atlikts līdz nākamajai nedēļai",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Atlikts līdz nākamajai atbildei"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Atlikts līdz nākamajai atbildei",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "nokavēti",
+        "DUE": "jābeidz"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Atzīmēt kā neapstiprinātu",
@@ -273,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Izveidot Īpašību",
+    "NO_RECORDS_FOUND": "Īpašības nav atrastas",
     "UPDATE": {
       "SUCCESS": "Īpašība ir veiksmīgi atjaunināta",
       "ERROR": "Nevar atjaunināt īpašību. Lūdzu, pamēģiniet vēlāk vēlreiz"

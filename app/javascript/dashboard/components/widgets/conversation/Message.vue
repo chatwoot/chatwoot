@@ -14,11 +14,7 @@
           @click="retrySendMessage"
         />
       </div>
-      <div
-        v-tooltip.top-start="messageToolTip"
-        :class="bubbleClass"
-        @contextmenu="openContextMenu($event)"
-      >
+      <div :class="bubbleClass" @contextmenu="openContextMenu($event)">
         <bubble-mail-head
           :email-attributes="contentAttributes.email"
           :cc="emailHeadAttributes.cc"
@@ -90,7 +86,7 @@
           :id="data.id"
           :sender="data.sender"
           :story-sender="storySender"
-          :external-error="externalError"
+          :external-error="errorMessageTooltip"
           :story-id="`${storyId}`"
           :is-a-tweet="isATweet"
           :is-a-whatsapp-channel="isAWhatsAppChannel"
@@ -412,14 +408,11 @@ export default {
           }
         : false;
     },
-    messageToolTip() {
-      if (this.isMessageDeleted) {
-        return false;
-      }
+    errorMessageTooltip() {
       if (this.isFailed) {
         return this.externalError || this.$t(`CONVERSATION.SEND_FAILED`);
       }
-      return false;
+      return '';
     },
     wrapClass() {
       return {
@@ -577,7 +570,8 @@ export default {
 
         > img,
         > video {
-          @apply rounded-lg;
+          /** ensure that the bubble radius and image radius match*/
+          @apply rounded-[0.4rem];
         }
 
         > video {
@@ -600,8 +594,8 @@ export default {
         @apply text-woot-400 dark:text-woot-400;
       }
 
-      .text-block-title {
-        @apply text-slate-700 dark:text-slate-700;
+      .attachment-name {
+        @apply text-slate-700 dark:text-slate-200;
       }
 
       .download.button {

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-between w-full h-16 pt-2">
+  <div class="flex items-center justify-between w-full h-16">
     <div class="flex items-center">
       <woot-button
         icon="chevron-left"
@@ -109,14 +109,13 @@
 
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
-import { mixin as clickaway } from 'vue-clickaway';
 import wootConstants from 'dashboard/constants/globals';
 import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 
 const { ARTICLE_STATUS_TYPES } = wootConstants;
 
 export default {
-  mixins: [alertMixin, clickaway],
+  mixins: [alertMixin],
   props: {
     isSidebarOpen: {
       type: Boolean,
@@ -240,12 +239,15 @@ export default {
     @apply absolute right-0;
   }
 }
+
 .draft-status {
   animation: fadeIn 1s;
+
   @keyframes fadeIn {
     0% {
       opacity: 0;
     }
+
     100% {
       opacity: 1;
     }

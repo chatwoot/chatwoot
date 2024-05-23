@@ -87,7 +87,10 @@
       "conversation_assignment": "Konverzácia pridelená",
       "assigned_conversation_new_message": "Nová správa",
       "participating_conversation_new_message": "Nová správa",
-      "conversation_mention": "Zmienka"
+      "conversation_mention": "Zmienka",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
@@ -104,6 +107,7 @@
       "GENERAL": "Všeobecné",
       "REPORTS": "Reporty",
       "CONVERSATION": "Konverzácia",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Zmeniť prideleného agenta",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Zmeniť tím",
@@ -112,7 +116,8 @@
       "REMOVE_LABEL": "Odstrániť štítok z konverzácie",
       "SETTINGS": "Nastavenia",
       "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance"
+      "APPEARANCE": "Appearance",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Prejsť na ovládací panel konverzácie",
@@ -153,7 +158,8 @@
       "CHANGE_APPEARANCE": "Change Appearance",
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "System"
+      "SYSTEM_MODE": "System",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     }
   },
   "DASHBOARD_APPS": {

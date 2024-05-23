@@ -22,7 +22,7 @@
         "body": "생성된 받은 메시지함에 에이전트를 추가하십시오."
       },
       {
-        "title": "여기 있습니다.",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "준비가 완료되었습니다."
       }
@@ -43,7 +43,7 @@
         "CHOOSE_PLACEHOLDER": "목록에서 페이지 선택",
         "INBOX_NAME": "받은 메시지함 이름",
         "ADD_NAME": "받은 메시지함의 이름 추가",
-        "PICK_NAME": "받은 편지함 이름 선택",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "값 선택"
       },
       "TWITTER": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "웹훅 URL",
-          "PLACEHOLDER": "Enter your Webhook URL",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "올바른 URL을 입력하십시오."
         },
         "CHANNEL_DOMAIN": {
@@ -143,7 +143,7 @@
           "ERROR": "해당 입력란은 필수 입력 사항입니다."
         },
         "PHONE_NUMBER": {
-          "LABEL": "휴대폰 번호",
+          "LABEL": "전화 번호",
           "PLACEHOLDER": "메시지를 보낼 전화 번호를 입력하십시오.",
           "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
@@ -175,12 +175,12 @@
           },
           "API_KEY": {
             "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "해당 입력란은 필수 입력 사항입니다."
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "해당 입력란은 필수 입력 사항입니다."
           },
           "APPLICATION_ID": {
@@ -239,7 +239,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Please enter a valid value."
         },
         "API_KEY": {
@@ -269,7 +269,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "웹훅 URL",
-          "SUBTITLE": "이벤트에 대한 콜백을 수신할 URL을 구성하십시오.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "웹훅 URL"
         },
         "SUBMIT_BUTTON": "API 채널 만들기",
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "이메일 채널",
-        "DESC": "이메일 받은 편지함을 통합하십시오.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "채널 이름",
           "PLACEHOLDER": "채널 이름을 입력하십시오.",
@@ -345,7 +345,7 @@
       "AGENTS": {
         "TITLE": "에이전트",
         "DESC": "여기서 에이전트를 추가하여 새로 만든 받은 메시지함을 관리할 수 있습니다. 선택된 에이전트만 받은 메시지함에 엑세스할 수 있습니다. 해당 받은 메시지함에 선택되지 않은 에이전트는 메시지를 보거나 응답할 수 없습니다. <br> <b>추신:</b> 관리자로서 모든 받은 문서에 대한 액세스 권한이 필요한 경우, 자신이 만든 모든 받은 문서에 자신을 에이전트로 추가해야 합니다.",
-        "VALIDATION_ERROR": "새 받은 메시지함에 하나 이상의 에이전트 추가",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "받은 메시지함에 대한 에이전트 선택"
       },
       "DETAILS": {
@@ -406,7 +406,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Friendly",
@@ -508,12 +508,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API Key",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "업데이트",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verify Token",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
@@ -569,7 +569,7 @@
       "UPDATE": "변경된 영업시간 적용",
       "TOGGLE_AVAILABILITY": "이 받은 메시지함에 대해 영업시간 설정 적용",
       "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "TOGGLE_HELP": "영업시간 설정을 적용할 경우 라이브챗 위젯에 해당 시간을 표시합니다. 담당자가 현재 오프라인 상태일 때도 해당 영업시간을 표시합니다. 영업 외 시간에는 사용자에게 아래 메시지와 대화 전 설문을 대신 보여줍니다.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "아래 날짜에 대해 영업시간 설정 적용",
         "UNAVAILABLE": "영업 종료",
@@ -585,7 +585,7 @@
       "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Update IMAP settings",
       "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "IMAP settings updated successfully",
         "ERROR_MESSAGE": "Unable to update IMAP settings"

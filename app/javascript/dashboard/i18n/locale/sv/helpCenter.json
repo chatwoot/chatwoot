@@ -319,12 +319,13 @@
       "HEADERS": {
         "TITLE": "Title",
         "CATEGORY": "Category",
-        "READ_COUNT": "Read count",
+        "READ_COUNT": "Visningar",
         "STATUS": "Status",
         "LAST_EDITED": "Senast redigerad"
       },
       "COLUMNS": {
-        "BY": "by"
+        "BY": "by",
+        "AUTHOR_NOT_AVAILABLE": "Författaren är inte tillgänglig"
       }
     },
     "EDIT_ARTICLE": {

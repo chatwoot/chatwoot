@@ -1,0 +1,64 @@
+{
+  "INBOX": {
+    "LIST": {
+      "TITLE": "Gelen Kutusu",
+      "DISPLAY_DROPDOWN": "Görüntüle",
+      "LOADING": "Bildirimler yükleniyor",
+      "404": "Bu grupta aktif görüşme yok.",
+      "NO_NOTIFICATIONS": "Bildirim yok",
+      "NOTE": "Abone olunan tüm gelen kutularından bildirimler",
+      "NO_MESSAGES_AVAILABLE": "Oops! Not able to fetch messages",
+      "SNOOZED_UNTIL": "Susturulacak kadar ertelendi",
+      "SNOOZED_UNTIL_TOMORROW": "yarına ertelendi",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Önümüzdeki haftaya ertelendi"
+    },
+    "ACTION_HEADER": {
+      "SNOOZE": "Sessiz bildirim",
+      "DELETE": "Bildirimi Sil",
+      "BACK": "Geri"
+    },
+    "TYPES": {
+      "CONVERSATION_MENTION": "Bir konuşmada senden bahsedildi",
+      "CONVERSATION_CREATION": "Yeni bir görüşme oluşturuldu",
+      "CONVERSATION_ASSIGNMENT": "Size bir görüşme atandı",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Atandığınız görüşmeden bir yeni mesaj",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Katıldığınız sohbetteki yeni mesaj",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA target first response missed for conversation",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA target next response missed for conversation",
+      "SLA_MISSED_RESOLUTION": "SLA target resolution missed for conversation"
+    },
+    "MENU_ITEM": {
+      "MARK_AS_READ": "Okundu olarak işaretle",
+      "MARK_AS_UNREAD": "Okunmamış olarak işaretle",
+      "SNOOZE": "Sustur",
+      "DELETE": "Sil",
+      "MARK_ALL_READ": "Tümünü okundu olarak işaretle",
+      "DELETE_ALL": "Tümünü sil",
+      "DELETE_ALL_READ": "Tüm okunmuşları sil"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Filtre",
+      "DISPLAY": "Görüntüle :",
+      "SORT_OPTIONS": {
+        "NEWEST": "En Yeni",
+        "OLDEST": "En Eski",
+        "PRIORITY": "Öncelik"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "Susturuldu",
+        "READ": "Oku",
+        "LABELS": "Etiketler",
+        "CONVERSATION_ID": "Sohbet ID"
+      }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "Bildirim okundu olarak işaretlendi",
+      "MARK_AS_UNREAD": "Bildirim okunmamış olarak işaretlendi",
+      "SNOOZE": "Bildirim Sessize Alındı",
+      "DELETE": "Bildirim Silindi",
+      "MARK_ALL_READ": "Tüm Bildirimler Okundu Olarak İşaretlendi",
+      "DELETE_ALL": "Tüm Bildirimler Silindi",
+      "DELETE_ALL_READ": "Tüm Okunmuş Bildirimler Silindi"
+    }
+  }
+}

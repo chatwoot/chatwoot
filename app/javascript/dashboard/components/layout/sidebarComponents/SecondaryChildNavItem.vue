@@ -53,7 +53,7 @@
           </span>
           <span
             v-if="showChildCount"
-            class="bg-slate-50 dark:bg-slate-700 rounded text-xxs font-medium mx-1 py-0 px-1"
+            class="bg-slate-50 dark:bg-slate-700 rounded-full min-w-[18px] justify-center items-center flex text-xxs font-medium mx-1 py-0 px-1"
             :class="
               isCountZero
                 ? `text-slate-300 dark:text-slate-500`

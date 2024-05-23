@@ -79,7 +79,7 @@
       @apply rounded-r-lg rounded-l mr-auto break-words;
 
       &:not(.is-unsupported) {
-        @apply border border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-700 text-black-900 dark:text-slate-50
+        @apply border border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-700 text-black-900 dark:text-slate-50;
       }
 
       &.is-image {
@@ -91,7 +91,7 @@
       }
 
       .file {
-        .text-block-title {
+        .attachment-name {
           @apply text-slate-700 dark:text-woot-300;
         }
 
@@ -220,20 +220,6 @@
 
 .conversation-footer {
   @apply flex relative flex-col;
-}
-
-.typing-indicator-wrap {
-  @apply items-center flex h-0 absolute w-full -top-8;
-
-  .typing-indicator {
-    @include elegant-card;
-    @include round-corner;
-    @apply py-2 pr-4 pl-5 bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 text-xs font-semibold my-2.5 mx-auto;
-
-    .gif {
-      @apply ml-2 w-6;
-    }
-  }
 }
 
 .left .bubble .text-content {

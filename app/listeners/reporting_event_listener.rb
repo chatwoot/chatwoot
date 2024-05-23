@@ -17,6 +17,8 @@ class ReportingEventListener < BaseListener
       event_start_time: conversation.created_at,
       event_end_time: conversation.updated_at
     )
+
+    create_bot_resolved_event(conversation, reporting_event)
     reporting_event.save!
   end
 
@@ -82,5 +84,17 @@ class ReportingEventListener < BaseListener
       event_end_time: conversation.updated_at
     )
     reporting_event.save!
+  end
+
+  private
+
+  def create_bot_resolved_event(conversation, reporting_event)
+    return unless conversation.inbox.active_bot?
+    # We don't want to create a bot_resolved event if there is user interaction on the conversation
+    return if conversation.messages.exists?(message_type: :outgoing, sender_type: 'User')
+
+    bot_resolved_event = reporting_event.dup
+    bot_resolved_event.name = 'conversation_bot_resolved'
+    bot_resolved_event.save!
   end
 end

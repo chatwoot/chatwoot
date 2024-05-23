@@ -31,6 +31,7 @@ zh_TW:
       disposable_email: 我們不允許一次性電子郵件。
       invalid_email: 您輸入的電子郵件無效。
       email_already_exists: "您已經註冊了一個帳號%{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: 註冊失敗。
     data_import:
       data_type:
@@ -41,7 +42,7 @@ zh_TW:
       export:
         success: We will notify you once contacts export file is ready to view.
       email:
-        invalid: Invalid email
+        invalid: 無效的email
       phone_number:
         invalid: should be in e164 format
     categories:
@@ -62,32 +63,48 @@ zh_TW:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
     custom_filters:
       number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
+      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
+      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
+      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
   reports:
     period: Reporting period %{since} to %{until}
     utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: 客服名稱
-      conversations_count: 對話數量
-      avg_first_response_time: 平均第一次回覆時間（分鐘）
-      avg_resolution_time: 平均解決時間（分鐘）
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      resolution_count: 已解決的數量
+      avg_customer_waiting_time: Avg customer waiting time
     inbox_csv:
       inbox_name: 收件匣名稱
       inbox_type: 收件匣類型
       conversations_count: No. of conversations
-      avg_first_response_time: 平均第一次回覆時間（分鐘）
-      avg_resolution_time: 平均解決時間（分鐘）
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     label_csv:
       label_title: Label
       conversations_count: No. of conversations
-      avg_first_response_time: 平均第一次回覆時間（分鐘）
-      avg_resolution_time: 平均解決時間（分鐘）
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     team_csv:
       team_name: 團隊名稱
       conversations_count: 對話數量
-      avg_first_response_time: 平均第一次回覆時間（分鐘）
-      avg_resolution_time: 平均解決時間（分鐘）
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      resolution_count: 已解決的數量
+      avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Timezone
+    sla_csv:
+      conversation_id: Conversation ID
+      sla_policy_breached: SLA Policy
+      assignee: Assignee
+      team: Team
+      inbox: 收件匣
+      labels: 標籤
+      conversation_link: Link to the Conversation
+      breached_events: Breached Events
     default_group_by: day
     csat:
       headers:
@@ -101,10 +118,15 @@ zh_TW:
         recorded_at: Recorded date
   notifications:
     notification_title:
-      conversation_creation: "[新對話] - #%{display_id} 已經在 %{inbox_name} 中被建立"
-      conversation_assignment: "[已指派給你] - #%{display_id} 已經被指派給你"
-      assigned_conversation_new_message: "[新訊息] - #%{display_id} %{content}"
-      conversation_mention: "你在對話 %{name} 的 [ID - %{display_id}] 中被提及"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
+      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
+      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} mentioned you in the story: "
@@ -136,6 +158,9 @@ zh_TW:
       labels:
         added: "%{user_name} 新增了 %{labels}"
         removed: "%{user_name} 移除了 %{labels}"
+      sla:
+        added: "%{user_name} added SLA policy %{sla_name}"
+        removed: "%{user_name} removed SLA policy %{sla_name}"
       muted: "%{user_name} 已將對話靜音"
       unmuted: "%{user_name} 將對話解除靜音"
     templates:
@@ -228,3 +253,12 @@ zh_TW:
       inbox_name: 收件匣
       inbox_type: Inbox Type
     button: 開啟對話
+  time_units:
+    days:
+      other: "%{count} days"
+    hours:
+      other: "%{count} hours"
+    minutes:
+      other: "%{count} minutes"
+    seconds:
+      other: "%{count} seconds"

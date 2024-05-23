@@ -50,7 +50,7 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
     let(:administrator) { create(:user, account: account, role: :administrator) }
 
     before do
-      skip('Skipping since vector is not enabled in this environment') unless Features::ResponseBotService.new.vector_extension_enabled?
+      skip_unless_response_bot_enabled_test_environment
     end
 
     context 'when it is an unauthenticated user' do

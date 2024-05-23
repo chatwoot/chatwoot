@@ -10,6 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "Şifreniz başarıyla değiştirildi",
     "AFTER_EMAIL_CHANGED": "Profiliniz başarıyla güncellendi, lütfen giriş bilgileriniz değiştiği için tekrar giriş yapın",
     "FORM": {
+      "PICTURE": "Profile Picture",
       "AVATAR": "Profil Resmi",
       "ERROR": "Lütfen form hatalarını düzeltin",
       "REMOVE_IMAGE": "Kaldır",
@@ -56,13 +57,19 @@
       },
       "ACCESS_TOKEN": {
         "TITLE": "Erişim Jetonu",
-        "NOTE": "Bu simge, API tabanlı bir entegrasyon oluşturuyorsanız kullanılabilir"
+        "NOTE": "Bu simge, API tabanlı bir entegrasyon oluşturuyorsanız kullanılabilir",
+        "COPY": "Kopyala"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Sesli Bildirimler",
         "NOTE": "Yeni mesajlar ve konuşmalar için panelde sesli bildirimleri etkinleştirin.",
+        "ALERT_TYPES": {
+          "NONE": "Hiç",
+          "MINE": "Assigned",
+          "ALL": "Hepsi"
+        },
         "ALERT_TYPE": {
-          "TITLE": "Uyarı olayları:",
+          "TITLE": "Alert events for conversations:",
           "NONE": "Hiçbiri",
           "ASSIGNED": "Atanmış Konuşmalar",
           "ALL_CONVERSATIONS": "Tüm Konuşmalar"
@@ -83,7 +90,27 @@
         "CONVERSATION_CREATION": "Yeni bir konuşma oluşturulduğunda e-posta bildirimleri gönder",
         "CONVERSATION_MENTION": "Bir konuşmada adım geçtiğinde e-posta bildirimleri gönder",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Atanmış bir konuşmada yeni bir mesaj oluşturulduğunda e-posta bildirimleri gönder",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Katıldığım bir konuşmada yeni bir mesaj oluşturulduğunda e-posta bildirimleri gönder"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Katıldığım bir konuşmada yeni bir mesaj oluşturulduğunda e-posta bildirimleri gönder",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "E-Posta",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
       "API": {
         "UPDATE_SUCCESS": "Bildirim tercihleriniz başarıyla güncellendi",
@@ -98,7 +125,10 @@
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Atanmış bir konuşmada yeni bir mesaj oluşturulduğunda anlık bildirimler gönderin",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Katıldığım bir konuşmada yeni bir mesaj oluşturulduğunda anlık bildirimler gönderin",
         "HAS_ENABLED_PUSH": "Bu tarayıcı için bildirim özelliğini etkinleştirdiniz.",
-        "REQUEST_PUSH": "Bildirimlerini etkinleştirin"
+        "REQUEST_PUSH": "Bildirimlerini etkinleştirin",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profil Resmi"
@@ -160,6 +190,9 @@
     "TRIAL_MESSAGE": "gün deneme kaldı.",
     "TRAIL_BUTTON": "Şimdi satın al",
     "DELETED_USER": "Silinmiş Kullanıcı",
+    "EMAIL_VERIFICATION_PENDING": "Görünüşe göre E-Posta adresinizi henüz doğrulamadınız. Lütfen doğrulama e-postası için gelen kutunuzu kontrol edin.",
+    "RESEND_VERIFICATION_MAIL": "Doğrulama E-Postasını tekrar gönder",
+    "EMAIL_VERIFICATION_SENT": "Doğrulama E-Postası gönderildi. Lütfen gelen kutunuzu kontrol edin.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Hesap Askıya Alındı",
       "MESSAGE": "Hesabınız askıya alındı. Daha fazla bilgi için lütfen destek ekibine ulaşın."
@@ -196,7 +229,9 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Şu an görüntülüyor:",
     "SWITCH": "Değiştir",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Konuşmalar",
+    "INBOX": "Gelen Kutusu",
     "ALL_CONVERSATIONS": "Tüm Görüşmeler",
     "MENTIONED_CONVERSATIONS": "Bahsedilmeler",
     "PARTICIPATING_CONVERSATIONS": "Katılımcılar",
@@ -233,11 +268,14 @@
     "CAMPAIGNS": "Kampanyalar",
     "ONGOING": "Devam Eden",
     "ONE_OFF": "Tek Seferlik",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Kullanıcılar",
     "REPORTS_LABEL": "Etiketler",
     "REPORTS_INBOX": "Gelen kutusu",
     "REPORTS_TEAM": "Ekip",
     "SET_AVAILABILITY_TITLE": "Kendini şu şekilde ayarla",
+    "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Önizleme",
     "FACEBOOK_REAUTHORIZE": "Facebook bağlantınızın süresi doldu, hizmetlere devam etmek için lütfen Facebook sayfanızı yeniden bağlayın",
@@ -306,7 +344,6 @@
       "GO_TO_REPORTS_SIDEBAR": "Raporlar kenar çubuğuna git",
       "MOVE_TO_NEXT_TAB": "Konuşma listesinde bir sonraki sekmeye git",
       "GO_TO_SETTINGS": "Ayarlar'a git",
-      "SWITCH_CONVERSATION_STATUS": "Sonraki konuşma durumuna geç",
       "SWITCH_TO_PRIVATE_NOTE": "Özel Not'a geç",
       "SWITCH_TO_REPLY": "Yanıt'a geç",
       "TOGGLE_SNOOZE_DROPDOWN": "Snooze açılır menüsünü aç/kapat"

@@ -31,6 +31,7 @@ ca:
       disposable_email: Els correus d'un sol ús no s'accepten
       invalid_email: Heu introduït un correu electrònic no vàlid
       email_already_exists: "Ja us heu registrat amb el compte %{email}"
+      invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: El registre ha fallat
     data_import:
       data_type:
@@ -62,32 +63,48 @@ ca:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
     custom_filters:
       number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
+      invalid_attribute: 'Clau d''atribut no vàlida: [%{key}]. La clau hauria de ser una de [%{allowed_keys}] o un atribut personalitzat definit al compte.'
+      invalid_operator: Operador no vàlid. Els operadors permesos per a %{attribute_name} son [%{allowed_keys}].
+      invalid_value: Valor no vàlid. Els valors proporcionats per a %{attribute_name} no són vàlids
   reports:
     period: Període d'informes %{since} a %{until}
     utc_warning: The report generated is in UTC timezone
     agent_csv:
       agent_name: Agent name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      conversations_count: Assigned conversations
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      resolution_count: Total de resolucions
+      avg_customer_waiting_time: Avg customer waiting time
     inbox_csv:
       inbox_name: Inbox name
       inbox_type: Inbox type
       conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     label_csv:
       label_title: Label
       conversations_count: No. of conversations
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
     team_csv:
       team_name: Team name
       conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      resolution_count: Total de resolucions
+      avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Timezone
+    sla_csv:
+      conversation_id: Conversation ID
+      sla_policy_breached: SLA Policy
+      assignee: Assignee
+      team: Team
+      inbox: Inbox
+      labels: Etiquetes
+      conversation_link: Link to the Conversation
+      breached_events: Breached Events
     default_group_by: day
     csat:
       headers:
@@ -101,10 +118,15 @@ ca:
         recorded_at: Recorded date
   notifications:
     notification_title:
-      conversation_creation: "[Nova conversació] - #%{display_id} ha estat creada a %{inbox_name}"
-      conversation_assignment: "[Assignada a tu] - #%{display_id} t'ha sigut assignada"
-      assigned_conversation_new_message: "[Nou missatge] - #%{display_id} %{content}"
-      conversation_mention: "Has sigut esmentat a la conversació [ID - %{display_id} per %{name}"
+      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
+      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
+      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
+      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
+      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
+      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
+    attachment: "Attachment"
+    no_content: "No content"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} mentioned you in the story: "
@@ -136,6 +158,9 @@ ca:
       labels:
         added: "%{user_name} ha afegit %{labels}"
         removed: "%{user_name} ha eliminat %{labels}"
+      sla:
+        added: "%{user_name} added SLA policy %{sla_name}"
+        removed: "%{user_name} removed SLA policy %{sla_name}"
       muted: "%{user_name} ha silenciat la conversa"
       unmuted: "%{user_name} ha desactivat el silenci de la conversa"
     templates:
@@ -228,3 +253,16 @@ ca:
       inbox_name: Inbox
       inbox_type: Inbox Type
     button: Open conversation
+  time_units:
+    days:
+      one: "%{count} day"
+      other: "%{count} days"
+    hours:
+      one: "%{count} hour"
+      other: "%{count} hours"
+    minutes:
+      one: "%{count} minute"
+      other: "%{count} minutes"
+    seconds:
+      one: "%{count} second"
+      other: "%{count} seconds"

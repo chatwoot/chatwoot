@@ -87,7 +87,10 @@
       "conversation_assignment": "Przypisanie rozmowy",
       "assigned_conversation_new_message": "Nowa wiadomość",
       "participating_conversation_new_message": "Nowa wiadomość",
-      "conversation_mention": "Wzmianka"
+      "conversation_mention": "Wzmianka",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
@@ -104,6 +107,7 @@
       "GENERAL": "Ogólne",
       "REPORTS": "Raporty",
       "CONVERSATION": "Rozmowa",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Zmień przypisanego",
       "CHANGE_PRIORITY": "Zmień priorytet",
       "CHANGE_TEAM": "Zmień zespół",
@@ -112,7 +116,8 @@
       "REMOVE_LABEL": "Usuń etykietę z rozmowy",
       "SETTINGS": "Ustawienia",
       "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance"
+      "APPEARANCE": "Appearance",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Przejdź do pulpitu rozmów",
@@ -153,7 +158,8 @@
       "CHANGE_APPEARANCE": "Change Appearance",
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "System"
+      "SYSTEM_MODE": "System",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     }
   },
   "DASHBOARD_APPS": {

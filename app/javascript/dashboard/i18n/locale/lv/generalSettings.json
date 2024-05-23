@@ -87,7 +87,10 @@
       "conversation_assignment": "Saruna Piešķirta",
       "assigned_conversation_new_message": "Jauns ziņojums",
       "participating_conversation_new_message": "Jauns ziņojums",
-      "conversation_mention": "Pieminēt"
+      "conversation_mention": "Pieminēt",
+      "sla_missed_first_response": "SLA Nokavēts",
+      "sla_missed_next_response": "SLA Nokavēts",
+      "sla_missed_resolution": "SLA Nokavēts"
     }
   },
   "NETWORK": {
@@ -104,6 +107,7 @@
       "GENERAL": "Vispārēji",
       "REPORTS": "Pārskati",
       "CONVERSATION": "Saruna",
+      "BULK_ACTIONS": "Lielapjoma Darbības",
       "CHANGE_ASSIGNEE": "Mainīt Pilnvaroto",
       "CHANGE_PRIORITY": "Mainīt prioritāti",
       "CHANGE_TEAM": "Mainīt Komandu",
@@ -112,7 +116,8 @@
       "REMOVE_LABEL": "Noņemt etiķeti no sarunas",
       "SETTINGS": "Iestatījumi",
       "AI_ASSIST": "AI Palīgs",
-      "APPEARANCE": "Izskats"
+      "APPEARANCE": "Izskats",
+      "SNOOZE_NOTIFICATION": "Atlikt Paziņojumu"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Doties uz Sarunu Informācijas Paneli",
@@ -153,7 +158,8 @@
       "CHANGE_APPEARANCE": "Mainīt Izskatu",
       "LIGHT_MODE": "Gaišs",
       "DARK_MODE": "Tumšs",
-      "SYSTEM_MODE": "Sistēma"
+      "SYSTEM_MODE": "Sistēma",
+      "SNOOZE_NOTIFICATION": "Atlikt Paziņojumu"
     }
   },
   "DASHBOARD_APPS": {

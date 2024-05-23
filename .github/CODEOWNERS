@@ -1,7 +1,2 @@
-## All javascript files should be reviewed by pranav before merging
-*.js @pranavrajs
-*.vue @pranavrajs
-
-
 ## All enterprise related files should be reviewed by sojan before merging
 /enterprise/* @sojan-official

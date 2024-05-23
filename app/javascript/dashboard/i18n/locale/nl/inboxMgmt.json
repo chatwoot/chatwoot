@@ -22,7 +22,7 @@
         "body": "Voeg agenten toe aan de aangemaakte inbox."
       },
       {
-        "title": "Voila!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "Je bent helemaal klaar om te beginnen!"
       }
@@ -39,11 +39,11 @@
       },
       "FB": {
         "HELP": "PS: Door in te loggen krijgen we alleen toegang tot berichten van uw Pagina. Chatwood heeft nooit toegang tot je privéberichten.",
-        "CHOOSE_PAGE": "Choose Page",
+        "CHOOSE_PAGE": "Kies pagina",
         "CHOOSE_PLACEHOLDER": "Select a page from the list",
         "INBOX_NAME": "Inbox Name",
         "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick A Name Your Inbox",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "Pick a value"
       },
       "TWITTER": {
@@ -58,11 +58,11 @@
         "DESC": "Maak een kanaal voor uw website en begin met het ondersteunen van uw klanten via onze website widget.",
         "LOADING_MESSAGE": "Website ondersteuningskanaal aanmaken",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "Avatar kanaal"
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Enter your Webhook URL",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Voer een geldige URL in"
         },
         "CHANNEL_DOMAIN": {
@@ -143,7 +143,7 @@
           "ERROR": "Dit veld is verplicht"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Telefoon nummer",
+          "LABEL": "Telefoonnummer",
           "PLACEHOLDER": "Voer het telefoonnummer in waaruit het bericht wordt verzonden.",
           "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
@@ -157,10 +157,10 @@
         }
       },
       "SMS": {
-        "TITLE": "SMS Channel",
+        "TITLE": "SMS-kanaal",
         "DESC": "Start supporting your customers via SMS.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "API-aanbieder",
           "TWILIO": "Twilio",
           "BANDWIDTH": "Bandbreedte"
         },
@@ -175,16 +175,16 @@
           },
           "API_KEY": {
             "LABEL": "API sleutel",
-            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "Dit veld is verplicht"
           },
           "API_SECRET": {
-            "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "LABEL": "API-geheim",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "Dit veld is verplicht"
           },
           "APPLICATION_ID": {
-            "LABEL": "Application ID",
+            "LABEL": "Applicatie-ID",
             "PLACEHOLDER": "Please enter your Bandwidth Application ID",
             "ERROR": "Dit veld is verplicht"
           },
@@ -212,10 +212,10 @@
         "TITLE": "WhatsApp Channel",
         "DESC": "Start supporting your customers via WhatsApp.",
         "PROVIDERS": {
-          "LABEL": "API Provider",
+          "LABEL": "API-aanbieder",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
-          "360_DIALOG": "360Dialog"
+          "360_DIALOG": "360dialog"
         },
         "INBOX_NAME": {
           "LABEL": "Inbox Name",
@@ -239,13 +239,13 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Please enter a valid value."
         },
         "API_KEY": {
-          "LABEL": "API key",
+          "LABEL": "API-sleutel",
           "SUBTITLE": "Configure the WhatsApp API key.",
-          "PLACEHOLDER": "API key",
+          "PLACEHOLDER": "API-sleutel",
           "ERROR": "Please enter a valid value."
         },
         "API_CALLBACK": {
@@ -260,7 +260,7 @@
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
+        "TITLE": "API-kanaal",
         "DESC": "Integrate with API channel and start supporting your customers.",
         "CHANNEL_NAME": {
           "LABEL": "Kanaal naam",
@@ -269,7 +269,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "Webhook URL"
         },
         "SUBMIT_BUTTON": "Create API Channel",
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Email Channel",
-        "DESC": "Integrate you email inbox.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Kanaal naam",
           "PLACEHOLDER": "Voer een kanaal naam in",
@@ -297,7 +297,7 @@
         "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Channel",
+        "TITLE": "LINE-kanaal",
         "DESC": "Integrate with LINE channel and start supporting your customers.",
         "CHANNEL_NAME": {
           "LABEL": "Kanaal naam",
@@ -339,13 +339,13 @@
         }
       },
       "AUTH": {
-        "TITLE": "Choose a channel",
+        "TITLE": "Kies een kanaal",
         "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "Agenten",
         "DESC": "Hier kunt u agenten toevoegen om uw nieuw gecreëerde inbox te beheren. Alleen deze agenten hebben toegang tot uw inbox. Agents die geen deel uitmaken van dit postvak in zullen niet in staat zijn om berichten in dit postvak te zien of te reageren wanneer ze inloggen. <br> <b>PS:</b> Als beheerder als u toegang wilt krijgen tot alle inboxen, voeg jezelf toe als agent aan alle inboxen die je maakt.",
-        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Pick agents for the inbox"
       },
       "DETAILS": {
@@ -406,7 +406,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Vriendelijk",
@@ -508,12 +508,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API sleutel",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Vernieuwen",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verify Token",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
@@ -569,7 +569,7 @@
       "UPDATE": "Update business hours settings",
       "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
       "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Enable availability for this day",
         "UNAVAILABLE": "Unavailable",
@@ -585,7 +585,7 @@
       "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Update IMAP settings",
       "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "IMAP settings updated successfully",
         "ERROR_MESSAGE": "Unable to update IMAP settings"

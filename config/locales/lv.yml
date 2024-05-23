@@ -31,6 +31,7 @@ lv:
       disposable_email: Mēs nepieļaujam vienreizējās lietošanas e-pasta adreses
       invalid_email: Jūs esat ievadījis nederīgu e-pasta adresi
       email_already_exists: "Jūs jau esat reģistrējis kontu ar %{email}"
+      invalid_params: 'Kļūda. Lūdzu, pārbaudiet pierakstīšanās parametrus un mēģiniet vēlreiz'
       failed: Reģistrēšanās neizdevās
     data_import:
       data_type:
@@ -62,32 +63,48 @@ lv:
         name: nevajadzētu sākties vai beigties ar simboliem, un nevajadzētu saturēt <> / \ @ rakstzīmes.
     custom_filters:
       number_of_records: Sasniegts limits. Maksimālais atļauto pielāgoto filtru skaits vienam lietotājam ir 50.
+      invalid_attribute: Nederīga atribūta atslēga - [%{key}]. Atslēgai ir jābūt vienai no [%{allowed_keys}] vai pielāgotam atribūtam, kas definēts kontā.
+      invalid_operator: Nederīgs operators. Atļautie operatori priekš %{attribute_name} ir [%{allowed_keys}].
+      invalid_value: Nederīga vērtība. Norādītās vērtības priekš %{attribute_name} nav derīgas
   reports:
     period: Ziņošanas periods %{since} līdz %{until}
     utc_warning: Izveidotais pārskats atbilst UTC laika joslai
     agent_csv:
       agent_name: Aģenta vārds
-      conversations_count: Sarunu skaits
-      avg_first_response_time: Vidējais pirmās reakcijas laiks (Minūtes)
-      avg_resolution_time: Vidējais atrisināšanas laiks (Minūtes)
+      conversations_count: Piešķirtās sarunas
+      avg_first_response_time: Vidējais pirmās reakcijas laiks
+      avg_resolution_time: Vidējais atrisināšanas laiks
+      resolution_count: Atrisināšanas Skaits
+      avg_customer_waiting_time: Vidējais klientu gaidīšanas laiks
     inbox_csv:
       inbox_name: Iesūtnes nosaukums
       inbox_type: Iesūtnes tips
       conversations_count: Sarunu skaits
-      avg_first_response_time: Vidējais pirmās reakcijas laiks (Minūtes)
-      avg_resolution_time: Vidējais atrisināšanas laiks (Minūtes)
+      avg_first_response_time: Vidējais pirmās reakcijas laiks
+      avg_resolution_time: Vidējais atrisināšanas laiks
     label_csv:
       label_title: Etiķete
       conversations_count: Sarunu skaits
-      avg_first_response_time: Vidējais pirmās atbildes laiks (Minūtes)
-      avg_resolution_time: Vidējais atrisināšanas laiks (minūtes)
+      avg_first_response_time: Vidējais pirmās reakcijas laiks
+      avg_resolution_time: Vidējais atrisināšanas laiks
     team_csv:
       team_name: Komandas nosaukums
       conversations_count: Sarunu skaits
-      avg_first_response_time: Vidējais pirmās atbildes laiks (Minūtes)
-      avg_resolution_time: Vidējais atrisinājuma laiks (Minūtes)
+      avg_first_response_time: Vidējais pirmās reakcijas laiks
+      avg_resolution_time: Vidējais atrisināšanas laiks
+      resolution_count: Atrisināšanas Skaits
+      avg_customer_waiting_time: Vidējais klientu gaidīšanas laiks
     conversation_traffic_csv:
       timezone: Laika zona
+    sla_csv:
+      conversation_id: Sarunas ID
+      sla_policy_breached: SLA politika
+      assignee: Uzdevuma saņēmējs
+      team: Komanda
+      inbox: Iesūtne
+      labels: Etiķetes
+      conversation_link: Saite uz sarunu
+      breached_events: Pārkāptie Notikumi
     default_group_by: diena
     csat:
       headers:
@@ -101,10 +118,15 @@ lv:
         recorded_at: Reģistrētais datums
   notifications:
     notification_title:
-      conversation_creation: "[Jauna saruna] - #%{display_id} ir izveidota iesūtnē %{inbox_name}"
-      conversation_assignment: "[Piešķirts Jums] - Jums ir piešķirts #%{display_id}"
-      assigned_conversation_new_message: "[Jauns ziņojums] - #%{display_id} %{content}"
-      conversation_mention: "Jūs pieminēja sarunā [ID - %{display_id}] kā %{name}"
+      conversation_creation: "Saruna (#%{display_id}) ir izveidota mapē %{inbox_name}"
+      conversation_assignment: "Jums ir piešķirta saruna (#%{display_id})"
+      assigned_conversation_new_message: "Sarunā (#%{display_id}) ir izveidots jauns ziņojums"
+      conversation_mention: "Jūs esat pieminēts sarunā (#%{display_id})"
+      sla_missed_first_response: "SLA sarunas (#%{display_id}) pirmā atbilde nokavēta"
+      sla_missed_next_response: "SLA sarunas (#%{display_id}) nākamā atbilde nokavēta"
+      sla_missed_resolution: "SLA sarunas (#%{display_id}) atrisināšana nokavēta"
+    attachment: "Pielikums"
+    no_content: "Nav satura"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} pieminēja jūs stāstā: "
@@ -136,6 +158,9 @@ lv:
       labels:
         added: "%{user_name} pievienoja %{labels}"
         removed: "%{user_name} noņēma %{labels}"
+      sla:
+        added: "%{user_name} pievienoja SLA politiku %{sla_name}"
+        removed: "%{user_name} noņēma SLA politiku %{sla_name}"
       muted: "%{user_name} izslēdza sarunu"
       unmuted: "%{user_name} ieslēdza sarunu"
     templates:
@@ -228,3 +253,20 @@ lv:
       inbox_name: Iesūtne
       inbox_type: Iesūtnes Veids
     button: Atvērt sarunu
+  time_units:
+    days:
+      zero: "%{count} dienas"
+      one: "%{count} diena"
+      other: "%{count} dienas"
+    hours:
+      zero: "%{count} stundas"
+      one: "%{count} stunda"
+      other: "%{count} stundas"
+    minutes:
+      zero: "%{count} minūtes"
+      one: "%{count} minūte"
+      other: "%{count} minūtes"
+    seconds:
+      zero: "%{count} sekundes"
+      one: "%{count} sekunde"
+      other: "%{count} sekundes"

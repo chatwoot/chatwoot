@@ -27,20 +27,36 @@ describe('#NotificationAPI', () => {
       window.axios = originalAxios;
     });
 
-    it('#get', () => {
-      notificationsAPI.get({
-        page: 1,
-        status: 'read',
-        type: 'Conversation',
-        sortOrder: 'desc',
-      });
-      expect(axiosMock.get).toHaveBeenCalledWith('/api/v1/notifications', {
-        params: {
+    describe('#get', () => {
+      it('generates the API call if both params are available', () => {
+        notificationsAPI.get({
           page: 1,
-          status: 'read',
-          type: 'Conversation',
-          sort_order: 'desc',
-        },
+          status: 'snoozed',
+          type: 'read',
+          sortOrder: 'desc',
+        });
+        expect(axiosMock.get).toHaveBeenCalledWith('/api/v1/notifications', {
+          params: {
+            page: 1,
+            sort_order: 'desc',
+            includes: ['snoozed', 'read'],
+          },
+        });
+      });
+
+      it('generates the API call if one of the params are available', () => {
+        notificationsAPI.get({
+          page: 1,
+          type: 'read',
+          sortOrder: 'desc',
+        });
+        expect(axiosMock.get).toHaveBeenCalledWith('/api/v1/notifications', {
+          params: {
+            page: 1,
+            sort_order: 'desc',
+            includes: ['read'],
+          },
+        });
       });
     });
 

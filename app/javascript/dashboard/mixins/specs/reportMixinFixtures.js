@@ -15,6 +15,14 @@ export default {
     },
     resolutions_count: 3,
   },
+  botSummary: {
+    bot_resolutions_count: 10,
+    bot_handoffs_count: 20,
+    previous: {
+      bot_resolutions_count: 8,
+      bot_handoffs_count: 5,
+    },
+  },
   report: {
     data: [
       { value: '0.00', timestamp: 1647541800, count: 0 },

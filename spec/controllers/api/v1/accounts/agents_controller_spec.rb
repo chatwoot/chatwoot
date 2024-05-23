@@ -171,6 +171,7 @@ RSpec.describe 'Agents API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response.parsed_body['email']).to eq(params[:email])
         expect(account.users.last.name).to eq('NewUser')
       end
     end

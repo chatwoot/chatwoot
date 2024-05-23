@@ -2,7 +2,8 @@
   <div
     class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full px-4 py-0 border-t-0 border-b-0 border-l-2 border-r-0 border-transparent border-solid cursor-pointer conversation hover:bg-slate-25 dark:hover:bg-slate-800 group"
     :class="{
-      'active bg-slate-25 dark:bg-slate-800 border-woot-500': isActiveChat,
+      'active animate-card-select bg-slate-25 dark:bg-slate-800 border-woot-500':
+        isActiveChat,
       'unread-chat': hasUnread,
       'has-inbox-name': showInboxName,
       'conversation-selected': selected,
@@ -25,13 +26,12 @@
       v-if="bulkActionCheck"
       :src="currentContact.thumbnail"
       :badge="inboxBadge"
-      class="columns"
       :username="currentContact.name"
       :status="currentContact.availability_status"
       size="40px"
     />
     <div
-      class="px-0 py-3 border-b group-hover:border-transparent border-slate-50 dark:border-slate-800/75 columns"
+      class="px-0 py-3 border-b group-hover:border-transparent flex-1 border-slate-50 dark:border-slate-800/75 w-[calc(100%-40px)]"
     >
       <div class="flex justify-between">
         <inbox-name v-if="showInboxName" :inbox="inbox" />
@@ -51,7 +51,7 @@
         </div>
       </div>
       <h4
-        class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis overflow-hidden whitespace-nowrap w-[60%] text-slate-900 dark:text-slate-100"
+        class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis font-medium overflow-hidden whitespace-nowrap w-[calc(100%-70px)] text-slate-900 dark:text-slate-100"
       >
         {{ currentContact.name }}
       </h4>
@@ -86,7 +86,11 @@
           {{ unreadCount > 9 ? '9+' : unreadCount }}
         </span>
       </div>
-      <card-labels :conversation-id="chat.id" />
+      <card-labels :conversation-id="chat.id" class="mt-0.5 mx-2 mb-0">
+        <template v-if="hasSlaPolicyId" #before>
+          <SLA-card-label :chat="chat" class="ltr:mr-1 rtl:ml-1" />
+        </template>
+      </card-labels>
     </div>
     <woot-context-menu
       v-if="showContextMenu"
@@ -99,6 +103,7 @@
         :status="chat.status"
         :inbox-id="inbox.id"
         :priority="chat.priority"
+        :chat-id="chat.id"
         :has-unread-messages="hasUnread"
         @update-conversation="onUpdateConversation"
         @assign-agent="onAssignAgent"
@@ -125,6 +130,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import CardLabels from './conversationCardComponents/CardLabels.vue';
 import PriorityMark from './PriorityMark.vue';
+import SLACardLabel from './components/SLACardLabel.vue';
 
 export default {
   components: {
@@ -135,6 +141,7 @@ export default {
     TimeAgo,
     MessagePreview,
     PriorityMark,
+    SLACardLabel,
   },
 
   mixins: [inboxMixin, timeMixin, conversationMixin, alertMixin],
@@ -251,6 +258,9 @@ export default {
     inboxName() {
       const stateInbox = this.inbox;
       return stateInbox.name || '';
+    },
+    hasSlaPolicyId() {
+      return this.chat?.sla_policy_id;
     },
   },
   methods: {

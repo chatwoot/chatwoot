@@ -87,7 +87,10 @@
       "conversation_assignment": "Samtali úthlutað",
       "assigned_conversation_new_message": "Nýtt skilaboð",
       "participating_conversation_new_message": "Nýtt skilaboð",
-      "conversation_mention": "Nefna"
+      "conversation_mention": "Nefna",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
@@ -104,6 +107,7 @@
       "GENERAL": "Almennar",
       "REPORTS": "Skýrslur",
       "CONVERSATION": "Samtal",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Breyta úthlutun",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Breyta Teymi",
@@ -112,7 +116,8 @@
       "REMOVE_LABEL": "Fjarlægja merki af samtali",
       "SETTINGS": "Stillingar",
       "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance"
+      "APPEARANCE": "Appearance",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Opna Stjórnborð Samtals",
@@ -153,7 +158,8 @@
       "CHANGE_APPEARANCE": "Change Appearance",
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "System"
+      "SYSTEM_MODE": "System",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     }
   },
   "DASHBOARD_APPS": {

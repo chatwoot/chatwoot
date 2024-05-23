@@ -68,8 +68,8 @@
       "CONFIRM": {
         "TITLE": "Verwijdering bevestigen",
         "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
-        "YES": "Yes, delete ",
-        "NO": "No, keep "
+        "YES": "Ja, verwijder ",
+        "NO": "Nee, bewaar"
       }
     }
   }

@@ -87,7 +87,10 @@
       "conversation_assignment": "Percakapan ditugaskan",
       "assigned_conversation_new_message": "Pesan Baru",
       "participating_conversation_new_message": "Pesan Baru",
-      "conversation_mention": "Mention"
+      "conversation_mention": "Mention",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
@@ -104,6 +107,7 @@
       "GENERAL": "Umum",
       "REPORTS": "Laporan",
       "CONVERSATION": "Percakapan",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Ubah Penerima Tugas",
       "CHANGE_PRIORITY": "Ubah Prioritas",
       "CHANGE_TEAM": "Ubah Tim",
@@ -112,7 +116,8 @@
       "REMOVE_LABEL": "Hapus label dari percakapan",
       "SETTINGS": "Pengaturan",
       "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance"
+      "APPEARANCE": "Appearance",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Menuju ke Dasbor Percakapan",
@@ -153,7 +158,8 @@
       "CHANGE_APPEARANCE": "Change Appearance",
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "Sistem"
+      "SYSTEM_MODE": "Sistem",
+      "SNOOZE_NOTIFICATION": "Snooze Notification"
     }
   },
   "DASHBOARD_APPS": {

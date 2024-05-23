@@ -11,7 +11,7 @@
           <div
             v-for="(metric, name, index) in agentStatusMetrics"
             :key="index"
-            class="metric-content column"
+            class="metric-content flex-1 min-w-0"
           >
             <h3 class="heading">
               {{ name }}
@@ -21,7 +21,7 @@
         </metric-card>
       </div>
     </div>
-    <div class="row">
+    <div class="max-w-full flex flex-wrap flex-row ml-auto mr-auto">
       <metric-card :header="$t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.HEADER')">
         <template #control>
           <multiselect-dropdown
@@ -53,7 +53,7 @@
         />
       </metric-card>
     </div>
-    <div class="row">
+    <div class="max-w-full flex flex-wrap flex-row ml-auto mr-auto">
       <metric-card :header="$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.HEADER')">
         <agent-table
           :agents="agents"
