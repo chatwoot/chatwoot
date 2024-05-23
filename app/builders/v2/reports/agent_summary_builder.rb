@@ -94,6 +94,7 @@ class V2::Reports::AgentSummaryBuilder < V2::Reports::BaseSummaryBuilder
 
       current_status = changes[1]
 
+      # the time calculated here is between when desired status is the current status and when it changes to another status
       total_time += calculate_time_difference(last_status, status_value, last_time, log.created_at)
 
       last_status, last_time = update_last_status_and_time(current_status, status_value, log.created_at, last_status)
