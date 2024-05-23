@@ -19,7 +19,7 @@ const props = defineProps({
     default: '',
   },
   activeFilterId: {
-    type: Number,
+    type: [String, Number],
     default: null,
   },
   showClearFilter: {
@@ -28,10 +28,13 @@ const props = defineProps({
   },
 });
 
+const emits = defineEmits(['on-search']);
+
 const searchTerm = ref('');
 
 const onSearch = value => {
   searchTerm.value = value;
+  emits('on-search', value);
 };
 
 const filteredListItems = computed(() => {
@@ -55,7 +58,7 @@ const isFilterActive = id => {
   >
     <slot name="search">
       <dropdown-search
-        v-if="enableSearch && listItems.length"
+        v-if="enableSearch"
         :input-value="searchTerm"
         :input-placeholder="inputPlaceholder"
         :show-clear-filter="showClearFilter"
