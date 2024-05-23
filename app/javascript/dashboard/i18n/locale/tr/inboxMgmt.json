@@ -2,7 +2,8 @@
   "INBOX_MGMT": {
     "HEADER": "Gelen kutuları",
     "SIDEBAR_TXT": "<p><b>Gelen Kutusu</b></p> <p> Chatwoot'a bir web sitesi veya Facebook Sayfası bağladığınızda, buna <b> Gelen Kutusu </b> denir. Chatwoot hesabınızda sınırsız gelen kutunuz olabilir. </p> <p> Bir web sitesine veya Facebook Sayfasına bağlanmak için <b> Gelen Kutusu Ekle </b> 'yi tıklayın. </p> <p> Gösterge Panosunda, tüm gelen kutularınızdaki tüm konuşmaları tek bir yerde görebilir ve bunlara 'Görüşmeler' sekmesi altında yanıt verebilirsiniz. </p> <p> Ayrıca, kontrol panelinin sol bölmesindeki gelen kutusu adını tıklayarak bir gelen kutusuna özel görüşmeleri de görebilirsiniz. </p>",
-    "RECONNECTION_REQUIRED": "Your inbox is disconnected, you will not receive any new messages. <a class=\"underline\" href=\"%{actionUrl}\">Click here</a> to reconnect.",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "Bu hesaba bağlı gelen kutusu yok."
     },
