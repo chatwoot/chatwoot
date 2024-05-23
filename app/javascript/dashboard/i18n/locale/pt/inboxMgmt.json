@@ -2,7 +2,8 @@
   "INBOX_MGMT": {
     "HEADER": "Caixas de Entrada",
     "SIDEBAR_TXT": "<p><b>Caixa de entrada</b></p> <p> Ao ligar um site ou uma página do Facebook ao Chatwoot, ela passa a ser chamada de <b>caixa de entrada</b>. Pode ter caixas de entrada ilimitadas na sua conta de Chatwoot. </p><p> Clique em <b>Adicionar caixa de entrada</b> para ligar um site ou uma página do Facebook. </p><p> No Painel, pode ver todas as conversas de todas as suas caixas de entrada num único lugar e responder a elas utilizando o separado `Conversas`. </p><p> Também pode ver conversas específicas de uma determinada caixa de entrada clicando no nome dessa caixa no lado esquerdo do painel lateral. </p>",
-    "RECONNECTION_REQUIRED": "Your inbox is disconnected, you will not receive any new messages. <a class=\"underline\" href=\"%{actionUrl}\">Click here</a> to reconnect.",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "Não há caixas de entrada anexadas a esta conta."
     },
