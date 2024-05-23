@@ -5,5 +5,5 @@ Rails.application.config.middleware.use OmniAuth::Builder do
     provider :google_oauth2, client_id, client_secret, { provider_ignores_state: true }
   end
 
-  lazy_setup.call
+  lazy_setup
 end
