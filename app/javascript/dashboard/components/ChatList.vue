@@ -987,7 +987,7 @@ export default {
     allSelectedConversationsStatus(status) {
       if (!this.selectedConversations.length) return false;
       return this.selectedConversations.every(item => {
-        return this.$store.getters.getConversationById(item).status === status;
+        return this.$store.getters.getConversationById(item)?.status === status;
       });
     },
     onContextMenuToggle(state) {
