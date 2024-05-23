@@ -1,63 +1,44 @@
-<template>
-  <div class="mx-8">
-    <settings-section
-      :title="$t('INBOX_MGMT.MICROSOFT.TITLE')"
-      :sub-title="$t('INBOX_MGMT.MICROSOFT.SUBTITLE')"
-    >
-      <div class="mb-6">
-        <form @submit.prevent="requestAuthorization">
-          <woot-submit-button
-            icon="brand-twitter"
-            button-text="Sign in with Microsoft"
-            type="submit"
-            :loading="isRequestingAuthorization"
-          />
-        </form>
-      </div>
-    </settings-section>
-  </div>
-</template>
-<script>
-import alertMixin from 'shared/mixins/alertMixin';
-import microsoftClient from '../../../../../../api/channel/microsoftClient';
-import SettingsSection from '../../../../../../components/SettingsSection.vue';
+<script setup>
+import { ref } from 'vue';
+import InboxReconnectionRequired from '../../components/InboxReconnectionRequired';
+import microsoftClient from 'dashboard/api/channel/microsoftClient';
 
-export default {
-  components: {
-    SettingsSection,
+import { useI18n } from 'dashboard/composables/useI18n';
+import { useAlert } from 'dashboard/composables';
+
+const { t } = useI18n();
+
+const props = defineProps({
+  inbox: {
+    type: Object,
+    default: () => ({}),
   },
-  mixins: [alertMixin],
-  props: {
-    inbox: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
-  data() {
-    return { isRequestingAuthorization: false };
-  },
-  methods: {
-    async requestAuthorization() {
-      try {
-        this.isRequestingAuthorization = true;
-        const response = await microsoftClient.generateAuthorization({
-          email: this.inbox.email,
-        });
-        const {
-          data: { url },
-        } = response;
-        window.location.href = url;
-      } catch (error) {
-        this.showAlert(this.$t('INBOX_MGMT.ADD.MICROSOFT.ERROR_MESSAGE'));
-      } finally {
-        this.isRequestingAuthorization = false;
-      }
-    },
-  },
-};
-</script>
-<style lang="scss" scoped>
-.smtp-details-wrap {
-  margin-bottom: var(--space-medium);
+});
+
+const isRequestingAuthorization = ref(false);
+
+async function requestAuthorization() {
+  try {
+    isRequestingAuthorization.value = true;
+    const response = await microsoftClient.generateAuthorization({
+      email: props.inbox.email,
+    });
+
+    const {
+      data: { url },
+    } = response;
+    window.location.href = url;
+  } catch (error) {
+    useAlert(t('INBOX_MGMT.ADD.MICROSOFT.ERROR_MESSAGE'));
+  } finally {
+    isRequestingAuthorization.value = false;
+  }
 }
-</style>
+</script>
+
+<template>
+  <inbox-reconnection-required
+    class="mx-8 mt-5"
+    @reauthorize="requestAuthorization"
+  />
+</template>

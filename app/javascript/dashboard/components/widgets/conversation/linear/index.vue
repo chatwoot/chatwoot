@@ -30,7 +30,7 @@
       class="!items-start [&>div]:!top-12"
     >
       <create-or-link-issue
-        :conversation-id="conversationId"
+        :conversation="conversation"
         :account-id="currentAccountId"
         @close="closePopup"
       />
@@ -63,6 +63,10 @@ const shouldShowPopup = ref(false);
 
 const currentAccountId = getters.getCurrentAccountId;
 
+const conversation = computed(() =>
+  getters.getConversationById.value(props.conversationId)
+);
+
 const tooltipText = computed(() => {
   return linkedIssue.value === null
     ? t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK_BUTTON')
@@ -86,7 +90,7 @@ const unlinkIssue = async linkId => {
     linkedIssue.value = null;
     useAlert(t('INTEGRATION_SETTINGS.LINEAR.UNLINK.SUCCESS'));
   } catch (error) {
-    useAlert(t('INTEGRATION_SETTINGS.LINEAR.UNLINK.DELETE_ERROR'));
+    useAlert(t('INTEGRATION_SETTINGS.LINEAR.UNLINK.ERROR'));
   }
 };
 
