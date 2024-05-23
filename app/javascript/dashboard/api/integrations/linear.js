@@ -19,10 +19,11 @@ class LinearAPI extends ApiClient {
     return axios.post(`${this.url}/create_issue`, data);
   }
 
-  link_issue(conversationId, issueId) {
+  link_issue(conversationId, issueId, title) {
     return axios.post(`${this.url}/link_issue`, {
       issue_id: issueId,
       conversation_id: conversationId,
+      title: title,
     });
   }
 
