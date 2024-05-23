@@ -1,8 +1,9 @@
-Rails.application.config.middleware.use lambda { |env|
-  OmniAuth::Builder.new(env) do
+ails.application.config.middleware.use OmniAuth::Builder do
+  lazy_setup = lambda do
     client_id = GlobalConfigService.load('GOOGLE_OAUTH_CLIENT_ID', nil)
     client_secret = GlobalConfigService.load('GOOGLE_OAUTH_CLIENT_SECRET', nil)
-
     provider :google_oauth2, client_id, client_secret, { provider_ignores_state: true }
   end
-}
+
+  lazy_setup.call
+end
