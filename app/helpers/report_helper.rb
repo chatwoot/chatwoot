@@ -1,4 +1,7 @@
+# rubocop:disable Metrics/ModuleLength
 module ReportHelper
+  include OnlineStatusHelper
+
   private
 
   def scope
@@ -125,4 +128,29 @@ module ReportHelper
 
     avg_frt
   end
+
+  def online_time_summary
+    audit_logs = Audited::Audit.where(user_id: scope.id, created_at: range, auditable_type: 'AccountUser', action: 'update').order(:created_at)
+
+    return 0 if audit_logs.blank?
+
+    ot = calculate_time_for_status(audit_logs, 0)
+
+    return 0 if ot.blank?
+
+    ot
+  end
+
+  def busy_time_summary
+    audit_logs = Audited::Audit.where(user_id: scope.id, created_at: range, auditable_type: 'AccountUser', action: 'update').order(:created_at)
+
+    return 0 if audit_logs.blank?
+
+    bt = calculate_time_for_status(audit_logs, 2)
+
+    return 0 if bt.blank?
+
+    bt
+  end
 end
+# rubocop:enable Metrics/ModuleLength
