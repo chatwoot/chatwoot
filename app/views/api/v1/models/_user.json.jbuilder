@@ -24,6 +24,7 @@ json.accounts do
     json.status account_user.account.status
     json.active_at account_user.active_at
     json.role account_user.role
+    json.permissions account_user.permissions
     # the actual availability user has configured
     json.availability account_user.availability
     # availability derived from presence

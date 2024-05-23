@@ -49,6 +49,14 @@ class AccountUser < ApplicationRecord
     ::Agents::DestroyJob.perform_later(account, user)
   end
 
+  def permissions
+    if administrator?
+      GlobalConfigService.load('CHATWOOT_ADMIN_PERMISSIONS', 'account_manage').split(',')
+    else
+      GlobalConfigService.load('CHATWOOT_AGENT_PERMISSIONS', 'conversation_manage').split(',')
+    end
+  end
+
   def push_event_data
     {
       id: id,
