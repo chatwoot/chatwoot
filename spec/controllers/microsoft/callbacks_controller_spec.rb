@@ -49,7 +49,7 @@ RSpec.describe 'Microsoft::CallbacksController', type: :request do
 
       get microsoft_callback_url, params: { code: code }
 
-      expect(response).to redirect_to app_microsoft_inbox_agents_url(account_id: account.id, inbox_id: account.inboxes.last.id)
+      expect(response).to redirect_to app_microsoft_inbox_settings_url(account_id: account.id, inbox_id: account.inboxes.last.id)
       expect(account.inboxes.count).to be 1
       expect(inbox.channel.reload.provider_config.keys).to include('access_token', 'refresh_token', 'expires_on')
       expect(inbox.channel.reload.provider_config['access_token']).to eq response_body_success[:access_token]

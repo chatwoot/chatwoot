@@ -163,6 +163,11 @@
   value:
   display_title: 'Clearbit API Key'
   description: 'This API key is used for onboarding the users, to pre-fill account data.'
+- name: DASHBOARD_SCRIPTS
+  value:
+  display_title: 'Dashboard Scripts'
+  description: 'Scripts are loaded as the last item in the <body> tag'
+  type: code
 # ------- End of Chatwoot Internal Config for Cloud ----#
 
 # ------- Chatwoot Internal Config for Self Hosted ----#

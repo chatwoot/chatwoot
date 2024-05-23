@@ -217,7 +217,8 @@
         "LOADING": "Loading",
         "ERROR": "There was an error fetching the linear issues, please try again",
         "LINK_SUCCESS": "Issue linked successfully",
-        "LINK_ERROR": "There was an error linking the issue, please try again"
+        "LINK_ERROR": "There was an error linking the issue, please try again",
+        "LINK_TITLE": "#%{conversationId}: %{name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
