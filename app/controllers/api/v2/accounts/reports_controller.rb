@@ -5,19 +5,17 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   before_action :check_authorization
 
   def index
-    builder = V2::ReportBuilder.new(Current.account, report_params)
-    data = builder.build
+    builder = V2::Reports::Conversations::ReportBuilder.new(Current.account, report_params)
+    data = builder.timeseries
     render json: data
   end
 
   def summary
-    render json: summary_metrics
+    render json: build_summary(:summary)
   end
 
   def bot_summary
-    summary = V2::ReportBuilder.new(Current.account, current_summary_params).bot_summary
-    summary[:previous] = V2::ReportBuilder.new(Current.account, previous_summary_params).bot_summary
-    render json: summary
+    render json: build_summary(:bot_summary)
   end
 
   def agents
@@ -126,10 +124,11 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     }
   end
 
-  def summary_metrics
-    summary = V2::ReportBuilder.new(Current.account, current_summary_params).summary
-    summary[:previous] = V2::ReportBuilder.new(Current.account, previous_summary_params).summary
-    summary
+  def build_summary(method)
+    builder = V2::Reports::Conversations::MetricBuilder
+    current_summary = builder.new(Current.account, current_summary_params).send(method)
+    previous_summary = builder.new(Current.account, previous_summary_params).send(method)
+    current_summary.merge(previous: previous_summary)
   end
 
   def conversation_metrics

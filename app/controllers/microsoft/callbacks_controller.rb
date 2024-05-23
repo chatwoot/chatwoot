@@ -7,9 +7,14 @@ class Microsoft::CallbacksController < ApplicationController
       redirect_uri: "#{base_url}/microsoft/callback"
     )
 
-    inbox = find_or_create_inbox
+    inbox, already_exists = find_or_create_inbox
     ::Redis::Alfred.delete(users_data['email'].downcase)
-    redirect_to app_microsoft_inbox_agents_url(account_id: account.id, inbox_id: inbox.id)
+
+    if already_exists
+      redirect_to app_microsoft_inbox_settings_url(account_id: account.id, inbox_id: inbox.id)
+    else
+      redirect_to app_microsoft_inbox_agents_url(account_id: account.id, inbox_id: inbox.id)
+    end
   rescue StandardError => e
     ChatwootExceptionTracker.new(e).capture_exception
     redirect_to '/'
@@ -40,9 +45,17 @@ class Microsoft::CallbacksController < ApplicationController
 
   def find_or_create_inbox
     channel_email = Channel::Email.find_by(email: users_data['email'], account: account)
+    # we need this value to know where to redirect on sucessful processing of the callback
+    channel_exists = channel_email.present?
+
     channel_email ||= create_microsoft_channel_with_inbox
     update_microsoft_channel(channel_email)
-    channel_email.inbox
+
+    # reauthorize channel, this code path only triggers when microsoft auth is successful
+    # reauthorized will also update cache keys for the associated inbox
+    channel_email.reauthorized!
+
+    [channel_email.inbox, channel_exists]
   end
 
   # Fallback name, for when name field is missing from users_data

@@ -1,5 +1,5 @@
 <template>
-  <div class="resolve-actions relative flex items-center justify-end">
+  <div class="relative flex items-center justify-end resolve-actions">
     <div class="button-group">
       <woot-button
         v-if="isOpen"

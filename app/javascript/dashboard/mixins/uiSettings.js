@@ -15,7 +15,7 @@ export const DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER = [
 ];
 
 const slugifyChannel = name =>
-  name.toLowerCase().replace(' ', '_').replace('-', '_').replace('::', '_');
+  name?.toLowerCase().replace(' ', '_').replace('-', '_').replace('::', '_');
 
 export const isEditorHotKeyEnabled = (uiSettings, key) => {
   const {
@@ -70,6 +70,8 @@ export default {
       this.updateUISettings({ [key]: !this.isContactSidebarItemOpen(key) });
     },
     setSignatureFlagForInbox(channelType, value) {
+      if (!channelType) return;
+
       channelType = slugifyChannel(channelType);
       this.updateUISettings({
         [`${channelType}_signature_enabled`]: value,
