@@ -95,6 +95,7 @@ Rails.application.routes.draw do
               resources :labels, only: [:create, :index]
               resource :participants, only: [:show, :create, :update, :destroy]
               resource :direct_uploads, only: [:create]
+              resource :draft_messages, only: [:show, :update, :destroy]
             end
             member do
               post :mute
@@ -124,7 +125,7 @@ Rails.application.routes.draw do
               get :search
               post :filter
               post :import
-              get :export
+              post :export
             end
             member do
               get :contactable_inboxes
@@ -224,6 +225,17 @@ Rails.application.routes.draw do
               collection do
                 post :create_a_meeting
                 post :add_participant_to_meeting
+              end
+            end
+            resource :linear, controller: 'linear', only: [] do
+              collection do
+                get :teams
+                get :team_entities
+                post :create_issue
+                post :link_issue
+                post :unlink_issue
+                get :search_issue
+                get :linked_issues
               end
             end
           end

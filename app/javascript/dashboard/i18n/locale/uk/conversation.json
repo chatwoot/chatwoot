@@ -69,8 +69,8 @@
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
         "RT": "RT {status}",
-        "MISSED": "missed",
-        "DUE": "due"
+        "MISSED": "пропущено",
+        "DUE": "до"
       }
     },
     "RESOLVE_DROPDOWN": {
@@ -280,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Створити атрибут",
+    "NO_RECORDS_FOUND": "Атрибути не знайдено",
     "UPDATE": {
       "SUCCESS": "Атрибут успішно оновлено",
       "ERROR": "Не вдалося оновити атрибут. Будь ласка, спробуйте ще раз пізніше"

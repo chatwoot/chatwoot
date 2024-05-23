@@ -6,6 +6,18 @@
     "DESCRIPTION": "Pakalpojuma līmeņa līgumi (SLA) ir līgumi, kas nosaka skaidras cerības starp jūsu komandu un klientiem. Tie nosaka atbildes un atrisināšanas laika standartus, veidojot pārskatatbildības sistēmu un nodrošinot konsekventu, augstas kvalitātes pieredzi.",
     "LEARN_MORE": "Uzzināt vairāk par SLA",
     "LOADING": "Notiek SLA iegūšana",
+    "PAYWALL": {
+      "TITLE": "Pārejiet uz maksas versiju, lai izveidotu SLA",
+      "AVAILABLE_ON": "SLA funkcija ir pieejama tikai Business un Enterprise versijās.",
+      "UPGRADE_PROMPT": "Pārejiet uz maksas versiju, lai iegūtu piekļuvi pie papildu funkcijām. Piemēram: komandas pārvaldībai, automatizācijai, pielāgotiem atribūtiem, un citām.",
+      "UPGRADE_NOW": "Pāriet uz maksas versiju tagad",
+      "CANCEL_ANYTIME": "Jūs varat jebkurā laikā mainīt vai atcelt savu versiju"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "SLA funkcija ir pieejama tikai maksas versijās.",
+      "UPGRADE_PROMPT": "Pārejiet uz maksas versiju, lai piekļūtu papildu funkcijām. Piemēram: audita žurnāliem, aģentu kapacitātei, un citām.",
+      "ASK_ADMIN": "Lai pārietu uz maksas versiju, lūdzu sazinieties ar savu administratoru."
+    },
     "LIST": {
       "404": "Šim kontam nav piesaistīti SLA līgumi.",
       "EMPTY": {

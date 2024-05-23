@@ -280,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Maak kenmerk aan",
+    "NO_RECORDS_FOUND": "Geen attributen gevonden",
     "UPDATE": {
       "SUCCESS": "Attribuut succesvol toegevoegd",
       "ERROR": "Kan het attribuut niet bijwerken. Probeer het later opnieuw"

@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Свої атрибути",
       "CONTACT_LABELS": "Мітки контакту",
-      "PREVIOUS_CONVERSATIONS": "Попередні бесіди"
+      "PREVIOUS_CONVERSATIONS": "Попередні бесіди",
+      "NO_RECORDS_FOUND": "Атрибути не знайдено"
     }
   },
   "EDIT_CONTACT": {
@@ -83,6 +84,7 @@
     "CONFIRM": {
       "TITLE": "Експорт контактів",
       "MESSAGE": "Ви впевнені, що хочете експортувати всі контакти?",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
       "YES": "Так, експортувати",
       "NO": "Ні, скасувати"
     }
@@ -296,8 +298,8 @@
     "BUTTON": "Додати користувацький атрибут",
     "NOT_AVAILABLE": "Немає ніяких користувацьких атрибутів для цього контакту.",
     "COPY_SUCCESSFUL": "Скопійовано до буферу обміну",
-    "SHOW_MORE": "Show all attributes",
-    "SHOW_LESS": "Show less attributes",
+    "SHOW_MORE": "Показати всі атрибути",
+    "SHOW_LESS": "Показати менше атрибутів",
     "ACTIONS": {
       "COPY": "Копіювати атрибут",
       "DELETE": "Видалити атрибут",

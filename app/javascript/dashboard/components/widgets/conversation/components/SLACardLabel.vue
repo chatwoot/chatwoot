@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { evaluateSLAStatus } from '../helpers/SLAHelper';
+import { evaluateSLAStatus } from '@chatwoot/utils';
 import SLAPopoverCard from './SLAPopoverCard.vue';
 
 const REFRESH_INTERVAL = 60000;
@@ -137,7 +137,10 @@ export default {
       }, REFRESH_INTERVAL);
     },
     updateSlaStatus() {
-      this.slaStatus = evaluateSLAStatus(this.appliedSLA, this.chat);
+      this.slaStatus = evaluateSLAStatus({
+        appliedSla: this.appliedSLA,
+        chat: this.chat,
+      });
     },
     openSlaPopover() {
       if (!this.showExtendedInfo) return;

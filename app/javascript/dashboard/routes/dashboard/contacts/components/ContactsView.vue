@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full flex flex-row">
+  <div class="flex flex-row w-full">
     <div class="flex flex-col h-full" :class="wrapClass">
       <contacts-header
         :search-query="searchQuery"
@@ -391,8 +391,19 @@ export default {
       this.fetchContacts(this.pageParameter);
     },
     onExportSubmit() {
+      let query = { payload: [] };
+
+      if (this.hasActiveSegments) {
+        query = this.activeSegment.query;
+      } else if (this.hasAppliedFilters) {
+        query = filterQueryGenerator(this.getAppliedContactFilters);
+      }
+
       try {
-        this.$store.dispatch('contacts/export');
+        this.$store.dispatch('contacts/export', {
+          ...query,
+          label: this.label,
+        });
         this.showAlert(this.$t('EXPORT_CONTACTS.SUCCESS_MESSAGE'));
       } catch (error) {
         this.showAlert(

@@ -92,7 +92,7 @@
       "DAY": "Day",
       "WEEK": "Week",
       "MONTH": "Month",
-      "YEAR": "Month"
+      "YEAR": "Any"
     },
     "GROUP_BY_DAY_OPTIONS": [
       {
@@ -140,7 +140,7 @@
     ],
     "BUSINESS_HOURS": "Business Hours",
     "FILTER_ACTIONS": {
-      "CLEAR_FILTER": "Clear filter",
+      "CLEAR_FILTER": "Esborra els filtres",
       "EMPTY_LIST": "No s'ha trobat agents"
     }
   },
@@ -232,7 +232,7 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
-        "DESC": "( Promig )",
+        "DESC": "(Mitjana)",
         "INFO_TEXT": "Total number of conversations used for computation:",
         "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
@@ -511,52 +511,52 @@
     "SATURDAY": "Saturday"
   },
   "SLA_REPORTS": {
-    "HEADER": "SLA Reports",
-    "NO_RECORDS": "SLA applied conversations are not available.",
-    "LOADING": "Loading SLA data...",
-    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
-    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "HEADER": "Informes SLA",
+    "NO_RECORDS": "Les converses aplicades per l'SLA no estan disponibles.",
+    "LOADING": "S'estan carregant dades del SLA...",
+    "DOWNLOAD_SLA_REPORTS": "Descarregar informes SLA",
+    "DOWNLOAD_FAILED": "No s'han pogut baixar els informes SLA",
     "DROPDOWN": {
-      "ADD_FIlTER": "Add filter",
-      "CLEAR_ALL": "Clear all",
-      "CLEAR_FILTER": "Clear filter",
+      "ADD_FIlTER": "Afegeix un filtre",
+      "CLEAR_ALL": "Esborrar tot",
+      "CLEAR_FILTER": "Esborra els filtres",
       "EMPTY_LIST": "No s'ha trobat agents",
-      "NO_FILTER": "No filters available",
-      "SEARCH": "Search filter",
+      "NO_FILTER": "No hi ha filtres disponibles",
+      "SEARCH": "Cerca filtre",
       "INPUT_PLACEHOLDER": {
-        "SLA": "SLA name",
-        "AGENTS": "Agent name",
-        "INBOXES": "Inbox name",
+        "SLA": "Nom del SLA",
+        "AGENTS": "Nom de l'Agent",
+        "INBOXES": "Nom de la safata d'entrada",
         "LABELS": "Nom de l'etiqueta",
-        "TEAMS": "Team name"
+        "TEAMS": "Nom de l'equip"
       },
-      "SLA": "SLA Policy",
-      "INBOXES": "Inbox",
+      "SLA": "Política SLA",
+      "INBOXES": "Safata d'entrada",
       "AGENTS": "Agent",
-      "LABELS": "Label",
-      "TEAMS": "Team"
+      "LABELS": "Etiqueta",
+      "TEAMS": "Equip"
     },
     "METRICS": {
       "HIT_RATE": {
-        "LABEL": "Hit Rate",
-        "TOOLTIP": "Percentage of SLAs created were completed successfully"
+        "LABEL": "Proporció d'encerts",
+        "TOOLTIP": "El percentatge de SLA creats s'ha completat correctament"
       },
       "NO_OF_MISSES": {
-        "LABEL": "Number of Misses",
-        "TOOLTIP": "Total SLA misses in a certain period"
+        "LABEL": "Nombre de faltes",
+        "TOOLTIP": "SLA total faltes en un període determinat"
       },
       "NO_OF_CONVERSATIONS": {
-        "LABEL": "Number of Conversations",
-        "TOOLTIP": "Total number of conversations with SLA"
+        "LABEL": "Número de Converses",
+        "TOOLTIP": "Nombre total de converses amb SLA"
       }
     },
     "TABLE": {
       "HEADER": {
-        "POLICY": "Policy",
-        "CONVERSATION": "Conversation",
+        "POLICY": "Política",
+        "CONVERSATION": "Converses",
         "AGENT": "Agent"
       },
-      "VIEW_DETAILS": "View Details"
+      "VIEW_DETAILS": "Veure Detalls"
     }
   }
 }

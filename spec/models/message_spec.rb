@@ -107,7 +107,11 @@ RSpec.describe Message do
   end
 
   describe 'message create event' do
-    let(:conversation) { create(:conversation) }
+    let!(:conversation) { create(:conversation) }
+
+    before do
+      conversation.reload
+    end
 
     it 'updates the conversation first reply created at if it is the first outgoing message' do
       expect(conversation.first_reply_created_at).to be_nil

@@ -280,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Opret ny egenskab",
+    "NO_RECORDS_FOUND": "Ingen attributter fundet",
     "UPDATE": {
       "SUCCESS": "Attributten er opdateret",
       "ERROR": "Kan ikke opdatere attributten. Prøv igen senere"

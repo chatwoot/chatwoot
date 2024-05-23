@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Προσαρμοζόμενες Ιδιότητες",
       "CONTACT_LABELS": "Ετικέτες Επαφών",
-      "PREVIOUS_CONVERSATIONS": "Προηγούμενες συνομιλίες"
+      "PREVIOUS_CONVERSATIONS": "Προηγούμενες συνομιλίες",
+      "NO_RECORDS_FOUND": "Δεν βρέθηκαν ιδιότητες"
     }
   },
   "EDIT_CONTACT": {
@@ -83,6 +84,7 @@
     "CONFIRM": {
       "TITLE": "Export Contacts",
       "MESSAGE": "Are you sure you want to export all contacts?",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
       "YES": "Yes, Export",
       "NO": "No, Cancel"
     }

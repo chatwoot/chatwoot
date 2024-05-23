@@ -280,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Criar atributo",
+    "NO_RECORDS_FOUND": "Nenhum atributo encontrado",
     "UPDATE": {
       "SUCCESS": "Atributo atualizado com sucesso",
       "ERROR": "Não foi possível atualizar o atributo. Por favor tente mais tarde"

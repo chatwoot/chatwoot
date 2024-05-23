@@ -7,7 +7,7 @@ RSpec.describe 'Reports API', type: :request do
   let!(:user) { create(:user, account: account) }
   let!(:inbox) { create(:inbox, account: account) }
   let(:inbox_member) { create(:inbox_member, user: user, inbox: inbox) }
-  let(:default_timezone) { ActiveSupport::TimeZone[0]&.name }
+  let(:default_timezone) { 'UTC' }
   let(:start_of_today) { Time.current.in_time_zone(default_timezone).beginning_of_day.to_i }
   let(:end_of_today) { Time.current.in_time_zone(default_timezone).end_of_day.to_i }
   let(:params) { { timezone_offset: Time.zone.utc_offset } }
@@ -18,7 +18,7 @@ RSpec.describe 'Reports API', type: :request do
                                    assignee: user, created_at: Time.current.in_time_zone(default_timezone).to_date)
   end
 
-  describe 'GET /api/v2/accounts/:account_id/reports/account' do
+  describe 'GET /api/v2/accounts/:account_id/reports' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         get "/api/v2/accounts/#{account.id}/reports"

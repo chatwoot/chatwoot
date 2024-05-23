@@ -3,7 +3,7 @@
     "HEADER": "ربات‌ها",
     "LOADING_EDITOR": "در حال بارگیری ویرایشگر...",
     "HEADER_BTN_TXT": "افرودن پیکربندی ربات",
-    "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.</p> <p> You can manage your bots from this page or create new ones using the 'Add bot configuraton' button.</p> <p> Open the <a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">Agent bots handbook</a> in another tab for a helping hand.</p>",
+    "SIDEBAR_TXT": "<p><b>اپراتور های ربات</b><p>مانند شگفت‌انگیزترین اعضای تیم شما هستند. آنها می توانند مسائل کوچک را اداره کنند، بنابراین شما می توانید روی چیزهای مهم تمرکز کنید. آنها را امتحان کنید.</p><p>می‌توانید ربات‌های خود را در این صفحه مدیریت کنید یا با استفاده از دکمه «افزودن ربات» ربات‌های جدیدی ایجاد کنید.</p><p> باز کردن آدرس <a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">راهنما ربات ها</a> در یک صفحه جدید به شما کمک می کند اطلاعات بیشتری کسب کنید.</p>",
     "CSML_BOT_EDITOR": {
       "NAME": {
         "LABEL": "نام ربات",
@@ -22,7 +22,7 @@
     },
     "BOT_CONFIGURATION": {
       "TITLE": "انتخاب یک ربات عامل",
-      "DESC": "Assign an Agent Bot to your inbox. They can handle initial conversations and transfer them to a live agent when necessary.",
+      "DESC": "یک ربات به صندوق ورودی خود اختصاص دهید. آنها می توانند مکالمات اولیه را انجام دهند و در صورت لزوم آنها را به یک اپراتور منتقل کنند.",
       "SUBMIT": "اعمال شود",
       "DISCONNECT": "قطع ربات",
       "SUCCESS_MESSAGE": "ربات عامل با موفقیت به‌روز شد.",
