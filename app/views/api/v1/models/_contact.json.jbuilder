@@ -9,8 +9,8 @@ json.stage resource.stage if resource.stage.present?
 json.assignee resource.assignee if resource.assignee.present?
 json.team resource.team if resource.team.present?
 json.last_note resource.notes.order(created_at: :desc).first.content if resource.notes.present?
-if resource.conversations.where(conversation_type: :action).present?
-  json.current_action resource.conversations.where(conversation_type: :action).order(created_at: :desc).first
+if resource.conversations.where(conversation_type: :planned).present?
+  json.current_action resource.conversations.where(conversation_type: :planned).order(created_at: :desc).first
 end
 json.first_reply_created_at resource.first_reply_created_at
 json.initial_channel_type resource.initial_channel_type

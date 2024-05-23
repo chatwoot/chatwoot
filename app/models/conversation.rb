@@ -70,7 +70,7 @@ class Conversation < ApplicationRecord
   validates :uuid, uniqueness: true
   validate :validate_referer_url
 
-  enum conversation_type: { default_type: 0, action: 1 }
+  enum conversation_type: { default_type: 0, planned: 1 }
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
   enum priority: { low: 0, medium: 1, high: 2, urgent: 3 }
 
@@ -211,6 +211,7 @@ class Conversation < ApplicationRecord
   end
 
   def ensure_snooze_until_reset
+    self.conversation_type = :planned if snoozed?
     self.snoozed_until = nil unless snoozed?
   end
 
