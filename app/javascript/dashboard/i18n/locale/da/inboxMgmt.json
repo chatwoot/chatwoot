@@ -2,7 +2,8 @@
   "INBOX_MGMT": {
     "HEADER": "Indbakker",
     "SIDEBAR_TXT": "<p><b>Indbakke</b></p> <p> Når du forbinder en hjemmeside eller en facebook side til Chatwoot, det kaldes en <b>Indbakke</b>. Du kan have ubegrænset indbakker på din Chatwoot-konto. </p><p> Klik på <b>Tilføj indbakke</b> for at forbinde en hjemmeside eller en Facebook-side. </p><p> I betjeningspanelet du kan se alle samtalerne fra alle dine indbakker på et enkelt sted og svare på dem under fanen 'Samtaler'. </p><p> Du kan også se samtaler, der er specifikke for en indbakke, ved at klikke på indbakkens navn i dashboardets venstre rude. </p>",
-    "RECONNECTION_REQUIRED": "Your inbox is disconnected, you will not receive any new messages. <a class=\"underline\" href=\"%{actionUrl}\">Click here</a> to reconnect.",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "Der er ingen indbakker tilknyttet denne konto."
     },
