@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     get '/app/accounts/:account_id/settings/inboxes/new/microsoft', to: 'dashboard#index', as: 'app_new_microsoft_inbox'
     get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_twitter_inbox_agents'
     get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_microsoft_inbox_agents'
+    get '/app/accounts/:account_id/settings/inboxes/:inbox_id', to: 'dashboard#index', as: 'app_microsoft_inbox_settings'
 
     resource :widget, only: [:show]
     namespace :survey do
@@ -225,6 +226,17 @@ Rails.application.routes.draw do
               collection do
                 post :create_a_meeting
                 post :add_participant_to_meeting
+              end
+            end
+            resource :linear, controller: 'linear', only: [] do
+              collection do
+                get :teams
+                get :team_entities
+                post :create_issue
+                post :link_issue
+                post :unlink_issue
+                get :search_issue
+                get :linked_issues
               end
             end
           end

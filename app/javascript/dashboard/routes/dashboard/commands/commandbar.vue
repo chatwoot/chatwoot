@@ -6,11 +6,13 @@
     hideBreadcrumbs
     :placeholder="placeholder"
     @selected="onSelected"
+    @closed="onClosed"
   />
 </template>
 
 <script>
-import 'ninja-keys';
+import '@chatwoot/ninja-keys';
+import wootConstants from 'dashboard/constants/globals';
 import conversationHotKeysMixin from './conversationHotKeys';
 import bulkActionsHotKeysMixin from './bulkActionsHotKeys';
 import inboxHotKeysMixin from './inboxHotKeys';
@@ -34,6 +36,14 @@ export default {
     appearanceHotKeys,
     goToCommandHotKeys,
   ],
+  data() {
+    return {
+      // Added selectedSnoozeType to track the selected snooze type
+      // So if the selected snooze type is "custom snooze" then we set selectedSnoozeType with the CMD action id
+      // So that we can track the selected snooze type and when we close the command bar
+      selectedSnoozeType: null,
+    };
+  },
   computed: {
     placeholder() {
       return this.$t('COMMAND_BAR.SEARCH_PLACEHOLDER');
@@ -67,13 +77,34 @@ export default {
       this.$refs.ninjakeys.data = this.hotKeys;
     },
     onSelected(item) {
-      const { detail: { action: { title = null, section = null } = {} } = {} } =
-        item;
+      const {
+        detail: {
+          action: { title = null, section = null, id = null } = {},
+        } = {},
+      } = item;
+      // Added this condition to prevent setting the selectedSnoozeType to null
+      // When we select the "custom snooze" (CMD bar will close and the custom snooze modal will open)
+      if (id === wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME) {
+        this.selectedSnoozeType =
+          wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME;
+      } else {
+        this.selectedSnoozeType = null;
+      }
       this.$track(GENERAL_EVENTS.COMMAND_BAR, {
         section,
         action: title,
       });
       this.setCommandbarData();
+    },
+    onClosed() {
+      // If the selectedSnoozeType is not "SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME (custom snooze)" then we set the context menu chat id to null
+      // Else we do nothing and its handled in the ChatList.vue hideCustomSnoozeModal() method
+      if (
+        this.selectedSnoozeType !==
+        wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME
+      ) {
+        this.$store.dispatch('setContextMenuChatId', null);
+      }
     },
   },
 };

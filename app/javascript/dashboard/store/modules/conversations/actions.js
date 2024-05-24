@@ -466,6 +466,10 @@ const actions = {
     commit(types.ASSIGN_PRIORITY, { priority, conversationId });
   },
 
+  setContextMenuChatId({ commit }, chatId) {
+    commit(types.SET_CONTEXT_MENU_CHAT_ID, chatId);
+  },
+
   ...messageReadActions,
   ...messageTranslateActions,
 };
