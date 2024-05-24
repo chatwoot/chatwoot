@@ -140,6 +140,14 @@ const priorities = [
   { id: 4, name: 'Low' },
 ];
 
+const statusDesiredOrder = [
+  'Backlog',
+  'Todo',
+  'In Progress',
+  'Done',
+  'Canceled',
+];
+
 const isCreating = ref(false);
 const inputStyles = { borderRadius: '12px', fontSize: '14px' };
 
@@ -186,8 +194,10 @@ const getTeamEntities = async () => {
     const response = await LinearAPI.getTeamEntities(formState.teamId);
     assignees.value = response.data.users;
     labels.value = response.data.labels;
-    statuses.value = response.data.states;
     projects.value = response.data.projects;
+    statuses.value = statusDesiredOrder
+      .map(name => response.data.states.find(status => status.name === name))
+      .filter(Boolean);
   } catch (error) {
     useAlert(
       t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.LOADING_TEAM_ENTITIES_ERROR')
