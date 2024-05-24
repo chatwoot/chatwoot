@@ -100,7 +100,7 @@
             @click="onCopy"
           />
           <woot-button
-            v-if="showEditButton"
+            v-if="showActions"
             v-tooltip.right="$t('CUSTOM_ATTRIBUTES.ACTIONS.EDIT')"
             variant="link"
             size="small"
@@ -176,9 +176,6 @@ export default {
   computed: {
     showCopyAndDeleteButton() {
       return this.value && this.showActions;
-    },
-    showEditButton() {
-      return !this.value && this.showActions;
     },
     displayValue() {
       if (this.isAttributeTypeDate) {
