@@ -211,37 +211,37 @@
       }
     },
     "LINEAR": {
-      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
-      "LOADING": "Fetching linear issues...",
-      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
+      "ADD_OR_LINK_BUTTON": "Izveidot/Saistīt lineāru problēmu",
+      "LOADING": "Notiek lineāru problēmu iegūšana...",
+      "LOADING_ERROR": "Lineāru problēmu iegūšanas laikā radās kļūda. Lūdzu, mēģiniet vēlreiz",
       "CREATE": "Izveidot",
       "LINK": {
-        "SEARCH": "Search issues",
-        "SELECT": "Select issue",
+        "SEARCH": "Meklēt problēmas",
+        "SELECT": "Izvēlieties problēmu",
         "TITLE": "Saite",
-        "EMPTY_LIST": "No linear issues found",
-        "LOADING": "Loading",
-        "ERROR": "There was an error fetching the linear issues, please try again",
-        "LINK_SUCCESS": "Issue linked successfully",
-        "LINK_ERROR": "There was an error linking the issue, please try again",
+        "EMPTY_LIST": "Netika atrasta neviena lineāra problēma",
+        "LOADING": "Notiek ielāde",
+        "ERROR": "Lineāru problēmu iegūšanas laikā radās kļūda. Lūdzu, mēģiniet vēlreiz",
+        "LINK_SUCCESS": "Problēma ir veiksmīgi sasaistīta",
+        "LINK_ERROR": "Sasaistot problēmu radās kļūda. Lūdzu, mēģiniet vēlreiz",
         "LINK_TITLE": "#%{conversationId}: %{name}"
       },
       "ADD_OR_LINK": {
-        "TITLE": "Create/link linear issue",
+        "TITLE": "Izveidot/saistīt lineāru problēmu",
         "DESCRIPTION": "Izveidot lineārus jautājumus no sarunām, vai saistīt esošos netraucētai izsekošanai.",
         "FORM": {
           "TITLE": {
             "LABEL": "Nosaukums",
-            "PLACEHOLDER": "Enter title",
+            "PLACEHOLDER": "Ievadiet virsrakstu",
             "REQUIRED_ERROR": "Nepieciešams nosaukums"
           },
           "DESCRIPTION": {
             "LABEL": "Apraksts",
-            "PLACEHOLDER": "Enter description"
+            "PLACEHOLDER": "Ievadiet aprakstu"
           },
           "TEAM": {
             "LABEL": "Komanda",
-            "REQUIRED_ERROR": "Team is required"
+            "REQUIRED_ERROR": "Nepieciešama komanda"
           },
           "ASSIGNEE": {
             "LABEL": "Uzdevuma saņēmējs"
@@ -256,27 +256,27 @@
             "LABEL": "Statuss"
           },
           "PROJECT": {
-            "LABEL": "Project"
+            "LABEL": "Projekts"
           }
         },
         "CREATE": "Izveidot",
         "CANCEL": "Atcelt",
-        "CREATE_SUCCESS": "Issue created successfully",
-        "CREATE_ERROR": "There was an error creating the issue, please try again",
-        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
-        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+        "CREATE_SUCCESS": "Problēma ir veiksmīgi izveidota",
+        "CREATE_ERROR": "Veidojot problēmu radās kļūda. Lūdzu, mēģiniet vēlreiz",
+        "LOADING_TEAM_ERROR": "Ienesot komandas radās kļūda. Lūdzu, mēģiniet vēlreiz",
+        "LOADING_TEAM_ENTITIES_ERROR": "Ienesot komandas entītijas radās kļūda. Lūdzu, mēģiniet vēlreiz"
       },
       "ISSUE": {
         "STATUS": "Statuss",
         "PRIORITY": "Prioritāte",
         "ASSIGNEE": "Uzdevuma saņēmējs",
         "LABELS": "Etiķetes",
-        "CREATED_AT": "Created at %{createdAt}"
+        "CREATED_AT": "Izveidots %{createdAt}"
       },
       "UNLINK": {
-        "TITLE": "Unlink",
-        "SUCCESS": "Issue unlinked successfully",
-        "ERROR": "There was an error unlinking the issue, please try again"
+        "TITLE": "Atsaistīt",
+        "SUCCESS": "Problēma ir veiksmīgi atsaistīta",
+        "ERROR": "Atsaistot jautājumu radās kļūda. Lūdzu, mēģiniet vēlreiz"
       }
     }
   }
