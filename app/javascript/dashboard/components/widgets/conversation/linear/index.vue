@@ -28,6 +28,7 @@
     <woot-modal
       :show.sync="shouldShowPopup"
       :on-close="closePopup"
+      :close-on-backdrop-click="false"
       class="!items-start [&>div]:!top-12"
     >
       <create-or-link-issue
@@ -40,13 +41,17 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted, watch } from 'vue';
+import { computed, ref, onMounted, watch, defineComponent } from 'vue';
 import { useAlert } from 'dashboard/composables';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useI18n } from 'dashboard/composables/useI18n';
 import LinearAPI from 'dashboard/api/integrations/linear';
 import CreateOrLinkIssue from './CreateOrLinkIssue.vue';
 import Issue from './Issue.vue';
+
+defineComponent({
+  name: 'Linear',
+});
 
 const props = defineProps({
   conversationId: {
