@@ -3,8 +3,9 @@
 ## deployment url will be of the form chatwoot-pr-<pr_number>.herokuapp.com
 name: Deploy Check
 
-on:
-  pull_request:
+# disable for DT
+# on:
+#   pull_request:
 
 jobs:
   deployment_check:
