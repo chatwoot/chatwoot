@@ -21,7 +21,6 @@
       v-if="linkedIssue"
       :issue="linkedIssue.issue"
       :link-id="linkedIssue.id"
-      :is-unlinking="isUnlinking"
       class="absolute right-0 top-[40px] invisible group-hover:visible"
       @unlink-issue="unlinkIssue"
     />
@@ -41,7 +40,7 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted, watch, defineComponent } from 'vue';
+import { computed, ref, onMounted, watch, defineComponent, provide } from 'vue';
 import { useAlert } from 'dashboard/composables';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useI18n } from 'dashboard/composables/useI18n';
@@ -67,6 +66,8 @@ const linkedIssue = ref(null);
 const shouldShow = ref(false);
 const shouldShowPopup = ref(false);
 const isUnlinking = ref(false);
+
+provide('isUnlinking', isUnlinking);
 
 const currentAccountId = getters.getCurrentAccountId;
 

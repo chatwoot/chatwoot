@@ -20,10 +20,6 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  isUnlinking: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 const emit = defineEmits(['unlink-issue']);
@@ -67,7 +63,6 @@ const unlinkIssue = () => {
         :identifier="issue.identifier"
         :link-id="linkId"
         :issue-url="issue.url"
-        :is-unlinking="isUnlinking"
         @unlink-issue="unlinkIssue"
       />
 

@@ -27,6 +27,7 @@
           icon-lib="lucide"
         />
       </woot-button>
+      {{ isUnlinking }}
       <woot-button
         variant="clear"
         class="h-[24px]"
@@ -40,6 +41,7 @@
 </template>
 
 <script setup>
+import { inject } from 'vue';
 const props = defineProps({
   identifier: {
     type: String,
@@ -49,11 +51,9 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  isUnlinking: {
-    type: Boolean,
-    default: false,
-  },
 });
+
+const isUnlinking = inject('isUnlinking');
 
 const emit = defineEmits(['unlink-issue']);
 
