@@ -40,19 +40,19 @@
     "UNKNOWN_FILE_TYPE": "Fitxer desconegut",
     "SAVE_CONTACT": "Desar",
     "UPLOADING_ATTACHMENTS": "Pujant fitxers adjunts...",
-    "REPLIED_TO_STORY": "Replied to your story",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
-    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
-    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
-    "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
-    "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
+    "REPLIED_TO_STORY": "Va respondre a la teva història",
+    "UNSUPPORTED_MESSAGE": "Aquest missatge no està suportat.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "Aquest missatge no està suportat. Pots veure aquest missatge a l'aplicació Facebook Messenger.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "Aquest missatge no està suportat. Pots veure aquest missatge a l'aplicació d'Instagram.",
+    "SUCCESS_DELETE_MESSAGE": "El missatge s'ha suprimit correctament",
+    "FAIL_DELETE_MESSSAGE": "No s'ha pogut suprimir el missatge! Torna-ho a provar",
     "NO_RESPONSE": "Sense resposta",
-    "RATING_TITLE": "Rating",
-    "FEEDBACK_TITLE": "Feedback",
-    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
+    "RATING_TITLE": "Valoració",
+    "FEEDBACK_TITLE": "Comentaris",
+    "REPLY_MESSAGE_NOT_FOUND": "Missatge no disponible",
     "CARD": {
-      "SHOW_LABELS": "Show labels",
-      "HIDE_LABELS": "Hide labels"
+      "SHOW_LABELS": "Mostra etiquetes",
+      "HIDE_LABELS": "Amaga etiquetes"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resoldre",
@@ -61,30 +61,30 @@
       "OPEN": "Més",
       "CLOSE": "Tanca",
       "DETAILS": "detalls",
-      "SNOOZED_UNTIL": "Snoozed until",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply",
+      "SNOOZED_UNTIL": "Posposat fins a",
+      "SNOOZED_UNTIL_TOMORROW": "Posposat fins demà",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Posposat fins a la setmana vinent",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Posposat fins a la següent resposta",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
         "RT": "RT {status}",
-        "MISSED": "missed",
-        "DUE": "due"
+        "MISSED": "perduda",
+        "DUE": "límit"
       }
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending",
+      "MARK_PENDING": "Marca com a pendent",
       "SNOOZE_UNTIL": "Posposat",
       "SNOOZE": {
-        "TITLE": "Snooze until",
-        "NEXT_REPLY": "Next reply",
-        "TOMORROW": "Tomorrow",
-        "NEXT_WEEK": "Next week"
+        "TITLE": "Posposat fins a",
+        "NEXT_REPLY": "Següent resposta",
+        "TOMORROW": "Demà",
+        "NEXT_WEEK": "Pròxima setmana"
       }
     },
     "CUSTOM_SNOOZE": {
-      "TITLE": "Snooze until",
+      "TITLE": "Posposat fins a",
       "APPLY": "Posposat",
       "CANCEL": "Cancel·la"
     },
@@ -106,43 +106,43 @@
       }
     },
     "CARD_CONTEXT_MENU": {
-      "PENDING": "Mark as pending",
-      "RESOLVED": "Mark as resolved",
-      "MARK_AS_UNREAD": "Mark as unread",
+      "PENDING": "Marca com a pendent",
+      "RESOLVED": "Marca com a resolt",
+      "MARK_AS_UNREAD": "Marca com a no llegit",
       "REOPEN": "Torna a obrir la conversa",
       "SNOOZE": {
         "TITLE": "Posposat",
-        "NEXT_REPLY": "Until next reply",
-        "TOMORROW": "Until tomorrow",
-        "NEXT_WEEK": "Until next week"
+        "NEXT_REPLY": "Fins a la propera resposta",
+        "TOMORROW": "Fins demà",
+        "NEXT_WEEK": "Fins a la setmana vinent"
       },
-      "ASSIGN_AGENT": "Assign agent",
-      "ASSIGN_LABEL": "Assign label",
-      "AGENTS_LOADING": "Loading agents...",
-      "ASSIGN_TEAM": "Assign team",
+      "ASSIGN_AGENT": "Assigna un agent",
+      "ASSIGN_LABEL": "Assigna etiqueta",
+      "AGENTS_LOADING": "S'estan carregant els agents...",
+      "ASSIGN_TEAM": "Assigna un equip",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "Conversation id %{conversationId} assigned to \"%{agentName}\"",
-          "FAILED": "Couldn't assign agent. Please try again."
+          "SUCCESFUL": "Id de conversa %{conversationId} assignat a \"%{agentName}\"",
+          "FAILED": "No s'ha pogut assignar l'agent. Torna-ho a provar."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned label #%{labelName} to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign label. Please try again."
+          "SUCCESFUL": "S'ha assignat l'etiqueta #%{labelName} a l'id de conversa %{conversationId}",
+          "FAILED": "No s'ha pogut assignar l'etiqueta. Torna-ho a provar."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Assigned team \"%{team}\" to conversation id %{conversationId}",
-          "FAILED": "Couldn't assign team. Please try again."
+          "SUCCESFUL": "S'ha assignat l'equip \"%{team}\" a l'id de conversa %{conversationId}",
+          "FAILED": "No s'ha pogut assignar l'equip. Torna-ho a provar."
         }
       }
     },
     "FOOTER": {
-      "MESSAGE_SIGN_TOOLTIP": "Message signature",
-      "ENABLE_SIGN_TOOLTIP": "Enable signature",
-      "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "MESSAGE_SIGN_TOOLTIP": "Signatura del missatge",
+      "ENABLE_SIGN_TOOLTIP": "Activa la signatura",
+      "DISABLE_SIGN_TOOLTIP": "Desactiva la signatura",
       "MSG_INPUT": "Shift + enter per a una línia nova. Comença amb '/' per seleccionar una resposta predeterminada.",
       "PRIVATE_MSG_INPUT": "Shift + enter per una línia nova. Això serà visible només per als Agents",
-      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
-      "CLICK_HERE": "Click here to update"
+      "MESSAGE_SIGNATURE_NOT_CONFIGURED": "La signatura del missatge no està configurada, configura-la a la configuració del perfil.",
+      "CLICK_HERE": "Fes clic aquí per actualitzar"
     },
     "REPLYBOX": {
       "REPLY": "Respon",
@@ -150,12 +150,12 @@
       "SEND": "Envia",
       "CREATE": "Afegeix una nota",
       "INSERT_READ_MORE": "Llegir més",
-      "DISMISS_REPLY": "Dismiss reply",
-      "REPLYING_TO": "Replying to:",
+      "DISMISS_REPLY": "Ignora la resposta",
+      "REPLYING_TO": "Responent a:",
       "TIP_FORMAT_ICON": "Mostra l'editor de text enriquit",
       "TIP_EMOJI_ICON": "Mostra la selecció d'emoticones",
       "TIP_ATTACH_ICON": "Ajuntar fitxers",
-      "TIP_AUDIORECORDER_ICON": "Record audio",
+      "TIP_AUDIORECORDER_ICON": "Gravar àudio",
       "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
       "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
       "DRAG_DROP": "Drag and drop here to attach",
@@ -311,14 +311,14 @@
     "SIDEBAR_MENU_TITLE": "Participating",
     "SIDEBAR_TITLE": "Conversation participants",
     "NO_RECORDS_FOUND": "No s'ha trobat agents",
-    "ADD_PARTICIPANTS": "Select participants",
-    "REMANING_PARTICIPANTS_TEXT": "+%{count} others",
-    "REMANING_PARTICIPANT_TEXT": "+%{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "%{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "%{count} person is participating.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
-    "WATCH_CONVERSATION": "Join conversation",
-    "YOU_ARE_WATCHING": "You are participating",
+    "ADD_PARTICIPANTS": "Selecciona els participants",
+    "REMANING_PARTICIPANTS_TEXT": "+%{count} més",
+    "REMANING_PARTICIPANT_TEXT": "+%{count} més",
+    "TOTAL_PARTICIPANTS_TEXT": "%{count} persones estan participant.",
+    "TOTAL_PARTICIPANT_TEXT": "%{count} persona està participant.",
+    "NO_PARTICIPANTS_TEXT": "No hi participa ningú!",
+    "WATCH_CONVERSATION": "Uneix-te a la conversa",
+    "YOU_ARE_WATCHING": "Estàs participant",
     "API": {
       "ERROR_MESSAGE": "Could not update, try again!",
       "SUCCESS_MESSAGE": "Participants updated!"
