@@ -16,7 +16,9 @@
           :show-clear-filter="false"
           :list-items="issues"
           :active-filter-id="selectedOption.id"
+          :is-loading="isFetching"
           :input-placeholder="$t('INTEGRATION_SETTINGS.LINEAR.LINK.SEARCH')"
+          :loading-placeholder="$t('INTEGRATION_SETTINGS.LINEAR.LINK.LOADING')"
           enable-search
           class="left-0 flex flex-col w-full overflow-y-auto h-fit max-h-[160px] md:left-auto md:right-0 top-10"
           @on-search="onSearch"
@@ -101,13 +103,18 @@ const onSearch = async value => {
   searchQuery.value = value;
   try {
     isFetching.value = true;
+    issues.value = [];
     const response = await LinearAPI.searchIssues(value);
     issues.value = response.data.map(issue => ({
       id: issue.id,
       name: `${issue.identifier} ${issue.title}`,
     }));
   } catch (error) {
-    useAlert(t('INTEGRATION_SETTINGS.LINEAR.LINK.ERROR'));
+    const errorData = error.response.data;
+    const errorMessage =
+      errorData?.error?.errors?.[0]?.message ||
+      t('INTEGRATION_SETTINGS.LINEAR.LINK.ERROR');
+    useAlert(errorMessage);
   } finally {
     isFetching.value = false;
   }
@@ -123,7 +130,11 @@ const linkIssue = async () => {
     issues.value = [];
     onClose();
   } catch (error) {
-    useAlert(t('INTEGRATION_SETTINGS.LINEAR.LINK.LINK_ERROR'));
+    const errorData = error.response.data;
+    const errorMessage =
+      errorData?.error?.errors?.[0]?.message ||
+      t('INTEGRATION_SETTINGS.LINEAR.LINK.LINK_ERROR');
+    useAlert(errorMessage);
   } finally {
     isLinking.value = false;
   }

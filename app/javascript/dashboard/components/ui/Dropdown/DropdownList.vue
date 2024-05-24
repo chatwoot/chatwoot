@@ -1,10 +1,12 @@
 <script setup>
 import { ref, computed } from 'vue';
+import { debounce } from 'lodash';
 import { picoSearch } from '@scmmishra/pico-search';
 import ListItemButton from './DropdownListItemButton.vue';
 import DropdownSearch from './DropdownSearch.vue';
 import DropdownEmptyState from './DropdownEmptyState.vue';
-
+import { useI18n } from 'dashboard/composables/useI18n';
+const { t } = useI18n();
 const props = defineProps({
   listItems: {
     type: Array,
@@ -26,16 +28,24 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
+  loadingPlaceholder: {
+    type: String,
+    default: '',
+  },
 });
 
 const emits = defineEmits(['on-search']);
 
 const searchTerm = ref('');
 
-const onSearch = value => {
+const onSearch = debounce(value => {
   searchTerm.value = value;
   emits('on-search', value);
-};
+}, 300); // 300ms delay
 
 const filteredListItems = computed(() => {
   if (!searchTerm.value) return props.listItems;
@@ -50,6 +60,18 @@ const isFilterActive = id => {
   if (!props.activeFilterId) return false;
   return id === props.activeFilterId;
 };
+
+const emptyStateText = computed(() => {
+  if (props.isLoading) return props.loadingPlaceholder;
+  return t('REPORT.FILTER_ACTIONS.EMPTY_LIST');
+});
+
+const shouldShowEmptyState = computed(() => {
+  return (
+    (isDropdownListEmpty.value && !props.isLoading) ||
+    (props.isLoading && props.loadingPlaceholder && isDropdownListEmpty.value)
+  );
+});
 </script>
 <template>
   <div
@@ -68,8 +90,8 @@ const isFilterActive = id => {
     </slot>
     <slot name="listItem">
       <dropdown-empty-state
-        v-if="isDropdownListEmpty"
-        :message="$t('REPORT.FILTER_ACTIONS.EMPTY_LIST')"
+        v-if="shouldShowEmptyState"
+        :message="emptyStateText"
       />
       <list-item-button
         v-for="item in filteredListItems"
