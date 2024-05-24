@@ -70,6 +70,10 @@ Rails.application.configure do
   # require 'syslog/logger'
   config.logger = ActiveSupport::Logger.new(Rails.root.join('log', "#{Rails.env}.log"), 1, ENV.fetch('LOG_SIZE', '1024').to_i.megabytes)
 
+  config.active_record.database_selector = { delay: 2.seconds }
+  config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
+  config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
+
   # Bullet configuration to fix the N+1 queries
   config.after_initialize do
     Bullet.enable = true

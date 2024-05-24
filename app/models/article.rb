@@ -114,8 +114,10 @@ class Article < ApplicationRecord
 
   def increment_view_count
     # rubocop:disable Rails/SkipsModelValidations
-    update_column(:views, views? ? views + 1 : 1)
-    # rubocop:enable Rails/SkipsModelValidations
+    ActiveRecord::Base.connected_to(role: :writing) do
+      update_column(:views, views? ? views + 1 : 1)
+      # rubocop:enable Rails/SkipsModelValidations
+    end
   end
 
   def self.update_positions(positions_hash)
