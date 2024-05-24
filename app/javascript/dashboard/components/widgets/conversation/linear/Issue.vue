@@ -20,6 +20,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  isUnlinking: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['unlink-issue']);
@@ -56,13 +60,14 @@ const unlinkIssue = () => {
 
 <template>
   <div
-    class="absolute flex flex-col items-start bg-ash-50 dark:bg-slate-800 z-50 px-4 py-3 border border-solid border-ash-200 w-[384px] rounded-xl gap-4 max-h-96 overflow-auto"
+    class="absolute flex flex-col items-start bg-[#fdfdfd] dark:bg-slate-800 z-50 px-4 py-3 border border-solid border-ash-200 w-[384px] rounded-xl gap-4 max-h-96 overflow-auto"
   >
     <div class="flex flex-col w-full">
       <issue-header
         :identifier="issue.identifier"
         :link-id="linkId"
         :issue-url="issue.url"
+        :is-unlinking="isUnlinking"
         @unlink-issue="unlinkIssue"
       />
 
