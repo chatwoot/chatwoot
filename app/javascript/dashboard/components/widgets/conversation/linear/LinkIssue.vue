@@ -99,11 +99,11 @@ const onClose = () => {
 };
 
 const onSearch = async value => {
+  issues.value = [];
   if (!value) return;
   searchQuery.value = value;
   try {
     isFetching.value = true;
-    issues.value = [];
     const response = await LinearAPI.searchIssues(value);
     issues.value = response.data.map(issue => ({
       id: issue.id,
