@@ -8,9 +8,9 @@
       "NO_NOTIFICATIONS": "No notifications",
       "NOTE": "Notifications from all subscribed inboxes",
       "NO_MESSAGES_AVAILABLE": "Oops! Not able to fetch messages",
-      "SNOOZED_UNTIL": "Snoozed until",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week"
+      "SNOOZED_UNTIL": "Posposat fins a",
+      "SNOOZED_UNTIL_TOMORROW": "Posposat fins demà",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Posposat fins a la setmana vinent"
     },
     "ACTION_HEADER": {
       "SNOOZE": "Snooze notification",
@@ -29,7 +29,7 @@
     },
     "MENU_ITEM": {
       "MARK_AS_READ": "Mark as read",
-      "MARK_AS_UNREAD": "Mark as unread",
+      "MARK_AS_UNREAD": "Marca com a no llegit",
       "SNOOZE": "Posposat",
       "DELETE": "Esborrar",
       "MARK_ALL_READ": "Marcar tots com a llegits",
