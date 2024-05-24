@@ -426,7 +426,7 @@
       "HEADER": {
         "CONTACT_NAME": "Contact",
         "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
+        "RATING": "Valoració",
         "FEEDBACK_TEXT": "Feedback comment"
       }
     },
