@@ -185,7 +185,7 @@ const updateManualInput = (newDate, calendarType) => {
 };
 
 const handleManualInputError = message => {
-  bus.$emit('newToastMessage', message);
+  this.$emitter.emit('newToastMessage', message);
 };
 
 const resetDatePicker = () => {
@@ -201,7 +201,7 @@ const resetDatePicker = () => {
 
 const emitDateRange = () => {
   if (!isValid(selectedStartDate.value) || !isValid(selectedEndDate.value)) {
-    bus.$emit('newToastMessage', 'Please select a valid time range');
+    this.$emitter.emit('newToastMessage', 'Please select a valid time range');
   } else {
     showDatePicker.value = false;
     emit('dateRangeChanged', [selectedStartDate.value, selectedEndDate.value]);

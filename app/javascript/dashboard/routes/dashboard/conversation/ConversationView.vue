@@ -169,7 +169,7 @@ export default {
             after: messageId,
           })
           .then(() => {
-            bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId });
+            this.$emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId });
           });
       } else {
         this.$store.dispatch('clearSelectedState');

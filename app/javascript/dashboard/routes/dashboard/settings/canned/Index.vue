@@ -193,7 +193,7 @@ export default {
       this.selectedResponse = {};
       // Show message
       this.cannedResponseAPI.message = message;
-      bus.$emit('newToastMessage', message);
+      this.$emitter.emit('newToastMessage', message);
     },
     // Edit Function
     openAddPopup() {

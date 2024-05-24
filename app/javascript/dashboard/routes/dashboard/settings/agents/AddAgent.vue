@@ -118,7 +118,7 @@ export default {
 
   methods: {
     showAlert(message) {
-      bus.$emit('newToastMessage', message);
+      this.$emitter.emit('newToastMessage', message);
     },
     async addAgent() {
       try {

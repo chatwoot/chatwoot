@@ -35,7 +35,10 @@ export default {
     async onCopy(e) {
       e.preventDefault();
       await copyTextToClipboard(this.value);
-      bus.$emit('newToastMessage', this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
+      this.$emitter.emit(
+        'newToastMessage',
+        this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL')
+      );
     },
     toggleMasked() {
       this.masked = !this.masked;

@@ -83,7 +83,7 @@ export default {
     showAlert(message) {
       // Reset loading, current selected agent
       this.resetPassword.showLoading = false;
-      bus.$emit('newToastMessage', message);
+      this.$emitter.emit('newToastMessage', message);
     },
     submit() {
       this.resetPassword.showLoading = true;

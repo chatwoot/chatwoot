@@ -59,7 +59,10 @@ export default {
     async onCopy(e) {
       e.preventDefault();
       await copyTextToClipboard(this.script);
-      bus.$emit('newToastMessage', this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
+      this.$emitter.emit(
+        'newToastMessage',
+        this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL')
+      );
     },
   },
 };

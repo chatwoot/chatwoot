@@ -242,7 +242,7 @@ export default {
       this.currentAgent = {};
       // Show message
       this.agentAPI.message = message;
-      bus.$emit('newToastMessage', message);
+      this.$emitter.emit('newToastMessage', message);
     },
   },
 };

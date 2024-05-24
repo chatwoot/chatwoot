@@ -190,7 +190,7 @@ export default {
       // Reset loading, current selected agent
       this.loginApi.showLoading = false;
       this.loginApi.message = message;
-      bus.$emit('newToastMessage', this.loginApi.message);
+      this.$emitter.emit('newToastMessage', this.loginApi.message);
     },
     submitLogin() {
       if (this.$v.credentials.email.$invalid && !this.email) {

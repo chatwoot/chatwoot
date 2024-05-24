@@ -96,7 +96,7 @@ export default {
 
           upload.create((error, blob) => {
             if (error) {
-              window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {
+              this.$emitter.emit(BUS_EVENTS.SHOW_ALERT, {
                 message: error,
               });
             } else {
@@ -107,7 +107,7 @@ export default {
             }
           });
         } else {
-          window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {
+          this.$emitter.emit(BUS_EVENTS.SHOW_ALERT, {
             message: this.$t('FILE_SIZE_LIMIT', {
               MAXIMUM_FILE_UPLOAD_SIZE: this.fileUploadSizeLimit,
             }),
@@ -130,7 +130,7 @@ export default {
             ...this.getLocalFileAttributes(file),
           });
         } else {
-          window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {
+          this.$emitter.emit(BUS_EVENTS.SHOW_ALERT, {
             message: this.$t('FILE_SIZE_LIMIT', {
               MAXIMUM_FILE_UPLOAD_SIZE: this.fileUploadSizeLimit,
             }),

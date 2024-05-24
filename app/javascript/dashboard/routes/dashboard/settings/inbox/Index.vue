@@ -194,12 +194,12 @@ export default {
     async deleteInbox({ id }) {
       try {
         await this.$store.dispatch('inboxes/delete', id);
-        bus.$emit(
+        this.$emitter.emit(
           'newToastMessage',
           this.$t('INBOX_MGMT.DELETE.API.SUCCESS_MESSAGE')
         );
       } catch (error) {
-        bus.$emit(
+        this.$emitter.emit(
           'newToastMessage',
           this.$t('INBOX_MGMT.DELETE.API.ERROR_MESSAGE')
         );

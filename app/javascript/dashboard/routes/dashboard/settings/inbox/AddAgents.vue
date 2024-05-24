@@ -98,7 +98,7 @@ export default {
           },
         });
       } catch (error) {
-        bus.$emit('newToastMessage', error.message);
+        this.$emitter.emit('newToastMessage', error.message);
       }
       this.isCreating = false;
     },

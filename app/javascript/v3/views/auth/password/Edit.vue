@@ -108,7 +108,7 @@ export default {
     showAlert(message) {
       // Reset loading, current selected agent
       this.newPasswordAPI.showLoading = false;
-      bus.$emit('newToastMessage', message);
+      this.$emitter.emit('newToastMessage', message);
     },
     submitForm() {
       this.newPasswordAPI.showLoading = true;
