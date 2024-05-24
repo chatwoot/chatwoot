@@ -320,14 +320,27 @@ export default {
         unassigned: 'unAssignedCount',
         all: 'allCount',
       };
-      return Object.keys(ASSIGNEE_TYPE_TAB_KEYS).map(key => {
-        const count = this.conversationStats[ASSIGNEE_TYPE_TAB_KEYS[key]] || 0;
-        return {
-          key,
-          name: this.$t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
-          count,
-        };
-      });
+      const userPermissions = this.currentUser.permissions;
+      const allowedTabs = {
+        me:
+          userPermissions.includes('conversation_manage') ||
+          userPermissions.includes('conversation_participating_manage'),
+        unassigned:
+          userPermissions.includes('conversation_manage') ||
+          userPermissions.includes('conversation_unassigned_manage'),
+        all: true,
+      };
+      return Object.keys(allowedTabs)
+        .filter(key => allowedTabs[key])
+        .map(key => {
+          const count =
+            this.conversationStats[ASSIGNEE_TYPE_TAB_KEYS[key]] || 0;
+          return {
+            key,
+            name: this.$t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
+            count,
+          };
+        });
     },
     showAssigneeInConversationCard() {
       return (
