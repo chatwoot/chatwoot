@@ -16,9 +16,16 @@
         variant="clear"
         color-scheme="secondary"
         class="h-[24px]"
+        :is-loading="isUnlinking"
         @click="unlinkIssue"
       >
-        <fluent-icon icon="unlink" size="12" type="outline" icon-lib="lucide" />
+        <fluent-icon
+          v-if="!isUnlinking"
+          icon="unlink"
+          size="12"
+          type="outline"
+          icon-lib="lucide"
+        />
       </woot-button>
       <woot-button
         variant="clear"
@@ -41,6 +48,10 @@ const props = defineProps({
   issueUrl: {
     type: String,
     required: true,
+  },
+  isUnlinking: {
+    type: Boolean,
+    default: false,
   },
 });
 

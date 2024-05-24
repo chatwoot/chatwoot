@@ -21,6 +21,7 @@
       v-if="linkedIssue"
       :issue="linkedIssue.issue"
       :link-id="linkedIssue.id"
+      :is-unlinking="isUnlinking"
       class="absolute right-0 top-[40px] invisible group-hover:visible"
       @unlink-issue="unlinkIssue"
     />
@@ -60,6 +61,7 @@ const { t } = useI18n();
 const linkedIssue = ref(null);
 const shouldShow = ref(false);
 const shouldShowPopup = ref(false);
+const isUnlinking = ref(false);
 
 const currentAccountId = getters.getCurrentAccountId;
 
@@ -80,17 +82,28 @@ const loadLinkedIssue = async () => {
     const issues = response.data;
     linkedIssue.value = issues && issues.length ? issues[0] : null;
   } catch (error) {
-    useAlert(error?.message || t('INTEGRATION_SETTINGS.LINEAR.LOADING_ERROR'));
+    const errorData = error.response.data;
+    const errorMessage =
+      errorData?.error?.errors?.[0]?.message ||
+      t('INTEGRATION_SETTINGS.LINEAR.LOADING_ERROR');
+    useAlert(errorMessage);
   }
 };
 
 const unlinkIssue = async linkId => {
   try {
+    isUnlinking.value = true;
     await LinearAPI.unlinkIssue(linkId);
     linkedIssue.value = null;
     useAlert(t('INTEGRATION_SETTINGS.LINEAR.UNLINK.SUCCESS'));
   } catch (error) {
-    useAlert(t('INTEGRATION_SETTINGS.LINEAR.UNLINK.ERROR'));
+    const errorData = error.response.data;
+    const errorMessage =
+      errorData?.error?.errors?.[0]?.message ||
+      t('INTEGRATION_SETTINGS.LINEAR.UNLINK.ERROR');
+    useAlert(errorMessage);
+  } finally {
+    isUnlinking.value = false;
   }
 };
 
