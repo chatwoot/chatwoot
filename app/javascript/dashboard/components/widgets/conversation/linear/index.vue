@@ -29,7 +29,7 @@
       :show.sync="shouldShowPopup"
       :on-close="closePopup"
       :close-on-backdrop-click="false"
-      class="!items-start [&>div]:!top-12"
+      class="!items-start [&>div]:!top-12 [&>div]:sticky"
     >
       <create-or-link-issue
         :conversation="conversation"
