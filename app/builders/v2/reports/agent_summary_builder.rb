@@ -56,12 +56,9 @@ class V2::Reports::AgentSummaryBuilder < V2::Reports::BaseSummaryBuilder
     Current.account.users.pluck(:id)
   end
 
-  def account_users_ids
-    Current.account.account_users.pluck(:id)
-  end
-
   def audit_logs
-    @audit_logs ||= Audited::Audit.where(auditable_id: account_users_ids)
+    @audit_logs ||= Audited::Audit.where(user_id: users_ids)
+                                  .where(associated_id: Current.account.id)
                                   .where(created_at: range)
                                   .where(auditable_type: 'AccountUser')
                                   .where(action: 'update')

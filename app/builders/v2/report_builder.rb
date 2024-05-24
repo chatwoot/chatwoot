@@ -93,10 +93,6 @@ class V2::ReportBuilder
     @user ||= account.users.find(params[:id])
   end
 
-  def account_user
-    @account_user ||= AccountUser.find_by(account_id: account.id, user_id: user.id)
-  end
-
   def label
     @label ||= account.labels.find(params[:id])
   end

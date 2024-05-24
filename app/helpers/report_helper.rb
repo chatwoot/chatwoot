@@ -130,7 +130,7 @@ module ReportHelper
   end
 
   def online_time_summary
-    audit_logs = Audited::Audit.where(user_id: scope.id, auditable_id: account_user.id, created_at: range, auditable_type: 'AccountUser',
+    audit_logs = Audited::Audit.where(user_id: scope.id, associated_id: account.id, created_at: range, auditable_type: 'AccountUser',
                                       action: 'update').order(:created_at)
 
     return 0 if audit_logs.blank?
@@ -143,7 +143,7 @@ module ReportHelper
   end
 
   def busy_time_summary
-    audit_logs = Audited::Audit.where(user_id: scope.id, auditable_id: account_user.id, created_at: range, auditable_type: 'AccountUser',
+    audit_logs = Audited::Audit.where(user_id: scope.id, associated_id: account.id, created_at: range, auditable_type: 'AccountUser',
                                       action: 'update').order(:created_at)
 
     return 0 if audit_logs.blank?
