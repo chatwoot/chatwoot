@@ -5,7 +5,7 @@
       "DISPLAY_DROPDOWN": "Display",
       "LOADING": "Fetching notifications",
       "404": "There are no active notifications in this group.",
-      "NO_NOTIFICATIONS": "No notifications",
+      "NO_NOTIFICATIONS": "No hi ha notificacions",
       "NOTE": "Notifications from all subscribed inboxes",
       "NO_MESSAGES_AVAILABLE": "Oops! Not able to fetch messages",
       "SNOOZED_UNTIL": "Posposat fins a",
@@ -13,8 +13,8 @@
       "SNOOZED_UNTIL_NEXT_WEEK": "Posposat fins a la setmana vinent"
     },
     "ACTION_HEADER": {
-      "SNOOZE": "Snooze notification",
-      "DELETE": "Delete notification",
+      "SNOOZE": "Posposa la notificació",
+      "DELETE": "Suprimeix la notificació",
       "BACK": "Enrere"
     },
     "TYPES": {
@@ -37,11 +37,11 @@
       "DELETE_ALL_READ": "Delete all read"
     },
     "DISPLAY_MENU": {
-      "SORT": "Sort",
-      "DISPLAY": "Display :",
+      "SORT": "Ordena",
+      "DISPLAY": "Visualització:",
       "SORT_OPTIONS": {
-        "NEWEST": "Newest",
-        "OLDEST": "Oldest",
+        "NEWEST": "Més nou",
+        "OLDEST": "Més antic",
         "PRIORITY": "Prioritat"
       },
       "DISPLAY_OPTIONS": {
@@ -52,13 +52,13 @@
       }
     },
     "ALERTS": {
-      "MARK_AS_READ": "Notification marked as read",
-      "MARK_AS_UNREAD": "Notification marked as unread",
-      "SNOOZE": "Notification snoozed",
-      "DELETE": "Notification deleted",
-      "MARK_ALL_READ": "All notifications marked as read",
+      "MARK_AS_READ": "Notificació marcada com a llegida",
+      "MARK_AS_UNREAD": "Notificació marcada com a no llegida",
+      "SNOOZE": "La notificació s'ha posposat",
+      "DELETE": "S'ha suprimit la notificació",
+      "MARK_ALL_READ": "Totes les notificacions s'han marcat com a llegides",
       "DELETE_ALL": "S'han suprimit totes les notificacions",
-      "DELETE_ALL_READ": "All read notifications deleted"
+      "DELETE_ALL_READ": "S'han suprimit totes les notificacions de lectura"
     }
   }
 }
