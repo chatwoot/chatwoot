@@ -4,9 +4,9 @@
     "TITLE": "Configuració del Perfil",
     "BTN_TEXT": "Actualització del Perfil",
     "DELETE_AVATAR": "Suprimeix Avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "AVATAR_DELETE_SUCCESS": "L'avatar s'ha suprimit correctament",
+    "AVATAR_DELETE_FAILED": "S'ha produït un error en suprimir l'avatar, torneu-ho a provar",
+    "UPDATE_SUCCESS": "El teu perfil s'ha actualitzat correctament",
     "PASSWORD_UPDATE_SUCCESS": "La teva contrasenya ha estat canviada correctament",
     "AFTER_EMAIL_CHANGED": "El vostre perfil s'ha actualitzat correctament. Torneu a iniciar la sessió ja que les vostres credencials d'inici de sessió han canviat",
     "FORM": {
@@ -48,12 +48,12 @@
       "MESSAGE_SIGNATURE": {
         "LABEL": "Signatura del missatge",
         "ERROR": "La signatura del missatge no pot estar buida",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "PLACEHOLDER": "Introdueix aquí la teva signatura de missatge personal."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Contrasenya",
         "NOTE": "L'actualització de la contrasenya restableix els vostres inicis de sessió en múltiples dispositius.",
-        "BTN_TEXT": "Change password"
+        "BTN_TEXT": "Canvia la contrasenya"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token d'accés",
@@ -61,26 +61,26 @@
         "COPY": "Copia"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "TITLE": "Notificacions d'àudio",
+        "NOTE": "Activa les notificacions d'àudio al tauler per a missatges i converses nous.",
         "ALERT_TYPES": {
           "NONE": "Ningú",
           "MINE": "Assignat",
           "ALL": "Totes"
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "Esdeveniments d'alerta per a converses:",
           "NONE": "Ningú",
-          "ASSIGNED": "Assigned Conversations",
-          "ALL_CONVERSATIONS": "All Conversations"
+          "ASSIGNED": "Converses assignades",
+          "ALL_CONVERSATIONS": "Totes les converses"
         },
         "DEFAULT_TONE": {
           "TITLE": "To d'alerta:"
         },
         "CONDITIONS": {
-          "TITLE": "Alert conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+          "TITLE": "Condicions d'alerta:",
+          "CONDITION_ONE": "Envia alertes d'àudio només si la finestra del navegador no està activa",
+          "CONDITION_TWO": "Envia alertes cada 30 segons fins que es llegeixin totes les converses assignades"
         }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
@@ -90,27 +90,27 @@
         "CONVERSATION_CREATION": "Envieu notificacions per correu electrònic quan es crea una nova conversa",
         "CONVERSATION_MENTION": "Enviar notificacions per mail quan siguis esmentat en una conversació",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envia notificacions per correu electrònic quan es creï un missatge nou en una conversa assignada",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Envia notificacions per correu electrònic quan es crea un missatge nou en una conversa participant",
         "SLA_MISSED_FIRST_RESPONSE": "Envia notificacions per correu electrònic quan una conversa no compleixi un SLA de primera resposta",
         "SLA_MISSED_NEXT_RESPONSE": "Envia notificacions per correu electrònic quan una conversa es perdi la següent resposta SLA",
         "SLA_MISSED_RESOLUTION": "Envia notificacions per correu electrònic quan una conversa no resol un SLA"
       },
       "NOTIFICATIONS": {
-        "TITLE": "Notification preferences",
-        "TYPE_TITLE": "Notification type",
+        "TITLE": "Preferències de notificació",
+        "TYPE_TITLE": "Tipus de notificació",
         "EMAIL": "Correu electrònic",
-        "PUSH": "Push notification",
+        "PUSH": "Notificació Push",
         "TYPES": {
-          "CONVERSATION_CREATED": "A new conversation is created",
-          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
-          "CONVERSATION_MENTION": "You are mentioned in a conversation",
-          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
-          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
-          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
-          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
-          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+          "CONVERSATION_CREATED": "S'ha creat una nova conversa",
+          "CONVERSATION_ASSIGNED": "Se t'assigna una conversa",
+          "CONVERSATION_MENTION": "Se't menciona en una conversa",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Es crea un missatge nou en una conversa assignada",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Es crea un missatge nou en una conversa participant",
+          "SLA_MISSED_FIRST_RESPONSE": "Una conversa no té un SLA de primera resposta",
+          "SLA_MISSED_NEXT_RESPONSE": "SLA de la següent resposta no és una conversa",
+          "SLA_MISSED_RESOLUTION": "Una conversa no resol un SLA"
         },
-        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+        "BROWSER_PERMISSION": "Activa les notificacions push en el teu navegador perquè puguis rebre-les"
       },
       "API": {
         "UPDATE_SUCCESS": "Les teves preferències de notificació s’han actualitzat correctament",
@@ -123,7 +123,7 @@
         "CONVERSATION_CREATION": "Envia notificacions automàtiques quan es creï una conversa nova",
         "CONVERSATION_MENTION": "Enviar notificacions push quan siguis esmentat en una conversació",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envia notificacions automàtiques quan es creï un missatge nou en una conversa assignada",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Envia notificacions push quan es crea un missatge nou en una conversa participant",
         "HAS_ENABLED_PUSH": "Heu activat les notificacions per a aquest navegador.",
         "REQUEST_PUSH": "Activa les notificacions",
         "SLA_MISSED_FIRST_RESPONSE": "Envia notificacions automàtiques quan una conversa no tingui un SLA de primera resposta",
@@ -150,8 +150,8 @@
           "Ocupat",
           "Fora de línia"
         ],
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+        "SET_AVAILABILITY_SUCCESS": "La disponibilitat s'ha establert correctament",
+        "SET_AVAILABILITY_ERROR": "No s'ha pogut establir la disponibilitat, torna-ho a provar"
       },
       "EMAIL": {
         "LABEL": "La teva adreça de correu electrònic",
@@ -159,30 +159,30 @@
         "PLACEHOLDER": "Introduïu la vostra adreça de correu electrònic, que es mostrarà a les converses"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "Contrasenya actual",
+        "ERROR": "Introdueix la contrasenya actual",
+        "PLACEHOLDER": "Introdueix la contrasenya actual"
       },
       "PASSWORD": {
-        "LABEL": "New password",
+        "LABEL": "Nova contrasenya",
         "ERROR": "Introduïu una contrasenya d'una longitud de 6 o més",
         "PLACEHOLDER": "Introduïu una nova contrasenya"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Confirmació de la nova contrasenya",
         "ERROR": "Confirmeu que les contrasenyes coincideixin",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "PLACEHOLDER": "Torna a introduir la nova contrasenya"
       }
     }
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Canvia",
     "CHANGE_ACCOUNTS": "Canvia de compte",
-    "CONTACT_SUPPORT": "Contact Support",
+    "CONTACT_SUPPORT": "Contacte de suport",
     "SELECTOR_SUBTITLE": "Selecciona un compte de la llista següent",
     "PROFILE_SETTINGS": "Configuració del Perfil",
-    "KEYBOARD_SHORTCUTS": "Keyboard Shortcuts",
-    "APPEARANCE": "Change Appearance",
+    "KEYBOARD_SHORTCUTS": "Dreceres de teclat",
+    "APPEARANCE": "Canvia l'aparença",
     "SUPER_ADMIN_CONSOLE": "Super Admin Console",
     "LOGOUT": "Sortir"
   },
@@ -232,10 +232,10 @@
     "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Converses",
     "INBOX": "Safata d'entrada",
-    "ALL_CONVERSATIONS": "All Conversations",
+    "ALL_CONVERSATIONS": "Totes les converses",
     "MENTIONED_CONVERSATIONS": "Mencions",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
-    "UNATTENDED_CONVERSATIONS": "Unattended",
+    "PARTICIPATING_CONVERSATIONS": "Participant",
+    "UNATTENDED_CONVERSATIONS": "Sense assistència",
     "REPORTS": "Informes",
     "SETTINGS": "Configuracions",
     "CONTACTS": "Contactes",
