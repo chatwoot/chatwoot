@@ -44,7 +44,7 @@
       },
       "EDIT": {
         "BUTTON_TEXT": "Edita",
-        "TITLE": "Edit webhook",
+        "TITLE": "Edita el webhook",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
           "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
@@ -103,7 +103,7 @@
       "CREATE_ERROR": "There was an error creating a meeting link, please try again"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "AI Assist",
+      "AI_ASSIST": "Assistència IA",
       "WITH_AI": " %{option} with AI ",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Reply Suggestion",
@@ -145,7 +145,7 @@
         "TITLE": "Tone",
         "OPTIONS": {
           "PROFESSIONAL": "Professional",
-          "FRIENDLY": "Friendly"
+          "FRIENDLY": "Amable"
         }
       },
       "BUTTONS": {
