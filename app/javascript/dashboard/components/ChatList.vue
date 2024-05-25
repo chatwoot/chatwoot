@@ -322,12 +322,13 @@ export default {
       };
       const userPermissions = this.currentUser.permissions;
       const allowedTabs = {
-        me:
-          userPermissions.includes('conversation_manage') ||
-          userPermissions.includes('conversation_participating_manage'),
-        unassigned:
-          userPermissions.includes('conversation_manage') ||
-          userPermissions.includes('conversation_unassigned_manage'),
+        me: ['conversation_manage', 'conversation_participating_manage'].some(
+          permission => userPermissions.includes(permission)
+        ),
+        unassigned: [
+          'conversation_manage',
+          'conversation_unassigned_manage',
+        ].some(permission => userPermissions.includes(permission)),
         all: true,
       };
       return Object.keys(allowedTabs)
