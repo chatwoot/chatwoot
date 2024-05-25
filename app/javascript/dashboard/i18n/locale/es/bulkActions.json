@@ -33,7 +33,7 @@
       "NONE": "Ninguna",
       "NO_TEAMS_AVAILABLE": "Todavía no hay equipos añadidos a esta cuenta.",
       "ASSIGN_SELECTED_TEAMS": "Asignar equipo seleccionado.",
-      "ASSIGN_SUCCESFUL": "Equipos asignados correctamente.",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
       "ASSIGN_FAILED": "Error al asignar equipo, inténtelo de nuevo."
     }
   }
