@@ -156,29 +156,29 @@
       "TIP_EMOJI_ICON": "Mostra la selecció d'emoticones",
       "TIP_ATTACH_ICON": "Ajuntar fitxers",
       "TIP_AUDIORECORDER_ICON": "Gravar àudio",
-      "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
-      "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
-      "DRAG_DROP": "Drag and drop here to attach",
-      "START_AUDIO_RECORDING": "Start audio recording",
-      "STOP_AUDIO_RECORDING": "Stop audio recording",
+      "TIP_AUDIORECORDER_PERMISSION": "Permet l'accés a l'àudio",
+      "TIP_AUDIORECORDER_ERROR": "No s'ha pogut obrir l'àudio",
+      "DRAG_DROP": "Arrossega i deixa anar aquí per adjuntar-lo",
+      "START_AUDIO_RECORDING": "Inicia la gravació d'àudio",
+      "STOP_AUDIO_RECORDING": "Atura la gravació d'àudio",
       "": "",
       "EMAIL_HEAD": {
-        "TO": "TO",
-        "ADD_BCC": "Add bcc",
+        "TO": "A",
+        "ADD_BCC": "Afegeix cco",
         "CC": {
           "LABEL": "CC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "PLACEHOLDER": "Correus electrònics separats per comes",
+          "ERROR": "Introduïu adreces de correu electrònic vàlides"
         },
         "BCC": {
-          "LABEL": "BCC",
-          "PLACEHOLDER": "Emails separated by commas",
-          "ERROR": "Please enter valid email addresses"
+          "LABEL": "CCO",
+          "PLACEHOLDER": "Correus electrònics separats per comes",
+          "ERROR": "Introduïu adreces de correu electrònic vàlides"
         }
       },
       "UNDEFINED_VARIABLES": {
-        "TITLE": "Undefined variables",
-        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "TITLE": "Variables sense definir",
+        "MESSAGE": "Tens {undefinedVariablesCount} variables sense definir al teu missatge: {undefinedVariables}. Vols enviar el missatge igualment?",
         "CONFIRM": {
           "YES": "Envia",
           "CANCEL": "Cancel·la"
@@ -187,18 +187,18 @@
     },
     "VISIBLE_TO_AGENTS": "Nota privada: Només és visible per tu i el vostre equip",
     "CHANGE_STATUS": "Estat de la conversa canviat",
-    "CHANGE_STATUS_FAILED": "Conversation status change failed",
+    "CHANGE_STATUS_FAILED": "No s'ha pogut canviar l'estat de la conversa",
     "CHANGE_AGENT": "Assignació de la conversa canviat",
-    "CHANGE_AGENT_FAILED": "Assignee change failed",
-    "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
-    "ASSIGN_LABEL_FAILED": "Label assignment failed",
-    "CHANGE_TEAM": "Conversation team changed",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
-    "MESSAGE_ERROR": "Unable to send this message, please try again later",
+    "CHANGE_AGENT_FAILED": "El canvi de l'assignat ha fallat",
+    "ASSIGN_LABEL_SUCCESFUL": "L'etiqueta s'ha assignat correctament",
+    "ASSIGN_LABEL_FAILED": "L'assignació d'etiquetes ha fallat",
+    "CHANGE_TEAM": "L'equip de conversa ha canviat",
+    "FILE_SIZE_LIMIT": "El fitxer supera el límit de {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB fitxers adjunts",
+    "MESSAGE_ERROR": "No es pot enviar aquest missatge, torna-ho a provar més tard",
     "SENT_BY": "Enviat per:",
     "BOT": "Bot",
-    "SEND_FAILED": "Couldn't send message! Try again",
-    "TRY_AGAIN": "retry",
+    "SEND_FAILED": "No s'ha pogut enviar el missatge! Torna-ho a provar",
+    "TRY_AGAIN": "reintenta",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Seleccionar Agent",
       "REMOVE": "Suprimeix",
@@ -206,15 +206,15 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Copia",
-      "REPLY_TO": "Reply to this message",
+      "REPLY_TO": "Respon a aquest missatge",
       "DELETE": "Esborrar",
-      "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
-      "TRANSLATE": "Translate",
-      "COPY_PERMALINK": "Copy link to the message",
-      "LINK_COPIED": "Message URL copied to the clipboard",
+      "CREATE_A_CANNED_RESPONSE": "Afegir a les respostes predeterminades",
+      "TRANSLATE": "Tradueix",
+      "COPY_PERMALINK": "Copia l'enllaç al missatge",
+      "LINK_COPIED": "URL del missatge copiat al porta-retalls",
       "DELETE_CONFIRMATION": {
-        "TITLE": "Are you sure you want to delete this message?",
-        "MESSAGE": "You cannot undo this action",
+        "TITLE": "Estàs segur que vols suprimir aquest missatge?",
+        "MESSAGE": "No pots desfer aquesta acció",
         "DELETE": "Esborrar",
         "CANCEL": "Cancel·la"
       }
@@ -251,35 +251,35 @@
       "NEW_LINK": "Feu clic aquí per convidar un membre de l'equip"
     },
     "INBOXES": {
-      "TITLE": "Connect Inboxes",
+      "TITLE": "Connecta les safates d'entrada",
       "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
-      "NEW_LINK": "Click here to create an inbox"
+      "NEW_LINK": "Fes clic aquí per crear una safata d'entrada"
     },
     "LABELS": {
-      "TITLE": "Organize conversations with labels",
-      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
-      "NEW_LINK": "Click here to create tags"
+      "TITLE": "Organitza converses amb etiquetes",
+      "DESCRIPTION": "Les etiquetes proporcionen una manera més fàcil de classificar la vostra conversa. Crea algunes etiquetes com #consulta-suport, #pregunta-facturació, etc., perquè les puguis utilitzar en una conversa més endavant.",
+      "NEW_LINK": "Fes clic aquí per crear etiquetes"
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "SELF_ASSIGN": "Assign to me",
-    "TEAM_LABEL": "Assigned Team",
+    "ASSIGNEE_LABEL": "Agent assignat",
+    "SELF_ASSIGN": "Assigna-me-la",
+    "TEAM_LABEL": "Assignada a un equip",
     "SELECT": {
       "PLACEHOLDER": "Ningú"
     },
     "ACCORDION": {
-      "CONTACT_DETAILS": "Contact Details",
-      "CONVERSATION_ACTIONS": "Conversation Actions",
+      "CONTACT_DETAILS": "Detalls de contacte",
+      "CONVERSATION_ACTIONS": "Accions de conversa",
       "CONVERSATION_LABELS": "Etiquetes de converses",
-      "CONVERSATION_INFO": "Conversation Information",
-      "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONVERSATION_INFO": "Informació de la conversa",
+      "CONTACT_ATTRIBUTES": "Atributs de contacte",
       "PREVIOUS_CONVERSATION": "Converses prèvies",
       "MACROS": "Macros"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
-    "ADD_BUTTON_TEXT": "Create attribute",
+    "ADD_BUTTON_TEXT": "Crea atribut",
     "NO_RECORDS_FOUND": "No s'han trobat atributs",
     "UPDATE": {
       "SUCCESS": "Atribut actualitzat correctament",
@@ -301,15 +301,15 @@
     }
   },
   "EMAIL_HEADER": {
-    "FROM": "From",
+    "FROM": "Des de",
     "TO": "Per",
-    "BCC": "Bcc",
+    "BCC": "Cco",
     "CC": "Cc",
-    "SUBJECT": "Subject"
+    "SUBJECT": "Assumpte"
   },
   "CONVERSATION_PARTICIPANTS": {
-    "SIDEBAR_MENU_TITLE": "Participating",
-    "SIDEBAR_TITLE": "Conversation participants",
+    "SIDEBAR_MENU_TITLE": "Participant",
+    "SIDEBAR_TITLE": "Participants de la conversa",
     "NO_RECORDS_FOUND": "No s'ha trobat agents",
     "ADD_PARTICIPANTS": "Selecciona els participants",
     "REMANING_PARTICIPANTS_TEXT": "+%{count} més",
@@ -320,15 +320,15 @@
     "WATCH_CONVERSATION": "Uneix-te a la conversa",
     "YOU_ARE_WATCHING": "Estàs participant",
     "API": {
-      "ERROR_MESSAGE": "Could not update, try again!",
-      "SUCCESS_MESSAGE": "Participants updated!"
+      "ERROR_MESSAGE": "No s'ha pogut actualitzar, torna-ho a provar!",
+      "SUCCESS_MESSAGE": "Participants actualitzats!"
     }
   },
   "TRANSLATE_MODAL": {
-    "TITLE": "View translated content",
-    "DESC": "You can view the translated content in each langauge.",
-    "ORIGINAL_CONTENT": "Original Content",
-    "TRANSLATED_CONTENT": "Translated Content",
-    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+    "TITLE": "Veure contingut traduït",
+    "DESC": "Pots veure el contingut traduït a cada idioma.",
+    "ORIGINAL_CONTENT": "Contingut original",
+    "TRANSLATED_CONTENT": "Contingut traduït",
+    "NO_TRANSLATIONS_AVAILABLE": "No hi ha traduccions disponibles per a aquest contingut"
   }
 }
