@@ -1,256 +1,256 @@
 {
   "HELP_CENTER": {
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
-      "LOCALE": "Locale",
+      "FILTER": "Filtrat per",
+      "SORT": "Ordenat per",
+      "LOCALE": "Localització",
       "SETTINGS_BUTTON": "Configuracions",
-      "NEW_BUTTON": "New Article",
+      "NEW_BUTTON": "Nou article",
       "DROPDOWN_OPTIONS": {
-        "PUBLISHED": "Published",
-        "DRAFT": "Draft",
-        "ARCHIVED": "Archived"
+        "PUBLISHED": "Publicat",
+        "DRAFT": "Esborrany",
+        "ARCHIVED": "Arxivat"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
-        "DRAFT": "Draft Articles",
-        "ARCHIVED": "Archived Articles"
+        "ALL_ARTICLES": "Tots els articles",
+        "MINE": "Tots els meus articles",
+        "DRAFT": "Esborrany d'articles",
+        "ARCHIVED": "Articles arxivats"
       },
       "LOCALE_SELECT": {
-        "TITLE": "Select locale",
-        "PLACEHOLDER": "Select locale",
-        "NO_RESULT": "No locale found",
-        "SEARCH_PLACEHOLDER": "Search locale"
+        "TITLE": "Selecciona localització",
+        "PLACEHOLDER": "Selecciona localització",
+        "NO_RESULT": "No s'ha trobat localització",
+        "SEARCH_PLACEHOLDER": "Cerca localització"
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "All Articles",
-      "PUBLISH_BUTTON": "Publish",
-      "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
-      "PREVIEW": "Preview",
-      "ADD_TRANSLATION": "Add translation",
-      "OPEN_SIDEBAR": "Open sidebar",
-      "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Saving...",
-      "SAVED": "Saved"
+      "ALL_ARTICLES": "Tots els articles",
+      "PUBLISH_BUTTON": "Publica",
+      "MOVE_TO_ARCHIVE_BUTTON": "Mou a arxivat",
+      "PREVIEW": "Vista prèvia",
+      "ADD_TRANSLATION": "Afegeix traducció",
+      "OPEN_SIDEBAR": "Obre la barra lateral",
+      "CLOSE_SIDEBAR": "Tanca la barra lateral",
+      "SAVING": "S'està desant...",
+      "SAVED": "Desat"
     },
     "ARTICLE_EDITOR": {
       "IMAGE_UPLOAD": {
         "TITLE": "Puja imatge",
         "UPLOADING": "S'està carregant...",
-        "SUCCESS": "Image uploaded successfully",
-        "ERROR": "Error while uploading image",
-        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
-        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
-        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+        "SUCCESS": "La imatge s'ha carregat correctament",
+        "ERROR": "S'ha produït un error en carregar la imatge",
+        "ERROR_FILE_SIZE": "La mida de la imatge ha de ser inferior a {size}MB",
+        "ERROR_FILE_FORMAT": "El format de la imatge ha de ser JPG, JPEG o PNG",
+        "ERROR_FILE_DIMENSIONS": "Les dimensions de la imatge han de ser inferiors a 2000 x 2000"
       }
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Article Settings",
+      "TITLE": "Configuració de l'article",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Category",
-          "TITLE": "Select category",
-          "PLACEHOLDER": "Select category",
-          "NO_RESULT": "No category found",
-          "SEARCH_PLACEHOLDER": "Search category"
+          "LABEL": "Categoria",
+          "TITLE": "Selecciona categoria",
+          "PLACEHOLDER": "Selecciona categoria",
+          "NO_RESULT": "No s'ha trobat la categoria",
+          "SEARCH_PLACEHOLDER": "Cerca la categoria"
         },
         "AUTHOR": {
-          "LABEL": "Author",
-          "TITLE": "Select author",
-          "PLACEHOLDER": "Select author",
-          "NO_RESULT": "No authors found",
-          "SEARCH_PLACEHOLDER": "Search author"
+          "LABEL": "Autor",
+          "TITLE": "Selecciona l'autor",
+          "PLACEHOLDER": "Selecciona l'autor",
+          "NO_RESULT": "No s'han trobat autors",
+          "SEARCH_PLACEHOLDER": "Cerca autor"
         },
         "META_TITLE": {
-          "LABEL": "Meta title",
-          "PLACEHOLDER": "Add a meta title"
+          "LABEL": "Meta títol",
+          "PLACEHOLDER": "Afegeix un meta títol"
         },
         "META_DESCRIPTION": {
-          "LABEL": "Meta description",
-          "PLACEHOLDER": "Add your meta description for better SEO results..."
+          "LABEL": "Meta descripció",
+          "PLACEHOLDER": "Afegeix la teva meta descripció per obtenir millors resultats de SEO..."
         },
         "META_TAGS": {
-          "LABEL": "Meta tags",
-          "PLACEHOLDER": "Add meta tags separated by comma..."
+          "LABEL": "Meta etiquetes",
+          "PLACEHOLDER": "Afegeix meta etiquetes separades per comes..."
         }
       },
       "BUTTONS": {
-        "ARCHIVE": "Archive article",
-        "DELETE": "Delete article"
+        "ARCHIVE": "Arxiva article",
+        "DELETE": "Suprimeix article"
       }
     },
     "ARTICLE_SEARCH_RESULT": {
-      "UNCATEGORIZED": "Uncategorized",
-      "SEARCH_RESULTS": "Search results for %{query}",
-      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "UNCATEGORIZED": "Sense categoria",
+      "SEARCH_RESULTS": "Resultats de la cerca per a %{query}",
+      "EMPTY_TEXT": "Cerca articles per inserir a les respostes.",
       "SEARCH_LOADER": "S'està cercant...",
-      "INSERT_ARTICLE": "Insert",
-      "NO_RESULT": "No articles found",
-      "COPY_LINK": "Copy article link to clipboard",
-      "OPEN_LINK": "Open article in new tab",
-      "PREVIEW_LINK": "Preview article"
+      "INSERT_ARTICLE": "Insereix",
+      "NO_RESULT": "No s'han trobat articles",
+      "COPY_LINK": "Copia l'enllaç de l'article al porta-retalls",
+      "OPEN_LINK": "Obre l'article en una pestanya nova",
+      "PREVIEW_LINK": "Vista prèvia de l'article"
     },
     "PORTAL": {
       "HEADER": "Portals",
-      "DEFAULT": "Default",
-      "NEW_BUTTON": "New Portal",
-      "ACTIVE_BADGE": "active",
-      "CHOOSE_LOCALE_LABEL": "Choose a locale",
-      "LOADING_MESSAGE": "Loading portals...",
+      "DEFAULT": "Per defecte",
+      "NEW_BUTTON": "Nou portal",
+      "ACTIVE_BADGE": "actiu",
+      "CHOOSE_LOCALE_LABEL": "Escull una localització",
+      "LOADING_MESSAGE": "Carregant portals...",
       "ARTICLES_LABEL": "articles",
-      "NO_PORTALS_MESSAGE": "There are no available portals",
-      "ADD_NEW_LOCALE": "Add a new locale",
+      "NO_PORTALS_MESSAGE": "No hi ha portals disponibles",
+      "ADD_NEW_LOCALE": "Afegeix una nova localització",
       "POPOVER": {
         "TITLE": "Portals",
-        "PORTAL_SETTINGS": "Portal settings",
-        "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
+        "PORTAL_SETTINGS": "Configuració del portal",
+        "SUBTITLE": "Tens diversos portals i pots tenir diferents localitzacions per a cada portal.",
         "CANCEL_BUTTON_LABEL": "Cancel·la",
-        "CHOOSE_LOCALE_BUTTON": "Choose Locale"
+        "CHOOSE_LOCALE_BUTTON": "Escull localització"
       },
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
             "COUNT_LABEL": "articles",
-            "ADD": "Add locale",
-            "VISIT": "Visit site",
+            "ADD": "Afegeix localització",
+            "VISIT": "Visita el lloc",
             "SETTINGS": "Configuracions",
             "DELETE": "Esborrar"
           },
           "PORTAL_CONFIG": {
-            "TITLE": "Portal Configurations",
+            "TITLE": "Configuracions del portal",
             "ITEMS": {
               "NAME": "Nom",
-              "DOMAIN": "Custom domain",
+              "DOMAIN": "Domini personalitzat",
               "SLUG": "Slug",
-              "TITLE": "Portal title",
-              "THEME": "Theme color",
-              "SUB_TEXT": "Portal sub text"
+              "TITLE": "Títol del portal",
+              "THEME": "Color del tema",
+              "SUB_TEXT": "Subtext del portal"
             }
           },
           "AVAILABLE_LOCALES": {
-            "TITLE": "Available locales",
+            "TITLE": "Localitzacions disponibles",
             "TABLE": {
-              "NAME": "Locale name",
-              "CODE": "Locale code",
-              "ARTICLE_COUNT": "No. of articles",
-              "CATEGORIES": "No. of categories",
-              "SWAP": "Swap",
+              "NAME": "Nom de la localització",
+              "CODE": "Codi de la localització",
+              "ARTICLE_COUNT": "Nre. d'articles",
+              "CATEGORIES": "Nre. de categories",
+              "SWAP": "Intercanvi",
               "DELETE": "Esborrar",
-              "DEFAULT_LOCALE": "Default"
+              "DEFAULT_LOCALE": "Per defecte"
             }
           }
         },
         "DELETE_PORTAL": {
-          "TITLE": "Delete portal",
-          "MESSAGE": "Are you sure you want to delete this portal",
-          "YES": "Yes, delete portal",
-          "NO": "No, keep portal",
+          "TITLE": "Suprimir portal",
+          "MESSAGE": "Estàs segur que vols suprimir aquest portal",
+          "YES": "Sí, esborra el portal",
+          "NO": "No, manté el portal",
           "API": {
-            "DELETE_SUCCESS": "Portal deleted successfully",
-            "DELETE_ERROR": "Error while deleting portal"
+            "DELETE_SUCCESS": "Portal esborrat correctament",
+            "DELETE_ERROR": "S'ha produït un error en suprimir el portal"
           }
         }
       },
       "EDIT": {
-        "HEADER_TEXT": "Edit portal",
+        "HEADER_TEXT": "Edita el portal",
         "TABS": {
           "BASIC_SETTINGS": {
-            "TITLE": "Basic information"
+            "TITLE": "Informació bàsica"
           },
           "CUSTOMIZATION_SETTINGS": {
-            "TITLE": "Portal customization"
+            "TITLE": "Personalització del portal"
           },
           "CATEGORY_SETTINGS": {
             "TITLE": "Categories"
           },
           "LOCALE_SETTINGS": {
-            "TITLE": "Locales"
+            "TITLE": "Localitzacions"
           }
         },
         "CATEGORIES": {
-          "TITLE": "Categories in",
-          "NEW_CATEGORY": "New category",
+          "TITLE": "Categories a",
+          "NEW_CATEGORY": "Nova categoria",
           "TABLE": {
             "NAME": "Nom",
             "DESCRIPTION": "Descripció",
-            "LOCALE": "Locale",
-            "ARTICLE_COUNT": "No. of articles",
+            "LOCALE": "Localització",
+            "ARTICLE_COUNT": "Nre. d'articles",
             "ACTION_BUTTON": {
-              "EDIT": "Edit category",
-              "DELETE": "Delete category"
+              "EDIT": "Edita la categoria",
+              "DELETE": "Suprimeix la categoria"
             },
             "EMPTY_TEXT": "No s'han trobat categories"
           }
         },
         "EDIT_BASIC_INFO": {
-          "BUTTON_TEXT": "Update basic settings"
+          "BUTTON_TEXT": "Actualitzar la configuració bàsica"
         }
       },
       "ADD": {
         "CREATE_FLOW": [
           {
-            "title": "Help center information",
+            "title": "Informació del centre d'ajuda",
             "route": "new_portal_information",
-            "body": "Basic information about portal",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "body": "Informació bàsica sobre el portal",
+            "CREATE_BASIC_SETTING_BUTTON": "Crea la configuració bàsica del portal"
           },
           {
-            "title": "Help center customization",
+            "title": "Personalització del centre d'ajuda",
             "route": "portal_customization",
-            "body": "Customize portal",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "body": "Personalitza el portal",
+            "UPDATE_PORTAL_BUTTON": "Actualitza la configuració del portal"
           },
           {
-            "title": "Voila! 🎉",
+            "title": "Llest! 🎉",
             "route": "portal_finish",
-            "body": "You're all set!",
-            "FINISH": "Finish"
+            "body": "Estàs a punt!",
+            "FINISH": "Finalitza"
           }
         ],
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Enrere",
           "BASIC_SETTINGS_PAGE": {
-            "HEADER": "Create Portal",
-            "TITLE": "Help center information",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "HEADER": "Crea un portal",
+            "TITLE": "Informació del centre d'ajuda",
+            "CREATE_BASIC_SETTING_BUTTON": "Crea la configuració bàsica del portal"
           },
           "CUSTOMIZATION_PAGE": {
-            "HEADER": "Portal customisation",
-            "TITLE": "Help center customization",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "HEADER": "Personalització del portal",
+            "TITLE": "Personalització del centre d'ajuda",
+            "UPDATE_PORTAL_BUTTON": "Actualitza la configuració del portal"
           },
           "FINISH_PAGE": {
-            "TITLE": "Voila!🎉 You're all set up!",
-            "MESSAGE": "You can now see this created portal on your all portals page.",
-            "FINISH": "Go to all portals page"
+            "TITLE": "Lles!🎉 Estàs a punt!",
+            "MESSAGE": "Ara pots veure aquest portal creat en la teva pàgina de tots els portals.",
+            "FINISH": "Ves a la pàgina de tots els portals"
           }
         },
         "LOGO": {
           "LABEL": "Logo",
-          "UPLOAD_BUTTON": "Upload logo",
-          "HELP_TEXT": "This logo will be displayed on the portal header.",
-          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
-          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Error while deleting logo"
+          "UPLOAD_BUTTON": "Actualitza el logo",
+          "HELP_TEXT": "Aquest logotip es mostrarà a la capçalera del portal.",
+          "IMAGE_UPLOAD_SUCCESS": "El logotip s'ha penjat correctament",
+          "IMAGE_UPLOAD_ERROR": "El logotip s'ha suprimit correctament",
+          "IMAGE_DELETE_ERROR": "S'ha produït un error en suprimir el logotip"
         },
         "NAME": {
           "LABEL": "Nom",
-          "PLACEHOLDER": "Portal name",
-          "HELP_TEXT": "The name will be used in the public facing portal internally.",
+          "PLACEHOLDER": "Nom del portal",
+          "HELP_TEXT": "El nom s'utilitzarà internament al portal públic.",
           "ERROR": "El valor és necessari"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug for urls",
-          "ERROR": "Slug is required"
+          "PLACEHOLDER": "Slug del portal per a URLs",
+          "ERROR": "El slug és obligatori"
         },
         "DOMAIN": {
-          "LABEL": "Custom Domain",
-          "PLACEHOLDER": "Portal custom domain",
+          "LABEL": "Domini personalitzat",
+          "PLACEHOLDER": "Domini personalitzat del portal",
           "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: https://example.com",
-          "ERROR": "Enter a valid domain URL"
+          "ERROR": "Introdueix una URL de domini vàlid"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Home Page Link",
@@ -275,19 +275,19 @@
           "ERROR": "Portal header text is required"
         },
         "API": {
-          "SUCCESS_MESSAGE_FOR_BASIC": "Portal created successfully.",
+          "SUCCESS_MESSAGE_FOR_BASIC": "Portal creat correctament.",
           "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
           "SUCCESS_MESSAGE_FOR_UPDATE": "Portal updated successfully.",
           "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
         }
       },
       "ADD_LOCALE": {
-        "TITLE": "Add a new locale",
+        "TITLE": "Afegeix una nova localització",
         "SUB_TITLE": "This adds a new locale to your available translation list.",
         "PORTAL": "Portal",
         "LOCALE": {
           "LABEL": "Locale",
-          "PLACEHOLDER": "Choose a locale",
+          "PLACEHOLDER": "Escull una localització",
           "ERROR": "Locale is required"
         },
         "BUTTONS": {
@@ -318,7 +318,7 @@
       "NO_ARTICLES": "There are no available articles",
       "HEADERS": {
         "TITLE": "Títol",
-        "CATEGORY": "Category",
+        "CATEGORY": "Categoria",
         "READ_COUNT": "Views",
         "STATUS": "Estat",
         "LAST_EDITED": "Last edited"
@@ -443,14 +443,14 @@
     "ARTICLE_SEARCH": {
       "TITLE": "Search articles",
       "PLACEHOLDER": "Search articles",
-      "NO_RESULT": "No articles found",
+      "NO_RESULT": "No s'han trobat articles",
       "SEARCHING": "S'està cercant...",
       "SEARCH_BUTTON": "Cercar",
       "INSERT_ARTICLE": "Insert link",
       "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
       "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
       "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
-      "PREVIEW_LINK": "Preview article",
+      "PREVIEW_LINK": "Vista prèvia de l'article",
       "CANCEL": "Tanca",
       "BACK": "Enrere",
       "BACK_RESULTS": "Back to results"
