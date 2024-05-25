@@ -64,7 +64,7 @@
         "PLACEHOLDER": "60"
       },
       "BUSINESS_HOURS": {
-        "LABEL": "Business Hours",
+        "LABEL": "Horari comercial",
         "PLACEHOLDER": "Only during business hours"
       },
       "THRESHOLD_TIME": {
@@ -76,7 +76,7 @@
       "CANCEL": "Cancel·la"
     },
     "ADD": {
-      "TITLE": "Add SLA",
+      "TITLE": "Afegeix SLA",
       "DESC": "Promeses amistoses per a un gran servei!",
       "API": {
         "SUCCESS_MESSAGE": "SLA added successfully",
