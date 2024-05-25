@@ -22,7 +22,14 @@ export default {
         {
           path: 'list',
           name: 'canned_list',
-          roles: ['administrator', 'agent'],
+          meta: {
+            permissions: [
+              'account_manage',
+              'conversation_manage',
+              'conversation_participating_manage',
+              'conversation_unassigned_manage',
+            ],
+          },
           component: CannedHome,
         },
       ],

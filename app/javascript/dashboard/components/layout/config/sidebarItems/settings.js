@@ -47,6 +47,9 @@ const settings = accountId => ({
       label: 'ACCOUNT_SETTINGS',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/general`),
+      meta: {
+        permissions: ['account_manage'],
+      },
       toStateName: 'general_settings_index',
     },
     {
@@ -55,6 +58,9 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/agents/list`),
       toStateName: 'agent_list',
+      meta: {
+        permissions: ['account_manage'],
+      },
       featureFlag: FEATURE_FLAGS.AGENT_MANAGEMENT,
     },
     {
@@ -63,6 +69,9 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/teams/list`),
       toStateName: 'settings_teams_list',
+      meta: {
+        permissions: ['account_manage'],
+      },
       featureFlag: FEATURE_FLAGS.TEAM_MANAGEMENT,
     },
     {
@@ -71,6 +80,9 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/inboxes/list`),
       toStateName: 'settings_inbox_list',
+      meta: {
+        permissions: ['account_manage'],
+      },
       featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
     },
     {
@@ -79,6 +91,9 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/labels/list`),
       toStateName: 'labels_list',
+      meta: {
+        permissions: ['account_manage'],
+      },
       featureFlag: FEATURE_FLAGS.LABELS,
     },
     {
@@ -89,6 +104,9 @@ const settings = accountId => ({
         `accounts/${accountId}/settings/custom-attributes/list`
       ),
       toStateName: 'attributes_list',
+      meta: {
+        permissions: ['account_manage'],
+      },
       featureFlag: FEATURE_FLAGS.CUSTOM_ATTRIBUTES,
     },
     {
@@ -97,6 +115,9 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/automation/list`),
       toStateName: 'automation_list',
+      meta: {
+        permissions: ['account_manage'],
+      },
       featureFlag: FEATURE_FLAGS.AUTOMATIONS,
     },
     {
@@ -106,6 +127,9 @@ const settings = accountId => ({
       globalConfigFlag: 'csmlEditorHost',
       toState: frontendURL(`accounts/${accountId}/settings/agent-bots`),
       toStateName: 'agent_bots',
+      meta: {
+        permissions: ['account_manage'],
+      },
       featureFlag: FEATURE_FLAGS.AGENT_BOTS,
     },
     {
@@ -114,6 +138,9 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/macros`),
       toStateName: 'macros_wrapper',
+      meta: {
+        permissions: ['account_manage'],
+      },
       featureFlag: FEATURE_FLAGS.MACROS,
     },
     {
@@ -124,6 +151,9 @@ const settings = accountId => ({
         `accounts/${accountId}/settings/canned-response/list`
       ),
       toStateName: 'canned_list',
+      meta: {
+        permissions: ['account_manage'],
+      },
       featureFlag: FEATURE_FLAGS.CANNED_RESPONSES,
     },
     {
@@ -132,6 +162,9 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/integrations`),
       toStateName: 'settings_integrations',
+      meta: {
+        permissions: ['account_manage'],
+      },
       featureFlag: FEATURE_FLAGS.INTEGRATIONS,
     },
     {
@@ -140,6 +173,9 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/applications`),
       toStateName: 'settings_applications',
+      meta: {
+        permissions: ['account_manage'],
+      },
       featureFlag: FEATURE_FLAGS.INTEGRATIONS,
     },
     {
@@ -150,6 +186,9 @@ const settings = accountId => ({
       toStateName: 'auditlogs_list',
       isEnterpriseOnly: true,
       featureFlag: FEATURE_FLAGS.AUDIT_LOGS,
+      meta: {
+        permissions: ['account_manage'],
+      },
       beta: true,
     },
     {
@@ -160,6 +199,9 @@ const settings = accountId => ({
       toStateName: 'sla_list',
       isEnterpriseOnly: true,
       featureFlag: FEATURE_FLAGS.SLA,
+      meta: {
+        permissions: ['account_manage'],
+      },
       beta: true,
     },
     {
@@ -168,6 +210,9 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/billing`),
       toStateName: 'billing_settings_index',
+      meta: {
+        permissions: ['account_manage'],
+      },
       showOnlyOnCloud: true,
     },
   ],

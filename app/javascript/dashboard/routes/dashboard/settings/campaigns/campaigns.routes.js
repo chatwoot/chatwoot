@@ -19,7 +19,9 @@ export default {
         {
           path: 'ongoing',
           name: 'ongoing_campaigns',
-          roles: ['administrator'],
+          meta: {
+            permissions: ['account_manage'],
+          },
           component: Index,
         },
       ],
@@ -35,7 +37,9 @@ export default {
         {
           path: 'one_off',
           name: 'one_off',
-          roles: ['administrator'],
+          meta: {
+            permissions: ['account_manage'],
+          },
           component: Index,
         },
       ],

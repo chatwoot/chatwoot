@@ -10,7 +10,7 @@ const props = defineProps({
 });
 
 const getters = useStoreGetters();
-const user = getters.getCurrentUser();
+const user = getters.getCurrentUser.value;
 
 const hasPermission = computed(() =>
   props.permissions.some(permission => user.permissions.includes(permission))

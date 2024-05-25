@@ -28,6 +28,9 @@ const conversations = accountId => ({
       key: 'conversations',
       toState: frontendURL(`accounts/${accountId}/dashboard`),
       toolTip: 'Conversation from all subscribed inboxes',
+      meta: {
+        permissions: ['account_manage'],
+      },
       toStateName: 'home',
     },
     {
@@ -35,6 +38,9 @@ const conversations = accountId => ({
       label: 'MENTIONED_CONVERSATIONS',
       key: 'conversation_mentions',
       toState: frontendURL(`accounts/${accountId}/mentions/conversations`),
+      meta: {
+        permissions: ['account_manage'],
+      },
       toStateName: 'conversation_mentions',
     },
     {
@@ -42,6 +48,9 @@ const conversations = accountId => ({
       label: 'UNATTENDED_CONVERSATIONS',
       key: 'conversation_unattended',
       toState: frontendURL(`accounts/${accountId}/unattended/conversations`),
+      meta: {
+        permissions: ['account_manage'],
+      },
       toStateName: 'conversation_unattended',
     },
   ],

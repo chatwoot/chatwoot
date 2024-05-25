@@ -80,12 +80,9 @@ export default {
       return this.customViews.filter(view => view.filter_type === 'contact');
     },
     accessibleMenuItems() {
-      if (!this.currentRole) {
-        return [];
-      }
       const menuItemsFilteredByPermissions = this.menuConfig.menuItems.filter(
         menuItem => {
-          const { meta: { menuPermissions = [] } = {} } = menuItem;
+          const { meta: { permissions: menuPermissions = [] } = {} } = menuItem;
           const { permissions: userPermissions = [] } = this.currentUser;
           return menuPermissions.some(permission =>
             userPermissions.includes(permission)

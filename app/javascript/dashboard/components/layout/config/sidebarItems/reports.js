@@ -20,6 +20,9 @@ const reports = accountId => ({
       label: 'REPORTS_OVERVIEW',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/reports/overview`),
+      meta: {
+        permissions: ['account_manage'],
+      },
       toStateName: 'account_overview_reports',
     },
     {
@@ -27,6 +30,9 @@ const reports = accountId => ({
       label: 'REPORTS_CONVERSATION',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/reports/conversation`),
+      meta: {
+        permissions: ['account_manage'],
+      },
       toStateName: 'conversation_reports',
     },
     {
@@ -34,6 +40,9 @@ const reports = accountId => ({
       label: 'CSAT',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/reports/csat`),
+      meta: {
+        permissions: ['account_manage'],
+      },
       toStateName: 'csat_reports',
     },
     {
@@ -42,6 +51,9 @@ const reports = accountId => ({
       hasSubMenu: false,
       featureFlag: FEATURE_FLAGS.RESPONSE_BOT,
       toState: frontendURL(`accounts/${accountId}/reports/bot`),
+      meta: {
+        permissions: ['account_manage'],
+      },
       toStateName: 'bot_reports',
     },
     {
@@ -49,6 +61,9 @@ const reports = accountId => ({
       label: 'REPORTS_AGENT',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/reports/agent`),
+      meta: {
+        permissions: ['account_manage'],
+      },
       toStateName: 'agent_reports',
     },
     {
@@ -56,6 +71,9 @@ const reports = accountId => ({
       label: 'REPORTS_LABEL',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/reports/label`),
+      meta: {
+        permissions: ['account_manage'],
+      },
       toStateName: 'label_reports',
     },
     {
@@ -63,6 +81,9 @@ const reports = accountId => ({
       label: 'REPORTS_INBOX',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/reports/inboxes`),
+      meta: {
+        permissions: ['account_manage'],
+      },
       toStateName: 'inbox_reports',
     },
     {
@@ -70,6 +91,9 @@ const reports = accountId => ({
       label: 'REPORTS_TEAM',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/reports/teams`),
+      meta: {
+        permissions: ['account_manage'],
+      },
       toStateName: 'team_reports',
     },
     {
@@ -78,6 +102,9 @@ const reports = accountId => ({
       hasSubMenu: false,
       featureFlag: FEATURE_FLAGS.SLA,
       toState: frontendURL(`accounts/${accountId}/reports/sla`),
+      meta: {
+        permissions: ['account_manage'],
+      },
       toStateName: 'sla_reports',
     },
   ],

@@ -14,6 +14,9 @@ const contacts = accountId => ({
       label: 'ALL_CONTACTS',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/contacts`),
+      meta: {
+        permissions: ['account_manage'],
+      },
       toStateName: 'contacts_dashboard',
     },
   ],

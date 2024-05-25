@@ -11,6 +11,9 @@ const campaigns = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/campaigns/ongoing`),
       toStateName: 'ongoing_campaigns',
+      meta: {
+        permissions: ['account_manage'],
+      },
     },
     {
       key: 'oneOffCampaigns',
@@ -19,6 +22,9 @@ const campaigns = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/campaigns/one_off`),
       toStateName: 'one_off',
+      meta: {
+        permissions: ['account_manage'],
+      },
     },
   ],
 });

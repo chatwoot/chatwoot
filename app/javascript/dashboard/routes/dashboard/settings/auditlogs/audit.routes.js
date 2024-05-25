@@ -22,7 +22,9 @@ export default {
         {
           path: 'list',
           name: 'auditlogs_list',
-          roles: ['administrator'],
+          meta: {
+            permissions: ['account_manage'],
+          },
           component: AuditLogsHome,
         },
       ],

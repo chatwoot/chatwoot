@@ -23,19 +23,40 @@ export default {
           path: '',
           name: 'macros_wrapper',
           component: Macros,
-          roles: ['administrator', 'agent'],
+          meta: {
+            permissions: [
+              'account_manage',
+              'conversation_manage',
+              'conversation_participating_manage',
+              'conversation_unassigned_manage',
+            ],
+          },
         },
         {
           path: 'new',
           name: 'macros_new',
           component: MacroEditor,
-          roles: ['administrator', 'agent'],
+          meta: {
+            permissions: [
+              'account_manage',
+              'conversation_manage',
+              'conversation_participating_manage',
+              'conversation_unassigned_manage',
+            ],
+          },
         },
         {
           path: ':macroId/edit',
           name: 'macros_edit',
           component: MacroEditor,
-          roles: ['administrator', 'agent'],
+          meta: {
+            permissions: [
+              'account_manage',
+              'conversation_manage',
+              'conversation_participating_manage',
+              'conversation_unassigned_manage',
+            ],
+          },
         },
       ],
     },

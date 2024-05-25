@@ -24,7 +24,14 @@ export default {
     {
       path: frontendURL('accounts/:accountId/settings'),
       name: 'settings_home',
-      roles: ['administrator', 'agent'],
+      meta: {
+        permissions: [
+          'account_manage',
+          'conversation_manage',
+          'conversation_participating_manage',
+          'conversation_unassigned_manage',
+        ],
+      },
       redirect: () => {
         if (store.getters.getCurrentRole === 'administrator') {
           return frontendURL('accounts/:accountId/settings/general');
