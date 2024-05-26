@@ -62,14 +62,15 @@ import wootConstants from 'dashboard/constants/globals';
 const { EXAMPLE_WEBHOOK_URL } = wootConstants;
 
 const SUPPORTED_WEBHOOK_EVENTS = [
+  'contact_won',
+  'contact_created',
+  'contact_updated',
   'conversation_created',
   'conversation_status_changed',
   'conversation_updated',
   'message_created',
   'message_updated',
   'webwidget_triggered',
-  'contact_created',
-  'contact_updated',
 ];
 
 export default {

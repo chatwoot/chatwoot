@@ -72,7 +72,7 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :notes, dependent: :destroy_async
   before_validation :prepare_contact_attributes, :set_default_stage_id
   after_create_commit :dispatch_create_event, :ip_lookup
-  after_update_commit :dispatch_update_event
+  after_update_commit :dispatch_update_event, :dispatch_won_event
   after_destroy_commit :dispatch_destroy_event
   before_save :sync_contact_attributes
   after_save :stage_changed_action, if: :saved_change_to_stage_id?
@@ -209,7 +209,11 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
       identifier: identifier,
       name: name,
       phone_number: phone_number,
-      thumbnail: avatar_url
+      thumbnail: avatar_url,
+      initial_channel_type: initial_channel_type,
+      assignee: assignee&.webhook_data,
+      team_name: team&.name,
+      stage_code: stage&.code
     }
   end
 
@@ -278,6 +282,12 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def dispatch_update_event
     Rails.configuration.dispatcher.dispatch(CONTACT_UPDATED, Time.zone.now, contact: self, changed_attributes: previous_changes)
+  end
+
+  def dispatch_won_event
+    return unless saved_change_to_stage_id? && stage.code == 'Won'
+
+    Rails.configuration.dispatcher.dispatch(CONTACT_WON, Time.zone.now, contact: self, changed_attributes: previous_changes)
   end
 
   def dispatch_destroy_event

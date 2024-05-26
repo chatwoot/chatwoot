@@ -9,14 +9,15 @@
         "SUBSCRIPTIONS": {
           "LABEL": "Các sự kiện",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Cuộc trò chuyện đã được tạo",
-            "CONVERSATION_STATUS_CHANGED": "Trạng thái cuộc trò chuyện đã thay đổi",
-            "CONVERSATION_UPDATED": "Cuộc trò chuyện đã được cập nhật",
-            "MESSAGE_CREATED": "Tin nhắn đã được tạo",
-            "MESSAGE_UPDATED": "Tin nhắn đã được cập nhật",
-            "WEBWIDGET_TRIGGERED": "Tiện ích trò chuyện trực tuyến do người dùng mở",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated"
+            "CONTACT_WON": "Khách hàng chốt deal",
+            "CONVERSATION_CREATED": "Hội thoại được tạo",
+            "CONVERSATION_STATUS_CHANGED": "Trạng thái hội thoại thay đổi",
+            "CONVERSATION_UPDATED": "Hội thoại được cập nhật",
+            "MESSAGE_CREATED": "Tin nhắn được tạo",
+            "MESSAGE_UPDATED": "Tin nhắn được cập nhật",
+            "WEBWIDGET_TRIGGERED": "Người dùng kích hoạt web live-chat",
+            "CONTACT_CREATED": "Khách hàng được tạo",
+            "CONTACT_UPDATED": "Khách hàng được cập nhật"
           }
         },
         "END_POINT": {
