@@ -183,30 +183,30 @@
     "PROFILE_SETTINGS": "Configuració del Perfil",
     "KEYBOARD_SHORTCUTS": "Dreceres de teclat",
     "APPEARANCE": "Canvia l'aparença",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
+    "SUPER_ADMIN_CONSOLE": "Consola de super administració",
     "LOGOUT": "Sortir"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dies de prova restants.",
     "TRAIL_BUTTON": "Compra ara",
-    "DELETED_USER": "Deleted User",
-    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
-    "RESEND_VERIFICATION_MAIL": "Resend verification email",
-    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "DELETED_USER": "Usuari suprimit",
+    "EMAIL_VERIFICATION_PENDING": "Sembla que encara no has verificat la teva adreça de correu electrònic. Comprova la teva safata d'entrada per trobar el correu electrònic de verificació.",
+    "RESEND_VERIFICATION_MAIL": "Reenviar correu electrònic de verificació",
+    "EMAIL_VERIFICATION_SENT": "S'ha enviat un correu electrònic de verificació. Comprova la teva safata d'entrada.",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "Compte suspès",
+      "MESSAGE": "El teu compte està suspès. Posa't en contacte amb l'equip d'assistència per obtenir més informació."
     }
   },
   "COMPONENTS": {
     "CODE": {
       "BUTTON_TEXT": "Copia",
-      "CODEPEN": "Open in CodePen",
+      "CODEPEN": "Obre en CodePen",
       "COPY_SUCCESSFUL": "El codi s'ha copiat al porta-retalls amb èxit"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Mostra més",
-      "SHOW_LESS": "Show Less"
+      "SHOW_LESS": "Mostra menys"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descarrega",
@@ -214,7 +214,7 @@
       "INSTAGRAM_STORY_UNAVAILABLE": "Aquesta història ja no està disponible."
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "See on map"
+      "SEE_ON_MAP": "Veure al mapa"
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Envia"
@@ -227,9 +227,9 @@
     }
   },
   "SIDEBAR": {
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
-    "SWITCH": "Switch",
-    "INBOX_VIEW": "Inbox View",
+    "CURRENTLY_VIEWING_ACCOUNT": "Visualització actual:",
+    "SWITCH": "Canvia",
+    "INBOX_VIEW": "Vista de la safata d'entrada",
     "CONVERSATIONS": "Converses",
     "INBOX": "Safata d'entrada",
     "ALL_CONVERSATIONS": "Totes les converses",
@@ -252,69 +252,69 @@
     "APPLICATIONS": "Aplicacions",
     "LABELS": "Etiquetes",
     "CUSTOM_ATTRIBUTES": "Atributs personalitzats",
-    "AUTOMATION": "Automation",
+    "AUTOMATION": "Automatització",
     "MACROS": "Macros",
     "TEAMS": "Equips",
-    "BILLING": "Billing",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "BILLING": "Facturació",
+    "CUSTOM_VIEWS_FOLDER": "Carpetes",
     "CUSTOM_VIEWS_SEGMENTS": "Segments",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
+    "ALL_CONTACTS": "Tots els contactes",
+    "TAGGED_WITH": "Etiquetat amb",
     "NEW_LABEL": "Nova etiqueta",
     "NEW_TEAM": "Nou equip",
-    "NEW_INBOX": "New inbox",
+    "NEW_INBOX": "Safata d'entrada nova",
     "REPORTS_CONVERSATION": "Converses",
     "CSAT": "CSAT",
     "CAMPAIGNS": "Campanyes",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off",
+    "ONGOING": "En marxa",
+    "ONE_OFF": "Un fora",
     "REPORTS_SLA": "SLA",
     "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Agents",
     "REPORTS_LABEL": "Etiquetes",
     "REPORTS_INBOX": "Safata d'entrada",
-    "REPORTS_TEAM": "Team",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "REPORTS_TEAM": "Equip",
+    "SET_AVAILABILITY_TITLE": "Posa't com",
     "SLA": "SLA",
     "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Overview",
+    "REPORTS_OVERVIEW": "Resum",
     "FACEBOOK_REAUTHORIZE": "La teva connexió a Facebook ha caducat, torna a connectar la vostra pàgina de Facebook per continuar els serveis",
     "HELP_CENTER": {
       "TITLE": "Centre d'ajuda",
-      "ALL_ARTICLES": "All Articles",
-      "MY_ARTICLES": "My Articles",
-      "DRAFT": "Draft",
-      "ARCHIVED": "Archived",
+      "ALL_ARTICLES": "Tots els articles",
+      "MY_ARTICLES": "Els articles",
+      "DRAFT": "Esborrany",
+      "ARCHIVED": "Arxivat",
       "CATEGORY": "Categoria",
       "SETTINGS": "Configuracions",
       "CATEGORY_EMPTY_MESSAGE": "No s'han trobat categories"
     },
     "SET_AUTO_OFFLINE": {
-      "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
+      "TEXT": "Marca fora de línia automàticament",
+      "INFO_TEXT": "Permet que el sistema et marqui automàticament fora de línia quan no facis servir l'aplicació o el tauler."
     },
-    "DOCS": "Read docs"
+    "DOCS": "Llegir documents"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
+    "TITLE": "Facturació",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **%{plan}** plan with **%{quantity}** licenses"
+      "TITLE": "Pla actual",
+      "PLAN_NOTE": "Actualment estàs subscrit al pla **%{plan}** amb **%{quantity}** llicències"
     },
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "Gestiona la teva subscripció",
+      "DESCRIPTION": "Consulta les teves factures anteriors, edita els teus detalls de facturació o cancel·la la teva subscripció.",
+      "BUTTON_TXT": "Ves al portal de facturació"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
+      "TITLE": "Necessita ajuda?",
+      "DESCRIPTION": "Trobes algun problema en la facturació? Estem aquí per ajudar.",
       "BUTTON_TXT": "Xateja amb nosaltres"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "El teu compte de facturació s'està configurant. Actualitza la pàgina i torna-ho a provar."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
+    "NO_ACCOUNT_WARNING": "Uh oh! No hem trobat cap compte de Chatwoot. Crea un compte nou per continuar.",
     "NEW_ACCOUNT": "Compte nou",
     "SELECTOR_SUBTITLE": "Crear un compte nou",
     "API": {
@@ -331,22 +331,22 @@
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
+    "TOGGLE_MODAL": "Veure totes les dreceres",
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "OPEN_CONVERSATION": "Obrir conversa",
+      "RESOLVE_AND_NEXT": "Resol i passa al següent",
+      "NAVIGATE_DROPDOWN": "Navega pels elements desplegables",
+      "RESOLVE_CONVERSATION": "Resol la conversa",
+      "GO_TO_CONVERSATION_DASHBOARD": "Ves al Tauler de converses",
+      "ADD_ATTACHMENT": "Afegeix fitxer adjunt",
+      "GO_TO_CONTACTS_DASHBOARD": "Ves al tauler de contactes",
+      "TOGGLE_SIDEBAR": "Commuta la barra lateral",
+      "GO_TO_REPORTS_SIDEBAR": "Anar a la barra lateral Informes",
+      "MOVE_TO_NEXT_TAB": "Anar a la pestanya següent de la llista de converses",
+      "GO_TO_SETTINGS": "Ves a la configuració",
+      "SWITCH_TO_PRIVATE_NOTE": "Canvia a la nota privada",
+      "SWITCH_TO_REPLY": "Canvia a Respon",
+      "TOGGLE_SNOOZE_DROPDOWN": "Commuta el menú desplegable de posposar"
     },
     "KEYS": {
       "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
