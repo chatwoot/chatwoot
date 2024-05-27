@@ -33,7 +33,7 @@
       "NONE": "Nav",
       "NO_TEAMS_AVAILABLE": "Šim kontam vēl nav pievienota neviena komanda.",
       "ASSIGN_SELECTED_TEAMS": "Piešķirt izvēlēto komandu.",
-      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
+      "ASSIGN_SUCCESFUL": "Komandas ir veiksmīgi piešķirtas.",
       "ASSIGN_FAILED": "Neizdevās piešķirt komandu. Lūdzu mēģiniet vēlreiz."
     }
   }
