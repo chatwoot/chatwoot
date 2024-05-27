@@ -619,7 +619,7 @@ export default {
       return false;
     },
     microsoftUnauthorized() {
-      return this.inbox.microsoft_reauthorization;
+      return this.isAMicrosoftInbox && this.inbox.reauthorization_required;
     },
   },
   watch: {
