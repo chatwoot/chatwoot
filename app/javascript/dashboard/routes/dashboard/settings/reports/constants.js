@@ -229,6 +229,7 @@ export const OVERVIEW_METRICS = {
 
 export const AGENT_PLAN = {
   planned: 'PLANNED',
+  open: 'OPEN',
   resolved: 'RESOLVED',
   ratio: 'RATIO',
 };

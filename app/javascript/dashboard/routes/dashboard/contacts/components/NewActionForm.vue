@@ -259,7 +259,7 @@ export default {
         inbox_id: this.targetInbox.id,
         source_id: this.targetInbox.sourceId,
         contact_id: this.contact.id,
-        conversation_type: 'action',
+        conversation_type: 'planned',
         status: 'snoozed',
         snoozed_until: this.scheduledAt,
         priority: this.priority ? this.priority.id : null,

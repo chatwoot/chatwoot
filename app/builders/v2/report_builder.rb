@@ -1,4 +1,4 @@
-class V2::ReportBuilder
+class V2::ReportBuilder # rubocop:disable Metrics/ClassLength
   include DateRangeHelper
   include ReportHelper
   attr_reader :account, :params
@@ -98,13 +98,15 @@ class V2::ReportBuilder
   end
 
   def agent_planned
-    conversations = @account.conversations.where(assignee_id: params[:user_id]).where(conversation_type: :action)
+    conversations = @account.conversations.where(assignee_id: params[:user_id]).where(conversation_type: :planned)
     planned = conversations.count
-    resolved = conversations.where(status: :resolved).count
+    open = conversations.open.count
+    resolved = conversations.resolved.count
     {
       planned: planned,
+      open: open,
       resolved: resolved,
-      ratio: (resolved / planned * 100).round(0)
+      ratio: open.zero? ? 0 : (resolved.to_f / open * 100).round(0)
     }
   end
 
