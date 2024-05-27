@@ -1,17 +1,18 @@
+import { createPendingMessage } from 'dashboard/helper/commons';
+import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
 import Vue from 'vue';
-import types from '../../mutation-types';
 import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
-import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
-import { createPendingMessage } from 'dashboard/helper/commons';
-import {
-  buildConversationList,
-  isOnMentionsView,
-  isOnUnattendedView,
-  isOnFoldersView,
-} from './helpers/actionHelpers';
+import types from '../../mutation-types';
 import messageReadActions from './actions/messageReadActions';
 import messageTranslateActions from './actions/messageTranslateActions';
+import {
+  buildConversationList,
+  isOnFoldersView,
+  getCustomViewPayload,
+  isOnMentionsView,
+  isOnUnattendedView,
+} from './helpers/actionHelpers';
 
 export const hasMessageFailedWithExternalError = pendingMessage => {
   // This helper is used to check if the message has failed with an external error.
@@ -316,7 +317,10 @@ const actions = {
     }
   },
 
-  addConversation({ commit, state, dispatch, rootState }, conversation) {
+  addConversation(
+    { commit, state, dispatch, rootState, rootGetters },
+    conversation
+  ) {
     const { currentInbox, appliedFilters } = state;
     const {
       inbox_id: inboxId,
@@ -327,13 +331,18 @@ const actions = {
       !currentInbox || Number(currentInbox) === inboxId;
     if (
       !hasAppliedFilters &&
-      !isOnFoldersView(rootState) &&
       !isOnMentionsView(rootState) &&
       !isOnUnattendedView(rootState) &&
       isMatchingInboxFilter
     ) {
       commit(types.ADD_CONVERSATION, conversation);
       dispatch('contacts/setContact', sender);
+      if (isOnFoldersView(rootState)) {
+        // refreshes the folder view
+        const customViews = rootGetters['customViews/getCustomViews'];
+        const customViewPayload = getCustomViewPayload(rootState, customViews);
+        dispatch('customViews/update', customViewPayload);
+      }
     }
   },
 
@@ -349,18 +358,28 @@ const actions = {
     }
   },
 
-  updateConversation({ commit, dispatch }, conversation) {
+  updateConversation(
+    { commit, dispatch, rootState, rootGetters },
+    conversation
+  ) {
     const {
       meta: { sender },
     } = conversation;
-    commit(types.UPDATE_CONVERSATION, conversation);
+    if (!isOnMentionsView(rootState) && !isOnUnattendedView(rootState)) {
+      commit(types.UPDATE_CONVERSATION, conversation);
 
-    dispatch('conversationLabels/setConversationLabel', {
-      id: conversation.id,
-      data: conversation.labels,
-    });
-
-    dispatch('contacts/setContact', sender);
+      dispatch('conversationLabels/setConversationLabel', {
+        id: conversation.id,
+        data: conversation.labels,
+      });
+      if (isOnFoldersView(rootState)) {
+        // refreshes the folder view
+        const customViews = rootGetters['customViews/getCustomViews'];
+        const customViewPayload = getCustomViewPayload(rootState, customViews);
+        dispatch('customViews/update', customViewPayload);
+      }
+      dispatch('contacts/setContact', sender);
+    }
   },
 
   updateConversationLastActivity(

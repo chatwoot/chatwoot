@@ -17,7 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 da:
-  hello: "Hej verden"
+  hello: 'Hej verden'
   messages:
     reset_password_success: Woot! Anmodning om nulstilling af adgangskode er vellykket. Tjek din mail for instruktioner.
     reset_password_failure: Åh nej! Vi kunne ikke finde nogen bruger med den angivne e-mail.
@@ -129,7 +129,7 @@ da:
     no_content: "No content"
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} nævnte dig i historien: "
+      instagram_story_content: '%{story_sender} nævnte dig i historien: '
       instagram_deleted_story_content: Denne historie er ikke længere tilgængelig.
       deleted: Denne besked blev slettet
       delivery_status:
@@ -148,13 +148,13 @@ da:
         updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
         removed: '%{user_name} removed the priority'
       assignee:
-        self_assigned: "%{user_name} selv-tildelte denne samtale"
-        assigned: "Tildelt %{assignee_name} af %{user_name}"
-        removed: "Samtale fjernet tildeling af %{user_name}"
+        self_assigned: '%{user_name} selv-tildelte denne samtale'
+        assigned: 'Tildelt %{assignee_name} af %{user_name}'
+        removed: 'Samtale fjernet tildeling af %{user_name}'
       team:
-        assigned: "Tildelt %{team_name} af %{user_name}"
-        assigned_with_assignee: "Tildelt %{assignee_name} via %{team_name} af %{user_name}"
-        removed: "Ikke tildelt fra %{team_name} af %{user_name}"
+        assigned: 'Tildelt %{team_name} af %{user_name}'
+        assigned_with_assignee: 'Tildelt %{assignee_name} via %{team_name} af %{user_name}'
+        removed: 'Ikke tildelt fra %{team_name} af %{user_name}'
       labels:
         added: "%{user_name} tilføjede %{labels}"
         removed: "%{user_name} fjernede %{labels}"
@@ -164,10 +164,10 @@ da:
       muted: "%{user_name} har slukket for samtalen"
       unmuted: "%{user_name} har genaktiveret samtalen"
     templates:
-      greeting_message_body: "%{account_name} svarer typisk på et par timer."
-      ways_to_reach_you_message_body: "Giv teamet en måde at kontakte dig på."
-      email_input_box_message_body: "Få besked via e-mail"
-      csat_input_message_body: "Bedøm venligst samtalen"
+      greeting_message_body: '%{account_name} svarer typisk på et par timer.'
+      ways_to_reach_you_message_body: 'Giv teamet en måde at kontakte dig på.'
+      email_input_box_message_body: 'Få besked via e-mail'
+      csat_input_message_body: 'Bedøm venligst samtalen'
     reply:
       email:
         header:
@@ -182,24 +182,24 @@ da:
       email_subject: "Nye beskeder i denne samtale"
       transcript_subject: "Samtaleudskrift"
     survey:
-      response: "Bedøm denne samtale, %{link}"
+      response: 'Bedøm denne samtale, %{link}'
   contacts:
     online:
-      delete: "%{contact_name} er online, prøv igen senere"
+      delete: '%{contact_name} er online, prøv igen senere'
   integration_apps:
     dyte:
       name: "Dyte"
       description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
       meeting_name: "%{agent_name} has started a meeting"
     slack:
-      name: "Slack"
-      description: "Slack er et chatværktøj, der bringer al din kommunikation sammen på ét sted. Ved at integrere Slack, kan du få besked om alle de nye samtaler på din konto lige inde i din Slack."
+      name: 'Slack'
+      description: 'Slack er et chatværktøj, der bringer al din kommunikation sammen på ét sted. Ved at integrere Slack, kan du få besked om alle de nye samtaler på din konto lige inde i din Slack.'
     webhooks:
-      name: "Webhooks"
-      description: "Webhook begivenheder giver dig realtime oplysninger om, hvad der sker på din konto. Du kan gøre brug af webhooks til at kommunikere begivenhederne til dine foretrukne apps som Slack eller Github. Klik på Konfigurer for at opsætte dine webhooks."
+      name: 'Webhooks'
+      description: 'Webhook begivenheder giver dig realtime oplysninger om, hvad der sker på din konto. Du kan gøre brug af webhooks til at kommunikere begivenhederne til dine foretrukne apps som Slack eller Github. Klik på Konfigurer for at opsætte dine webhooks.'
     dialogflow:
-      name: "Dialogflow"
-      description: "Byg chatbots ved hjælp af Dialogflow og tilslut dem hurtigt til din indbakke. Lad robotterne håndtere forespørgslerne, før de afleverer dem til en kundeservice agent."
+      name: 'Dialogflow'
+      description: 'Byg chatbots ved hjælp af Dialogflow og tilslut dem hurtigt til din indbakke. Lad robotterne håndtere forespørgslerne, før de afleverer dem til en kundeservice agent.'
     fullcontact:
       name: "Fuldkontakt"
       description: "FullContact integration hjælper med at berige besøgende profiler. Identificere brugerne, så snart de deler deres e-mail-adresse og tilbyde dem skræddersyet kundeservice. Tilslut din FullContact til din konto ved at dele FullContact API-nøglen."

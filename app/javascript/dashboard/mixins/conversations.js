@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 const getLastNonActivityMessage = (messageInStore, messageFromAPI) => {
   // If both API value and store value for last non activity message
   // are available, then return the latest one.
@@ -55,14 +56,47 @@ export default {
       );
     },
     readMessages(messages, agentLastSeenAt) {
-      return messages.filter(
-        message => message.created_at * 1000 <= agentLastSeenAt * 1000
-      );
+      return messages
+        .filter(chat => chat.created_at * 1000 <= agentLastSeenAt * 1000)
+        .map(chat => {
+          let temp = chat;
+          if (chat.content_attributes.external_created_at)
+            temp.created_at = parseInt(
+              chat.content_attributes.external_created_at
+            );
+          return temp;
+        })
+        .sort((a, b) => {
+          return a.created_at - b.created_at;
+        });
     },
     unReadMessages(messages, agentLastSeenAt) {
-      return messages.filter(
-        message => message.created_at * 1000 > agentLastSeenAt * 1000
-      );
+      return messages
+        .filter(chat => chat.created_at * 1000 > agentLastSeenAt * 1000)
+        .map(chat => {
+          let temp = chat;
+          if (chat.content_attributes.external_created_at)
+            temp.created_at = parseInt(
+              chat.content_attributes.external_created_at
+            );
+          return temp;
+        })
+        .sort((a, b) => {
+          return a.created_at - b.created_at;
+        });
+    },
+    lastMessageAt(messages) {
+      const incomingMessages = messages.filter(a => {
+        return a.message_type === 0;
+      });
+      const latestIncomingMessage = incomingMessages.sort((a, b) =>
+        a.created_at > b.created_at ? 1 : -1
+      )[incomingMessages.length - 1];
+      return latestIncomingMessage
+        ? latestIncomingMessage.created_at +
+            86400 -
+            Math.floor(Date.now() / 1000)
+        : 0;
     },
   },
 };

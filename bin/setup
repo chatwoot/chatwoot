@@ -31,6 +31,12 @@ FileUtils.chdir APP_ROOT do
   puts "\n== Removing old logs and tempfiles =="
   system! 'bin/rails log:clear tmp:clear'
 
+  puts "\n== Removing cache =="
+  system! 'rm -rf node_modules/.cache/'
+  
+  puts "\n== Compiling assets =="
+  system! 'RAILS_ENV=production bin/rails assets:precompile'
+
   puts "\n== Restarting application server =="
   system! 'bin/rails restart'
 end

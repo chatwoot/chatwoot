@@ -247,7 +247,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_16_003531) do
     t.string "icon", default: ""
     t.index ["associated_category_id"], name: "index_categories_on_associated_category_id"
     t.index ["locale", "account_id"], name: "index_categories_on_locale_and_account_id"
-    t.index ["locale"], name: "index_categories_on_locale"
     t.index ["parent_category_id"], name: "index_categories_on_parent_category_id"
     t.index ["slug", "locale", "portal_id"], name: "index_categories_on_slug_and_locale_and_portal_id", unique: true
   end

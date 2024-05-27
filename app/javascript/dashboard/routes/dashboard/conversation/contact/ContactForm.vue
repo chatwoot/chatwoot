@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/this-in-template -->
 <template>
   <form
     class="w-full px-8 pt-6 pb-8 contact--form"
@@ -420,6 +421,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+input[readonly] {
+  background-color: #e3e9f2;
+  outline: none;
+}
+
 ::v-deep {
   .multiselect .multiselect__tags .multiselect__single {
     @apply pl-0;

@@ -3,6 +3,7 @@ class V2::Reports::TeamSummaryBuilder < V2::Reports::BaseSummaryBuilder
 
   def build
     set_grouped_conversations_count
+    set_grouped_resolved_conversations_count
     set_grouped_avg_reply_time
     set_grouped_avg_first_response_time
     set_grouped_avg_resolution_time
@@ -27,6 +28,10 @@ class V2::Reports::TeamSummaryBuilder < V2::Reports::BaseSummaryBuilder
     @grouped_avg_reply_time = get_grouped_average(reporting_events.where(name: 'reply_time'))
   end
 
+  def set_grouped_resolved_conversations_count
+    @grouped_resolved_conversations_count = reporting_events.where(name: 'conversation_resolved').group(group_by_key).count
+  end
+
   def reporting_events
     @reporting_events ||= Current.account.reporting_events.where(created_at: range).joins(:conversation)
   end
@@ -40,6 +45,7 @@ class V2::Reports::TeamSummaryBuilder < V2::Reports::BaseSummaryBuilder
       arr << {
         id: team.id,
         conversations_count: @grouped_conversations_count[team.id],
+        resolved_conversations_count: @grouped_resolved_conversations_count[team.id],
         avg_resolution_time: @grouped_avg_resolution_time[team.id],
         avg_first_response_time: @grouped_avg_first_response_time[team.id],
         avg_reply_time: @grouped_avg_reply_time[team.id]

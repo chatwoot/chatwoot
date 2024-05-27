@@ -97,7 +97,7 @@ gem 'koala'
 gem 'slack-ruby-client', '~> 2.2.0'
 # for dialogflow integrations
 gem 'google-cloud-dialogflow-v2'
-gem 'grpc'
+gem 'grpc', '~> 1.57.0'
 # Translate integrations
 # 'google-cloud-translate' gem depends on faraday 2.0 version
 # this dependency breaks the slack-ruby-client gem
@@ -174,6 +174,12 @@ gem 'neighbor'
 gem 'pgvector'
 # Convert Website HTML to Markdown
 gem 'reverse_markdown'
+
+# Sentiment analysis
+gem 'informers'
+
+## Bitespeed specific
+gem "intercom-rails"
 
 ### Gems required only in specific deployment environments ###
 ##############################################################

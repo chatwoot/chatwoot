@@ -310,6 +310,36 @@
           "SUCCESS_MESSAGE": "Idioma eliminado del portal correctamente",
           "ERROR_MESSAGE": "No se puede eliminar el idioma del portal. Vuelve a intentarlo."
         }
+      },
+      "ADD_LOCALE": {
+        "TITLE": "Add a new locale",
+        "SUB_TITLE": "This adds a new locale to your available translation list.",
+        "PORTAL": "Portal",
+        "LOCALE": {
+          "LABEL": "Locale",
+          "PLACEHOLDER": "Choose a locale",
+          "ERROR": "Locale is required"
+        },
+        "BUTTONS": {
+          "CREATE": "Create locale",
+          "CANCEL": "Cancelar"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Locale added successfully",
+          "ERROR_MESSAGE": "Unable to add locale. Try again."
+        }
+      },
+      "CHANGE_DEFAULT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Default locale updated successfully",
+          "ERROR_MESSAGE": "Unable to update default locale. Try again."
+        }
+      },
+      "DELETE_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale removed from portal successfully",
+          "ERROR_MESSAGE": "Unable to remove locale from portal. Try again."
+        }
       }
     },
     "TABLE": {
@@ -360,6 +390,32 @@
       "API": {
         "SUCCESS_MESSAGE": "Artículo eliminado correctamente",
         "ERROR_MESSAGE": "Error al eliminar el artículo"
+      }
+    },
+    "PUBLISH_ARTICLE": {
+      "API": {
+        "ERROR": "Error while publishing article",
+        "SUCCESS": "Article publishied successfully"
+      }
+    },
+    "ARCHIVE_ARTICLE": {
+      "API": {
+        "ERROR": "Error while archiving article",
+        "SUCCESS": "Article archived successfully"
+      }
+    },
+    "DELETE_ARTICLE": {
+      "MODAL": {
+        "CONFIRM": {
+          "TITLE": "Confirmar eliminación",
+          "MESSAGE": "Are you sure to delete the article?",
+          "YES": "Sí, eliminar",
+          "NO": "No, mantenerlo"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Article deleted successfully",
+        "ERROR_MESSAGE": "Error while deleting article"
       }
     },
     "CREATE_ARTICLE": {
@@ -437,6 +493,43 @@
         "API": {
           "SUCCESS_MESSAGE": "Categoría eliminada correctamente",
           "ERROR_MESSAGE": "No se pudo borrar la categoría"
+        }
+      },
+      "EDIT": {
+        "TITLE": "Edit a category",
+        "SUB_TITLE": "Editing a category will update the category in the public facing portal.",
+        "PORTAL": "Portal",
+        "LOCALE": "Locale",
+        "NAME": {
+          "LABEL": "Nombre",
+          "PLACEHOLDER": "Category name",
+          "HELP_TEXT": "The category name will be used in the public facing portal to categorize articles.",
+          "ERROR": "El nombre es requerido"
+        },
+        "SLUG": {
+          "LABEL": "Slug",
+          "PLACEHOLDER": "Category slug for urls",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "ERROR": "Slug is required"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Descripción",
+          "PLACEHOLDER": "Give a short description about the category.",
+          "ERROR": "Descripción requerida"
+        },
+        "BUTTONS": {
+          "CREATE": "Update category",
+          "CANCEL": "Cancelar"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Category updated successfully",
+          "ERROR_MESSAGE": "Unable to update category"
+        }
+      },
+      "DELETE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Category deleted successfully",
+          "ERROR_MESSAGE": "Unable to delete category"
         }
       }
     },

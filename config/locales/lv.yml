@@ -17,7 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 lv:
-  hello: "Sveika pasaule"
+  hello: 'Sveika pasaule'
   messages:
     reset_password_success: Urā! Paroles atiestatīšanas pieprasījums ir veiksmīgs. Pārbaudiet savu e-pastu, lai iegūtu norādījumus.
     reset_password_failure: Ak, vai! Mēs nevarējām atrast nevienu lietotāju ar norādīto e -pastu.
@@ -129,7 +129,7 @@ lv:
     no_content: "Nav satura"
   conversations:
     messages:
-      instagram_story_content: "%{story_sender} pieminēja jūs stāstā: "
+      instagram_story_content: '%{story_sender} pieminēja jūs stāstā: '
       instagram_deleted_story_content: Šis stāsts vairs nav pieejams.
       deleted: Šis ziņojums ir izdzēsts
       delivery_status:
@@ -148,13 +148,13 @@ lv:
         updated: '%{user_name} nomainīja prioritāti no %{old_priority} uz %{new_priority}'
         removed: '%{user_name} noņēma prioritāti'
       assignee:
-        self_assigned: "%{user_name} sev piešķīra šo sarunu"
-        assigned: "%{user_name} piešķīra sarunu %{assignee_name}"
-        removed: "%{user_name} noņēma piešķiršanu"
+        self_assigned: '%{user_name} sev piešķīra šo sarunu'
+        assigned: '%{user_name} piešķīra sarunu %{assignee_name}'
+        removed: '%{user_name} noņēma piešķiršanu'
       team:
-        assigned: "%{user_name} piešķīra sarunu %{team_name}"
-        assigned_with_assignee: "%{user_name} caur %{team_name} piešķīra sarunu %{assignee_name}"
-        removed: "%{user_name} noņēma piešķiršanu %{team_name}"
+        assigned: '%{user_name} piešķīra sarunu %{team_name}'
+        assigned_with_assignee: '%{user_name} caur %{team_name} piešķīra sarunu %{assignee_name}'
+        removed: '%{user_name} noņēma piešķiršanu %{team_name}'
       labels:
         added: "%{user_name} pievienoja %{labels}"
         removed: "%{user_name} noņēma %{labels}"
@@ -164,10 +164,10 @@ lv:
       muted: "%{user_name} izslēdza sarunu"
       unmuted: "%{user_name} ieslēdza sarunu"
     templates:
-      greeting_message_body: "%{account_name} parasti atbild dažu stundu laikā."
-      ways_to_reach_you_message_body: "Dodiet komandai iespēju ar jums sazināties."
-      email_input_box_message_body: "Saņemiet paziņojumus pa e-pastu"
-      csat_input_message_body: "Lūdzu, novērtējiet sarunu"
+      greeting_message_body: '%{account_name} parasti atbild dažu stundu laikā.'
+      ways_to_reach_you_message_body: 'Dodiet komandai iespēju ar jums sazināties.'
+      email_input_box_message_body: 'Saņemiet paziņojumus pa e-pastu'
+      csat_input_message_body: 'Lūdzu, novērtējiet sarunu'
     reply:
       email:
         header:
@@ -182,24 +182,24 @@ lv:
       email_subject: "Jauni ziņojumi šajā sarunā"
       transcript_subject: "Sarunas Transkripts"
     survey:
-      response: "Lūdzu, novērtējiet šo sarunu, %{link}"
+      response: 'Lūdzu, novērtējiet šo sarunu, %{link}'
   contacts:
     online:
-      delete: "%{contact_name} ir Tiešsaistē, lūdzu, vēlāk mēģiniet vēlreiz"
+      delete: '%{contact_name} ir Tiešsaistē, lūdzu, vēlāk mēģiniet vēlreiz'
   integration_apps:
     dyte:
       name: "Dyte"
       description: "Dyte ir rīks, kas lietojumprogrammai palīdz pievienot audio un video tiešraidi, izmantojot tikai dažas koda rindiņas. Šī integrācija ļauj piedāvāt iespēju Jūsu aģentiem veikt video vai balss zvanu ar klientiem, neizejot no Chatwoot."
       meeting_name: "%{agent_name} ir sācis sapulci"
     slack:
-      name: "Slack"
-      description: "Slack ir tērzēšanas rīks, kas apvieno visu Jūsu saziņu vienuviet. Integrējot Slack, Jūs varat saņemt paziņojumus par visām jaunajām sarunām savā kontā tieši savā Slack."
+      name: 'Slack'
+      description: 'Slack ir tērzēšanas rīks, kas apvieno visu Jūsu saziņu vienuviet. Integrējot Slack, Jūs varat saņemt paziņojumus par visām jaunajām sarunām savā kontā tieši savā Slack.'
     webhooks:
-      name: "Webhooks"
-      description: "WebHook notikumi sniedz Jums reāllaika informāciju par to, kas notiek Jūsu kontā. Jūs varat izmantot webhook, lai paziņotu notikumus savām iecienītākajām lietotnēm, piemēram, Slack vai Github. Noklikšķiniet uz Konfigurēt, lai iestatītu savus webhook."
+      name: 'Webhooks'
+      description: 'WebHook notikumi sniedz Jums reāllaika informāciju par to, kas notiek Jūsu kontā. Jūs varat izmantot webhook, lai paziņotu notikumus savām iecienītākajām lietotnēm, piemēram, Slack vai Github. Noklikšķiniet uz Konfigurēt, lai iestatītu savus webhook.'
     dialogflow:
-      name: "Dialogflow"
-      description: "Veidojiet tērzēšanas robotus, izmantojot Dialogflow, un ātri savienojiet tos ar iesūtni. Ļaujiet botiem apstrādāt vaicājumus, pirms tos nododat klientu apkalpošanas aģentam."
+      name: 'Dialogflow'
+      description: 'Veidojiet tērzēšanas robotus, izmantojot Dialogflow, un ātri savienojiet tos ar iesūtni. Ļaujiet botiem apstrādāt vaicājumus, pirms tos nododat klientu apkalpošanas aģentam.'
     fullcontact:
       name: "Fullcontact"
       description: "FullContact integrācija palīdz bagātināt apmeklētāju profilus. Identificējiet lietotājus, tiklīdz viņi kopīgo savu e-pasta adresi, un piedāvājiet viņiem pielāgotu klientu apkalpošanu. Savienojiet FullContact ar savu kontu, kopīgojot FullContact API atslēgu."

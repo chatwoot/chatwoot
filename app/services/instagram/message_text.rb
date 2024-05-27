@@ -84,6 +84,7 @@ class Instagram::MessageText < Instagram::WebhooksBaseService
     return if message_to_delete.blank?
 
     message_to_delete.update!(content: I18n.t('conversations.messages.deleted'), deleted: true)
+    message_to_delete.attachments.destroy_all
   end
 
   def create_message

@@ -67,7 +67,7 @@
     <form-section :title="$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TITLE')">
       <notification-preferences />
     </form-section>
-    <form-section
+    <!--<form-section
       :title="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE')"
       :description="
         useInstallationName(
@@ -77,7 +77,7 @@
       "
     >
       <access-token :value="currentUser.access_token" @on-copy="onCopyToken" />
-    </form-section>
+    </form-section>-->
   </div>
 </template>
 <script>

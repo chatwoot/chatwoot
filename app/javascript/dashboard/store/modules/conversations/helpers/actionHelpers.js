@@ -38,6 +38,18 @@ export const isOnFoldersView = ({ route: { name: routeName } }) => {
   return FOLDER_ROUTES.includes(routeName);
 };
 
+export const getCustomViewPayload = (
+  {
+    route: {
+      params: { id },
+    },
+  },
+  customViews
+) => {
+  const customView = customViews.find(view => view.id === Number(id));
+  return customView;
+};
+
 export const buildConversationList = (
   context,
   requestPayload,
