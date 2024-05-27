@@ -27,7 +27,6 @@
           icon-lib="lucide"
         />
       </woot-button>
-      {{ isUnlinking }}
       <woot-button
         variant="clear"
         class="h-[24px]"

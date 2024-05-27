@@ -148,6 +148,23 @@ describe Linear do
       end
     end
 
+    context 'when the description is markdown' do
+      let(:description) { 'Cmd/Ctrl` `K` **is our most powerful feature.** \n\nUse it to search for or take any action in the app' }
+
+      before do
+        stub_request(:post, url)
+          .to_return(status: 200, body: { success: true,
+                                          data: { issueCreate: { id: 'issue1', title: 'Title',
+                                                                 description: description } } }.to_json, headers: headers)
+      end
+
+      it 'creates an issue' do
+        response = linear_client.create_issue(params)
+        expect(response).to eq({ 'issueCreate' => { 'id' => 'issue1', 'title' => 'Title',
+                                                    'description' => description } })
+      end
+    end
+
     context 'when the API response is an error' do
       before do
         stub_request(:post, url)
