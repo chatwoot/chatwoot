@@ -152,6 +152,7 @@ GEM
     bcrypt (3.1.20)
     bigdecimal (3.1.7)
     bindex (0.8.1)
+    blingfire (0.2.1)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
     brakeman (5.4.1)
@@ -502,6 +503,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.16.5-x86_64-linux)
       racc (~> 1.4)
+    numo-narray (0.9.2.1)
     oauth (1.1.0)
       oauth-tty (~> 1.0, >= 1.0.1)
       snaky_hash (~> 2.0)
@@ -530,6 +532,14 @@ GEM
     omniauth-rails_csrf_protection (1.0.2)
       actionpack (>= 4.2)
       omniauth (~> 2.0)
+    onnxruntime (0.9.1)
+      ffi
+    onnxruntime (0.9.1-arm64-darwin)
+      ffi
+    onnxruntime (0.9.1-x86_64-darwin)
+      ffi
+    onnxruntime (0.9.1-x86_64-linux)
+      ffi
     openssl (3.1.0)
     orm_adapter (0.5.0)
     os (1.1.4)
