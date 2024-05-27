@@ -48,10 +48,13 @@ if resource.web_widget?
   json.continuity_via_email resource.channel.try(:continuity_via_email)
 end
 
+
 ## Facebook Attributes
 if resource.facebook?
   json.page_id resource.channel.try(:page_id)
+
   json.reauthorization_required resource.channel.try(:reauthorization_required?)
+  json.facebook_reauthorization resource.channel.try(:reauthorization_required?)
 end
 
 ## Twilio Attributes
@@ -74,7 +77,7 @@ if resource.email?
     json.imap_enable_ssl resource.channel.try(:imap_enable_ssl)
 
     if resource.channel.try(:microsoft?)
-      json.microsoft_reauthorization resource.channel.try(:provider_config).empty? || resource.channel.try(:reauthorization_required?)
+      json.reauthorization_required resource.channel.try(:provider_config).empty? || resource.channel.try(:reauthorization_required?)
     end
   end
 
