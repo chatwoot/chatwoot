@@ -333,19 +333,19 @@
       "TITLE_PLACEHOLDER": "El títol de l'article va aquí",
       "CONTENT_PLACEHOLDER": "Escriu el teu article aquí",
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "S'ha produït un error en desar l'article"
       }
     },
     "PUBLISH_ARTICLE": {
       "API": {
-        "ERROR": "Error while publishing article",
-        "SUCCESS": "Article published successfully"
+        "ERROR": "S'ha produït un error en publicar l'article",
+        "SUCCESS": "Article publicat amb èxit"
       }
     },
     "ARCHIVE_ARTICLE": {
       "API": {
-        "ERROR": "Error while archiving article",
-        "SUCCESS": "Article archived successfully"
+        "ERROR": "S'ha produït un error en arxivar l'article",
+        "SUCCESS": "Article arxivat correctament"
       }
     },
     "DELETE_ARTICLE": {
@@ -373,24 +373,24 @@
     "CATEGORY": {
       "ADD": {
         "TITLE": "Crea una categoria",
-        "SUB_TITLE": "The category will be used in the public facing portal to categorize articles.",
+        "SUB_TITLE": "La categoria s'utilitzarà al portal públic per categoritzar els articles.",
         "PORTAL": "Portal",
         "LOCALE": "Localització",
         "NAME": {
           "LABEL": "Nom",
           "PLACEHOLDER": "Nom de la categoria",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "HELP_TEXT": "El nom i la icona de la categoria s'utilitzaran al portal públic per categoritzar els articles.",
           "ERROR": "El valor és necessari"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "PLACEHOLDER": "Slug de categoria per a URLs",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "El slug és obligatori"
         },
         "DESCRIPTION": {
           "LABEL": "Descripció",
-          "PLACEHOLDER": "Give a short description about the category.",
+          "PLACEHOLDER": "Fes una breu descripció de la categoria.",
           "ERROR": "La descripció és necessària"
         },
         "BUTTONS": {
@@ -398,30 +398,30 @@
           "CANCEL": "Cancel·la"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category created successfully",
-          "ERROR_MESSAGE": "Unable to create category"
+          "SUCCESS_MESSAGE": "Categoria creada correctament",
+          "ERROR_MESSAGE": "No es pot crear la categoria"
         }
       },
       "EDIT": {
         "TITLE": "Edita una categoria",
-        "SUB_TITLE": "Editing a category will update the category in the public facing portal.",
+        "SUB_TITLE": "L'edició d'una categoria actualitzarà la categoria al portal públic.",
         "PORTAL": "Portal",
         "LOCALE": "Localització",
         "NAME": {
           "LABEL": "Nom",
           "PLACEHOLDER": "Nom de la categoria",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "HELP_TEXT": "El nom i la icona de la categoria s'utilitzaran al portal públic per categoritzar els articles.",
           "ERROR": "El valor és necessari"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "PLACEHOLDER": "Slug de categoria per a URLs",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "El slug és obligatori"
         },
         "DESCRIPTION": {
           "LABEL": "Descripció",
-          "PLACEHOLDER": "Give a short description about the category.",
+          "PLACEHOLDER": "Fes una breu descripció de la categoria.",
           "ERROR": "La descripció és necessària"
         },
         "BUTTONS": {
@@ -429,14 +429,14 @@
           "CANCEL": "Cancel·la"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category updated successfully",
-          "ERROR_MESSAGE": "Unable to update category"
+          "SUCCESS_MESSAGE": "Categoria actualitzada correctament",
+          "ERROR_MESSAGE": "No es pot actualitzar la categoria"
         }
       },
       "DELETE": {
         "API": {
-          "SUCCESS_MESSAGE": "Category deleted successfully",
-          "ERROR_MESSAGE": "Unable to delete category"
+          "SUCCESS_MESSAGE": "Categoria suprimida correctament",
+          "ERROR_MESSAGE": "No es pot suprimir la categoria"
         }
       }
     },
@@ -447,18 +447,18 @@
       "SEARCHING": "S'està cercant...",
       "SEARCH_BUTTON": "Cercar",
       "INSERT_ARTICLE": "insereix enllaç",
-      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
-      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
-      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
+      "IFRAME_ERROR": "L'URL és buit o no és vàlid. No es pot mostrar el contingut.",
+      "OPEN_ARTICLE_SEARCH": "Insereix un article del Centre d'ajuda",
+      "SUCCESS_ARTICLE_INSERTED": "Article inserit correctament",
       "PREVIEW_LINK": "Vista prèvia de l'article",
       "CANCEL": "Tanca",
       "BACK": "Enrere",
-      "BACK_RESULTS": "Back to results"
+      "BACK_RESULTS": "Torna als resultats"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Centre d'ajuda",
-      "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
-      "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
+      "DESCRIPTION": "Crea portals d'autoservei fàcils d'utilitzar. Ajuda els teus usuaris a accedir als articles i obtenir assistència les 24 hores del dia. Actualitza la teva subscripció per activar aquesta funció.",
+      "SELF_HOSTED_DESCRIPTION": "Crea portals d'autoservei fàcils d'utilitzar. Ajuda els teus usuaris a accedir als articles i obtenir assistència les 24 hores del dia. Posa't en contacte amb el teu administrador per activar aquesta funció.",
       "BUTTON": {
         "LEARN_MORE": "Aprèn més",
         "UPGRADE": "Actualitza"
@@ -466,18 +466,18 @@
       "FEATURES": {
         "PORTALS": {
           "TITLE": "Múltiples portals",
-          "DESCRIPTION": "Create multiple help center portals for different products using the same account."
+          "DESCRIPTION": "Crea diversos portals del centre d'ajuda per a diferents productes amb el mateix compte."
         },
         "LOCALES": {
-          "TITLE": "Full support for locales",
-          "DESCRIPTION": "Localize the portal in your language. We support all locales and allow translations for every article."
+          "TITLE": "Suport total per a localitzacions",
+          "DESCRIPTION": "Localitza el portal en el teu idioma. Admetem totes les localitzacions i permetem traduccions per a cada article."
         },
         "SEO": {
-          "TITLE": "SEO-friendly design",
-          "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
+          "TITLE": "Disseny SEO-friendly",
+          "DESCRIPTION": "Personalitza les teves meta etiquetes per millorar la teva visibilitat als motors de cerca amb les nostres pàgines SEO-friendly."
         },
         "API": {
-          "TITLE": "Full API support",
+          "TITLE": "Suport complet de l'API",
           "DESCRIPTION": "Utilitza el portal com a CMS sense cap amb marcs de front-end de tercers mitjançant les nostres API."
         }
       }
