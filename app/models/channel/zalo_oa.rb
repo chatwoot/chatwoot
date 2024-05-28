@@ -28,7 +28,6 @@ class Channel::ZaloOa < ApplicationRecord
   validates :account_id, presence: true
   validates :oa_id, presence: true
   validates :oa_id, uniqueness: true
-  validates :oa_id, :account_id, uniqueness: true
 
   def name
     'ZaloOa'
