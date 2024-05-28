@@ -10,6 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "Vaša lozinka je uspešno promenjena",
     "AFTER_EMAIL_CHANGED": "Vaš profil je uspešno izmenjen, molim vas prijavite se ponovo jer su vaši kredencijali za prijavu izmenjeni",
     "FORM": {
+      "PICTURE": "Profile Picture",
       "AVATAR": "Slika profila",
       "ERROR": "Molim vas ispravite greške formulara",
       "REMOVE_IMAGE": "Ukloni",
@@ -56,13 +57,19 @@
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token za pristup",
-        "NOTE": "Ovaj token se može koristiti ako izgrađujete integraciju zasnovanu na API-ju"
+        "NOTE": "Ovaj token se može koristiti ako izgrađujete integraciju zasnovanu na API-ju",
+        "COPY": "Kopiraj"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Zvučna obaveštenja",
         "NOTE": "Omogućavanje zvučnih obaveštenja u radnoj tabli za nove poruke i razgovore.",
+        "ALERT_TYPES": {
+          "NONE": "Niko",
+          "MINE": "Assigned",
+          "ALL": "Sve"
+        },
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
+          "TITLE": "Alert events for conversations:",
           "NONE": "Niko",
           "ASSIGNED": "Dodeljeni razgovori",
           "ALL_CONVERSATIONS": "Svi razgovori"
@@ -83,7 +90,27 @@
         "CONVERSATION_CREATION": "Pošalji obaveštenje putem e-poruke kada je napravljen novi razgovor",
         "CONVERSATION_MENTION": "Pošalji obaveštenje putem e-poruke kada ste pomenuti u razgovoru",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Pošalji obaveštenje putem e-poruke kada je napravljena nova poruka u dodeljenom razgovoru",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "E-pošta",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
       "API": {
         "UPDATE_SUCCESS": "Vaša podešavanja obaveštenja su uspešno izmenjena",
@@ -98,7 +125,10 @@
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Pošalji mobilno obaveštenje kada je napravljena nova poruka u dodeljenom razgovoru",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Omogućili ste obaveštenje za ovaj pregledač.",
-        "REQUEST_PUSH": "Omogućite mobilna obaveštenja"
+        "REQUEST_PUSH": "Omogućite mobilna obaveštenja",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Slika profila"
@@ -199,6 +229,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Trenutno pregledate:",
     "SWITCH": "Prebaci",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Razgovori",
     "INBOX": "Prijemno sanduče",
     "ALL_CONVERSATIONS": "Svi razgovori",
@@ -237,6 +268,8 @@
     "CAMPAIGNS": "Kampanje",
     "ONGOING": "Dugotrajne",
     "ONE_OFF": "Jednokratne",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Agenti",
     "REPORTS_LABEL": "Oznake",
     "REPORTS_INBOX": "Prijemno sanduče",
@@ -311,7 +344,6 @@
       "GO_TO_REPORTS_SIDEBAR": "Idi na bočnu traku izveštaja",
       "MOVE_TO_NEXT_TAB": "idi na sledeću karticu u spisku razgovora",
       "GO_TO_SETTINGS": "Idi na podešavanja",
-      "SWITCH_CONVERSATION_STATUS": "Prebaci se na sledeći status razgovora",
       "SWITCH_TO_PRIVATE_NOTE": "Prebaci se na privatnu belešku",
       "SWITCH_TO_REPLY": "Prebaci se na odgovor",
       "TOGGLE_SNOOZE_DROPDOWN": "Uključite padajućim menijom odlaganja"

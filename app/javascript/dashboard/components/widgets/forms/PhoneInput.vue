@@ -1,9 +1,16 @@
 <template>
   <div class="phone-input--wrap relative">
-    <div class="phone-input" :class="{ 'has-error': error }">
+    <div
+      class="flex items-center dark:bg-slate-900 justify-start rounded-md border border-solid"
+      :class="
+        error
+          ? 'border border-solid border-red-400 dark:border-red-400 mb-1'
+          : 'mb-4 border-slate-200 dark:border-slate-600'
+      "
+    >
       <div
         class="cursor-pointer py-2 pr-1.5 pl-2 rounded-tl-md rounded-bl-md flex items-center justify-center gap-1.5 bg-slate-25 dark:bg-slate-700 h-10 w-14"
-        @click="toggleCountryDropdown"
+        @click.prevent="toggleCountryDropdown"
       >
         <h5 v-if="activeCountry" class="mb-0">
           {{ activeCountry.emoji }}
@@ -13,14 +20,15 @@
       </div>
       <span
         v-if="activeDialCode"
-        class="flex bg-white dark:bg-slate-900 font-medium text-slate-800 dark:text-slate-100 font-normal text-base leading-normal py-2 pl-2 pr-0"
+        class="flex bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-normal text-base leading-normal py-2 pl-2 pr-0"
       >
         {{ activeDialCode }}
       </span>
       <input
+        ref="phoneNumberInput"
         :value="phoneNumber"
         type="tel"
-        class="phone-input--field"
+        class="!mb-0 !rounded-tl-none !rounded-bl-none !border-0 font-normal !w-full dark:!bg-slate-900 text-base !px-1.5 placeholder:font-normal"
         :placeholder="placeholder"
         :readonly="readonly"
         :style="styles"
@@ -28,24 +36,36 @@
         @blur="onBlur"
       />
     </div>
-    <div v-if="showDropdown" ref="dropdown" class="country-dropdown">
-      <div class="dropdown-search--wrap">
+    <div
+      v-if="showDropdown"
+      ref="dropdown"
+      v-on-clickaway="onOutsideClick"
+      tabindex="0"
+      class="z-10 absolute h-60 w-[12.5rem] shadow-md overflow-y-auto top-10 rounded px-0 pt-0 pb-1 bg-white dark:bg-slate-900"
+      @keydown.prevent.up="moveUp"
+      @keydown.prevent.down="moveDown"
+      @keydown.prevent.enter="
+        onSelectCountry(filteredCountriesBySearch[selectedIndex])
+      "
+    >
+      <div class="top-0 sticky bg-white dark:bg-slate-900 p-1">
         <input
           ref="searchbar"
           v-model="searchCountry"
           type="text"
           placeholder="Search"
-          class="dropdown-search"
+          class="!h-8 !mb-0 !text-sm !border !border-solid !border-slate-200 dark:!border-slate-600"
+          @input="onSearchCountry"
         />
       </div>
       <div
         v-for="(country, index) in filteredCountriesBySearch"
         ref="dropdownItem"
         :key="index"
-        class="country-dropdown--item"
+        class="flex items-center h-7 py-0 px-1 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700"
         :class="{
-          active: country.id === activeCountryCode,
-          focus: index === selectedIndex,
+          'bg-slate-50 dark:bg-slate-700': country.id === activeCountryCode,
+          'bg-slate-25 dark:bg-slate-800': index === selectedIndex,
         }"
         @click="onSelectCountry(country)"
       >
@@ -74,15 +94,8 @@
 <script>
 import countries from 'shared/constants/countries.js';
 import parsePhoneNumber from 'libphonenumber-js';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import {
-  hasPressedArrowUpKey,
-  hasPressedArrowDownKey,
-  isEnter,
-} from 'shared/helpers/KeyboardHelpers';
 
 export default {
-  mixins: [eventListenerMixins],
   props: {
     value: {
       type: [String, Number],
@@ -107,15 +120,6 @@ export default {
   },
   data() {
     return {
-      countries: [
-        {
-          name: 'Select Country',
-          dial_code: '',
-          emoji: '',
-          id: '',
-        },
-        ...countries,
-      ],
       selectedIndex: -1,
       showDropdown: false,
       searchCountry: '',
@@ -125,6 +129,20 @@ export default {
     };
   },
   computed: {
+    countries() {
+      return [
+        {
+          name: this.dropdownFirstItemName,
+          dial_code: '',
+          emoji: '',
+          id: '',
+        },
+        ...countries,
+      ];
+    },
+    dropdownFirstItemName() {
+      return this.activeCountryCode ? 'Clear selection' : 'Select Country';
+    },
     filteredCountriesBySearch() {
       return this.countries.filter(country => {
         const { name, dial_code, id } = country;
@@ -159,11 +177,7 @@ export default {
     },
   },
   mounted() {
-    window.addEventListener('mouseup', this.onOutsideClick);
     this.setActiveCountry();
-  },
-  beforeDestroy() {
-    window.removeEventListener('mouseup', this.onOutsideClick);
   },
   methods: {
     onOutsideClick(e) {
@@ -182,49 +196,42 @@ export default {
     onBlur(e) {
       this.$emit('blur', e.target.value);
     },
-    dropdownItem() {
-      return Array.from(
-        this.$refs.dropdown.querySelectorAll(
-          'div.country-dropdown div.country-dropdown--item'
-        )
+    onSearchCountry() {
+      // Reset selected index to 0
+      this.selectedIndex = 0;
+    },
+    moveUp() {
+      if (!this.showDropdown) return;
+      this.selectedIndex = Math.max(this.selectedIndex - 1, 0);
+      this.scrollToSelected();
+    },
+    moveDown() {
+      if (!this.showDropdown) return;
+      this.selectedIndex = Math.min(
+        this.selectedIndex + 1,
+        this.filteredCountriesBySearch.length - 1
       );
+      this.scrollToSelected();
     },
-    focusedItem() {
-      return Array.from(
-        this.$refs.dropdown.querySelectorAll('div.country-dropdown div.focus')
-      );
-    },
-    focusedItemIndex() {
-      return Array.from(this.dropdownItem()).indexOf(this.focusedItem()[0]);
-    },
-    onKeyDownHandler(e) {
-      const { showDropdown, filteredCountriesBySearch, onSelectCountry } = this;
-      const { selectedIndex } = this;
-
-      if (showDropdown) {
-        if (hasPressedArrowDownKey(e)) {
-          e.preventDefault();
-          this.selectedIndex = Math.min(
-            selectedIndex + 1,
-            filteredCountriesBySearch.length - 1
-          );
-          this.$refs.dropdown.scrollTop = this.focusedItemIndex() * 28;
-        } else if (hasPressedArrowUpKey(e)) {
-          e.preventDefault();
-          this.selectedIndex = Math.max(selectedIndex - 1, 0);
-          this.$refs.dropdown.scrollTop = this.focusedItemIndex() * 28 - 56;
-        } else if (isEnter(e)) {
-          e.preventDefault();
-          onSelectCountry(filteredCountriesBySearch[selectedIndex]);
+    scrollToSelected() {
+      this.$nextTick(() => {
+        const dropdown = this.$refs.dropdown;
+        const selectedItem = this.$refs.dropdownItem[this.selectedIndex];
+        const dropdownSearchbarHeight = 40;
+        if (selectedItem) {
+          const selectedItemTop = selectedItem.offsetTop;
+          dropdown.scrollTop = selectedItemTop - dropdownSearchbarHeight;
         }
-      }
+      });
     },
     onSelectCountry(country) {
+      if (!country || !this.showDropdown) return;
       this.activeCountryCode = country.id;
       this.searchCountry = '';
       this.activeDialCode = country.dial_code;
       this.$emit('setCode', country.dial_code);
       this.closeDropdown();
+      this.$refs.phoneNumberInput.focus();
     },
     setActiveCountry() {
       const { phoneNumber } = this;
@@ -251,46 +258,3 @@ export default {
   },
 };
 </script>
-<style scoped lang="scss">
-.phone-input--wrap {
-  .phone-input {
-    @apply flex items-center dark:bg-slate-900 justify-start mb-4 rounded-md border border-solid border-slate-200 dark:border-slate-600;
-
-    &.has-error {
-      @apply border border-solid border-red-400 dark:border-red-400;
-    }
-  }
-
-  .phone-input--field {
-    @apply mb-0 rounded-tl-none rounded-bl-none border-0 w-full dark:bg-slate-900 text-base px-1.5;
-
-    &::placeholder {
-      @apply font-normal;
-    }
-  }
-
-  .country-dropdown {
-    @apply z-10 absolute h-60 w-[12.5rem] shadow-md overflow-y-auto top-10 rounded px-0 pt-0 pb-1 bg-white dark:bg-slate-900;
-
-    .dropdown-search--wrap {
-      @apply top-0 sticky bg-white dark:bg-slate-900 p-1;
-
-      .dropdown-search {
-        @apply h-8 mb-0 text-sm border border-solid border-slate-200 dark:border-slate-600;
-      }
-    }
-
-    .country-dropdown--item {
-      @apply flex items-center h-7 py-0 px-1 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700;
-
-      &.active {
-        @apply bg-slate-50 dark:bg-slate-700;
-      }
-
-      &.focus {
-        @apply bg-slate-25 dark:bg-slate-800;
-      }
-    }
-  }
-}
-</style>

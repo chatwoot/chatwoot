@@ -46,6 +46,11 @@ export default {
       type: Number,
       required: true,
     },
+    conversationLabels: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
   data() {
     return {

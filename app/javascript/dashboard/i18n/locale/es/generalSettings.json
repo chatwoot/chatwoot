@@ -87,7 +87,10 @@
       "conversation_assignment": "Conversación asignada",
       "assigned_conversation_new_message": "Nuevo mensaje",
       "participating_conversation_new_message": "Nuevo mensaje",
-      "conversation_mention": "Mención"
+      "conversation_mention": "Mención",
+      "sla_missed_first_response": "SLA perdido",
+      "sla_missed_next_response": "SLA perdido",
+      "sla_missed_resolution": "SLA perdido"
     }
   },
   "NETWORK": {
@@ -104,6 +107,7 @@
       "GENERAL": "General",
       "REPORTS": "Informes",
       "CONVERSATION": "Conversación",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Cambiar Asignado",
       "CHANGE_PRIORITY": "Cambiar prioridad",
       "CHANGE_TEAM": "Cambiar equipo",

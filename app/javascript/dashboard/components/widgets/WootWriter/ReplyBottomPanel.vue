@@ -147,8 +147,7 @@
 <script>
 import FileUpload from 'vue-upload-component';
 import * as ActiveStorage from 'activestorage';
-import { hasPressedAltAndAKey } from 'shared/helpers/KeyboardHelpers';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -157,7 +156,7 @@ import {
   ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP,
   ALLOWED_FILE_TYPES_FOR_LINE,
 } from 'shared/constants/messages';
-// import VideoCallButton from '../VideoCallButton.vue';
+// import from '../VideoCallButton.vue';
 import AIAssistanceButton from '../AIAssistanceButton.vue';
 import { REPLY_EDITOR_MODES } from './constants';
 import { mapGetters } from 'vuex';
@@ -165,7 +164,7 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'ReplyBottomPanel',
   components: { FileUpload, AIAssistanceButton },
-  mixins: [eventListenerMixins, uiSettingsMixin, inboxMixin],
+  mixins: [keyboardEventListenerMixins, uiSettingsMixin, inboxMixin],
   props: {
     mode: {
       type: String,
@@ -351,10 +350,15 @@ export default {
     ActiveStorage.start();
   },
   methods: {
-    handleKeyEvents(e) {
-      if (hasPressedAltAndAKey(e)) {
-        this.$refs.upload.$children[1].$el.click();
-      }
+    getKeyboardEvents() {
+      return {
+        'Alt+KeyA': {
+          action: () => {
+            this.$refs.upload.$children[1].$el.click();
+          },
+          allowOnFocusedInput: true,
+        },
+      };
     },
     toggleMessageSignature() {
       this.setSignatureFlagForInbox(this.channelType, !this.sendWithSignature);

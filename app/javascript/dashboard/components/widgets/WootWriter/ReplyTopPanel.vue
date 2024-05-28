@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-black-50 flex justify-between dark:bg-slate-800">
+  <div class="flex justify-between bg-black-50 dark:bg-slate-800">
     <div class="button-group">
       <woot-button
         variant="clear"
@@ -28,7 +28,7 @@
         {{ 'Whatsapp Templates' }}
       </woot-button>
     </div>
-    <div class="flex items-center my-0 mx-4">
+    <div class="flex items-center mx-4 my-0">
       <div v-if="isMessageLengthReachingThreshold" class="text-xs">
         <span :class="charLengthClass">
           {{ characterLengthWarning }}
@@ -56,14 +56,10 @@
 
 <script>
 import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
-import {
-  hasPressedAltAndPKey,
-  hasPressedAltAndLKey,
-} from 'shared/helpers/KeyboardHelpers';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 export default {
   name: 'ReplyTopPanel',
-  mixins: [eventListenerMixins],
+  mixins: [keyboardEventListenerMixins],
   props: {
     mode: {
       type: String,
@@ -111,13 +107,17 @@ export default {
     },
   },
   methods: {
-    handleKeyEvents(e) {
-      if (hasPressedAltAndPKey(e)) {
-        this.handleNoteClick();
-      }
-      if (hasPressedAltAndLKey(e)) {
-        this.handleReplyClick();
-      }
+    getKeyboardEvents() {
+      return {
+        'Alt+KeyP': {
+          action: () => this.handleNoteClick(),
+          allowOnFocusedInput: true,
+        },
+        'Alt+KeyL': {
+          action: () => this.handleReplyClick(),
+          allowOnFocusedInput: true,
+        },
+      };
     },
     handleReplyClick() {
       this.setReplyMode(REPLY_EDITOR_MODES.REPLY);

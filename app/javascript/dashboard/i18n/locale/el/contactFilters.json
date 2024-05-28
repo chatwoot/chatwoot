@@ -44,7 +44,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Δημιουργήθηκε στις",
       "LAST_ACTIVITY": "Τελευταία Δραστηριότητα",
-      "REFERER_LINK": "Σύνδεσμος αναφοράς"
+      "REFERER_LINK": "Σύνδεσμος αναφοράς",
+      "BLOCKED": "Blocked"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Τυπικά Φίλτρα",

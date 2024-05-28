@@ -123,6 +123,16 @@
   type: boolean
 # ------- End of Facebook Channel Related Config ------- #
 
+# MARK: Microsoft Email Channel Config
+- name: AZURE_APP_ID
+  display_title: 'Azure App ID'
+  description: 'The App ID that will be used to authenticate with customer Microsoft accounts. Find more details on setting up Azure here: https://chwt.app/dev/ms'
+  locked: false
+- name: AZURE_APP_SECRET
+  display_title: 'Azure App Secret'
+  locked: false
+# End of Microsoft Email Channel Config
+
 # ------- Chatwoot Internal Config for Cloud ----#
 - name: CHATWOOT_INBOX_TOKEN
   value:
@@ -135,8 +145,13 @@
   description: 'The Chatwoot Inbox HMAC Key for Contact Support in Cloud'
   locked: false
 - name: CHATWOOT_CLOUD_PLANS
+  display_title: 'Cloud Plans'
   value:
   description: 'Config to store stripe plans for cloud'
+- name: CHATWOOT_CLOUD_PLAN_FEATURES
+  display_title: 'Planwise Features List'
+  value:
+  description: 'Config to features and their associated plans'
 - name: DEPLOYMENT_ENV
   value: self-hosted
   description: 'The deployment environment of the installation, to differentiate between Chatwoot cloud and self-hosted'
@@ -148,6 +163,11 @@
   value:
   display_title: 'Clearbit API Key'
   description: 'This API key is used for onboarding the users, to pre-fill account data.'
+- name: DASHBOARD_SCRIPTS
+  value:
+  display_title: 'Dashboard Scripts'
+  description: 'Scripts are loaded as the last item in the <body> tag'
+  type: code
 # ------- End of Chatwoot Internal Config for Cloud ----#
 
 # ------- Chatwoot Internal Config for Self Hosted ----#

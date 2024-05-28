@@ -106,7 +106,6 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
 import Auth from '../../../api/auth';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
@@ -119,7 +118,6 @@ export default {
     WootDropdownItem,
     AvailabilityStatus,
   },
-  mixins: [clickaway],
   props: {
     show: {
       type: Boolean,

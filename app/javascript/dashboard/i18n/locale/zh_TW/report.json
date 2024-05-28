@@ -35,6 +35,14 @@
         "NAME": "已解決的數量",
         "DESC": "(總計)"
       },
+      "BOT_RESOLUTION_COUNT": {
+        "NAME": "已解決的數量",
+        "DESC": "(總計)"
+      },
+      "BOT_HANDOFF_COUNT": {
+        "NAME": "Handoff Count",
+        "DESC": "(總計)"
+      },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
         "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
@@ -130,7 +138,11 @@
         "groupBy": "Month"
       }
     ],
-    "BUSINESS_HOURS": "服務時間"
+    "BUSINESS_HOURS": "服務時間",
+    "FILTER_ACTIONS": {
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "No results found"
+    }
   },
   "AGENT_REPORTS": {
     "HEADER": "客服總覽",
@@ -433,6 +445,27 @@
       }
     }
   },
+  "BOT_REPORTS": {
+    "HEADER": "Bot Reports",
+    "METRIC": {
+      "TOTAL_CONVERSATIONS": {
+        "LABEL": "No. of Conversations",
+        "TOOLTIP": "Total number of conversations handled by the bot"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total Responses",
+        "TOOLTIP": "Total number of responses sent by the bot"
+      },
+      "RESOLUTION_RATE": {
+        "LABEL": "Resolution Rate",
+        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+      },
+      "HANDOFF_RATE": {
+        "LABEL": "Handoff Rate",
+        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+      }
+    }
+  },
   "OVERVIEW_REPORTS": {
     "HEADER": "總覽",
     "LIVE": "Live",
@@ -476,5 +509,54 @@
     "THURSDAY": "Thursday",
     "FRIDAY": "Friday",
     "SATURDAY": "Saturday"
+  },
+  "SLA_REPORTS": {
+    "HEADER": "SLA Reports",
+    "NO_RECORDS": "SLA applied conversations are not available.",
+    "LOADING": "Loading SLA data...",
+    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
+    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "DROPDOWN": {
+      "ADD_FIlTER": "添加查詢條件",
+      "CLEAR_ALL": "Clear all",
+      "CLEAR_FILTER": "Clear filter",
+      "EMPTY_LIST": "No results found",
+      "NO_FILTER": "No filters available",
+      "SEARCH": "Search filter",
+      "INPUT_PLACEHOLDER": {
+        "SLA": "SLA name",
+        "AGENTS": "客服名稱",
+        "INBOXES": "收件匣名稱",
+        "LABELS": "標籤名稱",
+        "TEAMS": "團隊名稱"
+      },
+      "SLA": "SLA Policy",
+      "INBOXES": "收件匣",
+      "AGENTS": "客服",
+      "LABELS": "Label",
+      "TEAMS": "Team"
+    },
+    "METRICS": {
+      "HIT_RATE": {
+        "LABEL": "Hit Rate",
+        "TOOLTIP": "Percentage of SLAs created were completed successfully"
+      },
+      "NO_OF_MISSES": {
+        "LABEL": "Number of Misses",
+        "TOOLTIP": "Total SLA misses in a certain period"
+      },
+      "NO_OF_CONVERSATIONS": {
+        "LABEL": "Number of Conversations",
+        "TOOLTIP": "Total number of conversations with SLA"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "POLICY": "Policy",
+        "CONVERSATION": "對話",
+        "AGENT": "客服"
+      },
+      "VIEW_DETAILS": "View Details"
+    }
   }
 }

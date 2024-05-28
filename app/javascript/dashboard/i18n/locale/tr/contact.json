@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Özel Nitelikler",
       "CONTACT_LABELS": "Kişi Etiketleri",
-      "PREVIOUS_CONVERSATIONS": "Önceki Sohbetler"
+      "PREVIOUS_CONVERSATIONS": "Önceki Sohbetler",
+      "NO_RECORDS_FOUND": "Nitelik bulunamadı"
     }
   },
   "EDIT_CONTACT": {
@@ -83,6 +84,7 @@
     "CONFIRM": {
       "TITLE": "Kişileri Dışa Aktar",
       "MESSAGE": "Are you sure you want to export all contacts?",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
       "YES": "Yes, Export",
       "NO": "No, Cancel"
     }
@@ -296,6 +298,8 @@
     "BUTTON": "Belirli bir özellik ekle",
     "NOT_AVAILABLE": "Bu kişi için belirlenmiş bir özellik yok.",
     "COPY_SUCCESSFUL": "Panoya başarıyla kopyalandı",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Özellik kopyala",
       "DELETE": "Özellik sil",

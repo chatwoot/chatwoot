@@ -1,11 +1,12 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import types from '../mutation-types';
 import SLAReportsAPI from '../../api/slaReports';
-
+import { downloadCsvFile } from 'dashboard/helper/downloadHelper';
 export const state = {
   records: [],
   metrics: {
-    numberOfSLABreaches: 0,
+    numberOfConversations: 0,
+    numberOfSLAMisses: 0,
     hitRate: '0%',
   },
   uiFlags: {
@@ -59,6 +60,11 @@ export const actions = {
       commit(types.SET_SLA_REPORTS_UI_FLAG, { isFetchingMetrics: false });
     }
   },
+  download(_, params) {
+    return SLAReportsAPI.download(params).then(response => {
+      downloadCsvFile(params.fileName, response.data);
+    });
+  },
 };
 
 export const mutations = {
@@ -72,19 +78,21 @@ export const mutations = {
   [types.SET_SLA_REPORTS]: MutationHelpers.set,
   [types.SET_SLA_REPORTS_METRICS](
     _state,
-    { number_of_sla_breaches: numberOfSLABreaches, hit_rate: hitRate }
+    {
+      number_of_sla_misses: numberOfSLAMisses,
+      hit_rate: hitRate,
+      total_applied_slas: numberOfConversations,
+    }
   ) {
     _state.metrics = {
-      numberOfSLABreaches,
+      numberOfSLAMisses,
       hitRate,
+      numberOfConversations,
     };
   },
-  [types.SET_SLA_REPORTS_META](
-    _state,
-    { total_applied_slas: totalAppliedSLAs, current_page: currentPage }
-  ) {
+  [types.SET_SLA_REPORTS_META](_state, { count, current_page: currentPage }) {
     _state.meta = {
-      count: totalAppliedSLAs,
+      count,
       currentPage,
     };
   },

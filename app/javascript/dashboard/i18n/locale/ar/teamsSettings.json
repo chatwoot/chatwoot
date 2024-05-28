@@ -83,7 +83,7 @@
       "SELECT_ALL": "تحديد جميع الوكلاء",
       "SELECTED_COUNT": "تم تحديد %{selected} من أصل %{total} وكيل.",
       "BUTTON_TEXT": "إضافة موظفين",
-      "AGENT_VALIDATION_ERROR": "اختيار وكيل واحد على الاقل."
+      "AGENT_VALIDATION_ERROR": "اختيار وكيل واحد على الأقل."
     },
     "FINISH": {
       "TITLE": "أصبح فريقك جاهزة الآن!",
