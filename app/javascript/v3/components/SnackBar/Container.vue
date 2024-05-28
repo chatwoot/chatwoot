@@ -33,10 +33,10 @@ export default {
   },
 
   mounted() {
-    this.$emitter.on(BUS_EVENTS.SHOW_TOAST, this.onNewToastMessage);
+    bus.$on(BUS_EVENTS.SHOW_TOAST, this.onNewToastMessage);
   },
   beforeDestroy() {
-    this.$emitter.off(BUS_EVENTS.SHOW_TOAST, this.onNewToastMessage);
+    bus.$off(BUS_EVENTS.SHOW_TOAST, this.onNewToastMessage);
   },
   methods: {
     onNewToastMessage(message, action) {
