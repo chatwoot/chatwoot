@@ -69,8 +69,10 @@
 <script>
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
+  mixins: [alertMixin],
   props: {
     onClose: {
       type: Function,
@@ -118,7 +120,7 @@ export default {
 
   methods: {
     showAlert(message) {
-      this.$emitter.emit('newToastMessage', message);
+      this.showAlert(message);
     },
     async addAgent() {
       try {

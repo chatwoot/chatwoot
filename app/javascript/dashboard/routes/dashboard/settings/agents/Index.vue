@@ -130,6 +130,7 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import Thumbnail from '../../../../components/widgets/Thumbnail.vue';
 import AddAgent from './AddAgent.vue';
 import EditAgent from './EditAgent.vue';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
@@ -137,7 +138,7 @@ export default {
     EditAgent,
     Thumbnail,
   },
-  mixins: [globalConfigMixin],
+  mixins: [globalConfigMixin, alertMixin],
   data() {
     return {
       loading: {},
@@ -242,7 +243,7 @@ export default {
       this.currentAgent = {};
       // Show message
       this.agentAPI.message = message;
-      this.$emitter.emit('newToastMessage', message);
+      this.showAlert(message);
     },
   },
 };

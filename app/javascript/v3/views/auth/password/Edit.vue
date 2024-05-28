@@ -53,12 +53,14 @@ import FormInput from '../../../components/Form/Input.vue';
 import SubmitButton from '../../../components/Button/SubmitButton.vue';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import { setNewPassword } from '../../../api/auth';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     FormInput,
     SubmitButton,
   },
+  mixins: [alertMixin],
   props: {
     resetPasswordToken: { type: String, default: '' },
     redirectUrl: { type: String, default: '' },
@@ -108,7 +110,7 @@ export default {
     showAlert(message) {
       // Reset loading, current selected agent
       this.newPasswordAPI.showLoading = false;
-      this.$emitter.emit('newToastMessage', message);
+      this.showAlert(message);
     },
     submitForm() {
       this.newPasswordAPI.showLoading = true;

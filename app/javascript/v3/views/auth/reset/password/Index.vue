@@ -53,10 +53,11 @@ import { mapGetters } from 'vuex';
 import FormInput from '../../../../components/Form/Input.vue';
 import { resetPassword } from '../../../../api/auth';
 import SubmitButton from '../../../../components/Button/SubmitButton.vue';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: { FormInput, SubmitButton },
-  mixins: [globalConfigMixin],
+  mixins: [globalConfigMixin, alertMixin],
   data() {
     return {
       credentials: { email: '' },
@@ -83,7 +84,7 @@ export default {
     showAlert(message) {
       // Reset loading, current selected agent
       this.resetPassword.showLoading = false;
-      this.$emitter.emit('newToastMessage', message);
+      this.showAlert(message);
     },
     submit() {
       this.resetPassword.showLoading = true;

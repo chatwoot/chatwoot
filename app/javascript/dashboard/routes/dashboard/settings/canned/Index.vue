@@ -132,12 +132,14 @@
 import { mapGetters } from 'vuex';
 import AddCanned from './AddCanned.vue';
 import EditCanned from './EditCanned.vue';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     AddCanned,
     EditCanned,
   },
+  mixins: [alertMixin],
   data() {
     return {
       loading: {},
@@ -193,7 +195,7 @@ export default {
       this.selectedResponse = {};
       // Show message
       this.cannedResponseAPI.message = message;
-      this.$emitter.emit('newToastMessage', message);
+      this.showAlert(message);
     },
     // Edit Function
     openAddPopup() {
