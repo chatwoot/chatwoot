@@ -47,6 +47,7 @@ import { useI18n } from 'dashboard/composables/useI18n';
 import LinearAPI from 'dashboard/api/integrations/linear';
 import CreateOrLinkIssue from './CreateOrLinkIssue.vue';
 import Issue from './Issue.vue';
+import { parseLinearAPIErrorResponse } from 'dashboard/store/utils/api';
 
 defineComponent({
   name: 'Linear',
@@ -88,10 +89,10 @@ const loadLinkedIssue = async () => {
     const issues = response.data;
     linkedIssue.value = issues && issues.length ? issues[0] : null;
   } catch (error) {
-    const errorData = error.response.data;
-    const errorMessage =
-      errorData?.error?.errors?.[0]?.message ||
-      t('INTEGRATION_SETTINGS.LINEAR.LOADING_ERROR');
+    const errorMessage = parseLinearAPIErrorResponse(
+      error,
+      t('INTEGRATION_SETTINGS.LINEAR.LOADING_ERROR')
+    );
     useAlert(errorMessage);
   }
 };
@@ -103,10 +104,10 @@ const unlinkIssue = async linkId => {
     linkedIssue.value = null;
     useAlert(t('INTEGRATION_SETTINGS.LINEAR.UNLINK.SUCCESS'));
   } catch (error) {
-    const errorData = error.response.data;
-    const errorMessage =
-      errorData?.error?.errors?.[0]?.message ||
-      t('INTEGRATION_SETTINGS.LINEAR.UNLINK.ERROR');
+    const errorMessage = parseLinearAPIErrorResponse(
+      error,
+      t('INTEGRATION_SETTINGS.LINEAR.UNLINK.ERROR')
+    );
     useAlert(errorMessage);
   } finally {
     isUnlinking.value = false;

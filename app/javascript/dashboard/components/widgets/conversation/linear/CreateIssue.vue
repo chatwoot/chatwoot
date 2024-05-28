@@ -107,6 +107,7 @@ import { useI18n } from 'dashboard/composables/useI18n';
 import { useAlert } from 'dashboard/composables';
 import LinearAPI from 'dashboard/api/integrations/linear';
 import validations from './validations';
+import { parseLinearAPIErrorResponse } from 'dashboard/store/utils/api';
 
 const props = defineProps({
   accountId: {
@@ -185,7 +186,11 @@ const getTeams = async () => {
     const response = await LinearAPI.getTeams();
     teams.value = response.data;
   } catch (error) {
-    useAlert(t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.LOADING_TEAM_ERROR'));
+    const errorMessage = parseLinearAPIErrorResponse(
+      error,
+      t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.LOADING_TEAM_ERROR')
+    );
+    useAlert(errorMessage);
   }
 };
 
@@ -199,9 +204,11 @@ const getTeamEntities = async () => {
       .map(name => response.data.states.find(status => status.name === name))
       .filter(Boolean);
   } catch (error) {
-    useAlert(
+    const errorMessage = parseLinearAPIErrorResponse(
+      error,
       t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.LOADING_TEAM_ENTITIES_ERROR')
     );
+    useAlert(errorMessage);
   }
 };
 
@@ -236,7 +243,11 @@ const createIssue = async () => {
     useAlert(t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CREATE_SUCCESS'));
     onClose();
   } catch (error) {
-    useAlert(t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CREATE_ERROR'));
+    const errorMessage = parseLinearAPIErrorResponse(
+      error,
+      t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CREATE_ERROR')
+    );
+    useAlert(errorMessage);
   } finally {
     isCreating.value = false;
   }

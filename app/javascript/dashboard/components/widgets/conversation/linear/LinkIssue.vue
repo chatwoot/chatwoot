@@ -52,6 +52,7 @@ import { useAlert } from 'dashboard/composables';
 import LinearAPI from 'dashboard/api/integrations/linear';
 import FilterButton from 'dashboard/components/ui/Dropdown/DropdownButton.vue';
 import FilterListDropdown from 'dashboard/components/ui/Dropdown/DropdownList.vue';
+import { parseLinearAPIErrorResponse } from 'dashboard/store/utils/api';
 
 const props = defineProps({
   conversationId: {
@@ -110,10 +111,10 @@ const onSearch = async value => {
       name: `${issue.identifier} ${issue.title}`,
     }));
   } catch (error) {
-    const errorData = error.response.data;
-    const errorMessage =
-      errorData?.error?.errors?.[0]?.message ||
-      t('INTEGRATION_SETTINGS.LINEAR.LINK.ERROR');
+    const errorMessage = parseLinearAPIErrorResponse(
+      error,
+      t('INTEGRATION_SETTINGS.LINEAR.LINK.ERROR')
+    );
     useAlert(errorMessage);
   } finally {
     isFetching.value = false;
@@ -130,10 +131,10 @@ const linkIssue = async () => {
     issues.value = [];
     onClose();
   } catch (error) {
-    const errorData = error.response.data;
-    const errorMessage =
-      errorData?.error?.errors?.[0]?.message ||
-      t('INTEGRATION_SETTINGS.LINEAR.LINK.LINK_ERROR');
+    const errorMessage = parseLinearAPIErrorResponse(
+      error,
+      t('INTEGRATION_SETTINGS.LINEAR.LINK.LINK_ERROR')
+    );
     useAlert(errorMessage);
   } finally {
     isLinking.value = false;
