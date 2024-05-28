@@ -2,7 +2,10 @@ module MicrosoftConcern
   extend ActiveSupport::Concern
 
   def microsoft_client
-    ::OAuth2::Client.new(ENV.fetch('AZURE_APP_ID', nil), ENV.fetch('AZURE_APP_SECRET', nil),
+    app_id = GlobalConfigService.load('AZURE_APP_ID', nil)
+    app_secret = GlobalConfigService.load('AZURE_APP_SECRET', nil)
+
+    ::OAuth2::Client.new(app_id, app_secret,
                          {
                            site: 'https://login.microsoftonline.com',
                            authorize_url: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',

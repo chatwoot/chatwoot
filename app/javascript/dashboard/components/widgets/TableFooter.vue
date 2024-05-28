@@ -1,171 +1,48 @@
 <template>
   <footer
     v-if="isFooterVisible"
-    class="bg-white dark:bg-slate-800 h-12 border-t border-solid border-slate-75 dark:border-slate-700/50 flex items-center justify-between px-6"
+    class="h-12 flex items-center justify-between px-6"
   >
-    <div class="left-aligned-wrap">
-      <div class="text-xs text-slate-600 dark:text-slate-200">
-        <strong>{{ firstIndex }}</strong>
-        - <strong>{{ lastIndex }}</strong> of
-        <strong>{{ totalCount }}</strong> items
-      </div>
-    </div>
-    <div class="right-aligned-wrap">
-      <div
-        v-if="totalCount"
-        class="primary button-group pagination-button-group"
-      >
-        <woot-button
-          size="small"
-          variant="smooth"
-          color-scheme="secondary"
-          class-names="goto-first"
-          :is-disabled="hasFirstPage"
-          @click="onFirstPage"
-        >
-          <fluent-icon icon="chevron-left" size="18" />
-          <fluent-icon
-            icon="chevron-left"
-            size="18"
-            :class="pageFooterIconClass"
-          />
-        </woot-button>
-        <woot-button
-          size="small"
-          variant="smooth"
-          color-scheme="secondary"
-          :is-disabled="hasPrevPage"
-          @click="onPrevPage"
-        >
-          <fluent-icon icon="chevron-left" size="18" />
-        </woot-button>
-        <woot-button
-          size="small"
-          variant="smooth"
-          color-scheme="secondary"
-          @click.prevent
-        >
-          {{ currentPage }}
-        </woot-button>
-        <woot-button
-          size="small"
-          variant="smooth"
-          color-scheme="secondary"
-          :is-disabled="hasNextPage"
-          @click="onNextPage"
-        >
-          <fluent-icon icon="chevron-right" size="18" />
-        </woot-button>
-        <woot-button
-          size="small"
-          variant="smooth"
-          color-scheme="secondary"
-          class-names="goto-last"
-          :is-disabled="hasLastPage"
-          @click="onLastPage"
-        >
-          <fluent-icon icon="chevron-right" size="18" />
-          <fluent-icon
-            icon="chevron-right"
-            size="18"
-            :class="pageFooterIconClass"
-          />
-        </woot-button>
-      </div>
-    </div>
+    <table-footer-results
+      :first-index="firstIndex"
+      :last-index="lastIndex"
+      :total-count="totalCount"
+    />
+    <table-footer-pagination
+      v-if="totalCount"
+      :current-page="currentPage"
+      :total-pages="totalPages"
+      :total-count="totalCount"
+      :page-size="pageSize"
+      @page-change="$emit('page-change', $event)"
+    />
   </footer>
 </template>
 
-<script>
-import rtlMixin from 'shared/mixins/rtlMixin';
-
-export default {
-  components: {},
-  mixins: [rtlMixin],
-  props: {
-    currentPage: {
-      type: Number,
-      default: 1,
-    },
-    pageSize: {
-      type: Number,
-      default: 25,
-    },
-    totalCount: {
-      type: Number,
-      default: 0,
-    },
+<script setup>
+import { computed } from 'vue';
+import TableFooterResults from './TableFooterResults.vue';
+import TableFooterPagination from './TableFooterPagination.vue';
+const props = defineProps({
+  currentPage: {
+    type: Number,
+    default: 1,
   },
-  computed: {
-    pageFooterIconClass() {
-      return this.isRTLView ? '-mr-3' : '-ml-3';
-    },
-    isFooterVisible() {
-      return this.totalCount && !(this.firstIndex > this.totalCount);
-    },
-    firstIndex() {
-      return this.pageSize * (this.currentPage - 1) + 1;
-    },
-    lastIndex() {
-      return Math.min(this.totalCount, this.pageSize * this.currentPage);
-    },
-    searchButtonClass() {
-      return this.searchQuery !== '' ? 'show' : '';
-    },
-    hasLastPage() {
-      return !!Math.ceil(this.totalCount / this.pageSize);
-    },
-    hasFirstPage() {
-      return this.currentPage === 1;
-    },
-    hasNextPage() {
-      return this.currentPage === Math.ceil(this.totalCount / this.pageSize);
-    },
-    hasPrevPage() {
-      return this.currentPage === 1;
-    },
+  pageSize: {
+    type: Number,
+    default: 25,
   },
-  methods: {
-    onNextPage() {
-      if (this.hasNextPage) {
-        return;
-      }
-      const newPage = this.currentPage + 1;
-      this.onPageChange(newPage);
-    },
-    onPrevPage() {
-      if (this.hasPrevPage) {
-        return;
-      }
-      const newPage = this.currentPage - 1;
-      this.onPageChange(newPage);
-    },
-    onFirstPage() {
-      if (this.hasFirstPage) {
-        return;
-      }
-      const newPage = 1;
-      this.onPageChange(newPage);
-    },
-    onLastPage() {
-      if (this.hasLastPage) {
-        return;
-      }
-      const newPage = Math.ceil(this.totalCount / this.pageSize);
-      this.onPageChange(newPage);
-    },
-    onPageChange(page) {
-      this.$emit('page-change', page);
-    },
+  totalCount: {
+    type: Number,
+    default: 0,
   },
-};
+});
+const totalPages = computed(() => Math.ceil(props.totalCount / props.pageSize));
+const firstIndex = computed(() => props.pageSize * (props.currentPage - 1) + 1);
+const lastIndex = computed(() =>
+  Math.min(props.totalCount, props.pageSize * props.currentPage)
+);
+const isFooterVisible = computed(
+  () => props.totalCount && !(firstIndex.value > props.totalCount)
+);
 </script>
-
-<style lang="scss" scoped>
-.goto-first,
-.goto-last {
-  i:last-child {
-    @apply -ml-1;
-  }
-}
-</style>
