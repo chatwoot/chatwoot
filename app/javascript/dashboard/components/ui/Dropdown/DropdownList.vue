@@ -6,6 +6,7 @@ import ListItemButton from './DropdownListItemButton.vue';
 import DropdownSearch from './DropdownSearch.vue';
 import DropdownEmptyState from './DropdownEmptyState.vue';
 import DropdownLoadingState from './DropdownLoadingState.vue';
+
 const props = defineProps({
   listItems: {
     type: Array,
