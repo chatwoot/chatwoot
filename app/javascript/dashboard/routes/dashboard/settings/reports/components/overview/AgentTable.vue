@@ -67,7 +67,7 @@ export default {
       return this.agentMetrics.map(agent => {
         const agentInformation = this.getAgentInformation(agent.id);
         return {
-          agent: agentInformation.name,
+          agent: agentInformation.name || agentInformation.available_name,
           email: agentInformation.email,
           thumbnail: agentInformation.thumbnail,
           open: agent.metric.open || 0,
@@ -130,7 +130,18 @@ export default {
       this.$emit('page-change', pageIndex);
     },
     getAgentInformation(id) {
-      return this.agents.find(agent => agent.id === Number(id));
+      const agentInformation = this.agents?.find(
+        agent => agent.id === Number(id)
+      );
+      if (!agentInformation) {
+        return {
+          name: '-',
+          email: '-',
+          thumbnail: '',
+          availability_status: 'offline',
+        };
+      }
+      return agentInformation;
     },
   },
 };
