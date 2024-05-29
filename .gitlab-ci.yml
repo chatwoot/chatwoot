@@ -1,0 +1,18 @@
+image: docker:26.1.0
+
+services:
+  - docker:26.1.0-dind
+
+variables:
+  CHATWOOT_IMAGE: $CI_REGISTRY_IMAGE:latest
+
+stages:
+  - docker
+
+create_docker_images:
+  stage: docker
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker buildx create --driver=docker-container --name=buildkit-builder --use
+    - docker buildx build --platform linux/arm64,linux/amd64 -f ./docker/Dockerfile --push --tag $DATABASE_IMAGE .
+  dependencies: []
