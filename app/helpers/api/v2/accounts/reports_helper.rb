@@ -51,6 +51,8 @@ module Api::V2::Accounts::ReportsHelper
       report_metric[:conversations_count],
       Reports::TimeFormatPresenter.new(report_metric[:avg_first_response_time]).format,
       Reports::TimeFormatPresenter.new(report_metric[:avg_resolution_time]).format,
+      Reports::TimeFormatPresenter.new(report_metric[:online_time]).format,
+      Reports::TimeFormatPresenter.new(report_metric[:busy_time]).format,
       Reports::TimeFormatPresenter.new(report_metric[:reply_time]).format,
       report_metric[:resolutions_count]
     ]

@@ -68,7 +68,7 @@ export default {
   },
   computed: {
     columns() {
-      return [
+      const baseColumns = [
         {
           field: 'agent',
           key: 'agent',
@@ -115,6 +115,27 @@ export default {
           width: 20,
         },
       ];
+
+      if (this.type === 'agent') {
+        baseColumns.push(
+          {
+            field: 'onlineTime',
+            key: 'onlineTime',
+            title: 'Online Time',
+            align: this.isRTLView ? 'right' : 'left',
+            width: 20,
+          },
+          {
+            field: 'busyTime',
+            key: 'busyTime',
+            title: 'Busy Time',
+            align: this.isRTLView ? 'right' : 'left',
+            width: 20,
+          }
+        );
+      }
+
+      return baseColumns;
     },
     tableData() {
       return this.filterItemsList.map(team => {
@@ -126,6 +147,8 @@ export default {
             this.renderContent(typeMetrics.avg_first_response_time) || '--',
           avgResolutionTime:
             this.renderContent(typeMetrics.avg_resolution_time) || '--',
+          onlineTime: this.renderContent(typeMetrics.online_time) || '--',
+          busyTime: this.renderContent(typeMetrics.busy_time) || '--',
           resolutionsCount: typeMetrics.resolved_conversations_count || '--',
         };
       });
