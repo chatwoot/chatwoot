@@ -224,7 +224,7 @@
         "ERROR": "There was an error fetching the linear issues, please try again",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "#%{conversationId}: %{name}"
+        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -241,22 +241,34 @@
           },
           "TEAM": {
             "LABEL": "Команда",
+            "PLACEHOLDER": "Выберите команду",
+            "SEARCH": "Search team",
             "REQUIRED_ERROR": "Team is required"
           },
           "ASSIGNEE": {
-            "LABEL": "Назначено"
+            "LABEL": "Назначено",
+            "PLACEHOLDER": "Select assignee",
+            "SEARCH": "Search assignee"
           },
           "PRIORITY": {
-            "LABEL": "Приоритет"
+            "LABEL": "Приоритет",
+            "PLACEHOLDER": "Выберите приоритет",
+            "SEARCH": "Search priority"
           },
           "LABEL": {
-            "LABEL": "Метка"
+            "LABEL": "Метка",
+            "PLACEHOLDER": "Select label",
+            "SEARCH": "Search label"
           },
           "STATUS": {
-            "LABEL": "Статус"
+            "LABEL": "Статус",
+            "PLACEHOLDER": "Select status",
+            "SEARCH": "Search status"
           },
           "PROJECT": {
-            "LABEL": "Project"
+            "LABEL": "Project",
+            "PLACEHOLDER": "Select project",
+            "SEARCH": "Search project"
           }
         },
         "CREATE": "Создать",
