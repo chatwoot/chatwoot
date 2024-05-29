@@ -1,6 +1,6 @@
 module Enterprise::Integrations::OpenaiProcessorService
   ALLOWED_EVENT_NAMES = %w[rephrase summarize reply_suggestion label_suggestion fix_spelling_grammar shorten expand
-                           make_friendly make_formal simplify].freeze
+                           make_friendly make_formal simplify summary_with_title].freeze
   CACHEABLE_EVENTS = %w[label_suggestion].freeze
 
   def reply_suggestion_message
@@ -69,6 +69,17 @@ module Enterprise::Integrations::OpenaiProcessorService
       messages: [
         { role: 'system',
           content: prompt_from_file('summary', enterprise: true) },
+        { role: 'user', content: conversation_messages }
+      ]
+    }.to_json
+  end
+
+  def summarize_with_title
+    {
+      model: self.class::GPT_MODEL,
+      messages: [
+        { role: 'system',
+          content: prompt_from_file('summary_with_title', enterprise: true) },
         { role: 'user', content: conversation_messages }
       ]
     }.to_json

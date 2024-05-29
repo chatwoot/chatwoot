@@ -9,6 +9,10 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
     make_api_call(summarize_body)
   end
 
+  def summary_with_title_message
+    make_api_call(summarize_with_title)
+  end
+
   def rephrase_message
     make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please rephrase the following response. " \
                                       "#{LANGUAGE_INSTRUCTION}"))
