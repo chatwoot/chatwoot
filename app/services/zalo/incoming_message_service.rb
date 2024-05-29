@@ -39,6 +39,12 @@ class Zalo::IncomingMessageService
 
   def update_contact_from_profile
     response = get_profile(params[:sender][:id], channel.oa_access_token)
+    # retry to cover the case that access_token is expired
+    if response['error'] == -216
+      channel.refresh_access_token(channel)
+      response = get_profile(params[:sender][:id], channel.oa_access_token)
+    end
+
     return unless (response['error']).zero?
 
     @contact.update!(name: response['data']['display_name'])
