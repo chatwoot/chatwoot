@@ -27,7 +27,8 @@
     <woot-modal
       :show.sync="shouldShowPopup"
       :on-close="closePopup"
-      class="!items-start [&>div]:!top-12"
+      :close-on-backdrop-click="false"
+      class="!items-start [&>div]:!top-12 [&>div]:sticky"
     >
       <create-or-link-issue
         :conversation="conversation"
@@ -39,13 +40,18 @@
 </template>
 
 <script setup>
-import { computed, ref, onMounted, watch } from 'vue';
+import { computed, ref, onMounted, watch, defineComponent, provide } from 'vue';
 import { useAlert } from 'dashboard/composables';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useI18n } from 'dashboard/composables/useI18n';
 import LinearAPI from 'dashboard/api/integrations/linear';
 import CreateOrLinkIssue from './CreateOrLinkIssue.vue';
 import Issue from './Issue.vue';
+import { parseLinearAPIErrorResponse } from 'dashboard/store/utils/api';
+
+defineComponent({
+  name: 'Linear',
+});
 
 const props = defineProps({
   conversationId: {
@@ -60,6 +66,9 @@ const { t } = useI18n();
 const linkedIssue = ref(null);
 const shouldShow = ref(false);
 const shouldShowPopup = ref(false);
+const isUnlinking = ref(false);
+
+provide('isUnlinking', isUnlinking);
 
 const currentAccountId = getters.getCurrentAccountId;
 
@@ -80,17 +89,28 @@ const loadLinkedIssue = async () => {
     const issues = response.data;
     linkedIssue.value = issues && issues.length ? issues[0] : null;
   } catch (error) {
-    useAlert(error?.message || t('INTEGRATION_SETTINGS.LINEAR.LOADING_ERROR'));
+    const errorMessage = parseLinearAPIErrorResponse(
+      error,
+      t('INTEGRATION_SETTINGS.LINEAR.LOADING_ERROR')
+    );
+    useAlert(errorMessage);
   }
 };
 
 const unlinkIssue = async linkId => {
   try {
+    isUnlinking.value = true;
     await LinearAPI.unlinkIssue(linkId);
     linkedIssue.value = null;
     useAlert(t('INTEGRATION_SETTINGS.LINEAR.UNLINK.SUCCESS'));
   } catch (error) {
-    useAlert(t('INTEGRATION_SETTINGS.LINEAR.UNLINK.ERROR'));
+    const errorMessage = parseLinearAPIErrorResponse(
+      error,
+      t('INTEGRATION_SETTINGS.LINEAR.UNLINK.ERROR')
+    );
+    useAlert(errorMessage);
+  } finally {
+    isUnlinking.value = false;
   }
 };
 
