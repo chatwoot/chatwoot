@@ -36,10 +36,10 @@ export default {
   },
 
   mounted() {
-    this.showAlert(this.onNewToastMessage);
+    this.$emitter.on('newToastMessage', this.onNewToastMessage);
   },
   beforeDestroy() {
-    this.showAlert(this.onNewToastMessage);
+    this.$emitter.off('newToastMessage', this.onNewToastMessage);
   },
   methods: {
     onNewToastMessage(message, action) {
