@@ -8,7 +8,7 @@
         class="justify-between w-full bg-slate-50 dark:bg-slate-800 hover:bg-slate-75 dark:hover:bg-slate-800"
         @click="toggleDropdown"
       >
-        <template v-if="shouldShowDropdown" #dropdown>
+        <template #dropdown>
           <filter-list-dropdown
             v-if="shouldShowDropdown"
             v-on-clickaway="toggleDropdown"
@@ -29,7 +29,7 @@
 
 <script setup>
 import { ref, computed, defineComponent } from 'vue';
-import { debounce } from 'lodash';
+import { debounce } from '@chatwoot/utils';
 import FilterButton from 'dashboard/components/ui/Dropdown/DropdownButton.vue';
 import FilterListDropdown from 'dashboard/components/ui/Dropdown/DropdownList.vue';
 
@@ -43,10 +43,7 @@ const props = defineProps({
   items: { type: Array, required: true },
   value: { type: [Number, String], default: null },
   placeholder: { type: String, default: null },
-  error: {
-    type: String,
-    default: null,
-  },
+  error: { type: String, default: null },
 });
 
 const emit = defineEmits(['change']);
@@ -55,7 +52,6 @@ const shouldShowDropdown = ref(false);
 const toggleDropdown = debounce(() => {
   shouldShowDropdown.value = !shouldShowDropdown.value;
 }, 10);
-
 const onSelect = item => {
   emit('change', item, props.type);
   toggleDropdown();
@@ -65,15 +61,12 @@ const hasError = computed(() => !!props.error);
 
 const selectedItem = computed(() => {
   if (!props.value) return null;
-  const item = props.items.find(i => i.id === props.value);
-  return item;
+  return props.items.find(i => i.id === props.value);
 });
 
-const selectedItemName = computed(() => {
-  return selectedItem.value?.name || props.placeholder;
-});
+const selectedItemName = computed(
+  () => selectedItem.value?.name || props.placeholder
+);
 
-const selectedItemId = computed(() => {
-  return selectedItem.value?.id || null;
-});
+const selectedItemId = computed(() => selectedItem.value?.id || null);
 </script>

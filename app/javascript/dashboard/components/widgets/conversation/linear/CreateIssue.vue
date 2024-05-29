@@ -1,5 +1,5 @@
 <template>
-  <div @submit.prevent="onSubmit">
+  <div>
     <woot-input
       v-model="formState.title"
       :class="{ error: v$.title.$error }"
@@ -39,7 +39,7 @@
     />
     <dropdown-field
       type="assigneeId"
-      :value="assigneeId"
+      :value="formState.assigneeId"
       :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.ASSIGNEE.LABEL')"
       :items="assignees"
       :placeholder="
@@ -49,7 +49,7 @@
     />
     <dropdown-field
       type="labelId"
-      :value="labelId"
+      :value="formState.labelId"
       :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.LABEL.LABEL')"
       :items="labels"
       :placeholder="
@@ -59,7 +59,7 @@
     />
     <dropdown-field
       type="priority"
-      :value="priority"
+      :value="formState.priority"
       :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.PRIORITY.LABEL')"
       :items="priorities"
       :placeholder="
@@ -69,7 +69,7 @@
     />
     <dropdown-field
       type="projectId"
-      :value="projectId"
+      :value="formState.projectId"
       :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.PROJECT.LABEL')"
       :items="projects"
       :placeholder="
@@ -79,7 +79,7 @@
     />
     <dropdown-field
       type="stateId"
-      :value="stateId"
+      :value="formState.stateId"
       :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.STATUS.LABEL')"
       :items="statuses"
       :placeholder="
@@ -163,15 +163,12 @@ const formState = reactive({
   title: '',
   description: '',
   teamId: '',
+  assigneeId: '',
+  labelId: '',
+  stateId: '',
+  priority: '',
+  projectId: '',
 });
-
-const teamId = ref(null);
-const assigneeId = ref(null);
-const labelId = ref(null);
-const stateId = ref(null);
-const priority = ref(null);
-const projectId = ref(null);
-
 const v$ = useVuelidate(validations, formState);
 
 const isSubmitDisabled = computed(
@@ -205,7 +202,7 @@ const getTeams = async () => {
 
 const getTeamEntities = async () => {
   try {
-    const response = await LinearAPI.getTeamEntities(teamId.value);
+    const response = await LinearAPI.getTeamEntities(formState.teamId);
     assignees.value = response.data.users;
     labels.value = response.data.labels;
     projects.value = response.data.projects;
@@ -222,20 +219,14 @@ const getTeamEntities = async () => {
 };
 
 const onChange = (item, type) => {
+  formState[type] = item.id;
   if (type === 'teamId') {
     formState.teamId = item.id;
-    teamId.value = item.id;
-    assigneeId.value = null;
-    labelId.value = null;
-    stateId.value = null;
-    projectId.value = null;
+    formState.assigneeId = '';
+    formState.stateId = '';
+    formState.labelId = '';
     getTeamEntities();
   }
-  if (type === 'assigneeId') assigneeId.value = item.id;
-  if (type === 'labelId') labelId.value = item.id;
-  if (type === 'stateId') stateId.value = item.id;
-  if (type === 'priority') priority.value = item.id;
-  if (type === 'projectId') projectId.value = item.id;
 };
 
 const createIssue = async () => {
@@ -243,14 +234,14 @@ const createIssue = async () => {
   if (v$.value.$invalid) return;
 
   const payload = {
-    team_id: teamId.value,
+    team_id: formState.teamId,
     title: formState.title,
     description: formState.description || undefined,
-    assignee_id: assigneeId.value || undefined,
-    project_id: projectId.value || undefined,
-    state_id: stateId.value || undefined,
-    priority: priority.value || undefined,
-    label_ids: labelId.value ? [labelId.value] : undefined,
+    assignee_id: formState.assigneeId || undefined,
+    project_id: formState.projectId || undefined,
+    state_id: formState.stateId || undefined,
+    priority: formState.priority || undefined,
+    label_ids: formState.labelId ? [formState.labelId] : undefined,
   };
 
   try {
