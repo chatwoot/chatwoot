@@ -9,7 +9,7 @@ variables:
 stages:
   - docker
 
-create_docker_images:
+docker_images:
   stage: docker
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
