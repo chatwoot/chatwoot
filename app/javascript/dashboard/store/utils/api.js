@@ -96,3 +96,9 @@ export const throwErrorMessage = error => {
   const errorMessage = parseAPIErrorResponse(error);
   throw new Error(errorMessage);
 };
+
+export const parseLinearAPIErrorResponse = (error, defaultMessage) => {
+  const errorData = error.response.data;
+  const errorMessage = errorData?.error?.errors?.[0]?.message || defaultMessage;
+  return errorMessage;
+};
