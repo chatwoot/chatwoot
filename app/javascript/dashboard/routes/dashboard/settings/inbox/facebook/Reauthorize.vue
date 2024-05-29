@@ -19,7 +19,7 @@ export default {
     },
   },
   computed: {
-    inboxId: () => {
+    inboxId() {
       return this.inbox.id;
     },
   },
