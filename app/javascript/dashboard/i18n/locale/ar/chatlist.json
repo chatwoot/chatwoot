@@ -59,22 +59,22 @@
         "TEXT": "اخر نشاط: الأحدث أولا"
       },
       "created_at_desc": {
-        "TEXT": "Created at: Newest first"
+        "TEXT": "تم إنشاؤها في: الأحدث أولاً"
       },
       "created_at_asc": {
-        "TEXT": "Created at: Oldest first"
+        "TEXT": "تم إنشاؤها في: أقدم أولاً"
       },
       "priority_desc": {
-        "TEXT": "Priority: Highest first"
+        "TEXT": "الأولوية: الأعلى أولا"
       },
       "priority_asc": {
-        "TEXT": "Priority: Lowest first"
+        "TEXT": "الأولوية: الأقل أولاً"
       },
       "waiting_since_asc": {
-        "TEXT": "Pending Response: Longest first"
+        "TEXT": "الرد المعلق: الأطول أولا"
       },
       "waiting_since_desc": {
-        "TEXT": "Pending Response: Shortest first"
+        "TEXT": "الرد المعلق: أقصر أولاً"
       }
     },
     "ATTACHMENTS": {
@@ -110,7 +110,7 @@
           "LABEL": "تم إنشاؤها في"
         },
         "LAST_USER_MESSAGE_AT": {
-          "NAME": "Last user message at",
+          "NAME": "آخر رسالة للمستخدم في",
           "LABEL": "أخر رسالة"
         }
       }
