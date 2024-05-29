@@ -224,7 +224,7 @@
         "ERROR": "Lineāru problēmu iegūšanas laikā radās kļūda. Lūdzu, mēģiniet vēlreiz",
         "LINK_SUCCESS": "Problēma ir veiksmīgi sasaistīta",
         "LINK_ERROR": "Sasaistot problēmu radās kļūda. Lūdzu, mēģiniet vēlreiz",
-        "LINK_TITLE": "#%{conversationId}: %{name}"
+        "LINK_TITLE": "Saruna (#%{conversationId}) ar %{name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Izveidot/saistīt lineāru problēmu",
@@ -241,22 +241,34 @@
           },
           "TEAM": {
             "LABEL": "Komanda",
+            "PLACEHOLDER": "Izvēlieties komandu",
+            "SEARCH": "Meklēt komandu",
             "REQUIRED_ERROR": "Nepieciešama komanda"
           },
           "ASSIGNEE": {
-            "LABEL": "Uzdevuma saņēmējs"
+            "LABEL": "Uzdevuma saņēmējs",
+            "PLACEHOLDER": "Izvēlēties pilnvaroto",
+            "SEARCH": "Meklēt pilnvaroto"
           },
           "PRIORITY": {
-            "LABEL": "Prioritāte"
+            "LABEL": "Prioritāte",
+            "PLACEHOLDER": "Izvēlieties prioritāti",
+            "SEARCH": "Meklēt prioritāti"
           },
           "LABEL": {
-            "LABEL": "Etiķete"
+            "LABEL": "Etiķete",
+            "PLACEHOLDER": "Izvēlēties etiķeti",
+            "SEARCH": "Meklēt etiķeti"
           },
           "STATUS": {
-            "LABEL": "Statuss"
+            "LABEL": "Statuss",
+            "PLACEHOLDER": "Izvēlēties statusu",
+            "SEARCH": "Meklēt statusu"
           },
           "PROJECT": {
-            "LABEL": "Projekts"
+            "LABEL": "Projekts",
+            "PLACEHOLDER": "Izvēlēties projektu",
+            "SEARCH": "Meklēt projektu"
           }
         },
         "CREATE": "Izveidot",
