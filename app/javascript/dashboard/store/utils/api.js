@@ -32,10 +32,11 @@ export const setAuthCredentials = response => {
   });
   setUser(response.data.data, expiryDate);
 
-  Cookies.set(
-    'stringee_access_token',
-    response.data.data.custom_attributes.stringee_access_token
-  );
+  if (response.data.data.custom_attributes?.stringee_access_token)
+    Cookies.set(
+      'stringee_access_token',
+      response.data.data.custom_attributes.stringee_access_token
+    );
 };
 
 export const clearBrowserSessionCookies = () => {
