@@ -70,7 +70,6 @@
 <script>
   import { mapGetters } from 'vuex';
   import wootConstants from 'dashboard/constants/globals';
-  import { mixin as clickaway } from 'vue-clickaway';
   import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
   import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
   import alertMixin from 'shared/mixins/alertMixin';
@@ -82,7 +81,7 @@
       WootDropdownItem,
       WootDropdownMenu,
     },
-    mixins: [clickaway, alertMixin, uiSettingsMixin],
+    mixins: [alertMixin, uiSettingsMixin],
     props: {
       onSend: {
         type: Function,

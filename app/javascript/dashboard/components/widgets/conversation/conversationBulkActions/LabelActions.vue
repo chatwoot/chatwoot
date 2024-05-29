@@ -74,11 +74,9 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
 
 export default {
-  mixins: [clickaway],
   data() {
     return {
       query: '',

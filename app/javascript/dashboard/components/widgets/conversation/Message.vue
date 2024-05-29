@@ -14,11 +14,7 @@
           @click="retrySendMessage"
         />
       </div>
-      <div
-        v-tooltip.top-start="messageToolTip"
-        :class="bubbleClass"
-        @contextmenu="openContextMenu($event)"
-      >
+      <div :class="bubbleClass" @contextmenu="openContextMenu($event)">
         <bubble-mail-head
           :email-attributes="contentAttributes.email"
           :cc="emailHeadAttributes.cc"
@@ -97,7 +93,7 @@
           :id="data.id"
           :sender="data.sender"
           :story-sender="storySender"
-          :external-error="externalError"
+          :external-error="errorMessageTooltip"
           :story-id="`${storyId}`"
           :is-a-tweet="isATweet"
           :is-a-whatsapp-channel="isAWhatsAppChannel"
@@ -231,8 +227,8 @@ export default {
     },
     csatMessages: {
       type: Array,
-      default: []
-    }
+      default: () => [],
+    },
   },
   data() {
     return {
@@ -243,8 +239,8 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ 
-      isFeatureEnabledGlobally: 'accounts/isFeatureEnabledGlobally',
+    ...mapGetters({
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       accountId: 'getCurrentAccountId',
     }),
     attachments() {
@@ -260,11 +256,11 @@ export default {
       return getDayDifferenceFromNow(new Date(), this.data?.created_at) >= 1;
     },
     shouldRenderMessage() {
-      if (this.data.content_type === 'input_csat'){
-        if (!this.isFirstCsat){
+      if (this.data.content_type === 'input_csat') {
+        if (!this.isFirstCsat) {
           return false;
         }
-        if (this.currentInbox.csat_trigger === 'conversation_all_reply'){
+        if (this.currentInbox.csat_trigger === 'conversation_all_reply') {
           return false;
         }
       }
@@ -277,7 +273,7 @@ export default {
         this.isAnIntegrationMessage
       );
     },
-    currentInbox(){
+    currentInbox() {
       return this.$store.getters['inboxes/getInbox'](this.data.inbox_id);
     },
     emailMessageContent() {
@@ -344,12 +340,16 @@ export default {
         replyTo: !this.data.private && this.inboxSupportsReplyTo.outgoing,
       };
     },
-    enableSmartActions(){
-      const isFeatEnabled = this.isFeatureEnabledGlobally(
+    enableSmartActions() {
+      const isFeatEnabled = this.isFeatureEnabledonAccount(
         this.accountId,
         FEATURE_FLAGS.SMART_ACTIONS
       );
-      return isFeatEnabled && this.isIncoming && (this.isAnEmailInbox || this.isWebWidgetInbox);
+      return (
+        isFeatEnabled &&
+        this.isIncoming &&
+        (this.isAnEmailInbox || this.isWebWidgetInbox)
+      );
     },
     contentAttributes() {
       return this.data.content_attributes || {};
@@ -447,14 +447,11 @@ export default {
           }
         : false;
     },
-    messageToolTip() {
-      if (this.isMessageDeleted) {
-        return false;
-      }
+    errorMessageTooltip() {
       if (this.isFailed) {
         return this.externalError || this.$t(`CONVERSATION.SEND_FAILED`);
       }
-      return false;
+      return '';
     },
     wrapClass() {
       return {
@@ -507,23 +504,23 @@ export default {
       }
       return '';
     },
-    firstCsat(){
-      if (this.csatMessages.length === 0){
+    firstCsat() {
+      if (this.csatMessages.length === 0) {
         return null;
       }
 
       return this.csatMessages[0];
     },
-    isFirstCsat(){
-      if (this.data.content_type !== 'input_csat' || !this.firstCsat){
+    isFirstCsat() {
+      if (this.data.content_type !== 'input_csat' || !this.firstCsat) {
         return false;
       }
 
       return this.firstCsat.id === this.data.id;
     },
-    notCsat(){
+    notCsat() {
       return this.data.content && this.data.content_type !== 'input_csat';
-    }
+    },
   },
   watch: {
     data() {

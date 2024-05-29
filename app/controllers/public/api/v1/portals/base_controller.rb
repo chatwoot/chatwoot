@@ -47,7 +47,7 @@ class Public::Api::V1::Portals::BaseController < PublicController
     @locale = if article.category.present?
                 article.category.locale
               else
-                'en'
+                article.portal.default_locale
               end
 
     I18n.with_locale(@locale, &)

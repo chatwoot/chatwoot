@@ -87,7 +87,10 @@
       "conversation_assignment": "Conversație atribuită",
       "assigned_conversation_new_message": "Trimite mesaj nou",
       "participating_conversation_new_message": "Trimite mesaj nou",
-      "conversation_mention": "Menţiune"
+      "conversation_mention": "Menţiune",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
@@ -104,6 +107,7 @@
       "GENERAL": "General",
       "REPORTS": "Rapoarte",
       "CONVERSATION": "Conversație",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Modificarea cesionarului",
       "CHANGE_PRIORITY": "Modificarea priorității",
       "CHANGE_TEAM": "Schimbarea echipei",

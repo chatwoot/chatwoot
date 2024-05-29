@@ -2,7 +2,7 @@
   <div
     class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full px-4 py-0 border-t-0 border-b-0 border-l-2 border-r-0 border-transparent border-solid cursor-pointer conversation hover:bg-slate-25 dark:hover:bg-slate-800 group"
     :class="{
-      'animate-card-select bg-slate-25 dark:bg-slate-800 border-woot-500':
+      'active animate-card-select bg-slate-25 dark:bg-slate-800 border-woot-500':
         isActiveChat,
       'unread-chat': hasUnread,
       'has-inbox-name': showInboxName,
@@ -86,7 +86,11 @@
           {{ unreadCount > 9 ? '9+' : unreadCount }}
         </span>
       </div>
-      <card-labels :conversation-id="chat.id" />
+      <card-labels :conversation-id="chat.id" class="mt-0.5 mx-2 mb-0">
+        <template v-if="hasSlaPolicyId" #before>
+          <SLA-card-label :chat="chat" class="ltr:mr-1 rtl:ml-1" />
+        </template>
+      </card-labels>
     </div>
     <woot-context-menu
       v-if="showContextMenu"
@@ -125,6 +129,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import CardLabels from './conversationCardComponents/CardLabels.vue';
 import PriorityMark from './PriorityMark.vue';
+import SLACardLabel from './components/SLACardLabel.vue';
 
 export default {
   components: {
@@ -135,6 +140,7 @@ export default {
     TimeAgo,
     MessagePreview,
     PriorityMark,
+    SLACardLabel,
   },
 
   mixins: [inboxMixin, timeMixin, conversationMixin, alertMixin],
@@ -251,6 +257,9 @@ export default {
     inboxName() {
       const stateInbox = this.inbox;
       return stateInbox.name || '';
+    },
+    hasSlaPolicyId() {
+      return this.chat?.sla_policy_id;
     },
   },
   methods: {

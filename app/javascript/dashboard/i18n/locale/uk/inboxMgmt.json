@@ -22,7 +22,7 @@
         "body": "Додати агентів до створеного \"Джерела\"."
       },
       {
-        "title": "Вуаля!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "Все готово!"
       }
@@ -43,7 +43,7 @@
         "CHOOSE_PLACEHOLDER": "Виберіть сторінку зі списку",
         "INBOX_NAME": "Назва Джерела",
         "ADD_NAME": "Додайте назву Джерела",
-        "PICK_NAME": "Виберіть ім'я Джерела",
+        "PICK_NAME": "Виберіть ім'я для вхідних",
         "PICK_A_VALUE": "Виберіть значення"
       },
       "TWITTER": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "URL вебхука",
-          "PLACEHOLDER": "Введіть URL вашого вебхука",
+          "PLACEHOLDER": "Будь ласка, введіть URL вашого вебхука",
           "ERROR": "Будь ласка, введіть правильний URL"
         },
         "CHANNEL_DOMAIN": {
@@ -75,7 +75,7 @@
         },
         "CHANNEL_WELCOME_TAGLINE": {
           "LABEL": "Талін привітання",
-          "PLACEHOLDER": "Ми робимо це простим — запитуємо що-небудь чи поділіться своїми відгуками."
+          "PLACEHOLDER": "Ми робимо простим зв'язок з нами. Запитайте нас що-небудь або поділіться своїми відгуками."
         },
         "CHANNEL_GREETING_MESSAGE": {
           "LABEL": "Вітання каналу",
@@ -239,7 +239,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Токен перевірки вебхуків",
-          "PLACEHOLDER": "Введіть ключ підтвердження, який ви хочете налаштувати на Facebook webhook'и.",
+          "PLACEHOLDER": "Введіть ключ підтвердження, який ви хочете налаштувати на Facebook webhooks.",
           "ERROR": "Будь ласка введіть правильне значення."
         },
         "API_KEY": {
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Email канал",
-        "DESC": "Інтегруйте поштову скриньку.",
+        "DESC": "Інтегруйте вашу поштову скриньку.",
         "CHANNEL_NAME": {
           "LABEL": "Назва каналу",
           "PLACEHOLDER": "Будь ласка, введіть назву каналу",
@@ -287,7 +287,7 @@
         },
         "EMAIL": {
           "LABEL": "Email",
-          "SUBTITLE": "Пишіть куди клієнти відправляють вам квитки підтримки",
+          "SUBTITLE": "Вкажіть адресу електронної пошти, на яку клієнти надсилають запити про підтримку.",
           "PLACEHOLDER": "Email"
         },
         "SUBMIT_BUTTON": "Створити Канал E-mail",
@@ -345,7 +345,7 @@
       "AGENTS": {
         "TITLE": "Агенти",
         "DESC": "Тут Ви можете додавати агентів для керування нещодавно створеним джерелом. Тільки ці обрані агенти матимуть доступ до Вашої папки \"Вхідні\". Агенти, які не входять до цього джерела, не зможуть побачити або відповісти на повідомлення у цій папці \"Вхідні\", під час входу. <br> <b>PS:</b> Як адміністратор, якщо вам потрібен доступ до всіх джерел, ви повинні додати себе як агент до всіх \"Вхідні\", що створюєте.",
-        "VALIDATION_ERROR": "Додайте як мінімум одного агента до вашого нового Джерела",
+        "VALIDATION_ERROR": "Додайте принаймні один агент до вашої нової папки Вхідні",
         "PICK_AGENTS": "Вибрати агентів для джерела"
       },
       "DETAILS": {
@@ -406,20 +406,20 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Ім'я відправника",
-        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
-        "FOR_EG": "For eg:",
+        "SUB_TEXT": "Виберіть ім'я, що відображається вашому клієнту, коли він отримує повідомлення від ваших агентів.",
+        "FOR_EG": "Наприклад:",
         "FRIENDLY": {
           "TITLE": "Дружній",
           "FROM": "від",
-          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+          "SUBTITLE": "Додайте ім'я агента, який надіслав відповідь в ім'я відправника, щоб зробити його привітним."
         },
         "PROFESSIONAL": {
           "TITLE": "Професійний",
-          "SUBTITLE": "Use only the configured business name as the sender name in the email header."
+          "SUBTITLE": "Використовувати лише налаштовану бізнес-назву як ім'я відправника в заголовку електронної пошти."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ Configure your business name",
-          "PLACEHOLDER": "Enter your business name",
+          "BUTTON_TEXT": "+ Налаштуйте ваше корпоративне ім'я",
+          "PLACEHOLDER": "Введіть ваше корпоративне ім'я",
           "SAVE_BUTTON_TEXT": "Зберегти"
         }
       },
@@ -486,9 +486,9 @@
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Увімкнути або вимкнути ящик збору повідомлень в новій розмові",
       "AUTO_ASSIGNMENT": "Увімкнути автопризначення",
       "ENABLE_CSAT": "Увімкнути CSAT",
-      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
+      "SENDER_NAME_SECTION": "Увімкнути ім'я співробітника в електронній пошті",
       "ENABLE_CSAT_SUB_TEXT": "Увімкнути/Вимкнути опитування CSAT(Задоволення клієнтів) після вирішення розмови",
-      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
+      "SENDER_NAME_SECTION_TEXT": "Увімкнути/Вимкнути показ імені співробітника в електронній пошті, якщо це вимкнено, то буде відображатися бізнес-ім'я",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Увімкнути безперервність розмови через електронну пошту",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Розмови продовжуватимуться через електронну пошту, якщо доступна контактна адреса.",
       "LOCK_TO_SINGLE_CONVERSATION": "Заблокувати бесіду",
@@ -508,12 +508,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Дозволити повідомлення після закінчення розмови",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Дозволити кінцевим користувачам надсилати повідомлення навіть після закриття розмови.",
       "WHATSAPP_SECTION_SUBHEADER": "Цей ключ API використовується для інтеграції з API WhatsApp.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Цей ключ API використовується для інтеграції з API WhatsApp.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Введіть новий ключ API, який буде використовуватися для інтеграції з API WhatsApp.",
       "WHATSAPP_SECTION_TITLE": "API ключ",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Оновити ключ API",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Введіть тут новий ключ API",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Оновити",
-      "WHATSAPP_WEBHOOK_TITLE": "Токен перевірки вебхуків",
+      "WHATSAPP_WEBHOOK_TITLE": "Токен вебхука",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Цей токен використовується для перевірки аутентифікації кінцевої точки вебхука.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Оновити параметри форми чату"
     },
@@ -569,7 +569,7 @@
       "UPDATE": "Оновити налаштування робочих годин",
       "TOGGLE_AVAILABILITY": "Увімкнути робочі години для цього каналу",
       "UNAVAILABLE_MESSAGE_LABEL": "Повідомлення для відвідувачів у неробочі години",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
+      "TOGGLE_HELP": "Включення покаже робочі години на віджеті в чаті, навіть якщо всі агенти перебувають в автономному режимі. У неробочі години відвідувачі можуть бути попереджені повідомленням і формою попереднього чату.",
       "DAY": {
         "ENABLE": "Увімкнути доступність для цього дня",
         "UNAVAILABLE": "Неприсутній",

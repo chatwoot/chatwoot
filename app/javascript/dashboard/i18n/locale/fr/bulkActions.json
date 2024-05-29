@@ -17,7 +17,7 @@
     "AGENT_LIST_LOADING": "Chargement des agents",
     "UPDATE": {
       "CHANGE_STATUS": "Changer le statut",
-      "SNOOZE_UNTIL_NEXT_REPLY": "Reporté jusqu'à la prochaine réponse.",
+      "SNOOZE_UNTIL": "Reporter",
       "UPDATE_SUCCESFUL": "Le statut de la conversation a été mis à jour avec succès.",
       "UPDATE_FAILED": "Impossible de mettre à jour les conversations, veuillez réessayer."
     },

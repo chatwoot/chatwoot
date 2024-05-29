@@ -17,7 +17,7 @@
     "AGENT_LIST_LOADING": "טוען סוכנים",
     "UPDATE": {
       "CHANGE_STATUS": "שנה סטאטוס",
-      "SNOOZE_UNTIL_NEXT_REPLY": "נדנד עד התגובה הבאה.",
+      "SNOOZE_UNTIL": "נודניק",
       "UPDATE_SUCCESFUL": "סטאטוס השיחה שונה בהצלחה.",
       "UPDATE_FAILED": "Failed to update conversations. Please try again."
     },

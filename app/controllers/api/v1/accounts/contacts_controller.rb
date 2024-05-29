@@ -61,7 +61,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def export
     column_names = params['column_names']
-    Account::ContactsExportJob.perform_later(Current.account.id, column_names, Current.user.email)
+    filter_params = { :payload => params.permit!['payload'], :label => params.permit!['label'] }
+    Account::ContactsExportJob.perform_later(Current.account.id, Current.user.id, column_names, filter_params)
     head :ok, message: I18n.t('errors.contacts.export.success')
   end
 
@@ -76,10 +77,14 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def show; end
 
   def filter
-    result = ::Contacts::FilterService.new(params.permit!, current_user).perform
+    result = ::Contacts::FilterService.new(Current.account, Current.user, params.permit!).perform
     contacts = result[:contacts]
     @contacts_count = result[:count]
     @contacts = fetch_contacts(contacts)
+  rescue CustomExceptions::CustomFilter::InvalidAttribute,
+         CustomExceptions::CustomFilter::InvalidOperator,
+         CustomExceptions::CustomFilter::InvalidValue => e
+    render_could_not_create_error(e.message)
   end
 
   def contactable_inboxes

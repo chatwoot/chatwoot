@@ -15,8 +15,8 @@ class SmartActionApi extends ApiClient {
   askCopilot(conversationId) {
     return axios.get(`${this.url}/${conversationId}/smart_actions/event_data`, {
       params: {
-        event: SMART_ACTION_EVENTS.ASK_COPILOT
-      }
+        event: SMART_ACTION_EVENTS.ASK_COPILOT,
+      },
     });
   }
 }

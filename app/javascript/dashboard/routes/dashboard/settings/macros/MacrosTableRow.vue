@@ -2,15 +2,15 @@
   <tr>
     <td>{{ macro.name }}</td>
     <td>
-      <div class="avatar-container">
-        <thumbnail :username="macro.created_by.name" size="24px" />
-        <span>{{ macro.created_by.name }}</span>
+      <div v-if="macro.created_by" class="avatar-container">
+        <thumbnail :username="createdByName" size="24px" />
+        <span>{{ createdByName }}</span>
       </div>
     </td>
     <td>
-      <div class="avatar-container">
-        <thumbnail :username="macro.updated_by.name" size="24px" />
-        <span>{{ macro.updated_by.name }}</span>
+      <div v-if="macro.updated_by" class="avatar-container">
+        <thumbnail :username="updatedByName" size="24px" />
+        <span>{{ updatedByName }}</span>
       </div>
     </td>
     <td>{{ visibilityLabel }}</td>
@@ -53,6 +53,14 @@ export default {
     },
   },
   computed: {
+    createdByName() {
+      const createdBy = this.macro.created_by;
+      return createdBy.available_name ?? createdBy.email ?? '';
+    },
+    updatedByName() {
+      const updatedBy = this.macro.updated_by;
+      return updatedBy.available_name ?? updatedBy.email ?? '';
+    },
     visibilityLabel() {
       return this.macro.visibility === 'global'
         ? this.$t('MACROS.EDITOR.VISIBILITY.GLOBAL.LABEL')

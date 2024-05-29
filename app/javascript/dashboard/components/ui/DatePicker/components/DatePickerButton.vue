@@ -12,8 +12,6 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['open']);
-
 const formatDateRange = computed(() => {
   const startDate = props.selectedStartDate;
   const endDate = props.selectedEndDate;
@@ -41,6 +39,8 @@ const activeDateRange = computed(
   () => dateRanges.find(range => range.value === props.selectedRange).label
 );
 
+const emit = defineEmits(['open']);
+
 const openDatePicker = () => {
   emit('open');
 };
@@ -48,16 +48,24 @@ const openDatePicker = () => {
 
 <template>
   <button
-    class="inline-flex relative items-center rounded-lg gap-2 py-1.5 px-3 h-8 bg-n-alpha-2 hover:bg-n-alpha-1 active:bg-n-alpha-1"
+    class="inline-flex relative items-center rounded-lg gap-2 py-1.5 px-3 h-8 bg-slate-50 dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 active:bg-slate-75 dark:active:bg-slate-800"
     @click="openDatePicker"
   >
-    <fluent-icon class="text-n-slate-12" icon="calendar" size="16" />
-    <span class="text-sm font-medium text-n-slate-12">
+    <fluent-icon
+      class="text-slate-800 dark:text-slate-50"
+      icon="calendar"
+      size="16"
+    />
+    <span class="text-sm font-medium text-slate-800 dark:text-slate-50">
       {{ $t(activeDateRange) }}
     </span>
-    <span class="text-sm font-medium text-n-slate-11">
+    <span class="text-sm font-medium text-slate-600 dark:text-slate-200">
       {{ formatDateRange }}
     </span>
-    <fluent-icon class="text-n-slate-12" icon="chevron-down" size="14" />
+    <fluent-icon
+      class="text-slate-800 dark:text-slate-50"
+      icon="chevron-down"
+      size="14"
+    />
   </button>
 </template>

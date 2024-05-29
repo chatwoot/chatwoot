@@ -28,7 +28,7 @@
         "CONTENT": {
           "LABEL": "訊息",
           "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
-          "ERROR": "Message is required."
+          "ERROR": "訊息為必填."
         },
         "SUBMIT": "送出"
       },
@@ -38,7 +38,7 @@
       }
     },
     "EDIT": {
-      "TITLE": "Edit canned response",
+      "TITLE": "編輯罐頭回覆",
       "CANCEL_BUTTON_TEXT": "取消操作",
       "FORM": {
         "SHORT_CODE": {

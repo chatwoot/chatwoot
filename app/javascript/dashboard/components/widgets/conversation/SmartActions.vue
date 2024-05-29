@@ -1,29 +1,34 @@
 <template>
   <div>
-    <div 
+    <div
       v-if="showSmartActions"
       v-on-clickaway="hideSmartAction"
       class="smart-actions-panel left-3 rtl:left-auto rtl:right-3 bottom-16 w-64 absolute z-30 rounded-md shadow-xl bg-white dark:bg-slate-800 py-5 px-5 border border-slate-25 dark:border-slate-700"
       :class="{ 'block visible': showSmartActions }"
-      >
+    >
       <woot-button
         size="tiny"
         variant="clear"
         color-scheme="secondary"
         icon="dismiss"
-        @click="hideSmartAction"
         class="float-right"
+        @click="hideSmartAction"
       />
       <div v-if="filteredSmartActions.length">
         <h1 class="text-xl break-words overflow-hidden whitespace-nowrap font-medium text-ellipsis text-black-900 dark:text-slate-100 mb-0">
           {{ filteredSmartActions.length }} smart actions detected from conversation
         </h1>
-        <p class="text-slate-400 dark:text-slate-300">Proceed with each action and let AI do the rest e.g auto fill form</p>
+        <p class="text-slate-400 dark:text-slate-300">
+          Proceed with each action and let AI do the rest e.g auto fill form
+        </p>
       </div>
       <div v-else>
-        <p class="text-slate-400 dark:text-slate-300">No smart actions found.</p>
+        <p class="text-slate-400 dark:text-slate-300">
+          No smart actions found.
+        </p>
       </div>
       <div class="mt-3 action-holder">
+
         <div v-for="action in filteredSmartActions" v-bind:key="action.index" class="smart-action-item bg-slate-25 dark:bg-slate-900 m-0 h-full min-h-0">
           <div class="capitalize float-right rounded-full bg-green-100 text-xs px-5 py-1 dark:text-slate-300 text-slate-700" :class="actionClass(action)">{{ intentType(action) }}</div>
           <h1 class="text-black-900 dark:text-slate-400 text-2xl font-medum mb-2">{{ action.name }}</h1>
@@ -35,17 +40,16 @@
           </div>
           <div>
             <woot-button
-                size="tiny"
-                class="smart-action-button"
-                @click="toggleBookingPanel(action)"
-              >
+              size="tiny"
+              class="smart-action-button"
+              @click="toggleBookingPanel(action)"
+            >
               {{ action.label }}
-              <fluent-icon 
+              <fluent-icon
                 size="16"
                 class="-mt-0.5 align-middle ml-2 text-slate-100 dark:text-slate-300 inline-block"
                 icon="arrow-up-right"
-                >
-              </fluent-icon>
+              />
             </woot-button>
           </div>
         </div>
@@ -56,32 +60,49 @@
           variant="clear"
           color-scheme="secondary"
           icon="settings"
-          @click="openSetting"
           class="float-right"
+          @click="openSetting"
         />
-        <div class="flex smart-help-chevron text-slate-400 dark:text-slate-300 text-xs py-2" @click="toggleHelp">
-          <fluent-icon v-if="openHelp" size="10" icon="chevron-down" class="mt-1 mr-2"/>
-          <fluent-icon v-else size="10" icon="chevron-right" type="solid" class="mt-1 mr-2"/>
+        <div
+          class="flex smart-help-chevron text-slate-400 dark:text-slate-300 text-xs py-2"
+          @click="toggleHelp"
+        >
+          <fluent-icon
+            v-if="showHelp"
+            size="10"
+            icon="chevron-down"
+            class="mt-1 mr-2"
+          />
+          <fluent-icon
+            v-else
+            size="10"
+            icon="chevron-right"
+            type="solid"
+            class="mt-1 mr-2"
+          />
           Learn what is mart action and how it works
         </div>
-        <p class="text-sm text-slate-800 dark:text-slate-300 pr-2" v-if="openHelp">
-          Smart action is an AI-powered feature designed to assist support agents in real-time conversation
-          analysis. With this new tool, agents can seamlessly detect key actions and cues during ongoing conversations,
-          empowering them to provide faster, more accurate assistance to customers.
+        <p v-if="showHelp" class="text-sm text-slate-800 dark:text-slate-300">
+          Smart action is an AI-powered feature designed to assist support
+          agents in real-time conversation analysis. With this new tool, agents
+          can seamlessly detect key actions and cues during ongoing
+          conversations, empowering them to provide faster, more accurate
+          assistance to customers.
         </p>
       </div>
     </div>
-    <div v-if="showBookingPanel"
+    <div
+      v-if="showBookingPanel"
       v-on-clickaway="hideBookingPanel"
       class="booking-panel left-3 rtl:left-auto rtl:right-3 bottom-16 w-64 absolute z-30 rounded-md shadow-xl bg-white dark:bg-slate-800 py-2 px-2 border border-slate-25 dark:border-slate-700"
       :class="{ 'block visible': showBookingPanel }"
-      >
-      <iframe id="booking-iframe" src=""></iframe>
+    >
+      <iframe id="booking-iframe" src="" />
     </div>
   </div>
 </template>
 <script>
-import WootButton from '../../ui/WootButton.vue'
+import WootButton from '../../ui/WootButton.vue';
 import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
 
@@ -91,8 +112,9 @@ export default {
   data() {
     return {
       showBookingPanel: false,
-      openHelp: false,
-    }
+      showHelp: false,
+      showSetting: false,
+    };
   },
   computed: {
     ...mapGetters({
@@ -101,37 +123,39 @@ export default {
       context: 'getSmartActionsContext',
     }),
     filteredSmartActions() {
-      return this.smartActions.reverse().filter((action) => {
-        const scoped = this.context.messageId == null || this.context.messageId == action.message_id;
-        return action.event != 'ask_copilot' && scoped
-      })
+      return this.smartActions.filter(action => {
+        const scoped =
+          this.context.messageId === null ||
+          this.context.messageId === action.message_id;
+        return action.event !== 'ask_copilot' && scoped;
+      });
     },
     primaryAction(){
       return this.filteredSmartActions[0];
     }
   },
-  
+
   methods: {
     toggleBookingPanel(action) {
       this.showBookingPanel = !this.showBookingPane;
 
-      setTimeout(function(){
+      window.setTimeout(() => {
         const iframe = document.getElementById('booking-iframe');
         iframe.src = action.link || 'https://www.digitaltolk.se/bokning';
-      }, 500)
+      }, 500);
     },
-    hideBookingPanel(){
+    hideBookingPanel() {
       this.showBookingPanel = false;
     },
-    toggleHelp(){
-      this.openHelp = !this.openHelp;
+    toggleHelp() {
+      this.showHelp = !this.showHelp;
     },
-    openSetting(){
-      console.log('open settings')
+    openSetting() {
+      this.showSetting = true;
     },
-    hideSmartAction(){
+    hideSmartAction() {
       if (!this.showBookingPanel) {
-        this.$store.dispatch('showSmartActions', false)
+        this.$store.dispatch('showSmartActions', false);
       }
     },
     actionClass(action){

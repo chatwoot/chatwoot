@@ -1,12 +1,7 @@
-import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 
 export default {
-  mounted() {
-    document.addEventListener('keydown', this.handleKeyboardEvent);
-  },
-  beforeDestroy() {
-    document.removeEventListener('keydown', this.handleKeyboardEvent);
-  },
+  mixins: [keyboardEventListenerMixins],
   methods: {
     moveSelectionUp() {
       if (!this.selectedIndex) {
@@ -14,6 +9,7 @@ export default {
       } else {
         this.selectedIndex -= 1;
       }
+      this.adjustScroll();
     },
     moveSelectionDown() {
       if (this.selectedIndex === this.items.length - 1) {
@@ -21,19 +17,46 @@ export default {
       } else {
         this.selectedIndex += 1;
       }
+      this.adjustScroll();
     },
-    processKeyDownEvent(e) {
-      const keyPattern = buildHotKeys(e);
-      if (['arrowup', 'ctrl+p'].includes(keyPattern)) {
-        this.moveSelectionUp();
-        e.preventDefault();
-      } else if (['arrowdown', 'ctrl+n'].includes(keyPattern)) {
-        this.moveSelectionDown();
-        e.preventDefault();
-      } else if (keyPattern === 'enter') {
-        this.onSelect();
-        e.preventDefault();
-      }
+    getKeyboardEvents() {
+      return {
+        ArrowUp: {
+          action: e => {
+            this.moveSelectionUp();
+            e.preventDefault();
+          },
+          allowOnFocusedInput: true,
+        },
+        'Control+KeyP': {
+          action: e => {
+            this.moveSelectionUp();
+            e.preventDefault();
+          },
+          allowOnFocusedInput: true,
+        },
+        ArrowDown: {
+          action: e => {
+            this.moveSelectionDown();
+            e.preventDefault();
+          },
+          allowOnFocusedInput: true,
+        },
+        'Control+KeyN': {
+          action: e => {
+            this.moveSelectionDown();
+            e.preventDefault();
+          },
+          allowOnFocusedInput: true,
+        },
+        Enter: {
+          action: e => {
+            this.onSelect();
+            e.preventDefault();
+          },
+          allowOnFocusedInput: true,
+        },
+      };
     },
   },
 };

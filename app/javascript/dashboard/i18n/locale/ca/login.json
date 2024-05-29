@@ -3,7 +3,7 @@
     "TITLE": "Entra a Chatwoot",
     "EMAIL": {
       "LABEL": "Correu electrònic",
-      "PLACEHOLDER": "Correu electrònic p.e.: someone@exemple.com",
+      "PLACEHOLDER": "exemple@nomdelacompanyia.com",
       "ERROR": "Introduïu una adreça de correu electrònic vàlida"
     },
     "PASSWORD": {
@@ -16,9 +16,9 @@
       "UNAUTH": "Nom d'usuari / contrasenya incorrecte. Torna-ho a provar-ho"
     },
     "OAUTH": {
-      "GOOGLE_LOGIN": "Login with Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
-      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+      "GOOGLE_LOGIN": "Inicieu sessió amb Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Si us plau, utilitzeu l'adreça de correu electrònic de la vostra empresa per iniciar sessió",
+      "NO_ACCOUNT_FOUND": "No hem trobat cap compte per a la vostra adreça de correu electrònic."
     },
     "FORGOT_PASSWORD": "Has oblidat la contrasenya?",
     "CREATE_NEW_ACCOUNT": "Crear un nou compte",

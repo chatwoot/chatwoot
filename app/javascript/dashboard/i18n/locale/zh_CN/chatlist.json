@@ -53,28 +53,28 @@
     },
     "SORT_ORDER_ITEMS": {
       "last_activity_at_asc": {
-        "TEXT": "Last activity: Oldest first"
+        "TEXT": "最后一次活动：最早在前"
       },
       "last_activity_at_desc": {
-        "TEXT": "Last activity: Newest first"
+        "TEXT": "最后一次活动：最新在前"
       },
       "created_at_desc": {
-        "TEXT": "Created at: Newest first"
+        "TEXT": "创建于：最新在前"
       },
       "created_at_asc": {
-        "TEXT": "Created at: Oldest first"
+        "TEXT": "创建于：最早在前"
       },
       "priority_desc": {
-        "TEXT": "Priority: Highest first"
+        "TEXT": "优先级：最高在前"
       },
       "priority_asc": {
-        "TEXT": "Priority: Lowest first"
+        "TEXT": "优先级：最低在前"
       },
       "waiting_since_asc": {
-        "TEXT": "Pending Response: Longest first"
+        "TEXT": "等待响应：最长在前"
       },
       "waiting_since_desc": {
-        "TEXT": "Pending Response: Shortest first"
+        "TEXT": "等待响应：最短在前"
       }
     },
     "ATTACHMENTS": {

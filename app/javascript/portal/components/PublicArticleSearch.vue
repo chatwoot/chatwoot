@@ -23,8 +23,6 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
-
 import SearchSuggestions from './SearchSuggestions.vue';
 import PublicSearchInput from './PublicSearchInput.vue';
 
@@ -35,7 +33,6 @@ export default {
     PublicSearchInput,
     SearchSuggestions,
   },
-  mixins: [clickaway],
   props: {
     value: {
       type: [String, Number],

@@ -1,10 +1,5 @@
 {
   "GENERAL": {
-    "SHOWING_RESULTS": "Показаны {firstIndex}-{lastIndex} из {totalCount} элементов",
-    "PHONE_INPUT": {
-      "PLACEHOLDER": "Поиск",
-      "EMPTY_STATE": "Результаты не найдены"
-    },
-    "CLOSE": "Закрыть"
+    "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items"
   }
 }

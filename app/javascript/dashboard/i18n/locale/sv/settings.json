@@ -10,6 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
     "AFTER_EMAIL_CHANGED": "Din profil har uppdaterats. Vänligen logga in på nytt eftersom dina inloggningsuppgifter har ändrats",
     "FORM": {
+      "PICTURE": "Profile Picture",
       "AVATAR": "Profilbild",
       "ERROR": "Vänligen åtgärda formulärfel",
       "REMOVE_IMAGE": "Radera",
@@ -56,13 +57,19 @@
       },
       "ACCESS_TOKEN": {
         "TITLE": "Åtkomsttoken",
-        "NOTE": "Denna token kan användas om du bygger en API-baserad integration"
+        "NOTE": "Denna token kan användas om du bygger en API-baserad integration",
+        "COPY": "Kopiera"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Notifications",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "ALERT_TYPES": {
+          "NONE": "Inget",
+          "MINE": "Assigned",
+          "ALL": "Alla"
+        },
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
+          "TITLE": "Alert events for conversations:",
           "NONE": "Inget",
           "ASSIGNED": "Assigned Conversations",
           "ALL_CONVERSATIONS": "All Conversations"
@@ -83,7 +90,27 @@
         "CONVERSATION_CREATION": "Skicka e-postmeddelanden när en ny konversation skapas",
         "CONVERSATION_MENTION": "Skicka e-postaviseringar när du nämns i en konversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Skicka e-postaviseringar när ett nytt meddelande skapas i en tilldelad konversation",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "E-post",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
       "API": {
         "UPDATE_SUCCESS": "Dina aviseringsinställningar har uppdaterats",
@@ -98,7 +125,10 @@
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Skicka push-meddelanden när ett nytt meddelande skapas i en tilldelad konversation",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Du har aktiverat push-funktionen för denna webbläsare.",
-        "REQUEST_PUSH": "Aktivera push-meddelanden"
+        "REQUEST_PUSH": "Aktivera push-meddelanden",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profilbild"
@@ -199,6 +229,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Konversationer",
     "INBOX": "Inkorg",
     "ALL_CONVERSATIONS": "All Conversations",
@@ -238,6 +269,8 @@
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Agenter",
     "REPORTS_LABEL": "Etiketter",
     "REPORTS_INBOX": "Inkorg",
@@ -312,7 +345,6 @@
       "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
       "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
       "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_CONVERSATION_STATUS": "Switch to the next conversation status",
       "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
       "SWITCH_TO_REPLY": "Switch to Reply",
       "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"

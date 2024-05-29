@@ -1,3 +1,9 @@
+<template>
+  <div class="flex flex-col flex-wrap w-full gap-3 md:flex-row">
+    <woot-date-picker @dateRangeChanged="onDateRangeChange" />
+    <SLA-filter @filter-change="emitFilterChange" />
+  </div>
+</template>
 <script>
 import SLAFilter from '../SLA/SLAFilter.vue';
 import subDays from 'date-fns/subDays';
@@ -8,7 +14,6 @@ export default {
   components: {
     SLAFilter,
   },
-  emits: ['filterChange'],
 
   data() {
     return {
@@ -39,7 +44,7 @@ export default {
       const fromDate = subDays(new Date(), offset);
       const from = getUnixStartOfDay(fromDate);
       const to = getUnixEndOfDay(new Date());
-      this.$emit('filterChange', {
+      this.$emit('filter-change', {
         from,
         to,
         ...this.selectedGroupByFilter,
@@ -47,7 +52,7 @@ export default {
     },
     emitChange() {
       const { from, to } = this;
-      this.$emit('filterChange', {
+      this.$emit('filter-change', {
         from,
         to,
         ...this.selectedGroupByFilter,
@@ -64,10 +69,3 @@ export default {
   },
 };
 </script>
-
-<template>
-  <div class="flex flex-col flex-wrap w-full gap-3 md:flex-row">
-    <woot-date-picker @date-range-changed="onDateRangeChange" />
-    <SLAFilter @filter-change="emitFilterChange" />
-  </div>
-</template>

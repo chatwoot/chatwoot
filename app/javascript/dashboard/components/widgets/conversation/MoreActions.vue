@@ -1,12 +1,12 @@
 <template>
   <div class="flex actions--container relative items-center gap-2">
     <woot-button
-        v-if="enableSmartActions"
-        variant="hollow"
-        color-scheme="secondary"
-        icon="star-glitters"
-        @click="toggleSmartActions"
-      >
+      v-if="enableSmartActions"
+      variant="hollow"
+      color-scheme="secondary"
+      icon="star-glitters"
+      @click="toggleSmartActions"
+    >
       Smart Actions
     </woot-button>
     <woot-button
@@ -42,14 +42,16 @@
       :current-chat="currentChat"
       @cancel="toggleEmailActionsModal"
     />
-    <transition name="slide" :duration="{ enter: 1000, leave: 1000, delay: 3000 }">
-      <smart-actions></smart-actions>
+    <transition
+      name="slide"
+      :duration="{ enter: 1000, leave: 1000, delay: 3000 }"
+    >
+      <smart-actions />
     </transition>
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 import EmailTranscriptModal from './EmailTranscriptModal.vue';
 import ResolveAction from '../../buttons/ResolveAction.vue';
@@ -69,21 +71,21 @@ export default {
     ResolveAction,
     SmartActions,
   },
-  mixins: [alertMixin, clickaway, inboxMixin],
+  mixins: [alertMixin, inboxMixin],
   data() {
     return {
       showEmailActionsModal: false,
     };
   },
   computed: {
-    ...mapGetters({ 
-      isFeatureEnabledGlobally: 'accounts/isFeatureEnabledGlobally',
+    ...mapGetters({
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       currentChat: 'getSelectedChat',
       accountId: 'getCurrentAccountId',
       showSmartActions: 'showSmartActions',
     }),
     enableSmartActions() {
-      const isFeatEnabled = this.isFeatureEnabledGlobally(
+      const isFeatEnabled = this.isFeatureEnabledonAccount(
         this.accountId,
         FEATURE_FLAGS.SMART_ACTIONS
       );
@@ -115,11 +117,14 @@ export default {
     toggleEmailActionsModal() {
       this.showEmailActionsModal = !this.showEmailActionsModal;
     },
-    toggleSmartActions(){
-      const conversationId =  this.currentChat.id;
+    toggleSmartActions() {
+      const conversationId = this.currentChat.id;
       const messageId = null;
-      this.$store.dispatch('getSmartActions', conversationId)
-      this.$store.dispatch('setSmartActionsContext', { conversationId, messageId });
+      this.$store.dispatch('getSmartActions', conversationId);
+      this.$store.dispatch('setSmartActionsContext', {
+        conversationId,
+        messageId,
+      });
       this.$store.dispatch('showSmartActions', true);
     },
   },

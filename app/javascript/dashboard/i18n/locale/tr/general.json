@@ -1,10 +1,5 @@
 {
   "GENERAL": {
-    "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items",
-    "PHONE_INPUT": {
-      "PLACEHOLDER": "Ara",
-      "EMPTY_STATE": "Kayıt bulunamadı"
-    },
-    "CLOSE": "Kapat"
+    "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items"
   }
 }

@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Odloženo do zítřka",
       "SNOOZED_UNTIL_NEXT_WEEK": "Odloženo do příštího týdne",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Odloženo do další odpovědi"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Odloženo do další odpovědi",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Označit jako nevyřízené",
@@ -273,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Vytvořit atribut",
+    "NO_RECORDS_FOUND": "Nebyly nalezeny žádné atributy",
     "UPDATE": {
       "SUCCESS": "Atribut byl úspěšně aktualizován",
       "ERROR": "Atribut nelze aktualizovat. Zkuste to prosím později"

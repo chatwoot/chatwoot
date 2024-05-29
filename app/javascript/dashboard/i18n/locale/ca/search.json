@@ -4,12 +4,12 @@
       "ALL": "Totes",
       "CONTACTS": "Contactes",
       "CONVERSATIONS": "Converses",
-      "MESSAGES": "Messages"
+      "MESSAGES": "Missatges"
     },
     "SECTION": {
       "CONTACTS": "Contactes",
       "CONVERSATIONS": "Converses",
-      "MESSAGES": "Messages"
+      "MESSAGES": "Missatges"
     },
     "EMPTY_STATE": "No %{item} found for query '%{query}'",
     "EMPTY_STATE_FULL": "No results found for query '%{query}'",

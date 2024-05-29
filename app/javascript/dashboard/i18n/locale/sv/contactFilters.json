@@ -44,7 +44,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Created At",
       "LAST_ACTIVITY": "Senaste aktivitet",
-      "REFERER_LINK": "Referrer link"
+      "REFERER_LINK": "Referrer link",
+      "BLOCKED": "Blockerad"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard Filters",

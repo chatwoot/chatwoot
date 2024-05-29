@@ -42,11 +42,10 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
-  mixins: [clickaway, alertMixin],
+  mixins: [alertMixin],
   props: {
     templateId: {
       type: Number,

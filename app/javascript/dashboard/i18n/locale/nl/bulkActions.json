@@ -17,7 +17,7 @@
     "AGENT_LIST_LOADING": "Agents worden geladen",
     "UPDATE": {
       "CHANGE_STATUS": "Status wijzigen",
-      "SNOOZE_UNTIL_NEXT_REPLY": "Snooze tot het volgende antwoord.",
+      "SNOOZE_UNTIL": "Sluimeren",
       "UPDATE_SUCCESFUL": "Gespreksstatus succesvol bijgewerkt.",
       "UPDATE_FAILED": "Update van gesprekken mislukt, probeer het opnieuw."
     },

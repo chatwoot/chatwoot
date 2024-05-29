@@ -68,6 +68,20 @@ describe CustomMarkdownRenderer do
       end
     end
 
+    context 'when link is a Loom URL' do
+      let(:loom_url) { 'https://www.loom.com/share/VIDEO_ID' }
+
+      it 'renders an iframe with Loom embed code' do
+        output = render_markdown_link(loom_url)
+        expect(output).to include(`
+          <iframe
+            width="640"
+            height="360"
+            src="https://www.loom.com/embed/VIDEO_ID"
+        `)
+      end
+    end
+
     context 'when link is a Vimeo URL' do
       let(:vimeo_url) { 'https://vimeo.com/1234567' }
 

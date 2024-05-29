@@ -35,6 +35,14 @@
         "NAME": "Total de resolucions",
         "DESC": "( Total )"
       },
+      "BOT_RESOLUTION_COUNT": {
+        "NAME": "Total de resolucions",
+        "DESC": "( Total )"
+      },
+      "BOT_HANDOFF_COUNT": {
+        "NAME": "Handoff Count",
+        "DESC": "( Total )"
+      },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
         "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
@@ -84,7 +92,7 @@
       "DAY": "Day",
       "WEEK": "Week",
       "MONTH": "Month",
-      "YEAR": "Month"
+      "YEAR": "Any"
     },
     "GROUP_BY_DAY_OPTIONS": [
       {
@@ -130,7 +138,11 @@
         "groupBy": "Month"
       }
     ],
-    "BUSINESS_HOURS": "Business Hours"
+    "BUSINESS_HOURS": "Business Hours",
+    "FILTER_ACTIONS": {
+      "CLEAR_FILTER": "Esborra els filtres",
+      "EMPTY_LIST": "No s'ha trobat agents"
+    }
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
@@ -220,7 +232,7 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
-        "DESC": "( Promig )",
+        "DESC": "(Mitjana)",
         "INFO_TEXT": "Total number of conversations used for computation:",
         "TOOLTIP_TEXT": "First Response Time is %{metricValue} (based on %{conversationCount} conversations)"
       },
@@ -433,6 +445,27 @@
       }
     }
   },
+  "BOT_REPORTS": {
+    "HEADER": "Bot Reports",
+    "METRIC": {
+      "TOTAL_CONVERSATIONS": {
+        "LABEL": "No. of Conversations",
+        "TOOLTIP": "Total number of conversations handled by the bot"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total Responses",
+        "TOOLTIP": "Total number of responses sent by the bot"
+      },
+      "RESOLUTION_RATE": {
+        "LABEL": "Resolution Rate",
+        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+      },
+      "HANDOFF_RATE": {
+        "LABEL": "Handoff Rate",
+        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+      }
+    }
+  },
   "OVERVIEW_REPORTS": {
     "HEADER": "Overview",
     "LIVE": "Live",
@@ -476,5 +509,54 @@
     "THURSDAY": "Thursday",
     "FRIDAY": "Friday",
     "SATURDAY": "Saturday"
+  },
+  "SLA_REPORTS": {
+    "HEADER": "Informes SLA",
+    "NO_RECORDS": "Les converses aplicades per l'SLA no estan disponibles.",
+    "LOADING": "S'estan carregant dades del SLA...",
+    "DOWNLOAD_SLA_REPORTS": "Descarregar informes SLA",
+    "DOWNLOAD_FAILED": "No s'han pogut baixar els informes SLA",
+    "DROPDOWN": {
+      "ADD_FIlTER": "Afegeix un filtre",
+      "CLEAR_ALL": "Esborrar tot",
+      "CLEAR_FILTER": "Esborra els filtres",
+      "EMPTY_LIST": "No s'ha trobat agents",
+      "NO_FILTER": "No hi ha filtres disponibles",
+      "SEARCH": "Cerca filtre",
+      "INPUT_PLACEHOLDER": {
+        "SLA": "Nom del SLA",
+        "AGENTS": "Nom de l'Agent",
+        "INBOXES": "Nom de la safata d'entrada",
+        "LABELS": "Nom de l'etiqueta",
+        "TEAMS": "Nom de l'equip"
+      },
+      "SLA": "Política SLA",
+      "INBOXES": "Safata d'entrada",
+      "AGENTS": "Agent",
+      "LABELS": "Etiqueta",
+      "TEAMS": "Equip"
+    },
+    "METRICS": {
+      "HIT_RATE": {
+        "LABEL": "Proporció d'encerts",
+        "TOOLTIP": "El percentatge de SLA creats s'ha completat correctament"
+      },
+      "NO_OF_MISSES": {
+        "LABEL": "Nombre de faltes",
+        "TOOLTIP": "SLA total faltes en un període determinat"
+      },
+      "NO_OF_CONVERSATIONS": {
+        "LABEL": "Número de Converses",
+        "TOOLTIP": "Nombre total de converses amb SLA"
+      }
+    },
+    "TABLE": {
+      "HEADER": {
+        "POLICY": "Política",
+        "CONVERSATION": "Converses",
+        "AGENT": "Agent"
+      },
+      "VIEW_DETAILS": "Veure Detalls"
+    }
   }
 }

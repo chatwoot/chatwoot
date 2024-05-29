@@ -3,7 +3,7 @@
     "TITLE": "إعدادات الحساب",
     "SUBMIT": "تحديث الإعدادات",
     "BACK": "العودة",
-    "DISMISS": "Dismiss",
+    "DISMISS": "تجاهل",
     "UPDATE": {
       "ERROR": "تعذر تحديث الإعدادات، الرجاء المحاولة مرة أخرى!",
       "SUCCESS": "تم تحديث إعدادات الحساب بنجاح"
@@ -52,7 +52,7 @@
     "LEARN_MORE": "اعرف المزيد",
     "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
     "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
-    "OPEN_BILLING": "Open billing"
+    "OPEN_BILLING": "فتح الفواتير"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -87,7 +87,10 @@
       "conversation_assignment": "تم تعيين المحادثة",
       "assigned_conversation_new_message": "رسالة جديدة",
       "participating_conversation_new_message": "رسالة جديدة",
-      "conversation_mention": "إشارة"
+      "conversation_mention": "إشارة",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
@@ -104,16 +107,17 @@
       "GENERAL": "عام",
       "REPORTS": "التقارير",
       "CONVERSATION": "المحادثات",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "تغيير المحال إليه",
-      "CHANGE_PRIORITY": "Change Priority",
+      "CHANGE_PRIORITY": "تغيير الأولوية",
       "CHANGE_TEAM": "تغيير الفريق",
       "SNOOZE_CONVERSATION": "تأجيل المحادثة",
       "ADD_LABEL": "إضافة تسمية إلى المحادثة",
       "REMOVE_LABEL": "إزالة التسمية من المحادثة",
       "SETTINGS": "الإعدادات",
       "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "APPEARANCE": "مظهر",
+      "SNOOZE_NOTIFICATION": "تأجيل التنبيهات"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "الذهاب إلى لوحة المحادثة",
@@ -136,7 +140,7 @@
       "ADD_LABELS_TO_CONVERSATION": "إضافة تسمية إلى المحادثة",
       "ASSIGN_AN_AGENT": "تعيين وكيل",
       "AI_ASSIST": "AI Assist",
-      "ASSIGN_PRIORITY": "Assign priority",
+      "ASSIGN_PRIORITY": "تعيين الأولوية",
       "ASSIGN_A_TEAM": "تعيين فريق",
       "MUTE_CONVERSATION": "كتم المحادثة",
       "UNMUTE_CONVERSATION": "إلغاء كتم المحادثة",
@@ -148,21 +152,21 @@
       "UNTIL_NEXT_REPLY": "حتى الرد القادم",
       "UNTIL_NEXT_WEEK": "حتى الأسبوع القادم",
       "UNTIL_TOMORROW": "حتى الغد",
-      "UNTIL_NEXT_MONTH": "Until next month",
-      "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "CUSTOM": "Custom...",
-      "CHANGE_APPEARANCE": "Change Appearance",
+      "UNTIL_NEXT_MONTH": "حتي الشهر القادم",
+      "AN_HOUR_FROM_NOW": "حتي ساعة من الأن",
+      "CUSTOM": "مخصص...",
+      "CHANGE_APPEARANCE": "تغيير المظهر",
       "LIGHT_MODE": "Light",
-      "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "System",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "DARK_MODE": "مظلم",
+      "SYSTEM_MODE": "نظام",
+      "SNOOZE_NOTIFICATION": "تأجيل التنبيهات"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "تحميل تطبيق لوحة التحكم..."
   },
   "COMMON": {
-    "OR": "Or",
+    "OR": "أو",
     "CLICK_HERE": "اضغط هنا"
   }
 }

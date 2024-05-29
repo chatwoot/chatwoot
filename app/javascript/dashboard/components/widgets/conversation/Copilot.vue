@@ -19,16 +19,15 @@
 </template>
 
 <script>
-
 export default {
   props: {
     showCopilot: { type: Boolean, default: false },
     showLoadingSmartResponseIcon: { type: Boolean, default: false },
   },
   methods: {
-    askCopilot(){
-      this.$emit('ask-copilot')
-    }
-  }
-}
+    askCopilot() {
+      this.$emit('ask-copilot');
+    },
+  },
+};
 </script>

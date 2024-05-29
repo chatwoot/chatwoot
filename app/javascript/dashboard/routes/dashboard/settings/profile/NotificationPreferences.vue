@@ -1,6 +1,140 @@
+<template>
+  <div id="profile-settings-notifications" class="flex flex-col gap-6">
+    <!-- Layout for desktop devices -->
+    <div class="hidden sm:block">
+      <div
+        class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
+      >
+        <table-header-cell
+          :span="7"
+          label="`${$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPE_TITLE')}`"
+        >
+          <span class="text-sm font-normal normal-case text-ash-800">
+            {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPE_TITLE') }}
+          </span>
+        </table-header-cell>
+        <table-header-cell
+          :span="2"
+          label="`${$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.EMAIL')}`"
+        >
+          <span class="text-sm font-medium normal-case text-ash-900">
+            {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.EMAIL') }}
+          </span>
+        </table-header-cell>
+        <table-header-cell
+          :span="3"
+          label="`${$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.PUSH')}`"
+        >
+          <div class="flex items-center justify-between gap-1">
+            <span
+              class="text-sm font-medium normal-case text-ash-900 whitespace-nowrap"
+            >
+              {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.PUSH') }}
+            </span>
+          </div>
+        </table-header-cell>
+      </div>
+      <div
+        v-for="(notification, index) in filteredNotificationTypes"
+        :key="index"
+      >
+        <div
+          class="grid items-center content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
+        >
+          <div
+            class="flex flex-row items-start gap-2 col-span-7 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
+          >
+            <span class="text-sm text-ash-900">
+              {{ $t(notification.label) }}
+            </span>
+          </div>
+          <div
+            v-for="(type, typeIndex) in ['email', 'push']"
+            :key="typeIndex"
+            class="flex items-start gap-2 px-0 text-sm tracking-[0.5] text-left rtl:text-right"
+            :class="`col-span-${type === 'push' ? 3 : 2}`"
+          >
+            <CheckBox
+              :value="`${type}_${notification.value}`"
+              :is-checked="
+                checkFlagStatus(type, notification.value, selectedPushFlags)
+              "
+              @update="id => handleInput(type, id)"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--  Layout for mobile devices -->
+    <div class="flex flex-col gap-6 sm:hidden">
+      <span class="text-sm font-medium normal-case text-ash-900">
+        {{ $t('PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.TITLE') }}
+      </span>
+      <div class="flex flex-col gap-4">
+        <div
+          v-for="(notification, index) in filteredNotificationTypes"
+          :key="index"
+          class="flex flex-row items-start gap-2"
+        >
+          <CheckBox
+            :id="`email_${notification.value}`"
+            :value="`email_${notification.value}`"
+            :is-checked="checkFlagStatus('email', notification.value)"
+            @update="handleEmailInput"
+          />
+          <span class="text-sm text-ash-900">{{ $t(notification.label) }}</span>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-start gap-2">
+        <span class="text-sm font-medium normal-case text-ash-900">
+          {{ $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.TITLE') }}
+        </span>
+      </div>
+
+      <div class="flex flex-col gap-4">
+        <div
+          v-for="(notification, index) in filteredNotificationTypes"
+          :key="index"
+          class="flex flex-row items-start gap-2"
+        >
+          <CheckBox
+            :id="`push_${notification.value}`"
+            :value="`push_${notification.value}`"
+            :is-checked="checkFlagStatus('push', notification.value)"
+            @update="handlePushInput"
+          />
+          <span class="text-sm text-ash-900">{{ $t(notification.label) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="flex items-center justify-between w-full gap-2 p-4 border border-solid border-ash-200 rounded-xl"
+    >
+      <div class="flex flex-row items-center gap-2">
+        <fluent-icon
+          icon="alert"
+          class="flex-shrink-0 text-ash-900"
+          size="18"
+        />
+        <span class="text-sm text-ash-900">
+          {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.BROWSER_PERMISSION') }}
+        </span>
+      </div>
+      <form-switch
+        :value="hasEnabledPushPermissions"
+        @input="onRequestPermissions"
+      />
+    </div>
+  </div>
+</template>
+
 <script>
 import { mapGetters } from 'vuex';
-import { useAlert } from 'dashboard/composables';
+import alertMixin from 'shared/mixins/alertMixin';
+import configMixin from 'shared/mixins/configMixin';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import TableHeaderCell from 'dashboard/components/widgets/TableHeaderCell.vue';
 import CheckBox from 'v3/components/Form/CheckBox.vue';
 import {
@@ -18,6 +152,7 @@ export default {
     FormSwitch,
     CheckBox,
   },
+  mixins: [alertMixin, configMixin, uiSettingsMixin],
   data() {
     return {
       selectedEmailFlags: [],
@@ -32,6 +167,7 @@ export default {
       accountId: 'getCurrentAccountId',
       emailFlags: 'userNotificationSettings/getSelectedEmailFlags',
       pushFlags: 'userNotificationSettings/getSelectedPushFlags',
+      uiSettings: 'getUISettings',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
     hasPushAPISupport() {
@@ -75,34 +211,10 @@ export default {
     onRegistrationSuccess() {
       this.hasEnabledPushPermissions = true;
     },
-    onRequestPermissions(value) {
-      if (value) {
-        // Enable / re-enable push notifications
-        requestPushPermissions({
-          onSuccess: this.onRegistrationSuccess,
-        });
-      } else {
-        // Disable push notifications
-        this.disablePushPermissions();
-      }
-    },
-    disablePushPermissions() {
-      verifyServiceWorkerExistence(registration =>
-        registration.pushManager
-          .getSubscription()
-          .then(subscription => {
-            if (subscription) {
-              return subscription.unsubscribe();
-            }
-            return null;
-          })
-          .finally(() => {
-            this.hasEnabledPushPermissions = false;
-          })
-          .catch(() => {
-            // error
-          })
-      );
+    onRequestPermissions() {
+      requestPushPermissions({
+        onSuccess: this.onRegistrationSuccess,
+      });
     },
     getPushSubscription() {
       verifyServiceWorkerExistence(registration =>
@@ -125,10 +237,35 @@ export default {
           selectedEmailFlags: this.selectedEmailFlags,
           selectedPushFlags: this.selectedPushFlags,
         });
-        useAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
+        this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
       } catch (error) {
-        useAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_ERROR'));
+        this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_ERROR'));
       }
+    },
+
+    handleAudioInput(e) {
+      this.enableAudioAlerts = e.target.value;
+      this.updateUISettings({
+        enable_audio_alerts: this.enableAudioAlerts,
+      });
+      this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
+    },
+    handleAudioAlertConditions(e) {
+      let condition = e.target.value;
+      if (condition === 'tab_is_inactive') {
+        this.updateUISettings({
+          always_play_audio_alert: !e.target.checked,
+        });
+      } else if (condition === 'conversations_are_read') {
+        this.updateUISettings({
+          alert_if_unread_assigned_conversation_exist: e.target.checked,
+        });
+      }
+      this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
+    },
+    handleAudioToneChange(value) {
+      this.updateUISettings({ notification_tone: value });
+      this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
     },
     handleInput(type, id) {
       if (type === 'email') {
@@ -155,139 +292,3 @@ export default {
   },
 };
 </script>
-
-<template>
-  <div id="profile-settings-notifications" class="flex flex-col gap-6">
-    <!-- Layout for desktop devices -->
-    <div class="hidden sm:block">
-      <div
-        class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
-      >
-        <TableHeaderCell
-          :span="7"
-          label="`${$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPE_TITLE')}`"
-        >
-          <span class="text-sm font-normal normal-case text-n-slate-11">
-            {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPE_TITLE') }}
-          </span>
-        </TableHeaderCell>
-        <TableHeaderCell
-          :span="2"
-          label="`${$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.EMAIL')}`"
-        >
-          <span class="text-sm font-medium normal-case text-n-slate-12">
-            {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.EMAIL') }}
-          </span>
-        </TableHeaderCell>
-        <TableHeaderCell
-          :span="3"
-          label="`${$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.PUSH')}`"
-        >
-          <div class="flex items-center justify-between gap-1">
-            <span
-              class="text-sm font-medium normal-case text-n-slate-12 whitespace-nowrap"
-            >
-              {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.PUSH') }}
-            </span>
-          </div>
-        </TableHeaderCell>
-      </div>
-      <div
-        v-for="(notification, index) in filteredNotificationTypes"
-        :key="index"
-      >
-        <div
-          class="grid items-center content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
-        >
-          <div
-            class="flex flex-row items-start gap-2 col-span-7 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
-          >
-            <span class="text-sm text-n-slate-12">
-              {{ $t(notification.label) }}
-            </span>
-          </div>
-          <div
-            v-for="(type, typeIndex) in ['email', 'push']"
-            :key="typeIndex"
-            class="flex items-start gap-2 px-0 text-sm tracking-[0.5] text-left rtl:text-right"
-            :class="`col-span-${type === 'push' ? 3 : 2}`"
-          >
-            <CheckBox
-              :value="`${type}_${notification.value}`"
-              :is-checked="
-                checkFlagStatus(type, notification.value, selectedPushFlags)
-              "
-              @update="id => handleInput(type, id)"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--  Layout for mobile devices -->
-    <div class="flex flex-col gap-6 sm:hidden">
-      <span class="text-sm font-medium normal-case text-n-slate-12">
-        {{ $t('PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.TITLE') }}
-      </span>
-      <div class="flex flex-col gap-4">
-        <div
-          v-for="(notification, index) in filteredNotificationTypes"
-          :key="index"
-          class="flex flex-row items-start gap-2"
-        >
-          <CheckBox
-            :id="`email_${notification.value}`"
-            :value="`email_${notification.value}`"
-            :is-checked="checkFlagStatus('email', notification.value)"
-            @update="handleEmailInput"
-          />
-          <span class="text-sm text-n-slate-12">{{
-            $t(notification.label)
-          }}</span>
-        </div>
-      </div>
-
-      <div class="flex items-center justify-start gap-2">
-        <span class="text-sm font-medium normal-case text-n-slate-12">
-          {{ $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.TITLE') }}
-        </span>
-      </div>
-
-      <div class="flex flex-col gap-4">
-        <div
-          v-for="(notification, index) in filteredNotificationTypes"
-          :key="index"
-          class="flex flex-row items-start gap-2"
-        >
-          <CheckBox
-            :id="`push_${notification.value}`"
-            :value="`push_${notification.value}`"
-            :is-checked="checkFlagStatus('push', notification.value)"
-            @update="handlePushInput"
-          />
-          <span class="text-sm text-n-slate-12">{{
-            $t(notification.label)
-          }}</span>
-        </div>
-      </div>
-    </div>
-
-    <div
-      class="flex items-center justify-between w-full gap-2 p-4 border border-solid border-n-weak rounded-xl"
-    >
-      <div class="flex flex-row items-center gap-2">
-        <fluent-icon
-          icon="alert"
-          class="flex-shrink-0 text-n-slate-12"
-          size="18"
-        />
-        <span class="text-sm text-n-slate-12">
-          {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.BROWSER_PERMISSION') }}
-        </span>
-      </div>
-      <FormSwitch
-        :model-value="hasEnabledPushPermissions"
-        @update:model-value="onRequestPermissions"
-      />
-    </div>
-  </div>
-</template>

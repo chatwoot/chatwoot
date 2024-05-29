@@ -1,3 +1,63 @@
+<script setup>
+import PortalSettingsCustomizationForm from 'dashboard/routes/dashboard/helpcenter/components/PortalSettingsCustomizationForm.vue';
+import { PORTALS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+
+import { useAlert, useTrack } from 'dashboard/composables';
+import { useStoreGetters, useStore } from 'dashboard/composables/store';
+import { useRoute, useRouter } from 'dashboard/composables/route';
+import { useI18n } from 'dashboard/composables/useI18n';
+import { defineComponent, onMounted, computed } from 'vue';
+
+defineComponent({
+  name: 'PortalCustomization',
+});
+
+const getters = useStoreGetters();
+const route = useRoute();
+const router = useRouter();
+const store = useStore();
+const track = useTrack();
+const { t } = useI18n();
+
+const uiFlags = getters['portals/uiFlagsIn'];
+
+const currentPortal = computed(() => {
+  const slug = route.params.portalSlug;
+  if (slug) return getters['portals/portalBySlug'].value(slug);
+
+  return {};
+});
+
+onMounted(() => {
+  store.dispatch('portals/index');
+});
+
+async function updatePortalSettings(portalObj) {
+  const portalSlug = route.params.portalSlug;
+  let alertMessage = '';
+  try {
+    await store.dispatch('portals/update', {
+      portalSlug,
+      ...portalObj,
+    });
+    alertMessage = t('HELP_CENTER.PORTAL.ADD.API.SUCCESS_MESSAGE_FOR_UPDATE');
+
+    track(PORTALS_EVENTS.ONBOARD_CUSTOMIZATION, {
+      hasHomePageLink: Boolean(portalObj.homepage_link),
+      hasPageTitle: Boolean(portalObj.page_title),
+      hasHeaderText: Boolean(portalObj.headerText),
+    });
+  } catch (error) {
+    alertMessage =
+      error?.message ||
+      t('HELP_CENTER.PORTAL.ADD.API.ERROR_MESSAGE_FOR_UPDATE');
+  } finally {
+    useAlert(alertMessage);
+    router.push({ name: 'portal_finish' });
+  }
+}
+</script>
+
 <template>
   <portal-settings-customization-form
     v-if="currentPortal"
@@ -9,75 +69,3 @@
     @submit="updatePortalSettings"
   />
 </template>
-
-<script>
-import alertMixin from 'shared/mixins/alertMixin';
-import PortalSettingsCustomizationForm from 'dashboard/routes/dashboard/helpcenter/components/PortalSettingsCustomizationForm.vue';
-
-import { mapGetters } from 'vuex';
-
-import { getRandomColor } from 'dashboard/helper/labelColor';
-import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
-
-export default {
-  components: {
-    PortalSettingsCustomizationForm,
-  },
-  mixins: [alertMixin],
-  data() {
-    return {
-      color: '#000',
-      pageTitle: '',
-      headerText: '',
-      homePageLink: '',
-      alertMessage: '',
-    };
-  },
-  computed: {
-    ...mapGetters({
-      uiFlags: 'portals/uiFlagsIn',
-      portals: 'portals/allPortals',
-    }),
-    currentPortal() {
-      const slug = this.$route.params.portalSlug;
-      return this.$store.getters['portals/portalBySlug'](slug);
-    },
-  },
-  mounted() {
-    this.fetchPortals();
-    this.color = getRandomColor();
-  },
-  methods: {
-    fetchPortals() {
-      this.$store.dispatch('portals/index');
-    },
-    async updatePortalSettings(portalObj) {
-      const portalSlug = this.$route.params.portalSlug;
-      try {
-        await this.$store.dispatch('portals/update', {
-          portalSlug,
-          ...portalObj,
-        });
-        this.alertMessage = this.$t(
-          'HELP_CENTER.PORTAL.ADD.API.SUCCESS_MESSAGE_FOR_UPDATE'
-        );
-
-        this.$track(PORTALS_EVENTS.ONBOARD_CUSTOMIZATION, {
-          hasHomePageLink: Boolean(portalObj.homepage_link),
-          hasPageTitle: Boolean(portalObj.page_title),
-          hasHeaderText: Boolean(portalObj.headerText),
-        });
-      } catch (error) {
-        this.alertMessage =
-          error?.message ||
-          this.$t('HELP_CENTER.PORTAL.ADD.API.ERROR_MESSAGE_FOR_UPDATE');
-      } finally {
-        this.showAlert(this.alertMessage);
-        this.$router.push({
-          name: 'portal_finish',
-        });
-      }
-    },
-  },
-};
-</script>

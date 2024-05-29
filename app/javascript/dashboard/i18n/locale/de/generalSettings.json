@@ -87,7 +87,10 @@
       "conversation_assignment": "Konversation zugewiesen",
       "assigned_conversation_new_message": "Neue Nachricht",
       "participating_conversation_new_message": "Neue Nachricht",
-      "conversation_mention": "Erwähnung"
+      "conversation_mention": "Erwähnung",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
@@ -104,6 +107,7 @@
       "GENERAL": "Generell",
       "REPORTS": "Berichte",
       "CONVERSATION": "Konversation",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Beauftragten ändern",
       "CHANGE_PRIORITY": "Priorität ändern",
       "CHANGE_TEAM": "Team wechseln",

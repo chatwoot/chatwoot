@@ -13,12 +13,12 @@ import integrationapps from './integrationapps/integrations.routes';
 import integrations from './integrations/integrations.routes';
 import labels from './labels/labels.routes';
 import macros from './macros/macros.routes';
-import profile from './profile/profile.routes';
 import reports from './reports/reports.routes';
 import store from '../../../store';
 import sla from './sla/sla.routes';
 import teams from './teams/teams.routes';
 import csat from './csat/csat.routes';
+import profile from './profile/profile.routes';
 
 export default {
   routes: [
@@ -47,10 +47,10 @@ export default {
     ...integrations.routes,
     ...labels.routes,
     ...macros.routes,
-    ...profile.routes,
     ...reports.routes,
     ...sla.routes,
     ...teams.routes,
     ...csat.routes,
+    ...profile.routes,
   ],
 };

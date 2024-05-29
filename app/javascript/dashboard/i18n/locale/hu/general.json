@@ -1,10 +1,5 @@
 {
   "GENERAL": {
-    "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items",
-    "PHONE_INPUT": {
-      "PLACEHOLDER": "Keresés",
-      "EMPTY_STATE": "Nincs találat"
-    },
-    "CLOSE": "Bezárás"
+    "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items"
   }
 }

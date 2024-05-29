@@ -2,23 +2,32 @@
   <div class="py-3 px-4">
     <div class="flex items-center mb-1">
       <h4 class="text-sm flex items-center m-0 w-full error">
-        <div v-if="isAttributeTypeCheckbox" class="checkbox-wrap">
+        <div v-if="isAttributeTypeCheckbox" class="flex items-center">
           <input
             v-model="editedValue"
-            class="checkbox"
+            class="!my-0 mr-2 ml-0"
             type="checkbox"
             @change="onUpdate"
           />
         </div>
         <div class="flex items-center justify-between w-full">
           <span
-            class="attribute-name w-full text-slate-800 dark:text-slate-100 font-medium text-sm mb-0"
-            :class="{ error: $v.editedValue.$error }"
+            class="w-full inline-flex gap-1.5 items-start font-medium whitespace-nowrap text-sm mb-0"
+            :class="
+              $v.editedValue.$error
+                ? 'text-red-400 dark:text-red-500'
+                : 'text-slate-800 dark:text-slate-100'
+            "
           >
             {{ label }}
+            <helper-text-popup
+              v-if="description"
+              :message="description"
+              class="mt-0.5"
+            />
           </span>
           <woot-button
-            v-if="showActions"
+            v-if="showCopyAndDeleteButton"
             v-tooltip.left="$t('CUSTOM_ATTRIBUTES.ACTIONS.DELETE')"
             variant="link"
             size="medium"
@@ -31,13 +40,13 @@
       </h4>
     </div>
     <div v-if="notAttributeTypeCheckboxAndList">
-      <div v-show="isEditing">
+      <div v-if="isEditing" v-on-clickaway="onClickAway">
         <div class="mb-2 w-full flex items-center">
           <input
             ref="inputfield"
             v-model="editedValue"
             :type="inputType"
-            class="!h-8 ltr:rounded-r-none rtl:rounded-l-none !mb-0 !text-sm"
+            class="!h-8 ltr:!rounded-r-none rtl:!rounded-l-none !mb-0 !text-sm"
             autofocus="true"
             :class="{ error: $v.editedValue.$error }"
             @blur="$v.editedValue.$touch"
@@ -61,7 +70,7 @@
       </div>
       <div
         v-show="!isEditing"
-        class="value--view"
+        class="flex group"
         :class="{ 'is-editable': showActions }"
       >
         <a
@@ -69,35 +78,35 @@
           :href="hrefURL"
           target="_blank"
           rel="noopener noreferrer"
-          class="value inline-block rounded-sm mb-0 break-all py-0.5 px-1"
+          class="group-hover:bg-slate-50 group-hover:dark:bg-slate-700 inline-block rounded-sm mb-0 break-all py-0.5 px-1"
         >
           {{ urlValue }}
         </a>
         <p
           v-else
-          class="value inline-block rounded-sm mb-0 break-all py-0.5 px-1"
+          class="group-hover:bg-slate-50 group-hover:dark:bg-slate-700 inline-block rounded-sm mb-0 break-all py-0.5 px-1"
         >
           {{ displayValue || '---' }}
         </p>
         <div class="flex max-w-[2rem] gap-1 ml-1 rtl:mr-1 rtl:ml-0">
           <woot-button
-            v-if="showActions"
+            v-if="showCopyAndDeleteButton"
             v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.COPY')"
             variant="link"
             size="small"
             color-scheme="secondary"
             icon="clipboard"
-            class-names="edit-button"
+            class-names="hidden group-hover:flex !w-6 flex-shrink-0"
             @click="onCopy"
           />
           <woot-button
-            v-if="showActions"
+            v-if="showEditButton"
             v-tooltip.right="$t('CUSTOM_ATTRIBUTES.ACTIONS.EDIT')"
             variant="link"
             size="small"
             color-scheme="secondary"
             icon="edit"
-            class-names="edit-button"
+            class-names="hidden group-hover:flex !w-6 flex-shrink-0"
             @click="onEdit"
           />
         </div>
@@ -130,17 +139,21 @@ import { format, parseISO } from 'date-fns';
 import { required, url } from 'vuelidate/lib/validators';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
+import HelperTextPopup from 'dashboard/components/ui/HelperTextPopup.vue';
 import { isValidURL } from '../helper/URLHelper';
 import customAttributeMixin from '../mixins/customAttributeMixin';
+
 const DATE_FORMAT = 'yyyy-MM-dd';
 
 export default {
   components: {
     MultiselectDropdown,
+    HelperTextPopup,
   },
   mixins: [customAttributeMixin],
   props: {
     label: { type: String, required: true },
+    description: { type: String, default: '' },
     values: { type: Array, default: () => [] },
     value: { type: [String, Number, Boolean], default: '' },
     showActions: { type: Boolean, default: false },
@@ -160,11 +173,18 @@ export default {
       editedValue: null,
     };
   },
-
   computed: {
+    showCopyAndDeleteButton() {
+      return this.value && this.showActions;
+    },
+    showEditButton() {
+      return !this.value && this.showActions;
+    },
     displayValue() {
       if (this.isAttributeTypeDate) {
-        return new Date(this.value || new Date()).toLocaleDateString();
+        return this.value
+          ? new Date(this.value || new Date()).toLocaleDateString()
+          : '';
       }
       if (this.isAttributeTypeCheckbox) {
         return this.value === 'false' ? false : this.value;
@@ -230,6 +250,10 @@ export default {
       this.isEditing = false;
       this.editedValue = this.formattedValue;
     },
+    contactId() {
+      // Fix to solve validation not resetting when contactId changes in contact page
+      this.$v.$reset();
+    },
   },
 
   validations() {
@@ -268,6 +292,10 @@ export default {
         this.$refs.inputfield.focus();
       }
     },
+    onClickAway() {
+      this.$v.$reset();
+      this.isEditing = false;
+    },
     onEdit() {
       this.isEditing = true;
       this.$nextTick(() => {
@@ -294,6 +322,7 @@ export default {
     },
     onDelete() {
       this.isEditing = false;
+      this.$v.$reset();
       this.$emit('delete', this.attributeKey);
     },
     onCopy() {
@@ -304,35 +333,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.checkbox-wrap {
-  @apply flex items-center;
-}
-.checkbox {
-  @apply my-0 mr-2 ml-0;
-}
-.attribute-name {
-  &.error {
-    @apply text-red-400 dark:text-red-500;
-  }
-}
-
-.edit-button {
-  @apply hidden;
-}
-
-.value--view {
-  @apply flex;
-
-  &.is-editable:hover {
-    .value {
-      @apply bg-slate-50 dark:bg-slate-700 mb-0;
-    }
-    .edit-button {
-      @apply block;
-    }
-  }
-}
-
 ::v-deep {
   .selector-wrap {
     @apply m-0 top-1;

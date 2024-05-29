@@ -1,308 +1,173 @@
+<script setup>
+import { computed } from 'vue';
+
+import format from 'date-fns/format';
+import getDay from 'date-fns/getDay';
+
+import { getQuantileIntervals } from '@chatwoot/utils';
+
+import { groupHeatmapByDay } from 'helpers/ReportsDataHelper';
+import { useI18n } from 'dashboard/composables/useI18n';
+
+const { t } = useI18n();
+const props = defineProps({
+  heatData: {
+    type: Array,
+    default: () => [],
+  },
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const processedData = computed(() => {
+  return groupHeatmapByDay(props.heatData);
+});
+
+const quantileRange = computed(() => {
+  const flattendedData = props.heatData.map(data => data.value);
+  return getQuantileIntervals(flattendedData, [0.2, 0.4, 0.6, 0.8, 0.9, 0.99]);
+});
+
+function getCountTooltip(value) {
+  if (!value) {
+    return t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.NO_CONVERSATIONS');
+  }
+
+  if (value === 1) {
+    return t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.CONVERSATION', {
+      count: value,
+    });
+  }
+
+  return t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.CONVERSATIONS', {
+    count: value,
+  });
+}
+
+function formatDate(dateString) {
+  return format(new Date(dateString), 'MMM d, yyyy');
+}
+
+function getDayOfTheWeek(date) {
+  const dayIndex = getDay(date);
+  const days = [
+    t('DAYS_OF_WEEK.SUNDAY'),
+    t('DAYS_OF_WEEK.MONDAY'),
+    t('DAYS_OF_WEEK.TUESDAY'),
+    t('DAYS_OF_WEEK.WEDNESDAY'),
+    t('DAYS_OF_WEEK.THURSDAY'),
+    t('DAYS_OF_WEEK.FRIDAY'),
+    t('DAYS_OF_WEEK.SATURDAY'),
+  ];
+  return days[dayIndex];
+}
+function getHeatmapLevelClass(value) {
+  if (!value)
+    return 'outline-slate-100 dark:outline-slate-700 dark:bg-slate-700/40 bg-slate-50/50';
+
+  let level = [...quantileRange.value, Infinity].findIndex(
+    range => value <= range && value > 0
+  );
+
+  if (level > 6) level = 5;
+
+  if (level === 0) {
+    return 'outline-slate-100 dark:outline-slate-700 dark:bg-slate-700/40 bg-slate-50/50';
+  }
+
+  const classes = [
+    'bg-woot-50 dark:bg-woot-800/40 dark:outline-woot-800/80',
+    'bg-woot-100 dark:bg-woot-800/30 dark:outline-woot-800/80',
+    'bg-woot-200 dark:bg-woot-500/40 dark:outline-woot-700/80',
+    'bg-woot-300 dark:bg-woot-500/60 dark:outline-woot-600/80',
+    'bg-woot-600 dark:bg-woot-500/80 dark:outline-woot-500/80',
+    'bg-woot-800 dark:bg-woot-500 dark:outline-woot-400/80',
+  ];
+
+  return classes[level - 1];
+}
+</script>
+
 <template>
-  <div class="heatmap-container">
+  <div
+    class="grid relative w-full gap-x-4 gap-y-2.5 overflow-y-scroll md:overflow-visible grid-cols-[80px_1fr] min-h-72"
+  >
     <template v-if="isLoading">
-      <div class="heatmap-labels">
+      <div class="grid gap-[5px] flex-shrink-0">
         <div
           v-for="ii in 7"
           :key="ii"
-          class="loading-cell heatmap-axis-label"
+          class="w-full rounded-sm bg-slate-100 dark:bg-slate-900 animate-loader-pulse h-8 min-w-[70px]"
         />
       </div>
-      <div class="heatmap-grid">
-        <div v-for="ii in 7" :key="ii" class="heatmap-grid-row">
-          <div v-for="jj in 24" :key="jj" class="heatmap-tile loading-cell">
-            <div class="heatmap-tile__label loading-cell" />
-          </div>
+      <div class="grid gap-[5px] w-full min-w-[700px]">
+        <div
+          v-for="ii in 7"
+          :key="ii"
+          class="grid gap-[5px] grid-cols-[repeat(24,_1fr)]"
+        >
+          <div
+            v-for="jj in 24"
+            :key="jj"
+            class="w-full h-8 rounded-sm bg-slate-100 dark:bg-slate-900 animate-loader-pulse"
+          />
         </div>
       </div>
-      <div class="heatmap-timeline" />
-      <div class="heatmap-markers">
-        <div v-for="ii in 24" :key="ii">{{ ii - 1 }} – {{ ii }}</div>
+      <div />
+      <div
+        class="grid grid-cols-[repeat(24,_1fr)] gap-[5px] w-full text-[8px] font-semibold h-5 text-slate-800 dark:text-slate-200"
+      >
+        <div
+          v-for="ii in 24"
+          :key="ii"
+          class="flex items-center justify-center"
+        >
+          {{ ii - 1 }} – {{ ii }}
+        </div>
       </div>
     </template>
     <template v-else>
-      <div class="heatmap-labels">
+      <div class="grid gap-[5px] flex-shrink-0">
         <div
           v-for="dateKey in processedData.keys()"
           :key="dateKey"
-          class="heatmap-axis-label"
+          class="h-8 min-w-[70px] text-slate-800 dark:text-slate-200 text-[10px] font-semibold flex flex-col items-end justify-center"
         >
           {{ getDayOfTheWeek(new Date(dateKey)) }}
-          <time>{{ formatDate(dateKey) }}</time>
+          <time class="font-normal text-slate-700 dark:text-slate-200">
+            {{ formatDate(dateKey) }}
+          </time>
         </div>
       </div>
-      <div class="heatmap-grid">
+      <div class="grid gap-[5px] w-full min-w-[700px]">
         <div
           v-for="dateKey in processedData.keys()"
           :key="dateKey"
-          class="heatmap-grid-row"
+          class="grid gap-[5px] grid-cols-[repeat(24,_1fr)]"
         >
           <div
             v-for="data in processedData.get(dateKey)"
             :key="data.timestamp"
             v-tooltip.top="getCountTooltip(data.value)"
-            class="heatmap-tile"
+            class="h-8 rounded-sm shadow-inner dark:outline dark:outline-1 shadow-black"
             :class="getHeatmapLevelClass(data.value)"
-          >
-            <div class="heatmap-tile__label" />
-          </div>
+          />
         </div>
       </div>
-      <div class="heatmap-timeline" />
-      <div class="heatmap-markers">
-        <div v-for="ii in 24" :key="ii">{{ ii - 1 }} – {{ ii }}</div>
+      <div />
+      <div
+        class="grid grid-cols-[repeat(24,_1fr)] gap-[5px] w-full text-[8px] font-semibold h-5 text-slate-800 dark:text-slate-200"
+      >
+        <div
+          v-for="ii in 24"
+          :key="ii"
+          class="flex items-center justify-center"
+        >
+          {{ ii - 1 }} – {{ ii }}
+        </div>
       </div>
     </template>
   </div>
 </template>
-<script>
-import { getQuantileIntervals } from '@chatwoot/utils';
-import format from 'date-fns/format';
-import getDay from 'date-fns/getDay';
-
-import { groupHeatmapByDay } from 'helpers/ReportsDataHelper';
-
-export default {
-  name: 'Heatmap',
-  props: {
-    heatData: {
-      type: Array,
-      default: () => [],
-    },
-    isLoading: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  computed: {
-    processedData() {
-      return groupHeatmapByDay(this.heatData);
-    },
-    quantileRange() {
-      const flattendedData = this.heatData.map(data => data.value);
-      return getQuantileIntervals(
-        flattendedData,
-        [0.2, 0.4, 0.6, 0.8, 0.9, 0.99]
-      );
-    },
-  },
-  methods: {
-    getCountTooltip(value) {
-      if (!value) {
-        return this.$t(
-          'OVERVIEW_REPORTS.CONVERSATION_HEATMAP.NO_CONVERSATIONS'
-        );
-      }
-
-      if (value === 1) {
-        return this.$t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.CONVERSATION', {
-          count: value,
-        });
-      }
-
-      return this.$t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.CONVERSATIONS', {
-        count: value,
-      });
-    },
-    formatDate(dateString) {
-      return format(new Date(dateString), 'MMM d, yyyy');
-    },
-    getDayOfTheWeek(date) {
-      const dayIndex = getDay(date);
-      const days = [
-        this.$t('DAYS_OF_WEEK.SUNDAY'),
-        this.$t('DAYS_OF_WEEK.MONDAY'),
-        this.$t('DAYS_OF_WEEK.TUESDAY'),
-        this.$t('DAYS_OF_WEEK.WEDNESDAY'),
-        this.$t('DAYS_OF_WEEK.THURSDAY'),
-        this.$t('DAYS_OF_WEEK.FRIDAY'),
-        this.$t('DAYS_OF_WEEK.SATURDAY'),
-      ];
-      return days[dayIndex];
-    },
-    getHeatmapLevelClass(value) {
-      if (!value) return '';
-
-      const level = [...this.quantileRange, Infinity].findIndex(
-        range => value <= range && value > 0
-      );
-
-      if (level > 6) {
-        return 'l6';
-      }
-
-      return `l${level}`;
-    },
-  },
-};
-</script>
-
-<style scoped lang="scss">
-$heatmap-colors: (
-  level-1: var(--w-50),
-  level-2: var(--w-100),
-  level-3: var(--w-300),
-  level-4: var(--w-500),
-  level-5: var(--w-700),
-  level-6: var(--w-900),
-);
-
-$heatmap-hover-border-color: (
-  level-1: var(--w-25),
-  level-2: var(--w-50),
-  level-3: var(--w-100),
-  level-4: var(--w-300),
-  level-5: var(--w-500),
-  level-6: var(--w-700),
-);
-
-$tile-height: 1.875rem;
-$tile-gap: var(--space-smaller);
-$container-gap-row: var(--space-one);
-$container-gap-column: var(--space-two);
-$marker-height: var(--space-two);
-
-@mixin heatmap-level($level) {
-  $color: map-get($heatmap-colors, 'level-#{$level}');
-  background-color: $color;
-  &:hover {
-    border: 1px solid map-get($heatmap-hover-border-color, 'level-#{$level}');
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .heatmap-container {
-    overflow-y: auto;
-  }
-}
-
-.loading-cell {
-  background-color: var(--color-background-light);
-  border: 0px;
-
-  animation: loading-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes loading-pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
-}
-
-.heatmap-container {
-  display: grid;
-  position: relative;
-  width: 100%;
-  gap: $container-gap-row $container-gap-column;
-  grid-template-columns: 80px 1fr;
-  min-height: calc(
-    7 * #{$tile-height} + 6 * #{$tile-gap} + #{$container-gap-row} + #{$marker-height}
-  );
-}
-
-.heatmap-labels {
-  display: grid;
-  grid-template-rows: 1fr;
-  gap: $tile-gap;
-  flex-shrink: 0;
-
-  .heatmap-axis-label {
-    height: $tile-height;
-    min-width: 70px;
-    font-size: var(--font-size-micro);
-    font-weight: var(--font-weight-bold);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: center;
-    @apply text-slate-800 dark:text-slate-200;
-
-    time {
-      font-size: var(--font-size-micro);
-      font-weight: var(--font-weight-normal);
-      @apply text-slate-700 dark:text-slate-200;
-    }
-  }
-}
-
-.heatmap-grid {
-  display: grid;
-  grid-template-rows: 1fr;
-  gap: $tile-gap;
-  min-width: 700px;
-  width: 100%;
-
-  .heatmap-grid-row {
-    display: grid;
-    gap: $tile-gap;
-    grid-template-columns: repeat(24, 1fr);
-  }
-
-  .heatmap-tile {
-    width: auto;
-    height: $tile-height;
-    border-radius: var(--border-radius-normal);
-
-    &:hover {
-      box-shadow: var(--shadow-large);
-
-      transform: translateY(-2px);
-      transition:
-        transform 0.2s ease-in-out,
-        box-shadow 0.2s ease-in-out;
-    }
-
-    &:not(.l1):not(.l2):not(.l3):not(.l4):not(.l5):not(.l6) {
-      background-color: var(--color-background-light);
-      border: 1px solid var(--color-border-light);
-
-      &:hover {
-        transform: translateY(0);
-        box-shadow: none;
-        border: 1px solid var(--color-border-light);
-      }
-    }
-
-    &.l1 {
-      @include heatmap-level(1);
-    }
-    &.l2 {
-      @include heatmap-level(2);
-    }
-    &.l3 {
-      @include heatmap-level(3);
-    }
-    &.l4 {
-      @include heatmap-level(4);
-    }
-    &.l5 {
-      @include heatmap-level(5);
-    }
-    &.l6 {
-      @include heatmap-level(6);
-    }
-  }
-}
-
-.heatmap-markers {
-  display: grid;
-  grid-template-columns: repeat(24, 1fr);
-  gap: $tile-gap;
-  width: 100%;
-  font-size: var(--font-size-nano);
-  font-weight: var(--font-weight-bold);
-  height: $marker-height;
-  color: var(--color-body);
-  @apply text-slate-800 dark:text-slate-200;
-
-  div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-}
-</style>

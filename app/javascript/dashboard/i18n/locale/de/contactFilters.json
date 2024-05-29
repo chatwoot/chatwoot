@@ -44,7 +44,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Erstellt am",
       "LAST_ACTIVITY": "Letzte Aktivität",
-      "REFERER_LINK": "Verweis-Link"
+      "REFERER_LINK": "Verweis-Link",
+      "BLOCKED": "Blocked"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standardfilter",

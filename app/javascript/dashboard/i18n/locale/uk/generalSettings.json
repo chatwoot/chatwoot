@@ -87,7 +87,10 @@
       "conversation_assignment": "Діалог призначений",
       "assigned_conversation_new_message": "Нове повідомлення",
       "participating_conversation_new_message": "Нове повідомлення",
-      "conversation_mention": "Відмітка"
+      "conversation_mention": "Відмітка",
+      "sla_missed_first_response": "SLA пропущено",
+      "sla_missed_next_response": "SLA пропущено",
+      "sla_missed_resolution": "SLA пропущено"
     }
   },
   "NETWORK": {
@@ -104,6 +107,7 @@
       "GENERAL": "Загальні",
       "REPORTS": "Звіти",
       "CONVERSATION": "Діалог",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Змінити виконавця",
       "CHANGE_PRIORITY": "Змінити пріоритет",
       "CHANGE_TEAM": "Змінити команду",

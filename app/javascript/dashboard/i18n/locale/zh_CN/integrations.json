@@ -10,13 +10,13 @@
           "LABEL": "事件",
           "EVENTS": {
             "CONVERSATION_CREATED": "对话创建",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated"
+            "CONVERSATION_STATUS_CHANGED": "对话状态已更改",
+            "CONVERSATION_UPDATED": "对话已更新",
+            "MESSAGE_CREATED": "信息已创建",
+            "MESSAGE_UPDATED": "信息已更新",
+            "WEBWIDGET_TRIGGERED": "用户打开实时聊天小部件",
+            "CONTACT_CREATED": "联系人已创建",
+            "CONTACT_UPDATED": "联系人已更新"
           }
         },
         "END_POINT": {
@@ -24,7 +24,7 @@
           "PLACEHOLDER": "例如：https://example/api/webhook",
           "ERROR": "请输入一个有效的 URL"
         },
-        "EDIT_SUBMIT": "Update webhook",
+        "EDIT_SUBMIT": "更新 webhook",
         "ADD_SUBMIT": "创建 webhook"
       },
       "TITLE": "回调接口地址",
@@ -44,9 +44,9 @@
       },
       "EDIT": {
         "BUTTON_TEXT": "编辑",
-        "TITLE": "Edit webhook",
+        "TITLE": "编辑 webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
+          "SUCCESS_MESSAGE": "Webhook 配置更新成功",
           "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
         }
       },
@@ -54,7 +54,7 @@
         "CANCEL": "取消操作",
         "TITLE": "添加新的 webhook",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
+          "SUCCESS_MESSAGE": "Webhook 配置添加成功",
           "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
         }
       },

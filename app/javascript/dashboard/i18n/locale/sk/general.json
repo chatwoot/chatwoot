@@ -1,10 +1,5 @@
 {
   "GENERAL": {
-    "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items",
-    "PHONE_INPUT": {
-      "PLACEHOLDER": "Hľadať",
-      "EMPTY_STATE": "Žiadne výsledky neboli nájdené"
-    },
-    "CLOSE": "Zatvoriť"
+    "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items"
   }
 }

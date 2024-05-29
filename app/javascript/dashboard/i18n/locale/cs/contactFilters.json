@@ -44,7 +44,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Zaškrtávací pole",
       "CREATED_AT": "Vytvořeno",
       "LAST_ACTIVITY": "Poslední aktivita",
-      "REFERER_LINK": "Odkazující odkaz"
+      "REFERER_LINK": "Odkazující odkaz",
+      "BLOCKED": "Blocked"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standardní filtry",

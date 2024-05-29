@@ -12,6 +12,7 @@
 <script>
 import 'ninja-keys';
 import conversationHotKeysMixin from './conversationHotKeys';
+import bulkActionsHotKeysMixin from './bulkActionsHotKeys';
 import inboxHotKeysMixin from './inboxHotKeys';
 import goToCommandHotKeys from './goToCommandHotKeys';
 import appearanceHotKeys from './appearanceHotKeys';
@@ -26,6 +27,7 @@ export default {
     adminMixin,
     agentMixin,
     conversationHotKeysMixin,
+    bulkActionsHotKeysMixin,
     inboxHotKeysMixin,
     conversationLabelMixin,
     conversationTeamMixin,
@@ -46,6 +48,7 @@ export default {
       return [
         ...this.inboxHotKeys,
         ...this.conversationHotKeys,
+        ...this.bulkActionsHotKeys,
         ...this.goToCommandHotKeys,
         ...this.goToAppearanceHotKeys,
       ];

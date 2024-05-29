@@ -22,7 +22,7 @@
         "body": "Temsilcileri oluşturulan gelen kutusuna ekleyin."
       },
       {
-        "title": "Burada!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "Hepiniz gitmeye hazırsınız!"
       }
@@ -43,7 +43,7 @@
         "CHOOSE_PLACEHOLDER": "Listeden bir sayfa seçin",
         "INBOX_NAME": "Gelen Kutusu Adı",
         "ADD_NAME": "Gelen kutunuza bir isim ekleyin",
-        "PICK_NAME": "Gelen Kutunuza Bir İsim Seçin",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "Bir değer seçin"
       },
       "TWITTER": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Web Kanca URL'si",
-          "PLACEHOLDER": "Webhook URL'nizi girin",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Lütfen geçerli bir adres girin"
         },
         "CHANNEL_DOMAIN": {
@@ -175,12 +175,12 @@
           },
           "API_KEY": {
             "LABEL": "API Anahtarı",
-            "PLACEHOLDER": "Lütfen Bandwith API Anahtarınızı girin",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "Bu alan gereklidir"
           },
           "API_SECRET": {
             "LABEL": "API Sırrı",
-            "PLACEHOLDER": "Lütfen Bandwith API Sırrınızı girin",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "Bu alan gereklidir"
           },
           "APPLICATION_ID": {
@@ -239,7 +239,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook Onay Anahtarı",
-          "PLACEHOLDER": "Facebook webhook'ları için yapılandırmak istediğiniz onay anahtarını girin.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Lütfen geçerli bir değer girin."
         },
         "API_KEY": {
@@ -269,7 +269,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL'si",
-          "SUBTITLE": "İlgili etkinliklerle ilgili geri aramaları almak istediğiniz URL'yi yapılandırın.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "Webhook URL'si"
         },
         "SUBMIT_BUTTON": "API Kanalı Oluştur",
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "E-posta Kanalı",
-        "DESC": "E-posta gelen kutunuzu entegre edin.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Kanal Adı",
           "PLACEHOLDER": "Lütfen bir kanal adı girin",
@@ -345,7 +345,7 @@
       "AGENTS": {
         "TITLE": "Kullanıcılar",
         "DESC": "Yeni oluşturulan gelen kutunuzu yönetmek için burada aracılar ekleyebilirsiniz. Yalnızca bu seçilen temsilciler gelen kutunuza erişebilir. Bu gelen kutusunun parçası olmayan temsilciler, oturum açtıklarında bu gelen kutusundaki mesajları göremeyecek veya yanıtlayamayacak. <br> <b> Not: </b> Bir yönetici olarak, tüm gelen kutularına erişmeniz gerekiyorsa, kendinizi oluşturduğunuz tüm gelen kutularına aracı olarak eklemelisiniz.",
-        "VALIDATION_ERROR": "Yeni Gelen Kutunuza en az bir temsilci ekleyin",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Gelen kutusu için aracı seçin"
       },
       "DETAILS": {
@@ -406,7 +406,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Gönderen Adı",
-        "SUB_TEXT": "Müşteriniz e-posta aldığında ajanlarınızdan gelen e-postalarda gösterilen adı seçin.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "Örneğin:",
         "FRIENDLY": {
           "TITLE": "Dostça",
@@ -508,12 +508,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Çözülen konuşmadan sonra mesajlara izin ver",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Konuşma çözüldükten sonra bile son kullanıcılara mesaj göndermelerine izin ver.",
       "WHATSAPP_SECTION_SUBHEADER": "Bu API Anahtarı, WhatsApp API'larıyla entegrasyon için kullanılır.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "WhatsApp API'larıyla entegrasyon için kullanılacak güncellenmiş anahtarı girin.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API Anahtarı",
       "WHATSAPP_SECTION_UPDATE_TITLE": "API Anahtarını Güncelle",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Yeni API Anahtarını buraya girin",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Güncelleme",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Onay Belirteci",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Onay Anahtarı",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Bu belirteç, webhook uç noktasının gerçekliğini doğrulamak için kullanılır.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Sohbet Öncesi Form Ayarlarını Güncelleme"
     },
@@ -585,7 +585,7 @@
       "NOTE_TEXT": "SMTP'yi etkinleştirmek için lütfen IMAP'ı yapılandırın.",
       "UPDATE": "IMAP ayarlarını güncelle",
       "TOGGLE_AVAILABILITY": "Bu gelen kutusu için IMAP yapılandırmasını etkinleştir",
-      "TOGGLE_HELP": "IMAP'ı etkinleştirmek, kullanıcının e-posta almasına yardımcı olacaktır",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "IMAP ayarları başarıyla güncellendi",
         "ERROR_MESSAGE": "IMAP ayarları güncellenemedi"

@@ -6,6 +6,7 @@ module SwitchLocale
   def switch_locale(&)
     # priority is for locale set in query string (mostly for widget/from js sdk)
     locale ||= locale_from_params
+    locale ||= locale_from_custom_domain
     # if locale is not set in account, let's use DEFAULT_LOCALE env variable
     locale ||= locale_from_env_variable
     set_locale(locale, &)
@@ -14,6 +15,20 @@ module SwitchLocale
   def switch_locale_using_account_locale(&)
     locale = locale_from_account(@current_account)
     set_locale(locale, &)
+  end
+
+  # If the request is coming from a custom domain, it should be for a helpcenter portal
+  # We will use the portal locale in such cases
+  def locale_from_custom_domain(&)
+    return if params[:locale]
+
+    domain = request.host
+    return if DomainHelper.chatwoot_domain?(domain)
+
+    @portal = Portal.find_by(custom_domain: domain)
+    return unless @portal
+
+    @portal.default_locale
   end
 
   def set_locale(locale, &)

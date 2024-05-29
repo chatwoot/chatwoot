@@ -6,7 +6,7 @@
 #  additional_attributes  :jsonb
 #  agent_last_seen_at     :datetime
 #  assignee_last_seen_at  :datetime
-#  cached_label_list      :string
+#  cached_label_list      :text
 #  closed                 :boolean          default(FALSE)
 #  contact_last_seen_at   :datetime
 #  custom_attributes      :jsonb
@@ -42,7 +42,6 @@
 #  index_conversations_on_first_reply_created_at      (first_reply_created_at)
 #  index_conversations_on_id_and_account_id           (account_id,id)
 #  index_conversations_on_inbox_id                    (inbox_id)
-#  index_conversations_on_last_activity_at            (last_activity_at)
 #  index_conversations_on_priority                    (priority)
 #  index_conversations_on_status_and_account_id       (status,account_id)
 #  index_conversations_on_status_and_priority         (status,priority)
@@ -58,6 +57,7 @@ class Conversation < ApplicationRecord
   include ActivityMessageHandler
   include UrlHelper
   include SortHandler
+  include PushDataHelper
   include ConversationMuteHelpers
 
   validates :account_id, presence: true
@@ -129,7 +129,7 @@ class Conversation < ApplicationRecord
 
   after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation
-  after_commit :set_display_id, unless: :display_id?
+  after_create_commit :load_attributes_created_by_db_triggers
 
   delegate :auto_resolve_duration, to: :account
 
@@ -191,18 +191,6 @@ class Conversation < ApplicationRecord
     unread_messages.where(account_id: account_id).incoming.last(10)
   end
 
-  def push_event_data
-    Conversations::EventDataPresenter.new(self).push_data
-  end
-
-  def lock_event_data
-    Conversations::EventDataPresenter.new(self).lock_data
-  end
-
-  def webhook_data
-    Conversations::EventDataPresenter.new(self).push_data
-  end
-
   def cached_label_list_array
     (cached_label_list || '').split(',').map(&:strip)
   end
@@ -239,6 +227,10 @@ class Conversation < ApplicationRecord
 
   def send_with_quoted_thread?
     custom_attributes['send_quoted_thread']
+  end
+
+  def dispatch_conversation_updated_event(previous_changes = nil)
+    dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
   end
 
   def auto_assign_to_latest_agent
@@ -301,13 +293,17 @@ class Conversation < ApplicationRecord
   def notify_conversation_updation
     return unless previous_changes.keys.present? && allowed_keys?
 
-    dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
+    dispatch_conversation_updated_event(previous_changes)
+  end
+
+  def list_of_keys
+    %w[team_id assignee_id status snoozed_until custom_attributes label_list waiting_since first_reply_created_at
+       priority]
   end
 
   def allowed_keys?
     (
-      previous_changes.keys.intersect?(%w[team_id assignee_id status snoozed_until custom_attributes label_list waiting_since first_reply_created_at
-                                          priority]) ||
+      previous_changes.keys.intersect?(list_of_keys) ||
       (previous_changes['additional_attributes'].present? && previous_changes['additional_attributes'][1].keys.intersect?(%w[conversation_language]))
     )
   end
@@ -316,8 +312,13 @@ class Conversation < ApplicationRecord
     assignee_id.present? && Current.user&.id == assignee_id
   end
 
-  def set_display_id
-    reload
+  def load_attributes_created_by_db_triggers
+    # Display id is set via a trigger in the database
+    # So we need to specifically fetch it after the record is created
+    # We can't use reload because it will clear the previous changes, which we need for the dispatcher
+    obj_from_db = self.class.find(id)
+    self[:display_id] = obj_from_db[:display_id]
+    self[:uuid] = obj_from_db[:uuid]
   end
 
   def notify_status_change
@@ -368,5 +369,5 @@ class Conversation < ApplicationRecord
   end
 end
 
-Conversation.include_mod_with('EnterpriseConversationConcern')
-Conversation.include_mod_with('SentimentAnalysisHelper')
+Conversation.include_mod_with('Concerns::Conversation')
+Conversation.prepend_mod_with('Conversation')

@@ -1,4 +1,4 @@
-import { computed, unref } from 'vue';
+import { computed } from 'vue';
 import { getCurrentInstance } from 'vue';
 
 export const useStore = () => {
@@ -17,15 +17,7 @@ export const useStoreGetters = () => {
   );
 };
 
-export const useMapGetter = key => {
+export const mapGetter = key => {
   const store = useStore();
   return computed(() => store.getters[key]);
-};
-
-export const useFunctionGetter = (key, ...args) => {
-  const store = useStore();
-  return computed(() => {
-    const unrefedArgs = args.map(arg => unref(arg));
-    return store.getters[key](...unrefedArgs);
-  });
 };

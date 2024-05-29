@@ -39,6 +39,9 @@
       v-on-clickaway="closeDropdown"
       :class="dropdownBackgroundClass"
       class="country-dropdown h-48 overflow-y-auto z-10 absolute top-12 px-0 pt-0 pl-1 pr-1 pb-1 rounded shadow-lg"
+      @keydown.up="moveSelectionUp"
+      @keydown.down="moveSelectionDown"
+      @keydown.enter="onSelect"
     >
       <div class="sticky top-0" :class="dropdownBackgroundClass">
         <input
@@ -83,10 +86,8 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import countries from 'shared/constants/countries.js';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import mentionSelectionKeyboardMixin from 'dashboard/components/widgets/mentions/mentionSelectionKeyboardMixin.js';
 import FormulateInputMixin from '@braid/vue-formulate/src/FormulateInputMixin';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 
@@ -94,12 +95,7 @@ export default {
   components: {
     FluentIcon,
   },
-  mixins: [
-    mentionSelectionKeyboardMixin,
-    FormulateInputMixin,
-    darkModeMixin,
-    clickaway,
-  ],
+  mixins: [FormulateInputMixin, darkModeMixin],
   props: {
     placeholder: {
       type: String,
@@ -191,6 +187,14 @@ export default {
       );
     },
   },
+  watch: {
+    items(newItems) {
+      if (newItems.length < this.selectedIndex + 1) {
+        // Reset the selected index to 0 if the new items length is less than the selected index.
+        this.selectedIndex = 0;
+      }
+    },
+  },
   methods: {
     setContextValue(code) {
       // This function is used to set the context value.
@@ -220,27 +224,47 @@ export default {
     },
     dropdownItem() {
       // This function is used to get all the items in the dropdown.
+      if (!this.showDropdown) return [];
       return Array.from(
-        this.$refs.dropdown.querySelectorAll(
+        this.$refs.dropdown?.querySelectorAll(
           'div.country-dropdown div.country-dropdown--item'
         )
       );
     },
     focusedOrActiveItem(className) {
       // This function is used to get the focused or active item in the dropdown.
+      if (!this.showDropdown) return [];
       return Array.from(
-        this.$refs.dropdown.querySelectorAll(
+        this.$refs.dropdown?.querySelectorAll(
           `div.country-dropdown div.country-dropdown--item.${className}`
         )
       );
     },
-    handleKeyboardEvent(e) {
-      if (this.showDropdown) {
-        this.processKeyDownEvent(e);
+    adjustScroll() {
+      this.$nextTick(() => {
         this.scrollToFocusedOrActiveItem(this.focusedOrActiveItem('focus'));
+      });
+    },
+    adjustSelection(direction) {
+      if (!this.showDropdown) return;
+      const maxIndex = this.items.length - 1;
+      if (direction === 'up') {
+        this.selectedIndex =
+          this.selectedIndex <= 0 ? maxIndex : this.selectedIndex - 1;
+      } else if (direction === 'down') {
+        this.selectedIndex =
+          this.selectedIndex >= maxIndex ? 0 : this.selectedIndex + 1;
       }
+      this.adjustScroll();
+    },
+    moveSelectionUp() {
+      this.adjustSelection('up');
+    },
+    moveSelectionDown() {
+      this.adjustSelection('down');
     },
     onSelect() {
+      if (!this.showDropdown || this.selectedIndex === -1) return;
       this.onSelectCountry(this.items[this.selectedIndex]);
     },
     scrollToFocusedOrActiveItem(item) {

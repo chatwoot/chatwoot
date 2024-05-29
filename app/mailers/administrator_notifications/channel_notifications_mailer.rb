@@ -69,6 +69,18 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
     send_mail_with_liquid(to: email_to, subject: subject) and return
   end
 
+  def automation_rule_disabled(rule)
+    return unless smtp_config_set_or_development?
+
+    @action_url ||= "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{Current.account.id}/settings/automation/list"
+
+    subject = 'Automation rule disabled due to validation errors.'.freeze
+    @meta = {}
+    @meta['rule_name'] = rule.name
+
+    send_mail_with_liquid(to: admin_emails, subject: subject) and return
+  end
+
   private
 
   def admin_emails

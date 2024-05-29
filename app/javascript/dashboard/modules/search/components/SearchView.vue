@@ -73,7 +73,6 @@ import SearchResultConversationsList from './SearchResultConversationsList.vue';
 import SearchResultMessagesList from './SearchResultMessagesList.vue';
 import SearchResultContactsList from './SearchResultContactsList.vue';
 
-import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 export default {
@@ -84,7 +83,6 @@ export default {
     SearchResultConversationsList,
     SearchResultMessagesList,
   },
-  mixins: [clickaway],
   data() {
     return {
       selectedTab: 'all',

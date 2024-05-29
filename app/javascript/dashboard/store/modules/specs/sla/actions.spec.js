@@ -3,13 +3,13 @@ import { actions } from '../../sla';
 import * as types from '../../../mutation-types';
 import SLAList from './fixtures';
 
-const commit = vi.fn();
+const commit = jest.fn();
 global.axios = axios;
-vi.mock('axios');
+jest.mock('axios');
 
 describe('#actions', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    jest.clearAllMocks();
   });
 
   describe('#get', () => {

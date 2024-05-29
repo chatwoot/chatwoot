@@ -74,4 +74,12 @@ RSpec.describe 'Session', type: :request do
       end
     end
   end
+
+  describe 'GET /auth/sign_in' do
+    it 'redirects to the frontend login page with error' do
+      get new_user_session_url
+
+      expect(response).to redirect_to(%r{/app/login\?error=access-denied$})
+    end
+  end
 end

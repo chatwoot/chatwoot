@@ -39,16 +39,17 @@
     },
     "MERGE_CONTACT": "ادغام مخاطبین",
     "CONTACT_ACTIONS": "اقدامات مخاطب",
-    "MUTE_CONTACT": "Block Contact",
-    "UNMUTE_CONTACT": "Unblock Contact",
-    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
-    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
+    "MUTE_CONTACT": "مسدود کردن مخاطب",
+    "UNMUTE_CONTACT": "رفع مسدود کردن مخاطب",
+    "MUTED_SUCCESS": "مخاطب با موفقیت مسدود شد. گفتگوهای بعدی به شما اطلاع داده نخواهد شد.",
+    "UNMUTED_SUCCESS": "مخاطب با موفقیت رفع نسداد شد.",
     "SEND_TRANSCRIPT": "ارسال رونوشت",
     "EDIT_LABEL": "ویرایش",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "ویژگی‌های سفارشی",
       "CONTACT_LABELS": "تماس با برچسب ها",
-      "PREVIOUS_CONVERSATIONS": "گفتگوهای قبلی"
+      "PREVIOUS_CONVERSATIONS": "گفتگوهای قبلی",
+      "NO_RECORDS_FOUND": "هیچ ویژگی یافت نشد"
     }
   },
   "EDIT_CONTACT": {
@@ -71,7 +72,7 @@
       "SUBMIT": "تزریق کردن",
       "CANCEL": "انصراف"
     },
-    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+    "SUCCESS_MESSAGE": "پس از تکمیل ورود اطلاعات از طریق ایمیل به شما اطلاع داده خواهد شد.",
     "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
   },
   "EXPORT_CONTACTS": {
@@ -82,9 +83,10 @@
     "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید",
     "CONFIRM": {
       "TITLE": "خروجی گرفتن مخاطب ها",
-      "MESSAGE": "Are you sure you want to export all contacts?",
-      "YES": "Yes, Export",
-      "NO": "No, Cancel"
+      "MESSAGE": "آیا مطمئن هستید که می خواهید از همه مخاطبین خروجی بگیرید؟",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
+      "YES": "بله، خروجی بگیر",
+      "NO": "نه، انصراف"
     }
   },
   "DELETE_NOTE": {
@@ -296,6 +298,8 @@
     "BUTTON": "افزودن ویژگی سفارشی",
     "NOT_AVAILABLE": "هیچ ویژگی سفارشی برای این مخاطب موجود نیست.",
     "COPY_SUCCESSFUL": "با موفقیت در کلیپ‌بورد کپی شد",
+    "SHOW_MORE": "نمایش همه ویژگی ها",
+    "SHOW_LESS": "نمایش ویژگی های کمتر",
     "ACTIONS": {
       "COPY": "کپی ویژگی",
       "DELETE": "حذف ویژگی",
@@ -346,7 +350,7 @@
     "VALIDATIONS": {
       "REQUIRED": "مقدار معتبر مورد نیاز است",
       "INVALID_URL": "URL نامعتبر",
-      "INVALID_INPUT": "Invalid Input"
+      "INVALID_INPUT": "ورودی نامعتبر"
     }
   },
   "MERGE_CONTACTS": {

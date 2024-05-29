@@ -1,10 +1,5 @@
 {
   "GENERAL": {
-    "SHOWING_RESULTS": "Показані {firstIndex}-{lastIndex} з елементів {totalCount}",
-    "PHONE_INPUT": {
-      "PLACEHOLDER": "Пошук",
-      "EMPTY_STATE": "Результатів не знайдено"
-    },
-    "CLOSE": "Закрити"
+    "SHOWING_RESULTS": "Показані {firstIndex}-{lastIndex} з елементів {totalCount}"
   }
 }

@@ -118,13 +118,12 @@ import conversationMixin, {
 } from '../../../mixins/conversations';
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import configMixin from 'shared/mixins/configMixin';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import aiMixin from 'dashboard/mixins/aiMixin';
 
 // utils
 import { getTypingUsersText } from '../../../helper/commons';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
-import { isEscape } from 'shared/helpers/KeyboardHelpers';
 import { LocalStorage } from 'shared/helpers/localStorage';
 
 // constants
@@ -144,7 +143,7 @@ export default {
   mixins: [
     conversationMixin,
     inboxMixin,
-    eventListenerMixins,
+    keyboardEventListenerMixins,
     configMixin,
     aiMixin,
   ],
@@ -182,7 +181,7 @@ export default {
       loadingChatList: 'getChatListLoadingStatus',
       appIntegrations: 'integrations/getAppIntegrations',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
-      isFeatureEnabledGlobally: 'accounts/isFeatureEnabledGlobally',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       currentAccountId: 'getCurrentAccountId',
     }),
     isOpen() {
@@ -241,8 +240,8 @@ export default {
         this.currentChat.agent_last_seen_at
       );
     },
-    getCsatMessages(){
-      return this.getMessages.filter( msg => msg.content_type === 'input_csat')
+    getCsatMessages() {
+      return this.getMessages.filter(msg => msg.content_type === 'input_csat');
     },
     shouldShowSpinner() {
       return (
@@ -359,12 +358,12 @@ export default {
     async fetchSmartActions() {
       if (this.enabledSmartActions()) {
         const conversationId = this.currentChat.id;
-        this.$store.dispatch('getSmartActions', conversationId)
+        this.$store.dispatch('getSmartActions', conversationId);
       }
     },
 
-    enabledSmartActions(){
-      const isFeatEnabled = this.isFeatureEnabledGlobally(
+    enabledSmartActions() {
+      const isFeatEnabled = this.isFeatureEnabledonAccount(
         this.accountId,
         FEATURE_FLAGS.SMART_ACTIONS
       );
@@ -442,10 +441,12 @@ export default {
     closePopoutReplyBox() {
       this.isPopoutReplyBox = false;
     },
-    handleKeyEvents(e) {
-      if (isEscape(e)) {
-        this.closePopoutReplyBox();
-      }
+    getKeyboardEvents() {
+      return {
+        Escape: {
+          action: () => this.closePopoutReplyBox(),
+        },
+      };
     },
     addScrollListener() {
       this.conversationPanel = this.$el.querySelector('.conversation-panel');

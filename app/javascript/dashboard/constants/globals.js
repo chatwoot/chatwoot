@@ -59,5 +59,10 @@ export default {
     TYPE: 'type',
     SORT_ORDER: 'sort_order',
   },
+  SLA_MISS_TYPES: {
+    FRT: 'frt',
+    NRT: 'nrt',
+    RT: 'rt',
+  },
 };
 export const DEFAULT_REDIRECT_URL = '/app/';

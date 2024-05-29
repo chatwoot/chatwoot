@@ -83,7 +83,7 @@
       "SELECT_ALL": "انتخاب تمام ایجنت ها",
       "SELECTED_COUNT": "%{selected} تا از %{total} ایجنت انتخاب شد.",
       "BUTTON_TEXT": "اضافه کردن اپراتور",
-      "AGENT_VALIDATION_ERROR": "حداقل یک ایجنت را انتخاب کنید."
+      "AGENT_VALIDATION_ERROR": "حداقل یک اپراتور را انتخاب کنید."
     },
     "FINISH": {
       "TITLE": "تیم شما آماده است!",

@@ -42,7 +42,7 @@ zh_TW:
       export:
         success: We will notify you once contacts export file is ready to view.
       email:
-        invalid: Invalid email
+        invalid: 無效的email
       phone_number:
         invalid: should be in e164 format
     categories:
@@ -63,6 +63,9 @@ zh_TW:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
     custom_filters:
       number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
+      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
+      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
+      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
   reports:
     period: Reporting period %{since} to %{until}
     utc_warning: The report generated is in UTC timezone
@@ -71,6 +74,8 @@ zh_TW:
       conversations_count: Assigned conversations
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      resolution_count: 已解決的數量
+      avg_customer_waiting_time: Avg customer waiting time
     inbox_csv:
       inbox_name: 收件匣名稱
       inbox_type: 收件匣類型
@@ -87,8 +92,19 @@ zh_TW:
       conversations_count: 對話數量
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      resolution_count: 已解決的數量
+      avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Timezone
+    sla_csv:
+      conversation_id: Conversation ID
+      sla_policy_breached: SLA Policy
+      assignee: Assignee
+      team: Team
+      inbox: 收件匣
+      labels: 標籤
+      conversation_link: Link to the Conversation
+      breached_events: Breached Events
     default_group_by: day
     csat:
       headers:
@@ -106,6 +122,9 @@ zh_TW:
       conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
       assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
       conversation_mention: "You have been mentioned in conversation (#%{display_id})"
+      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
+      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
+      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
     attachment: "Attachment"
     no_content: "No content"
   conversations:
@@ -139,6 +158,9 @@ zh_TW:
       labels:
         added: "%{user_name} 新增了 %{labels}"
         removed: "%{user_name} 移除了 %{labels}"
+      sla:
+        added: "%{user_name} added SLA policy %{sla_name}"
+        removed: "%{user_name} removed SLA policy %{sla_name}"
       muted: "%{user_name} 已將對話靜音"
       unmuted: "%{user_name} 將對話解除靜音"
     templates:

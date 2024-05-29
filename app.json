@@ -55,7 +55,7 @@
       "plan": "heroku-redis:mini"
     },
     {
-      "plan": "heroku-postgresql:mini"
+      "plan": "heroku-postgresql:essential-0"
     }
   ],
   "stack": "heroku-20",

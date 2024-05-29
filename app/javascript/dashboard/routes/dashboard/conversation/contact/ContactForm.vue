@@ -125,8 +125,9 @@
       >
         <span
           class="flex items-center h-10 px-2 text-sm border-solid bg-slate-50 border-y ltr:border-l rtl:border-r ltr:rounded-l-md rtl:rounded-r-md dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-slate-200 dark:border-slate-600"
-          >{{ socialProfile.prefixURL }}</span
         >
+          {{ socialProfile.prefixURL }}
+        </span>
         <input
           v-model="socialProfileUserNames[socialProfile.key]"
           class="input-group-field ltr:rounded-l-none rtl:rounded-r-none !mb-0"

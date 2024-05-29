@@ -1,7 +1,7 @@
 {
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Bitte wählen Sie eine Konversation aus dem linken Bereich aus",
-    "CSAT_REPLY_MESSAGE": "Bitte bewerten Sie diese Unterhaltung",
+    "CSAT_REPLY_MESSAGE": "Bitte bewerten Sie diese Konversation",
     "404": "Wir können die Konversation leider nicht finden. Bitte versuche es erneut",
     "SWITCH_VIEW_LAYOUT": "Layout wechseln",
     "DASHBOARD_APP_TAB_MESSAGES": "Nachrichten",
@@ -49,7 +49,7 @@
     "NO_RESPONSE": "Keine Antwort",
     "RATING_TITLE": "Bewertung",
     "FEEDBACK_TITLE": "Feedback",
-    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
+    "REPLY_MESSAGE_NOT_FOUND": "Nachricht nicht verfügbar",
     "CARD": {
       "SHOW_LABELS": "Labels anzeigen",
       "HIDE_LABELS": "Labels ausblenden"
@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Stummschalten bis",
       "SNOOZED_UNTIL_TOMORROW": "Schlummern bis morgen",
       "SNOOZED_UNTIL_NEXT_WEEK": "Schlummern bis nächste Woche",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Schlummern bis zur nächsten Antwort"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Schlummern bis zur nächsten Antwort",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Als ausstehend markieren",
@@ -143,8 +150,8 @@
       "SEND": "Senden",
       "CREATE": "Notiz hinzufügen",
       "INSERT_READ_MORE": "Mehr erfahren",
-      "DISMISS_REPLY": "Dismiss reply",
-      "REPLYING_TO": "Replying to:",
+      "DISMISS_REPLY": "Antwort verwerfen",
+      "REPLYING_TO": "Antwort auf:",
       "TIP_FORMAT_ICON": "Rich Text Editor anzeigen",
       "TIP_EMOJI_ICON": "Emoji-Auswahl anzeigen",
       "TIP_ATTACH_ICON": "Dateien anhängen",
@@ -199,7 +206,7 @@
     },
     "CONTEXT_MENU": {
       "COPY": "Kopieren",
-      "REPLY_TO": "Reply to this message",
+      "REPLY_TO": "Auf diese Nachricht antworten",
       "DELETE": "Löschen",
       "CREATE_A_CANNED_RESPONSE": "Zu vorgefertigten Antworten hinzufügen",
       "TRANSLATE": "Übersetzen",
@@ -273,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Attribut erstellen",
+    "NO_RECORDS_FOUND": "Keine Attribute gefunden",
     "UPDATE": {
       "SUCCESS": "Attribut erfolgreich aktualisiert",
       "ERROR": "Attribut kann nicht aktualisiert werden. Bitte versuchen Sie es später noch einmal"

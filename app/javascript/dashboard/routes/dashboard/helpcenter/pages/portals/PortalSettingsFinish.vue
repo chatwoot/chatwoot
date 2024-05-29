@@ -1,6 +1,6 @@
 <template>
   <div
-    class="pt-3 bg-white dark:bg-slate-900 h-full border border-solid border-transparent px-6 pb-6 dark:border-transparent w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+    class="flex-grow-0 flex-shrink-0 w-full h-full max-w-full px-6 pt-3 pb-6 bg-white border border-transparent border-solid dark:bg-slate-900 dark:border-transparent"
   >
     <empty-state
       :title="$t('HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.FINISH_PAGE.TITLE')"
@@ -10,7 +10,7 @@
     >
       <div class="w-full text-center">
         <router-link
-          class="button success nice rounded"
+          class="rounded button success nice"
           :to="{
             name: 'list_all_portals',
           }"
@@ -22,18 +22,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
-export default {
-  components: {
-    EmptyState,
-  },
-  methods: {
-    changeRoute() {
-      this.$router.push({
-        name: 'list_all_portals',
-      });
-    },
-  },
-};
+import { defineComponent } from 'vue';
+defineComponent({
+  name: 'PortalSettingsFinish',
+});
 </script>

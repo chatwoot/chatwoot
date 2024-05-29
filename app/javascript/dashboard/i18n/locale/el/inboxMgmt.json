@@ -22,7 +22,7 @@
         "body": "Προσθέστε πράκτορες στο κιβώτιο που δημιουργήθηκε."
       },
       {
-        "title": "Έξοχα!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "Είσαστε έτοιμοι να ξεκινήσετε!"
       }
@@ -43,7 +43,7 @@
         "CHOOSE_PLACEHOLDER": "Επιλέξτε σελίδα από την Λίστα",
         "INBOX_NAME": "Όνομα Κιβωτίου",
         "ADD_NAME": "Ονοματίστε το κιβώτιο σας",
-        "PICK_NAME": "Διαλέξτε όνομα για το κιβώτιο",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "Επιλέξτε τιμή"
       },
       "TWITTER": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Σύνδεσμος Webhook",
-          "PLACEHOLDER": "Εισάγετε τη διεύθυνση Webhook URL",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Παρακαλώ εισάγετε ένα έγκυρο URL"
         },
         "CHANNEL_DOMAIN": {
@@ -143,7 +143,7 @@
           "ERROR": "Το πεδίο είναι απαραίτητο"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Αριθμός τηλεφώνου",
+          "LABEL": "Αριθμός Τηλεφώνου",
           "PLACEHOLDER": "Παρακαλώ εισάγετε έναν αριθμό τηλεφώνου από τον οποίο θα σταλεί το μήνυμα.",
           "ERROR": "Παρακαλώ δώστε έναν έγκυρο αριθμό τηλεφώνου που ξεκινά με ένα σύμβολο `+` και δεν περιέχει κενά."
         },
@@ -175,12 +175,12 @@
           },
           "API_KEY": {
             "LABEL": "Κλειδί API",
-            "PLACEHOLDER": "Παρακαλώ εισάγετε το Bandwith API κλειδί σας",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "Το πεδίο είναι απαραίτητο"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Παρακαλώ εισάγετε το Bandwith API Secret",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "Το πεδίο είναι απαραίτητο"
           },
           "APPLICATION_ID": {
@@ -239,7 +239,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Token Επαλήθευσης Webhook",
-          "PLACEHOLDER": "Εισάγετε ένα Token επαλήθευσης που θέλετε να ρυθμίσετε για το facebook webhooks.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Παρακαλώ εισάγετε μια έγκυρη τιμή."
         },
         "API_KEY": {
@@ -269,7 +269,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "Σύνδεσμος Webhook",
-          "SUBTITLE": "Ρυθμίστε το url το οποίο θα λαμβάνει callbacks όταν κάτι συμβαίνει.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "Σύνδεσμος Webhook"
         },
         "SUBMIT_BUTTON": "Δημιουργία API Καναλιού",
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Κανάλι Email",
-        "DESC": "Συνδέστε ένα κιβώτιο εισερχομένων email.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Όνομα καναλιού",
           "PLACEHOLDER": "Παρακαλώ εισάγετε ένα όνομα καναλιού",
@@ -345,7 +345,7 @@
       "AGENTS": {
         "TITLE": "Πράκτορες",
         "DESC": "Εδώ μπορείτε να προσθέσετε πράκτορες στο κιβώτιο που μόλις δημιουργήσατε. Μονο αυτοί οι επιλεγμένοι πράκτορες θα έχουν πρόσβαση στο κιβώτιο. Οι πράκτορες που δεν ανήκουν σε αυτο το κιβώτιο δεν θα έχουν την δυνατότητα να ανταποκρίνονται σε μηνήματα αυτού του κιβωτίου όταν κάνουν login στο σύστημα. <br> <b>ΥΓ:</b> Ως Διαχειριστής, αν θέλετε πρόσβαση σε όλα τα κιβώτια, θα πρέπει να προσθέσετε τον εαυτό σας σε όλα τα κιβώτια που δημιουργείτε.",
-        "VALIDATION_ERROR": "Προσθέστε τουλάχιστον ένα πράκτορα στο κιβώτιο εισερχομένων",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Επιλέξτε πράκτορες για το κιβώτιο"
       },
       "DETAILS": {
@@ -406,7 +406,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Friendly",
@@ -508,7 +508,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Επιτρέψτε τα μηνύματα μετά την επίλυση της συνομιλίας",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Επιτρέψτε στους τελικούς χρήστες να στέλνουν μηνύματα ακόμη και μετά την επίλυση της συζήτησης.",
       "WHATSAPP_SECTION_SUBHEADER": "Αυτό το κλειδί API χρησιμοποιείται για την ενσωμάτωση με τα API WhatsApp.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "Κλειδί API",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
@@ -585,7 +585,7 @@
       "NOTE_TEXT": "Για να ενεργοποιήσετε το SMTP, παρακαλώ ρυθμίστε το IMAP.",
       "UPDATE": "Ενημέρωση ρυθμίσεων IMAP",
       "TOGGLE_AVAILABILITY": "Ενεργοποίηση ρυθμίσεων IMAP για αυτά τα εισερχόμενα",
-      "TOGGLE_HELP": "Η ενεργοποίηση του IMAP θα βοηθήσει το χρήστη να λάβει email",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "Οι ρυθμίσεις IMAP ενημερώθηκαν επιτυχώς",
         "ERROR_MESSAGE": "Αδυναμία ενημέρωσης των ρυθμίσεων IMAP"

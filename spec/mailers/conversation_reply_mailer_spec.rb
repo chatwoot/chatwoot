@@ -328,7 +328,8 @@ RSpec.describe ConversationReplyMailer do
     end
 
     context 'when inbox email address is available' do
-      let(:inbox) { create(:inbox, account: account, email_address: 'noreply@chatwoot.com') }
+      let(:imap_enabled_channel) { create(:channel_email, email: 'noreply@chatwoot.com', imap_enabled: true, account: account) }
+      let(:inbox) { create(:inbox, channel: imap_enabled_channel, account: account, email_address: imap_enabled_channel.email) }
       let(:conversation) { create(:conversation, assignee: agent, inbox: inbox, account: account) }
       let!(:message) { create(:message, conversation: conversation, account: account) }
       let(:mail) { described_class.reply_with_summary(message.conversation, message.id).deliver_now }

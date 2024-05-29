@@ -34,15 +34,11 @@
 </template>
 
 <script>
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import {
-  buildHotKeys,
-  isActiveElementTypeable,
-} from 'shared/helpers/KeyboardHelpers';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 
 export default {
   name: 'ChatwootSearch',
-  mixins: [eventListenerMixins],
+  mixins: [keyboardEventListenerMixins],
   props: {
     title: {
       type: String,
@@ -71,13 +67,15 @@ export default {
     onBlur() {
       this.isInputFocused = false;
     },
-    handleKeyEvents(e) {
-      const keyPattern = buildHotKeys(e);
-
-      if (keyPattern === '/' && !isActiveElementTypeable(e)) {
-        e.preventDefault();
-        this.$refs.searchInput.focus();
-      }
+    getKeyboardEvents() {
+      return {
+        Slash: {
+          action: e => {
+            e.preventDefault();
+            this.$refs.searchInput.focus();
+          },
+        },
+      };
     },
   },
 };

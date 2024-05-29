@@ -152,16 +152,55 @@ RSpec.describe 'Conversations API', type: :request do
         create(:inbox_member, user: agent, inbox: conversation.inbox)
       end
 
-      it 'returns all conversations with empty query' do
+      it 'returns all conversations matching the query' do
         post "/api/v1/accounts/#{account.id}/conversations/filter",
              headers: agent.create_new_auth_token,
-             params: { payload: [] },
+             params: {
+               payload: [{
+                 attribute_key: 'status',
+                 filter_operator: 'equal_to',
+                 values: ['open']
+               }]
+             },
              as: :json
 
         expect(response).to have_http_status(:success)
         response_data = JSON.parse(response.body, symbolize_names: true)
-
         expect(response_data.count).to eq(2)
+      end
+
+      it 'returns error if the filters contain invalid attributes' do
+        post "/api/v1/accounts/#{account.id}/conversations/filter",
+             headers: agent.create_new_auth_token,
+             params: {
+               payload: [{
+                 attribute_key: 'phone_number',
+                 filter_operator: 'equal_to',
+                 values: ['open']
+               }]
+             },
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        response_data = JSON.parse(response.body, symbolize_names: true)
+        expect(response_data[:error]).to include('Invalid attribute key - [phone_number]')
+      end
+
+      it 'returns error if the filters contain invalid operator' do
+        post "/api/v1/accounts/#{account.id}/conversations/filter",
+             headers: agent.create_new_auth_token,
+             params: {
+               payload: [{
+                 attribute_key: 'status',
+                 filter_operator: 'eq',
+                 values: ['open']
+               }]
+             },
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        response_data = JSON.parse(response.body, symbolize_names: true)
+        expect(response_data[:error]).to eq('Invalid operator. The allowed operators for status are [equal_to,not_equal_to].')
       end
     end
   end

@@ -52,13 +52,4 @@ describe('#getters', () => {
       )(1, 'auto_resolve_conversations')
     ).toEqual(true);
   });
-
-  it('isFeatureEnabledGlobally', () => {
-    const state = {
-      records: [accountData],
-    };
-    expect(
-      getters.isFeatureEnabledGlobally(state)(1, 'auto_resolve_conversations')
-    ).toEqual(false);
-  });
 });

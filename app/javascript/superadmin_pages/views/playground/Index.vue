@@ -33,8 +33,8 @@
 </template>
 
 <script>
-import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import Header from '../../components/playground/Header.vue';
 import UserMessage from '../../components/playground/UserMessage.vue';
 import BotMessage from '../../components/playground/BotMessage.vue';
@@ -47,7 +47,7 @@ export default {
     BotMessage,
     TypingIndicator,
   },
-  mixins: [messageFormatterMixin],
+  mixins: [messageFormatterMixin, keyboardEventListenerMixins],
   props: {
     componentData: {
       type: Object,
@@ -67,17 +67,17 @@ export default {
   },
   mounted() {
     this.focusInput();
-    document.addEventListener('keydown', this.handleKeyEvents);
-  },
-  beforeDestroy() {
-    document.removeEventListener('keydown', this.handleKeyEvents);
   },
   methods: {
-    handleKeyEvents(e) {
-      const keyCode = buildHotKeys(e);
-      if (['meta+enter', 'ctrl+enter'].includes(keyCode)) {
-        this.onMessageSend();
-      }
+    getKeyboardEvents() {
+      return {
+        '$mod+Enter': {
+          action: () => {
+            this.onMessageSend();
+          },
+          allowOnFocusedInput: true,
+        },
+      };
     },
     focusInput() {
       this.$refs.messageInput.focus();

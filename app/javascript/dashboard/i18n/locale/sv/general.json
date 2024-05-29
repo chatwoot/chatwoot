@@ -1,10 +1,5 @@
 {
   "GENERAL": {
-    "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items",
-    "PHONE_INPUT": {
-      "PLACEHOLDER": "Sök",
-      "EMPTY_STATE": "Inga resultat hittades"
-    },
-    "CLOSE": "Stäng"
+    "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items"
   }
 }

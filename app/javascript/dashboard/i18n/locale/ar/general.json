@@ -1,10 +1,5 @@
 {
   "GENERAL": {
-    "SHOWING_RESULTS": "عرض{firstIndex}-{lastIndex} من {totalCount} إجمالي العناصر",
-    "PHONE_INPUT": {
-      "PLACEHOLDER": "بحث",
-      "EMPTY_STATE": "لم يتم العثور على النتائج"
-    },
-    "CLOSE": "أغلق"
+    "SHOWING_RESULTS": "عرض{firstIndex}-{lastIndex} من {totalCount} إجماليي العناصر"
   }
 }

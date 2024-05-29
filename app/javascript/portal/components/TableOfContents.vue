@@ -12,7 +12,7 @@
             class="leading-6 border-l-2 relative -left-0.5 border-solid"
             :class="elementBorderStyles(element)"
           >
-            <p class="py-2 px-4" :class="getClassName(element)">
+            <p class="py-1 px-3" :class="getClassName(element)">
               <a
                 :href="`#${element.slug}`"
                 data-turbolinks="false"
@@ -76,7 +76,7 @@ export default {
         if (!this.h1Count && !this.h2Count) {
           return '';
         }
-        return 'ml-8';
+        return 'ml-5';
       }
 
       return '';

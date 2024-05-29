@@ -44,7 +44,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Onay Kutusu",
       "CREATED_AT": "Oluşturma",
       "LAST_ACTIVITY": "Son aktivite",
-      "REFERER_LINK": "Yönlendiren bağlantısı"
+      "REFERER_LINK": "Yönlendiren bağlantısı",
+      "BLOCKED": "Blocked"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standart Filtreler",

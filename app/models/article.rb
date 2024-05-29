@@ -170,3 +170,4 @@ class Article < ApplicationRecord
     self.slug ||= "#{Time.now.utc.to_i}-#{title.underscore.parameterize(separator: '-')}" if title.present?
   end
 end
+Article.include_mod_with('Concerns::Article')

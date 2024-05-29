@@ -1,7 +1,7 @@
 {
   "AGENT_BOTS": {
     "HEADER": "Bots",
-    "LOADING_EDITOR": "Loading editor...",
+    "LOADING_EDITOR": "S'està carregant l'editor...",
     "HEADER_BTN_TXT": "Add bot configuration",
     "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.</p> <p> You can manage your bots from this page or create new ones using the 'Add bot configuraton' button.</p> <p> Open the <a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">Agent bots handbook</a> in another tab for a helping hand.</p>",
     "CSML_BOT_EDITOR": {

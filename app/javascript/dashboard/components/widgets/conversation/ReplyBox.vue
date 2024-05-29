@@ -103,7 +103,7 @@
       <attachment-preview
         class="flex-col mt-4"
         :attachments="attachedFiles"
-        :remove-attachment="removeAttachment"
+        @remove-attachment="removeAttachment"
       />
     </div>
     <message-signature-missing-alert
@@ -156,8 +156,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 
 import CannedResponse from './CannedResponse.vue';
 import ReplyToMessage from './ReplyToMessage.vue';
@@ -181,7 +181,6 @@ import {
   replaceVariablesInMessage,
 } from '@chatwoot/utils';
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
-import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
@@ -222,13 +221,13 @@ export default {
     ArticleSearchPopover,
   },
   mixins: [
-    clickaway,
     inboxMixin,
     uiSettingsMixin,
     alertMixin,
     messageFormatterMixin,
     rtlMixin,
     fileUploadMixin,
+    keyboardEventListenerMixins,
   ],
   props: {
     popoutReplyBox: {
@@ -276,7 +275,7 @@ export default {
       lastEmail: 'getLastEmailInSelectedChat',
       globalConfig: 'globalConfig/get',
       accountId: 'getCurrentAccountId',
-      isFeatureEnabledGlobally: 'accounts/isFeatureEnabledGlobally',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       smartActions: 'getSmartActions',
       copilotResponse: 'getCopilotResponse',
     }),
@@ -354,12 +353,12 @@ export default {
     },
     messagePlaceHolder() {
       if (this.isPrivate) {
-        return this.$t('CONVERSATION.FOOTER.PRIVATE_MSG_INPUT')
+        return this.$t('CONVERSATION.FOOTER.PRIVATE_MSG_INPUT');
       }
 
       return this.enableCopilot
-      ? this.$t('CONVERSATION.FOOTER.SMART_AI_INPUT')
-      : this.$t('CONVERSATION.FOOTER.MSG_INPUT');
+        ? this.$t('CONVERSATION.FOOTER.SMART_AI_INPUT')
+        : this.$t('CONVERSATION.FOOTER.MSG_INPUT');
     },
     isMessageLengthReachingThreshold() {
       return this.message.length > this.maxLength - 50;
@@ -487,7 +486,7 @@ export default {
       );
     },
     enableSmartActions() {
-      const isFeatEnabled = this.isFeatureEnabledGlobally(
+      const isFeatEnabled = this.isFeatureEnabledonAccount(
         this.accountId,
         FEATURE_FLAGS.SMART_ACTIONS
       );
@@ -525,11 +524,10 @@ export default {
       return `draft-${this.conversationIdByRoute}-${this.replyType}`;
     },
     audioRecordFormat() {
-      if (
-        this.isAWhatsAppChannel ||
-        this.isAPIInbox ||
-        this.isATelegramChannel
-      ) {
+      if (this.isAWhatsAppChannel || this.isATelegramChannel) {
+        return AUDIO_FORMATS.MP3;
+      }
+      if (this.isAPIInbox) {
         return AUDIO_FORMATS.OGG;
       }
       return AUDIO_FORMATS.WAV;
@@ -687,13 +685,16 @@ export default {
     saveDraft(conversationId, replyType) {
       if (this.message || this.message === '') {
         const key = `draft-${conversationId}-${replyType}`;
-        const draftToSave = removeSignature(trimContent(this.message || ''), this.signatureToApply);
+        const draftToSave = removeSignature(
+          trimContent(this.message || ''),
+          this.signatureToApply
+        );
 
         if (this.previousDraftMessage === draftToSave) {
           return;
         }
 
-        clearTimeout(this.draftUpdateDelayer)
+        clearTimeout(this.draftUpdateDelayer);
 
         this.draftUpdateDelayer = setTimeout(() => {
           this.previousDraftMessage = draftToSave;
@@ -702,7 +703,7 @@ export default {
             conversationId,
             message: draftToSave,
           });
-        }, 1000)
+        }, 1000);
       }
     },
     setToDraft(conversationId, replyType) {
@@ -740,24 +741,41 @@ export default {
         this.$store.dispatch('draftMessages/delete', { key, conversationId });
       }
     },
-    handleKeyEvents(e) {
-      const keyCode = buildHotKeys(e);
-      if (keyCode === 'escape') {
-        this.hideEmojiPicker();
-        this.hideMentions();
-      } else if (keyCode === 'meta+k') {
-        const ninja = document.querySelector('ninja-keys');
-        ninja.open();
-        e.preventDefault();
-      } else if (keyCode === 'enter' && this.isAValidEvent('enter')) {
-        this.onSendReply();
-        e.preventDefault();
-      } else if (
-        ['meta+enter', 'ctrl+enter'].includes(keyCode) &&
-        this.isAValidEvent('cmd_enter')
-      ) {
-        this.onSendReply();
-      }
+    getKeyboardEvents() {
+      return {
+        Escape: {
+          action: () => {
+            this.hideEmojiPicker();
+            this.hideMentions();
+          },
+          allowOnFocusedInput: true,
+        },
+        '$mod+KeyK': {
+          action: e => {
+            e.preventDefault();
+            const ninja = document.querySelector('ninja-keys');
+            ninja.open();
+          },
+          allowOnFocusedInput: true,
+        },
+        Enter: {
+          action: e => {
+            if (this.isAValidEvent('enter')) {
+              this.onSendReply();
+              e.preventDefault();
+            }
+          },
+          allowOnFocusedInput: true,
+        },
+        '$mod+Enter': {
+          action: () => {
+            if (this.isAValidEvent('cmd_enter')) {
+              this.onSendReply();
+            }
+          },
+          allowOnFocusedInput: true,
+        },
+      };
     },
     isAValidEvent(selectedKey) {
       return (
@@ -928,9 +946,15 @@ export default {
     },
     async onAskCopilot() {
       const conversationId = this.conversationId;
-      const response = await this.$store.dispatch('askCopilot', conversationId)
+      const response = await this.$store.dispatch('askCopilot', {
+        conversationId,
+      });
 
-      if (!response.data && !response.data.content && !response.data.content.length) {
+      if (
+        !response.data &&
+        !response.data.content &&
+        !response.data.content.length
+      ) {
         return;
       }
       const answer = response.data.content;
@@ -938,12 +962,12 @@ export default {
       let i = 0;
       const interval = setInterval(() => {
         if (i <= answer.length) {
-          this.message = answer.substring(0, i)
-          i++;
+          this.message = answer.substring(0, i);
+          i += 1;
         } else {
-          clearInterval(interval)
+          clearInterval(interval);
         }
-      }, 10)
+      }, 10);
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
       const { can_reply: canReply } = this.currentChat;
@@ -995,6 +1019,13 @@ export default {
       this.bccEmails = '';
       this.toEmails = '';
     },
+    clearRecorder() {
+      this.isRecordingAudio = false;
+      // Only clear the recorded audio when we click toggle button.
+      this.attachedFiles = this.attachedFiles.filter(
+        file => !file?.isRecordedAudio
+      );
+    },
     toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
     },
@@ -1002,8 +1033,7 @@ export default {
       this.isRecordingAudio = !this.isRecordingAudio;
       this.isRecorderAudioStopped = !this.isRecordingAudio;
       if (!this.isRecordingAudio) {
-        this.clearMessage();
-        this.clearEmailField();
+        this.clearRecorder();
       }
     },
     toggleAudioRecorderPlayPause() {
@@ -1047,7 +1077,13 @@ export default {
       }
     },
     onFinishRecorder(file) {
-      return file && this.onFileUpload(file);
+      // Added a new key isRecordedAudio to the file to find it's and recorded audio
+      // Because to filter and show only non recorded audio and other attachments
+      const autoRecordedFile = {
+        ...file,
+        isRecordedAudio: true,
+      };
+      return file && this.onFileUpload(autoRecordedFile);
     },
     toggleTyping(status) {
       const conversationId = this.currentChat.id;
@@ -1074,13 +1110,12 @@ export default {
           isPrivate: this.isPrivate,
           thumb: reader.result,
           blobSignedId: blob ? blob.signed_id : undefined,
+          isRecordedAudio: file?.isRecordedAudio || false,
         });
       };
     },
-    removeAttachment(itemIndex) {
-      this.attachedFiles = this.attachedFiles.filter(
-        (item, index) => itemIndex !== index
-      );
+    removeAttachment(attachments) {
+      this.attachedFiles = attachments;
     },
     setReplyToInPayload(payload) {
       if (this.inReplyTo?.id) {
@@ -1286,6 +1321,7 @@ export default {
     }
   }
 }
+
 .send-button {
   @apply mb-0;
 }
@@ -1310,6 +1346,7 @@ export default {
 
 .emoji-dialog--rtl {
   @apply left-[unset] -right-80;
+
   &::before {
     transform: rotate(90deg);
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));

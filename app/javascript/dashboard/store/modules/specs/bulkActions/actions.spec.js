@@ -25,4 +25,28 @@ describe('#actions', () => {
       ]);
     });
   });
+  describe('#setSelectedConversationIds', () => {
+    it('sends correct actions if API is success', async () => {
+      await actions.setSelectedConversationIds({ commit }, payload.ids);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_SELECTED_CONVERSATION_IDS, payload.ids],
+      ]);
+    });
+  });
+  describe('#removeSelectedConversationIds', () => {
+    it('sends correct actions if API is success', async () => {
+      await actions.removeSelectedConversationIds({ commit }, payload.ids);
+      expect(commit.mock.calls).toEqual([
+        [types.default.REMOVE_SELECTED_CONVERSATION_IDS, payload.ids],
+      ]);
+    });
+  });
+  describe('#clearSelectedConversationIds', () => {
+    it('sends correct actions if API is success', async () => {
+      await actions.clearSelectedConversationIds({ commit });
+      expect(commit.mock.calls).toEqual([
+        [types.default.CLEAR_SELECTED_CONVERSATION_IDS],
+      ]);
+    });
+  });
 });

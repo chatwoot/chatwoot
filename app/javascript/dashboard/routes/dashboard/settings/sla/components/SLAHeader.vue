@@ -1,5 +1,4 @@
 <script setup>
-import Button from 'dashboard/components-next/button/Button.vue';
 import BaseSettingsHeader from '../../components/BaseSettingsHeader.vue';
 
 defineProps({
@@ -8,23 +7,24 @@ defineProps({
     default: true,
   },
 });
-
-defineEmits(['add']);
 </script>
-
 <template>
-  <BaseSettingsHeader
+  <base-settings-header
     :title="$t('SLA.HEADER')"
     :description="$t('SLA.DESCRIPTION')"
     :link-text="$t('SLA.LEARN_MORE')"
-    feature-name="sla"
+    href="/"
+    icon-name="document-list-clock"
   >
     <template v-if="showActions" #actions>
-      <Button
-        :label="$t('SLA.ADD_ACTION')"
-        icon="i-lucide-circle-plus"
-        @click="$emit('add')"
-      />
+      <woot-button
+        color-scheme="primary"
+        icon="plus-sign"
+        class="rounded-xl"
+        @click="$emit('click')"
+      >
+        {{ $t('SLA.ADD_ACTION') }}
+      </woot-button>
     </template>
-  </BaseSettingsHeader>
+  </base-settings-header>
 </template>

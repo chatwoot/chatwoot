@@ -87,7 +87,10 @@
       "conversation_assignment": "Konverzácia pridelená",
       "assigned_conversation_new_message": "Nová správa",
       "participating_conversation_new_message": "Nová správa",
-      "conversation_mention": "Zmienka"
+      "conversation_mention": "Zmienka",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
@@ -104,6 +107,7 @@
       "GENERAL": "Všeobecné",
       "REPORTS": "Reporty",
       "CONVERSATION": "Konverzácia",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Zmeniť prideleného agenta",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Zmeniť tím",

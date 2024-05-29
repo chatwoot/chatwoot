@@ -251,14 +251,11 @@ const actions = {
     }
   },
 
-  closeConversation: async (
-    _,
-    { conversationId, closed }
-  ) => {
+  closeConversation: async (_, { conversationId, closed }) => {
     await ConversationApi.close({
       conversationId,
-      closed
-    })
+      closed,
+    });
   },
 
   createPendingMessageAndSend: async ({ dispatch }, data) => {
@@ -473,13 +470,13 @@ const actions = {
     }
   },
 
-  changeContact: async ({ _ }, { conversationId, email }) => {
+  changeContact: async (_, { conversationId, email }) => {
     try {
       return await ConversationApi.changeContact({
         conversationId,
         email,
       });
-    } catch (error ) {
+    } catch (error) {
       throw new Error(error);
     }
   },
@@ -489,21 +486,23 @@ const actions = {
   },
 
   // TODO: move to smart action module
-  async getSmartActions({ commit }, conversationId) {
-    const { data: { payload } } = await SmartActionApi.getSmartActions(conversationId);
-    commit(types.SET_SMART_ACTIONS, payload)
+  getSmartActions: async ({ commit }, conversationId) => {
+    const {
+      data: { payload },
+    } = await SmartActionApi.getSmartActions(conversationId);
+    commit(types.SET_SMART_ACTIONS, payload);
   },
 
-  showSmartActions({ commit }, value) {
-    commit(types.DISPLAY_SMART_ACTIONS, value)
+  showSmartActions: ({ commit }, value) => {
+    commit(types.DISPLAY_SMART_ACTIONS, value);
   },
 
-  setSmartActionsContext({ commit }, { conversationId, messageId }) {
-    commit(types.SET_SMART_ACTIONS_CONTEXT, { conversationId, messageId })
+  setSmartActionsContext: ({ commit }, { conversationId, messageId }) => {
+    commit(types.SET_SMART_ACTIONS_CONTEXT, { conversationId, messageId });
   },
 
-  async askCopilot({ _ }, conversationId) {
-    return await SmartActionApi.askCopilot(conversationId);
+  askCopilot: async (_, { conversationId }) => {
+    return SmartActionApi.askCopilot(conversationId);
   },
   ...messageReadActions,
   ...messageTranslateActions,

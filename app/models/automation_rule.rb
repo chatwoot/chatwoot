@@ -19,6 +19,7 @@
 #
 class AutomationRule < ApplicationRecord
   include Rails.application.routes.url_helpers
+  include Reauthorizable
 
   belongs_to :account
   has_many_attached :files
@@ -27,6 +28,8 @@ class AutomationRule < ApplicationRecord
   validate :json_actions_format
   validate :query_operator_presence
   validates :account_id, presence: true
+
+  after_update_commit :reauthorized!, if: -> { saved_change_to_conditions? }
 
   scope :active, -> { where(active: true) }
 

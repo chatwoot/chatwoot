@@ -11,7 +11,7 @@
       "DESC": "Audit Logs are trails for events and actions in a Chatwoot System.",
       "TABLE_HEADER": [
         "User",
-        "Action",
+        "Temps",
         "Adreça IP"
       ]
     },

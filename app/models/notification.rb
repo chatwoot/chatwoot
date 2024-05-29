@@ -118,11 +118,11 @@ class Notification < ApplicationRecord
 
   def push_message_body
     case notification_type
-    when 'conversation_creation'
+    when 'conversation_creation', 'sla_missed_first_response'
       message_body(conversation.messages.first)
     when 'assigned_conversation_new_message', 'participating_conversation_new_message', 'conversation_mention'
       message_body(secondary_actor)
-    when 'conversation_assignment'
+    when 'conversation_assignment', 'sla_missed_next_response', 'sla_missed_resolution'
       message_body(conversation.messages.incoming.last)
     else
       ''

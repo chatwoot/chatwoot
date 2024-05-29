@@ -1,8 +1,8 @@
 <script setup>
-import FilterButton from 'dashboard/components/ui/Dropdown/DropdownButton.vue';
-import FilterListDropdown from 'dashboard/components/ui/Dropdown/DropdownList.vue';
-import FilterListItemButton from 'dashboard/components/ui/Dropdown/DropdownListItemButton.vue';
-import FilterDropdownEmptyState from 'dashboard/components/ui/Dropdown/DropdownEmptyState.vue';
+import FilterButton from './FilterButton.vue';
+import FilterListDropdown from './FilterListDropdown.vue';
+import FilterListItemButton from './FilterListItemButton.vue';
+import FilterDropdownEmptyState from './FilterDropdownEmptyState.vue';
 
 import { ref } from 'vue';
 
@@ -33,8 +33,6 @@ defineProps({
   },
 });
 
-const emit = defineEmits(['toggleDropdown', 'addFilter', 'closeDropdown']);
-
 const hoveredItemId = ref(null);
 
 const showSubMenu = id => {
@@ -47,6 +45,7 @@ const hideSubMenu = () => {
 
 const isHovered = id => hoveredItemId.value === id;
 
+const emit = defineEmits(['toggleDropdown', 'addFilter', 'closeDropdown']);
 const toggleDropdown = () => emit('toggleDropdown');
 const addFilter = item => {
   emit('addFilter', item);
@@ -59,23 +58,19 @@ const closeDropdown = () => {
 </script>
 
 <template>
-  <FilterButton
-    :button-text="name"
-    icon="i-lucide-filter"
-    @click="toggleDropdown"
-  >
+  <filter-button :button-text="name" left-icon="filter" @click="toggleDropdown">
     <!-- Dropdown with search and sub-dropdown -->
     <template v-if="showMenu" #dropdown>
-      <FilterListDropdown
+      <filter-list-dropdown
         v-on-clickaway="closeDropdown"
         class="left-0 md:right-0 top-10"
       >
         <template #listItem>
-          <FilterDropdownEmptyState
+          <filter-dropdown-empty-state
             v-if="!menuOption.length"
             :message="emptyStateMessage"
           />
-          <FilterListItemButton
+          <filter-list-item-button
             v-for="item in menuOption"
             :key="item.id"
             :button-text="item.name"
@@ -85,19 +80,19 @@ const closeDropdown = () => {
           >
             <!-- Submenu with search and clear button  -->
             <template v-if="item.options && isHovered(item.id)" #dropdown>
-              <FilterListDropdown
+              <filter-list-dropdown
                 :list-items="item.options"
                 :input-placeholder="
                   $t(`${placeholderI18nKey}.${item.type.toUpperCase()}`)
                 "
                 :enable-search="enableSearch"
                 class="flex flex-col w-[216px] overflow-y-auto top-0 left-36"
-                @select="addFilter"
+                @click="addFilter"
               />
             </template>
-          </FilterListItemButton>
+          </filter-list-item-button>
         </template>
-      </FilterListDropdown>
+      </filter-list-dropdown>
     </template>
-  </FilterButton>
+  </filter-button>
 </template>

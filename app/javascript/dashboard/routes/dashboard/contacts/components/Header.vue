@@ -1,12 +1,12 @@
 <template>
   <header
-    class="bg-white dark:bg-slate-900 border-b border-slate-50 dark:border-slate-800"
+    class="bg-white border-b dark:bg-slate-900 border-slate-50 dark:border-slate-800"
   >
-    <div class="flex justify-between w-full py-2 px-4">
+    <div class="flex justify-between w-full px-4 py-2">
       <div class="flex items-center justify-center max-w-full min-w-[6.25rem]">
         <woot-sidemenu-icon />
         <h1
-          class="m-0 text-xl text-slate-900 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis my-0 mx-2"
+          class="m-0 mx-2 my-0 overflow-hidden text-xl text-slate-900 dark:text-slate-100 whitespace-nowrap text-ellipsis"
         >
           {{ headerTitle }}
         </h1>
@@ -18,7 +18,7 @@
           <div class="flex items-center absolute h-full left-2.5">
             <fluent-icon
               icon="search"
-              class="h-5 leading-9 text-sm text-slate-700 dark:text-slate-200"
+              class="h-5 text-sm leading-9 text-slate-700 dark:text-slate-200"
             />
           </div>
           <input
@@ -59,7 +59,7 @@
         <div v-if="!hasActiveSegments" class="relative">
           <div
             v-if="hasAppliedFilters"
-            class="absolute h-2 w-2 top-1 right-3 bg-slate-500 dark:bg-slate-500 rounded-full"
+            class="absolute w-2 h-2 rounded-full top-1 right-3 bg-slate-500 dark:bg-slate-500"
           />
           <woot-button
             class="clear"
@@ -116,7 +116,7 @@
     <woot-confirm-modal
       ref="confirmExportContactsDialog"
       :title="$t('EXPORT_CONTACTS.CONFIRM.TITLE')"
-      :description="$t('EXPORT_CONTACTS.CONFIRM.MESSAGE')"
+      :description="exportDescription"
       :confirm-label="$t('EXPORT_CONTACTS.CONFIRM.YES')"
       :cancel-label="$t('EXPORT_CONTACTS.CONFIRM.NO')"
     />
@@ -161,6 +161,11 @@ export default {
     },
     hasActiveSegments() {
       return this.segmentsId !== 0;
+    },
+    exportDescription() {
+      return this.hasAppliedFilters
+        ? this.$t('EXPORT_CONTACTS.CONFIRM.FILTERED_MESSAGE')
+        : this.$t('EXPORT_CONTACTS.CONFIRM.MESSAGE');
     },
   },
   methods: {

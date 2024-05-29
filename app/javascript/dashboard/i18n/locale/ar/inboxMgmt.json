@@ -22,7 +22,7 @@
         "body": "إضافة موظفين إلى صندوق الوارد الخاص بقناة التواصل التي تم إنشاؤها."
       },
       {
-        "title": "مرحى!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "أصبح كل شيء جاهزاً الآن!"
       }
@@ -43,7 +43,7 @@
         "CHOOSE_PLACEHOLDER": "اختر صفحة من القائمة",
         "INBOX_NAME": "اسم صندوق الوارد لقناة التواصل",
         "ADD_NAME": "قم بتعيين اسم لصندوق الوارد الخاص بقناتك الجديدة",
-        "PICK_NAME": "اختر اسم لقناة التواصل الخاصة بك",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "اختر قيمة"
       },
       "TWITTER": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "رابط Webhook",
-          "PLACEHOLDER": "أدخل رابط Webhook",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "الرجاء إدخال عنوان URL صالح"
         },
         "CHANNEL_DOMAIN": {
@@ -112,14 +112,14 @@
           "ERROR": "هذا الحقل مطلوب"
         },
         "API_KEY": {
-          "USE_API_KEY": "Use API Key Authentication",
-          "LABEL": "API Key SID",
-          "PLACEHOLDER": "Please enter your API Key SID",
+          "USE_API_KEY": "استخدم مفتاح مصادقة API",
+          "LABEL": "مفتاح API SID",
+          "PLACEHOLDER": "الرجاء إدخال معرف مفتاح واجهة برمجة التطبيقات API الخاص بك",
           "ERROR": "هذا الحقل مطلوب"
         },
         "API_KEY_SECRET": {
-          "LABEL": "API Key Secret",
-          "PLACEHOLDER": "Please enter your API Key Secret",
+          "LABEL": "مفتاح سر API",
+          "PLACEHOLDER": "الرجاء إدخال سر مفتاح API الخاص بك",
           "ERROR": "هذا الحقل مطلوب"
         },
         "MESSAGING_SERVICE_SID": {
@@ -175,12 +175,12 @@
           },
           "API_KEY": {
             "LABEL": "مفتاح API",
-            "PLACEHOLDER": "الرجاء إدخال مفتاح API الخاص بك",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "هذا الحقل مطلوب"
           },
           "API_SECRET": {
             "LABEL": "سرية API",
-            "PLACEHOLDER": "الرجاء إدخال مفتاح API الخاص بك",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "هذا الحقل مطلوب"
           },
           "APPLICATION_ID": {
@@ -239,7 +239,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "رمز التحقق من Webhook",
-          "PLACEHOLDER": "أدخل رمز التحقق الذي تريد إعداده لفيسبوك على شبكة الويب.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "الرجاء إدخال اسم صالح."
         },
         "API_KEY": {
@@ -269,7 +269,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "رابط Webhook",
-          "SUBTITLE": "تكوين عنوان URL حيث تريد تلقي ردود المكالمات على الأحداث.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "رابط Webhook"
         },
         "SUBMIT_BUTTON": "إنشاء قناة API",
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "قناة البريد الالكتروني",
-        "DESC": "ربط البريد الإلكتروني الخاص بك.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "اسم القناة",
           "PLACEHOLDER": "الرجاء إدخال اسم القناة",
@@ -345,7 +345,7 @@
       "AGENTS": {
         "TITLE": "موظف الدعم",
         "DESC": "هنا يمكنك إضافة موظفين لإدارة صندوق الوارد الخاص بقناة تواصلك التي تم إنشاؤها حديثاً. الموظفين الذين يتم تحديدهم هنا هم فقط من يمكنهم الوصول إلى صندوق الوارد الخاص بتلك القناة. الموظفين الذين ليسوا جزءاً من صندوق الوارد هذا لن يكونوا قادرين على رؤية أو الرد على الرسائل في قناة التواصل هذه عند تسجيل الدخول. <br> <b>ملحوظة:</b> كمسؤول، إذا كنت بحاجة إلى الوصول إلى جميع صناديق الوارد، يجب عليك إضافة نفسك كموظف لجميع صناديق الوارد الخاصة بقنوات التواصل التي تنشئها.",
-        "VALIDATION_ERROR": "إضافة وكيل واحد على الأقل إلى علبة الوارد الجديدة",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "اختر وكلاء لصندوق الوارد"
       },
       "DETAILS": {
@@ -357,7 +357,7 @@
         "DESC": "لقد تم بنجاح ربط صفحة فيسبوك الخاصة بك مع Chatwoot. في المرة القادمة التي يرسل فيها العملاء رسالة إلى صفحتك، ستظهر المحادثة تلقائيًا على صندوق الوارد الخاص بك هنا.<br>نحن نزودك أيضًا بالكود النصي لصندوق دردشة الماسنجر والذي يمكنك إضافته بسهولة إلى الموقع الخاص بك لاستقبال الرسائل من الزوار كذلك. بمجرد أن يتم ذلك على موقع الويب الخاص بك، يمكن للعملاء مراسلتك من موقع الويب الخاص بك بدون الحاجة لأي أدوات خارجية وستظهر المحادثة هنا على Chatwoot.<br>رائع، أليس كذلك؟ نحن بالتأكيد نحاول أن نكون الأفضل :)"
       },
       "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
+        "TITLE": "حدد مزود البريد الإلكتروني الخاص بك",
         "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
       },
       "MICROSOFT": {
@@ -406,7 +406,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Friendly",
@@ -508,7 +508,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "السماح بالرسائل بعد حل المحادثة",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "السماح للمستخدمين النهائيين بإرسال رسائل حتى بعد تسوية المحادثة.",
       "WHATSAPP_SECTION_SUBHEADER": "يتم استخدام مفتاح API هذا للتكامل مع واتسب APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "مفتاح API",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
@@ -585,7 +585,7 @@
       "NOTE_TEXT": "لتمكين SMTP ، الرجاء تكوين IMAP.",
       "UPDATE": "تحديث الإعدادات",
       "TOGGLE_AVAILABILITY": "تمكين تكوين IMAP لهذا البريد الوارد",
-      "TOGGLE_HELP": "تمكين IMAP سيساعد المستخدم على تلقي البريد الإلكتروني",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "تم تحديث إعدادات IMAP بنجاح",
         "ERROR_MESSAGE": "غير قادر على تحديث إعدادات IMAP"

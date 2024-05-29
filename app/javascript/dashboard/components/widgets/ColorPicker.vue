@@ -18,13 +18,11 @@
 
 <script>
 import { Chrome } from 'vue-color';
-import { mixin as clickaway } from 'vue-clickaway';
 
 export default {
   components: {
     Chrome,
   },
-  mixins: [clickaway],
   props: {
     value: {
       type: String,

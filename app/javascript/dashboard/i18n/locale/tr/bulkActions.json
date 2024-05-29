@@ -17,7 +17,7 @@
     "AGENT_LIST_LOADING": "Temsilciler Yükleniyor",
     "UPDATE": {
       "CHANGE_STATUS": "Durumu değiştir",
-      "SNOOZE_UNTIL_NEXT_REPLY": "Sonraki yanıt alınana kadar erteleyin.",
+      "SNOOZE_UNTIL": "Sustur",
       "UPDATE_SUCCESFUL": "Konuşma durumu başarıyla güncellendi.",
       "UPDATE_FAILED": "Görüşmeler güncellenirken bir hata oluştu. Lütfen tekrar deneyin."
     },

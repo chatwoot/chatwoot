@@ -17,7 +17,7 @@
     "AGENT_LIST_LOADING": "Učitavanje agenata",
     "UPDATE": {
       "CHANGE_STATUS": "Promeni status",
-      "SNOOZE_UNTIL_NEXT_REPLY": "Odloži do sledećeg odgovora.",
+      "SNOOZE_UNTIL": "Odloži",
       "UPDATE_SUCCESFUL": "Status razgovora je uspešno promenjen.",
       "UPDATE_FAILED": "Failed to update conversations. Please try again."
     },

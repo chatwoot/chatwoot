@@ -68,7 +68,7 @@
           "TITLE": "Confirma l'esborrat",
           "MESSAGE": "Are you sure to delete the webhook? (%{webhookURL})",
           "YES": "Si, esborra ",
-          "NO": "No, manten-la"
+          "NO": "No, mantén-la"
         }
       }
     },
@@ -79,8 +79,8 @@
         "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
       },
       "HELP_TEXT": {
-        "TITLE": "Using Slack Integration",
-        "BODY": "<br/><p>Chatwoot will now sync all the incoming conversations into the <b><i>customer-conversations</i></b> channel inside your slack workplace.</p><p>Replying to a conversation thread in <b><i>customer-conversations</i></b> slack channel will create a response back to the customer through chatwoot.</p><p>Start the replies with <b><i>note:</i></b> to create private notes instead of replies.</p><p>If the replier on slack has an agent profile in chatwoot under the same email, the replies will be associated accordingly.</p><p>When the replier doesn't have an associated agent profile, the replies will be made from the bot profile.</p>",
+        "TITLE": "Com utilitzar la integració de Slack?",
+        "BODY": "Amb aquesta integració, totes les teves converses entrants se sincronitzaran amb el canal ***%{selectedChannelName}*** del teu espai de treball de Slack. Podeu gestionar totes les converses dels vostres clients directament des del canal i no perdreu cap missatge.\n\nAquestes són les principals característiques de la integració:\n\n**Respondre a converses des de Slack:** Per respondre a una conversa al ***%{selectedChannelName}*** canal de Slack, només has d'escriure el teu missatge i enviar-lo com a fil. Això crearà una resposta al client mitjançant Chatwoot. Així de senzill!\n\n  **Crear notes privades:** si vols crear notes privades en lloc de respostes, comença el teu missatge amb ***`nota:`***. Això garanteix que el vostre missatge es mantingui privat i no serà visible per al client.\n\n**Associar un perfil d'agent:** si la persona que va respondre a Slack té un perfil d'agent a Chatwoot amb el mateix correu electrònic, les respostes s'associaran amb aquest perfil d'agent automàticament. Això vol dir que podeu fer un seguiment fàcilment qui va dir què i quan. D'altra banda, quan el contestador no té un perfil d'agent associat, les respostes apareixeran des del perfil del bot al client.",
         "SELECTED": "selected"
       },
       "SELECT_CHANNEL": {
@@ -131,7 +131,7 @@
         "KEY_PLACEHOLDER": "Enter your OpenAI API key",
         "BUTTONS": {
           "NEED_HELP": "Need help?",
-          "DISMISS": "Dismiss",
+          "DISMISS": "Descartar",
           "FINISH": "Finish Setup"
         },
         "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",

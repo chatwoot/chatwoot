@@ -28,7 +28,6 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import { VeTable } from 'vue-easytable';
 import { getCountryFlag } from 'dashboard/helper/flag';
 
@@ -45,7 +44,7 @@ export default {
     Spinner,
     VeTable,
   },
-  mixins: [clickaway, timeMixin, rtlMixin],
+  mixins: [timeMixin, rtlMixin],
   props: {
     contacts: {
       type: Array,

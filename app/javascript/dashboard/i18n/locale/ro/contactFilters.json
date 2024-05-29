@@ -44,7 +44,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Căsuță de bifat",
       "CREATED_AT": "Creat la",
       "LAST_ACTIVITY": "Ultima activitate",
-      "REFERER_LINK": "Link de referință"
+      "REFERER_LINK": "Link de referință",
+      "BLOCKED": "Blocked"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Filtre standard",

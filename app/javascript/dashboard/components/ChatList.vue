@@ -1,14 +1,14 @@
 <template>
   <div
-    class="conversations-list-wrap flex-basis-clamp flex-shrink-0 overflow-hidden flex flex-col border-r rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-800/50"
-    :class="{
-      hide: !showConversationList,
-      'list--full-width': isOnExpandedLayout,
-    }"
+    class="flex flex-col flex-shrink-0 overflow-hidden border-r conversations-list-wrap rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-800/50"
+    :class="[
+      { hidden: !showConversationList },
+      isOnExpandedLayout ? 'basis-full' : 'flex-basis-clamp',
+    ]"
   >
     <slot />
     <div
-      class="flex items-center justify-between py-0 px-4"
+      class="flex items-center justify-between px-4 py-0"
       :class="{
         'pb-3 border-b border-slate-75 dark:border-slate-700':
           hasAppliedFiltersOrActiveFolders,
@@ -16,7 +16,7 @@
     >
       <div class="flex max-w-[85%] justify-center items-center">
         <h1
-          class="text-xl break-words overflow-hidden whitespace-nowrap font-medium text-ellipsis text-black-900 dark:text-slate-100 mb-0"
+          class="text-xl font-medium break-words truncate text-black-900 dark:text-slate-100"
           :title="pageTitle"
         >
           {{ pageTitle }}
@@ -107,7 +107,7 @@
 
     <p
       v-if="!chatListLoading && !conversationList.length"
-      class="overflow-auto p-4 flex justify-center items-center"
+      class="flex items-center justify-center p-4 overflow-auto"
     >
       {{ $t('CHAT_LIST.LIST.404') }}
     </p>
@@ -127,7 +127,7 @@
     />
     <div
       ref="conversationList"
-      class="conversations-list flex-1"
+      class="flex-1 conversations-list"
       :class="{ 'overflow-hidden': isContextMenuOpen }"
     >
       <virtual-list
@@ -136,16 +136,16 @@
         :data-sources="conversationList"
         :data-component="itemComponent"
         :extra-props="virtualListExtraProps"
-        class="w-full overflow-auto h-full"
+        class="w-full h-full overflow-auto"
         footer-tag="div"
       >
         <template #footer>
           <div v-if="chatListLoading" class="text-center">
-            <span class="spinner mt-4 mb-4" />
+            <span class="mt-4 mb-4 spinner" />
           </div>
           <p
             v-if="showEndOfListMessage"
-            class="text-center text-slate-400 dark:text-slate-300 p-4"
+            class="p-4 text-center text-slate-400 dark:text-slate-300"
           >
             {{ $t('CHAT_LIST.EOF') }}
           </p>
@@ -185,7 +185,7 @@ import ConversationBasicFilter from './widgets/conversation/ConversationBasicFil
 import ChatTypeTabs from './widgets/ChatTypeTabs.vue';
 import ConversationItem from './ConversationItem.vue';
 import timeMixin from '../mixins/time';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import conversationMixin from '../mixins/conversations';
 import wootConstants from 'dashboard/constants/globals';
 import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
@@ -199,11 +199,6 @@ import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import countries from 'shared/constants/countries';
 import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
-
-import {
-  hasPressedAltAndJKey,
-  hasPressedAltAndKKey,
-} from 'shared/helpers/KeyboardHelpers';
 import { conversationListPageURL } from '../helper/URLHelper';
 import {
   isOnMentionsView,
@@ -229,7 +224,7 @@ export default {
   mixins: [
     timeMixin,
     conversationMixin,
-    eventListenerMixins,
+    keyboardEventListenerMixins,
     alertMixin,
     filterMixin,
     uiSettingsMixin,
@@ -294,7 +289,6 @@ export default {
       foldersQuery: {},
       showAddFoldersModal: false,
       showDeleteFoldersModal: false,
-      selectedConversations: [],
       selectedInboxes: [],
       isContextMenuOpen: false,
       appliedFilter: [],
@@ -335,6 +329,7 @@ export default {
       inboxesList: 'inboxes/getInboxes',
       campaigns: 'campaigns/getAllCampaigns',
       labels: 'labels/getLabels',
+      selectedConversations: 'bulkActions/getSelectedConversationIds',
     }),
     hasAppliedFilters() {
       return this.appliedFilters.length !== 0;
@@ -696,29 +691,39 @@ export default {
         lastConversationIndex,
       };
     },
-    handleKeyEvents(e) {
-      if (hasPressedAltAndJKey(e)) {
-        const { allConversations, activeConversationIndex } =
-          this.getKeyboardListenerParams();
-        if (activeConversationIndex === -1) {
-          allConversations[0].click();
-        }
-        if (activeConversationIndex >= 1) {
-          allConversations[activeConversationIndex - 1].click();
-        }
+    handlePreviousConversation() {
+      const { allConversations, activeConversationIndex } =
+        this.getKeyboardListenerParams();
+      if (activeConversationIndex === -1) {
+        allConversations[0].click();
       }
-      if (hasPressedAltAndKKey(e)) {
-        const {
-          allConversations,
-          activeConversationIndex,
-          lastConversationIndex,
-        } = this.getKeyboardListenerParams();
-        if (activeConversationIndex === -1) {
-          allConversations[lastConversationIndex].click();
-        } else if (activeConversationIndex < lastConversationIndex) {
-          allConversations[activeConversationIndex + 1].click();
-        }
+      if (activeConversationIndex >= 1) {
+        allConversations[activeConversationIndex - 1].click();
       }
+    },
+    handleNextConversation() {
+      const {
+        allConversations,
+        activeConversationIndex,
+        lastConversationIndex,
+      } = this.getKeyboardListenerParams();
+      if (activeConversationIndex === -1) {
+        allConversations[lastConversationIndex].click();
+      } else if (activeConversationIndex < lastConversationIndex) {
+        allConversations[activeConversationIndex + 1].click();
+      }
+    },
+    getKeyboardEvents() {
+      return {
+        'Alt+KeyJ': {
+          action: () => this.handlePreviousConversation(),
+          allowOnFocusedInput: true,
+        },
+        'Alt+KeyK': {
+          action: () => this.handleNextConversation(),
+          allowOnFocusedInput: true,
+        },
+      };
     },
     resetAndFetchData() {
       this.appliedFilter = [];
@@ -799,7 +804,7 @@ export default {
       });
     },
     resetBulkActions() {
-      this.selectedConversations = [];
+      this.$store.dispatch('bulkActions/clearSelectedConversationIds');
       this.selectedInboxes = [];
     },
     onBasicFilterChange(value, type) {
@@ -830,12 +835,16 @@ export default {
       return this.selectedConversations.includes(id);
     },
     selectConversation(conversationId, inboxId) {
-      this.selectedConversations.push(conversationId);
+      this.$store.dispatch(
+        'bulkActions/setSelectedConversationIds',
+        conversationId
+      );
       this.selectedInboxes.push(inboxId);
     },
     deSelectConversation(conversationId, inboxId) {
-      this.selectedConversations = this.selectedConversations.filter(
-        item => item !== conversationId
+      this.$store.dispatch(
+        'bulkActions/removeSelectedConversationIds',
+        conversationId
       );
       this.selectedInboxes = this.selectedInboxes.filter(
         item => item !== inboxId
@@ -843,7 +852,10 @@ export default {
     },
     selectAllConversations(check) {
       if (check) {
-        this.selectedConversations = this.conversationList.map(item => item.id);
+        this.$store.dispatch(
+          'bulkActions/setSelectedConversationIds',
+          this.conversationList.map(item => item.id)
+        );
         this.selectedInboxes = this.conversationList.map(item => item.inbox_id);
       } else {
         this.resetBulkActions();
@@ -859,7 +871,7 @@ export default {
             assignee_id: agent.id,
           },
         });
-        this.selectedConversations = [];
+        this.$store.dispatch('bulkActions/clearSelectedConversationIds');
         if (conversationId) {
           this.showAlert(
             this.$t(
@@ -959,7 +971,7 @@ export default {
             add: labels,
           },
         });
-        this.selectedConversations = [];
+        this.$store.dispatch('bulkActions/clearSelectedConversationIds');
         if (conversationId) {
           this.showAlert(
             this.$t(
@@ -986,13 +998,13 @@ export default {
             team_id: team.id,
           },
         });
-        this.selectedConversations = [];
+        this.$store.dispatch('bulkActions/clearSelectedConversationIds');
         this.showAlert(this.$t('BULK_ACTION.TEAMS.ASSIGN_SUCCESFUL'));
       } catch (err) {
         this.showAlert(this.$t('BULK_ACTION.TEAMS.ASSIGN_FAILED'));
       }
     },
-    async onUpdateConversations(status) {
+    async onUpdateConversations(status, snoozedUntil) {
       try {
         await this.$store.dispatch('bulkActions/process', {
           type: 'Conversation',
@@ -1000,8 +1012,9 @@ export default {
           fields: {
             status,
           },
+          snoozed_until: snoozedUntil,
         });
-        this.selectedConversations = [];
+        this.$store.dispatch('bulkActions/clearSelectedConversationIds');
         this.showAlert(this.$t('BULK_ACTION.UPDATE.UPDATE_SUCCESFUL'));
       } catch (err) {
         this.showAlert(this.$t('BULK_ACTION.UPDATE.UPDATE_FAILED'));
@@ -1041,22 +1054,8 @@ export default {
 </style>
 
 <style scoped lang="scss">
-.conversations-list-wrap {
-  &.hide {
-    @apply hidden;
-  }
-
-  &.list--full-width {
-    @apply basis-full;
-  }
-}
-
 .conversations-list {
   @apply overflow-hidden hover:overflow-y-auto;
-}
-
-.load-more--button {
-  @apply text-center rounded-none;
 }
 
 .tab--chat-type {

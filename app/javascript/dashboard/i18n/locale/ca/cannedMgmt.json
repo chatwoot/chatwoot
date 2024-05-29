@@ -1,75 +1,75 @@
 {
   "CANNED_MGMT": {
     "HEADER": "Respostes predeterminades",
-    "HEADER_BTN_TXT": "Add canned response",
-    "LOADING": "Fetching canned responses...",
+    "HEADER_BTN_TXT": "Afegir resposta predeterminada",
+    "LOADING": "S'estan recollint les respostes predeterminades...",
     "SEARCH_404": "No hi ha cap resposta que coincideixi amb aquesta consulta.",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are pre-written reply templates that help you quickly respond to a conversation. To insert a canned response during a chat, agents can type a short code preceded by a '/' character. </p><p> You can manage your canned responses from this page or create new ones using the \"Add canned response\" button.</p><p>Open the <a target=\"_blank\" href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\">Canned Responses handbook</a> in another tab for a helping hand.</p><p>Also, check out the all-new <a href=\"https://www.chatwoot.com/tools/canned-responses-library\" target=\"_blank\">Canned Responses Library</a>.</p>",
+    "SIDEBAR_TXT": "<p><b>Respostes predeterminades</b> </p><p> Les respostes predeterminades són plantilles de respostes escrites prèviament que us ajuden a respondre ràpidament a una conversa. Per inserir una resposta predefinida durant un xat, els agents poden escriure un codi curt precedit d'un caràcter '/'. </p><p> Pots gestionar les teves respostes predefinides des d'aquesta pàgina o crear-ne de noves mitjançant el botó \"Afegeix una resposta predefinida\".</p><p>Obre el <a target=\"_blank\" href=\"https: //www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\">Manual de respostes llaunes</a> en una altra pestanya per ajudar-te.</p><p>També, fes una ullada al nou <a href=\"https://www.chatwoot.com/tools/canned-responses-library\" target=\"_blank \">Biblioteca de respostes predeterminades</a>.</p>",
     "LIST": {
       "404": "No hi ha respostes predeterminades disponibles en aquest compte.",
       "TITLE": "Gestiona les respostes predeterminades",
-      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
+      "DESC": "Les respostes predeterminades són plantilles de resposta predefinides que es poden utilitzar per enviar ràpidament respostes a les converses.",
       "TABLE_HEADER": [
-        "Short code",
+        "Codi curt",
         "Contingut",
         "Accions"
       ]
     },
     "ADD": {
-      "TITLE": "Add canned response",
-      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
+      "TITLE": "Afegir resposta predeterminada",
+      "DESC": "Les respostes predeterminades són plantilles de resposta predefinides que es poden utilitzar per enviar ràpidament respostes a les converses.",
       "CANCEL_BUTTON_TEXT": "Cancel·la",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short code",
-          "PLACEHOLDER": "Please enter a short code.",
-          "ERROR": "Short Code is required."
+          "LABEL": "Codi curt",
+          "PLACEHOLDER": "Introduïu un codi curt.",
+          "ERROR": "És necessari el codi curt."
         },
         "CONTENT": {
           "LABEL": "Missatge",
-          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
-          "ERROR": "Message is required."
+          "PLACEHOLDER": "Escriviu el missatge que voleu desar com a plantilla per utilitzar-lo més tard.",
+          "ERROR": "El missatge és obligatori."
         },
         "SUBMIT": "Envia"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Canned response added successfully.",
+        "SUCCESS_MESSAGE": "Resposta predeterminada afegida correctament.",
         "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
       }
     },
     "EDIT": {
-      "TITLE": "Edit canned response",
+      "TITLE": "Edita la resposta predeterminada",
       "CANCEL_BUTTON_TEXT": "Cancel·la",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short code",
-          "PLACEHOLDER": "Please enter a shortcode.",
-          "ERROR": "Short code is required."
+          "LABEL": "Codi curt",
+          "PLACEHOLDER": "Introduïu un codi curt.",
+          "ERROR": "És necessari el codi curt."
         },
         "CONTENT": {
           "LABEL": "Missatge",
-          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
-          "ERROR": "Message is required."
+          "PLACEHOLDER": "Escriviu el missatge que voleu desar com a plantilla per utilitzar-lo més tard.",
+          "ERROR": "El missatge és obligatori."
         },
         "SUBMIT": "Envia"
       },
       "BUTTON_TEXT": "Edita",
       "API": {
-        "SUCCESS_MESSAGE": "Canned response is updated successfully.",
+        "SUCCESS_MESSAGE": "Resposta predeterminada actualitzada correctament.",
         "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Esborra",
       "API": {
-        "SUCCESS_MESSAGE": "Canned response deleted successfully.",
+        "SUCCESS_MESSAGE": "Resposta predeterminada eliminada correctament.",
         "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
       },
       "CONFIRM": {
-        "TITLE": "Confirm deletion",
+        "TITLE": "Confirma l'esborrat",
         "MESSAGE": "N'estas segur ",
-        "YES": "Yes, delete ",
-        "NO": "No, keep "
+        "YES": "Sí, esborra ",
+        "NO": "No, mantén-la "
       }
     }
   }

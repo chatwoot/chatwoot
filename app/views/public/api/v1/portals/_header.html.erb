@@ -83,7 +83,7 @@
               class="w-24 overflow-hidden text-sm font-medium leading-tight bg-white appearance-none cursor-pointer dark:bg-slate-900 text-ellipsis whitespace-nowrap focus:outline-none focus:shadow-outline locale-switcher"
             >
               <% @portal.config["allowed_locales"].each do |locale| %>
-                <option <%= locale == params[:locale] ? 'selected': '' %> value="<%= locale %>"><%= "#{language_name(locale)} (#{locale})" %></option>
+                <option <%= locale == @locale ? 'selected': '' %> value="<%= locale %>"><%= "#{language_name(locale)} (#{locale})" %></option>
               <% end %>
             </select>
             <%= render partial: 'icons/chevron-down' %>

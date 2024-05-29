@@ -1,5 +1,9 @@
 <template>
-  <div ref="editorRoot" class="relative editor-root" :class="{ 'copilot-enabled': showCopilot }">
+  <div
+    ref="editorRoot"
+    class="relative editor-root"
+    :class="{ 'copilot-enabled': showCopilot }"
+  >
     <tag-agents
       v-if="showUserMentions && isPrivate"
       :search-key="mentionSearchKey"
@@ -15,10 +19,11 @@
       :search-key="variableSearchTerm"
       @click="insertVariable"
     />
-    <copilot 
+    <copilot
       :show-loading-smart-response-icon="loadingSmartResponse"
       :show-copilot="showCopilot"
-      @ask-copilot="askCopilot"/>
+      @ask-copilot="askCopilot"
+    />
     <input
       ref="imageUpload"
       type="file"
@@ -66,7 +71,7 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 import TagAgents from '../conversation/TagAgents.vue';
 import CannedResponse from '../conversation/CannedResponse.vue';
-import Copilot from '../conversation/Copilot.vue'
+import Copilot from '../conversation/Copilot.vue';
 import VariableList from '../conversation/VariableList.vue';
 import {
   appendSignature,
@@ -83,10 +88,8 @@ const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 import {
   hasPressedEnterAndNotCmdOrShift,
   hasPressedCommandAndEnter,
-  hasPressedAltAndPKey,
-  hasPressedAltAndLKey,
 } from 'shared/helpers/KeyboardHelpers';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 import {
@@ -101,7 +104,6 @@ import {
   MESSAGE_EDITOR_MENU_OPTIONS,
   MESSAGE_EDITOR_IMAGE_RESIZES,
 } from 'dashboard/constants/editor';
-import CopilotVue from '../conversation/Copilot.vue';
 
 const createState = (
   content,
@@ -127,7 +129,7 @@ const createState = (
 export default {
   name: 'WootMessageEditor',
   components: { TagAgents, CannedResponse, VariableList, Copilot },
-  mixins: [eventListenerMixins, uiSettingsMixin, alertMixin],
+  mixins: [keyboardEventListenerMixins, uiSettingsMixin, alertMixin],
   props: {
     value: { type: String, default: '' },
     editorId: { type: String, default: '' },
@@ -321,7 +323,7 @@ export default {
     isPrivate() {
       this.reloadState(this.value);
     },
-    enableCopilot(){
+    enableCopilot() {
       this.reloadState(this.value);
     },
     updateSelectionWith(newValue, oldValue) {
@@ -537,13 +539,21 @@ export default {
     isCmdPlusEnterToSendEnabled() {
       return isEditorHotKeyEnabled(this.uiSettings, 'cmd_enter');
     },
-    handleKeyEvents(e) {
-      if (hasPressedAltAndPKey(e)) {
-        this.focusEditorInputField();
-      }
-      if (hasPressedAltAndLKey(e)) {
-        this.focusEditorInputField();
-      }
+    getKeyboardEvents() {
+      return {
+        'Alt+KeyP': {
+          action: () => {
+            this.focusEditorInputField();
+          },
+          allowOnFocusedInput: true,
+        },
+        'Alt+KeyL': {
+          action: () => {
+            this.focusEditorInputField();
+          },
+          allowOnFocusedInput: true,
+        },
+      };
     },
     focusEditorInputField(pos = 'end') {
       const { tr } = this.editorView.state;
@@ -716,18 +726,18 @@ export default {
         scrollCursorIntoView(this.editorView);
       });
     },
-    askCopilot(){
+    askCopilot() {
       this.$emit('ask-copilot');
     },
-    checkCoPilot(){
+    checkCoPilot() {
       if (!this.enableCopilot) {
         this.loadingSmartResponse = false;
         return;
       }
 
-      if (this.value == ' ') {
+      if (this.value === ' ') {
         this.loadingSmartResponse = true;
-        this.askCopilot()
+        this.askCopilot();
       } else {
         this.loadingSmartResponse = false;
       }
@@ -827,13 +837,13 @@ export default {
 .editor-warning__message {
   @apply text-red-400 dark:text-red-400 font-normal text-sm pt-1 pb-0 px-0;
 }
-.copilot{
+.copilot {
   position: absolute;
   bottom: 45px;
   display: flex;
   margin-right: 5px;
 }
-.copilot-enabled .ProseMirror.ProseMirror-woot-style{
+.copilot-enabled .ProseMirror.ProseMirror-woot-style {
   margin-left: 125px;
 }
 </style>

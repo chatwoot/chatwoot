@@ -19,7 +19,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
       account: Current.account
     )
 
-    builder.perform
+    @agent = builder.perform
   end
 
   def update

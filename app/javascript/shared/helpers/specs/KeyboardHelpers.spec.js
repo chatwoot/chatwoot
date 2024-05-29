@@ -3,20 +3,19 @@ import {
   isEscape,
   hasPressedShift,
   hasPressedCommand,
-  buildHotKeys,
   isActiveElementTypeable,
 } from '../KeyboardHelpers';
 
 describe('#KeyboardHelpers', () => {
   describe('#isEnter', () => {
     it('return correct values', () => {
-      expect(isEnter({ keyCode: 13 })).toEqual(true);
+      expect(isEnter({ key: 'Enter' })).toEqual(true);
     });
   });
 
   describe('#isEscape', () => {
     it('return correct values', () => {
-      expect(isEscape({ keyCode: 27 })).toEqual(true);
+      expect(isEscape({ key: 'Escape' })).toEqual(true);
     });
   });
 
@@ -29,14 +28,6 @@ describe('#KeyboardHelpers', () => {
   describe('#hasPressedCommand', () => {
     it('return correct values', () => {
       expect(hasPressedCommand({ metaKey: true })).toEqual(true);
-    });
-  });
-
-  describe('#buildHotKeys', () => {
-    it('returns hot keys', () => {
-      expect(buildHotKeys({ altKey: true, key: 'alt' })).toEqual('alt');
-      expect(buildHotKeys({ ctrlKey: true, key: 'a' })).toEqual('ctrl+a');
-      expect(buildHotKeys({ metaKey: true, key: 'b' })).toEqual('meta+b');
     });
   });
 });

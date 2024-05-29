@@ -10,6 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "Ihr Passwort wurde erfolgreich geändert",
     "AFTER_EMAIL_CHANGED": "Ihr Profil wurde erfolgreich aktualisiert. Melden Sie sich erneut an, wenn Ihre Anmeldeinformationen geändert werden",
     "FORM": {
+      "PICTURE": "Profile Picture",
       "AVATAR": "Profilbild",
       "ERROR": "Bitte korrigieren Sie Formularfehler",
       "REMOVE_IMAGE": "Entfernen",
@@ -56,13 +57,19 @@
       },
       "ACCESS_TOKEN": {
         "TITLE": "Zugangstoken",
-        "NOTE": "Dieses Token kann verwendet werden, wenn Sie eine API-basierte Integration erstellen"
+        "NOTE": "Dieses Token kann verwendet werden, wenn Sie eine API-basierte Integration erstellen",
+        "COPY": "Kopieren"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio-Benachrichtigungen",
         "NOTE": "Audio-Benachrichtigungen im Dashboard für neue Nachrichten und Unterhaltungen aktivieren.",
+        "ALERT_TYPES": {
+          "NONE": "Keine",
+          "MINE": "Assigned",
+          "ALL": "Alle"
+        },
         "ALERT_TYPE": {
-          "TITLE": "Alarmereignisse:",
+          "TITLE": "Alert events for conversations:",
           "NONE": "Keine",
           "ASSIGNED": "Zugewiesene Unterhaltungen",
           "ALL_CONVERSATIONS": "Alle Konversationen"
@@ -83,7 +90,27 @@
         "CONVERSATION_CREATION": "Senden Sie E-Mail-Benachrichtigungen, wenn eine neue Konversation erstellt wird",
         "CONVERSATION_MENTION": "Senden Sie E-Mail-Benachrichtigungen, wenn Sie in einer Konversation erwähnt werden",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Senden Sie E-Mail-Benachrichtigungen, wenn eine neue Nachricht in einer zugewiesenen Konversation erstellt wird",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "E-Mail-Benachrichtigungen senden, wenn eine neue Nachricht in einer zugewiesenen Konversation erstellt wird"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "E-Mail-Benachrichtigungen senden, wenn eine neue Nachricht in einer zugewiesenen Konversation erstellt wird",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "E-Mail",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
       "API": {
         "UPDATE_SUCCESS": "Ihre Benachrichtigungseinstellungen wurden erfolgreich aktualisiert",
@@ -98,7 +125,10 @@
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Senden Sie Push-Benachrichtigungen, wenn eine neue Nachricht in einer zugewiesenen Konversation erstellt wird",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Sende Push-Benachrichtigungen, wenn eine neue Nachricht in einer zugewiesenen Konversation erstellt wird",
         "HAS_ENABLED_PUSH": "Sie haben die Push-Benachrichtigung für diesen Browser aktiviert.",
-        "REQUEST_PUSH": "Push-Benachrichtigungen aktivieren"
+        "REQUEST_PUSH": "Push-Benachrichtigungen aktivieren",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profilbild"
@@ -160,9 +190,9 @@
     "TRIAL_MESSAGE": "Tage der Testversion verbleibend.",
     "TRAIL_BUTTON": "Jetzt kaufen",
     "DELETED_USER": "Gelöschter Benutzer",
-    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
-    "RESEND_VERIFICATION_MAIL": "Resend verification email",
-    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "EMAIL_VERIFICATION_PENDING": "Es scheint, dass Sie Ihre E-Mail-Adresse noch nicht verifiziert haben. Bitte überprüfen Sie Ihren Posteingang auf die Verifizierungs-E-Mail.",
+    "RESEND_VERIFICATION_MAIL": "Verifizierungs-E-Mail erneut senden",
+    "EMAIL_VERIFICATION_SENT": "Verifizierungs-E-Mail wurde versendet. Bitte überprüfen Sie Ihren Posteingang.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Konto gesperrt",
       "MESSAGE": "Ihr Account wurde gesperrt. Wenden Sie sich für weitere Informationen bitte an das Support-Team."
@@ -199,6 +229,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Wird gerade angezeigt:",
     "SWITCH": "Wechseln",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Gespräche",
     "INBOX": "Posteingang",
     "ALL_CONVERSATIONS": "Alle Konversationen",
@@ -237,6 +268,8 @@
     "CAMPAIGNS": "Kampagnen",
     "ONGOING": "Im Gange",
     "ONE_OFF": "Einmalig",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Agenten",
     "REPORTS_LABEL": "Labels",
     "REPORTS_INBOX": "Posteingang",
@@ -311,7 +344,6 @@
       "GO_TO_REPORTS_SIDEBAR": "Zur Berichtsseitenleiste",
       "MOVE_TO_NEXT_TAB": "Zum nächsten Tab in der Konversationsliste gehen",
       "GO_TO_SETTINGS": "Zu den Einstellungen",
-      "SWITCH_CONVERSATION_STATUS": "Zum nächsten Gesprächsstatus wechseln",
       "SWITCH_TO_PRIVATE_NOTE": "Zu privaten Notizen wechseln",
       "SWITCH_TO_REPLY": "Zur Antwort wechseln",
       "TOGGLE_SNOOZE_DROPDOWN": "Schlummer-Dropdown ein-/ausblenden"

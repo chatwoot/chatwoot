@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Reporter jusqu'à",
       "SNOOZED_UNTIL_TOMORROW": "Reporté jusqu'à demain",
       "SNOOZED_UNTIL_NEXT_WEEK": "Reporté jusqu'à la semaine prochaine",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Reporté jusqu'à la prochaine réponse"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Reporté jusqu'à la prochaine réponse",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "manqué",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Marquer comme en attente",
@@ -273,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Créer un attribut",
+    "NO_RECORDS_FOUND": "Aucun attribut trouvé",
     "UPDATE": {
       "SUCCESS": "Attribut mis à jour avec succès",
       "ERROR": "Impossible de mettre à jour l'attribut. Veuillez réessayer plus tard"

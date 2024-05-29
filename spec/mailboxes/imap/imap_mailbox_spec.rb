@@ -54,6 +54,16 @@ RSpec.describe Imap::ImapMailbox do
       end
     end
 
+    context 'when a new email with invalid from' do
+      let(:inbound_mail) { create_inbound_email_from_mail(from: 'invalidemail', to: 'imap@gmail.com', subject: 'Hello!') }
+
+      it 'does not create a new conversation' do
+        allow(Rails.logger).to receive(:error)
+        class_instance.process(inbound_mail.mail, channel)
+        expect(Rails.logger).to have_received(:error).with("Email from: invalidemail : inbox #{inbox.id} is invalid")
+      end
+    end
+
     context 'when a reply for existing email conversation' do
       let(:prev_conversation) { create(:conversation, account: account, inbox: channel.inbox, assignee: agent) }
       let(:reply_mail) do

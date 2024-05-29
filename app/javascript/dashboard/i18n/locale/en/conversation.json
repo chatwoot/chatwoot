@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
       "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",
@@ -280,6 +287,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Create attribute",
+    "NO_RECORDS_FOUND": "No attributes found",
     "UPDATE": {
       "SUCCESS": "Attribute updated successfully",
       "ERROR": "Unable to update attribute. Please try again later"

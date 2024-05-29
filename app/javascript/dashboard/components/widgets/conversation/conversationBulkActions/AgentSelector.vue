@@ -101,14 +101,12 @@
 import { mapGetters } from 'vuex';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import Spinner from 'shared/components/Spinner.vue';
-import { mixin as clickaway } from 'vue-clickaway';
 
 export default {
   components: {
     Thumbnail,
     Spinner,
   },
-  mixins: [clickaway],
   props: {
     selectedInboxes: {
       type: Array,
