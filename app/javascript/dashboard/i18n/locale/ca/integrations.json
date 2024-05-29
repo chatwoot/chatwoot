@@ -224,7 +224,7 @@
         "ERROR": "S'ha produït un error en obtenir les issues en Linear, torna-ho a provar",
         "LINK_SUCCESS": "S'ha enllaçat la issue correctament",
         "LINK_ERROR": "S'ha produït un error en enllaçar la issue, torna-ho a provar",
-        "LINK_TITLE": "#%{conversationId}: %{name}"
+        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Crear/enllaçar una issue en Linear",
@@ -241,22 +241,34 @@
           },
           "TEAM": {
             "LABEL": "Equip",
+            "PLACEHOLDER": "Selecciona equip",
+            "SEARCH": "Search team",
             "REQUIRED_ERROR": "Un equip és necessari"
           },
           "ASSIGNEE": {
-            "LABEL": "Cessionari"
+            "LABEL": "Cessionari",
+            "PLACEHOLDER": "Select assignee",
+            "SEARCH": "Search assignee"
           },
           "PRIORITY": {
-            "LABEL": "Prioritat"
+            "LABEL": "Prioritat",
+            "PLACEHOLDER": "Selecciona la prioritat",
+            "SEARCH": "Search priority"
           },
           "LABEL": {
-            "LABEL": "Etiqueta"
+            "LABEL": "Etiqueta",
+            "PLACEHOLDER": "Select label",
+            "SEARCH": "Search label"
           },
           "STATUS": {
-            "LABEL": "Estat"
+            "LABEL": "Estat",
+            "PLACEHOLDER": "Select status",
+            "SEARCH": "Search status"
           },
           "PROJECT": {
-            "LABEL": "Projecte"
+            "LABEL": "Projecte",
+            "PLACEHOLDER": "Select project",
+            "SEARCH": "Search project"
           }
         },
         "CREATE": "Crear",
