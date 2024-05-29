@@ -1,9 +1,11 @@
 <script setup>
 import { ref, computed } from 'vue';
+import { debounce } from '@chatwoot/utils';
 import { picoSearch } from '@scmmishra/pico-search';
 import ListItemButton from './DropdownListItemButton.vue';
 import DropdownSearch from './DropdownSearch.vue';
 import DropdownEmptyState from './DropdownEmptyState.vue';
+import DropdownLoadingState from './DropdownLoadingState.vue';
 
 const props = defineProps({
   listItems: {
@@ -26,16 +28,24 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
+  loadingPlaceholder: {
+    type: String,
+    default: '',
+  },
 });
 
 const emits = defineEmits(['on-search']);
 
 const searchTerm = ref('');
 
-const onSearch = value => {
+const onSearch = debounce(value => {
   searchTerm.value = value;
   emits('on-search', value);
-};
+}, 300);
 
 const filteredListItems = computed(() => {
   if (!searchTerm.value) return props.listItems;
@@ -50,6 +60,16 @@ const isFilterActive = id => {
   if (!props.activeFilterId) return false;
   return id === props.activeFilterId;
 };
+
+const shouldShowLoadingState = computed(() => {
+  return (
+    props.isLoading && isDropdownListEmpty.value && props.loadingPlaceholder
+  );
+});
+
+const shouldShowEmptyState = computed(() => {
+  return !props.isLoading && isDropdownListEmpty.value;
+});
 </script>
 <template>
   <div
@@ -67,8 +87,12 @@ const isFilterActive = id => {
       />
     </slot>
     <slot name="listItem">
+      <dropdown-loading-state
+        v-if="shouldShowLoadingState"
+        :message="loadingPlaceholder"
+      />
       <dropdown-empty-state
-        v-if="isDropdownListEmpty"
+        v-else-if="shouldShowEmptyState"
         :message="$t('REPORT.FILTER_ACTIONS.EMPTY_LIST')"
       />
       <list-item-button
