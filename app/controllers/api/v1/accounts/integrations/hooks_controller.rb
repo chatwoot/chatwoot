@@ -12,10 +12,11 @@ class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::Base
 
   def process_event
     response = @hook.process_event(params[:event])
-    if response[:error]
+
+    if response.is_a?(Hash) && response[:error]
       render json: { error: response[:error] }, status: :unprocessable_entity
     else
-      render json: response[:data], status: :ok
+      render json: { message: response }
     end
   end
 
