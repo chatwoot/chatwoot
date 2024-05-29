@@ -26,3 +26,9 @@ remove_stale_contact_inboxes_job.rb:
   cron: '30 22 * * *'
   class: 'Internal::RemoveStaleContactInboxesJob'
   queue: scheduled_jobs
+
+# executed daily at 0330 UTC
+zeroharm_daily_conversation_report_job:
+  cron: '30 3 * * *'
+  class: 'ZeroharmDailyConversationReportJob'
+  queue: scheduled_jobs
