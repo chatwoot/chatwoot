@@ -25,6 +25,12 @@ localVue.use(VTooltip);
 localVue.component('fluent-icon', FluentIcon);
 localVue.component('woot-button', Button);
 
+localVue.prototype.$emitter = {
+  emit: jest.fn(),
+  on: jest.fn(),
+  off: jest.fn(),
+};
+
 const i18nConfig = new VueI18n({ locale: 'en', messages: i18n });
 
 describe('MoveActions', () => {
