@@ -99,7 +99,9 @@ export default {
     onMouseUp() {
       if (this.mousedDownOnBackdrop) {
         this.mousedDownOnBackdrop = false;
-        this.onClose();
+        if (this.closeOnBackdropClick) {
+          this.onClose();
+        }
       }
     },
   },
