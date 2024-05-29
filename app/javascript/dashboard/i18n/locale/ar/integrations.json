@@ -220,11 +220,11 @@
         "SELECT": "Select issue",
         "TITLE": "الرابط",
         "EMPTY_LIST": "No linear issues found",
-        "LOADING": "Loading",
+        "LOADING": "جار التحميل",
         "ERROR": "There was an error fetching the linear issues, please try again",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "#%{conversationId}: %{name}"
+        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -241,22 +241,34 @@
           },
           "TEAM": {
             "LABEL": "الفريق",
+            "PLACEHOLDER": "اختيار فريق",
+            "SEARCH": "Search team",
             "REQUIRED_ERROR": "Team is required"
           },
           "ASSIGNEE": {
-            "LABEL": "Assignee"
+            "LABEL": "Assignee",
+            "PLACEHOLDER": "Select assignee",
+            "SEARCH": "Search assignee"
           },
           "PRIORITY": {
-            "LABEL": "الأولوية"
+            "LABEL": "الأولوية",
+            "PLACEHOLDER": "تحديد الأولوية",
+            "SEARCH": "Search priority"
           },
           "LABEL": {
-            "LABEL": "الوسم"
+            "LABEL": "الوسم",
+            "PLACEHOLDER": "Select label",
+            "SEARCH": "Search label"
           },
           "STATUS": {
-            "LABEL": "الحالة"
+            "LABEL": "الحالة",
+            "PLACEHOLDER": "Select status",
+            "SEARCH": "Search status"
           },
           "PROJECT": {
-            "LABEL": "Project"
+            "LABEL": "Project",
+            "PLACEHOLDER": "Select project",
+            "SEARCH": "Search project"
           }
         },
         "CREATE": "إنشاء",
