@@ -7,7 +7,7 @@ class Zalo::IncomingMessageService
     set_contact
     update_contact_from_profile if @contact.messages.empty?
     set_conversation
-    @message = @conversation.messages.create!(message_params)
+    @message = @conversation.messages.build(message_params)
 
     @message.content_attributes[:in_reply_to_external_id] = params[:message][:quote_msg_id] if params[:message][:quote_msg_id]
 
