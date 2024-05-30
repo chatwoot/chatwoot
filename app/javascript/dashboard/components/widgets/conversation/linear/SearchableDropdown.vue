@@ -34,7 +34,7 @@ import FilterButton from 'dashboard/components/ui/Dropdown/DropdownButton.vue';
 import FilterListDropdown from 'dashboard/components/ui/Dropdown/DropdownList.vue';
 
 defineComponent({
-  name: 'LinearDropdownField',
+  name: 'SearchableDropdown',
 });
 
 const props = defineProps({

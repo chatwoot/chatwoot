@@ -27,64 +27,14 @@
       />
     </label>
     <searchable-dropdown
-      type="teamId"
-      :value="formState.teamId"
-      :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TEAM.LABEL')"
-      :items="teams"
-      :error="teamError"
-      :placeholder="
-        $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TEAM.SEARCH')
-      "
-      @change="onChange"
-    />
-    <searchable-dropdown
-      type="assigneeId"
-      :value="formState.assigneeId"
-      :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.ASSIGNEE.LABEL')"
-      :items="assignees"
-      :placeholder="
-        $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.ASSIGNEE.SEARCH')
-      "
-      @change="onChange"
-    />
-    <searchable-dropdown
-      type="labelId"
-      :value="formState.labelId"
-      :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.LABEL.LABEL')"
-      :items="labels"
-      :placeholder="
-        $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.LABEL.SEARCH')
-      "
-      @change="onChange"
-    />
-    <searchable-dropdown
-      type="priority"
-      :value="formState.priority"
-      :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.PRIORITY.LABEL')"
-      :items="priorities"
-      :placeholder="
-        $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.PRIORITY.SEARCH')
-      "
-      @change="onChange"
-    />
-    <searchable-dropdown
-      type="projectId"
-      :value="formState.projectId"
-      :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.PROJECT.LABEL')"
-      :items="projects"
-      :placeholder="
-        $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.PROJECT.SEARCH')
-      "
-      @change="onChange"
-    />
-    <dropdown-field
-      type="stateId"
-      :value="formState.stateId"
-      :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.STATUS.LABEL')"
-      :items="statuses"
-      :placeholder="
-        $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.STATUS.SEARCH')
-      "
+      v-for="dropdown in dropdowns"
+      :key="dropdown.type"
+      :type="dropdown.type"
+      :value="formState[dropdown.type]"
+      :label="$t(dropdown.label)"
+      :items="dropdown.items"
+      :placeholder="$t(dropdown.placeholder)"
+      :error="dropdown.error"
       @change="onChange"
     />
     <div class="flex items-center justify-end w-full gap-2 mt-8">
@@ -185,6 +135,56 @@ const teamError = computed(() =>
     : ''
 );
 
+const dropdowns = computed(() => {
+  return [
+    {
+      type: 'teamId',
+      label: 'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TEAM.LABEL',
+      items: teams.value,
+      placeholder: 'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TEAM.SEARCH',
+      error: teamError.value,
+    },
+    {
+      type: 'assigneeId',
+      label: 'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.ASSIGNEE.LABEL',
+      items: assignees.value,
+      placeholder:
+        'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.ASSIGNEE.SEARCH',
+      error: '',
+    },
+    {
+      type: 'labelId',
+      label: 'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.LABEL.LABEL',
+      items: labels.value,
+      placeholder: 'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.LABEL.SEARCH',
+      error: '',
+    },
+    {
+      type: 'priority',
+      label: 'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.PRIORITY.LABEL',
+      items: priorities,
+      placeholder:
+        'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.PRIORITY.SEARCH',
+      error: '',
+    },
+    {
+      type: 'projectId',
+      label: 'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.PROJECT.LABEL',
+      items: projects.value,
+      placeholder:
+        'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.PROJECT.SEARCH',
+      error: '',
+    },
+    {
+      type: 'stateId',
+      label: 'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.STATUS.LABEL',
+      items: statuses.value,
+      placeholder: 'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.STATUS.SEARCH',
+      error: '',
+    },
+  ];
+});
+
 const onClose = () => emit('close');
 
 const getTeams = async () => {
@@ -192,11 +192,12 @@ const getTeams = async () => {
     const response = await LinearAPI.getTeams();
     teams.value = response.data;
   } catch (error) {
-    const errorMessage = parseLinearAPIErrorResponse(
-      error,
-      t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.LOADING_TEAM_ERROR')
+    useAlert(
+      parseLinearAPIErrorResponse(
+        error,
+        t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.LOADING_TEAM_ERROR')
+      )
     );
-    useAlert(errorMessage);
   }
 };
 
@@ -221,10 +222,10 @@ const getTeamEntities = async () => {
 const onChange = (item, type) => {
   formState[type] = item.id;
   if (type === 'teamId') {
-    formState.teamId = item.id;
     formState.assigneeId = '';
     formState.stateId = '';
     formState.labelId = '';
+    formState.projectId = '';
     getTeamEntities();
   }
 };
