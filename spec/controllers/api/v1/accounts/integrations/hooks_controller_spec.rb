@@ -97,9 +97,7 @@ RSpec.describe 'Integration Hooks API', type: :request do
              params: params,
              headers: agent.create_new_auth_token,
              as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(response.parsed_body['message']).to eq('No processor found')
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end

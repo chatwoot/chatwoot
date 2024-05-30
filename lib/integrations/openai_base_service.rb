@@ -81,6 +81,6 @@ class Integrations::OpenaiBaseService
 
     choices = JSON.parse(response.body)['choices']
 
-    choices.present? ? choices.first['message']['content'] : nil
+    { message: choices.first['message']['content'] }
   end
 end
