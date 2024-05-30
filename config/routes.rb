@@ -445,6 +445,7 @@ Rails.application.routes.draw do
   end
 
   get 'microsoft/callback', to: 'microsoft/callbacks#show'
+  get 'google/callback', to: 'google/callbacks#show'
 
   # ----------------------------------------------------------------------
   # Routes for external service verifications
