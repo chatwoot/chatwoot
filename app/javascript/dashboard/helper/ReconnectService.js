@@ -67,7 +67,7 @@ class ReconnectService {
       getAppliedConversationFiltersQuery,
       'customViews/getActiveConversationFolder': activeFolder,
     } = this.store.getters;
-    const query = getAppliedConversationFiltersQuery.length
+    const query = getAppliedConversationFiltersQuery?.payload?.length
       ? getAppliedConversationFiltersQuery
       : activeFolder?.query;
     if (query) {

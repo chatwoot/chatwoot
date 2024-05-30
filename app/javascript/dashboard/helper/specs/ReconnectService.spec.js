@@ -162,9 +162,15 @@ describe('ReconnectService', () => {
 
   describe('fetchConversationsOnReconnect', () => {
     it('should fetch filtered or saved conversations if query exists', async () => {
-      storeMock.getters.getAppliedConversationFiltersQuery = [
-        { test: 'query' },
-      ];
+      storeMock.getters.getAppliedConversationFiltersQuery = {
+        payload: [
+          {
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: ['open'],
+          },
+        ],
+      };
       const spy = jest.spyOn(
         reconnectService,
         'fetchFilteredOrSavedConversations'
@@ -172,7 +178,9 @@ describe('ReconnectService', () => {
 
       await reconnectService.fetchConversationsOnReconnect();
 
-      expect(spy).toHaveBeenCalledWith([{ test: 'query' }]);
+      expect(spy).toHaveBeenCalledWith(
+        storeMock.getters.getAppliedConversationFiltersQuery
+      );
     });
 
     it('should fetch all conversations if no query exists', async () => {
