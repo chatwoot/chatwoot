@@ -51,7 +51,7 @@ const shouldShowDropdown = ref(false);
 
 const toggleDropdown = debounce(() => {
   shouldShowDropdown.value = !shouldShowDropdown.value;
-}, 10);
+}, 1);
 const onSelect = item => {
   emit('change', item, props.type);
   toggleDropdown();
