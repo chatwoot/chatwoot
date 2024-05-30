@@ -1,12 +1,5 @@
-class Microsoft::CallbacksController < ApplicationController
-  include MicrosoftConcern
-
-  def show
-    @response = microsoft_client.auth_code.get_token(
-      oauth_code,
-      redirect_uri: "#{base_url}/microsoft/callback"
-    )
-
+class Microsoft::CallbacksController < OauthCallbackController
+  def handle_response
     inbox, already_exists = find_or_create_inbox
     ::Redis::Alfred.delete(users_data['email'].downcase)
 
@@ -15,24 +8,25 @@ class Microsoft::CallbacksController < ApplicationController
     else
       redirect_to app_microsoft_inbox_agents_url(account_id: account.id, inbox_id: inbox.id)
     end
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e).capture_exception
-    redirect_to '/'
+  end
+
+  def oauth_client
+    app_id = GlobalConfigService.load('AZURE_APP_ID', nil)
+    app_secret = GlobalConfigService.load('AZURE_APP_SECRET', nil)
+
+    ::OAuth2::Client.new(app_id, app_secret,
+                         {
+                           site: 'https://login.microsoftonline.com',
+                           authorize_url: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
+                           token_url: 'https://login.microsoftonline.com/common/oauth2/v2.0/token'
+                         })
   end
 
   private
 
-  def oauth_code
-    params[:code]
-  end
-
   def users_data
     decoded_token = JWT.decode parsed_body[:id_token], nil, false
     decoded_token[0]
-  end
-
-  def parsed_body
-    @parsed_body ||= @response.response.parsed
   end
 
   def account_id
