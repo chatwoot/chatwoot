@@ -20,11 +20,13 @@
     </div>
   </div>
   <microsoft v-else-if="provider === 'microsoft'" />
+  <google v-else-if="provider === 'google'" />
   <forward-to-option v-else-if="provider === 'other_provider'" />
 </template>
 <script>
 import ForwardToOption from './emailChannels/ForwardToOption.vue';
 import Microsoft from './emailChannels/Microsoft.vue';
+import Google from './emailChannels/Google.vue';
 import { mapGetters } from 'vuex';
 import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
 import PageHeader from '../../SettingsSubPageHeader.vue';
@@ -34,6 +36,7 @@ export default {
     ChannelSelector,
     ForwardToOption,
     Microsoft,
+    Google,
     PageHeader,
   },
   data() {
