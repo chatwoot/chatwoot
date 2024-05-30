@@ -50,6 +50,10 @@ jobs:
         #        sudo systemctl restart chatwoot.target
         #        curl http://localhost:3000/api
 
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
+      if: always()
+
     - name: Upload chatwoot setup log file as an artifact
       uses: actions/upload-artifact@v4
       if: always()
