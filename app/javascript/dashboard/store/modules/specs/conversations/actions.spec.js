@@ -659,4 +659,32 @@ describe('#addMentions', () => {
       expect(commit.mock.calls).toEqual([[types.SET_CONTEXT_MENU_CHAT_ID, 1]]);
     });
   });
+
+  describe('#setChatListFilters', () => {
+    it('set chat list filters', () => {
+      const filters = {
+        inboxId: 1,
+        assigneeType: 'me',
+        status: 'open',
+        sortBy: 'created_at',
+        page: 1,
+        labels: ['label'],
+        teamId: 1,
+        conversationType: 'mention',
+      };
+      actions.setChatListFilters({ commit }, filters);
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CHAT_LIST_FILTERS, filters],
+      ]);
+    });
+  });
+
+  describe('#updateChatListFilters', () => {
+    it('update chat list filters', () => {
+      actions.updateChatListFilters({ commit }, { updatedWithin: 20 });
+      expect(commit.mock.calls).toEqual([
+        [types.UPDATE_CHAT_LIST_FILTERS, { updatedWithin: 20 }],
+      ]);
+    });
+  });
 });
