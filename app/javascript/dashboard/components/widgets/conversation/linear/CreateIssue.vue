@@ -26,7 +26,7 @@
         "
       />
     </label>
-    <dropdown-field
+    <searchable-dropdown
       type="teamId"
       :value="formState.teamId"
       :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TEAM.LABEL')"
@@ -37,7 +37,7 @@
       "
       @change="onChange"
     />
-    <dropdown-field
+    <searchable-dropdown
       type="assigneeId"
       :value="formState.assigneeId"
       :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.ASSIGNEE.LABEL')"
@@ -47,7 +47,7 @@
       "
       @change="onChange"
     />
-    <dropdown-field
+    <searchable-dropdown
       type="labelId"
       :value="formState.labelId"
       :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.LABEL.LABEL')"
@@ -57,7 +57,7 @@
       "
       @change="onChange"
     />
-    <dropdown-field
+    <searchable-dropdown
       type="priority"
       :value="formState.priority"
       :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.PRIORITY.LABEL')"
@@ -67,7 +67,7 @@
       "
       @change="onChange"
     />
-    <dropdown-field
+    <searchable-dropdown
       type="projectId"
       :value="formState.projectId"
       :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.PROJECT.LABEL')"
@@ -114,7 +114,7 @@ import { useAlert } from 'dashboard/composables';
 import LinearAPI from 'dashboard/api/integrations/linear';
 import validations from './validations';
 import { parseLinearAPIErrorResponse } from 'dashboard/store/utils/api';
-import DropdownField from './DropdownField.vue';
+import SearchableDropdown from './SearchableDropdown.vue';
 
 const props = defineProps({
   accountId: {
