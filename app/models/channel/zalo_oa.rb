@@ -37,11 +37,8 @@ class Channel::ZaloOa < ApplicationRecord
     # check attachment to send first
     if message.attachments&.first
       response = send_attachment(user_id, message.attachments.first, access_token)
-      return response unless (response['error']).zero?
+      return response unless (response['error']).zero? && message.content
     end
-
-    # message content will come separately
-    return unless message.content
 
     body = message_body(user_id, message.content)
     body[:message][:quote_message_id] = message.content_attributes[:in_reply_to_external_id] if message.content_attributes[:in_reply_to_external_id]
@@ -95,21 +92,8 @@ class Channel::ZaloOa < ApplicationRecord
     send_message_cs(body, access_token)
   end
 
-  def upload_file_to_zalo_api(url_upload, attachment, access_token)
-    headers = {
-      'access_token' => access_token,
-      'Content-Type' => 'multipart/form-data'
-    }
-
-    body = {
-      'file' => [attachment.file.download, { filename: attachment.file.filename.to_s }]
-    }
-
-    HTTParty.post(url_upload, headers: headers, body: body)
-  end
-
   # unknown issue with HTTParty so changed to Net::HTTP with success
-  def upload_file_to_zalo_api_old(url_upload, attachment, access_token)
+  def upload_file_to_zalo_api(url_upload, attachment, access_token)
     url = URI.parse(url_upload)
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
