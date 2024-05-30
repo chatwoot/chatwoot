@@ -12,6 +12,8 @@ import {
 const { t } = useI18n();
 const route = useRoute();
 
+const RECONNECTED_BANNER_TIMEOUT = 2000;
+
 const showNotification = ref(!navigator.onLine);
 const isDisconnected = ref(false);
 const isReconnecting = ref(false);
@@ -57,7 +59,7 @@ const handleReconnectionCompleted = () => {
   isReconnecting.value = false;
   isReconnected.value = true;
   showNotification.value = true;
-  reconnectTimeout = setTimeout(closeNotification, 2000);
+  reconnectTimeout = setTimeout(closeNotification, RECONNECTED_BANNER_TIMEOUT);
 };
 
 const handleReconnecting = () => {
@@ -87,7 +89,7 @@ const updateOnlineStatus = event => {
   }
 };
 
-onMounted(() => {
+const addEventListeners = () => {
   window.addEventListener('offline', updateOnlineStatus);
   window.addEventListener('online', updateOnlineStatus);
   window.bus.$on(BUS_EVENTS.WEBSOCKET_DISCONNECT, updateWebsocketStatus);
@@ -96,16 +98,23 @@ onMounted(() => {
     handleReconnectionCompleted
   );
   window.bus.$on(BUS_EVENTS.WEBSOCKET_RECONNECT, handleReconnecting);
-});
+};
 
-onBeforeUnmount(() => {
+const removeEventListeners = () => {
   window.removeEventListener('offline', updateOnlineStatus);
   window.removeEventListener('online', updateOnlineStatus);
-  window.bus.$off(BUS_EVENTS.WEBSOCKET_DISCONNECT);
-  window.bus.$off(BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED);
-  window.bus.$off(BUS_EVENTS.WEBSOCKET_RECONNECT);
+  window.bus.$off(BUS_EVENTS.WEBSOCKET_DISCONNECT, updateWebsocketStatus);
+  window.bus.$off(
+    BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED,
+    handleReconnectionCompleted
+  );
+  window.bus.$off(BUS_EVENTS.WEBSOCKET_RECONNECT, handleReconnecting);
   clearTimeout(reconnectTimeout);
-});
+};
+
+onMounted(addEventListeners);
+
+onBeforeUnmount(removeEventListeners);
 </script>
 
 <template>

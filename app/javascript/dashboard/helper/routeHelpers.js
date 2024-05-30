@@ -118,6 +118,5 @@ export const isAInboxViewRoute = (routeName, includeBase = false) => {
   return routeNames.includes(routeName);
 };
 
-export const isNotificationRoute = routeName => {
-  return ['notifications_index'].includes(routeName);
-};
+export const isNotificationRoute = routeName =>
+  routeName === 'notifications_index';

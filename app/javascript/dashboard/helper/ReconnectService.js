@@ -6,6 +6,8 @@ import {
   isNotificationRoute,
 } from 'dashboard/helper/routeHelpers';
 
+const MAX_DISCONNECT_SECONDS = 10800;
+
 class ReconnectService {
   constructor(store, router) {
     this.store = store;
@@ -17,13 +19,28 @@ class ReconnectService {
 
   disconnect = () => this.removeEventListeners();
 
+  setupEventListeners = () => {
+    window.addEventListener('online', this.handleOnlineEvent);
+    window.bus.$on(BUS_EVENTS.WEBSOCKET_RECONNECT, this.onReconnect);
+    window.bus.$on(BUS_EVENTS.WEBSOCKET_DISCONNECT, this.onDisconnect);
+  };
+
+  removeEventListeners = () => {
+    window.removeEventListener('online', this.handleOnlineEvent);
+    window.bus.$off(BUS_EVENTS.WEBSOCKET_RECONNECT, this.onReconnect);
+    window.bus.$off(BUS_EVENTS.WEBSOCKET_DISCONNECT, this.onDisconnect);
+  };
+
   getSecondsSinceDisconnect = () =>
     this.disconnectTime
       ? Math.max(differenceInSeconds(new Date(), this.disconnectTime), 0)
       : 0;
 
+  // Force reload if the user is disconnected for more than 3 hours
   handleOnlineEvent = () => {
-    if (this.getSecondsSinceDisconnect() >= 10800) window.location.reload(); // Force reload if the user is disconnected for more than 3 hours
+    if (this.getSecondsSinceDisconnect() >= MAX_DISCONNECT_SECONDS) {
+      window.location.reload();
+    }
   };
 
   fetchConversations = async () => {
@@ -32,11 +49,15 @@ class ReconnectService {
       updatedWithin: this.getSecondsSinceDisconnect(),
     });
     await this.store.dispatch('fetchAllConversations');
+    // Reset the updatedWithin in the store chat list filter after fetching conversations when the user is reconnected
+    await this.store.dispatch('updateChatListFilters', {
+      updatedWithin: null,
+    });
   };
 
-  fetchFilteredOrSavedConversations = async payload => {
+  fetchFilteredOrSavedConversations = async queryData => {
     await this.store.dispatch('fetchFilteredConversations', {
-      queryData: payload,
+      queryData,
       page: 1,
     });
   };
@@ -66,7 +87,7 @@ class ReconnectService {
   };
 
   fetchNotificationsOnReconnect = async filter => {
-    await this.store.dispatch('notifications/index', filter);
+    await this.store.dispatch('notifications/index', { ...filter, page: 1 });
   };
 
   revalidateCaches = async () => {
@@ -86,11 +107,11 @@ class ReconnectService {
       await this.fetchConversationsOnReconnect();
       await this.fetchConversationMessagesOnReconnect();
     } else if (isAInboxViewRoute(currentRoute, true)) {
-      const filters =
-        this.store.getters['notifications/getNotificationFilters'];
-      await this.fetchNotificationsOnReconnect({ ...filters, page: 1 });
+      await this.fetchNotificationsOnReconnect(
+        this.store.getters['notifications/getNotificationFilters']
+      );
     } else if (isNotificationRoute(currentRoute)) {
-      await this.fetchNotificationsOnReconnect({ page: 1 });
+      await this.fetchNotificationsOnReconnect();
     }
   };
 
@@ -108,22 +129,10 @@ class ReconnectService {
     this.setConversationLastMessageId();
   };
 
-  onReconnect = () => {
-    this.handleRouteSpecificFetch();
-    this.revalidateCaches();
+  onReconnect = async () => {
+    await this.handleRouteSpecificFetch();
+    await this.revalidateCaches();
     window.bus.$emit(BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED);
-  };
-
-  setupEventListeners = () => {
-    window.addEventListener('online', this.handleOnlineEvent);
-    window.bus.$on(BUS_EVENTS.WEBSOCKET_RECONNECT, this.onReconnect);
-    window.bus.$on(BUS_EVENTS.WEBSOCKET_DISCONNECT, this.onDisconnect);
-  };
-
-  removeEventListeners = () => {
-    window.removeEventListener('online', this.handleOnlineEvent);
-    window.bus.$off(BUS_EVENTS.WEBSOCKET_RECONNECT, this.onReconnect);
-    window.bus.$off(BUS_EVENTS.WEBSOCKET_DISCONNECT, this.onDisconnect);
   };
 }
 

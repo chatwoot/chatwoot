@@ -137,6 +137,16 @@ describe('ReconnectService', () => {
       });
       expect(storeMock.dispatch).toHaveBeenCalledWith('fetchAllConversations');
     });
+
+    it('should dispatch updateChatListFilters and reset updatedWithin', async () => {
+      reconnectService.getSecondsSinceDisconnect = jest
+        .fn()
+        .mockReturnValue(100);
+      await reconnectService.fetchConversations();
+      expect(storeMock.dispatch).toHaveBeenCalledWith('updateChatListFilters', {
+        updatedWithin: null,
+      });
+    });
   });
 
   describe('fetchFilteredOrSavedConversations', () => {
@@ -219,10 +229,10 @@ describe('ReconnectService', () => {
     it('should dispatch notifications/index', async () => {
       const filter = { test: 'filter' };
       await reconnectService.fetchNotificationsOnReconnect(filter);
-      expect(storeMock.dispatch).toHaveBeenCalledWith(
-        'notifications/index',
-        filter
-      );
+      expect(storeMock.dispatch).toHaveBeenCalledWith('notifications/index', {
+        ...filter,
+        page: 1,
+      });
     });
   });
 
