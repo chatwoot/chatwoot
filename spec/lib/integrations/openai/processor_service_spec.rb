@@ -52,7 +52,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           .to_return(status: 200, body: openai_response, headers: {})
 
         result = subject.perform
-        expect(result).to eq('This is a reply from openai.')
+        expect(result).to eq({ :message => 'This is a reply from openai.' })
       end
     end
 
@@ -76,7 +76,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           .to_return(status: 200, body: openai_response, headers: {})
 
         result = subject.perform
-        expect(result).to eq('This is a reply from openai.')
+        expect(result).to eq({ :message => 'This is a reply from openai.' })
       end
     end
 
@@ -101,7 +101,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           .to_return(status: 200, body: openai_response, headers: {})
 
         result = subject.perform
-        expect(result).to eq('This is a reply from openai.')
+        expect(result).to eq({ :message => 'This is a reply from openai.' })
       end
     end
 
@@ -140,7 +140,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           .to_return(status: 200, body: openai_response, headers: {})
 
         result = subject.perform
-        expect(result).to eq('This is a reply from openai.')
+        expect(result).to eq({ :message => 'This is a reply from openai.' })
       end
     end
 
@@ -162,7 +162,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           .to_return(status: 200, body: openai_response, headers: {})
 
         result = subject.perform
-        expect(result).to eq('This is a reply from openai.')
+        expect(result).to eq({ :message => 'This is a reply from openai.' })
       end
     end
 
@@ -184,7 +184,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           .to_return(status: 200, body: openai_response, headers: {})
 
         result = subject.perform
-        expect(result).to eq('This is a reply from openai.')
+        expect(result).to eq({ :message => 'This is a reply from openai.' })
       end
     end
 
@@ -206,7 +206,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           .to_return(status: 200, body: openai_response, headers: {})
 
         result = subject.perform
-        expect(result).to eq('This is a reply from openai.')
+        expect(result).to eq({ :message => 'This is a reply from openai.' })
       end
     end
 
@@ -228,7 +228,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           .to_return(status: 200, body: openai_response, headers: {})
 
         result = subject.perform
-        expect(result).to eq('This is a reply from openai.')
+        expect(result).to eq({ :message => 'This is a reply from openai.' })
       end
     end
 
@@ -250,7 +250,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
           .to_return(status: 200, body: openai_response, headers: {})
 
         result = subject.perform
-        expect(result).to eq('This is a reply from openai.')
+        expect(result).to eq({ :message => 'This is a reply from openai.' })
       end
     end
   end
