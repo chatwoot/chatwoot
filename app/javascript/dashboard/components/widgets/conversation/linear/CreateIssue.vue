@@ -194,12 +194,11 @@ const getTeams = async () => {
     const response = await LinearAPI.getTeams();
     teams.value = response.data;
   } catch (error) {
-    useAlert(
-      parseLinearAPIErrorResponse(
-        error,
-        t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.LOADING_TEAM_ERROR')
-      )
+    const errorMessage = parseLinearAPIErrorResponse(
+      error,
+      t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.LOADING_TEAM_ERROR')
     );
+    useAlert(errorMessage);
   }
 };
 
