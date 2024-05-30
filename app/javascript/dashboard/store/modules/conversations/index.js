@@ -19,6 +19,7 @@ const state = {
   conversationParticipants: [],
   conversationLastSeen: null,
   syncConversationsMessages: {},
+  conversationFilters: {},
 };
 
 // mutations
@@ -31,6 +32,20 @@ export const mutations = {
       );
       if (indexInCurrentList < 0) {
         newAllConversations.push(conversation);
+      } else if (conversation.id !== _state.selectedChatId) {
+        // If the conversation is already in the list, replace it
+        // Added this to fix the issue of the conversation not being updated
+        // When reconnecting to the websocket. If the selectedChatId is not the same as
+        // the conversation.id in the store, replace the existing conversation with the new one
+        newAllConversations[indexInCurrentList] = conversation;
+      } else {
+        // If the conversation is already in the list and selectedChatId is the same,
+        // replace all data except the messages array
+        const existingConversation = newAllConversations[indexInCurrentList];
+        newAllConversations[indexInCurrentList] = {
+          ...conversation,
+          messages: existingConversation.messages,
+        };
       }
     });
     _state.allConversations = newAllConversations;
@@ -285,6 +300,13 @@ export const mutations = {
 
   [types.SET_CONTEXT_MENU_CHAT_ID](_state, chatId) {
     _state.contextMenuChatId = chatId;
+  },
+
+  [types.SET_CHAT_LIST_FILTERS](_state, data) {
+    _state.conversationFilters = data;
+  },
+  [types.UPDATE_CHAT_LIST_FILTERS](_state, data) {
+    _state.conversationFilters = { ..._state.conversationFilters, ...data };
   },
 };
 
