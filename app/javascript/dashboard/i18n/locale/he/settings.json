@@ -278,7 +278,7 @@
     "SLA": "SLA",
     "BETA": "בטא",
     "REPORTS_OVERVIEW": "סקירה כללית",
-    "FACEBOOK_REAUTHORIZE": "פג תוקף החיבור שלך לפייסבוק, אנא חבר מחדש את דף הפייסבוק שלך כדי להמשיך בשירותים",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Help Center",
       "ALL_ARTICLES": "כל המאמרים",
