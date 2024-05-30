@@ -278,7 +278,7 @@
     "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Übersicht",
-    "FACEBOOK_REAUTHORIZE": "Ihre Facebook-Verbindung ist abgelaufen, bitte verbinden Sie sich erneut.",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Hilfezentrum",
       "ALL_ARTICLES": "Alle Artikel",
