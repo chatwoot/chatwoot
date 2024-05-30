@@ -53,6 +53,12 @@ export default {
           src: '/assets/images/dashboard/channels/microsoft.png',
         },
         {
+          title: this.$t('INBOX_MGMT.EMAIL_PROVIDERS.GOOGLE'),
+          isEnabled: !!window.chatwootConfig.googleOAuthClientId,
+          key: 'google',
+          src: '/assets/images/dashboard/channels/google.png',
+        },
+        {
           title: this.$t('INBOX_MGMT.EMAIL_PROVIDERS.OTHER_PROVIDERS'),
           isEnabled: true,
           key: 'other_provider',
