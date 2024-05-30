@@ -119,9 +119,6 @@ export default {
   },
 
   methods: {
-    showAlert(message) {
-      this.showAlert(message);
-    },
     async addAgent() {
       try {
         await this.$store.dispatch('agents/create', {

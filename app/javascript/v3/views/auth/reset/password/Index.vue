@@ -81,7 +81,7 @@ export default {
     },
   },
   methods: {
-    showAlert(message) {
+    showAlertMessage(message) {
       // Reset loading, current selected agent
       this.resetPassword.showLoading = false;
       this.showAlert(message);
@@ -94,7 +94,7 @@ export default {
           if (res.data && res.data.message) {
             successMessage = res.data.message;
           }
-          this.showAlert(successMessage);
+          this.showAlertMessage(successMessage);
         })
         .catch(error => {
           let errorMessage = this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');

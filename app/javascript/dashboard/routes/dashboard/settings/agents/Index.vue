@@ -231,13 +231,13 @@ export default {
     async deleteAgent(id) {
       try {
         await this.$store.dispatch('agents/delete', id);
-        this.showAlert(this.$t('AGENT_MGMT.DELETE.API.SUCCESS_MESSAGE'));
+        this.showAlertMessage(this.$t('AGENT_MGMT.DELETE.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(this.$t('AGENT_MGMT.DELETE.API.ERROR_MESSAGE'));
+        this.showAlertMessage(this.$t('AGENT_MGMT.DELETE.API.ERROR_MESSAGE'));
       }
     },
     // Show SnackBar
-    showAlert(message) {
+    showAlertMessage(message) {
       // Reset loading, current selected agent
       this.loading[this.currentAgent.id] = false;
       this.currentAgent = {};

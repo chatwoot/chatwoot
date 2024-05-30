@@ -189,7 +189,7 @@ export default {
       });
       this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
     },
-    showAlert(message) {
+    showAlertMessage(message) {
       // Reset loading, current selected agent
       this.loading[this.selectedResponse.id] = false;
       this.selectedResponse = {};
@@ -232,12 +232,14 @@ export default {
       this.$store
         .dispatch('deleteCannedResponse', id)
         .then(() => {
-          this.showAlert(this.$t('CANNED_MGMT.DELETE.API.SUCCESS_MESSAGE'));
+          this.showAlertMessage(
+            this.$t('CANNED_MGMT.DELETE.API.SUCCESS_MESSAGE')
+          );
         })
         .catch(error => {
           const errorMessage =
             error?.message || this.$t('CANNED_MGMT.DELETE.API.ERROR_MESSAGE');
-          this.showAlert(errorMessage);
+          this.showAlertMessage(errorMessage);
         });
     },
   },

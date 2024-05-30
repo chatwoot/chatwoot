@@ -107,7 +107,7 @@ export default {
     },
   },
   methods: {
-    showAlert(message) {
+    showAlertMessage(message) {
       // Reset loading, current selected agent
       this.newPasswordAPI.showLoading = false;
       this.showAlert(message);
@@ -124,7 +124,7 @@ export default {
           window.location = DEFAULT_REDIRECT_URL;
         })
         .catch(error => {
-          this.showAlert(
+          this.showAlertMessage(
             error?.message || this.$t('SET_NEW_PASSWORD.API.ERROR_MESSAGE')
           );
         });

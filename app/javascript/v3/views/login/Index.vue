@@ -187,7 +187,7 @@ export default {
         setTimeout(callback, 0);
       }
     },
-    showAlert(message) {
+    showAlertMessage(message) {
       // Reset loading, current selected agent
       this.loginApi.showLoading = false;
       this.loginApi.message = message;
@@ -195,7 +195,7 @@ export default {
     },
     submitLogin() {
       if (this.$v.credentials.email.$invalid && !this.email) {
-        this.showAlert(this.$t('LOGIN.EMAIL.ERROR'));
+        this.showAlertMessage(this.$t('LOGIN.EMAIL.ERROR'));
         return;
       }
 

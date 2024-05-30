@@ -171,9 +171,6 @@ export default {
     },
   },
   methods: {
-    showAlert(message) {
-      this.showAlert(message);
-    },
     async editAgent() {
       try {
         await this.$store.dispatch('agents/update', {
