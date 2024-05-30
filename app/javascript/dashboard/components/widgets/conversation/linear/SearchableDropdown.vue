@@ -1,5 +1,8 @@
 <template>
-  <div class="flex w-full">
+  <div
+    class="flex w-full"
+    :class="type === 'stateId' && shouldShowDropdown ? 'h-[256px]' : 'gap-2'"
+  >
     <label class="w-full" :class="{ error: hasError }">
       {{ label }}
       <filter-button

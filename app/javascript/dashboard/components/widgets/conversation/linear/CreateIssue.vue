@@ -26,17 +26,19 @@
         "
       />
     </label>
-    <searchable-dropdown
-      v-for="dropdown in dropdowns"
-      :key="dropdown.type"
-      :type="dropdown.type"
-      :value="formState[dropdown.type]"
-      :label="$t(dropdown.label)"
-      :items="dropdown.items"
-      :placeholder="$t(dropdown.placeholder)"
-      :error="dropdown.error"
-      @change="onChange"
-    />
+    <div class="flex flex-col gap-4">
+      <searchable-dropdown
+        v-for="dropdown in dropdowns"
+        :key="dropdown.type"
+        :type="dropdown.type"
+        :value="formState[dropdown.type]"
+        :label="$t(dropdown.label)"
+        :items="dropdown.items"
+        :placeholder="$t(dropdown.placeholder)"
+        :error="dropdown.error"
+        @change="onChange"
+      />
+    </div>
     <div class="flex items-center justify-end w-full gap-2 mt-8">
       <woot-button
         class="px-4 rounded-xl button clear outline-woot-200/50 outline"
