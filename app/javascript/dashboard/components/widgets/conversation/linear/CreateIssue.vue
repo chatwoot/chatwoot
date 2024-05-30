@@ -12,20 +12,25 @@
       :error="nameError"
       @input="v$.title.$touch"
     />
-    <label>
-      {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.DESCRIPTION.LABEL') }}
-      <textarea
-        v-model="formState.description"
-        :style="{ ...inputStyles, padding: '8px 12px' }"
-        rows="3"
-        class="text-sm"
-        :placeholder="
-          $t(
-            'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.DESCRIPTION.PLACEHOLDER'
-          )
-        "
-      />
-    </label>
+    <div class="editor-wrap">
+      <label>
+        {{
+          $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.DESCRIPTION.LABEL')
+        }}
+      </label>
+      <div>
+        <woot-message-editor
+          v-model="formState.description"
+          class="message-editor"
+          :style="{ ...inputStyles, padding: '8px 12px' }"
+          :placeholder="
+            $t(
+              'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.DESCRIPTION.PLACEHOLDER'
+            )
+          "
+        />
+      </div>
+    </div>
     <label :class="{ error: v$.teamId.$error }">
       {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TEAM.LABEL') }}
       <select
@@ -107,7 +112,9 @@ import { useI18n } from 'dashboard/composables/useI18n';
 import { useAlert } from 'dashboard/composables';
 import LinearAPI from 'dashboard/api/integrations/linear';
 import validations from './validations';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import { parseLinearAPIErrorResponse } from 'dashboard/store/utils/api';
+import { inject } from 'vue';
 
 const props = defineProps({
   accountId: {
@@ -253,5 +260,13 @@ const createIssue = async () => {
   }
 };
 
-onMounted(getTeams);
+onMounted(() => {
+  getTeams();
+  if (inject('suggestedTitle')) {
+    formState.title = inject('suggestedTitle');
+  }
+  if (inject('suggestedSummary')) {
+    formState.description = inject('suggestedSummary');
+  }
+});
 </script>

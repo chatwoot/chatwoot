@@ -16,8 +16,9 @@ Make sure you strongly adhere to the following rules when generating the title a
     - Use markdown syntax to format any included code, using backticks.
     - If there are unresolved issues or outstanding questions, include them in a "Follow-up Items" section.
 
-Reply in the user's language, as a markdown of the following format.
+Output the response in the following JSON format:
 
-**Title**
-
-**Description**
+{
+  "title": "<GENERATED_TITLE>",
+  "description": "<GENERATED_DESCRIPTION>"
+}

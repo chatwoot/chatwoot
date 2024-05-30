@@ -47,6 +47,7 @@ import { useI18n } from 'dashboard/composables/useI18n';
 import LinearAPI from 'dashboard/api/integrations/linear';
 import CreateOrLinkIssue from './CreateOrLinkIssue.vue';
 import Issue from './Issue.vue';
+import OpenAPI from 'dashboard/api/integrations/openapi';
 import { parseLinearAPIErrorResponse } from 'dashboard/store/utils/api';
 
 defineComponent({
@@ -63,6 +64,9 @@ const props = defineProps({
 const getters = useStoreGetters();
 const { t } = useI18n();
 
+const suggestedTitle = ref('');
+const suggestedSummary = ref('');
+
 const linkedIssue = ref(null);
 const shouldShow = ref(false);
 const shouldShowPopup = ref(false);
@@ -70,11 +74,23 @@ const isUnlinking = ref(false);
 
 provide('isUnlinking', isUnlinking);
 
+provide('suggestedTitle', suggestedTitle);
+provide('suggestedSummary', suggestedSummary);
+
 const currentAccountId = getters.getCurrentAccountId;
 
 const conversation = computed(() =>
   getters.getConversationById.value(props.conversationId)
 );
+
+const appIntegrations = getters['integrations/getAppIntegrations'];
+
+const aiIntegration = computed(() => {
+  return appIntegrations.value.find(
+    integration => integration.id === 'openai' && !!integration.hooks.length
+  )?.hooks[0];
+});
+const isAIIntegrationEnabled = computed(() => !!aiIntegration.value);
 
 const tooltipText = computed(() => {
   return linkedIssue.value === null
@@ -82,6 +98,22 @@ const tooltipText = computed(() => {
     : null;
 });
 
+const suggestTitleAndSummary = async () => {
+  try {
+    const response = await OpenAPI.processEvent({
+      type: 'summary_with_title',
+      hookId: aiIntegration.value.id,
+      conversationId: props.conversationId,
+    });
+    const { message } = response.data;
+    const messageObject = JSON.parse(message);
+    const { title = '', description = '' } = messageObject;
+    suggestedTitle.value = title;
+    suggestedSummary.value = description;
+  } catch (error) {
+    // Since this is a non-critical operation, we don't want to show an alert to the user
+  }
+};
 const loadLinkedIssue = async () => {
   linkedIssue.value = null;
   try {
@@ -137,5 +169,8 @@ watch(
 
 onMounted(() => {
   loadLinkedIssue();
+  if (isAIIntegrationEnabled.value) {
+    suggestTitleAndSummary();
+  }
 });
 </script>

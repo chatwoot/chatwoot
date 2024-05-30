@@ -29,6 +29,7 @@ class OpenAIAPI extends ApiClient {
       'summarize',
       'reply_suggestion',
       'label_suggestion',
+      'summary_with_title',
     ];
 
     /**
