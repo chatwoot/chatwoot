@@ -18,6 +18,13 @@ jobs:
   nightly:
     runs-on: ubuntu-20.04
     steps:
+    ## temporary fix for gh actions since node 20 installed via script is not taking effect till 30june2024
+    ## https://github.blog/changelog/2024-05-17-updated-dates-for-actions-runner-using-node20-instead-of-node16-by-default
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'yarn'
 
     - name: get installer
       run: |
