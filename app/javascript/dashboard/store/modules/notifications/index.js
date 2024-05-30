@@ -17,6 +17,7 @@ const state = {
     isUpdatingUnreadCount: false,
     isAllNotificationsLoaded: false,
   },
+  notificationFilters: {},
 };
 
 export default {
