@@ -109,6 +109,8 @@ const onSearch = async value => {
     issues.value = response.data.map(issue => ({
       id: issue.id,
       name: `${issue.identifier} ${issue.title}`,
+      leftIcon: 'status',
+      leftIconColor: issue.state.color,
     }));
   } catch (error) {
     const errorMessage = parseLinearAPIErrorResponse(
