@@ -278,7 +278,7 @@
     "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Visão geral",
-    "FACEBOOK_REAUTHORIZE": "A sua ligação ao Facebook caducou, volte a ligar a página para poder continuar a utilizar os serviços",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Centro de Suporte",
       "ALL_ARTICLES": "Todos os Artigos",
