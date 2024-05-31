@@ -1,6 +1,16 @@
 import types from '../../../mutation-types';
 import { mutations } from '../../conversations';
 
+jest.mock('shared/helpers/mitt', () => ({
+  emitter: {
+    emit: jest.fn(),
+    on: jest.fn(),
+    off: jest.fn(),
+  },
+}));
+
+import { emitter } from 'shared/helpers/mitt';
+
 describe('#mutations', () => {
   describe('#EMPTY_ALL_CONVERSATION', () => {
     it('empty conversations', () => {
@@ -130,7 +140,7 @@ describe('#mutations', () => {
           timestamp: 1602256198,
         },
       ]);
-      expect(global.bus.$emit).not.toHaveBeenCalled();
+      expect(emitter.emit).not.toHaveBeenCalled();
     });
 
     it('add message to the conversation and emit scrollToMessage if it does not exist in the store', () => {
@@ -158,7 +168,7 @@ describe('#mutations', () => {
           timestamp: 1602256198,
         },
       ]);
-      expect(global.bus.$emit).toHaveBeenCalledWith('SCROLL_TO_MESSAGE');
+      expect(emitter.emit).toHaveBeenCalledWith('SCROLL_TO_MESSAGE');
     });
 
     it('update message if it exist in the store', () => {
@@ -195,7 +205,7 @@ describe('#mutations', () => {
           ],
         },
       ]);
-      expect(global.bus.$emit).not.toHaveBeenCalled();
+      expect(emitter.emit).not.toHaveBeenCalled();
     });
   });
 

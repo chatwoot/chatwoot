@@ -47,7 +47,9 @@ export default {
   },
   methods: {
     scrollToMessage() {
-      bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId: this.message.id });
+      this.$emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE, {
+        messageId: this.message.id,
+      });
     },
   },
 };
