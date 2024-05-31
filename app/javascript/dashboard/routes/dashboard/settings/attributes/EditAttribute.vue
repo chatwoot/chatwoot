@@ -43,7 +43,7 @@
           {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LABEL') }}
           <select v-model="attributeType" disabled>
             <option v-for="type in types" :key="type.id" :value="type.id">
-              {{ $t(type.option) }}
+              {{ $t(type.text) }}
             </option>
           </select>
           <span v-if="$v.attributeType.$error" class="message">
