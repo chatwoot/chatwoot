@@ -1,5 +1,6 @@
 import { mapGetters } from 'vuex';
 import wootConstants from 'dashboard/constants/globals';
+import { emitter } from 'shared/helpers/mitt';
 
 import { CMD_AI_ASSIST } from './commandBarBusEvents';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
@@ -318,7 +319,7 @@ export default {
         section: this.$t('COMMAND_BAR.SECTIONS.AI_ASSIST'),
         priority: item,
         icon: item.icon,
-        handler: () => bus.$emit(CMD_AI_ASSIST, item.key),
+        handler: () => emitter.emit(CMD_AI_ASSIST, item.key),
       }));
       return [
         {

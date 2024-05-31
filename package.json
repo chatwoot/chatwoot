@@ -31,6 +31,7 @@
   ],
   "dependencies": {
     "@braid/vue-formulate": "^2.5.2",
+    "@chatwoot/ninja-keys": "1.2.3",
     "@chatwoot/prosemirror-schema": "1.0.9",
     "@chatwoot/utils": "^0.0.25",
     "@hcaptcha/vue-hcaptcha": "^0.3.2",
@@ -67,7 +68,7 @@
     "markdown-it": "^13.0.2",
     "markdown-it-link-attributes": "^4.0.1",
     "md5": "^2.3.0",
-    "@chatwoot/ninja-keys": "1.2.3",
+    "mitt": "^3.0.1",
     "opus-recorder": "^8.0.5",
     "postcss": "^8.4.31",
     "postcss-loader": "^4.2.0",

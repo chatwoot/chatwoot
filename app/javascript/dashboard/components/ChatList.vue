@@ -514,14 +514,14 @@ export default {
       this.$store.dispatch('campaigns/get');
     }
 
-    bus.$on('fetch_conversation_stats', () => {
+    this.$emitter.on('fetch_conversation_stats', () => {
       this.$store.dispatch('conversationStats/get', this.conversationFilters);
     });
 
-    bus.$on(CMD_SNOOZE_CONVERSATION, this.onCmdSnoozeConversation);
+    this.$emitter.on(CMD_SNOOZE_CONVERSATION, this.onCmdSnoozeConversation);
   },
   beforeDestroy() {
-    bus.$off(CMD_SNOOZE_CONVERSATION, this.onCmdSnoozeConversation);
+    this.$emitter.off(CMD_SNOOZE_CONVERSATION, this.onCmdSnoozeConversation);
   },
   methods: {
     updateVirtualListProps(key, value) {
@@ -742,7 +742,7 @@ export default {
     updateAssigneeTab(selectedTab) {
       if (this.activeAssigneeTab !== selectedTab) {
         this.resetBulkActions();
-        bus.$emit('clearSearchInput');
+        this.$emitter.emit('clearSearchInput');
         this.activeAssigneeTab = selectedTab;
         if (!this.currentPage) {
           this.fetchConversations();
