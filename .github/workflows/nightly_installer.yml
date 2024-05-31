@@ -35,6 +35,7 @@ jobs:
         #fix for postgtres not starting automatically in gh action env
         sed -i '/function configure_db() {/a sudo service postgresql start' install.sh
         sed -i '/function setup_chatwoot() {/a export PATH="/usr/bin/:$PATH"' install.sh
+        sed -i '/git checkout "\$BRANCH"/a export PATH="/usr/bin/:$PATH"' install.sh
 
     - name: create input file
       run: |
