@@ -51,11 +51,13 @@ import { mapGetters } from 'vuex';
 import InboxMembersAPI from '../../../../api/inboxMembers';
 import router from '../../../index';
 import PageHeader from '../SettingsSubPageHeader.vue';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     PageHeader,
   },
+  mixins: [alertMixin],
 
   validations: {
     selectedAgents: {
@@ -98,7 +100,7 @@ export default {
           },
         });
       } catch (error) {
-        bus.$emit('newToastMessage', error.message);
+        this.showAlert(error.message);
       }
       this.isCreating = false;
     },
