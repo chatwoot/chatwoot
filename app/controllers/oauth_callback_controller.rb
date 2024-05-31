@@ -13,6 +13,14 @@ class OauthCallbackController < ApplicationController
 
   private
 
+  def provider_name
+    raise NotImplementedError
+  end
+
+  def oauth_client
+    raise NotImplementedError
+  end
+
   def oauth_code
     params[:code]
   end
@@ -22,19 +30,6 @@ class OauthCallbackController < ApplicationController
   end
 
   def parsed_body
-    @parsed_body ||= Rack::Utils.parse_nested_query(@response.raw_response.body)
-  end
-
-  # These methods should be implemented in the subclasses
-  def oauth_client
-    raise NotImplementedError
-  end
-
-  def provider_name
-    raise NotImplementedError
-  end
-
-  def handle_response
-    raise NotImplementedError
+    @parsed_body ||= @response.response.parsed
   end
 end

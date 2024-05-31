@@ -1,4 +1,10 @@
 class Microsoft::CallbacksController < OauthCallbackController
+  private
+
+  def provider_name
+    'microsoft'
+  end
+
   def handle_response
     inbox, already_exists = find_or_create_inbox
     ::Redis::Alfred.delete(users_data['email'].downcase)
@@ -8,12 +14,6 @@ class Microsoft::CallbacksController < OauthCallbackController
     else
       redirect_to app_microsoft_inbox_agents_url(account_id: account.id, inbox_id: inbox.id)
     end
-  end
-
-  private
-
-  def provider_name
-    'microsoft'
   end
 
   def oauth_client
