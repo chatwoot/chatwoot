@@ -1,6 +1,16 @@
 import types from '../../../mutation-types';
 import { mutations } from '../../conversations';
 
+jest.mock('shared/helpers/mitt', () => ({
+  emitter: {
+    emit: jest.fn(),
+    on: jest.fn(),
+    off: jest.fn(),
+  },
+}));
+
+import { emitter } from 'shared/helpers/mitt';
+
 describe('#mutations', () => {
   describe('#EMPTY_ALL_CONVERSATION', () => {
     it('empty conversations', () => {
@@ -130,7 +140,7 @@ describe('#mutations', () => {
           timestamp: 1602256198,
         },
       ]);
-      expect(global.bus.$emit).not.toHaveBeenCalled();
+      expect(emitter.emit).not.toHaveBeenCalled();
     });
 
     it('add message to the conversation and emit scrollToMessage if it does not exist in the store', () => {
@@ -158,7 +168,7 @@ describe('#mutations', () => {
           timestamp: 1602256198,
         },
       ]);
-      expect(global.bus.$emit).toHaveBeenCalledWith('SCROLL_TO_MESSAGE');
+      expect(emitter.emit).toHaveBeenCalledWith('SCROLL_TO_MESSAGE');
     });
 
     it('update message if it exist in the store', () => {
@@ -195,7 +205,7 @@ describe('#mutations', () => {
           ],
         },
       ]);
-      expect(global.bus.$emit).not.toHaveBeenCalled();
+      expect(emitter.emit).not.toHaveBeenCalled();
     });
   });
 
@@ -276,6 +286,66 @@ describe('#mutations', () => {
       };
       mutations[types.CLEAR_CONVERSATION_FILTERS](state);
       expect(state.appliedFilters).toEqual([]);
+    });
+  });
+
+  describe('#SET_ALL_CONVERSATION', () => {
+    it('set all conversation', () => {
+      const state = { allConversations: [{ id: 1 }] };
+      const data = [{ id: 1, name: 'test' }];
+      mutations[types.SET_ALL_CONVERSATION](state, data);
+      expect(state.allConversations).toEqual(data);
+    });
+
+    it('set all conversation in reconnect if selected chat id and conversation id is the same', () => {
+      const state = {
+        allConversations: [{ id: 1, status: 'open' }],
+        selectedChatId: 1,
+      };
+      const data = [{ id: 1, name: 'test', status: 'resolved' }];
+      mutations[types.SET_ALL_CONVERSATION](state, data);
+      expect(state.allConversations).toEqual(data);
+    });
+
+    it('set all conversation in reconnect if selected chat id and conversation id is the same then do not update messages', () => {
+      const state = {
+        allConversations: [{ id: 1, messages: [{ id: 1, content: 'test' }] }],
+        selectedChatId: 1,
+      };
+      const data = [
+        {
+          id: 1,
+          name: 'test',
+          messages: [{ id: 1, content: 'updated message' }],
+        },
+      ];
+      const expected = [
+        { id: 1, name: 'test', messages: [{ id: 1, content: 'test' }] },
+      ];
+      mutations[types.SET_ALL_CONVERSATION](state, data);
+      expect(state.allConversations).toEqual(expected);
+    });
+
+    it('set all conversation in reconnect if selected chat id and conversation id is not the same', () => {
+      const state = {
+        allConversations: [{ id: 1, status: 'open' }],
+        selectedChatId: 2,
+      };
+      const data = [{ id: 1, name: 'test', status: 'resolved' }];
+      mutations[types.SET_ALL_CONVERSATION](state, data);
+      expect(state.allConversations).toEqual(data);
+    });
+
+    it('set all conversation in reconnect if selected chat id and conversation id is not the same then update messages', () => {
+      const state = {
+        allConversations: [{ id: 1, messages: [{ id: 1, content: 'test' }] }],
+        selectedChatId: 2,
+      };
+      const data = [
+        { id: 1, name: 'test', messages: [{ id: 1, content: 'tested' }] },
+      ];
+      mutations[types.SET_ALL_CONVERSATION](state, data);
+      expect(state.allConversations).toEqual(data);
     });
   });
 
@@ -409,6 +479,56 @@ describe('#mutations', () => {
       const state = { contextMenuChatId: 1 };
       mutations[types.SET_CONTEXT_MENU_CHAT_ID](state, 2);
       expect(state.contextMenuChatId).toEqual(2);
+    });
+  });
+
+  describe('#SET_CHAT_LIST_FILTERS', () => {
+    it('set chat list filters', () => {
+      const conversationFilters = {
+        inboxId: 1,
+        assigneeType: 'me',
+        status: 'open',
+        sortBy: 'created_at',
+        page: 1,
+        labels: ['label'],
+        teamId: 1,
+        conversationType: 'mention',
+      };
+      const state = { conversationFilters: conversationFilters };
+      mutations[types.SET_CHAT_LIST_FILTERS](state, conversationFilters);
+      expect(state.conversationFilters).toEqual(conversationFilters);
+    });
+  });
+
+  describe('#UPDATE_CHAT_LIST_FILTERS', () => {
+    it('update chat list filters', () => {
+      const conversationFilters = {
+        inboxId: 1,
+        assigneeType: 'me',
+        status: 'open',
+        sortBy: 'created_at',
+        page: 1,
+        labels: ['label'],
+        teamId: 1,
+        conversationType: 'mention',
+      };
+      const state = { conversationFilters: conversationFilters };
+      mutations[types.UPDATE_CHAT_LIST_FILTERS](state, {
+        inboxId: 2,
+        updatedWithin: 20,
+        assigneeType: 'all',
+      });
+      expect(state.conversationFilters).toEqual({
+        inboxId: 2,
+        assigneeType: 'all',
+        status: 'open',
+        sortBy: 'created_at',
+        page: 1,
+        labels: ['label'],
+        teamId: 1,
+        conversationType: 'mention',
+        updatedWithin: 20,
+      });
     });
   });
 });

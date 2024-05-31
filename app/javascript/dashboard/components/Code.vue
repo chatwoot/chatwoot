@@ -25,8 +25,10 @@
 <script>
 import 'highlight.js/styles/default.css';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
+  mixins: [alertMixin],
   props: {
     script: {
       type: String,
@@ -59,7 +61,7 @@ export default {
     async onCopy(e) {
       e.preventDefault();
       await copyTextToClipboard(this.script);
-      bus.$emit('newToastMessage', this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
+      this.showAlert(this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
     },
   },
 };

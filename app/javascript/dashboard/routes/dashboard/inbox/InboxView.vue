@@ -140,7 +140,7 @@ export default {
       this.$store
         .dispatch('setActiveChat', { data: selectedConversation })
         .then(() => {
-          bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+          this.$emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
         });
     },
     findConversation() {
