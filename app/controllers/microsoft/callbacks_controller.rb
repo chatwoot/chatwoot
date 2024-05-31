@@ -10,6 +10,12 @@ class Microsoft::CallbacksController < OauthCallbackController
     end
   end
 
+  private
+
+  def provider_name
+    'microsoft'
+  end
+
   def oauth_client
     app_id = GlobalConfigService.load('AZURE_APP_ID', nil)
     app_secret = GlobalConfigService.load('AZURE_APP_SECRET', nil)
@@ -21,8 +27,6 @@ class Microsoft::CallbacksController < OauthCallbackController
                            token_url: 'https://login.microsoftonline.com/common/oauth2/v2.0/token'
                          })
   end
-
-  private
 
   def users_data
     decoded_token = JWT.decode parsed_body[:id_token], nil, false
