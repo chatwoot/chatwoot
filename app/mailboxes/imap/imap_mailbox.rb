@@ -12,6 +12,9 @@ class Imap::ImapMailbox
     # prevent loop from chatwoot notification emails
     return if notification_email_from_chatwoot?
 
+    # Stop processing if email format doesn't match Chatwoot supported mail format
+    return unless email_from_valid_email?
+
     ActiveRecord::Base.transaction do
       find_or_create_contact
       find_or_create_conversation
@@ -32,6 +35,18 @@ class Imap::ImapMailbox
 
   def decorate_mail
     @processed_mail = MailPresenter.new(@inbound_mail, @account)
+  end
+
+  def email_from_valid_email?
+    Rails.logger.info("Processing Email from: #{@processed_mail.original_sender} : inbox #{@inbox.id}")
+
+    # validate email with  Devise.email_regexp
+    if Devise.email_regexp.match?(@processed_mail.original_sender)
+      true
+    else
+      Rails.logger.error("Email from: #{@processed_mail.original_sender} : inbox #{@inbox.id} is invalid")
+      false
+    end
   end
 
   def find_conversation_by_in_reply_to

@@ -4,6 +4,7 @@ import Vue from 'vue';
 import PublicArticleSearch from './components/PublicArticleSearch.vue';
 import TableOfContents from './components/TableOfContents.vue';
 import { initializeTheme } from './portalThemeHelper.js';
+import { directive as onClickaway } from 'vue-clickaway';
 
 export const getHeadingsfromTheArticle = () => {
   const rows = [];
@@ -80,6 +81,9 @@ export const InitializationHelpers = {
     if (isSearchContainerAvailable) {
       new Vue({
         components: { PublicArticleSearch },
+        directives: {
+          'on-clickaway': onClickaway,
+        },
         template: '<PublicArticleSearch />',
       }).$mount('#search-wrap');
     }
