@@ -1,9 +1,13 @@
-class Google::CallbacksController < ApplicationController
-  def handle_response
-    redirect_to '/'
+class Google::CallbacksController < OauthCallbackController
+  private
+
+  def provider_name
+    'google'
   end
 
-  private
+  def handle_response
+    # implement @response.body
+  end
 
   def oauth_client
     app_id = GlobalConfigService.load('GOOGLE_OAUTH_CLIENT_ID', nil)
