@@ -47,6 +47,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import wootConstants from 'dashboard/constants/globals';
+
 import InboxCard from './components/InboxCard.vue';
 import InboxListHeader from './components/InboxListHeader.vue';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
@@ -101,6 +102,13 @@ export default {
     },
     showEmptyState() {
       return !this.uiFlags.isFetching && !this.notifications.length;
+    },
+  },
+  watch: {
+    inboxFilters(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.$store.dispatch('notifications/updateNotificationFilters', newVal);
+      }
     },
   },
   mounted() {
@@ -190,6 +198,10 @@ export default {
       this.status = status;
       this.type = type;
       this.sortOrder = sortBy || wootConstants.INBOX_SORT_BY.NEWEST;
+      this.$store.dispatch(
+        'notifications/setNotificationFilters',
+        this.inboxFilters
+      );
     },
   },
 };
