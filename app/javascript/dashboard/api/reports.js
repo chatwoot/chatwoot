@@ -61,6 +61,12 @@ class ReportsAPI extends ApiClient {
     });
   }
 
+  getConversationReports({ from: since, to: until, businessHours }) {
+    return axios.get(`${this.url}/conversation_reports`, {
+      params: { since, until, business_hours: businessHours },
+    });
+  }
+
   getConversationTrafficCSV({ daysBefore = 6 } = {}) {
     return axios.get(`${this.url}/conversation_traffic`, {
       params: { timezone_offset: getTimeOffset(), days_before: daysBefore },
