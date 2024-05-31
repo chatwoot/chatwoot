@@ -1,5 +1,14 @@
 import types from '../../../mutation-types';
 import { mutations } from '../../conversations';
+
+jest.mock('shared/helpers/mitt', () => ({
+  emitter: {
+    emit: jest.fn(),
+    on: jest.fn(),
+    off: jest.fn(),
+  },
+}));
+
 import { emitter } from 'shared/helpers/mitt';
 
 describe('#mutations', () => {
