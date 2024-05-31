@@ -18,6 +18,9 @@ jobs:
   nightly:
     runs-on: ubuntu-20.04
     steps:
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
+      if: always()
     ## temporary fix for gh actions since node 20 installed via script is not taking effect till 30june2024
     ## https://github.blog/changelog/2024-05-17-updated-dates-for-actions-runner-using-node20-instead-of-node16-by-default
     - name: Setup Node.js
@@ -50,9 +53,7 @@ jobs:
         #        sudo systemctl restart chatwoot.target
         #        curl http://localhost:3000/api
 
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
-      if: always()
+
 
     - name: Upload chatwoot setup log file as an artifact
       uses: actions/upload-artifact@v4
