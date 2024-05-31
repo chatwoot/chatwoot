@@ -209,6 +209,9 @@ pt:
     openai:
       name: "OpenAI"
       description: "Integre os poderosos recursos de IA com o Chatwoot utilizando os modelos GPT do OpenAI."
+    linear:
+      name: "Linear"
+      description: "Create Linear issues from conversations, or link existing ones for seamless tracking."
   public_portal:
     search:
       search_placeholder: Pesquisar artigo por título ou corpo...

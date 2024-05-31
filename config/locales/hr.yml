@@ -209,6 +209,9 @@ hr:
     openai:
       name: "OpenAI"
       description: "Integiraj napredne AI funkcionalnosti u Chatwoot koristeći GPT modele od OpenAI."
+    linear:
+      name: "Linear"
+      description: "Create Linear issues from conversations, or link existing ones for seamless tracking."
   public_portal:
     search:
       search_placeholder: Search for article by title or body...

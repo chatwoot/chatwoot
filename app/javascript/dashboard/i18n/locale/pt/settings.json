@@ -10,7 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "Sua senha foi alterada com sucesso",
     "AFTER_EMAIL_CHANGED": "Seu perfil foi atualizado com sucesso, faça o login novamente pois suas credenciais foram alteradas",
     "FORM": {
-      "PICTURE": "Profile Picture",
+      "PICTURE": "Imagem de perfil",
       "AVATAR": "Imagem do perfil",
       "ERROR": "Por favor, corrigir erros de formulário",
       "REMOVE_IMAGE": "Excluir",
@@ -65,11 +65,11 @@
         "NOTE": "Ativar notificações de som no painel quando surgirem novas mensagens e conversas.",
         "ALERT_TYPES": {
           "NONE": "Nenhuma",
-          "MINE": "Assigned",
+          "MINE": "Atribuída",
           "ALL": "Todas"
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "Eventos de alerta para conversas:",
           "NONE": "Nenhuma",
           "ASSIGNED": "Conversas atribuídas",
           "ALL_CONVERSATIONS": "Todas as conversas"
@@ -278,7 +278,7 @@
     "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Visão geral",
-    "FACEBOOK_REAUTHORIZE": "A sua ligação ao Facebook caducou, volte a ligar a página para poder continuar a utilizar os serviços",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Centro de Suporte",
       "ALL_ARTICLES": "Todos os Artigos",
