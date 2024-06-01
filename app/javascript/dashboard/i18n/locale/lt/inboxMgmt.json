@@ -366,6 +366,7 @@
         "TITLE": "Microsoft El. paštas",
         "DESCRIPTION": "Spustelėkite mygtuką Prisijungti naudojant Microsoft, kad pradėtumėte. Būsite nukreipti į prisijungimo el. pašto pagalba puslapį. Kai sutiksite su prašomais leidimais, būsite nukreipti atgal į gautų laiškų aplanko kūrimo veiksmą.",
         "EMAIL_PLACEHOLDER": "Įvesti el. pašto adresą",
+        "SIGN_IN": "Sign in with Microsoft",
         "HELP": "Norėdami pridėti „Microsoft“ paskyrą kaip kanalą, jūs turite autentifikuoti savo Microsoft paskyrą spustelėdami „Prisijungti naudojant Microsoft“ ",
         "ERROR_MESSAGE": "Prisijungiant prie Microsoft įvyko klaida, bandykite dar kartą"
       }
