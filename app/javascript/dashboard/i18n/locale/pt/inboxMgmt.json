@@ -366,6 +366,7 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "Para começar, clique no botão Entrar com a Microsoft. Será redirecionado para o e-mail que entrar na página. Depois de aceitar as permissões solicitadas, será redirecionado novamente para a etapa de criação da caixa de entrada.",
         "EMAIL_PLACEHOLDER": "Insira endereço de email",
+        "SIGN_IN": "Sign in with Microsoft",
         "HELP": "Para adicionar a sua conta da Microsoft como um canal, é necessário autenticar a sua conta da Microsoft clicando em 'Entrar com Microsoft' ",
         "ERROR_MESSAGE": "Ocorreu um erro ao ligar à Microsoft, por favor tente novamente"
       }
