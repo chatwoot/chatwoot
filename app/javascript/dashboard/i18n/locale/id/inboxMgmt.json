@@ -366,6 +366,7 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "Klik tombol Masuk dengan Microsoft untuk memulai. Anda akan dialihkan ke halaman masuk email. Setelah Anda menerima izin yang diminta, Anda akan diarahkan kembali ke langkah pembuatan kotak masuk.",
         "EMAIL_PLACEHOLDER": "Masukkan alamat email",
+        "SIGN_IN": "Sign in with Microsoft",
         "HELP": "Untuk menambahkan akun Microsoft Anda sebagai saluran, Anda perlu mengotentikasi akun Microsoft Anda dengan mengeklik 'Masuk dengan Microsoft' ",
         "ERROR_MESSAGE": "Terjadi kesalahan saat menghubungkan ke Microsoft, harap coba lagi"
       }
