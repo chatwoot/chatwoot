@@ -366,6 +366,7 @@
         "TITLE": "אימייל של מיקרוסופט",
         "DESCRIPTION": "לחץ על Sign in with Microsoft בכדי להתחיל. אתה תופנה למסך ההתחברות של Microsoft. ברגע שתאשר את בקשת ההרשאות, תופנה חזרה להגדרות תיבת הדואר.",
         "EMAIL_PLACEHOLDER": "הכנס כתובת דוא\"ל",
+        "SIGN_IN": "Sign in with Microsoft",
         "HELP": "בכדי להוסיף חשבון Microsoft כערוץ, עליך להתחבר לחשבונך ע\"י לחיצה על 'Sign in with Microsoft' ",
         "ERROR_MESSAGE": "אירעה שגיאה בהתחברות ל- Microsoft, אנא נסה שנית"
       }
