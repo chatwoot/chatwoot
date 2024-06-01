@@ -8,8 +8,8 @@ import messageReadActions from './actions/messageReadActions';
 import messageTranslateActions from './actions/messageTranslateActions';
 import {
   buildConversationList,
-  isOnFoldersView,
   getCustomViewPayload,
+  isOnFoldersView,
   isOnMentionsView,
   isOnUnattendedView,
 } from './helpers/actionHelpers';
@@ -358,10 +358,7 @@ const actions = {
     }
   },
 
-  updateConversation(
-    { commit, dispatch, rootState, rootGetters },
-    conversation
-  ) {
+  updateConversation({ commit, dispatch, rootState }, conversation) {
     const {
       meta: { sender },
     } = conversation;
@@ -372,12 +369,12 @@ const actions = {
         id: conversation.id,
         data: conversation.labels,
       });
-      if (isOnFoldersView(rootState)) {
-        // refreshes the folder view
-        const customViews = rootGetters['customViews/getCustomViews'];
-        const customViewPayload = getCustomViewPayload(rootState, customViews);
-        dispatch('customViews/update', customViewPayload);
-      }
+      // if (isOnFoldersView(rootState)) {
+      //   // refreshes the folder view
+      //   const customViews = rootGetters['customViews/getCustomViews'];
+      //   const customViewPayload = getCustomViewPayload(rootState, customViews);
+      //   dispatch('customViews/update', customViewPayload);
+      // }
       dispatch('contacts/setContact', sender);
     }
   },
