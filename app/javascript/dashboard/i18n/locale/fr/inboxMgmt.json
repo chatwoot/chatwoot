@@ -366,6 +366,7 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "Cliquez sur le bouton Connexion avec Microsoft pour commencer. Vous allez rediriger vers la page de connexion par courriel. Une fois que vous avez accepté les autorisations demandées, vous serez redirigé vers l'étape de création de la boîte de réception.",
         "EMAIL_PLACEHOLDER": "Entrez votre adresse e-mail",
+        "SIGN_IN": "Sign in with Microsoft",
         "HELP": "Pour ajouter votre compte Microsoft en tant que canal, vous devez authentifier votre compte Microsoft en cliquant sur 'Connexion avec Microsoft' ",
         "ERROR_MESSAGE": "Une erreur s'est produite lors de la connexion à Microsoft, veuillez réessayer"
       }
