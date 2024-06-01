@@ -366,6 +366,7 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "A kezdéshez kattintson a Bejelentkezés a Microsofttal gombra. A rendszer átirányítja az e-mail bejelentkezési oldalra. Miután elfogadta a kért engedélyeket, a rendszer visszairányítja a beérkező levelek létrehozásának lépéséhez.",
         "EMAIL_PLACEHOLDER": "E-mailcím megadása",
+        "SIGN_IN": "Sign in with Microsoft",
         "HELP": "Ha Microsoft-fiókját csatornaként szeretné hozzáadni, hitelesítenie kell Microsoft-fiókját a \"Bejelentkezés Microsoft-fiókkal\" lehetőségre kattintva ",
         "ERROR_MESSAGE": "Hiba történt a Microsoft szervereihez való csatlakozáskor, kérjük próbáld később"
       }
