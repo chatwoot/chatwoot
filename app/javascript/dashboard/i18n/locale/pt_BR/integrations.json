@@ -220,7 +220,7 @@
         "SELECT": "Select issue",
         "TITLE": "Link",
         "EMPTY_LIST": "No linear issues found",
-        "LOADING": "Loading",
+        "LOADING": "Carregando",
         "ERROR": "There was an error fetching the linear issues, please try again",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
@@ -228,22 +228,22 @@
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
-        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "DESCRIPTION": "Crie issues no Linear a partir de conversas, ou vincule às existentes para um rastreamento integrado.",
         "FORM": {
           "TITLE": {
             "LABEL": "Título",
-            "PLACEHOLDER": "Enter title",
+            "PLACEHOLDER": "Insira o título",
             "REQUIRED_ERROR": "Título é obrigatório"
           },
           "DESCRIPTION": {
             "LABEL": "Descrição",
-            "PLACEHOLDER": "Enter description"
+            "PLACEHOLDER": "Insira a descrição"
           },
           "TEAM": {
             "LABEL": "Times",
             "PLACEHOLDER": "Selecionar time",
-            "SEARCH": "Search team",
-            "REQUIRED_ERROR": "Team is required"
+            "SEARCH": "Pesquisar equipe",
+            "REQUIRED_ERROR": "A equipe é obrigatória"
           },
           "ASSIGNEE": {
             "LABEL": "Responsável",
