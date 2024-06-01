@@ -366,6 +366,7 @@
         "TITLE": "Microsoft E-posta",
         "DESCRIPTION": "Başlamak için Microsoft ile giriş yapın düğmesine tıklayın. E-posta giriş sayfasına yönlendirileceksiniz. İstenen izinleri kabul ettiğinizde, giriş sayfasına geri yönlendirileceksiniz.",
         "EMAIL_PLACEHOLDER": "E-posta adresini girin",
+        "SIGN_IN": "Sign in with Microsoft",
         "HELP": "Microsoft hesabınızı bir kanal olarak eklemek için, Microsoft hesabınızı 'Microsoft ile Giriş Yap' seçeneğine tıklayarak kimlik doğrulamanız gerekiyor.",
         "ERROR_MESSAGE": "Microsoft ile bağlantı kurulurken bir hata oluştu, lütfen tekrar deneyin"
       }
