@@ -366,6 +366,7 @@
         "TITLE": "Correu Microsoft",
         "DESCRIPTION": "Fes clic al botó Inicia sessió amb Microsoft per començar. Se't redirigirà a la pàgina d'inici de sessió del correu electrònic. Un cop acceptis els permisos sol·licitats, se't redirigirà al pas de creació de la safata d'entrada.",
         "EMAIL_PLACEHOLDER": "Introdueix una adreça de correu electrònic",
+        "SIGN_IN": "Sign in with Microsoft",
         "HELP": "Per afegir el teu compte de Microsoft com a canal, has d'autenticar el teu compte de Microsoft fent clic a \"Inicia la sessió amb Microsoft\" ",
         "ERROR_MESSAGE": "S'ha produït un error en connectar amb Microsoft, torna-ho a provar"
       }
