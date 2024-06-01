@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_19_115257) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_31_084206) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -842,6 +842,19 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_19_115257) do
     t.index ["portal_id", "user_id"], name: "index_portals_members_on_portal_id_and_user_id", unique: true
     t.index ["portal_id"], name: "index_portals_members_on_portal_id"
     t.index ["user_id"], name: "index_portals_members_on_user_id"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.string "short_name", null: false
+    t.float "price"
+    t.boolean "disabled", default: false, null: false
+    t.jsonb "custom_attributes", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "short_name"], name: "index_product_on_account_id_and_short_name", unique: true
+    t.index ["account_id"], name: "index_products_on_account_id"
   end
 
   create_table "related_categories", force: :cascade do |t|

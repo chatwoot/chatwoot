@@ -153,6 +153,13 @@ Rails.application.routes.draw do
               resources :notes
             end
           end
+
+          resources :products, only: [:index, :show, :update, :create, :destroy] do
+            collection do
+              get :search
+            end
+          end
+
           resources :csat_survey_responses, only: [:index] do
             collection do
               get :metrics

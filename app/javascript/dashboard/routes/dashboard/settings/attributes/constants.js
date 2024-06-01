@@ -9,6 +9,11 @@ export const ATTRIBUTE_MODELS = [
     option: 'Contact',
     text: 'ATTRIBUTES_MGMT.ATTRIBUTE_MODELS.CONTACT',
   },
+  {
+    id: 2,
+    option: 'Product',
+    text: 'ATTRIBUTES_MGMT.ATTRIBUTE_MODELS.PRODUCT',
+  },
 ];
 
 export const ATTRIBUTE_TYPES = [
