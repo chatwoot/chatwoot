@@ -366,6 +366,7 @@
         "TITLE": "E-mail Microsoft",
         "DESCRIPTION": "Faceți clic pe butonul Conectare cu Microsoft pentru a începe. Veți redirecționa către pagina de conectare la e-mail. După ce acceptați permisiunile solicitate, veți fi redirecționat înapoi la pasul de creare a inboxului.",
         "EMAIL_PLACEHOLDER": "Introdu adresa de e-mail",
+        "SIGN_IN": "Sign in with Microsoft",
         "HELP": "Pentru a vă adăuga contul Microsoft ca canal, trebuie să vă autentificați contul Microsoft făcând clic pe \"Conectați-vă cu Microsoft\" ",
         "ERROR_MESSAGE": "A existat o eroare la conectarea la Microsoft, încercați din nou"
       }
