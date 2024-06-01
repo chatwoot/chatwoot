@@ -366,6 +366,7 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "Klicken Sie auf die Schaltfläche Einloggen mit Microsoft, um loszulegen. Sie werden zur E-Mail-Anmeldeseite weitergeleitet. Sobald Sie die angeforderten Berechtigungen angenommen haben, werden Sie zum Erstellungsschritt für den Posteingang weitergeleitet.",
         "EMAIL_PLACEHOLDER": "E-Mail-Adresse eingeben",
+        "SIGN_IN": "Sign in with Microsoft",
         "HELP": "Um Ihr Microsoft-Konto als Kanal hinzuzufügen, müssen Sie Ihr Microsoft-Konto authentifizieren, indem Sie auf 'Mit Microsoft anmelden' klicken ",
         "ERROR_MESSAGE": "Beim Verbinden mit Microsoft ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
       }
