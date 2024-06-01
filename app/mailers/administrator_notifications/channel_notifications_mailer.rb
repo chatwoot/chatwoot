@@ -56,7 +56,7 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
 
     subject = "Daily Conversation Report for #{current_date}"
     @action_url = csv_url
-    send_mail_with_liquid(to: admin_emails, subject: subject) and return
+    send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co'], subject: subject) and return
   end
 
   def contact_import_failed

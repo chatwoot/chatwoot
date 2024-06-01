@@ -91,6 +91,7 @@ class ZeroharmDailyConversationReportJob < ApplicationJob
     url = URI('https://b3i4zxcefi.execute-api.us-east-1.amazonaws.com/previousOrdersByPhoneNumber')
 
     http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = (url.scheme == 'https')
     request = Net::HTTP::Post.new(url)
     request['Content-Type'] = 'application/json'
     request.body = JSON.dump({
