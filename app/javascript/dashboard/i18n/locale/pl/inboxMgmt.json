@@ -366,6 +366,7 @@
         "TITLE": "Microsoft",
         "DESCRIPTION": "Kliknij przycisk Zaloguj się za pomocą Microsoft, aby rozpocząć. Nastąpi przekierowanie do strony logowania przez e-mail. Po zaakceptowaniu wymaganych uprawnień zostaniesz przekierowany z powrotem do etapu tworzenia skrzynki odbiorczej.",
         "EMAIL_PLACEHOLDER": "Wprowadź adres e-mail",
+        "SIGN_IN": "Sign in with Microsoft",
         "HELP": "Aby dodać swoje konto Microsoft jako kanał, musisz uwierzytelnić swoje konto Microsoft, klikając \"Zaloguj się za pomocą Microsoft\" ",
         "ERROR_MESSAGE": "Wystąpił błąd połączenia z Microsoft, spróbuj ponownie"
       }
