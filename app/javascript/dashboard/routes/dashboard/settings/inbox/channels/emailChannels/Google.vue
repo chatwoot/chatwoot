@@ -8,7 +8,7 @@
     />
     <form class="mt-6" @submit.prevent="requestAuthorization">
       <woot-input
-        v-model.trim="email"
+        v-model="email"
         type="text"
         :placeholder="$t('INBOX_MGMT.ADD.GOOGLE.EMAIL_PLACEHOLDER')"
         @blur="$v.email.$touch"
