@@ -5,8 +5,8 @@ class Google::CallbacksController < OauthCallbackController
     'google'
   end
 
-  def handle_response
-    # implement @response.body
+  def imap_address
+    'imap.gmail.com'
   end
 
   def oauth_client
