@@ -6,44 +6,63 @@
       :header-title="$t('INBOX_MGMT.ADD.GOOGLE.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.GOOGLE.DESCRIPTION')"
     />
-    <a
-      :href="getGoogleAuthUrl()"
-      class="inline-flex justify-center rounded-md mt-5 bg-white py-3 px-4 shadow-sm ring-1 ring-inset ring-slate-200 dark:ring-slate-600 hover:bg-slate-50 focus:outline-offset-0 dark:bg-slate-700 dark:hover:bg-slate-700"
-    >
-      <img src="/assets/images/auth/google.svg" alt="Google Logo" class="h-6" />
-      <span class="text-base font-medium ml-2 text-slate-600 dark:text-white">
-        {{ $t('INBOX_MGMT.ADD.GOOGLE.SIGN_IN') }}
-      </span>
-    </a>
+    <form class="google--sign-in-form" @submit.prevent="requestAuthorization">
+      <woot-input
+        v-model.trim="email"
+        type="text"
+        :placeholder="$t('INBOX_MGMT.ADD.GOOGLE.EMAIL_PLACEHOLDER')"
+        @blur="$v.email.$touch"
+      />
+      <woot-submit-button
+        icon="brand-twitter"
+        button-text="$t('INBOX_MGMT.ADD.GOOGLE.SIGN_IN')"
+        type="submit"
+        :loading="isRequestingAuthorization"
+      />
+    </form>
   </div>
 </template>
-<script setup>
-import { joinUrl } from 'shared/helpers/joinUrl';
+<script>
+import alertMixin from 'shared/mixins/alertMixin';
+import googleClient from 'dashboard/api/channel/googleClient';
 import SettingsSubPageHeader from '../../../SettingsSubPageHeader.vue';
+import { required, email } from 'vuelidate/lib/validators';
 
-function getRedirectUrl() {
-  const baseUrl = window.chatwootConfig.hostURL;
-  const path = '/google/callback';
-  return joinUrl(baseUrl, path);
-}
+export default {
+  components: { SettingsSubPageHeader },
+  mixins: [alertMixin],
+  data() {
+    return { email: '', isRequestingAuthorization: false };
+  },
+  validations: {
+    email: { required, email },
+  },
+  methods: {
+    async requestAuthorization() {
+      try {
+        this.$v.$touch();
+        if (this.$v.$invalid) return;
 
-function getGoogleAuthUrl() {
-  const baseUrl =
-    'https://accounts.google.com/o/oauth2/auth/oauthchooseaccount';
-  const clientId = window.chatwootConfig.googleOAuthClientId;
-  const redirectUrl = getRedirectUrl();
-  const responseType = 'code';
-  const scope = 'email profile https://mail.google.com/';
-
-  // Build the query string
-  const queryString = new URLSearchParams({
-    client_id: clientId,
-    redirect_uri: redirectUrl,
-    response_type: responseType,
-    scope: scope,
-  }).toString();
-
-  // Construct the full URL
-  return `${baseUrl}?${queryString}`;
-}
+        this.isRequestingAuthorization = true;
+        const response = await googleClient.generateAuthorization({
+          email: this.email,
+        });
+        const {
+          data: { url },
+        } = response;
+        window.location.href = url;
+      } catch (error) {
+        this.showAlert(this.$t('INBOX_MGMT.ADD.GOOGLE.ERROR_MESSAGE'));
+      } finally {
+        this.isRequestingAuthorization = false;
+      }
+    },
+  },
+};
 </script>
+
+<style scoped>
+.google--sign-in-form {
+  @apply mt-6;
+}
+</style>
