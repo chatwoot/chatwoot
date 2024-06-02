@@ -14,6 +14,16 @@ class OauthCallbackController < ApplicationController
 
   private
 
+  def handle_response
+    inbox, already_exists = find_or_create_inbox
+
+    if already_exists
+      redirect_to app_email_inbox_settings_url(account_id: account.id, inbox_id: inbox.id)
+    else
+      redirect_to app_email_inbox_agents_url(account_id: account.id, inbox_id: inbox.id)
+    end
+  end
+
   def find_or_create_inbox
     channel_email = Channel::Email.find_by(email: users_data['email'], account: account)
     # we need this value to know where to redirect on sucessful processing of the callback
@@ -29,15 +39,24 @@ class OauthCallbackController < ApplicationController
     [channel_email.inbox, channel_exists]
   end
 
+  def update_channel(channel_email)
+    channel_email.update!({
+                            imap_login: users_data['email'], imap_address: imap_address,
+                            imap_port: '993', imap_enabled: true,
+                            provider: provider_name,
+                            provider_config: {
+                              access_token: parsed_body['access_token'],
+                              refresh_token: parsed_body['refresh_token'],
+                              expires_on: (Time.current.utc + 1.hour).to_s
+                            }
+                          })
+  end
+
   def provider_name
     raise NotImplementedError
   end
 
   def oauth_client
-    raise NotImplementedError
-  end
-
-  def update_channel(channel_email)
     raise NotImplementedError
   end
 
