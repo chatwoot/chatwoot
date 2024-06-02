@@ -29,6 +29,11 @@ export default {
       const timeAgo = formatDistanceToNow(unixTime, { addSuffix: true });
       return this.localizeTimeAgo(timeAgo);
     },
+    dynamicTimeFromString(time) {
+      const unixTime = new Date(time);
+      const timeAgo = formatDistanceToNow(unixTime, { addSuffix: true });
+      return this.localizeTimeAgo(timeAgo);
+    },
     dateFormat(time, dateFormat = 'dd/MM/yyyy') {
       const unixTime = fromUnixTime(time);
       return format(unixTime, dateFormat);

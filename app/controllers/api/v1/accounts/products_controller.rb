@@ -1,35 +1,42 @@
 class Api::V1::Accounts::ProductsController < Api::V1::Accounts::BaseController
+  include Sift
   sort_on :name, type: :string
   sort_on :short_name, type: :string
-  sort_on :price, type: :float
+  sort_on :price, type: :decimal
+  sort_on :created_at, type: :datetime
+  sort_on :updated_at, type: :datetime
 
   RESULTS_PER_PAGE = 15
   before_action :set_current_page, only: [:index, :search]
   before_action :fetch_product, only: [:show, :update, :destroy]
 
   def index
-    @products = Current.account.products
+    products = Current.account.products
+    @products = fetch_products(products)
+
     render json: {
       meta: { count: @products.count, current_page: @current_page },
-      payload: @products.to_json
+      payload: @products
     }
   end
 
   def search
     render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
 
-    @products = Current.account.products.where(
+    products = Current.account.products.where(
       'products.name ILIKE :search OR products.short_name ILIKE :search',
       search: "%#{params[:q].strip}%"
     )
+    @products = fetch_products(products)
+
     render json: {
       meta: { count: @products.count, current_page: @current_page },
-      payload: @products.to_json
+      payload: @products
     }
   end
 
   def show
-    render json: @product.to_json
+    render json: @product
   end
 
   def create
@@ -40,7 +47,7 @@ class Api::V1::Accounts::ProductsController < Api::V1::Accounts::BaseController
   def update
     @product.assign_attributes(product_update_params)
     @product.save!
-    render json: @product.to_json
+    render json: @product
   end
 
   def destroy
@@ -53,6 +60,12 @@ class Api::V1::Accounts::ProductsController < Api::V1::Accounts::BaseController
   end
 
   private
+
+  def fetch_products(products)
+    products = filtrate(products)
+    products = products.page(@current_page).per(RESULTS_PER_PAGE) if @current_page.to_i.positive?
+    products
+  end
 
   def fetch_product
     @product = Current.account.products.find(params[:id])

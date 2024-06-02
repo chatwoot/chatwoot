@@ -8,6 +8,7 @@ const settings = accountId => ({
     'agent_list',
     'attributes_list',
     'stages_list',
+    'products_list',
     'automation_list',
     'auditlogs_list',
     'billing_settings_index',
@@ -88,6 +89,14 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/stages/list`),
       toStateName: 'stages_list',
+      featureFlag: FEATURE_FLAGS.CRM,
+    },
+    {
+      icon: 'briefcase',
+      label: 'PRODUCT_SETTINGS',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/settings/products/list`),
+      toStateName: 'products_list',
       featureFlag: FEATURE_FLAGS.CRM,
     },
     {

@@ -66,6 +66,7 @@ export const actions = {
       const {
         data: { payload, meta },
       } = await ProductAPI.get(page, sortAttr);
+
       commit(types.CLEAR_PRODUCTS);
       commit(types.SET_PRODUCTS, payload);
       commit(types.SET_PRODUCT_META, meta);

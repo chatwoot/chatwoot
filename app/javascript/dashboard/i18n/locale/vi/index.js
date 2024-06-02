@@ -31,12 +31,14 @@ import settings from './settings.json';
 import signup from './signup.json';
 import teamsSettings from './teamsSettings.json';
 import whatsappTemplates from './whatsappTemplates.json';
+import productsMgmt from './productsMgmt.json';
 
 export default {
   ...advancedFilters,
   ...agentBots,
   ...agentMgmt,
   ...stagesMgmt,
+  ...productsMgmt,
   ...attributesMgmt,
   ...auditLogs,
   ...automation,

@@ -1,0 +1,26 @@
+{
+  "PRODUCTS_MGMT": {
+    "HEADER": "Sản phẩm dịch vụ",
+    "LOADING": "Đang lấy dữ liệu sản phẩm dịch vụ"
+  },
+  "PRODUCTS_PAGE": {
+    "LIST": {
+      "404": "Không tìm thấy sản phẩm nào",
+      "NO_PRODUCTS": "Chưa có sản phẩm dịch vụ",
+      "LOADING_MESSAGE": "Đang lấy dữ liệu sản phẩm dịch vụ",
+      "VIEW_DETAILS": "Xem chi tiết",
+      "TABLE_HEADER": {
+        "NAME": "Tên sản phẩm",
+        "SHORT_NAME": "Tên viết tắt",
+        "PRICE": "Giá bán",
+        "UPDATED_AT": "Cập nhật cuối",
+        "CREATED_AT": "Thời điểm tạo",
+        "DISABLED": "Ngưng sử dụng",
+        "DISABLED_TEXT": "Đã ngưng"
+      }
+    },
+    "HEADER_BUTTON": "Thêm sản phẩm dịch vụ",
+    "SEARCH_INPUT_PLACEHOLDER": "Tìm kiếm sản phẩm",
+    "SEARCH_BUTTON": "Tìm kiếm"
+  }
+}
