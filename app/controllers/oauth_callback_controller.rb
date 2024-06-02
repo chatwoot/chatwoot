@@ -6,7 +6,7 @@ class OauthCallbackController < ApplicationController
     )
 
     handle_response
-    ::Redis::Alfred.delete(users_data['email'].downcase)
+    ::Redis::Alfred.delete(cache_key)
   rescue StandardError => e
     ChatwootExceptionTracker.new(e).capture_exception
     redirect_to '/'
@@ -60,6 +60,10 @@ class OauthCallbackController < ApplicationController
     raise NotImplementedError
   end
 
+  def cache_key
+    "#{provider_name}::#{users_data['email'].downcase}"
+  end
+
   def create_channel_with_inbox
     ActiveRecord::Base.transaction do
       channel_email = Channel::Email.create!(email: users_data['email'], account: account)
@@ -78,7 +82,7 @@ class OauthCallbackController < ApplicationController
   end
 
   def account_id
-    ::Redis::Alfred.get(users_data['email'].downcase)
+    ::Redis::Alfred.get(cache_key)
   end
 
   def account
