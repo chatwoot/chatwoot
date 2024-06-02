@@ -14,8 +14,8 @@ class Api::V1::Accounts::Google::AuthorizationsController < Api::V1::Accounts::B
     )
 
     if redirect_url
-      email = email.downcase
-      ::Redis::Alfred.setex(email, Current.account.id, 5.minutes)
+      cache_key = "google::#{email.downcase}"
+      ::Redis::Alfred.setex(cache_key, Current.account.id, 5.minutes)
       render json: { success: true, url: redirect_url }
     else
       render json: { success: false }, status: :unprocessable_entity
