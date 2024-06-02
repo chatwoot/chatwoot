@@ -6,7 +6,7 @@
       :header-title="$t('INBOX_MGMT.ADD.GOOGLE.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.GOOGLE.DESCRIPTION')"
     />
-    <form class="google--sign-in-form" @submit.prevent="requestAuthorization">
+    <form class="mt-6" @submit.prevent="requestAuthorization">
       <woot-input
         v-model.trim="email"
         type="text"
@@ -15,7 +15,7 @@
       />
       <woot-submit-button
         icon="brand-twitter"
-        button-text="$t('INBOX_MGMT.ADD.GOOGLE.SIGN_IN')"
+        :button-text="$t('INBOX_MGMT.ADD.GOOGLE.SIGN_IN')"
         type="submit"
         :loading="isRequestingAuthorization"
       />
@@ -60,9 +60,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.google--sign-in-form {
-  @apply mt-6;
-}
-</style>
