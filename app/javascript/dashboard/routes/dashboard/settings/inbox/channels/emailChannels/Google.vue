@@ -1,36 +1,22 @@
 <script setup>
+import { ref } from 'vue';
+
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'dashboard/composables/useI18n';
+
 import googleClient from 'dashboard/api/channel/googleClient';
 import SettingsSubPageHeader from '../../../SettingsSubPageHeader.vue';
-import { useVuelidate } from '@vuelidate/core';
-import { required, email } from '@vuelidate/validators';
-import { reactive, ref } from 'vue';
 
 const { t } = useI18n();
 
-const state = reactive({
-  email: '',
-});
-
-const rules = {
-  email: {
-    required,
-    email,
-  },
-};
-
-const v$ = useVuelidate(rules, state);
 const isRequestingAuthorization = ref(false);
+const email = ref('');
 
 async function requestAuthorization() {
   try {
-    v$.$touch();
-    if (v$.$invalid) return;
-
     isRequestingAuthorization.value = true;
     const response = await googleClient.generateAuthorization({
-      email: state.email,
+      email: email.value,
     });
     const {
       data: { url },
@@ -54,10 +40,9 @@ async function requestAuthorization() {
     />
     <form class="mt-6" @submit.prevent="requestAuthorization">
       <woot-input
-        v-model="state.email"
-        type="text"
+        v-model="email"
+        type="email"
         :placeholder="$t('INBOX_MGMT.ADD.GOOGLE.EMAIL_PLACEHOLDER')"
-        @blur="v$.email.$touch"
       />
       <woot-submit-button
         icon="brand-twitter"
