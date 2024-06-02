@@ -1,4 +1,5 @@
 class Api::V1::Accounts::Google::AuthorizationsController < Api::V1::Accounts::BaseController
+  include GoogleConcern
   before_action :check_authorization
 
   def create
