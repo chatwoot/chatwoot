@@ -257,7 +257,7 @@
           },
           "LABEL": {
             "LABEL": "Nome do campo",
-            "PLACEHOLDER": "Select label",
+            "PLACEHOLDER": "Selecione o marcador",
             "SEARCH": "Search label"
           },
           "STATUS": {
@@ -288,7 +288,7 @@
       "UNLINK": {
         "TITLE": "Unlink",
         "SUCCESS": "Issue unlinked successfully",
-        "ERROR": "There was an error unlinking the issue, please try again"
+        "ERROR": "Houve um erro ao desvincular o atributo, por favor, tente novamente"
       }
     }
   }
