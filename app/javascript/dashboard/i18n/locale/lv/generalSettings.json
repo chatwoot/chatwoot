@@ -95,7 +95,9 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "OFFLINE": "Bezsaistē"
+      "OFFLINE": "Bezsaistē",
+      "RECONNECTING": "Notiek savienojuma atjaunošana...",
+      "RECONNECT_SUCCESS": "Atkārtoti izveidots savienojums"
     },
     "BUTTON": {
       "REFRESH": "Atjaunot"
