@@ -366,7 +366,7 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "Lai sāktu, noklikšķiniet uz pogas Pierakstīties ar Microsoft. Jūs tiksit novirzīts uz e-pasta pierakstīšanās lapu. Kad būsiet pieņēmis pieprasītās atļaujas, Jūs tiksit novirzīts atpakaļ uz iesūtnes izveides darbību.",
         "EMAIL_PLACEHOLDER": "Ievadiet e-pasta adresi",
-        "SIGN_IN": "Sign in with Microsoft",
+        "SIGN_IN": "Pierakstīties ar Microsoft",
         "HELP": "Lai pievienotu savu Microsoft kontu kā kanālu, Jums ir jāautentificē savs Microsoft konts, noklikšķinot uz \"Pierakstīties ar Microsoft\" ",
         "ERROR_MESSAGE": "Veidojot savienojumu ar Microsoft, radās kļūda. Lūdzu, mēģiniet vēlreiz"
       }
