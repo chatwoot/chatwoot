@@ -8,7 +8,7 @@ module GoogleConcern
     ::OAuth2::Client.new(app_id, app_secret, {
                            site: 'https://oauth2.googleapis.com',
                            authorize_url: 'https://accounts.google.com/o/oauth2/auth',
-                           token_url: '/token'
+                           token_url: 'https://accounts.google.com/o/oauth2/token'
                          })
   end
 
