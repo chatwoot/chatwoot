@@ -1,14 +1,15 @@
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
-import { emitter } from 'shared/helpers/mitt';
+import { ref, computed, onBeforeUnmount } from 'vue';
 import { useI18n } from 'dashboard/composables/useI18n';
 import { useRoute } from 'dashboard/composables/route';
+import { useEmitter } from 'dashboard/composables/emitter';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {
   isAConversationRoute,
   isAInboxViewRoute,
   isNotificationRoute,
 } from 'dashboard/helper/routeHelpers';
+import { useEventListener } from '@vueuse/core';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -90,39 +91,25 @@ const updateOnlineStatus = event => {
   }
 };
 
-const addEventListeners = () => {
-  window.addEventListener('offline', updateOnlineStatus);
-  window.addEventListener('online', updateOnlineStatus);
-  emitter.on(BUS_EVENTS.WEBSOCKET_DISCONNECT, updateWebsocketStatus);
-  emitter.on(
-    BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED,
-    handleReconnectionCompleted
-  );
-  emitter.on(BUS_EVENTS.WEBSOCKET_RECONNECT, handleReconnecting);
-};
+useEventListener('online', updateOnlineStatus);
+useEventListener('offline', updateOnlineStatus);
+useEmitter(BUS_EVENTS.WEBSOCKET_DISCONNECT, updateWebsocketStatus);
+useEmitter(
+  BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED,
+  handleReconnectionCompleted
+);
+useEmitter(BUS_EVENTS.WEBSOCKET_RECONNECT, handleReconnecting);
 
-const removeEventListeners = () => {
-  window.removeEventListener('offline', updateOnlineStatus);
-  window.removeEventListener('online', updateOnlineStatus);
-  emitter.off(BUS_EVENTS.WEBSOCKET_DISCONNECT, updateWebsocketStatus);
-  emitter.off(
-    BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED,
-    handleReconnectionCompleted
-  );
-  emitter.off(BUS_EVENTS.WEBSOCKET_RECONNECT, handleReconnecting);
+onBeforeUnmount(() => {
   clearTimeout(reconnectTimeout);
-};
-
-onMounted(addEventListeners);
-
-onBeforeUnmount(removeEventListeners);
+});
 </script>
 
 <template>
   <transition name="network-notification-fade" tag="div">
-    <div v-show="showNotification" class="fixed top-4 left-2 z-50 group">
+    <div v-show="showNotification" class="fixed z-50 top-4 left-2 group">
       <div
-        class="flex items-center justify-between py-1 px-2 w-full rounded-lg shadow-lg bg-yellow-200 dark:bg-yellow-700 relative"
+        class="relative flex items-center justify-between w-full px-2 py-1 bg-yellow-200 rounded-lg shadow-lg dark:bg-yellow-700"
       >
         <fluent-icon
           :icon="iconName"
@@ -130,7 +117,7 @@ onBeforeUnmount(removeEventListeners);
           size="18"
         />
         <span
-          class="text-xs tracking-wide px-2 font-medium text-yellow-700/70 dark:text-yellow-50"
+          class="px-2 text-xs font-medium tracking-wide text-yellow-700/70 dark:text-yellow-50"
         >
           {{ bannerText }}
         </span>
