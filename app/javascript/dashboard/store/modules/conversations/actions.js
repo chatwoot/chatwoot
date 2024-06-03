@@ -8,7 +8,6 @@ import messageReadActions from './actions/messageReadActions';
 import messageTranslateActions from './actions/messageTranslateActions';
 import {
   buildConversationList,
-  getCustomViewPayload,
   isOnFoldersView,
   isOnMentionsView,
   isOnUnattendedView,
@@ -317,10 +316,7 @@ const actions = {
     }
   },
 
-  addConversation(
-    { commit, state, dispatch, rootState, rootGetters },
-    conversation
-  ) {
+  addConversation({ commit, state, dispatch, rootState }, conversation) {
     const { currentInbox, appliedFilters } = state;
     const {
       inbox_id: inboxId,
@@ -331,18 +327,19 @@ const actions = {
       !currentInbox || Number(currentInbox) === inboxId;
     if (
       !hasAppliedFilters &&
+      !isOnFoldersView(rootState) &&
       !isOnMentionsView(rootState) &&
       !isOnUnattendedView(rootState) &&
       isMatchingInboxFilter
     ) {
       commit(types.ADD_CONVERSATION, conversation);
       dispatch('contacts/setContact', sender);
-      if (isOnFoldersView(rootState)) {
-        // refreshes the folder view
-        const customViews = rootGetters['customViews/getCustomViews'];
-        const customViewPayload = getCustomViewPayload(rootState, customViews);
-        dispatch('customViews/update', customViewPayload);
-      }
+      // if (isOnFoldersView(rootState)) {
+      //   // refreshes the folder view
+      //   const customViews = rootGetters['customViews/getCustomViews'];
+      //   const customViewPayload = getCustomViewPayload(rootState, customViews);
+      //   dispatch('customViews/update', customViewPayload);
+      // }
     }
   },
 
