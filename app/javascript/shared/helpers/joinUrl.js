@@ -1,3 +1,14 @@
+const sanitizePaths = paths => {
+  return paths.filter(path => {
+    if (!path) return false;
+    if (path === null && path === '') return false;
+    // if path is just a sequence of slashes
+    if (/^\/+$/.test(path)) return false;
+
+    return true;
+  });
+};
+
 /**
  * Join multiple paths together with a base URL
  * NOTE: This function is not designed to handle query strings or fragments
@@ -9,14 +20,7 @@
 export function joinUrl(baseUrl, ...paths) {
   // remove empty undefined and null path items
   // also handle if the path is just a slash or just multiple slashes only
-  const sanitizedPaths = paths.filter(path => {
-    if (!path) return false;
-    if (path === null && path === '') return false;
-    // if path is just a sequence of slashes
-    if (/^\/+$/.test(path)) return false;
-
-    return true;
-  });
+  const sanitizedPaths = sanitizePaths(paths);
 
   const fullUrl = sanitizedPaths.reduce(
     (acc, path) => {
