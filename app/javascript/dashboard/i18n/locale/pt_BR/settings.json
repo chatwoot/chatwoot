@@ -10,6 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "A sua senha foi alterada com sucesso",
     "AFTER_EMAIL_CHANGED": "Seu perfil foi atualizado com sucesso. Faça login novamente, pois suas credenciais de login foram alteradas",
     "FORM": {
+      "PICTURE": "Foto do perfil",
       "AVATAR": "Imagem de Perfil",
       "ERROR": "Por favor, corrija os erros",
       "REMOVE_IMAGE": "Excluir",
@@ -56,13 +57,19 @@
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token de acesso",
-        "NOTE": "Esse token pode ser usado se você estiver criando uma integração baseada em API"
+        "NOTE": "Esse token pode ser usado se você estiver criando uma integração baseada em API",
+        "COPY": "Copiar"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificações de Áudio",
         "NOTE": "Habilitar notificações de áudio no painel para novas mensagens e conversas.",
+        "ALERT_TYPES": {
+          "NONE": "Nenhuma",
+          "MINE": "Atribuído",
+          "ALL": "Todos"
+        },
         "ALERT_TYPE": {
-          "TITLE": "Tipo de Alerta:",
+          "TITLE": "Eventos de alerta para conversas:",
           "NONE": "Nenhuma",
           "ASSIGNED": "Conversas atribuídas",
           "ALL_CONVERSATIONS": "Todas as conversas"
@@ -83,7 +90,27 @@
         "CONVERSATION_CREATION": "Enviar notificações por email quando uma nova conversa for criada",
         "CONVERSATION_MENTION": "Enviar notificações por email quando você for mencionado em uma conversa",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envie notificações por e-mail quando uma nova mensagem for criada numa conversa já atribuída",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Enviar notificações por email quando uma nova mensagem é criada em uma conversa que você participa"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Enviar notificações por email quando uma nova mensagem é criada em uma conversa que você participa",
+        "SLA_MISSED_FIRST_RESPONSE": "Enviar notificações por e-mail quando uma conversa perder a primeira resposta SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Enviar notificações por e-mail quando uma conversa perder a próxima resposta SLA",
+        "SLA_MISSED_RESOLUTION": "Enviar notificações por e-mail quando uma conversa perder resolução de resolução SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Preferências de notificação",
+        "TYPE_TITLE": "Tipo de notificação",
+        "EMAIL": "e-mail",
+        "PUSH": "Notificação ",
+        "TYPES": {
+          "CONVERSATION_CREATED": "Uma nova conversa foi criada",
+          "CONVERSATION_ASSIGNED": "Uma conversa foi atribuída a você",
+          "CONVERSATION_MENTION": "Você foi mencionado em uma conversa",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Uma nova mensagem foi criada e atribuída",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Uma nova mensagem foi criada em uma conversa participante",
+          "SLA_MISSED_FIRST_RESPONSE": "Uma conversa perde o SLA de primeira resposta",
+          "SLA_MISSED_NEXT_RESPONSE": "Uma conversa perde o SLA da próxima resposta",
+          "SLA_MISSED_RESOLUTION": "Uma conversa perde o SLA de resolução"
+        },
+        "BROWSER_PERMISSION": "Ative notificações push em seu navegador para poder recebê-las"
       },
       "API": {
         "UPDATE_SUCCESS": "Suas preferências de notificação foram atualizadas com sucesso",
@@ -98,7 +125,10 @@
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envie notificações quando uma nova mensagem for criada numa conversa já atribuída",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Enviar notificações push quando uma nova mensagem é criada em uma conversa que você participa",
         "HAS_ENABLED_PUSH": "Você ativou push para este navegador.",
-        "REQUEST_PUSH": "Habilitar notificações push"
+        "REQUEST_PUSH": "Habilitar notificações push",
+        "SLA_MISSED_FIRST_RESPONSE": "Enviar notificações quando uma conversa perder a primeira resposta SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Enviar notificações quando uma conversa perder a próxima resposta SLA",
+        "SLA_MISSED_RESOLUTION": "Enviar notificações quando uma conversa perder resolução de resolução SLA"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Imagem do Perfil"
@@ -199,6 +229,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Visualização atual:",
     "SWITCH": "Trocar",
+    "INBOX_VIEW": "",
     "CONVERSATIONS": "Conversas",
     "INBOX": "Caixa de Entrada",
     "ALL_CONVERSATIONS": "Todas as conversas",
@@ -210,7 +241,7 @@
     "CONTACTS": "Contato",
     "HOME": "Principal",
     "AGENTS": "Agentes",
-    "AGENT_BOTS": "Bots",
+    "AGENT_BOTS": "Robôs",
     "AUDIT_LOGS": "Registros de Auditoria",
     "INBOXES": "Caixas de Entrada",
     "NOTIFICATIONS": "Notificações",
@@ -237,12 +268,14 @@
     "CAMPAIGNS": "Campanhas",
     "ONGOING": "Em andamento",
     "ONE_OFF": "Única",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Agentes",
     "REPORTS_LABEL": "Marcadores",
     "REPORTS_INBOX": "Caixa de Entrada",
     "REPORTS_TEAM": "Times",
     "SET_AVAILABILITY_TITLE": "Defina como",
-    "SLA": "SLA",
+    "SLA": "",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Visão geral",
     "FACEBOOK_REAUTHORIZE": "Sua conexão com o Facebook expirou! Por favor, reconecte sua página do Facebook para continuar os serviços",
@@ -311,7 +344,6 @@
       "GO_TO_REPORTS_SIDEBAR": "Ir para a barra lateral de Relatórios",
       "MOVE_TO_NEXT_TAB": "Mover para a próxima aba da lista de conversas",
       "GO_TO_SETTINGS": "Ir para Configurações",
-      "SWITCH_CONVERSATION_STATUS": "Mudar para o próximo status da conversa",
       "SWITCH_TO_PRIVATE_NOTE": "Mudar para Nota Privada",
       "SWITCH_TO_REPLY": "Mudar para resposta",
       "TOGGLE_SNOOZE_DROPDOWN": "Ativar/desativar soneca"

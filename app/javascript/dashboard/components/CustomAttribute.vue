@@ -12,7 +12,7 @@
         </div>
         <div class="flex items-center justify-between w-full">
           <span
-            class="w-full font-medium text-sm mb-0"
+            class="w-full inline-flex gap-1.5 items-start font-medium whitespace-nowrap text-sm mb-0"
             :class="
               $v.editedValue.$error
                 ? 'text-red-400 dark:text-red-500'
@@ -20,9 +20,14 @@
             "
           >
             {{ label }}
+            <helper-text-popup
+              v-if="description"
+              :message="description"
+              class="mt-0.5"
+            />
           </span>
           <woot-button
-            v-if="showCopyAndDeleteButton"
+            v-if="showActions && value"
             v-tooltip.left="$t('CUSTOM_ATTRIBUTES.ACTIONS.DELETE')"
             variant="link"
             size="medium"
@@ -41,7 +46,7 @@
             ref="inputfield"
             v-model="editedValue"
             :type="inputType"
-            class="!h-8 ltr:rounded-r-none rtl:rounded-l-none !mb-0 !text-sm"
+            class="!h-8 ltr:!rounded-r-none rtl:!rounded-l-none !mb-0 !text-sm"
             autofocus="true"
             :class="{ error: $v.editedValue.$error }"
             @blur="$v.editedValue.$touch"
@@ -85,7 +90,7 @@
         </p>
         <div class="flex max-w-[2rem] gap-1 ml-1 rtl:mr-1 rtl:ml-0">
           <woot-button
-            v-if="showCopyAndDeleteButton"
+            v-if="showActions && value"
             v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.COPY')"
             variant="link"
             size="small"
@@ -95,7 +100,7 @@
             @click="onCopy"
           />
           <woot-button
-            v-if="showEditButton"
+            v-if="showActions"
             v-tooltip.right="$t('CUSTOM_ATTRIBUTES.ACTIONS.EDIT')"
             variant="link"
             size="small"
@@ -130,22 +135,25 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import { format, parseISO } from 'date-fns';
 import { required, url } from 'vuelidate/lib/validators';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
+import HelperTextPopup from 'dashboard/components/ui/HelperTextPopup.vue';
 import { isValidURL } from '../helper/URLHelper';
 import customAttributeMixin from '../mixins/customAttributeMixin';
+
 const DATE_FORMAT = 'yyyy-MM-dd';
 
 export default {
   components: {
     MultiselectDropdown,
+    HelperTextPopup,
   },
-  mixins: [customAttributeMixin, clickaway],
+  mixins: [customAttributeMixin],
   props: {
     label: { type: String, required: true },
+    description: { type: String, default: '' },
     values: { type: Array, default: () => [] },
     value: { type: [String, Number, Boolean], default: '' },
     showActions: { type: Boolean, default: false },
@@ -166,12 +174,6 @@ export default {
     };
   },
   computed: {
-    showCopyAndDeleteButton() {
-      return this.value && this.showActions;
-    },
-    showEditButton() {
-      return !this.value && this.showActions;
-    },
     displayValue() {
       if (this.isAttributeTypeDate) {
         return this.value
@@ -268,10 +270,10 @@ export default {
   },
   mounted() {
     this.editedValue = this.formattedValue;
-    bus.$on(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
+    this.$emitter.on(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
   },
   destroyed() {
-    bus.$off(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
+    this.$emitter.off(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
   },
   methods: {
     onFocusAttribute(focusAttributeKey) {

@@ -7,7 +7,7 @@
       :header-title="$t('SIDEBAR_ITEMS.CHANGE_ACCOUNTS')"
       :header-content="$t('SIDEBAR_ITEMS.SELECTOR_SUBTITLE')"
     />
-    <div class="px-8 pt-4 pb-8">
+    <div class="px-8 py-4">
       <div
         v-for="account in currentUser.accounts"
         :id="`account-${account.id}`"
@@ -45,10 +45,10 @@
 
     <div
       v-if="globalConfig.createNewAccountFromDashboard"
-      class="flex justify-end items-center p-8 gap-2"
+      class="flex justify-end items-center px-8 pb-8 pt-4 gap-2"
     >
       <button
-        class="button success large expanded nice"
+        class="button success large expanded nice w-full"
         @click="$emit('show-create-account-modal')"
       >
         {{ $t('CREATE_ACCOUNT.NEW_ACCOUNT') }}

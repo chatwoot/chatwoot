@@ -18,8 +18,8 @@
       />
       <woot-submit-button
         icon="brand-twitter"
-        button-text="Sign in with Microsoft"
         type="submit"
+        :button-text="$t('INBOX_MGMT.ADD.MICROSOFT.SIGN_IN')"
         :loading="isRequestingAuthorization"
       />
     </form>

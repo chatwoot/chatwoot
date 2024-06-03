@@ -87,7 +87,10 @@
       "conversation_assignment": "Saruna Piešķirta",
       "assigned_conversation_new_message": "Jauns ziņojums",
       "participating_conversation_new_message": "Jauns ziņojums",
-      "conversation_mention": "Pieminēt"
+      "conversation_mention": "Pieminēt",
+      "sla_missed_first_response": "SLA Nokavēts",
+      "sla_missed_next_response": "SLA Nokavēts",
+      "sla_missed_resolution": "SLA Nokavēts"
     }
   },
   "NETWORK": {
@@ -104,6 +107,7 @@
       "GENERAL": "Vispārēji",
       "REPORTS": "Pārskati",
       "CONVERSATION": "Saruna",
+      "BULK_ACTIONS": "Lielapjoma Darbības",
       "CHANGE_ASSIGNEE": "Mainīt Pilnvaroto",
       "CHANGE_PRIORITY": "Mainīt prioritāti",
       "CHANGE_TEAM": "Mainīt Komandu",

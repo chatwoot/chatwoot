@@ -49,9 +49,8 @@
 </template>
 
 <script>
-import { evaluateSLAStatus } from '../helpers/SLAHelper';
+import { evaluateSLAStatus } from '@chatwoot/utils';
 import SLAPopoverCard from './SLAPopoverCard.vue';
-import { mixin as clickaway } from 'vue-clickaway';
 
 const REFRESH_INTERVAL = 60000;
 
@@ -59,7 +58,6 @@ export default {
   components: {
     SLAPopoverCard,
   },
-  mixins: [clickaway],
   props: {
     chat: {
       type: Object,
@@ -139,7 +137,10 @@ export default {
       }, REFRESH_INTERVAL);
     },
     updateSlaStatus() {
-      this.slaStatus = evaluateSLAStatus(this.appliedSLA, this.chat);
+      this.slaStatus = evaluateSLAStatus({
+        appliedSla: this.appliedSLA,
+        chat: this.chat,
+      });
     },
     openSlaPopover() {
       if (!this.showExtendedInfo) return;

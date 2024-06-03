@@ -32,9 +32,25 @@
             <th
               v-for="thHeader in $t('CANNED_MGMT.LIST.TABLE_HEADER')"
               :key="thHeader"
-              class="last:text-right"
+              class="last:text-right first:m-0 first:p-0"
             >
-              {{ thHeader }}
+              <p v-if="thHeader !== $t('CANNED_MGMT.LIST.TABLE_HEADER[0]')">
+                {{ thHeader }}
+              </p>
+
+              <button
+                v-if="thHeader === $t('CANNED_MGMT.LIST.TABLE_HEADER[0]')"
+                class="cursor-pointer flex items-center p-0"
+                @click="toggleSort"
+              >
+                <p class="uppercase">
+                  {{ thHeader }}
+                </p>
+                <fluent-icon
+                  class="mb-2 ml-2"
+                  :icon="sortOrder === 'asc' ? 'chevron-up' : 'chevron-down'"
+                />
+              </button>
             </th>
           </thead>
           <tbody>
@@ -116,12 +132,14 @@
 import { mapGetters } from 'vuex';
 import AddCanned from './AddCanned.vue';
 import EditCanned from './EditCanned.vue';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     AddCanned,
     EditCanned,
   },
+  mixins: [alertMixin],
   data() {
     return {
       loading: {},
@@ -132,6 +150,7 @@ export default {
       cannedResponseAPI: {
         message: '',
       },
+      sortOrder: 'asc',
     };
   },
   computed: {
@@ -156,16 +175,27 @@ export default {
   },
   mounted() {
     // Fetch API Call
-    this.$store.dispatch('getCannedResponse');
+    this.$store.dispatch('getCannedResponse').then(() => {
+      this.toggleSort();
+    });
   },
   methods: {
-    showAlert(message) {
+    toggleSort() {
+      this.records.sort((a, b) => {
+        if (this.sortOrder === 'asc') {
+          return a.short_code.localeCompare(b.short_code);
+        }
+        return b.short_code.localeCompare(a.short_code);
+      });
+      this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+    },
+    showAlertMessage(message) {
       // Reset loading, current selected agent
       this.loading[this.selectedResponse.id] = false;
       this.selectedResponse = {};
       // Show message
       this.cannedResponseAPI.message = message;
-      bus.$emit('newToastMessage', message);
+      this.showAlert(message);
     },
     // Edit Function
     openAddPopup() {
@@ -202,12 +232,14 @@ export default {
       this.$store
         .dispatch('deleteCannedResponse', id)
         .then(() => {
-          this.showAlert(this.$t('CANNED_MGMT.DELETE.API.SUCCESS_MESSAGE'));
+          this.showAlertMessage(
+            this.$t('CANNED_MGMT.DELETE.API.SUCCESS_MESSAGE')
+          );
         })
         .catch(error => {
           const errorMessage =
             error?.message || this.$t('CANNED_MGMT.DELETE.API.ERROR_MESSAGE');
-          this.showAlert(errorMessage);
+          this.showAlertMessage(errorMessage);
         });
     },
   },

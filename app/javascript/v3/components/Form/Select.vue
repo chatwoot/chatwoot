@@ -11,11 +11,11 @@
       :selected="value"
       :name="name"
       :class="{
-        'text-slate-400': !value,
-        'text-slate-900 dark:text-slate-100': value,
+        'text-ash-400': !value,
+        'text-ash-900': value,
         'pl-9': icon,
       }"
-      class="block w-full px-3 py-2 pr-6 mb-0 border-0 rounded-md shadow-sm outline-none appearance-none select-caret ring-1 ring-inset placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-woot-500 sm:text-sm sm:leading-6 dark:bg-slate-700 dark:ring-slate-600 dark:focus:ring-woot-500 ring-slate-200"
+      class="block w-full px-3 py-2 pr-6 mb-0 border-0 shadow-sm outline-none appearance-none rounded-xl select-caret ring-ash-200 ring-1 ring-inset placeholder:text-ash-900 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
       @input="onInput"
     >
       <option value="" disabled selected class="hidden">

@@ -25,6 +25,7 @@
 # Indexes
 #
 #  index_contacts_on_account_id                          (account_id)
+#  index_contacts_on_account_id_and_last_activity_at     (account_id,last_activity_at DESC NULLS LAST)
 #  index_contacts_on_blocked                             (blocked)
 #  index_contacts_on_lower_email_account_id              (lower((email)::text), account_id)
 #  index_contacts_on_name_email_phone_number_identifier  (name,email,phone_number,identifier) USING gin

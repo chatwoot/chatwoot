@@ -1,0 +1,19 @@
+{
+  "DATE_PICKER": {
+    "APPLY_BUTTON": "അപേക്ഷിക്കുക",
+    "CLEAR_BUTTON": "Clear",
+    "DATE_RANGE_INPUT": {
+      "START": "Start Date",
+      "END": "End Date"
+    },
+    "DATE_RANGE_OPTIONS": {
+      "TITLE": "DATE RANGE",
+      "LAST_7_DAYS": "കഴിഞ്ഞ 7 ദിവസം",
+      "LAST_30_DAYS": "കഴിഞ്ഞ 30 ദിവസം",
+      "LAST_3_MONTHS": "കഴിഞ്ഞ 3 മാസം",
+      "LAST_6_MONTHS": "കഴിഞ്ഞ 6 മാസം",
+      "LAST_YEAR": "കഴിഞ്ഞ വർഷം",
+      "CUSTOM_RANGE": "ഇഷ്‌ടാനുസൃത തീയതി ശ്രേണി"
+    }
+  }
+}

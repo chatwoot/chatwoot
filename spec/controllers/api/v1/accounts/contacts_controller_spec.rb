@@ -2,6 +2,16 @@ require 'rails_helper'
 
 RSpec.describe 'Contacts API', type: :request do
   let(:account) { create(:account) }
+  let(:email_filter) do
+    {
+      attribute_key: 'email',
+      filter_operator: 'contains',
+      values: 'looped',
+      query_operator: 'and',
+      attribute_model: 'standard',
+      custom_attribute_type: ''
+    }
+  end
 
   describe 'GET /api/v1/accounts/{account.id}/contacts' do
     context 'when it is an unauthenticated user' do
@@ -87,6 +97,8 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
+        # TODO: this spec has been flaky for a while, so adding a debug statement to see the response
+        Rails.logger.info(response_body)
         expect(response_body['payload'].first['email']).to eq(contact.email)
         expect(response_body['payload'].first['id']).to eq(contact.id)
         expect(response_body['payload'].last['email']).to eq(contact_4.email)
@@ -175,7 +187,7 @@ RSpec.describe 'Contacts API', type: :request do
   describe 'POST /api/v1/accounts/{account.id}/contacts/export' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        get "/api/v1/accounts/#{account.id}/contacts/export"
+        post "/api/v1/accounts/#{account.id}/contacts/export"
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -185,9 +197,9 @@ RSpec.describe 'Contacts API', type: :request do
       let(:agent) { create(:user, account: account, role: :agent) }
 
       it 'returns unauthorized' do
-        get "/api/v1/accounts/#{account.id}/contacts/export",
-            headers: agent.create_new_auth_token,
-            as: :json
+        post "/api/v1/accounts/#{account.id}/contacts/export",
+             headers: agent.create_new_auth_token,
+             as: :json
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -197,21 +209,35 @@ RSpec.describe 'Contacts API', type: :request do
       let(:admin) { create(:user, account: account, role: :administrator) }
 
       it 'enqueues a contact export job' do
-        expect(Account::ContactsExportJob).to receive(:perform_later).with(account.id, nil, admin.email).once
+        expect(Account::ContactsExportJob).to receive(:perform_later).with(account.id, admin.id, nil, { :payload => nil, :label => nil }).once
 
-        get "/api/v1/accounts/#{account.id}/contacts/export",
-            headers: admin.create_new_auth_token,
-            params: { column_names: nil }
+        post "/api/v1/accounts/#{account.id}/contacts/export",
+             headers: admin.create_new_auth_token
 
         expect(response).to have_http_status(:success)
       end
 
       it 'enqueues a contact export job with sent_columns' do
-        expect(Account::ContactsExportJob).to receive(:perform_later).with(account.id, %w[phone_number email], admin.email).once
+        expect(Account::ContactsExportJob).to receive(:perform_later).with(account.id, admin.id, %w[phone_number email],
+                                                                           { :payload => nil, :label => nil }).once
 
-        get "/api/v1/accounts/#{account.id}/contacts/export",
-            headers: admin.create_new_auth_token,
-            params: { column_names: %w[phone_number email] }
+        post "/api/v1/accounts/#{account.id}/contacts/export",
+             headers: admin.create_new_auth_token,
+             params: { column_names: %w[phone_number email] }
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'enqueues a contact export job with payload' do
+        expect(Account::ContactsExportJob).to receive(:perform_later).with(account.id, admin.id, nil,
+                                                                           {
+                                                                             :payload => [ActionController::Parameters.new(email_filter).permit!],
+                                                                             :label => nil
+                                                                           }).once
+
+        post "/api/v1/accounts/#{account.id}/contacts/export",
+             headers: admin.create_new_auth_token,
+             params: { payload: [email_filter] }
 
         expect(response).to have_http_status(:success)
       end

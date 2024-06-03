@@ -71,17 +71,20 @@
         :class="{ 'justify-end': isContactPanelOpen }"
       >
         <SLA-card-label v-if="hasSlaPolicyId" :chat="chat" show-extended-info />
+        <linear
+          v-if="isLinearIntegrationEnabled && isLinearFeatureEnabled"
+          :conversation-id="currentChat.id"
+        />
         <more-actions :conversation-id="currentChat.id" />
       </div>
     </div>
   </div>
 </template>
 <script>
-import { hasPressedAltAndOKey } from 'shared/helpers/KeyboardHelpers';
 import { mapGetters } from 'vuex';
 import agentMixin from '../../../mixins/agentMixin.js';
 import BackButton from '../BackButton.vue';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import InboxName from '../InboxName.vue';
 import MoreActions from './MoreActions.vue';
@@ -90,6 +93,8 @@ import SLACardLabel from './components/SLACardLabel.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import Linear from './linear/index.vue';
 
 export default {
   components: {
@@ -98,8 +103,9 @@ export default {
     MoreActions,
     Thumbnail,
     SLACardLabel,
+    Linear,
   },
-  mixins: [inboxMixin, agentMixin, eventListenerMixins],
+  mixins: [inboxMixin, agentMixin, keyboardEventListenerMixins],
   props: {
     chat: {
       type: Object,
@@ -122,6 +128,9 @@ export default {
     ...mapGetters({
       uiFlags: 'inboxAssignableAgents/getUIFlags',
       currentChat: 'getSelectedChat',
+      accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      appIntegrations: 'integrations/getAppIntegrations',
     }),
     chatMetadata() {
       return this.chat.meta;
@@ -179,13 +188,26 @@ export default {
     hasSlaPolicyId() {
       return this.chat?.sla_policy_id;
     },
+    isLinearIntegrationEnabled() {
+      return this.appIntegrations.find(
+        integration => integration.id === 'linear' && !!integration.hooks.length
+      );
+    },
+    isLinearFeatureEnabled() {
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.LINEAR
+      );
+    },
   },
 
   methods: {
-    handleKeyEvents(e) {
-      if (hasPressedAltAndOKey(e)) {
-        this.$emit('contact-panel-toggle');
-      }
+    getKeyboardEvents() {
+      return {
+        'Alt+KeyO': {
+          action: () => this.$emit('contact-panel-toggle'),
+        },
+      };
     },
   },
 };

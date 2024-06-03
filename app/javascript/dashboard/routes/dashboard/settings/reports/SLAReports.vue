@@ -94,8 +94,8 @@ export default {
       const type = 'sla';
       try {
         this.$store.dispatch('slaReports/download', {
-          fileName: generateFileName({ type, to: this.to }),
-          ...this.requestPayload,
+          fileName: generateFileName({ type, to: this.activeFilter.to }),
+          ...this.activeFilter,
         });
       } catch (error) {
         this.showAlert(this.$t('SLA_REPORTS.DOWNLOAD_FAILED'));

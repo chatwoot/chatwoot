@@ -166,7 +166,6 @@
   </div>
 </template>
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import timeMixin from 'dashboard/mixins/time';
 import ContactInfoRow from './ContactInfoRow.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
@@ -195,7 +194,7 @@ export default {
     NewConversation,
     ContactMergeModal,
   },
-  mixins: [alertMixin, adminMixin, clickaway, timeMixin],
+  mixins: [alertMixin, adminMixin, timeMixin],
   props: {
     contact: {
       type: Object,
@@ -272,7 +271,10 @@ export default {
     },
     toggleConversationModal() {
       this.showConversationModal = !this.showConversationModal;
-      bus.$emit(BUS_EVENTS.NEW_CONVERSATION_MODAL, this.showConversationModal);
+      this.$emitter.emit(
+        BUS_EVENTS.NEW_CONVERSATION_MODAL,
+        this.showConversationModal
+      );
     },
     toggleDeleteModal() {
       this.showDeleteModal = !this.showDeleteModal;

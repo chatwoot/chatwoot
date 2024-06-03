@@ -57,7 +57,6 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import InboxOptionMenu from './InboxOptionMenu.vue';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import InboxDisplayMenu from './InboxDisplayMenu.vue';
@@ -68,7 +67,7 @@ export default {
     InboxOptionMenu,
     InboxDisplayMenu,
   },
-  mixins: [clickaway, alertMixin],
+  mixins: [alertMixin],
   props: {
     isContextMenuOpen: {
       type: Boolean,

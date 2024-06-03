@@ -1,6 +1,6 @@
 <script setup>
-import FilterButton from './FilterButton.vue';
-import FilterListDropdown from './FilterListDropdown.vue';
+import FilterButton from 'dashboard/components/ui/Dropdown/DropdownButton.vue';
+import FilterListDropdown from 'dashboard/components/ui/Dropdown/DropdownList.vue';
 
 const props = defineProps({
   name: {
@@ -60,6 +60,7 @@ const closeDropdown = () => emit('closeDropdown');
       <filter-list-dropdown
         v-if="options"
         v-on-clickaway="closeDropdown"
+        show-clear-filter
         :list-items="options"
         :active-filter-id="id"
         :input-placeholder="placeholder"
