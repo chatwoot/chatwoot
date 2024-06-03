@@ -99,7 +99,7 @@ export default {
     },
   },
   mounted() {
-    bus.$on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.toggleReplyTo);
+    this.$emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.toggleReplyTo);
   },
   methods: {
     ...mapActions('conversation', [
