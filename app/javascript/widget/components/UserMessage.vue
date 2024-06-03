@@ -159,7 +159,7 @@ export default {
       this.hasImageError = true;
     },
     toggleReply() {
-      bus.$emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.message);
+      this.$emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.message);
     },
   },
 };
