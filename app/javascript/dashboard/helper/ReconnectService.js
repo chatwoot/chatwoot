@@ -1,3 +1,4 @@
+import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { differenceInSeconds } from 'date-fns';
 import {
@@ -21,14 +22,14 @@ class ReconnectService {
 
   setupEventListeners = () => {
     window.addEventListener('online', this.handleOnlineEvent);
-    window.bus.$on(BUS_EVENTS.WEBSOCKET_RECONNECT, this.onReconnect);
-    window.bus.$on(BUS_EVENTS.WEBSOCKET_DISCONNECT, this.onDisconnect);
+    emitter.on(BUS_EVENTS.WEBSOCKET_RECONNECT, this.onReconnect);
+    emitter.on(BUS_EVENTS.WEBSOCKET_DISCONNECT, this.onDisconnect);
   };
 
   removeEventListeners = () => {
     window.removeEventListener('online', this.handleOnlineEvent);
-    window.bus.$off(BUS_EVENTS.WEBSOCKET_RECONNECT, this.onReconnect);
-    window.bus.$off(BUS_EVENTS.WEBSOCKET_DISCONNECT, this.onDisconnect);
+    emitter.off(BUS_EVENTS.WEBSOCKET_RECONNECT, this.onReconnect);
+    emitter.off(BUS_EVENTS.WEBSOCKET_DISCONNECT, this.onDisconnect);
   };
 
   getSecondsSinceDisconnect = () =>
@@ -132,7 +133,7 @@ class ReconnectService {
   onReconnect = async () => {
     await this.handleRouteSpecificFetch();
     await this.revalidateCaches();
-    window.bus.$emit(BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED);
+    emitter.emit(BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED);
   };
 }
 

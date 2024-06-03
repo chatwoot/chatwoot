@@ -1,3 +1,4 @@
+import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { differenceInSeconds } from 'date-fns';
 import {
@@ -6,6 +7,14 @@ import {
   isNotificationRoute,
 } from 'dashboard/helper/routeHelpers';
 import ReconnectService from 'dashboard/helper/ReconnectService';
+
+jest.mock('shared/helpers/mitt', () => ({
+  emitter: {
+    on: jest.fn(),
+    off: jest.fn(),
+    emit: jest.fn(),
+  },
+}));
 
 jest.mock('date-fns', () => ({
   differenceInSeconds: jest.fn(),
@@ -35,15 +44,8 @@ const routerMock = {
 
 describe('ReconnectService', () => {
   let reconnectService;
-  let bus;
 
   beforeEach(() => {
-    bus = {
-      $on: jest.fn(),
-      $off: jest.fn(),
-      $emit: jest.fn(),
-    };
-    window.bus = bus;
     window.addEventListener = jest.fn();
     window.removeEventListener = jest.fn();
     Object.defineProperty(window, 'location', {
@@ -65,11 +67,11 @@ describe('ReconnectService', () => {
         'online',
         reconnectService.handleOnlineEvent
       );
-      expect(bus.$on).toHaveBeenCalledWith(
+      expect(emitter.on).toHaveBeenCalledWith(
         BUS_EVENTS.WEBSOCKET_RECONNECT,
         reconnectService.onReconnect
       );
-      expect(bus.$on).toHaveBeenCalledWith(
+      expect(emitter.on).toHaveBeenCalledWith(
         BUS_EVENTS.WEBSOCKET_DISCONNECT,
         reconnectService.onDisconnect
       );
@@ -83,11 +85,11 @@ describe('ReconnectService', () => {
         'online',
         reconnectService.handleOnlineEvent
       );
-      expect(bus.$off).toHaveBeenCalledWith(
+      expect(emitter.off).toHaveBeenCalledWith(
         BUS_EVENTS.WEBSOCKET_RECONNECT,
         reconnectService.onReconnect
       );
-      expect(bus.$off).toHaveBeenCalledWith(
+      expect(emitter.off).toHaveBeenCalledWith(
         BUS_EVENTS.WEBSOCKET_DISCONNECT,
         reconnectService.onDisconnect
       );
@@ -332,7 +334,7 @@ describe('ReconnectService', () => {
       await reconnectService.onReconnect();
       expect(reconnectService.handleRouteSpecificFetch).toHaveBeenCalled();
       expect(reconnectService.revalidateCaches).toHaveBeenCalled();
-      expect(bus.$emit).toHaveBeenCalledWith(
+      expect(emitter.emit).toHaveBeenCalledWith(
         BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED
       );
     });

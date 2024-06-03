@@ -4,7 +4,6 @@ import DashboardAudioNotificationHelper from './AudioAlerts/DashboardAudioNotifi
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
 
-
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
     const { websocketURL = '' } = window.chatwootConfig || {};
@@ -37,12 +36,12 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   // eslint-disable-next-line class-methods-use-this
   onReconnect = () => {
-    window.bus.$emit(BUS_EVENTS.WEBSOCKET_RECONNECT);
+    emitter.emit(BUS_EVENTS.WEBSOCKET_RECONNECT);
   };
 
   // eslint-disable-next-line class-methods-use-this
   onDisconnected = () => {
-    window.bus.$emit(BUS_EVENTS.WEBSOCKET_DISCONNECT);
+    emitter.emit(BUS_EVENTS.WEBSOCKET_DISCONNECT);
   };
 
   isAValidEvent = data => {

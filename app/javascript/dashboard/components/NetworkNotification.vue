@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { emitter } from 'shared/helpers/mitt';
 import { useI18n } from 'dashboard/composables/useI18n';
 import { useRoute } from 'dashboard/composables/route';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -92,23 +93,23 @@ const updateOnlineStatus = event => {
 const addEventListeners = () => {
   window.addEventListener('offline', updateOnlineStatus);
   window.addEventListener('online', updateOnlineStatus);
-  this.$emitter.on(BUS_EVENTS.WEBSOCKET_DISCONNECT, updateWebsocketStatus);
-  this.$emitter.on(
+  emitter.on(BUS_EVENTS.WEBSOCKET_DISCONNECT, updateWebsocketStatus);
+  emitter.on(
     BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED,
     handleReconnectionCompleted
   );
-  this.$emitter.on(BUS_EVENTS.WEBSOCKET_RECONNECT, handleReconnecting);
+  emitter.on(BUS_EVENTS.WEBSOCKET_RECONNECT, handleReconnecting);
 };
 
 const removeEventListeners = () => {
   window.removeEventListener('offline', updateOnlineStatus);
   window.removeEventListener('online', updateOnlineStatus);
-  this.$emitter.off(BUS_EVENTS.WEBSOCKET_DISCONNECT, updateWebsocketStatus);
-  this.$emitter.off(
+  emitter.off(BUS_EVENTS.WEBSOCKET_DISCONNECT, updateWebsocketStatus);
+  emitter.off(
     BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED,
     handleReconnectionCompleted
   );
-  this.$emitter.off(BUS_EVENTS.WEBSOCKET_RECONNECT, handleReconnecting);
+  emitter.off(BUS_EVENTS.WEBSOCKET_RECONNECT, handleReconnecting);
   clearTimeout(reconnectTimeout);
 };
 
