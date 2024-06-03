@@ -9,7 +9,6 @@ import messageTranslateActions from './actions/messageTranslateActions';
 import {
   buildConversationList,
   isOnFoldersView,
-  getCustomViewPayload,
   isOnMentionsView,
   isOnUnattendedView,
 } from './helpers/actionHelpers';
@@ -317,10 +316,7 @@ const actions = {
     }
   },
 
-  addConversation(
-    { commit, state, dispatch, rootState, rootGetters },
-    conversation
-  ) {
+  addConversation({ commit, state, dispatch, rootState }, conversation) {
     const { currentInbox, appliedFilters } = state;
     const {
       inbox_id: inboxId,
@@ -331,18 +327,19 @@ const actions = {
       !currentInbox || Number(currentInbox) === inboxId;
     if (
       !hasAppliedFilters &&
+      !isOnFoldersView(rootState) &&
       !isOnMentionsView(rootState) &&
       !isOnUnattendedView(rootState) &&
       isMatchingInboxFilter
     ) {
       commit(types.ADD_CONVERSATION, conversation);
       dispatch('contacts/setContact', sender);
-      if (isOnFoldersView(rootState)) {
-        // refreshes the folder view
-        const customViews = rootGetters['customViews/getCustomViews'];
-        const customViewPayload = getCustomViewPayload(rootState, customViews);
-        dispatch('customViews/update', customViewPayload);
-      }
+      // if (isOnFoldersView(rootState)) {
+      //   // refreshes the folder view
+      //   const customViews = rootGetters['customViews/getCustomViews'];
+      //   const customViewPayload = getCustomViewPayload(rootState, customViews);
+      //   dispatch('customViews/update', customViewPayload);
+      // }
     }
   },
 
@@ -358,26 +355,27 @@ const actions = {
     }
   },
 
-  updateConversation(
-    { commit, dispatch, rootState, rootGetters },
-    conversation
-  ) {
+  updateConversation({ commit, dispatch, rootState }, conversation) {
     const {
       meta: { sender },
     } = conversation;
-    if (!isOnMentionsView(rootState) && !isOnUnattendedView(rootState)) {
+    if (
+      !isOnMentionsView(rootState) &&
+      !isOnFoldersView(rootState) &&
+      !isOnUnattendedView(rootState)
+    ) {
       commit(types.UPDATE_CONVERSATION, conversation);
 
       dispatch('conversationLabels/setConversationLabel', {
         id: conversation.id,
         data: conversation.labels,
       });
-      if (isOnFoldersView(rootState)) {
-        // refreshes the folder view
-        const customViews = rootGetters['customViews/getCustomViews'];
-        const customViewPayload = getCustomViewPayload(rootState, customViews);
-        dispatch('customViews/update', customViewPayload);
-      }
+      // if (isOnFoldersView(rootState)) {
+      //   // refreshes the folder view
+      //   const customViews = rootGetters['customViews/getCustomViews'];
+      //   const customViewPayload = getCustomViewPayload(rootState, customViews);
+      //   dispatch('customViews/update', customViewPayload);
+      // }
       dispatch('contacts/setContact', sender);
     }
   },
