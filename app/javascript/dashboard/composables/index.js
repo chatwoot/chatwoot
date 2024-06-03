@@ -1,4 +1,5 @@
 import { getCurrentInstance } from 'vue';
+import { emitter } from 'shared/helpers/mitt';
 
 export const useTrack = () => {
   const vm = getCurrentInstance();
@@ -8,5 +9,5 @@ export const useTrack = () => {
 };
 
 export function useAlert(message, action) {
-  bus.$emit('newToastMessage', message, action);
+  emitter.emit('newToastMessage', message, action);
 }

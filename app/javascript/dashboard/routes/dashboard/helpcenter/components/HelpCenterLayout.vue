@@ -265,7 +265,7 @@ export default {
   },
 
   mounted() {
-    bus.$on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
+    this.$emitter.on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
 
     const slug = this.$route.params.portalSlug;
     if (slug) this.lastActivePortalSlug = slug;
@@ -273,7 +273,7 @@ export default {
     this.fetchPortalAndItsCategories();
   },
   beforeDestroy() {
-    bus.$off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
+    this.$emitter.off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
   updated() {
     const slug = this.$route.params.portalSlug;
