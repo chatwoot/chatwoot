@@ -359,7 +359,11 @@ const actions = {
     const {
       meta: { sender },
     } = conversation;
-    if (!isOnMentionsView(rootState) && !isOnUnattendedView(rootState)) {
+    if (
+      !isOnMentionsView(rootState) &&
+      !isOnFoldersView(rootState) &&
+      !isOnUnattendedView(rootState)
+    ) {
       commit(types.UPDATE_CONVERSATION, conversation);
 
       dispatch('conversationLabels/setConversationLabel', {
