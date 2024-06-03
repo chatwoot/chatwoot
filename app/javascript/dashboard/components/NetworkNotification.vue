@@ -75,13 +75,13 @@ const handleReconnecting = () => {
 
 const updateOnlineStatus = event => {
   // Case: Websocket is not disconnected
-  // If the user goes offline, show the notification
-  // If the user goes online, close the notification
+  // If the app goes offline, show the notification
+  // If the app goes online, close the notification
 
   // Case: Websocket is disconnected
-  // If the user goes offline, show the notification
-  // If the user goes online but the websocket is disconnected, don't close the notification
-  // If the user goes online and the websocket is not disconnected, close the notification
+  // If the app goes offline, show the notification
+  // If the app goes online but the websocket is disconnected, don't close the notification
+  // If the app goes online and the websocket is not disconnected, close the notification
 
   if (event.type === 'offline') {
     showNotification.value = true;

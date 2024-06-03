@@ -41,11 +41,14 @@ export const mutations = {
         newAllConversations[indexInCurrentList] = conversation;
       } else {
         // If the conversation is already in the list and selectedChatId is the same,
-        // replace all data except the messages array
+        // replace all data except the messages array, attachments, dataFetched, allMessagesLoaded
         const existingConversation = newAllConversations[indexInCurrentList];
         newAllConversations[indexInCurrentList] = {
           ...conversation,
+          allMessagesLoaded: existingConversation.allMessagesLoaded,
           messages: existingConversation.messages,
+          dataFetched: existingConversation.dataFetched,
+          attachments: existingConversation.attachments,
         };
       }
     });
