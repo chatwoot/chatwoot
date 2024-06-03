@@ -1,5 +1,6 @@
 import { createConsumer } from '@rails/actioncable';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { emitter } from 'shared/helpers/mitt';
 
 const PRESENCE_INTERVAL = 20000;
 const RECONNECT_INTERVAL = 1000;
@@ -28,7 +29,7 @@ class BaseActionCableConnector {
           this.onDisconnected();
           this.initReconnectTimer();
           // TODO: Remove this after completing the conversation list refetching
-          window.bus.$emit(BUS_EVENTS.WEBSOCKET_DISCONNECT);
+          emitter.emit(BUS_EVENTS.WEBSOCKET_DISCONNECT);
         },
       }
     );
