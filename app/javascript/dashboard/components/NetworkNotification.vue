@@ -92,23 +92,23 @@ const updateOnlineStatus = event => {
 const addEventListeners = () => {
   window.addEventListener('offline', updateOnlineStatus);
   window.addEventListener('online', updateOnlineStatus);
-  window.bus.$on(BUS_EVENTS.WEBSOCKET_DISCONNECT, updateWebsocketStatus);
-  window.bus.$on(
+  this.$emitter.on(BUS_EVENTS.WEBSOCKET_DISCONNECT, updateWebsocketStatus);
+  this.$emitter.on(
     BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED,
     handleReconnectionCompleted
   );
-  window.bus.$on(BUS_EVENTS.WEBSOCKET_RECONNECT, handleReconnecting);
+  this.$emitter.on(BUS_EVENTS.WEBSOCKET_RECONNECT, handleReconnecting);
 };
 
 const removeEventListeners = () => {
   window.removeEventListener('offline', updateOnlineStatus);
   window.removeEventListener('online', updateOnlineStatus);
-  window.bus.$off(BUS_EVENTS.WEBSOCKET_DISCONNECT, updateWebsocketStatus);
-  window.bus.$off(
+  this.$emitter.off(BUS_EVENTS.WEBSOCKET_DISCONNECT, updateWebsocketStatus);
+  this.$emitter.off(
     BUS_EVENTS.WEBSOCKET_RECONNECT_COMPLETED,
     handleReconnectionCompleted
   );
-  window.bus.$off(BUS_EVENTS.WEBSOCKET_RECONNECT, handleReconnecting);
+  this.$emitter.off(BUS_EVENTS.WEBSOCKET_RECONNECT, handleReconnecting);
   clearTimeout(reconnectTimeout);
 };
 
