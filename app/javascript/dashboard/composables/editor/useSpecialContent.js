@@ -39,7 +39,7 @@ export default function useSpecialContent() {
   const getCannedResponseNode = (editorView, content, from, to, variables) => {
     const updatedMessage = replaceVariablesInMessage({
       message: content,
-      variables: variables,
+      variables,
     });
 
     const node = new MessageMarkdownTransformer(messageSchema).parse(
