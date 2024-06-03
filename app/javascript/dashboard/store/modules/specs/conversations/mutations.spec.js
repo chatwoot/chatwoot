@@ -354,31 +354,13 @@ describe('#mutations', () => {
       expect(state.allConversations).toEqual(data);
     });
 
-    it('set all conversation in reconnect if selected chat id and conversation id is not the same then update messages, attachments, dataFetched, allMessagesLoaded', () => {
+    it('set all conversation in reconnect if selected chat id and conversation id is not the same then update messages', () => {
       const state = {
-        allConversations: [
-          {
-            id: 1,
-            messages: [{ id: 1, content: 'test' }],
-            attachments: [{ id: 1, name: 'test.png' }],
-            dataFetched: true,
-            allMessagesLoaded: false,
-          },
-        ],
+        allConversations: [{ id: 1, messages: [{ id: 1, content: 'test' }] }],
         selectedChatId: 2,
       };
       const data = [
-        {
-          id: 1,
-          name: 'test',
-          messages: [{ id: 1, content: 'tested' }],
-          attachments: [
-            { id: 1, name: 'test.png' },
-            { id: 2, name: 'test2.png' },
-          ],
-          dataFetched: true,
-          allMessagesLoaded: true,
-        },
+        { id: 1, name: 'test', messages: [{ id: 1, content: 'tested' }] },
       ];
       mutations[types.SET_ALL_CONVERSATION](state, data);
       expect(state.allConversations).toEqual(data);
