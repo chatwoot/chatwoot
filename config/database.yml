@@ -10,10 +10,19 @@ default: &default
     statement_timeout: <%= ENV["POSTGRES_STATEMENT_TIMEOUT"] || "14s" %>
 
 development:
-  <<: *default
-  database: "<%= ENV.fetch('POSTGRES_DATABASE', 'chatwoot_dev') %>"
-  username: "<%= ENV.fetch('POSTGRES_USERNAME', 'postgres') %>"
-  password: "<%= ENV.fetch('POSTGRES_PASSWORD', '') %>"
+  primary:
+    <<: *default
+    database: "<%= ENV.fetch('POSTGRES_DATABASE', 'chatwoot_dev') %>"
+    username: "<%= ENV.fetch('POSTGRES_USERNAME', 'postgres') %>"
+    password: "<%= ENV.fetch('POSTGRES_PASSWORD', '') %>"
+  secondary:
+    <<: *default
+    adapter: mysql2
+    host: "<%= ENV.fetch('MYSQL_HOST', 'localhost') %>"
+    port: "<%= ENV.fetch('MYSQL_PORT', '3306') %>"
+    database: "<%= ENV.fetch('MYSQL_DATABASE', 'chatwoot_dev') %>"
+    username: "<%= ENV.fetch('MYSQL_USERNAME', 'postgres') %>"
+    password: "<%= ENV.fetch('MYSQL_PASSWORD', '') %>"
 
 test:
   <<: *default
