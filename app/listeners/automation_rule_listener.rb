@@ -87,8 +87,12 @@ class AutomationRuleListener < BaseListener
     event.data[:performed_by].present? && event.data[:performed_by].instance_of?(AutomationRule)
   end
 
+  def backpopulated_message?(message)
+    message.additional_attributes['ignore_automation_rules'].present? && message.additional_attributes['ignore_automation_rules']
+  end
+
   def ignore_message_created_event?(event)
     message = event.data[:message]
-    performed_by_automation?(event) || message.activity?
+    performed_by_automation?(event) || message.activity? || backpopulated_message?(message)
   end
 end
