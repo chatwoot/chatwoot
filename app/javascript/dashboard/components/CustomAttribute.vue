@@ -270,10 +270,10 @@ export default {
   },
   mounted() {
     this.editedValue = this.formattedValue;
-    bus.$on(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
+    this.$emitter.on(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
   },
   destroyed() {
-    bus.$off(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
+    this.$emitter.off(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
   },
   methods: {
     onFocusAttribute(focusAttributeKey) {

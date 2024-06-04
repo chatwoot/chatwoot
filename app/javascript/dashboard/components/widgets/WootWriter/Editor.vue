@@ -352,10 +352,16 @@ export default {
     // Components using this
     // 1. SearchPopover.vue
 
-    bus.$on(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, this.insertContentIntoEditor);
+    this.$emitter.on(
+      BUS_EVENTS.INSERT_INTO_RICH_EDITOR,
+      this.insertContentIntoEditor
+    );
   },
   beforeDestroy() {
-    bus.$off(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, this.insertContentIntoEditor);
+    this.$emitter.off(
+      BUS_EVENTS.INSERT_INTO_RICH_EDITOR,
+      this.insertContentIntoEditor
+    );
   },
   methods: {
     reloadState(content = this.value) {

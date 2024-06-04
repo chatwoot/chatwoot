@@ -104,6 +104,7 @@ const ERROR_MESSAGES = {
   'no-account-found': 'LOGIN.OAUTH.NO_ACCOUNT_FOUND',
   'business-account-only': 'LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY',
 };
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
@@ -112,7 +113,7 @@ export default {
     Spinner,
     SubmitButton,
   },
-  mixins: [globalConfigMixin],
+  mixins: [globalConfigMixin, alertMixin],
   props: {
     ssoAuthToken: { type: String, default: '' },
     ssoAccountId: { type: String, default: '' },
@@ -186,15 +187,15 @@ export default {
         setTimeout(callback, 0);
       }
     },
-    showAlert(message) {
+    showAlertMessage(message) {
       // Reset loading, current selected agent
       this.loginApi.showLoading = false;
       this.loginApi.message = message;
-      bus.$emit('newToastMessage', this.loginApi.message);
+      this.showAlert(this.loginApi.message);
     },
     submitLogin() {
       if (this.$v.credentials.email.$invalid && !this.email) {
-        this.showAlert(this.$t('LOGIN.EMAIL.ERROR'));
+        this.showAlertMessage(this.$t('LOGIN.EMAIL.ERROR'));
         return;
       }
 
