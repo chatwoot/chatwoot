@@ -6,6 +6,7 @@ import { findPendingMessageIndex } from './helpers';
 import { MESSAGE_STATUS } from 'shared/constants/messages';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
+import { emitter } from 'shared/helpers/mitt';
 
 const state = {
   allConversations: [],
@@ -40,11 +41,14 @@ export const mutations = {
         newAllConversations[indexInCurrentList] = conversation;
       } else {
         // If the conversation is already in the list and selectedChatId is the same,
-        // replace all data except the messages array
+        // replace all data except the messages array, attachments, dataFetched, allMessagesLoaded
         const existingConversation = newAllConversations[indexInCurrentList];
         newAllConversations[indexInCurrentList] = {
           ...conversation,
+          allMessagesLoaded: existingConversation.allMessagesLoaded,
           messages: existingConversation.messages,
+          dataFetched: existingConversation.dataFetched,
+          attachments: existingConversation.attachments,
         };
       }
     });
@@ -195,8 +199,8 @@ export const mutations = {
       const { conversation: { unread_count: unreadCount = 0 } = {} } = message;
       chat.unread_count = unreadCount;
       if (selectedChatId === conversationId) {
-        window.bus.$emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
-        window.bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+        emitter.emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
+        emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }
     }
   },
@@ -218,8 +222,8 @@ export const mutations = {
       };
       Vue.set(allConversations, currentConversationIndex, currentConversation);
       if (_state.selectedChatId === conversation.id) {
-        window.bus.$emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
-        window.bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+        emitter.emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
+        emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }
     } else {
       _state.allConversations.push(conversation);

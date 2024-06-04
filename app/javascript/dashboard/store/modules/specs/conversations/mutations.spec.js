@@ -1,6 +1,16 @@
 import types from '../../../mutation-types';
 import { mutations } from '../../conversations';
 
+jest.mock('shared/helpers/mitt', () => ({
+  emitter: {
+    emit: jest.fn(),
+    on: jest.fn(),
+    off: jest.fn(),
+  },
+}));
+
+import { emitter } from 'shared/helpers/mitt';
+
 describe('#mutations', () => {
   describe('#EMPTY_ALL_CONVERSATION', () => {
     it('empty conversations', () => {
@@ -130,7 +140,7 @@ describe('#mutations', () => {
           timestamp: 1602256198,
         },
       ]);
-      expect(global.bus.$emit).not.toHaveBeenCalled();
+      expect(emitter.emit).not.toHaveBeenCalled();
     });
 
     it('add message to the conversation and emit scrollToMessage if it does not exist in the store', () => {
@@ -158,7 +168,7 @@ describe('#mutations', () => {
           timestamp: 1602256198,
         },
       ]);
-      expect(global.bus.$emit).toHaveBeenCalledWith('SCROLL_TO_MESSAGE');
+      expect(emitter.emit).toHaveBeenCalledWith('SCROLL_TO_MESSAGE');
     });
 
     it('update message if it exist in the store', () => {
@@ -195,7 +205,7 @@ describe('#mutations', () => {
           ],
         },
       ]);
-      expect(global.bus.$emit).not.toHaveBeenCalled();
+      expect(emitter.emit).not.toHaveBeenCalled();
     });
   });
 
@@ -297,9 +307,17 @@ describe('#mutations', () => {
       expect(state.allConversations).toEqual(data);
     });
 
-    it('set all conversation in reconnect if selected chat id and conversation id is the same then do not update messages', () => {
+    it('set all conversation in reconnect if selected chat id and conversation id is the same then do not update messages, attachments, dataFetched, allMessagesLoaded', () => {
       const state = {
-        allConversations: [{ id: 1, messages: [{ id: 1, content: 'test' }] }],
+        allConversations: [
+          {
+            id: 1,
+            messages: [{ id: 1, content: 'test' }],
+            attachments: [{ id: 1, name: 'test1.png' }],
+            dataFetched: true,
+            allMessagesLoaded: true,
+          },
+        ],
         selectedChatId: 1,
       };
       const data = [
@@ -307,10 +325,20 @@ describe('#mutations', () => {
           id: 1,
           name: 'test',
           messages: [{ id: 1, content: 'updated message' }],
+          attachments: [{ id: 1, name: 'test.png' }],
+          dataFetched: true,
+          allMessagesLoaded: true,
         },
       ];
       const expected = [
-        { id: 1, name: 'test', messages: [{ id: 1, content: 'test' }] },
+        {
+          id: 1,
+          name: 'test',
+          messages: [{ id: 1, content: 'test' }],
+          attachments: [{ id: 1, name: 'test1.png' }],
+          dataFetched: true,
+          allMessagesLoaded: true,
+        },
       ];
       mutations[types.SET_ALL_CONVERSATION](state, data);
       expect(state.allConversations).toEqual(expected);

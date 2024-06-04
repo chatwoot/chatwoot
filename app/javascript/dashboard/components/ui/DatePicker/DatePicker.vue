@@ -22,7 +22,7 @@ import {
   setYear,
   isAfter,
 } from 'date-fns';
-
+import { useAlert } from 'dashboard/composables';
 import DatePickerButton from './components/DatePickerButton.vue';
 import CalendarDateInput from './components/CalendarDateInput.vue';
 import CalendarDateRange from './components/CalendarDateRange.vue';
@@ -185,7 +185,7 @@ const updateManualInput = (newDate, calendarType) => {
 };
 
 const handleManualInputError = message => {
-  bus.$emit('newToastMessage', message);
+  useAlert(message);
 };
 
 const resetDatePicker = () => {
@@ -201,7 +201,7 @@ const resetDatePicker = () => {
 
 const emitDateRange = () => {
   if (!isValid(selectedStartDate.value) || !isValid(selectedEndDate.value)) {
-    bus.$emit('newToastMessage', 'Please select a valid time range');
+    useAlert('Please select a valid time range');
   } else {
     showDatePicker.value = false;
     emit('dateRangeChanged', [selectedStartDate.value, selectedEndDate.value]);

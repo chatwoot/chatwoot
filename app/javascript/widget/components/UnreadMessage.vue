@@ -97,9 +97,9 @@ export default {
     },
     onClickMessage() {
       if (this.campaignId) {
-        bus.$emit(ON_CAMPAIGN_MESSAGE_CLICK, this.campaignId);
+        this.$emitter.emit(ON_CAMPAIGN_MESSAGE_CLICK, this.campaignId);
       } else {
-        bus.$emit(ON_UNREAD_MESSAGE_CLICK);
+        this.$emitter.emit(ON_UNREAD_MESSAGE_CLICK);
       }
     },
   },
