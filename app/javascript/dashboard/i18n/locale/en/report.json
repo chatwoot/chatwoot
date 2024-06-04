@@ -438,6 +438,9 @@
       "OFFLINE": "Offline"
     }
   },
+  "TRIGGERS_REPORTS": {
+    "HEADER": "Triggers"
+  },
   "DAYS_OF_WEEK": {
     "SUNDAY": "Sunday",
     "MONDAY": "Monday",

@@ -8,6 +8,7 @@ const InboxReports = () => import('./InboxReports.vue');
 const TeamReports = () => import('./TeamReports.vue');
 const CsatResponses = () => import('./CsatResponses.vue');
 const LiveReports = () => import('./LiveReports.vue');
+const TriggerReports = () => import('./TriggerReports.vue');
 
 export default {
   routes: [
@@ -29,6 +30,23 @@ export default {
           name: 'account_overview_reports',
           roles: ['administrator'],
           component: LiveReports,
+        },
+      ],
+    },
+    {
+      path: frontendURL('accounts/:accountId/reports'),
+      component: SettingsContent,
+      props: {
+        headerTitle: 'TRIGGERS_REPORTS.HEADER',
+        icon: 'arrow-trending-lines',
+        keepAlive: false,
+      },
+      children: [
+        {
+          path: 'triggers',
+          name: 'triggers_reports',
+          roles: ['administrator'],
+          component: TriggerReports,
         },
       ],
     },

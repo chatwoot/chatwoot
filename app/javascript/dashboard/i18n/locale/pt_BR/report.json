@@ -467,6 +467,9 @@
       "OFFLINE": "Desconectado"
     }
   },
+  "TRIGGERS_REPORTS": {
+    "HEADER": "Disparos"
+  },
   "DAYS_OF_WEEK": {
     "SUNDAY": "Domingo",
     "MONDAY": "Segunda-Feira",
