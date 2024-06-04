@@ -129,9 +129,9 @@ export default {
       uiFlags: 'attributes/getUIFlags',
     }),
     attributes() {
-      const attributeModel = this.selectedTabIndex
-        ? 'conversation_attribute'
-        : 'contact_attribute';
+      const attributeModel = this.tabs.find(
+        i => i.key === this.selectedTabIndex
+      ).model;
 
       return this.$store.getters['attributes/getAttributesByModel'](
         attributeModel
@@ -141,10 +141,17 @@ export default {
       return [
         {
           key: 0,
+          model: 'contact_attribute',
           name: this.$t('ATTRIBUTES_MGMT.TABS.CONTACT'),
         },
         {
           key: 1,
+          model: 'product_attribute',
+          name: this.$t('ATTRIBUTES_MGMT.TABS.PRODUCT'),
+        },
+        {
+          key: 2,
+          model: 'conversation_attribute',
           name: this.$t('ATTRIBUTES_MGMT.TABS.CONVERSATION'),
         },
       ];

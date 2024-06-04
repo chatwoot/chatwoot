@@ -6,7 +6,8 @@
     "SIDEBAR_TXT": "<p><b>Thông tin tùy chỉnh</b> <p>Thông tin tùy chỉnh giúp lưu trữ thông tin thực tế của khách hàng và của cuộc hội thoại - như địa chỉ giao hàng hoặc sở thích của khách hàng, v. v. <br /><br />Để tạo một Thông tin Tùy chỉnh, chỉ cần nhấp vào <b>Thêm Thông tin Tùy chỉnh.</b> Bạn cũng có thể chỉnh sửa hoặc xóa Thông tin Tùy chỉnh hiện có bằng cách nhấp vào nút Chỉnh sửa hoặc Xóa.</p>",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Hội thoại",
-      "CONTACT": "Khách hàng"
+      "CONTACT": "Khách hàng",
+      "PRODUCT": "Sản phẩm"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "Văn bản",
@@ -100,7 +101,8 @@
     "TABS": {
       "HEADER": "Thông tin tùy chỉnh",
       "CONVERSATION": "Của cuộc hội thoại",
-      "CONTACT": "Của khách hàng"
+      "CONTACT": "Của khách hàng",
+      "PRODUCT": "Của sản phẩm"
     },
     "LIST": {
       "TABLE_HEADER": [

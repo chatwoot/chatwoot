@@ -18,6 +18,7 @@ import contactConversations from './modules/contactConversations';
 import contactLabels from './modules/contactLabels';
 import contactNotes from './modules/contactNotes';
 import contacts from './modules/contacts';
+import products from './modules/products';
 import conversationLabels from './modules/conversationLabels';
 import conversationMetadata from './modules/conversationMetadata';
 import conversationPage from './modules/conversationPage';
@@ -117,6 +118,7 @@ export default new Vuex.Store({
     draftMessages,
     sla,
     slaReports: SLAReports,
+    products,
   },
   plugins,
 });

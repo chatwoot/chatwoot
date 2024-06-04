@@ -182,7 +182,9 @@ export default {
         children: [],
       };
       const custom_attribute_definitions =
-        this.$store.getters['attributes/getAttributes'];
+        this.$store.getters['attributes/getAttributesByModel'](
+          'contact_attribute'
+        );
       custom_attribute_definitions.forEach(item => {
         const column = {
           field: item.attribute_key,

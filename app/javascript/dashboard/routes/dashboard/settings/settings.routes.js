@@ -4,6 +4,7 @@ import agent from './agents/agent.routes';
 import agentBot from './agentBots/agentBot.routes';
 import attributes from './attributes/attributes.routes';
 import stages from './stages/stages.routes';
+import products from './products/products.routes';
 import automation from './automation/automation.routes';
 import auditlogs from './auditlogs/audit.routes';
 import billing from './billing/billing.routes';
@@ -38,6 +39,7 @@ export default {
     ...agentBot.routes,
     ...attributes.routes,
     ...stages.routes,
+    ...products.routes,
     ...automation.routes,
     ...auditlogs.routes,
     ...billing.routes,
