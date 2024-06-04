@@ -30,17 +30,17 @@
       <woot-button
         color-scheme="success"
         icon="add-circle"
-        @click="openAddPopup()"
+        @click="onCreateProduct()"
       >
         {{ $t('PRODUCTS_PAGE.HEADER_BUTTON') }}
       </woot-button>
     </div>
-    <div class="flex flex-col h-full" :class="wrapClass">
+    <div class="flex flex-col h-full">
       <products-table
         :products="records"
         :show-search-empty-state="showEmptySearchResult"
         :is-loading="uiFlags.isFetching"
-        :on-click-contact="openContactInfoPanel"
+        :on-click-product="openProductModal"
         :active-product-id="selectedProductId"
         @on-sort-change="onSortChange"
       />
@@ -52,6 +52,11 @@
         @page-change="onPageChange"
       />
     </div>
+    <product-form
+      :show="showProductModal"
+      :product="selectedProduct"
+      @cancel="closeProductModal"
+    />
   </div>
 </template>
 
@@ -59,6 +64,7 @@
 import { mapGetters } from 'vuex';
 import ProductsTable from './ProductsTable.vue';
 import TableFooter from 'dashboard/components/widgets/TableFooter.vue';
+import ProductForm from './ProductForm.vue';
 
 const DEFAULT_PAGE = 1;
 
@@ -66,11 +72,12 @@ export default {
   components: {
     ProductsTable,
     TableFooter,
+    ProductForm,
   },
   data() {
     return {
       searchQuery: '',
-      showCreateModal: false,
+      showProductModal: false,
       selectedProductId: '',
       sortConfig: { name: 'asc' },
     };
@@ -92,13 +99,7 @@ export default {
         );
         return product;
       }
-      return undefined;
-    },
-    showProductViewPane() {
-      return this.selectedProductId !== '';
-    },
-    wrapClass() {
-      return this.showProductViewPane ? 'w-[75%]' : 'w-full';
+      return {};
     },
     searchButtonClass() {
       return this.searchQuery !== '' ? 'show' : '';
@@ -118,6 +119,10 @@ export default {
     updatePageParam(page) {
       window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
     },
+    onPageChange(page) {
+      this.selectedProductId = '';
+      this.fetchProducts(page);
+    },
     getSortAttribute() {
       let sortAttr = Object.keys(this.sortConfig).reduce((acc, sortKey) => {
         const sortOrder = this.sortConfig[sortKey];
@@ -132,6 +137,10 @@ export default {
         sortAttr = '-name';
       }
       return sortAttr;
+    },
+    onSortChange(params) {
+      this.sortConfig = params;
+      this.fetchProducts(this.meta.currentPage);
     },
     fetchProducts(page) {
       this.updatePageParam(page);
@@ -154,7 +163,6 @@ export default {
         });
       }
     },
-
     inputSearch(event) {
       const newQuery = event.target.value;
       const refetchAllProducts = !!this.searchQuery && newQuery === '';
@@ -169,32 +177,16 @@ export default {
         this.fetchProducts(DEFAULT_PAGE);
       }
     },
-    onPageChange(page) {
-      this.selectedContactId = '';
-      if (this.segmentsId !== 0) {
-        const payload = this.activeSegment.query;
-        this.fetchSavedFilteredContact(payload, page);
-      }
-      if (this.hasAppliedFilters) {
-        this.fetchFilteredContacts(page);
-      } else {
-        this.fetchContacts(page);
-      }
+    openProductModal(productId) {
+      this.selectedProductId = productId;
+      this.showProductModal = true;
     },
-    openContactInfoPanel(contactId) {
-      this.selectedContactId = contactId;
-      this.showContactInfoPanelPane = true;
+    closeProductModal() {
+      this.selectedProductId = '';
+      this.showProductModal = false;
     },
-    closeContactInfoPanel() {
-      this.selectedContactId = '';
-      this.showContactInfoPanelPane = false;
-    },
-    onToggleCreate() {
-      this.showCreateModal = !this.showCreateModal;
-    },
-    onSortChange(params) {
-      this.sortConfig = params;
-      this.fetchProducts(this.meta.currentPage);
+    onCreateProduct() {
+      this.showProductModal = !this.showProductModal;
     },
   },
 };

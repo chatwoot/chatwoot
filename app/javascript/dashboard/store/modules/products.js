@@ -80,7 +80,7 @@ export const actions = {
     commit(types.SET_PRODUCT_UI_FLAG, { isFetchingItem: true });
     try {
       const response = await ProductAPI.show(id);
-      commit(types.SET_PRODUCT_ITEM, response.data.payload);
+      commit(types.SET_PRODUCT_ITEM, response.data);
       commit(types.SET_PRODUCT_UI_FLAG, {
         isFetchingItem: false,
       });
@@ -98,7 +98,7 @@ export const actions = {
         id,
         isFormData ? buildProductFormData(productParams) : productParams
       );
-      commit(types.EDIT_PRODUCT, response.data.payload);
+      commit(types.EDIT_PRODUCT, response.data);
       commit(types.SET_PRODUCT_UI_FLAG, { isUpdating: false });
     } catch (error) {
       commit(types.SET_PRODUCT_UI_FLAG, { isUpdating: false });
@@ -112,9 +112,9 @@ export const actions = {
         isFormData ? buildProductFormData(productParams) : productParams
       );
 
-      commit(types.SET_PRODUCT_ITEM, response.data.payload.product);
+      commit(types.SET_PRODUCT_ITEM, response.data);
       commit(types.SET_PRODUCT_UI_FLAG, { isCreating: false });
-      return response.data.payload.product;
+      return response.data;
     } catch (error) {
       commit(types.SET_PRODUCT_UI_FLAG, { isCreating: false });
       throw error;
@@ -126,6 +126,7 @@ export const actions = {
     try {
       await ProductAPI.delete(id);
       commit(types.SET_PRODUCT_UI_FLAG, { isDeleting: false });
+      commit(types.DELETE_PRODUCT, id);
     } catch (error) {
       commit(types.SET_PRODUCT_UI_FLAG, { isDeleting: false });
       if (error.response?.data?.message) {

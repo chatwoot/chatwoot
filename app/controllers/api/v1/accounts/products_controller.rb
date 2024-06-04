@@ -12,10 +12,11 @@ class Api::V1::Accounts::ProductsController < Api::V1::Accounts::BaseController
 
   def index
     products = Current.account.products
+    @product_count = products.count
     @products = fetch_products(products)
 
     render json: {
-      meta: { count: @products.count, current_page: @current_page },
+      meta: { count: @product_count, current_page: @current_page },
       payload: @products
     }
   end
@@ -27,10 +28,11 @@ class Api::V1::Accounts::ProductsController < Api::V1::Accounts::BaseController
       'products.name ILIKE :search OR products.short_name ILIKE :search',
       search: "%#{params[:q].strip}%"
     )
+    @product_count = products.count
     @products = fetch_products(products)
 
     render json: {
-      meta: { count: @products.count, current_page: @current_page },
+      meta: { count: @product_count, current_page: @current_page },
       payload: @products
     }
   end
@@ -42,6 +44,7 @@ class Api::V1::Accounts::ProductsController < Api::V1::Accounts::BaseController
   def create
     @product = Current.account.products.new(permitted_params)
     @product.save!
+    render json: @product
   end
 
   def update

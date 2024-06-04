@@ -53,7 +53,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    onClickContact: {
+    onClickProduct: {
       type: Function,
       default: () => {},
     },
@@ -61,7 +61,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    activeContactId: {
+    activeProductId: {
       type: [String, Number],
       default: '',
     },

@@ -22,5 +22,27 @@
     "HEADER_BUTTON": "Thêm sản phẩm dịch vụ",
     "SEARCH_INPUT_PLACEHOLDER": "Tìm kiếm sản phẩm",
     "SEARCH_BUTTON": "Tìm kiếm"
+  },
+  "PRODUCT_FORM": {
+    "TITLE": "Thông tin sản phẩm",
+    "SUBTITLE": "Thêm mới",
+    "DESCRIPTION": "Tất cả thông tin của một sản phẩm dịch vụ",
+    "NAME_LABEL": "Tên sản phẩm",
+    "SHORT_NAME_LABEL": "Tên viết tắt",
+    "PRICE_LABEL": "Giá bán",
+    "DISABLED_LABEL": "Ngưng sử dụng",
+    "SUBMIT": "Lưu",
+    "CANCEL": "Hủy",
+    "SUCCESS_MESSAGE": "Cập nhật sản phẩm thành công",
+    "ERROR_MESSAGE": "Có lỗi khi cập nhật sản phẩm, vui lòng thử lại",
+    "DELETE": "Xóa",
+    "SUCCESS_DELETING": "Đã xóa sản phẩm thành công",
+    "ERROR_DELETING": "Có lỗi khi xóa sản phẩm, vui lòng thử lại",
+    "CONFIRM_DELETE": {
+      "TITLE": "Xóa sản phẩm",
+      "MESSAGE": "Sản phẩm sẽ bị xóa vĩnh viễn nếu bạn chọn Có. Hành động này không thể phục hồi!",
+      "YES": "Có, xóa",
+      "NO": "Không, giữ nguyên"
+    }
   }
 }

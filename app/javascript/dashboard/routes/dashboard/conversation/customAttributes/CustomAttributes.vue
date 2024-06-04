@@ -121,7 +121,10 @@ export default {
       });
     },
     async onUpdate(key, value) {
-      if (this.attributeFrom === 'contact_form') {
+      if (
+        this.attributeFrom === 'contact_form' ||
+        this.attributeFrom === 'product_form'
+      ) {
         this.$emit('customAttributeChanged', key, value);
         return;
       }
