@@ -1,5 +1,9 @@
 <template>
-  <li v-if="shouldRenderMessage" :id="`message${data.id}`" :class="alignBubble">
+  <li
+    v-if="shouldRenderMessage"
+    :id="`message${data.id}`"
+    :class="[alignBubble, 'group']"
+  >
     <div :class="wrapClass">
       <div
         v-if="isFailed && !hasOneDayPassed && !isAnEmailInbox"
@@ -121,7 +125,10 @@
         </a>
       </div>
     </div>
-    <div v-if="shouldShowContextMenu" class="context-menu-wrap">
+    <div
+      v-if="shouldShowContextMenu"
+      class="context-menu-wrap invisible group-hover:visible"
+    >
       <context-menu
         v-if="isBubble && !isMessageDeleted"
         :context-menu-position="contextMenuPosition"
