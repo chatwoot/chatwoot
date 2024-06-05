@@ -3,6 +3,7 @@
     <div class="row">
       <metric-card
         :is-live="false"
+        :is-loading="triggersMetric.isFetching"
         header="Relatório de Disparos"
         loading-message="carregando..."
       >
@@ -25,7 +26,9 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { TRIGGERS_METRICS } from './constants';
 import MetricCard from './components/overview/MetricCard.vue';
+
 export default {
   name: 'TriggerReports',
   components: {
@@ -35,13 +38,16 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters({}),
+    ...mapGetters({
+      triggersMetric: 'getTriggersReport',
+    }),
     conversationMetrics() {
-      return {
-        'Total de disparos': 0,
-        'Disparos enviados': 0,
-        'Disparos pendentes': 0,
-      };
+      let metric = {};
+      Object.keys(this.triggersMetric.metrics).forEach(key => {
+        const metricName = TRIGGERS_METRICS[key]; // TODO: change to translate correctly
+        metric[metricName] = this.triggersMetric.metrics[key];
+      });
+      return metric;
     },
   },
   mounted() {
@@ -49,8 +55,10 @@ export default {
   },
   methods: {
     fetchAllData() {
-      // eslint-disable-next-line no-console
-      console.log('fetchAllData');
+      this.fetchTriggersMetric();
+    },
+    fetchTriggersMetric() {
+      this.$store.dispatch('fetchTriggersMetric');
     },
   },
 };
