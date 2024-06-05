@@ -235,6 +235,36 @@ describe Messages::Instagram::MessageBuilder do
       expect(instagram_inbox.conversations.last.id).not_to eq(existing_conversation.id)
       expect(Conversation.count).to eq(inital_count + 1)
     end
+
+    it 'creates a new conversation with previous conversation messages if last conversation is resolved' do
+      existing_conversation = create(:conversation, account_id: account.id, inbox_id: instagram_inbox.id, contact_id: contact.id, status: :open,
+                                                    additional_attributes: { type: 'instagram_direct_message', conversation_language: 'en' })
+
+      inital_count = Conversation.count
+
+      message = dm_params[:entry][0]['messaging'][0]
+      contact_inbox
+
+      described_class.new(message, instagram_inbox).perform
+
+      instagram_inbox.reload
+      contact_inbox.reload
+
+      existing_conversation.update!(status: :resolved)
+      message_count_existing_conversation = existing_conversation.messages.count
+
+      message = dm_params[:entry][0]['messaging'][0]
+      contact_inbox
+
+      described_class.new(message, instagram_inbox).perform
+
+      instagram_inbox.reload
+      contact_inbox.reload
+
+      expect(instagram_inbox.conversations.last.id).not_to eq(existing_conversation.id)
+      expect(instagram_inbox.conversations.last.messages.count).to eq(message_count_existing_conversation + 1)
+      expect(Conversation.count).to eq(inital_count + 1)
+    end
   end
 
   context 'when lock to single conversation is enabled' do

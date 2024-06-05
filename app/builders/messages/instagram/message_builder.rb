@@ -126,10 +126,20 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   def build_conversation
     @contact_inbox ||= contact.contact_inboxes.find_by!(source_id: message_source_id)
 
+    @previous_conversation = Conversation.where(conversation_params).order(created_at: :desc).first
+    previous_messages = fetch_previous_messages
+
     Conversation.create!(conversation_params.merge(
                            contact_inbox_id: @contact_inbox.id,
-                           additional_attributes: { type: 'instagram_direct_message' }
+                           additional_attributes: { type: 'instagram_direct_message' },
+                           messages_attributes: previous_messages
                          ))
+  end
+
+  def fetch_previous_messages
+    return [] if @previous_conversation.present?
+
+    @previous_conversation.messages.map { |message| message.attributes.except('id', 'conversation_id') }
   end
 
   def conversation_params
