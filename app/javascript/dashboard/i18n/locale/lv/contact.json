@@ -48,7 +48,8 @@
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Pielāgot Īpašības",
       "CONTACT_LABELS": "Kontaktpersonu Etiķetes",
-      "PREVIOUS_CONVERSATIONS": "Iepriekšējās Sarunas"
+      "PREVIOUS_CONVERSATIONS": "Iepriekšējās Sarunas",
+      "NO_RECORDS_FOUND": "Īpašības nav atrastas"
     }
   },
   "EDIT_CONTACT": {
@@ -83,6 +84,7 @@
     "CONFIRM": {
       "TITLE": "Eksportēt Kontaktpersonas",
       "MESSAGE": "Vai vēlaties eksportēt visas kontaktpersonas?",
+      "FILTERED_MESSAGE": "Vai tiešām vēlaties eksportēt visas filtrētās kontaktpersonas?",
       "YES": "Jā, Eksportēt",
       "NO": "Nē, Atcelt"
     }
@@ -296,6 +298,8 @@
     "BUTTON": "Pievienot pielāgotu īpašību",
     "NOT_AVAILABLE": "Šai kontaktpersonai nav pieejamas pielāgotas īpašības.",
     "COPY_SUCCESSFUL": "Veiksmīgi nokopēts uz clipboard",
+    "SHOW_MORE": "Rādīt visus atribūtus",
+    "SHOW_LESS": "Rādīt mazāk atribūtu",
     "ACTIONS": {
       "COPY": "Kopēt īpašību",
       "DELETE": "Dzēst īpašību",

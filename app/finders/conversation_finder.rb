@@ -163,12 +163,17 @@ class ConversationFinder
     params[:page] || 1
   end
 
-  def conversations
-    @conversations = @conversations.includes(
+  def conversations_base_query
+    @conversations.includes(
       :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :contact_inbox
     )
+  end
+
+  def conversations
+    @conversations = conversations_base_query
 
     sort_by, sort_order = SORT_OPTIONS[params[:sort_by]] || SORT_OPTIONS['last_activity_at_desc']
     @conversations.send(sort_by, sort_order).page(current_page).per(ENV.fetch('CONVERSATION_RESULTS_PER_PAGE', '25').to_i)
   end
 end
+ConversationFinder.prepend_mod_with('ConversationFinder')

@@ -8,8 +8,15 @@ class AutomationRules::ConditionsFilterService < FilterService
     @rule = rule
     @conversation = conversation
     @account = conversation.account
-    file = File.read('./lib/filters/filter_keys.json')
-    @filters = JSON.parse(file)
+
+    # setup filters from json file
+    file = File.read('./lib/filters/filter_keys.yml')
+    @filters = YAML.safe_load(file)
+
+    @conversation_filters = @filters['conversations']
+    @contact_filters = @filters['contacts']
+    @message_filters = @filters['messages']
+
     @options = options
     @changed_attributes = options[:changed_attributes]
   end
@@ -34,6 +41,14 @@ class AutomationRules::ConditionsFilterService < FilterService
     Rails.logger.error "Error in AutomationRules::ConditionsFilterService: #{e.message}"
     Rails.logger.info "AutomationRules::ConditionsFilterService failed while processing rule #{@rule.id} for conversation #{@conversation.id}"
     false
+  end
+
+  def rule_valid?
+    is_valid = AutomationRules::ConditionValidationService.new(@rule).perform
+    Rails.logger.info "Automation rule condition validation failed for rule id: #{@rule.id}" unless is_valid
+    @rule.authorization_error! unless is_valid
+
+    is_valid
   end
 
   def filter_operation(query_hash, current_index)

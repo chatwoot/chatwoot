@@ -1,6 +1,6 @@
 import { frontendURL } from '../../../../helper/URLHelper';
 
-const SettingsContent = () => import('../Wrapper.vue');
+const SettingsContent = () => import('./Wrapper.vue');
 const Index = () => import('./Index.vue');
 
 export default {
@@ -10,12 +10,6 @@ export default {
       name: 'profile_settings',
       roles: ['administrator', 'agent'],
       component: SettingsContent,
-      props: {
-        headerTitle: 'PROFILE_SETTINGS.TITLE',
-        icon: 'edit',
-        showNewButton: false,
-        showSidemenuIcon: false,
-      },
       children: [
         {
           path: 'settings',

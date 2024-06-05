@@ -40,16 +40,16 @@
     },
     "SUGGESTIONS": {
       "TOOLTIP": {
-        "SINGLE_SUGGESTION": "Add label to conversation",
-        "MULTIPLE_SUGGESTION": "Select this label",
-        "DESELECT": "Deselect label",
-        "DISMISS": "Dismiss suggestion"
+        "SINGLE_SUGGESTION": "اضافه کردن برچسب به گفتگو",
+        "MULTIPLE_SUGGESTION": "انتخاب این برچسب",
+        "DESELECT": "برچسب را از حالت انتخاب خارج کن",
+        "DISMISS": "بستن پیشنهاد ها"
       },
       "POWERED_BY": "Chatwoot AI",
       "DISMISS": "نادیده بگیر",
-      "ADD_SELECTED_LABELS": "Add selected labels",
-      "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels"
+      "ADD_SELECTED_LABELS": "اضافه کردن برچسب‌های انتخاب شده",
+      "ADD_SELECTED_LABEL": "اضافه کردن برچسب‌ انتخاب شده",
+      "ADD_ALL_LABELS": "اضافه کردن همه برچسب ها"
     },
     "ADD": {
       "TITLE": "افزودن برچسب",

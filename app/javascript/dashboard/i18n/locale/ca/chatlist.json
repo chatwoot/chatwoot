@@ -8,7 +8,7 @@
     },
     "TAB_HEADING": "Converses",
     "MENTION_HEADING": "Mencions",
-    "UNATTENDED_HEADING": "Unattended",
+    "UNATTENDED_HEADING": "Sense assistència",
     "SEARCH": {
       "INPUT": "Cerca persones, xats, respostes desades .."
     },
@@ -36,27 +36,27 @@
       }
     },
     "VIEW_FILTER": "Veure",
-    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "SORT_TOOLTIP_LABEL": "Ordena les converses",
     "CHAT_SORT": {
       "STATUS": "Estat",
-      "ORDER_BY": "Order by"
+      "ORDER_BY": "Ordena per"
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "Created",
-        "OLDEST": "Created at:"
+        "LATEST": "Creat",
+        "OLDEST": "Creat per:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Last activity:",
-        "ACTIVE": "Last activity"
+        "NOT_ACTIVE": "Darrera activitat:",
+        "ACTIVE": "Darrera activitat"
       }
     },
     "SORT_ORDER_ITEMS": {
       "last_activity_at_asc": {
-        "TEXT": "Last activity: Oldest first"
+        "TEXT": "Última activitat: Més antic primer"
       },
       "last_activity_at_desc": {
-        "TEXT": "Last activity: Newest first"
+        "TEXT": "Última activitat: La més nova primer"
       },
       "created_at_desc": {
         "TEXT": "Created at: Newest first"
@@ -99,15 +99,15 @@
     },
     "CHAT_SORT_BY_FILTER": {
       "TITLE": "Sort conversation",
-      "DROPDOWN_TITLE": "Sort by",
+      "DROPDOWN_TITLE": "Ordenat per",
       "ITEMS": {
         "LATEST": {
           "NAME": "Last activity at",
           "LABEL": "Last activity"
         },
         "CREATED_AT": {
-          "NAME": "Created at",
-          "LABEL": "Created at"
+          "NAME": "Creat per",
+          "LABEL": "Creat per"
         },
         "LAST_USER_MESSAGE_AT": {
           "NAME": "Last user message at",

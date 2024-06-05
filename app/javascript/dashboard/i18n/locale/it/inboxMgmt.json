@@ -22,7 +22,7 @@
         "body": "Aggiungi agenti alla casella creata."
       },
       {
-        "title": "Voila!",
+        "title": "Voilà!",
         "route": "Finitura",
         "body": "Sei pronto per iniziare!"
       }
@@ -43,7 +43,7 @@
         "CHOOSE_PLACEHOLDER": "Seleziona una pagina dalla lista",
         "INBOX_NAME": "Nome casella",
         "ADD_NAME": "Aggiungi un nome per la tua casella",
-        "PICK_NAME": "Scegli un nome per la tua casella",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "Scegli un valore"
       },
       "TWITTER": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "URL del webhook",
-          "PLACEHOLDER": "Inserisci l'URL del Webhook",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Inserisci un URL valido"
         },
         "CHANNEL_DOMAIN": {
@@ -175,12 +175,12 @@
           },
           "API_KEY": {
             "LABEL": "Chiave API",
-            "PLACEHOLDER": "Inserisci la tua chiave di Bandwith API",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "Questo campo è obbligatorio"
           },
           "API_SECRET": {
             "LABEL": "Chiave API segreta",
-            "PLACEHOLDER": "Inserisci la tua chiave segreta di Bandwith API",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "Questo campo è obbligatorio"
           },
           "APPLICATION_ID": {
@@ -239,7 +239,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook verifica token",
-          "PLACEHOLDER": "Inserisci un token di verifica che vuoi configurare peri webhook di facebook.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Inserisci un valore valido."
         },
         "API_KEY": {
@@ -269,7 +269,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "URL del webhook",
-          "SUBTITLE": "Configurare l'URL in cui si desidera ricevere i callback sugli eventi.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "URL del webhook"
         },
         "SUBMIT_BUTTON": "Crea un canale API",
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Canale email",
-        "DESC": "Integra la casella di posta in arrivo.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Nome canale",
           "PLACEHOLDER": "Inserisci un nome del canale",
@@ -345,7 +345,7 @@
       "AGENTS": {
         "TITLE": "Agenti",
         "DESC": "Qui puoi aggiungere agenti per gestire la tua casella appena creata. Solo questi agenti selezionati avranno accesso alla tua casella. Gli operatori che non fanno parte di questa casella non saranno in grado di vedere o rispondere ai messaggi in questa casella quando effettuano il login. <br> <b>PS:</b> come amministratore, se hai bisogno di accedere a tutte le caselle, dovresti aggiungerti come agente a tutte le caselle che crei.",
-        "VALIDATION_ERROR": "Aggiungi almeno un agente alla tua nuova casella",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Scegli gli agenti per la casella"
       },
       "DETAILS": {
@@ -406,7 +406,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Friendly",
@@ -508,12 +508,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Consenti messaggi dopo la risoluzione della conversazione",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Consenti agli utenti finali di inviare messaggi anche dopo la risoluzione della conversazione.",
       "WHATSAPP_SECTION_SUBHEADER": "Questa chiave API viene utilizzata per l'integrazione con le API WhatsApp.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "Chiave API",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Aggiorna",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook verifica token",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
@@ -585,7 +585,7 @@
       "NOTE_TEXT": "Per abilitare SMTP, configurare IMAP.",
       "UPDATE": "Aggiorna impostazioni IMAP",
       "TOGGLE_AVAILABILITY": "Abilita la configurazione IMAP per questa casella",
-      "TOGGLE_HELP": "Abilitare IMAP aiuterà l'utente a ricevere email",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "Impostazioni IMAP aggiornate con successo",
         "ERROR_MESSAGE": "Impossibile aggiornare le impostazioni IMAP"

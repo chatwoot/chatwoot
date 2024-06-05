@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-300 border-slate-50 dark:border-slate-800/50 border-l rtl:border-l-0 rtl:border-r contact--panel overflow-y-auto"
+    class="overflow-y-auto bg-white border-l dark:bg-slate-900 text-slate-900 dark:text-slate-300 border-slate-50 dark:border-slate-800/50 rtl:border-l-0 rtl:border-r contact--panel"
   >
     <contact-info
       :contact="contact"
@@ -87,11 +87,11 @@
                 attribute-type="contact_attribute"
                 attribute-class="conversation--attribute"
                 class="even"
+                attribute-from="conversation_contact_panel"
                 :contact-id="contact.id"
-              />
-              <custom-attribute-selector
-                attribute-type="contact_attribute"
-                :contact-id="contact.id"
+                :empty-state-message="
+                  $t('CONVERSATION_CUSTOM_ATTRIBUTES.NO_RECORDS_FOUND')
+                "
               />
             </accordion-item>
           </div>
@@ -142,7 +142,6 @@ import ConversationParticipant from './ConversationParticipant.vue';
 import ContactInfo from './contact/ContactInfo.vue';
 import ConversationInfo from './ConversationInfo.vue';
 import CustomAttributes from './customAttributes/CustomAttributes.vue';
-import CustomAttributeSelector from './customAttributes/CustomAttributeSelector.vue';
 import draggable from 'vuedraggable';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import MacrosList from './Macros/List.vue';
@@ -154,7 +153,6 @@ export default {
     ContactInfo,
     ConversationInfo,
     CustomAttributes,
-    CustomAttributeSelector,
     ConversationAction,
     ConversationParticipant,
     draggable,

@@ -106,7 +106,6 @@
 </template>
 
 <script>
-import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
 import Auth from '../../../api/auth';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
@@ -120,7 +119,6 @@ export default {
     WootDropdownItem,
     AvailabilityStatus,
   },
-  mixins: [clickaway],
   props: {
     show: {
       type: Boolean,
@@ -151,9 +149,21 @@ export default {
       this.$emit('key-shortcut-modal');
       this.$emit('close');
     },
-    logout() {
-      logoutFromKeycloakSession(this.currentUser);
-      Auth.logout();
+    async logout() {
+      const keycloakRes = await logoutFromKeycloakSession();
+      if (keycloakRes === 'Keycloak Token missing from cookies') {
+        Auth.logout();
+      }
+      if (
+        keycloakRes.status === 200 &&
+        keycloakRes.data.message === 'Logged out successfully'
+      ) {
+        const url = keycloakRes.data.url;
+        window.location.href = url;
+        Auth.logout();
+      } else {
+        Auth.logout();
+      }
     },
     onClickAway() {
       if (this.show) this.$emit('close');
