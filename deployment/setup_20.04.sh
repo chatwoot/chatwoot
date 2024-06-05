@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Description: Install and manage a Chatwoot installation.
-# OS: Ubuntu 24.04 LTS
+# OS: Ubuntu 20.04 LTS, 22.04 LTS, 24.04 LTS
 # Script Version: 2.8.0
 # Run this script as root
 
@@ -231,7 +231,7 @@ function install_webserver() {
 ##############################################################################
 function create_cw_user() {
   if ! id -u "chatwoot"; then
-    adduser --disabled-login --gecos "" chatwoot
+    adduser --disabled-password --gecos "" chatwoot
   fi
 }
 
