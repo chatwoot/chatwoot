@@ -43,6 +43,7 @@ jobs:
         sed -i '/function configure_db() {/a sudo service postgresql start' install.sh
         #sed -i '/function setup_chatwoot() {/a export PATH="/usr/bin/:$PATH"' install.sh
         #sed -i '/git checkout "\$BRANCH"/a export PATH="/usr/bin/:$PATH"' install.sh
+        sed -i '/function setup_chatwoot() {/a sudo chown -R chatwoot:chatwoot /hom/runner/.config' install.sh
 
     - name: create input file
       run: |
@@ -65,7 +66,7 @@ jobs:
     - name: check node/yarn inside chatwoot
       run: | 
          sudo -iu chatwoot
-         cd chatwoot
+         ls
          node --version
          yarn --versio
          yarn
