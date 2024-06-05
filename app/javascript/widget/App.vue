@@ -71,6 +71,7 @@ export default {
       messageCount: 'conversation/getMessageCount',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
       isWidgetStyleFlat: 'appConfig/isWidgetStyleFlat',
+      showNotificationPopup: 'appConfig/getShowNotificationPopup',
     }),
     isIFrame() {
       return IFrameHelper.isIFrame();
@@ -209,8 +210,13 @@ export default {
     },
     setUnreadView() {
       const { unreadMessageCount } = this;
-
-      if (this.isIFrame && unreadMessageCount > 0 && !this.isWidgetOpen) {
+      if (!this.showNotificationPopup) {
+        this.handleUnreadNotificationDot();
+      } else if (
+        this.isIFrame &&
+        unreadMessageCount > 0 &&
+        !this.isWidgetOpen
+      ) {
         this.replaceRoute('unread-messages').then(() => {
           this.setIframeHeight(true);
           IFrameHelper.sendMessage({ event: 'setUnreadMode' });
