@@ -15,6 +15,18 @@ User-Agent-Mobile: Mozilla/5.0 (Linux; Android 4.2.2; GT-I9505 Build/JDQ39) Appl
 
 # Path: http/report.http
 # @name reports
-GET {{api}}/api/v2/accounts/2/reports?metric=conversations_count&since=1717038000&until=1717642799&type=account&group_by=hour&business_hours=false&timezone_offset=-3
+@metric = triggers
+@since = 1704119661
+@until = 1717642799
+@type = account
+@business_hours = false
+@account_id = 3
+
+GET {{api}}/api/v2/accounts/{{account_id}}/reports
+?metric={{metric}}
+&since={{since}}
+&until={{until}}
+&type={{type}}
+&business_hours={{business_hours}}
 Content-Type: application/json
 Authorization: {{token}}
