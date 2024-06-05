@@ -73,7 +73,9 @@ jobs:
          yarn
          exit
       if: always()
-
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
+      if: always()
     - name: Upload chatwoot setup log file as an artifact
       uses: actions/upload-artifact@v4
       if: always()
