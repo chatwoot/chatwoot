@@ -160,7 +160,7 @@ export const IFrameHelper = {
         showPopoutButton: window.$chatwoot.showPopoutButton,
         widgetStyle: window.$chatwoot.widgetStyle,
         darkMode: window.$chatwoot.darkMode,
-        showNotificationPopup: window.$chatwoot.showNotificationPopup,
+        showUnreadMessagesPopup: window.$chatwoot.showUnreadMessagesPopup,
         campaignsSnoozedTill,
       });
       IFrameHelper.onLoad({
