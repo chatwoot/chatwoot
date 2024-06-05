@@ -41,6 +41,9 @@ const state = {
     resolutions_count: 0,
     previous: {},
   },
+  triggersReport: {
+    isFetching: false,
+  },
   overview: {
     uiFlags: {
       isFetchingAccountConversationMetric: false,
@@ -72,10 +75,14 @@ const getters = {
   getOverviewUIFlags($state) {
     return $state.overview.uiFlags;
   },
+  getTriggersReport($state) {
+    return $state.triggersReport;
+  },
 };
 
 export const actions = {
   fetchAccountReport({ commit }, reportObj) {
+    console.log('reportObj', reportObj);
     const { metric } = reportObj;
     commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, {
       metric,
@@ -123,6 +130,16 @@ export const actions = {
       })
       .catch(() => {
         commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
+      });
+  },
+  fetchTriggerReports({ commit }, reportObj) {
+    commit(types.default.SET_TRIGGERS_REPORTS, { isFetching: true });
+    Report.getTriggersReports(reportObj)
+      .then(response => {
+        commit(types.default.SET_TRIGGERS_REPORTS, response.data);
+      })
+      .catch(() => {
+        commit(types.default.SET_TRIGGERS_REPORTS, { isFetching: false });
       });
   },
   fetchAccountConversationMetric({ commit }, reportObj) {
@@ -254,6 +271,9 @@ const mutations = {
   },
   [types.default.TOGGLE_AGENT_CONVERSATION_METRIC_LOADING](_state, flag) {
     _state.overview.uiFlags.isFetchingAgentConversationMetric = flag;
+  },
+  [types.default.SET_TRIGGERS_REPORTS](_state, data) {
+    _state.triggersReport = data;
   },
 };
 

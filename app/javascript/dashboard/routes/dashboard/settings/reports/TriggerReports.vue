@@ -1,52 +1,50 @@
 <template>
   <div class="flex-1 overflow-auto p-4">
     <div class="row">
-      <div class="column small-12 medium-8 conversation-metric">
-        <metric-card
-          header="Relatório de Disparos"
-          :is-loading="uiFlags.isFetchingAccountConversationMetric"
-          loading-message="carregando..."
+      <metric-card
+        :is-live="false"
+        header="Relatório de Disparos"
+        loading-message="carregando..."
+      >
+        <div
+          v-for="(metric, name, index) in conversationMetrics"
+          :key="index"
+          class="metric-content column"
         >
-          <div
-            v-for="(metric, name, index) in conversationMetrics"
-            :key="index"
-            class="metric-content column"
-          >
-            <h3 class="heading">
-              {{ name }}
-            </h3>
-            <p class="metric">{{ metric }}</p>
-          </div>
-        </metric-card>
-      </div>
+          <h3 class="heading">
+            {{ name }}
+          </h3>
+          <p class="metric">{{ metric }}</p>
+        </div>
+      </metric-card>
     </div>
     <div class="row">
-      <metric-card header="Relatório de Disparos">
-        <report-heatmap
-          :heat-data="accountConversationHeatmap"
-          :is-loading="uiFlags.isFetchingAccountConversationsHeatmap"
-        />
-      </metric-card>
+      <metric-card header="Gráfico"> sdksjd </metric-card>
     </div>
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import MetricCard from './components/overview/MetricCard.vue';
 export default {
   name: 'TriggerReports',
-  components: {},
+  components: {
+    MetricCard,
+  },
   data() {
     return {};
   },
   computed: {
-    ...mapGetters({
-      uiFlags: 'agents/uiFlags',
-      conversationMetrics: 'agents/conversationMetrics',
-      accountConversationHeatmap: 'agents/accountConversationHeatmap',
-    }),
+    ...mapGetters({}),
+    conversationMetrics() {
+      return {
+        'Total de disparos': 0,
+        'Disparos enviados': 0,
+        'Disparos pendentes': 0,
+      };
+    },
   },
   mounted() {
-    this.$store.dispatch('agents/get');
     this.fetchAllData();
   },
   methods: {
