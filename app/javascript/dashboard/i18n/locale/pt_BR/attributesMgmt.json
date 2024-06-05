@@ -2,7 +2,7 @@
   "ATTRIBUTES_MGMT": {
     "HEADER": "Atributos Personalizados",
     "HEADER_BTN_TXT": "Criar atributo personalizado",
-    "LOADING": "Buscando atributos",
+    "LOADING": "Buscando atributos personalizados",
     "SIDEBAR_TXT": "<p><b>Atributos personalizados</b> <p>Um atributo personalizado rastreia fatos sobre seus contatos/conversas — como o plano de inscrição, ou quando eles compraram o primeiro item, etc. <br /><br />Para criar um atributo personalizado, basta clicar em <b>\"Criar atributo\"</b> Você também pode editar ou apagar um atributo já criado.</p>",
     "ADD": {
       "TITLE": "Adicionar atributo personalizado",

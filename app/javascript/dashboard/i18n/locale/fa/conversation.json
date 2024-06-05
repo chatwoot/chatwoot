@@ -40,10 +40,10 @@
     "UNKNOWN_FILE_TYPE": "فایل ناشناخته",
     "SAVE_CONTACT": "ذخیره",
     "UPLOADING_ATTACHMENTS": "در حال بارگذاری پیوست‌ها...",
-    "REPLIED_TO_STORY": "Replied to your story",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
-    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
-    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
+    "REPLIED_TO_STORY": "به استوری شما پاسخ داده",
+    "UNSUPPORTED_MESSAGE": "از این پیام پشتیبانی نمی شود.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "این پیام پشتیبانی نمی شود. می توانید این پیام را در برنامه فیس بوک مسنجر مشاهده کنید.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "این پیام پشتیبانی نمی شود. می توانید این پیام را در برنامه اینستاگرام مشاهده کنید.",
     "SUCCESS_DELETE_MESSAGE": "پیام با موفقیت حذف شد",
     "FAIL_DELETE_MESSSAGE": "پیام حذف نشد! دوباره امتحان کنید",
     "NO_RESPONSE": "بدون پاسخ",
@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "به تعویق افتاده تا",
       "SNOOZED_UNTIL_TOMORROW": "تا فردا به تعویق افتاد",
       "SNOOZED_UNTIL_NEXT_WEEK": "تا هفته آینده به تعویق افتاد",
-      "SNOOZED_UNTIL_NEXT_REPLY": "تا پاسخ بعدی به تعویق افتاد"
+      "SNOOZED_UNTIL_NEXT_REPLY": "تا پاسخ بعدی به تعویق افتاد",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "از دست رفته",
+        "DUE": "نقض"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "علامت گذاری به عنوان در انتظار",
@@ -85,7 +92,7 @@
       "TITLE": "اولویت",
       "OPTIONS": {
         "NONE": "هیچکدام",
-        "URGENT": "Urgent",
+        "URGENT": "فوری",
         "HIGH": "بالا",
         "MEDIUM": "متوسط",
         "LOW": "پایین"
@@ -109,14 +116,14 @@
         "TOMORROW": "تا فردا",
         "NEXT_WEEK": "تا هفته بعد"
       },
-      "ASSIGN_AGENT": "ایجنت را تعیین کنید",
+      "ASSIGN_AGENT": "اپراتور را تعیین کنید",
       "ASSIGN_LABEL": "برچسب اختصاص دهید",
-      "AGENTS_LOADING": "بارگذاری ایجنت ها...",
+      "AGENTS_LOADING": "بارگذاری اپراتور ها...",
       "ASSIGN_TEAM": "تیم را تعیین کنید",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "شناسه مکالمه %{conversationId} به \"%{agentName}\" اختصاص داده شد",
-          "FAILED": "ایجنت تعیین نشد. لطفا دوباره تلاش کنید."
+          "FAILED": "اپراتور تعیین نشد. لطفا دوباره تلاش کنید."
         },
         "LABEL_ASSIGNMENT": {
           "SUCCESFUL": "برچسب #%{labelName} را به شناسه مکالمه %{conversationId} اختصاص داد",
@@ -240,7 +247,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "اعضای تیم خود را دعوت کنید",
-      "DESCRIPTION": "از آنجا که در حال آماده شدن برای صحبت با مشتری هستید ، می توانید از هم تیمی های خود نیز کمک بگیرید. با افزودن آدرس ایمیل آنها به لیست ایجنت ها، می توانید از هم تیمی های خود دعوت کنید.",
+      "DESCRIPTION": "از آنجا که در حال آماده شدن برای گفتگو با مشتری هستید ، می توانید از هم تیمی های خود نیز کمک بگیرید. با افزودن آدرس ایمیل آنها به لیست اپراتور ها، می توانید از هم تیمی های خود دعوت کنید.",
       "NEW_LINK": "برای دعوت از یکی از اعضای تیم اینجا را کلیک کنید"
     },
     "INBOXES": {
@@ -273,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "ایجاد ویژگی",
+    "NO_RECORDS_FOUND": "هیچ ویژگی یافت نشد",
     "UPDATE": {
       "SUCCESS": "ویژگی با موفقیت به روز شد",
       "ERROR": "امکان به روزرسانی ویژگی وجود ندارد. لطفاً بعداً دوباره امتحان کنید"

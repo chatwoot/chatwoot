@@ -1,13 +1,20 @@
 module Integrations::Slack::SlackMessageHelper
-  def create_message
+  def process_message_payload
     return unless conversation
 
-    build_message
-    @message.save!
-    { status: 'success' }
+    handle_conversation
+    success_response
   rescue Slack::Web::Api::Errors::MissingScope => e
     ChatwootExceptionTracker.new(e, account: conversation.account).capture_exception
     disable_and_reauthorize
+  end
+
+  def handle_conversation
+    create_message unless message_exists?
+  end
+
+  def success_response
+    { status: 'success' }
   end
 
   def disable_and_reauthorize
@@ -15,7 +22,11 @@ module Integrations::Slack::SlackMessageHelper
     integration_hook.disable
   end
 
-  def build_message
+  def message_exists?
+    conversation.messages.exists?(external_source_ids: { slack: params[:event][:ts] })
+  end
+
+  def create_message
     @message = conversation.messages.build(
       message_type: :outgoing,
       account_id: conversation.account_id,
@@ -26,6 +37,7 @@ module Integrations::Slack::SlackMessageHelper
       sender: sender
     )
     process_attachments(params[:event][:files]) if attachments_present?
+    @message.save!
   end
 
   def attachments_present?

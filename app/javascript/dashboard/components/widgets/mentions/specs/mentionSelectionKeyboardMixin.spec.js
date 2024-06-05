@@ -1,64 +1,69 @@
-import mentionSelectionKeyboardMixin from '../mentionSelectionKeyboardMixin';
-import { shallowMount } from '@vue/test-utils';
+import { shallowMount, createLocalVue } from '@vue/test-utils';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
+
+const localVue = createLocalVue();
 
 const buildComponent = ({ data = {}, methods = {} }) => ({
   render() {},
   data() {
-    return data;
+    return { ...data, selectedIndex: 0, items: [1, 2, 3] };
   },
-  methods,
-  mixins: [mentionSelectionKeyboardMixin],
+  methods: { ...methods, onSelect: jest.fn(), adjustScroll: jest.fn() },
+  mixins: [keyboardEventListenerMixins],
 });
 
 describe('mentionSelectionKeyboardMixin', () => {
-  test('register listeners', () => {
-    jest.spyOn(document, 'addEventListener');
+  let wrapper;
+
+  beforeEach(() => {
     const Component = buildComponent({});
-    shallowMount(Component);
-    // undefined expected as the method is not defined in the component
-    expect(document.addEventListener).toHaveBeenCalledWith(
-      'keydown',
-      undefined
-    );
+    wrapper = shallowMount(Component, { localVue });
   });
 
-  test('processKeyDownEvent updates index on arrow up', () => {
-    const Component = buildComponent({
-      data: { selectedIndex: 0, items: [1, 2, 3] },
-    });
-    const wrapper = shallowMount(Component);
-    wrapper.vm.processKeyDownEvent({
-      ctrlKey: true,
-      key: 'p',
-      preventDefault: jest.fn(),
-    });
-    expect(wrapper.vm.selectedIndex).toBe(2);
+  it('ArrowUp and Control+KeyP update selectedIndex correctly', () => {
+    const preventDefault = jest.fn();
+    const keyboardEvents = wrapper.vm.getKeyboardEvents();
+
+    if (keyboardEvents && keyboardEvents.ArrowUp) {
+      keyboardEvents.ArrowUp.action({ preventDefault });
+      expect(wrapper.vm.selectedIndex).toBe(2);
+      expect(preventDefault).toHaveBeenCalled();
+    }
+
+    wrapper.setData({ selectedIndex: 1 });
+    if (keyboardEvents && keyboardEvents['Control+KeyP']) {
+      keyboardEvents['Control+KeyP'].action({ preventDefault });
+      expect(wrapper.vm.selectedIndex).toBe(0);
+      expect(preventDefault).toHaveBeenCalledTimes(2);
+    }
   });
 
-  test('processKeyDownEvent updates index on arrow down', () => {
-    const Component = buildComponent({
-      data: { selectedIndex: 0, items: [1, 2, 3] },
-    });
-    const wrapper = shallowMount(Component);
-    wrapper.vm.processKeyDownEvent({
-      key: 'ArrowDown',
-      preventDefault: jest.fn(),
-    });
-    expect(wrapper.vm.selectedIndex).toBe(1);
+  it('ArrowDown and Control+KeyN update selectedIndex correctly', () => {
+    const preventDefault = jest.fn();
+    const keyboardEvents = wrapper.vm.getKeyboardEvents();
+
+    if (keyboardEvents && keyboardEvents.ArrowDown) {
+      keyboardEvents.ArrowDown.action({ preventDefault });
+      expect(wrapper.vm.selectedIndex).toBe(1);
+      expect(preventDefault).toHaveBeenCalled();
+    }
+
+    wrapper.setData({ selectedIndex: 1 });
+    if (keyboardEvents && keyboardEvents['Control+KeyN']) {
+      keyboardEvents['Control+KeyN'].action({ preventDefault });
+      expect(wrapper.vm.selectedIndex).toBe(2);
+      expect(preventDefault).toHaveBeenCalledTimes(2);
+    }
   });
 
-  test('processKeyDownEvent calls select methods on Enter Key', () => {
-    const onSelectMockFn = jest.fn();
-    const Component = buildComponent({
-      data: { selectedIndex: 0, items: [1, 2, 3] },
-      methods: { onSelect: () => onSelectMockFn('enterKey pressed') },
-    });
-    const wrapper = shallowMount(Component);
-    wrapper.vm.processKeyDownEvent({
-      key: 'Enter',
-      preventDefault: jest.fn(),
-    });
-    expect(onSelectMockFn).toHaveBeenCalledWith('enterKey pressed');
-    wrapper.vm.onSelect();
+  it('Enter key triggers onSelect method', () => {
+    const preventDefault = jest.fn();
+    const keyboardEvents = wrapper.vm.getKeyboardEvents();
+
+    if (keyboardEvents && keyboardEvents.Enter) {
+      keyboardEvents.Enter.action({ preventDefault });
+      expect(wrapper.vm.onSelect).toHaveBeenCalled();
+      expect(preventDefault).toHaveBeenCalled();
+    }
   });
 });

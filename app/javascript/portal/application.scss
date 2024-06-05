@@ -7,14 +7,15 @@
 @import 'widget/assets/scss/buttons';
 @import 'widget/assets/scss/mixins';
 @import 'widget/assets/scss/forms';
-@import 'shared/assets/fonts/inter';
+@import 'shared/assets/fonts/InterDisplay/inter-display';
 
 html,
 body {
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  font-family: 'Inter Display', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   height: 100%;
+  letter-spacing: 0.2px;
 }
 
 

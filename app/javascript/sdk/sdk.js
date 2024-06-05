@@ -25,6 +25,7 @@ export const SDK_CSS = `
 /* gives CSS to chat box field */
 .woot-widget-holder iframe {
   border: 0;
+  color-scheme: normal;
   height: 100% !important;
   width: 100% !important;
   max-height: 100vh !important;

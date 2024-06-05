@@ -102,10 +102,13 @@ export default {
     this.listenToThemeChanges();
     this.setLocale(window.chatwootConfig.selectedLocale);
     setTimeout(() => {
-      checkKeycloakSession(this.currentUser).then(res => {
-        if (res.message === 'Session expired. Please log in again.') {
+      checkKeycloakSession().then(response => {
+        if (response === 'Keycloak Token missing from cookies') {
           Auth.logout();
-        } else if (res.message === 'No Session Info.') {
+        } else if (
+          response.data.message === 'No session found for the provided token' ||
+          response.data.message === 'Session expired. Please log in again'
+        ) {
           Auth.logout();
         }
       });

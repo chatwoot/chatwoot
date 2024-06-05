@@ -44,7 +44,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Casilla",
       "CREATED_AT": "Creado el",
       "LAST_ACTIVITY": "Última actividad",
-      "REFERER_LINK": "Enlace de referencia"
+      "REFERER_LINK": "Enlace de referencia",
+      "BLOCKED": "Bloqueado"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Filtros estándar",

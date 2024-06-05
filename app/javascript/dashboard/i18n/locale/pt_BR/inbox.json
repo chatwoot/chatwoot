@@ -4,24 +4,28 @@
       "TITLE": "Caixa de Entrada",
       "DISPLAY_DROPDOWN": "Exibir",
       "LOADING": "Carregando notificações",
-      "EOF": "Todas as notificações carregadas 🎉",
       "404": "Não há conversas ativas neste grupo.",
       "NO_NOTIFICATIONS": "Nenhuma notificação",
       "NOTE": "Notificações de todas as caixas inscritas",
+      "NO_MESSAGES_AVAILABLE": "Ops! Não é possível obter mensagens",
       "SNOOZED_UNTIL": "Suspender até",
       "SNOOZED_UNTIL_TOMORROW": "Adiado até amanhã",
       "SNOOZED_UNTIL_NEXT_WEEK": "Adiada até a próxima semana"
     },
     "ACTION_HEADER": {
       "SNOOZE": "Adiar notificação",
-      "DELETE": "Excluir notificação"
+      "DELETE": "Excluir notificação",
+      "BACK": "Anterior"
     },
     "TYPES": {
       "CONVERSATION_MENTION": "Você foi mencionado em uma conversa",
       "CONVERSATION_CREATION": "Nova conversa criada",
       "CONVERSATION_ASSIGNMENT": "Uma conversa foi atribuída a você",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nova mensagem em uma conversa atribuída",
-      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Nova mensagem em uma conversa na qual você participa"
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Nova mensagem em uma conversa na qual você participa",
+      "SLA_MISSED_FIRST_RESPONSE": "Primeira resposta da meta de SLA perdida na conversa",
+      "SLA_MISSED_NEXT_RESPONSE": "Próxima resposta da meta de SLA perdida na conversa",
+      "SLA_MISSED_RESOLUTION": "A resolução da meta de SLA foi perdida na conversa"
     },
     "MENU_ITEM": {
       "MARK_AS_READ": "Marcar como lido",

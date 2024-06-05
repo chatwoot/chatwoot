@@ -1,0 +1,5 @@
+{
+  "GENERAL": {
+    "SHOWING_RESULTS": "A mostrar {firstIndex}-{lastIndex} de {totalCount} itens"
+  }
+}

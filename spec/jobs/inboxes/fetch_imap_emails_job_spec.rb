@@ -118,52 +118,76 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
     end
   end
 
-  context 'when imap fetch new emails for microsoft mailer' do
-    it 'fetch and process all emails' do
-      email = Mail.new do
-        to 'test@outlook.com'
-        from 'test@gmail.com'
-        subject :test.to_s
-        body 'hello'
+    context 'when the channel is regular imap' do
+      it 'calls the imap fetch service' do
+        fetch_service = double
+        allow(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel, interval: 1).and_return(fetch_service)
+        allow(fetch_service).to receive(:perform).and_return([])
+
+        described_class.perform_now(imap_email_channel)
+        expect(fetch_service).to have_received(:perform)
       end
-      imap_fetch_mail = Net::IMAP::FetchData.new
-      imap_fetch_mail.attr = { RFC822: email }.with_indifferent_access
 
-      ms_imap = double
+      it 'calls the imap fetch service with the correct interval' do
+        fetch_service = double
+        allow(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel, interval: 4).and_return(fetch_service)
+        allow(fetch_service).to receive(:perform).and_return([])
 
-      allow(Net::IMAP).to receive(:new).and_return(ms_imap)
-      allow(ms_imap).to receive(:authenticate)
-      allow(ms_imap).to receive(:select)
-      allow(ms_imap).to receive(:search).and_return([1])
-      allow(ms_imap).to receive(:fetch).and_return([imap_fetch_mail])
-      allow(Mail).to receive(:read_from_string).and_return(inbound_mail)
-
-      ms_imap_email_inbox = double
-
-      allow(Imap::ImapMailbox).to receive(:new).and_return(ms_imap_email_inbox)
-      expect(ms_imap_email_inbox).to receive(:process).with(inbound_mail, microsoft_imap_email_channel).once
-
-      described_class.perform_now(microsoft_imap_email_channel)
+        described_class.perform_now(imap_email_channel, 4)
+        expect(fetch_service).to have_received(:perform)
+      end
     end
   end
 
-  context 'when imap fetch existing emails' do
-    it 'does not process the email' do
-      email = Mail.new do
-        to 'test@outlook.com'
-        from 'test@gmail.com'
-        subject :test.to_s
-        body 'hello'
-        message_id '<messageId@example.com>'
+    context 'when the channel is Microsoft' do
+      it 'calls the Microsoft fetch service' do
+        fetch_service = double
+        allow(Imap::MicrosoftFetchEmailService).to receive(:new).with(channel: microsoft_imap_email_channel, interval: 1).and_return(fetch_service)
+        allow(fetch_service).to receive(:perform).and_return([])
+
+        described_class.perform_now(microsoft_imap_email_channel)
+        expect(fetch_service).to have_received(:perform)
+      end
+    end
+
+    context 'when IMAP OAuth errors out' do
+      it 'marks the connection as requiring authorization' do
+        error_response = double
+        oauth_error = OAuth2::Error.new(error_response)
+
+        allow(Imap::MicrosoftFetchEmailService).to receive(:new)
+          .with(channel: microsoft_imap_email_channel, interval: 1)
+          .and_raise(oauth_error)
+
+        allow(Redis::Alfred).to receive(:incr)
+
+        expect(Redis::Alfred).to receive(:incr)
+          .with("AUTHORIZATION_ERROR_COUNT:channel_email:#{microsoft_imap_email_channel.id}")
+
+        described_class.perform_now(microsoft_imap_email_channel)
+      end
+    end
+
+    context 'when the fetch service returns the email objects' do
+      let(:inbound_mail) {  create_inbound_email_from_fixture('welcome.eml').mail }
+      let(:mailbox) { double }
+      let(:exception_tracker) { double }
+      let(:fetch_service) { double }
+
+      before do
+        allow(Imap::ImapMailbox).to receive(:new).and_return(mailbox)
+        allow(ChatwootExceptionTracker).to receive(:new).and_return(exception_tracker)
+
+        allow(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel, interval: 1).and_return(fetch_service)
+        allow(fetch_service).to receive(:perform).and_return([inbound_mail])
       end
 
       create(:message, message_type: 'incoming', source_id: email.message_id, account: account, inbox: imap_email_channel.inbox,
                        conversation: conversation)
 
-      allow(Mail).to receive(:find).and_return([email])
-      imap_mailbox = double
-      allow(Imap::ImapMailbox).to receive(:new).and_return(imap_mailbox)
-      expect(imap_mailbox).not_to receive(:process).with(email, imap_email_channel)
+        expect(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel, interval: 1).and_return(fetch_service)
+        expect(fetch_service).to receive(:perform).and_return([inbound_mail])
+        expect(mailbox).to receive(:process).with(inbound_mail, imap_email_channel)
 
       described_class.perform_now(imap_email_channel)
     end
