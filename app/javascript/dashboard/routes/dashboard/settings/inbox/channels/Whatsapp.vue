@@ -16,9 +16,6 @@
           <option value="twilio">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO') }}
           </option>
-          <option value="360dialog">
-            {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.360_DIALOG') }}
-          </option>
         </select>
       </label>
     </div>

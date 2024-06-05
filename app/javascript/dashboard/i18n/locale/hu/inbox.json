@@ -4,24 +4,28 @@
       "TITLE": "Fiók",
       "DISPLAY_DROPDOWN": "Display",
       "LOADING": "Értesítések lekérése",
-      "EOF": "Minden értesítés betöltve 🎉",
       "404": "Ebben a csoportban nincsenek aktív értesítések.",
       "NO_NOTIFICATIONS": "No notifications",
       "NOTE": "Értesítés az összes feliratkozott postafiókból",
+      "NO_MESSAGES_AVAILABLE": "Oops! Not able to fetch messages",
       "SNOOZED_UNTIL": "Halasztás eddig",
       "SNOOZED_UNTIL_TOMORROW": "Halasztás holnapig",
       "SNOOZED_UNTIL_NEXT_WEEK": "Halasztás jövő hétig"
     },
     "ACTION_HEADER": {
       "SNOOZE": "Értesítés alvó állapotban",
-      "DELETE": "Értesítés törlése"
+      "DELETE": "Értesítés törlése",
+      "BACK": "Vissza"
     },
     "TYPES": {
       "CONVERSATION_MENTION": "Önt megemlítették egy beszélgetésben",
       "CONVERSATION_CREATION": "Új beszélgetés létrehozása",
       "CONVERSATION_ASSIGNMENT": "Egy beszélgetés hozzád lett rendelve",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Új üzenet egy kijelölt beszélgetésben",
-      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Új üzenet egy beszélgetésben, amelyben részt vesz"
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Új üzenet egy beszélgetésben, amelyben részt vesz",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA target first response missed for conversation",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA target next response missed for conversation",
+      "SLA_MISSED_RESOLUTION": "SLA target resolution missed for conversation"
     },
     "MENU_ITEM": {
       "MARK_AS_READ": "Mark as read",

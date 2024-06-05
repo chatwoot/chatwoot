@@ -12,6 +12,8 @@
 <script>
 import 'ninja-keys';
 import conversationHotKeysMixin from './conversationHotKeys';
+import bulkActionsHotKeysMixin from './bulkActionsHotKeys';
+import inboxHotKeysMixin from './inboxHotKeys';
 import goToCommandHotKeys from './goToCommandHotKeys';
 import appearanceHotKeys from './appearanceHotKeys';
 import agentMixin from 'dashboard/mixins/agentMixin';
@@ -25,6 +27,8 @@ export default {
     adminMixin,
     agentMixin,
     conversationHotKeysMixin,
+    bulkActionsHotKeysMixin,
+    inboxHotKeysMixin,
     conversationLabelMixin,
     conversationTeamMixin,
     appearanceHotKeys,
@@ -43,6 +47,7 @@ export default {
     hotKeys() {
       return [
         ...this.conversationHotKeys,
+        ...this.bulkActionsHotKeys,
         ...this.goToCommandHotKeys,
         ...this.goToAppearanceHotKeys,
       ];

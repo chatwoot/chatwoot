@@ -87,7 +87,10 @@
       "conversation_assignment": "Η Συνομιλία Ανατέθηκε",
       "assigned_conversation_new_message": "Νέο Μήνυμα",
       "participating_conversation_new_message": "Νέο Μήνυμα",
-      "conversation_mention": "Αναφορά"
+      "conversation_mention": "Αναφορά",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
@@ -104,6 +107,7 @@
       "GENERAL": "Γενικά",
       "REPORTS": "Αναφορές",
       "CONVERSATION": "Συνομιλία",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Αλλαγή Αναδόχου",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Αλλαγή Ομάδας",

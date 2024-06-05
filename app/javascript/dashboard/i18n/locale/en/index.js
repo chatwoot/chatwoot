@@ -31,6 +31,8 @@ import teamsSettings from './teamsSettings.json';
 import whatsappTemplates from './whatsappTemplates.json';
 import sla from './sla.json';
 import inbox from './inbox.json';
+import general from './general.json';
+import datePicker from './datePicker.json';
 
 export default {
   ...advancedFilters,
@@ -65,4 +67,7 @@ export default {
   ...sla,
   ...teamsSettings,
   ...whatsappTemplates,
+  ...inbox,
+  ...general,
+  ...datePicker,
 };

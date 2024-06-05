@@ -19,9 +19,9 @@
 pt:
   hello: "Olá, mundo"
   messages:
-    reset_password_success: Legal! Pedido de redefinição de senha bem sucedido. Verifique seu e-mail para obter instruções.
-    reset_password_failure: Uh ho! Não conseguimos encontrar nenhum usuário com o e-mail especificado.
-    inbox_deletetion_response: Seu pedido de exclusão da caixa de entrada será processado em algum momento.
+    reset_password_success: Legal! Pedido de redefinição de senha bem sucedido. Verifique o seu e-mail para obter instruções.
+    reset_password_failure: Uh ho! Não conseguimos encontrar nenhum uutilizador com o e-mail especificado.
+    inbox_deletetion_response: O seu pedido de eliminação de caixa de entrada será processado mais tarde.
   errors:
     validations:
       presence: não pode estar vazio
@@ -29,8 +29,8 @@ pt:
       invalid: Eventos inválidos
     signup:
       disposable_email: Não permitimos e-mails descartáveis
-      invalid_email: Você digitou um email inválido
-      email_already_exists: "Você já se inscreveu para uma conta com %{email}"
+      invalid_email: Digitou um email inválido
+      email_already_exists: "Já existe uma conta com o %{email}"
       invalid_params: 'Inválido, por favor, verifique os parâmetros de subscrição e tente novamente'
       failed: Falha na inscrição
     data_import:
@@ -63,6 +63,9 @@ pt:
         name: não deve iniciar ou terminar com símbolos, nem deve ter < > / \ @ caracteres.
     custom_filters:
       number_of_records: Limite atingido. O número máximo de filtros personalizados permitidos para um utilizador por conta é de 50.
+      invalid_attribute: Chave de atributo inválida - [%{key}]. A chave deve ser uma das [%{allowed_keys}] ou um atributo personalizado definido na conta.
+      invalid_operator: Operador inválido. Os operadores permitidos para %{attribute_name} são [%{allowed_keys}].
+      invalid_value: Valor inválido. Os valores fornecidos para %{attribute_name} são inválidos
   reports:
     period: Período do relatório de %{since} a %{until}
     utc_warning: O relatório gerado está no fuso horário UTC
@@ -71,6 +74,8 @@ pt:
       conversations_count: Conversas atribuídas
       avg_first_response_time: Média de tempo da primeira resposta
       avg_resolution_time: Média de tempo de resolução
+      resolution_count: Contagem de resolução
+      avg_customer_waiting_time: Avg customer waiting time
     inbox_csv:
       inbox_name: Nome da caixa de entrada
       inbox_type: Tipo de caixa de entrada
@@ -87,8 +92,19 @@ pt:
       conversations_count: Número de conversas
       avg_first_response_time: Média de tempo da primeira resposta
       avg_resolution_time: Média de tempo de resolução
+      resolution_count: Contagem de resolução
+      avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Fuso Horário
+    sla_csv:
+      conversation_id: ID da conversa
+      sla_policy_breached: Política de SLA
+      assignee: Atribuído
+      team: Equipa
+      inbox: Caixa de Entrada
+      labels: Etiquetas
+      conversation_link: Link para a Conversa
+      breached_events: Eventos não atingidos
     default_group_by: dia
     csat:
       headers:
@@ -102,12 +118,15 @@ pt:
         recorded_at: Data de gravação
   notifications:
     notification_title:
-      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
-      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
-      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
-      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
-    attachment: "Attachment"
-    no_content: "No content"
+      conversation_creation: "A conversa (#%{display_id}) foi criada em %{inbox_name}"
+      conversation_assignment: "A conversa (#%{display_id}) foi-lhe atribuída"
+      assigned_conversation_new_message: "Foi criada uma mensagem nova na conversa (#%{display_id})"
+      conversation_mention: "Foi mencionado na conversa (#%{display_id})"
+      sla_missed_first_response: "SLA da primeira resposta não atingido na conversa (#%{display_id})"
+      sla_missed_next_response: "Objetivo de SLA de próxima resposta não atingido na conversa (#%{display_id})"
+      sla_missed_resolution: "Objetivo de SLA de resolução não atingido na conversa (#%{display_id})"
+    attachment: "Anexo"
+    no_content: "Sem conteúdo"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} mencionou você na história: "
@@ -139,6 +158,9 @@ pt:
       labels:
         added: "%{user_name} acrescentou %{labels}"
         removed: "%{user_name} removeu a %{labels}"
+      sla:
+        added: "%{user_name} adicionou uma política de SLA %{sla_name}"
+        removed: "%{user_name} removeu a política de SLA de %{sla_name}"
       muted: "%{user_name} bloqueou a conversa"
       unmuted: "%{user_name} reativou a conversa"
     templates:

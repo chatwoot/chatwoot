@@ -33,7 +33,7 @@
     "ATTRIBUTES": {
       "NAME": "نام",
       "EMAIL": "Email",
-      "PHONE_NUMBER": "Phone number",
+      "PHONE_NUMBER": "فون نمبر",
       "IDENTIFIER": "Identifier",
       "CITY": "شہر",
       "COUNTRY": "ملک",
@@ -44,7 +44,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Created At",
       "LAST_ACTIVITY": "آخری سرگرمی",
-      "REFERER_LINK": "Referrer link"
+      "REFERER_LINK": "Referrer link",
+      "BLOCKED": "Blocked"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard Filters",

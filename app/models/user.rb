@@ -154,7 +154,7 @@ class User < ApplicationRecord
   end
 
   def self.from_email(email)
-    find_by(email: email.downcase)
+    find_by(email: email&.downcase)
   end
 
   private
