@@ -65,8 +65,9 @@ jobs:
 
     - name: check node/yarn inside chatwoot
       run: | 
-         sudo -iu chatwoot
+         sudo -i -u chatwoot
          ls
+         cd chatwoot
          node --version
          yarn --versio
          yarn
