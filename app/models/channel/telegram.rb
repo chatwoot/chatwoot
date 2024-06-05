@@ -33,9 +33,9 @@ class Channel::Telegram < ApplicationRecord
   end
 
   def send_message_on_telegram(message)
-    return send_message(message) if message.attachments.empty?
-
-    send_attachments(message)
+    message_id = send_message(message) if message.content.present?
+    message_id = Telegram::SendAttachmentsService.new(message: message).perform if message.attachments.present?
+    message_id
   end
 
   def get_telegram_profile_image(user_id)
@@ -54,6 +54,23 @@ class Channel::Telegram < ApplicationRecord
     return nil unless response.success?
 
     "https://api.telegram.org/file/bot#{bot_token}/#{response.parsed_response['result']['file_path']}"
+  end
+
+  def process_error(message, response)
+    return unless response.parsed_response['ok'] == false
+
+    # https://github.com/TelegramBotAPI/errors/tree/master/json
+    message.external_error = "#{response.parsed_response['error_code']}, #{response.parsed_response['description']}"
+    message.status = :failed
+    message.save!
+  end
+
+  def chat_id(message)
+    message.conversation[:additional_attributes]['chat_id']
+  end
+
+  def reply_to_message_id(message)
+    message.content_attributes['in_reply_to_external_id']
   end
 
   private
@@ -77,27 +94,10 @@ class Channel::Telegram < ApplicationRecord
     errors.add(:bot_token, 'error setting up the webook') unless response.success?
   end
 
-  def chat_id(message)
-    message.conversation[:additional_attributes]['chat_id']
-  end
-
-  def reply_to_message_id(message)
-    message.content_attributes['in_reply_to_external_id']
-  end
-
   def send_message(message)
     response = message_request(chat_id(message), message.content, reply_markup(message), reply_to_message_id(message))
     process_error(message, response)
     response.parsed_response['result']['message_id'] if response.success?
-  end
-
-  def process_error(message, response)
-    return unless response.parsed_response['ok'] == false
-
-    # https://github.com/TelegramBotAPI/errors/tree/master/json
-    message.external_error = "#{response.parsed_response['error_code']}, #{response.parsed_response['description']}"
-    message.status = :failed
-    message.save!
   end
 
   def reply_markup(message)
@@ -112,41 +112,6 @@ class Channel::Telegram < ApplicationRecord
         }]
       end
     }.to_json
-  end
-
-  def send_attachments(message)
-    send_message(message) unless message.content.nil?
-
-    telegram_attachments = []
-    message.attachments.each do |attachment|
-      telegram_attachment = {}
-      telegram_attachment[:type] = attachment_type(attachment[:file_type])
-      telegram_attachment[:media] = attachment.download_url
-      telegram_attachments << telegram_attachment
-    end
-
-    response = attachments_request(chat_id(message), telegram_attachments, reply_to_message_id(message))
-    process_error(message, response)
-    response.parsed_response['result'].first['message_id'] if response.success?
-  end
-
-  def attachment_type(file_type)
-    file_type_mappings = {
-      'audio' => 'audio',
-      'image' => 'photo',
-      'file' => 'document',
-      'video' => 'video'
-    }
-    file_type_mappings[file_type]
-  end
-
-  def attachments_request(chat_id, attachments, reply_to_message_id)
-    HTTParty.post("#{telegram_api_url}/sendMediaGroup",
-                  body: {
-                    chat_id: chat_id,
-                    media: attachments.to_json,
-                    reply_to_message_id: reply_to_message_id
-                  })
   end
 
   def convert_markdown_to_telegram_html(text)

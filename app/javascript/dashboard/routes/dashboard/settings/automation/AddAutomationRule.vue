@@ -215,7 +215,8 @@ export default {
       return false;
     },
     automationActionTypes() {
-      const isSLAEnabled = this.isFeatureEnabled('sla');
+      // const isSLAEnabled = this.isFeatureEnabled('sla');
+      const isSLAEnabled = true;
       return isSLAEnabled
         ? AUTOMATION_ACTION_TYPES
         : AUTOMATION_ACTION_TYPES.filter(action => action.key !== 'add_sla');

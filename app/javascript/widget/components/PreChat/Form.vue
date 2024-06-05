@@ -1,7 +1,7 @@
 <template>
   <FormulateForm
     v-model="formValues"
-    class="flex flex-1 flex-col p-6 overflow-y-auto"
+    class="flex flex-col flex-1 p-6 overflow-y-auto"
     @submit="onSubmit"
   >
     <div
@@ -46,7 +46,7 @@
     />
 
     <custom-button
-      class="font-medium mt-2 mb-5"
+      class="mt-2 mb-5 font-medium"
       block
       :bg-color="widgetColor"
       :text-color="textColor"
@@ -123,9 +123,10 @@ export default {
       return this.preChatFormEnabled ? this.options.preChatFields : [];
     },
     filteredPreChatFields() {
-      const isUserEmailAvailable = !!this.currentUser.email;
-      const isUserPhoneNumberAvailable = !!this.currentUser.phone_number;
+      const isUserEmailAvailable = this.currentUser.has_email;
+      const isUserPhoneNumberAvailable = this.currentUser.has_phone_number;
       const isUserIdentifierAvailable = !!this.currentUser.identifier;
+
       const isUserNameAvailable = !!(
         isUserIdentifierAvailable ||
         isUserEmailAvailable ||
@@ -285,11 +286,10 @@ export default {
     },
     onSubmit() {
       const { emailAddress, fullName, phoneNumber, message } = this.formValues;
-      const { email } = this.currentUser;
       this.$emit('submit', {
         fullName,
         phoneNumber,
-        emailAddress: emailAddress || email,
+        emailAddress,
         message,
         activeCampaignId: this.activeCampaign.id,
         conversationCustomAttributes: this.conversationCustomAttributes,

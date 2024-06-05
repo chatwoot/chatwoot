@@ -56,7 +56,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     client_id = ENV.fetch('KEYCLOAK_CLIENT_ID', nil)
     client_secret = ENV.fetch('KEYCLOAK_CLIENT_SECRET', nil)
 
-    response = HTTParty.post(
+    keycloak_res = HTTParty.post(
       token_url, {
       body: {
         grant_type: 'authorization_code',
@@ -66,38 +66,29 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
         code: code
       },
     })
-    if response.success?
-      # Token exchange successful
-      auth_token = response.parsed_response['access_token']
-      # Split the JWT token and extract the payload part
-      token_payload = auth_token.split('.')[1]
-
-      # Base64 decode the payload
-      decoded_payload = Base64.urlsafe_decode64(token_payload)
-
-      # Parse the decoded payload as JSON
-      session_state = JSON.parse(decoded_payload)['session_state']
-      # Use the auth token to get user info
-      user_info_response = HTTParty.get(
-        userinfo_url, 
-        {
-          headers: {
-            'Authorization' => "Bearer #{auth_token}"
+    if keycloak_res.success?
+        auth_token = keycloak_res.parsed_response['access_token']
+        user_info_response = HTTParty.get(
+          userinfo_url, 
+          {
+            headers: {
+              'Authorization' => "Bearer #{auth_token}"
+            }
           }
-        }
-      )
-      if user_info_response.success?
-        # User info retrieval successful
-        @user_info = user_info_response.parsed_response
-        session_info = KeycloakSessionInfo.find_or_initialize_by(email: @user_info['email'])
-        session_info.session_state = session_state
-        session_info.token_info = response
-        session_info.save
-        get_resource_from_user_info
-      else
-        # User info retrieval failed
-        redirect_to 'https://www.onehash.ai', allow_other_host: true
-      end
+        )
+        if user_info_response.success?
+          @user_info = user_info_response.parsed_response
+          token = SecureRandom.uuid
+          KeycloakSessionInfo.create(
+            browser_token: token,
+            metadata: keycloak_res,
+          )
+          cookies[:keycloak_token] = token
+          get_resource_from_user_info
+        else
+          # User info retrieval failed
+          redirect_to 'https://www.onehash.ai', allow_other_host: true
+        end
     else
       # Token exchange failed
       redirect_to 'https://www.onehash.ai', allow_other_host: true

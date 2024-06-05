@@ -64,7 +64,14 @@
       "SNOOZED_UNTIL": "Amânare până la",
       "SNOOZED_UNTIL_TOMORROW": "Amânat până mâine",
       "SNOOZED_UNTIL_NEXT_WEEK": "Amânat până săptămâna viitoare",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Amânat până la următorul răspuns"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Amânat până la următorul răspuns",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Marchează ca în așteptare",
@@ -273,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Creare atribut",
+    "NO_RECORDS_FOUND": "Nu s-au găsit atribute",
     "UPDATE": {
       "SUCCESS": "Atribut actualizat cu succes",
       "ERROR": "Imposibil de actualizat atributul. Vă rugăm să încercați din nou mai târziu"

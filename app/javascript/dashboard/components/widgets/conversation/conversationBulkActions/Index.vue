@@ -95,20 +95,40 @@
     <div v-if="allConversationsSelected" class="bulk-action__alert">
       {{ $t('BULK_ACTION.ALL_CONVERSATIONS_SELECTED_ALERT') }}
     </div>
+    <woot-modal
+      :show.sync="showCustomTimeSnoozeModal"
+      :on-close="hideCustomSnoozeModal"
+    >
+      <custom-snooze-modal
+        @close="hideCustomSnoozeModal"
+        @choose-time="customSnoozeTime"
+      />
+    </woot-modal>
   </div>
 </template>
 
 <script>
+import { getUnixTime } from 'date-fns';
+import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
+import wootConstants from 'dashboard/constants/globals';
+import {
+  CMD_BULK_ACTION_SNOOZE_CONVERSATION,
+  CMD_BULK_ACTION_REOPEN_CONVERSATION,
+  CMD_BULK_ACTION_RESOLVE_CONVERSATION,
+} from 'dashboard/routes/dashboard/commands/commandBarBusEvents';
+
 import AgentSelector from './AgentSelector.vue';
 import UpdateActions from './UpdateActions.vue';
 import LabelActions from './LabelActions.vue';
 import TeamActions from './TeamActions.vue';
+import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
 export default {
   components: {
     AgentSelector,
     UpdateActions,
     LabelActions,
     TeamActions,
+    CustomSnoozeModal,
   },
   props: {
     conversations: {
@@ -143,17 +163,56 @@ export default {
       showLabelActions: false,
       showTeamsList: false,
       popoverPositions: {},
+      showCustomTimeSnoozeModal: false,
     };
   },
+  mounted() {
+    bus.$on(CMD_BULK_ACTION_SNOOZE_CONVERSATION, this.onCmdSnoozeConversation);
+    bus.$on(CMD_BULK_ACTION_REOPEN_CONVERSATION, this.onCmdReopenConversation);
+    bus.$on(
+      CMD_BULK_ACTION_RESOLVE_CONVERSATION,
+      this.onCmdResolveConversation
+    );
+  },
+  destroyed() {
+    bus.$off(CMD_BULK_ACTION_SNOOZE_CONVERSATION, this.onCmdSnoozeConversation);
+    bus.$off(CMD_BULK_ACTION_REOPEN_CONVERSATION, this.onCmdReopenConversation);
+    bus.$off(
+      CMD_BULK_ACTION_RESOLVE_CONVERSATION,
+      this.onCmdResolveConversation
+    );
+  },
   methods: {
+    onCmdSnoozeConversation(snoozeType) {
+      if (snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME) {
+        this.showCustomTimeSnoozeModal = true;
+      } else {
+        this.updateConversations('snoozed', findSnoozeTime(snoozeType) || null);
+      }
+    },
+    onCmdReopenConversation() {
+      this.updateConversations('open', null);
+    },
+    onCmdResolveConversation() {
+      this.updateConversations('resolved', null);
+    },
+    customSnoozeTime(customSnoozedTime) {
+      this.showCustomTimeSnoozeModal = false;
+      if (customSnoozedTime) {
+        this.updateConversations('snoozed', getUnixTime(customSnoozedTime));
+      }
+    },
+    hideCustomSnoozeModal() {
+      this.showCustomTimeSnoozeModal = false;
+    },
     selectAll(e) {
       this.$emit('select-all-conversations', e.target.checked);
     },
     submit(agent) {
       this.$emit('assign-agent', agent);
     },
-    updateConversations(status) {
-      this.$emit('update-conversations', status);
+    updateConversations(status, snoozedUntil) {
+      this.$emit('update-conversations', status, snoozedUntil);
     },
     assignLabels(labels) {
       this.$emit('assign-labels', labels);

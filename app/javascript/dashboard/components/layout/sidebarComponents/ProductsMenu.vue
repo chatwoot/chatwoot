@@ -14,20 +14,20 @@
             @click="openOneHashCal"
           >
             <fluent-icon icon="calendar-ltr" size="18" class="mb-1 mr-2" />
-            {{ $t('OneHash Cal') }}
+            {{ $t('ALL_PRODUCTS.PRODUCTS.ONEHASH_CAL.TITLE') }}
           </woot-button>
         </woot-dropdown-item>
         <woot-dropdown-item>
           <woot-button variant="clear" color-scheme="secondary">
             <fluent-icon icon="people-team" size="18" class="mb-1 mr-2" />
-            {{ $t('OneHash CRM') }}
+            {{ $t('ALL_PRODUCTS.PRODUCTS.ONEHASH_CRM.TITLE') }}
             <span class="text-xs ml-2 text-red-500">Coming soon</span>
           </woot-button>
         </woot-dropdown-item>
         <woot-dropdown-item>
           <woot-button variant="clear" color-scheme="secondary">
             <fluent-icon icon="people-settings" size="18" class="mb-1 mr-2" />
-            {{ $t('OneHash ERP') }}
+            {{ $t('ALL_PRODUCTS.PRODUCTS.ONEHASH_ERP.TITLE') }}
             <span class="text-xs ml-3 text-red-500">Coming soon</span>
           </woot-button>
         </woot-dropdown-item>

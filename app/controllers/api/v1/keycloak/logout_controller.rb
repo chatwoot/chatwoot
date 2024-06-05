@@ -1,33 +1,39 @@
 class Api::V1::Keycloak::LogoutController < ApplicationController
     def create
-      email = params['email']
-      session_info = KeycloakSessionInfo.find_by(email: email)
-  
-      realm = ENV.fetch('KEYCLOAK_REALM', nil)
-      keycloak_url = ENV.fetch('KEYCLOAK_URL', nil)
-      token_url = URI.join(keycloak_url, "/realms/#{realm}/protocol/openid-connect/token").to_s
-      logout_url = URI.join(keycloak_url, "/realms/#{realm}/protocol/openid-connect/logout").to_s
-      client_id = ENV.fetch('KEYCLOAK_CLIENT_ID', nil)
-      client_secret = ENV.fetch('KEYCLOAK_CLIENT_SECRET', nil)
-  
+      token = params['token']
+      session_info = KeycloakSessionInfo.find_by(browser_token: token)
+
       if session_info.present?
-        access_token = session_info.token_info['access_token']
-        refresh_token = session_info.token_info['refresh_token']
-        response = HTTParty.post(logout_url, {
-                                   body: {
-                                     client_id: client_id,
-                                     client_secret: client_secret,
-                                     refresh_token: refresh_token
-                                   },
-                                   headers: {
-                                     'Authorization' => "Bearer #{access_token}",
-                                     'Content-Type' => 'application/x-www-form-urlencoded'
-                                   }
-                                 })
-        Rails.logger.info("KeyCloak Logout API Response: #{response}")
-        session_info.destroy
+        id_token = session_info.metadata['id_token']
+        if id_token.present?
+          url = send_end_session_endpoint_to_url(id_token)
+          session_info.destroy
+          render json: { message: 'Logged out successfully', url: url }, status: :ok
+        else
+          render json: { message: 'No id_token found in metadata for the session' }, status: :ok
+        end
       else
-        # Handle case where no record is found for the email
+        render json: { message: 'No session found for the provided token' }, status: :ok
       end
     end
+
+    private
+
+    def send_end_session_endpoint_to_url(id_token)
+      realm = ENV.fetch('KEYCLOAK_REALM', '')
+      keycloak_url = ENV.fetch('KEYCLOAK_URL', '')
+      end_session_end_point = URI.join(keycloak_url, "/realms/#{realm}/protocol/openid-connect/logout")
+      params = logout_params(id_token)
+      end_session_params = URI.encode_www_form(params)
+      url = "#{end_session_end_point}?#{end_session_params}"
+      return url
+    end
+
+    def logout_params(id_token)
+      return {
+        id_token_hint: id_token,
+        post_logout_redirect_uri: ENV.fetch('FRONTEND_URL', '')
+      }
+    end
+
   end

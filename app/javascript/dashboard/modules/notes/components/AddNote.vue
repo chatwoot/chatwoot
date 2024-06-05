@@ -23,12 +23,12 @@
 
 <script>
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
-import { hasPressedCommandAndEnter } from 'shared/helpers/KeyboardHelpers';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 export default {
   components: {
     WootMessageEditor,
   },
-
+  mixins: [keyboardEventListenerMixins],
   data() {
     return {
       noteContent: '',
@@ -40,21 +40,14 @@ export default {
       return this.noteContent === '';
     },
   },
-
-  mounted() {
-    document.addEventListener('keydown', this.onMetaEnter);
-  },
-
-  beforeDestroy() {
-    document.removeEventListener('keydown', this.onMetaEnter);
-  },
-
   methods: {
-    onMetaEnter(e) {
-      if (hasPressedCommandAndEnter(e)) {
-        e.preventDefault();
-        this.onAdd();
-      }
+    getKeyboardEvents() {
+      return {
+        '$mod+Enter': {
+          action: () => this.onAdd(),
+          allowOnFocusedInput: true,
+        },
+      };
     },
     onAdd() {
       if (this.noteContent !== '') {

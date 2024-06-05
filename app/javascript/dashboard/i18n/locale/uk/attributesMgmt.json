@@ -41,15 +41,15 @@
           "IN_VALID": "Невірний ключ"
         },
         "REGEX_PATTERN": {
-          "LABEL": "Regex Pattern",
-          "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+          "LABEL": "Шаблон регулярного виразу",
+          "PLACEHOLDER": "Будь ласка, введіть користувацький атрибут regex pattern. (Необов'язково)"
         },
         "REGEX_CUE": {
           "LABEL": "Regex Cue",
-          "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+          "PLACEHOLDER": "Будь ласка, введіть підказку для регулярного виразу (необов'язково)"
         },
         "ENABLE_REGEX": {
-          "LABEL": "Enable regex validation"
+          "LABEL": "Увімкнути перевірку регулярного виразу"
         }
       },
       "API": {
@@ -106,15 +106,15 @@
         "NOT_FOUND": "Немає налаштованих власних атрибутів"
       },
       "REGEX_PATTERN": {
-        "LABEL": "Regex Pattern",
-        "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+        "LABEL": "Шаблон регулярного виразу",
+        "PLACEHOLDER": "Будь ласка, введіть користувацький атрибут regex pattern. (Необов'язково)"
       },
       "REGEX_CUE": {
         "LABEL": "Regex Cue",
-        "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+        "PLACEHOLDER": "Введіть підказку для регулярного виразу (необов'язково)"
       },
       "ENABLE_REGEX": {
-        "LABEL": "Enable regex validation"
+        "LABEL": "Увімкнути перевірку регулярного виразу"
       }
     }
   }

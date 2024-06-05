@@ -17,7 +17,7 @@
     "AGENT_LIST_LOADING": "Agenten werden geladen",
     "UPDATE": {
       "CHANGE_STATUS": "Status ändern",
-      "SNOOZE_UNTIL_NEXT_REPLY": "Bis zur nächsten Antwort zurückstellen.",
+      "SNOOZE_UNTIL": "Erinnern",
       "UPDATE_SUCCESFUL": "Der Konversationsstatus wurde erfolgreich aktualisiert.",
       "UPDATE_FAILED": "Failed to update conversations. Please try again."
     },
