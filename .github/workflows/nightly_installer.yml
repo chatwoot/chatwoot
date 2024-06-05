@@ -31,7 +31,7 @@ jobs:
       run: |
         node --version
         which node
-   - name: check yarn version
+    - name: check yarn version
       run: |
         yarn --version
         which yarn
@@ -62,15 +62,15 @@ jobs:
         #        sudo systemctl restart chatwoot.target
         #        curl http://localhost:3000/api
 
-   - name: check node/yarn inside chatwoot
-     run: | 
-       sudo -iu chatwoot
-       cd chatwoot
-       node --version
-       yarn --versio
-       yarn
-       exit
-    if: always()
+    - name: check node/yarn inside chatwoot
+      run: | 
+         sudo -iu chatwoot
+         cd chatwoot
+         node --version
+         yarn --versio
+         yarn
+         exit
+      if: always()
 
     - name: Upload chatwoot setup log file as an artifact
       uses: actions/upload-artifact@v4
