@@ -11,9 +11,8 @@
         class="justify-between w-full h-[2.5rem] py-1.5 px-3 rounded-xl border border-slate-50 bg-slate-25 dark:border-slate-600 dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-900/50"
         @click="toggleDropdown"
       >
-        <template #dropdown>
+        <template v-if="shouldShowDropdown" #dropdown>
           <filter-list-dropdown
-            v-if="shouldShowDropdown"
             v-on-clickaway="toggleDropdown"
             :show-clear-filter="false"
             :list-items="items"
@@ -32,7 +31,6 @@
 
 <script setup>
 import { ref, computed, defineComponent } from 'vue';
-import { debounce } from '@chatwoot/utils';
 import FilterButton from 'dashboard/components/ui/Dropdown/DropdownButton.vue';
 import FilterListDropdown from 'dashboard/components/ui/Dropdown/DropdownList.vue';
 
@@ -52,9 +50,9 @@ const props = defineProps({
 const emit = defineEmits(['change']);
 const shouldShowDropdown = ref(false);
 
-const toggleDropdown = debounce(() => {
+const toggleDropdown = () => {
   shouldShowDropdown.value = !shouldShowDropdown.value;
-}, 1);
+};
 const onSelect = item => {
   emit('change', item, props.type);
   toggleDropdown();
