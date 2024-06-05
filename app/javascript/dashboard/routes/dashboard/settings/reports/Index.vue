@@ -102,7 +102,7 @@ export default {
       };
     },
     downloadConversationReports() {
-      const { from, to } = this;
+      const { from, to, businessHours } = this;
       const fileName = `conversations-report-${format(
         fromUnixTime(to),
         'dd-MM-yyyy'
@@ -110,6 +110,7 @@ export default {
       this.$store.dispatch('downloadConversationReports', {
         from,
         to,
+        businessHours,
         fileName,
       });
     },
