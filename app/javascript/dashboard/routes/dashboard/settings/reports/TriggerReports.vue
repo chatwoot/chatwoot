@@ -67,7 +67,7 @@ export default {
     }),
     conversationMetrics() {
       let metric = {};
-      Object.keys(this.triggersMetric.metrics).forEach(key => {
+      Object.keys(this.triggersMetric.metrics || {}).forEach(key => {
         const metricName = TRIGGERS_METRICS[key]; // TODO: change to translate correctly
         metric[metricName] = this.triggersMetric.metrics[key];
       });
@@ -78,10 +78,11 @@ export default {
     triggersMetric: {
       immediate: true,
       handler(newVal) {
-        if (!newVal.isFetching && newVal.data.length) {
+        if (!newVal.isFetching && newVal.data && newVal.data.length) {
           this.prepareChartData();
         }
       },
+      deep: true,
     },
   },
   mounted() {
@@ -89,7 +90,7 @@ export default {
   },
   methods: {
     prepareChartData() {
-      const data = this.triggersMetric.data;
+      const data = this.triggersMetric.data || [];
       const labels = data.map(item =>
         format(
           fromUnixTime(new Date(item.createdAt).getTime() / 1000),
