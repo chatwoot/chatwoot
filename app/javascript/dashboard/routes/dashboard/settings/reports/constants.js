@@ -207,6 +207,6 @@ export const OVERVIEW_METRICS = {
 
 export const TRIGGERS_METRICS = {
   total: 'TOTAL',
-  resolved: 'RESOLVED',
-  unresolved: 'UNRESOLVED',
+  processed: 'PROCESSED',
+  unprocessed: 'UNPROCESSED',
 };
