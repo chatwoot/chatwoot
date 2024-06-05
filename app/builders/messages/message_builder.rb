@@ -134,7 +134,7 @@ class Messages::MessageBuilder
   end
 
   def ignore_automation_rules
-    @ignore_automation_rules.present? ? { additional_attributes: { ignore_automation_rules: @ignore_automation_rules } } : {}
+    @ignore_automation_rules.present? && @ignore_automation_rules == 'true' ? { additional_attributes: { ignore_automation_rules: true } } : {}
   end
 
   def message_sender
