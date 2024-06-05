@@ -1,7 +1,7 @@
 <template>
   <div
     class="flex w-full"
-    :class="type === 'stateId' && shouldShowDropdown ? 'h-[256px]' : 'gap-2'"
+    :class="type === 'stateId' && shouldShowDropdown ? 'h-[150px]' : 'gap-2'"
   >
     <label class="w-full" :class="{ error: hasError }">
       {{ label }}
@@ -20,7 +20,7 @@
             :active-filter-id="selectedItemId"
             :input-placeholder="placeholder"
             enable-search
-            class="left-0 flex flex-col w-full overflow-y-auto h-fit max-h-[160px] md:left-auto md:right-0 top-10"
+            class="left-0 flex flex-col w-full overflow-y-auto h-fit !max-h-[160px] md:left-auto md:right-0 top-10"
             @click="onSelect"
           />
         </template>
