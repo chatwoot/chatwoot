@@ -700,14 +700,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_04_080836) do
     t.string "browser_token"
   end
 
-  create_table "keycloak_sessions_infos", force: :cascade do |t|
-    t.string "email"
-    t.string "session_state"
-    t.json "token_info"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "labels", force: :cascade do |t|
     t.string "title"
     t.text "description"
