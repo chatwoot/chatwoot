@@ -40,6 +40,10 @@ module Api::V2::Accounts::ReportsHelper
     ).summary
   end
 
+  def generate_triggers_report
+    V2::ReportBuilder.new(Current.account, {}).triggers_metrics
+  end
+
   private
 
   def generate_readable_report_metrics(report_metric)

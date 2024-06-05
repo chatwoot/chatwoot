@@ -30,3 +30,11 @@ GET {{api}}/api/v2/accounts/{{account_id}}/reports
 &business_hours={{business_hours}}
 Content-Type: application/json
 Authorization: {{token}}
+
+### 
+
+# Path: http/triggers.http
+# @name trigger_metrics
+GET {{api}}/api/v2/accounts/{{account_id}}/reports/triggers
+Content-Type: application/json
+Authorization: {{token}}

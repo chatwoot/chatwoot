@@ -48,6 +48,10 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render json: conversation_metrics
   end
 
+  def triggers
+    render json: generate_triggers_report
+  end
+
   private
 
   def generate_csv(filename, template)
