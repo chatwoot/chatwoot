@@ -6,7 +6,7 @@
     <filter-button
       right-icon="chevron-down"
       :button-text="linkIssueTitle"
-      class="justify-between w-full bg-slate-50 dark:bg-slate-800 hover:bg-slate-75 dark:hover:bg-slate-800"
+      class="justify-between w-full h-[2.5rem] py-1.5 px-3 rounded-xl border border-slate-50 bg-slate-25 dark:border-slate-600 dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-900/50"
       @click="toggleDropdown"
     >
       <template v-if="shouldShowDropdown" #dropdown>
@@ -26,7 +26,7 @@
         />
       </template>
     </filter-button>
-    <div class="flex items-center justify-end w-full gap-2">
+    <div class="flex items-center justify-end w-full gap-2 mt-2">
       <woot-button
         class="px-4 rounded-xl button clear outline-woot-200/50 outline"
         @click.prevent="onClose"
