@@ -8,9 +8,9 @@
   >
     <update-banner :latest-chatwoot-version="latestChatwootVersion" />
     <template v-if="currentAccountId">
-      <pending-email-verification-banner v-if="hideOnOnboardingView" />
+      <!-- <pending-email-verification-banner v-if="hideOnOnboardingView" />
       <payment-pending-banner v-if="hideOnOnboardingView" />
-      <upgrade-banner />
+      <upgrade-banner /> -->
     </template>
     <transition name="fade" mode="out-in">
       <router-view />
@@ -53,9 +53,9 @@ export default {
     LoadingState,
     NetworkNotification,
     UpdateBanner,
-    PaymentPendingBanner,
+    // PaymentPendingBanner,
     WootSnackbarBox,
-    UpgradeBanner,
+    // UpgradeBanner,
   },
 
   mixins: [rtlMixin],
@@ -80,9 +80,9 @@ export default {
       const { accounts = [] } = this.currentUser || {};
       return accounts.length > 0;
     },
-    hideOnOnboardingView() {
-      return !isOnOnboardingView(this.$route);
-    },
+    // hideOnOnboardingView() {
+    //   return !isOnOnboardingView(this.$route);
+    // },
   },
 
   watch: {
