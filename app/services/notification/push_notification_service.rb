@@ -1,3 +1,4 @@
+require_relative 'fcm_service'
 class Notification::PushNotificationService
   include Rails.application.routes.url_helpers
 
@@ -70,13 +71,42 @@ class Notification::PushNotificationService
   end
 
   def send_fcm_push(subscription)
-    return unless ENV['FCM_SERVER_KEY']
+    return unless ENV['GOOGLE_APPLICATION_CREDENTIALS'] && ENV['FIREBASE_PROJECT_ID']
     return unless subscription.fcm?
 
-    fcm = FCM.new(ENV.fetch('FCM_SERVER_KEY', nil))
-    response = fcm.send([subscription.subscription_attributes['push_token']], fcm_options)
+    fcm_service = FCMService.new(ENV.fetch('GOOGLE_APPLICATION_CREDENTIALS', nil),
+                                 ENV.fetch('FIREBASE_PROJECT_ID', nil))
+    fcm = fcm_service.fcm_client
+    message = {
+      'token': subscription.subscription_attributes['push_token'],
+      'data': {
+        payload: {
+          data: {
+            id: 1
+          }
+        }.to_json
+      },
+      'notification': {
+        title: notification.push_message_title,
+        body: notification.push_message_body
+      },
+      'android': {},
+      'apns': {
+        payload: {
+          aps: {
+            sound: 'default',
+            category: "#{Time.zone.now.to_i}"
+          }
+        }
+      },
+      'fcm_options': {
+        analytics_label: 'Label'
+      }
+    }
+    response = fcm.send_v1(message)
     remove_subscription_if_error(subscription, response)
   end
+
 
   def send_push_via_chatwoot_hub(subscription)
     return if ENV['FCM_SERVER_KEY']
