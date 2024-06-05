@@ -1,0 +1,19 @@
+<%= CSVSafe.generate_line [I18n.t('reports.period', since: Date.strptime(params[:since], '%s'), until: Date.strptime(params[:until], '%s'))] %>
+
+<% headers = [
+  I18n.t('reports.conversation_report_csv.conversation_id'),
+  I18n.t('reports.conversation_report_csv.inbox_name'),
+  I18n.t('reports.conversation_report_csv.customer_name'),
+  I18n.t('reports.conversation_report_csv.customer_phone_number'),
+  I18n.t('reports.conversation_report_csv.customer_email'),
+  I18n.t('reports.conversation_report_csv.customer_instagram_handle'),
+  I18n.t('reports.conversation_report_csv.agent_name'),
+  I18n.t('reports.conversation_report_csv.conversation_status'),
+  I18n.t('reports.conversation_report_csv.first_response_time_minutes'),
+  I18n.t('reports.conversation_report_csv.resolution_time_minutes'),
+  I18n.t('reports.conversation_report_csv.labels')
+] %>
+<%= CSVSafe.generate_line headers -%>
+<% @report_data.each do |row| %>
+  <%= CSV.generate_line row -%>
+<% end %>

@@ -1,11 +1,11 @@
 /* eslint no-console: 0 */
-import * as types from '../mutation-types';
-import Report from '../../api/reports';
-import { downloadCsvFile, generateFileName } from '../../helper/downloadHelper';
-import AnalyticsHelper from '../../helper/AnalyticsHelper';
-import { REPORTS_EVENTS } from '../../helper/AnalyticsHelper/events';
 import { clampDataBetweenTimeline } from 'shared/helpers/ReportsDataHelper';
 import liveReports from '../../api/liveReports';
+import Report from '../../api/reports';
+import AnalyticsHelper from '../../helper/AnalyticsHelper';
+import { REPORTS_EVENTS } from '../../helper/AnalyticsHelper/events';
+import { downloadCsvFile, generateFileName } from '../../helper/downloadHelper';
+import * as types from '../mutation-types';
 
 const state = {
   fetchingStatus: false,
@@ -202,6 +202,19 @@ export const actions = {
         downloadCsvFile(reportObj.fileName, response.data);
         AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
           reportType: 'agent',
+          businessHours: reportObj?.businessHours,
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  },
+  downloadConversationReports(_, reportObj) {
+    return Report.getConversationReports(reportObj)
+      .then(response => {
+        downloadCsvFile(reportObj.fileName, response.data);
+        AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
+          reportType: 'conversation',
           businessHours: reportObj?.businessHours,
         });
       })

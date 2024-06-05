@@ -4,9 +4,9 @@
       color-scheme="success"
       class-names="button--fixed-top"
       icon="arrow-download"
-      @click="downloadAgentReports"
+      @click="downloadConversationReports"
     >
-      {{ $t('REPORT.DOWNLOAD_AGENT_REPORTS') }}
+      {{ 'Download conversation reports' }}
     </woot-button>
     <report-filter-selector
       :show-agents-filter="false"
@@ -18,15 +18,15 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import fromUnixTime from 'date-fns/fromUnixTime';
-import format from 'date-fns/format';
-import ReportFilterSelector from './components/FilterSelector.vue';
-import { GROUP_BY_FILTER } from './constants';
 import reportMixin from 'dashboard/mixins/reportMixin';
+import format from 'date-fns/format';
+import fromUnixTime from 'date-fns/fromUnixTime';
 import alertMixin from 'shared/mixins/alertMixin';
+import { mapGetters } from 'vuex';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import ReportContainer from './ReportContainer.vue';
+import ReportFilterSelector from './components/FilterSelector.vue';
+import { GROUP_BY_FILTER } from './constants';
 
 const REPORTS_KEYS = {
   CONVERSATIONS: 'conversations_count',
@@ -101,13 +101,17 @@ export default {
         businessHours,
       };
     },
-    downloadAgentReports() {
+    downloadConversationReports() {
       const { from, to } = this;
-      const fileName = `agent-report-${format(
+      const fileName = `conversations-report-${format(
         fromUnixTime(to),
         'dd-MM-yyyy'
       )}.csv`;
-      this.$store.dispatch('downloadAgentReports', { from, to, fileName });
+      this.$store.dispatch('downloadConversationReports', {
+        from,
+        to,
+        fileName,
+      });
     },
     onFilterChange({ from, to, groupBy, businessHours }) {
       this.from = from;

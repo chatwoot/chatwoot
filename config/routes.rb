@@ -335,6 +335,7 @@ Rails.application.routes.draw do
               get :labels
               get :teams
               get :conversations
+              get :conversation_reports
               get :conversation_traffic
               get :bot_metrics
             end
