@@ -76,4 +76,4 @@ yarn-debug.log*
 .yarn-integrity
 
 /storybook-static
-config/chatwoot-3b1a1-c9a7423d7411.json
+config/chatwoot-fcm-service-account-file.json

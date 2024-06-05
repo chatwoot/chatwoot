@@ -79,26 +79,10 @@ class Notification::PushNotificationService
     fcm = fcm_service.fcm_client
     message = {
       'token': subscription.subscription_attributes['push_token'],
-      'data': {
-        payload: {
-          data: {
-            id: 1
-          }
-        }.to_json
-      },
-      'notification': {
-        title: notification.push_message_title,
-        body: notification.push_message_body
-      },
-      'android': {},
-      'apns': {
-        payload: {
-          aps: {
-            sound: 'default',
-            category: "#{Time.zone.now.to_i}"
-          }
-        }
-      },
+      'data': fcm_data,
+      'notification': fcm_notification,
+      'android': fcm_android_options,
+      'apns': fcm_apns_options,
       'fcm_options': {
         analytics_label: 'Label'
       }
@@ -106,7 +90,6 @@ class Notification::PushNotificationService
     response = fcm.send_v1(message)
     remove_subscription_if_error(subscription, response)
   end
-
 
   def send_push_via_chatwoot_hub(subscription)
     return if ENV['FCM_SERVER_KEY']
@@ -130,6 +113,40 @@ class Notification::PushNotificationService
       android: { priority: 'high' },
       data: { notification: notification.fcm_push_data.to_json },
       collapse_key: "chatwoot_#{notification.primary_actor_type.downcase}_#{notification.primary_actor_id}"
+    }
+  end
+
+  def fcm_data
+    {
+      payload: {
+        data: {
+          notification: notification.fcm_push_data
+        }
+      }.to_json
+    }
+  end
+
+  def fcm_notification
+    {
+      title: notification.push_message_title,
+      body: notification.push_message_body
+    }
+  end
+
+  def fcm_android_options
+    {
+      priority: 'high'
+    }
+  end
+
+  def fcm_apns_options
+    {
+      payload: {
+        aps: {
+          sound: 'default',
+          category: Time.zone.now.to_i.to_s
+        }
+      }
     }
   end
 end

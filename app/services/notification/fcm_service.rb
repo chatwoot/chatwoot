@@ -19,7 +19,7 @@ class FCMService
   end
 
   def token_expired?
-    Time.now >= @token_info[:expires_at]
+    Time.zone.now >= @token_info[:expires_at]
   end
 
   def generate_token
@@ -30,7 +30,7 @@ class FCMService
     token = authorizer.fetch_access_token!
     {
       token: token['access_token'],
-      expires_at: Time.now + token['expires_in'].to_i
+      expires_at: Time.zone.now + token['expires_in'].to_i
     }
   end
 end
