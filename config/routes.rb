@@ -92,6 +92,7 @@ Rails.application.routes.draw do
               end
             end
           end
+          resources :messages, only: [:create]
           resources :conversations, only: [:index, :create, :show, :update] do
             collection do
               get :meta
