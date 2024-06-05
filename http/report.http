@@ -1,0 +1,20 @@
+# Path: http/sign.http
+# @name LOGIN
+POST {{api}}/auth/sign_in
+Content-Type: application/json
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36
+User-Agent-Mobile: Mozilla/5.0 (Linux; Android 4.2.2; GT-I9505 Build/JDQ39) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.59 Mobile Safari/537.36
+
+{
+  "email": "{{username_jonh}}",
+  "password": "{{password_jonh}}"
+}
+
+### 
+@token = {{LOGIN.response.headers.Authorization}}
+
+# Path: http/report.http
+# @name reports
+GET {{api}}/api/v2/accounts/2/reports?metric=conversations_count&since=1717038000&until=1717642799&type=account&group_by=hour&business_hours=false&timezone_offset=-3
+Content-Type: application/json
+Authorization: {{token}}
