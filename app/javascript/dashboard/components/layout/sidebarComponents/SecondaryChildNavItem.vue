@@ -65,11 +65,11 @@
         </div>
         <span
           v-if="warningIcon"
-          class="inline-flex rounded-sm mr-1 bg-slate-100"
+          class="inline-flex mr-1 bg-red-50 dark:bg-red-900 p-0.5 rounded-sm"
         >
           <fluent-icon
-            v-tooltip.top-end="$t('SIDEBAR.FACEBOOK_REAUTHORIZE')"
-            class="text-xxs"
+            v-tooltip.top-end="$t('SIDEBAR.REAUTHORIZE')"
+            class="text-xxs text-red-500 dark:text-red-300"
             :icon="warningIcon"
             size="12"
           />
