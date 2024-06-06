@@ -1,9 +1,15 @@
 <template>
   <div class="flex-1 overflow-auto p-4">
+    <report-filters
+      type="triggers"
+      :group-by-filter-items-list="groupByfilterItemsList"
+      @date-range-change="onDateRangeChange"
+      @business-hours-toggle="onBusinessHoursToggle"
+    />
     <div class="row">
       <metric-card
         :is-live="false"
-        :is-loading="triggersMetric.isFetching"
+        :is-loading="triggersMetric.isFetchingMetrics"
         header="Relatório de Disparos"
         loading-message="carregando..."
       >
@@ -45,13 +51,16 @@
 import { mapGetters } from 'vuex';
 import { TRIGGERS_METRICS } from './constants';
 import MetricCard from './components/overview/MetricCard.vue';
+import ReportFilters from './components/ReportFilters.vue';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
+import { GROUP_BY_FILTER } from './constants';
 
 export default {
   name: 'TriggerReports',
   components: {
     MetricCard,
+    ReportFilters,
   },
   data() {
     return {
@@ -59,6 +68,10 @@ export default {
         labels: [],
         datasets: [],
       },
+      from: Math.floor(new Date().setMonth(new Date().getMonth() - 6) / 1000),
+      to: Math.floor(Date.now() / 1000),
+      groupBy: GROUP_BY_FILTER[1],
+      groupByfilterItemsList: this.$t('REPORT.GROUP_BY_DAY_OPTIONS'),
     };
   },
   computed: {
@@ -78,7 +91,7 @@ export default {
     triggersMetric: {
       immediate: true,
       handler(newVal) {
-        if (!newVal.isFetching && newVal.data && newVal.data.length) {
+        if (!newVal.isFetching && newVal.data) {
           this.prepareChartData();
         }
       },
@@ -92,13 +105,9 @@ export default {
     prepareChartData() {
       const data = this.triggersMetric.data || [];
       const labels = data.map(item =>
-        format(
-          fromUnixTime(new Date(item.createdAt).getTime() / 1000),
-          'dd-MMM'
-        )
+        format(fromUnixTime(item.timestamp), 'dd-MMM')
       );
-      const values = data.map(item => item.id);
-
+      const values = data.map(item => item.value);
       this.chartData = {
         labels,
         datasets: [
@@ -113,10 +122,25 @@ export default {
       };
     },
     fetchAllData() {
-      this.$store.dispatch('fetchTriggersMetric', {
-        from: '2020-01-01',
-        to: '2020-12-31',
-      });
+      const { from, to, groupBy } = this;
+      this.$store.dispatch('fetchTriggersReport', { from, to, groupBy });
+      this.$store.dispatch('fetchTriggersMetric');
+    },
+    onDateRangeChange({ from, to, groupBy }) {
+      this.from = from;
+      this.to = to;
+      this.groupBy = groupBy;
+      this.fetchAllData();
+    },
+    onBusinessHoursToggle(value) {
+      this.businessHours = value;
+      this.fetchAllData();
+    },
+    onGroupByFilterChange(payload) {
+      // eslint-disable-next-line no-console
+      console.log('onGroupByFilterChange', payload);
+      this.groupBy = GROUP_BY_FILTER[payload.id];
+      this.fetchAllData();
     },
   },
 };

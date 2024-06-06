@@ -55,14 +55,10 @@ class V2::ReportBuilder
   end
 
   def triggers_metrics
-    selected_attributes = %i[id createdAt companyId processedAt]
     {
-      data: account.triggers.select(*selected_attributes).map { |trigger| trigger.slice(*selected_attributes) },
-      metrics: {
-        total: account.triggers.count,
-        unprocessed: account.triggers.where(processedAt: nil).count,
-        processed: account.triggers.where.not(processedAt: nil).count
-      }
+      total: account.triggers.count,
+      unprocessed: account.triggers.where(processedAt: nil).count,
+      processed: account.triggers.where.not(processedAt: nil).count
     }
   end
 

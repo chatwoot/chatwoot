@@ -56,6 +56,7 @@ const state = {
   },
   triggers: {
     isFetching: false,
+    isFetchingMetrics: false,
     data: [],
     metrics: {
       total: 0,
@@ -154,14 +155,29 @@ export const actions = {
         commit(types.default.TOGGLE_ACCOUNT_CONVERSATION_METRIC_LOADING, false);
       });
   },
-  fetchTriggersMetric({ commit }, reportObj) {
+  fetchTriggersReport({ commit }, reportObj) {
     commit(types.default.TOGGLE_TRIGGER_REPORT_LOADING, { isFetching: true });
-    Report.getTriggersMetricsReport(reportObj)
+    Report.getReports({
+      ...reportObj,
+      metric: 'triggers',
+    })
       .then(response => {
         commit(types.default.SET_TRIGGERS_REPORTS, response.data);
       })
       .finally(() => {
         commit(types.default.TOGGLE_TRIGGER_REPORT_LOADING, false);
+      });
+  },
+  fetchTriggersMetric({ commit }, reportObj) {
+    commit(types.default.TOGGLE_TRIGGER_REPORT_METRIC_LOADING, {
+      isFetching: true,
+    });
+    Report.getTriggersMetricsReport(reportObj)
+      .then(response => {
+        commit(types.default.SET_TRIGGERS_REPORTS_METRICS, response.data);
+      })
+      .finally(() => {
+        commit(types.default.TOGGLE_TRIGGER_REPORT_METRIC_LOADING, false);
       });
   },
   fetchAgentConversationMetric({ commit }, reportObj) {
@@ -280,12 +296,17 @@ const mutations = {
   [types.default.TOGGLE_AGENT_CONVERSATION_METRIC_LOADING](_state, flag) {
     _state.overview.uiFlags.isFetchingAgentConversationMetric = flag;
   },
-  [types.default.SET_TRIGGERS_REPORTS](_state, { data, metrics }) {
+  [types.default.SET_TRIGGERS_REPORTS](_state, data) {
     _state.triggers.data = data;
-    _state.triggers.metrics = metrics;
+  },
+  [types.default.SET_TRIGGERS_REPORTS_METRICS](_state, data) {
+    _state.triggers.metrics = data;
   },
   [types.default.TOGGLE_TRIGGER_REPORT_LOADING](_state, { isFetching }) {
     _state.triggers.isFetching = isFetching;
+  },
+  [types.default.TOGGLE_TRIGGER_REPORT_METRIC_LOADING](_state, { isFetching }) {
+    _state.triggers.isFetchingMetrics = isFetching;
   },
 };
 

@@ -85,8 +85,8 @@ class ReportsAPI extends ApiClient {
     });
   }
 
-  getTriggersMetricsReport({ from: since, to: until }) {
-    return axios.get(`${this.url}/triggers`, { params: { since, until } });
+  getTriggersMetricsReport() {
+    return axios.get(`${this.url}/triggers`);
   }
 }
 
