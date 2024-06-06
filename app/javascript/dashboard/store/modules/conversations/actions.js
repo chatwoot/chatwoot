@@ -8,6 +8,7 @@ import messageReadActions from './actions/messageReadActions';
 import messageTranslateActions from './actions/messageTranslateActions';
 import {
   buildConversationList,
+  checkIfConversationPartOfFolder,
   isOnFoldersView,
   isOnMentionsView,
   isOnUnattendedView,
@@ -316,7 +317,7 @@ const actions = {
     }
   },
 
-  addConversation({ commit, state, dispatch, rootState }, conversation) {
+  async addConversation({ commit, state, dispatch, rootState }, conversation) {
     const { currentInbox, appliedFilters } = state;
     const {
       inbox_id: inboxId,
@@ -327,19 +328,19 @@ const actions = {
       !currentInbox || Number(currentInbox) === inboxId;
     if (
       !hasAppliedFilters &&
-      !isOnFoldersView(rootState) &&
       !isOnMentionsView(rootState) &&
       !isOnUnattendedView(rootState) &&
       isMatchingInboxFilter
     ) {
+      if (isOnFoldersView(rootState)) {
+        const isConversationPartOfFolder =
+          await checkIfConversationPartOfFolder(conversation, rootState);
+        if (!isConversationPartOfFolder) {
+          return;
+        }
+      }
       commit(types.ADD_CONVERSATION, conversation);
       dispatch('contacts/setContact', sender);
-      // if (isOnFoldersView(rootState)) {
-      //   // refreshes the folder view
-      //   const customViews = rootGetters['customViews/getCustomViews'];
-      //   const customViewPayload = getCustomViewPayload(rootState, customViews);
-      //   dispatch('customViews/update', customViewPayload);
-      // }
     }
   },
 
@@ -355,27 +356,26 @@ const actions = {
     }
   },
 
-  updateConversation({ commit, dispatch, rootState }, conversation) {
+  async updateConversation({ commit, dispatch, rootState }, conversation) {
     const {
       meta: { sender },
     } = conversation;
-    if (
-      !isOnMentionsView(rootState) &&
-      !isOnFoldersView(rootState) &&
-      !isOnUnattendedView(rootState)
-    ) {
+    if (!isOnMentionsView(rootState) && !isOnUnattendedView(rootState)) {
+      if (isOnFoldersView(rootState)) {
+        const isConversationPartOfFolder =
+          await checkIfConversationPartOfFolder(conversation, rootState);
+        if (!isConversationPartOfFolder) {
+          return;
+        }
+      }
+
       commit(types.UPDATE_CONVERSATION, conversation);
 
       dispatch('conversationLabels/setConversationLabel', {
         id: conversation.id,
         data: conversation.labels,
       });
-      // if (isOnFoldersView(rootState)) {
-      //   // refreshes the folder view
-      //   const customViews = rootGetters['customViews/getCustomViews'];
-      //   const customViewPayload = getCustomViewPayload(rootState, customViews);
-      //   dispatch('customViews/update', customViewPayload);
-      // }
+
       dispatch('contacts/setContact', sender);
     }
   },

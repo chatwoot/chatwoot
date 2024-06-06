@@ -1,3 +1,4 @@
+import ConversationApi from '../../../../api/inbox/conversation';
 import types from '../../../mutation-types';
 
 export const setPageFilter = ({ dispatch, filter, page, markEndReached }) => {
@@ -38,16 +39,40 @@ export const isOnFoldersView = ({ route: { name: routeName } }) => {
   return FOLDER_ROUTES.includes(routeName);
 };
 
-export const getCustomViewPayload = (
-  {
-    route: {
-      params: { id },
-    },
-  },
-  customViews
+export const checkIfConversationPartOfFolder = async (
+  conversation,
+  rootState
 ) => {
-  const customView = customViews.find(view => view.id === Number(id));
-  return customView;
+  try {
+    let page = 1;
+    let foldersId = rootState.route.params.id;
+
+    // get folders from customViews/getCustomViews
+    let folders = rootState.customViews.records;
+
+    let activeFolder = () => {
+      if (foldersId) {
+        const activeView = folders.filter(
+          view => view.id === Number(foldersId)
+        );
+        const [firstValue] = activeView;
+        return firstValue;
+      }
+      return undefined;
+    };
+
+    let payload = activeFolder().query;
+
+    const { data } = await ConversationApi.filter({
+      queryData: payload,
+      page,
+    });
+
+    return data.payload.some(item => item.id === conversation.id);
+  } catch (error) {
+    // Handle error
+    return false;
+  }
 };
 
 export const buildConversationList = (
