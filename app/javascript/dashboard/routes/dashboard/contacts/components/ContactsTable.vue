@@ -321,18 +321,16 @@ export default {
   },
   methods: {
     currentActionText(action) {
-      let status = '';
-      switch (action.status) {
-        case 'snoozed':
-          status = format(new Date(action.snoozed_until), 'dd/MM HH:mm');
-          break;
-        default:
-          status = this.$t(
-            'CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.' + action.status + '.TEXT'
-          );
-          break;
-      }
-      return action.additional_attributes.description + ' (' + status + ')';
+      const status = this.$t(
+        'CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.' + action.status + '.TEXT'
+      );
+      const actionDate = action.snoozed_until || action.updated_at;
+      const actionDateText = format(new Date(actionDate), 'dd/MM/yy');
+      const actionText = `${action.inbox_type} / ${status}  (${actionDateText})`;
+      if (action.additional_attributes.description)
+        return `${action.additional_attributes.description} / ${actionText}`;
+
+      return actionText;
     },
     setSortConfig() {
       this.sortConfig = { [this.sortParam]: this.sortOrder };
