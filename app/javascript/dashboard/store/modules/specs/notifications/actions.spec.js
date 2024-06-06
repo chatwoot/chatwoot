@@ -283,4 +283,34 @@ describe('#actions', () => {
       ]);
     });
   });
+
+  describe('setNotificationFilters', () => {
+    it('set notification filters', async () => {
+      const filters = {
+        page: 1,
+        status: 'read',
+        type: 'all',
+        sortOrder: 'desc',
+      };
+      await actions.setNotificationFilters({ commit }, filters);
+      expect(commit.mock.calls).toEqual([
+        [types.SET_NOTIFICATION_FILTERS, filters],
+      ]);
+    });
+  });
+
+  describe('updateNotificationFilters', () => {
+    it('update notification filters', async () => {
+      const filters = {
+        page: 1,
+        status: 'unread',
+        type: 'all',
+        sortOrder: 'desc',
+      };
+      await actions.updateNotificationFilters({ commit }, filters);
+      expect(commit.mock.calls).toEqual([
+        [types.UPDATE_NOTIFICATION_FILTERS, filters],
+      ]);
+    });
+  });
 });

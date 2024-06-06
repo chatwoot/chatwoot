@@ -1,5 +1,5 @@
 <template>
-  <div @submit.prevent="onSubmit">
+  <div>
     <woot-input
       v-model="formState.title"
       :class="{ error: v$.title.$error }"
@@ -26,61 +26,19 @@
         "
       />
     </label>
-    <label :class="{ error: v$.teamId.$error }">
-      {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TEAM.LABEL') }}
-      <select
-        v-model="formState.teamId"
-        :style="inputStyles"
-        @change="onChangeTeam"
-      >
-        <option v-for="item in teams" :key="item.name" :value="item.id">
-          {{ item.name }}
-        </option>
-      </select>
-      <span v-if="v$.teamId.$error" class="message">
-        {{ teamError }}
-      </span>
-    </label>
-    <label>
-      {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.ASSIGNEE.LABEL') }}
-      <select v-model="formState.assigneeId" :style="inputStyles">
-        <option v-for="item in assignees" :key="item.name" :value="item.id">
-          {{ item.name }}
-        </option>
-      </select>
-    </label>
-    <label>
-      {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.LABEL.LABEL') }}
-      <select v-model="formState.labelId" :style="inputStyles">
-        <option v-for="item in labels" :key="item.name" :value="item.id">
-          {{ item.name }}
-        </option>
-      </select>
-    </label>
-    <label>
-      {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.PRIORITY.LABEL') }}
-      <select v-model="formState.priority" :style="inputStyles">
-        <option v-for="item in priorities" :key="item.name" :value="item.id">
-          {{ item.name }}
-        </option>
-      </select>
-    </label>
-    <label>
-      {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.PROJECT.LABEL') }}
-      <select v-model="formState.projectId" :style="inputStyles">
-        <option v-for="item in projects" :key="item.name" :value="item.id">
-          {{ item.name }}
-        </option>
-      </select>
-    </label>
-    <label>
-      {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.STATUS.LABEL') }}
-      <select v-model="formState.stateId" :style="inputStyles">
-        <option v-for="item in statuses" :key="item.name" :value="item.id">
-          {{ item.name }}
-        </option>
-      </select>
-    </label>
+    <div class="flex flex-col gap-4">
+      <searchable-dropdown
+        v-for="dropdown in dropdowns"
+        :key="dropdown.type"
+        :type="dropdown.type"
+        :value="formState[dropdown.type]"
+        :label="$t(dropdown.label)"
+        :items="dropdown.items"
+        :placeholder="$t(dropdown.placeholder)"
+        :error="dropdown.error"
+        @change="onChange"
+      />
+    </div>
     <div class="flex items-center justify-end w-full gap-2 mt-8">
       <woot-button
         class="px-4 rounded-xl button clear outline-woot-200/50 outline"
@@ -107,6 +65,8 @@ import { useI18n } from 'dashboard/composables/useI18n';
 import { useAlert } from 'dashboard/composables';
 import LinearAPI from 'dashboard/api/integrations/linear';
 import validations from './validations';
+import { parseLinearAPIErrorResponse } from 'dashboard/store/utils/api';
+import SearchableDropdown from './SearchableDropdown.vue';
 
 const props = defineProps({
   accountId: {
@@ -140,6 +100,14 @@ const priorities = [
   { id: 4, name: 'Low' },
 ];
 
+const statusDesiredOrder = [
+  'Backlog',
+  'Todo',
+  'In Progress',
+  'Done',
+  'Canceled',
+];
+
 const isCreating = ref(false);
 const inputStyles = { borderRadius: '12px', fontSize: '14px' };
 
@@ -153,7 +121,6 @@ const formState = reactive({
   priority: '',
   projectId: '',
 });
-
 const v$ = useVuelidate(validations, formState);
 
 const isSubmitDisabled = computed(
@@ -170,6 +137,56 @@ const teamError = computed(() =>
     : ''
 );
 
+const dropdowns = computed(() => {
+  return [
+    {
+      type: 'teamId',
+      label: 'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TEAM.LABEL',
+      items: teams.value,
+      placeholder: 'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TEAM.SEARCH',
+      error: teamError.value,
+    },
+    {
+      type: 'assigneeId',
+      label: 'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.ASSIGNEE.LABEL',
+      items: assignees.value,
+      placeholder:
+        'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.ASSIGNEE.SEARCH',
+      error: '',
+    },
+    {
+      type: 'labelId',
+      label: 'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.LABEL.LABEL',
+      items: labels.value,
+      placeholder: 'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.LABEL.SEARCH',
+      error: '',
+    },
+    {
+      type: 'priority',
+      label: 'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.PRIORITY.LABEL',
+      items: priorities,
+      placeholder:
+        'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.PRIORITY.SEARCH',
+      error: '',
+    },
+    {
+      type: 'projectId',
+      label: 'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.PROJECT.LABEL',
+      items: projects.value,
+      placeholder:
+        'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.PROJECT.SEARCH',
+      error: '',
+    },
+    {
+      type: 'stateId',
+      label: 'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.STATUS.LABEL',
+      items: statuses.value,
+      placeholder: 'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.STATUS.SEARCH',
+      error: '',
+    },
+  ];
+});
+
 const onClose = () => emit('close');
 
 const getTeams = async () => {
@@ -177,7 +194,11 @@ const getTeams = async () => {
     const response = await LinearAPI.getTeams();
     teams.value = response.data;
   } catch (error) {
-    useAlert(t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.LOADING_TEAM_ERROR'));
+    const errorMessage = parseLinearAPIErrorResponse(
+      error,
+      t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.LOADING_TEAM_ERROR')
+    );
+    useAlert(errorMessage);
   }
 };
 
@@ -186,21 +207,28 @@ const getTeamEntities = async () => {
     const response = await LinearAPI.getTeamEntities(formState.teamId);
     assignees.value = response.data.users;
     labels.value = response.data.labels;
-    statuses.value = response.data.states;
     projects.value = response.data.projects;
+    statuses.value = statusDesiredOrder
+      .map(name => response.data.states.find(status => status.name === name))
+      .filter(Boolean);
   } catch (error) {
-    useAlert(
+    const errorMessage = parseLinearAPIErrorResponse(
+      error,
       t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.LOADING_TEAM_ENTITIES_ERROR')
     );
+    useAlert(errorMessage);
   }
 };
 
-const onChangeTeam = event => {
-  formState.teamId = event.target.value;
-  formState.assigneeId = '';
-  formState.stateId = '';
-  formState.labelId = '';
-  getTeamEntities();
+const onChange = (item, type) => {
+  formState[type] = item.id;
+  if (type === 'teamId') {
+    formState.assigneeId = '';
+    formState.stateId = '';
+    formState.labelId = '';
+    formState.projectId = '';
+    getTeamEntities();
+  }
 };
 
 const createIssue = async () => {
@@ -226,7 +254,11 @@ const createIssue = async () => {
     useAlert(t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CREATE_SUCCESS'));
     onClose();
   } catch (error) {
-    useAlert(t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CREATE_ERROR'));
+    const errorMessage = parseLinearAPIErrorResponse(
+      error,
+      t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CREATE_ERROR')
+    );
+    useAlert(errorMessage);
   } finally {
     isCreating.value = false;
   }

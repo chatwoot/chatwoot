@@ -186,4 +186,12 @@ describe('isAInboxViewRoute', () => {
     expect(isAInboxViewRoute('inbox_view_conversation')).toBe(true);
     expect(isAInboxViewRoute('inbox_conversation')).toBe(false);
   });
+
+  it('returns true if base inbox view route name is provided and includeBase is true', () => {
+    expect(isAInboxViewRoute('inbox_view', true)).toBe(true);
+  });
+
+  it('returns false if base inbox view route name is provided and includeBase is false', () => {
+    expect(isAInboxViewRoute('inbox_view')).toBe(false);
+  });
 });

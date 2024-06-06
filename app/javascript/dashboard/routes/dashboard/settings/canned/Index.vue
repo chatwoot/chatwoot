@@ -132,12 +132,14 @@
 import { mapGetters } from 'vuex';
 import AddCanned from './AddCanned.vue';
 import EditCanned from './EditCanned.vue';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     AddCanned,
     EditCanned,
   },
+  mixins: [alertMixin],
   data() {
     return {
       loading: {},
@@ -187,13 +189,13 @@ export default {
       });
       this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
     },
-    showAlert(message) {
+    showAlertMessage(message) {
       // Reset loading, current selected agent
       this.loading[this.selectedResponse.id] = false;
       this.selectedResponse = {};
       // Show message
       this.cannedResponseAPI.message = message;
-      bus.$emit('newToastMessage', message);
+      this.showAlert(message);
     },
     // Edit Function
     openAddPopup() {
@@ -230,12 +232,14 @@ export default {
       this.$store
         .dispatch('deleteCannedResponse', id)
         .then(() => {
-          this.showAlert(this.$t('CANNED_MGMT.DELETE.API.SUCCESS_MESSAGE'));
+          this.showAlertMessage(
+            this.$t('CANNED_MGMT.DELETE.API.SUCCESS_MESSAGE')
+          );
         })
         .catch(error => {
           const errorMessage =
             error?.message || this.$t('CANNED_MGMT.DELETE.API.ERROR_MESSAGE');
-          this.showAlert(errorMessage);
+          this.showAlertMessage(errorMessage);
         });
     },
   },

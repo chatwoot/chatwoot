@@ -279,4 +279,45 @@ describe('#getters', () => {
       expect(getters.getContextMenuChatId(state)).toEqual(1);
     });
   });
+
+  describe('#getChatListFilters', () => {
+    it('get chat list filters', () => {
+      const conversationFilters = {
+        inboxId: 1,
+        assigneeType: 'me',
+        status: 'open',
+        sortBy: 'created_at',
+        page: 1,
+        labels: ['label'],
+        teamId: 1,
+        conversationType: 'mention',
+      };
+      const state = { conversationFilters: conversationFilters };
+      expect(getters.getChatListFilters(state)).toEqual(conversationFilters);
+    });
+  });
+
+  describe('#getAppliedConversationFiltersQuery', () => {
+    it('get applied conversation filters query', () => {
+      const filtersList = [
+        {
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: [{ id: 'snoozed', name: 'Snoozed' }],
+          query_operator: 'and',
+        },
+      ];
+      const state = { appliedFilters: filtersList };
+      expect(getters.getAppliedConversationFiltersQuery(state)).toEqual({
+        payload: [
+          {
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            query_operator: undefined,
+            values: ['snoozed'],
+          },
+        ],
+      });
+    });
+  });
 });
