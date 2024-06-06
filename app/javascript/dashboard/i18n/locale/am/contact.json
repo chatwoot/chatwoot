@@ -369,7 +369,7 @@
       "ATTRIBUTE_WARNING": "Contact details of <strong>%{primaryContactName}</strong> will be copied to <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "ERROR_MESSAGE"
+      "ERROR_MESSAGE": "Could not search contacts, try again!"
     },
     "FORM": {
       "SUBMIT": " Merge contacts",

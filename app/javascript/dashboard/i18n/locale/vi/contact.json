@@ -414,7 +414,7 @@
       "ATTRIBUTE_WARNING": "\bChi tiết khách hàng của <strong>%{primaryContactName}</strong> \bsẽ được sao chép đến <strong>%{parentContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "ERROR_MESSAGE"
+      "ERROR_MESSAGE": "Không thể tìm kiếm khách hàng, thử lại!"
     },
     "FORM": {
       "SUBMIT": " Hợp nhất các khách hàng",

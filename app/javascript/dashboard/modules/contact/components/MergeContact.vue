@@ -152,6 +152,7 @@ export default {
   data() {
     return {
       parentContact: undefined,
+      searchTimeout: null,
     };
   },
 
@@ -162,7 +163,11 @@ export default {
   },
   methods: {
     searchChange(query) {
-      this.$emit('search', query);
+      clearTimeout(this.searchTimeout);
+
+      this.searchTimeout = setTimeout(() => {
+        this.$emit('search', query);
+      }, 500);
     },
     onSubmit() {
       this.$v.$touch();
