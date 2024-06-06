@@ -37,7 +37,7 @@ export default {
       path: frontendURL('accounts/:accountId/reports'),
       component: SettingsContent,
       props: {
-        headerTitle: 'TRIGGERS_REPORTS.HEADER',
+        headerTitle: 'TRIGGER_REPORTS.HEADER',
         icon: 'arrow-trending-lines',
         keepAlive: false,
       },
