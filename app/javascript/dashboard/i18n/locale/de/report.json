@@ -467,6 +467,22 @@
       "OFFLINE": "Offline"
     }
   },
+  "TRIGGERS_REPORTS": {
+    "HEADER": "Auslöser",
+    "SUBTITLE": "Auslöserbericht",
+    "GRAPH_COLUMN_LABEL": "Auslöser",
+    "METRICS": {
+      "TOTAL": {
+        "NAME": "Auslöser"
+      },
+      "PROCESSED": {
+        "NAME": "Gesendete Nachrichten"
+      },
+      "UNPROCESSED": {
+        "NAME": "Unverarbeitete Nachrichten"
+      }
+    }
+  },
   "DAYS_OF_WEEK": {
     "SUNDAY": "Sunday",
     "MONDAY": "Monday",

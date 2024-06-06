@@ -438,8 +438,22 @@
       "OFFLINE": "Offline"
     }
   },
-  "TRIGGERS_REPORTS": {
-    "HEADER": "Triggers"
+  "TRIGGER_REPORTS": {
+    "HEADER": "Triggers",
+    "SUBTITLE": "Triggers Report",
+    "GRAPH_COLUMN_LABEL": "Triggers",
+    "GRAPH_TITLE": "Triggers Graph",
+    "METRICS": {
+      "TOTAL": {
+        "NAME": "Triggers"
+      },
+      "PROCESSED": {
+        "NAME": "Messages Sent"
+      },
+      "UNPROCESSED": {
+        "NAME": "Unprocessed Messages"
+      }
+    }
   },
   "DAYS_OF_WEEK": {
     "SUNDAY": "Sunday",

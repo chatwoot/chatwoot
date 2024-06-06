@@ -467,8 +467,22 @@
       "OFFLINE": "Ausente"
     }
   },
-  "TRIGGERS_REPORTS": {
-    "HEADER": "Disparos"
+  "TRIGGER_REPORTS": {
+    "HEADER": "Disparos",
+    "SUBTITLE": "Relatório de disparos",
+    "GRAPH_TITLE": "Gráfico de disparos",
+    "GRAPH_COLUMN_LABEL": "Disparos",
+    "METRICS": {
+      "TOTAL": {
+        "NAME": "Disparos"
+      },
+      "PROCESSED": {
+        "NAME": "Mensagens enviadas"
+      },
+      "UNPROCESSED": {
+        "NAME": "Mensagens não processadas"
+      }
+    }
   },
   "DAYS_OF_WEEK": {
     "SUNDAY": "Domingo",
