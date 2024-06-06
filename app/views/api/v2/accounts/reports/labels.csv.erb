@@ -1,4 +1,4 @@
-<%= CSVSafe.generate_line [I18n.t('reports.period', since: Date.strptime(params[:since], '%s'), until: Date.strptime(params[:until], '%s'))] %>
+<%= CSVSafe.generate_line [I18n.t('reports.period', since: DateTime.strptime(params[:since], '%s').in_time_zone('Asia/Kolkata').to_date, until: DateTime.strptime(params[:until], '%s').in_time_zone('Asia/Kolkata').to_date)] %>
 
 <% headers = [
     I18n.t('reports.label_csv.label_title'),
