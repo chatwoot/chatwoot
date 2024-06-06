@@ -144,7 +144,11 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   def fetch_previous_messages
     return [] if @previous_conversation.blank?
 
-    @previous_conversation.messages.map { |message| message.attributes.except('id', 'conversation_id') }
+    @previous_conversation.messages.map do |message|
+      message.attributes.except('id', 'conversation_id').merge(
+        additional_attributes: (message.additional_attributes || {}).merge(ignore_automation_rules: true)
+      )
+    end
   end
 
   def conversation_params
