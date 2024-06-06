@@ -13,8 +13,8 @@ mysql_default: &mysql_default
   adapter: mysql2
   encoding: utf8mb4
   collation: utf8mb4_unicode_ci
-  host: <%= ENV.fetch('MYSQL_HOST', 'localhost') %>
-  port: <%= ENV.fetch('MYSQL_PORT',
+  host: <%= ENV.fetch('MYSQL_HOST', '127.0.0.1') %>
+  port: <%= ENV.fetch('MYSQL_PORT', '3306') %>
 
 development:
   primary:
