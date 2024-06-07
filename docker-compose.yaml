@@ -90,6 +90,7 @@ services:
     volumes:
       - postgres:/data/postgres
     environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust 
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=
