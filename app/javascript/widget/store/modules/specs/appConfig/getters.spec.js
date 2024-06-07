@@ -13,10 +13,10 @@ describe('#getters', () => {
       expect(getters.getReferrerHost(state)).toEqual('www.chatwoot.com');
     });
   });
-  describe('#getShowUnreadMessagesPopup', () => {
+  describe('#getShowUnreadMessagesDialog', () => {
     it('returns correct value', () => {
-      const state = { showUnreadMessagesPopup: true };
-      expect(getters.getShowUnreadMessagesPopup(state)).toEqual(true);
+      const state = { showUnreadMessagesDialog: true };
+      expect(getters.getShowUnreadMessagesDialog(state)).toEqual(true);
     });
   });
 });

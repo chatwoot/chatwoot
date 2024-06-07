@@ -10,7 +10,7 @@ import {
 const state = {
   hideMessageBubble: false,
   isCampaignViewClicked: false,
-  showUnreadMessagesPopup: true,
+  showUnreadMessagesDialog: true,
   isWebWidgetTriggered: false,
   isWidgetOpen: false,
   position: 'right',
@@ -30,7 +30,7 @@ export const getters = {
   getReferrerHost: $state => $state.referrerHost,
   isWidgetStyleFlat: $state => $state.widgetStyle === 'flat',
   darkMode: $state => $state.darkMode,
-  getShowUnreadMessagesPopup: $state => $state.showUnreadMessagesPopup,
+  getShowUnreadMessagesDialog: $state => $state.showUnreadMessagesDialog,
 };
 
 export const actions = {
@@ -40,7 +40,7 @@ export const actions = {
       showPopoutButton,
       position,
       hideMessageBubble,
-      showUnreadMessagesPopup,
+      showUnreadMessagesDialog,
       widgetStyle = 'rounded',
       darkMode = 'light',
     }
@@ -49,7 +49,7 @@ export const actions = {
       hideMessageBubble: !!hideMessageBubble,
       position: position || 'right',
       showPopoutButton: !!showPopoutButton,
-      showUnreadMessagesPopup: !!showUnreadMessagesPopup,
+      showUnreadMessagesDialog: !!showUnreadMessagesDialog,
       widgetStyle,
       darkMode,
     });
@@ -79,7 +79,7 @@ export const mutations = {
     $state.widgetStyle = data.widgetStyle;
     $state.darkMode = data.darkMode;
     $state.locale = data.locale || $state.locale;
-    $state.showUnreadMessagesPopup = data.showUnreadMessagesPopup;
+    $state.showUnreadMessagesDialog = data.showUnreadMessagesDialog;
   },
   [TOGGLE_WIDGET_OPEN]($state, isWidgetOpen) {
     $state.isWidgetOpen = isWidgetOpen;

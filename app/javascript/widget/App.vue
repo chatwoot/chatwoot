@@ -71,7 +71,7 @@ export default {
       messageCount: 'conversation/getMessageCount',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
       isWidgetStyleFlat: 'appConfig/isWidgetStyleFlat',
-      showUnreadMessagesPopup: 'appConfig/getShowUnreadMessagesPopup',
+      showUnreadMessagesDialog: 'appConfig/getShowUnreadMessagesDialog',
     }),
     isIFrame() {
       return IFrameHelper.isIFrame();
@@ -210,7 +210,7 @@ export default {
     },
     setUnreadView() {
       const { unreadMessageCount } = this;
-      if (!this.showUnreadMessagesPopup) {
+      if (!this.showUnreadMessagesDialog) {
         this.handleUnreadNotificationDot();
       } else if (
         this.isIFrame &&
