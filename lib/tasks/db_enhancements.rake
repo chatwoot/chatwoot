@@ -16,6 +16,9 @@ db_namespace = namespace :db do
   desc 'Runs setup if database does not exist, or runs migrations if it does'
   task chatwoot_prepare: :load_config do
     ActiveRecord::Base.configurations.configs_for(env_name: Rails.env).each do |db_config|
+      # Verifique se o banco de dados é PostgreSQL
+      next unless postgresql_database?(db_config.configuration_hash)
+
       ActiveRecord::Base.establish_connection(db_config.configuration_hash)
       unless ActiveRecord::Base.connection.table_exists? 'ar_internal_metadata'
         db_namespace['load_config'].invoke if ActiveRecord::Base.schema_format == :ruby
@@ -28,4 +31,8 @@ db_namespace = namespace :db do
       db_namespace['setup'].invoke
     end
   end
+end
+
+def postgresql_database?(config)
+  config[:adapter] == 'postgresql'
 end
