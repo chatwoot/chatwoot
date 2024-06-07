@@ -12,8 +12,8 @@ class Api::V1::Accounts::Microsoft::AuthorizationsController < Api::V1::Accounts
       }
     )
     if redirect_url
-      email = email.downcase
-      ::Redis::Alfred.setex(email, Current.account.id, 5.minutes)
+      cache_key = "microsoft::#{email.downcase}"
+      ::Redis::Alfred.setex(cache_key, Current.account.id, 5.minutes)
       render json: { success: true, url: redirect_url }
     else
       render json: { success: false }, status: :unprocessable_entity
