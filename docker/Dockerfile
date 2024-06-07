@@ -25,6 +25,8 @@ RUN apk update && apk add --no-cache \
   tzdata \
   postgresql-dev \
   postgresql-client \
+  mysql-dev \
+  mysql-client \
   nodejs-current \
   yarn \
   git \
@@ -75,7 +77,6 @@ RUN rm -rf /gems/ruby/3.2.0/cache/*.gem \
 # final build stage
 FROM ruby:3.2.2-alpine3.18
 
-
 ARG BUNDLE_WITHOUT="development:test"
 ENV BUNDLE_WITHOUT ${BUNDLE_WITHOUT}
 ENV BUNDLER_VERSION=2.1.2
@@ -98,6 +99,7 @@ RUN apk update && apk add --no-cache \
   openssl \
   tzdata \
   postgresql-client \
+  mysql-client \
   imagemagick \
   git \
   vips \

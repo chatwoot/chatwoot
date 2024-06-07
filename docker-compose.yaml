@@ -33,6 +33,7 @@ services:
       - webpack
       - mailhog
       - sidekiq
+      - mysql
     ports:
       - 3000:3000
     env_file: .env
@@ -105,6 +106,19 @@ services:
     ports:
       - '6379:6379'
 
+  mysql:
+    image: mysql:8.0
+    restart: always
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'password!123'
+      MYSQL_DATABASE: chatwoot
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 'password!123'
+    volumes:
+      - mysql:/var/lib/mysql
+
   mailhog:
     image: mailhog/mailhog
     ports:
@@ -118,3 +132,4 @@ volumes:
   node_modules:
   cache:
   bundle:
+  mysql:
