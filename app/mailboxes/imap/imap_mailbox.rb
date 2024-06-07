@@ -9,12 +9,6 @@ class Imap::ImapMailbox
     load_inbox
     decorate_mail
 
-    # return if the email is an auto-reply
-    return if @processed_mail.auto_reply?
-
-    # prevent loop from chatwoot notification emails
-    return if notification_email_from_chatwoot?
-
     # Stop processing if email format doesn't match Chatwoot supported mail format
     return unless email_from_valid_email?
 
@@ -41,15 +35,21 @@ class Imap::ImapMailbox
   end
 
   def email_from_valid_email?
-    Rails.logger.info("Processing Email from: #{@processed_mail.original_sender} : inbox #{@inbox.id}")
+    Rails.logger.info("Processing Email from: #{@processed_mail.original_sender} : inbox #{@inbox.id} : message_id #{@processed_mail.message_id}")
+
+    # return if the email is an auto-reply
+    if @processed_mail.auto_reply?
+      Rails.logger.info "is_auto_reply? : #{processed_mail.auto_reply?}"
+      return false
+    end
+
+    # prevent loop from chatwoot notification emails
+    return false if notification_email_from_chatwoot?
 
     # validate email with  Devise.email_regexp
-    if Devise.email_regexp.match?(@processed_mail.original_sender)
-      true
-    else
-      Rails.logger.error("Email from: #{@processed_mail.original_sender} : inbox #{@inbox.id} is invalid")
-      false
-    end
+    return false unless Devise.email_regexp.match?(@processed_mail.original_sender)
+
+    true
   end
 
   def find_conversation_by_in_reply_to
