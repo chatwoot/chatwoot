@@ -1,5 +1,6 @@
 class Imap::ImapMailbox
   include MailboxHelper
+  include IncomingEmailValidityHelper
   attr_accessor :channel, :account, :inbox, :conversation, :processed_mail
 
   def process(mail, channel)
@@ -9,7 +10,9 @@ class Imap::ImapMailbox
     load_inbox
     decorate_mail
 
-    # Stop processing if email format doesn't match Chatwoot supported mail format
+    Rails.logger.info("Processing Email from: #{@processed_mail.original_sender} : inbox #{@inbox.id} : message_id #{@processed_mail.message_id}")
+
+    # Skip processing email if it belongs to any of the edge cases
     return unless email_from_valid_email?
 
     ActiveRecord::Base.transaction do
@@ -32,24 +35,6 @@ class Imap::ImapMailbox
 
   def decorate_mail
     @processed_mail = MailPresenter.new(@inbound_mail, @account)
-  end
-
-  def email_from_valid_email?
-    Rails.logger.info("Processing Email from: #{@processed_mail.original_sender} : inbox #{@inbox.id} : message_id #{@processed_mail.message_id}")
-
-    # return if the email is an auto-reply
-    if @processed_mail.auto_reply?
-      Rails.logger.info "is_auto_reply? : #{processed_mail.auto_reply?}"
-      return false
-    end
-
-    # prevent loop from chatwoot notification emails
-    return false if notification_email_from_chatwoot?
-
-    # validate email with  Devise.email_regexp
-    return false unless Devise.email_regexp.match?(@processed_mail.original_sender)
-
-    true
   end
 
   def find_conversation_by_in_reply_to
