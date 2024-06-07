@@ -11,6 +11,10 @@ class SupportMailbox < ApplicationMailbox
 
     # to turn off spam conversation creation
     return unless @account.active?
+
+    # return if the email is an auto-reply
+    return if @processed_mail.auto_reply?
+
     # prevent loop from chatwoot notification emails
     return if notification_email_from_chatwoot?
 

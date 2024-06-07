@@ -9,6 +9,9 @@ class Imap::ImapMailbox
     load_inbox
     decorate_mail
 
+    # return if the email is an auto-reply
+    return if @processed_mail.auto_reply?
+
     # prevent loop from chatwoot notification emails
     return if notification_email_from_chatwoot?
 
