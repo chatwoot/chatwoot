@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>
-      <%= @global_config['INSTALLATION_NAME'] %>
+      <%= "Omnihit" || @global_config['INSTALLATION_NAME'] %>
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=0"/>
     <% if @global_config['DISPLAY_MANIFEST'] %>
@@ -23,9 +23,7 @@
       <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
       <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
       <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
-      <link class="favicon" rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
       <link class="favicon" rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-      <link class="favicon" rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
       <link rel="manifest" href="/manifest.json">
     <% end %>
     <link rel="icon" type="image/png" sizes="512x512" href="<%= @global_config['LOGO_THUMBNAIL'] %>">
