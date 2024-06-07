@@ -27,7 +27,7 @@
             />
           </span>
           <woot-button
-            v-if="showCopyAndDeleteButton"
+            v-if="showActions && value"
             v-tooltip.left="$t('CUSTOM_ATTRIBUTES.ACTIONS.DELETE')"
             variant="link"
             size="medium"
@@ -90,7 +90,7 @@
         </p>
         <div class="flex max-w-[2rem] gap-1 ml-1 rtl:mr-1 rtl:ml-0">
           <woot-button
-            v-if="showCopyAndDeleteButton"
+            v-if="showActions && value"
             v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.COPY')"
             variant="link"
             size="small"
@@ -100,7 +100,7 @@
             @click="onCopy"
           />
           <woot-button
-            v-if="showEditButton"
+            v-if="showActions"
             v-tooltip.right="$t('CUSTOM_ATTRIBUTES.ACTIONS.EDIT')"
             variant="link"
             size="small"
@@ -174,12 +174,6 @@ export default {
     };
   },
   computed: {
-    showCopyAndDeleteButton() {
-      return this.value && this.showActions;
-    },
-    showEditButton() {
-      return !this.value && this.showActions;
-    },
     displayValue() {
       if (this.isAttributeTypeDate) {
         return this.value
@@ -276,10 +270,10 @@ export default {
   },
   mounted() {
     this.editedValue = this.formattedValue;
-    bus.$on(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
+    this.$emitter.on(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
   },
   destroyed() {
-    bus.$off(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
+    this.$emitter.off(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
   },
   methods: {
     onFocusAttribute(focusAttributeKey) {

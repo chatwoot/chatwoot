@@ -167,17 +167,29 @@ export default {
     };
   },
   mounted() {
-    bus.$on(CMD_BULK_ACTION_SNOOZE_CONVERSATION, this.onCmdSnoozeConversation);
-    bus.$on(CMD_BULK_ACTION_REOPEN_CONVERSATION, this.onCmdReopenConversation);
-    bus.$on(
+    this.$emitter.on(
+      CMD_BULK_ACTION_SNOOZE_CONVERSATION,
+      this.onCmdSnoozeConversation
+    );
+    this.$emitter.on(
+      CMD_BULK_ACTION_REOPEN_CONVERSATION,
+      this.onCmdReopenConversation
+    );
+    this.$emitter.on(
       CMD_BULK_ACTION_RESOLVE_CONVERSATION,
       this.onCmdResolveConversation
     );
   },
   destroyed() {
-    bus.$off(CMD_BULK_ACTION_SNOOZE_CONVERSATION, this.onCmdSnoozeConversation);
-    bus.$off(CMD_BULK_ACTION_REOPEN_CONVERSATION, this.onCmdReopenConversation);
-    bus.$off(
+    this.$emitter.off(
+      CMD_BULK_ACTION_SNOOZE_CONVERSATION,
+      this.onCmdSnoozeConversation
+    );
+    this.$emitter.off(
+      CMD_BULK_ACTION_REOPEN_CONVERSATION,
+      this.onCmdReopenConversation
+    );
+    this.$emitter.off(
       CMD_BULK_ACTION_RESOLVE_CONVERSATION,
       this.onCmdResolveConversation
     );

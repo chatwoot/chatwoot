@@ -11,6 +11,7 @@ import {
   ICON_REOPEN_CONVERSATION,
   ICON_RESOLVE_CONVERSATION,
 } from './CommandBarIcons';
+import { emitter } from 'shared/helpers/mitt';
 
 import { createSnoozeHandlers } from './commandBarActions';
 
@@ -37,7 +38,7 @@ export const RESOLVED_CONVERSATION_BULK_ACTIONS = [
     title: 'COMMAND_BAR.COMMANDS.REOPEN_CONVERSATION',
     section: 'COMMAND_BAR.SECTIONS.BULK_ACTIONS',
     icon: ICON_REOPEN_CONVERSATION,
-    handler: () => bus.$emit(CMD_BULK_ACTION_REOPEN_CONVERSATION),
+    handler: () => emitter.emit(CMD_BULK_ACTION_REOPEN_CONVERSATION),
   },
 ];
 
@@ -47,7 +48,7 @@ export const OPEN_CONVERSATION_BULK_ACTIONS = [
     title: 'COMMAND_BAR.COMMANDS.RESOLVE_CONVERSATION',
     section: 'COMMAND_BAR.SECTIONS.BULK_ACTIONS',
     icon: ICON_RESOLVE_CONVERSATION,
-    handler: () => bus.$emit(CMD_BULK_ACTION_RESOLVE_CONVERSATION),
+    handler: () => emitter.emit(CMD_BULK_ACTION_RESOLVE_CONVERSATION),
   },
 ];
 

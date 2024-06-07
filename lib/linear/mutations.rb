@@ -3,7 +3,7 @@ module Linear::Mutations
     case value
     when String
       # Strings must be enclosed in double quotes
-      "\"#{value}\""
+      "\"#{value.gsub("\n", '\\n')}\""
     when Array
       # Arrays need to be recursively converted
       "[#{value.map { |v| graphql_value(v) }.join(', ')}]"

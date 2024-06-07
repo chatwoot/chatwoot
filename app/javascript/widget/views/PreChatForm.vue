@@ -16,7 +16,7 @@ export default {
   },
   mixins: [configMixin, routerMixin],
   mounted() {
-    bus.$on(ON_CONVERSATION_CREATED, () => {
+    this.$emitter.on(ON_CONVERSATION_CREATED, () => {
       // Redirect to messages page after conversation is created
       this.replaceRoute('messages');
     });
@@ -32,7 +32,7 @@ export default {
       conversationCustomAttributes,
     }) {
       if (activeCampaignId) {
-        bus.$emit('execute-campaign', {
+        this.$emitter.emit('execute-campaign', {
           campaignId: activeCampaignId,
           customAttributes: conversationCustomAttributes,
         });
