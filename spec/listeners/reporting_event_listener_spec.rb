@@ -101,7 +101,7 @@ describe ReportingEventListener do
         listener.first_reply_created(event)
         reporting_event = account.reporting_events.where(name: 'first_response').first
         expect(reporting_event.value_in_business_hours).to be 144_000.0
-        expect(reporting_event.user_id).to be user.sender_id
+        expect(reporting_event.user_id).to be new_message.sender_id
       end
     end
 
