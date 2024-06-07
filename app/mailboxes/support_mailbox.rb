@@ -11,7 +11,7 @@ class SupportMailbox < ApplicationMailbox
     Rails.logger.info "Processing email #{mail.message_id} from #{original_sender_email} to #{mail.to} with subject #{mail.subject}"
 
     # Skip processing email if it belongs to any of the edge cases
-    return unless email_from_valid_email?
+    return unless incoming_email_from_valid_email?
 
     ActiveRecord::Base.transaction do
       find_or_create_contact

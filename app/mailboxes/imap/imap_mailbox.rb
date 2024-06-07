@@ -13,7 +13,7 @@ class Imap::ImapMailbox
     Rails.logger.info("Processing Email from: #{@processed_mail.original_sender} : inbox #{@inbox.id} : message_id #{@processed_mail.message_id}")
 
     # Skip processing email if it belongs to any of the edge cases
-    return unless email_from_valid_email?
+    return unless incoming_email_from_valid_email?
 
     ActiveRecord::Base.transaction do
       find_or_create_contact
