@@ -13,7 +13,8 @@
   I18n.t('reports.conversation_report_csv.resolution_time_minutes'),
   I18n.t('reports.conversation_report_csv.labels')
 ] %>
-<%= CSVSafe.generate_line headers -%>
+
+<%= CSVSafe.generate_line headers %>
 <% @report_data.each do |row| %>
-  <%= CSV.generate_line row -%>
+  <%= CSVSafe.generate_line(row).html_safe %>
 <% end %>

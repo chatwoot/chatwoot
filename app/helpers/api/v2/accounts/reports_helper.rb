@@ -83,7 +83,10 @@ module Api::V2::Accounts::ReportsHelper
     current_range = range[:current]
     range_start = DateTime.strptime(current_range[:since].to_s, '%s')
     range_end = DateTime.strptime(current_range[:until].to_s, '%s')
-    key = params[:business_hours].present? && params[:business_hours] ? 'value_in_business_hours' : 'value'
+    key = params[:business_hours].present? && (params[:business_hours] == 'true') ? 'value_in_business_hours' : 'value'
+
+    Rails.logger.info "key_for_query: #{key}"
+    Rails.logger.info "params[:business_hours]: #{params[:business_hours]}"
 
     # Using ActiveRecord::Base directly for sanitization
     sql = <<-SQL.squish
