@@ -8,7 +8,7 @@
       :header-title="$t('INBOX_MGMT.ADD.EMAIL_PROVIDER.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.EMAIL_PROVIDER.DESCRIPTION')"
     />
-    <div class="grid grid-cols-4 max-w-3xl mx-0 mt-6">
+    <div class="grid max-w-3xl grid-cols-4 mx-0 mt-6">
       <channel-selector
         v-for="emailProvider in emailProviderList"
         :key="emailProvider.key"
