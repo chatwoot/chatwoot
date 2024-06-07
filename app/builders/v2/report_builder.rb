@@ -54,6 +54,14 @@ class V2::ReportBuilder
     end
   end
 
+  def triggers_metrics
+    {
+      total: account.triggers.count,
+      unprocessed: account.triggers.where(processedAt: nil).count,
+      processed: account.triggers.where.not(processedAt: nil).count
+    }
+  end
+
   private
 
   def metric_valid?
@@ -61,8 +69,9 @@ class V2::ReportBuilder
        incoming_messages_count
        outgoing_messages_count
        avg_first_response_time
-       avg_resolution_time reply_time
+       avg_resolution_time
        resolutions_count
+       triggers
        reply_time].include?(params[:metric])
   end
 

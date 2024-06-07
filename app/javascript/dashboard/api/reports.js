@@ -84,6 +84,10 @@ class ReportsAPI extends ApiClient {
       params: { since, until, business_hours: businessHours },
     });
   }
+
+  getTriggersMetricsReport() {
+    return axios.get(`${this.url}/triggers`);
+  }
 }
 
 export default new ReportsAPI();

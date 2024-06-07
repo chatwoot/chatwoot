@@ -49,6 +49,10 @@ module ReportHelper
                                                                                conversations: { status: :resolved }, created_at: range).distinct
   end
 
+  def triggers
+    scope.triggers.where(createdAt: range).pluck(:createdAt, :id)
+  end
+
   def avg_first_response_time
     grouped_reporting_events = (get_grouped_values scope.reporting_events.where(name: 'first_response', account_id: account.id))
     return grouped_reporting_events.average(:value_in_business_hours) if params[:business_hours]

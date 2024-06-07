@@ -294,6 +294,7 @@ Rails.application.routes.draw do
             get :teams
             get :conversations
             get :conversation_traffic
+            get :triggers
           end
         end
       end

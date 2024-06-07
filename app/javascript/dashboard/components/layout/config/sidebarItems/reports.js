@@ -4,6 +4,7 @@ const reports = accountId => ({
   parentNav: 'reports',
   routes: [
     'account_overview_reports',
+    'triggers_reports',
     'conversation_reports',
     'csat_reports',
     'agent_reports',
@@ -18,6 +19,13 @@ const reports = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/reports/overview`),
       toStateName: 'account_overview_reports',
+    },
+    {
+      icon: 'arrow-trending-lines',
+      label: 'TRIGGER_REPORTS',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/reports/triggers`),
+      toStateName: 'triggers_reports',
     },
     {
       icon: 'chat',
