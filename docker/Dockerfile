@@ -100,6 +100,7 @@ RUN apk update && apk add --no-cache \
   tzdata \
   postgresql-client \
   mysql-client \
+  mysql-dev \
   imagemagick \
   git \
   vips \
