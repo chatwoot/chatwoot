@@ -52,6 +52,7 @@ gem 'image_processing'
 
 ##-- gems for database --#
 gem 'groupdate'
+gem 'mysql2', '0.5.6'
 gem 'pg'
 gem 'redis'
 gem 'redis-namespace'
