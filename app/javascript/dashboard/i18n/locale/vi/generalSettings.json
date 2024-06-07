@@ -115,7 +115,7 @@
       "REMOVE_LABEL": "Xoá nhãn khỏi hội thoại",
       "SETTINGS": "Cài đặt",
       "AI_ASSIST": "Thư ký AI",
-      "APPEARANCE": "Appearance",
+      "APPEARANCE": "Kiểu giao diện",
       "SNOOZE_NOTIFICATION": "Snooze Notification"
     },
     "COMMANDS": {
@@ -154,10 +154,10 @@
       "UNTIL_NEXT_MONTH": "Cho đến tháng sau",
       "AN_HOUR_FROM_NOW": "Sau một giờ",
       "CUSTOM": "Tùy chỉnh thời gian...",
-      "CHANGE_APPEARANCE": "Change Appearance",
-      "LIGHT_MODE": "Light",
-      "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "System",
+      "CHANGE_APPEARANCE": "Thay đổi giao diện",
+      "LIGHT_MODE": "Giao diện sáng",
+      "DARK_MODE": "Giao diện tối",
+      "SYSTEM_MODE": "Theo hệ thống",
       "SNOOZE_NOTIFICATION": "Snooze Notification"
     }
   },

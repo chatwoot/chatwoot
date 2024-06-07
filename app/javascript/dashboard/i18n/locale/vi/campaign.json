@@ -85,7 +85,7 @@
     },
     "LIST": {
       "LOADING_MESSAGE": "Đang tải chiến dịch...",
-      "404": "Không có chiến dịch được tạo cho hộp thư đến này.",
+      "404": "Không có chiến dịch được tạo cho kênh hội thoại này.",
       "TABLE_HEADER": {
         "TITLE": "Tiêu đề",
         "MESSAGE": "Tin nhắn",
@@ -115,12 +115,12 @@
     "ONE_OFF": {
       "HEADER": "Chiến dịch một lần",
       "404": "Không có chiến dịch một lần nào được tạo",
-      "INBOXES_NOT_FOUND": "Vui lòng tạo một hộp thư đến sms và bắt đầu thêm chiến dịch"
+      "INBOXES_NOT_FOUND": "Vui lòng tạo một kênh hội thoại sms và bắt đầu thêm chiến dịch"
     },
     "ONGOING": {
       "HEADER": "Chiến dịch đang diễn ra",
       "404": "Không có chiến dịch đang diễn ra nào được tạo",
-      "INBOXES_NOT_FOUND": "Vui lòng tạo hộp thư đến cho trang web và bắt đầu thêm chiến dịch"
+      "INBOXES_NOT_FOUND": "Vui lòng tạo kênh hội thoại cho trang web và bắt đầu thêm chiến dịch"
     }
   }
 }

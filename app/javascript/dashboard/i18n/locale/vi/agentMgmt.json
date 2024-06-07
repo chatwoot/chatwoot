@@ -21,7 +21,7 @@
     },
     "ADD": {
       "TITLE": "Thêm người dùng vào nhóm của bạn",
-      "DESC": "Bạn có thể thêm những người có thể xử lý hỗ trợ cho hộp thư đến của bạn.",
+      "DESC": "Bạn có thể thêm những người có thể xử lý hỗ trợ cho kênh hội thoại của bạn.",
       "CANCEL_BUTTON_TEXT": "Huỷ",
       "FORM": {
         "NAME": {

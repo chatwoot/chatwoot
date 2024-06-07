@@ -590,7 +590,11 @@ export default {
     },
     canLocktoSingleConversation() {
       return (
-        this.isASmsInbox || this.isAWhatsAppChannel || this.isAFacebookInbox
+        this.isASmsInbox ||
+        this.isAWhatsAppChannel ||
+        this.isAFacebookInbox ||
+        this.isAZaloOaChannel ||
+        this.isAStringeeChannel
       );
     },
     inboxNameLabel() {

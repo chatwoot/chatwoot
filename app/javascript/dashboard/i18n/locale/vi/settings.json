@@ -1,27 +1,27 @@
 {
   "PROFILE_SETTINGS": {
-    "LINK": "Cài Đặt Hồ Sơ",
-    "TITLE": "Cài Đặt Hồ Sơ",
-    "BTN_TEXT": "Cập Nhật Hồ Sơ",
+    "LINK": "Thiết lập cá nhân",
+    "TITLE": "Thiết lập cá nhân",
+    "BTN_TEXT": "Cập Nhật",
     "DELETE_AVATAR": "Xoá hình đại diện",
     "AVATAR_DELETE_SUCCESS": "Ảnh đại diện đã được xoá thành công",
     "AVATAR_DELETE_FAILED": "Đã xảy ra lỗi khi xoá ảnh đại diện, vui lòng thử lại",
-    "UPDATE_SUCCESS": "Hồ sơ của bạn đã được cập nhật thành công",
+    "UPDATE_SUCCESS": "Thiết lập của bạn đã được cập nhật thành công",
     "PASSWORD_UPDATE_SUCCESS": "Mật khẩu của bạn đã được thay đổi thành công",
-    "AFTER_EMAIL_CHANGED": "Hồ sơ của bạn đã được cập nhật thành công, vui lòng đăng nhập lại khi thông tin đăng nhập của bạn được thay đổi",
+    "AFTER_EMAIL_CHANGED": "Thiết lập của bạn đã được cập nhật thành công, vui lòng đăng nhập lại khi thông tin đăng nhập của bạn được thay đổi",
     "FORM": {
-      "AVATAR": "Hình ảnh hồ sơ cá nhân",
+      "AVATAR": "Hình ảnh đại diện",
       "ERROR": "Vui lòng sửa lỗi biểu mẫu",
       "REMOVE_IMAGE": "Xoá",
       "UPLOAD_IMAGE": "Tải lên hình ảnh",
       "UPDATE_IMAGE": "Cập nhật hình ảnh",
       "PROFILE_SECTION": {
-        "TITLE": "Hồ sơ cá nhân",
-        "NOTE": "Địa chỉ email của bạn là danh tính của bạn và được sử dụng để đăng nhập."
+        "TITLE": "Thông tin cá nhân",
+        "NOTE": "Địa chỉ email là định danh của bạn và được sử dụng để đăng nhập."
       },
       "SEND_MESSAGE": {
         "TITLE": "Phím nóng để gửi tin nhắn",
-        "NOTE": "Bạn có thể chọn một phím nóng (Enter hoặc Cmd/Ctrl+Enter) dựa trên sở thích viết của bạn.",
+        "NOTE": "Bạn có thể chọn một phím nóng (Enter hoặc Cmd/Ctrl+Enter) dựa trên thói quen của bạn.",
         "UPDATE_SUCCESS": "Cài đặt của bạn đã được cập nhật thành công",
         "CARD": {
           "ENTER_KEY": {
@@ -36,7 +36,7 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Chữ ký tin nhắn cá nhân",
-        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
+        "NOTE": "Tạo chữ ký tin nhắn để chèn vào cuối mỗi tin nhắn bạn gửi từ bất kỳ kênh hội thoại nào. Bạn cũng có thể chèn hình ảnh vào chữ ký, hình ảnh được hỗ trợ trong website live-chat, email và API.",
         "BTN_TEXT": "Lưu chữ ký tin nhắn",
         "API_ERROR": "Không thể lưu chữ ký! Thử lại",
         "API_SUCCESS": "Chữ ký được lưu thành công",
@@ -59,31 +59,31 @@
         "NOTE": "Có thể sử dụng Token này nếu bạn đang xây dựng tích hợp dựa trên API"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Âm thanh Thông báo",
-        "NOTE": "Bật âm thanh thông báo trong trang tổng quan cho các tin nhắn và cuộc trò chuyện mới.",
+        "TITLE": "Thông báo bằng âm thanh",
+        "NOTE": "Bật âm thanh thông báo cho tin nhắn và cuộc hội thoại mới.",
         "ALERT_TYPE": {
-          "TITLE": "Sự kiện cảnh báo:",
+          "TITLE": "Sự kiện cần thông báo:",
           "NONE": "Không có",
-          "ASSIGNED": "Cuộc trò chuyện được phân công",
-          "ALL_CONVERSATIONS": "Tất cả cuộc trò chuyện"
+          "ASSIGNED": "Cuộc hội thoại được phân công",
+          "ALL_CONVERSATIONS": "Tất cả cuộc hội thoại"
         },
         "DEFAULT_TONE": {
           "TITLE": "Âm báo:"
         },
         "CONDITIONS": {
-          "TITLE": "Điều kiện cảnh báo:",
-          "CONDITION_ONE": "Chỉ gửi cảnh báo âm thanh nếu cửa sổ trình duyệt không hoạt động",
-          "CONDITION_TWO": "Gửi thông báo cứ sau 30 giây cho đến khi tất cả các cuộc hội thoại được chỉ định được đọc"
+          "TITLE": "Điều kiện để thông báo:",
+          "CONDITION_ONE": "Chỉ gửi thông báo âm thanh nếu cửa sổ trình duyệt không hoạt động",
+          "CONDITION_TWO": "Gửi thông báo cứ sau 30 giây cho đến khi tất cả các cuộc hội thoại phân công được đọc"
         }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Thông Báo Email",
+        "TITLE": "Thông báo qua email",
         "NOTE": "Cập nhật tùy chọn thông báo qua email của bạn tại đây",
-        "CONVERSATION_ASSIGNMENT": "Gửi thông báo qua email khi cuộc trò chuyện được chỉ định cho tôi",
-        "CONVERSATION_CREATION": "Gửi thông báo qua email khi cuộc trò chuyện mới được tạo",
-        "CONVERSATION_MENTION": "Gửi thông báo email khi bạn được nhắc đến trong 1 cuộc trò chuyện",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Gửi thông báo email khi có một tin nhắn mới được tạo trong cuộc trò chuyện được phân công",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
+        "CONVERSATION_ASSIGNMENT": "Gửi thông báo qua email khi cuộc hội thoại được chỉ định cho tôi",
+        "CONVERSATION_CREATION": "Gửi thông báo qua email khi cuộc hội thoại mới được tạo",
+        "CONVERSATION_MENTION": "Gửi thông báo email khi tôi được nhắc đến trong cuộc hội thoại",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Gửi thông báo email khi có tin nhắn mới được tạo trong cuộc hội thoại được phân công",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Gửi thông báo email khi có tin nhắn mới được tạo trong cuộc hội thoại đang tham gia",
         "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
         "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
@@ -93,15 +93,15 @@
         "UPDATE_ERROR": "Đã xảy ra lỗi khi cập nhật tùy chọn, vui lòng thử lại"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Thông Báo",
-        "NOTE": "Cập nhật tùy chọn thông báo của bạn tại đây",
-        "CONVERSATION_ASSIGNMENT": "Gửi thông báo khi cuộc trò chuyện được chỉ định cho tôi",
-        "CONVERSATION_CREATION": "Gửi thông báo khi cuộc trò chuyện mới được tạo",
-        "CONVERSATION_MENTION": "Gửi thông báo đẩy khi bạn được nhắc đến trong 1 cuộc trò chuyện",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Gửi thông báo đẩy khi có một tin nhắn mới được tạo trong cuộc trò chuyện được phân công",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
+        "TITLE": "Thông báo đẩy",
+        "NOTE": "Thông báo hiển thị ở góc trên bên phải trình duyệt, cần yêu cầu trình duyệt cấp quyền nhận thông báo cho ứng dụng",
+        "CONVERSATION_ASSIGNMENT": "Gửi thông báo khi cuộc hội thoại được chỉ định cho tôi",
+        "CONVERSATION_CREATION": "Gửi thông báo khi cuộc hội thoại mới được tạo",
+        "CONVERSATION_MENTION": "Gửi thông báo khi tôi được nhắc đến trong cuộc hội thoại",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Gửi thông báo khi có tin nhắn mới được tạo trong cuộc hội thoại được phân công",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Gửi thông báo khi có tin nhắn mới được tạo trong cuộc hội thoại đang tham gia",
         "HAS_ENABLED_PUSH": "Bạn đã bật tính năng thông báo cho trình duyệt này.",
-        "REQUEST_PUSH": "Bật thông báo",
+        "REQUEST_PUSH": "Yêu cầu trình duyệt cấp quyền nhận thông báo",
         "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
         "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
@@ -117,7 +117,7 @@
       "DISPLAY_NAME": {
         "LABEL": "Tên hiển thị",
         "ERROR": "Vui lòng nhập tên hiển thị hợp lệ",
-        "PLACEHOLDER": "Vui lòng nhập tên hiển thị, tên này sẽ được hiển thị trong các cuộc trò chuyện"
+        "PLACEHOLDER": "Vui lòng nhập tên hiển thị, tên này sẽ được hiển thị trong các cuộc hội thoại"
       },
       "AVAILABILITY": {
         "LABEL": "Khả dụng",
@@ -132,7 +132,7 @@
       "EMAIL": {
         "LABEL": "Địa chỉ email của bạn",
         "ERROR": "Vui lòng nhập một địa chỉ email hợp lệ",
-        "PLACEHOLDER": "Vui lòng nhập địa chỉ email của bạn, địa chỉ này sẽ được hiển thị trong các cuộc trò chuyện"
+        "PLACEHOLDER": "Vui lòng nhập địa chỉ email của bạn, địa chỉ này sẽ được hiển thị trong các cuộc hội thoại"
       },
       "CURRENT_PASSWORD": {
         "LABEL": "Mật khẩu hiện tại",
@@ -156,10 +156,10 @@
     "CHANGE_ACCOUNTS": "Chuyển tài khoản",
     "CONTACT_SUPPORT": "Liên hệ Hỗ trợ",
     "SELECTOR_SUBTITLE": "Chọn một tài khoản từ danh sách sau",
-    "PROFILE_SETTINGS": "Cài Đặt Hồ Sơ Cá Nhân",
-    "KEYBOARD_SHORTCUTS": "Phím tắt",
-    "APPEARANCE": "Change Appearance",
-    "SUPER_ADMIN_CONSOLE": "Bảng điều khiển dành cho quản trị viên cấp cao",
+    "PROFILE_SETTINGS": "Thiết lập cá nhân",
+    "KEYBOARD_SHORTCUTS": "Tra cứu Phím tắt",
+    "APPEARANCE": "Thay đổi giao diện",
+    "SUPER_ADMIN_CONSOLE": "Bảng điều khiển quản trị",
     "LOGOUT": "Đăng xuất"
   },
   "APP_GLOBAL": {
@@ -199,7 +199,7 @@
   "CONFIRM_EMAIL": "Đang xác thực...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Thêm Hộp thư đến"
+      "NEW_INBOX": "Thêm kênh hội thoại"
     }
   },
   "SIDEBAR": {
@@ -256,7 +256,7 @@
     "REPORTS_LABEL": "Hội thoại theo nhãn",
     "REPORTS_INBOX": "Hội thoại theo kênh",
     "REPORTS_TEAM": "Hội thoại theo nhóm",
-    "SET_AVAILABILITY_TITLE": "Đặt chính mình như",
+    "SET_AVAILABILITY_TITLE": "Chọn tình trạng online",
     "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Tổng quan hội thoại",
@@ -272,8 +272,8 @@
       "CATEGORY_EMPTY_MESSAGE": "Không tìm thấy danh mục nào"
     },
     "SET_AUTO_OFFLINE": {
-      "TEXT": "Tự động đánh dấu ngoại tuyến",
-      "INFO_TEXT": "Hãy để hệ thống tự động đánh dấu bạn ngoại tuyến khi bạn không sử dụng ứng dụng hoặc trang tổng quan."
+      "TEXT": "Tự động chuyển sang ngoại tuyến",
+      "INFO_TEXT": "Hãy để hệ thống tự động chuyển bạn sang tình trạng ngoại tuyến khi không sử dụng ứng dụng hoặc trang hội thoại."
     },
     "DOCS": "Đọc tài liệu"
   },

@@ -97,7 +97,7 @@ vi:
       sla_policy_breached: SLA Policy
       assignee: Assignee
       team: Nhóm
-      inbox: Hộp thư đến
+      inbox: Kênh hội thoại
       labels: Nhãn
       conversation_link: Link to the Conversation
       breached_events: Breached Events
@@ -252,7 +252,7 @@ vi:
       email: Email
       phone_number: Phone
       company_name: Công ty
-      inbox_name: Hộp thư đến
+      inbox_name: Kênh hội thoại
       inbox_type: Inbox Type
     button: Mở cuộc trò chuyện
   time_units:

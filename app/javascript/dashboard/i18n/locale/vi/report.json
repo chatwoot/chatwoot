@@ -279,11 +279,11 @@
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "Tổng quan hộp thư đến",
+    "HEADER": "Tổng quan kênh hội thoại",
     "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
     "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau.",
-    "DOWNLOAD_INBOX_REPORTS": "Tải xuống báo cáo hộp thư đến",
-    "FILTER_DROPDOWN_LABEL": "Chọn Hộp thư đến",
+    "DOWNLOAD_INBOX_REPORTS": "Tải xuống báo cáo kênh hội thoại",
+    "FILTER_DROPDOWN_LABEL": "Chọn kênh hội thoại",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Các cuộc hội thoại",
@@ -562,7 +562,7 @@
         "TEAMS": "Tên nhóm"
       },
       "SLA": "SLA Policy",
-      "INBOXES": "Hộp thư đến",
+      "INBOXES": "Kênh hội thoại",
       "AGENTS": "Nhà cung cấp",
       "LABELS": "Nhãn",
       "TEAMS": "Nhóm"

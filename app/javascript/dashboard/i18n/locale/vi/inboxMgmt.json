@@ -1,9 +1,9 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Hộp thư đến",
-    "SIDEBAR_TXT": "<p><b>Hộp thư đến</b></p> <p> Khi bạn kết nối một trang web hoặc một Trang facebook với Chatwoot, nó được gọi là <b>Hộp thư đến</b>. Bạn có thể có hộp thư đến không giới hạn trong tài khoản Chatwoot của mình. </p><p> Click vào <b>Thêm hộp thư đến</b> để kết nối một trang web hoặc một Trang Facebook. </p><p> Trong Trang tổng quan, bạn có thể xem tất cả các cuộc hội thoại từ tất cả các hộp thư đến của mình ở một nơi duy nhất và trả lời chúng trong tab `Cuộc trò chuyện`. </p><p> Bạn cũng có thể xem các cuộc hội thoại dành riêng cho một hộp thư đến bằng cách nhấp vào tên hộp thư đến trên ngăn bên trái của trang tổng quan. </p>",
+    "HEADER": "Kênh hội thoại",
+    "SIDEBAR_TXT": "<p><b>Kênh hội thoại</b></p> <p> Khi bạn kết nối một trang web hoặc một Trang facebook với Chatwoot, nó được gọi là <b>Kênh hội thoại</b>. Bạn có thể có kênh hội thoại không giới hạn trong tài khoản Chatwoot của mình. </p><p> Click vào <b>Thêm kênh hội thoại</b> để kết nối một trang web hoặc một Trang Facebook. </p><p> Trong Trang tổng quan, bạn có thể xem tất cả các cuộc hội thoại từ tất cả các kênh hội thoại của mình ở một nơi duy nhất và trả lời chúng trong tab `Cuộc hội thoại`. </p><p> Bạn cũng có thể xem các cuộc hội thoại dành riêng cho một kênh hội thoại bằng cách nhấp vào tên kênh hội thoại trên ngăn bên trái của trang tổng quan. </p>",
     "LIST": {
-      "404": "Không có hộp thư đến nào được đính kèm với tài khoản này."
+      "404": "Không có kênh hội thoại nào được đính kèm với tài khoản này."
     },
     "CREATE_FLOW": [
       {
@@ -12,14 +12,14 @@
         "body": "Chọn kênh liên hệ bạn muốn tích hợp với Chatwoot."
       },
       {
-        "title": "Tạo Hộp thư đến",
+        "title": "Tạo Kênh hội thoại",
         "route": "settings_inboxes_page_channel",
-        "body": "Xác thực tài khoản của bạn và tạo hộp thư đến."
+        "body": "Xác thực tài khoản của bạn và tạo kênh hội thoại."
       },
       {
         "title": "Thêm người dùng",
         "route": "settings_inboxes_add_agents",
-        "body": "Thêm người dùng vào hộp thư đến đã tạo."
+        "body": "Thêm người dùng vào kênh hội thoại đã tạo."
       },
       {
         "title": "Tới rồi!",
@@ -29,7 +29,7 @@
     ],
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Tên hộp thư đến",
+        "LABEL": "Tên kênh hội thoại",
         "PLACEHOLDER": "Nhập tên kênh của bạn (ví dụ: WebA)",
         "ERROR": "Vui lòng nhập tên kênh hợp lệ"
       },
@@ -41,23 +41,23 @@
         "HELP": "Lưu ý: Bằng cách đăng nhập, chúng tôi chỉ có quyền truy cập vào các tin nhắn trên Trang của bạn. Chatwoot không bao giờ có thể truy cập tin nhắn riêng tư của bạn.",
         "CHOOSE_PAGE": "Chọn trang",
         "CHOOSE_PLACEHOLDER": "Chọn một trang từ danh sách",
-        "INBOX_NAME": "Tên hộp thư đến",
-        "ADD_NAME": "Thêm tên cho hộp thư đến của bạn",
-        "PICK_NAME": "Chọn tên Hộp thư đến của bạn",
+        "INBOX_NAME": "Tên kênh hội thoại",
+        "ADD_NAME": "Thêm tên cho kênh hội thoại của bạn",
+        "PICK_NAME": "Chọn tên Kênh hội thoại của bạn",
         "PICK_A_VALUE": "Chọn một giá trị"
       },
       "ZALO": {
         "HELP": "Lưu ý: Bằng cách đăng nhập, chúng tôi chỉ có quyền truy cập vào các tin nhắn trong trang Zalo OA của bạn. Chatwoot không bao giờ có thể truy cập tin nhắn riêng tư của bạn.",
-        "INBOX_NAME": "Tên hộp thư đến",
-        "ADD_NAME": "Thêm tên cho hộp thư đến của bạn",
-        "PICK_NAME": "Chọn tên Hộp thư đến của bạn",
+        "INBOX_NAME": "Tên kênh hội thoại",
+        "ADD_NAME": "Thêm tên cho kênh hội thoại của bạn",
+        "PICK_NAME": "Chọn tên Kênh hội thoại của bạn",
         "PICK_A_VALUE": "Chọn một giá trị"
       },
       "TWITTER": {
         "HELP": "Để thêm hồ sơ Twitter của bạn làm kênh, bạn cần xác thực Hồ sơ Twitter của mình bằng cách nhấp vào 'Đăng nhập bằng Twitter",
         "ERROR_MESSAGE": "Đã xảy ra lỗi khi kết nối đến Twitter, vui lòng thử lại",
         "TWEETS": {
-          "ENABLE": "Tạo cuộc trò chuyện từ các dòng Tweet được nhắn đến"
+          "ENABLE": "Tạo cuộc hội thoại từ các dòng Tweet được nhắn đến"
         }
       },
       "WEBSITE_CHANNEL": {
@@ -99,13 +99,13 @@
           "IN_A_FEW_MINUTES": "Trong một vài phút",
           "IN_A_FEW_HOURS": "Trong một vài giờ",
           "IN_A_DAY": "Trong một ngày",
-          "HELP_TEXT": "Thời gian trả lời này sẽ được hiển thị trên tiện ích trò chuyện trực tiếp"
+          "HELP_TEXT": "Thời gian trả lời này sẽ được hiển thị trên cửa sổ website live-chat"
         },
         "WIDGET_COLOR": {
           "LABEL": "Màu tiện ích",
           "PLACEHOLDER": "Cập nhật màu tiện ích con được sử dụng trong tiện ích con"
         },
-        "SUBMIT_BUTTON": "Tạo hộp thư đến",
+        "SUBMIT_BUTTON": "Tạo kênh hội thoại",
         "API": {
           "ERROR_MESSAGE": "Chúng tôi không thể tạo kênh trang web, vui lòng thử lại"
         }
@@ -145,8 +145,8 @@
           "ERROR": "Trường này là bắt buộc"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Tên hộp thư đến",
-          "PLACEHOLDER": "Vui lòng điền tên hộp thư đến",
+          "LABEL": "Tên kênh hội thoại",
+          "PLACEHOLDER": "Vui lòng điền tên kênh hội thoại",
           "ERROR": "Trường này là bắt buộc"
         },
         "PHONE_NUMBER": {
@@ -196,7 +196,7 @@
             "ERROR": "Trường này là bắt buộc"
           },
           "INBOX_NAME": {
-            "LABEL": "Tên hộp thư đến",
+            "LABEL": "Tên kênh hội thoại",
             "PLACEHOLDER": "Vui lòng điền tên kênh",
             "ERROR": "Trường này là bắt buộc"
           },
@@ -225,7 +225,7 @@
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
-          "LABEL": "Tên hộp thư đến",
+          "LABEL": "Tên kênh hội thoại",
           "PLACEHOLDER": "Vui lòng điền tên kênh",
           "ERROR": "Trường này là bắt buộc"
         },
@@ -304,7 +304,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Kênh Email",
-        "DESC": "Tích hợp hộp thư đến email của bạn.",
+        "DESC": "Tích hợp kênh hội thoại email của bạn.",
         "CHANNEL_NAME": {
           "LABEL": "Tên kênh",
           "PLACEHOLDER": "Vui lòng nhập tên kênh",
@@ -369,17 +369,17 @@
       },
       "AGENTS": {
         "TITLE": "Nhà Cung Cấp",
-        "DESC": "Tại đây bạn có thể thêm các tác nhân để quản lý hộp thư đến mới tạo của mình. Chỉ những người dùng được chọn này mới có quyền truy cập vào hộp thư đến của bạn. Các nhân viên không thuộc hộp thư đến này sẽ không thể xem hoặc trả lời thư trong hộp thư đến này khi họ đăng nhập. <br> <b>PS:</b> Với tư cách là quản trị viên, nếu bạn cần quyền truy cập vào tất cả các hộp thư đến, bạn nên thêm mình làm người dùng cho tất cả các hộp thư đến mà bạn tạo.",
-        "VALIDATION_ERROR": "Thêm ít nhất một người dùng vào hộp thư đến mới của bạn",
-        "PICK_AGENTS": "Chọn người dùng cho hộp thư đến"
+        "DESC": "Tại đây bạn có thể thêm các tác nhân để quản lý kênh hội thoại mới tạo của mình. Chỉ những người dùng được chọn này mới có quyền truy cập vào kênh hội thoại của bạn. Các nhân viên không thuộc kênh hội thoại này sẽ không thể xem hoặc trả lời thư trong kênh hội thoại này khi họ đăng nhập. <br> <b>PS:</b> Với tư cách là quản trị viên, nếu bạn cần quyền truy cập vào tất cả các kênh hội thoại, bạn nên thêm mình làm người dùng cho tất cả các kênh hội thoại mà bạn tạo.",
+        "VALIDATION_ERROR": "Thêm ít nhất một người dùng vào kênh hội thoại mới của bạn",
+        "PICK_AGENTS": "Chọn người dùng cho kênh hội thoại"
       },
       "DETAILS": {
-        "TITLE": "Chi tiết Hộp thư đến",
-        "DESC": "Từ menu thả xuống bên dưới, chọn Trang Facebook bạn muốn kết nối với Chatwoot. Bạn cũng có thể đặt tên tùy chỉnh cho hộp thư đến của mình để nhận dạng tốt hơn."
+        "TITLE": "Chi tiết Kênh hội thoại",
+        "DESC": "Từ menu thả xuống bên dưới, chọn Trang Facebook bạn muốn kết nối với Chatwoot. Bạn cũng có thể đặt tên tùy chỉnh cho kênh hội thoại của mình để nhận dạng tốt hơn."
       },
       "FINISH": {
         "TITLE": "Đúng rồi!",
-        "DESC": "Bạn đã tích hợp thành công Trang Facebook của mình với Chatwoot. Lần tới khi khách hàng nhắn tin cho Trang của bạn, cuộc trò chuyện sẽ tự động xuất hiện trong hộp thư đến của bạn.<br>Chúng tôi cũng đang cung cấp cho bạn tập lệnh widget mà bạn có thể dễ dàng thêm vào trang web của mình. Khi điều này xuất hiện trên trang web của bạn, khách hàng có thể nhắn tin cho bạn ngay từ trang web của bạn mà không cần sự trợ giúp của bất kỳ công cụ bên ngoài nào và cuộc trò chuyện sẽ xuất hiện ngay tại đây, trên Chatwoot.<br>Cool, huh? Well :)"
+        "DESC": "Bạn đã tích hợp thành công Trang Facebook của mình với Chatwoot. Lần tới khi khách hàng nhắn tin cho Trang của bạn, cuộc hội thoại sẽ tự động xuất hiện trong kênh hội thoại của bạn.<br>Chúng tôi cũng đang cung cấp cho bạn tập lệnh widget mà bạn có thể dễ dàng thêm vào trang web của mình. Khi điều này xuất hiện trên trang web của bạn, khách hàng có thể nhắn tin cho bạn ngay từ trang web của bạn mà không cần sự trợ giúp của bất kỳ công cụ bên ngoài nào và cuộc hội thoại sẽ xuất hiện ngay tại đây, trên Chatwoot.<br>Cool, huh? Well :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Select your email provider",
@@ -399,27 +399,27 @@
       "ERROR_FB_AUTH": "Đã xảy ra sự cố, Vui lòng làm mới trang...",
       "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
-      "CREATING_CHANNEL": "Tạo Hộp thư đến của bạn...",
-      "TITLE": "Cấu hình chi tiết hộp thư đến",
+      "CREATING_CHANNEL": "Tạo Kênh hội thoại của bạn...",
+      "TITLE": "Cấu hình chi tiết kênh hội thoại",
       "DESC": "",
       "DESC_ZALO": "Bạn có thể lấy tên hộp thư trong Chatwoot là tên Zalo OA của bạn. Bạn cũng có thể điều chỉnh tên hộp thư để nhận dạng tốt hơn."
     },
     "AGENTS": {
       "BUTTON_TEXT": "Thêm các người dùng",
-      "ADD_AGENTS": "Thêm các người dùng vào hộp thư đến của bạn..."
+      "ADD_AGENTS": "Thêm các người dùng vào kênh hội thoại của bạn..."
     },
     "FINISH": {
-      "TITLE": "Hộp thư đến của bạn đã sẵn sàng!",
+      "TITLE": "Kênh hội thoại của bạn đã sẵn sàng!",
       "MESSAGE": "Giờ đây, bạn có thể tương tác với khách hàng thông qua Kênh mới của mình. Chúc vui vẻ ủng hộ",
       "BUTTON_TEXT": "Đưa cho tôi",
       "MORE_SETTINGS": "Nhiều tuỳ chọn hơn",
-      "WEBSITE_SUCCESS": "Bạn đã hoàn thành việc tạo kênh trang web thành công. Sao chép mã được hiển thị bên dưới và dán vào trang web của bạn. Lần tới khi khách hàng sử dụng cuộc trò chuyện trực tiếp, cuộc trò chuyện sẽ tự động xuất hiện trong hộp thư đến của bạn."
+      "WEBSITE_SUCCESS": "Bạn đã hoàn thành việc tạo kênh trang web thành công. Sao chép mã được hiển thị bên dưới và dán vào trang web của bạn. Lần tới khi khách hàng sử dụng cuộc hội thoại trực tiếp, cuộc hội thoại sẽ tự động xuất hiện trong kênh hội thoại của bạn."
     },
     "REAUTH": "Ủy quyền lại",
     "VIEW": "Xem",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Đã cập nhật cài đặt hộp thư đến thành công",
+        "SUCCESS_MESSAGE": "Đã cập nhật cài đặt kênh hội thoại thành công",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Đã cập nhật thành công bài tập tự động",
         "ERROR_MESSAGE": "Chúng tôi không thể cập nhật cài đặt hộp thư. Vui lòng thử lại sau."
       },
@@ -477,10 +477,10 @@
         "NO": "Không, Giữ "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Hộp thư đến đã được xóa thành công",
-        "ERROR_MESSAGE": "Không thể xóa hộp thư đến. Vui lòng thử lại sau.",
-        "AVATAR_SUCCESS_MESSAGE": "Hình đại diện của hộp thư đến đã được xoá thành công",
-        "AVATAR_ERROR_MESSAGE": "Không thể xoá hình đại diện của hộp thư đến. Vui lòng thử lại sau."
+        "SUCCESS_MESSAGE": "Kênh hội thoại đã được xóa thành công",
+        "ERROR_MESSAGE": "Không thể xóa kênh hội thoại. Vui lòng thử lại sau.",
+        "AVATAR_SUCCESS_MESSAGE": "Hình đại diện của kênh hội thoại đã được xoá thành công",
+        "AVATAR_ERROR_MESSAGE": "Không thể xoá hình đại diện của kênh hội thoại. Vui lòng thử lại sau."
       }
     },
     "TABS": {
@@ -488,8 +488,8 @@
       "COLLABORATORS": "Người dùng",
       "CONFIGURATION": "Cấu hình",
       "CAMPAIGN": "Chiến dịch",
-      "PRE_CHAT_FORM": "Biểu mẫu trước khi trò chuyện",
-      "BUSINESS_HOURS": "Giờ làm việc",
+      "PRE_CHAT_FORM": "Biểu mẫu trước khi nhắn tin",
+      "BUSINESS_HOURS": "Khung giờ làm việc",
       "WIDGET_BUILDER": "Trình tạo widget",
       "BOT_CONFIGURATION": "Cấu hình Bot"
     },
@@ -498,7 +498,7 @@
       "LABEL": "Các tính năng",
       "DISPLAY_FILE_PICKER": "Hiển thị bộ chọn tệp trên tiện ích con",
       "DISPLAY_EMOJI_PICKER": "Hiển thị bộ chọn biểu tượng cảm xúc trên tiện ích con",
-      "ALLOW_END_CONVERSATION": "Cho phép người dùng kết thúc cuộc trò chuyện từ công cụ chat",
+      "ALLOW_END_CONVERSATION": "Cho phép người dùng kết thúc cuộc hội thoại từ công cụ chat",
       "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
@@ -511,30 +511,30 @@
       "AGENT_ASSIGNMENT_SUB_TEXT": "Cập nhật phân công trực kênh",
       "UPDATE": "Cập nhật",
       "ENABLE_EMAIL_COLLECT_BOX": "Bật hộp thu thập email",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Bật hoặc tắt hộp thu thập email trên cuộc trò chuyện mới",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Bật hoặc tắt hộp thu thập email trên cuộc hội thoại mới",
       "AUTO_ASSIGNMENT": "Bật tự động phân công",
       "ENABLE_CSAT": "Bật chỉ số đo lường sự hài lòng khách hàng",
       "SENDER_NAME_SECTION": "Enable Agent Name in Email",
-      "ENABLE_CSAT_SUB_TEXT": "Bật / Tắt khảo sát CSAT (Mức độ hài lòng của khách hàng) sau khi giải quyết cuộc trò chuyện",
+      "ENABLE_CSAT_SUB_TEXT": "Bật / Tắt khảo sát CSAT (Mức độ hài lòng của khách hàng) sau khi giải quyết cuộc hội thoại",
       "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Bật tiếp tục cuộc trò chuyện qua email",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Cuộc trò chuyện sẽ tiếp tục qua email nếu có địa chỉ email liên lạc.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Khóa cuộc trò chuyện duy nhất",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Bật hoặc tắt nhiều cuộc trò chuyện cho cùng một liên hệ trong hộp thư đến này",
-      "INBOX_UPDATE_TITLE": "Cài đặt Hộp thư đến",
-      "INBOX_UPDATE_SUB_TEXT": "Cập nhật cài đặt hộp thư đến của bạn",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Bật tiếp tục cuộc hội thoại qua email",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Cuộc hội thoại sẽ tiếp tục qua email nếu có địa chỉ email liên lạc.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Duy trì một cuộc hội thoại duy nhất với mỗi khách hàng",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Một cuộc hội thoại duy nhất sẽ đơn giản dễ sử dụng, trong khi nhiều cuộc hội thoại giúp quản lý được tình trạng và người phụ trách cho nhiều công việc khác nhau (ticket) cần tương tác với khách hàng",
+      "INBOX_UPDATE_TITLE": "Cài đặt Kênh hội thoại",
+      "INBOX_UPDATE_SUB_TEXT": "Cập nhật cài đặt kênh hội thoại của bạn",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Bật hoặc tắt tính năng tự động phân công cho người dùng đã được phân quyền trong kênh này.",
       "HMAC_VERIFICATION": "Xác thực danh tính người dùng",
       "HMAC_DESCRIPTION": "With this key you can generate a secret token that can be used to verify the identity of your users.",
       "HMAC_LINK_TO_DOCS": "You can read more here.",
       "HMAC_MANDATORY_VERIFICATION": "Bắt buộc Xác thực danh tính người dùng",
       "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests that cannot be verified will be rejected.",
-      "INBOX_IDENTIFIER": "Định danh hộp thư đến",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Dùng token định danh hộp thư đến hiện ở đây để xác thực các ứng dụng khách API của bạn.",
+      "INBOX_IDENTIFIER": "Định danh kênh hội thoại",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Dùng token định danh kênh hội thoại hiện ở đây để xác thực các ứng dụng khách API của bạn.",
       "FORWARD_EMAIL_TITLE": "Chuyển tiếp đến Email",
       "FORWARD_EMAIL_SUB_TEXT": "Bắt đầu chuyển tiếp email của bạn tới địa chỉ email sau.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Cho phép nhắn tin sau khi cuộc trò chuyện được giải quyết",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Cho phép người dùng cuối nhắn tin sau khi cuộc trò chuyện được giải quyết.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Cho phép nhắn tin sau khi cuộc hội thoại được giải quyết",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Cho phép người dùng cuối nhắn tin sau khi cuộc hội thoại được giải quyết.",
       "WHATSAPP_SECTION_SUBHEADER": "Khóa API này được sử dụng để tích hợp với các API WhatsApp.",
       "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "Khoá API",
@@ -546,16 +546,16 @@
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
     "HELP_CENTER": {
-      "LABEL": "Help Center",
-      "PLACEHOLDER": "Select Help Center",
-      "SELECT_PLACEHOLDER": "Select Help Center",
-      "REMOVE": "Remove Help Center",
-      "SUB_TEXT": "Attach a Help Center with the inbox"
+      "LABEL": "Trung tâm Hỗ trợ",
+      "PLACEHOLDER": "Chọn trung tâm Hỗ trợ",
+      "SELECT_PLACEHOLDER": "Chọn một trung tâm hỗ trợ",
+      "REMOVE": "Bỏ chọn Trung tâm Hỗ trợ",
+      "SUB_TEXT": "Gắn một trung tâm Hỗ trợ với kênh hội thoại"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Giới hạn tự động phân công tối đa",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Xin nhập vào một số lớn hơn 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Giới hạn số cuộc trò chuyện tối đa từ hộp thư này mà có thể được tự động phân công cho một hỗ trợ viên"
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Giới hạn số cuộc hội thoại tối đa được tự động phân công cho một người phụ trách"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Ủy quyền lại",
@@ -564,8 +564,8 @@
       "MESSAGE_ERROR": "Đã có lỗi, vui lòng thử lại"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Biểu mẫu trước khi trò chuyện cho phép bạn nắm bắt thông tin người dùng trước khi họ bắt đầu cuộc trò chuyện với bạn.",
-      "SET_FIELDS": "Những ô cần điền vào trước cuộc trò chuyện",
+      "DESCRIPTION": "Biểu mẫu trước khi nhắn tin cho phép bạn nắm bắt thông tin người dùng trước khi họ bắt đầu cuộc hội thoại với bạn.",
+      "SET_FIELDS": "Những ô cần điền vào trước cuộc hội thoại",
       "SET_FIELDS_HEADER": {
         "FIELDS": "Ô cần điền",
         "LABEL": "Nhãn",
@@ -575,34 +575,34 @@
         "REQUIRED": "Bắt buộc"
       },
       "ENABLE": {
-        "LABEL": "Bật biểu mẫu trước khi trò chuyện",
+        "LABEL": "Bật biểu mẫu trước khi nhắn tin",
         "OPTIONS": {
           "ENABLED": "Có",
           "DISABLED": "Không"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Tin nhắn trước khi trò chuyện",
-        "PLACEHOLDER": "Tin nhắn này sẽ hiện cho những người dùng cùng với biểu mẫu"
+        "LABEL": "Tin nhắn trước cuộc hội thoại",
+        "PLACEHOLDER": "Tin nhắn này sẽ hiển thị cho những người dùng cùng với biểu mẫu"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Khách truy cập nên cung cấp tên và địa chỉ email của họ trước khi bắt đầu trò chuyện"
+        "LABEL": "Khách hàng cần cung cấp tên và địa chỉ email trước khi bắt đầu nhắn tin"
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Đặt tính khả dụng của bạn",
-      "SUBTITLE": "Đặt tính khả dụng của bạn trên tiện ích trò chuyện trực tiếp",
-      "WEEKLY_TITLE": "Đặt giờ hàng tuần của bạn",
+      "TITLE": "Thiết lập thời gian tương tác",
+      "SUBTITLE": "Thiết lập khung thời gian có thể tương tác với khách hàng",
+      "WEEKLY_TITLE": "Thiết lập làm việc khung giờ trong tuần",
       "TIMEZONE_LABEL": "Chọn múi giờ",
-      "UPDATE": "Cập nhật tuỳ chỉnh giờ làm việc",
-      "TOGGLE_AVAILABILITY": "Kích hoạt tính khả dụng của doanh nghiệp cho hộp thư đến này",
-      "UNAVAILABLE_MESSAGE_LABEL": "Thông báo không có sẵn cho khách truy cập",
-      "TOGGLE_HELP": "Việc kích hoạt tính khả dụng của doanh nghiệp sẽ hiển thị giờ có sẵn trên tiện ích trò chuyện trực tiếp ngay cả khi tất cả các người dùng đều ngoại tuyến. Ngoài giờ có sẵn, khách truy cập có thể được cảnh báo bằng thông điệp và biểu mẫu trò chuyện trước.",
+      "UPDATE": "Cập nhật khung giờ làm việc",
+      "TOGGLE_AVAILABILITY": "Bật thiết lập khung giờ làm việc của doanh nghiệp cho kênh hội thoại này",
+      "UNAVAILABLE_MESSAGE_LABEL": "Thông báo khi khách hàng liên lạc ngoài giờ",
+      "TOGGLE_HELP": "Khung giờ làm việc sẽ hiển thị lên cửa sổ nhắn tin của kênh website live-chat, khách hàng cũng nhận được thông báo khi liên lạc ngoài khung giờ làm việc.",
       "DAY": {
-        "ENABLE": "Kích hoạt tính khả dụng cho hôm nay",
-        "UNAVAILABLE": "Không có sẵn",
+        "ENABLE": "Kích hoạt khung giờ cho hôm nay",
+        "UNAVAILABLE": "Không làm việc",
         "HOURS": "giờ",
-        "VALIDATION_ERROR": "Giờ bắt đầu nên trước giờ đóng cửa.",
+        "VALIDATION_ERROR": "Giờ bắt đầu nên trước giờ kết thúc.",
         "CHOOSE": "Chọn"
       },
       "ALL_DAY": "Cả ngày"
@@ -612,7 +612,7 @@
       "SUBTITLE": "Đặt chi tiết IMAP",
       "NOTE_TEXT": "Để bật chế độ SMTP, xin hãy cấu hình IMAP.",
       "UPDATE": "Cập nhật chi tiết IMAP",
-      "TOGGLE_AVAILABILITY": "Kích hoạt cấu hình IMAP cho hộp thư đến này",
+      "TOGGLE_AVAILABILITY": "Kích hoạt cấu hình IMAP cho kênh hội thoại này",
       "TOGGLE_HELP": "Kích hoạt IMAP sẽ giúp cho người dùng nhận được email",
       "EDIT": {
         "SUCCESS_MESSAGE": "Tuỳ chỉnh IMAP được cập nhật thành công",
@@ -644,7 +644,7 @@
       "TITLE": "STMP",
       "SUBTITLE": "Đặt chi tiết SMTP",
       "UPDATE": "Cập nhật tuỳ chỉnh SMTP",
-      "TOGGLE_AVAILABILITY": "Kích hoạt cấu hình SMTP cho hộp thư đến này",
+      "TOGGLE_AVAILABILITY": "Kích hoạt cấu hình SMTP cho kênh hội thoại này",
       "TOGGLE_HELP": "Kích hoạt SMTP sẽ giúp cho người dùng gửi email",
       "EDIT": {
         "SUCCESS_MESSAGE": "Tuỳ chỉnh SMTP được cập nhật thành công",
@@ -745,7 +745,7 @@
         "IN_A_DAY": "Thường trả lời trong một ngày"
       },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "Bắt đầu một cuộc trò chuyện",
+        "START_CONVERSATION_BUTTON_TEXT": "Bắt đầu một cuộc hội thoại",
         "CHAT_INPUT_PLACEHOLDER": "Gõ tin nhắn của bạn"
       },
       "BODY": {
