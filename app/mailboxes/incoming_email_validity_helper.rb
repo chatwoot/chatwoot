@@ -2,20 +2,24 @@ module IncomingEmailValidityHelper
   private
 
   def incoming_email_from_valid_email?
-    # to turn off spam conversation creation
-    return false unless @account.active?
+    return false unless valid_external_email_for_active_account?
 
-    # return if the email is an auto-reply
+    # we skip processing auto reply emails like delivery status notifications
+    # out of office replies, etc.
     return false if auto_reply_email?
-
-    # prevent loop from chatwoot notification emails
-    return false if @processed_mail.notification_email_from_chatwoot?
 
     # return if email doesn't have a valid sender
     # This can happen in cases like bounce emails for invalid contact email address
     # TODO: Handle the bounce separately and mark the contact as invalid in case of reply bounces
     # The returned value could be "\"\"" for some email clients
     return false unless Devise.email_regexp.match?(@processed_mail.original_sender)
+
+    true
+  end
+
+  def valid_external_email_for_active_account?
+    return false unless @account.active?
+    return false if @processed_mail.notification_email_from_chatwoot?
 
     true
   end
