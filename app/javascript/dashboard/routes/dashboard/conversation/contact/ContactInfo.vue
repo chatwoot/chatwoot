@@ -51,8 +51,47 @@
             </a>
           </div>
         </div>
+
+        <p v-if="additionalAttributes.description" class="break-words mb-0.5">
+          {{ additionalAttributes.description }}
+        </p>
+        <div class="flex flex-col gap-2 items-start w-full">
+          <contact-info-row
+            :href="contact.phone_number ? `tel:${contact.phone_number}` : ''"
+            :value="contact.phone_number"
+            icon="call"
+            emoji="📞"
+            :title="$t('CONTACT_PANEL.PHONE_NUMBER')"
+            show-copy
+          />
+        </div>
       </div>
       <div class="flex items-center w-full mt-0.5 gap-2">
+        <woot-button
+          v-tooltip="$t('CONTACT_PANEL.NEW_MESSAGE')"
+          title="$t('CONTACT_PANEL.NEW_MESSAGE')"
+          icon="chat"
+          size="small"
+          @click="toggleConversationModal"
+        />
+        <woot-button
+          v-tooltip="$t('EDIT_CONTACT.BUTTON_LABEL')"
+          title="$t('EDIT_CONTACT.BUTTON_LABEL')"
+          icon="edit"
+          variant="smooth"
+          size="small"
+          @click="toggleEditModal"
+        />
+        <woot-button
+          v-tooltip="$t('CONTACT_PANEL.MERGE_CONTACT')"
+          title="$t('CONTACT_PANEL.MERGE_CONTACT')"
+          icon="merge"
+          variant="smooth"
+          size="small"
+          color-scheme="secondary"
+          :disabled="uiFlags.isMerging"
+          @click="openMergeModal"
+        />
         <woot-button
           v-if="isAdmin"
           v-tooltip="$t('DELETE_CONTACT.BUTTON_LABEL')"
@@ -65,6 +104,24 @@
           @click="toggleDeleteModal"
         />
       </div>
+      <edit-contact
+        v-if="showEditModal"
+        :show="showEditModal"
+        :contact="contact"
+        @cancel="toggleEditModal"
+      />
+      <new-conversation
+        v-if="contact.id"
+        :show="showConversationModal"
+        :contact="contact"
+        @cancel="toggleConversationModal"
+      />
+      <contact-merge-modal
+        v-if="showMergeModal"
+        :primary-contact="contact"
+        :show="showMergeModal"
+        @close="toggleMergeModal"
+      />
     </div>
     <woot-delete-modal
       v-if="showDeleteModal"
