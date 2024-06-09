@@ -1,6 +1,7 @@
 import {
   OPERATOR_TYPES_1,
   OPERATOR_TYPES_2,
+  OPERATOR_TYPES_4,
   OPERATOR_TYPES_5,
   OPERATOR_TYPES_6,
 } from 'dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
@@ -62,6 +63,30 @@ const filterTypes = [
     attribute_type: 'standard',
   },
   {
+    attributeKey: 'product_id',
+    attributeI18nKey: 'PRODUCT',
+    inputType: 'search_select',
+    dataType: 'number',
+    filterOperators: OPERATOR_TYPES_2,
+    attribute_type: 'standard',
+  },
+  {
+    attributeKey: 'po_value',
+    attributeI18nKey: 'PO_VALUE',
+    inputType: 'number',
+    dataType: 'number',
+    filterOperators: OPERATOR_TYPES_4,
+    attribute_type: 'standard',
+  },
+  {
+    attributeKey: 'po_date',
+    attributeI18nKey: 'PO_DATE',
+    inputType: 'date',
+    dataType: 'text',
+    filterOperators: OPERATOR_TYPES_5,
+    attribute_type: 'standard',
+  },
+  {
     attributeKey: 'created_at',
     attributeI18nKey: 'CREATED_AT',
     inputType: 'date',
@@ -107,6 +132,18 @@ export const filterAttributeGroups = [
       {
         key: 'assignee_id',
         i18nKey: 'ASSIGNEE_ID',
+      },
+      {
+        key: 'product_id',
+        i18nKey: 'PRODUCT',
+      },
+      {
+        key: 'po_value',
+        i18nKey: 'PO_VALUE',
+      },
+      {
+        key: 'po_date',
+        i18nKey: 'PO_DATE',
       },
       {
         key: 'team_id',

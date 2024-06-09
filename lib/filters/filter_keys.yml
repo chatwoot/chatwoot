@@ -185,6 +185,31 @@ contacts:
       - "not_equal_to"
       - "is_present"
       - "is_not_present"
+  product_id:
+    attribute_type: "standard"
+    data_type: "Number"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "is_present"
+      - "is_not_present"
+  po_value:
+    attribute_type: "standard"
+    data_type: "Number"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "is_present"
+      - "is_not_present"
+      - "is_greater_than"
+      - "is_less_than"
+  po_date:
+    attribute_type: "standard"
+    data_type: "date"
+    filter_operators:
+      - "is_greater_than"
+      - "is_less_than"
+      - "days_before"
   labels:
     attribute_type: "standard"
     data_type: "labels"

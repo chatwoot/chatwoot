@@ -21,11 +21,15 @@
 #  middle_name            :string           default("")
 #  name                   :string           default("")
 #  phone_number           :string
+#  po_date                :datetime
+#  po_note                :string
+#  po_value               :float
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  account_id             :integer          not null
 #  assignee_id            :integer
 #  initial_channel_id     :integer
+#  product_id             :integer
 #  stage_id               :integer
 #  team_id                :integer
 #
@@ -59,6 +63,7 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   belongs_to :account
   belongs_to :stage, optional: true
+  belongs_to :product, optional: true
   belongs_to :team, optional: true
   belongs_to :assignee, class_name: 'User', optional: true, inverse_of: :assigned_contacts
   belongs_to :initial_channel,
@@ -131,6 +136,22 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
     order(
       Arel::Nodes::SqlLiteral.new(
         sanitize_sql_for_order("\"contacts\".\"assignee_id\" #{direction}
+          NULLS LAST")
+      )
+    )
+  }
+  scope :order_on_product_id, lambda { |direction|
+    order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order("\"contacts\".\"product_id\" #{direction}
+          NULLS LAST")
+      )
+    )
+  }
+  scope :order_on_po_value, lambda { |direction|
+    order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order("\"contacts\".\"po_value\" #{direction}
           NULLS LAST")
       )
     )

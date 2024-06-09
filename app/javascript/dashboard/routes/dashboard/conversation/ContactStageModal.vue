@@ -51,6 +51,11 @@
           </label>
         </div>
       </div>
+      <contact-po-form
+        v-if="newStage && newStage.code == 'Won'"
+        :current-contact="currentContact"
+        @contact-data-changed="onContactChanged"
+      />
       <div class="mt-6 flex gap-2 justify-end">
         <woot-button variant="clear" @click.prevent="onClose">
           {{ $t('CONVERSATION.CONTACT_STAGE.CANCEL') }}
@@ -67,8 +72,12 @@
 import { mapGetters } from 'vuex';
 import { required } from 'vuelidate/lib/validators';
 import alertMixin from 'shared/mixins/alertMixin';
+import ContactPoForm from '../contacts/components/ContactPoForm.vue';
 
 export default {
+  components: {
+    ContactPoForm,
+  },
   mixins: [alertMixin],
   props: {
     show: {
@@ -79,6 +88,7 @@ export default {
   data() {
     return {
       newStage: null,
+      contactItem: Object,
     };
   },
   validations: {
@@ -109,10 +119,16 @@ export default {
       if (this.currentContact.stage.id === this.newStage.id) {
         return;
       }
-      const contactItem = {
+      let contactItem = {
         id: this.currentContact.id,
         stage_id: this.newStage.id,
       };
+      if (this.newStage.code === 'Won') {
+        contactItem = {
+          ...contactItem,
+          ...this.contactItem,
+        };
+      }
       this.$store.dispatch('contacts/update', contactItem).then(() => {
         this.showAlert(this.$t('CONVERSATION.CONTACT_STAGE.CHANGE_STAGE'));
         this.onClose();
@@ -120,6 +136,9 @@ export default {
     },
     onClose() {
       this.$emit('close');
+    },
+    onContactChanged(contactItem) {
+      this.contactItem = contactItem;
     },
   },
 };

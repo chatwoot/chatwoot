@@ -15,6 +15,10 @@ end
 json.first_reply_created_at resource.first_reply_created_at
 json.initial_channel_type resource.initial_channel_type
 json.last_stage_changed_at resource.last_stage_changed_at.to_i if resource[:last_stage_changed_at].present?
+json.product resource.product if resource.product.present?
+json.po_date resource.po_date
+json.po_value resource.po_value
+json.po_note resource.po_note
 json.custom_attributes resource.custom_attributes
 json.last_activity_at resource.last_activity_at.to_i if resource[:last_activity_at].present?
 json.created_at resource.created_at.to_i if resource[:created_at].present?

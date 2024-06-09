@@ -101,6 +101,9 @@ export default {
             ? this.currentActionText(item.current_action)
             : null,
           assignee_name: item.assignee ? item.assignee.name : null,
+          product_name: item.product
+            ? `${item.product.short_name} - ${item.product.name}`
+            : null,
         };
       });
     },
@@ -245,6 +248,38 @@ export default {
         key: 'team_name',
         sortBy: this.sortConfig.team_id || '',
         title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.TEAM_NAME'),
+        align: this.isRTLView ? 'right' : 'left',
+      });
+      salesColumn.children.push({
+        field: 'product_name',
+        key: 'product_name',
+        sortBy: this.sortConfig.product_id || '',
+        title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.PRODUCT_NAME'),
+        align: this.isRTLView ? 'right' : 'left',
+      });
+      salesColumn.children.push({
+        field: 'po_value',
+        key: 'po_value',
+        sortBy: this.sortConfig.po_value || '',
+        title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.PO_VALUE'),
+        align: this.isRTLView ? 'right' : 'left',
+      });
+      salesColumn.children.push({
+        field: 'po_date',
+        key: 'po_date',
+        sortBy: this.sortConfig.po_date || '',
+        title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.PO_DATE'),
+        align: this.isRTLView ? 'right' : 'left',
+        renderBodyCell: ({ row }) => {
+          if (row.po_date) return format(new Date(row.po_date), 'dd/MM/yy');
+          return '';
+        },
+      });
+      salesColumn.children.push({
+        field: 'po_note',
+        key: 'po_note',
+        sortBy: this.sortConfig.po_note || '',
+        title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.PO_NOTE'),
         align: this.isRTLView ? 'right' : 'left',
       });
 

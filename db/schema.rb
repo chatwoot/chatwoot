@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_31_084206) do
+ActiveRecord::Schema[7.0].define(version: 2024_06_08_010834) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -453,6 +453,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_31_084206) do
     t.string "initial_channel_type"
     t.datetime "first_reply_created_at"
     t.datetime "last_stage_changed_at"
+    t.integer "product_id"
+    t.datetime "po_date"
+    t.float "po_value"
+    t.string "po_note"
     t.index "lower((email)::text), account_id", name: "index_contacts_on_lower_email_account_id"
     t.index ["account_id", "email", "phone_number", "identifier"], name: "index_contacts_on_nonempty_fields", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
     t.index ["account_id"], name: "index_contacts_on_account_id"

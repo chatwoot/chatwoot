@@ -1,6 +1,6 @@
 {
   "CONTACTS_FILTER": {
-    "TITLE": "Lọc liên hệ",
+    "TITLE": "Tìm kiếm khách hàng",
     "SUBTITLE": "Thêm bộ lọc bên dưới và ấn 'Áp dụng' để tìm kiếm khách hàng.",
     "EDIT_CUSTOM_SEGMENT": "Sửa bộ lọc",
     "CUSTOM_VIEWS_SUBTITLE": "Thêm hoặc xóa bộ lọc khách hàng.",
@@ -39,13 +39,16 @@
       "STAGE": "Giai đoạn",
       "ASSIGNEE_ID": "Người phụ trách",
       "TEAM": "Nhóm phụ trách",
+      "PRODUCT": "Sản phẩm dịch vụ",
+      "PO_VALUE": "Giá trị mua hàng",
+      "PO_DATE": "Ngày mua hàng",
+      "CREATED_AT": "Thời điểm tạo",
+      "LAST_ACTIVITY": "Tương tác cuối",
       "CUSTOM_ATTRIBUTE_LIST": "Danh sách",
       "CUSTOM_ATTRIBUTE_TEXT": "Văn bản",
       "CUSTOM_ATTRIBUTE_NUMBER": "Số",
       "CUSTOM_ATTRIBUTE_LINK": "Liên kết",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-      "CREATED_AT": "Thời điểm tạo",
-      "LAST_ACTIVITY": "Tương tác cuối"
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Thông tin cố định",

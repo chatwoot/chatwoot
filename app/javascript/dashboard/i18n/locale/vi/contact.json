@@ -289,7 +289,11 @@
         "EMAIL_ADDRESS": "Email",
         "INITIAL_CHANNEL": "Tiếp nhận qua kênh",
         "UPDATED_AT": "Cập nhật cuối",
-        "LAST_STAGE_CHANGED": "Chuyển giai đoạn"
+        "LAST_STAGE_CHANGED": "Chuyển giai đoạn",
+        "PRODUCT_NAME" : "Sản phẩm dịch vụ",
+        "PO_VALUE": "Giá trị mua hàng",
+        "PO_DATE": "Ngày mua hàng",
+        "PO_NOTE": "Ghi chú"
       },
       "VIEW_DETAILS": "Xem chi tiết"
     }
