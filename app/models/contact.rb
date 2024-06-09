@@ -75,12 +75,14 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :inboxes, through: :contact_inboxes
   has_many :messages, as: :sender, dependent: :destroy_async
   has_many :notes, dependent: :destroy_async
+  has_many :contact_transactions, dependent: :destroy_async
   before_validation :prepare_contact_attributes, :set_default_stage_id
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event, :dispatch_won_event
   after_destroy_commit :dispatch_destroy_event
   before_save :sync_contact_attributes
   after_save :stage_changed_action, if: :saved_change_to_stage_id?
+  after_save :po_changed_action, if: :saved_change_to_po_info?
 
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
 
@@ -317,5 +319,32 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def stage_changed_action
     update_column(:last_stage_changed_at, DateTime.now.utc) # rubocop:disable Rails/SkipsModelValidations
+  end
+
+  def saved_change_to_po_info?
+    saved_change_to_product_id? ||
+      saved_change_to_po_date? ||
+      saved_change_to_po_value? ||
+      saved_change_to_po_note? ||
+      saved_change_to_custom_attributes
+  end
+
+  def po_changed_action
+    return if product_id.blank? || po_date.blank?
+
+    transaction = contact_transactions.find_or_create_by(account_id: account_id, product_id: product_id, po_date: po_date)
+
+    transaction.update(
+      po_value: po_value,
+      po_note: po_note,
+      custom_attributes: transaction_custom_attributes
+    )
+  end
+
+  def transaction_custom_attributes
+    transaction_ca = {}
+    transaction_ca[:branch] = custom_attributes['branch'] if custom_attributes['branch'].present?
+    transaction_ca[:expected_time] = custom_attributes['expected_time'] if custom_attributes['expected_time'].present?
+    transaction_ca
   end
 end
