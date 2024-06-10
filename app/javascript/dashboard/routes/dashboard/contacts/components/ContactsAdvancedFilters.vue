@@ -165,6 +165,7 @@ export default {
       stages: 'stages/getStages',
       agents: 'agents/getAgents',
       teams: 'teams/getTeams',
+      products: 'products/getProducts',
     }),
     hasAppliedFilters() {
       return this.getAppliedContactFilters.length;
@@ -183,6 +184,8 @@ export default {
   mounted() {
     this.$store.dispatch('stages/get');
     this.$store.dispatch('agents/get');
+    this.$store.dispatch('teams/get');
+    this.$store.dispatch('products/get');
     this.setFilterAttributes();
     if (this.getAppliedContactFilters.length) {
       this.appliedFilters = [...this.getAppliedContactFilters];
@@ -234,7 +237,11 @@ export default {
       return type.attributeModel;
     },
     getInputType(key, operator) {
-      if (key === 'created_at' || key === 'last_activity_at')
+      if (
+        key === 'created_at' ||
+        key === 'last_activity_at' ||
+        key === 'po_date'
+      )
         if (operator === 'days_before') return 'plain_text';
       const type = this.filterTypes.find(filter => filter.attributeKey === key);
       return type?.inputType;
@@ -291,6 +298,8 @@ export default {
           return this.agents;
         case 'team_id':
           return this.teams;
+        case 'product_id':
+          return this.products;
         default:
           return undefined;
       }

@@ -12,6 +12,7 @@ const state = {
     isFetching: false,
     isFetchingItem: false,
     isFetchingInboxes: false,
+    isFetchingTransactions: false,
     isUpdating: false,
     isMerging: false,
     isDeleting: false,

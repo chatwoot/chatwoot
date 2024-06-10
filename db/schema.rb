@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_31_084206) do
+ActiveRecord::Schema[7.0].define(version: 2024_06_09_071033) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -429,6 +429,21 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_31_084206) do
     t.index ["source_id"], name: "index_contact_inboxes_on_source_id"
   end
 
+  create_table "contact_transactions", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "contact_id", null: false
+    t.bigint "product_id", null: false
+    t.datetime "po_date"
+    t.float "po_value"
+    t.string "po_note"
+    t.jsonb "custom_attributes", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_contact_transactions_on_account_id"
+    t.index ["contact_id"], name: "index_contact_transactions_on_contact_id"
+    t.index ["product_id"], name: "index_contact_transactions_on_product_id"
+  end
+
   create_table "contacts", id: :serial, force: :cascade do |t|
     t.string "name", default: ""
     t.string "email"
@@ -453,6 +468,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_31_084206) do
     t.string "initial_channel_type"
     t.datetime "first_reply_created_at"
     t.datetime "last_stage_changed_at"
+    t.integer "product_id"
+    t.datetime "po_date"
+    t.float "po_value"
+    t.string "po_note"
     t.index "lower((email)::text), account_id", name: "index_contacts_on_lower_email_account_id"
     t.index ["account_id", "email", "phone_number", "identifier"], name: "index_contacts_on_nonempty_fields", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
     t.index ["account_id"], name: "index_contacts_on_account_id"

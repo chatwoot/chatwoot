@@ -27,7 +27,7 @@
     "UNREAD_MESSAGE": "Tin nhắn chưa đọc",
     "CLICK_HERE": "Click vào đây",
     "LOADING_INBOXES": "Đang tải kênh hội thoại",
-    "LOADING_CONVERSATIONS": "Đang tải cuộc trò chuyện",
+    "LOADING_CONVERSATIONS": "Đang tải cuộc hội thoại",
     "CANNOT_REPLY": "Bạn không thể trả lời do",
     "24_HOURS_WINDOW": "Giới hạn thời lượng tin nhắn 24 giờ",
     "NOT_ASSIGNED_TO_YOU": "Hội thoại này không được phân công cho bạn. Bạn có muốn phân công hội thoại này cho chính mình?",
@@ -194,7 +194,7 @@
       }
     },
     "VISIBLE_TO_AGENTS": "Lưu ý riêng: Chỉ hiển thị với bạn và nhân viên nội bộ",
-    "CHANGE_STATUS": "Trạng thái cuộc trò chuyện đã thay đổi",
+    "CHANGE_STATUS": "Trạng thái cuộc hội thoại đã thay đổi",
     "CHANGE_STATUS_FAILED": "Thay đổi trạng thái hội thoại không thành công",
     "CHANGE_AGENT": "Người phụ trách cuộc hội thoại đã thay đổi",
     "CHANGE_AGENT_FAILED": "Thay đổi người phụ trách không thành công",
@@ -240,11 +240,11 @@
     }
   },
   "EMAIL_TRANSCRIPT": {
-    "TITLE": "Gửi bản sao của cuộc trò chuyện",
-    "DESC": "Gửi bản sao của cuộc trò chuyện đến địa chỉ email được chỉ định",
+    "TITLE": "Gửi bản sao của cuộc hội thoại",
+    "DESC": "Gửi bản sao của cuộc hội thoại đến địa chỉ email được chỉ định",
     "SUBMIT": "Gửi",
     "CANCEL": "Huỷ",
-    "SEND_EMAIL_SUCCESS": "Bản sao cuộc trò chuyện đã được gửi thành công",
+    "SEND_EMAIL_SUCCESS": "Bản sao cuộc hội thoại đã được gửi thành công",
     "SEND_EMAIL_ERROR": "Có lỗi, xin vui lòng thử lại",
     "FORM": {
       "SEND_TO_CONTACT": "Gửi bản sao cho khách hàng",
@@ -293,7 +293,7 @@
       "CONVERSATION_LABELS": "Nhãn phân loại",
       "CONVERSATION_INFO": "Thông tin bổ sung",
       "CONTACT_ATTRIBUTES": "Thông tin tùy chỉnh",
-      "PREVIOUS_CONVERSATION": "Lịch sử hội thoại",
+      "PREVIOUS_CONVERSATION": "Lịch sử tương tác",
       "MACROS": "Các lệnh tự động"
     }
   },

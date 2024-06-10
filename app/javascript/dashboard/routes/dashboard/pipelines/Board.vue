@@ -43,16 +43,25 @@
         </div>
       </div>
     </Kanban>
+    <contact-po-modal
+      v-if="showContactPoModal"
+      :show="showContactPoModal"
+      :contact-id="movingContactId"
+      @cancel="contactPoModalClosed"
+      @success="contactPoModalClosed"
+    />
   </div>
 </template>
 
 <script>
 import Kanban from '../../../components/Kanban.vue';
 import timeMixin from '../../../mixins/time.js';
+import ContactPoModal from '../contacts/components/ContactPoModal.vue';
 
 export default {
   components: {
     Kanban,
+    ContactPoModal,
   },
   mixins: [timeMixin],
   props: {
@@ -71,6 +80,8 @@ export default {
   },
   data() {
     return {
+      movingContactId: '',
+      showContactPoModal: false,
       statuses: [],
       blocks: [],
     };
@@ -128,14 +139,25 @@ export default {
       this.$emit('on-selected-contact', contactId);
     },
 
-    async updateStage(id, status) {
+    updateStage(id, status) {
+      this.movingContactId = id;
       const stage = this.stages.find(item => item.code === status);
       const contactItem = { id, stage_id: stage.id };
-      await this.$store.dispatch('contacts/update', contactItem);
+
+      if (stage.code === 'Won') this.showContactPoModal = true;
+      else this.$store.dispatch('contacts/update', contactItem);
     },
 
     addContact(stageId) {
       this.$emit('add-contact-click', stageId);
+    },
+
+    contactPoModalClosed() {
+      const stage = this.stages.find(item => item.code === 'Won');
+      const contactItem = { id: this.movingContactId, stage_id: stage.id };
+      this.$store.dispatch('contacts/update', contactItem);
+
+      this.showContactPoModal = !this.showContactPoModal;
     },
   },
 };

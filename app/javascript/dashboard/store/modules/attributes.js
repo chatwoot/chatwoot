@@ -16,6 +16,9 @@ export const getters = {
   getUIFlags(_state) {
     return _state.uiFlags;
   },
+  getAttributeByKey: $state => key => {
+    return $state.records.find(x => x.attribute_key === key);
+  },
   getAttributes: _state => {
     return _state.records;
   },

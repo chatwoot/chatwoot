@@ -4,6 +4,10 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   sort_on :initial_channel_type, type: :string
   sort_on :name, internal_name: :order_on_name, type: :scope, scope_params: [:direction]
   sort_on :phone_number, type: :string
+  sort_on :product_name, internal_name: :order_on_product_id, type: :scope, scope_params: [:direction]
+  sort_on :po_value, internal_name: :order_on_po_value, type: :scope, scope_params: [:direction]
+  sort_on :po_date, type: :date
+  sort_on :po_note, type: :string
   sort_on :last_activity_at, internal_name: :order_on_last_activity_at, type: :scope, scope_params: [:direction]
   sort_on :created_at, internal_name: :order_on_created_at, type: :scope, scope_params: [:direction]
   sort_on :updated_at, internal_name: :order_on_updated_at, type: :scope, scope_params: [:direction]
@@ -172,8 +176,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def permitted_params
-    params.permit(:name, :identifier, :email, :phone_number, :stage_id, :avatar, :blocked, :assignee_id,
-                  :team_id, :avatar_url, additional_attributes: {}, custom_attributes: {})
+    params.permit(:name, :identifier, :email, :phone_number, :stage_id, :avatar, :blocked, :assignee_id, :product_id,
+                  :po_date, :po_note, :po_value, :team_id, :avatar_url, additional_attributes: {}, custom_attributes: {})
   end
 
   def contact_custom_attributes

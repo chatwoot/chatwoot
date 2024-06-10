@@ -261,4 +261,24 @@ export const actions = {
   clearContactFilters({ commit }) {
     commit(types.CLEAR_CONTACT_FILTERS);
   },
+
+  async fetchTransactions({ commit }, contactId) {
+    commit(types.SET_CONTACT_UI_FLAG, { isFetchingTransactions: true });
+    try {
+      const response = await ContactAPI.getTransactions(contactId);
+      const contact = {
+        id: contactId,
+        transactions: response.data.payload,
+      };
+      commit(types.SET_CONTACT_ITEM, contact);
+    } catch (error) {
+      if (error.response?.data?.message) {
+        throw new ExceptionWithMessage(error.response.data.message);
+      } else {
+        throw new Error(error);
+      }
+    } finally {
+      commit(types.SET_CONTACT_UI_FLAG, { isFetchingTransactions: false });
+    }
+  },
 };

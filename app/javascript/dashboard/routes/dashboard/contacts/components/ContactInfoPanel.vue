@@ -84,6 +84,20 @@
               />
             </accordion-item>
           </div>
+          <div v-if="element.name === 'contact_transactions'">
+            <accordion-item
+              :title="$t('CONTACT_PANEL.SIDEBAR_SECTIONS.CONTACT_TRANSACTIONS')"
+              :is-open="isContactSidebarItemOpen('is_ct_cont_trans_open')"
+              @click="
+                value => toggleSidebarUIState('is_ct_cont_trans_open', value)
+              "
+            >
+              <contact-transactions
+                v-if="contact.id"
+                :contact-id="contact.id"
+              />
+            </accordion-item>
+          </div>
         </div>
       </transition-group>
     </draggable>
@@ -99,6 +113,7 @@ import ContactLabel from 'dashboard/routes/dashboard/contacts/components/Contact
 import CustomAttributes from 'dashboard/routes/dashboard/conversation/customAttributes/CustomAttributes.vue';
 import draggable from 'vuedraggable';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import ContactTransactions from './ContactTransactions.vue';
 
 export default {
   components: {
@@ -109,6 +124,7 @@ export default {
     ContactLabel,
     CustomAttributes,
     draggable,
+    ContactTransactions,
   },
   mixins: [uiSettingsMixin],
   props: {

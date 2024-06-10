@@ -9,6 +9,10 @@ export const getters = {
     const contact = $state.records[id];
     return contact || {};
   },
+  getTransactions: $state => id => {
+    const contact = $state.records[id];
+    return contact.transactions || {};
+  },
   getMeta: $state => {
     return $state.meta;
   },

@@ -3,6 +3,7 @@ import { mapGetters } from 'vuex';
 export const DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER = [
   { name: 'previous_conversation' },
   { name: 'conversation_actions' },
+  { name: 'contact_sales_info' },
   { name: 'conversation_participants' },
   { name: 'conversation_info' },
   { name: 'macros' },
@@ -12,6 +13,7 @@ export const DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER = [
   { name: 'contact_attributes' },
   { name: 'contact_labels' },
   { name: 'previous_conversation' },
+  { name: 'contact_transactions' },
 ];
 
 const slugifyChannel = name =>
