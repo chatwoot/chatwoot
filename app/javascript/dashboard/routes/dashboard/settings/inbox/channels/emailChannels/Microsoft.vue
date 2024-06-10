@@ -1,3 +1,34 @@
+<script setup>
+import { ref } from 'vue';
+
+import { useAlert } from 'dashboard/composables';
+import { useI18n } from 'dashboard/composables/useI18n';
+
+import microsoftClient from 'dashboard/api/channel/microsoftClient';
+import SettingsSubPageHeader from '../../../SettingsSubPageHeader.vue';
+
+const { t } = useI18n();
+
+const isRequestingAuthorization = ref(false);
+const email = ref('');
+
+async function requestAuthorization() {
+  try {
+    isRequestingAuthorization.value = true;
+    const response = await microsoftClient.generateAuthorization({
+      email: email.value,
+    });
+    const {
+      data: { url },
+    } = response;
+    window.location.href = url;
+  } catch (error) {
+    useAlert(t('INBOX_MGMT.ADD.MICROSOFT.ERROR_MESSAGE'));
+  } finally {
+    isRequestingAuthorization.value = false;
+  }
+}
+</script>
 <template>
   <div
     class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
@@ -11,10 +42,9 @@
       @submit.prevent="requestAuthorization"
     >
       <woot-input
-        v-model.trim="email"
-        type="text"
+        v-model="email"
+        type="email"
         :placeholder="$t('INBOX_MGMT.ADD.MICROSOFT.EMAIL_PLACEHOLDER')"
-        @blur="$v.email.$touch"
       />
       <woot-submit-button
         icon="brand-twitter"
@@ -25,47 +55,3 @@
     </form>
   </div>
 </template>
-<script>
-import alertMixin from 'shared/mixins/alertMixin';
-import microsoftClient from 'dashboard/api/channel/microsoftClient';
-import SettingsSubPageHeader from '../../../SettingsSubPageHeader.vue';
-import { required, email } from 'vuelidate/lib/validators';
-
-export default {
-  components: { SettingsSubPageHeader },
-  mixins: [alertMixin],
-  data() {
-    return { email: '', isRequestingAuthorization: false };
-  },
-  validations: {
-    email: { required, email },
-  },
-  methods: {
-    async requestAuthorization() {
-      try {
-        this.$v.$touch();
-        if (this.$v.$invalid) return;
-
-        this.isRequestingAuthorization = true;
-        const response = await microsoftClient.generateAuthorization({
-          email: this.email,
-        });
-        const {
-          data: { url },
-        } = response;
-        window.location.href = url;
-      } catch (error) {
-        this.showAlert(this.$t('INBOX_MGMT.ADD.MICROSOFT.ERROR_MESSAGE'));
-      } finally {
-        this.isRequestingAuthorization = false;
-      }
-    },
-  },
-};
-</script>
-
-<style scoped>
-.microsoft--sign-in-form {
-  @apply mt-6;
-}
-</style>
