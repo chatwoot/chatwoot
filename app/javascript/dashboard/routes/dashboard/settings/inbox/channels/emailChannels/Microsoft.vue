@@ -37,10 +37,7 @@ async function requestAuthorization() {
       :header-title="$t('INBOX_MGMT.ADD.MICROSOFT.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.MICROSOFT.DESCRIPTION')"
     />
-    <form
-      class="microsoft--sign-in-form"
-      @submit.prevent="requestAuthorization"
-    >
+    <form class="mt-6" @submit.prevent="requestAuthorization">
       <woot-input
         v-model="email"
         type="email"
