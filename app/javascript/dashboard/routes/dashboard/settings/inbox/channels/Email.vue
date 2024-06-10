@@ -20,12 +20,14 @@
     </div>
   </div>
   <microsoft v-else-if="provider === 'microsoft'" />
+  <google v-else-if="provider === 'google'" />
   <forward-to-option v-else-if="provider === 'other_provider'" />
 </template>
 <script setup>
 import { ref, computed } from 'vue';
 import ForwardToOption from './emailChannels/ForwardToOption.vue';
 import Microsoft from './emailChannels/Microsoft.vue';
+import Google from './emailChannels/Google.vue';
 import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 
@@ -47,6 +49,12 @@ const emailProviderList = computed(() => {
       isEnabled: !!globalConfig.value.azureAppId,
       key: 'microsoft',
       src: '/assets/images/dashboard/channels/microsoft.png',
+    },
+    {
+      title: t('INBOX_MGMT.EMAIL_PROVIDERS.GOOGLE'),
+      isEnabled: !!window.chatwootConfig.googleOAuthClientId,
+      key: 'google',
+      src: '/assets/images/dashboard/channels/google.png',
     },
     {
       title: t('INBOX_MGMT.EMAIL_PROVIDERS.OTHER_PROVIDERS'),
