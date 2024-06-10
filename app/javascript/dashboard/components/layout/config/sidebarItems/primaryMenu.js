@@ -3,7 +3,7 @@ import { frontendURL } from '../../../../helper/URLHelper';
 
 const primaryMenuItems = accountId => [
   {
-    icon: 'mail-inbox',
+    icon: 'board',
     key: 'agentDashboard',
     label: 'AGENT_DASHBOARD',
     featureFlag: FEATURE_FLAGS.CRM,

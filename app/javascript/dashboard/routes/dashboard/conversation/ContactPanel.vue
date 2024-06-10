@@ -76,9 +76,9 @@
           <div v-else-if="element.name === 'contact_sales_info'">
             <accordion-item
               :title="$t('CONTACT_PANEL.SIDEBAR_SECTIONS.CONTACT_SALES_INFO')"
-              :is-open="isContactSidebarItemOpen('is_conv_actions_open')"
+              :is-open="isContactSidebarItemOpen('is_contact_actions_open')"
               @click="
-                value => toggleSidebarUIState('is_conv_actions_open', value)
+                value => toggleSidebarUIState('is_contact_actions_open', value)
               "
             >
               <contact-sales-info :contact="contact" />

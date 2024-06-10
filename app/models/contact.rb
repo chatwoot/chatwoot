@@ -236,7 +236,8 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
       initial_channel_type: initial_channel_type,
       assignee: assignee&.webhook_data,
       team_name: team&.name,
-      stage_code: stage&.code
+      stage_code: stage&.code,
+      product_short_name: product&.short_name
     }
   end
 
