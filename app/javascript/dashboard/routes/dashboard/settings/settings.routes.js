@@ -42,6 +42,7 @@ export default {
     ...billing.routes,
     ...campaigns.routes,
     ...canned.routes,
+    ...csat.routes,
     ...inbox.routes,
     ...integrationapps.routes,
     ...integrations.routes,
@@ -50,7 +51,6 @@ export default {
     ...reports.routes,
     ...sla.routes,
     ...teams.routes,
-    ...csat.routes,
     ...profile.routes,
   ],
 };

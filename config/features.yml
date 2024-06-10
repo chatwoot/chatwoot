@@ -83,5 +83,7 @@
 - name: help_center_embedding_search
   enabled: false
   premium: true
+- name: csat_templates
+  enabled: true
 - name: smart_actions
   enabled: false

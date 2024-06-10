@@ -45,6 +45,50 @@
             />
           </label>
         </div>
+
+        <div class="w-full">
+          <label>
+            {{ $t('AGENT_MGMT.EDIT.FORM.INBOXES.LABEL') }}
+            <multiselect
+              v-model="agentInboxes"
+              :options="inboxesList"
+              track-by="id"
+              label="name"
+              :placeholder="$t('FORMS.MULTISELECT.SELECT')"
+              :multiple="true"
+              :close-on-select="false"
+              :clear-on-select="false"
+              :hide-selected="true"
+              selected-label
+              :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+              deselect-label=""
+              :max-height="160"
+              :option-height="104"
+            />
+            
+          </label>
+        </div>
+        <div class="w-full">
+          <label>
+            {{ $t('AGENT_MGMT.EDIT.FORM.TEAMS.LABEL') }}
+            <multiselect
+              v-model="agentTeams"
+              :options="teamsList"
+              track-by="id"
+              label="name"
+              :placeholder="$t('FORMS.MULTISELECT.SELECT')"
+              :multiple="true"
+              :close-on-select="false"
+              :clear-on-select="false"
+              :hide-selected="true"
+              selected-label
+              :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+              deselect-label=""
+              :max-height="160"
+              :option-height="104"/>
+          </label>
+        </div>
+
         <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
           <div class="w-full">
             <woot-submit-button
@@ -82,6 +126,8 @@ export default {
       agentName: '',
       agentEmail: '',
       agentType: 'agent',
+      agentTeams: [],
+      agentInboxes: [],
       vertical: 'bottom',
       horizontal: 'center',
       roles: [
@@ -100,6 +146,8 @@ export default {
   computed: {
     ...mapGetters({
       uiFlags: 'agents/getUIFlags',
+      teamsList: 'teams/getTeams',
+      inboxesList: 'inboxes/getInboxes',
     }),
   },
   validations: {
@@ -126,6 +174,8 @@ export default {
           name: this.agentName,
           email: this.agentEmail,
           role: this.agentType,
+          team_ids: this.agentTeams.map(team => team.id),
+          inbox_ids: this.agentInboxes.map(inbox => inbox.id),
         });
         this.showAlert(this.$t('AGENT_MGMT.ADD.API.SUCCESS_MESSAGE'));
         this.onClose();

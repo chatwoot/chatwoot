@@ -107,6 +107,8 @@
         :name="currentAgent.name"
         :type="currentAgent.role"
         :email="currentAgent.email"
+        :inboxes="currentAgent.inboxes"
+        :teams="currentAgent.teams"
         :availability="currentAgent.availability_status"
         :on-close="hideEditPopup"
       />

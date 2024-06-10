@@ -20,11 +20,13 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
     )
 
     @agent = builder.perform
+    update_teams_and_inboxes
   end
 
   def update
     @agent.update!(agent_params.slice(:name).compact)
     @agent.current_account_user.update!(agent_params.slice(:role, :availability, :auto_offline).compact)
+    update_teams_and_inboxes
   end
 
   def destroy
@@ -59,6 +61,11 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
 
   private
 
+  def update_teams_and_inboxes
+    @agent.teams = Team.where(id: team_ids) if team_ids.present?
+    @agent.inboxes = Inbox.where(id: inbox_ids) if inbox_ids.present?
+  end
+
   def check_authorization
     super(User)
   end
@@ -73,6 +80,14 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
 
   def new_agent_params
     params.require(:agent).permit(:email, :name, :role, :availability, :auto_offline)
+  end
+
+  def team_ids
+    params[:team_ids] || []
+  end
+
+  def inbox_ids
+    params[:inbox_ids] || []
   end
 
   def agents

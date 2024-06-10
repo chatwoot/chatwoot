@@ -10,3 +10,17 @@ json.custom_attributes resource.custom_attributes if resource.custom_attributes.
 json.name resource.name
 json.role resource.role
 json.thumbnail resource.avatar_url
+
+json.inboxes do
+  json.array! resource.inboxes do |inbox|
+    json.id inbox.id
+    json.name inbox.name
+  end
+end
+
+json.teams do
+  json.array! resource.teams do |team|
+    json.id team.id
+    json.name team.name
+  end
+end

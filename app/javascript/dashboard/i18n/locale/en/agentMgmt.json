@@ -80,6 +80,14 @@
           "PLACEHOLDER": "Please select an availability status",
           "ERROR": "Availability is required"
         },
+        "INBOXES": {
+          "LABEL": "Inboxes",
+          "PLACEHOLDER": "Please select inboxes"
+        },
+        "TEAMS": {
+          "LABEL": "Teams",
+          "PLACEHOLDER": "Please select teams"
+        },
         "SUBMIT": "Edit Agent"
       },
       "BUTTON_TEXT": "Edit",
