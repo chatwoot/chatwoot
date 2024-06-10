@@ -12,11 +12,11 @@
         <woot-input
           v-model="value"
           type="text"
-          :class="{ error: $v.value.$error }"
+          :class="{ error: v$.value.$error }"
           :placeholder="
             $t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.KEY_PLACEHOLDER')
           "
-          @blur="$v.value.$touch"
+          @blur="v$.value.$touch"
         />
       </div>
       <div class="flex flex-row justify-between gap-2 py-2 px-0 w-full">
@@ -27,7 +27,7 @@
           <woot-button variant="clear" @click.prevent="onDismiss">
             {{ $t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.BUTTONS.DISMISS') }}
           </woot-button>
-          <woot-button :is-disabled="$v.value.$invalid">
+          <woot-button :is-disabled="v$.value.$invalid">
             {{ $t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.BUTTONS.FINISH') }}
           </woot-button>
         </div>
@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { useVuelidate } from '@vuelidate/core';
 import { required } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import aiMixin from 'dashboard/mixins/aiMixin';
@@ -46,6 +47,9 @@ import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 export default {
   mixins: [aiMixin, alertMixin, uiSettingsMixin],
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       value: '',

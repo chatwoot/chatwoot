@@ -14,7 +14,7 @@
         v-model.trim="email"
         type="text"
         :placeholder="$t('INBOX_MGMT.ADD.MICROSOFT.EMAIL_PLACEHOLDER')"
-        @blur="$v.email.$touch"
+        @blur="v$.email.$touch"
       />
       <woot-submit-button
         icon="brand-twitter"
@@ -29,11 +29,15 @@
 import alertMixin from 'shared/mixins/alertMixin';
 import microsoftClient from 'dashboard/api/channel/microsoftClient';
 import SettingsSubPageHeader from '../../../SettingsSubPageHeader.vue';
+import { useVuelidate } from '@vuelidate/core';
 import { required, email } from 'vuelidate/lib/validators';
 
 export default {
   components: { SettingsSubPageHeader },
   mixins: [alertMixin],
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return { email: '', isRequestingAuthorization: false };
   },
@@ -43,8 +47,8 @@ export default {
   methods: {
     async requestAuthorization() {
       try {
-        this.$v.$touch();
-        if (this.$v.$invalid) return;
+        this.v$.$touch();
+        if (this.v$.$invalid) return;
 
         this.isRequestingAuthorization = true;
         const response = await microsoftClient.generateAuthorization({

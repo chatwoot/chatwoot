@@ -7,7 +7,7 @@
     />
     <form class="w-full" @submit.prevent="onCreate">
       <div class="w-full">
-        <label :class="{ error: $v.selectedLocale.$error }">
+        <label :class="{ error: v$.selectedLocale.$error }">
           {{ $t('HELP_CENTER.PORTAL.ADD_LOCALE.LOCALE.LABEL') }}
           <select v-model="selectedLocale">
             <option
@@ -18,7 +18,7 @@
               {{ locale.name }}-{{ locale.code }}
             </option>
           </select>
-          <span v-if="$v.selectedLocale.$error" class="message">
+          <span v-if="v$.selectedLocale.$error" class="message">
             {{ $t('HELP_CENTER.PORTAL.ADD_LOCALE.LOCALE.ERROR') }}
           </span>
         </label>
@@ -41,6 +41,7 @@
 <script>
 import Modal from 'dashboard/components/Modal.vue';
 import alertMixin from 'shared/mixins/alertMixin';
+import { useVuelidate } from '@vuelidate/core';
 import { required } from 'vuelidate/lib/validators';
 import allLocales from 'shared/constants/locales.js';
 import { PORTALS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
@@ -58,6 +59,9 @@ export default {
       type: Object,
       default: () => ({}),
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -94,8 +98,8 @@ export default {
   },
   methods: {
     async onCreate() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         return;
       }
       const updatedLocales = this.addedLocales;

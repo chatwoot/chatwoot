@@ -67,6 +67,7 @@
 </template>
 
 <script>
+import { useVuelidate } from '@vuelidate/core';
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
@@ -78,6 +79,9 @@ export default {
       type: Function,
       default: () => {},
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
