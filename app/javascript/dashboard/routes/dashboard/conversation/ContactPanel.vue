@@ -101,6 +101,20 @@
               />
             </accordion-item>
           </div>
+          <div v-if="element.name === 'contact_transactions'">
+            <accordion-item
+              :title="$t('CONTACT_PANEL.SIDEBAR_SECTIONS.CONTACT_TRANSACTIONS')"
+              :is-open="isContactSidebarItemOpen('is_ct_cont_trans_open')"
+              @click="
+                value => toggleSidebarUIState('is_ct_cont_trans_open', value)
+              "
+            >
+              <contact-transactions
+                v-if="contact.id"
+                :contact-id="contact.id"
+              />
+            </accordion-item>
+          </div>
           <woot-feature-toggle
             v-else-if="element.name === 'macros'"
             feature-key="macros"
@@ -134,6 +148,7 @@ import ConversationInfo from './ConversationInfo.vue';
 import draggable from 'vuedraggable';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import MacrosList from './Macros/List.vue';
+import ContactTransactions from 'dashboard/routes/dashboard/contacts/components/ContactTransactions.vue';
 
 export default {
   components: {
@@ -146,6 +161,7 @@ export default {
     ConversationParticipant,
     draggable,
     MacrosList,
+    ContactTransactions,
   },
   mixins: [alertMixin, uiSettingsMixin],
   props: {

@@ -5,8 +5,7 @@ export const DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER = [
   { name: 'conversation_actions' },
   { name: 'contact_sales_info' },
   { name: 'conversation_participants' },
-  { name: 'conversation_info' },
-  { name: 'macros' },
+  { name: 'contact_transactions' },
 ];
 export const DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER = [
   { name: 'contact_sales_info' },

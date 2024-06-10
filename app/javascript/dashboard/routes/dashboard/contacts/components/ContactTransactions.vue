@@ -21,6 +21,18 @@
             >
               {{ moreInformation(transaction) }}
             </div>
+            <div class="flex gap-2 ml-2 rtl:mr-2 rtl:ml-0">
+              <span
+                class="text-slate-500 dark:text-slate-400 text-xs font-medium leading-3 py-0.5 px-0 inline-flex text-ellipsis overflow-hidden whitespace-nowrap"
+              >
+                <fluent-icon
+                  icon="timer"
+                  size="12"
+                  class="text-slate-500 dark:text-slate-400"
+                />
+                {{ formattedDate(transaction.po_date) }}
+              </span>
+            </div>
           </div>
           <h4
             class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis font-medium overflow-hidden whitespace-nowrap w-[calc(100%-70px)] text-slate-900 dark:text-slate-100"
@@ -43,6 +55,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner.vue';
+import { format } from 'date-fns';
 
 export default {
   components: {
@@ -73,6 +86,9 @@ export default {
     this.$store.dispatch('contacts/fetchTransactions', this.contactId);
   },
   methods: {
+    formattedDate(date) {
+      return format(new Date(date), 'dd/MM/yyyy');
+    },
     moreInformation(transaction) {
       let shortName = transaction.product.short_name;
       if (
