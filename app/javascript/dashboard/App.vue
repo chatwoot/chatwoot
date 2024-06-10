@@ -31,13 +31,13 @@ import AddAccountModal from '../dashboard/components/layout/sidebarComponents/Ad
 import LoadingState from './components/widgets/LoadingState.vue';
 import NetworkNotification from './components/NetworkNotification.vue';
 import UpdateBanner from './components/app/UpdateBanner.vue';
-import UpgradeBanner from './components/app/UpgradeBanner.vue';
-import PaymentPendingBanner from './components/app/PaymentPendingBanner.vue';
+// import UpgradeBanner from './components/app/UpgradeBanner.vue';
+// import PaymentPendingBanner from './components/app/PaymentPendingBanner.vue';
 import vueActionCable from './helper/actionCable';
 import WootSnackbarBox from './components/SnackbarContainer.vue';
 import rtlMixin from 'shared/mixins/rtlMixin';
 import { setColorTheme } from './helper/themeHelper';
-import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
+// import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 import {
   registerSubscription,
   verifyServiceWorkerExistence,
