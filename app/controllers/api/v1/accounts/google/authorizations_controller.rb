@@ -7,7 +7,7 @@ class Api::V1::Accounts::Google::AuthorizationsController < Api::V1::Accounts::B
     redirect_url = google_client.auth_code.authorize_url(
       {
         redirect_uri: "#{base_url}/google/callback",
-        scope: 'email profile https://www.googleapis.com/auth/gmail.modify',
+        scope: 'email profile https://mail.google.com/',
         response_type: 'code',
         prompt: 'consent', # the oauth flow does not return a refresh token, this is supposed to fix it
         access_type: 'offline', # the default is 'online'
