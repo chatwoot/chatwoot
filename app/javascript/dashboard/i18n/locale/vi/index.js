@@ -32,6 +32,7 @@ import signup from './signup.json';
 import teamsSettings from './teamsSettings.json';
 import whatsappTemplates from './whatsappTemplates.json';
 import productsMgmt from './productsMgmt.json';
+import inbox from './inbox.json';
 
 export default {
   ...advancedFilters,
@@ -68,4 +69,5 @@ export default {
   ...signup,
   ...teamsSettings,
   ...whatsappTemplates,
+  ...inbox,
 };
