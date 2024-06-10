@@ -79,6 +79,7 @@ class Account < ApplicationRecord
   has_many :working_hours, dependent: :destroy_async
   has_many :stages, dependent: :destroy_async
   has_many :products, dependent: :destroy_async
+  has_many :contact_transactions, dependent: :destroy_async
 
   has_one_attached :contacts_export
 

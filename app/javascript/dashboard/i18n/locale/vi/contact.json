@@ -18,8 +18,12 @@
     "CREATED_AT_LABEL": "Đã tạo",
     "NEW_MESSAGE": "Tin nhắn mới",
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "Không tìm thấy cuộc hội thoại nào khác",
-      "TITLE": "Lịch sử hội thoại"
+      "NO_RECORDS_FOUND": "Chưa có cuộc hội thoại nào",
+      "TITLE": "Lịch sử tương tác"
+    },
+    "TRANSACTIONS": {
+      "NO_RECORDS_FOUND": "Chưa có giao dịch nào",
+      "TITLE": "Lịch sử giao dịch"
     },
     "LABELS": {
       "CONTACT": {
@@ -75,7 +79,8 @@
       "CONTACT_SALES_INFO": "Thông tin kinh doanh",
       "CUSTOM_ATTRIBUTES": "Thông tin tùy chỉnh",
       "CONTACT_LABELS": "Nhãn phân loại",
-      "PREVIOUS_CONVERSATIONS": "Lịch sử hội thoại"
+      "PREVIOUS_CONVERSATIONS": "Lịch sử tương tác",
+      "CONTACT_TRANSACTIONS": "Lịch sử giao dịch"
     }
   },
   "EDIT_CONTACT": {

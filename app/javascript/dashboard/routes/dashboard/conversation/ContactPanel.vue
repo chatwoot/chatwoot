@@ -73,24 +73,15 @@
               />
             </accordion-item>
           </div>
-          <div v-else-if="element.name === 'contact_attributes'">
+          <div v-else-if="element.name === 'contact_sales_info'">
             <accordion-item
-              :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_ATTRIBUTES')"
-              :is-open="isContactSidebarItemOpen('is_contact_attributes_open')"
-              compact
+              :title="$t('CONTACT_PANEL.SIDEBAR_SECTIONS.CONTACT_SALES_INFO')"
+              :is-open="isContactSidebarItemOpen('is_conv_actions_open')"
               @click="
-                value =>
-                  toggleSidebarUIState('is_contact_attributes_open', value)
+                value => toggleSidebarUIState('is_conv_actions_open', value)
               "
             >
-              <custom-attributes
-                attribute-type="contact_attribute"
-                attribute-class="conversation--attribute"
-                class="even"
-                attribute-from="conversation_contact_panel"
-                :contact-id="contact.id"
-                :custom-attributes="contact.custom_attributes"
-              />
+              <contact-sales-info :contact="contact" />
             </accordion-item>
           </div>
           <div v-else-if="element.name === 'previous_conversation'">
@@ -136,10 +127,10 @@ import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
 import ContactConversations from './ContactConversations.vue';
 import ConversationAction from './ConversationAction.vue';
 import ConversationParticipant from './ConversationParticipant.vue';
+import ContactSalesInfo from 'dashboard/routes/dashboard/contacts/components/ContactSalesInfo.vue';
 
 import ContactInfo from './contact/ContactInfo.vue';
 import ConversationInfo from './ConversationInfo.vue';
-import CustomAttributes from './customAttributes/CustomAttributes.vue';
 import draggable from 'vuedraggable';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import MacrosList from './Macros/List.vue';
@@ -150,7 +141,7 @@ export default {
     ContactConversations,
     ContactInfo,
     ConversationInfo,
-    CustomAttributes,
+    ContactSalesInfo,
     ConversationAction,
     ConversationParticipant,
     draggable,
