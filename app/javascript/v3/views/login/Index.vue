@@ -214,7 +214,7 @@ export default {
 
       login(credentials)
         .then(() => {
-          this.showAlert(this.$t('LOGIN.API.SUCCESS_MESSAGE'));
+          this.showAlertMessage(this.$t('LOGIN.API.SUCCESS_MESSAGE'));
         })
         .catch(response => {
           // Reset URL Params if the authentication is invalid
@@ -222,7 +222,9 @@ export default {
             window.location = '/app/login';
           }
           this.loginApi.hasErrored = true;
-          this.showAlert(response?.message || this.$t('LOGIN.API.UNAUTH'));
+          this.showAlertMessage(
+            response?.message || this.$t('LOGIN.API.UNAUTH')
+          );
         });
     },
   },
