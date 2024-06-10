@@ -1,7 +1,7 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  host: <%= ENV.fetch('POSTGRES_HOST', 'localhost') %>
+  host: <%= ENV.fetch('POSTGRES_HOST', 'postgres') %>
   port: <%= ENV.fetch('POSTGRES_PORT', '5432') %>
    # ref: https://github.com/mperham/sidekiq/issues/2985#issuecomment-531097962
   pool: <%= Sidekiq.server? ? ENV.fetch('SIDEKIQ_CONCURRENCY', 10) : ENV.fetch('RAILS_MAX_THREADS', 5) %>
@@ -12,6 +12,7 @@ default: &default
 mysql_default: &mysql
   adapter: mysql2
   encoding: utf8mb4
+  database_tasks: false
   collation: utf8mb4_unicode_ci
   host: <%= ENV.fetch('MYSQL_HOST', 'mysql') %>
   port: <%= ENV.fetch('MYSQL_PORT', '3306') %>
