@@ -71,11 +71,12 @@ class Notification::PushNotificationService
   end
 
   def send_fcm_push(subscription)
-    return unless ENV['GOOGLE_APPLICATION_CREDENTIALS'] && ENV['FIREBASE_PROJECT_ID']
+    return unless ENV['FIREBASE_PROJECT_ID']
     return unless subscription.fcm?
 
-    fcm_service = FCMService.new(ENV.fetch('GOOGLE_APPLICATION_CREDENTIALS', nil),
-                                 ENV.fetch('FIREBASE_PROJECT_ID', nil))
+    fcm_service = FCMService.new(
+      ENV.fetch('FIREBASE_PROJECT_ID', nil)
+    )
     fcm = fcm_service.fcm_client
     message = {
       'token': subscription.subscription_attributes['push_token'],
