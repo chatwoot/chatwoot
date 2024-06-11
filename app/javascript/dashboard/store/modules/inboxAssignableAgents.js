@@ -1,5 +1,5 @@
 import Vue from 'vue';
-
+import { emitter } from 'shared/helpers/mitt';
 import AssignableAgentsAPI from '../../api/assignableAgents';
 
 const state = {
@@ -37,6 +37,10 @@ export const actions = {
         members: payload,
       });
     } catch (error) {
+      emitter.emit(
+        'newToastMessage',
+        'Network Error: Unable to fetch assignable agents.'
+      );
       throw new Error(error);
     } finally {
       commit(types.SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG, { isFetching: false });
