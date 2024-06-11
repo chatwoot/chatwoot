@@ -1,6 +1,7 @@
 const roleMapping = {
   0: 'agent',
   1: 'administrator',
+  2: 'supervisor',
 };
 
 const availabilityMapping = {
@@ -51,6 +52,8 @@ export function extractChangedAccountUserValues(auditedChanges) {
   // Check roles
   if (auditedChanges.role && auditedChanges.role.length) {
     changes.push('role');
+    // eslint-disable-next-line no-console
+    console.log('roleMapping', roleMapping);
     values.push(roleMapping[extractAttrChange(auditedChanges.role)]);
   }
 
