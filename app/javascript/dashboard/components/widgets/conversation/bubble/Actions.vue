@@ -262,14 +262,14 @@ export default {
   .message-text--metadata {
     @apply items-center;
     .time {
-      @apply text-woot-100 dark:text-woot-100;
+      @apply text-woot-800 dark:text-woot-100;
     }
 
     .action--icon {
       @apply text-white dark:text-white;
 
       &.read-tick {
-        @apply text-violet-100 dark:text-violet-100;
+        @apply text-slate-500 dark:text-woot-100;
       }
 
       &.read-indicator {

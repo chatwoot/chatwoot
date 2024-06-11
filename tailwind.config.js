@@ -19,6 +19,11 @@ module.exports = {
         inter: ['Inter', ...defaultTheme.fontFamily.sans],
       },
     },
+    borderRadius: {
+      ...defaultTheme.borderRadius,
+      'md': '0.25rem',
+      'lg': '0.25rem',
+    },
     fontSize: {
       ...defaultTheme.fontSize,
       xxs: '0.625rem',

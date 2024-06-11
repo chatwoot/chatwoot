@@ -619,14 +619,14 @@ export default {
     }
 
     &.is-from-bot {
-      @apply bg-violet-400 dark:bg-violet-400;
+      @apply bg-blue-75 dark:bg-blue-600 border border-blue-600 dark:border-none text-slate-900 dark:text-slate-100;
 
       .message-text--metadata .time {
-        @apply text-violet-50 dark:text-violet-50;
+        @apply text-blue-900 dark:text-blue-50;
       }
 
       &.is-private .message-text--metadata .time {
-        @apply text-slate-400 dark:text-slate-400;
+        @apply text-slate-800 dark:text-slate-400;
       }
     }
 
@@ -737,7 +737,7 @@ li.right {
 
 .right .bubble .text-content {
   p code {
-    @apply bg-woot-600 dark:bg-woot-600 text-white dark:text-white;
+    @apply bg-woot-200 dark:bg-woot-200 text-slate-900 dark:text-slate-900;
   }
 
   pre {
