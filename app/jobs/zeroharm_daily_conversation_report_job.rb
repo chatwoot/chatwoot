@@ -42,7 +42,8 @@ class ZeroharmDailyConversationReportJob < ApplicationJob
       SELECT
           conversations.id AS conversation_id,
           conversations.display_id AS conversation_display_id,
-          conversations.created_at AS created_at,
+          conversations.created_at AS conversation_created_at,
+          contacts.created_at AS customer_created_at,
           inboxes.name AS inbox_name,
           REPLACE(contacts.phone_number, '+', '') AS customer_phone_number,
           contacts.name AS customer_name,
@@ -116,13 +117,13 @@ class ZeroharmDailyConversationReportJob < ApplicationJob
   def generate_csv(results)
     CSV.generate(headers: true) do |csv|
       csv << [
-        'Conversation ID', 'Inbox Name',
+        'Conversation ID', 'Conversation Created At', 'Contact Created At', 'Inbox Name',
         'Customer Phone Number', 'Customer Name', 'Agent Name', 'Conversation Status',
         'First Response Time (minutes)', 'Resolution Time (minutes)', 'Labels', 'Order ID'
       ]
       results.each do |row|
         csv << [
-          row['conversation_display_id'], row['inbox_name'],
+          row['conversation_display_id'], row['conversation_created_at'], row['customer_created_at'], row['inbox_name'],
           row['customer_phone_number'], row['customer_name'], row['agent_name'], row['conversation_status'],
           row['first_response_time_minutes'], row['resolution_time_minutes'], row['labels'], row['order_id']
         ]
@@ -133,8 +134,8 @@ class ZeroharmDailyConversationReportJob < ApplicationJob
   def upload_csv(account_id, current_date, csv_content)
     # # for testing locally uncomment below
     # puts csv_content
-    # local_file_path = "daily_conversation_report_#{account_id}_#{current_date}.csv"
-    # File.write(local_file_path, csv_content)
+    # csv_url = "daily_conversation_report_#{account_id}_#{current_date}.csv"
+    # File.write(csv_url, csv_content)
 
     # Upload csv_content via ActiveStorage and print the URL
     blob = ActiveStorage::Blob.create_and_upload!(
