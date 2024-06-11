@@ -1,6 +1,9 @@
 <template>
-  <div class="avatar-container" :style="style" aria-hidden="true">
-    <slot>{{ userInitial }}</slot>
+  <div :class="avatarClass" :style="style" aria-hidden="true">
+    <slot>
+      <fluent-icon v-if="isSentByBot" icon="bot" size="12" />
+      <span v-else>{{ userInitial }}</span>
+    </slot>
   </div>
 </template>
 
@@ -34,6 +37,15 @@ export default {
 
       return initials;
     },
+    isSentByBot() {
+      return this.username === 'Bot';
+    },
+    avatarClass() {
+      const avatarColor = this.isSentByBot
+        ? 'avatar-bot-color'
+        : 'avatar-color';
+      return `avatar-container ${avatarColor}`;
+    },
   },
 };
 </script>
@@ -42,15 +54,22 @@ export default {
 @tailwind components;
 @layer components {
   .avatar-color {
-    /* background-image: linear-gradient(to top, #c2e1ff 0%, #d6ebff 100%); */
-    @apply bg-gradient-to-t from-woot-100 to-woot-75;
+    @apply bg-gradient-to-t from-woot-100 to-woot-75 text-woot-600;
   }
 
-  .dark-avatar-color {
-    background-image: linear-gradient(to top, #135899 0%, #135899 100%);
+  .avatar-bot-color {
+    @apply bg-gradient-to-t from-blue-100 to-blue-75 text-blue-400;
+  }
+
+  .dark .avatar-color {
+    @apply bg-gradient-to-t from-woot-500 to-woot-400 text-woot-50;
+  }
+
+  .dark .avatar-bot-color {
+    @apply bg-gradient-to-t from-blue-500 to-blue-400 text-blue-50;
   }
 }
 .avatar-container {
-  @apply flex leading-[100%] font-medium items-center justify-center text-center cursor-default avatar-color dark:dark-avatar-color text-woot-600 dark:text-woot-200;
+  @apply flex leading-[100%] font-medium items-center justify-center text-center cursor-default;
 }
 </style>
