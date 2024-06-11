@@ -18,11 +18,7 @@ class EmailChannelFinder
   end
 
   def recipient_mails
-    delivered_to_fields = @email_object.header.fields.select { |field| field.name == 'Delivered-To' }
-    delivered_to_emails = delivered_to_fields.map { |field| field.value }
-    puts "Delivered-To #{delivered_to_emails}}"
-    # Delivered-To added for catch-all functionality.
-    recipient_addresses = delivered_to_emails + @email_object.cc.to_a + @email_object.bcc.to_a + [@email_object['X-Original-To'].try(:value)]
+    recipient_addresses = @email_object.to.to_a + @email_object.cc.to_a + @email_object.bcc.to_a + [@email_object['X-Original-To'].try(:value)]
     recipient_addresses.flatten.compact
   end
 end
