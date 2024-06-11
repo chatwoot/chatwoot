@@ -70,7 +70,7 @@ class Notification::PushNotificationService
   end
 
   def send_fcm_push(subscription)
-    return unless GlobalConfigService.load('FIREBASE_PROJECT_ID', nil) && GlobalConfigService.load('FIREBASE_CREDENTIALS', nil)
+    return unless firebase_credentials_present?
     return unless subscription.fcm?
 
     fcm_service = Notification::FcmService.new(
@@ -82,11 +82,19 @@ class Notification::PushNotificationService
   end
 
   def send_push_via_chatwoot_hub(subscription)
-    return if GlobalConfigService.load('FIREBASE_PROJECT_ID', nil) && GlobalConfigService.load('FIREBASE_CREDENTIALS', nil)
-    return unless ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_PUSH_RELAY_SERVER', true))
+    return if firebase_credentials_present?
+    return unless chatwoot_hub_enabled?
     return unless subscription.fcm?
 
     ChatwootHub.send_browser_push([subscription.subscription_attributes['push_token']], fcm_options(subscription))
+  end
+
+  def firebase_credentials_present?
+    GlobalConfigService.load('FIREBASE_PROJECT_ID', nil) && GlobalConfigService.load('FIREBASE_CREDENTIALS', nil)
+  end
+
+  def chatwoot_hub_enabled?
+    ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_PUSH_RELAY_SERVER', true))
   end
 
   def remove_subscription_if_error(subscription, response)
