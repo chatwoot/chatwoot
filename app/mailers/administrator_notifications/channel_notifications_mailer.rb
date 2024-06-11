@@ -51,10 +51,18 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
     send_mail_with_liquid(to: admin_emails, subject: subject) and return
   end
 
-  def zeroharm_daily_conversation_report(csv_url, current_date)
+  def daily_conversation_report(csv_url, current_date)
     return unless smtp_config_set_or_development?
 
     subject = "Daily Conversation Report for #{current_date}"
+    @action_url = csv_url
+    send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co'], subject: subject) and return
+  end
+
+  def weekly_conversation_report(csv_url, since_date, until_date)
+    return unless smtp_config_set_or_development?
+
+    subject = "Weekly Conversation Report from #{since_date} to #{until_date}"
     @action_url = csv_url
     send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co'], subject: subject) and return
   end

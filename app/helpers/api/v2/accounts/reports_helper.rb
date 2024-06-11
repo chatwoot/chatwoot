@@ -94,6 +94,7 @@ module Api::V2::Accounts::ReportsHelper
         conversations.id AS conversation_id,
         conversations.display_id AS conversation_display_id,
         conversations.created_at AS created_at,
+        contacts.created_at AS customer_created_at,
         inboxes.name AS inbox_name,
         contacts.name AS customer_name,
         REPLACE(contacts.phone_number, '+', '') AS customer_phone_number,
