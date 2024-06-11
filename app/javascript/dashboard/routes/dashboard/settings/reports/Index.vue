@@ -1,13 +1,13 @@
 <template>
   <div class="flex-1 overflow-auto p-4">
-    <woot-button
+    <!-- <woot-button
       color-scheme="success"
       class-names="button--fixed-top"
       icon="arrow-download"
       @click="downloadConversationReports"
     >
       {{ 'Download conversation reports' }}
-    </woot-button>
+    </woot-button> -->
     <report-filter-selector
       :show-agents-filter="false"
       :show-group-by-filter="true"
