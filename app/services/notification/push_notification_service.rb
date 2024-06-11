@@ -1,3 +1,4 @@
+require_relative 'fcm_service'
 class Notification::PushNotificationService
   include Rails.application.routes.url_helpers
 
@@ -70,11 +71,24 @@ class Notification::PushNotificationService
   end
 
   def send_fcm_push(subscription)
-    return unless ENV['FCM_SERVER_KEY']
+    return unless GlobalConfigService.load('FIREBASE_PROJECT_ID', nil) && GlobalConfigService.load('FIREBASE_CREDENTIALS', nil)
     return unless subscription.fcm?
 
-    fcm = FCM.new(ENV.fetch('FCM_SERVER_KEY', nil))
-    response = fcm.send([subscription.subscription_attributes['push_token']], fcm_options)
+    fcm_service = FCMService.new(
+      GlobalConfigService.load('FIREBASE_PROJECT_ID', nil), GlobalConfigService.load('FIREBASE_CREDENTIALS', nil)
+    )
+    fcm = fcm_service.fcm_client
+    message = {
+      'token': subscription.subscription_attributes['push_token'],
+      'data': fcm_data,
+      'notification': fcm_notification,
+      'android': fcm_android_options,
+      'apns': fcm_apns_options,
+      'fcm_options': {
+        analytics_label: 'Label'
+      }
+    }
+    response = fcm.send_v1(message)
     remove_subscription_if_error(subscription, response)
   end
 
@@ -100,6 +114,40 @@ class Notification::PushNotificationService
       android: { priority: 'high' },
       data: { notification: notification.fcm_push_data.to_json },
       collapse_key: "chatwoot_#{notification.primary_actor_type.downcase}_#{notification.primary_actor_id}"
+    }
+  end
+
+  def fcm_data
+    {
+      payload: {
+        data: {
+          notification: notification.fcm_push_data
+        }
+      }.to_json
+    }
+  end
+
+  def fcm_notification
+    {
+      title: notification.push_message_title,
+      body: notification.push_message_body
+    }
+  end
+
+  def fcm_android_options
+    {
+      priority: 'high'
+    }
+  end
+
+  def fcm_apns_options
+    {
+      payload: {
+        aps: {
+          sound: 'default',
+          category: Time.zone.now.to_i.to_s
+        }
+      }
     }
   end
 end
