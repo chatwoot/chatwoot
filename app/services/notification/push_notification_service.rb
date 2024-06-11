@@ -71,11 +71,11 @@ class Notification::PushNotificationService
   end
 
   def send_fcm_push(subscription)
-    return unless ENV['FIREBASE_PROJECT_ID']
+    return unless GlobalConfigService.load('FIREBASE_PROJECT_ID', nil) && GlobalConfigService.load('FIREBASE_CREDENTIALS', nil)
     return unless subscription.fcm?
 
     fcm_service = FCMService.new(
-      ENV.fetch('FIREBASE_PROJECT_ID', nil)
+      GlobalConfigService.load('FIREBASE_PROJECT_ID', nil), GlobalConfigService.load('FIREBASE_CREDENTIALS', nil)
     )
     fcm = fcm_service.fcm_client
     message = {

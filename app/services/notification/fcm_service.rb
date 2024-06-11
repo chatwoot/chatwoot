@@ -1,13 +1,14 @@
 class FCMService
   SCOPES = ['https://www.googleapis.com/auth/firebase.messaging'].freeze
 
-  def initialize(project_id)
+  def initialize(project_id, credentials)
     @project_id = project_id
+    @credentials = credentials
     @token_info = nil
   end
 
   def fcm_client
-    FCM.new(current_token, credentials_json, @project_id)
+    FCM.new(current_token, credentials_path, @project_id)
   end
 
   private
@@ -23,7 +24,7 @@ class FCMService
 
   def generate_token
     authorizer = Google::Auth::ServiceAccountCredentials.make_creds(
-      json_key_io: StringIO.new(GlobalConfigService.load('FIREBASE_CREDENTIALS', nil)),
+      json_key_io: File.open(credentials_path),
       scope: SCOPES
     )
     token = authorizer.fetch_access_token!
@@ -31,5 +32,14 @@ class FCMService
       token: token['access_token'],
       expires_at: Time.zone.now + token['expires_in'].to_i
     }
+  end
+
+  def credentials_path
+    file = Tempfile.new(['firebase', '.json'])
+    file.write(@credentials)
+    file.rewind
+    file.path
+  ensure
+    file.close
   end
 end
