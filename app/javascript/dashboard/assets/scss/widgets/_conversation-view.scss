@@ -11,7 +11,7 @@
   }
 
   .bubble-with-types {
-    @apply py-2 text-sm font-normal bg-woot-75 dark:bg-woot-500 border border-woot-600 dark:border-none relative px-4 m-0 text-slate-900 dark:text-white;
+    @apply py-2 text-sm font-normal bg-woot-75 dark:bg-woot-500 border border-woot-200 dark:border-none relative px-4 m-0 text-slate-900 dark:text-white;
 
     .message-text__wrap {
       @apply relative;
@@ -79,7 +79,7 @@
       @apply rounded-r-lg rounded-l mr-auto break-words;
 
       &:not(.is-unsupported) {
-        @apply border border-slate-400 dark:border-slate-700 bg-white dark:bg-slate-700 text-black-900 dark:text-slate-50;
+        @apply border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-700 text-black-900 dark:text-slate-50;
       }
 
       &.is-image {
