@@ -78,7 +78,24 @@ class Notification::PushNotificationService
       GlobalConfigService.load('FIREBASE_PROJECT_ID', nil), GlobalConfigService.load('FIREBASE_CREDENTIALS', nil)
     )
     fcm = fcm_service.fcm_client
-    message = {
+    response = fcm.send_v1(fcm_options(subscription))
+    remove_subscription_if_error(subscription, response)
+  end
+
+  def send_push_via_chatwoot_hub(subscription)
+    return if GlobalConfigService.load('FIREBASE_PROJECT_ID', nil) && GlobalConfigService.load('FIREBASE_CREDENTIALS', nil)
+    return unless ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_PUSH_RELAY_SERVER', true))
+    return unless subscription.fcm?
+
+    ChatwootHub.send_browser_push([subscription.subscription_attributes['push_token']], fcm_options(subscription))
+  end
+
+  def remove_subscription_if_error(subscription, response)
+    subscription.destroy! if JSON.parse(response[:body])['results']&.first&.keys&.include?('error')
+  end
+
+  def fcm_options(subscription)
+    {
       'token': subscription.subscription_attributes['push_token'],
       'data': fcm_data,
       'notification': fcm_notification,
@@ -87,33 +104,6 @@ class Notification::PushNotificationService
       'fcm_options': {
         analytics_label: 'Label'
       }
-    }
-    response = fcm.send_v1(message)
-    remove_subscription_if_error(subscription, response)
-  end
-
-  def send_push_via_chatwoot_hub(subscription)
-    return if ENV['FCM_SERVER_KEY']
-    return unless ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_PUSH_RELAY_SERVER', true))
-    return unless subscription.fcm?
-
-    ChatwootHub.send_browser_push([subscription.subscription_attributes['push_token']], fcm_options)
-  end
-
-  def remove_subscription_if_error(subscription, response)
-    subscription.destroy! if JSON.parse(response[:body])['results']&.first&.keys&.include?('error')
-  end
-
-  def fcm_options
-    {
-      notification: {
-        title: notification.push_message_title,
-        body: notification.push_message_body,
-        sound: 'default'
-      },
-      android: { priority: 'high' },
-      data: { notification: notification.fcm_push_data.to_json },
-      collapse_key: "chatwoot_#{notification.primary_actor_type.downcase}_#{notification.primary_actor_id}"
     }
   end
 
