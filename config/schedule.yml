@@ -32,3 +32,8 @@ zeroharm_daily_conversation_report_job:
   cron: '30 3 * * *'
   class: 'ZeroharmDailyConversationReportJob'
   queue: scheduled_jobs
+
+daily_conversation_report_job:
+  cron: '30 3 * * *'
+  class: 'DailyConversationReportJob'
+  queue: scheduled_jobs
