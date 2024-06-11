@@ -4,12 +4,12 @@ describe Notification::PushNotificationService do
   let!(:account) { create(:account) }
   let!(:user) { create(:user, account: account) }
   let!(:notification) { create(:notification, user: user, account: user.accounts.first) }
-  let(:fcm_double) { double }
-  let(:fcm_service_double) { instance_double(FCMService, fcm_client: fcm_double) }
+  let(:fcm_double) { instance_double(FCM) }
+  let(:fcm_service_double) { instance_double(Notification::FcmService, fcm_client: fcm_double) }
 
   before do
     allow(WebPush).to receive(:payload_send).and_return(true)
-    allow(FCMService).to receive(:new).and_return(fcm_service_double)
+    allow(Notification::FcmService).to receive(:new).and_return(fcm_service_double)
     allow(fcm_double).to receive(:send_v1).and_return({ body: { 'results': [] }.to_json })
     allow(GlobalConfigService).to receive(:load).with('FIREBASE_PROJECT_ID', nil).and_return('test_project_id')
     allow(GlobalConfigService).to receive(:load).with('FIREBASE_CREDENTIALS', nil).and_return('test_credentials')
@@ -22,7 +22,7 @@ describe Notification::PushNotificationService do
 
         described_class.new(notification: notification).perform
         expect(WebPush).to have_received(:payload_send)
-        expect(FCMService).not_to have_received(:new)
+        expect(Notification::FcmService).not_to have_received(:new)
       end
     end
 
@@ -31,7 +31,7 @@ describe Notification::PushNotificationService do
         create(:notification_subscription, user: notification.user, subscription_type: 'fcm')
 
         described_class.new(notification: notification).perform
-        expect(FCMService).to have_received(:new)
+        expect(Notification::FcmService).to have_received(:new)
         expect(fcm_double).to have_received(:send_v1)
         expect(WebPush).not_to have_received(:payload_send)
       end

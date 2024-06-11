@@ -1,4 +1,3 @@
-require_relative 'fcm_service'
 class Notification::PushNotificationService
   include Rails.application.routes.url_helpers
 
@@ -74,7 +73,7 @@ class Notification::PushNotificationService
     return unless GlobalConfigService.load('FIREBASE_PROJECT_ID', nil) && GlobalConfigService.load('FIREBASE_CREDENTIALS', nil)
     return unless subscription.fcm?
 
-    fcm_service = FCMService.new(
+    fcm_service = Notification::FcmService.new(
       GlobalConfigService.load('FIREBASE_PROJECT_ID', nil), GlobalConfigService.load('FIREBASE_CREDENTIALS', nil)
     )
     fcm = fcm_service.fcm_client

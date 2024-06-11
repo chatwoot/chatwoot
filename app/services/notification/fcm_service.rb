@@ -1,4 +1,4 @@
-class FCMService
+class Notification::FcmService
   SCOPES = ['https://www.googleapis.com/auth/firebase.messaging'].freeze
 
   def initialize(project_id, credentials)
