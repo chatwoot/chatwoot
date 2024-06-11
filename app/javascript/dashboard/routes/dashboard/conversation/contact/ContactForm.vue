@@ -18,38 +18,38 @@
     </div>
     <div>
       <div class="w-full">
-        <label :class="{ error: $v.name.$error }">
+        <label :class="{ error: v$.name.$error }">
           {{ $t('CONTACT_FORM.FORM.NAME.LABEL') }}
           <input
             v-model.trim="name"
             type="text"
             :placeholder="$t('CONTACT_FORM.FORM.NAME.PLACEHOLDER')"
-            @input="$v.name.$touch"
+            @input="v$.name.$touch"
           />
         </label>
 
-        <label :class="{ error: $v.email.$error }">
+        <label :class="{ error: v$.email.$error }">
           {{ $t('CONTACT_FORM.FORM.EMAIL_ADDRESS.LABEL') }}
           <input
             v-model.trim="email"
             type="text"
             :placeholder="$t('CONTACT_FORM.FORM.EMAIL_ADDRESS.PLACEHOLDER')"
-            @input="$v.email.$touch"
+            @input="v$.email.$touch"
           />
-          <span v-if="$v.email.$error" class="message">
+          <span v-if="v$.email.$error" class="message">
             {{ $t('CONTACT_FORM.FORM.EMAIL_ADDRESS.ERROR') }}
           </span>
         </label>
       </div>
     </div>
     <div class="w-full">
-      <label :class="{ error: $v.description.$error }">
+      <label :class="{ error: v$.description.$error }">
         {{ $t('CONTACT_FORM.FORM.BIO.LABEL') }}
         <textarea
           v-model.trim="description"
           type="text"
           :placeholder="$t('CONTACT_FORM.FORM.BIO.PLACEHOLDER')"
-          @input="$v.description.$touch"
+          @input="v$.description.$touch"
         />
       </label>
     </div>
@@ -67,7 +67,7 @@
             :error="isPhoneNumberNotValid"
             :placeholder="$t('CONTACT_FORM.FORM.PHONE_NUMBER.PLACEHOLDER')"
             @input="onPhoneNumberInputChange"
-            @blur="$v.phoneNumber.$touch"
+            @blur="v$.phoneNumber.$touch"
             @setCode="setPhoneCode"
           />
           <span v-if="isPhoneNumberNotValid" class="message">
@@ -155,6 +155,7 @@ import {
   DuplicateContactException,
   ExceptionWithMessage,
 } from 'shared/helpers/CustomErrors';
+import { useVuelidate } from '@vuelidate/core';
 import { required, email } from 'vuelidate/lib/validators';
 import countries from 'shared/constants/countries.js';
 import { isPhoneNumberValid } from 'shared/helpers/Validators';
@@ -175,6 +176,9 @@ export default {
       type: Function,
       default: () => {},
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -368,8 +372,8 @@ export default {
       }
     },
     async handleSubmit() {
-      this.$v.$touch();
-      if (this.$v.$invalid || this.isPhoneNumberNotValid) {
+      this.v$.$touch();
+      if (this.v$.$invalid || this.isPhoneNumberNotValid) {
         return;
       }
       try {

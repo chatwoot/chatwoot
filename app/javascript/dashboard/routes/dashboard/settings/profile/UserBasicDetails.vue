@@ -3,38 +3,38 @@
     <woot-input
       v-model="userName"
       :styles="inputStyles"
-      :class="{ error: $v.userName.$error }"
+      :class="{ error: v$.userName.$error }"
       :label="$t('PROFILE_SETTINGS.FORM.NAME.LABEL')"
       :placeholder="$t('PROFILE_SETTINGS.FORM.NAME.PLACEHOLDER')"
       :error="`${
-        $v.userName.$error ? $t('PROFILE_SETTINGS.FORM.NAME.ERROR') : ''
+        v$.userName.$error ? $t('PROFILE_SETTINGS.FORM.NAME.ERROR') : ''
       }`"
-      @input="$v.userName.$touch"
+      @input="v$.userName.$touch"
     />
     <woot-input
       v-model="userDisplayName"
       :styles="inputStyles"
-      :class="{ error: $v.userDisplayName.$error }"
+      :class="{ error: v$.userDisplayName.$error }"
       :label="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.LABEL')"
       :placeholder="$t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.PLACEHOLDER')"
       :error="`${
-        $v.userDisplayName.$error
+        v$.userDisplayName.$error
           ? $t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.ERROR')
           : ''
       }`"
-      @input="$v.userDisplayName.$touch"
+      @input="v$.userDisplayName.$touch"
     />
     <woot-input
       v-if="emailEnabled"
       v-model="userEmail"
       :styles="inputStyles"
-      :class="{ error: $v.userEmail.$error }"
+      :class="{ error: v$.userEmail.$error }"
       :label="$t('PROFILE_SETTINGS.FORM.EMAIL.LABEL')"
       :placeholder="$t('PROFILE_SETTINGS.FORM.EMAIL.PLACEHOLDER')"
       :error="`${
-        $v.userEmail.$error ? $t('PROFILE_SETTINGS.FORM.EMAIL.ERROR') : ''
+        v$.userEmail.$error ? $t('PROFILE_SETTINGS.FORM.EMAIL.ERROR') : ''
       }`"
-      @input="$v.userEmail.$touch"
+      @input="v$.userEmail.$touch"
     />
     <form-button
       type="submit"
@@ -48,6 +48,7 @@
 </template>
 <script>
 import FormButton from 'v3/components/Form/Button.vue';
+import { useVuelidate } from '@vuelidate/core';
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import alertMixin from 'shared/mixins/alertMixin';
 export default {
@@ -72,6 +73,9 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -119,8 +123,8 @@ export default {
   },
   methods: {
     async updateUser() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         this.showAlert(this.$t('PROFILE_SETTINGS.FORM.ERROR'));
         return;
       }

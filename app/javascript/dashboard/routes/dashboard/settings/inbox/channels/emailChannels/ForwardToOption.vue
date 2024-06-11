@@ -8,7 +8,7 @@
     />
     <form class="mx-0 flex flex-wrap" @submit.prevent="createChannel()">
       <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
-        <label :class="{ error: $v.channelName.$error }">
+        <label :class="{ error: v$.channelName.$error }">
           {{ $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.CHANNEL_NAME.LABEL') }}
           <input
             v-model.trim="channelName"
@@ -16,22 +16,22 @@
             :placeholder="
               $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.CHANNEL_NAME.PLACEHOLDER')
             "
-            @blur="$v.channelName.$touch"
+            @blur="v$.channelName.$touch"
           />
-          <span v-if="$v.channelName.$error" class="message">{{
+          <span v-if="v$.channelName.$error" class="message">{{
             $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.CHANNEL_NAME.ERROR')
           }}</span>
         </label>
       </div>
 
       <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
-        <label :class="{ error: $v.email.$error }">
+        <label :class="{ error: v$.email.$error }">
           {{ $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.EMAIL.LABEL') }}
           <input
             v-model.trim="email"
             type="text"
             :placeholder="$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.EMAIL.PLACEHOLDER')"
-            @blur="$v.email.$touch"
+            @blur="v$.email.$touch"
           />
         </label>
         <p class="help-text">
@@ -52,6 +52,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
+import { useVuelidate } from '@vuelidate/core';
 import { required, email } from 'vuelidate/lib/validators';
 import router from '../../../../../index';
 import PageHeader from '../../../SettingsSubPageHeader.vue';
@@ -61,6 +62,9 @@ export default {
     PageHeader,
   },
   mixins: [alertMixin],
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       channelName: '',
@@ -79,8 +83,8 @@ export default {
   },
   methods: {
     async createChannel() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         return;
       }
 

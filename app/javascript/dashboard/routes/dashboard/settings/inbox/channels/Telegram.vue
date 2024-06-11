@@ -8,7 +8,7 @@
     />
     <form class="mx-0 flex flex-wrap" @submit.prevent="createChannel()">
       <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
-        <label :class="{ error: $v.botToken.$error }">
+        <label :class="{ error: v$.botToken.$error }">
           {{ $t('INBOX_MGMT.ADD.TELEGRAM_CHANNEL.BOT_TOKEN.LABEL') }}
           <input
             v-model.trim="botToken"
@@ -16,7 +16,7 @@
             :placeholder="
               $t('INBOX_MGMT.ADD.TELEGRAM_CHANNEL.BOT_TOKEN.PLACEHOLDER')
             "
-            @blur="$v.botToken.$touch"
+            @blur="v$.botToken.$touch"
           />
         </label>
         <p class="help-text">
@@ -37,6 +37,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
+import { useVuelidate } from '@vuelidate/core';
 import { required } from 'vuelidate/lib/validators';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader.vue';
@@ -46,6 +47,9 @@ export default {
     PageHeader,
   },
   mixins: [alertMixin],
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       botToken: '',
@@ -61,8 +65,8 @@ export default {
   },
   methods: {
     async createChannel() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         return;
       }
 

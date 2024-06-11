@@ -48,14 +48,14 @@
             }}</label>
           </div>
           <div v-if="sentToOtherEmailAddress" class="w-[50%] mt-1">
-            <label :class="{ error: $v.email.$error }">
+            <label :class="{ error: v$.email.$error }">
               <input
                 v-model.trim="email"
                 type="text"
                 :placeholder="$t('EMAIL_TRANSCRIPT.FORM.EMAIL.PLACEHOLDER')"
-                @input="$v.email.$touch"
+                @input="v$.email.$touch"
               />
-              <span v-if="$v.email.$error" class="message">
+              <span v-if="v$.email.$error" class="message">
                 {{ $t('EMAIL_TRANSCRIPT.FORM.EMAIL.ERROR') }}
               </span>
             </label>
@@ -76,6 +76,7 @@
 </template>
 
 <script>
+import { useVuelidate } from '@vuelidate/core';
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import alertMixin from 'shared/mixins/alertMixin';
 export default {
@@ -89,6 +90,9 @@ export default {
       type: Object,
       default: () => ({}),
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -111,7 +115,7 @@ export default {
     isFormValid() {
       if (this.selectedType) {
         if (this.sentToOtherEmailAddress) {
-          return !!this.email && !this.$v.email.$error;
+          return !!this.email && !this.v$.email.$error;
         }
         return true;
       }
