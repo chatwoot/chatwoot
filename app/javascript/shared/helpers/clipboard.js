@@ -1,3 +1,5 @@
+import { emitter } from 'shared/helpers/mitt';
+
 /**
  * Writes a text string to the system clipboard.
  *
@@ -5,17 +7,45 @@
  * @param {string} text text to be written to the clipboard
  * @throws {Error} unable to copy text to clipboard
  */
-import { emitter } from 'shared/helpers/mitt';
-
 export const copyTextToClipboard = async text => {
   try {
-    await navigator.clipboard.writeText(text);
+    const permission = await navigator.permissions.query({
+      name: 'clipboard-write',
+    });
+    if (permission.state === 'granted' || permission.state === 'prompt') {
+      await navigator.clipboard.writeText(text);
+    } else {
+      throw new Error('Clipboard write permission denied');
+    }
   } catch (error) {
-    // TODO: show localized error message
-    emitter.emit(
-      'newToastMessage',
-      'Network Error: Unable to copy text to clipboard.'
-    );
-    throw new Error(`Unable to copy text to clipboard: ${error.message}`);
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.opacity = '0';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+      const successful = document.execCommand('copy');
+      if (successful) {
+        emitter.emit(
+          'newToastMessage',
+          'Text successfully copied to clipboard.'
+        );
+      } else {
+        throw new Error('Fallback method failed');
+      }
+    } catch (execCommandError) {
+      emitter.emit(
+        'newToastMessage',
+        'Network Error: Unable to copy text to clipboard.'
+      );
+      throw new Error(
+        `Unable to copy text to clipboard: ${execCommandError.message}`
+      );
+    } finally {
+      document.body.removeChild(textArea);
+    }
   }
 };
