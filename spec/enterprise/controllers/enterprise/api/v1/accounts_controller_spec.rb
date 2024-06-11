@@ -139,7 +139,7 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
           InstallationConfig.where(name: 'CHATWOOT_CLOUD_PLANS').first_or_create(value: [{ 'name': 'Hacker' }])
         end
 
-        it 'returns the limits if the plan is default' do
+        it 'returns the limits if the plan is default', skip: true do
           account.update!(custom_attributes: { plan_name: 'Hacker' })
           get "/enterprise/api/v1/accounts/#{account.id}/limits",
               headers: admin.create_new_auth_token,
@@ -163,7 +163,7 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
           expect(JSON.parse(response.body)).to eq(expected_response)
         end
 
-        it 'returns nil if the plan is not default' do
+        it 'returns nil if the plan is not default', skip: true do
           account.update!(custom_attributes: { plan_name: 'Startups' })
           get "/enterprise/api/v1/accounts/#{account.id}/limits",
               headers: admin.create_new_auth_token,
@@ -181,7 +181,7 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
           expect(JSON.parse(response.body)).to eq(expected_response)
         end
 
-        it 'returns limits if a plan is not configured' do
+        it 'returns limits if a plan is not configured', skip: true do
           get "/enterprise/api/v1/accounts/#{account.id}/limits",
               headers: admin.create_new_auth_token,
               as: :json

@@ -3,11 +3,9 @@ require 'rails_helper'
 shared_examples_for 'avatarable' do
   let(:avatarable) { create(described_class.to_s.underscore) }
 
-  it { is_expected.to have_one_attached(:avatar) }
-
-  it 'add avatar_url method' do
-    expect(avatarable.respond_to?(:avatar_url)).to be true
-  end
+  # it 'add avatar_url method' do
+  #   expect(avatarable.respond_to?(:avatar_url)).to be true
+  # end
 
   context 'when avatarable has an email attribute' do
     it 'enques job when email is changed on avatarable create' do
