@@ -52,6 +52,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    conversationStatuses: {
+      type: Array,
+      default: () => [],
+    },
     customViews: {
       type: Array,
       default: () => [],
@@ -190,6 +194,23 @@ export default {
         })),
       };
     },
+    statusSection() {
+      return {
+        icon: 'people-team',
+        label: 'STATUSES',
+        hasSubMenu: true,
+        key: 'status',
+        children: this.conversationStatuses.map(status => ({
+          id: status.id,
+          label: status.name,
+          truncateLabel: true,
+          icon: status.icon,
+          toState: frontendURL(
+            `accounts/${this.accountId}/${status.id}/conversations`
+          ),
+        })),
+      };
+    },
     foldersSection() {
       return {
         icon: 'folder',
@@ -227,7 +248,11 @@ export default {
       };
     },
     additionalSecondaryMenuItems() {
-      let conversationMenuItems = [this.inboxSection, this.labelSection];
+      let conversationMenuItems = [
+        this.statusSection,
+        this.inboxSection,
+        this.labelSection,
+      ];
       let contactMenuItems = [this.contactLabelSection];
       if (this.teams.length) {
         conversationMenuItems = [this.teamSection, ...conversationMenuItems];

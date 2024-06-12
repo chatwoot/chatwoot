@@ -159,5 +159,81 @@ export default {
         conversationType: 'unread',
       }),
     },
+    {
+      path: frontendURL('accounts/:accountId/open/conversations'),
+      name: 'conversation_open_status',
+      roles: ['administrator', 'agent'],
+      component: ConversationView,
+      props: () => ({ status: 'open' }),
+    },
+    {
+      path: frontendURL(
+        'accounts/:accountId/open/conversations/:conversationId'
+      ),
+      name: 'conversation_through_open_status',
+      roles: ['administrator', 'agent'],
+      component: ConversationView,
+      props: route => ({
+        conversationId: route.params.conversationId,
+        status: 'open',
+      }),
+    },
+    {
+      path: frontendURL('accounts/:accountId/pending/conversations'),
+      name: 'conversation_pending_status',
+      roles: ['administrator', 'agent'],
+      component: ConversationView,
+      props: () => ({ status: 'pending' }),
+    },
+    {
+      path: frontendURL(
+        'accounts/:accountId/pending/conversations/:conversationId'
+      ),
+      name: 'conversation_through_pending_status',
+      roles: ['administrator', 'agent'],
+      component: ConversationView,
+      props: route => ({
+        conversationId: route.params.conversationId,
+        status: 'pending',
+      }),
+    },
+    {
+      path: frontendURL('accounts/:accountId/snoozed/conversations'),
+      name: 'conversation_snoozed_status',
+      roles: ['administrator', 'agent'],
+      component: ConversationView,
+      props: () => ({ status: 'snoozed' }),
+    },
+    {
+      path: frontendURL(
+        'accounts/:accountId/snoozed/conversations/:conversationId'
+      ),
+      name: 'conversation_through_snoozed_status',
+      roles: ['administrator', 'agent'],
+      component: ConversationView,
+      props: route => ({
+        conversationId: route.params.conversationId,
+        status: 'snoozed',
+      }),
+    },
+    {
+      path: frontendURL('accounts/:accountId/resolved/conversations'),
+      name: 'conversation_resolved_status',
+      roles: ['administrator', 'agent'],
+      component: ConversationView,
+      props: () => ({ status: 'resolved' }),
+    },
+    {
+      path: frontendURL(
+        'accounts/:accountId/resolved/conversations/:conversationId'
+      ),
+      name: 'conversation_through_resolved_status',
+      roles: ['administrator', 'agent'],
+      component: ConversationView,
+      props: route => ({
+        conversationId: route.params.conversationId,
+        status: 'resolved',
+      }),
+    },
   ],
 };

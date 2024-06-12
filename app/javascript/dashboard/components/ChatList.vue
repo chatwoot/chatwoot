@@ -60,7 +60,7 @@
           />
         </div>
         <conversation-basic-filter
-          v-if="!hasAppliedFiltersOrActiveFolders"
+          v-if="!hasAppliedFiltersOrActiveFolders && !status"
           @changeFilter="onBasicFilterChange"
         />
         <woot-button
@@ -272,6 +272,10 @@ export default {
       type: String,
       default: '',
     },
+    status: {
+      type: String,
+      default: '',
+    },
     foldersId: {
       type: [String, Number],
       default: 0,
@@ -318,6 +322,7 @@ export default {
         teamId: this.teamId,
         foldersId: this.foldersId,
         conversationType: this.conversationType,
+        status: this.status,
         showAssignee: false,
         isConversationSelected: this.isConversationSelected,
       },
@@ -429,7 +434,7 @@ export default {
       return {
         inboxId: this.conversationInbox ? this.conversationInbox : undefined,
         assigneeType: this.activeAssigneeTab,
-        status: this.activeStatus,
+        status: this.status || this.activeStatus,
         sortBy: this.activeSortBy,
         page: this.conversationListPagination,
         labels: this.label ? [this.label] : undefined,
@@ -480,6 +485,11 @@ export default {
       }
       if (this.hasActiveFolders) {
         return this.activeFolder.name;
+      }
+      if (this.status) {
+        return this.$t(
+          `CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${this.status}.TEXT`
+        );
       }
       return this.$t('CHAT_LIST.TAB_HEADING');
     },
@@ -547,6 +557,10 @@ export default {
     conversationType() {
       this.resetAndFetchData();
       this.updateVirtualListProps('conversationType', this.conversationType);
+    },
+    status() {
+      this.resetAndFetchData();
+      this.updateVirtualListProps('status', this.status);
     },
     activeFolder() {
       this.resetAndFetchData();

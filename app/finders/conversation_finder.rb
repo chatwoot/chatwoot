@@ -38,6 +38,8 @@ class ConversationFinder
   def perform
     set_up
 
+    @conversations = unread_conversations(current_account.id) if params[:unread_only].present? && params[:unread_only] == true
+
     mine_count, unassigned_count, all_count, = set_count_for_all_conversations
     assigned_count = all_count - unassigned_count
 

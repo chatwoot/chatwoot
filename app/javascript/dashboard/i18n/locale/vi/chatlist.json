@@ -21,18 +21,23 @@
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
+        "ICON": "arrow-circle-right",
         "TEXT": "Đang giải quyết"
       },
       "pending": {
+        "ICON": "arrow-clockwise",
         "TEXT": "Chờ giải quyết"
       },
       "snoozed": {
+        "ICON": "clock",
         "TEXT": "Lên lịch hẹn"
       },
       "resolved": {
+        "ICON": "approvals-app",
         "TEXT": "Đã hoàn thành"
       },
       "all": {
+        "ICON": "app-folder",
         "TEXT": "Tất cả"
       }
     },

@@ -25,6 +25,9 @@
     >
       <fluent-icon
         :icon="menuItem.icon"
+        :class="{
+          'bg-green-400': menuItem.label === 'MENTIONED_CONVERSATIONS',
+        }"
         class="min-w-[1rem] mr-1.5 rtl:mr-0 rtl:ml-1.5"
         size="14"
       />
@@ -60,7 +63,7 @@
         :label="child.label"
         :label-color="child.color"
         :should-truncate="child.truncateLabel"
-        :icon="computedInboxClass(child)"
+        :icon="child.icon || computedInboxClass(child)"
         :warning-icon="computedInboxErrorClass(child)"
         :show-child-count="showChildCount(child.count)"
         :child-item-count="child.count"

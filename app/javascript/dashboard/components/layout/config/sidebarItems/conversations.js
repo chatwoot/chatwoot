@@ -20,6 +20,14 @@ const conversations = accountId => ({
     'conversations_through_folders',
     'conversation_unattended',
     'conversation_through_unattended',
+    'conversation_open_status',
+    'conversation_through_open_status',
+    'conversation_pending_status',
+    'conversation_through_pending_status',
+    'conversation_snoozed_status',
+    'conversation_through_snoozed_status',
+    'conversation_resolved_status',
+    'conversation_through_resolved_status',
   ],
   menuItems: [
     {

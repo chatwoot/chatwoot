@@ -6,6 +6,7 @@
       :label="label"
       :team-id="teamId"
       :conversation-type="conversationType"
+      :status="status"
       :folders-id="foldersId"
       :is-on-expanded-layout="isOnExpandedLayout"
       @conversation-load="onConversationLoad"
@@ -59,6 +60,10 @@ export default {
       default: '',
     },
     conversationType: {
+      type: String,
+      default: '',
+    },
+    status: {
       type: String,
       default: '',
     },

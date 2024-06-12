@@ -18,6 +18,7 @@
       :inboxes="inboxes"
       :labels="labels"
       :teams="teams"
+      :conversation-statuses="conversationStatuses"
       :custom-views="customViews"
       :menu-config="activeSecondaryMenu"
       :current-role="currentRole"
@@ -82,6 +83,20 @@ export default {
       labels: 'labels/getLabelsOnSidebar',
       teams: 'teams/getMyTeams',
     }),
+    conversationStatuses() {
+      const statusFilters = this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS');
+      return [
+        ...Object.keys(statusFilters)
+          .filter(status => status !== 'all')
+          .map(status => {
+            return {
+              id: status,
+              name: statusFilters[status].TEXT,
+              icon: statusFilters[status].ICON,
+            };
+          }),
+      ];
+    },
     activeCustomView() {
       if (this.activePrimaryMenu.key === 'contacts') {
         return 'contact';

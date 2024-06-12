@@ -25,6 +25,8 @@
           <fluent-icon
             class="text-xxs text-slate-700 dark:text-slate-200"
             :class="{
+              'bg-green-400':
+                label === 'Lên lịch hẹn' || label === 'API: Web Adword',
               'text-woot-500 dark:text-woot-500': isActive,
             }"
             :icon="icon"
