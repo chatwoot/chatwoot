@@ -43,6 +43,38 @@ export const isOnFoldersView = ({ route: { name: routeName } }) => {
   return FOLDER_ROUTES.includes(routeName);
 };
 
+export const isOnOpenView = ({ route: { name: routeName } }) => {
+  const OPEN_ROUTES = [
+    'conversation_open_status',
+    'conversation_through_open_status',
+  ];
+  return OPEN_ROUTES.includes(routeName);
+};
+
+export const isOnSnoozedView = ({ route: { name: routeName } }) => {
+  const SNOOZED_ROUTES = [
+    'conversation_snoozed_status',
+    'conversation_through_snoozed_status',
+  ];
+  return SNOOZED_ROUTES.includes(routeName);
+};
+
+export const isOnPendingView = ({ route: { name: routeName } }) => {
+  const PENDING_ROUTES = [
+    'conversation_pending_status',
+    'conversation_through_pending_status',
+  ];
+  return PENDING_ROUTES.includes(routeName);
+};
+
+export const isOnResolvedView = ({ route: { name: routeName } }) => {
+  const RESOLVED_ROUTES = [
+    'conversation_resolved_status',
+    'conversation_through_resolved_status',
+  ];
+  return RESOLVED_ROUTES.includes(routeName);
+};
+
 export const buildConversationList = (
   context,
   requestPayload,

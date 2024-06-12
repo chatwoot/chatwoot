@@ -62,6 +62,10 @@ export const isAConversationRoute = routeName =>
     'conversations_through_team',
     'conversations_through_folders',
     'conversation_through_unread',
+    'conversation_through_open_status',
+    'conversation_through_pending_status',
+    'conversation_through_snoozed_status',
+    'conversation_through_resolved_status',
   ].includes(routeName);
 
 export const getConversationDashboardRoute = routeName => {
@@ -82,6 +86,14 @@ export const getConversationDashboardRoute = routeName => {
       return 'conversation_unread';
     case 'conversation_through_inbox':
       return 'inbox_dashboard';
+    case 'conversation_through_open_status':
+      return 'conversation_open_status';
+    case 'conversation_through_pending_status':
+      return 'conversation_pending_status';
+    case 'conversation_through_snoozed_status':
+      return 'conversation_snoozed_status';
+    case 'conversation_through_resolved_status':
+      return 'conversation_resolved_status';
     default:
       return null;
   }

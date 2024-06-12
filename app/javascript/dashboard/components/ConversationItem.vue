@@ -6,6 +6,7 @@
     :folders-id="foldersId"
     :chat="source"
     :conversation-type="conversationType"
+    :status="status"
     :selected="isConversationSelected(source.id)"
     :show-assignee="showAssignee"
     :enable-context-menu="true"
@@ -52,6 +53,10 @@ export default {
       default: '',
     },
     conversationType: {
+      type: String,
+      default: '',
+    },
+    status: {
       type: String,
       default: '',
     },

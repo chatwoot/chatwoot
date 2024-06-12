@@ -177,6 +177,10 @@ export default {
       type: String,
       default: '',
     },
+    status: {
+      type: String,
+      default: '',
+    },
     selected: {
       type: Boolean,
       default: false,
@@ -274,6 +278,7 @@ export default {
           teamId: this.teamId,
           foldersId: this.foldersId,
           conversationType: this.conversationType,
+          status: this.status,
         })
       );
 

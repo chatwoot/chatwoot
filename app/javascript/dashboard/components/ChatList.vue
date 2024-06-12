@@ -214,6 +214,10 @@ import {
   isOnMentionsView,
   isOnUnreadView,
   isOnUnattendedView,
+  isOnOpenView,
+  isOnSnoozedView,
+  isOnPendingView,
+  isOnResolvedView,
 } from '../store/modules/conversations/helpers/actionHelpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 import IntersectionObserver from './IntersectionObserver.vue';
@@ -935,10 +939,21 @@ export default {
         } else if (isOnUnreadView({ route: { name } })) {
           conversationType = 'unread';
         }
+        let status = '';
+        if (isOnOpenView({ route: { name } })) {
+          status = 'open';
+        } else if (isOnSnoozedView({ route: { name } })) {
+          status = 'snoozed';
+        } else if (isOnPendingView({ route: { name } })) {
+          status = 'pending';
+        } else if (isOnResolvedView({ route: { name } })) {
+          status = 'resolved';
+        }
         this.$router.push(
           conversationListPageURL({
             accountId,
             conversationType: conversationType,
+            status: status,
             customViewId: this.foldersId,
             inboxId,
             label,
