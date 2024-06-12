@@ -30,6 +30,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import DashboardAudioNotificationHelper from 'dashboard/helper/AudioAlerts/DashboardAudioNotificationHelper';
 import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
@@ -69,6 +70,21 @@ export default {
     this.$store.dispatch('userNotificationSettings/get');
   },
   methods: {
+    updateAudioAlertInstanceValues() {
+      const {
+        enable_audio_alerts: audioAlert = '',
+        always_play_audio_alert: alwaysPlayAudioAlert,
+        alert_if_unread_assigned_conversation_exist:
+          alertIfUnreadConversationExist,
+        notification_tone: alertTone,
+      } = this.uiSettings;
+      DashboardAudioNotificationHelper.updateInstanceValues({
+        audioAlertType: audioAlert,
+        alwaysPlayAudioAlert: alwaysPlayAudioAlert,
+        alertIfUnreadConversationExist: alertIfUnreadConversationExist,
+        audioAlertTone: alertTone,
+      });
+    },
     notificationUISettings(uiSettings) {
       const {
         enable_audio_alerts: audioAlert = '',
@@ -106,22 +122,26 @@ export default {
         enable_audio_alerts: this.audioAlert,
       });
       this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
+      this.updateAudioAlertInstanceValues();
     },
     handleAudioAlertConditions(id, value) {
       if (id === 'tab_is_inactive') {
         this.updateUISettings({
           always_play_audio_alert: !value,
         });
+        this.updateAudioAlertInstanceValues();
       } else if (id === 'conversations_are_read') {
         this.updateUISettings({
           alert_if_unread_assigned_conversation_exist: value,
         });
+        this.updateAudioAlertInstanceValues();
       }
       this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
     },
     handleAudioToneChange(value) {
       this.updateUISettings({ notification_tone: value });
       this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
+      this.updateAudioAlertInstanceValues();
     },
   },
 };

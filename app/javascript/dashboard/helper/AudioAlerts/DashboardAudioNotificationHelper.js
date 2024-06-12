@@ -36,6 +36,18 @@ class DashboardAudioNotificationHelper {
     initFaviconSwitcher();
   };
 
+  updateInstanceValues = ({
+    alwaysPlayAudioAlert,
+    alertIfUnreadConversationExist,
+    audioAlertType,
+    audioAlertTone,
+  }) => {
+    this.audioAlertType = audioAlertType;
+    this.playAlertOnlyWhenHidden = !alwaysPlayAudioAlert;
+    this.alertIfUnreadConversationExist = alertIfUnreadConversationExist;
+    this.audioAlertTone = audioAlertTone;
+  };
+
   onAudioListenEvent = async () => {
     try {
       await getAlertAudio('', {
