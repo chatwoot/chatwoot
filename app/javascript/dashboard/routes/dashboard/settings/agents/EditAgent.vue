@@ -128,6 +128,10 @@ export default {
           name: 'agent',
           label: this.$t('AGENT_MGMT.AGENT_TYPES.AGENT'),
         },
+        {
+          name: 'supervisor',
+          label: this.$t('AGENT_MGMT.AGENT_TYPES.SUPERVISOR'),
+        },
       ],
       agentName: this.name,
       agentAvailability: this.availability,
