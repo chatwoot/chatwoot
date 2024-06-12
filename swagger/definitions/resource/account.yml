@@ -8,5 +8,5 @@ properties:
     description: Name of the account
   role:
     type: string
-    enum: ['administrator', 'agent']
+    enum: ['administrator', 'agent', 'supervisor']
     description: The user role in the account
