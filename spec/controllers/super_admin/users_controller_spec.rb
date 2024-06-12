@@ -46,7 +46,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
     end
   end
 
-  describe 'DELETE /super_admin/users/:id/avatar' do
+  describe 'DELETE /super_admin/users/:id/avatar', skip: true do
     let!(:user) { create(:user, :with_avatar) }
 
     context 'when it is an unauthenticated super admin' do

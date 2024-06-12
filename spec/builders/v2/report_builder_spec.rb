@@ -55,6 +55,27 @@ describe V2::ReportBuilder do
       end
     end
 
+    context 'when report type is account and metric is triggers' do
+      let_it_be(:trigger_processed) { create(:trigger, processedAt: Time.zone.now) }
+      let_it_be(:trigger_unprocessed) { create(:trigger, processedAt: nil) }
+
+      it 'return triggers count' do
+        params = {
+          metric: 'triggers',
+          type: :account,
+          since: (Time.zone.today - 3.days).to_time.to_i.to_s,
+          until: Time.zone.today.end_of_day.to_time.to_i.to_s
+        }
+
+        builder = described_class.new(account, params)
+        metrics = builder.timeseries
+
+        expect(metrics[:total]).to be 2
+        expect(metrics[:unprocessed]).to be 1
+        expect(metrics[:processed]).to be 0
+      end
+    end
+
     context 'when report type is account' do
       it 'return conversations count' do
         params = {
