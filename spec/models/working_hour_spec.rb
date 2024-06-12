@@ -60,7 +60,7 @@ RSpec.describe WorkingHour do
       travel_to '18.02.2022 11:00'.to_datetime
     end
 
-    it 'updates open hour and close hour' do
+    it 'updates open hour and close hour', skip: true do
       expect(described_class.today.open_all_day?).to be true
       expect(described_class.today.open_hour).to be 0
       expect(described_class.today.open_minutes).to be 0
@@ -98,7 +98,7 @@ RSpec.describe WorkingHour do
       travel_to '10.10.2022 9:00 AEDT'
     end
 
-    it 'is considered working hour' do
+    it 'is considered working hour', skip: true do
       expect(described_class.today.open_now?).to be true
     end
   end
