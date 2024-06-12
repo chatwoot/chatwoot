@@ -17,13 +17,14 @@ import profile from './profile/profile.routes';
 import reports from './reports/reports.routes';
 import store from '../../../store';
 import teams from './teams/teams.routes';
+import { AllRoles } from '../../../featureFlags';
 
 export default {
   routes: [
     {
       path: frontendURL('accounts/:accountId/settings'),
       name: 'settings_home',
-      roles: ['administrator', 'agent'],
+      roles: AllRoles,
       redirect: () => {
         if (store.getters.getCurrentRole === 'administrator') {
           return frontendURL('accounts/:accountId/settings/general');

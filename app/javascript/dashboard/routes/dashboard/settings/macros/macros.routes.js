@@ -1,4 +1,5 @@
 import { frontendURL } from 'dashboard/helper/URLHelper';
+import { AllRoles } from '../../../../featureFlags';
 
 const SettingsContent = () => import('../Wrapper.vue');
 const Macros = () => import('./Index.vue');
@@ -23,19 +24,19 @@ export default {
           path: '',
           name: 'macros_wrapper',
           component: Macros,
-          roles: ['administrator', 'agent'],
+          roles: AllRoles,
         },
         {
           path: 'new',
           name: 'macros_new',
           component: MacroEditor,
-          roles: ['administrator', 'agent'],
+          roles: AllRoles,
         },
         {
           path: ':macroId/edit',
           name: 'macros_edit',
           component: MacroEditor,
-          roles: ['administrator', 'agent'],
+          roles: AllRoles,
         },
       ],
     },

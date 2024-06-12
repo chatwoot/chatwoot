@@ -1,3 +1,4 @@
+import { AllRoles } from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 const SettingsContent = () => import('../Wrapper.vue');
@@ -22,7 +23,7 @@ export default {
         {
           path: 'list',
           name: 'canned_list',
-          roles: ['administrator', 'agent'],
+          roles: AllRoles,
           component: CannedHome,
         },
       ],
