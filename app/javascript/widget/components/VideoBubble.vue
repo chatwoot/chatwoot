@@ -11,24 +11,17 @@ const onVideoError = () => {
 };
 </script>
 <template>
-  <a
-    :href="url"
-    target="_blank"
-    rel="noreferrer noopener nofollow"
-    class="block"
-  >
-    <div class="flex relative max-w-full">
-      <video
-        class="w-full max-w-[250px] h-auto"
-        :src="url"
-        controls
-        @error="onVideoError"
-      />
-      <span
-        class="text-xs absolute text-white dark:text-white right-3 bottom-1 whitespace-nowrap"
-      >
-        {{ readableTime }}
-      </span>
-    </div>
-  </a>
+  <div class="block relative max-w-full">
+    <video
+      class="w-full max-w-[250px] h-auto"
+      :src="url"
+      controls
+      @error="onVideoError"
+    />
+    <span
+      class="text-xs absolute text-white dark:text-white right-3 bottom-1 whitespace-nowrap"
+    >
+      {{ readableTime }}
+    </span>
+  </div>
 </template>
