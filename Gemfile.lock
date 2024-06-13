@@ -156,7 +156,7 @@ GEM
       msgpack (~> 1.2)
     brakeman (5.4.1)
     browser (5.3.1)
-    builder (3.2.4)
+    builder (3.3.0)
     bullet (7.0.7)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
@@ -169,7 +169,7 @@ GEM
     climate_control (1.2.0)
     coderay (1.1.3)
     commonmarker (0.23.10)
-    concurrent-ruby (1.3.1)
+    concurrent-ruby (1.3.3)
     connection_pool (2.4.1)
     crack (0.4.5)
       rexml
