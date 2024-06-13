@@ -4,7 +4,7 @@
   >
     <woot-submit-button
       v-if="notificationMetadata.unreadCount"
-      class="button nice success button--fixed-top"
+      class="button nice primary button--fixed-top"
       :button-text="$t('NOTIFICATIONS_PAGE.MARK_ALL_DONE')"
       :loading="isUpdating"
       @click="onMarkAllDoneClick"

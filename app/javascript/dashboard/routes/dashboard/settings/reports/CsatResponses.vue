@@ -9,7 +9,7 @@
       @filter-change="onFilterChange"
     />
     <woot-button
-      color-scheme="success"
+      color-scheme="primary"
       class-names="button--fixed-top"
       icon="arrow-download"
       @click="downloadReports"

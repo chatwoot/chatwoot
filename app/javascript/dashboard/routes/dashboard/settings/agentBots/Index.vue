@@ -28,7 +28,7 @@
       </div>
     </div>
     <woot-button
-      color-scheme="success"
+      color-scheme="primary"
       class-names="button--fixed-top"
       icon="add-circle"
     >

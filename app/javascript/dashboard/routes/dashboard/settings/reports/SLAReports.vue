@@ -2,7 +2,7 @@
   <div class="flex flex-col flex-1 gap-6 px-4 pt-4 overflow-auto">
     <SLAReportFilters @filter-change="onFilterChange" />
     <woot-button
-      color-scheme="success"
+      color-scheme="primary"
       class-names="button--fixed-top"
       icon="arrow-download"
       @click="downloadReports"

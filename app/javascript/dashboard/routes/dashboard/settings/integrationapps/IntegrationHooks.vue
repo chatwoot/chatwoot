@@ -2,7 +2,7 @@
   <div class="overflow-auto p-4 max-w-full my-auto flex flex-wrap h-full">
     <woot-button
       v-if="showAddButton"
-      color-scheme="success"
+      color-scheme="primary"
       class-names="button--fixed-top"
       icon="add-circle"
       @click="openAddHookModal"

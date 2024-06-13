@@ -84,7 +84,7 @@
         </woot-button>
         <woot-button
           class="clear"
-          color-scheme="success"
+          color-scheme="primary"
           icon="person-add"
           data-testid="create-new-contact"
           @click="toggleCreate"

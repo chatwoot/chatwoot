@@ -1,7 +1,7 @@
 <template>
   <div class="flex-1 p-4 overflow-auto">
     <woot-button
-      color-scheme="success"
+      color-scheme="primary"
       class-names="button--fixed-top"
       icon="add-circle"
       @click="openAddPopup"

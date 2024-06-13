@@ -48,7 +48,7 @@
         <div class="mt-4">
           <woot-button
             icon="add"
-            color-scheme="success"
+            color-scheme="primary"
             variant="smooth"
             size="small"
             @click="appendNewFilter"
