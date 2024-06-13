@@ -24,7 +24,7 @@ class Notification::FcmService
 
   def generate_token
     authorizer = Google::Auth::ServiceAccountCredentials.make_creds(
-      json_key_io: File.open(credentials_path),
+      json_key_io: credentials_path,
       scope: SCOPES
     )
     token = authorizer.fetch_access_token!
@@ -35,11 +35,6 @@ class Notification::FcmService
   end
 
   def credentials_path
-    file = Tempfile.new(['firebase', '.json'])
-    file.write(@credentials)
-    file.rewind
-    file.path
-  ensure
-    file.close
+    StringIO.new(@credentials)
   end
 end

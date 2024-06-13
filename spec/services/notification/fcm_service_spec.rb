@@ -60,10 +60,10 @@ describe Notification::FcmService do
     end
 
     describe '#credentials_path' do
-      it 'creates a temp file with credentials' do
-        path = fcm_service.send(:credentials_path)
-        expect(File.exist?(path)).to be true
-        expect(File.read(path)).to eq(credentials)
+      it 'creates a StringIO with credentials' do
+        string_io = fcm_service.send(:credentials_path)
+        expect(string_io).to be_a(StringIO)
+        expect(string_io.read).to eq(credentials)
       end
     end
   end
