@@ -46,6 +46,10 @@ class DashboardAudioNotificationHelper {
     this.playAlertOnlyWhenHidden = !alwaysPlayAudioAlert;
     this.alertIfUnreadConversationExist = alertIfUnreadConversationExist;
     this.audioAlertTone = audioAlertTone;
+    getAlertAudio('', {
+      type: 'dashboard',
+      alertTone: this.audioAlertTone,
+    });
   };
 
   onAudioListenEvent = async () => {
