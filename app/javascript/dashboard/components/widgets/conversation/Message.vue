@@ -619,7 +619,7 @@ export default {
     }
 
     &.is-from-bot {
-      @apply bg-blue-75 dark:bg-blue-600 border border-blue-200 dark:border-none text-slate-900 dark:text-slate-100;
+      @apply bg-blue-75 dark:bg-blue-800 border border-blue-200 dark:border-none text-slate-900 dark:text-slate-100;
 
       .message-text--metadata .time {
         @apply text-blue-900 dark:text-blue-50;
