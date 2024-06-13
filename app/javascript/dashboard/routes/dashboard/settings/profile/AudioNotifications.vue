@@ -116,32 +116,32 @@ export default {
       ];
       this.alertTone = alertTone || 'ding';
     },
-    handAudioAlertChange(value) {
+    async handAudioAlertChange(value) {
       this.audioAlert = value;
-      this.updateUISettings({
+      await this.updateUISettings({
         enable_audio_alerts: this.audioAlert,
       });
+      await this.updateAudioAlertInstanceValues();
       this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
-      this.updateAudioAlertInstanceValues();
     },
-    handleAudioAlertConditions(id, value) {
+    async handleAudioAlertConditions(id, value) {
       if (id === 'tab_is_inactive') {
-        this.updateUISettings({
+        await this.updateUISettings({
           always_play_audio_alert: !value,
         });
-        this.updateAudioAlertInstanceValues();
+        await this.updateAudioAlertInstanceValues();
       } else if (id === 'conversations_are_read') {
-        this.updateUISettings({
+        await this.updateUISettings({
           alert_if_unread_assigned_conversation_exist: value,
         });
-        this.updateAudioAlertInstanceValues();
+        await this.updateAudioAlertInstanceValues();
       }
       this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
     },
-    handleAudioToneChange(value) {
-      this.updateUISettings({ notification_tone: value });
+    async handleAudioToneChange(value) {
+      await this.updateUISettings({ notification_tone: value });
+      await this.updateAudioAlertInstanceValues();
       this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
-      this.updateAudioAlertInstanceValues();
     },
   },
 };
