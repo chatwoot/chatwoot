@@ -2,7 +2,7 @@
   <div
     class="flex flex-col gap-4 w-full h-fit sm:max-h-[220px] p-4 sm:max-w-[350px] rounded-md border border-solid border-ash-200"
     :class="{
-      'border-primary-300 ': active,
+      'border-woot-300 ': active,
     }"
     @click="$emit('click')"
   >
@@ -15,7 +15,7 @@
           :checked="active"
           type="radio"
           :name="`hotkey-${title}`"
-          class="shadow cursor-pointer grid place-items-center border-2 border-ash-200 appearance-none rounded-full w-5 h-5 checked:bg-primary-600 before:content-[''] before:bg-primary-600 before:border-4 before:rounded-full before:border-ash-25 checked:before:w-[18px] checked:before:h-[18px] checked:border checked:border-primary-600"
+          class="shadow cursor-pointer grid place-items-center border-2 border-ash-200 appearance-none rounded-full w-5 h-5 checked:bg-woot-500 before:content-[''] before:bg-woot-500 before:border-4 before:rounded-full before:border-ash-25 checked:before:w-[18px] checked:before:h-[18px] checked:border checked:border-woot-500"
         />
       </div>
       <span class="text-ash-900 text-sm line-clamp-2 leading-[1.4] text-start">
