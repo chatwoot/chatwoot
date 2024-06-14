@@ -166,6 +166,22 @@ export default {
     activeCustomView() {
       this.fetchCustomViews();
     },
+    inboxes() {
+      this.inboxes.forEach(inbox => {
+        this.$store.dispatch('conversationStats/getUnread', {
+          key: inbox.id,
+          params: { inboxId: inbox.id },
+        });
+      });
+    },
+    conversationStatuses() {
+      this.conversationStatuses.forEach(status => {
+        this.$store.dispatch('conversationStats/getUnread', {
+          key: status.id,
+          params: { status: status.id },
+        });
+      });
+    },
   },
   mounted() {
     this.$store.dispatch('labels/get');

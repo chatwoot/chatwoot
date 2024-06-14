@@ -25,8 +25,6 @@
           <fluent-icon
             class="text-xxs text-slate-700 dark:text-slate-200"
             :class="{
-              'bg-green-400':
-                label === 'Lên lịch hẹn' || label === 'API: Web Adword',
               'text-woot-500 dark:text-woot-500': isActive,
             }"
             :icon="icon"
@@ -54,15 +52,10 @@
             {{ label }}
           </span>
           <span
-            v-if="showChildCount"
-            class="bg-slate-50 dark:bg-slate-700 rounded-full min-w-[18px] justify-center items-center flex text-xxs font-medium mx-1 py-0 px-1"
-            :class="
-              isCountZero
-                ? `text-slate-300 dark:text-slate-500`
-                : `text-slate-700 dark:text-slate-50`
-            "
+            v-if="unreadLoaded && unreadCount(unreadMeta) > 0"
+            class="unread shadow-lg rounded-full text-xxs font-semibold h-4 leading-4 ml-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-green-400"
           >
-            {{ childItemCount }}
+            {{ unreadCount(unreadMeta) }}
           </span>
         </div>
         <span
@@ -115,6 +108,14 @@ export default {
       type: Number,
       default: 0,
     },
+    unreadLoaded: {
+      type: Boolean,
+      default: false,
+    },
+    unreadMeta: {
+      type: Object,
+      default: null,
+    },
   },
   computed: {
     showIcon() {
@@ -127,6 +128,15 @@ export default {
     },
     menuTitle() {
       return this.shouldTruncate ? this.label : '';
+    },
+  },
+  methods: {
+    unreadCount() {
+      if (this.unreadMeta && Object.keys(this.unreadMeta).length > 0) {
+        const { mine_count } = this.unreadMeta;
+        return mine_count > 9 ? '9+' : mine_count;
+      }
+      return null;
     },
   },
 };

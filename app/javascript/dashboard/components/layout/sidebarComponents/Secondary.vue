@@ -87,18 +87,31 @@ export default {
       if (!this.currentRole) {
         return [];
       }
-      const menuItemsFilteredByRole = this.menuConfig.menuItems.filter(
+      let menuItemsFilteredByRole = this.menuConfig.menuItems.filter(
         menuItem =>
           window.roleWiseRoutes[this.currentRole].indexOf(
             menuItem.toStateName
           ) > -1
       );
-      return menuItemsFilteredByRole.filter(item => {
+      menuItemsFilteredByRole = menuItemsFilteredByRole.filter(item => {
         if (item.showOnlyOnCloud) {
           return this.isOnChatwootCloud;
         }
         return true;
       });
+      if (this.menuConfig.parentNav === 'conversations')
+        return menuItemsFilteredByRole.map(menuItem => {
+          return {
+            ...menuItem,
+            unreadLoaded: this.$store.getters[
+              'conversationStats/getUnreadLoadedByKey'
+            ](menuItem.key),
+            unreadMeta: this.$store.getters[
+              'conversationStats/getUnreadStatsByKey'
+            ](menuItem.key),
+          };
+        });
+      return menuItemsFilteredByRole;
     },
     inboxSection() {
       return {
@@ -122,6 +135,13 @@ export default {
             type: inbox.channel_type,
             phoneNumber: inbox.phone_number,
             reauthorizationRequired: inbox.reauthorization_required,
+            params: { inboxId: inbox.id },
+            unreadLoaded: this.$store.getters[
+              'conversationStats/getUnreadLoadedByKey'
+            ](inbox.id),
+            unreadMeta: this.$store.getters[
+              'conversationStats/getUnreadStatsByKey'
+            ](inbox.id),
           }))
           .sort((a, b) =>
             a.label.toLowerCase() > b.label.toLowerCase() ? 1 : -1
@@ -208,6 +228,13 @@ export default {
           toState: frontendURL(
             `accounts/${this.accountId}/${status.id}/conversations`
           ),
+          params: { status: status.id },
+          unreadLoaded: this.$store.getters[
+            'conversationStats/getUnreadLoadedByKey'
+          ](status.id),
+          unreadMeta: this.$store.getters[
+            'conversationStats/getUnreadStatsByKey'
+          ](status.id),
         })),
       };
     },
@@ -270,6 +297,26 @@ export default {
     },
   },
   methods: {
+    fetchUnreadStats() {
+      this.accessibleMenuItems.forEach(menuItem =>
+        this.fetchUnreadStatsMenu(menuItem)
+      );
+      this.additionalSecondaryMenuItems.conversations.forEach(menuItem => {
+        if (menuItem.children && menuItem.children.length > 0) {
+          menuItem.children.forEach(childItem =>
+            this.fetchUnreadStatsMenu(childItem)
+          );
+        }
+      });
+    },
+    fetchUnreadStatsMenu(menuItem) {
+      if (menuItem.params) {
+        this.$store.dispatch('conversationStats/getUnread', {
+          key: menuItem.id || menuItem.key,
+          params: menuItem.params,
+        });
+      }
+    },
     showAddLabelPopup() {
       this.$emit('add-label');
     },

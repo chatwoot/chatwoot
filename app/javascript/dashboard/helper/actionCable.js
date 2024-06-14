@@ -102,6 +102,7 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onConversationRead = data => {
     this.app.$store.dispatch('updateConversation', data);
+    bus.$emit('fetch_conversation_unread_stats');
   };
 
   // eslint-disable-next-line class-methods-use-this
@@ -178,6 +179,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   // eslint-disable-next-line class-methods-use-this
   fetchConversationStats = () => {
     bus.$emit('fetch_conversation_stats');
+    bus.$emit('fetch_conversation_unread_stats');
     bus.$emit('fetch_overview_reports');
     bus.$emit('fetch_traffic_reports');
   };

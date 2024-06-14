@@ -37,6 +37,7 @@ const conversations = accountId => ({
       toState: frontendURL(`accounts/${accountId}/dashboard`),
       toolTip: 'Conversation from all subscribed inboxes',
       toStateName: 'home',
+      params: {},
     },
     {
       icon: 'person-chat',
@@ -44,6 +45,7 @@ const conversations = accountId => ({
       key: 'conversation_unattended',
       toState: frontendURL(`accounts/${accountId}/unattended/conversations`),
       toStateName: 'conversation_unattended',
+      params: { conversationType: 'unattended' },
     },
     {
       icon: 'mail-unread',
@@ -51,6 +53,7 @@ const conversations = accountId => ({
       key: 'conversation_unread',
       toState: frontendURL(`accounts/${accountId}/unread/conversations`),
       toStateName: 'conversation_unread',
+      params: { conversationType: 'unread' },
     },
     {
       icon: 'mention',
@@ -58,6 +61,7 @@ const conversations = accountId => ({
       key: 'conversation_mentions',
       toState: frontendURL(`accounts/${accountId}/mentions/conversations`),
       toStateName: 'conversation_mentions',
+      params: { conversationType: 'mention' },
     },
   ],
 });

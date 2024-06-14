@@ -38,8 +38,6 @@ class ConversationFinder
   def perform
     set_up
 
-    @conversations = unread_conversations(current_account.id) if params[:unread_only].present? && params[:unread_only] == true
-
     mine_count, unassigned_count, all_count, = set_count_for_all_conversations
     assigned_count = all_count - unassigned_count
 
@@ -88,7 +86,13 @@ class ConversationFinder
   end
 
   def find_all_conversations
-    @conversations = current_account.conversations.where(inbox_id: @inbox_ids)
+    @conversations = if params[:unread_only].present?
+                       unread_conversations(current_account.id)
+                     else
+                       current_account.conversations
+                     end
+
+    @conversations = @conversations.where(inbox_id: @inbox_ids)
     filter_by_conversation_type if params[:conversation_type]
     @conversations
   end
@@ -106,7 +110,7 @@ class ConversationFinder
   end
 
   def filter_by_conversation_type
-    case @params[:conversation_type]
+    case params[:conversation_type]
     when 'mention'
       conversation_ids = current_account.mentions.where(user: current_user).pluck(:conversation_id)
       @conversations = @conversations.where(id: conversation_ids)

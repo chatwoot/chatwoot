@@ -3,13 +3,28 @@ import types from '../mutation-types';
 import ConversationApi from '../../api/inbox/conversation';
 
 const state = {
-  mineCount: 0,
-  unAssignedCount: 0,
-  allCount: 0,
+  unreadMeta: {},
+  isUnreadLoaded: {},
+  meta: {
+    mineCount: 0,
+    unAssignedCount: 0,
+    allCount: 0,
+  },
 };
 
 export const getters = {
-  getStats: $state => $state,
+  getStats: $state => $state.meta,
+
+  getUnreadStats: $state => $state.unreadMeta,
+
+  getUnreadStatsByKey: $state => key => {
+    const itemStats = $state.unreadMeta[key];
+    return itemStats || {};
+  },
+
+  getUnreadLoadedByKey: $state => key => {
+    return $state.isUnreadLoaded[key] || false;
+  },
 };
 
 export const actions = {
@@ -27,6 +42,18 @@ export const actions = {
   set({ commit }, meta) {
     commit(types.SET_CONV_TAB_META, meta);
   },
+  getUnread: async ({ commit }, { key, params }) => {
+    try {
+      const response = await ConversationApi.meta(params, true);
+      const {
+        data: { meta },
+      } = response;
+      commit(types.SET_CONV_UNREAD_LOADED, key);
+      commit(types.SET_CONV_UNREAD_META, { key, meta });
+    } catch (error) {
+      // Ignore error
+    }
+  },
 };
 
 export const mutations = {
@@ -38,9 +65,20 @@ export const mutations = {
       all_count: allCount,
     } = {}
   ) {
-    Vue.set($state, 'mineCount', mineCount);
-    Vue.set($state, 'allCount', allCount);
-    Vue.set($state, 'unAssignedCount', unAssignedCount);
+    Vue.set($state.meta, 'mineCount', mineCount);
+    Vue.set($state.meta, 'allCount', allCount);
+    Vue.set($state.meta, 'unAssignedCount', unAssignedCount);
+  },
+
+  [types.SET_CONV_UNREAD_META]: ($state, { key, meta }) => {
+    Vue.set($state.unreadMeta, key, {
+      ...($state.unreadMeta[key] || {}),
+      ...meta,
+    });
+  },
+
+  [types.SET_CONV_UNREAD_LOADED]: ($state, key) => {
+    Vue.set($state.isUnreadLoaded, key, true);
   },
 };
 
