@@ -336,7 +336,7 @@ export default {
     @apply items-center;
 
     .time {
-      @apply text-slate-400 dark:text-slate-400;
+      @apply text-yellow-800 dark:text-yellow-100;
     }
 
     .icon {

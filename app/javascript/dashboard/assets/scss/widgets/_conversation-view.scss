@@ -143,7 +143,7 @@
       @apply ml-auto break-words rounded-l-lg rounded-r;
 
       &.is-private {
-        @apply text-black-900 dark:text-white relative border border-solid bg-yellow-100 dark:bg-yellow-700 border-yellow-200 dark:border-yellow-600/25;
+        @apply text-black-900 dark:text-white relative border border-solid bg-yellow-75 dark:bg-yellow-800 border-yellow-200 dark:border-none;
 
         blockquote {
           @apply border-slate-400 dark:border-slate-400 text-slate-800 dark:text-slate-300;
@@ -204,7 +204,7 @@
   }
 
   .activity-wrap {
-    @apply flex justify-center text-sm my-1 mx-0 py-1 pr-0.5 pl-2.5 bg-slate-50 dark:bg-slate-600 text-slate-800 dark:text-slate-100 rounded-md border border-slate-100 dark:border-slate-600 border-solid;
+    @apply flex justify-center text-sm my-1 mx-0 py-1 pr-0.5 pl-2.5 bg-slate-50 dark:bg-slate-600 text-slate-800 dark:text-slate-100 rounded-md border border-slate-200 dark:border-slate-600 border-solid;
 
     .is-text {
       @apply inline-flex items-center text-start 2xl:flex;
