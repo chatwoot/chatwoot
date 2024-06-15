@@ -89,6 +89,10 @@ export default {
         ...Object.keys(statusFilters)
           .filter(status => status !== 'all')
           .map(status => {
+            this.$store.dispatch('conversationStats/getUnread', {
+              key: status,
+              params: { status: status },
+            });
             return {
               id: status,
               name: statusFilters[status].TEXT,
@@ -151,6 +155,15 @@ export default {
         secondaryMenu.find(menuItem =>
           menuItem.routes.includes(currentRoute)
         ) || {};
+
+      if (activeSecondaryMenu.parentNav === 'conversations') {
+        activeSecondaryMenu.menuItems.forEach(menuItem =>
+          this.$store.dispatch('conversationStats/getUnread', {
+            key: menuItem.key,
+            params: menuItem.params,
+          })
+        );
+      }
       return activeSecondaryMenu;
     },
     activePrimaryMenu() {
@@ -167,20 +180,12 @@ export default {
       this.fetchCustomViews();
     },
     inboxes() {
-      this.inboxes.forEach(inbox => {
+      this.inboxes.forEach(inbox =>
         this.$store.dispatch('conversationStats/getUnread', {
           key: inbox.id,
           params: { inboxId: inbox.id },
-        });
-      });
-    },
-    conversationStatuses() {
-      this.conversationStatuses.forEach(status => {
-        this.$store.dispatch('conversationStats/getUnread', {
-          key: status.id,
-          params: { status: status.id },
-        });
-      });
+        })
+      );
     },
   },
   mounted() {
@@ -190,9 +195,30 @@ export default {
     this.$store.dispatch('teams/get');
     this.$store.dispatch('attributes/get');
     this.fetchCustomViews();
+    bus.$on('fetch_conversation_unread_stats', this.fetchUnreadStats);
   },
 
   methods: {
+    fetchUnreadStats() {
+      this.activeSecondaryMenu.menuItems.forEach(menuItem =>
+        this.$store.dispatch('conversationStats/getUnread', {
+          key: menuItem.key,
+          params: menuItem.params,
+        })
+      );
+      this.conversationStatuses.forEach(menuItem =>
+        this.$store.dispatch('conversationStats/getUnread', {
+          key: menuItem.id,
+          params: { status: menuItem.id },
+        })
+      );
+      this.inboxes.forEach(menuItem =>
+        this.$store.dispatch('conversationStats/getUnread', {
+          key: menuItem.id,
+          params: { inboxId: menuItem.id },
+        })
+      );
+    },
     fetchCustomViews() {
       if (this.isConversationOrContactActive) {
         this.$store.dispatch('customViews/get', this.activeCustomView);

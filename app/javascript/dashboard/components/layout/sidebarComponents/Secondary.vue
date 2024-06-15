@@ -135,7 +135,6 @@ export default {
             type: inbox.channel_type,
             phoneNumber: inbox.phone_number,
             reauthorizationRequired: inbox.reauthorization_required,
-            params: { inboxId: inbox.id },
             unreadLoaded: this.$store.getters[
               'conversationStats/getUnreadLoadedByKey'
             ](inbox.id),
@@ -228,7 +227,6 @@ export default {
           toState: frontendURL(
             `accounts/${this.accountId}/${status.id}/conversations`
           ),
-          params: { status: status.id },
           unreadLoaded: this.$store.getters[
             'conversationStats/getUnreadLoadedByKey'
           ](status.id),
@@ -297,26 +295,6 @@ export default {
     },
   },
   methods: {
-    fetchUnreadStats() {
-      this.accessibleMenuItems.forEach(menuItem =>
-        this.fetchUnreadStatsMenu(menuItem)
-      );
-      this.additionalSecondaryMenuItems.conversations.forEach(menuItem => {
-        if (menuItem.children && menuItem.children.length > 0) {
-          menuItem.children.forEach(childItem =>
-            this.fetchUnreadStatsMenu(childItem)
-          );
-        }
-      });
-    },
-    fetchUnreadStatsMenu(menuItem) {
-      if (menuItem.params) {
-        this.$store.dispatch('conversationStats/getUnread', {
-          key: menuItem.id || menuItem.key,
-          params: menuItem.params,
-        });
-      }
-    },
     showAddLabelPopup() {
       this.$emit('add-label');
     },
