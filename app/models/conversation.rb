@@ -5,7 +5,9 @@
 #  id                     :integer          not null, primary key
 #  additional_attributes  :jsonb
 #  agent_last_seen_at     :datetime
+#  agent_unread_count     :integer          default(0), not null
 #  assignee_last_seen_at  :datetime
+#  assignee_unread_count  :integer          default(0), not null
 #  cached_label_list      :text
 #  contact_last_seen_at   :datetime
 #  conversation_type      :integer          default("default_type"), not null
@@ -166,22 +168,8 @@ class Conversation < ApplicationRecord
     dispatcher_dispatch(CONVERSATION_BOT_HANDOFF)
   end
 
-  def unread_incoming_messages
-    if assignee_id.present? && Current.user&.id == assignee_id
-      assignee_unread_incoming_messages
-    else
-      agent_unread_incoming_messages
-    end
-  end
-
-  def agent_unread_incoming_messages
-    unread_messages = agent_last_seen_at.present? ? messages.created_since(agent_last_seen_at) : messages
-    unread_messages.where(account_id: account_id).incoming_activity_and_outgoing_private.last(10)
-  end
-
-  def assignee_unread_incoming_messages
-    unread_messages = assignee_last_seen_at.present? ? messages.created_since(assignee_last_seen_at) : messages
-    unread_messages.where(account_id: account_id).incoming_activity_and_outgoing_private.last(10)
+  def unread_count
+    assignee_id.present? && Current.user&.id == assignee_id ? assignee_unread_count : agent_unread_count
   end
 
   def cached_label_list_array

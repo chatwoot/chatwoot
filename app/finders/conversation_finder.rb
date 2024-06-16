@@ -121,7 +121,7 @@ class ConversationFinder
   end
 
   def unread_conversations
-    conversation_ids = Conversation.pluck(:id).select { |id| Conversation.find(id).unread_incoming_messages.count.positive? }
+    conversation_ids = Conversation.pluck(:id).select { |id| Conversation.find(id).unread_count.positive? }
     @conversations = @conversations.where(id: conversation_ids)
   end
 

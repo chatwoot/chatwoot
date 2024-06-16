@@ -137,9 +137,28 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def update_last_seen_on_conversation(last_seen_at, update_assignee)
     # rubocop:disable Rails/SkipsModelValidations
     @conversation.update_column(:agent_last_seen_at, last_seen_at)
-    @conversation.update_column(:assignee_last_seen_at, last_seen_at) if update_assignee.present?
+    update_agent_unread_count
+
+    if update_assignee.present?
+      @conversation.update_column(:assignee_last_seen_at, last_seen_at)
+      update_assignee_unread_count
+    end
     # rubocop:enable Rails/SkipsModelValidations
     Rails.configuration.dispatcher.dispatch(CONVERSATION_AGENT_READ, Time.zone.now, conversation: @conversation, user: @contact)
+  end
+
+  def update_agent_unread_count
+    messages = @conversation.messages
+    unread_messages = @conversation.agent_last_seen_at.present? ? messages.created_since(@conversation.agent_last_seen_at) : messages
+    agent_unread_count = unread_messages.where(account_id: Current.account.id).incoming_activity_and_outgoing_private.count
+    @conversation.update_column(:agent_unread_count, agent_unread_count) # rubocop:disable Rails/SkipsModelValidations
+  end
+
+  def update_assignee_unread_count
+    messages = @conversation.messages
+    unread_messages = @conversation.assignee_last_seen_at.present? ? messages.created_since(@conversation.assignee_last_seen_at) : messages
+    assignee_unread_count = unread_messages.where(account_id: Current.account.id).incoming_activity_and_outgoing_private.count
+    @conversation.update_column(:assignee_unread_count, assignee_unread_count) # rubocop:disable Rails/SkipsModelValidations
   end
 
   def set_conversation_status
