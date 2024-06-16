@@ -166,7 +166,8 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onConversationMentioned = data => {
-    this.app.$store.dispatch('addMentions', data);
+    this.app.$store.dispatch('updateConversation', data);
+    bus.$emit('fetch_conversation_unread_stats');
   };
 
   clearTimer = conversationId => {

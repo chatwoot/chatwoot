@@ -40,6 +40,7 @@ class ConversationFinder
 
     mine_count, unassigned_count, all_count, = set_count_for_all_conversations
     assigned_count = all_count - unassigned_count
+    mine_count = all_count if params[:conversation_type].present? && params[:conversation_type] == 'mention'
 
     filter_by_assignee_type
 

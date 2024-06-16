@@ -109,6 +109,8 @@ class Message < ApplicationRecord
   scope :chat, -> { where.not(message_type: :activity).where(private: false) }
   scope :non_activity_messages, -> { where.not(message_type: :activity).reorder('id desc') }
   scope :today, -> { where("date_trunc('day', created_at) = ?", Date.current) }
+  scope :incoming_and_activity, -> { where(message_type: [:incoming, :activity]) }
+  scope :outgoing_private, -> { where(message_type: :outgoing, private: true) }
 
   # TODO: Get rid of default scope
   # https://stackoverflow.com/a/1834250/939299
@@ -127,6 +129,10 @@ class Message < ApplicationRecord
   after_create_commit :execute_after_create_commit_callbacks
 
   after_update_commit :dispatch_update_event
+
+  def self.incoming_activity_and_outgoing_private
+    incoming_and_activity.or(outgoing_private)
+  end
 
   def channel_token
     @token ||= inbox.channel.try(:page_access_token)

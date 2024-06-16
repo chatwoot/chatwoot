@@ -176,12 +176,12 @@ class Conversation < ApplicationRecord
 
   def agent_unread_incoming_messages
     unread_messages = agent_last_seen_at.present? ? messages.created_since(agent_last_seen_at) : messages
-    unread_messages.where(account_id: account_id).incoming.last(10)
+    unread_messages.where(account_id: account_id).incoming_activity_and_outgoing_private.last(10)
   end
 
   def assignee_unread_incoming_messages
     unread_messages = assignee_last_seen_at.present? ? messages.created_since(assignee_last_seen_at) : messages
-    unread_messages.where(account_id: account_id).incoming.last(10)
+    unread_messages.where(account_id: account_id).incoming_activity_and_outgoing_private.last(10)
   end
 
   def cached_label_list_array
