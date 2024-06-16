@@ -297,6 +297,13 @@ Rails.application.routes.draw do
             get :triggers
           end
         end
+
+        resources :permissions, only: [:show, :update], param: :user_id do
+          collection do
+            get ':user_id', to: 'permissions#show', as: :show_permission
+            put ':user_id', to: 'permissions#update', as: :update_permission
+          end
+        end
       end
     end
   end
