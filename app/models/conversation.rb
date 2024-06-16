@@ -166,11 +166,21 @@ class Conversation < ApplicationRecord
     dispatcher_dispatch(CONVERSATION_BOT_HANDOFF)
   end
 
-  def unread_messages
-    agent_last_seen_at.present? ? messages.created_since(agent_last_seen_at) : messages
+  def unread_incoming_messages
+    if assignee_id.present? && Current.user&.id == assignee_id
+      assignee_unread_incoming_messages
+    else
+      agent_unread_incoming_messages
+    end
   end
 
-  def unread_incoming_messages
+  def agent_unread_incoming_messages
+    unread_messages = agent_last_seen_at.present? ? messages.created_since(agent_last_seen_at) : messages
+    unread_messages.where(account_id: account_id).incoming.last(10)
+  end
+
+  def assignee_unread_incoming_messages
+    unread_messages = assignee_last_seen_at.present? ? messages.created_since(assignee_last_seen_at) : messages
     unread_messages.where(account_id: account_id).incoming.last(10)
   end
 

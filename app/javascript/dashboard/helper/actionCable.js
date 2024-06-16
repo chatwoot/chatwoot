@@ -27,6 +27,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'notification.updated': this.onNotificationUpdated,
       'first.reply.created': this.onFirstReplyCreated,
       'conversation.read': this.onConversationRead,
+      'conversation.agent_read': this.onConversationAgentRead,
       'conversation.updated': this.onConversationUpdated,
       'account.cache_invalidated': this.onCacheInvalidate,
     };
@@ -101,6 +102,15 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onConversationRead = data => {
+    this.app.$store.dispatch('updateConversation', data);
+  };
+
+  onConversationAgentRead = data => {
+    const currentUser = this.app.$store.getters.getCurrentUser;
+    if (data.meta.assignee?.id === currentUser?.id)
+      data.unread_count = data.assignee_unread_count;
+    else data.unread_count = data.agent_unread_count;
+
     this.app.$store.dispatch('updateConversation', data);
     bus.$emit('fetch_conversation_unread_stats');
   };

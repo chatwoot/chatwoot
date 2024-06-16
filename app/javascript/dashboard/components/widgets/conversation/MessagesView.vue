@@ -520,7 +520,10 @@ export default {
     },
 
     makeMessagesRead() {
-      this.$store.dispatch('markMessagesRead', { id: this.currentChat.id });
+      if (this.unreadMessageCount === 0) return;
+      this.$store.dispatch('markMessagesRead', {
+        id: this.currentChat.id,
+      });
     },
 
     getInReplyToMessage(parentMessage) {

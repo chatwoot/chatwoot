@@ -86,12 +86,9 @@ class ConversationFinder
   end
 
   def find_all_conversations
-    @conversations = if params[:unread_only].present?
-                       unread_conversations(current_account.id)
-                     else
-                       current_account.conversations
-                     end
+    @conversations = current_account.conversations
 
+    unread_conversations if params[:unread_only].present?
     @conversations = @conversations.where(inbox_id: @inbox_ids)
     filter_by_conversation_type if params[:conversation_type]
     @conversations
@@ -115,22 +112,16 @@ class ConversationFinder
       conversation_ids = current_account.mentions.where(user: current_user).pluck(:conversation_id)
       @conversations = @conversations.where(id: conversation_ids)
     when 'unread'
-      @conversations = unread_conversations(current_account.id)
+      unread_conversations
     when 'unattended'
       @conversations = @conversations.unattended
     end
     @conversations
   end
 
-  def unread_conversations(account_id)
-    subquery = "SELECT conversation_id, MAX(created_at) AS latest_incoming_created_at
-                FROM messages
-                WHERE account_id = #{account_id} AND message_type = #{Message.message_types[:incoming]}
-                GROUP BY conversation_id"
-
-    Conversation.joins("INNER JOIN (#{subquery}) AS latest_incoming ON conversations.id = latest_incoming.conversation_id")
-                .where('conversations.agent_last_seen_at is null or conversations.agent_last_seen_at < latest_incoming.latest_incoming_created_at')
-                .where(account_id: account_id)
+  def unread_conversations
+    conversation_ids = Conversation.pluck(:id).select { |id| Conversation.find(id).unread_incoming_messages.count.positive? }
+    @conversations = @conversations.where(id: conversation_ids)
   end
 
   def filter_by_query

@@ -924,9 +924,6 @@ export default {
     },
     async markAsUnread(conversationId) {
       try {
-        await this.$store.dispatch('markMessagesUnread', {
-          id: conversationId,
-        });
         const {
           params: { accountId, inbox_id: inboxId, label, teamId },
           name,
@@ -960,6 +957,10 @@ export default {
             teamId,
           })
         );
+
+        await this.$store.dispatch('markMessagesUnread', {
+          id: conversationId,
+        });
       } catch (error) {
         // Ignore error
       }

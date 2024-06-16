@@ -68,6 +68,17 @@ class ActionCableListener < BaseListener
     broadcast(account, tokens, CONVERSATION_READ, conversation.push_event_data)
   end
 
+  def conversation_agent_read(event)
+    conversation, account = extract_conversation_and_account(event)
+    tokens = user_tokens(account, conversation.inbox.members)
+
+    data = conversation.push_event_data
+    data[:assignee_unread_count] = conversation.assignee_unread_incoming_messages.count
+    data[:agent_unread_count] = conversation.agent_unread_incoming_messages.count
+
+    broadcast(account, tokens, CONVERSATION_AGENT_READ, data)
+  end
+
   def conversation_status_changed(event)
     conversation, account = extract_conversation_and_account(event)
     tokens = user_tokens(account, conversation.inbox.members) + contact_inbox_tokens(conversation.contact_inbox)

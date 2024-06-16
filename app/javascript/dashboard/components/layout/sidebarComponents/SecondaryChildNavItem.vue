@@ -52,10 +52,10 @@
             {{ label }}
           </span>
           <span
-            v-if="unreadLoaded && unreadCount(unreadMeta) > 0"
+            v-if="unreadLoaded && unreadCount > 0"
             class="unread shadow-lg rounded-full text-xxs font-semibold h-4 leading-4 ml-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-green-400"
           >
-            {{ unreadCount(unreadMeta) }}
+            {{ unreadCount > 99 ? '99+' : unreadCount }}
           </span>
         </div>
         <span
@@ -129,14 +129,8 @@ export default {
     menuTitle() {
       return this.shouldTruncate ? this.label : '';
     },
-  },
-  methods: {
     unreadCount() {
-      if (this.unreadMeta && Object.keys(this.unreadMeta).length > 0) {
-        const { mine_count } = this.unreadMeta;
-        return mine_count > 9 ? '9+' : mine_count;
-      }
-      return null;
+      return this.unreadMeta?.mine_count || 0;
     },
   },
 };

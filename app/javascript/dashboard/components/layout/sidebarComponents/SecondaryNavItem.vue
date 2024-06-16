@@ -33,7 +33,7 @@
         v-if="menuItem.unreadLoaded && unreadCount(menuItem) > 0"
         class="unread shadow-lg rounded-full text-xxs font-semibold h-4 leading-4 ml-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-green-400"
       >
-        {{ unreadCount(menuItem) }}
+        {{ unreadCount(menuItem) > 99 ? '99+' : unreadCount(menuItem) }}
       </span>
       <span
         v-if="showChildCount(menuItem.count)"
@@ -251,11 +251,7 @@ export default {
   },
   methods: {
     unreadCount(menuItem) {
-      if (menuItem.unreadMeta && Object.keys(menuItem.unreadMeta).length > 0) {
-        const { mine_count } = menuItem.unreadMeta;
-        return mine_count > 9 ? '9+' : mine_count;
-      }
-      return null;
+      return menuItem.unreadMeta?.mine_count || 0;
     },
     computedInboxClass(child) {
       const { type, phoneNumber } = child;
