@@ -40,7 +40,7 @@ class ConversationFinder
 
     mine_count, unassigned_count, all_count, = set_count_for_all_conversations
     assigned_count = all_count - unassigned_count
-    mine_count = all_count if params[:conversation_type].present? && params[:conversation_type] == 'mention'
+    mine_count = all_count if params[:unread_only].present? && params[:conversation_type].present? && params[:conversation_type] == 'mention'
 
     filter_by_assignee_type
 
@@ -110,8 +110,7 @@ class ConversationFinder
   def filter_by_conversation_type
     case params[:conversation_type]
     when 'mention'
-      conversation_ids = current_account.mentions.where(user: current_user).pluck(:conversation_id)
-      @conversations = @conversations.where(id: conversation_ids)
+      @conversations = @conversations.joins(:mentions).where(mentions: { user: current_user }).distinct
     when 'unread'
       unread_conversations
     when 'unattended'
@@ -121,8 +120,8 @@ class ConversationFinder
   end
 
   def unread_conversations
-    conversation_ids = Conversation.pluck(:id).select { |id| Conversation.find(id).unread_count.positive? }
-    @conversations = @conversations.where(id: conversation_ids)
+    @conversations = @conversations.where("agent_unread_count > 0 or
+	                    (assignee_id is not null and assignee_id = #{current_user.id} and assignee_unread_count > 0)")
   end
 
   def filter_by_query
