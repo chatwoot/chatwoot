@@ -143,6 +143,7 @@ vi:
         open: "Hội thoại đã được mở lại bởi %{user_name}"
         pending: "Hội thoại được đánh dấu chờ giải quyết bởi %{user_name}"
         snoozed: "Hội thoại đã được lên lịch hẹn bởi %{user_name}"
+        open_from_snoozed: "Hội thoại mở theo lịch đã hẹn trước đó"
         auto_resolved: "Hội thoại được đánh dấu hoàn thành bởi hệ thống vì %{duration} ngày không hoạt động"
         system_auto_open: Hệ thống mở lại hội thoại do có tin nhắn mới.
       priority:
