@@ -48,7 +48,7 @@
       class="flex justify-end items-center px-8 pb-8 pt-4 gap-2"
     >
       <button
-        class="button success large expanded nice w-full"
+        class="button primary large expanded nice w-full"
         @click="$emit('show-create-account-modal')"
       >
         {{ $t('CREATE_ACCOUNT.NEW_ACCOUNT') }}
