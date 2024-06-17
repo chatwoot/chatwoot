@@ -96,6 +96,21 @@
         "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       }
     },
+    "PERMISSIONS": {
+      "BUTTON_TEXT": "Edit Permissions",
+      "TITLE": "Edit Permissions",
+      "AGENT_NAME": "Agent Name",
+      "AGENT_EMAIL": "Agent Email",
+      "AGENT_TYPE": "Agent Role",
+      "PERMISSIONS_LABEL": "Permissions",
+      "CANCEL_BUTTON_TEXT": "Cancel",
+      "SUBMIT": "Update Permissions",
+      "FEATURES": {
+        "VIEW_REPORTS": "View Reports",
+        "MANAGE_USERS": "Manage Users",
+        "EDIT_SETTINGS": "Edit Settings"
+      }
+    },
     "SEARCH": {
       "NO_RESULTS": "No results found."
     },

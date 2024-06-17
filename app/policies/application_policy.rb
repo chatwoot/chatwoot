@@ -59,7 +59,7 @@ class ApplicationPolicy
     end
 
     def resolve
-      binding.pry
+      # binding.pry
       scope
     end
   end

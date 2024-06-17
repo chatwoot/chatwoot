@@ -10,8 +10,8 @@
     </woot-button>
 
     <!-- List Agents -->
-    <div class="flex flex-row gap-4">
-      <div class="w-[60%]">
+    <div class="flex flex-col md:flex-row gap-4">
+      <div class="w-full md:w-3/5">
         <woot-loading-state
           v-if="uiFlags.isFetching"
           :message="$t('AGENT_MGMT.LOADING')"
@@ -78,6 +78,16 @@
                       :is-loading="loading[agent.id]"
                       @click="openDeletePopup(agent, index)"
                     />
+                    <woot-button
+                      v-if="showEditPermissionsAction(agent)"
+                      v-tooltip.top="$t('AGENT_MGMT.PERMISSIONS.BUTTON_TEXT')"
+                      variant="smooth"
+                      color-scheme="secondary"
+                      size="tiny"
+                      icon="lock-closed"
+                      class-names="grey-btn"
+                      @click="openEditPermissions(agent, index)"
+                    />
                   </div>
                 </td>
               </tr>
@@ -85,7 +95,7 @@
           </table>
         </div>
       </div>
-      <div class="w-[34%]">
+      <div class="w-full md:w-2/5">
         <span
           v-dompurify-html="
             useInstallationName(
@@ -123,6 +133,17 @@
       :confirm-text="deleteConfirmText"
       :reject-text="deleteRejectText"
     />
+    <!-- Edit Permissions -->
+    <woot-modal
+      :show.sync="showEditPermissions"
+      :on-close="closeEditPermissions"
+    >
+      <edit-permission-agent
+        v-if="showEditPermissions"
+        :agent="currentAgent"
+        :on-close="closeEditPermissions"
+      />
+    </woot-modal>
   </div>
 </template>
 <script>
@@ -131,12 +152,14 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import Thumbnail from '../../../../components/widgets/Thumbnail.vue';
 import AddAgent from './AddAgent.vue';
 import EditAgent from './EditAgent.vue';
+import EditPermissionAgent from './EditPermissionAgent.vue';
 
 export default {
   components: {
     AddAgent,
     EditAgent,
     Thumbnail,
+    EditPermissionAgent,
   },
   mixins: [globalConfigMixin],
   data() {
@@ -145,6 +168,7 @@ export default {
       showAddPopup: false,
       showDeletePopup: false,
       showEditPopup: false,
+      showEditPermissions: false,
       agentAPI: {
         message: '',
       },
@@ -193,6 +217,12 @@ export default {
       }
       return true;
     },
+    showEditPermissionsAction(agent) {
+      if (agent.role === 'administrator') {
+        return this.verifiedAdministrators().length !== 1;
+      }
+      return true;
+    },
     verifiedAdministrators() {
       return this.agentList.filter(
         agent => agent.role === 'administrator' && agent.confirmed
@@ -223,6 +253,16 @@ export default {
     closeDeletePopup() {
       this.showDeletePopup = false;
     },
+
+    // Edit Permission Function
+    openEditPermissions(agent) {
+      this.showEditPermissions = true;
+      this.currentAgent = agent;
+    },
+    closeEditPermissions() {
+      this.showEditPermissions = false;
+    },
+
     confirmDeletion() {
       this.loading[this.currentAgent.id] = true;
       this.closeDeletePopup();
