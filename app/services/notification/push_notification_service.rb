@@ -86,7 +86,7 @@ class Notification::PushNotificationService
     return unless chatwoot_hub_enabled?
     return unless subscription.fcm?
 
-    ChatwootHub.send_push([subscription.subscription_attributes['push_token']], fcm_options(subscription))
+    ChatwootHub.send_push(fcm_options(subscription))
   end
 
   def firebase_credentials_present?
