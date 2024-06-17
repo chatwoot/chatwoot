@@ -3,18 +3,21 @@ class Api::V2::Accounts::PermissionsController < Api::V1::Accounts::BaseControll
   before_action :find_account_user
 
   def show
-    render json: @account_user.permissions
-    # render 'api/v2/accounts/permissions', format: :json
+    render_view
   end
 
   def update
     permission_params.each do |feature, enabled|
       enabled ? @account_user.grant_access(feature) : @account_user.revoke_access(feature)
     end
-    render json: @account_user.permissions
+    render_view
   end
 
   private
+
+  def render_view
+    render 'api/v2/accounts/permissions/show', format: :json, locals: { account_user: @account_user }
+  end
 
   def permission_params
     params.require(:permissions).permit!

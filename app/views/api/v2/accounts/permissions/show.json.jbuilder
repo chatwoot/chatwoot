@@ -1,5 +1,6 @@
 # views/api/v2/accounts/permissions/show.jbuilder
-
-json.id @user.id
-json.email @user.email
-json.permissions @user.permissions
+json.data do
+  json.id @account_user.id
+  json.name @account_user.user.name
+  json.permissions @account_user.permissions
+end
