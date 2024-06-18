@@ -1,12 +1,12 @@
 <template>
   <div
-    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full px-4 py-0 border-t-0 border-b-0 border-l-2 border-r-0 border-transparent border-solid cursor-pointer conversation hover:bg-slate-25 dark:hover:bg-slate-800 group"
+    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full px-4 py-0 cursor-pointer conversation hover:bg-slate-25 dark:hover:bg-slate-800 group"
     :class="{
-      'active animate-card-select bg-slate-25 dark:bg-slate-800 border-woot-500':
-        isActiveChat,
+      'active animate-card-select bg-slate-25 dark:bg-slate-800': isActiveChat,
       'unread-chat': hasUnread,
       'has-inbox-name': showInboxName,
       'conversation-selected': selected,
+      [borderClass]: !!borderClass,
     }"
     @mouseenter="onCardHover"
     @mouseleave="onCardLeave"
@@ -261,6 +261,15 @@ export default {
     },
     hasSlaPolicyId() {
       return this.chat?.sla_policy_id;
+    },
+
+    borderClass() {
+      const teamColor = this.chat?.meta?.team?.color || '';
+      const borderColor = teamColor
+        ? `border-[${teamColor}]`
+        : 'border-slate-200';
+
+      return `border-t-0 border-b-0 border-l-4 border-r-0 border-solid ${borderColor}`;
     },
   },
   methods: {
