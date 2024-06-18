@@ -16,7 +16,7 @@
       />
     </template>
     <menu-item
-      v-if="show(snoozeOption.key)"
+      v-if="showSnooze"
       :option="snoozeOption"
       variant="icon"
       @click="snoozeConversation()"
@@ -86,6 +86,10 @@ export default {
   },
   mixins: [agentMixin],
   props: {
+    chatId: {
+      type: Number,
+      default: null,
+    },
     status: {
       type: String,
       default: '',
@@ -205,6 +209,10 @@ export default {
         ...this.filteredAgentOnAvailability,
       ];
     },
+    showSnooze() {
+      // Don't show snooze if the conversation is already snoozed/resolved/pending
+      return this.status === wootConstants.STATUS_TYPE.OPEN;
+    },
   },
   mounted() {
     this.$store.dispatch('inboxAssignableAgents/fetch', [this.inboxId]);
@@ -213,7 +221,8 @@ export default {
     toggleStatus(status, snoozedUntil) {
       this.$emit('update-conversation', status, snoozedUntil);
     },
-    snoozeConversation() {
+    async snoozeConversation() {
+      await this.$store.dispatch('setContextMenuChatId', this.chatId);
       const ninja = document.querySelector('ninja-keys');
       ninja.open({ parent: 'snooze_conversation' });
     },
