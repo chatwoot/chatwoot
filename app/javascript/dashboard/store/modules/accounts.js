@@ -6,6 +6,7 @@ import { throwErrorMessage } from '../utils/api';
 
 const state = {
   records: [],
+  permissions: [],
   uiFlags: {
     isFetching: false,
     isFetchingItem: false,
@@ -18,6 +19,7 @@ export const getters = {
   getAccount: $state => id => {
     return $state.records.find(record => record.id === Number(id)) || {};
   },
+  getPermissions: $state => $state.permissions,
   getUIFlags($state) {
     return $state.uiFlags;
   },
@@ -105,6 +107,36 @@ export const actions = {
       // silent error
     }
   },
+
+  getPermissionsByUser: async ({ commit }, userId) => {
+    try {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetching: true });
+      const response = await AccountAPI.getPermissionsByUser(userId);
+      commit(
+        types.default.SET_ACCOUNT_PERMISSIONS,
+        response.data.permissions || []
+      );
+    } catch (error) {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetching: false });
+      throwErrorMessage(error);
+      throw error;
+    } finally {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetching: false });
+    }
+  },
+
+  updatePermissionsByUser: async ({ commit }, { userId, data }) => {
+    try {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true });
+      await AccountAPI.updatePermissionsByUser(userId, data);
+    } catch (error) {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
+      throwErrorMessage(error);
+      throw error;
+    } finally {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
+    }
+  },
 };
 
 export const mutations = {
@@ -113,6 +145,9 @@ export const mutations = {
       ...$state.uiFlags,
       ...data,
     };
+  },
+  [types.default.SET_ACCOUNT_PERMISSIONS]($state, data) {
+    $state.permissions = data;
   },
   [types.default.ADD_ACCOUNT]: MutationHelpers.setSingleRecord,
   [types.default.EDIT_ACCOUNT]: MutationHelpers.update,

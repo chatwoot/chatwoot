@@ -28,15 +28,22 @@
         <div class="w-full mb-4">
           <label>
             {{ $t('AGENT_MGMT.PERMISSIONS.PERMISSIONS_LABEL') }}
-            <select v-model="selectedPermissions" multiple>
+            <select
+              v-if="!uiFlags.isFetching"
+              v-model="selectedPermissions"
+              multiple
+            >
               <option
                 v-for="permission in permissions"
                 :key="permission.id"
                 :value="permission.id"
               >
-                {{ permission.label }}
+                {{ permission.label }} - {{ permission.status }}
               </option>
             </select>
+            <div v-else>
+              <spinner class="m-5" size="large" color-scheme="primary" />
+            </div>
           </label>
         </div>
         <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
@@ -60,11 +67,13 @@
 import { mapGetters } from 'vuex';
 import WootSubmitButton from '../../../../components/buttons/FormSubmitButton.vue';
 import Modal from '../../../../components/Modal.vue';
+import Spinner from 'shared/components/Spinner.vue';
 
 export default {
   name: 'EditPermissionAgent',
   components: {
     WootSubmitButton,
+    Spinner,
     Modal,
   },
   props: {
@@ -94,33 +103,32 @@ export default {
           label: this.$t('AGENT_MGMT.AGENT_TYPES.SUPERVISOR'),
         },
       ],
-      permissions: [
-        {
-          id: 'view_reports',
-          label: this.$t('AGENT_MGMT.PERMISSIONS.FEATURES.VIEW_REPORTS'),
-        },
-        {
-          id: 'manage_users',
-          label: this.$t('AGENT_MGMT.PERMISSIONS.FEATURES.MANAGE_USERS'),
-        },
-        {
-          id: 'edit_settings',
-          label: this.$t('AGENT_MGMT.PERMISSIONS.FEATURES.EDIT_SETTINGS'),
-        },
-      ],
       selectedPermissions: [],
       show: true,
     };
   },
   computed: {
     ...mapGetters({
-      uiFlags: 'agents/getUIFlags',
+      uiFlags: 'accounts/getUIFlags',
+      permissionsByUser: 'accounts/getPermissions',
     }),
+    permissions() {
+      return Object.keys(this.permissionsByUser).map(permission => ({
+        id: permission,
+        label: this.$t(
+          `AGENT_MGMT.PERMISSIONS.FEATURES.${permission.toUpperCase()}`
+        ),
+        status: this.permissionsByUser[permission],
+      }));
+    },
+  },
+  mounted() {
+    this.$store.dispatch('accounts/getPermissionsByUser', this.localAgent.id);
   },
   methods: {
     async updatePermissions() {
       try {
-        await this.$store.dispatch('agents/updatePermissions', {
+        await this.$store.dispatch('accounts/updatePermissionsByUser', {
           id: this.localAgent.id,
           permissions: this.selectedPermissions,
         });
