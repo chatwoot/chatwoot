@@ -32,7 +32,7 @@ export default {
           event: 'setCampaignReadOn',
         });
         IFrameHelper.sendMessage({ event: 'toggleBubble' });
-        bus.$emit('snooze-campaigns');
+        this.$emitter.emit('snooze-campaigns');
       }
     },
   },

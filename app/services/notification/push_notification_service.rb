@@ -70,36 +70,81 @@ class Notification::PushNotificationService
   end
 
   def send_fcm_push(subscription)
-    return unless ENV['FCM_SERVER_KEY']
+    return unless firebase_credentials_present?
     return unless subscription.fcm?
 
-    fcm = FCM.new(ENV.fetch('FCM_SERVER_KEY', nil))
-    response = fcm.send([subscription.subscription_attributes['push_token']], fcm_options)
+    fcm_service = Notification::FcmService.new(
+      GlobalConfigService.load('FIREBASE_PROJECT_ID', nil), GlobalConfigService.load('FIREBASE_CREDENTIALS', nil)
+    )
+    fcm = fcm_service.fcm_client
+    response = fcm.send_v1(fcm_options(subscription))
     remove_subscription_if_error(subscription, response)
   end
 
   def send_push_via_chatwoot_hub(subscription)
-    return if ENV['FCM_SERVER_KEY']
-    return unless ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_PUSH_RELAY_SERVER', true))
+    return if firebase_credentials_present?
+    return unless chatwoot_hub_enabled?
     return unless subscription.fcm?
 
-    ChatwootHub.send_browser_push([subscription.subscription_attributes['push_token']], fcm_options)
+    ChatwootHub.send_push(fcm_options(subscription))
+  end
+
+  def firebase_credentials_present?
+    GlobalConfigService.load('FIREBASE_PROJECT_ID', nil) && GlobalConfigService.load('FIREBASE_CREDENTIALS', nil)
+  end
+
+  def chatwoot_hub_enabled?
+    ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_PUSH_RELAY_SERVER', true))
   end
 
   def remove_subscription_if_error(subscription, response)
     subscription.destroy! if JSON.parse(response[:body])['results']&.first&.keys&.include?('error')
   end
 
-  def fcm_options
+  def fcm_options(subscription)
     {
-      notification: {
-        title: notification.push_message_title,
-        body: notification.push_message_body,
-        sound: 'default'
-      },
-      android: { priority: 'high' },
-      data: { notification: notification.fcm_push_data.to_json },
-      collapse_key: "chatwoot_#{notification.primary_actor_type.downcase}_#{notification.primary_actor_id}"
+      'token': subscription.subscription_attributes['push_token'],
+      'data': fcm_data,
+      'notification': fcm_notification,
+      'android': fcm_android_options,
+      'apns': fcm_apns_options,
+      'fcm_options': {
+        analytics_label: 'Label'
+      }
+    }
+  end
+
+  def fcm_data
+    {
+      payload: {
+        data: {
+          notification: notification.fcm_push_data
+        }
+      }.to_json
+    }
+  end
+
+  def fcm_notification
+    {
+      title: notification.push_message_title,
+      body: notification.push_message_body
+    }
+  end
+
+  def fcm_android_options
+    {
+      priority: 'high'
+    }
+  end
+
+  def fcm_apns_options
+    {
+      payload: {
+        aps: {
+          sound: 'default',
+          category: Time.zone.now.to_i.to_s
+        }
+      }
     }
   end
 end

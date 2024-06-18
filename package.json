@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "3.9.0",
+  "version": "3.10.0",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/**/*.{js,vue}",
@@ -31,7 +31,8 @@
   ],
   "dependencies": {
     "@braid/vue-formulate": "^2.5.2",
-    "@chatwoot/prosemirror-schema": "1.0.5",
+    "@chatwoot/ninja-keys": "1.2.3",
+    "@chatwoot/prosemirror-schema": "1.0.10",
     "@chatwoot/utils": "^0.0.25",
     "@hcaptcha/vue-hcaptcha": "^0.3.2",
     "@june-so/analytics-next": "^2.0.0",
@@ -46,6 +47,7 @@
     "@tailwindcss/typography": "^0.5.9",
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.4",
+    "@vueuse/core": "^10.10.0",
     "activestorage": "^5.2.6",
     "autoprefixer": "^10.4.14",
     "axios": "^1.6.0",
@@ -67,7 +69,7 @@
     "markdown-it": "^13.0.2",
     "markdown-it-link-attributes": "^4.0.1",
     "md5": "^2.3.0",
-    "ninja-keys": "^1.2.2",
+    "mitt": "^3.0.1",
     "opus-recorder": "^8.0.5",
     "postcss": "^8.4.31",
     "postcss-loader": "^4.2.0",
