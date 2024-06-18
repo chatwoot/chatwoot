@@ -10,6 +10,7 @@ export const CONVERSATION_EVENTS = Object.freeze({
   APPLY_FILTER: 'Applied filters in the conversation list',
   CHANGE_PRIORITY: 'Assigned priority to a conversation',
   INSERT_ARTICLE_LINK: 'Inserted article into reply via article search',
+  CHANGE_CONTACT_KIND: 'Changed contact type',
 });
 
 export const ACCOUNT_EVENTS = Object.freeze({

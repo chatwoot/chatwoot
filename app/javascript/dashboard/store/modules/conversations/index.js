@@ -12,6 +12,7 @@ const state = {
   listLoadingStatus: true,
   chatStatusFilter: wootConstants.STATUS_TYPE.OPEN,
   chatSortFilter: wootConstants.SORT_BY_TYPE.LATEST,
+  contact_kind: null,
   currentInbox: null,
   selectedChatId: null,
   appliedFilters: [],
@@ -100,6 +101,10 @@ export const mutations = {
   [types.ASSIGN_PRIORITY](_state, { priority, conversationId }) {
     const [chat] = _state.allConversations.filter(c => c.id === conversationId);
     Vue.set(chat, 'priority', priority);
+  },
+  [types.ASSIGN_CONTACT_KIND](_state, { contactKind, conversationId }) {
+    const [chat] = _state.allConversations.filter(c => c.id === conversationId);
+    Vue.set(chat, 'contact_kind', contactKind);
   },
 
   [types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES](_state, custom_attributes) {

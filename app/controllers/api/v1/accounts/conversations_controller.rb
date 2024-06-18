@@ -107,6 +107,12 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     render json: { success: service.perform }
   end
 
+  def change_contact_kind
+    service = Digitaltolk::ChangeContactKindService.new(Current.account, @conversation, params[:contact_kind])
+
+    render json: { success: service.perform }
+  end
+
   def update_last_seen
     update_last_seen_on_conversation(DateTime.now.utc, assignee?)
   end

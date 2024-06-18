@@ -8,6 +8,7 @@
 #  assignee_last_seen_at  :datetime
 #  cached_label_list      :text
 #  closed                 :boolean          default(FALSE)
+#  contact_kind           :integer          default(0)
 #  contact_last_seen_at   :datetime
 #  custom_attributes      :jsonb
 #  first_reply_created_at :datetime

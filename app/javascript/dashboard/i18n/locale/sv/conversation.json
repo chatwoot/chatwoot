@@ -274,6 +274,7 @@
       "CONVERSATION_LABELS": "Etiketter för konversation",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONTACT_KIND": "Kontakt",
       "PREVIOUS_CONVERSATION": "Tidigare konversationer",
       "MACROS": "Macros"
     }

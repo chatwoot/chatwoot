@@ -116,6 +116,7 @@ Rails.application.routes.draw do
               post :unread
               post :custom_attributes
               post :change_contact
+              post :change_contact_kind
               get :attachments
               get :related_emails
               post :reply

@@ -118,7 +118,7 @@ import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import adminMixin from 'dashboard/mixins/isAdmin';
-
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import wootConstants from 'dashboard/constants/globals';
 import {
   CMD_REOPEN_CONVERSATION,
@@ -143,7 +143,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ currentChat: 'getSelectedChat' }),
+    ...mapGetters({ 
+      currentChat: 'getSelectedChat',
+      accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+    }),
     isOpen() {
       return this.currentChat.status === wootConstants.STATUS_TYPE.OPEN;
     },
@@ -176,7 +180,13 @@ export default {
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.currentChat.inbox_id);
-    }
+    },
+    enabledRequiredContactType(){
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.REQUIRED_CONTACT_TYPE,
+      );
+    },
   },
   mounted() {
     bus.$on(CMD_SNOOZE_CONVERSATION, this.onCmdSnoozeConversation);
@@ -274,20 +284,27 @@ export default {
     openDropdown() {
       this.showActionsDropdown = true;
     },
+    showContactSidebar(){
+      this.updateUISettings({
+        is_contact_sidebar_open: true,
+        is_conv_actions_open: true,
+      });
+    },
     toggleStatus(status, snoozedUntil) {
       this.closeDropdown();
 
       if (this.inbox.label_required && status === this.STATUS_TYPE.RESOLVED){
         if (this.currentChat.labels.length === 0){
-          this.showAlert("Please add atleast one conversation label");
-
-          this.updateUISettings({
-            is_contact_sidebar_open: true,
-            is_conv_actions_open: true,
-          });
-
+          this.showAlert(this.$t('CONVERSATION.LABEL_REQUIRED'));
+          this.showContactSidebar();
           return;
         }
+      }
+
+      if (this.enabledRequiredContactType && !this.currentChat.contact_kind){
+        this.showAlert(this.$t('CONVERSATION.CONTACT_TYPE_REQUIRED'));
+        this.showContactSidebar();
+        return;
       }
 
       this.isLoading = true;

@@ -74,6 +74,7 @@
   import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
   import alertMixin from 'shared/mixins/alertMixin';
   import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+  import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
   export default {
     name: 'ReplyTopMultipleAction',
@@ -116,7 +117,9 @@
     },
     computed: {
       ...mapGetters({ 
-        currentChat: 'getSelectedChat'
+        currentChat: 'getSelectedChat',
+        accountId: 'getCurrentAccountId',
+        isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       }),
       isOpen() {
         return this.currentChat.status === wootConstants.STATUS_TYPE.OPEN;
@@ -156,27 +159,40 @@
           this.selectedAction = '';
         }
         return this.selectedAction;
-      }
+      },
+      enabledRequiredContactType(){
+        return this.isFeatureEnabledonAccount(
+          this.accountId,
+          FEATURE_FLAGS.REQUIRED_CONTACT_TYPE,
+        );
+      },
     },
     methods: {
       setSelectedAction(action){
         this.selectedAction = action;
         this.closeDropdown()
       },
+      showContactSidebar(){
+        this.updateUISettings({
+          is_contact_sidebar_open: true,
+          is_conv_actions_open: true,
+        });
+      },
       onReplyAndResolve(){
         this.onSend();
 
         if (this.inbox.label_required){
           if (this.currentChat.labels.length === 0){
-            this.showAlert("Please add atleast one conversation label");
-
-            this.updateUISettings({
-              is_contact_sidebar_open: true,
-              is_conv_actions_open: true,
-            });
-
+            this.showAlert(this.$t('CONVERSATION.LABEL_REQUIRED'));
+            this.showContactSidebar();
             return;
           }
+        }
+
+        if (this.enabledRequiredContactType && !this.currentChat.contact_kind){
+          this.showAlert(this.$t('CONVERSATION.CONTACT_TYPE_REQUIRED'));
+          this.showContactSidebar();
+          return;
         }
 
         setTimeout(() => {

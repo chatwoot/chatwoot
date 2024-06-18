@@ -78,6 +78,11 @@ class ConversationApi extends ApiClient {
     return axios.post(`${this.url}/${conversationId}/assignments`, params);
   }
 
+  assignContactKind({ conversationId, contactKind }) {
+    const params = { contact_kind: contactKind };
+    return axios.post(`${this.url}/${conversationId}/change_contact_kind`, params);
+  }
+
   changeContact({ conversationId, email }) {
     const params = { email: email };
     return axios.post(`${this.url}/${conversationId}/change_contact`, params);

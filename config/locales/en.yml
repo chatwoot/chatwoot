@@ -166,6 +166,7 @@ en:
         self_assigned: "%{user_name} self-assigned this conversation"
         assigned: "Assigned to %{assignee_name} by %{user_name}"
         removed: "Conversation unassigned by %{user_name}"
+        auto_assigned: "Conversation auto-assigned to %{assignee_name}"
       team:
         assigned: "Assigned to %{team_name} by %{user_name}"
         assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"

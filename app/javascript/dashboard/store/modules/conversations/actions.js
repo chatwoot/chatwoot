@@ -470,6 +470,17 @@ const actions = {
     }
   },
 
+  assignContactKind: async (_, { conversationId, contactKind }) => {
+    try {
+      return await ConversationApi.assignContactKind({
+        conversationId,
+        contactKind,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+
   changeContact: async (_, { conversationId, email }) => {
     try {
       return await ConversationApi.changeContact({
@@ -483,6 +494,10 @@ const actions = {
 
   setCurrentChatPriority({ commit }, { priority, conversationId }) {
     commit(types.ASSIGN_PRIORITY, { priority, conversationId });
+  },
+
+  setCurrentChatContactKind({ commit }, { contactKind, conversationId }) {
+    commit(types.ASSIGN_CONTACT_KIND, { contactKind, conversationId });
   },
 
   // TODO: move to smart action module

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_17_140740) do
+ActiveRecord::Schema[7.0].define(version: 2024_06_14_160733) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -475,6 +475,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_17_140740) do
     t.datetime "waiting_since"
     t.boolean "closed", default: false
     t.text "cached_label_list"
+    t.integer "contact_kind", default: 0
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"

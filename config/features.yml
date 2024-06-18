@@ -87,3 +87,5 @@
   enabled: true
 - name: smart_actions
   enabled: false
+- name: required_contact_type
+  enabled: false

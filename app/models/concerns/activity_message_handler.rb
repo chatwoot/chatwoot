@@ -131,13 +131,15 @@ module ActivityMessageHandler
     params = { assignee_name: assignee&.name, user_name: user_name }.compact
     key = assignee_id ? 'assigned' : 'removed'
     key = 'self_assigned' if self_assign? assignee_id
+    key = 'auto_assigned' if user_name.nil?
     I18n.t("conversations.activity.assignee.#{key}", **params)
   end
 
   def create_assignee_change_activity(user_name)
     user_name = activity_message_owner(user_name)
-
-    return unless user_name
+    
+    # auto assigned if user_name is nil
+    # return unless user_name
 
     content = generate_assignee_change_activity_content(user_name)
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content

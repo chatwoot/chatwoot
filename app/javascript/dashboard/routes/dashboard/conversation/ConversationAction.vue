@@ -94,6 +94,21 @@
       :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_LABELS')"
     />
     <conversation-labels :conversation-id="conversationId" />
+    <div class="multiselect-wrap--small mt-3">
+      <contact-details-item
+        compact
+        :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_KIND')"
+      />
+      <multiselect-dropdown 
+        :options="contactKinds" 
+        :selected-item="assignedContactKind"
+        @click="onClickAssignContactKind"
+        track-by="id"
+        label="name"
+        :placeholder="$t('FORMS.MULTISELECT.SELECT')"
+        style="padding-left: 0px"
+      />
+    </div>
   </div>
 </template>
 
@@ -155,6 +170,28 @@ export default {
           thumbnail: `/assets/images/dashboard/priority/${CONVERSATION_PRIORITY.LOW}.svg`,
         },
       ],
+      contactKinds: [
+        {
+          id: 0,
+          name: "None",
+        },
+        {
+          id: 1,
+          name: "Tolk",
+        },
+        {
+          id: 2,
+          name: "Kund",
+        },
+        {
+          id: 3,
+          name: "Översättare",
+        },
+        {
+          id: 4,
+          name: "Anställd",
+        }
+      ]
     };
   },
   computed: {
@@ -228,6 +265,41 @@ export default {
           });
       },
     },
+    assignedContactKind: {
+      get() {
+        const selectedOption = this.contactKinds.find(
+          opt => opt.id === this.currentChat.contact_kind
+        );
+
+        return selectedOption || this.contactKinds[0]
+      },
+      set(contactKind){
+        const conversationId = this.currentChat.id;
+        const oldValue = this.currentChat?.contact_kind;
+        const selectedOption = this.contactKinds.find(opt => opt.id === contactKind) || this.contactKinds[0]
+    
+        this.$store.dispatch('setCurrentChatContactKind', {
+          contactKind,
+          conversationId,
+        });
+        this.$store
+          .dispatch('assignContactKind', { conversationId, contactKind })
+          .then(() => {
+            this.$track(CONVERSATION_EVENTS.CHANGE_CONTACT_KIND, {
+              oldValue,
+              newValue: contactKind,
+              from: 'Conversation Sidebar',
+            });
+
+            this.showAlert(
+              this.$t('CONVERSATION.CONTACT.CHANGE_TYPE.SUCCESSFUL', {
+                contactKind: selectedOption.name,
+                conversationId,
+              })
+            );
+          });
+      }
+    },
     showSelfAssign() {
       if (!this.assignedAgent) {
         return true;
@@ -284,6 +356,14 @@ export default {
         this.assignedPriority.id === selectedPriorityItem.id;
 
       this.assignedPriority = isSamePriority ? null : selectedPriorityItem;
+    },
+
+    onClickAssignContactKind(selectedContactKind){
+      const isSameContactKind =
+        this.assignedContactKind &&
+        this.assignedContactKind.id === selectedContactKind.id;
+
+      this.assignedContactKind = isSameContactKind ? null : selectedContactKind.id;
     },
 
     onChangeContact() {

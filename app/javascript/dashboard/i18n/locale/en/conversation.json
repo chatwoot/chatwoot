@@ -108,7 +108,12 @@
       }
     },
     "CONTACT": {
-      "CHANGE": "Change Contact"
+      "CHANGE": "Change Contact",
+      "CHANGE_TYPE": {
+        "TITLE": "Change Contact Type",
+        "SUCCESSFUL": "Changed contact type of conversation id %{conversationId} to %{contactKind}",
+        "FAILED": "Couldn't change contact type. Please try again."
+      }
     },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Mark as pending",
@@ -199,6 +204,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
     "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "Conversation team changed",
+    "LABEL_REQUIRED": "Please add atleast one conversation label",
+    "CONTACT_TYPE_REQUIRED": "Please select a contact type",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Sent by:",
@@ -281,6 +288,7 @@
       "CONVERSATION_LABELS": "Conversation Labels",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
+      "CONTACT_KIND": "Contact Type",
       "PREVIOUS_CONVERSATION": "Previous Conversations",
       "MACROS": "Macros"
     }
