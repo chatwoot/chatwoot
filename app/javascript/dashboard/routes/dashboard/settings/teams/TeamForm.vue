@@ -20,6 +20,13 @@
           @input="$v.description.$touch"
         />
 
+        <div class="w-full">
+          <label>
+            Cor
+            <woot-color-picker v-model="color" />
+          </label>
+        </div>
+
         <div class="w-full flex items-center gap-2">
           <input v-model="allowAutoAssign" type="checkbox" :value="true" />
           <label for="conversation_creation">
@@ -43,6 +50,7 @@
 <script>
 import WootSubmitButton from '../../../../components/buttons/FormSubmitButton.vue';
 import validations from './helpers/validations';
+import { getRandomColor } from 'dashboard/helper/labelColor';
 
 export default {
   components: {
@@ -73,15 +81,20 @@ export default {
       description = '',
       name: title = '',
       allow_auto_assign: allowAutoAssign = true,
+      color = '#000',
     } = formData;
 
     return {
       description,
       title,
       allowAutoAssign,
+      color,
     };
   },
   validations,
+  mounted() {
+    this.color = getRandomColor();
+  },
   methods: {
     handleSubmit() {
       this.$v.$touch();
@@ -92,6 +105,7 @@ export default {
         description: this.description,
         name: this.title,
         allow_auto_assign: this.allowAutoAssign,
+        color: this.color,
       });
     },
   },
