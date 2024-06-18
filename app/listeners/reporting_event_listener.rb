@@ -34,7 +34,7 @@ class ReportingEventListener < BaseListener
                                               message.created_at),
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
-      user_id: conversation.assignee_id,
+      user_id: message.sender_id,
       conversation_id: conversation.id,
       event_start_time: last_non_human_activity(conversation),
       event_end_time: message.created_at

@@ -18,8 +18,10 @@
 <script>
 import 'highlight.js/styles/default.css';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
+  mixins: [alertMixin],
   props: {
     value: {
       type: String,
@@ -35,7 +37,7 @@ export default {
     async onCopy(e) {
       e.preventDefault();
       await copyTextToClipboard(this.value);
-      bus.$emit('newToastMessage', this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
+      this.showAlert(this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
     },
     toggleMasked() {
       this.masked = !this.masked;

@@ -1,9 +1,11 @@
 <script setup>
 import { ref, computed } from 'vue';
+import { debounce } from '@chatwoot/utils';
 import { picoSearch } from '@scmmishra/pico-search';
-import FilterListItemButton from './FilterListItemButton.vue';
-import FilterDropdownSearch from './FilterDropdownSearch.vue';
-import FilterDropdownEmptyState from './FilterDropdownEmptyState.vue';
+import ListItemButton from './DropdownListItemButton.vue';
+import DropdownSearch from './DropdownSearch.vue';
+import DropdownEmptyState from './DropdownEmptyState.vue';
+import DropdownLoadingState from './DropdownLoadingState.vue';
 
 const props = defineProps({
   listItems: {
@@ -19,20 +21,31 @@ const props = defineProps({
     default: '',
   },
   activeFilterId: {
-    type: Number,
+    type: [String, Number],
     default: null,
   },
   showClearFilter: {
     type: Boolean,
     default: false,
   },
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
+  loadingPlaceholder: {
+    type: String,
+    default: '',
+  },
 });
+
+const emits = defineEmits(['on-search']);
 
 const searchTerm = ref('');
 
-const onSearch = value => {
+const onSearch = debounce(value => {
   searchTerm.value = value;
-};
+  emits('on-search', value);
+}, 300);
 
 const filteredListItems = computed(() => {
   if (!searchTerm.value) return props.listItems;
@@ -47,6 +60,16 @@ const isFilterActive = id => {
   if (!props.activeFilterId) return false;
   return id === props.activeFilterId;
 };
+
+const shouldShowLoadingState = computed(() => {
+  return (
+    props.isLoading && isDropdownListEmpty.value && props.loadingPlaceholder
+  );
+});
+
+const shouldShowEmptyState = computed(() => {
+  return !props.isLoading && isDropdownListEmpty.value;
+});
 </script>
 <template>
   <div
@@ -54,8 +77,8 @@ const isFilterActive = id => {
     @click.stop
   >
     <slot name="search">
-      <filter-dropdown-search
-        v-if="enableSearch && listItems.length"
+      <dropdown-search
+        v-if="enableSearch"
         :input-value="searchTerm"
         :input-placeholder="inputPlaceholder"
         :show-clear-filter="showClearFilter"
@@ -64,11 +87,15 @@ const isFilterActive = id => {
       />
     </slot>
     <slot name="listItem">
-      <filter-dropdown-empty-state
-        v-if="isDropdownListEmpty"
+      <dropdown-loading-state
+        v-if="shouldShowLoadingState"
+        :message="loadingPlaceholder"
+      />
+      <dropdown-empty-state
+        v-else-if="shouldShowEmptyState"
         :message="$t('REPORT.FILTER_ACTIONS.EMPTY_LIST')"
       />
-      <filter-list-item-button
+      <list-item-button
         v-for="item in filteredListItems"
         :key="item.id"
         :is-active="isFilterActive(item.id)"

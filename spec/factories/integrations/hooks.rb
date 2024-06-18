@@ -26,5 +26,10 @@ FactoryBot.define do
       app_id { 'openai' }
       settings { { api_key: 'api_key' } }
     end
+
+    trait :linear do
+      app_id { 'linear' }
+      settings { { api_key: 'api_key' } }
+    end
   end
 end

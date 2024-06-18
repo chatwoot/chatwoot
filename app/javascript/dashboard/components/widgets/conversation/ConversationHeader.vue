@@ -71,6 +71,10 @@
         :class="{ 'justify-end': isContactPanelOpen }"
       >
         <SLA-card-label v-if="hasSlaPolicyId" :chat="chat" show-extended-info />
+        <linear
+          v-if="isLinearIntegrationEnabled && isLinearFeatureEnabled"
+          :conversation-id="currentChat.id"
+        />
         <more-actions :conversation-id="currentChat.id" />
       </div>
     </div>
@@ -89,6 +93,8 @@ import SLACardLabel from './components/SLACardLabel.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import Linear from './linear/index.vue';
 
 export default {
   components: {
@@ -97,6 +103,7 @@ export default {
     MoreActions,
     Thumbnail,
     SLACardLabel,
+    Linear,
   },
   mixins: [inboxMixin, agentMixin, keyboardEventListenerMixins],
   props: {
@@ -121,6 +128,9 @@ export default {
     ...mapGetters({
       uiFlags: 'inboxAssignableAgents/getUIFlags',
       currentChat: 'getSelectedChat',
+      accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      appIntegrations: 'integrations/getAppIntegrations',
     }),
     chatMetadata() {
       return this.chat.meta;
@@ -177,6 +187,17 @@ export default {
     },
     hasSlaPolicyId() {
       return this.chat?.sla_policy_id;
+    },
+    isLinearIntegrationEnabled() {
+      return this.appIntegrations.find(
+        integration => integration.id === 'linear' && !!integration.hooks.length
+      );
+    },
+    isLinearFeatureEnabled() {
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.LINEAR
+      );
     },
   },
 

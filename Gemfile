@@ -4,7 +4,7 @@ ruby '3.2.2'
 
 ##-- base gems for rails --##
 gem 'rack-cors', '2.0.0', require: 'rack/cors'
-gem 'rails', '~> 7.0.8.1'
+gem 'rails', '~> 7.0.8.4'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -61,7 +61,7 @@ gem 'redis-namespace'
 gem 'activerecord-import'
 
 ##--- gems for server & infra configuration ---##
-gem 'dotenv-rails'
+gem 'dotenv-rails', '>= 3.0.0'
 gem 'foreman'
 gem 'puma'
 gem 'webpacker'
@@ -77,7 +77,7 @@ gem 'jwt'
 gem 'pundit'
 # super admin
 gem 'administrate', '>= 0.20.1'
-gem 'administrate-field-active_storage', '>= 1.0.2'
+gem 'administrate-field-active_storage', '>= 1.0.3'
 gem 'administrate-field-belongs_to_search', '>= 0.9.0'
 
 ##--- gems for pubsub service ---##
@@ -122,7 +122,7 @@ gem 'sidekiq-cron', '>= 1.12.0'
 
 ##-- Push notification service --##
 gem 'fcm'
-gem 'web-push'
+gem 'web-push', '>= 3.0.1'
 
 ##-- geocoding / parse location from ip --##
 # http://www.rubygeocoder.com/
@@ -228,7 +228,7 @@ group :development, :test do
   gem 'mock_redis'
   gem 'pry-rails'
   gem 'rspec_junit_formatter'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '>= 6.0.3'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false

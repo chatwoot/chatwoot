@@ -34,7 +34,7 @@
       window.chatwootConfig = {
         hostURL: '<%= ENV.fetch('FRONTEND_URL', '') %>',
         helpCenterURL: '<%= ENV.fetch('HELPCENTER_URL', '') %>',
-        fbAppId: '<%= ENV.fetch('FB_APP_ID', nil) %>',
+        fbAppId: '<%= @global_config['FB_APP_ID'] %>',
         googleOAuthClientId: '<%= ENV.fetch('GOOGLE_OAUTH_CLIENT_ID', nil) %>',
         googleOAuthCallbackUrl: '<%= ENV.fetch('GOOGLE_OAUTH_CALLBACK_URL', nil) %>',
         fbApiVersion: '<%= @global_config['FACEBOOK_API_VERSION'] %>',
@@ -70,40 +70,8 @@
     <div id="app"></div>
     <noscript id="noscript">This app works best with JavaScript enabled.</noscript>
     <%= yield %>
-    <% if @global_config['CHATWOOT_INBOX_TOKEN'].present? %>
-    <script>
-      window.chatwootSettings = { hideMessageBubble: true, position: 'left' };
-      (function(d,t) {
-        var BASE_URL='<%= ENV.fetch('FRONTEND_URL', 'https://app.chatwoot.com') %>';
-        var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-        g.src=BASE_URL+"/packs/js/sdk.js"; g.defer=true; g.async=true;
-        s.parentNode.insertBefore(g,s);
-        g.onload=function(){
-          window.chatwootSDK.run({
-            websiteToken: '<%= @global_config['CHATWOOT_INBOX_TOKEN'] %>',
-            baseUrl: BASE_URL,
-          });
-        }
-      })(document,"script");
-    </script>
-    <% end %>
-    <% if ENV.fetch('MS_CLARITY_TOKEN', nil).present? %>
-      <script type="text/javascript">
-          (function(c,l,a,r,i,t,y){
-              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-              t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;
-              y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-          })(window, document, 'clarity', 'script', '<%= ENV.fetch('MS_CLARITY_TOKEN', '') %>');
-      </script>
-    <% end %>
-    <% if ENV.fetch('GOOGLE_TAG', nil).present? %>
-    <script>
-    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer', '<%= ENV.fetch('GOOGLE_TAG', '') %>');
-    </script>
+    <% if @dashboard_scripts.present? %> 
+      <%= @dashboard_scripts.html_safe %>
     <% end %>
   </body>
 </html>
