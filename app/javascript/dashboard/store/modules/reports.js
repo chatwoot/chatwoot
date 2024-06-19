@@ -211,8 +211,8 @@ export const actions = {
   },
   downloadConversationReports(_, reportObj) {
     return Report.getConversationReports(reportObj)
-      .then(response => {
-        downloadCsvFile(reportObj.fileName, response.data);
+      .then(() => {
+        // downloadCsvFile(reportObj.fileName, response.data);
         AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
           reportType: 'conversation',
           businessHours: reportObj?.businessHours,

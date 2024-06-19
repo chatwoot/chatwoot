@@ -53,23 +53,25 @@ IntercomRails.config do |config|
   # A Proc that given a user returns true if the user should be excluded
   # from imports and Javascript inclusion, false otherwise.
   #
-  config.user.exclude_if = proc { |user| user.type == 'SuperAdmin'}
+  config.user.exclude_if = proc { |user| user.type == 'SuperAdmin' }
 
   # == User Custom Data
   # A hash of additional data you wish to send about your users.
   # You can provide either a method name which will be sent to the current
   # user object, or a Proc which will be passed the current user.
   #
-  config.user.custom_data = {
-    :user_type => proc { |current_user| current_user.type },
-    :user_auth_provider => proc { |current_user| current_user.provider }
-  }
+  # config.user.custom_data = {
+  #   :user_type => proc { |current_user| current_user.type },
+  #   :user_auth_provider => proc { |current_user| current_user.provider }
+  # }
 
   # == Current company method/variable
   # The method/variable that contains the current company for the current user,
   # in your controllers. 'Companies' are generic groupings of users, so this
   # could be a company, app or group.
   #
+  shop_url = nil
+
   config.company.current = proc {
     ## This drops us in `DashboardController#index` and so there isn't much in the way of getting current account
     account_id = params[:params].split('/')[1].to_i ## when URLs are of form `accounts/<account_id>/blah`
@@ -78,6 +80,8 @@ IntercomRails.config do |config|
     res = Net::HTTP.get_response(uri)
 
     account = JSON.parse(res.body)['accountDetails']
+
+    shop_url = account['shopUrl']
 
     Struct.new(:id, :name, :company_website).new(account['accountId'], account['accountName'], account['shopUrl'])
   }
@@ -101,6 +105,12 @@ IntercomRails.config do |config|
     :shop_name => proc { |current_company| current_company.name }
   }
 
+  # update user's name to company_website
+  config.user.custom_data = {
+    :name => proc { shop_url },
+    :user_type => proc { |current_user| current_user.type },
+    :user_auth_provider => proc { |current_user| current_user.provider }
+  }
   # == Company Plan name
   # This is the name of the plan a company is currently paying (or not paying) for.
   # e.g. Messaging, Free, Pro, etc.
