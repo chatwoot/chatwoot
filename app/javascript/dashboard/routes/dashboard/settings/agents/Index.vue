@@ -20,79 +20,77 @@
           <p v-if="!agentList.length">
             {{ $t('AGENT_MGMT.LIST.404') }}
           </p>
-          <table v-else class="woot-table">
-            <tbody>
-              <tr v-for="(agent, index) in agentList" :key="agent.email">
-                <!-- Gravtar Image -->
-                <td>
-                  <thumbnail
-                    :src="agent.thumbnail"
-                    class="columns"
-                    :username="agent.name"
-                    size="40px"
-                    :status="agent.availability_status"
-                  />
-                </td>
-                <!-- Agent Name + Email -->
-                <td>
-                  <span class="agent-name">
-                    {{ agent.name }}
-                  </span>
-                  <span>{{ agent.email }}</span>
-                </td>
-                <!-- Agent Role + Verification Status -->
-                <td>
-                  <span class="agent-name">
-                    {{
-                      $t(`AGENT_MGMT.AGENT_TYPES.${agent.role.toUpperCase()}`)
-                    }}
-                  </span>
-                  <span v-if="agent.confirmed">
-                    {{ $t('AGENT_MGMT.LIST.VERIFIED') }}
-                  </span>
-                  <span v-if="!agent.confirmed">
-                    {{ $t('AGENT_MGMT.LIST.VERIFICATION_PENDING') }}
-                  </span>
-                </td>
-                <!-- Actions -->
-                <td>
-                  <div class="button-wrapper">
-                    <woot-button
-                      v-if="showEditAction(agent)"
-                      v-tooltip.top="$t('AGENT_MGMT.EDIT.BUTTON_TEXT')"
-                      variant="smooth"
-                      size="tiny"
-                      color-scheme="secondary"
-                      icon="edit"
-                      class-names="grey-btn"
-                      @click="openEditPopup(agent)"
+          <div class="overflow-x-auto">
+            <table class="woot-table min-w-full">
+              <tbody>
+                <tr v-for="(agent, index) in agentList" :key="agent.email">
+                  <td>
+                    <thumbnail
+                      :src="agent.thumbnail"
+                      class="columns"
+                      :username="agent.name"
+                      size="40px"
+                      :status="agent.availability_status"
                     />
-                    <woot-button
-                      v-if="showDeleteAction(agent)"
-                      v-tooltip.top="$t('AGENT_MGMT.DELETE.BUTTON_TEXT')"
-                      variant="smooth"
-                      color-scheme="alert"
-                      size="tiny"
-                      icon="dismiss-circle"
-                      class-names="grey-btn"
-                      :is-loading="loading[agent.id]"
-                      @click="openDeletePopup(agent, index)"
-                    />
-                    <woot-button
-                      v-if="showEditPermissionsAction(agent)"
-                      v-tooltip.top="$t('AGENT_MGMT.PERMISSIONS.BUTTON_TEXT')"
-                      variant="smooth"
-                      color-scheme="secondary"
-                      size="tiny"
-                      icon="lock-closed"
-                      class-names="grey-btn"
-                      @click="openEditPermissions(agent, index)"
-                    />
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                  </td>
+                  <td>
+                    <span class="agent-name">
+                      {{ agent.name }}
+                    </span>
+                    <span>{{ agent.email }}</span>
+                  </td>
+                  <td>
+                    <span class="agent-name">
+                      {{
+                        $t(`AGENT_MGMT.AGENT_TYPES.${agent.role.toUpperCase()}`)
+                      }}
+                    </span>
+                    <span v-if="agent.confirmed">
+                      {{ $t('AGENT_MGMT.LIST.VERIFIED') }}
+                    </span>
+                    <span v-if="!agent.confirmed">
+                      {{ $t('AGENT_MGMT.LIST.VERIFICATION_PENDING') }}
+                    </span>
+                  </td>
+                  <td>
+                    <div class="button-wrapper">
+                      <woot-button
+                        v-if="showEditAction(agent)"
+                        v-tooltip.top="$t('AGENT_MGMT.EDIT.BUTTON_TEXT')"
+                        variant="smooth"
+                        size="tiny"
+                        color-scheme="secondary"
+                        icon="edit"
+                        class-names="grey-btn"
+                        @click="openEditPopup(agent)"
+                      />
+                      <woot-button
+                        v-if="showDeleteAction(agent)"
+                        v-tooltip.top="$t('AGENT_MGMT.DELETE.BUTTON_TEXT')"
+                        variant="smooth"
+                        color-scheme="alert"
+                        size="tiny"
+                        icon="dismiss-circle"
+                        class-names="grey-btn"
+                        :is-loading="loading[agent.id]"
+                        @click="openDeletePopup(agent, index)"
+                      />
+                      <woot-button
+                        v-if="showEditPermissionsAction(agent)"
+                        v-tooltip.top="$t('AGENT_MGMT.PERMISSIONS.BUTTON_TEXT')"
+                        variant="smooth"
+                        color-scheme="secondary"
+                        size="tiny"
+                        icon="lock-closed"
+                        class-names="grey-btn"
+                        @click="openEditPermissions(agent, index)"
+                      />
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
       <div class="w-full md:w-2/5">
