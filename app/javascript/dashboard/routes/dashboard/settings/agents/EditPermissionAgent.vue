@@ -28,19 +28,19 @@
         <div class="w-full mb-4">
           <label>
             {{ $t('AGENT_MGMT.PERMISSIONS.PERMISSIONS_LABEL') }}
-            <select
-              v-if="!uiFlags.isFetching"
-              v-model="selectedPermissions"
-              multiple
-            >
-              <option
+            <div v-if="!uiFlags.isFetching">
+              <div
                 v-for="permission in permissions"
                 :key="permission.id"
-                :value="permission.id"
+                class="mb-2 flex items-center"
               >
-                {{ permission.label }} - {{ permission.status }}
-              </option>
-            </select>
+                <span class="mr-2">{{ permission.label }}</span>
+                <vue-toggles
+                  :value="permission.status"
+                  @change="togglePermission(permission.id)"
+                />
+              </div>
+            </div>
             <div v-else>
               <spinner class="m-5" size="large" color-scheme="primary" />
             </div>
@@ -68,6 +68,7 @@ import { mapGetters } from 'vuex';
 import WootSubmitButton from '../../../../components/buttons/FormSubmitButton.vue';
 import Modal from '../../../../components/Modal.vue';
 import Spinner from 'shared/components/Spinner.vue';
+import VueToggles from 'vue-toggles';
 
 export default {
   name: 'EditPermissionAgent',
@@ -75,6 +76,7 @@ export default {
     WootSubmitButton,
     Spinner,
     Modal,
+    VueToggles,
   },
   props: {
     agent: {
@@ -103,8 +105,8 @@ export default {
           label: this.$t('AGENT_MGMT.AGENT_TYPES.SUPERVISOR'),
         },
       ],
-      selectedPermissions: [],
       show: true,
+      selectedPermissions: [],
     };
   },
   computed: {
@@ -136,6 +138,14 @@ export default {
         this.onClose();
       } catch (error) {
         this.showAlert(this.$t('AGENT_MGMT.PERMISSIONS.API.ERROR_MESSAGE'));
+      }
+    },
+    togglePermission(permissionId) {
+      const index = this.selectedPermissions.indexOf(permissionId);
+      if (index > -1) {
+        this.selectedPermissions.splice(index, 1);
+      } else {
+        this.selectedPermissions.push(permissionId);
       }
     },
     showAlert(message) {

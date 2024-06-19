@@ -106,7 +106,7 @@
       "CANCEL_BUTTON_TEXT": "Cancel",
       "SUBMIT": "Update Permissions",
       "FEATURES": {
-        "VIEW_REPORTS": "View Reports",
+        "REPORTS": "View Reports",
         "MANAGE_USERS": "Manage Users",
         "EDIT_SETTINGS": "Edit Settings",
         "CRM": "CRM",
