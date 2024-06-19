@@ -9,6 +9,7 @@
     :status="status"
     :selected="isConversationSelected(source.id)"
     :show-assignee="showAssignee"
+    :show-resolved-state="showResolvedState"
     :enable-context-menu="true"
     @select-conversation="selectConversation"
     @de-select-conversation="deSelectConversation"
@@ -69,6 +70,10 @@ export default {
       default: () => {},
     },
     showAssignee: {
+      type: Boolean,
+      default: false,
+    },
+    showResolvedState: {
       type: Boolean,
       default: false,
     },

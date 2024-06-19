@@ -328,6 +328,7 @@ export default {
         conversationType: this.conversationType,
         status: this.status,
         showAssignee: false,
+        showResolvedState: false,
         isConversationSelected: this.isConversationSelected,
       },
     };
@@ -403,6 +404,9 @@ export default {
         this.hasAppliedFiltersOrActiveFolders ||
         this.activeAssigneeTab === wootConstants.ASSIGNEE_TYPE.ALL
       );
+    },
+    showResolvedStateInConversationCard() {
+      return !this.status && this.activeStatus === 'all';
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.activeInbox);
@@ -575,6 +579,9 @@ export default {
     },
     showAssigneeInConversationCard(newVal) {
       this.updateVirtualListProps('showAssignee', newVal);
+    },
+    showResolvedStateInConversationCard(newVal) {
+      this.updateVirtualListProps('showResolvedState', newVal);
     },
   },
   mounted() {

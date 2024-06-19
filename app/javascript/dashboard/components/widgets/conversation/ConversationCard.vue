@@ -47,7 +47,20 @@
             />
             {{ assignee.name }}
           </span>
-          <priority-mark :priority="chat.priority" />
+          <div>
+            <span
+              v-if="showResolvedState && chat.status === 'resolved'"
+              v-tooltip="{
+                content: $t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.resolved.TEXT'),
+                delay: { show: 1000, hide: 0 },
+                hideOnClick: true,
+              }"
+              class="shrink-0 rounded-sm inline-flex w-3.5 h-3.5 text-woot-600 dark:text-woot-600"
+            >
+              <fluent-icon icon="checkmark" size="12" />
+            </span>
+            <priority-mark v-else :priority="chat.priority" />
+          </div>
         </div>
       </div>
       <h4
@@ -170,6 +183,10 @@ export default {
       default: 0,
     },
     showAssignee: {
+      type: Boolean,
+      default: false,
+    },
+    showResolvedState: {
       type: Boolean,
       default: false,
     },

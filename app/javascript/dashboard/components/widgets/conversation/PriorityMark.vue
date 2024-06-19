@@ -3,7 +3,7 @@
     v-if="priority"
     v-tooltip="{
       content: tooltipText,
-      delay: { show: 1500, hide: 0 },
+      delay: { show: 1000, hide: 0 },
       hideOnClick: true,
     }"
     class="shrink-0 rounded-sm inline-flex w-3.5 h-3.5"
