@@ -631,10 +631,10 @@ export default {
     }
 
     &.is-failed {
-      @apply bg-red-200 dark:bg-red-200;
+      @apply bg-red-75 dark:bg-red-800 border border-red-200 dark:border-none;
 
       .message-text--metadata .time {
-        @apply text-red-50 dark:text-red-50;
+        @apply text-red-900 dark:text-red-50;
       }
     }
   }
