@@ -36,6 +36,7 @@
               >
                 <span class="permission-label">{{ permission.label }}</span>
                 <vue-toggles
+                  checked-bg="#0091ff"
                   :value="permission.status"
                   @click="togglePermission(permission)"
                 />
@@ -107,6 +108,7 @@ export default {
       ],
       show: true,
       permissions: [],
+      modifiedPermissions: {}, // Para rastrear permissões modificadas
     };
   },
   computed: {
@@ -137,10 +139,7 @@ export default {
       try {
         await this.$store.dispatch('accounts/updatePermissionsByUser', {
           userId: this.localAgent.id,
-          permissions: this.permissions.reduce((acc, permission) => {
-            acc[permission.id] = permission.status;
-            return acc;
-          }, {}),
+          permissions: this.modifiedPermissions,
         });
         this.showAlert(this.$t('AGENT_MGMT.PERMISSIONS.API.SUCCESS_MESSAGE'));
         this.onClose();
@@ -156,6 +155,7 @@ export default {
       this.permissions = this.permissions.map(p =>
         p.id === permission.id ? updatedPermission : p
       );
+      this.modifiedPermissions[permission.id] = updatedPermission.status;
       this.$store.dispatch('accounts/updatePermission', {
         permission: updatedPermission,
       });
