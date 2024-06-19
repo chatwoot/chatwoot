@@ -125,10 +125,10 @@ export const actions = {
     }
   },
 
-  updatePermissionsByUser: async ({ commit }, { userId, data }) => {
+  updatePermissionsByUser: async ({ commit }, { userId, permissions }) => {
     try {
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true });
-      await AccountAPI.updatePermissionsByUser(userId, data);
+      await AccountAPI.updatePermissionsByUser(userId, permissions);
     } catch (error) {
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
       throwErrorMessage(error);

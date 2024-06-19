@@ -136,7 +136,7 @@ export default {
     async updatePermissions() {
       try {
         await this.$store.dispatch('accounts/updatePermissionsByUser', {
-          id: this.localAgent.id,
+          userId: this.localAgent.id,
           permissions: this.permissions.reduce((acc, permission) => {
             acc[permission.id] = permission.status;
             return acc;

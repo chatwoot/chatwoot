@@ -19,7 +19,9 @@ class AccountAPI extends ApiClient {
   updatePermissionsByUser(userId, data) {
     this.setApiVersion('v2');
     const url = `${this.apiVersion}/accounts/${this.accountIdFromRoute}/permissions/${userId}`;
-    return axios.patch(url, data);
+    return axios.put(url, {
+      permissions: data,
+    });
   }
 }
 

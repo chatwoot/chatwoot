@@ -97,6 +97,10 @@
       }
     },
     "PERMISSIONS": {
+      "API": {
+        "ERROR_MESSAGE":"Could not connect to Server, Please try again later",
+        "SUCCESS_MESSAGE": "Permissions updated successfully"
+      },
       "BUTTON_TEXT": "Edit Permissions",
       "TITLE": "Edit Permissions",
       "AGENT_NAME": "Agent Name",
