@@ -23,8 +23,25 @@
           :key="element.name"
           class="bg-white dark:bg-gray-800"
         >
+          <div v-if="element.name === 'previous_conversation'">
+            <accordion-item
+              v-if="contact.id"
+              :title="
+                $t('CONVERSATION_SIDEBAR.ACCORDION.PREVIOUS_CONVERSATION')
+              "
+              :is-open="isContactSidebarItemOpen('is_previous_conv_open')"
+              @click="
+                value => toggleSidebarUIState('is_previous_conv_open', value)
+              "
+            >
+              <contact-conversations
+                :contact-id="contact.id"
+                :conversation-id="conversationId"
+              />
+            </accordion-item>
+          </div>
           <div
-            v-if="element.name === 'conversation_actions'"
+            v-else-if="element.name === 'conversation_actions'"
             class="conversation--actions"
           >
             <accordion-item
@@ -84,20 +101,22 @@
               <contact-sales-info :contact="contact" />
             </accordion-item>
           </div>
-          <div v-else-if="element.name === 'previous_conversation'">
+          <div v-else-if="element.name === 'contact_attributes'">
             <accordion-item
-              v-if="contact.id"
-              :title="
-                $t('CONVERSATION_SIDEBAR.ACCORDION.PREVIOUS_CONVERSATION')
-              "
-              :is-open="isContactSidebarItemOpen('is_previous_conv_open')"
+              :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_ATTRIBUTES')"
+              :is-open="isContactSidebarItemOpen('is_ct_custom_attr_open')"
+              compact
               @click="
-                value => toggleSidebarUIState('is_previous_conv_open', value)
+                value => toggleSidebarUIState('is_ct_custom_attr_open', value)
               "
             >
-              <contact-conversations
+              <custom-attributes
                 :contact-id="contact.id"
-                :conversation-id="conversationId"
+                attribute-type="contact_attribute"
+                attribute-class="conversation--attribute"
+                attribute-from="contact_panel"
+                :custom-attributes="contact.custom_attributes"
+                class="even"
               />
             </accordion-item>
           </div>
@@ -142,6 +161,7 @@ import ContactConversations from './ContactConversations.vue';
 import ConversationAction from './ConversationAction.vue';
 import ConversationParticipant from './ConversationParticipant.vue';
 import ContactSalesInfo from 'dashboard/routes/dashboard/contacts/components/ContactSalesInfo.vue';
+import CustomAttributes from 'dashboard/routes/dashboard/conversation/customAttributes/CustomAttributes.vue';
 
 import ContactInfo from './contact/ContactInfo.vue';
 import ConversationInfo from './ConversationInfo.vue';
@@ -162,6 +182,7 @@ export default {
     draggable,
     MacrosList,
     ContactTransactions,
+    CustomAttributes,
   },
   mixins: [alertMixin, uiSettingsMixin],
   props: {

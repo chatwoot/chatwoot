@@ -58,6 +58,20 @@
               />
             </accordion-item>
           </div>
+          <div v-if="element.name === 'contact_transactions'">
+            <accordion-item
+              :title="$t('CONTACT_PANEL.SIDEBAR_SECTIONS.CONTACT_TRANSACTIONS')"
+              :is-open="isContactSidebarItemOpen('is_ct_cont_trans_open')"
+              @click="
+                value => toggleSidebarUIState('is_ct_cont_trans_open', value)
+              "
+            >
+              <contact-transactions
+                v-if="contact.id"
+                :contact-id="contact.id"
+              />
+            </accordion-item>
+          </div>
           <div v-if="element.name === 'contact_labels'">
             <accordion-item
               :title="$t('CONTACT_PANEL.SIDEBAR_SECTIONS.CONTACT_LABELS')"
@@ -81,20 +95,6 @@
                 v-if="contact.id"
                 :contact-id="contact.id"
                 conversation-id=""
-              />
-            </accordion-item>
-          </div>
-          <div v-if="element.name === 'contact_transactions'">
-            <accordion-item
-              :title="$t('CONTACT_PANEL.SIDEBAR_SECTIONS.CONTACT_TRANSACTIONS')"
-              :is-open="isContactSidebarItemOpen('is_ct_cont_trans_open')"
-              @click="
-                value => toggleSidebarUIState('is_ct_cont_trans_open', value)
-              "
-            >
-              <contact-transactions
-                v-if="contact.id"
-                :contact-id="contact.id"
               />
             </accordion-item>
           </div>
