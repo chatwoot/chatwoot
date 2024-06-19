@@ -4,6 +4,7 @@
 #
 #  id                :bigint           not null, primary key
 #  allow_auto_assign :boolean          default(TRUE)
+#  color             :string           default("#D7DBDF"), not null
 #  description       :text
 #  name              :string           not null
 #  created_at        :datetime         not null
