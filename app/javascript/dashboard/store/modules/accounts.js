@@ -137,6 +137,10 @@ export const actions = {
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
     }
   },
+
+  updatePermission: async ({ commit }, { permission }) => {
+    commit(types.default.UPDATE_ACCOUNT_PERMISSION, permission);
+  },
 };
 
 export const mutations = {
@@ -145,6 +149,9 @@ export const mutations = {
       ...$state.uiFlags,
       ...data,
     };
+  },
+  [types.default.UPDATE_ACCOUNT_PERMISSION]($state, permission) {
+    $state.permissions[permission.id] = permission.status;
   },
   [types.default.SET_ACCOUNT_PERMISSIONS]($state, data) {
     $state.permissions = data;

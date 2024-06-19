@@ -28,16 +28,16 @@
         <div class="w-full mb-4">
           <label>
             {{ $t('AGENT_MGMT.PERMISSIONS.PERMISSIONS_LABEL') }}
-            <div v-if="!uiFlags.isFetching">
+            <div v-if="!uiFlags.isFetching" class="permissions-grid">
               <div
                 v-for="permission in permissions"
                 :key="permission.id"
-                class="mb-2 flex items-center"
+                class="permission-item"
               >
-                <span class="mr-2">{{ permission.label }}</span>
+                <span class="permission-label">{{ permission.label }}</span>
                 <vue-toggles
                   :value="permission.status"
-                  @change="togglePermission(permission.id)"
+                  @click="togglePermission(permission)"
                 />
               </div>
             </div>
@@ -106,7 +106,7 @@ export default {
         },
       ],
       show: true,
-      selectedPermissions: [],
+      permissions: [],
     };
   },
   computed: {
@@ -114,14 +114,19 @@ export default {
       uiFlags: 'accounts/getUIFlags',
       permissionsByUser: 'accounts/getPermissions',
     }),
-    permissions() {
-      return Object.keys(this.permissionsByUser).map(permission => ({
-        id: permission,
-        label: this.$t(
-          `AGENT_MGMT.PERMISSIONS.FEATURES.${permission.toUpperCase()}`
-        ),
-        status: this.permissionsByUser[permission],
-      }));
+  },
+  watch: {
+    permissionsByUser: {
+      immediate: true,
+      handler(newPermissions) {
+        this.permissions = Object.keys(newPermissions).map(permission => ({
+          id: permission,
+          label: this.$t(
+            `AGENT_MGMT.PERMISSIONS.FEATURES.${permission.toUpperCase()}`
+          ),
+          status: newPermissions[permission],
+        }));
+      },
     },
   },
   mounted() {
@@ -132,7 +137,10 @@ export default {
       try {
         await this.$store.dispatch('accounts/updatePermissionsByUser', {
           id: this.localAgent.id,
-          permissions: this.selectedPermissions,
+          permissions: this.permissions.reduce((acc, permission) => {
+            acc[permission.id] = permission.status;
+            return acc;
+          }, {}),
         });
         this.showAlert(this.$t('AGENT_MGMT.PERMISSIONS.API.SUCCESS_MESSAGE'));
         this.onClose();
@@ -140,13 +148,17 @@ export default {
         this.showAlert(this.$t('AGENT_MGMT.PERMISSIONS.API.ERROR_MESSAGE'));
       }
     },
-    togglePermission(permissionId) {
-      const index = this.selectedPermissions.indexOf(permissionId);
-      if (index > -1) {
-        this.selectedPermissions.splice(index, 1);
-      } else {
-        this.selectedPermissions.push(permissionId);
-      }
+    togglePermission(permission) {
+      const updatedPermission = {
+        ...permission,
+        status: !permission.status,
+      };
+      this.permissions = this.permissions.map(p =>
+        p.id === permission.id ? updatedPermission : p
+      );
+      this.$store.dispatch('accounts/updatePermission', {
+        permission: updatedPermission,
+      });
     },
     showAlert(message) {
       bus.$emit('newToastMessage', message);
@@ -154,3 +166,23 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.permissions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+.permission-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+.permission-label {
+  flex: 1;
+  margin-right: 8px;
+}
+</style>
