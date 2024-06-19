@@ -90,14 +90,14 @@
 <script>
 /* eslint-env browser */
 /* global FB */
-import { required } from 'vuelidate/lib/validators';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { required } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import ChannelApi from '../../../../../api/channels';
-import PageHeader from '../../SettingsSubPageHeader.vue';
-import router from '../../../../index';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import accountMixin from '../../../../../mixins/account';
+import router from '../../../../index';
+import PageHeader from '../../SettingsSubPageHeader.vue';
 
 export default {
   components: {
@@ -234,7 +234,7 @@ export default {
         },
         {
           scope:
-            'pages_manage_metadata,pages_messaging,instagram_basic,pages_show_list,pages_read_engagement,instagram_manage_messages,instagram_manage_comments',
+            'pages_manage_metadata,business_management,pages_messaging,instagram_basic,pages_show_list,pages_read_engagement,instagram_manage_messages,instagram_manage_comments',
         }
       );
     },

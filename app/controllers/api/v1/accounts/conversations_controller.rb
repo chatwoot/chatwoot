@@ -29,13 +29,30 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def show; end
 
+  # rubocop:disable Metrics/AbcSize
   def create
+    previous_messages = fetch_previous_messages if params[:populate_historical_messages] == 'true'
+
     ActiveRecord::Base.transaction do
       @conversation = ConversationBuilder.new(params: params, contact_inbox: @contact_inbox).perform
       Messages::MessageBuilder.new(Current.user, @conversation, params[:message]).perform if params[:message].present?
     end
+
+    return unless params[:populate_historical_messages] == 'true'
+
+    previous_messages.each do |message_attributes|
+      new_message = @conversation.messages.create!(message_attributes.except('id'))
+
+      # duplicate the attachments if present
+      previous_message_attachments = Attachment.where(message_id: message_attributes['id'])
+
+      previous_message_attachments.each do |attachment|
+        new_message.attachments.create!(attachment.attributes.except('id', 'message_id'))
+      end
+    end
   end
 
+  # rubocop:enable Metrics/AbcSize
   def update
     @conversation.update!(permitted_update_params)
   end
@@ -117,6 +134,20 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   private
+
+  def fetch_previous_messages
+    previous_conversation = Conversation.where({ account_id: Current.account.id,
+                                                 inbox_id: params[:inbox_id],
+                                                 contact_id: params[:contact_id] }).order(created_at: :desc).first
+
+    return [] if previous_conversation.blank?
+
+    previous_conversation.messages.order(created_at: :asc).map do |message|
+      message.attributes.except('conversation_id').merge(
+        additional_attributes: (message.additional_attributes || {}).merge(ignore_automation_rules: true)
+      )
+    end
+  end
 
   def permitted_update_params
     # TODO: Move the other conversation attributes to this method and remove specific endpoints for each attribute

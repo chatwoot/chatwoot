@@ -134,7 +134,14 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
                                             ))
 
     previous_messages.each do |message_attributes|
-      new_conversation.messages.create!(message_attributes)
+      new_message = new_conversation.messages.create!(message_attributes.except('id'))
+
+      # duplicate the attachments if present
+      previous_message_attachments = Attachment.where(message_id: message_attributes['id'])
+
+      previous_message_attachments.each do |attachment|
+        new_message.attachments.create!(attachment.attributes.except('id', 'message_id'))
+      end
     end
 
     new_conversation
@@ -146,7 +153,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
     return [] if previous_conversation.blank?
 
     previous_conversation.messages.map do |message|
-      message.attributes.except('id', 'conversation_id').merge(
+      message.attributes.except('conversation_id').merge(
         additional_attributes: (message.additional_attributes || {}).merge(ignore_automation_rules: true)
       )
     end
