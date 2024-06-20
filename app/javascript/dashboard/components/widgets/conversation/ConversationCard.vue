@@ -57,7 +57,7 @@
               }"
               class="shrink-0 rounded-sm inline-flex w-3.5 h-3.5 text-woot-600 dark:text-woot-600"
             >
-              <fluent-icon icon="checkmark" size="12" />
+              <fluent-icon icon="checkmark" size="14" />
             </span>
             <priority-mark v-else :priority="chat.priority" />
           </div>

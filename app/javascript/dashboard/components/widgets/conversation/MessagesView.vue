@@ -9,6 +9,7 @@
     />
     <div class="flex justify-end">
       <woot-button
+        v-tooltip.left="$t('CONVERSATION.TOGGLE_CONTACT_PANEL_TOOLTIP')"
         variant="smooth"
         size="tiny"
         color-scheme="secondary"

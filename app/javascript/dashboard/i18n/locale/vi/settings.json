@@ -205,6 +205,7 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Hiện đang xem:",
     "SWITCH": "Chuyển",
+    "TOGGLE_TOOLTIP": "Ẩn hiện menu",
     "AGENT_DASHBOARD": "Bảng điều khiển",
     "INBOX_VIEW": "Hộp thư",
     "CONVERSATIONS": "Hội thoại",

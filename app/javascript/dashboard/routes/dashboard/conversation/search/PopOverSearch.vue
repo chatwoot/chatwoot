@@ -25,6 +25,7 @@
         </p>
       </router-link>
       <switch-layout
+        :conversation-id="conversationId"
         :is-on-expanded-layout="isOnExpandedLayout"
         @toggle="$emit('toggle-conversation-layout')"
       />
@@ -55,6 +56,10 @@ export default {
     isOnExpandedLayout: {
       type: Boolean,
       required: true,
+    },
+    conversationId: {
+      type: [String, Number],
+      default: 0,
     },
   },
   computed: {

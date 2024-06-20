@@ -1,5 +1,6 @@
 <template>
   <woot-button
+    v-tooltip.right="$t('SIDEBAR.TOGGLE_TOOLTIP')"
     :size="size"
     variant="clear"
     color-scheme="secondary"

@@ -12,6 +12,7 @@
       @conversation-load="onConversationLoad"
     >
       <pop-over-search
+        :conversation-id="conversationId"
         :is-on-expanded-layout="isOnExpandedLayout"
         @toggle-conversation-layout="toggleConversationLayout"
       />

@@ -6,7 +6,7 @@
     variant="smooth"
     color-scheme="secondary"
     class="layout-switch__container"
-    :class="{ expanded: isOnExpandedLayout }"
+    :class="{ expanded: isOnExpandedLayout || conversationId }"
     @click="toggle"
   />
 </template>
@@ -17,6 +17,10 @@ export default {
     isOnExpandedLayout: {
       type: Boolean,
       default: false,
+    },
+    conversationId: {
+      type: [String, Number],
+      default: 0,
     },
   },
   methods: {

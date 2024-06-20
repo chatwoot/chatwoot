@@ -193,6 +193,7 @@
         }
       }
     },
+    "TOGGLE_CONTACT_PANEL_TOOLTIP": "Ẩn hiện thông tin khách hàng",
     "VISIBLE_TO_AGENTS": "Lưu ý riêng: Chỉ hiển thị với bạn và nhân viên nội bộ",
     "CHANGE_STATUS": "Trạng thái cuộc hội thoại đã thay đổi",
     "CHANGE_STATUS_FAILED": "Thay đổi trạng thái hội thoại không thành công",
