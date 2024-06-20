@@ -23,7 +23,7 @@
         <div class="w-full">
           <label>
             Cor
-            <woot-color-picker v-model="color" />
+            <woot-color-picker v-model.trim="color" />
           </label>
         </div>
 
@@ -81,7 +81,7 @@ export default {
       description = '',
       name: title = '',
       allow_auto_assign: allowAutoAssign = true,
-      color = '#000',
+      color = '#D7DBDF',
     } = formData;
 
     return {
@@ -93,7 +93,10 @@ export default {
   },
   validations,
   mounted() {
-    this.color = getRandomColor();
+    const isCreateMode = !this.formData;
+    if (isCreateMode) {
+      this.color = getRandomColor();
+    }
   },
   methods: {
     handleSubmit() {
