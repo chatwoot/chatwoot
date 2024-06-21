@@ -2,14 +2,15 @@
 #
 # Table name: custom_filters
 #
-#  id          :bigint           not null, primary key
-#  filter_type :integer          default("conversation"), not null
-#  name        :string           not null
-#  query       :jsonb            not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  account_id  :bigint           not null
-#  user_id     :bigint           not null
+#  id             :bigint           not null, primary key
+#  account_scoped :boolean          default(FALSE), not null
+#  filter_type    :integer          default("conversation"), not null
+#  name           :string           not null
+#  query          :jsonb            not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  account_id     :bigint           not null
+#  user_id        :bigint           not null
 #
 # Indexes
 #

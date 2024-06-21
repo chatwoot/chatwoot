@@ -27,8 +27,9 @@ class Api::V1::Accounts::CustomFiltersController < Api::V1::Accounts::BaseContro
   private
 
   def fetch_custom_filters
-    @custom_filters = current_user.custom_filters.where(
-      account_id: Current.account.id,
+    user_filters = Current.account.custom_filters.where(user_id: current_user.id)
+    account_filters = Current.account.custom_filters.where(account_scoped: true)
+    @custom_filters = user_filters.or(account_filters).where(
       filter_type: permitted_params[:filter_type] || DEFAULT_FILTER_TYPE
     )
   end

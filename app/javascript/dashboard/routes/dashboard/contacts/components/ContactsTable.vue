@@ -111,6 +111,7 @@ export default {
       const nameColumn = {
         field: 'name',
         key: 'name',
+        width: 300,
         title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.NAME'),
         fixed: 'left',
         align: this.isRTLView ? 'right' : 'left',

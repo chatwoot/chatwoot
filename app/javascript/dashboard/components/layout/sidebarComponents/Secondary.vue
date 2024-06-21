@@ -81,7 +81,14 @@ export default {
       return this.menuConfig.menuItems && this.menuConfig.menuItems.length;
     },
     contactCustomViews() {
-      return this.customViews.filter(view => view.filter_type === 'contact');
+      return this.customViews.filter(
+        view => view.filter_type === 'contact' && view.account_scoped === false
+      );
+    },
+    contactCustomGlobalViews() {
+      return this.customViews.filter(
+        view => view.filter_type === 'contact' && view.account_scoped === true
+      );
     },
     accessibleMenuItems() {
       if (!this.currentRole) {
@@ -254,22 +261,36 @@ export default {
           })),
       };
     },
+    contactGlobalSegmentsSection() {
+      return {
+        icon: 'folder',
+        label: 'CUSTOM_VIEWS_GLOBAL_SEGMENTS',
+        hasSubMenu: true,
+        key: 'global_custom_view',
+        children: this.contactCustomGlobalViews.map(view => ({
+          id: view.id,
+          label: view.name,
+          truncateLabel: true,
+          toState: frontendURL(
+            `accounts/${this.accountId}/contacts/custom_view/${view.id}`
+          ),
+        })),
+      };
+    },
     contactSegmentsSection() {
       return {
         icon: 'folder',
         label: 'CUSTOM_VIEWS_SEGMENTS',
         hasSubMenu: true,
         key: 'custom_view',
-        children: this.customViews
-          .filter(view => view.filter_type === 'contact')
-          .map(view => ({
-            id: view.id,
-            label: view.name,
-            truncateLabel: true,
-            toState: frontendURL(
-              `accounts/${this.accountId}/contacts/custom_view/${view.id}`
-            ),
-          })),
+        children: this.contactCustomViews.map(view => ({
+          id: view.id,
+          label: view.name,
+          truncateLabel: true,
+          toState: frontendURL(
+            `accounts/${this.accountId}/contacts/custom_view/${view.id}`
+          ),
+        })),
       };
     },
     additionalSecondaryMenuItems() {
@@ -284,6 +305,12 @@ export default {
       }
       if (this.customViews.length) {
         conversationMenuItems = [this.foldersSection, ...conversationMenuItems];
+      }
+      if (this.contactCustomGlobalViews.length) {
+        contactMenuItems = [
+          this.contactGlobalSegmentsSection,
+          ...contactMenuItems,
+        ];
       }
       if (this.contactCustomViews.length) {
         contactMenuItems = [this.contactSegmentsSection, ...contactMenuItems];
