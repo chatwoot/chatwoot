@@ -66,6 +66,14 @@ export const getters = {
     return currentAccount.role;
   },
 
+  getCurrentPermissions($state, $getters) {
+    const { accounts = [] } = $state.currentUser;
+    const [currentAccount = {}] = accounts.filter(
+      account => account.id === $getters.getCurrentAccountId
+    );
+    return currentAccount.permissions;
+  },
+
   getCurrentUser($state) {
     return $state.currentUser;
   },

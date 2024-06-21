@@ -22,6 +22,7 @@ const primaryMenuItems = accountId => [
     toState: frontendURL(`accounts/${accountId}/contacts`),
     toStateName: 'contacts_dashboard',
     roles: AllRoles,
+    hasAccess: permissions => permissions.contacts,
   },
   {
     icon: 'arrow-trending-lines',
@@ -31,6 +32,7 @@ const primaryMenuItems = accountId => [
     toState: frontendURL(`accounts/${accountId}/reports`),
     toStateName: 'settings_account_reports',
     roles: AdminSupervisorRoles,
+    hasAccess: permissions => permissions.reports,
   },
   {
     icon: 'megaphone',
@@ -40,6 +42,7 @@ const primaryMenuItems = accountId => [
     toState: frontendURL(`accounts/${accountId}/campaigns`),
     toStateName: 'settings_account_campaigns',
     roles: AdminSupervisorRoles,
+    hasAccess: permissions => permissions.campaigns,
   },
   {
     icon: 'library',

@@ -73,6 +73,7 @@ export default {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
       currentRole: 'getCurrentRole',
+      currentPermissions: 'getCurrentPermissions',
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
       inboxes: 'inboxes/getInboxes',
@@ -107,10 +108,14 @@ export default {
     },
     primaryMenuItems() {
       const menuItems = this.sideMenuConfig.primaryMenu;
+
       return menuItems.filter(menuItem => {
         const isAvailableForTheUser = menuItem.roles.includes(this.currentRole);
+        const isFeatureAvailable = menuItem.hasAccess
+          ? menuItem.hasAccess(this.currentPermissions)
+          : true;
 
-        if (!isAvailableForTheUser) {
+        if (!isAvailableForTheUser || !isFeatureAvailable) {
           return false;
         }
         if (
