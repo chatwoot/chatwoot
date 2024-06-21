@@ -67,6 +67,7 @@ class Notification::PushNotificationService
     return unless can_send_browser_push?(subscription)
 
     WebPush.payload_send(browser_push_payload(subscription))
+    Rails.logger.info("Browser push sent to #{user.email} with title #{push_message[:title]}")
   rescue WebPush::ExpiredSubscription, WebPush::InvalidSubscription, WebPush::Unauthorized => e
     Rails.logger.info "WebPush subscription expired: #{e.message}"
     subscription.destroy!
@@ -106,7 +107,11 @@ class Notification::PushNotificationService
   end
 
   def remove_subscription_if_error(subscription, response)
-    subscription.destroy! if JSON.parse(response[:body])['results']&.first&.keys&.include?('error')
+    if JSON.parse(response[:body])['results']&.first&.keys&.include?('error')
+      subscription.destroy!
+    else
+      Rails.logger.info("FCM push sent to #{user.email} with title #{push_message[:title]}")
+    end
   end
 
   def fcm_options(subscription)

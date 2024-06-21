@@ -11,6 +11,7 @@ describe Notification::PushNotificationService do
     context 'when the push server returns success' do
       before do
         allow(WebPush).to receive(:payload_send).and_return(true)
+        allow(Rails.logger).to receive(:info)
         allow(Notification::FcmService).to receive(:new).and_return(fcm_service_double)
         allow(fcm_double).to receive(:send_v1).and_return({ body: { 'results': [] }.to_json })
         allow(GlobalConfigService).to receive(:load).with('FIREBASE_PROJECT_ID', nil).and_return('test_project_id')
@@ -24,6 +25,7 @@ describe Notification::PushNotificationService do
           described_class.new(notification: notification).perform
           expect(WebPush).to have_received(:payload_send)
           expect(Notification::FcmService).not_to have_received(:new)
+          expect(Rails.logger).to have_received(:info).with("Browser push sent to #{user.email} with title #{notification.push_message_title}")
         end
       end
 
@@ -35,6 +37,7 @@ describe Notification::PushNotificationService do
           expect(Notification::FcmService).to have_received(:new)
           expect(fcm_double).to have_received(:send_v1)
           expect(WebPush).not_to have_received(:payload_send)
+          expect(Rails.logger).to have_received(:info).with("FCM push sent to #{user.email} with title #{notification.push_message_title}")
         end
       end
     end
