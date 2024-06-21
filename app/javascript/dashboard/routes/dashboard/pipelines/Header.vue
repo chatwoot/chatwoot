@@ -4,7 +4,7 @@
   >
     <div class="flex justify-between w-full py-2 px-4">
       <div class="flex items-center justify-center max-w-full min-w-[6.25rem]">
-        <woot-sidemenu-icon />
+        <fluent-icon icon="contact-card-group" />
         <h1
           class="m-0 text-xl text-slate-900 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis my-0 mx-2"
         >
@@ -39,7 +39,42 @@
             {{ $t('CONTACTS_PAGE.SEARCH_BUTTON') }}
           </woot-button>
         </div>
-        <div class="relative">
+        <div class="multiselect-wrap--small">
+          <multiselect
+            v-model="selectedView"
+            track-by="id"
+            label="name"
+            placeholder="Chọn bộ lọc có sẵn"
+            selected-label="Đang chọn"
+            select-label="Chọn"
+            deselect-label="Bỏ chọn"
+            :custom-label="customViewLabel"
+            :options="customViews"
+          >
+            <template slot="option" slot-scope="{ option }">
+              <span>{{ option.name }}</span>
+            </template>
+          </multiselect>
+        </div>
+        <div v-if="hasActiveSegments" class="flex gap-2">
+          <woot-button
+            class="clear"
+            color-scheme="secondary"
+            icon="edit"
+            @click="onToggleEditSegmentsModal"
+          >
+            {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_EDIT') }}
+          </woot-button>
+          <woot-button
+            class="clear"
+            color-scheme="alert"
+            icon="delete"
+            @click="onToggleDeleteSegmentsModal"
+          >
+            {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_DELETE') }}
+          </woot-button>
+        </div>
+        <div v-if="!hasActiveSegments" class="relative">
           <div
             v-if="hasAppliedFilters"
             class="absolute h-2 w-2 top-1 right-3 bg-slate-500 dark:bg-slate-500 rounded-full"
@@ -50,9 +85,20 @@
             icon="filter"
             @click="toggleFilter"
           >
-            {{ $t('CONTACTS_PAGE.FILTER_CONTACTS') }}
+            {{ $t('PIPELINE_PAGE.FILTER_CONTACTS') }}
           </woot-button>
         </div>
+
+        <woot-button
+          v-if="hasAppliedFilters && !hasActiveSegments"
+          class="clear"
+          color-scheme="alert"
+          variant="clear"
+          icon="save"
+          @click="onToggleSegmentsModal"
+        >
+          {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_SAVE') }}
+        </woot-button>
       </div>
     </div>
   </header>
@@ -62,6 +108,7 @@
 import { mapGetters } from 'vuex';
 import adminMixin from 'dashboard/mixins/isAdmin';
 import StageTypeFilter from '../settings/reports/components/Filters/StageType.vue';
+import { frontendURL } from '../../../helper/URLHelper';
 
 export default {
   components: {
@@ -77,19 +124,53 @@ export default {
       type: String,
       default: '',
     },
+    customViews: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  data() {
+    return {
+      selectedView: null,
+    };
   },
   computed: {
     searchButtonClass() {
       return this.searchQuery !== '' ? 'show' : '';
     },
     ...mapGetters({
+      accountId: 'getCurrentAccountId',
       getAppliedContactFilters: 'contacts/getAppliedContactFilters',
     }),
     hasAppliedFilters() {
       return this.getAppliedContactFilters.length;
     },
+    hasActiveSegments() {
+      return this.selectedView !== null;
+    },
+  },
+  watch: {
+    selectedView() {
+      if (this.selectedView) {
+        const route = frontendURL(
+          `accounts/${this.accountId}/pipelines/custom_view/${this.selectedView.id}`
+        );
+        this.$router.push(route);
+      } else {
+        this.$router.push({ name: 'pipelines_dashboard' });
+      }
+    },
   },
   methods: {
+    onToggleSegmentsModal() {
+      this.$emit('on-toggle-save-filter');
+    },
+    onToggleEditSegmentsModal() {
+      this.$emit('on-toggle-edit-filter');
+    },
+    onToggleDeleteSegmentsModal() {
+      this.$emit('on-toggle-delete-filter');
+    },
     submitSearch() {
       this.$emit('on-search-submit');
     },
@@ -101,6 +182,9 @@ export default {
     },
     toggleFilter() {
       this.$emit('on-toggle-filter');
+    },
+    customViewLabel(customView) {
+      return `Lọc theo: ${customView.name}`;
     },
   },
 };

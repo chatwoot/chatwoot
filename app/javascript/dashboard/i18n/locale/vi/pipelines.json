@@ -8,7 +8,8 @@
         },
         "ADD_CONTACT_TOOLTIP": "Tạo khách hàng mới",
         "ASSIGNEE_LABEL": "Phụ trách: ",
-        "TIME_IN_STAGE": "Thời gian: "
+        "TIME_IN_STAGE": "Thời gian: ",
+        "FILTER_CONTACTS": "Bộ lọc mới"
     },
     "CONTACT_PO": {
         "HEADER": {

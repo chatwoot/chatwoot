@@ -3,7 +3,7 @@
     "TITLE": "Tìm kiếm khách hàng",
     "SUBTITLE": "Thêm bộ lọc bên dưới và ấn 'Áp dụng' để tìm kiếm khách hàng.",
     "EDIT_CUSTOM_SEGMENT": "Sửa bộ lọc",
-    "CUSTOM_VIEWS_SUBTITLE": "Thêm hoặc xóa bộ lọc khách hàng.",
+    "CUSTOM_VIEWS_SUBTITLE": "Điều chỉnh tên và điều kiện cho bộ lọc khách hàng.",
     "ADD_NEW_FILTER": "Thêm điều kiện",
     "CLEAR_ALL_FILTERS": "Xoá tất cả bộ lọc",
     "FILTER_DELETE_ERROR": "Bạn nên có ít nhất 1 bộ lọc để lưu",

@@ -8,4 +8,13 @@ export const routes = [
     roles: ['administrator', 'agent'],
     component: Pipeline,
   },
+  {
+    path: frontendURL('accounts/:accountId/pipelines/custom_view/:id'),
+    name: 'pipelines_segments_dashboard',
+    roles: ['administrator', 'agent'],
+    component: Pipeline,
+    props: route => {
+      return { segmentsId: route.params.id };
+    },
+  },
 ];
