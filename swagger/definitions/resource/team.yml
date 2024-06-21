@@ -18,3 +18,6 @@ properties:
   is_member:
     type: boolean
     description: This field shows whether the current user is a part of the team
+  color:
+    type: string
+    description: A string representing the team's color, formatted as a hex code starting with the "#" character, followed by exactly six hexadecimal digits (0-9, A-F).
