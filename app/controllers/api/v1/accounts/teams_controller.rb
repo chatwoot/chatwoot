@@ -29,6 +29,6 @@ class Api::V1::Accounts::TeamsController < Api::V1::Accounts::BaseController
   end
 
   def team_params
-    params.require(:team).permit(:name, :description, :allow_auto_assign)
+    params.require(:team).permit(:name, :description, :allow_auto_assign, :color)
   end
 end
