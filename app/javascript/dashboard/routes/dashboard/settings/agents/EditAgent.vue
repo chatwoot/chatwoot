@@ -46,6 +46,30 @@
             </span>
           </label>
         </div>
+
+        <div class="w-full mb-4">
+          <label>
+            {{ $t('AGENT_MGMT.PERMISSIONS.PERMISSIONS_LABEL') }}
+            <div v-if="!uiFlags.isFetching" class="permissions-grid">
+              <div
+                v-for="permission in permissions"
+                :key="permission.id"
+                class="permission-item"
+              >
+                <span class="permission-label">{{ permission.label }}</span>
+                <vue-toggles
+                  checked-bg="#0091ff"
+                  :value="permission.status"
+                  @click="togglePermission(permission)"
+                />
+              </div>
+            </div>
+            <div v-else>
+              <spinner class="m-5" size="large" color-scheme="primary" />
+            </div>
+          </label>
+        </div>
+
         <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
           <div class="w-[50%]">
             <woot-submit-button
@@ -83,6 +107,8 @@ import WootSubmitButton from '../../../../components/buttons/FormSubmitButton.vu
 import Modal from '../../../../components/Modal.vue';
 import Auth from '../../../../api/auth';
 import wootConstants from 'dashboard/constants/globals';
+import Spinner from 'shared/components/Spinner.vue';
+import VueToggles from 'vue-toggles';
 
 const { AVAILABILITY_STATUS_KEYS } = wootConstants;
 
@@ -90,6 +116,8 @@ export default {
   components: {
     WootSubmitButton,
     Modal,
+    Spinner,
+    VueToggles,
   },
   props: {
     id: {
@@ -140,6 +168,8 @@ export default {
         email: this.email,
       },
       show: true,
+      permissions: [],
+      modifiedPermissions: {},
     };
   },
   validations: {
@@ -154,12 +184,14 @@ export default {
       required,
     },
   },
+
   computed: {
     pageTitle() {
       return `${this.$t('AGENT_MGMT.EDIT.TITLE')} - ${this.name}`;
     },
     ...mapGetters({
       uiFlags: 'agents/getUIFlags',
+      permissionsByUser: 'accounts/getPermissions',
     }),
     availabilityStatuses() {
       return this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST').map(
@@ -171,6 +203,23 @@ export default {
         })
       );
     },
+  },
+  watch: {
+    permissionsByUser: {
+      immediate: true,
+      handler(newPermissions) {
+        this.permissions = Object.keys(newPermissions).map(permission => ({
+          id: permission,
+          label: this.$t(
+            `AGENT_MGMT.PERMISSIONS.FEATURES.${permission.toUpperCase()}`
+          ),
+          status: newPermissions[permission],
+        }));
+      },
+    },
+  },
+  mounted() {
+    this.$store.dispatch('accounts/getPermissionsByUser', this.id);
   },
   methods: {
     showAlert(message) {
@@ -200,6 +249,51 @@ export default {
         this.showAlert(this.$t('AGENT_MGMT.EDIT.PASSWORD_RESET.ERROR_MESSAGE'));
       }
     },
+    async updatePermissions() {
+      try {
+        await this.$store.dispatch('accounts/updatePermissionsByUser', {
+          userId: this.id,
+          permissions: this.modifiedPermissions,
+        });
+        this.showAlert(this.$t('AGENT_MGMT.PERMISSIONS.API.SUCCESS_MESSAGE'));
+      } catch (error) {
+        this.showAlert(this.$t('AGENT_MGMT.PERMISSIONS.API.ERROR_MESSAGE'));
+      }
+    },
+    togglePermission(permission) {
+      const updatedPermission = {
+        ...permission,
+        status: !permission.status,
+      };
+      this.permissions = this.permissions.map(p =>
+        p.id === permission.id ? updatedPermission : p
+      );
+      this.modifiedPermissions[permission.id] = updatedPermission.status;
+      this.$store.dispatch('accounts/updatePermission', {
+        permission: updatedPermission,
+      });
+      this.updatePermissions();
+    },
   },
 };
 </script>
+
+<style scoped>
+.permissions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+.permission-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+.permission-label {
+  flex: 1;
+  margin-right: 8px;
+}
+</style>

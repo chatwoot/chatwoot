@@ -98,7 +98,7 @@
     },
     "PERMISSIONS": {
       "API": {
-        "ERROR_MESSAGE":"Could not connect to Server, Please try again later",
+        "ERROR_MESSAGE": "Could not connect to Server, Please try again later",
         "SUCCESS_MESSAGE": "Permissions updated successfully"
       },
       "BUTTON_TEXT": "Edit Permissions",
@@ -111,39 +111,11 @@
       "SUBMIT": "Update Permissions",
       "FEATURES": {
         "REPORTS": "View Reports",
-        "MANAGE_USERS": "Manage Users",
-        "EDIT_SETTINGS": "Edit Settings",
-        "CRM": "CRM",
-        "USERS": "Users",
-        "LABELS": "Labels",
-        "MACROS": "Macros",
-        "CAMPAIGNS": "Campaigns",
-        "IP_LOOKUP": "IP Lookup",
-        "MOBILE_V2": "Mobile V2",
-        "AGENT_BOTS": "Agent Bots",
-        "AUDIT_LOGS": "Audit Logs",
-        "AUTOMATIONS": "Automations",
-        "HELP_CENTER": "Help Center",
-        "INTEGRATIONS": "Integrations",
-        "RESPONSE_BOT": "Response Bot",
-        "CHANNEL_EMAIL": "Email Channel",
-        "INBOUND_EMAILS": "Inbound Emails",
-        "VOICE_RECORDER": "Voice Recorder",
-        "CHANNEL_TWITTER": "Twitter Channel",
-        "CHANNEL_WEBSITE": "Website Channel",
-        "TEAM_MANAGEMENT": "Team Management",
-        "AGENT_MANAGEMENT": "Agent Management",
-        "CANNED_RESPONSES": "Canned Responses",
-        "CHANNEL_FACEBOOK": "Facebook Channel",
-        "DISABLE_BRANDING": "Disable Branding",
-        "INBOX_MANAGEMENT": "Inbox Management",
-        "MESSAGE_REPLY_TO": "Message Reply To",
-        "CUSTOM_ATTRIBUTES": "Custom Attributes",
-        "CUSTOM_REPLY_EMAIL": "Custom Reply Email",
-        "CUSTOM_REPLY_DOMAIN": "Custom Reply Domain",
-        "INSERT_ARTICLE_IN_REPLY": "Insert Article In Reply",
-        "AUTO_RESOLVE_CONVERSATIONS": "Auto Resolve Conversations",
-        "EMAIL_CONTINUITY_ON_API_CHANNEL": "Email Continuity On API Channel"
+        "CONVERSATIONS": "View Conversations",
+        "ACCOUNTS": "View Accounts",
+        "TEAMS": "View Teams",
+        "CONTACTS": "View Contacts",
+        "LABELS": "View Labels"
       }
     },
     "SEARCH": {
