@@ -29,6 +29,7 @@ describe('#getters', () => {
       account_id: 1,
       name: 'Test',
       description: 'Some team',
+      color: '#0000FF',
       is_member: true,
     });
   });

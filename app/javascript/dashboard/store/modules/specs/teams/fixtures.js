@@ -4,6 +4,7 @@ export default {
     account_id: 1,
     name: 'Test',
     description: 'Some team',
+    color: '#0000FF',
     is_member: true,
   },
   2: {
@@ -11,6 +12,7 @@ export default {
     account_id: 1,
     name: 'Test 1',
     description: 'Some team',
+    color: '#4B0082',
     is_member: false,
   },
 };
