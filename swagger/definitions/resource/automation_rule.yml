@@ -2,10 +2,11 @@ type: object
 properties:
   event_name:
     type: string
-    description: Automation Rule event, on which we call the actions(conversation_created, conversation_updated, message_created)
+    description: Automation Rule event, on which we call the actions(conversation_created, conversation_updated, conversation_resolved, message_created)
     enum:
       - conversation_created
       - conversation_updated
+      - conversation_resolved
       - message_created
     example: message_created
   name:
