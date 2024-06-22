@@ -66,7 +66,7 @@ class Notification::PushNotificationService
   def send_browser_push(subscription)
     return unless can_send_browser_push?(subscription)
 
-    WebPush.payload_send(browser_push_payload(subscription))
+    WebPush.payload_send(**browser_push_payload(subscription))
     Rails.logger.info("Browser push sent to #{user.email} with title #{push_message[:title]}")
   rescue WebPush::ExpiredSubscription, WebPush::InvalidSubscription, WebPush::Unauthorized => e
     Rails.logger.info "WebPush subscription expired: #{e.message}"
