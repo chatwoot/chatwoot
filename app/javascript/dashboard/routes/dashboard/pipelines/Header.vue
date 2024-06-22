@@ -11,10 +11,22 @@
           {{ headerTitle }}
         </h1>
         <stage-type-filter @on-stage-type-change="onFilterChange" />
+        <div class="multiselect-wrap--small mt-4 pl-4">
+          <multiselect
+            v-model="selectedAssigneeType"
+            track-by="id"
+            label="name"
+            placeholder="Chọn người phụ trách"
+            selected-label="Đang chọn"
+            select-label="Chọn"
+            deselect-label="Bỏ chọn"
+            :options="assigneeTypes"
+          />
+        </div>
       </div>
       <div class="flex gap-2">
         <div
-          class="max-w-[400px] min-w-[150px] flex items-center relative mx-2 search-wrap"
+          class="max-w-[300px] min-w-[150px] flex items-center relative mx-2 search-wrap"
         >
           <div class="flex items-center absolute h-full left-2.5">
             <fluent-icon
@@ -86,7 +98,11 @@
               icon="filter"
               @click="toggleFilter"
             >
-              {{ $t('PIPELINE_PAGE.FILTER_CONTACTS') }}
+              {{
+                hasAppliedFilters
+                  ? $t('CONTACTS_PAGE.FILTER_CONTACTS_EDIT')
+                  : $t('PIPELINE_PAGE.FILTER_CONTACTS')
+              }}
             </woot-button>
           </div>
 
@@ -134,6 +150,7 @@ export default {
   data() {
     return {
       selectedView: null,
+      selectedAssigneeType: null,
     };
   },
   computed: {
@@ -150,6 +167,12 @@ export default {
     hasActiveSegments() {
       return this.selectedView !== null;
     },
+    assigneeTypes() {
+      return [
+        { id: 'me', name: 'Tôi đang phụ trách' },
+        { id: 'unassigned', name: 'Chưa có phụ trách' },
+      ];
+    },
   },
   watch: {
     selectedView() {
@@ -161,6 +184,9 @@ export default {
       } else {
         this.$router.push({ name: 'pipelines_dashboard' });
       }
+    },
+    selectedAssigneeType() {
+      this.$emit('on-assignee-type-change', this.selectedAssigneeType);
     },
   },
   methods: {
@@ -195,7 +221,7 @@ export default {
 <style lang="scss" scoped>
 .search-wrap {
   .contact-search {
-    @apply pl-9 pr-[3.75rem] text-sm w-full h-[2.375rem] m-0;
+    @apply pl-9 pr-[3.75rem] text-sm w-full m-0;
   }
 
   .button {

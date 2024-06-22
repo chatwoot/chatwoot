@@ -30,12 +30,22 @@ export const raiseContactCreateErrors = error => {
 };
 
 export const actions = {
-  search: async ({ commit }, { search, page, sortAttr, label, stageType }) => {
+  search: async (
+    { commit },
+    { search, page, sortAttr, label, stageType, assigneeType }
+  ) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
       const {
         data: { payload, meta },
-      } = await ContactAPI.search(search, page, sortAttr, label, stageType);
+      } = await ContactAPI.search(
+        search,
+        page,
+        sortAttr,
+        label,
+        stageType,
+        assigneeType
+      );
       commit(types.CLEAR_CONTACTS);
       commit(types.SET_CONTACTS, payload);
       commit(types.SET_CONTACT_META, meta);
@@ -45,12 +55,15 @@ export const actions = {
     }
   },
 
-  get: async ({ commit }, { page = 1, sortAttr, label, stageType } = {}) => {
+  get: async (
+    { commit },
+    { page = 1, sortAttr, label, stageType, assigneeType } = {}
+  ) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
       const {
         data: { payload, meta },
-      } = await ContactAPI.get(page, sortAttr, label, stageType);
+      } = await ContactAPI.get(page, sortAttr, label, stageType, assigneeType);
       commit(types.CLEAR_CONTACTS);
       commit(types.SET_CONTACTS, payload);
       commit(types.SET_CONTACT_META, meta);
@@ -234,13 +247,26 @@ export const actions = {
 
   filter: async (
     { commit },
-    { page = 1, sortAttr, stageType, queryPayload, resetState = true } = {}
+    {
+      page = 1,
+      sortAttr,
+      stageType,
+      assigneeType,
+      queryPayload,
+      resetState = true,
+    } = {}
   ) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
       const {
         data: { payload, meta },
-      } = await ContactAPI.filter(page, sortAttr, stageType, queryPayload);
+      } = await ContactAPI.filter(
+        page,
+        sortAttr,
+        stageType,
+        assigneeType,
+        queryPayload
+      );
       if (resetState) {
         commit(types.CLEAR_CONTACTS);
         commit(types.SET_CONTACTS, payload);

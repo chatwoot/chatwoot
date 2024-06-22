@@ -5,6 +5,7 @@
         :search-query="searchQuery"
         :header-title="pageTitle"
         :custom-views="customViews"
+        @on-assignee-type-change="onAssigneeTypeChange"
         @on-filter-change="onFilterChange"
         @on-toggle-filter="onToggleFilters"
         @on-input-search="onInputSearch"
@@ -107,6 +108,7 @@ export default {
     return {
       contacts: [],
       selectedStageType: 'both',
+      selectedAssigneeType: null,
       selectedContactId: '',
       defaultContact: null,
       searchQuery: '',
@@ -253,6 +255,11 @@ export default {
       this.selectedStageType = selectedStageType.value;
       this.fetchContacts();
     },
+    onAssigneeTypeChange(selectedAssigneeType) {
+      this.selectedContactId = '';
+      this.selectedAssigneeType = selectedAssigneeType?.id;
+      this.fetchContacts();
+    },
     fetchContacts() {
       let value = '';
       if (this.searchQuery.charAt(0) === '+') {
@@ -263,6 +270,7 @@ export default {
       const requestParams = {
         page: DEFAULT_PAGE,
         stageType: this.selectedStageType,
+        assigneeType: this.selectedAssigneeType,
       };
       if (value) {
         this.$store.dispatch('contacts/search', {
