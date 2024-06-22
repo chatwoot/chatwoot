@@ -2,7 +2,7 @@
   <header
     class="bg-white dark:bg-slate-900 border-b border-slate-50 dark:border-slate-800"
   >
-    <div class="flex justify-between w-full py-2 px-4">
+    <div class="flex justify-between w-full px-4">
       <div class="flex items-center justify-center max-w-full min-w-[6.25rem]">
         <fluent-icon icon="contact-card-group" />
         <h1
@@ -10,8 +10,8 @@
         >
           {{ headerTitle }}
         </h1>
+        <stage-type-filter @on-stage-type-change="onFilterChange" />
       </div>
-      <stage-type-filter @on-stage-type-change="onFilterChange" />
       <div class="flex gap-2">
         <div
           class="max-w-[400px] min-w-[150px] flex items-center relative mx-2 search-wrap"
@@ -39,66 +39,68 @@
             {{ $t('CONTACTS_PAGE.SEARCH_BUTTON') }}
           </woot-button>
         </div>
-        <div class="multiselect-wrap--small">
-          <multiselect
-            v-model="selectedView"
-            track-by="id"
-            label="name"
-            placeholder="Chọn bộ lọc có sẵn"
-            selected-label="Đang chọn"
-            select-label="Chọn"
-            deselect-label="Bỏ chọn"
-            :custom-label="customViewLabel"
-            :options="customViews"
-          >
-            <template slot="option" slot-scope="{ option }">
-              <span>{{ option.name }}</span>
-            </template>
-          </multiselect>
-        </div>
-        <div v-if="hasActiveSegments" class="flex gap-2">
+        <div class="flex mt-4">
+          <div v-if="customViews.length > 0" class="multiselect-wrap--small">
+            <multiselect
+              v-model="selectedView"
+              track-by="id"
+              label="name"
+              placeholder="Chọn bộ lọc có sẵn"
+              selected-label="Đang chọn"
+              select-label="Chọn"
+              deselect-label="Bỏ chọn"
+              :custom-label="customViewLabel"
+              :options="customViews"
+            >
+              <template slot="option" slot-scope="{ option }">
+                <span>{{ option.name }}</span>
+              </template>
+            </multiselect>
+          </div>
+          <div v-if="hasActiveSegments">
+            <woot-button
+              class="clear"
+              color-scheme="secondary"
+              icon="edit"
+              @click="onToggleEditSegmentsModal"
+            >
+              {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_EDIT') }}
+            </woot-button>
+            <woot-button
+              class="clear"
+              color-scheme="alert"
+              icon="delete"
+              @click="onToggleDeleteSegmentsModal"
+            >
+              {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_DELETE') }}
+            </woot-button>
+          </div>
+          <div v-if="!hasActiveSegments" class="relative">
+            <div
+              v-if="hasAppliedFilters"
+              class="absolute h-2 w-2 top-1 right-3 bg-slate-500 dark:bg-slate-500 rounded-full"
+            />
+            <woot-button
+              class="clear"
+              color-scheme="secondary"
+              icon="filter"
+              @click="toggleFilter"
+            >
+              {{ $t('PIPELINE_PAGE.FILTER_CONTACTS') }}
+            </woot-button>
+          </div>
+
           <woot-button
-            class="clear"
-            color-scheme="secondary"
-            icon="edit"
-            @click="onToggleEditSegmentsModal"
-          >
-            {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_EDIT') }}
-          </woot-button>
-          <woot-button
+            v-if="hasAppliedFilters && !hasActiveSegments"
             class="clear"
             color-scheme="alert"
-            icon="delete"
-            @click="onToggleDeleteSegmentsModal"
+            variant="clear"
+            icon="save"
+            @click="onToggleSegmentsModal"
           >
-            {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_DELETE') }}
+            {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_SAVE') }}
           </woot-button>
         </div>
-        <div v-if="!hasActiveSegments" class="relative">
-          <div
-            v-if="hasAppliedFilters"
-            class="absolute h-2 w-2 top-1 right-3 bg-slate-500 dark:bg-slate-500 rounded-full"
-          />
-          <woot-button
-            class="clear"
-            color-scheme="secondary"
-            icon="filter"
-            @click="toggleFilter"
-          >
-            {{ $t('PIPELINE_PAGE.FILTER_CONTACTS') }}
-          </woot-button>
-        </div>
-
-        <woot-button
-          v-if="hasAppliedFilters && !hasActiveSegments"
-          class="clear"
-          color-scheme="alert"
-          variant="clear"
-          icon="save"
-          @click="onToggleSegmentsModal"
-        >
-          {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_SAVE') }}
-        </woot-button>
       </div>
     </div>
   </header>

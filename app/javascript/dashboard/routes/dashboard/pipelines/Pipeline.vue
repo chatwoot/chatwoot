@@ -2,6 +2,7 @@
   <div class="w-full flex flex-row">
     <div class="flex flex-col h-full" :class="wrapClass">
       <page-header
+        :search-query="searchQuery"
         :header-title="pageTitle"
         :custom-views="customViews"
         @on-filter-change="onFilterChange"
