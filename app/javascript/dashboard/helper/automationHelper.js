@@ -208,7 +208,10 @@ export const getDefaultConditions = eventName => {
       },
     ];
   }
-  if (eventName === 'conversation_opened') {
+  if (
+    eventName === 'conversation_opened' ||
+    eventName === 'conversation_resolved'
+  ) {
     return [
       {
         attribute_key: 'browser_language',
