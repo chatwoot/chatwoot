@@ -38,6 +38,7 @@ import Spinner from 'shared/components/Spinner.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import timeMixin from 'dashboard/mixins/time';
+import contactMixin from 'dashboard/mixins/contactMixin';
 import rtlMixin from 'shared/mixins/rtlMixin';
 import { format } from 'date-fns';
 
@@ -47,7 +48,7 @@ export default {
     Spinner,
     VeTable,
   },
-  mixins: [clickaway, timeMixin, rtlMixin],
+  mixins: [clickaway, timeMixin, rtlMixin, contactMixin],
   props: {
     contacts: {
       type: Array,
@@ -356,18 +357,6 @@ export default {
     this.setSortConfig();
   },
   methods: {
-    currentActionText(action) {
-      const status = this.$t(
-        'CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.' + action.status + '.TEXT'
-      );
-      const actionDate = action.snoozed_until || action.updated_at;
-      const actionDateText = format(new Date(actionDate), 'dd/MM/yy');
-      const actionText = `${action.inbox_type} / ${status}  (${actionDateText})`;
-      if (action.additional_attributes.description)
-        return `${action.additional_attributes.description} / ${actionText}`;
-
-      return actionText;
-    },
     setSortConfig() {
       this.sortConfig = { [this.sortParam]: this.sortOrder };
     },

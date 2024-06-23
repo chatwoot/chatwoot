@@ -5,6 +5,7 @@
         :search-query="searchQuery"
         :header-title="pageTitle"
         :custom-views="customViews"
+        :display-options="displayOptions"
         @on-assignee-type-change="onAssigneeTypeChange"
         @on-filter-change="onFilterChange"
         @on-toggle-filter="onToggleFilters"
@@ -13,11 +14,13 @@
         @on-toggle-save-filter="onToggleSaveFilters"
         @on-toggle-delete-filter="onToggleDeleteFilters"
         @on-toggle-edit-filter="onToggleFilters"
+        @display-option-changed="onDisplayOptionChanged"
       />
       <board
         :stages="stages"
         :contacts="records"
         :selected-contact-id="selectedContactId"
+        :display-options="displayOptions"
         @on-selected-contact="onSelectedContact"
         @add-contact-click="addContactClick"
       />
@@ -125,6 +128,13 @@ export default {
       filterType: FILTER_TYPE_CONTACT,
       showAddSegmentsModal: false,
       showDeleteSegmentsModal: false,
+      displayOptions: {
+        lastStageChangedAt: false,
+        assignee: false,
+        lastActivityAt: false,
+        lastNote: false,
+        currentAction: false,
+      },
     };
   },
   computed: {
@@ -194,6 +204,9 @@ export default {
     this.fetchContacts();
   },
   methods: {
+    onDisplayOptionChanged(option) {
+      this.displayOptions[option.key] = !option.selected;
+    },
     setParamsForEditSegmentModal() {
       // Here we are setting the params for edit segment modal to show the existing values.
 

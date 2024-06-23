@@ -22,25 +22,11 @@
         :key="item.id"
         @dblclick="onClickContact(item.id)"
       >
-        <div>
-          <div
-            :class="{
-              'text-woot-600 dark:text-woot-600': selectedContactId == item.id,
-            }"
-          >
-            <p class="mb-1">
-              <strong>{{ item.title }}</strong>
-            </p>
-          </div>
-          <p class="mb-0">
-            {{ $t('PIPELINE_PAGE.ASSIGNEE_LABEL') }} {{ item.assignee }}
-          </p>
-          <p class="mb-0 truncate">{{ item.lastNote }}</p>
-          <p class="mb-0">
-            {{ $t('PIPELINE_PAGE.TIME_IN_STAGE') }}
-            {{ item.formattedStageChangedAt }}
-          </p>
-        </div>
+        <contact-card
+          :card-data="item"
+          :display-options="displayOptions"
+          :selected-contact-id="selectedContactId"
+        />
       </div>
     </Kanban>
     <contact-po-modal
@@ -56,14 +42,17 @@
 <script>
 import Kanban from '../../../components/Kanban.vue';
 import timeMixin from '../../../mixins/time.js';
+import contactMixin from 'dashboard/mixins/contactMixin';
 import ContactPoModal from '../contacts/components/ContactPoModal.vue';
+import ContactCard from './ContactCard.vue';
 
 export default {
   components: {
     Kanban,
     ContactPoModal,
+    ContactCard,
   },
-  mixins: [timeMixin],
+  mixins: [timeMixin, contactMixin],
   props: {
     stages: {
       type: Array,
@@ -76,6 +65,10 @@ export default {
     selectedContactId: {
       type: [String, Number],
       default: '',
+    },
+    displayOptions: {
+      type: Object,
+      default: null,
     },
   },
   data() {
@@ -117,9 +110,13 @@ export default {
           title: contact.name,
           assignee: contact.assignee?.name,
           lastNote: contact.last_note,
-          updatedAt: contact.updated_at,
+          currentActionText: this.currentActionText(contact.current_action),
+          lastActivityAt: contact.last_activity_at,
           formattedStageChangedAt: contact.last_stage_changed_at
             ? this.dynamicTime(contact.last_stage_changed_at)
+            : null,
+          formattedLastActivityAt: contact.last_activity_at
+            ? this.dynamicTime(contact.last_activity_at)
             : null,
         };
 
@@ -131,7 +128,7 @@ export default {
         this.contacts.some(contact => contact.id === block.id)
       );
       this.blocks.sort((a, b) => {
-        return b.updatedAt - a.updatedAt;
+        return b.lastActivityAt - a.lastActivityAt;
       });
     },
 
@@ -168,12 +165,6 @@ export default {
 
 * {
   box-sizing: border-box;
-}
-
-.truncate {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
 }
 
 .drag-item-selection {

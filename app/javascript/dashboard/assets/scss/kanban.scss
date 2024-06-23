@@ -56,10 +56,11 @@ ul.drag-inner-list {
 
 .drag-item {
   cursor: pointer;
-  height: 110px;
+  height: auto;
   margin: 10px;
   padding-left: 10px;
   padding-top: 5px;
+  padding-bottom: 5px;
   border-radius: 10px;
   transition: $ease-out;
 
