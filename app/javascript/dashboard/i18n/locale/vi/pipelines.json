@@ -11,7 +11,10 @@
             "ME": "Tôi đang phụ trách",
             "UNASSIGNED": "Chưa có phụ trách"
         },
-        "CUSTOM_VIEWS_PLACEHOLDER": "Chọn bộ lọc có sẵn",
+        "CUSTOM_VIEWS": {
+            "PLACEHOLDER": "Chọn bộ lọc có sẵn",
+            "CUSTOM_LABEL": "Lọc theo: "
+        },
         "DROPDOWN": {
             "SELECTED_LABEL": "Đang chọn",
             "SELECT_LABEL": "Chọn",

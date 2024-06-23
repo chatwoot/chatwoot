@@ -11,7 +11,10 @@
       >
         {{ headerTitle }}
       </h1>
-      <stage-type-filter @on-stage-type-change="onFilterChange" />
+      <stage-type-filter
+        :stage-type-value="stageTypeValue"
+        @on-stage-type-change="onStageFilterChange"
+      />
       <div class="multiselect-wrap--small mt-4">
         <multiselect
           v-model="selectedAssigneeType"
@@ -22,6 +25,7 @@
           :select-label="$t('PIPELINE_PAGE.DROPDOWN.SELECT_LABEL')"
           :deselect-label="$t('PIPELINE_PAGE.DROPDOWN.DESELECT_LABEL')"
           :options="assigneeTypes"
+          @remove="removeAssigneeType"
         />
       </div>
       <div class="relative">
@@ -82,12 +86,13 @@
             v-model="selectedView"
             track-by="id"
             label="name"
-            :placeholder="$t('PIPELINE_PAGE.CUSTOM_VIEWS_PLACEHOLDER')"
+            :placeholder="$t('PIPELINE_PAGE.CUSTOM_VIEWS.PLACEHOLDER')"
             :selected-label="$t('PIPELINE_PAGE.DROPDOWN.SELECTED_LABEL')"
             :select-label="$t('PIPELINE_PAGE.DROPDOWN.SELECT_LABEL')"
             :deselect-label="$t('PIPELINE_PAGE.DROPDOWN.DESELECT_LABEL')"
             :custom-label="customViewLabel"
             :options="customViews"
+            @remove="removeCustomView"
           >
             <template slot="option" slot-scope="{ option }">
               <span>{{ option.name }}</span>
@@ -149,8 +154,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import adminMixin from 'dashboard/mixins/isAdmin';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import StageTypeFilter from '../settings/reports/components/Filters/StageType.vue';
-import { frontendURL } from '../../../helper/URLHelper';
 import DisplayOptionMenu from './DisplayOptionMenu.vue';
 
 export default {
@@ -158,7 +163,7 @@ export default {
     StageTypeFilter,
     DisplayOptionMenu,
   },
-  mixins: [adminMixin],
+  mixins: [adminMixin, uiSettingsMixin],
   props: {
     headerTitle: {
       type: String,
@@ -168,19 +173,25 @@ export default {
       type: String,
       default: '',
     },
-    customViews: {
-      type: Array,
-      default: () => [],
-    },
     displayOptions: {
       type: Object,
+      default: null,
+    },
+    stageTypeValue: {
+      type: String,
+      default: 'both',
+    },
+    assigneeTypeValue: {
+      type: String,
+      default: null,
+    },
+    customViewValue: {
+      type: Number,
       default: null,
     },
   },
   data() {
     return {
-      selectedView: null,
-      selectedAssigneeType: null,
       showDisplayOptionMenu: false,
     };
   },
@@ -189,14 +200,18 @@ export default {
       return this.searchQuery !== '' ? 'show' : '';
     },
     ...mapGetters({
-      accountId: 'getCurrentAccountId',
       getAppliedContactFilters: 'contacts/getAppliedContactFilters',
     }),
+    customViews() {
+      return this.$store.getters['customViews/getCustomViewsByFilterType'](
+        'contact'
+      );
+    },
     hasAppliedFilters() {
       return this.getAppliedContactFilters.length;
     },
     hasActiveSegments() {
-      return this.selectedView !== null;
+      return this.customViewValue !== null;
     },
     assigneeTypes() {
       return [
@@ -207,23 +222,62 @@ export default {
         },
       ];
     },
+    selectedAssigneeType: {
+      get() {
+        return this.assigneeTypes.find(
+          item => item.id === this.assigneeTypeValue
+        );
+      },
+      set(selectedAssigneeType) {
+        this.$emit('on-assignee-type-change', selectedAssigneeType);
+      },
+    },
+    selectedView: {
+      get() {
+        return this.customViews.find(item => item.id === this.customViewValue);
+      },
+      set(selectedView) {
+        this.$emit('on-custom-view-change', selectedView);
+      },
+    },
   },
   watch: {
-    selectedView() {
-      if (this.selectedView) {
-        const route = frontendURL(
-          `accounts/${this.accountId}/pipelines/custom_view/${this.selectedView.id}`
-        );
-        this.$router.push(route);
-      } else {
-        this.$router.push({ name: 'pipelines_dashboard' });
-      }
+    customViewValue() {
+      this.saveSelectedValues();
     },
-    selectedAssigneeType() {
-      this.$emit('on-assignee-type-change', this.selectedAssigneeType);
+    assigneeTypeValue() {
+      this.saveSelectedValues();
+    },
+    stageTypeValue() {
+      this.saveSelectedValues();
+    },
+    displayOptions: {
+      handler() {
+        this.saveSelectedValues();
+      },
+      deep: true,
     },
   },
+  mounted() {
+    this.$store.dispatch('customViews/get', 'contact');
+  },
   methods: {
+    removeAssigneeType() {
+      this.$emit('on-assignee-type-change', null);
+    },
+    removeCustomView() {
+      this.$emit('on-custom-view-change', null);
+    },
+    saveSelectedValues() {
+      this.updateUISettings({
+        pipeline_view: {
+          custom_view: this.customViewValue,
+          assignee_type: this.assigneeTypeValue,
+          stage_type: this.stageTypeValue,
+          display_options: this.displayOptions,
+        },
+      });
+    },
     onOptionChanged(option) {
       this.$emit('display-option-changed', option);
     },
@@ -245,14 +299,16 @@ export default {
     inputSearch(event) {
       this.$emit('on-input-search', event);
     },
-    onFilterChange(selectedStageType) {
+    onStageFilterChange(selectedStageType) {
       this.$emit('on-filter-change', selectedStageType);
     },
     toggleFilter() {
       this.$emit('on-toggle-filter');
     },
     customViewLabel(customView) {
-      return `Lọc theo: ${customView.name}`;
+      return `${this.$t('PIPELINE_PAGE.CUSTOM_VIEWS.CUSTOM_LABEL')} ${
+        customView.name
+      }`;
     },
   },
 };

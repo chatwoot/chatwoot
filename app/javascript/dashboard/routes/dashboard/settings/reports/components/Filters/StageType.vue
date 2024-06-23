@@ -23,16 +23,24 @@ import { STAGE_TYPE_OPTIONS } from '../../constants';
 const EVENT_NAME = 'on-stage-type-change';
 
 export default {
+  props: {
+    stageTypeValue: {
+      type: String,
+      default: 'both',
+    },
+  },
   data() {
-    const translatedOptions = Object.values(STAGE_TYPE_OPTIONS).map(option => ({
-      ...option,
-      name: this.$t(option.translationKey),
-    }));
-    const defaultOption = translatedOptions[0];
     return {
-      selectedOption: defaultOption,
-      options: translatedOptions,
+      options: Object.values(STAGE_TYPE_OPTIONS).map(option => ({
+        ...option,
+        name: this.$t(option.translationKey),
+      })),
     };
+  },
+  computed: {
+    selectedOption() {
+      return this.options.find(item => item.value === this.stageTypeValue);
+    },
   },
   methods: {
     updateStageType(selectedStageType) {

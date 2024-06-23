@@ -4,8 +4,10 @@
       <page-header
         :search-query="searchQuery"
         :header-title="pageTitle"
-        :custom-views="customViews"
+        :stage-type-value="stageTypeValue"
+        :assignee-type-value="assigneeTypeValue"
         :display-options="displayOptions"
+        :custom-view-value="customViewValue"
         @on-assignee-type-change="onAssigneeTypeChange"
         @on-filter-change="onFilterChange"
         @on-toggle-filter="onToggleFilters"
@@ -15,6 +17,7 @@
         @on-toggle-delete-filter="onToggleDeleteFilters"
         @on-toggle-edit-filter="onToggleFilters"
         @display-option-changed="onDisplayOptionChanged"
+        @on-custom-view-change="onCustomViewChange"
       />
       <board
         :stages="stages"
@@ -74,6 +77,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { frontendURL } from '../../../helper/URLHelper';
 
 import PageHeader from './Header.vue';
 import Board from './Board.vue';
@@ -85,6 +89,7 @@ import contactFilterItems from '../contacts/contactFilterItems';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews.vue';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 const DEFAULT_PAGE = 0;
 const FILTER_TYPE_CONTACT = 1;
@@ -101,6 +106,7 @@ export default {
     AddCustomViews,
     DeleteCustomViews,
   },
+  mixins: [uiSettingsMixin],
   props: {
     segmentsId: {
       type: [String, Number],
@@ -110,8 +116,9 @@ export default {
   data() {
     return {
       contacts: [],
-      selectedStageType: 'both',
-      selectedAssigneeType: null,
+      stageTypeValue: 'both',
+      assigneeTypeValue: null,
+      customViewValue: null,
       selectedContactId: '',
       defaultContact: null,
       searchQuery: '',
@@ -131,27 +138,23 @@ export default {
       displayOptions: {
         lastStageChangedAt: false,
         assignee: false,
-        lastActivityAt: false,
-        lastNote: false,
-        currentAction: false,
+        lastActivityAt: true,
+        lastNote: true,
+        currentAction: true,
       },
     };
   },
   computed: {
     ...mapGetters({
+      accountId: 'getCurrentAccountId',
       records: 'contacts/getContacts',
       uiFlags: 'contacts/getUIFlags',
       segments: 'customViews/getCustomViews',
       getAppliedContactFilters: 'contacts/getAppliedContactFilters',
     }),
-    customViews() {
-      return this.$store.getters['customViews/getCustomViewsByFilterType'](
-        'contact'
-      );
-    },
     stages() {
       return this.$store.getters['stages/getStagesByType'](
-        this.selectedStageType,
+        this.stageTypeValue,
         false
       );
     },
@@ -196,16 +199,42 @@ export default {
     activeSegment() {
       this.fetchContacts();
     },
+    customViewValue() {
+      if (this.customViewValue) {
+        const route = frontendURL(
+          `accounts/${this.accountId}/pipelines/custom_view/${this.customViewValue}`
+        );
+        this.$router.push(route);
+      } else {
+        this.$router.push({ name: 'pipelines_dashboard' });
+      }
+    },
   },
   mounted() {
     this.$store.dispatch('stages/get');
-    this.$store.dispatch('customViews/get', 'contact');
     this.$store.dispatch('contacts/clearContactFilters');
-    this.fetchContacts();
+
+    this.loadUISettings();
   },
   methods: {
+    loadUISettings() {
+      const { pipeline_view } = this.uiSettings;
+      if (pipeline_view) {
+        this.assigneeTypeValue = pipeline_view.assignee_type;
+        this.stageTypeValue = pipeline_view.stage_type;
+        this.customViewValue = pipeline_view.custom_view;
+        this.displayOptions = pipeline_view.display_options;
+      }
+
+      if (!this.customViewValue) {
+        this.fetchContacts();
+      }
+    },
     onDisplayOptionChanged(option) {
       this.displayOptions[option.key] = !option.selected;
+    },
+    onCustomViewChange(selectedView) {
+      this.customViewValue = selectedView?.id;
     },
     setParamsForEditSegmentModal() {
       // Here we are setting the params for edit segment modal to show the existing values.
@@ -265,12 +294,12 @@ export default {
     },
     onFilterChange(selectedStageType) {
       this.selectedContactId = '';
-      this.selectedStageType = selectedStageType.value;
+      this.stageTypeValue = selectedStageType.value;
       this.fetchContacts();
     },
     onAssigneeTypeChange(selectedAssigneeType) {
       this.selectedContactId = '';
-      this.selectedAssigneeType = selectedAssigneeType?.id;
+      this.assigneeTypeValue = selectedAssigneeType?.id;
       this.fetchContacts();
     },
     fetchContacts() {
@@ -282,8 +311,8 @@ export default {
       }
       const requestParams = {
         page: DEFAULT_PAGE,
-        stageType: this.selectedStageType,
-        assigneeType: this.selectedAssigneeType,
+        stageType: this.stageTypeValue,
+        assigneeType: this.assigneeTypeValue,
       };
       if (value) {
         this.$store.dispatch('contacts/search', {
@@ -337,7 +366,7 @@ export default {
       this.segmentsQuery = filterQueryGenerator(payload);
       this.$store.dispatch('contacts/filter', {
         page: DEFAULT_PAGE,
-        stageType: this.selectedStageType,
+        stageType: this.stageTypeValue,
         queryPayload: filterQueryGenerator(payload),
       });
       this.showFiltersModal = false;
