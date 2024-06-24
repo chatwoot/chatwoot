@@ -68,6 +68,9 @@ class Inbox < ApplicationRecord
   has_many :conversations, dependent: :destroy_async
   has_many :messages, dependent: :destroy_async
 
+  has_many :inbox_teams, dependent: :destroy_async
+  has_many :teams, through: :inbox_teams, source: :team
+
   has_one :agent_bot_inbox, dependent: :destroy_async
   has_one :agent_bot, through: :agent_bot_inbox
   has_many :webhooks, dependent: :destroy_async
@@ -90,6 +93,16 @@ class Inbox < ApplicationRecord
   def remove_member(user_id)
     member = inbox_members.find_by!(user_id: user_id)
     member.try(:destroy)
+  end
+
+  def add_team(team_id)
+    team = inbox_teams.new(team_id: team_id)
+    team.save!
+  end
+
+  def remove_team(team_id)
+    team = inbox_teams.find_by!(team_id: team_id)
+    team.try(:destroy)
   end
 
   def facebook?

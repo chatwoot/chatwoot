@@ -168,6 +168,12 @@ Rails.application.routes.draw do
               patch :update
             end
           end
+          resources :inbox_teams, only: [:create, :show], param: :inbox_id do
+            collection do
+              delete :destroy
+              patch :update
+            end
+          end
           resources :labels, only: [:index, :show, :create, :update, :destroy]
           resources :response_sources, only: [:create] do
             collection do

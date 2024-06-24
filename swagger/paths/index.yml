@@ -407,7 +407,22 @@
   delete:
     $ref: ./application/inboxes/inbox_members/delete.yml
 
-
+# Inbox Teams
+/api/v1/accounts/{account_id}/inbox_teams/{inbox_id}:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/inbox_id'
+  get:
+    $ref: ./application/inboxes/inbox_teams/show.yml
+/api/v1/accounts/{account_id}/inbox_teams:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  post:
+    $ref: ./application/inboxes/inbox_teams/create.yml
+  patch:
+    $ref: ./application/inboxes/inbox_teams/update.yml
+  delete:
+    $ref: ./application/inboxes/inbox_teams/delete.yml
 
 # Messages
 /api/v1/accounts/{account_id}/conversations/{conversation_id}/messages:

@@ -76,3 +76,6 @@ yarn-debug.log*
 .yarn-integrity
 
 /storybook-static
+ANOTACOES.MD
+api.http
+FUNCIONALIDADES.MD

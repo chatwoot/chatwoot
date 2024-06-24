@@ -18,6 +18,27 @@ class TeamMember < ApplicationRecord
   belongs_to :user
   belongs_to :team
   validates :user_id, uniqueness: { scope: :team_id }
+
+  after_create :add_agent_to_round_robin
+  after_destroy :remove_agent_from_round_robin
+
+  private
+
+  def add_agent_to_round_robin
+    team.inboxes.each do |inbox|
+      inbox_id = inbox.id
+      inbox_by_id = Inbox.find(inbox_id)
+      ::AutoAssignment::InboxRoundRobinService.new(inbox: inbox_by_id).add_agent_to_queue(user_id)
+    end
+  end
+
+  def remove_agent_from_round_robin
+    team.inboxes.each do |inbox|
+      inbox_id = inbox.id
+      inbox_by_id = Inbox.find(inbox_id)
+      ::AutoAssignment::InboxRoundRobinService.new(inbox: inbox_by_id).remove_agent_from_queue(user_id)
+    end
+  end
 end
 
 TeamMember.include_mod_with('Audit::TeamMember')

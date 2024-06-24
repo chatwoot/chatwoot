@@ -24,6 +24,9 @@ class Team < ApplicationRecord
   has_many :members, through: :team_members, source: :user
   has_many :conversations, dependent: :nullify
 
+  has_many :inbox_teams, dependent: :destroy_async
+  has_many :inboxes, through: :inbox_teams, source: :inbox
+
   validates :name,
             presence: { message: I18n.t('errors.validations.presence') },
             uniqueness: { scope: :account_id }

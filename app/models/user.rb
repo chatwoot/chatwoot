@@ -122,7 +122,14 @@ class User < ApplicationRecord
   end
 
   def assigned_inboxes
-    administrator? ? Current.account.inboxes : inboxes.where(account_id: Current.account.id)
+    if administrator?
+      Current.account.inboxes
+    else
+      user_inboxes = inboxes.where(account_id: Current.account.id)
+      user_team_inboxes = Inbox.joins(:teams)
+                               .where(teams: { id: team_ids })
+      (user_inboxes + user_team_inboxes).uniq
+    end
   end
 
   def serializable_hash(options = nil)

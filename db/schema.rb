@@ -589,6 +589,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_19_200304) do
     t.index ["inbox_id"], name: "index_inbox_members_on_inbox_id"
   end
 
+  create_table "inbox_teams", force: :cascade do |t|
+    t.integer "team_id", null: false
+    t.integer "inbox_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["inbox_id", "team_id"], name: "index_inbox_teams_on_inbox_id_and_team_id", unique: true
+    t.index ["inbox_id"], name: "index_inbox_teams_on_inbox_id"
+  end
+
   create_table "inboxes", id: :serial, force: :cascade do |t|
     t.integer "channel_id", null: false
     t.integer "account_id", null: false

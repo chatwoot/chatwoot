@@ -7,18 +7,20 @@ class AutoAssignment::InboxRoundRobinService
   end
 
   # called on inbox member create
+  # called on inbox team create
   def add_agent_to_queue(user_id)
     ::Redis::Alfred.lpush(round_robin_key, user_id)
   end
 
   # called on inbox member delete
+  # called on inbox team delete
   def remove_agent_from_queue(user_id)
     ::Redis::Alfred.lrem(round_robin_key, user_id)
   end
 
   def reset_queue
     clear_queue
-    add_agent_to_queue(inbox.inbox_members.map(&:user_id))
+    add_agent_to_queue(fetch_inbox_agents)
   end
 
   # end of queue management functions
@@ -28,7 +30,13 @@ class AutoAssignment::InboxRoundRobinService
   def available_agent(allowed_agent_ids: [])
     reset_queue unless validate_queue?
     user_id = get_member_from_allowed_agent_ids(allowed_agent_ids)
-    inbox.inbox_members.find_by(user_id: user_id)&.user if user_id.present?
+    return nil if user_id.blank?
+
+    user = inbox.inbox_members.find_by(user_id: user_id)&.user
+    return user if user.present?
+
+    user = get_member_from_teams(user_id)
+    return user if user.present?
   end
 
   private
@@ -49,7 +57,9 @@ class AutoAssignment::InboxRoundRobinService
   end
 
   def validate_queue?
-    return true if inbox.inbox_members.map(&:user_id).sort == queue.map(&:to_i).sort
+    unique_agent_ids = fetch_inbox_agents
+
+    return true if unique_agent_ids.sort == queue.map(&:to_i).sort
   end
 
   def queue
@@ -58,5 +68,22 @@ class AutoAssignment::InboxRoundRobinService
 
   def round_robin_key
     format(::Redis::Alfred::ROUND_ROBIN_AGENTS, inbox_id: inbox.id)
+  end
+
+  def fetch_inbox_agents
+    inbox_members_ids = inbox.inbox_members.map(&:user_id).sort
+    inbox_teams_agents_ids = inbox.inbox_teams.flat_map do |inbox_team|
+      Team.find(inbox_team.team_id).members.map(&:id)
+    end
+    (inbox_members_ids + inbox_teams_agents_ids).uniq
+  end
+
+  def get_member_from_teams(user_id)
+    user = nil
+    inbox.inbox_teams.find do |inbox_team|
+      user = Team.find(inbox_team.team_id).members.find(user_id)
+      break if user.present?
+    end
+    return user if user.present?
   end
 end
