@@ -31,7 +31,7 @@ class Api::V1::Accounts::CustomFiltersController < Api::V1::Accounts::BaseContro
     account_filters = Current.account.custom_filters.where(account_scoped: true)
     @custom_filters = user_filters.or(account_filters).where(
       filter_type: permitted_params[:filter_type] || DEFAULT_FILTER_TYPE
-    )
+    ).order(id: :asc)
   end
 
   def fetch_custom_filter
@@ -42,6 +42,7 @@ class Api::V1::Accounts::CustomFiltersController < Api::V1::Accounts::BaseContro
     params.require(:custom_filter).permit(
       :name,
       :filter_type,
+      :account_scoped,
       query: {}
     )
   end

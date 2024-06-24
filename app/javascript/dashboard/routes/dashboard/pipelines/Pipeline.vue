@@ -7,6 +7,7 @@
         :stage-type-value="stageTypeValue"
         :assignee-type-value="assigneeTypeValue"
         :display-options="displayOptions"
+        :custom-views="customViews"
         :custom-view-value="customViewValue"
         @on-assignee-type-change="onAssigneeTypeChange"
         @on-filter-change="onFilterChange"
@@ -66,6 +67,7 @@
         :initial-filter-types="contactFilterItems"
         :initial-applied-filters="appliedFilter"
         :active-segment-name="activeSegmentName"
+        :account-scoped="activeAccountScope"
         :is-segments-view="hasActiveSegments"
         @applyFilter="onApplyFilter"
         @updateSegment="onUpdateSegment"
@@ -90,6 +92,7 @@ import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomView
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import adminMixin from 'dashboard/mixins/isAdmin';
 
 const DEFAULT_PAGE = 0;
 const FILTER_TYPE_CONTACT = 1;
@@ -106,7 +109,7 @@ export default {
     AddCustomViews,
     DeleteCustomViews,
   },
-  mixins: [uiSettingsMixin],
+  mixins: [adminMixin, uiSettingsMixin],
   props: {
     segmentsId: {
       type: [String, Number],
@@ -152,6 +155,11 @@ export default {
       segments: 'customViews/getCustomViews',
       getAppliedContactFilters: 'contacts/getAppliedContactFilters',
     }),
+    customViews() {
+      return this.$store.getters['customViews/getCustomViewsByFilterType'](
+        'contact'
+      );
+    },
     stages() {
       return this.$store.getters['stages/getStagesByType'](
         this.stageTypeValue,
@@ -194,6 +202,9 @@ export default {
     activeSegmentName() {
       return this.activeSegment?.name;
     },
+    activeAccountScope() {
+      return this.activeSegment?.account_scoped;
+    },
   },
   watch: {
     activeSegment() {
@@ -214,7 +225,9 @@ export default {
     this.$store.dispatch('stages/get');
     this.$store.dispatch('contacts/clearContactFilters');
 
-    this.loadUISettings();
+    this.$store.dispatch('customViews/get', 'contact').then(() => {
+      this.loadUISettings();
+    });
   },
   methods: {
     loadUISettings() {
@@ -224,6 +237,10 @@ export default {
         this.stageTypeValue = pipeline_view.stage_type;
         this.customViewValue = pipeline_view.custom_view;
         this.displayOptions = pipeline_view.display_options;
+      } else {
+        if (!this.isAdmin) this.assigneeTypeValue = 'me';
+        if (this.customViews.length > 0)
+          this.customViewValue = this.customViews[0].id;
       }
 
       if (!this.customViewValue) {
@@ -371,10 +388,11 @@ export default {
       });
       this.showFiltersModal = false;
     },
-    onUpdateSegment(payload, segmentName) {
+    onUpdateSegment(payload, segmentName, accountScoped) {
       const payloadData = {
         ...this.activeSegment,
         name: segmentName,
+        account_scoped: accountScoped,
         query: filterQueryGenerator(payload),
       };
       this.$store.dispatch('customViews/update', payloadData);

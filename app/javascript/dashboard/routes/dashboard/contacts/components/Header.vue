@@ -38,7 +38,7 @@
             {{ $t('CONTACTS_PAGE.SEARCH_BUTTON') }}
           </woot-button>
         </div>
-        <div v-if="hasActiveSegments" class="flex gap-2">
+        <div v-if="hasActiveSegments && canEditView" class="flex gap-2">
           <woot-button
             class="clear"
             color-scheme="secondary"
@@ -142,6 +142,10 @@ export default {
       type: [String, Number],
       default: 0,
     },
+    activeSegment: {
+      type: Object,
+      default: null,
+    },
   },
   data() {
     return {
@@ -161,6 +165,9 @@ export default {
     },
     hasActiveSegments() {
       return this.segmentsId !== 0;
+    },
+    canEditView() {
+      return this.isAdmin || !this.activeSegment?.account_scoped;
     },
   },
   methods: {

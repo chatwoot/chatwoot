@@ -8,6 +8,7 @@
     "CLEAR_ALL_FILTERS": "Xoá tất cả điều kiện",
     "FILTER_DELETE_ERROR": "Bạn nên có ít nhất 1 điều kiện để lưu",
     "SUBMIT_BUTTON_LABEL": "Áp dụng",
+    "ACCOUNT_SCOPED_LABEL": "Bộ lọc dùng chung",
     "UPDATE_BUTTON_LABEL": "Cập nhật bộ lọc",
     "CANCEL_BUTTON_LABEL": "Huỷ",
     "CLEAR_BUTTON_LABEL": "Xoá bộ lọc",

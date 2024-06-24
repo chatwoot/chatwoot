@@ -99,7 +99,7 @@
             </template>
           </multiselect>
         </div>
-        <div v-if="hasActiveSegments">
+        <div v-if="hasActiveSegments && canEditView">
           <woot-button
             class="clear"
             color-scheme="secondary"
@@ -185,6 +185,10 @@ export default {
       type: String,
       default: null,
     },
+    customViews: {
+      type: Array,
+      default: () => [],
+    },
     customViewValue: {
       type: Number,
       default: null,
@@ -202,11 +206,6 @@ export default {
     ...mapGetters({
       getAppliedContactFilters: 'contacts/getAppliedContactFilters',
     }),
-    customViews() {
-      return this.$store.getters['customViews/getCustomViewsByFilterType'](
-        'contact'
-      );
-    },
     hasAppliedFilters() {
       return this.getAppliedContactFilters.length;
     },
@@ -240,6 +239,9 @@ export default {
         this.$emit('on-custom-view-change', selectedView);
       },
     },
+    canEditView() {
+      return this.isAdmin || !this.selectedView.account_scoped;
+    },
   },
   watch: {
     customViewValue() {
@@ -257,9 +259,6 @@ export default {
       },
       deep: true,
     },
-  },
-  mounted() {
-    this.$store.dispatch('customViews/get', 'contact');
   },
   methods: {
     removeAssigneeType() {

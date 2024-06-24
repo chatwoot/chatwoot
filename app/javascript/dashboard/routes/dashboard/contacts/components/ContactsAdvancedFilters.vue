@@ -7,17 +7,34 @@
     </woot-modal-header>
     <div class="p-8">
       <div v-if="isSegmentsView">
-        <label class="input-label" :class="{ error: !activeSegmentNewName }">
-          {{ $t('CONTACTS_FILTER.SEGMENT_LABEL') }}
-          <input
-            v-model="activeSegmentNewName"
-            type="text"
-            class="folder-input border-slate-75 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100"
-          />
-          <span v-if="!activeSegmentNewName" class="message">
-            {{ $t('CONTACTS_FILTER.EMPTY_VALUE_ERROR') }}
-          </span>
-        </label>
+        <div class="gap-2 flex flex-row">
+          <div class="w-[70%]">
+            <label
+              class="input-label"
+              :class="{ error: !activeSegmentNewName }"
+            >
+              {{ $t('CONTACTS_FILTER.SEGMENT_LABEL') }}
+              <input
+                v-model="activeSegmentNewName"
+                type="text"
+                class="folder-input border-slate-75 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100"
+              />
+              <span v-if="!activeSegmentNewName" class="message">
+                {{ $t('CONTACTS_FILTER.EMPTY_VALUE_ERROR') }}
+              </span>
+            </label>
+          </div>
+          <div v-if="isAdmin" class="w-[30%] text-right">
+            <label class="input-label">
+              {{ $t('CONTACTS_FILTER.ACCOUNT_SCOPED_LABEL') }}
+            </label>
+            <input
+              v-model="newAccountScoped"
+              type="checkbox"
+              class="text-right"
+            />
+          </div>
+        </div>
         <label class="input-label">
           {{ $t('CONTACTS_FILTER.SEGMENT_QUERY_LABEL') }}
         </label>
@@ -90,6 +107,7 @@
 
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
+import adminMixin from 'dashboard/mixins/isAdmin';
 import { required, requiredIf } from 'vuelidate/lib/validators';
 import FilterInputBox from '../../../../components/widgets/FilterInput/Index.vue';
 import countries from 'shared/constants/countries.js';
@@ -102,7 +120,7 @@ export default {
   components: {
     FilterInputBox,
   },
-  mixins: [alertMixin, filterMixin],
+  mixins: [alertMixin, filterMixin, adminMixin],
   props: {
     onClose: {
       type: Function,
@@ -123,6 +141,10 @@ export default {
     activeSegmentName: {
       type: String,
       default: '',
+    },
+    accountScoped: {
+      type: Boolean,
+      default: false,
     },
   },
   validations: {
@@ -151,6 +173,7 @@ export default {
       show: true,
       appliedFilters: this.initialAppliedFilters,
       activeSegmentNewName: this.activeSegmentName,
+      newAccountScoped: this.accountScoped,
       filterTypes: this.initialFilterTypes,
       filterGroups: [],
       allCustomAttributes: [],
@@ -358,7 +381,8 @@ export default {
       this.$emit(
         'updateSegment',
         this.appliedFilters,
-        this.activeSegmentNewName
+        this.activeSegmentNewName,
+        this.newAccountScoped
       );
     },
     resetFilter(index, currentFilter) {
