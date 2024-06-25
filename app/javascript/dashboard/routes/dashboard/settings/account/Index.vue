@@ -200,7 +200,7 @@ export default {
     },
 
     featureInboundEmailEnabled() {
-      return !!this.features.inbound_emails;
+      return !!this.features?.inbound_emails;
     },
 
     featureCustomReplyDomainEnabled() {

@@ -92,10 +92,10 @@ export default {
     ...mapGetters({ meta: 'notifications/getMeta' }),
   },
   mounted() {
-    bus.$on(CMD_SNOOZE_NOTIFICATION, this.onCmdSnoozeNotification);
+    this.$emitter.on(CMD_SNOOZE_NOTIFICATION, this.onCmdSnoozeNotification);
   },
   destroyed() {
-    bus.$off(CMD_SNOOZE_NOTIFICATION, this.onCmdSnoozeNotification);
+    this.$emitter.off(CMD_SNOOZE_NOTIFICATION, this.onCmdSnoozeNotification);
   },
   methods: {
     openSnoozeNotificationModal() {

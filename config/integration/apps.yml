@@ -159,3 +159,27 @@ openai:
     },
   ]
   visible_properties: ['api_key', 'label_suggestion']
+linear:
+  id: linear
+  logo: linear.png
+  i18n_key: linear
+  action: /linear
+  hook_type: account
+  allow_multiple_hooks: false
+  settings_json_schema: {
+    "type": "object",
+    "properties": {
+        "api_key": { "type": "string" },
+      },
+    "required": ["api_key"],
+    "additionalProperties": false,
+  }
+  settings_form_schema: [
+    {
+      "label": "API Key",
+      "type": "text",
+      "name": "api_key",
+      "validation": "required",
+    },
+  ]
+  visible_properties: []
