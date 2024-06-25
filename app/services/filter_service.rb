@@ -95,9 +95,9 @@ class FilterService
   end
 
   def days_before_filter_values(query_hash)
-    date = Time.zone.today - query_hash['values'][0].to_i.days
+    date = Time.zone.today - query_hash['values'][0].to_i.days - 1.day
     query_hash['values'] = [date.strftime]
-    query_hash['filter_operator'] = 'is_less_than'
+    query_hash['filter_operator'] = 'is_greater_than'
     lt_gt_filter_values(query_hash)
   end
 
