@@ -19,6 +19,11 @@ class BaseListener
     [message, message.account]
   end
 
+  def extract_smart_action_and_account(event)
+    smart_action = event.data[:smart_action]
+    [smart_action, smart_action.account]
+  end
+
   def extract_contact_and_account(event)
     contact = event.data[:contact]
     [contact, contact.account]

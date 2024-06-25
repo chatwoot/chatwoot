@@ -87,7 +87,6 @@
         :allow-signature="true"
         :channel-type="channelType"
         :enable-smart-actions="enableSmartActions"
-        :enable-copilot="enableCopilot"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
         @focus="onFocus"
@@ -96,7 +95,6 @@
         @toggle-canned-menu="toggleCannedMenu"
         @toggle-variables-menu="toggleVariablesMenu"
         @clear-selection="clearEditorSelection"
-        @ask-copilot="onAskCopilot"
       />
     </div>
     <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
@@ -492,9 +490,6 @@ export default {
       );
       return isFeatEnabled && (this.isAnEmailChannel || this.isAWebWidgetInbox);
     },
-    enableCopilot() {
-      return this.copilotResponse != null;
-    },
     isSignatureEnabledForInbox() {
       return !this.isPrivate && this.sendWithSignature;
     },
@@ -601,6 +596,9 @@ export default {
       this.setToDraft(this.conversationIdByRoute, oldReplyType);
       this.getFromDraft();
     },
+    smartActions(){
+      this.onAskCopilot(this.copilotResponse)
+    }
   },
 
   mounted() {
@@ -944,20 +942,20 @@ export default {
         this.message = updatedMessage;
       }, 100);
     },
-    async onAskCopilot() {
-      const conversationId = this.conversationId;
-      const response = await this.$store.dispatch('askCopilot', {
-        conversationId,
-      });
-
+    async onAskCopilot(response) {
       if (
-        !response.data &&
-        !response.data.content &&
-        !response.data.content.length
+        !response &&
+        !response.content &&
+        !response.content.length
       ) {
         return;
       }
-      const answer = response.data.content;
+
+      if (this.message.length > 0) {
+        return;
+      }
+
+      const answer = response.content;
 
       let i = 0;
       const interval = setInterval(() => {

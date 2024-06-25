@@ -12,6 +12,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'message.updated': this.onMessageUpdated,
       'conversation.created': this.onConversationCreated,
       'conversation.status_changed': this.onStatusChange,
+      'smart_action.created': this.onSmartActionCreated,
       'user:logout': this.onLogout,
       'page:reload': this.onReload,
       'assignee.changed': this.onAssigneeChanged,
@@ -119,6 +120,10 @@ class ActionCableConnector extends BaseActionCableConnector {
       conversationId,
     });
   };
+
+  onSmartActionCreated = data => {
+    this.app.$store.dispatch('addSmartAction', data)
+  }
 
   // eslint-disable-next-line class-methods-use-this
   onReload = () => window.location.reload();

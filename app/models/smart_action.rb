@@ -30,6 +30,10 @@ class SmartAction < ApplicationRecord
 
   scope :ask_copilot, -> { where(event: 'ask_copilot') }
 
+  delegate :account, to: :conversation
+
+  after_create_commit :execute_after_create_commit_callbacks
+
   def event_data
     {
       id: id,
@@ -39,8 +43,18 @@ class SmartAction < ApplicationRecord
       content: content,
       intent_type: intent_type,
       message_id: message_id,
-      conversation_id: conversation_id,
+      conversation_id: conversation.display_id,
       created_at: created_at
     }
+  end
+
+  private
+
+  def execute_after_create_commit_callbacks
+    dispatch_create_events
+  end
+
+  def dispatch_create_events
+    Rails.configuration.dispatcher.dispatch(SMART_ACTION_CREATED, Time.zone.now, smart_action: self, performed_by: Current.executed_by)
   end
 end

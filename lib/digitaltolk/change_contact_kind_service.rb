@@ -7,7 +7,6 @@ module Digitaltolk
       4 => 'anställd_contact'
     }
 
-
     def initialize(account, conversation, contact_kind)
       @account = account
       @conversation = conversation
@@ -24,7 +23,7 @@ module Digitaltolk
     private
 
     def toggle_contact_kind_labels
-      return unless @account.feature_enabled?("required_contact_type")
+      return unless @account.feature_enabled?('required_contact_type')
 
       updated_labels = (@conversation.cached_label_list_array - KIND_LABELS.values + [KIND_LABELS[@contact_kind]]).uniq
       @conversation.update_labels(updated_labels)

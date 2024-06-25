@@ -46,6 +46,14 @@ class ActionCableListener < BaseListener
     broadcast(account, tokens, MESSAGE_UPDATED, message.push_event_data.merge(previous_changes: event.data[:previous_changes]))
   end
 
+  def smart_action_created(event)
+    smart_action, account = extract_smart_action_and_account(event)
+    conversation = smart_action.conversation
+    tokens = user_tokens(account, conversation.inbox.members)
+
+    broadcast(account, tokens, SMART_ACTION_CREATED, smart_action.event_data)
+  end
+
   def first_reply_created(event)
     message, account = extract_message_and_account(event)
     conversation = message.conversation

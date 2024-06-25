@@ -50,7 +50,7 @@ class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::Base
   end
 
   def set_current_page_surveys
-    @csat_survey_responses = @csat_survey_responses.page(@current_page).per(RESULTS_PER_PAGE)
+    @csat_survey_responses = @csat_survey_responses.page(@current_page).per(RESULTS_PER_PAGE) if params[:page].present?
   end
 
   def set_current_page

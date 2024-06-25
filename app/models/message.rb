@@ -120,6 +120,8 @@ class Message < ApplicationRecord
       .where(csat_survey_responses: { id: nil })
   }
 
+  scope :filter_by_created_at, ->(range) { where(created_at: range) if range.present? }
+
   scope :filter_by_label, lambda { |selected_label|
     joins(:conversation).where(conversations: { cached_label_list: selected_label }) if selected_label.present?
   }

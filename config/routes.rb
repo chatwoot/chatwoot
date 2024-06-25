@@ -264,6 +264,7 @@ Rails.application.routes.draw do
           end
 
           resources :upload, only: [:create]
+          resources :messages, only: [:index]
         end
       end
       # end of account scoped api routes

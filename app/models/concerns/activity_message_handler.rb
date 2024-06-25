@@ -137,7 +137,7 @@ module ActivityMessageHandler
 
   def create_assignee_change_activity(user_name)
     user_name = activity_message_owner(user_name)
-    
+
     # auto assigned if user_name is nil
     # return unless user_name
 
