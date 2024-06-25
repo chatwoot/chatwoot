@@ -74,7 +74,7 @@ class DailyConversationReportJob < ApplicationJob
           inboxes.name AS inbox_name,
           REPLACE(contacts.phone_number, '+', '') AS customer_phone_number,
           contacts.name AS customer_name,
-          users.name AS agent_name,
+          COALESCE(users.name, 'None') AS agent_name,
           CASE
             WHEN conversations.status = 0 THEN 'open'
             WHEN conversations.status = 1 THEN 'resolved'
@@ -88,8 +88,8 @@ class DailyConversationReportJob < ApplicationJob
           conversations
           JOIN inboxes ON conversations.inbox_id = inboxes.id
           JOIN contacts ON conversations.contact_id = contacts.id
-          JOIN account_users ON conversations.assignee_id = account_users.user_id
-          JOIN users ON account_users.user_id = users.id
+          LEFT JOIN account_users ON conversations.assignee_id = account_users.user_id
+          LEFT JOIN users ON account_users.user_id = users.id
           LEFT JOIN reporting_events AS reporting_events_first_response
               ON conversations.id = reporting_events_first_response.conversation_id
               AND reporting_events_first_response.name = 'first_response'
