@@ -29,6 +29,10 @@ export default {
         if (store.getters.getCurrentRole === 'administrator') {
           return frontendURL('accounts/:accountId/settings/general');
         }
+        if (store.getters.getCurrentRole === 'supervisor') {
+          return frontendURL('accounts/:accountId/settings/teams');
+        }
+
         return frontendURL('accounts/:accountId/settings/canned-response');
       },
     },

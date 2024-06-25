@@ -44,7 +44,7 @@ class ApplicationPolicy
   protected
 
   def can_access?(feature)
-    @account_user.agent? && @account_user.can_access?(feature)
+    @account_user.can_access?(feature)
   end
 
   class Scope

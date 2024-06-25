@@ -1,4 +1,8 @@
-import { FEATURE_FLAGS } from '../../../../featureFlags';
+import {
+  AdminRoles,
+  AdminSupervisorRoles,
+  FEATURE_FLAGS,
+} from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 const settings = accountId => ({
@@ -45,6 +49,7 @@ const settings = accountId => ({
       icon: 'briefcase',
       label: 'ACCOUNT_SETTINGS',
       hasSubMenu: false,
+      roles: [AdminRoles],
       toState: frontendURL(`accounts/${accountId}/settings/general`),
       toStateName: 'general_settings_index',
     },
@@ -52,17 +57,21 @@ const settings = accountId => ({
       icon: 'people',
       label: 'AGENTS',
       hasSubMenu: false,
+      key: 'accounts',
       toState: frontendURL(`accounts/${accountId}/settings/agents/list`),
       toStateName: 'agent_list',
       featureFlag: FEATURE_FLAGS.AGENT_MANAGEMENT,
+      roles: [AdminSupervisorRoles],
     },
     {
       icon: 'people-team',
       label: 'TEAMS',
+      key: 'teams',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/teams/list`),
       toStateName: 'settings_teams_list',
       featureFlag: FEATURE_FLAGS.TEAM_MANAGEMENT,
+      roles: [AdminSupervisorRoles],
     },
     {
       icon: 'mail-inbox-all',
@@ -70,15 +79,18 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/inboxes/list`),
       toStateName: 'settings_inbox_list',
+      roles: [AdminRoles],
       featureFlag: FEATURE_FLAGS.INBOX_MANAGEMENT,
     },
     {
       icon: 'tag',
       label: 'LABELS',
+      key: 'labels',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/labels/list`),
       toStateName: 'labels_list',
       featureFlag: FEATURE_FLAGS.LABELS,
+      roles: [AdminSupervisorRoles],
     },
     {
       icon: 'code',
@@ -88,6 +100,7 @@ const settings = accountId => ({
         `accounts/${accountId}/settings/custom-attributes/list`
       ),
       toStateName: 'attributes_list',
+      roles: [AdminRoles],
       featureFlag: FEATURE_FLAGS.CUSTOM_ATTRIBUTES,
     },
     {
@@ -96,6 +109,7 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/automation/list`),
       toStateName: 'automation_list',
+      roles: [AdminRoles],
       featureFlag: FEATURE_FLAGS.AUTOMATIONS,
     },
     {
@@ -105,6 +119,7 @@ const settings = accountId => ({
       globalConfigFlag: 'csmlEditorHost',
       toState: frontendURL(`accounts/${accountId}/settings/agent-bots`),
       toStateName: 'agent_bots',
+      roles: [AdminRoles],
       featureFlag: FEATURE_FLAGS.AGENT_BOTS,
     },
     {
@@ -113,6 +128,7 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/macros`),
       toStateName: 'macros_wrapper',
+      roles: [AdminRoles],
       featureFlag: FEATURE_FLAGS.MACROS,
     },
     {
@@ -123,6 +139,7 @@ const settings = accountId => ({
         `accounts/${accountId}/settings/canned-response/list`
       ),
       toStateName: 'canned_list',
+      roles: [AdminRoles],
       featureFlag: FEATURE_FLAGS.CANNED_RESPONSES,
     },
     {
@@ -131,6 +148,7 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/integrations`),
       toStateName: 'settings_integrations',
+      roles: [AdminRoles],
       featureFlag: FEATURE_FLAGS.INTEGRATIONS,
     },
     {
@@ -139,6 +157,7 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/applications`),
       toStateName: 'settings_applications',
+      roles: [AdminRoles],
       featureFlag: FEATURE_FLAGS.INTEGRATIONS,
     },
     {
@@ -147,6 +166,7 @@ const settings = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/settings/billing`),
       toStateName: 'billing_settings_index',
+      roles: [AdminRoles],
       showOnlyOnCloud: true,
     },
     {
@@ -156,6 +176,7 @@ const settings = accountId => ({
       toState: frontendURL(`accounts/${accountId}/settings/audit-log/list`),
       toStateName: 'auditlogs_list',
       featureFlag: FEATURE_FLAGS.AUDIT_LOGS,
+      roles: [AdminRoles],
       beta: true,
     },
   ],

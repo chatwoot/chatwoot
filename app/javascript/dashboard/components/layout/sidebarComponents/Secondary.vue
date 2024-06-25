@@ -72,6 +72,7 @@ export default {
   computed: {
     ...mapGetters({
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      currentPermissions: 'getCurrentPermissions',
     }),
     hasSecondaryMenu() {
       return this.menuConfig.menuItems && this.menuConfig.menuItems.length;
@@ -83,6 +84,9 @@ export default {
       if (!this.currentRole) {
         return [];
       }
+      // eslint-disable-next-line no-console
+      console.log('window.roleWiseRoutes', window.roleWiseRoutes);
+
       const menuItemsFilteredByRole = this.menuConfig.menuItems.filter(
         menuItem =>
           window.roleWiseRoutes[this.currentRole].indexOf(
@@ -93,6 +97,20 @@ export default {
         if (item.showOnlyOnCloud) {
           return this.isOnChatwootCloud;
         }
+
+        // eslint-disable-next-line no-console
+        console.log(
+          'item',
+          item,
+          this.currentPermissions,
+          this.currentPermissions[item.key]
+        );
+
+        const isUserHasAccess = this.currentPermissions[item.key] ?? true;
+        if (!isUserHasAccess) {
+          return false;
+        }
+
         return true;
       });
     },
@@ -227,7 +245,7 @@ export default {
       };
     },
     additionalSecondaryMenuItems() {
-      let conversationMenuItems = [this.inboxSection, this.labelSection];
+      let conversationMenuItems = [this.inboxSection];
       let contactMenuItems = [this.contactLabelSection];
       if (this.teams.length) {
         conversationMenuItems = [this.teamSection, ...conversationMenuItems];

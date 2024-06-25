@@ -1,4 +1,5 @@
 import {
+  AdminRoles,
   AdminSupervisorRoles,
   AllRoles,
   FEATURE_FLAGS,
@@ -22,7 +23,6 @@ const primaryMenuItems = accountId => [
     toState: frontendURL(`accounts/${accountId}/contacts`),
     toStateName: 'contacts_dashboard',
     roles: AllRoles,
-    hasAccess: permissions => permissions.contacts,
   },
   {
     icon: 'arrow-trending-lines',
@@ -32,7 +32,6 @@ const primaryMenuItems = accountId => [
     toState: frontendURL(`accounts/${accountId}/reports`),
     toStateName: 'settings_account_reports',
     roles: AdminSupervisorRoles,
-    hasAccess: permissions => permissions.reports,
   },
   {
     icon: 'megaphone',
@@ -41,8 +40,7 @@ const primaryMenuItems = accountId => [
     featureFlag: FEATURE_FLAGS.CAMPAIGNS,
     toState: frontendURL(`accounts/${accountId}/campaigns`),
     toStateName: 'settings_account_campaigns',
-    roles: AdminSupervisorRoles,
-    hasAccess: permissions => permissions.campaigns,
+    roles: AdminRoles,
   },
   {
     icon: 'library',
@@ -52,7 +50,7 @@ const primaryMenuItems = accountId => [
     alwaysVisibleOnChatwootInstances: true,
     toState: frontendURL(`accounts/${accountId}/portals`),
     toStateName: 'default_portal_articles',
-    roles: AdminSupervisorRoles,
+    roles: AdminRoles,
   },
   {
     icon: 'settings',

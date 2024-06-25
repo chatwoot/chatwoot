@@ -1,4 +1,4 @@
-import { AdminSupervisorRoles } from '../../../../featureFlags';
+import { AdminRoles } from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
 const SettingsContent = () => import('../Wrapper.vue');
 const Index = () => import('./Index.vue');
@@ -7,7 +7,7 @@ export default {
   routes: [
     {
       path: frontendURL('accounts/:accountId/settings/general'),
-      roles: AdminSupervisorRoles,
+      roles: AdminRoles,
       component: SettingsContent,
       props: {
         headerTitle: 'GENERAL_SETTINGS.TITLE',
@@ -19,7 +19,7 @@ export default {
           path: '',
           name: 'general_settings_index',
           component: Index,
-          roles: AdminSupervisorRoles,
+          roles: AdminRoles,
         },
       ],
     },

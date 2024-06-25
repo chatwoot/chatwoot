@@ -111,11 +111,9 @@ export default {
 
       return menuItems.filter(menuItem => {
         const isAvailableForTheUser = menuItem.roles.includes(this.currentRole);
-        const isFeatureAvailable = menuItem.hasAccess
-          ? menuItem.hasAccess(this.currentPermissions)
-          : true;
+        const isUserHasAccess = this.currentPermissions[menuItem.key] ?? true;
 
-        if (!isAvailableForTheUser || !isFeatureAvailable) {
+        if (!isAvailableForTheUser || !isUserHasAccess) {
           return false;
         }
         if (
