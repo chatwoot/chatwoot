@@ -3,11 +3,31 @@ class Contacts::FilterService < FilterService
 
   def perform
     @contacts = query_builder(@filters['contacts'])
+    @contacts = contacts_by_stage_type(@contacts) if @params[:stage_type].present?
+    @contacts = contacts_by_assignee(@contacts) if @params[:assignee_type].present?
 
     {
       contacts: @contacts,
       count: @contacts.count
     }
+  end
+
+  def contacts_by_stage_type(contacts)
+    stage_type = Stage::STAGE_TYPE_MAPPING[@params[:stage_type]]
+    both_type = Stage::STAGE_TYPE_MAPPING['both']
+    contacts.joins(:stage)
+            .where("stages.stage_type = #{stage_type} or stages.stage_type = #{both_type} or #{stage_type} = #{both_type}")
+  end
+
+  def contacts_by_assignee(contacts)
+    case @params[:assignee_type]
+    when 'me'
+      contacts.where(assignee_id: @user.id)
+    when 'unassigned'
+      contacts.where(assignee_id: nil)
+    else
+      contacts
+    end
   end
 
   def filter_values(query_hash)

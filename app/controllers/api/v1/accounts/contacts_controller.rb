@@ -133,16 +133,14 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     @resolved_contacts = Current.account.contacts.resolved_contacts
 
     @resolved_contacts = @resolved_contacts.tagged_with(params[:labels], any: true) if params[:labels].present?
-    @resolved_contacts = contacts_by_stage_type if params[:stage_type].present?
+    if params[:stage_type].present?
+      @resolved_contacts = ::Contacts::FilterService.new(params.permit!, current_user).contacts_by_stage_type(@resolved_contacts)
+    end
+    if params[:assignee_type].present?
+      @resolved_contacts = ::Contacts::FilterService.new(params.permit!, current_user).contacts_by_assignee(@resolved_contacts)
+    end
 
     @resolved_contacts
-  end
-
-  def contacts_by_stage_type
-    stage_type = Stage::STAGE_TYPE_MAPPING[params[:stage_type]]
-    both_type = Stage::STAGE_TYPE_MAPPING['both']
-    @resolved_contacts.joins(:stage)
-                      .where("stages.stage_type = #{stage_type} or stages.stage_type = #{both_type} or #{stage_type} = #{both_type}")
   end
 
   def set_current_page

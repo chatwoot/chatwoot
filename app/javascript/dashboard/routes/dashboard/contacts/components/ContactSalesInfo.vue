@@ -55,7 +55,9 @@
       </template>
     </contact-details-item>
     <div class="ml-1">
-      <p v-if="contact.current_action">{{ currentActionText }}</p>
+      <p v-if="contact.current_action">
+        {{ currentActionText(contact.current_action) }}
+      </p>
       <p v-else class="italic">{{ $t('CONTACT_PANEL.ACTIONS.NO_ACTION') }}</p>
     </div>
     <contact-new-action
@@ -105,8 +107,8 @@ import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import AddNote from 'dashboard/modules/notes/components/AddNote.vue';
 import ContactNewAction from './ContactNewAction.vue';
 import agentMixin from 'dashboard/mixins/agentMixin';
+import contactMixin from 'dashboard/mixins/contactMixin';
 import teamMixin from 'dashboard/mixins/conversation/teamMixin';
-import { format } from 'date-fns';
 
 export default {
   components: {
@@ -115,7 +117,7 @@ export default {
     AddNote,
     ContactNewAction,
   },
-  mixins: [agentMixin, alertMixin, teamMixin],
+  mixins: [agentMixin, alertMixin, teamMixin, contactMixin],
   props: {
     contact: {
       type: Object,
@@ -137,19 +139,6 @@ export default {
       return this.showAddNote
         ? this.$t('CONTACT_PANEL.ACTIONS.CANCEL_ADD_NOTE')
         : this.$t('CONTACT_PANEL.ACTIONS.ADD_NOTE');
-    },
-    currentActionText() {
-      const action = this.contact.current_action;
-      const status = this.$t(
-        'CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.' + action.status + '.TEXT'
-      );
-      const actionDate = action.snoozed_until || action.updated_at;
-      const actionDateText = format(new Date(actionDate), 'dd/MM/yy');
-      const actionText = `${action.inbox_type} / ${status}  (${actionDateText})`;
-      if (action.additional_attributes.description)
-        return `${action.additional_attributes.description} / ${actionText}`;
-
-      return actionText;
     },
     showAddActionButton() {
       return (

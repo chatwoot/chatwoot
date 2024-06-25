@@ -5,6 +5,7 @@
         :search-query="searchQuery"
         :header-title="pageTitle"
         :segments-id="segmentsId"
+        :active-segment="activeSegment"
         this-selected-contact-id=""
         @on-input-search="onInputSearch"
         @on-toggle-create="onToggleCreate"
@@ -381,10 +382,11 @@ export default {
       });
       this.showFiltersModal = false;
     },
-    onUpdateSegment(payload, segmentName) {
+    onUpdateSegment(payload, segmentName, accountScoped) {
       const payloadData = {
         ...this.activeSegment,
         name: segmentName,
+        account_scoped: accountScoped,
         query: filterQueryGenerator(payload),
       };
       this.$store.dispatch('customViews/update', payloadData);

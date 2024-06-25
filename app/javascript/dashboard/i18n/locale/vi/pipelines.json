@@ -6,9 +6,44 @@
             "DEALS": "Giai đoạn deals",
             "BOTH": "Tất cả giai đoạn"
         },
+        "ASSIGNEE_TYPE": {
+            "PLACEHOLDER": "Chọn người phụ trách",
+            "ME": "Tôi đang phụ trách",
+            "UNASSIGNED": "Chưa có phụ trách"
+        },
+        "CUSTOM_VIEWS": {
+            "PLACEHOLDER": "Chọn bộ lọc có sẵn",
+            "CUSTOM_LABEL": "Lọc theo: "
+        },
+        "DROPDOWN": {
+            "SELECTED_LABEL": "Đang chọn",
+            "SELECT_LABEL": "Chọn",
+            "DESELECT_LABEL": "Bỏ chọn"
+        },
         "ADD_CONTACT_TOOLTIP": "Tạo khách hàng mới",
-        "ASSIGNEE_LABEL": "Phụ trách: ",
-        "TIME_IN_STAGE": "Thời gian: "
+        "FILTER_CONTACTS": "Bộ lọc mới"
+    },
+    "CARD_DISPLAY": {
+        "assignee": {
+            "OPTION_LABEL": "Người phụ trách",
+            "CARD_LABEL": "P.trách: "
+        },
+        "lastNote": {
+            "OPTION_LABEL": "Ghi chú mới nhất",
+            "CARD_LABEL": ""
+        },
+        "currentAction": {
+            "OPTION_LABEL": "Lịch liên hệ",
+            "CARD_LABEL": ""
+        },
+        "lastActivityAt": {
+            "OPTION_LABEL": "Ngày tương tác cuối",
+            "CARD_LABEL": "T.tác: "
+        },
+        "lastStageChangedAt": {
+            "OPTION_LABEL": "Ngày chuyển giai đoạn",
+            "CARD_LABEL": "C.nhật: "
+        }
     },
     "CONTACT_PO": {
         "HEADER": {

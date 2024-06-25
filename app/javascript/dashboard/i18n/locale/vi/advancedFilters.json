@@ -61,15 +61,15 @@
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "Bạn có muốn lưu tìm kiếm này không?",
-        "LABEL": "Đặt tên tìm kiếm này",
+        "TITLE": "Bạn có muốn lưu bộ lọc này không?",
+        "LABEL": "Đặt tên bộ lọc này",
         "PLACEHOLDER": "Đặt tên dễ nhớ dễ hiểu để sử dụng sau này.",
         "ERROR_MESSAGE": "Cần phải có tên.",
         "SAVE_BUTTON": "Lưu bộ lọc",
         "CANCEL_BUTTON": "Bỏ qua",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Tìm kiếm được lưu thành công.",
-          "ERROR_MESSAGE": "Có lỗi xảy ra lúc lưu tìm kiếm."
+          "SUCCESS_MESSAGE": "Bộ lọc được lưu thành công.",
+          "ERROR_MESSAGE": "Có lỗi xảy ra lúc lưu bộ lọc."
         },
         "API_SEGMENTS": {
           "SUCCESS_MESSAGE": "Bộ lọc được tạo thành công.",
@@ -90,8 +90,8 @@
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Tìm kiếm bị xoá thành công.",
-          "ERROR_MESSAGE": "Có lỗi xảy ra lúc xoá tìm kiếm."
+          "SUCCESS_MESSAGE": "Bộ lọc được xoá thành công.",
+          "ERROR_MESSAGE": "Có lỗi xảy ra lúc xoá bộ lọc."
         },
         "API_SEGMENTS": {
           "SUCCESS_MESSAGE": "Bộ lọc được xoá thành công.",
