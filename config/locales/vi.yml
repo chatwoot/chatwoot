@@ -75,7 +75,7 @@ vi:
       avg_first_response_time: Thời gian phản hồi đầu tiên trung bình
       avg_resolution_time: Avg resolution time
       resolution_count: Số lượng giải quyết
-      avg_customer_waiting_time: Thời gian giải quyết trung bình
+      avg_customer_waiting_time: Thời gian chờ đợi trung bình của khách hàng
     inbox_csv:
       inbox_name: Tên kênh
       inbox_type: Kiểu kênh
