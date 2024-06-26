@@ -3,8 +3,8 @@ module "container" {
   name   = "main"
   image  = "178432136258.dkr.ecr.eu-north-1.amazonaws.com/${local.system_name}:${var.docker_image_tag}"
 
-  cpu    = 256
-  memory = 1024
+  cpu    = 512
+  memory = 2048
 
   publish = [3000]
 
@@ -41,8 +41,8 @@ module "service" {
   service_port = 3000
 
   cpu_architecture = "X86_64"
-  service_cpu      = 256
-  service_memory   = 1024
+  service_cpu      = 512
+  service_memory   = 2048
 
   service_count_desired  = 1
   service_count_min      = 1

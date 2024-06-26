@@ -1,9 +1,9 @@
 module "container-sidekiq" {
   source = "git@gitlab.digitaltolk.net:dtolk/dope/terraform-aws-ecs-container.git"
   name   = "sidekiq"
-  image  = "ecr.digitaltolk.net/${local.system_repo}:${var.docker_image_tag}"
+  image  = "178432136258.dkr.ecr.eu-north-1.amazonaws.com/${local.system_name}:${var.docker_image_tag}"
 
-  cpu    = 256
+  cpu    = 512
   memory = 1024
 
   publish = [3000]
@@ -38,7 +38,7 @@ module "service-sidekiq" {
   name = "${local.system_name}-sidekiq"
 
   cpu_architecture = "X86_64"
-  service_cpu      = 256
+  service_cpu      = 512
   service_memory   = 1024
 
   service_count_desired  = 1
