@@ -278,7 +278,7 @@
     "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Resumen",
-    "FACEBOOK_REAUTHORIZE": "Su conexión de Facebook expiró, por favor reconecte si página de Facebook para continuar con el servicio",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Centro de ayuda",
       "ALL_ARTICLES": "Todos los artículos",

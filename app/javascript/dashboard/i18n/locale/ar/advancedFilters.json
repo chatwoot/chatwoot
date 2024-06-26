@@ -1,17 +1,17 @@
 {
   "FILTER": {
     "TITLE": "تصفية المحادثات",
-    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
-    "EDIT_CUSTOM_FILTER": "Edit Folder",
-    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
-    "ADD_NEW_FILTER": "Add filter",
-    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
+    "SUBTITLE": "أضف عوامل التصفية أدناه واضغط على 'تطبيق الفلترة' لتجنب الفوضى في المحادثات.",
+    "EDIT_CUSTOM_FILTER": "تحرير المجلد",
+    "CUSTOM_VIEWS_SUBTITLE": "أضف أو أزل الفلاتر وقم بتحديث المجلد الخاص بك.",
+    "ADD_NEW_FILTER": "إضافة فلتر",
+    "FILTER_DELETE_ERROR": "عذرًا، يبدو أننا لا نستطيع حفظ أي شيء! يرجى إضافة فلتر واحد على الأقل لحفظه.",
     "SUBMIT_BUTTON_LABEL": "تطبيق عامل التصفية",
-    "UPDATE_BUTTON_LABEL": "Update folder",
+    "UPDATE_BUTTON_LABEL": "تحديث المجلد",
     "CANCEL_BUTTON_LABEL": "إلغاء",
-    "CLEAR_BUTTON_LABEL": "Clear filters",
-    "FOLDER_LABEL": "Folder Name",
-    "FOLDER_QUERY_LABEL": "Folder Query",
+    "CLEAR_BUTTON_LABEL": "مسح الفلاتر",
+    "FOLDER_LABEL": "اسم المجلد",
+    "FOLDER_QUERY_LABEL": "استعلام المجلد",
     "EMPTY_VALUE_ERROR": "القيمة مطلوبة.",
     "TOOLTIP_LABEL": "تصفية المحادثات",
     "QUERY_DROPDOWN_LABELS": {
@@ -36,15 +36,15 @@
     },
     "ATTRIBUTES": {
       "STATUS": "الحالة",
-      "ASSIGNEE_NAME": "Assignee name",
+      "ASSIGNEE_NAME": "اسم المستلم",
       "INBOX_NAME": "اسم صندوق الوارد",
       "TEAM_NAME": "اسم الفريق",
-      "CONVERSATION_IDENTIFIER": "Conversation identifier",
-      "CAMPAIGN_NAME": "Campaign name",
+      "CONVERSATION_IDENTIFIER": "معرف المحادثة",
+      "CAMPAIGN_NAME": "اسم الحملة",
       "LABELS": "الوسوم",
-      "BROWSER_LANGUAGE": "Browser language",
+      "BROWSER_LANGUAGE": "لغة المتصفح",
       "PRIORITY": "الأولوية",
-      "COUNTRY_NAME": "Country name",
+      "COUNTRY_NAME": "اسم الدولة",
       "REFERER_LINK": "رابط المرجع",
       "CUSTOM_ATTRIBUTE_LIST": "القائمة",
       "CUSTOM_ATTRIBUTE_TEXT": "النص",
@@ -55,15 +55,15 @@
       "LAST_ACTIVITY": "النشاط الأخير"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard filters",
-      "ADDITIONAL_FILTERS": "Additional filters",
-      "CUSTOM_ATTRIBUTES": "Custom attributes"
+      "STANDARD_FILTERS": "الفلاتر القياسية",
+      "ADDITIONAL_FILTERS": "الفلاتر الإضافية",
+      "CUSTOM_ATTRIBUTES": "الخصائص المخصصة"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
         "TITLE": "هل تريد حفظ هذا الفلتر؟",
         "LABEL": "تسمية هذا الفلتر",
-        "PLACEHOLDER": "Name your filter to refer it later.",
+        "PLACEHOLDER": "قم بتسمية الفلتر لتتمكن من الرجوع إليه لاحقًا.",
         "ERROR_MESSAGE": "الاسم مطلوب.",
         "SAVE_BUTTON": "حفظ الفلتر",
         "CANCEL_BUTTON": "إلغاء",
@@ -77,7 +77,7 @@
         }
       },
       "EDIT": {
-        "EDIT_BUTTON": "Edit folder"
+        "EDIT_BUTTON": "تحرير المجلد"
       },
       "DELETE": {
         "DELETE_BUTTON": "حذف الفلتر",
@@ -85,7 +85,7 @@
           "CONFIRM": {
             "TITLE": "تأكيد الحذف",
             "MESSAGE": "هل أنت متأكد من حذف الفلتر ",
-            "YES": "Yes, delete",
+            "YES": "نعم، احذف",
             "NO": "لا، احتفظ به"
           }
         },

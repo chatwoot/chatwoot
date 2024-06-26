@@ -95,7 +95,9 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "OFFLINE": "Fuera de línea"
+      "OFFLINE": "Fuera de línea",
+      "RECONNECTING": "Reconnecting...",
+      "RECONNECT_SUCCESS": "Reconnected"
     },
     "BUTTON": {
       "REFRESH": "Actualizar"
@@ -154,7 +156,7 @@
       "UNTIL_TOMORROW": "Hasta mañana",
       "UNTIL_NEXT_MONTH": "Hasta el mes próximo",
       "AN_HOUR_FROM_NOW": "Hasta una hora a partir de ahora",
-      "CUSTOM": "Personalizar...",
+      "UNTIL_CUSTOM_TIME": "Personalizar...",
       "CHANGE_APPEARANCE": "Cambiar apariencia",
       "LIGHT_MODE": "Claro",
       "DARK_MODE": "Oscuro",

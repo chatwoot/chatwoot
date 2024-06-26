@@ -95,7 +95,9 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "OFFLINE": "Оффлайн"
+      "OFFLINE": "Оффлайн",
+      "RECONNECTING": "Reconnecting...",
+      "RECONNECT_SUCCESS": "Reconnected"
     },
     "BUTTON": {
       "REFRESH": "Обновить"
@@ -154,7 +156,7 @@
       "UNTIL_TOMORROW": "До завтра",
       "UNTIL_NEXT_MONTH": "До следующего месяца",
       "AN_HOUR_FROM_NOW": "Еще через час",
-      "CUSTOM": "Пользовательский...",
+      "UNTIL_CUSTOM_TIME": "Пользовательский...",
       "CHANGE_APPEARANCE": "Изменить внешний вид",
       "LIGHT_MODE": "Светлая",
       "DARK_MODE": "Тёмная",

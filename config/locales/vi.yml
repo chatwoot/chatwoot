@@ -209,6 +209,9 @@ vi:
     openai:
       name: "OpenAI"
       description: "Tích hợp các tính năng AI mạnh mẽ vào Chatwoot bằng cách tận dụng các mô hình GPT từ OpenAI."
+    linear:
+      name: "Linear"
+      description: "Create Linear issues from conversations, or link existing ones for seamless tracking."
   public_portal:
     search:
       search_placeholder: Tìm bài viết theo tiêu đề hoặc nội dung...
