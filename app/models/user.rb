@@ -119,7 +119,7 @@ class User < ApplicationRecord
   end
 
   def assigned_inboxes
-    administrator? ? Current.account.inboxes : inboxes.where(account_id: Current.account.id)
+    administrator? || supervisor? ? Current.account.inboxes : inboxes.where(account_id: Current.account.id)
   end
 
   def serializable_hash(options = nil)
