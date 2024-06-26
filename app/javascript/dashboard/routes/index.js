@@ -21,8 +21,6 @@ const generateRoleWiseRoute = route => {
       generateRoleWiseRoute(element.children);
     }
     if (element.roles) {
-      // eslint-disable-next-line no-console
-      console.log('element', element);
       element.roles.forEach(roleEl => {
         window.roleWiseRoutes[roleEl].push(element.name);
       });
