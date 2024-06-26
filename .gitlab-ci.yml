@@ -1,7 +1,7 @@
 include:
-  - project: 'dtolk/dope/pipelines'
+  - project: dtolk/dope/pipelines
     ref: main
-    file: 'terraform.yml'
+    file: terraform.yml
 
 stages:
   - build_and_publish
@@ -10,11 +10,11 @@ stages:
   - apply
 
 default:
+  image: 178432136258.dkr.ecr.eu-north-1.amazonaws.com/docker-builder
   services:
-    - name: public.ecr.aws/docker/library/docker:24-dind
+    - name: public.ecr.aws/docker/library/docker:26-dind
       alias: docker
   before_script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - eval $(ssh-agent -s)
     - chmod 400 "${CICD_PRIVATE_KEY}"
     - ssh-add "${CICD_PRIVATE_KEY}"

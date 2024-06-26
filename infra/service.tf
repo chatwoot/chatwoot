@@ -1,7 +1,7 @@
 module "container" {
   source = "git@gitlab.digitaltolk.net:dtolk/dope/terraform-aws-ecs-container.git"
   name   = "main"
-  image  = "ecr.digitaltolk.net/${local.system_repo}:${var.docker_image_tag}"
+  image  = "178432136258.dkr.ecr.eu-north-1.amazonaws.com/${local.system_name}:${var.docker_image_tag}"
 
   cpu    = 256
   memory = 1024

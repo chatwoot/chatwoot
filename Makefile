@@ -10,6 +10,8 @@ REPO_ORG		:= $(shell [[ '$(APP_GIT_URL:%.git=%)' =~ ([^/:]+)/([^/]+)$$ ]] && ech
 REPO_NAME		:= $(shell [[ '$(APP_GIT_URL:%.git=%)' =~ ([^/:]+)/([^/]+)$$ ]] && echo "$${BASH_REMATCH[2]}")
 GIT_COMMIT		?= $(shell git -C '$(CURDIR)' log -1 --pretty=%H)
 BUILD_NUMBER	?= 0
+AWS_ECR_ACCOUNT	?= 178432136258
+AWS_ECR_REGION	?= eu-north-1
 
 
 # gitlab shim
@@ -36,9 +38,9 @@ endif
 
 REPO_NAME	:= $(shell echo '$(REPO_NAME)' | tr '[:upper:]' '[:lower:]')
 
-CI_REGISTRY_IMAGE ?= $(REPO_NAME)
+DOCKER_REPO ?= $(AWS_ECR_ACCOUNT).dkr.ecr.$(AWS_ECR_REGION).amazonaws.com/$(REPO_NAME)
 
-$(info docker-tagging as [$(CI_REGISTRY_IMAGE):$(DOCKER_TAG)])
+$(info docker-tagging as [$(DOCKER_REPO):$(DOCKER_TAG)])
 $(info )
 
 
@@ -54,8 +56,7 @@ build:
 
 	docker build \
 		--pull \
-		-f Dockerfile \
-		-t '$(CI_REGISTRY_IMAGE):$(DOCKER_TAG)' \
+		-t '$(DOCKER_REPO):$(DOCKER_TAG)' \
 		.
 
 .PHONY: test
@@ -66,16 +67,32 @@ test:
 
 
 .PHONY: publish
-publish:
+publish: docker-login
 	$(info )
-	$(info 🐳🚀 $(bold)Publishing: $(CI_REGISTRY_IMAGE):$(DOCKER_TAG)$(sgr0) 🐳🚀)
+	$(info 🐳🚀 $(bold)Publishing: $(DOCKER_REPO):$(DOCKER_TAG)$(sgr0) 🐳🚀)
 	$(info )
-	docker push '$(CI_REGISTRY_IMAGE):$(DOCKER_TAG)'
+	docker push '$(DOCKER_REPO):$(DOCKER_TAG)'
 
 ifeq ($(GIT_BRANCH),main)
 	$(info )
-	$(info 🐳🚀 $(bold)Publishing: $(CI_REGISTRY_IMAGE):latest$(sgr0) 🐳🚀)
+	$(info 🐳🚀 $(bold)Publishing: $(DOCKER_REPO):latest$(sgr0) 🐳🚀)
 	$(info )
-	docker tag '$(CI_REGISTRY_IMAGE):$(DOCKER_TAG)' '$(CI_REGISTRY_IMAGE):latest'
-	docker push '$(CI_REGISTRY_IMAGE):latest'
+	docker tag '$(DOCKER_REPO):$(DOCKER_TAG)' '$(DOCKER_REPO):latest'
+	docker push '$(DOCKER_REPO):latest'
 endif
+
+
+.PHONY: docker-login
+docker-login:
+	$(call ecr_login)
+
+
+define ecr_login
+	@if ! timeout --preserve-status --signal=KILL 3 docker login '$(AWS_ECR_ACCOUNT).dkr.ecr.$(AWS_ECR_REGION).amazonaws.com' &> /dev/null; then \
+		echo 'logging into $(AWS_ECR_ACCOUNT).dkr.ecr.$(AWS_ECR_REGION).amazonaws.com...' ;\
+		aws --profile "dt-infra" ecr get-login-password --region '$(AWS_ECR_REGION)' | \
+		docker login \
+			--username AWS \
+			--password-stdin '$(AWS_ECR_ACCOUNT).dkr.ecr.$(AWS_ECR_REGION).amazonaws.com' ;\
+	fi
+endef

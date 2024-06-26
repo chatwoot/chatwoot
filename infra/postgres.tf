@@ -38,13 +38,3 @@ data "aws_security_group" "bastion" {
     Env    = local.system_env
   }
 }
-
-resource "aws_security_group_rule" "bastion" {
-  type      = "ingress"
-  from_port = 5432
-  to_port   = 5432
-  protocol  = "tcp"
-
-  source_security_group_id = data.aws_security_group.bastion.id
-  security_group_id        = module.postgres.security_group_id
-}

@@ -8,17 +8,17 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "5.36.0"
+      version = "5.53.0"
     }
 
     cloudflare = {
       source  = "cloudflare/cloudflare"
-      version = "4.24.0"
+      version = "4.34.0"
     }
 
     random = {
       source  = "hashicorp/random"
-      version = "3.6.0"
+      version = "3.6.2"
     }
 
     archive = {
@@ -28,7 +28,17 @@ terraform {
 
     dns = {
       source  = "hashicorp/dns"
-      version = "3.4.0"
+      version = "3.4.1"
+    }
+
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "3.0.2"
+    }
+
+    time = {
+      source  = "hashicorp/time"
+      version = "0.11.2"
     }
   }
 }
