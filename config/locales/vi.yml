@@ -99,7 +99,7 @@ vi:
     sla_csv:
       conversation_id: ID hội thoại
       sla_policy_breached: SLA Policy
-      assignee: Người được chỉ định
+      assignee: Đại lý được chỉ định
       team: Nhóm
       inbox: Hộp thư đến
       labels: Nhãn
