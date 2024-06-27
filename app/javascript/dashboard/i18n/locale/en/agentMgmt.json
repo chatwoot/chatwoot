@@ -115,7 +115,9 @@
         "ACCOUNTS": "View Accounts",
         "TEAMS": "View Teams",
         "CONTACTS": "View Contacts",
-        "LABELS": "View Labels"
+        "LABELS": "View Labels",
+        "CUSTOM_VIEWS": "View Custom Views",
+        "PEOPLES": "View People"
       }
     },
     "SEARCH": {

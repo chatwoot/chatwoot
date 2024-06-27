@@ -94,6 +94,30 @@
         "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
       }
     },
+    "PERMISSIONS": {
+      "API": {
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde",
+        "SUCCESS_MESSAGE": "Permissões atualizadas com sucesso"
+      },
+      "BUTTON_TEXT": "Editar Permissões",
+      "TITLE": "Editar Permissões",
+      "AGENT_NAME": "Nome do Agente",
+      "AGENT_EMAIL": "E-mail do Agente",
+      "AGENT_TYPE": "Tipo de Agente",
+      "PERMISSIONS_LABEL": "Permissões",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "SUBMIT": "Atualizar Permissões",
+      "FEATURES": {
+        "REPORTS": "Visualizar Relatórios",
+        "CONVERSATIONS": "Visualizar Conversas",
+        "ACCOUNTS": "Visualizar Contas",
+        "TEAMS": "Visualizar Times",
+        "CONTACTS": "Visualizar Contatos",
+        "LABELS": "Visualizar Etiquetas",
+        "CUSTOM_VIEWS": "Visualizar Visualizações Personalizadas",
+        "PEOPLES": "Visualizar Pessoais"
+      }
+    },
     "SEARCH": {
       "NO_RESULTS": "Nenhum resultado encontrado."
     },

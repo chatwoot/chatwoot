@@ -72,6 +72,10 @@ class AccountUser < ApplicationRecord
     update(permissions: permissions.merge(feature.to_s => false))
   end
 
+  def permissions_without_defaults
+    permissions.except(*FEATURE_LIST.pluck('name'))
+  end
+
   private
 
   def notify_creation
@@ -87,6 +91,7 @@ class AccountUser < ApplicationRecord
   end
 
   def enable_default_features
+    # some features are policies to view the dashboard
     default_permissions = FEATURE_LIST.each_with_object({}) do |feature, hash|
       hash[feature['name']] = feature['enabled']
     end
