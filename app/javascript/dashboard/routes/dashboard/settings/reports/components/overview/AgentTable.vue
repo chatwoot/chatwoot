@@ -64,17 +64,19 @@ export default {
   },
   computed: {
     tableData() {
-      return this.agentMetrics.map(agent => {
-        const agentInformation = this.getAgentInformation(agent.id);
-        return {
-          agent: agentInformation.name,
-          email: agentInformation.email,
-          thumbnail: agentInformation.thumbnail,
-          open: agent.metric.open || 0,
-          unattended: agent.metric.unattended || 0,
-          status: agentInformation.availability_status,
-        };
-      });
+      return this.agentMetrics
+        .filter(agentMetric => this.getAgentInformation(agentMetric.id))
+        .map(agent => {
+          const agentInformation = this.getAgentInformation(agent.id);
+          return {
+            agent: agentInformation.name || agentInformation.available_name,
+            email: agentInformation.email,
+            thumbnail: agentInformation.thumbnail,
+            open: agent.metric.open || 0,
+            unattended: agent.metric.unattended || 0,
+            status: agentInformation.availability_status,
+          };
+        });
     },
     columns() {
       return [
@@ -130,7 +132,7 @@ export default {
       this.$emit('page-change', pageIndex);
     },
     getAgentInformation(id) {
-      return this.agents.find(agent => agent.id === Number(id));
+      return this.agents?.find(agent => agent.id === Number(id));
     },
   },
 };
