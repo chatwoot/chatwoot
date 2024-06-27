@@ -1,10 +1,10 @@
 <template>
   <div class="flex-1 overflow-auto p-4">
     <woot-button
+      v-if="isAdmin"
       color-scheme="success"
       class-names="button--fixed-top"
       icon="add-circle"
-      :disabled="currentUserRole !== 'administrator'"
       @click="openAddPopup()"
     >
       {{ $t('AGENT_MGMT.HEADER_BTN_TXT') }}
@@ -54,10 +54,7 @@
                     </span>
                   </td>
                   <td>
-                    <div
-                      v-if="currentUserRole === 'administrator'"
-                      class="button-wrapper"
-                    >
+                    <div v-if="isAdmin" class="button-wrapper">
                       <woot-button
                         v-if="showEditAction(agent)"
                         v-tooltip.top="$t('AGENT_MGMT.EDIT.BUTTON_TEXT')"
@@ -133,6 +130,7 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import Thumbnail from '../../../../components/widgets/Thumbnail.vue';
 import AddAgent from './AddAgent.vue';
 import EditAgent from './EditAgent.vue';
+import adminMixin from 'dashboard/mixins/isAdmin';
 
 export default {
   components: {
@@ -140,7 +138,7 @@ export default {
     EditAgent,
     Thumbnail,
   },
-  mixins: [globalConfigMixin],
+  mixins: [globalConfigMixin, adminMixin],
   data() {
     return {
       loading: {},
@@ -159,7 +157,6 @@ export default {
       uiFlags: 'agents/getUIFlags',
       currentUserId: 'getCurrentUserID',
       globalConfig: 'globalConfig/get',
-      currentUserRole: 'getCurrentRole',
     }),
     deleteConfirmText() {
       return `${this.$t('AGENT_MGMT.DELETE.CONFIRM.YES')} ${
