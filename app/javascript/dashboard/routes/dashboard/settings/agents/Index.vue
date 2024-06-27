@@ -4,7 +4,7 @@
       color-scheme="success"
       class-names="button--fixed-top"
       icon="add-circle"
-      :v-if="isAdmin"
+      :disabled="currentUserRole !== 'administrator'"
       @click="openAddPopup()"
     >
       {{ $t('AGENT_MGMT.HEADER_BTN_TXT') }}
@@ -54,7 +54,10 @@
                     </span>
                   </td>
                   <td>
-                    <div v-if="isAdmin" class="button-wrapper">
+                    <div
+                      v-if="currentUserRole === 'administrator'"
+                      class="button-wrapper"
+                    >
                       <woot-button
                         v-if="showEditAction(agent)"
                         v-tooltip.top="$t('AGENT_MGMT.EDIT.BUTTON_TEXT')"
@@ -156,7 +159,7 @@ export default {
       uiFlags: 'agents/getUIFlags',
       currentUserId: 'getCurrentUserID',
       globalConfig: 'globalConfig/get',
-      isAdmin: 'isAdmin',
+      currentUserRole: 'getCurrentRole',
     }),
     deleteConfirmText() {
       return `${this.$t('AGENT_MGMT.DELETE.CONFIRM.YES')} ${

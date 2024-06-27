@@ -84,9 +84,6 @@ export default {
       if (!this.currentRole) {
         return [];
       }
-      // eslint-disable-next-line no-console
-      console.log('window.roleWiseRoutes', window.roleWiseRoutes);
-
       const menuItemsFilteredByRole = this.menuConfig.menuItems.filter(
         menuItem =>
           window.roleWiseRoutes[this.currentRole].indexOf(
@@ -97,14 +94,6 @@ export default {
         if (item.showOnlyOnCloud) {
           return this.isOnChatwootCloud;
         }
-
-        // eslint-disable-next-line no-console
-        console.log(
-          'item',
-          item,
-          this.currentPermissions,
-          this.currentPermissions[item.key]
-        );
 
         const isUserHasAccess = this.currentPermissions[item.key] ?? true;
         if (!isUserHasAccess) {
