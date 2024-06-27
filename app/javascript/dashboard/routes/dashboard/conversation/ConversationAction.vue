@@ -190,7 +190,11 @@ export default {
         {
           id: 4,
           name: "Anställd",
-        }
+        },
+        {
+          id: 5,
+          name: "Övrigt",
+        },
       ]
     };
   },

@@ -4,7 +4,8 @@ module Digitaltolk
       1 => 'tolk_contact',
       2 => 'kund_contact',
       3 => 'översättare_contact',
-      4 => 'anställd_contact'
+      4 => 'anställd_contact',
+      5 => 'övrigt_contact'
     }
 
     def initialize(account, conversation, contact_kind)
