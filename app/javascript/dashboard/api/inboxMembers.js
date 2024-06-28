@@ -12,6 +12,13 @@ class InboxMembers extends ApiClient {
       user_ids: agentList,
     });
   }
+
+  addInboxesToAgent({ inboxIds, userId }) {
+    return axios.post(this.url, {
+      inbox_ids: inboxIds,
+      user_ids: [userId], // can modify to accept multiple agents
+    });
+  }
 }
 
 export default new InboxMembers();
