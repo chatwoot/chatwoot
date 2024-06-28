@@ -45,22 +45,20 @@
             />
           </label>
         </div>
-        <div class="w-full">
-          <label :class="{ error: $v.selectInboxes }">
-            {{ $t('AGENT_MGMT.ADD.FORM.INBOX.LABEL') }}
-            <multiselect
-              v-model="selectInboxes"
-              :options="inboxes"
-              :multiple="true"
-              :placeholder="$t('AGENT_MGMT.ADD.FORM.INBOX.PLACEHOLDER')"
-              label="name"
-              track-by="id"
-              :allow-empty="true"
-              :searchable="false"
-              :close-on-select="false"
-              @input="$v.selectInboxes.$touch"
-            />
-          </label>
+        <div v-if="agentType === 'supervisor'" class="w-full">
+          {{ $t('AGENT_MGMT.ADD.FORM.INBOX.LABEL') }}
+          <multiselect
+            v-model="selectInboxes"
+            :options="inboxes"
+            :multiple="true"
+            :placeholder="$t('AGENT_MGMT.ADD.FORM.INBOX.PLACEHOLDER')"
+            label="name"
+            track-by="id"
+            :allow-empty="true"
+            :searchable="false"
+            :close-on-select="false"
+            @input="$v.selectInboxes.$touch"
+          />
         </div>
         <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
           <div class="w-full">
