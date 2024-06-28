@@ -39,6 +39,11 @@
           "LABEL": "Email Address",
           "PLACEHOLDER": "Please enter an email address of the agent"
         },
+        "INBOX": {
+          "LABEL": "Select Inbox",
+          "PLACEHOLDER": "Select Inbox",
+          "ERROR": "Inbox is required"
+        },
         "SUBMIT": "Add Agent"
       },
       "API": {
