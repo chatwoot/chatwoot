@@ -28,6 +28,34 @@ export default {
       const unixTime = fromUnixTime(time);
       return format(unixTime, dateFormat);
     },
+    /**
+     * Custom timestamp function to display time in a more readable format
+     * @param {number} timestamp unix epoch timestamp
+     * @param {*} hoursThreshold number of hours to consider as a day
+     * @returns string
+     */
+    customTimestamp(timestamp, hoursThreshold = 12) {
+      const messageTime = fromUnixTime(timestamp);
+      const now = new Date();
+      const timeDiff = (now - messageTime) / 1000 / 60; // time difference in minutes
+
+      let timeString = messageTime.toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+
+      // Convert hoursThreshold to minutes and check if the time difference exceeds it
+      if (timeDiff > hoursThreshold * 60) {
+        const dateString = messageTime.toLocaleDateString([], {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+        });
+        timeString += ` ${dateString}`;
+      }
+
+      return timeString;
+    },
     shortTimestamp(time, withAgo = false) {
       // This function takes a time string and converts it to a short time string
       // with the following format: 1m, 1h, 1d, 1mo, 1y

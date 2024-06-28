@@ -20,6 +20,7 @@
             <user-message-bubble
               v-if="showTextBubble"
               :message="message.content"
+              :readable-time="readableMessageTimestamp"
               :status="message.status"
               :widget-color="widgetColor"
             />
@@ -36,7 +37,7 @@
                   v-if="attachment.file_type === 'image' && !hasImageError"
                   :url="attachment.data_url"
                   :thumb="attachment.data_url"
-                  :readable-time="readableTime"
+                  :readable-time="readableMessageTimestamp"
                   @error="onImageLoadError"
                 />
 
@@ -136,6 +137,11 @@ export default {
     readableTime() {
       const { created_at: createdAt = '' } = this.message;
       return this.messageStamp(createdAt);
+    },
+    readableMessageTimestamp() {
+      const { created_at: createdAt = '' } = this.message;
+      if (!createdAt) return '';
+      return this.customTimestamp(createdAt);
     },
     isFailed() {
       const { status = '' } = this.message;

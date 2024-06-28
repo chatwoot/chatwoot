@@ -2,6 +2,7 @@
   <div
     v-dompurify-html="formatMessage(message, false)"
     class="chat-bubble user"
+    :data-time="readableTime"
     :style="{ background: widgetColor, color: textColor }"
   />
 </template>
@@ -23,6 +24,10 @@ export default {
       default: '',
     },
     widgetColor: {
+      type: String,
+      default: '',
+    },
+    readableTime: {
       type: String,
       default: '',
     },
@@ -64,5 +69,12 @@ export default {
       color: var(--s-800);
     }
   }
+}
+
+.chat-bubble::after {
+  content: attr(data-time);
+  font-size: 0.625rem;
+  color: hsl(209 95% 90.1% / 1);
+  font-family: monospace;
 }
 </style>
