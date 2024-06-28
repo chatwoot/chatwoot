@@ -82,13 +82,8 @@ class ContactAPI extends ApiClient {
     return axios.delete(`${this.url}/${contactId}/avatar`);
   }
 
-  exportContacts(columnNames) {
-    var reqUrl = `${this.url}/export`
-    if (columnNames){
-      var encodedColumnNames = encodeURIComponent(columnNames);
-      reqUrl = `${reqUrl}?column_names=${encodedColumnNames}`
-    }
-    return axios.get(reqUrl);
+  exportContacts(queryPayload) {
+    return axios.post(`${this.url}/export`, queryPayload);
   }
 }
 

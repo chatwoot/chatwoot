@@ -1,0 +1,108 @@
+{
+  "SLA": {
+    "HEADER": "SLA",
+    "ADD_ACTION": "Add SLA",
+    "ADD_ACTION_LONG": "Create a new SLA Policy",
+    "DESCRIPTION": "Service Level Agreements (SLAs) are contracts that define clear expectations between your team and customers. They establish standards for response and resolution times, creating a framework for accountability and ensures a consistent, high-quality experience.",
+    "LEARN_MORE": "Learn more about SLA",
+    "LOADING": "Fetching SLAs",
+    "PAYWALL": {
+      "TITLE": "Upgrade to create SLAs",
+      "AVAILABLE_ON": "The SLA feature is only available in the Business and Enterprise plans.",
+      "UPGRADE_PROMPT": "Upgrade your plan to get access to advanced features like team management, automations, custom attributes, and more.",
+      "UPGRADE_NOW": "Upgrade now",
+      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "The SLA feature is only available in the paid plans.",
+      "UPGRADE_PROMPT": "Upgrade to a paid plan to access advanced features like audit logs, agent capacity, and more.",
+      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+    },
+    "LIST": {
+      "404": "There are no SLAs available in this account.",
+      "EMPTY": {
+        "TITLE_1": "Enterprise P0",
+        "DESC_1": "Issues raised by enterprise customers, that require immediate attention.",
+        "TITLE_2": "Enterprise P1",
+        "DESC_2": "Issues raised by enterprise customers, that needs to be acknowledged quickly."
+      },
+      "BUSINESS_HOURS_ON": "Business hours on",
+      "BUSINESS_HOURS_OFF": "Business hours off",
+      "RESPONSE_TYPES": {
+        "FRT": "First response time threshold",
+        "NRT": "Next response time threshold",
+        "RT": "Resolution time threshold",
+        "SHORT_HAND": {
+          "FRT": "FRT",
+          "NRT": "NRT",
+          "RT": "RT"
+        }
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "SLA Name",
+        "PLACEHOLDER": "SLA Name",
+        "REQUIRED_ERROR": "SLA name is required",
+        "MINIMUM_LENGTH_ERROR": "Απαιτείται ελάχιστο μήκος 2 χαρακτήρες",
+        "VALID_ERROR": "Επιτρέπονται μόνο γράμματα, αριθμοί, παύλα και υπογράμμιση"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Περιγραφή",
+        "PLACEHOLDER": "SLA for premium customers"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "LABEL": "Χρόνος πρώτης ανταπόκρισης",
+        "PLACEHOLDER": "5"
+      },
+      "NEXT_RESPONSE_TIME": {
+        "LABEL": "Next Response Time",
+        "PLACEHOLDER": "5"
+      },
+      "RESOLUTION_TIME": {
+        "LABEL": "Χρόνος ανάλυσης",
+        "PLACEHOLDER": "60"
+      },
+      "BUSINESS_HOURS": {
+        "LABEL": "Ώρες Εργασίας",
+        "PLACEHOLDER": "Only during business hours"
+      },
+      "THRESHOLD_TIME": {
+        "INVALID_FORMAT_ERROR": "Threshold should be a number and greater than zero"
+      },
+      "EDIT": "Επεξεργασία",
+      "CREATE": "Δημιουργία",
+      "DELETE": "Διαγραφή",
+      "CANCEL": "Άκυρο"
+    },
+    "ADD": {
+      "TITLE": "Add SLA",
+      "DESC": "Friendly promises for great service!",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA added successfully",
+        "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
+      }
+    },
+    "DELETE": {
+      "TITLE": "Delete SLA",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
+        "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
+      },
+      "CONFIRM": {
+        "TITLE": "Επιβεβαίωση Διαγραφής",
+        "MESSAGE": "Are you sure you want to delete ",
+        "YES": "Ναι, Διέγραψε τον/την ",
+        "NO": "Όχι, Κράτησε τον/την"
+      }
+    },
+    "EVENTS": {
+      "TITLE": "SLA Misses",
+      "FRT": "Χρόνος πρώτης ανταπόκρισης",
+      "NRT": "Next response time",
+      "RT": "Resolution time",
+      "SHOW_MORE": "{count} more",
+      "HIDE": "Hide {count} rows"
+    }
+  }
+}

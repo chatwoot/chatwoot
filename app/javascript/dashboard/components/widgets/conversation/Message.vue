@@ -1,7 +1,14 @@
 <template>
-  <li v-if="shouldRenderMessage" :id="`message${data.id}`" :class="alignBubble">
+  <li
+    v-if="shouldRenderMessage"
+    :id="`message${data.id}`"
+    :class="[alignBubble, 'group']"
+  >
     <div :class="wrapClass">
-      <div v-if="isFailed && !hasOneDayPassed" class="message-failed--alert">
+      <div
+        v-if="isFailed && !hasOneDayPassed && !isAnEmailInbox"
+        class="message-failed--alert"
+      >
         <woot-button
           v-tooltip.top-end="$t('CONVERSATION.TRY_AGAIN')"
           size="tiny"
@@ -11,11 +18,7 @@
           @click="retrySendMessage"
         />
       </div>
-      <div
-        v-tooltip.top-start="messageToolTip"
-        :class="bubbleClass"
-        @contextmenu="openContextMenu($event)"
-      >
+      <div :class="bubbleClass" @contextmenu="openContextMenu($event)">
         <bubble-mail-head
           :email-attributes="contentAttributes.email"
           :cc="emailHeadAttributes.cc"
@@ -29,8 +32,19 @@
           :message-type="data.message_type"
           :parent-has-attachments="hasAttachments"
         />
+        <div v-if="isUnsupported">
+          <template v-if="isAFacebookInbox && isInstagram">
+            {{ $t('CONVERSATION.UNSUPPORTED_MESSAGE_INSTAGRAM') }}
+          </template>
+          <template v-else-if="isAFacebookInbox">
+            {{ $t('CONVERSATION.UNSUPPORTED_MESSAGE_FACEBOOK') }}
+          </template>
+          <template v-else>
+            {{ $t('CONVERSATION.UNSUPPORTED_MESSAGE') }}
+          </template>
+        </div>
         <bubble-text
-          v-if="data.content"
+          v-else-if="data.content"
           :message="message"
           :is-email="isEmailContentType"
           :display-quoted-button="displayQuotedButton"
@@ -76,7 +90,7 @@
           :id="data.id"
           :sender="data.sender"
           :story-sender="storySender"
-          :external-error="externalError"
+          :external-error="errorMessageTooltip"
           :story-id="`${storyId}`"
           :is-a-tweet="isATweet"
           :is-a-whatsapp-channel="isAWhatsAppChannel"
@@ -111,7 +125,10 @@
         </a>
       </div>
     </div>
-    <div v-if="shouldShowContextMenu" class="context-menu-wrap">
+    <div
+      v-if="shouldShowContextMenu"
+      class="context-menu-wrap invisible group-hover:visible"
+    >
       <context-menu
         v-if="isBubble && !isMessageDeleted"
         :context-menu-position="contextMenuPosition"
@@ -176,11 +193,23 @@ export default {
       type: Boolean,
       default: false,
     },
+    isAFacebookInbox: {
+      type: Boolean,
+      default: false,
+    },
+    isInstagram: {
+      type: Boolean,
+      default: false,
+    },
     isAWhatsAppChannel: {
       type: Boolean,
       default: false,
     },
     isWebWidgetInbox: {
+      type: Boolean,
+      default: false,
+    },
+    isAnEmailInbox: {
       type: Boolean,
       default: false,
     },
@@ -219,6 +248,7 @@ export default {
         this.hasAttachments ||
         this.data.content ||
         this.isEmailContentType ||
+        this.isUnsupported ||
         this.isAnIntegrationMessage
       );
     },
@@ -227,7 +257,16 @@ export default {
         html_content: { full: fullHTMLContent } = {},
         text_content: { full: fullTextContent } = {},
       } = this.contentAttributes.email || {};
-      return fullHTMLContent || fullTextContent || '';
+
+      if (fullHTMLContent) {
+        return fullHTMLContent;
+      }
+
+      if (fullTextContent) {
+        return fullTextContent.replace(/\n/g, '<br>');
+      }
+
+      return '';
     },
     displayQuotedButton() {
       if (this.emailMessageContent.includes('<blockquote')) {
@@ -385,14 +424,11 @@ export default {
           }
         : false;
     },
-    messageToolTip() {
-      if (this.isMessageDeleted) {
-        return false;
-      }
+    errorMessageTooltip() {
       if (this.isFailed) {
         return this.externalError || this.$t(`CONVERSATION.SEND_FAILED`);
       }
-      return false;
+      return '';
     },
     wrapClass() {
       return {
@@ -407,6 +443,7 @@ export default {
       return {
         bubble: this.isBubble,
         'is-private': this.data.private,
+        'is-unsupported': this.isUnsupported,
         'is-image': this.hasMediaAttachment('image'),
         'is-video': this.hasMediaAttachment('video'),
         'is-text': this.hasText,
@@ -414,6 +451,9 @@ export default {
         'is-failed': this.isFailed,
         'is-email': this.isEmailContentType,
       };
+    },
+    isUnsupported() {
+      return this.contentAttributes.is_unsupported ?? false;
     },
     isPending() {
       return this.data.status === MESSAGE_STATUS.PROGRESS;
@@ -426,11 +466,7 @@ export default {
       return !this.sender.type || this.sender.type === 'agent_bot';
     },
     shouldShowContextMenu() {
-      return !(this.isFailed || this.isPending);
-    },
-    errorMessage() {
-      const { meta } = this.data;
-      return meta ? meta.error : '';
+      return !(this.isFailed || this.isPending || this.isUnsupported);
     },
     showAvatar() {
       if (this.isOutgoing || this.isTemplate) {
@@ -453,11 +489,11 @@ export default {
   },
   mounted() {
     this.hasMediaLoadError = false;
-    bus.$on(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
+    this.$emitter.on(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
     this.setupHighlightTimer();
   },
   beforeDestroy() {
-    bus.$off(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
+    this.$emitter.off(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
     clearTimeout(this.higlightTimeout);
   },
   methods: {
@@ -511,7 +547,7 @@ export default {
       const { conversation_id: conversationId, id: replyTo } = this.data;
 
       LocalStorage.updateJsonStore(replyStorageKey, conversationId, replyTo);
-      bus.$emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.data);
+      this.$emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.data);
     },
     setupHighlightTimer() {
       if (Number(this.$route.query.messageId) !== Number(this.data.id)) {
@@ -532,6 +568,14 @@ export default {
   > .bubble {
     @apply min-w-[128px];
 
+    &.is-unsupported {
+      @apply text-xs max-w-[300px] border-dashed border border-slate-200 text-slate-600 dark:text-slate-200 bg-slate-50 dark:bg-slate-700 dark:border-slate-500;
+
+      .message-text--metadata .time {
+        @apply text-slate-400 dark:text-slate-300;
+      }
+    }
+
     &.is-image,
     &.is-video {
       @apply p-0 overflow-hidden;
@@ -542,12 +586,15 @@ export default {
 
         > img,
         > video {
-          @apply rounded-lg;
+          /** ensure that the bubble radius and image radius match*/
+          @apply rounded-[0.4rem];
         }
+
         > video {
           @apply h-full w-full object-cover;
         }
       }
+
       .video {
         @apply h-[11.25rem];
       }
@@ -562,9 +609,11 @@ export default {
       .file--icon {
         @apply text-woot-400 dark:text-woot-400;
       }
-      .text-block-title {
-        @apply text-slate-700 dark:text-slate-700;
+
+      .attachment-name {
+        @apply text-slate-700 dark:text-slate-200;
       }
+
       .download.button {
         @apply text-woot-400 dark:text-woot-400;
       }
@@ -573,6 +622,7 @@ export default {
     &.is-private.is-text > .message-text__wrap .link {
       @apply text-woot-600 dark:text-woot-200;
     }
+
     &.is-private.is-text > .message-text__wrap .prosemirror-mention-node {
       @apply font-bold bg-none rounded-sm p-0 bg-yellow-100 dark:bg-yellow-700 text-slate-700 dark:text-slate-25 underline;
     }
@@ -583,6 +633,7 @@ export default {
       .message-text--metadata .time {
         @apply text-violet-50 dark:text-violet-50;
       }
+
       &.is-private .message-text--metadata .time {
         @apply text-slate-400 dark:text-slate-400;
       }

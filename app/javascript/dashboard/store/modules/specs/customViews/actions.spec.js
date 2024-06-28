@@ -91,4 +91,13 @@ describe('#actions', () => {
       ]);
     });
   });
+
+  describe('#setActiveConversationFolder', () => {
+    it('set active conversation folder', async () => {
+      await actions.setActiveConversationFolder({ commit }, customViewList[0]);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_ACTIVE_CONVERSATION_FOLDER, customViewList[0]],
+      ]);
+    });
+  });
 });

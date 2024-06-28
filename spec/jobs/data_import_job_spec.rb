@@ -111,7 +111,7 @@ RSpec.describe DataImportJob do
 
           described_class.perform_now(existing_data_import)
           expect(existing_data_import.account.contacts.count).to eq(csv_length)
-          contact = Contact.find_by(email: csv_data[0]['email'])
+          contact = Contact.from_email(csv_data[0]['email'])
           expect(contact).to be_present
           expect(contact.phone_number).to eq("+#{csv_data[0]['phone_number']}")
           expect(contact.name).to eq((csv_data[0]['name']).to_s)
@@ -149,6 +149,21 @@ RSpec.describe DataImportJob do
           expect(existing_data_import.total_records).to eq(csv_length)
           expect(existing_data_import.processed_records).to eq(csv_length - 1)
         end
+      end
+    end
+
+    context 'when the CSV file is invalid' do
+      let(:invalid_csv_content) do
+        "id,name,email,phone_number,company\n1,\"Clarice Uzzell,\"missing_quote,918080808080,Acmecorp\n2,Marieann Creegan,,+918080808081,Acmecorp"
+      end
+
+      before do
+        allow(data_import.import_file).to receive(:download).and_return(invalid_csv_content)
+      end
+
+      it 'does not import any data and handles the MalformedCSVError' do
+        expect { described_class.perform_now(data_import) }
+          .to change { data_import.reload.status }.from('pending').to('failed')
       end
     end
   end

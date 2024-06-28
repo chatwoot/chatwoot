@@ -41,6 +41,9 @@
     "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "正在上傳附件...",
     "REPLIED_TO_STORY": "Replied to your story",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "已成功刪除訊息",
     "FAIL_DELETE_MESSSAGE": "無法刪除訊息！請再試一次",
     "NO_RESPONSE": "無回應",
@@ -61,7 +64,14 @@
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
       "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "標記為待處理",
@@ -79,7 +89,7 @@
       "CANCEL": "取消"
     },
     "PRIORITY": {
-      "TITLE": "Priority",
+      "TITLE": "優先",
       "OPTIONS": {
         "NONE": "無",
         "URGENT": "Urgent",
@@ -139,6 +149,7 @@
       "PRIVATE_NOTE": "私人筆記",
       "SEND": "發送",
       "CREATE": "新增筆記",
+      "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "顯示文字編輯器",
@@ -269,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Create attribute",
+    "NO_RECORDS_FOUND": "No attributes found",
     "UPDATE": {
       "SUCCESS": "屬性更新成功",
       "ERROR": "Unable to update attribute. Please try again later"

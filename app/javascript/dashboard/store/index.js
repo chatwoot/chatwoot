@@ -38,31 +38,15 @@ import macros from './modules/macros';
 import notifications from './modules/notifications';
 import portals from './modules/helpCenterPortals';
 import reports from './modules/reports';
+import sla from './modules/sla';
 import teamMembers from './modules/teamMembers';
 import teams from './modules/teams';
 import userNotificationSettings from './modules/userNotificationSettings';
 import webhooks from './modules/webhooks';
 import draftMessages from './modules/draftMessages';
-
-import LogRocket from 'logrocket';
-import createPlugin from 'logrocket-vuex';
+import SLAReports from './modules/SLAReports';
 
 const plugins = [];
-
-if (window.logRocketProjectId) {
-  LogRocket.init(window.logRocketProjectId);
-  // eslint-disable-next-line func-names
-  const logRocketPlugin = createPlugin(LogRocket, function (mutation) {
-    const eventsToIgnore = ['SET_CURRENT_USER', 'AUTHENTICATE', 'CLEAR_USER'];
-    if (eventsToIgnore.includes(mutation.type)) {
-      return null;
-    }
-
-    return mutation;
-  });
-
-  plugins.push(logRocketPlugin);
-}
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -109,6 +93,8 @@ export default new Vuex.Store({
     userNotificationSettings,
     webhooks,
     draftMessages,
+    sla,
+    slaReports: SLAReports,
   },
   plugins,
 });

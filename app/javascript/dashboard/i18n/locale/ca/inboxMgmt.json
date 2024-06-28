@@ -22,7 +22,7 @@
         "body": "Afegir agents a la safata d'entrada creada."
       },
       {
-        "title": "Llest!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "Ja estàs preparat!"
       }
@@ -43,7 +43,7 @@
         "CHOOSE_PLACEHOLDER": "Selecciona una pàgina de la llista",
         "INBOX_NAME": "Nom de la safata d'entrada",
         "ADD_NAME": "Afegeix un nom per a la safata d'entrada",
-        "PICK_NAME": "Tria un nom a la safata d'entrada",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "Tria un valor"
       },
       "TWITTER": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "URL del webhook",
-          "PLACEHOLDER": "Enter your Webhook URL",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Introduïu una URL vàlid"
         },
         "CHANNEL_DOMAIN": {
@@ -83,7 +83,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Activa la salutació del canal",
-          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
+          "HELP_TEXT": "Envia automàticament missatges de salutació quan els clients inicien una conversa i envien el seu primer missatge.",
           "ENABLED": "Habilita",
           "DISABLED": "Inhabilita"
         },
@@ -169,18 +169,18 @@
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "Account ID",
+            "LABEL": "ID del compte",
             "PLACEHOLDER": "Please enter your Bandwidth Account ID",
             "ERROR": "Aquest camp és obligatori"
           },
           "API_KEY": {
             "LABEL": "API Key",
-            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "Aquest camp és obligatori"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "Aquest camp és obligatori"
           },
           "APPLICATION_ID": {
@@ -239,7 +239,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Please enter a valid value."
         },
         "API_KEY": {
@@ -269,7 +269,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "URL del webhook",
-          "SUBTITLE": "Configura l'URL on vulguis rebre callbacks en esdeveniments.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "URL del webhook"
         },
         "SUBMIT_BUTTON": "Crea un canal API",
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Correu electrònic del Canal",
-        "DESC": "Integra la teva safata d’entrada de correu electrònic.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Nom del canal",
           "PLACEHOLDER": "Introduïu el nom del canal",
@@ -340,12 +340,12 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "Chatwoot admet widgets de xat en directe, Facebook Messenger, WhatsApp, correus electrònics, etc., com a canals. Si voleu crear un canal personalitzat, podeu crear-lo mitjançant el canal API. Per començar, tria un dels canals següents."
       },
       "AGENTS": {
         "TITLE": "Agents",
         "DESC": "Aquí podeu afegir agents per gestionar la vostra safata d'entrada de nova creació. Només aquests agents seleccionats tindran accés a la vostra safata d'entrada. Els agents que no formen part d'aquesta safata d'entrada no podran veure ni respondre als missatges d'aquesta safata d'entrada quan s’inicien. <br><b>PD:</b> Com a administrador, si necessiteu accés a totes les bústies d’entrada, heu d’afegir-vos com a agent a totes les bústies de sortida que creeu.",
-        "VALIDATION_ERROR": "Afageix almenys un agent a la teva safata d'entrada",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Tria agents per la safata d'entrada"
       },
       "DETAILS": {
@@ -406,7 +406,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Friendly",
@@ -420,7 +420,7 @@
         "BUSINESS_NAME": {
           "BUTTON_TEXT": "+ Configure your business name",
           "PLACEHOLDER": "Enter your business name",
-          "SAVE_BUTTON_TEXT": "Save"
+          "SAVE_BUTTON_TEXT": "Desar"
         }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
@@ -508,12 +508,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API Key",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Actualitza",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verify Token",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
@@ -569,7 +569,7 @@
       "UPDATE": "Update business hours settings",
       "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
       "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Enable availability for this day",
         "UNAVAILABLE": "Unavailable",
@@ -585,7 +585,7 @@
       "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Update IMAP settings",
       "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "IMAP settings updated successfully",
         "ERROR_MESSAGE": "Unable to update IMAP settings"

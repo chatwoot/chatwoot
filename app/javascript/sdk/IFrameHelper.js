@@ -78,6 +78,7 @@ export const IFrameHelper = {
     }
 
     addClasses(widgetHolder, holderClassName);
+    widgetHolder.id = 'cw-widget-holder';
     widgetHolder.appendChild(iframe);
     body.appendChild(widgetHolder);
     IFrameHelper.initPostMessageCommunication();
@@ -159,6 +160,7 @@ export const IFrameHelper = {
         showPopoutButton: window.$chatwoot.showPopoutButton,
         widgetStyle: window.$chatwoot.widgetStyle,
         darkMode: window.$chatwoot.darkMode,
+        showUnreadMessagesDialog: window.$chatwoot.showUnreadMessagesDialog,
         campaignsSnoozedTill,
       });
       IFrameHelper.onLoad({

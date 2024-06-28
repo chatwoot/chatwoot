@@ -39,6 +39,17 @@
           "PLACEHOLDER": "Introduceți cheia atributului personalizat",
           "ERROR": "Cheia este obligatorie",
           "IN_VALID": "Cheie invalidă"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Regex Pattern",
+          "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Cue",
+          "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Enable regex validation"
         }
       },
       "API": {
@@ -93,6 +104,17 @@
       "EMPTY_RESULT": {
         "404": "Nu exista atribute personalizate create",
         "NOT_FOUND": "Nu sunt configurate atribute personalizate"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Regex Pattern",
+        "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Cue",
+        "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Enable regex validation"
       }
     }
   }

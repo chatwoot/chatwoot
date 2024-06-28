@@ -1,10 +1,14 @@
 
-ARG VARIANT=ubuntu-20.04
-FROM mcr.microsoft.com/vscode/devcontainers/base:${VARIANT}
+ARG VARIANT
+
+FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
+
+ARG NODE_VERSION
+ARG RUBY_VERSION
+ARG USER_UID
+ARG USER_GID
 
 # Update args in docker-compose.yaml to set the UID/GID of the "vscode" user.
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
 RUN if [ "$USER_GID" != "1000" ] || [ "$USER_UID" != "1000" ]; then \
         groupmod --gid $USER_GID vscode \
         && usermod --uid $USER_UID --gid $USER_GID vscode \
@@ -27,10 +31,10 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     tmux \
     zsh \
     git-flow \
-    npm
+    npm \
+    libyaml-dev
 
 # Install rbenv and ruby
-ARG RUBY_VERSION="3.2.2"
 RUN git clone https://github.com/rbenv/rbenv.git ~/.rbenv \
     &&  echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc \
     &&  echo 'eval "$(rbenv init -)"' >> ~/.bashrc
@@ -46,7 +50,7 @@ RUN rbenv install $RUBY_VERSION && \
 RUN curl -L https://github.com/DarthSim/overmind/releases/download/v2.1.0/overmind-v2.1.0-linux-amd64.gz > overmind.gz \
   && gunzip overmind.gz \
   && sudo mv overmind /usr/local/bin \
-  && chmod +x /usr/local/bin/overmind 
+  && chmod +x /usr/local/bin/overmind
 
 
 # Install gh
@@ -56,7 +60,7 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | s
    && sudo apt install gh
 
 
-# Do the set up required for chatwoot app 
+# Do the set up required for chatwoot app
 WORKDIR /workspace
 COPY . /workspace
 
@@ -65,8 +69,7 @@ COPY Gemfile Gemfile.lock ./
 RUN gem install bundler && bundle install
 
 # set up node js
-RUN npm install npm@latest -g && \
-    npm install n -g && \
-    n latest
+RUN npm install n -g && \
+    n $NODE_VERSION
 RUN npm install --global yarn
 RUN yarn

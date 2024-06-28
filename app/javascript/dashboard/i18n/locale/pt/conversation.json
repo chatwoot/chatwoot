@@ -41,6 +41,9 @@
     "SAVE_CONTACT": "Salvar",
     "UPLOADING_ATTACHMENTS": "Carregando anexos...",
     "REPLIED_TO_STORY": "Respondeu à sua história",
+    "UNSUPPORTED_MESSAGE": "Esta mensagem não é suportada.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "Esta mensagem não é suportada. Pode ver esta mensagem na app Facebook Messenger.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "Esta mensagem não é suportada. Pode ver esta mensagem na app do Instagram.",
     "SUCCESS_DELETE_MESSAGE": "Mensagem apagada com sucesso",
     "FAIL_DELETE_MESSSAGE": "Não foi possível apagar a mensagem! Tente novamente",
     "NO_RESPONSE": "Sem resposta",
@@ -61,7 +64,14 @@
       "SNOOZED_UNTIL": "Suspender até",
       "SNOOZED_UNTIL_TOMORROW": "Adiado até amanhã",
       "SNOOZED_UNTIL_NEXT_WEEK": "Adiada até a próxima semana",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Adiado até à próxima resposta"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Adiado até à próxima resposta",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Marcar como pendente",
@@ -139,6 +149,7 @@
       "PRIVATE_NOTE": "Nota Privada",
       "SEND": "Mandar",
       "CREATE": "Adicionar Nota",
+      "INSERT_READ_MORE": "Ler mais",
       "DISMISS_REPLY": "Descartar resposta",
       "REPLYING_TO": "Em resposta a:",
       "TIP_FORMAT_ICON": "Mostrar editor de texto completo",
@@ -269,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Criar atributo",
+    "NO_RECORDS_FOUND": "Nenhum atributo encontrado",
     "UPDATE": {
       "SUCCESS": "Atributo atualizado com sucesso",
       "ERROR": "Não foi possível atualizar o atributo. Por favor tente mais tarde"

@@ -1,71 +1,78 @@
 <template>
   <div
     v-if="!provider"
-    class="wizard-body small-12 medium-9 columns height-auto"
+    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full md:w-full max-w-full md:max-w-[75%] flex-shrink-0 flex-grow-0"
   >
     <page-header
+      class="max-w-4xl"
       :header-title="$t('INBOX_MGMT.ADD.EMAIL_PROVIDER.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.EMAIL_PROVIDER.DESCRIPTION')"
     />
-    <div class="row channel-list">
+    <div class="grid max-w-3xl grid-cols-4 mx-0 mt-6">
       <channel-selector
         v-for="emailProvider in emailProviderList"
         :key="emailProvider.key"
+        :class="{ inactive: !emailProvider.isEnabled }"
         :title="emailProvider.title"
         :src="emailProvider.src"
-        @click="() => onClick(emailProvider.key)"
+        @click="() => onClick(emailProvider)"
       />
     </div>
   </div>
   <microsoft v-else-if="provider === 'microsoft'" />
+  <google v-else-if="provider === 'google'" />
   <forward-to-option v-else-if="provider === 'other_provider'" />
 </template>
-<script>
+<script setup>
+import { ref, computed } from 'vue';
 import ForwardToOption from './emailChannels/ForwardToOption.vue';
 import Microsoft from './emailChannels/Microsoft.vue';
-import { mapGetters } from 'vuex';
+import Google from './emailChannels/Google.vue';
 import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 
-export default {
-  components: {
-    ChannelSelector,
-    ForwardToOption,
-    Microsoft,
-    PageHeader,
-  },
-  data() {
-    return { provider: '' };
-  },
-  computed: {
-    ...mapGetters({ globalConfig: 'globalConfig/get' }),
-    emailProviderList() {
-      return [
-        {
-          title: this.$t('INBOX_MGMT.EMAIL_PROVIDERS.MICROSOFT'),
-          isEnabled: !!this.globalConfig.azureAppId,
-          key: 'microsoft',
-          src: '/assets/images/dashboard/channels/microsoft.png',
-        },
-        {
-          title: this.$t('INBOX_MGMT.EMAIL_PROVIDERS.OTHER_PROVIDERS'),
-          isEnabled: true,
-          key: 'other_provider',
-          src: '/assets/images/dashboard/channels/email.png',
-        },
-      ].filter(provider => provider.isEnabled);
-    },
-  },
-  methods: {
-    onClick(provider) {
-      this.provider = provider;
-    },
-  },
-};
-</script>
+import { useStoreGetters } from 'dashboard/composables/store';
+import { useI18n } from 'dashboard/composables/useI18n';
 
-<style scoped>
-.channel-list {
-  margin-top: var(--space-medium);
+const provider = ref('');
+
+const getters = useStoreGetters();
+const { t } = useI18n();
+
+const globalConfig = getters['globalConfig/get'];
+const isAChatwootInstance = getters['globalConfig/isAChatwootInstance'];
+
+const emailProviderList = computed(() => {
+  return [
+    {
+      title: t('INBOX_MGMT.EMAIL_PROVIDERS.MICROSOFT'),
+      isEnabled: !!globalConfig.value.azureAppId,
+      key: 'microsoft',
+      src: '/assets/images/dashboard/channels/microsoft.png',
+    },
+    {
+      title: t('INBOX_MGMT.EMAIL_PROVIDERS.GOOGLE'),
+      isEnabled: !!window.chatwootConfig.googleOAuthClientId,
+      key: 'google',
+      src: '/assets/images/dashboard/channels/google.png',
+    },
+    {
+      title: t('INBOX_MGMT.EMAIL_PROVIDERS.OTHER_PROVIDERS'),
+      isEnabled: true,
+      key: 'other_provider',
+      src: '/assets/images/dashboard/channels/email.png',
+    },
+  ].filter(providerConfig => {
+    if (isAChatwootInstance.value) {
+      return true;
+    }
+    return providerConfig.isEnabled;
+  });
+});
+
+function onClick(emailProvider) {
+  if (emailProvider.isEnabled) {
+    this.provider = emailProvider.key;
+  }
 }
-</style>
+</script>

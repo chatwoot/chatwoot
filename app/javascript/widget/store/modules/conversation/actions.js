@@ -12,7 +12,7 @@ import {
 
 import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
-
+import { emitter } from 'shared/helpers/mitt';
 export const actions = {
   createConversation: async ({ commit, dispatch }, params) => {
     commit('setConversationUIFlag', { isCreating: true });
@@ -23,7 +23,7 @@ export const actions = {
       commit('pushMessageToConversation', message);
       dispatch('conversationAttributes/getAttributes', {}, { root: true });
       // Emit event to notify that conversation is created and show the chat screen
-      bus.$emit(ON_CONVERSATION_CREATED);
+      emitter.emit(ON_CONVERSATION_CREATED);
     } catch (error) {
       // Ignore error
     } finally {

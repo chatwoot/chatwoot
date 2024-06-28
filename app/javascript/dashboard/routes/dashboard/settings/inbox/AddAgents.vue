@@ -1,5 +1,7 @@
 <template>
-  <div class="wizard-body w-[75%] flex-shrink-0 flex-grow-0 max-w-[75%]">
+  <div
+    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+  >
     <form class="mx-0 flex flex-wrap" @submit.prevent="addAgents()">
       <div class="w-full">
         <page-header
@@ -7,7 +9,7 @@
           :header-content="$t('INBOX_MGMT.ADD.AGENTS.DESC')"
         />
       </div>
-      <div class="w-[60%]">
+      <div class="w-3/5">
         <div class="w-full">
           <label :class="{ error: $v.selectedAgents.$error }">
             {{ $t('INBOX_MGMT.ADD.AGENTS.TITLE') }}
@@ -49,11 +51,13 @@ import { mapGetters } from 'vuex';
 import InboxMembersAPI from '../../../../api/inboxMembers';
 import router from '../../../index';
 import PageHeader from '../SettingsSubPageHeader.vue';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     PageHeader,
   },
+  mixins: [alertMixin],
 
   validations: {
     selectedAgents: {
@@ -96,7 +100,7 @@ export default {
           },
         });
       } catch (error) {
-        bus.$emit('newToastMessage', error.message);
+        this.showAlert(error.message);
       }
       this.isCreating = false;
     },

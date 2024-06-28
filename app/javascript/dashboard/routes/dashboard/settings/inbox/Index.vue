@@ -1,8 +1,7 @@
 <template>
-  <div class="flex-1 overflow-auto p-4">
-    <!-- List Canned Response -->
-    <div class="flex flex-row gap-4">
-      <div class="w-[60%]">
+  <div class="flex-1 overflow-auto">
+    <div class="flex flex-row gap-4 p-8">
+      <div class="w-full lg:w-3/5">
         <p
           v-if="!inboxesList.length"
           class="flex h-full items-center flex-col justify-center"
@@ -110,7 +109,7 @@
         </table>
       </div>
 
-      <div class="w-[34%]">
+      <div class="w-1/3 hidden lg:block">
         <span
           v-dompurify-html="
             useInstallationName(
@@ -148,12 +147,13 @@ import Settings from './Settings.vue';
 import adminMixin from '../../../../mixins/isAdmin';
 import accountMixin from '../../../../mixins/account';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     Settings,
   },
-  mixins: [adminMixin, accountMixin, globalConfigMixin],
+  mixins: [adminMixin, accountMixin, globalConfigMixin, alertMixin],
   data() {
     return {
       loading: {},
@@ -206,15 +206,9 @@ export default {
     async deleteInbox({ id }) {
       try {
         await this.$store.dispatch('inboxes/delete', id);
-        bus.$emit(
-          'newToastMessage',
-          this.$t('INBOX_MGMT.DELETE.API.SUCCESS_MESSAGE')
-        );
+        this.showAlert(this.$t('INBOX_MGMT.DELETE.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        bus.$emit(
-          'newToastMessage',
-          this.$t('INBOX_MGMT.DELETE.API.ERROR_MESSAGE')
-        );
+        this.showAlert(this.$t('INBOX_MGMT.DELETE.API.ERROR_MESSAGE'));
       }
     },
 

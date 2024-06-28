@@ -48,6 +48,10 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
     @outgoing_echo ? recipient_id : sender_id
   end
 
+  def message_is_unsupported?
+    message[:is_unsupported].present? && @messaging[:message][:is_unsupported] == true
+  end
+
   def sender_id
     @messaging[:sender][:id]
   end
@@ -65,9 +69,28 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def conversation
-    @conversation ||= Conversation.where(conversation_params).find_by(
-      "additional_attributes ->> 'type' = 'instagram_direct_message'"
-    ) || build_conversation
+    @conversation ||= set_conversation_based_on_inbox_config
+  end
+
+  def instagram_direct_message_conversation
+    Conversation.where(conversation_params)
+                .where("additional_attributes ->> 'type' = 'instagram_direct_message'")
+  end
+
+  def set_conversation_based_on_inbox_config
+    if @inbox.lock_to_single_conversation
+      instagram_direct_message_conversation.order(created_at: :desc).first || build_conversation
+    else
+      find_or_build_for_multiple_conversations
+    end
+  end
+
+  def find_or_build_for_multiple_conversations
+    last_conversation = instagram_direct_message_conversation.where.not(status: :resolved).order(created_at: :desc).first
+
+    return build_conversation if last_conversation.nil?
+
+    last_conversation
   end
 
   def message_content
@@ -118,7 +141,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def message_params
-    {
+    params = {
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
       message_type: message_type,
@@ -129,6 +152,9 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
         in_reply_to_external_id: message_reply_attributes
       }
     }
+
+    params[:content_attributes][:is_unsupported] = true if message_is_unsupported?
+    params
   end
 
   def already_sent_from_chatwoot?

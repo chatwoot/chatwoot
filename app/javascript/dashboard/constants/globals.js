@@ -46,5 +46,23 @@ export default {
   },
   EXAMPLE_URL: 'https://example.com',
   EXAMPLE_WEBHOOK_URL: 'https://example/api/webhook',
+  INBOX_SORT_BY: {
+    NEWEST: 'desc',
+    OLDEST: 'asc',
+  },
+  INBOX_DISPLAY_BY: {
+    SNOOZED: 'snoozed',
+    READ: 'read',
+  },
+  INBOX_FILTER_TYPE: {
+    STATUS: 'status',
+    TYPE: 'type',
+    SORT_ORDER: 'sort_order',
+  },
+  SLA_MISS_TYPES: {
+    FRT: 'frt',
+    NRT: 'nrt',
+    RT: 'rt',
+  },
 };
 export const DEFAULT_REDIRECT_URL = '/app/';

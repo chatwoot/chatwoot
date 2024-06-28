@@ -21,6 +21,9 @@ module Enterprise::Channelable
 
       return if audited_changes.blank?
 
+      # skip audit log creation if the only change is whatsapp channel template update
+      return if messaging_template_updates?(audited_changes)
+
       Enterprise::AuditLog.create(
         auditable_id: auditable_id,
         auditable_type: auditable_type,
@@ -29,6 +32,14 @@ module Enterprise::Channelable
         associated_type: associated_type,
         audited_changes: audited_changes
       )
+    end
+
+    def messaging_template_updates?(changes)
+      # if there is more than one key, return false
+      return false unless changes.keys.length == 1
+
+      # if the only key is message_templates_last_updated, return true
+      changes.key?('message_templates_last_updated')
     end
   end
 end

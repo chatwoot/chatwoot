@@ -4,7 +4,7 @@
 # # This action will try to install and setup
 # # chatwoot on an Ubuntu 20.04 machine using
 # # the linux installer script.
-# # 
+# #
 # # This is set to run daily at midnight.
 # #
 
@@ -35,7 +35,7 @@ jobs:
       run: |
         sudo ./install.sh --install < input
 
-        #  disabling http verify for now as http 
+        #  disabling http verify for now as http
         #  access to port 3000 fails in gh action env
         #    - name: Verify
         #      if: always()
@@ -45,7 +45,7 @@ jobs:
         #        curl http://localhost:3000/api
 
     - name: Upload chatwoot setup log file as an artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: chatwoot-setup-log-file

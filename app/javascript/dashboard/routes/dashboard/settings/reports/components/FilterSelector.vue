@@ -1,6 +1,8 @@
 <template>
-  <div class="flex flex-col md:flex-row justify-between mb-4">
-    <div class="md:grid flex flex-col filter-container gap-3 w-full">
+  <div class="flex flex-col justify-between gap-3 mb-4 md:flex-row">
+    <div
+      class="w-full grid gap-y-2 gap-x-1.5 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]"
+    >
       <reports-filters-date-range @on-range-change="onDateRangeChange" />
       <woot-date-range-picker
         v-if="isDateRangeSelected"
@@ -39,7 +41,7 @@
       />
     </div>
     <div v-if="showBusinessHoursSwitch" class="flex items-center">
-      <span class="text-sm whitespace-nowrap mx-2">
+      <span class="mx-2 text-sm whitespace-nowrap">
         {{ $t('REPORT.BUSINESS_HOURS') }}
       </span>
       <span>
@@ -229,9 +231,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.filter-container {
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-}
-</style>

@@ -1,19 +1,21 @@
 <template>
   <div
-    class="ml-0 mr-0 flex pt-0 pr-4 pb-4 pl-0"
+    class="ml-0 mr-0 flex py-8 w-full xl:w-3/4 flex-col xl:flex-row"
     :class="{
-      'pt-4 border-b border-solid border-slate-50 dark:border-slate-700/30':
+      'border-b border-solid border-slate-50 dark:border-slate-700/30':
         showBorder,
     }"
   >
-    <div class="w-[30%] min-w-0 max-w-[30%] pr-12">
+    <div class="w-full xl:w-1/4 min-w-0 xl:max-w-[30%] pr-12">
       <p
         v-if="title"
         class="text-base text-woot-500 dark:text-woot-500 mb-0 font-medium"
       >
         {{ title }}
       </p>
-      <p class="text-sm mb-2">
+      <p
+        class="text-sm mb-2 text-slate-700 dark:text-slate-300 leading-5 tracking-normal mt-2"
+      >
         <slot v-if="subTitle" name="subTitle">
           {{ subTitle }}
         </slot>
@@ -23,7 +25,7 @@
         {{ note }}
       </p>
     </div>
-    <div class="w-[50%] min-w-0 max-w-[50%]">
+    <div class="w-full xl:w-1/2 min-w-0 xl:max-w-[50%]">
       <slot />
     </div>
   </div>

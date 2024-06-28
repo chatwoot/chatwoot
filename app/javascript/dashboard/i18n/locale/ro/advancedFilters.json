@@ -1,18 +1,18 @@
 {
   "FILTER": {
     "TITLE": "Filtrarea conversațiilor",
-    "SUBTITLE": "Adăugați filtre mai jos și apăsați pe \"Aplicați filtre\" pentru a filtra conversațiile.",
+    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
     "EDIT_CUSTOM_FILTER": "Editare folder",
     "CUSTOM_VIEWS_SUBTITLE": "Adaugă sau elimină filtrele și actualizează folderul.",
-    "ADD_NEW_FILTER": "Adăugare filtru",
-    "FILTER_DELETE_ERROR": "Ar trebui să aveți atleast un filtru pentru a salva",
+    "ADD_NEW_FILTER": "Add filter",
+    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
     "SUBMIT_BUTTON_LABEL": "Aplicarea filtrelor",
     "UPDATE_BUTTON_LABEL": "Dosar actualizare",
     "CANCEL_BUTTON_LABEL": "Renunță",
-    "CLEAR_BUTTON_LABEL": "Elimină filtre",
-    "EMPTY_VALUE_ERROR": "Este necesară o valoare validă",
+    "CLEAR_BUTTON_LABEL": "Clear filters",
     "FOLDER_LABEL": "Nume folder",
     "FOLDER_QUERY_LABEL": "Interogare folder",
+    "EMPTY_VALUE_ERROR": "Este necesară o valoare validă.",
     "TOOLTIP_LABEL": "Filtrarea conversațiilor",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "ȘI",
@@ -36,15 +36,15 @@
     },
     "ATTRIBUTES": {
       "STATUS": "Status",
-      "ASSIGNEE_NAME": "Nume cesionar",
+      "ASSIGNEE_NAME": "Assignee name",
       "INBOX_NAME": "Nume Inbox",
       "TEAM_NAME": "Numele echipei",
-      "CONVERSATION_IDENTIFIER": "Identificator de conversație",
-      "CAMPAIGN_NAME": "Numele campaniei",
+      "CONVERSATION_IDENTIFIER": "Conversation identifier",
+      "CAMPAIGN_NAME": "Campaign name",
       "LABELS": "Etichete",
-      "BROWSER_LANGUAGE": "Limba browserului",
+      "BROWSER_LANGUAGE": "Browser language",
       "PRIORITY": "Prioritate",
-      "COUNTRY_NAME": "Numele țării",
+      "COUNTRY_NAME": "Country name",
       "REFERER_LINK": "Link referer",
       "CUSTOM_ATTRIBUTE_LIST": "Listă",
       "CUSTOM_ATTRIBUTE_TEXT": "Text",
@@ -55,25 +55,25 @@
       "LAST_ACTIVITY": "Ultima activitate"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Filtre standard",
-      "ADDITIONAL_FILTERS": "Filtre suplimentare",
-      "CUSTOM_ATTRIBUTES": "Editează atribut personalizat"
+      "STANDARD_FILTERS": "Standard filters",
+      "ADDITIONAL_FILTERS": "Additional filters",
+      "CUSTOM_ATTRIBUTES": "Custom attributes"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
         "TITLE": "Doriți să salvați acest filtru?",
         "LABEL": "Denumiți acest filtru",
-        "PLACEHOLDER": "Introduceți un nume pentru acest filtru",
-        "ERROR_MESSAGE": "Numele este obligatoriu",
+        "PLACEHOLDER": "Name your filter to refer it later.",
+        "ERROR_MESSAGE": "Numele este obligatoriu.",
         "SAVE_BUTTON": "Salvare filtru",
         "CANCEL_BUTTON": "Renunță",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder creat cu succes",
-          "ERROR_MESSAGE": "Eroare la crearea folderului"
+          "SUCCESS_MESSAGE": "Folder creat cu succes.",
+          "ERROR_MESSAGE": "Eroare la crearea folderului."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment creat cu succes",
-          "ERROR_MESSAGE": "Eroare la crearea segmentului"
+          "SUCCESS_MESSAGE": "Segment creat cu succes.",
+          "ERROR_MESSAGE": "Eroare la crearea segmentului."
         }
       },
       "EDIT": {
@@ -85,17 +85,17 @@
           "CONFIRM": {
             "TITLE": "Confirmă ștergerea",
             "MESSAGE": "Sunteți sigur că ștergeți filtrul ",
-            "YES": "Da, șterge",
+            "YES": "Yes, delete",
             "NO": "Nu, păstreaza"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder șters cu succes",
-          "ERROR_MESSAGE": "Eroare la ștergerea folderului"
+          "SUCCESS_MESSAGE": "Folder șters cu succes.",
+          "ERROR_MESSAGE": "Eroare la ștergerea folderului."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Contact șters cu succes",
-          "ERROR_MESSAGE": "Eroare la ștergerea segmentului"
+          "SUCCESS_MESSAGE": "Contact șters cu succes.",
+          "ERROR_MESSAGE": "Eroare la ștergerea segmentului."
         }
       }
     }

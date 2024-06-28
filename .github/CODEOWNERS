@@ -1,0 +1,2 @@
+## All enterprise related files should be reviewed by sojan before merging
+/enterprise/* @sojan-official

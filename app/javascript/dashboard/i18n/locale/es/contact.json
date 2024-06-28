@@ -39,16 +39,17 @@
     },
     "MERGE_CONTACT": "Combinar contacto",
     "CONTACT_ACTIONS": "Acciones de contacto",
-    "MUTE_CONTACT": "Silenciar Conversación",
-    "UNMUTE_CONTACT": "Dessilenciar conversación",
-    "MUTED_SUCCESS": "Ésta conversación está silenciada por 6 horas",
-    "UNMUTED_SUCCESS": "Ésta conversación ya no está silenciada",
+    "MUTE_CONTACT": "Bloquear contacto",
+    "UNMUTE_CONTACT": "Desbloquear contacto",
+    "MUTED_SUCCESS": "Este contacto está bloqueado con éxito. No se te notificará de ninguna conversación futura.",
+    "UNMUTED_SUCCESS": "Este contacto está desbloqueado correctamente.",
     "SEND_TRANSCRIPT": "Enviar Transcripción",
     "EDIT_LABEL": "Editar",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "Atributos personalizados",
       "CONTACT_LABELS": "Etiqueta de Contacto",
-      "PREVIOUS_CONVERSATIONS": "Conversaciones anteriores"
+      "PREVIOUS_CONVERSATIONS": "Conversaciones anteriores",
+      "NO_RECORDS_FOUND": "No se encontraron atributos"
     }
   },
   "EDIT_CONTACT": {
@@ -79,7 +80,14 @@
     "TITLE": "Exportar contactos",
     "DESC": "Exportar contactos a un archivo CSV.",
     "SUCCESS_MESSAGE": "El proceso de exportar esta en proceso. Será notificado por correo cuando el archivo esté listo para descargar.",
-    "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
+    "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo",
+    "CONFIRM": {
+      "TITLE": "Exportar contactos",
+      "MESSAGE": "¿Está seguro que desea exportar todos los contactos?",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
+      "YES": "Sí, exportar",
+      "NO": "No, cancelar"
+    }
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -290,6 +298,8 @@
     "BUTTON": "Añadir atributo personalizado",
     "NOT_AVAILABLE": "No hay atributos personalizados disponibles para este contacto.",
     "COPY_SUCCESSFUL": "Copiado al portapapeles satisfactoriamente",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "Copiar atributo",
       "DELETE": "Eliminar atributo",
@@ -339,7 +349,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "Se requiere un valor válido",
-      "INVALID_URL": "URL inválida"
+      "INVALID_URL": "URL inválida",
+      "INVALID_INPUT": "Ingreso inválido"
     }
   },
   "MERGE_CONTACTS": {

@@ -1,0 +1,145 @@
+// scss-lint:disable QualifyingElement
+
+// Base typography
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-medium text-slate-800 dark:text-slate-50;
+}
+
+p {
+  text-rendering: optimizeLegibility;
+
+  @apply mb-2 leading-[1.65] text-sm;
+
+  a {
+    @apply text-woot-500 dark:text-woot-500 cursor-pointer;
+  }
+}
+
+a {
+  @apply text-sm;
+}
+
+hr {
+  @apply clear-both max-w-full h-0 my-5 mx-0 border-slate-300 dark:border-slate-600;
+}
+
+ul,
+ol,
+dl {
+  @apply mb-2 list-disc list-outside leading-[1.65];
+}
+
+// Form elements
+label {
+  @apply text-slate-800 dark:text-slate-200 block m-0 leading-7 text-sm font-medium;
+
+  &.error {
+    input {
+      @apply mb-1;
+    }
+  }
+}
+
+.input-wrap,
+.help-text {
+  @apply text-slate-800 dark:text-slate-100 text-sm font-medium;
+
+  .help-text {
+    @apply font-normal text-slate-600 dark:text-slate-400;
+  }
+}
+
+// Focus outline removal
+.button,
+textarea,
+input:focus {
+  outline: none;
+}
+
+// Inputs
+input[type='text']:not(.reset-base),
+input[type='number']:not(.reset-base),
+input[type='password']:not(.reset-base),
+input[type='date']:not(.reset-base),
+input[type='email']:not(.reset-base),
+input[type='url']:not(.reset-base) {
+  @apply block box-border w-full transition-colors focus:border-woot-500 dark:focus:border-woot-600 duration-[0.25s] ease-[ease-in-out] h-10 appearance-none mx-0 mt-0 mb-4 p-2 rounded-md text-base font-normal bg-white dark:bg-slate-900 focus:bg-white focus:dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-solid border-slate-200 dark:border-slate-600;
+
+  &[disabled] {
+    @apply bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-400 border-slate-200 dark:border-slate-600 cursor-not-allowed;
+  }
+}
+
+input[type='file'] {
+  @apply bg-white dark:bg-slate-800 leading-[1.15] mb-4;
+}
+
+// Select
+select {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: rgb%28110, 111, 115%29'></polygon></svg>");
+  background-position: right -1rem center;
+  background-size: 9px 6px;
+  @apply h-10 mx-0 mt-0 mb-4 bg-origin-content focus-visible:outline-none bg-no-repeat py-2 pr-6 pl-2 rounded-md w-full text-base font-normal appearance-none transition-colors focus:border-woot-500 dark:focus:border-woot-600 duration-[0.25s] ease-[ease-in-out] bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-solid border-slate-200 dark:border-slate-600;
+}
+
+// Textarea
+textarea {
+  @apply block box-border w-full transition-colors focus:border-woot-500 dark:focus:border-woot-600 duration-[0.25s] ease-[ease-in-out] h-16 appearance-none mx-0 mt-0 mb-4 p-2 rounded-md text-base font-normal bg-white dark:bg-slate-900 focus:bg-white focus:dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-solid border-slate-200 dark:border-slate-600;
+
+  &[disabled] {
+    @apply bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-400 border-slate-200 dark:border-slate-600 cursor-not-allowed;
+  }
+}
+
+// Error handling
+.has-multi-select-error {
+  div.multiselect {
+    @apply mb-1;
+  }
+}
+
+.error {
+  input,
+  input:not([type]),
+  textarea,
+  select,
+  .multiselect > .multiselect__tags,
+  .multiselect:not(.no-margin) {
+    @apply border border-solid border-red-400 dark:border-red-400 mb-1;
+  }
+
+  .message {
+    @apply text-red-400 dark:text-red-400 block text-sm mb-2.5 w-full;
+  }
+}
+
+.input-group.small {
+  input {
+    @apply text-sm h-8;
+  }
+
+  .error {
+    @apply border-red-400 dark:border-red-400;
+  }
+}
+
+// Code styling
+code {
+  font-family: 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas',
+    '"Liberation Mono"', '"Courier New"', 'monospace';
+  @apply text-xs border-0;
+
+  &.hljs {
+    @apply bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-50 rounded-lg p-5;
+
+    .hljs-number,
+    .hljs-string {
+      @apply text-red-800 dark:text-red-400;
+    }
+  }
+}

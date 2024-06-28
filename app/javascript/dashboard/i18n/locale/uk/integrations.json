@@ -75,25 +75,25 @@
     "SLACK": {
       "DELETE": "Видалити",
       "DELETE_CONFIRMATION": {
-        "TITLE": "Delete the integration",
-        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+        "TITLE": "Видалити інтеграцію",
+        "MESSAGE": "Ви впевнені, що бажаєте видалити інтеграцію? Виконання цього призведе до втрати доступу до розмов на робочому місці Slack."
       },
       "HELP_TEXT": {
         "TITLE": "Використання Slack інтеграцію",
         "BODY": "<br/><p>Chatwoot тепер синхронізує всі вхідні розмови на <b><i>customer-conversations</i></b> каналу всередині вашого slack workplace.</p><p>Відповідь на тему розмови в <b><i>customer-conversations</i></b> slack канал створить відповідь покупцю через chatwoot.</p><p>Розпочніть відповіді з <b><i>нотатки:</i></b> для створення приватних нотаток замість відповідей.</p><p>Якщо автор на slack має профіль агента в chatwoot під тим самим повідомленням, відповіді будуть надані відповідно.</p><p>, коли користувач не має пов'язаного агента, відповідь буде виконана з профілю бота.</p>",
-        "SELECTED": "selected"
+        "SELECTED": "вибрано"
       },
       "SELECT_CHANNEL": {
-        "OPTION_LABEL": "Select a channel",
+        "OPTION_LABEL": "Обрати канал",
         "UPDATE": "Оновити",
-        "BUTTON_TEXT": "Connect channel",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
-        "ATTENTION_REQUIRED": "Attention required",
-        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
+        "BUTTON_TEXT": "Підключити канал",
+        "DESCRIPTION": "Ваш робочий простір Slack повністю пов'язаний з Chatwoot. Але інтеграція в даний час неактивна. Щоб активувати інтеграцію та підключити канал до Chatwoot, натисніть кнопку нижче.\n\n**Примітка:** Якщо ви намагаєтеся підключити приватний канал, додайте Chatwoot додаток до каналу Slack, перш ніж продовжити цей крок.",
+        "ATTENTION_REQUIRED": "Потрібно звернути увагу",
+        "EXPIRED": "Ваша інтеграція зі Slack закінчилася. Щоб продовжити отримувати повідомлення в Slack, будь ласка, видаліть інтеграцію і знову підключіть робочу область."
       },
-      "UPDATE_ERROR": "There was an error updating the integration, please try again",
-      "UPDATE_SUCCESS": "The channel is connected successfully",
-      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+      "UPDATE_ERROR": "Помилка при оновленні інтеграції, будь ласка, спробуйте ще раз",
+      "UPDATE_SUCCESS": "Канал успішно підключено",
+      "FAILED_TO_FETCH_CHANNELS": "Помилка при підключенні каналів з Slack, будь ласка, спробуйте ще раз"
     },
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "Натисніть тут, щоб приєднатися",
@@ -103,39 +103,39 @@
       "CREATE_ERROR": "Помилка при створенні посилання на зустріч, будь ласка, спробуйте знову"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "AI Assist",
-      "WITH_AI": " %{option} with AI ",
+      "AI_ASSIST": "ШІ асистент",
+      "WITH_AI": " %{option} з ШІ ",
       "OPTIONS": {
-        "REPLY_SUGGESTION": "Reply Suggestion",
-        "SUMMARIZE": "Summarize",
-        "REPHRASE": "Improve Writing",
-        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
-        "SHORTEN": "Shorten",
-        "EXPAND": "Expand",
-        "MAKE_FRIENDLY": "Change message tone to friendly",
-        "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "REPLY_SUGGESTION": "Пропозиція для відповіді",
+        "SUMMARIZE": "Підсумувати",
+        "REPHRASE": "Покращити написання",
+        "FIX_SPELLING_GRAMMAR": "Виправити правопис і граматику",
+        "SHORTEN": "Скоротити",
+        "EXPAND": "Розширити",
+        "MAKE_FRIENDLY": "Змінити сигнал повідомлення на дружній",
+        "MAKE_FORMAL": "Використовувати формальний сигнал",
+        "SIMPLIFY": "Спростити"
       },
       "ASSISTANCE_MODAL": {
-        "DRAFT_TITLE": "Draft content",
-        "GENERATED_TITLE": "Generated content",
-        "AI_WRITING": "AI is writing",
+        "DRAFT_TITLE": "Вміст чернетки",
+        "GENERATED_TITLE": "Згенерований вміст",
+        "AI_WRITING": "ШІ пише",
         "BUTTONS": {
-          "APPLY": "Use this suggestion",
+          "APPLY": "Використати цю пропозицію",
           "CANCEL": "Скасувати"
         }
       },
       "CTA_MODAL": {
-        "TITLE": "Integrate with OpenAI",
-        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
-        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "TITLE": "Інтегрувати з OpenAI",
+        "DESC": "Додайте розширені функції AI в панель керування за допомогою моделей GPT OpenAI. Для початку введіть ключ API з вашого облікового запису OpenAI.",
+        "KEY_PLACEHOLDER": "Введіть ваш ключ OpenAI API",
         "BUTTONS": {
           "NEED_HELP": "Потрібна допомога?",
-          "DISMISS": "Dismiss",
-          "FINISH": "Finish Setup"
+          "DISMISS": "Відхилити",
+          "FINISH": "Завершити налаштування"
         },
-        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
-        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+        "DISMISS_MESSAGE": "Ви можете налаштувати інтеграцію OpenAI пізніше, коли забажаєте.",
+        "SUCCESS_MESSAGE": "Інтеграція з OpenAI успішно налаштована"
       },
       "TITLE": "Покращити з ШІ",
       "SUMMARY_TITLE": "Резюме ШІ",
@@ -167,8 +167,8 @@
     "DASHBOARD_APPS": {
       "TITLE": "Додатки для головного екрану",
       "HEADER_BTN_TXT": "Додати нову інформаційну панель",
-      "SIDEBAR_TXT": "<p><b>Панель управління</b></p><p>Додатки дозволяють організаціям вставляти в панель керування Chatwoot інформацію, щоб надати контекст агентам підтримки клієнтів. Ця функція дозволяє створювати додаток незалежно і вставляти його в панелі управління відомості про користувача, свої замовлення або їхня попередня історія платежів.</p><p>Коли ви вставляєте свій застосунок за допомогою панелі керування в Чат-вуті, ваша програма отримає контекст розмови і зв'яжеться як віконна подія. Налаштуйте слухача для заходу повідомлення на вашій сторінці, щоб отримати контекст.</p><p>Щоб додати нову панель керування, натисніть кнопку 'Додати нову програму'.</p>",
-      "DESCRIPTION": "Додатки дозволяють організаціям вбудовувати інформаційну панель керування і надавати контекст для агентів підтримки клієнтів. Ця функція дозволяє створювати додаток незалежно і додавати інформацію, що надавали про користувача, свої замовлення або історію платежів.",
+      "SIDEBAR_TXT": "<p><b>Панель управління</b></p><p>Додатки дозволяють організаціям вставляти в панель керування Chatwoot інформацію, щоб надати контекст агентам підтримки клієнтів. Ця функція дозволяє створювати додаток незалежно і вставляти його в панелі управління відомості про користувача, їхні замовлення або історію попередніх платежів.</p><p>Коли ви вставляєте свій застосунок за допомогою панелі керування в Chatwoot, ваша програма отримає контекст розмови і зв'яжеться як віконна подія. Налаштуйте слухача для заходу повідомлення на вашій сторінці, щоб отримати контекст.</p><p>Щоб додати нову панель керування, натисніть кнопку 'Додати нову програму'.</p>",
+      "DESCRIPTION": "Додатки дозволяють організаціям вбудовувати інформаційну панель керування і надавати контекст для агентів підтримки клієнтів. Ця функція дозволяє створювати додаток незалежно і додавати інформацію, що надавали про користувача, його замовлення або історію платежів.",
       "LIST": {
         "404": "Поки що немає налаштованих додатків в цьому акаунті",
         "LOADING": "Отримання додатків панелі керування...",

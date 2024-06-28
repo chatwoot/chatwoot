@@ -1,5 +1,5 @@
 <template>
-  <div class="settings--content">
+  <div class="mx-8">
     <settings-section
       :title="$t('INBOX_MGMT.SMTP.TITLE')"
       :sub-title="$t('INBOX_MGMT.SMTP.SUBTITLE')"
@@ -14,11 +14,11 @@
           {{ $t('INBOX_MGMT.SMTP.TOGGLE_AVAILABILITY') }}
         </label>
         <p>{{ $t('INBOX_MGMT.SMTP.TOGGLE_HELP') }}</p>
-        <div v-if="isSMTPEnabled" class="smtp-details-wrap">
+        <div v-if="isSMTPEnabled" class="mb-6">
           <woot-input
             v-model.trim="address"
             :class="{ error: $v.address.$error }"
-            class="medium-9 columns"
+            class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.SMTP.ADDRESS.LABEL')"
             :placeholder="$t('INBOX_MGMT.SMTP.ADDRESS.PLACE_HOLDER')"
             @blur="$v.address.$touch"
@@ -27,7 +27,7 @@
             v-model="port"
             type="number"
             :class="{ error: $v.port.$error }"
-            class="medium-9 columns"
+            class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.SMTP.PORT.LABEL')"
             :placeholder="$t('INBOX_MGMT.SMTP.PORT.PLACE_HOLDER')"
             @blur="$v.port.$touch"
@@ -35,7 +35,7 @@
           <woot-input
             v-model="login"
             :class="{ error: $v.login.$error }"
-            class="medium-9 columns"
+            class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.SMTP.LOGIN.LABEL')"
             :placeholder="$t('INBOX_MGMT.SMTP.LOGIN.PLACE_HOLDER')"
             @blur="$v.login.$touch"
@@ -43,7 +43,7 @@
           <woot-input
             v-model="password"
             :class="{ error: $v.password.$error }"
-            class="medium-9 columns"
+            class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.SMTP.PASSWORD.LABEL')"
             :placeholder="$t('INBOX_MGMT.SMTP.PASSWORD.PLACE_HOLDER')"
             type="password"
@@ -52,7 +52,7 @@
           <woot-input
             v-model.trim="domain"
             :class="{ error: $v.domain.$error }"
-            class="medium-9 columns"
+            class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.SMTP.DOMAIN.LABEL')"
             :placeholder="$t('INBOX_MGMT.SMTP.DOMAIN.PLACE_HOLDER')"
             @blur="$v.domain.$touch"
@@ -63,14 +63,14 @@
             :action="handleEncryptionChange"
           />
           <single-select-dropdown
-            class="medium-9 columns"
+            class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.SMTP.OPEN_SSL_VERIFY_MODE')"
             :selected="openSSLVerifyMode"
             :options="openSSLVerifyModes"
             :action="handleSSLModeChange"
           />
           <single-select-dropdown
-            class="medium-9 columns"
+            class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.SMTP.AUTH_MECHANISM')"
             :selected="authMechanism"
             :options="authMechanisms"
@@ -237,8 +237,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.smtp-details-wrap {
-  margin-bottom: var(--space-medium);
-}
-</style>

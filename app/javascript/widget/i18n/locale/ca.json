@@ -80,7 +80,8 @@
     },
     "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
     "IS_REQUIRED": "is required",
-    "REQUIRED": "Required"
+    "REQUIRED": "Required",
+    "REGEX_ERROR": "Please provide a valid input"
   },
   "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
   "CHAT_FORM": {
@@ -89,8 +90,8 @@
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search"
+    "PLACEHOLDER": "Cerca emojis",
+    "NOT_FOUND": "Cap emoji coincideix amb la teva cerca"
   },
   "CSAT": {
     "TITLE": "Rate your conversation",

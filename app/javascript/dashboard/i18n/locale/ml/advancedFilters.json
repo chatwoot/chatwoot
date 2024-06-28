@@ -1,18 +1,18 @@
 {
   "FILTER": {
     "TITLE": "സംഭാഷണങ്ങൾ തരം തിരിക്കുക",
-    "SUBTITLE": "സംഭാഷണങ്ങൾ ഫിൽട്ടർ ചെയ്യുന്നതിന് ചുവടെ ഫിൽട്ടറുകൾ ചേർക്കുക, 'ഫിൽട്ടറുകൾ പ്രയോഗിക്കുക' അമർത്തുക.",
+    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
     "EDIT_CUSTOM_FILTER": "Edit Folder",
     "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
-    "ADD_NEW_FILTER": "ഫിൽട്ടർ ചേർക്കുക",
-    "FILTER_DELETE_ERROR": "സേവ് ചെയ്യാൻ നിങ്ങൾക്ക് ഒരു ഫിൽട്ടറെങ്കിലും ഉണ്ടായിരിക്കണം",
+    "ADD_NEW_FILTER": "Add filter",
+    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
     "SUBMIT_BUTTON_LABEL": "ഫിൽട്ടറുകൾ പ്രയോഗിക്കുക",
     "UPDATE_BUTTON_LABEL": "Update folder",
     "CANCEL_BUTTON_LABEL": "റദ്ദാക്കുക",
-    "CLEAR_BUTTON_LABEL": "ഫിൽട്ടറുകൾ മായ്ക്കുക",
-    "EMPTY_VALUE_ERROR": "Value is required",
+    "CLEAR_BUTTON_LABEL": "Clear filters",
     "FOLDER_LABEL": "Folder Name",
     "FOLDER_QUERY_LABEL": "Folder Query",
+    "EMPTY_VALUE_ERROR": "Value is required.",
     "TOOLTIP_LABEL": "സംഭാഷണങ്ങൾ തരം തിരിക്കുക",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "ഒപ്പം",
@@ -36,44 +36,44 @@
     },
     "ATTRIBUTES": {
       "STATUS": "സ്റ്റാറ്റസ്",
-      "ASSIGNEE_NAME": "Assignee Name",
-      "INBOX_NAME": "ഇൻ‌ബോക്സ് നാമം",
+      "ASSIGNEE_NAME": "Assignee name",
+      "INBOX_NAME": "Inbox name",
       "TEAM_NAME": "ടീമിന്റെ പേര്",
-      "CONVERSATION_IDENTIFIER": "സംഭാഷണ ഐഡന്റിഫയർ",
-      "CAMPAIGN_NAME": "പ്രചാരണ നാമം",
+      "CONVERSATION_IDENTIFIER": "Conversation identifier",
+      "CAMPAIGN_NAME": "Campaign name",
       "LABELS": "ലേബലുകൾ",
-      "BROWSER_LANGUAGE": "ബ്രൗസറിന്റെ ഭാഷ",
+      "BROWSER_LANGUAGE": "Browser language",
       "PRIORITY": "Priority",
-      "COUNTRY_NAME": "രാജ്യത്തിന്റെ പേര്",
+      "COUNTRY_NAME": "Country name",
       "REFERER_LINK": "റഫറർ ലിങ്ക്",
       "CUSTOM_ATTRIBUTE_LIST": "List",
       "CUSTOM_ATTRIBUTE_TEXT": "Text",
       "CUSTOM_ATTRIBUTE_NUMBER": "Number",
       "CUSTOM_ATTRIBUTE_LINK": "Link",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-      "CREATED_AT": "Created At",
-      "LAST_ACTIVITY": "അവസാന പ്രവർത്തനം"
+      "CREATED_AT": "എന്ന സ്ഥലത്ത് സൃഷ്ടിച്ചു",
+      "LAST_ACTIVITY": "Last activity"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard Filters",
-      "ADDITIONAL_FILTERS": "Additional Filters",
-      "CUSTOM_ATTRIBUTES": "ഇഷ്‌ടാനുസൃത ആട്രിബ്യൂട്ടുകൾ"
+      "STANDARD_FILTERS": "Standard filters",
+      "ADDITIONAL_FILTERS": "Additional filters",
+      "CUSTOM_ATTRIBUTES": "Custom attributes"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
         "TITLE": "നിങ്ങൾക്ക് ഈ ഫിൽട്ടർ സേവ് ചെയ്യണോ?",
         "LABEL": "ഈ ഫിൽട്ടറിന് പേര് നൽകുക",
-        "PLACEHOLDER": "ഈ ഫിൽട്ടറിന് ഒരു പേര് നൽകുക",
-        "ERROR_MESSAGE": "നാമം ആവശ്യമാണ്",
+        "PLACEHOLDER": "Name your filter to refer it later.",
+        "ERROR_MESSAGE": "Name is required.",
         "SAVE_BUTTON": "ഫിൽട്ടർ സേവ് ചെയുക",
         "CANCEL_BUTTON": "റദ്ദാക്കുക",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "ഫോൾഡർ വിജയകരമായി സൃഷ്ടിച്ചു",
-          "ERROR_MESSAGE": "ഫോൾഡർ സൃഷ്‌ടിക്കുമ്പോൾ പിശക്"
+          "SUCCESS_MESSAGE": "Folder created successfully.",
+          "ERROR_MESSAGE": "Error while creating folder."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "സെഗ്മെന്റ് വിജയകരമായി സൃഷ്ടിച്ചു",
-          "ERROR_MESSAGE": "Error while creating segment"
+          "SUCCESS_MESSAGE": "Segment created successfully.",
+          "ERROR_MESSAGE": "Error while creating segment."
         }
       },
       "EDIT": {
@@ -83,19 +83,19 @@
         "DELETE_BUTTON": "ഫിൽട്ടർ ഇല്ലാതാക്കുക",
         "MODAL": {
           "CONFIRM": {
-            "TITLE": "ഇല്ലാതാക്കൽ സ്ഥിരീകരിക്കുക",
+            "TITLE": "Confirm deletion",
             "MESSAGE": "ഫിൽട്ടർ ഇല്ലാതാക്കുമെന്ന് ഉറപ്പാണോ ",
-            "YES": "അതെ, ഇല്ലാതാക്കുക",
-            "NO": "ഇല്ല, സൂക്ഷിക്കുക"
+            "YES": "Yes, delete",
+            "NO": "No, keep it"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "ഫോൾഡർ വിജയകരമായി ഇല്ലാതാക്കി",
-          "ERROR_MESSAGE": "Error while deleting folder"
+          "SUCCESS_MESSAGE": "Folder deleted successfully.",
+          "ERROR_MESSAGE": "Error while deleting folder."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "സെഗ്‌മെന്റ് വിജയകരമായി ഇല്ലാതാക്കി",
-          "ERROR_MESSAGE": "സെഗ്‌മെന്റ് ഇല്ലാതാക്കുന്നതിൽ പിശക്"
+          "SUCCESS_MESSAGE": "Segment deleted successfully.",
+          "ERROR_MESSAGE": "Error while deleting segment."
         }
       }
     }

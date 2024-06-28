@@ -10,6 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "Jūsų slaptažodis buvo sėkmingai pakeistas",
     "AFTER_EMAIL_CHANGED": "Jūsų profilis buvo sėkmingai atnaujintas, prisijunkite dar kartą, nes jūsų prisijungimo duomenys yra pakeisti",
     "FORM": {
+      "PICTURE": "Profile Picture",
       "AVATAR": "Profilio paveikslėlis",
       "ERROR": "Ištaisykite formos klaidas",
       "REMOVE_IMAGE": "Pašalinti",
@@ -56,13 +57,19 @@
       },
       "ACCESS_TOKEN": {
         "TITLE": "Prieeigos raktas",
-        "NOTE": "Šis prieigos raktas gali būti naudojamas, jei kuriate API pagrįstą integraciją"
+        "NOTE": "Šis prieigos raktas gali būti naudojamas, jei kuriate API pagrįstą integraciją",
+        "COPY": "Kopijuoti"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Garsiniai Perspėjimai",
         "NOTE": "Prietaisų skydelyje įgalinkite garso perspėjimus apie naujus pranešimus ir pokalbius.",
+        "ALERT_TYPES": {
+          "NONE": "Nėra",
+          "MINE": "Assigned",
+          "ALL": "Visi"
+        },
         "ALERT_TYPE": {
-          "TITLE": "Įspėjimo įvykiai:",
+          "TITLE": "Alert events for conversations:",
           "NONE": "Nėra",
           "ASSIGNED": "Priskirti Pokalbiai",
           "ALL_CONVERSATIONS": "Visi Pokalbiai"
@@ -83,7 +90,27 @@
         "CONVERSATION_CREATION": "Siųsti perspėjimus el. paštu, kai naujas pokalbis yra sukuriamas",
         "CONVERSATION_MENTION": "Siųsti perspėjimus el. paštu, kai pokalbyje esate paminimas/a",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Siųsti perspėjimus el. paštu, kai priskirtame pokalbyje sukuriamas naujas pranešimas",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Siųsti perspėjimus el. paštu, kai dalyvaujant pokalbyje sukuriamas naujas pranešimas"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Siųsti perspėjimus el. paštu, kai dalyvaujant pokalbyje sukuriamas naujas pranešimas",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "El. paštas",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
       "API": {
         "UPDATE_SUCCESS": "Jūsų perspėjimų nuostatos sėkmingai atnaujintos",
@@ -98,7 +125,10 @@
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Siųsti aktyviuosius perspėjimus, kai priskirtame pokalbyje sukuriamas naujas pranešimas",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Siųsti aktyviuosius perspėjimus, kai dalyvaujant pokalbyje sukuriamas naujas pranešimas",
         "HAS_ENABLED_PUSH": "Leidote aktyviuosius perspėjimus šioje naršyklėje.",
-        "REQUEST_PUSH": "Leisti aktyviuosius pranešimus"
+        "REQUEST_PUSH": "Leisti aktyviuosius pranešimus",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profilio paveikslėlis"
@@ -160,6 +190,9 @@
     "TRIAL_MESSAGE": "liko bandymo dienų.",
     "TRAIL_BUTTON": "Pirkti dabar",
     "DELETED_USER": "Trinti Vartotoją",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Paskyra laikinai sustabdyta",
       "MESSAGE": "Jūsų paskyra laikinai sustabdyta. Norėdami gauti daugiau informacijos, susisiekite su palaikymo komanda."
@@ -196,7 +229,9 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Šiuo metu peržiūri:",
     "SWITCH": "Perjungti",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Pokalbiai",
+    "INBOX": "Gautų laiškų aplankas",
     "ALL_CONVERSATIONS": "Visi Pokalbiai",
     "MENTIONED_CONVERSATIONS": "Paminėjimai",
     "PARTICIPATING_CONVERSATIONS": "Dalyvaujantys",
@@ -233,11 +268,14 @@
     "CAMPAIGNS": "Akcijos",
     "ONGOING": "Vykstantis",
     "ONE_OFF": "Vienas iš",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Botas",
     "REPORTS_AGENT": "Agentai",
     "REPORTS_LABEL": "Etiketės",
     "REPORTS_INBOX": "Gautų laiškų aplankas",
     "REPORTS_TEAM": "Komanda",
     "SET_AVAILABILITY_TITLE": "Nustatykite save kaip",
+    "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Apžvalga",
     "FACEBOOK_REAUTHORIZE": "Jūsų ryšys su Facebook nutrūko. Jei norite toliau nauditis paslaugomis, iš naujo prisijunkite prie Facebook puslapio",
@@ -306,7 +344,6 @@
       "GO_TO_REPORTS_SIDEBAR": "Eikite į Ataskaitų šoninę juostą",
       "MOVE_TO_NEXT_TAB": "Pereiti į kitą skirtuką pokalbių sąraše",
       "GO_TO_SETTINGS": "Eiti į Nustatymus",
-      "SWITCH_CONVERSATION_STATUS": "Perjungti į kitą pokalbio būseną",
       "SWITCH_TO_PRIVATE_NOTE": "Perjungti į Privatų užrašą",
       "SWITCH_TO_REPLY": "Perjungti į Atsakyti",
       "TOGGLE_SNOOZE_DROPDOWN": "Perjungti snooze išskleidžiamąjį meniu"

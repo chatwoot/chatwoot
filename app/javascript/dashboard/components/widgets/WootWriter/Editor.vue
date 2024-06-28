@@ -78,13 +78,14 @@ const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 import {
   hasPressedEnterAndNotCmdOrShift,
   hasPressedCommandAndEnter,
-  hasPressedAltAndPKey,
-  hasPressedAltAndLKey,
 } from 'shared/helpers/KeyboardHelpers';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
-import { replaceVariablesInMessage } from '@chatwoot/utils';
+import {
+  replaceVariablesInMessage,
+  createTypingIndicator,
+} from '@chatwoot/utils';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { uploadFile } from 'dashboard/helper/uploadHelper';
@@ -118,7 +119,7 @@ const createState = (
 export default {
   name: 'WootMessageEditor',
   components: { TagAgents, CannedResponse, VariableList },
-  mixins: [eventListenerMixins, uiSettingsMixin, alertMixin],
+  mixins: [keyboardEventListenerMixins, uiSettingsMixin, alertMixin],
   props: {
     value: { type: String, default: '' },
     editorId: { type: String, default: '' },
@@ -140,6 +141,15 @@ export default {
   },
   data() {
     return {
+      typingIndicator: createTypingIndicator(
+        () => {
+          this.$emit('typing-on');
+        },
+        () => {
+          this.$emit('typing-off');
+        },
+        TYPING_INDICATOR_IDLE_TIME
+      ),
       showUserMentions: false,
       showCannedMenu: false,
       showVariables: false,
@@ -342,10 +352,16 @@ export default {
     // Components using this
     // 1. SearchPopover.vue
 
-    bus.$on(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, this.insertContentIntoEditor);
+    this.$emitter.on(
+      BUS_EVENTS.INSERT_INTO_RICH_EDITOR,
+      this.insertContentIntoEditor
+    );
   },
   beforeDestroy() {
-    bus.$off(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, this.insertContentIntoEditor);
+    this.$emitter.off(
+      BUS_EVENTS.INSERT_INTO_RICH_EDITOR,
+      this.insertContentIntoEditor
+    );
   },
   methods: {
     reloadState(content = this.value) {
@@ -510,13 +526,21 @@ export default {
     isCmdPlusEnterToSendEnabled() {
       return isEditorHotKeyEnabled(this.uiSettings, 'cmd_enter');
     },
-    handleKeyEvents(e) {
-      if (hasPressedAltAndPKey(e)) {
-        this.focusEditorInputField();
-      }
-      if (hasPressedAltAndLKey(e)) {
-        this.focusEditorInputField();
-      }
+    getKeyboardEvents() {
+      return {
+        'Alt+KeyP': {
+          action: () => {
+            this.focusEditorInputField();
+          },
+          allowOnFocusedInput: true,
+        },
+        'Alt+KeyL': {
+          action: () => {
+            this.focusEditorInputField();
+          },
+          allowOnFocusedInput: true,
+        },
+      };
     },
     focusEditorInputField(pos = 'end') {
       const { tr } = this.editorView.state;
@@ -638,15 +662,6 @@ export default {
     hideMentions() {
       this.showUserMentions = false;
     },
-    resetTyping() {
-      this.$emit('typing-off');
-      this.idleTimer = null;
-    },
-    turnOffIdleTimer() {
-      if (this.idleTimer) {
-        clearTimeout(this.idleTimer);
-      }
-    },
     handleLineBreakWhenEnterToSendEnabled(event) {
       if (
         hasPressedEnterAndNotCmdOrShift(event) &&
@@ -666,14 +681,7 @@ export default {
       }
     },
     onKeyup() {
-      if (!this.idleTimer) {
-        this.$emit('typing-on');
-      }
-      this.turnOffIdleTimer();
-      this.idleTimer = setTimeout(
-        () => this.resetTyping(),
-        TYPING_INDICATOR_IDLE_TIME
-      );
+      this.typingIndicator.start();
       this.updateImgToolbarOnDelete();
     },
     onKeydown(event) {
@@ -685,8 +693,7 @@ export default {
       }
     },
     onBlur() {
-      this.turnOffIdleTimer();
-      this.resetTyping();
+      this.typingIndicator.stop();
       this.$emit('blur');
     },
     onFocus() {
@@ -758,7 +765,7 @@ export default {
 }
 
 .ProseMirror-prompt {
-  @apply z-50 bg-slate-25 dark:bg-slate-700 rounded-md border border-solid border-slate-75 dark:border-slate-800;
+  @apply z-[9999] bg-slate-25 dark:bg-slate-700 rounded-md border border-solid border-slate-75 dark:border-slate-800 shadow-lg;
 
   h5 {
     @apply dark:text-slate-25 text-slate-800;

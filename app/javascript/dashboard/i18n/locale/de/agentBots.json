@@ -1,73 +1,73 @@
 {
   "AGENT_BOTS": {
     "HEADER": "Bots",
-    "LOADING_EDITOR": "Editor wird geladen...",
-    "HEADER_BTN_TXT": "Bot-Konfiguration hinzufügen",
-    "SIDEBAR_TXT": "<p><b>Agenten Bots</b> <p>Agenten Bots erlauben es Ihnen, die Unterhaltungen zu automatisieren</p>",
+    "LOADING_EDITOR": "Loading editor...",
+    "HEADER_BTN_TXT": "Add bot configuration",
+    "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.</p> <p> You can manage your bots from this page or create new ones using the 'Add bot configuraton' button.</p> <p> Open the <a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">Agent bots handbook</a> in another tab for a helping hand.</p>",
     "CSML_BOT_EDITOR": {
       "NAME": {
-        "LABEL": "机器人名称",
-        "PLACEHOLDER": "Geben Sie Ihrem Bot einen Namen",
-        "ERROR": "Bot Name ist erforderlich"
+        "LABEL": "Bot name",
+        "PLACEHOLDER": "Name your bot.",
+        "ERROR": "Bot Name ist erforderlich."
       },
       "DESCRIPTION": {
-        "LABEL": "Bot Beschreibung",
+        "LABEL": "Bot description",
         "PLACEHOLDER": "Was macht dieser Bot?"
       },
       "BOT_CONFIG": {
-        "ERROR": "Bitte geben Sie Ihre CSML Bot-Konfiguration oben ein",
-        "API_ERROR": "Ihre CSML-Konfiguration ist ungültig, bitte korrigieren Sie sie und versuchen es erneut."
+        "ERROR": "Bitte geben Sie Ihre CSML Bot-Konfiguration oben ein.",
+        "API_ERROR": "Your CSML configuration is invalid. Please fix it and try again."
       },
       "SUBMIT": "Validieren und speichern"
     },
     "BOT_CONFIGURATION": {
       "TITLE": "Agenten-Bot auswählen",
-      "DESC": "Sie können einen Agenten-Bot aus der Liste in diesen Posteingang setzen. Der Bot kann die Unterhaltung anfangs bearbeiten und bei Bedarf an einen Agenten übertragen.",
+      "DESC": "Assign an Agent Bot to your inbox. They can handle initial conversations and transfer them to a live agent when necessary.",
       "SUBMIT": "Aktualisieren",
-      "DISCONNECT": "Bot trennen",
-      "SUCCESS_MESSAGE": "Agenten-Bot erfolgreich aktualisiert",
-      "DISCONNECTED_SUCCESS_MESSAGE": "Agent-Bot erfolgreich getrennt",
-      "ERROR_MESSAGE": "Konnte den Agenten-Bot nicht aktualisieren, bitte versuchen Sie es später erneut",
-      "DISCONNECTED_ERROR_MESSAGE": "Konnte den Agenten-Bot nicht trennen, bitte versuchen Sie es später erneut",
-      "SELECT_PLACEHOLDER": "Bot auswählen"
+      "DISCONNECT": "Disconnect bot",
+      "SUCCESS_MESSAGE": "Agenten-Bot erfolgreich aktualisiert.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Agent-Bot erfolgreich getrennt.",
+      "ERROR_MESSAGE": "Could not update the agent bot. Please try again.",
+      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot. Please try again.",
+      "SELECT_PLACEHOLDER": "Select bot"
     },
     "ADD": {
       "TITLE": "Neuen Bot konfigurieren",
       "CANCEL_BUTTON_TEXT": "Stornieren",
       "API": {
-        "SUCCESS_MESSAGE": "Bot erfolgreich hinzugefügt",
-        "ERROR_MESSAGE": "Bot konnte nicht hinzugefügt werden, bitte versuchen Sie es später erneut"
+        "SUCCESS_MESSAGE": "Bot erfolgreich hinzugefügt.",
+        "ERROR_MESSAGE": "Could not add bot. Please try again later."
       }
     },
     "LIST": {
-      "404": "Keine Bots gefunden, Sie können einen Bot erstellen, indem Sie auf den 'Neuen Bot konfigurieren' Button klicken ↗",
-      "LOADING": "Bots werden geladen...",
-      "TYPE": "Bot-Typ"
+      "404": "No bots found. You can create a bot by clicking the 'Configure new bot' button ↗",
+      "LOADING": "Fetching bots...",
+      "TYPE": "Bot type"
     },
     "DELETE": {
       "BUTTON_TEXT": "Löschen",
-      "TITLE": "Bot löschen",
+      "TITLE": "Delete bot",
       "SUBMIT": "Löschen",
       "CANCEL_BUTTON_TEXT": "Stornieren",
-      "DESCRIPTION": "Sind Sie sicher, dass Sie diesen Bot löschen wollen? Diese Aktion kann nicht rückgängig gemacht werden",
+      "DESCRIPTION": "Sind Sie sicher, dass Sie diesen Bot löschen wollen? Diese Aktion kann nicht rückgängig gemacht werden.",
       "API": {
-        "SUCCESS_MESSAGE": "Bot erfolgreich gelöscht",
-        "ERROR_MESSAGE": "Konnte den Bot nicht löschen, bitte versuche es später erneut"
+        "SUCCESS_MESSAGE": "Bot erfolgreich gelöscht.",
+        "ERROR_MESSAGE": "Could not delete bot. Please try again."
       }
     },
     "EDIT": {
       "BUTTON_TEXT": "Bearbeiten",
-      "LOADING": "Bots werden geladen...",
-      "TITLE": "Bot bearbeiten",
+      "LOADING": "Fetching bots...",
+      "TITLE": "Edit bot",
       "CANCEL_BUTTON_TEXT": "Stornieren",
       "API": {
-        "SUCCESS_MESSAGE": "Bot erfolgreich aktualisiert",
-        "ERROR_MESSAGE": "Bot konnte nicht aktualisiert werden, bitte versuchen Sie es später erneut"
+        "SUCCESS_MESSAGE": "Bot erfolgreich aktualisiert.",
+        "ERROR_MESSAGE": "Could not update bot. Please try again."
       }
     },
     "TYPES": {
-      "WEBHOOK": "Webhook Bot",
-      "CSML": "CSML Bot"
+      "WEBHOOK": "Webhook bot",
+      "CSML": "CSML bot"
     }
   }
 }

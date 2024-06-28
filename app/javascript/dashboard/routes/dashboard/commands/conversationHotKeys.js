@@ -1,5 +1,6 @@
 import { mapGetters } from 'vuex';
 import wootConstants from 'dashboard/constants/globals';
+import { emitter } from 'shared/helpers/mitt';
 
 import { CMD_AI_ASSIST } from './commandBarBusEvents';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
@@ -30,7 +31,10 @@ import {
   UNMUTE_ACTION,
   MUTE_ACTION,
 } from './commandBarActions';
-import { isAConversationRoute } from '../../../helper/routeHelpers';
+import {
+  isAConversationRoute,
+  isAInboxViewRoute,
+} from '../../../helper/routeHelpers';
 export default {
   mixins: [aiMixin],
   watch: {
@@ -52,11 +56,15 @@ export default {
     replyMode() {
       this.setCommandbarData();
     },
+    contextMenuChatId() {
+      this.setCommandbarData();
+    },
   },
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
       replyMode: 'draftMessages/getReplyEditorMode',
+      contextMenuChatId: 'getContextMenuChatId',
     }),
     draftMessage() {
       return this.$store.getters['draftMessages/get'](this.draftKey);
@@ -90,6 +98,7 @@ export default {
       }
       return this.prepareActions(actions);
     },
+
     priorityOptions() {
       return [
         {
@@ -310,7 +319,7 @@ export default {
         section: this.$t('COMMAND_BAR.SECTIONS.AI_ASSIST'),
         priority: item,
         icon: item.icon,
-        handler: () => bus.$emit(CMD_AI_ASSIST, item.key),
+        handler: () => emitter.emit(CMD_AI_ASSIST, item.key),
       }));
       return [
         {
@@ -324,22 +333,42 @@ export default {
       ];
     },
 
-    conversationHotKeys() {
-      if (isAConversationRoute(this.$route.name)) {
-        const defaultConversationHotKeys = [
-          ...this.statusActions,
-          ...this.conversationAdditionalActions,
-          ...this.assignAgentActions,
-          ...this.assignTeamActions,
-          ...this.labelActions,
-          ...this.assignPriorityActions,
-        ];
-        if (this.isAIIntegrationEnabled) {
-          return [...defaultConversationHotKeys, ...this.AIAssistActions];
-        }
-        return defaultConversationHotKeys;
-      }
+    isConversationOrInboxRoute() {
+      return (
+        isAConversationRoute(this.$route.name) ||
+        isAInboxViewRoute(this.$route.name)
+      );
+    },
 
+    shouldShowSnoozeOption() {
+      return (
+        isAConversationRoute(this.$route.name, true, false) &&
+        this.contextMenuChatId
+      );
+    },
+
+    getDefaultConversationHotKeys() {
+      const defaultConversationHotKeys = [
+        ...this.statusActions,
+        ...this.conversationAdditionalActions,
+        ...this.assignAgentActions,
+        ...this.assignTeamActions,
+        ...this.labelActions,
+        ...this.assignPriorityActions,
+      ];
+      if (this.isAIIntegrationEnabled) {
+        return [...defaultConversationHotKeys, ...this.AIAssistActions];
+      }
+      return defaultConversationHotKeys;
+    },
+
+    conversationHotKeys() {
+      if (this.shouldShowSnoozeOption) {
+        return this.prepareActions(SNOOZE_CONVERSATION_ACTIONS);
+      }
+      if (this.isConversationOrInboxRoute) {
+        return this.getDefaultConversationHotKeys;
+      }
       return [];
     },
   },

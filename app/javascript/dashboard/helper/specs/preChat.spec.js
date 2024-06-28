@@ -5,7 +5,8 @@ import {
 } from '../preChat';
 import inboxFixture from './inboxFixture';
 
-const { customFields, customAttributes } = inboxFixture;
+const { customFields, customAttributes, customAttributesWithRegex } =
+  inboxFixture;
 describe('#Pre chat Helpers', () => {
   describe('getPreChatFields', () => {
     it('should return correct pre-chat fields form options passed', () => {
@@ -27,7 +28,6 @@ describe('#Pre chat Helpers', () => {
           placeholder: 'Please enter your email address',
           type: 'email',
           field_type: 'standard',
-
           required: false,
           enabled: false,
         },
@@ -69,6 +69,26 @@ describe('#Pre chat Helpers', () => {
           field_type: 'conversation_attribute',
           type: 'number',
           values: [],
+        },
+      ]);
+
+      expect(
+        getCustomFields({
+          standardFields: { pre_chat_fields: customFields.pre_chat_fields },
+          customAttributes: customAttributesWithRegex,
+        })
+      ).toEqual([
+        {
+          enabled: false,
+          label: 'Test contact Attribute',
+          placeholder: 'Test contact Attribute',
+          name: 'test_contact_attribute',
+          required: false,
+          field_type: 'contact_attribute',
+          type: 'text',
+          values: [],
+          regex_pattern: '^w+$',
+          regex_cue: 'It should be a combination of alphabets and numbers',
         },
       ]);
     });

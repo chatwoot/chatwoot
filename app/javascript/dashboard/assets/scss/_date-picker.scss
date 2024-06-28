@@ -1,6 +1,13 @@
 @import '~vue2-datepicker/scss/index';
 
 .date-picker {
+  // To be removed one SLA reports date picker is created
+  &.small {
+    .mx-input {
+      @apply h-8 text-sm;
+    }
+  }
+
   &.no-margin {
     .mx-input {
       @apply mb-0;

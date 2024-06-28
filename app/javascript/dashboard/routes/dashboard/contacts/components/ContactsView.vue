@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full flex flex-row">
+  <div class="flex flex-row w-full">
     <div class="flex flex-col h-full" :class="wrapClass">
       <contacts-header :search-query="searchQuery" :header-title="pageTitle" :segments-id="segmentsId"
         this-selected-contact-id="" @on-input-search="onInputSearch" @on-toggle-create="onToggleCreate"
@@ -11,6 +11,7 @@
         @on-sort-change="onSortChange" />
       <table-footer :current-page="Number(meta.currentPage)" :total-count="meta.count" :page-size="15"
         @page-change="onPageChange" />
+        class="border-t border-slate-75 dark:border-slate-700/50"
     </div>
 
     <add-custom-views v-if="showAddSegmentsModal" :custom-views-query="segmentsQuery" :filter-type="filterType"
@@ -345,8 +346,19 @@ export default {
       this.fetchContacts(this.pageParameter);
     },
     onExportSubmit(columnNames) {
+      let query = { payload: [], columns: columnNames };
+
+      if (this.hasActiveSegments) {
+        query = this.activeSegment.query;
+      } else if (this.hasAppliedFilters) {
+        query = filterQueryGenerator(this.getAppliedContactFilters);
+      }
+
       try {
-        this.$store.dispatch('contacts/export', { columnNames: columnNames });
+        this.$store.dispatch('contacts/export', {
+          ...query,
+          label: this.label,
+        });
         this.showAlert(this.$t('EXPORT_CONTACTS.SUCCESS_MESSAGE'));
       } catch (error) {
         this.showAlert(

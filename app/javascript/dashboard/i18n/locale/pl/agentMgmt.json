@@ -12,7 +12,7 @@
       "404": "Nie ma agentów powiązanych z tym kontem",
       "TITLE": "Zarządzaj agentami w zespole",
       "DESC": "Możesz dodać/usunąć agentów do/w zespole.",
-      "NAME": "Nazwa",
+      "NAME": "Imię",
       "EMAIL": "EMAIL",
       "STATUS": "Status",
       "ACTIONS": "Akcje",
@@ -42,18 +42,18 @@
       "API": {
         "SUCCESS_MESSAGE": "Agent dodany pomyślnie",
         "EXIST_MESSAGE": "Email agenta jest już w użyciu, spróbuj innego adresu e-mail",
-        "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+        "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot, proszę spróbować później"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Usuń",
       "API": {
-        "SUCCESS_MESSAGE": "Agent usunięty pomyślnie",
-        "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+        "SUCCESS_MESSAGE": "Agent został pomyślnie usunięty",
+        "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot, proszę spróbować później"
       },
       "CONFIRM": {
         "TITLE": "Potwierdź usunięcie",
-        "MESSAGE": "Czy na pewno chcesz usunąć ",
+        "MESSAGE": "Czy jesteś pewien, że chcesz usunąć ",
         "YES": "Tak, usuń ",
         "NO": "Nie, zachowaj "
       }
@@ -62,22 +62,22 @@
       "TITLE": "Edytuj agenta",
       "FORM": {
         "NAME": {
-          "LABEL": "Nazwa agenta",
-          "PLACEHOLDER": "Wprowadź nazwę agenta"
+          "LABEL": "Imię agenta",
+          "PLACEHOLDER": "Proszę wprowadzić imię agenta"
         },
         "AGENT_TYPE": {
-          "LABEL": "Typ agenta",
-          "PLACEHOLDER": "Wybierz typ",
-          "ERROR": "Typ agenta jest wymagany"
+          "LABEL": "Rola",
+          "PLACEHOLDER": "Proszę wybrać rolę",
+          "ERROR": "Rola jest wymagana"
         },
         "EMAIL": {
           "LABEL": "Adres e-mail",
-          "PLACEHOLDER": "Wprowadź adres e-mail agenta"
+          "PLACEHOLDER": "Proszę wprowadzić adres e-mail agenta"
         },
         "AGENT_AVAILABILITY": {
           "LABEL": "Dostępność",
-          "PLACEHOLDER": "Wybierz status dostępności",
-          "ERROR": "Wymagana jest dostępność"
+          "PLACEHOLDER": "Proszę wybrać status dostępności",
+          "ERROR": "Dostępność jest wymagana"
         },
         "SUBMIT": "Edytuj agenta"
       },
@@ -85,17 +85,17 @@
       "CANCEL_BUTTON_TEXT": "Anuluj",
       "API": {
         "SUCCESS_MESSAGE": "Agent został pomyślnie zaktualizowany",
-        "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+        "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot, proszę spróbować później"
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "Resetuj hasło",
+        "ADMIN_RESET_BUTTON": "Zresetuj hasło",
         "ADMIN_SUCCESS_MESSAGE": "E-mail z instrukcjami resetowania hasła został wysłany do agenta",
-        "SUCCESS_MESSAGE": "Pomyślnie zresetowano hasło agenta",
-        "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+        "SUCCESS_MESSAGE": "Hasło agenta zostało pomyślnie zresetowane",
+        "ERROR_MESSAGE": "Nie można połączyć się z serwerem Woot, proszę spróbować później"
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "Brak wyników."
+      "NO_RESULTS": "Nie znaleziono wyników."
     },
     "MULTI_SELECTOR": {
       "PLACEHOLDER": "Brak",
@@ -105,13 +105,13 @@
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "Nie znaleziono żadnych konsultantów",
-          "TEAM": "Nie znaleziono żadnych zespołów"
+          "AGENT": "Nie znaleziono agentów",
+          "TEAM": "Nie znaleziono zespołów"
         },
         "PLACEHOLDER": {
-          "AGENT": "Wyszukaj konsultantów",
-          "TEAM": "Wyszukaj zespoły",
-          "INPUT": "Wyszukiwanie konsultantów"
+          "AGENT": "Szukaj agentów",
+          "TEAM": "Szukaj zespołów",
+          "INPUT": "Szukaj agentów"
         }
       }
     }
