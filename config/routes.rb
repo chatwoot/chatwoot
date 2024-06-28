@@ -153,6 +153,8 @@ Rails.application.routes.draw do
             collection do
               delete :destroy
               patch :update
+
+              post :add
             end
           end
           resources :labels, only: [:index, :show, :create, :update, :destroy]
