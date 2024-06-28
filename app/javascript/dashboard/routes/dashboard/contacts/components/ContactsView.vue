@@ -11,7 +11,7 @@
         @on-sort-change="onSortChange" />
       <table-footer :current-page="Number(meta.currentPage)" :total-count="meta.count" :page-size="15"
         @page-change="onPageChange" />
-        class="border-t border-slate-75 dark:border-slate-700/50"
+      class="border-t border-slate-75 dark:border-slate-700/50"
     </div>
 
     <add-custom-views v-if="showAddSegmentsModal" :custom-views-query="segmentsQuery" :filter-type="filterType"

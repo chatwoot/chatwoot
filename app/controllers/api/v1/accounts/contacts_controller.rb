@@ -49,7 +49,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def export
-    column_names = params['column_names']
+    column_names = params['columns']
     filter_params = { :payload => params.permit!['payload'], :label => params.permit!['label'] }
     Account::ContactsExportJob.perform_later(Current.account.id, Current.user.id, column_names, filter_params)
     head :ok, message: I18n.t('errors.contacts.export.success')
