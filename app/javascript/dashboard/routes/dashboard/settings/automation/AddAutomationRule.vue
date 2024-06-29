@@ -38,7 +38,7 @@
                 :key="event.key"
                 :value="event.key"
               >
-                {{ event.value }}
+                {{ $t(`AUTOMATION.EVENTS_TEXT.${event.key}`) }}
               </option>
             </select>
             <span v-if="$v.automation.event_name.$error" class="message">

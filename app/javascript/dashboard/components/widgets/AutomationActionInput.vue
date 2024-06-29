@@ -12,7 +12,7 @@
           :key="attribute.key"
           :value="attribute.key"
         >
-          {{ attribute.label }}
+          {{ $t(`AUTOMATION.ACTIONS_TEXT.${attribute.attributeI18nKey}`) }}
         </option>
       </select>
       <div v-if="showActionInput" class="filter__answer--wrap">
