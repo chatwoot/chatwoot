@@ -52,7 +52,12 @@
       "CUSTOM_ATTRIBUTE_LINK": "Liên kết",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Hộp kiểm",
       "CREATED_AT": "Thời gian tạo",
-      "LAST_ACTIVITY": "Hoạt động lần cuối"
+      "LAST_ACTIVITY": "Hoạt động lần cuối",
+      "MAIL_SUBJECT": "Tiêu đề email",
+      "PHONE_NUMBER": "Số điện thoại",
+      "EMAIL": "Địa chỉ email",
+      "MESSAGE_TYPE": "Loại tin nhắn",
+      "MESSAGE_CONTENT": "Nội dung tin nhắn"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard filters",

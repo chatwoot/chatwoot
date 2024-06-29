@@ -38,7 +38,11 @@
             :value="attribute.key"
             :disabled="attribute.disabled"
           >
-            {{ attribute.name }}
+            {{
+              attribute.attributeI18nKey
+                ? $t(`FILTER.ATTRIBUTES.${attribute.attributeI18nKey}`)
+                : attribute.name
+            }}
           </option>
         </select>
 
