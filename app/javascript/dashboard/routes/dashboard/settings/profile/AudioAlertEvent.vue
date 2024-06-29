@@ -29,7 +29,7 @@
         >
           {{
             $t(
-              `PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPES.${option.label.toUpperCase()}`
+              `PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPES.${option.value.toUpperCase()}`
             )
           }}
         </label>
