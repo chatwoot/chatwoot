@@ -37,7 +37,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_14_014644) do
     t.datetime "active_at", precision: nil
     t.integer "availability", default: 0, null: false
     t.boolean "auto_offline", default: true, null: false
-    t.jsonb "permissions", default: {"teams"=>true, "labels"=>true, "peoples"=>true, "reports"=>true, "accounts"=>true, "contacts"=>true, "conversations"=>true}
+    t.jsonb "permissions", default: {"teams"=>true, "labels"=>true, "peoples"=>true, "reports"=>true, "accounts"=>true, "contacts"=>true, "conversations"=>true, "send_menssages"=>true}
     t.index ["account_id", "user_id"], name: "uniq_user_id_per_account_id", unique: true
     t.index ["account_id"], name: "index_account_users_on_account_id"
     t.index ["user_id"], name: "index_account_users_on_user_id"
