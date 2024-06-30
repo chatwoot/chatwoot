@@ -116,7 +116,7 @@
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
         :icon="!isRecordingAudio ? 'microphone' : 'microphone-off'"
         emoji="🎤"
-        :color-scheme="!isRecordingAudio ? 'alert' : 'secondary'"
+        :color-scheme="!isRecordingAudio ? 'alert' : 'danger'"
         variant="smooth"
         size="small"
         class="mr-2"
