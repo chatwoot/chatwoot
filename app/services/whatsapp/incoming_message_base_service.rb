@@ -29,12 +29,15 @@ class Whatsapp::IncomingMessageBaseService
     return if find_message_by_source_id(@processed_params[:messages].first[:id]) || message_under_process?
 
     cache_message_source_id_in_redis
-    set_contact
-    return unless @contact
+    begin
+      set_contact
+      return clear_message_source_id_from_redis unless @contact
 
-    set_conversation
-    create_messages
-    clear_message_source_id_from_redis
+      set_conversation
+      create_messages
+    ensure
+      clear_message_source_id_from_redis
+    end
   end
 
   def process_statuses
