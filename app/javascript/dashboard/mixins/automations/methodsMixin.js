@@ -300,6 +300,9 @@ export default {
       this.automationTypes.conversation_updated.conditions.push(
         ...manifestedCustomAttributes
       );
+      this.automationTypes.conversation_resolved.conditions.push(
+        ...manifestedCustomAttributes
+      );
       this.automationTypes.conversation_opened.conditions.push(
         ...manifestedCustomAttributes
       );
