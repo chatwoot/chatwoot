@@ -11,7 +11,7 @@ class AddPermissionsToAccountUsers < ActiveRecord::Migration[7.0]
       'teams': true,
       'labels': true,
       # third items
-      'send_menssages': true
+      'send_messages': true
     }
   end
 end

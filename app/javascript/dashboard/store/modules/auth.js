@@ -71,7 +71,7 @@ export const getters = {
     const [currentAccount = {}] = accounts.filter(
       account => account.id === $getters.getCurrentAccountId
     );
-    return currentAccount.permissions;
+    return currentAccount.permissions || {};
   },
 
   getCurrentUser($state) {

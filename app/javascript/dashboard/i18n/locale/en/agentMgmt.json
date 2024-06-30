@@ -122,7 +122,8 @@
         "CONTACTS": "View Contacts",
         "LABELS": "View Labels",
         "CUSTOM_VIEWS": "View Custom Views",
-        "PEOPLES": "View People"
+        "PEOPLES": "View People",
+        "SEND_MENSSAGES": "Send Messages"
       }
     },
     "SEARCH": {
