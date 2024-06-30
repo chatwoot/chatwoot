@@ -16,15 +16,34 @@ on:
 
 jobs:
   nightly:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
-
+    # - name: Setup tmate session
+    #   uses: mxschmitt/action-tmate@v3
+    #   if: always()
+    # ## temporary fix for gh actions since node 20 installed via script is not taking effect till 30june2024
+    # # ## https://github.blog/changelog/2024-05-17-updated-dates-for-actions-runner-using-node20-instead-of-node16-by-default
+    # - name: Setup Node.js
+    #   uses: actions/setup-node@v4
+    #   with:
+    #     node-version: '20'
+    - name: check node version
+      run: |
+        node --version
+        which node
+    - name: check yarn version
+      run: |
+        yarn --version
+        which yarn
     - name: get installer
       run: |
         wget https://get.chatwoot.app/linux/install.sh
         chmod +x install.sh
         #fix for postgtres not starting automatically in gh action env
         sed -i '/function configure_db() {/a sudo service postgresql start' install.sh
+        #sed -i '/function setup_chatwoot() {/a export PATH="/usr/bin/:$PATH"' install.sh
+        #sed -i '/git checkout "\$BRANCH"/a export PATH="/usr/bin/:$PATH"' install.sh
+        # sed -i '/function setup_chatwoot() {/a sudo chown -R chatwoot:chatwoot /home/runner/.config' install.sh
 
     - name: create input file
       run: |
@@ -44,6 +63,19 @@ jobs:
         #        sudo systemctl restart chatwoot.target
         #        curl http://localhost:3000/api
 
+    - name: check node/yarn inside chatwoot
+      run: | 
+         sudo -i -u chatwoot << EOF
+         ls
+         cd chatwoot
+         node --version
+         yarn --versio
+         yarn
+         EOF
+      if: always()
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
+      if: always()
     - name: Upload chatwoot setup log file as an artifact
       uses: actions/upload-artifact@v4
       if: always()
