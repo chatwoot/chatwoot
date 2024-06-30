@@ -61,7 +61,7 @@
         </label>
 
         <label
-          v-if="isOneOffType"
+          v-if="isOneOffType || isFlexibleType"
           class="multiselect-wrap--small"
           :class="{ error: $v.selectedAudience.$error }"
         >
@@ -160,6 +160,43 @@
           />
           {{ $t('CAMPAIGN.ADD.FORM.TRIGGER_ONLY_BUSINESS_HOURS') }}
         </label>
+        <div v-if="isFlexibleType">
+          <label>
+            {{ $t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.LABEL') }}
+          </label>
+          <div class="flex flex-row gap-2">
+            <multiselect
+              v-model="scheduledCalculation"
+              :placeholder="$t('CAMPAIGN.FLEXIBLE.SCHEDULED_CALCULATION')"
+              class="multiselect-wrap--small max-w-[40%]"
+              track-by="key"
+              label="name"
+              selected-label=""
+              select-label=""
+              deselect-label=""
+              :options="scheduledCalculations"
+              @select="scheduledCalculationChange"
+            />
+            <multiselect
+              v-model="scheduledAttribute"
+              :placeholder="$t('CAMPAIGN.FLEXIBLE.SCHEDULED_ATTRIBUTE')"
+              class="multiselect-wrap--small max-w-[35%]"
+              track-by="key"
+              label="name"
+              selected-label=""
+              select-label=""
+              deselect-label=""
+              :options="contactDateAttributes"
+            />
+            <input
+              v-if="showExtraDays"
+              v-model="extraDays"
+              type="number"
+              class="max-w-[25%]"
+              :placeholder="$t('CAMPAIGN.FLEXIBLE.EXTRA_DAYS')"
+            />
+          </div>
+        </div>
       </div>
 
       <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
@@ -183,6 +220,7 @@ import campaignMixin from 'shared/mixins/campaignMixin';
 import WootDateTimePicker from 'dashboard/components/ui/DateTimePicker.vue';
 import { URLPattern } from 'urlpattern-polyfill';
 import { CAMPAIGNS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
+import contactFilterItems from '../../contacts/contactFilterItems';
 
 export default {
   components: {
@@ -201,10 +239,21 @@ export default {
       timeOnPage: 10,
       show: true,
       enabled: true,
+      showExtraDays: true,
       triggerOnlyDuringBusinessHours: false,
       scheduledAt: null,
+      scheduledAttribute: null,
+      scheduledCalculation: null,
+      extraDays: null,
       selectedAudience: [],
       senderList: [],
+      // eslint-disable-next-line vue/no-unused-components
+      contactFilterItems,
+      scheduledCalculations: [
+        { key: 'equal', name: this.$t('CAMPAIGN.FLEXIBLE.CALCULATION.EQUAL') },
+        { key: 'plus', name: this.$t('CAMPAIGN.FLEXIBLE.CALCULATION.PLUS') },
+        { key: 'minus', name: this.$t('CAMPAIGN.FLEXIBLE.CALCULATION.MINUS') },
+      ],
     };
   },
 
@@ -287,6 +336,15 @@ export default {
     });
   },
   methods: {
+    scheduledCalculationChange() {
+      if (this.scheduledCalculation.key === 'equal') {
+        this.extraDays = 0;
+        this.showExtraDays = false;
+      } else {
+        this.extraDays = null;
+        this.showExtraDays = true;
+      }
+    },
     onClose() {
       this.$emit('on-close');
     },
