@@ -151,7 +151,7 @@ export const mutations = {
       selectedChatId: conversationId,
     });
 
-    if (!chat) return;
+    if (!chat?.attachments) return;
 
     const isMessageSent =
       message.status === MESSAGE_STATUS.SENT && message.attachments;
