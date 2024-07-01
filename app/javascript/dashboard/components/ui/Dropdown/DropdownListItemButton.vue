@@ -8,6 +8,14 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  leftIcon: {
+    type: String,
+    default: '',
+  },
+  leftIconColor: {
+    type: String,
+    default: '',
+  },
 });
 </script>
 <template>
@@ -19,6 +27,12 @@ defineProps({
     @focus="$emit('focus')"
   >
     <div class="inline-flex items-center gap-3 overflow-hidden">
+      <fluent-icon
+        v-if="leftIcon"
+        icon="status"
+        size="18"
+        :style="{ color: leftIconColor }"
+      />
       <span
         class="text-sm font-medium truncate text-slate-900 dark:text-slate-50"
       >
