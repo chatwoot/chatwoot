@@ -3,17 +3,17 @@
     <tag-agents
       v-if="showUserMentions && isPrivate"
       :search-key="mentionSearchKey"
-      @click="insertMentionNode"
+      @click="content => insertSpecialContent('mention', content)"
     />
     <canned-response
       v-if="shouldShowCannedResponses"
       :search-key="cannedSearchTerm"
-      @click="insertCannedResponse"
+      @click="content => insertSpecialContent('cannedResponse', content)"
     />
     <variable-list
       v-if="shouldShowVariables"
       :search-key="variableSearchTerm"
-      @click="insertVariable"
+      @click="content => insertSpecialContent('variable', content)"
     />
     <input
       ref="imageUpload"
@@ -47,11 +47,9 @@
 <script>
 import {
   messageSchema,
-  buildEditor,
   EditorView,
   MessageMarkdownTransformer,
   MessageMarkdownSerializer,
-  EditorState,
   Selection,
 } from '@chatwoot/prosemirror-schema';
 import {
@@ -70,6 +68,7 @@ import {
   scrollCursorIntoView,
   findNodeToInsertImage,
   setURLWithQueryAndSize,
+  createState,
 } from 'dashboard/helper/editorHelper';
 
 const TYPING_INDICATOR_IDLE_TIME = 4000;
@@ -82,10 +81,7 @@ import {
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
-import {
-  replaceVariablesInMessage,
-  createTypingIndicator,
-} from '@chatwoot/utils';
+import { createTypingIndicator } from '@chatwoot/utils';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { uploadFile } from 'dashboard/helper/uploadHelper';
@@ -94,27 +90,7 @@ import {
   MESSAGE_EDITOR_MENU_OPTIONS,
   MESSAGE_EDITOR_IMAGE_RESIZES,
 } from 'dashboard/constants/editor';
-
-const createState = (
-  content,
-  placeholder,
-  // eslint-disable-next-line default-param-last
-  plugins = [],
-  // eslint-disable-next-line default-param-last
-  methods = {},
-  enabledMenuOptions
-) => {
-  return EditorState.create({
-    doc: new MessageMarkdownTransformer(messageSchema).parse(content),
-    plugins: buildEditor({
-      schema: messageSchema,
-      placeholder,
-      methods,
-      plugins,
-      enabledMenuOptions,
-    }),
-  });
-};
+import useSpecialContent from 'dashboard/composables/editor/useSpecialContent';
 
 export default {
   name: 'WootMessageEditor',
@@ -138,6 +114,11 @@ export default {
     allowSignature: { type: Boolean, default: false },
     channelType: { type: String, default: '' },
     showImageResizeToolbar: { type: Boolean, default: false }, // A kill switch to show or hide the image toolbar
+  },
+  setup() {
+    const { getContentNode } = useSpecialContent();
+
+    return { getContentNode };
   },
   data() {
     return {
@@ -452,22 +433,12 @@ export default {
           this.emitOnChange();
         },
         handleDOMEvents: {
-          keyup: () => {
-            this.onKeyup();
-          },
-          keydown: (view, event) => {
-            this.onKeydown(event);
-          },
-          focus: () => {
-            this.onFocus();
-          },
-          click: () => {
-            this.isEditorMouseFocusedOnAnImage();
-          },
-          blur: () => {
-            this.onBlur();
-          },
-          paste: (view, event) => {
+          keyup: this.onKeyup,
+          keydown: (_view, event) => this.onKeydown(event),
+          focus: this.onFocus,
+          click: this.isEditorMouseFocusedOnAnImage,
+          blur: this.onBlur,
+          paste: (_view, event) => {
             const data = event.clipboardData.files;
             if (data.length > 0) {
               event.preventDefault();
@@ -551,57 +522,39 @@ export default {
       this.editorView.dispatch(tr.setSelection(selection));
       this.editorView.focus();
     },
-    insertMentionNode(mentionItem) {
+    /**
+     * Inserts special content (mention, canned response, or variable) into the editor.
+     *
+     * @param {string} type - The type of special content to insert. Possible values: 'mention', 'canned_response', 'variable'.
+     * @param {Object|string} content - The content to insert, depending on the type.
+     *   - For 'mention' type: An object with 'id' and 'name' properties representing the user mention.
+     *   - For 'canned_response' type: A string representing the canned response.
+     *   - For 'variable' type: A string representing the variable name.
+     */
+    insertSpecialContent(type, content) {
       if (!this.editorView) {
-        return null;
-      }
-      const node = this.editorView.state.schema.nodes.mention.create({
-        userId: mentionItem.id,
-        userFullName: mentionItem.name,
-      });
-
-      this.insertNodeIntoEditor(node, this.range.from, this.range.to);
-      this.$track(CONVERSATION_EVENTS.USED_MENTIONS);
-
-      return false;
-    },
-    insertCannedResponse(cannedItem) {
-      const updatedMessage = replaceVariablesInMessage({
-        message: cannedItem,
-        variables: this.variables,
-      });
-
-      if (!this.editorView) {
-        return null;
+        return;
       }
 
-      let node = new MessageMarkdownTransformer(messageSchema).parse(
-        updatedMessage
+      let { node, from, to } = this.getContentNode(
+        this.editorView,
+        type,
+        content,
+        this.range,
+        this.variables
       );
 
-      const from =
-        node.textContent === updatedMessage
-          ? this.range.from
-          : this.range.from - 1;
-
-      this.insertNodeIntoEditor(node, from, this.range.to);
-
-      this.$track(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
-      return false;
-    },
-    insertVariable(variable) {
-      if (!this.editorView) {
-        return null;
-      }
-
-      const content = `{{${variable}}}`;
-      let node = this.editorView.state.schema.text(content);
-      const { from, to } = this.range;
+      if (!node) return;
 
       this.insertNodeIntoEditor(node, from, to);
-      this.showVariables = false;
-      this.$track(CONVERSATION_EVENTS.INSERTED_A_VARIABLE);
-      return false;
+
+      const event_map = {
+        mention: CONVERSATION_EVENTS.USED_MENTIONS,
+        cannedResponse: CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE,
+        variable: CONVERSATION_EVENTS.INSERTED_A_VARIABLE,
+      };
+
+      this.$track(event_map[type]);
     },
     openFileBrowser() {
       this.$refs.imageUpload.click();
