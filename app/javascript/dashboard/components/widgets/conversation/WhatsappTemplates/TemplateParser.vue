@@ -1,7 +1,7 @@
 <template>
   <div class="w-full">
     <textarea v-model="processedString" rows="4" readonly class="template-input" />
-    <div v-if="variables" class="template__variables-container">
+    <div v-if="hasVariables" class="template__variables-container">
       <p class="variables-label">
         {{ $t('WHATSAPP_TEMPLATES.PARSER.VARIABLES_LABEL') }}
       </p>
@@ -41,7 +41,7 @@ export default {
   },
   validations: {
     processedParams: {
-      requiredIfKeysPresent: requiredIf('variables'),
+      requiredIfKeysPresent: requiredIf('hasVariables'),
       allKeysRequired,
     },
   },
@@ -51,8 +51,8 @@ export default {
     };
   },
   computed: {
-    variables() {
-      return Object.keys(this.processedParams);
+    hasVariables() {
+      return Object.keys(this.processedParams).length > 0;
     },
     templateString() {
       return this.template.components.find(
