@@ -2,6 +2,7 @@ import { emitter } from 'shared/helpers/mitt';
 
 /**
  * Writes a text string to the system clipboard.
+ * @deprecated This will be removed in the future. Use `https://vueuse.org/core/useClipboard/` instead.
  *
  * @async
  * @param {string} text text to be written to the clipboard
