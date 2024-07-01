@@ -66,7 +66,8 @@ RSpec.describe 'Public Inbox Contact Conversation Messages API', type: :request 
       expect(data['content_attributes']['submitted_values'].first['title']).to eq 'test'
     end
 
-    it 'updates CSAT survey response for the conversation' do
+    it 'updates CSAT survey response for the conversation when CSAT response is visible' do
+      conversation.inbox.update!(csat_survey_enabled: true, csat_response_visible: true)
       message = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, content_type: 'input_csat')
       # since csat survey is created in async job, we are mocking the creation.
       create(:csat_survey_response, conversation: conversation, message: message, rating: 4, feedback_message: 'amazing experience')
@@ -80,6 +81,22 @@ RSpec.describe 'Public Inbox Contact Conversation Messages API', type: :request 
       data = response.parsed_body
       expect(data['content_attributes']['submitted_values']['csat_survey_response']['feedback_message']).to eq 'amazing experience'
       expect(data['content_attributes']['submitted_values']['csat_survey_response']['rating']).to eq 4
+    end
+
+    it 'does not update CSAT survey response for the conversation when CSAT response is not visible' do
+      conversation.inbox.update!(csat_survey_enabled: true, csat_response_visible: false)
+      message = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, content_type: 'input_csat')
+      # since csat survey is created in async job, we are mocking the creation.
+      create(:csat_survey_response, conversation: conversation, message: message, rating: 4, feedback_message: 'amazing experience')
+
+      patch "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations/" \
+            "#{conversation.display_id}/messages/#{message.id}",
+            params: { submitted_values: { csat_survey_response: { rating: 4, feedback_message: 'amazing experience' } } },
+            as: :json
+
+      expect(response).to have_http_status(:success)
+      data = response.parsed_body
+      expect(data['content_attributes']).to eq({})
     end
 
     it 'returns update error if CSAT message sent more than 14 days' do
