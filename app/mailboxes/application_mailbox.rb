@@ -21,7 +21,7 @@ class ApplicationMailbox < ActionMailbox::Base
 
   class << self
     # checks if follow this pattern then send it to reply_mailbox
-    # <account/#{@account.id}/conversation/#{@conversation.uuid}@#{@account.inbound_email_domain}>
+    # <account/#{@account.id}/conversation/#{@conversation.uuid}@#{channel_email_domain}>
     def in_reply_to_mail?(inbound_mail)
       in_reply_to = inbound_mail.mail.in_reply_to
 
