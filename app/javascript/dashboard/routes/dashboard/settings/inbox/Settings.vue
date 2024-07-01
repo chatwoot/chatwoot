@@ -623,7 +623,8 @@ export default {
       return this.isAMicrosoftInbox && this.inbox.reauthorization_required;
     },
     facebookUnauthorized() {
-      return this.isAFacebookInbox && this.inbox.reauthorization_required;
+      return this.isAFacebookInbox;
+      // return this.isAFacebookInbox && this.inbox.reauthorization_required;
     },
   },
   watch: {
