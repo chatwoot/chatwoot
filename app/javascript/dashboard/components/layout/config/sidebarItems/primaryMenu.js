@@ -75,7 +75,7 @@ const primaryMenuItems = accountId => [
     toState: frontendURL(`accounts/${accountId}/settings`),
     toStateName: 'settings_home',
     meta: {
-      permissions: ['administrator'],
+      permissions: ['administrator', 'agent'],
     },
   },
 ];

@@ -65,7 +65,7 @@
         :show-child-count="showChildCount(child.count)"
         :child-item-count="child.count"
       />
-      <Policy :permissions="['administrator, agent']">
+      <Policy :permissions="['administrator']">
         <router-link
           v-if="menuItem.newLink"
           v-slot="{ href, navigate }"
