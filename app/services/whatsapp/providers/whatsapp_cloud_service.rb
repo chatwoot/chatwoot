@@ -9,7 +9,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     end
   end
 
-  def send_template(phone_number, template_info)
+  def send_template(message, phone_number, template_info)
     response = HTTParty.post(
       "#{phone_id_path}/messages",
       headers: api_headers,
@@ -21,7 +21,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       }.to_json
     )
 
-    process_response(response)
+    process_response(message, response)
   end
 
   def sync_templates
@@ -85,7 +85,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       }.to_json
     )
 
-    process_response(response)
+    process_response(message, response)
   end
 
   def send_attachment_message(phone_number, message)
@@ -108,14 +108,15 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       }.to_json
     )
 
-    process_response(response)
+    process_response(message, response)
   end
 
-  def process_response(response)
+  def process_response(message, response)
     if response.success?
       response['messages'].first['id']
     else
       Rails.logger.error response.body
+      message.update!(status: :failed, external_error: response.body)
       nil
     end
   end
@@ -157,6 +158,6 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       }.to_json
     )
 
-    process_response(response)
+    process_response(message, response)
   end
 end
