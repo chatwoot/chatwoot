@@ -61,7 +61,11 @@
       "SNOOZED_UNTIL": "Suspender até",
       "SNOOZED_UNTIL_TOMORROW": "Adiado até amanhã",
       "SNOOZED_UNTIL_NEXT_WEEK": "Adiada até a próxima semana",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Adiado até a próxima resposta"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Adiado até a próxima resposta",
+      "CONVERSATION_LABELS": {
+        "TITLE": "Marcadores da conversa",
+        "CANCEL": "Cancelar"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Marcar como pendente",
