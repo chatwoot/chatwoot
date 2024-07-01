@@ -108,7 +108,20 @@ class DashboardAudioNotificationHelper {
     return message?.sender_id === this.currentUserId;
   };
 
+  // eslint-disable-next-line class-methods-use-this
+  isConversationUnassigned = message => {
+    const conversationAssigneeId = message?.conversation?.assignee_id;
+    const hasAssigneeId = Boolean(conversationAssigneeId);
+    return !hasAssigneeId;
+  };
+
   shouldNotifyOnMessage = message => {
+    if (this.audioAlertType === 'mine_and_unassigned') {
+      return (
+        this.isConversationAssignedToCurrentUser(message) ||
+        this.isConversationUnassigned(message)
+      );
+    }
     if (this.audioAlertType === 'mine') {
       return this.isConversationAssignedToCurrentUser(message);
     }

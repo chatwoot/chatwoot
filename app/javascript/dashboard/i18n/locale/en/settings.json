@@ -65,7 +65,8 @@
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
         "ALERT_TYPES": {
           "NONE": "None",
-          "MINE": "Assigned",
+          "MINE": "Mine",
+          "MINE_AND_UNASSIGNED": "Mine and unassigned",
           "ALL": "All"
         },
         "ALERT_TYPE": {
