@@ -31,7 +31,7 @@ module Enterprise::Integrations::OpenaiProcessorService
     # To what you ask? Sometimes, the response includes
     # "Labels:" in it's response in some format. This is a hacky way to remove it
     # TODO: Fix with with a better prompt
-    response.present? ? response.gsub(/^(label|labels):/i, '') : ''
+    response[:message] ? response[:message].gsub(/^(label|labels):/i, '') : ''
   end
 
   private
