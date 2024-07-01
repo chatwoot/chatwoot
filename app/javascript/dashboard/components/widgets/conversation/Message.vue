@@ -257,7 +257,16 @@ export default {
         html_content: { full: fullHTMLContent } = {},
         text_content: { full: fullTextContent } = {},
       } = this.contentAttributes.email || {};
-      return fullHTMLContent || fullTextContent || '';
+
+      if (fullHTMLContent) {
+        return fullHTMLContent;
+      }
+
+      if (fullTextContent) {
+        return fullTextContent.replace(/\n/g, '<br>');
+      }
+
+      return '';
     },
     displayQuotedButton() {
       if (this.emailMessageContent.includes('<blockquote')) {
