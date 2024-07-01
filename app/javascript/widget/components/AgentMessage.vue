@@ -24,6 +24,7 @@
               v-if="shouldDisplayAgentMessage"
               :content-type="contentType"
               :message-content-attributes="messageContentAttributes"
+              :message-created-at="message.created_at"
               :message-id="message.id"
               :message-type="messageType"
               :message="message.content"

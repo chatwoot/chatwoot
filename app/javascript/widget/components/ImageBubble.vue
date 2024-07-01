@@ -71,8 +71,9 @@ export default {
     bottom: $space-smaller;
     color: $color-white;
     position: absolute;
-    right: $space-slab;
+    left: $space-slab;
     white-space: nowrap;
+    font-family: monospace;
   }
 }
 </style>
