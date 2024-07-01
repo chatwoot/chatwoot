@@ -1,3 +1,4 @@
+import { AdminSupervisorRoles } from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 const SettingsContent = () => import('../Wrapper.vue');
@@ -17,13 +18,13 @@ export default {
         {
           path: '',
           name: 'labels_wrapper',
-          roles: ['administrator'],
+          roles: AdminSupervisorRoles,
           redirect: 'list',
         },
         {
           path: 'list',
           name: 'labels_list',
-          roles: ['administrator'],
+          roles: AdminSupervisorRoles,
           component: Index,
         },
       ],

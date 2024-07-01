@@ -29,5 +29,6 @@ json.accounts do
     # availability derived from presence
     json.availability_status account_user.availability_status
     json.auto_offline account_user.auto_offline
+    json.permissions account_user.permissions
   end
 end

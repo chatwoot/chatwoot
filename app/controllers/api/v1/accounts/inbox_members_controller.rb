@@ -1,6 +1,7 @@
 class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseController
-  before_action :fetch_inbox
-  before_action :current_agents_ids, only: [:create, :update]
+  before_action :fetch_inbox, except: [:add]
+  before_action :fetch_inboxes, only: [:add]
+  before_action :current_agents_ids, only: %i[create update add]
 
   def show
     authorize @inbox, :show?
@@ -19,6 +20,17 @@ class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseControl
     authorize @inbox, :update?
     update_agents_list
     fetch_updated_agents
+  end
+
+  def add
+    authorize @inboxes.first, :update?
+    ActiveRecord::Base.transaction do
+      @inboxes.map do |inbox|
+        agents_to_be_added_ids.map { |user_id| inbox.add_member(user_id) }
+      end
+    end
+
+    render json: @inboxes
   end
 
   def destroy
@@ -55,10 +67,15 @@ class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseControl
   end
 
   def current_agents_ids
-    @current_agents_ids = @inbox.members.pluck(:id)
+    @current_agents_ids = @inbox.members.pluck(:id) if @inbox
+    @current_agents_ids = @inboxes.map(&:members).flatten.pluck(:id) if @inboxes
   end
 
   def fetch_inbox
     @inbox = Current.account.inboxes.find(params[:inbox_id])
+  end
+
+  def fetch_inboxes
+    @inboxes = Current.account.inboxes.where(id: params[:inbox_ids]).includes([:members])
   end
 end

@@ -153,6 +153,8 @@ Rails.application.routes.draw do
             collection do
               delete :destroy
               patch :update
+
+              post :add
             end
           end
           resources :labels, only: [:index, :show, :create, :update, :destroy]
@@ -295,6 +297,13 @@ Rails.application.routes.draw do
             get :conversations
             get :conversation_traffic
             get :triggers
+          end
+        end
+
+        resources :permissions, only: [:show, :update], param: :user_id do
+          collection do
+            get ':user_id', to: 'permissions#show', as: :show_permission
+            put ':user_id', to: 'permissions#update', as: :update_permission
           end
         end
       end

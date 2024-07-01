@@ -1,6 +1,8 @@
 class SlaPolicyPolicy < ApplicationPolicy
+  FEATURE = 'sla_policies'.freeze
+
   def index?
-    @account_user.administrator? || @account_user.agent?
+    @account_user.administrator? || can_access?(FEATURE)
   end
 
   def update?
@@ -8,7 +10,7 @@ class SlaPolicyPolicy < ApplicationPolicy
   end
 
   def show?
-    @account_user.administrator? || @account_user.agent?
+    @account_user.administrator? || can_access?(FEATURE)
   end
 
   def create?

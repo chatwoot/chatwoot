@@ -11,6 +11,7 @@ const routes = [...dashboard.routes];
 window.roleWiseRoutes = {
   agent: [],
   administrator: [],
+  supervisor: [],
 };
 
 // generateRoleWiseRoute - updates window object with agent/admin route

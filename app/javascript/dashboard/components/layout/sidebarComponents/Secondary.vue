@@ -72,6 +72,7 @@ export default {
   computed: {
     ...mapGetters({
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      currentPermissions: 'getCurrentPermissions',
     }),
     hasSecondaryMenu() {
       return this.menuConfig.menuItems && this.menuConfig.menuItems.length;
@@ -93,6 +94,12 @@ export default {
         if (item.showOnlyOnCloud) {
           return this.isOnChatwootCloud;
         }
+
+        const isUserHasAccess = this.currentPermissions[item.key] ?? true;
+        if (!isUserHasAccess) {
+          return false;
+        }
+
         return true;
       });
     },
@@ -227,7 +234,7 @@ export default {
       };
     },
     additionalSecondaryMenuItems() {
-      let conversationMenuItems = [this.inboxSection, this.labelSection];
+      let conversationMenuItems = [this.inboxSection];
       let contactMenuItems = [this.contactLabelSection];
       if (this.teams.length) {
         conversationMenuItems = [this.teamSection, ...conversationMenuItems];

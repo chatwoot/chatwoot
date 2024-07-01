@@ -270,6 +270,7 @@ export default {
       globalConfig: 'globalConfig/get',
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      currentUserPermissions: 'getCurrentPermissions',
     }),
     shouldShowReplyToMessage() {
       return (
@@ -351,6 +352,7 @@ export default {
     isReplyButtonDisabled() {
       if (this.isATwitterInbox) return true;
       if (this.hasAttachments || this.hasRecordedAudio) return false;
+      if (this.currentUserPermissions.send_messages === false) return true;
 
       return (
         this.isMessageEmpty ||

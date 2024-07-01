@@ -18,3 +18,8 @@ export const FEATURE_FLAGS = {
   AUDIT_LOGS: 'audit_logs',
   INSERT_ARTICLE_IN_REPLY: 'insert_article_in_reply',
 };
+
+export const AllRoles = ['administrator', 'agent', 'supervisor'];
+export const AgentRoles = ['agent', 'supervisor'];
+export const AdminRoles = ['administrator'];
+export const AdminSupervisorRoles = ['administrator', 'supervisor'];

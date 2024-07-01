@@ -45,6 +45,21 @@
             />
           </label>
         </div>
+        <div v-if="agentType === 'supervisor'" class="w-full">
+          {{ $t('AGENT_MGMT.ADD.FORM.INBOX.LABEL') }}
+          <multiselect
+            v-model="selectInboxes"
+            :options="inboxes"
+            :multiple="true"
+            :placeholder="$t('AGENT_MGMT.ADD.FORM.INBOX.PLACEHOLDER')"
+            label="name"
+            track-by="id"
+            :allow-empty="true"
+            :searchable="false"
+            :close-on-select="false"
+            @input="$v.selectInboxes.$touch"
+          />
+        </div>
         <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
           <div class="w-full">
             <woot-submit-button
@@ -79,6 +94,7 @@ export default {
   },
   data() {
     return {
+      selectInboxes: [],
       agentName: '',
       agentEmail: '',
       agentType: 'agent',
@@ -93,6 +109,10 @@ export default {
           name: 'agent',
           label: this.$t('AGENT_MGMT.AGENT_TYPES.AGENT'),
         },
+        {
+          name: 'supervisor',
+          label: this.$t('AGENT_MGMT.AGENT_TYPES.SUPERVISOR'),
+        },
       ],
       show: true,
     };
@@ -100,6 +120,8 @@ export default {
   computed: {
     ...mapGetters({
       uiFlags: 'agents/getUIFlags',
+      agents: 'agents/getAgents',
+      inboxes: 'inboxes/getInboxes',
     }),
   },
   validations: {
@@ -114,8 +136,11 @@ export default {
     agentType: {
       required,
     },
+    selectInboxes: {},
   },
-
+  mounted() {
+    this.$store.dispatch('inboxes/get');
+  },
   methods: {
     showAlert(message) {
       bus.$emit('newToastMessage', message);
@@ -126,7 +151,9 @@ export default {
           name: this.agentName,
           email: this.agentEmail,
           role: this.agentType,
+          inbox_ids: this.selectInboxes.map(inbox => inbox.id),
         });
+
         this.showAlert(this.$t('AGENT_MGMT.ADD.API.SUCCESS_MESSAGE'));
         this.onClose();
       } catch (error) {
