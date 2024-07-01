@@ -1,6 +1,13 @@
 import { createWrapper } from '@vue/test-utils';
 import nextAvailabilityTimeMixin from '../nextAvailabilityTime';
 import Vue from 'vue';
+import i18n from 'widget/i18n';
+import VueI18n from 'vue-i18n';
+Vue.use(VueI18n);
+const i18nConfig = new VueI18n({
+  locale: 'en',
+  messages: i18n,
+});
 
 describe('nextAvailabilityTimeMixin', () => {
   const chatwootWebChannel = {
@@ -383,6 +390,7 @@ describe('nextAvailabilityTimeMixin', () => {
     const Component = {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
+      i18n: i18nConfig,
     };
     jest
       .useFakeTimers('modern')
@@ -410,13 +418,16 @@ describe('nextAvailabilityTimeMixin', () => {
     chatwootWebChannel.workingHours[4].open_hour = 18;
     chatwootWebChannel.workingHours[4].open_minutes = 0;
     chatwootWebChannel.workingHours[4].close_hour = 23;
-    expect(wrapper.vm.timeLeftToBackInOnline).toBe('in 30 minutes');
+    expect(wrapper.vm.timeLeftToBackInOnline).toBe(
+      'We will be back online in 30 minutes'
+    );
   });
 
   it('should return in 3 hours', () => {
     const Component = {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
+      i18n: i18nConfig,
     };
     jest
       .useFakeTimers('modern')
@@ -441,13 +452,16 @@ describe('nextAvailabilityTimeMixin', () => {
       'Saturday',
     ];
     chatwootWebChannel.workingHours[4].open_hour = 19;
-    expect(wrapper.vm.timeLeftToBackInOnline).toBe('in 2 hours');
+    expect(wrapper.vm.timeLeftToBackInOnline).toBe(
+      'We will be back online in 2 hours'
+    );
   });
 
   it('should return at 10:00 AM', () => {
     const Component = {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
+      i18n: i18nConfig,
     };
     jest
       .useFakeTimers('modern')
@@ -472,13 +486,16 @@ describe('nextAvailabilityTimeMixin', () => {
       'Saturday',
     ];
     chatwootWebChannel.workingHours[4].open_hour = 10;
-    expect(wrapper.vm.timeLeftToBackInOnline).toBe('at 10:00 AM');
+    expect(wrapper.vm.timeLeftToBackInOnline).toBe(
+      'We will be back online at 10:00 AM'
+    );
   });
 
   it('should return tomorrow', () => {
     const Component = {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
+      i18n: i18nConfig,
     };
     jest
       .useFakeTimers('modern')
@@ -504,13 +521,16 @@ describe('nextAvailabilityTimeMixin', () => {
     ];
     chatwootWebChannel.workingHours[4].open_hour = 9;
     chatwootWebChannel.workingHours[4].close_hour = 16;
-    expect(wrapper.vm.timeLeftToBackInOnline).toBe('tomorrow');
+    expect(wrapper.vm.timeLeftToBackInOnline).toBe(
+      'We will be back online tomorrow'
+    );
   });
 
   it('should return on Saturday', () => {
     const Component = {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
+      i18n: i18nConfig,
     };
     jest
       .useFakeTimers('modern')
@@ -538,6 +558,8 @@ describe('nextAvailabilityTimeMixin', () => {
     chatwootWebChannel.workingHours[4].open_hour = 9;
     chatwootWebChannel.workingHours[4].close_hour = 16;
     chatwootWebChannel.workingHours[5].closed_all_day = true;
-    expect(wrapper.vm.timeLeftToBackInOnline).toBe('on Saturday');
+    expect(wrapper.vm.timeLeftToBackInOnline).toBe(
+      'We will be back online on Saturday'
+    );
   });
 });
