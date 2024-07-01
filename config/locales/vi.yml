@@ -31,7 +31,7 @@ vi:
       disposable_email: Chúng tôi không cho phép các email dùng một lần
       invalid_email: Bạn đã nhập một email không hợp lệ
       email_already_exists: "Bạn đã đăng ký một tài khoản với %{email}"
-      invalid_params: 'Invalid, please check the signup paramters and try again'
+      invalid_params: 'Không hợp lệ, vui lòng kiểm tra thông số đăng ký và thử lại'
       failed: Đăng ký thât bại
     data_import:
       data_type:
@@ -51,7 +51,7 @@ vi:
     dyte:
       invalid_message_type: "Loại tin nhắn không hợp lệ. Hành động không được phép"
     slack:
-      invalid_channel_id: "Invalid slack channel. Please try again"
+      invalid_channel_id: "Kênh chùng không hợp lệ. Vui lòng thử lại"
     inboxes:
       imap:
         socket_error: Vui lòng kiểm tra kết nối mạng, địa chỉ IMAP và thử lại.
@@ -63,43 +63,43 @@ vi:
         name: không nên bắt đầu hoặc kết thúc bằng các ký hiệu và không nên có kí tự < > / \ @.
     custom_filters:
       number_of_records: Đã đạt giới hạn. Số lượng tuỳ chọn lọc tối đa cho mỗi mỗi người dùng mỗi tài khoản là 50.
-      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
-      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
-      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
+      invalid_attribute: Khóa thuộc tính không hợp lệ - [%{key}]. Chìa khóa phải là một trong [%{allowed_keys}] hoặc thuộc tính tùy chỉnh được xác định trong tài khoản.
+      invalid_operator: Toán tử không hợp lệ. Các toán tử được phép cho %{attribute_name} là [%{allowed_keys}].
+      invalid_value: Giá trị không hợp lệ. Các giá trị được cung cấp cho %{attribute_name} không hợp lệ
   reports:
     period: Thời gian báo cáo từ %{since} đến %{until}
     utc_warning: Báo cáo đã được tạo với múi giờ UTC
     agent_csv:
       agent_name: Tên tổng đài viên
-      conversations_count: Assigned conversations
-      avg_first_response_time: Avg first response time
+      conversations_count: Cuộc trò chuyện được chỉ định
+      avg_first_response_time: Thời gian phản hồi đầu tiên trung bình
       avg_resolution_time: Avg resolution time
       resolution_count: Số lượng giải quyết
-      avg_customer_waiting_time: Avg customer waiting time
+      avg_customer_waiting_time: Thời gian chờ đợi trung bình của khách hàng
     inbox_csv:
       inbox_name: Tên kênh
       inbox_type: Kiểu kênh
       conversations_count: Số hội thoại
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      avg_first_response_time: Thời gian phản hồi đầu tiên trung bình
+      avg_resolution_time: Thời gian giải quyết trung bình
     label_csv:
       label_title: Nhãn
       conversations_count: Số hội thoại
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      avg_first_response_time: Thời gian phản hồi đầu tiên trung bình
+      avg_resolution_time: Thời gian giải quyết trung bình
     team_csv:
       team_name: Tên nhóm
       conversations_count: Số hội thoại
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      avg_first_response_time: Thời gian phản hồi đầu tiên trung bình
+      avg_resolution_time: Thời gian giải quyết trung bình
       resolution_count: Số lượng giải quyết
-      avg_customer_waiting_time: Avg customer waiting time
+      avg_customer_waiting_time: Thời gian chờ đợi trung bình của khách hàng
     conversation_traffic_csv:
       timezone: Múi giờ
     sla_csv:
-      conversation_id: Conversation ID
+      conversation_id: ID hội thoại
       sla_policy_breached: SLA Policy
-      assignee: Assignee
+      assignee: Đại lý được chỉ định
       team: Nhóm
       inbox: Hộp thư đến
       labels: Nhãn
@@ -118,22 +118,22 @@ vi:
         recorded_at: Ngày nghi
   notifications:
     notification_title:
-      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
-      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
-      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
-      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
-      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
-      sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
-      sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
-    attachment: "Attachment"
-    no_content: "No content"
+      conversation_creation: "Một cuộc trò chuyện (#%{display_id}) đã được tạo trong %{inbox_name}"
+      conversation_assignment: "Một cuộc trò chuyện (#%{display_id}) đã được chỉ định cho bạn"
+      assigned_conversation_new_message: "Một tin nhắn mới được tạo trong cuộc trò chuyện (#%{display_id})"
+      conversation_mention: "Bạn đã được nhắc đến trong cuộc trò chuyện (#%{display_id})"
+      sla_missed_first_response: "Mục tiêu SLA phản hồi đầu tiên bị bỏ lỡ cho cuộc trò chuyện (#%{display_id})"
+      sla_missed_next_response: "Mục tiêu SLA phản hồi tiếp theo bị bỏ lỡ cho cuộc trò chuyện (#%{display_id})"
+      sla_missed_resolution: "Độ phân giải mục tiêu SLA bị bỏ lỡ cho cuộc trò chuyện (#%{display_id})"
+    attachment: "Tập tin đính kèm"
+    no_content: "Không có nội dung"
   conversations:
     messages:
       instagram_story_content: "%{story_sender} đã đề cập đến bạn trong hội thoại: "
       instagram_deleted_story_content: Hội thoại này không còn nữa.
       deleted: Tin nhắn đã bị xoá
       delivery_status:
-        error_code: "Error code: %{error_code}"
+        error_code: "Mã lỗi: %{error_code}"
     activity:
       status:
         resolved: "Cuộc trò chuyện được đánh dấu là đã giải quyết bởi %{user_name}"
@@ -221,7 +221,7 @@ vi:
     common:
       home: Trang Chủ
       last_updated_on: 'Cập nhật lần cuối: %{last_updated_on}'
-      view_all_articles: View all
+      view_all_articles: Xem tất cả
       article: bài viết
       articles: bài viết
       author: tác giả
@@ -233,17 +233,17 @@ vi:
     footer:
       made_with: Tạo bởi
     header:
-      go_to_homepage: Website
+      go_to_homepage: Trang web
       appearance:
-        system: System
-        light: Light
-        dark: Dark
-      featured_articles: Featured Articles
+        system: Hệ thống
+        light: Sáng
+        dark: Tối
+      featured_articles: Bài viết nổi bật
       uncategorized: Chưa được phân loại
     404:
-      title: Page not found
-      description: We couldn't find the page you were looking for.
-      back_to_home: Go to home page
+      title: Không tìm thấy trang
+      description: Chúng tôi không thể tìm thấy trang bạn đang tìm kiếm.
+      back_to_home: Tới trang chủ
   slack_unfurl:
     fields:
       name: Tên
@@ -255,10 +255,10 @@ vi:
     button: Mở cuộc trò chuyện
   time_units:
     days:
-      other: "%{count} days"
+      other: "%{count} ngày"
     hours:
-      other: "%{count} hours"
+      other: "%{count} giờ"
     minutes:
-      other: "%{count} minutes"
+      other: "%{count} phút"
     seconds:
-      other: "%{count} seconds"
+      other: "%{count} giây"
