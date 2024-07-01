@@ -60,9 +60,9 @@ export default {
       type: Object,
       default: () => {},
     },
-    currentRole: {
-      type: String,
-      default: '',
+    currentUser: {
+      type: Object,
+      default: () => {},
     },
     isOnChatwootCloud: {
       type: Boolean,
@@ -80,16 +80,16 @@ export default {
       return this.customViews.filter(view => view.filter_type === 'contact');
     },
     accessibleMenuItems() {
-      if (!this.currentRole) {
-        return [];
-      }
-      const menuItemsFilteredByRole = this.menuConfig.menuItems.filter(
-        menuItem =>
-          window.roleWiseRoutes[this.currentRole].indexOf(
-            menuItem.toStateName
-          ) > -1
+      const menuItemsFilteredByPermissions = this.menuConfig.menuItems.filter(
+        menuItem => {
+          const { meta: { permissions: menuPermissions = [] } = {} } = menuItem;
+          const { permissions: userPermissions = [] } = this.currentUser;
+          return menuPermissions.some(permission =>
+            userPermissions.includes(permission)
+          );
+        }
       );
-      return menuItemsFilteredByRole.filter(item => {
+      return menuItemsFilteredByPermissions.filter(item => {
         if (item.showOnlyOnCloud) {
           return this.isOnChatwootCloud;
         }

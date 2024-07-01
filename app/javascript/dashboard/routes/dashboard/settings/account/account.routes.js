@@ -6,7 +6,9 @@ export default {
   routes: [
     {
       path: frontendURL('accounts/:accountId/settings/general'),
-      roles: ['administrator'],
+      meta: {
+        permissions: ['administrator'],
+      },
       component: SettingsContent,
       props: {
         headerTitle: 'GENERAL_SETTINGS.TITLE',
@@ -18,7 +20,9 @@ export default {
           path: '',
           name: 'general_settings_index',
           component: Index,
-          roles: ['administrator'],
+          meta: {
+            permissions: ['administrator'],
+          },
         },
       ],
     },

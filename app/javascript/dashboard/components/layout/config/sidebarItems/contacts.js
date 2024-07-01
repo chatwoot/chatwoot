@@ -13,6 +13,9 @@ const contacts = accountId => ({
       icon: 'contact-card-group',
       label: 'ALL_CONTACTS',
       hasSubMenu: false,
+      meta: {
+        permissions: ['administrator', 'agent'],
+      },
       toState: frontendURL(`accounts/${accountId}/contacts`),
       toStateName: 'contacts_dashboard',
     },

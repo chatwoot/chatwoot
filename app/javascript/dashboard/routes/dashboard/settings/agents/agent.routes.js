@@ -22,7 +22,9 @@ export default {
           path: 'list',
           name: 'agent_list',
           component: AgentHome,
-          roles: ['administrator'],
+          meta: {
+            permissions: ['administrator'],
+          },
         },
       ],
     },

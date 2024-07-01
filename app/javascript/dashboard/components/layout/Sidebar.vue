@@ -20,7 +20,7 @@
       :teams="teams"
       :custom-views="customViews"
       :menu-config="activeSecondaryMenu"
-      :current-role="currentRole"
+      :current-user="currentUser"
       :is-on-chatwoot-cloud="isOnChatwootCloud"
       @add-label="showAddLabelPopup"
       @toggle-accounts="toggleAccountModal"
@@ -98,9 +98,12 @@ export default {
       return getSidebarItems(this.accountId);
     },
     primaryMenuItems() {
+      const permissions = this.currentUser.permissions;
       const menuItems = this.sideMenuConfig.primaryMenu;
       return menuItems.filter(menuItem => {
-        const isAvailableForTheUser = menuItem.roles.includes(this.currentRole);
+        const isAvailableForTheUser = permissions.some(permission =>
+          menuItem.meta.permissions.includes(permission)
+        );
 
         if (!isAvailableForTheUser) {
           return false;

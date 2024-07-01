@@ -22,7 +22,9 @@ export default {
           path: 'list',
           name: 'attributes_list',
           component: AttributesHome,
-          roles: ['administrator'],
+          meta: {
+            permissions: ['administrator'],
+          },
         },
       ],
     },
