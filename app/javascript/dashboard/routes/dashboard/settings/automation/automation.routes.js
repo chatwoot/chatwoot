@@ -22,7 +22,9 @@ export default {
           path: 'list',
           name: 'automation_list',
           component: Automation,
-          roles: ['administrator'],
+          meta: {
+            permissions: ['administrator'],
+          },
         },
       ],
     },

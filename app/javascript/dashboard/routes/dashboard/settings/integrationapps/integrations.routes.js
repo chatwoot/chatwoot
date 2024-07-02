@@ -26,13 +26,17 @@ export default {
           path: '',
           name: 'settings_applications',
           component: Index,
-          roles: ['administrator'],
+          meta: {
+            permissions: ['administrator'],
+          },
         },
         {
           path: ':integration_id',
           name: 'settings_applications_integration',
           component: IntegrationHooks,
-          roles: ['administrator'],
+          meta: {
+            permissions: ['administrator'],
+          },
           props: route => ({
             integrationId: route.params.integration_id,
           }),

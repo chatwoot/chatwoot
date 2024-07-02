@@ -7,13 +7,17 @@ export const routes = [
   {
     path: frontendURL('accounts/:accountId/contacts'),
     name: 'contacts_dashboard',
-    roles: ['administrator', 'agent'],
+    meta: {
+      permissions: ['administrator', 'agent'],
+    },
     component: ContactsView,
   },
   {
     path: frontendURL('accounts/:accountId/contacts/custom_view/:id'),
     name: 'contacts_segments_dashboard',
-    roles: ['administrator', 'agent'],
+    meta: {
+      permissions: ['administrator', 'agent'],
+    },
     component: ContactsView,
     props: route => {
       return { segmentsId: route.params.id };
@@ -22,7 +26,9 @@ export const routes = [
   {
     path: frontendURL('accounts/:accountId/labels/:label/contacts'),
     name: 'contacts_labels_dashboard',
-    roles: ['administrator', 'agent'],
+    meta: {
+      permissions: ['administrator', 'agent'],
+    },
     component: ContactsView,
     props: route => {
       return { label: route.params.label };
@@ -31,7 +37,9 @@ export const routes = [
   {
     path: frontendURL('accounts/:accountId/contacts/:contactId'),
     name: 'contact_profile_dashboard',
-    roles: ['administrator', 'agent'],
+    meta: {
+      permissions: ['administrator', 'agent'],
+    },
     component: ContactManageView,
     props: route => {
       return { contactId: route.params.contactId };

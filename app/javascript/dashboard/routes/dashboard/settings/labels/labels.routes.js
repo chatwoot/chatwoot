@@ -17,13 +17,17 @@ export default {
         {
           path: '',
           name: 'labels_wrapper',
-          roles: ['administrator'],
+          meta: {
+            permissions: ['administrator'],
+          },
           redirect: 'list',
         },
         {
           path: 'list',
           name: 'labels_list',
-          roles: ['administrator'],
+          meta: {
+            permissions: ['administrator'],
+          },
           component: Index,
         },
       ],
