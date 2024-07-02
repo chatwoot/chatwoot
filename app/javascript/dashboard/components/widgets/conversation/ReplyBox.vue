@@ -883,7 +883,37 @@ export default {
         this.showAlert(errorMessage);
       }
     },
+    expandVariabledInWhatsAppParams(templateParams, contact) {
+      let templateParamsToSend = templateParams;
+      if (templateParamsToSend.processed_params && templateParamsToSend.processed_params.length) {
+        const variables = getMessageVariables({
+          contact: contact
+        });
+
+        templateParamsToSend = {};
+        for (const key in templateParams) {
+          templateParamsToSend[key] = templateParams[key];
+        }
+
+        const updatedProcessedParams = {};
+        for (const key in templateParamsToSend.processed_params) {
+          updatedTemplateParams[key] = replaceVariablesInMessage({
+            message: templateParamsToSend.processed_params[key],
+            variables: variables,
+          });
+        }
+
+        templateParamsToSend.processed_params = updatedProcessedParams;
+      }
+      return templateParamsToSend;
+    },
     async onSendWhatsAppReply(messagePayload) {
+
+      var templateParams = messagePayload.templateParams;
+      if (templateParams) {
+        messagePayload.templateParams = this.expandVariabledInWhatsAppParams(templateParams, item);
+      }
+
       this.sendMessage({
         conversationId: this.currentChat.id,
         ...messagePayload,
