@@ -883,11 +883,12 @@ export default {
         this.showAlert(errorMessage);
       }
     },
-    expandVariabledInWhatsAppParams(templateParams, contact) {
+    expandVariabledInWhatsAppParams(templateParams) {
       let templateParamsToSend = templateParams;
       if (templateParamsToSend.processed_params && templateParamsToSend.processed_params.length) {
         const variables = getMessageVariables({
-          contact: contact
+          conversation: this.currentChat,
+          contact: this.currentContact
         });
 
         templateParamsToSend = {};
