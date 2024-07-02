@@ -46,7 +46,7 @@ class Platform::Api::V1::UsersController < PlatformController
   end
 
   def set_resource
-    @resource = User.find(params[:id])
+    @resource = User.includes(account_users: :account).find(params[:id])
   end
 
   def user_params
