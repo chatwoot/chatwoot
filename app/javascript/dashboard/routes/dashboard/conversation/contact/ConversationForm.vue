@@ -509,7 +509,7 @@ export default {
     },
     expandVariabledInWhatsAppParams(templateParams, contact) {
       let templateParamsToSend = templateParams;
-      if (templateParamsToSend.processed_params && templateParamsToSend.processed_params.length) {
+      if (templateParamsToSend.processed_params && Object.keys(templateParamsToSend.processed_params).length) {
         const variables = getMessageVariables({
           contact: contact
         });
