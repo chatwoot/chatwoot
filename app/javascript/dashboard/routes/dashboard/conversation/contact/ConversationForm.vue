@@ -507,6 +507,30 @@ export default {
     toggleCannedMenu(value) {
       this.showCannedMenu = value;
     },
+    expandVariabledInWhatsAppParams(templateParams, contact) {
+      let templateParamsToSend = templateParams;
+      if (templateParamsToSend.processed_params && templateParamsToSend.processed_params.length) {
+        const variables = getMessageVariables({
+          contact: contact
+        });
+
+        templateParamsToSend = {};
+        for (const key in templateParams) {
+          templateParamsToSend[key] = templateParams[key];
+        }
+
+        const updatedProcessedParams = {};
+        for (const key in templateParamsToSend.processed_params) {
+          updatedTemplateParams[key] = replaceVariablesInMessage({
+            message: templateParamsToSend.processed_params[key],
+            variables: variables,
+          });
+        }
+
+        templateParamsToSend.processed_params = updatedProcessedParams;
+      }
+      return templateParamsToSend;
+    },
     prepareWhatsAppMessagePayload({ message: content, templateParams }) {
       let payload = {};
       let inboxId = this.targetInbox.id;
@@ -514,11 +538,14 @@ export default {
       if (this.selectedContacts.length > 1) {
         let bulkContacts = [];
         this.selectedContacts.forEach(function (item) {
+
+          let templateParamsToSend = this.expandVariabledInWhatsAppParams(templateParams, item);
+
           let contactPayload = {
             inbox_id: inboxId,
             source_id: item.phone_number.slice(1),
             contact_id: item.id,
-            message: { content, template_params: templateParams },
+            message: { content, template_params: templateParamsToSend },
             assignee_id: assigneeId,
           };
           bulkContacts.push(contactPayload);
@@ -529,11 +556,14 @@ export default {
           message: { content, template_params: templateParams },
         };
       } else {
+
+        let templateParamsToSend = this.expandVariabledInWhatsAppParams(templateParams, this.contact);
+
         payload = {
           inboxId: inboxId,
           sourceId: this.targetInbox.sourceId,
           contactId: this.contact.id,
-          message: { content, template_params: templateParams },
+          message: { content, template_params: templateParamsToSend },
           assigneeId: assigneeId,
         };
       }
