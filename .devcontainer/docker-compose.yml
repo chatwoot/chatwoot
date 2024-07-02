@@ -12,7 +12,7 @@ services:
       args:
         VARIANT: "ubuntu-22.04"
         NODE_VERSION: "20.9.0"
-        RUBY_VERSION: "3.2.2"
+        RUBY_VERSION: "3.3.3"
         # On Linux, you may need to update USER_UID and USER_GID below if not your local UID is not 1000.
         USER_UID: "1000"
         USER_GID: "1000"
@@ -25,7 +25,7 @@ services:
       args:
         VARIANT: "ubuntu-22.04"
         NODE_VERSION: "20.9.0"
-        RUBY_VERSION: "3.2.2"
+        RUBY_VERSION: "3.3.3"
         # On Linux, you may need to update USER_UID and USER_GID below if not your local UID is not 1000.
         USER_UID: "1000"
         USER_GID: "1000"
