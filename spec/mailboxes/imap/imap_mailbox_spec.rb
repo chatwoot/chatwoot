@@ -65,7 +65,7 @@ RSpec.describe Imap::ImapMailbox do
     end
 
     context 'when a reply for existing email conversation' do
-      let(:prev_conversation) { create(:conversation, account: account, inbox: channel.inbox, assignee: agent) }
+      let(:prev_conversation) { create(:conversation, account: account, inbox: channel.inbox, assignee: agent, contact: contact) }
       let(:reply_mail) do
         create_inbound_email_from_mail(from: 'email@gmail.com', to: 'imap@gmail.com', subject: 'Hello!', in_reply_to: 'test-in-reply-to')
       end
@@ -98,6 +98,28 @@ RSpec.describe Imap::ImapMailbox do
         expect(prev_conversation.messages.last.content_attributes['email']['to']).to eq(reply_mail.mail.to)
         expect(prev_conversation.messages.last.content_attributes['email']['subject']).to eq(reply_mail.mail.subject)
         expect(prev_conversation.messages.last.content_attributes['email']['in_reply_to']).to eq(reply_mail.mail.in_reply_to)
+      end
+    end
+
+    context 'when a reply is from a different contact' do
+      let(:prev_conversation) { create(:conversation, account: account, inbox: channel.inbox, assignee: agent, contact: contact) }
+      let(:references_email) { create_inbound_email_from_fixture('references.eml') }
+
+      it 'creates a new conversation' do
+        message = create(
+          :message,
+          content: 'Incoming Message',
+          message_type: 'incoming',
+          inbox: inbox,
+          account: account,
+          conversation: conversation
+        )
+
+        conversation = message.conversation
+        conversation.update_column(:contact_id, contact.id)
+        expect(conversation.messages.size).to eq(1)
+
+        expect { class_instance.process(references_email.mail, inbox.channel) }.to change { Conversation.count }.by(1)
       end
     end
 
@@ -142,6 +164,7 @@ RSpec.describe Imap::ImapMailbox do
         create_inbound_email_from_mail(from: 'email@gmail.com', to: 'imap@gmail.com', subject: 'Hello!', in_reply_to: 'test-in-reply-to')
       end
       let(:references_email) { create_inbound_email_from_fixture('references.eml') }
+      let(:references_same_email) { create_inbound_email_from_fixture('references-same.eml') }
 
       it 'creates new email conversation with incoming in-reply-to' do
         class_instance.process(reply_mail.mail, channel)
@@ -160,15 +183,17 @@ RSpec.describe Imap::ImapMailbox do
           conversation: conversation
         )
         conversation = message.conversation
+        conversation.update_column(:contact_id, contact.id)
 
         expect(conversation.messages.size).to eq(1)
 
-        class_instance.process(references_email.mail, inbox.channel)
+        class_instance.process(references_same_email.mail, inbox.channel)
 
         expect(conversation.messages.size).to eq(2)
         expect(conversation.messages.last.content).to eq('References Email')
-        expect(references_email.mail.references).to include('test-reference-id')
+        expect(references_same_email.mail.references).to include('test-reference-id')
       end
+
 
       it 'append email to conversation with reference id string' do
         inbox = Inbox.last
@@ -182,15 +207,21 @@ RSpec.describe Imap::ImapMailbox do
           conversation: conversation
         )
         conversation = message.conversation
-
+        conversation.update_column(:contact_id, contact.id)
         expect(conversation.messages.size).to eq(1)
 
-        references_email.mail.references = 'test-reference-id-2'
-        class_instance.process(references_email.mail, inbox.channel)
+        references_same_email.mail.references = 'test-reference-id-2'
+        class_instance.process(references_same_email.mail, inbox.channel)
 
         expect(conversation.messages.size).to eq(2)
         expect(conversation.messages.last.content).to eq('References Email')
-        expect(references_email.mail.references).to include('test-reference-id-2')
+        expect(references_same_email.mail.references).to include('test-reference-id-2')
+      end
+
+      context 'when message is from a different contact' do
+        it 'creates a new conversation' do
+          expect { class_instance.process(references_email.mail, inbox.channel) }.to change { Conversation.count }.by(1)
+        end
       end
     end
 
