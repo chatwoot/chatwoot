@@ -912,7 +912,7 @@ export default {
 
       var templateParams = messagePayload.templateParams;
       if (templateParams) {
-        messagePayload.templateParams = this.expandVariabledInWhatsAppParams(templateParams, item);
+        messagePayload.templateParams = this.expandVariabledInWhatsAppParams(templateParams);
       }
 
       this.sendMessage({
