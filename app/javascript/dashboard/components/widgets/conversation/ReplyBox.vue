@@ -886,11 +886,6 @@ export default {
     expandVariabledInWhatsAppParams(templateParams) {
       let templateParamsToSend = templateParams;
       if (templateParamsToSend.processed_params && Object.keys(templateParamsToSend.processed_params).length) {
-        const variables = getMessageVariables({
-          conversation: this.currentChat,
-          contact: this.currentContact
-        });
-
         templateParamsToSend = {};
         for (const key in templateParams) {
           templateParamsToSend[key] = templateParams[key];
@@ -900,7 +895,7 @@ export default {
         for (const key in templateParamsToSend.processed_params) {
           updatedTemplateParams[key] = replaceVariablesInMessage({
             message: templateParamsToSend.processed_params[key],
-            variables: variables,
+            variables: this.messageVariables,
           });
         }
 
