@@ -263,6 +263,7 @@ import {
   getMessageVariables,
   replaceVariablesInMessage,
 } from '@chatwoot/utils';
+import conversation from '../../../../api/inbox/conversation';
 
 export default {
   components: {
@@ -515,6 +516,11 @@ export default {
       let templateParamsToSend = templateParams;
       if (templateParamsToSend.processed_params && Object.keys(templateParamsToSend.processed_params).length) {
         const variables = getMessageVariables({
+          conversation: {
+            meta:{},
+            id: 0,
+            custom_attributes: {}
+          },
           contact: contact
         });
 
