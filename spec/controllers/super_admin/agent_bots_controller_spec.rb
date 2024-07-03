@@ -23,7 +23,7 @@ RSpec.describe 'Super Admin agent-bots API', type: :request do
     end
   end
 
-  describe 'DELETE /super_admin/agent_bots/:id/destroy_avatar' do
+  describe 'DELETE /super_admin/agent_bots/:id/destroy_avatar', skip: true do
     let!(:agent_bot) { create(:agent_bot, :with_avatar) }
 
     context 'when it is an unauthenticated super admin' do

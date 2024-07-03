@@ -467,6 +467,22 @@
       "OFFLINE": "离线的"
     }
   },
+  "TRIGGERS_REPORTS": {
+    "HEADER": "触发器",
+    "SUBTITLE": "触发器报告",
+    "GRAPH_COLUMN_LABEL": "触发器",
+    "METRICS": {
+      "TOTAL": {
+        "NAME": "触发器"
+      },
+      "PROCESSED": {
+        "NAME": "已发送消息"
+      },
+      "UNPROCESSED": {
+        "NAME": "未处理消息"
+      }
+    }
+  },
   "DAYS_OF_WEEK": {
     "SUNDAY": "Sunday",
     "MONDAY": "Monday",

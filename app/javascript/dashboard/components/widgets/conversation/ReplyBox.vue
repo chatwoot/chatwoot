@@ -270,6 +270,7 @@ export default {
       globalConfig: 'globalConfig/get',
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      currentUserPermissions: 'getCurrentPermissions',
     }),
     currentContact() {
       return this.$store.getters['contacts/getContact'](
@@ -357,6 +358,7 @@ export default {
     isReplyButtonDisabled() {
       if (this.isATwitterInbox) return true;
       if (this.hasAttachments || this.hasRecordedAudio) return false;
+      if (this.currentUserPermissions.send_messages === false) return true;
 
       return (
         this.isMessageEmpty ||

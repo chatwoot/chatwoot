@@ -467,6 +467,22 @@
       "OFFLINE": "Offline"
     }
   },
+  "TRIGGERS_REPORTS": {
+    "HEADER": "Trigger",
+    "SUBTITLE": "Rapporto dei trigger",
+    "GRAPH_COLUMN_LABEL": "Trigger",
+    "METRICS": {
+      "TOTAL": {
+        "NAME": "Trigger"
+      },
+      "PROCESSED": {
+        "NAME": "Messaggi inviati"
+      },
+      "UNPROCESSED": {
+        "NAME": "Messaggi non elaborati"
+      }
+    }
+  },
   "DAYS_OF_WEEK": {
     "SUNDAY": "Sunday",
     "MONDAY": "Monday",

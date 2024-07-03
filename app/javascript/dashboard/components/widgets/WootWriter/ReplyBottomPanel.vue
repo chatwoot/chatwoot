@@ -38,16 +38,6 @@
         />
       </file-upload>
       <woot-button
-        v-if="showAudioRecorderButton"
-        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
-        :icon="!isRecordingAudio ? 'microphone' : 'microphone-off'"
-        emoji="🎤"
-        :color-scheme="!isRecordingAudio ? 'secondary' : 'alert'"
-        variant="smooth"
-        size="small"
-        @click="toggleAudioRecorder"
-      />
-      <woot-button
         v-if="showEditorToggle"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
         icon="quote"
@@ -121,6 +111,17 @@
       />
     </div>
     <div class="right-wrap">
+      <woot-button
+        v-if="showAudioRecorderButton"
+        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
+        :icon="!isRecordingAudio ? 'microphone' : 'microphone-off'"
+        emoji="🎤"
+        :color-scheme="!isRecordingAudio ? 'alert' : 'danger'"
+        variant="smooth"
+        size="small"
+        class="mr-2"
+        @click="toggleAudioRecorder"
+      />
       <woot-button
         size="small"
         :class-names="buttonClass"

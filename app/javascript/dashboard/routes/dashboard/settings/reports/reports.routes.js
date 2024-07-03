@@ -1,3 +1,4 @@
+import { AdminSupervisorRoles } from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 const SettingsContent = () => import('../Wrapper.vue');
@@ -8,6 +9,7 @@ const InboxReports = () => import('./InboxReports.vue');
 const TeamReports = () => import('./TeamReports.vue');
 const CsatResponses = () => import('./CsatResponses.vue');
 const LiveReports = () => import('./LiveReports.vue');
+const TriggerReports = () => import('./TriggerReports.vue');
 
 export default {
   routes: [
@@ -27,8 +29,25 @@ export default {
         {
           path: 'overview',
           name: 'account_overview_reports',
-          roles: ['administrator'],
+          roles: AdminSupervisorRoles,
           component: LiveReports,
+        },
+      ],
+    },
+    {
+      path: frontendURL('accounts/:accountId/reports'),
+      component: SettingsContent,
+      props: {
+        headerTitle: 'TRIGGER_REPORTS.HEADER',
+        icon: 'arrow-trending-lines',
+        keepAlive: false,
+      },
+      children: [
+        {
+          path: 'triggers',
+          name: 'triggers_reports',
+          roles: AdminSupervisorRoles,
+          component: TriggerReports,
         },
       ],
     },
@@ -44,7 +63,7 @@ export default {
         {
           path: 'conversation',
           name: 'conversation_reports',
-          roles: ['administrator'],
+          roles: AdminSupervisorRoles,
           component: Index,
         },
       ],
@@ -61,7 +80,7 @@ export default {
         {
           path: 'csat',
           name: 'csat_reports',
-          roles: ['administrator'],
+          roles: AdminSupervisorRoles,
           component: CsatResponses,
         },
       ],
@@ -78,7 +97,7 @@ export default {
         {
           path: 'agent',
           name: 'agent_reports',
-          roles: ['administrator'],
+          roles: AdminSupervisorRoles,
           component: AgentReports,
         },
       ],
@@ -95,7 +114,7 @@ export default {
         {
           path: 'label',
           name: 'label_reports',
-          roles: ['administrator'],
+          roles: AdminSupervisorRoles,
           component: LabelReports,
         },
       ],
@@ -112,7 +131,7 @@ export default {
         {
           path: 'inboxes',
           name: 'inbox_reports',
-          roles: ['administrator'],
+          roles: AdminSupervisorRoles,
           component: InboxReports,
         },
       ],
@@ -128,7 +147,7 @@ export default {
         {
           path: 'teams',
           name: 'team_reports',
-          roles: ['administrator'],
+          roles: AdminSupervisorRoles,
           component: TeamReports,
         },
       ],

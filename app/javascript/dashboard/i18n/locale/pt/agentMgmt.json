@@ -6,7 +6,8 @@
     "SIDEBAR_TXT": "<p><b>Agentes</b></p> <p> Um <b>Agente</b> é um membro da sua equipa de Suporte ao Cliente. </p><p> Os agentes podem ver e responder às mensagens dos seus utilizadores. A lista mostra todos os agentes atualmente na sua conta. </p><p> Clique em <b>Adicionar Agente</b> para adicionar um novo agente. O agente que adicionar receberá um e-mail com um link de confirmação para ativar a sua conta, de forma a poderem aceder ao Chatwoot e responder às mensagens. </p><p> Os acessos aos recursos do Chatwoot têm como base as seguintes funções. </p><p> <b>Agentes</b> - Só podem aceder às caixas de entrada, relatórios e conversas. Podem atribuir conversas a outros agentes ou a eles próprios e responder a pedidos.</p><p> <b>Administrador</b> - Têm acesso a todos os recursos do Chatwoot ativados na sua conta, incluindo configurações e todos os privilégios que os Agentes normais têm.</p>",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrador",
-      "AGENT": "Representante"
+      "AGENT": "Representante",
+      "SUPERVISOR": "Supervisor"
     },
     "LIST": {
       "404": "Não há agentes associados a esta conta",
@@ -36,6 +37,11 @@
         "EMAIL": {
           "LABEL": "Endereço de e-mail",
           "PLACEHOLDER": "Por favor insira um endereço de e-mail do agente"
+        },
+        "INBOX": {
+          "LABEL": "Selecione caixa de entrada",
+          "PLACEHOLDER": "Selecione caixa de entrada",
+          "ERROR": "A caixa de entrada é necessária"
         },
         "SUBMIT": "Adicionar Agente"
       },
@@ -92,6 +98,31 @@
         "ADMIN_SUCCESS_MESSAGE": "Um e-mail com instruções de redefinição de senha foi enviado para o agente",
         "SUCCESS_MESSAGE": "Senha do agente redefinida com sucesso",
         "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+      }
+    },
+    "PERMISSIONS": {
+      "API": {
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde",
+        "SUCCESS_MESSAGE": "Permissões atualizadas com sucesso"
+      },
+      "BUTTON_TEXT": "Editar Permissões",
+      "TITLE": "Editar Permissões",
+      "AGENT_NAME": "Nome do Agente",
+      "AGENT_EMAIL": "E-mail do Agente",
+      "AGENT_TYPE": "Tipo de Agente",
+      "PERMISSIONS_LABEL": "Permissões",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "SUBMIT": "Atualizar Permissões",
+      "FEATURES": {
+        "REPORTS": "Visualizar Relatórios",
+        "CONVERSATIONS": "Visualizar Conversas",
+        "ACCOUNTS": "Visualizar Contas",
+        "TEAMS": "Visualizar Times",
+        "CONTACTS": "Visualizar Contatos",
+        "LABELS": "Visualizar Etiquetas",
+        "CUSTOM_VIEWS": "Visualizar Visualizações Personalizadas",
+        "PEOPLES": "Visualizar Pessoais",
+        "SEND_MESSAGES": "Enviar Mensagens"
       }
     },
     "SEARCH": {

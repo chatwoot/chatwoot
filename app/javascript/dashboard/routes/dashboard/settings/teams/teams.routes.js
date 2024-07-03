@@ -1,4 +1,5 @@
 /* eslint arrow-body-style: 0 */
+import { AdminRoles, AdminSupervisorRoles } from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 const CreateStepWrap = () => import('./Create/Index.vue');
@@ -36,7 +37,7 @@ export default {
           path: 'list',
           name: 'settings_teams_list',
           component: TeamsHome,
-          roles: ['administrator'],
+          roles: AdminSupervisorRoles,
         },
         {
           path: 'new',
@@ -46,18 +47,18 @@ export default {
               path: '',
               name: 'settings_teams_new',
               component: CreateTeam,
-              roles: ['administrator'],
+              roles: AdminSupervisorRoles,
             },
             {
               path: ':teamId/finish',
               name: 'settings_teams_finish',
               component: FinishSetup,
-              roles: ['administrator'],
+              roles: AdminSupervisorRoles,
             },
             {
               path: ':teamId/agents',
               name: 'settings_teams_add_agents',
-              roles: ['administrator'],
+              roles: AdminRoles,
               component: AddAgents,
             },
           ],
@@ -70,18 +71,18 @@ export default {
               path: '',
               name: 'settings_teams_edit',
               component: EditTeam,
-              roles: ['administrator'],
+              roles: AdminSupervisorRoles,
             },
             {
               path: 'agents',
               name: 'settings_teams_edit_members',
               component: EditAgents,
-              roles: ['administrator'],
+              roles: AdminSupervisorRoles,
             },
             {
               path: 'finish',
               name: 'settings_teams_edit_finish',
-              roles: ['administrator'],
+              roles: AdminSupervisorRoles,
               component: FinishSetup,
             },
           ],

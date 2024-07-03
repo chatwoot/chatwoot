@@ -39,6 +39,10 @@ class ApiClient {
     return url;
   }
 
+  setApiVersion(version) {
+    this.apiVersion = `/api/${version}`;
+  }
+
   get() {
     return axios.get(this.url);
   }

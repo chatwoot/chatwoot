@@ -48,6 +48,10 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render json: conversation_metrics
   end
 
+  def triggers
+    render json: generate_triggers_report
+  end
+
   private
 
   def generate_csv(filename, template)
@@ -57,7 +61,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def check_authorization
-    raise Pundit::NotAuthorizedError unless Current.account_user.administrator?
+    raise Pundit::NotAuthorizedError unless Current.account_user.administrator? || Current.account_user.supervisor?
   end
 
   def common_params

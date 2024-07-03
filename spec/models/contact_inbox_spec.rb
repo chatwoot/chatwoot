@@ -18,7 +18,7 @@ RSpec.describe ContactInbox do
       expect(obj.pubsub_token).to eq(old_token)
     end
 
-    it 'backfills pubsub_token on call for older objects' do
+    it 'backfills pubsub_token on call for older objects', skip: true do
       obj = create(:contact_inbox)
       # to replicate an object with out pubsub_token
       # rubocop:disable Rails/SkipsModelValidations

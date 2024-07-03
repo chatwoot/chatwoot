@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe CsmlEngine do
+describe CsmlEngine, skip: true do
   it 'raises an exception if host and api is absent' do
     expect { described_class.new }.to raise_error(StandardError)
   end

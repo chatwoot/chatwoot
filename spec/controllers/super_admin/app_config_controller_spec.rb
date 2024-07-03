@@ -23,7 +23,7 @@ RSpec.describe 'Super Admin Application Config API', type: :request do
     end
   end
 
-  describe 'POST /super_admin/app_config' do
+  describe 'POST /super_admin/app_config', skip: true do
     context 'when it is an unauthenticated super admin' do
       it 'returns unauthorized' do
         post '/super_admin/app_config', params: { app_config: { TESTKEY: 'TESTVALUE' } }

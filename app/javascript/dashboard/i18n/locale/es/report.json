@@ -467,6 +467,22 @@
       "OFFLINE": "Fuera de línea"
     }
   },
+  "TRIGGERS_REPORTS": {
+    "HEADER": "Disparadores",
+    "SUBTITLE": "Informe de disparadores",
+    "GRAPH_COLUMN_LABEL": "Disparadores",
+    "METRICS": {
+      "TOTAL": {
+        "NAME": "Disparadores"
+      },
+      "PROCESSED": {
+        "NAME": "Mensajes enviados"
+      },
+      "UNPROCESSED": {
+        "NAME": "Mensajes no procesados"
+      }
+    }
+  },
   "DAYS_OF_WEEK": {
     "SUNDAY": "Domingo",
     "MONDAY": "Lunes",

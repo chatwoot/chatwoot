@@ -1,4 +1,9 @@
-import { FEATURE_FLAGS } from '../../../../featureFlags';
+import {
+  AdminRoles,
+  AdminSupervisorRoles,
+  AllRoles,
+  FEATURE_FLAGS,
+} from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 const primaryMenuItems = accountId => [
@@ -8,7 +13,7 @@ const primaryMenuItems = accountId => [
     label: 'CONVERSATIONS',
     toState: frontendURL(`accounts/${accountId}/dashboard`),
     toStateName: 'home',
-    roles: ['administrator', 'agent'],
+    roles: AllRoles,
   },
   {
     icon: 'book-contacts',
@@ -17,7 +22,7 @@ const primaryMenuItems = accountId => [
     featureFlag: FEATURE_FLAGS.CRM,
     toState: frontendURL(`accounts/${accountId}/contacts`),
     toStateName: 'contacts_dashboard',
-    roles: ['administrator', 'agent'],
+    roles: AllRoles,
   },
   {
     icon: 'arrow-trending-lines',
@@ -26,7 +31,7 @@ const primaryMenuItems = accountId => [
     featureFlag: FEATURE_FLAGS.REPORTS,
     toState: frontendURL(`accounts/${accountId}/reports`),
     toStateName: 'settings_account_reports',
-    roles: ['administrator'],
+    roles: AdminSupervisorRoles,
   },
   {
     icon: 'megaphone',
@@ -35,7 +40,7 @@ const primaryMenuItems = accountId => [
     featureFlag: FEATURE_FLAGS.CAMPAIGNS,
     toState: frontendURL(`accounts/${accountId}/campaigns`),
     toStateName: 'settings_account_campaigns',
-    roles: ['administrator'],
+    roles: AdminRoles,
   },
   {
     icon: 'library',
@@ -45,7 +50,7 @@ const primaryMenuItems = accountId => [
     alwaysVisibleOnChatwootInstances: true,
     toState: frontendURL(`accounts/${accountId}/portals`),
     toStateName: 'default_portal_articles',
-    roles: ['administrator'],
+    roles: AdminRoles,
   },
   {
     icon: 'settings',
@@ -53,7 +58,7 @@ const primaryMenuItems = accountId => [
     label: 'SETTINGS',
     toState: frontendURL(`accounts/${accountId}/settings`),
     toStateName: 'settings_home',
-    roles: ['administrator', 'agent'],
+    roles: AllRoles,
   },
 ];
 

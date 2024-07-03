@@ -467,6 +467,22 @@
       "OFFLINE": "Hors-ligne"
     }
   },
+  "TRIGGERS_REPORTS": {
+    "HEADER": "Déclencheurs",
+    "SUBTITLE": "Rapport des déclencheurs",
+    "GRAPH_COLUMN_LABEL": "Déclencheurs",
+    "METRICS": {
+      "TOTAL": {
+        "NAME": "Déclencheurs"
+      },
+      "PROCESSED": {
+        "NAME": "Messages envoyés"
+      },
+      "UNPROCESSED": {
+        "NAME": "Messages non traités"
+      }
+    }
+  },
   "DAYS_OF_WEEK": {
     "SUNDAY": "Dimanche",
     "MONDAY": "Lundi",

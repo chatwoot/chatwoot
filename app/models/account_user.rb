@@ -6,6 +6,7 @@
 #  active_at    :datetime
 #  auto_offline :boolean          default(TRUE), not null
 #  availability :integer          default("online"), not null
+#  permissions  :jsonb
 #  role         :integer          default("agent")
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
@@ -22,12 +23,13 @@
 
 class AccountUser < ApplicationRecord
   include AvailabilityStatusable
+  include Featurable
 
   belongs_to :account
   belongs_to :user
   belongs_to :inviter, class_name: 'User', optional: true
 
-  enum role: { agent: 0, administrator: 1 }
+  enum role: { agent: 0, administrator: 1, supervisor: 2 }
   enum availability: { online: 0, offline: 1, busy: 2 }
 
   accepts_nested_attributes_for :account
@@ -58,6 +60,22 @@ class AccountUser < ApplicationRecord
     }
   end
 
+  def can_access?(feature)
+    permissions[feature.to_s] == true
+  end
+
+  def grant_access(feature)
+    update(permissions: permissions.merge(feature.to_s => true))
+  end
+
+  def revoke_access(feature)
+    update(permissions: permissions.merge(feature.to_s => false))
+  end
+
+  def permissions_without_defaults
+    permissions.except(*FEATURE_LIST.pluck('name'))
+  end
+
   private
 
   def notify_creation
@@ -70,6 +88,14 @@ class AccountUser < ApplicationRecord
 
   def update_presence_in_redis
     OnlineStatusTracker.set_status(account.id, user.id, availability)
+  end
+
+  def enable_default_features
+    # some features are policies to view the dashboard
+    default_permissions = FEATURE_LIST.each_with_object({}) do |feature, hash|
+      hash[feature['name']] = feature['enabled']
+    end
+    permissions.merge!(default_permissions)
   end
 end
 

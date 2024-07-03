@@ -4,7 +4,7 @@
       <slot name="header">
         <div class="card-header--title-area">
           <h5>{{ header }}</h5>
-          <span class="live">
+          <span v-if="isLive" class="live">
             <span class="ellipse" /><span>{{
               $t('OVERVIEW_REPORTS.LIVE')
             }}</span>
@@ -44,6 +44,10 @@ export default {
     loadingMessage: {
       type: String,
       default: '',
+    },
+    isLive: {
+      type: Boolean,
+      default: true,
     },
   },
 };

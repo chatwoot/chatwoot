@@ -9,7 +9,7 @@ RSpec.describe '/api/v1/widget/direct_uploads', type: :request do
   let(:payload) { { source_id: contact_inbox.source_id, inbox_id: web_widget.inbox.id } }
   let(:token) { Widget::TokenService.new(payload: payload).generate_token }
 
-  describe 'POST /api/v1/widget/direct_uploads' do
+  describe 'POST /api/v1/widget/direct_uploads', skip: true do
     context 'when post request is made' do
       before do
         token

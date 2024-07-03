@@ -1,3 +1,4 @@
+import { AllRoles } from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 const SettingsContent = () => import('../Wrapper.vue');
@@ -8,7 +9,7 @@ export default {
     {
       path: frontendURL('accounts/:accountId/profile'),
       name: 'profile_settings',
-      roles: ['administrator', 'agent'],
+      roles: AllRoles,
       component: SettingsContent,
       props: {
         headerTitle: 'PROFILE_SETTINGS.TITLE',
@@ -21,7 +22,7 @@ export default {
           path: 'settings',
           name: 'profile_settings_index',
           component: Index,
-          roles: ['administrator', 'agent'],
+          roles: AllRoles,
         },
       ],
     },

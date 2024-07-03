@@ -400,6 +400,23 @@
       "PLACEHOLDER": "Select date range"
     }
   },
+  "TRIGGER_REPORTS": {
+    "HEADER": "Triggers",
+    "SUBTITLE": "Triggers Report",
+    "GRAPH_COLUMN_LABEL": "Triggers",
+    "GRAPH_TITLE": "Triggers Graph",
+    "METRICS": {
+      "TOTAL": {
+        "NAME": "Triggers"
+      },
+      "PROCESSED": {
+        "NAME": "Messages Sent"
+      },
+      "UNPROCESSED": {
+        "NAME": "Unprocessed Messages"
+      }
+    }
+  },
   "CSAT_REPORTS": {
     "HEADER": "CSAT Reports",
     "NO_RECORDS": "There are no CSAT survey responses available.",

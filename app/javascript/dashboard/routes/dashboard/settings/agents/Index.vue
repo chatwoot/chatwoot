@@ -1,6 +1,7 @@
 <template>
   <div class="flex-1 overflow-auto p-4">
     <woot-button
+      v-if="isAdmin"
       color-scheme="success"
       class-names="button--fixed-top"
       icon="add-circle"
@@ -10,8 +11,8 @@
     </woot-button>
 
     <!-- List Agents -->
-    <div class="flex flex-row gap-4">
-      <div class="w-[60%]">
+    <div class="flex flex-col md:flex-row gap-4">
+      <div class="w-full md:w-3/5">
         <woot-loading-state
           v-if="uiFlags.isFetching"
           :message="$t('AGENT_MGMT.LOADING')"
@@ -20,72 +21,70 @@
           <p v-if="!agentList.length">
             {{ $t('AGENT_MGMT.LIST.404') }}
           </p>
-          <table v-else class="woot-table">
-            <tbody>
-              <tr v-for="(agent, index) in agentList" :key="agent.email">
-                <!-- Gravtar Image -->
-                <td>
-                  <thumbnail
-                    :src="agent.thumbnail"
-                    class="columns"
-                    :username="agent.name"
-                    size="40px"
-                    :status="agent.availability_status"
-                  />
-                </td>
-                <!-- Agent Name + Email -->
-                <td>
-                  <span class="agent-name">
-                    {{ agent.name }}
-                  </span>
-                  <span>{{ agent.email }}</span>
-                </td>
-                <!-- Agent Role + Verification Status -->
-                <td>
-                  <span class="agent-name">
-                    {{
-                      $t(`AGENT_MGMT.AGENT_TYPES.${agent.role.toUpperCase()}`)
-                    }}
-                  </span>
-                  <span v-if="agent.confirmed">
-                    {{ $t('AGENT_MGMT.LIST.VERIFIED') }}
-                  </span>
-                  <span v-if="!agent.confirmed">
-                    {{ $t('AGENT_MGMT.LIST.VERIFICATION_PENDING') }}
-                  </span>
-                </td>
-                <!-- Actions -->
-                <td>
-                  <div class="button-wrapper">
-                    <woot-button
-                      v-if="showEditAction(agent)"
-                      v-tooltip.top="$t('AGENT_MGMT.EDIT.BUTTON_TEXT')"
-                      variant="smooth"
-                      size="tiny"
-                      color-scheme="secondary"
-                      icon="edit"
-                      class-names="grey-btn"
-                      @click="openEditPopup(agent)"
+          <div class="overflow-x-auto">
+            <table class="woot-table min-w-full">
+              <tbody>
+                <tr v-for="(agent, index) in agentList" :key="agent.email">
+                  <td>
+                    <thumbnail
+                      :src="agent.thumbnail"
+                      class="columns"
+                      :username="agent.name"
+                      size="40px"
+                      :status="agent.availability_status"
                     />
-                    <woot-button
-                      v-if="showDeleteAction(agent)"
-                      v-tooltip.top="$t('AGENT_MGMT.DELETE.BUTTON_TEXT')"
-                      variant="smooth"
-                      color-scheme="alert"
-                      size="tiny"
-                      icon="dismiss-circle"
-                      class-names="grey-btn"
-                      :is-loading="loading[agent.id]"
-                      @click="openDeletePopup(agent, index)"
-                    />
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                  </td>
+                  <td>
+                    <span class="agent-name">
+                      {{ agent.name }}
+                    </span>
+                    <span>{{ agent.email }}</span>
+                  </td>
+                  <td>
+                    <span class="agent-name">
+                      {{
+                        $t(`AGENT_MGMT.AGENT_TYPES.${agent.role.toUpperCase()}`)
+                      }}
+                    </span>
+                    <span v-if="agent.confirmed">
+                      {{ $t('AGENT_MGMT.LIST.VERIFIED') }}
+                    </span>
+                    <span v-if="!agent.confirmed">
+                      {{ $t('AGENT_MGMT.LIST.VERIFICATION_PENDING') }}
+                    </span>
+                  </td>
+                  <td>
+                    <div v-if="isAdmin" class="button-wrapper">
+                      <woot-button
+                        v-if="showEditAction(agent)"
+                        v-tooltip.top="$t('AGENT_MGMT.EDIT.BUTTON_TEXT')"
+                        variant="smooth"
+                        size="tiny"
+                        color-scheme="secondary"
+                        icon="edit"
+                        class-names="grey-btn"
+                        @click="openEditPopup(agent)"
+                      />
+                      <woot-button
+                        v-if="showDeleteAction(agent)"
+                        v-tooltip.top="$t('AGENT_MGMT.DELETE.BUTTON_TEXT')"
+                        variant="smooth"
+                        color-scheme="alert"
+                        size="tiny"
+                        icon="dismiss-circle"
+                        class-names="grey-btn"
+                        :is-loading="loading[agent.id]"
+                        @click="openDeletePopup(agent, index)"
+                      />
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-      <div class="w-[34%]">
+      <div class="w-full md:w-2/5">
         <span
           v-dompurify-html="
             useInstallationName(
@@ -131,6 +130,7 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import Thumbnail from '../../../../components/widgets/Thumbnail.vue';
 import AddAgent from './AddAgent.vue';
 import EditAgent from './EditAgent.vue';
+import adminMixin from 'dashboard/mixins/isAdmin';
 
 export default {
   components: {
@@ -138,7 +138,7 @@ export default {
     EditAgent,
     Thumbnail,
   },
-  mixins: [globalConfigMixin],
+  mixins: [globalConfigMixin, adminMixin],
   data() {
     return {
       loading: {},
@@ -193,6 +193,7 @@ export default {
       }
       return true;
     },
+
     verifiedAdministrators() {
       return this.agentList.filter(
         agent => agent.role === 'administrator' && agent.confirmed
@@ -223,6 +224,7 @@ export default {
     closeDeletePopup() {
       this.showDeletePopup = false;
     },
+
     confirmDeletion() {
       this.loading[this.currentAgent.id] = true;
       this.closeDeletePopup();
