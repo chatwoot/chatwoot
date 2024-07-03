@@ -259,6 +259,10 @@ import {
 } from 'dashboard/helper/editorHelper';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import Multiselect from 'vue-multiselect';
+import {
+  getMessageVariables,
+  replaceVariablesInMessage,
+} from '@chatwoot/utils';
 
 export default {
   components: {
