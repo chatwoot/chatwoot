@@ -60,6 +60,21 @@
             @input="$v.selectInboxes.$touch"
           />
         </div>
+        <div v-if="agentType === 'supervisor'" class="w-full">
+          {{ $t('AGENT_MGMT.ADD.FORM.TEAM.LABEL') }}
+          <multiselect
+            v-model="selectTeams"
+            :options="teamsList"
+            :multiple="true"
+            :placeholder="$t('AGENT_MGMT.ADD.FORM.TEAM.PLACEHOLDER')"
+            label="name"
+            track-by="id"
+            :allow-empty="true"
+            :searchable="false"
+            :close-on-select="false"
+            @input="$v.selectTeams.$touch"
+          />
+        </div>
         <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
           <div class="w-full">
             <woot-submit-button
@@ -95,6 +110,7 @@ export default {
   data() {
     return {
       selectInboxes: [],
+      selectTeams: [],
       agentName: '',
       agentEmail: '',
       agentType: 'agent',
@@ -122,6 +138,7 @@ export default {
       uiFlags: 'agents/getUIFlags',
       agents: 'agents/getAgents',
       inboxes: 'inboxes/getInboxes',
+      teamsList: 'teams/getTeams',
     }),
   },
   validations: {
@@ -137,9 +154,7 @@ export default {
       required,
     },
     selectInboxes: {},
-  },
-  mounted() {
-    this.$store.dispatch('inboxes/get');
+    selectTeams: {},
   },
   methods: {
     showAlert(message) {
@@ -152,6 +167,7 @@ export default {
           email: this.agentEmail,
           role: this.agentType,
           inbox_ids: this.selectInboxes.map(inbox => inbox.id),
+          team_ids: this.selectTeams.map(team => team.id),
         });
 
         this.showAlert(this.$t('AGENT_MGMT.ADD.API.SUCCESS_MESSAGE'));
