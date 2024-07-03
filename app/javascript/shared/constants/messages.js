@@ -28,11 +28,10 @@ export const CONVERSATION_PRIORITY = {
 };
 
 export const CONVERSATION_PRIORITY_ORDER = {
-  urgent: 1,
-  high: 2,
-  medium: 3,
-  low: 4,
-  null: 5,
+  urgent: 4,
+  high: 3,
+  medium: 2,
+  low: 1,
 };
 
 // Size in mega bytes

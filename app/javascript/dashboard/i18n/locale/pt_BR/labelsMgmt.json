@@ -27,6 +27,9 @@
         "LABEL": "Descrição",
         "PLACEHOLDER": "Descrição do marcador"
       },
+      "TEAM": {
+        "LABEL": "Time"
+      },
       "COLOR": {
         "LABEL": "Cor"
       },

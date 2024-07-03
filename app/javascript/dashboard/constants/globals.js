@@ -13,10 +13,14 @@ export default {
     ALL: 'all',
   },
   SORT_BY_TYPE: {
-    LATEST: 'latest',
-    CREATED_AT: 'sort_on_created_at',
-    PRIORITY: 'sort_on_priority',
-    WATIING_SINCE: 'waiting_since',
+    LAST_ACTIVITY_AT_ASC: 'last_activity_at_asc',
+    LAST_ACTIVITY_AT_DESC: 'last_activity_at_desc',
+    CREATED_AT_ASC: 'created_at_asc',
+    CREATED_AT_DESC: 'created_at_desc',
+    PRIORITY_ASC: 'priority_asc',
+    PRIORITY_DESC: 'priority_desc',
+    WAITING_SINCE_ASC: 'waiting_since_asc',
+    WAITING_SINCE_DESC: 'waiting_since_desc',
   },
   ARTICLE_STATUS_TYPES: {
     DRAFT: 0,

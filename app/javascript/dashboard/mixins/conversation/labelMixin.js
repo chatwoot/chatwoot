@@ -2,14 +2,17 @@ import { mapGetters } from 'vuex';
 
 export default {
   computed: {
-    ...mapGetters({ accountLabels: 'labels/getLabels' }),
+    ...mapGetters({
+      allLabels: 'labels/getLabels',
+      accountLabels: 'labels/getTeamLabels',
+    }),
     savedLabels() {
       return this.$store.getters['conversationLabels/getConversationLabels'](
         this.conversationId
       );
     },
     activeLabels() {
-      return this.accountLabels.filter(({ title }) =>
+      return this.allLabels.filter(({ title }) =>
         this.savedLabels.includes(title)
       );
     },

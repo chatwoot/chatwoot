@@ -36,7 +36,9 @@
             <div class="flex flex-row items-center gap-1">
               <% author = article.author %>
               <%= render "public/api/v1/portals/thumbnail", author: author, size: 5 %>
-              <span class="text-sm text-slate-600 dark:text-slate-400 font-medium flex items-center"><%= "#{I18n.t('public_portal.common.by')} #{author.name}" %></span>
+              <% if author&.name.present? %>
+                <span class="text-sm text-slate-600 dark:text-slate-400 font-medium flex items-center"><%= "#{I18n.t('public_portal.common.by')} #{author&.name}" %></span>
+              <% end %>
             </div>
             <span class="text-slate-600 dark:text-slate-400">•</span>
             <span class="text-sm text-slate-600 dark:text-slate-400 font-medium flex items-center"><%= I18n.t('public_portal.common.last_updated_on', last_updated_on: article.updated_at.strftime("%b %d, %Y")) %></span>

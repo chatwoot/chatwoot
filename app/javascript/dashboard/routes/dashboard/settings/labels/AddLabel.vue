@@ -28,6 +28,18 @@
 
       <div class="w-full">
         <label>
+          {{ $t('LABEL_MGMT.FORM.TEAM.LABEL') }}
+          <select v-model="teamId">
+            <option :value="null">Todos</option>
+            <option v-for="team in teams" :key="team.id" :value="team.id">
+              {{ team.name }}
+            </option>
+          </select>
+        </label>
+      </div>
+
+      <div class="w-full">
+        <label>
           {{ $t('LABEL_MGMT.FORM.COLOR.LABEL') }}
           <woot-color-picker v-model="color" />
         </label>
@@ -75,11 +87,13 @@ export default {
       description: '',
       title: '',
       showOnSidebar: true,
+      teamId: null,
     };
   },
   validations,
   computed: {
     ...mapGetters({
+      teams: 'teams/getTeams',
       uiFlags: 'labels/getUIFlags',
     }),
   },
@@ -98,6 +112,7 @@ export default {
           description: this.description,
           title: this.title.toLowerCase(),
           show_on_sidebar: this.showOnSidebar,
+          team_id: this.teamId,
         });
         this.showAlert(this.$t('LABEL_MGMT.ADD.API.SUCCESS_MESSAGE'));
         this.onClose();

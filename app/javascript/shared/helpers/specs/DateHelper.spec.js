@@ -4,6 +4,7 @@ import {
   formatDigitToString,
   isTimeAfter,
   generateRelativeTime,
+  getDayDifferenceFromNow,
 } from '../DateHelper';
 
 describe('#DateHelper', () => {
@@ -116,6 +117,28 @@ describe('generateRelativeTime', () => {
     const expectedResult = 'tomorrow';
 
     const actualResult = generateRelativeTime(value, unit, languageCode);
+
+    expect(actualResult).toBe(expectedResult);
+  });
+});
+
+describe('#getDayDifferenceFromNow', () => {
+  it('should return the difference if in same day', () => {
+    const now = new Date('2023-12-08T00:00:00.000Z');
+    const timestampInSeconds = 1702020305; // 08/12/2023, 12:55:05 (GMT+05:30)
+    const expectedResult = 0;
+
+    const actualResult = getDayDifferenceFromNow(now, timestampInSeconds);
+
+    expect(actualResult).toBe(expectedResult);
+  });
+
+  it('should return the difference if in different day', () => {
+    const now = new Date('2023-12-11T00:00:00.000Z');
+    const timestampInSeconds = 1702020305; // 08/12/2023, 12:55:05 (GMT+05:30)
+    const expectedResult = 2;
+
+    const actualResult = getDayDifferenceFromNow(now, timestampInSeconds);
 
     expect(actualResult).toBe(expectedResult);
   });

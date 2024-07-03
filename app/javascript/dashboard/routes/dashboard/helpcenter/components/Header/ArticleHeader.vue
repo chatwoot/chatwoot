@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex px-4 items-center justify-between w-full h-16 pt-2 sticky top-0 bg-white dark:bg-slate-900"
+    class="flex px-4 items-center justify-between w-full h-16 pt-2 sticky top-0 z-10 bg-white dark:bg-slate-900"
   >
     <div class="flex items-center">
       <woot-sidemenu-icon />
@@ -86,6 +86,45 @@
         size="small"
         color-scheme="secondary"
       />
+      <div class="relative">
+        <woot-button
+          v-if="shouldShowLocaleDropdown"
+          icon="globe"
+          color-scheme="secondary"
+          size="small"
+          variant="hollow"
+          @click="openLocaleDropdown"
+        >
+          <div class="flex justify-between w-full min-w-0 items-center">
+            <span
+              class="inline-flex ml-1 rtl:ml-0 rtl:mr-1 items-center text-slate-800 dark:text-slate-100"
+            >
+              {{ selectedLocale }}
+              <Fluent-icon
+                class="dropdown-arrow"
+                icon="chevron-down"
+                size="14"
+              />
+            </span>
+          </div>
+        </woot-button>
+        <div
+          v-if="showLocaleDropdown"
+          v-on-clickaway="closeLocaleDropdown"
+          class="dropdown-pane dropdown-pane--open"
+        >
+          <multiselect-dropdown-items
+            :options="switchableLocales"
+            :has-thumbnail="false"
+            :selected-items="[selectedLocale]"
+            :input-placeholder="
+              $t('HELP_CENTER.HEADER.LOCALE_SELECT.SEARCH_PLACEHOLDER')
+            "
+            :no-search-result="$t('HELP_CENTER.HEADER.LOCALE_SELECT.NO_RESULT')"
+            @click="onClickSelectItem"
+          />
+        </div>
+      </div>
       <woot-button
         size="small"
         icon="add"
@@ -103,12 +142,15 @@ import { mixin as clickaway } from 'vue-clickaway';
 
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems.vue';
+
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 export default {
   components: {
     FluentIcon,
     WootDropdownItem,
     WootDropdownMenu,
+    MultiselectDropdownItems,
   },
   mixins: [clickaway],
   props: {
@@ -124,15 +166,34 @@ export default {
       type: String,
       default: '',
     },
+    selectedLocale: {
+      type: String,
+      default: '',
+    },
     shouldShowSettings: {
       type: Boolean,
       default: false,
+    },
+    allLocales: {
+      type: Array,
+      default: () => [],
     },
   },
   data() {
     return {
       showSortByDropdown: false,
+      showLocaleDropdown: false,
     };
+  },
+  computed: {
+    shouldShowLocaleDropdown() {
+      return this.allLocales.length > 1;
+    },
+    switchableLocales() {
+      return this.allLocales.filter(
+        locale => locale.name !== this.selectedLocale
+      );
+    },
   },
   methods: {
     openFilterModal() {
@@ -146,8 +207,22 @@ export default {
       this.$emit('close');
       this.showSortByDropdown = false;
     },
+    openLocaleDropdown() {
+      this.showLocaleDropdown = true;
+    },
+    closeLocaleDropdown() {
+      this.showLocaleDropdown = false;
+    },
     onClickNewArticlePage() {
-      this.$emit('newArticlePage');
+      this.$emit('new-article-page');
+    },
+    onClickSelectItem(value) {
+      const { name, code } = value;
+      this.closeLocaleDropdown();
+      if (!name || name === this.selectedLocale) {
+        return;
+      }
+      this.$emit('change-locale', code);
     },
   },
 };
@@ -155,7 +230,7 @@ export default {
 
 <style scoped lang="scss">
 .dropdown-pane--open {
-  @apply top-12 right-[9.25rem];
+  @apply absolute top-10 right-0 z-50 min-w-[8rem];
 }
 .dropdown-arrow {
   @apply ml-1 rtl:ml-0 rtl:mr-1;

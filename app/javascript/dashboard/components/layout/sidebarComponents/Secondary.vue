@@ -234,7 +234,10 @@ export default {
       };
     },
     additionalSecondaryMenuItems() {
-      let conversationMenuItems = [this.inboxSection];
+      let conversationMenuItems = [];
+      if (this.currentRole === 'administrator')
+        conversationMenuItems.push(this.inboxSection);
+      conversationMenuItems.push(this.labelSection);
       let contactMenuItems = [this.contactLabelSection];
       if (this.teams.length) {
         conversationMenuItems = [this.teamSection, ...conversationMenuItems];

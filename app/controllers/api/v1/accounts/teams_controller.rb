@@ -18,6 +18,10 @@ class Api::V1::Accounts::TeamsController < Api::V1::Accounts::BaseController
   end
 
   def destroy
+    labels = Current.account.labels.where(team_id: [@team.id])
+
+    labels.each { |label| label.update!({ team_id: nil }) }
+
     @team.destroy!
     head :ok
   end

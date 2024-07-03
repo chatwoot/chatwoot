@@ -11,6 +11,19 @@ import {
 } from './helpers/actionHelpers';
 import messageReadActions from './actions/messageReadActions';
 import messageTranslateActions from './actions/messageTranslateActions';
+
+export const hasMessageFailedWithExternalError = pendingMessage => {
+  // This helper is used to check if the message has failed with an external error.
+  // We have two cases
+  // 1. Messages that fail from the UI itself (due to large attachments or a failed network):
+  //    In this case, the message will have a status of failed but no external error. So we need to create that message again
+  // 2. Messages sent from Chatwoot but failed to deliver to the customer for some reason (user blocking or client system down):
+  //    In this case, the message will have a status of failed and an external error. So we need to retry that message
+  const { content_attributes: contentAttributes, status } = pendingMessage;
+  const externalError = contentAttributes?.external_error ?? '';
+  return status === MESSAGE_STATUS.FAILED && externalError !== '';
+};
+
 // actions
 const actions = {
   getConversation: async ({ commit }, conversationId) => {
@@ -242,12 +255,15 @@ const actions = {
   },
 
   sendMessageWithData: async ({ commit }, pendingMessage) => {
+    const { conversation_id: conversationId, id } = pendingMessage;
     try {
       commit(types.ADD_MESSAGE, {
         ...pendingMessage,
         status: MESSAGE_STATUS.PROGRESS,
       });
-      const response = await MessageApi.create(pendingMessage);
+      const response = hasMessageFailedWithExternalError(pendingMessage)
+        ? await MessageApi.retry(conversationId, id)
+        : await MessageApi.create(pendingMessage);
       commit(types.ADD_MESSAGE, {
         ...response.data,
         status: MESSAGE_STATUS.SENT,

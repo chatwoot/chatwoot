@@ -34,13 +34,13 @@ RSpec.describe 'Super Admin Application Config API', type: :request do
     context 'when it is an aunthenticated super admin' do
       it 'shows the app_config page' do
         sign_in(super_admin, scope: :super_admin)
-        post '/super_admin/app_config', params: { app_config: { TESTKEY: 'TESTVALUE' } }
+        post '/super_admin/app_config', params: { app_config: { FB_APP_ID: 'FB_APP_ID' } }
 
         expect(response).to have_http_status(:found)
-        expect(response).to redirect_to(super_admin_app_config_path)
+        expect(response).to redirect_to(super_admin_settings_path)
 
-        config = GlobalConfig.get('TESTKEY')
-        expect(config['TESTKEY']).to eq('TESTVALUE')
+        config = GlobalConfig.get('FB_APP_ID')
+        expect(config['FB_APP_ID']).to eq('FB_APP_ID')
       end
     end
   end

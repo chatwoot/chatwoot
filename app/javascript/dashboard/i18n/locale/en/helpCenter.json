@@ -3,6 +3,7 @@
     "HEADER": {
       "FILTER": "Filter by",
       "SORT": "Sort by",
+      "LOCALE": "Locale",
       "SETTINGS_BUTTON": "Settings",
       "NEW_BUTTON": "New Article",
       "DROPDOWN_OPTIONS": {
@@ -15,6 +16,12 @@
         "MINE": "My Articles",
         "DRAFT": "Draft Articles",
         "ARCHIVED": "Archived Articles"
+      },
+      "LOCALE_SELECT": {
+        "TITLE": "Select locale",
+        "PLACEHOLDER": "Select locale",
+        "NO_RESULT": "No locale found",
+        "SEARCH_PLACEHOLDER": "Search locale"
       }
     },
     "EDIT_HEADER": {

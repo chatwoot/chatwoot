@@ -178,7 +178,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      labels: 'labels/getLabels',
+      labels: 'labels/getTeamLabels',
       teams: 'teams/getTeams',
       assignableAgentsUiFlags: 'inboxAssignableAgents/getUIFlags',
     }),

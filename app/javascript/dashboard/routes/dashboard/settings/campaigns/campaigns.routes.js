@@ -1,6 +1,7 @@
 import { frontendURL } from '../../../../helper/URLHelper';
 const SettingsContent = () => import('../Wrapper.vue');
 const Index = () => import('./Index.vue');
+const AppIntegration = () => import('./AppIntegration.vue');
 
 export default {
   routes: [
@@ -37,6 +38,22 @@ export default {
           name: 'one_off',
           roles: ['administrator'],
           component: Index,
+        },
+      ],
+    },
+    {
+      path: frontendURL('accounts/:accountId/campaigns'),
+      component: SettingsContent,
+      props: {
+        headerTitle: 'CAMPAIGN.APP_INTEGRATION.HEADER',
+        icon: 'sound-source',
+      },
+      children: [
+        {
+          path: 'app_integration',
+          name: 'app_integration',
+          roles: ['administrator'],
+          component: AppIntegration,
         },
       ],
     },

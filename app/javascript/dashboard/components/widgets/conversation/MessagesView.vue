@@ -284,10 +284,12 @@ export default {
       return this.currentChat.unread_count || 0;
     },
     inboxSupportsReplyTo() {
-      return {
-        incoming: this.inboxHasFeature(INBOX_FEATURES.REPLY_TO),
-        outgoing: this.inboxHasFeature(INBOX_FEATURES.REPLY_TO_OUTGOING),
-      };
+      const incoming = this.inboxHasFeature(INBOX_FEATURES.REPLY_TO);
+      const outgoing =
+        this.inboxHasFeature(INBOX_FEATURES.REPLY_TO_OUTGOING) &&
+        !this.is360DialogWhatsAppChannel;
+
+      return { incoming, outgoing };
     },
   },
 

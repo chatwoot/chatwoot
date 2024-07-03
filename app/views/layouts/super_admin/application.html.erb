@@ -13,7 +13,7 @@ By default, it renders:
 %>
 
 <!DOCTYPE html>
-<html lang="<%= I18n.locale %>">
+<html lang="<%= I18n.locale %>" class="w-full h-full">
 <head>
   <meta charset="utf-8">
   <meta name="ROBOTS" content="NOODP">
@@ -22,20 +22,19 @@ By default, it renders:
     <%= content_for(:title) %> - <%= application_title %>
   </title>
   <%= render "stylesheet" %>
+  <%= javascript_pack_tag 'superadmin' %>
+  <%= stylesheet_pack_tag 'superadmin' %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body class="antialiased w-full h-full">
   <%= render "icons" %>
-
-  <div class="app-container super-admin">
+  <div class="flex w-full h-full">
     <%= render "navigation" -%>
-
-    <main class="main-content" role="main">
+    <main class="w-full overflow-auto" role="main">
       <%= render "flashes" -%>
       <%= yield %>
     </main>
   </div>
-
   <%= render "javascript" %>
 </body>
 </html>

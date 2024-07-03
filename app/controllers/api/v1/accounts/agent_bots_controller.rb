@@ -10,11 +10,18 @@ class Api::V1::Accounts::AgentBotsController < Api::V1::Accounts::BaseController
   def show; end
 
   def create
-    @agent_bot = Current.account.agent_bots.create!(permitted_params)
+    @agent_bot = Current.account.agent_bots.create!(permitted_params.except(:avatar_url))
+    process_avatar_from_url
   end
 
   def update
-    @agent_bot.update!(permitted_params)
+    @agent_bot.update!(permitted_params.except(:avatar_url))
+    process_avatar_from_url
+  end
+
+  def avatar
+    @agent_bot.avatar.purge if @agent_bot.avatar.attached?
+    @agent_bot
   end
 
   def destroy
@@ -30,6 +37,10 @@ class Api::V1::Accounts::AgentBotsController < Api::V1::Accounts::BaseController
   end
 
   def permitted_params
-    params.permit(:name, :description, :outgoing_url, :bot_type, bot_config: [:csml_content])
+    params.permit(:name, :description, :outgoing_url, :avatar, :avatar_url, :bot_type, bot_config: [:csml_content])
+  end
+
+  def process_avatar_from_url
+    ::Avatar::AvatarFromUrlJob.perform_later(@agent_bot, params[:avatar_url]) if params[:avatar_url].present?
   end
 end

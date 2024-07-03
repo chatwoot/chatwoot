@@ -272,11 +272,17 @@ export default {
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       currentUserPermissions: 'getCurrentPermissions',
     }),
+    currentContact() {
+      return this.$store.getters['contacts/getContact'](
+        this.currentChat.meta.sender.id
+      );
+    },
     shouldShowReplyToMessage() {
       return (
         this.inReplyTo?.id &&
         !this.isPrivate &&
-        this.inboxHasFeature(INBOX_FEATURES.REPLY_TO)
+        this.inboxHasFeature(INBOX_FEATURES.REPLY_TO) &&
+        !this.is360DialogWhatsAppChannel
       );
     },
     showRichContentEditor() {
@@ -498,7 +504,11 @@ export default {
       return `draft-${this.conversationIdByRoute}-${this.replyType}`;
     },
     audioRecordFormat() {
-      if (this.isAWhatsAppChannel || this.isAPIInbox) {
+      if (
+        this.isAWhatsAppChannel ||
+        this.isAPIInbox ||
+        this.isATelegramChannel
+      ) {
         return AUDIO_FORMATS.OGG;
       }
       return AUDIO_FORMATS.WAV;
@@ -506,6 +516,7 @@ export default {
     messageVariables() {
       const variables = getMessageVariables({
         conversation: this.currentChat,
+        contact: this.currentContact,
       });
       return variables;
     },

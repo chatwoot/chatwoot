@@ -454,6 +454,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_14_014644) do
     t.integer "priority"
     t.bigint "sla_policy_id"
     t.datetime "waiting_since"
+    t.string "cached_label_list"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"
@@ -626,7 +627,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_14_014644) do
     t.bigint "account_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "team_id"
     t.index ["account_id"], name: "index_labels_on_account_id"
+    t.index ["team_id"], name: "index_labels_on_team_id"
     t.index ["title", "account_id"], name: "index_labels_on_title_and_account_id", unique: true
   end
 
@@ -731,7 +734,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_14_014644) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "snoozed_until"
+    t.datetime "last_activity_at", default: -> { "CURRENT_TIMESTAMP" }
     t.index ["account_id"], name: "index_notifications_on_account_id"
+    t.index ["last_activity_at"], name: "index_notifications_on_last_activity_at"
     t.index ["primary_actor_type", "primary_actor_id"], name: "uniq_primary_actor_per_account_notifications"
     t.index ["secondary_actor_type", "secondary_actor_id"], name: "uniq_secondary_actor_per_account_notifications"
     t.index ["user_id"], name: "index_notifications_on_user_id"
@@ -948,6 +953,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_14_014644) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "labels", "teams"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).
