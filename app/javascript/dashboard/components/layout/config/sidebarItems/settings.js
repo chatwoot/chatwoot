@@ -24,7 +24,6 @@ const settings = accountId => ({
     'settings_inbox_list',
     'settings_inbox_new',
     'settings_inbox_show',
-    'settings_inbox',
     'settings_inboxes_add_agents',
     'settings_inboxes_page_channel',
     'settings_integrations_dashboard_apps',

@@ -30,6 +30,7 @@ import AccountContext from './AccountContext.vue';
 import { mapGetters } from 'vuex';
 import { FEATURE_FLAGS } from '../../../featureFlags';
 import { hasPermissions } from '../../../helper/permissionsHelper';
+import { routesWithPermissions } from '../../../routes';
 
 export default {
   components: {
@@ -83,9 +84,11 @@ export default {
     accessibleMenuItems() {
       const menuItemsFilteredByPermissions = this.menuConfig.menuItems.filter(
         menuItem => {
-          const { meta: { permissions: menuPermissions = [] } = {} } = menuItem;
           const { permissions: userPermissions = [] } = this.currentUser;
-          return hasPermissions(menuPermissions, userPermissions);
+          return hasPermissions(
+            routesWithPermissions[menuItem.toStateName],
+            userPermissions
+          );
         }
       );
       return menuItemsFilteredByPermissions.filter(item => {

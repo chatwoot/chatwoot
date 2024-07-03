@@ -16,7 +16,6 @@ export default {
       children: [
         {
           path: '',
-          name: 'canned_wrapper',
           redirect: 'list',
         },
         {

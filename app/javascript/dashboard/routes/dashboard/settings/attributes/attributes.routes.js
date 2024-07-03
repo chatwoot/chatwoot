@@ -15,7 +15,6 @@ export default {
       children: [
         {
           path: '',
-          name: 'attributes_wrapper',
           redirect: 'list',
         },
         {

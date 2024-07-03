@@ -16,7 +16,6 @@ export default {
       children: [
         {
           path: '',
-          name: 'auditlogs_wrapper',
           redirect: 'list',
         },
         {

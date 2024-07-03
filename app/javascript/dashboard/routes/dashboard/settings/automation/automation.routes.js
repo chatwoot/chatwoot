@@ -15,7 +15,6 @@ export default {
       children: [
         {
           path: '',
-          name: 'automation_wrapper',
           redirect: 'list',
         },
         {

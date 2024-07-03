@@ -29,7 +29,6 @@ export default {
       children: [
         {
           path: '',
-          name: 'settings_teams',
           redirect: 'list',
         },
         {

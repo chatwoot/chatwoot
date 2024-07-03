@@ -15,7 +15,6 @@ export default {
       children: [
         {
           path: '',
-          name: 'agents_wrapper',
           redirect: 'list',
         },
         {

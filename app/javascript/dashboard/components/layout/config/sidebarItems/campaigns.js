@@ -9,9 +9,6 @@ const campaigns = accountId => ({
       label: 'ONGOING',
       key: 'ongoingCampaigns',
       hasSubMenu: false,
-      meta: {
-        permissions: ['administrator'],
-      },
       toState: frontendURL(`accounts/${accountId}/campaigns/ongoing`),
       toStateName: 'ongoing_campaigns',
     },
@@ -20,9 +17,6 @@ const campaigns = accountId => ({
       icon: 'sound-source',
       label: 'ONE_OFF',
       hasSubMenu: false,
-      meta: {
-        permissions: ['administrator'],
-      },
       toState: frontendURL(`accounts/${accountId}/campaigns/one_off`),
       toStateName: 'one_off',
     },

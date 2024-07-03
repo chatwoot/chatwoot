@@ -28,7 +28,6 @@ export default {
       children: [
         {
           path: '',
-          name: 'settings_inbox',
           redirect: 'list',
         },
         {
