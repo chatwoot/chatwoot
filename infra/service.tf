@@ -37,6 +37,7 @@ module "service" {
 
   name         = local.system_name
   listen_hosts = [var.chatwoot_domain]
+  enable_public_lb = true
 
   service_port = 3000
 
