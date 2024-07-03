@@ -65,27 +65,29 @@
         :show-child-count="showChildCount(child.count)"
         :child-item-count="child.count"
       />
-      <router-link
-        v-if="showItem(menuItem)"
-        v-slot="{ href, navigate }"
-        :to="menuItem.toState"
-        custom
-      >
-        <li class="pl-1">
-          <a :href="href">
-            <woot-button
-              size="tiny"
-              variant="clear"
-              color-scheme="secondary"
-              icon="add"
-              :data-testid="menuItem.dataTestid"
-              @click="e => newLinkClick(e, navigate)"
-            >
-              {{ $t(`SIDEBAR.${menuItem.newLinkTag}`) }}
-            </woot-button>
-          </a>
-        </li>
-      </router-link>
+      <Policy :permissions="['administrator']">
+        <router-link
+          v-if="menuItem.newLink"
+          v-slot="{ href, navigate }"
+          :to="menuItem.toState"
+          custom
+        >
+          <li class="pl-1">
+            <a :href="href">
+              <woot-button
+                size="tiny"
+                variant="clear"
+                color-scheme="secondary"
+                icon="add"
+                :data-testid="menuItem.dataTestid"
+                @click="e => newLinkClick(e, navigate)"
+              >
+                {{ $t(`SIDEBAR.${menuItem.newLinkTag}`) }}
+              </woot-button>
+            </a>
+          </li>
+        </router-link>
+      </Policy>
     </ul>
   </li>
 </template>
@@ -105,9 +107,10 @@ import {
   isOnMentionsView,
   isOnUnattendedView,
 } from '../../../store/modules/conversations/helpers/actionHelpers';
+import Policy from '../../policy.vue';
 
 export default {
-  components: { SecondaryChildNavItem },
+  components: { SecondaryChildNavItem, Policy },
   mixins: [adminMixin, configMixin],
   props: {
     menuItem: {

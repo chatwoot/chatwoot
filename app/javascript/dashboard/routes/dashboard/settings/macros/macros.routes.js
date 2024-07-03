@@ -23,19 +23,25 @@ export default {
           path: '',
           name: 'macros_wrapper',
           component: Macros,
-          roles: ['administrator', 'agent'],
+          meta: {
+            permissions: ['administrator', 'agent'],
+          },
         },
         {
           path: 'new',
           name: 'macros_new',
           component: MacroEditor,
-          roles: ['administrator', 'agent'],
+          meta: {
+            permissions: ['administrator', 'agent'],
+          },
         },
         {
           path: ':macroId/edit',
           name: 'macros_edit',
           component: MacroEditor,
-          roles: ['administrator', 'agent'],
+          meta: {
+            permissions: ['administrator', 'agent'],
+          },
         },
       ],
     },
