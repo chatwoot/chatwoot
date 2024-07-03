@@ -42,5 +42,25 @@ export default {
 
       return [...attributes, ...customAttributes];
     },
+    audienceList() {
+      const customViews =
+        this.$store.getters['customViews/getCustomViewsByFilterType'](
+          'contact'
+        );
+      const newCustomViews = customViews.map(item => ({
+        id: item.id,
+        title: item.name,
+        type: 'custom_filter',
+      }));
+
+      const labels = this.$store.getters['labels/getLabels'];
+      const newLabels = labels.map(item => ({
+        id: item.id,
+        title: `${this.$t('LABEL_MGMT.HEADER')}: ${item.description}`,
+        type: 'label',
+      }));
+
+      return [...newCustomViews, ...newLabels];
+    },
   },
 };

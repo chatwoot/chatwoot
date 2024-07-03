@@ -26,18 +26,22 @@
         },
         "AUDIENCE": {
           "LABEL": "Danh sách khách hàng nhận tin nhắn",
-          "PLACEHOLDER": "Chọn nhãn phân loại",
-          "ERROR": "Nhãn phân loại bắt buộc có"
+          "PLACEHOLDER": "Chọn bộ lọc và nhãn phân loại",
+          "ERROR": "Bộ lọc hoặc nhãn phân loại bắt buộc có"
         },
         "INBOX": {
           "LABEL": "Chọn kênh",
-          "PLACEHOLDER": "Chọn kênh",
+          "PLACEHOLDER": "Có thể chọn nhiều kênh theo thứ tự ưu tiên",
           "ERROR": "Cần phải có kênh"
         },
         "MESSAGE": {
-          "LABEL": "Tin nhắn",
+          "LABEL": "Tin nhắn đến khách hàng",
           "PLACEHOLDER": "Vui lòng nhập thông điệp của chiến dịch",
           "ERROR": "Thông điệp bắt buộc có"
+        },
+        "PRIVATE_NOTE": {
+          "LABEL": "Tin nhắn lưu ý riêng",
+          "PLACEHOLDER": "Vui lòng nhập tin nhắn lưu ý riêng"
         },
         "SENT_BY": {
           "LABEL": "Gửi bởi",

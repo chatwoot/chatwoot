@@ -34,27 +34,59 @@
           </div>
         </div>
 
-        <label v-else :class="{ error: $v.message.$error }">
-          {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
-          <textarea
-            v-model="message"
-            rows="5"
+        <div v-else>
+          <label :class="{ error: $v.message.$error }">
+            {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
+            <textarea
+              v-model="message"
+              rows="5"
+              type="text"
+              :placeholder="$t('CAMPAIGN.ADD.FORM.MESSAGE.PLACEHOLDER')"
+              @blur="$v.message.$touch"
+            />
+            <span v-if="$v.message.$error" class="message">
+              {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
+            </span>
+          </label>
+          <woot-input
+            v-model="privateNote"
+            :label="$t('CAMPAIGN.ADD.FORM.PRIVATE_NOTE.LABEL')"
             type="text"
-            :placeholder="$t('CAMPAIGN.ADD.FORM.MESSAGE.PLACEHOLDER')"
-            @blur="$v.message.$touch"
+            :placeholder="$t('CAMPAIGN.ADD.FORM.PRIVATE_NOTE.PLACEHOLDER')"
           />
-          <span v-if="$v.message.$error" class="message">
-            {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
-          </span>
-        </label>
+        </div>
 
-        <label :class="{ error: $v.selectedInbox.$error }">
+        <label
+          class="multiselect-wrap--small"
+          :class="{ error: $v.selectedInbox.$error }"
+        >
           {{ $t('CAMPAIGN.ADD.FORM.INBOX.LABEL') }}
-          <select v-model="selectedInbox" @change="onChangeInbox($event)">
+          <select
+            v-if="isOngoingType"
+            v-model="selectedInbox"
+            @change="onChangeInbox($event)"
+          >
             <option v-for="item in inboxes" :key="item.name" :value="item.id">
               {{ item.name }}
             </option>
           </select>
+          <multiselect
+            v-else
+            v-model="selectedInbox"
+            :options="inboxes"
+            track-by="id"
+            label="name"
+            :multiple="true"
+            :close-on-select="false"
+            :clear-on-select="false"
+            :hide-selected="true"
+            :placeholder="$t('CAMPAIGN.ADD.FORM.INBOX.PLACEHOLDER')"
+            selected-label
+            :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+            :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
+            @blur="$v.selectedInbox.$touch"
+            @select="$v.selectedInbox.$touch"
+          />
           <span v-if="$v.selectedInbox.$error" class="message">
             {{ $t('CAMPAIGN.ADD.FORM.INBOX.ERROR') }}
           </span>
@@ -233,6 +265,7 @@ export default {
     return {
       title: '',
       message: '',
+      privateNote: '',
       selectedSender: 0,
       selectedInbox: null,
       endPoint: '',
@@ -312,13 +345,12 @@ export default {
   computed: {
     ...mapGetters({
       uiFlags: 'campaigns/getUIFlags',
-      audienceList: 'labels/getLabels',
     }),
     inboxes() {
       if (this.isOngoingType) {
         return this.$store.getters['inboxes/getWebsiteInboxes'];
       }
-      return this.$store.getters['inboxes/getSMSInboxes'];
+      return this.$store.getters['inboxes/getInboxes'];
     },
     sendersAndBotList() {
       return [
@@ -334,6 +366,7 @@ export default {
     this.$track(CAMPAIGNS_EVENTS.OPEN_NEW_CAMPAIGN_MODAL, {
       type: this.campaignType,
     });
+    this.$store.dispatch('customViews/get', 'contact');
   },
   methods: {
     scheduledCalculationChange() {
