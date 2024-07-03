@@ -43,6 +43,11 @@
           "PLACEHOLDER": "Selecione caixa de entrada",
           "ERROR": "A caixa de entrada é necessária"
         },
+        "TEAM": {
+          "LABEL": "Selecione time",
+          "PLACEHOLDER": "Selecione time",
+          "ERROR": "A time é necessária"
+        },
         "SUBMIT": "Adicionar agente"
       },
       "API": {
