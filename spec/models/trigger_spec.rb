@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Trigger, type: :model do
+RSpec.describe Trigger do
   describe 'CRUD operations' do
     it 'can be created' do
       trigger = described_class.create(companyId: 1)
