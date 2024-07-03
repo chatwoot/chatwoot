@@ -517,7 +517,10 @@ export default {
       if (templateParamsToSend.processed_params && Object.keys(templateParamsToSend.processed_params).length) {
         const variables = getMessageVariables({
           conversation: {
-            meta:{},
+            meta:{
+              assignee: this.currentUser,
+              sender:contact
+            },
             id: 0,
             custom_attributes: {}
           },
