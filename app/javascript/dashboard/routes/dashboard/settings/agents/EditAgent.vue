@@ -47,7 +47,7 @@
           </label>
         </div>
 
-        <div class="w-full mb-4">
+        <div v-if="agentType !== 'administrator'" class="w-full mb-4">
           <label>
             {{ $t('AGENT_MGMT.PERMISSIONS.PERMISSIONS_LABEL') }}
             <div v-if="!uiFlags.isFetching" class="permissions-grid">
