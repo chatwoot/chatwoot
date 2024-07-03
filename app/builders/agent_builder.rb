@@ -9,6 +9,7 @@ class AgentBuilder
       create_user
       save_account_user
       add_to_inboxes if @agent_params[:inbox_ids].present?
+      add_to_teams if @agent_params[:team_ids].present?
     end
     @user
   rescue StandardError => e
@@ -46,6 +47,13 @@ class AgentBuilder
     inboxes = @current_account.inboxes.where(id: @agent_params[:inbox_ids])
     inboxes.each do |inbox|
       inbox.add_member(@user.id)
+    end
+  end
+
+  def add_to_teams
+    teams = @current_account.teams.where(id: @agent_params[:team_ids])
+    teams.each do |team|
+      team.add_member(@user.id)
     end
   end
 end
