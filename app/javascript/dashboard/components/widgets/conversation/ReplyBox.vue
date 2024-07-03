@@ -893,7 +893,7 @@ export default {
 
         const updatedProcessedParams = {};
         for (const key in templateParamsToSend.processed_params) {
-          updatedTemplateParams[key] = replaceVariablesInMessage({
+          updatedProcessedParams[key] = replaceVariablesInMessage({
             message: templateParamsToSend.processed_params[key],
             variables: this.messageVariables,
           });
