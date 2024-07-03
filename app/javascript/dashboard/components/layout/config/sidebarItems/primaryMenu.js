@@ -47,15 +47,6 @@ const primaryMenuItems = accountId => [
     roles: ['administrator', 'agent'],
   },
   {
-    icon: 'arrow-trending-lines',
-    key: 'reports',
-    label: 'REPORTS',
-    featureFlag: FEATURE_FLAGS.REPORTS,
-    toState: frontendURL(`accounts/${accountId}/reports`),
-    toStateName: 'settings_account_reports',
-    roles: ['administrator'],
-  },
-  {
     icon: 'megaphone',
     key: 'campaigns',
     label: 'CAMPAIGNS',
@@ -72,6 +63,15 @@ const primaryMenuItems = accountId => [
     alwaysVisibleOnChatwootInstances: true,
     toState: frontendURL(`accounts/${accountId}/portals`),
     toStateName: 'default_portal_articles',
+    roles: ['administrator'],
+  },
+  {
+    icon: 'arrow-trending-lines',
+    key: 'reports',
+    label: 'REPORTS',
+    featureFlag: FEATURE_FLAGS.REPORTS,
+    toState: frontendURL(`accounts/${accountId}/reports`),
+    toStateName: 'settings_account_reports',
     roles: ['administrator'],
   },
   {

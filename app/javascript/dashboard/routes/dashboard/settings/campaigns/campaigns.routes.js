@@ -8,14 +8,30 @@ export default {
       path: frontendURL('accounts/:accountId/campaigns'),
       component: SettingsContent,
       props: {
-        headerTitle: 'CAMPAIGN.ONGOING.HEADER',
-        icon: 'arrow-swap',
+        headerTitle: 'CAMPAIGN.FLEXIBLE.HEADER',
+        icon: 'shifts-checkmark',
       },
       children: [
         {
           path: '',
-          redirect: 'ongoing',
+          redirect: 'flexible',
         },
+        {
+          path: 'flexible',
+          name: 'flexible',
+          roles: ['administrator'],
+          component: Index,
+        },
+      ],
+    },
+    {
+      path: frontendURL('accounts/:accountId/campaigns'),
+      component: SettingsContent,
+      props: {
+        headerTitle: 'CAMPAIGN.ONGOING.HEADER',
+        icon: 'arrow-swap',
+      },
+      children: [
         {
           path: 'ongoing',
           name: 'ongoing_campaigns',
