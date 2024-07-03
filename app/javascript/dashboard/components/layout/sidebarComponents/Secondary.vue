@@ -29,6 +29,7 @@ import SecondaryNavItem from './SecondaryNavItem.vue';
 import AccountContext from './AccountContext.vue';
 import { mapGetters } from 'vuex';
 import { FEATURE_FLAGS } from '../../../featureFlags';
+import { hasPermissions } from '../../../helper/permissionsHelper';
 
 export default {
   components: {
@@ -84,9 +85,7 @@ export default {
         menuItem => {
           const { meta: { permissions: menuPermissions = [] } = {} } = menuItem;
           const { permissions: userPermissions = [] } = this.currentUser;
-          return menuPermissions.some(permission =>
-            userPermissions.includes(permission)
-          );
+          return hasPermissions(menuPermissions, userPermissions);
         }
       );
       return menuItemsFilteredByPermissions.filter(item => {

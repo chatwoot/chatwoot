@@ -1,3 +1,5 @@
+import { hasPermissions } from './permissionsHelper';
+
 // eslint-disable-next-line default-param-last
 export const getCurrentAccount = ({ accounts } = {}, accountId) => {
   return accounts.find(account => account.id === accountId);
@@ -5,9 +7,7 @@ export const getCurrentAccount = ({ accounts } = {}, accountId) => {
 
 export const routeIsAccessibleFor = (route, userPermissions = []) => {
   const { meta: { permissions: routePermissions = [] } = {} } = route;
-  return routePermissions.some(permissions =>
-    userPermissions.includes(permissions)
-  );
+  return hasPermissions(routePermissions, userPermissions);
 };
 
 const validateActiveAccountRoutes = (to, user) => {

@@ -1,16 +1,18 @@
 <script setup>
 import { useStoreGetters } from 'dashboard/composables/store';
 import { computed } from 'vue';
+import { hasPermissions } from '../helper/permissionsHelper';
 const props = defineProps({
   permissions: {
     type: Array,
     required: true,
   },
 });
+
 const getters = useStoreGetters();
 const user = getters.getCurrentUser.value;
 const hasPermission = computed(() =>
-  props.permissions.some(permission => user.permissions.includes(permission))
+  hasPermissions(props.permissions, user.permissions)
 );
 </script>
 
