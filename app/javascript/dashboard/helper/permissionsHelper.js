@@ -7,10 +7,13 @@ export const hasPermissions = (
   );
 };
 
+const isPermissionsPresentInRoute = route =>
+  route.meta && route.meta.permissions;
+
 export const buildPermissionsFromRouter = (routes = []) =>
   routes.reduce((acc, route) => {
     if (route.name) {
-      if (!route.meta || !route.meta.permissions) {
+      if (!isPermissionsPresentInRoute(route)) {
         // eslint-disable-next-line
         console.error(route);
         throw new Error(
