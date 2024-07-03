@@ -44,6 +44,11 @@
           "PLACEHOLDER": "Select Inbox",
           "ERROR": "Inbox is required"
         },
+        "TEAM": {
+          "LABEL": "Team",
+          "PLACEHOLDER": "Select a team",
+          "ERROR": "Team is required"
+        },
         "SUBMIT": "Add Agent"
       },
       "API": {
