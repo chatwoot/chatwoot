@@ -1,10 +1,9 @@
 class Api::V1::Accounts::TeamsController < Api::V1::Accounts::BaseController
   before_action :fetch_team, only: [:show, :update, :destroy]
   before_action :check_authorization
+  before_action :find_teams, only: [:index]
 
-  def index
-    @teams = Current.account.teams
-  end
+  def index; end
 
   def show; end
 
@@ -34,5 +33,9 @@ class Api::V1::Accounts::TeamsController < Api::V1::Accounts::BaseController
 
   def team_params
     params.require(:team).permit(:name, :description, :allow_auto_assign)
+  end
+
+  def find_teams
+    @teams = @user.administrator? ? Current.account.teams : Current.user.teams
   end
 end
