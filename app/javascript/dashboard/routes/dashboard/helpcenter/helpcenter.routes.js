@@ -30,13 +30,17 @@ const portalRoutes = [
   {
     path: getPortalRoute(''),
     name: 'default_portal_articles',
-    roles: ['administrator', 'agent'],
+    meta: {
+      permissions: ['administrator'],
+    },
     component: DefaultPortalArticles,
   },
   {
     path: getPortalRoute('all'),
     name: 'list_all_portals',
-    roles: ['administrator', 'agent'],
+    meta: {
+      permissions: ['administrator', 'agent'],
+    },
     component: ListAllPortals,
   },
   {
@@ -47,55 +51,73 @@ const portalRoutes = [
         path: '',
         name: 'new_portal_information',
         component: PortalDetails,
-        roles: ['administrator'],
+        meta: {
+          permissions: ['administrator'],
+        },
       },
       {
         path: ':portalSlug/customization',
         name: 'portal_customization',
         component: PortalCustomization,
-        roles: ['administrator'],
+        meta: {
+          permissions: ['administrator'],
+        },
       },
       {
         path: ':portalSlug/finish',
         name: 'portal_finish',
         component: PortalSettingsFinish,
-        roles: ['administrator'],
+        meta: {
+          permissions: ['administrator'],
+        },
       },
     ],
   },
   {
     path: getPortalRoute(':portalSlug'),
     name: 'portalSlug',
-    roles: ['administrator', 'agent'],
+    meta: {
+      permissions: ['administrator', 'agent'],
+    },
     component: ShowPortal,
   },
   {
     path: getPortalRoute(':portalSlug/edit'),
-    roles: ['administrator', 'agent'],
+    meta: {
+      permissions: ['administrator', 'agent'],
+    },
     component: EditPortal,
     children: [
       {
         path: '',
         name: 'edit_portal_information',
         component: EditPortalBasic,
-        roles: ['administrator'],
+        meta: {
+          permissions: ['administrator'],
+        },
       },
       {
         path: 'customizations',
         name: 'edit_portal_customization',
         component: EditPortalCustomization,
-        roles: ['administrator'],
+        meta: {
+          permissions: ['administrator'],
+        },
       },
       {
         path: 'locales',
         name: 'edit_portal_locales',
         component: EditPortalLocales,
-        roles: ['administrator'],
+        meta: {
+          permissions: ['administrator'],
+        },
       },
       {
         path: 'categories',
         name: 'list_all_locale_categories',
-        roles: ['administrator', 'agent'],
+        meta: {
+          permissions: ['administrator', 'agent'],
+        },
         component: ListAllCategories,
       },
     ],
@@ -106,39 +128,51 @@ const articleRoutes = [
   {
     path: getPortalRoute(':portalSlug/:locale/articles'),
     name: 'list_all_locale_articles',
-    roles: ['administrator', 'agent'],
+    meta: {
+      permissions: ['administrator', 'agent'],
+    },
     component: ListAllArticles,
   },
   {
     path: getPortalRoute(':portalSlug/:locale/articles/new'),
     name: 'new_article',
-    roles: ['administrator', 'agent'],
+    meta: {
+      permissions: ['administrator', 'agent'],
+    },
     component: NewArticle,
   },
   {
     path: getPortalRoute(':portalSlug/:locale/articles/mine'),
     name: 'list_mine_articles',
-    roles: ['administrator', 'agent'],
+    meta: {
+      permissions: ['administrator', 'agent'],
+    },
     component: ListAllArticles,
   },
   {
     path: getPortalRoute(':portalSlug/:locale/articles/archived'),
     name: 'list_archived_articles',
-    roles: ['administrator', 'agent'],
+    meta: {
+      permissions: ['administrator', 'agent'],
+    },
     component: ListAllArticles,
   },
 
   {
     path: getPortalRoute(':portalSlug/:locale/articles/draft'),
     name: 'list_draft_articles',
-    roles: ['administrator', 'agent'],
+    meta: {
+      permissions: ['administrator', 'agent'],
+    },
     component: ListAllArticles,
   },
 
   {
     path: getPortalRoute(':portalSlug/:locale/articles/:articleSlug'),
     name: 'edit_article',
-    roles: ['administrator', 'agent'],
+    meta: {
+      permissions: ['administrator', 'agent'],
+    },
     component: EditArticle,
   },
 ];
@@ -147,19 +181,25 @@ const categoryRoutes = [
   {
     path: getPortalRoute(':portalSlug/:locale/categories'),
     name: 'all_locale_categories',
-    roles: ['administrator', 'agent'],
+    meta: {
+      permissions: ['administrator', 'agent'],
+    },
     component: ListAllCategories,
   },
   {
     path: getPortalRoute(':portalSlug/:locale/categories/new'),
     name: 'new_category_in_locale',
-    roles: ['administrator', 'agent'],
+    meta: {
+      permissions: ['administrator', 'agent'],
+    },
     component: NewCategory,
   },
   {
     path: getPortalRoute(':portalSlug/:locale/categories/:categorySlug'),
     name: 'show_category',
-    roles: ['administrator', 'agent'],
+    meta: {
+      permissions: ['administrator', 'agent'],
+    },
     component: ListAllArticles,
   },
   {
@@ -167,13 +207,17 @@ const categoryRoutes = [
       ':portalSlug/:locale/categories/:categorySlug/articles'
     ),
     name: 'show_category_articles',
-    roles: ['administrator', 'agent'],
+    meta: {
+      permissions: ['administrator', 'agent'],
+    },
     component: ListCategoryArticles,
   },
   {
     path: getPortalRoute(':portalSlug/:locale/categories/:categorySlug'),
     name: 'edit_category',
-    roles: ['administrator', 'agent'],
+    meta: {
+      permissions: ['administrator', 'agent'],
+    },
     component: EditCategory,
   },
 ];
