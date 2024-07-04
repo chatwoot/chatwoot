@@ -63,8 +63,9 @@
       "SNOOZED_UNTIL_NEXT_WEEK": "Adiada até a próxima semana",
       "SNOOZED_UNTIL_NEXT_REPLY": "Adiado até a próxima resposta",
       "CONVERSATION_LABELS": {
-        "TITLE": "Marcadores da conversa",
-        "CANCEL": "Cancelar"
+        "TITLE": "Marcadores da conversa (optional)",
+        "CANCEL": "Cancelar",
+        "DESC": "Os marcadores da conversa permitem que você adicione marcadores a uma conversa para facilitar a organização de suas conversas."
       }
     },
     "RESOLVE_DROPDOWN": {

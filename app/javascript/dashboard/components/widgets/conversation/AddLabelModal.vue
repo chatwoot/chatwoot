@@ -2,6 +2,7 @@
   <div class="flex flex-col" @key.esc="onClose">
     <woot-modal-header
       :header-title="$t('CONVERSATION.HEADER.CONVERSATION_LABELS.TITLE')"
+      :header-content="$t('CONVERSATION.HEADER.CONVERSATION_LABELS.DESC')"
     />
     <form class="w-full" @submit.prevent>
       <!-- to show the labels in the modal -->
