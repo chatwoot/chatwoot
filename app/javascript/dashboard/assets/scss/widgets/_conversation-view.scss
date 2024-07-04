@@ -192,6 +192,15 @@
     .sender--name {
       @apply text-xs mb-1;
     }
+
+    // first child
+    &:first-child {
+      max-width: Min(31rem, 84%);
+    }
+
+    &:first-child .is-email {
+      max-width: none;
+    }
   }
 
   .sender--thumbnail {
