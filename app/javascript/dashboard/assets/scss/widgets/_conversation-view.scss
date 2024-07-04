@@ -193,13 +193,12 @@
       @apply text-xs mb-1;
     }
 
-    // first child
-    &:first-child {
+    .bubble {
       max-width: Min(31rem, 84%);
     }
 
-    &:first-child .is-email {
-      max-width: none;
+    .bubble .is-email {
+      max-width: none !important;
     }
   }
 
