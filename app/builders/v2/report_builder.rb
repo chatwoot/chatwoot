@@ -55,10 +55,13 @@ class V2::ReportBuilder
   end
 
   def triggers_metrics
+    triggers_scope = account.triggers
+    triggers_scope = triggers_scope.where(createdAt: range) if range
+
     {
-      total: account.triggers.count,
-      unprocessed: account.triggers.where(processedAt: nil).count,
-      processed: account.triggers.where.not(processedAt: nil).count
+      total: triggers_scope.count,
+      unprocessed: triggers_scope.where(processedAt: nil).count,
+      processed: triggers_scope.where.not(processedAt: nil).count
     }
   end
 
