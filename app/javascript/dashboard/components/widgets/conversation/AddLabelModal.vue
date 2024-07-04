@@ -3,7 +3,8 @@
     <woot-modal-header
       :header-title="$t('CONVERSATION.HEADER.CONVERSATION_LABELS.TITLE')"
     />
-    <form class="w-full" @submit.prevent="addTag">
+    <form class="w-full" @submit.prevent>
+      <!-- to show the labels in the modal -->
       <woot-label
         v-for="label in activeLabels"
         :key="label.id"
@@ -15,6 +16,7 @@
         @click="removeLabelFromConversation"
       />
 
+      <!-- list of labels to add -->
       <label-dropdown
         :account-labels="accountLabels"
         :selected-labels="savedLabels"
@@ -27,7 +29,7 @@
       <woot-button variant="clear" @click.prevent="onClose">
         {{ $t('CONVERSATION.HEADER.CONVERSATION_LABELS.CANCEL') }}
       </woot-button>
-      <woot-button>
+      <woot-button @click.prevent="onSubmit">
         {{ $t('CONVERSATION.HEADER.RESOLVE_ACTION') }}
       </woot-button>
     </div>
@@ -37,30 +39,21 @@
 <script>
 import { mapGetters } from 'vuex';
 import LabelDropdown from 'shared/components/ui/label/LabelDropdown.vue';
-import { mixin as clickaway } from 'vue-clickaway';
 import adminMixin from 'dashboard/mixins/isAdmin';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
-import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 
 export default {
   name: 'CustomLabelModal',
   components: {
     LabelDropdown,
   },
-  mixins: [clickaway, conversationLabelMixin, adminMixin, eventListenerMixins],
+  mixins: [adminMixin, conversationLabelMixin, eventListenerMixins],
   props: {
     conversationId: {
       type: Number,
       required: true,
     },
-  },
-  data() {
-    return {
-      tag: '',
-      selectedLabels: [],
-      showSearchDropdownLabel: false,
-    };
   },
   computed: {
     ...mapGetters({
@@ -72,28 +65,9 @@ export default {
     onClose() {
       this.$emit('close');
     },
-    addTag() {
-      this.$emit('add-tag', this.tag);
-    },
-    removeLabelFromConversation(label) {
-      // Implementar a lógica de remoção de label
-      // eslint-disable-next-line no-console
-      console.log(label);
-    },
-    addLabelToConversation(label) {
-      // Implementar a lógica de adição de label
-      // eslint-disable-next-line no-console
-      console.log(label);
-    },
-    handleKeyEvents(e) {
-      const keyPattern = buildHotKeys(e);
-
-      if (keyPattern === 'escape') {
-        this.onClose();
-      }
+    onSubmit() {
+      this.$emit('submit');
     },
   },
 };
 </script>
-
-<style lang="scss" scoped></style>

@@ -73,8 +73,16 @@
         </woot-dropdown-item>
       </woot-dropdown-menu>
     </div>
-    <woot-modal :show="showCustomLabelModal" :on-close="hideCustomLabelModal">
-      <add-label-modal @close="hideCustomLabelModal" @add-tag="handleAddTag" />
+    <woot-modal
+      size="large"
+      :show="showCustomLabelModal"
+      :on-close="hideCustomLabelModal"
+    >
+      <add-label-modal
+        :conversation-id="conversationId"
+        @close="hideCustomLabelModal"
+        @submit="handleSubmit"
+      />
     </woot-modal>
     <woot-modal
       :show.sync="showCustomSnoozeModal"
@@ -229,12 +237,10 @@ export default {
     },
     onCmdResolveConversation() {
       this.showCustomLabelModal = true;
-      // this.toggleStatus(this.STATUS_TYPE.RESOLVED);
     },
-    handleAddTag(tag) {
-      // eslint-disable-next-line no-console
-      console.log(tag);
-      // this.toggleStatus(this.STATUS_TYPE.RESOLVED);
+    handleSubmit() {
+      this.showCustomLabelModal = false;
+      this.toggleStatus(this.STATUS_TYPE.RESOLVED);
     },
     showOpenButton() {
       return this.isResolved || this.isSnoozed;
