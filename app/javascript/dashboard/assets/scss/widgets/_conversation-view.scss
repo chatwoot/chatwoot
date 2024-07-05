@@ -192,6 +192,14 @@
     .sender--name {
       @apply text-xs mb-1;
     }
+
+    .bubble {
+      max-width: Min(31rem, 84%);
+    }
+
+    .is-email {
+      max-width: 100% !important;
+    }
   }
 
   .sender--thumbnail {
