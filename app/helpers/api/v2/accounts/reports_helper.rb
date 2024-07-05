@@ -41,7 +41,7 @@ module Api::V2::Accounts::ReportsHelper
   end
 
   def generate_triggers_report
-    V2::ReportBuilder.new(Current.account, {}).triggers_metrics
+    V2::ReportBuilder.new(Current.account, params).triggers_metrics
   end
 
   private
