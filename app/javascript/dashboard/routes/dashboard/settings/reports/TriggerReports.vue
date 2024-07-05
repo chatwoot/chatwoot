@@ -5,6 +5,7 @@
       :group-by-filter-items-list="groupByFilterItemsList"
       @date-range-change="onDateRangeChange"
       @business-hours-toggle="onBusinessHoursToggle"
+      @group-by-filter-change="onGroupByFilterChange"
     />
     <div class="row">
       <metric-card
@@ -70,14 +71,16 @@ export default {
       },
       from: Math.floor(new Date().setMonth(new Date().getMonth() - 6) / 1000),
       to: Math.floor(Date.now() / 1000),
-      groupBy: GROUP_BY_FILTER[1],
-      groupByFilterItemsList: this.$t('REPORT.GROUP_BY_DAY_OPTIONS'),
+      groupBy: null,
     };
   },
   computed: {
     ...mapGetters({
       triggersMetric: 'getTriggersReport',
     }),
+    groupByFilterItemsList() {
+      return this.$t('REPORT.GROUP_BY_YEAR_OPTIONS');
+    },
     conversationMetrics() {
       let metric = {};
       Object.keys(this.triggersMetric.metrics || {}).forEach(key => {
@@ -104,12 +107,28 @@ export default {
     this.fetchAllData();
   },
   methods: {
+    getDateFormat(groupBy) {
+      if (
+        groupBy === GROUP_BY_FILTER[1].period ||
+        groupBy === GROUP_BY_FILTER[2].period
+      ) {
+        return 'dd-MMM';
+      }
+      if (groupBy === GROUP_BY_FILTER[3].period) {
+        return 'MMM-yyyy';
+      }
+      if (groupBy === GROUP_BY_FILTER[4].period) {
+        return 'yyyy';
+      }
+
+      return 'dd';
+    },
     prepareChartData() {
       const data = this.triggersMetric.data || [];
       const labels = data.map(item =>
-        format(fromUnixTime(item.timestamp), 'dd-MMM')
+        format(fromUnixTime(item.timestamp), this.getDateFormat(this.groupBy))
       );
-      const values = data.map(item => item.value);
+      const values = data.map(item => item.count);
       this.chartData = {
         labels,
         datasets: [
@@ -125,21 +144,29 @@ export default {
     },
     fetchAllData() {
       const { from, to, groupBy } = this;
-      this.$store.dispatch('fetchTriggersReport', { from, to, groupBy });
+      const payload = { from, to };
+
+      if (groupBy) {
+        payload.groupBy = groupBy;
+      }
+
+      this.$store.dispatch('fetchTriggersReport', payload);
       this.$store.dispatch('fetchTriggersMetric');
     },
-    onDateRangeChange({ from, to, groupBy }) {
+    onDateRangeChange({ from, to }) {
       this.from = from;
       this.to = to;
-      this.groupBy = groupBy;
+
       this.fetchAllData();
     },
     onBusinessHoursToggle(value) {
       this.businessHours = value;
       this.fetchAllData();
     },
-    onGroupByFilterChange(payload) {
-      this.groupBy = GROUP_BY_FILTER[payload.id];
+    onGroupByFilterChange(payload = {}) {
+      const { id } = payload;
+      this.groupBy = GROUP_BY_FILTER[id].period;
+
       this.fetchAllData();
     },
   },

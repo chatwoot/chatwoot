@@ -50,7 +50,8 @@ module ReportHelper
   end
 
   def triggers
-    scope.triggers.where(createdAt: range).pluck(:createdAt, :id)
+    grouped_reporting_events = get_grouped_values(scope.triggers, :createdAt)
+    grouped_reporting_events.average(:createdAt)
   end
 
   def avg_first_response_time
