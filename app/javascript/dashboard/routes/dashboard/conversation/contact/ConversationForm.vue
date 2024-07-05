@@ -258,30 +258,29 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import axios from 'axios';
+import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
+import InboxDropdownItem from 'dashboard/components/widgets/InboxDropdownItem.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
-import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead.vue';
 import CannedResponse from 'dashboard/components/widgets/conversation/CannedResponse.vue';
 import MessageSignatureMissingAlert from 'dashboard/components/widgets/conversation/MessageSignatureMissingAlert';
-import InboxDropdownItem from 'dashboard/components/widgets/InboxDropdownItem.vue';
-import WhatsappTemplates from './WhatsappTemplates.vue';
-import alertMixin from 'shared/mixins/alertMixin';
-import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
-import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
-import { getInboxSource } from 'dashboard/helper/inbox';
-import { required, requiredIf } from 'vuelidate/lib/validators';
-import axios from 'axios';
-import inboxMixin from 'shared/mixins/inboxMixin';
-import FileUpload from 'vue-upload-component';
-import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
-import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
-import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
+import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead.vue';
 import {
   appendSignature,
   removeSignature,
 } from 'dashboard/helper/editorHelper';
+import { getInboxSource } from 'dashboard/helper/inbox';
+import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
+import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
+import alertMixin from 'shared/mixins/alertMixin';
+import inboxMixin, { INBOX_TYPES } from 'shared/mixins/inboxMixin';
+import FileUpload from 'vue-upload-component';
+import { required, requiredIf } from 'vuelidate/lib/validators';
+import { mapGetters } from 'vuex';
+import WhatsappTemplates from './WhatsappTemplates.vue';
 
 export default {
   components: {

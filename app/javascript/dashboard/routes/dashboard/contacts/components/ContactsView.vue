@@ -82,21 +82,21 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import ContactsHeader from './Header.vue';
-import ContactsTable from './ContactsTable.vue';
-import ContactInfoPanel from './ContactInfoPanel.vue';
-import CreateContact from 'dashboard/routes/dashboard/conversation/contact/CreateContact.vue';
 import TableFooter from 'dashboard/components/widgets/TableFooter.vue';
-import ImportContacts from './ImportContacts.vue';
-import ContactsAdvancedFilters from './ContactsAdvancedFilters.vue';
-import contactFilterItems from '../contactFilterItems';
-import filterQueryGenerator from '../../../../helper/filterQueryGenerator';
+import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
+import CreateContact from 'dashboard/routes/dashboard/conversation/contact/CreateContact.vue';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews.vue';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
-import { CONTACTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
-import alertMixin from 'shared/mixins/alertMixin';
 import countries from 'shared/constants/countries.js';
-import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
+import alertMixin from 'shared/mixins/alertMixin';
+import { CONTACTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
+import filterQueryGenerator from '../../../../helper/filterQueryGenerator';
+import contactFilterItems from '../contactFilterItems';
+import ContactInfoPanel from './ContactInfoPanel.vue';
+import ContactsAdvancedFilters from './ContactsAdvancedFilters.vue';
+import ContactsTable from './ContactsTable.vue';
+import ContactsHeader from './Header.vue';
+import ImportContacts from './ImportContacts.vue';
 
 const DEFAULT_PAGE = 1;
 const FILTER_TYPE_CONTACT = 1;
@@ -322,6 +322,7 @@ export default {
       }
     },
     openContactInfoPanel(contactId) {
+      this.$store.dispatch('contacts/show', { id: contactId });
       this.selectedContactId = contactId;
       this.showContactInfoPanelPane = true;
     },
