@@ -3,7 +3,7 @@ json.title resource.title
 json.description resource.description
 json.account_id resource.account_id
 json.inbox do
-  json.partial! 'api/v1/models/inbox', formats: [:json], resource: resource.inbox
+  json.partial! 'api/v1/models/inbox', formats: [:json], resource: resource.inbox if resource.inbox.present?
 end
 json.sender do
   json.partial! 'api/v1/models/agent', formats: [:json], resource: resource.sender if resource.sender.present?

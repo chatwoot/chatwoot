@@ -12,7 +12,6 @@
           type="text"
           :class="{ error: $v.title.$error }"
           :error="$v.title.$error ? $t('CAMPAIGN.ADD.FORM.TITLE.ERROR') : ''"
-          :placeholder="$t('CAMPAIGN.ADD.FORM.TITLE.PLACEHOLDER')"
           @blur="$v.title.$touch"
         />
 
@@ -25,7 +24,6 @@
               v-model="message"
               class="message-editor"
               :class="{ editor_warning: $v.message.$error }"
-              :placeholder="$t('CAMPAIGN.ADD.FORM.MESSAGE.PLACEHOLDER')"
               @blur="$v.message.$touch"
             />
             <span v-if="$v.message.$error" class="editor-warning__message">
@@ -41,7 +39,6 @@
               v-model="message"
               rows="5"
               type="text"
-              :placeholder="$t('CAMPAIGN.ADD.FORM.MESSAGE.PLACEHOLDER')"
               @blur="$v.message.$touch"
             />
             <span v-if="$v.message.$error" class="message">
@@ -52,7 +49,13 @@
             v-model="privateNote"
             :label="$t('CAMPAIGN.ADD.FORM.PRIVATE_NOTE.LABEL')"
             type="text"
-            :placeholder="$t('CAMPAIGN.ADD.FORM.PRIVATE_NOTE.PLACEHOLDER')"
+            :class="{ error: $v.privateNote.$error }"
+            :error="
+              $v.privateNote.$error
+                ? $t('CAMPAIGN.ADD.FORM.PRIVATE_NOTE.ERROR')
+                : ''
+            "
+            @blur="$v.privateNote.$touch"
           />
         </div>
 
@@ -72,7 +75,7 @@
           </select>
           <multiselect
             v-else
-            v-model="selectedInbox"
+            v-model="selectedInboxes"
             :options="inboxes"
             track-by="id"
             label="name"
@@ -84,10 +87,10 @@
             selected-label
             :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
             :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
-            @blur="$v.selectedInbox.$touch"
-            @select="$v.selectedInbox.$touch"
+            @blur="$v.selectedInboxes.$touch"
+            @select="$v.selectedInboxes.$touch"
           />
-          <span v-if="$v.selectedInbox.$error" class="message">
+          <span v-if="$v.selectedInboxes.$error" class="message">
             {{ $t('CAMPAIGN.ADD.FORM.INBOX.ERROR') }}
           </span>
         </label>
@@ -95,11 +98,11 @@
         <label
           v-if="isOneOffType || isFlexibleType"
           class="multiselect-wrap--small"
-          :class="{ error: $v.selectedAudience.$error }"
+          :class="{ error: $v.selectedAudiences.$error }"
         >
           {{ $t('CAMPAIGN.ADD.FORM.AUDIENCE.LABEL') }}
           <multiselect
-            v-model="selectedAudience"
+            v-model="selectedAudiences"
             :options="audienceList"
             track-by="id"
             label="title"
@@ -111,10 +114,10 @@
             selected-label
             :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
             :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
-            @blur="$v.selectedAudience.$touch"
-            @select="$v.selectedAudience.$touch"
+            @blur="$v.selectedAudiences.$touch"
+            @select="$v.selectedAudiences.$touch"
           />
-          <span v-if="$v.selectedAudience.$error" class="message">
+          <span v-if="$v.selectedAudiences.$error" class="message">
             {{ $t('CAMPAIGN.ADD.FORM.AUDIENCE.ERROR') }}
           </span>
         </label>
@@ -143,7 +146,6 @@
           <woot-date-time-picker
             :value="scheduledAt"
             :confirm-text="$t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.CONFIRM')"
-            :placeholder="$t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.PLACEHOLDER')"
             @change="onChange"
           />
         </label>
@@ -193,7 +195,7 @@
           {{ $t('CAMPAIGN.ADD.FORM.TRIGGER_ONLY_BUSINESS_HOURS') }}
         </label>
         <div v-if="isFlexibleType">
-          <label>
+          <label :class="{ error: $v.flexibleScheduledAt.$error }">
             {{ $t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.LABEL') }}
           </label>
           <div class="flex flex-row gap-2">
@@ -228,6 +230,9 @@
               :placeholder="$t('CAMPAIGN.FLEXIBLE.EXTRA_DAYS')"
             />
           </div>
+          <span v-if="$v.flexibleScheduledAt.$error" class="message">
+            {{ $t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.ERROR') }}
+          </span>
         </div>
       </div>
 
@@ -245,7 +250,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { required } from 'vuelidate/lib/validators';
+import { required, requiredIf } from 'vuelidate/lib/validators';
 import alertMixin from 'shared/mixins/alertMixin';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import campaignMixin from 'shared/mixins/campaignMixin';
@@ -278,7 +283,8 @@ export default {
       scheduledAttribute: null,
       scheduledCalculation: null,
       extraDays: null,
-      selectedAudience: [],
+      selectedAudiences: [],
+      selectedInboxes: [],
       senderList: [],
       // eslint-disable-next-line vue/no-unused-components
       contactFilterItems,
@@ -286,6 +292,10 @@ export default {
         { key: 'equal', name: this.$t('CAMPAIGN.FLEXIBLE.CALCULATION.EQUAL') },
         { key: 'plus', name: this.$t('CAMPAIGN.FLEXIBLE.CALCULATION.PLUS') },
         { key: 'minus', name: this.$t('CAMPAIGN.FLEXIBLE.CALCULATION.MINUS') },
+        {
+          key: 'equalWithoutYear',
+          name: this.$t('CAMPAIGN.FLEXIBLE.CALCULATION.EQUAL_WITHOUT_YEAR'),
+        },
       ],
     };
   },
@@ -296,10 +306,34 @@ export default {
         required,
       },
       message: {
-        required,
+        required: requiredIf(() => {
+          return this.privateNote === '';
+        }),
+      },
+      privateNote: {
+        required: requiredIf(() => {
+          return this.message === '';
+        }),
       },
       selectedInbox: {
-        required,
+        required: requiredIf(() => {
+          return this.selectedInboxes === [];
+        }),
+      },
+      selectedInboxes: {
+        required: requiredIf(() => {
+          return this.selectedInbox === null;
+        }),
+      },
+      flexibleScheduledAt: {
+        required: requiredIf(() => {
+          return (
+            this.isFlexibleType &&
+            (this.scheduledCalculation === null ||
+              this.scheduledAttribute === null ||
+              this.extraDays === null)
+          );
+        }),
       },
     };
     if (this.isOngoingType) {
@@ -335,9 +369,9 @@ export default {
     }
     return {
       ...commonValidations,
-      selectedAudience: {
+      selectedAudiences: {
         isEmpty() {
-          return !!this.selectedAudience.length;
+          return !!this.selectedAudiences.length;
         },
       },
     };
@@ -370,7 +404,7 @@ export default {
   },
   methods: {
     scheduledCalculationChange() {
-      if (this.scheduledCalculation.key === 'equal') {
+      if (this.scheduledCalculation.key.startsWith('equal')) {
         this.extraDays = 0;
         this.showExtraDays = false;
       } else {
@@ -417,21 +451,37 @@ export default {
           },
         };
       } else {
-        const audience = this.selectedAudience.map(item => {
+        const audience = this.selectedAudiences.map(item => {
           return {
             id: item.id,
-            type: 'Label',
+            type: item.type,
+          };
+        });
+        const inboxes = this.selectedInboxes.map(item => {
+          return {
+            id: item.id,
+            name: item.name,
           };
         });
         campaignDetails = {
           title: this.title,
           message: this.message,
+          private_note: this.privateNote,
           inbox_id: this.selectedInbox,
           scheduled_at: this.scheduledAt,
+          flexible_scheduled_at: {
+            calculation: this.scheduledCalculation?.key,
+            contact_attribute: this.scheduledAttribute?.key,
+            extra_days: this.extraDays,
+          },
           audience,
+          inboxes,
         };
       }
-      return campaignDetails;
+      return {
+        ...campaignDetails,
+        campaign_type: this.campaignType,
+      };
     },
     async addCampaign() {
       this.$v.$touch();

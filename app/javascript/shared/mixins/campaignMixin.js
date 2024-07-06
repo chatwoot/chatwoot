@@ -56,7 +56,9 @@ export default {
       const labels = this.$store.getters['labels/getLabels'];
       const newLabels = labels.map(item => ({
         id: item.id,
-        title: `${this.$t('LABEL_MGMT.HEADER')}: ${item.description}`,
+        title: `${this.$t('LABEL_MGMT.HEADER')}: ${
+          item.description || item.title
+        }`,
         type: 'label',
       }));
 
