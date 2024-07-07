@@ -11,7 +11,6 @@
           v-for="campaign in campaigns"
           :key="campaign.id"
           :campaign="campaign"
-          :is-ongoing-type="isOngoingType"
           @edit="campaign => $emit('edit', campaign)"
           @delete="campaign => $emit('delete', campaign)"
         />

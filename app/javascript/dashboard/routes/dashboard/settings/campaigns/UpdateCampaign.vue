@@ -1,10 +1,10 @@
 <template>
   <div class="h-auto overflow-auto flex flex-col">
     <woot-modal-header
-      :header-title="$t('CAMPAIGN.ADD.TITLE')"
+      :header-title="pageTitle"
       :header-content="$t('CAMPAIGN.ADD.DESC')"
     />
-    <form class="flex flex-col w-full" @submit.prevent="addCampaign">
+    <form class="flex flex-col w-full" @submit.prevent="updateCampaign">
       <div class="w-full">
         <woot-input
           v-model="title"
@@ -144,7 +144,7 @@
         <label v-if="isOneOffType">
           {{ $t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.LABEL') }}
           <woot-date-time-picker
-            :value="scheduledAt"
+            v-model="scheduledAt"
             :confirm-text="$t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.CONFIRM')"
             @change="onChange"
           />
@@ -238,7 +238,11 @@
 
       <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
         <woot-button :is-loading="uiFlags.isCreating">
-          {{ $t('CAMPAIGN.ADD.CREATE_BUTTON_TEXT') }}
+          {{
+            selectedCampaign
+              ? $t('CAMPAIGN.EDIT.UPDATE_BUTTON_TEXT')
+              : $t('CAMPAIGN.ADD.CREATE_BUTTON_TEXT')
+          }}
         </woot-button>
         <woot-button variant="clear" @click.prevent="onClose">
           {{ $t('CAMPAIGN.ADD.CANCEL_BUTTON_TEXT') }}
@@ -258,6 +262,7 @@ import WootDateTimePicker from 'dashboard/components/ui/DateTimePicker.vue';
 import { URLPattern } from 'urlpattern-polyfill';
 import { CAMPAIGNS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import contactFilterItems from '../../contacts/contactFilterItems';
+import { parseISO } from 'date-fns';
 
 export default {
   components: {
@@ -266,6 +271,12 @@ export default {
   },
 
   mixins: [alertMixin, campaignMixin],
+  props: {
+    selectedCampaign: {
+      type: Object,
+      default: () => {},
+    },
+  },
   data() {
     return {
       title: '',
@@ -277,7 +288,6 @@ export default {
       timeOnPage: 10,
       show: true,
       enabled: true,
-      showExtraDays: true,
       triggerOnlyDuringBusinessHours: false,
       scheduledAt: null,
       scheduledAttribute: null,
@@ -288,15 +298,6 @@ export default {
       senderList: [],
       // eslint-disable-next-line vue/no-unused-components
       contactFilterItems,
-      scheduledCalculations: [
-        { key: 'equal', name: this.$t('CAMPAIGN.FLEXIBLE.CALCULATION.EQUAL') },
-        { key: 'plus', name: this.$t('CAMPAIGN.FLEXIBLE.CALCULATION.PLUS') },
-        { key: 'minus', name: this.$t('CAMPAIGN.FLEXIBLE.CALCULATION.MINUS') },
-        {
-          key: 'equalWithoutYear',
-          name: this.$t('CAMPAIGN.FLEXIBLE.CALCULATION.EQUAL_WITHOUT_YEAR'),
-        },
-      ],
     };
   },
 
@@ -377,6 +378,14 @@ export default {
     };
   },
   computed: {
+    pageTitle() {
+      if (this.selectedCampaign) {
+        return `${this.$t('CAMPAIGN.EDIT.TITLE')} - ${
+          this.selectedCampaign.title
+        }`;
+      }
+      return this.$t('CAMPAIGN.ADD.TITLE');
+    },
     ...mapGetters({
       uiFlags: 'campaigns/getUIFlags',
     }),
@@ -384,7 +393,13 @@ export default {
       if (this.isOngoingType) {
         return this.$store.getters['inboxes/getWebsiteInboxes'];
       }
-      return this.$store.getters['inboxes/getInboxes'];
+      const inboxes = this.$store.getters['inboxes/getInboxes'];
+
+      return inboxes.filter(
+        item =>
+          item.channel_type !== 'Channel::StringeePhoneCall' &&
+          item.channel_type !== 'Channel::WebWidget'
+      );
     },
     sendersAndBotList() {
       return [
@@ -395,21 +410,25 @@ export default {
         ...this.senderList,
       ];
     },
+    showExtraDays() {
+      return !this.scheduledCalculation?.key.startsWith('equal');
+    },
   },
   mounted() {
     this.$track(CAMPAIGNS_EVENTS.OPEN_NEW_CAMPAIGN_MODAL, {
       type: this.campaignType,
     });
     this.$store.dispatch('customViews/get', 'contact');
+    if (this.selectedCampaign) {
+      this.setFormValues();
+    }
   },
   methods: {
     scheduledCalculationChange() {
       if (this.scheduledCalculation.key.startsWith('equal')) {
         this.extraDays = 0;
-        this.showExtraDays = false;
       } else {
         this.extraDays = null;
-        this.showExtraDays = true;
       }
     },
     onClose() {
@@ -418,7 +437,8 @@ export default {
     onChange(value) {
       this.scheduledAt = value;
     },
-    async onChangeInbox() {
+    async loadInboxMembers() {
+      if (!this.selectedInbox) return;
       try {
         const response = await this.$store.dispatch('inboxMembers/get', {
           inboxId: this.selectedInbox,
@@ -432,6 +452,61 @@ export default {
           error?.response?.message || this.$t('CAMPAIGN.ADD.API.ERROR_MESSAGE');
         this.showAlert(errorMessage);
       }
+    },
+    async onChangeInbox() {
+      this.loadInboxMembers();
+    },
+    setFormValues() {
+      const {
+        title,
+        message,
+        private_note: privateNote,
+        enabled,
+        trigger_only_during_business_hours: triggerOnlyDuringBusinessHours,
+        trigger_rules: { url: endPoint, time_on_page: timeOnPage },
+        sender,
+        scheduled_at: scheduledAt,
+      } = this.selectedCampaign;
+      this.title = title;
+      this.message = message;
+      this.privateNote = privateNote;
+      this.scheduledAt = scheduledAt ? parseISO(scheduledAt) : '';
+      this.endPoint = endPoint;
+      this.timeOnPage = timeOnPage;
+      this.selectedInbox = this.selectedCampaign.inbox?.id;
+      this.selectedInboxes = this.getSelectedInboxes();
+      this.selectedAudiences = this.getSelectedAudiences();
+      this.triggerOnlyDuringBusinessHours = triggerOnlyDuringBusinessHours;
+      this.selectedSender = (sender && sender.id) || 0;
+      this.enabled = enabled;
+      this.setFlexibleSchedule();
+      this.loadInboxMembers();
+    },
+    setFlexibleSchedule() {
+      if (!this.selectedCampaign.flexible_scheduled_at?.calculation) return;
+      const {
+        calculation,
+        contact_attribute: attribute,
+        extra_days: extraDays,
+      } = this.selectedCampaign.flexible_scheduled_at;
+      this.scheduledCalculation = this.scheduledCalculations.find(
+        i => i.key === calculation
+      );
+      this.scheduledAttribute = this.contactDateAttributes.find(
+        i => i.key === attribute.key
+      );
+      this.extraDays = extraDays;
+    },
+    getSelectedInboxes() {
+      return this.selectedCampaign.inboxes?.map(inbox => {
+        return this.inboxes.find(i => i.id === inbox.id);
+      });
+    },
+    getSelectedAudiences() {
+      const audiences = this.audienceList;
+      return this.selectedCampaign.audience?.map(item => {
+        return audiences.find(i => i.id === item.id);
+      });
     },
     getCampaignDetails() {
       let campaignDetails = null;
@@ -471,7 +546,10 @@ export default {
           scheduled_at: this.scheduledAt,
           flexible_scheduled_at: {
             calculation: this.scheduledCalculation?.key,
-            contact_attribute: this.scheduledAttribute?.key,
+            contact_attribute: {
+              key: this.scheduledAttribute?.key,
+              type: this.scheduledAttribute?.type,
+            },
             extra_days: this.extraDays,
           },
           audience,
@@ -482,6 +560,10 @@ export default {
         ...campaignDetails,
         campaign_type: this.campaignType,
       };
+    },
+    async updateCampaign() {
+      if (this.selectedCampaign) this.editCampaign();
+      else this.addCampaign();
     },
     async addCampaign() {
       this.$v.$touch();
@@ -503,6 +585,23 @@ export default {
         const errorMessage =
           error?.response?.message || this.$t('CAMPAIGN.ADD.API.ERROR_MESSAGE');
         this.showAlert(errorMessage);
+      }
+    },
+    async editCampaign() {
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        return;
+      }
+      try {
+        const campaignDetails = this.getCampaignDetails();
+        await this.$store.dispatch('campaigns/update', {
+          id: this.selectedCampaign.id,
+          ...campaignDetails,
+        });
+        this.showAlert(this.$t('CAMPAIGN.EDIT.API.SUCCESS_MESSAGE'));
+        this.onClose();
+      } catch (error) {
+        this.showAlert(this.$t('CAMPAIGN.EDIT.API.ERROR_MESSAGE'));
       }
     },
   },

@@ -19,6 +19,17 @@ export default {
     isOneOffType() {
       return this.campaignType === CAMPAIGN_TYPES.ONE_OFF;
     },
+    scheduledCalculations() {
+      return [
+        { key: 'equal', name: this.$t('CAMPAIGN.FLEXIBLE.CALCULATION.EQUAL') },
+        { key: 'plus', name: this.$t('CAMPAIGN.FLEXIBLE.CALCULATION.PLUS') },
+        { key: 'minus', name: this.$t('CAMPAIGN.FLEXIBLE.CALCULATION.MINUS') },
+        {
+          key: 'equalWithoutYear',
+          name: this.$t('CAMPAIGN.FLEXIBLE.CALCULATION.EQUAL_WITHOUT_YEAR'),
+        },
+      ];
+    },
     contactDateAttributes() {
       const attributes = this.contactFilterItems
         .filter(item => item.inputType === 'date')
