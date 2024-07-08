@@ -50,7 +50,7 @@ module ReportHelper
   end
 
   def triggers
-    grouped_reporting_events = get_grouped_values(scope.triggers, :createdAt)
+    grouped_reporting_events = get_grouped_values(scope.triggers, :createdAt, timezone: false)
     grouped_reporting_events.average(:createdAt)
   end
 

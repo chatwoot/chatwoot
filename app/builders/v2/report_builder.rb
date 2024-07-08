@@ -94,14 +94,14 @@ class V2::ReportBuilder
     @team ||= account.teams.find(params[:id])
   end
 
-  def get_grouped_values(object_scope, field = :created_at)
+  def get_grouped_values(object_scope, field = :created_at, timezone: true)
     @grouped_values = object_scope.group_by_period(
       params[:group_by] || DEFAULT_GROUP_BY,
       field,
       default_value: 0,
       range: range,
       permit: %w[day week month year hour],
-      time_zone: @timezone
+      time_zone: timezone ? @timezone : nil
     )
   end
 
