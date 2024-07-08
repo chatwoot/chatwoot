@@ -136,7 +136,7 @@ export default {
       showActionsDropdown: false,
       STATUS_TYPE: wootConstants.STATUS_TYPE,
       showCustomSnoozeModal: false,
-      showCustomLabelModal: true,
+      showCustomLabelModal: false,
     };
   },
   computed: {
