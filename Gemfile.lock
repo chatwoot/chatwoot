@@ -464,7 +464,7 @@ GEM
     mini_magick (4.12.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.7)
-    minitest (5.24.0)
+    minitest (5.24.1)
     mock_redis (0.36.0)
       ruby2_keywords
     msgpack (1.7.0)
@@ -707,14 +707,14 @@ GEM
       activesupport (>= 4)
     selectize-rails (0.12.6)
     semantic_range (3.0.0)
-    sentry-rails (5.18.0)
+    sentry-rails (5.18.1)
       railties (>= 5.0)
-      sentry-ruby (~> 5.18.0)
-    sentry-ruby (5.18.0)
+      sentry-ruby (~> 5.18.1)
+    sentry-ruby (5.18.1)
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
-    sentry-sidekiq (5.18.0)
-      sentry-ruby (~> 5.18.0)
+    sentry-sidekiq (5.18.1)
+      sentry-ruby (~> 5.18.1)
       sidekiq (>= 3.0)
     sexp_processor (4.17.0)
     shoulda-matchers (5.3.0)
@@ -936,9 +936,9 @@ DEPENDENCIES
   scout_apm
   scss_lint
   seed_dump
-  sentry-rails (>= 5.18.0)
+  sentry-rails (>= 5.18.1)
   sentry-ruby
-  sentry-sidekiq (>= 5.18.0)
+  sentry-sidekiq (>= 5.18.1)
   shoulda-matchers
   sidekiq (>= 7.3.0)
   sidekiq-cron (>= 1.12.0)
