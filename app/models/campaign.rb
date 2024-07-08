@@ -8,7 +8,10 @@
 #  campaign_type                      :integer          default("ongoing"), not null
 #  description                        :text
 #  enabled                            :boolean          default(TRUE)
-#  message                            :text             not null
+#  flexible_scheduled_at              :jsonb
+#  inboxes                            :jsonb
+#  message                            :text
+#  private_note                       :text
 #  scheduled_at                       :datetime
 #  title                              :string           not null
 #  trigger_only_during_business_hours :boolean          default(FALSE)
@@ -17,7 +20,7 @@
 #  updated_at                         :datetime         not null
 #  account_id                         :bigint           not null
 #  display_id                         :integer          not null
-#  inbox_id                           :bigint           not null
+#  inbox_id                           :bigint
 #  sender_id                          :integer
 #
 # Indexes
@@ -31,14 +34,12 @@
 class Campaign < ApplicationRecord
   include UrlHelper
   validates :account_id, presence: true
-  validates :inbox_id, presence: true
   validates :title, presence: true
-  validates :message, presence: true
   validate :validate_campaign_inbox
   validate :validate_url
   validate :prevent_completed_campaign_from_update, on: :update
   belongs_to :account
-  belongs_to :inbox
+  belongs_to :inbox, optional: true
   belongs_to :sender, class_name: 'User', optional: true
 
   enum campaign_type: { ongoing: 0, one_off: 1, flexible: 2 }
@@ -47,7 +48,6 @@ class Campaign < ApplicationRecord
 
   has_many :conversations, dependent: :nullify, autosave: true
 
-  before_validation :ensure_correct_campaign_attributes
   after_commit :set_display_id, unless: :display_id?
 
   def trigger!
@@ -68,19 +68,6 @@ class Campaign < ApplicationRecord
     return unless inbox
 
     errors.add :inbox, 'Unsupported Inbox type' unless ['Website', 'Twilio SMS', 'Sms'].include? inbox.inbox_type
-  end
-
-  # TO-DO we clean up with better validations when campaigns evolve into more inboxes
-  def ensure_correct_campaign_attributes
-    return if inbox.blank?
-
-    if ['Twilio SMS', 'Sms'].include?(inbox.inbox_type)
-      self.campaign_type = 'one_off'
-      self.scheduled_at ||= Time.now.utc
-    else
-      self.campaign_type = 'ongoing'
-      self.scheduled_at = nil
-    end
   end
 
   def validate_url

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_06_21_025311) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_06_013430) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -204,11 +204,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_21_025311) do
     t.integer "display_id", null: false
     t.string "title", null: false
     t.text "description"
-    t.text "message", null: false
+    t.text "message"
     t.integer "sender_id"
     t.boolean "enabled", default: true
     t.bigint "account_id", null: false
-    t.bigint "inbox_id", null: false
+    t.bigint "inbox_id"
     t.jsonb "trigger_rules", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -217,6 +217,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_21_025311) do
     t.jsonb "audience", default: []
     t.datetime "scheduled_at", precision: nil
     t.boolean "trigger_only_during_business_hours", default: false
+    t.text "private_note"
+    t.jsonb "flexible_scheduled_at"
+    t.jsonb "inboxes"
     t.index ["account_id"], name: "index_campaigns_on_account_id"
     t.index ["campaign_status"], name: "index_campaigns_on_campaign_status"
     t.index ["campaign_type"], name: "index_campaigns_on_campaign_type"

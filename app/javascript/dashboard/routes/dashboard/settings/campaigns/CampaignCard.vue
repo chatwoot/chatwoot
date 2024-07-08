@@ -10,13 +10,15 @@
           {{ campaign.title }}
         </div>
         <div
-          v-dompurify-html="formatMessage(campaign.message)"
+          v-dompurify-html="
+            formatMessage(campaign.message || campaign.private_note)
+          "
           class="text-sm line-clamp-1 [&>p]:mb-0"
         />
       </div>
       <div class="flex flex-row space-x-4">
         <woot-button
-          v-if="isOngoingType"
+          v-if="campaign.campaign_status === 'active'"
           variant="link"
           icon="edit"
           color-scheme="secondary"
@@ -44,7 +46,14 @@
         :color-scheme="colorScheme"
         class="mr-3 text-xs"
       />
-      <inbox-name :inbox="campaign.inbox" class="mb-1 ltr:ml-0 rtl:mr-0" />
+      <inbox-name
+        v-if="campaign.inbox"
+        :inbox="campaign.inbox"
+        class="mb-1 ltr:ml-0 rtl:mr-0"
+      />
+      <div v-if="campaign.inboxes" class="mb-1 ltr:ml-0 rtl:mr-0 text-xs">
+        {{ inboxNames }}
+      </div>
       <user-avatar-with-name
         v-if="campaign.sender"
         :user="campaign.sender"
@@ -60,7 +69,13 @@
         v-if="campaign.scheduled_at"
         class="mb-1 text-xs text-slate-700 dark:text-slate-500"
       >
-        {{ messageStamp(new Date(campaign.scheduled_at), 'dd/MM, HH:mm') }}
+        {{ formattedScheduledAt }}
+      </div>
+      <div
+        v-if="campaign.flexible_scheduled_at"
+        class="mb-1 text-xs text-slate-700 dark:text-slate-500"
+      >
+        {{ flexibleScheduledLabel }}
       </div>
     </div>
   </div>
@@ -70,26 +85,62 @@
 import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.vue';
 import InboxName from 'dashboard/components/widgets/InboxName.vue';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import timeMixin from 'dashboard/mixins/time';
+import { format } from 'date-fns';
+import campaignMixin from 'shared/mixins/campaignMixin';
+import contactFilterItems from '../../contacts/contactFilterItems';
 
 export default {
   components: {
     UserAvatarWithName,
     InboxName,
   },
-  mixins: [messageFormatterMixin, timeMixin],
+  mixins: [messageFormatterMixin, campaignMixin],
   props: {
     campaign: {
       type: Object,
       required: true,
     },
-    isOngoingType: {
-      type: Boolean,
-      default: true,
-    },
   },
-
+  data() {
+    return {
+      // eslint-disable-next-line vue/no-unused-components
+      contactFilterItems,
+    };
+  },
   computed: {
+    formattedScheduledAt() {
+      return format(new Date(this.campaign.scheduled_at), 'dd/MM/yyyy, HH:mm');
+    },
+    flexibleScheduledLabel() {
+      let label = '';
+      const schedule = this.campaign.flexible_scheduled_at;
+      if (schedule.contact_attribute.type === 'attribute') {
+        const attr = this.contactFilterItems.find(
+          i => i.attributeKey === schedule.contact_attribute.key
+        );
+        label = this.$t(`CONTACTS_FILTER.ATTRIBUTES.${attr.attributeI18nKey}`);
+      } else {
+        const attr = this.$store.getters['attributes/getAttributeByKey'](
+          schedule.contact_attribute.key
+        );
+        label = attr?.attribute_display_name;
+      }
+
+      let calName = '';
+      const calculation = this.scheduledCalculations.find(
+        i => i.key === schedule.calculation
+      );
+      if (schedule.calculation.startsWith('equal')) {
+        calName = calculation.name;
+      } else {
+        calName = calculation.name.replace('x', schedule.extra_days);
+      }
+
+      return `${label} (${calName})`;
+    },
+    inboxNames() {
+      return this.campaign.inboxes.map(item => item.name).join(', ');
+    },
     campaignStatus() {
       if (this.isOngoingType) {
         return this.campaign.enabled

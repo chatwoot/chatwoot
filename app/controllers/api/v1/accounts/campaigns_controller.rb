@@ -28,7 +28,8 @@ class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
   end
 
   def campaign_params
-    params.require(:campaign).permit(:title, :description, :message, :enabled, :trigger_only_during_business_hours, :inbox_id, :sender_id,
-                                     :scheduled_at, audience: [:type, :id], trigger_rules: {})
+    params.require(:campaign).permit(:title, :description, :message, :private_note, :trigger_only_during_business_hours,
+                                     :scheduled_at, :inbox_id, :sender_id, :enabled, :campaign_type,
+                                     inboxes: [:name, :id], audience: [:type, :id], flexible_scheduled_at: {}, trigger_rules: {})
   end
 end

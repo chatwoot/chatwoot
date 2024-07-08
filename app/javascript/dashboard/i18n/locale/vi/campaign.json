@@ -25,7 +25,7 @@
           "ERROR": "Thời gian thực hiện là bắt buộc"
         },
         "AUDIENCE": {
-          "LABEL": "Danh sách khách hàng nhận tin nhắn",
+          "LABEL": "Danh sách khách hàng của chiến dịch",
           "PLACEHOLDER": "Chọn bộ lọc và nhãn phân loại",
           "ERROR": "Bộ lọc hoặc nhãn phân loại bắt buộc có"
         },
@@ -37,11 +37,12 @@
         "MESSAGE": {
           "LABEL": "Tin nhắn đến khách hàng",
           "PLACEHOLDER": "Vui lòng nhập thông điệp của chiến dịch",
-          "ERROR": "Thông điệp bắt buộc có"
+          "ERROR": "Bắt buộc có tin nhắn đến khách hàng hoặc tin nhắn lưu ý riêng"
         },
         "PRIVATE_NOTE": {
-          "LABEL": "Tin nhắn lưu ý riêng",
-          "PLACEHOLDER": "Vui lòng nhập tin nhắn lưu ý riêng"
+          "LABEL": "Tin nhắn lưu ý riêng cho người phụ trách",
+          "PLACEHOLDER": "Vui lòng nhập tin nhắn lưu ý riêng",
+          "ERROR": "Bắt buộc có tin nhắn đến khách hàng hoặc tin nhắn lưu ý riêng"
         },
         "SENT_BY": {
           "LABEL": "Gửi bởi",
@@ -120,11 +121,12 @@
     "FLEXIBLE": {
       "HEADER": "Chiến dịch theo thời gian linh hoạt",
       "404": "Chiến dịch theo thời gian linh hoạt dùng để gửi tin nhắn đến một danh sách khách hàng theo thời gian linh hoạt được thiết lập sẵn, hiện chưa có chiến dịch nào được tạo",
-      "INBOXES_NOT_FOUND": "Vui lòng tạo một kênh hội thoại sms và bắt đầu thêm chiến dịch",
+      "INBOXES_NOT_FOUND": "Vui lòng tạo một kênh hội thoại và bắt đầu thêm chiến dịch",
       "CALCULATION": {
         "EQUAL": "Chính xác vào ngày này",
         "PLUS": "x ngày sau ngày này",
-        "MINUS": "x ngày trước ngày này"
+        "MINUS": "x ngày trước ngày này",
+        "EQUAL_WITHOUT_YEAR": "Chính xác theo ngày tháng"
       },
       "SCHEDULED_CALCULATION": "Chọn cách tính",
       "SCHEDULED_ATTRIBUTE": "Chọn thời điểm",
@@ -133,7 +135,7 @@
     "ONE_OFF": {
       "HEADER": "Chiến dịch theo thời gian cố định",
       "404": "Chiến dịch theo thời gian cố định dùng để gửi tin nhắn đến một danh sách khách hàng vào một thời điểm cụ thể, hiện chưa có chiến dịch nào được tạo",
-      "INBOXES_NOT_FOUND": "Vui lòng tạo một kênh hội thoại sms và bắt đầu thêm chiến dịch"
+      "INBOXES_NOT_FOUND": "Vui lòng tạo một kênh hội thoại và bắt đầu thêm chiến dịch"
     },
     "ONGOING": {
       "HEADER": "Chiến dịch website live chat",

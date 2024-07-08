@@ -18,7 +18,7 @@
 <script>
 import campaignMixin from 'shared/mixins/campaignMixin';
 import Campaign from './Campaign.vue';
-import AddCampaign from './AddCampaign.vue';
+import AddCampaign from './UpdateCampaign.vue';
 
 export default {
   components: {

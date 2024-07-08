@@ -11,7 +11,6 @@
           v-for="campaign in campaigns"
           :key="campaign.id"
           :campaign="campaign"
-          :is-ongoing-type="isOngoingType"
           @edit="campaign => $emit('edit', campaign)"
           @delete="campaign => $emit('delete', campaign)"
         />
@@ -62,13 +61,18 @@ export default {
       if (this.isOngoingType) {
         return this.$store.getters['inboxes/getWebsiteInboxes'];
       }
-      return this.$store.getters['inboxes/getTwilioInboxes'];
+      return this.$store.getters['inboxes/getInboxes'];
     },
     emptyMessage() {
       if (this.isOngoingType) {
         return this.inboxes.length
           ? this.$t('CAMPAIGN.ONGOING.404')
           : this.$t('CAMPAIGN.ONGOING.INBOXES_NOT_FOUND');
+      }
+      if (this.isFlexibleType) {
+        return this.inboxes.length
+          ? this.$t('CAMPAIGN.FLEXIBLE.404')
+          : this.$t('CAMPAIGN.FLEXIBLE.INBOXES_NOT_FOUND');
       }
 
       return this.inboxes.length
