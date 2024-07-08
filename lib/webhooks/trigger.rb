@@ -31,6 +31,7 @@ class Webhooks::Trigger
   end
 
   def handle_error(error)
+    # TODO: Handling campaign messages, if Inbox API trigger an error, then specify number of successfull requests in Campaign Model.
     return unless should_handle_error?
     return unless message
 

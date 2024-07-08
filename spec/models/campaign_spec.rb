@@ -104,6 +104,27 @@ RSpec.describe Campaign do
       end
     end
 
+    context 'when API campaign' do
+      let!(:api_channel) { create(:channel_api) }
+      let!(:api_inbox) { create(:inbox, channel: api_channel) }
+      let(:campaign) { build(:campaign, inbox: api_inbox) }
+
+      it 'only saves campaign type as oneoff and wont leave scheduled_at empty' do
+        campaign.campaign_type = 'ongoing'
+        campaign.save!
+        expect(campaign.reload.campaign_type).to eq 'one_off'
+        expect(campaign.scheduled_at.present?).to be true
+      end
+
+      it 'calls API service on trigger!' do
+        api_service = double
+        expect(Api::OneoffApiCampaignService).to receive(:new).with(campaign: campaign).and_return(api_service)
+        expect(api_service).to receive(:perform)
+        campaign.save!
+        campaign.trigger!
+      end
+    end
+
     context 'when Website campaign' do
       let(:campaign) { build(:campaign) }
 
