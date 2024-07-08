@@ -77,8 +77,8 @@ class ChatwootHub
     ChatwootExceptionTracker.new(e).capture_exception
   end
 
-  def self.send_browser_push(fcm_token_list, fcm_options)
-    info = { fcm_token_list: fcm_token_list, fcm_options: fcm_options }
+  def self.send_push(fcm_options)
+    info = { fcm_options: fcm_options }
     RestClient.post(PUSH_NOTIFICATION_URL, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
     Rails.logger.error "Exception: #{e.message}"
