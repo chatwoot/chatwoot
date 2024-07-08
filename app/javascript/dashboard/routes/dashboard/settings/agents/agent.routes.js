@@ -15,14 +15,15 @@ export default {
       children: [
         {
           path: '',
-          name: 'agents_wrapper',
           redirect: 'list',
         },
         {
           path: 'list',
           name: 'agent_list',
           component: AgentHome,
-          roles: ['administrator'],
+          meta: {
+            permissions: ['administrator'],
+          },
         },
       ],
     },
