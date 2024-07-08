@@ -61,7 +61,12 @@
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
       "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply",
+      "CONVERSATION_LABELS": {
+        "TITLE": "Conversation Labels (optional)",
+        "CANCEL": "Cancel",
+        "DESC": "Conversation labels allow you to add labels to a conversation to help organize your conversations."
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Mark as pending",

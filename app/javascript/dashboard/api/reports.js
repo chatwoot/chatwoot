@@ -16,6 +16,7 @@ class ReportsAPI extends ApiClient {
     id,
     groupBy,
     businessHours,
+    timezoneOffset = getTimeOffset(),
   }) {
     return axios.get(`${this.url}`, {
       params: {
@@ -26,7 +27,7 @@ class ReportsAPI extends ApiClient {
         id,
         group_by: groupBy,
         business_hours: businessHours,
-        timezone_offset: getTimeOffset(),
+        timezone_offset: timezoneOffset,
       },
     });
   }

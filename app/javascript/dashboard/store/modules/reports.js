@@ -160,6 +160,7 @@ export const actions = {
     Report.getReports({
       ...reportObj,
       metric: 'triggers',
+      timezoneOffset: null,
     })
       .then(response => {
         commit(types.default.SET_TRIGGERS_REPORTS, response.data);

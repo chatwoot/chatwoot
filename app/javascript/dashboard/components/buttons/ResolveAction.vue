@@ -74,6 +74,17 @@
       </woot-dropdown-menu>
     </div>
     <woot-modal
+      size="large"
+      :show="showCustomLabelModal"
+      :on-close="hideCustomLabelModal"
+    >
+      <add-label-modal
+        :conversation-id="conversationId"
+        @close="hideCustomLabelModal"
+        @submit="handleSubmit"
+      />
+    </woot-modal>
+    <woot-modal
       :show.sync="showCustomSnoozeModal"
       :on-close="hideCustomSnoozeModal"
     >
@@ -91,6 +102,8 @@ import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
+import AddLabelModal from 'dashboard/components/widgets/conversation/AddLabelModal.vue';
+
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 import {
   hasPressedAltAndEKey,
@@ -113,6 +126,7 @@ export default {
     WootDropdownItem,
     WootDropdownMenu,
     CustomSnoozeModal,
+    AddLabelModal,
   },
   mixins: [clickaway, alertMixin, eventListenerMixins],
   props: { conversationId: { type: [String, Number], required: true } },
@@ -122,6 +136,7 @@ export default {
       showActionsDropdown: false,
       STATUS_TYPE: wootConstants.STATUS_TYPE,
       showCustomSnoozeModal: false,
+      showCustomLabelModal: false,
     };
   },
   computed: {
@@ -214,10 +229,17 @@ export default {
     hideCustomSnoozeModal() {
       this.showCustomSnoozeModal = false;
     },
+    hideCustomLabelModal() {
+      this.showCustomLabelModal = !this.showCustomLabelModal;
+    },
     onCmdOpenConversation() {
       this.toggleStatus(this.STATUS_TYPE.OPEN);
     },
     onCmdResolveConversation() {
+      this.showCustomLabelModal = true;
+    },
+    handleSubmit() {
+      this.showCustomLabelModal = false;
       this.toggleStatus(this.STATUS_TYPE.RESOLVED);
     },
     showOpenButton() {
