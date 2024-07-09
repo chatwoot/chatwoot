@@ -148,6 +148,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "jest-serializer-vue": "^2.0.2",
     "jest-transform-stub": "^2.0.0",
+    "jsdom": "^24.1.0",
     "lint-staged": "14.0.1",
     "postcss-preset-env": "^8.5.1",
     "prettier": "^3.0.3",

@@ -12,6 +12,11 @@ export default defineConfig({
     },
     globals: true,
     outputFile: 'coverage/sonar-report.xml',
+    server: {
+      deps: {
+        inline: ['tinykeys'],
+      },
+    },
   },
   resolve: {
     alias: {
