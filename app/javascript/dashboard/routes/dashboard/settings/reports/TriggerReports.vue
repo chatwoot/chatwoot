@@ -151,7 +151,7 @@ export default {
       }
 
       this.$store.dispatch('fetchTriggersReport', payload);
-      this.$store.dispatch('fetchTriggersMetric');
+      this.$store.dispatch('fetchTriggersMetric', payload);
     },
     onDateRangeChange({ from, to }) {
       this.from = from;
