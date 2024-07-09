@@ -1,18 +1,18 @@
 <template>
   <div
-    class="flex flex-col bg-woot-25 min-h-full w-full py-12 sm:px-6 lg:px-8 justify-center dark:bg-slate-900"
+    class="flex flex-col justify-center w-full min-h-full py-12 bg-woot-25 sm:px-6 lg:px-8 dark:bg-slate-900"
   >
     <form
-      class="sm:mx-auto sm:w-full sm:max-w-lg bg-white dark:bg-slate-800 p-11 shadow sm:shadow-lg sm:rounded-lg"
+      class="bg-white shadow sm:mx-auto sm:w-full sm:max-w-lg dark:bg-slate-800 p-11 sm:shadow-lg sm:rounded-lg"
       @submit.prevent="submit"
     >
       <h1
-        class="mb-1 text-left text-2xl font-medium tracking-tight text-slate-900 dark:text-white"
+        class="mb-1 text-2xl font-medium tracking-tight text-left text-slate-900 dark:text-white"
       >
         {{ $t('RESET_PASSWORD.TITLE') }}
       </h1>
       <p
-        class="text-sm text-slate-600 dark:text-woot-50 tracking-normal font-normal leading-6 mb-4"
+        class="mb-4 text-sm font-normal leading-6 tracking-normal text-slate-600 dark:text-woot-50"
       >
         {{
           useInstallationName(
@@ -36,7 +36,7 @@
           :loading="resetPassword.showLoading"
         />
       </div>
-      <p class="text-sm text-slate-600 dark:text-woot-50 mt-4 -mb-1">
+      <p class="mt-4 -mb-1 text-sm text-slate-600 dark:text-woot-50">
         {{ $t('RESET_PASSWORD.GO_BACK_TO_LOGIN') }}
         <router-link to="/auth/login" class="text-link">
           {{ $t('COMMON.CLICK_HERE') }}.
@@ -53,10 +53,11 @@ import { mapGetters } from 'vuex';
 import FormInput from '../../../../components/Form/Input.vue';
 import { resetPassword } from '../../../../api/auth';
 import SubmitButton from '../../../../components/Button/SubmitButton.vue';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: { FormInput, SubmitButton },
-  mixins: [globalConfigMixin],
+  mixins: [globalConfigMixin, alertMixin],
   data() {
     return {
       credentials: { email: '' },
@@ -80,10 +81,10 @@ export default {
     },
   },
   methods: {
-    showAlert(message) {
+    showAlertMessage(message) {
       // Reset loading, current selected agent
       this.resetPassword.showLoading = false;
-      bus.$emit('newToastMessage', message);
+      this.showAlert(message);
     },
     submit() {
       this.resetPassword.showLoading = true;
@@ -93,14 +94,14 @@ export default {
           if (res.data && res.data.message) {
             successMessage = res.data.message;
           }
-          this.showAlert(successMessage);
+          this.showAlertMessage(successMessage);
         })
         .catch(error => {
           let errorMessage = this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
           if (error?.response?.data?.message) {
             errorMessage = error.response.data.message;
           }
-          this.showAlert(errorMessage);
+          this.showAlertMessage(errorMessage);
         });
     },
   },

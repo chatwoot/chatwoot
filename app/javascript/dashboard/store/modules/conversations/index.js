@@ -6,6 +6,7 @@ import { findPendingMessageIndex } from './helpers';
 import { MESSAGE_STATUS } from 'shared/constants/messages';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
+import { emitter } from 'shared/helpers/mitt';
 
 const state = {
   allConversations: [],
@@ -19,6 +20,7 @@ const state = {
   conversationParticipants: [],
   conversationLastSeen: null,
   syncConversationsMessages: {},
+  conversationFilters: {},
 };
 
 // mutations
@@ -31,6 +33,23 @@ export const mutations = {
       );
       if (indexInCurrentList < 0) {
         newAllConversations.push(conversation);
+      } else if (conversation.id !== _state.selectedChatId) {
+        // If the conversation is already in the list, replace it
+        // Added this to fix the issue of the conversation not being updated
+        // When reconnecting to the websocket. If the selectedChatId is not the same as
+        // the conversation.id in the store, replace the existing conversation with the new one
+        newAllConversations[indexInCurrentList] = conversation;
+      } else {
+        // If the conversation is already in the list and selectedChatId is the same,
+        // replace all data except the messages array, attachments, dataFetched, allMessagesLoaded
+        const existingConversation = newAllConversations[indexInCurrentList];
+        newAllConversations[indexInCurrentList] = {
+          ...conversation,
+          allMessagesLoaded: existingConversation.allMessagesLoaded,
+          messages: existingConversation.messages,
+          dataFetched: existingConversation.dataFetched,
+          attachments: existingConversation.attachments,
+        };
       }
     });
     _state.allConversations = newAllConversations;
@@ -180,8 +199,8 @@ export const mutations = {
       const { conversation: { unread_count: unreadCount = 0 } = {} } = message;
       chat.unread_count = unreadCount;
       if (selectedChatId === conversationId) {
-        window.bus.$emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
-        window.bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+        emitter.emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
+        emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }
     }
   },
@@ -203,8 +222,8 @@ export const mutations = {
       };
       Vue.set(allConversations, currentConversationIndex, currentConversation);
       if (_state.selectedChatId === conversation.id) {
-        window.bus.$emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
-        window.bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
+        emitter.emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
+        emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }
     } else {
       _state.allConversations.push(conversation);
@@ -285,6 +304,13 @@ export const mutations = {
 
   [types.SET_CONTEXT_MENU_CHAT_ID](_state, chatId) {
     _state.contextMenuChatId = chatId;
+  },
+
+  [types.SET_CHAT_LIST_FILTERS](_state, data) {
+    _state.conversationFilters = data;
+  },
+  [types.UPDATE_CHAT_LIST_FILTERS](_state, data) {
+    _state.conversationFilters = { ..._state.conversationFilters, ...data };
   },
 };
 

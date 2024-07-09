@@ -125,6 +125,9 @@ export default {
         {}
       );
     },
+    onPageNumberChange(pageIndex) {
+      this.$emit('page-change', pageIndex);
+    },
   },
 };
 </script>

@@ -56,7 +56,8 @@ class Linear
       description: params[:description],
       assigneeId: params[:assignee_id],
       priority: params[:priority],
-      labelIds: params[:label_ids]
+      labelIds: params[:label_ids],
+      projectId: params[:project_id]
     }.compact
     mutation = Linear::Mutations.issue_create(variables)
     response = post({ query: mutation })

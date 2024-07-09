@@ -19,12 +19,12 @@ const initiatedAt = computed(
   () => props.conversationAttributes.initiated_at?.timestamp
 );
 
-const browserInfo = props.conversationAttributes.browser;
+const browserInfo = computed(() => props.conversationAttributes.browser);
 
 const browserName = computed(() => {
-  if (!browserInfo) return '';
+  if (!browserInfo.value) return '';
   const { browser_name: name = '', browser_version: version = '' } =
-    browserInfo;
+    browserInfo.value;
   return `${name} ${version}`;
 });
 
@@ -33,9 +33,9 @@ const browserLanguage = computed(() =>
 );
 
 const platformName = computed(() => {
-  if (!browserInfo) return '';
+  if (!browserInfo.value) return '';
   const { platform_name: name = '', platform_version: version = '' } =
-    browserInfo;
+    browserInfo.value;
   return `${name} ${version}`;
 });
 

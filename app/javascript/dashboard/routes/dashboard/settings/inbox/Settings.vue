@@ -21,10 +21,8 @@
       </woot-tabs>
     </setting-intro-banner>
 
-    <inbox-reconnection-required
-      v-if="isReconnectionRequired"
-      class="mx-8 mt-5"
-    />
+    <microsoft-reauthorize v-if="microsoftUnauthorized" :inbox="inbox" />
+    <facebook-reauthorize v-if="facebookUnauthorized" :inbox="inbox" />
 
     <div v-if="selectedTabKey === 'inbox_settings'" class="mx-8">
       <settings-section
@@ -402,7 +400,6 @@
           @click="updateInbox"
         />
       </settings-section>
-      <facebook-reauthorize v-if="isAFacebookInbox" :inbox-id="inbox.id" />
     </div>
 
     <div v-if="selectedTabKey === 'collaborators'" class="mx-8">
@@ -440,7 +437,7 @@ import WeeklyAvailability from './components/WeeklyAvailability.vue';
 import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
 import ConfigurationPage from './settingsPage/ConfigurationPage.vue';
 import CollaboratorsPage from './settingsPage/CollaboratorsPage.vue';
-import InboxReconnectionRequired from './components/InboxReconnectionRequired';
+import MicrosoftReauthorize from './channels/microsoft/Reauthorize.vue';
 import WidgetBuilder from './WidgetBuilder.vue';
 import BotConfiguration from './components/BotConfiguration.vue';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
@@ -459,7 +456,7 @@ export default {
     WeeklyAvailability,
     WidgetBuilder,
     SenderNameExamplePreview,
-    InboxReconnectionRequired,
+    MicrosoftReauthorize,
   },
   mixins: [alertMixin, configMixin, inboxMixin],
   data() {
@@ -544,7 +541,8 @@ export default {
         this.isALineChannel ||
         this.isAPIInbox ||
         (this.isAnEmailChannel && !this.inbox.provider) ||
-        (this.isAnEmailChannel && this.inbox.provider === 'microsoft') ||
+        this.isAMicrosoftInbox ||
+        this.isAGoogleInbox ||
         this.isAWhatsAppChannel ||
         this.isAWebWidgetInbox
       ) {
@@ -621,8 +619,11 @@ export default {
         return true;
       return false;
     },
-    isReconnectionRequired() {
-      return false;
+    microsoftUnauthorized() {
+      return this.isAMicrosoftInbox && this.inbox.reauthorization_required;
+    },
+    facebookUnauthorized() {
+      return this.isAFacebookInbox && this.inbox.reauthorization_required;
     },
   },
   watch: {
