@@ -16,7 +16,6 @@ class ReportsAPI extends ApiClient {
     id,
     groupBy,
     businessHours,
-    timezoneOffset = getTimeOffset(),
   }) {
     return axios.get(`${this.url}`, {
       params: {
@@ -27,7 +26,7 @@ class ReportsAPI extends ApiClient {
         id,
         group_by: groupBy,
         business_hours: businessHours,
-        timezone_offset: timezoneOffset,
+        timezone_offset: getTimeOffset(),
       },
     });
   }
@@ -86,8 +85,10 @@ class ReportsAPI extends ApiClient {
     });
   }
 
-  getTriggersMetricsReport() {
-    return axios.get(`${this.url}/triggers`);
+  getTriggersMetricsReport({ from: since, to: until, businessHours }) {
+    return axios.get(`${this.url}/triggers`, {
+      params: { since, until, business_hours: businessHours },
+    });
   }
 }
 
