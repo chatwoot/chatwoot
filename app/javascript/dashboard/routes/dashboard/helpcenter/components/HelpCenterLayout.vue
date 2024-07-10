@@ -150,7 +150,7 @@ export default {
     },
     accessibleMenuItems() {
       if (!this.selectedPortal) return [];
-      if (!this.adminMixin) return [];
+      if (!this.isAdmin) return [];
 
       const {
         allArticlesCount,
