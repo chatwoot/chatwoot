@@ -1,4 +1,5 @@
 class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseService
+  D360_BASE_URL = 'https://waba-v2.360dialog.io'.freeze
   def send_message(phone_number, message)
     if message.attachments.present?
       send_attachment_message(phone_number, message)
@@ -52,7 +53,11 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def api_headers
-    { 'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}", 'Content-Type' => 'application/json' }
+    if api_base_path == D360_BASE_URL
+      { 'D360-API-KEY' => whatsapp_channel.provider_config['api_key'], 'Content-Type' => 'application/json' }
+    else
+      { 'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}", 'Content-Type' => 'application/json' }
+    end
   end
 
   def media_url(media_id)
@@ -65,11 +70,19 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   # TODO: See if we can unify the API versions and for both paths and make it consistent with out facebook app API versions
   def phone_id_path
-    "#{api_base_path}/v13.0/#{whatsapp_channel.provider_config['phone_number_id']}"
+    if api_base_path == D360_BASE_URL
+      D360_BASE_URL
+    else
+      "#{api_base_path}/v13.0/#{whatsapp_channel.provider_config['phone_number_id']}"
+    end
   end
 
   def business_account_path
-    "#{api_base_path}/v14.0/#{whatsapp_channel.provider_config['business_account_id']}"
+    if api_base_path == D360_BASE_URL
+      D360_BASE_URL
+    else
+      "#{api_base_path}/v14.0/#{whatsapp_channel.provider_config['business_account_id']}"
+    end
   end
 
   def send_text_message(phone_number, message)
