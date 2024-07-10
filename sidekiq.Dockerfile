@@ -1,5 +1,5 @@
 # pre-build stage
-FROM ruby:3.2.2-alpine3.18 AS pre-builder
+FROM public.ecr.aws/docker/library/ruby:3.2.4-alpine3.20 AS pre-builder
 
 # ARG default to production settings
 # For development docker-compose file overrides ARGS
@@ -28,6 +28,27 @@ RUN apk update && apk add --no-cache \
   nodejs-current \
   yarn \
   git \
+  glib \
+  gobject-introspection \
+  gobject-introspection-dev \
+  libarrow \
+  libarrow_acero \
+  libparquet \ 
+  && apk add --no-cache --virtual=.build-dependencies\
+  apache-arrow-dev \
+  glib-dev \
+  meson \
+  pkgconf \
+  samurai \
+  && wget "https://www.apache.org/dyn/closer.lua?action=download&filename=arrow/arrow-16.1.0/apache-arrow-16.1.0.tar.gz" \
+  && tar xf apache-arrow-16.1.0.tar.gz && \
+  meson setup \
+    apache-arrow-16.1.0/c_glib.build \
+    apache-arrow-16.1.0/c_glib \
+    --prefix=/usr \
+    --buildtype=minsize \ 
+  && meson install -C apache-arrow-16.1.0/c_glib.build \
+  && rm -rf apache-arrow-16.1.0 \
   && mkdir -p /var/app \
   && gem install bundler
 
@@ -78,7 +99,7 @@ RUN rm -rf /gems/ruby/3.2.0/cache/*.gem \
 RUN rails db:migrate RAILS_ENV=production
 
 # final build stage
-FROM ruby:3.2.2-alpine3.18
+FROM public.ecr.aws/docker/library/ruby:3.2.4-alpine3.20
 
 
 ARG BUNDLE_WITHOUT="development:test"
@@ -98,6 +119,9 @@ ARG RAILS_ENV=production
 ENV RAILS_ENV ${RAILS_ENV}
 ENV BUNDLE_PATH="/gems"
 
+ENV GI_TYPELIB_PATH=/usr/lib/girepository-1.0
+ENV LD_LIBRARY_PATH=/usr/lib/
+
 RUN apk update && apk add --no-cache \
   build-base \
   openssl \
@@ -106,6 +130,27 @@ RUN apk update && apk add --no-cache \
   imagemagick \
   git \
   vips \
+  glib \
+  gobject-introspection \
+  gobject-introspection-dev \
+  libarrow \
+  libarrow_acero \
+  libparquet \
+  && apk add --no-cache --virtual=.build-dependencies\
+  apache-arrow-dev \
+  glib-dev \
+  meson \
+  pkgconf \
+  samurai \
+  && wget "https://www.apache.org/dyn/closer.lua?action=download&filename=arrow/arrow-16.1.0/apache-arrow-16.1.0.tar.gz" \
+  && tar xf apache-arrow-16.1.0.tar.gz && \
+  meson setup \
+    apache-arrow-16.1.0/c_glib.build \
+    apache-arrow-16.1.0/c_glib \
+    --prefix=/usr \
+    --buildtype=minsize \ 
+  && meson install -C apache-arrow-16.1.0/c_glib.build \
+  && rm -rf apache-arrow-16.1.0 \
   && gem install bundler
 
 RUN if [ "$RAILS_ENV" != "production" ]; then \

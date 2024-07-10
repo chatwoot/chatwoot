@@ -174,6 +174,7 @@ GEM
     crack (0.4.5)
       rexml
     crass (1.0.6)
+    csv (3.3.0)
     csv-safe (3.2.1)
     cypress-on-rails (1.16.0)
       rack
@@ -227,6 +228,7 @@ GEM
     et-orbi (1.2.7)
       tzinfo
     execjs (2.8.1)
+    extpp (0.1.1)
     facebook-messenger (2.0.1)
       httparty (~> 0.13, >= 0.13.7)
       rack (>= 1.4.5)
@@ -260,6 +262,7 @@ GEM
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
       rake
+    fiddle (1.1.2)
     flag_shih_tzu (0.3.23)
     foreman (0.87.2)
     fugit (1.9.0)
@@ -274,11 +277,19 @@ GEM
       googleauth (~> 1.0)
       grpc (~> 1.36)
     geocoder (1.8.1)
+    gio2 (4.2.2)
+      fiddle
+      gobject-introspection (= 4.2.2)
     gli (2.21.1)
+    glib2 (4.2.2)
+      native-package-installer (>= 1.0.3)
+      pkg-config (>= 1.3.5)
     globalid (1.2.1)
       activesupport (>= 6.1)
     gmail_xoauth (0.4.3)
       oauth (>= 0.3.6)
+    gobject-introspection (4.2.2)
+      glib2 (= 4.2.2)
     google-apis-core (0.11.0)
       addressable (~> 2.5, >= 2.5.1)
       googleauth (>= 0.16.2, < 2.a)
@@ -468,6 +479,7 @@ GEM
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.3.0)
+    native-package-installer (1.1.9)
     neighbor (0.2.3)
       activerecord (>= 5.2)
     net-http (0.4.1)
@@ -538,6 +550,7 @@ GEM
       activerecord (>= 5.2)
       activesupport (>= 5.2)
     pgvector (0.1.1)
+    pkg-config (1.5.6)
     procore-sift (1.0.0)
       activerecord (>= 6.1)
     pry (0.14.2)
@@ -602,6 +615,15 @@ GEM
     rb-fsevent (0.11.2)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    red-arrow (16.1.0)
+      bigdecimal (>= 3.1.0)
+      csv
+      extpp (>= 0.1.1)
+      gio2 (>= 3.5.0)
+      native-package-installer
+      pkg-config
+    red-parquet (16.1.0)
+      red-arrow (= 16.1.0)
     redis (5.0.6)
       redis-client (>= 0.9.0)
     redis-client (0.22.1)
@@ -873,6 +895,7 @@ DEPENDENCIES
   foreman
   geocoder
   gmail_xoauth
+  gobject-introspection
   google-cloud-dialogflow-v2
   google-cloud-storage
   google-cloud-translate-v3
@@ -917,6 +940,8 @@ DEPENDENCIES
   rack-mini-profiler (>= 3.2.0)
   rack-timeout
   rails (~> 7.0.8.1)
+  red-arrow
+  red-parquet
   redis
   redis-namespace
   responders (>= 3.1.1)
@@ -960,7 +985,7 @@ DEPENDENCIES
   working_hours
 
 RUBY VERSION
-   ruby 3.2.2p185
+   ruby 3.2.4p170
 
 BUNDLED WITH
-   2.4.6
+   2.5.14

@@ -12,7 +12,14 @@ class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::Base
 
   sort_on :created_at, type: :datetime
 
-  def index; end
+  def index
+    if params[:export_as_parquet]
+      file_name = "csat_surveys_#{Time.now.to_i}.parquet"
+      Digitaltolk::StoreSurveyResponsesParquetJob.perform_later(@csat_survey_responses.pluck(:id), file_name)
+
+      render json: { file_url: Digitaltolk::SurveyResponsesParquetService.new([], file_name).perform }.to_json and return
+    end
+  end
 
   def metrics
     @total_count = @csat_survey_responses.count

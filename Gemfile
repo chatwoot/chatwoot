@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '3.2.2'
+ruby '3.2.4'
 
 ##-- base gems for rails --##
 gem 'rack-cors', '2.0.0', require: 'rack/cors'
@@ -174,6 +174,10 @@ gem 'neighbor'
 gem 'pgvector'
 # Convert Website HTML to Markdown
 gem 'reverse_markdown'
+
+gem 'gobject-introspection'
+gem 'red-arrow'
+gem 'red-parquet'
 
 ### Gems required only in specific deployment environments ###
 ##############################################################

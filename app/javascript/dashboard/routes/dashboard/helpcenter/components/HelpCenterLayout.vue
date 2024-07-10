@@ -71,6 +71,7 @@ import AccountSelector from 'dashboard/components/layout/sidebarComponents/Accou
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import portalMixin from '../mixins/portalMixin';
+import adminMixin from 'dashboard/mixins/isAdmin';
 import AddCategory from '../pages/categories/AddCategory.vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
@@ -86,7 +87,7 @@ export default {
     UpgradePage,
     WootKeyShortcutModal,
   },
-  mixins: [portalMixin, uiSettingsMixin],
+  mixins: [portalMixin, uiSettingsMixin, adminMixin],
   data() {
     return {
       isOnDesktop: true,
@@ -149,6 +150,7 @@ export default {
     },
     accessibleMenuItems() {
       if (!this.selectedPortal) return [];
+      if (!this.adminMixin) return [];
 
       const {
         allArticlesCount,
@@ -220,7 +222,7 @@ export default {
           icon: 'folder',
           label: 'HELP_CENTER.CATEGORY',
           hasSubMenu: true,
-          showNewButton: true,
+          showNewButton: this.isAdmin,
           key: 'category',
           children: this.categories.map(category => ({
             id: category.id,

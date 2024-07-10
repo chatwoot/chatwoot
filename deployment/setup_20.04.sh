@@ -336,8 +336,8 @@ function setup_chatwoot() {
   sudo -i -u chatwoot << EOF
   rvm --version
   rvm autolibs disable
-  rvm install "ruby-3.2.2"
-  rvm use 3.2.2 --default
+  rvm install "ruby-3.2.4"
+  rvm use 3.2.4 --default
 
   git clone https://github.com/chatwoot/chatwoot.git
   cd chatwoot

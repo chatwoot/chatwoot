@@ -126,6 +126,7 @@
         </div>
       </div>
       <woot-button
+        v-if="isAdmin"
         size="small"
         icon="add"
         color-scheme="primary"

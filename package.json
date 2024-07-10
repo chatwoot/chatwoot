@@ -152,7 +152,7 @@
     "webpack-dev-server": "^3"
   },
   "engines": {
-    "node": "20.x",
+    "node": "21.x",
     "npm": ">=6.x",
     "yarn": "1.22.x"
   },

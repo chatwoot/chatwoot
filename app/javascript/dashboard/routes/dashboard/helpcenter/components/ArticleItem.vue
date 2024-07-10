@@ -10,7 +10,7 @@
         icon="grab-handle"
       />
       <div class="flex flex-col truncate">
-        <router-link :to="articleUrl(id)">
+        <router-link :to="articleUrl(id)" v-if="isAdmin">
           <h6
             :title="title"
             class="text-base ltr:text-left rtl:text-right text-slate-800 dark:text-slate-100 mb-0.5 leading-6 font-medium hover:underline overflow-hidden whitespace-nowrap text-ellipsis"
@@ -18,6 +18,14 @@
             {{ title }}
           </h6>
         </router-link>
+        <a :href="portalLink" target="_blank" v-else>
+          <h6
+            :title="title"
+            class="text-base ltr:text-left rtl:text-right text-slate-800 dark:text-slate-100 mb-0.5 leading-6 font-medium hover:underline overflow-hidden whitespace-nowrap text-ellipsis"
+          >
+            {{ title }}
+          </h6>
+        </a>
         <div class="flex gap-1 items-center">
           <Thumbnail
             v-if="author"
@@ -86,12 +94,14 @@ import timeMixin from 'dashboard/mixins/time';
 import portalMixin from '../mixins/portalMixin';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import adminMixin from 'dashboard/mixins/isAdmin';
+import { buildPortalArticleURL } from 'dashboard/helper/portalHelper';
 
 export default {
   components: {
     Thumbnail,
   },
-  mixins: [timeMixin, portalMixin],
+  mixins: [timeMixin, portalMixin, adminMixin],
   props: {
     showDragIcon: {
       type: Boolean,
@@ -105,6 +115,10 @@ export default {
       type: String,
       default: '',
       required: true,
+    },
+    article: {
+      type: Object,
+      default: () => {},
     },
     author: {
       type: Object,
@@ -154,6 +168,15 @@ export default {
         default:
           return 'success';
       }
+    },
+    portalLink() {
+      const slug = this.$route.params.portalSlug;
+      return buildPortalArticleURL(
+        slug,
+        this.article.category.slug,
+        this.article.category.locale,
+        this.article.slug
+      );
     },
   },
   methods: {

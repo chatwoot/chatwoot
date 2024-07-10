@@ -50,6 +50,7 @@
         :category="article.category"
         :views="article.views"
         :status="article.status"
+        :article="article"
         :updated-at="article.updated_at"
       />
     </draggable>

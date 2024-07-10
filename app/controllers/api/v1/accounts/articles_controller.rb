@@ -7,8 +7,9 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   def index
     @portal_articles = @portal.articles
     @all_articles = @portal_articles.search(list_params)
-    @articles_count = @all_articles.count
+    @all_articles = @all_articles.published unless Current.user.administrator?
 
+    @articles_count = @all_articles.count
     @articles = if list_params[:category_slug].present?
                   @all_articles.order_by_position.page(@current_page)
                 else

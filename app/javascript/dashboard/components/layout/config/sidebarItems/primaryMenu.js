@@ -54,7 +54,7 @@ const primaryMenuItems = accountId => [
     alwaysVisibleOnChatwootInstances: true,
     toState: frontendURL(`accounts/${accountId}/portals`),
     toStateName: 'default_portal_articles',
-    roles: ['administrator'],
+    roles: ['administrator', 'agent'],
   },
   {
     icon: 'settings',
