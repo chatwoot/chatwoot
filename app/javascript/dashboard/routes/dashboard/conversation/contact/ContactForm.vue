@@ -117,7 +117,7 @@
     />
 
     <div class="w-full">
-      <label> Social Profiles </label>
+      <label>{{ $t('CONTACTS_PAGE.LIST.TABLE_HEADER.SOCIAL_PROFILES') }}</label>
       <div
         v-for="socialProfile in socialProfileKeys"
         :key="socialProfile.key"
@@ -130,7 +130,7 @@
         </span>
         <input
           v-model="socialProfileUserNames[socialProfile.key]"
-          class="input-group-field ltr:rounded-l-none rtl:rounded-r-none !mb-0"
+          class="input-group-field ltr:!rounded-l-none rtl:rounded-r-none !mb-0"
           type="text"
         />
       </div>
