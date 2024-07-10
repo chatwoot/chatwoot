@@ -2,27 +2,25 @@ import { shallowMount } from '@vue/test-utils';
 import rtlMixin from 'shared/mixins/rtlMixin';
 
 describe('rtlMixin', () => {
-  it('returns is direction right-to-left view', () => {
-    const Component = {
+  const createComponent = rtl_view => {
+    return shallowMount({
       render() {},
       mixins: [rtlMixin],
-      data() {
-        return { uiSettings: { rtl_view: true } };
+      computed: {
+        uiSettings() {
+          return { rtl_view };
+        },
       },
-    };
-    const wrapper = shallowMount(Component);
+    });
+  };
+
+  it('returns is direction right-to-left view', () => {
+    const wrapper = createComponent(true);
     expect(wrapper.vm.isRTLView).toBe(true);
   });
 
   it('returns is direction left-to-right view', () => {
-    const Component = {
-      render() {},
-      mixins: [rtlMixin],
-      data() {
-        return { uiSettings: { rtl_view: false } };
-      },
-    };
-    const wrapper = shallowMount(Component);
+    const wrapper = createComponent(false);
     expect(wrapper.vm.isRTLView).toBe(false);
   });
 });
