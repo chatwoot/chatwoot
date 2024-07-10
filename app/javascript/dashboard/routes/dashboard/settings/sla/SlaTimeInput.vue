@@ -2,7 +2,7 @@
   <div class="flex items-center w-full gap-3">
     <woot-input
       v-model="thresholdTime"
-      :class="{ error: $v.thresholdTime.$error }"
+      :class="{ error: v$.thresholdTime.$error }"
       class="flex-grow"
       :styles="{
         borderRadius: '12px',
@@ -36,6 +36,7 @@
 <script>
 import validationMixin from './validationMixin';
 import validations from './validations';
+import { useVuelidate } from '@vuelidate/core';
 
 export default {
   mixins: [validationMixin],
@@ -56,6 +57,9 @@ export default {
       type: String,
       default: '',
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -90,8 +94,8 @@ export default {
       this.$emit('unit', this.thresholdUnitValue);
     },
     onThresholdTimeChange() {
-      this.$v.thresholdTime.$touch();
-      const isInvalid = this.$v.thresholdTime.$invalid;
+      this.v$.thresholdTime.$touch();
+      const isInvalid = this.v$.thresholdTime.$invalid;
       this.$emit('isInValid', isInvalid);
       this.$emit('input', Number(this.thresholdTime));
     },

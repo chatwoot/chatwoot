@@ -1,14 +1,19 @@
+import { useVuelidate } from '@vuelidate/core';
+
 export default {
+  setup() {
+    return { v$: useVuelidate() };
+  },
   computed: {
     getLabelTitleErrorMessage() {
       let errorMessage = '';
-      if (!this.$v.title.$error) {
+      if (!this.v$.title.$error) {
         errorMessage = '';
-      } else if (!this.$v.title.required) {
+      } else if (!this.v$.title.required) {
         errorMessage = this.$t('LABEL_MGMT.FORM.NAME.REQUIRED_ERROR');
-      } else if (!this.$v.title.minLength) {
+      } else if (!this.v$.title.minLength) {
         errorMessage = this.$t('LABEL_MGMT.FORM.NAME.MINIMUM_LENGTH_ERROR');
-      } else if (!this.$v.title.validLabelCharacters) {
+      } else if (!this.v$.title.validLabelCharacters) {
         errorMessage = this.$t('LABEL_MGMT.FORM.NAME.VALID_ERROR');
       }
       return errorMessage;

@@ -1,11 +1,15 @@
+import { useVuelidate } from '@vuelidate/core';
 export default {
+  setup() {
+    return { v$: useVuelidate() };
+  },
   computed: {
     getSlaNameErrorMessage() {
       let errorMessage = '';
-      if (this.$v.name.$error) {
-        if (!this.$v.name.required) {
+      if (this.v$.name.$error) {
+        if (!this.v$.name.required) {
           errorMessage = this.$t('SLA.FORM.NAME.REQUIRED_ERROR');
-        } else if (!this.$v.name.minLength) {
+        } else if (!this.v$.name.minLength) {
           errorMessage = this.$t('SLA.FORM.NAME.MINIMUM_LENGTH_ERROR');
         }
       }
@@ -13,8 +17,8 @@ export default {
     },
     getThresholdTimeErrorMessage() {
       let errorMessage = '';
-      if (this.$v.thresholdTime.$error) {
-        if (!this.$v.thresholdTime.numeric || !this.$v.thresholdTime.minValue) {
+      if (this.v$.thresholdTime.$error) {
+        if (!this.v$.thresholdTime.numeric || !this.v$.thresholdTime.minValue) {
           errorMessage = this.$t(
             'SLA.FORM.THRESHOLD_TIME.INVALID_FORMAT_ERROR'
           );

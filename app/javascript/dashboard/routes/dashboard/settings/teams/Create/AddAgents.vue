@@ -14,7 +14,7 @@
       </div>
 
       <div class="w-full">
-        <div v-if="$v.selectedAgents.$error">
+        <div v-if="v$.selectedAgents.$error">
           <p class="error-message">
             {{ $t('TEAMS_SETTINGS.ADD.AGENT_VALIDATION_ERROR') }}
           </p>
@@ -38,6 +38,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 import AgentSelector from '../AgentSelector.vue';
+import { useVuelidate } from '@vuelidate/core';
 
 export default {
   components: {
@@ -57,6 +58,10 @@ export default {
         return !!this.selectedAgents.length;
       },
     },
+  },
+
+  setup() {
+    return { v$: useVuelidate() };
   },
 
   data() {
@@ -90,7 +95,7 @@ export default {
 
   methods: {
     updateSelectedAgents(newAgentList) {
-      this.$v.selectedAgents.$touch();
+      this.v$.selectedAgents.$touch();
       this.selectedAgents = [...newAgentList];
     },
     selectAllAgents() {

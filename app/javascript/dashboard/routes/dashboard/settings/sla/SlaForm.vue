@@ -3,7 +3,7 @@
     <form class="flex flex-wrap mx-0" @submit.prevent="onSubmit">
       <woot-input
         v-model="name"
-        :class="{ error: $v.name.$error }"
+        :class="{ error: v$.name.$error }"
         class="w-full"
         :styles="{
           borderRadius: '12px',
@@ -13,7 +13,7 @@
         :label="$t('SLA.FORM.NAME.LABEL')"
         :placeholder="$t('SLA.FORM.NAME.PLACEHOLDER')"
         :error="getSlaNameErrorMessage"
-        @input="$v.name.$touch"
+        @input="v$.name.$touch"
       />
       <woot-input
         v-model="description"
@@ -73,6 +73,7 @@ import { convertSecondsToTimeUnit } from '@chatwoot/utils';
 import validationMixin from './validationMixin';
 import validations from './validations';
 import SlaTimeInput from './SlaTimeInput.vue';
+import { useVuelidate } from '@vuelidate/core';
 
 export default {
   components: {
@@ -88,6 +89,9 @@ export default {
       type: String,
       required: true,
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -125,7 +129,7 @@ export default {
     }),
     isSubmitDisabled() {
       return (
-        this.$v.name.$invalid ||
+        this.v$.name.$invalid ||
         this.isSlaTimeInputsInvalid ||
         this.uiFlags.isUpdating
       );
