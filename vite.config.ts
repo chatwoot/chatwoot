@@ -14,9 +14,12 @@ export default defineConfig({
     outputFile: 'coverage/sonar-report.xml',
     server: {
       deps: {
-        inline: ['tinykeys'],
+        inline: ['tinykeys', '@material/mwc-icon'],
       },
     },
+    setupFiles: ['fake-indexeddb/auto'],
+    mockReset: true,
+    clearMocks: true,
   },
   resolve: {
     alias: {
@@ -26,6 +29,7 @@ export default defineConfig({
       assets: path.resolve('./app/javascript/dashboard/assets'),
       components: path.resolve('./app/javascript/dashboard/components'),
       helpers: path.resolve('./app/javascript/shared/helpers'),
+      v3: path.resolve('./app/javascript/v3'),
       shared: path.resolve('./app/javascript/shared'),
     },
   },

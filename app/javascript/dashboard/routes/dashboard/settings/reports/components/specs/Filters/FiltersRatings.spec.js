@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
-import ReportFiltersRatings from '../../Filters/Ratings';
+import ReportFiltersRatings from '../../Filters/Ratings.vue';
 import { CSAT_RATINGS } from 'shared/constants/messages';
 
 const mountParams = {

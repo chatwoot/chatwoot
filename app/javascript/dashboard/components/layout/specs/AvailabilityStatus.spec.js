@@ -3,11 +3,11 @@ import { createLocalVue, mount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import VueI18n from 'vue-i18n';
 
-import WootButton from 'dashboard/components/ui/WootButton';
-import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem';
-import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu';
-import WootDropdownHeader from 'shared/components/ui/dropdown/DropdownHeader';
-import WootDropdownDivider from 'shared/components/ui/dropdown/DropdownDivider';
+import WootButton from 'dashboard/components/ui/WootButton.vue';
+import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
+import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import WootDropdownHeader from 'shared/components/ui/dropdown/DropdownHeader.vue';
+import WootDropdownDivider from 'shared/components/ui/dropdown/DropdownDivider.vue';
 import i18n from 'dashboard/i18n';
 
 const localVue = createLocalVue();
@@ -31,7 +31,7 @@ describe('AvailabilityStatus', () => {
 
   beforeEach(() => {
     actions = {
-      updateAvailability: jest.fn(() => {
+      updateAvailability: vi.fn(() => {
         return Promise.resolve();
       }),
     };

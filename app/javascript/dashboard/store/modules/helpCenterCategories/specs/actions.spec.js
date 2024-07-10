@@ -2,9 +2,9 @@ import axios from 'axios';
 import { actions } from '../actions';
 import * as types from '../../../mutation-types';
 import { categoriesPayload } from './fixtures';
-const commit = jest.fn();
+const commit = vi.fn();
 global.axios = axios;
-jest.mock('axios');
+vi.mock('axios');
 
 describe('#actions', () => {
   describe('#index', () => {

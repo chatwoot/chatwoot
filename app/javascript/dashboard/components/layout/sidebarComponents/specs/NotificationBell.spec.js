@@ -1,4 +1,4 @@
-import NotificationBell from '../NotificationBell';
+import NotificationBell from '../NotificationBell.vue';
 import { createLocalVue, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import VueI18n from 'vue-i18n';
@@ -27,7 +27,7 @@ describe('notificationBell', () => {
 
   beforeEach(() => {
     actions = {
-      showNotification: jest.fn(),
+      showNotification: vi.fn(),
     };
     modules = {
       auth: {

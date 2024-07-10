@@ -58,16 +58,16 @@ describe('nextAvailabilityTimeMixin', () => {
     ],
   };
 
-  beforeAll(() => {
+  beforeEach(() => {
     window.chatwootWebChannel = chatwootWebChannel;
   });
 
-  afterAll(() => {
+  afterEach(() => {
     delete window.chatwootWebChannel;
   });
 
   beforeEach(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('should return day names', () => {
@@ -384,9 +384,9 @@ describe('nextAvailabilityTimeMixin', () => {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
     };
-    jest
-      .useFakeTimers('modern')
-      .setSystemTime(new Date('Thu Apr 14 2022 23:04:46 GMT+0530'));
+    vi.useFakeTimers('modern').setSystemTime(
+      new Date('Thu Apr 14 2022 23:04:46 GMT+0530')
+    );
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
     const wrapper = createWrapper(vm);
@@ -418,9 +418,9 @@ describe('nextAvailabilityTimeMixin', () => {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
     };
-    jest
-      .useFakeTimers('modern')
-      .setSystemTime(new Date('Thu Apr 14 2022 23:04:46 GMT+0530'));
+    vi.useFakeTimers('modern').setSystemTime(
+      new Date('Thu Apr 14 2022 23:04:46 GMT+0530')
+    );
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
     const wrapper = createWrapper(vm);
@@ -449,9 +449,9 @@ describe('nextAvailabilityTimeMixin', () => {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
     };
-    jest
-      .useFakeTimers('modern')
-      .setSystemTime(new Date('Thu Apr 14 2022 23:04:46 GMT+0530'));
+    vi.useFakeTimers('modern').setSystemTime(
+      new Date('Thu Apr 14 2022 23:04:46 GMT+0530')
+    );
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
     const wrapper = createWrapper(vm);
@@ -480,9 +480,9 @@ describe('nextAvailabilityTimeMixin', () => {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
     };
-    jest
-      .useFakeTimers('modern')
-      .setSystemTime(new Date('Thu Apr 14 2022 23:04:46 GMT+0530'));
+    vi.useFakeTimers('modern').setSystemTime(
+      new Date('Thu Apr 14 2022 23:04:46 GMT+0530')
+    );
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
     const wrapper = createWrapper(vm);
@@ -512,9 +512,9 @@ describe('nextAvailabilityTimeMixin', () => {
       render() {},
       mixins: [nextAvailabilityTimeMixin],
     };
-    jest
-      .useFakeTimers('modern')
-      .setSystemTime(new Date('Thu Apr 14 2022 23:04:46 GMT+0530'));
+    vi.useFakeTimers('modern').setSystemTime(
+      new Date('Thu Apr 14 2022 23:04:46 GMT+0530')
+    );
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
     const wrapper = createWrapper(vm);
