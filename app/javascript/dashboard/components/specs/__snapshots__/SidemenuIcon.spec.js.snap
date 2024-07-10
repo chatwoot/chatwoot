@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`SidemenuIcon matches snapshot 1`] = `
+exports[`SidemenuIcon > matches snapshot 1`] = `
 <button
   class="-ml-3 text-black-900 dark:text-slate-300"
   color-scheme="secondary"

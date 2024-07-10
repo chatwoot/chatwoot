@@ -1,7 +1,7 @@
 import { actions } from '../../conversationPage';
 import * as types from '../../../mutation-types';
 
-const commit = jest.fn();
+const commit = vi.fn();
 
 describe('#actions', () => {
   describe('#setCurrentPage', () => {

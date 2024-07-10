@@ -8,7 +8,7 @@ const buildComponent = ({ data = {}, methods = {} }) => ({
   data() {
     return { ...data, selectedIndex: 0, items: [1, 2, 3] };
   },
-  methods: { ...methods, onSelect: jest.fn(), adjustScroll: jest.fn() },
+  methods: { ...methods, onSelect: vi.fn(), adjustScroll: vi.fn() },
   mixins: [keyboardEventListenerMixins],
 });
 
@@ -21,7 +21,7 @@ describe('mentionSelectionKeyboardMixin', () => {
   });
 
   it('ArrowUp and Control+KeyP update selectedIndex correctly', () => {
-    const preventDefault = jest.fn();
+    const preventDefault = vi.fn();
     const keyboardEvents = wrapper.vm.getKeyboardEvents();
 
     if (keyboardEvents && keyboardEvents.ArrowUp) {
@@ -39,7 +39,7 @@ describe('mentionSelectionKeyboardMixin', () => {
   });
 
   it('ArrowDown and Control+KeyN update selectedIndex correctly', () => {
-    const preventDefault = jest.fn();
+    const preventDefault = vi.fn();
     const keyboardEvents = wrapper.vm.getKeyboardEvents();
 
     if (keyboardEvents && keyboardEvents.ArrowDown) {
@@ -57,7 +57,7 @@ describe('mentionSelectionKeyboardMixin', () => {
   });
 
   it('Enter key triggers onSelect method', () => {
-    const preventDefault = jest.fn();
+    const preventDefault = vi.fn();
     const keyboardEvents = wrapper.vm.getKeyboardEvents();
 
     if (keyboardEvents && keyboardEvents.Enter) {
