@@ -14,7 +14,7 @@ describe('uiSettingsMixin', () => {
   let store;
 
   beforeEach(() => {
-    actions = { updateUISettings: jest.fn(), toggleSidebarUIState: jest.fn() };
+    actions = { updateUISettings: vi.fn(), toggleSidebarUIState: vi.fn() };
     getters = {
       getUISettings: () => ({
         enter_to_send_enabled: false,
