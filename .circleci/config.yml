@@ -130,7 +130,7 @@ jobs:
           command: |
             mkdir -p ~/tmp/test-results/frontend_specs
             ~/tmp/cc-test-reporter before-build
-            yarn test:coverage --out ~/tmp/test-results/yarn.xml
+            yarn test:coverage
       - run:
           name: Code Climate Test Coverage
           command: |
