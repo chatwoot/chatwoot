@@ -130,10 +130,7 @@ jobs:
           command: |
             mkdir -p ~/tmp/test-results/frontend_specs
             ~/tmp/cc-test-reporter before-build
-            TESTFILES=$(circleci tests glob **/specs/*.spec.js | circleci tests split --split-by=timings)
-            yarn test:coverage --profile 10 \
-                               --out ~/tmp/test-results/yarn.xml \
-                               -- ${TESTFILES}
+            yarn test:coverage
       - run:
           name: Code Climate Test Coverage
           command: |

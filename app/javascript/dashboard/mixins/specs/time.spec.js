@@ -11,14 +11,14 @@ describe('#messageStamp', () => {
 
 describe('#messageTimestamp', () => {
   beforeEach(() => {
-    jest.useFakeTimers('modern');
+    vi.useFakeTimers('modern');
 
     const mockDate = new Date(2023, 4, 5);
-    jest.setSystemTime(mockDate);
+    vi.setSystemTime(mockDate);
   });
 
   afterEach(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('should return the message date in the specified format if the message was sent in the current year', () => {
@@ -35,7 +35,7 @@ describe('#messageTimestamp', () => {
 
 describe('#dynamicTime', () => {
   it('returns correct value', () => {
-    Date.now = jest.fn(() => new Date(Date.UTC(2023, 1, 14)).valueOf());
+    Date.now = vi.fn(() => new Date(Date.UTC(2023, 1, 14)).valueOf());
     expect(TimeMixin.methods.dynamicTime(1612971343)).toEqual(
       'about 2 years ago'
     );

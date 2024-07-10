@@ -2,12 +2,16 @@ import { API } from 'widget/helpers/axios';
 import { actions } from '../../campaign';
 import { campaigns } from './data';
 
-const commit = jest.fn();
-const dispatch = jest.fn();
-jest.mock('widget/helpers/axios');
+const commit = vi.fn();
+const dispatch = vi.fn();
+vi.mock('widget/helpers/axios');
 
 import campaignTimer from 'widget/helpers/campaignTimer';
-jest.mock('widget/helpers/campaignTimer');
+vi.mock('widget/helpers/campaignTimer', () => ({
+  default: {
+    initTimers: vi.fn().mockReturnValue({ mock: true }),
+  },
+}));
 
 describe('#actions', () => {
   describe('#fetchCampaigns', () => {

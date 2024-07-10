@@ -36,7 +36,7 @@
 </template>
 
 <script>
-const EmojiInput = () => import('shared/components/emoji/EmojiInput');
+const EmojiInput = () => import('shared/components/emoji/EmojiInput.vue');
 
 export default {
   components: { EmojiInput },
