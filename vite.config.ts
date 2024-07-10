@@ -9,6 +9,12 @@ export default defineConfig({
     include: ['app/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
     coverage: {
       reporter: ['lcov', 'text'],
+      include: ['app/**/*.js', 'app/**/*.vue'],
+      exclude: [
+        'app/**/*.@(spec|stories|routes).js',
+        '**/specs/**/*',
+        '**/i18n/**/*',
+      ],
     },
     globals: true,
     outputFile: 'coverage/sonar-report.xml',
