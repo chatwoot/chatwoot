@@ -87,6 +87,9 @@ export default {
       return this.attachment.data_url;
     },
     computedDataUrlWithTimestamp() {
+      if (!this.dataUrl) {
+        return null;
+      }
       const separator = this.dataUrl.includes('?') ? '&' : '?';
       return `${this.dataUrl}${separator}t=${Date.now()}`;
     },
