@@ -38,7 +38,19 @@ class Integrations::BotProcessorService
 
     return message.content_attributes['submitted_values']&.first&.dig('value') if event_name == 'message.updated'
 
-    message.content
+    return message.content if message.content?
+
+    message_attachments(message)
+  end
+
+  def message_attachments(message)
+    return unless message.attachments.present?
+
+    # gps
+    return message.attachments.map { |attachment| "#{attachment[:coordinates_lat]}, #{attachment[:coordinates_long]}" }.join('\n') if message.attachments.first[:file_type].to_sym == :location
+
+    # file
+    return message.attachments.map(&:file_url).join('\n')
   end
 
   def processable_message?(message)
