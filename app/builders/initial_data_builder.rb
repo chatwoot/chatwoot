@@ -10,21 +10,21 @@ class InitialDataBuilder
   def generate_pipelines # rubocop:disable Metrics/MethodLength
     Stage.create([
                    { account_id: account_id,
-                     stage_type: :leads,
+                     stage_type: :deals,
                      code: 'New',
                      name: 'Mới',
                      description: 'Lead mới đến từ các kênh hội thoại hoặc tự nhập',
                      status: :ongoing },
 
                    { account_id: account_id,
-                     stage_type: :leads,
+                     stage_type: :deals,
                      code: 'Contacting',
                      name: 'Đang liên hệ',
                      description: 'Lead đang liên hệ để nuôi dưỡng, phát triển',
                      status: :ongoing },
 
                    { account_id: account_id,
-                     stage_type: :leads,
+                     stage_type: :deals,
                      code: 'Unqualified',
                      name: 'Không phù hợp',
                      description: 'Lead rác hoặc không có nhu cầu - cần nhập nguyên nhân cụ thể',
@@ -33,10 +33,10 @@ class InitialDataBuilder
                      allow_disabled: true },
 
                    { account_id: account_id,
-                     stage_type: :both,
+                     stage_type: :deals,
                      code: 'Converted',
                      name: 'Có quan tâm',
-                     description: 'Lead đã được chuyển đổi để tiếp tục giai đoạn Deal',
+                     description: 'Lead đã được chuyển đổi để tiếp tục deal',
                      status: :ongoing,
                      disabled: true,
                      allow_disabled: true },
@@ -67,17 +67,31 @@ class InitialDataBuilder
                      allow_disabled: true },
 
                    { account_id: account_id,
-                     stage_type: :deals,
+                     stage_type: :both,
                      code: 'Won',
                      name: 'Đã chốt',
                      description: 'Deal thành công',
-                     status: :ended },
+                     status: :ongoing },
 
                    { account_id: account_id,
                      stage_type: :deals,
                      code: 'Lost',
                      name: 'Đã mất',
                      description: 'Deal thất bại',
+                     status: :ended },
+
+                   { account_id: account_id,
+                     stage_type: :retention,
+                     code: 'Care',
+                     name: 'Chăm sóc',
+                     description: 'Chăm sóc và hỗ trợ sau bán hàng',
+                     status: :ongoing },
+
+                   { account_id: account_id,
+                     stage_type: :retention,
+                     code: 'Old',
+                     name: 'Khách hàng cũ',
+                     description: 'Khách hàng đã từng sử dụng sản phẩm dịch vụ',
                      status: :ended }
                  ])
   end

@@ -28,14 +28,14 @@ export const STAGE_TYPE_OPTIONS = {
     translationKey: 'PIPELINE_PAGE.STAGE_TYPE.BOTH',
   },
   2: {
-    id: 2,
-    value: 'leads',
-    translationKey: 'PIPELINE_PAGE.STAGE_TYPE.LEADS',
-  },
-  23: {
     id: 3,
     value: 'deals',
     translationKey: 'PIPELINE_PAGE.STAGE_TYPE.DEALS',
+  },
+  3: {
+    id: 2,
+    value: 'retention',
+    translationKey: 'PIPELINE_PAGE.STAGE_TYPE.RETENTION',
   },
 };
 

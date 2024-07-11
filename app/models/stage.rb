@@ -26,12 +26,12 @@ class Stage < ApplicationRecord
   validates :code, presence: true
   validates :name, presence: true
   validates :status, presence: true
-  enum stage_type: { leads: 0, deals: 1, both: 2 }
+  enum stage_type: { deals: 0, retention: 1, both: 2 }
   enum status: { ongoing: 0, ended: 1 }
 
   STAGE_TYPE_MAPPING = {
-    'leads' => 0,
-    'deals' => 1,
+    'deals' => 0,
+    'retention' => 1,
     'both' => 2
   }.freeze
 end

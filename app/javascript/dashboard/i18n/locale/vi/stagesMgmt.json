@@ -58,8 +58,8 @@
     },
     "TABS": {
       "HEADER": "Giai đoạn kinh doanh",
-      "LEADS": "Leads (tiềm năng)",
-      "DEALS": "Deals (thương lượng)",
+      "DEALS": "Giai đoạn mua hàng",
+      "RETENTION": "Chăm sóc khách hàng",
       "BOTH": "Cả hai giai đoạn"
     },
     "LIST": {

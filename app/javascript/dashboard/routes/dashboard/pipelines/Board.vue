@@ -201,6 +201,8 @@ export default {
     Closure: #09918f,
     Won: #00b961,
     Lost: #5b4b1f,
+    Care: #ef7538,
+    Old: #c89e07,
   );
 
   @each $status, $color in $status-colors {

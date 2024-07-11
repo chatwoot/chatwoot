@@ -169,13 +169,13 @@ export default {
         },
         {
           key: 1,
-          name: this.$t('STAGES_MGMT.TABS.LEADS'),
-          type: 'leads',
+          name: this.$t('STAGES_MGMT.TABS.DEALS'),
+          type: 'deals',
         },
         {
           key: 2,
-          name: this.$t('STAGES_MGMT.TABS.DEALS'),
-          type: 'deals',
+          name: this.$t('STAGES_MGMT.TABS.RETENTION'),
+          type: 'retention',
         },
       ];
     },
