@@ -4,3 +4,8 @@ module "bucket" {
 
   cors_allowed_origins = ["https://${var.chatwoot_domain}"]
 }
+
+module "exports_bucket" {
+  source = "git@gitlab.digitaltolk.net:dtolk/dope/terraform-aws-s3-bucket.git"
+  name   = "exports"
+}
