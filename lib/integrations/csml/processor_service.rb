@@ -67,6 +67,7 @@ class Integrations::Csml::ProcessorService < Integrations::BotProcessorService
     # We do not support wait, typing now.
     csml_messages.each do |csml_message|
       create_messages(csml_message, conversation)
+      sleep 1
     end
   end
 
