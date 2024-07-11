@@ -448,6 +448,8 @@ Rails.application.routes.draw do
         delete :avatar, on: :member, action: :destroy_avatar
       end
 
+      resources :products, only: [:index, :new, :create, :show, :edit, :update]
+
       resources :access_tokens, only: [:index, :show]
       resources :response_sources, only: [:index, :show, :new, :create, :edit, :update, :destroy]
       resources :response_documents, only: [:index, :show, :new, :create, :edit, :update, :destroy]
