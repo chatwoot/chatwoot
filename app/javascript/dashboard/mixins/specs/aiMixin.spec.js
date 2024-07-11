@@ -4,8 +4,8 @@ import Vuex from 'vuex';
 import OpenAPI from '../../api/integrations/openapi';
 import { LocalStorage } from '../../../shared/helpers/localStorage';
 
-jest.mock('../../api/integrations/openapi');
-jest.mock('../../../shared/helpers/localStorage');
+vi.mock('../../api/integrations/openapi');
+vi.mock('../../../shared/helpers/localStorage');
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -18,12 +18,12 @@ describe('aiMixin', () => {
   let actions;
 
   beforeEach(() => {
-    OpenAPI.processEvent = jest.fn();
-    LocalStorage.set = jest.fn();
-    LocalStorage.get = jest.fn();
+    OpenAPI.processEvent = vi.fn();
+    LocalStorage.set = vi.fn();
+    LocalStorage.get = vi.fn();
 
     actions = {
-      ['integrations/get']: jest.fn(),
+      ['integrations/get']: vi.fn(),
     };
 
     getters = {
@@ -63,20 +63,20 @@ describe('aiMixin', () => {
       localVue,
     });
 
-    const dispatchSpy = jest.spyOn(wrapper.vm.$store, 'dispatch');
+    const dispatchSpy = vi.spyOn(wrapper.vm.$store, 'dispatch');
     await wrapper.vm.fetchIntegrationsIfRequired();
     expect(dispatchSpy).toHaveBeenCalledWith('integrations/get');
   });
 
   it('does not fetch integrations', async () => {
-    const dispatchSpy = jest.spyOn(wrapper.vm.$store, 'dispatch');
+    const dispatchSpy = vi.spyOn(wrapper.vm.$store, 'dispatch');
     await wrapper.vm.fetchIntegrationsIfRequired();
     expect(dispatchSpy).not.toHaveBeenCalledWith('integrations/get');
     expect(wrapper.vm.isAIIntegrationEnabled).toBeTruthy();
   });
 
   it('fetches label suggestions', async () => {
-    const processEventSpy = jest.spyOn(OpenAPI, 'processEvent');
+    const processEventSpy = vi.spyOn(OpenAPI, 'processEvent');
     await wrapper.vm.fetchLabelSuggestions({
       conversationId: '123',
     });
