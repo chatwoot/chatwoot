@@ -1,15 +1,14 @@
 class CreateProducts < ActiveRecord::Migration[7.0]
   def change
     create_table :products do |t|
-      t.string :name
-      t.decimal :price
-      t.string :product_type
+      t.string :name, null: false
+      t.decimal :price, null: false, precision: 10, scale: 2
+      t.string :product_type, null: false
       t.text :description
-      t.jsonb :details
-      t.timestamp :created_at
-      t.timestamp :updated_at
-
+      t.jsonb :details, default: {}
       t.timestamps
     end
+
+    add_index :products, :product_type
   end
 end
