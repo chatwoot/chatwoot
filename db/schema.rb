@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_06_14_014644) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_11_004723) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -37,7 +37,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_14_014644) do
     t.datetime "active_at", precision: nil
     t.integer "availability", default: 0, null: false
     t.boolean "auto_offline", default: true, null: false
-    t.jsonb "permissions", default: {"teams"=>true, "labels"=>true, "peoples"=>true, "reports"=>true, "accounts"=>true, "contacts"=>true, "conversations"=>true, "send_menssages"=>true}
+    t.jsonb "permissions", default: {"teams"=>true, "labels"=>true, "peoples"=>true, "reports"=>true, "accounts"=>true, "contacts"=>true, "conversations"=>true}
     t.index ["account_id", "user_id"], name: "uniq_user_id_per_account_id", unique: true
     t.index ["account_id"], name: "index_account_users_on_account_id"
     t.index ["user_id"], name: "index_account_users_on_user_id"
@@ -218,6 +218,24 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_14_014644) do
     t.text "content"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+  end
+
+  create_table "cart_items", force: :cascade do |t|
+    t.bigint "cart_id", null: false
+    t.bigint "product_id", null: false
+    t.integer "quantity", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cart_id"], name: "index_cart_items_on_cart_id"
+    t.index ["product_id"], name: "index_cart_items_on_product_id"
+  end
+
+  create_table "carts", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "status", default: "open", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_carts_on_account_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -793,6 +811,17 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_14_014644) do
     t.index ["user_id"], name: "index_portals_members_on_user_id"
   end
 
+  create_table "products", force: :cascade do |t|
+    t.string "name", null: false
+    t.decimal "price", precision: 10, scale: 2, null: false
+    t.string "product_type", null: false
+    t.text "description"
+    t.jsonb "details", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_type"], name: "index_products_on_product_type"
+  end
+
   create_table "related_categories", force: :cascade do |t|
     t.bigint "category_id"
     t.bigint "related_category_id"
@@ -952,6 +981,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_14_014644) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "cart_items", "carts"
+  add_foreign_key "cart_items", "products"
+  add_foreign_key "carts", "accounts"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "labels", "teams"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).

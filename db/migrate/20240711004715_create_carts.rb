@@ -6,6 +6,8 @@ class CreateCarts < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
+    return if index_exists?(:carts, :account_id)
+
     add_index :carts, :account_id
   end
 end
