@@ -174,7 +174,9 @@ GEM
     crack (0.4.5)
       rexml
     crass (1.0.6)
-    csv-safe (3.2.1)
+    csv (3.3.0)
+    csv-safe (3.3.1)
+      csv (~> 3.0)
     cypress-on-rails (1.16.0)
       rack
     database_cleaner (2.0.2)
