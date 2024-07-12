@@ -54,7 +54,9 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def validate_limit
-    render_payment_required('Account limit exceeded. Please purchase more licenses') if agents.count >= Current.account.usage_limits[:agents]
+    return unless agents.count >= Current.account.usage_limits[:agents]
+
+    render_payment_required('Sua conta excedeu o limite. Por favor, aumente sua assinatura. Entre em contato com o suporte.')
   end
 
   def delete_user_record(agent)
