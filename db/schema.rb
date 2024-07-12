@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_07_11_004723) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_12_004410) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -25,6 +25,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_11_004723) do
     t.datetime "updated_at", null: false
     t.index ["owner_type", "owner_id"], name: "index_access_tokens_on_owner_type_and_owner_id"
     t.index ["token"], name: "index_access_tokens_on_token", unique: true
+  end
+
+  create_table "account_plans", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "product_id"], name: "index_account_plans_on_account_id_and_product_id", unique: true
+    t.index ["account_id"], name: "index_account_plans_on_account_id"
+    t.index ["product_id"], name: "index_account_plans_on_product_id"
   end
 
   create_table "account_users", force: :cascade do |t|
@@ -979,6 +989,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_11_004723) do
     t.index ["inbox_id"], name: "index_working_hours_on_inbox_id"
   end
 
+  add_foreign_key "account_plans", "accounts"
+  add_foreign_key "account_plans", "products"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cart_items", "carts"

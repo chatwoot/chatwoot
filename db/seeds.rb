@@ -137,4 +137,5 @@ unless Rails.env.production?
                    }
                  ])
 
+  AccountPlan.create(account: account, product: Product.find_by(name: 'Standard'))
 end

@@ -77,7 +77,11 @@ class Account < ApplicationRecord
   has_many :whatsapp_channels, dependent: :destroy_async, class_name: '::Channel::Whatsapp'
   has_many :working_hours, dependent: :destroy_async
   has_many :triggers, foreign_key: :companyId, dependent: :destroy_async, class_name: '::Trigger'
+
+  # Checkout
   has_many :carts, dependent: :destroy
+  has_many :account_plans, dependent: :destroy
+  has_many :products, through: :account_plans
 
   has_one_attached :contacts_export
 
