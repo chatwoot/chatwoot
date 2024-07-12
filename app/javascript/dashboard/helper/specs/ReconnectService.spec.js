@@ -102,7 +102,7 @@ describe('ReconnectService', () => {
       expect(reconnectService.getSecondsSinceDisconnect()).toBe(0);
     });
 
-    it('should return the number of seconds since disconnect', () => {
+    it('should return the number of seconds + threshold since disconnect', () => {
       reconnectService.disconnectTime = new Date();
       differenceInSeconds.mockReturnValue(100);
       expect(reconnectService.getSecondsSinceDisconnect()).toBe(100);
@@ -128,12 +128,21 @@ describe('ReconnectService', () => {
   });
 
   describe('fetchConversations', () => {
+    it('should update the filters with disconnected time and the threshold', async () => {
+      reconnectService.getSecondsSinceDisconnect = vi.fn().mockReturnValue(100);
+      await reconnectService.fetchConversations();
+      expect(storeMock.dispatch).toHaveBeenCalledWith('updateChatListFilters', {
+        page: null,
+        updatedWithin: 115,
+      });
+    });
+
     it('should dispatch updateChatListFilters and fetchAllConversations', async () => {
       reconnectService.getSecondsSinceDisconnect = vi.fn().mockReturnValue(100);
       await reconnectService.fetchConversations();
       expect(storeMock.dispatch).toHaveBeenCalledWith('updateChatListFilters', {
         page: null,
-        updatedWithin: 100,
+        updatedWithin: 115,
       });
       expect(storeMock.dispatch).toHaveBeenCalledWith('fetchAllConversations');
     });
