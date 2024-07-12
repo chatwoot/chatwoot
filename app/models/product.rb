@@ -19,4 +19,8 @@ class Product < ApplicationRecord
   has_many :cart_items, dependent: :destroy
   has_many :account_plans, dependent: :destroy
   has_many :accounts, through: :account_plans
+
+  enum product_type: { plan: 'Plano', other: 'Other' }
+
+  validates :product_type, presence: true, inclusion: { in: product_types.keys }
 end

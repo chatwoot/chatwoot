@@ -22,4 +22,14 @@
 class AccountPlan < ApplicationRecord
   belongs_to :account
   belongs_to :product
+
+  validate :product_must_be_plan
+
+  private
+
+  def product_must_be_plan
+    return if product.plan?
+
+    errors.add(:product, 'must be of type "plan"')
+  end
 end
