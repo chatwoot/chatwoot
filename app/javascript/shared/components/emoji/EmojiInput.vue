@@ -174,7 +174,9 @@ export default {
       return categoryItem ? categoryItem.emojis[0].emoji : '';
     },
     focusSearchInput() {
-      this.$refs.searchbar?.focus();
+      this.$nextTick(() => {
+        this.$refs.searchbar.focus();
+      });
     },
   },
 };
