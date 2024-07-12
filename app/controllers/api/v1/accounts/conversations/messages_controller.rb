@@ -6,6 +6,7 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   def create
     user = Current.user || @resource
     mb = Messages::MessageBuilder.new(user, @conversation, params)
+    deactivate_smart_actions
     @message = mb.perform
   rescue StandardError => e
     render_could_not_create_error(e.message)
@@ -61,5 +62,14 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
   def already_translated_content_available?
     message.translations.present? && message.translations[permitted_params[:target_language]].present?
+  end
+
+  def deactivate_smart_actions
+    return unless Current.account.feature_enabled?('smart_actions')
+    return unless (copilot_draft = @conversation.smart_actions.ask_copilot.active.last&.content).present?
+
+    if params[:content].to_s.include? copilot_draft
+      @conversation.smart_actions.update_all(active: false)
+    end
   end
 end

@@ -1,6 +1,6 @@
 class Api::V1::Accounts::Conversations::SmartActionsController < Api::V1::Accounts::Conversations::BaseController
   def index
-    @smart_actions = @conversation.smart_actions
+    @smart_actions = @conversation.smart_actions.active
   end
 
   def create
@@ -17,7 +17,7 @@ class Api::V1::Accounts::Conversations::SmartActionsController < Api::V1::Accoun
     # TODO: move to service action
     case params[:event]
     when 'ask_copilot'
-      event = @conversation.smart_actions.ask_copilot.last
+      event = @conversation.smart_actions.ask_copilot.active.last
       render json: event.present? ? event.event_data : {}
     else
       render json: { success: false }

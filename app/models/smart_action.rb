@@ -3,6 +3,7 @@
 # Table name: smart_actions
 #
 #  id                :bigint           not null, primary key
+#  active            :boolean          default(TRUE)
 #  custom_attributes :jsonb
 #  description       :string
 #  event             :string
@@ -29,7 +30,7 @@ class SmartAction < ApplicationRecord
   validates :conversation_id, presence: true
 
   scope :ask_copilot, -> { where(event: 'ask_copilot') }
-
+  scope :active, -> { where(active: true) }
   delegate :account, to: :conversation
 
   after_create_commit :execute_after_create_commit_callbacks
@@ -55,6 +56,8 @@ class SmartAction < ApplicationRecord
   end
 
   def dispatch_create_events
+    return unless active?
+
     Rails.configuration.dispatcher.dispatch(SMART_ACTION_CREATED, Time.zone.now, smart_action: self, performed_by: Current.executed_by)
   end
 end

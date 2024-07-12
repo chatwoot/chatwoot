@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_06_26_105938) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_11_235814) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -926,6 +926,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_26_105938) do
     t.jsonb "custom_attributes", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "active", default: true
     t.index ["conversation_id"], name: "index_smart_actions_on_conversation_id"
     t.index ["message_id"], name: "index_smart_actions_on_message_id"
   end
