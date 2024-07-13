@@ -1,6 +1,4 @@
-class Features::ResponseBotService
-  MIGRATION_VERSION = ActiveRecord::Migration[7.0]
-
+class Features::ResponseBotService < Features::BaseService
   def enable_in_installation
     enable_vector_extension
     create_tables
@@ -19,10 +17,6 @@ class Features::ResponseBotService
 
   def disable_vector_extension
     MIGRATION_VERSION.disable_extension 'vector'
-  end
-
-  def vector_extension_enabled?
-    ActiveRecord::Base.connection.extension_enabled?('vector')
   end
 
   def create_tables

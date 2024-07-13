@@ -1,6 +1,6 @@
 <template>
   <div
-    class="ltr:mr-1 rtl:ml-1 mb-1"
+    class="inline-flex ltr:mr-1 rtl:ml-1 mb-1"
     :class="labelClass"
     :style="labelStyle"
     :title="description"
@@ -111,7 +111,7 @@ export default {
 
 <style scoped lang="scss">
 .label {
-  @apply inline-flex items-center font-medium text-xs rounded-[4px] gap-1 p-1 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 border border-solid border-slate-75 dark:border-slate-600 h-6;
+  @apply items-center font-medium text-xs rounded-[4px] gap-1 p-1 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100 border border-solid border-slate-75 dark:border-slate-600 h-6;
 
   &.small {
     @apply text-xs py-0.5 px-1 leading-tight h-5;

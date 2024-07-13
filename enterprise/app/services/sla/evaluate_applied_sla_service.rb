@@ -7,8 +7,8 @@ class Sla::EvaluateAppliedSlaService
     # We will calculate again in the next iteration
     return unless applied_sla.conversation.resolved?
 
-    # No SLA missed, so marking as hit as conversation is resolved
-    handle_hit_sla(applied_sla) if applied_sla.active?
+    # after conversation is resolved, we will check if the SLA was hit or missed
+    handle_hit_sla(applied_sla)
   end
 
   private
@@ -49,6 +49,15 @@ class Sla::EvaluateAppliedSlaService
     handle_missed_sla(applied_sla, 'nrt')
   end
 
+  def get_last_message_id(conversation)
+    # TODO: refactor the method to fetch last message without reply
+    conversation.messages.where(message_type: :incoming).last&.id
+  end
+
+  def already_missed?(applied_sla, type, meta = {})
+    SlaEvent.exists?(applied_sla: applied_sla, event_type: type, meta: meta)
+  end
+
   def check_resolution_time_threshold(applied_sla, conversation, sla_policy)
     return if conversation.resolved?
 
@@ -58,48 +67,41 @@ class Sla::EvaluateAppliedSlaService
     handle_missed_sla(applied_sla, 'rt')
   end
 
-  def handle_missed_sla(applied_sla, type)
-    return unless applied_sla.active?
+  def handle_missed_sla(applied_sla, type, meta = {})
+    meta = { message_id: get_last_message_id(applied_sla.conversation) } if type == 'nrt'
+    return if already_missed?(applied_sla, type, meta)
 
-    applied_sla.update!(sla_status: 'missed')
-    generate_notifications_for_sla(applied_sla, type)
-    Rails.logger.warn "SLA missed for conversation #{applied_sla.conversation.id} " \
+    create_sla_event(applied_sla, type, meta)
+    Rails.logger.warn "SLA #{type} missed for conversation #{applied_sla.conversation.id} " \
                       "in account #{applied_sla.account_id} " \
                       "for sla_policy #{applied_sla.sla_policy.id}"
+
+    applied_sla.update!(sla_status: 'active_with_misses') if applied_sla.sla_status != 'active_with_misses'
   end
 
   def handle_hit_sla(applied_sla)
-    return unless applied_sla.active?
-
-    applied_sla.update!(sla_status: 'hit')
-    Rails.logger.info "SLA hit for conversation #{applied_sla.conversation.id} " \
-                      "in account #{applied_sla.account_id} " \
-                      "for sla_policy #{applied_sla.sla_policy.id}"
+    if applied_sla.active?
+      applied_sla.update!(sla_status: 'hit')
+      Rails.logger.info "SLA hit for conversation #{applied_sla.conversation.id} " \
+                        "in account #{applied_sla.account_id} " \
+                        "for sla_policy #{applied_sla.sla_policy.id}"
+    else
+      applied_sla.update!(sla_status: 'missed')
+      Rails.logger.info "SLA missed for conversation #{applied_sla.conversation.id} " \
+                        "in account #{applied_sla.account_id} " \
+                        "for sla_policy #{applied_sla.sla_policy.id}"
+    end
   end
 
-  def generate_notifications_for_sla(applied_sla, type)
-    notify_users = applied_sla.conversation.conversation_participants.map(&:user)
-    # add all admins from the account to notify list
-    notify_users += applied_sla.account.administrators
-    # ensure conversation assignee is notified
-    notify_users += [applied_sla.conversation.assignee] if applied_sla.conversation.assignee.present?
-
-    notification_type = if type == 'frt'
-                          'sla_missed_first_response'
-                        elsif type == 'nrt'
-                          'sla_missed_next_response'
-                        else
-                          'sla_missed_resolution'
-                        end
-
-    notify_users.uniq.each do |user|
-      NotificationBuilder.new(
-        notification_type: notification_type,
-        user: user,
-        account: applied_sla.account,
-        primary_actor: applied_sla.conversation,
-        secondary_actor: applied_sla.sla_policy
-      ).perform
-    end
+  def create_sla_event(applied_sla, event_type, meta = {})
+    SlaEvent.create!(
+      applied_sla: applied_sla,
+      conversation: applied_sla.conversation,
+      event_type: event_type,
+      meta: meta,
+      account: applied_sla.account,
+      inbox: applied_sla.conversation.inbox,
+      sla_policy: applied_sla.sla_policy
+    )
   end
 end

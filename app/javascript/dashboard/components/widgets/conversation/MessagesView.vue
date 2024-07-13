@@ -112,13 +112,12 @@ import conversationMixin, {
 } from '../../../mixins/conversations';
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import configMixin from 'shared/mixins/configMixin';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import aiMixin from 'dashboard/mixins/aiMixin';
 
 // utils
 import { getTypingUsersText } from '../../../helper/commons';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
-import { isEscape } from 'shared/helpers/KeyboardHelpers';
 import { LocalStorage } from 'shared/helpers/localStorage';
 
 // constants
@@ -137,7 +136,7 @@ export default {
   mixins: [
     conversationMixin,
     inboxMixin,
-    eventListenerMixins,
+    keyboardEventListenerMixins,
     configMixin,
     aiMixin,
   ],
@@ -410,10 +409,12 @@ export default {
     closePopoutReplyBox() {
       this.isPopoutReplyBox = false;
     },
-    handleKeyEvents(e) {
-      if (isEscape(e)) {
-        this.closePopoutReplyBox();
-      }
+    getKeyboardEvents() {
+      return {
+        Escape: {
+          action: () => this.closePopoutReplyBox(),
+        },
+      };
     },
     addScrollListener() {
       this.conversationPanel = this.$el.querySelector('.conversation-panel');

@@ -44,7 +44,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "مربع",
       "CREATED_AT": "تم إنشاؤها في",
       "LAST_ACTIVITY": "آخر نشاط",
-      "REFERER_LINK": "رابط المرجع"
+      "REFERER_LINK": "رابط المرجع",
+      "BLOCKED": "Blocked"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "الفلاتر القياسية",

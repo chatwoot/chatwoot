@@ -77,8 +77,8 @@ class ContactAPI extends ApiClient {
     return axios.delete(`${this.url}/${contactId}/avatar`);
   }
 
-  exportContacts() {
-    return axios.get(`${this.url}/export`);
+  exportContacts(queryPayload) {
+    return axios.post(`${this.url}/export`, queryPayload);
   }
 }
 

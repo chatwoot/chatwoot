@@ -7,11 +7,11 @@
       color-scheme="primary"
       @click="connectToInbox"
     >
-      {{ $t('CHATBOT_SETTINGS.FORM.CONNECT_INBOX') }}
+      {{ $t('CHATBOTS.FORM.CONNECT_INBOX') }}
     </woot-button>
     <page-header
-      :header-title="$t('CHATBOT_SETTINGS.CREATE_FLOW.CREATE.TITLE')"
-      :header-content="$t('CHATBOT_SETTINGS.CREATE_FLOW.CREATE.DESC')"
+      :header-title="$t('CHATBOTS.CREATE_FLOW.CREATE.TITLE')"
+      :header-content="$t('CHATBOTS.CREATE_FLOW.CREATE.DESC')"
     />
     <div class="flex flex-wrap">
       <upload-files @uploadTypeSelected="handleUploadTypeSelected" />
@@ -37,7 +37,7 @@ export default {
   data() {
     return {
       enabledFeatures: {},
-      currentUploadType: 'file',
+      currentUploadType: 'website',
     };
   },
   methods: {
@@ -46,7 +46,7 @@ export default {
     },
     async connectToInbox() {
       router.replace({
-        name: 'chatbot_connect_inbox',
+        name: 'chatbots_connect_inbox',
       });
     },
   },

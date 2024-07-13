@@ -1,30 +1,28 @@
 class Api::V1::Keycloak::CheckKeycloakSessionController < ApplicationController
     def create
-      email = params['email']
-      session_info = KeycloakSessionInfo.find_by(email: email)
+      token = params['token']
+      session_info = KeycloakSessionInfo.find_by(browser_token: token)
   
-      realm = ENV.fetch('KEYCLOAK_REALM', nil)
-      keycloak_url = ENV.fetch('KEYCLOAK_URL', nil)
-      introspect_url = URI.join(keycloak_url, "/realms/#{realm}/protocol/openid-connect/token/introspect").to_s
-      client_id = ENV.fetch('KEYCLOAK_CLIENT_ID', nil)
-      client_secret = ENV.fetch('KEYCLOAK_CLIENT_SECRET', nil)
-      
       if session_info.present?
-        access_token = session_info.token_info['access_token']
-        # Introspect access_token is active or expired
-        introspect_res = HTTParty.post(introspect_url, {
-          body: {
-            'client_id': client_id,
-            'client_secret': client_secret,
-            'token': access_token
+        access_token = session_info.metadata['access_token']
+        keycloak_url = ENV.fetch('KEYCLOAK_URL', nil)
+        realm = ENV.fetch('KEYCLOAK_REALM', nil)
+        user_info_endpoint = URI.join(keycloak_url, "/realms/#{realm}/protocol/openid-connect/userinfo")
+
+        user_info_res = HTTParty.get(user_info_endpoint, {
+          headers: {
+            "Authorization": "Bearer #{access_token}",
+            "Content-Type": "application/x-www-form-urlencoded",
           }
         })
-        Rails.logger.info("KeyCloak Session Check Response: #{introspect_res}")
-        if introspect_res["active"]===false
-          render json: { message: 'Session expired. Please log in again.' }
+        if user_info_res.code.to_i != 200
+          session_info.destroy
+          render json: { message: 'Session expired. Please log in again' }, status: :ok
+        else
+          render json: { message: 'Session is active' }, status: :ok
         end
       else
-        render json: { message: 'No Session Info.' }
+        render json: { message: 'No session found for the provided token' }, status: :ok
       end
     end
   end

@@ -10,7 +10,6 @@ import {
   widgetHolder,
   createBubbleHolder,
   createBubbleIcon,
-  bubbleSVG,
   chatBubble,
   closeBubble,
   bubbleHolder,
@@ -20,6 +19,8 @@ import {
   setBubbleText,
   addUnreadClass,
   removeUnreadClass,
+  bubbleSVGStandard,
+  bubbleSVGExpanded,
 } from './bubbleHelpers';
 import { isWidgetColorLighter } from 'shared/helpers/colorHelper';
 import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
@@ -78,6 +79,7 @@ export const IFrameHelper = {
     }
 
     addClasses(widgetHolder, holderClassName);
+    widgetHolder.id = 'cw-widget-holder';
     widgetHolder.appendChild(iframe);
     body.appendChild(widgetHolder);
     IFrameHelper.initPostMessageCommunication();
@@ -302,7 +304,10 @@ export const IFrameHelper = {
 
     const chatIcon = createBubbleIcon({
       className,
-      path: bubbleSVG,
+      path:
+        window.$chatwoot.type === 'standard'
+          ? bubbleSVGStandard
+          : bubbleSVGExpanded,
       target: chatBubble,
     });
 

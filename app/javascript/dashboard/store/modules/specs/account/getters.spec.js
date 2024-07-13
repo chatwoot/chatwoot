@@ -29,4 +29,23 @@ describe('#getters', () => {
       isDeleting: false,
     });
   });
+
+  it('isFeatureEnabledonAccount', () => {
+    const state = {
+      records: [accountData],
+    };
+    const rootGetters = {
+      getCurrentUser: {
+        type: 'SuperAdmin',
+      },
+    };
+    expect(
+      getters.isFeatureEnabledonAccount(
+        state,
+        null,
+        null,
+        rootGetters
+      )(1, 'auto_resolve_conversations')
+    ).toEqual(true);
+  });
 });

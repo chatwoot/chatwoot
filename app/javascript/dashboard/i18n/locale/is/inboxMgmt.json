@@ -22,7 +22,7 @@
         "body": "Bæta þjónustufulltrúum á nýja innhólfið."
       },
       {
-        "title": "Voila!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "Þú ert tilbúin til að halda áfram!"
       }
@@ -43,7 +43,7 @@
         "CHOOSE_PLACEHOLDER": "Veldu síðu úr listanum",
         "INBOX_NAME": "Nafn Innhólfs",
         "ADD_NAME": "Bættu við nafni á innhólfið",
-        "PICK_NAME": "Veldu nafn fyrir innhólfið",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "Veldu gildi"
       },
       "TWITTER": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Vefkróks URL",
-          "PLACEHOLDER": "Sláðu inn URL Vefkróks",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Vinsamlega skráðu gilt URL"
         },
         "CHANNEL_DOMAIN": {
@@ -175,12 +175,12 @@
           },
           "API_KEY": {
             "LABEL": "API Lykill",
-            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "Það er nauðsynlegt að fylla út þennan reit"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "Það er nauðsynlegt að fylla út þennan reit"
           },
           "APPLICATION_ID": {
@@ -239,7 +239,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "Sláðu inn staðfestingartákn sem þú vilt stilla fyrir Facebook webhooks.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Vinsamlegast sláðu inn gilt gildi."
         },
         "API_KEY": {
@@ -269,7 +269,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "SUBTITLE": "Stilltu slóðina þar sem þú vilt fá svarhringingar á atburði.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "URL Vefkróks"
         },
         "SUBMIT_BUTTON": "Skrá API Rás",
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Tölvupóst Rás",
-        "DESC": "Innleiða tölvupósthólfið þitt.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Nafn Rásar",
           "PLACEHOLDER": "Vinsamlegast sláðu inn nafn rásar",
@@ -345,7 +345,7 @@
       "AGENTS": {
         "TITLE": "Þjónustufulltrúar",
         "DESC": "Hér geturðu bætt við þjónustufulltrúum til að hafa umsjón með nýstofnuða innhólfinu þínu. Aðeins þessir völdu Þjónustufulltrúar munu hafa aðgang að innhólfinu þínu. Þjónustufulltrúar sem eru ekki hluti af þessu innhólfi munu ekki geta séð eða svarað skilaboðum í þessu innhólfi þegar þeir skrá sig inn. <br> <b>PS:</b> Sem stjórnandi, ef þú þarft aðgang að öllum pósthólfum, ættir þú að bæta sjálfum þér sem þjónustufulltrúa við öll innhólf sem þú býrð til.",
-        "VALIDATION_ERROR": "Bættu við að minnsta kosti einum þjónustufulltrúa á innhólfið",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Veldu þjónustufulltrúa fyrir innhólfið"
       },
       "DETAILS": {
@@ -406,7 +406,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Friendly",
@@ -508,12 +508,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Leyfa skilaboð eftir að samtal hefur verið leyst",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Leyfa endanotendum að senda skilaboð jafnvel eftir að samtalið er leyst.",
       "WHATSAPP_SECTION_SUBHEADER": "Þessi API lykill er notaður fyrir samþættingu við WhatsApp API.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API Lykill",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Uppfæra",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verify Token",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
@@ -585,7 +585,7 @@
       "NOTE_TEXT": "Vinsamlegast tilltu IMAP til að virkja SMTP.",
       "UPDATE": "Uppfæra IMAP stilingar",
       "TOGGLE_AVAILABILITY": "Virkja IMAP stillingar fyrir þetta innhólf",
-      "TOGGLE_HELP": "Að virkja IMAP mun hjálpa notandanum að fá tölvupóst",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "IMAP stillingar voru uppfærðar",
         "ERROR_MESSAGE": "Tókst ekki að uppfæra IMAP stillingar"
