@@ -101,6 +101,7 @@ Rails.application.routes.draw do
               resources :labels, only: [:create, :index]
               resource :participants, only: [:show, :create, :update, :destroy]
               resource :direct_uploads, only: [:create]
+              resource :draft_messages, only: [:show, :update, :destroy]
             end
             member do
               post :mute
@@ -130,7 +131,7 @@ Rails.application.routes.draw do
               get :search
               post :filter
               post :import
-              get :export
+              post :export
             end
             member do
               get :contactable_inboxes
@@ -145,6 +146,12 @@ Rails.application.routes.draw do
             end
           end
           resources :csat_survey_responses, only: [:index] do
+            collection do
+              get :metrics
+              get :download
+            end
+          end
+          resources :applied_slas, only: [:index] do
             collection do
               get :metrics
               get :download
@@ -297,19 +304,18 @@ Rails.application.routes.draw do
           end
         end
         # chatbot routes
-        post '/store-to-db', to: 'chatbot#store_to_db'
-        post '/old-bot-train', to: 'chatbot#old_bot_train'
-        get '/chatbot-with-account-id', to: 'chatbot#fetch_chatbot_with_account_id'
-        delete '/chatbot-with-chatbot-id', to: 'chatbot#delete_chatbot_with_chatbot_id'
-        put '/update-bot-info', to: 'chatbot#update_bot_info'
-        post '/toggle-chatbot-status', to: 'chatbot#toggle_chatbot_status'
-        get '/is-inbox-widget', to: 'chatbot#inbox_widget'
-        get '/chatbot-status', to: 'chatbot#chatbot_status'
-        get '/chatbot-id-to-name', to: 'chatbot#chatbot_id_to_name'
-        post '/create-chatbot-microservice', to: 'chatbot#create_chatbot_microservice'
-        delete '/disconnect-chatbot', to: 'chatbot#disconnect_chatbot'
-        # only for testing
-        # get '/delete', to: 'chatbot#del'
+        post '/create_chatbot', to: 'chatbot#create'
+        post '/create_chatbot_result', to: 'chatbot#receive_result'
+        get '/get_chatbots', to: 'chatbot#get'
+        delete '/delete_chatbot', to: 'chatbot#delete'
+        # post '/old-bot-train', to: 'chatbot#old_bot_train'
+        # delete '/chatbot-with-chatbot-id', to: 'chatbot#delete_chatbot_with_chatbot_id'
+        # put '/update-bot-info', to: 'chatbot#update_bot_info'
+        # post '/toggle-chatbot-status', to: 'chatbot#toggle_chatbot_status'
+        # get '/is-inbox-widget', to: 'chatbot#inbox_widget'
+        # get '/chatbot-status', to: 'chatbot#chatbot_status'
+        # get '/chatbot-id-to-name', to: 'chatbot#chatbot_id_to_name'
+        # delete '/disconnect-chatbot', to: 'chatbot#disconnect_chatbot'
       end
     end
 
@@ -409,6 +415,7 @@ Rails.application.routes.draw do
   end
 
   get 'hc/:slug', to: 'public/api/v1/portals#show'
+  get 'hc/:slug/sitemap.xml', to: 'public/api/v1/portals#sitemap'
   get 'hc/:slug/:locale', to: 'public/api/v1/portals#show'
   get 'hc/:slug/:locale/articles', to: 'public/api/v1/portals/articles#index'
   get 'hc/:slug/:locale/categories', to: 'public/api/v1/portals/categories#index'

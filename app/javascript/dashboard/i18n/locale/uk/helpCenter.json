@@ -18,10 +18,10 @@
         "ARCHIVED": "Архівовані статті"
       },
       "LOCALE_SELECT": {
-        "TITLE": "Select locale",
-        "PLACEHOLDER": "Select locale",
-        "NO_RESULT": "No locale found",
-        "SEARCH_PLACEHOLDER": "Search locale"
+        "TITLE": "Виберіть мову",
+        "PLACEHOLDER": "Виберіть мову",
+        "NO_RESULT": "Міток не знайдено",
+        "SEARCH_PLACEHOLDER": "Виберіть мову"
       }
     },
     "EDIT_HEADER": {
@@ -82,15 +82,15 @@
       }
     },
     "ARTICLE_SEARCH_RESULT": {
-      "UNCATEGORIZED": "Uncategorized",
-      "SEARCH_RESULTS": "Search results for %{query}",
-      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "UNCATEGORIZED": "Без категорії",
+      "SEARCH_RESULTS": "Результати пошуку для %{query}",
+      "EMPTY_TEXT": "Пошук статей для вставки у відповіді.",
       "SEARCH_LOADER": "Шукаємо...",
-      "INSERT_ARTICLE": "Insert",
-      "NO_RESULT": "No articles found",
-      "COPY_LINK": "Copy article link to clipboard",
-      "OPEN_LINK": "Open article in new tab",
-      "PREVIEW_LINK": "Preview article"
+      "INSERT_ARTICLE": "Вставка",
+      "NO_RESULT": "Статей не знайдено",
+      "COPY_LINK": "Скопіювати посилання на статтю в буфер обміну",
+      "OPEN_LINK": "Відкрити статтю в новій вкладці",
+      "PREVIEW_LINK": "Перегляд статті"
     },
     "PORTAL": {
       "HEADER": "Портали",
@@ -231,9 +231,9 @@
           "LABEL": "Логотип",
           "UPLOAD_BUTTON": "Завантажити логотип",
           "HELP_TEXT": "Цей логотип буде показано у заголовку порталу.",
-          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
-          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Error while deleting logo"
+          "IMAGE_UPLOAD_SUCCESS": "Логотип успішно завантажено",
+          "IMAGE_UPLOAD_ERROR": "Логотип успішно видалено",
+          "IMAGE_DELETE_ERROR": "Помилка при видаленні логотипу"
         },
         "NAME": {
           "LABEL": "Ім'я",
@@ -302,7 +302,7 @@
       "CHANGE_DEFAULT_LOCALE": {
         "API": {
           "SUCCESS_MESSAGE": "Локаль за замовчуванням успішно оновлено",
-          "ERROR_MESSAGE": "Не вдалося локаль за замовчуванням. Спробуйте ще раз."
+          "ERROR_MESSAGE": "Не вдалося оновити локаль за замовчуванням. Спробуйте ще раз."
         }
       },
       "DELETE_LOCALE": {
@@ -319,13 +319,13 @@
       "HEADERS": {
         "TITLE": "Назва",
         "CATEGORY": "Категорія",
-        "READ_COUNT": "Views",
+        "READ_COUNT": "Перегляди",
         "STATUS": "Статус",
         "LAST_EDITED": "Останній раз відредагований"
       },
       "COLUMNS": {
         "BY": "від",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "AUTHOR_NOT_AVAILABLE": "Автор недоступний"
       }
     },
     "EDIT_ARTICLE": {
@@ -379,7 +379,7 @@
         "NAME": {
           "LABEL": "Ім'я",
           "PLACEHOLDER": "Назва категорії",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "HELP_TEXT": "Назва категорії буде використовуватися в публічному інтерфейсі порталу для категоризації статей.",
           "ERROR": "Назва обов'язкова"
         },
         "SLUG": {
@@ -410,7 +410,7 @@
         "NAME": {
           "LABEL": "Ім'я",
           "PLACEHOLDER": "Назва категорії",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "HELP_TEXT": "Назва категорії буде використовуватися в публічному інтерфейсі порталу для категоризації статей.",
           "ERROR": "Назва обов'язкова"
         },
         "SLUG": {
@@ -441,43 +441,43 @@
       }
     },
     "ARTICLE_SEARCH": {
-      "TITLE": "Search articles",
-      "PLACEHOLDER": "Search articles",
-      "NO_RESULT": "No articles found",
+      "TITLE": "Пошук статей",
+      "PLACEHOLDER": "Пошук статей",
+      "NO_RESULT": "Статей не знайдено",
       "SEARCHING": "Шукаємо...",
       "SEARCH_BUTTON": "Пошук",
       "INSERT_ARTICLE": "Insert link",
-      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
-      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
-      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
-      "PREVIEW_LINK": "Preview article",
+      "IFRAME_ERROR": "URL-адреса є пустою або недійсною. Неможливо показати вміст.",
+      "OPEN_ARTICLE_SEARCH": "Вставити статтю з довідкового центру",
+      "SUCCESS_ARTICLE_INSERTED": "Стаття успішно додана",
+      "PREVIEW_LINK": "Перегляд статті",
       "CANCEL": "Закрити",
       "BACK": "Назад",
-      "BACK_RESULTS": "Back to results"
+      "BACK_RESULTS": "Назад до результатів"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Довідковий центр",
-      "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
-      "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
+      "DESCRIPTION": "Створіть зручні портали самообслуговування. Допоможіть вашим користувачам отримати доступ до статей та отримайте підтримку 24/7. Оновіть підписку, щоб увімкнути цю функцію.",
+      "SELF_HOSTED_DESCRIPTION": "Створіть зручні портали самообслуговування. Допоможіть вашим користувачам отримати доступ до статей та отримати підтримку 24/7. Будь ласка, зверніться до адміністратора, щоб увімкнути цю функцію.",
       "BUTTON": {
         "LEARN_MORE": "Детальніше",
-        "UPGRADE": "Upgrade"
+        "UPGRADE": "Оновити"
       },
       "FEATURES": {
         "PORTALS": {
-          "TITLE": "Multiple portals",
-          "DESCRIPTION": "Create multiple help center portals for different products using the same account."
+          "TITLE": "Кілька порталів",
+          "DESCRIPTION": "Створення кількох порталів довідки для різних продуктів за допомогою одного облікового запису."
         },
         "LOCALES": {
-          "TITLE": "Full support for locales",
-          "DESCRIPTION": "Localize the portal in your language. We support all locales and allow translations for every article."
+          "TITLE": "Повна підтримка локалей мовою",
+          "DESCRIPTION": "Локалізуйте портал вашою мовою. Ми підтримуємо всі мови та дозволяємо переклади для кожної статті."
         },
         "SEO": {
-          "TITLE": "SEO-friendly design",
-          "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
+          "TITLE": "SEO дружній дизайн",
+          "DESCRIPTION": "Налаштуйте теги мета, щоб покращити свою видимість на пошукових системах за допомогою наших сторінок, які є зручними для пошуку."
         },
         "API": {
-          "TITLE": "Full API support",
+          "TITLE": "Повна підтримка API",
           "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
         }
       }

@@ -10,7 +10,19 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
     @agents = agents
   end
 
-  def create; end
+  def create
+    builder = AgentBuilder.new(
+      email: new_agent_params['email'],
+      name: new_agent_params['name'],
+      role: new_agent_params['role'],
+      availability: new_agent_params['availability'],
+      auto_offline: new_agent_params['auto_offline'],
+      inviter: current_user,
+      account: Current.account
+    )
+
+    @agent = builder.perform
+  end
 
   def update
     @agent.update!(agent_params.slice(:name).compact)

@@ -13,8 +13,8 @@
             v-model.trim="title"
             :class="{ error: $v.title.$error }"
             class="w-full"
-            :label="$t('CHATBOT_SETTINGS.FORM.NAME.LABEL')"
-            :placeholder="$t('CHATBOT_SETTINGS.FORM.NAME.PLACEHOLDER')"
+            :label="$t('CHATBOTS.FORM.NAME.LABEL')"
+            :placeholder="$t('CHATBOTS.FORM.NAME.PLACEHOLDER')"
             @input="$v.title.$touch"
           />
           <!-- Display the dropdown for selecting inboxes -->
@@ -23,7 +23,7 @@
             class="inbox-dropdown-container w-full"
           >
             <span class="bold-dark-text">{{
-              $t('CHATBOT_SETTINGS.CONNECT_INBOX')
+              $t('CHATBOTS.CONNECT_INBOX')
             }}</span>
             <div class="custom-select">
               <select
@@ -44,17 +44,17 @@
           </div>
           <div class="flex flex-wrap">
             <div class="w-full">
-              <h6>{{ $t('CHATBOT_SETTINGS.CHATBOT_ID') }} {{ chatbot_id }}</h6>
+              <h6>{{ $t('CHATBOTS.CHATBOT_ID') }} {{ chatbot_id }}</h6>
             </div>
             <div class="w-full">
               <h6>
-                {{ $t('CHATBOT_SETTINGS.LAST_TRAINED_AT') }}
+                {{ $t('CHATBOTS.LAST_TRAINED_AT') }}
                 {{ last_trained_at }}
               </h6>
             </div>
             <div class="w-full">
               <h6>
-                {{ $t('CHATBOT_SETTINGS.CONNECTED_INBOX') }}
+                {{ $t('CHATBOTS.CONNECTED_INBOX') }}
                 {{ connectedInbox }}
               </h6>
             </div>
@@ -74,7 +74,7 @@
                 "
                 @click="updateInfo()"
               >
-                {{ $t('CHATBOT_SETTINGS.UPDATE') }}
+                {{ $t('CHATBOTS.UPDATE') }}
               </button>
               <button
                 class="btn"
@@ -89,7 +89,7 @@
                 :disabled="isDisconnectButtonDisabled"
                 @click="disconnectBot()"
               >
-                {{ $t('CHATBOT_SETTINGS.DISCONNECT') }}
+                {{ $t('CHATBOTS.DISCONNECT') }}
               </button>
             </div>
           </div>
@@ -108,7 +108,7 @@
 import { mapGetters } from 'vuex';
 import BackButton from '../../../../../components/widgets/BackButton.vue';
 import validations from '../helpers/validations';
-import ChatbotAPI from '../../../../../api/chatbot';
+import ChatbotAPI from '../../../../../api/chatbots';
 import Spinner from '../../../../../../shared/components/Spinner.vue';
 
 export default {
@@ -333,3 +333,4 @@ export default {
   z-index: 9999;
 }
 </style>
+../../../../../api/chatbots

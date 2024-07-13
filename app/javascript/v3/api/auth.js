@@ -5,6 +5,7 @@ import {
 } from 'dashboard/store/utils/api';
 import wootAPI from './apiClient';
 import { getLoginRedirectURL } from '../helpers/AuthHelper';
+import Cookies from 'js-cookie';
 
 export const login = async ({
   ssoAccountId,
@@ -73,13 +74,27 @@ export const setNewPassword = async ({
 export const resetPassword = async ({ email }) =>
   wootAPI.post('auth/password', { email });
 
-export const logoutFromKeycloakSession = async currentUser =>
-  wootAPI.post('api/v1/keycloak/logout', currentUser);
+export const logoutFromKeycloakSession = () => {
+  const keycloak_token = Cookies.get('keycloak_token');
+  if (keycloak_token) {
+    const response = wootAPI.post('api/v1/keycloak/logout', {
+      token: keycloak_token,
+    });
+    return response;
+  }
+  return 'Keycloak Token missing from cookies';
+};
 
-export const checkKeycloakSession = async currentUser => {
-  const res = await wootAPI.post(
-    'api/v1/keycloak/check_keycloak_session',
-    currentUser
-  );
-  return res.data;
+export const checkKeycloakSession = async () => {
+  const keycloak_token = Cookies.get('keycloak_token');
+  if (keycloak_token) {
+    const response = await wootAPI.post(
+      'api/v1/keycloak/check_keycloak_session',
+      {
+        token: keycloak_token,
+      }
+    );
+    return response;
+  }
+  return 'Keycloak Token missing from cookies';
 };

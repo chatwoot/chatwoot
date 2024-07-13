@@ -87,7 +87,10 @@
       "conversation_assignment": "Přiřazená konverzace",
       "assigned_conversation_new_message": "Nová zpráva",
       "participating_conversation_new_message": "Nová zpráva",
-      "conversation_mention": "Zmínka"
+      "conversation_mention": "Zmínka",
+      "sla_missed_first_response": "SLA Missed",
+      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_resolution": "SLA Missed"
     }
   },
   "NETWORK": {
@@ -104,6 +107,7 @@
       "GENERAL": "General",
       "REPORTS": "Zprávy",
       "CONVERSATION": "Conversation",
+      "BULK_ACTIONS": "Bulk Actions",
       "CHANGE_ASSIGNEE": "Change Assignee",
       "CHANGE_PRIORITY": "Change Priority",
       "CHANGE_TEAM": "Change Team",

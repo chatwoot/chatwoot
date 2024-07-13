@@ -22,7 +22,7 @@
         "body": "הוסף נציגים לתיבת הדואר הנכנס שנוצרה."
       },
       {
-        "title": "וואלה!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "אתם מוכנים לצאת לדרך!"
       }
@@ -43,7 +43,7 @@
         "CHOOSE_PLACEHOLDER": "בחר עמוד מהרשימה",
         "INBOX_NAME": "שם תיבת הדואר הנכנס",
         "ADD_NAME": "הוסף שם לתיבת הדואר הנכנס שלך",
-        "PICK_NAME": "בחר שם בתיבת הדואר הנכנס שלך",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "בחר ערך"
       },
       "TWITTER": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "כתובת אתר של Webhook",
-          "PLACEHOLDER": "הזן את כתובת האתר שלך ל-Webhook",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "אנא הכנס כתובת URL חוקית"
         },
         "CHANNEL_DOMAIN": {
@@ -175,12 +175,12 @@
           },
           "API_KEY": {
             "LABEL": "מפתח API",
-            "PLACEHOLDER": "נא הכנס את ה- Bandwith API Key שלך",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "שדה חובה"
           },
           "API_SECRET": {
             "LABEL": "סוד API",
-            "PLACEHOLDER": "נא הכנס את ה- Bandwith API Secret שלך",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "שדה חובה"
           },
           "APPLICATION_ID": {
@@ -239,7 +239,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook Verify Token",
-          "PLACEHOLDER": "נא הכנס verify token שברצונך להגדיר עבור facebook webhooks.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "אנא הכנס ערך תקין."
         },
         "API_KEY": {
@@ -269,7 +269,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "כתובת אתר של Webhook",
-          "SUBTITLE": "הגדר את כתובת האתר שבה ברצונך לקבל התקשרות חוזרת על אירועים.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "כתובת אתר של Webhook"
         },
         "SUBMIT_BUTTON": "צור ערוץ API",
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "ערוץ דוא\"ל",
-        "DESC": "שלב את תיבת הדואר הנכנס שלך.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "שם הערוץ",
           "PLACEHOLDER": "נא להזין שם ערוץ",
@@ -345,7 +345,7 @@
       "AGENTS": {
         "TITLE": "סוכנים",
         "DESC": "כאן תוכל להוסיף סוכנים לניהול תיבת הדואר הנכנס החדשה שלך. רק לסוכנים שנבחרו אלה תהיה גישה לתיבת הדואר הנכנס שלך. סוכנים שאינם חלק מתיבת הדואר הנכנס הזו לא יוכלו לראות או להגיב להודעות בתיבת הדואר הנכנס הזו כאשר הם נכנסים. <br> <b>נ. ב.:</b> כמנהל מערכת, אם אתה זקוק לגישה לכל תיבות הדואר הנכנס, עליך להוסיף את עצמך כסוכן לכל תיבות הדואר הנכנס שאתה יוצר.",
-        "VALIDATION_ERROR": "הוסף לפחות סוכן אחד לתיבת הדואר הנכנס החדשה שלך",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "בחר סוכנים לתיבת הדואר הנכנס"
       },
       "DETAILS": {
@@ -406,7 +406,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Friendly",
@@ -508,12 +508,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "אפשר הודעות לאחר שהשיחה נפתרה",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "אפשר למשתמשי הקצה לשלוח הודעות גם לאחר פתרון השיחה.",
       "WHATSAPP_SECTION_SUBHEADER": "מפתח API זה משמש לשילוב עם ממשקי ה-API של WhatsApp.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "הזן את המפתח המעודכן שישמש לשילוב עם ממשקי ה-API של WhatsApp.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "מפתח API",
       "WHATSAPP_SECTION_UPDATE_TITLE": "עדכון מפתח API",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "הזן את מפתח ה-API החדש כאן",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "עדכן",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verify Token",
+      "WHATSAPP_WEBHOOK_TITLE": "אסימון אימות Webhook",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "עדכון הגדרות טופס טרום צ'אט"
     },
@@ -585,7 +585,7 @@
       "NOTE_TEXT": "כדי להפעיל SMTP, אנא הגדר את IMAP.",
       "UPDATE": "עדכון הגדרות IMAP",
       "TOGGLE_AVAILABILITY": "הפעל תצורת IMAP עבור תיבת הדואר הנכנס הזו",
-      "TOGGLE_HELP": "הפעלת IMAP תעזור למשתמש לקבל דוא\"ל",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "הגדרות IMAP עודכנו בהצלחה",
         "ERROR_MESSAGE": "לא ניתן לעדכן הגדרות IMAP"

@@ -33,7 +33,7 @@ class SupportMailbox < ApplicationMailbox
   def find_channel
     find_channel_with_to_mail if @channel.blank?
 
-    raise 'Email channel/inbox not found' if @channel.nil?
+    raise 'Email channel/inbox not found in support mailbox' if @channel.nil?
 
     @channel
   end

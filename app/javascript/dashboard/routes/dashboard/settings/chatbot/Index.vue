@@ -1,113 +1,53 @@
 <template>
-  <div class="flex-1 overflow-auto p-4">
-    <router-link :to="addAccountScoping(`settings/chatbot/create`)">
-      <woot-button
-        class-names="button--fixed-top"
-        color-scheme="success"
-        icon="add-circle"
-        :button-text="$t('CHATBOT_SETTINGS.NEW_BOT')"
-      >
-        {{ $t('CHATBOT_SETTINGS.NEW_BOT') }}
-      </woot-button>
+  <div class="flex-1 overflow-auto">
+    <router-link
+      :to="addAccountScoping(`settings/chatbots/create`)"
+      class="button success button--fixed-top button success button--fixed-top px-3.5 py-1 rounded-[5px] flex gap-2"
+    >
+      <fluent-icon icon="add-circle" />
+      <span class="button__content">
+        {{ $t('CHATBOTS.NEW_BOT') }}
+      </span>
     </router-link>
-    <div class="flex flex-row gap-4">
-      <div class="w-[60%]">
-        <p
-          v-if="!chatbotsList.length"
-          class="flex h-full items-center flex-col justify-center"
-        >
-          {{ $t('CHATBOT_SETTINGS.LIST.404') }}
-          <router-link
-            v-if="isAdmin"
-            :to="addAccountScoping('settings/chatbot/create')"
-          >
-            {{ $t('CHATBOT_SETTINGS.NEW_BOT') }}
-          </router-link>
-        </p>
-
-        <table v-if="chatbotsList.length" class="woot-table">
+    <div class="flex flex-row gap-4 p-8">
+      <div class="w-full lg:w-3/5">
+        <div v-if="!chatbots.length" class="p-3">
+          <p class="flex h-full items-center flex-col justify-center">
+            {{ $t('CHATBOTS.LIST.404') }}
+          </p>
+        </div>
+        <table v-if="chatbots.length" class="woot-table">
+          <thead>
+            <th
+              v-for="thHeader in $t('CHATBOTS.LIST.TABLE_HEADER')"
+              :key="thHeader"
+            >
+              {{ thHeader }}
+            </th>
+          </thead>
           <tbody>
-            <tr v-for="chatbot in chatbotsList" :key="chatbot.chatbot_id">
-              <td>
-                <span class="agent-name">
-                  <template
-                    v-if="
-                      chatbot.chatbot_name === null ||
-                      chatbot.chatbot_name === ''
-                    "
-                  >
-                    <span class="chatbot-id">
-                      {{ $t('CHATBOT_SETTINGS.CHATBOT') }} -
-                      {{ chatbot.chatbot_id.slice(-4) }}
-                    </span>
-                  </template>
-                  <template v-else>
-                    {{ chatbot.chatbot_name }}
-                  </template>
-                </span>
-              </td>
-
-              <td>
-                <div class="button-wrapper">
-                  <router-link
-                    :to="
-                      addAccountScoping(
-                        `settings/chatbot/edit/${chatbot.chatbot_id}@${chatbot.last_trained_at}`
-                      )
-                    "
-                  >
-                    <woot-button
-                      v-if="isAdmin"
-                      v-tooltip.top="$t('CHATBOT_SETTINGS.LIST.EDIT_BOT')"
-                      variant="smooth"
-                      size="tiny"
-                      color-scheme="secondary"
-                      class-names="grey-btn"
-                      icon="settings"
-                    />
-                  </router-link>
-                  <woot-button
-                    v-if="isAdmin"
-                    v-tooltip.top="$t('CHATBOT_SETTINGS.DELETE.BUTTON_TEXT')"
-                    variant="smooth"
-                    color-scheme="alert"
-                    size="tiny"
-                    icon="dismiss-circle"
-                    class-names="grey-btn"
-                    :is-loading="loading[chatbot.chatbot_id]"
-                    @click="openDeleteModal(chatbot)"
-                  />
-                </div>
-              </td>
-            </tr>
+            <chatbot-table-row
+              v-for="(chatbot, index) in chatbots"
+              :key="index"
+              :chatbot="chatbot"
+              @delete="openDeletePopup(chatbot, index)"
+            />
           </tbody>
         </table>
       </div>
-
-      <div class="w-[34%]">
-        <span
-          v-dompurify-html="
-            $t('CHATBOT_SETTINGS.SIDEBAR_TXT', {
-              installationName: globalConfig.installationName,
-            })
-          "
-        />
+      <div class="hidden lg:block w-1/3">
+        <span v-dompurify-html="$t('CHATBOTS.SIDEBAR_TXT')" />
       </div>
     </div>
-
-    <woot-confirm-delete-modal
-      v-if="showDeletePopup"
-      :show.sync="showDeletePopup"
-      :title="confirmDeleteTitle"
-      :message="$t('CHATBOT_SETTINGS.DELETE.CONFIRM.MESSAGE')"
-      :confirm-text="deleteConfirmText"
-      :reject-text="deleteRejectText"
-      :confirm-value="
-        selectedChatbot.chatbot_name || selectedChatbot.chatbot_id
-      "
-      :confirm-place-holder-text="confirmPlaceHolderText"
-      @on-confirm="confirmDeletion"
-      @on-close="closeDeleteModal"
+    <woot-delete-modal
+      :show.sync="showDeleteConfirmationPopup"
+      :on-close="closeDeletePopup"
+      :on-confirm="confirmDeletion"
+      :title="$t('LABEL_MGMT.DELETE.CONFIRM.TITLE')"
+      :message="$t('CHATBOTS.DELETE.CONFIRM.MESSAGE')"
+      :message-value="deleteMessage"
+      :confirm-text="$t('CHATBOTS.DELETE.CONFIRM.YES')"
+      :reject-text="$t('CHATBOTS.DELETE.CONFIRM.NO')"
     />
   </div>
 </template>
@@ -117,16 +57,20 @@ import { mapGetters } from 'vuex';
 import adminMixin from '../../../../mixins/isAdmin';
 import accountMixin from '../../../../mixins/account';
 import alertMixin from 'shared/mixins/alertMixin';
-import ChatbotAPI from '../../../../api/chatbot';
+import ChatbotAPI from '../../../../api/chatbots';
+import ChatbotTableRow from './ChatbotTableRow.vue';
 
 export default {
+  components: {
+    ChatbotTableRow,
+  },
   mixins: [adminMixin, accountMixin, alertMixin],
   data() {
     return {
+      showDeleteConfirmationPopup: false,
+      selectedResponse: {},
       loading: {},
-      showDeletePopup: false,
-      selectedChatbot: {},
-      chatbotsList: [],
+      chatbots: [],
     };
   },
   computed: {
@@ -134,75 +78,40 @@ export default {
       globalConfig: 'globalConfig/get',
       currentAccountId: 'getCurrentAccountId',
     }),
-    formattedLastTrainedAt() {
-      return lastTrainedAt => {
-        if (lastTrainedAt) {
-          const lastTrainedAtUTC = new Date(lastTrainedAt);
-          const lastTrainedAtLocal = new Date(
-            lastTrainedAtUTC.getTime() +
-              lastTrainedAtUTC.getTimezoneOffset() * 60000
-          );
-          const year = lastTrainedAtLocal.getFullYear();
-          const month = String(lastTrainedAtLocal.getMonth() + 1).padStart(
-            2,
-            '0'
-          );
-          const day = String(lastTrainedAtLocal.getDate()).padStart(2, '0');
-          const hours = String(lastTrainedAtLocal.getHours()).padStart(2, '0');
-          const minutes = String(lastTrainedAtLocal.getMinutes()).padStart(
-            2,
-            '0'
-          );
-          const seconds = String(lastTrainedAtLocal.getSeconds()).padStart(
-            2,
-            '0'
-          );
-          return `${year}/${month}/${day}, ${hours}:${minutes}:${seconds}`;
-        }
-        return lastTrainedAt;
-      };
-    },
-    deleteConfirmText() {
-      return `${this.$t('CHATBOT_SETTINGS.DELETE.CONFIRM.YES')} ${
-        this.selectedChatbot.chatbot_name || this.selectedChatbot.chatbot_id
-      }`;
-    },
-    deleteRejectText() {
-      return this.$t('CHATBOT_SETTINGS.DELETE.CONFIRM.NO');
-    },
-    confirmDeleteTitle() {
-      return this.$t('CHATBOT_SETTINGS.DELETE.CONFIRM.TITLE', {
-        name:
-          this.selectedChatbot.chatbot_name || this.selectedChatbot.chatbot_id,
-      });
-    },
-    confirmPlaceHolderText() {
-      return `${this.$t('CHATBOT_SETTINGS.DELETE.CONFIRM.PLACE_HOLDER', {
-        chatbotName:
-          this.selectedChatbot.chatbot_name || this.selectedChatbot.chatbot_id,
-      })}`;
+    deleteMessage() {
+      return ` ${this.selectedResponse.name}?`;
     },
   },
-  async created() {
-    const res = await ChatbotAPI.fetchChatbotsWithAccountId(
-      this.currentAccountId
-    );
-    this.chatbotsList = res.data;
+  mounted() {
+    this.fetchChatbots();
   },
   methods: {
-    openDeleteModal(chatbot) {
-      this.selectedChatbot = chatbot;
-      this.showDeletePopup = true;
+    async fetchChatbots() {
+      ChatbotAPI.getChatbots(this.currentAccountId).then(response => {
+        this.chatbots = response.data;
+      });
     },
-    closeDeleteModal() {
-      this.selectedChatbot = {};
-      this.showDeletePopup = false;
+    async deleteChatbot(id) {
+      try {
+        ChatbotAPI.deleteChatbot(id).then(() => {
+          this.showAlert(this.$t('CHATBOTS.DELETE.API.SUCCESS_MESSAGE'));
+          this.loading[this.selectedResponse.id] = false;
+        });
+      } catch (error) {
+        this.showAlert(this.$t('CHATBOTS.DELETE.API.ERROR_MESSAGE'));
+      }
+    },
+    openDeletePopup(response) {
+      this.showDeleteConfirmationPopup = true;
+      this.selectedResponse = response;
+    },
+    closeDeletePopup() {
+      this.showDeleteConfirmationPopup = false;
     },
     confirmDeletion() {
-      const chatbotId = this.selectedChatbot.chatbot_id;
-      ChatbotAPI.deleteChatbotWithChatbotId(chatbotId);
-      this.closeDeleteModal();
-      window.location.reload();
+      this.loading[this.selectedResponse.id] = true;
+      this.closeDeletePopup();
+      this.deleteChatbot(this.selectedResponse.id);
     },
   },
 };
@@ -218,3 +127,4 @@ export default {
   text-transform: none;
 }
 </style>
+../../../../api/chatbots

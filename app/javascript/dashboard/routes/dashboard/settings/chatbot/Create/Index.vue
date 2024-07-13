@@ -11,7 +11,7 @@
 export default {
   computed: {
     items() {
-      const data = this.$t('CHATBOT_SETTINGS.CREATE_FLOW.WIZARD');
+      const data = this.$t('CHATBOTS.CREATE_FLOW.WIZARD');
       return data;
     },
   },

@@ -65,6 +65,16 @@ describe Integrations::Slack::IncomingMessageBuilder do
         expect(conversation.messages.count).to eql(messages_count)
       end
 
+      it 'does not create message if message already exists' do
+        expect(hook).not_to be_nil
+        messages_count = conversation.messages.count
+        builder = described_class.new(message_params)
+        allow(builder).to receive(:sender).and_return(nil)
+        2.times.each { builder.perform }
+        expect(conversation.messages.count).to eql(messages_count + 1)
+        expect(conversation.messages.last.content).to eql('this is test https://chatwoot.com Hey @Sojan Test again')
+      end
+
       it 'creates message' do
         expect(hook).not_to be_nil
         messages_count = conversation.messages.count

@@ -4,6 +4,7 @@
     v-else-if="showIcon"
     :size="iconSize"
     :icon="icon"
+    class="flex-shrink-0"
     :class="className"
   />
 </template>

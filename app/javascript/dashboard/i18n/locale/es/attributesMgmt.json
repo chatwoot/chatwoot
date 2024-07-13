@@ -42,14 +42,14 @@
         },
         "REGEX_PATTERN": {
           "LABEL": "Patrón de Regex",
-          "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+          "PLACEHOLDER": "Por favor, introduzca el patrón de regex de atributo personalizado. (Opcional)"
         },
         "REGEX_CUE": {
           "LABEL": "Regex Cue",
-          "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+          "PLACEHOLDER": "Por favor ingrese la pista de patrones regex. (opcional)"
         },
         "ENABLE_REGEX": {
-          "LABEL": "Enable regex validation"
+          "LABEL": "Habilitar validación regex"
         }
       },
       "API": {
@@ -107,14 +107,14 @@
       },
       "REGEX_PATTERN": {
         "LABEL": "Patrón de Regex",
-        "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+        "PLACEHOLDER": "Por favor, introduzca el patrón de regex de atributo personalizado. (Opcional)"
       },
       "REGEX_CUE": {
         "LABEL": "Regex Cue",
-        "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+        "PLACEHOLDER": "Por favor ingrese la pista de patrones regex. (opcional)"
       },
       "ENABLE_REGEX": {
-        "LABEL": "Enable regex validation"
+        "LABEL": "Habilitar validación regex"
       }
     }
   }

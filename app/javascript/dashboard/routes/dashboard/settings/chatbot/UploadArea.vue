@@ -8,11 +8,9 @@
         <div class="file-upload-design">
           <fluent-icon icon="cloud-backup" size="36" />
           <p>
-            {{ $t('CHATBOT_SETTINGS.SUPPORTED_FILE_TYPES') }}
+            {{ $t('CHATBOTS.SUPPORTED_FILE_TYPES') }}
           </p>
-          <span class="browse-button">{{
-            $t('CHATBOT_SETTINGS.BROWSE_FILES')
-          }}</span>
+          <span class="browse-button">{{ $t('CHATBOTS.BROWSE_FILES') }}</span>
         </div>
         <input
           id="file"
@@ -60,7 +58,7 @@
           placeholder="https://www.example.com"
         />
         <woot-button @click="addUrl">
-          {{ $t('CHATBOT_SETTINGS.FORM.ADD_URL') }}
+          {{ $t('CHATBOTS.FORM.ADD_URL') }}
         </woot-button>
       </div>
       <div class="website-urls-container">
@@ -93,7 +91,7 @@ export default {
   props: {
     uploadType: {
       type: String,
-      default: 'file',
+      default: 'website',
     },
   },
   data() {
@@ -104,37 +102,45 @@ export default {
   },
   computed: {
     ...mapState({
-      botText: state => state.chatbot.botText,
+      botText: state => state.chatbots.botText,
     }),
     ...mapGetters({
-      botFiles: 'chatbot/getBotFiles',
-      websiteUrls: 'chatbot/getBotUrls',
+      botFiles: 'chatbots/getBotFiles',
+      websiteUrls: 'chatbots/getBotUrls',
     }),
   },
   methods: {
     handleFileUpload(event) {
       const files = event.target.files;
-      this.$store.dispatch('chatbot/addBotFiles', files);
+      this.$store.dispatch('chatbots/addBotFiles', files);
     },
     handleFileDelete(index) {
-      this.$store.dispatch('chatbot/deleteBotFiles', index);
+      this.$store.dispatch('chatbots/deleteBotFiles', index);
     },
     setText() {
       const text = this.textInput;
-      this.$store.dispatch('chatbot/setBotText', text);
+      this.$store.dispatch('chatbots/setBotText', text);
     },
     addUrl() {
-      const urlRegex = /^(https):\/\/[^ "]+$/;
+      const pattern = new RegExp(
+        '^https:\\/\\/' + // protocol
+          '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+          '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR IP (v4) address
+          '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+          '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+          '(\\#[-a-z\\d_]*)?$', // fragment locator
+        'i'
+      );
       const websiteUrl = this.websiteInput.trim();
-      if (websiteUrl !== '' && urlRegex.test(websiteUrl)) {
-        this.$store.dispatch('chatbot/addBotUrls', websiteUrl);
+      if (websiteUrl !== '' && pattern.test(websiteUrl)) {
+        this.$store.dispatch('chatbots/addBotUrls', websiteUrl);
         this.websiteInput = '';
       } else {
         this.showAlert(this.$t('Please enter a valid https Url'));
       }
     },
     deleteUrl(index) {
-      this.$store.dispatch('chatbot/deleteBotUrls', index);
+      this.$store.dispatch('chatbots/deleteBotUrls', index);
     },
   },
 };
