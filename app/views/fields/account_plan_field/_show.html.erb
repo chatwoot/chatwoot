@@ -1,0 +1,11 @@
+<!-- app/views/fields/account_plan_field/_show.html.erb -->
+<div class='feature-container'>
+    <% if f.product %>
+    <p>
+        <strong>Product:</strong>
+        <%= f.product.name %>
+    </p>
+    <% else %>
+    <p>No product assigned.</p>
+    <% end %>
+</div>
