@@ -80,10 +80,12 @@ class Account < ApplicationRecord
 
   # Checkout
   has_many :carts, dependent: :destroy
-  has_many :account_plans, dependent: :destroy
-  has_many :products, through: :account_plans
+  has_one :account_plan, dependent: :destroy
+  has_one :product, through: :account_plan
 
   has_one_attached :contacts_export
+
+  accepts_nested_attributes_for :account_plan
 
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
   enum status: { active: 0, suspended: 1 }
