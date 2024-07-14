@@ -42,6 +42,7 @@ class AccountDashboard < Administrate::BaseDashboard
     users
     conversations
     status
+    account_plan
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
