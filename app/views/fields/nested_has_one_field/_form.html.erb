@@ -1,0 +1,4 @@
+<!-- app/views/fields/nested_has_one_field/_form.html.erb -->
+<%= f.fields_for field.attribute, field.data do |ff| %>
+<%= render partial: "fields/#{field.attribute}_field/form", locals: { f: ff } %>
+<% end %>
