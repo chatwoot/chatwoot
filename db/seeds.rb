@@ -103,7 +103,7 @@ unless Rails.env.production?
                      description: 'Plano Standard',
                      details: {
                        number_of_agents: 2,
-                       number_of_conversations: 600,
+                       number_of_inboxes: 600,
                        extra_conversation_cost: 0.40,
                        extra_agent_cost: 149.00,
                        support_type: 'Suporte por chat, Whatsapp ou e-mail'
@@ -116,7 +116,7 @@ unless Rails.env.production?
                      description: 'Plano Scale',
                      details: {
                        number_of_agents: 10,
-                       number_of_conversations: 2000,
+                       number_of_inboxes: 2000,
                        extra_conversation_cost: 0.35,
                        extra_agent_cost: 129.00,
                        support_type: 'Suporte por chat, Whatsapp ou e-mail'
@@ -129,7 +129,7 @@ unless Rails.env.production?
                      description: 'Plano Pro',
                      details: {
                        number_of_agents: 20,
-                       number_of_conversations: 4000,
+                       number_of_inboxes: 4000,
                        extra_conversation_cost: 0.30,
                        extra_agent_cost: 109.00,
                        support_type: 'Suporte por chat, Whatsapp ou e-mail'

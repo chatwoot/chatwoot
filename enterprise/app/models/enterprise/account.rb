@@ -14,9 +14,13 @@ module Enterprise::Account
   end
 
   def get_limits(limit_name)
-    config_name = "ACCOUNT_#{limit_name.to_s.upcase}_LIMIT"
+    # config across products
+    return product.details[name_of(limit_name)] if product.present?
+
+    # config for limit account - HACK: this is a temporary solution
     return self[:limits][limit_name.to_s] if self[:limits][limit_name.to_s].present?
 
+    config_name = "ACCOUNT_#{limit_name.to_s.upcase}_LIMIT"
     return GlobalConfig.get(config_name)[config_name] if GlobalConfig.get(config_name)[config_name].present?
 
     ChatwootApp.max_limit
@@ -37,5 +41,9 @@ module Enterprise::Account
     }
 
     errors.add(:limits, ': Invalid data') unless JSONSchemer.schema(limit_schema).valid?(self[:limits])
+  end
+
+  def name_of(limit_name)
+    "number_of_#{limit_name.to_s.pluralize.downcase.to_sym}"
   end
 end
