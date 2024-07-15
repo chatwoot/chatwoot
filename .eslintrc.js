@@ -65,10 +65,10 @@ module.exports = {
   },
   env: {
     browser: true,
-    jest: true,
     node: true,
   },
   globals: {
     bus: true,
+    vi: true,
   },
 };
