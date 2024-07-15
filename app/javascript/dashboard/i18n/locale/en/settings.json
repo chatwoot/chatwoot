@@ -229,14 +229,17 @@
     "CAMPAIGNS": "Campaigns",
     "ONGOING": "Ongoing",
     "ONE_OFF": "One off",
+
     "REPORTS_AGENT": "Agents",
     "REPORTS_LABEL": "Labels",
     "REPORTS_INBOX": "Inbox",
     "REPORTS_TEAM": "Team",
+    "REPORTS_OVERVIEW": "Overview",
+    "REPORTS_INVOICE": "Invoices",
+    "TRIGGER_REPORTS": "Trigger",
+    
     "SET_AVAILABILITY_TITLE": "Set yourself as",
     "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Overview",
-    "TRIGGER_REPORTS": "Trigger",
     "FACEBOOK_REAUTHORIZE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
     "HELP_CENTER": {
       "TITLE": "Help Center",
