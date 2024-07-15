@@ -148,8 +148,9 @@ export default {
     }),
   },
 
-  created() {
+  async created() {
     this.initFB();
+    await this.loadFBsdk();
   },
 
   mounted() {
@@ -184,8 +185,6 @@ export default {
         window.fbSDKLoaded = true;
         FB.AppEvents.logPageView();
       };
-
-      await this.loadFBsdk();
     },
 
     async loadFBsdk() {
