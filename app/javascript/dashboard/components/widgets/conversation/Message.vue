@@ -127,7 +127,7 @@
     </div>
     <div
       v-if="shouldShowContextMenu"
-      class="context-menu-wrap invisible group-hover:visible"
+      class="invisible context-menu-wrap group-hover:visible"
     >
       <context-menu
         v-if="isBubble && !isMessageDeleted"
@@ -503,8 +503,11 @@ export default {
     hasMediaAttachment(type) {
       if (this.hasAttachments && this.data.attachments.length > 0) {
         const { attachments = [{}] } = this.data;
-        const { file_type: fileType } = attachments[0];
-        return fileType === type && !this.hasMediaLoadError;
+        const attachment = attachments[0];
+        if (attachment) {
+          const { file_type: fileType } = attachment;
+          return fileType === type && !this.hasMediaLoadError;
+        }
       }
       if (this.storyReply) {
         return true;
