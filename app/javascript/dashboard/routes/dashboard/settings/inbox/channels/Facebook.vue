@@ -93,6 +93,7 @@
 import { required } from 'vuelidate/lib/validators';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
 import { mapGetters } from 'vuex';
+import { loadScript } from 'dashboard/helpers/DOMHelpers';
 import ChannelApi from '../../../../../api/channels';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 import router from '../../../../index';
@@ -149,7 +150,6 @@ export default {
 
   created() {
     this.initFB();
-    this.loadFBsdk();
   },
 
   mounted() {
@@ -173,34 +173,25 @@ export default {
       }
     },
 
-    initFB() {
-      if (window.fbSDKLoaded === undefined) {
-        window.fbAsyncInit = () => {
-          FB.init({
-            appId: window.chatwootConfig.fbAppId,
-            xfbml: true,
-            version: window.chatwootConfig.fbApiVersion,
-            status: true,
-          });
-          window.fbSDKLoaded = true;
-          FB.AppEvents.logPageView();
-        };
-      }
+    async initFB() {
+      window.fbAsyncInit = () => {
+        FB.init({
+          appId: window.chatwootConfig.fbAppId,
+          xfbml: true,
+          version: window.chatwootConfig.fbApiVersion,
+          status: true,
+        });
+        window.fbSDKLoaded = true;
+        FB.AppEvents.logPageView();
+      };
+
+      await this.loadFBsdk();
     },
 
-    loadFBsdk() {
-      ((d, s, id) => {
-        let js;
-        // eslint-disable-next-line
-        const fjs = (js = d.getElementsByTagName(s)[0]);
-        if (d.getElementById(id)) {
-          return;
-        }
-        js = d.createElement(s);
-        js.id = id;
-        js.src = '//connect.facebook.net/en_US/sdk.js';
-        fjs.parentNode.insertBefore(js, fjs);
-      })(document, 'script', 'facebook-jssdk');
+    async loadFBsdk() {
+      return loadScript('https://connect.facebook.net/en_US/sdk.js', {
+        id: 'facebook-jssdk',
+      });
     },
 
     tryFBlogin() {
