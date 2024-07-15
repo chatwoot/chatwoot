@@ -115,8 +115,9 @@
           @click="removeFilter"
         />
       </div>
-      <p v-if="v.values.$dirty && v.values.$error" class="filter-error">
-        {{ $t('FILTER.EMPTY_VALUE_ERROR') }}
+      <pre>{{ JSON.stringify(v, null, 2) }}</pre>
+      <p v-if="v.values.length > 0" class="filter-error">
+        {{ v.values[0].$message || $t('FILTER.EMPTY_VALUE_ERROR') }}
       </p>
     </div>
 
@@ -223,6 +224,7 @@ export default {
       set(value) {
         const payload = this.value || {};
         this.$emit('input', { ...payload, values: value });
+        this.$emit('validate');
       },
     },
     query_operator: {
