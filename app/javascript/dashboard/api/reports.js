@@ -90,6 +90,12 @@ class ReportsAPI extends ApiClient {
       params: { since, until, business_hours: businessHours },
     });
   }
+
+  getInvoicesReport({ from: since, to: until, businessHours }) {
+    return axios.get(`${this.url}/invoices`, {
+      params: { since, until, business_hours: businessHours },
+    });
+  }
 }
 
 export default new ReportsAPI();

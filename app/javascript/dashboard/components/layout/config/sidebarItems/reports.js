@@ -11,6 +11,7 @@ const reports = accountId => ({
     'label_reports',
     'inbox_reports',
     'team_reports',
+    'invoice_reports',
   ],
   menuItems: [
     {
@@ -68,6 +69,13 @@ const reports = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/reports/teams`),
       toStateName: 'team_reports',
+    },
+    {
+      icon: 'invoice',
+      label: 'REPORTS_INVOICE',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/reports/invoices`),
+      toStateName: 'invoice_reports',
     },
   ],
 });
