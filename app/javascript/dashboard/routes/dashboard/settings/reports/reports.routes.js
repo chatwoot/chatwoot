@@ -10,6 +10,7 @@ const TeamReports = () => import('./TeamReports.vue');
 const CsatResponses = () => import('./CsatResponses.vue');
 const LiveReports = () => import('./LiveReports.vue');
 const TriggerReports = () => import('./TriggerReports.vue');
+const InvoiceReports = () => import('./InvoiceReports.vue');
 
 export default {
   routes: [
@@ -48,6 +49,24 @@ export default {
           name: 'triggers_reports',
           roles: AdminSupervisorRoles,
           component: TriggerReports,
+        },
+      ],
+    },
+    {
+      path: frontendURL('accounts/:accountId/reports'),
+      component: SettingsContent,
+      name: 'invoice_reports',
+      props: {
+        headerTitle: 'INVOICE_REPORTS.HEADER',
+        icon: 'invoice',
+        keepAlive: false,
+      },
+      children: [
+        {
+          path: 'invoices',
+          name: 'invoice_reports',
+          roles: AdminSupervisorRoles,
+          component: InvoiceReports,
         },
       ],
     },
