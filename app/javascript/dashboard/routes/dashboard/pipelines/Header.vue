@@ -15,19 +15,6 @@
         :stage-type-value="stageTypeValue"
         @on-stage-type-change="onStageFilterChange"
       />
-      <div class="multiselect-wrap--small mt-4">
-        <multiselect
-          v-model="selectedAssigneeType"
-          track-by="id"
-          label="name"
-          :placeholder="$t('PIPELINE_PAGE.ASSIGNEE_TYPE.PLACEHOLDER')"
-          :selected-label="$t('PIPELINE_PAGE.DROPDOWN.SELECTED_LABEL')"
-          :select-label="$t('PIPELINE_PAGE.DROPDOWN.SELECT_LABEL')"
-          :deselect-label="$t('PIPELINE_PAGE.DROPDOWN.DESELECT_LABEL')"
-          :options="assigneeTypes"
-          @remove="removeAssigneeType"
-        />
-      </div>
       <div class="relative">
         <div
           role="button"
@@ -51,6 +38,7 @@
           @option-changed="onOptionChanged"
         />
       </div>
+      <board-filter @filter-change="onFilterChange" />
     </div>
 
     <div class="flex gap-2">
@@ -157,10 +145,12 @@ import adminMixin from 'dashboard/mixins/isAdmin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import StageTypeFilter from '../settings/reports/components/Filters/StageType.vue';
 import DisplayOptionMenu from './DisplayOptionMenu.vue';
+import BoardFilter from './BoardFilter.vue';
 
 export default {
   components: {
     StageTypeFilter,
+    BoardFilter,
     DisplayOptionMenu,
   },
   mixins: [adminMixin, uiSettingsMixin],
@@ -261,6 +251,7 @@ export default {
     },
   },
   methods: {
+    onFilterChange() {},
     removeAssigneeType() {
       this.$emit('on-assignee-type-change', null);
     },

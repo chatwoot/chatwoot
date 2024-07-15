@@ -21,7 +21,25 @@
             "DESELECT_LABEL": "Bỏ chọn"
         },
         "ADD_CONTACT_TOOLTIP": "Tạo khách hàng mới",
-        "FILTER_CONTACTS": "Bộ lọc mới"
+        "FILTER_CONTACTS": "Bộ lọc mới",
+        "FILTER": {
+            "ADD_FIlTER": "Tìm kiếm",
+            "CLEAR_ALL": "Xóa tìm kiếm",
+            "CLEAR_FILTER": "Xóa tìm kiếm này",
+            "EMPTY_LIST": "Không tìm thấy kết quả",
+            "NO_FILTER": "Không có tìm kiếm nào",
+            "SEARCH": "Tìm bộc lọc",
+            "INPUT_PLACEHOLDER": {
+                "AGENTS": "Tên người dùng",
+                "PRODUCTS": "Tên sản phẩm",
+                "LABELS": "Tên nhãn",
+                "TEAMS": "Tên nhóm"
+            },
+            "PRODUCTS": "Sản phẩm",
+            "AGENTS": "Người phụ trách",
+            "LABELS": "Nhãn phân loại",
+            "TEAMS": "Nhóm phụ trách"
+        }
     },
     "CARD_DISPLAY": {
         "assignee": {
