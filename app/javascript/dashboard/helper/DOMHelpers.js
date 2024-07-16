@@ -1,3 +1,13 @@
+const SCRIPT_TYPE = 'text/javascript';
+const DATA_LOADED_ATTR = 'data-loaded';
+const SCRIPT_PROPERTIES = [
+  'defer',
+  'crossOrigin',
+  'noModule',
+  'referrerPolicy',
+  'id',
+];
+
 /**
  * Custom error class for script loading failures.
  * @extends Error
@@ -40,19 +50,11 @@ class ScriptLoaderError extends Error {
  */
 const createScriptElement = (src, options) => {
   const el = document.createElement('script');
-  el.type = options.type || 'text/javascript';
+  el.type = options.type || SCRIPT_TYPE;
   el.async = options.async !== false;
   el.src = src;
 
-  const properties = [
-    'defer',
-    'crossOrigin',
-    'noModule',
-    'referrerPolicy',
-    'id',
-  ];
-
-  properties.forEach(property => {
+  SCRIPT_PROPERTIES.forEach(property => {
     if (options[property]) el[property] = options[property];
   });
 
@@ -100,7 +102,7 @@ export async function loadScript(src, options) {
     if (!el) {
       el = createScriptElement(src, options);
       document.head.appendChild(el);
-    } else if (el.hasAttribute('data-loaded')) {
+    } else if (el.hasAttribute(DATA_LOADED_ATTR)) {
       resolve(el);
       return;
     }
@@ -111,7 +113,7 @@ export async function loadScript(src, options) {
     el.addEventListener('error', () => reject(loadError));
     el.addEventListener('abort', () => reject(abortError));
     el.addEventListener('load', () => {
-      el.setAttribute('data-loaded', 'true');
+      el.setAttribute(DATA_LOADED_ATTR, 'true');
       resolve(el);
     });
   });
