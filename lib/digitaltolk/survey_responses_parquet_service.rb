@@ -57,20 +57,20 @@ class Digitaltolk::SurveyResponsesParquetService
 
   def load_columns_data
     survey_responses.each do |survey_response|
-      @columns['id'] << survey_response.id
-      @columns['rating'] << survey_response.rating
-      @columns['feedback_message'] << survey_response.feedback_message
-      @columns['account_id'] << survey_response.account_id
-      @columns['message_id'] << survey_response.message_id
-      @columns['csat_question_id'] << survey_response.message.csat_template_question&.id
-      @columns['csat_question'] << csat_question(survey_response)
-      @columns['contact_id'] << survey_response.contact.id
-      @columns['contact_name'] << survey_response.contact.name
-      @columns['contact_email'] << survey_response.contact.email
-      @columns['conversation_id'] << survey_response.conversation.display_id
-      @columns['assigned_agent_id'] << survey_response.assigned_agent&.id
-      @columns['assigned_agent_name'] << survey_response.assigned_agent&.name
-      @columns['assigned_agent_email'] << survey_response.assigned_agent&.email
+      @columns['id'] << survey_response.id.to_i
+      @columns['rating'] << survey_response.rating.to_i
+      @columns['feedback_message'] << survey_response.feedback_message.to_s
+      @columns['account_id'] << survey_response.account_id.to_i
+      @columns['message_id'] << survey_response.message_id.to_i
+      @columns['csat_question_id'] << survey_response.message.csat_template_question&.id.to_i
+      @columns['csat_question'] << csat_question(survey_response).to_s
+      @columns['contact_id'] << survey_response.contact.id.to_i
+      @columns['contact_name'] << survey_response.contact.name.to_s
+      @columns['contact_email'] << survey_response.contact.email.to_s
+      @columns['conversation_id'] << survey_response.conversation.display_id.to_i
+      @columns['assigned_agent_id'] << survey_response.assigned_agent&.id.to_i
+      @columns['assigned_agent_name'] << survey_response.assigned_agent&.name.to_s
+      @columns['assigned_agent_email'] << survey_response.assigned_agent&.email.to_s
       @columns['created_at'] << survey_response.created_at.to_i
     end
   end

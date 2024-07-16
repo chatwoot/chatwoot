@@ -56,16 +56,16 @@ class Digitaltolk::MessagesParquetService
 
   def load_columns_data
     messages.each do |message|
-      @columns['id'] << message.id
-      @columns['content'] << message.content
-      @columns['inbox_id'] << message.inbox_id
-      @columns['conversation_id'] << message.conversation.display_id
-      @columns['message_type'] << message.message_type_before_type_cast
-      @columns['content_type'] << message.content_type
-      @columns['status'] << message.status
+      @columns['id'] << message.id.to_i
+      @columns['content'] << message.content.to_s
+      @columns['inbox_id'] << message.inbox_id.to_i
+      @columns['conversation_id'] << message.conversation.display_id.to_i
+      @columns['message_type'] << message.message_type_before_type_cast.to_s
+      @columns['content_type'] << message.content_type.to_s
+      @columns['status'] << message.status.to_s
       @columns['created_at'] << message.created_at.to_i
       @columns['private'] << message.private
-      @columns['source_id'] << message.source_id
+      @columns['source_id'] << message.source_id.to_i
     end
   end
 
