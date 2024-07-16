@@ -300,6 +300,7 @@ Rails.application.routes.draw do
             get :conversations
             get :conversation_traffic
             get :triggers
+            get :invoices
           end
         end
 

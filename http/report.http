@@ -15,7 +15,6 @@ User-Agent-Mobile: Mozilla/5.0 (Linux; Android 4.2.2; GT-I9505 Build/JDQ39) Appl
 
 # Path: http/report.http
 # @name reports
-@metric = triggers
 @since = 1717556400
 @until = 1720148399
 @type = account
@@ -24,11 +23,23 @@ User-Agent-Mobile: Mozilla/5.0 (Linux; Android 4.2.2; GT-I9505 Build/JDQ39) Appl
 @account_id = 2
 
 GET {{api}}/api/v2/accounts/{{account_id}}/reports
-?metric={{metric}}
+?metric=triggers
 &since={{since}}
 &until={{until}}
 &type={{type}}
 &group_by={{group_by}}
+&business_hours={{business_hours}}
+Content-Type: application/json
+Authorization: {{token}}
+
+### 
+@token = {{LOGIN.response.headers.Authorization}}
+
+# Path: http/invoices.http
+# @name invoices_report
+GET {{api}}/api/v2/accounts/{{account_id}}/reports/invoices
+?since={{since}}
+&until={{until}}
 &business_hours={{business_hours}}
 Content-Type: application/json
 Authorization: {{token}}

@@ -48,8 +48,14 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render json: conversation_metrics
   end
 
+  # metrics for triggers
   def triggers
     render json: generate_triggers_report
+  end
+
+  # metrics for invoices
+  def invoices
+    render json: generate_invoices_report
   end
 
   private
