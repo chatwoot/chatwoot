@@ -30,7 +30,14 @@ class Digitaltolk::UploadToS3
 
   # @return [Aws::S3::Resource]
   def s3_instance
-    Aws::S3::Resource.new(region: ENV['DEFAULT_REGION'])
+    if Rails.env.production?
+      Aws::S3::Resource.new(region: ENV['DEFAULT_REGION'])
+    else
+      Aws::S3::Resource.new(
+        region: ENV['AWS_REGION'],
+        credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'])
+      )
+    end
   end
 
   # @return [Aws::S3::Bucket]

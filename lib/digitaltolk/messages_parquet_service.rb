@@ -17,6 +17,10 @@ class Digitaltolk::MessagesParquetService
 
   def process_upload
     export_parquet
+  rescue Exception => e
+    Rails.logger.error "Error exporting parquet file: #{e.message}"
+    Rails.logger.error e.backtrace.first(5).join("\n")
+    nil
   end
 
   def file_path
