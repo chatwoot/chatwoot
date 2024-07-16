@@ -81,7 +81,10 @@ export const mutations = {
     const [chat] = _state.allConversations.filter(c => c.id === id);
     if (!chat) return;
     Vue.set(chat, 'attachments', []);
-    chat.attachments.push(...data);
+    // in case data is not passed, the attachments object will be initailized anyway
+    if (data) {
+      chat.attachments.push(...data);
+    }
   },
   [types.SET_MISSING_MESSAGES](_state, { id, data }) {
     const [chat] = _state.allConversations.filter(c => c.id === id);
