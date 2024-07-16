@@ -9,13 +9,25 @@ class V2::InvoicesMetricsBuilder
 
   def invoices_metrics
     results = {}
+    total_summary = {
+      total_conversations: 0,
+      total_agents: 0,
+      base_price: 0.0,
+      extra_conversation_cost: 0.0,
+      extra_agent_cost: 0.0,
+      total_price: 0.0
+    }
+
     start_date = range.first.to_date
     end_date = range.last.to_date
 
     periods_in_range(start_date, end_date).each do |period_start|
-      results[period_label(period_start)] = calculate_metrics(period_start)
+      period_metrics = calculate_metrics(period_start)
+      update_total_summary(total_summary, period_metrics)
+      results[period_label(period_start)] = period_metrics
     end
 
+    results[:total_summary] = build_metrics_hash(total_summary)
     results
   end
 
@@ -115,6 +127,15 @@ class V2::InvoicesMetricsBuilder
       extra_conversation_price: details['extra_conversation_cost'] || 0,
       extra_agent_price: details['extra_agent_cost'] || 0
     }
+  end
+
+  def update_total_summary(total_summary, period_metrics)
+    total_summary[:total_conversations] += period_metrics[:total_conversations]
+    total_summary[:total_agents] += period_metrics[:total_agents]
+    total_summary[:base_price] += period_metrics[:base_price]
+    total_summary[:extra_conversation_cost] += period_metrics[:extra_conversation_cost]
+    total_summary[:extra_agent_cost] += period_metrics[:extra_agent_cost]
+    total_summary[:total_price] += period_metrics[:total_price]
   end
 
   def range
