@@ -1,10 +1,9 @@
 custom_branding:
   name: 'Custom Branding'
   description: 'Apply your own branding to this installation.'
-  enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
+  enabled: true
   icon: 'icon-paint-brush-line'
   config_key: 'custom_branding'
-  enterprise: true
 agent_capacity:
   name: 'Agent Capacity'
   description: 'Set limits to auto-assigning conversations to your agents.'
