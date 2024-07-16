@@ -17,11 +17,17 @@ const createScriptElement = (src, options) => {
   el.async = options.async !== false;
   el.src = src;
 
-  if (options.defer) el.defer = options.defer;
-  if (options.crossOrigin) el.crossOrigin = options.crossOrigin;
-  if (options.noModule) el.noModule = options.noModule;
-  if (options.referrerPolicy) el.referrerPolicy = options.referrerPolicy;
-  if (options.id) el.id = options.id;
+  const properties = [
+    'defer',
+    'crossOrigin',
+    'noModule',
+    'referrerPolicy',
+    'id',
+  ];
+
+  properties.forEach(property => {
+    if (options[property]) el[property] = options[property];
+  });
 
   Object.entries(options.attrs || {}).forEach(([name, value]) =>
     el.setAttribute(name, value)
