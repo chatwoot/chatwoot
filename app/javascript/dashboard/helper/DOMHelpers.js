@@ -38,7 +38,7 @@ const findExistingScript = src => {
 // Main loadScript function
 export async function loadScript(src, options) {
   return new Promise((resolve, reject) => {
-    if (!document) {
+    if (typeof window === 'undefined' || !window.document) {
       resolve(false);
       return;
     }
