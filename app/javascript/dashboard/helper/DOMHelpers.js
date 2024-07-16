@@ -55,7 +55,9 @@ const createScriptElement = (src, options) => {
   el.src = src;
 
   SCRIPT_PROPERTIES.forEach(property => {
-    if (options[property]) el[property] = options[property];
+    if (property in options) {
+      el[property] = options[property];
+    }
   });
 
   Object.entries(options.attrs || {}).forEach(([name, value]) =>
@@ -91,9 +93,13 @@ const findExistingScript = src => {
  * @throws {ScriptLoaderError} If the script fails to load.
  */
 export async function loadScript(src, options) {
+  if (typeof window === 'undefined' || !window.document) {
+    return Promise.resolve(false);
+  }
+
   return new Promise((resolve, reject) => {
-    if (typeof window === 'undefined' || !window.document) {
-      resolve(false);
+    if (typeof src !== 'string' || src.trim() === '') {
+      reject(new Error('Invalid source URL provided'));
       return;
     }
 
@@ -107,11 +113,10 @@ export async function loadScript(src, options) {
       return;
     }
 
-    const loadError = new ScriptLoaderError(src);
-    const abortError = new ScriptLoaderError(src, `Script loading aborted`);
+    const handleError = () => reject(new ScriptLoaderError(src));
 
-    el.addEventListener('error', () => reject(loadError));
-    el.addEventListener('abort', () => reject(abortError));
+    el.addEventListener('error', handleError);
+    el.addEventListener('abort', handleError);
     el.addEventListener('load', () => {
       el.setAttribute(DATA_LOADED_ATTR, 'true');
       resolve(el);
