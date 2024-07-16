@@ -111,15 +111,6 @@
         @updateFolder="onUpdateSavedFilter"
       />
     </woot-modal>
-    <woot-modal
-      :show.sync="showCustomSnoozeModal"
-      :on-close="hideCustomSnoozeModal"
-    >
-      <custom-snooze-modal
-        @close="hideCustomSnoozeModal"
-        @choose-time="chooseSnoozeTime"
-      />
-    </woot-modal>
   </div>
 </template>
 
@@ -152,10 +143,6 @@ import {
   isOnUnattendedView,
 } from '../store/modules/conversations/helpers/actionHelpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
-import { CMD_SNOOZE_CONVERSATION } from 'dashboard/routes/dashboard/commands/commandBarBusEvents';
-import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
-import { getUnixTime } from 'date-fns';
-import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
 import IntersectionObserver from './IntersectionObserver.vue';
 
 export default {
@@ -170,7 +157,6 @@ export default {
     ConversationBulkActions,
     IntersectionObserver,
     VirtualList,
-    CustomSnoozeModal,
   },
   mixins: [
     timeMixin,
@@ -247,7 +233,6 @@ export default {
         root: this.$refs.conversationList,
         rootMargin: '100px 0px 100px 0px',
       },
-      showCustomSnoozeModal: false,
 
       itemComponent: ConversationItem,
       // virtualListExtraProps is to pass the props to the conversationItem component.
@@ -283,7 +268,6 @@ export default {
       campaigns: 'campaigns/getAllCampaigns',
       labels: 'labels/getLabels',
       selectedConversations: 'bulkActions/getSelectedConversationIds',
-      contextMenuChatId: 'getContextMenuChatId',
     }),
     hasAppliedFilters() {
       return this.appliedFilters.length !== 0;
@@ -517,11 +501,6 @@ export default {
     this.$emitter.on('fetch_conversation_stats', () => {
       this.$store.dispatch('conversationStats/get', this.conversationFilters);
     });
-
-    this.$emitter.on(CMD_SNOOZE_CONVERSATION, this.onCmdSnoozeConversation);
-  },
-  beforeDestroy() {
-    this.$emitter.off(CMD_SNOOZE_CONVERSATION, this.onCmdSnoozeConversation);
   },
   methods: {
     updateVirtualListProps(key, value) {
@@ -998,43 +977,6 @@ export default {
     },
     onContextMenuToggle(state) {
       this.isContextMenuOpen = state;
-    },
-    onCmdSnoozeConversation(snoozeType) {
-      if (snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME) {
-        this.showCustomSnoozeModal = true;
-      } else {
-        this.toggleStatus(
-          wootConstants.STATUS_TYPE.SNOOZED,
-          findSnoozeTime(snoozeType) || null
-        );
-      }
-    },
-    chooseSnoozeTime(customSnoozeTime) {
-      this.showCustomSnoozeModal = false;
-      if (customSnoozeTime) {
-        this.toggleStatus(
-          wootConstants.STATUS_TYPE.SNOOZED,
-          getUnixTime(customSnoozeTime)
-        );
-      }
-    },
-    toggleStatus(status, snoozedUntil) {
-      this.$store
-        .dispatch('toggleStatus', {
-          conversationId: this.currentChat?.id || this.contextMenuChatId,
-          status,
-          snoozedUntil,
-        })
-        .then(() => {
-          this.$store.dispatch('setContextMenuChatId', null);
-          this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
-        });
-    },
-    hideCustomSnoozeModal() {
-      // if we select custom snooze and then the custom snooze modal is open
-      // Then if the custom snooze modal is closed and set the context menu chat id to null
-      this.$store.dispatch('setContextMenuChatId', null);
-      this.showCustomSnoozeModal = false;
     },
   },
 };

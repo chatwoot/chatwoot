@@ -1,7 +1,7 @@
 import { mutations, actions, getters } from '../../articles'; // update this import path to your actual module location
 import { getMostReadArticles } from 'widget/api/article';
 
-jest.mock('widget/api/article');
+vi.mock('widget/api/article');
 
 describe('Vuex Articles Module', () => {
   let state;
@@ -57,7 +57,7 @@ describe('Vuex Articles Module', () => {
 
   describe('Actions', () => {
     it('fetches articles correctly', async () => {
-      const commit = jest.fn();
+      const commit = vi.fn();
       const articles = [{ id: 1 }, { id: 2 }];
       getMostReadArticles.mockResolvedValueOnce({
         data: { payload: articles },
@@ -72,7 +72,7 @@ describe('Vuex Articles Module', () => {
     });
 
     it('handles fetch error correctly', async () => {
-      const commit = jest.fn();
+      const commit = vi.fn();
       getMostReadArticles.mockRejectedValueOnce(new Error('Error message'));
 
       await actions.fetch(
@@ -86,7 +86,7 @@ describe('Vuex Articles Module', () => {
     });
 
     it('does not mutate state when fetching returns an empty payload', async () => {
-      const commit = jest.fn();
+      const commit = vi.fn();
       getMostReadArticles.mockResolvedValueOnce({ data: { payload: [] } });
 
       await actions.fetch({ commit }, { slug: 'slug', locale: 'en' });
@@ -98,7 +98,7 @@ describe('Vuex Articles Module', () => {
     });
 
     it('sets error state when fetching fails', async () => {
-      const commit = jest.fn();
+      const commit = vi.fn();
       getMostReadArticles.mockRejectedValueOnce(new Error('Network error'));
 
       await actions.fetch(
