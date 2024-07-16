@@ -45,7 +45,7 @@ module Api::V2::Accounts::ReportsHelper
   end
 
   def generate_invoices_report
-    V2::MonthlyInvoicesBuilder.new(Current.account, params).invoices_metrics
+    V2::InvoicesMetricsBuilder.new(Current.account, params).invoices_metrics
   end
 
   private

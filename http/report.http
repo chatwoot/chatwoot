@@ -38,9 +38,7 @@ Authorization: {{token}}
 # Path: http/invoices.http
 # @name invoices_report
 GET {{api}}/api/v2/accounts/{{account_id}}/reports/invoices
-?since={{since}}
-&until={{until}}
-&business_hours={{business_hours}}
+?group_by=day
 Content-Type: application/json
 Authorization: {{token}}
 
