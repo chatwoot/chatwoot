@@ -93,19 +93,22 @@
 import { required } from 'vuelidate/lib/validators';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
 import { mapGetters } from 'vuex';
-import { loadScript } from 'dashboard/helpers/DOMHelpers';
 import ChannelApi from '../../../../../api/channels';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 import router from '../../../../index';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import accountMixin from '../../../../../mixins/account';
 
+import { loadScript } from 'dashboard/helper/DOMHelpers';
+import alertMixin from 'shared/mixins/alertMixin';
+import * as Sentry from '@sentry/browser';
+
 export default {
   components: {
     LoadingState,
     PageHeader,
   },
-  mixins: [globalConfigMixin, accountMixin],
+  mixins: [globalConfigMixin, accountMixin, alertMixin],
   data() {
     return {
       isCreating: false,
@@ -148,19 +151,26 @@ export default {
     }),
   },
 
-  async created() {
-    this.initFB();
-    await this.loadFBsdk();
-  },
-
   mounted() {
     this.initFB();
   },
 
   methods: {
-    startLogin() {
+    async startLogin() {
       this.hasLoginStarted = true;
-      this.tryFBlogin();
+      try {
+        // this will load the SDK in a promise, and resolve it when the sdk is loaded
+        // in case the SDK is already present, it will resolve immediately
+        await this.loadFBsdk();
+        this.tryFBlogin();
+      } catch (error) {
+        if (error.name === 'ScriptLoaderError') {
+          this.showAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_LOADING'));
+        } else {
+          Sentry.captureException(error);
+          this.showAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_AUTH'));
+        }
+      }
     },
 
     setPageName({ name }) {
