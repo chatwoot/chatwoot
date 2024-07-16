@@ -18,7 +18,6 @@ class ScriptLoaderError extends Error {
    * @param {string} src - The source URL of the script that failed to load.
    * @param {string} message - The error message.
    */
-
   constructor(src, message = 'Failed to load script') {
     super(message);
     this.name = 'ScriptLoaderError';
