@@ -2,14 +2,15 @@
   <div
     class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
   >
-    <div v-if="!hasLoginStarted" class="login-init h-full">
+    <div v-if="!hasLoginStarted" class="pt-[30%] h-full">
       <a href="#" @click="startLogin()">
         <img
+          class="h-10 w-auto"
           src="~dashboard/assets/images/channels/facebook_login.png"
           alt="Facebook-logo"
         />
       </a>
-      <p>
+      <p class="py-6">
         {{
           useInstallationName(
             $t('INBOX_MGMT.ADD.FB.HELP'),
@@ -286,16 +287,3 @@ export default {
   },
 };
 </script>
-<style scoped lang="scss">
-.login-init {
-  @apply pt-[30%] text-center;
-
-  p {
-    @apply p-6;
-  }
-
-  > a > img {
-    @apply w-60;
-  }
-}
-</style>
