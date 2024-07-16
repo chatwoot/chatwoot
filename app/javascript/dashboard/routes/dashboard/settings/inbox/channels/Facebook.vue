@@ -152,7 +152,7 @@ export default {
   },
 
   mounted() {
-    this.initFB();
+    window.fbAsyncInit = this.runFBInit;
   },
 
   methods: {
@@ -162,11 +162,14 @@ export default {
         // this will load the SDK in a promise, and resolve it when the sdk is loaded
         // in case the SDK is already present, it will resolve immediately
         await this.loadFBsdk();
-        this.tryFBlogin();
+        this.runFBInit(); // run init anyway, `tryFBlogin` won't wait for `fbAsyncInit` otherwise.
+        this.tryFBlogin(); // make an attempt to login
       } catch (error) {
         if (error.name === 'ScriptLoaderError') {
+          // if the error was related to script loading, we show a toast
           this.showAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_LOADING'));
         } else {
+          // if the error was anything else, we capture it and show a toast
           Sentry.captureException(error);
           this.showAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_AUTH'));
         }
@@ -184,17 +187,15 @@ export default {
       }
     },
 
-    async initFB() {
-      window.fbAsyncInit = () => {
-        FB.init({
-          appId: window.chatwootConfig.fbAppId,
-          xfbml: true,
-          version: window.chatwootConfig.fbApiVersion,
-          status: true,
-        });
-        window.fbSDKLoaded = true;
-        FB.AppEvents.logPageView();
-      };
+    runFBInit() {
+      FB.init({
+        appId: window.chatwootConfig.fbAppId,
+        xfbml: true,
+        version: window.chatwootConfig.fbApiVersion,
+        status: true,
+      });
+      window.fbSDKLoaded = true;
+      FB.AppEvents.logPageView();
     },
 
     async loadFBsdk() {
