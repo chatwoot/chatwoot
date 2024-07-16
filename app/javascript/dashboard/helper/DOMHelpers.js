@@ -15,11 +15,11 @@ const SCRIPT_PROPERTIES = [
 class ScriptLoaderError extends Error {
   /**
    * Creates a new ScriptLoaderError.
-   * @param {string} message - The error message.
    * @param {string} src - The source URL of the script that failed to load.
+   * @param {string} message - The error message.
    */
 
-  constructor(message, src) {
+  constructor(src, message = 'Failed to load script') {
     super(message);
     this.name = 'ScriptLoaderError';
     this.src = src;
@@ -107,8 +107,8 @@ export async function loadScript(src, options) {
       return;
     }
 
-    const loadError = new ScriptLoaderError(`Failed to load script`, src);
-    const abortError = new ScriptLoaderError(`Script loading aborted`, src);
+    const loadError = new ScriptLoaderError(src);
+    const abortError = new ScriptLoaderError(src, `Script loading aborted`);
 
     el.addEventListener('error', () => reject(loadError));
     el.addEventListener('abort', () => reject(abortError));
