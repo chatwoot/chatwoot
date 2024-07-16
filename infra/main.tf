@@ -36,6 +36,7 @@ locals {
     DEFAULT_REGION            = var.aws_region
     ACTIVE_STORAGE_SERVICE    = "amazon"
     S3_BUCKET_NAME            = module.bucket.bucket_name
+    S3_EXPORT_BUCKET_NAME     = module.exports_bucket.bucket_name
     DIRECT_UPLOADS_ENABLED    = "true"
     RAILS_MAX_THREADS         = "10"
     WEB_CONCURRENCY           = "2"

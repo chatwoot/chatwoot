@@ -25,25 +25,12 @@ class Digitaltolk::UploadToS3
 
   # @return [String]
   def bucket_name
-    ENV['S3_BUCKET_NAME']
+    ENV['S3_EXPORT_BUCKET_NAME']
   end
 
   # @return [Aws::S3::Resource]
   def s3_instance
-    Aws::S3::Resource.new(
-      credentials: Aws::Credentials.new(access_key_id, secret_access_key),
-      region: ENV['AWS_REGION']
-    )
-  end
-
-  # @return [String]
-  def access_key_id
-    ENV['AWS_ACCESS_KEY_ID']
-  end
-  
-  # @return [String]
-  def secret_access_key
-    ENV['AWS_SECRET_ACCESS_KEY']
+    Aws::S3::Resource.new
   end
 
   # @return [Aws::S3::Bucket]
