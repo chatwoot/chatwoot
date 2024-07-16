@@ -1,3 +1,15 @@
+class ScriptLoaderError extends Error {
+  constructor(message, src) {
+    super(message);
+    this.name = 'ScriptLoaderError';
+    this.src = src;
+  }
+
+  getErrorDetails() {
+    return `Failed to load script from source: ${this.src}`;
+  }
+}
+
 // Helper function to create a new script element
 const createScriptElement = (src, options) => {
   const el = document.createElement('script');
@@ -23,16 +35,6 @@ const findExistingScript = src => {
   return document.querySelector(`script[src="${src}"]`);
 };
 
-// Helper function to add event listeners to the script element
-const addScriptEventListeners = (el, resolve, reject) => {
-  el.addEventListener('error', event => reject(event));
-  el.addEventListener('abort', event => reject(event));
-  el.addEventListener('load', () => {
-    el.setAttribute('data-loaded', 'true');
-    resolve(el);
-  });
-};
-
 // Main loadScript function
 export async function loadScript(src, options) {
   return new Promise((resolve, reject) => {
@@ -51,10 +53,16 @@ export async function loadScript(src, options) {
       return;
     }
 
-    addScriptEventListeners(el, resolve, reject);
+    const scriptLoaderError = new ScriptLoaderError(
+      `Failed to load script`,
+      src
+    );
 
-    if (!options.waitForScriptLoad) {
+    el.addEventListener('error', () => reject(scriptLoaderError));
+    el.addEventListener('abort', () => reject(scriptLoaderError));
+    el.addEventListener('load', () => {
+      el.setAttribute('data-loaded', 'true');
       resolve(el);
-    }
+    });
   });
 }
