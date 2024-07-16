@@ -30,7 +30,7 @@ class Digitaltolk::UploadToS3
 
   # @return [Aws::S3::Resource]
   def s3_instance
-    Aws::S3::Resource.new
+    Aws::S3::Resource.new(region: ENV['DEFAULT_REGION'])
   end
 
   # @return [Aws::S3::Bucket]

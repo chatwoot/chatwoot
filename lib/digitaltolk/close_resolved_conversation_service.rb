@@ -6,6 +6,8 @@ class Digitaltolk::CloseResolvedConversationService
   end
 
   def perform
+    return if @account.blank?
+
     close_chats!
     closed_emails!
   end
