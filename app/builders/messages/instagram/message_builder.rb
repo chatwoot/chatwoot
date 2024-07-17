@@ -185,11 +185,10 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
   end
 
   def already_sent_from_chatwoot?
-    cw_message = conversation.messages.where(
-      source_id: @messaging[:message][:mid]
-    ).first
-
-    cw_message.present?
+    recent_conversations = instagram_direct_message_conversation.order(created_at: :desc).limit(2)
+    recent_conversations.any? do |conversation|
+      conversation.messages.exists?(source_id: @messaging[:message][:mid])
+    end
   end
 
   def all_unsupported_files?
