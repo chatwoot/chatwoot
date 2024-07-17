@@ -27,6 +27,7 @@
         :to="helpDocsURL"
       />
       <notification-bell @open-notification-panel="openNotificationPanel" />
+      <new-conversation-button />
       <agent-details @toggle-menu="toggleOptions" />
       <options-menu
         :show="showOptionsMenu"
@@ -43,6 +44,7 @@ import Logo from './Logo.vue';
 import PrimaryNavItem from './PrimaryNavItem.vue';
 import OptionsMenu from './OptionsMenu.vue';
 import AgentDetails from './AgentDetails.vue';
+import NewConversationButton from './NewConversationButton.vue';
 import NotificationBell from './NotificationBell.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { frontendURL } from 'dashboard/helper/URLHelper';
@@ -55,6 +57,7 @@ export default {
     OptionsMenu,
     AgentDetails,
     NotificationBell,
+    NewConversationButton,
   },
   props: {
     isACustomBrandedInstance: {

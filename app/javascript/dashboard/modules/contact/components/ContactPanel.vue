@@ -19,7 +19,7 @@
     <new-conversation
       v-if="enableNewConversation"
       :show="showConversationModal"
-      :contact="contact"
+      :contacts="[contact]"
       @cancel="toggleConversationModal"
     />
     <add-custom-attribute

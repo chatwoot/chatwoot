@@ -7,7 +7,7 @@
         :header-content="$t('NEW_CONVERSATION.DESC')"
       />
       <conversation-form
-        :contact="contact"
+        :contacts="contacts"
         :on-submit="onSubmit"
         @success="onSuccess"
         @cancel="onCancel"
@@ -28,19 +28,20 @@ export default {
       type: Boolean,
       default: false,
     },
-    contact: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
-  watch: {
-    'contact.id'(id) {
-      this.$store.dispatch('contacts/fetchContactableInbox', id);
+    contacts: {
+      type: Array,
+      default: () => [],
     },
   },
   mounted() {
-    const { id } = this.contact;
-    this.$store.dispatch('contacts/fetchContactableInbox', id);
+    if (!this.contacts || !this.contacts.length) {
+      return;
+    }
+
+    const { id, contactableInboxes } = this.contacts[0];
+    if (id && !contactableInboxes) {
+      this.$store.dispatch('contacts/fetchContactableInbox', id);
+    }
   },
   methods: {
     onCancel() {

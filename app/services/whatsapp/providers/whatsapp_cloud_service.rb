@@ -20,8 +20,8 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
         type: 'template'
       }.to_json
     )
-    
-    Rails.logger.info(response);
+
+    Rails.logger.info(response)
     process_response(response)
   end
 
@@ -91,26 +91,37 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   def send_attachment_message(phone_number, message)
     attachment = message.attachments.first
-    type = %w[image audio video].include?(attachment.file_type) ? attachment.file_type : 'document'
+    type = determine_attachment_type(attachment)
+    type_content = build_attachment_content(attachment, message, type)
+    response = send_attachment_request(phone_number, type, type_content)
+    process_response(response)
+  end
+
+  def determine_attachment_type(attachment)
+    %w[image audio video].include?(attachment.file_type) ? attachment.file_type : 'document'
+  end
+
+  def build_attachment_content(attachment, message, type)
     type_content = {
       'link': attachment.download_url
     }
     type_content['caption'] = message.content unless %w[audio sticker].include?(type)
     type_content['filename'] = attachment.file.filename if type == 'document'
-    response = HTTParty.post(
+    type_content
+  end
+
+  def send_attachment_request(phone_number, type, type_content)
+    HTTParty.post(
       "#{phone_id_path}/messages",
       headers: api_headers,
       body: {
         :messaging_product => 'whatsapp',
         :context => whatsapp_reply_context(message),
-        'to' => phone_number,
-        'type' => type,
+        :to => phone_number,
+        :type => type,
         type.to_s => type_content
       }.to_json
     )
-    
-    Rails.logger.info(response);
-    process_response(response)
   end
 
   def process_response(response)

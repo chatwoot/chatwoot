@@ -142,7 +142,7 @@
       <new-conversation
         v-if="contact.id"
         :show="showConversationModal"
-        :contact="contact"
+        :contacts="[contact]"
         @cancel="toggleConversationModal"
       />
       <contact-merge-modal

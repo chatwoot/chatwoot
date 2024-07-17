@@ -28,7 +28,6 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
     message.update!(source_id: message_id) if message_id.present?
   end
 
-  # rubocop:disable Metrics/CyclomaticComplexity
   def processable_channel_message_template
     if template_params.present?
       return [
@@ -56,29 +55,23 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
     end
     [nil, nil, nil, nil]
   end
-  # rubocop:enable Metrics/CyclomaticComplexity
 
   def get_component_params(processed_params)
     return nil if processed_params.nil?
 
+    categorized_params = categorize_params(processed_params)
+    construct_result_array(categorized_params)
+  end
+
+  def categorize_params(processed_params)
     categorized_params = {}
 
-    processed_params.each do |key, value|
-      if key.include?('|')
-        parts = key.split('|')
-        type = parts[0]
-        primary_index = parts[1].to_i
-        sub_type = parts.length > 2 ? parts[2] : nil
-        secondary_index = parts.length > 3 ? parts[3].to_i : 0
-      else
-        # Fallback to 'body' type if no '|' in the key
-        type = 'body'
-        primary_index = 0
-        sub_type = nil
-        secondary_index = 0
-      end
+    filter = %w[body header]
 
-      if type == 'body' || type == 'header'
+    processed_params.each do |key, value|
+      type, primary_index, sub_type = parse_key(key)
+
+      if filter.include?(type)
         # Aggregate all body entries
         categorized_params[type] ||= []
         categorized_params[type] << { type: 'text', text: value }
@@ -91,10 +84,30 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
       end
     end
 
-    # Construct the result array
+    categorized_params
+  end
+
+  def parse_key(key)
+    if key.include?('|')
+      parts = key.split('|')
+      type = parts[0]
+      primary_index = parts[1].to_i
+      sub_type = parts.length > 2 ? parts[2] : nil
+    else
+      # Fallback to 'body' type if no '|' in the key
+      type = 'body'
+      primary_index = 0
+      sub_type = nil
+    end
+
+    [type, primary_index, sub_type]
+  end
+
+  def construct_result_array(categorized_params)
     result = []
+    filter = %w[body header]
     categorized_params.each do |type, data|
-      if type == 'body' || type == 'header'
+      if filter.include?(type)
         result << { type: type, parameters: data }
       else
         data.each do |index, sub_types|

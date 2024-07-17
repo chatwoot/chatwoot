@@ -52,7 +52,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     @inbox.channel.save!
   end
 
-
   def agent_bot
     @agent_bot = @inbox.agent_bot
   end

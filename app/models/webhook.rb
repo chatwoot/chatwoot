@@ -21,7 +21,7 @@ class Webhook < ApplicationRecord
   belongs_to :inbox, optional: true
 
   validates :account_id, presence: true
-  validates :url, uniqueness: { scope: [:account_id] }, format: URI::DEFAULT_PARSER.make_regexp(%w[http https]),  length: { maximum: 4096 }
+  validates :url, uniqueness: { scope: [:account_id] }, format: URI::DEFAULT_PARSER.make_regexp(%w[http https]), length: { maximum: 4096 }
   validate :validate_webhook_subscriptions
   enum webhook_type: { account_type: 0, inbox_type: 1 }
 

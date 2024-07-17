@@ -27,16 +27,16 @@ class Api::V1::Accounts::CustomFiltersController < Api::V1::Accounts::BaseContro
   private
 
   def fetch_custom_filters
-    if permitted_params[:show_all] == 'true'
-      @custom_filters = Current.account.custom_filters.where(
-        filter_type: permitted_params[:filter_type] || DEFAULT_FILTER_TYPE
-      )
-    else
-      @custom_filters = current_user.custom_filters.where(
-        account_id: Current.account.id,
-        filter_type: permitted_params[:filter_type] || DEFAULT_FILTER_TYPE
-      )
-    end
+    @custom_filters = if permitted_params[:show_all] == 'true'
+                        Current.account.custom_filters.where(
+                          filter_type: permitted_params[:filter_type] || DEFAULT_FILTER_TYPE
+                        )
+                      else
+                        current_user.custom_filters.where(
+                          account_id: Current.account.id,
+                          filter_type: permitted_params[:filter_type] || DEFAULT_FILTER_TYPE
+                        )
+                      end
   end
 
   def fetch_custom_filter

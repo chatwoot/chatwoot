@@ -11,6 +11,24 @@
     <div v-else>
       <div class="gap-2 flex flex-row">
         <div class="w-[100%]">
+          <label class="typo__label">{{
+            $t('NEW_CONVERSATION.FORM.TO.LABEL')
+          }}</label>
+          <div class="multiselect-wrap--small">
+            <multiselect
+              v-model="selectedContacts"
+              label="name"
+              track-by="id"
+              placeholder="Search or add a contact"
+              :options="whatsappContacts"
+              :multiple="true"
+              :max-height="300"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="flex-row">
+        <div class="w-[100%]">
           <label>
             {{ $t('NEW_CONVERSATION.FORM.INBOX.LABEL') }}
           </label>
@@ -55,24 +73,6 @@
               {{ $t('NEW_CONVERSATION.FORM.INBOX.ERROR') }}
             </span>
           </label>
-        </div>
-      </div>
-      <div class="flex-row">
-        <div class="w-[100%]">
-          <label class="typo__label">{{
-            $t('NEW_CONVERSATION.FORM.TO.LABEL')
-          }}</label>
-          <div class="multiselect-wrap--small">
-            <multiselect
-              v-model="selectedContacts"
-              label="name"
-              track-by="id"
-              placeholder="Search or add a contact"
-              :options="whatsappContacts"
-              :multiple="true"
-              :max-height="300"
-            />
-          </div>
         </div>
       </div>
       <div v-if="isAnEmailInbox" class="w-full">
@@ -263,7 +263,6 @@ import {
   getMessageVariables,
   replaceVariablesInMessage,
 } from '@chatwoot/utils';
-import conversation from '../../../../api/inbox/conversation';
 
 export default {
   components: {
@@ -279,9 +278,9 @@ export default {
   },
   mixins: [alertMixin, uiSettingsMixin, inboxMixin, fileUploadMixin],
   props: {
-    contact: {
-      type: Object,
-      default: () => ({}),
+    contacts: {
+      type: Array,
+      default: () => [],
     },
     onSubmit: {
       type: Function,
@@ -304,15 +303,11 @@ export default {
       targetInbox: {},
       whatsappTemplateSelected: false,
       attachedFiles: [],
-      value: [{ name: this.contact.name, id: this.contact.id }],
+      value: this.contacts || [],
       whatsappContacts: [],
-      selectedContacts: [
-        {
-          name: this.contact.name,
-          id: this.contact.id,
-          phone_number: this.contact.phone_number,
-        },
-      ],
+      selectedContactId:
+        this.contacts && this.contacts.length ? this.contacts[0].id : 0,
+      selectedContacts: this.contacts || [],
     };
   },
   validations: {
@@ -334,7 +329,14 @@ export default {
       globalConfig: 'globalConfig/get',
       messageSignature: 'getMessageSignature',
       getWhatsappContacts: 'contacts/getWhatsappContacts',
+      records: 'contacts/getContacts',
     }),
+    selectedContact() {
+      if (!this.selectedContactId) {
+        return null;
+      }
+      return this.$store.getters['contacts/getContact'](this.selectedContactId);
+    },
     sendWithSignature() {
       return this.fetchSignatureFlagFromUiSettings(this.channelType);
     },
@@ -345,7 +347,7 @@ export default {
       const payload = {
         inboxId: this.targetInbox.id,
         sourceId: this.targetInbox.sourceId,
-        contactId: this.contact.id,
+        contactId: this.selectedContactId,
         message: { content: this.message },
         mailSubject: this.subject,
         assigneeId: this.currentUser.id,
@@ -367,7 +369,9 @@ export default {
     },
     selectedInbox: {
       get() {
-        const inboxList = this.contact.contactableInboxes || [];
+        const inboxList = this.selectedContact
+          ? this.selectedContact.contactableInboxes || []
+          : [];
         return (
           inboxList.find(inbox => {
             return inbox.inbox?.id && inbox.inbox?.id === this.targetInbox?.id;
@@ -381,7 +385,7 @@ export default {
       },
     },
     showNoInboxAlert() {
-      if (!this.contact.contactableInboxes) {
+      if (!this.selectedContact || !this.selectedContact.contactableInboxes) {
         return false;
       }
       return this.inboxes.length === 0 && !this.uiFlags.isFetchingInboxes;
@@ -395,7 +399,9 @@ export default {
         : this.$t('CONVERSATION.FOOTER.ENABLE_SIGN_TOOLTIP');
     },
     inboxes() {
-      const inboxList = this.contact.contactableInboxes || [];
+      const inboxList = this.selectedContact
+        ? this.selectedContact.contactableInboxes || []
+        : [];
       return inboxList.map(inbox => ({
         ...inbox.inbox,
         sourceId: inbox.source_id,
@@ -442,6 +448,18 @@ export default {
         this.showCannedResponseMenu = false;
       }
     },
+    selectedContacts(value) {
+      if (!value || !value.length) {
+        this.selectedContactId = 0;
+      }
+      this.selectedContactId = value[0].id;
+    },
+    selectedContact(value) {
+      if (!value) return;
+      if (value && value.id && !value.contactableInboxes) {
+        this.$store.dispatch('contacts/fetchContactableInbox', value.id);
+      }
+    },
     targetInbox() {
       this.setSignature();
     },
@@ -454,6 +472,7 @@ export default {
   mounted() {
     this.setSignature();
     this.setWhatsappContacts();
+    this.chooseFirstInboxIfSingle();
   },
   methods: {
     addContact(newValue) {
@@ -467,6 +486,12 @@ export default {
         } else {
           this.message = removeSignature(this.message, this.signatureToApply);
         }
+      }
+    },
+    chooseFirstInboxIfSingle() {
+      const allInboxes = this.inboxes;
+      if (allInboxes && allInboxes.length === 1) {
+        this.targetInbox = allInboxes[0];
       }
     },
     setWhatsappContacts() {
@@ -487,7 +512,6 @@ export default {
       reader.readAsDataURL(file.file);
       reader.onloadend = () => {
         this.attachedFiles.push({
-          currentChatId: this.contact.id,
           resource: blob || file,
           isPrivate: this.isPrivate,
           thumb: reader.result,
@@ -514,31 +538,35 @@ export default {
     },
     expandVariabledInWhatsAppParams(templateParams, contact) {
       let templateParamsToSend = templateParams;
-      if (templateParamsToSend.processed_params && Object.keys(templateParamsToSend.processed_params).length) {
+      if (
+        templateParamsToSend.processed_params &&
+        Object.keys(templateParamsToSend.processed_params).length
+      ) {
         const variables = getMessageVariables({
           conversation: {
-            meta:{
+            meta: {
               assignee: this.currentUser,
-              sender:contact
+              sender: contact,
             },
             id: 0,
-            custom_attributes: {}
+            custom_attributes: {},
           },
-          contact: contact
+          contact: contact,
         });
 
         templateParamsToSend = {};
-        for (const key in templateParams) {
+        Object.keys(templateParams).forEach(key => {
           templateParamsToSend[key] = templateParams[key];
-        }
+        });
 
         const updatedProcessedParams = {};
-        for (const key in templateParamsToSend.processed_params) {
+
+        Object.keys(templateParamsToSend.processed_params).forEach(key => {
           updatedProcessedParams[key] = replaceVariablesInMessage({
             message: templateParamsToSend.processed_params[key],
             variables: variables,
           });
-        }
+        });
 
         templateParamsToSend.processed_params = updatedProcessedParams;
       }
@@ -551,8 +579,10 @@ export default {
       if (this.selectedContacts.length > 1) {
         let bulkContacts = [];
         this.selectedContacts.forEach(function (item) {
-
-          let templateParamsToSend = this.expandVariabledInWhatsAppParams(templateParams, item);
+          let templateParamsToSend = this.expandVariabledInWhatsAppParams(
+            templateParams,
+            item
+          );
 
           let contactPayload = {
             inbox_id: inboxId,
@@ -569,13 +599,15 @@ export default {
           message: { content, template_params: templateParams },
         };
       } else {
-
-        let templateParamsToSend = this.expandVariabledInWhatsAppParams(templateParams, this.contact);
+        let templateParamsToSend = this.expandVariabledInWhatsAppParams(
+          templateParams,
+          this.selectedContact
+        );
 
         payload = {
           inboxId: inboxId,
           sourceId: this.targetInbox.sourceId,
-          contactId: this.contact.id,
+          contactId: this.selectedContact.id,
           message: { content, template_params: templateParamsToSend },
           assigneeId: assigneeId,
         };
@@ -661,6 +693,7 @@ export default {
 .file-uploads {
   @apply text-start;
 }
+
 .multiselect-wrap--small.has-multi-select-error {
   ::v-deep {
     .multiselect__tags {
@@ -673,9 +706,11 @@ export default {
   .mention--box {
     @apply left-0 m-auto right-0 top-auto h-fit;
   }
+
   .multiselect .multiselect__content .multiselect__option span {
     @apply inline-flex w-6 text-slate-600 dark:text-slate-400;
   }
+
   .multiselect .multiselect__content .multiselect__option {
     @apply py-0.5 px-1;
   }
