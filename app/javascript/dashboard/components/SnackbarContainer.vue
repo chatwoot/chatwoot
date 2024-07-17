@@ -40,7 +40,7 @@ export default {
     this.$emitter.off('newToastMessage', this.onNewToastMessage);
   },
   methods: {
-    onNewToastMessage(message, action) {
+    onNewToastMessage({ message, action }) {
       this.snackMessages.push({
         key: new Date().getTime(),
         message,

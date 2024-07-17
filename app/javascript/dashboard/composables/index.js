@@ -8,6 +8,6 @@ export const useTrack = () => {
   return vm.proxy.$track;
 };
 
-export function useAlert(message, action) {
-  emitter.emit('newToastMessage', message, action);
-}
+export const useAlert = (message, action = null) => {
+  emitter.emit('newToastMessage', { message, action });
+};
