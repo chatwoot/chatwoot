@@ -30,6 +30,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_12_004410) do
   create_table "account_plans", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "product_id", null: false
+    t.integer "extra_conversations", default: 0, null: false
+    t.integer "extra_agents", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id", "product_id"], name: "index_account_plans_on_account_id_and_product_id", unique: true
