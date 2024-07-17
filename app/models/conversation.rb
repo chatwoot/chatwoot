@@ -73,6 +73,7 @@ class Conversation < ApplicationRecord
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
+  scope :with_agents_ids, ->(agent_ids) { where(assignee_id: agent_ids) }
   scope :unattended, -> { where(first_reply_created_at: nil).or(where.not(waiting_since: nil)) }
   scope :resolvable, lambda { |auto_resolve_duration|
     return none if auto_resolve_duration.to_i.zero?
