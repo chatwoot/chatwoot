@@ -64,6 +64,12 @@ export default {
     ActiveFilterChip,
     AddFilterChip,
   },
+  props: {
+    appliedFiltersProp: {
+      type: Object,
+      default: () => {},
+    },
+  },
   data() {
     return {
       showDropdownMenu: false,
@@ -85,11 +91,8 @@ export default {
           'contact'
         );
 
-      const activeFilters = Object.keys(this.appliedFilters).filter(
-        key => this.appliedFilters[key]
-      );
       if (
-        !activeFilters.includes('custom_view') ||
+        !this.appliedFilters.custom_view ||
         this.appliedFilters.custom_view === 'new'
       ) {
         customViews.push({
@@ -213,6 +216,11 @@ export default {
     },
     isAllFilterSelected() {
       return !this.filterListMenuItems.length;
+    },
+  },
+  watch: {
+    appliedFiltersProp() {
+      this.appliedFilters = this.appliedFiltersProp;
     },
   },
   mounted() {

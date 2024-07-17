@@ -3,7 +3,7 @@
     class="flex justify-between w-full px-4 bg-white dark:bg-slate-900 border-b border-slate-50 dark:border-slate-800"
   >
     <div
-      class="flex items-center justify-center max-w-full min-w-[6.25rem] gap-4 mt-2"
+      class="flex items-center justify-center max-w-full min-w-[6.25rem] gap-4 mt-2 mb-2"
     >
       <fluent-icon icon="contact-card-group" />
       <h1
@@ -39,7 +39,10 @@
         />
       </div>
       <div class="flex">
-        <quick-filter @filter-change="onFilterChange" />
+        <quick-filter
+          :applied-filters-prop="quickFilters"
+          @filter-change="onFilterChange"
+        />
         <div v-if="hasActiveSegments && canEditView">
           <woot-button
             class="clear"
@@ -143,10 +146,6 @@ export default {
       type: String,
       default: 'both',
     },
-    assigneeTypeValue: {
-      type: String,
-      default: null,
-    },
     customViews: {
       type: Array,
       default: () => [],
@@ -154,6 +153,10 @@ export default {
     customViewValue: {
       type: Number,
       default: null,
+    },
+    quickFilters: {
+      type: Object,
+      default: () => {},
     },
   },
   data() {
@@ -174,25 +177,6 @@ export default {
     hasActiveSegments() {
       return this.customViewValue !== null;
     },
-    assigneeTypes() {
-      return [
-        { id: 'me', name: this.$t('PIPELINE_PAGE.ASSIGNEE_TYPE.ME') },
-        {
-          id: 'unassigned',
-          name: this.$t('PIPELINE_PAGE.ASSIGNEE_TYPE.UNASSIGNED'),
-        },
-      ];
-    },
-    selectedAssigneeType: {
-      get() {
-        return this.assigneeTypes.find(
-          item => item.id === this.assigneeTypeValue
-        );
-      },
-      set(selectedAssigneeType) {
-        this.$emit('on-assignee-type-change', selectedAssigneeType);
-      },
-    },
     selectedView: {
       get() {
         return this.customViews.find(item => item.id === this.customViewValue);
@@ -206,16 +190,16 @@ export default {
     },
   },
   watch: {
-    customViewValue() {
-      this.saveSelectedValues();
-    },
-    assigneeTypeValue() {
-      this.saveSelectedValues();
-    },
     stageTypeValue() {
       this.saveSelectedValues();
     },
     displayOptions: {
+      handler() {
+        this.saveSelectedValues();
+      },
+      deep: true,
+    },
+    quickFilters: {
       handler() {
         this.saveSelectedValues();
       },
@@ -235,10 +219,9 @@ export default {
     saveSelectedValues() {
       this.updateUISettings({
         pipeline_view: {
-          custom_view: this.customViewValue,
-          assignee_type: this.assigneeTypeValue,
           stage_type: this.stageTypeValue,
           display_options: this.displayOptions,
+          quick_filters: this.quickFilters,
         },
       });
     },
