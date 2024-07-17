@@ -1,6 +1,6 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import ReportsFiltersAgents from '../../Filters/Agents';
+import ReportsFiltersAgents from '../../Filters/Agents.vue';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -16,7 +16,7 @@ const mockStore = new Vuex.Store({
         getAgents: state => state.agents,
       },
       actions: {
-        get: jest.fn(),
+        get: vi.fn(),
       },
     },
   },
@@ -50,7 +50,7 @@ describe('ReportsFiltersAgents.vue', () => {
   });
 
   it('dispatches the "agents/get" action when the component is mounted', () => {
-    const dispatchSpy = jest.spyOn(mockStore, 'dispatch');
+    const dispatchSpy = vi.spyOn(mockStore, 'dispatch');
 
     shallowMount(ReportsFiltersAgents, mountParams);
 

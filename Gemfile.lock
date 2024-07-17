@@ -174,7 +174,9 @@ GEM
     crack (0.4.5)
       rexml
     crass (1.0.6)
-    csv-safe (3.2.1)
+    csv (3.3.0)
+    csv-safe (3.3.1)
+      csv (~> 3.0)
     cypress-on-rails (1.16.0)
       rack
     database_cleaner (2.0.2)
@@ -183,13 +185,16 @@ GEM
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
-    date (3.3.4)
-    ddtrace (1.11.1)
-      debase-ruby_core_source (>= 0.10.16, <= 3.2.0)
-      libdatadog (~> 2.0.0.1.0)
-      libddwaf (~> 1.8.2.0.0)
+    datadog-ci (0.8.3)
       msgpack
-    debase-ruby_core_source (3.2.0)
+    date (3.3.4)
+    ddtrace (1.23.2)
+      datadog-ci (~> 0.8.1)
+      debase-ruby_core_source (= 3.3.1)
+      libdatadog (~> 7.0.0.1.0)
+      libddwaf (~> 1.14.0.0.0)
+      msgpack
+    debase-ruby_core_source (3.3.1)
     debug (1.8.0)
       irb (>= 1.5.0)
       reline (>= 0.3.1)
@@ -416,15 +421,15 @@ GEM
       addressable (~> 2.8)
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
-    libdatadog (2.0.0.1.0)
-    libdatadog (2.0.0.1.0-x86_64-linux)
-    libddwaf (1.8.2.0.0)
+    libdatadog (7.0.0.1.0)
+    libdatadog (7.0.0.1.0-x86_64-linux)
+    libddwaf (1.14.0.0.0)
       ffi (~> 1.0)
-    libddwaf (1.8.2.0.0-arm64-darwin)
+    libddwaf (1.14.0.0.0-arm64-darwin)
       ffi (~> 1.0)
-    libddwaf (1.8.2.0.0-x86_64-darwin)
+    libddwaf (1.14.0.0.0-x86_64-darwin)
       ffi (~> 1.0)
-    libddwaf (1.8.2.0.0-x86_64-linux)
+    libddwaf (1.14.0.0.0-x86_64-linux)
       ffi (~> 1.0)
     line-bot-api (1.28.0)
     liquid (5.4.0)
@@ -434,6 +439,7 @@ GEM
     llhttp-ffi (0.4.0)
       ffi-compiler (~> 1.0)
       rake (~> 13.0)
+    logger (1.6.0)
     lograge (0.14.0)
       actionpack (>= 4)
       activesupport (>= 4)
@@ -460,7 +466,7 @@ GEM
     mini_magick (4.12.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.7)
-    minitest (5.24.0)
+    minitest (5.24.1)
     mock_redis (0.36.0)
       ruby2_keywords
     msgpack (1.7.0)
@@ -703,23 +709,24 @@ GEM
       activesupport (>= 4)
     selectize-rails (0.12.6)
     semantic_range (3.0.0)
-    sentry-rails (5.18.0)
+    sentry-rails (5.18.1)
       railties (>= 5.0)
-      sentry-ruby (~> 5.18.0)
-    sentry-ruby (5.18.0)
+      sentry-ruby (~> 5.18.1)
+    sentry-ruby (5.18.1)
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
-    sentry-sidekiq (5.18.0)
-      sentry-ruby (~> 5.18.0)
+    sentry-sidekiq (5.18.1)
+      sentry-ruby (~> 5.18.1)
       sidekiq (>= 3.0)
     sexp_processor (4.17.0)
     shoulda-matchers (5.3.0)
       activesupport (>= 5.2.0)
-    sidekiq (7.2.4)
+    sidekiq (7.3.0)
       concurrent-ruby (< 2)
       connection_pool (>= 2.3.0)
+      logger
       rack (>= 2.2.4)
-      redis-client (>= 0.19.0)
+      redis-client (>= 0.22.2)
     sidekiq-cron (1.12.0)
       fugit (~> 1.8)
       globalid (>= 1.0.1)
@@ -931,11 +938,11 @@ DEPENDENCIES
   scout_apm
   scss_lint
   seed_dump
-  sentry-rails (>= 5.18.0)
+  sentry-rails (>= 5.18.1)
   sentry-ruby
-  sentry-sidekiq (>= 5.18.0)
+  sentry-sidekiq (>= 5.18.1)
   shoulda-matchers
-  sidekiq (>= 7.2.4)
+  sidekiq (>= 7.3.0)
   sidekiq-cron (>= 1.12.0)
   simplecov (= 0.17.1)
   slack-ruby-client (~> 2.2.0)
@@ -960,7 +967,7 @@ DEPENDENCIES
   working_hours
 
 RUBY VERSION
-   ruby 3.2.2p185
+   ruby 3.3.3p89
 
 BUNDLED WITH
-   2.4.6
+   2.5.14

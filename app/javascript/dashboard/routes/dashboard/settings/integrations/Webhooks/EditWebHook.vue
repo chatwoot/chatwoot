@@ -1,5 +1,5 @@
 <template>
-  <div class="h-auto overflow-auto flex flex-col">
+  <div class="flex flex-col h-auto overflow-auto">
     <woot-modal-header
       :header-title="$t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.TITLE')"
     />
@@ -51,7 +51,7 @@ export default {
         this.onClose();
       } catch (error) {
         const alertMessage =
-          error.response.data.message ||
+          error?.response?.data?.message ||
           this.$t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.API.ERROR_MESSAGE');
         this.showAlert(alertMessage);
       }
