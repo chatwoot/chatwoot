@@ -124,7 +124,7 @@
 
       <div
         v-if="showAgentsFilter && type !== 'agent'"
-        class="ml-2 md:w-[240px] w-full multiselect-wrap--small"
+        class="ml-2 w-full md:w-[300px]"
       >
         <p class="text-xs mb-2 font-medium">
           {{ $t('AGENT_REPORTS.FILTER_DROPDOWN_LABEL') }}

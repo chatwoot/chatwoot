@@ -114,6 +114,6 @@ module ReportHelper
   end
 
   def agents_ids
-    params[:agents_ids].map(&:to_i) || []
+    params[:agents_ids]&.map(&:to_i) || []
   end
 end

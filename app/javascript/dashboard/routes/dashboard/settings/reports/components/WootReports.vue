@@ -126,7 +126,7 @@ export default {
             id: this.selectedFilter.id,
             groupBy: groupBy.period,
             businessHours,
-            agents: this.selectedAgents,
+            agentsIds: this.selectedAgents,
           });
         } catch {
           this.showAlert(this.$t('REPORT.DATA_FETCHING_FAILED'));
@@ -152,11 +152,11 @@ export default {
       console.log('onUserFilterChange', payload);
 
       if (payload.length > 0) {
-        // this.$track(REPORTS_EVENTS.FILTER_REPORT, {
-        //   filterType: 'user',
-        //   reportType: this.type,
-        // });
-        this.selectedAgents = payload;
+        this.$track(REPORTS_EVENTS.FILTER_REPORT, {
+          filterType: 'agents',
+          reportType: this.type,
+        });
+        this.selectedAgents = payload.map(agent => agent.id);
         this.fetchAllData();
       }
     },
