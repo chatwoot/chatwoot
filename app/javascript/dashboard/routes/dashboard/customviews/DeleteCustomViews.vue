@@ -16,10 +16,9 @@
 </template>
 
 <script>
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import { CONTACTS_EVENTS } from '../../../helper/AnalyticsHelper/events';
 export default {
-  mixins: [alertMixin],
   props: {
     showDeletePopup: {
       type: Boolean,
@@ -79,7 +78,7 @@ export default {
         const filterType = this.activeCustomViews;
         await this.$store.dispatch('customViews/delete', { id, filterType });
         this.closeDeletePopup();
-        this.showAlert(
+        useAlert(
           this.activeFilterType === 0
             ? this.$t('FILTER.CUSTOM_VIEWS.DELETE.API_FOLDERS.SUCCESS_MESSAGE')
             : this.$t('FILTER.CUSTOM_VIEWS.DELETE.API_SEGMENTS.SUCCESS_MESSAGE')
@@ -94,7 +93,7 @@ export default {
             : this.$t(
                 'FILTER.CUSTOM_VIEWS.DELETE.API_SEGMENTS.SUCCESS_MESSAGE'
               );
-        this.showAlert(errorMessage);
+        useAlert(errorMessage);
       }
       this.openLastItemAfterDelete();
     },

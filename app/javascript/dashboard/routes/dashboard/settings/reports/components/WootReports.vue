@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 overflow-auto p-4">
+  <div class="flex-1 p-4 overflow-auto">
     <woot-button
       color-scheme="success"
       class-names="button--fixed-top"
@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import { useAlert } from 'dashboard/composables';
 import ReportFilters from './ReportFilters.vue';
 import ReportContainer from '../ReportContainer.vue';
 import { GROUP_BY_FILTER } from '../constants';
@@ -121,7 +122,7 @@ export default {
             businessHours,
           });
         } catch {
-          this.showAlert(this.$t('REPORT.DATA_FETCHING_FAILED'));
+          useAlert(this.$t('REPORT.DATA_FETCHING_FAILED'));
         }
       });
     },

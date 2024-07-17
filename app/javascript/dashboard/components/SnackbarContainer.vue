@@ -15,13 +15,11 @@
 
 <script>
 import WootSnackbar from './Snackbar.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     WootSnackbar,
   },
-  mixins: [alertMixin],
   props: {
     duration: {
       type: Number,

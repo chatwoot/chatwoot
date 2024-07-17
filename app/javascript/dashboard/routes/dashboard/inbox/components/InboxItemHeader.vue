@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex gap-2 py-2 ltr:pl-4 rtl:pl-2 h-14 ltr:pr-2 rtl:pr-4 rtl:border-r justify-between items-center w-full border-b border-slate-50 dark:border-slate-800/50"
+    class="flex items-center justify-between w-full gap-2 py-2 border-b ltr:pl-4 rtl:pl-2 h-14 ltr:pr-2 rtl:pr-4 rtl:border-r border-slate-50 dark:border-slate-800/50"
   >
     <woot-button
       variant="clear link"
@@ -56,6 +56,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import { getUnixTime } from 'date-fns';
 import { CMD_SNOOZE_NOTIFICATION } from 'dashboard/routes/dashboard/commands/commandBarBusEvents';
 import wootConstants from 'dashboard/constants/globals';
@@ -63,14 +64,12 @@ import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import PaginationButton from './PaginationButton.vue';
 import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     PaginationButton,
     CustomSnoozeModal,
   },
-  mixins: [alertMixin],
   props: {
     totalLength: {
       type: Number,
@@ -112,7 +111,7 @@ export default {
           snoozedUntil,
         });
 
-        this.showAlert(this.$t('INBOX.ALERTS.SNOOZE'));
+        useAlert(this.$t('INBOX.ALERTS.SNOOZE'));
       } catch (error) {
         // Silently fail without any change in the UI
       }
@@ -141,7 +140,7 @@ export default {
           count: this.meta.count,
         })
         .then(() => {
-          this.showAlert(this.$t('INBOX.ALERTS.DELETE'));
+          useAlert(this.$t('INBOX.ALERTS.DELETE'));
         });
       this.$router.replace({ name: 'inbox_view' });
     },

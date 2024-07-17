@@ -126,7 +126,6 @@ import { frontendURL, conversationUrl } from '../../../helper/URLHelper';
 import InboxName from '../InboxName.vue';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import ConversationContextMenu from './contextMenu/Index.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import CardLabels from './conversationCardComponents/CardLabels.vue';
 import PriorityMark from './PriorityMark.vue';
@@ -143,8 +142,7 @@ export default {
     PriorityMark,
     SLACardLabel,
   },
-
-  mixins: [inboxMixin, timeMixin, conversationMixin, alertMixin],
+  mixins: [inboxMixin, timeMixin, conversationMixin],
   props: {
     activeLabel: {
       type: String,

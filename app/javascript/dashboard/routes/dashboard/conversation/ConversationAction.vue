@@ -82,7 +82,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import ConversationLabels from './labels/LabelBox.vue';
@@ -97,7 +97,7 @@ export default {
     MultiselectDropdown,
     ConversationLabels,
   },
-  mixins: [agentMixin, alertMixin, teamMixin],
+  mixins: [agentMixin, teamMixin],
   props: {
     conversationId: {
       type: [Number, String],
@@ -157,7 +157,7 @@ export default {
             agentId,
           })
           .then(() => {
-            this.showAlert(this.$t('CONVERSATION.CHANGE_AGENT'));
+            useAlert(this.$t('CONVERSATION.CHANGE_AGENT'));
           });
       },
     },
@@ -172,7 +172,7 @@ export default {
         this.$store
           .dispatch('assignTeam', { conversationId, teamId })
           .then(() => {
-            this.showAlert(this.$t('CONVERSATION.CHANGE_TEAM'));
+            useAlert(this.$t('CONVERSATION.CHANGE_TEAM'));
           });
       },
     },
@@ -201,7 +201,7 @@ export default {
               newValue: priority,
               from: 'Conversation Sidebar',
             });
-            this.showAlert(
+            useAlert(
               this.$t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.SUCCESSFUL', {
                 priority: priorityItem.name,
                 conversationId,

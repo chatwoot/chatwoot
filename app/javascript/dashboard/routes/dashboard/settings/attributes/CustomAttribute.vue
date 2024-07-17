@@ -13,7 +13,7 @@
       <div class="w-full">
         <p
           v-if="!uiFlags.isFetching && !attributes.length"
-          class="mt-12 flex items-center justify-center"
+          class="flex items-center justify-center mt-12"
         >
           {{ $t('ATTRIBUTES_MGMT.LIST.EMPTY_RESULT.404') }}
         </p>
@@ -81,7 +81,7 @@
         </table>
       </div>
     </div>
-    <div class="hidden lg:block w-1/3">
+    <div class="hidden w-1/3 lg:block">
       <span v-dompurify-html="$t('ATTRIBUTES_MGMT.SIDEBAR_TXT')" />
     </div>
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
@@ -108,14 +108,13 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import EditAttribute from './EditAttribute.vue';
 
 export default {
   components: {
     EditAttribute,
   },
-  mixins: [alertMixin],
   data() {
     return {
       selectedTabIndex: 0,
@@ -182,12 +181,12 @@ export default {
     async deleteAttributes({ id }) {
       try {
         await this.$store.dispatch('attributes/delete', id);
-        this.showAlert(this.$t('ATTRIBUTES_MGMT.DELETE.API.SUCCESS_MESSAGE'));
+        useAlert(this.$t('ATTRIBUTES_MGMT.DELETE.API.SUCCESS_MESSAGE'));
       } catch (error) {
         const errorMessage =
           error?.response?.message ||
           this.$t('ATTRIBUTES_MGMT.DELETE.API.ERROR_MESSAGE');
-        this.showAlert(errorMessage);
+        useAlert(errorMessage);
       }
     },
     openEditPopup(response) {

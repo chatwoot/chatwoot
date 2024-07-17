@@ -54,10 +54,9 @@
 
 <script>
 import { required, url } from 'vuelidate/lib/validators';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 
 export default {
-  mixins: [alertMixin],
   props: {
     show: {
       type: Boolean,
@@ -137,14 +136,14 @@ export default {
 
         this.isLoading = true;
         await this.$store.dispatch(`dashboardApps/${action}`, payload);
-        this.showAlert(
+        useAlert(
           this.$t(
             `INTEGRATION_SETTINGS.DASHBOARD_APPS.${this.mode}.API_SUCCESS`
           )
         );
         this.closeModal();
       } catch (err) {
-        this.showAlert(
+        useAlert(
           this.$t(`INTEGRATION_SETTINGS.DASHBOARD_APPS.${this.mode}.API_ERROR`)
         );
       } finally {

@@ -1,5 +1,5 @@
 <template>
-  <div class="h-auto overflow-auto flex flex-col">
+  <div class="flex flex-col h-auto overflow-auto">
     <woot-modal-header :header-title="pageTitle" />
     <form class="flex flex-col w-full" @submit.prevent="editCampaign">
       <div class="w-full">
@@ -99,7 +99,7 @@
           {{ $t('CAMPAIGN.ADD.FORM.TRIGGER_ONLY_BUSINESS_HOURS') }}
         </label>
       </div>
-      <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+      <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
         <woot-button :is-loading="uiFlags.isCreating">
           {{ $t('CAMPAIGN.EDIT.UPDATE_BUTTON_TEXT') }}
         </woot-button>
@@ -114,8 +114,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import { required } from 'vuelidate/lib/validators';
+import { useAlert } from 'dashboard/composables';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 import campaignMixin from 'shared/mixins/campaignMixin';
 import { URLPattern } from 'urlpattern-polyfill';
 
@@ -123,7 +123,7 @@ export default {
   components: {
     WootMessageEditor,
   },
-  mixins: [alertMixin, campaignMixin],
+  mixins: [campaignMixin],
   props: {
     selectedCampaign: {
       type: Object,
@@ -225,7 +225,7 @@ export default {
       } catch (error) {
         const errorMessage =
           error?.response?.message || this.$t('CAMPAIGN.ADD.API.ERROR_MESSAGE');
-        this.showAlert(errorMessage);
+        useAlert(errorMessage);
       }
     },
     onChangeInbox() {
@@ -272,10 +272,10 @@ export default {
             time_on_page: this.timeOnPage,
           },
         });
-        this.showAlert(this.$t('CAMPAIGN.EDIT.API.SUCCESS_MESSAGE'));
+        useAlert(this.$t('CAMPAIGN.EDIT.API.SUCCESS_MESSAGE'));
         this.onClose();
       } catch (error) {
-        this.showAlert(this.$t('CAMPAIGN.EDIT.API.ERROR_MESSAGE'));
+        useAlert(this.$t('CAMPAIGN.EDIT.API.ERROR_MESSAGE'));
       }
     },
   },

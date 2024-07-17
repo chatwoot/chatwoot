@@ -40,12 +40,12 @@
 import { required } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import aiMixin from 'dashboard/mixins/aiMixin';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 export default {
-  mixins: [aiMixin, alertMixin, uiSettingsMixin],
+  mixins: [aiMixin, uiSettingsMixin],
   data() {
     return {
       value: '',
@@ -67,7 +67,7 @@ export default {
     },
 
     onDismiss() {
-      this.showAlert(
+      useAlert(
         this.$t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.DISMISS_MESSAGE')
       );
       this.updateUISettings({
@@ -97,7 +97,7 @@ export default {
         this.alertMessage =
           errorMessage || this.$t('INTEGRATION_APPS.ADD.API.ERROR_MESSAGE');
       } finally {
-        this.showAlert(this.alertMessage);
+        useAlert(this.alertMessage);
       }
     },
     openOpenAIDoc() {

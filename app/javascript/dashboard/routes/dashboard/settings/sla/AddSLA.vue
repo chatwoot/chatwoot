@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import validationMixin from './validationMixin';
 import { mapGetters } from 'vuex';
 import validations from './validations';
@@ -23,7 +23,7 @@ export default {
   components: {
     SlaForm,
   },
-  mixins: [alertMixin, validationMixin],
+  mixins: [validationMixin],
   validations,
   computed: {
     ...mapGetters({
@@ -37,12 +37,12 @@ export default {
     async addSLA(payload) {
       try {
         await this.$store.dispatch('sla/create', payload);
-        this.showAlert(this.$t('SLA.ADD.API.SUCCESS_MESSAGE'));
+        useAlert(this.$t('SLA.ADD.API.SUCCESS_MESSAGE'));
         this.onClose();
       } catch (error) {
         const errorMessage =
           error.message || this.$t('SLA.ADD.API.ERROR_MESSAGE');
-        this.showAlert(errorMessage);
+        useAlert(errorMessage);
       }
     },
   },
