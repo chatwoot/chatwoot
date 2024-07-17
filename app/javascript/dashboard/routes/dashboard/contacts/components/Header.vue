@@ -83,6 +83,14 @@
           {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_SAVE') }}
         </woot-button>
         <woot-button
+          icon="chat"
+          color-scheme="info"
+          class="clear"
+          @click="toggleConversationModal"
+        >
+          {{ $t('CONTACT_PANEL.GROUP_MESSAGE') }}
+        </woot-button>
+        <woot-button
           class="clear"
           color-scheme="success"
           icon="person-add"
@@ -181,6 +189,9 @@ export default {
     toggleCreate() {
       this.$emit('on-toggle-create');
     },
+    toggleConversationModal() {
+      this.$emit('on-toggle-conversation');
+    },
     toggleFilter() {
       this.$emit('on-toggle-filter');
     },
@@ -192,7 +203,10 @@ export default {
         await this.$refs.confirmExportContactsDialog.showConfirmation();
 
       if (ok) {
-        var columnNames = prompt('Enter column names sepparated by space', 'id name email phone_number identifier');
+        const columnNames = prompt(
+          'Enter column names sepparated by space',
+          'id name email phone_number identifier'
+        );
         this.$emit('on-export-submit', columnNames);
       }
     },

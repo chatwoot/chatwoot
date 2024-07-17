@@ -286,7 +286,7 @@ export default {
       type: Function,
       default: () => {},
     },
-    channelType: {
+    convChannelType: {
       type: String,
       default: '',
     },
@@ -338,7 +338,7 @@ export default {
       return this.$store.getters['contacts/getContact'](this.selectedContactId);
     },
     sendWithSignature() {
-      return this.fetchSignatureFlagFromUiSettings(this.channelType);
+      return this.fetchSignatureFlagFromUiSettings(this.convChannelType);
     },
     signatureToApply() {
       return this.messageSignature;
@@ -488,7 +488,17 @@ export default {
         }
       }
     },
-    chooseFirstInboxIfSingle() {
+    async chooseFirstInboxIfSingle() {
+      if (
+        this.selectedContact &&
+        this.selectedContact.id &&
+        !this.selectedContact.contactableInboxes
+      ) {
+        await this.$store.dispatch(
+          'contacts/fetchContactableInbox',
+          this.selectedContact.id
+        );
+      }
       const allInboxes = this.inboxes;
       if (allInboxes && allInboxes.length === 1) {
         this.targetInbox = allInboxes[0];
@@ -668,7 +678,10 @@ export default {
       return classByType;
     },
     toggleMessageSignature() {
-      this.setSignatureFlagForInbox(this.channelType, !this.sendWithSignature);
+      this.setSignatureFlagForInbox(
+        this.convChannelType,
+        !this.sendWithSignature
+      );
       this.setSignature();
     },
   },

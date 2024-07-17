@@ -1,34 +1,85 @@
 <template>
   <div class="flex flex-row w-full">
     <div class="flex flex-col h-full" :class="wrapClass">
-      <contacts-header :search-query="searchQuery" :header-title="pageTitle" :segments-id="segmentsId"
-        this-selected-contact-id="" @on-input-search="onInputSearch" @on-toggle-create="onToggleCreate"
-        @on-toggle-filter="onToggleFilters" @on-search-submit="onSearchSubmit" @on-toggle-import="onToggleImport"
-        @on-export-submit="onExportSubmit" @on-toggle-save-filter="onToggleSaveFilters"
-        @on-toggle-delete-filter="onToggleDeleteFilters" @on-toggle-edit-filter="onToggleFilters" />
-      <contacts-table :contacts="records" :show-search-empty-state="showEmptySearchResult"
-        :is-loading="uiFlags.isFetching" :on-click-contact="openContactInfoPanel" :active-contact-id="selectedContactId"
-        @on-sort-change="onSortChange" />
-      <table-footer :current-page="Number(meta.currentPage)" :total-count="meta.count" :page-size="15"
-        @page-change="onPageChange" />
+      <contacts-header
+        :search-query="searchQuery"
+        :header-title="pageTitle"
+        :segments-id="segmentsId"
+        this-selected-contact-id=""
+        @on-input-search="onInputSearch"
+        @on-toggle-create="onToggleCreate"
+        @on-toggle-conversation="onToggleNewConversation"
+        @on-toggle-filter="onToggleFilters"
+        @on-search-submit="onSearchSubmit"
+        @on-toggle-import="onToggleImport"
+        @on-export-submit="onExportSubmit"
+        @on-toggle-save-filter="onToggleSaveFilters"
+        @on-toggle-delete-filter="onToggleDeleteFilters"
+        @on-toggle-edit-filter="onToggleFilters"
+      />
+      <contacts-table
+        :contacts="records"
+        :show-search-empty-state="showEmptySearchResult"
+        :is-loading="uiFlags.isFetching"
+        :on-click-contact="openContactInfoPanel"
+        :active-contact-id="selectedContactId"
+        @on-sort-change="onSortChange"
+      />
+      <table-footer
+        :current-page="Number(meta.currentPage)"
+        :total-count="meta.count"
+        :page-size="15"
+        @page-change="onPageChange"
+      />
     </div>
 
-    <add-custom-views v-if="showAddSegmentsModal" :custom-views-query="segmentsQuery" :filter-type="filterType"
-      :open-last-saved-item="openSavedItemInSegment" @close="onCloseAddSegmentsModal" />
-    <delete-custom-views v-if="showDeleteSegmentsModal" :show-delete-popup.sync="showDeleteSegmentsModal"
-      :active-custom-view="activeSegment" :custom-views-id="segmentsId" :active-filter-type="filterType"
-      :open-last-item-after-delete="openLastItemAfterDeleteInSegment" @close="onCloseDeleteSegmentsModal" />
+    <add-custom-views
+      v-if="showAddSegmentsModal"
+      :custom-views-query="segmentsQuery"
+      :filter-type="filterType"
+      :open-last-saved-item="openSavedItemInSegment"
+      @close="onCloseAddSegmentsModal"
+    />
+    <delete-custom-views
+      v-if="showDeleteSegmentsModal"
+      :show-delete-popup.sync="showDeleteSegmentsModal"
+      :active-custom-view="activeSegment"
+      :custom-views-id="segmentsId"
+      :active-filter-type="filterType"
+      :open-last-item-after-delete="openLastItemAfterDeleteInSegment"
+      @close="onCloseDeleteSegmentsModal"
+    />
 
-    <contact-info-panel v-if="showContactViewPane" :contact="selectedContact" :on-close="closeContactInfoPanel" />
+    <contact-info-panel
+      v-if="showContactViewPane"
+      :contact="selectedContact"
+      :on-close="closeContactInfoPanel"
+    />
     <create-contact :show="showCreateModal" @cancel="onToggleCreate" />
+    <new-conversation
+      :show="showConversationModal"
+      :contacts="records"
+      @cancel="onToggleNewConversation"
+    />
     <woot-modal :show.sync="showImportModal" :on-close="onToggleImport">
       <import-contacts v-if="showImportModal" :on-close="onToggleImport" />
     </woot-modal>
-    <woot-modal :show.sync="showFiltersModal" :on-close="closeAdvanceFiltersModal" size="medium">
-      <contacts-advanced-filters v-if="showFiltersModal" :on-close="closeAdvanceFiltersModal"
-        :initial-filter-types="contactFilterItems" :initial-applied-filters="appliedFilter"
-        :active-segment-name="activeSegmentName" :is-segments-view="hasActiveSegments" @applyFilter="onApplyFilter"
-        @updateSegment="onUpdateSegment" @clearFilters="clearFilters" />
+    <woot-modal
+      :show.sync="showFiltersModal"
+      :on-close="closeAdvanceFiltersModal"
+      size="medium"
+    >
+      <contacts-advanced-filters
+        v-if="showFiltersModal"
+        :on-close="closeAdvanceFiltersModal"
+        :initial-filter-types="contactFilterItems"
+        :initial-applied-filters="appliedFilter"
+        :active-segment-name="activeSegmentName"
+        :is-segments-view="hasActiveSegments"
+        @applyFilter="onApplyFilter"
+        @updateSegment="onUpdateSegment"
+        @clearFilters="clearFilters"
+      />
     </woot-modal>
   </div>
 </template>
@@ -51,6 +102,8 @@ import { CONTACTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import alertMixin from 'shared/mixins/alertMixin';
 import countries from 'shared/constants/countries.js';
 import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
+import NewConversation from 'dashboard/routes/dashboard/conversation/contact/NewConversation.vue';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 const DEFAULT_PAGE = 1;
 const FILTER_TYPE_CONTACT = 1;
@@ -66,6 +119,7 @@ export default {
     ContactsAdvancedFilters,
     AddCustomViews,
     DeleteCustomViews,
+    NewConversation,
   },
   mixins: [alertMixin],
   props: {
@@ -79,6 +133,7 @@ export default {
     return {
       searchQuery: '',
       showCreateModal: false,
+      showConversationModal: false,
       showImportModal: false,
       selectedContactId: '',
       sortConfig: { last_activity_at: 'desc' },
@@ -187,6 +242,13 @@ export default {
     this.fetchContacts(this.pageParameter);
   },
   methods: {
+    toggleConversationModal() {
+      this.showConversationModal = !this.showConversationModal;
+      this.$emitter.emit(
+        BUS_EVENTS.NEW_CONVERSATION_MODAL,
+        this.showConversationModal
+      );
+    },
     updatePageParam(page) {
       window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
     },
@@ -285,6 +347,9 @@ export default {
     },
     onToggleCreate() {
       this.showCreateModal = !this.showCreateModal;
+    },
+    onToggleNewConversation() {
+      this.showConversationModal = !this.showConversationModal;
     },
     onToggleSaveFilters() {
       this.showAddSegmentsModal = true;
@@ -397,9 +462,9 @@ export default {
           filter_operator: filter.filter_operator,
           values: Array.isArray(filter.values)
             ? generateValuesForEditCustomViews(
-              filter,
-              this.setParamsForEditSegmentModal()
-            )
+                filter,
+                this.setParamsForEditSegmentModal()
+              )
             : [],
           query_operator: filter.query_operator,
           custom_attribute_type: filter.custom_attribute_type,
