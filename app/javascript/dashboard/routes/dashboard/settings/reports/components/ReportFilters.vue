@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col md:flex-row">
-    <div class="flex items-center w-full flex-col md:flex-row">
+    <div class="flex w-full flex-col md:flex-row items-baseline">
       <!-- SELECT ONE -->
       <div v-if="type !== 'triggers'">
         <div
@@ -122,6 +122,19 @@
         </div>
       </div>
 
+      <div
+        v-if="showAgentsFilter && type !== 'agent'"
+        class="ml-2 md:w-[240px] w-full multiselect-wrap--small"
+      >
+        <p class="text-xs mb-2 font-medium">
+          {{ $t('AGENT_REPORTS.FILTER_DROPDOWN_LABEL') }}
+        </p>
+
+        <reports-filters-agents
+          @agents-filter-selection="handleAgentsFilterSelection"
+        />
+      </div>
+
       <div class="mx-1 md:w-[240px] w-full multiselect-wrap--small">
         <p class="text-xs mb-2 font-medium">
           {{ $t('REPORT.DURATION_FILTER_LABEL') }}
@@ -188,6 +201,7 @@ import startOfDay from 'date-fns/startOfDay';
 import subDays from 'date-fns/subDays';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import WootDateRangePicker from 'dashboard/components/ui/DateRangePicker.vue';
+import ReportsFiltersAgents from './Filters/Agents.vue';
 
 import { GROUP_BY_FILTER } from '../constants';
 const CUSTOM_DATE_RANGE_ID = 5;
@@ -196,8 +210,13 @@ export default {
   components: {
     WootDateRangePicker,
     Thumbnail,
+    ReportsFiltersAgents,
   },
   props: {
+    showAgentsFilter: {
+      type: Boolean,
+      default: false,
+    },
     filterItemsList: {
       type: Array,
       default: () => [],
@@ -292,6 +311,9 @@ export default {
     this.onDateRangeChange();
   },
   methods: {
+    handleAgentsFilterSelection(selectedAgents) {
+      this.$emit('agents-filter-change', selectedAgents);
+    },
     onDateRangeChange() {
       this.$emit('date-range-change', {
         from: this.from,

@@ -10,10 +10,12 @@
     </woot-button>
     <report-filters
       v-if="filterItemsList"
+      :show-agents-filter="showAgentsFilter"
       :type="type"
       :filter-items-list="filterItemsList"
       :group-by-filter-items-list="groupByfilterItemsList"
       :selected-group-by-filter="selectedGroupByFilter"
+      @agents-filter-change="onAgentsFilterChange"
       @date-range-change="onDateRangeChange"
       @filter-change="onFilterChange"
       @group-by-filter-change="onGroupByFilterChange"
@@ -64,6 +66,10 @@ export default {
       type: String,
       default: 'Download Reports',
     },
+    showAgentsFilter: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -74,6 +80,7 @@ export default {
       groupByfilterItemsList: this.$t('REPORT.GROUP_BY_DAY_OPTIONS'),
       selectedGroupByFilter: null,
       businessHours: false,
+      selectedAgents: [],
     };
   },
   computed: {
@@ -119,6 +126,7 @@ export default {
             id: this.selectedFilter.id,
             groupBy: groupBy.period,
             businessHours,
+            agents: this.selectedAgents,
           });
         } catch {
           this.showAlert(this.$t('REPORT.DATA_FETCHING_FAILED'));
@@ -137,6 +145,19 @@ export default {
         const fileName = generateFileName({ type, to, businessHours });
         const params = { from, to, fileName, businessHours };
         this.$store.dispatch(dispatchMethods[type], params);
+      }
+    },
+    onAgentsFilterChange(payload) {
+      // eslint-disable-next-line no-console
+      console.log('onUserFilterChange', payload);
+
+      if (payload.length > 0) {
+        // this.$track(REPORTS_EVENTS.FILTER_REPORT, {
+        //   filterType: 'user',
+        //   reportType: this.type,
+        // });
+        this.selectedAgents = payload;
+        this.fetchAllData();
       }
     },
     onDateRangeChange({ from, to, groupBy }) {
