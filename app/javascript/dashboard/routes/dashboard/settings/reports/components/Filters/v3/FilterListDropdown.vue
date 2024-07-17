@@ -19,7 +19,7 @@ const props = defineProps({
     default: '',
   },
   activeFilterId: {
-    type: Number,
+    type: [Number, String],
     default: null,
   },
   showClearFilter: {

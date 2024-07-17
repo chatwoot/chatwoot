@@ -82,9 +82,7 @@ const closeDropdown = () => {
             <template v-if="item.options && isHovered(item.id)" #dropdown>
               <filter-list-dropdown
                 :list-items="item.options"
-                :input-placeholder="
-                  $t(`${placeholderI18nKey}.${item.type.toUpperCase()}`)
-                "
+                :input-placeholder="$t('GENERAL.LIST_SEARCH_PLACEHOLDER')"
                 :enable-search="enableSearch"
                 class="flex flex-col w-[216px] overflow-y-auto top-0 left-36"
                 @click="addFilter"

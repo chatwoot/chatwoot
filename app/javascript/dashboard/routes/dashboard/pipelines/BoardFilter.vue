@@ -7,6 +7,7 @@
       <active-filter-chip
         v-for="filter in activeFilters"
         v-bind="filter"
+        :id="appliedFilters[filter.key]"
         :key="filter.key"
         :active-filter-type="activeFilterType"
         :show-menu="showSubDropdownMenu"
@@ -68,12 +69,7 @@ export default {
       showDropdownMenu: false,
       showSubDropdownMenu: false,
       activeFilterType: '',
-      appliedFilters: {
-        agent_id: null,
-        product_id: null,
-        team_id: null,
-        label_id: null,
-      },
+      appliedFilters: {},
     };
   },
   computed: {
@@ -87,7 +83,7 @@ export default {
       const filters = [
         {
           id: 1,
-          key: 'agent_id',
+          key: 'assignee_id',
           name: this.$t('PIPELINE_PAGE.FILTER.AGENTS'),
           type: 'agents',
         },
@@ -152,16 +148,29 @@ export default {
       );
       return filterTypes
         .filter(({ key }) => !activeFilters.includes(key))
-        .map(({ id, key, name, type, options }) => ({
+        .map(({ id, key, name, options }) => ({
           id,
           key,
           name,
-          type,
+          type: key,
           options,
         }));
     },
     activeFilters() {
-      return this.updateActiveFilters();
+      const filterTypes = [...this.filterAttributes, ...this.customFilters];
+
+      const activeFilters = Object.keys(this.appliedFilters).filter(
+        key => this.appliedFilters[key]
+      );
+      return filterTypes
+        .filter(({ key }) => activeFilters.includes(key))
+        .map(({ id, key, options }) => ({
+          id,
+          key,
+          name: options.find(item => item.id === this.appliedFilters[key]).name,
+          type: key,
+          options,
+        }));
     },
     hasActiveFilters() {
       return Object.values(this.appliedFilters).some(value => value !== null);
@@ -170,38 +179,15 @@ export default {
       return !this.filterListMenuItems.length;
     },
   },
-  watch: {
-    appliedFilters: {
-      immediate: true,
-      handler() {
-        this.updateActiveFilters();
-      },
-    },
-  },
   mounted() {
     this.$store.dispatch('products/get');
     this.$store.dispatch('agents/get');
   },
   methods: {
-    updateActiveFilters() {
-      const filterTypes = [...this.filterAttributes, ...this.customFilters];
-
-      const activeFilters = Object.keys(this.appliedFilters).filter(
-        key => this.appliedFilters[key]
-      );
-      return filterTypes
-        .filter(({ key }) => activeFilters.includes(key))
-        .map(({ id, key, type, options }) => ({
-          id,
-          key,
-          name: options.find(item => item.id === this.appliedFilters[key]).name,
-          type,
-          options,
-        }));
-    },
     addFilter(item) {
       const { key, id } = item;
-      this.appliedFilters[key] = id;
+      const newFilters = { ...this.appliedFilters, [key]: id };
+      this.appliedFilters = newFilters;
       this.$emit('filter-change', this.appliedFilters);
       this.resetDropdown();
     },
@@ -210,12 +196,7 @@ export default {
       this.$emit('filter-change', this.appliedFilters);
     },
     clearAllFilters() {
-      this.appliedFilters = {
-        agent_id: null,
-        product_id: null,
-        team_id: null,
-        label_id: null,
-      };
+      this.appliedFilters = {};
       this.$emit('filter-change', this.appliedFilters);
       this.resetDropdown();
     },

@@ -251,7 +251,9 @@ export default {
     },
   },
   methods: {
-    onFilterChange() {},
+    onFilterChange(appliedFilters) {
+      this.$emit('on-quick-filters-change', appliedFilters);
+    },
     removeAssigneeType() {
       this.$emit('on-assignee-type-change', null);
     },

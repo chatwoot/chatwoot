@@ -19,6 +19,7 @@
         @on-toggle-edit-filter="onToggleFilters"
         @display-option-changed="onDisplayOptionChanged"
         @on-custom-view-change="onCustomViewChange"
+        @on-quick-filters-change="onQuickFiltersChange"
       />
       <board
         :stages="stages"
@@ -377,6 +378,30 @@ export default {
     addContactClick(stageId) {
       this.defaultContact = { stage_id: stageId };
       this.onToggleCreate();
+    },
+    onQuickFiltersChange(quickFilters) {
+      const filters = Object.keys(quickFilters).filter(
+        key => quickFilters[key]
+      );
+      if (filters.length === 0) {
+        this.fetchContacts();
+        return;
+      }
+      const payload = filters.map(key => {
+        return {
+          attribute_key: key,
+          filter_operator: 'equal_to',
+          values: { id: quickFilters[key] },
+          query_operator: 'and',
+          attribute_model: 'standard',
+        };
+      });
+
+      this.$store.dispatch('contacts/filter', {
+        page: DEFAULT_PAGE,
+        stageType: this.stageTypeValue,
+        queryPayload: filterQueryGenerator(payload),
+      });
     },
     onApplyFilter(payload) {
       this.closeContactInfoPanel();
