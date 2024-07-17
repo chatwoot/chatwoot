@@ -9,41 +9,45 @@ module Enterprise::Account
   private
 
   def agent_limits
-    subscribed_quantity = custom_attributes['subscribed_quantity']
-    subscribed_quantity || get_limits(:agents)
+    custom_attributes['subscribed_quantity'] || get_limits(:agents)
   end
 
   def get_limits(limit_name)
-    # config across products
-    return product.details[name_of(limit_name)] if product.present?
+    return increase_usage(limit_name) if limit_exceeded?(limit_name)
 
-    # config for limit account - HACK: this is a temporary solution
-    return self[:limits][limit_name.to_s] if self[:limits][limit_name.to_s].present?
-
-    config_name = "ACCOUNT_#{limit_name.to_s.upcase}_LIMIT"
-    return GlobalConfig.get(config_name)[config_name] if GlobalConfig.get(config_name)[config_name].present?
-
-    ChatwootApp.max_limit
+    fetch_limit_from_config(limit_name) || ChatwootApp.max_limit
   end
 
-  def validate_limit_keys
-    errors.add(:limits, ': Invalid data') unless self[:limits].is_a? Hash
-    self[:limits] = {} if self[:limits].blank?
+  def limit_exceeded?(limit_name)
+    product.present? &&
+      product.details[name_of(limit_name)].present? &&
+      send(limit_name).count > product.details[name_of(limit_name)]
+  end
 
-    limit_schema = {
-      'type' => 'object',
-      'properties' => {
-        'inboxes' => { 'type': 'number' },
-        'agents' => { 'type': 'number' }
-      },
-      'required' => [],
-      'additionalProperties' => false
-    }
-
-    errors.add(:limits, ': Invalid data') unless JSONSchemer.schema(limit_schema).valid?(self[:limits])
+  def fetch_limit_from_config(limit_name)
+    config_name = "ACCOUNT_#{limit_name.to_s.upcase}_LIMIT"
+    config_value = GlobalConfig.get(config_name)[config_name]
+    config_value.presence
   end
 
   def name_of(limit_name)
-    "number_of_#{limit_name.to_s.pluralize.downcase.to_sym}"
+    "number_of_#{limit_name.to_s.pluralize.downcase}"
+  end
+
+  def extra_conversations
+    account_plan&.extra_conversations || 0
+  end
+
+  def extra_agents
+    account_plan&.extra_agents || 0
+  end
+
+  def increase_usage(limit_name)
+    case limit_name
+    when :conversations
+      account_plan.update(extra_conversations: extra_conversations + 1)
+    when :agents
+      account_plan.update(extra_agents: extra_agents + 1)
+    end
   end
 end
