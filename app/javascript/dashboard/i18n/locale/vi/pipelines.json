@@ -29,16 +29,11 @@
             "EMPTY_LIST": "Không tìm thấy kết quả",
             "NO_FILTER": "Không có tìm kiếm nào",
             "SEARCH": "Tìm bộc lọc",
-            "INPUT_PLACEHOLDER": {
-                "AGENTS": "Tên người dùng",
-                "PRODUCTS": "Tên sản phẩm",
-                "LABELS": "Tên nhãn",
-                "TEAMS": "Tên nhóm"
-            },
-            "PRODUCTS": "Sản phẩm",
+            "PRODUCTS": "Sản phẩm Dịch vụ",
             "AGENTS": "Người phụ trách",
             "LABELS": "Nhãn phân loại",
-            "TEAMS": "Nhóm phụ trách"
+            "TEAMS": "Nhóm phụ trách",
+            "CUSTOM_VIEWS": "Bộ lọc có sẵn"
         }
     },
     "CARD_DISPLAY": {

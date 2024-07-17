@@ -79,31 +79,58 @@ export default {
       teams: 'teams/getTeams',
       labels: 'labels/getLabels',
     }),
+    customViews() {
+      const customViews =
+        this.$store.getters['customViews/getCustomViewsByFilterType'](
+          'contact'
+        );
+
+      const activeFilters = Object.keys(this.appliedFilters).filter(
+        key => this.appliedFilters[key]
+      );
+      if (
+        !activeFilters.includes('custom_view') ||
+        this.appliedFilters.custom_view === 'new'
+      ) {
+        customViews.push({
+          id: 'new',
+          name: 'Bộ lọc mới',
+        });
+      }
+
+      return customViews;
+    },
     filterAttributes() {
       const filters = [
         {
+          id: 0,
+          key: 'custom_view',
+          name: this.$t('PIPELINE_PAGE.FILTER.CUSTOM_VIEWS'),
+          type: 'customViews',
+        },
+        {
           id: 1,
+          key: 'label',
+          name: this.$t('PIPELINE_PAGE.FILTER.LABELS'),
+          type: 'labels',
+        },
+        {
+          id: 2,
           key: 'assignee_id',
           name: this.$t('PIPELINE_PAGE.FILTER.AGENTS'),
           type: 'agents',
         },
         {
-          id: 2,
+          id: 3,
           key: 'product_id',
           name: this.$t('PIPELINE_PAGE.FILTER.PRODUCTS'),
           type: 'products',
         },
         {
-          id: 3,
+          id: 4,
           key: 'team_id',
           name: this.$t('PIPELINE_PAGE.FILTER.TEAMS'),
           type: 'teams',
-        },
-        {
-          id: 4,
-          key: 'label_id',
-          name: this.$t('PIPELINE_PAGE.FILTER.LABELS'),
-          type: 'labels',
         },
       ];
       return filters.map(item => {
@@ -111,8 +138,11 @@ export default {
           ...item,
           options: this[item.type].map(option => {
             return {
-              id: option.id,
-              name: option.name || option.title,
+              id: item.key === 'label' ? option.title : option.id,
+              name:
+                item.key === 'label'
+                  ? option.description || option.title
+                  : option.name,
               key: item.key,
             };
           }),
@@ -146,6 +176,12 @@ export default {
       const activeFilters = Object.keys(this.appliedFilters).filter(
         key => this.appliedFilters[key]
       );
+      if (
+        activeFilters.includes('custom_view') ||
+        activeFilters.includes('label')
+      ) {
+        return [];
+      }
       return filterTypes
         .filter(({ key }) => !activeFilters.includes(key))
         .map(({ id, key, name, options }) => ({
@@ -186,6 +222,9 @@ export default {
   methods: {
     addFilter(item) {
       const { key, id } = item;
+      if (key === 'custom_view' || key === 'label') {
+        this.appliedFilters = {};
+      }
       const newFilters = { ...this.appliedFilters, [key]: id };
       this.appliedFilters = newFilters;
       this.$emit('filter-change', this.appliedFilters);

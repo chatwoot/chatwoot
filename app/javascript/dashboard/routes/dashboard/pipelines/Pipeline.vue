@@ -126,6 +126,7 @@ export default {
       selectedContactId: '',
       defaultContact: null,
       searchQuery: '',
+      label: '',
       showCreateModal: false,
       showFiltersModal: false,
       appliedFilter: [],
@@ -327,11 +328,14 @@ export default {
       } else {
         value = this.searchQuery;
       }
-      const requestParams = {
+      let requestParams = {
         page: DEFAULT_PAGE,
         stageType: this.stageTypeValue,
         assigneeType: this.assigneeTypeValue,
       };
+      if (this.label) {
+        requestParams = { ...requestParams, label: this.label };
+      }
       if (value) {
         this.$store.dispatch('contacts/search', {
           search: encodeURIComponent(value),
@@ -380,13 +384,33 @@ export default {
       this.onToggleCreate();
     },
     onQuickFiltersChange(quickFilters) {
+      this.selectedContactId = '';
       const filters = Object.keys(quickFilters).filter(
         key => quickFilters[key]
       );
+      if (filters.includes('custom_view')) {
+        if (quickFilters.custom_view === 'new') {
+          this.showFiltersModal = true;
+        } else {
+          this.customViewValue = quickFilters.custom_view;
+        }
+        return;
+      }
+      this.$store.dispatch('contacts/clearContactFilters');
+      this.customViewValue = null;
+      if (filters.includes('label')) {
+        this.label = quickFilters.label;
+        this.fetchContacts();
+        return;
+      }
+      this.label = '';
       if (filters.length === 0) {
         this.fetchContacts();
         return;
       }
+      this.applyQuickFilters(quickFilters, filters);
+    },
+    applyQuickFilters(quickFilters, filters) {
       const payload = filters.map(key => {
         return {
           attribute_key: key,
