@@ -1,3 +1,48 @@
+<script setup>
+import PortalSettingsCustomizationForm from 'dashboard/routes/dashboard/helpcenter/components/PortalSettingsCustomizationForm.vue';
+
+import { useAlert } from 'dashboard/composables';
+import { useStoreGetters, useStore } from 'dashboard/composables/store';
+import { useRoute } from 'dashboard/composables/route';
+import { useI18n } from 'dashboard/composables/useI18n';
+import { defineComponent, computed } from 'vue';
+
+defineComponent({
+  name: 'EditPortalCustomization',
+});
+
+const getters = useStoreGetters();
+const route = useRoute();
+const store = useStore();
+const { t } = useI18n();
+
+const uiFlags = getters['portals/uiFlagsIn'];
+
+const currentPortal = computed(() => {
+  const slug = route.params.portalSlug;
+  return getters['portals/portalBySlug'].value(slug);
+});
+
+async function updatePortalSettings(portalObj) {
+  const portalSlug = route.params.portalSlug;
+  let alertMessage = '';
+  try {
+    await store.dispatch('portals/update', {
+      ...portalObj,
+      portalSlug,
+    });
+
+    alertMessage = t('HELP_CENTER.PORTAL.ADD.API.SUCCESS_MESSAGE_FOR_UPDATE');
+  } catch (error) {
+    alertMessage =
+      error?.message ||
+      t('HELP_CENTER.PORTAL.ADD.API.ERROR_MESSAGE_FOR_UPDATE');
+  } finally {
+    useAlert(alertMessage);
+  }
+}
+</script>
+
 <template>
   <portal-settings-customization-form
     v-if="currentPortal"
@@ -9,51 +54,3 @@
     @submit="updatePortalSettings"
   />
 </template>
-
-<script>
-import alertMixin from 'shared/mixins/alertMixin';
-import PortalSettingsCustomizationForm from 'dashboard/routes/dashboard/helpcenter/components/PortalSettingsCustomizationForm.vue';
-
-import { mapGetters } from 'vuex';
-
-export default {
-  components: {
-    PortalSettingsCustomizationForm,
-  },
-  mixins: [alertMixin],
-  data() {
-    return {
-      alertMessage: '',
-    };
-  },
-  computed: {
-    ...mapGetters({
-      uiFlags: 'portals/uiFlagsIn',
-    }),
-    currentPortal() {
-      const slug = this.$route.params.portalSlug;
-      return this.$store.getters['portals/portalBySlug'](slug);
-    },
-  },
-  methods: {
-    async updatePortalSettings(portalObj) {
-      const portalSlug = this.$route.params.portalSlug;
-      try {
-        await this.$store.dispatch('portals/update', {
-          ...portalObj,
-          portalSlug,
-        });
-        this.alertMessage = this.$t(
-          'HELP_CENTER.PORTAL.ADD.API.SUCCESS_MESSAGE_FOR_UPDATE'
-        );
-      } catch (error) {
-        this.alertMessage =
-          error?.message ||
-          this.$t('HELP_CENTER.PORTAL.ADD.API.ERROR_MESSAGE_FOR_UPDATE');
-      } finally {
-        this.showAlert(this.alertMessage);
-      }
-    },
-  },
-};
-</script>

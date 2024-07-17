@@ -12,7 +12,10 @@
         variant="smooth"
         size="tiny"
         color-scheme="secondary"
-        class="rounded-bl-calc rtl:rotate-180 rounded-tl-calc fixed top-[9.5rem] md:top-[6.25rem] z-10 bg-white dark:bg-slate-700 border-slate-50 dark:border-slate-600 border-solid border border-r-0 box-border"
+        class="rounded-bl-calc rtl:rotate-180 rounded-tl-calc fixed z-10 bg-white dark:bg-slate-700 border-slate-50 dark:border-slate-600 border-solid border border-r-0 box-border"
+        :class="
+          isInboxView ? 'top-52 md:top-40' : 'top-[9.5rem] md:top-[6.25rem]'
+        "
         :icon="isRightOrLeftIcon"
         @click="onToggleContactPanel"
       />
@@ -33,6 +36,7 @@
         :is-a-whatsapp-channel="isAWhatsAppChannel"
         :is-web-widget-inbox="isAWebWidgetInbox"
         :is-a-facebook-inbox="isAFacebookInbox"
+        :is-an-email-inbox="isAnEmailChannel"
         :is-instagram="isInstagramDM"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :in-reply-to="getInReplyToMessage(message)"
@@ -72,11 +76,16 @@
       class="conversation-footer"
       :class="{ 'modal-mask': isPopoutReplyBox }"
     >
-      <div v-if="isAnyoneTyping" class="typing-indicator-wrap">
-        <div class="typing-indicator">
+      <div
+        v-if="isAnyoneTyping"
+        class="items-center flex h-0 absolute w-full -top-7"
+      >
+        <div
+          class="flex py-2 pr-4 pl-5 shadow-md rounded-full bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 text-xs font-semibold my-2.5 mx-auto"
+        >
           {{ typingUserNames }}
           <img
-            class="gif"
+            class="ltr:ml-2 rtl:mr-2 w-6"
             src="~dashboard/assets/images/typing.gif"
             alt="Someone is typing"
           />
@@ -107,13 +116,12 @@ import conversationMixin, {
 } from '../../../mixins/conversations';
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import configMixin from 'shared/mixins/configMixin';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import aiMixin from 'dashboard/mixins/aiMixin';
 
 // utils
 import { getTypingUsersText } from '../../../helper/commons';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
-import { isEscape } from 'shared/helpers/KeyboardHelpers';
 import { LocalStorage } from 'shared/helpers/localStorage';
 
 // constants
@@ -132,12 +140,16 @@ export default {
   mixins: [
     conversationMixin,
     inboxMixin,
-    eventListenerMixins,
+    keyboardEventListenerMixins,
     configMixin,
     aiMixin,
   ],
   props: {
     isContactPanelOpen: {
+      type: Boolean,
+      default: false,
+    },
+    isInboxView: {
       type: Boolean,
       default: false,
     },
@@ -312,12 +324,12 @@ export default {
   },
 
   created() {
-    bus.$on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+    this.$emitter.on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
     // when a new message comes in, we refetch the label suggestions
-    bus.$on(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS, this.fetchSuggestions);
+    this.$emitter.on(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS, this.fetchSuggestions);
     // when a message is sent we set the flag to true this hides the label suggestions,
     // until the chat is changed and the flag is reset in the watch for currentChat
-    bus.$on(BUS_EVENTS.MESSAGE_SENT, () => {
+    this.$emitter.on(BUS_EVENTS.MESSAGE_SENT, () => {
       this.messageSentSinceOpened = true;
     });
   },
@@ -384,7 +396,7 @@ export default {
       this.$store.dispatch('fetchAllAttachments', this.currentChat.id);
     },
     removeBusListeners() {
-      bus.$off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+      this.$emitter.off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
     },
     onScrollToMessage({ messageId = '' } = {}) {
       this.$nextTick(() => {
@@ -405,10 +417,12 @@ export default {
     closePopoutReplyBox() {
       this.isPopoutReplyBox = false;
     },
-    handleKeyEvents(e) {
-      if (isEscape(e)) {
-        this.closePopoutReplyBox();
-      }
+    getKeyboardEvents() {
+      return {
+        Escape: {
+          action: () => this.closePopoutReplyBox(),
+        },
+      };
     },
     addScrollListener() {
       this.conversationPanel = this.$el.querySelector('.conversation-panel');
@@ -500,7 +514,7 @@ export default {
       } else {
         this.hasUserScrolled = true;
       }
-      bus.$emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
+      this.$emitter.emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
       this.fetchPreviousMessages(e.target.scrollTop);
     },
 
@@ -539,6 +553,8 @@ export default {
 
 <style scoped lang="scss">
 .modal-mask {
+  @apply absolute;
+
   &::v-deep {
     .ProseMirror-woot-style {
       @apply max-h-[25rem];

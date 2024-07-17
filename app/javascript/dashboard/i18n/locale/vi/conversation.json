@@ -41,6 +41,9 @@
     "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Đang tải file đính kèm...",
     "REPLIED_TO_STORY": "Replied to your story",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Tin nhắn được xoá thành công",
     "FAIL_DELETE_MESSSAGE": "Không thể xoá tin nhắn! Thử lại",
     "NO_RESPONSE": "Không có phản hồi",
@@ -61,7 +64,14 @@
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Tạm dừng đến ngày mai",
       "SNOOZED_UNTIL_NEXT_WEEK": "Tạm dừng đến tuần sau",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Tạm dừng đến khi có phản hồi"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Tạm dừng đến khi có phản hồi",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Đánh dấu chưa giải quyết",
@@ -139,6 +149,7 @@
       "PRIVATE_NOTE": "Lưu ý riêng",
       "SEND": "Gửi",
       "CREATE": "Thêm ghi chú",
+      "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Hiển thị trình soạn thảo văn bản đa dạng thức",
@@ -269,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Tạo thuộc tính",
+    "NO_RECORDS_FOUND": "Không có thuộc tính nào được tìm thấy",
     "UPDATE": {
       "SUCCESS": "Thuộc tính cập nhật thành công",
       "ERROR": "Không thể cập nhật thuộc tính. Vui lòng thử lại sau"

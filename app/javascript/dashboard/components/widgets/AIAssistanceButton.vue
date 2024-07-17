@@ -40,8 +40,7 @@ import AIAssistanceModal from './AIAssistanceModal.vue';
 import adminMixin from 'dashboard/mixins/aiMixin';
 import aiMixin from 'dashboard/mixins/isAdmin';
 import { CMD_AI_ASSIST } from 'dashboard/routes/dashboard/commands/commandBarBusEvents';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import { buildHotKeys } from 'shared/helpers/KeyboardHelpers';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import AIAssistanceCTAButton from './AIAssistanceCTAButton.vue';
 
@@ -51,7 +50,7 @@ export default {
     AICTAModal,
     AIAssistanceCTAButton,
   },
-  mixins: [aiMixin, eventListenerMixins, adminMixin, uiSettingsMixin],
+  mixins: [aiMixin, keyboardEventListenerMixins, adminMixin, uiSettingsMixin],
   data: () => ({
     showAIAssistanceModal: false,
     showAICtaModal: false,
@@ -82,19 +81,22 @@ export default {
   },
 
   mounted() {
-    bus.$on(CMD_AI_ASSIST, this.onAIAssist);
+    this.$emitter.on(CMD_AI_ASSIST, this.onAIAssist);
     this.initialMessage = this.draftMessage;
   },
 
   methods: {
-    onKeyDownHandler(event) {
-      const keyPattern = buildHotKeys(event);
-      const shouldRevertTheContent =
-        ['meta+z', 'ctrl+z'].includes(keyPattern) && !!this.initialMessage;
-      if (shouldRevertTheContent) {
-        this.$emit('replace-text', this.initialMessage);
-        this.initialMessage = '';
-      }
+    getKeyboardEvents() {
+      return {
+        '$mod+KeyZ': {
+          action: () => {
+            if (this.initialMessage) {
+              this.$emit('replace-text', this.initialMessage);
+              this.initialMessage = '';
+            }
+          },
+        },
+      };
     },
     hideAIAssistanceModal() {
       this.recordAnalytics('DISMISS_AI_SUGGESTION', {

@@ -1,0 +1,5 @@
+{
+  "GENERAL": {
+    "SHOWING_RESULTS": "عرض{firstIndex}-{lastIndex} من {totalCount} إجماليي العناصر"
+  }
+}

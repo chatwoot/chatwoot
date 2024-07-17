@@ -54,11 +54,13 @@ describe('CsatMetrics.vue', () => {
   });
 
   it('hides report card if rating filter is enabled', () => {
-    expect(wrapper.find('.report-card').exists()).toBe(false);
+    expect(wrapper.find({ ref: 'csatHorizontalBarChart' }).exists()).toBe(
+      false
+    );
   });
 
   it('shows report card if rating filter is not enabled', async () => {
     await wrapper.setProps({ filters: {} });
-    expect(wrapper.find('.report-card').exists()).toBe(true);
+    expect(wrapper.find({ ref: 'csatHorizontalBarChart' }).exists()).toBe(true);
   });
 });

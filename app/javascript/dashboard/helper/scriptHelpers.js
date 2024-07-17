@@ -1,6 +1,6 @@
 import AnalyticsHelper from './AnalyticsHelper';
-import LogRocket from 'logrocket';
 import DashboardAudioNotificationHelper from './AudioAlerts/DashboardAudioNotificationHelper';
+import { emitter } from 'shared/helpers/mitt';
 
 export const CHATWOOT_SET_USER = 'CHATWOOT_SET_USER';
 export const CHATWOOT_RESET = 'CHATWOOT_RESET';
@@ -9,14 +9,8 @@ export const ANALYTICS_IDENTITY = 'ANALYTICS_IDENTITY';
 export const ANALYTICS_RESET = 'ANALYTICS_RESET';
 
 export const initializeAnalyticsEvents = () => {
-  window.bus.$on(ANALYTICS_IDENTITY, ({ user }) => {
+  emitter.on(ANALYTICS_IDENTITY, ({ user }) => {
     AnalyticsHelper.identify(user);
-    if (window.logRocketProjectId) {
-      LogRocket.identify(user.id, {
-        email: user.email,
-        name: user.name,
-      });
-    }
   });
 };
 
@@ -41,12 +35,12 @@ const initializeAudioAlerts = user => {
 };
 
 export const initializeChatwootEvents = () => {
-  window.bus.$on(CHATWOOT_RESET, () => {
+  emitter.on(CHATWOOT_RESET, () => {
     if (window.$chatwoot) {
       window.$chatwoot.reset();
     }
   });
-  window.bus.$on(CHATWOOT_SET_USER, ({ user }) => {
+  emitter.on(CHATWOOT_SET_USER, ({ user }) => {
     if (window.$chatwoot) {
       window.$chatwoot.setUser(user.email, {
         avatar_url: user.avatar_url,

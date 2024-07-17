@@ -1,0 +1,108 @@
+{
+  "SLA": {
+    "HEADER": "SLA",
+    "ADD_ACTION": "Añadir SLA",
+    "ADD_ACTION_LONG": "Create a new SLA Policy",
+    "DESCRIPTION": "Los Acuerdos de Nivel de Servicio (SLA) son contratos que definen expectativas claras entre su equipo y sus clientes. Establecen normas para los tiempos de respuesta y resolución, creando un marco para la responsabilidad y garantiza una experiencia coherente y de alta calidad.",
+    "LEARN_MORE": "Más información sobre SLA",
+    "LOADING": "Obteniendo SLAs",
+    "PAYWALL": {
+      "TITLE": "Upgrade to create SLAs",
+      "AVAILABLE_ON": "The SLA feature is only available in the Business and Enterprise plans.",
+      "UPGRADE_PROMPT": "Upgrade your plan to get access to advanced features like team management, automations, custom attributes, and more.",
+      "UPGRADE_NOW": "Upgrade now",
+      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "The SLA feature is only available in the paid plans.",
+      "UPGRADE_PROMPT": "Upgrade to a paid plan to access advanced features like audit logs, agent capacity, and more.",
+      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+    },
+    "LIST": {
+      "404": "No hay SLAs disponibles en esta cuenta.",
+      "EMPTY": {
+        "TITLE_1": "Enterprise P0",
+        "DESC_1": "Issues raised by enterprise customers, that require immediate attention.",
+        "TITLE_2": "Enterprise P1",
+        "DESC_2": "Issues raised by enterprise customers, that needs to be acknowledged quickly."
+      },
+      "BUSINESS_HOURS_ON": "Horas laborables",
+      "BUSINESS_HOURS_OFF": "Horas de descanso",
+      "RESPONSE_TYPES": {
+        "FRT": "Umbral de tiempo de primera respuesta",
+        "NRT": "Umbral de tiempo de siguiente respuesta",
+        "RT": "Umbral de tiempo de resolución",
+        "SHORT_HAND": {
+          "FRT": "FRT",
+          "NRT": "NRT",
+          "RT": "RT"
+        }
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nombre de SLA",
+        "PLACEHOLDER": "Nombre de SLA",
+        "REQUIRED_ERROR": "El nombre de SLA es requerido",
+        "MINIMUM_LENGTH_ERROR": "La longitud mínima es de 2 caracteres",
+        "VALID_ERROR": "Sólo letras, números, guión y guión bajo son permitidos"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descripción",
+        "PLACEHOLDER": "SLA para clientes premium"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "LABEL": "Tiempo de primera respuesta",
+        "PLACEHOLDER": "5"
+      },
+      "NEXT_RESPONSE_TIME": {
+        "LABEL": "Próximo tiempo de respuesta",
+        "PLACEHOLDER": "5"
+      },
+      "RESOLUTION_TIME": {
+        "LABEL": "Tiempo de resolución",
+        "PLACEHOLDER": "60"
+      },
+      "BUSINESS_HOURS": {
+        "LABEL": "Horarios",
+        "PLACEHOLDER": "Sólo durante las horas de trabajo"
+      },
+      "THRESHOLD_TIME": {
+        "INVALID_FORMAT_ERROR": "El umbral debe ser un número y mayor que cero"
+      },
+      "EDIT": "Editar",
+      "CREATE": "Crear",
+      "DELETE": "Eliminar",
+      "CANCEL": "Cancelar"
+    },
+    "ADD": {
+      "TITLE": "Añadir SLA",
+      "DESC": "Friendly promises for great service!",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA añadido correctamente",
+        "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
+      }
+    },
+    "DELETE": {
+      "TITLE": "Eliminar SLA",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA eliminado correctamente",
+        "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirmar eliminación",
+        "MESSAGE": "¿Está seguro que desea eliminar? ",
+        "YES": "Sí, eliminar ",
+        "NO": "No, mantenerlo "
+      }
+    },
+    "EVENTS": {
+      "TITLE": "SLA Misses",
+      "FRT": "Primera respuesta",
+      "NRT": "Next response time",
+      "RT": "Resolution time",
+      "SHOW_MORE": "{count} more",
+      "HIDE": "Hide {count} rows"
+    }
+  }
+}

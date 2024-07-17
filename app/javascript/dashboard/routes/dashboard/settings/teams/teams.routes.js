@@ -29,14 +29,15 @@ export default {
       children: [
         {
           path: '',
-          name: 'settings_teams',
           redirect: 'list',
         },
         {
           path: 'list',
           name: 'settings_teams_list',
           component: TeamsHome,
-          roles: ['administrator'],
+          meta: {
+            permissions: ['administrator'],
+          },
         },
         {
           path: 'new',
@@ -46,18 +47,24 @@ export default {
               path: '',
               name: 'settings_teams_new',
               component: CreateTeam,
-              roles: ['administrator'],
+              meta: {
+                permissions: ['administrator'],
+              },
             },
             {
               path: ':teamId/finish',
               name: 'settings_teams_finish',
               component: FinishSetup,
-              roles: ['administrator'],
+              meta: {
+                permissions: ['administrator'],
+              },
             },
             {
               path: ':teamId/agents',
               name: 'settings_teams_add_agents',
-              roles: ['administrator'],
+              meta: {
+                permissions: ['administrator'],
+              },
               component: AddAgents,
             },
           ],
@@ -70,18 +77,24 @@ export default {
               path: '',
               name: 'settings_teams_edit',
               component: EditTeam,
-              roles: ['administrator'],
+              meta: {
+                permissions: ['administrator'],
+              },
             },
             {
               path: 'agents',
               name: 'settings_teams_edit_members',
               component: EditAgents,
-              roles: ['administrator'],
+              meta: {
+                permissions: ['administrator'],
+              },
             },
             {
               path: 'finish',
               name: 'settings_teams_edit_finish',
-              roles: ['administrator'],
+              meta: {
+                permissions: ['administrator'],
+              },
               component: FinishSetup,
             },
           ],

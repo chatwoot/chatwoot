@@ -12,7 +12,7 @@
         {{ $t('SET_NEW_PASSWORD.TITLE') }}
       </h1>
 
-      <div class="column log-in-form space-y-5">
+      <div class="space-y-5">
         <form-input
           v-model.trim="credentials.password"
           class="mt-3"
@@ -53,12 +53,14 @@ import FormInput from '../../../components/Form/Input.vue';
 import SubmitButton from '../../../components/Button/SubmitButton.vue';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import { setNewPassword } from '../../../api/auth';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     FormInput,
     SubmitButton,
   },
+  mixins: [alertMixin],
   props: {
     resetPasswordToken: { type: String, default: '' },
     redirectUrl: { type: String, default: '' },
@@ -105,10 +107,10 @@ export default {
     },
   },
   methods: {
-    showAlert(message) {
+    showAlertMessage(message) {
       // Reset loading, current selected agent
       this.newPasswordAPI.showLoading = false;
-      bus.$emit('newToastMessage', message);
+      this.showAlert(message);
     },
     submitForm() {
       this.newPasswordAPI.showLoading = true;
@@ -122,7 +124,7 @@ export default {
           window.location = DEFAULT_REDIRECT_URL;
         })
         .catch(error => {
-          this.showAlert(
+          this.showAlertMessage(
             error?.message || this.$t('SET_NEW_PASSWORD.API.ERROR_MESSAGE')
           );
         });

@@ -15,7 +15,7 @@
     "INITIATED_FROM": "تم البدء من",
     "INITIATED_AT": "تم البدء في",
     "IP_ADDRESS": "عنوان IP",
-    "CREATED_AT_LABEL": "Created",
+    "CREATED_AT_LABEL": "أضيفت",
     "NEW_MESSAGE": "رسالة جديدة",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "لا توجد محادثات سابقة مرتبطة بجهة الاتصال هذه.",
@@ -39,16 +39,17 @@
     },
     "MERGE_CONTACT": "دمج جهة الاتصال",
     "CONTACT_ACTIONS": "إجراءات جهات الاتصال",
-    "MUTE_CONTACT": "كتم المحادثة",
-    "UNMUTE_CONTACT": "إلغاء كتم المحادثة",
-    "MUTED_SUCCESS": "تم كتم هذه المحادثة لمدة 6 ساعات",
-    "UNMUTED_SUCCESS": "تم إلغاء كتم هذه المحادثة",
+    "MUTE_CONTACT": "احجب جهة الاتصال",
+    "UNMUTE_CONTACT": "إلغاء حجب جهة الاتصال",
+    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
+    "UNMUTED_SUCCESS": "تم إلغاء حجب جهة الاتصال بنجاح.",
     "SEND_TRANSCRIPT": "إرسال النص",
     "EDIT_LABEL": "تعديل",
     "SIDEBAR_SECTIONS": {
       "CUSTOM_ATTRIBUTES": "سمات مخصصة",
       "CONTACT_LABELS": "تصنفيات جهات الاتصال",
-      "PREVIOUS_CONVERSATIONS": "المحادثات السابقة"
+      "PREVIOUS_CONVERSATIONS": "المحادثات السابقة",
+      "NO_RECORDS_FOUND": "لم يتم العثور على سمات"
     }
   },
   "EDIT_CONTACT": {
@@ -75,11 +76,18 @@
     "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى"
   },
   "EXPORT_CONTACTS": {
-    "BUTTON_LABEL": "Export",
-    "TITLE": "Export Contacts",
-    "DESC": "Export contacts to a CSV file.",
+    "BUTTON_LABEL": "تصدير",
+    "TITLE": "تصدير جهات الاتصال",
+    "DESC": "تصدير جهات الاتصال إلى ملف CSV.",
     "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-    "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى"
+    "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى",
+    "CONFIRM": {
+      "TITLE": "تصدير جهات الاتصال",
+      "MESSAGE": "Are you sure you want to export all contacts?",
+      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
+      "YES": "نعم, قم بالتصدير",
+      "NO": "نعم, إلغاء"
+    }
   },
   "DELETE_NOTE": {
     "CONFIRM": {
@@ -142,15 +150,15 @@
         "LABEL": "اسم الشركة"
       },
       "COUNTRY": {
-        "PLACEHOLDER": "Enter the country name",
+        "PLACEHOLDER": "إدخال اسم الدولة",
         "LABEL": "اسم الدولة",
         "SELECT_PLACEHOLDER": "اختر",
         "REMOVE": "حذف",
-        "SELECT_COUNTRY": "Select Country"
+        "SELECT_COUNTRY": "أختر الدولة"
       },
       "CITY": {
-        "PLACEHOLDER": "Enter the city name",
-        "LABEL": "City Name"
+        "PLACEHOLDER": "إدخال اسم المدينة",
+        "LABEL": "اسم المدينة"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -191,7 +199,7 @@
       },
       "INBOX": {
         "LABEL": "صندوق الوارد",
-        "PLACEHOLDER": "Choose source inbox",
+        "PLACEHOLDER": "اختر صندوق المصدر",
         "ERROR": "حدد صندوق الوارد"
       },
       "SUBJECT": {
@@ -290,6 +298,8 @@
     "BUTTON": "إضافة سمة خاصة",
     "NOT_AVAILABLE": "لا توجد سمات مخصصة متاحة لجهة الاتصال هذه.",
     "COPY_SUCCESSFUL": "تم النسخ إلى الحافظة بنجاح",
+    "SHOW_MORE": "Show all attributes",
+    "SHOW_LESS": "Show less attributes",
     "ACTIONS": {
       "COPY": "نسخ السمة",
       "DELETE": "حذف السمة",
@@ -339,7 +349,8 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "القيمة الصالحة مطلوبة",
-      "INVALID_URL": "عنوان URL غير صالح"
+      "INVALID_URL": "عنوان URL غير صالح",
+      "INVALID_INPUT": "Invalid Input"
     }
   },
   "MERGE_CONTACTS": {

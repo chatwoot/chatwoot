@@ -1,17 +1,17 @@
 <template>
-  <tr>
-    <td>
-      <div class="text-slate-700 dark:text-slate-100 font-medium break-words">
+  <tr class="space-x-2">
+    <td class="max-w-2xl">
+      <div class="font-medium break-words text-slate-700 dark:text-slate-100">
         {{ webhook.url }}
       </div>
-      <span class="text-slate-500 dark:text-slate-400 text-xs">
+      <span class="text-xs text-slate-500 dark:text-slate-400">
         <span class="font-medium">
           {{ $t('INTEGRATION_SETTINGS.WEBHOOK.SUBSCRIBED_EVENTS') }}:
         </span>
         <show-more :text="subscribedEvents" :limit="60" />
       </span>
     </td>
-    <td class="max-w-[6.25rem] min-w-[auto] flex gap-3">
+    <td class="min-w-[7rem] flex gap-1 justify-end flex-shrink-0">
       <woot-button
         v-tooltip.top="$t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.BUTTON_TEXT')"
         variant="smooth"

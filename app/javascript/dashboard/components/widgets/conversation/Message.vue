@@ -1,7 +1,14 @@
 <template>
-  <li v-if="shouldRenderMessage" :id="`message${data.id}`" :class="alignBubble">
+  <li
+    v-if="shouldRenderMessage"
+    :id="`message${data.id}`"
+    :class="[alignBubble, 'group']"
+  >
     <div :class="wrapClass">
-      <div v-if="isFailed && !hasOneDayPassed" class="message-failed--alert">
+      <div
+        v-if="isFailed && !hasOneDayPassed && !isAnEmailInbox"
+        class="message-failed--alert"
+      >
         <woot-button
           v-tooltip.top-end="$t('CONVERSATION.TRY_AGAIN')"
           size="tiny"
@@ -11,11 +18,7 @@
           @click="retrySendMessage"
         />
       </div>
-      <div
-        v-tooltip.top-start="messageToolTip"
-        :class="bubbleClass"
-        @contextmenu="openContextMenu($event)"
-      >
+      <div :class="bubbleClass" @contextmenu="openContextMenu($event)">
         <bubble-mail-head
           :email-attributes="contentAttributes.email"
           :cc="emailHeadAttributes.cc"
@@ -87,7 +90,7 @@
           :id="data.id"
           :sender="data.sender"
           :story-sender="storySender"
-          :external-error="externalError"
+          :external-error="errorMessageTooltip"
           :story-id="`${storyId}`"
           :is-a-tweet="isATweet"
           :is-a-whatsapp-channel="isAWhatsAppChannel"
@@ -122,7 +125,10 @@
         </a>
       </div>
     </div>
-    <div v-if="shouldShowContextMenu" class="context-menu-wrap">
+    <div
+      v-if="shouldShowContextMenu"
+      class="invisible context-menu-wrap group-hover:visible"
+    >
       <context-menu
         v-if="isBubble && !isMessageDeleted"
         :context-menu-position="contextMenuPosition"
@@ -160,6 +166,7 @@ import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { getDayDifferenceFromNow } from 'shared/helpers/DateHelper';
+import * as Sentry from '@sentry/browser';
 
 export default {
   components: {
@@ -200,6 +207,10 @@ export default {
       default: false,
     },
     isWebWidgetInbox: {
+      type: Boolean,
+      default: false,
+    },
+    isAnEmailInbox: {
       type: Boolean,
       default: false,
     },
@@ -247,7 +258,16 @@ export default {
         html_content: { full: fullHTMLContent } = {},
         text_content: { full: fullTextContent } = {},
       } = this.contentAttributes.email || {};
-      return fullHTMLContent || fullTextContent || '';
+
+      if (fullHTMLContent) {
+        return fullHTMLContent;
+      }
+
+      if (fullTextContent) {
+        return fullTextContent.replace(/\n/g, '<br>');
+      }
+
+      return '';
     },
     displayQuotedButton() {
       if (this.emailMessageContent.includes('<blockquote')) {
@@ -405,14 +425,11 @@ export default {
           }
         : false;
     },
-    messageToolTip() {
-      if (this.isMessageDeleted) {
-        return false;
-      }
+    errorMessageTooltip() {
       if (this.isFailed) {
         return this.externalError || this.$t(`CONVERSATION.SEND_FAILED`);
       }
-      return false;
+      return '';
     },
     wrapClass() {
       return {
@@ -473,11 +490,11 @@ export default {
   },
   mounted() {
     this.hasMediaLoadError = false;
-    bus.$on(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
+    this.$emitter.on(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
     this.setupHighlightTimer();
   },
   beforeDestroy() {
-    bus.$off(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
+    this.$emitter.off(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
     clearTimeout(this.higlightTimeout);
   },
   methods: {
@@ -486,14 +503,28 @@ export default {
     },
     hasMediaAttachment(type) {
       if (this.hasAttachments && this.data.attachments.length > 0) {
-        const { attachments = [{}] } = this.data;
-        const { file_type: fileType } = attachments[0];
-        return fileType === type && !this.hasMediaLoadError;
+        return this.compareMessageFileType(this.data, type);
       }
       if (this.storyReply) {
         return true;
       }
       return false;
+    },
+    compareMessageFileType(messageData, type) {
+      try {
+        const { attachments = [{}] } = messageData;
+        const { file_type: fileType } = attachments[0];
+        return fileType === type && !this.hasMediaLoadError;
+      } catch (err) {
+        Sentry.setContext('attachment-parsing-error', {
+          messageData,
+          type,
+          hasMediaLoadError: this.hasMediaLoadError,
+        });
+
+        Sentry.captureException(err);
+        return false;
+      }
     },
     handleContextMenuClick() {
       this.showContextMenu = !this.showContextMenu;
@@ -531,7 +562,7 @@ export default {
       const { conversation_id: conversationId, id: replyTo } = this.data;
 
       LocalStorage.updateJsonStore(replyStorageKey, conversationId, replyTo);
-      bus.$emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.data);
+      this.$emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.data);
     },
     setupHighlightTimer() {
       if (Number(this.$route.query.messageId) !== Number(this.data.id)) {
@@ -570,7 +601,8 @@ export default {
 
         > img,
         > video {
-          @apply rounded-lg;
+          /** ensure that the bubble radius and image radius match*/
+          @apply rounded-[0.4rem];
         }
 
         > video {
@@ -593,8 +625,8 @@ export default {
         @apply text-woot-400 dark:text-woot-400;
       }
 
-      .text-block-title {
-        @apply text-slate-700 dark:text-slate-700;
+      .attachment-name {
+        @apply text-slate-700 dark:text-slate-200;
       }
 
       .download.button {

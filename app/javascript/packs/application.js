@@ -15,6 +15,8 @@ import WootUiKit from '../dashboard/components';
 import App from '../dashboard/App';
 import i18n from '../dashboard/i18n';
 import createAxios from '../dashboard/helper/APIHelper';
+import { emitter } from '../shared/helpers/mitt';
+
 import commonHelpers, { isJSONValid } from '../dashboard/helper/commons';
 import router, { initalizeRouter } from '../dashboard/routes';
 import store from '../dashboard/store';
@@ -30,6 +32,8 @@ import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
 import AnalyticsPlugin from '../dashboard/helper/AnalyticsHelper/plugin';
+import resizeDirective from '../dashboard/helper/directives/resize.js';
+import { directive as onClickaway } from 'vue-clickaway';
 
 Vue.config.env = process.env;
 
@@ -51,6 +55,9 @@ if (window.errorLoggingConfig) {
       /safari-extension:/i,
     ],
     integrations: [new Integrations.BrowserTracing()],
+    ignoreErrors: [
+      'ResizeObserver loop completed with undelivered notifications',
+    ],
   });
 }
 
@@ -75,6 +82,8 @@ Vue.component('woot-switch', WootSwitch);
 Vue.component('woot-wizard', WootWizard);
 Vue.component('fluent-icon', FluentIcon);
 
+Vue.directive('resize', resizeDirective);
+Vue.directive('on-clickaway', onClickaway);
 const i18nConfig = new VueI18n({
   locale: 'en',
   messages: i18n,
@@ -86,7 +95,8 @@ commonHelpers();
 
 window.WootConstants = constants;
 window.axios = createAxios(axios);
-window.bus = new Vue();
+Vue.prototype.$emitter = emitter;
+
 initializeChatwootEvents();
 initializeAnalyticsEvents();
 initalizeRouter();

@@ -41,12 +41,15 @@
     "SAVE_CONTACT": "Išsaugoti",
     "UPLOADING_ATTACHMENTS": "Įkeliami priedai...",
     "REPLIED_TO_STORY": "Atsakė į tavo pasakojimą",
+    "UNSUPPORTED_MESSAGE": "Ši žinutė nepalaikoma.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "Ši žinutė nepalaikoma. Jūs galite peržiūrėti šią žinutę Facebook Messenger programėlėje.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "Ši žinutė nepalaikoma. Jūs galite peržiūrėti šią žinutę Instagram programėlėje.",
     "SUCCESS_DELETE_MESSAGE": "Pranešimas ištrintas sėkmingai",
     "FAIL_DELETE_MESSSAGE": "Nepavyko ištrinti pranešimo! Bandykite dar kartą",
     "NO_RESPONSE": "Nėra atsakymo",
     "RATING_TITLE": "Reitingas",
     "FEEDBACK_TITLE": "Grįžtamasis ryšys",
-    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
+    "REPLY_MESSAGE_NOT_FOUND": "Pranešimas nepasiekiamas",
     "CARD": {
       "SHOW_LABELS": "Rodyti etiketes",
       "HIDE_LABELS": "Slėpti etiketes"
@@ -61,7 +64,14 @@
       "SNOOZED_UNTIL": "Atidėta iki",
       "SNOOZED_UNTIL_TOMORROW": "Atidėta iki rytojaus",
       "SNOOZED_UNTIL_NEXT_WEEK": "Atidėta iki kitos savaitės",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Atidėta iki kito atsakymo"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Atidėta iki kito atsakymo",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Pažymėti kaip laukiantį",
@@ -139,8 +149,9 @@
       "PRIVATE_NOTE": "Privati pastaba",
       "SEND": "Siųsti",
       "CREATE": "Pridėti pastabą",
-      "DISMISS_REPLY": "Dismiss reply",
-      "REPLYING_TO": "Replying to:",
+      "INSERT_READ_MORE": "Skaityti daugiau",
+      "DISMISS_REPLY": "Atšaukti atsakymą",
+      "REPLYING_TO": "Atsakant į:",
       "TIP_FORMAT_ICON": "Rodyti raiškiojo teksto redagavimo priemonę",
       "TIP_EMOJI_ICON": "Parodyti emodžio parinkiklį",
       "TIP_ATTACH_ICON": "Pridėti failus",
@@ -269,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Sukurti požymį",
+    "NO_RECORDS_FOUND": "Požymių nerasta",
     "UPDATE": {
       "SUCCESS": "Požymis atnaujintas sėkmingai",
       "ERROR": "Nepavyko atnaujinti požymio. Pabandykite dar kartą vėliau"

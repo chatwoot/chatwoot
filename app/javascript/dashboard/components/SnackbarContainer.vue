@@ -1,5 +1,9 @@
 <template>
-  <transition-group name="toast-fade" tag="div" class="ui-snackbar-container">
+  <transition-group
+    name="toast-fade"
+    tag="div"
+    class="left-0 my-0 mx-auto max-w-[25rem] overflow-hidden absolute right-0 text-center top-4 z-[9999]"
+  >
     <woot-snackbar
       v-for="snackMessage in snackMessages"
       :key="snackMessage.key"
@@ -11,11 +15,13 @@
 
 <script>
 import WootSnackbar from './Snackbar.vue';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     WootSnackbar,
   },
+  mixins: [alertMixin],
   props: {
     duration: {
       type: Number,
@@ -30,10 +36,10 @@ export default {
   },
 
   mounted() {
-    bus.$on('newToastMessage', this.onNewToastMessage);
+    this.$emitter.on('newToastMessage', this.onNewToastMessage);
   },
   beforeDestroy() {
-    bus.$off('newToastMessage', this.onNewToastMessage);
+    this.$emitter.off('newToastMessage', this.onNewToastMessage);
   },
   methods: {
     onNewToastMessage(message, action) {

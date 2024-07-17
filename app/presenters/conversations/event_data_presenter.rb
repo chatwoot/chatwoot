@@ -45,3 +45,4 @@ class Conversations::EventDataPresenter < SimpleDelegator
     }
   end
 end
+Conversations::EventDataPresenter.prepend_mod_with('Conversations::EventDataPresenter')

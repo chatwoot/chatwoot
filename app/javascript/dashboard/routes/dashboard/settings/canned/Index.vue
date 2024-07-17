@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 overflow-auto p-4">
+  <div class="flex-1 overflow-auto">
     <woot-button
       color-scheme="success"
       class-names="button--fixed-top"
@@ -10,11 +10,11 @@
     </woot-button>
 
     <!-- List Canned Response -->
-    <div class="flex flex-row gap-4">
-      <div class="w-[60%]">
+    <div class="flex flex-row gap-4 p-8">
+      <div class="w-full xl:w-3/5">
         <p
           v-if="!uiFlags.fetchingList && !records.length"
-          class="flex h-full items-center flex-col justify-center"
+          class="flex flex-col items-center justify-center h-full"
         >
           {{ $t('CANNED_MGMT.LIST.404') }}
         </p>
@@ -32,8 +32,25 @@
             <th
               v-for="thHeader in $t('CANNED_MGMT.LIST.TABLE_HEADER')"
               :key="thHeader"
+              class="last:text-right first:m-0 first:p-0"
             >
-              {{ thHeader }}
+              <p v-if="thHeader !== $t('CANNED_MGMT.LIST.TABLE_HEADER[0]')">
+                {{ thHeader }}
+              </p>
+
+              <button
+                v-if="thHeader === $t('CANNED_MGMT.LIST.TABLE_HEADER[0]')"
+                class="cursor-pointer flex items-center p-0"
+                @click="toggleSort"
+              >
+                <p class="uppercase">
+                  {{ thHeader }}
+                </p>
+                <fluent-icon
+                  class="mb-2 ml-2"
+                  :icon="sortOrder === 'asc' ? 'chevron-up' : 'chevron-down'"
+                />
+              </button>
             </th>
           </thead>
           <tbody>
@@ -42,7 +59,10 @@
               :key="cannedItem.short_code"
             >
               <!-- Short Code  -->
-              <td class="w-[8.75rem]">
+              <td
+                class="w-[8.75rem] truncate max-w-[8.75rem]"
+                :title="cannedItem.short_code"
+              >
                 {{ cannedItem.short_code }}
               </td>
               <!-- Content -->
@@ -50,7 +70,7 @@
                 {{ cannedItem.content }}
               </td>
               <!-- Action Buttons -->
-              <td class="button-wrapper">
+              <td class="flex justify-end gap-1 min-w-[12.5rem]">
                 <woot-button
                   v-tooltip.top="$t('CANNED_MGMT.EDIT.BUTTON_TEXT')"
                   variant="smooth"
@@ -75,7 +95,7 @@
         </table>
       </div>
 
-      <div class="w-[34%]">
+      <div class="hidden w-1/3 xl:block">
         <span v-dompurify-html="$t('CANNED_MGMT.SIDEBAR_TXT')" />
       </div>
     </div>
@@ -112,12 +132,14 @@
 import { mapGetters } from 'vuex';
 import AddCanned from './AddCanned.vue';
 import EditCanned from './EditCanned.vue';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     AddCanned,
     EditCanned,
   },
+  mixins: [alertMixin],
   data() {
     return {
       loading: {},
@@ -128,6 +150,7 @@ export default {
       cannedResponseAPI: {
         message: '',
       },
+      sortOrder: 'asc',
     };
   },
   computed: {
@@ -152,16 +175,27 @@ export default {
   },
   mounted() {
     // Fetch API Call
-    this.$store.dispatch('getCannedResponse');
+    this.$store.dispatch('getCannedResponse').then(() => {
+      this.toggleSort();
+    });
   },
   methods: {
-    showAlert(message) {
+    toggleSort() {
+      this.records.sort((a, b) => {
+        if (this.sortOrder === 'asc') {
+          return a.short_code.localeCompare(b.short_code);
+        }
+        return b.short_code.localeCompare(a.short_code);
+      });
+      this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+    },
+    showAlertMessage(message) {
       // Reset loading, current selected agent
       this.loading[this.selectedResponse.id] = false;
       this.selectedResponse = {};
       // Show message
       this.cannedResponseAPI.message = message;
-      bus.$emit('newToastMessage', message);
+      this.showAlert(message);
     },
     // Edit Function
     openAddPopup() {
@@ -198,12 +232,14 @@ export default {
       this.$store
         .dispatch('deleteCannedResponse', id)
         .then(() => {
-          this.showAlert(this.$t('CANNED_MGMT.DELETE.API.SUCCESS_MESSAGE'));
+          this.showAlertMessage(
+            this.$t('CANNED_MGMT.DELETE.API.SUCCESS_MESSAGE')
+          );
         })
         .catch(error => {
           const errorMessage =
             error?.message || this.$t('CANNED_MGMT.DELETE.API.ERROR_MESSAGE');
-          this.showAlert(errorMessage);
+          this.showAlertMessage(errorMessage);
         });
     },
   },

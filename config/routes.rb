@@ -19,7 +19,8 @@ Rails.application.routes.draw do
     get '/app/accounts/:account_id/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
     get '/app/accounts/:account_id/settings/inboxes/new/microsoft', to: 'dashboard#index', as: 'app_new_microsoft_inbox'
     get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_twitter_inbox_agents'
-    get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_microsoft_inbox_agents'
+    get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_email_inbox_agents'
+    get '/app/accounts/:account_id/settings/inboxes/:inbox_id', to: 'dashboard#index', as: 'app_email_inbox_settings'
 
     resource :widget, only: [:show]
     namespace :survey do
@@ -44,7 +45,9 @@ Rails.application.routes.draw do
             resource :contact_merge, only: [:create]
           end
           resource :bulk_actions, only: [:create]
-          resources :agents, only: [:index, :create, :update, :destroy]
+          resources :agents, only: [:index, :create, :update, :destroy] do
+            post :bulk_create, on: :collection
+          end
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
           end
@@ -76,7 +79,7 @@ Rails.application.routes.draw do
           namespace :channels do
             resource :twilio_channel, only: [:create]
           end
-          resources :conversations, only: [:index, :create, :show] do
+          resources :conversations, only: [:index, :create, :show, :update] do
             collection do
               get :meta
               get :search
@@ -93,6 +96,7 @@ Rails.application.routes.draw do
               resources :labels, only: [:create, :index]
               resource :participants, only: [:show, :create, :update, :destroy]
               resource :direct_uploads, only: [:create]
+              resource :draft_messages, only: [:show, :update, :destroy]
             end
             member do
               post :mute
@@ -122,7 +126,7 @@ Rails.application.routes.draw do
               get :search
               post :filter
               post :import
-              get :export
+              post :export
             end
             member do
               get :contactable_inboxes
@@ -137,6 +141,12 @@ Rails.application.routes.draw do
             end
           end
           resources :csat_survey_responses, only: [:index] do
+            collection do
+              get :metrics
+              get :download
+            end
+          end
+          resources :applied_slas, only: [:index] do
             collection do
               get :metrics
               get :download
@@ -173,9 +183,11 @@ Rails.application.routes.draw do
             collection do
               post :read_all
               get :unread_count
+              post :destroy_all
             end
             member do
               post :snooze
+              post :unread
             end
           end
           resource :notification_settings, only: [:show, :update]
@@ -197,6 +209,10 @@ Rails.application.routes.draw do
             resource :authorization, only: [:create]
           end
 
+          namespace :google do
+            resource :authorization, only: [:create]
+          end
+
           resources :webhooks, only: [:index, :create, :update, :destroy]
           namespace :integrations do
             resources :apps, only: [:index, :show]
@@ -214,6 +230,17 @@ Rails.application.routes.draw do
               collection do
                 post :create_a_meeting
                 post :add_participant_to_meeting
+              end
+            end
+            resource :linear, controller: 'linear', only: [] do
+              collection do
+                get :teams
+                get :team_entities
+                post :create_issue
+                post :link_issue
+                post :unlink_issue
+                get :search_issue
+                get :linked_issues
               end
             end
           end
@@ -247,6 +274,7 @@ Rails.application.routes.draw do
           post :availability
           post :auto_offline
           put :set_active_account
+          post :resend_confirmation
         end
       end
 
@@ -287,16 +315,26 @@ Rails.application.routes.draw do
     end
 
     namespace :v2 do
-      resources :accounts, only: [], module: :accounts do
-        resources :reports, only: [:index] do
-          collection do
-            get :summary
-            get :agents
-            get :inboxes
-            get :labels
-            get :teams
-            get :conversations
-            get :conversation_traffic
+      resources :accounts, only: [:create] do
+        scope module: :accounts do
+          resources :summary_reports, only: [] do
+            collection do
+              get :agent
+              get :team
+            end
+          end
+          resources :reports, only: [:index] do
+            collection do
+              get :summary
+              get :bot_summary
+              get :agents
+              get :inboxes
+              get :labels
+              get :teams
+              get :conversations
+              get :conversation_traffic
+              get :bot_metrics
+            end
           end
         end
       end
@@ -353,8 +391,9 @@ Rails.application.routes.draw do
         resources :inboxes do
           scope module: :inboxes do
             resources :contacts, only: [:create, :show, :update] do
-              resources :conversations, only: [:index, :create] do
+              resources :conversations, only: [:index, :create, :show] do
                 member do
+                  post :toggle_status
                   post :toggle_typing
                   post :update_last_seen
                 end
@@ -371,6 +410,7 @@ Rails.application.routes.draw do
   end
 
   get 'hc/:slug', to: 'public/api/v1/portals#show'
+  get 'hc/:slug/sitemap.xml', to: 'public/api/v1/portals#sitemap'
   get 'hc/:slug/:locale', to: 'public/api/v1/portals#show'
   get 'hc/:slug/:locale/articles', to: 'public/api/v1/portals/articles#index'
   get 'hc/:slug/:locale/categories', to: 'public/api/v1/portals/categories#index'
@@ -409,6 +449,7 @@ Rails.application.routes.draw do
   end
 
   get 'microsoft/callback', to: 'microsoft/callbacks#show'
+  get 'google/callback', to: 'google/callbacks#show'
 
   # ----------------------------------------------------------------------
   # Routes for external service verifications
@@ -439,7 +480,10 @@ Rails.application.routes.draw do
       end
 
       resources :access_tokens, only: [:index, :show]
-      resources :response_sources, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+      resources :response_sources, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
+        get :chat, on: :member
+        post :chat, on: :member, action: :process_chat
+      end
       resources :response_documents, only: [:index, :show, :new, :create, :edit, :update, :destroy]
       resources :responses, only: [:index, :show, :new, :create, :edit, :update, :destroy]
       resources :installation_configs, only: [:index, :new, :create, :show, :edit, :update]

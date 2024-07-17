@@ -1,75 +1,75 @@
 {
   "CANNED_MGMT": {
     "HEADER": "Standardsvar Svar",
-    "HEADER_BTN_TXT": "Tilføj Standardsvar",
-    "LOADING": "Henter Standardsvar",
-    "SEARCH_404": "Der er ingen elementer, der matcher denne forespørgsel",
-    "SIDEBAR_TXT": "<p><b>Standardsvar</b> </p><p> Standardsvar er gemte svarskabeloner, som kan bruges til hurtigt at sende et svar på en samtale. </p><p> For at oprette et standardsvar, klik blot på <b>Tilføj standardsvar</b>. Du kan også redigere eller slette et eksisterende standardsvar ved at klikke på Rediger eller Slet knappen </p><p> Standardsvar bruges ved hjælp af <b>Short Codes</b>. Agenter kan tilgå standardsvar på en chat ved at skrive <b>'/'</b> efterfulgt af din short code </p>",
+    "HEADER_BTN_TXT": "Add canned response",
+    "LOADING": "Fetching canned responses...",
+    "SEARCH_404": "Der er ingen elementer, der matcher denne forespørgsel.",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are pre-written reply templates that help you quickly respond to a conversation. To insert a canned response during a chat, agents can type a short code preceded by a '/' character. </p><p> You can manage your canned responses from this page or create new ones using the \"Add canned response\" button.</p><p>Open the <a target=\"_blank\" href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\">Canned Responses handbook</a> in another tab for a helping hand.</p><p>Also, check out the all-new <a href=\"https://www.chatwoot.com/tools/canned-responses-library\" target=\"_blank\">Canned Responses Library</a>.</p>",
     "LIST": {
       "404": "Der er ingen tilgængelige standardsvar på denne konto.",
       "TITLE": "Administrer standardsvar",
-      "DESC": "Standardsvar er foruddefinerede svarskabeloner, som kan bruges til hurtigt at sende svar på tickets.",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
       "TABLE_HEADER": [
-        "Short Code",
+        "Short code",
         "Indhold",
         "Handlinger"
       ]
     },
     "ADD": {
-      "TITLE": "Tilføj Standardsvar",
-      "DESC": "Standardsvar er gemte svarskabeloner, som kan bruges til hurtigt at sende svar til samtalen.",
+      "TITLE": "Add canned response",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
       "CANCEL_BUTTON_TEXT": "Annuller",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short Code",
-          "PLACEHOLDER": "Indtast venligst en shortcode",
-          "ERROR": "Short Code er påkrævet"
+          "LABEL": "Short code",
+          "PLACEHOLDER": "Please enter a short code.",
+          "ERROR": "Short Code is required."
         },
         "CONTENT": {
-          "LABEL": "Indhold",
-          "PLACEHOLDER": "Indtast venligst indhold",
-          "ERROR": "Indhold er påkrævet"
+          "LABEL": "Besked",
+          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "ERROR": "Message is required."
         },
         "SUBMIT": "Send"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Standardsvar tilføjet",
+        "SUCCESS_MESSAGE": "Canned response added successfully.",
         "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
       }
     },
     "EDIT": {
-      "TITLE": "Rediger Standardsvar",
+      "TITLE": "Edit canned response",
       "CANCEL_BUTTON_TEXT": "Annuller",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short Code",
-          "PLACEHOLDER": "Indtast venligst en shortcode",
-          "ERROR": "Short Code er påkrævet"
+          "LABEL": "Short code",
+          "PLACEHOLDER": "Please enter a shortcode.",
+          "ERROR": "Short code is required."
         },
         "CONTENT": {
-          "LABEL": "Indhold",
-          "PLACEHOLDER": "Indtast venligst indhold",
-          "ERROR": "Indhold er påkrævet"
+          "LABEL": "Besked",
+          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
+          "ERROR": "Beskeden er påkrævet."
         },
         "SUBMIT": "Send"
       },
       "BUTTON_TEXT": "Rediger",
       "API": {
-        "SUCCESS_MESSAGE": "Standardsvar opdateret",
+        "SUCCESS_MESSAGE": "Canned response is updated successfully.",
         "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Slet",
       "API": {
-        "SUCCESS_MESSAGE": "Standardsvar slettet",
+        "SUCCESS_MESSAGE": "Canned response deleted successfully.",
         "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
       },
       "CONFIRM": {
-        "TITLE": "Bekræft Sletning",
+        "TITLE": "Bekræft sletning",
         "MESSAGE": "Er du sikker på du vil slette ",
-        "YES": "Ja, Slet ",
-        "NO": "Nej, Behold "
+        "YES": "Yes, delete ",
+        "NO": "No, keep "
       }
     }
   }

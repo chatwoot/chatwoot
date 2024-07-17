@@ -1,5 +1,5 @@
 <template>
-  <aside class="h-full flex">
+  <aside class="flex h-full">
     <primary-sidebar
       :logo-source="globalConfig.logoThumbnail"
       :installation-name="globalConfig.installationName"
@@ -20,7 +20,7 @@
       :teams="teams"
       :custom-views="customViews"
       :menu-config="activeSecondaryMenu"
-      :current-role="currentRole"
+      :current-user="currentUser"
       :is-on-chatwoot-cloud="isOnChatwootCloud"
       @add-label="showAddLabelPopup"
       @toggle-accounts="toggleAccountModal"
@@ -36,23 +36,16 @@ import alertMixin from 'shared/mixins/alertMixin';
 
 import PrimarySidebar from './sidebarComponents/Primary.vue';
 import SecondarySidebar from './sidebarComponents/Secondary.vue';
-import {
-  hasPressedAltAndCKey,
-  hasPressedAltAndRKey,
-  hasPressedAltAndSKey,
-  hasPressedAltAndVKey,
-  hasPressedCommandAndForwardSlash,
-  isEscape,
-} from 'shared/helpers/KeyboardHelpers';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import router from '../../routes';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
+import router, { routesWithPermissions } from '../../routes';
+import { hasPermissions } from '../../helper/permissionsHelper';
 
 export default {
   components: {
     PrimarySidebar,
     SecondarySidebar,
   },
-  mixins: [adminMixin, alertMixin, eventListenerMixins],
+  mixins: [adminMixin, alertMixin, keyboardEventListenerMixins],
   props: {
     showSecondarySidebar: {
       type: Boolean,
@@ -106,9 +99,13 @@ export default {
       return getSidebarItems(this.accountId);
     },
     primaryMenuItems() {
+      const userPermissions = this.currentUser.permissions;
       const menuItems = this.sideMenuConfig.primaryMenu;
       return menuItems.filter(menuItem => {
-        const isAvailableForTheUser = menuItem.roles.includes(this.currentRole);
+        const isAvailableForTheUser = hasPermissions(
+          routesWithPermissions[menuItem.toStateName],
+          userPermissions
+        );
 
         if (!isAvailableForTheUser) {
           return false;
@@ -173,30 +170,27 @@ export default {
     closeKeyShortcutModal() {
       this.$emit('close-key-shortcut-modal');
     },
-    handleKeyEvents(e) {
-      if (hasPressedCommandAndForwardSlash(e)) {
-        this.toggleKeyShortcutModal();
-      }
-      if (isEscape(e)) {
-        this.closeKeyShortcutModal();
-      }
-
-      if (hasPressedAltAndCKey(e)) {
-        if (!this.isCurrentRouteSameAsNavigation('home')) {
-          router.push({ name: 'home' });
-        }
-      } else if (hasPressedAltAndVKey(e)) {
-        if (!this.isCurrentRouteSameAsNavigation('contacts_dashboard')) {
-          router.push({ name: 'contacts_dashboard' });
-        }
-      } else if (hasPressedAltAndRKey(e)) {
-        if (!this.isCurrentRouteSameAsNavigation('settings_account_reports')) {
-          router.push({ name: 'settings_account_reports' });
-        }
-      } else if (hasPressedAltAndSKey(e)) {
-        if (!this.isCurrentRouteSameAsNavigation('agent_list')) {
-          router.push({ name: 'agent_list' });
-        }
+    getKeyboardEvents() {
+      return {
+        '$mod+Slash': this.toggleKeyShortcutModal,
+        '$mod+Escape': this.closeKeyShortcutModal,
+        'Alt+KeyC': {
+          action: () => this.navigateToRoute('home'),
+        },
+        'Alt+KeyV': {
+          action: () => this.navigateToRoute('contacts_dashboard'),
+        },
+        'Alt+KeyR': {
+          action: () => this.navigateToRoute('account_overview_reports'),
+        },
+        'Alt+KeyS': {
+          action: () => this.navigateToRoute('agent_list'),
+        },
+      };
+    },
+    navigateToRoute(routeName) {
+      if (!this.isCurrentRouteSameAsNavigation(routeName)) {
+        router.push({ name: routeName });
       }
     },
     isCurrentRouteSameAsNavigation(routeName) {

@@ -4,7 +4,7 @@
       {{ $t('INBOX_MGMT.PRE_CHAT_FORM.DESCRIPTION') }}
     </div>
     <form class="flex flex-col" @submit.prevent="updateInbox">
-      <label class="w-[25%]">
+      <label class="w-1/4">
         {{ $t('INBOX_MGMT.PRE_CHAT_FORM.ENABLE.LABEL') }}
         <select v-model="preChatFormEnabled">
           <option :value="true">

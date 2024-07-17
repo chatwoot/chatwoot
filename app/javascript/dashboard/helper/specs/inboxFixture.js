@@ -44,4 +44,18 @@ export default {
       created_at: '2021-11-29T10:20:04.563Z',
     },
   ],
+  customAttributesWithRegex: [
+    {
+      id: 2,
+      attribute_description: 'Test contact Attribute',
+      attribute_display_name: 'Test contact Attribute',
+      attribute_display_type: 'text',
+      attribute_key: 'test_contact_attribute',
+      attribute_model: 'contact_attribute',
+      attribute_values: Array(0),
+      created_at: '2023-09-20T10:20:04.563Z',
+      regex_pattern: '^w+$',
+      regex_cue: 'It should be a combination of alphabets and numbers',
+    },
+  ],
 };

@@ -30,32 +30,42 @@ export default {
           path: '',
           name: 'settings_integrations',
           component: Index,
-          roles: ['administrator'],
+          meta: {
+            permissions: ['administrator'],
+          },
         },
         {
           path: 'webhook',
           component: Webhook,
           name: 'settings_integrations_webhook',
-          roles: ['administrator'],
+          meta: {
+            permissions: ['administrator'],
+          },
         },
         {
           path: 'dashboard-apps',
           component: DashboardApps,
           name: 'settings_integrations_dashboard_apps',
-          roles: ['administrator'],
+          meta: {
+            permissions: ['administrator'],
+          },
         },
         {
           path: 'slack',
           name: 'settings_integrations_slack',
           component: Slack,
-          roles: ['administrator'],
+          meta: {
+            permissions: ['administrator'],
+          },
           props: route => ({ code: route.query.code }),
         },
         {
           path: ':integration_id',
           name: 'settings_integrations_integration',
           component: ShowIntegration,
-          roles: ['administrator'],
+          meta: {
+            permissions: ['administrator'],
+          },
           props: route => {
             return {
               integrationId: route.params.integration_id,

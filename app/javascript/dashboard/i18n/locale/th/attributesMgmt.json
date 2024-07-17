@@ -39,6 +39,17 @@
           "PLACEHOLDER": "โปรดใส่คีย์ของแอตทริบิวต์เเบบกำหนดเอง",
           "ERROR": "โปรดระบุคีย์",
           "IN_VALID": "คีย์นี้ใช้ไม่ได้"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Regex Pattern",
+          "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Regex Cue",
+          "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Enable regex validation"
         }
       },
       "API": {
@@ -93,6 +104,17 @@
       "EMPTY_RESULT": {
         "404": "ไม่พบแอตทริบิวต์เเบบกำหนดเองที่สร้างไว้",
         "NOT_FOUND": "ไม่มีแอตทริบิวต์เเบบกำหนดเอง ที่กำหนดค่าไว้"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Regex Pattern",
+        "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Regex Cue",
+        "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Enable regex validation"
       }
     }
   }

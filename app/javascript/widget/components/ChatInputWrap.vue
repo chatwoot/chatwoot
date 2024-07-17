@@ -49,7 +49,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { mixin as clickaway } from 'vue-clickaway';
 
 import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
@@ -58,7 +57,7 @@ import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
-const EmojiInput = () => import('shared/components/emoji/EmojiInput');
+const EmojiInput = () => import('shared/components/emoji/EmojiInput.vue');
 
 export default {
   name: 'ChatInputWrap',
@@ -69,7 +68,7 @@ export default {
     FluentIcon,
     ResizableTextArea,
   },
-  mixins: [clickaway, configMixin, darkModeMixin],
+  mixins: [configMixin, darkModeMixin],
   props: {
     onSendMessage: {
       type: Function,

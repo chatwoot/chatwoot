@@ -13,7 +13,7 @@ namespace :ip_lookup do
     Rails.logger.info '[rake ip_lookup:setup] Fetch GeoLite2-City database'
 
     begin
-      base_url = 'https://download.maxmind.com/app/geoip_download'
+      base_url = ENV.fetch('IP_LOOKUP_BASE_URL', 'https://download.maxmind.com/app/geoip_download')
       source_file = Down.download(
         "#{base_url}?edition_id=GeoLite2-City&suffix=tar.gz&license_key=#{ip_lookup_api_key}"
       )

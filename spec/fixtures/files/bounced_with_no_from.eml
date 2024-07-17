@@ -1,0 +1,102 @@
+X-Original-To: unique-id@reply.example.com
+Received: from gate.forward.smtp.example.com (mxd [192.0.2.1]) by mx.example.net with ESMTP id JANE3UihQWCm3SPLwYMiwA for <unique-id@reply.example.com>; Mon, 01 Jan 2024 08:27:12.905 +0000 (UTC)
+Return-Path: <>
+X-Virus-Scanned: OK
+Authentication-Results: smtp6.gate.example.com; iprev=pass policy.iprev="192.0.2.2"; spf=neutral smtp.mailfrom="" smtp.helo="backend.example.com"; dkim=none (message not signed) header.d=none
+X-Suspicious-Flag: NO
+X-Classification-ID: 9026a23e-a87f-11ee-b226-52540050e3e0-1-1
+Received: from [192.0.2.2] ([192.0.2.2:52052] helo=backend.example.com)
+    by smtp6.gate.example.com (envelope-from <>)
+    (ecelerity 4.2.38.62370 r(:)) with ESMTPS (cipher=DHE-RSA-AES256-GCM-SHA384) 
+    id 69/60-03303-06772956; Mon, 01 Jan 2024 03:27:12 -0500
+Received: by backend.example.com (Postfix, from userid 5000)
+    id BE58147CF5; Mon,  1 Jan 2024 03:27:12 -0500 (EST)
+X-Sieve: Pigeonhole Sieve 0.5.12 (f22f7ab3)
+X-Sieve-Redirected-From: support@example.com
+Delivered-To: support@example.com
+Delivered-To: support@example.com
+Received: from director.example.com ([192.0.2.3])
+    by backend.example.com with LMTP
+    id AB5kLWB3kmV0bgAAStNUoA
+    (envelope-from <>)
+    for <support@example.com>; Mon, 01 Jan 2024 03:27:12 -0500
+Received: from proxy.example.com ([192.0.2.3])
+    by director.example.com with LMTP
+    id 0BPqLGB3kmWXKQAAfY0hYg
+    (envelope-from <>)
+    for <support@example.com>; Mon, 01 Jan 2024 03:27:12 -0500
+Received: from smtp.example.com ([192.0.2.3])
+    (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+    by proxy.example.com with LMTPS
+    id yGPPLGB3kmXQNwAAyH2SIw
+    (envelope-from <>)
+    for <support@example.com>; Mon, 01 Jan 2024 03:27:12 -0500
+X-Spam-Threshold: 95
+X-Spam-Score: 0
+X-Spam-Flag: NO
+X-Virus-Scanned: OK
+X-Orig-To: support@example.com
+X-Originating-Ip: [192.0.2.4]
+Received: from [192.0.2.4] ([192.0.2.4:47194] helo=smtp.example.com)
+    by smtp36.gate.example.com (envelope-from <>)
+    (ecelerity 4.2.38.62370 r(:)) with ESMTPS (cipher=DHE-RSA-AES256-GCM-SHA384) 
+    id 57/13-02844-06772956; Mon, 01 Jan 2024 03:27:12 -0500
+Received: by smtp5.relay.example.com (SMTP Server)
+    id 8D329A008A; Mon,  1 Jan 2024 03:27:12 -0500 (EST)
+Date: Mon,  1 Jan 2024 03:27:12 -0500 (EST)
+From: "" (Mail Delivery System)
+Subject: Undelivered Mail Returned to Sender
+To: support@example.com
+Auto-Submitted: auto-replied
+MIME-Version: 1.0
+Content-Type: multipart/report; report-type=delivery-status;
+    boundary="AE732A0081.1704097632/smtp5.relay.example.com"
+Message-Id: <20240101082712.8D329A008A@smtp5.relay.example.com>
+
+This is a MIME-encapsulated message.
+
+--AE732A0081.1704097632/smtp5.relay.example.com
+Content-Description: Notification
+Content-Type: text/plain; charset=us-ascii
+
+This is the mail system at host smtp5.relay.example.com.
+
+I'm sorry to have to inform you that your message could not
+be delivered to one or more recipients. It's attached below.
+
+For further assistance, please send mail to postmaster.
+
+If you do so, please include this problem report. You can
+delete your own text from the attached returned message.
+
+                   The mail system
+
+<noreply@example-service.com>: host
+    mx.example-service.com.cust.a.hostedemail.com[198.51.100.4] said: 554 5.7.1
+    <noreply@example-service.com>: Recipient address rejected: user
+    noreply@example-service.com does not exist (in reply to RCPT TO command)
+
+--AE732A0081.1704097632/smtp5.relay.example.com
+Content-Description: Delivery report
+Content-Type: message/delivery-status
+
+Reporting-MTA: dns; smtp5.relay.example.com
+X-SMTP-Server-Queue-ID: AE732A0081
+X-SMTP-Server-Sender: rfc822; support@example.com
+Arrival-Date: Mon,  1 Jan 2024 03:27:11 -0500 (EST)
+
+Final-Recipient: rfc822; noreply@example-service.com
+Original-Recipient: rfc822;noreply@example-service.com
+Action: failed
+Status: 5.7.1
+Remote-MTA: dns; mx.example-service.com.cust.a.hostedemail.com
+Diagnostic-Code: smtp; 554 5.7.1 <noreply@example-service.com>: Recipient
+    address rejected: user noreply@example-service.com does not exist
+
+--AE732A0081.1704097632/smtp5.relay.example.com
+Content-Description: Undelivered Message
+Content-Type: message/rfc822
+
+Return-Path: <support@example.com>
+X-Milter-Dummy:
+DKIM-Signature: v=1; a=rsa-sha256; c

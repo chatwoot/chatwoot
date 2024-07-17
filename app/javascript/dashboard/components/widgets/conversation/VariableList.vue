@@ -1,5 +1,6 @@
 <template>
   <mention-box
+    v-if="items.length"
     type="variable"
     :items="items"
     @mention-select="handleVariableClick"

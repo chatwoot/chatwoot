@@ -41,6 +41,9 @@
     "SAVE_CONTACT": "Save",
     "UPLOADING_ATTACHMENTS": "Ανέβασμα επισυναπτόμενων...",
     "REPLIED_TO_STORY": "Replied to your story",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Το μήνυμα διαγράφηκε επιτυχώς",
     "FAIL_DELETE_MESSSAGE": "Δεν ήταν δυνατή η διαγραφή μηνύματος! Προσπαθήστε ξανά",
     "NO_RESPONSE": "Καμία ανταπόκριση",
@@ -61,7 +64,14 @@
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Αναβλήθηκε μέχρι αύριο",
       "SNOOZED_UNTIL_NEXT_WEEK": "Αναβολή έως την επόμενη εβδομάδα",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Αναβολή έως την επόμενη απάντηση"
+      "SNOOZED_UNTIL_NEXT_REPLY": "Αναβολή έως την επόμενη απάντηση",
+      "SLA_STATUS": {
+        "FRT": "FRT {status}",
+        "NRT": "NRT {status}",
+        "RT": "RT {status}",
+        "MISSED": "missed",
+        "DUE": "due"
+      }
     },
     "RESOLVE_DROPDOWN": {
       "MARK_PENDING": "Σήμανση ως εκκρεμής",
@@ -139,6 +149,7 @@
       "PRIVATE_NOTE": "Ιδιωτική Σημείωση",
       "SEND": "Αποστολή",
       "CREATE": "Σημείωση (Add Note)",
+      "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
       "TIP_FORMAT_ICON": "Προβολή επεξεργαστή εμπλουτισμένου κειμένου",
@@ -269,6 +280,7 @@
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Δημιουργία ιδιότητας",
+    "NO_RECORDS_FOUND": "Δεν βρέθηκαν ιδιότητες",
     "UPDATE": {
       "SUCCESS": "Ο πράκτορας ενημερώθηκε επιτυχώς",
       "ERROR": "Δεν είναι δυνατή η ενημέρωση της ιδιότητας. Παρακαλώ προσπαθήστε ξανά αργότερα"

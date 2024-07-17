@@ -1,0 +1,108 @@
+{
+  "SLA": {
+    "HEADER": "SLA",
+    "ADD_ACTION": "Добавить SLA",
+    "ADD_ACTION_LONG": "Create a new SLA Policy",
+    "DESCRIPTION": "Service Level Agreements (SLAs) are contracts that define clear expectations between your team and customers. They establish standards for response and resolution times, creating a framework for accountability and ensures a consistent, high-quality experience.",
+    "LEARN_MORE": "Learn more about SLA",
+    "LOADING": "Получение SLA",
+    "PAYWALL": {
+      "TITLE": "Upgrade to create SLAs",
+      "AVAILABLE_ON": "The SLA feature is only available in the Business and Enterprise plans.",
+      "UPGRADE_PROMPT": "Upgrade your plan to get access to advanced features like team management, automations, custom attributes, and more.",
+      "UPGRADE_NOW": "Upgrade now",
+      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "The SLA feature is only available in the paid plans.",
+      "UPGRADE_PROMPT": "Upgrade to a paid plan to access advanced features like audit logs, agent capacity, and more.",
+      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+    },
+    "LIST": {
+      "404": "В этой учетной записи нет доступных SLA.",
+      "EMPTY": {
+        "TITLE_1": "Enterprise P0",
+        "DESC_1": "Issues raised by enterprise customers, that require immediate attention.",
+        "TITLE_2": "Enterprise P1",
+        "DESC_2": "Issues raised by enterprise customers, that needs to be acknowledged quickly."
+      },
+      "BUSINESS_HOURS_ON": "Время работы включено",
+      "BUSINESS_HOURS_OFF": "Время работы выключено",
+      "RESPONSE_TYPES": {
+        "FRT": "Порог времени первого ответа",
+        "NRT": "Порог времени следующего ответа",
+        "RT": "Порог времени решения",
+        "SHORT_HAND": {
+          "FRT": "FRT",
+          "NRT": "NRT",
+          "RT": "RT"
+        }
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Название SLA",
+        "PLACEHOLDER": "Название SLA",
+        "REQUIRED_ERROR": "Название SLA обязательно для заполнения",
+        "MINIMUM_LENGTH_ERROR": "Минимальная длина 2 обязательна",
+        "VALID_ERROR": "Разрешены только алфавиты, числа, дефисы и подчеркивание"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Описание",
+        "PLACEHOLDER": "SLA для премиум клиентов"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "LABEL": "Время первого ответа",
+        "PLACEHOLDER": "5"
+      },
+      "NEXT_RESPONSE_TIME": {
+        "LABEL": "Next Response Time",
+        "PLACEHOLDER": "5"
+      },
+      "RESOLUTION_TIME": {
+        "LABEL": "Время Завершения",
+        "PLACEHOLDER": "60"
+      },
+      "BUSINESS_HOURS": {
+        "LABEL": "Время работы",
+        "PLACEHOLDER": "Только в рабочее время"
+      },
+      "THRESHOLD_TIME": {
+        "INVALID_FORMAT_ERROR": "Threshold should be a number and greater than zero"
+      },
+      "EDIT": "Редактировать",
+      "CREATE": "Создать",
+      "DELETE": "Удалить",
+      "CANCEL": "Отменить"
+    },
+    "ADD": {
+      "TITLE": "Добавить SLA",
+      "DESC": "Friendly promises for great service!",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA успешно добавлено",
+        "ERROR_MESSAGE": "Произошла ошибка, попробуйте еще раз"
+      }
+    },
+    "DELETE": {
+      "TITLE": "Delete SLA",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA deleted successfully",
+        "ERROR_MESSAGE": "Произошла ошибка, попробуйте еще раз"
+      },
+      "CONFIRM": {
+        "TITLE": "Подтвердите удаление",
+        "MESSAGE": "Are you sure you want to delete ",
+        "YES": "Да, удалить ",
+        "NO": "Нет, не удалять "
+      }
+    },
+    "EVENTS": {
+      "TITLE": "SLA Misses",
+      "FRT": "Время первого ответа",
+      "NRT": "Next response time",
+      "RT": "Resolution time",
+      "SHOW_MORE": "{count} more",
+      "HIDE": "Hide {count} rows"
+    }
+  }
+}

@@ -49,6 +49,7 @@ module Events::Types
   # notification events
   NOTIFICATION_CREATED = 'notification.created'
   NOTIFICATION_DELETED = 'notification.deleted'
+  NOTIFICATION_UPDATED = 'notification.updated'
 
   # agent events
   AGENT_ADDED = 'agent.added'

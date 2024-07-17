@@ -21,7 +21,10 @@
       </woot-tabs>
     </setting-intro-banner>
 
-    <div v-if="selectedTabKey === 'inbox_settings'" class="settings--content">
+    <microsoft-reauthorize v-if="microsoftUnauthorized" :inbox="inbox" />
+    <facebook-reauthorize v-if="facebookUnauthorized" :inbox="inbox" />
+
+    <div v-if="selectedTabKey === 'inbox_settings'" class="mx-8">
       <settings-section
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_UPDATE_TITLE')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_UPDATE_SUB_TEXT')"
@@ -37,7 +40,7 @@
         />
         <woot-input
           v-model.trim="selectedInboxName"
-          class="w-[75%] pb-4"
+          class="w-3/4 pb-4"
           :class="{ error: $v.selectedInboxName.$error }"
           :label="inboxNameLabel"
           :placeholder="inboxNamePlaceHolder"
@@ -51,7 +54,7 @@
         <woot-input
           v-if="isAPIInbox"
           v-model.trim="webhookUrl"
-          class="w-[75%] pb-4"
+          class="w-3/4 pb-4"
           :class="{ error: $v.webhookUrl.$error }"
           :label="
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.LABEL')
@@ -69,7 +72,7 @@
         <woot-input
           v-if="isAWebWidgetInbox"
           v-model.trim="channelWebsiteUrl"
-          class="w-[75%] pb-4"
+          class="w-3/4 pb-4"
           :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.LABEL')"
           :placeholder="
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.PLACEHOLDER')
@@ -78,7 +81,7 @@
         <woot-input
           v-if="isAWebWidgetInbox"
           v-model.trim="channelWelcomeTitle"
-          class="w-[75%] pb-4"
+          class="w-3/4 pb-4"
           :label="
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TITLE.LABEL')
           "
@@ -92,7 +95,7 @@
         <woot-input
           v-if="isAWebWidgetInbox"
           v-model.trim="channelWelcomeTagline"
-          class="w-[75%] pb-4"
+          class="w-3/4 pb-4"
           :label="
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.LABEL')
           "
@@ -103,17 +106,17 @@
           "
         />
 
-        <label v-if="isAWebWidgetInbox" class="w-[75%] pb-4">
+        <label v-if="isAWebWidgetInbox" class="w-3/4 pb-4">
           {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL') }}
           <woot-color-picker v-model="inbox.widget_color" />
         </label>
 
-        <label v-if="isAWhatsAppChannel" class="w-[75%] pb-4">
+        <label v-if="isAWhatsAppChannel" class="w-3/4 pb-4">
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.LABEL') }}
           <input v-model="whatsAppAPIProviderName" type="text" disabled />
         </label>
 
-        <label class="w-[75%] pb-4">
+        <label class="w-3/4 pb-4">
           {{
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.LABEL')
           }}
@@ -157,7 +160,7 @@
             :richtext="!textAreaChannels"
           />
         </div>
-        <label v-if="isAWebWidgetInbox" class="w-[75%] pb-4">
+        <label v-if="isAWebWidgetInbox" class="w-3/4 pb-4">
           {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.TITLE') }}
           <select v-model="replyTime">
             <option key="in_a_few_minutes" value="in_a_few_minutes">
@@ -180,7 +183,7 @@
           </p>
         </label>
 
-        <label v-if="isAWebWidgetInbox" class="w-[75%] pb-4">
+        <label v-if="isAWebWidgetInbox" class="w-3/4 pb-4">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_EMAIL_COLLECT_BOX') }}
           <select v-model="emailCollectEnabled">
             <option :value="true">
@@ -197,7 +200,7 @@
           </p>
         </label>
 
-        <label class="w-[75%] pb-4">
+        <label class="w-3/4 pb-4">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CSAT') }}
           <select v-model="csatSurveyEnabled">
             <option :value="true">
@@ -212,7 +215,7 @@
           </p>
         </label>
 
-        <label v-if="isAWebWidgetInbox" class="w-[75%] pb-4">
+        <label v-if="isAWebWidgetInbox" class="w-3/4 pb-4">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.ALLOW_MESSAGES_AFTER_RESOLVED') }}
           <select v-model="allowMessagesAfterResolved">
             <option :value="true">
@@ -231,7 +234,7 @@
           </p>
         </label>
 
-        <label v-if="isAWebWidgetInbox" class="w-[75%] pb-4">
+        <label v-if="isAWebWidgetInbox" class="w-3/4 pb-4">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CONTINUITY_VIA_EMAIL') }}
           <select v-model="continuityViaEmail">
             <option :value="true">
@@ -249,7 +252,7 @@
             }}
           </p>
         </label>
-        <div class="w-[75%] pb-4">
+        <div class="w-3/4 pb-4">
           <label>
             {{ $t('INBOX_MGMT.HELP_CENTER.LABEL') }}
           </label>
@@ -265,7 +268,7 @@
             {{ $t('INBOX_MGMT.HELP_CENTER.SUB_TEXT') }}
           </p>
         </div>
-        <label v-if="canLocktoSingleConversation" class="w-[75%] pb-4">
+        <label v-if="canLocktoSingleConversation" class="w-3/4 pb-4">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.LOCK_TO_SINGLE_CONVERSATION') }}
           <select v-model="locktoSingleConversation">
             <option :value="true">
@@ -287,7 +290,7 @@
         <label v-if="isAWebWidgetInbox">
           {{ $t('INBOX_MGMT.FEATURES.LABEL') }}
         </label>
-        <div v-if="isAWebWidgetInbox" class="pt-2 pb-4">
+        <div v-if="isAWebWidgetInbox" class="flex gap-2 pt-2 pb-4">
           <input
             v-model="selectedFeatureFlags"
             type="checkbox"
@@ -298,7 +301,7 @@
             {{ $t('INBOX_MGMT.FEATURES.DISPLAY_FILE_PICKER') }}
           </label>
         </div>
-        <div v-if="isAWebWidgetInbox" class="pb-4">
+        <div v-if="isAWebWidgetInbox" class="flex gap-2 pb-4">
           <input
             v-model="selectedFeatureFlags"
             type="checkbox"
@@ -309,7 +312,7 @@
             {{ $t('INBOX_MGMT.FEATURES.DISPLAY_EMOJI_PICKER') }}
           </label>
         </div>
-        <div v-if="isAWebWidgetInbox" class="pb-4">
+        <div v-if="isAWebWidgetInbox" class="flex gap-2 pb-4">
           <input
             v-model="selectedFeatureFlags"
             type="checkbox"
@@ -320,7 +323,7 @@
             {{ $t('INBOX_MGMT.FEATURES.ALLOW_END_CONVERSATION') }}
           </label>
         </div>
-        <div v-if="isAWebWidgetInbox" class="pb-4">
+        <div v-if="isAWebWidgetInbox" class="flex gap-2 pb-4">
           <input
             v-model="selectedFeatureFlags"
             type="checkbox"
@@ -338,7 +341,7 @@
         :sub-title="$t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.SUB_TEXT')"
         :show-border="false"
       >
-        <div class="w-[75%] pb-4">
+        <div class="w-3/4 pb-4">
           <sender-name-example-preview
             :sender-name-type="senderNameType"
             :business-name="businessName"
@@ -397,10 +400,9 @@
           @click="updateInbox"
         />
       </settings-section>
-      <facebook-reauthorize v-if="isAFacebookInbox" :inbox-id="inbox.id" />
     </div>
 
-    <div v-if="selectedTabKey === 'collaborators'" class="settings--content">
+    <div v-if="selectedTabKey === 'collaborators'" class="mx-8">
       <collaborators-page :inbox="inbox" />
     </div>
     <div v-if="selectedTabKey === 'configuration'">
@@ -435,6 +437,7 @@ import WeeklyAvailability from './components/WeeklyAvailability.vue';
 import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
 import ConfigurationPage from './settingsPage/ConfigurationPage.vue';
 import CollaboratorsPage from './settingsPage/CollaboratorsPage.vue';
+import MicrosoftReauthorize from './channels/microsoft/Reauthorize.vue';
 import WidgetBuilder from './WidgetBuilder.vue';
 import BotConfiguration from './components/BotConfiguration.vue';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
@@ -453,6 +456,7 @@ export default {
     WeeklyAvailability,
     WidgetBuilder,
     SenderNameExamplePreview,
+    MicrosoftReauthorize,
   },
   mixins: [alertMixin, configMixin, inboxMixin],
   data() {
@@ -537,7 +541,8 @@ export default {
         this.isALineChannel ||
         this.isAPIInbox ||
         (this.isAnEmailChannel && !this.inbox.provider) ||
-        (this.isAnEmailChannel && this.inbox.provider === 'microsoft') ||
+        this.isAMicrosoftInbox ||
+        this.isAGoogleInbox ||
         this.isAWhatsAppChannel ||
         this.isAWebWidgetInbox
       ) {
@@ -589,7 +594,9 @@ export default {
       return this.inbox.name;
     },
     canLocktoSingleConversation() {
-      return this.isASmsInbox || this.isAWhatsAppChannel;
+      return (
+        this.isASmsInbox || this.isAWhatsAppChannel || this.isAFacebookInbox
+      );
     },
     inboxNameLabel() {
       if (this.isAWebWidgetInbox) {
@@ -611,6 +618,12 @@ export default {
       )
         return true;
       return false;
+    },
+    microsoftUnauthorized() {
+      return this.isAMicrosoftInbox && this.inbox.reauthorization_required;
+    },
+    facebookUnauthorized() {
+      return this.isAFacebookInbox && this.inbox.reauthorization_required;
     },
   },
   watch: {
@@ -757,11 +770,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.settings {
-  .settings--tabs {
-    ::v-deep .tabs {
-      @apply p-0;
-    }
+.settings--tabs {
+  ::v-deep .tabs {
+    @apply p-0;
   }
 }
 </style>

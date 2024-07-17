@@ -10,6 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "La tua password è stata modificata con successo",
     "AFTER_EMAIL_CHANGED": "Il tuo profilo è stato aggiornato correttamente, effettua nuovamente l'accesso, siccome le tue credenziali di accesso sono state modificate",
     "FORM": {
+      "PICTURE": "Profile Picture",
       "AVATAR": "Immagine del profilo",
       "ERROR": "Correggi gli errori del modulo",
       "REMOVE_IMAGE": "Rimuovi",
@@ -56,13 +57,19 @@
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token di accesso",
-        "NOTE": "Questo token può essere usato se stai costruendo un'integrazione basata su API"
+        "NOTE": "Questo token può essere usato se stai costruendo un'integrazione basata su API",
+        "COPY": "Copia"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Notifiche audio",
         "NOTE": "Abilita le notifiche audio nella dashboard per nuovi messaggi e conversazioni.",
+        "ALERT_TYPES": {
+          "NONE": "Nessuno",
+          "MINE": "Assigned",
+          "ALL": "Tutti"
+        },
         "ALERT_TYPE": {
-          "TITLE": "Alert events:",
+          "TITLE": "Alert events for conversations:",
           "NONE": "Nessuno",
           "ASSIGNED": "Conversazioni assegnate",
           "ALL_CONVERSATIONS": "Tutte le conversazioni"
@@ -83,7 +90,27 @@
         "CONVERSATION_CREATION": "Invia notifiche email quando viene creata una nuova conversazione",
         "CONVERSATION_MENTION": "Invia notifiche email quando sei menzionato in una conversazione",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Invia notifiche email quando viene creato un nuovo messaggio in una conversazione assegnata",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "Email",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
       "API": {
         "UPDATE_SUCCESS": "Le preferenze per le notifiche sono state aggiornate con successo",
@@ -98,7 +125,10 @@
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Invia notifiche push quando viene creato un nuovo messaggio in una conversazione assegnata",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
         "HAS_ENABLED_PUSH": "Hai abilitato notifiche push per questo browser.",
-        "REQUEST_PUSH": "Abilita notifiche push"
+        "REQUEST_PUSH": "Abilita notifiche push",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Immagine del profilo"
@@ -160,6 +190,9 @@
     "TRIAL_MESSAGE": "giorni di prova rimanenti.",
     "TRAIL_BUTTON": "Acquista ora",
     "DELETED_USER": "Utente eliminato",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Account sospeso",
       "MESSAGE": "Il tuo account è sospeso. Contatta il team di supporto per ulteriori informazioni."
@@ -196,7 +229,9 @@
   "SIDEBAR": {
     "CURRENTLY_VIEWING_ACCOUNT": "Visualizzazione attuale:",
     "SWITCH": "Scambia",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Conversazioni",
+    "INBOX": "Casella",
     "ALL_CONVERSATIONS": "Tutte le conversazioni",
     "MENTIONED_CONVERSATIONS": "Menzioni",
     "PARTICIPATING_CONVERSATIONS": "Participating",
@@ -233,11 +268,14 @@
     "CAMPAIGNS": "Campagne",
     "ONGOING": "In corso",
     "ONE_OFF": "Uno fuori",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Agenti",
     "REPORTS_LABEL": "Etichette",
     "REPORTS_INBOX": "Posta",
     "REPORTS_TEAM": "Team",
     "SET_AVAILABILITY_TITLE": "Imposta te stesso come",
+    "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Panoramica",
     "FACEBOOK_REAUTHORIZE": "La tua connessione a Facebook è scaduta, ricollegati alla tua pagina Facebook per continuare i servizi",
@@ -306,7 +344,6 @@
       "GO_TO_REPORTS_SIDEBAR": "Vai alla barra laterale dei rapporti",
       "MOVE_TO_NEXT_TAB": "Vai alla scheda successiva nell'elenco delle conversazioni",
       "GO_TO_SETTINGS": "Vai alle impostazioni",
-      "SWITCH_CONVERSATION_STATUS": "Passa allo stato successivo della conversazione",
       "SWITCH_TO_PRIVATE_NOTE": "Passa alle note private",
       "SWITCH_TO_REPLY": "Passa a Risposta",
       "TOGGLE_SNOOZE_DROPDOWN": "Attiva/Disattiva sospensione a discesa"

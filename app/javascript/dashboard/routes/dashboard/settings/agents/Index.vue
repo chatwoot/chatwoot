@@ -11,7 +11,7 @@
 
     <!-- List Agents -->
     <div class="flex flex-row gap-4">
-      <div class="w-[60%]">
+      <div class="w-full lg:w-3/5">
         <woot-loading-state
           v-if="uiFlags.isFetching"
           :message="$t('AGENT_MGMT.LOADING')"
@@ -27,7 +27,6 @@
                 <td>
                   <thumbnail
                     :src="agent.thumbnail"
-                    class="columns"
                     :username="agent.name"
                     size="40px"
                     :status="agent.availability_status"
@@ -85,7 +84,7 @@
           </table>
         </div>
       </div>
-      <div class="w-[34%]">
+      <div class="w-1/3 hidden lg:block">
         <span
           v-dompurify-html="
             useInstallationName(
@@ -131,6 +130,7 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import Thumbnail from '../../../../components/widgets/Thumbnail.vue';
 import AddAgent from './AddAgent.vue';
 import EditAgent from './EditAgent.vue';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
@@ -138,7 +138,7 @@ export default {
     EditAgent,
     Thumbnail,
   },
-  mixins: [globalConfigMixin],
+  mixins: [globalConfigMixin, alertMixin],
   data() {
     return {
       loading: {},
@@ -231,19 +231,19 @@ export default {
     async deleteAgent(id) {
       try {
         await this.$store.dispatch('agents/delete', id);
-        this.showAlert(this.$t('AGENT_MGMT.DELETE.API.SUCCESS_MESSAGE'));
+        this.showAlertMessage(this.$t('AGENT_MGMT.DELETE.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(this.$t('AGENT_MGMT.DELETE.API.ERROR_MESSAGE'));
+        this.showAlertMessage(this.$t('AGENT_MGMT.DELETE.API.ERROR_MESSAGE'));
       }
     },
     // Show SnackBar
-    showAlert(message) {
+    showAlertMessage(message) {
       // Reset loading, current selected agent
       this.loading[this.currentAgent.id] = false;
       this.currentAgent = {};
       // Show message
       this.agentAPI.message = message;
-      bus.$emit('newToastMessage', message);
+      this.showAlert(message);
     },
   },
 };

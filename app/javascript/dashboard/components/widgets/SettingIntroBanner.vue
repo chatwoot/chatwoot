@@ -2,7 +2,7 @@
   <div
     class="bg-slate-25 dark:bg-slate-900 pt-4 pb-0 px-8 border-b border-solid border-slate-50 dark:border-slate-800/50"
   >
-    <h2 class="text-2xl text-slate-800 dark:text-slate-100">
+    <h2 class="text-2xl text-slate-800 dark:text-slate-100 mb-1 font-medium">
       {{ headerTitle }}
     </h2>
     <p

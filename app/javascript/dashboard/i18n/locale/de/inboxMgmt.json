@@ -22,7 +22,7 @@
         "body": "Fügen Sie dem erstellten Posteingang Agenten hinzu."
       },
       {
-        "title": "Voila!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "Sie sind bereit zu gehen!"
       }
@@ -43,7 +43,7 @@
         "CHOOSE_PLACEHOLDER": "Wähle eine Seite aus der Liste",
         "INBOX_NAME": "Posteingang-Name",
         "ADD_NAME": "Namen für diesen Posteingang eingeben",
-        "PICK_NAME": "Wählen Sie einen Namen für Ihren Posteingang",
+        "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "Wählen Sie einen Wert aus"
       },
       "TWITTER": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook-URL",
-          "PLACEHOLDER": "Geben Sie Ihre Webhook-URL ein",
+          "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Bitte geben Sie eine gültige URL ein"
         },
         "CHANNEL_DOMAIN": {
@@ -175,12 +175,12 @@
           },
           "API_KEY": {
             "LABEL": "API-Schlüssel",
-            "PLACEHOLDER": "Bitte geben Sie Ihren Bandbreiten-API-Schlüssel ein",
+            "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "Dieses Feld wird benötigt"
           },
           "API_SECRET": {
             "LABEL": "API-Secret",
-            "PLACEHOLDER": "Bitte geben Sie Ihr Bandbreiten-API-Secret ein",
+            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "Dieses Feld wird benötigt"
           },
           "APPLICATION_ID": {
@@ -239,7 +239,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook-Verifizierungstoken",
-          "PLACEHOLDER": "Geben Sie ein Überprüfungstoken ein, das Sie für Facebook-Webhooks konfigurieren möchten.",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
           "ERROR": "Bitte geben Sie einen gültigen Wert ein."
         },
         "API_KEY": {
@@ -269,7 +269,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook-URL",
-          "SUBTITLE": "Konfigurieren Sie die URL, auf der Sie Callbacks bei Events erhalten möchten.",
+          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "Webhook-URL"
         },
         "SUBMIT_BUTTON": "API-Kanal erstellen",
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "E-Mail-Kanal",
-        "DESC": "Integrieren Sie Ihren Posteingang.",
+        "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Kanal Name",
           "PLACEHOLDER": "Bitte geben Sie einen Kanalnamen ein",
@@ -345,7 +345,7 @@
       "AGENTS": {
         "TITLE": "Agenten",
         "DESC": "Hier können Sie Agenten hinzufügen, um Ihren neu erstellten Posteingang zu verwalten. Nur diese ausgewählten Agenten haben Zugriff auf Ihren Posteingang. Agenten, die nicht Teil dieses Posteingangs sind, können bei der Anmeldung keine Nachrichten in diesem Posteingang sehen oder darauf antworten. <br> <b> PS: </b> Wenn Sie als Administrator Zugriff auf alle Posteingänge benötigen, sollten Sie sich als Agent zu allen von Ihnen erstellten Posteingängen hinzufügen.",
-        "VALIDATION_ERROR": "Fügen Sie mindestens einen Agenten zu Ihrem neuen Posteingang hinzu",
+        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Agenten für den Posteingang auswählen"
       },
       "DETAILS": {
@@ -406,7 +406,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to the your customer when they receive emails from your agents.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Freundlich",
@@ -508,7 +508,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Nachrichten zulassen, nachdem die Konversation gelöst wurde",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Den Endbenutzern erlauben, Nachrichten zu versenden, auch wenn die Unterhaltung abgeschlossen ist.",
       "WHATSAPP_SECTION_SUBHEADER": "Dieser API Key wird für die Integration mit den WhatsApp APIs verwendet.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Geben Sie den aktualisierten Schlüssel ein, der für die Integration von WhatsApp API verwendet werden soll.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API-Schlüssel",
       "WHATSAPP_SECTION_UPDATE_TITLE": "API-Schlüssel aktualisieren",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Neuen API-Schlüssel hier eingeben",
@@ -569,7 +569,7 @@
       "UPDATE": "Einstellungen für Geschäftszeiten aktualisieren",
       "TOGGLE_AVAILABILITY": "Geschäftszeiten für diesen Posteingang aktivieren",
       "UNAVAILABLE_MESSAGE_LABEL": "Nachricht für Besucher außerhalb Geschäftszeiten",
-      "TOGGLE_HELP": "Die Aktivierung der Geschäftsverfügbarkeit zeigt die verfügbaren Stunden auf dem Live-Chat-Widget an, auch wenn alle Agenten offline sind. Außerhalb der verfügbaren Stunden können Besucher mit einer Nachricht und einem Vor-Chat-Formular gewarnt werden.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Verfügbarkeit für diesen Tag aktivieren",
         "UNAVAILABLE": "Nicht verfügbar",
@@ -585,7 +585,7 @@
       "NOTE_TEXT": "Um SMTP zu aktivieren, konfigurieren Sie bitte IMAP.",
       "UPDATE": "IMAP-Einstellungen aktualisieren",
       "TOGGLE_AVAILABILITY": "IMAP-Konfiguration für diesen Posteingang aktivieren",
-      "TOGGLE_HELP": "Die Aktivierung von IMAP hilft dem Benutzer, E-Mails zu empfangen",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "IMAP-Einstellungen erfolgreich aktualisiert",
         "ERROR_MESSAGE": "IMAP-Einstellungen können nicht aktualisiert werden"
@@ -717,7 +717,7 @@
         "IN_A_DAY": "Wir antworten üblicherweise innerhalb eines Tages"
       },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "Unterhaltung beginnen",
+        "START_CONVERSATION_BUTTON_TEXT": "Konversation beginnen",
         "CHAT_INPUT_PLACEHOLDER": "Schreiben Sie Ihre Nachricht"
       },
       "BODY": {

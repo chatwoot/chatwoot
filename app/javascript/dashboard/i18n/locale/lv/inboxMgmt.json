@@ -43,7 +43,7 @@
         "CHOOSE_PLACEHOLDER": "Izvēlieties lapu no saraksta",
         "INBOX_NAME": "Iesūtnes Nosaukums",
         "ADD_NAME": "Pievienojiet savas iesūtnes nosaukumu",
-        "PICK_NAME": "Izvēlieties savai iesūtnei nosaukumu",
+        "PICK_NAME": "Lūdzu ievadiet Iesūtnes nosaukumu",
         "PICK_A_VALUE": "Izvēlieties vērtību"
       },
       "TWITTER": {
@@ -62,7 +62,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Ievadiet savu Webhook URL",
+          "PLACEHOLDER": "Lūdzu ievadiet Webhook URL",
           "ERROR": "Lūdzu, ievadiet derīgu URL"
         },
         "CHANNEL_DOMAIN": {
@@ -143,7 +143,7 @@
           "ERROR": "Šis lauks ir nepieciešams"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Tālruņa numurs",
+          "LABEL": "Telefona numurs",
           "PLACEHOLDER": "Lūdzu, ievadiet tālruņa numuru, no kura tiks nosūtīts ziņojums.",
           "ERROR": "Lūdzu, norādiet derīgu tālruņa numuru, kas sākas ar zīmi “+” un nesatur atstarpes."
         },
@@ -175,12 +175,12 @@
           },
           "API_KEY": {
             "LABEL": "API atslēga",
-            "PLACEHOLDER": "Lūdzu, ievadiet savu Bandwith API atslēgu",
+            "PLACEHOLDER": "Lūdzu ievadiet Bandwidth API Key",
             "ERROR": "Šis lauks ir nepieciešams"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Lūdzu, ievadiet savu Bandwith API Secret",
+            "PLACEHOLDER": "Lūdzu ievadiet Bandwidth API Secret",
             "ERROR": "Šis lauks ir nepieciešams"
           },
           "APPLICATION_ID": {
@@ -239,7 +239,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook Pārbaudes Token",
-          "PLACEHOLDER": "Ievadiet verifikācijas token, kuru vēlaties nokonfigurēt priekš Facebook webhooks.",
+          "PLACEHOLDER": "Ievadiet verifikācijas token, ko vēlaties izmantot priekš Facebook webhook.",
           "ERROR": "Lūdzu, ievadiet derīgu vērtību."
         },
         "API_KEY": {
@@ -279,7 +279,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "E-pasta Kanāls",
-        "DESC": "Integrēt savu e-pasta iesūtni.",
+        "DESC": "Integrēt sava e-pasta iesūtni.",
         "CHANNEL_NAME": {
           "LABEL": "Kanāla Nosaukums",
           "PLACEHOLDER": "Lūdzu, ievadiet kanāla nosaukumu",
@@ -345,7 +345,7 @@
       "AGENTS": {
         "TITLE": "Aģenti",
         "DESC": "Šeit Jūs varat pievienot aģentus, lai pārvaldītu savu jaunizveidoto iesūtni. Tikai šiem atlasītajiem aģentiem būs piekļuve Jūsu iesūtnei. Aģenti, kas neietilpst šajā iesūtnē, nevarēs redzēt ziņojumus vai atbildēt uz ziņojumiem šajā iesūtnē, kad būs pierakstījušies sistēmā. <br> <b>PS:</b> Ja jums kā administratoram ir nepieciešama piekļuve pie visām iesūtnēm, jums ir jāpievieno sevi kā aģentu visām izveidotajām iesūtnēm.",
-        "VALIDATION_ERROR": "Pievienojiet savai jaunajai Iesūtnei vismaz vienu aģentu",
+        "VALIDATION_ERROR": "Pievienojiet savai jaunajai iesūtnei vismaz vienu aģentu",
         "PICK_AGENTS": "Izvēlieties aģentus priekš iesūtnes"
       },
       "DETAILS": {
@@ -406,7 +406,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sūtītāja vārds",
-        "SUB_TEXT": "Izvēlieties vārdu, kas uzrādīsies Jūsu klientam kad viņš saņems e-pasta ziņojumus no Jūsu aģentiem.",
+        "SUB_TEXT": "Izvēlieties vārdu, kas tiks rādīts jūsu klientam, saņemot e-pasta ziņojumus no jūsu aģentiem.",
         "FOR_EG": "Piemēram:",
         "FRIENDLY": {
           "TITLE": "Draudzīgs",
@@ -508,12 +508,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Atļaut ziņojumus pēc sarunas pabeigšanas",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Ļaut galalietotājiem sūtīt ziņojumus pat pēc sarunas atrisināšanas.",
       "WHATSAPP_SECTION_SUBHEADER": "Šī API atslēga tiek izmantota integrācijai ar WhatsApp API.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Ievadiet atjaunināto atslēgu, kas tiks izmantota integrācijai ar WhatsApp API.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Ievadiet jauno API atslēgu, kas tiks izmantota integrācijai ar WhatsApp API.",
       "WHATSAPP_SECTION_TITLE": "API atslēga",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Atjaunināt API atslēgu",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Ievadiet šeit jauno API atslēgu",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Atjaunināt",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Pārbaudes Token",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verifikācijas Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "Šis marķieris tiek izmantots, lai pārbaudītu webhook endpoint autentiskumu.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atjaunināt pirms-tērzēšanas veidlapas iestatījumus"
     },
@@ -569,7 +569,7 @@
       "UPDATE": "Atjaunināt darba laika iestatījumus",
       "TOGGLE_AVAILABILITY": "Iespējot biznesa pieejamību šai iesūtnei",
       "UNAVAILABLE_MESSAGE_LABEL": "Ziņojums nav pieejams priekš apmeklētājiem",
-      "TOGGLE_HELP": "Iespējojot biznesa pieejamību, tiešraides tērzēšanas logrīkā tiks rādīts pieejamais laiks, pat ja visi aģenti būs bezsaistē. Ārpus pieejamā laika, apmeklētājus var brīdināt ar ziņojumu un pirms tērzēšanas veidlapu.",
+      "TOGGLE_HELP": "Iespējojot uzņēmuma pieejamību, tiešraides tērzēšanas logrīkā tiks rādīts darba laiks, pat ja visi aģenti būs bezsaistē. Ārpus darba laika apmeklētājus var brīdināt ar ziņojumu un pirms tērzēšanas veidlapu.",
       "DAY": {
         "ENABLE": "Iespējot pieejamību šai dienai",
         "UNAVAILABLE": "Nav pieejams",

@@ -87,7 +87,10 @@ export default {
       return !allowMessagesAfterResolved && status === 'resolved';
     },
     showEmailTranscriptButton() {
-      return this.currentUser && this.currentUser.email;
+      return this.hasEmail;
+    },
+    hasEmail() {
+      return this.currentUser && this.currentUser.has_email;
     },
     hasReplyTo() {
       return (
@@ -96,7 +99,7 @@ export default {
     },
   },
   mounted() {
-    bus.$on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.toggleReplyTo);
+    this.$emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.toggleReplyTo);
   },
   methods: {
     ...mapActions('conversation', [
@@ -141,18 +144,15 @@ export default {
       this.inReplyTo = message;
     },
     async sendTranscript() {
-      const { email } = this.currentUser;
-      if (email) {
+      if (this.hasEmail) {
         try {
-          await sendEmailTranscript({
-            email,
-          });
-          window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {
+          await sendEmailTranscript();
+          this.$emitter.emit(BUS_EVENTS.SHOW_ALERT, {
             message: this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_SUCCESS'),
             type: 'success',
           });
         } catch (error) {
-          window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {
+          this.$emitter.$emit(BUS_EVENTS.SHOW_ALERT, {
             message: this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_ERROR'),
           });
         }

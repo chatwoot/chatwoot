@@ -1,0 +1,108 @@
+{
+  "SLA": {
+    "HEADER": "SLA",
+    "ADD_ACTION": "Pievienot SLA",
+    "ADD_ACTION_LONG": "Izveidot jaunu SLA politiku",
+    "DESCRIPTION": "Pakalpojuma līmeņa līgumi (SLA) ir līgumi, kas nosaka skaidras cerības starp jūsu komandu un klientiem. Tie nosaka atbildes un atrisināšanas laika standartus, veidojot pārskatatbildības sistēmu un nodrošinot konsekventu, augstas kvalitātes pieredzi.",
+    "LEARN_MORE": "Uzzināt vairāk par SLA",
+    "LOADING": "Notiek SLA iegūšana",
+    "PAYWALL": {
+      "TITLE": "Pārejiet uz maksas versiju, lai izveidotu SLA",
+      "AVAILABLE_ON": "SLA funkcija ir pieejama tikai Business un Enterprise versijās.",
+      "UPGRADE_PROMPT": "Pārejiet uz maksas versiju, lai iegūtu piekļuvi pie papildu funkcijām. Piemēram: komandas pārvaldībai, automatizācijai, pielāgotiem atribūtiem, un citām.",
+      "UPGRADE_NOW": "Pāriet uz maksas versiju tagad",
+      "CANCEL_ANYTIME": "Jūs varat jebkurā laikā mainīt vai atcelt savu versiju"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "SLA funkcija ir pieejama tikai maksas versijās.",
+      "UPGRADE_PROMPT": "Pārejiet uz maksas versiju, lai piekļūtu papildu funkcijām. Piemēram: audita žurnāliem, aģentu kapacitātei, un citām.",
+      "ASK_ADMIN": "Lai pārietu uz maksas versiju, lūdzu sazinieties ar savu administratoru."
+    },
+    "LIST": {
+      "404": "Šim kontam nav piesaistīti SLA līgumi.",
+      "EMPTY": {
+        "TITLE_1": "Enterprise P0",
+        "DESC_1": "Uzņēmuma klientu izvirzītās problēmas, kurām nepieciešama tūlītēja uzmanība.",
+        "TITLE_2": "Enterprise P1",
+        "DESC_2": "Uzņēmuma klientu izvirzītās problēmas, uz kurām ātri jāreaģē."
+      },
+      "BUSINESS_HOURS_ON": "Darba laiks ieslēgts",
+      "BUSINESS_HOURS_OFF": "Darba laiks izslēgts",
+      "RESPONSE_TYPES": {
+        "FRT": "Pirmās atbildes laika slieksnis",
+        "NRT": "Nākamās atbildes laika slieksnis",
+        "RT": "Atrisināšanas laika slieksnis",
+        "SHORT_HAND": {
+          "FRT": "FRT",
+          "NRT": "NRT",
+          "RT": "RT"
+        }
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "SLA Nosaukums",
+        "PLACEHOLDER": "SLA Nosaukums",
+        "REQUIRED_ERROR": "Nepieciešams SLA nosaukums",
+        "MINIMUM_LENGTH_ERROR": "Nepieciešamais minimālais garums 2 simboli",
+        "VALID_ERROR": "Ir atļauti tikai Alfabēti burti, Cipari, Defise un Pasvītra"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Apraksts",
+        "PLACEHOLDER": "SLA priekš premium klientiem"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "LABEL": "Pirmās Atbildes Laiks",
+        "PLACEHOLDER": "5"
+      },
+      "NEXT_RESPONSE_TIME": {
+        "LABEL": "Nākamās Atbildes Laiks",
+        "PLACEHOLDER": "5"
+      },
+      "RESOLUTION_TIME": {
+        "LABEL": "Atrisināšanas Laiks",
+        "PLACEHOLDER": "60"
+      },
+      "BUSINESS_HOURS": {
+        "LABEL": "Darba Laiks",
+        "PLACEHOLDER": "Tikai darba laikā"
+      },
+      "THRESHOLD_TIME": {
+        "INVALID_FORMAT_ERROR": "Slieksnim ir jābūt skaitlim un lielākam par nulli"
+      },
+      "EDIT": "Rediģēt",
+      "CREATE": "Izveidot",
+      "DELETE": "Dzēst",
+      "CANCEL": "Atcelt"
+    },
+    "ADD": {
+      "TITLE": "Pievienot SLA",
+      "DESC": "Draudzīgi solījumi priekš lieliska servisa!",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA ir veiksmīgi pievienots",
+        "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
+      }
+    },
+    "DELETE": {
+      "TITLE": "Dzēst SLA",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA ir veiksmīgi izdzēsts",
+        "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
+      },
+      "CONFIRM": {
+        "TITLE": "Apstiprināt Dzēšanu",
+        "MESSAGE": "Vai tiešām vēlaties dzēst ",
+        "YES": "Jā, Dzēst ",
+        "NO": "Nē, Paturēt "
+      }
+    },
+    "EVENTS": {
+      "TITLE": "Nokavētie SLA",
+      "FRT": "Pirmās reakcijas laiks",
+      "NRT": "Nākamās reakcijas laiks",
+      "RT": "Atrisināšanas laiks",
+      "SHOW_MORE": "{count} vairāk",
+      "HIDE": "Slēpt {count} rindas"
+    }
+  }
+}
