@@ -41,7 +41,7 @@
           :show-query-operator="i !== appliedFilters.length - 1"
           :show-user-input="showUserInput(appliedFilters[i].filter_operator)"
           :grouped-filters="true"
-          :v="v$.appliedFilters.$each.$response.$errors[i]"
+          :v="$v.appliedFilters.$each[i]"
           @resetFilter="resetFilter(i, appliedFilters[i])"
           @removeFilter="removeFilter(i)"
         />
@@ -80,8 +80,7 @@
 
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
-import { useVuelidate } from '@vuelidate/core';
-import { required, requiredIf, helpers } from '@vuelidate/validators';
+import { required, requiredIf } from 'vuelidate/lib/validators';
 import FilterInputBox from '../FilterInput/Index.vue';
 import languages from './advancedFilterItems/languages';
 import countries from 'shared/constants/countries.js';
@@ -118,34 +117,26 @@ export default {
       default: false,
     },
   },
-  setup() {
-    return { v$: useVuelidate() };
-  },
-  validations() {
-    return {
-      appliedFilters: {
-        required,
-        $each: helpers.forEach({
-          values: {
-            ensureBetween0to999: helpers.withMessage(
-              'Value must be between 0 and 999',
-              (value, prop) => {
-                if (prop.filter_operator === 'days_before') {
-                  return parseInt(value, 10) > 0 && parseInt(value, 10) < 999;
-                }
-                return true;
-              }
-            ),
-            required: requiredIf(prop => {
-              return !(
-                prop.filter_operator === 'is_present' ||
-                prop.filter_operator === 'is_not_present'
-              );
-            }),
+  validations: {
+    appliedFilters: {
+      required,
+      $each: {
+        values: {
+          ensureBetween0to999(value, prop) {
+            if (prop.filter_operator === 'days_before') {
+              return parseInt(value, 10) > 0 && parseInt(value, 10) < 999;
+            }
+            return true;
           },
-        }),
+          required: requiredIf(prop => {
+            return !(
+              prop.filter_operator === 'is_present' ||
+              prop.filter_operator === 'is_not_present'
+            );
+          }),
+        },
       },
-    };
+    },
   },
   data() {
     return {
@@ -356,8 +347,8 @@ export default {
       }
     },
     submitFilterQuery() {
-      this.v$.$touch();
-      if (this.v$.$invalid) return;
+      this.$v.$touch();
+      if (this.$v.$invalid) return;
       this.$store.dispatch(
         'setConversationFilters',
         JSON.parse(JSON.stringify(this.appliedFilters))
