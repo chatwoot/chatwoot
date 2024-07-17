@@ -1,11 +1,10 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`dateSeparator date separator snapshot 1`] = `
+exports[`dateSeparator > date separator snapshot 1`] = `
 <div
   class="date--separator text-slate-700"
+  data-v-b24b73fa=""
 >
-  
-  Nov 18, 2019
-
+   Nov 18, 2019 
 </div>
 `;
