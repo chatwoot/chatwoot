@@ -49,6 +49,14 @@
             "OPTION_LABEL": "Lịch liên hệ",
             "CARD_LABEL": ""
         },
+        "productShortName": {
+          "OPTION_LABEL": "Tên tắt sản phẩm",
+          "CARD_LABEL": "S.phẩm: "
+        },
+        "product": {
+            "OPTION_LABEL": "Tên sản phẩm",
+            "CARD_LABEL": "Tên SP: "
+        },
         "lastActivityAt": {
             "OPTION_LABEL": "Ngày tương tác cuối",
             "CARD_LABEL": "T.tác: "

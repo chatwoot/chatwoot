@@ -140,11 +140,13 @@ export default {
       showAddSegmentsModal: false,
       showDeleteSegmentsModal: false,
       displayOptions: {
-        lastStageChangedAt: false,
         assignee: false,
-        lastActivityAt: true,
         lastNote: true,
         currentAction: true,
+        productShortName: false,
+        product: false,
+        lastStageChangedAt: false,
+        lastActivityAt: true,
       },
     };
   },
