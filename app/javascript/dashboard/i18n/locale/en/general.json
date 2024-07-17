@@ -1,5 +1,6 @@
 {
   "GENERAL": {
-    "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items"
+    "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items",
+    "LIST_SEARCH_PLACEHOLDER": "Search from the list"
   }
 }

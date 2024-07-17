@@ -192,7 +192,7 @@ export default {
         modalName: 'AddLabel',
         children: this.labels.map(label => ({
           id: label.id,
-          label: label.title,
+          label: label.description || label.title,
           color: label.color,
           truncateLabel: true,
           toState: frontendURL(

@@ -21,7 +21,20 @@
             "DESELECT_LABEL": "Bỏ chọn"
         },
         "ADD_CONTACT_TOOLTIP": "Tạo khách hàng mới",
-        "FILTER_CONTACTS": "Bộ lọc mới"
+        "FILTER_CONTACTS": "Bộ lọc mới",
+        "FILTER": {
+            "ADD_FIlTER": "Tìm kiếm",
+            "CLEAR_ALL": "Xóa tìm kiếm",
+            "CLEAR_FILTER": "Xóa tìm kiếm này",
+            "EMPTY_LIST": "Không tìm thấy kết quả",
+            "NO_FILTER": "Không có tìm kiếm nào",
+            "SEARCH": "Tìm bộc lọc",
+            "PRODUCTS": "Sản phẩm Dịch vụ",
+            "AGENTS": "Người phụ trách",
+            "LABELS": "Nhãn phân loại",
+            "TEAMS": "Nhóm phụ trách",
+            "CUSTOM_VIEWS": "Bộ lọc có sẵn"
+        }
     },
     "CARD_DISPLAY": {
         "assignee": {
@@ -35,6 +48,14 @@
         "currentAction": {
             "OPTION_LABEL": "Lịch liên hệ",
             "CARD_LABEL": ""
+        },
+        "productShortName": {
+          "OPTION_LABEL": "Tên tắt sản phẩm",
+          "CARD_LABEL": "S.phẩm: "
+        },
+        "product": {
+            "OPTION_LABEL": "Tên sản phẩm",
+            "CARD_LABEL": "Tên SP: "
         },
         "lastActivityAt": {
             "OPTION_LABEL": "Ngày tương tác cuối",

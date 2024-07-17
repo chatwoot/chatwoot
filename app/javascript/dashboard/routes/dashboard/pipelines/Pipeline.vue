@@ -5,11 +5,10 @@
         :search-query="searchQuery"
         :header-title="pageTitle"
         :stage-type-value="stageTypeValue"
-        :assignee-type-value="assigneeTypeValue"
         :display-options="displayOptions"
         :custom-views="customViews"
         :custom-view-value="customViewValue"
-        @on-assignee-type-change="onAssigneeTypeChange"
+        :quick-filters="quickFilters"
         @on-filter-change="onFilterChange"
         @on-toggle-filter="onToggleFilters"
         @on-input-search="onInputSearch"
@@ -19,6 +18,7 @@
         @on-toggle-edit-filter="onToggleFilters"
         @display-option-changed="onDisplayOptionChanged"
         @on-custom-view-change="onCustomViewChange"
+        @on-quick-filters-change="onQuickFiltersChange"
       />
       <board
         :stages="stages"
@@ -120,14 +120,15 @@ export default {
     return {
       contacts: [],
       stageTypeValue: 'both',
-      assigneeTypeValue: null,
       customViewValue: null,
       selectedContactId: '',
       defaultContact: null,
       searchQuery: '',
+      label: '',
       showCreateModal: false,
       showFiltersModal: false,
       appliedFilter: [],
+      quickFilters: {},
       contactFilterItems: contactFilterItems.map(filter => ({
         ...filter,
         attributeName: this.$t(
@@ -139,11 +140,13 @@ export default {
       showAddSegmentsModal: false,
       showDeleteSegmentsModal: false,
       displayOptions: {
-        lastStageChangedAt: false,
         assignee: false,
-        lastActivityAt: true,
         lastNote: true,
         currentAction: true,
+        productShortName: false,
+        product: false,
+        lastStageChangedAt: false,
+        lastActivityAt: true,
       },
     };
   },
@@ -224,26 +227,21 @@ export default {
   mounted() {
     this.$store.dispatch('stages/get');
     this.$store.dispatch('contacts/clearContactFilters');
-
-    this.$store.dispatch('customViews/get', 'contact').then(() => {
-      this.loadUISettings();
-    });
+    this.$store.dispatch('customViews/get', 'contact');
+    this.loadUISettings();
   },
   methods: {
     loadUISettings() {
       const { pipeline_view } = this.uiSettings;
       if (pipeline_view) {
-        this.assigneeTypeValue = pipeline_view.assignee_type;
         this.stageTypeValue = pipeline_view.stage_type;
-        this.customViewValue = pipeline_view.custom_view;
         this.displayOptions = pipeline_view.display_options;
-      } else {
-        if (!this.isAdmin) this.assigneeTypeValue = 'me';
-        if (this.customViews.length > 0)
-          this.customViewValue = this.customViews[0].id;
+        this.quickFilters = pipeline_view.quick_filters;
       }
 
-      if (!this.customViewValue) {
+      if (this.quickFilters) {
+        this.onQuickFiltersChange(this.quickFilters);
+      } else {
         this.fetchContacts();
       }
     },
@@ -314,11 +312,6 @@ export default {
       this.stageTypeValue = selectedStageType.value;
       this.fetchContacts();
     },
-    onAssigneeTypeChange(selectedAssigneeType) {
-      this.selectedContactId = '';
-      this.assigneeTypeValue = selectedAssigneeType?.id;
-      this.fetchContacts();
-    },
     fetchContacts() {
       let value = '';
       if (this.searchQuery.charAt(0) === '+') {
@@ -326,11 +319,13 @@ export default {
       } else {
         value = this.searchQuery;
       }
-      const requestParams = {
+      let requestParams = {
         page: DEFAULT_PAGE,
         stageType: this.stageTypeValue,
-        assigneeType: this.assigneeTypeValue,
       };
+      if (this.label) {
+        requestParams = { ...requestParams, label: this.label };
+      }
       if (value) {
         this.$store.dispatch('contacts/search', {
           search: encodeURIComponent(value),
@@ -377,6 +372,51 @@ export default {
     addContactClick(stageId) {
       this.defaultContact = { stage_id: stageId };
       this.onToggleCreate();
+    },
+    onQuickFiltersChange(quickFilters) {
+      this.quickFilters = quickFilters;
+      this.selectedContactId = '';
+      const filters = Object.keys(quickFilters).filter(
+        key => quickFilters[key]
+      );
+      if (filters.includes('custom_view')) {
+        if (quickFilters.custom_view === 'new') {
+          this.showFiltersModal = true;
+        } else {
+          this.customViewValue = quickFilters.custom_view;
+        }
+        return;
+      }
+      this.$store.dispatch('contacts/clearContactFilters');
+      this.customViewValue = null;
+      if (filters.includes('label')) {
+        this.label = quickFilters.label;
+        this.fetchContacts();
+        return;
+      }
+      this.label = '';
+      if (filters.length === 0) {
+        this.fetchContacts();
+        return;
+      }
+      this.applyQuickFilters(quickFilters, filters);
+    },
+    applyQuickFilters(quickFilters, filters) {
+      const payload = filters.map(key => {
+        return {
+          attribute_key: key,
+          filter_operator: 'equal_to',
+          values: { id: quickFilters[key] },
+          query_operator: 'and',
+          attribute_model: 'standard',
+        };
+      });
+
+      this.$store.dispatch('contacts/filter', {
+        page: DEFAULT_PAGE,
+        stageType: this.stageTypeValue,
+        queryPayload: filterQueryGenerator(payload),
+      });
     },
     onApplyFilter(payload) {
       this.closeContactInfoPanel();

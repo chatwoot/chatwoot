@@ -25,6 +25,21 @@
       <span>{{ cardData.assignee }}</span>
     </p>
     <p
+      v-if="displayOptions.productShortName && cardData.productShortName"
+      class="mb-1"
+    >
+      <span>
+        <strong> {{ $t(`CARD_DISPLAY.productShortName.CARD_LABEL`) }} </strong>
+      </span>
+      <span>{{ cardData.productShortName }}</span>
+    </p>
+    <p v-if="displayOptions.product && cardData.product" class="mb-1">
+      <span>
+        <strong> {{ $t(`CARD_DISPLAY.product.CARD_LABEL`) }} </strong>
+      </span>
+      <span>{{ cardData.product }}</span>
+    </p>
+    <p
       v-if="displayOptions.lastActivityAt && cardData.formattedLastActivityAt"
       class="mb-1"
     >

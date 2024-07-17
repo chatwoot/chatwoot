@@ -3,7 +3,7 @@
     class="flex justify-between w-full px-4 bg-white dark:bg-slate-900 border-b border-slate-50 dark:border-slate-800"
   >
     <div
-      class="flex items-center justify-center max-w-full min-w-[6.25rem] gap-4"
+      class="flex items-center justify-center max-w-full min-w-[6.25rem] gap-4 mt-2 mb-2"
     >
       <fluent-icon icon="contact-card-group" />
       <h1
@@ -15,19 +15,6 @@
         :stage-type-value="stageTypeValue"
         @on-stage-type-change="onStageFilterChange"
       />
-      <div class="multiselect-wrap--small mt-4">
-        <multiselect
-          v-model="selectedAssigneeType"
-          track-by="id"
-          label="name"
-          :placeholder="$t('PIPELINE_PAGE.ASSIGNEE_TYPE.PLACEHOLDER')"
-          :selected-label="$t('PIPELINE_PAGE.DROPDOWN.SELECTED_LABEL')"
-          :select-label="$t('PIPELINE_PAGE.DROPDOWN.SELECT_LABEL')"
-          :deselect-label="$t('PIPELINE_PAGE.DROPDOWN.DESELECT_LABEL')"
-          :options="assigneeTypes"
-          @remove="removeAssigneeType"
-        />
-      </div>
       <div class="relative">
         <div
           role="button"
@@ -50,6 +37,49 @@
           class="absolute top-9 ltr:left-0 rtl:right-0"
           @option-changed="onOptionChanged"
         />
+      </div>
+      <div class="flex">
+        <quick-filter
+          :applied-filters-prop="quickFilters"
+          @filter-change="onFilterChange"
+        />
+        <div v-if="hasActiveSegments && canEditView">
+          <woot-button
+            class="clear"
+            color-scheme="secondary"
+            icon="edit"
+            @click="onToggleEditSegmentsModal"
+          >
+            {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_EDIT') }}
+          </woot-button>
+          <woot-button
+            class="clear"
+            color-scheme="alert"
+            icon="delete"
+            @click="onToggleDeleteSegmentsModal"
+          >
+            {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_DELETE') }}
+          </woot-button>
+        </div>
+        <div v-if="hasAppliedFilters && !hasActiveSegments" class="relative">
+          <woot-button
+            class="clear"
+            color-scheme="secondary"
+            icon="filter"
+            @click="toggleFilter"
+          >
+            {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_EDIT') }}
+          </woot-button>
+          <woot-button
+            class="clear"
+            color-scheme="alert"
+            variant="clear"
+            icon="save"
+            @click="onToggleSegmentsModal"
+          >
+            {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_SAVE') }}
+          </woot-button>
+        </div>
       </div>
     </div>
 
@@ -80,73 +110,6 @@
           {{ $t('CONTACTS_PAGE.SEARCH_BUTTON') }}
         </woot-button>
       </div>
-      <div class="flex mt-4">
-        <div v-if="customViews.length > 0" class="multiselect-wrap--small">
-          <multiselect
-            v-model="selectedView"
-            track-by="id"
-            label="name"
-            :placeholder="$t('PIPELINE_PAGE.CUSTOM_VIEWS.PLACEHOLDER')"
-            :selected-label="$t('PIPELINE_PAGE.DROPDOWN.SELECTED_LABEL')"
-            :select-label="$t('PIPELINE_PAGE.DROPDOWN.SELECT_LABEL')"
-            :deselect-label="$t('PIPELINE_PAGE.DROPDOWN.DESELECT_LABEL')"
-            :custom-label="customViewLabel"
-            :options="customViews"
-            @remove="removeCustomView"
-          >
-            <template slot="option" slot-scope="{ option }">
-              <span>{{ option.name }}</span>
-            </template>
-          </multiselect>
-        </div>
-        <div v-if="hasActiveSegments && canEditView">
-          <woot-button
-            class="clear"
-            color-scheme="secondary"
-            icon="edit"
-            @click="onToggleEditSegmentsModal"
-          >
-            {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_EDIT') }}
-          </woot-button>
-          <woot-button
-            class="clear"
-            color-scheme="alert"
-            icon="delete"
-            @click="onToggleDeleteSegmentsModal"
-          >
-            {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_DELETE') }}
-          </woot-button>
-        </div>
-        <div v-if="!hasActiveSegments" class="relative">
-          <div
-            v-if="hasAppliedFilters"
-            class="absolute h-2 w-2 top-1 right-3 bg-slate-500 dark:bg-slate-500 rounded-full"
-          />
-          <woot-button
-            class="clear"
-            color-scheme="secondary"
-            icon="filter"
-            @click="toggleFilter"
-          >
-            {{
-              hasAppliedFilters
-                ? $t('CONTACTS_PAGE.FILTER_CONTACTS_EDIT')
-                : $t('PIPELINE_PAGE.FILTER_CONTACTS')
-            }}
-          </woot-button>
-        </div>
-
-        <woot-button
-          v-if="hasAppliedFilters && !hasActiveSegments"
-          class="clear"
-          color-scheme="alert"
-          variant="clear"
-          icon="save"
-          @click="onToggleSegmentsModal"
-        >
-          {{ $t('CONTACTS_PAGE.FILTER_CONTACTS_SAVE') }}
-        </woot-button>
-      </div>
     </div>
   </header>
 </template>
@@ -157,10 +120,12 @@ import adminMixin from 'dashboard/mixins/isAdmin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import StageTypeFilter from '../settings/reports/components/Filters/StageType.vue';
 import DisplayOptionMenu from './DisplayOptionMenu.vue';
+import QuickFilter from './QuickFilter.vue';
 
 export default {
   components: {
     StageTypeFilter,
+    QuickFilter,
     DisplayOptionMenu,
   },
   mixins: [adminMixin, uiSettingsMixin],
@@ -181,10 +146,6 @@ export default {
       type: String,
       default: 'both',
     },
-    assigneeTypeValue: {
-      type: String,
-      default: null,
-    },
     customViews: {
       type: Array,
       default: () => [],
@@ -192,6 +153,10 @@ export default {
     customViewValue: {
       type: Number,
       default: null,
+    },
+    quickFilters: {
+      type: Object,
+      default: () => {},
     },
   },
   data() {
@@ -212,25 +177,6 @@ export default {
     hasActiveSegments() {
       return this.customViewValue !== null;
     },
-    assigneeTypes() {
-      return [
-        { id: 'me', name: this.$t('PIPELINE_PAGE.ASSIGNEE_TYPE.ME') },
-        {
-          id: 'unassigned',
-          name: this.$t('PIPELINE_PAGE.ASSIGNEE_TYPE.UNASSIGNED'),
-        },
-      ];
-    },
-    selectedAssigneeType: {
-      get() {
-        return this.assigneeTypes.find(
-          item => item.id === this.assigneeTypeValue
-        );
-      },
-      set(selectedAssigneeType) {
-        this.$emit('on-assignee-type-change', selectedAssigneeType);
-      },
-    },
     selectedView: {
       get() {
         return this.customViews.find(item => item.id === this.customViewValue);
@@ -244,12 +190,6 @@ export default {
     },
   },
   watch: {
-    customViewValue() {
-      this.saveSelectedValues();
-    },
-    assigneeTypeValue() {
-      this.saveSelectedValues();
-    },
     stageTypeValue() {
       this.saveSelectedValues();
     },
@@ -259,8 +199,17 @@ export default {
       },
       deep: true,
     },
+    quickFilters: {
+      handler() {
+        this.saveSelectedValues();
+      },
+      deep: true,
+    },
   },
   methods: {
+    onFilterChange(appliedFilters) {
+      this.$emit('on-quick-filters-change', appliedFilters);
+    },
     removeAssigneeType() {
       this.$emit('on-assignee-type-change', null);
     },
@@ -270,10 +219,9 @@ export default {
     saveSelectedValues() {
       this.updateUISettings({
         pipeline_view: {
-          custom_view: this.customViewValue,
-          assignee_type: this.assigneeTypeValue,
           stage_type: this.stageTypeValue,
           display_options: this.displayOptions,
+          quick_filters: this.quickFilters,
         },
       });
     },

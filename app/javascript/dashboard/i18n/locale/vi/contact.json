@@ -267,7 +267,7 @@
     "HEADER": "Khách hàng",
     "FIELDS": "Trường của khách hàng",
     "SEARCH_BUTTON": "Tìm kiếm",
-    "SEARCH_INPUT_PLACEHOLDER": "Tìm nhanh khách hàng",
+    "SEARCH_INPUT_PLACEHOLDER": "Tìm tên, sđt và email",
     "FILTER_CONTACTS": "Lọc",
     "FILTER_CONTACTS_SAVE": "Lưu bộ lọc",
     "FILTER_CONTACTS_DELETE": "Xoá bộ lọc",
