@@ -109,8 +109,8 @@
         "DELETE": "Xoá"
       },
       "STATUS": {
-        "ENABLED": "Bật",
-        "DISABLED": "Tắt",
+        "ENABLED": "Có hiệu lực",
+        "DISABLED": "Vô hiệu",
         "COMPLETED": "Hoàn tất",
         "ACTIVE": "Có hiệu lực"
       },

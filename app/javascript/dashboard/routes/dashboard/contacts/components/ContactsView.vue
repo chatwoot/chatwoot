@@ -234,7 +234,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('contacts/clearContactFilters');
+    // this.$store.dispatch('contacts/clearContactFilters');
     this.fetchContacts(this.pageParameter);
   },
   methods: {

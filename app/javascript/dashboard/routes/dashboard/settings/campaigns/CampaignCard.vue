@@ -142,15 +142,13 @@ export default {
       return this.campaign.inboxes.map(item => item.name).join(', ');
     },
     campaignStatus() {
-      if (this.isOngoingType) {
-        return this.campaign.enabled
-          ? this.$t('CAMPAIGN.LIST.STATUS.ENABLED')
-          : this.$t('CAMPAIGN.LIST.STATUS.DISABLED');
+      if (this.campaign.campaign_status === 'completed') {
+        return this.$t('CAMPAIGN.LIST.STATUS.COMPLETED');
       }
 
-      return this.campaign.campaign_status === 'completed'
-        ? this.$t('CAMPAIGN.LIST.STATUS.COMPLETED')
-        : this.$t('CAMPAIGN.LIST.STATUS.ACTIVE');
+      return this.campaign.enabled
+        ? this.$t('CAMPAIGN.LIST.STATUS.ENABLED')
+        : this.$t('CAMPAIGN.LIST.STATUS.DISABLED');
     },
     colorScheme() {
       if (this.isOngoingType) {

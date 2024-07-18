@@ -51,7 +51,19 @@ export default {
           type: 'custom_attribute',
         }));
 
-      return [...attributes, ...customAttributes];
+      const allProductAttributes =
+        this.$store.getters['attributes/getAttributesByModel'](
+          'product_attribute'
+        );
+      const productAttributes = allProductAttributes
+        .filter(attr => attr.attribute_display_type === 'date')
+        .map(attr => ({
+          key: attr.attribute_key,
+          name: attr.attribute_display_name,
+          type: 'product_attribute',
+        }));
+
+      return [...attributes, ...customAttributes, ...productAttributes];
     },
     audienceList() {
       const customViews =

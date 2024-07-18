@@ -176,7 +176,47 @@
           :placeholder="$t('CAMPAIGN.ADD.FORM.TIME_ON_PAGE.PLACEHOLDER')"
           @blur="$v.timeOnPage.$touch"
         />
-        <label v-if="isOngoingType">
+        <div v-if="isFlexibleType">
+          <label :class="{ error: $v.flexibleScheduledAt.$error }">
+            {{ $t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.LABEL') }}
+          </label>
+          <div class="flex flex-row gap-2">
+            <multiselect
+              v-model="scheduledAttribute"
+              :placeholder="$t('CAMPAIGN.FLEXIBLE.SCHEDULED_ATTRIBUTE')"
+              class="multiselect-wrap--small max-w-[35%]"
+              track-by="key"
+              label="name"
+              selected-label=""
+              select-label=""
+              deselect-label=""
+              :options="contactDateAttributes"
+            />
+            <multiselect
+              v-model="scheduledCalculation"
+              :placeholder="$t('CAMPAIGN.FLEXIBLE.SCHEDULED_CALCULATION')"
+              class="multiselect-wrap--small max-w-[40%]"
+              track-by="key"
+              label="name"
+              selected-label=""
+              select-label=""
+              deselect-label=""
+              :options="scheduledCalculations"
+              @select="scheduledCalculationChange"
+            />
+            <input
+              v-if="showExtraDays"
+              v-model="extraDays"
+              type="number"
+              class="max-w-[25%]"
+              :placeholder="$t('CAMPAIGN.FLEXIBLE.EXTRA_DAYS')"
+            />
+          </div>
+          <span v-if="$v.flexibleScheduledAt.$error" class="message">
+            {{ $t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.ERROR') }}
+          </span>
+        </div>
+        <label>
           <input
             v-model="enabled"
             type="checkbox"
@@ -194,46 +234,6 @@
           />
           {{ $t('CAMPAIGN.ADD.FORM.TRIGGER_ONLY_BUSINESS_HOURS') }}
         </label>
-        <div v-if="isFlexibleType">
-          <label :class="{ error: $v.flexibleScheduledAt.$error }">
-            {{ $t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.LABEL') }}
-          </label>
-          <div class="flex flex-row gap-2">
-            <multiselect
-              v-model="scheduledCalculation"
-              :placeholder="$t('CAMPAIGN.FLEXIBLE.SCHEDULED_CALCULATION')"
-              class="multiselect-wrap--small max-w-[40%]"
-              track-by="key"
-              label="name"
-              selected-label=""
-              select-label=""
-              deselect-label=""
-              :options="scheduledCalculations"
-              @select="scheduledCalculationChange"
-            />
-            <multiselect
-              v-model="scheduledAttribute"
-              :placeholder="$t('CAMPAIGN.FLEXIBLE.SCHEDULED_ATTRIBUTE')"
-              class="multiselect-wrap--small max-w-[35%]"
-              track-by="key"
-              label="name"
-              selected-label=""
-              select-label=""
-              deselect-label=""
-              :options="contactDateAttributes"
-            />
-            <input
-              v-if="showExtraDays"
-              v-model="extraDays"
-              type="number"
-              class="max-w-[25%]"
-              :placeholder="$t('CAMPAIGN.FLEXIBLE.EXTRA_DAYS')"
-            />
-          </div>
-          <span v-if="$v.flexibleScheduledAt.$error" class="message">
-            {{ $t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.ERROR') }}
-          </span>
-        </div>
       </div>
 
       <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
@@ -554,6 +554,7 @@ export default {
           },
           audience,
           inboxes,
+          enabled: this.enabled,
         };
       }
       return {
