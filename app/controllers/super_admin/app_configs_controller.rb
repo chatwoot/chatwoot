@@ -11,7 +11,6 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
                                     .pluck(:name, :serialized_value)
                                     .map { |name, serialized_value| [name, serialized_value['value']] }
                                     .to_h
-    # rubocop:enable Style/HashTransformValues
   end
 
   def create
