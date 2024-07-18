@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '3.2.2'
+ruby '3.3.3'
 
 ##-- base gems for rails --##
 gem 'rack-cors', '2.0.0', require: 'rack/cors'
@@ -111,12 +111,12 @@ gem 'elastic-apm', require: false
 gem 'newrelic_rpm', require: false
 gem 'newrelic-sidekiq-metrics', '>= 1.6.2', require: false
 gem 'scout_apm', require: false
-gem 'sentry-rails', '>= 5.18.0', require: false
+gem 'sentry-rails', '>= 5.18.1', require: false
 gem 'sentry-ruby', require: false
-gem 'sentry-sidekiq', '>= 5.18.0', require: false
+gem 'sentry-sidekiq', '>= 5.18.1', require: false
 
 ##-- background job processing --##
-gem 'sidekiq', '>= 7.2.4'
+gem 'sidekiq', '>= 7.3.0'
 # We want cron jobs
 gem 'sidekiq-cron', '>= 1.12.0'
 
