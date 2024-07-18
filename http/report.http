@@ -30,6 +30,8 @@ GET {{api}}/api/v2/accounts/{{account_id}}/reports
 &type={{type}}
 &group_by={{group_by}}
 &business_hours={{business_hours}}
+# &agents_ids[]=1&agents_ids[]=16
+&agents_ids[]=198
 Content-Type: application/json
 Authorization: {{token}}
 
