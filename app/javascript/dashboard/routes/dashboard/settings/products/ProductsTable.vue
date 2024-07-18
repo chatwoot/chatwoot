@@ -100,6 +100,7 @@ export default {
         {
           field: 'name',
           key: 'name',
+          width: 300,
           title: this.$t('PRODUCTS_PAGE.LIST.TABLE_HEADER.NAME'),
           fixed: 'left',
           align: this.isRTLView ? 'right' : 'left',

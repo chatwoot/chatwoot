@@ -97,7 +97,7 @@ export default {
       ) {
         customViews.push({
           id: 'new',
-          name: 'Bộ lọc mới',
+          name: this.$t('PIPELINE_PAGE.FILTER_CONTACTS'),
         });
       }
 
@@ -142,10 +142,7 @@ export default {
           options: this[item.type].map(option => {
             return {
               id: item.key === 'label' ? option.title : option.id,
-              name:
-                item.key === 'label'
-                  ? option.description || option.title
-                  : option.name,
+              name: this.getOptionName(option, item.key),
               key: item.key,
             };
           }),
@@ -206,7 +203,8 @@ export default {
         .map(({ id, key, options }) => ({
           id,
           key,
-          name: options.find(item => item.id === this.appliedFilters[key]).name,
+          name: options.find(item => item.id === this.appliedFilters[key])
+            ?.name,
           type: key,
           options,
         }));
@@ -228,6 +226,18 @@ export default {
     this.$store.dispatch('agents/get');
   },
   methods: {
+    getOptionName(option, key) {
+      switch (key) {
+        case 'label':
+          return option.description || option.title;
+        case 'product_id':
+          return (
+            (option.short_name ? option.short_name + ' - ' : '') + option.name
+          );
+        default:
+          return option.name;
+      }
+    },
     addFilter(item) {
       const { key, id } = item;
       if (key === 'custom_view' || key === 'label') {

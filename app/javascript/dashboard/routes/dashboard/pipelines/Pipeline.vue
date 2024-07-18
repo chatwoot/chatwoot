@@ -236,7 +236,7 @@ export default {
       if (pipeline_view) {
         this.stageTypeValue = pipeline_view.stage_type;
         this.displayOptions = pipeline_view.display_options;
-        this.quickFilters = pipeline_view.quick_filters;
+        this.quickFilters = pipeline_view.quick_filters || {};
       }
 
       if (this.quickFilters) {
