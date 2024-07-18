@@ -50,7 +50,7 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
 
   def convert_and_save_favicon(favicon_url, sizes, badge: false)
     sizes.each do |size|
-      save_favicon(favicon_url, size, badge)
+      save_favicon(favicon_url, size, badge: badge)
     end
   rescue StandardError => e
     Rails.logger.error "Failed to convert and save favicon: #{e.message}"
