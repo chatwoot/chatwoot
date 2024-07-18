@@ -3,7 +3,7 @@
   <div>
     <div
       class="rounded-md p-2 border border-solid"
-      :class="getInputErrorClass(v.values.$dirty, v.values.$error)"
+      :class="getInputErrorClass(errorMessage)"
     >
       <div class="flex">
         <select
@@ -115,8 +115,8 @@
           @click="removeFilter"
         />
       </div>
-      <p v-if="v.values.$dirty && v.values.$error" class="filter-error">
-        {{ $t('FILTER.EMPTY_VALUE_ERROR') }}
+      <p v-if="errorMessage" class="filter-error">
+        {{ errorMessage }}
       </p>
     </div>
 
@@ -173,10 +173,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    v: {
-      type: Object,
-      default: () => null,
-    },
     showUserInput: {
       type: Boolean,
       default: true,
@@ -190,6 +186,10 @@ export default {
       default: () => [],
     },
     customAttributeType: {
+      type: String,
+      default: '',
+    },
+    errorMessage: {
       type: String,
       default: '',
     },
@@ -271,8 +271,8 @@ export default {
     resetFilter() {
       this.$emit('resetFilter');
     },
-    getInputErrorClass(isDirty, hasError) {
-      return isDirty && hasError
+    getInputErrorClass(errorMessage) {
+      return errorMessage
         ? 'bg-red-50 dark:bg-red-800/50 border-red-100 dark:border-red-700/50'
         : 'bg-slate-50 dark:bg-slate-800 border-slate-75 dark:border-slate-700/50';
     },

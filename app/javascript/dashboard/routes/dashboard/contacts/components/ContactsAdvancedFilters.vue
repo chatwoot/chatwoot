@@ -41,7 +41,7 @@
           :dropdown-values="getDropdownValues(appliedFilters[i].attribute_key)"
           :show-query-operator="i !== appliedFilters.length - 1"
           :show-user-input="showUserInput(appliedFilters[i].filter_operator)"
-          :v="$v.appliedFilters.$each[i]"
+          :error-message="validationErrors[`filter_${i}`]"
           @resetFilter="resetFilter(i, appliedFilters[i])"
           @removeFilter="removeFilter(i)"
         />
@@ -90,7 +90,6 @@
 
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
-import { required } from 'vuelidate/lib/validators';
 import FilterInputBox from '../../../../components/widgets/FilterInput/Index.vue';
 import countries from 'shared/constants/countries.js';
 import { mapGetters } from 'vuex';
@@ -98,6 +97,8 @@ import { filterAttributeGroups } from '../contactFilterItems';
 import filterMixin from 'shared/mixins/filterMixin';
 import * as OPERATORS from 'dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
 import { CONTACTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
+import { validateConversationOrContactFilters } from 'dashboard/helper/conversationAdvancedFilterValidation.js';
+
 export default {
   components: {
     FilterInputBox,
@@ -125,22 +126,6 @@ export default {
       default: '',
     },
   },
-  validations: {
-    appliedFilters: {
-      required,
-      $each: {
-        values: {
-          required,
-          ensureBetween0to999(value, prop) {
-            if (prop.filter_operator === 'days_before') {
-              return parseInt(value, 10) > 0 && parseInt(value, 10) < 999;
-            }
-            return true;
-          },
-        },
-      },
-    },
-  },
   data() {
     return {
       show: true,
@@ -152,6 +137,7 @@ export default {
       filterAttributeGroups,
       attributeModel: 'contact_attribute',
       filtersFori18n: 'CONTACTS_FILTER',
+      validationErrors: {},
     };
   },
   computed: {
@@ -314,20 +300,23 @@ export default {
       }
     },
     submitFilterQuery() {
-      this.$v.$touch();
-      if (this.$v.$invalid) return;
-      this.$store.dispatch(
-        'contacts/setContactFilters',
-        JSON.parse(JSON.stringify(this.appliedFilters))
+      this.validationErrors = validateConversationOrContactFilters(
+        this.appliedFilters
       );
-      this.$emit('applyFilter', this.appliedFilters);
-      this.$track(CONTACTS_EVENTS.APPLY_FILTER, {
-        applied_filters: this.appliedFilters.map(filter => ({
-          key: filter.attribute_key,
-          operator: filter.filter_operator,
-          query_operator: filter.query_operator,
-        })),
-      });
+      if (Object.keys(this.validationErrors).length === 0) {
+        this.$store.dispatch(
+          'contacts/setContactFilters',
+          JSON.parse(JSON.stringify(this.appliedFilters))
+        );
+        this.$emit('applyFilter', this.appliedFilters);
+        this.$track(CONTACTS_EVENTS.APPLY_FILTER, {
+          applied_filters: this.appliedFilters.map(filter => ({
+            key: filter.attribute_key,
+            operator: filter.filter_operator,
+            query_operator: filter.query_operator,
+          })),
+        });
+      }
     },
     updateSegment() {
       this.$emit(
