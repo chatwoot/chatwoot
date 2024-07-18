@@ -5,6 +5,8 @@ module Enterprise::SuperAdmin::AppConfigsController
     case @config
     when 'custom_branding'
       @allowed_configs = %w[
+        FAVICON
+        FAVICON_BADGE
         LOGO_THUMBNAIL
         LOGO
         BRAND_NAME
