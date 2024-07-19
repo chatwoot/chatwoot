@@ -6,31 +6,32 @@ import {
   shortTimestamp,
 } from 'shared/helpers/timeHelper';
 
+beforeEach(() => {
+  process.env.TZ = 'UTC';
+  vi.useFakeTimers('modern');
+  const mockDate = new Date(Date.UTC(2023, 4, 5));
+  vi.setSystemTime(mockDate);
+});
+
+afterEach(() => {
+  vi.useRealTimers();
+});
+
 describe('#messageStamp', () => {
   it('returns correct value', () => {
-    expect(messageStamp(1612971343)).toEqual('9:05 PM');
+    expect(messageStamp(1612971343)).toEqual('3:35 PM');
     expect(messageStamp(1612971343, 'LLL d, h:mm a')).toEqual(
-      'Feb 10, 9:05 PM'
+      'Feb 10, 3:35 PM'
     );
   });
 });
 
 describe('#messageTimestamp', () => {
-  beforeEach(() => {
-    vi.useFakeTimers('modern');
-    const mockDate = new Date(2023, 4, 5);
-    vi.setSystemTime(mockDate);
-  });
-
-  afterEach(() => {
-    vi.useRealTimers();
-  });
-
   it('should return the message date in the specified format if the message was sent in the current year', () => {
     expect(messageTimestamp(1680777464)).toEqual('Apr 6, 2023');
   });
   it('should return the message date and time in a different format if the message was sent in a different year', () => {
-    expect(messageTimestamp(1612971343)).toEqual('Feb 10 2021, 9:05 PM');
+    expect(messageTimestamp(1612971343)).toEqual('Feb 10 2021, 3:35 PM');
   });
 });
 
