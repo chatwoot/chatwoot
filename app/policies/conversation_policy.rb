@@ -1,5 +1,5 @@
 class ConversationPolicy < ApplicationPolicy
   def index?
-    true
+    user.present? && (record.assignee == user || record.team.members.include?(user))
   end
 end
