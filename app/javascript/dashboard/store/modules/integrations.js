@@ -27,6 +27,7 @@ const isAValidAppIntegration = integration => {
     'google_translate',
     'openai',
     'linear',
+    'captain',
   ].includes(integration.id);
 };
 export const getters = {

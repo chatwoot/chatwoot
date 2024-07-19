@@ -183,3 +183,48 @@ linear:
     },
   ]
   visible_properties: []
+captain:
+  id: captain
+  logo: captain.png
+  i18n_key: captain
+  action: /captain
+  hook_type: account
+  allow_multiple_hooks: false
+  settings_json_schema: {
+    "type": "object",
+    "properties": {
+        "access_token": { "type": "string" },
+        "account_id": { "type": "string" },
+        "account_email": { "type": "string" },
+        "assistant_id": { "type": "string" },
+      },
+    "required": ["access_token", "account_id", "account_email", "assistant_id"],
+    "additionalProperties": false,
+  }
+  settings_form_schema: [
+    {
+      "label": "Access Token",
+      "type": "text",
+      "name": "access_token",
+      "validation": "required",
+    },
+    {
+      "label": "Account ID",
+      "type": "text",
+      "name": "account_id",
+      "validation": "required",
+    },
+    {
+      "label": "Account Email",
+      "type": "text",
+      "name": "account_email",
+      "validation": "required",
+    },
+    {
+      "label": "Assistant Id",
+      "type": "text",
+      "name": "assistant_id",
+      "validation": "required",
+    },
+  ]
+  visible_properties: []

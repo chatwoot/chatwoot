@@ -227,6 +227,9 @@ en:
     linear:
       name: "Linear"
       description: "Create Linear issues from conversations, or link existing ones for seamless tracking."
+    captain:
+      name: "Captain"
+      description: "Captain is a tool that helps you to add intelligent assistant into your Chatwoot Instance"
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
