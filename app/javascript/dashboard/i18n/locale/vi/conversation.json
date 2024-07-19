@@ -13,8 +13,8 @@
     "NO_INBOX_AGENT": "Uh Oh! Có vẻ như bạn không thuộc bất kỳ hộp thư đến nào. Vui lòng liên hệ với quản trị viên của bạn",
     "SEARCH_MESSAGES": "Tìm kiếm tin nhắn trong các hội thoại",
     "EMPTY_STATE": {
-      "CMD_BAR": "to open command menu",
-      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+      "CMD_BAR": "để mở menu lệnh",
+      "KEYBOARD_SHORTCUTS": "để quản lý phím tắt"
     },
     "SEARCH": {
       "TITLE": "Tìm kiếm tin nhắn",
@@ -58,7 +58,7 @@
       "RESOLVE_ACTION": "Giải quyết",
       "REOPEN_ACTION": "Mở lại",
       "OPEN_ACTION": "Mở",
-      "OPEN": "Nhiều",
+      "OPEN": "Mở",
       "CLOSE": "Đóng",
       "DETAILS": "chi tiết",
       "SNOOZED_UNTIL": "Snoozed until",
@@ -89,20 +89,20 @@
       "CANCEL": "Huỷ"
     },
     "PRIORITY": {
-      "TITLE": "Priority",
+      "TITLE": "Độ ưu tiên",
       "OPTIONS": {
         "NONE": "Không có",
-        "URGENT": "Urgent",
-        "HIGH": "High",
-        "MEDIUM": "Medium",
-        "LOW": "Low"
+        "URGENT": "Khẩn cấp",
+        "HIGH": "Cao",
+        "MEDIUM": "Trung bình",
+        "LOW": "Thấp"
       },
       "CHANGE_PRIORITY": {
         "SELECT_PLACEHOLDER": "Không có",
-        "INPUT_PLACEHOLDER": "Select priority",
+        "INPUT_PLACEHOLDER": "Chọn mức độ ưu tiên",
         "NO_RESULTS": "Không tìm thấy kết quả",
-        "SUCCESSFUL": "Changed priority of conversation id %{conversationId} to %{priority}",
-        "FAILED": "Couldn't change priority. Please try again."
+        "SUCCESSFUL": "Đã cập nhật sang %{priority}",
+        "FAILED": "Không thể cập nhật mức độ ưu tiên. Vui lòng thử lại."
       }
     },
     "CARD_CONTEXT_MENU": {
@@ -116,7 +116,7 @@
         "TOMORROW": "Cho đến ngày mai",
         "NEXT_WEEK": "Cho đến tuần sau"
       },
-      "ASSIGN_AGENT": "Gán tổng đài viên",
+      "ASSIGN_AGENT": "Gán Nhân viên",
       "ASSIGN_LABEL": "Gán nhãn",
       "AGENTS_LOADING": "Đang tải điện thoại viên...",
       "ASSIGN_TEAM": "Gán nhóm",
@@ -200,7 +200,7 @@
     "SEND_FAILED": "Không thể gửi tin nhắn! Thử lại",
     "TRY_AGAIN": "thử lại",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Chọn tổng đài viên",
+      "SELECT_AGENT": "Chọn Nhân viên",
       "REMOVE": "Xoá",
       "ASSIGN": "Gán"
     },
@@ -229,7 +229,7 @@
     "SEND_EMAIL_ERROR": "Có lỗi, xin vui lòng thử lại",
     "FORM": {
       "SEND_TO_CONTACT": "Gửi bảng điểm cho khách hàng",
-      "SEND_TO_AGENT": "Gửi bản ghi cho tổng đài viên được phân công",
+      "SEND_TO_AGENT": "Gửi bản ghi cho Nhân viên được phân công",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Gửi bản ghi tới một địa chỉ email khác",
       "EMAIL": {
         "PLACEHOLDER": "Nhập địa chỉ emai",
@@ -247,7 +247,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Mời các thành viên trong nhóm của bạn",
-      "DESCRIPTION": "Vì bạn đã sẵn sàng để chào và đón tiếp khách hàng của mình, hãy lôi kéo đồng đội để hỗ trợ bạn. Bạn có thể mời đồng đội của mình bằng cách thêm địa chỉ email của họ vào danh sách tổng đài viên.",
+      "DESCRIPTION": "Vì bạn đã sẵn sàng để chào và đón tiếp khách hàng của mình, hãy lôi kéo đồng đội để hỗ trợ bạn. Bạn có thể mời đồng đội của mình bằng cách thêm địa chỉ email của họ vào danh sách Nhân viên.",
       "NEW_LINK": "Bấm vào đây để mời đồng đội"
     },
     "INBOXES": {
@@ -262,7 +262,7 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Tổng đài viên được phân công",
+    "ASSIGNEE_LABEL": "Nhân viên được phân công",
     "SELF_ASSIGN": "Phân công cho tôi",
     "TEAM_LABEL": "Nhóm được phân công",
     "SELECT": {

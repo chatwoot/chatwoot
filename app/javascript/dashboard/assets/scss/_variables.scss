@@ -41,7 +41,7 @@ $header-height: 3.5rem;
 $woot-logo-padding: $space-large $space-two;
 
 // Colors
-$color-woot: #1f93ff;
+$color-woot: #4952ff;
 $color-gray: #6e6f73;
 $color-light-gray: #999a9b;
 
@@ -63,7 +63,7 @@ $success-color: #44ce4b;
 $warning-color: #ffc532;
 $alert-color: #ff382d;
 
-$masked-bg: rgba(0, 0, 0, .4);
+$masked-bg: rgba(0, 0, 0, 0.4);
 
 // Color-palettes
 
@@ -80,12 +80,11 @@ $conv-header-height: 2.5rem;
 
 $inbox-thumb-size: 3rem;
 
-
 // Snackbar default
 $woot-snackbar-bg: #323232;
 $woot-snackbar-button: #ffeb3b;
 
-$swift-ease-out-duration: .4s !default;
+$swift-ease-out-duration: 0.4s !default;
 $swift-ease-out-function: cubic-bezier(0.37, 0, 0.63, 1) !default;
 $swift-ease-out: all $swift-ease-out-duration $swift-ease-out-function !default;
 
@@ -93,7 +92,7 @@ $swift-ease-out: all $swift-ease-out-duration $swift-ease-out-function !default;
 $ionicons-font-path: '~ionicons/fonts';
 
 // Transitions
-$transition-ease-in: all 0.250s ease-in;
+$transition-ease-in: all 0.25s ease-in;
 
 :root {
   --dashboard-app-tabs-height: 2.4375rem;

@@ -154,7 +154,7 @@
     "webpack-dev-server": "^3"
   },
   "engines": {
-    "node": "20.x",
+    "node": "22.x",
     "npm": ">=6.x",
     "yarn": "1.22.x"
   },
@@ -165,8 +165,7 @@
   },
   "lint-staged": {
     "app/**/*.{js,vue}": [
-      "eslint --fix",
-      "git add"
+      "eslint --fix"
     ],
     "*.scss": [
       "scss-lint"

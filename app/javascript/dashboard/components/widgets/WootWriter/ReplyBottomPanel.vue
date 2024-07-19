@@ -93,6 +93,7 @@
         :conversation-id="conversationId"
       />
       <AIAssistanceButton
+        v-if="showAI"
         :conversation-id="conversationId"
         :is-private-note="isOnPrivateNote"
         :message="message"
@@ -316,7 +317,11 @@ export default {
       }
     },
     showMessageSignatureButton() {
-      return !this.isOnPrivateNote;
+      return false;
+      // return !this.isOnPrivateNote;
+    },
+    showAI() {
+      return false;
     },
     sendWithSignature() {
       // channelType is sourced from inboxMixin

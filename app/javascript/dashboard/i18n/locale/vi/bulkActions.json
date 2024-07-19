@@ -7,7 +7,7 @@
     "GO_BACK_LABEL": "Trở về",
     "ASSIGN_LABEL": "Gán",
     "YES": "Có",
-    "ASSIGN_AGENT_TOOLTIP": "Gán tổng đài viên",
+    "ASSIGN_AGENT_TOOLTIP": "Gán Nhân viên",
     "ASSIGN_TEAM_TOOLTIP": "Gán nhóm",
     "ASSIGN_SUCCESFUL": "Cuộc hội thoại đã được phân công thành công.",
     "ASSIGN_FAILED": "Failed to assign conversations. Please try again.",

@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Đăng nhập Chatwoot",
+    "TITLE": "Đăng nhập ShipXanh Chat",
     "EMAIL": {
       "LABEL": "Email",
       "PLACEHOLDER": "example@companyname.com",
@@ -11,17 +11,17 @@
       "PLACEHOLDER": "Mật khẩu"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Login successful",
-      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
-      "UNAUTH": "Username or password is incorrect. Please try again."
+      "SUCCESS_MESSAGE": "Đăng nhập thành công",
+      "ERROR_MESSAGE": "Đăng nhập thất bại",
+      "UNAUTH": "Sai tên đăng nhập hoặc mật khẩu"
     },
     "OAUTH": {
-      "GOOGLE_LOGIN": "Login with Google",
+      "GOOGLE_LOGIN": "Đăng nhập với Google",
       "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
       "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
     },
     "FORGOT_PASSWORD": "Quên mật khẩu?",
     "CREATE_NEW_ACCOUNT": "Tạo mới tài khoản",
-    "SUBMIT": "Đăng nhập"
+    "SUBMIT": "Đăng nhập ngay"
   }
 }

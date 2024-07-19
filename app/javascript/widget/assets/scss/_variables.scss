@@ -38,7 +38,7 @@ $font-weight-bold: 600;
 $font-weight-black: 700;
 
 // Colors
-$color-woot: #1f93ff;
+$color-woot: #4952ff;
 $color-primary: $color-woot;
 $color-gray: #6e6f73;
 $color-light-gray: #999a9b;
@@ -72,7 +72,8 @@ $line-height: 1;
 $footer-height: 11.2rem;
 $header-expanded-height: $space-medium * 10;
 
-$font-family: 'Inter',
+$font-family:
+  'Inter',
   -apple-system,
   system-ui,
   BlinkMacSystemFont,

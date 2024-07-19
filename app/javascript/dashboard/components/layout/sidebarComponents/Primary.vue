@@ -16,6 +16,7 @@
         :name="menuItem.label"
         :to="menuItem.toState"
         :is-child-menu-active="menuItem.key === activeMenuItem"
+        :is-external="menuItem.isExternal"
       />
     </div>
     <div class="flex flex-col items-center justify-end pb-6">

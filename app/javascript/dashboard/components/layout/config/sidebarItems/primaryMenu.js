@@ -12,6 +12,15 @@ const primaryMenuItems = accountId => [
     roles: ['administrator', 'agent'],
   },
   {
+    icon: 'shop-orders',
+    key: 'shop-orders',
+    label: 'STORE_MANAGEMENT',
+    toState: 'https://app.shipxanh.com',
+    toStateName: 'shop-orders',
+    roles: ['administrator', 'agent'],
+    isExternal: true,
+  },
+  {
     icon: 'chat',
     key: 'conversations',
     label: 'CONVERSATIONS',

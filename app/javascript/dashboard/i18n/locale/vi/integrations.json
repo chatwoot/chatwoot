@@ -37,10 +37,7 @@
       "LIST": {
         "404": "Không có webhook nào được định cấu hình cho tài khoản này.",
         "TITLE": "Quản lý webhooks",
-        "TABLE_HEADER": [
-          "Webhook endpoint",
-          "Hành động"
-        ]
+        "TABLE_HEADER": ["Webhook endpoint", "Hành động"]
       },
       "EDIT": {
         "BUTTON_TEXT": "Chỉnh sửa",
@@ -167,15 +164,12 @@
     "DASHBOARD_APPS": {
       "TITLE": "Ứng dụng bảng điều khiển",
       "HEADER_BTN_TXT": "Thêm mới một Ứng dụng bảng điều khiển",
-      "SIDEBAR_TXT": "<p> <b> Ứng dụng trên bảng điều khiển</b> </p> <p>Ứng dụng bảng điều khiển cho phép nhúng ứng dụng vào trang bảng điều khiển để cung cấp ngữ cảnh cho các tổng đài viên hỗ trợ khách hàng. Tính năng này cho phép bạn tạo ứng dụng một cách độc lập và nhúng ứng dụng đó vào bên trong trang điều khiển để cung cấp thông tin người dùng, đơn đặt hàng hoặc lịch sử thanh toán trước đó của họ. </p> <p> Khi bạn nhúng ứng dụng của mình bằng điều khiển, ứng dụng của bạn sẽ lấy bối cảnh của cuộc trò chuyện và liên hệ dưới dạng sự kiện cửa sổ. Triển khai trình nghe cho sự kiện thông báo trên trang của bạn để nhận ngữ cảnh. </p> <p> Để thêm ứng dụng trang điều khiển mới, hãy nhấp vào nút 'Thêm ứng dụng bảng điều khiển mới'. </p>",
-      "DESCRIPTION": "Ứng dụng bảng điều khiển cho phép các tổ chức nhúng một ứng dụng bên trong trang điều khiển để cung cấp ngữ cảnh cho các tổng đài viên hỗ trợ khách hàng. Tính năng này cho phép bạn tạo ứng dụng một cách độc lập và nhúng ứng dụng đó để cung cấp thông tin người dùng, đơn đặt hàng hoặc lịch sử thanh toán trước đó của họ.",
+      "SIDEBAR_TXT": "<p> <b> Ứng dụng trên bảng điều khiển</b> </p> <p>Ứng dụng bảng điều khiển cho phép nhúng ứng dụng vào trang bảng điều khiển để cung cấp ngữ cảnh cho các Nhân viên hỗ trợ khách hàng. Tính năng này cho phép bạn tạo ứng dụng một cách độc lập và nhúng ứng dụng đó vào bên trong trang điều khiển để cung cấp thông tin người dùng, đơn đặt hàng hoặc lịch sử thanh toán trước đó của họ. </p> <p> Khi bạn nhúng ứng dụng của mình bằng điều khiển, ứng dụng của bạn sẽ lấy bối cảnh của cuộc trò chuyện và liên hệ dưới dạng sự kiện cửa sổ. Triển khai trình nghe cho sự kiện thông báo trên trang của bạn để nhận ngữ cảnh. </p> <p> Để thêm ứng dụng trang điều khiển mới, hãy nhấp vào nút 'Thêm ứng dụng bảng điều khiển mới'. </p>",
+      "DESCRIPTION": "Ứng dụng bảng điều khiển cho phép các tổ chức nhúng một ứng dụng bên trong trang điều khiển để cung cấp ngữ cảnh cho các Nhân viên hỗ trợ khách hàng. Tính năng này cho phép bạn tạo ứng dụng một cách độc lập và nhúng ứng dụng đó để cung cấp thông tin người dùng, đơn đặt hàng hoặc lịch sử thanh toán trước đó của họ.",
       "LIST": {
         "404": "Chưa có ứng dụng trang \u001dđiều khiển nào được định cấu hình trên tài khoản này",
         "LOADING": "Đang tìm nạp ứng dụng bảng điều khiển...",
-        "TABLE_HEADER": [
-          "Tên",
-          "Endpoint"
-        ],
+        "TABLE_HEADER": ["Tên", "Endpoint"],
         "EDIT_TOOLTIP": "Sửa app",
         "DELETE_TOOLTIP": "Xoá app"
       },

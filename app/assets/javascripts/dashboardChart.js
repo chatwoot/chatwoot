@@ -46,7 +46,7 @@ function drawSuperAdminDashboard(data) {
         {
           label: 'Conversations',
           data: chartData.dataSet,
-          backgroundColor: '#1f93ff',
+          backgroundColor: '#4952ff',
         },
       ],
     },

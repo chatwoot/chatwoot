@@ -3,7 +3,7 @@
     "HEADER": "Các cuộc hội thoại",
     "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
     "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau.",
-    "DOWNLOAD_AGENT_REPORTS": "Tải xuống báo cáo tổng đài viên",
+    "DOWNLOAD_AGENT_REPORTS": "Tải xuống báo cáo Nhân viên",
     "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
     "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
@@ -419,7 +419,7 @@
     "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
-        "PLACEHOLDER": "Chọn tổng đài viên"
+        "PLACEHOLDER": "Chọn Nhân viên"
       }
     },
     "TABLE": {
@@ -484,9 +484,9 @@
       "CONVERSATIONS": "%{count} conversations"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "Cuộc hội thoại của các tổng đài viên",
-      "LOADING_MESSAGE": "Đang tải chỉ số tổng đài viên...",
-      "NO_AGENTS": "Không có cuộc hội thoại nào của các tổng đài viên",
+      "HEADER": "Cuộc hội thoại của các Nhân viên",
+      "LOADING_MESSAGE": "Đang tải chỉ số Nhân viên...",
+      "NO_AGENTS": "Không có cuộc hội thoại nào của các Nhân viên",
       "TABLE_HEADER": {
         "AGENT": "Nhà cung cấp",
         "OPEN": "MỞ",
@@ -495,7 +495,7 @@
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Trạng thái tổng đài viên",
+      "HEADER": "Trạng thái Nhân viên",
       "ONLINE": "Trực Tuyến",
       "BUSY": "Bận",
       "OFFLINE": "Không Trực Tuyến"
@@ -525,7 +525,7 @@
       "SEARCH": "Search filter",
       "INPUT_PLACEHOLDER": {
         "SLA": "SLA name",
-        "AGENTS": "Tên tổng đài viên",
+        "AGENTS": "Tên Nhân viên",
         "INBOXES": "Tên kênh",
         "LABELS": "Tên nhãn",
         "TEAMS": "Tên nhóm"

@@ -11,14 +11,14 @@
       "CONVERSATIONS": "Các cuộc hội thoại",
       "MESSAGES": "Tin nhắn"
     },
-    "EMPTY_STATE": "No %{item} found for query '%{query}'",
-    "EMPTY_STATE_FULL": "No results found for query '%{query}'",
-    "PLACEHOLDER_KEYBINDING": "/ to focus",
-    "INPUT_PLACEHOLDER": "Type 3 or more characters to search",
-    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results. ",
+    "EMPTY_STATE": "Không có %{item} được tìm thấy khi tìm kiếm '%{query}'",
+    "EMPTY_STATE_FULL": "Không tìm thấy kết quả cho '%{query}'",
+    "PLACEHOLDER_KEYBINDING": "gõ / để bắt đầu",
+    "INPUT_PLACEHOLDER": "Nhập 3 hoặc nhiều kí tự để tìm kiếm",
+    "EMPTY_STATE_DEFAULT": "Tìm kiếm theo id, tên, email hoặc số điện thoại,...",
     "BOT_LABEL": "Bot",
-    "READ_MORE": "Read more",
-    "WROTE": "wrote:",
+    "READ_MORE": "Xem thêm",
+    "WROTE": "Viết:",
     "FROM": "từ",
     "EMAIL": "email"
   }

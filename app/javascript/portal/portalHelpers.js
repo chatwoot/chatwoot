@@ -33,6 +33,7 @@ export const openExternalLinksInNewTab = () => {
   const isOnArticlePage =
     isSameHost && document.querySelector('#cw-article-content') !== null;
 
+  // eslint-disable-next-line func-names
   document.addEventListener('click', function (event) {
     if (!isOnArticlePage) return;
 

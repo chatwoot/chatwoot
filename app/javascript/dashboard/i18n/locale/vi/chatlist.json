@@ -15,7 +15,7 @@
     "FILTER_ALL": "Tất cả",
     "ASSIGNEE_TYPE_TABS": {
       "me": "Của tôi",
-      "unassigned": "Chưa được phân công",
+      "unassigned": "Chưa phân công",
       "all": "Tất cả"
     },
     "CHAT_STATUS_FILTER_ITEMS": {

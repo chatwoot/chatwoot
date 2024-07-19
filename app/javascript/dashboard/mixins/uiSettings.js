@@ -26,7 +26,7 @@ export const isEditorHotKeyEnabled = (uiSettings, key) => {
     if (enterToSendEnabled) {
       return key === 'enter';
     }
-    return key === 'cmd_enter';
+    return key === 'enter';
   }
   return editorMessageKey === key;
 };

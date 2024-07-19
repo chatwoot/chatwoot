@@ -218,10 +218,33 @@ export default {
       return '';
     },
     getMessages() {
-      const messages = this.currentChat.messages || [];
+      let messages = this.currentChat.messages || [];
+
       if (this.isAWhatsAppChannel) {
-        return filterDuplicateSourceMessages(messages);
+        messages = filterDuplicateSourceMessages(messages);
       }
+      // function isNotSourceMessage(message) {
+      //   if (!message) return true;
+      //   return message?.sender !== undefined;
+      // }
+      // messages = messages.map((m, i) => {
+      //   // if is sent by the agent, mark message first and last
+      //   console.log('m', m);
+      //   console.log(messages[i + 1]);
+      //   console.log(messages[i - 1]);
+      //   if (!m.sender) {
+      //     if (messages[i + 1]?.sender) {
+      //       m.isLast = true;
+      //     }
+      //     if (isNotSourceMessage(messages[i - 1])) {
+      //       m.isFirst = true;
+      //     }
+      //   }
+
+      //   return m;
+      // });
+
+      // console.log('messages', messages);
       return messages;
     },
     getReadMessages() {

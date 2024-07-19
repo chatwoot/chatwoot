@@ -2,14 +2,14 @@
   <router-link v-slot="{ href, isActive, navigate }" :to="to" custom>
     <a
       v-tooltip.right="$t(`SIDEBAR.${name}`)"
-      :href="href"
+      :href="isExternal ? to : href ? href : to"
       class="text-slate-700 dark:text-slate-100 w-10 h-10 my-2 flex items-center justify-center rounded-lg hover:bg-slate-25 dark:hover:bg-slate-700 dark:hover:text-slate-100 hover:text-slate-600 relative"
       :class="{
         'bg-woot-50 dark:bg-slate-800 text-woot-500 hover:bg-woot-50':
           isActive || isChildMenuActive,
       }"
       :rel="openInNewPage ? 'noopener noreferrer nofollow' : undefined"
-      :target="openInNewPage ? '_blank' : undefined"
+      :target="openInNewPage || isExternal ? '_blank' : undefined"
       @click="navigate"
     >
       <fluent-icon
@@ -52,6 +52,10 @@ export default {
       default: false,
     },
     openInNewPage: {
+      type: Boolean,
+      default: false,
+    },
+    isExternal: {
       type: Boolean,
       default: false,
     },

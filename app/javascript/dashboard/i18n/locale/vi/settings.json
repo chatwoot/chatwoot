@@ -145,11 +145,7 @@
       },
       "AVAILABILITY": {
         "LABEL": "Khả dụng",
-        "STATUSES_LIST": [
-          "Trực Tuyến",
-          "Bận",
-          "Không Trực Tuyến"
-        ],
+        "STATUSES_LIST": ["Trực Tuyến", "Bận", "Không Trực Tuyến"],
         "SET_AVAILABILITY_SUCCESS": "Tính khả dụng đã được thiết lập thành công",
         "SET_AVAILABILITY_ERROR": "Không thể đặt, vui lòng thử lại"
       },
@@ -227,12 +223,13 @@
     }
   },
   "SIDEBAR": {
+    "STORE_MANAGEMENT": "Quản lý bán hàng",
     "CURRENTLY_VIEWING_ACCOUNT": "Hiện đang xem:",
     "SWITCH": "Chuyển",
     "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Cuộc trò chuyện",
     "INBOX": "Hộp thư đến",
-    "ALL_CONVERSATIONS": "Tất cả cuộc trò chuyện",
+    "ALL_CONVERSATIONS": "Tất cả",
     "MENTIONED_CONVERSATIONS": "Nhắn đến",
     "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Không giám sát",
