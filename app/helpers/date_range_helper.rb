@@ -14,6 +14,10 @@ module DateRangeHelper
     return datetime if datetime.is_a?(DateTime)
     return datetime.to_datetime if datetime.is_a?(Time) || datetime.is_a?(Date)
 
-    DateTime.strptime(datetime, '%s')
+    begin
+      DateTime.strptime(datetime, '%s')
+    rescue
+      DateTime.strptime(datetime, '%Y-%m-%d %H:%M') rescue nil
+    end
   end
 end

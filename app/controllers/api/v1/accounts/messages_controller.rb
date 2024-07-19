@@ -2,6 +2,7 @@ class Api::V1::Accounts::MessagesController < Api::V1::Accounts::BaseController
   include Sift
   include DateRangeHelper
 
+  before_action :require_date_range_for_parquet_request, only: [:index]
   before_action :set_messages, only: [:index]
   before_action :set_current_page, only: [:index]
   before_action :set_current_page_messages, only: [:index]

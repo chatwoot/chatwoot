@@ -100,7 +100,4 @@ class Digitaltolk::MessagesParquetService
     File.delete(file_path) rescue nil
     url
   end
-
-  def export_empty_file
-  end
 end

@@ -5,6 +5,7 @@ class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::Base
   RESULTS_PER_PAGE = 25
 
   before_action :check_authorization
+  before_action :require_date_range_for_parquet_request, only: [:index]
   before_action :set_csat_survey_responses, only: [:index, :metrics, :download, :questions]
   before_action :set_current_page, only: [:index]
   before_action :set_current_page_surveys, only: [:index]

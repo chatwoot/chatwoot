@@ -1,5 +1,6 @@
 class ConversationFinder
   attr_reader :current_user, :current_account, :params
+  include DateRangeHelper
 
   DEFAULT_STATUS = 'open'.freeze
   SORT_OPTIONS = {
@@ -181,10 +182,14 @@ class ConversationFinder
     sort_by, sort_order = SORT_OPTIONS[params[:sort_by]] || SORT_OPTIONS['last_activity_at_desc']
     @conversations = @conversations.send(sort_by, sort_order)
 
-    if params[:updated_within].present?
-      @conversations.where('conversations.updated_at > ?', Time.zone.now - params[:updated_within].to_i.seconds)
+    if params[:export_as_parquet]
+      @conversations.filter_by_created_at(range)
     else
-      @conversations.page(current_page).per(ENV.fetch('CONVERSATION_RESULTS_PER_PAGE', '25').to_i)
+      if params[:updated_within].present?
+        @conversations.where('conversations.updated_at > ?', Time.zone.now - params[:updated_within].to_i.seconds)
+      else
+        @conversations.page(current_page).per(ENV.fetch('CONVERSATION_RESULTS_PER_PAGE', '25').to_i)
+      end
     end
   end
 end

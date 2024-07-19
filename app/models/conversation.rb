@@ -108,6 +108,8 @@ class Conversation < ApplicationRecord
     where(id: ::CsatSurveyResponse.where(rating: selected_rating).select(:conversation_id)) if selected_rating.present?
   }
 
+  scope :filter_by_created_at, ->(range) { where(created_at: range) if range.present? }
+
   belongs_to :account
   belongs_to :inbox
   belongs_to :assignee, class_name: 'User', optional: true, inverse_of: :assigned_conversations

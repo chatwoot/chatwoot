@@ -3,6 +3,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   include DateRangeHelper
   include HmacConcern
 
+  before_action :require_date_range_for_parquet_request, only: [:index]
   before_action :conversation, except: [:index, :meta, :search, :create, :filter, :ticket, :ticket_issue, :search_by_email]
   before_action :inbox, :contact, :contact_inbox, only: [:create]
 
@@ -10,6 +11,13 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     result = conversation_finder.perform
     @conversations = result[:conversations]
     @conversations_count = result[:count]
+
+    if params[:export_as_parquet]
+      file_name = "conversations_#{Time.now.to_i}.parquet"
+      Digitaltolk::StoreConversationsParquetJob.perform_later(@conversations.pluck(:id), file_name)
+
+      render json: { file_url: Digitaltolk::ConversationsParquetService.new([], file_name).perform }.to_json and return
+    end
   end
 
   def meta
