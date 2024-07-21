@@ -73,7 +73,9 @@ class Conversation < ApplicationRecord
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
-  scope :with_agents_ids, ->(agent_ids) { where(assignee_id: agent_ids) }
+  scope :with_agents_ids, lambda { |agent_ids|
+    where(assignee_id: agent_ids) if agent_ids.present?
+  }
   scope :unattended, -> { where(first_reply_created_at: nil).or(where.not(waiting_since: nil)) }
   scope :resolvable, lambda { |auto_resolve_duration|
     return none if auto_resolve_duration.to_i.zero?
@@ -247,11 +249,9 @@ class Conversation < ApplicationRecord
   end
 
   def allowed_keys?
-    (
-      previous_changes.keys.intersect?(%w[team_id assignee_id status snoozed_until custom_attributes label_list waiting_since first_reply_created_at
-                                          priority]) ||
+    previous_changes.keys.intersect?(%w[team_id assignee_id status snoozed_until custom_attributes label_list waiting_since first_reply_created_at
+                                        priority]) ||
       (previous_changes['additional_attributes'].present? && previous_changes['additional_attributes'][1].keys.intersect?(%w[conversation_language]))
-    )
   end
 
   def self_assign?(assignee_id)
@@ -282,8 +282,9 @@ class Conversation < ApplicationRecord
 
   def conversation_status_changed_to_open?
     return false unless open?
+
     # saved_change_to_status? method only works in case of update
-    return true if previous_changes.key?(:id) || saved_change_to_status?
+    true if previous_changes.key?(:id) || saved_change_to_status?
   end
 
   def create_label_change(user_name)

@@ -35,4 +35,8 @@ class ReportingEvent < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :inbox, optional: true
   belongs_to :conversation, optional: true
+
+  scope :with_agents_ids, lambda { |agent_ids|
+    where(user_id: agent_ids) if agent_ids.present?
+  }
 end
