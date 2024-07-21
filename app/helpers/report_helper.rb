@@ -45,8 +45,13 @@ module ReportHelper
   end
 
   def resolutions
-    scope.reporting_events.joins(:conversation).select(:conversation_id).where(account_id: account.id, name: :conversation_resolved,
-                                                                               conversations: { status: :resolved }, created_at: range).distinct
+    scope.reporting_events
+         .with_agents_ids(agents_ids)
+         .joins(:conversation)
+         .select(:conversation_id)
+         .where(account_id: account.id, name: :conversation_resolved,
+                conversations: { status: :resolved }, created_at: range)
+         .distinct
   end
 
   def triggers
@@ -55,21 +60,24 @@ module ReportHelper
   end
 
   def avg_first_response_time
-    grouped_reporting_events = (get_grouped_values scope.reporting_events.where(name: 'first_response', account_id: account.id))
+    grouped_reporting_events = (get_grouped_values scope.reporting_events.with_agents_ids(agents_ids).where(name: 'first_response',
+                                                                                                            account_id: account.id))
     return grouped_reporting_events.average(:value_in_business_hours) if params[:business_hours]
 
     grouped_reporting_events.average(:value)
   end
 
   def reply_time
-    grouped_reporting_events = (get_grouped_values scope.reporting_events.where(name: 'reply_time', account_id: account.id))
+    grouped_reporting_events = (get_grouped_values scope.reporting_events.with_agents_ids(agents_ids).where(name: 'reply_time',
+                                                                                                            account_id: account.id))
     return grouped_reporting_events.average(:value_in_business_hours) if params[:business_hours]
 
     grouped_reporting_events.average(:value)
   end
 
   def avg_resolution_time
-    grouped_reporting_events = (get_grouped_values scope.reporting_events.where(name: 'conversation_resolved', account_id: account.id))
+    grouped_reporting_events = (get_grouped_values scope.reporting_events.with_agents_ids(agents_ids).where(name: 'conversation_resolved',
+                                                                                                            account_id: account.id))
     return grouped_reporting_events.average(:value_in_business_hours) if params[:business_hours]
 
     grouped_reporting_events.average(:value)
@@ -77,6 +85,7 @@ module ReportHelper
 
   def avg_resolution_time_summary
     reporting_events = scope.reporting_events
+                            .with_agents_ids(agents_ids)
                             .where(name: 'conversation_resolved', account_id: account.id, created_at: range)
     avg_rt = if params[:business_hours].present?
                reporting_events.average(:value_in_business_hours)
@@ -91,6 +100,7 @@ module ReportHelper
 
   def reply_time_summary
     reporting_events = scope.reporting_events
+                            .with_agents_ids(agents_ids)
                             .where(name: 'reply_time', account_id: account.id, created_at: range)
     reply_time = params[:business_hours] ? reporting_events.average(:value_in_business_hours) : reporting_events.average(:value)
 
@@ -101,6 +111,7 @@ module ReportHelper
 
   def avg_first_response_time_summary
     reporting_events = scope.reporting_events
+                            .with_agents_ids(agents_ids)
                             .where(name: 'first_response', account_id: account.id, created_at: range)
     avg_frt = if params[:business_hours].present?
                 reporting_events.average(:value_in_business_hours)
