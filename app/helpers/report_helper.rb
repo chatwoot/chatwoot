@@ -33,7 +33,7 @@ module ReportHelper
   end
 
   def conversations
-    scope.conversations.where(account_id: account.id, created_at: range)
+    scope.conversations.with_agents_ids(agents_ids).where(account_id: account.id, created_at: range)
   end
 
   def incoming_messages
@@ -111,5 +111,9 @@ module ReportHelper
     return 0 if avg_frt.blank?
 
     avg_frt
+  end
+
+  def agents_ids
+    params[:agents_ids]&.map(&:to_i) || []
   end
 end

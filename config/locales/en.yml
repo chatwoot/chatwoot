@@ -114,7 +114,9 @@ en:
         rating: Rating
         feedback: Feedback Comment
         recorded_at: Recorded date
-
+  global_config:
+    FAVICON: Favicon
+    update_success: Your settings have been updated successfully
   notifications:
     notification_title:
       conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
