@@ -133,8 +133,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 import Settings from './Settings.vue';
-import adminMixin from '../../../../mixins/isAdmin';
 import accountMixin from '../../../../mixins/account';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
@@ -142,7 +142,13 @@ export default {
   components: {
     Settings,
   },
-  mixins: [adminMixin, accountMixin, globalConfigMixin],
+  mixins: [accountMixin, globalConfigMixin],
+  setup() {
+    const { isAdmin } = useAdmin();
+    return {
+      isAdmin,
+    };
+  },
   data() {
     return {
       loading: {},

@@ -169,14 +169,13 @@
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { dynamicTime } from 'shared/helpers/timeHelper';
-
+import { useAdmin } from 'dashboard/composables/useAdmin';
 import ContactInfoRow from './ContactInfoRow.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import SocialIcons from './SocialIcons.vue';
 import EditContact from './EditContact.vue';
 import NewConversation from './NewConversation.vue';
 import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal.vue';
-import adminMixin from '../../../../mixins/isAdmin';
 import { getCountryFlag } from 'dashboard/helper/flag';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {
@@ -194,7 +193,6 @@ export default {
     NewConversation,
     ContactMergeModal,
   },
-  mixins: [adminMixin],
   props: {
     contact: {
       type: Object,
@@ -216,6 +214,12 @@ export default {
       type: String,
       default: 'chevron-right',
     },
+  },
+  setup() {
+    const { isAdmin } = useAdmin();
+    return {
+      isAdmin,
+    };
   },
   data() {
     return {
