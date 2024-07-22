@@ -180,10 +180,9 @@ import {
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { useUiSettings } from 'dashboard/composables/useUiSettings';
 import { trimContent, debounce } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
-import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import rtlMixin from 'shared/mixins/rtlMixin';
 import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
@@ -218,7 +217,6 @@ export default {
   },
   mixins: [
     inboxMixin,
-    uiSettingsMixin,
     alertMixin,
     messageFormatterMixin,
     rtlMixin,
@@ -230,6 +228,21 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  setup() {
+    const {
+      uiSettings,
+      updateUISettings,
+      isEditorHotKeyEnabled,
+      fetchSignatureFlagFromUiSettings,
+    } = useUiSettings();
+
+    return {
+      uiSettings,
+      updateUISettings,
+      isEditorHotKeyEnabled,
+      fetchSignatureFlagFromUiSettings,
+    };
   },
   data() {
     return {
@@ -406,7 +419,7 @@ export default {
       if (this.isPrivate) {
         sendMessageText = this.$t('CONVERSATION.REPLYBOX.CREATE');
       }
-      const keyLabel = isEditorHotKeyEnabled(this.uiSettings, 'cmd_enter')
+      const keyLabel = this.isEditorHotKeyEnabled('cmd_enter')
         ? '(⌘ + ↵)'
         : '(↵)';
       return `${sendMessageText} ${keyLabel}`;
@@ -748,7 +761,7 @@ export default {
         !this.showCannedMenu &&
         !this.showVariablesMenu &&
         this.isFocused &&
-        isEditorHotKeyEnabled(this.uiSettings, selectedKey)
+        this.isEditorHotKeyEnabled(selectedKey)
       );
     },
     onPaste(e) {

@@ -134,10 +134,10 @@
 </template>
 
 <script>
+import { useUiSettings } from 'dashboard/composables/useUiSettings';
 import FileUpload from 'vue-upload-component';
 import * as ActiveStorage from 'activestorage';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import {
@@ -153,7 +153,7 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'ReplyBottomPanel',
   components: { FileUpload, VideoCallButton, AIAssistanceButton },
-  mixins: [keyboardEventListenerMixins, uiSettingsMixin, inboxMixin],
+  mixins: [keyboardEventListenerMixins, inboxMixin],
   props: {
     mode: {
       type: String,
@@ -247,6 +247,15 @@ export default {
       type: String,
       required: true,
     },
+  },
+  setup() {
+    const { setSignatureFlagForInbox, fetchSignatureFlagFromUiSettings } =
+      useUiSettings();
+
+    return {
+      setSignatureFlagForInbox,
+      fetchSignatureFlagFromUiSettings,
+    };
   },
   computed: {
     ...mapGetters({

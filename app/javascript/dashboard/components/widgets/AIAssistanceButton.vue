@@ -41,7 +41,7 @@ import adminMixin from 'dashboard/mixins/aiMixin';
 import aiMixin from 'dashboard/mixins/isAdmin';
 import { CMD_AI_ASSIST } from 'dashboard/routes/dashboard/commands/commandBarBusEvents';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { useUiSettings } from 'dashboard/composables/useUiSettings';
 import AIAssistanceCTAButton from './AIAssistanceCTAButton.vue';
 
 export default {
@@ -50,7 +50,15 @@ export default {
     AICTAModal,
     AIAssistanceCTAButton,
   },
-  mixins: [aiMixin, keyboardEventListenerMixins, adminMixin, uiSettingsMixin],
+  mixins: [aiMixin, keyboardEventListenerMixins, adminMixin],
+  setup() {
+    const { uiSettings, updateUISettings } = useUiSettings();
+
+    return {
+      uiSettings,
+      updateUISettings,
+    };
+  },
   data: () => ({
     showAIAssistanceModal: false,
     showAICtaModal: false,

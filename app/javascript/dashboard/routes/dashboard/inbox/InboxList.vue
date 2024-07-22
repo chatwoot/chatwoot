@@ -25,11 +25,11 @@
           @context-menu-close="isInboxContextMenuOpen = false"
         />
         <div v-if="uiFlags.isFetching" class="text-center">
-          <span class="spinner mt-4 mb-4" />
+          <span class="mt-4 mb-4 spinner" />
         </div>
         <p
           v-if="showEmptyState"
-          class="text-center text-slate-400 text-sm dark:text-slate-400 p-4 font-medium"
+          class="p-4 text-sm font-medium text-center text-slate-400 dark:text-slate-400"
         >
           {{ $t('INBOX.LIST.NO_NOTIFICATIONS') }}
         </p>
@@ -53,7 +53,7 @@ import InboxListHeader from './components/InboxListHeader.vue';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue';
 import alertMixin from 'shared/mixins/alertMixin';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { useUiSettings } from 'dashboard/composables/useUiSettings';
 
 export default {
   components: {
@@ -61,7 +61,14 @@ export default {
     InboxListHeader,
     IntersectionObserver,
   },
-  mixins: [alertMixin, uiSettingsMixin],
+  mixins: [alertMixin],
+  setup() {
+    const { uiSettings } = useUiSettings();
+
+    return {
+      uiSettings,
+    };
+  },
   data() {
     return {
       infiniteLoaderOptions: {

@@ -44,14 +44,14 @@
 import CustomAttribute from 'dashboard/components/CustomAttribute.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import attributeMixin from 'dashboard/mixins/attributeMixin';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { useUiSettings } from 'dashboard/composables/useUiSettings';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 
 export default {
   components: {
     CustomAttribute,
   },
-  mixins: [alertMixin, attributeMixin, uiSettingsMixin],
+  mixins: [alertMixin, attributeMixin],
   props: {
     attributeType: {
       type: String,
@@ -70,6 +70,14 @@ export default {
       type: String,
       default: '',
     },
+  },
+  setup() {
+    const { uiSettings, updateUISettings } = useUiSettings();
+
+    return {
+      uiSettings,
+      updateUISettings,
+    };
   },
   data() {
     return {

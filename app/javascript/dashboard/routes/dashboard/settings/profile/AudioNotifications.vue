@@ -32,7 +32,7 @@
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { useUiSettings } from 'dashboard/composables/useUiSettings';
 import AudioAlertTone from './AudioAlertTone.vue';
 import AudioAlertEvent from './AudioAlertEvent.vue';
 import AudioAlertCondition from './AudioAlertCondition.vue';
@@ -43,7 +43,15 @@ export default {
     AudioAlertTone,
     AudioAlertCondition,
   },
-  mixins: [alertMixin, configMixin, uiSettingsMixin],
+  mixins: [alertMixin, configMixin],
+  setup() {
+    const { uiSettings, updateUISettings } = useUiSettings();
+
+    return {
+      uiSettings,
+      updateUISettings,
+    };
+  },
   data() {
     return {
       audioAlert: '',
@@ -56,7 +64,6 @@ export default {
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
-      uiSettings: 'getUISettings',
     }),
   },
   watch: {

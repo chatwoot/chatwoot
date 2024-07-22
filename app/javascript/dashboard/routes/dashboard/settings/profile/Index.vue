@@ -47,7 +47,7 @@
             :description="hotKey.description"
             :light-image="hotKey.lightImage"
             :dark-image="hotKey.darkImage"
-            :active="isEditorHotKeyEnabled(uiSettings, hotKey.key)"
+            :active="isEditorHotKeyEnabled(hotKey.key)"
             @click="toggleHotKey(hotKey.key)"
           />
         </button>
@@ -82,9 +82,7 @@
 </template>
 <script>
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import uiSettingsMixin, {
-  isEditorHotKeyEnabled,
-} from 'dashboard/mixins/uiSettings';
+import { useUiSettings } from 'dashboard/composables/useUiSettings';
 import alertMixin from 'shared/mixins/alertMixin';
 import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from 'dashboard/store/utils/api.js';
@@ -112,7 +110,17 @@ export default {
     AudioNotifications,
     AccessToken,
   },
-  mixins: [alertMixin, globalConfigMixin, uiSettingsMixin],
+  mixins: [alertMixin, globalConfigMixin],
+  setup() {
+    const { uiSettings, updateUISettings, isEditorHotKeyEnabled } =
+      useUiSettings();
+
+    return {
+      uiSettings,
+      updateUISettings,
+      isEditorHotKeyEnabled,
+    };
+  },
   data() {
     return {
       avatarFile: '',
@@ -168,7 +176,6 @@ export default {
       this.displayName = this.currentUser.display_name;
       this.messageSignature = this.currentUser.message_signature;
     },
-    isEditorHotKeyEnabled,
     async dispatchUpdate(payload, successMessage, errorMessage) {
       let alertMessage = '';
       try {

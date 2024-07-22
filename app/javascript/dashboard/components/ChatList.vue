@@ -116,6 +116,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { useUiSettings } from 'dashboard/composables/useUiSettings';
 import VirtualList from 'vue-virtual-scroll-list';
 
 import ChatListHeader from './ChatListHeader.vue';
@@ -132,7 +133,6 @@ import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCust
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import filterMixin from 'shared/mixins/filterMixin';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import countries from 'shared/constants/countries';
 import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
@@ -162,7 +162,6 @@ export default {
     keyboardEventListenerMixins,
     alertMixin,
     filterMixin,
-    uiSettingsMixin,
   ],
   provide() {
     return {
@@ -207,6 +206,13 @@ export default {
       default: false,
       type: Boolean,
     },
+  },
+  setup() {
+    const { uiSettings } = useUiSettings();
+
+    return {
+      uiSettings,
+    };
   },
   data() {
     return {

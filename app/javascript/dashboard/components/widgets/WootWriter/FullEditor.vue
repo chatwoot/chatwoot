@@ -26,7 +26,7 @@ import {
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import alertMixin from 'shared/mixins/alertMixin';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { useUiSettings } from 'dashboard/composables/useUiSettings';
 
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 const createState = (
@@ -51,12 +51,20 @@ const createState = (
 };
 
 export default {
-  mixins: [keyboardEventListenerMixins, uiSettingsMixin, alertMixin],
+  mixins: [keyboardEventListenerMixins, alertMixin],
   props: {
     value: { type: String, default: '' },
     editorId: { type: String, default: '' },
     placeholder: { type: String, default: '' },
     enabledMenuOptions: { type: Array, default: () => [] },
+  },
+  setup() {
+    const { uiSettings, updateUISettings } = useUiSettings();
+
+    return {
+      uiSettings,
+      updateUISettings,
+    };
   },
   data() {
     return {

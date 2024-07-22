@@ -87,7 +87,7 @@
       </div>
 
       <div
-        class="p-4 border-slate-25 dark:border-slate-700 text-black-900 dark:text-slate-300 flex flex-row"
+        class="flex flex-row p-4 border-slate-25 dark:border-slate-700 text-black-900 dark:text-slate-300"
       >
         <div
           class="flex-grow-0 flex-shrink-0 flex-[25%] min-w-0 py-4 pr-6 pl-0"
@@ -103,7 +103,7 @@
           <woot-code :script="getAccountId" />
         </div>
       </div>
-      <div class="text-sm text-center p-4">
+      <div class="p-4 text-sm text-center">
         <div>{{ `v${globalConfig.appVersion}` }}</div>
         <div v-if="hasAnUpdateAvailable && globalConfig.displayManifest">
           {{
@@ -136,11 +136,18 @@ import configMixin from 'shared/mixins/configMixin';
 import accountMixin from '../../../../mixins/account';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import semver from 'semver';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { useUiSettings } from 'dashboard/composables/useUiSettings';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 
 export default {
-  mixins: [accountMixin, alertMixin, configMixin, uiSettingsMixin],
+  mixins: [accountMixin, alertMixin, configMixin],
+  setup() {
+    const { updateUISettings } = useUiSettings();
+
+    return {
+      updateUISettings,
+    };
+  },
   data() {
     return {
       id: '',
