@@ -9,6 +9,7 @@
     >
       <div
         v-dompurify-html="formatMessage(message, false)"
+        :data-time="readableTime"
         class="message-content text-slate-900 dark:text-slate-50"
       />
       <email-input
@@ -69,6 +70,7 @@ import EmailInput from './template/EmailInput.vue';
 import CustomerSatisfaction from 'shared/components/CustomerSatisfaction.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 import IntegrationCard from './template/IntegrationCard.vue';
+import timeMixin from '../../dashboard/mixins/time';
 
 export default {
   name: 'AgentMessageBubble',
@@ -81,11 +83,12 @@ export default {
     CustomerSatisfaction,
     IntegrationCard,
   },
-  mixins: [messageFormatterMixin, darkModeMixin],
+  mixins: [messageFormatterMixin, darkModeMixin, timeMixin],
   props: {
     message: { type: String, default: null },
     contentType: { type: String, default: null },
     messageType: { type: Number, default: null },
+    messageCreatedAt: { type: Number, default: null },
     messageId: { type: Number, default: null },
     messageContentAttributes: {
       type: Object,
@@ -93,6 +96,11 @@ export default {
     },
   },
   computed: {
+    readableTime() {
+      if (!this.messageCreatedAt) return '';
+
+      return this.customTimestamp(this.messageCreatedAt);
+    },
     isTemplate() {
       return this.messageType === 3;
     },
@@ -141,3 +149,12 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.message-content::after {
+  content: attr(data-time);
+  font-size: 0.625rem;
+  color: hsl(206 6% 63% / 1);
+  font-family: monospace;
+}
+</style>
