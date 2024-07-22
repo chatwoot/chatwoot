@@ -30,7 +30,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import adminMixin from '../../mixins/isAdmin';
 import { getSidebarItems } from './config/default-sidebar';
 
 import PrimarySidebar from './sidebarComponents/Primary.vue';
@@ -44,7 +43,7 @@ export default {
     PrimarySidebar,
     SecondarySidebar,
   },
-  mixins: [adminMixin, keyboardEventListenerMixins],
+  mixins: [keyboardEventListenerMixins],
   props: {
     showSecondarySidebar: {
       type: Boolean,

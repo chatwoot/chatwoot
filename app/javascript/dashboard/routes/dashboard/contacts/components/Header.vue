@@ -125,10 +125,9 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import adminMixin from 'dashboard/mixins/isAdmin';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 
 export default {
-  mixins: [adminMixin],
   props: {
     headerTitle: {
       type: String,
@@ -142,6 +141,12 @@ export default {
       type: [String, Number],
       default: 0,
     },
+  },
+  setup() {
+    const { isAdmin } = useAdmin();
+    return {
+      isAdmin,
+    };
   },
   data() {
     return {

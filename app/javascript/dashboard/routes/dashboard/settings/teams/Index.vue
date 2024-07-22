@@ -83,12 +83,18 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import adminMixin from '../../../../mixins/isAdmin';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 import accountMixin from '../../../../mixins/account';
 
 export default {
   components: {},
-  mixins: [adminMixin, accountMixin],
+  mixins: [accountMixin],
+  setup() {
+    const { isAdmin } = useAdmin();
+    return {
+      isAdmin,
+    };
+  },
   data() {
     return {
       loading: {},
