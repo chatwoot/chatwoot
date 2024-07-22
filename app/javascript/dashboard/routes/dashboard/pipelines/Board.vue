@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex justify-between flex-col h-full m-0 flex-1 bg-white dark:bg-slate-900 overflow-auto"
+    class="flex justify-between flex-col h-full m-0 flex-1 bg-white dark:bg-slate-900 overflow-x-auto overflow-y-hidden"
   >
     <Kanban :statuses="statuses" :blocks="blocks" @update-block="updateStage">
       <div v-for="stage in stages" :slot="stage.code" :key="stage.code">

@@ -28,7 +28,7 @@ ul.drag-inner-list {
   overflow: hidden;
   position: relative;
   border-radius: 10px;
-  width: 200px;
+  width: 220px;
 
   @media (max-width: 690px) {
     margin-bottom: 30px;
@@ -51,7 +51,8 @@ ul.drag-inner-list {
 
 .drag-inner-list {
   color: #ffffff;
-  min-height: 50px;
+  min-height: 80px;
+  overflow-y: auto;
 }
 
 .drag-item {

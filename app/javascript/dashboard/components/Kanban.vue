@@ -13,7 +13,12 @@
           </slot>
         </span>
         <div class="drag-options" />
-        <ul ref="list" class="drag-inner-list" :data-status="status">
+        <ul
+          ref="list"
+          class="drag-inner-list"
+          :data-status="status"
+          :style="{ maxHeight: `${windowHeight - 135}px` }"
+        >
           <li
             v-for="block in getBlocks(status)"
             :key="block[idProp]"
@@ -69,6 +74,7 @@ export default {
   data() {
     return {
       machine: null,
+      windowHeight: 0,
     };
   },
 
@@ -84,6 +90,8 @@ export default {
   },
 
   mounted() {
+    this.updateWindowHeight();
+    window.addEventListener('resize', this.updateWindowHeight);
     // eslint-disable-next-line vue/no-mutating-props
     this.config.accepts = this.config.accepts || this.accepts;
     // eslint-disable-next-line vue/no-mutating-props
@@ -158,7 +166,15 @@ export default {
     this.machine = Machine(this.stateMachineConfig);
   },
 
+  beforeDestroy() {
+    window.removeEventListener('resize', this.updateWindowHeight);
+  },
+
   methods: {
+    updateWindowHeight() {
+      this.windowHeight = window.innerHeight;
+    },
+
     getBlocks(status) {
       return this.localBlocks.filter(
         block => block[this.statusProp] === status
