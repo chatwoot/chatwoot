@@ -1,7 +1,7 @@
 <template>
-  <div class="relative items-center p-4 bg-white dark:bg-slate-900 w-full">
-    <div class="text-left rtl:text-right flex flex-col gap-2 w-full">
-      <div class="flex justify-between flex-row">
+  <div class="relative items-center w-full p-4 bg-white dark:bg-slate-900">
+    <div class="flex flex-col w-full gap-2 text-left rtl:text-right">
+      <div class="flex flex-row justify-between">
         <thumbnail
           v-if="showAvatar"
           :src="contact.thumbnail"
@@ -18,9 +18,9 @@
       </div>
 
       <div class="flex flex-col items-start gap-1.5 min-w-0 w-full">
-        <div v-if="showAvatar" class="flex items-start gap-2 min-w-0 w-full">
+        <div v-if="showAvatar" class="flex items-start w-full min-w-0 gap-2">
           <h3
-            class="flex-shrink min-w-0 text-base text-slate-800 dark:text-slate-100 capitalize my-0 max-w-full break-words"
+            class="flex-shrink max-w-full min-w-0 my-0 text-base capitalize break-words text-slate-800 dark:text-slate-100"
           >
             {{ contact.name }}
           </h3>
@@ -55,7 +55,7 @@
         <p v-if="additionalAttributes.description" class="break-words mb-0.5">
           {{ additionalAttributes.description }}
         </p>
-        <div class="flex flex-col gap-2 items-start w-full">
+        <div class="flex flex-col items-start w-full gap-2">
           <contact-info-row
             :href="contact.email ? `mailto:${contact.email}` : ''"
             :value="contact.email"
@@ -166,7 +166,7 @@
   </div>
 </template>
 <script>
-import timeMixin from 'dashboard/mixins/time';
+import { dynamicTime } from 'shared/helpers/timeHelper';
 import ContactInfoRow from './ContactInfoRow.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import SocialIcons from './SocialIcons.vue';
@@ -194,7 +194,7 @@ export default {
     NewConversation,
     ContactMergeModal,
   },
-  mixins: [alertMixin, adminMixin, timeMixin],
+  mixins: [alertMixin, adminMixin],
   props: {
     contact: {
       type: Object,
@@ -260,6 +260,7 @@ export default {
     },
   },
   methods: {
+    dynamicTime,
     toggleMergeModal() {
       this.showMergeModal = !this.showMergeModal;
     },
