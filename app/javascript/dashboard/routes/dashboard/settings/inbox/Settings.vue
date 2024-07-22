@@ -22,6 +22,7 @@
     </setting-intro-banner>
 
     <microsoft-reauthorize v-if="microsoftUnauthorized" :inbox="inbox" />
+    <facebook-reauthorize v-if="facebookUnauthorized" :inbox="inbox" />
 
     <div v-if="selectedTabKey === 'inbox_settings'" class="mx-8">
       <settings-section
@@ -399,7 +400,6 @@
           @click="updateInbox"
         />
       </settings-section>
-      <facebook-reauthorize v-if="isAFacebookInbox" :inbox-id="inbox.id" />
     </div>
 
     <div v-if="selectedTabKey === 'collaborators'" class="mx-8">
@@ -541,7 +541,8 @@ export default {
         this.isALineChannel ||
         this.isAPIInbox ||
         (this.isAnEmailChannel && !this.inbox.provider) ||
-        (this.isAnEmailChannel && this.inbox.provider === 'microsoft') ||
+        this.isAMicrosoftInbox ||
+        this.isAGoogleInbox ||
         this.isAWhatsAppChannel ||
         this.isAWebWidgetInbox
       ) {
@@ -619,7 +620,10 @@ export default {
       return false;
     },
     microsoftUnauthorized() {
-      return this.inbox.microsoft_reauthorization;
+      return this.isAMicrosoftInbox && this.inbox.reauthorization_required;
+    },
+    facebookUnauthorized() {
+      return this.isAFacebookInbox && this.inbox.reauthorization_required;
     },
   },
   watch: {

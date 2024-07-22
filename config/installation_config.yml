@@ -204,3 +204,16 @@
   locked: false
   description: 'Disable rendering profile update page for users'
 ## ------ End of Configs added for enterprise clients ------ ##
+
+## ------ Configs added for FCM v1 notifications ------ ##
+- name: FIREBASE_PROJECT_ID
+  display_title: 'Firebase Project ID'
+  value:
+  locked: false
+  description: 'Firebase project ID'
+- name: FIREBASE_CREDENTIALS
+  display_title: 'Firebase Credentials'
+  value:
+  locked: false
+  description: 'Contents on your firebase credentials json file'
+## ------ End of Configs added for FCM v1 notifications ------ ##

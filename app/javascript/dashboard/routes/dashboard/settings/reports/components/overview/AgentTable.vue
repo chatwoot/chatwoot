@@ -24,10 +24,10 @@
 </template>
 
 <script>
-import { VeTable, VePagination } from 'vue-easytable';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import rtlMixin from 'shared/mixins/rtlMixin';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import { VePagination, VeTable } from 'vue-easytable';
 
 export default {
   name: 'AgentTable',
@@ -57,17 +57,19 @@ export default {
   },
   computed: {
     tableData() {
-      return this.agents.map(agent => {
-        const agentMetrics = this.getAgentMetrics(agent.id);
-        return {
-          agent: agent.name,
-          email: agent.email,
-          thumbnail: agent.thumbnail,
-          open: agentMetrics.open || 0,
-          unattended: agentMetrics.unattended || 0,
-          status: agent.availability_status,
-        };
-      });
+      return this.agentMetrics
+        .filter(agentMetric => this.getAgentInformation(agentMetric.id))
+        .map(agent => {
+          const agentInformation = this.getAgentInformation(agent.id);
+          return {
+            agent: agentInformation.name || agentInformation.available_name,
+            email: agentInformation.email,
+            thumbnail: agentInformation.thumbnail,
+            open: agent.metric.open || 0,
+            unattended: agent.metric.unattended || 0,
+            status: agentInformation.availability_status,
+          };
+        });
     },
     columns() {
       return [
@@ -119,11 +121,11 @@ export default {
     },
   },
   methods: {
-    getAgentMetrics(id) {
-      return (
-        this.agentMetrics.find(metrics => metrics.assignee_id === Number(id)) ||
-        {}
-      );
+    onPageNumberChange(pageIndex) {
+      this.$emit('page-change', pageIndex);
+    },
+    getAgentInformation(id) {
+      return this.agents?.find(agent => agent.id === Number(id));
     },
   },
 };

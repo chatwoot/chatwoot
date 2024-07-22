@@ -144,7 +144,7 @@ export default {
     this.$store.dispatch('teams/get');
     this.fetchAllData();
 
-    bus.$on('fetch_overview_reports', () => {
+    this.$emitter.on('fetch_overview_reports', () => {
       this.fetchAllData();
     });
   },

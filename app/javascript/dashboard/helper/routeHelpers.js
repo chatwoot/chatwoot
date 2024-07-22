@@ -109,5 +109,14 @@ export const getConversationDashboardRoute = routeName => {
   }
 };
 
-export const isAInboxViewRoute = routeName =>
-  ['inbox_view_conversation'].includes(routeName);
+export const isAInboxViewRoute = (routeName, includeBase = false) => {
+  const baseRoutes = ['inbox_view'];
+  const extendedRoutes = ['inbox_view_conversation'];
+  const routeNames = includeBase
+    ? [...baseRoutes, ...extendedRoutes]
+    : extendedRoutes;
+  return routeNames.includes(routeName);
+};
+
+export const isNotificationRoute = routeName =>
+  routeName === 'notifications_index';

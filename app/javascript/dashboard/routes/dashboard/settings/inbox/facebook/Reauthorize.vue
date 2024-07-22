@@ -1,38 +1,32 @@
 <template>
-  <settings-section
-    :title="$t('INBOX_MGMT.FACEBOOK_REAUTHORIZE.TITLE')"
-    :sub-title="$t('INBOX_MGMT.FACEBOOK_REAUTHORIZE.SUBTITLE')"
-  >
-    <a class="fb--login" href="#" @click="tryFBlogin">
-      <img
-        src="~dashboard/assets/images/channels/facebook_login.png"
-        alt="Facebook-logo"
-      />
-    </a>
-  </settings-section>
+  <inbox-reconnection-required class="mx-8 mt-5" @reauthorize="tryFBlogin" />
 </template>
 
 <script>
 /* global FB */
-import SettingsSection from '../../../../../components/SettingsSection.vue';
+import InboxReconnectionRequired from '../components/InboxReconnectionRequired';
 import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
-    SettingsSection,
+    InboxReconnectionRequired,
   },
   mixins: [alertMixin],
   props: {
-    inboxId: {
-      type: Number,
+    inbox: {
+      type: Object,
       required: true,
+    },
+  },
+  computed: {
+    inboxId() {
+      return this.inbox.id;
     },
   },
   mounted() {
     this.initFB();
     this.loadFBsdk();
   },
-
   methods: {
     initFB() {
       if (window.fbSDKLoaded === undefined) {

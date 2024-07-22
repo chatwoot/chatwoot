@@ -16,9 +16,16 @@
         variant="clear"
         color-scheme="secondary"
         class="h-[24px]"
+        :is-loading="isUnlinking"
         @click="unlinkIssue"
       >
-        <fluent-icon icon="unlink" size="12" type="outline" icon-lib="lucide" />
+        <fluent-icon
+          v-if="!isUnlinking"
+          icon="unlink"
+          size="12"
+          type="outline"
+          icon-lib="lucide"
+        />
       </woot-button>
       <woot-button
         variant="clear"
@@ -33,6 +40,7 @@
 </template>
 
 <script setup>
+import { inject } from 'vue';
 const props = defineProps({
   identifier: {
     type: String,
@@ -43,6 +51,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const isUnlinking = inject('isUnlinking');
 
 const emit = defineEmits(['unlink-issue']);
 

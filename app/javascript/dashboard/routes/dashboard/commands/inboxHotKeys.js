@@ -2,6 +2,7 @@ import wootConstants from 'dashboard/constants/globals';
 
 import { CMD_SNOOZE_NOTIFICATION } from './commandBarBusEvents';
 import { ICON_SNOOZE_NOTIFICATION } from './CommandBarIcons';
+import { emitter } from 'shared/helpers/mitt';
 
 import { isAInboxViewRoute } from 'dashboard/helper/routeHelpers';
 
@@ -21,7 +22,7 @@ const INBOX_SNOOZE_EVENTS = [
     section: 'COMMAND_BAR.SECTIONS.SNOOZE_NOTIFICATION',
     icon: ICON_SNOOZE_NOTIFICATION,
     handler: () =>
-      bus.$emit(CMD_SNOOZE_NOTIFICATION, SNOOZE_OPTIONS.AN_HOUR_FROM_NOW),
+      emitter.emit(CMD_SNOOZE_NOTIFICATION, SNOOZE_OPTIONS.AN_HOUR_FROM_NOW),
   },
   {
     id: SNOOZE_OPTIONS.UNTIL_TOMORROW,
@@ -30,7 +31,7 @@ const INBOX_SNOOZE_EVENTS = [
     parent: 'snooze_notification',
     icon: ICON_SNOOZE_NOTIFICATION,
     handler: () =>
-      bus.$emit(CMD_SNOOZE_NOTIFICATION, SNOOZE_OPTIONS.UNTIL_TOMORROW),
+      emitter.emit(CMD_SNOOZE_NOTIFICATION, SNOOZE_OPTIONS.UNTIL_TOMORROW),
   },
   {
     id: SNOOZE_OPTIONS.UNTIL_NEXT_WEEK,
@@ -39,7 +40,7 @@ const INBOX_SNOOZE_EVENTS = [
     parent: 'snooze_notification',
     icon: ICON_SNOOZE_NOTIFICATION,
     handler: () =>
-      bus.$emit(CMD_SNOOZE_NOTIFICATION, SNOOZE_OPTIONS.UNTIL_NEXT_WEEK),
+      emitter.emit(CMD_SNOOZE_NOTIFICATION, SNOOZE_OPTIONS.UNTIL_NEXT_WEEK),
   },
   {
     id: SNOOZE_OPTIONS.UNTIL_NEXT_MONTH,
@@ -48,7 +49,7 @@ const INBOX_SNOOZE_EVENTS = [
     parent: 'snooze_notification',
     icon: ICON_SNOOZE_NOTIFICATION,
     handler: () =>
-      bus.$emit(CMD_SNOOZE_NOTIFICATION, SNOOZE_OPTIONS.UNTIL_NEXT_MONTH),
+      emitter.emit(CMD_SNOOZE_NOTIFICATION, SNOOZE_OPTIONS.UNTIL_NEXT_MONTH),
   },
   {
     id: SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME,
@@ -57,7 +58,7 @@ const INBOX_SNOOZE_EVENTS = [
     parent: 'snooze_notification',
     icon: ICON_SNOOZE_NOTIFICATION,
     handler: () =>
-      bus.$emit(CMD_SNOOZE_NOTIFICATION, SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME),
+      emitter.emit(CMD_SNOOZE_NOTIFICATION, SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME),
   },
 ];
 export default {
