@@ -1,3 +1,7 @@
+// ------------------------------------------------------------------
+// ------------------------ Filter Validation -----------------------
+// ------------------------------------------------------------------
+
 /**
  * Validates a single filter for conversations or contacts.
  *
@@ -57,6 +61,10 @@ export const validateConversationOrContactFilters = filters => {
 
   return errors;
 };
+
+// ------------------------------------------------------------------
+// ---------------------- Automation Validation ---------------------
+// ------------------------------------------------------------------
 
 /**
  * Validates the basic fields of an automation object.
