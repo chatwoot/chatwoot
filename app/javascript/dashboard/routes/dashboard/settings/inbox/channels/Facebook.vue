@@ -2,14 +2,15 @@
   <div
     class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
   >
-    <div v-if="!hasLoginStarted" class="login-init h-full">
+    <div v-if="!hasLoginStarted" class="pt-[30%] h-full">
       <a href="#" @click="startLogin()">
         <img
+          class="h-10 w-auto"
           src="~dashboard/assets/images/channels/facebook_login.png"
           alt="Facebook-logo"
         />
       </a>
-      <p>
+      <p class="py-6">
         {{
           useInstallationName(
             $t('INBOX_MGMT.ADD.FB.HELP'),
@@ -99,12 +100,16 @@ import router from '../../../../index';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import accountMixin from '../../../../../mixins/account';
 
+import { loadScript } from 'dashboard/helper/DOMHelpers';
+import alertMixin from 'shared/mixins/alertMixin';
+import * as Sentry from '@sentry/browser';
+
 export default {
   components: {
     LoadingState,
     PageHeader,
   },
-  mixins: [globalConfigMixin, accountMixin],
+  mixins: [globalConfigMixin, accountMixin, alertMixin],
   data() {
     return {
       isCreating: false,
@@ -147,19 +152,29 @@ export default {
     }),
   },
 
-  created() {
-    this.initFB();
-    this.loadFBsdk();
-  },
-
   mounted() {
-    this.initFB();
+    window.fbAsyncInit = this.runFBInit;
   },
 
   methods: {
-    startLogin() {
+    async startLogin() {
       this.hasLoginStarted = true;
-      this.tryFBlogin();
+      try {
+        // this will load the SDK in a promise, and resolve it when the sdk is loaded
+        // in case the SDK is already present, it will resolve immediately
+        await this.loadFBsdk();
+        this.runFBInit(); // run init anyway, `tryFBlogin` won't wait for `fbAsyncInit` otherwise.
+        this.tryFBlogin(); // make an attempt to login
+      } catch (error) {
+        if (error.name === 'ScriptLoaderError') {
+          // if the error was related to script loading, we show a toast
+          this.showAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_LOADING'));
+        } else {
+          // if the error was anything else, we capture it and show a toast
+          Sentry.captureException(error);
+          this.showAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_AUTH'));
+        }
+      }
     },
 
     setPageName({ name }) {
@@ -173,34 +188,21 @@ export default {
       }
     },
 
-    initFB() {
-      if (window.fbSDKLoaded === undefined) {
-        window.fbAsyncInit = () => {
-          FB.init({
-            appId: window.chatwootConfig.fbAppId,
-            xfbml: true,
-            version: window.chatwootConfig.fbApiVersion,
-            status: true,
-          });
-          window.fbSDKLoaded = true;
-          FB.AppEvents.logPageView();
-        };
-      }
+    runFBInit() {
+      FB.init({
+        appId: window.chatwootConfig.fbAppId,
+        xfbml: true,
+        version: window.chatwootConfig.fbApiVersion,
+        status: true,
+      });
+      window.fbSDKLoaded = true;
+      FB.AppEvents.logPageView();
     },
 
-    loadFBsdk() {
-      ((d, s, id) => {
-        let js;
-        // eslint-disable-next-line
-        const fjs = (js = d.getElementsByTagName(s)[0]);
-        if (d.getElementById(id)) {
-          return;
-        }
-        js = d.createElement(s);
-        js.id = id;
-        js.src = '//connect.facebook.net/en_US/sdk.js';
-        fjs.parentNode.insertBefore(js, fjs);
-      })(document, 'script', 'facebook-jssdk');
+    async loadFBsdk() {
+      return loadScript('https://connect.facebook.net/en_US/sdk.js', {
+        id: 'facebook-jssdk',
+      });
     },
 
     tryFBlogin() {
@@ -285,16 +287,3 @@ export default {
   },
 };
 </script>
-<style scoped lang="scss">
-.login-init {
-  @apply pt-[30%] text-center;
-
-  p {
-    @apply p-6;
-  }
-
-  > a > img {
-    @apply w-60;
-  }
-}
-</style>
