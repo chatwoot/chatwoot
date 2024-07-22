@@ -1,3 +1,13 @@
+/**
+ * Validates filters for conversations or contacts.
+ *
+ * @param {Array} filters - An array of filter objects to validate.
+ * @param {string} filters[].attribute_key - The key of the attribute to filter on.
+ * @param {string} filters[].filter_operator - The operator to use for filtering.
+ * @param {string|number} [filters[].values] - The value(s) to filter by (required for most operators).
+ *
+ * @returns {Object} An object containing any validation errors, keyed by filter index.
+ */
 export const validateConversationOrContactFilters = filters => {
   const errors = {};
 
@@ -23,6 +33,22 @@ export const validateConversationOrContactFilters = filters => {
   return errors;
 };
 
+/**
+ * Validates an automation object.
+ *
+ * @param {Object} automation - The automation object to validate.
+ * @param {string} automation.name - The name of the automation.
+ * @param {string} automation.description - The description of the automation.
+ * @param {string} automation.event_name - The name of the event that triggers the automation.
+ * @param {Array} automation.conditions - An array of condition objects for the automation.
+ * @param {string} automation.conditions[].filter_operator - The operator for the condition.
+ * @param {string|number} [automation.conditions[].values] - The value(s) for the condition.
+ * @param {Array} automation.actions - An array of action objects for the automation.
+ * @param {string} automation.actions[].action_name - The name of the action.
+ * @param {Array} [automation.actions[].action_params] - The parameters for the action.
+ *
+ * @returns {Object} An object containing any validation errors.
+ */
 export const validateAutomation = automation => {
   const errors = {};
 
