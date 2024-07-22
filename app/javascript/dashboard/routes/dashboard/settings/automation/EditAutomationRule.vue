@@ -148,6 +148,7 @@ import automationMethodsMixin from 'dashboard/mixins/automations/methodsMixin';
 import automationValidationsMixin from 'dashboard/mixins/automations/validationsMixin';
 import filterInputBox from 'dashboard/components/widgets/FilterInput/Index.vue';
 import automationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
+import cloneObject from 'dashboard/helpers/clone';
 
 import {
   AUTOMATION_RULE_EVENTS,
@@ -173,7 +174,7 @@ export default {
   },
   data() {
     return {
-      automationTypes: JSON.parse(JSON.stringify(AUTOMATIONS)),
+      automationTypes: cloneObject(AUTOMATIONS),
       automationRuleEvent: AUTOMATION_RULE_EVENTS[0].key,
       automationRuleEvents: AUTOMATION_RULE_EVENTS,
       automationMutated: false,

@@ -1,3 +1,5 @@
+import cloneObject from 'dashboard/helpers/clone';
+
 const setArrayValues = item => {
   return item.values[0]?.id ? item.values.map(val => val.id) : item.values;
 };
@@ -21,7 +23,7 @@ const generateValues = item => {
 
 const generatePayload = data => {
   // Make a copy of data to avoid vue data reactivity issues
-  const filters = JSON.parse(JSON.stringify(data));
+  const filters = cloneObject(data);
   let payload = filters.map(item => {
     // If item key is content, we will split it using comma and return as array
     // FIX ME: Make this generic option instead of using the key directly here

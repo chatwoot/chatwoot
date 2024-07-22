@@ -89,6 +89,7 @@ import { filterAttributeGroups } from './advancedFilterItems';
 import filterMixin from 'shared/mixins/filterMixin';
 import * as OPERATORS from 'dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import cloneObject from 'dashboard/helpers/clone';
 
 export default {
   components: {
@@ -351,7 +352,7 @@ export default {
       if (this.$v.$invalid) return;
       this.$store.dispatch(
         'setConversationFilters',
-        JSON.parse(JSON.stringify(this.appliedFilters))
+        cloneObject(this.appliedFilters)
       );
       this.$emit('applyFilter', this.appliedFilters);
       this.$track(CONVERSATION_EVENTS.APPLY_FILTER, {

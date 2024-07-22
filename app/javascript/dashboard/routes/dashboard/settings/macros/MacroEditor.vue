@@ -19,6 +19,7 @@ import { mapGetters } from 'vuex';
 import actionQueryGenerator from 'dashboard/helper/actionQueryGenerator.js';
 import alertMixin from 'shared/mixins/alertMixin';
 import macrosMixin from 'dashboard/mixins/macrosMixin';
+import cloneObject from 'dashboard/helpers/clone';
 
 export default {
   components: {
@@ -128,7 +129,7 @@ export default {
           this.mode === 'EDIT'
             ? this.$t('MACROS.EDIT.API.SUCCESS_MESSAGE')
             : this.$t('MACROS.ADD.API.SUCCESS_MESSAGE');
-        let serializedMacro = JSON.parse(JSON.stringify(macro));
+        let serializedMacro = cloneObject(macro);
         serializedMacro.actions = actionQueryGenerator(serializedMacro.actions);
         await this.$store.dispatch(action, serializedMacro);
         this.showAlert(successMessage);

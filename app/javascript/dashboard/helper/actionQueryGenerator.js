@@ -1,3 +1,5 @@
+import cloneObject from 'dashboard/helpers/clone';
+
 const allElementsString = arr => {
   return arr.every(elem => typeof elem === 'string');
 };
@@ -27,7 +29,7 @@ const generatePayloadForObject = item => {
 };
 
 const generatePayload = data => {
-  const actions = JSON.parse(JSON.stringify(data));
+  const actions = cloneObject(data);
   let payload = actions.map(item => {
     if (Array.isArray(item.action_params)) {
       item.action_params = formatArray(item.action_params);

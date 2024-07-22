@@ -98,6 +98,8 @@ import { filterAttributeGroups } from '../contactFilterItems';
 import filterMixin from 'shared/mixins/filterMixin';
 import * as OPERATORS from 'dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
 import { CONTACTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
+import cloneObject from 'dashboard/helpers/clone';
+
 export default {
   components: {
     FilterInputBox,
@@ -318,7 +320,7 @@ export default {
       if (this.$v.$invalid) return;
       this.$store.dispatch(
         'contacts/setContactFilters',
-        JSON.parse(JSON.stringify(this.appliedFilters))
+        cloneObject(this.appliedFilters)
       );
       this.$emit('applyFilter', this.appliedFilters);
       this.$track(CONTACTS_EVENTS.APPLY_FILTER, {

@@ -5,6 +5,8 @@ import {
 } from 'dashboard/routes/dashboard/settings/automation/operators';
 import filterQueryGenerator from './filterQueryGenerator';
 import actionQueryGenerator from './actionQueryGenerator';
+import cloneObject from 'dashboard/helpers/clone';
+
 const MESSAGE_CONDITION_VALUES = [
   {
     id: 'incoming',
@@ -255,7 +257,7 @@ export const getStandardAttributeInputType = (automationTypes, event, key) => {
 };
 
 export const generateAutomationPayload = payload => {
-  const automation = JSON.parse(JSON.stringify(payload));
+  const automation = cloneObject(payload);
   automation.conditions[automation.conditions.length - 1].query_operator = null;
   automation.conditions = filterQueryGenerator(automation.conditions).payload;
   automation.actions = actionQueryGenerator(automation.actions);
