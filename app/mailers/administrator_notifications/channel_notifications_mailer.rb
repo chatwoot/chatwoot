@@ -67,12 +67,14 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
     send_mail_with_liquid(to: admin_emails + ['jaideep+chatwootreports@bitespeed.co'], subject: subject) and return
   end
 
-  def custom_conversation_report(csv_url, since_date, until_date)
+  def custom_conversation_report(csv_url, since_date, until_date, bitespeed_bot)
     return unless smtp_config_set_or_development?
 
     subject = "Conversation Report from #{since_date} to #{until_date}"
     @action_url = csv_url
-    send_mail_with_liquid(to: admin_emails, subject: subject) and return
+    recipients = admin_emails
+    recipients += ['jaideep+chatwootdebugreports@bitespeed.co', 'aryanm@bitespeed.co'] if bitespeed_bot
+    send_mail_with_liquid(to: recipients, subject: subject) and return
   end
 
   def contact_import_failed

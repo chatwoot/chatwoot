@@ -12,8 +12,10 @@ module Api::V2::Accounts::ReportsHelper
     range_end = DateTime.strptime(current_range[:until].to_s, '%s')
     sanitized_range = { since: range_start, until: range_end }
 
+    bitespeed_bot = Current.user.email.ends_with?('@bitespeed.co')
+
     # background job to generate daily conversation report and mail it to the user
-    DailyConversationReportJob.new.generate_custom_report(Current.account.id, sanitized_range)
+    DailyConversationReportJob.new.generate_custom_report(Current.account.id, sanitized_range, bitespeed_bot)
 
     []
   end
