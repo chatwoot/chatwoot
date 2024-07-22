@@ -1,4 +1,41 @@
 /**
+ * Validates a single filter for conversations or contacts.
+ *
+ * @param {Object} filter - The filter object to validate.
+ * @param {string} filter.attribute_key - The key of the attribute to filter on.
+ * @param {string} filter.filter_operator - The operator to use for filtering.
+ * @param {string|number} [filter.values] - The value(s) to filter by (required for most operators).
+ *
+ * @returns {string|null} An error message if validation fails, or null if validation passes.
+ */
+function validateSingleFilter(filter) {
+  if (!filter.attribute_key) {
+    return 'Attribute key is required';
+  }
+
+  if (!filter.filter_operator) {
+    return 'Filter operator is required';
+  }
+
+  if (
+    filter.filter_operator !== 'is_present' &&
+    filter.filter_operator !== 'is_not_present' &&
+    !filter.values
+  ) {
+    return 'Value is required';
+  }
+
+  if (
+    filter.filter_operator === 'days_before' &&
+    (parseInt(filter.values, 10) <= 0 || parseInt(filter.values, 10) >= 999)
+  ) {
+    return 'Value must be between 1 and 998';
+  }
+
+  return null;
+}
+
+/**
  * Validates filters for conversations or contacts.
  *
  * @param {Array} filters - An array of filter objects to validate.
@@ -12,21 +49,9 @@ export const validateConversationOrContactFilters = filters => {
   const errors = {};
 
   filters.forEach((filter, index) => {
-    if (!filter.attribute_key) {
-      errors[`filter_${index}`] = 'Attribute key is required';
-    } else if (!filter.filter_operator) {
-      errors[`filter_${index}`] = 'Filter operator is required';
-    } else if (
-      filter.filter_operator !== 'is_present' &&
-      filter.filter_operator !== 'is_not_present' &&
-      !filter.values
-    ) {
-      errors[`filter_${index}`] = 'Value is required';
-    } else if (
-      filter.filter_operator === 'days_before' &&
-      (parseInt(filter.values, 10) <= 0 || parseInt(filter.values, 10) >= 999)
-    ) {
-      errors[`filter_${index}`] = 'Value must be between 1 and 998';
+    const error = validateSingleFilter(filter);
+    if (error) {
+      errors[`filter_${index}`] = error;
     }
   });
 
