@@ -24,6 +24,8 @@ class Api::V1::Accounts::MessagesController < Api::V1::Accounts::BaseController
   private
 
   def set_messages
+    return if params[:export_as_parquet]
+
     base_query = Current.account.messages.includes(:inbox, :conversation)
     @messages = filtrate(base_query).filter_by_created_at(range)
                                     .filter_by_inbox(params[:inbox_id])
@@ -33,6 +35,8 @@ class Api::V1::Accounts::MessagesController < Api::V1::Accounts::BaseController
   end
 
   def set_current_page_messages
+    return if params[:export_as_parquet]
+
     @messages = @messages.page(@current_page).per(RESULTS_PER_PAGE) if params[:page].present?
   end
 

@@ -49,6 +49,8 @@ class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::Base
   end
 
   def set_csat_survey_responses
+    return if params[:export_as_parquet]
+
     base_query = Current.account.csat_survey_responses.includes([:conversation, :assigned_agent, :contact])
     @csat_survey_responses = filtrate(base_query).filter_by_created_at(range)
                                                  .filter_by_assigned_agent_id(params[:user_ids])
@@ -60,6 +62,8 @@ class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::Base
   end
 
   def set_current_page_surveys
+    return if params[:export_as_parquet]
+
     @csat_survey_responses = @csat_survey_responses.page(@current_page).per(RESULTS_PER_PAGE) if params[:page].present?
   end
 

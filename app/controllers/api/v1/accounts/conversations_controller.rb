@@ -8,10 +8,6 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   before_action :inbox, :contact, :contact_inbox, only: [:create]
 
   def index
-    result = conversation_finder.perform
-    @conversations = result[:conversations]
-    @conversations_count = result[:count]
-
     if params[:export_as_parquet]
       file_name = "conversations_#{Time.now.to_i}.parquet"
       report = ParquetReport::Conversation.create(account_id: Current.account.id, user_id: Current.user&.id, params: params, file_name: file_name)
@@ -19,6 +15,10 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
       
       empty_file_url = Digitaltolk::ConversationsParquetService.new([], file_name, report).perform
       render json: { progress_url: report.progress_url, report_id: report.id, file_url: empty_file_url }.to_json and return
+    else
+      result = conversation_finder.perform
+      @conversations = result[:conversations]
+      @conversations_count = result[:count]
     end
   end
 
