@@ -88,7 +88,7 @@ import { filterAttributeGroups } from './advancedFilterItems';
 import filterMixin from 'shared/mixins/filterMixin';
 import * as OPERATORS from 'dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
-import { validateConversationOrContactFilters } from 'dashboard/helper/conversationAdvancedFilterValidation.js';
+import { validateConversationOrContactFilters } from 'dashboard/helper/validations.js';
 
 export default {
   components: {

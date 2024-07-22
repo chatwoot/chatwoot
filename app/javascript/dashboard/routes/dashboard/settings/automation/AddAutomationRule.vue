@@ -8,11 +8,7 @@
           :label="$t('AUTOMATION.ADD.FORM.NAME.LABEL')"
           type="text"
           :class="{ error: $v.automation.name.$error }"
-          :error="
-            $v.automation.name.$error
-              ? $t('AUTOMATION.ADD.FORM.NAME.ERROR')
-              : ''
-          "
+          :error="errors.name || ''"
           :placeholder="$t('AUTOMATION.ADD.FORM.NAME.PLACEHOLDER')"
           @blur="$v.automation.name.$touch"
         />
@@ -21,11 +17,7 @@
           :label="$t('AUTOMATION.ADD.FORM.DESC.LABEL')"
           type="text"
           :class="{ error: $v.automation.description.$error }"
-          :error="
-            $v.automation.description.$error
-              ? $t('AUTOMATION.ADD.FORM.DESC.ERROR')
-              : ''
-          "
+          :error="errors.description || ''"
           :placeholder="$t('AUTOMATION.ADD.FORM.DESC.PLACEHOLDER')"
           @blur="$v.automation.description.$touch"
         />
@@ -73,7 +65,7 @@
               :custom-attribute-type="
                 getCustomAttributeType(automation.conditions[i].attribute_key)
               "
-              :v="$v.automation.conditions.$each[i]"
+              :error-message="errors[`condition_${i}`] || ''"
               @resetFilter="resetFilter(i, automation.conditions[i])"
               @removeFilter="removeFilter(i)"
             />
@@ -147,7 +139,6 @@
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import automationMethodsMixin from 'dashboard/mixins/automations/methodsMixin';
-import automationValidationsMixin from 'dashboard/mixins/automations/validationsMixin';
 import filterInputBox from 'dashboard/components/widgets/FilterInput/Index.vue';
 import automationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
 
@@ -161,7 +152,7 @@ export default {
     filterInputBox,
     automationActionInput,
   },
-  mixins: [alertMixin, automationMethodsMixin, automationValidationsMixin],
+  mixins: [alertMixin, automationMethodsMixin],
   props: {
     onClose: {
       type: Function,
@@ -199,6 +190,7 @@ export default {
       showDeleteConfirmationModal: false,
       allCustomAttributes: [],
       mode: 'create',
+      errors: {},
     };
   },
   computed: {

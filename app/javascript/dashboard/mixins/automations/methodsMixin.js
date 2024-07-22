@@ -1,6 +1,6 @@
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import countries from 'shared/constants/countries';
-import { useVuelidate } from '@vuelidate/core';
+import { validateAutomation } from 'dashboard/helper/validations';
 
 import {
   generateCustomAttributeTypes,
@@ -21,9 +21,6 @@ import {
 import { mapGetters } from 'vuex';
 
 export default {
-  setup() {
-    return { v$: useVuelidate() };
-  },
   computed: {
     ...mapGetters({
       agents: 'agents/getAgents',
@@ -156,10 +153,11 @@ export default {
       }
     },
     submitAutomation() {
-      this.v$.$touch();
-      if (this.v$.$invalid) return;
-      const automation = generateAutomationPayload(this.automation);
-      this.$emit('saveAutomation', automation, this.mode);
+      this.errors = validateAutomation(this.automation);
+      if (Object.keys(this.errors).length === 0) {
+        const automation = generateAutomationPayload(this.automation);
+        this.$emit('saveAutomation', automation, this.mode);
+      }
     },
     resetFilter(index, currentCondition) {
       this.automation.conditions[index].filter_operator = this.automationTypes[
