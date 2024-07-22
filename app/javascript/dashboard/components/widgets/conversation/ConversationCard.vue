@@ -120,7 +120,6 @@ import { mapGetters } from 'vuex';
 import Thumbnail from '../Thumbnail.vue';
 import MessagePreview from './MessagePreview.vue';
 import conversationMixin from '../../../mixins/conversations';
-import timeMixin from '../../../mixins/time';
 import router from '../../../routes';
 import { frontendURL, conversationUrl } from '../../../helper/URLHelper';
 import InboxName from '../InboxName.vue';
@@ -144,7 +143,7 @@ export default {
     SLACardLabel,
   },
 
-  mixins: [inboxMixin, timeMixin, conversationMixin, alertMixin],
+  mixins: [inboxMixin, conversationMixin, alertMixin],
   props: {
     activeLabel: {
       type: String,

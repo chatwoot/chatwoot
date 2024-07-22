@@ -1,12 +1,12 @@
 <template>
   <div
-    class="text-slate-700 dark:text-slate-100 last:border-b-0 bg-white dark:bg-slate-900 my-0 -mx-4 grid grid-cols-1 lg:grid-cols-12 gap-4 border-b border-slate-50 dark:border-slate-800 px-6 py-3"
+    class="grid grid-cols-1 gap-4 px-6 py-3 my-0 -mx-4 bg-white border-b text-slate-700 dark:text-slate-100 last:border-b-0 dark:bg-slate-900 lg:grid-cols-12 border-slate-50 dark:border-slate-800"
   >
-    <span class="items-start flex gap-2 col-span-6 text-left">
+    <span class="flex items-start col-span-6 gap-2 text-left">
       <fluent-icon
         v-if="showDragIcon"
         size="20"
-        class="block cursor-move flex-shrink-0 h-4 mt-1 w-4 text-slate-200 dark:text-slate-700 hover:text-slate-400 hover:dark:text-slate-200"
+        class="flex-shrink-0 block w-4 h-4 mt-1 cursor-move text-slate-200 dark:text-slate-700 hover:text-slate-400 hover:dark:text-slate-200"
         icon="grab-handle"
       />
       <div class="flex flex-col truncate">
@@ -18,7 +18,7 @@
             {{ title }}
           </h6>
         </router-link>
-        <div class="flex gap-1 items-center">
+        <div class="flex items-center gap-1">
           <Thumbnail
             v-if="author"
             :src="author.thumbnail"
@@ -39,7 +39,7 @@
               class="text-woot-300 dark:text-woot-300"
             />
           </div>
-          <span class="font-normal text-slate-700 dark:text-slate-200 text-sm">
+          <span class="text-sm font-normal text-slate-700 dark:text-slate-200">
             {{ articleAuthorName }}
           </span>
         </div>
@@ -60,7 +60,7 @@
       :title="formattedViewCount"
     >
       {{ readableViewCount }}
-      <span class="lg:hidden ml-1">
+      <span class="ml-1 lg:hidden">
         {{ ` ${$t('HELP_CENTER.TABLE.HEADERS.READ_COUNT')}` }}
       </span>
     </span>
@@ -74,7 +74,7 @@
       />
     </span>
     <span
-      class="flex items-center justify-end col-span-2 first-letter:uppercase text-slate-700 dark:text-slate-100 text-xs"
+      class="flex items-center justify-end col-span-2 text-xs first-letter:uppercase text-slate-700 dark:text-slate-100"
     >
       {{ lastUpdatedAt }}
     </span>
@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import timeMixin from 'dashboard/mixins/time';
+import { dynamicTime } from 'shared/helpers/timeHelper';
 import portalMixin from '../mixins/portalMixin';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
@@ -91,7 +91,7 @@ export default {
   components: {
     Thumbnail,
   },
-  mixins: [timeMixin, portalMixin],
+  mixins: [portalMixin],
   props: {
     showDragIcon: {
       type: Boolean,
@@ -131,7 +131,7 @@ export default {
 
   computed: {
     lastUpdatedAt() {
-      return this.dynamicTime(this.updatedAt);
+      return dynamicTime(this.updatedAt);
     },
     formattedViewCount() {
       return Number(this.views || 0).toLocaleString('en');

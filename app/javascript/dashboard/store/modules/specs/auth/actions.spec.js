@@ -2,23 +2,18 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { actions } from '../../auth';
 import * as types from '../../../mutation-types';
-import { setUser, clearCookiesOnLogout } from '../../../utils/api';
+import * as APIHelpers from '../../../utils/api';
 import '../../../../routes';
 
-jest.mock('../../../../routes', () => {});
-jest.mock('../../../utils/api', () => ({
-  setUser: jest.fn(),
-  clearCookiesOnLogout: jest.fn(),
-  getHeaderExpiry: jest.fn(),
-}));
-jest.mock('js-cookie', () => ({
-  get: jest.fn(),
-}));
+vi.spyOn(APIHelpers, 'setUser');
+vi.spyOn(APIHelpers, 'clearCookiesOnLogout');
+vi.spyOn(APIHelpers, 'getHeaderExpiry');
+vi.spyOn(Cookies, 'get');
 
-const commit = jest.fn();
-const dispatch = jest.fn();
+const commit = vi.fn();
+const dispatch = vi.fn();
 global.axios = axios;
-jest.mock('axios');
+vi.mock('axios');
 
 describe('#actions', () => {
   describe('#validityCheck', () => {
@@ -28,7 +23,7 @@ describe('#actions', () => {
         headers: { expiry: 581842904 },
       });
       await actions.validityCheck({ commit });
-      expect(setUser).toHaveBeenCalledTimes(1);
+      expect(APIHelpers.setUser).toHaveBeenCalledTimes(1);
       expect(commit.mock.calls).toEqual([
         [types.default.SET_CURRENT_USER, { id: 1, name: 'John' }],
       ]);
@@ -38,7 +33,7 @@ describe('#actions', () => {
         response: { status: 401 },
       });
       await actions.validityCheck({ commit });
-      expect(clearCookiesOnLogout);
+      expect(APIHelpers.clearCookiesOnLogout);
     });
   });
 
