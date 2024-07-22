@@ -15,10 +15,6 @@ attr_accessor :conversations, :file_name, :report
 
   def perform
     export_parquet
-  rescue Exception => e
-    Rails.logger.error "Error exporting parquet file: #{e.message}"
-    Rails.logger.error e.backtrace.first(5).join("\n")
-    nil
   end
 
   private

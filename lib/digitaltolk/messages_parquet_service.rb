@@ -18,10 +18,6 @@ class Digitaltolk::MessagesParquetService
 
   def process_upload
     export_parquet
-  rescue Exception => e
-    Rails.logger.error "Error exporting parquet file: #{e.message}"
-    Rails.logger.error e.backtrace.first(5).join("\n")
-    nil
   end
 
   def file_path
@@ -56,12 +52,12 @@ class Digitaltolk::MessagesParquetService
   end
 
   def load_columns_data
-    return if @messages.blank?
+    return if messages.blank?
 
     batch_size = 1000
     index = 1
     GC.enable
-    @messages.find_in_batches(batch_size: batch_size) do |message_batch|
+    messages.find_in_batches(batch_size: batch_size) do |message_batch|
       message_batch.each do |message|
         next if message.blank?
 
@@ -84,7 +80,7 @@ class Digitaltolk::MessagesParquetService
   end
 
   def messages_count
-    @messages_count ||= @messages.count
+    @messages_count ||= messages.count
   end
 
   def map_columns_array
@@ -109,7 +105,7 @@ class Digitaltolk::MessagesParquetService
   end
 
   def export_parquet
-    record_batch = Arrow::RecordBatch.new(arrow_schema, @messages.count, arrow_columns)
+    record_batch = Arrow::RecordBatch.new(arrow_schema, messages.count, arrow_columns)
     record_batch.to_table.save(file_path)
 
     url = Digitaltolk::UploadToS3.new(file_path).perform
