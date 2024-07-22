@@ -31,8 +31,12 @@ class ParquetReport::Message < ParquetReport
 
     if @messages.present?
       url = Digitaltolk::MessagesParquetService.new(@messages, file_name, self).perform
-      update_columns(progress: 100, status: 'completed', file_url: url)
+      complete_and_save_url!(url)
     end
+  end
+
+  def create_empty_file_url
+    Digitaltolk::MessagesParquetService.new([], file_name, self).perform
   end
 
   private

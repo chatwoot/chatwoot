@@ -42,6 +42,18 @@ class ParquetReport < ApplicationRecord
     Rails.application.routes.url_helpers.api_v1_account_parquet_report_url(account_id: Current.account.id, id: id)
   end
 
+  def perform_later
+    Digitaltolk::ProcessParquetJob.perform_later(id)
+  end
+
+  def create_empty_file_url
+    # Implement in subclass
+  end
+
+  def complete_and_save_url!(url)
+    update_columns(progress: 100, status: "completed", file_url: url)
+  end
+
   private
 
   def set_pending_status

@@ -64,10 +64,11 @@ class Digitaltolk::MessagesParquetService
     @messages.find_in_batches(batch_size: batch_size) do |message_batch|
       message_batch.each do |message|
         next if message.blank?
+
         @columns['id'] << message.id.to_i
         @columns['content'] << message.content.to_s
         @columns['inbox_id'] << message.inbox_id.to_i
-        @columns['conversation_id'] << message.conversation.display_id.to_i
+        @columns['conversation_id'] << message.conversation&.display_id.to_i
         @columns['message_type'] << message.message_type_before_type_cast.to_s
         @columns['content_type'] << message.content_type.to_s
         @columns['status'] << message.status.to_s
@@ -77,7 +78,7 @@ class Digitaltolk::MessagesParquetService
       end
       report.update_columns(progress: (index * batch_size) / messages_count * 100)
       index += 1
-      msgs = nil
+      message_batch = nil
       GC.start
     end
   end

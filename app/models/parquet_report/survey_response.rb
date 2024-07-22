@@ -30,7 +30,11 @@ class ParquetReport::SurveyResponse < ParquetReport
     load_surveys
 
     url = Digitaltolk::SurveyResponsesParquetService.new(@csat_survey_responses, file_name, self).perform
-    update_columns(progress: 100, status: 'completed', file_url: url)
+    complete_and_save_url!(url)
+  end
+
+  def create_empty_file_url
+    Digitaltolk::SurveyResponsesParquetService.new([], file_name, self).perform
   end
 
   private

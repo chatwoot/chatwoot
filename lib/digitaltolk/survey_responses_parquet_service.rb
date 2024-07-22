@@ -76,12 +76,12 @@ class Digitaltolk::SurveyResponsesParquetService
         @columns['feedback_message'] << survey_response.feedback_message.to_s
         @columns['account_id'] << survey_response.account_id.to_i
         @columns['message_id'] << survey_response.message_id.to_i
-        @columns['csat_question_id'] << survey_response.message.csat_template_question&.id.to_i
+        @columns['csat_question_id'] << survey_response.message&.csat_template_question&.id.to_i
         @columns['csat_question'] << csat_question(survey_response).to_s
-        @columns['contact_id'] << survey_response.contact.id.to_i
-        @columns['contact_name'] << survey_response.contact.name.to_s
-        @columns['contact_email'] << survey_response.contact.email.to_s
-        @columns['conversation_id'] << survey_response.conversation.display_id.to_i
+        @columns['contact_id'] << survey_response.contact&.id.to_i
+        @columns['contact_name'] << survey_response.contact&.name.to_s
+        @columns['contact_email'] << survey_response.contact&.email.to_s
+        @columns['conversation_id'] << survey_response.conversation&.display_id.to_i
         @columns['assigned_agent_id'] << survey_response.assigned_agent&.id.to_i
         @columns['assigned_agent_name'] << survey_response.assigned_agent&.name.to_s
         @columns['assigned_agent_email'] << survey_response.assigned_agent&.email.to_s
@@ -133,6 +133,6 @@ class Digitaltolk::SurveyResponsesParquetService
   end
 
   def csat_question(survey_response)
-    survey_response.message.csat_template_question&.content || survey_response.message.content
+    survey_response.message&.csat_template_question&.content.to_s || survey_response.message&.content.to_s
   end
 end

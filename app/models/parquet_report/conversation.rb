@@ -30,7 +30,11 @@ class ParquetReport::Conversation < ParquetReport
     load_conversations
 
     url = Digitaltolk::ConversationsParquetService.new(@conversations, file_name, self).perform
-    update_columns(progress: 100, status: 'completed', file_url: url)
+    complete_and_save_url!(url)
+  end
+
+  def create_empty_file_url
+    Digitaltolk::ConversationsParquetService.new([], file_name, self).perform
   end
 
   private
