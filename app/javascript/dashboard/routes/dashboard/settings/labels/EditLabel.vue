@@ -51,6 +51,7 @@
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import validations, { getLabelTitleErrorMessage } from './validations';
+import { useVuelidate } from '@vuelidate/core';
 
 export default {
   mixins: [alertMixin],
@@ -59,6 +60,9 @@ export default {
       type: Object,
       default: () => {},
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -79,7 +83,7 @@ export default {
       }`;
     },
     labelTitleErrorMessage() {
-      const errorMessage = getLabelTitleErrorMessage(this.$v);
+      const errorMessage = getLabelTitleErrorMessage(this.v$);
       return this.$t(errorMessage);
     },
   },
