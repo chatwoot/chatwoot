@@ -9,7 +9,7 @@
       />
       <router-link
         :to="searchUrl"
-        class="search-link flex-1 items-center gap-1 text-left h-6 rtl:mr-3 rtl:text-right rounded-md px-2 py-0 bg-slate-25 dark:bg-slate-800 inline-flex"
+        class="inline-flex items-center flex-1 h-6 gap-1 px-2 py-0 text-left rounded-md search-link rtl:mr-3 rtl:text-right bg-slate-25 dark:bg-slate-800"
       >
         <div class="flex">
           <fluent-icon
@@ -19,7 +19,7 @@
           />
         </div>
         <p
-          class="search--label mb-0 overflow-hidden whitespace-nowrap text-ellipsis text-sm text-slate-800 dark:text-slate-200"
+          class="mb-0 overflow-hidden text-sm search--label whitespace-nowrap text-ellipsis text-slate-800 dark:text-slate-200"
         >
           {{ $t('CONVERSATION.SEARCH_MESSAGES') }}
         </p>
@@ -34,7 +34,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import timeMixin from '../../../../mixins/time';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import SwitchLayout from './SwitchLayout.vue';
 import { frontendURL } from 'dashboard/helper/URLHelper';
@@ -49,7 +48,7 @@ export default {
       },
     },
   },
-  mixins: [timeMixin, messageFormatterMixin],
+  mixins: [messageFormatterMixin],
   props: {
     isOnExpandedLayout: {
       type: Boolean,
