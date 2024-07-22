@@ -37,11 +37,11 @@ module ReportHelper
   end
 
   def incoming_messages
-    scope.messages.where(account_id: account.id, created_at: range).incoming.unscope(:order)
+    scope.messages.with_agents_ids(agents_ids).where(account_id: account.id, created_at: range).incoming.unscope(:order)
   end
 
   def outgoing_messages
-    scope.messages.where(account_id: account.id, created_at: range).outgoing.unscope(:order)
+    scope.messages.with_agents_ids(agents_ids).where(account_id: account.id, created_at: range).outgoing.unscope(:order)
   end
 
   def resolutions

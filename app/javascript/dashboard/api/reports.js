@@ -28,13 +28,21 @@ class ReportsAPI extends ApiClient {
         group_by: groupBy,
         business_hours: businessHours,
         timezone_offset: getTimeOffset(),
-        agent_ids: agentsIds,
+        agents_ids: agentsIds,
       },
     });
   }
 
-  // eslint-disable-next-line default-param-last
-  getSummary(since, until, type = 'account', id, groupBy, businessHours) {
+  getSummary(
+    since,
+    until,
+    // eslint-disable-next-line default-param-last
+    type = 'account',
+    id,
+    groupBy,
+    businessHours,
+    agentsIds = []
+  ) {
     return axios.get(`${this.url}/summary`, {
       params: {
         since,
@@ -44,6 +52,7 @@ class ReportsAPI extends ApiClient {
         group_by: groupBy,
         business_hours: businessHours,
         timezone_offset: getTimeOffset(),
+        agents_ids: agentsIds,
       },
     });
   }
