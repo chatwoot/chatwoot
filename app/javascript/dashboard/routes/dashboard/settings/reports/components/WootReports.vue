@@ -102,6 +102,7 @@ export default {
           id: this.selectedFilter.id,
           groupBy: groupBy.period,
           businessHours,
+          agentsIds: this.selectedAgents,
         });
         this.fetchChartData();
       }
@@ -148,17 +149,17 @@ export default {
       }
     },
     onAgentsFilterChange(payload) {
-      // eslint-disable-next-line no-console
-      console.log('onUserFilterChange', payload);
-
       if (payload.length > 0) {
         this.$track(REPORTS_EVENTS.FILTER_REPORT, {
           filterType: 'agents',
           reportType: this.type,
         });
         this.selectedAgents = payload.map(agent => agent.id);
-        this.fetchAllData();
+      } else {
+        this.selectedAgents = [];
       }
+
+      this.fetchAllData();
     },
     onDateRangeChange({ from, to, groupBy }) {
       // do not track filter change on inital load
