@@ -158,7 +158,7 @@ import InstagramStory from './bubble/InstagramStory.vue';
 import InstagramStoryReply from './bubble/InstagramStoryReply.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import alertMixin from 'shared/mixins/alertMixin';
-import contentTypeMixin from 'shared/mixins/contentTypeMixin';
+import { CONTENT_TYPES } from 'shared/constants/contentType';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { generateBotMessageContent } from './helpers/botMessageContentHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -184,7 +184,7 @@ export default {
     InstagramStoryReply,
     Spinner,
   },
-  mixins: [alertMixin, messageFormatterMixin, contentTypeMixin],
+  mixins: [alertMixin, messageFormatterMixin],
   props: {
     data: {
       type: Object,
@@ -481,6 +481,9 @@ export default {
         return name;
       }
       return '';
+    },
+    isEmailContentType() {
+      return this.contentType === CONTENT_TYPES.INCOMING_EMAIL;
     },
   },
   watch: {
