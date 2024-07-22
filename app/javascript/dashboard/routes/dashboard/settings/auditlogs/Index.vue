@@ -1,11 +1,11 @@
 <template>
-  <div class="flex-1 overflow-auto p-4 flex justify-between flex-col">
+  <div class="flex flex-col justify-between flex-1 p-4 overflow-auto">
     <!-- List Audit Logs -->
     <div>
       <div>
         <p
           v-if="!uiFlags.fetchingList && !records.length"
-          class="flex h-full items-center flex-col justify-center"
+          class="flex flex-col items-center justify-center h-full"
         >
           {{ $t('AUDIT_LOGS.LIST.404') }}
         </p>
@@ -16,7 +16,7 @@
 
         <table
           v-if="!uiFlags.fetchingList && records.length"
-          class="woot-table w-full"
+          class="w-full woot-table"
         >
           <colgroup>
             <col class="w-3/5" />
@@ -34,10 +34,10 @@
           </thead>
           <tbody>
             <tr v-for="auditLogItem in records" :key="auditLogItem.id">
-              <td class="whitespace-nowrap break-all">
+              <td class="break-all whitespace-nowrap">
                 {{ generateLogText(auditLogItem) }}
               </td>
-              <td class="whitespace-nowrap break-all">
+              <td class="break-all whitespace-nowrap">
                 {{
                   messageTimestamp(
                     auditLogItem.created_at,
@@ -65,7 +65,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import TableFooter from 'dashboard/components/widgets/TableFooter.vue';
-import timeMixin from 'dashboard/mixins/time';
+import { messageTimestamp } from 'shared/helpers/timeHelper';
 import alertMixin from 'shared/mixins/alertMixin';
 import {
   generateTranslationPayload,
@@ -76,7 +76,7 @@ export default {
   components: {
     TableFooter,
   },
-  mixins: [alertMixin, timeMixin],
+  mixins: [alertMixin],
   beforeRouteEnter(to, from, next) {
     // Fetch Audit Logs on page load without manual refresh
     next(vm => {
@@ -104,6 +104,7 @@ export default {
     this.$store.dispatch('agents/get');
   },
   methods: {
+    messageTimestamp,
     fetchAuditLogs() {
       const page = this.$route.query.page ?? 1;
       this.$store.dispatch('auditlogs/fetch', { page }).catch(error => {

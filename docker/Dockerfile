@@ -25,7 +25,7 @@ RUN apk update && apk add --no-cache \
   tzdata \
   postgresql-dev \
   postgresql-client \
-  nodejs=20.12.1-r0 \
+  nodejs=20.15.1-r0 \
   yarn \
   git \
   && mkdir -p /var/app \
