@@ -69,7 +69,6 @@ class WebhookListener < BaseListener
   def contact_won(event)
     contact, account = extract_contact_and_account(event)
     changed_attributes = extract_changed_attributes(event)
-    return if changed_attributes.blank?
 
     payload = contact.webhook_data.merge(event: __method__.to_s, changed_attributes: changed_attributes)
     deliver_account_webhooks(payload, account)
