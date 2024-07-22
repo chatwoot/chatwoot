@@ -12,6 +12,10 @@ class Digitaltolk::SurveyResponsesParquetService
   # @return [Hash]
   def perform
     process_upload
+  rescue Exception => e
+    Rails.logger.error "Error exporting parquet file: #{e.message}"
+    Rails.logger.error e.backtrace.first(5).join("\n")
+    nil
   end
 
   private
@@ -65,6 +69,8 @@ class Digitaltolk::SurveyResponsesParquetService
     GC.enable
     survey_responses.find_in_batches(batch_size: batch_size) do |responses|
       responses.each do |survey_response|
+        next if survey_response.blank?
+
         @columns['id'] << survey_response.id.to_i
         @columns['rating'] << survey_response.rating.to_i
         @columns['feedback_message'] << survey_response.feedback_message.to_s

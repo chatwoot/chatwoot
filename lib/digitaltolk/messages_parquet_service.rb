@@ -61,8 +61,9 @@ class Digitaltolk::MessagesParquetService
     batch_size = 1000
     index = 1
     GC.enable
-    @messages.find_in_batches(batch_size: batch_size) do |msgs|
-      msgs.each do |message|
+    @messages.find_in_batches(batch_size: batch_size) do |message_batch|
+      message_batch.each do |message|
+        next if message.blank?
         @columns['id'] << message.id.to_i
         @columns['content'] << message.content.to_s
         @columns['inbox_id'] << message.inbox_id.to_i

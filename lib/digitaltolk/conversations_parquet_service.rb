@@ -15,6 +15,10 @@ attr_accessor :conversations, :file_name, :report
 
   def perform
     export_parquet
+  rescue Exception => e
+    Rails.logger.error "Error exporting parquet file: #{e.message}"
+    Rails.logger.error e.backtrace.first(5).join("\n")
+    nil
   end
 
   private
@@ -72,6 +76,8 @@ attr_accessor :conversations, :file_name, :report
     GC.enable
     conversations.find_in_batches(batch_size: batch_size) do |cons|
       cons.each do |conversation|
+        next if conversation.blank?
+
         @columns['id'] << conversation.display_id.to_i
         @columns['sender_id'] << conversation.contact&.id.to_i
         @columns['sender_name'] << conversation.contact&.name.to_s

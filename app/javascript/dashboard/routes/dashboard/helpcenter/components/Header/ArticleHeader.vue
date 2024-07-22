@@ -142,6 +142,7 @@
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems.vue';
+import adminMixin from 'dashboard/mixins/isAdmin';
 
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 export default {
@@ -151,6 +152,7 @@ export default {
     WootDropdownMenu,
     MultiselectDropdownItems,
   },
+  mixins: [adminMixin],
   props: {
     headerTitle: {
       type: String,
