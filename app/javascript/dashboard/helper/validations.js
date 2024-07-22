@@ -8,7 +8,7 @@
  *
  * @returns {string|null} An error message if validation fails, or null if validation passes.
  */
-function validateSingleFilter(filter) {
+const validateSingleFilter = filter => {
   if (!filter.attribute_key) {
     return 'Attribute key is required';
   }
@@ -33,7 +33,7 @@ function validateSingleFilter(filter) {
   }
 
   return null;
-}
+};
 
 /**
  * Validates filters for conversations or contacts.
@@ -59,6 +59,94 @@ export const validateConversationOrContactFilters = filters => {
 };
 
 /**
+ * Validates the basic fields of an automation object.
+ *
+ * @param {Object} automation - The automation object to validate.
+ * @returns {Object} An object containing any validation errors.
+ */
+const validateBasicFields = automation => {
+  const errors = {};
+  const requiredFields = ['name', 'description', 'event_name'];
+
+  requiredFields.forEach(field => {
+    if (!automation[field]) {
+      errors[field] = `${
+        field.charAt(0).toUpperCase() + field.slice(1)
+      } is required`;
+    }
+  });
+
+  return errors;
+};
+
+/**
+ * Validates the conditions of an automation object.
+ *
+ * @param {Array} conditions - The conditions to validate.
+ * @returns {Object} An object containing any validation errors.
+ */
+const validateConditions = conditions => {
+  const errors = {};
+
+  if (!conditions || conditions.length === 0) {
+    errors.conditions = 'At least one condition is required';
+    return errors;
+  }
+
+  conditions.forEach((condition, index) => {
+    const error = validateSingleFilter(condition);
+    if (error) {
+      errors[`condition_${index}`] = error;
+    }
+  });
+
+  return errors;
+};
+
+/**
+ * Validates a single action of an automation object.
+ *
+ * @param {Object} action - The action to validate.
+ * @returns {string|null} An error message if validation fails, or null if validation passes.
+ */
+const validateSingleAction = action => {
+  const noParamActions = [
+    'mute_conversation',
+    'snooze_conversation',
+    'resolve_conversation',
+  ];
+
+  if (
+    !noParamActions.includes(action.action_name) &&
+    (!action.action_params || action.action_params.length === 0)
+  ) {
+    return 'Action parameters are required';
+  }
+
+  return null;
+};
+
+/**
+ * Validates the actions of an automation object.
+ *
+ * @param {Array} actions - The actions to validate.
+ * @returns {Object} An object containing any validation errors.
+ */
+const validateActions = actions => {
+  if (!actions || actions.length === 0) {
+    return { actions: 'At least one action is required' };
+  }
+
+  return actions.reduce((errors, action, index) => {
+    const error = validateSingleAction(action);
+    if (error) {
+      errors[`action_${index}`] = error;
+    }
+    return errors;
+  }, {});
+};
+
+/**
  * Validates an automation object.
  *
  * @param {Object} automation - The automation object to validate.
@@ -75,52 +163,13 @@ export const validateConversationOrContactFilters = filters => {
  * @returns {Object} An object containing any validation errors.
  */
 export const validateAutomation = automation => {
-  const errors = {};
+  const basicErrors = validateBasicFields(automation);
+  const conditionErrors = validateConditions(automation.conditions);
+  const actionErrors = validateActions(automation.actions);
 
-  if (!automation.name) {
-    errors.name = 'Name is required';
-  }
-
-  if (!automation.description) {
-    errors.description = 'Description is required';
-  }
-
-  if (!automation.event_name) {
-    errors.event_name = 'Event name is required';
-  }
-
-  if (!automation.conditions || automation.conditions.length === 0) {
-    errors.conditions = 'At least one condition is required';
-  } else {
-    automation.conditions.forEach((condition, index) => {
-      if (
-        !(
-          condition.filter_operator === 'is_present' ||
-          condition.filter_operator === 'is_not_present'
-        ) &&
-        !condition.values
-      ) {
-        errors[`condition_${index}`] = 'Value is required';
-      }
-    });
-  }
-
-  if (!automation.actions || automation.actions.length === 0) {
-    errors.actions = 'At least one action is required';
-  } else {
-    automation.actions.forEach((action, index) => {
-      if (
-        !(
-          action.action_name === 'mute_conversation' ||
-          action.action_name === 'snooze_conversation' ||
-          action.action_name === 'resolve_conversation'
-        ) &&
-        (!action.action_params || action.action_params.length === 0)
-      ) {
-        errors[`action_${index}`] = 'Action parameters are required';
-      }
-    });
-  }
-
-  return errors;
+  return {
+    ...basicErrors,
+    ...conditionErrors,
+    ...actionErrors,
+  };
 };
