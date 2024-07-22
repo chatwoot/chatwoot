@@ -1,11 +1,12 @@
 require 'parquet'
 
 class Digitaltolk::MessagesParquetService
-  attr_accessor :messages, :file_name
+  attr_accessor :messages, :file_name, :report
 
-  def initialize(messages, file_name)
+  def initialize(messages, file_name, report)
     @messages = messages
     @file_name = file_name
+    @report = report
   end
 
   # @return [Hash]
@@ -55,18 +56,33 @@ class Digitaltolk::MessagesParquetService
   end
 
   def load_columns_data
-    messages.each do |message|
-      @columns['id'] << message.id.to_i
-      @columns['content'] << message.content.to_s
-      @columns['inbox_id'] << message.inbox_id.to_i
-      @columns['conversation_id'] << message.conversation.display_id.to_i
-      @columns['message_type'] << message.message_type_before_type_cast.to_s
-      @columns['content_type'] << message.content_type.to_s
-      @columns['status'] << message.status.to_s
-      @columns['created_at'] << message.created_at.to_i
-      @columns['private'] << message.private
-      @columns['source_id'] << message.source_id.to_i
+    return if @messages.blank?
+
+    batch_size = 1000
+    index = 1
+    GC.enable
+    @messages.find_in_batches(batch_size: batch_size) do |msgs|
+      msgs.each do |message|
+        @columns['id'] << message.id.to_i
+        @columns['content'] << message.content.to_s
+        @columns['inbox_id'] << message.inbox_id.to_i
+        @columns['conversation_id'] << message.conversation.display_id.to_i
+        @columns['message_type'] << message.message_type_before_type_cast.to_s
+        @columns['content_type'] << message.content_type.to_s
+        @columns['status'] << message.status.to_s
+        @columns['created_at'] << message.created_at.to_i
+        @columns['private'] << message.private
+        @columns['source_id'] << message.source_id.to_i
+      end
+      report.update_columns(progress: (index * batch_size) / messages_count * 100)
+      index += 1
+      msgs = nil
+      GC.start
     end
+  end
+
+  def messages_count
+    @messages_count ||= @messages.count
   end
 
   def map_columns_array

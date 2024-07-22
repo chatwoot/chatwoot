@@ -16,9 +16,11 @@ class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::Base
   def index
     if params[:export_as_parquet]
       file_name = "csat_surveys_#{Time.now.to_i}.parquet"
-      Digitaltolk::StoreSurveyResponsesParquetJob.perform_later(@csat_survey_responses.pluck(:id), file_name)
+      report = ParquetReport::SurveyResponse.create(account_id: Current.account.id, user_id: Current.user&.id, params: params, file_name: file_name)
+      Digitaltolk::ProcessParquetJob.perform_later(report.id)
 
-      render json: { file_url: Digitaltolk::SurveyResponsesParquetService.new([], file_name).perform }.to_json and return
+      empty_file_url = Digitaltolk::SurveyResponsesParquetService.new([], file_name, report).perform
+      render json: { progress_url: report.progress_url, report_id: report.id, file_url: empty_file_url }.to_json and return
     end
   end
 

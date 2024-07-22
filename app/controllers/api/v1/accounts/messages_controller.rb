@@ -10,9 +10,11 @@ class Api::V1::Accounts::MessagesController < Api::V1::Accounts::BaseController
   def index
     if params[:export_as_parquet]
       file_name = "messages_#{Time.now.to_i}.parquet"
-      Digitaltolk::StoreMessagesParquetJob.perform_later(@messages.pluck(:id), file_name)
+      report = ParquetReport::Message.create(account_id: Current.account.id, user_id: Current.user&.id, params: params, file_name: file_name)
+      Digitaltolk::ProcessParquetJob.perform_later(report.id)
 
-      render json: { file_url:  Digitaltolk::MessagesParquetService.new([], file_name).perform }.to_json and return
+      empty_file_url = Digitaltolk::MessagesParquetService.new([], file_name, report).perform
+      render json: { progress_url: report.progress_url, report_id: report.id, file_url: empty_file_url }.to_json and return
     end
   end
 

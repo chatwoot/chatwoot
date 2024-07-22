@@ -1,11 +1,12 @@
 require 'parquet'
 
 class Digitaltolk::SurveyResponsesParquetService
-  attr_accessor :survey_responses, :file_name
+  attr_accessor :survey_responses, :file_name, :report
 
-  def initialize(survey_responses, file_name)
+  def initialize(survey_responses, file_name, report)
     @survey_responses = survey_responses
     @file_path = file_name
+    @report = report
   end
 
   # @return [Hash]
@@ -56,22 +57,35 @@ class Digitaltolk::SurveyResponsesParquetService
   end
 
   def load_columns_data
-    survey_responses.each do |survey_response|
-      @columns['id'] << survey_response.id.to_i
-      @columns['rating'] << survey_response.rating.to_i
-      @columns['feedback_message'] << survey_response.feedback_message.to_s
-      @columns['account_id'] << survey_response.account_id.to_i
-      @columns['message_id'] << survey_response.message_id.to_i
-      @columns['csat_question_id'] << survey_response.message.csat_template_question&.id.to_i
-      @columns['csat_question'] << csat_question(survey_response).to_s
-      @columns['contact_id'] << survey_response.contact.id.to_i
-      @columns['contact_name'] << survey_response.contact.name.to_s
-      @columns['contact_email'] << survey_response.contact.email.to_s
-      @columns['conversation_id'] << survey_response.conversation.display_id.to_i
-      @columns['assigned_agent_id'] << survey_response.assigned_agent&.id.to_i
-      @columns['assigned_agent_name'] << survey_response.assigned_agent&.name.to_s
-      @columns['assigned_agent_email'] << survey_response.assigned_agent&.email.to_s
-      @columns['created_at'] << survey_response.created_at.to_i
+    return if survey_responses.blank?
+
+    index = 1
+    batch_size = 1000
+    
+    GC.enable
+    survey_responses.find_in_batches(batch_size: batch_size) do |responses|
+      responses.each do |survey_response|
+        @columns['id'] << survey_response.id.to_i
+        @columns['rating'] << survey_response.rating.to_i
+        @columns['feedback_message'] << survey_response.feedback_message.to_s
+        @columns['account_id'] << survey_response.account_id.to_i
+        @columns['message_id'] << survey_response.message_id.to_i
+        @columns['csat_question_id'] << survey_response.message.csat_template_question&.id.to_i
+        @columns['csat_question'] << csat_question(survey_response).to_s
+        @columns['contact_id'] << survey_response.contact.id.to_i
+        @columns['contact_name'] << survey_response.contact.name.to_s
+        @columns['contact_email'] << survey_response.contact.email.to_s
+        @columns['conversation_id'] << survey_response.conversation.display_id.to_i
+        @columns['assigned_agent_id'] << survey_response.assigned_agent&.id.to_i
+        @columns['assigned_agent_name'] << survey_response.assigned_agent&.name.to_s
+        @columns['assigned_agent_email'] << survey_response.assigned_agent&.email.to_s
+        @columns['created_at'] << survey_response.created_at.to_i
+      end
+
+      report.update_columns(progress: (index * batch_size * survey_responses.count / 100) - 1)
+      index += 1
+      responses = nil
+      GC.start
     end
   end
 
