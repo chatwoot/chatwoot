@@ -124,6 +124,10 @@ class Message < ApplicationRecord
   has_one :csat_survey_response, dependent: :destroy_async
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
 
+  scope :with_agents_ids, lambda { |agent_ids|
+    where(sender_id: agent_ids) if agent_ids.present?
+  }
+
   after_create_commit :execute_after_create_commit_callbacks
 
   after_update_commit :dispatch_update_event
