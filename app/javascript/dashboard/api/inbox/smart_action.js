@@ -19,6 +19,18 @@ class SmartActionApi extends ApiClient {
       },
     });
   }
+
+  cancelBooking(link) {
+    axios.get(link)
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+
+    return true;
+  }
 }
 
 export default new SmartActionApi();

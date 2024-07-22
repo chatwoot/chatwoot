@@ -30,6 +30,7 @@ class SmartAction < ApplicationRecord
   validates :conversation_id, presence: true
 
   scope :ask_copilot, -> { where(event: 'ask_copilot') }
+  scope :cancel_booking, -> { where(event: 'cancel_booking') }
   scope :active, -> { where(active: true) }
   delegate :account, to: :conversation
 

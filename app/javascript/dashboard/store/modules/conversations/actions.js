@@ -2,7 +2,6 @@ import Vue from 'vue';
 import types from '../../mutation-types';
 import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
-import SmartActionApi from '../../../api/inbox/smart_action';
 import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
 import { createPendingMessage } from 'dashboard/helper/commons';
 import {
@@ -13,6 +12,7 @@ import {
 } from './helpers/actionHelpers';
 import messageReadActions from './actions/messageReadActions';
 import messageTranslateActions from './actions/messageTranslateActions';
+import smartActions from './actions/smartActions';
 
 export const hasMessageFailedWithExternalError = pendingMessage => {
   // This helper is used to check if the message has failed with an external error.
@@ -500,29 +500,7 @@ const actions = {
     commit(types.ASSIGN_CONTACT_KIND, { contactKind, conversationId });
   },
 
-  // TODO: move to smart action module
-  getSmartActions: async ({ commit }, conversationId) => {
-    const {
-      data: { payload },
-    } = await SmartActionApi.getSmartActions(conversationId);
-    commit(types.SET_SMART_ACTIONS, payload);
-  },
-
-  addSmartAction: async({ commit}, data) => {
-    commit(types.ADD_SMART_ACTION, data);
-  },
-
-  showSmartActions: ({ commit }, value) => {
-    commit(types.DISPLAY_SMART_ACTIONS, value);
-  },
-
-  setSmartActionsContext: ({ commit }, { conversationId, messageId }) => {
-    commit(types.SET_SMART_ACTIONS_CONTEXT, { conversationId, messageId });
-  },
-
-  askCopilot: async (_, { conversationId }) => {
-    return SmartActionApi.askCopilot(conversationId);
-  },
+  ...smartActions,
   ...messageReadActions,
   ...messageTranslateActions,
 };

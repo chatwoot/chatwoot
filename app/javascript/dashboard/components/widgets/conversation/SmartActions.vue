@@ -42,7 +42,7 @@
             <woot-button
               size="tiny"
               class="smart-action-button"
-              @click="toggleBookingPanel(action)"
+              @click="triggerAction(action)"
             >
               {{ action.label }}
               <fluent-icon
@@ -136,6 +136,24 @@ export default {
   },
 
   methods: {
+    triggerCancelBooking(action){
+      if (action.link){
+        this.$store.dispatch('cancelBooking', action.link);
+      }
+    },
+    triggerAction(action){
+      switch(action.event){
+        case 'create_booking':
+          this.toggleBookingPanel(action);
+          break;
+        case 'cancel_booking':
+          this.hideBookingPanel();
+          this.triggerCancelBooking(action);
+          break;
+        default:
+          console.log('Smart action event not supported:', action.event);
+      }
+    },
     toggleBookingPanel(action) {
       this.showBookingPanel = !this.showBookingPane;
 

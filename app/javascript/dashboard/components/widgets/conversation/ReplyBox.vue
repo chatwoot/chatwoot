@@ -944,8 +944,8 @@ export default {
     },
     async onAskCopilot(response) {
       if (
-        !response &&
-        !response.content &&
+        !response ||
+        !response.content ||
         !response.content.length
       ) {
         return;
