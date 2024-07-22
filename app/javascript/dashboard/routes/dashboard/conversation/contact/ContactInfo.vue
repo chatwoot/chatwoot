@@ -168,8 +168,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
+import { dynamicTime } from 'shared/helpers/timeHelper';
 
-import timeMixin from 'dashboard/mixins/time';
 import ContactInfoRow from './ContactInfoRow.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import SocialIcons from './SocialIcons.vue';
@@ -194,7 +194,7 @@ export default {
     NewConversation,
     ContactMergeModal,
   },
-  mixins: [adminMixin, timeMixin],
+  mixins: [adminMixin],
   props: {
     contact: {
       type: Object,
@@ -260,6 +260,7 @@ export default {
     },
   },
   methods: {
+    dynamicTime,
     toggleMergeModal() {
       this.showMergeModal = !this.showMergeModal;
     },

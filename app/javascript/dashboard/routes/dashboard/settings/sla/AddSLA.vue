@@ -1,5 +1,5 @@
 <template>
-  <div class="h-auto overflow-auto flex flex-col">
+  <div class="flex flex-col h-auto overflow-auto">
     <woot-modal-header
       :header-title="$t('SLA.ADD.TITLE')"
       :header-content="$t('SLA.ADD.DESC')"
@@ -13,18 +13,14 @@
 </template>
 
 <script>
-import { useAlert } from 'dashboard/composables';
-import validationMixin from './validationMixin';
 import { mapGetters } from 'vuex';
-import validations from './validations';
+import { useAlert } from 'dashboard/composables';
 import SlaForm from './SlaForm.vue';
 
 export default {
   components: {
     SlaForm,
   },
-  mixins: [validationMixin],
-  validations,
   computed: {
     ...mapGetters({
       uiFlags: 'sla/getUIFlags',

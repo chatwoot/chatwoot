@@ -126,16 +126,15 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
+import { messageStamp } from 'shared/helpers/timeHelper';
 import AddAutomationRule from './AddAutomationRule.vue';
 import EditAutomationRule from './EditAutomationRule.vue';
-import timeMixin from 'dashboard/mixins/time';
 
 export default {
   components: {
     AddAutomationRule,
     EditAutomationRule,
   },
-  mixins: [timeMixin],
   data() {
     return {
       loading: {},
@@ -278,7 +277,7 @@ export default {
       }
     },
     readableTime(date) {
-      return this.messageStamp(new Date(date), 'LLL d, h:mm a');
+      return messageStamp(new Date(date), 'LLL d, h:mm a');
     },
   },
 };

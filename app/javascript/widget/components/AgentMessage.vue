@@ -30,7 +30,7 @@
             />
             <div
               v-if="hasAttachments"
-              class="chat-bubble has-attachment space-y-2 agent"
+              class="space-y-2 chat-bubble has-attachment agent"
               :class="(wrapClass, $dm('bg-white', 'dark:bg-slate-700'))"
             >
               <div
@@ -90,7 +90,7 @@
 import UserMessage from 'widget/components/UserMessage.vue';
 import AgentMessageBubble from 'widget/components/AgentMessageBubble.vue';
 import MessageReplyButton from 'widget/components/MessageReplyButton.vue';
-import timeMixin from 'dashboard/mixins/time';
+import { messageStamp } from 'shared/helpers/timeHelper';
 import ImageBubble from 'widget/components/ImageBubble.vue';
 import VideoBubble from 'widget/components/VideoBubble.vue';
 import FileBubble from 'widget/components/FileBubble.vue';
@@ -116,7 +116,7 @@ export default {
     MessageReplyButton,
     ReplyToChip,
   },
-  mixins: [timeMixin, configMixin, messageMixin, darkModeMixin],
+  mixins: [configMixin, messageMixin, darkModeMixin],
   props: {
     message: {
       type: Object,
@@ -146,7 +146,7 @@ export default {
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;
-      return this.messageStamp(createdAt, 'LLL d yyyy, h:mm a');
+      return messageStamp(createdAt, 'LLL d yyyy, h:mm a');
     },
     messageType() {
       const { message_type: type = 1 } = this.message;

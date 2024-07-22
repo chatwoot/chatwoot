@@ -65,8 +65,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
+import { messageTimestamp } from 'shared/helpers/timeHelper';
 import TableFooter from 'dashboard/components/widgets/TableFooter.vue';
-import timeMixin from 'dashboard/mixins/time';
 import {
   generateTranslationPayload,
   generateLogActionKey,
@@ -76,7 +76,6 @@ export default {
   components: {
     TableFooter,
   },
-  mixins: [timeMixin],
   beforeRouteEnter(to, from, next) {
     // Fetch Audit Logs on page load without manual refresh
     next(vm => {
@@ -104,6 +103,7 @@ export default {
     this.$store.dispatch('agents/get');
   },
   methods: {
+    messageTimestamp,
     fetchAuditLogs() {
       const page = this.$route.query.page ?? 1;
       this.$store.dispatch('auditlogs/fetch', { page }).catch(error => {
