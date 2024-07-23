@@ -190,6 +190,12 @@ export default {
         const fileName = generateFileName({ type, to, businessHours });
         const params = { from, to, fileName, businessHours };
         this.$store.dispatch(dispatchMethods[type], params);
+        if (type === 'agent') {
+          bus.$emit(
+            'newToastMessage',
+            'The report will soon be available in all administrator email inboxes.'
+          );
+        }
       }
     },
     onFilterChange({ from, to, businessHours }) {

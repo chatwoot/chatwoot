@@ -1,9 +1,13 @@
 module Api::V2::Accounts::ReportsHelper
   def generate_agents_report
-    Current.account.users.map do |agent|
-      agent_report = report_builder({ type: :agent, id: agent.id }).summary
-      [agent.name] + generate_readable_report_metrics(agent_report)
-    end
+    current_range = range[:current]
+    range_start = DateTime.strptime(current_range[:since].to_s, '%s')
+    range_end = DateTime.strptime(current_range[:until].to_s, '%s')
+    sanitized_range = { since: range_start, until: range_end }
+
+    bitespeed_bot = Current.user.email.ends_with?('@bitespeed.co')
+
+    AgentReportJob.new.generate_custom_report(Current.account, sanitized_range, params, bitespeed_bot)
   end
 
   def generate_conversations_report

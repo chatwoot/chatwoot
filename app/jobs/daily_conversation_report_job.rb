@@ -32,7 +32,7 @@ class DailyConversationReportJob < ApplicationJob
     end
   end
 
-  def generate_custom_report(account_id, range, bitespeed_bot: false)
+  def generate_custom_report(account_id, range, bitespeed_bot)
     set_statement_timeout
 
     current_date = Date.current

@@ -77,6 +77,16 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
     send_mail_with_liquid(to: recipients, subject: subject) and return
   end
 
+  def custom_agent_report(csv_url, since_date, until_date, bitespeed_bot)
+    return unless smtp_config_set_or_development?
+
+    subject = "Agent Report from #{since_date} to #{until_date}"
+    @action_url = csv_url
+    recipients = admin_emails
+    recipients += ['jaideep+chatwootdebugreports@bitespeed.co', 'aryanm@bitespeed.co', 'vinayaktrivedi@bitespeed.co'] if bitespeed_bot
+    send_mail_with_liquid(to: recipients, subject: subject) and return
+  end
+
   def contact_import_failed
     return unless smtp_config_set_or_development?
 

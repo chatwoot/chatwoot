@@ -20,7 +20,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
 
   def agents
     @report_data = generate_agents_report
-    generate_csv('agents_report', 'api/v2/accounts/reports/agents')
+    render json: { message: 'Job ran for sending agent report' }
   end
 
   def conversation_reports
