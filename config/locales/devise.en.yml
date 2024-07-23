@@ -17,6 +17,12 @@ en:
       unauthenticated: "You need to sign in or sign up before continuing."
       unconfirmed: "You have to confirm your email address before continuing."
     mailer:
+      unlock_instructions:
+        subject: "Unlock instructions"
+        greeting: "Hello %{email}!"
+        locked_account: "Your account has been locked due to an excessive number of unsuccessful sign in attempts."
+        instructions: "Click the link below to unlock your account:"
+        unlock_account: "Unlock my account"
       reset_password_instructions:
         subject: "Reset password instructions"
         greeting: "Hello %{email}!"

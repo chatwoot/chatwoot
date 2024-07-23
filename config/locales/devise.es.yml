@@ -16,6 +16,12 @@ es:
       unauthenticated: "Necesitas iniciar sesión o registrarte antes de continuar."
       unconfirmed: "Tienes que confirmar tu dirección de correo electrónico antes de continuar."
     mailer:
+      unlock_instructions:
+        subject: "Instrucciones para desbloquear"
+        greeting: "Hola %{email}!"
+        locked_account: "Tu cuenta ha sido bloqueada debido a un número excesivo de intentos de inicio de sesión fallidos."
+        instructions: "Haz clic en el enlace siguiente para desbloquear tu cuenta:"
+        unlock_account: "Desbloquear mi cuenta"
       reset_password_instructions:
         subject: "Instrucciones para cambiar la contraseña"
         greeting: "Hola %{email}!"

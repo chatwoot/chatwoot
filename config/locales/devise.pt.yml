@@ -16,6 +16,12 @@ pt:
       unauthenticated: "Você precisa fazer login ou se cadastrar antes de continuar."
       unconfirmed: "Você precisa confirmar seu endereço de e-mail antes de continuar."
     mailer:
+      unlock_instructions:
+        subject: "Instruções para desbloqueio"
+        greeting: "Olá %{email}!"
+        locked_account: "Sua conta foi bloqueada devido a um número excessivo de tentativas de login sem sucesso."
+        instructions: "Clique no link abaixo para desbloquear sua conta:"
+        unlock_account: "Desbloquear minha conta"
       reset_password_instructions:
         subject: "Instruções para alteração de senha"
         greeting: "Olá %{email}!"
