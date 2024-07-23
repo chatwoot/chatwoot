@@ -1,6 +1,6 @@
 <template>
   <modal :show.sync="show" :on-close="onClose">
-    <div class="h-auto overflow-auto flex flex-col">
+    <div class="flex flex-col h-auto overflow-auto">
       <woot-modal-header
         :header-title="$t('CANNED_MGMT.ADD.TITLE')"
         :header-content="$t('CANNED_MGMT.ADD.DESC')"
@@ -34,7 +34,7 @@
             />
           </div>
         </div>
-        <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+        <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
           <woot-submit-button
             :disabled="
               $v.content.$invalid ||
@@ -55,11 +55,11 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
+import { useAlert } from 'dashboard/composables';
 
 import WootSubmitButton from '../../../../components/buttons/FormSubmitButton.vue';
 import Modal from '../../../../components/Modal.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
@@ -67,7 +67,6 @@ export default {
     Modal,
     WootMessageEditor,
   },
-  mixins: [alertMixin],
   props: {
     responseContent: {
       type: String,
@@ -117,7 +116,7 @@ export default {
         .then(() => {
           // Reset Form, Show success message
           this.addCanned.showLoading = false;
-          this.showAlert(this.$t('CANNED_MGMT.ADD.API.SUCCESS_MESSAGE'));
+          useAlert(this.$t('CANNED_MGMT.ADD.API.SUCCESS_MESSAGE'));
           this.resetForm();
           this.onClose();
         })
@@ -125,7 +124,7 @@ export default {
           this.addCanned.showLoading = false;
           const errorMessage =
             error?.message || this.$t('CANNED_MGMT.ADD.API.ERROR_MESSAGE');
-          this.showAlert(errorMessage);
+          useAlert(errorMessage);
         });
     },
   },

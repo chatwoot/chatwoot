@@ -1,5 +1,5 @@
 <template>
-  <section class="conversation-page bg-white dark:bg-slate-900">
+  <section class="bg-white conversation-page dark:bg-slate-900">
     <chat-list
       :show-conversation-list="showConversationList"
       :conversation-inbox="inboxId"
@@ -36,13 +36,13 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import { getUnixTime } from 'date-fns';
 import ChatList from '../../../components/ChatList.vue';
 import ConversationBox from '../../../components/widgets/conversation/ConversationBox.vue';
 import PopOverSearch from './search/PopOverSearch.vue';
 import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
-import alertMixin from 'shared/mixins/alertMixin';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { CMD_SNOOZE_CONVERSATION } from 'dashboard/routes/dashboard/commands/commandBarBusEvents';
@@ -55,7 +55,6 @@ export default {
     PopOverSearch,
     CustomSnoozeModal,
   },
-  mixins: [uiSettingsMixin, alertMixin],
   props: {
     inboxId: {
       type: [String, Number],
@@ -81,6 +80,14 @@ export default {
       type: [String, Number],
       default: 0,
     },
+  },
+  setup() {
+    const { uiSettings, updateUISettings } = useUISettings();
+
+    return {
+      uiSettings,
+      updateUISettings,
+    };
   },
   data() {
     return {
@@ -235,7 +242,7 @@ export default {
         })
         .then(() => {
           this.$store.dispatch('setContextMenuChatId', null);
-          this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
+          useAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
         });
     },
     hideCustomSnoozeModal() {

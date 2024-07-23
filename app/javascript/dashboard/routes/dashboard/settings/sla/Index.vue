@@ -63,7 +63,7 @@ import SLAPaywallEnterprise from './components/SLAPaywallEnterprise.vue';
 
 import { mapGetters } from 'vuex';
 import { convertSecondsToTimeUnit } from '@chatwoot/utils';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import configMixin from 'shared/mixins/configMixin';
 
 export default {
@@ -76,7 +76,7 @@ export default {
     SLAListItemLoading,
     SLAPaywallEnterprise,
   },
-  mixins: [alertMixin, configMixin],
+  mixins: [configMixin],
   data() {
     return {
       loading: {},
@@ -140,10 +140,10 @@ export default {
       this.$store
         .dispatch('sla/delete', id)
         .then(() => {
-          this.showAlert(this.$t('SLA.DELETE.API.SUCCESS_MESSAGE'));
+          useAlert(this.$t('SLA.DELETE.API.SUCCESS_MESSAGE'));
         })
         .catch(() => {
-          this.showAlert(this.$t('SLA.DELETE.API.ERROR_MESSAGE'));
+          useAlert(this.$t('SLA.DELETE.API.ERROR_MESSAGE'));
         })
         .finally(() => {
           this.loading[this.selectedResponse.id] = false;

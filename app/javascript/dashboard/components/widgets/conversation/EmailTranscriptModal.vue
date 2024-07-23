@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
   <woot-modal :show.sync="show" :on-close="onCancel">
-    <div class="h-auto overflow-auto flex flex-col">
+    <div class="flex flex-col h-auto overflow-auto">
       <woot-modal-header
         :header-title="$t('EMAIL_TRANSCRIPT.TITLE')"
         :header-content="$t('EMAIL_TRANSCRIPT.DESC')"
@@ -61,7 +61,7 @@
             </label>
           </div>
         </div>
-        <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+        <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
           <woot-submit-button
             :button-text="$t('EMAIL_TRANSCRIPT.SUBMIT')"
             :disabled="!isFormValid"
@@ -77,9 +77,8 @@
 
 <script>
 import { required, minLength, email } from 'vuelidate/lib/validators';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 export default {
-  mixins: [alertMixin],
   props: {
     show: {
       type: Boolean,
@@ -142,10 +141,10 @@ export default {
           email: this.selectedEmailAddress,
           conversationId: this.currentChat.id,
         });
-        this.showAlert(this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_SUCCESS'));
+        useAlert(this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_SUCCESS'));
         this.onCancel();
       } catch (error) {
-        this.showAlert(this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_ERROR'));
+        useAlert(this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_ERROR'));
       } finally {
         this.isSubmitting = false;
       }

@@ -57,7 +57,7 @@
           </span>
         </div>
       </div>
-      <div class="multiselect-wrap--medium flex">
+      <div class="flex multiselect-wrap--medium">
         <div
           class="w-8 relative text-base text-slate-100 dark:text-slate-600 after:content-[''] after:h-12 after:w-0 after:left-4 after:absolute after:border-l after:border-solid after:border-slate-100 after:dark:border-slate-600 before:content-[''] before:h-0 before:w-4 before:left-4 before:top-12 before:absolute before:border-b before:border-solid before:border-slate-100 before:dark:border-slate-600"
         >
@@ -102,7 +102,7 @@
       :primary-contact-name="primaryContact.name"
       :parent-contact-name="parentContactName"
     />
-    <div class="mt-6 flex gap-2 justify-end">
+    <div class="flex justify-end gap-2 mt-6">
       <woot-button variant="clear" @click.prevent="onCancel">
         {{ $t('MERGE_CONTACTS.FORM.CANCEL') }}
       </woot-button>
@@ -114,7 +114,6 @@
 </template>
 
 <script>
-import alertMixin from 'shared/mixins/alertMixin';
 import { required } from 'vuelidate/lib/validators';
 
 import MergeContactSummary from 'dashboard/modules/contact/components/MergeContactSummary.vue';
@@ -122,7 +121,6 @@ import ContactDropdownItem from './ContactDropdownItem.vue';
 
 export default {
   components: { MergeContactSummary, ContactDropdownItem },
-  mixins: [alertMixin],
   props: {
     primaryContact: {
       type: Object,

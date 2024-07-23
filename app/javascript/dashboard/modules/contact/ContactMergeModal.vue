@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import MergeContact from 'dashboard/modules/contact/components/MergeContact.vue';
 
 import ContactAPI from 'dashboard/api/contacts';
@@ -29,7 +29,6 @@ import { CONTACTS_EVENTS } from '../../helper/AnalyticsHelper/events';
 
 export default {
   components: { MergeContact },
-  mixins: [alertMixin],
   props: {
     primaryContact: {
       type: Object,
@@ -68,7 +67,7 @@ export default {
           contact => contact.id !== this.primaryContact.id
         );
       } catch (error) {
-        this.showAlert(this.$t('MERGE_CONTACTS.SEARCH.ERROR_MESSAGE'));
+        useAlert(this.$t('MERGE_CONTACTS.SEARCH.ERROR_MESSAGE'));
       } finally {
         this.isSearching = false;
       }
@@ -80,10 +79,10 @@ export default {
           childId: this.primaryContact.id,
           parentId: parentContactId,
         });
-        this.showAlert(this.$t('MERGE_CONTACTS.FORM.SUCCESS_MESSAGE'));
+        useAlert(this.$t('MERGE_CONTACTS.FORM.SUCCESS_MESSAGE'));
         this.onClose();
       } catch (error) {
-        this.showAlert(this.$t('MERGE_CONTACTS.FORM.ERROR_MESSAGE'));
+        useAlert(this.$t('MERGE_CONTACTS.FORM.ERROR_MESSAGE'));
       }
     },
   },

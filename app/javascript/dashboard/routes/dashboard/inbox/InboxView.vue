@@ -5,7 +5,7 @@
         :empty-state-message="$t('INBOX.LIST.NO_MESSAGES_AVAILABLE')"
       />
     </div>
-    <div v-else class="flex flex-col h-full w-full">
+    <div v-else class="flex flex-col w-full h-full">
       <inbox-item-header
         class="flex-1"
         :total-length="totalNotificationCount"
@@ -18,7 +18,7 @@
         v-if="isConversationLoading"
         class="flex items-center h-[calc(100%-56px)] justify-center bg-slate-25 dark:bg-slate-800"
       >
-        <span class="spinner my-4" />
+        <span class="my-4 spinner" />
       </div>
       <conversation-box
         v-else
@@ -38,7 +38,7 @@ import { mapGetters } from 'vuex';
 import InboxItemHeader from './components/InboxItemHeader.vue';
 import ConversationBox from 'dashboard/components/widgets/conversation/ConversationBox.vue';
 import InboxEmptyState from './InboxEmptyState.vue';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
@@ -48,7 +48,14 @@ export default {
     InboxEmptyState,
     ConversationBox,
   },
-  mixins: [uiSettingsMixin],
+  setup() {
+    const { uiSettings, updateUISettings } = useUISettings();
+
+    return {
+      uiSettings,
+      updateUISettings,
+    };
+  },
   data() {
     return {
       isConversationLoading: false,
