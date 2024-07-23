@@ -8,9 +8,18 @@ class AutoAssignment::AgentAssignmentService
     round_robin_manage_service.available_agent(allowed_agent_ids: allowed_online_agent_ids)
   end
 
+  def activity_message_params(content)
+    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity, content: content }
+  end
+
   def perform
     new_assignee = find_assignee
-    conversation.update(assignee: new_assignee) if new_assignee
+    if new_assignee.nil?
+      Rails.logger.info "No agents were assigned, #{conversation.account_id}"
+      conversation.messages.create!(activity_message_params('Conversation not assigned to any agent as no agents were online'))
+    else
+      conversation.update(assignee: new_assignee)
+    end
   end
 
   private
