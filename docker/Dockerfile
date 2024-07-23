@@ -1,5 +1,5 @@
 # pre-build stage
-FROM ruby:3.2.2-alpine3.18 AS pre-builder
+FROM ruby:3.3.3-alpine3.19 AS pre-builder
 
 # ARG default to production settings
 # For development docker-compose file overrides ARGS
@@ -25,7 +25,7 @@ RUN apk update && apk add --no-cache \
   tzdata \
   postgresql-dev \
   postgresql-client \
-  nodejs-current \
+  nodejs=20.15.1-r0 \
   yarn \
   git \
   && mkdir -p /var/app \
@@ -67,13 +67,13 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
 RUN git rev-parse HEAD > /app/.git_sha
 
 # Remove unnecessary files
-RUN rm -rf /gems/ruby/3.2.0/cache/*.gem \
-  && find /gems/ruby/3.2.0/gems/ \( -name "*.c" -o -name "*.o" \) -delete \
+RUN rm -rf /gems/ruby/3.3.0/cache/*.gem \
+  && find /gems/ruby/3.3.0/gems/ \( -name "*.c" -o -name "*.o" \) -delete \
   && rm -rf .git \
   && rm .gitignore
 
 # final build stage
-FROM ruby:3.2.2-alpine3.18
+FROM ruby:3.3.3-alpine3.19
 
 
 ARG BUNDLE_WITHOUT="development:test"

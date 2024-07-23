@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 overflow-auto p-4">
+  <div class="flex-1 p-4 overflow-auto">
     <woot-button
       color-scheme="success"
       class-names="button--fixed-top"
@@ -12,7 +12,7 @@
       <div class="w-full lg:w-3/5">
         <p
           v-if="!uiFlags.isFetching && !records.length"
-          class="flex h-full items-center flex-col justify-center"
+          class="flex flex-col items-center justify-center h-full"
         >
           {{ $t('AUTOMATION.LIST.404') }}
         </p>
@@ -77,7 +77,7 @@
         </table>
       </div>
 
-      <div class="hidden lg:block w-1/3">
+      <div class="hidden w-1/3 lg:block">
         <span v-dompurify-html="$t('AUTOMATION.SIDEBAR_TXT')" />
       </div>
     </div>
@@ -125,17 +125,16 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
+import { messageStamp } from 'shared/helpers/timeHelper';
 import AddAutomationRule from './AddAutomationRule.vue';
 import EditAutomationRule from './EditAutomationRule.vue';
-import alertMixin from 'shared/mixins/alertMixin';
-import timeMixin from 'dashboard/mixins/time';
 
 export default {
   components: {
     AddAutomationRule,
     EditAutomationRule,
   },
-  mixins: [alertMixin, timeMixin],
   data() {
     return {
       loading: {},
@@ -213,20 +212,20 @@ export default {
     async deleteAutomation(id) {
       try {
         await this.$store.dispatch('automations/delete', id);
-        this.showAlert(this.$t('AUTOMATION.DELETE.API.SUCCESS_MESSAGE'));
+        useAlert(this.$t('AUTOMATION.DELETE.API.SUCCESS_MESSAGE'));
         this.loading[this.selectedResponse.id] = false;
       } catch (error) {
-        this.showAlert(this.$t('AUTOMATION.DELETE.API.ERROR_MESSAGE'));
+        useAlert(this.$t('AUTOMATION.DELETE.API.ERROR_MESSAGE'));
       }
     },
     async cloneAutomation(id) {
       try {
         await this.$store.dispatch('automations/clone', id);
-        this.showAlert(this.$t('AUTOMATION.CLONE.API.SUCCESS_MESSAGE'));
+        useAlert(this.$t('AUTOMATION.CLONE.API.SUCCESS_MESSAGE'));
         this.$store.dispatch('automations/get');
         this.loading[this.selectedResponse.id] = false;
       } catch (error) {
-        this.showAlert(this.$t('AUTOMATION.CLONE.API.ERROR_MESSAGE'));
+        useAlert(this.$t('AUTOMATION.CLONE.API.ERROR_MESSAGE'));
       }
     },
     async submitAutomation(payload, mode) {
@@ -238,7 +237,7 @@ export default {
             ? this.$t('AUTOMATION.EDIT.API.SUCCESS_MESSAGE')
             : this.$t('AUTOMATION.ADD.API.SUCCESS_MESSAGE');
         await this.$store.dispatch(action, payload);
-        this.showAlert(successMessage);
+        useAlert(successMessage);
         this.hideAddPopup();
         this.hideEditPopup();
       } catch (error) {
@@ -246,7 +245,7 @@ export default {
           mode === 'edit'
             ? this.$t('AUTOMATION.EDIT.API.ERROR_MESSAGE')
             : this.$t('AUTOMATION.ADD.API.ERROR_MESSAGE');
-        this.showAlert(errorMessage);
+        useAlert(errorMessage);
       }
     },
     async toggleAutomation(automation, status) {
@@ -271,14 +270,14 @@ export default {
           const message = status
             ? this.$t('AUTOMATION.TOGGLE.DEACTIVATION_SUCCESFUL')
             : this.$t('AUTOMATION.TOGGLE.ACTIVATION_SUCCESFUL');
-          this.showAlert(message);
+          useAlert(message);
         }
       } catch (error) {
-        this.showAlert(this.$t('AUTOMATION.EDIT.API.ERROR_MESSAGE'));
+        useAlert(this.$t('AUTOMATION.EDIT.API.ERROR_MESSAGE'));
       }
     },
     readableTime(date) {
-      return this.messageStamp(new Date(date), 'LLL d, h:mm a');
+      return messageStamp(new Date(date), 'LLL d, h:mm a');
     },
   },
 };

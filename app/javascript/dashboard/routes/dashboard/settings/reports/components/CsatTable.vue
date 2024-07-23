@@ -26,7 +26,7 @@ import { VeTable, VePagination } from 'vue-easytable';
 import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.vue';
 import { CSAT_RATINGS } from 'shared/constants/messages';
 import { mapGetters } from 'vuex';
-import timeMixin from 'dashboard/mixins/time';
+import { messageStamp, dynamicTime } from 'shared/helpers/timeHelper';
 import rtlMixin from 'shared/mixins/rtlMixin';
 
 export default {
@@ -34,7 +34,7 @@ export default {
     VeTable,
     VePagination,
   },
-  mixins: [timeMixin, rtlMixin],
+  mixins: [rtlMixin],
   props: {
     pageIndex: {
       type: Number,
@@ -137,8 +137,8 @@ export default {
         rating: response.rating,
         feedbackText: response.feedback_message || '---',
         conversationId: response.conversation_id,
-        createdAgo: this.dynamicTime(response.created_at),
-        createdAt: this.messageStamp(response.created_at, 'LLL d yyyy, h:mm a'),
+        createdAgo: dynamicTime(response.created_at),
+        createdAt: messageStamp(response.created_at, 'LLL d yyyy, h:mm a'),
       }));
     },
   },

@@ -194,7 +194,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { required } from 'vuelidate/lib/validators';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import campaignMixin from 'shared/mixins/campaignMixin';
 import WootDateTimePicker from 'dashboard/components/ui/DateTimePicker.vue';
@@ -209,7 +209,7 @@ export default {
     WhatsappTemplates,
   },
 
-  mixins: [alertMixin, campaignMixin],
+  mixins: [campaignMixin],
   data() {
     return {
       title: '',
@@ -348,7 +348,7 @@ export default {
       } catch (error) {
         const errorMessage =
           error?.response?.message || this.$t('CAMPAIGN.ADD.API.ERROR_MESSAGE');
-        this.showAlert(errorMessage);
+        useAlert(errorMessage);
       }
     },
 
@@ -411,12 +411,12 @@ export default {
           type: this.campaignType,
         });
 
-        this.showAlert(this.$t('CAMPAIGN.ADD.API.SUCCESS_MESSAGE'));
+        useAlert(this.$t('CAMPAIGN.ADD.API.SUCCESS_MESSAGE'));
         this.onClose();
       } catch (error) {
         const errorMessage =
           error?.response?.message || this.$t('CAMPAIGN.ADD.API.ERROR_MESSAGE');
-        this.showAlert(errorMessage);
+        useAlert(errorMessage);
       }
     },
   },

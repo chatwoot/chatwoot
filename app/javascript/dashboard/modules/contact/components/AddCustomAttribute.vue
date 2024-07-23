@@ -21,7 +21,7 @@
         :label="$t('CUSTOM_ATTRIBUTES.FORM.VALUE.LABEL')"
         :placeholder="$t('CUSTOM_ATTRIBUTES.FORM.VALUE.PLACEHOLDER')"
       />
-      <div class="flex justify-end items-center py-2 px-0 gap-2">
+      <div class="flex items-center justify-end gap-2 px-0 py-2">
         <woot-button
           :is-disabled="$v.attributeName.$invalid || isCreating"
           :is-loading="isCreating"
@@ -38,14 +38,12 @@
 
 <script>
 import Modal from 'dashboard/components/Modal.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 import { required, minLength } from 'vuelidate/lib/validators';
 
 export default {
   components: {
     Modal,
   },
-  mixins: [alertMixin],
   props: {
     show: {
       type: Boolean,
