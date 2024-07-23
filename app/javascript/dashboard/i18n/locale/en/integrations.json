@@ -1,8 +1,9 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrations",
-    "DESCRIPTION": "This page provides a list of available integrations that can enhance your team’s productivity by connecting various tools and services.",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Subscribed Events",
       "FORM": {

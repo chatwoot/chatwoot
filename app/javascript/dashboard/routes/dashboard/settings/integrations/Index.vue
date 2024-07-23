@@ -26,10 +26,10 @@ onMounted(() => {
   >
     <template #header>
       <BaseSettingsHeader
-        class="mt-4"
         :title="$t('INTEGRATION_SETTINGS.HEADER')"
         :description="$t('INTEGRATION_SETTINGS.DESCRIPTION')"
         :link-text="$t('INTEGRATION_SETTINGS.LEARN_MORE')"
+        feature-name="integrations"
       />
     </template>
     <template #body>

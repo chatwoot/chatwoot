@@ -1,5 +1,7 @@
 <script setup>
-defineProps({
+import CustomBrandPolicyWrapper from 'dashboard/components/CustomBrandPolicyWrapper.vue';
+import { getHelpUrlForFeature } from '../../../../helper/featureHelper';
+const props = defineProps({
   title: {
     type: String,
     required: true,
@@ -10,17 +12,19 @@ defineProps({
   },
   iconName: {
     type: String,
-    required: true,
-  },
-  href: {
-    type: String,
     default: '',
   },
   linkText: {
     type: String,
     default: '',
   },
+  featureName: {
+    type: String,
+    default: '',
+  },
 });
+
+const helpURL = getHelpUrlForFeature(props.featureName);
 
 const openInNewTab = url => {
   if (!url) return;
@@ -29,7 +33,7 @@ const openInNewTab = url => {
 </script>
 
 <template>
-  <div class="flex flex-col items-start w-full gap-4">
+  <div class="flex flex-col items-start w-full gap-3 pt-4">
     <div class="flex items-center justify-between w-full gap-4">
       <div class="flex items-center gap-3">
         <div
@@ -47,7 +51,9 @@ const openInNewTab = url => {
             />
           </div>
         </div>
-        <h1 class="text-2xl font-medium text-slate-900 dark:text-slate-25">
+        <h1
+          class="text-2xl font-semibold font-interDisplay tracking-[0.3px] text-slate-900 dark:text-slate-25"
+        >
           {{ title }}
         </h1>
       </div>
@@ -56,39 +62,43 @@ const openInNewTab = url => {
         <slot name="actions" />
       </div>
     </div>
-    <div class="flex flex-col gap-2 text-slate-600 dark:text-slate-300 w-full">
+    <div class="flex flex-col gap-3 text-slate-600 dark:text-slate-300 w-full">
       <p
         class="mb-0 text-base font-normal line-clamp-5 sm:line-clamp-none max-w-3xl"
       >
         <slot name="description">{{ description }}</slot>
       </p>
-      <a
-        v-if="href && linkText"
-        :href="href"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="sm:inline-flex hidden tracking-[-0.6%] gap-1 w-fit items-center text-woot-500 dark:text-woot-500 text-sm font-medium tracking=[-0.6%] hover:underline"
-      >
-        {{ linkText }}
-        <fluent-icon
-          size="16"
-          icon="chevron-right"
-          type="outline"
-          class="flex-shrink-0 text-woot-500 dark:text-woot-500"
-        />
-      </a>
+      <CustomBrandPolicyWrapper :show-on-custom-branded-instance="false">
+        <a
+          v-if="helpURL && linkText"
+          :href="helpURL"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="sm:inline-flex hidden tracking-[-0.6%] gap-1 w-fit items-center text-woot-500 dark:text-woot-500 text-sm font-medium tracking=[-0.6%] hover:underline"
+        >
+          {{ linkText }}
+          <fluent-icon
+            size="16"
+            icon="chevron-right"
+            type="outline"
+            class="flex-shrink-0 text-woot-500 dark:text-woot-500"
+          />
+        </a>
+      </CustomBrandPolicyWrapper>
     </div>
     <div class="flex items-start justify-start w-full gap-3 sm:hidden">
       <slot name="actions" />
-      <woot-button
-        v-if="href && linkText"
-        color-scheme="secondary"
-        icon="arrow-outwards"
-        class="flex-row-reverse rounded-xl min-w-0 !bg-slate-50 !text-slate-900 dark:!text-white dark:!bg-slate-800"
-        @click="openInNewTab(href)"
-      >
-        {{ linkText }}
-      </woot-button>
+      <CustomBrandPolicyWrapper :show-on-custom-branded-instance="false">
+        <woot-button
+          v-if="helpURL && linkText"
+          color-scheme="secondary"
+          icon="arrow-outwards"
+          class="flex-row-reverse rounded-xl min-w-0 !bg-slate-50 !text-slate-900 dark:!text-white dark:!bg-slate-800"
+          @click="openInNewTab(helpURL)"
+        >
+          {{ linkText }}
+        </woot-button>
+      </CustomBrandPolicyWrapper>
     </div>
   </div>
 </template>
