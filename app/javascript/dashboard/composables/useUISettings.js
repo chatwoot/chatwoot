@@ -1,19 +1,20 @@
-import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import { computed } from 'vue';
+import { useStore, useStoreGetters } from 'dashboard/composables/store';
 
-export const DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER = [
+export const DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER = Object.freeze([
   { name: 'conversation_actions' },
   { name: 'macros' },
   { name: 'conversation_info' },
   { name: 'contact_attributes' },
   { name: 'previous_conversation' },
   { name: 'conversation_participants' },
-];
-export const DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER = [
+]);
+
+export const DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER = Object.freeze([
   { name: 'contact_attributes' },
   { name: 'contact_labels' },
   { name: 'previous_conversation' },
-];
+]);
 
 /**
  * Slugifies the channel name.
@@ -36,13 +37,15 @@ const useConversationSidebarItemsOrder = uiSettings => {
     if (!itemsOrder) {
       return DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER;
     }
+    // Create a copy of itemsOrder to avoid mutating the original store object.
+    const itemsOrderCopy = [...itemsOrder];
     // If the sidebar order doesn't have the new elements, then add them to the list.
     DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER.forEach(item => {
-      if (!itemsOrder.find(i => i.name === item.name)) {
-        itemsOrder.push(item);
+      if (!itemsOrderCopy.find(i => i.name === item.name)) {
+        itemsOrderCopy.push(item);
       }
     });
-    return itemsOrder;
+    return itemsOrderCopy;
   });
 };
 
