@@ -154,6 +154,8 @@ export default {
       }
     },
     submitAutomation() {
+      // we assign it to this.errors so that it can be accessed in the template
+      // it is supposed to be declared in the data function
       this.errors = validateAutomation(this.automation);
       if (Object.keys(this.errors).length === 0) {
         const automation = generateAutomationPayload(this.automation);
