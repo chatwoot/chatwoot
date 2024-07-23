@@ -20724,7 +20724,7 @@ vue-loader@^15.10.0:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
-vue-multiselect@~2.1.6:
+vue-multiselect@^2.1.7:
   version "2.1.9"
   resolved "https://registry.yarnpkg.com/vue-multiselect/-/vue-multiselect-2.1.9.tgz#803628d5ff6c5925320930c965bdaae8934b92b1"
   integrity sha512-nGEppmzhQQT2iDz4cl+ZCX3BpeNhygK50zWFTIRS+r7K7i61uWXJWSioMuf+V/161EPQjexI8NaEBdUlF3dp+g==

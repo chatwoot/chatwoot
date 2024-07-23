@@ -18,6 +18,7 @@ const state = {
   },
   sortOrder: [],
   appliedFilters: [],
+  whatsappContacts: [],
 };
 
 export default {

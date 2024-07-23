@@ -269,6 +269,19 @@ export const actions = {
     return [];
   },
 
+  fetchWhatsappContacts: async ({ commit }) => {
+    try {
+      const {
+        data: { payload },
+      } = await ContactAPI.getWhatsappContacts();
+      commit(types.SET_WHATSAPP_CONTACTS, payload);
+      return payload;
+    } catch (error) {
+      commit(types.SET_WHATSAPP_CONTACTS, []);
+    }
+    return [];
+  },
+
   setContactFilters({ commit }, data) {
     commit(types.SET_CONTACT_FILTERS, data);
   },
