@@ -35,9 +35,11 @@ export default {
       );
     },
     bannerMessage() {
-      return this.$t('GENERAL_SETTINGS.UPDATE_CHATWOOT', {
-        latestChatwootVersion: this.latestChatwootVersion,
-      });
+      // TODO: Enable this when we have a new version
+      // return this.$t('GENERAL_SETTINGS.UPDATE_CHATWOOT', {
+      //   latestChatwootVersion: this.latestChatwootVersion,
+      // });
+      return '';
     },
     shouldShowBanner() {
       return (
