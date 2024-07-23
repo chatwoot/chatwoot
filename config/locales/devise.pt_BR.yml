@@ -15,6 +15,13 @@ pt_BR:
       unauthenticated: "Você precisa entrar ou se cadastrar antes de continuar."
       unconfirmed: "Antes de continuar, você precisa confirmar seu endereço de e-mail."
     mailer:
+    reset_password_instructions:
+        subject: "Instruções para alteração de senha"
+        greeting: "Olá %{email}!"
+        request: "Alguém solicitou um link para alterar sua senha. Você pode fazer isso através do link abaixo."
+        change_password: "Alterar minha senha"
+        ignore: "Se você não solicitou isso, por favor ignore este e-mail."
+        no_change: "Sua senha não será alterada até que você acesse o link acima e crie uma nova."
       password_change:
         subject: "Senha Alterada"
         greeting: "Olá %{email}!"
