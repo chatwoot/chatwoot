@@ -134,7 +134,7 @@
 </template>
 
 <script>
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import FileUpload from 'vue-upload-component';
 import * as ActiveStorage from 'activestorage';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
@@ -249,12 +249,12 @@ export default {
     },
   },
   setup() {
-    const { setSignatureFlagForInbox, fetchSignatureFlagFromUiSettings } =
-      useUiSettings();
+    const { setSignatureFlagForInbox, fetchSignatureFlagFromUISettings } =
+      useUISettings();
 
     return {
       setSignatureFlagForInbox,
-      fetchSignatureFlagFromUiSettings,
+      fetchSignatureFlagFromUISettings,
     };
   },
   computed: {
@@ -329,7 +329,7 @@ export default {
     },
     sendWithSignature() {
       // channelType is sourced from inboxMixin
-      return this.fetchSignatureFlagFromUiSettings(this.channelType);
+      return this.fetchSignatureFlagFromUISettings(this.channelType);
     },
     signatureToggleTooltip() {
       return this.sendWithSignature

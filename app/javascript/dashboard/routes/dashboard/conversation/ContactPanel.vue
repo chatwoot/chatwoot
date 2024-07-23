@@ -133,7 +133,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
 import ContactConversations from './ContactConversations.vue';
 import ConversationAction from './ConversationAction.vue';
@@ -176,7 +176,7 @@ export default {
       isContactSidebarItemOpen,
       conversationSidebarItemsOrder,
       toggleSidebarUIState,
-    } = useUiSettings();
+    } = useUISettings();
 
     return {
       updateUISettings,

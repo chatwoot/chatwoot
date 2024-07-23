@@ -25,7 +25,7 @@ import {
 } from '@chatwoot/prosemirror-schema';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { useAlert } from 'dashboard/composables';
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
@@ -59,7 +59,7 @@ export default {
     enabledMenuOptions: { type: Array, default: () => [] },
   },
   setup() {
-    const { uiSettings, updateUISettings } = useUiSettings();
+    const { uiSettings, updateUISettings } = useUISettings();
 
     return {
       uiSettings,

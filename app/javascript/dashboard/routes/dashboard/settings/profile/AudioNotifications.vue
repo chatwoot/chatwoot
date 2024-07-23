@@ -32,7 +32,7 @@
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import configMixin from 'shared/mixins/configMixin';
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import AudioAlertTone from './AudioAlertTone.vue';
 import AudioAlertEvent from './AudioAlertEvent.vue';
 import AudioAlertCondition from './AudioAlertCondition.vue';
@@ -45,7 +45,7 @@ export default {
   },
   mixins: [configMixin],
   setup() {
-    const { uiSettings, updateUISettings } = useUiSettings();
+    const { uiSettings, updateUISettings } = useUISettings();
 
     return {
       uiSettings,

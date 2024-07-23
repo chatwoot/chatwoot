@@ -8,11 +8,11 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 
 export default {
   setup() {
-    const { uiSettings } = useUiSettings();
+    const { uiSettings } = useUISettings();
 
     return {
       uiSettings,

@@ -87,7 +87,7 @@ const setSignatureFlagForInbox = (channelType, value, updateUISettings) => {
  * @param {Object} uiSettings - Reactive UI settings object.
  * @returns {boolean} The value of the signature enabled flag.
  */
-const fetchSignatureFlagFromUiSettings = (channelType, uiSettings) => {
+const fetchSignatureFlagFromUISettings = (channelType, uiSettings) => {
   if (!channelType) return false;
 
   const slugifiedChannel = slugifyChannel(channelType);
@@ -115,7 +115,7 @@ const isEditorHotKeyEnabled = (key, uiSettings) => {
  * Main composable function for managing UI settings.
  * @returns {Object} An object containing reactive properties and methods for UI settings management.
  */
-export function useUiSettings() {
+export function useUISettings() {
   const getters = useStoreGetters();
   const store = useStore();
   const uiSettings = computed(() => getters.getUISettings.value);
@@ -139,8 +139,8 @@ export function useUiSettings() {
       toggleSidebarUIState(key, uiSettings, updateUISettings),
     setSignatureFlagForInbox: (channelType, value) =>
       setSignatureFlagForInbox(channelType, value, updateUISettings),
-    fetchSignatureFlagFromUiSettings: channelType =>
-      fetchSignatureFlagFromUiSettings(channelType, uiSettings),
+    fetchSignatureFlagFromUISettings: channelType =>
+      fetchSignatureFlagFromUISettings(channelType, uiSettings),
     isEditorHotKeyEnabled: key => isEditorHotKeyEnabled(key, uiSettings),
   };
 }

@@ -116,7 +116,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
 import VirtualList from 'vue-virtual-scroll-list';
 
@@ -157,11 +157,7 @@ export default {
     IntersectionObserver,
     VirtualList,
   },
-  mixins: [
-    conversationMixin,
-    keyboardEventListenerMixins,
-    filterMixin,
-  ],
+  mixins: [conversationMixin, keyboardEventListenerMixins, filterMixin],
   provide() {
     return {
       // Actions to be performed on virtual list item and context menu.
@@ -207,7 +203,7 @@ export default {
     },
   },
   setup() {
-    const { uiSettings } = useUiSettings();
+    const { uiSettings } = useUISettings();
 
     return {
       uiSettings,

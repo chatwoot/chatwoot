@@ -47,7 +47,7 @@ import AddAccountModal from 'dashboard/components/layout/sidebarComponents/AddAc
 import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector.vue';
 import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.vue';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import wootConstants from 'dashboard/constants/globals';
 const CommandBar = () => import('./commands/commandbar.vue');
 
@@ -62,7 +62,7 @@ export default {
     NotificationPanel,
   },
   setup() {
-    const { uiSettings, updateUISettings } = useUiSettings();
+    const { uiSettings, updateUISettings } = useUISettings();
 
     return {
       uiSettings,

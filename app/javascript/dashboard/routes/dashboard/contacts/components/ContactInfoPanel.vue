@@ -86,7 +86,7 @@ import ContactInfo from 'dashboard/routes/dashboard/conversation/contact/Contact
 import ContactLabel from 'dashboard/routes/dashboard/contacts/components/ContactLabels.vue';
 import CustomAttributes from 'dashboard/routes/dashboard/conversation/customAttributes/CustomAttributes.vue';
 import draggable from 'vuedraggable';
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 
 export default {
   components: {
@@ -121,7 +121,7 @@ export default {
       isContactSidebarItemOpen,
       contactSidebarItemsOrder,
       toggleSidebarUIState,
-    } = useUiSettings();
+    } = useUISettings();
 
     return {
       updateUISettings,

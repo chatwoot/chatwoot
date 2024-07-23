@@ -68,7 +68,7 @@ import HelpCenterSidebar from '../components/Sidebar/Sidebar.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal.vue';
 import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector.vue';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import portalMixin from '../mixins/portalMixin';
 import AddCategory from '../pages/categories/AddCategory.vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -89,7 +89,7 @@ export default {
   },
   mixins: [portalMixin],
   setup() {
-    const { uiSettings, updateUISettings } = useUiSettings();
+    const { uiSettings, updateUISettings } = useUISettings();
 
     return {
       uiSettings,

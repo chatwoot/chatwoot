@@ -154,7 +154,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 
 import CannedResponse from './CannedResponse.vue';
@@ -233,14 +233,14 @@ export default {
       uiSettings,
       updateUISettings,
       isEditorHotKeyEnabled,
-      fetchSignatureFlagFromUiSettings,
-    } = useUiSettings();
+      fetchSignatureFlagFromUISettings,
+    } = useUISettings();
 
     return {
       uiSettings,
       updateUISettings,
       isEditorHotKeyEnabled,
-      fetchSignatureFlagFromUiSettings,
+      fetchSignatureFlagFromUISettings,
     };
   },
   data() {
@@ -491,7 +491,7 @@ export default {
       return !!this.signatureToApply;
     },
     sendWithSignature() {
-      return this.fetchSignatureFlagFromUiSettings(this.channelType);
+      return this.fetchSignatureFlagFromUISettings(this.channelType);
     },
     editorMessageKey() {
       const { editor_message_key: isEnabled } = this.uiSettings;

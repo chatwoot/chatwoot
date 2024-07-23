@@ -80,7 +80,7 @@ import {
   hasPressedCommandAndEnter,
 } from 'shared/helpers/KeyboardHelpers';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import {
   replaceVariablesInMessage,
   createTypingIndicator,
@@ -142,13 +142,13 @@ export default {
     const {
       uiSettings,
       isEditorHotKeyEnabled,
-      fetchSignatureFlagFromUiSettings,
-    } = useUiSettings();
+      fetchSignatureFlagFromUISettings,
+    } = useUISettings();
 
     return {
       uiSettings,
       isEditorHotKeyEnabled,
-      fetchSignatureFlagFromUiSettings,
+      fetchSignatureFlagFromUISettings,
     };
   },
   data() {
@@ -290,7 +290,7 @@ export default {
       // this is considered the source of truth, we watch this property
       // on change, we toggle the signature in the editor
       if (this.allowSignature && !this.isPrivate && this.channelType) {
-        return this.fetchSignatureFlagFromUiSettings(this.channelType);
+        return this.fetchSignatureFlagFromUISettings(this.channelType);
       }
 
       return false;

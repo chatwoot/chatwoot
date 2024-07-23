@@ -1,9 +1,9 @@
 import { ref } from 'vue';
 import {
-  useUiSettings,
+  useUISettings,
   DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER,
   DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER,
-} from '../useUiSettings';
+} from 'dashboard/composables/useUISettings';
 
 // Mocking the store composables
 const mockDispatch = vi.fn();
@@ -24,13 +24,13 @@ vi.mock('dashboard/composables/store', () => ({
   }),
 }));
 
-describe('useUiSettings', () => {
+describe('useUISettings', () => {
   beforeEach(() => {
     mockDispatch.mockClear();
   });
 
   it('returns uiSettings', () => {
-    const { uiSettings } = useUiSettings();
+    const { uiSettings } = useUISettings();
     expect(uiSettings.value).toEqual({
       is_ct_labels_open: true,
       conversation_sidebar_items_order:
@@ -41,7 +41,7 @@ describe('useUiSettings', () => {
   });
 
   it('updates UI settings correctly', () => {
-    const { updateUISettings } = useUiSettings();
+    const { updateUISettings } = useUISettings();
     updateUISettings({ enter_to_send_enabled: true });
     expect(mockDispatch).toHaveBeenCalledWith('updateUISettings', {
       uiSettings: {
@@ -56,7 +56,7 @@ describe('useUiSettings', () => {
   });
 
   it('toggles sidebar UI state correctly', () => {
-    const { toggleSidebarUIState } = useUiSettings();
+    const { toggleSidebarUIState } = useUISettings();
     toggleSidebarUIState('is_ct_labels_open');
     expect(mockDispatch).toHaveBeenCalledWith('updateUISettings', {
       uiSettings: {
@@ -70,27 +70,27 @@ describe('useUiSettings', () => {
   });
 
   it('returns correct conversation sidebar items order', () => {
-    const { conversationSidebarItemsOrder } = useUiSettings();
+    const { conversationSidebarItemsOrder } = useUISettings();
     expect(conversationSidebarItemsOrder.value).toEqual(
       DEFAULT_CONVERSATION_SIDEBAR_ITEMS_ORDER
     );
   });
 
   it('returns correct contact sidebar items order', () => {
-    const { contactSidebarItemsOrder } = useUiSettings();
+    const { contactSidebarItemsOrder } = useUISettings();
     expect(contactSidebarItemsOrder.value).toEqual(
       DEFAULT_CONTACT_SIDEBAR_ITEMS_ORDER
     );
   });
 
   it('returns correct value for isContactSidebarItemOpen', () => {
-    const { isContactSidebarItemOpen } = useUiSettings();
+    const { isContactSidebarItemOpen } = useUISettings();
     expect(isContactSidebarItemOpen('is_ct_labels_open')).toBe(true);
     expect(isContactSidebarItemOpen('non_existent_key')).toBe(false);
   });
 
   it('sets signature flag for inbox correctly', () => {
-    const { setSignatureFlagForInbox } = useUiSettings();
+    const { setSignatureFlagForInbox } = useUISettings();
     setSignatureFlagForInbox('email', true);
     expect(mockDispatch).toHaveBeenCalledWith('updateUISettings', {
       uiSettings: {
@@ -105,20 +105,20 @@ describe('useUiSettings', () => {
   });
 
   it('fetches signature flag from UI settings correctly', () => {
-    const { fetchSignatureFlagFromUiSettings } = useUiSettings();
-    expect(fetchSignatureFlagFromUiSettings('email')).toBe(undefined);
+    const { fetchSignatureFlagFromUISettings } = useUISettings();
+    expect(fetchSignatureFlagFromUISettings('email')).toBe(undefined);
   });
 
   it('returns correct value for isEditorHotKeyEnabled when editor_message_key is configured', () => {
     getUISettingsMock.value.enter_to_send_enabled = false;
-    const { isEditorHotKeyEnabled } = useUiSettings();
+    const { isEditorHotKeyEnabled } = useUISettings();
     expect(isEditorHotKeyEnabled('enter')).toBe(true);
     expect(isEditorHotKeyEnabled('cmd_enter')).toBe(false);
   });
 
   it('returns correct value for isEditorHotKeyEnabled when editor_message_key is not configured', () => {
     getUISettingsMock.value.editor_message_key = undefined;
-    const { isEditorHotKeyEnabled } = useUiSettings();
+    const { isEditorHotKeyEnabled } = useUISettings();
     expect(isEditorHotKeyEnabled('enter')).toBe(false);
     expect(isEditorHotKeyEnabled('cmd_enter')).toBe(true);
   });
@@ -126,11 +126,11 @@ describe('useUiSettings', () => {
   it('handles non-existent keys', () => {
     const {
       isContactSidebarItemOpen,
-      fetchSignatureFlagFromUiSettings,
+      fetchSignatureFlagFromUISettings,
       isEditorHotKeyEnabled,
-    } = useUiSettings();
+    } = useUISettings();
     expect(isContactSidebarItemOpen('non_existent_key')).toBe(false);
-    expect(fetchSignatureFlagFromUiSettings('non_existent_key')).toBe(
+    expect(fetchSignatureFlagFromUISettings('non_existent_key')).toBe(
       undefined
     );
     expect(isEditorHotKeyEnabled('non_existent_key')).toBe(false);

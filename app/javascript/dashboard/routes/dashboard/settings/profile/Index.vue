@@ -83,7 +83,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import { clearCookiesOnLogout } from 'dashboard/store/utils/api.js';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
@@ -112,7 +112,7 @@ export default {
   mixins: [globalConfigMixin],
   setup() {
     const { uiSettings, updateUISettings, isEditorHotKeyEnabled } =
-      useUiSettings();
+      useUISettings();
 
     return {
       uiSettings,

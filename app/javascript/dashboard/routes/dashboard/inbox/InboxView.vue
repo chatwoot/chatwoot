@@ -38,7 +38,7 @@ import { mapGetters } from 'vuex';
 import InboxItemHeader from './components/InboxItemHeader.vue';
 import ConversationBox from 'dashboard/components/widgets/conversation/ConversationBox.vue';
 import InboxEmptyState from './InboxEmptyState.vue';
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
@@ -49,7 +49,7 @@ export default {
     ConversationBox,
   },
   setup() {
-    const { uiSettings, updateUISettings } = useUiSettings();
+    const { uiSettings, updateUISettings } = useUISettings();
 
     return {
       uiSettings,

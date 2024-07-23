@@ -240,6 +240,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead.vue';
@@ -260,7 +261,6 @@ import {
   appendSignature,
   removeSignature,
 } from 'dashboard/helper/editorHelper';
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
 
 export default {
   components: {
@@ -290,11 +290,11 @@ export default {
     },
   },
   setup() {
-    const { fetchSignatureFlagFromUiSettings, setSignatureFlagForInbox } =
-      useUiSettings();
+    const { fetchSignatureFlagFromUISettings, setSignatureFlagForInbox } =
+      useUISettings();
 
     return {
-      fetchSignatureFlagFromUiSettings,
+      fetchSignatureFlagFromUISettings,
       setSignatureFlagForInbox,
     };
   },
@@ -332,7 +332,7 @@ export default {
       messageSignature: 'getMessageSignature',
     }),
     sendWithSignature() {
-      return this.fetchSignatureFlagFromUiSettings(this.channelType);
+      return this.fetchSignatureFlagFromUISettings(this.channelType);
     },
     signatureToApply() {
       return this.messageSignature;

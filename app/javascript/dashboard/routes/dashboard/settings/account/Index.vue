@@ -132,7 +132,7 @@
 import { required, minValue, maxValue } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import configMixin from 'shared/mixins/configMixin';
 import accountMixin from '../../../../mixins/account';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
@@ -142,7 +142,7 @@ import { getLanguageDirection } from 'dashboard/components/widgets/conversation/
 export default {
   mixins: [accountMixin, configMixin],
   setup() {
-    const { updateUISettings } = useUiSettings();
+    const { updateUISettings } = useUISettings();
 
     return {
       updateUISettings,

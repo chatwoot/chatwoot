@@ -42,7 +42,7 @@
 
 <script>
 import { useAlert } from 'dashboard/composables';
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import CustomAttribute from 'dashboard/components/CustomAttribute.vue';
 import attributeMixin from 'dashboard/mixins/attributeMixin';
@@ -72,7 +72,7 @@ export default {
     },
   },
   setup() {
-    const { uiSettings, updateUISettings } = useUiSettings();
+    const { uiSettings, updateUISettings } = useUISettings();
 
     return {
       uiSettings,

@@ -46,14 +46,14 @@
 import wootConstants from 'dashboard/constants/globals';
 import { mapGetters } from 'vuex';
 import FilterItem from './FilterItem.vue';
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 
 export default {
   components: {
     FilterItem,
   },
   setup() {
-    const { updateUISettings } = useUiSettings();
+    const { updateUISettings } = useUISettings();
 
     return {
       updateUISettings,

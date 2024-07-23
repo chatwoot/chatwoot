@@ -1,9 +1,9 @@
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 
 export default {
   setup() {
-    const { uiSettings, updateUISettings } = useUiSettings();
+    const { uiSettings, updateUISettings } = useUISettings();
 
     return {
       uiSettings,

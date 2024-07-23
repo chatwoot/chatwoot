@@ -191,7 +191,7 @@
 
 <script>
 import { useAlert } from 'dashboard/composables';
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import LocaleItemTable from './PortalListItemTable.vue';
 import { PORTALS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
@@ -213,7 +213,7 @@ export default {
     },
   },
   setup() {
-    const { updateUISettings } = useUiSettings();
+    const { updateUISettings } = useUISettings();
 
     return {
       updateUISettings,

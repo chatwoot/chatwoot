@@ -47,7 +47,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import wootConstants from 'dashboard/constants/globals';
 
 import InboxCard from './components/InboxCard.vue';
@@ -62,7 +62,7 @@ export default {
     IntersectionObserver,
   },
   setup() {
-    const { uiSettings } = useUiSettings();
+    const { uiSettings } = useUISettings();
 
     return {
       uiSettings,

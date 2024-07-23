@@ -36,7 +36,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAdmin } from 'dashboard/composables/useAdmin';
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import AICTAModal from './AICTAModal.vue';
 import AIAssistanceModal from './AIAssistanceModal.vue';
 import aiMixin from 'dashboard/mixins/aiMixin';
@@ -52,11 +52,13 @@ export default {
   },
   mixins: [aiMixin, keyboardEventListenerMixins],
   setup() {
-    const { uiSettings, updateUISettings } = useUiSettings();
+    const { uiSettings, updateUISettings } = useUISettings();
+    const { isAdmin } = useAdmin();
 
     return {
       uiSettings,
       updateUISettings,
+      isAdmin,
     };
   },
   data: () => ({

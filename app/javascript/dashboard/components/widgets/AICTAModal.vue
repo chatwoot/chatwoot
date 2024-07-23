@@ -39,14 +39,15 @@
 <script>
 import { required } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
+import { useAlert } from 'dashboard/composables';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import aiMixin from 'dashboard/mixins/aiMixin';
 import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 export default {
   mixins: [aiMixin],
   setup() {
-    const { updateUISettings } = useUiSettings();
+    const { updateUISettings } = useUISettings();
 
     return {
       updateUISettings,
