@@ -47,7 +47,7 @@
             :description="hotKey.description"
             :light-image="hotKey.lightImage"
             :dark-image="hotKey.darkImage"
-            :active="isEditorHotKeyEnabled(uiSettings, hotKey.key)"
+            :active="isEditorHotKeyEnabled(hotKey.key)"
             @click="toggleHotKey(hotKey.key)"
           />
         </button>
@@ -81,15 +81,12 @@
   </div>
 </template>
 <script>
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import uiSettingsMixin, {
-  isEditorHotKeyEnabled,
-} from 'dashboard/mixins/uiSettings';
-import { useAlert } from 'dashboard/composables';
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import { clearCookiesOnLogout } from 'dashboard/store/utils/api.js';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
-
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import UserProfilePicture from './UserProfilePicture.vue';
 import UserBasicDetails from './UserBasicDetails.vue';
 import MessageSignature from './MessageSignature.vue';
@@ -112,7 +109,17 @@ export default {
     AudioNotifications,
     AccessToken,
   },
-  mixins: [globalConfigMixin, uiSettingsMixin],
+  mixins: [globalConfigMixin],
+  setup() {
+    const { uiSettings, updateUISettings, isEditorHotKeyEnabled } =
+      useUISettings();
+
+    return {
+      uiSettings,
+      updateUISettings,
+      isEditorHotKeyEnabled,
+    };
+  },
   data() {
     return {
       avatarFile: '',
@@ -168,7 +175,6 @@ export default {
       this.displayName = this.currentUser.display_name;
       this.messageSignature = this.currentUser.message_signature;
     },
-    isEditorHotKeyEnabled,
     async dispatchUpdate(payload, successMessage, errorMessage) {
       let alertMessage = '';
       try {

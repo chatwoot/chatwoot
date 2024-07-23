@@ -1,14 +1,14 @@
 <template>
-  <div class="px-0 min-w-0 flex-1">
+  <div class="flex-1 min-w-0 px-0">
     <woot-modal-header
       :header-title="$t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.TITLE')"
       :header-content="$t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.DESC')"
     />
     <form
-      class="flex flex-wrap flex-col modal-content"
+      class="flex flex-col flex-wrap modal-content"
       @submit.prevent="finishOpenAI"
     >
-      <div class="mt-2 w-full">
+      <div class="w-full mt-2">
         <woot-input
           v-model="value"
           type="text"
@@ -19,7 +19,7 @@
           @blur="$v.value.$touch"
         />
       </div>
-      <div class="flex flex-row justify-between gap-2 py-2 px-0 w-full">
+      <div class="flex flex-row justify-between w-full gap-2 px-0 py-2">
         <woot-button variant="link" @click.prevent="openOpenAIDoc">
           {{ $t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.BUTTONS.NEED_HELP') }}
         </woot-button>
@@ -39,13 +39,20 @@
 <script>
 import { required } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
-import aiMixin from 'dashboard/mixins/aiMixin';
 import { useAlert } from 'dashboard/composables';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
+import aiMixin from 'dashboard/mixins/aiMixin';
 import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 export default {
-  mixins: [aiMixin, uiSettingsMixin],
+  mixins: [aiMixin],
+  setup() {
+    const { updateUISettings } = useUISettings();
+
+    return {
+      updateUISettings,
+    };
+  },
   data() {
     return {
       value: '',

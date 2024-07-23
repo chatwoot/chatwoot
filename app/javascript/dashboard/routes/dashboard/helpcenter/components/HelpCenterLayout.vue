@@ -1,5 +1,5 @@
 <template>
-  <div class="app-wrapper flex h-full flex-grow-0 min-h-0 w-full">
+  <div class="flex flex-grow-0 w-full h-full min-h-0 app-wrapper">
     <sidebar
       :route="currentRoute"
       @toggle-account-modal="toggleAccountModal"
@@ -20,7 +20,7 @@
     />
     <section
       v-if="isHelpCenterEnabled"
-      class="flex h-full min-h-0 overflow-hidden flex-1 px-0 bg-white dark:bg-slate-900"
+      class="flex flex-1 h-full min-h-0 px-0 overflow-hidden bg-white dark:bg-slate-900"
     >
       <router-view @reload-locale="fetchPortalAndItsCategories" />
       <command-bar />
@@ -68,7 +68,7 @@ import HelpCenterSidebar from '../components/Sidebar/Sidebar.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal.vue';
 import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector.vue';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import portalMixin from '../mixins/portalMixin';
 import AddCategory from '../pages/categories/AddCategory.vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -87,7 +87,15 @@ export default {
     UpgradePage,
     WootKeyShortcutModal,
   },
-  mixins: [portalMixin, uiSettingsMixin],
+  mixins: [portalMixin],
+  setup() {
+    const { uiSettings, updateUISettings } = useUISettings();
+
+    return {
+      uiSettings,
+      updateUISettings,
+    };
+  },
   data() {
     return {
       isOnDesktop: true,

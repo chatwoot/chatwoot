@@ -41,17 +41,17 @@
 </template>
 
 <script>
-import CustomAttribute from 'dashboard/components/CustomAttribute.vue';
 import { useAlert } from 'dashboard/composables';
-import attributeMixin from 'dashboard/mixins/attributeMixin';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import CustomAttribute from 'dashboard/components/CustomAttribute.vue';
+import attributeMixin from 'dashboard/mixins/attributeMixin';
 
 export default {
   components: {
     CustomAttribute,
   },
-  mixins: [attributeMixin, uiSettingsMixin],
+  mixins: [attributeMixin],
   props: {
     attributeType: {
       type: String,
@@ -70,6 +70,14 @@ export default {
       type: String,
       default: '',
     },
+  },
+  setup() {
+    const { uiSettings, updateUISettings } = useUISettings();
+
+    return {
+      uiSettings,
+      updateUISettings,
+    };
   },
   data() {
     return {
