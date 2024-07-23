@@ -55,11 +55,7 @@ const actionURL = computed(() =>
       <div class="flex h-12 w-12 mb-4">
         <img
           :src="`/dashboard/images/integrations/${id}.png`"
-          class="max-w-full rounded-md border border-slate-50 dark:border-slate-700/50 shadow-sm block dark:hidden"
-        />
-        <img
-          :src="`/dashboard/images/integrations/${id}-dark.png`"
-          class="max-w-full rounded-md border border-slate-50 dark:border-slate-700/50 shadow-sm hidden dark:block"
+          class="max-w-full rounded-md border border-slate-50 shadow-sm bg-white"
         />
       </div>
       <router-link :to="actionURL">
