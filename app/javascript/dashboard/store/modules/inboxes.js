@@ -98,6 +98,15 @@ export const getters = {
   getWebsiteInboxes($state) {
     return $state.records.filter(item => item.channel_type === INBOX_TYPES.WEB);
   },
+
+  getOneoffInboxes($state) {
+    return $state.records.filter(
+      item =>
+        item.channel_type === INBOX_TYPES.SMS ||
+        item.channel_type === INBOX_TYPES.WHATSAPP
+    );
+  },
+
   getTwilioInboxes($state) {
     return $state.records.filter(
       item => item.channel_type === INBOX_TYPES.TWILIO

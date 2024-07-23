@@ -23,6 +23,7 @@
           type="text"
           class="variable-input"
           :styles="{ marginBottom: 0 }"
+          @input="variableChanged()"
         />
       </div>
       <p v-if="$v.$dirty && $v.$invalid" class="error">
@@ -33,7 +34,7 @@
       <woot-button variant="smooth" @click="$emit('resetTemplate')">
         {{ $t('WHATSAPP_TEMPLATES.PARSER.GO_BACK_LABEL') }}
       </woot-button>
-      <woot-button type="button" @click="sendMessage">
+      <woot-button v-if="showMessageButton" type="button" @click="sendMessage">
         {{ $t('WHATSAPP_TEMPLATES.PARSER.SEND_MESSAGE_LABEL') }}
       </woot-button>
     </footer>
@@ -51,6 +52,10 @@ export default {
     template: {
       type: Object,
       default: () => {},
+    },
+    showMessageButton: {
+      type: Boolean,
+      default: true,
     },
   },
   validations: {
@@ -112,6 +117,9 @@ export default {
         acc[variable] = '';
         return acc;
       }, {});
+    },
+    variableChanged() {
+      this.$emit('changeVariable', this.processedParams);
     },
   },
 };

@@ -8,8 +8,10 @@
     <template-parser
       v-else
       :template="selectedWaTemplate"
+      :show-message-button="showMessageButton"
       @resetTemplate="onResetTemplate"
       @sendMessage="onSendMessage"
+      @changeVariable="onChangeVariable"
     />
   </div>
 </template>
@@ -31,6 +33,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    showMessageButton: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -40,14 +46,20 @@ export default {
   methods: {
     pickTemplate(template) {
       this.$emit('pickTemplate', true);
+      this.$emit('select-template', template);
       this.selectedWaTemplate = template;
     },
     onResetTemplate() {
       this.$emit('pickTemplate', false);
+      this.$emit('select-template', null);
       this.selectedWaTemplate = null;
+      this.$emit('change-variable', null);
     },
     onSendMessage(message) {
       this.$emit('on-send', message);
+    },
+    onChangeVariable(params) {
+      this.$emit('change-variable', params);
     },
     onClose() {
       this.$emit('cancel');
