@@ -35,10 +35,10 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 import AICTAModal from './AICTAModal.vue';
 import AIAssistanceModal from './AIAssistanceModal.vue';
-import adminMixin from 'dashboard/mixins/aiMixin';
-import aiMixin from 'dashboard/mixins/isAdmin';
+import aiMixin from 'dashboard/mixins/aiMixin';
 import { CMD_AI_ASSIST } from 'dashboard/routes/dashboard/commands/commandBarBusEvents';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
@@ -50,7 +50,13 @@ export default {
     AICTAModal,
     AIAssistanceCTAButton,
   },
-  mixins: [aiMixin, keyboardEventListenerMixins, adminMixin, uiSettingsMixin],
+  mixins: [aiMixin, keyboardEventListenerMixins, uiSettingsMixin],
+  setup() {
+    const { isAdmin } = useAdmin();
+    return {
+      isAdmin,
+    };
+  },
   data: () => ({
     showAIAssistanceModal: false,
     showAICtaModal: false,

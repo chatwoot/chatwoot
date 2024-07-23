@@ -45,10 +45,10 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 import Spinner from 'shared/components/Spinner.vue';
 import LabelDropdown from 'shared/components/ui/label/LabelDropdown.vue';
 import AddLabel from 'shared/components/ui/dropdown/AddLabel.vue';
-import adminMixin from 'dashboard/mixins/isAdmin';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
 
@@ -59,14 +59,19 @@ export default {
     AddLabel,
   },
 
-  mixins: [conversationLabelMixin, adminMixin, keyboardEventListenerMixins],
+  mixins: [conversationLabelMixin, keyboardEventListenerMixins],
   props: {
     conversationId: {
       type: Number,
       required: true,
     },
   },
-
+  setup() {
+    const { isAdmin } = useAdmin();
+    return {
+      isAdmin,
+    };
+  },
   data() {
     return {
       selectedLabels: [],

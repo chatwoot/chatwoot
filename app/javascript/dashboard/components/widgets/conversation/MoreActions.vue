@@ -1,5 +1,5 @@
 <template>
-  <div class="flex actions--container relative items-center gap-2">
+  <div class="relative flex items-center gap-2 actions--container">
     <woot-button
       v-if="!currentChat.muted"
       v-tooltip="$t('CONTACT_PANEL.MUTE_CONTACT')"
@@ -37,7 +37,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import EmailTranscriptModal from './EmailTranscriptModal.vue';
 import ResolveAction from '../../buttons/ResolveAction.vue';
 import {
@@ -51,7 +51,6 @@ export default {
     EmailTranscriptModal,
     ResolveAction,
   },
-  mixins: [alertMixin],
   data() {
     return {
       showEmailActionsModal: false,
@@ -73,11 +72,11 @@ export default {
   methods: {
     mute() {
       this.$store.dispatch('muteConversation', this.currentChat.id);
-      this.showAlert(this.$t('CONTACT_PANEL.MUTED_SUCCESS'));
+      useAlert(this.$t('CONTACT_PANEL.MUTED_SUCCESS'));
     },
     unmute() {
       this.$store.dispatch('unmuteConversation', this.currentChat.id);
-      this.showAlert(this.$t('CONTACT_PANEL.UNMUTED_SUCCESS'));
+      useAlert(this.$t('CONTACT_PANEL.UNMUTED_SUCCESS'));
     },
     toggleEmailActionsModal() {
       this.showEmailActionsModal = !this.showEmailActionsModal;

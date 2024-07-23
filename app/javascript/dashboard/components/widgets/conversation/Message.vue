@@ -157,7 +157,6 @@ import ContextMenu from 'dashboard/modules/conversations/components/MessageConte
 import InstagramStory from './bubble/InstagramStory.vue';
 import InstagramStoryReply from './bubble/InstagramStoryReply.vue';
 import Spinner from 'shared/components/Spinner.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 import { CONTENT_TYPES } from 'shared/constants/contentType';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { generateBotMessageContent } from './helpers/botMessageContentHelper';
@@ -184,7 +183,7 @@ export default {
     InstagramStoryReply,
     Spinner,
   },
-  mixins: [alertMixin, messageFormatterMixin],
+  mixins: [messageFormatterMixin],
   props: {
     data: {
       type: Object,

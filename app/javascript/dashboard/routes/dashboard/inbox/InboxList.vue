@@ -25,11 +25,11 @@
           @context-menu-close="isInboxContextMenuOpen = false"
         />
         <div v-if="uiFlags.isFetching" class="text-center">
-          <span class="spinner mt-4 mb-4" />
+          <span class="mt-4 mb-4 spinner" />
         </div>
         <p
           v-if="showEmptyState"
-          class="text-center text-slate-400 text-sm dark:text-slate-400 p-4 font-medium"
+          class="p-4 text-sm font-medium text-center text-slate-400 dark:text-slate-400"
         >
           {{ $t('INBOX.LIST.NO_NOTIFICATIONS') }}
         </p>
@@ -46,13 +46,13 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import wootConstants from 'dashboard/constants/globals';
 
 import InboxCard from './components/InboxCard.vue';
 import InboxListHeader from './components/InboxListHeader.vue';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 export default {
@@ -61,7 +61,7 @@ export default {
     InboxListHeader,
     IntersectionObserver,
   },
-  mixins: [alertMixin, uiSettingsMixin],
+  mixins: [uiSettingsMixin],
   data() {
     return {
       infiniteLoaderOptions: {
@@ -151,7 +151,7 @@ export default {
           unreadCount: this.meta.unreadCount,
         })
         .then(() => {
-          this.showAlert(this.$t('INBOX.ALERTS.MARK_AS_READ'));
+          useAlert(this.$t('INBOX.ALERTS.MARK_AS_READ'));
         });
     },
     markNotificationAsUnRead(notification) {
@@ -163,7 +163,7 @@ export default {
           id,
         })
         .then(() => {
-          this.showAlert(this.$t('INBOX.ALERTS.MARK_AS_UNREAD'));
+          useAlert(this.$t('INBOX.ALERTS.MARK_AS_UNREAD'));
         });
     },
     deleteNotification(notification) {
@@ -176,7 +176,7 @@ export default {
           count: this.meta.count,
         })
         .then(() => {
-          this.showAlert(this.$t('INBOX.ALERTS.DELETE'));
+          useAlert(this.$t('INBOX.ALERTS.DELETE'));
         });
     },
     onFilterChange(option) {

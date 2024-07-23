@@ -39,7 +39,7 @@ export default {
     this.$emitter.off(BUS_EVENTS.SHOW_TOAST, this.onNewToastMessage);
   },
   methods: {
-    onNewToastMessage(message, action) {
+    onNewToastMessage({ message, action }) {
       this.snackbarAlertMessages.push({
         key: new Date().getTime(),
         message,
