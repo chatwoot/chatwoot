@@ -36,12 +36,12 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAdmin } from 'dashboard/composables/useAdmin';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import AICTAModal from './AICTAModal.vue';
 import AIAssistanceModal from './AIAssistanceModal.vue';
 import aiMixin from 'dashboard/mixins/aiMixin';
 import { CMD_AI_ASSIST } from 'dashboard/routes/dashboard/commands/commandBarBusEvents';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import AIAssistanceCTAButton from './AIAssistanceCTAButton.vue';
 
 export default {
@@ -50,10 +50,14 @@ export default {
     AICTAModal,
     AIAssistanceCTAButton,
   },
-  mixins: [aiMixin, keyboardEventListenerMixins, uiSettingsMixin],
+  mixins: [aiMixin, keyboardEventListenerMixins],
   setup() {
+    const { uiSettings, updateUISettings } = useUISettings();
     const { isAdmin } = useAdmin();
+
     return {
+      uiSettings,
+      updateUISettings,
       isAdmin,
     };
   },
