@@ -5,6 +5,7 @@ const Index = () => import('./Index.vue');
 const Webhook = () => import('./Webhooks/Index.vue');
 const DashboardApps = () => import('./DashboardApps/Index.vue');
 const Slack = () => import('./Slack.vue');
+const SettingsContent = () => import('../Wrapper.vue');
 
 export default {
   routes: [
@@ -26,8 +27,20 @@ export default {
 
     {
       path: frontendURL('accounts/:accountId/settings/integrations'),
-      component: SettingsWrapper,
-      props: {},
+      component: SettingsContent,
+      props: params => {
+        const showBackButton = params.name !== 'settings_integrations';
+        const backUrl =
+          params.name === 'settings_integrations_integration'
+            ? { name: 'settings_integrations' }
+            : '';
+        return {
+          headerTitle: 'INTEGRATION_SETTINGS.HEADER',
+          icon: 'flash-on',
+          showBackButton,
+          backUrl,
+        };
+      },
       children: [
         {
           path: '',
