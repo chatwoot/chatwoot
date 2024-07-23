@@ -21,6 +21,22 @@ export default {
             permissions: ['administrator'],
           },
         },
+      ],
+    },
+
+    {
+      path: frontendURL('accounts/:accountId/settings/integrations'),
+      component: SettingsWrapper,
+      props: {},
+      children: [
+        {
+          path: '',
+          name: 'settings_applications',
+          component: Index,
+          meta: {
+            permissions: ['administrator'],
+          },
+        },
         {
           path: 'webhook',
           component: Webhook,

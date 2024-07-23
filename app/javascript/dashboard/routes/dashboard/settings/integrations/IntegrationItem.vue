@@ -3,7 +3,6 @@ import { computed } from 'vue';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useI18n } from 'dashboard/composables/useI18n';
 import { frontendURL } from 'dashboard/helper/URLHelper';
-import WootLabel from 'dashboard/components/ui/Label.vue';
 import { useInstallationName } from 'shared/mixins/globalConfigMixin';
 
 const props = defineProps({
@@ -35,13 +34,15 @@ const globalConfig = getters['globalConfig/get'];
 
 const { t } = useI18n();
 
-const labelText = computed(() =>
+const integrationStatus = computed(() =>
   props.enabled
     ? t('INTEGRATION_APPS.STATUS.ENABLED')
     : t('INTEGRATION_APPS.STATUS.DISABLED')
 );
 
-const labelColor = computed(() => (props.enabled ? 'success' : 'secondary'));
+const integrationStatusColor = computed(() =>
+  props.enabled ? 'bg-green-500' : 'bg-slate-200'
+);
 
 const actionURL = computed(() =>
   frontendURL(`accounts/${accountId.value}/settings/integrations/${props.id}`)
@@ -55,25 +56,31 @@ const actionURL = computed(() =>
       <div class="flex h-12 w-12 mb-4">
         <img
           :src="`/dashboard/images/integrations/${id}.png`"
-          class="max-w-full rounded-md border border-slate-50 shadow-sm bg-white"
+          class="max-w-full rounded-md border border-slate-50 dark:border-slate-700/50 shadow-sm block dark:hidden bg-white dark:bg-slate-900"
+        />
+        <img
+          :src="`/dashboard/images/integrations/${id}-dark.png`"
+          class="max-w-full rounded-md border border-slate-50 dark:border-slate-700/50 shadow-sm hidden dark:block bg-white dark:bg-slate-900"
         />
       </div>
-      <router-link :to="actionURL">
-        <woot-button icon="settings" class="clear link">
-          {{ $t('INTEGRATION_APPS.CONFIGURE') }}
-        </woot-button>
-      </router-link>
+      <fluent-icon
+        v-tooltip="integrationStatus"
+        size="20"
+        class="text-white p-0.5 rounded-full"
+        :class="integrationStatusColor"
+        icon="checkmark"
+      />
     </div>
     <div class="flex flex-col m-0 flex-1">
       <div
-        class="text-xl font-medium mb-2 text-slate-800 dark:text-slate-100 flex justify-between items-center"
+        class="font-medium mb-2 text-slate-800 dark:text-slate-100 flex justify-between items-center"
       >
-        <span>{{ name }}</span>
-        <woot-label
-          :title="labelText"
-          :color-scheme="labelColor"
-          class="text-xs rounded-sm !mb-0"
-        />
+        <span class="text-base font-semibold">{{ name }}</span>
+        <router-link :to="actionURL">
+          <woot-button class="clear link">
+            {{ $t('INTEGRATION_APPS.CONFIGURE') }}
+          </woot-button>
+        </router-link>
       </div>
       <p class="text-slate-700 dark:text-slate-200">
         {{ useInstallationName(description, globalConfig.installationName) }}
