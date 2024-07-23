@@ -4,7 +4,7 @@
       <div class="w-full lg:w-3/5">
         <p
           v-if="!inboxesList.length"
-          class="flex h-full items-center flex-col justify-center"
+          class="flex flex-col items-center justify-center h-full"
         >
           {{ $t('INBOX_MGMT.LIST.404') }}
           <router-link
@@ -98,7 +98,7 @@
         </table>
       </div>
 
-      <div class="w-1/3 hidden lg:block">
+      <div class="hidden w-1/3 lg:block">
         <span
           v-dompurify-html="
             useInstallationName(
@@ -132,17 +132,23 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 import Settings from './Settings.vue';
-import adminMixin from '../../../../mixins/isAdmin';
 import accountMixin from '../../../../mixins/account';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     Settings,
   },
-  mixins: [adminMixin, accountMixin, globalConfigMixin, alertMixin],
+  mixins: [accountMixin, globalConfigMixin],
+  setup() {
+    const { isAdmin } = useAdmin();
+    return {
+      isAdmin,
+    };
+  },
   data() {
     return {
       loading: {},
@@ -195,9 +201,9 @@ export default {
     async deleteInbox({ id }) {
       try {
         await this.$store.dispatch('inboxes/delete', id);
-        this.showAlert(this.$t('INBOX_MGMT.DELETE.API.SUCCESS_MESSAGE'));
+        useAlert(this.$t('INBOX_MGMT.DELETE.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(this.$t('INBOX_MGMT.DELETE.API.ERROR_MESSAGE'));
+        useAlert(this.$t('INBOX_MGMT.DELETE.API.ERROR_MESSAGE'));
       }
     },
 

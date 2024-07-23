@@ -10,9 +10,9 @@
 </template>
 
 <script>
-import Banner from 'dashboard/components/ui/Banner.vue';
 import { mapGetters } from 'vuex';
-import adminMixin from 'dashboard/mixins/isAdmin';
+import { useAdmin } from 'dashboard/composables/useAdmin';
+import Banner from 'dashboard/components/ui/Banner.vue';
 import accountMixin from 'dashboard/mixins/account';
 
 const EMPTY_SUBSCRIPTION_INFO = {
@@ -22,7 +22,13 @@ const EMPTY_SUBSCRIPTION_INFO = {
 
 export default {
   components: { Banner },
-  mixins: [adminMixin, accountMixin],
+  mixins: [accountMixin],
+  setup() {
+    const { isAdmin } = useAdmin();
+    return {
+      isAdmin,
+    };
+  },
   computed: {
     ...mapGetters({
       isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',

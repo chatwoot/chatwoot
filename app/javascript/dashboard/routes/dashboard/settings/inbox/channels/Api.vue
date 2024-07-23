@@ -6,7 +6,7 @@
       :header-title="$t('INBOX_MGMT.ADD.API_CHANNEL.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.API_CHANNEL.DESC')"
     />
-    <form class="mx-0 flex flex-wrap" @submit.prevent="createChannel()">
+    <form class="flex flex-wrap mx-0" @submit.prevent="createChannel()">
       <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
         <label :class="{ error: v$.channelName.$error }">
           {{ $t('INBOX_MGMT.ADD.API_CHANNEL.CHANNEL_NAME.LABEL') }}
@@ -53,8 +53,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
 import { useVuelidate } from '@vuelidate/core';
+import { useAlert } from 'dashboard/composables';
 import { required } from 'vuelidate/lib/validators';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader.vue';
@@ -66,7 +66,6 @@ export default {
   components: {
     PageHeader,
   },
-  mixins: [alertMixin],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -109,7 +108,7 @@ export default {
           },
         });
       } catch (error) {
-        this.showAlert(this.$t('INBOX_MGMT.ADD.API_CHANNEL.API.ERROR_MESSAGE'));
+        useAlert(this.$t('INBOX_MGMT.ADD.API_CHANNEL.API.ERROR_MESSAGE'));
       }
     },
   },

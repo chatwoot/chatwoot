@@ -24,7 +24,7 @@
         </label>
 
         <div class="w-full">
-          <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+          <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
             <woot-button class="button clear" @click.prevent="onClose">
               {{ $t('HELP_CENTER.PORTAL.ADD_LOCALE.BUTTONS.CANCEL') }}
             </woot-button>
@@ -40,16 +40,16 @@
 
 <script>
 import Modal from 'dashboard/components/Modal.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 import { useVuelidate } from '@vuelidate/core';
+import { useAlert } from 'dashboard/composables';
 import { required } from 'vuelidate/lib/validators';
 import allLocales from 'shared/constants/locales.js';
 import { PORTALS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
+
 export default {
   components: {
     Modal,
   },
-  mixins: [alertMixin],
   props: {
     show: {
       type: Boolean,
@@ -124,7 +124,7 @@ export default {
           error?.message ||
           this.$t('HELP_CENTER.PORTAL.ADD_LOCALE.API.ERROR_MESSAGE');
       } finally {
-        this.showAlert(this.alertMessage);
+        useAlert(this.alertMessage);
         this.isUpdating = false;
       }
     },

@@ -12,7 +12,7 @@
           <input
             v-model="activeSegmentNewName"
             type="text"
-            class="folder-input border-slate-75 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100"
+            class="bg-white folder-input border-slate-75 dark:border-slate-600 dark:bg-slate-900 text-slate-900 dark:text-slate-100"
           />
           <span v-if="!activeSegmentNewName" class="message">
             {{ $t('CONTACTS_FILTER.EMPTY_VALUE_ERROR') }}
@@ -23,7 +23,7 @@
         </label>
       </div>
       <div
-        class="p-4 rounded-lg bg-slate-25 dark:bg-slate-900 border border-solid border-slate-50 dark:border-slate-700/50 mb-4"
+        class="p-4 mb-4 border border-solid rounded-lg bg-slate-25 dark:bg-slate-900 border-slate-50 dark:border-slate-700/50"
       >
         <filter-input-box
           v-for="(filter, i) in appliedFilters"
@@ -68,7 +68,7 @@
         </div>
       </div>
       <div class="w-full">
-        <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+        <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
           <woot-button class="button clear" @click.prevent="onClose">
             {{ $t('CONTACTS_FILTER.CANCEL_BUTTON_LABEL') }}
           </woot-button>
@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import FilterInputBox from '../../../../components/widgets/FilterInput/Index.vue';
 import countries from 'shared/constants/countries.js';
 import { mapGetters } from 'vuex';
@@ -103,7 +103,7 @@ export default {
   components: {
     FilterInputBox,
   },
-  mixins: [alertMixin, filterMixin],
+  mixins: [filterMixin],
   props: {
     onClose: {
       type: Function,
@@ -294,7 +294,7 @@ export default {
     },
     removeFilter(index) {
       if (this.appliedFilters.length <= 1) {
-        this.showAlert(this.$t('CONTACTS_FILTER.FILTER_DELETE_ERROR'));
+        useAlert(this.$t('CONTACTS_FILTER.FILTER_DELETE_ERROR'));
       } else {
         this.appliedFilters.splice(index, 1);
       }

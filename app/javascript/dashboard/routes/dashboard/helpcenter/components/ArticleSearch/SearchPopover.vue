@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed flex items-center justify-center w-screen h-screen bg-modal-backdrop-light dark:bg-modal-backdrop-dark top-0 left-0 z-50"
+    class="fixed top-0 left-0 z-50 flex items-center justify-center w-screen h-screen bg-modal-backdrop-light dark:bg-modal-backdrop-dark"
   >
     <div
       v-on-clickaway="onClose"
@@ -34,6 +34,7 @@
 
 <script>
 import { debounce } from '@chatwoot/utils';
+import { useAlert } from 'dashboard/composables';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 
 import SearchHeader from './Header.vue';
@@ -42,7 +43,6 @@ import ArticleView from './ArticleView.vue';
 import ArticlesAPI from 'dashboard/api/helpCenter/articles';
 import { buildPortalArticleURL } from 'dashboard/helper/portalHelper';
 import portalMixin from '../../mixins/portalMixin';
-import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   name: 'ArticleSearchPopover',
@@ -51,7 +51,7 @@ export default {
     SearchResults,
     ArticleView,
   },
-  mixins: [portalMixin, alertMixin, keyboardEventListenerMixins],
+  mixins: [portalMixin, keyboardEventListenerMixins],
   props: {
     selectedPortalSlug: {
       type: String,
@@ -145,9 +145,7 @@ export default {
       const article = this.activeArticle(id || this.activeId);
 
       this.$emit('insert', article);
-      this.showAlert(
-        this.$t('HELP_CENTER.ARTICLE_SEARCH.SUCCESS_ARTICLE_INSERTED')
-      );
+      useAlert(this.$t('HELP_CENTER.ARTICLE_SEARCH.SUCCESS_ARTICLE_INSERTED'));
       this.onClose();
     },
     getKeyboardEvents() {

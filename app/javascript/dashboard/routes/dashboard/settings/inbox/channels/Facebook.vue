@@ -92,6 +92,7 @@
 /* eslint-env browser */
 /* global FB */
 import { useVuelidate } from '@vuelidate/core';
+import { useAlert } from 'dashboard/composables';
 import { required } from 'vuelidate/lib/validators';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
 import { mapGetters } from 'vuex';
@@ -171,11 +172,11 @@ export default {
       } catch (error) {
         if (error.name === 'ScriptLoaderError') {
           // if the error was related to script loading, we show a toast
-          this.showAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_LOADING'));
+          useAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_LOADING'));
         } else {
           // if the error was anything else, we capture it and show a toast
           Sentry.captureException(error);
-          this.showAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_AUTH'));
+          useAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_AUTH'));
         }
       }
     },

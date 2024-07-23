@@ -47,15 +47,14 @@
   </form>
 </template>
 <script>
+import { useAlert } from 'dashboard/composables';
 import FormButton from 'v3/components/Form/Button.vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength, email } from 'vuelidate/lib/validators';
-import alertMixin from 'shared/mixins/alertMixin';
 export default {
   components: {
     FormButton,
   },
-  mixins: [alertMixin],
   props: {
     name: {
       type: String,
@@ -125,7 +124,7 @@ export default {
     async updateUser() {
       this.v$.$touch();
       if (this.v$.$invalid) {
-        this.showAlert(this.$t('PROFILE_SETTINGS.FORM.ERROR'));
+        useAlert(this.$t('PROFILE_SETTINGS.FORM.ERROR'));
         return;
       }
       this.$emit('update-user', {

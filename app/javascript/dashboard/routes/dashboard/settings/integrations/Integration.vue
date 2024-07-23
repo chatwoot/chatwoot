@@ -74,11 +74,11 @@
 <script>
 import { mapGetters } from 'vuex';
 import { frontendURL } from '../../../../helper/URLHelper';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
-  mixins: [alertMixin, globalConfigMixin],
+  mixins: [globalConfigMixin],
   props: {
     integrationId: {
       type: [String, Number],
@@ -123,11 +123,9 @@ export default {
           'integrations/deleteIntegration',
           this.integrationId
         );
-        this.showAlert(
-          this.$t('INTEGRATION_SETTINGS.DELETE.API.SUCCESS_MESSAGE')
-        );
+        useAlert(this.$t('INTEGRATION_SETTINGS.DELETE.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(
+        useAlert(
           this.$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.ERROR_MESSAGE')
         );
       }

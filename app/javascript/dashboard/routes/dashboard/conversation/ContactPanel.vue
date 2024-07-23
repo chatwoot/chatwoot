@@ -133,7 +133,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
 import ContactConversations from './ContactConversations.vue';
 import ConversationAction from './ConversationAction.vue';
@@ -157,7 +156,7 @@ export default {
     draggable,
     MacrosList,
   },
-  mixins: [alertMixin, uiSettingsMixin],
+  mixins: [uiSettingsMixin],
   props: {
     conversationId: {
       type: [Number, String],

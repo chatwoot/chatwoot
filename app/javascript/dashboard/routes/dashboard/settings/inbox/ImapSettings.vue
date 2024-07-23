@@ -73,7 +73,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import SettingsSection from 'dashboard/components/SettingsSection.vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from 'vuelidate/lib/validators';
@@ -82,7 +82,6 @@ export default {
   components: {
     SettingsSection,
   },
-  mixins: [alertMixin],
   props: {
     inbox: {
       type: Object,
@@ -157,9 +156,9 @@ export default {
         }
 
         await this.$store.dispatch('inboxes/updateInboxIMAP', payload);
-        this.showAlert(this.$t('INBOX_MGMT.IMAP.EDIT.SUCCESS_MESSAGE'));
+        useAlert(this.$t('INBOX_MGMT.IMAP.EDIT.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(error.message);
+        useAlert(error.message);
       }
     },
   },

@@ -154,9 +154,9 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import Widget from 'dashboard/modules/widget-preview/components/Widget.vue';
 import InputRadioGroup from './components/InputRadioGroup.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from 'vuelidate/lib/validators';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
@@ -167,7 +167,6 @@ export default {
     Widget,
     InputRadioGroup,
   },
-  mixins: [alertMixin],
   props: {
     inbox: {
       type: Object,
@@ -359,13 +358,13 @@ export default {
         await this.$store.dispatch('inboxes/deleteInboxAvatar', this.inbox.id);
         this.avatarFile = null;
         this.avatarUrl = '';
-        this.showAlert(
+        useAlert(
           this.$t(
             'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR.DELETE.API.SUCCESS_MESSAGE'
           )
         );
       } catch (error) {
-        this.showAlert(
+        useAlert(
           error.message
             ? error.message
             : this.$t(
@@ -398,13 +397,13 @@ export default {
           payload.avatar = this.avatarFile;
         }
         await this.$store.dispatch('inboxes/updateInbox', payload);
-        this.showAlert(
+        useAlert(
           this.$t(
             'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.UPDATE.API.SUCCESS_MESSAGE'
           )
         );
       } catch (error) {
-        this.showAlert(
+        useAlert(
           error.message ||
             this.$t(
               'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.UPDATE.API.ERROR_MESSAGE'

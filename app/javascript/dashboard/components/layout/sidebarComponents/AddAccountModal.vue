@@ -52,10 +52,9 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 
 export default {
-  mixins: [alertMixin],
   props: {
     show: {
       type: Boolean,
@@ -92,13 +91,13 @@ export default {
           account_name: this.accountName,
         });
         this.$emit('close-account-create-modal');
-        this.showAlert(this.$t('CREATE_ACCOUNT.API.SUCCESS_MESSAGE'));
+        useAlert(this.$t('CREATE_ACCOUNT.API.SUCCESS_MESSAGE'));
         window.location = `/app/accounts/${account_id}/dashboard`;
       } catch (error) {
         if (error.response.status === 422) {
-          this.showAlert(this.$t('CREATE_ACCOUNT.API.EXIST_MESSAGE'));
+          useAlert(this.$t('CREATE_ACCOUNT.API.EXIST_MESSAGE'));
         } else {
-          this.showAlert(this.$t('CREATE_ACCOUNT.API.ERROR_MESSAGE'));
+          useAlert(this.$t('CREATE_ACCOUNT.API.ERROR_MESSAGE'));
         }
       }
     },

@@ -17,6 +17,7 @@ import {
 } from './CommandBarIcons';
 import { frontendURL } from '../../../helper/URLHelper';
 import { mapGetters } from 'vuex';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 import { FEATURE_FLAGS } from '../../../featureFlags';
 
 const GO_TO_COMMANDS = [
@@ -172,6 +173,12 @@ const GO_TO_COMMANDS = [
 ];
 
 export default {
+  setup() {
+    const { isAdmin } = useAdmin();
+    return {
+      isAdmin,
+    };
+  },
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',

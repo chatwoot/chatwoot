@@ -1,5 +1,5 @@
 <template>
-  <div class="h-auto overflow-auto flex flex-col">
+  <div class="flex flex-col h-auto overflow-auto">
     <woot-modal-header
       :header-title="$t('CAMPAIGN.ADD.TITLE')"
       :header-content="$t('CAMPAIGN.ADD.DESC')"
@@ -162,7 +162,7 @@
         </label>
       </div>
 
-      <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+      <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
         <woot-button :is-loading="uiFlags.isCreating">
           {{ $t('CAMPAIGN.ADD.CREATE_BUTTON_TEXT') }}
         </woot-button>
@@ -178,7 +178,7 @@
 import { mapGetters } from 'vuex';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from 'vuelidate/lib/validators';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import campaignMixin from 'shared/mixins/campaignMixin';
 import WootDateTimePicker from 'dashboard/components/ui/DateTimePicker.vue';
@@ -190,7 +190,7 @@ export default {
     WootDateTimePicker,
     WootMessageEditor,
   },
-  mixins: [alertMixin, campaignMixin],
+  mixins: [campaignMixin],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -308,7 +308,7 @@ export default {
       } catch (error) {
         const errorMessage =
           error?.response?.message || this.$t('CAMPAIGN.ADD.API.ERROR_MESSAGE');
-        this.showAlert(errorMessage);
+        useAlert(errorMessage);
       }
     },
     getCampaignDetails() {
@@ -359,12 +359,12 @@ export default {
           type: this.campaignType,
         });
 
-        this.showAlert(this.$t('CAMPAIGN.ADD.API.SUCCESS_MESSAGE'));
+        useAlert(this.$t('CAMPAIGN.ADD.API.SUCCESS_MESSAGE'));
         this.onClose();
       } catch (error) {
         const errorMessage =
           error?.response?.message || this.$t('CAMPAIGN.ADD.API.ERROR_MESSAGE');
-        this.showAlert(errorMessage);
+        useAlert(errorMessage);
       }
     },
   },

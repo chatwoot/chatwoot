@@ -44,7 +44,7 @@
 <script>
 import { isEmptyObject } from '../../../../helper/commons';
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import hookMixin from './hookMixin';
 import NewHook from './NewHook.vue';
 import SingleIntegrationHooks from './SingleIntegrationHooks.vue';
@@ -56,7 +56,7 @@ export default {
     SingleIntegrationHooks,
     MultipleIntegrationHooks,
   },
-  mixins: [alertMixin, hookMixin],
+  mixins: [hookMixin],
   props: {
     integrationId: {
       type: [String, Number],
@@ -142,7 +142,7 @@ export default {
         this.alertMessage =
           errorMessage || this.$t('INTEGRATION_APPS.DELETE.API.ERROR_MESSAGE');
       } finally {
-        this.showAlert(this.alertMessage);
+        useAlert(this.alertMessage);
       }
     },
   },

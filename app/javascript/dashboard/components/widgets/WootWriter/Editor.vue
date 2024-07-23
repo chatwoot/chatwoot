@@ -89,7 +89,7 @@ import {
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { uploadFile } from 'dashboard/helper/uploadHelper';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import {
   MESSAGE_EDITOR_MENU_OPTIONS,
   MESSAGE_EDITOR_IMAGE_RESIZES,
@@ -119,7 +119,7 @@ const createState = (
 export default {
   name: 'WootMessageEditor',
   components: { TagAgents, CannedResponse, VariableList },
-  mixins: [keyboardEventListenerMixins, uiSettingsMixin, alertMixin],
+  mixins: [keyboardEventListenerMixins, uiSettingsMixin],
   props: {
     value: { type: String, default: '' },
     editorId: { type: String, default: '' },
@@ -611,7 +611,7 @@ export default {
       if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
         this.uploadImageToStorage(file);
       } else {
-        this.showAlert(
+        useAlert(
           this.$t(
             'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.IMAGE_UPLOAD_SIZE_ERROR',
             {
@@ -629,13 +629,13 @@ export default {
         if (fileUrl) {
           this.onImageInsertInEditor(fileUrl);
         }
-        this.showAlert(
+        useAlert(
           this.$t(
             'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.IMAGE_UPLOAD_SUCCESS'
           )
         );
       } catch (error) {
-        this.showAlert(
+        useAlert(
           this.$t(
             'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.IMAGE_UPLOAD_ERROR'
           )
