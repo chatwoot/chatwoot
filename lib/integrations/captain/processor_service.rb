@@ -8,7 +8,11 @@ class Integrations::Captain::ProcessorService < Integrations::BotProcessorServic
   end
 
   def process_response(message, response)
-    create_conversation(message, { content: response })
+    if response == 'conversation_handoff'
+      message.conversation.bot_handoff!
+    else
+      create_conversation(message, { content: response })
+    end
   end
 
   def create_conversation(message, content_params)
