@@ -33,6 +33,7 @@ const openInNewTab = url => {
     <div class="flex items-center justify-between w-full gap-4">
       <div class="flex items-center gap-3">
         <div
+          v-if="iconName"
           class="flex items-center w-10 h-10 p-1 rounded-full bg-woot-25/60 dark:bg-woot-900/60"
         >
           <div

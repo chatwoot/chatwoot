@@ -22,15 +22,14 @@ onMounted(() => {
 <template>
   <SettingsLayout
     :is-loading="uiFlags.isFetching"
-    :loading-message="$t('INTEGRATION_APPS.LOADING')"
+    :loading-message="$t('INTEGRATION_SETTINGS.LOADING')"
   >
     <template #header>
       <BaseSettingsHeader
+        class="mt-4"
         :title="$t('INTEGRATION_SETTINGS.HEADER')"
         :description="$t('INTEGRATION_SETTINGS.DESCRIPTION')"
-        :link-text="$t('SLA.LEARN_MORE')"
-        href="/"
-        icon-name="flash-on"
+        :link-text="$t('INTEGRATION_SETTINGS.LEARN_MORE')"
       />
     </template>
     <template #body>

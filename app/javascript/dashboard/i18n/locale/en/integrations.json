@@ -2,6 +2,7 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrations",
     "DESCRIPTION": "This page provides a list of available integrations that can enhance your team’s productivity by connecting various tools and services.",
+    "LEARN_MORE": "Learn more about integrations",
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Subscribed Events",
       "FORM": {
