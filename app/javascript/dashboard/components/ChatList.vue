@@ -116,6 +116,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
 import VirtualList from 'vue-virtual-scroll-list';
 
@@ -132,7 +133,6 @@ import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomView
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import filterMixin from 'shared/mixins/filterMixin';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import countries from 'shared/constants/countries';
 import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
@@ -157,12 +157,7 @@ export default {
     IntersectionObserver,
     VirtualList,
   },
-  mixins: [
-    conversationMixin,
-    keyboardEventListenerMixins,
-    filterMixin,
-    uiSettingsMixin,
-  ],
+  mixins: [conversationMixin, keyboardEventListenerMixins, filterMixin],
   provide() {
     return {
       // Actions to be performed on virtual list item and context menu.
@@ -206,6 +201,13 @@ export default {
       default: false,
       type: Boolean,
     },
+  },
+  setup() {
+    const { uiSettings } = useUISettings();
+
+    return {
+      uiSettings,
+    };
   },
   data() {
     return {

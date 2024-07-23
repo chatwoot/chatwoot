@@ -80,8 +80,7 @@ import {
   hasPressedCommandAndEnter,
 } from 'shared/helpers/KeyboardHelpers';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
-import { isEditorHotKeyEnabled } from 'dashboard/mixins/uiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import {
   replaceVariablesInMessage,
   createTypingIndicator,
@@ -119,7 +118,7 @@ const createState = (
 export default {
   name: 'WootMessageEditor',
   components: { TagAgents, CannedResponse, VariableList },
-  mixins: [keyboardEventListenerMixins, uiSettingsMixin],
+  mixins: [keyboardEventListenerMixins],
   props: {
     value: { type: String, default: '' },
     editorId: { type: String, default: '' },
@@ -138,6 +137,19 @@ export default {
     allowSignature: { type: Boolean, default: false },
     channelType: { type: String, default: '' },
     showImageResizeToolbar: { type: Boolean, default: false }, // A kill switch to show or hide the image toolbar
+  },
+  setup() {
+    const {
+      uiSettings,
+      isEditorHotKeyEnabled,
+      fetchSignatureFlagFromUISettings,
+    } = useUISettings();
+
+    return {
+      uiSettings,
+      isEditorHotKeyEnabled,
+      fetchSignatureFlagFromUISettings,
+    };
   },
   data() {
     return {
@@ -278,7 +290,7 @@ export default {
       // this is considered the source of truth, we watch this property
       // on change, we toggle the signature in the editor
       if (this.allowSignature && !this.isPrivate && this.channelType) {
-        return this.fetchSignatureFlagFromUiSettings(this.channelType);
+        return this.fetchSignatureFlagFromUISettings(this.channelType);
       }
 
       return false;
@@ -521,10 +533,10 @@ export default {
       }
     },
     isEnterToSendEnabled() {
-      return isEditorHotKeyEnabled(this.uiSettings, 'enter');
+      return this.isEditorHotKeyEnabled('enter');
     },
     isCmdPlusEnterToSendEnabled() {
-      return isEditorHotKeyEnabled(this.uiSettings, 'cmd_enter');
+      return this.isEditorHotKeyEnabled('cmd_enter');
     },
     getKeyboardEvents() {
       return {

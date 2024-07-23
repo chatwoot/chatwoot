@@ -191,9 +191,9 @@
 
 <script>
 import { useAlert } from 'dashboard/composables';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import LocaleItemTable from './PortalListItemTable.vue';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { PORTALS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 
 export default {
@@ -201,7 +201,6 @@ export default {
     thumbnail,
     LocaleItemTable,
   },
-  mixins: [uiSettingsMixin],
   props: {
     portal: {
       type: Object,
@@ -212,6 +211,13 @@ export default {
       default: '',
       values: ['archived', 'draft', 'published'],
     },
+  },
+  setup() {
+    const { updateUISettings } = useUISettings();
+
+    return {
+      updateUISettings,
+    };
   },
   data() {
     return {

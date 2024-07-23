@@ -47,13 +47,13 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import wootConstants from 'dashboard/constants/globals';
 
 import InboxCard from './components/InboxCard.vue';
 import InboxListHeader from './components/InboxListHeader.vue';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 export default {
   components: {
@@ -61,7 +61,13 @@ export default {
     InboxListHeader,
     IntersectionObserver,
   },
-  mixins: [uiSettingsMixin],
+  setup() {
+    const { uiSettings } = useUISettings();
+
+    return {
+      uiSettings,
+    };
+  },
   data() {
     return {
       infiniteLoaderOptions: {
