@@ -1,5 +1,5 @@
 <template>
-  <aside class="flex h-full">
+  <aside ref="sidebarRef" class="flex h-full">
     <primary-sidebar
       :logo-source="globalConfig.logoThumbnail"
       :installation-name="globalConfig.installationName"
@@ -31,11 +31,13 @@
 <script>
 import { mapGetters } from 'vuex';
 import { getSidebarItems } from './config/default-sidebar';
+import { ref } from 'vue';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import { useRoute, useRouter } from 'dashboard/composables/route';
 
 import PrimarySidebar from './sidebarComponents/Primary.vue';
 import SecondarySidebar from './sidebarComponents/Secondary.vue';
-import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
-import router, { routesWithPermissions } from '../../routes';
+import { routesWithPermissions } from '../../routes';
 import { hasPermissions } from '../../helper/permissionsHelper';
 
 export default {
@@ -43,7 +45,6 @@ export default {
     PrimarySidebar,
     SecondarySidebar,
   },
-  mixins: [keyboardEventListenerMixins],
   props: {
     showSecondarySidebar: {
       type: Boolean,
@@ -53,6 +54,55 @@ export default {
       type: String,
       default: '',
     },
+  },
+  setup(props, { emit }) {
+    const sidebarRef = ref(null);
+    const route = useRoute();
+    const router = useRouter();
+
+    const toggleKeyShortcutModal = () => {
+      emit('open-key-shortcut-modal');
+    };
+
+    const closeKeyShortcutModal = () => {
+      emit('close-key-shortcut-modal');
+    };
+
+    const isCurrentRouteSameAsNavigation = routeName => {
+      return route.name === routeName;
+    };
+    const navigateToRoute = routeName => {
+      if (!isCurrentRouteSameAsNavigation(routeName)) {
+        router.push({ name: routeName });
+      }
+    };
+
+    const keyboardEvents = {
+      '$mod+Slash': {
+        action: toggleKeyShortcutModal,
+      },
+      '$mod+Escape': {
+        action: closeKeyShortcutModal,
+      },
+      'Alt+KeyC': {
+        action: () => navigateToRoute('home'),
+      },
+      'Alt+KeyV': {
+        action: () => navigateToRoute('contacts_dashboard'),
+      },
+      'Alt+KeyR': {
+        action: () => navigateToRoute('account_overview_reports'),
+      },
+      'Alt+KeyS': {
+        action: () => navigateToRoute('agent_list'),
+      },
+    };
+
+    useKeyboardEvents(sidebarRef, keyboardEvents);
+
+    return {
+      sidebarRef,
+    };
   },
   data() {
     return {
@@ -167,32 +217,6 @@ export default {
     },
     closeKeyShortcutModal() {
       this.$emit('close-key-shortcut-modal');
-    },
-    getKeyboardEvents() {
-      return {
-        '$mod+Slash': this.toggleKeyShortcutModal,
-        '$mod+Escape': this.closeKeyShortcutModal,
-        'Alt+KeyC': {
-          action: () => this.navigateToRoute('home'),
-        },
-        'Alt+KeyV': {
-          action: () => this.navigateToRoute('contacts_dashboard'),
-        },
-        'Alt+KeyR': {
-          action: () => this.navigateToRoute('account_overview_reports'),
-        },
-        'Alt+KeyS': {
-          action: () => this.navigateToRoute('agent_list'),
-        },
-      };
-    },
-    navigateToRoute(routeName) {
-      if (!this.isCurrentRouteSameAsNavigation(routeName)) {
-        router.push({ name: routeName });
-      }
-    },
-    isCurrentRouteSameAsNavigation(routeName) {
-      return this.$route.name === routeName;
     },
     toggleSupportChatWindow() {
       window.$chatwoot.toggle();
