@@ -14,9 +14,10 @@ attr_accessor :conversations, :file_name, :report
   end
 
   def perform
+    report.in_progress!
     export_parquet
   rescue StandardError => e
-    report.update_columns(status: 'failed', error_message: e.message)
+    report.failed!(e.message)
   end
 
   private

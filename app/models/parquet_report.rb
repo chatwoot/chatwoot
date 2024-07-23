@@ -42,10 +42,6 @@ class ParquetReport < ApplicationRecord
     Rails.application.routes.url_helpers.api_v1_account_parquet_report_url(account_id: Current.account.id, id: id)
   end
 
-  def perform_later
-    Digitaltolk::ProcessParquetJob.perform_later(id)
-  end
-
   def create_empty_file_url
     # Implement in subclass
   end
@@ -56,6 +52,14 @@ class ParquetReport < ApplicationRecord
 
   def progress_json
     { progress: progress, status: status, file_url: file_url, error_message: error_message, type: type }
+  end
+
+  def in_progress!
+    update_columns(status: "in_progress")
+  end
+
+  def failed!(error_message)
+    update_columns(status: "failed", error_message: error_message)
   end
 
   private

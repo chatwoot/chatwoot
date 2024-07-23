@@ -7,8 +7,11 @@ class Digitaltolk::ProcessParquetJob < ApplicationJob
 
     if parquet_report.present?
       parquet_report.process!
+    else
+      Rails.logger.error "Parquet Report not found #{parquet_report_id}"
     end
   rescue StandardError => e
-    parquet_report.update_columns(status: "failed", error_message: e.message)
+    parquet_report.failed!(e.message) if parquet_report.present?
+    Rails.logger.error "Error processing Parquet Report #{parquet_report_id}: #{e.message}"
   end
 end

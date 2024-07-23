@@ -16,7 +16,7 @@ class Api::V1::Accounts::MessagesController < Api::V1::Accounts::BaseController
         params: params, 
         file_name: file_name
       )
-      report.perform_later
+      Digitaltolk::ProcessParquetJob.perform_later(report.id)
       render json: { progress_url: report.progress_url, report_id: report.id, file_url: report.create_empty_file_url }.to_json and return
     end
   end

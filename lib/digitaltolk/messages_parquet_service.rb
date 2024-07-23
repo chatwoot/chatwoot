@@ -11,16 +11,13 @@ class Digitaltolk::MessagesParquetService
 
   # @return [Hash]
   def perform
-    process_upload
+    report.in_progress!
+    export_parquet
   rescue StandardError => e
-    report.update_columns(status: 'failed', error_message: e.message)
+    report.failed!(e.message)
   end
 
   private
-
-  def process_upload
-    export_parquet
-  end
 
   def file_path
     @file_path ||= Rails.root.join('tmp', file_name)

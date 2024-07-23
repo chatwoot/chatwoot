@@ -44,10 +44,10 @@ class ParquetReport::Message < ParquetReport
   def load_messages
     set_current_attributes
     base_query = account.messages.includes(:inbox, :conversation)
-    @messages = filtrate(base_query).filter_by_created_at(range)
-                                    .filter_by_inbox(params[:inbox_id])
-                                    .filter_by_team(params[:team_id])
-                                    .filter_by_label(params[:label])
-                                    .order(created_at: :desc)
+    @messages = base_query.filter_by_created_at(range)
+                          .filter_by_inbox(params[:inbox_id])
+                          .filter_by_team(params[:team_id])
+                          .filter_by_label(params[:label])
+                          .order(created_at: :desc)
   end
 end

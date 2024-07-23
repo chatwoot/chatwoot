@@ -10,11 +10,14 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def index
     if params[:export_as_parquet]
       file_name = "conversations_#{Time.now.to_i}.parquet"
-      report = ParquetReport::Conversation.create(account_id: Current.account.id, user_id: Current.user&.id, params: params, file_name: file_name)
+      report = ParquetReport::Conversation.create(
+        account_id: Current.account.id,
+        user_id: Current.user&.id,
+        params: params,
+        file_name: file_name
+      )
       Digitaltolk::ProcessParquetJob.perform_later(report.id)
-      
-      empty_file_url = Digitaltolk::ConversationsParquetService.new([], file_name, report).perform
-      render json: { progress_url: report.progress_url, report_id: report.id, file_url: empty_file_url }.to_json and return
+      render json: { progress_url: report.progress_url, report_id: report.id, file_url: report.create_empty_file_url }.to_json and return
     else
       result = conversation_finder.perform
       @conversations = result[:conversations]
