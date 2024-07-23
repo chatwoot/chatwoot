@@ -12,6 +12,8 @@ class Digitaltolk::MessagesParquetService
   # @return [Hash]
   def perform
     process_upload
+  rescue StandardError => e
+    report.update_columns(status: 'failed', error_message: e.message)
   end
 
   private

@@ -15,9 +15,9 @@ module DateRangeHelper
     return datetime.to_datetime if datetime.is_a?(Time) || datetime.is_a?(Date)
 
     begin
-      DateTime.strptime(datetime, '%s')
+      DateTime.strptime(datetime, '%Y-%m-%d %H:%M')
     rescue
-      DateTime.strptime(datetime, '%Y-%m-%d %H:%M') rescue nil
+      DateTime.strptime(datetime, '%s')
     end
   end
 end

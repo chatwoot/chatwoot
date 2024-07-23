@@ -8,5 +8,7 @@ class Digitaltolk::ProcessParquetJob < ApplicationJob
     if parquet_report.present?
       parquet_report.process!
     end
+  rescue StandardError => e
+    parquet_report.update_columns(status: "failed", error_message: e.message)
   end
 end

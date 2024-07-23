@@ -54,10 +54,14 @@ class ParquetReport < ApplicationRecord
     update_columns(progress: 100, status: "completed", file_url: url)
   end
 
+  def progress_json
+    { progress: progress, status: status, file_url: file_url, error_message: error_message, type: type }
+  end
+
   private
 
   def set_pending_status
-    update(status: "pending")
+    update_columns(status: "pending")
   end
 
   def set_current_attributes

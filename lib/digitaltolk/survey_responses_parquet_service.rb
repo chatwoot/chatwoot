@@ -11,17 +11,15 @@ class Digitaltolk::SurveyResponsesParquetService
 
   # @return [Hash]
   def perform
-    process_upload
+    export_parquet
+  rescue StandardError => e
+    report.update_columns(status: 'failed', error_message: e.message)
   end
 
   private
 
   def file_path
     @file_path ||= Rails.root.join('tmp', file_name)
-  end
-
-  def process_upload
-    export_parquet
   end
 
   def arrow_fields
