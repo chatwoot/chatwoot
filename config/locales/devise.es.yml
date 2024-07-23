@@ -16,6 +16,10 @@ es:
       unauthenticated: "Necesitas iniciar sesión o registrarte antes de continuar."
       unconfirmed: "Tienes que confirmar tu dirección de correo electrónico antes de continuar."
     mailer:
+      password_change:
+        subject: "Password Changed"
+        greeting: "Hi %{email}!"
+        notification: "We're contacting you to notify you that your password has been changed."
       confirmation_instructions:
         subject: "Instrucciones de confirmación"
         greeting: "Hola %{name},"
