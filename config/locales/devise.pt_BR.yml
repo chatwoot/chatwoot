@@ -1,4 +1,3 @@
-#Additional translations at https://github.com/plataformatec/devise/wiki/I18n
 pt_BR:
   devise:
     confirmations:
@@ -18,12 +17,13 @@ pt_BR:
     mailer:
       confirmation_instructions:
         subject: "Instruções de Confirmação"
-      reset_password_instructions:
-        subject: "Instruções para alteração de senha"
-      unlock_instructions:
-        subject: "Instruções para desbloqueio"
-      password_change:
-        subject: "Senha Alterada"
+        greeting: "Olá %{name},"
+        inviter_message: "%{inviter_name}, com %{account_name}, convidou você para experimentar %{brand_name}."
+        confirmed_login: "Você pode fazer login na sua conta %{brand_name} através do link abaixo:"
+        welcome_message: "Bem-vindo ao %{brand_name}! Temos um conjunto de ferramentas poderosas para você explorar. Antes disso, precisamos verificar seu endereço de e-mail para saber que é realmente você."
+        activate_account: "Por favor, reserve um momento e clique no link abaixo para ativar sua conta."
+        confirm_account: "Confirmar minha conta"
+        login_account: "Entrar na minha conta"
     omniauth_callbacks:
       failure: "Não foi possível autenticar você a partir de %{kind} porque \"%{reason}\"."
       success: "Autenticado com sucesso pela conta %{kind}."

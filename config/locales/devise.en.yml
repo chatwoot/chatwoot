@@ -19,6 +19,13 @@ en:
     mailer:
       confirmation_instructions:
         subject: "Confirmation Instructions"
+        greeting: "Hi %{name},"
+        inviter_message: "%{inviter_name}, with %{account_name}, has invited you to try out %{brand_name}."
+        confirmed_login: "You can login to your %{brand_name} account through the link below:"
+        welcome_message: "Welcome to %{brand_name}! We have a suite of powerful tools ready for you to explore. Before that we quickly need to verify your email address to know it's really you."
+        activate_account: "Please take a moment and click the link below and activate your account."
+        confirm_account: "Confirm my account"
+        login_account: "Login to my account"
       reset_password_instructions:
         subject: "Reset password instructions"
       unlock_instructions:

@@ -18,6 +18,13 @@ pt:
     mailer:
       confirmation_instructions:
         subject: "Instruções de confirmação"
+        greeting: "Olá %{name},"
+        inviter_message: "%{inviter_name}, com %{account_name}, convidou você para experimentar %{brand_name}."
+        confirmed_login: "Você pode fazer login na sua conta %{brand_name} através do link abaixo:"
+        welcome_message: "Bem-vindo ao %{brand_name}! Temos um conjunto de ferramentas poderosas para você explorar. Antes disso, precisamos verificar seu endereço de e-mail para saber que é realmente você."
+        activate_account: "Por favor, reserve um momento e clique no link abaixo para ativar sua conta."
+        confirm_account: "Confirmar minha conta"
+        login_account: "Entrar na minha conta"
       reset_password_instructions:
         subject: "Resetar instruções de senha"
       unlock_instructions:
