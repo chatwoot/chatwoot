@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 overflow-auto p-4">
+  <div class="flex-1 p-4 overflow-auto">
     <woot-button
       color-scheme="success"
       class-names="button--fixed-top"
@@ -19,12 +19,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
 import ReportFilterSelector from './components/FilterSelector.vue';
 import { GROUP_BY_FILTER } from './constants';
 import reportMixin from 'dashboard/mixins/reportMixin';
-import alertMixin from 'shared/mixins/alertMixin';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import ReportContainer from './ReportContainer.vue';
 
@@ -44,7 +44,7 @@ export default {
     ReportFilterSelector,
     ReportContainer,
   },
-  mixins: [reportMixin, alertMixin],
+  mixins: [reportMixin],
   data() {
     return {
       from: 0,
@@ -68,7 +68,7 @@ export default {
       try {
         this.$store.dispatch('fetchAccountSummary', this.getRequestPayload());
       } catch {
-        this.showAlert(this.$t('REPORT.SUMMARY_FETCHING_FAILED'));
+        useAlert(this.$t('REPORT.SUMMARY_FETCHING_FAILED'));
       }
     },
     fetchChartData() {
@@ -87,7 +87,7 @@ export default {
             ...this.getRequestPayload(),
           });
         } catch {
-          this.showAlert(this.$t('REPORT.DATA_FETCHING_FAILED'));
+          useAlert(this.$t('REPORT.DATA_FETCHING_FAILED'));
         }
       });
     },

@@ -81,6 +81,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 
 import ContactsHeader from './Header.vue';
 import ContactsTable from './ContactsTable.vue';
@@ -94,7 +95,6 @@ import filterQueryGenerator from '../../../../helper/filterQueryGenerator';
 import AddCustomViews from 'dashboard/routes/dashboard/customviews/AddCustomViews.vue';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 import { CONTACTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
-import alertMixin from 'shared/mixins/alertMixin';
 import countries from 'shared/constants/countries.js';
 import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
 
@@ -113,7 +113,6 @@ export default {
     AddCustomViews,
     DeleteCustomViews,
   },
-  mixins: [alertMixin],
   props: {
     label: { type: String, default: '' },
     segmentsId: {
@@ -404,11 +403,9 @@ export default {
           ...query,
           label: this.label,
         });
-        this.showAlert(this.$t('EXPORT_CONTACTS.SUCCESS_MESSAGE'));
+        useAlert(this.$t('EXPORT_CONTACTS.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(
-          error.message || this.$t('EXPORT_CONTACTS.ERROR_MESSAGE')
-        );
+        useAlert(error.message || this.$t('EXPORT_CONTACTS.ERROR_MESSAGE'));
       }
     },
     setParamsForEditSegmentModal() {

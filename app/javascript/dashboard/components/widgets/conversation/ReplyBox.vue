@@ -153,7 +153,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 
 import CannedResponse from './CannedResponse.vue';
@@ -219,7 +219,6 @@ export default {
   mixins: [
     inboxMixin,
     uiSettingsMixin,
-    alertMixin,
     messageFormatterMixin,
     rtlMixin,
     fileUploadMixin,
@@ -310,7 +309,7 @@ export default {
             agentId,
           })
           .then(() => {
-            this.showAlert(this.$t('CONVERSATION.CHANGE_AGENT'));
+            useAlert(this.$t('CONVERSATION.CHANGE_AGENT'));
           });
       },
     },
@@ -880,7 +879,7 @@ export default {
       } catch (error) {
         const errorMessage =
           error?.response?.data?.error || this.$t('CONVERSATION.MESSAGE_ERROR');
-        this.showAlert(errorMessage);
+        useAlert(errorMessage);
       }
     },
     async onSendWhatsAppReply(messagePayload) {

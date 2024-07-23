@@ -25,10 +25,9 @@
 <script>
 import 'highlight.js/styles/default.css';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 
 export default {
-  mixins: [alertMixin],
   props: {
     script: {
       type: String,
@@ -61,7 +60,7 @@ export default {
     async onCopy(e) {
       e.preventDefault();
       await copyTextToClipboard(this.script);
-      this.showAlert(this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
+      useAlert(this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
     },
   },
 };

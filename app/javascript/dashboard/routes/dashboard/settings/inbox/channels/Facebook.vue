@@ -5,7 +5,7 @@
     <div v-if="!hasLoginStarted" class="pt-[30%] h-full">
       <a href="#" @click="startLogin()">
         <img
-          class="h-10 w-auto"
+          class="w-auto h-10"
           src="~dashboard/assets/images/channels/facebook_login.png"
           alt="Facebook-logo"
         />
@@ -30,7 +30,7 @@
       <loading-state v-else-if="showLoader" :message="emptyStateMessage" />
       <form
         v-else
-        class="mx-0 flex flex-wrap"
+        class="flex flex-wrap mx-0"
         @submit.prevent="createChannel()"
       >
         <div class="w-full">
@@ -91,6 +91,7 @@
 <script>
 /* eslint-env browser */
 /* global FB */
+import { useAlert } from 'dashboard/composables';
 import { required } from 'vuelidate/lib/validators';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
 import { mapGetters } from 'vuex';
@@ -101,7 +102,6 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import accountMixin from '../../../../../mixins/account';
 
 import { loadScript } from 'dashboard/helper/DOMHelpers';
-import alertMixin from 'shared/mixins/alertMixin';
 import * as Sentry from '@sentry/browser';
 
 export default {
@@ -109,7 +109,7 @@ export default {
     LoadingState,
     PageHeader,
   },
-  mixins: [globalConfigMixin, accountMixin, alertMixin],
+  mixins: [globalConfigMixin, accountMixin],
   data() {
     return {
       isCreating: false,
@@ -168,11 +168,11 @@ export default {
       } catch (error) {
         if (error.name === 'ScriptLoaderError') {
           // if the error was related to script loading, we show a toast
-          this.showAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_LOADING'));
+          useAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_LOADING'));
         } else {
           // if the error was anything else, we capture it and show a toast
           Sentry.captureException(error);
-          this.showAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_AUTH'));
+          useAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_AUTH'));
         }
       }
     },
