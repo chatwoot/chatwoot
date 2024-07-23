@@ -1,10 +1,10 @@
 <template>
   <div>
     <div
-      class="bg-white dark:bg-slate-900 rounded-md relative flex mb-3 p-4 border border-solid border-slate-100 dark:border-slate-600"
+      class="relative flex p-4 mb-3 bg-white border border-solid rounded-md dark:bg-slate-900 border-slate-100 dark:border-slate-600"
     >
       <thumbnail :username="portal.name" variant="square" />
-      <div class="ml-2 rtl:ml-0 rtl:mr-2 flex-grow">
+      <div class="flex-grow ml-2 rtl:ml-0 rtl:mr-2">
         <header class="flex items-start justify-between mb-8">
           <div>
             <div class="flex items-center">
@@ -16,10 +16,10 @@
                 :color-scheme="labelColor"
                 size="small"
                 variant="smooth"
-                class="my-0 mx-2"
+                class="mx-2 my-0"
               />
             </div>
-            <p class="text-sm mb-0 text-slate-700 dark:text-slate-200">
+            <p class="mb-0 text-sm text-slate-700 dark:text-slate-200">
               {{ articleCount }}
               {{
                 $t(
@@ -75,7 +75,7 @@
         </header>
         <div class="mb-12">
           <h2
-            class="text-slate-800 dark:text-slate-100 font-medium mb-2 text-base"
+            class="mb-2 text-base font-medium text-slate-800 dark:text-slate-100"
           >
             {{
               $t(
@@ -87,7 +87,7 @@
             class="flex justify-between mr-[6.25rem] rtl:mr-0 rtl:ml-[6.25rem] max-w-[80vw]"
           >
             <div class="flex flex-col">
-              <div class="flex items-start flex-col mb-4">
+              <div class="flex flex-col items-start mb-4">
                 <label>{{
                   $t(
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.NAME'
@@ -97,7 +97,7 @@
                   {{ portal.name }}
                 </span>
               </div>
-              <div class="flex items-start flex-col mb-4">
+              <div class="flex flex-col items-start mb-4">
                 <label>{{
                   $t(
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.DOMAIN'
@@ -109,7 +109,7 @@
               </div>
             </div>
             <div class="flex flex-col">
-              <div class="flex items-start flex-col mb-4">
+              <div class="flex flex-col items-start mb-4">
                 <label>{{
                   $t(
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.SLUG'
@@ -119,7 +119,7 @@
                   {{ portal.slug }}
                 </span>
               </div>
-              <div class="flex items-start flex-col mb-4">
+              <div class="flex flex-col items-start mb-4">
                 <label>{{
                   $t(
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.TITLE'
@@ -131,7 +131,7 @@
               </div>
             </div>
             <div class="flex flex-col">
-              <div class="flex items-start flex-col mb-4">
+              <div class="flex flex-col items-start mb-4">
                 <label>{{
                   $t(
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.THEME'
@@ -139,12 +139,12 @@
                 }}</label>
                 <div class="flex items-center">
                   <div
-                    class="w-4 h-4 rounded-md mr-1 rtl:mr-0 rtl:ml-1 border border-solid border-slate-25 dark:border-slate-800"
+                    class="w-4 h-4 mr-1 border border-solid rounded-md rtl:mr-0 rtl:ml-1 border-slate-25 dark:border-slate-800"
                     :style="{ background: portal.color }"
                   />
                 </div>
               </div>
-              <div class="flex items-start flex-col mb-4">
+              <div class="flex flex-col items-start mb-4">
                 <label>{{
                   $t(
                     'HELP_CENTER.PORTAL.PORTAL_SETTINGS.LIST_ITEM.PORTAL_CONFIG.ITEMS.SUB_TEXT'
@@ -159,7 +159,7 @@
         </div>
         <div class="mb-12">
           <h2
-            class="text-slate-800 dark:text-slate-100 font-medium mb-2 text-base"
+            class="mb-2 text-base font-medium text-slate-800 dark:text-slate-100"
           >
             {{
               $t(
@@ -190,10 +190,10 @@
 </template>
 
 <script>
+import { useAlert } from 'dashboard/composables';
 import thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import LocaleItemTable from './PortalListItemTable.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
-import alertMixin from 'shared/mixins/alertMixin';
 import { PORTALS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 
 export default {
@@ -201,7 +201,7 @@ export default {
     thumbnail,
     LocaleItemTable,
   },
-  mixins: [alertMixin, uiSettingsMixin],
+  mixins: [uiSettingsMixin],
   props: {
     portal: {
       type: Object,
@@ -300,7 +300,7 @@ export default {
             'HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.API.DELETE_ERROR'
           );
       } finally {
-        this.showAlert(this.alertMessage);
+        useAlert(this.alertMessage);
       }
     },
     changeDefaultLocale({ localeCode }) {
@@ -357,7 +357,7 @@ export default {
       } catch (error) {
         this.alertMessage = error?.message || errorMessage;
       } finally {
-        this.showAlert(this.alertMessage);
+        useAlert(this.alertMessage);
       }
     },
     navigateToPortalEdit() {

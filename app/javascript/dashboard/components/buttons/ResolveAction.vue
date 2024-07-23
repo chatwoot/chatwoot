@@ -78,7 +78,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
@@ -94,7 +94,7 @@ export default {
     WootDropdownItem,
     WootDropdownMenu,
   },
-  mixins: [alertMixin, keyboardEventListenerMixins],
+  mixins: [keyboardEventListenerMixins],
   props: { conversationId: { type: [String, Number], required: true } },
   data() {
     return {
@@ -209,7 +209,7 @@ export default {
           snoozedUntil,
         })
         .then(() => {
-          this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
+          useAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
           this.isLoading = false;
         });
     },

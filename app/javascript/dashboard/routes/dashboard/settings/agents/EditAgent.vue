@@ -1,6 +1,6 @@
 <template>
   <modal :show.sync="show" :on-close="onClose">
-    <div class="h-auto overflow-auto flex flex-col">
+    <div class="flex flex-col h-auto overflow-auto">
       <woot-modal-header :header-title="pageTitle" />
       <form class="w-full" @submit.prevent="editAgent()">
         <div class="w-full">
@@ -46,7 +46,7 @@
             </span>
           </label>
         </div>
-        <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+        <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
           <div class="w-[50%]">
             <woot-submit-button
               :disabled="
@@ -79,11 +79,11 @@
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import WootSubmitButton from '../../../../components/buttons/FormSubmitButton.vue';
 import Modal from '../../../../components/Modal.vue';
 import Auth from '../../../../api/auth';
 import wootConstants from 'dashboard/constants/globals';
-import alertMixin from 'shared/mixins/alertMixin';
 
 const { AVAILABILITY_STATUS_KEYS } = wootConstants;
 
@@ -92,7 +92,6 @@ export default {
     WootSubmitButton,
     Modal,
   },
-  mixins: [alertMixin],
   props: {
     id: {
       type: Number,
@@ -179,20 +178,20 @@ export default {
           role: this.agentType,
           availability: this.agentAvailability,
         });
-        this.showAlert(this.$t('AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+        useAlert(this.$t('AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE'));
         this.onClose();
       } catch (error) {
-        this.showAlert(this.$t('AGENT_MGMT.EDIT.API.ERROR_MESSAGE'));
+        useAlert(this.$t('AGENT_MGMT.EDIT.API.ERROR_MESSAGE'));
       }
     },
     async resetPassword() {
       try {
         await Auth.resetPassword(this.agentCredentials);
-        this.showAlert(
+        useAlert(
           this.$t('AGENT_MGMT.EDIT.PASSWORD_RESET.ADMIN_SUCCESS_MESSAGE')
         );
       } catch (error) {
-        this.showAlert(this.$t('AGENT_MGMT.EDIT.PASSWORD_RESET.ERROR_MESSAGE'));
+        useAlert(this.$t('AGENT_MGMT.EDIT.PASSWORD_RESET.ERROR_MESSAGE'));
       }
     },
   },

@@ -12,7 +12,7 @@
     />
     <form
       v-if="!uiFlags.isCreating"
-      class="mx-0 flex flex-wrap"
+      class="flex flex-wrap mx-0"
       @submit.prevent="createChannel"
     >
       <div class="w-full">
@@ -115,7 +115,7 @@
         "
         :richtext="!textAreaChannels"
       />
-      <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+      <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
         <div class="w-full">
           <woot-submit-button
             :loading="uiFlags.isCreating"
@@ -130,17 +130,16 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     PageHeader,
     GreetingsEditor,
   },
-  mixins: [alertMixin],
   data() {
     return {
       inboxName: '',
@@ -192,7 +191,7 @@ export default {
           },
         });
       } catch (error) {
-        this.showAlert(
+        useAlert(
           error.message ||
             this.$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.API.ERROR_MESSAGE')
         );

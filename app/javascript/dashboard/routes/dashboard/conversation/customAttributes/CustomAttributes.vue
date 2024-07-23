@@ -42,7 +42,7 @@
 
 <script>
 import CustomAttribute from 'dashboard/components/CustomAttribute.vue';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import attributeMixin from 'dashboard/mixins/attributeMixin';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
@@ -51,7 +51,7 @@ export default {
   components: {
     CustomAttribute,
   },
-  mixins: [alertMixin, attributeMixin, uiSettingsMixin],
+  mixins: [attributeMixin, uiSettingsMixin],
   props: {
     attributeType: {
       type: String,
@@ -141,12 +141,12 @@ export default {
             custom_attributes: updatedAttributes,
           });
         }
-        this.showAlert(this.$t('CUSTOM_ATTRIBUTES.FORM.UPDATE.SUCCESS'));
+        useAlert(this.$t('CUSTOM_ATTRIBUTES.FORM.UPDATE.SUCCESS'));
       } catch (error) {
         const errorMessage =
           error?.response?.message ||
           this.$t('CUSTOM_ATTRIBUTES.FORM.UPDATE.ERROR');
-        this.showAlert(errorMessage);
+        useAlert(errorMessage);
       }
     },
     async onDelete(key) {
@@ -164,17 +164,17 @@ export default {
           });
         }
 
-        this.showAlert(this.$t('CUSTOM_ATTRIBUTES.FORM.DELETE.SUCCESS'));
+        useAlert(this.$t('CUSTOM_ATTRIBUTES.FORM.DELETE.SUCCESS'));
       } catch (error) {
         const errorMessage =
           error?.response?.message ||
           this.$t('CUSTOM_ATTRIBUTES.FORM.DELETE.ERROR');
-        this.showAlert(errorMessage);
+        useAlert(errorMessage);
       }
     },
     async onCopy(attributeValue) {
       await copyTextToClipboard(attributeValue);
-      this.showAlert(this.$t('CUSTOM_ATTRIBUTES.COPY_SUCCESSFUL'));
+      useAlert(this.$t('CUSTOM_ATTRIBUTES.COPY_SUCCESSFUL'));
     },
   },
 };

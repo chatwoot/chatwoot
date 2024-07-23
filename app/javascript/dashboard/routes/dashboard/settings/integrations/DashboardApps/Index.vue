@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 overflow-auto p-4">
+  <div class="flex-1 p-4 overflow-auto">
     <woot-button
       color-scheme="success"
       class-names="button--fixed-top"
@@ -12,7 +12,7 @@
       <div class="w-full lg:w-3/5">
         <p
           v-if="!uiFlags.isFetching && !records.length"
-          class="flex h-full items-center flex-col justify-center"
+          class="flex flex-col items-center justify-center h-full"
         >
           {{ $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.404') }}
         </p>
@@ -44,7 +44,7 @@
         </table>
       </div>
 
-      <div class="w-1/3 hidden lg:block">
+      <div class="hidden w-1/3 lg:block">
         <span
           v-dompurify-html="
             useInstallationName(
@@ -83,9 +83,9 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import DashboardAppModal from './DashboardAppModal.vue';
 import DashboardAppsRow from './DashboardAppsRow.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
@@ -93,7 +93,7 @@ export default {
     DashboardAppModal,
     DashboardAppsRow,
   },
-  mixins: [alertMixin, globalConfigMixin],
+  mixins: [globalConfigMixin],
   data() {
     return {
       loading: {},
@@ -144,11 +144,11 @@ export default {
     async deleteApp(id) {
       try {
         await this.$store.dispatch('dashboardApps/delete', id);
-        this.showAlert(
+        useAlert(
           this.$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DELETE.API_SUCCESS')
         );
       } catch (error) {
-        this.showAlert(
+        useAlert(
           this.$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DELETE.API_ERROR')
         );
       }

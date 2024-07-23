@@ -61,14 +61,13 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import FormButton from 'v3/components/Form/Button.vue';
 export default {
   components: {
     FormButton,
   },
-  mixins: [alertMixin],
   data() {
     return {
       currentPassword: '',
@@ -114,7 +113,7 @@ export default {
     async changePassword() {
       this.$v.$touch();
       if (this.$v.$invalid) {
-        this.showAlert(this.$t('PROFILE_SETTINGS.FORM.ERROR'));
+        useAlert(this.$t('PROFILE_SETTINGS.FORM.ERROR'));
         return;
       }
       let alertMessage = this.$t('PROFILE_SETTINGS.PASSWORD_UPDATE_SUCCESS');
@@ -129,7 +128,7 @@ export default {
           parseAPIErrorResponse(error) ||
           this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
       } finally {
-        this.showAlert(alertMessage);
+        useAlert(alertMessage);
       }
     },
   },

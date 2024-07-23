@@ -17,6 +17,7 @@ import {
   generateCustomAttributes,
 } from 'dashboard/helper/automationHelper';
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 
 export default {
   computed: {
@@ -138,14 +139,14 @@ export default {
     },
     removeFilter(index) {
       if (this.automation.conditions.length <= 1) {
-        this.showAlert(this.$t('AUTOMATION.CONDITION.DELETE_MESSAGE'));
+        useAlert(this.$t('AUTOMATION.CONDITION.DELETE_MESSAGE'));
       } else {
         this.automation.conditions.splice(index, 1);
       }
     },
     removeAction(index) {
       if (this.automation.actions.length <= 1) {
-        this.showAlert(this.$t('AUTOMATION.ACTION.DELETE_MESSAGE'));
+        useAlert(this.$t('AUTOMATION.ACTION.DELETE_MESSAGE'));
       } else {
         this.automation.actions.splice(index, 1);
       }

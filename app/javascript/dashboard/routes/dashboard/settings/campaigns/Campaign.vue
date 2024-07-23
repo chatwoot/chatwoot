@@ -27,7 +27,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import campaignMixin from 'shared/mixins/campaignMixin';
 import CampaignsTable from './CampaignsTable.vue';
 import EditCampaign from './EditCampaign.vue';
@@ -36,7 +36,7 @@ export default {
     CampaignsTable,
     EditCampaign,
   },
-  mixins: [alertMixin, campaignMixin],
+  mixins: [campaignMixin],
   props: {
     type: {
       type: String,
@@ -87,9 +87,9 @@ export default {
     async deleteCampaign(id) {
       try {
         await this.$store.dispatch('campaigns/delete', id);
-        this.showAlert(this.$t('CAMPAIGN.DELETE.API.SUCCESS_MESSAGE'));
+        useAlert(this.$t('CAMPAIGN.DELETE.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(this.$t('CAMPAIGN.DELETE.API.ERROR_MESSAGE'));
+        useAlert(this.$t('CAMPAIGN.DELETE.API.ERROR_MESSAGE'));
       }
     },
   },
