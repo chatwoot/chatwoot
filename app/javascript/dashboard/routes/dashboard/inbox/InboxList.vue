@@ -46,14 +46,14 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
+import { useUiSettings } from 'dashboard/composables/useUiSettings';
 import wootConstants from 'dashboard/constants/globals';
 
 import InboxCard from './components/InboxCard.vue';
 import InboxListHeader from './components/InboxListHeader.vue';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue';
-import alertMixin from 'shared/mixins/alertMixin';
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
 
 export default {
   components: {
@@ -61,7 +61,6 @@ export default {
     InboxListHeader,
     IntersectionObserver,
   },
-  mixins: [alertMixin],
   setup() {
     const { uiSettings } = useUiSettings();
 
@@ -158,7 +157,7 @@ export default {
           unreadCount: this.meta.unreadCount,
         })
         .then(() => {
-          this.showAlert(this.$t('INBOX.ALERTS.MARK_AS_READ'));
+          useAlert(this.$t('INBOX.ALERTS.MARK_AS_READ'));
         });
     },
     markNotificationAsUnRead(notification) {
@@ -170,7 +169,7 @@ export default {
           id,
         })
         .then(() => {
-          this.showAlert(this.$t('INBOX.ALERTS.MARK_AS_UNREAD'));
+          useAlert(this.$t('INBOX.ALERTS.MARK_AS_UNREAD'));
         });
     },
     deleteNotification(notification) {
@@ -183,7 +182,7 @@ export default {
           count: this.meta.count,
         })
         .then(() => {
-          this.showAlert(this.$t('INBOX.ALERTS.DELETE'));
+          useAlert(this.$t('INBOX.ALERTS.DELETE'));
         });
     },
     onFilterChange(option) {

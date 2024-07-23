@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 overflow-auto p-4">
+  <div class="flex-1 p-4 overflow-auto">
     <woot-button
       color-scheme="success"
       class-names="button--fixed-top"
@@ -84,7 +84,7 @@
           </table>
         </div>
       </div>
-      <div class="w-1/3 hidden lg:block">
+      <div class="hidden w-1/3 lg:block">
         <span
           v-dompurify-html="
             useInstallationName(
@@ -126,11 +126,11 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import Thumbnail from '../../../../components/widgets/Thumbnail.vue';
 import AddAgent from './AddAgent.vue';
 import EditAgent from './EditAgent.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
@@ -138,7 +138,7 @@ export default {
     EditAgent,
     Thumbnail,
   },
-  mixins: [globalConfigMixin, alertMixin],
+  mixins: [globalConfigMixin],
   data() {
     return {
       loading: {},
@@ -243,7 +243,7 @@ export default {
       this.currentAgent = {};
       // Show message
       this.agentAPI.message = message;
-      this.showAlert(message);
+      useAlert(message);
     },
   },
 };

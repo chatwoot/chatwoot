@@ -131,16 +131,16 @@
 <script>
 import { required, minValue, maxValue } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
+import { useUiSettings } from 'dashboard/composables/useUiSettings';
 import configMixin from 'shared/mixins/configMixin';
 import accountMixin from '../../../../mixins/account';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import semver from 'semver';
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 
 export default {
-  mixins: [accountMixin, alertMixin, configMixin],
+  mixins: [accountMixin, configMixin],
   setup() {
     const { updateUISettings } = useUiSettings();
 
@@ -260,7 +260,7 @@ export default {
     async updateAccount() {
       this.$v.$touch();
       if (this.$v.$invalid) {
-        this.showAlert(this.$t('GENERAL_SETTINGS.FORM.ERROR'));
+        useAlert(this.$t('GENERAL_SETTINGS.FORM.ERROR'));
         return;
       }
       try {
@@ -274,9 +274,9 @@ export default {
         this.$root.$i18n.locale = this.locale;
         this.getAccount(this.id).locale = this.locale;
         this.updateDirectionView(this.locale);
-        this.showAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
+        useAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
       } catch (error) {
-        this.showAlert(this.$t('GENERAL_SETTINGS.UPDATE.ERROR'));
+        useAlert(this.$t('GENERAL_SETTINGS.UPDATE.ERROR'));
       }
     },
 

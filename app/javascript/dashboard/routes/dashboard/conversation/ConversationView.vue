@@ -36,13 +36,13 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
+import { useUiSettings } from 'dashboard/composables/useUiSettings';
 import { getUnixTime } from 'date-fns';
 import ChatList from '../../../components/ChatList.vue';
 import ConversationBox from '../../../components/widgets/conversation/ConversationBox.vue';
 import PopOverSearch from './search/PopOverSearch.vue';
 import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
-import alertMixin from 'shared/mixins/alertMixin';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { CMD_SNOOZE_CONVERSATION } from 'dashboard/routes/dashboard/commands/commandBarBusEvents';
@@ -55,7 +55,6 @@ export default {
     PopOverSearch,
     CustomSnoozeModal,
   },
-  mixins: [alertMixin],
   props: {
     inboxId: {
       type: [String, Number],
@@ -243,7 +242,7 @@ export default {
         })
         .then(() => {
           this.$store.dispatch('setContextMenuChatId', null);
-          this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
+          useAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
         });
     },
     hideCustomSnoozeModal() {

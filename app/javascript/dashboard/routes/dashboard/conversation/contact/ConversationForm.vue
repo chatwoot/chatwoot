@@ -239,6 +239,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead.vue';
@@ -246,7 +247,6 @@ import CannedResponse from 'dashboard/components/widgets/conversation/CannedResp
 import MessageSignatureMissingAlert from 'dashboard/components/widgets/conversation/MessageSignatureMissingAlert';
 import InboxDropdownItem from 'dashboard/components/widgets/InboxDropdownItem.vue';
 import WhatsappTemplates from './WhatsappTemplates.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import { getInboxSource } from 'dashboard/helper/inbox';
@@ -274,7 +274,7 @@ export default {
     AttachmentPreview,
     MessageSignatureMissingAlert,
   },
-  mixins: [alertMixin, inboxMixin, fileUploadMixin],
+  mixins: [inboxMixin, fileUploadMixin],
   props: {
     contact: {
       type: Object,
@@ -524,15 +524,12 @@ export default {
           message: this.$t('NEW_CONVERSATION.FORM.GO_TO_CONVERSATION'),
         };
         this.onSuccess();
-        this.showAlert(
-          this.$t('NEW_CONVERSATION.FORM.SUCCESS_MESSAGE'),
-          action
-        );
+        useAlert(this.$t('NEW_CONVERSATION.FORM.SUCCESS_MESSAGE'), action);
       } catch (error) {
         if (error instanceof ExceptionWithMessage) {
-          this.showAlert(error.data);
+          useAlert(error.data);
         } else {
-          this.showAlert(this.$t('NEW_CONVERSATION.FORM.ERROR_MESSAGE'));
+          useAlert(this.$t('NEW_CONVERSATION.FORM.ERROR_MESSAGE'));
         }
       }
     },

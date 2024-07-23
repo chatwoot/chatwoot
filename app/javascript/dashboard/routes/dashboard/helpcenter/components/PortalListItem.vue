@@ -190,10 +190,10 @@
 </template>
 
 <script>
+import { useAlert } from 'dashboard/composables';
+import { useUiSettings } from 'dashboard/composables/useUiSettings';
 import thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import LocaleItemTable from './PortalListItemTable.vue';
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
-import alertMixin from 'shared/mixins/alertMixin';
 import { PORTALS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 
 export default {
@@ -201,7 +201,6 @@ export default {
     thumbnail,
     LocaleItemTable,
   },
-  mixins: [alertMixin],
   props: {
     portal: {
       type: Object,
@@ -307,7 +306,7 @@ export default {
             'HELP_CENTER.PORTAL.PORTAL_SETTINGS.DELETE_PORTAL.API.DELETE_ERROR'
           );
       } finally {
-        this.showAlert(this.alertMessage);
+        useAlert(this.alertMessage);
       }
     },
     changeDefaultLocale({ localeCode }) {
@@ -364,7 +363,7 @@ export default {
       } catch (error) {
         this.alertMessage = error?.message || errorMessage;
       } finally {
-        this.showAlert(this.alertMessage);
+        useAlert(this.alertMessage);
       }
     },
     navigateToPortalEdit() {

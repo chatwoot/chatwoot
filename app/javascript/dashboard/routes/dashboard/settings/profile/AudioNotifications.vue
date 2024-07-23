@@ -30,7 +30,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import configMixin from 'shared/mixins/configMixin';
 import { useUiSettings } from 'dashboard/composables/useUiSettings';
 import AudioAlertTone from './AudioAlertTone.vue';
@@ -43,7 +43,7 @@ export default {
     AudioAlertTone,
     AudioAlertCondition,
   },
-  mixins: [alertMixin, configMixin],
+  mixins: [configMixin],
   setup() {
     const { uiSettings, updateUISettings } = useUiSettings();
 
@@ -112,7 +112,7 @@ export default {
       this.updateUISettings({
         enable_audio_alerts: this.audioAlert,
       });
-      this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
+      useAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
     },
     handleAudioAlertConditions(id, value) {
       if (id === 'tab_is_inactive') {
@@ -124,11 +124,11 @@ export default {
           alert_if_unread_assigned_conversation_exist: value,
         });
       }
-      this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
+      useAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
     },
     handleAudioToneChange(value) {
       this.updateUISettings({ notification_tone: value });
-      this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
+      useAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
     },
   },
 };

@@ -81,13 +81,12 @@
   </div>
 </template>
 <script>
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import { useUiSettings } from 'dashboard/composables/useUiSettings';
-import alertMixin from 'shared/mixins/alertMixin';
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
+import { useUiSettings } from 'dashboard/composables/useUiSettings';
 import { clearCookiesOnLogout } from 'dashboard/store/utils/api.js';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
-
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import UserProfilePicture from './UserProfilePicture.vue';
 import UserBasicDetails from './UserBasicDetails.vue';
 import MessageSignature from './MessageSignature.vue';
@@ -110,7 +109,7 @@ export default {
     AudioNotifications,
     AccessToken,
   },
-  mixins: [alertMixin, globalConfigMixin],
+  mixins: [globalConfigMixin],
   setup() {
     const { uiSettings, updateUISettings, isEditorHotKeyEnabled } =
       useUiSettings();
@@ -190,7 +189,7 @@ export default {
 
         return false; // return the value so that the status can be known
       } finally {
-        this.showAlert(alertMessage);
+        useAlert(alertMessage);
       }
     },
     async updateProfile(userAttributes) {
@@ -237,9 +236,9 @@ export default {
         await this.$store.dispatch('deleteAvatar');
         this.avatarUrl = '';
         this.avatarFile = '';
-        this.showAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_SUCCESS'));
+        useAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_SUCCESS'));
       } catch (error) {
-        this.showAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_FAILED'));
+        useAlert(this.$t('PROFILE_SETTINGS.AVATAR_DELETE_FAILED'));
       }
     },
     toggleHotKey(key) {
@@ -247,13 +246,11 @@ export default {
         hotKey.key === key ? { ...hotKey, active: !hotKey.active } : hotKey
       );
       this.updateUISettings({ editor_message_key: key });
-      this.showAlert(
-        this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.UPDATE_SUCCESS')
-      );
+      useAlert(this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.UPDATE_SUCCESS'));
     },
     async onCopyToken(value) {
       await copyTextToClipboard(value);
-      this.showAlert(this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
+      useAlert(this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
     },
   },
 };

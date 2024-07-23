@@ -3,7 +3,7 @@
     class="border border-slate-25 overflow-x-auto dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
   >
     <form
-      class="mx-0 flex flex-wrap overflow-x-auto"
+      class="flex flex-wrap mx-0 overflow-x-auto"
       @submit.prevent="addAgents"
     >
       <div class="w-full">
@@ -37,9 +37,9 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import Spinner from 'shared/components/Spinner.vue';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 
+import Spinner from 'shared/components/Spinner.vue';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 import AgentSelector from '../AgentSelector.vue';
@@ -50,7 +50,6 @@ export default {
     PageHeader,
     AgentSelector,
   },
-  mixins: [alertMixin],
 
   props: {
     team: {
@@ -136,7 +135,7 @@ export default {
         });
         this.$store.dispatch('teams/get');
       } catch (error) {
-        this.showAlert(error.message);
+        useAlert(error.message);
       }
       this.isCreating = false;
     },

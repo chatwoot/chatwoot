@@ -1,13 +1,13 @@
 <template>
   <div
-    class="flex flex-col bg-woot-25 min-h-full w-full py-12 sm:px-6 lg:px-8 justify-center dark:bg-slate-900"
+    class="flex flex-col justify-center w-full min-h-full py-12 bg-woot-25 sm:px-6 lg:px-8 dark:bg-slate-900"
   >
     <form
-      class="sm:mx-auto sm:w-full sm:max-w-lg bg-white dark:bg-slate-800 p-11 shadow sm:shadow-lg sm:rounded-lg"
+      class="bg-white shadow sm:mx-auto sm:w-full sm:max-w-lg dark:bg-slate-800 p-11 sm:shadow-lg sm:rounded-lg"
       @submit.prevent="submitForm"
     >
       <h1
-        class="mb-1 text-left text-2xl font-medium tracking-tight text-slate-900 dark:text-white"
+        class="mb-1 text-2xl font-medium tracking-tight text-left text-slate-900 dark:text-white"
       >
         {{ $t('SET_NEW_PASSWORD.TITLE') }}
       </h1>
@@ -49,18 +49,17 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
+import { useAlert } from 'dashboard/composables';
 import FormInput from '../../../components/Form/Input.vue';
 import SubmitButton from '../../../components/Button/SubmitButton.vue';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import { setNewPassword } from '../../../api/auth';
-import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     FormInput,
     SubmitButton,
   },
-  mixins: [alertMixin],
   props: {
     resetPasswordToken: { type: String, default: '' },
     redirectUrl: { type: String, default: '' },
@@ -110,7 +109,7 @@ export default {
     showAlertMessage(message) {
       // Reset loading, current selected agent
       this.newPasswordAPI.showLoading = false;
-      this.showAlert(message);
+      useAlert(message);
     },
     submitForm() {
       this.newPasswordAPI.showLoading = true;

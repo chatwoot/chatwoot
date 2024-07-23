@@ -55,7 +55,7 @@
             {{ $t('AUTOMATION.ADD.FORM.CONDITIONS.LABEL') }}
           </label>
           <div
-            class="w-full p-4 bg-slate-25 dark:bg-slate-700 rounded-lg border border-solid border-slate-50 dark:border-slate-700 mb-4"
+            class="w-full p-4 mb-4 border border-solid rounded-lg bg-slate-25 dark:bg-slate-700 border-slate-50 dark:border-slate-700"
           >
             <filter-input-box
               v-for="(condition, i) in automation.conditions"
@@ -97,7 +97,7 @@
             {{ $t('AUTOMATION.ADD.FORM.ACTIONS.LABEL') }}
           </label>
           <div
-            class="w-full p-4 bg-slate-25 dark:bg-slate-700 rounded-lg border border-solid border-slate-50 dark:border-slate-700 mb-4"
+            class="w-full p-4 mb-4 border border-solid rounded-lg bg-slate-25 dark:bg-slate-700 border-slate-50 dark:border-slate-700"
           >
             <automation-action-input
               v-for="(action, i) in automation.actions"
@@ -129,7 +129,7 @@
         </section>
         <!-- // Actions End -->
         <div class="w-full">
-          <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+          <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
             <woot-button class="button clear" @click.prevent="onClose">
               {{ $t('AUTOMATION.ADD.CANCEL_BUTTON_TEXT') }}
             </woot-button>
@@ -145,7 +145,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
 import automationMethodsMixin from 'dashboard/mixins/automations/methodsMixin';
 import automationValidationsMixin from 'dashboard/mixins/automations/validationsMixin';
 import filterInputBox from 'dashboard/components/widgets/FilterInput/Index.vue';
@@ -161,7 +160,7 @@ export default {
     filterInputBox,
     automationActionInput,
   },
-  mixins: [alertMixin, automationMethodsMixin, automationValidationsMixin],
+  mixins: [automationMethodsMixin, automationValidationsMixin],
   props: {
     onClose: {
       type: Function,
