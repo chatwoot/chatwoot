@@ -26,13 +26,13 @@ const isAValidAppIntegration = integration => {
     'dyte',
     'google_translate',
     'openai',
+    'webhook',
     'linear',
+    'slack',
+    'dashboard_apps',
   ].includes(integration.id);
 };
 export const getters = {
-  getIntegrations($state) {
-    return $state.records.filter(item => !isAValidAppIntegration(item));
-  },
   getAppIntegrations($state) {
     return $state.records.filter(item => isAValidAppIntegration(item));
   },

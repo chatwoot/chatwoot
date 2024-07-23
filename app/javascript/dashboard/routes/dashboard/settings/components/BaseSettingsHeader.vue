@@ -30,9 +30,7 @@ const openInNewTab = url => {
 
 <template>
   <div class="flex flex-col items-start w-full gap-4">
-    <!-- Header section with icon, title and action button -->
     <div class="flex items-center justify-between w-full gap-4">
-      <!-- Icon and title container -->
       <div class="flex items-center gap-3">
         <div
           class="flex items-center w-10 h-10 p-1 rounded-full bg-woot-25/60 dark:bg-woot-900/60"
@@ -48,9 +46,7 @@ const openInNewTab = url => {
             />
           </div>
         </div>
-        <h1
-          class="text-2xl font-medium tracking-[-1.5%] text-slate-900 dark:text-slate-25"
-        >
+        <h1 class="text-2xl font-medium text-slate-900 dark:text-slate-25">
           {{ title }}
         </h1>
       </div>
@@ -59,16 +55,12 @@ const openInNewTab = url => {
         <slot name="actions" />
       </div>
     </div>
-    <!-- Description and optional link -->
-    <div
-      class="flex flex-col gap-2 text-slate-600 dark:text-slate-300 max-w-[721px] w-full"
-    >
+    <div class="flex flex-col gap-2 text-slate-600 dark:text-slate-300 w-full">
       <p
-        class="mb-0 text-sm font-normal tracking-[0.5%] line-clamp-5 sm:line-clamp-none"
+        class="mb-0 text-base font-normal line-clamp-5 sm:line-clamp-none max-w-3xl"
       >
         <slot name="description">{{ description }}</slot>
       </p>
-      <!-- Conditional link -->
       <a
         v-if="href && linkText"
         :href="href"
@@ -85,7 +77,6 @@ const openInNewTab = url => {
         />
       </a>
     </div>
-    <!-- Mobile view for actions and link -->
     <div class="flex items-start justify-start w-full gap-3 sm:hidden">
       <slot name="actions" />
       <woot-button

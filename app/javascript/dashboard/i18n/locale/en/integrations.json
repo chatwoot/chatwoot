@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrations",
+    "DESCRIPTION": "This page provides a list of available integrations that can enhance your team’s productivity by connecting various tools and services.",
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Subscribed Events",
       "FORM": {
@@ -37,7 +38,10 @@
       "LIST": {
         "404": "There are no webhooks configured for this account.",
         "TITLE": "Manage webhooks",
-        "TABLE_HEADER": ["Webhook endpoint", "Actions"]
+        "TABLE_HEADER": [
+          "Webhook endpoint",
+          "Actions"
+        ]
       },
       "EDIT": {
         "BUTTON_TEXT": "Edit",
@@ -169,7 +173,10 @@
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",
         "LOADING": "Fetching dashboard apps...",
-        "TABLE_HEADER": ["Name", "Endpoint"],
+        "TABLE_HEADER": [
+          "Name",
+          "Endpoint"
+        ],
         "EDIT_TOOLTIP": "Edit app",
         "DELETE_TOOLTIP": "Delete app"
       },

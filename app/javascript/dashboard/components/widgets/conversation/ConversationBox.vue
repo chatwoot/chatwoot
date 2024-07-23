@@ -40,7 +40,7 @@
         :is-on-expanded-layout="isOnExpandedLayout"
       />
       <div
-        v-show="showContactPanel"
+        v-if="showContactPanel"
         class="conversation-sidebar-wrap basis-full sm:basis-[17.5rem] md:basis-[18.75rem] lg:basis-[19.375rem] xl:basis-[20.625rem] 2xl:basis-[25rem] rtl:border-r border-slate-50 dark:border-slate-700 h-auto overflow-auto z-10 flex-shrink-0 flex-grow-0"
       >
         <contact-panel
@@ -48,6 +48,15 @@
           :conversation-id="currentChat.id"
           :inbox-id="currentChat.inbox_id"
           :on-toggle="onToggleContactPanel"
+        />
+      </div>
+      <div
+        v-if="!showContactPanel && currentChat.id"
+        class="flex-1 flex conversation-sidebar-wrap basis-full sm:basis-[17.5rem] md:basis-[18.75rem] lg:basis-[19.375rem] xl:basis-[20.625rem] 2xl:basis-[25rem] rtl:border-r border-l border-slate-100 dark:border-slate-700 h-auto overflow-auto z-10 flex-shrink-0 flex-grow-0"
+      >
+        <iframe
+          src="http://localhost:6174/app/accounts/6/playground"
+          class="flex-1"
         />
       </div>
     </div>

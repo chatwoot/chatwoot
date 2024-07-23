@@ -202,9 +202,12 @@ en:
     online:
       delete: "%{contact_name} is Online, please try again later"
   integration_apps:
+    dashboard_apps:
+      name: "Dashboard Apps"
+      description: "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history."
     dyte:
       name: "Dyte"
-      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
+      description: "Dyte is a tool for adding live audio and video to your application. It allows agents to initiate video or voice calls with customers without leaving Chatwoot."
       meeting_name: "%{agent_name} has started a meeting"
     slack:
       name: "Slack"
@@ -220,13 +223,13 @@ en:
       description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
     google_translate:
       name: "Google Translate"
-      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
+      description: "Integrate Google Translate to help agents translate messages more easily. It auto-detects the language and converts it to the agent's or admin's chosen language."
     openai:
       name: "OpenAI"
-      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
+      description: "Enable powerful AI features sunch as summarization, rewrites etc into Chatwoot by leveraging the GPT models from OpenAI."
     linear:
       name: "Linear"
-      description: "Create Linear issues from conversations, or link existing ones for seamless tracking."
+      description: "Create Linear issues directly from ongoing conversations, or alternatively, link to existing issues for a more seamless and efficient tracking process."
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
