@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 overflow-auto p-4">
+  <div class="flex-1 p-4 overflow-auto">
     <woot-button
       color-scheme="success"
       class-names="button--fixed-top"
@@ -12,7 +12,7 @@
       <div class="w-full lg:w-3/5">
         <p
           v-if="!uiFlags.isFetching && !records.length"
-          class="flex h-full items-center flex-col justify-center"
+          class="flex flex-col items-center justify-center h-full"
         >
           {{ $t('AUTOMATION.LIST.404') }}
         </p>
@@ -77,7 +77,7 @@
         </table>
       </div>
 
-      <div class="hidden lg:block w-1/3">
+      <div class="hidden w-1/3 lg:block">
         <span v-dompurify-html="$t('AUTOMATION.SIDEBAR_TXT')" />
       </div>
     </div>
@@ -128,14 +128,14 @@ import { mapGetters } from 'vuex';
 import AddAutomationRule from './AddAutomationRule.vue';
 import EditAutomationRule from './EditAutomationRule.vue';
 import alertMixin from 'shared/mixins/alertMixin';
-import timeMixin from 'dashboard/mixins/time';
+import { messageStamp } from 'shared/helpers/timeHelper';
 
 export default {
   components: {
     AddAutomationRule,
     EditAutomationRule,
   },
-  mixins: [alertMixin, timeMixin],
+  mixins: [alertMixin],
   data() {
     return {
       loading: {},
@@ -278,7 +278,7 @@ export default {
       }
     },
     readableTime(date) {
-      return this.messageStamp(new Date(date), 'LLL d, h:mm a');
+      return messageStamp(new Date(date), 'LLL d, h:mm a');
     },
   },
 };
