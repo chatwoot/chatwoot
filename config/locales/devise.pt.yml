@@ -16,8 +16,32 @@ pt:
       unauthenticated: "Você precisa fazer login ou se cadastrar antes de continuar."
       unconfirmed: "Você precisa confirmar seu endereço de e-mail antes de continuar."
     mailer:
+      unlock_instructions:
+        subject: "Instruções para desbloqueio"
+        greeting: "Olá %{email}!"
+        locked_account: "Sua conta foi bloqueada devido a um número excessivo de tentativas de login sem sucesso."
+        instructions: "Clique no link abaixo para desbloquear sua conta:"
+        unlock_account: "Desbloquear minha conta"
+      reset_password_instructions:
+        subject: "Instruções para alteração de senha"
+        greeting: "Olá %{email}!"
+        request: "Alguém solicitou um link para alterar sua senha. Você pode fazer isso através do link abaixo."
+        change_password: "Alterar minha senha"
+        ignore: "Se você não solicitou isso, por favor ignore este e-mail."
+        no_change: "Sua senha não será alterada até que você acesse o link acima e crie uma nova."
+      password_change:
+        subject: "Password Changed"
+        greeting: "Hi %{email}!"
+        notification: "We're contacting you to notify you that your password has been changed."
       confirmation_instructions:
         subject: "Instruções de confirmação"
+        greeting: "Olá %{name},"
+        inviter_message: "%{inviter_name}, com %{account_name}, convidou você para experimentar %{brand_name}."
+        confirmed_login: "Você pode fazer login na sua conta %{brand_name} através do link abaixo:"
+        welcome_message: "Bem-vindo ao %{brand_name}! Temos um conjunto de ferramentas poderosas para você explorar. Antes disso, precisamos verificar seu endereço de e-mail para saber que é realmente você."
+        activate_account: "Por favor, reserve um momento e clique no link abaixo para ativar sua conta."
+        confirm_account: "Confirmar minha conta"
+        login_account: "Entrar na minha conta"
       reset_password_instructions:
         subject: "Resetar instruções de senha"
       unlock_instructions:

@@ -16,8 +16,32 @@ es:
       unauthenticated: "Necesitas iniciar sesión o registrarte antes de continuar."
       unconfirmed: "Tienes que confirmar tu dirección de correo electrónico antes de continuar."
     mailer:
+      unlock_instructions:
+        subject: "Instrucciones para desbloquear"
+        greeting: "Hola %{email}!"
+        locked_account: "Tu cuenta ha sido bloqueada debido a un número excesivo de intentos de inicio de sesión fallidos."
+        instructions: "Haz clic en el enlace siguiente para desbloquear tu cuenta:"
+        unlock_account: "Desbloquear mi cuenta"
+      reset_password_instructions:
+        subject: "Instrucciones para cambiar la contraseña"
+        greeting: "Hola %{email}!"
+        request: "Alguien ha solicitado un enlace para cambiar tu contraseña. Puedes hacerlo a través del siguiente enlace."
+        change_password: "Cambiar mi contraseña"
+        ignore: "Si no has solicitado esto, por favor ignora este correo electrónico."
+        no_change: "Tu contraseña no cambiará hasta que accedas al enlace anterior y crees una nueva."
+      password_change:
+        subject: "Password Changed"
+        greeting: "Hi %{email}!"
+        notification: "We're contacting you to notify you that your password has been changed."
       confirmation_instructions:
         subject: "Instrucciones de confirmación"
+        greeting: "Hola %{name},"
+        inviter_message: "%{inviter_name}, con %{account_name}, te ha invitado a probar %{brand_name}."
+        confirmed_login: "Puedes iniciar sesión en tu cuenta %{brand_name} a través del siguiente enlace:"
+        welcome_message: "¡Bienvenido a %{brand_name}! Tenemos una serie de herramientas poderosas listas para que explores. Antes de eso, necesitamos verificar tu dirección de correo electrónico para saber si eres realmente tú."
+        activate_account: "Por favor, toma un momento y haz clic en el siguiente enlace para activar tu cuenta."
+        confirm_account: "Confirmar mi cuenta"
+        login_account: "Iniciar sesión en mi cuenta"
       reset_password_instructions:
         subject: "Instrucciones para restablecer la contraseña"
       unlock_instructions:

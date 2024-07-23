@@ -6,7 +6,8 @@
     :class="{ 'app-rtl--wrapper': isRTLView }"
     :dir="isRTLView ? 'rtl' : 'ltr'"
   >
-    <update-banner :latest-chatwoot-version="latestChatwootVersion" />
+    <!-- TODO: Enable this when we have a new version -->
+    <!-- <update-banner :latest-chatwoot-version="latestChatwootVersion" /> -->
     <template v-if="currentAccountId">
       <payment-pending-banner />
       <upgrade-banner />
@@ -29,7 +30,7 @@ import { mapGetters } from 'vuex';
 import AddAccountModal from '../dashboard/components/layout/sidebarComponents/AddAccountModal.vue';
 import LoadingState from './components/widgets/LoadingState.vue';
 import NetworkNotification from './components/NetworkNotification.vue';
-import UpdateBanner from './components/app/UpdateBanner.vue';
+// import UpdateBanner from './components/app/UpdateBanner.vue';
 import UpgradeBanner from './components/app/UpgradeBanner.vue';
 import PaymentPendingBanner from './components/app/PaymentPendingBanner.vue';
 import vueActionCable from './helper/actionCable';
@@ -48,7 +49,7 @@ export default {
     AddAccountModal,
     LoadingState,
     NetworkNotification,
-    UpdateBanner,
+    // UpdateBanner,
     PaymentPendingBanner,
     WootSnackbarBox,
     UpgradeBanner,
