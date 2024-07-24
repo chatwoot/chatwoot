@@ -16,7 +16,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
         params: params,
         file_name: file_name
       )
-      Digitaltolk::ProcessParquetJob.perform_later(report.id)
+      Digitaltolk::ProcessConversationParquetJob.perform_later(report)
       render json: { progress_url: report.progress_url, report_id: report.id, file_url: report.create_empty_file_url }.to_json and return
     else
       result = conversation_finder.perform

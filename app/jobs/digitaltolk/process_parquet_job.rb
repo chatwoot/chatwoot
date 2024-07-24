@@ -1,17 +1,17 @@
 class Digitaltolk::ProcessParquetJob < ApplicationJob
-  queue_as :default
-  sidekiq_options timeout: 300, retry: 3
+  queue_as :low
+  sidekiq_options retry: 3
 
-  def perform(parquet_report_id)
-    parquet_report = ParquetReport.find_by(id: parquet_report_id)
-
-    if parquet_report.present?
-      parquet_report.process!
-    else
-      Rails.logger.error "Parquet Report not found #{parquet_report_id}"
+  def perform(report)
+    begin
+      if report.present?
+        report.process!
+      else
+        Rails.logger.error "Parquet Report not found #{report&.id}"
+      end
+    rescue StandardError => e
+      report.failed!(e.message) if report.present?
+      Rails.logger.error "Error processing Parquet Report #{report&.i}: #{e.message}"
     end
-  rescue StandardError => e
-    parquet_report.failed!(e.message) if parquet_report.present?
-    Rails.logger.error "Error processing Parquet Report #{parquet_report_id}: #{e.message}"
   end
 end
