@@ -31,7 +31,10 @@ class NotificationListener < BaseListener
     conversation, account = extract_conversation_and_account(event)
     assignee = conversation.assignee
     return if event.data[:notifiable_assignee_change].blank?
+
     return if conversation.pending?
+
+    return if assignee.blank?
 
     NotificationBuilder.new(
       notification_type: 'conversation_assignment',
