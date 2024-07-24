@@ -34,6 +34,10 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
     true
   end
 
+  def contact
+    @contact ||= @inbox.contact_inboxes.find_by(source_id: @sender_id)&.contact
+  end
+
   private
 
   def build_contact_inbox
@@ -111,9 +115,15 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
       end
     end
 
+    new_conversation.messages.create!(private_message_params("Conversation with #{contact.name.capitalize} started",
+                                                             new_conversation))
     new_conversation
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+
+  def private_message_params(content, new_conversation)
+    { account_id: new_conversation.account_id, inbox_id: new_conversation.inbox_id, message_type: :outgoing, content: content, private: true }
+  end
 
   def location_params(attachment)
     lat = attachment['payload']['coordinates']['lat']
