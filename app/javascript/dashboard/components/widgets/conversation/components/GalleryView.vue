@@ -189,6 +189,7 @@ import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 const ALLOWED_FILE_TYPES = {
   IMAGE: 'image',
   VIDEO: 'video',
+  IG_REEL: 'ig_reel',
   AUDIO: 'audio',
 };
 
@@ -242,7 +243,10 @@ export default {
       return this.activeFileType === ALLOWED_FILE_TYPES.IMAGE;
     },
     isVideo() {
-      return this.activeFileType === ALLOWED_FILE_TYPES.VIDEO;
+      return (
+        this.activeFileType === ALLOWED_FILE_TYPES.VIDEO ||
+        this.activeFileType === ALLOWED_FILE_TYPES.IG_REEL
+      );
     },
     isAudio() {
       return this.activeFileType === ALLOWED_FILE_TYPES.AUDIO;
