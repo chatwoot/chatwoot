@@ -49,6 +49,8 @@ class Integrations::App
     case params[:id]
     when 'webhook'
       account.webhooks.exists?
+    when 'dashboard_apps'
+      account.dashboard_apps.exists?
     else
       account.hooks.exists?(app_id: id)
     end

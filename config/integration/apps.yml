@@ -16,6 +16,12 @@ webhooks:
   action: /webhook
   hook_type: account
   allow_multiple_hooks: true
+dashboard_apps:
+  id: dashboard_apps
+  logo: dashboard_apps.png
+  i18n_key: dashboard_apps
+  hook_type: account
+  allow_multiple_hooks: true
 openai:
   id: openai
   logo: openai.png
