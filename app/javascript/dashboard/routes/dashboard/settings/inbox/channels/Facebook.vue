@@ -2,7 +2,10 @@
   <div
     class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
   >
-    <div v-if="!hasLoginStarted" class="pt-[30%] h-full">
+    <div
+      v-if="!hasLoginStarted"
+      class="flex flex-col items-center justify-center h-full text-center"
+    >
       <a href="#" @click="startLogin()">
         <img
           class="w-auto h-10"

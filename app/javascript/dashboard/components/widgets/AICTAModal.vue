@@ -40,15 +40,18 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
-import aiMixin from 'dashboard/mixins/aiMixin';
 import { useAlert } from 'dashboard/composables';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
+import aiMixin from 'dashboard/mixins/aiMixin';
 import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 export default {
-  mixins: [aiMixin, uiSettingsMixin],
+  mixins: [aiMixin],
   setup() {
-    return { v$: useVuelidate() };
+    const { updateUISettings } = useUISettings();
+    const v$ = useVuelidate();
+
+    return { updateUISettings, v$ };
   },
   data() {
     return {

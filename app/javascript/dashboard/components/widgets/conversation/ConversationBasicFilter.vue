@@ -12,10 +12,10 @@
     <div
       v-if="showActionsDropdown"
       v-on-clickaway="closeDropdown"
-      class="dropdown-pane dropdown-pane--open mt-1 right-0 basic-filter"
+      class="right-0 mt-1 dropdown-pane dropdown-pane--open basic-filter"
     >
-      <div class="items-center flex justify-between last:mt-4">
-        <span class="text-slate-800 dark:text-slate-100 text-xs font-medium">{{
+      <div class="flex items-center justify-between last:mt-4">
+        <span class="text-xs font-medium text-slate-800 dark:text-slate-100">{{
           $t('CHAT_LIST.CHAT_SORT.STATUS')
         }}</span>
         <filter-item
@@ -26,8 +26,8 @@
           @onChangeFilter="onChangeFilter"
         />
       </div>
-      <div class="items-center flex justify-between last:mt-4">
-        <span class="text-slate-800 dark:text-slate-100 text-xs font-medium">{{
+      <div class="flex items-center justify-between last:mt-4">
+        <span class="text-xs font-medium text-slate-800 dark:text-slate-100">{{
           $t('CHAT_LIST.CHAT_SORT.ORDER_BY')
         }}</span>
         <filter-item
@@ -46,13 +46,19 @@
 import wootConstants from 'dashboard/constants/globals';
 import { mapGetters } from 'vuex';
 import FilterItem from './FilterItem.vue';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 
 export default {
   components: {
     FilterItem,
   },
-  mixins: [uiSettingsMixin],
+  setup() {
+    const { updateUISettings } = useUISettings();
+
+    return {
+      updateUISettings,
+    };
+  },
   data() {
     return {
       showActionsDropdown: false,

@@ -240,6 +240,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead.vue';
@@ -261,7 +262,6 @@ import {
   appendSignature,
   removeSignature,
 } from 'dashboard/helper/editorHelper';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 export default {
   components: {
@@ -275,7 +275,7 @@ export default {
     AttachmentPreview,
     MessageSignatureMissingAlert,
   },
-  mixins: [uiSettingsMixin, inboxMixin, fileUploadMixin],
+  mixins: [inboxMixin, fileUploadMixin],
   props: {
     contact: {
       type: Object,
@@ -291,7 +291,11 @@ export default {
     },
   },
   setup() {
-    return { v$: useVuelidate() };
+    const { fetchSignatureFlagFromUISettings, setSignatureFlagForInbox } =
+      useUISettings();
+    const v$ = useVuelidate();
+
+    return { fetchSignatureFlagFromUISettings, setSignatureFlagForInbox, v$ };
   },
   data() {
     return {
@@ -327,7 +331,7 @@ export default {
       messageSignature: 'getMessageSignature',
     }),
     sendWithSignature() {
-      return this.fetchSignatureFlagFromUiSettings(this.channelType);
+      return this.fetchSignatureFlagFromUISettings(this.channelType);
     },
     signatureToApply() {
       return this.messageSignature;

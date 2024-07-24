@@ -133,17 +133,20 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, minValue, maxValue } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import configMixin from 'shared/mixins/configMixin';
 import accountMixin from '../../../../mixins/account';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import semver from 'semver';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 
 export default {
-  mixins: [accountMixin, configMixin, uiSettingsMixin],
+  mixins: [accountMixin, configMixin],
   setup() {
-    return { v$: useVuelidate() };
+    const { updateUISettings } = useUISettings();
+    const v$ = useVuelidate();
+
+    return { updateUISettings, v$ };
   },
   data() {
     return {
