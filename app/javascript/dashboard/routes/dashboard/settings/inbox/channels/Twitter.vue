@@ -16,11 +16,10 @@
   </div>
 </template>
 <script>
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import twitterClient from '../../../../../api/channel/twitterClient';
 
 export default {
-  mixins: [alertMixin],
   data() {
     return { isRequestingAuthorization: false };
   },
@@ -34,7 +33,7 @@ export default {
         } = response;
         window.location.href = url;
       } catch (error) {
-        this.showAlert(this.$t('INBOX_MGMT.ADD.TWITTER.ERROR_MESSAGE'));
+        useAlert(this.$t('INBOX_MGMT.ADD.TWITTER.ERROR_MESSAGE'));
       } finally {
         this.isRequestingAuthorization = false;
       }

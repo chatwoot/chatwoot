@@ -26,13 +26,12 @@
 </template>
 
 <script>
+import { useAlert } from 'dashboard/composables';
 import Spinner from 'shared/components/Spinner.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 export default {
   components: {
     Spinner,
   },
-  mixins: [alertMixin],
   props: {
     value: {
       type: Array,
@@ -71,7 +70,7 @@ export default {
       } catch (error) {
         this.uploadState = 'failed';
         this.label = this.$t('AUTOMATION.ATTACHMENT.LABEL_UPLOAD_FAILED');
-        this.showAlert(this.$t('AUTOMATION.ATTACHMENT.UPLOAD_ERROR'));
+        useAlert(this.$t('AUTOMATION.ATTACHMENT.UPLOAD_ERROR'));
       }
     },
   },

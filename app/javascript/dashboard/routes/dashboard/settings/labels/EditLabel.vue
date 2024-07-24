@@ -1,14 +1,14 @@
 <template>
-  <div class="h-auto overflow-auto flex flex-col">
+  <div class="flex flex-col h-auto overflow-auto">
     <woot-modal-header :header-title="pageTitle" />
-    <form class="mx-0 flex flex-wrap" @submit.prevent="editLabel">
+    <form class="flex flex-wrap mx-0" @submit.prevent="editLabel">
       <woot-input
         v-model.trim="title"
         :class="{ error: $v.title.$error }"
         class="w-full label-name--input"
         :label="$t('LABEL_MGMT.FORM.NAME.LABEL')"
         :placeholder="$t('LABEL_MGMT.FORM.NAME.PLACEHOLDER')"
-        :error="getLabelTitleErrorMessage"
+        :error="labelTitleErrorMessage"
         @input="$v.title.$touch"
       />
       <woot-input
@@ -26,13 +26,13 @@
           <woot-color-picker v-model="color" />
         </label>
       </div>
-      <div class="w-full flex items-center gap-2">
+      <div class="flex items-center w-full gap-2">
         <input v-model="showOnSidebar" type="checkbox" :value="true" />
         <label for="conversation_creation">
           {{ $t('LABEL_MGMT.FORM.SHOW_ON_SIDEBAR.LABEL') }}
         </label>
       </div>
-      <div class="flex justify-end items-center py-2 px-0 gap-2 w-full">
+      <div class="flex items-center justify-end w-full gap-2 px-0 py-2">
         <woot-button
           :is-disabled="$v.title.$invalid || uiFlags.isUpdating"
           :is-loading="uiFlags.isUpdating"
@@ -49,12 +49,10 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
-import validationMixin from './validationMixin';
-import validations from './validations';
+import { useAlert } from 'dashboard/composables';
+import validations, { getLabelTitleErrorMessage } from './validations';
 
 export default {
-  mixins: [alertMixin, validationMixin],
   props: {
     selectedResponse: {
       type: Object,
@@ -78,6 +76,10 @@ export default {
       return `${this.$t('LABEL_MGMT.EDIT.TITLE')} - ${
         this.selectedResponse.title
       }`;
+    },
+    labelTitleErrorMessage() {
+      const errorMessage = getLabelTitleErrorMessage(this.$v);
+      return this.$t(errorMessage);
     },
   },
   mounted() {
@@ -103,11 +105,11 @@ export default {
           show_on_sidebar: this.showOnSidebar,
         })
         .then(() => {
-          this.showAlert(this.$t('LABEL_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+          useAlert(this.$t('LABEL_MGMT.EDIT.API.SUCCESS_MESSAGE'));
           setTimeout(() => this.onClose(), 10);
         })
         .catch(() => {
-          this.showAlert(this.$t('LABEL_MGMT.EDIT.API.ERROR_MESSAGE'));
+          useAlert(this.$t('LABEL_MGMT.EDIT.API.ERROR_MESSAGE'));
         });
     },
   },

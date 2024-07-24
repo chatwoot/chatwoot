@@ -94,8 +94,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-
-import adminMixin from '../../../mixins/isAdmin';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 import configMixin from 'shared/mixins/configMixin';
 import {
   getInboxClassByType,
@@ -111,12 +110,18 @@ import Policy from '../../policy.vue';
 
 export default {
   components: { SecondaryChildNavItem, Policy },
-  mixins: [adminMixin, configMixin],
+  mixins: [configMixin],
   props: {
     menuItem: {
       type: Object,
       default: () => ({}),
     },
+  },
+  setup() {
+    const { isAdmin } = useAdmin();
+    return {
+      isAdmin,
+    };
   },
   computed: {
     ...mapGetters({

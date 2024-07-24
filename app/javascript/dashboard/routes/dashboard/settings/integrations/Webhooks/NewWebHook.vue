@@ -19,14 +19,14 @@
 </template>
 
 <script>
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import { mapGetters } from 'vuex';
 import WebhookForm from './WebhookForm.vue';
 
 export default {
   components: { WebhookForm },
-  mixins: [alertMixin, globalConfigMixin],
+  mixins: [globalConfigMixin],
   props: {
     onClose: {
       type: Function,
@@ -43,7 +43,7 @@ export default {
     async onSubmit(webhook) {
       try {
         await this.$store.dispatch('webhooks/create', { webhook });
-        this.showAlert(
+        useAlert(
           this.$t('INTEGRATION_SETTINGS.WEBHOOK.ADD.API.SUCCESS_MESSAGE')
         );
         this.onClose();
@@ -51,7 +51,7 @@ export default {
         const message =
           error.response.data.message ||
           this.$t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.API.ERROR_MESSAGE');
-        this.showAlert(message);
+        useAlert(message);
       }
     },
   },

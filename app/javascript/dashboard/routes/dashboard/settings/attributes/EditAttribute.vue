@@ -1,5 +1,5 @@
 <template>
-  <div class="h-auto overflow-auto flex flex-col">
+  <div class="flex flex-col h-auto overflow-auto">
     <woot-modal-header :header-title="pageTitle" />
     <form class="flex flex-col w-full" @submit.prevent="editAttributes">
       <div class="w-full">
@@ -95,7 +95,7 @@
           :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_CUE.PLACEHOLDER')"
         />
       </div>
-      <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+      <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
         <woot-button :is-loading="isUpdating" :disabled="isButtonDisabled">
           {{ $t('ATTRIBUTES_MGMT.EDIT.UPDATE_BUTTON_TEXT') }}
         </woot-button>
@@ -109,13 +109,13 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import { required, minLength } from 'vuelidate/lib/validators';
 import { ATTRIBUTE_TYPES } from './constants';
-import alertMixin from 'shared/mixins/alertMixin';
 import customAttributeMixin from '../../../../mixins/customAttributeMixin';
 export default {
   components: {},
-  mixins: [alertMixin, customAttributeMixin],
+  mixins: [customAttributeMixin],
   props: {
     selectedAttribute: {
       type: Object,
@@ -263,7 +263,7 @@ export default {
         this.alertMessage =
           errorMessage || this.$t('ATTRIBUTES_MGMT.EDIT.API.ERROR_MESSAGE');
       } finally {
-        this.showAlert(this.alertMessage);
+        useAlert(this.alertMessage);
       }
     },
     toggleRegexEnabled() {

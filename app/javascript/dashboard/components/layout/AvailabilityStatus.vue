@@ -18,7 +18,7 @@
       </woot-button>
     </woot-dropdown-item>
     <woot-dropdown-divider />
-    <woot-dropdown-item class="m-0 flex items-center justify-between p-2">
+    <woot-dropdown-item class="flex items-center justify-between p-2 m-0">
       <div class="flex items-center">
         <fluent-icon
           v-tooltip.right-start="$t('SIDEBAR.SET_AUTO_OFFLINE.INFO_TEXT')"
@@ -28,7 +28,7 @@
         />
 
         <span
-          class="my-0 mx-1 text-xs font-medium text-slate-600 dark:text-slate-100"
+          class="mx-1 my-0 text-xs font-medium text-slate-600 dark:text-slate-100"
         >
           {{ $t('SIDEBAR.SET_AUTO_OFFLINE.TEXT') }}
         </span>
@@ -36,7 +36,7 @@
 
       <woot-switch
         size="small"
-        class="mt-px mx-1 mb-0"
+        class="mx-1 mt-px mb-0"
         :value="currentUserAutoOffline"
         @input="updateAutoOffline"
       />
@@ -47,7 +47,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import WootDropdownHeader from 'shared/components/ui/dropdown/DropdownHeader.vue';
@@ -65,9 +65,6 @@ export default {
     WootDropdownItem,
     AvailabilityStatusBadge,
   },
-
-  mixins: [alertMixin],
-
   data() {
     return {
       isStatusMenuOpened: false,
@@ -129,7 +126,7 @@ export default {
           account_id: this.currentAccountId,
         });
       } catch (error) {
-        this.showAlert(
+        useAlert(
           this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.SET_AVAILABILITY_ERROR')
         );
       } finally {

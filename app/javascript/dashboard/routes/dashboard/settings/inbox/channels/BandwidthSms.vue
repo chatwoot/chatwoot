@@ -111,14 +111,13 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import { required } from 'vuelidate/lib/validators';
 import router from '../../../../index';
 
 const shouldStartWithPlusSign = (value = '') => value.startsWith('+');
 
 export default {
-  mixins: [alertMixin],
   data() {
     return {
       accountId: '',
@@ -173,7 +172,7 @@ export default {
           },
         });
       } catch (error) {
-        this.showAlert(this.$t('INBOX_MGMT.ADD.SMS.API.ERROR_MESSAGE'));
+        useAlert(this.$t('INBOX_MGMT.ADD.SMS.API.ERROR_MESSAGE'));
       }
     },
   },

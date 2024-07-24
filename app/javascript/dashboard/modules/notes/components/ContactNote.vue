@@ -1,8 +1,8 @@
 <template>
   <div
-    class="flex flex-col mb-2 p-4 border border-solid border-slate-75 dark:border-slate-700 overflow-hidden rounded-md flex-grow shadow-sm bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-100 note-wrap"
+    class="flex flex-col flex-grow p-4 mb-2 overflow-hidden bg-white border border-solid rounded-md shadow-sm border-slate-75 dark:border-slate-700 dark:bg-slate-900 text-slate-700 dark:text-slate-100 note-wrap"
   >
-    <div class="flex justify-between items-end text-xs gap-1">
+    <div class="flex items-end justify-between gap-1 text-xs">
       <div class="flex items-center">
         <thumbnail
           :title="noteAuthorName"
@@ -22,7 +22,7 @@
           </span>
         </div>
       </div>
-      <div class="actions flex invisible">
+      <div class="flex invisible actions">
         <woot-button
           v-tooltip="$t('NOTES.CONTENT_HEADER.DELETE')"
           variant="smooth"
@@ -45,22 +45,22 @@
     </div>
     <p
       v-dompurify-html="formatMessage(note || '')"
-      class="note__content mt-4"
+      class="mt-4 note__content"
     />
   </div>
 </template>
 
 <script>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import timeMixin from 'dashboard/mixins/time';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import { dynamicTime } from 'shared/helpers/timeHelper';
 
 export default {
   components: {
     Thumbnail,
   },
 
-  mixins: [timeMixin, messageFormatterMixin],
+  mixins: [messageFormatterMixin],
 
   props: {
     id: {
@@ -87,7 +87,7 @@ export default {
   },
   computed: {
     readableTime() {
-      return this.dynamicTime(this.createdAt);
+      return dynamicTime(this.createdAt);
     },
     noteAuthor() {
       return this.user || {};

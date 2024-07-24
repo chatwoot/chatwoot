@@ -47,17 +47,17 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import { mapGetters } from 'vuex';
 import FormInput from '../../../../components/Form/Input.vue';
 import { resetPassword } from '../../../../api/auth';
 import SubmitButton from '../../../../components/Button/SubmitButton.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: { FormInput, SubmitButton },
-  mixins: [globalConfigMixin, alertMixin],
+  mixins: [globalConfigMixin],
   data() {
     return {
       credentials: { email: '' },
@@ -84,7 +84,7 @@ export default {
     showAlertMessage(message) {
       // Reset loading, current selected agent
       this.resetPassword.showLoading = false;
-      this.showAlert(message);
+      useAlert(message);
     },
     submit() {
       this.resetPassword.showLoading = true;

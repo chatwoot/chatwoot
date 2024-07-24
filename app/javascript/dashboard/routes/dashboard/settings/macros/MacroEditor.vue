@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full overflow-auto flex-1 flex flex-col">
+  <div class="flex flex-col flex-1 h-full overflow-auto">
     <woot-loading-state
       v-if="uiFlags.isFetchingItem"
       :message="$t('MACROS.EDITOR.LOADING')"
@@ -16,15 +16,15 @@
 import MacroForm from './MacroForm.vue';
 import { MACRO_ACTION_TYPES } from './constants';
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import actionQueryGenerator from 'dashboard/helper/actionQueryGenerator.js';
-import alertMixin from 'shared/mixins/alertMixin';
 import macrosMixin from 'dashboard/mixins/macrosMixin';
 
 export default {
   components: {
     MacroForm,
   },
-  mixins: [alertMixin, macrosMixin],
+  mixins: [macrosMixin],
   provide() {
     return {
       macroActionTypes: this.macroActionTypes,
@@ -131,10 +131,10 @@ export default {
         let serializedMacro = JSON.parse(JSON.stringify(macro));
         serializedMacro.actions = actionQueryGenerator(serializedMacro.actions);
         await this.$store.dispatch(action, serializedMacro);
-        this.showAlert(successMessage);
+        useAlert(successMessage);
         this.$router.push({ name: 'macros_wrapper' });
       } catch (error) {
-        this.showAlert(this.$t('MACROS.ERROR'));
+        useAlert(this.$t('MACROS.ERROR'));
       }
     },
   },

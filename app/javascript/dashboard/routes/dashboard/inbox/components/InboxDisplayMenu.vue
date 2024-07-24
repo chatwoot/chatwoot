@@ -2,7 +2,7 @@
   <div
     class="flex flex-col bg-white z-50 dark:bg-slate-900 w-[170px] border shadow-md border-slate-100 dark:border-slate-700/50 rounded-xl divide-y divide-slate-100 dark:divide-slate-700/50"
   >
-    <div class="flex items-center justify-between h-11 p-3 rounded-t-lg">
+    <div class="flex items-center justify-between p-3 rounded-t-lg h-11">
       <div class="flex gap-1.5">
         <fluent-icon
           icon="arrow-sort"
@@ -10,7 +10,7 @@
           size="16"
           class="text-slate-700 dark:text-slate-100"
         />
-        <span class="font-medium text-xs text-slate-800 dark:text-slate-100">
+        <span class="text-xs font-medium text-slate-800 dark:text-slate-100">
           {{ $t('INBOX.DISPLAY_MENU.SORT') }}
         </span>
       </div>
@@ -64,7 +64,7 @@
     </div>
     <div>
       <span
-        class="font-medium text-xs py-4 px-3 text-slate-400 dark:text-slate-400"
+        class="px-3 py-4 text-xs font-medium text-slate-400 dark:text-slate-400"
       >
         {{ $t('INBOX.DISPLAY_MENU.DISPLAY') }}
       </span>
@@ -98,10 +98,17 @@
 
 <script>
 import wootConstants from 'dashboard/constants/globals';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 
 export default {
-  mixins: [uiSettingsMixin],
+  setup() {
+    const { uiSettings, updateUISettings } = useUISettings();
+
+    return {
+      uiSettings,
+      updateUISettings,
+    };
+  },
   data() {
     return {
       showSortMenu: false,

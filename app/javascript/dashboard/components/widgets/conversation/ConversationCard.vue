@@ -120,13 +120,11 @@ import { mapGetters } from 'vuex';
 import Thumbnail from '../Thumbnail.vue';
 import MessagePreview from './MessagePreview.vue';
 import conversationMixin from '../../../mixins/conversations';
-import timeMixin from '../../../mixins/time';
 import router from '../../../routes';
 import { frontendURL, conversationUrl } from '../../../helper/URLHelper';
 import InboxName from '../InboxName.vue';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import ConversationContextMenu from './contextMenu/Index.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import CardLabels from './conversationCardComponents/CardLabels.vue';
 import PriorityMark from './PriorityMark.vue';
@@ -143,8 +141,7 @@ export default {
     PriorityMark,
     SLACardLabel,
   },
-
-  mixins: [inboxMixin, timeMixin, conversationMixin, alertMixin],
+  mixins: [inboxMixin, conversationMixin],
   props: {
     activeLabel: {
       type: String,
