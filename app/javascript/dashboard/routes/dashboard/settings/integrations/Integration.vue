@@ -4,7 +4,7 @@
   >
     <div class="flex items-center justify-start m-0 mx-4 flex-1">
       <img
-        :src="'/dashboard/images/integrations/' + integrationLogo"
+        :src="`/dashboard/images/integrations/${integrationId}.png`"
         class="p-2 h-16 w-16 mr-4"
       />
       <div>
