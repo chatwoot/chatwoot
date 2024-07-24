@@ -501,7 +501,9 @@ export default {
   },
   methods: {
     isAttachmentImageVideoAudio(fileType) {
-      return ['image', 'audio', 'video', 'story_mention'].includes(fileType);
+      return ['image', 'audio', 'video', 'story_mention', 'ig_reel'].includes(
+        fileType
+      );
     },
     hasMediaAttachment(type) {
       if (this.hasAttachments && this.data.attachments.length > 0) {
