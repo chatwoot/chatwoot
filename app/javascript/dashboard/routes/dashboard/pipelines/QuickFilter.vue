@@ -97,7 +97,7 @@ export default {
       ) {
         customViews.push({
           id: 'new',
-          name: this.$t('PIPELINE_PAGE.FILTER_CONTACTS'),
+          name: `+++ ${this.$t('PIPELINE_PAGE.FILTER_CONTACTS')} +++`,
         });
       }
 
