@@ -101,6 +101,7 @@ export default {
     useKeyboardEvents(keyboardEvents, sidebarRef);
 
     return {
+      toggleKeyShortcutModal,
       sidebarRef,
     };
   },
@@ -211,12 +212,6 @@ export default {
       if (this.isConversationOrContactActive) {
         this.$store.dispatch('customViews/get', this.activeCustomView);
       }
-    },
-    toggleKeyShortcutModal() {
-      this.$emit('open-key-shortcut-modal');
-    },
-    closeKeyShortcutModal() {
-      this.$emit('close-key-shortcut-modal');
     },
     toggleSupportChatWindow() {
       window.$chatwoot.toggle();

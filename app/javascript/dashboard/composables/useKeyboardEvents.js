@@ -1,17 +1,21 @@
-import { onMounted, onBeforeUnmount } from 'vue';
+import { onMounted, onBeforeUnmount, unref } from 'vue';
 import {
   isActiveElementTypeable,
   isEscape,
+  keysToModifyInQWERTZ,
+  LAYOUT_QWERTZ,
 } from 'shared/helpers/KeyboardHelpers';
+import { useDetectLayout } from 'dashboard/composables/useDetectKeyboardLayout';
 import { createKeybindingsHandler } from 'tinykeys';
 
-const addKeydownHandler = (keydownHandler, elRef, taggedHandlers) => {
-  const root = elRef?.value;
-  document.addEventListener('keydown', keydownHandler);
-  taggedHandlers.set(root, keydownHandler);
-};
+const keyboardListenerMap = new WeakMap();
 
-// Helper function to determine if the event should be ignored based on the type of element and handler settings
+/**
+ * Determines if the keyboard event should be ignored based on the element type and handler settings.
+ * @param {Event} e - The event object.
+ * @param {Object|Function} handler - The handler configuration or function.
+ * @returns {boolean} - True if the event should be ignored, false otherwise.
+ */
 const shouldIgnoreEvent = (e, handler) => {
   const isTypeable = isActiveElementTypeable(e);
   const allowOnFocusedInput =
@@ -26,6 +30,11 @@ const shouldIgnoreEvent = (e, handler) => {
   return false;
 };
 
+/**
+ * Wraps the event handler to include custom logic before executing the handler.
+ * @param {Function} handler - The original event handler.
+ * @returns {Function} - The wrapped handler.
+ */
 const keydownWrapper = handler => {
   return e => {
     if (shouldIgnoreEvent(e, handler)) return;
@@ -37,48 +46,70 @@ const keydownWrapper = handler => {
   };
 };
 
-const wrapEventsInKeybindingsHandler = events => {
+/**
+ * Wraps all provided keyboard events in handlers that respect the current keyboard layout.
+ * @param {Object} events - The object containing event names and their handlers.
+ * @returns {Object} - The object with event names possibly modified based on the keyboard layout and wrapped handlers.
+ */
+async function wrapEventsInKeybindingsHandler(events) {
   const wrappedEvents = {};
-  Object.keys(events).forEach(eventName => {
-    wrappedEvents[eventName] = keydownWrapper(events[eventName]);
+  const currentLayout = await useDetectLayout();
+
+  Object.keys(events).forEach(originalEventName => {
+    const modifiedEventName =
+      currentLayout === LAYOUT_QWERTZ &&
+      keysToModifyInQWERTZ.has(originalEventName)
+        ? `Shift+${originalEventName}`
+        : originalEventName;
+
+    wrappedEvents[modifiedEventName] = keydownWrapper(
+      events[originalEventName]
+    );
   });
   return wrappedEvents;
+}
+
+/**
+ * Sets up keyboard event listeners on the specified element.
+ * @param {Element} root - The DOM element to attach listeners to.
+ * @param {Object} events - The events to listen for.
+ */
+const setupListeners = (root, events) => {
+  if (root instanceof Element && events) {
+    const keydownHandler = createKeybindingsHandler(events);
+    const handler = window.addEventListener('keydown', keydownHandler);
+    keyboardListenerMap.set(root, handler);
+  }
 };
 
-const setupListeners = (elRef, getKeyboardEvents, addEventHandler) => {
-  const events = getKeyboardEvents();
-  const root = elRef?.value;
-  if (!(root instanceof Element)) {
-    return;
-  }
-  if (events) {
-    const wrappedEvents = wrapEventsInKeybindingsHandler(events);
-    const keydownHandler = createKeybindingsHandler(wrappedEvents);
-    addEventHandler(keydownHandler);
-  }
-};
-
-const removeListeners = (elRef, taggedHandlers) => {
-  const root = elRef?.value;
-  if (root instanceof Element && taggedHandlers.has(root)) {
-    const handlerToRemove = taggedHandlers.get(root);
+/**
+ * Removes keyboard event listeners from the specified element.
+ * @param {Element} root - The DOM element to remove listeners from.
+ */
+const removeListeners = root => {
+  if (root instanceof Element) {
+    const handlerToRemove = keyboardListenerMap.get(root);
     document.removeEventListener('keydown', handlerToRemove);
+    keyboardListenerMap.delete(root);
   }
 };
 
+/**
+ * Vue composable to handle keyboard events with support for different keyboard layouts.
+ * @param {Object} keyboardEvents - The keyboard events to handle.
+ * @param {ref} elRef - A Vue ref to the element to attach the keyboard events to.
+ */
 export function useKeyboardEvents(keyboardEvents, elRef = null) {
-  // this is a store that stores the handler globally, and only gets reset on reload
-  const taggedHandlers = new WeakMap();
+  onMounted(async () => {
+    const el = unref(elRef);
+    const getKeyboardEvents = () => keyboardEvents || null;
+    const events = getKeyboardEvents();
+    const wrappedEvents = await wrapEventsInKeybindingsHandler(events);
+    setupListeners(el, wrappedEvents);
+  });
 
-  const getKeyboardEvents = () => keyboardEvents || null;
-  const addEventHandler = keydownHandler =>
-    addKeydownHandler(keydownHandler, elRef, taggedHandlers);
-  const setupEventListeners = () =>
-    setupListeners(elRef, getKeyboardEvents, addEventHandler);
-  const removeEventListeners = () => removeListeners(elRef, taggedHandlers);
-
-  onMounted(setupEventListeners);
-  onBeforeUnmount(removeEventListeners);
-
-  return { getKeyboardEvents };
+  onBeforeUnmount(() => {
+    const el = unref(elRef);
+    removeListeners(el);
+  });
 }

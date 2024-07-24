@@ -1,5 +1,8 @@
 <template>
-  <div class="flex justify-between bg-black-50 dark:bg-slate-800">
+  <div
+    ref="replyTopRef"
+    class="flex justify-between bg-black-50 dark:bg-slate-800"
+  >
     <div class="button-group">
       <woot-button
         variant="clear"
@@ -47,19 +50,15 @@
 </template>
 
 <script>
+import { ref } from 'vue';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
-import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 export default {
   name: 'ReplyTopPanel',
-  mixins: [keyboardEventListenerMixins],
   props: {
     mode: {
       type: String,
       default: REPLY_EDITOR_MODES.REPLY,
-    },
-    setReplyMode: {
-      type: Function,
-      default: () => {},
     },
     isMessageLengthReachingThreshold: {
       type: Boolean,
@@ -73,6 +72,39 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  setup(props, { emit }) {
+    const replyTopRef = ref(null);
+
+    const setReplyMode = mode => {
+      emit('set-reply-mode', mode);
+    };
+
+    const handleReplyClick = () => {
+      setReplyMode(REPLY_EDITOR_MODES.REPLY);
+    };
+    const handleNoteClick = () => {
+      setReplyMode(REPLY_EDITOR_MODES.NOTE);
+    };
+
+    const keyboardEvents = {
+      'Alt+KeyP': {
+        action: () => handleNoteClick(),
+        allowOnFocusedInput: true,
+      },
+      'Alt+KeyL': {
+        action: () => handleReplyClick(),
+        allowOnFocusedInput: true,
+      },
+    };
+
+    useKeyboardEvents(keyboardEvents, replyTopRef);
+
+    return {
+      handleReplyClick,
+      handleNoteClick,
+      replyTopRef,
+    };
   },
   computed: {
     replyButtonClass() {
@@ -92,26 +124,6 @@ export default {
       return this.charactersRemaining < 0
         ? `${-this.charactersRemaining} ${CHAR_LENGTH_WARNING.NEGATIVE}`
         : `${this.charactersRemaining} ${CHAR_LENGTH_WARNING.UNDER_50}`;
-    },
-  },
-  methods: {
-    getKeyboardEvents() {
-      return {
-        'Alt+KeyP': {
-          action: () => this.handleNoteClick(),
-          allowOnFocusedInput: true,
-        },
-        'Alt+KeyL': {
-          action: () => this.handleReplyClick(),
-          allowOnFocusedInput: true,
-        },
-      };
-    },
-    handleReplyClick() {
-      this.setReplyMode(REPLY_EDITOR_MODES.REPLY);
-    },
-    handleNoteClick() {
-      this.setReplyMode(REPLY_EDITOR_MODES.NOTE);
     },
   },
 };

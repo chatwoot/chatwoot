@@ -12,10 +12,10 @@
     />
     <reply-top-panel
       :mode="replyType"
-      :set-reply-mode="setReplyMode"
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
       :characters-remaining="charactersRemaining"
       :popout-reply-box="popoutReplyBox"
+      @set-reply-mode="setReplyMode"
       @click="$emit('click')"
     />
     <article-search-popover
