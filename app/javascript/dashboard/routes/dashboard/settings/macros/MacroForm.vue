@@ -24,20 +24,17 @@
 </template>
 
 <script>
+import { ref, provide } from 'vue';
 import MacroNodes from './MacroNodes.vue';
 import MacroProperties from './MacroProperties.vue';
-import { required, requiredIf } from '@vuelidate/validators';
+import { required } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
+import { validateActions } from 'dashboard/helper/validations';
 
 export default {
   components: {
     MacroNodes,
     MacroProperties,
-  },
-  provide() {
-    return {
-      v$: this.v$,
-    };
   },
   props: {
     macroData: {
@@ -46,7 +43,12 @@ export default {
     },
   },
   setup() {
-    return { v$: useVuelidate() };
+    const errors = ref({});
+    const v$ = useVuelidate();
+    provide('errors', errors);
+    provide('v$', v$);
+
+    return { v$, errors };
   },
   data() {
     return {
@@ -81,22 +83,6 @@ export default {
       visibility: {
         required,
       },
-      actions: {
-        required,
-        $each: {
-          action_params: {
-            required: requiredIf(prop => {
-              if (prop.action_name === 'send_email_to_team') return true;
-              return !(
-                prop.action_name === 'mute_conversation' ||
-                prop.action_name === 'snooze_conversation' ||
-                prop.action_name === 'resolve_conversation' ||
-                prop.action_name === 'remove_assigned_team'
-              );
-            }),
-          },
-        },
-      },
     },
   },
   methods: {
@@ -113,19 +99,29 @@ export default {
       });
     },
     deleteNode(index) {
+      // delete that index specifically
+      // so that the next item does not get marked invalid
+      delete this.errors[`action_${index}`];
       this.macro.actions.splice(index, 1);
     },
     submit() {
+      this.errors = validateActions(this.macro.actions);
+      if (Object.keys(this.errors).length !== 0) return;
+
       this.v$.$touch();
       if (this.v$.$invalid) return;
+
       this.$emit('submit', this.macro);
     },
     resetNode(index) {
-      this.v$.macro.actions.$each[index].$reset();
+      // delete that index specifically
+      // so that the next item does not get marked invalid
+      delete this.errors[`action_${index}`];
       this.macro.actions[index].action_params = [];
     },
     resetValidation() {
-      this.v$.$reset();
+      this.errors = {};
+      this.v$?.$reset();
     },
   },
 };

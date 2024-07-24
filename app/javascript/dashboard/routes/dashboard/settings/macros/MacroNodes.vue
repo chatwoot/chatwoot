@@ -64,6 +64,7 @@
 import Draggable from 'vuedraggable';
 import MacroNode from './MacroNode.vue';
 import { getFileName } from './macroHelper';
+
 export default {
   components: {
     Draggable,

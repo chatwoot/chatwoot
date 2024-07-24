@@ -93,7 +93,7 @@ const validateBasicFields = automation => {
  * @param {Array} conditions - The conditions to validate.
  * @returns {Object} An object containing any validation errors.
  */
-const validateConditions = conditions => {
+export const validateConditions = conditions => {
   const errors = {};
 
   if (!conditions || conditions.length === 0) {
@@ -140,7 +140,7 @@ const validateSingleAction = action => {
  * @param {Array} actions - The actions to validate.
  * @returns {Object} An object containing any validation errors.
  */
-const validateActions = actions => {
+export const validateActions = actions => {
   if (!actions || actions.length === 0) {
     return { actions: 'At least one action is required' };
   }
