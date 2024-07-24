@@ -13,10 +13,8 @@ const getters = useStoreGetters();
 const isACustomBrandedInstance =
   getters['globalConfig/isACustomBrandedInstance'];
 
-const { globalConfig: { isACustomBrandedInstance } } = useStoreGetters();
-
-const shouldShowContent = computed(() => 
-  props.showOnCustomBrandedInstance || !isACustomBrandedInstance.value
+const shouldShowContent = computed(
+  () => props.showOnCustomBrandedInstance || !isACustomBrandedInstance.value
 );
 </script>
 

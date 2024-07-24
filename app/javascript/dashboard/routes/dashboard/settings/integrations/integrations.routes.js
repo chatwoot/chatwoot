@@ -43,14 +43,6 @@ export default {
       },
       children: [
         {
-          path: '',
-          name: 'settings_applications',
-          component: Index,
-          meta: {
-            permissions: ['administrator'],
-          },
-        },
-        {
           path: 'webhook',
           component: Webhook,
           name: 'settings_integrations_webhook',

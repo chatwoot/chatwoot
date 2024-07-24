@@ -5,6 +5,7 @@ module.exports = {
     'plugin:vue/recommended',
     'plugin:storybook/recommended',
     'plugin:cypress/recommended',
+    'plugin:vue/vue3-recommended',
   ],
   parserOptions: {
     parser: '@babel/eslint-parser',
@@ -27,6 +28,10 @@ module.exports = {
     'import/no-unresolved': 'off',
     'vue/html-indent': 'off',
     'vue/multi-word-component-names': 'off',
+    'vue/no-unused-emit-declarations': 'error',
+    'vue/no-unused-properties': 'error',
+    'vue/no-unused-refs': 'error',
+    'vue/no-undef-properties': 'error',
     'vue/max-attributes-per-line': [
       'error',
       {

@@ -10,10 +10,6 @@ const props = defineProps({
     type: [String, Number],
     required: true,
   },
-  logo: {
-    type: String,
-    default: '',
-  },
   name: {
     type: String,
     default: '',
