@@ -149,10 +149,19 @@ class Message < ApplicationRecord
   def conversation_push_event_data
     {
       assignee_id: conversation.assignee_id,
-      unread_count: conversation.unread_incoming_messages.count,
+      unread_count: conversation_unread_messages_count,
       last_activity_at: conversation.last_activity_at.to_i,
       contact_inbox: { source_id: conversation.contact_inbox.source_id }
     }
+  end
+
+  def conversation_unread_messages_count
+    filtered_unread_messages = conversation.unread_incoming_messages.select do |unread_message|
+      disable_notification = unread_message.additional_attributes['disable_notifications']
+      disable_notification.nil? || disable_notification == false
+    end
+
+    filtered_unread_messages.count
   end
 
   # TODO: We will be removing this code after instagram_manage_insights is implemented
