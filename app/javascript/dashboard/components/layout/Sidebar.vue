@@ -98,7 +98,7 @@ export default {
       },
     };
 
-    useKeyboardEvents(sidebarRef, keyboardEvents);
+    useKeyboardEvents(keyboardEvents, sidebarRef);
 
     return {
       sidebarRef,
