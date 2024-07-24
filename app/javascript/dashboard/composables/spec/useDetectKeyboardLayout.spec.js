@@ -1,18 +1,18 @@
-import { useDetectLayout } from 'dashboard/composables/useDetectKeyboardLayout';
+import { useDetectKeyboardLayout } from 'dashboard/composables/useDetectKeyboardLayout';
 import {
   LAYOUT_QWERTY,
   LAYOUT_QWERTZ,
   LAYOUT_AZERTY,
 } from 'shared/helpers/KeyboardHelpers';
 
-describe('useDetectLayout', () => {
+describe('useDetectKeyboardLayout', () => {
   beforeEach(() => {
     window.cw_keyboard_layout = null;
   });
 
   it('returns cached layout if available', async () => {
     window.cw_keyboard_layout = LAYOUT_QWERTY;
-    const layout = await useDetectLayout();
+    const layout = await useDetectKeyboardLayout();
     expect(layout).toBe(LAYOUT_QWERTY);
   });
 
@@ -30,7 +30,7 @@ describe('useDetectLayout', () => {
       ),
     };
 
-    const layout = await useDetectLayout();
+    const layout = await useDetectKeyboardLayout();
     expect(layout).toBe(LAYOUT_QWERTY);
   });
 
@@ -48,7 +48,7 @@ describe('useDetectLayout', () => {
       ),
     };
 
-    const layout = await useDetectLayout();
+    const layout = await useDetectKeyboardLayout();
     expect(layout).toBe(LAYOUT_QWERTZ);
   });
 
@@ -66,14 +66,14 @@ describe('useDetectLayout', () => {
       ),
     };
 
-    const layout = await useDetectLayout();
+    const layout = await useDetectKeyboardLayout();
     expect(layout).toBe(LAYOUT_AZERTY);
   });
 
   it('should use legacy method if navigator.keyboard is not available', async () => {
     navigator.keyboard = undefined;
 
-    const layout = await useDetectLayout();
+    const layout = await useDetectKeyboardLayout();
     expect([LAYOUT_QWERTY, LAYOUT_QWERTZ, LAYOUT_AZERTY]).toContain(layout);
   });
 
@@ -91,10 +91,10 @@ describe('useDetectLayout', () => {
       ),
     };
 
-    const layout = await useDetectLayout();
+    const layout = await useDetectKeyboardLayout();
     expect(layout).toBe(LAYOUT_QWERTY);
 
-    const layoutAgain = await useDetectLayout();
+    const layoutAgain = await useDetectKeyboardLayout();
     expect(layoutAgain).toBe(LAYOUT_QWERTY);
     expect(navigator.keyboard.getLayoutMap).toHaveBeenCalledTimes(1);
   });

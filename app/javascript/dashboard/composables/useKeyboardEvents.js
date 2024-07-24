@@ -5,7 +5,7 @@ import {
   keysToModifyInQWERTZ,
   LAYOUT_QWERTZ,
 } from 'shared/helpers/KeyboardHelpers';
-import { useDetectLayout } from 'dashboard/composables/useDetectKeyboardLayout';
+import { useDetectKeyboardLayout } from 'dashboard/composables/useDetectKeyboardLayout';
 import { createKeybindingsHandler } from 'tinykeys';
 
 const keyboardListenerMap = new WeakMap();
@@ -53,7 +53,7 @@ const keydownWrapper = handler => {
  */
 async function wrapEventsInKeybindingsHandler(events) {
   const wrappedEvents = {};
-  const currentLayout = await useDetectLayout();
+  const currentLayout = await useDetectKeyboardLayout();
 
   Object.keys(events).forEach(originalEventName => {
     const modifiedEventName =

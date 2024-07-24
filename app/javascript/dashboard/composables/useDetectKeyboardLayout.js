@@ -61,7 +61,7 @@ async function detect() {
  * Uses either the modern or legacy method to detect the keyboard layout, caching the result.
  * @returns {Promise<string>} A promise that resolves to the detected keyboard layout.
  */
-export async function useDetectLayout() {
+export async function useDetectKeyboardLayout() {
   const cachedLayout = window.cw_keyboard_layout;
   if (cachedLayout) {
     return cachedLayout;
