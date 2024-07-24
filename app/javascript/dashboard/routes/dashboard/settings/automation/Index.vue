@@ -177,6 +177,7 @@ export default {
   mounted() {
     this.$store.dispatch('inboxes/get');
     this.$store.dispatch('agents/get');
+    this.$store.dispatch('contacts/clearContacts');
     this.$store.dispatch('contacts/get');
     this.$store.dispatch('teams/get');
     this.$store.dispatch('labels/get');

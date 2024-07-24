@@ -32,7 +32,7 @@ export const raiseContactCreateErrors = error => {
 export const actions = {
   search: async (
     { commit },
-    { search, page, sortAttr, label, stageType, assigneeType }
+    { search, page, sortAttr, label, stageType, stageCode }
   ) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
@@ -44,29 +44,37 @@ export const actions = {
         sortAttr,
         label,
         stageType,
-        assigneeType
+        stageCode
       );
-      commit(types.CLEAR_CONTACTS);
       commit(types.SET_CONTACTS, payload);
       commit(types.SET_CONTACT_META, meta);
+      if (stageCode) {
+        commit(types.SET_CONTACT_STAGE_META, { stageCode, data: meta });
+      }
       commit(types.SET_CONTACT_UI_FLAG, { isFetching: false });
     } catch (error) {
       commit(types.SET_CONTACT_UI_FLAG, { isFetching: false });
     }
   },
 
+  clearContacts({ commit }) {
+    commit(types.CLEAR_CONTACTS);
+  },
+
   get: async (
     { commit },
-    { page = 1, sortAttr, label, stageType, assigneeType } = {}
+    { page = 1, sortAttr, label, stageType, stageCode } = {}
   ) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
       const {
         data: { payload, meta },
-      } = await ContactAPI.get(page, sortAttr, label, stageType, assigneeType);
-      commit(types.CLEAR_CONTACTS);
+      } = await ContactAPI.get(page, sortAttr, label, stageType, stageCode);
       commit(types.SET_CONTACTS, payload);
       commit(types.SET_CONTACT_META, meta);
+      if (stageCode) {
+        commit(types.SET_CONTACT_STAGE_META, { stageCode, data: meta });
+      }
       commit(types.SET_CONTACT_UI_FLAG, { isFetching: false });
     } catch (error) {
       commit(types.SET_CONTACT_UI_FLAG, { isFetching: false });
@@ -251,7 +259,7 @@ export const actions = {
       page = 1,
       sortAttr,
       stageType,
-      assigneeType,
+      stageCode,
       queryPayload,
       resetState = true,
     } = {}
@@ -264,13 +272,15 @@ export const actions = {
         page,
         sortAttr,
         stageType,
-        assigneeType,
+        stageCode,
         queryPayload
       );
       if (resetState) {
-        commit(types.CLEAR_CONTACTS);
         commit(types.SET_CONTACTS, payload);
         commit(types.SET_CONTACT_META, meta);
+        if (stageCode) {
+          commit(types.SET_CONTACT_STAGE_META, { stageCode, data: meta });
+        }
         commit(types.SET_CONTACT_UI_FLAG, { isFetching: false });
       }
       return payload;

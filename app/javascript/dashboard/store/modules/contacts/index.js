@@ -19,6 +19,7 @@ const state = {
   },
   sortOrder: [],
   appliedFilters: [],
+  stageMeta: {},
 };
 
 export default {

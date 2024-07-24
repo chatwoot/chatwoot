@@ -16,6 +16,9 @@ export const getters = {
   getMeta: $state => {
     return $state.meta;
   },
+  getStageMeta: $state => {
+    return $state.stageMeta;
+  },
   getAppliedContactFilters: _state => {
     return _state.appliedFilters;
   },

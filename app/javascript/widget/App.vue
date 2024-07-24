@@ -255,6 +255,7 @@ export default {
           this.fetchOldConversations().then(() => this.setUnreadView());
           this.fetchAvailableAgents(websiteToken);
           this.setAppConfig(message);
+          this.$store.dispatch('contacts/clearContacts');
           this.$store.dispatch('contacts/get');
           this.setCampaignReadData(message.campaignsSnoozedTill);
         } else if (message.event === 'widget-visible') {

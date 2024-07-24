@@ -83,6 +83,7 @@ export default {
         custom_attribute_type: '',
       };
 
+      this.$store.dispatch('contacts/clearContacts');
       const queryPayload = { payload: [query] };
       const contacts = await this.$store.dispatch('contacts/filter', {
         queryPayload,

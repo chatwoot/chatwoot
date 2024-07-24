@@ -258,6 +258,7 @@ export default {
     },
     fetchContacts(page) {
       if (this.isContactAndLabelDashboard) {
+        this.$store.dispatch('contacts/clearContacts');
         this.updatePageParam(page);
         let value = '';
         if (this.searchQuery.charAt(0) === '+') {
@@ -282,6 +283,7 @@ export default {
     },
     fetchSavedFilteredContact(payload, page) {
       if (this.hasActiveSegments) {
+        this.$store.dispatch('contacts/clearContacts');
         this.updatePageParam(page);
         this.$store.dispatch('contacts/filter', {
           queryPayload: payload,
@@ -291,6 +293,7 @@ export default {
     },
     fetchFilteredContacts(page) {
       if (this.hasAppliedFilters) {
+        this.$store.dispatch('contacts/clearContacts');
         const payload = this.segmentsQuery;
         this.updatePageParam(page);
         this.$store.dispatch('contacts/filter', {
@@ -377,6 +380,7 @@ export default {
     onApplyFilter(payload) {
       this.closeContactInfoPanel();
       this.segmentsQuery = filterQueryGenerator(payload);
+      this.$store.dispatch('contacts/clearContacts');
       this.$store.dispatch('contacts/filter', {
         queryPayload: filterQueryGenerator(payload),
       });

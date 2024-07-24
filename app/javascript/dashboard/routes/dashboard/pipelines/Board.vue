@@ -1,8 +1,13 @@
 <template>
   <div
-    class="flex justify-between flex-col h-full m-0 flex-1 bg-white dark:bg-slate-900 overflow-auto"
+    class="flex justify-between flex-col h-full m-0 flex-1 bg-white dark:bg-slate-900 overflow-x-auto overflow-y-hidden"
   >
-    <Kanban :statuses="statuses" :blocks="blocks" @update-block="updateStage">
+    <Kanban
+      :statuses="statuses"
+      :blocks="blocks"
+      @update-block="updateStage"
+      @fetch-more-data="fetchMoreData"
+    >
       <div v-for="stage in stages" :slot="stage.code" :key="stage.code">
         <h2>
           <span v-tooltip.top-end="stage.description">
@@ -40,6 +45,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import Kanban from '../../../components/Kanban.vue';
 import timeMixin from '../../../mixins/time.js';
 import contactMixin from 'dashboard/mixins/contactMixin';
@@ -79,6 +85,11 @@ export default {
       blocks: [],
     };
   },
+  computed: {
+    ...mapGetters({
+      stageMeta: 'contacts/getStageMeta',
+    }),
+  },
   watch: {
     stages() {
       this.loadStatuses();
@@ -88,13 +99,14 @@ export default {
     },
   },
   methods: {
+    fetchMoreData(status) {
+      this.$emit('fetch-more-data', status);
+    },
     loadStatuses() {
       this.statuses = this.stages.map(item => item.code);
     },
     stageCount(stage) {
-      const count = this.blocks.filter(
-        item => item.status === stage.code
-      ).length;
+      const count = this.stageMeta[stage.code]?.count;
       return count ? `${stage.name} (${count})` : stage.name;
     },
     syncBlockItems() {
@@ -129,9 +141,6 @@ export default {
       this.blocks = this.blocks.filter(block =>
         this.contacts.some(contact => contact.id === block.id)
       );
-      this.blocks.sort((a, b) => {
-        return b.lastActivityAt - a.lastActivityAt;
-      });
     },
 
     onClickContact(contactId) {
