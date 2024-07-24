@@ -8,7 +8,7 @@
           :label="$t('AUTOMATION.ADD.FORM.NAME.LABEL')"
           type="text"
           :class="{ error: errors.name }"
-          :error="errors.name || ''"
+          :error="errors.name ? $t('AUTOMATION.ADD.FORM.NAME.ERROR') : ''"
           :placeholder="$t('AUTOMATION.ADD.FORM.NAME.PLACEHOLDER')"
         />
         <woot-input
@@ -16,7 +16,9 @@
           :label="$t('AUTOMATION.ADD.FORM.DESC.LABEL')"
           type="text"
           :class="{ error: errors.description }"
-          :error="errors.description || ''"
+          :error="
+            errors.description ? $t('AUTOMATION.ADD.FORM.DESC.ERROR') : ''
+          "
           :placeholder="$t('AUTOMATION.ADD.FORM.DESC.PLACEHOLDER')"
         />
         <div class="mb-6">
