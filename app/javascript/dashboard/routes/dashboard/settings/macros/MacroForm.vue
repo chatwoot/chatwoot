@@ -27,6 +27,7 @@
 import MacroNodes from './MacroNodes.vue';
 import MacroProperties from './MacroProperties.vue';
 import { required, requiredIf } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
 
 export default {
   components: {
@@ -35,7 +36,7 @@ export default {
   },
   provide() {
     return {
-      $v: this.$v,
+      v$: this.v$,
     };
   },
   props: {
@@ -43,6 +44,9 @@ export default {
       type: Object,
       default: () => ({}),
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -112,16 +116,16 @@ export default {
       this.macro.actions.splice(index, 1);
     },
     submit() {
-      this.$v.$touch();
-      if (this.$v.$invalid) return;
+      this.v$.$touch();
+      if (this.v$.$invalid) return;
       this.$emit('submit', this.macro);
     },
     resetNode(index) {
-      this.$v.macro.actions.$each[index].$reset();
+      this.v$.macro.actions.$each[index].$reset();
       this.macro.actions[index].action_params = [];
     },
     resetValidation() {
-      this.$v.$reset();
+      this.v$.$reset();
     },
   },
 };

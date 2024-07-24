@@ -11,7 +11,7 @@
     <div
       class="macro__node-action-item"
       :class="{
-        'has-error': hasError($v.macro.actions.$each[index]),
+        'has-error': hasError(v$.macro.actions.$each[index]),
       }"
     >
       <action-input
@@ -21,7 +21,7 @@
         :show-action-input="showActionInput"
         :show-remove-button="false"
         :is-macro="true"
-        :v="$v.macro.actions.$each[index]"
+        :v="v$.macro.actions.$each[index]"
         :initial-file-name="fileName"
         @resetAction="$emit('resetAction')"
       />
@@ -48,7 +48,7 @@ export default {
     ActionInput,
   },
   mixins: [macrosMixin],
-  inject: ['macroActionTypes', '$v'],
+  inject: ['macroActionTypes', 'v$'],
   props: {
     singleNode: {
       type: Boolean,
