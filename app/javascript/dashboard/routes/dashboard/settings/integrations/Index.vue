@@ -21,8 +21,7 @@
             class="bg-white dark:bg-slate-800 border border-solid border-slate-75 dark:border-slate-700/50 rounded-sm mb-4 p-4"
           >
             <integration
-              integration-id="dashboard-apps"
-              integration-logo="dashboard-apps.svg"
+              integration-id="dashboard_apps"
               :integration-name="
                 $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.TITLE')
               "

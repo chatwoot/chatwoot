@@ -79,7 +79,7 @@
 
 <script>
 import Spinner from 'shared/components/Spinner.vue';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import { mapGetters } from 'vuex';
 import agentMixin from 'dashboard/mixins/agentMixin';
 import ThumbnailGroup from 'dashboard/components/widgets/ThumbnailGroup.vue';
@@ -91,7 +91,7 @@ export default {
     ThumbnailGroup,
     MultiselectDropdownItems,
   },
-  mixins: [alertMixin, agentMixin],
+  mixins: [agentMixin],
   props: {
     conversationId: {
       type: [Number, String],
@@ -197,7 +197,7 @@ export default {
           error?.message ||
           this.$t('CONVERSATION_PARTICIPANTS.API.ERROR_MESSAGE');
       } finally {
-        this.showAlert(alertMessage);
+        useAlert(alertMessage);
       }
       this.fetchParticipants();
     },

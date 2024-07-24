@@ -38,6 +38,8 @@ class Integrations::App
     case params[:id]
     when 'slack'
       ENV['SLACK_CLIENT_SECRET'].present?
+    when 'linear'
+      Current.account.feature_enabled?('linear_integration')
     else
       true
     end
@@ -45,10 +47,10 @@ class Integrations::App
 
   def enabled?(account)
     case params[:id]
-    when 'slack'
-      account.hooks.exists?(app_id: id)
+    when 'webhook'
+      account.webhooks.exists?
     else
-      true
+      account.hooks.exists?(app_id: id)
     end
   end
 

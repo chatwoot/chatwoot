@@ -1,5 +1,5 @@
 <template>
-  <form class="conversation--form w-full" @submit.prevent="onFormSubmit">
+  <form class="w-full conversation--form" @submit.prevent="onFormSubmit">
     <div
       v-if="showNoInboxAlert"
       class="relative mx-0 mt-0 mb-2.5 p-2 rounded-none text-sm border border-solid border-yellow-500 dark:border-yellow-700 bg-yellow-200/60 dark:bg-yellow-200/20 text-slate-700 dark:text-yellow-400"
@@ -9,7 +9,7 @@
       </p>
     </div>
     <div v-else>
-      <div class="gap-2 flex flex-row">
+      <div class="flex flex-row gap-2">
         <div class="w-[50%]">
           <label>
             {{ $t('NEW_CONVERSATION.FORM.INBOX.LABEL') }}
@@ -69,7 +69,7 @@
                 :status="contact.availability_status"
               />
               <h4
-                class="m-0 ml-2 mr-2 text-slate-700 dark:text-slate-100 text-sm"
+                class="m-0 ml-2 mr-2 text-sm text-slate-700 dark:text-slate-100"
               >
                 {{ contact.name }}
               </h4>
@@ -128,7 +128,7 @@
                     v-if="isSignatureEnabledForInbox && !messageSignature"
                     class="!mx-0 mb-1"
                   />
-                  <div v-if="isAnEmailInbox" class="mb-3 mt-px">
+                  <div v-if="isAnEmailInbox" class="mt-px mb-3">
                     <woot-button
                       v-tooltip.top-end="signatureToggleTooltip"
                       icon="signature"
@@ -191,7 +191,7 @@
                 {{ $t('NEW_CONVERSATION.FORM.ATTACHMENTS.SELECT') }}
               </woot-button>
               <span
-                class="text-slate-500 ltr:ml-1 rtl:mr-1 font-medium text-xs dark:text-slate-400"
+                class="text-xs font-medium text-slate-500 ltr:ml-1 rtl:mr-1 dark:text-slate-400"
               >
                 {{ $t('NEW_CONVERSATION.FORM.ATTACHMENTS.HELP_TEXT') }}
               </span>
@@ -213,7 +213,7 @@
 
     <div
       v-if="!hasWhatsappTemplates"
-      class="flex flex-row justify-end gap-2 py-2 px-0 w-full"
+      class="flex flex-row justify-end w-full gap-2 px-0 py-2"
     >
       <button class="button clear" @click.prevent="onCancel">
         {{ $t('NEW_CONVERSATION.FORM.CANCEL') }}
@@ -226,7 +226,7 @@
     <transition v-if="isEmailOrWebWidgetInbox" name="modal-fade">
       <div
         v-show="$refs.uploadAttachment && $refs.uploadAttachment.dropActive"
-        class="flex top-0 bottom-0 z-30 gap-2 right-0 left-0 items-center justify-center flex-col absolute w-full h-full bg-white/80 dark:bg-slate-700/80"
+        class="absolute top-0 bottom-0 left-0 right-0 z-30 flex flex-col items-center justify-center w-full h-full gap-2 bg-white/80 dark:bg-slate-700/80"
       >
         <fluent-icon icon="cloud-backup" size="40" />
         <h4 class="text-2xl break-words text-slate-600 dark:text-slate-200">
@@ -239,6 +239,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import ReplyEmailHead from 'dashboard/components/widgets/conversation/ReplyEmailHead.vue';
@@ -246,7 +248,6 @@ import CannedResponse from 'dashboard/components/widgets/conversation/CannedResp
 import MessageSignatureMissingAlert from 'dashboard/components/widgets/conversation/MessageSignatureMissingAlert';
 import InboxDropdownItem from 'dashboard/components/widgets/InboxDropdownItem.vue';
 import WhatsappTemplates from './WhatsappTemplates.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import { getInboxSource } from 'dashboard/helper/inbox';
@@ -260,7 +261,6 @@ import {
   appendSignature,
   removeSignature,
 } from 'dashboard/helper/editorHelper';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 export default {
   components: {
@@ -274,7 +274,7 @@ export default {
     AttachmentPreview,
     MessageSignatureMissingAlert,
   },
-  mixins: [alertMixin, uiSettingsMixin, inboxMixin, fileUploadMixin],
+  mixins: [inboxMixin, fileUploadMixin],
   props: {
     contact: {
       type: Object,
@@ -288,6 +288,15 @@ export default {
       type: String,
       default: '',
     },
+  },
+  setup() {
+    const { fetchSignatureFlagFromUISettings, setSignatureFlagForInbox } =
+      useUISettings();
+
+    return {
+      fetchSignatureFlagFromUISettings,
+      setSignatureFlagForInbox,
+    };
   },
   data() {
     return {
@@ -323,7 +332,7 @@ export default {
       messageSignature: 'getMessageSignature',
     }),
     sendWithSignature() {
-      return this.fetchSignatureFlagFromUiSettings(this.channelType);
+      return this.fetchSignatureFlagFromUISettings(this.channelType);
     },
     signatureToApply() {
       return this.messageSignature;
@@ -515,15 +524,12 @@ export default {
           message: this.$t('NEW_CONVERSATION.FORM.GO_TO_CONVERSATION'),
         };
         this.onSuccess();
-        this.showAlert(
-          this.$t('NEW_CONVERSATION.FORM.SUCCESS_MESSAGE'),
-          action
-        );
+        useAlert(this.$t('NEW_CONVERSATION.FORM.SUCCESS_MESSAGE'), action);
       } catch (error) {
         if (error instanceof ExceptionWithMessage) {
-          this.showAlert(error.data);
+          useAlert(error.data);
         } else {
-          this.showAlert(this.$t('NEW_CONVERSATION.FORM.ERROR_MESSAGE'));
+          useAlert(this.$t('NEW_CONVERSATION.FORM.ERROR_MESSAGE'));
         }
       }
     },

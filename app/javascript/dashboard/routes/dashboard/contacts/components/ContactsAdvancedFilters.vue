@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import { required } from 'vuelidate/lib/validators';
 import FilterInputBox from '../../../../components/widgets/FilterInput/Index.vue';
 import countries from 'shared/constants/countries.js';
@@ -102,7 +102,7 @@ export default {
   components: {
     FilterInputBox,
   },
-  mixins: [alertMixin, filterMixin],
+  mixins: [filterMixin],
   props: {
     onClose: {
       type: Function,
@@ -308,7 +308,7 @@ export default {
     },
     removeFilter(index) {
       if (this.appliedFilters.length <= 1) {
-        this.showAlert(this.$t('CONTACTS_FILTER.FILTER_DELETE_ERROR'));
+        useAlert(this.$t('CONTACTS_FILTER.FILTER_DELETE_ERROR'));
       } else {
         this.appliedFilters.splice(index, 1);
       }

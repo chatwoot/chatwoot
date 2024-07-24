@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 overflow-auto px-1">
+  <div class="flex-1 px-1 overflow-auto">
     <form class="space-y-3" @submit.prevent="submit">
       <div class="flex">
         <form-input
@@ -81,8 +81,8 @@
 <script>
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import alertMixin from 'shared/mixins/alertMixin';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
 import FormInput from '../../../../../components/Form/Input.vue';
@@ -99,7 +99,7 @@ export default {
     SubmitButton,
     VueHcaptcha,
   },
-  mixins: [globalConfigMixin, alertMixin],
+  mixins: [globalConfigMixin],
   data() {
     return {
       credentials: {
@@ -186,7 +186,7 @@ export default {
         let errorMessage =
           error?.message || this.$t('REGISTER.API.ERROR_MESSAGE');
         this.resetCaptcha();
-        this.showAlert(errorMessage);
+        useAlert(errorMessage);
       } finally {
         this.isSignupInProgress = false;
       }

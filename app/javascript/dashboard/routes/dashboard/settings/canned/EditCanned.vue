@@ -1,6 +1,6 @@
 <template>
   <modal :show.sync="show" :on-close="onClose">
-    <div class="h-auto overflow-auto flex flex-col">
+    <div class="flex flex-col h-auto overflow-auto">
       <woot-modal-header :header-title="pageTitle" />
       <form class="flex flex-col w-full" @submit.prevent="editCannedResponse()">
         <div class="w-full">
@@ -31,7 +31,7 @@
             />
           </div>
         </div>
-        <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+        <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
           <woot-submit-button
             :disabled="
               $v.content.$invalid ||
@@ -53,9 +53,9 @@
 <script>
 /* eslint no-console: 0 */
 import { required, minLength } from 'vuelidate/lib/validators';
+import { useAlert } from 'dashboard/composables';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import WootSubmitButton from '../../../../components/buttons/FormSubmitButton.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 import Modal from '../../../../components/Modal.vue';
 
 export default {
@@ -64,7 +64,6 @@ export default {
     Modal,
     WootMessageEditor,
   },
-  mixins: [alertMixin],
   props: {
     id: { type: Number, default: null },
     edcontent: { type: String, default: '' },
@@ -120,7 +119,7 @@ export default {
         .then(() => {
           // Reset Form, Show success message
           this.editCanned.showLoading = false;
-          this.showAlert(this.$t('CANNED_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+          useAlert(this.$t('CANNED_MGMT.EDIT.API.SUCCESS_MESSAGE'));
           this.resetForm();
           setTimeout(() => {
             this.onClose();
@@ -130,7 +129,7 @@ export default {
           this.editCanned.showLoading = false;
           const errorMessage =
             error?.message || this.$t('CANNED_MGMT.EDIT.API.ERROR_MESSAGE');
-          this.showAlert(errorMessage);
+          useAlert(errorMessage);
         });
     },
   },

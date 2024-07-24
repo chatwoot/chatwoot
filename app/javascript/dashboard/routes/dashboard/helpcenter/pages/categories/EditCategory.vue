@@ -7,7 +7,7 @@
     />
     <form class="w-full" @submit.prevent="onUpdate">
       <div class="w-full">
-        <div class="flex flex-row w-full mt-0 mx-0 mb-4">
+        <div class="flex flex-row w-full mx-0 mt-0 mb-4">
           <div class="w-[50%]">
             <label>
               <span>{{ $t('HELP_CENTER.CATEGORY.EDIT.PORTAL') }}</span>
@@ -54,7 +54,7 @@
           />
         </label>
         <div class="w-full">
-          <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+          <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
             <woot-button class="button clear" @click.prevent="onClose">
               {{ $t('HELP_CENTER.CATEGORY.EDIT.BUTTONS.CANCEL') }}
             </woot-button>
@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import { required, minLength } from 'vuelidate/lib/validators';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
 import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
@@ -77,7 +77,6 @@ import CategoryNameIconInput from './NameEmojiInput.vue';
 
 export default {
   components: { CategoryNameIconInput },
-  mixins: [alertMixin],
   props: {
     show: {
       type: Boolean,
@@ -180,7 +179,7 @@ export default {
           errorMessage ||
           this.$t('HELP_CENTER.CATEGORY.EDIT.API.ERROR_MESSAGE');
       } finally {
-        this.showAlert(this.alertMessage);
+        useAlert(this.alertMessage);
       }
     },
   },
