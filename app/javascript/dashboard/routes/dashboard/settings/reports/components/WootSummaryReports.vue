@@ -27,6 +27,8 @@ import ReportFilterSelector from './FilterSelector.vue';
 import { formatTime } from '@chatwoot/utils';
 
 import reportMixin from '../../../../../mixins/reportMixin';
+import alertMixin from 'shared/mixins/alertMixin';
+
 import { generateFileName } from '../../../../../helper/downloadHelper';
 import { VeTable } from 'vue-easytable';
 
@@ -35,7 +37,7 @@ export default {
     VeTable,
     ReportFilterSelector,
   },
-  mixins: [reportMixin],
+  mixins: [reportMixin, alertMixin],
   props: {
     type: {
       type: String,
@@ -191,8 +193,7 @@ export default {
         const params = { from, to, fileName, businessHours };
         this.$store.dispatch(dispatchMethods[type], params);
         if (type === 'agent') {
-          bus.$emit(
-            'newToastMessage',
+          this.showAlert(
             'The report will soon be available in all administrator email inboxes.'
           );
         }
