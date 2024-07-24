@@ -22,7 +22,7 @@ class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::Base
         params: params,
         file_name: file_name
       )
-      Digitaltolk::ProcessSurveyResponseParquet.perform_later(report)
+      Digitaltolk::ProcessSurveyResponseParquetJob.perform_later(report)
       render json: { progress_url: report.progress_url, report_id: report.id, file_url: report.create_empty_file_url }.to_json and return
     end
   end

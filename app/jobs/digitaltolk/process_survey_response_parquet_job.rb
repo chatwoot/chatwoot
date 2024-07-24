@@ -1,2 +1,2 @@
-class Digitaltolk::ProcessSurveyResponseParquet < Digitaltolk::ProcessParquetJob
+class Digitaltolk::ProcessSurveyResponseParquetJob < Digitaltolk::ProcessParquetJob
 end
