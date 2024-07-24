@@ -18,6 +18,7 @@
           class="drag-inner-list"
           :data-status="status"
           :style="{ maxHeight: `${windowHeight - 135}px` }"
+          @scroll="onScroll($event, status)"
         >
           <li
             v-for="block in getBlocks(status)"
@@ -171,6 +172,15 @@ export default {
   },
 
   methods: {
+    onScroll(event, status) {
+      const target = event.target;
+      const scrollPosition =
+        target.scrollTop / (target.scrollHeight - target.clientHeight);
+      if (scrollPosition >= 0.8) {
+        this.$emit('fetch-more-data', status);
+      }
+    },
+
     updateWindowHeight() {
       this.windowHeight = window.innerHeight;
     },

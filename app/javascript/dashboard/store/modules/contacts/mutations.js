@@ -20,6 +20,14 @@ export const mutations = {
     Vue.set($state.meta, 'currentPage', currentPage);
   },
 
+  [types.SET_CONTACT_STAGE_META]: ($state, { stageCode, data }) => {
+    const { count, current_page: currentPage } = data;
+    Vue.set($state.stageMeta, stageCode, {
+      count,
+      currentPage: Number(currentPage),
+    });
+  },
+
   [types.SET_CONTACTS]: ($state, data) => {
     const sortOrder = data.map(contact => {
       Vue.set($state.records, contact.id, {
@@ -28,7 +36,7 @@ export const mutations = {
       });
       return contact.id;
     });
-    $state.sortOrder = sortOrder;
+    $state.sortOrder = [...$state.sortOrder, ...sortOrder];
   },
 
   [types.SET_CONTACT_ITEM]: ($state, data) => {

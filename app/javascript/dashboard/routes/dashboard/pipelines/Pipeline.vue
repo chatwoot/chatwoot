@@ -25,6 +25,7 @@
         :contacts="records"
         :selected-contact-id="selectedContactId"
         :display-options="displayOptions"
+        @fetch-more-data="fetchMoreContacts"
         @on-selected-contact="onSelectedContact"
         @add-contact-click="addContactClick"
       />
@@ -94,7 +95,7 @@ import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHe
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import adminMixin from 'dashboard/mixins/isAdmin';
 
-const DEFAULT_PAGE = 0;
+const DEFAULT_PAGE = 1;
 const FILTER_TYPE_CONTACT = 1;
 
 export default {
@@ -155,8 +156,8 @@ export default {
       accountId: 'getCurrentAccountId',
       records: 'contacts/getContacts',
       uiFlags: 'contacts/getUIFlags',
+      stageMeta: 'contacts/getStageMeta',
       segments: 'customViews/getCustomViews',
-      getAppliedContactFilters: 'contacts/getAppliedContactFilters',
     }),
     customViews() {
       return this.$store.getters['customViews/getCustomViewsByFilterType'](
@@ -182,7 +183,7 @@ export default {
       return this.activeSegment && this.segmentsId !== 0;
     },
     hasAppliedFilters() {
-      return this.getAppliedContactFilters.length;
+      return Object.keys(this.segmentsQuery).length;
     },
     pageTitle() {
       return this.$t('PIPELINE_PAGE.HEADER');
@@ -211,7 +212,7 @@ export default {
   },
   watch: {
     activeSegment() {
-      this.fetchContacts();
+      this.fetchAllContacts();
     },
     customViewValue() {
       if (this.customViewValue) {
@@ -225,10 +226,13 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('stages/get');
     this.$store.dispatch('contacts/clearContactFilters');
     this.$store.dispatch('customViews/get', 'contact');
-    this.loadUISettings();
+
+    this.$store.dispatch('stages/get').then(() => {
+      this.loadUISettings();
+      this.loadContactData();
+    });
   },
   methods: {
     loadUISettings() {
@@ -238,11 +242,12 @@ export default {
         this.displayOptions = pipeline_view.display_options;
         this.quickFilters = pipeline_view.quick_filters || {};
       }
-
-      if (this.quickFilters) {
+    },
+    loadContactData() {
+      if (Object.keys(this.quickFilters).length) {
         this.onQuickFiltersChange(this.quickFilters);
       } else {
-        this.fetchContacts();
+        this.fetchAllContacts();
       }
     },
     onDisplayOptionChanged(option) {
@@ -310,9 +315,20 @@ export default {
     onFilterChange(selectedStageType) {
       this.selectedContactId = '';
       this.stageTypeValue = selectedStageType.value;
-      this.fetchContacts();
+      this.fetchAllContacts();
     },
-    fetchContacts() {
+    fetchMoreContacts(status) {
+      if (this.uiFlags.isFetching) return;
+      const page = this.stageMeta[status].currentPage + 1;
+      this.fetchContacts(status, page);
+    },
+    fetchAllContacts() {
+      this.$store.dispatch('contacts/clearContacts');
+      this.stages.forEach(stage => {
+        this.fetchContacts(stage.code, DEFAULT_PAGE);
+      });
+    },
+    fetchContacts(code, page) {
       let value = '';
       if (this.searchQuery.charAt(0) === '+') {
         value = this.searchQuery.substring(1);
@@ -320,8 +336,10 @@ export default {
         value = this.searchQuery;
       }
       let requestParams = {
-        page: DEFAULT_PAGE,
+        page,
+        sortAttr: '-last_activity_at',
         stageType: this.stageTypeValue,
+        stageCode: code,
       };
       if (this.label) {
         requestParams = { ...requestParams, label: this.label };
@@ -331,7 +349,7 @@ export default {
           search: encodeURIComponent(value),
           ...requestParams,
         });
-      } else if (this.hasActiveSegments) {
+      } else if (this.customViewValue) {
         this.$store.dispatch('contacts/filter', {
           ...requestParams,
           queryPayload: this.activeSegment.query,
@@ -349,13 +367,13 @@ export default {
       const refetchAllContacts = !!this.searchQuery && newQuery === '';
       this.searchQuery = newQuery;
       if (refetchAllContacts) {
-        this.fetchContacts();
+        this.fetchAllContacts();
       }
     },
     onSearchSubmit() {
       this.selectedContactId = '';
       if (this.searchQuery) {
-        this.fetchContacts();
+        this.fetchAllContacts();
       }
     },
     openContactInfoPanel(contactId) {
@@ -388,18 +406,31 @@ export default {
         return;
       }
       this.$store.dispatch('contacts/clearContactFilters');
+      this.segmentsQuery = {};
       this.customViewValue = null;
       if (filters.includes('label')) {
         this.label = quickFilters.label;
-        this.fetchContacts();
+        this.fetchAllContacts();
         return;
       }
       this.label = '';
       if (filters.length === 0) {
-        this.fetchContacts();
+        this.fetchAllContacts();
         return;
       }
       this.applyQuickFilters(quickFilters, filters);
+    },
+    filterAllContacts(payload) {
+      this.$store.dispatch('contacts/clearContacts');
+      const queryPayload = filterQueryGenerator(payload);
+      this.stages.forEach(stage => {
+        this.$store.dispatch('contacts/filter', {
+          page: DEFAULT_PAGE,
+          stageType: this.stageTypeValue,
+          stageCode: stage.code,
+          queryPayload,
+        });
+      });
     },
     applyQuickFilters(quickFilters, filters) {
       const payload = filters.map(key => {
@@ -412,21 +443,15 @@ export default {
         };
       });
 
-      this.$store.dispatch('contacts/filter', {
-        page: DEFAULT_PAGE,
-        stageType: this.stageTypeValue,
-        queryPayload: filterQueryGenerator(payload),
-      });
+      this.segmentsQuery = filterQueryGenerator(payload);
+      this.fetchAllContacts();
     },
     onApplyFilter(payload) {
       this.closeContactInfoPanel();
       this.segmentsQuery = filterQueryGenerator(payload);
-      this.$store.dispatch('contacts/filter', {
-        page: DEFAULT_PAGE,
-        stageType: this.stageTypeValue,
-        queryPayload: filterQueryGenerator(payload),
-      });
       this.showFiltersModal = false;
+
+      this.fetchAllContacts();
     },
     onUpdateSegment(payload, segmentName, accountScoped) {
       const payloadData = {
@@ -439,8 +464,9 @@ export default {
       this.closeAdvanceFiltersModal();
     },
     clearFilters() {
+      this.segmentsQuery = {};
       this.$store.dispatch('contacts/clearContactFilters');
-      this.fetchContacts();
+      this.fetchAllContacts();
     },
     onToggleSaveFilters() {
       this.showAddSegmentsModal = true;
@@ -467,7 +493,7 @@ export default {
         this.openSavedItemInSegment();
       } else {
         this.$router.push({ name: 'pipelines_dashboard' });
-        this.fetchContacts(DEFAULT_PAGE);
+        this.fetchAllContacts();
       }
     },
   },

@@ -23,7 +23,7 @@ class Api::V1::Accounts::StagesController < Api::V1::Accounts::BaseController
 
     stage_type = Stage::STAGE_TYPE_MAPPING[permitted_params[:stage_type]]
     both_type = Stage::STAGE_TYPE_MAPPING['both']
-    @stages = @stage.where("stage_type = #{stage_type} or stage_type = #{both_type} or #{stage_type} = #{both_type}")
+    @stages = @stages.where("stage_type = #{stage_type} or stage_type = #{both_type} or #{stage_type} = #{both_type}")
   end
 
   def fetch_stage

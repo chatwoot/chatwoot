@@ -136,8 +136,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     if params[:stage_type].present?
       @resolved_contacts = ::Contacts::FilterService.new(params.permit!, current_user).contacts_by_stage_type(@resolved_contacts)
     end
-    if params[:assignee_type].present?
-      @resolved_contacts = ::Contacts::FilterService.new(params.permit!, current_user).contacts_by_assignee(@resolved_contacts)
+    if params[:stage_code].present?
+      @resolved_contacts = ::Contacts::FilterService.new(params.permit!, current_user).contacts_by_stage_code(@resolved_contacts)
     end
 
     @resolved_contacts
