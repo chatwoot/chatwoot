@@ -111,7 +111,7 @@
 import { mapGetters } from 'vuex';
 import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
-import { required, minLength } from 'vuelidate/lib/validators';
+import { required, minLength } from '@vuelidate/validators';
 import { ATTRIBUTE_TYPES } from './constants';
 import customAttributeMixin from '../../../../mixins/customAttributeMixin';
 export default {

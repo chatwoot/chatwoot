@@ -38,7 +38,7 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
 import aiMixin from 'dashboard/mixins/aiMixin';
 import { useAlert } from 'dashboard/composables';

@@ -50,7 +50,7 @@
 import { useVuelidate } from '@vuelidate/core';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import { required, minLength, email } from 'vuelidate/lib/validators';
+import { required, minLength, email } from '@vuelidate/validators';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import FormInput from '../../../../components/Form/Input.vue';
 import { resetPassword } from '../../../../api/auth';

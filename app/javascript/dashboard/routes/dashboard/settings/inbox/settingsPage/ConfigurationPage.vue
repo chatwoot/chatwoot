@@ -157,7 +157,7 @@ import SettingsSection from '../../../../../components/SettingsSection.vue';
 import ImapSettings from '../ImapSettings.vue';
 import SmtpSettings from '../SmtpSettings.vue';
 import { useVuelidate } from '@vuelidate/core';
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 
 export default {
   components: {

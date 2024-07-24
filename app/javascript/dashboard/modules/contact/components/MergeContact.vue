@@ -115,7 +115,7 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 
 import MergeContactSummary from 'dashboard/modules/contact/components/MergeContactSummary.vue';
 import ContactDropdownItem from './ContactDropdownItem.vue';

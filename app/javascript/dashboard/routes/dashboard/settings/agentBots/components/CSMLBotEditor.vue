@@ -51,7 +51,7 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 import CsmlMonacoEditor from './CSMLMonacoEditor.vue';
 
 export default {

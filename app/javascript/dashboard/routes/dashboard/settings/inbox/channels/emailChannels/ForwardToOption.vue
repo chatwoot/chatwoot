@@ -53,7 +53,7 @@
 import { mapGetters } from 'vuex';
 import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
-import { required, email } from 'vuelidate/lib/validators';
+import { required, email } from '@vuelidate/validators';
 import router from '../../../../../index';
 import PageHeader from '../../../SettingsSubPageHeader.vue';
 

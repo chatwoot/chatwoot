@@ -56,7 +56,7 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { required, url, minLength } from 'vuelidate/lib/validators';
+import { required, url, minLength } from '@vuelidate/validators';
 import webhookMixin from './webhookMixin';
 import wootConstants from 'dashboard/constants/globals';
 

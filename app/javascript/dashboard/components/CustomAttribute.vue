@@ -136,7 +136,7 @@
 
 <script>
 import { format, parseISO } from 'date-fns';
-import { required, url } from 'vuelidate/lib/validators';
+import { required, url } from '@vuelidate/validators';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import HelperTextPopup from 'dashboard/components/ui/HelperTextPopup.vue';

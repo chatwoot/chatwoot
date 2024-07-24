@@ -61,7 +61,7 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { required, minLength } from 'vuelidate/lib/validators';
+import { required, minLength } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import FormButton from 'v3/components/Form/Button.vue';

@@ -53,7 +53,7 @@
 <script>
 /* eslint no-console: 0 */
 import { useVuelidate } from '@vuelidate/core';
-import { required, minLength } from 'vuelidate/lib/validators';
+import { required, minLength } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import WootSubmitButton from '../../../../components/buttons/FormSubmitButton.vue';

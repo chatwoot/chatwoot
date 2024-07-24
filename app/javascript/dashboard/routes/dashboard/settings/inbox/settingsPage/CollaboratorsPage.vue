@@ -79,7 +79,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useVuelidate } from '@vuelidate/core';
-import { minValue } from 'vuelidate/lib/validators';
+import { minValue } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import configMixin from 'shared/mixins/configMixin';
 import SettingsSection from '../../../../../components/SettingsSection.vue';

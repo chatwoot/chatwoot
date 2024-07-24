@@ -1,4 +1,4 @@
-import emailValidator from 'vuelidate/lib/validators/email';
+import { email as emailValidator } from '@vuelidate/validators';
 
 export const validEmailsByComma = value => {
   if (!value.length) return true;

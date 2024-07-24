@@ -54,7 +54,7 @@
 
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { required, url } from 'vuelidate/lib/validators';
+import { required, url } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 
 export default {
