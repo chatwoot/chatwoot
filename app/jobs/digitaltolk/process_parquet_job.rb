@@ -1,6 +1,6 @@
 class Digitaltolk::ProcessParquetJob < ApplicationJob
   queue_as :default
-  sidekiq_options timeout: 600
+  sidekiq_options timeout: 300, retry: 3
 
   def perform(parquet_report_id)
     parquet_report = ParquetReport.find_by(id: parquet_report_id)
