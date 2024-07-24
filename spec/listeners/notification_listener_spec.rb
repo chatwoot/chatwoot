@@ -187,7 +187,7 @@ describe NotificationListener do
         event = Events::Base.new(event_name, Time.zone.now, conversation: conversation)
 
         listener.assignee_changed(event)
-        expect(notification_setting.user.notifications.count).to eq(0)
+        expect(user.notifications.count).to eq(0)
       end
 
       it 'does not create notification when assignee is nil' do
