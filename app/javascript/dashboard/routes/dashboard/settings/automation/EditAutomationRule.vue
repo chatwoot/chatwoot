@@ -7,30 +7,30 @@
           v-model="automation.name"
           :label="$t('AUTOMATION.ADD.FORM.NAME.LABEL')"
           type="text"
-          :class="{ error: $v.automation.name.$error }"
+          :class="{ error: v$.automation.name.$error }"
           :error="
-            $v.automation.name.$error
+            v$.automation.name.$error
               ? $t('AUTOMATION.ADD.FORM.NAME.ERROR')
               : ''
           "
           :placeholder="$t('AUTOMATION.ADD.FORM.NAME.PLACEHOLDER')"
-          @blur="$v.automation.name.$touch"
+          @blur="v$.automation.name.$touch"
         />
         <woot-input
           v-model="automation.description"
           :label="$t('AUTOMATION.ADD.FORM.DESC.LABEL')"
           type="text"
-          :class="{ error: $v.automation.description.$error }"
+          :class="{ error: v$.automation.description.$error }"
           :error="
-            $v.automation.description.$error
+            v$.automation.description.$error
               ? $t('AUTOMATION.ADD.FORM.DESC.ERROR')
               : ''
           "
           :placeholder="$t('AUTOMATION.ADD.FORM.DESC.PLACEHOLDER')"
-          @blur="$v.automation.description.$touch"
+          @blur="v$.automation.description.$touch"
         />
         <div class="event_wrapper">
-          <label :class="{ error: $v.automation.event_name.$error }">
+          <label :class="{ error: v$.automation.event_name.$error }">
             {{ $t('AUTOMATION.ADD.FORM.EVENT.LABEL') }}
             <select v-model="automation.event_name" @change="onEventChange()">
               <option
@@ -41,7 +41,7 @@
                 {{ event.value }}
               </option>
             </select>
-            <span v-if="$v.automation.event_name.$error" class="message">
+            <span v-if="v$.automation.event_name.$error" class="message">
               {{ $t('AUTOMATION.ADD.FORM.EVENT.ERROR') }}
             </span>
           </label>
@@ -70,7 +70,7 @@
                 getCustomAttributeType(automation.conditions[i].attribute_key)
               "
               :show-query-operator="i !== automation.conditions.length - 1"
-              :v="$v.automation.conditions.$each[i]"
+              :v="v$.automation.conditions.$each[i]"
               @resetFilter="resetFilter(i, automation.conditions[i])"
               @removeFilter="removeFilter(i)"
             />
@@ -103,7 +103,7 @@
               :action-types="automationActionTypes"
               :dropdown-values="getActionDropdownValues(action.action_name)"
               :show-action-input="showActionInput(action.action_name)"
-              :v="$v.automation.actions.$each[i]"
+              :v="v$.automation.actions.$each[i]"
               :initial-file-name="getFileName(action, automation.files)"
               @resetAction="resetAction(i)"
               @removeAction="removeAction(i)"
@@ -147,6 +147,7 @@ import automationMethodsMixin from 'dashboard/mixins/automations/methodsMixin';
 import automationValidationsMixin from 'dashboard/mixins/automations/validationsMixin';
 import filterInputBox from 'dashboard/components/widgets/FilterInput/Index.vue';
 import automationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
+import { useVuelidate } from '@vuelidate/core';
 
 import {
   AUTOMATION_RULE_EVENTS,
@@ -169,6 +170,9 @@ export default {
       type: Object,
       default: () => {},
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
