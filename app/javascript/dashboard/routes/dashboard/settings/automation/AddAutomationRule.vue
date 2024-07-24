@@ -7,24 +7,26 @@
           v-model="automation.name"
           :label="$t('AUTOMATION.ADD.FORM.NAME.LABEL')"
           type="text"
-          :class="{ error: v$.automation.name.$error }"
+          :class="{ error: errors.name }"
           :error="errors.name || ''"
           :placeholder="$t('AUTOMATION.ADD.FORM.NAME.PLACEHOLDER')"
-          @blur="v$.automation.name.$touch"
         />
         <woot-input
           v-model="automation.description"
           :label="$t('AUTOMATION.ADD.FORM.DESC.LABEL')"
           type="text"
-          :class="{ error: v$.automation.description.$error }"
+          :class="{ error: errors.description }"
           :error="errors.description || ''"
           :placeholder="$t('AUTOMATION.ADD.FORM.DESC.PLACEHOLDER')"
-          @blur="v$.automation.description.$touch"
         />
-        <div class="event_wrapper">
-          <label :class="{ error: v$.automation.event_name.$error }">
+        <div class="mb-6">
+          <label :class="{ error: errors.event_name }">
             {{ $t('AUTOMATION.ADD.FORM.EVENT.LABEL') }}
-            <select v-model="automation.event_name" @change="onEventChange()">
+            <select
+              v-model="automation.event_name"
+              class="m-0"
+              @change="onEventChange()"
+            >
               <option
                 v-for="event in automationRuleEvents"
                 :key="event.key"
@@ -33,11 +35,14 @@
                 {{ event.value }}
               </option>
             </select>
-            <span v-if="v$.automation.event_name.$error" class="message">
+            <span v-if="errors.event_name" class="message">
               {{ $t('AUTOMATION.ADD.FORM.EVENT.ERROR') }}
             </span>
           </label>
-          <p v-if="hasAutomationMutated" class="info-message">
+          <p
+            v-if="hasAutomationMutated"
+            class="text-xs text-green-500 dark:text-green-500 text-right"
+          >
             {{ $t('AUTOMATION.FORM.RESET_MESSAGE') }}
           </p>
         </div>
@@ -102,7 +107,7 @@
               :show-action-input="
                 showActionInput(automation.actions[i].action_name)
               "
-              :v="v$.automation.actions.$each[i]"
+              :error-message="errors[`action_${i}`] || ''"
               @resetAction="resetAction(i)"
               @removeAction="removeAction(i)"
             />
@@ -140,7 +145,7 @@ import { mapGetters } from 'vuex';
 import automationMethodsMixin from 'dashboard/mixins/automations/methodsMixin';
 import filterInputBox from 'dashboard/components/widgets/FilterInput/Index.vue';
 import automationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
-import { useVuelidate } from '@vuelidate/core';
+// import { useVuelidate } from '@vuelidate/core';
 
 import {
   AUTOMATION_RULE_EVENTS,
@@ -158,9 +163,6 @@ export default {
       type: Function,
       default: () => {},
     },
-  },
-  setup() {
-    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -232,15 +234,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.event_wrapper {
-  select {
-    @apply m-0;
-  }
-  .info-message {
-    @apply text-xs text-green-500 dark:text-green-500 text-right;
-  }
-
-  @apply mb-6;
-}
-</style>
