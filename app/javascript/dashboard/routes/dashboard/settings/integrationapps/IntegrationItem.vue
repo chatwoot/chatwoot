@@ -2,7 +2,7 @@
   <div class="flex">
     <div class="flex h-[6.25rem] w-[6.25rem]">
       <img
-        :src="'/dashboard/images/integrations/' + integrationLogo"
+        :src="`/dashboard/images/integrations/${integrationId}.png`"
         class="max-w-full p-6"
       />
     </div>
