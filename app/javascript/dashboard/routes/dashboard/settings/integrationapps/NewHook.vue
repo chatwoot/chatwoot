@@ -39,11 +39,11 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import hookMixin from './hookMixin';
 
 export default {
-  mixins: [alertMixin, hookMixin],
+  mixins: [hookMixin],
   props: {
     integration: {
       type: Object,
@@ -131,7 +131,7 @@ export default {
         this.alertMessage =
           errorMessage || this.$t('INTEGRATION_APPS.ADD.API.ERROR_MESSAGE');
       } finally {
-        this.showAlert(this.alertMessage);
+        useAlert(this.alertMessage);
       }
     },
   },

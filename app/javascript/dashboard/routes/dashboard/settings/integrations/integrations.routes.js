@@ -43,7 +43,7 @@ export default {
           },
         },
         {
-          path: 'dashboard-apps',
+          path: 'dashboard_apps',
           component: DashboardApps,
           name: 'settings_integrations_dashboard_apps',
           meta: {

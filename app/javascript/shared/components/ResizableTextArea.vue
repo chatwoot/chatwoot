@@ -42,7 +42,7 @@ export default {
       type: Number,
       default: 2,
     },
-    // add this as a prop, so that we won't have to include uiSettingsMixin
+    // add this as a prop, so that we won't have to add useUISettings
     sendWithSignature: {
       type: Boolean,
       default: false,

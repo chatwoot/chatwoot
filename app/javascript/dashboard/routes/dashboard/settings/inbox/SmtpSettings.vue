@@ -89,7 +89,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import SettingsSection from 'dashboard/components/SettingsSection.vue';
 import { required, minLength } from 'vuelidate/lib/validators';
 import InputRadioGroup from './components/InputRadioGroup.vue';
@@ -101,7 +101,6 @@ export default {
     InputRadioGroup,
     SingleSelectDropdown,
   },
-  mixins: [alertMixin],
   props: {
     inbox: {
       type: Object,
@@ -229,9 +228,9 @@ export default {
           },
         };
         await this.$store.dispatch('inboxes/updateInboxSMTP', payload);
-        this.showAlert(this.$t('INBOX_MGMT.SMTP.EDIT.SUCCESS_MESSAGE'));
+        useAlert(this.$t('INBOX_MGMT.SMTP.EDIT.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(this.$t('INBOX_MGMT.SMTP.EDIT.ERROR_MESSAGE'));
+        useAlert(this.$t('INBOX_MGMT.SMTP.EDIT.ERROR_MESSAGE'));
       }
     },
   },

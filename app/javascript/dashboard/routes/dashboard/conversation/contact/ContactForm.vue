@@ -150,7 +150,7 @@
 </template>
 
 <script>
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import {
   DuplicateContactException,
   ExceptionWithMessage,
@@ -161,7 +161,6 @@ import { isPhoneNumberValid } from 'shared/helpers/Validators';
 import parsePhoneNumber from 'libphonenumber-js';
 
 export default {
-  mixins: [alertMixin],
   props: {
     contact: {
       type: Object,
@@ -375,20 +374,18 @@ export default {
       try {
         await this.onSubmit(this.getContactObject());
         this.onSuccess();
-        this.showAlert(this.$t('CONTACT_FORM.SUCCESS_MESSAGE'));
+        useAlert(this.$t('CONTACT_FORM.SUCCESS_MESSAGE'));
       } catch (error) {
         if (error instanceof DuplicateContactException) {
           if (error.data.includes('email')) {
-            this.showAlert(
-              this.$t('CONTACT_FORM.FORM.EMAIL_ADDRESS.DUPLICATE')
-            );
+            useAlert(this.$t('CONTACT_FORM.FORM.EMAIL_ADDRESS.DUPLICATE'));
           } else if (error.data.includes('phone_number')) {
-            this.showAlert(this.$t('CONTACT_FORM.FORM.PHONE_NUMBER.DUPLICATE'));
+            useAlert(this.$t('CONTACT_FORM.FORM.PHONE_NUMBER.DUPLICATE'));
           }
         } else if (error instanceof ExceptionWithMessage) {
-          this.showAlert(error.data);
+          useAlert(error.data);
         } else {
-          this.showAlert(this.$t('CONTACT_FORM.ERROR_MESSAGE'));
+          useAlert(this.$t('CONTACT_FORM.ERROR_MESSAGE'));
         }
       }
     },
@@ -400,15 +397,13 @@ export default {
       try {
         if (this.contact && this.contact.id) {
           await this.$store.dispatch('contacts/deleteAvatar', this.contact.id);
-          this.showAlert(
-            this.$t('CONTACT_FORM.DELETE_AVATAR.API.SUCCESS_MESSAGE')
-          );
+          useAlert(this.$t('CONTACT_FORM.DELETE_AVATAR.API.SUCCESS_MESSAGE'));
         }
         this.avatarFile = null;
         this.avatarUrl = '';
         this.activeDialCode = '';
       } catch (error) {
-        this.showAlert(
+        useAlert(
           error.message
             ? error.message
             : this.$t('CONTACT_FORM.DELETE_AVATAR.API.ERROR_MESSAGE')

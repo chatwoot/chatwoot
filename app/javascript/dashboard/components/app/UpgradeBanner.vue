@@ -12,13 +12,12 @@
 <script>
 import Banner from 'dashboard/components/ui/Banner.vue';
 import { mapGetters } from 'vuex';
-import adminMixin from 'dashboard/mixins/isAdmin';
 import accountMixin from 'dashboard/mixins/account';
 import { differenceInDays } from 'date-fns';
 
 export default {
   components: { Banner },
-  mixins: [adminMixin, accountMixin],
+  mixins: [accountMixin],
   data() {
     return { conversationMeta: {} };
   },

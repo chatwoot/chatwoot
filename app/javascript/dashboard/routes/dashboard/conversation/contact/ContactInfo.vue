@@ -166,17 +166,16 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 import ContactInfoRow from './ContactInfoRow.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import SocialIcons from './SocialIcons.vue';
-
 import EditContact from './EditContact.vue';
 import NewConversation from './NewConversation.vue';
 import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal.vue';
-import alertMixin from 'shared/mixins/alertMixin';
-import adminMixin from '../../../../mixins/isAdmin';
-import { mapGetters } from 'vuex';
 import { getCountryFlag } from 'dashboard/helper/flag';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {
@@ -194,7 +193,6 @@ export default {
     NewConversation,
     ContactMergeModal,
   },
-  mixins: [alertMixin, adminMixin],
   props: {
     contact: {
       type: Object,
@@ -216,6 +214,12 @@ export default {
       type: String,
       default: 'chevron-right',
     },
+  },
+  setup() {
+    const { isAdmin } = useAdmin();
+    return {
+      isAdmin,
+    };
   },
   data() {
     return {
@@ -301,7 +305,7 @@ export default {
       try {
         await this.$store.dispatch('contacts/delete', id);
         this.$emit('panel-close');
-        this.showAlert(this.$t('DELETE_CONTACT.API.SUCCESS_MESSAGE'));
+        useAlert(this.$t('DELETE_CONTACT.API.SUCCESS_MESSAGE'));
 
         if (isAConversationRoute(this.$route.name)) {
           this.$router.push({
@@ -317,7 +321,7 @@ export default {
           });
         }
       } catch (error) {
-        this.showAlert(
+        useAlert(
           error.message
             ? error.message
             : this.$t('DELETE_CONTACT.API.ERROR_MESSAGE')

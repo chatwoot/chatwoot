@@ -3,7 +3,7 @@
     <span class="overflow-hidden whitespace-nowrap text-ellipsis">{{
       macro.name
     }}</span>
-    <div class="macros-actions flex items-center gap-1">
+    <div class="flex items-center gap-1 macros-actions">
       <woot-button
         v-tooltip.left-start="$t('MACROS.EXECUTE.PREVIEW')"
         size="tiny"
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import MacroPreview from './MacroPreview.vue';
 import { CONVERSATION_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 
@@ -41,7 +41,6 @@ export default {
   components: {
     MacroPreview,
   },
-  mixins: [alertMixin],
   props: {
     macro: {
       type: Object,
@@ -67,9 +66,9 @@ export default {
           conversationIds: [this.conversationId],
         });
         this.$track(CONVERSATION_EVENTS.EXECUTED_A_MACRO);
-        this.showAlert(this.$t('MACROS.EXECUTE.EXECUTED_SUCCESSFULLY'));
+        useAlert(this.$t('MACROS.EXECUTE.EXECUTED_SUCCESSFULLY'));
       } catch (error) {
-        this.showAlert(this.$t('MACROS.ERROR'));
+        useAlert(this.$t('MACROS.ERROR'));
       } finally {
         this.isExecuting = false;
       }

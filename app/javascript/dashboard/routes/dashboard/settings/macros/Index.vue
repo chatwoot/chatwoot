@@ -58,14 +58,14 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import accountMixin from 'dashboard/mixins/account.js';
 import MacrosTableRow from './MacrosTableRow.vue';
 export default {
   components: {
     MacrosTableRow,
   },
-  mixins: [alertMixin, accountMixin],
+  mixins: [accountMixin],
   data() {
     return {
       showDeleteConfirmationPopup: false,
@@ -101,10 +101,10 @@ export default {
     async deleteMacro(id) {
       try {
         await this.$store.dispatch('macros/delete', id);
-        this.showAlert(this.$t('MACROS.DELETE.API.SUCCESS_MESSAGE'));
+        useAlert(this.$t('MACROS.DELETE.API.SUCCESS_MESSAGE'));
         this.loading[this.selectedResponse.id] = false;
       } catch (error) {
-        this.showAlert(this.$t('MACROS.DELETE.API.ERROR_MESSAGE'));
+        useAlert(this.$t('MACROS.DELETE.API.ERROR_MESSAGE'));
       }
     },
   },

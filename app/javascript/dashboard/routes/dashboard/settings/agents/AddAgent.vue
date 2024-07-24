@@ -69,10 +69,9 @@
 <script>
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 
 export default {
-  mixins: [alertMixin],
   props: {
     onClose: {
       type: Function,
@@ -126,7 +125,7 @@ export default {
           email: this.agentEmail,
           role: this.agentType,
         });
-        this.showAlert(this.$t('AGENT_MGMT.ADD.API.SUCCESS_MESSAGE'));
+        useAlert(this.$t('AGENT_MGMT.ADD.API.SUCCESS_MESSAGE'));
         this.onClose();
       } catch (error) {
         const {
@@ -145,7 +144,7 @@ export default {
         } else {
           errorMessage = this.$t('AGENT_MGMT.ADD.API.ERROR_MESSAGE');
         }
-        this.showAlert(errorResponse || attrError || errorMessage);
+        useAlert(errorResponse || attrError || errorMessage);
       }
     },
   },

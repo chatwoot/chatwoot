@@ -35,7 +35,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import adminMixin from 'dashboard/mixins/isAdmin';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 import accountMixin from 'dashboard/mixins/account';
 import OnboardingView from '../OnboardingView.vue';
 import EmptyStateMessage from './EmptyStateMessage.vue';
@@ -45,12 +45,18 @@ export default {
     OnboardingView,
     EmptyStateMessage,
   },
-  mixins: [accountMixin, adminMixin],
+  mixins: [accountMixin],
   props: {
     isOnExpandedLayout: {
       type: Boolean,
       default: false,
     },
+  },
+  setup() {
+    const { isAdmin } = useAdmin();
+    return {
+      isAdmin,
+    };
   },
   computed: {
     ...mapGetters({

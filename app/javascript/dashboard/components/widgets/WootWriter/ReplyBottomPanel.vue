@@ -134,10 +134,10 @@
 </template>
 
 <script>
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import FileUpload from 'vue-upload-component';
 import * as ActiveStorage from 'activestorage';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import {
@@ -153,7 +153,7 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'ReplyBottomPanel',
   components: { FileUpload, VideoCallButton, AIAssistanceButton },
-  mixins: [keyboardEventListenerMixins, uiSettingsMixin, inboxMixin],
+  mixins: [keyboardEventListenerMixins, inboxMixin],
   props: {
     mode: {
       type: String,
@@ -248,6 +248,15 @@ export default {
       required: true,
     },
   },
+  setup() {
+    const { setSignatureFlagForInbox, fetchSignatureFlagFromUISettings } =
+      useUISettings();
+
+    return {
+      setSignatureFlagForInbox,
+      fetchSignatureFlagFromUISettings,
+    };
+  },
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
@@ -320,7 +329,7 @@ export default {
     },
     sendWithSignature() {
       // channelType is sourced from inboxMixin
-      return this.fetchSignatureFlagFromUiSettings(this.channelType);
+      return this.fetchSignatureFlagFromUISettings(this.channelType);
     },
     signatureToggleTooltip() {
       return this.sendWithSignature
