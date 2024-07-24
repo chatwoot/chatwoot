@@ -134,10 +134,10 @@ export default {
     },
     slaNameErrorMessage() {
       let errorMessage = '';
-      if (this.$v.name.$error) {
-        if (!this.$v.name.required) {
+      if (this.v$.name.$error) {
+        if (!this.v$.name.required) {
           errorMessage = this.$t('SLA.FORM.NAME.REQUIRED_ERROR');
-        } else if (!this.$v.name.minLength) {
+        } else if (!this.v$.name.minLength) {
           errorMessage = this.$t('SLA.FORM.NAME.MINIMUM_LENGTH_ERROR');
         }
       }
