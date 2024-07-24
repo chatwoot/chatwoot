@@ -44,8 +44,8 @@ RSpec.describe Integrations::App do
     let(:app_name) { 'slack' }
 
     context 'when the app is slack' do
-      with_modified_env SLACK_CLIENT_SECRET: 'random_secret' do
-        it 'returns true if SLACK_CLIENT_SECRET is present' do
+      it 'returns true if SLACK_CLIENT_SECRET is present' do
+        with_modified_env SLACK_CLIENT_SECRET: 'random_secret' do
           expect(app.active?).to be true
         end
       end
