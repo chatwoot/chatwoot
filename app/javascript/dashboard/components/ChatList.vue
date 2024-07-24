@@ -64,7 +64,7 @@
       @assign-team="onAssignTeamsForBulk"
     />
     <div
-      ref="conversationList"
+      ref="conversationListRef"
       class="flex-1 conversations-list"
       :class="{ 'overflow-hidden': isContextMenuOpen }"
     >
@@ -115,16 +115,17 @@
 </template>
 
 <script>
+import { ref } from 'vue';
 import { mapGetters } from 'vuex';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import VirtualList from 'vue-virtual-scroll-list';
 
 import ChatListHeader from './ChatListHeader.vue';
 import ConversationAdvancedFilter from './widgets/conversation/ConversationAdvancedFilter.vue';
 import ChatTypeTabs from './widgets/ChatTypeTabs.vue';
 import ConversationItem from './ConversationItem.vue';
-import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import conversationMixin from '../mixins/conversations';
 import wootConstants from 'dashboard/constants/globals';
 import advancedFilterTypes from './widgets/conversation/advancedFilterItems';
@@ -157,7 +158,7 @@ export default {
     IntersectionObserver,
     VirtualList,
   },
-  mixins: [conversationMixin, keyboardEventListenerMixins, filterMixin],
+  mixins: [conversationMixin, filterMixin],
   provide() {
     return {
       // Actions to be performed on virtual list item and context menu.
@@ -205,8 +206,67 @@ export default {
   setup() {
     const { uiSettings } = useUISettings();
 
+    const conversationListRef = ref(null);
+
+    const getKeyboardListenerParams = () => {
+      const allConversations = conversationListRef.value.querySelectorAll(
+        'div.conversations-list div.conversation'
+      );
+      const activeConversation = conversationListRef.value.querySelector(
+        'div.conversations-list div.conversation.active'
+      );
+      const activeConversationIndex = [...allConversations].indexOf(
+        activeConversation
+      );
+      const lastConversationIndex = allConversations.length - 1;
+      return {
+        allConversations,
+        activeConversation,
+        activeConversationIndex,
+        lastConversationIndex,
+      };
+    };
+
+    const handlePreviousConversation = () => {
+      const { allConversations, activeConversationIndex } =
+        getKeyboardListenerParams();
+      if (activeConversationIndex === -1) {
+        allConversations[0].click();
+      }
+      if (activeConversationIndex >= 1) {
+        allConversations[activeConversationIndex - 1].click();
+      }
+    };
+
+    const handleNextConversation = () => {
+      const {
+        allConversations,
+        activeConversationIndex,
+        lastConversationIndex,
+      } = getKeyboardListenerParams();
+      if (activeConversationIndex === -1) {
+        allConversations[lastConversationIndex].click();
+      } else if (activeConversationIndex < lastConversationIndex) {
+        allConversations[activeConversationIndex + 1].click();
+      }
+    };
+
+    const keyboardEvents = {
+      'Alt+KeyJ': {
+        action: () => handlePreviousConversation(),
+        allowOnFocusedInput: true,
+      },
+      'Alt+KeyK': {
+        action: () => handleNextConversation(),
+        allowOnFocusedInput: true,
+      },
+    };
+
+    useKeyboardEvents(keyboardEvents, conversationListRef);
+
     return {
       uiSettings,
+      conversationListRef,
     };
   },
   data() {
@@ -229,7 +289,7 @@ export default {
       isContextMenuOpen: false,
       appliedFilter: [],
       infiniteLoaderOptions: {
-        root: this.$refs.conversationList,
+        root: this.$refs.conversationListRef,
         rootMargin: '100px 0px 100px 0px',
       },
 
@@ -609,58 +669,6 @@ export default {
           custom_attribute_type: filter.custom_attribute_type,
         }))
       );
-    },
-    getKeyboardListenerParams() {
-      const allConversations = this.$refs.conversationList.querySelectorAll(
-        'div.conversations-list div.conversation'
-      );
-      const activeConversation = this.$refs.conversationList.querySelector(
-        'div.conversations-list div.conversation.active'
-      );
-      const activeConversationIndex = [...allConversations].indexOf(
-        activeConversation
-      );
-      const lastConversationIndex = allConversations.length - 1;
-      return {
-        allConversations,
-        activeConversation,
-        activeConversationIndex,
-        lastConversationIndex,
-      };
-    },
-    handlePreviousConversation() {
-      const { allConversations, activeConversationIndex } =
-        this.getKeyboardListenerParams();
-      if (activeConversationIndex === -1) {
-        allConversations[0].click();
-      }
-      if (activeConversationIndex >= 1) {
-        allConversations[activeConversationIndex - 1].click();
-      }
-    },
-    handleNextConversation() {
-      const {
-        allConversations,
-        activeConversationIndex,
-        lastConversationIndex,
-      } = this.getKeyboardListenerParams();
-      if (activeConversationIndex === -1) {
-        allConversations[lastConversationIndex].click();
-      } else if (activeConversationIndex < lastConversationIndex) {
-        allConversations[activeConversationIndex + 1].click();
-      }
-    },
-    getKeyboardEvents() {
-      return {
-        'Alt+KeyJ': {
-          action: () => this.handlePreviousConversation(),
-          allowOnFocusedInput: true,
-        },
-        'Alt+KeyK': {
-          action: () => this.handleNextConversation(),
-          allowOnFocusedInput: true,
-        },
-      };
     },
     resetAndFetchData() {
       this.appliedFilter = [];
