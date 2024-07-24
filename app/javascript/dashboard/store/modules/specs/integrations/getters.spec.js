@@ -5,12 +5,6 @@ describe('#getters', () => {
     const state = {
       records: [
         {
-          id: 'test1',
-          name: 'test1',
-          logo: 'test',
-          enabled: true,
-        },
-        {
           id: 'dyte',
           name: 'dyte',
           logo: 'test',
