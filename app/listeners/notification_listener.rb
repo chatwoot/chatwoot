@@ -44,7 +44,21 @@ class NotificationListener < BaseListener
   def message_created(event)
     message = extract_message_and_account(event)[0]
 
+    return if ignore_message_created_event?(message)
+
     Messages::MentionService.new(message: message).perform
     Messages::NewMessageNotificationService.new(message: message).perform
+  end
+
+  def backpopulated_message?(message)
+    message.additional_attributes['ignore_automation_rules'].present? && message.additional_attributes['ignore_automation_rules']
+  end
+
+  def ignore_notification_trigger?(message)
+    message.additional_attributes['disable_notifications'].present? && message.additional_attributes['disable_notifications']
+  end
+
+  def ignore_message_created_event?(message)
+    backpopulated_message?(message) || ignore_notification_trigger?(message)
   end
 end

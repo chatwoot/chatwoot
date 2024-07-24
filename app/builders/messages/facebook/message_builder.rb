@@ -151,7 +151,7 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
 
     previous_conversation.messages.map do |message|
       message.attributes.except('conversation_id').merge(
-        additional_attributes: (message.additional_attributes || {}).merge(ignore_automation_rules: true)
+        additional_attributes: (message.additional_attributes || {}).merge(ignore_automation_rules: true, disable_notifications: true)
       )
     end
   end

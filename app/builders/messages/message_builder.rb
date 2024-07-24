@@ -11,6 +11,7 @@ class Messages::MessageBuilder
     @attachments = params[:attachments]
     @automation_rule = content_attributes&.dig(:automation_rule_id)
     @ignore_automation_rules = params[:ignore_automation_rules]
+    @disable_notifications = params[:disable_notifications]
     return unless params.instance_of?(ActionController::Parameters)
 
     @in_reply_to = content_attributes&.dig(:in_reply_to)
@@ -137,12 +138,17 @@ class Messages::MessageBuilder
     @ignore_automation_rules.present? && @ignore_automation_rules == 'true' ? { additional_attributes: { ignore_automation_rules: true } } : {}
   end
 
+  def disable_notifications
+    @disable_notifications.present? && @disable_notifications == 'true' ? { additional_attributes: { disable_notifications: true } } : {}
+  end
+
   def message_sender
     return if @params[:sender_type] != 'AgentBot'
 
     AgentBot.where(account_id: [nil, @conversation.account.id]).find_by(id: @params[:sender_id])
   end
 
+  # rubocop:disable Layout/LineLength
   def message_params
     {
       account_id: @conversation.account_id,
@@ -156,6 +162,7 @@ class Messages::MessageBuilder
       in_reply_to: @in_reply_to,
       echo_id: @params[:echo_id],
       source_id: @params[:source_id]
-    }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params).merge(ignore_automation_rules)
+    }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params).merge(ignore_automation_rules).merge(disable_notifications)
   end
+  # rubocop:enable Layout/LineLength
 end

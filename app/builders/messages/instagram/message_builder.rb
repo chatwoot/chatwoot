@@ -167,15 +167,16 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
       end
     end
 
-    new_conversation.messages.create!(private_message_params("A Conversation with #{contact.name.capitalize} started",
+    new_conversation.messages.create!(private_message_params("Conversation with #{contact.name.capitalize} started",
                                                              new_conversation))
     new_conversation
   end
 
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
-  
+
   def private_message_params(content, new_conversation)
-    { account_id: new_conversation.account_id, inbox_id: new_conversation.inbox_id, message_type: :outgoing, content: content, private: true }
+    { account_id: new_conversation.account_id, additional_attributes: { disable_notifications: true }, inbox_id: new_conversation.inbox_id,
+      message_type: :outgoing, content: content, private: true }
   end
 
   def fetch_previous_messages
@@ -185,7 +186,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
 
     previous_conversation.messages.map do |message|
       message.attributes.except('conversation_id').merge(
-        additional_attributes: (message.additional_attributes || {}).merge(ignore_automation_rules: true)
+        additional_attributes: (message.additional_attributes || {}).merge(ignore_automation_rules: true, disable_notifications: true)
       )
     end
   end
