@@ -1,22 +1,22 @@
 <template>
   <div
     v-if="isLoading"
-    class="flex flex-1 items-center h-full bg-black-25 justify-center"
+    class="flex items-center justify-center flex-1 h-full bg-black-25"
   >
     <spinner size="" />
   </div>
   <div
     v-else
-    class="w-full h-full flex overflow-auto bg-slate-50 items-center justify-center"
+    class="flex items-center justify-center w-full h-full overflow-auto bg-slate-50"
   >
     <div
-      class="flex bg-white shadow-lg rounded-lg flex-col w-full lg:w-2/5 h-full lg:h-auto"
+      class="flex flex-col w-full h-full bg-white rounded-lg shadow-lg lg:w-2/5 lg:h-auto"
     >
-      <div class="w-full my-0 m-auto px-12 pt-12 pb-6">
-        <img v-if="logo" :src="logo" alt="Chatwoot logo" class="logo mb-6" />
+      <div class="w-full px-12 pt-12 pb-6 m-auto my-0">
+        <img v-if="logo" :src="logo" alt="Chatwoot logo" class="mb-6 logo" />
         <p
           v-if="!isRatingSubmitted"
-          class="text-black-700 text-lg leading-relaxed mb-8"
+          class="mb-8 text-lg leading-relaxed text-black-700"
         >
           {{ $t('SURVEY.DESCRIPTION', { inboxName }) }}
         </p>
@@ -28,7 +28,7 @@
         />
         <label
           v-if="!isRatingSubmitted"
-          class="text-base font-medium text-black-800 mb-4"
+          class="mb-4 text-base font-medium text-black-800"
         >
           {{ $t('SURVEY.RATING.LABEL') }}
         </label>
@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import { useAlert } from 'dashboard/composables';
 import Branding from 'shared/components/Branding.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import Rating from 'survey/components/Rating.vue';
@@ -59,7 +60,6 @@ import Feedback from 'survey/components/Feedback.vue';
 import Banner from 'survey/components/Banner.vue';
 import configMixin from 'shared/mixins/configMixin';
 import { getSurveyDetails, updateSurvey } from 'survey/api/survey';
-import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   name: 'Response',
@@ -70,7 +70,7 @@ export default {
     Banner,
     Feedback,
   },
-  mixins: [alertMixin, configMixin],
+  mixins: [configMixin],
   props: {
     showHomePage: {
       type: Boolean,
@@ -176,6 +176,7 @@ export default {
       } catch (error) {
         const errorMessage = error?.response?.data?.error;
         this.errorMessage = errorMessage || this.$t('SURVEY.API.ERROR_MESSAGE');
+        useAlert(this.errorMessage);
       } finally {
         this.isUpdating = false;
       }

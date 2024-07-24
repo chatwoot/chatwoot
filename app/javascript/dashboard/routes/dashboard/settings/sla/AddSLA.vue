@@ -13,15 +13,14 @@
 </template>
 
 <script>
-import alertMixin from 'shared/mixins/alertMixin';
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import SlaForm from './SlaForm.vue';
 
 export default {
   components: {
     SlaForm,
   },
-  mixins: [alertMixin],
   computed: {
     ...mapGetters({
       uiFlags: 'sla/getUIFlags',
@@ -34,12 +33,12 @@ export default {
     async addSLA(payload) {
       try {
         await this.$store.dispatch('sla/create', payload);
-        this.showAlert(this.$t('SLA.ADD.API.SUCCESS_MESSAGE'));
+        useAlert(this.$t('SLA.ADD.API.SUCCESS_MESSAGE'));
         this.onClose();
       } catch (error) {
         const errorMessage =
           error.message || this.$t('SLA.ADD.API.ERROR_MESSAGE');
-        this.showAlert(errorMessage);
+        useAlert(errorMessage);
       }
     },
   },

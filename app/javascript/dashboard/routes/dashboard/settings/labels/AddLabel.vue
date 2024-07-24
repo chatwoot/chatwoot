@@ -55,13 +55,12 @@
 </template>
 
 <script>
-import alertMixin from 'shared/mixins/alertMixin';
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import validations, { getLabelTitleErrorMessage } from './validations';
 import { getRandomColor } from 'dashboard/helper/labelColor';
 
 export default {
-  mixins: [alertMixin],
   props: {
     prefillTitle: {
       type: String,
@@ -102,12 +101,12 @@ export default {
           title: this.title.toLowerCase(),
           show_on_sidebar: this.showOnSidebar,
         });
-        this.showAlert(this.$t('LABEL_MGMT.ADD.API.SUCCESS_MESSAGE'));
+        useAlert(this.$t('LABEL_MGMT.ADD.API.SUCCESS_MESSAGE'));
         this.onClose();
       } catch (error) {
         const errorMessage =
           error.message || this.$t('LABEL_MGMT.ADD.API.ERROR_MESSAGE');
-        this.showAlert(errorMessage);
+        useAlert(errorMessage);
       }
     },
   },

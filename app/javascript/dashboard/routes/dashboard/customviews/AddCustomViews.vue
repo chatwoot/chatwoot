@@ -30,11 +30,10 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import { CONTACTS_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
 export default {
-  mixins: [alertMixin],
   props: {
     filterType: {
       type: Number,
@@ -101,7 +100,7 @@ export default {
             ? errorMessage
             : this.$t('FILTER.CUSTOM_VIEWS.ADD.API_SEGMENTS.ERROR_MESSAGE');
       } finally {
-        this.showAlert(this.alertMessage);
+        useAlert(this.alertMessage);
       }
       this.openLastSavedItem();
     },

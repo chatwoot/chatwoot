@@ -133,7 +133,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
 import ContactConversations from './ContactConversations.vue';
 import ConversationAction from './ConversationAction.vue';
@@ -143,7 +143,6 @@ import ContactInfo from './contact/ContactInfo.vue';
 import ConversationInfo from './ConversationInfo.vue';
 import CustomAttributes from './customAttributes/CustomAttributes.vue';
 import draggable from 'vuedraggable';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import MacrosList from './Macros/List.vue';
 export default {
   components: {
@@ -157,7 +156,6 @@ export default {
     draggable,
     MacrosList,
   },
-  mixins: [alertMixin, uiSettingsMixin],
   props: {
     conversationId: {
       type: [Number, String],
@@ -171,6 +169,21 @@ export default {
       type: Function,
       default: () => {},
     },
+  },
+  setup() {
+    const {
+      updateUISettings,
+      isContactSidebarItemOpen,
+      conversationSidebarItemsOrder,
+      toggleSidebarUIState,
+    } = useUISettings();
+
+    return {
+      updateUISettings,
+      isContactSidebarItemOpen,
+      conversationSidebarItemsOrder,
+      toggleSidebarUIState,
+    };
   },
   data() {
     return {

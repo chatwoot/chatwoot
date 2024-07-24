@@ -1,7 +1,7 @@
 <template>
-  <div class="article-container flex w-full overflow-auto">
+  <div class="flex w-full overflow-auto article-container">
     <div
-      class="flex-1 flex-shrink-0 overflow-auto px-6"
+      class="flex-1 flex-shrink-0 px-6 overflow-auto"
       :class="{ 'flex-grow-1 flex-shrink-0': showArticleSettings }"
     >
       <edit-article-header
@@ -15,7 +15,7 @@
         @show="showArticleInPortal"
         @update-meta="updateMeta"
       />
-      <div v-if="isFetching" class="text-center p-4 text-base h-full">
+      <div v-if="isFetching" class="h-full p-4 text-base text-center">
         <spinner size="" />
         <span>{{ $t('HELP_CENTER.EDIT_ARTICLE.LOADING') }}</span>
       </div>
@@ -48,12 +48,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import EditArticleHeader from '../../components/Header/EditArticleHeader.vue';
 import ArticleEditor from '../../components/ArticleEditor.vue';
 import ArticleSettings from './ArticleSettings.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import portalMixin from '../../mixins/portalMixin';
-import alertMixin from 'shared/mixins/alertMixin';
 import wootConstants from 'dashboard/constants/globals';
 import { buildPortalArticleURL } from 'dashboard/helper/portalHelper';
 import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
@@ -66,7 +66,7 @@ export default {
     Spinner,
     ArticleSettings,
   },
-  mixins: [portalMixin, alertMixin],
+  mixins: [portalMixin],
   data() {
     return {
       isUpdating: false,
@@ -144,7 +144,7 @@ export default {
       } catch (error) {
         this.alertMessage =
           error?.message || this.$t('HELP_CENTER.EDIT_ARTICLE.API.ERROR');
-        this.showAlert(this.alertMessage);
+        useAlert(this.alertMessage);
       } finally {
         setTimeout(() => {
           this.isUpdating = false;
@@ -174,7 +174,7 @@ export default {
           error?.message ||
           this.$t('HELP_CENTER.DELETE_ARTICLE.API.ERROR_MESSAGE');
       } finally {
-        this.showAlert(this.alertMessage);
+        useAlert(this.alertMessage);
       }
     },
     async archiveArticle() {
@@ -190,7 +190,7 @@ export default {
         this.alertMessage =
           error?.message || this.$t('HELP_CENTER.ARCHIVE_ARTICLE.API.ERROR');
       } finally {
-        this.showAlert(this.alertMessage);
+        useAlert(this.alertMessage);
       }
     },
     updateMeta() {

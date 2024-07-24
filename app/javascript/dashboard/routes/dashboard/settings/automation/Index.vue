@@ -125,17 +125,16 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
+import { messageStamp } from 'shared/helpers/timeHelper';
 import AddAutomationRule from './AddAutomationRule.vue';
 import EditAutomationRule from './EditAutomationRule.vue';
-import alertMixin from 'shared/mixins/alertMixin';
-import { messageStamp } from 'shared/helpers/timeHelper';
 
 export default {
   components: {
     AddAutomationRule,
     EditAutomationRule,
   },
-  mixins: [alertMixin],
   data() {
     return {
       loading: {},
@@ -213,20 +212,20 @@ export default {
     async deleteAutomation(id) {
       try {
         await this.$store.dispatch('automations/delete', id);
-        this.showAlert(this.$t('AUTOMATION.DELETE.API.SUCCESS_MESSAGE'));
+        useAlert(this.$t('AUTOMATION.DELETE.API.SUCCESS_MESSAGE'));
         this.loading[this.selectedResponse.id] = false;
       } catch (error) {
-        this.showAlert(this.$t('AUTOMATION.DELETE.API.ERROR_MESSAGE'));
+        useAlert(this.$t('AUTOMATION.DELETE.API.ERROR_MESSAGE'));
       }
     },
     async cloneAutomation(id) {
       try {
         await this.$store.dispatch('automations/clone', id);
-        this.showAlert(this.$t('AUTOMATION.CLONE.API.SUCCESS_MESSAGE'));
+        useAlert(this.$t('AUTOMATION.CLONE.API.SUCCESS_MESSAGE'));
         this.$store.dispatch('automations/get');
         this.loading[this.selectedResponse.id] = false;
       } catch (error) {
-        this.showAlert(this.$t('AUTOMATION.CLONE.API.ERROR_MESSAGE'));
+        useAlert(this.$t('AUTOMATION.CLONE.API.ERROR_MESSAGE'));
       }
     },
     async submitAutomation(payload, mode) {
@@ -238,7 +237,7 @@ export default {
             ? this.$t('AUTOMATION.EDIT.API.SUCCESS_MESSAGE')
             : this.$t('AUTOMATION.ADD.API.SUCCESS_MESSAGE');
         await this.$store.dispatch(action, payload);
-        this.showAlert(successMessage);
+        useAlert(successMessage);
         this.hideAddPopup();
         this.hideEditPopup();
       } catch (error) {
@@ -246,7 +245,7 @@ export default {
           mode === 'edit'
             ? this.$t('AUTOMATION.EDIT.API.ERROR_MESSAGE')
             : this.$t('AUTOMATION.ADD.API.ERROR_MESSAGE');
-        this.showAlert(errorMessage);
+        useAlert(errorMessage);
       }
     },
     async toggleAutomation(automation, status) {
@@ -271,10 +270,10 @@ export default {
           const message = status
             ? this.$t('AUTOMATION.TOGGLE.DEACTIVATION_SUCCESFUL')
             : this.$t('AUTOMATION.TOGGLE.ACTIVATION_SUCCESFUL');
-          this.showAlert(message);
+          useAlert(message);
         }
       } catch (error) {
-        this.showAlert(this.$t('AUTOMATION.EDIT.API.ERROR_MESSAGE'));
+        useAlert(this.$t('AUTOMATION.EDIT.API.ERROR_MESSAGE'));
       }
     },
     readableTime(date) {

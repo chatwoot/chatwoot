@@ -15,13 +15,11 @@
 
 <script>
 import WootSnackbar from './Snackbar.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     WootSnackbar,
   },
-  mixins: [alertMixin],
   props: {
     duration: {
       type: Number,
@@ -42,7 +40,7 @@ export default {
     this.$emitter.off('newToastMessage', this.onNewToastMessage);
   },
   methods: {
-    onNewToastMessage(message, action) {
+    onNewToastMessage({ message, action }) {
       this.snackMessages.push({
         key: new Date().getTime(),
         message,

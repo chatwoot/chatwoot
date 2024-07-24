@@ -1,3 +1,4 @@
+import { useAlert } from 'dashboard/composables';
 import {
   MAXIMUM_FILE_UPLOAD_SIZE,
   MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL,
@@ -38,13 +39,13 @@ export default {
 
         upload.create((error, blob) => {
           if (error) {
-            this.showAlert(error);
+            useAlert(error);
           } else {
             this.attachFile({ file, blob });
           }
         });
       } else {
-        this.showAlert(
+        useAlert(
           this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
             MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE,
           })
@@ -61,7 +62,7 @@ export default {
       if (checkFileSizeLimit(file, MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE)) {
         this.attachFile({ file });
       } else {
-        this.showAlert(
+        useAlert(
           this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
             MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE,
           })

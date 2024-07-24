@@ -9,12 +9,11 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import LabelSelector from 'dashboard/components/widgets/LabelSelector.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: { LabelSelector },
-  mixins: [alertMixin],
   props: {
     contactId: {
       type: [String, Number],
@@ -59,7 +58,7 @@ export default {
           labels: selectedLabels,
         });
       } catch (error) {
-        this.showAlert(this.$t('CONTACT_PANEL.LABELS.CONTACT.ERROR'));
+        useAlert(this.$t('CONTACT_PANEL.LABELS.CONTACT.ERROR'));
       }
     },
 

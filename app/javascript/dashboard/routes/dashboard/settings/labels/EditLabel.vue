@@ -49,11 +49,10 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import validations, { getLabelTitleErrorMessage } from './validations';
 
 export default {
-  mixins: [alertMixin],
   props: {
     selectedResponse: {
       type: Object,
@@ -106,11 +105,11 @@ export default {
           show_on_sidebar: this.showOnSidebar,
         })
         .then(() => {
-          this.showAlert(this.$t('LABEL_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+          useAlert(this.$t('LABEL_MGMT.EDIT.API.SUCCESS_MESSAGE'));
           setTimeout(() => this.onClose(), 10);
         })
         .catch(() => {
-          this.showAlert(this.$t('LABEL_MGMT.EDIT.API.ERROR_MESSAGE'));
+          useAlert(this.$t('LABEL_MGMT.EDIT.API.ERROR_MESSAGE'));
         });
     },
   },

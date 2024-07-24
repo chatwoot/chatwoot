@@ -1,17 +1,23 @@
 <template>
   <div
-    class="text-slate-600 dark:text-slate-200 flex items-center justify-center w-full"
+    class="flex items-center justify-center w-full text-slate-600 dark:text-slate-200"
   >
     Loading...
   </div>
 </template>
 
 <script>
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { mapGetters } from 'vuex';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 
 export default {
-  mixins: [uiSettingsMixin],
+  setup() {
+    const { uiSettings } = useUISettings();
+
+    return {
+      uiSettings,
+    };
+  },
   computed: {
     ...mapGetters({ portals: 'portals/allPortals' }),
   },
