@@ -1,73 +1,73 @@
 {
   "AGENT_BOTS": {
     "HEADER": "机器人",
-    "LOADING_EDITOR": "Loading editor...",
-    "HEADER_BTN_TXT": "Add bot configuration",
+    "LOADING_EDITOR": "正在加载编辑器...",
+    "HEADER_BTN_TXT": "添加机器人配置",
     "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.</p> <p> You can manage your bots from this page or create new ones using the 'Add bot configuraton' button.</p> <p> Open the <a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">Agent bots handbook</a> in another tab for a helping hand.</p>",
     "CSML_BOT_EDITOR": {
       "NAME": {
-        "LABEL": "Bot name",
-        "PLACEHOLDER": "Name your bot.",
-        "ERROR": "Bot name is required."
+        "LABEL": "机器人名称",
+        "PLACEHOLDER": "为您的机器人命名。",
+        "ERROR": "机器人名称是必填的。"
       },
       "DESCRIPTION": {
-        "LABEL": "Bot description",
+        "LABEL": "机器人描述",
         "PLACEHOLDER": "这个机器人的用途是？"
       },
       "BOT_CONFIG": {
-        "ERROR": "Please enter your CSML bot configuration above.",
-        "API_ERROR": "Your CSML configuration is invalid. Please fix it and try again."
+        "ERROR": "请在上方输入您的 CSML 机器人配置。",
+        "API_ERROR": "您的 CSML 配置无效。请修复后再试。"
       },
-      "SUBMIT": "Validate and save"
+      "SUBMIT": "验证并保存"
     },
     "BOT_CONFIGURATION": {
       "TITLE": "选择一个代理机器人",
-      "DESC": "Assign an Agent Bot to your inbox. They can handle initial conversations and transfer them to a live agent when necessary.",
+      "DESC": "将代理机器人分配到您的收件箱。他们可以处理初始对话，并在必要时将其转移给真人客服。",
       "SUBMIT": "更新",
-      "DISCONNECT": "Disconnect bot",
-      "SUCCESS_MESSAGE": "Successfully updated the agent bot.",
-      "DISCONNECTED_SUCCESS_MESSAGE": "Successfully disconnected the agent bot.",
-      "ERROR_MESSAGE": "Could not update the agent bot. Please try again.",
-      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot. Please try again.",
-      "SELECT_PLACEHOLDER": "Select bot"
+      "DISCONNECT": "断开机器人",
+      "SUCCESS_MESSAGE": "成功更新代理机器人。",
+      "DISCONNECTED_SUCCESS_MESSAGE": "成功断开代理机器人。",
+      "ERROR_MESSAGE": "无法更新代理机器人。请再试一次。",
+      "DISCONNECTED_ERROR_MESSAGE": "无法断开代理机器人。请再试一次。",
+      "SELECT_PLACEHOLDER": "选择机器人"
     },
     "ADD": {
-      "TITLE": "Configure new bot",
+      "TITLE": "配置新机器人",
       "CANCEL_BUTTON_TEXT": "取消",
       "API": {
         "SUCCESS_MESSAGE": "机器人添加成功.",
-        "ERROR_MESSAGE": "Could not add bot. Please try again later."
+        "ERROR_MESSAGE": "无法添加机器人。请稍后再试。"
       }
     },
     "LIST": {
-      "404": "No bots found. You can create a bot by clicking the 'Configure new bot' button ↗",
-      "LOADING": "Fetching bots...",
-      "TYPE": "Bot type"
+      "404": "未找到机器人。您可以通过点击“配置新机器人”按钮 ↗ 来创建一个机器人",
+      "LOADING": "正在获取机器人...",
+      "TYPE": "机器人类型"
     },
     "DELETE": {
       "BUTTON_TEXT": "删除",
-      "TITLE": "Delete bot",
+      "TITLE": "删除机器人",
       "SUBMIT": "删除",
       "CANCEL_BUTTON_TEXT": "取消",
-      "DESCRIPTION": "Are you sure you want to delete this bot? This action is irreversible.",
+      "DESCRIPTION": "您确定要删除此机器人吗？此操作不可撤销。",
       "API": {
         "SUCCESS_MESSAGE": "成功删除机器人.",
-        "ERROR_MESSAGE": "Could not delete bot. Please try again."
+        "ERROR_MESSAGE": "无法删除机器人。请再试一次。"
       }
     },
     "EDIT": {
       "BUTTON_TEXT": "编辑",
-      "LOADING": "Fetching bots...",
-      "TITLE": "Edit bot",
+      "LOADING": "正在获取机器人...",
+      "TITLE": "编辑机器人",
       "CANCEL_BUTTON_TEXT": "取消",
       "API": {
         "SUCCESS_MESSAGE": "机器人更新成功.",
-        "ERROR_MESSAGE": "Could not update bot. Please try again."
+        "ERROR_MESSAGE": "无法更新机器人。请再试一次。"
       }
     },
     "TYPES": {
-      "WEBHOOK": "Webhook bot",
-      "CSML": "CSML bot"
+      "WEBHOOK": "Webhook 机器人",
+      "CSML": "CSML 机器人"
     }
   }
 }
