@@ -168,7 +168,11 @@ export default {
       return !(type === 'is_present' || type === 'is_not_present');
     },
     showActionInput(action) {
-      if (action === 'send_email_to_team' || action === 'send_message')
+      if (
+        action === 'send_email_to_team' ||
+        action === 'send_message' ||
+        action === 'send_private_note'
+      )
         return false;
       const type = this.automationActionTypes.find(
         i => i.key === action

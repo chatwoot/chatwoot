@@ -283,6 +283,10 @@ export const AUTOMATIONS = {
         name: 'Send a message',
       },
       {
+        key: 'send_private_note',
+        name: 'Send a private note',
+      },
+      {
         key: 'send_email_transcript',
         name: 'Send an email transcript',
       },
@@ -504,6 +508,12 @@ export const AUTOMATION_ACTION_TYPES = [
     label: 'Send a message',
     inputType: 'textarea',
     attributeI18nKey: 'SEND_MESSAGE',
+  },
+  {
+    key: 'send_private_note',
+    label: 'Send a private note',
+    inputType: 'textarea',
+    attributeI18nKey: 'SEND_PRIVATE_NOTE',
   },
   {
     key: 'change_priority',
