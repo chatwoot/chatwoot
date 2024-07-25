@@ -12,5 +12,7 @@ class Trigger < ApplicationRecord
   self.table_name = 'disparos'
   establish_connection :secondary
 
+  belongs_to :account, foreign_key: 'companyId', inverse_of: :triggers
+
   scope :by_company_ids, ->(company_ids) { where(companyId: company_ids) }
 end
