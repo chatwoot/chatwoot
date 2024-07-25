@@ -28,5 +28,3 @@ export default {
     @view="onArticleClick"
   />
 </template>
-
-<style></style>

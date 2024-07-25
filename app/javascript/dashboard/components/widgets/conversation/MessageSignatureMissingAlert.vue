@@ -24,5 +24,3 @@ export default {
     </p>
   </div>
 </template>
-
-<style></style>

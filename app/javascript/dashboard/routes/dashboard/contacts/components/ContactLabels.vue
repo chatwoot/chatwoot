@@ -84,5 +84,3 @@ export default {
     @remove="removeItem"
   />
 </template>
-
-<style></style>

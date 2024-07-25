@@ -88,4 +88,3 @@ export default {
     />
   </woot-modal>
 </template>
-<style lang="scss" scoped></style>

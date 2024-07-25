@@ -108,6 +108,7 @@ module.exports = {
         directives: ['v-text'],
       },
     ],
+    'vue/no-empty-component-block': 'error',
     'vue/max-attributes-per-line': [
       'error',
       {

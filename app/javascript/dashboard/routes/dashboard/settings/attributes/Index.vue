@@ -38,5 +38,3 @@ export default {
     </woot-modal>
   </div>
 </template>
-
-<style></style>

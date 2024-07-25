@@ -1,5 +1,3 @@
-<script></script>
-
 <template>
   <div class="animation-container margin-top-1">
     <div class="ai-typing--wrap">
