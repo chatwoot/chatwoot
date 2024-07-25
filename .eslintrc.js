@@ -42,6 +42,7 @@ module.exports = {
     ],
     'vue/component-options-name-casing': ['error', 'PascalCase'],
     'vue/custom-event-name-casing': ['error', 'camelCase'],
+    'vue/define-emits-declaration': ['error'],
     'vue/max-attributes-per-line': [
       'error',
       {
