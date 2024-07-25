@@ -14,7 +14,7 @@ export default {
     ContactInfo,
     ContactLabel,
     CustomAttributes,
-    draggable,
+    Draggable: draggable,
   },
   props: {
     contact: {
@@ -89,7 +89,7 @@ export default {
       @panel-close="onClose"
       @toggle-panel="onClose"
     />
-    <draggable
+    <Draggable
       :list="contactSidebarItems"
       :disabled="!dragEnabled"
       class="list-group"
@@ -153,7 +153,7 @@ export default {
           </div>
         </div>
       </transition-group>
-    </draggable>
+    </Draggable>
   </div>
 </template>
 

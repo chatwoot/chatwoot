@@ -40,6 +40,7 @@ module.exports = {
         registeredComponentsOnly: true,
       },
     ],
+    'vue/component-options-name-casing': ['error', 'PascalCase'],
     'vue/max-attributes-per-line': [
       'error',
       {

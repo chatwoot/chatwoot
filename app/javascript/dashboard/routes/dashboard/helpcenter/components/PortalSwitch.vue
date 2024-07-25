@@ -1,10 +1,10 @@
 <script>
-import thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import portalMixin from '../mixins/portalMixin';
 
 export default {
   components: {
-    thumbnail,
+    Thumbnail,
   },
   mixins: [portalMixin],
   props: {
@@ -71,14 +71,14 @@ export default {
 
 <template>
   <div class="portal" :class="{ active }">
-    <thumbnail :username="portal.name" variant="square" />
+    <Thumbnail :username="portal.name" variant="square" />
     <div class="actions-container">
       <header class="flex items-center justify-between mb-2.5">
         <div>
           <h3 class="text-sm mb-0.5 text-slate-700 dark:text-slate-100">
             {{ portal.name }}
           </h3>
-          <p class="text-slate-600 dark:text-slate-200 mb-0 text-xs">
+          <p class="mb-0 text-xs text-slate-600 dark:text-slate-200">
             {{ articlesCount }}
             {{ $t('HELP_CENTER.PORTAL.ARTICLES_LABEL') }}
           </p>
@@ -122,7 +122,7 @@ export default {
                   </h6>
 
                   <span
-                    class="flex text-slate-600 dark:text-slate-200 text-sm text-left leading-4 w-full"
+                    class="flex w-full text-sm leading-4 text-left text-slate-600 dark:text-slate-200"
                   >
                     {{ locale.articles_count }}
                     {{ $t('HELP_CENTER.PORTAL.ARTICLES_LABEL') }} -

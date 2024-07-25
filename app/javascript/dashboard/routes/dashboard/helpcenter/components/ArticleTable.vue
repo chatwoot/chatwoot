@@ -7,7 +7,7 @@ export default {
   components: {
     ArticleItem,
     TableFooter,
-    draggable,
+    Draggable: draggable,
   },
   props: {
     articles: {
@@ -121,7 +121,7 @@ export default {
         {{ $t('HELP_CENTER.TABLE.HEADERS.LAST_EDITED') }}
       </div>
     </div>
-    <draggable
+    <Draggable
       tag="div"
       class="border-t-0 px-4 pb-4"
       :disabled="!dragEnabled"
@@ -143,7 +143,7 @@ export default {
         :status="article.status"
         :updated-at="article.updated_at"
       />
-    </draggable>
+    </Draggable>
 
     <TableFooter
       v-if="showArticleFooter"

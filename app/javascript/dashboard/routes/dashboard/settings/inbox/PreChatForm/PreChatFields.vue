@@ -1,7 +1,7 @@
 <script>
 import draggable from 'vuedraggable';
 export default {
-  components: { draggable },
+  components: { Draggable: draggable },
   props: {
     preChatFields: {
       type: Array,
@@ -33,7 +33,7 @@ export default {
 </script>
 
 <template>
-  <draggable v-model="preChatFieldOptions" tag="tbody" @end="onDragEnd">
+  <Draggable v-model="preChatFieldOptions" tag="tbody" @end="onDragEnd">
     <tr v-for="(item, index) in preChatFieldOptions" :key="index">
       <td class="pre-chat-field"><fluent-icon icon="drag" /></td>
       <td class="pre-chat-field">
@@ -72,7 +72,7 @@ export default {
         />
       </td>
     </tr>
-  </draggable>
+  </Draggable>
 </template>
 <style scoped lang="scss">
 .pre-chat-field {

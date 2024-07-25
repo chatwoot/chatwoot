@@ -20,7 +20,7 @@ export default {
     CustomAttributes,
     ConversationAction,
     ConversationParticipant,
-    draggable,
+    Draggable: draggable,
     MacrosList,
   },
   props: {
@@ -142,7 +142,7 @@ export default {
       :channel-type="channelType"
       @toggle-panel="onPanelToggle"
     />
-    <draggable
+    <Draggable
       :list="conversationSidebarItems"
       :disabled="!dragEnabled"
       animation="200"
@@ -262,7 +262,7 @@ export default {
           </woot-feature-toggle>
         </div>
       </transition-group>
-    </draggable>
+    </Draggable>
   </div>
 </template>
 

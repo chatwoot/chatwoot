@@ -1,8 +1,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import automationMethodsMixin from 'dashboard/mixins/automations/methodsMixin';
-import filterInputBox from 'dashboard/components/widgets/FilterInput/Index.vue';
-import automationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
+import FilterInputBox from 'dashboard/components/widgets/FilterInput/Index.vue';
+import AutomationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
 
 import {
   AUTOMATION_RULE_EVENTS,
@@ -12,8 +12,8 @@ import {
 
 export default {
   components: {
-    filterInputBox,
-    automationActionInput,
+    FilterInputBox,
+    AutomationActionInput,
   },
   mixins: [automationMethodsMixin],
   props: {
@@ -121,7 +121,7 @@ export default {
           <div
             class="w-full p-4 mb-4 border border-solid rounded-lg bg-slate-25 dark:bg-slate-700 border-slate-50 dark:border-slate-700"
           >
-            <filter-input-box
+            <FilterInputBox
               v-for="(condition, i) in automation.conditions"
               :key="i"
               v-model="automation.conditions[i]"
@@ -163,7 +163,7 @@ export default {
           <div
             class="w-full p-4 mb-4 border border-solid rounded-lg bg-slate-25 dark:bg-slate-700 border-slate-50 dark:border-slate-700"
           >
-            <automation-action-input
+            <AutomationActionInput
               v-for="(action, i) in automation.actions"
               :key="i"
               v-model="automation.actions[i]"

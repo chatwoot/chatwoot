@@ -7,7 +7,7 @@ import { PORTALS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 
 export default {
   components: {
-    thumbnail,
+    Thumbnail: thumbnail,
     LocaleItemTable,
   },
   props: {
@@ -190,7 +190,7 @@ export default {
     <div
       class="relative flex p-4 mb-3 bg-white border border-solid rounded-md dark:bg-slate-900 border-slate-100 dark:border-slate-600"
     >
-      <thumbnail :username="portal.name" variant="square" />
+      <Thumbnail :username="portal.name" variant="square" />
       <div class="flex-grow ml-2 rtl:ml-0 rtl:mr-2">
         <header class="flex items-start justify-between mb-8">
           <div>
