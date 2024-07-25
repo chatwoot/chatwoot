@@ -1,4 +1,4 @@
-const FEAUTURE_HELP_URLS = {
+const FEATURE_HELP_URLS = {
   channel_email: 'https://chwt.app/hc/email',
   channel_facebook: 'https://chwt.app/hc/fb',
   help_center: 'https://chwt.app/hc/help-center',
@@ -16,5 +16,5 @@ const FEAUTURE_HELP_URLS = {
 };
 
 export function getHelpUrlForFeature(featureName) {
-  return FEAUTURE_HELP_URLS[featureName];
+  return FEATURE_HELP_URLS[featureName];
 }
