@@ -12,7 +12,7 @@ defineProps({
 </script>
 <template>
   <div
-    class="flex relative flex-col sm:flex-row p-4 gap-4 sm:p-6 justify-between shadow-sm group bg-white border border-solid rounded-xl dark:bg-slate-800 border-slate-75 dark:border-slate-700/50 max-w-[900px] w-full"
+    class="flex relative flex-col sm:flex-row p-4 gap-4 sm:p-6 justify-between shadow-sm group bg-white border border-solid rounded-xl dark:bg-slate-800 border-slate-75 dark:border-slate-700/50 w-full"
   >
     <slot name="leftSection">
       <div class="flex flex-col min-w-0 items-start gap-3 max-w-[480px] w-full">

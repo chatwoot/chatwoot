@@ -7,6 +7,8 @@ defineProps({
     default: true,
   },
 });
+
+defineEmits(['click']);
 </script>
 <template>
   <BaseSettingsHeader
@@ -14,7 +16,6 @@ defineProps({
     :description="$t('SLA.DESCRIPTION')"
     :link-text="$t('SLA.LEARN_MORE')"
     feature-name="sla"
-    class="max-w-4xl"
   >
     <template v-if="showActions" #actions>
       <woot-button
