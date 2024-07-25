@@ -209,6 +209,9 @@ lt:
     openai:
       name: "OpenAI"
       description: "Integruokite galingas AI funkcijas į Chatwoot, naudodamiesi OpenAI GPT modeliais."
+    linear:
+      name: "Linear"
+      description: "Create Linear issues from conversations, or link existing ones for seamless tracking."
   public_portal:
     search:
       search_placeholder: Ieškokite straipsnio pagal pavadinimą arba turinį...

@@ -97,7 +97,7 @@ ar:
     conversation_traffic_csv:
       timezone: Timezone
     sla_csv:
-      conversation_id: Conversation ID
+      conversation_id: معرف المحادثة
       sla_policy_breached: SLA Policy
       assignee: Assignee
       team: الفريق
@@ -118,11 +118,11 @@ ar:
         recorded_at: تاريخ التسجيل
   notifications:
     notification_title:
-      conversation_creation: "A conversation (#%{display_id}) has been created in %{inbox_name}"
-      conversation_assignment: "A conversation (#%{display_id}) has been assigned to you"
-      assigned_conversation_new_message: "A new message is created in conversation (#%{display_id})"
-      conversation_mention: "You have been mentioned in conversation (#%{display_id})"
-      sla_missed_first_response: "SLA target first response missed for conversation (#%{display_id})"
+      conversation_creation: "تم إنشاء محادثة (#%{display_id}) في %{inbox_name}"
+      conversation_assignment: "تم تعيين محادثة (#%{display_id}) لك"
+      assigned_conversation_new_message: "تم إنشاء رسالة جديدة في المحادثة (#%{display_id})"
+      conversation_mention: "تمت الإشارة إليك في المحادثة من قبل (#%{display_id})"
+      sla_missed_first_response: "هدف SLA أول رد مفقود للمحادثة (#%{display_id})"
       sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
       sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
     attachment: "Attachment"
@@ -209,6 +209,9 @@ ar:
     openai:
       name: "OpenAI"
       description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
+    linear:
+      name: "Linear"
+      description: "Create Linear issues from conversations, or link existing ones for seamless tracking."
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
@@ -236,7 +239,7 @@ ar:
       go_to_homepage: Website
       appearance:
         system: النظام
-        light: Light
+        light: فاتح
         dark: مظلم
       featured_articles: Featured Articles
       uncategorized: Uncategorized

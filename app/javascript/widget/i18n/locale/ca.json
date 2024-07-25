@@ -8,8 +8,8 @@
       "SUBMIT": "Envia"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "Torna a enviar el missatge",
+      "ERROR_MESSAGE": "No s'ha pogut enviar, torna-ho a provar"
     }
   },
   "TEAM_AVAILABILITY": {
@@ -20,27 +20,27 @@
     "IN_A_FEW_MINUTES": "Normalment responem en pocs minuts",
     "IN_A_FEW_HOURS": "Normalment responem en poques hores",
     "IN_A_DAY": "Normalment respon en un dia",
-    "BACK_IN": "We will be back online"
+    "BACK_IN": "Tornarem a estar en línia"
   },
   "DAY_NAMES": [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday"
+    "Diumenge",
+    "Dilluns",
+    "Dimarts",
+    "Dimecres",
+    "Dijous",
+    "Divendres",
+    "Dissabte"
   ],
   "START_CONVERSATION": "Inicia la conversa",
-  "END_CONVERSATION": "End Conversation",
-  "CONTINUE_CONVERSATION": "Continue conversation",
-  "YOU": "You",
-  "START_NEW_CONVERSATION": "Start a new conversation",
-  "VIEW_UNREAD_MESSAGES": "You have unread messages",
+  "END_CONVERSATION": "Finalitzar la conversa",
+  "CONTINUE_CONVERSATION": "Continua la conversa",
+  "YOU": "Tu",
+  "START_NEW_CONVERSATION": "Inicia una nova conversa",
+  "VIEW_UNREAD_MESSAGES": "Tens missatges no llegits",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Veure missatges nous",
     "CLOSE_MESSAGES_BUTTON": "Tanca",
-    "COMPANY_FROM": "from",
+    "COMPANY_FROM": "des de",
     "BOT": "Bot"
   },
   "BUBBLE": {
@@ -61,15 +61,15 @@
       "EMAIL_ADDRESS": {
         "LABEL": "Adreça de correu electrònic",
         "PLACEHOLDER": "Si us plau, introdueix la teva adreça email",
-        "REQUIRED_ERROR": "Email Address is required",
+        "REQUIRED_ERROR": "L'adreça de correu electrònic és necessària",
         "VALID_ERROR": "Introduïu una adreça de correu electrònic vàlida"
       },
       "PHONE_NUMBER": {
         "LABEL": "Número de telèfon",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "DIAL_CODE_VALID_ERROR": "Please select a country code",
-        "VALID_ERROR": "Please enter a valid phone number",
+        "PLACEHOLDER": "Introdueix el vostre número de telèfon",
+        "REQUIRED_ERROR": "El número de telèfon és obligatori",
+        "DIAL_CODE_VALID_ERROR": "Selecciona un codi de país",
+        "VALID_ERROR": "Introdueix un número de telèfon vàlid",
         "DROPDOWN_EMPTY": "No s'ha trobat agents"
       },
       "MESSAGE": {
@@ -78,15 +78,15 @@
         "ERROR": "Missatge massa curt"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
-    "IS_REQUIRED": "is required",
-    "REQUIRED": "Required",
-    "REGEX_ERROR": "Please provide a valid input"
+    "CAMPAIGN_HEADER": "Proporciona el vostre nom i correu electrònic abans d'iniciar la conversa",
+    "IS_REQUIRED": "és necessari",
+    "REQUIRED": "Necessari",
+    "REGEX_ERROR": "Proporciona una entrada vàlida"
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "FILE_SIZE_LIMIT": "El fitxer supera el límit de {MAXIMUM_FILE_UPLOAD_SIZE} fitxers adjunts",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": "Camp no vàlid"
     }
   },
   "EMOJI": {
@@ -94,25 +94,25 @@
     "NOT_FOUND": "Cap emoji coincideix amb la teva cerca"
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "TITLE": "Valora la teva conversa",
+    "SUBMITTED_TITLE": "Gràcies per enviar la qualificació",
+    "PLACEHOLDER": "Explica'ns més..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
+    "BUTTON_TEXT": "Envia la transcripció de la conversa",
     "SEND_EMAIL_SUCCESS": "La transcripció del xat s'ha enviat correctament",
     "SEND_EMAIL_ERROR": "S'ha produït un error; tornau-ho a provar"
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
+      "CLICK_HERE_TO_JOIN": "Fes clic aquí per unir-te",
+      "LEAVE_THE_ROOM": "Deixa la trucada"
     }
   },
   "PORTAL": {
-    "POPULAR_ARTICLES": "Popular Articles",
-    "VIEW_ALL_ARTICLES": "View all articles",
-    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+    "POPULAR_ARTICLES": "Articles populars",
+    "VIEW_ALL_ARTICLES": "Veure tots els articles",
+    "IFRAME_LOAD_ERROR": "S'ha produït un error en carregar l'article, actualitza la pàgina i torna-ho a provar."
   },
   "ATTACHMENTS": {
     "image": {
