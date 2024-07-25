@@ -24,7 +24,7 @@ export default {
 
 <template>
   <ul role="list" class="py-2">
-    <article-list-item
+    <ArticleListItem
       v-for="article in articles"
       :key="article.slug"
       :link="article.link"

@@ -117,14 +117,14 @@ export default {
           ...opacityClass,
         }"
       >
-        <chat-header-expanded
+        <ChatHeaderExpanded
           v-if="!isHeaderCollapsed"
           :intro-heading="channelConfig.welcomeTitle"
           :intro-body="channelConfig.welcomeTagline"
           :avatar-url="channelConfig.avatarUrl"
           :show-popout-button="appConfig.showPopoutButton"
         />
-        <chat-header
+        <ChatHeader
           v-if="isHeaderCollapsed"
           :title="channelConfig.websiteName"
           :avatar-url="channelConfig.avatarUrl"
@@ -133,10 +133,10 @@ export default {
           :show-back-button="showBackButton"
         />
       </div>
-      <banner />
+      <Banner />
       <router-view />
 
-      <branding v-if="!isOnArticleViewer" :disable-branding="disableBranding" />
+      <Branding v-if="!isOnArticleViewer" :disable-branding="disableBranding" />
     </div>
   </div>
 </template>

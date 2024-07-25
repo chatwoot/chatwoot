@@ -239,18 +239,18 @@ export default {
     v-if="hasSecondaryMenu"
     class="h-full overflow-auto w-48 flex flex-col bg-white dark:bg-slate-900 border-r dark:border-slate-800/50 rtl:border-r-0 rtl:border-l border-slate-50 text-sm px-2 pb-8"
   >
-    <account-context @toggle-accounts="toggleAccountModal" />
+    <AccountContext @toggle-accounts="toggleAccountModal" />
     <transition-group
       name="menu-list"
       tag="ul"
       class="pt-2 list-none ml-0 mb-0"
     >
-      <secondary-nav-item
+      <SecondaryNavItem
         v-for="menuItem in accessibleMenuItems"
         :key="menuItem.toState"
         :menu-item="menuItem"
       />
-      <secondary-nav-item
+      <SecondaryNavItem
         v-for="menuItem in additionalSecondaryMenuItems[menuConfig.parentNav]"
         :key="menuItem.key"
         :menu-item="menuItem"

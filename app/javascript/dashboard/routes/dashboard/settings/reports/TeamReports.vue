@@ -9,7 +9,7 @@ export default {
 </script>
 
 <template>
-  <woot-reports
+  <WootReports
     key="team-reports"
     type="team"
     getter-key="teams/getTeams"

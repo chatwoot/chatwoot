@@ -49,7 +49,7 @@ export default {
         )
       "
     />
-    <webhook-form
+    <WebhookForm
       :is-submitting="uiFlags.creatingItem"
       :submit-label="$t('INTEGRATION_SETTINGS.WEBHOOK.FORM.ADD_SUBMIT')"
       @submit="onSubmit"

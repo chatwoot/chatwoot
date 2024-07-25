@@ -44,9 +44,9 @@ export default {
     >
       {{ buttonText }}
     </woot-button>
-    <campaign />
+    <Campaign />
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-      <add-campaign @on-close="hideAddPopup" />
+      <AddCampaign @on-close="hideAddPopup" />
     </woot-modal>
   </div>
 </template>

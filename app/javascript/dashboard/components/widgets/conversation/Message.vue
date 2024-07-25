@@ -459,14 +459,14 @@ export default {
         />
       </div>
       <div :class="bubbleClass" @contextmenu="openContextMenu($event)">
-        <bubble-mail-head
+        <BubbleMailHead
           :email-attributes="contentAttributes.email"
           :cc="emailHeadAttributes.cc"
           :bcc="emailHeadAttributes.bcc"
           :is-incoming="isIncoming"
         />
-        <instagram-story-reply v-if="storyUrl" :story-url="storyUrl" />
-        <bubble-reply-to
+        <InstagramStoryReply v-if="storyUrl" :story-url="storyUrl" />
+        <BubbleReplyTo
           v-if="inReplyToMessageId && inboxSupportsReplyTo.incoming"
           :message="inReplyTo"
           :message-type="data.message_type"
@@ -483,13 +483,13 @@ export default {
             {{ $t('CONVERSATION.UNSUPPORTED_MESSAGE') }}
           </template>
         </div>
-        <bubble-text
+        <BubbleText
           v-else-if="data.content"
           :message="message"
           :is-email="isEmailContentType"
           :display-quoted-button="displayQuotedButton"
         />
-        <bubble-integration
+        <BubbleIntegration
           :message-id="data.id"
           :content-attributes="contentAttributes"
           :inbox-id="data.inbox_id"
@@ -502,31 +502,31 @@ export default {
         </span>
         <div v-if="!isPending && hasAttachments">
           <div v-for="attachment in attachments" :key="attachment.id">
-            <instagram-story
+            <InstagramStory
               v-if="isAnInstagramStory"
               :story-url="attachment.data_url"
               @error="onMediaLoadError"
             />
-            <bubble-image-audio-video
+            <BubbleImageAudioVideo
               v-else-if="isAttachmentImageVideoAudio(attachment.file_type)"
               :attachment="attachment"
               @error="onMediaLoadError"
             />
-            <bubble-location
+            <BubbleLocation
               v-else-if="attachment.file_type === 'location'"
               :latitude="attachment.coordinates_lat"
               :longitude="attachment.coordinates_long"
               :name="attachment.fallback_title"
             />
-            <bubble-contact
+            <BubbleContact
               v-else-if="attachment.file_type === 'contact'"
               :name="data.content"
               :phone-number="attachment.fallback_title"
             />
-            <bubble-file v-else :url="attachment.data_url" />
+            <BubbleFile v-else :url="attachment.data_url" />
           </div>
         </div>
-        <bubble-actions
+        <BubbleActions
           :id="data.id"
           :sender="data.sender"
           :story-sender="storySender"
@@ -543,7 +543,7 @@ export default {
           :created-at="createdAt"
         />
       </div>
-      <spinner v-if="isPending" size="tiny" />
+      <Spinner v-if="isPending" size="tiny" />
       <div
         v-if="showAvatar"
         v-tooltip.left="tooltipForSender"
@@ -569,7 +569,7 @@ export default {
       v-if="shouldShowContextMenu"
       class="invisible context-menu-wrap group-hover:visible"
     >
-      <context-menu
+      <ContextMenu
         v-if="isBubble && !isMessageDeleted"
         :context-menu-position="contextMenuPosition"
         :is-open="showContextMenu"

@@ -179,14 +179,14 @@ export default {
       <h2 class="text-2xl font-medium text-ash-900">
         {{ $t('PROFILE_SETTINGS.TITLE') }}
       </h2>
-      <user-profile-picture
+      <UserProfilePicture
         :src="avatarUrl"
         :name="name"
         size="72px"
         @change="updateProfilePicture"
         @delete="deleteProfilePicture"
       />
-      <user-basic-details
+      <UserBasicDetails
         :name="name"
         :display-name="displayName"
         :email="email"
@@ -195,16 +195,16 @@ export default {
       />
     </div>
 
-    <form-section
+    <FormSection
       :title="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.TITLE')"
       :description="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.NOTE')"
     >
-      <message-signature
+      <MessageSignature
         :message-signature="messageSignature"
         @update-signature="updateSignature"
       />
-    </form-section>
-    <form-section
+    </FormSection>
+    <FormSection
       :title="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.TITLE')"
       :description="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.NOTE')"
     >
@@ -216,7 +216,7 @@ export default {
           :key="hotKey.key"
           class="px-0 reset-base"
         >
-          <hot-key-card
+          <HotKeyCard
             :key="hotKey.title"
             :title="hotKey.title"
             :description="hotKey.description"
@@ -227,22 +227,22 @@ export default {
           />
         </button>
       </div>
-    </form-section>
-    <form-section :title="$t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE')">
-      <change-password v-if="!globalConfig.disableUserProfileUpdate" />
-    </form-section>
-    <form-section
+    </FormSection>
+    <FormSection :title="$t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE')">
+      <ChangePassword v-if="!globalConfig.disableUserProfileUpdate" />
+    </FormSection>
+    <FormSection
       :title="$t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE')"
       :description="
         $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NOTE')
       "
     >
-      <audio-notifications />
-    </form-section>
-    <form-section :title="$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TITLE')">
-      <notification-preferences />
-    </form-section>
-    <form-section
+      <AudioNotifications />
+    </FormSection>
+    <FormSection :title="$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TITLE')">
+      <NotificationPreferences />
+    </FormSection>
+    <FormSection
       :title="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE')"
       :description="
         useInstallationName(
@@ -251,7 +251,7 @@ export default {
         )
       "
     >
-      <access-token :value="currentUser.access_token" @on-copy="onCopyToken" />
-    </form-section>
+      <AccessToken :value="currentUser.access_token" @on-copy="onCopyToken" />
+    </FormSection>
   </div>
 </template>

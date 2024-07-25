@@ -226,7 +226,7 @@ export default {
           v-if="senderDetails"
           class="items-center flex justify-start min-w-[15rem]"
         >
-          <thumbnail
+          <Thumbnail
             v-if="senderDetails.avatar"
             :username="senderDetails.name"
             :src="senderDetails.avatar"

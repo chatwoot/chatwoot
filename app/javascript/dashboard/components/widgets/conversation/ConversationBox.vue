@@ -94,7 +94,7 @@ export default {
     class="conversation-details-wrap bg-slate-25 dark:bg-slate-800"
     :class="{ 'with-border-right': !isOnExpandedLayout }"
   >
-    <conversation-header
+    <ConversationHeader
       v-if="currentChat.id"
       :chat="currentChat"
       :is-inbox-view="isInboxView"
@@ -119,14 +119,14 @@ export default {
       v-show="!activeIndex"
       class="flex bg-slate-25 dark:bg-slate-800 m-0 h-full min-h-0"
     >
-      <messages-view
+      <MessagesView
         v-if="currentChat.id"
         :inbox-id="inboxId"
         :is-inbox-view="isInboxView"
         :is-contact-panel-open="isContactPanelOpen"
         @contact-panel-toggle="onToggleContactPanel"
       />
-      <empty-state
+      <EmptyState
         v-if="!currentChat.id && !isInboxView"
         :is-on-expanded-layout="isOnExpandedLayout"
       />
@@ -134,7 +134,7 @@ export default {
         v-show="showContactPanel"
         class="conversation-sidebar-wrap basis-full sm:basis-[17.5rem] md:basis-[18.75rem] lg:basis-[19.375rem] xl:basis-[20.625rem] 2xl:basis-[25rem] rtl:border-r border-slate-50 dark:border-slate-700 h-auto overflow-auto z-10 flex-shrink-0 flex-grow-0"
       >
-        <contact-panel
+        <ContactPanel
           v-if="showContactPanel"
           :conversation-id="currentChat.id"
           :inbox-id="currentChat.inbox_id"
@@ -142,7 +142,7 @@ export default {
         />
       </div>
     </div>
-    <dashboard-app-frame
+    <DashboardAppFrame
       v-for="(dashboardApp, index) in dashboardApps"
       v-show="activeIndex - 1 === index"
       :key="currentChat.id + '-' + dashboardApp.id"

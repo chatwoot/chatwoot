@@ -30,6 +30,6 @@ export default {
       <br />
     </span>
     <!-- Cmd bar, keyboard shortcuts placeholder -->
-    <feature-placeholder />
+    <FeaturePlaceholder />
   </div>
 </template>

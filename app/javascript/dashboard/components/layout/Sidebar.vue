@@ -182,7 +182,7 @@ export default {
 
 <template>
   <aside class="flex h-full">
-    <primary-sidebar
+    <PrimarySidebar
       :logo-source="globalConfig.logoThumbnail"
       :installation-name="globalConfig.installationName"
       :is-a-custom-branded-instance="isACustomBrandedInstance"
@@ -193,7 +193,7 @@ export default {
       @key-shortcut-modal="toggleKeyShortcutModal"
       @open-notification-panel="openNotificationPanel"
     />
-    <secondary-sidebar
+    <SecondarySidebar
       v-if="showSecondarySidebar"
       :class="sidebarClassName"
       :account-id="accountId"

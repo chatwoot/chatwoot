@@ -57,7 +57,7 @@ export default {
 </script>
 
 <template>
-  <mention-box
+  <MentionBox
     v-if="items.length"
     type="variable"
     :items="items"
@@ -69,7 +69,7 @@ export default {
       </span>
       ({{ item.label }})
     </template>
-  </mention-box>
+  </MentionBox>
 </template>
 <style scoped>
 .variable--list-label {

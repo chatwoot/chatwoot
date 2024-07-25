@@ -29,7 +29,7 @@ export default {
     class="items-center flex rounded-full"
     @click="handleClick"
   >
-    <thumbnail
+    <Thumbnail
       :src="currentUser.avatar_url"
       :username="currentUser.name"
       :status="statusOfAgent"

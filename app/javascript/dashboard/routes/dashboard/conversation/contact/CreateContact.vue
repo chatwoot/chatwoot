@@ -45,7 +45,7 @@ export default {
         :header-title="$t('CREATE_CONTACT.TITLE')"
         :header-content="$t('CREATE_CONTACT.DESC')"
       />
-      <contact-form
+      <ContactForm
         :in-progress="uiFlags.isCreating"
         :on-submit="onSubmit"
         @success="onSuccess"

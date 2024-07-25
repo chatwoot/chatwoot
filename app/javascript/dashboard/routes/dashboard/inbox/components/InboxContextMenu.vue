@@ -35,7 +35,7 @@ export default {
     <div
       class="bg-white dark:bg-slate-900 w-40 py-1 border shadow-md border-slate-100 dark:border-slate-700/50 rounded-xl"
     >
-      <menu-item
+      <MenuItem
         v-for="item in menuItems"
         :key="item.key"
         :label="item.label"

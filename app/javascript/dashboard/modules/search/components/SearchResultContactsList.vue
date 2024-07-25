@@ -36,7 +36,7 @@ export default {
 </script>
 
 <template>
-  <search-result-section
+  <SearchResultSection
     :title="$t('SEARCH.SECTION.CONTACTS')"
     :empty="!contacts.length"
     :query="query"
@@ -45,7 +45,7 @@ export default {
   >
     <ul v-if="contacts.length" class="search-list">
       <li v-for="contact in contacts" :key="contact.id">
-        <search-result-contact-item
+        <SearchResultContactItem
           :id="contact.id"
           :name="contact.name"
           :email="contact.email"
@@ -55,5 +55,5 @@ export default {
         />
       </li>
     </ul>
-  </search-result-section>
+  </SearchResultSection>
 </template>

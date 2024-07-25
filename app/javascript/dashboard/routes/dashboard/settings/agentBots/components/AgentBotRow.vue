@@ -27,10 +27,10 @@ export default {
     <td class="agent-bot--details">
       <div class="agent-bot--link">
         {{ agentBot.name }}
-        (<agent-bot-type :bot-type="agentBot.bot_type" />)
+        (<AgentBotType :bot-type="agentBot.bot_type" />)
       </div>
       <div class="agent-bot--description">
-        <show-more :text="agentBot.description" :limit="120" />
+        <ShowMore :text="agentBot.description" :limit="120" />
       </div>
     </td>
     <td class="flex justify-end gap-1">

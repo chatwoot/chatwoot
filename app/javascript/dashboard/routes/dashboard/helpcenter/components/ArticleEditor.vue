@@ -57,7 +57,7 @@ export default {
 
 <template>
   <div class="edit-article--container">
-    <resizable-text-area
+    <ResizableTextArea
       v-model="articleTitle"
       type="text"
       :rows="1"
@@ -67,7 +67,7 @@ export default {
       @blur="onBlur"
       @input="onTitleInput"
     />
-    <woot-article-editor
+    <WootArticleEditor
       v-model="articleContent"
       class="article-content"
       :placeholder="$t('HELP_CENTER.EDIT_ARTICLE.CONTENT_PLACEHOLDER')"

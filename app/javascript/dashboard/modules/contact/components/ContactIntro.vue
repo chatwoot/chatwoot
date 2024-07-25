@@ -43,7 +43,7 @@ export default {
 </script>
 <template>
   <div class="contact--intro">
-    <thumbnail
+    <Thumbnail
       :src="contact.thumbnail"
       size="64px"
       :username="contact.name"
@@ -62,7 +62,7 @@ export default {
       <p v-if="additionalAttributes.description" class="contact--bio">
         {{ additionalAttributes.description }}
       </p>
-      <social-icons :social-profiles="socialProfiles" />
+      <SocialIcons :social-profiles="socialProfiles" />
     </div>
     <div class="contact-actions">
       <woot-button

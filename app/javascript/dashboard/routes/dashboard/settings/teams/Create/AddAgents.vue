@@ -102,7 +102,7 @@ export default {
       @submit.prevent="addAgents"
     >
       <div class="w-full">
-        <page-header
+        <PageHeader
           :header-title="headerTitle"
           :header-content="$t('TEAMS_SETTINGS.ADD.DESC')"
         />
@@ -114,7 +114,7 @@ export default {
             {{ $t('TEAMS_SETTINGS.ADD.AGENT_VALIDATION_ERROR') }}
           </p>
         </div>
-        <agent-selector
+        <AgentSelector
           :agent-list="agentList"
           :selected-agents="selectedAgents"
           :update-selected-agents="updateSelectedAgents"

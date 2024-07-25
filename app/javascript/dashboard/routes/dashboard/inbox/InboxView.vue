@@ -176,12 +176,12 @@ export default {
 <template>
   <div class="h-full w-full md:w-[calc(100%-360px)]">
     <div v-if="showEmptyState" class="flex w-full h-full">
-      <inbox-empty-state
+      <InboxEmptyState
         :empty-state-message="$t('INBOX.LIST.NO_MESSAGES_AVAILABLE')"
       />
     </div>
     <div v-else class="flex flex-col w-full h-full">
-      <inbox-item-header
+      <InboxItemHeader
         class="flex-1"
         :total-length="totalNotificationCount"
         :current-index="activeNotificationIndex"
@@ -195,7 +195,7 @@ export default {
       >
         <span class="my-4 spinner" />
       </div>
-      <conversation-box
+      <ConversationBox
         v-else
         class="h-[calc(100%-56px)]"
         is-inbox-view

@@ -22,7 +22,7 @@ export default {
         index ? '-ml-4' : ''
       } inline-block rounded-full text-white shadow-solid`"
     >
-      <thumbnail
+      <Thumbnail
         size="36px"
         :username="user.name"
         :src="user.avatar"

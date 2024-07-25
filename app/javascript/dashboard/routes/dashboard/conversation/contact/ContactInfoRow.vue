@@ -45,7 +45,7 @@ export default {
       :href="href"
       class="flex items-center gap-2 text-slate-800 dark:text-slate-100 hover:underline"
     >
-      <emoji-or-icon
+      <EmojiOrIcon
         :icon="icon"
         :emoji="emoji"
         icon-size="14"
@@ -78,7 +78,7 @@ export default {
       v-else
       class="flex items-center gap-2 text-slate-800 dark:text-slate-100"
     >
-      <emoji-or-icon
+      <EmojiOrIcon
         :icon="icon"
         :emoji="emoji"
         icon-size="14"

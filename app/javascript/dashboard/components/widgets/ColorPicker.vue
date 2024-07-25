@@ -39,7 +39,7 @@ export default {
       :style="`background-color: ${value}`"
       @click.prevent="toggleColorPicker"
     />
-    <chrome
+    <Chrome
       v-if="isPickerOpen"
       v-on-clickaway="closeTogglePicker"
       :disable-alpha="true"

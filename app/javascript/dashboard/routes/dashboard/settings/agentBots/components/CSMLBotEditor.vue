@@ -49,7 +49,7 @@ export default {
     <div class="flex flex-row">
       <div class="w-[68%]">
         <div class="h-[calc(100vh-56px)] relative">
-          <csml-monaco-editor v-model="bot.csmlContent" class="w-full h-full" />
+          <CsmlMonacoEditor v-model="bot.csmlContent" class="w-full h-full" />
           <div
             v-if="v$.bot.csmlContent.$error"
             class="bg-red-100 dark:bg-red-200 text-white dark:text-white absolute bottom-0 w-full p-2.5 flex items-center text-xs justify-center flex-shrink-0"

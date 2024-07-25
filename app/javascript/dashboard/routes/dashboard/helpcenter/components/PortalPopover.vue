@@ -70,7 +70,7 @@ export default {
       </p>
     </header>
     <div>
-      <portal-switch
+      <PortalSwitch
         v-for="portal in portals"
         :key="portal.id"
         :portal="portal"

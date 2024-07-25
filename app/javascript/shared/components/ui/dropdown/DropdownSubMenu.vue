@@ -19,7 +19,7 @@ export default {
 <template>
   <li class="sub-menu-container">
     <ul class="sub-menu-li-container">
-      <woot-dropdown-header v-if="title" :title="title" />
+      <WootDropdownHeader v-if="title" :title="title" />
       <slot />
     </ul>
   </li>

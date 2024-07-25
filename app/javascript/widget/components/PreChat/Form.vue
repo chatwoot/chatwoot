@@ -304,16 +304,16 @@ export default {
       }"
     />
 
-    <custom-button
+    <CustomButton
       class="mt-2 mb-5 font-medium"
       block
       :bg-color="widgetColor"
       :text-color="textColor"
       :disabled="isCreating"
     >
-      <spinner v-if="isCreating" class="p-0" />
+      <Spinner v-if="isCreating" class="p-0" />
       {{ $t('START_CONVERSATION') }}
-    </custom-button>
+    </CustomButton>
   </FormulateForm>
 </template>
 <style lang="scss" scoped>

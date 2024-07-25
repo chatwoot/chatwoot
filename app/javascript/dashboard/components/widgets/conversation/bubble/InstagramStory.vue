@@ -37,15 +37,15 @@ export default {
 };
 </script>
 <template>
-  <bubble-image
+  <BubbleImage
     v-if="!hasImgStoryError"
     :url="storyUrl"
     @error="onImageLoadError"
   />
-  <bubble-video
+  <BubbleVideo
     v-else-if="!hasVideoStoryError"
     :url="storyUrl"
     @error="onVideoLoadError"
   />
-  <instagram-story-error-place-holder v-else />
+  <InstagramStoryErrorPlaceHolder v-else />
 </template>

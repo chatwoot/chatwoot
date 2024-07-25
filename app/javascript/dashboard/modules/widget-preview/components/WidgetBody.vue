@@ -48,7 +48,7 @@ export default {
           {{ config.replyTime }}
         </div>
       </div>
-      <thumbnail username="J" size="40px" />
+      <Thumbnail username="J" size="40px" />
     </div>
     <div v-else class="conversation-content">
       <div class="conversation-wrap">

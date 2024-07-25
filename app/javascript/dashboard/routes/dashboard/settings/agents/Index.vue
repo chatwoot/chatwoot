@@ -149,7 +149,7 @@ export default {
               <tr v-for="(agent, index) in agentList" :key="agent.email">
                 <!-- Gravtar Image -->
                 <td>
-                  <thumbnail
+                  <Thumbnail
                     :src="agent.thumbnail"
                     :username="agent.name"
                     size="40px"
@@ -221,11 +221,11 @@ export default {
     </div>
     <!-- Add Agent -->
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-      <add-agent :on-close="hideAddPopup" />
+      <AddAgent :on-close="hideAddPopup" />
     </woot-modal>
     <!-- Edit Agent -->
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
-      <edit-agent
+      <EditAgent
         v-if="showEditPopup"
         :id="currentAgent.id"
         :name="currentAgent.name"

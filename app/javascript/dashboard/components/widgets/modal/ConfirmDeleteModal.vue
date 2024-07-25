@@ -67,7 +67,7 @@ export default {
 
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <modal :show.sync="show" :on-close="closeModal">
+  <Modal :show.sync="show" :on-close="closeModal">
     <woot-modal-header :header-title="title" :header-content="message" />
     <form @submit.prevent="onConfirm">
       <woot-input
@@ -86,5 +86,5 @@ export default {
         </woot-button>
       </div>
     </form>
-  </modal>
+  </Modal>
 </template>

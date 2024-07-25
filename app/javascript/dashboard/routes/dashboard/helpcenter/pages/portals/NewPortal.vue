@@ -43,7 +43,7 @@ export default {
 
 <template>
   <section class="flex-1">
-    <settings-header
+    <SettingsHeader
       button-route="new"
       :header-title="portalHeaderText"
       show-back-button

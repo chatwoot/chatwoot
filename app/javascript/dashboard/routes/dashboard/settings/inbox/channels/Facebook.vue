@@ -233,14 +233,14 @@ export default {
           v-dompurify-html="errorStateDescription"
         />
       </div>
-      <loading-state v-else-if="showLoader" :message="emptyStateMessage" />
+      <LoadingState v-else-if="showLoader" :message="emptyStateMessage" />
       <form
         v-else
         class="flex flex-wrap mx-0"
         @submit.prevent="createChannel()"
       >
         <div class="w-full">
-          <page-header
+          <PageHeader
             :header-title="$t('INBOX_MGMT.ADD.DETAILS.TITLE')"
             :header-content="
               useInstallationName(

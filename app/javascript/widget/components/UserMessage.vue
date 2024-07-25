@@ -111,18 +111,18 @@ export default {
         :class="{ 'in-progress': isInProgress, 'is-failed': isFailed }"
       >
         <div v-if="hasReplyTo" class="flex justify-end mt-2 mb-1 text-xs">
-          <reply-to-chip :reply-to="replyTo" />
+          <ReplyToChip :reply-to="replyTo" />
         </div>
         <div class="flex justify-end gap-1">
           <div class="flex flex-col justify-end">
-            <message-reply-button
+            <MessageReplyButton
               v-if="!isInProgress && !isFailed"
               class="transition-opacity delay-75 opacity-0 group-hover:opacity-100 sm:opacity-0"
               @click="toggleReply"
             />
           </div>
-          <drag-wrapper direction="left" @dragged="toggleReply">
-            <user-message-bubble
+          <DragWrapper direction="left" @dragged="toggleReply">
+            <UserMessageBubble
               v-if="showTextBubble"
               :message="message.content"
               :status="message.status"
@@ -137,7 +137,7 @@ export default {
                 v-for="attachment in message.attachments"
                 :key="attachment.id"
               >
-                <image-bubble
+                <ImageBubble
                   v-if="attachment.file_type === 'image' && !hasImageError"
                   :url="attachment.data_url"
                   :thumb="attachment.data_url"
@@ -145,14 +145,14 @@ export default {
                   @error="onImageLoadError"
                 />
 
-                <video-bubble
+                <VideoBubble
                   v-if="attachment.file_type === 'video' && !hasVideoError"
                   :url="attachment.data_url"
                   :readable-time="readableTime"
                   @error="onVideoLoadError"
                 />
 
-                <file-bubble
+                <FileBubble
                   v-else
                   :url="attachment.data_url"
                   :is-in-progress="isInProgress"
@@ -161,7 +161,7 @@ export default {
                 />
               </div>
             </div>
-          </drag-wrapper>
+          </DragWrapper>
         </div>
         <div
           v-if="isFailed"
@@ -173,7 +173,7 @@ export default {
             class="inline-flex items-center justify-center ml-2"
             @click="retrySendMessage"
           >
-            <fluent-icon icon="arrow-clockwise" size="14" />
+            <FluentIcon icon="arrow-clockwise" size="14" />
           </button>
         </div>
       </div>

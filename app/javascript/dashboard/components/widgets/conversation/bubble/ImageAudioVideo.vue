@@ -110,7 +110,7 @@ export default {
     <audio v-else-if="isAudio" controls class="skip-context-menu mb-0.5">
       <source :src="`${dataUrl}?t=${Date.now()}`" />
     </audio>
-    <gallery-view
+    <GalleryView
       v-if="show"
       :show.sync="show"
       :attachment="attachment"

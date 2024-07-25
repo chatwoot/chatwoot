@@ -77,7 +77,7 @@ export default {
 </script>
 
 <template>
-  <label-selector
+  <LabelSelector
     :all-labels="allLabels"
     :saved-labels="savedLabels"
     @add="addItem"

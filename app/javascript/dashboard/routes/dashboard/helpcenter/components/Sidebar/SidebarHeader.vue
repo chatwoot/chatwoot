@@ -38,7 +38,7 @@ export default {
     class="flex h-16 items-center justify-between py-4 px-0 mb-1/4 border-b border-slate-50 dark:border-slate-700"
   >
     <div class="flex items-center">
-      <thumbnail
+      <Thumbnail
         size="32px"
         :src="thumbnailSrc"
         :username="headerTitle"

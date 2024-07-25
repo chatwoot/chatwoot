@@ -51,7 +51,7 @@ export default {
         }`"
         :header-content="$t('EDIT_CONTACT.DESC')"
       />
-      <contact-form
+      <ContactForm
         :contact="contact"
         :in-progress="uiFlags.isUpdating"
         :on-submit="onSubmit"

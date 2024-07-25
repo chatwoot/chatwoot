@@ -21,8 +21,8 @@ export default {
     class="flex flex-col flex-1 overflow-hidden rounded-b-lg bg-slate-25 dark:bg-slate-800"
   >
     <div class="flex flex-1 overflow-auto">
-      <conversation-wrap :grouped-messages="groupedMessages" />
+      <ConversationWrap :grouped-messages="groupedMessages" />
     </div>
-    <chat-footer class="px-5" />
+    <ChatFooter class="px-5" />
   </div>
 </template>

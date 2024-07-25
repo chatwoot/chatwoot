@@ -34,12 +34,8 @@ export default {
 };
 </script>
 <template>
-  <csml-bot-editor
-    v-if="agentBot.id"
-    :agent-bot="agentBot"
-    @submit="updateBot"
-  />
+  <CsmlBotEditor v-if="agentBot.id" :agent-bot="agentBot" @submit="updateBot" />
   <div v-else class="flex flex-col h-auto overflow-auto no-padding">
-    <spinner />
+    <Spinner />
   </div>
 </template>

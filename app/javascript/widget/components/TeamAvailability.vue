@@ -78,7 +78,7 @@ export default {
           {{ replyWaitMessage }}
         </div>
       </div>
-      <available-agents v-if="isOnline" :agents="availableAgents" />
+      <AvailableAgents v-if="isOnline" :agents="availableAgents" />
     </div>
     <button
       class="inline-flex text-sm font-medium rounded-md py-1 mt-2 px-2 -ml-2 leading-6 text-slate-800 dark:text-slate-50 justify-between items-center hover:bg-slate-25 dark:hover:bg-slate-800"
@@ -92,7 +92,7 @@ export default {
             : $t('START_CONVERSATION')
         }}
       </span>
-      <fluent-icon icon="arrow-right" size="14" />
+      <FluentIcon icon="arrow-right" size="14" />
     </button>
   </div>
 </template>

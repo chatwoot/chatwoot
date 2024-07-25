@@ -116,11 +116,11 @@ export default {
     >
       {{ $t('REPORT.DOWNLOAD_AGENT_REPORTS') }}
     </woot-button>
-    <report-filter-selector
+    <ReportFilterSelector
       :show-agents-filter="false"
       :show-group-by-filter="true"
       @filter-change="onFilterChange"
     />
-    <report-container :group-by="groupBy" />
+    <ReportContainer :group-by="groupBy" />
   </div>
 </template>

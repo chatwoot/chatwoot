@@ -48,14 +48,14 @@ const selectedItemId = computed(() => selectedItem.value?.id || null);
   >
     <label class="w-full" :class="{ error: hasError }">
       {{ label }}
-      <filter-button
+      <FilterButton
         right-icon="chevron-down"
         :button-text="selectedItemName"
         class="justify-between w-full h-[2.5rem] py-1.5 px-3 rounded-xl border border-slate-50 bg-slate-25 dark:border-slate-600 dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-900/50"
         @click="toggleDropdown"
       >
         <template v-if="shouldShowDropdown" #dropdown>
-          <filter-list-dropdown
+          <FilterListDropdown
             v-on-clickaway="toggleDropdown"
             :show-clear-filter="false"
             :list-items="items"
@@ -66,7 +66,7 @@ const selectedItemId = computed(() => selectedItem.value?.id || null);
             @click="onSelect"
           />
         </template>
-      </filter-button>
+      </FilterButton>
       <span v-if="hasError" class="mt-1 message">{{ error }}</span>
     </label>
   </div>

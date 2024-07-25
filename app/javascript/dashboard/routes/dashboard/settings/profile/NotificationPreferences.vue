@@ -141,23 +141,23 @@ export default {
       <div
         class="grid content-center h-12 grid-cols-12 gap-4 py-0 rounded-t-xl"
       >
-        <table-header-cell
+        <TableHeaderCell
           :span="7"
           label="`${$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPE_TITLE')}`"
         >
           <span class="text-sm font-normal normal-case text-ash-800">
             {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPE_TITLE') }}
           </span>
-        </table-header-cell>
-        <table-header-cell
+        </TableHeaderCell>
+        <TableHeaderCell
           :span="2"
           label="`${$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.EMAIL')}`"
         >
           <span class="text-sm font-medium normal-case text-ash-900">
             {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.EMAIL') }}
           </span>
-        </table-header-cell>
-        <table-header-cell
+        </TableHeaderCell>
+        <TableHeaderCell
           :span="3"
           label="`${$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.PUSH')}`"
         >
@@ -168,7 +168,7 @@ export default {
               {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.PUSH') }}
             </span>
           </div>
-        </table-header-cell>
+        </TableHeaderCell>
       </div>
       <div
         v-for="(notification, index) in filteredNotificationTypes"
@@ -258,7 +258,7 @@ export default {
           {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.BROWSER_PERMISSION') }}
         </span>
       </div>
-      <form-switch
+      <FormSwitch
         :value="hasEnabledPushPermissions"
         @input="onRequestPermissions"
       />

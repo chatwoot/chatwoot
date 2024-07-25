@@ -9,7 +9,7 @@ export default {
 </script>
 
 <template>
-  <woot-reports
+  <WootReports
     key="inbox-reports"
     type="inbox"
     getter-key="inboxes/getInboxes"

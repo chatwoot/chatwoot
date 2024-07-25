@@ -69,7 +69,7 @@ export default {
 
 <template>
   <div class="wrapper">
-    <settings-header
+    <SettingsHeader
       button-route="new"
       :header-title="$t('HELP_CENTER.PORTAL.EDIT.HEADER_TEXT')"
       show-back-button
@@ -79,7 +79,7 @@ export default {
       :show-new-button="false"
     />
     <div class="overflow-auto max-h-[96%]">
-      <setting-intro-banner :header-title="portalName">
+      <SettingIntroBanner :header-title="portalName">
         <woot-tabs
           :index="activeTabIndex"
           :border="false"
@@ -92,7 +92,7 @@ export default {
             :show-badge="false"
           />
         </woot-tabs>
-      </setting-intro-banner>
+      </SettingIntroBanner>
       <div class="flex flex-wrap max-w-full px-8 py-4 my-auto">
         <router-view />
       </div>

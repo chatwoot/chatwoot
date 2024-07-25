@@ -252,7 +252,7 @@ export default {
   <section
     class="flex-1 h-full -mt-1 overflow-hidden bg-white contacts-table-wrap dark:bg-slate-900"
   >
-    <ve-table
+    <VeTable
       :fixed-header="true"
       max-height="calc(100vh - 7.125rem)"
       scroll-width="187rem"
@@ -262,16 +262,16 @@ export default {
       :sort-option="sortOption"
     />
 
-    <empty-state
+    <EmptyState
       v-if="showSearchEmptyState"
       :title="$t('CONTACTS_PAGE.LIST.404')"
     />
-    <empty-state
+    <EmptyState
       v-else-if="!isLoading && !contacts.length"
       :title="$t('CONTACTS_PAGE.LIST.NO_CONTACTS')"
     />
     <div v-if="isLoading" class="flex items-center justify-center text-base">
-      <spinner />
+      <Spinner />
       <span>{{ $t('CONTACTS_PAGE.LIST.LOADING_MESSAGE') }}</span>
     </div>
   </section>

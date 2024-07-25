@@ -684,17 +684,17 @@ export default {
 
 <template>
   <div ref="editorRoot" class="relative editor-root">
-    <tag-agents
+    <TagAgents
       v-if="showUserMentions && isPrivate"
       :search-key="mentionSearchKey"
       @click="insertMentionNode"
     />
-    <canned-response
+    <CannedResponse
       v-if="shouldShowCannedResponses"
       :search-key="cannedSearchTerm"
       @click="insertCannedResponse"
     />
-    <variable-list
+    <VariableList
       v-if="shouldShowVariables"
       :search-key="variableSearchTerm"
       @click="insertVariable"

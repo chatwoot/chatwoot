@@ -74,7 +74,7 @@ export default {
       />
     </div>
     <transition name="menu-slide">
-      <macro-preview
+      <MacroPreview
         v-if="showPreview"
         v-on-clickaway="closeMacroPreview"
         :macro="macro"

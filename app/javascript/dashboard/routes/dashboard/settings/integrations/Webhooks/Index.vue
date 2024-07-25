@@ -113,7 +113,7 @@ export default {
             </th>
           </thead>
           <tbody>
-            <webhook-row
+            <WebhookRow
               v-for="(webHookItem, index) in records"
               :key="webHookItem.id"
               :index="index"
@@ -138,11 +138,11 @@ export default {
     </div>
 
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-      <new-webhook v-if="showAddPopup" :on-close="hideAddPopup" />
+      <NewWebhook v-if="showAddPopup" :on-close="hideAddPopup" />
     </woot-modal>
 
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
-      <edit-webhook
+      <EditWebhook
         v-if="showEditPopup"
         :id="selectedWebHook.id"
         :value="selectedWebHook"

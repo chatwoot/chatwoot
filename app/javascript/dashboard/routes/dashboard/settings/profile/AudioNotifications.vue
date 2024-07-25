@@ -106,7 +106,7 @@ export default {
 
 <template>
   <div id="profile-settings-notifications" class="flex flex-col gap-6">
-    <audio-alert-tone
+    <AudioAlertTone
       :value="alertTone"
       :label="
         $t(
@@ -116,7 +116,7 @@ export default {
       @change="handleAudioToneChange"
     />
 
-    <audio-alert-event
+    <AudioAlertEvent
       :label="
         $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPE.TITLE')
       "
@@ -124,7 +124,7 @@ export default {
       @update="handAudioAlertChange"
     />
 
-    <audio-alert-condition
+    <AudioAlertCondition
       :items="audioAlertConditions"
       :label="
         $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.CONDITIONS.TITLE')

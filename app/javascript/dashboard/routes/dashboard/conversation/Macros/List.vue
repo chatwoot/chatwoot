@@ -50,7 +50,7 @@ export default {
       :message="$t('MACROS.LOADING')"
     />
     <div v-if="!uiFlags.isFetching && macros.length" class="macros-list">
-      <macro-item
+      <MacroItem
         v-for="macro in macros"
         :key="macro.id"
         :macro="macro"

@@ -50,7 +50,7 @@ export default {
         class="options"
         :class="{ 'has-selected': !!selected }"
       >
-        <chat-option
+        <ChatOption
           v-for="option in options"
           :key="option.id"
           :action="option"

@@ -127,7 +127,7 @@ export default {
         @input="v$.passwordConfirmation.$touch"
       />
 
-      <form-button
+      <FormButton
         type="submit"
         color-scheme="primary"
         variant="solid"
@@ -135,7 +135,7 @@ export default {
         :disabled="isButtonDisabled"
       >
         {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.BTN_TEXT') }}
-      </form-button>
+      </FormButton>
     </div>
   </form>
 </template>

@@ -106,7 +106,7 @@ export default {
     :class="{ 'pb-2': showArticles, 'justify-end': !showArticles }"
   >
     <div class="px-4 pt-4 w-full">
-      <team-availability
+      <TeamAvailability
         :available-agents="availableAgents"
         :has-conversation="!!conversationSize"
         :unread-count="unreadMessageCount"
@@ -115,7 +115,7 @@ export default {
     </div>
     <div v-if="showArticles" class="px-4 py-2 w-full">
       <div class="p-4 rounded-md bg-white dark:bg-slate-700 shadow-sm w-full">
-        <article-hero
+        <ArticleHero
           v-if="
             !articleUiFlags.isFetching &&
             !articleUiFlags.isError &&
@@ -129,7 +129,7 @@ export default {
     </div>
     <div v-if="articleUiFlags.isFetching" class="px-4 py-2 w-full">
       <div class="p-4 rounded-md bg-white dark:bg-slate-700 shadow-sm w-full">
-        <article-card-skeleton-loader />
+        <ArticleCardSkeletonLoader />
       </div>
     </div>
   </div>

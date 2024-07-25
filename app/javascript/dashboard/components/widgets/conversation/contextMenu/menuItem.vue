@@ -34,7 +34,7 @@ export default {
       class="label-pill"
       :style="{ backgroundColor: option.color }"
     />
-    <thumbnail
+    <Thumbnail
       v-if="variant === 'agent'"
       :username="option.label"
       :src="option.thumbnail"

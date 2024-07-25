@@ -118,7 +118,7 @@ onMounted(() => {
         {{ linkedIssue.issue.identifier }}
       </span>
     </woot-button>
-    <issue
+    <Issue
       v-if="linkedIssue"
       :issue="linkedIssue.issue"
       :link-id="linkedIssue.id"
@@ -131,7 +131,7 @@ onMounted(() => {
       :close-on-backdrop-click="false"
       class="!items-start [&>div]:!top-12 [&>div]:sticky"
     >
-      <create-or-link-issue
+      <CreateOrLinkIssue
         :conversation="conversation"
         :account-id="currentAccountId"
         @close="closePopup"

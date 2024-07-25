@@ -190,7 +190,7 @@ export default {
     >
       {{ downloadButtonLabel }}
     </woot-button>
-    <report-filters
+    <ReportFilters
       v-if="filterItemsList"
       :type="type"
       :filter-items-list="filterItemsList"
@@ -201,6 +201,6 @@ export default {
       @group-by-filter-change="onGroupByFilterChange"
       @business-hours-toggle="onBusinessHoursToggle"
     />
-    <report-container v-if="filterItemsList.length" :group-by="groupBy" />
+    <ReportContainer v-if="filterItemsList.length" :group-by="groupBy" />
   </div>
 </template>

@@ -59,7 +59,7 @@ export default {
       :class="uploadState === 'processing' ? 'disabled' : ''"
       @change="onChangeFile"
     />
-    <spinner v-if="uploadState === 'processing'" />
+    <Spinner v-if="uploadState === 'processing'" />
     <fluent-icon v-if="uploadState === 'idle'" icon="file-upload" />
     <fluent-icon
       v-if="uploadState === 'uploaded'"

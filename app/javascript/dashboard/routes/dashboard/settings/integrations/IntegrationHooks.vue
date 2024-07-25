@@ -118,14 +118,14 @@ export default {
     </woot-button>
     <div v-if="showIntegrationHooks" class="w-full">
       <div v-if="isIntegrationMultiple">
-        <multiple-integration-hooks
+        <MultipleIntegrationHooks
           :integration="integration"
           @delete="openDeletePopup"
         />
       </div>
 
       <div v-if="isIntegrationSingle">
-        <single-integration-hooks
+        <SingleIntegrationHooks
           :integration="integration"
           @add="openAddHookModal"
           @delete="openDeletePopup"
@@ -134,7 +134,7 @@ export default {
     </div>
 
     <woot-modal :show.sync="showAddHookModal" :on-close="hideAddHookModal">
-      <new-hook :integration="integration" @close="hideAddHookModal" />
+      <NewHook :integration="integration" @close="hideAddHookModal" />
     </woot-modal>
 
     <woot-delete-modal

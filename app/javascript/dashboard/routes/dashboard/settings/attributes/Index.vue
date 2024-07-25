@@ -32,9 +32,9 @@ export default {
     >
       {{ $t('ATTRIBUTES_MGMT.HEADER_BTN_TXT') }}
     </woot-button>
-    <custom-attribute />
+    <CustomAttribute />
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-      <add-attribute :on-close="hideAddPopup" />
+      <AddAttribute :on-close="hideAddPopup" />
     </woot-modal>
   </div>
 </template>

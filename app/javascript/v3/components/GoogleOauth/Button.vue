@@ -50,7 +50,7 @@ export default {
         {{ $t('LOGIN.OAUTH.GOOGLE_LOGIN') }}
       </span>
     </a>
-    <simple-divider
+    <SimpleDivider
       v-if="showSeparator"
       ref="divider"
       :label="$t('COMMON.OR')"

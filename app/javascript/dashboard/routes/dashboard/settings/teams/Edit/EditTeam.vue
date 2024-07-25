@@ -60,19 +60,19 @@ export default {
   <div
     class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
   >
-    <page-header
+    <PageHeader
       :header-title="$t('TEAMS_SETTINGS.EDIT_FLOW.CREATE.TITLE')"
       :header-content="$t('TEAMS_SETTINGS.EDIT_FLOW.CREATE.DESC')"
     />
     <div class="flex flex-wrap">
-      <team-form
+      <TeamForm
         v-if="showTeamForm"
         :on-submit="updateTeam"
         :submit-in-progress="false"
         :submit-button-text="$t('TEAMS_SETTINGS.EDIT_FLOW.CREATE.BUTTON_TEXT')"
         :form-data="teamData"
       />
-      <spinner v-else />
+      <Spinner v-else />
     </div>
   </div>
 </template>

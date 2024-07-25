@@ -193,7 +193,7 @@ export default {
 <template>
   <div class="bg-white dark:bg-slate-900">
     <div class="multiselect-wrap--small">
-      <contact-details-item
+      <ContactDetailsItem
         compact
         :title="$t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL')"
       >
@@ -208,8 +208,8 @@ export default {
             {{ $t('CONVERSATION_SIDEBAR.SELF_ASSIGN') }}
           </woot-button>
         </template>
-      </contact-details-item>
-      <multiselect-dropdown
+      </ContactDetailsItem>
+      <MultiselectDropdown
         :options="agentsList"
         :selected-item="assignedAgent"
         :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.AGENT')"
@@ -224,11 +224,11 @@ export default {
       />
     </div>
     <div class="multiselect-wrap--small">
-      <contact-details-item
+      <ContactDetailsItem
         compact
         :title="$t('CONVERSATION_SIDEBAR.TEAM_LABEL')"
       />
-      <multiselect-dropdown
+      <MultiselectDropdown
         :options="teamsList"
         :selected-item="assignedTeam"
         :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.TEAM')"
@@ -243,11 +243,8 @@ export default {
       />
     </div>
     <div class="multiselect-wrap--small">
-      <contact-details-item
-        compact
-        :title="$t('CONVERSATION.PRIORITY.TITLE')"
-      />
-      <multiselect-dropdown
+      <ContactDetailsItem compact :title="$t('CONVERSATION.PRIORITY.TITLE')" />
+      <MultiselectDropdown
         :options="priorityOptions"
         :selected-item="assignedPriority"
         :multiselector-title="$t('CONVERSATION.PRIORITY.TITLE')"
@@ -263,10 +260,10 @@ export default {
         @click="onClickAssignPriority"
       />
     </div>
-    <contact-details-item
+    <ContactDetailsItem
       compact
       :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_LABELS')"
     />
-    <conversation-labels :conversation-id="conversationId" />
+    <ConversationLabels :conversation-id="conversationId" />
   </div>
 </template>

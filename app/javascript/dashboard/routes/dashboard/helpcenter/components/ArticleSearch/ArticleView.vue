@@ -39,7 +39,7 @@ export default {
     </div>
     <div class="-ml-4 h-full overflow-y-auto">
       <div class="w-full h-full min-h-0">
-        <iframe-loader :url="url" />
+        <IframeLoader :url="url" />
       </div>
     </div>
 

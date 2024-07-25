@@ -85,14 +85,14 @@ export default {
   >
     <div v-if="!isEmail" v-dompurify-html="message" class="text-content" />
     <div v-else @click="handleClickOnContent">
-      <letter
+      <Letter
         class="text-content bg-white dark:bg-white text-slate-900 dark:text-slate-900 p-2 rounded-[4px]"
         :html="message"
       />
     </div>
     <button
       v-if="showQuoteToggle"
-      class="text-slate-300 dark:text-slate-300 cursor-pointer text-xs py-1"
+      class="py-1 text-xs cursor-pointer text-slate-300 dark:text-slate-300"
       @click="toggleQuotedContent"
     >
       <span v-if="showQuotedContent" class="flex items-center gap-0.5">
@@ -104,7 +104,7 @@ export default {
         {{ $t('CHAT_LIST.SHOW_QUOTED_TEXT') }}
       </span>
     </button>
-    <gallery-view
+    <GalleryView
       v-if="showGalleryViewer"
       :show.sync="showGalleryViewer"
       :attachment="attachment"

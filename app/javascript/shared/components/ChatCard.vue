@@ -43,11 +43,7 @@ export default {
       <p class="body" :class="$dm('text-black-700', 'dark:text-slate-100')">
         {{ description }}
       </p>
-      <card-button
-        v-for="action in actions"
-        :key="action.id"
-        :action="action"
-      />
+      <CardButton v-for="action in actions" :key="action.id" :action="action" />
     </div>
   </div>
 </template>

@@ -61,30 +61,30 @@ export default {
       <div
         class="grid content-center h-12 grid-cols-12 gap-4 px-6 py-0 border-b bg-slate-25 border-slate-75 dark:border-slate-800 rounded-t-xl dark:bg-slate-900"
       >
-        <table-header-cell
+        <TableHeaderCell
           :span="6"
           :label="$t('SLA_REPORTS.TABLE.HEADER.CONVERSATION')"
         />
-        <table-header-cell
+        <TableHeaderCell
           :span="2"
           :label="$t('SLA_REPORTS.TABLE.HEADER.POLICY')"
         />
-        <table-header-cell
+        <TableHeaderCell
           :span="2"
           :label="$t('SLA_REPORTS.TABLE.HEADER.AGENT')"
         />
-        <table-header-cell :span="2" label="" />
+        <TableHeaderCell :span="2" label="" />
       </div>
 
       <div
         v-if="isLoading"
         class="flex items-center rounded-b-xl justify-center h-32 bg-white dark:bg-slate-900"
       >
-        <spinner />
+        <Spinner />
         <span>{{ $t('SLA_REPORTS.LOADING') }}</span>
       </div>
       <div v-else-if="slaReports.length > 0">
-        <SLA-report-item
+        <SLAReportItem
           v-for="slaReport in slaReports"
           :key="slaReport.applied_sla.id"
           :sla-name="slaReport.applied_sla.sla_name"
@@ -100,7 +100,7 @@ export default {
         {{ $t('SLA_REPORTS.NO_RECORDS') }}
       </div>
     </div>
-    <table-footer
+    <TableFooter
       v-if="shouldShowFooter"
       :current-page="currentPage"
       :total-count="totalCount"

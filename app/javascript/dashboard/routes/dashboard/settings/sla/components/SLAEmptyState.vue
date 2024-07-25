@@ -6,7 +6,7 @@ const primaryAction = () => emit('primary-action');
 </script>
 
 <template>
-  <base-empty-state>
+  <BaseEmptyState>
     <p class="max-w-xs text-sm font-medium text-center">
       {{ $t('SLA.LIST.404') }}
     </p>
@@ -18,5 +18,5 @@ const primaryAction = () => emit('primary-action');
     >
       {{ $t('SLA.ADD_ACTION_LONG') }}
     </woot-button>
-  </base-empty-state>
+  </BaseEmptyState>
 </template>

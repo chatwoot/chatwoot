@@ -184,8 +184,8 @@ export default {
     <div
       class="w-full grid gap-y-2 gap-x-1.5 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]"
     >
-      <reports-filters-date-range @on-range-change="onDateRangeChange" />
-      <woot-date-range-picker
+      <ReportsFiltersDateRange @on-range-change="onDateRangeChange" />
+      <WootDateRangePicker
         v-if="isDateRangeSelected"
         show-range
         class="no-margin auto-width"
@@ -194,29 +194,29 @@ export default {
         :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
         @change="onCustomDateRangeChange"
       />
-      <reports-filters-date-group-by
+      <ReportsFiltersDateGroupBy
         v-if="showGroupByFilter && isGroupByPossible"
         :valid-group-options="validGroupOptions"
         :selected-option="selectedGroupByFilter"
         @on-grouping-change="onGroupingChange"
       />
-      <reports-filters-agents
+      <ReportsFiltersAgents
         v-if="showAgentsFilter"
         @agents-filter-selection="handleAgentsFilterSelection"
       />
-      <reports-filters-labels
+      <ReportsFiltersLabels
         v-if="showLabelsFilter"
         @labels-filter-selection="handleLabelsFilterSelection"
       />
-      <reports-filters-teams
+      <ReportsFiltersTeams
         v-if="showTeamFilter"
         @team-filter-selection="handleTeamFilterSelection"
       />
-      <reports-filters-inboxes
+      <ReportsFiltersInboxes
         v-if="showInboxFilter"
         @inbox-filter-selection="handleInboxFilterSelection"
       />
-      <reports-filters-ratings
+      <ReportsFiltersRatings
         v-if="showRatingFilter"
         @rating-filter-selection="handleRatingFilterSelection"
       />

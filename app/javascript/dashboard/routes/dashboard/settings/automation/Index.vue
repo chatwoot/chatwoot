@@ -245,7 +245,7 @@ export default {
       size="medium"
       :on-close="hideAddPopup"
     >
-      <add-automation-rule
+      <AddAutomationRule
         v-if="showAddPopup"
         :on-close="hideAddPopup"
         @saveAutomation="submitAutomation"
@@ -268,7 +268,7 @@ export default {
       size="medium"
       :on-close="hideEditPopup"
     >
-      <edit-automation-rule
+      <EditAutomationRule
         v-if="showEditPopup"
         :on-close="hideEditPopup"
         :selected-response="selectedResponse"

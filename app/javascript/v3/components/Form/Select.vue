@@ -51,7 +51,7 @@ export default {
 </script>
 
 <template>
-  <with-label
+  <WithLabel
     :label="label"
     :icon="icon"
     :name="name"
@@ -79,7 +79,7 @@ export default {
         </option>
       </slot>
     </select>
-  </with-label>
+  </WithLabel>
 </template>
 <style scoped>
 .select-caret {

@@ -55,7 +55,7 @@ export default {
         </span>
       </div>
       <div v-else class="contact-conversation--list">
-        <conversation-card
+        <ConversationCard
           v-for="conversation in previousConversations"
           :key="conversation.id"
           :chat="conversation"
@@ -65,7 +65,7 @@ export default {
         />
       </div>
     </div>
-    <spinner v-else />
+    <Spinner v-else />
   </div>
 </template>
 

@@ -197,7 +197,7 @@ export default {
         />
       </div>
       <transition name="popover-animation">
-        <label-actions
+        <LabelActions
           v-if="showLabelActions"
           class="label-actions-box"
           @assign="assignLabels"
@@ -205,7 +205,7 @@ export default {
         />
       </transition>
       <transition name="popover-animation">
-        <update-actions
+        <UpdateActions
           v-if="showUpdateActions"
           class="update-actions-box"
           :selected-inboxes="selectedInboxes"
@@ -218,7 +218,7 @@ export default {
         />
       </transition>
       <transition name="popover-animation">
-        <agent-selector
+        <AgentSelector
           v-if="showAgentsList"
           class="agent-actions-box"
           :selected-inboxes="selectedInboxes"
@@ -228,7 +228,7 @@ export default {
         />
       </transition>
       <transition name="popover-animation">
-        <team-actions
+        <TeamActions
           v-if="showTeamsList"
           class="team-actions-box"
           @assign-team="assignTeam"
@@ -243,7 +243,7 @@ export default {
       :show.sync="showCustomTimeSnoozeModal"
       :on-close="hideCustomSnoozeModal"
     >
-      <custom-snooze-modal
+      <CustomSnoozeModal
         @close="hideCustomSnoozeModal"
         @choose-time="customSnoozeTime"
       />

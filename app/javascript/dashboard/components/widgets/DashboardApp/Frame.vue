@@ -87,7 +87,7 @@ export default {
       :key="index"
       class="dashboard-app--list"
     >
-      <loading-state
+      <LoadingState
         v-if="iframeLoading"
         :message="$t('DASHBOARD_APPS.LOADING_MESSAGE')"
         class="dashboard-app_loading-container"

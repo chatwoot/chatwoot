@@ -44,12 +44,12 @@ const toggleShowAllNRT = () => {
     <span class="text-sm font-medium text-slate-900 dark:text-slate-25">
       {{ $t('SLA.EVENTS.TITLE') }}
     </span>
-    <SLA-event-item
+    <SLAEventItem
       v-if="frtMisses.length"
       :label="$t('SLA.EVENTS.FRT')"
       :items="frtMisses"
     />
-    <SLA-event-item
+    <SLAEventItem
       v-if="nrtMisses.length"
       :label="$t('SLA.EVENTS.NRT')"
       :items="nrtMisses"
@@ -75,8 +75,8 @@ const toggleShowAllNRT = () => {
           </woot-button>
         </div>
       </template>
-    </SLA-event-item>
-    <SLA-event-item
+    </SLAEventItem>
+    <SLAEventItem
       v-if="rtMisses.length"
       :label="$t('SLA.EVENTS.RT')"
       :items="rtMisses"

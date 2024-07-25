@@ -37,7 +37,7 @@ async function requestAuthorization() {
 </script>
 
 <template>
-  <inbox-reconnection-required
+  <InboxReconnectionRequired
     class="mx-8 mt-5"
     @reauthorize="requestAuthorization"
   />

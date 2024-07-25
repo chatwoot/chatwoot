@@ -77,7 +77,7 @@ export default {
       :header-content="$t('MERGE_CONTACTS.DESCRIPTION')"
     />
 
-    <merge-contact
+    <MergeContact
       :primary-contact="primaryContact"
       :is-searching="isSearching"
       :is-merging="uiFlags.isMerging"

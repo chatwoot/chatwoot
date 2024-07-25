@@ -88,7 +88,7 @@ export default {
       :title="$t('END_CONVERSATION')"
       @click="resolveConversation"
     >
-      <fluent-icon
+      <FluentIcon
         icon="sign-out"
         size="22"
         :class="$dm('text-black-900', 'dark:text-slate-50')"
@@ -99,7 +99,7 @@ export default {
       class="button transparent compact new-window--button"
       @click="popoutWindow"
     >
-      <fluent-icon
+      <FluentIcon
         icon="open"
         size="22"
         :class="$dm('text-black-900', 'dark:text-slate-50')"
@@ -112,7 +112,7 @@ export default {
       }"
       @click="closeWindow"
     >
-      <fluent-icon
+      <FluentIcon
         icon="dismiss"
         size="24"
         :class="$dm('text-black-900', 'dark:text-slate-50')"

@@ -44,7 +44,7 @@ export default {
       'border-slate-50 dark:border-slate-800 shadow-sm': !isFocused,
     }"
   >
-    <fluent-icon icon="search" />
+    <FluentIcon icon="search" />
     <input
       :value="value"
       type="text"

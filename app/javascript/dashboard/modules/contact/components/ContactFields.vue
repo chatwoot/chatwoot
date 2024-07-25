@@ -53,7 +53,7 @@ export default {
     <h3 class="text-lg title">
       {{ $t('CONTACTS_PAGE.FIELDS') }}
     </h3>
-    <attribute
+    <Attribute
       :label="$t('CONTACT_PANEL.EMAIL_ADDRESS')"
       icon="mail"
       emoji=""
@@ -61,7 +61,7 @@ export default {
       :show-edit="true"
       @update="onEmailUpdate"
     />
-    <attribute
+    <Attribute
       :label="$t('CONTACT_PANEL.PHONE_NUMBER')"
       icon="call"
       emoji=""
@@ -69,7 +69,7 @@ export default {
       :show-edit="true"
       @update="onPhoneUpdate"
     />
-    <attribute
+    <Attribute
       v-if="additionalAttributes.location"
       :label="$t('CONTACT_PANEL.LOCATION')"
       icon="map"
@@ -83,7 +83,7 @@ export default {
       :key="attribute"
       class="custom-attribute--row"
     >
-      <attribute
+      <Attribute
         :label="attribute"
         icon="chevron-right"
         :value="customAttributes[attribute]"

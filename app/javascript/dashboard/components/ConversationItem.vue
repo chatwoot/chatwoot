@@ -49,7 +49,7 @@ export default {
 </script>
 
 <template>
-  <conversation-card
+  <ConversationCard
     :key="source.id"
     :active-label="label"
     :team-id="teamId"

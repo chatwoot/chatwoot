@@ -59,7 +59,7 @@ const unlinkIssue = () => {
     class="absolute flex flex-col items-start bg-white dark:bg-slate-800 z-50 px-4 py-3 border border-solid border-ash-200 w-[384px] rounded-xl gap-4 max-h-96 overflow-auto"
   >
     <div class="flex flex-col w-full">
-      <issue-header
+      <IssueHeader
         :identifier="issue.identifier"
         :link-id="linkId"
         :issue-url="issue.url"
@@ -77,7 +77,7 @@ const unlinkIssue = () => {
       </span>
     </div>
     <div class="flex flex-row items-center h-6 gap-2">
-      <user-avatar-with-name v-if="assignee" :user="assignee" class="py-1" />
+      <UserAvatarWithName v-if="assignee" :user="assignee" class="py-1" />
       <div v-if="assignee" class="w-px h-3 bg-ash-200" />
       <div class="flex items-center gap-1 py-1">
         <fluent-icon

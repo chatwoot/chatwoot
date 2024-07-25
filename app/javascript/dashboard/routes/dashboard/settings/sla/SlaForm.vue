@@ -181,7 +181,7 @@ export default {
         :placeholder="$t('SLA.FORM.DESCRIPTION.PLACEHOLDER')"
       />
 
-      <sla-time-input
+      <SlaTimeInput
         v-for="(input, index) in slaTimeInputs"
         :key="index"
         :threshold="input.threshold"

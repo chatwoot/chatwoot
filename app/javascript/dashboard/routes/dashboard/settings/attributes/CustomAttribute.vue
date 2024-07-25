@@ -191,7 +191,7 @@ export default {
       <span v-dompurify-html="$t('ATTRIBUTES_MGMT.SIDEBAR_TXT')" />
     </div>
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
-      <edit-attribute
+      <EditAttribute
         :selected-attribute="selectedAttribute"
         :is-updating="uiFlags.isUpdating"
         @on-close="hideEditPopup"

@@ -94,27 +94,27 @@ export default {
         v-dompurify-html="formatMessage(message, false)"
         class="message-content text-slate-900 dark:text-slate-50"
       />
-      <email-input
+      <EmailInput
         v-if="isTemplateEmail"
         :message-id="messageId"
         :message-content-attributes="messageContentAttributes"
       />
 
-      <integration-card
+      <IntegrationCard
         v-if="isIntegrations"
         :message-id="messageId"
         :meeting-data="messageContentAttributes.data"
       />
     </div>
     <div v-if="isOptions">
-      <chat-options
+      <ChatOptions
         :title="message"
         :options="messageContentAttributes.items"
         :hide-fields="!!messageContentAttributes.submitted_values"
         @click="onOptionSelect"
       />
     </div>
-    <chat-form
+    <ChatForm
       v-if="isForm && !messageContentAttributes.submitted_values"
       :items="messageContentAttributes.items"
       :button-label="messageContentAttributes.button_label"
@@ -122,7 +122,7 @@ export default {
       @submit="onFormSubmit"
     />
     <div v-if="isCards">
-      <chat-card
+      <ChatCard
         v-for="item in messageContentAttributes.items"
         :key="item.title"
         :media-url="item.media_url"
@@ -132,9 +132,9 @@ export default {
       />
     </div>
     <div v-if="isArticle">
-      <chat-article :items="messageContentAttributes.items" />
+      <ChatArticle :items="messageContentAttributes.items" />
     </div>
-    <customer-satisfaction
+    <CustomerSatisfaction
       v-if="isCSAT"
       :message-content-attributes="messageContentAttributes.submitted_values"
       :message-id="messageId"

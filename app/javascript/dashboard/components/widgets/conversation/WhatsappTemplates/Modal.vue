@@ -55,12 +55,12 @@ export default {
       :header-content="modalHeaderContent"
     />
     <div class="row modal-content">
-      <templates-picker
+      <TemplatesPicker
         v-if="!selectedWaTemplate"
         :inbox-id="inboxId"
         @onSelect="pickTemplate"
       />
-      <template-parser
+      <TemplateParser
         v-else
         :template="selectedWaTemplate"
         @resetTemplate="onResetTemplate"

@@ -285,14 +285,14 @@ export default {
 </script>
 <template>
   <div class="flex flex-grow-0 w-full h-full min-h-0 app-wrapper">
-    <sidebar
+    <Sidebar
       :route="currentRoute"
       @toggle-account-modal="toggleAccountModal"
       @open-notification-panel="openNotificationPanel"
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
     />
-    <help-center-sidebar
+    <HelpCenterSidebar
       v-if="showHelpCenterSidebar"
       :header-title="headerTitle"
       :portal-slug="selectedPortalSlug"
@@ -308,21 +308,21 @@ export default {
       class="flex flex-1 h-full min-h-0 px-0 overflow-hidden bg-white dark:bg-slate-900"
     >
       <router-view @reload-locale="fetchPortalAndItsCategories" />
-      <command-bar />
-      <account-selector
+      <CommandBar />
+      <AccountSelector
         :show-account-modal="showAccountModal"
         @close-account-modal="toggleAccountModal"
       />
-      <woot-key-shortcut-modal
+      <WootKeyShortcutModal
         v-if="showShortcutModal"
         @close="closeKeyShortcutModal"
         @clickaway="closeKeyShortcutModal"
       />
-      <notification-panel
+      <NotificationPanel
         v-if="showNotificationPanel"
         @close="closeNotificationPanel"
       />
-      <portal-popover
+      <PortalPopover
         v-if="showPortalPopover"
         :portals="portals"
         :active-portal-slug="selectedPortalSlug"
@@ -330,7 +330,7 @@ export default {
         @fetch-portal="fetchPortalAndItsCategories"
         @close-popover="closePortalPopover"
       />
-      <add-category
+      <AddCategory
         v-if="showAddCategoryModal"
         :show.sync="showAddCategoryModal"
         :portal-name="selectedPortalName"
@@ -339,6 +339,6 @@ export default {
         @cancel="onClickCloseAddCategoryModal"
       />
     </section>
-    <upgrade-page v-else />
+    <UpgradePage v-else />
   </div>
 </template>

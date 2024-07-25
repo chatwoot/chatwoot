@@ -337,7 +337,7 @@ export default {
     class="flex flex-1 items-center h-full bg-black-25 justify-center"
     :class="{ dark: prefersDarkMode }"
   >
-    <spinner size="" />
+    <Spinner size="" />
   </div>
   <div
     v-else

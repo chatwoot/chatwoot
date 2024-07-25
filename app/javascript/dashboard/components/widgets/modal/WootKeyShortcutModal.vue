@@ -37,12 +37,12 @@ export default {
             {{ $t('KEYBOARD_SHORTCUTS.TOGGLE_MODAL') }}
           </h5>
           <div class="flex items-center mb-1 ml-2 gap-2">
-            <hotkey custom-class="min-h-[28px] min-w-[60px] normal-case key">
+            <Hotkey custom-class="min-h-[28px] min-w-[60px] normal-case key">
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.WINDOWS_KEY_AND_COMMAND_KEY') }}
-            </hotkey>
-            <hotkey custom-class="min-h-[28px] min-w-[36px] key">
+            </Hotkey>
+            <Hotkey custom-class="min-h-[28px] min-w-[36px] key">
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.FORWARD_SLASH_KEY') }}
-            </hotkey>
+            </Hotkey>
           </div>
         </div>
       </div>
@@ -54,20 +54,20 @@ export default {
           </h5>
           <div class="flex items-center mb-1 ml-2 gap-2">
             <div class="flex gap-2">
-              <hotkey custom-class="min-h-[28px] min-w-[60px] normal-case key">
+              <Hotkey custom-class="min-h-[28px] min-w-[60px] normal-case key">
                 {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
-              </hotkey>
-              <hotkey custom-class="min-h-[28px] w-9 key"> J </hotkey>
+              </Hotkey>
+              <Hotkey custom-class="min-h-[28px] w-9 key"> J </Hotkey>
               <span
                 class="flex items-center font-semibold text-sm text-slate-800 dark:text-slate-100"
               >
                 {{ $t('KEYBOARD_SHORTCUTS.KEYS.FORWARD_SLASH_KEY') }}
               </span>
             </div>
-            <hotkey custom-class="min-h-[28px] min-w-[60px] normal-case key">
+            <Hotkey custom-class="min-h-[28px] min-w-[60px] normal-case key">
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
-            </hotkey>
-            <hotkey custom-class="w-9 key"> K </hotkey>
+            </Hotkey>
+            <Hotkey custom-class="w-9 key"> K </Hotkey>
           </div>
         </div>
 
@@ -76,13 +76,13 @@ export default {
             {{ $t('KEYBOARD_SHORTCUTS.TITLE.RESOLVE_AND_NEXT') }}
           </h5>
           <div class="flex items-center mb-1 ml-2 gap-2">
-            <hotkey custom-class="min-h-[28px] min-w-[60px] normal-case key">
+            <Hotkey custom-class="min-h-[28px] min-w-[60px] normal-case key">
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.WINDOWS_KEY_AND_COMMAND_KEY') }}
-            </hotkey>
-            <hotkey custom-class="min-h-[28px] min-w-[60px] normal-case key">
+            </Hotkey>
+            <Hotkey custom-class="min-h-[28px] min-w-[60px] normal-case key">
               {{ $t('KEYBOARD_SHORTCUTS.KEYS.ALT_OR_OPTION_KEY') }}
-            </hotkey>
-            <hotkey custom-class="w-9 key"> E </hotkey>
+            </Hotkey>
+            <Hotkey custom-class="w-9 key"> E </Hotkey>
           </div>
         </div>
         <div
@@ -94,18 +94,18 @@ export default {
             {{ title(shortcutKey) }}
           </h5>
           <div class="flex items-center mb-1 ml-2 gap-2">
-            <hotkey
+            <Hotkey
               :class="{ 'min-w-[60px]': shortcutKey.firstKey !== 'Up' }"
               custom-class="min-h-[28px] normal-case key"
             >
               {{ shortcutKey.firstKey }}
-            </hotkey>
-            <hotkey
+            </Hotkey>
+            <Hotkey
               :class="{ 'normal-case': shortcutKey.secondKey === 'Down' }"
               custom-class="min-h-[28px] min-w-[36px] key"
             >
               {{ shortcutKey.secondKey }}
-            </hotkey>
+            </Hotkey>
           </div>
         </div>
       </div>

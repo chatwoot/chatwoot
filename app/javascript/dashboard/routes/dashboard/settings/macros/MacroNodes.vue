@@ -46,7 +46,7 @@ export default {
         />
       </div>
     </div>
-    <draggable
+    <Draggable
       :list="actionData"
       animation="200"
       ghost-class="ghost"
@@ -55,7 +55,7 @@ export default {
       handle=".macros__node-drag-handle"
     >
       <div v-for="(action, i) in actionData" :key="i" class="macro__node">
-        <macro-node
+        <MacroNode
           v-model="actionData[i]"
           class="macros__node-action"
           type="add"
@@ -72,7 +72,7 @@ export default {
           @deleteNode="$emit('deleteNode', i)"
         />
       </div>
-    </draggable>
+    </Draggable>
     <div class="macro__node">
       <div>
         <woot-button

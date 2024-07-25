@@ -71,7 +71,7 @@ async function deleteLogo() {
 </script>
 
 <template>
-  <portal-settings-basic-form
+  <PortalSettingsBasicForm
     v-if="currentPortal"
     :portal="currentPortal"
     :is-submitting="uiFlags.isUpdating"

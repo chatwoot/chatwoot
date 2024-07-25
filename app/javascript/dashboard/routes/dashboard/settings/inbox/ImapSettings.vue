@@ -94,7 +94,7 @@ export default {
 
 <template>
   <div class="mx-8">
-    <settings-section
+    <SettingsSection
       :title="$t('INBOX_MGMT.IMAP.TITLE')"
       :sub-title="$t('INBOX_MGMT.IMAP.SUBTITLE')"
       :note="$t('INBOX_MGMT.IMAP.NOTE_TEXT')"
@@ -161,6 +161,6 @@ export default {
           :disabled="(v$.$invalid && isIMAPEnabled) || uiFlags.isUpdatingIMAP"
         />
       </form>
-    </settings-section>
+    </SettingsSection>
   </div>
 </template>

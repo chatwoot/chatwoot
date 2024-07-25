@@ -179,7 +179,7 @@ export default {
           />
         </div>
       </div>
-      <notification-panel-list
+      <NotificationPanelList
         :notifications="getUnreadNotifications"
         :is-loading="uiFlags.isFetching"
         :on-click-notification="openConversation"

@@ -159,7 +159,7 @@ export default {
   <div
     class="py-0 px-0 w-full max-w-full overflow-auto bg-white dark:bg-slate-900 flex flex-col"
   >
-    <article-header
+    <ArticleHeader
       :header-title="headerTitle"
       :count="meta.count"
       :selected-locale="activeLocaleName"
@@ -173,17 +173,17 @@ export default {
       v-if="isFetching"
       class="items-center flex text-base justify-center py-6 px-4 text-slate-600 dark:text-slate-200"
     >
-      <spinner />
+      <Spinner />
       <span class="text-slate-600 dark:text-slate-200">
         {{ $t('HELP_CENTER.TABLE.LOADING_MESSAGE') }}
       </span>
     </div>
-    <empty-state
+    <EmptyState
       v-else-if="shouldShowEmptyState"
       :title="$t('HELP_CENTER.TABLE.NO_ARTICLES')"
     />
     <div v-else class="flex flex-1">
-      <article-table
+      <ArticleTable
         :articles="articles"
         :current-page="Number(meta.currentPage)"
         :total-count="Number(meta.count)"

@@ -35,7 +35,7 @@ const selectedValue = computed({
 });
 </script>
 <template>
-  <form-select
+  <FormSelect
     v-model="selectedValue"
     name="alertTone"
     spacing="compact"
@@ -52,5 +52,5 @@ const selectedValue = computed({
     >
       {{ tone.label }}
     </option>
-  </form-select>
+  </FormSelect>
 </template>

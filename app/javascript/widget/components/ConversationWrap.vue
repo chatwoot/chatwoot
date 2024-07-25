@@ -99,21 +99,21 @@ export default {
   <div class="conversation--container" :class="colorSchemeClass">
     <div class="conversation-wrap" :class="{ 'is-typing': isAgentTyping }">
       <div v-if="isFetchingList" class="message--loader">
-        <spinner />
+        <Spinner />
       </div>
       <div
         v-for="groupedMessage in groupedMessages"
         :key="groupedMessage.date"
         class="messages-wrap"
       >
-        <date-separator :date="groupedMessage.date" />
-        <chat-message
+        <DateSeparator :date="groupedMessage.date" />
+        <ChatMessage
           v-for="message in groupedMessage.messages"
           :key="message.id"
           :message="message"
         />
       </div>
-      <agent-typing-bubble v-if="showStatusIndicator" />
+      <AgentTypingBubble v-if="showStatusIndicator" />
     </div>
   </div>
 </template>

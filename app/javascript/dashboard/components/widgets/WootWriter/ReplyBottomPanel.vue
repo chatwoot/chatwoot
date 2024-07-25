@@ -249,7 +249,7 @@ export default {
         size="small"
         @click="toggleEmojiPicker"
       />
-      <file-upload
+      <FileUpload
         ref="upload"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
         input-id="conversationAttachment"
@@ -274,7 +274,7 @@ export default {
           variant="smooth"
           size="small"
         />
-      </file-upload>
+      </FileUpload>
       <woot-button
         v-if="showAudioRecorderButton"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
@@ -326,7 +326,7 @@ export default {
         :title="'Whatsapp Templates'"
         @click="$emit('selectWhatsappTemplate')"
       />
-      <video-call-button
+      <VideoCallButton
         v-if="(isAWebWidgetInbox || isAPIInbox) && !isOnPrivateNote"
         :conversation-id="conversationId"
       />

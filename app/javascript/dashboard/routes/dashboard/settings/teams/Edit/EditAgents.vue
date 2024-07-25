@@ -118,7 +118,7 @@ export default {
       @submit.prevent="addAgents"
     >
       <div class="w-full">
-        <page-header
+        <PageHeader
           :header-title="headerTitle"
           :header-content="$t('TEAMS_SETTINGS.EDIT_FLOW.AGENTS.DESC')"
         />
@@ -130,7 +130,7 @@ export default {
             {{ $t('TEAMS_SETTINGS.ADD.AGENT_VALIDATION_ERROR') }}
           </p>
         </div>
-        <agent-selector
+        <AgentSelector
           v-if="showAgentsList"
           :agent-list="agentList"
           :selected-agents="selectedAgents"
@@ -140,7 +140,7 @@ export default {
             $t('TEAMS_SETTINGS.EDIT_FLOW.AGENTS.BUTTON_TEXT')
           "
         />
-        <spinner v-else />
+        <Spinner v-else />
       </div>
     </form>
   </div>

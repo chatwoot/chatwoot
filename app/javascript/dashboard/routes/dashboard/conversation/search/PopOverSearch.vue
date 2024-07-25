@@ -58,7 +58,7 @@ export default {
           {{ $t('CONVERSATION.SEARCH_MESSAGES') }}
         </p>
       </router-link>
-      <switch-layout
+      <SwitchLayout
         :is-on-expanded-layout="isOnExpandedLayout"
         @toggle="$emit('toggle-conversation-layout')"
       />

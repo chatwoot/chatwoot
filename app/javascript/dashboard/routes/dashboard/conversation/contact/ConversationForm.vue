@@ -355,7 +355,7 @@ export default {
               :options="[...inboxes]"
             >
               <template slot="singleLabel" slot-scope="{ option }">
-                <inbox-dropdown-item
+                <InboxDropdownItem
                   v-if="option.name"
                   :name="option.name"
                   :inbox-identifier="computedInboxSource(option)"
@@ -366,7 +366,7 @@ export default {
                 </span>
               </template>
               <template slot="option" slot-scope="{ option }">
-                <inbox-dropdown-item
+                <InboxDropdownItem
                   :name="option.name"
                   :inbox-identifier="computedInboxSource(option)"
                   :channel-type="option.channel_type"
@@ -386,7 +386,7 @@ export default {
             <div
               class="flex items-center h-[2.4735rem] rounded-sm py-1 px-2 bg-slate-25 dark:bg-slate-900 border border-solid border-slate-75 dark:border-slate-600"
             >
-              <thumbnail
+              <Thumbnail
                 :src="contact.thumbnail"
                 size="24px"
                 :username="contact.name"
@@ -420,7 +420,7 @@ export default {
       <div class="w-full">
         <div class="w-full">
           <div class="relative">
-            <canned-response
+            <CannedResponse
               v-if="showCannedResponseMenu && hasSlashCommand"
               :search-key="cannedResponseSearchKey"
               @click="replaceTextWithCannedResponse"
@@ -430,13 +430,13 @@ export default {
             <label>
               {{ $t('NEW_CONVERSATION.FORM.MESSAGE.LABEL') }}
             </label>
-            <reply-email-head
+            <ReplyEmailHead
               v-if="isAnEmailInbox"
               :cc-emails.sync="ccEmails"
               :bcc-emails.sync="bccEmails"
             />
             <div class="editor-wrap">
-              <woot-message-editor
+              <WootMessageEditor
                 v-model="message"
                 class="message-editor"
                 :class="{ editor_warning: v$.message.$error }"
@@ -448,7 +448,7 @@ export default {
                 @blur="v$.message.$touch"
               >
                 <template #footer>
-                  <message-signature-missing-alert
+                  <MessageSignatureMissingAlert
                     v-if="isSignatureEnabledForInbox && !messageSignature"
                     class="!mx-0 mb-1"
                   />
@@ -464,13 +464,13 @@ export default {
                     />
                   </div>
                 </template>
-              </woot-message-editor>
+              </WootMessageEditor>
               <span v-if="v$.message.$error" class="editor-warning__message">
                 {{ $t('NEW_CONVERSATION.FORM.MESSAGE.ERROR') }}
               </span>
             </div>
           </div>
-          <whatsapp-templates
+          <WhatsappTemplates
             v-else-if="hasWhatsappTemplates"
             :inbox-id="selectedInbox.inbox.id"
             @on-select-template="toggleWaTemplate"
@@ -490,7 +490,7 @@ export default {
             </span>
           </label>
           <div v-if="isEmailOrWebWidgetInbox" class="flex flex-col">
-            <file-upload
+            <FileUpload
               ref="uploadAttachment"
               input-id="newConversationAttachment"
               :size="4096 * 4096"
@@ -519,12 +519,12 @@ export default {
               >
                 {{ $t('NEW_CONVERSATION.FORM.ATTACHMENTS.HELP_TEXT') }}
               </span>
-            </file-upload>
+            </FileUpload>
             <div
               v-if="hasAttachments"
               class="max-h-20 overflow-y-auto mb-4 mt-1.5"
             >
-              <attachment-preview
+              <AttachmentPreview
                 class="[&>.preview-item]:dark:bg-slate-700 flex-row flex-wrap gap-x-3 gap-y-1"
                 :attachments="attachedFiles"
                 :remove-attachment="removeAttachment"

@@ -50,7 +50,7 @@ export default {
         :header-title="$t('NEW_CONVERSATION.TITLE')"
         :header-content="$t('NEW_CONVERSATION.DESC')"
       />
-      <conversation-form
+      <ConversationForm
         :contact="contact"
         :on-submit="onSubmit"
         @success="onSuccess"

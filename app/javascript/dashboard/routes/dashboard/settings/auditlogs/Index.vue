@@ -125,7 +125,7 @@ export default {
         </table>
       </div>
     </div>
-    <table-footer
+    <TableFooter
       :current-page="Number(meta.currentPage)"
       :total-count="meta.totalEntries"
       :page-size="meta.perPage"

@@ -59,13 +59,13 @@ export default {
 <template>
   <div class="flex items-center flex-col">
     <div v-if="isLoading" class="items-center flex text-base justify-center">
-      <spinner color-scheme="primary" />
+      <Spinner color-scheme="primary" />
       <span>{{ $t('CAMPAIGN.LIST.LOADING_MESSAGE') }}</span>
     </div>
     <div v-else class="w-full">
-      <empty-state v-if="showEmptyResult" :title="emptyMessage" />
+      <EmptyState v-if="showEmptyResult" :title="emptyMessage" />
       <div v-else class="w-full">
-        <campaign-card
+        <CampaignCard
           v-for="campaign in campaigns"
           :key="campaign.id"
           :campaign="campaign"

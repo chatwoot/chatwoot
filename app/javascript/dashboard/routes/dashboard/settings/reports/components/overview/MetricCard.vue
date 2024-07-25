@@ -60,7 +60,7 @@ export default {
       v-else-if="isLoading"
       class="items-center flex text-base justify-center px-12 py-6"
     >
-      <spinner />
+      <Spinner />
       <span class="text-slate-300 dark:text-slate-200">
         {{ loadingMessage }}
       </span>

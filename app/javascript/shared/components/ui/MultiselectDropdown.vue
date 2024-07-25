@@ -126,7 +126,7 @@ export default {
           @click="onCloseDropdown"
         />
       </div>
-      <multiselect-dropdown-items
+      <MultiselectDropdownItems
         v-if="showSearchDropdown"
         :options="options"
         :selected-items="[selectedItem]"

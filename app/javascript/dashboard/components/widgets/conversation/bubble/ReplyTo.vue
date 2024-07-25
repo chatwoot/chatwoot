@@ -46,7 +46,7 @@ export default {
     }"
     @click="scrollToMessage"
   >
-    <message-preview
+    <MessagePreview
       class="cursor-pointer"
       :message="message"
       :show-message-type="false"

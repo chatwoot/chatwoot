@@ -70,13 +70,13 @@ export default {
           "
         />
       </div>
-      <billing-item
+      <BillingItem
         :title="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.TITLE')"
         :description="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.DESCRIPTION')"
         :button-label="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.BUTTON_TXT')"
         @click="onClickBillingPortal"
       />
-      <billing-item
+      <BillingItem
         :title="$t('BILLING_SETTINGS.CHAT_WITH_US.TITLE')"
         :description="$t('BILLING_SETTINGS.CHAT_WITH_US.DESCRIPTION')"
         :button-label="$t('BILLING_SETTINGS.CHAT_WITH_US.BUTTON_TXT')"

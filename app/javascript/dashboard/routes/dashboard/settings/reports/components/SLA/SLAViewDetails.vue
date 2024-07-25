@@ -41,7 +41,7 @@ export default {
         >
           {{ $t('SLA_REPORTS.TABLE.VIEW_DETAILS') }}
         </woot-button>
-        <SLA-popover-card
+        <SLAPopoverCard
           v-if="showSlaPopoverCard"
           :sla-missed-events="slaEvents"
           class="right-0"

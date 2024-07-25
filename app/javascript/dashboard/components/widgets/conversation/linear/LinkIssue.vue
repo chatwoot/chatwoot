@@ -100,14 +100,14 @@ const linkIssue = async () => {
     class="flex flex-col justify-between"
     :class="shouldShowDropdown ? 'h-[256px]' : 'gap-2'"
   >
-    <filter-button
+    <FilterButton
       right-icon="chevron-down"
       :button-text="linkIssueTitle"
       class="justify-between w-full h-[2.5rem] py-1.5 px-3 rounded-xl border border-slate-50 bg-slate-25 dark:border-slate-600 dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-900/50"
       @click="toggleDropdown"
     >
       <template v-if="shouldShowDropdown" #dropdown>
-        <filter-list-dropdown
+        <FilterListDropdown
           v-if="issues"
           v-on-clickaway="toggleDropdown"
           :show-clear-filter="false"
@@ -122,7 +122,7 @@ const linkIssue = async () => {
           @click="onSelectIssue"
         />
       </template>
-    </filter-button>
+    </FilterButton>
     <div class="flex items-center justify-end w-full gap-2 mt-2">
       <woot-button
         class="px-4 rounded-xl button clear outline-woot-200/50 outline"

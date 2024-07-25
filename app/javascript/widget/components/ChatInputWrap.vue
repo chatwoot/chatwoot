@@ -131,7 +131,7 @@ export default {
     :class="$dm('bg-white ', 'dark:bg-slate-600')"
     @keydown.esc="hideEmojiPicker"
   >
-    <resizable-text-area
+    <ResizableTextArea
       id="chat-input"
       ref="chatInput"
       v-model="userInput"
@@ -146,7 +146,7 @@ export default {
       @blur="onBlur"
     />
     <div class="button-wrap">
-      <chat-attachment-button
+      <ChatAttachmentButton
         v-if="showAttachment"
         :class="$dm('text-black-900', 'dark:text-slate-100')"
         :on-attach="onSendAttachment"
@@ -157,15 +157,15 @@ export default {
         aria-label="Emoji picker"
         @click="toggleEmojiPicker"
       >
-        <fluent-icon icon="emoji" :class="emojiIconColor" />
+        <FluentIcon icon="emoji" :class="emojiIconColor" />
       </button>
-      <emoji-input
+      <EmojiInput
         v-if="showEmojiPicker"
         v-on-clickaway="hideEmojiPicker"
         :on-click="emojiOnClick"
         @keydown.esc="hideEmojiPicker"
       />
-      <chat-send-button
+      <ChatSendButton
         v-if="showSendButton"
         :on-click="handleButtonClick"
         :color="widgetColor"

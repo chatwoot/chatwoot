@@ -173,7 +173,7 @@ export default {
       class="flex flex-col h-full w-full md:min-w-[360px] md:max-w-[360px] ltr:border-r border-slate-50 dark:border-slate-800/50"
       :class="!currentNotificationId ? 'flex' : 'hidden md:flex'"
     >
-      <inbox-list-header
+      <InboxListHeader
         :is-context-menu-open="isInboxContextMenuOpen"
         @filter="onFilterChange"
         @redirect="redirectToInbox"
@@ -182,7 +182,7 @@ export default {
         ref="notificationList"
         class="flex flex-col w-full h-[calc(100%-56px)] overflow-x-hidden overflow-y-auto"
       >
-        <inbox-card
+        <InboxCard
           v-for="notificationItem in notifications"
           :key="notificationItem.id"
           :active="currentNotificationId === notificationItem.id"
@@ -202,7 +202,7 @@ export default {
         >
           {{ $t('INBOX.LIST.NO_NOTIFICATIONS') }}
         </p>
-        <intersection-observer
+        <IntersectionObserver
           v-if="!showEndOfList && !uiFlags.isFetching"
           :options="infiniteLoaderOptions"
           @observed="loadMoreNotifications"

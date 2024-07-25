@@ -163,14 +163,11 @@ export default {
       </div>
     </div>
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-      <add-label @close="hideAddPopup" />
+      <AddLabel @close="hideAddPopup" />
     </woot-modal>
 
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
-      <edit-label
-        :selected-response="selectedResponse"
-        @close="hideEditPopup"
-      />
+      <EditLabel :selected-response="selectedResponse" @close="hideEditPopup" />
     </woot-modal>
 
     <woot-delete-modal

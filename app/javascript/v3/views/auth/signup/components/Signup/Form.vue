@@ -135,7 +135,7 @@ export default {
   <div class="flex-1 px-1 overflow-auto">
     <form class="space-y-3" @submit.prevent="submit">
       <div class="flex">
-        <form-input
+        <FormInput
           v-model.trim="credentials.fullName"
           name="full_name"
           class="flex-1"
@@ -146,7 +146,7 @@ export default {
           :error-message="$t('REGISTER.FULL_NAME.ERROR')"
           @blur="v$.credentials.fullName.$touch"
         />
-        <form-input
+        <FormInput
           v-model.trim="credentials.accountName"
           name="account_name"
           class="flex-1 ml-2"
@@ -158,7 +158,7 @@ export default {
           @blur="v$.credentials.accountName.$touch"
         />
       </div>
-      <form-input
+      <FormInput
         v-model.trim="credentials.email"
         type="email"
         name="email_address"
@@ -169,7 +169,7 @@ export default {
         :error-message="$t('REGISTER.EMAIL.ERROR')"
         @blur="v$.credentials.email.$touch"
       />
-      <form-input
+      <FormInput
         v-model.trim="credentials.password"
         type="password"
         name="password"
@@ -181,7 +181,7 @@ export default {
         @blur="v$.credentials.password.$touch"
       />
       <div v-if="globalConfig.hCaptchaSiteKey" class="mb-3">
-        <vue-hcaptcha
+        <VueHcaptcha
           ref="hCaptcha"
           :class="{ error: !hasAValidCaptcha && didCaptchaReset }"
           :sitekey="globalConfig.hCaptchaSiteKey"
@@ -194,7 +194,7 @@ export default {
           {{ $t('SET_NEW_PASSWORD.CAPTCHA.ERROR') }}
         </span>
       </div>
-      <submit-button
+      <SubmitButton
         :button-text="$t('REGISTER.SUBMIT')"
         :disabled="isSignupInProgress || !hasAValidCaptcha"
         :loading="isSignupInProgress"

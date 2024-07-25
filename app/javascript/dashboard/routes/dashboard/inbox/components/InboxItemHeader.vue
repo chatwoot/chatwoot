@@ -115,7 +115,7 @@ export default {
     >
       {{ $t('INBOX.ACTION_HEADER.BACK') }}
     </woot-button>
-    <pagination-button
+    <PaginationButton
       v-if="totalLength > 1"
       :total-length="totalLength"
       :current-index="currentIndex + 1"
@@ -149,7 +149,7 @@ export default {
       :show.sync="showCustomSnoozeModal"
       :on-close="hideCustomSnoozeModal"
     >
-      <custom-snooze-modal
+      <CustomSnoozeModal
         @close="hideCustomSnoozeModal"
         @choose-time="scheduleCustomSnooze"
       />

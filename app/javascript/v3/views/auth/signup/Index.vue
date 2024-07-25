@@ -57,7 +57,7 @@ export default {
               {{ $t('REGISTER.TRY_WOOT') }}
             </h2>
           </div>
-          <signup-form />
+          <SignupForm />
           <div class="text-sm text-slate-800 dark:text-woot-50 px-1">
             <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }}</span>
             <router-link class="text-link" to="/app/login">
@@ -71,7 +71,7 @@ export default {
           </div>
         </div>
       </div>
-      <testimonials
+      <Testimonials
         v-if="isAChatwootInstance"
         class="flex-1"
         @resize-containers="resizeContainers"
@@ -81,7 +81,7 @@ export default {
       v-show="isLoading"
       class="flex items-center justify-center h-full w-full"
     >
-      <spinner color-scheme="primary" size="" />
+      <Spinner color-scheme="primary" size="" />
     </div>
   </div>
 </template>

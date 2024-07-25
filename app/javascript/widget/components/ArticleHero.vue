@@ -21,7 +21,7 @@ export default {
 </script>
 
 <template>
-  <category-card
+  <CategoryCard
     :title="$t('PORTAL.POPULAR_ARTICLES')"
     :articles="articles.slice(0, 6)"
     @view-all="$emit('view-all')"

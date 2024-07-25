@@ -77,7 +77,7 @@ const shouldShowEmptyState = computed(() => {
     @click.stop
   >
     <slot name="search">
-      <dropdown-search
+      <DropdownSearch
         v-if="enableSearch"
         :input-value="searchTerm"
         :input-placeholder="inputPlaceholder"
@@ -87,15 +87,15 @@ const shouldShowEmptyState = computed(() => {
       />
     </slot>
     <slot name="listItem">
-      <dropdown-loading-state
+      <DropdownLoadingState
         v-if="shouldShowLoadingState"
         :message="loadingPlaceholder"
       />
-      <dropdown-empty-state
+      <DropdownEmptyState
         v-else-if="shouldShowEmptyState"
         :message="$t('REPORT.FILTER_ACTIONS.EMPTY_LIST')"
       />
-      <list-item-button
+      <ListItemButton
         v-for="item in filteredListItems"
         :key="item.id"
         :is-active="isFilterActive(item.id)"

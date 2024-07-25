@@ -66,7 +66,7 @@ export default {
   >
     <form class="flex flex-wrap mx-0" @submit.prevent="addAgents()">
       <div class="w-full">
-        <page-header
+        <PageHeader
           :header-title="$t('INBOX_MGMT.ADD.AGENTS.TITLE')"
           :header-content="$t('INBOX_MGMT.ADD.AGENTS.DESC')"
         />

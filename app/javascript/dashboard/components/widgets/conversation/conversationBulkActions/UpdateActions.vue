@@ -102,9 +102,9 @@ const actionLabel = key => {
       />
     </div>
     <div class="px-2.5 pt-0 pb-2.5">
-      <woot-dropdown-menu class="m-0 list-none">
+      <WootDropdownMenu class="m-0 list-none">
         <template v-for="action in actions">
-          <woot-dropdown-item v-if="showAction(action.key)" :key="action.key">
+          <WootDropdownItem v-if="showAction(action.key)" :key="action.key">
             <woot-button
               variant="clear"
               color-scheme="secondary"
@@ -114,9 +114,9 @@ const actionLabel = key => {
             >
               {{ actionLabel(action.key) }}
             </woot-button>
-          </woot-dropdown-item>
+          </WootDropdownItem>
         </template>
-      </woot-dropdown-menu>
+      </WootDropdownMenu>
     </div>
   </div>
 </template>

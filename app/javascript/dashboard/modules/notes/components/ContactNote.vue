@@ -69,7 +69,7 @@ export default {
   >
     <div class="flex items-end justify-between gap-1 text-xs">
       <div class="flex items-center">
-        <thumbnail
+        <Thumbnail
           :title="noteAuthorName"
           :src="noteAuthor.thumbnail"
           :username="noteAuthorName"

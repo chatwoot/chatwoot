@@ -236,7 +236,7 @@ onMounted(getTeams);
       />
     </label>
     <div class="flex flex-col gap-4">
-      <searchable-dropdown
+      <SearchableDropdown
         v-for="dropdown in dropdowns"
         :key="dropdown.type"
         :type="dropdown.type"

@@ -35,7 +35,7 @@ export default {
       class="items-end flex-shrink-0 p-1 rounded-md hover:bg-slate-200 dark:hover:bg-slate-800"
       @click="$emit('dismiss')"
     >
-      <fluent-icon icon="dismiss" size="12" />
+      <FluentIcon icon="dismiss" size="12" />
     </button>
   </div>
 </template>

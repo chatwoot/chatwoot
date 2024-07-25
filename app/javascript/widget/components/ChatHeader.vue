@@ -70,7 +70,7 @@ export default {
         class="-ml-3 px-2"
         @click="onBackButtonClick"
       >
-        <fluent-icon
+        <FluentIcon
           icon="chevron-left"
           size="24"
           :class="$dm('text-black-900', 'dark:text-slate-50')"
@@ -101,6 +101,6 @@ export default {
         </div>
       </div>
     </div>
-    <header-actions :show-popout-button="showPopoutButton" />
+    <HeaderActions :show-popout-button="showPopoutButton" />
   </header>
 </template>

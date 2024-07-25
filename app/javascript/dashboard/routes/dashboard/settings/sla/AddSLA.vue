@@ -37,7 +37,7 @@ export default {
       :header-title="$t('SLA.ADD.TITLE')"
       :header-content="$t('SLA.ADD.DESC')"
     />
-    <sla-form
+    <SlaForm
       :submit-label="$t('SLA.FORM.CREATE')"
       @submit="addSLA"
       @close="onClose"

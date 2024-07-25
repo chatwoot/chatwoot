@@ -72,7 +72,7 @@ const onClickTabChange = index => {
         </woot-tabs>
       </div>
       <div v-if="selectedTabIndex === 0" class="flex flex-col px-8 pb-4">
-        <create-issue
+        <CreateIssue
           :account-id="accountId"
           :conversation-id="conversation.id"
           :title="title"
@@ -81,7 +81,7 @@ const onClickTabChange = index => {
       </div>
 
       <div v-else class="flex flex-col px-8 pb-4">
-        <link-issue
+        <LinkIssue
           :conversation-id="conversation.id"
           :title="title"
           @close="onClose"

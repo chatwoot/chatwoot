@@ -89,7 +89,7 @@ export default {
       @click="onClickMessage"
     >
       <div v-if="showSender" class="row--agent-block">
-        <thumbnail
+        <Thumbnail
           :src="avatarUrl"
           size="20px"
           :username="agentName"

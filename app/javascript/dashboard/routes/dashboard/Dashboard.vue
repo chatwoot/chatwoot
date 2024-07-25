@@ -145,7 +145,7 @@ export default {
   <div
     class="flex flex-wrap flex-grow-0 w-full h-full max-w-full min-h-0 ml-auto mr-auto app-wrapper dark:text-slate-300"
   >
-    <sidebar
+    <Sidebar
       :route="currentRoute"
       :show-secondary-sidebar="isSidebarOpen"
       @open-notification-panel="openNotificationPanel"
@@ -156,27 +156,27 @@ export default {
     />
     <section class="flex flex-1 h-full min-h-0 px-0 overflow-hidden">
       <router-view />
-      <command-bar />
-      <account-selector
+      <CommandBar />
+      <AccountSelector
         :show-account-modal="showAccountModal"
         @close-account-modal="toggleAccountModal"
         @show-create-account-modal="openCreateAccountModal"
       />
-      <add-account-modal
+      <AddAccountModal
         :show="showCreateAccountModal"
         @close-account-create-modal="closeCreateAccountModal"
       />
-      <woot-key-shortcut-modal
+      <WootKeyShortcutModal
         :show.sync="showShortcutModal"
         @close="closeKeyShortcutModal"
         @clickaway="closeKeyShortcutModal"
       />
-      <notification-panel
+      <NotificationPanel
         v-if="isNotificationPanel"
         @close="closeNotificationPanel"
       />
       <woot-modal :show.sync="showAddLabelModal" :on-close="hideAddLabelPopup">
-        <add-label-modal @close="hideAddLabelPopup" />
+        <AddLabelModal @close="hideAddLabelPopup" />
       </woot-modal>
     </section>
   </div>

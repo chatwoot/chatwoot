@@ -11,7 +11,7 @@ export default {
 
 <template>
   <div id="app" class="woot-survey-wrap">
-    <response />
+    <Response />
   </div>
 </template>
 

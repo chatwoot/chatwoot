@@ -30,7 +30,7 @@ const deleteProfilePicture = () => {
     <span class="text-sm font-medium text-ash-900">
       {{ $t('PROFILE_SETTINGS.FORM.PICTURE') }}
     </span>
-    <profile-avatar
+    <ProfileAvatar
       :src="src"
       :name="userNameWithoutEmoji"
       @change="updateProfilePicture"

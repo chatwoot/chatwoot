@@ -107,7 +107,7 @@ export default {
         v-if="assignableAgentsUiFlags.isFetching"
         class="agent__list-loading"
       >
-        <spinner />
+        <Spinner />
         <p>{{ $t('BULK_ACTION.AGENT_LIST_LOADING') }}</p>
       </div>
       <div v-else class="agent__list-container">
@@ -128,7 +128,7 @@ export default {
           </li>
           <li v-for="agent in filteredAgents" :key="agent.id">
             <div class="agent-list-item" @click="assignAgent(agent)">
-              <thumbnail
+              <Thumbnail
                 :src="agent.thumbnail"
                 :status="agent.availability_status"
                 :username="agent.name"

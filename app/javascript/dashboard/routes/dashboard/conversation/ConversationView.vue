@@ -221,7 +221,7 @@ export default {
 
 <template>
   <section class="bg-white conversation-page dark:bg-slate-900">
-    <chat-list
+    <ChatList
       :show-conversation-list="showConversationList"
       :conversation-inbox="inboxId"
       :label="label"
@@ -231,12 +231,12 @@ export default {
       :is-on-expanded-layout="isOnExpandedLayout"
       @conversation-load="onConversationLoad"
     >
-      <pop-over-search
+      <PopOverSearch
         :is-on-expanded-layout="isOnExpandedLayout"
         @toggle-conversation-layout="toggleConversationLayout"
       />
-    </chat-list>
-    <conversation-box
+    </ChatList>
+    <ConversationBox
       v-if="showMessageView"
       :inbox-id="inboxId"
       :is-contact-panel-open="isContactPanelOpen"
@@ -247,7 +247,7 @@ export default {
       :show.sync="showCustomSnoozeModal"
       :on-close="hideCustomSnoozeModal"
     >
-      <custom-snooze-modal
+      <CustomSnoozeModal
         @close="hideCustomSnoozeModal"
         @choose-time="chooseSnoozeTime"
       />

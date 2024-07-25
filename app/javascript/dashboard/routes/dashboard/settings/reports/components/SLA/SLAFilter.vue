@@ -157,7 +157,7 @@ export default {
   >
     <!-- Active filters section -->
     <div v-if="hasActiveFilters" class="flex flex-wrap gap-2 md:flex-nowrap">
-      <active-filter-chip
+      <ActiveFilterChip
         v-for="filter in activeFilters"
         v-bind="filter"
         :key="filter.type"
@@ -182,7 +182,7 @@ export default {
     />
     <!-- Add filter and clear filter button -->
     <div class="flex items-center gap-2">
-      <add-filter-chip
+      <AddFilterChip
         v-if="!isAllFilterSelected"
         placeholder-i18n-key="SLA_REPORTS.DROPDOWN.INPUT_PLACEHOLDER"
         :name="$t('SLA_REPORTS.DROPDOWN.ADD_FIlTER')"
@@ -200,7 +200,7 @@ export default {
         class="w-px h-5 border border-slate-75 dark:border-slate-800"
       />
       <!-- Clear all filter button -->
-      <filter-button
+      <FilterButton
         v-if="hasActiveFilters"
         :button-text="$t('SLA_REPORTS.DROPDOWN.CLEAR_ALL')"
         @click="clearAllFilters"

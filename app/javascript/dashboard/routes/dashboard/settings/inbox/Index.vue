@@ -201,7 +201,7 @@ export default {
         />
       </div>
     </div>
-    <settings
+    <Settings
       v-if="showSettings"
       :show.sync="showSettings"
       :on-close="closeSettings"

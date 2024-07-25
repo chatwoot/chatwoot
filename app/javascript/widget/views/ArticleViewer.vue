@@ -17,6 +17,6 @@ export default {
 
 <template>
   <div class="bg-white h-full">
-    <iframe-loader :url="link" />
+    <IframeLoader :url="link" />
   </div>
 </template>

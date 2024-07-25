@@ -41,7 +41,7 @@ export default {
       @load="handleIframeLoad"
       @error="handleIframeError"
     />
-    <article-skeleton-loader
+    <ArticleSkeletonLoader
       v-if="isLoading"
       class="absolute w-full h-full top-0 left-0"
     />

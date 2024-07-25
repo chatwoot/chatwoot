@@ -47,7 +47,7 @@ export default {
 </script>
 <template>
   <div class="csml-editor--container">
-    <loading-state
+    <LoadingState
       v-if="iframeLoading"
       :message="$t('AGENT_BOTS.LOADING_EDITOR')"
       class="dashboard-app_loading-container"

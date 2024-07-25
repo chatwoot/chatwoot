@@ -874,7 +874,7 @@ export default {
     ]"
   >
     <slot />
-    <chat-list-header
+    <ChatListHeader
       :page-title="pageTitle"
       :has-applied-filters="hasAppliedFilters"
       :has-active-folders="hasActiveFolders"
@@ -886,14 +886,14 @@ export default {
       @basic-filter-change="onBasicFilterChange"
     />
 
-    <add-custom-views
+    <AddCustomViews
       v-if="showAddFoldersModal"
       :custom-views-query="foldersQuery"
       :open-last-saved-item="openLastSavedItemInFolder"
       @close="onCloseAddFoldersModal"
     />
 
-    <delete-custom-views
+    <DeleteCustomViews
       v-if="showDeleteFoldersModal"
       :show-delete-popup.sync="showDeleteFoldersModal"
       :active-custom-view="activeFolder"
@@ -902,7 +902,7 @@ export default {
       @close="onCloseDeleteFoldersModal"
     />
 
-    <chat-type-tabs
+    <ChatTypeTabs
       v-if="!hasAppliedFiltersOrActiveFolders"
       :items="assigneeTabItems"
       :active-tab="activeAssigneeTab"
@@ -916,7 +916,7 @@ export default {
     >
       {{ $t('CHAT_LIST.LIST.404') }}
     </p>
-    <conversation-bulk-actions
+    <ConversationBulkActions
       v-if="selectedConversations.length"
       :conversations="selectedConversations"
       :all-conversations-selected="allConversationsSelected"
@@ -935,7 +935,7 @@ export default {
       class="flex-1 conversations-list"
       :class="{ 'overflow-hidden': isContextMenuOpen }"
     >
-      <virtual-list
+      <VirtualList
         ref="conversationVirtualList"
         :data-key="'id'"
         :data-sources="conversationList"
@@ -954,20 +954,20 @@ export default {
           >
             {{ $t('CHAT_LIST.EOF') }}
           </p>
-          <intersection-observer
+          <IntersectionObserver
             v-if="!showEndOfListMessage && !chatListLoading"
             :options="infiniteLoaderOptions"
             @observed="loadMoreConversations"
           />
         </template>
-      </virtual-list>
+      </VirtualList>
     </div>
     <woot-modal
       :show.sync="showAdvancedFilters"
       :on-close="closeAdvanceFiltersModal"
       size="medium"
     >
-      <conversation-advanced-filter
+      <ConversationAdvancedFilter
         v-if="showAdvancedFilters"
         :initial-filter-types="advancedFilterTypes"
         :initial-applied-filters="appliedFilter"

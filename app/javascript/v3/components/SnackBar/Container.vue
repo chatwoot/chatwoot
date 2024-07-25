@@ -44,7 +44,7 @@ export default {
     tag="div"
     class="fixed left-0 right-0 mx-auto overflow-hidden text-center top-10 z-50 max-w-[40rem]"
   >
-    <snackbar-item
+    <SnackbarItem
       v-for="snackbarAlertMessage in snackbarAlertMessages"
       :key="snackbarAlertMessage.key"
       :message="snackbarAlertMessage.message"

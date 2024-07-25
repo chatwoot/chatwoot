@@ -156,7 +156,7 @@ export default {
       <div class="flex justify-between w-full mb-1">
         <div>
           <p v-if="watchersList.length" class="total-watchers m-0 text-sm">
-            <spinner v-if="watchersUiFlas.isFetching" size="tiny" />
+            <Spinner v-if="watchersUiFlas.isFetching" size="tiny" />
             {{ totalWatchersText }}
           </p>
           <p v-else class="text-slate-400 dark:text-slate-700 m-0 text-sm">
@@ -175,7 +175,7 @@ export default {
       </div>
     </div>
     <div class="flex justify-between items-center">
-      <thumbnail-group
+      <ThumbnailGroup
         :more-thumbnails-text="moreThumbnailsText"
         :show-more-thumbnails-count="showMoreThumbs"
         :users-list="thumbnailList"
@@ -219,7 +219,7 @@ export default {
           @click="onCloseDropdown"
         />
       </div>
-      <multiselect-dropdown-items
+      <MultiselectDropdownItems
         :options="agentsList"
         :selected-items="selectedWatchers"
         :has-thumbnail="true"

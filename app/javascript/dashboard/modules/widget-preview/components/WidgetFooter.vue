@@ -18,7 +18,7 @@ export default {
 
 <template>
   <div class="footer-wrap">
-    <custom-button
+    <CustomButton
       v-if="config.isDefaultScreen"
       class="start-conversation"
       :style="{ background: config.color }"
@@ -26,9 +26,9 @@ export default {
       {{
         $t('INBOX_MGMT.WIDGET_BUILDER.FOOTER.START_CONVERSATION_BUTTON_TEXT')
       }}
-    </custom-button>
+    </CustomButton>
     <div v-else class="chat-message-input is-focused">
-      <resizable-text-area
+      <ResizableTextArea
         id="chat-input"
         :rows="1"
         :placeholder="

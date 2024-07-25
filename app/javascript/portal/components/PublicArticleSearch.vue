@@ -100,7 +100,7 @@ export default {
 
 <template>
   <div v-on-clickaway="closeSearch" class="max-w-5xl w-full relative my-4">
-    <public-search-input
+    <PublicSearchInput
       v-model="searchTerm"
       :search-placeholder="searchTranslations.searchPlaceholder"
       @focus="openSearch"
@@ -110,7 +110,7 @@ export default {
       class="absolute top-14 w-full"
       @mouseover="openSearch"
     >
-      <search-suggestions
+      <SearchSuggestions
         :items="searchResults"
         :is-loading="isLoading"
         :search-term="searchTerm"

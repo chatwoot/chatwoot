@@ -35,7 +35,7 @@ export default {
 </script>
 <template>
   <div class="overlapping-thumbnails">
-    <thumbnail
+    <Thumbnail
       v-for="user in usersList"
       :key="user.id"
       v-tooltip="user.name"

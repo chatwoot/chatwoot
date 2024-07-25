@@ -141,7 +141,7 @@ export default {
         </div>
         <div v-if="hasEmptySearchResult" class="empty-message">
           <div class="emoji-icon">
-            <fluent-icon icon="emoji" size="48" />
+            <FluentIcon icon="emoji" size="48" />
           </div>
           <span class="empty-message--text">
             {{ $t('EMOJI.NOT_FOUND') }}
@@ -157,7 +157,7 @@ export default {
               :class="{ active: selectedKey === 'Search' }"
               @click="changeCategory('Search')"
             >
-              <fluent-icon
+              <FluentIcon
                 icon="search"
                 size="16"
                 class="text-slate-700 dark:text-slate-100"

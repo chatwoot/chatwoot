@@ -83,7 +83,7 @@ export default {
         <span class="text-xs font-medium text-slate-800 dark:text-slate-100">{{
           $t('CHAT_LIST.CHAT_SORT.STATUS')
         }}</span>
-        <filter-item
+        <FilterItem
           type="status"
           :selected-value="chatStatus"
           :items="chatStatusItems"
@@ -95,7 +95,7 @@ export default {
         <span class="text-xs font-medium text-slate-800 dark:text-slate-100">{{
           $t('CHAT_LIST.CHAT_SORT.ORDER_BY')
         }}</span>
-        <filter-item
+        <FilterItem
           type="sort"
           :selected-value="sortFilter"
           :items="chatSortItems"

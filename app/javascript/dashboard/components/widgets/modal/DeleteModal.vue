@@ -20,7 +20,7 @@ export default {
 
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <modal :show.sync="show" :on-close="onClose">
+  <Modal :show.sync="show" :on-close="onClose">
     <woot-modal-header
       :header-title="title"
       :header-content="message"
@@ -39,7 +39,7 @@ export default {
         {{ confirmText }}
       </woot-button>
     </div>
-  </modal>
+  </Modal>
 </template>
 <style lang="scss" scoped>
 .action-button {

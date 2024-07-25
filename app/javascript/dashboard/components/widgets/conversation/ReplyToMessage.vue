@@ -19,7 +19,7 @@ export default {
     <fluent-icon class="flex-shrink-0 icon" icon="arrow-reply" size="14" />
     <div class="flex-grow gap-1 mt-px text-xs truncate">
       {{ $t('CONVERSATION.REPLYBOX.REPLYING_TO') }}
-      <message-preview
+      <MessagePreview
         :message="message"
         :show-message-type="false"
         :default-empty-message="$t('CONVERSATION.REPLY_MESSAGE_NOT_FOUND')"

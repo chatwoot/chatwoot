@@ -35,7 +35,7 @@ export default {
 </script>
 
 <template>
-  <search-result-section
+  <SearchResultSection
     :title="$t('SEARCH.SECTION.CONVERSATIONS')"
     :empty="!conversations.length"
     :query="query"
@@ -44,7 +44,7 @@ export default {
   >
     <ul v-if="conversations.length" class="search-list">
       <li v-for="conversation in conversations" :key="conversation.id">
-        <search-result-conversation-item
+        <SearchResultConversationItem
           :id="conversation.id"
           :name="conversation.contact.name"
           :email="conversation.contact.email"
@@ -54,5 +54,5 @@ export default {
         />
       </li>
     </ul>
-  </search-result-section>
+  </SearchResultSection>
 </template>

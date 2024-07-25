@@ -37,5 +37,5 @@ export default {
 </script>
 
 <template>
-  <csml-bot-editor :agent-bot="{ bot_config: {} }" @submit="saveBot" />
+  <CsmlBotEditor :agent-bot="{ bot_config: {} }" @submit="saveBot" />
 </template>

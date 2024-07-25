@@ -139,7 +139,7 @@ export default {
       :class="isInboxView ? 'sm:flex-row' : 'md:flex-row'"
     >
       <div class="flex items-center justify-start max-w-full min-w-0 w-fit">
-        <back-button
+        <BackButton
           v-if="showBackButton"
           :back-url="backButtonUrl"
           class="ltr:ml-0 rtl:mr-0 rtl:ml-4"
@@ -180,7 +180,7 @@ export default {
           <div
             class="flex items-center gap-2 overflow-hidden text-xs conversation--header--actions text-ellipsis whitespace-nowrap"
           >
-            <inbox-name v-if="hasMultipleInboxes" :inbox="inbox" />
+            <InboxName v-if="hasMultipleInboxes" :inbox="inbox" />
             <span
               v-if="isSnoozed"
               class="font-medium text-yellow-600 dark:text-yellow-500"
@@ -202,12 +202,12 @@ export default {
         class="flex flex-row items-center justify-end flex-grow gap-2 mt-3 header-actions-wrap lg:mt-0"
         :class="{ 'justify-end': isContactPanelOpen }"
       >
-        <SLA-card-label v-if="hasSlaPolicyId" :chat="chat" show-extended-info />
-        <linear
+        <SLACardLabel v-if="hasSlaPolicyId" :chat="chat" show-extended-info />
+        <Linear
           v-if="isLinearIntegrationEnabled && isLinearFeatureEnabled"
           :conversation-id="currentChat.id"
         />
-        <more-actions :conversation-id="currentChat.id" />
+        <MoreActions :conversation-id="currentChat.id" />
       </div>
     </div>
   </div>

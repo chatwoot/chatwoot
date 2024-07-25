@@ -174,7 +174,7 @@ export default {
       class="flex-1 flex-shrink-0 px-6 overflow-auto"
       :class="{ 'flex-grow-1 flex-shrink-0': showArticleSettings }"
     >
-      <edit-article-header
+      <EditArticleHeader
         :back-button-label="$t('HELP_CENTER.HEADER.TITLES.ALL_ARTICLES')"
         :is-updating="isUpdating"
         :is-saved="isSaved"
@@ -186,17 +186,17 @@ export default {
         @update-meta="updateMeta"
       />
       <div v-if="isFetching" class="h-full p-4 text-base text-center">
-        <spinner size="" />
+        <Spinner size="" />
         <span>{{ $t('HELP_CENTER.EDIT_ARTICLE.LOADING') }}</span>
       </div>
-      <article-editor
+      <ArticleEditor
         v-else
         :is-settings-sidebar-open="showArticleSettings"
         :article="article"
         @save-article="saveArticle"
       />
     </div>
-    <article-settings
+    <ArticleSettings
       v-if="showArticleSettings"
       :article="article"
       @save-article="saveArticle"

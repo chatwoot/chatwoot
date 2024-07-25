@@ -35,7 +35,7 @@ export default {
     class="flex flex-col gap-1 bg-white z-50 dark:bg-slate-900 w-40 py-1 border shadow-md border-slate-100 dark:border-slate-700/50 rounded-xl divide-y divide-slate-100 dark:divide-slate-700/50"
   >
     <div class="flex flex-col">
-      <menu-item
+      <MenuItem
         v-for="item in menuItems"
         :key="item.key"
         :label="item.label"

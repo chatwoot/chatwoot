@@ -39,16 +39,16 @@ export default {
     <label class="text-base font-medium text-black-800">
       {{ $t('SURVEY.FEEDBACK.LABEL') }}
     </label>
-    <text-area
+    <TextArea
       v-model="feedback"
       class="my-5"
       :placeholder="$t('SURVEY.FEEDBACK.PLACEHOLDER')"
     />
     <div class="flex items-center font-medium float-right">
-      <custom-button @click="onClick">
-        <spinner v-if="feedback" class="p-0" />
+      <CustomButton @click="onClick">
+        <Spinner v-if="feedback" class="p-0" />
         {{ $t('SURVEY.FEEDBACK.BUTTON_TEXT') }}
-      </custom-button>
+      </CustomButton>
     </div>
   </div>
 </template>

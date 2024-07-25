@@ -68,29 +68,29 @@ export default {
 </script>
 <template>
   <div class="panel">
-    <contact-intro
+    <ContactIntro
       :contact="contact"
       @message="toggleConversationModal"
       @edit="toggleEditModal"
     />
-    <contact-fields
+    <ContactFields
       :contact="contact"
       @update="updateField"
       @create-attribute="toggleCustomAttributeModal"
     />
-    <edit-contact
+    <EditContact
       v-if="showEditModal"
       :show="showEditModal"
       :contact="contact"
       @cancel="toggleEditModal"
     />
-    <new-conversation
+    <NewConversation
       v-if="enableNewConversation"
       :show="showConversationModal"
       :contact="contact"
       @cancel="toggleConversationModal"
     />
-    <add-custom-attribute
+    <AddCustomAttribute
       :show="showCustomAttributeModal"
       @cancel="toggleCustomAttributeModal"
       @create="createCustomAttribute"

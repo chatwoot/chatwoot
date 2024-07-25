@@ -142,8 +142,8 @@ export default {
           color: textColor,
         }"
       >
-        <spinner v-if="isUpdating && feedback" />
-        <fluent-icon v-else icon="chevron-right" />
+        <Spinner v-if="isUpdating && feedback" />
+        <FluentIcon v-else icon="chevron-right" />
       </button>
     </form>
   </div>

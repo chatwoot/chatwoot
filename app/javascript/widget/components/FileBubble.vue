@@ -61,7 +61,7 @@ export default {
 <template>
   <div class="file flex flex-row items-center p-3 cursor-pointer">
     <div class="icon-wrap" :style="{ color: textColor }">
-      <fluent-icon icon="document" size="28" />
+      <FluentIcon icon="document" size="28" />
     </div>
     <div class="meta">
       <div class="title" :class="titleColor" :style="{ color: textColor }">

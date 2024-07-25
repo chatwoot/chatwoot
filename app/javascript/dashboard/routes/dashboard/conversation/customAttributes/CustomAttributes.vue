@@ -148,7 +148,7 @@ export default {
 
 <template>
   <div class="custom-attributes--panel">
-    <custom-attribute
+    <CustomAttribute
       v-for="attribute in displayedAttributes"
       :key="attribute.id"
       :attribute-key="attribute.attribute_key"

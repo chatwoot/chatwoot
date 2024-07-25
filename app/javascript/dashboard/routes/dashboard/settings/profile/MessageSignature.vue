@@ -28,7 +28,7 @@ const updateSignature = () => {
 </script>
 <template>
   <form class="flex flex-col gap-6" @submit.prevent="updateSignature()">
-    <woot-message-editor
+    <WootMessageEditor
       id="message-signature-input"
       v-model="signature"
       class="message-editor h-[10rem] !px-3"
@@ -38,13 +38,13 @@ const updateSignature = () => {
       :enable-suggestions="false"
       :show-image-resize-toolbar="true"
     />
-    <form-button
+    <FormButton
       type="submit"
       color-scheme="primary"
       variant="solid"
       size="large"
     >
       {{ $t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.BTN_TEXT') }}
-    </form-button>
+    </FormButton>
   </form>
 </template>

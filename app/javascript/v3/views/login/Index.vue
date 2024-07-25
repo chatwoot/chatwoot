@@ -186,7 +186,7 @@ export default {
       <div v-if="!email">
         <GoogleOAuthButton v-if="showGoogleOAuth" />
         <form class="space-y-5" @submit.prevent="submitLogin">
-          <form-input
+          <FormInput
             v-model.trim="credentials.email"
             name="email_address"
             type="text"
@@ -198,7 +198,7 @@ export default {
             :has-error="v$.credentials.email.$error"
             @input="v$.credentials.email.$touch"
           />
-          <form-input
+          <FormInput
             v-model.trim="credentials.password"
             type="password"
             name="password"
@@ -219,8 +219,8 @@ export default {
                 {{ $t('LOGIN.FORGOT_PASSWORD') }}
               </router-link>
             </p>
-          </form-input>
-          <submit-button
+          </FormInput>
+          <SubmitButton
             :disabled="loginApi.showLoading"
             :tabindex="3"
             :button-text="$t('LOGIN.SUBMIT')"
@@ -229,7 +229,7 @@ export default {
         </form>
       </div>
       <div v-else class="flex items-center justify-center">
-        <spinner color-scheme="primary" size="" />
+        <Spinner color-scheme="primary" size="" />
       </div>
     </section>
   </main>

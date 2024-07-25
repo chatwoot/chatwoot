@@ -66,6 +66,6 @@ export default {
 <template>
   <div class="flex flex-col flex-wrap w-full gap-3 md:flex-row">
     <woot-date-picker @dateRangeChanged="onDateRangeChange" />
-    <SLA-filter @filter-change="emitFilterChange" />
+    <SLAFilter @filter-change="emitFilterChange" />
   </div>
 </template>

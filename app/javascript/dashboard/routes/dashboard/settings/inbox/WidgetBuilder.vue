@@ -343,7 +343,7 @@ export default {
               }}
               <woot-color-picker v-model="color" />
             </label>
-            <input-radio-group
+            <InputRadioGroup
               name="widget-bubble-position"
               :label="
                 $t(
@@ -353,7 +353,7 @@ export default {
               :items="widgetBubblePositions"
               :action="handleWidgetBubblePositionChange"
             />
-            <input-radio-group
+            <InputRadioGroup
               name="widget-bubble-type"
               :label="
                 $t(
@@ -390,7 +390,7 @@ export default {
         </div>
       </div>
       <div class="widget-container w-100 lg:w-3/5">
-        <input-radio-group
+        <InputRadioGroup
           name="widget-view-options"
           :items="getWidgetViewOptions"
           :action="handleWidgetViewChange"

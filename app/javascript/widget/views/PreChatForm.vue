@@ -59,6 +59,6 @@ export default {
 </script>
 <template>
   <div class="flex flex-1 overflow-auto">
-    <pre-chat-form :options="preChatFormOptions" @submit="onSubmit" />
+    <PreChatForm :options="preChatFormOptions" @submit="onSubmit" />
   </div>
 </template>

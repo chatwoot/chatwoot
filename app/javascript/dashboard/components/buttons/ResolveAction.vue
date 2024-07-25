@@ -193,8 +193,8 @@ export default {
       v-on-clickaway="closeDropdown"
       class="dropdown-pane dropdown-pane--open"
     >
-      <woot-dropdown-menu class="mb-0">
-        <woot-dropdown-item v-if="!isPending">
+      <WootDropdownMenu class="mb-0">
+        <WootDropdownItem v-if="!isPending">
           <woot-button
             variant="clear"
             color-scheme="secondary"
@@ -204,8 +204,8 @@ export default {
           >
             {{ $t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE_UNTIL') }}
           </woot-button>
-        </woot-dropdown-item>
-        <woot-dropdown-item v-if="!isPending">
+        </WootDropdownItem>
+        <WootDropdownItem v-if="!isPending">
           <woot-button
             variant="clear"
             color-scheme="secondary"
@@ -215,8 +215,8 @@ export default {
           >
             {{ $t('CONVERSATION.RESOLVE_DROPDOWN.MARK_PENDING') }}
           </woot-button>
-        </woot-dropdown-item>
-      </woot-dropdown-menu>
+        </WootDropdownItem>
+      </WootDropdownMenu>
     </div>
   </div>
 </template>

@@ -108,8 +108,8 @@ export default {
           color: textColor,
         }"
       >
-        <fluent-icon v-if="!isUpdating" icon="chevron-right" />
-        <spinner v-else class="mx-2" />
+        <FluentIcon v-if="!isUpdating" icon="chevron-right" />
+        <Spinner v-else class="mx-2" />
       </button>
     </form>
   </div>

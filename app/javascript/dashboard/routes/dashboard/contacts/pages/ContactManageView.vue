@@ -67,7 +67,7 @@ export default {
   <div
     class="flex justify-between flex-col h-full m-0 flex-1 bg-white dark:bg-slate-900"
   >
-    <settings-header
+    <SettingsHeader
       button-route="new"
       :header-title="contact.name"
       show-back-button
@@ -75,22 +75,22 @@ export default {
       :back-url="backUrl"
       :show-new-button="false"
     >
-      <thumbnail
+      <Thumbnail
         v-if="contact.thumbnail"
         :src="contact.thumbnail"
         :username="contact.name"
         size="32px"
         class="mr-2 rtl:mr-0 rtl:ml-2"
       />
-    </settings-header>
+    </SettingsHeader>
 
     <div v-if="uiFlags.isFetchingItem" class="text-center p-4 text-base h-full">
-      <spinner size="" />
+      <Spinner size="" />
       <span>{{ $t('CONTACT_PROFILE.LOADING') }}</span>
     </div>
     <div v-else-if="contact.id" class="overflow-hidden flex-1 min-w-0">
       <div class="flex flex-wrap ml-auto mr-auto max-w-full h-full">
-        <contact-info-panel
+        <ContactInfoPanel
           :show-close-button="false"
           :show-avatar="false"
           :contact="contact"
@@ -107,7 +107,7 @@ export default {
           <div
             class="bg-slate-25 dark:bg-slate-800 h-[calc(100%-40px)] p-4 overflow-auto"
           >
-            <contact-notes
+            <ContactNotes
               v-if="selectedTabIndex === 0"
               :contact-id="Number(contactId)"
             />

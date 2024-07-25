@@ -98,7 +98,7 @@ export default {
             @search-change="searchChange"
           >
             <template slot="singleLabel" slot-scope="props">
-              <contact-dropdown-item
+              <ContactDropdownItem
                 :thumbnail="props.option.thumbnail"
                 :identifier="props.option.id"
                 :name="props.option.name"
@@ -107,7 +107,7 @@ export default {
               />
             </template>
             <template slot="option" slot-scope="props">
-              <contact-dropdown-item
+              <ContactDropdownItem
                 :thumbnail="props.option.thumbnail"
                 :identifier="props.option.id"
                 :name="props.option.name"
@@ -153,7 +153,7 @@ export default {
             track-by="id"
           >
             <template slot="singleLabel" slot-scope="props">
-              <contact-dropdown-item
+              <ContactDropdownItem
                 :thumbnail="props.option.thumbnail"
                 :name="props.option.name"
                 :identifier="props.option.id"
@@ -165,7 +165,7 @@ export default {
         </div>
       </div>
     </div>
-    <merge-contact-summary
+    <MergeContactSummary
       :primary-contact-name="primaryContact.name"
       :parent-contact-name="parentContactName"
     />

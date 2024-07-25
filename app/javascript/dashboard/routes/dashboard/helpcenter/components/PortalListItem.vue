@@ -354,7 +354,7 @@ export default {
               )
             }}
           </h2>
-          <locale-item-table
+          <LocaleItemTable
             :locales="locales"
             :selected-locale-code="portal.meta.default_locale"
             @change-default-locale="changeDefaultLocale"

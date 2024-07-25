@@ -23,5 +23,5 @@ export default {
 </script>
 
 <template>
-  <grouped-avatars :users="users" />
+  <GroupedAvatars :users="users" />
 </template>

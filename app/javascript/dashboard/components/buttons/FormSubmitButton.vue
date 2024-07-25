@@ -58,7 +58,7 @@ export default {
   >
     <fluent-icon v-if="!!iconClass" :icon="iconClass" class="icon" />
     <span>{{ buttonText }}</span>
-    <spinner v-if="loading" class="ml-2" :color-scheme="spinnerClass" />
+    <Spinner v-if="loading" class="ml-2" :color-scheme="spinnerClass" />
   </button>
 </template>
 <style lang="scss" scoped>

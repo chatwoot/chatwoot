@@ -154,7 +154,7 @@ export default {
 
 <template>
   <div class="mx-8">
-    <settings-section
+    <SettingsSection
       :title="$t('INBOX_MGMT.SMTP.TITLE')"
       :sub-title="$t('INBOX_MGMT.SMTP.SUBTITLE')"
     >
@@ -211,19 +211,19 @@ export default {
             :placeholder="$t('INBOX_MGMT.SMTP.DOMAIN.PLACE_HOLDER')"
             @blur="v$.domain.$touch"
           />
-          <input-radio-group
+          <InputRadioGroup
             :label="$t('INBOX_MGMT.SMTP.ENCRYPTION')"
             :items="encryptionProtocols"
             :action="handleEncryptionChange"
           />
-          <single-select-dropdown
+          <SingleSelectDropdown
             class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.SMTP.OPEN_SSL_VERIFY_MODE')"
             :selected="openSSLVerifyMode"
             :options="openSSLVerifyModes"
             :action="handleSSLModeChange"
           />
-          <single-select-dropdown
+          <SingleSelectDropdown
             class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.SMTP.AUTH_MECHANISM')"
             :selected="authMechanism"
@@ -237,6 +237,6 @@ export default {
           :disabled="(v$.$invalid && isSMTPEnabled) || uiFlags.isUpdatingSMTP"
         />
       </form>
-    </settings-section>
+    </SettingsSection>
   </div>
 </template>

@@ -78,7 +78,7 @@ export default {
               </span>
             </div>
             <div v-if="hasNotificationAssignee">
-              <thumbnail
+              <Thumbnail
                 :src="notificationAssigneeThumbnail"
                 size="16px"
                 :username="notificationAssigneeName"

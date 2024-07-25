@@ -38,7 +38,7 @@ export default {
 </script>
 
 <template>
-  <with-label
+  <WithLabel
     :label="label"
     :name="name"
     :has-error="hasError"
@@ -56,5 +56,5 @@ export default {
         {{ option.label }}
       </woot-button>
     </div>
-  </with-label>
+  </WithLabel>
 </template>

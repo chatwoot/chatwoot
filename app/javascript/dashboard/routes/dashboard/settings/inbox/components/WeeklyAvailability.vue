@@ -120,7 +120,7 @@ export default {
 
 <template>
   <div class="mx-8">
-    <settings-section
+    <SettingsSection
       :title="$t('INBOX_MGMT.BUSINESS_HOURS.TITLE')"
       :sub-title="$t('INBOX_MGMT.BUSINESS_HOURS.SUBTITLE')"
     >
@@ -146,7 +146,7 @@ export default {
               v-if="isRichEditorEnabled"
               class="py-0 px-4 border border-solid border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 rounded-md mx-0 mt-0 mb-4"
             >
-              <woot-message-editor
+              <WootMessageEditor
                 v-model="unavailableMessage"
                 :enable-variables="true"
                 :is-format-mode="true"
@@ -177,7 +177,7 @@ export default {
           <label>
             {{ $t('INBOX_MGMT.BUSINESS_HOURS.WEEKLY_TITLE') }}
           </label>
-          <business-day
+          <BusinessDay
             v-for="timeSlot in timeSlots"
             :key="timeSlot.day"
             :day-name="dayNames[timeSlot.day]"
@@ -191,7 +191,7 @@ export default {
           :disabled="hasError"
         />
       </form>
-    </settings-section>
+    </SettingsSection>
   </div>
 </template>
 <style lang="scss" scoped>

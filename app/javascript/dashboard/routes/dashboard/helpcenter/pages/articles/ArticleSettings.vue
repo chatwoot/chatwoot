@@ -130,7 +130,7 @@ export default {
       <div class="mt-4 mb-6">
         <label>
           {{ $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.CATEGORY.LABEL') }}
-          <multiselect-dropdown
+          <MultiselectDropdown
             :options="categories"
             :selected-item="selectedCategory"
             :has-thumbnail="false"
@@ -153,7 +153,7 @@ export default {
         </label>
         <label>
           {{ $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.AUTHOR.LABEL') }}
-          <multiselect-dropdown
+          <MultiselectDropdown
             :options="agents"
             :selected-item="assignedAuthor"
             :multiselector-title="

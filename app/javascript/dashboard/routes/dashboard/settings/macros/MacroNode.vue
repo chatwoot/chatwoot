@@ -82,7 +82,7 @@ export default {
         'has-error': errors[`action_${index}`],
       }"
     >
-      <action-input
+      <ActionInput
         v-model="actionData"
         :action-types="macroActionTypes"
         :dropdown-values="dropdownValues()"

@@ -145,7 +145,7 @@ export default {
         {{ slaStatus.threshold }}
       </span>
     </div>
-    <SLA-popover-card
+    <SLAPopoverCard
       v-if="showSlaPopoverCard"
       :sla-missed-events="slaEvents"
       class="right-0 top-7"

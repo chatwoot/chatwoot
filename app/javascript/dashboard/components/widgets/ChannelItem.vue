@@ -58,7 +58,7 @@ export default {
 };
 </script>
 <template>
-  <channel-selector
+  <ChannelSelector
     :class="{ inactive: !isActive }"
     :title="channel.name"
     :src="getChannelThumbnail()"

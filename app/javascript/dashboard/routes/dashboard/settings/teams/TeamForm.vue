@@ -90,7 +90,7 @@ export default {
         </div>
         <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
           <div class="w-full">
-            <woot-submit-button
+            <WootSubmitButton
               :disabled="v$.title.$invalid || submitInProgress"
               :button-text="submitButtonText"
               :loading="submitInProgress"

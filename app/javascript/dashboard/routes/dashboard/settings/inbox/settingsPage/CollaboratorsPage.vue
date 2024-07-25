@@ -118,7 +118,7 @@ export default {
 
 <template>
   <div>
-    <settings-section
+    <SettingsSection
       :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS')"
       :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS_SUB_TEXT')"
     >
@@ -143,9 +143,9 @@ export default {
         :loading="isAgentListUpdating"
         @click="updateAgents"
       />
-    </settings-section>
+    </SettingsSection>
 
-    <settings-section
+    <SettingsSection
       :title="$t('INBOX_MGMT.SETTINGS_POPUP.AGENT_ASSIGNMENT')"
       :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.AGENT_ASSIGNMENT_SUB_TEXT')"
     >
@@ -190,7 +190,7 @@ export default {
           @click="updateInbox"
         />
       </div>
-    </settings-section>
+    </SettingsSection>
   </div>
 </template>
 

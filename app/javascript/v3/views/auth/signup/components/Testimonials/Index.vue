@@ -43,7 +43,7 @@ export default {
     />
     <div class="flex items-center justify-center flex-col h-full w-full z-50">
       <div class="flex items-start justify-center p-6">
-        <testimonial-card
+        <TestimonialCard
           v-for="(testimonial, index) in testimonials"
           :key="testimonial.id"
           :review-content="testimonial.authorReview"

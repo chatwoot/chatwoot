@@ -241,7 +241,7 @@ export default {
     </router-link>
 
     <ul v-if="hasSubMenu" class="mb-0 ml-0 list-none">
-      <secondary-child-nav-item
+      <SecondaryChildNavItem
         v-for="child in menuItem.children"
         :key="child.id"
         :to="child.toState"

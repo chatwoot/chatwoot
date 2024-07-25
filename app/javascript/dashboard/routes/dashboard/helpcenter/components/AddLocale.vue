@@ -97,7 +97,7 @@ export default {
 
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
-  <modal :show.sync="show" :on-close="onClose">
+  <Modal :show.sync="show" :on-close="onClose">
     <woot-modal-header
       :header-title="$t('HELP_CENTER.PORTAL.ADD_LOCALE.TITLE')"
       :header-content="$t('HELP_CENTER.PORTAL.ADD_LOCALE.SUB_TITLE')"
@@ -132,7 +132,7 @@ export default {
         </div>
       </div>
     </form>
-  </modal>
+  </Modal>
 </template>
 <style scoped lang="scss">
 .input-container::v-deep {

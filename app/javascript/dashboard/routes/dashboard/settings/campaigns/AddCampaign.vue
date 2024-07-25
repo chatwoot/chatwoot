@@ -218,7 +218,7 @@ export default {
             {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
           </label>
           <div>
-            <woot-message-editor
+            <WootMessageEditor
               v-model="message"
               class="message-editor"
               :class="{ editor_warning: v$.message.$error }"
@@ -305,7 +305,7 @@ export default {
 
         <label v-if="isOneOffType">
           {{ $t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.LABEL') }}
-          <woot-date-time-picker
+          <WootDateTimePicker
             :value="scheduledAt"
             :confirm-text="$t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.CONFIRM')"
             :placeholder="$t('CAMPAIGN.ADD.FORM.SCHEDULED_AT.PLACEHOLDER')"

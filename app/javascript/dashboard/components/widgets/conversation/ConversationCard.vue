@@ -252,7 +252,7 @@ export default {
         @change="onSelectConversation($event.target.checked)"
       />
     </label>
-    <thumbnail
+    <Thumbnail
       v-if="bulkActionCheck"
       :src="currentContact.thumbnail"
       :badge="inboxBadge"
@@ -264,7 +264,7 @@ export default {
       class="px-0 py-3 border-b group-hover:border-transparent flex-1 border-slate-50 dark:border-slate-800/75 w-[calc(100%-40px)]"
     >
       <div class="flex justify-between">
-        <inbox-name v-if="showInboxName" :inbox="inbox" />
+        <InboxName v-if="showInboxName" :inbox="inbox" />
         <div class="flex gap-2 ml-2 rtl:mr-2 rtl:ml-0">
           <span
             v-if="showAssignee && assignee.name"
@@ -277,7 +277,7 @@ export default {
             />
             {{ assignee.name }}
           </span>
-          <priority-mark :priority="chat.priority" />
+          <PriorityMark :priority="chat.priority" />
         </div>
       </div>
       <h4
@@ -285,7 +285,7 @@ export default {
       >
         {{ currentContact.name }}
       </h4>
-      <message-preview
+      <MessagePreview
         v-if="lastMessageInChat"
         :message="lastMessageInChat"
         class="conversation--message my-0 mx-2 leading-6 h-6 max-w-[96%] w-[16.875rem] text-sm text-slate-700 dark:text-slate-200"
@@ -305,7 +305,7 @@ export default {
       </p>
       <div class="absolute flex flex-col conversation--meta right-4 top-4">
         <span class="ml-auto font-normal leading-4 text-black-600 text-xxs">
-          <time-ago
+          <TimeAgo
             :last-activity-timestamp="chat.timestamp"
             :created-at-timestamp="chat.created_at"
           />
@@ -316,11 +316,11 @@ export default {
           {{ unreadCount > 9 ? '9+' : unreadCount }}
         </span>
       </div>
-      <card-labels :conversation-id="chat.id" class="mt-0.5 mx-2 mb-0">
+      <CardLabels :conversation-id="chat.id" class="mt-0.5 mx-2 mb-0">
         <template v-if="hasSlaPolicyId" #before>
-          <SLA-card-label :chat="chat" class="ltr:mr-1 rtl:ml-1" />
+          <SLACardLabel :chat="chat" class="ltr:mr-1 rtl:ml-1" />
         </template>
-      </card-labels>
+      </CardLabels>
     </div>
     <woot-context-menu
       v-if="showContextMenu"
@@ -329,7 +329,7 @@ export default {
       :y="contextMenu.y"
       @close="closeContextMenu"
     >
-      <conversation-context-menu
+      <ConversationContextMenu
         :status="chat.status"
         :inbox-id="inbox.id"
         :priority="chat.priority"

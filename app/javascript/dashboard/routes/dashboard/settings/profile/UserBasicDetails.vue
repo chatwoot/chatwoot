@@ -126,13 +126,13 @@ export default {
       }`"
       @input="v$.userEmail.$touch"
     />
-    <form-button
+    <FormButton
       type="submit"
       color-scheme="primary"
       variant="solid"
       size="large"
     >
       {{ $t('PROFILE_SETTINGS.BTN_TEXT') }}
-    </form-button>
+    </FormButton>
   </form>
 </template>

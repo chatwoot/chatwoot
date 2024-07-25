@@ -35,7 +35,7 @@ export default {
     class="icon-button flex items-center justify-center ml-1"
     @click="onClick"
   >
-    <fluent-icon v-if="!loading" icon="send" :style="`color: ${color}`" />
-    <spinner v-else size="small" />
+    <FluentIcon v-if="!loading" icon="send" :style="`color: ${color}`" />
+    <Spinner v-else size="small" />
   </button>
 </template>

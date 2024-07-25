@@ -26,7 +26,7 @@ export default {
 
 <template>
   <div class="date-picker">
-    <date-picker
+    <DatePicker
       :range="true"
       :confirm="true"
       :clearable="false"

@@ -10,7 +10,7 @@ export default {
 
 <template>
   <div class="agent-placeholder">
-    <spinner />
+    <Spinner />
     <p>{{ $t('CONVERSATION.CARD_CONTEXT_MENU.AGENTS_LOADING') }}</p>
   </div>
 </template>

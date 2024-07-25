@@ -32,7 +32,7 @@ export default {
 
 <template>
   <div class="option-item--user">
-    <thumbnail :src="thumbnail" size="28px" :username="name" />
+    <Thumbnail :src="thumbnail" size="28px" :username="name" />
     <div class="option__user-data">
       <h5 class="option__title">
         {{ name }}

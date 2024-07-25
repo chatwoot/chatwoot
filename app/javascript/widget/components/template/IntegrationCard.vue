@@ -65,7 +65,7 @@ export default {
       }"
       @click="joinTheCall"
     >
-      <fluent-icon icon="video-add" class="mr-2" />
+      <FluentIcon icon="video-add" class="mr-2" />
       {{ $t('INTEGRATIONS.DYTE.CLICK_HERE_TO_JOIN') }}
     </button>
     <div v-if="dyteAuthToken" class="video-call--container">

@@ -87,24 +87,24 @@ export default {
 
 <template>
   <div v-if="isATwilioChannel" class="mx-8">
-    <settings-section
+    <SettingsSection
       :title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.TITLE')"
       :sub-title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE')"
     >
       <woot-code :script="inbox.callback_webhook_url" lang="html" />
-    </settings-section>
+    </SettingsSection>
   </div>
   <div v-else-if="isALineChannel" class="mx-8">
-    <settings-section
+    <SettingsSection
       :title="$t('INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.TITLE')"
       :sub-title="$t('INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE')"
     >
       <woot-code :script="inbox.callback_webhook_url" lang="html" />
-    </settings-section>
+    </SettingsSection>
   </div>
   <div v-else-if="isAWebWidgetInbox">
     <div class="mx-8">
-      <settings-section
+      <SettingsSection
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_HEADING')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_SUB_HEAD')"
       >
@@ -114,9 +114,9 @@ export default {
           :codepen-title="`${inbox.name} - Chatwoot Widget Test`"
           :enable-code-pen="true"
         />
-      </settings-section>
+      </SettingsSection>
 
-      <settings-section
+      <SettingsSection
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_VERIFICATION')"
       >
         <woot-code :script="inbox.hmac_token" />
@@ -130,8 +130,8 @@ export default {
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.HMAC_LINK_TO_DOCS') }}
           </a>
         </template>
-      </settings-section>
-      <settings-section
+      </SettingsSection>
+      <SettingsSection
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_VERIFICATION')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_DESCRIPTION')"
       >
@@ -146,24 +146,24 @@ export default {
             {{ $t('INBOX_MGMT.EDIT.ENABLE_HMAC.LABEL') }}
           </label>
         </div>
-      </settings-section>
+      </SettingsSection>
     </div>
   </div>
   <div v-else-if="isAPIInbox" class="mx-8">
-    <settings-section
+    <SettingsSection
       :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER')"
       :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER_SUB_TEXT')"
     >
       <woot-code :script="inbox.inbox_identifier" />
-    </settings-section>
+    </SettingsSection>
 
-    <settings-section
+    <SettingsSection
       :title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_VERIFICATION')"
       :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_DESCRIPTION')"
     >
       <woot-code :script="inbox.hmac_token" />
-    </settings-section>
-    <settings-section
+    </SettingsSection>
+    <SettingsSection
       :title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_VERIFICATION')"
       :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_MANDATORY_DESCRIPTION')"
     >
@@ -178,35 +178,35 @@ export default {
           {{ $t('INBOX_MGMT.EDIT.ENABLE_HMAC.LABEL') }}
         </label>
       </div>
-    </settings-section>
+    </SettingsSection>
   </div>
   <div v-else-if="isAnEmailChannel">
     <div class="mx-8">
-      <settings-section
+      <SettingsSection
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_TITLE')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_SUB_TEXT')"
       >
         <woot-code :script="inbox.forward_to_email" />
-      </settings-section>
+      </SettingsSection>
     </div>
-    <imap-settings :inbox="inbox" />
-    <smtp-settings v-if="inbox.imap_enabled" :inbox="inbox" />
+    <ImapSettings :inbox="inbox" />
+    <SmtpSettings v-if="inbox.imap_enabled" :inbox="inbox" />
   </div>
   <div v-else-if="isAWhatsAppChannel && !isATwilioChannel">
     <div v-if="inbox.provider_config" class="mx-8">
-      <settings-section
+      <SettingsSection
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_WEBHOOK_TITLE')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_WEBHOOK_SUBHEADER')"
       >
         <woot-code :script="inbox.provider_config.webhook_verify_token" />
-      </settings-section>
-      <settings-section
+      </SettingsSection>
+      <SettingsSection
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_TITLE')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_SUBHEADER')"
       >
         <woot-code :script="inbox.provider_config.api_key" />
-      </settings-section>
-      <settings-section
+      </SettingsSection>
+      <SettingsSection
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_TITLE')"
         :sub-title="
           $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_SUBHEADER')
@@ -232,7 +232,7 @@ export default {
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_BUTTON') }}
           </woot-button>
         </div>
-      </settings-section>
+      </SettingsSection>
     </div>
   </div>
 </template>

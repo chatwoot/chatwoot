@@ -61,7 +61,7 @@ export default {
             v-if="integrationLoaded"
             class="bg-white dark:bg-slate-800 border border-solid border-slate-75 dark:border-slate-700/50 rounded-sm mb-4 p-4"
           >
-            <integration
+            <Integration
               :integration-id="integration.id"
               :integration-logo="integration.logo"
               :integration-name="integration.name"

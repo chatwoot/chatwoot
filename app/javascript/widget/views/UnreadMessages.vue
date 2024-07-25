@@ -24,5 +24,5 @@ export default {
 </script>
 
 <template>
-  <unread-message-list :messages="messages" @close="closeFullView" />
+  <UnreadMessageList :messages="messages" @close="closeFullView" />
 </template>

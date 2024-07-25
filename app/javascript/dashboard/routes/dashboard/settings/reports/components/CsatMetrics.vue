@@ -59,20 +59,20 @@ export default {
   <div
     class="flex-col lg:flex-row flex flex-wrap mx-0 bg-white dark:bg-slate-800 rounded-[4px] p-4 mb-5 border border-solid border-slate-75 dark:border-slate-700"
   >
-    <csat-metric-card
+    <CsatMetricCard
       :label="$t('CSAT_REPORTS.METRIC.TOTAL_RESPONSES.LABEL')"
       :info-text="$t('CSAT_REPORTS.METRIC.TOTAL_RESPONSES.TOOLTIP')"
       :value="responseCount"
       class="xs:w-full sm:max-w-[50%] lg:w-1/6 lg:max-w-[16%]"
     />
-    <csat-metric-card
+    <CsatMetricCard
       :disabled="ratingFilterEnabled"
       :label="$t('CSAT_REPORTS.METRIC.SATISFACTION_SCORE.LABEL')"
       :info-text="$t('CSAT_REPORTS.METRIC.SATISFACTION_SCORE.TOOLTIP')"
       :value="ratingFilterEnabled ? '--' : formatToPercent(satisfactionScore)"
       class="xs:w-full sm:max-w-[50%] lg:w-1/6 lg:max-w-[16%]"
     />
-    <csat-metric-card
+    <CsatMetricCard
       :label="$t('CSAT_REPORTS.METRIC.RESPONSE_RATE.LABEL')"
       :info-text="$t('CSAT_REPORTS.METRIC.RESPONSE_RATE.TOOLTIP')"
       :value="formatToPercent(responseRate)"

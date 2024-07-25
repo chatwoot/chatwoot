@@ -33,7 +33,7 @@ export default {
         <span class="font-medium">
           {{ $t('INTEGRATION_SETTINGS.WEBHOOK.SUBSCRIBED_EVENTS') }}:
         </span>
-        <show-more :text="subscribedEvents" :limit="60" />
+        <ShowMore :text="subscribedEvents" :limit="60" />
       </span>
     </td>
     <td class="min-w-[7rem] flex gap-1 justify-end flex-shrink-0">

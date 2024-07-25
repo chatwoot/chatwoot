@@ -63,7 +63,7 @@ export default {
       class="flex items-center mb-0 text-2xl text-slate-900 dark:text-slate-100"
     >
       <woot-sidemenu-icon v-if="showSidemenuIcon" />
-      <back-button
+      <BackButton
         v-if="showBackButton"
         :button-label="backButtonLabel"
         :back-url="backUrl"

@@ -107,7 +107,7 @@ export default {
             </th>
           </thead>
           <tbody>
-            <dashboard-apps-row
+            <DashboardAppsRow
               v-for="(dashboardAppItem, index) in records"
               :key="dashboardAppItem.id"
               :index="index"
@@ -131,7 +131,7 @@ export default {
       </div>
     </div>
 
-    <dashboard-app-modal
+    <DashboardAppModal
       v-if="showDashboardAppPopup"
       :show="showDashboardAppPopup"
       :mode="mode"

@@ -49,7 +49,7 @@ export default {
     <woot-modal-header
       :header-title="$t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.TITLE')"
     />
-    <webhook-form
+    <WebhookForm
       :value="value"
       :is-submitting="uiFlags.updatingItem"
       :submit-label="$t('INTEGRATION_SETTINGS.WEBHOOK.FORM.EDIT_SUBMIT')"

@@ -73,13 +73,13 @@ export default {
 
 <template>
   <div class="mx-8">
-    <loading-state v-if="uiFlags.isFetching || uiFlags.isFetchingAgentBot" />
+    <LoadingState v-if="uiFlags.isFetching || uiFlags.isFetchingAgentBot" />
     <form
       v-else
       class="flex flex-wrap mx-0"
       @submit.prevent="updateActiveAgentBot"
     >
-      <settings-section
+      <SettingsSection
         :title="$t('AGENT_BOTS.BOT_CONFIGURATION.TITLE')"
         :sub-title="$t('AGENT_BOTS.BOT_CONFIGURATION.DESC')"
       >
@@ -116,7 +116,7 @@ export default {
             </woot-button>
           </div>
         </div>
-      </settings-section>
+      </SettingsSection>
     </form>
   </div>
 </template>

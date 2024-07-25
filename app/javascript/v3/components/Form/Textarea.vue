@@ -54,7 +54,7 @@ export default {
 };
 </script>
 <template>
-  <with-label
+  <WithLabel
     :label="label"
     :name="name"
     :has-error="hasError"
@@ -79,5 +79,5 @@ export default {
       @input="onInput"
       @blur="$emit('blur')"
     />
-  </with-label>
+  </WithLabel>
 </template>

@@ -66,7 +66,7 @@ export default {
   <div
     class="h-full overflow-auto w-60 flex flex-col bg-white dark:bg-slate-900 border-r dark:border-slate-700 rtl:border-r-0 rtl:border-l border-slate-50 text-sm"
   >
-    <sidebar-header
+    <SidebarHeader
       :thumbnail-src="thumbnailSrc"
       :header-title="headerTitle"
       :sub-title="subTitle"
@@ -79,12 +79,12 @@ export default {
       tag="ul"
       class="py-2 px-4 list-none ml-0 mb-0"
     >
-      <secondary-nav-item
+      <SecondaryNavItem
         v-for="menuItem in accessibleMenuItems"
         :key="menuItem.toState"
         :menu-item="menuItem"
       />
-      <secondary-nav-item
+      <SecondaryNavItem
         v-for="menuItem in additionalSecondaryMenuItems"
         :key="menuItem.key"
         :menu-item="menuItem"

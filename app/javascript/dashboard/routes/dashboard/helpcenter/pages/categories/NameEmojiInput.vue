@@ -103,7 +103,7 @@ export default {
       :help-text="helpText"
       @input="onNameChange"
     />
-    <emoji-input
+    <EmojiInput
       v-if="showEmojiPicker"
       v-on-clickaway="hideEmojiPicker"
       class="left-0 top-16"

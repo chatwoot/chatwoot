@@ -42,12 +42,12 @@ export default {
 
 <template>
   <div class="mx-0 flex flex-wrap">
-    <templates-picker
+    <TemplatesPicker
       v-if="!selectedWaTemplate"
       :inbox-id="inboxId"
       @onSelect="pickTemplate"
     />
-    <template-parser
+    <TemplateParser
       v-else
       :template="selectedWaTemplate"
       @resetTemplate="onResetTemplate"

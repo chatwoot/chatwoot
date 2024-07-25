@@ -49,7 +49,7 @@ export default {
   <div
     class="flex flex-1 h-full justify-between flex-col m-0 bg-slate-25 dark:bg-slate-900 overflow-auto"
   >
-    <settings-header
+    <SettingsHeader
       button-route="new"
       :icon="icon"
       :header-title="$t(headerTitle)"

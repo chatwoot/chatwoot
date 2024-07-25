@@ -71,11 +71,8 @@ export default {
       v-if="!inboxesList.length && !uiFlags.isFetching && !loadingChatList"
       class="clearfix"
     >
-      <onboarding-view v-if="isAdmin" />
-      <empty-state-message
-        v-else
-        :message="$t('CONVERSATION.NO_INBOX_AGENT')"
-      />
+      <OnboardingView v-if="isAdmin" />
+      <EmptyStateMessage v-else :message="$t('CONVERSATION.NO_INBOX_AGENT')" />
     </div>
     <!-- Show empty state images if not loading -->
 
@@ -84,11 +81,11 @@ export default {
       class="flex flex-col items-center justify-center h-full"
     >
       <!-- No conversations available -->
-      <empty-state-message
+      <EmptyStateMessage
         v-if="!allConversations.length"
         :message="$t('CONVERSATION.NO_MESSAGE_1')"
       />
-      <empty-state-message
+      <EmptyStateMessage
         v-else-if="allConversations.length && !currentChat.id"
         :message="conversationMissingMessage"
       />

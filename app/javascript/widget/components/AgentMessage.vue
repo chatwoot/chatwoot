@@ -168,7 +168,7 @@ export default {
   >
     <div v-if="!isASubmittedForm" class="agent-message">
       <div class="avatar-wrap">
-        <thumbnail
+        <Thumbnail
           v-if="message.showAvatar || hasRecordedResponse"
           :src="avatarUrl"
           size="24px"
@@ -177,7 +177,7 @@ export default {
       </div>
       <div class="message-wrap">
         <div v-if="hasReplyTo" class="flex mt-2 mb-1 text-xs">
-          <reply-to-chip :reply-to="replyTo" />
+          <ReplyToChip :reply-to="replyTo" />
         </div>
         <div class="flex gap-1">
           <div class="space-y-2">
@@ -198,7 +198,7 @@ export default {
                 v-for="attachment in message.attachments"
                 :key="attachment.id"
               >
-                <image-bubble
+                <ImageBubble
                   v-if="attachment.file_type === 'image' && !hasImageError"
                   :url="attachment.data_url"
                   :thumb="attachment.data_url"
@@ -206,7 +206,7 @@ export default {
                   @error="onImageLoadError"
                 />
 
-                <video-bubble
+                <VideoBubble
                   v-if="attachment.file_type === 'video' && !hasVideoError"
                   :url="attachment.data_url"
                   :readable-time="readableTime"
@@ -216,12 +216,12 @@ export default {
                 <audio v-else-if="attachment.file_type === 'audio'" controls>
                   <source :src="attachment.data_url" />
                 </audio>
-                <file-bubble v-else :url="attachment.data_url" />
+                <FileBubble v-else :url="attachment.data_url" />
               </div>
             </div>
           </div>
           <div class="flex flex-col justify-end">
-            <message-reply-button
+            <MessageReplyButton
               class="transition-opacity delay-75 opacity-0 group-hover:opacity-100 sm:opacity-0"
               @click="toggleReply"
             />

@@ -191,7 +191,7 @@ export default {
           <label>
             {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
           </label>
-          <woot-message-editor
+          <WootMessageEditor
             v-model="message"
             class="message-editor"
             :is-format-mode="true"

@@ -33,6 +33,13 @@ module.exports = {
         order: ['script', 'template', 'style'],
       },
     ],
+    'vue/component-name-in-template-casing': [
+      'error',
+      'PascalCase',
+      {
+        registeredComponentsOnly: true,
+      },
+    ],
     'vue/max-attributes-per-line': [
       'error',
       {

@@ -31,7 +31,7 @@ export default {
 };
 </script>
 <template>
-  <dyte-video-call
+  <DyteVideoCall
     v-if="showDyteIntegration"
     :message-id="messageId"
     :meeting-data="contentAttributes.data"

@@ -64,7 +64,7 @@ export default {
   <div
     class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
   >
-    <page-header
+    <PageHeader
       class="max-w-4xl"
       :header-title="$t('INBOX_MGMT.ADD.AUTH.TITLE')"
       :header-content="
@@ -77,7 +77,7 @@ export default {
     <div
       class="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 mx-0 max-w-3xl"
     >
-      <channel-item
+      <ChannelItem
         v-for="channel in channelList"
         :key="channel.key"
         :channel="channel"

@@ -70,7 +70,7 @@ export default {
 </script>
 <template>
   <div class="flex-1 overflow-auto">
-    <campaigns-table
+    <CampaignsTable
       :campaigns="campaigns"
       :show-empty-result="showEmptyResult"
       :is-loading="uiFlags.isFetching"
@@ -79,7 +79,7 @@ export default {
       @delete="openDeletePopup"
     />
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
-      <edit-campaign
+      <EditCampaign
         :selected-campaign="selectedCampaign"
         @on-close="hideEditPopup"
       />

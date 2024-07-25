@@ -140,7 +140,7 @@ export default {
     v-if="isLoading"
     class="flex items-center justify-center flex-1 h-full bg-black-25"
   >
-    <spinner size="" />
+    <Spinner size="" />
   </div>
   <div
     v-else
@@ -157,7 +157,7 @@ export default {
         >
           {{ $t('SURVEY.DESCRIPTION', { inboxName }) }}
         </p>
-        <banner
+        <Banner
           v-if="shouldShowBanner"
           :show-success="shouldShowSuccessMesage"
           :show-error="shouldShowErrorMesage"
@@ -169,11 +169,11 @@ export default {
         >
           {{ $t('SURVEY.RATING.LABEL') }}
         </label>
-        <rating
+        <Rating
           :selected-rating="selectedRating"
           @selectRating="selectRating"
         />
-        <feedback
+        <Feedback
           v-if="enableFeedbackForm"
           :is-updating="isUpdating"
           :is-button-disabled="isButtonDisabled"
@@ -182,7 +182,7 @@ export default {
         />
       </div>
       <div class="mb-3">
-        <branding />
+        <Branding />
       </div>
     </div>
   </div>

@@ -39,7 +39,7 @@ export default {
 <template>
   <div class="h-full w-full antialiased" :class="theme">
     <router-view />
-    <snackbar-container />
+    <SnackbarContainer />
   </div>
 </template>
 <style lang="scss">

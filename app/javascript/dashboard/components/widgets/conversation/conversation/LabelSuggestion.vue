@@ -171,7 +171,7 @@ export default {
               "
             />
           </button>
-          <woot-button
+          <WootButton
             v-if="preparedLabels.length === 1"
             v-tooltip.top="{
               content: $t('LABEL_MGMT.SUGGESTIONS.TOOLTIP.DISMISS'),
@@ -187,7 +187,7 @@ export default {
           />
         </div>
         <div v-if="preparedLabels.length > 1">
-          <woot-button
+          <WootButton
             :variant="selectedLabels.length === 0 ? 'smooth' : ''"
             class="label--add"
             icon="add"
@@ -195,8 +195,8 @@ export default {
             @click="addAllLabels"
           >
             {{ addButtonText }}
-          </woot-button>
-          <woot-button
+          </WootButton>
+          <WootButton
             v-tooltip.top="{
               content: $t('LABEL_MGMT.SUGGESTIONS.TOOLTIP.DISMISS'),
               delay: { show: 600, hide: 0 },
@@ -220,9 +220,9 @@ export default {
           }"
           size="16px"
         >
-          <avatar class="user-thumbnail thumbnail-rounded">
+          <Avatar class="user-thumbnail thumbnail-rounded">
             <fluent-icon class="chatwoot-ai-icon" icon="chatwoot-ai" />
-          </avatar>
+          </Avatar>
         </woot-thumbnail>
       </div>
     </div>

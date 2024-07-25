@@ -130,19 +130,19 @@ export default {
         hasReplyTo,
     }"
   >
-    <footer-reply-to
+    <FooterReplyTo
       v-if="hasReplyTo"
       :in-reply-to="inReplyTo"
       @dismiss="inReplyTo = null"
     />
-    <chat-input-wrap
+    <ChatInputWrap
       class="shadow-sm"
       :on-send-message="handleSendMessage"
       :on-send-attachment="handleSendAttachment"
     />
   </footer>
   <div v-else>
-    <custom-button
+    <CustomButton
       class="font-medium"
       block
       :bg-color="widgetColor"
@@ -150,15 +150,15 @@ export default {
       @click="startNewConversation"
     >
       {{ $t('START_NEW_CONVERSATION') }}
-    </custom-button>
-    <custom-button
+    </CustomButton>
+    <CustomButton
       v-if="showEmailTranscriptButton"
       type="clear"
       class="font-normal"
       @click="sendTranscript"
     >
       {{ $t('EMAIL_TRANSCRIPT.BUTTON_TEXT') }}
-    </custom-button>
+    </CustomButton>
   </div>
 </template>
 <style scoped lang="scss">

@@ -30,16 +30,16 @@ export default {
       class="flex gap-2 items-center"
     >
       <div class="flex gap-2 items-center">
-        <hotkey
+        <Hotkey
           custom-class="h-6 w-8 text-sm font-medium text-slate-700 dark:text-slate-100 bg-slate-100 dark:bg-slate-700 border-b-2 border-slate-300 dark:border-slate-500"
         >
           ⌘
-        </hotkey>
-        <hotkey
+        </Hotkey>
+        <Hotkey
           custom-class="h-6 w-8 text-sm font-medium text-slate-700 dark:text-slate-100 bg-slate-100 dark:bg-slate-700 border-b-2 border-slate-300 dark:border-slate-500"
         >
           {{ keyShortcut.key }}
-        </hotkey>
+        </Hotkey>
       </div>
       <span
         class="text-sm text-slate-700 dark:text-slate-300 font-medium text-center"

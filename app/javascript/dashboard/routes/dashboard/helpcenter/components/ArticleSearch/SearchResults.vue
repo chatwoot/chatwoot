@@ -51,7 +51,7 @@ export default {
       <div v-else-if="showNoResults" class="empty-state-message">
         {{ $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.NO_RESULT') }}
       </div>
-      <search-result-item
+      <SearchResultItem
         v-for="article in articles"
         v-else
         :id="article.id"

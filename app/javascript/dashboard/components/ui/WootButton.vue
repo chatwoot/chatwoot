@@ -111,12 +111,12 @@ export default {
     :disabled="isDisabled || isLoading"
     @click="handleClick"
   >
-    <spinner
+    <Spinner
       v-if="isLoading"
       size="small"
       :color-scheme="showDarkSpinner ? 'dark' : ''"
     />
-    <emoji-or-icon
+    <EmojiOrIcon
       v-else-if="icon || emoji"
       class="icon"
       :emoji="emoji"

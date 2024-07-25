@@ -31,14 +31,14 @@ export default {
     <h3 class="text-sm font-medium text-slate-800 dark:text-slate-50 mb-0">
       {{ title }}
     </h3>
-    <article-list :articles="articles" @click="onArticleClick" />
+    <ArticleList :articles="articles" @click="onArticleClick" />
     <button
       class="inline-flex text-sm font-medium rounded-md px-2 py-1 -ml-2 leading-6 text-slate-800 dark:text-slate-50 justify-between items-center hover:bg-slate-25 dark:hover:bg-slate-800 see-articles"
       :style="{ color: widgetColor }"
       @click="$emit('view-all')"
     >
       <span class="pr-2 text-sm">{{ $t('PORTAL.VIEW_ALL_ARTICLES') }}</span>
-      <fluent-icon icon="arrow-right" size="14" />
+      <FluentIcon icon="arrow-right" size="14" />
     </button>
   </div>
 </template>

@@ -143,7 +143,7 @@ export default {
             </label>
           </div>
         </div>
-        <category-name-icon-input
+        <CategoryNameIconInput
           :label="$t('HELP_CENTER.CATEGORY.EDIT.NAME.LABEL')"
           :placeholder="$t('HELP_CENTER.CATEGORY.EDIT.NAME.PLACEHOLDER')"
           :help-text="$t('HELP_CENTER.CATEGORY.EDIT.NAME.HELP_TEXT')"

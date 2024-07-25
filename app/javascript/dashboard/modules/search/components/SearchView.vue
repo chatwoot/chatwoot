@@ -155,8 +155,8 @@ export default {
     </div>
     <section class="search-root">
       <header>
-        <search-header @search="onSearch" />
-        <search-tabs
+        <SearchHeader @search="onSearch" />
+        <SearchTabs
           v-if="query"
           :tabs="tabs"
           :selected-tab="activeTabIndex"
@@ -165,7 +165,7 @@ export default {
       </header>
       <div class="search-results">
         <div v-if="showResultsSection">
-          <search-result-contacts-list
+          <SearchResultContactsList
             v-if="filterContacts"
             :is-fetching="uiFlags.contact.isFetching"
             :contacts="contacts"
@@ -173,7 +173,7 @@ export default {
             :show-title="isSelectedTabAll"
           />
 
-          <search-result-messages-list
+          <SearchResultMessagesList
             v-if="filterMessages"
             :is-fetching="uiFlags.message.isFetching"
             :messages="messages"
@@ -181,7 +181,7 @@ export default {
             :show-title="isSelectedTabAll"
           />
 
-          <search-result-conversations-list
+          <SearchResultConversationsList
             v-if="filterConversations"
             :is-fetching="uiFlags.conversation.isFetching"
             :conversations="conversations"

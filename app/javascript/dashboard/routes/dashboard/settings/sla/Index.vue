@@ -114,12 +114,12 @@ export default {
 };
 </script>
 <template>
-  <settings-layout
+  <SettingsLayout
     :is-loading="uiFlags.isFetching"
     :loading-message="$t('SLA.LOADING')"
   >
     <template #header>
-      <SLA-header :show-actions="records.length > 0" @click="openAddPopup" />
+      <SLAHeader :show-actions="records.length > 0" @click="openAddPopup" />
     </template>
     <template #loading>
       <SLAListItemLoading v-for="ii in 2" :key="ii" class="mb-3" />
@@ -136,7 +136,7 @@ export default {
         @primary-action="openAddPopup"
       />
       <div v-else class="flex flex-col w-full h-full gap-3">
-        <SLA-list-item
+        <SLAListItem
           v-for="sla in records"
           :key="sla.title"
           :sla-name="sla.name"
@@ -151,7 +151,7 @@ export default {
       </div>
 
       <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-        <add-SLA @close="hideAddPopup" />
+        <AddSLA @close="hideAddPopup" />
       </woot-modal>
 
       <woot-delete-modal
@@ -165,5 +165,5 @@ export default {
         :reject-text="deleteRejectText"
       />
     </template>
-  </settings-layout>
+  </SettingsLayout>
 </template>

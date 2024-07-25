@@ -29,7 +29,7 @@ export default {
     <div
       class="w-10 h-10 rounded-md bg-slate-75 dark:bg-slate-700 text-lg flex items-center justify-center flex-shrink-0"
     >
-      <fluent-icon
+      <FluentIcon
         icon="chat"
         size="16"
         class="text-slate-600 dark:text-slate-400"
@@ -55,7 +55,7 @@ export default {
       </p>
     </div>
     <div class="w-8 h-10 flex items-center justify-center">
-      <fluent-icon icon="chevron-right" />
+      <FluentIcon icon="chevron-right" />
     </div>
   </button>
 </template>

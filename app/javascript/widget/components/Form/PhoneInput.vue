@@ -235,8 +235,8 @@ export default {
         <h5 v-if="activeCountry.emoji" class="text-xl mb-0">
           {{ activeCountry.emoji }}
         </h5>
-        <fluent-icon v-else icon="globe" class="fluent-icon" size="20" />
-        <fluent-icon icon="chevron-down" class="fluent-icon" size="12" />
+        <FluentIcon v-else icon="globe" class="fluent-icon" size="20" />
+        <FluentIcon icon="chevron-down" class="fluent-icon" size="12" />
       </div>
       <span
         v-if="activeDialCode"

@@ -75,7 +75,7 @@ export default {
       class="text-slate-800 dark:text-slate-100 cursor-pointer p-0"
       @click="toggleSenderNameType(keyOption.key)"
     >
-      <preview-card
+      <PreviewCard
         :heading="keyOption.heading"
         :content="keyOption.content"
         :active="keyOption.key === senderNameType"
@@ -85,7 +85,7 @@ export default {
             {{ $t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.FOR_EG') }}
           </span>
           <div class="flex flex-row items-center gap-2">
-            <thumbnail :username="userName(keyOption)" size="32px" />
+            <Thumbnail :username="userName(keyOption)" size="32px" />
             <div class="flex flex-col items-start gap-1">
               <div class="items-center flex flex-row gap-0.5 max-w-[18rem]">
                 <span
@@ -107,7 +107,7 @@ export default {
             </div>
           </div>
         </div>
-      </preview-card>
+      </PreviewCard>
     </button>
   </div>
 </template>

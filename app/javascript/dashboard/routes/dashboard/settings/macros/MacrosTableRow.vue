@@ -35,13 +35,13 @@ export default {
     <td>{{ macro.name }}</td>
     <td>
       <div v-if="macro.created_by" class="avatar-container">
-        <thumbnail :username="createdByName" size="24px" />
+        <Thumbnail :username="createdByName" size="24px" />
         <span>{{ createdByName }}</span>
       </div>
     </td>
     <td>
       <div v-if="macro.updated_by" class="avatar-container">
-        <thumbnail :username="updatedByName" size="24px" />
+        <Thumbnail :username="updatedByName" size="24px" />
         <span>{{ updatedByName }}</span>
       </div>
     </td>

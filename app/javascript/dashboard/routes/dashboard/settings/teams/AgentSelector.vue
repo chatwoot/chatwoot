@@ -110,7 +110,7 @@ export default {
           </td>
           <td>
             <div class="flex items-center gap-2">
-              <thumbnail
+              <Thumbnail
                 :src="agent.thumbnail"
                 size="24px"
                 :username="agent.name"

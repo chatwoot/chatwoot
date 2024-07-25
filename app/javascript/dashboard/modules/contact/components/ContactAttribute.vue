@@ -41,7 +41,7 @@ export default {
     <div class="title-wrap">
       <h4 class="text-sm title">
         <div class="title--icon">
-          <emoji-or-icon :icon="icon" :emoji="emoji" />
+          <EmojiOrIcon :icon="icon" :emoji="emoji" />
         </div>
         {{ label }}
       </h4>

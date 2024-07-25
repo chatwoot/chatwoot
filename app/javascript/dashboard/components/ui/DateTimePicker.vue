@@ -32,7 +32,7 @@ export default {
 
 <template>
   <div class="date-picker">
-    <date-picker
+    <DatePicker
       type="datetime"
       :confirm="true"
       :clearable="false"

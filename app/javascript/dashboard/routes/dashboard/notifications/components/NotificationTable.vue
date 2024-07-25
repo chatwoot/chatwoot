@@ -99,7 +99,7 @@ export default {
             </span>
           </td>
           <td class="thumbnail--column">
-            <thumbnail
+            <Thumbnail
               v-if="notificationItem.primary_actor.meta.assignee"
               :src="notificationItem.primary_actor.meta.assignee.thumbnail"
               size="36px"
@@ -122,12 +122,12 @@ export default {
         </tr>
       </tbody>
     </table>
-    <empty-state
+    <EmptyState
       v-if="showEmptyResult"
       :title="$t('NOTIFICATIONS_PAGE.LIST.404')"
     />
     <div v-if="isLoading" class="notifications--loader">
-      <spinner />
+      <Spinner />
       <span>{{ $t('NOTIFICATIONS_PAGE.LIST.LOADING_MESSAGE') }}</span>
     </div>
   </section>

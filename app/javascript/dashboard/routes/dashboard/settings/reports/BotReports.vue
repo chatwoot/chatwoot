@@ -90,15 +90,15 @@ export default {
 </script>
 <template>
   <div class="flex-1 p-4 overflow-auto">
-    <report-filter-selector
+    <ReportFilterSelector
       :show-agents-filter="false"
       :show-group-by-filter="true"
       :show-business-hours-switch="false"
       @filter-change="onFilterChange"
     />
 
-    <bot-metrics :filters="requestPayload" />
-    <report-container
+    <BotMetrics :filters="requestPayload" />
+    <ReportContainer
       :group-by="groupBy"
       :report-keys="reportKeys"
       :account-summary-key="'getBotSummary'"

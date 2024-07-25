@@ -134,7 +134,7 @@ export default {
 </script>
 
 <template>
-  <file-upload
+  <FileUpload
     ref="upload"
     :size="4096 * 2048"
     :accept="allowedFileTypes"
@@ -145,8 +145,8 @@ export default {
     @input-file="onFileUpload"
   >
     <button class="icon-button flex items-center justify-center">
-      <fluent-icon v-if="!isUploading.image" icon="attach" />
-      <spinner v-if="isUploading" size="small" />
+      <FluentIcon v-if="!isUploading.image" icon="attach" />
+      <Spinner v-if="isUploading" size="small" />
     </button>
-  </file-upload>
+  </FileUpload>
 </template>

@@ -102,7 +102,7 @@ export default {
       </h1>
 
       <div class="space-y-5">
-        <form-input
+        <FormInput
           v-model.trim="credentials.password"
           class="mt-3"
           name="password"
@@ -112,7 +112,7 @@ export default {
           :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
           @blur="v$.credentials.password.$touch"
         />
-        <form-input
+        <FormInput
           v-model.trim="credentials.confirmPassword"
           class="mt-3"
           name="confirm_password"
@@ -122,7 +122,7 @@ export default {
           :placeholder="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.PLACEHOLDER')"
           @blur="v$.credentials.confirmPassword.$touch"
         />
-        <submit-button
+        <SubmitButton
           :disabled="
             v$.credentials.password.$invalid ||
             v$.credentials.confirmPassword.$invalid ||

@@ -30,7 +30,7 @@ export default {
 </script>
 <template>
   <div class="flex items-center justify-center h-full w-full">
-    <spinner color-scheme="primary" size="" />
+    <Spinner color-scheme="primary" size="" />
     <div class="ml-2">{{ $t('CONFIRM_EMAIL') }}</div>
   </div>
 </template>

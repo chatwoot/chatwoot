@@ -23,7 +23,7 @@ export default {
   <div
     class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
   >
-    <page-header
+    <PageHeader
       :header-title="$t('INBOX_MGMT.ADD.WHATSAPP.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.WHATSAPP.DESC')"
     />
@@ -41,8 +41,8 @@ export default {
       </label>
     </div>
 
-    <twilio v-if="provider === 'twilio'" type="whatsapp" />
-    <three-sixty-dialog-whatsapp v-else-if="provider === '360dialog'" />
-    <cloud-whatsapp v-else />
+    <Twilio v-if="provider === 'twilio'" type="whatsapp" />
+    <ThreeSixtyDialogWhatsapp v-else-if="provider === '360dialog'" />
+    <CloudWhatsapp v-else />
   </div>
 </template>

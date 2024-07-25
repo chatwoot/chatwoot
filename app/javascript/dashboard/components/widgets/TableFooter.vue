@@ -31,12 +31,12 @@ const isFooterVisible = computed(
     v-if="isFooterVisible"
     class="h-12 flex items-center justify-between px-6"
   >
-    <table-footer-results
+    <TableFooterResults
       :first-index="firstIndex"
       :last-index="lastIndex"
       :total-count="totalCount"
     />
-    <table-footer-pagination
+    <TableFooterPagination
       v-if="totalCount"
       :current-page="currentPage"
       :total-pages="totalPages"

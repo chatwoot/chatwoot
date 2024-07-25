@@ -216,7 +216,7 @@ export default {
             "
           >
             {{ label }}
-            <helper-text-popup
+            <HelperTextPopup
               v-if="description"
               :message="description"
               class="mt-0.5"
@@ -309,7 +309,7 @@ export default {
       </div>
     </div>
     <div v-if="isAttributeTypeList">
-      <multiselect-dropdown
+      <MultiselectDropdown
         :options="listOptions"
         :selected-item="selectedItem"
         :has-thumbnail="false"

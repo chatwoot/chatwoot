@@ -82,11 +82,8 @@ export default {
     </div>
     <div class="flex justify-start items-start flex-auto overflow-auto">
       <div class="w-full max-h-[10rem]">
-        <woot-dropdown-menu>
-          <woot-dropdown-item
-            v-for="option in filteredOptions"
-            :key="option.id"
-          >
+        <WootDropdownMenu>
+          <WootDropdownItem v-for="option in filteredOptions" :key="option.id">
             <woot-button
               class="multiselect-dropdown--item"
               :variant="isActive(option) ? 'hollow' : 'clear'"
@@ -118,8 +115,8 @@ export default {
                 </div>
               </div>
             </woot-button>
-          </woot-dropdown-item>
-        </woot-dropdown-menu>
+          </WootDropdownItem>
+        </WootDropdownMenu>
         <h4
           v-if="noResult"
           class="w-full justify-center items-center flex text-slate-500 dark:text-slate-300 py-2 px-2.5 overflow-hidden whitespace-nowrap text-ellipsis text-sm"

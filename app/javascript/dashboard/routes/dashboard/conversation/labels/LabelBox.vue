@@ -80,7 +80,7 @@ export default {
         class="label-wrap"
         @keyup.esc="closeDropdownLabel"
       >
-        <add-label @add="toggleLabels" />
+        <AddLabel @add="toggleLabels" />
         <woot-label
           v-for="label in activeLabels"
           :key="label.id"
@@ -98,7 +98,7 @@ export default {
             :class="{ 'dropdown-pane--open': showSearchDropdownLabel }"
             class="dropdown-pane"
           >
-            <label-dropdown
+            <LabelDropdown
               v-if="showSearchDropdownLabel"
               :account-labels="accountLabels"
               :selected-labels="savedLabels"
@@ -110,7 +110,7 @@ export default {
         </div>
       </div>
     </div>
-    <spinner v-else />
+    <Spinner v-else />
   </div>
 </template>
 

@@ -148,13 +148,13 @@ export default {
       :show.sync="isCannedResponseModalOpen"
       :on-close="hideCannedResponseModal"
     >
-      <add-canned-modal
+      <AddCannedModal
         :response-content="plainTextContent"
         :on-close="hideCannedResponseModal"
       />
     </woot-modal>
     <!-- Translate Content -->
-    <translate-modal
+    <TranslateModal
       v-if="showTranslateModal"
       :content="messageContent"
       :content-attributes="contentAttributes"
@@ -186,7 +186,7 @@ export default {
       @close="handleClose"
     >
       <div class="menu-container">
-        <menu-item
+        <MenuItem
           v-if="enabledOptions['replyTo']"
           :option="{
             icon: 'arrow-reply',
@@ -195,7 +195,7 @@ export default {
           variant="icon"
           @click="handleReplyTo"
         />
-        <menu-item
+        <MenuItem
           v-if="enabledOptions['copy']"
           :option="{
             icon: 'clipboard',
@@ -204,7 +204,7 @@ export default {
           variant="icon"
           @click="handleCopy"
         />
-        <menu-item
+        <MenuItem
           v-if="enabledOptions['copy']"
           :option="{
             icon: 'translate',
@@ -214,7 +214,7 @@ export default {
           @click="handleTranslate"
         />
         <hr />
-        <menu-item
+        <MenuItem
           :option="{
             icon: 'link',
             label: $t('CONVERSATION.CONTEXT_MENU.COPY_PERMALINK'),
@@ -222,7 +222,7 @@ export default {
           variant="icon"
           @click="copyLinkToMessage"
         />
-        <menu-item
+        <MenuItem
           v-if="enabledOptions['cannedResponse']"
           :option="{
             icon: 'comment-add',
@@ -232,7 +232,7 @@ export default {
           @click="showCannedResponseModal"
         />
         <hr v-if="enabledOptions['delete']" />
-        <menu-item
+        <MenuItem
           v-if="enabledOptions['delete']"
           :option="{
             icon: 'delete',

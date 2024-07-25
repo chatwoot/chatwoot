@@ -205,7 +205,7 @@ export default {
         {{ snoozedDisplayText }}
       </span>
     </div>
-    <inbox-context-menu
+    <InboxContextMenu
       v-if="isContextMenuOpen"
       :context-menu-position="contextMenuPosition"
       :menu-items="menuItems"

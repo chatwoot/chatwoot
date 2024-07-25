@@ -145,7 +145,7 @@ export default {
       />
     </draggable>
 
-    <table-footer
+    <TableFooter
       v-if="showArticleFooter"
       :current-page="currentPage"
       :total-count="totalCount"

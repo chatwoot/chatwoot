@@ -49,7 +49,7 @@ export default {
       v-if="richtext"
       class="py-0 px-4 rounded-md border border-solid border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 mt-0 mx-0 mb-4"
     >
-      <woot-message-editor
+      <WootMessageEditor
         v-model="greetingsMessage"
         :is-format-mode="true"
         :enable-variables="true"
@@ -59,7 +59,7 @@ export default {
         @input="handleInput"
       />
     </div>
-    <resizable-text-area
+    <ResizableTextArea
       v-else
       v-model="greetingsMessage"
       :rows="4"

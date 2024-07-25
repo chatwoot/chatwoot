@@ -81,7 +81,7 @@ export default {
     class="relative w-1/4 h-full overflow-y-auto text-sm bg-white dark:bg-slate-900 border-slate-50 dark:border-slate-800/50"
     :class="showAvatar ? 'border-l border-solid ' : 'border-r border-solid'"
   >
-    <contact-info
+    <ContactInfo
       :show-close-button="showCloseButton"
       :show-avatar="showAvatar"
       :contact="contact"
@@ -104,7 +104,7 @@ export default {
           class="list-group-item"
         >
           <div v-if="element.name === 'contact_attributes'">
-            <accordion-item
+            <AccordionItem
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_ATTRIBUTES')"
               :is-open="isContactSidebarItemOpen('is_ct_custom_attr_open')"
               compact
@@ -112,7 +112,7 @@ export default {
                 value => toggleSidebarUIState('is_ct_custom_attr_open', value)
               "
             >
-              <custom-attributes
+              <CustomAttributes
                 :contact-id="contact.id"
                 attribute-type="contact_attribute"
                 attribute-class="conversation--attribute"
@@ -123,19 +123,19 @@ export default {
                 "
                 class="even"
               />
-            </accordion-item>
+            </AccordionItem>
           </div>
           <div v-if="element.name === 'contact_labels'">
-            <accordion-item
+            <AccordionItem
               :title="$t('CONTACT_PANEL.SIDEBAR_SECTIONS.CONTACT_LABELS')"
               :is-open="isContactSidebarItemOpen('is_ct_labels_open')"
               @click="value => toggleSidebarUIState('is_ct_labels_open', value)"
             >
-              <contact-label :contact-id="contact.id" class="contact-labels" />
-            </accordion-item>
+              <ContactLabel :contact-id="contact.id" class="contact-labels" />
+            </AccordionItem>
           </div>
           <div v-if="element.name === 'previous_conversation'">
-            <accordion-item
+            <AccordionItem
               :title="
                 $t('CONTACT_PANEL.SIDEBAR_SECTIONS.PREVIOUS_CONVERSATIONS')
               "
@@ -144,12 +144,12 @@ export default {
                 value => toggleSidebarUIState('is_ct_prev_conv_open', value)
               "
             >
-              <contact-conversations
+              <ContactConversations
                 v-if="contact.id"
                 :contact-id="contact.id"
                 conversation-id=""
               />
-            </accordion-item>
+            </AccordionItem>
           </div>
         </div>
       </transition-group>

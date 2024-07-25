@@ -58,13 +58,13 @@ export default {
     <div class="close-unread-wrap">
       <button class="button small close-unread-button" @click="closeFullView">
         <span class="flex items-center">
-          <fluent-icon class="mr-1" icon="dismiss" size="12" />
+          <FluentIcon class="mr-1" icon="dismiss" size="12" />
           {{ $t('UNREAD_VIEW.CLOSE_MESSAGES_BUTTON') }}
         </span>
       </button>
     </div>
     <div class="unread-messages">
-      <unread-message
+      <UnreadMessage
         v-for="(message, index) in messages"
         :key="message.id"
         :message-type="message.messageType"
@@ -91,7 +91,7 @@ export default {
             color: widgetColor,
           }"
         >
-          <fluent-icon class="mr-2" size="16" icon="arrow-right" />
+          <FluentIcon class="mr-2" size="16" icon="arrow-right" />
           {{ $t('UNREAD_VIEW.VIEW_MESSAGES_BUTTON') }}
         </span>
       </button>

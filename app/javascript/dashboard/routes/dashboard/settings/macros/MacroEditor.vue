@@ -133,7 +133,7 @@ export default {
       v-if="uiFlags.isFetchingItem"
       :message="$t('MACROS.EDITOR.LOADING')"
     />
-    <macro-form
+    <MacroForm
       v-if="macro && !uiFlags.isFetchingItem"
       :macro-data.sync="macro"
       @submit="saveMacro"

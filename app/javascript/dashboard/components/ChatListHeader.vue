@@ -106,7 +106,7 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
         size="tiny"
         @click="emits('filters-modal')"
       />
-      <conversation-basic-filter
+      <ConversationBasicFilter
         v-if="!hasAppliedFiltersOrActiveFolders"
         @changeFilter="onBasicFilterChange"
       />

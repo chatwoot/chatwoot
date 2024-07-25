@@ -41,7 +41,7 @@ export default {
 </script>
 
 <template>
-  <note-list
+  <NoteList
     :is-fetching="uiFlags.isFetching"
     :notes="notes"
     @add="onAdd"

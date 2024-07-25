@@ -128,23 +128,20 @@ export default {
     :class="{ 'app-rtl--wrapper': isRTLView }"
     :dir="isRTLView ? 'rtl' : 'ltr'"
   >
-    <update-banner :latest-chatwoot-version="latestChatwootVersion" />
+    <UpdateBanner :latest-chatwoot-version="latestChatwootVersion" />
     <template v-if="currentAccountId">
-      <pending-email-verification-banner v-if="hideOnOnboardingView" />
-      <payment-pending-banner v-if="hideOnOnboardingView" />
-      <upgrade-banner />
+      <PendingEmailVerificationBanner v-if="hideOnOnboardingView" />
+      <PaymentPendingBanner v-if="hideOnOnboardingView" />
+      <UpgradeBanner />
     </template>
     <transition name="fade" mode="out-in">
       <router-view />
     </transition>
-    <add-account-modal
-      :show="showAddAccountModal"
-      :has-accounts="hasAccounts"
-    />
-    <woot-snackbar-box />
-    <network-notification />
+    <AddAccountModal :show="showAddAccountModal" :has-accounts="hasAccounts" />
+    <WootSnackbarBox />
+    <NetworkNotification />
   </div>
-  <loading-state v-else />
+  <LoadingState v-else />
 </template>
 
 <style lang="scss">

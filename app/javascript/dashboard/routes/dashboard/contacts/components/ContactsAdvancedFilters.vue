@@ -281,7 +281,7 @@ export default {
       <div
         class="p-4 mb-4 border border-solid rounded-lg bg-slate-25 dark:bg-slate-900 border-slate-50 dark:border-slate-700/50"
       >
-        <filter-input-box
+        <FilterInputBox
           v-for="(filter, i) in appliedFilters"
           :key="i"
           v-model="appliedFilters[i]"

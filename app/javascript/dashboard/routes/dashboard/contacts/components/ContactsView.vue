@@ -391,7 +391,7 @@ export default {
 <template>
   <div class="flex flex-row w-full">
     <div class="flex flex-col h-full" :class="wrapClass">
-      <contacts-header
+      <ContactsHeader
         :search-query="searchQuery"
         :header-title="pageTitle"
         :segments-id="segmentsId"
@@ -406,7 +406,7 @@ export default {
         @on-toggle-delete-filter="onToggleDeleteFilters"
         @on-toggle-edit-filter="onToggleFilters"
       />
-      <contacts-table
+      <ContactsTable
         :contacts="records"
         :show-search-empty-state="showEmptySearchResult"
         :is-loading="uiFlags.isFetching"
@@ -414,7 +414,7 @@ export default {
         :active-contact-id="selectedContactId"
         @on-sort-change="onSortChange"
       />
-      <table-footer
+      <TableFooter
         class="border-t border-slate-75 dark:border-slate-700/50"
         :current-page="Number(meta.currentPage)"
         :total-count="meta.count"
@@ -423,14 +423,14 @@ export default {
       />
     </div>
 
-    <add-custom-views
+    <AddCustomViews
       v-if="showAddSegmentsModal"
       :custom-views-query="segmentsQuery"
       :filter-type="filterType"
       :open-last-saved-item="openSavedItemInSegment"
       @close="onCloseAddSegmentsModal"
     />
-    <delete-custom-views
+    <DeleteCustomViews
       v-if="showDeleteSegmentsModal"
       :show-delete-popup.sync="showDeleteSegmentsModal"
       :active-custom-view="activeSegment"
@@ -440,21 +440,21 @@ export default {
       @close="onCloseDeleteSegmentsModal"
     />
 
-    <contact-info-panel
+    <ContactInfoPanel
       v-if="showContactViewPane"
       :contact="selectedContact"
       :on-close="closeContactInfoPanel"
     />
-    <create-contact :show="showCreateModal" @cancel="onToggleCreate" />
+    <CreateContact :show="showCreateModal" @cancel="onToggleCreate" />
     <woot-modal :show.sync="showImportModal" :on-close="onToggleImport">
-      <import-contacts v-if="showImportModal" :on-close="onToggleImport" />
+      <ImportContacts v-if="showImportModal" :on-close="onToggleImport" />
     </woot-modal>
     <woot-modal
       :show.sync="showFiltersModal"
       :on-close="closeAdvanceFiltersModal"
       size="medium"
     >
-      <contacts-advanced-filters
+      <ContactsAdvancedFilters
         v-if="showFiltersModal"
         :on-close="closeAdvanceFiltersModal"
         :initial-filter-types="contactFilterItems"

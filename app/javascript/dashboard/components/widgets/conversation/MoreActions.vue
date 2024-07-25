@@ -72,11 +72,11 @@ export default {
       icon="share"
       @click="toggleEmailActionsModal"
     />
-    <resolve-action
+    <ResolveAction
       :conversation-id="currentChat.id"
       :status="currentChat.status"
     />
-    <email-transcript-modal
+    <EmailTranscriptModal
       v-if="showEmailActionsModal"
       :show="showEmailActionsModal"
       :current-chat="currentChat"

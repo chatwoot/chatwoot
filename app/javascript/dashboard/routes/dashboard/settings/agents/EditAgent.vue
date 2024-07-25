@@ -125,7 +125,7 @@ export default {
 </script>
 
 <template>
-  <modal :show.sync="show" :on-close="onClose">
+  <Modal :show.sync="show" :on-close="onClose">
     <div class="flex flex-col h-auto overflow-auto">
       <woot-modal-header :header-title="pageTitle" />
       <form class="w-full" @submit.prevent="editAgent()">
@@ -174,7 +174,7 @@ export default {
         </div>
         <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
           <div class="w-[50%]">
-            <woot-submit-button
+            <WootSubmitButton
               :disabled="
                 v$.agentType.$invalid ||
                 v$.agentName.$invalid ||
@@ -199,5 +199,5 @@ export default {
         </div>
       </form>
     </div>
-  </modal>
+  </Modal>
 </template>

@@ -99,7 +99,7 @@ export default {
             class="text-slate-600 dark:text-slate-200"
           />
         </div>
-        <inbox-display-menu
+        <InboxDisplayMenu
           v-if="showInboxDisplayMenu"
           v-on-clickaway="openInboxDisplayMenu"
           class="absolute top-9 ltr:left-0 rtl:right-0"
@@ -122,7 +122,7 @@ export default {
         icon="mail-inbox"
         @click="openInboxOptionsMenu"
       />
-      <inbox-option-menu
+      <InboxOptionMenu
         v-if="showInboxOptionMenu"
         v-on-clickaway="openInboxOptionsMenu"
         class="absolute top-9 ltr:right-0 ltr:md:right-[unset] rtl:left-0 rtl:md:left-[unset]"

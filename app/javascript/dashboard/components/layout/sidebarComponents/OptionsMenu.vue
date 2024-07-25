@@ -63,9 +63,9 @@ export default {
       class="left-3 rtl:left-auto rtl:right-3 bottom-16 w-64 absolute z-30 rounded-md shadow-xl bg-white dark:bg-slate-800 py-2 px-2 border border-slate-25 dark:border-slate-700"
       :class="{ 'block visible': show }"
     >
-      <availability-status />
-      <woot-dropdown-menu>
-        <woot-dropdown-item v-if="showChangeAccountOption">
+      <AvailabilityStatus />
+      <WootDropdownMenu>
+        <WootDropdownItem v-if="showChangeAccountOption">
           <woot-button
             variant="clear"
             color-scheme="secondary"
@@ -75,8 +75,8 @@ export default {
           >
             {{ $t('SIDEBAR_ITEMS.CHANGE_ACCOUNTS') }}
           </woot-button>
-        </woot-dropdown-item>
-        <woot-dropdown-item v-if="globalConfig.chatwootInboxToken">
+        </WootDropdownItem>
+        <WootDropdownItem v-if="globalConfig.chatwootInboxToken">
           <woot-button
             variant="clear"
             color-scheme="secondary"
@@ -86,8 +86,8 @@ export default {
           >
             {{ $t('SIDEBAR_ITEMS.CONTACT_SUPPORT') }}
           </woot-button>
-        </woot-dropdown-item>
-        <woot-dropdown-item>
+        </WootDropdownItem>
+        <WootDropdownItem>
           <woot-button
             variant="clear"
             color-scheme="secondary"
@@ -97,8 +97,8 @@ export default {
           >
             {{ $t('SIDEBAR_ITEMS.KEYBOARD_SHORTCUTS') }}
           </woot-button>
-        </woot-dropdown-item>
-        <woot-dropdown-item>
+        </WootDropdownItem>
+        <WootDropdownItem>
           <router-link
             v-slot="{ href, isActive, navigate }"
             :to="`/app/accounts/${accountId}/profile/settings`"
@@ -116,8 +116,8 @@ export default {
               </span>
             </a>
           </router-link>
-        </woot-dropdown-item>
-        <woot-dropdown-item>
+        </WootDropdownItem>
+        <WootDropdownItem>
           <woot-button
             variant="clear"
             color-scheme="secondary"
@@ -127,8 +127,8 @@ export default {
           >
             {{ $t('SIDEBAR_ITEMS.APPEARANCE') }}
           </woot-button>
-        </woot-dropdown-item>
-        <woot-dropdown-item v-if="currentUser.type === 'SuperAdmin'">
+        </WootDropdownItem>
+        <WootDropdownItem v-if="currentUser.type === 'SuperAdmin'">
           <a
             href="/super_admin"
             class="button small clear secondary bg-white dark:bg-slate-800 h-8"
@@ -145,8 +145,8 @@ export default {
               {{ $t('SIDEBAR_ITEMS.SUPER_ADMIN_CONSOLE') }}
             </span>
           </a>
-        </woot-dropdown-item>
-        <woot-dropdown-item>
+        </WootDropdownItem>
+        <WootDropdownItem>
           <woot-button
             variant="clear"
             color-scheme="secondary"
@@ -156,8 +156,8 @@ export default {
           >
             {{ $t('SIDEBAR_ITEMS.LOGOUT') }}
           </woot-button>
-        </woot-dropdown-item>
-      </woot-dropdown-menu>
+        </WootDropdownItem>
+      </WootDropdownMenu>
     </div>
   </transition>
 </template>

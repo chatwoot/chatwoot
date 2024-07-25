@@ -85,7 +85,7 @@ export default {
     <div
       class="bg-white dark:bg-slate-800 border-b border-solid border-slate-75 dark:border-slate-700/50 rounded-sm p-4"
     >
-      <integration
+      <Integration
         :integration-id="integration.id"
         :integration-logo="integration.logo"
         :integration-name="integration.name"
@@ -100,16 +100,14 @@ export default {
       />
     </div>
     <div v-if="areHooksAvailable" class="p-6 flex-1">
-      <select-channel-warning
+      <SelectChannelWarning
         v-if="!isIntegrationHookEnabled"
         :has-connected-a-channel="hasConnectedAChannel"
       />
-      <slack-integration-help-text
-        :selected-channel-name="selectedChannelName"
-      />
+      <SlackIntegrationHelpText :selected-channel-name="selectedChannelName" />
     </div>
   </div>
   <div v-else class="flex flex-1 items-center justify-center">
-    <spinner size="" color-scheme="primary" />
+    <Spinner size="" color-scheme="primary" />
   </div>
 </template>

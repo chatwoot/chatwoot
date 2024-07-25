@@ -31,7 +31,7 @@ export default {
 </script>
 
 <template>
-  <banner
+  <Banner
     v-if="shouldShowBanner"
     color-scheme="alert"
     :banner-message="bannerMessage"

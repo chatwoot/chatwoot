@@ -72,7 +72,7 @@ export default {
       </woot-button>
     </div>
     <div class="h-[90vh] overflow-y-scroll">
-      <portal-list-item
+      <PortalListItem
         v-for="portal in portals"
         :key="portal.id"
         :portal="portal"
@@ -84,10 +84,10 @@ export default {
         v-if="isFetching"
         class="flex items-center justify-center p-40 text-base"
       >
-        <spinner />
+        <Spinner />
         <span>{{ $t('HELP_CENTER.PORTAL.LOADING_MESSAGE') }}</span>
       </div>
-      <empty-state
+      <EmptyState
         v-else-if="shouldShowEmptyState"
         :title="$t('HELP_CENTER.PORTAL.NO_PORTALS_MESSAGE')"
       />
@@ -96,7 +96,7 @@ export default {
       :show.sync="isAddLocaleModalOpen"
       :on-close="closeAddLocaleModal"
     >
-      <add-locale
+      <AddLocale
         :show="isAddLocaleModalOpen"
         :portal="selectedPortal"
         @cancel="closeAddLocaleModal"

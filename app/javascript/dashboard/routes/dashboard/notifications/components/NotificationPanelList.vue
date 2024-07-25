@@ -52,14 +52,14 @@ export default {
 
 <template>
   <div class="flex-col py-2 px-2.5 overflow-auto h-full flex">
-    <notification-panel-item
+    <NotificationPanelItem
       v-for="notificationItem in notifications"
       v-show="!isLoading"
       :key="notificationItem.id"
       :notification-item="notificationItem"
       @open-notification="onClickNotification"
     />
-    <empty-state
+    <EmptyState
       v-if="showEmptyResult"
       :title="$t('NOTIFICATIONS_PAGE.UNREAD_NOTIFICATION.EMPTY_MESSAGE')"
     />
@@ -77,7 +77,7 @@ export default {
       v-if="isLoading"
       class="items-center justify-center my-12 mx-2 text-sm font-medium flex"
     >
-      <spinner />
+      <Spinner />
       <span>{{
         $t('NOTIFICATIONS_PAGE.UNREAD_NOTIFICATION.LOADING_UNREAD_MESSAGE')
       }}</span>

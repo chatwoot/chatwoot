@@ -78,7 +78,7 @@ export default {
 
 <template>
   <div v-on-clickaway="closeDropdownLabel" class="label-wrap">
-    <add-label @add="toggleLabels" />
+    <AddLabel @add="toggleLabels" />
     <woot-label
       v-for="label in savedLabels"
       :key="label.id"
@@ -94,7 +94,7 @@ export default {
         :class="{ 'dropdown-pane--open': showSearchDropdownLabel }"
         class="dropdown-pane"
       >
-        <label-dropdown
+        <LabelDropdown
           v-if="showSearchDropdownLabel"
           :account-labels="allLabels"
           :selected-labels="selectedLabels"

@@ -161,7 +161,7 @@ export default {
         >
           <template slot="singleLabel" slot-scope="props">
             <div class="flex items-center gap-2">
-              <thumbnail
+              <Thumbnail
                 :src="props.option.thumbnail"
                 :status="props.option.availability_status"
                 :username="props.option.name"
@@ -176,7 +176,7 @@ export default {
           </template>
           <template slot="option" slot-scope="props">
             <div class="flex items-center gap-2">
-              <thumbnail
+              <Thumbnail
                 :src="props.option.thumbnail"
                 :status="props.option.availability_status"
                 :username="props.option.name"
@@ -283,7 +283,7 @@ export default {
         <p class="text-xs mb-2 font-medium">
           {{ $t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER') }}
         </p>
-        <woot-date-range-picker
+        <WootDateRangePicker
           show-range
           :value="customDateRange"
           :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"

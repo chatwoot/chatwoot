@@ -124,7 +124,7 @@ export default {
       <div
         class="flex-1 w-full max-w-full md:w-[65%] md:max-w-[65%] conversation-metric"
       >
-        <metric-card
+        <MetricCard
           :header="$t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.HEADER')"
           :is-loading="uiFlags.isFetchingAccountConversationMetric"
           :loading-message="
@@ -141,10 +141,10 @@ export default {
             </h3>
             <p class="metric">{{ metric }}</p>
           </div>
-        </metric-card>
+        </MetricCard>
       </div>
       <div class="flex-1 w-full max-w-full md:w-[35%] md:max-w-[35%]">
-        <metric-card :header="$t('OVERVIEW_REPORTS.AGENT_STATUS.HEADER')">
+        <MetricCard :header="$t('OVERVIEW_REPORTS.AGENT_STATUS.HEADER')">
           <div
             v-for="(metric, name, index) in agentStatusMetrics"
             :key="index"
@@ -155,11 +155,11 @@ export default {
             </h3>
             <p class="metric">{{ metric }}</p>
           </div>
-        </metric-card>
+        </MetricCard>
       </div>
     </div>
     <div class="max-w-full flex flex-wrap flex-row ml-auto mr-auto">
-      <metric-card :header="$t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.HEADER')">
+      <MetricCard :header="$t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.HEADER')">
         <template #control>
           <woot-button
             icon="arrow-download"
@@ -171,22 +171,22 @@ export default {
             Download Report
           </woot-button>
         </template>
-        <report-heatmap
+        <ReportHeatmap
           :heat-data="accountConversationHeatmap"
           :is-loading="uiFlags.isFetchingAccountConversationsHeatmap"
         />
-      </metric-card>
+      </MetricCard>
     </div>
     <div class="max-w-full flex flex-wrap flex-row ml-auto mr-auto">
-      <metric-card :header="$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.HEADER')">
-        <agent-table
+      <MetricCard :header="$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.HEADER')">
+        <AgentTable
           :agents="agents"
           :agent-metrics="agentConversationMetric"
           :page-index="pageIndex"
           :is-loading="uiFlags.isFetchingAgentConversationMetric"
           @page-change="onPageNumberChange"
         />
-      </metric-card>
+      </MetricCard>
     </div>
   </div>
 </template>

@@ -75,9 +75,9 @@ export default {
       </strong>
       {{ $t('SEARCH.WROTE') }}
     </p>
-    <read-more :shrink="isOverflowing" @expand="isOverflowing = false">
+    <ReadMore :shrink="isOverflowing" @expand="isOverflowing = false">
       <div v-dompurify-html="prepareContent(content)" class="message-content" />
-    </read-more>
+    </ReadMore>
   </blockquote>
 </template>
 

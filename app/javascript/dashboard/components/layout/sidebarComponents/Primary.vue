@@ -71,13 +71,13 @@ export default {
     class="h-full w-16 bg-white dark:bg-slate-900 border-r border-slate-50 dark:border-slate-800/50 rtl:border-l rtl:border-r-0 flex justify-between flex-col"
   >
     <div class="flex flex-col items-center">
-      <logo
+      <Logo
         :source="logoSource"
         :name="installationName"
         :account-id="accountId"
         class="m-4 mb-10"
       />
-      <primary-nav-item
+      <PrimaryNavItem
         v-for="menuItem in menuItems"
         :key="menuItem.toState"
         :icon="menuItem.icon"
@@ -87,16 +87,16 @@ export default {
       />
     </div>
     <div class="flex flex-col items-center justify-end pb-6">
-      <primary-nav-item
+      <PrimaryNavItem
         v-if="!isACustomBrandedInstance"
         icon="book-open-globe"
         name="DOCS"
         :open-in-new-page="true"
         :to="helpDocsURL"
       />
-      <notification-bell @open-notification-panel="openNotificationPanel" />
-      <agent-details @toggle-menu="toggleOptions" />
-      <options-menu
+      <NotificationBell @open-notification-panel="openNotificationPanel" />
+      <AgentDetails @toggle-menu="toggleOptions" />
+      <OptionsMenu
         :show="showOptionsMenu"
         @toggle-accounts="toggleAccountModal"
         @show-support-chat-window="toggleSupportChatWindow"

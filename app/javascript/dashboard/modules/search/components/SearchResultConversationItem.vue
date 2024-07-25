@@ -70,7 +70,7 @@ export default {
             small
           />
           <div class="inbox-name-wrap">
-            <inbox-name :inbox="inbox" class="mr-2 rtl:mr-0 rtl:ml-2" />
+            <InboxName :inbox="inbox" class="mr-2 rtl:mr-0 rtl:ml-2" />
           </div>
         </div>
         <div>

@@ -44,7 +44,7 @@ export default {
 </script>
 
 <template>
-  <search-result-section
+  <SearchResultSection
     :title="$t('SEARCH.SECTION.MESSAGES')"
     :empty="!messages.length"
     :query="query"
@@ -53,20 +53,20 @@ export default {
   >
     <ul v-if="messages.length" class="search-list">
       <li v-for="message in messages" :key="message.id">
-        <search-result-conversation-item
+        <SearchResultConversationItem
           :id="message.conversation_id"
           :account-id="accountId"
           :inbox="message.inbox"
           :created-at="message.created_at"
           :message-id="message.id"
         >
-          <message-content
+          <MessageContent
             :author="getName(message)"
             :content="message.content"
             :search-term="query"
           />
-        </search-result-conversation-item>
+        </SearchResultConversationItem>
       </li>
     </ul>
-  </search-result-section>
+  </SearchResultSection>
 </template>

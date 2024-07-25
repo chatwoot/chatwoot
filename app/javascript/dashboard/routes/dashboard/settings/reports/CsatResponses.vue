@@ -108,7 +108,7 @@ export default {
 </script>
 <template>
   <div class="flex-1 p-4 overflow-auto">
-    <report-filter-selector
+    <ReportFilterSelector
       :show-agents-filter="true"
       :show-inbox-filter="true"
       :show-rating-filter="true"
@@ -124,7 +124,7 @@ export default {
     >
       {{ $t('CSAT_REPORTS.DOWNLOAD') }}
     </woot-button>
-    <csat-metrics :filters="requestPayload" />
-    <csat-table :page-index="pageIndex" @page-change="onPageNumberChange" />
+    <CsatMetrics :filters="requestPayload" />
+    <CsatTable :page-index="pageIndex" @page-change="onPageNumberChange" />
   </div>
 </template>

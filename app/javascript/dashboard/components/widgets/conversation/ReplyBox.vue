@@ -1081,7 +1081,7 @@ export default {
 
 <template>
   <div class="reply-box" :class="replyBoxClass">
-    <banner
+    <Banner
       v-if="showSelfAssignBanner"
       action-button-variant="clear"
       color-scheme="secondary"
@@ -1091,7 +1091,7 @@ export default {
       :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
       @click="onClickSelfAssign"
     />
-    <reply-top-panel
+    <ReplyTopPanel
       :mode="replyType"
       :set-reply-mode="setReplyMode"
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
@@ -1099,38 +1099,38 @@ export default {
       :popout-reply-box="popoutReplyBox"
       @click="$emit('click')"
     />
-    <article-search-popover
+    <ArticleSearchPopover
       v-if="showArticleSearchPopover && connectedPortalSlug"
       :selected-portal-slug="connectedPortalSlug"
       @insert="handleInsert"
       @close="onSearchPopoverClose"
     />
     <div class="reply-box__top">
-      <reply-to-message
+      <ReplyToMessage
         v-if="shouldShowReplyToMessage"
         :message="inReplyTo"
         @dismiss="resetReplyToMessage"
       />
-      <canned-response
+      <CannedResponse
         v-if="showMentions && hasSlashCommand"
         v-on-clickaway="hideMentions"
         class="normal-editor__canned-box"
         :search-key="mentionSearchKey"
         @click="replaceText"
       />
-      <emoji-input
+      <EmojiInput
         v-if="showEmojiPicker"
         v-on-clickaway="hideEmojiPicker"
         :class="emojiDialogClassOnExpandedLayoutAndRTLView"
         :on-click="addIntoEditor"
       />
-      <reply-email-head
+      <ReplyEmailHead
         v-if="showReplyHead"
         :cc-emails.sync="ccEmails"
         :bcc-emails.sync="bccEmails"
         :to-emails.sync="toEmails"
       />
-      <woot-audio-recorder
+      <WootAudioRecorder
         v-if="showAudioRecorderEditor"
         ref="audioRecorderInput"
         :audio-record-format="audioRecordFormat"
@@ -1138,7 +1138,7 @@ export default {
         @state-recorder-changed="onStateRecorderChanged"
         @finish-record="onFinishRecorder"
       />
-      <resizable-text-area
+      <ResizableTextArea
         v-else-if="!showRichContentEditor"
         ref="messageInput"
         v-model="message"
@@ -1153,7 +1153,7 @@ export default {
         @focus="onFocus"
         @blur="onBlur"
       />
-      <woot-message-editor
+      <WootMessageEditor
         v-else
         v-model="message"
         :editor-id="editorStateId"
@@ -1178,16 +1178,16 @@ export default {
       />
     </div>
     <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
-      <attachment-preview
+      <AttachmentPreview
         class="flex-col mt-4"
         :attachments="attachedFiles"
         @remove-attachment="removeAttachment"
       />
     </div>
-    <message-signature-missing-alert
+    <MessageSignatureMissingAlert
       v-if="isSignatureEnabledForInbox && !isSignatureAvailable"
     />
-    <reply-bottom-panel
+    <ReplyBottomPanel
       :conversation-id="conversationId"
       :enable-multiple-file-upload="enableMultipleFileUpload"
       :has-whatsapp-templates="hasWhatsappTemplates"
@@ -1216,7 +1216,7 @@ export default {
       @replace-text="replaceText"
       @toggle-insert-article="toggleInsertArticle"
     />
-    <whatsapp-templates
+    <WhatsappTemplates
       :inbox-id="inbox.id"
       :show="showWhatsAppTemplatesModal"
       @close="hideWhatsappTemplatesModal"

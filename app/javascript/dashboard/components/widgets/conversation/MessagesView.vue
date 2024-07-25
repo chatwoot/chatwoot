@@ -438,7 +438,7 @@ export default {
 
 <template>
   <div class="flex flex-col justify-between flex-grow h-full min-w-0 m-0">
-    <banner
+    <Banner
       v-if="!currentChat.can_reply"
       color-scheme="alert"
       :banner-message="replyWindowBannerMessage"
@@ -464,7 +464,7 @@ export default {
           <span v-if="shouldShowSpinner" class="spinner message" />
         </li>
       </transition>
-      <message
+      <Message
         v-for="message in getReadMessages"
         :key="message.id"
         class="message--read ph-no-capture"
@@ -489,7 +489,7 @@ export default {
           }}
         </span>
       </li>
-      <message
+      <Message
         v-for="message in getUnReadMessages"
         :key="message.id"
         class="message--unread ph-no-capture"
@@ -503,7 +503,7 @@ export default {
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :in-reply-to="getInReplyToMessage(message)"
       />
-      <conversation-label-suggestion
+      <ConversationLabelSuggestion
         v-if="shouldShowLabelSuggestions"
         :suggested-labels="labelSuggestions"
         :chat-labels="currentChat.labels"
@@ -529,7 +529,7 @@ export default {
           />
         </div>
       </div>
-      <reply-box
+      <ReplyBox
         :conversation-id="currentChat.id"
         :popout-reply-box.sync="isPopoutReplyBox"
         @click="showPopoutReplyBox"

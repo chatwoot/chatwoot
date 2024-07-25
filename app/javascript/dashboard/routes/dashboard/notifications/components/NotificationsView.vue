@@ -59,14 +59,14 @@ export default {
 <template>
   <div class="overflow-y-auto h-full">
     <div class="flex flex-col h-full">
-      <notification-table
+      <NotificationTable
         :notifications="records"
         :is-loading="uiFlags.isFetching"
         :is-updating="uiFlags.isUpdating"
         :on-click-notification="openConversation"
         :on-mark-all-done-click="onMarkAllDoneClick"
       />
-      <table-footer
+      <TableFooter
         class="border-t border-slate-75 dark:border-slate-700/50"
         :current-page="Number(meta.currentPage)"
         :total-count="meta.count"

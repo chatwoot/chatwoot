@@ -44,7 +44,7 @@ const onClick = () => {
         </button>
       </template>
     </woot-input>
-    <form-button
+    <FormButton
       type="submit"
       size="large"
       icon="text-copy"
@@ -53,6 +53,6 @@ const onClick = () => {
       @click="onClick"
     >
       {{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.COPY') }}
-    </form-button>
+    </FormButton>
   </div>
 </template>

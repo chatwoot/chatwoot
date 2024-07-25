@@ -350,7 +350,7 @@ export default {
   <div
     class="flex-grow flex-shrink w-full min-w-0 pl-0 pr-0 overflow-auto bg-white settings dark:bg-slate-800"
   >
-    <setting-intro-banner
+    <SettingIntroBanner
       :header-image="inbox.avatarUrl"
       :header-title="inboxName"
     >
@@ -367,13 +367,13 @@ export default {
           :show-badge="false"
         />
       </woot-tabs>
-    </setting-intro-banner>
+    </SettingIntroBanner>
 
-    <microsoft-reauthorize v-if="microsoftUnauthorized" :inbox="inbox" />
-    <facebook-reauthorize v-if="facebookUnauthorized" :inbox="inbox" />
+    <MicrosoftReauthorize v-if="microsoftUnauthorized" :inbox="inbox" />
+    <FacebookReauthorize v-if="facebookUnauthorized" :inbox="inbox" />
 
     <div v-if="selectedTabKey === 'inbox_settings'" class="mx-8">
-      <settings-section
+      <SettingsSection
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_UPDATE_TITLE')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_UPDATE_SUB_TEXT')"
         :show-border="false"
@@ -493,7 +493,7 @@ export default {
           </p>
         </label>
         <div v-if="greetingEnabled" class="pb-4">
-          <greetings-editor
+          <GreetingsEditor
             v-model.trim="greetingMessage"
             :label="
               $t(
@@ -682,15 +682,15 @@ export default {
             {{ $t('INBOX_MGMT.FEATURES.USE_INBOX_AVATAR_FOR_BOT') }}
           </label>
         </div>
-      </settings-section>
-      <settings-section
+      </SettingsSection>
+      <SettingsSection
         v-if="isAWebWidgetInbox || isAnEmailChannel"
         :title="$t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.TITLE')"
         :sub-title="$t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.SUB_TEXT')"
         :show-border="false"
       >
         <div class="w-3/4 pb-4">
-          <sender-name-example-preview
+          <SenderNameExamplePreview
             :sender-name-type="senderNameType"
             :business-name="businessName"
             @update="toggleSenderNameType"
@@ -729,8 +729,8 @@ export default {
             </div>
           </div>
         </div>
-      </settings-section>
-      <settings-section :show-border="false">
+      </SettingsSection>
+      <SettingsSection :show-border="false">
         <woot-submit-button
           v-if="isAPIInbox"
           type="submit"
@@ -747,26 +747,26 @@ export default {
           :loading="uiFlags.isUpdating"
           @click="updateInbox"
         />
-      </settings-section>
+      </SettingsSection>
     </div>
 
     <div v-if="selectedTabKey === 'collaborators'" class="mx-8">
-      <collaborators-page :inbox="inbox" />
+      <CollaboratorsPage :inbox="inbox" />
     </div>
     <div v-if="selectedTabKey === 'configuration'">
-      <configuration-page :inbox="inbox" />
+      <ConfigurationPage :inbox="inbox" />
     </div>
     <div v-if="selectedTabKey === 'preChatForm'">
-      <pre-chat-form-settings :inbox="inbox" />
+      <PreChatFormSettings :inbox="inbox" />
     </div>
     <div v-if="selectedTabKey === 'businesshours'">
-      <weekly-availability :inbox="inbox" />
+      <WeeklyAvailability :inbox="inbox" />
     </div>
     <div v-if="selectedTabKey === 'widgetBuilder'">
-      <widget-builder :inbox="inbox" />
+      <WidgetBuilder :inbox="inbox" />
     </div>
     <div v-if="selectedTabKey === 'botConfiguration'">
-      <bot-configuration :inbox="inbox" />
+      <BotConfiguration :inbox="inbox" />
     </div>
   </div>
 </template>

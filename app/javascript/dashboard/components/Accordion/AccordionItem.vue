@@ -37,7 +37,7 @@ export default {
       @click="$emit('click')"
     >
       <div class="flex justify-between mb-0.5">
-        <emoji-or-icon class="inline-block w-5" :icon="icon" :emoji="emoji" />
+        <EmojiOrIcon class="inline-block w-5" :icon="icon" :emoji="emoji" />
         <h5
           class="text-slate-800 text-sm dark:text-slate-100 mb-0 py-0 pr-2 pl-0"
         >

@@ -81,7 +81,7 @@ export default {
 </script>
 
 <template>
-  <modal :show.sync="show" :on-close="onClose">
+  <Modal :show.sync="show" :on-close="onClose">
     <div class="flex flex-col h-auto overflow-auto">
       <woot-modal-header
         :header-title="$t('CANNED_MGMT.ADD.TITLE')"
@@ -105,7 +105,7 @@ export default {
             {{ $t('CANNED_MGMT.ADD.FORM.CONTENT.LABEL') }}
           </label>
           <div class="editor-wrap">
-            <woot-message-editor
+            <WootMessageEditor
               v-model="content"
               class="message-editor [&>div]:px-1"
               :class="{ editor_warning: v$.content.$error }"
@@ -117,7 +117,7 @@ export default {
           </div>
         </div>
         <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-          <woot-submit-button
+          <WootSubmitButton
             :disabled="
               v$.content.$invalid ||
               v$.shortCode.$invalid ||
@@ -132,7 +132,7 @@ export default {
         </div>
       </form>
     </div>
-  </modal>
+  </Modal>
 </template>
 
 <style scoped lang="scss">

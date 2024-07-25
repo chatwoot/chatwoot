@@ -152,7 +152,7 @@ export default {
 <template>
   <div class="widget-preview-container">
     <div v-if="isWidgetVisible" class="screen-selector">
-      <input-radio-group
+      <InputRadioGroup
         name="widget-screen"
         :items="widgetScreens"
         :action="handleScreenChange"

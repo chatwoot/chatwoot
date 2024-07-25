@@ -54,7 +54,7 @@ export default {
         />
         <table v-else-if="agentBots.length" class="woot-table">
           <tbody>
-            <agent-bot-row
+            <AgentBotRow
               v-for="(agentBot, index) in agentBots"
               :key="agentBot.id"
               :agent-bot="agentBot"

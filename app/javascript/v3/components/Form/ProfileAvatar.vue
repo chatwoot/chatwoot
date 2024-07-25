@@ -56,7 +56,7 @@ const onAvatarDelete = () => {
       @load="onImageLoad"
       @error="onImageLoadError"
     />
-    <initials-avatar v-else-if="!shouldShowImage" :name="name" :size="72" />
+    <InitialsAvatar v-else-if="!shouldShowImage" :name="name" :size="72" />
 
     <input
       ref="fileInputRef"

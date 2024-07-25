@@ -74,7 +74,7 @@ export default {
   <div
     class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
   >
-    <empty-state
+    <EmptyState
       :title="$t('INBOX_MGMT.FINISH.TITLE')"
       :message="message"
       :button-text="$t('INBOX_MGMT.FINISH.BUTTON_TEXT')"
@@ -151,6 +151,6 @@ export default {
           </router-link>
         </div>
       </div>
-    </empty-state>
+    </EmptyState>
   </div>
 </template>

@@ -91,9 +91,9 @@ export default {
 </script>
 
 <template>
-  <woot-dropdown-menu>
-    <woot-dropdown-header :title="$t('SIDEBAR.SET_AVAILABILITY_TITLE')" />
-    <woot-dropdown-item
+  <WootDropdownMenu>
+    <WootDropdownHeader :title="$t('SIDEBAR.SET_AVAILABILITY_TITLE')" />
+    <WootDropdownItem
       v-for="status in availabilityStatuses"
       :key="status.value"
       class="flex items-baseline"
@@ -105,12 +105,12 @@ export default {
         class-names="status-change--dropdown-button"
         @click="changeAvailabilityStatus(status.value)"
       >
-        <availability-status-badge :status="status.value" />
+        <AvailabilityStatusBadge :status="status.value" />
         {{ status.label }}
       </woot-button>
-    </woot-dropdown-item>
-    <woot-dropdown-divider />
-    <woot-dropdown-item class="flex items-center justify-between p-2 m-0">
+    </WootDropdownItem>
+    <WootDropdownDivider />
+    <WootDropdownItem class="flex items-center justify-between p-2 m-0">
       <div class="flex items-center">
         <fluent-icon
           v-tooltip.right-start="$t('SIDEBAR.SET_AUTO_OFFLINE.INFO_TEXT')"
@@ -132,7 +132,7 @@ export default {
         :value="currentUserAutoOffline"
         @input="updateAutoOffline"
       />
-    </woot-dropdown-item>
-    <woot-dropdown-divider />
-  </woot-dropdown-menu>
+    </WootDropdownItem>
+    <WootDropdownDivider />
+  </WootDropdownMenu>
 </template>

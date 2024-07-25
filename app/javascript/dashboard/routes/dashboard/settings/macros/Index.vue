@@ -85,7 +85,7 @@ export default {
             </th>
           </thead>
           <tbody>
-            <macros-table-row
+            <MacrosTableRow
               v-for="(macro, index) in records"
               :key="index"
               :macro="macro"

@@ -40,7 +40,7 @@ export default {
   <div
     class="flex flex-col mb-2 p-4 border border-solid border-slate-75 dark:border-slate-700 overflow-hidden rounded-md flex-grow shadow-sm bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-100"
   >
-    <woot-message-editor
+    <WootMessageEditor
       v-model="noteContent"
       class="input--note"
       :placeholder="$t('NOTES.ADD.PLACEHOLDER')"

@@ -37,8 +37,8 @@ export default {
 
 <template>
   <div>
-    <add-note @add="onAddNote" />
-    <contact-note
+    <AddNote @add="onAddNote" />
+    <ContactNote
       v-for="note in notes"
       :id="note.id"
       :key="note.id"
@@ -50,7 +50,7 @@ export default {
     />
 
     <div v-if="isFetching" class="text-center p-4 text-base">
-      <spinner size="" />
+      <Spinner size="" />
       <span>{{ $t('NOTES.FETCHING_NOTES') }}</span>
     </div>
     <div v-else-if="!notes.length" class="text-center p-4 text-base">

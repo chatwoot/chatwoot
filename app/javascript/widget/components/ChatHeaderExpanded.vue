@@ -43,7 +43,7 @@ export default {
         :src="avatarUrl"
         alt="Avatar"
       />
-      <header-actions
+      <HeaderActions
         :show-popout-button="showPopoutButton"
         :show-end-conversation-button="false"
       />

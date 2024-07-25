@@ -162,7 +162,7 @@ export default {
             class="answer--text-input"
             placeholder="Enter url"
           />
-          <automation-action-file-input
+          <AutomationActionFileInput
             v-if="inputType === 'attachment'"
             v-model="action_params"
             :initial-file-name="initialFileName"
@@ -177,12 +177,12 @@ export default {
         @click="removeAction"
       />
     </div>
-    <automation-action-team-message-input
+    <AutomationActionTeamMessageInput
       v-if="inputType === 'team_message'"
       v-model="action_params"
       :teams="dropdownValues"
     />
-    <woot-message-editor
+    <WootMessageEditor
       v-if="inputType === 'textarea'"
       v-model="castMessageVmodel"
       rows="4"

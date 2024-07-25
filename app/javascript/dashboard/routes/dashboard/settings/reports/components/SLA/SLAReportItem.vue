@@ -36,7 +36,7 @@ defineProps({
       <span class="text-slate-700 dark:text-slate-200 capitalize truncate">{{
         conversation.contact.name
       }}</span>
-      <card-labels
+      <CardLabels
         class="w-[80%]"
         :conversation-id="conversationId"
         :conversation-labels="conversation.labels"
@@ -48,7 +48,7 @@ defineProps({
       {{ slaName }}
     </div>
     <div class="flex items-center gap-2 col-span-2">
-      <user-avatar-with-name
+      <UserAvatarWithName
         v-if="conversation.assignee"
         :user="conversation.assignee"
       />

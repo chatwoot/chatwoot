@@ -94,8 +94,8 @@ export default {
         :color-scheme="colorScheme"
         class="mr-3 text-xs"
       />
-      <inbox-name :inbox="campaign.inbox" class="mb-1 ltr:ml-0 rtl:mr-0" />
-      <user-avatar-with-name
+      <InboxName :inbox="campaign.inbox" class="mb-1 ltr:ml-0 rtl:mr-0" />
+      <UserAvatarWithName
         v-if="campaign.sender"
         :user="campaign.sender"
         class="mb-1"

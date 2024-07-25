@@ -125,7 +125,7 @@ export default {
           class="inline-flex ml-1 rtl:ml-0 rtl:mr-1 items-center text-slate-800 dark:text-slate-100"
         >
           {{ selectedValue }}
-          <Fluent-icon class="dropdown-arrow" icon="chevron-down" size="14" />
+          <FluentIcon class="dropdown-arrow" icon="chevron-down" size="14" />
         </span>
       </woot-button>
       <div
@@ -133,8 +133,8 @@ export default {
         v-on-clickaway="closeDropdown"
         class="dropdown-pane dropdown-pane--open"
       >
-        <woot-dropdown-menu>
-          <woot-dropdown-item>
+        <WootDropdownMenu>
+          <WootDropdownItem>
             <woot-button
               variant="clear"
               color-scheme="secondary"
@@ -143,8 +143,8 @@ export default {
             >
               {{ $t('HELP_CENTER.HEADER.DROPDOWN_OPTIONS.PUBLISHED') }}
             </woot-button>
-          </woot-dropdown-item>
-          <woot-dropdown-item>
+          </WootDropdownItem>
+          <WootDropdownItem>
             <woot-button
               variant="clear"
               color-scheme="secondary"
@@ -153,8 +153,8 @@ export default {
             >
               {{ $t('HELP_CENTER.HEADER.DROPDOWN_OPTIONS.DRAFT') }}
             </woot-button>
-          </woot-dropdown-item>
-          <woot-dropdown-item>
+          </WootDropdownItem>
+          <WootDropdownItem>
             <woot-button
               variant="clear"
               color-scheme="secondary"
@@ -163,8 +163,8 @@ export default {
             >
               {{ $t('HELP_CENTER.HEADER.DROPDOWN_OPTIONS.ARCHIVED') }}
             </woot-button>
-          </woot-dropdown-item>
-        </woot-dropdown-menu>
+          </WootDropdownItem>
+        </WootDropdownMenu>
       </div>
       <woot-button
         v-if="shouldShowSettings"
@@ -188,7 +188,7 @@ export default {
               class="inline-flex ml-1 rtl:ml-0 rtl:mr-1 items-center text-slate-800 dark:text-slate-100"
             >
               {{ selectedLocale }}
-              <Fluent-icon
+              <FluentIcon
                 class="dropdown-arrow"
                 icon="chevron-down"
                 size="14"
@@ -201,7 +201,7 @@ export default {
           v-on-clickaway="closeLocaleDropdown"
           class="dropdown-pane dropdown-pane--open"
         >
-          <multiselect-dropdown-items
+          <MultiselectDropdownItems
             :options="switchableLocales"
             :has-thumbnail="false"
             :selected-items="[selectedLocale]"

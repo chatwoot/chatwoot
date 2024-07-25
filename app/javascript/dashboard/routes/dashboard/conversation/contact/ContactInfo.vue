@@ -171,7 +171,7 @@ export default {
   <div class="relative items-center w-full p-4 bg-white dark:bg-slate-900">
     <div class="flex flex-col w-full gap-2 text-left rtl:text-right">
       <div class="flex flex-row justify-between">
-        <thumbnail
+        <Thumbnail
           v-if="showAvatar"
           :src="contact.thumbnail"
           size="56px"
@@ -225,7 +225,7 @@ export default {
           {{ additionalAttributes.description }}
         </p>
         <div class="flex flex-col items-start w-full gap-2">
-          <contact-info-row
+          <ContactInfoRow
             :href="contact.email ? `mailto:${contact.email}` : ''"
             :value="contact.email"
             icon="mail"
@@ -233,7 +233,7 @@ export default {
             :title="$t('CONTACT_PANEL.EMAIL_ADDRESS')"
             show-copy
           />
-          <contact-info-row
+          <ContactInfoRow
             :href="contact.phone_number ? `tel:${contact.phone_number}` : ''"
             :value="contact.phone_number"
             icon="call"
@@ -241,27 +241,27 @@ export default {
             :title="$t('CONTACT_PANEL.PHONE_NUMBER')"
             show-copy
           />
-          <contact-info-row
+          <ContactInfoRow
             v-if="contact.identifier"
             :value="contact.identifier"
             icon="contact-identify"
             emoji="🪪"
             :title="$t('CONTACT_PANEL.IDENTIFIER')"
           />
-          <contact-info-row
+          <ContactInfoRow
             :value="additionalAttributes.company_name"
             icon="building-bank"
             emoji="🏢"
             :title="$t('CONTACT_PANEL.COMPANY')"
           />
-          <contact-info-row
+          <ContactInfoRow
             v-if="location || additionalAttributes.location"
             :value="location || additionalAttributes.location"
             icon="map"
             emoji="🌍"
             :title="$t('CONTACT_PANEL.LOCATION')"
           />
-          <social-icons :social-profiles="socialProfiles" />
+          <SocialIcons :social-profiles="socialProfiles" />
         </div>
       </div>
       <div class="flex items-center w-full mt-0.5 gap-2">
@@ -302,19 +302,19 @@ export default {
           @click="toggleDeleteModal"
         />
       </div>
-      <edit-contact
+      <EditContact
         v-if="showEditModal"
         :show="showEditModal"
         :contact="contact"
         @cancel="toggleEditModal"
       />
-      <new-conversation
+      <NewConversation
         v-if="contact.id"
         :show="showConversationModal"
         :contact="contact"
         @cancel="toggleConversationModal"
       />
-      <contact-merge-modal
+      <ContactMergeModal
         v-if="showMergeModal"
         :primary-contact="contact"
         :show="showMergeModal"

@@ -128,7 +128,7 @@ export default {
 </script>
 <template>
   <div class="csat--table-container">
-    <ve-table
+    <VeTable
       max-height="calc(100vh - 21.875rem)"
       :fixed-header="true"
       :border-around="true"
@@ -139,7 +139,7 @@ export default {
       {{ $t('CSAT_REPORTS.NO_RECORDS') }}
     </div>
     <div v-if="metrics.totalResponseCount" class="table-pagination">
-      <ve-pagination
+      <VePagination
         :total="metrics.totalResponseCount"
         :page-index="pageIndex"
         :page-size="25"

@@ -34,7 +34,7 @@ export default {
       {{ title }}
     </button>
     <span class="pl-1 arrow">
-      <fluent-icon icon="arrow-right" size="14" />
+      <FluentIcon icon="arrow-right" size="14" />
     </span>
   </li>
 </template>
