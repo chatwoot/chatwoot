@@ -1,3 +1,29 @@
+<script>
+import { mapGetters } from 'vuex';
+
+export default {
+  data() {
+    return { showSwitchButton: false };
+  },
+  computed: {
+    ...mapGetters({
+      account: 'getCurrentAccount',
+      userAccounts: 'getUserAccounts',
+    }),
+    showShowCurrentAccountContext() {
+      return this.userAccounts.length > 1 && this.account.name;
+    },
+  },
+  methods: {
+    setShowSwitch() {
+      this.showSwitchButton = true;
+    },
+    resetShowSwitch() {
+      this.showSwitchButton = false;
+    },
+  },
+};
+</script>
 <template>
   <div
     v-if="showShowCurrentAccountContext"
@@ -30,32 +56,6 @@
     </transition>
   </div>
 </template>
-<script>
-import { mapGetters } from 'vuex';
-
-export default {
-  data() {
-    return { showSwitchButton: false };
-  },
-  computed: {
-    ...mapGetters({
-      account: 'getCurrentAccount',
-      userAccounts: 'getUserAccounts',
-    }),
-    showShowCurrentAccountContext() {
-      return this.userAccounts.length > 1 && this.account.name;
-    },
-  },
-  methods: {
-    setShowSwitch() {
-      this.showSwitchButton = true;
-    },
-    resetShowSwitch() {
-      this.showSwitchButton = false;
-    },
-  },
-};
-</script>
 <style scoped>
 @tailwind components;
 @layer components {

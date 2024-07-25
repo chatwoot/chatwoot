@@ -1,3 +1,29 @@
+<script>
+import TestimonialCard from './TestimonialCard.vue';
+import { getTestimonialContent } from '../../../../../api/testimonials';
+export default {
+  components: { TestimonialCard },
+  data() {
+    return { testimonials: [] };
+  },
+  beforeMount() {
+    this.fetchTestimonials();
+  },
+  methods: {
+    async fetchTestimonials() {
+      try {
+        const { data } = await getTestimonialContent();
+        this.testimonials = data;
+      } catch (error) {
+        // Ignoring the error as the UI wouldn't break
+      } finally {
+        this.$emit('resize-containers', !!this.testimonials.length);
+      }
+    },
+  },
+};
+</script>
+
 <template>
   <div
     v-if="testimonials.length"
@@ -30,32 +56,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import TestimonialCard from './TestimonialCard.vue';
-import { getTestimonialContent } from '../../../../../api/testimonials';
-export default {
-  components: { TestimonialCard },
-  data() {
-    return { testimonials: [] };
-  },
-  beforeMount() {
-    this.fetchTestimonials();
-  },
-  methods: {
-    async fetchTestimonials() {
-      try {
-        const { data } = await getTestimonialContent();
-        this.testimonials = data;
-      } catch (error) {
-        // Ignoring the error as the UI wouldn't break
-      } finally {
-        this.$emit('resize-containers', !!this.testimonials.length);
-      }
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .center--img {

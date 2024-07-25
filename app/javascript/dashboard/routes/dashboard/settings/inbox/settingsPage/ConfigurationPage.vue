@@ -1,3 +1,90 @@
+<script>
+import { useAlert } from 'dashboard/composables';
+import inboxMixin from 'shared/mixins/inboxMixin';
+import SettingsSection from '../../../../../components/SettingsSection.vue';
+import ImapSettings from '../ImapSettings.vue';
+import SmtpSettings from '../SmtpSettings.vue';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+
+export default {
+  components: {
+    SettingsSection,
+    ImapSettings,
+    SmtpSettings,
+  },
+  mixins: [inboxMixin],
+  props: {
+    inbox: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+  setup() {
+    return { v$: useVuelidate() };
+  },
+  data() {
+    return {
+      hmacMandatory: false,
+      whatsAppInboxAPIKey: '',
+    };
+  },
+  validations: {
+    whatsAppInboxAPIKey: { required },
+  },
+  watch: {
+    inbox() {
+      this.setDefaults();
+    },
+  },
+  mounted() {
+    this.setDefaults();
+  },
+  methods: {
+    setDefaults() {
+      this.hmacMandatory = this.inbox.hmac_mandatory || false;
+    },
+    handleHmacFlag() {
+      this.updateInbox();
+    },
+    async updateInbox() {
+      try {
+        const payload = {
+          id: this.inbox.id,
+          formData: false,
+          channel: {
+            hmac_mandatory: this.hmacMandatory,
+          },
+        };
+        await this.$store.dispatch('inboxes/updateInbox', payload);
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+      } catch (error) {
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+      }
+    },
+    async updateWhatsAppInboxAPIKey() {
+      try {
+        const payload = {
+          id: this.inbox.id,
+          formData: false,
+          channel: {},
+        };
+
+        payload.channel.provider_config = {
+          ...this.inbox.provider_config,
+          api_key: this.whatsAppInboxAPIKey,
+        };
+
+        await this.$store.dispatch('inboxes/updateInbox', payload);
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+      } catch (error) {
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+      }
+    },
+  },
+};
+</script>
+
 <template>
   <div v-if="isATwilioChannel" class="mx-8">
     <settings-section
@@ -149,93 +236,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import { useAlert } from 'dashboard/composables';
-import inboxMixin from 'shared/mixins/inboxMixin';
-import SettingsSection from '../../../../../components/SettingsSection.vue';
-import ImapSettings from '../ImapSettings.vue';
-import SmtpSettings from '../SmtpSettings.vue';
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
-
-export default {
-  components: {
-    SettingsSection,
-    ImapSettings,
-    SmtpSettings,
-  },
-  mixins: [inboxMixin],
-  props: {
-    inbox: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
-  setup() {
-    return { v$: useVuelidate() };
-  },
-  data() {
-    return {
-      hmacMandatory: false,
-      whatsAppInboxAPIKey: '',
-    };
-  },
-  validations: {
-    whatsAppInboxAPIKey: { required },
-  },
-  watch: {
-    inbox() {
-      this.setDefaults();
-    },
-  },
-  mounted() {
-    this.setDefaults();
-  },
-  methods: {
-    setDefaults() {
-      this.hmacMandatory = this.inbox.hmac_mandatory || false;
-    },
-    handleHmacFlag() {
-      this.updateInbox();
-    },
-    async updateInbox() {
-      try {
-        const payload = {
-          id: this.inbox.id,
-          formData: false,
-          channel: {
-            hmac_mandatory: this.hmacMandatory,
-          },
-        };
-        await this.$store.dispatch('inboxes/updateInbox', payload);
-        useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
-      } catch (error) {
-        useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
-      }
-    },
-    async updateWhatsAppInboxAPIKey() {
-      try {
-        const payload = {
-          id: this.inbox.id,
-          formData: false,
-          channel: {},
-        };
-
-        payload.channel.provider_config = {
-          ...this.inbox.provider_config,
-          api_key: this.whatsAppInboxAPIKey,
-        };
-
-        await this.$store.dispatch('inboxes/updateInbox', payload);
-        useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
-      } catch (error) {
-        useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
-      }
-    },
-  },
-};
-</script>
 <style lang="scss" scoped>
 .whatsapp-settings--content {
   ::v-deep input {

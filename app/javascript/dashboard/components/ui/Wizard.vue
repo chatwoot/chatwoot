@@ -1,3 +1,35 @@
+<script>
+/* eslint no-console: 0 */
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+
+export default {
+  mixins: [globalConfigMixin],
+  props: {
+    isFullwidth: Boolean,
+    items: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  computed: {
+    classObject() {
+      return 'w-full';
+    },
+    activeIndex() {
+      return this.items.findIndex(i => i.route === this.$route.name);
+    },
+  },
+  methods: {
+    isActive(item) {
+      return this.items.indexOf(item) === this.activeIndex;
+    },
+    isOver(item) {
+      return this.items.indexOf(item) < this.activeIndex;
+    },
+  },
+};
+</script>
+
 <template>
   <transition-group
     name="wizard-items"
@@ -33,38 +65,6 @@
     </div>
   </transition-group>
 </template>
-
-<script>
-/* eslint no-console: 0 */
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-
-export default {
-  mixins: [globalConfigMixin],
-  props: {
-    isFullwidth: Boolean,
-    items: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  computed: {
-    classObject() {
-      return 'w-full';
-    },
-    activeIndex() {
-      return this.items.findIndex(i => i.route === this.$route.name);
-    },
-  },
-  methods: {
-    isActive(item) {
-      return this.items.indexOf(item) === this.activeIndex;
-    },
-    isOver(item) {
-      return this.items.indexOf(item) < this.activeIndex;
-    },
-  },
-};
-</script>
 <style lang="scss" scoped>
 .wizard-box {
   .item {

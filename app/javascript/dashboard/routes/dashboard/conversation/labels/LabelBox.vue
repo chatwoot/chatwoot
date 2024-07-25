@@ -1,48 +1,3 @@
-<template>
-  <div class="sidebar-labels-wrap">
-    <div
-      v-if="!conversationUiFlags.isFetching"
-      class="contact-conversation--list"
-    >
-      <div
-        v-on-clickaway="closeDropdownLabel"
-        class="label-wrap"
-        @keyup.esc="closeDropdownLabel"
-      >
-        <add-label @add="toggleLabels" />
-        <woot-label
-          v-for="label in activeLabels"
-          :key="label.id"
-          :title="label.title"
-          :description="label.description"
-          :show-close="true"
-          :color="label.color"
-          variant="smooth"
-          class="max-w-[calc(100%-0.5rem)]"
-          @click="removeLabelFromConversation"
-        />
-
-        <div class="dropdown-wrap">
-          <div
-            :class="{ 'dropdown-pane--open': showSearchDropdownLabel }"
-            class="dropdown-pane"
-          >
-            <label-dropdown
-              v-if="showSearchDropdownLabel"
-              :account-labels="accountLabels"
-              :selected-labels="savedLabels"
-              :allow-creation="isAdmin"
-              @add="addLabelToConversation"
-              @remove="removeLabelFromConversation"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-    <spinner v-else />
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import { useAdmin } from 'dashboard/composables/useAdmin';
@@ -113,6 +68,51 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="sidebar-labels-wrap">
+    <div
+      v-if="!conversationUiFlags.isFetching"
+      class="contact-conversation--list"
+    >
+      <div
+        v-on-clickaway="closeDropdownLabel"
+        class="label-wrap"
+        @keyup.esc="closeDropdownLabel"
+      >
+        <add-label @add="toggleLabels" />
+        <woot-label
+          v-for="label in activeLabels"
+          :key="label.id"
+          :title="label.title"
+          :description="label.description"
+          :show-close="true"
+          :color="label.color"
+          variant="smooth"
+          class="max-w-[calc(100%-0.5rem)]"
+          @click="removeLabelFromConversation"
+        />
+
+        <div class="dropdown-wrap">
+          <div
+            :class="{ 'dropdown-pane--open': showSearchDropdownLabel }"
+            class="dropdown-pane"
+          >
+            <label-dropdown
+              v-if="showSearchDropdownLabel"
+              :account-labels="accountLabels"
+              :selected-labels="savedLabels"
+              :allow-creation="isAdmin"
+              @add="addLabelToConversation"
+              @remove="removeLabelFromConversation"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <spinner v-else />
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .sidebar-labels-wrap {

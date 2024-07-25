@@ -1,3 +1,95 @@
+<script>
+import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
+import { useAdmin } from 'dashboard/composables/useAdmin';
+import Settings from './Settings.vue';
+import accountMixin from '../../../../mixins/account';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+
+export default {
+  components: {
+    Settings,
+  },
+  mixins: [accountMixin, globalConfigMixin],
+  setup() {
+    const { isAdmin } = useAdmin();
+    return {
+      isAdmin,
+    };
+  },
+  data() {
+    return {
+      loading: {},
+      showSettings: false,
+      showDeletePopup: false,
+      selectedInbox: {},
+    };
+  },
+  computed: {
+    ...mapGetters({
+      inboxesList: 'inboxes/getInboxes',
+      globalConfig: 'globalConfig/get',
+    }),
+    // Delete Modal
+    deleteConfirmText() {
+      return `${this.$t('INBOX_MGMT.DELETE.CONFIRM.YES')} ${
+        this.selectedInbox.name
+      }`;
+    },
+    deleteRejectText() {
+      return `${this.$t('INBOX_MGMT.DELETE.CONFIRM.NO')} ${
+        this.selectedInbox.name
+      }`;
+    },
+    confirmDeleteMessage() {
+      return `${this.$t('INBOX_MGMT.DELETE.CONFIRM.MESSAGE')} ${
+        this.selectedInbox.name
+      }?`;
+    },
+    confirmPlaceHolderText() {
+      return `${this.$t('INBOX_MGMT.DELETE.CONFIRM.PLACE_HOLDER', {
+        inboxName: this.selectedInbox.name,
+      })}`;
+    },
+  },
+  methods: {
+    twilioChannelName(item) {
+      const { medium = '' } = item;
+      if (medium === 'whatsapp') return 'WhatsApp';
+      return 'Twilio SMS';
+    },
+    openSettings(inbox) {
+      this.showSettings = true;
+      this.selectedInbox = inbox;
+    },
+    closeSettings() {
+      this.showSettings = false;
+      this.selectedInbox = {};
+    },
+    async deleteInbox({ id }) {
+      try {
+        await this.$store.dispatch('inboxes/delete', id);
+        useAlert(this.$t('INBOX_MGMT.DELETE.API.SUCCESS_MESSAGE'));
+      } catch (error) {
+        useAlert(this.$t('INBOX_MGMT.DELETE.API.ERROR_MESSAGE'));
+      }
+    },
+
+    confirmDeletion() {
+      this.deleteInbox(this.selectedInbox);
+      this.closeDelete();
+    },
+    openDelete(inbox) {
+      this.showDeletePopup = true;
+      this.selectedInbox = inbox;
+    },
+    closeDelete() {
+      this.showDeletePopup = false;
+      this.selectedInbox = {};
+    },
+  },
+};
+</script>
 <template>
   <div class="flex-1 overflow-auto">
     <div class="flex flex-row gap-4 p-8">
@@ -130,95 +222,3 @@
     />
   </div>
 </template>
-<script>
-import { mapGetters } from 'vuex';
-import { useAlert } from 'dashboard/composables';
-import { useAdmin } from 'dashboard/composables/useAdmin';
-import Settings from './Settings.vue';
-import accountMixin from '../../../../mixins/account';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-
-export default {
-  components: {
-    Settings,
-  },
-  mixins: [accountMixin, globalConfigMixin],
-  setup() {
-    const { isAdmin } = useAdmin();
-    return {
-      isAdmin,
-    };
-  },
-  data() {
-    return {
-      loading: {},
-      showSettings: false,
-      showDeletePopup: false,
-      selectedInbox: {},
-    };
-  },
-  computed: {
-    ...mapGetters({
-      inboxesList: 'inboxes/getInboxes',
-      globalConfig: 'globalConfig/get',
-    }),
-    // Delete Modal
-    deleteConfirmText() {
-      return `${this.$t('INBOX_MGMT.DELETE.CONFIRM.YES')} ${
-        this.selectedInbox.name
-      }`;
-    },
-    deleteRejectText() {
-      return `${this.$t('INBOX_MGMT.DELETE.CONFIRM.NO')} ${
-        this.selectedInbox.name
-      }`;
-    },
-    confirmDeleteMessage() {
-      return `${this.$t('INBOX_MGMT.DELETE.CONFIRM.MESSAGE')} ${
-        this.selectedInbox.name
-      }?`;
-    },
-    confirmPlaceHolderText() {
-      return `${this.$t('INBOX_MGMT.DELETE.CONFIRM.PLACE_HOLDER', {
-        inboxName: this.selectedInbox.name,
-      })}`;
-    },
-  },
-  methods: {
-    twilioChannelName(item) {
-      const { medium = '' } = item;
-      if (medium === 'whatsapp') return 'WhatsApp';
-      return 'Twilio SMS';
-    },
-    openSettings(inbox) {
-      this.showSettings = true;
-      this.selectedInbox = inbox;
-    },
-    closeSettings() {
-      this.showSettings = false;
-      this.selectedInbox = {};
-    },
-    async deleteInbox({ id }) {
-      try {
-        await this.$store.dispatch('inboxes/delete', id);
-        useAlert(this.$t('INBOX_MGMT.DELETE.API.SUCCESS_MESSAGE'));
-      } catch (error) {
-        useAlert(this.$t('INBOX_MGMT.DELETE.API.ERROR_MESSAGE'));
-      }
-    },
-
-    confirmDeletion() {
-      this.deleteInbox(this.selectedInbox);
-      this.closeDelete();
-    },
-    openDelete(inbox) {
-      this.showDeletePopup = true;
-      this.selectedInbox = inbox;
-    },
-    closeDelete() {
-      this.showDeletePopup = false;
-      this.selectedInbox = {};
-    },
-  },
-};
-</script>

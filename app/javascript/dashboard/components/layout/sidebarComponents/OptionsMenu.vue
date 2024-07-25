@@ -1,3 +1,60 @@
+<script>
+import { mapGetters } from 'vuex';
+import Auth from '../../../api/auth';
+import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
+import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import AvailabilityStatus from 'dashboard/components/layout/AvailabilityStatus.vue';
+
+export default {
+  components: {
+    WootDropdownMenu,
+    WootDropdownItem,
+    AvailabilityStatus,
+  },
+  props: {
+    show: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    ...mapGetters({
+      currentUser: 'getCurrentUser',
+      globalConfig: 'globalConfig/get',
+      accountId: 'getCurrentAccountId',
+    }),
+    showChangeAccountOption() {
+      if (this.globalConfig.createNewAccountFromDashboard) {
+        return true;
+      }
+
+      const { accounts = [] } = this.currentUser;
+      return accounts.length > 1;
+    },
+  },
+  methods: {
+    handleProfileSettingClick(e, navigate) {
+      this.$emit('close');
+      navigate(e);
+    },
+    handleKeyboardHelpClick() {
+      this.$emit('key-shortcut-modal');
+      this.$emit('close');
+    },
+    logout() {
+      Auth.logout();
+    },
+    onClickAway() {
+      if (this.show) this.$emit('close');
+    },
+    openAppearanceOptions() {
+      const ninja = document.querySelector('ninja-keys');
+      ninja.open({ parent: 'appearance_settings' });
+    },
+  },
+};
+</script>
+
 <template>
   <transition name="menu-slide">
     <div
@@ -104,60 +161,3 @@
     </div>
   </transition>
 </template>
-
-<script>
-import { mapGetters } from 'vuex';
-import Auth from '../../../api/auth';
-import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
-import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
-import AvailabilityStatus from 'dashboard/components/layout/AvailabilityStatus.vue';
-
-export default {
-  components: {
-    WootDropdownMenu,
-    WootDropdownItem,
-    AvailabilityStatus,
-  },
-  props: {
-    show: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  computed: {
-    ...mapGetters({
-      currentUser: 'getCurrentUser',
-      globalConfig: 'globalConfig/get',
-      accountId: 'getCurrentAccountId',
-    }),
-    showChangeAccountOption() {
-      if (this.globalConfig.createNewAccountFromDashboard) {
-        return true;
-      }
-
-      const { accounts = [] } = this.currentUser;
-      return accounts.length > 1;
-    },
-  },
-  methods: {
-    handleProfileSettingClick(e, navigate) {
-      this.$emit('close');
-      navigate(e);
-    },
-    handleKeyboardHelpClick() {
-      this.$emit('key-shortcut-modal');
-      this.$emit('close');
-    },
-    logout() {
-      Auth.logout();
-    },
-    onClickAway() {
-      if (this.show) this.$emit('close');
-    },
-    openAppearanceOptions() {
-      const ninja = document.querySelector('ninja-keys');
-      ninja.open({ parent: 'appearance_settings' });
-    },
-  },
-};
-</script>

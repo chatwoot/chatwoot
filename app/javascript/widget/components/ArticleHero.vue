@@ -1,12 +1,3 @@
-<template>
-  <category-card
-    :title="$t('PORTAL.POPULAR_ARTICLES')"
-    :articles="articles.slice(0, 6)"
-    @view-all="$emit('view-all')"
-    @view="onArticleClick"
-  />
-</template>
-
 <script>
 import CategoryCard from './ArticleCategoryCard.vue';
 export default {
@@ -28,5 +19,14 @@ export default {
   },
 };
 </script>
+
+<template>
+  <category-card
+    :title="$t('PORTAL.POPULAR_ARTICLES')"
+    :articles="articles.slice(0, 6)"
+    @view-all="$emit('view-all')"
+    @view="onArticleClick"
+  />
+</template>
 
 <style></style>

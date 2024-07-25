@@ -1,33 +1,3 @@
-<template>
-  <woot-modal :show.sync="show" :on-close="onClose">
-    <woot-modal-header :header-title="$t('FILTER.CUSTOM_VIEWS.ADD.TITLE')" />
-    <form class="w-full" @submit.prevent="saveCustomViews">
-      <div class="w-full">
-        <woot-input
-          v-model="name"
-          :label="$t('FILTER.CUSTOM_VIEWS.ADD.LABEL')"
-          type="text"
-          :error="
-            v$.name.$error ? $t('FILTER.CUSTOM_VIEWS.ADD.ERROR_MESSAGE') : ''
-          "
-          :class="{ error: v$.name.$error }"
-          :placeholder="$t('FILTER.CUSTOM_VIEWS.ADD.PLACEHOLDER')"
-          @blur="v$.name.$touch"
-        />
-
-        <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
-          <woot-button :disabled="isButtonDisabled">
-            {{ $t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON') }}
-          </woot-button>
-          <woot-button variant="clear" @click.prevent="onClose">
-            {{ $t('FILTER.CUSTOM_VIEWS.ADD.CANCEL_BUTTON') }}
-          </woot-button>
-        </div>
-      </div>
-    </form>
-  </woot-modal>
-</template>
-
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
@@ -110,3 +80,33 @@ export default {
   },
 };
 </script>
+
+<template>
+  <woot-modal :show.sync="show" :on-close="onClose">
+    <woot-modal-header :header-title="$t('FILTER.CUSTOM_VIEWS.ADD.TITLE')" />
+    <form class="w-full" @submit.prevent="saveCustomViews">
+      <div class="w-full">
+        <woot-input
+          v-model="name"
+          :label="$t('FILTER.CUSTOM_VIEWS.ADD.LABEL')"
+          type="text"
+          :error="
+            v$.name.$error ? $t('FILTER.CUSTOM_VIEWS.ADD.ERROR_MESSAGE') : ''
+          "
+          :class="{ error: v$.name.$error }"
+          :placeholder="$t('FILTER.CUSTOM_VIEWS.ADD.PLACEHOLDER')"
+          @blur="v$.name.$touch"
+        />
+
+        <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+          <woot-button :disabled="isButtonDisabled">
+            {{ $t('FILTER.CUSTOM_VIEWS.ADD.SAVE_BUTTON') }}
+          </woot-button>
+          <woot-button variant="clear" @click.prevent="onClose">
+            {{ $t('FILTER.CUSTOM_VIEWS.ADD.CANCEL_BUTTON') }}
+          </woot-button>
+        </div>
+      </div>
+    </form>
+  </woot-modal>
+</template>

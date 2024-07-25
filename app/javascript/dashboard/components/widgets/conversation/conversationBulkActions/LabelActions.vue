@@ -1,3 +1,35 @@
+<script>
+import { mapGetters } from 'vuex';
+
+export default {
+  data() {
+    return {
+      query: '',
+      selectedLabels: [],
+    };
+  },
+  computed: {
+    ...mapGetters({ labels: 'labels/getLabels' }),
+    filteredLabels() {
+      return this.labels.filter(label =>
+        label.title.toLowerCase().includes(this.query.toLowerCase())
+      );
+    },
+  },
+  methods: {
+    isLabelSelected(label) {
+      return this.selectedLabels.includes(label);
+    },
+    assignLabels(key) {
+      this.$emit('update', key);
+    },
+    onClose() {
+      this.$emit('close');
+    },
+  },
+};
+</script>
+
 <template>
   <div v-on-clickaway="onClose" class="labels-container">
     <div class="triangle">
@@ -72,38 +104,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import { mapGetters } from 'vuex';
-
-export default {
-  data() {
-    return {
-      query: '',
-      selectedLabels: [],
-    };
-  },
-  computed: {
-    ...mapGetters({ labels: 'labels/getLabels' }),
-    filteredLabels() {
-      return this.labels.filter(label =>
-        label.title.toLowerCase().includes(this.query.toLowerCase())
-      );
-    },
-  },
-  methods: {
-    isLabelSelected(label) {
-      return this.selectedLabels.includes(label);
-    },
-    assignLabels(key) {
-      this.$emit('update', key);
-    },
-    onClose() {
-      this.$emit('close');
-    },
-  },
-};
-</script>
 
 <style scoped lang="scss">
 .labels-list {

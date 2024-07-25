@@ -1,3 +1,90 @@
+<script>
+import { mapGetters } from 'vuex';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Spinner from 'shared/components/Spinner.vue';
+
+export default {
+  components: {
+    Thumbnail,
+    Spinner,
+  },
+  props: {
+    selectedInboxes: {
+      type: Array,
+      default: () => [],
+    },
+    conversationCount: {
+      type: Number,
+      default: 0,
+    },
+  },
+  data() {
+    return {
+      query: '',
+      selectedAgent: null,
+      goBackToAgentList: false,
+    };
+  },
+  computed: {
+    ...mapGetters({
+      uiFlags: 'bulkActions/getUIFlags',
+      inboxes: 'inboxes/getInboxes',
+      assignableAgentsUiFlags: 'inboxAssignableAgents/getUIFlags',
+    }),
+    filteredAgents() {
+      if (this.query) {
+        return this.assignableAgents.filter(agent =>
+          agent.name.toLowerCase().includes(this.query.toLowerCase())
+        );
+      }
+      return [
+        {
+          confirmed: true,
+          name: 'None',
+          id: null,
+          role: 'agent',
+          account_id: 0,
+          email: 'None',
+        },
+        ...this.assignableAgents,
+      ];
+    },
+    assignableAgents() {
+      return this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
+        this.selectedInboxes.join(',')
+      );
+    },
+    conversationLabel() {
+      return this.conversationCount > 1 ? 'conversations' : 'conversation';
+    },
+  },
+  mounted() {
+    this.$store.dispatch('inboxAssignableAgents/fetch', this.selectedInboxes);
+  },
+  methods: {
+    submit() {
+      this.$emit('select', this.selectedAgent);
+    },
+    goBack() {
+      this.goBackToAgentList = true;
+      this.selectedAgent = null;
+    },
+    assignAgent(agent) {
+      this.selectedAgent = agent;
+    },
+    onClose() {
+      this.$emit('close');
+    },
+    onCloseAgentList() {
+      if (this.selectedAgent === null && !this.goBackToAgentList) {
+        this.onClose();
+      }
+      this.goBackToAgentList = false;
+    },
+  },
+};
+</script>
+
 <template>
   <div v-on-clickaway="onCloseAgentList" class="bulk-action__agents">
     <div class="triangle">
@@ -96,93 +183,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import { mapGetters } from 'vuex';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import Spinner from 'shared/components/Spinner.vue';
-
-export default {
-  components: {
-    Thumbnail,
-    Spinner,
-  },
-  props: {
-    selectedInboxes: {
-      type: Array,
-      default: () => [],
-    },
-    conversationCount: {
-      type: Number,
-      default: 0,
-    },
-  },
-  data() {
-    return {
-      query: '',
-      selectedAgent: null,
-      goBackToAgentList: false,
-    };
-  },
-  computed: {
-    ...mapGetters({
-      uiFlags: 'bulkActions/getUIFlags',
-      inboxes: 'inboxes/getInboxes',
-      assignableAgentsUiFlags: 'inboxAssignableAgents/getUIFlags',
-    }),
-    filteredAgents() {
-      if (this.query) {
-        return this.assignableAgents.filter(agent =>
-          agent.name.toLowerCase().includes(this.query.toLowerCase())
-        );
-      }
-      return [
-        {
-          confirmed: true,
-          name: 'None',
-          id: null,
-          role: 'agent',
-          account_id: 0,
-          email: 'None',
-        },
-        ...this.assignableAgents,
-      ];
-    },
-    assignableAgents() {
-      return this.$store.getters['inboxAssignableAgents/getAssignableAgents'](
-        this.selectedInboxes.join(',')
-      );
-    },
-    conversationLabel() {
-      return this.conversationCount > 1 ? 'conversations' : 'conversation';
-    },
-  },
-  mounted() {
-    this.$store.dispatch('inboxAssignableAgents/fetch', this.selectedInboxes);
-  },
-  methods: {
-    submit() {
-      this.$emit('select', this.selectedAgent);
-    },
-    goBack() {
-      this.goBackToAgentList = true;
-      this.selectedAgent = null;
-    },
-    assignAgent(agent) {
-      this.selectedAgent = agent;
-    },
-    onClose() {
-      this.$emit('close');
-    },
-    onCloseAgentList() {
-      if (this.selectedAgent === null && !this.goBackToAgentList) {
-        this.onClose();
-      }
-      this.goBackToAgentList = false;
-    },
-  },
-};
-</script>
 
 <style scoped lang="scss">
 .bulk-action__agents {

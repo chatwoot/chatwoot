@@ -1,3 +1,78 @@
+<script>
+import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
+import DashboardAppModal from './DashboardAppModal.vue';
+import DashboardAppsRow from './DashboardAppsRow.vue';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+
+export default {
+  components: {
+    DashboardAppModal,
+    DashboardAppsRow,
+  },
+  mixins: [globalConfigMixin],
+  data() {
+    return {
+      loading: {},
+      showDashboardAppPopup: false,
+      showDeleteConfirmationPopup: false,
+      selectedApp: {},
+      mode: 'CREATE',
+    };
+  },
+  computed: {
+    ...mapGetters({
+      globalConfig: 'globalConfig/get',
+      records: 'dashboardApps/getRecords',
+      uiFlags: 'dashboardApps/getUIFlags',
+    }),
+  },
+  mounted() {
+    this.$store.dispatch('dashboardApps/get');
+  },
+  methods: {
+    toggleDashboardAppPopup() {
+      this.showDashboardAppPopup = !this.showDashboardAppPopup;
+      this.selectedApp = {};
+    },
+    openDeletePopup(response) {
+      this.showDeleteConfirmationPopup = true;
+      this.selectedApp = response;
+    },
+    openCreatePopup() {
+      this.mode = 'CREATE';
+      this.selectedApp = {};
+      this.showDashboardAppPopup = true;
+    },
+    closeDeletePopup() {
+      this.showDeleteConfirmationPopup = false;
+    },
+    editApp(app) {
+      this.loading[app.id] = true;
+      this.mode = 'UPDATE';
+      this.selectedApp = app;
+      this.showDashboardAppPopup = true;
+    },
+    confirmDeletion() {
+      this.loading[this.selectedApp.id] = true;
+      this.closeDeletePopup();
+      this.deleteApp(this.selectedApp.id);
+    },
+    async deleteApp(id) {
+      try {
+        await this.$store.dispatch('dashboardApps/delete', id);
+        useAlert(
+          this.$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DELETE.API_SUCCESS')
+        );
+      } catch (error) {
+        useAlert(
+          this.$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DELETE.API_ERROR')
+        );
+      }
+    },
+  },
+};
+</script>
 <template>
   <div class="flex-1 p-4 overflow-auto">
     <woot-button
@@ -81,78 +156,3 @@
     />
   </div>
 </template>
-<script>
-import { mapGetters } from 'vuex';
-import { useAlert } from 'dashboard/composables';
-import DashboardAppModal from './DashboardAppModal.vue';
-import DashboardAppsRow from './DashboardAppsRow.vue';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-
-export default {
-  components: {
-    DashboardAppModal,
-    DashboardAppsRow,
-  },
-  mixins: [globalConfigMixin],
-  data() {
-    return {
-      loading: {},
-      showDashboardAppPopup: false,
-      showDeleteConfirmationPopup: false,
-      selectedApp: {},
-      mode: 'CREATE',
-    };
-  },
-  computed: {
-    ...mapGetters({
-      globalConfig: 'globalConfig/get',
-      records: 'dashboardApps/getRecords',
-      uiFlags: 'dashboardApps/getUIFlags',
-    }),
-  },
-  mounted() {
-    this.$store.dispatch('dashboardApps/get');
-  },
-  methods: {
-    toggleDashboardAppPopup() {
-      this.showDashboardAppPopup = !this.showDashboardAppPopup;
-      this.selectedApp = {};
-    },
-    openDeletePopup(response) {
-      this.showDeleteConfirmationPopup = true;
-      this.selectedApp = response;
-    },
-    openCreatePopup() {
-      this.mode = 'CREATE';
-      this.selectedApp = {};
-      this.showDashboardAppPopup = true;
-    },
-    closeDeletePopup() {
-      this.showDeleteConfirmationPopup = false;
-    },
-    editApp(app) {
-      this.loading[app.id] = true;
-      this.mode = 'UPDATE';
-      this.selectedApp = app;
-      this.showDashboardAppPopup = true;
-    },
-    confirmDeletion() {
-      this.loading[this.selectedApp.id] = true;
-      this.closeDeletePopup();
-      this.deleteApp(this.selectedApp.id);
-    },
-    async deleteApp(id) {
-      try {
-        await this.$store.dispatch('dashboardApps/delete', id);
-        useAlert(
-          this.$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DELETE.API_SUCCESS')
-        );
-      } catch (error) {
-        useAlert(
-          this.$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DELETE.API_ERROR')
-        );
-      }
-    },
-  },
-};
-</script>

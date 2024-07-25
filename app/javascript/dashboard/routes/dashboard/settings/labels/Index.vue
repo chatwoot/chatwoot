@@ -1,3 +1,88 @@
+<script>
+import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
+
+import AddLabel from './AddLabel.vue';
+import EditLabel from './EditLabel.vue';
+
+export default {
+  components: {
+    AddLabel,
+    EditLabel,
+  },
+  data() {
+    return {
+      loading: {},
+      showAddPopup: false,
+      showEditPopup: false,
+      showDeleteConfirmationPopup: false,
+      selectedResponse: {},
+    };
+  },
+  computed: {
+    ...mapGetters({
+      records: 'labels/getLabels',
+      uiFlags: 'labels/getUIFlags',
+    }),
+    // Delete Modal
+    deleteConfirmText() {
+      return this.$t('LABEL_MGMT.DELETE.CONFIRM.YES');
+    },
+    deleteRejectText() {
+      return this.$t('LABEL_MGMT.DELETE.CONFIRM.NO');
+    },
+    deleteMessage() {
+      return ` ${this.selectedResponse.title}?`;
+    },
+  },
+  mounted() {
+    this.$store.dispatch('labels/get');
+  },
+  methods: {
+    openAddPopup() {
+      this.showAddPopup = true;
+    },
+    hideAddPopup() {
+      this.showAddPopup = false;
+    },
+
+    openEditPopup(response) {
+      this.showEditPopup = true;
+      this.selectedResponse = response;
+    },
+    hideEditPopup() {
+      this.showEditPopup = false;
+    },
+
+    openDeletePopup(response) {
+      this.showDeleteConfirmationPopup = true;
+      this.selectedResponse = response;
+    },
+    closeDeletePopup() {
+      this.showDeleteConfirmationPopup = false;
+    },
+
+    confirmDeletion() {
+      this.loading[this.selectedResponse.id] = true;
+      this.closeDeletePopup();
+      this.deleteLabel(this.selectedResponse.id);
+    },
+    deleteLabel(id) {
+      this.$store
+        .dispatch('labels/delete', id)
+        .then(() => {
+          useAlert(this.$t('LABEL_MGMT.DELETE.API.SUCCESS_MESSAGE'));
+        })
+        .catch(() => {
+          useAlert(this.$t('LABEL_MGMT.DELETE.API.ERROR_MESSAGE'));
+        })
+        .finally(() => {
+          this.loading[this.selectedResponse.id] = false;
+        });
+    },
+  },
+};
+</script>
 <template>
   <div class="flex-1 overflow-auto">
     <woot-button
@@ -100,91 +185,6 @@
     />
   </div>
 </template>
-<script>
-import { mapGetters } from 'vuex';
-import { useAlert } from 'dashboard/composables';
-
-import AddLabel from './AddLabel.vue';
-import EditLabel from './EditLabel.vue';
-
-export default {
-  components: {
-    AddLabel,
-    EditLabel,
-  },
-  data() {
-    return {
-      loading: {},
-      showAddPopup: false,
-      showEditPopup: false,
-      showDeleteConfirmationPopup: false,
-      selectedResponse: {},
-    };
-  },
-  computed: {
-    ...mapGetters({
-      records: 'labels/getLabels',
-      uiFlags: 'labels/getUIFlags',
-    }),
-    // Delete Modal
-    deleteConfirmText() {
-      return this.$t('LABEL_MGMT.DELETE.CONFIRM.YES');
-    },
-    deleteRejectText() {
-      return this.$t('LABEL_MGMT.DELETE.CONFIRM.NO');
-    },
-    deleteMessage() {
-      return ` ${this.selectedResponse.title}?`;
-    },
-  },
-  mounted() {
-    this.$store.dispatch('labels/get');
-  },
-  methods: {
-    openAddPopup() {
-      this.showAddPopup = true;
-    },
-    hideAddPopup() {
-      this.showAddPopup = false;
-    },
-
-    openEditPopup(response) {
-      this.showEditPopup = true;
-      this.selectedResponse = response;
-    },
-    hideEditPopup() {
-      this.showEditPopup = false;
-    },
-
-    openDeletePopup(response) {
-      this.showDeleteConfirmationPopup = true;
-      this.selectedResponse = response;
-    },
-    closeDeletePopup() {
-      this.showDeleteConfirmationPopup = false;
-    },
-
-    confirmDeletion() {
-      this.loading[this.selectedResponse.id] = true;
-      this.closeDeletePopup();
-      this.deleteLabel(this.selectedResponse.id);
-    },
-    deleteLabel(id) {
-      this.$store
-        .dispatch('labels/delete', id)
-        .then(() => {
-          useAlert(this.$t('LABEL_MGMT.DELETE.API.SUCCESS_MESSAGE'));
-        })
-        .catch(() => {
-          useAlert(this.$t('LABEL_MGMT.DELETE.API.ERROR_MESSAGE'));
-        })
-        .finally(() => {
-          this.loading[this.selectedResponse.id] = false;
-        });
-    },
-  },
-};
-</script>
 
 <style scoped lang="scss">
 @import '~dashboard/assets/scss/variables';

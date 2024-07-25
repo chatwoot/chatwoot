@@ -1,3 +1,41 @@
+<script>
+import PortalSwitch from './PortalSwitch.vue';
+export default {
+  components: {
+    PortalSwitch,
+  },
+  props: {
+    portals: {
+      type: Array,
+      default: () => [],
+    },
+    activePortalSlug: {
+      type: String,
+      default: '',
+    },
+    activeLocale: {
+      type: String,
+      default: '',
+    },
+  },
+
+  methods: {
+    closePortalPopover() {
+      this.$emit('close-popover');
+    },
+    openPortalPage() {
+      this.closePortalPopover();
+      this.$router.push({
+        name: 'list_all_portals',
+      });
+    },
+    fetchPortalAndItsCategories() {
+      this.$emit('fetch-portal');
+    },
+  },
+};
+</script>
+
 <template>
   <div
     v-on-clickaway="closePortalPopover"
@@ -45,41 +83,3 @@
     </div>
   </div>
 </template>
-
-<script>
-import PortalSwitch from './PortalSwitch.vue';
-export default {
-  components: {
-    PortalSwitch,
-  },
-  props: {
-    portals: {
-      type: Array,
-      default: () => [],
-    },
-    activePortalSlug: {
-      type: String,
-      default: '',
-    },
-    activeLocale: {
-      type: String,
-      default: '',
-    },
-  },
-
-  methods: {
-    closePortalPopover() {
-      this.$emit('close-popover');
-    },
-    openPortalPage() {
-      this.closePortalPopover();
-      this.$router.push({
-        name: 'list_all_portals',
-      });
-    },
-    fetchPortalAndItsCategories() {
-      this.$emit('fetch-portal');
-    },
-  },
-};
-</script>

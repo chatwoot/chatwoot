@@ -1,28 +1,3 @@
-<template>
-  <div class="flex flex-col md:flex-row h-auto md:h-full w-full">
-    <div
-      class="flex-1 w-full md:w-auto macro-gradient-radial dark:macro-dark-gradient-radial macro-gradient-radial-size h-full max-h-full py-4 px-12 overflow-y-auto"
-    >
-      <macro-nodes
-        v-model="macro.actions"
-        :files="files"
-        @addNewNode="appendNode"
-        @deleteNode="deleteNode"
-        @resetAction="resetNode"
-      />
-    </div>
-    <div class="w-full md:w-1/3">
-      <macro-properties
-        :macro-name="macro.name"
-        :macro-visibility="macro.visibility"
-        @update:name="updateName"
-        @update:visibility="updateVisibility"
-        @submit="submit"
-      />
-    </div>
-  </div>
-</template>
-
 <script>
 import { ref, provide } from 'vue';
 import MacroNodes from './MacroNodes.vue';
@@ -126,6 +101,31 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="flex flex-col md:flex-row h-auto md:h-full w-full">
+    <div
+      class="flex-1 w-full md:w-auto macro-gradient-radial dark:macro-dark-gradient-radial macro-gradient-radial-size h-full max-h-full py-4 px-12 overflow-y-auto"
+    >
+      <macro-nodes
+        v-model="macro.actions"
+        :files="files"
+        @addNewNode="appendNode"
+        @deleteNode="deleteNode"
+        @resetAction="resetNode"
+      />
+    </div>
+    <div class="w-full md:w-1/3">
+      <macro-properties
+        :macro-name="macro.name"
+        :macro-visibility="macro.visibility"
+        @update:name="updateName"
+        @update:visibility="updateVisibility"
+        @submit="submit"
+      />
+    </div>
+  </div>
+</template>
 
 <style scoped>
 @tailwind components;

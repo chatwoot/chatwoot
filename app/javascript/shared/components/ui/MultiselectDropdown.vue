@@ -1,3 +1,71 @@
+<script>
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems.vue';
+export default {
+  components: {
+    Thumbnail,
+    MultiselectDropdownItems,
+  },
+  props: {
+    options: {
+      type: Array,
+      default: () => [],
+    },
+    selectedItem: {
+      type: Object,
+      default: () => ({}),
+    },
+    hasThumbnail: {
+      type: Boolean,
+      default: true,
+    },
+    multiselectorTitle: {
+      type: String,
+      default: '',
+    },
+    multiselectorPlaceholder: {
+      type: String,
+      default: 'None',
+    },
+    noSearchResult: {
+      type: String,
+      default: 'No results found',
+    },
+    inputPlaceholder: {
+      type: String,
+      default: 'Search',
+    },
+  },
+  data() {
+    return {
+      showSearchDropdown: false,
+    };
+  },
+  computed: {
+    hasValue() {
+      if (this.selectedItem && this.selectedItem.id) {
+        return true;
+      }
+      return false;
+    },
+  },
+  methods: {
+    toggleDropdown() {
+      this.showSearchDropdown = !this.showSearchDropdown;
+    },
+
+    onCloseDropdown() {
+      this.showSearchDropdown = false;
+    },
+
+    onClickSelectItem(value) {
+      this.$emit('click', value);
+      this.onCloseDropdown();
+    },
+  },
+};
+</script>
+
 <template>
   <div
     v-on-clickaway="onCloseDropdown"
@@ -70,74 +138,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems.vue';
-export default {
-  components: {
-    Thumbnail,
-    MultiselectDropdownItems,
-  },
-  props: {
-    options: {
-      type: Array,
-      default: () => [],
-    },
-    selectedItem: {
-      type: Object,
-      default: () => ({}),
-    },
-    hasThumbnail: {
-      type: Boolean,
-      default: true,
-    },
-    multiselectorTitle: {
-      type: String,
-      default: '',
-    },
-    multiselectorPlaceholder: {
-      type: String,
-      default: 'None',
-    },
-    noSearchResult: {
-      type: String,
-      default: 'No results found',
-    },
-    inputPlaceholder: {
-      type: String,
-      default: 'Search',
-    },
-  },
-  data() {
-    return {
-      showSearchDropdown: false,
-    };
-  },
-  computed: {
-    hasValue() {
-      if (this.selectedItem && this.selectedItem.id) {
-        return true;
-      }
-      return false;
-    },
-  },
-  methods: {
-    toggleDropdown() {
-      this.showSearchDropdown = !this.showSearchDropdown;
-    },
-
-    onCloseDropdown() {
-      this.showSearchDropdown = false;
-    },
-
-    onClickSelectItem(value) {
-      this.$emit('click', value);
-      this.onCloseDropdown();
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .dropdown-pane {

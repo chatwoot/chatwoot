@@ -1,3 +1,29 @@
+<script>
+import { mapGetters } from 'vuex';
+export default {
+  props: {
+    showAccountModal: {
+      type: Boolean,
+      default: true,
+    },
+  },
+
+  computed: {
+    ...mapGetters({
+      accountId: 'getCurrentAccountId',
+      currentUser: 'getCurrentUser',
+      globalConfig: 'globalConfig/get',
+    }),
+  },
+  methods: {
+    onChangeAccount(accountId) {
+      const accountUrl = `/app/accounts/${accountId}/dashboard`;
+      window.location.href = accountUrl;
+    },
+  },
+};
+</script>
+
 <template>
   <woot-modal
     :show="showAccountModal"
@@ -56,29 +82,3 @@
     </div>
   </woot-modal>
 </template>
-
-<script>
-import { mapGetters } from 'vuex';
-export default {
-  props: {
-    showAccountModal: {
-      type: Boolean,
-      default: true,
-    },
-  },
-
-  computed: {
-    ...mapGetters({
-      accountId: 'getCurrentAccountId',
-      currentUser: 'getCurrentUser',
-      globalConfig: 'globalConfig/get',
-    }),
-  },
-  methods: {
-    onChangeAccount(accountId) {
-      const accountUrl = `/app/accounts/${accountId}/dashboard`;
-      window.location.href = accountUrl;
-    },
-  },
-};
-</script>

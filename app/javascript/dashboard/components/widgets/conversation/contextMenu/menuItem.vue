@@ -1,3 +1,22 @@
+<script>
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+export default {
+  components: {
+    Thumbnail,
+  },
+  props: {
+    option: {
+      type: Object,
+      default: () => {},
+    },
+    variant: {
+      type: String,
+      default: 'default',
+    },
+  },
+};
+</script>
+
 <template>
   <div
     class="menu text-slate-800 dark:text-slate-100"
@@ -28,25 +47,6 @@
     </p>
   </div>
 </template>
-
-<script>
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-export default {
-  components: {
-    Thumbnail,
-  },
-  props: {
-    option: {
-      type: Object,
-      default: () => {},
-    },
-    variant: {
-      type: String,
-      default: 'default',
-    },
-  },
-};
-</script>
 
 <style scoped lang="scss">
 .menu {

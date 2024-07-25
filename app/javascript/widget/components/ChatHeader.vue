@@ -1,49 +1,3 @@
-<template>
-  <header
-    class="flex justify-between p-5 w-full"
-    :class="$dm('bg-white', 'dark:bg-slate-900')"
-  >
-    <div class="flex items-center">
-      <button
-        v-if="showBackButton"
-        class="-ml-3 px-2"
-        @click="onBackButtonClick"
-      >
-        <fluent-icon
-          icon="chevron-left"
-          size="24"
-          :class="$dm('text-black-900', 'dark:text-slate-50')"
-        />
-      </button>
-      <img
-        v-if="avatarUrl"
-        class="h-8 w-8 rounded-full mr-3"
-        :src="avatarUrl"
-        alt="avatar"
-      />
-      <div>
-        <div
-          class="font-medium text-base leading-4 flex items-center"
-          :class="$dm('text-black-900', 'dark:text-slate-50')"
-        >
-          <span v-dompurify-html="title" class="mr-1" />
-          <div
-            :class="`h-2 w-2 rounded-full
-              ${isOnline ? 'bg-green-500' : 'hidden'}`"
-          />
-        </div>
-        <div
-          class="text-xs mt-1 leading-3"
-          :class="$dm('text-black-700', 'dark:text-slate-400')"
-        >
-          {{ replyWaitMessage }}
-        </div>
-      </div>
-    </div>
-    <header-actions :show-popout-button="showPopoutButton" />
-  </header>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 
@@ -104,3 +58,49 @@ export default {
   },
 };
 </script>
+
+<template>
+  <header
+    class="flex justify-between p-5 w-full"
+    :class="$dm('bg-white', 'dark:bg-slate-900')"
+  >
+    <div class="flex items-center">
+      <button
+        v-if="showBackButton"
+        class="-ml-3 px-2"
+        @click="onBackButtonClick"
+      >
+        <fluent-icon
+          icon="chevron-left"
+          size="24"
+          :class="$dm('text-black-900', 'dark:text-slate-50')"
+        />
+      </button>
+      <img
+        v-if="avatarUrl"
+        class="h-8 w-8 rounded-full mr-3"
+        :src="avatarUrl"
+        alt="avatar"
+      />
+      <div>
+        <div
+          class="font-medium text-base leading-4 flex items-center"
+          :class="$dm('text-black-900', 'dark:text-slate-50')"
+        >
+          <span v-dompurify-html="title" class="mr-1" />
+          <div
+            :class="`h-2 w-2 rounded-full
+              ${isOnline ? 'bg-green-500' : 'hidden'}`"
+          />
+        </div>
+        <div
+          class="text-xs mt-1 leading-3"
+          :class="$dm('text-black-700', 'dark:text-slate-400')"
+        >
+          {{ replyWaitMessage }}
+        </div>
+      </div>
+    </div>
+    <header-actions :show-popout-button="showPopoutButton" />
+  </header>
+</template>

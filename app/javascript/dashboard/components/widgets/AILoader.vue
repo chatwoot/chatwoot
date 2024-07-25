@@ -1,3 +1,5 @@
+<script></script>
+
 <template>
   <div class="animation-container margin-top-1">
     <div class="ai-typing--wrap">
@@ -11,8 +13,6 @@
     <span class="loader" />
   </div>
 </template>
-
-<script></script>
 
 <style lang="scss" scoped>
 .animation-container {

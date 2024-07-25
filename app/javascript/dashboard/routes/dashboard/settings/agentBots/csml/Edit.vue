@@ -1,13 +1,3 @@
-<template>
-  <csml-bot-editor
-    v-if="agentBot.id"
-    :agent-bot="agentBot"
-    @submit="updateBot"
-  />
-  <div v-else class="flex flex-col h-auto overflow-auto no-padding">
-    <spinner />
-  </div>
-</template>
 <script>
 import { useAlert } from 'dashboard/composables';
 import Spinner from 'shared/components/Spinner.vue';
@@ -43,3 +33,13 @@ export default {
   },
 };
 </script>
+<template>
+  <csml-bot-editor
+    v-if="agentBot.id"
+    :agent-bot="agentBot"
+    @submit="updateBot"
+  />
+  <div v-else class="flex flex-col h-auto overflow-auto no-padding">
+    <spinner />
+  </div>
+</template>

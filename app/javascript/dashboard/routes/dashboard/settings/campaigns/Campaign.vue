@@ -1,30 +1,3 @@
-<template>
-  <div class="flex-1 overflow-auto">
-    <campaigns-table
-      :campaigns="campaigns"
-      :show-empty-result="showEmptyResult"
-      :is-loading="uiFlags.isFetching"
-      :campaign-type="type"
-      @edit="openEditPopup"
-      @delete="openDeletePopup"
-    />
-    <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
-      <edit-campaign
-        :selected-campaign="selectedCampaign"
-        @on-close="hideEditPopup"
-      />
-    </woot-modal>
-    <woot-delete-modal
-      :show.sync="showDeleteConfirmationPopup"
-      :on-close="closeDeletePopup"
-      :on-confirm="confirmDeletion"
-      :title="$t('CAMPAIGN.DELETE.CONFIRM.TITLE')"
-      :message="$t('CAMPAIGN.DELETE.CONFIRM.MESSAGE')"
-      :confirm-text="$t('CAMPAIGN.DELETE.CONFIRM.YES')"
-      :reject-text="$t('CAMPAIGN.DELETE.CONFIRM.NO')"
-    />
-  </div>
-</template>
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
@@ -95,6 +68,33 @@ export default {
   },
 };
 </script>
+<template>
+  <div class="flex-1 overflow-auto">
+    <campaigns-table
+      :campaigns="campaigns"
+      :show-empty-result="showEmptyResult"
+      :is-loading="uiFlags.isFetching"
+      :campaign-type="type"
+      @edit="openEditPopup"
+      @delete="openDeletePopup"
+    />
+    <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
+      <edit-campaign
+        :selected-campaign="selectedCampaign"
+        @on-close="hideEditPopup"
+      />
+    </woot-modal>
+    <woot-delete-modal
+      :show.sync="showDeleteConfirmationPopup"
+      :on-close="closeDeletePopup"
+      :on-confirm="confirmDeletion"
+      :title="$t('CAMPAIGN.DELETE.CONFIRM.TITLE')"
+      :message="$t('CAMPAIGN.DELETE.CONFIRM.MESSAGE')"
+      :confirm-text="$t('CAMPAIGN.DELETE.CONFIRM.YES')"
+      :reject-text="$t('CAMPAIGN.DELETE.CONFIRM.NO')"
+    />
+  </div>
+</template>
 
 <style scoped lang="scss">
 .button-wrapper {

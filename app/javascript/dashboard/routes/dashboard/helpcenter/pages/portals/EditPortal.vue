@@ -1,36 +1,3 @@
-<template>
-  <div class="wrapper">
-    <settings-header
-      button-route="new"
-      :header-title="$t('HELP_CENTER.PORTAL.EDIT.HEADER_TEXT')"
-      show-back-button
-      :back-button-label="
-        $t('HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.BACK_BUTTON')
-      "
-      :show-new-button="false"
-    />
-    <div class="overflow-auto max-h-[96%]">
-      <setting-intro-banner :header-title="portalName">
-        <woot-tabs
-          :index="activeTabIndex"
-          :border="false"
-          @change="onTabChange"
-        >
-          <woot-tabs-item
-            v-for="tab in tabs"
-            :key="tab.key"
-            :name="tab.name"
-            :show-badge="false"
-          />
-        </woot-tabs>
-      </setting-intro-banner>
-      <div class="flex flex-wrap max-w-full px-8 py-4 my-auto">
-        <router-view />
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
@@ -99,6 +66,39 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="wrapper">
+    <settings-header
+      button-route="new"
+      :header-title="$t('HELP_CENTER.PORTAL.EDIT.HEADER_TEXT')"
+      show-back-button
+      :back-button-label="
+        $t('HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.BACK_BUTTON')
+      "
+      :show-new-button="false"
+    />
+    <div class="overflow-auto max-h-[96%]">
+      <setting-intro-banner :header-title="portalName">
+        <woot-tabs
+          :index="activeTabIndex"
+          :border="false"
+          @change="onTabChange"
+        >
+          <woot-tabs-item
+            v-for="tab in tabs"
+            :key="tab.key"
+            :name="tab.name"
+            :show-badge="false"
+          />
+        </woot-tabs>
+      </setting-intro-banner>
+      <div class="flex flex-wrap max-w-full px-8 py-4 my-auto">
+        <router-view />
+      </div>
+    </div>
+  </div>
+</template>
 <style scoped lang="scss">
 .wrapper {
   flex: 1;

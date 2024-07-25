@@ -1,3 +1,42 @@
+<script>
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+export default {
+  name: 'WidgetBody',
+  components: {
+    Thumbnail,
+  },
+  props: {
+    config: {
+      type: Object,
+      default: () => {},
+    },
+  },
+  computed: {
+    getStatusText() {
+      return this.config.isOnline
+        ? this.$t('INBOX_MGMT.WIDGET_BUILDER.BODY.TEAM_AVAILABILITY.ONLINE')
+        : this.$t('INBOX_MGMT.WIDGET_BUILDER.BODY.TEAM_AVAILABILITY.OFFLINE');
+    },
+    getWidgetBodyClass() {
+      return {
+        'with-chat-view': !this.config.isDefaultScreen,
+        'with-heading-or-title':
+          this.config.isDefaultScreen &&
+          (this.config.welcomeHeading || this.config.welcomeTagline),
+        'with-heading-or-title-without-logo':
+          this.config.isDefaultScreen &&
+          (this.config.welcomeHeading || this.config.welcomeTagline) &&
+          !this.config.logo,
+        'without-heading-and-title':
+          this.config.isDefaultScreen &&
+          !this.config.welcomeHeading &&
+          !this.config.welcomeTagline,
+      };
+    },
+  },
+};
+</script>
+
 <template>
   <div class="widget-body-container">
     <div v-if="config.isDefaultScreen" class="availability-content">
@@ -45,45 +84,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-export default {
-  name: 'WidgetBody',
-  components: {
-    Thumbnail,
-  },
-  props: {
-    config: {
-      type: Object,
-      default: () => {},
-    },
-  },
-  computed: {
-    getStatusText() {
-      return this.config.isOnline
-        ? this.$t('INBOX_MGMT.WIDGET_BUILDER.BODY.TEAM_AVAILABILITY.ONLINE')
-        : this.$t('INBOX_MGMT.WIDGET_BUILDER.BODY.TEAM_AVAILABILITY.OFFLINE');
-    },
-    getWidgetBodyClass() {
-      return {
-        'with-chat-view': !this.config.isDefaultScreen,
-        'with-heading-or-title':
-          this.config.isDefaultScreen &&
-          (this.config.welcomeHeading || this.config.welcomeTagline),
-        'with-heading-or-title-without-logo':
-          this.config.isDefaultScreen &&
-          (this.config.welcomeHeading || this.config.welcomeTagline) &&
-          !this.config.logo,
-        'without-heading-and-title':
-          this.config.isDefaultScreen &&
-          !this.config.welcomeHeading &&
-          !this.config.welcomeTagline,
-      };
-    },
-  },
-};
-</script>
 
 <style scoped lang="scss">
 .widget-body-container {

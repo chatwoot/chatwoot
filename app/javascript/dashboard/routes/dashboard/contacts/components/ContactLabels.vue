@@ -1,12 +1,3 @@
-<template>
-  <label-selector
-    :all-labels="allLabels"
-    :saved-labels="savedLabels"
-    @add="addItem"
-    @remove="removeItem"
-  />
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
@@ -84,5 +75,14 @@ export default {
   },
 };
 </script>
+
+<template>
+  <label-selector
+    :all-labels="allLabels"
+    :saved-labels="savedLabels"
+    @add="addItem"
+    @remove="removeItem"
+  />
+</template>
 
 <style></style>

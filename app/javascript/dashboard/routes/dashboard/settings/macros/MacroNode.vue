@@ -1,43 +1,3 @@
-<template>
-  <div class="macro__node-action-container">
-    <woot-button
-      v-if="!singleNode"
-      size="small"
-      variant="clear"
-      color-scheme="secondary"
-      icon="navigation"
-      class="macros__node-drag-handle"
-    />
-    <div
-      class="macro__node-action-item"
-      :class="{
-        'has-error': errors[`action_${index}`],
-      }"
-    >
-      <action-input
-        v-model="actionData"
-        :action-types="macroActionTypes"
-        :dropdown-values="dropdownValues()"
-        :show-action-input="showActionInput"
-        :show-remove-button="false"
-        :is-macro="true"
-        :error-message="errors[`action_${index}`] || ''"
-        :initial-file-name="fileName"
-        @resetAction="$emit('resetAction')"
-      />
-    </div>
-    <woot-button
-      v-if="!singleNode"
-      v-tooltip="$t('MACROS.EDITOR.DELETE_BTN_TOOLTIP')"
-      icon="delete"
-      size="small"
-      variant="smooth"
-      color-scheme="alert"
-      @click="$emit('deleteNode')"
-    />
-  </div>
-</template>
-
 <script>
 import { inject } from 'vue';
 import ActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
@@ -105,6 +65,46 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="macro__node-action-container">
+    <woot-button
+      v-if="!singleNode"
+      size="small"
+      variant="clear"
+      color-scheme="secondary"
+      icon="navigation"
+      class="macros__node-drag-handle"
+    />
+    <div
+      class="macro__node-action-item"
+      :class="{
+        'has-error': errors[`action_${index}`],
+      }"
+    >
+      <action-input
+        v-model="actionData"
+        :action-types="macroActionTypes"
+        :dropdown-values="dropdownValues()"
+        :show-action-input="showActionInput"
+        :show-remove-button="false"
+        :is-macro="true"
+        :error-message="errors[`action_${index}`] || ''"
+        :initial-file-name="fileName"
+        @resetAction="$emit('resetAction')"
+      />
+    </div>
+    <woot-button
+      v-if="!singleNode"
+      v-tooltip="$t('MACROS.EDITOR.DELETE_BTN_TOOLTIP')"
+      icon="delete"
+      size="small"
+      variant="smooth"
+      color-scheme="alert"
+      @click="$emit('deleteNode')"
+    />
+  </div>
+</template>
 
 <style scoped lang="scss">
 .macros__node-drag-handle {

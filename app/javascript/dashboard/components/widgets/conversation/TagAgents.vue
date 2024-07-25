@@ -1,43 +1,3 @@
-<template>
-  <ul
-    v-if="items.length"
-    class="vertical dropdown menu mention--box"
-    :class="{ 'with-bottom-border': items.length <= 4 }"
-  >
-    <li
-      v-for="(agent, index) in items"
-      :id="`mention-item-${index}`"
-      :key="agent.id"
-      :class="{ active: index === selectedIndex }"
-      class="last:mb-2 items-center rounded-md flex p-2"
-      @click="onAgentSelect(index)"
-      @mouseover="onHover(index)"
-    >
-      <div class="mr-2">
-        <woot-thumbnail
-          :src="agent.thumbnail"
-          :username="agent.name"
-          size="32px"
-        />
-      </div>
-      <div
-        class="flex-1 max-w-full overflow-hidden whitespace-nowrap text-ellipsis"
-      >
-        <h5
-          class="mention--user-name mb-0 text-sm text-slate-900 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis"
-        >
-          {{ agent.name }}
-        </h5>
-        <div
-          class="mention--email overflow-hidden whitespace-nowrap text-ellipsis text-slate-700 dark:text-slate-300 text-xs"
-        >
-          {{ agent.email }}
-        </div>
-      </div>
-    </li>
-  </ul>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import mentionSelectionKeyboardMixin from '../mentions/mentionSelectionKeyboardMixin';
@@ -93,6 +53,46 @@ export default {
   },
 };
 </script>
+
+<template>
+  <ul
+    v-if="items.length"
+    class="vertical dropdown menu mention--box"
+    :class="{ 'with-bottom-border': items.length <= 4 }"
+  >
+    <li
+      v-for="(agent, index) in items"
+      :id="`mention-item-${index}`"
+      :key="agent.id"
+      :class="{ active: index === selectedIndex }"
+      class="last:mb-2 items-center rounded-md flex p-2"
+      @click="onAgentSelect(index)"
+      @mouseover="onHover(index)"
+    >
+      <div class="mr-2">
+        <woot-thumbnail
+          :src="agent.thumbnail"
+          :username="agent.name"
+          size="32px"
+        />
+      </div>
+      <div
+        class="flex-1 max-w-full overflow-hidden whitespace-nowrap text-ellipsis"
+      >
+        <h5
+          class="mention--user-name mb-0 text-sm text-slate-900 dark:text-slate-100 overflow-hidden whitespace-nowrap text-ellipsis"
+        >
+          {{ agent.name }}
+        </h5>
+        <div
+          class="mention--email overflow-hidden whitespace-nowrap text-ellipsis text-slate-700 dark:text-slate-300 text-xs"
+        >
+          {{ agent.email }}
+        </div>
+      </div>
+    </li>
+  </ul>
+</template>
 
 <style scoped lang="scss">
 .mention--box {

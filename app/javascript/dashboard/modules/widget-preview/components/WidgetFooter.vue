@@ -1,3 +1,21 @@
+<script>
+import CustomButton from 'dashboard/components/buttons/Button.vue';
+import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
+export default {
+  name: 'WidgetFooter',
+  components: {
+    CustomButton,
+    ResizableTextArea,
+  },
+  props: {
+    config: {
+      type: Object,
+      default: () => {},
+    },
+  },
+};
+</script>
+
 <template>
   <div class="footer-wrap">
     <custom-button
@@ -25,24 +43,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import CustomButton from 'dashboard/components/buttons/Button.vue';
-import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
-export default {
-  name: 'WidgetFooter',
-  components: {
-    CustomButton,
-    ResizableTextArea,
-  },
-  props: {
-    config: {
-      type: Object,
-      default: () => {},
-    },
-  },
-};
-</script>
 
 <style scoped lang="scss">
 @import '~dashboard/assets/scss/variables.scss';

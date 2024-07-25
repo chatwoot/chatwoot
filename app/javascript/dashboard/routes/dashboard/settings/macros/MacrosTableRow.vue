@@ -1,3 +1,35 @@
+<script>
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import accountMixin from 'dashboard/mixins/account.js';
+export default {
+  components: {
+    Thumbnail,
+  },
+  mixins: [accountMixin],
+  props: {
+    macro: {
+      type: Object,
+      required: true,
+    },
+  },
+  computed: {
+    createdByName() {
+      const createdBy = this.macro.created_by;
+      return createdBy.available_name ?? createdBy.email ?? '';
+    },
+    updatedByName() {
+      const updatedBy = this.macro.updated_by;
+      return updatedBy.available_name ?? updatedBy.email ?? '';
+    },
+    visibilityLabel() {
+      return this.macro.visibility === 'global'
+        ? this.$t('MACROS.EDITOR.VISIBILITY.GLOBAL.LABEL')
+        : this.$t('MACROS.EDITOR.VISIBILITY.PERSONAL.LABEL');
+    },
+  },
+};
+</script>
+
 <template>
   <tr>
     <td>{{ macro.name }}</td>
@@ -37,38 +69,6 @@
     </td>
   </tr>
 </template>
-
-<script>
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import accountMixin from 'dashboard/mixins/account.js';
-export default {
-  components: {
-    Thumbnail,
-  },
-  mixins: [accountMixin],
-  props: {
-    macro: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    createdByName() {
-      const createdBy = this.macro.created_by;
-      return createdBy.available_name ?? createdBy.email ?? '';
-    },
-    updatedByName() {
-      const updatedBy = this.macro.updated_by;
-      return updatedBy.available_name ?? updatedBy.email ?? '';
-    },
-    visibilityLabel() {
-      return this.macro.visibility === 'global'
-        ? this.$t('MACROS.EDITOR.VISIBILITY.GLOBAL.LABEL')
-        : this.$t('MACROS.EDITOR.VISIBILITY.PERSONAL.LABEL');
-    },
-  },
-};
-</script>
 
 <style scoped lang="scss">
 .avatar-container {

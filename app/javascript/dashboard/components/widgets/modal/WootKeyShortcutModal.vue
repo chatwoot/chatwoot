@@ -1,3 +1,30 @@
+<script>
+import { SHORTCUT_KEYS } from './constants';
+import Hotkey from 'dashboard/components/base/Hotkey.vue';
+
+export default {
+  components: {
+    Hotkey,
+  },
+  props: {
+    show: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data() {
+    return {
+      shortcutKeys: SHORTCUT_KEYS,
+    };
+  },
+  methods: {
+    title(item) {
+      return this.$t(`KEYBOARD_SHORTCUTS.TITLE.${item.label}`);
+    },
+  },
+};
+</script>
+
 <template>
   <woot-modal :show="show" size="medium" :on-close="() => $emit('close')">
     <div class="h-auto overflow-auto flex flex-col">
@@ -85,33 +112,6 @@
     </div>
   </woot-modal>
 </template>
-
-<script>
-import { SHORTCUT_KEYS } from './constants';
-import Hotkey from 'dashboard/components/base/Hotkey.vue';
-
-export default {
-  components: {
-    Hotkey,
-  },
-  props: {
-    show: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data() {
-    return {
-      shortcutKeys: SHORTCUT_KEYS,
-    };
-  },
-  methods: {
-    title(item) {
-      return this.$t(`KEYBOARD_SHORTCUTS.TITLE.${item.label}`);
-    },
-  },
-};
-</script>
 <style scoped>
 .key {
   @apply py-2 px-2.5 font-semibold text-xs text-slate-700 dark:text-slate-100 bg-slate-75 dark:bg-slate-900 shadow border-b-2 rtl:border-l-2 ltr:border-r-2 border-slate-200 dark:border-slate-700;
