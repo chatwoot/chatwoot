@@ -154,7 +154,7 @@ export default {
       <button
         v-if="hasEmojiPickerEnabled"
         class="flex items-center justify-center icon-button"
-        aria-label="Emoji picker"
+        :aria-label="$t('EMOJI.ARIA_LABEL')"
         @click="toggleEmojiPicker"
       >
         <FluentIcon icon="emoji" :class="emojiIconColor" />

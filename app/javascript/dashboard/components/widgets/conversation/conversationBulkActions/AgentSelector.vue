@@ -92,7 +92,7 @@ export default {
         <path d="M20 12l-8-8-12 12" fill-rule="evenodd" stroke-width="1px" />
       </svg>
     </div>
-    <div class="header flex items-center justify-between">
+    <div class="flex items-center justify-between header">
       <span>{{ $t('BULK_ACTION.AGENT_SELECT_LABEL') }}</span>
       <woot-button
         size="tiny"
@@ -114,14 +114,14 @@ export default {
         <ul v-if="!selectedAgent">
           <li class="search-container">
             <div
-              class="agent-list-search h-8 flex justify-between items-center gap-2"
+              class="flex items-center justify-between h-8 gap-2 agent-list-search"
             >
               <fluent-icon icon="search" class="search-icon" size="16" />
               <input
                 ref="search"
                 v-model="query"
                 type="search"
-                placeholder="Search"
+                :placeholder="$t('BULK_ACTION.SEARCH_INPUT_PLACEHOLDER')"
                 class="agent--search_input"
               />
             </div>

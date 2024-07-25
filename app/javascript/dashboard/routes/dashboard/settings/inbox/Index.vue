@@ -128,28 +128,32 @@ export default {
               <td>
                 <span class="agent-name">{{ item.name }}</span>
                 <span v-if="item.channel_type === 'Channel::FacebookPage'">
-                  Facebook
+                  {{ 'Facebook' }}
                 </span>
                 <span v-if="item.channel_type === 'Channel::WebWidget'">
-                  Website
+                  {{ 'Website' }}
                 </span>
                 <span v-if="item.channel_type === 'Channel::TwitterProfile'">
-                  Twitter
+                  {{ 'Twitter' }}
                 </span>
                 <span v-if="item.channel_type === 'Channel::TwilioSms'">
                   {{ twilioChannelName(item) }}
                 </span>
                 <span v-if="item.channel_type === 'Channel::Whatsapp'">
-                  Whatsapp
+                  {{ 'Whatsapp' }}
                 </span>
-                <span v-if="item.channel_type === 'Channel::Sms'"> Sms </span>
+                <span v-if="item.channel_type === 'Channel::Sms'">
+                  {{ 'Sms' }}
+                </span>
                 <span v-if="item.channel_type === 'Channel::Email'">
-                  Email
+                  {{ 'Email' }}
                 </span>
                 <span v-if="item.channel_type === 'Channel::Telegram'">
-                  Telegram
+                  {{ 'Telegram' }}
                 </span>
-                <span v-if="item.channel_type === 'Channel::Line'">Line</span>
+                <span v-if="item.channel_type === 'Channel::Line'">
+                  {{ 'Line' }}
+                </span>
                 <span v-if="item.channel_type === 'Channel::Api'">
                   {{ globalConfig.apiChannelName || 'API' }}
                 </span>

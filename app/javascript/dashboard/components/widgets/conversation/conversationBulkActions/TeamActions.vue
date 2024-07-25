@@ -58,7 +58,7 @@ export default {
                 ref="search"
                 v-model="query"
                 type="search"
-                placeholder="Search"
+                :placeholder="$t('BULK_ACTION.SEARCH_INPUT_PLACEHOLDER')"
                 class="agent--search_input"
               />
             </div>

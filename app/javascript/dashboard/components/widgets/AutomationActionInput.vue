@@ -153,14 +153,14 @@ export default {
             v-model="action_params"
             type="email"
             class="answer--text-input"
-            placeholder="Enter email"
+            :placeholder="$t('AUTOMATION.ACTION.EMAIL_INPUT_PLACEHOLDER')"
           />
           <input
             v-else-if="inputType === 'url'"
             v-model="action_params"
             type="url"
             class="answer--text-input"
-            placeholder="Enter url"
+            :placeholder="$t('AUTOMATION.ACTION.URL_INPUT_PLACEHOLDER')"
           />
           <AutomationActionFileInput
             v-if="inputType === 'attachment'"

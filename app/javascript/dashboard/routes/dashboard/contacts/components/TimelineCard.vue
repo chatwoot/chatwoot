@@ -1,3 +1,4 @@
+<!-- Unused file deprecated -->
 <script>
 import { dynamicTime } from 'shared/helpers/timeHelper';
 export default {
@@ -45,7 +46,7 @@ export default {
           <h6 class="text-sm">
             {{ eventType }}
           </h6>
-          <span class="event-path">on {{ eventPath }}</span>
+          <span class="event-path">{{ 'on' }} {{ eventPath }}</span>
         </div>
         <div class="date-wrap">
           <span>{{ readableTime }}</span>

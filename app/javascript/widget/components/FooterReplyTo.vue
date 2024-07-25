@@ -28,7 +28,7 @@ export default {
     class="mb-2.5 rounded-[7px] dark:bg-slate-900 dark:text-slate-100 bg-slate-100 px-2 py-1.5 text-sm text-slate-700 flex items-center gap-2"
   >
     <div class="items-center flex-grow truncate">
-      <strong>Replying to:</strong>
+      <strong>{{ $t('FOOTER_REPLY_TO.REPLY_TO') }}</strong>
       {{ inReplyTo.content || replyToAttachment }}
     </div>
     <button

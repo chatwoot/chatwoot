@@ -267,14 +267,14 @@ export default {
       <div class="flex items-center w-full mt-0.5 gap-2">
         <woot-button
           v-tooltip="$t('CONTACT_PANEL.NEW_MESSAGE')"
-          title="$t('CONTACT_PANEL.NEW_MESSAGE')"
+          :title="$t('CONTACT_PANEL.NEW_MESSAGE')"
           icon="chat"
           size="small"
           @click="toggleConversationModal"
         />
         <woot-button
           v-tooltip="$t('EDIT_CONTACT.BUTTON_LABEL')"
-          title="$t('EDIT_CONTACT.BUTTON_LABEL')"
+          :title="$t('EDIT_CONTACT.BUTTON_LABEL')"
           icon="edit"
           variant="smooth"
           size="small"
@@ -282,7 +282,7 @@ export default {
         />
         <woot-button
           v-tooltip="$t('CONTACT_PANEL.MERGE_CONTACT')"
-          title="$t('CONTACT_PANEL.MERGE_CONTACT')"
+          :title="$t('CONTACT_PANEL.MERGE_CONTACT')"
           icon="merge"
           variant="smooth"
           size="small"
@@ -293,7 +293,7 @@ export default {
         <woot-button
           v-if="isAdmin"
           v-tooltip="$t('DELETE_CONTACT.BUTTON_LABEL')"
-          title="$t('DELETE_CONTACT.BUTTON_LABEL')"
+          :title="$t('DELETE_CONTACT.BUTTON_LABEL')"
           icon="delete"
           variant="smooth"
           size="small"

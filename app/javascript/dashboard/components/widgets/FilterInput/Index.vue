@@ -243,7 +243,7 @@ export default {
             v-model="values"
             type="text"
             class="mb-0"
-            placeholder="Enter value"
+            :placeholder="$t('FILTER.INPUT_PLACEHOLDER')"
           />
         </div>
         <woot-button

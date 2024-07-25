@@ -167,9 +167,9 @@ export default {
 </script>
 
 <template>
-  <div class="phone-input--wrap relative">
+  <div class="relative phone-input--wrap">
     <div
-      class="flex items-center dark:bg-slate-900 justify-start rounded-md border border-solid"
+      class="flex items-center justify-start border border-solid rounded-md dark:bg-slate-900"
       :class="
         error
           ? 'border border-solid border-red-400 dark:border-red-400 mb-1'
@@ -188,7 +188,7 @@ export default {
       </div>
       <span
         v-if="activeDialCode"
-        class="flex bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-normal text-base leading-normal py-2 pl-2 pr-0"
+        class="flex py-2 pl-2 pr-0 text-base font-normal leading-normal bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100"
       >
         {{ activeDialCode }}
       </span>
@@ -216,13 +216,13 @@ export default {
         onSelectCountry(filteredCountriesBySearch[selectedIndex])
       "
     >
-      <div class="top-0 sticky bg-white dark:bg-slate-900 p-1">
+      <div class="sticky top-0 p-1 bg-white dark:bg-slate-900">
         <input
           ref="searchbar"
           v-model="searchCountry"
           type="text"
-          placeholder="Search"
-          class="!h-8 !mb-0 !text-sm !border !border-solid !border-slate-200 dark:!border-slate-600"
+          :placeholder="$t('GENERAL.PHONE_INPUT.PLACEHOLDER')"
+          class="!h-8 !mb-0 !text-sm !border !border-solid !border-slate-2000 dark:!border-slate-6000"
           @input="onSearchCountry"
         />
       </div>
@@ -230,29 +230,29 @@ export default {
         v-for="(country, index) in filteredCountriesBySearch"
         ref="dropdownItem"
         :key="index"
-        class="flex items-center h-7 py-0 px-1 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700"
+        class="flex items-center px-1 py-0 cursor-pointer h-7 hover:bg-slate-50 dark:hover:bg-slate-700"
         :class="{
           'bg-slate-50 dark:bg-slate-700': country.id === activeCountryCode,
           'bg-slate-25 dark:bg-slate-800': index === selectedIndex,
         }"
         @click="onSelectCountry(country)"
       >
-        <span class="text-base mr-1">{{ country.emoji }}</span>
+        <span class="mr-1 text-base">{{ country.emoji }}</span>
 
         <span
           class="max-w-[7.5rem] overflow-hidden text-ellipsis whitespace-nowrap"
         >
           {{ country.name }}
         </span>
-        <span class="ml-1 text-slate-300 dark:text-slate-300 text-xs">{{
+        <span class="ml-1 text-xs text-slate-300 dark:text-slate-300">{{
           country.dial_code
         }}</span>
       </div>
       <div v-if="filteredCountriesBySearch.length === 0">
         <span
-          class="flex items-center justify-center text-sm text-slate-500 dark:text-slate-300 mt-4"
+          class="flex items-center justify-center mt-4 text-sm text-slate-500 dark:text-slate-300"
         >
-          No results found
+          {{ $t('GENERAL.PHONE_INPUT.EMPTY_STATE') }}
         </span>
       </div>
     </div>

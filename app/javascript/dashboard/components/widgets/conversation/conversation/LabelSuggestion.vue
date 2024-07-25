@@ -148,7 +148,9 @@ export default {
   >
     <div class="wrap">
       <div class="label-suggestion--container">
-        <h6 class="label-suggestion--title">Suggested labels</h6>
+        <h6 class="label-suggestion--title">
+          {{ $t('LABEL_MGMT.SUGGESTIONS.SUGGESTED_LABELS') }}
+        </h6>
         <div class="label-suggestion--options">
           <button
             v-for="label in preparedLabels"

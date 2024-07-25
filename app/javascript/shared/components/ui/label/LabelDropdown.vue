@@ -111,17 +111,17 @@ export default {
   <div class="flex flex-col w-full max-h-[12.5rem]">
     <div class="flex items-center justify-center mb-1">
       <h4
-        class="text-sm text-slate-800 dark:text-slate-100 m-0 overflow-hidden whitespace-nowrap text-ellipsis flex-grow"
+        class="flex-grow m-0 overflow-hidden text-sm text-slate-800 dark:text-slate-100 whitespace-nowrap text-ellipsis"
       >
         {{ $t('CONTACT_PANEL.LABELS.LABEL_SELECT.TITLE') }}
       </h4>
       <Hotkey
-        custom-class="text-slate-800 dark:text-slate-100 bg-slate-50 dark:bg-slate-600 text-xxs border border-solid border-slate-75 dark:border-slate-600"
+        custom-class="border border-solid text-slate-800 dark:text-slate-100 bg-slate-50 dark:bg-slate-600 text-xxs border-slate-75 dark:border-slate-600"
       >
-        L
+        {{ 'L' }}
       </Hotkey>
     </div>
-    <div class="mb-2 flex-shrink-0 flex-grow-0 flex-auto max-h-8">
+    <div class="flex-auto flex-grow-0 flex-shrink-0 mb-2 max-h-8">
       <input
         ref="searchbar"
         v-model="search"
@@ -132,7 +132,7 @@ export default {
       />
     </div>
     <div
-      class="flex justify-start items-start flex-grow flex-shrink flex-auto overflow-auto"
+      class="flex items-start justify-start flex-auto flex-grow flex-shrink overflow-auto"
     >
       <div class="w-full">
         <woot-dropdown-menu>

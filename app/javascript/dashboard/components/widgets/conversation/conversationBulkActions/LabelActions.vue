@@ -37,7 +37,7 @@ export default {
         <path d="M20 12l-8-8-12 12" fill-rule="evenodd" stroke-width="1px" />
       </svg>
     </div>
-    <div class="header flex items-center justify-between">
+    <div class="flex items-center justify-between header">
       <span>{{ $t('BULK_ACTION.LABELS.ASSIGN_LABELS') }}</span>
       <woot-button
         size="tiny"
@@ -50,14 +50,14 @@ export default {
     <div class="labels-list">
       <header class="labels-list__header">
         <div
-          class="label-list-search h-8 flex justify-between items-center gap-2"
+          class="flex items-center justify-between h-8 gap-2 label-list-search"
         >
           <fluent-icon icon="search" class="search-icon" size="16" />
           <input
             ref="search"
             v-model="query"
             type="search"
-            placeholder="Search"
+            :placeholder="$t('BULK_ACTION.SEARCH_INPUT_PLACEHOLDER')"
             class="label--search_input"
           />
         </div>
@@ -79,7 +79,7 @@ export default {
               class="label-checkbox"
             />
             <span
-              class="label-title overflow-hidden whitespace-nowrap text-ellipsis"
+              class="overflow-hidden label-title whitespace-nowrap text-ellipsis"
             >
               {{ label.title }}
             </span>

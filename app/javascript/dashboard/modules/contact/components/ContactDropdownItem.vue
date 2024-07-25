@@ -37,7 +37,7 @@ export default {
       <h5 class="option__title">
         {{ name }}
         <span v-if="identifier" class="user-identifier">
-          (ID: {{ identifier }})
+          {{ $t('MERGE_CONTACTS.DROPDOWN_ITEM.ID', { identifier }) }}
         </span>
       </h5>
       <p class="option__body">

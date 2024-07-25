@@ -63,6 +63,6 @@ export default {
   <div
     class="flex items-center justify-center w-full text-slate-600 dark:text-slate-200"
   >
-    Loading...
+    {{ $t('HELP_CENTER.LOADING') }}
   </div>
 </template>

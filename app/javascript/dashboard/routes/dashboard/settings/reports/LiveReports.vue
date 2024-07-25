@@ -168,7 +168,7 @@ export default {
             color-scheme="secondary"
             @click="downloadHeatmapData"
           >
-            Download Report
+            {{ $t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.DOWNLOAD_REPORT') }}
           </woot-button>
         </template>
         <ReportHeatmap
