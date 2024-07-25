@@ -209,6 +209,87 @@
         "API_SUCCESS": "Приложение успешно удалено",
         "API_ERROR": "Не удалось удалить приложение. Повторите попытку позже"
       }
+    },
+    "LINEAR": {
+      "ADD_OR_LINK_BUTTON": "Создать/Связать Задачу",
+      "LOADING": "Загрузка связанных задач...",
+      "LOADING_ERROR": "Ошибка получения данных о связанных задачах, пожалуйста попробуйте еще раз",
+      "CREATE": "Создать",
+      "LINK": {
+        "SEARCH": "Поиск задач",
+        "SELECT": "Выбрать задачу",
+        "TITLE": "Ссылка",
+        "EMPTY_LIST": "Связанных проблем не найдено",
+        "LOADING": "Загрузка",
+        "ERROR": "Ошибка получения данных о связанных задачах, пожалуйста попробуйте еще раз",
+        "LINK_SUCCESS": "Связывание задачи прошло успешно",
+        "LINK_ERROR": "При привязке этой задачи произошла проблема",
+        "LINK_TITLE": "Диалог"
+      },
+      "ADD_OR_LINK": {
+        "TITLE": "Создать/Привязать задачу из linear",
+        "DESCRIPTION": "Создать задачу из linear из сообщения или привязать существующую задачу",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Название",
+            "PLACEHOLDER": "Введите название",
+            "REQUIRED_ERROR": "Необходимо указать название"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Описание",
+            "PLACEHOLDER": "Введите описание"
+          },
+          "TEAM": {
+            "LABEL": "Команда",
+            "PLACEHOLDER": "Выберите команду",
+            "SEARCH": "Найти команду",
+            "REQUIRED_ERROR": "Team is required"
+          },
+          "ASSIGNEE": {
+            "LABEL": "Назначено",
+            "PLACEHOLDER": "Выбрать ответственного",
+            "SEARCH": "Поиск ответственного"
+          },
+          "PRIORITY": {
+            "LABEL": "Приоритет",
+            "PLACEHOLDER": "Выберите приоритет",
+            "SEARCH": "Приоритет поиска"
+          },
+          "LABEL": {
+            "LABEL": "Метка",
+            "PLACEHOLDER": "Выбрать метку",
+            "SEARCH": "Поиск меток"
+          },
+          "STATUS": {
+            "LABEL": "Статус",
+            "PLACEHOLDER": "Выбрать статус",
+            "SEARCH": "Статус поиска"
+          },
+          "PROJECT": {
+            "LABEL": "Проект",
+            "PLACEHOLDER": "Выбрать проект",
+            "SEARCH": "Поиск проекта"
+          }
+        },
+        "CREATE": "Создать",
+        "CANCEL": "Отменить",
+        "CREATE_SUCCESS": "Проблема успешно создана",
+        "CREATE_ERROR": "Произошла ошибка при создании проблемы, пожалуйста, попробуйте еще раз",
+        "LOADING_TEAM_ERROR": "Ошибка получения данных о связанных задачах, пожалуйста попробуйте еще раз",
+        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+      },
+      "ISSUE": {
+        "STATUS": "Статус",
+        "PRIORITY": "Приоритет",
+        "ASSIGNEE": "Назначено",
+        "LABELS": "Категории",
+        "CREATED_AT": "Created at %{createdAt}"
+      },
+      "UNLINK": {
+        "TITLE": "Unlink",
+        "SUCCESS": "Issue unlinked successfully",
+        "ERROR": "There was an error unlinking the issue, please try again"
+      }
     }
   }
 }
