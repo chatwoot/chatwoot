@@ -9,7 +9,7 @@
             "SEARCH_PLACEHOLDER": "Search Templates",
             "NO_TEMPLATES_FOUND": "No templates found for",
             "LABELS": {
-                "LANGUAGE": "Language",
+                "LANGUAGE": "언어",
                 "TEMPLATE_BODY": "Template Body",
                 "CATEGORY": "Category"
             }

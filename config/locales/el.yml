@@ -209,6 +209,9 @@ el:
     openai:
       name: "OpenAI"
       description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
+    linear:
+      name: "Linear"
+      description: "Create Linear issues from conversations, or link existing ones for seamless tracking."
   public_portal:
     search:
       search_placeholder: Αναζήτηση άρθρου με τίτλο ή περιεχόμενο...

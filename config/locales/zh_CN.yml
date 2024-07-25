@@ -209,6 +209,9 @@ zh_CN:
     openai:
       name: "OpenAI"
       description: "通过从 OpenAI 使用 GPT 模型将强大的 AI 功能整合到Chatwoot 中。"
+    linear:
+      name: "Linear"
+      description: "Create Linear issues from conversations, or link existing ones for seamless tracking."
   public_portal:
     search:
       search_placeholder: 搜索文章的标题或正文...
