@@ -51,6 +51,7 @@ module.exports = {
       },
     ],
     'vue/define-props-declaration': ['error', 'runtime'],
+    'vue/match-component-import-name': ['error'],
     'vue/max-attributes-per-line': [
       'error',
       {
