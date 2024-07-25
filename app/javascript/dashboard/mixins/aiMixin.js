@@ -96,9 +96,16 @@ export default {
           content: this.draftMessage,
           conversationId: this.conversationId,
         });
+
         const {
           data: { message: generatedMessage },
         } = result;
+
+        if (generatedMessage.error) {
+          this.showAlert(generatedMessage.error);
+          return '';
+        }
+
         return generatedMessage;
       } catch (error) {
         this.showAlert(this.$t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR'));
