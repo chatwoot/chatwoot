@@ -35,8 +35,8 @@ class V2::ReportInvoicesBuilder
   def calculate_metrics(period_start)
     period_end = period_end_for_group_by(group_by, period_start)
 
-    total_conversations = count_conversations(period_start, period_end)
-    total_agents = count_agents(period_start, period_end)
+    total_conversations = total_conversations(period_start, period_end)
+    total_agents = total_agents(period_start, period_end)
 
     base_price = product.price
 
@@ -63,10 +63,12 @@ class V2::ReportInvoicesBuilder
     )
   end
 
-  def count_conversations(start_date, end_date)
-    account.reporting_events
-           .where(name: 'extra_conversations', created_at: start_date..end_date)
-           .sum(:value)
+  def total_conversations(start_date, end_date)
+    account.conversations.where(created_at: start_date..end_date).count
+  end
+
+  def total_agents(start_date, end_date)
+    account.agents.where(created_at: start_date..end_date).count
   end
 
   def count_agents(start_date, end_date)
