@@ -26,7 +26,6 @@ export default {
     },
     websiteName: {
       type: String,
-      default: '',
       required: true,
     },
     logo: {

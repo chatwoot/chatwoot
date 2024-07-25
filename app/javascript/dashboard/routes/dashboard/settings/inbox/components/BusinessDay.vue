@@ -10,7 +10,6 @@ export default {
   props: {
     dayName: {
       type: String,
-      default: '',
       required: true,
     },
     timeSlot: {
