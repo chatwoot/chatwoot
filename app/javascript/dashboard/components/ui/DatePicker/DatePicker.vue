@@ -31,6 +31,7 @@ import CalendarMonth from './components/CalendarMonth.vue';
 import CalendarWeek from './components/CalendarWeek.vue';
 import CalendarFooter from './components/CalendarFooter.vue';
 
+const emit = defineEmits(['change']);
 const { LAST_7_DAYS, LAST_30_DAYS, CUSTOM_RANGE } = DATE_RANGE_TYPES;
 const { START_CALENDAR, END_CALENDAR } = CALENDAR_TYPES;
 const { WEEK, MONTH, YEAR } = CALENDAR_PERIODS;
@@ -53,8 +54,6 @@ const hoveredEndDate = ref(null);
 
 const manualStartDate = ref(selectedStartDate.value);
 const manualEndDate = ref(selectedEndDate.value);
-
-const emit = defineEmits(['change']);
 
 // Watcher will set the start and end dates based on the selected range
 watch(selectedRange, newRange => {

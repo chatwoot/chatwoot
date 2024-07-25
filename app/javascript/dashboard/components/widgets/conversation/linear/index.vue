@@ -8,15 +8,15 @@ import CreateOrLinkIssue from './CreateOrLinkIssue.vue';
 import Issue from './Issue.vue';
 import { parseLinearAPIErrorResponse } from 'dashboard/store/utils/api';
 
-defineComponent({
-  name: 'Linear',
-});
-
 const props = defineProps({
   conversationId: {
     type: [Number, String],
     required: true,
   },
+});
+
+defineComponent({
+  name: 'Linear',
 });
 
 const getters = useStoreGetters();

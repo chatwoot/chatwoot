@@ -33,6 +33,8 @@ defineProps({
   },
 });
 
+const emit = defineEmits(['toggleDropdown', 'addFilter', 'closeDropdown']);
+
 const hoveredItemId = ref(null);
 
 const showSubMenu = id => {
@@ -45,7 +47,6 @@ const hideSubMenu = () => {
 
 const isHovered = id => hoveredItemId.value === id;
 
-const emit = defineEmits(['toggleDropdown', 'addFilter', 'closeDropdown']);
 const toggleDropdown = () => emit('toggleDropdown');
 const addFilter = item => {
   emit('addFilter', item);

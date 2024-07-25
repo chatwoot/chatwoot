@@ -13,9 +13,9 @@ const props = defineProps({
   },
 });
 
-const alertEvents = ALERT_EVENTS;
-
 const emit = defineEmits(['update']);
+
+const alertEvents = ALERT_EVENTS;
 
 const selectedValue = computed({
   get: () => props.value,

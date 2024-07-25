@@ -4,14 +4,14 @@ import { ref, computed } from 'vue';
 import wootConstants from 'dashboard/constants/globals';
 import SLAEventItem from './SLAEventItem.vue';
 
-const { SLA_MISS_TYPES } = wootConstants;
-
 const props = defineProps({
   slaMissedEvents: {
     type: Array,
     required: true,
   },
 });
+
+const { SLA_MISS_TYPES } = wootConstants;
 
 const shouldShowAllNrts = ref(false);
 

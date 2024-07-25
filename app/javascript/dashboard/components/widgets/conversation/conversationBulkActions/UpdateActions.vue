@@ -5,10 +5,6 @@ import { ref } from 'vue';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 
-const { t } = useI18n();
-
-const emits = defineEmits(['update', 'close']);
-
 const props = defineProps({
   selectedInboxes: {
     type: Array,
@@ -31,6 +27,10 @@ const props = defineProps({
     default: true,
   },
 });
+
+const emits = defineEmits(['update', 'close']);
+
+const { t } = useI18n();
 
 const actions = ref([
   { icon: 'checkmark', key: 'resolved' },

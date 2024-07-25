@@ -27,6 +27,8 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['click']);
+
 const attrs = useAttrs();
 
 const baseClasses = {
@@ -71,8 +73,6 @@ const sizeClass = computed(() => {
 });
 
 const buttonClasses = computed(() => [colorClass.value, sizeClass.value]);
-
-const emit = defineEmits(['click']);
 
 const onClick = () => {
   if (props.disabled) {

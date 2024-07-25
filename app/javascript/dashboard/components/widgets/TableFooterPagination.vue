@@ -17,14 +17,13 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['pageChange']);
 const hasLastPage = computed(
   () => props.currentPage === props.totalPages || props.totalPages === 1
 );
 const hasFirstPage = computed(() => props.currentPage === 1);
 const hasNextPage = computed(() => props.currentPage === props.totalPages);
 const hasPrevPage = computed(() => props.currentPage === 1);
-
-const emit = defineEmits(['pageChange']);
 
 function buttonClass(hasPage) {
   if (hasPage) {

@@ -14,6 +14,8 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['change']);
+
 const alertTones = computed(() => [
   {
     value: 'ding',
@@ -24,8 +26,6 @@ const alertTones = computed(() => [
     label: 'Bell',
   },
 ]);
-
-const emit = defineEmits(['change']);
 
 const selectedValue = computed({
   get: () => props.value,

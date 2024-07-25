@@ -11,10 +11,9 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['updateSignature']);
 const customEditorMenuList = MESSAGE_SIGNATURE_EDITOR_MENU_OPTIONS;
 const signature = ref(props.messageSignature);
-const emit = defineEmits(['updateSignature']);
-
 watch(
   () => props.messageSignature ?? '',
   newValue => {

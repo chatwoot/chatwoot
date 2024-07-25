@@ -4,13 +4,6 @@ import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.
 import IssueHeader from './IssueHeader.vue';
 import { computed } from 'vue';
 
-const priorityMap = {
-  1: 'Urgent',
-  2: 'High',
-  3: 'Medium',
-  4: 'Low',
-};
-
 const props = defineProps({
   issue: {
     type: Object,
@@ -23,6 +16,13 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['unlinkIssue']);
+
+const priorityMap = {
+  1: 'Urgent',
+  2: 'High',
+  3: 'Medium',
+  4: 'Low',
+};
 
 const formattedDate = computed(() => {
   const { createdAt } = props.issue;

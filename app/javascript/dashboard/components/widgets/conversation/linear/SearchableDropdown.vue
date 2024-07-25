@@ -3,10 +3,6 @@ import { ref, computed, defineComponent } from 'vue';
 import FilterButton from 'dashboard/components/ui/Dropdown/DropdownButton.vue';
 import FilterListDropdown from 'dashboard/components/ui/Dropdown/DropdownList.vue';
 
-defineComponent({
-  name: 'SearchableDropdown',
-});
-
 const props = defineProps({
   type: { type: String, required: true },
   label: { type: String, default: null },
@@ -17,6 +13,11 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['change']);
+
+defineComponent({
+  name: 'SearchableDropdown',
+});
+
 const shouldShowDropdown = ref(false);
 
 const toggleDropdown = () => {

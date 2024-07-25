@@ -15,6 +15,8 @@ const props = defineProps({
   },
 });
 
+const emits = defineEmits(['close']);
+
 const { t } = useI18n();
 
 const selectedTabIndex = ref(0);
@@ -26,8 +28,6 @@ const title = computed(() => {
     name,
   });
 });
-
-const emits = defineEmits(['close']);
 
 const tabs = ref([
   {

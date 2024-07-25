@@ -11,9 +11,9 @@ const props = defineProps({
   },
 });
 
-const isUnlinking = inject('isUnlinking');
-
 const emit = defineEmits(['unlinkIssue']);
+
+const isUnlinking = inject('isUnlinking');
 
 const unlinkIssue = () => {
   emit('unlinkIssue');
