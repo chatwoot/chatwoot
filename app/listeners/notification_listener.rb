@@ -33,12 +33,19 @@ class NotificationListener < BaseListener
     return if event.data[:notifiable_assignee_change].blank?
     return if conversation.pending?
 
+    Rails.logger.info "[NotificationListener] Assignee changed for conversation: #{conversation.id} to #{assignee&.id} [#{assignee&.email}]"
+
     NotificationBuilder.new(
       notification_type: 'conversation_assignment',
       user: assignee,
       account: account,
       primary_actor: conversation
     ).perform
+  rescue NoMethodError => e
+    Rails.logger.error "[NotificationListener] Error in assignee_changed: #{e.message}"
+    exception_tracker = ChatwootExceptionTracker.new(e, account: account,
+                                                        additional_context: { 'conversation': conversation, 'assignee': assignee })
+    exception_tracker.capture_exception
   end
 
   def message_created(event)
