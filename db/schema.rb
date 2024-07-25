@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_07_24_200327) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_25_014749) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -36,6 +36,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_24_200327) do
     t.datetime "updated_at", null: false
     t.integer "current_conversations", default: 0, null: false
     t.integer "current_agents", default: 0, null: false
+    t.integer "extra_inboxes", default: 0
     t.index ["account_id", "product_id"], name: "index_account_plans_on_account_id_and_product_id", unique: true
     t.index ["account_id"], name: "index_account_plans_on_account_id"
     t.index ["product_id"], name: "index_account_plans_on_product_id"
