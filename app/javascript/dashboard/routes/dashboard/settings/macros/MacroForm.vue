@@ -121,7 +121,7 @@ export default {
     },
     resetValidation() {
       this.errors = {};
-      this.v$?.$reset();
+      this.v$?.$reset?.();
     },
   },
 };
