@@ -1,8 +1,6 @@
 {
   "INTEGRATION_APPS": {
-    "FETCHING": "Fetching Integrations",
     "NO_HOOK_CONFIGURED": "There are no %{integrationId} integrations configured in this account.",
-    "HEADER": "Applications",
     "STATUS": {
       "ENABLED": "Enabled",
       "DISABLED": "Disabled"
