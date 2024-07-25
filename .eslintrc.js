@@ -50,6 +50,7 @@ module.exports = {
         defineExposeLast: false,
       },
     ],
+    'vue/define-props-declaration': ['error', 'runtime'],
     'vue/max-attributes-per-line': [
       'error',
       {
