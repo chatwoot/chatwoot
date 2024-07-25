@@ -59,22 +59,22 @@
         "TEXT": "Última activitat: La més nova primer"
       },
       "created_at_desc": {
-        "TEXT": "Created at: Newest first"
+        "TEXT": "Creat a: El més nou primer"
       },
       "created_at_asc": {
-        "TEXT": "Created at: Oldest first"
+        "TEXT": "Creat a: el més antic primer"
       },
       "priority_desc": {
-        "TEXT": "Priority: Highest first"
+        "TEXT": "Prioritat: primer el més alt"
       },
       "priority_asc": {
-        "TEXT": "Priority: Lowest first"
+        "TEXT": "Prioritat: primer el més baix"
       },
       "waiting_since_asc": {
-        "TEXT": "Pending Response: Longest first"
+        "TEXT": "Resposta pendent: el més llarg primer"
       },
       "waiting_since_desc": {
-        "TEXT": "Pending Response: Shortest first"
+        "TEXT": "Resposta pendent: el més curt primer"
       }
     },
     "ATTACHMENTS": {
@@ -98,20 +98,20 @@
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Sort conversation",
+      "TITLE": "Ordena la conversa",
       "DROPDOWN_TITLE": "Ordenat per",
       "ITEMS": {
         "LATEST": {
-          "NAME": "Last activity at",
-          "LABEL": "Last activity"
+          "NAME": "Darrera activitat a les",
+          "LABEL": "Darrera activitat"
         },
         "CREATED_AT": {
           "NAME": "Creat per",
           "LABEL": "Creat per"
         },
         "LAST_USER_MESSAGE_AT": {
-          "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "NAME": "Últim missatge de l'usuari a les",
+          "LABEL": "Últim missatge"
         }
       }
     },
@@ -120,8 +120,8 @@
     "REPLY_TO_TWEET": "Respon a aquest tuit",
     "LINK_TO_STORY": "Ves a la història d'instagram",
     "SENT": "Enviat correctament",
-    "READ": "Read successfully",
-    "DELIVERED": "Delivered successfully",
+    "READ": "Llegit correctament",
+    "DELIVERED": "S'ha lliurat correctament",
     "NO_MESSAGES": "Cap Missatge",
     "NO_CONTENT": "No hi ha contingut disponible",
     "HIDE_QUOTED_TEXT": "Amaga text entre cometes",

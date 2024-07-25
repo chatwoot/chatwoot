@@ -2,6 +2,8 @@
   "INBOX_MGMT": {
     "HEADER": "กล่องข้อความ",
     "SIDEBAR_TXT": "<p><b>กล่องข้อความ</b></p> <p> เมื่อคุณเชื่อมต่อเว็บไซต์หรือหน้า Facebook กับ Chatwoot จะเรียกว่า <b>Inbox</b> คุณสามารถมีกล่องจดหมายได้ไม่ จำกัด ในบัญชี Chatwoot ของคุณ </p> <p> คลิกที่ <b> เพิ่มกล่องจดหมาย </b>เพื่อเชื่อมต่อเว็บไซต์หรือเพจ Facebook </p> <p> ในแดชบอร์ดคุณสามารถดูการสนทนาทั้งหมดจากกล่องจดหมายทั้งหมดของคุณในที่เดียวและตอบกลับได้ในแท็บ \"การสนทนา\" </p> <p> คุณยังสามารถดูการสนทนาเฉพาะสำหรับกล่องจดหมายได้โดยคลิกที่ชื่อกล่องจดหมายในบานหน้าต่างด้านซ้ายของแผงควบคุม </p>",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "ไม่มีกล่องข้อความที่เกี่ยวข้องในบัญชีนี้"
     },
@@ -364,6 +366,7 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
         "EMAIL_PLACEHOLDER": "Enter email address",
+        "SIGN_IN": "Sign in with Microsoft",
         "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
         "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }

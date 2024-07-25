@@ -209,6 +209,87 @@
         "API_SUCCESS": "Informācijas paneļa lietotne ir veiksmīgi izdzēsta",
         "API_ERROR": "Mēs nevarējām izdzēst lietotni. Lūdzu, vēlāk pamēģiniet vēlreiz"
       }
+    },
+    "LINEAR": {
+      "ADD_OR_LINK_BUTTON": "Izveidot/Saistīt lineāru problēmu",
+      "LOADING": "Notiek lineāru problēmu iegūšana...",
+      "LOADING_ERROR": "Lineāru problēmu iegūšanas laikā radās kļūda. Lūdzu, mēģiniet vēlreiz",
+      "CREATE": "Izveidot",
+      "LINK": {
+        "SEARCH": "Meklēt problēmas",
+        "SELECT": "Izvēlieties problēmu",
+        "TITLE": "Saite",
+        "EMPTY_LIST": "Netika atrasta neviena lineāra problēma",
+        "LOADING": "Notiek ielāde",
+        "ERROR": "Lineāru problēmu iegūšanas laikā radās kļūda. Lūdzu, mēģiniet vēlreiz",
+        "LINK_SUCCESS": "Problēma ir veiksmīgi sasaistīta",
+        "LINK_ERROR": "Sasaistot problēmu radās kļūda. Lūdzu, mēģiniet vēlreiz",
+        "LINK_TITLE": "Saruna (#%{conversationId}) ar %{name}"
+      },
+      "ADD_OR_LINK": {
+        "TITLE": "Izveidot/saistīt lineāru problēmu",
+        "DESCRIPTION": "Izveidot lineārus jautājumus no sarunām, vai saistīt esošos netraucētai izsekošanai.",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Nosaukums",
+            "PLACEHOLDER": "Ievadiet virsrakstu",
+            "REQUIRED_ERROR": "Nepieciešams nosaukums"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Apraksts",
+            "PLACEHOLDER": "Ievadiet aprakstu"
+          },
+          "TEAM": {
+            "LABEL": "Komanda",
+            "PLACEHOLDER": "Izvēlieties komandu",
+            "SEARCH": "Meklēt komandu",
+            "REQUIRED_ERROR": "Nepieciešama komanda"
+          },
+          "ASSIGNEE": {
+            "LABEL": "Uzdevuma saņēmējs",
+            "PLACEHOLDER": "Izvēlēties pilnvaroto",
+            "SEARCH": "Meklēt pilnvaroto"
+          },
+          "PRIORITY": {
+            "LABEL": "Prioritāte",
+            "PLACEHOLDER": "Izvēlieties prioritāti",
+            "SEARCH": "Meklēt prioritāti"
+          },
+          "LABEL": {
+            "LABEL": "Etiķete",
+            "PLACEHOLDER": "Izvēlēties etiķeti",
+            "SEARCH": "Meklēt etiķeti"
+          },
+          "STATUS": {
+            "LABEL": "Statuss",
+            "PLACEHOLDER": "Izvēlēties statusu",
+            "SEARCH": "Meklēt statusu"
+          },
+          "PROJECT": {
+            "LABEL": "Projekts",
+            "PLACEHOLDER": "Izvēlēties projektu",
+            "SEARCH": "Meklēt projektu"
+          }
+        },
+        "CREATE": "Izveidot",
+        "CANCEL": "Atcelt",
+        "CREATE_SUCCESS": "Problēma ir veiksmīgi izveidota",
+        "CREATE_ERROR": "Veidojot problēmu radās kļūda. Lūdzu, mēģiniet vēlreiz",
+        "LOADING_TEAM_ERROR": "Ienesot komandas radās kļūda. Lūdzu, mēģiniet vēlreiz",
+        "LOADING_TEAM_ENTITIES_ERROR": "Ienesot komandas entītijas radās kļūda. Lūdzu, mēģiniet vēlreiz"
+      },
+      "ISSUE": {
+        "STATUS": "Statuss",
+        "PRIORITY": "Prioritāte",
+        "ASSIGNEE": "Uzdevuma saņēmējs",
+        "LABELS": "Etiķetes",
+        "CREATED_AT": "Izveidots %{createdAt}"
+      },
+      "UNLINK": {
+        "TITLE": "Atsaistīt",
+        "SUCCESS": "Problēma ir veiksmīgi atsaistīta",
+        "ERROR": "Atsaistot jautājumu radās kļūda. Lūdzu, mēģiniet vēlreiz"
+      }
     }
   }
 }
