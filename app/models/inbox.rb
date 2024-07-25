@@ -130,9 +130,15 @@ class Inbox < ApplicationRecord
 
   def active_bot?
     agent_bot_inbox&.active? || hooks.where(app_id: %w[dialogflow],
-                                            status: 'enabled').count.positive? || account.hooks.where(
-                                              app_id: %w[captain], status: 'enabled'
-                                            ).count.positive?
+                                            status: 'enabled').count.positive? || captain_enabled?
+  end
+
+  def captain_enabled?
+    captain_hook = account.hooks.where(
+      app_id: %w[captain], status: 'enabled'
+    ).first
+
+    captain_hook.present? && captain_hook.settings['inbox_ids'].split(',').include?(id.to_s)
   end
 
   def inbox_type

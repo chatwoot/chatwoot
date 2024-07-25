@@ -22,6 +22,7 @@ captain:
         "account_id": { "type": "string" },
         "account_email": { "type": "string" },
         "assistant_id": { "type": "string" },
+        "inbox_ids": { "type": "strings" },
       },
     "required": ["access_token", "account_id", "account_email", "assistant_id"],
     "additionalProperties": false,
@@ -50,6 +51,12 @@ captain:
       "type": "text",
       "name": "assistant_id",
       "validation": "required",
+    },
+    {
+      "label": "Inbox Ids",
+      "type": "text",
+      "name": "inbox_ids",
+      "validation": "",
     },
   ]
   visible_properties: []
