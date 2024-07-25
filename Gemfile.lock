@@ -710,14 +710,14 @@ GEM
       activesupport (>= 4)
     selectize-rails (0.12.6)
     semantic_range (3.0.0)
-    sentry-rails (5.18.1)
+    sentry-rails (5.18.2)
       railties (>= 5.0)
-      sentry-ruby (~> 5.18.1)
-    sentry-ruby (5.18.1)
+      sentry-ruby (~> 5.18.2)
+    sentry-ruby (5.18.2)
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
-    sentry-sidekiq (5.18.1)
-      sentry-ruby (~> 5.18.1)
+    sentry-sidekiq (5.18.2)
+      sentry-ruby (~> 5.18.2)
       sidekiq (>= 3.0)
     sexp_processor (4.17.0)
     shoulda-matchers (5.3.0)
@@ -939,9 +939,9 @@ DEPENDENCIES
   scout_apm
   scss_lint
   seed_dump
-  sentry-rails (>= 5.18.1)
+  sentry-rails (>= 5.18.2)
   sentry-ruby
-  sentry-sidekiq (>= 5.18.1)
+  sentry-sidekiq (>= 5.18.2)
   shoulda-matchers
   sidekiq (>= 7.3.0)
   sidekiq-cron (>= 1.12.0)

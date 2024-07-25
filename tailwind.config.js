@@ -17,6 +17,7 @@ module.exports = {
     extend: {
       fontFamily: {
         inter: ['Inter', ...defaultTheme.fontFamily.sans],
+        interDisplay: ['Inter Display', ...defaultTheme.fontFamily.sans],
       },
     },
     screens: {
