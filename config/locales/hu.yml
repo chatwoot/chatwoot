@@ -209,6 +209,9 @@ hu:
     openai:
       name: "OpenAI"
       description: "Használj OpenAI GPT modelleket mesterséges intelligencia alapú megoldások integrálására."
+    linear:
+      name: "Linear"
+      description: "Create Linear issues from conversations, or link existing ones for seamless tracking."
   public_portal:
     search:
       search_placeholder: Keress a bejegyzések címében és tartalmában...

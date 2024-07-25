@@ -209,6 +209,9 @@ fa:
     openai:
       name: "OpenAI"
       description: "با استفاده از مدل‌های GPT از OpenAI، ویژگی‌های قدرتمند هوش مصنوعی را در Chatwoot اضافه کنید."
+    linear:
+      name: "Linear"
+      description: "Create Linear issues from conversations, or link existing ones for seamless tracking."
   public_portal:
     search:
       search_placeholder: جستجوی مقاله براساس عنوان یا متن...

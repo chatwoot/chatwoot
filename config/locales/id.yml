@@ -209,6 +209,9 @@ id:
     openai:
       name: "OpenAI"
       description: "Integrasikan fitur AI yang kuat ke dalam Chatwoot dengan memanfaatkan model GPT dari OpenAI."
+    linear:
+      name: "Linear"
+      description: "Create Linear issues from conversations, or link existing ones for seamless tracking."
   public_portal:
     search:
       search_placeholder: Telusuri artikel menurut judul atau isi...

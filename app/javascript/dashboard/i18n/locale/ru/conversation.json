@@ -69,8 +69,8 @@
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
         "RT": "RT {status}",
-        "MISSED": "missed",
-        "DUE": "due"
+        "MISSED": "пропущенный",
+        "DUE": "до"
       }
     },
     "RESOLVE_DROPDOWN": {

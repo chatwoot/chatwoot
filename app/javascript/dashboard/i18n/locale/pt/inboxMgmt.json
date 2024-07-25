@@ -2,6 +2,8 @@
   "INBOX_MGMT": {
     "HEADER": "Caixas de Entrada",
     "SIDEBAR_TXT": "<p><b>Caixa de entrada</b></p> <p> Ao ligar um site ou uma página do Facebook ao Chatwoot, ela passa a ser chamada de <b>caixa de entrada</b>. Pode ter caixas de entrada ilimitadas na sua conta de Chatwoot. </p><p> Clique em <b>Adicionar caixa de entrada</b> para ligar um site ou uma página do Facebook. </p><p> No Painel, pode ver todas as conversas de todas as suas caixas de entrada num único lugar e responder a elas utilizando o separado `Conversas`. </p><p> Também pode ver conversas específicas de uma determinada caixa de entrada clicando no nome dessa caixa no lado esquerdo do painel lateral. </p>",
+    "RECONNECTION_REQUIRED": "A sua caixa de entrada está desligada. Não serão recebidas novas mensagens até nova autorização.",
+    "CLICK_TO_RECONNECT": "Clique aqui para voltar a ligar.",
     "LIST": {
       "404": "Não há caixas de entrada anexadas a esta conta."
     },
@@ -22,7 +24,7 @@
         "body": "Adicionar agentes à caixa de entrada criada."
       },
       {
-        "title": "Voilà!",
+        "title": "Por Fim!",
         "route": "settings_inbox_finish",
         "body": "Está tudo pronto para começar!"
       }
@@ -43,7 +45,7 @@
         "CHOOSE_PLACEHOLDER": "Escolher uma página da lista",
         "INBOX_NAME": "Nome Caixa de Entrada",
         "ADD_NAME": "Escolha um nome para a sua caixa de entrada",
-        "PICK_NAME": "Pick a Name for your Inbox",
+        "PICK_NAME": "Selecione um Nome para a sua Caixa de Entrada",
         "PICK_A_VALUE": "Escolha um valor"
       },
       "TWITTER": {
@@ -62,7 +64,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "URL do Webhook",
-          "PLACEHOLDER": "Please enter your Webhook URL",
+          "PLACEHOLDER": "Introduza o seu URL Webhook",
           "ERROR": "Por favor, insira uma URL válida"
         },
         "CHANNEL_DOMAIN": {
@@ -175,12 +177,12 @@
           },
           "API_KEY": {
             "LABEL": "Chave da API",
-            "PLACEHOLDER": "Please enter your Bandwidth API Key",
+            "PLACEHOLDER": "Por favor, insira a palavra passe da API Bandwidth",
             "ERROR": "Este campo é obrigatório"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
+            "PLACEHOLDER": "Por favor, insira a palavra passe da API Bandwidth",
             "ERROR": "Este campo é obrigatório"
           },
           "APPLICATION_ID": {
@@ -239,7 +241,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook de Verificação de Token",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
+          "PLACEHOLDER": "Digite um token de verificação que deseja configurar para webhooks do Facebook.",
           "ERROR": "Por favor, insira um valor válido."
         },
         "API_KEY": {
@@ -269,7 +271,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "URL do Webhook",
-          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
+          "SUBTITLE": "Configurar a URL onde quer receber mensagens de retorno.",
           "PLACEHOLDER": "URL do Webhook"
         },
         "SUBMIT_BUTTON": "Criar canal API",
@@ -279,7 +281,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Canal de e-mail",
-        "DESC": "Integrate your email inbox.",
+        "DESC": "Integre a sua caixa de entrada de e-mail.",
         "CHANNEL_NAME": {
           "LABEL": "Nome do Canal",
           "PLACEHOLDER": "Por favor, insira um nome de canal",
@@ -345,7 +347,7 @@
       "AGENTS": {
         "TITLE": "agentes",
         "DESC": "Aqui você pode adicionar agentes para gerenciar a sua caixa de entrada recém-criada. Apenas esses agentes selecionados terão acesso à sua caixa de entrada. Agentes que não fazem parte desta caixa de entrada não serão capazes de ver ou responder a mensagens nesta caixa de entrada quando eles acessarem. <br> <b>PS:</b> como administrador, se precisar de acesso a todas as caixas de entrada, você deve se adicionar como agente em todas as caixas de entrada que você criar.",
-        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
+        "VALIDATION_ERROR": "Adicione pelo menos um agente à sua nova caixa de entrada",
         "PICK_AGENTS": "Escolha os agentes da caixa de entrada"
       },
       "DETAILS": {
@@ -364,6 +366,7 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "Para começar, clique no botão Entrar com a Microsoft. Será redirecionado para o e-mail que entrar na página. Depois de aceitar as permissões solicitadas, será redirecionado novamente para a etapa de criação da caixa de entrada.",
         "EMAIL_PLACEHOLDER": "Insira endereço de email",
+        "SIGN_IN": "Entrar via Microsoft",
         "HELP": "Para adicionar a sua conta da Microsoft como um canal, é necessário autenticar a sua conta da Microsoft clicando em 'Entrar com Microsoft' ",
         "ERROR_MESSAGE": "Ocorreu um erro ao ligar à Microsoft, por favor tente novamente"
       }
@@ -406,7 +409,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Nome do remetente",
-        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
+        "SUB_TEXT": "Selecione o nome a apresentar aos seus clientes quando ele receber emails dos seus agentes.",
         "FOR_EG": "Por exemplo:",
         "FRIENDLY": {
           "TITLE": "Amigável",
@@ -508,7 +511,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Permitir mensagens após a resolução da conversa",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permite que os utilizadores finais enviem mensagens após a conversa estar resolvida.",
       "WHATSAPP_SECTION_SUBHEADER": "Esta chave de API é usada para a integração com as APIs do WhatsApp.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Escreva a nova chave de integração com as APIs do WhatsApp.",
       "WHATSAPP_SECTION_TITLE": "Chave da API",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Atualizar Chave de API",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Digite a nova chave da API aqui",
@@ -585,7 +588,7 @@
       "NOTE_TEXT": "Para ativar o SMTP, por favor configure o IMAP.",
       "UPDATE": "Atualizar configurações IMAP",
       "TOGGLE_AVAILABILITY": "Ativar a configuração IMAP para esta caixa de entrada",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
+      "TOGGLE_HELP": "Habilitar o SMTP irá ajudar o utilizador a enviar email",
       "EDIT": {
         "SUCCESS_MESSAGE": "Configurações IMAP atualizadas com sucesso",
         "ERROR_MESSAGE": "Não foi possível atualizar as configurações do IMAP"
