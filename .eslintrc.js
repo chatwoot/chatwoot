@@ -109,6 +109,7 @@ module.exports = {
       },
     ],
     'vue/no-empty-component-block': 'error',
+    'vue/no-multiple-objects-in-class': 'error',
     'vue/max-attributes-per-line': [
       'error',
       {
