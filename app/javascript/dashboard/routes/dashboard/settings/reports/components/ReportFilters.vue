@@ -2,7 +2,7 @@
   <div class="flex flex-col md:flex-row">
     <div class="flex items-center w-full flex-col md:flex-row">
       <!-- SELECT ONE -->
-      <div v-if="type !== 'triggers'">
+      <div v-if="type !== 'triggers' && type !== 'invoices'">
         <div
           v-if="type === 'agent'"
           class="md:w-[240px] w-full multiselect-wrap--small"
