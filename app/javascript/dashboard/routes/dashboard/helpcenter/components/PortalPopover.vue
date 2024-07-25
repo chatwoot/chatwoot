@@ -21,7 +21,7 @@ export default {
 
   methods: {
     closePortalPopover() {
-      this.$emit('close-popover');
+      this.$emit('closePopover');
     },
     openPortalPage() {
       this.closePortalPopover();
@@ -30,7 +30,7 @@ export default {
       });
     },
     fetchPortalAndItsCategories() {
-      this.$emit('fetch-portal');
+      this.$emit('fetchPortal');
     },
   },
 };
@@ -65,7 +65,7 @@ export default {
           />
         </div>
       </div>
-      <p class="text-xs text-slate-600 dark:text-slate-300 mt-2">
+      <p class="mt-2 text-xs text-slate-600 dark:text-slate-300">
         {{ $t('HELP_CENTER.PORTAL.POPOVER.SUBTITLE') }}
       </p>
     </header>
@@ -77,8 +77,8 @@ export default {
         :active-portal-slug="activePortalSlug"
         :active-locale="activeLocale"
         :active="portal.slug === activePortalSlug"
-        @open-portal-page="closePortalPopover"
-        @fetch-portal="fetchPortalAndItsCategories"
+        @openPortalPage="closePortalPopover"
+        @fetchPortal="fetchPortalAndItsCategories"
       />
     </div>
   </div>

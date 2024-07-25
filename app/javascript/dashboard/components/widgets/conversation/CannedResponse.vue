@@ -45,7 +45,7 @@ export default {
   <MentionBox
     v-if="items.length"
     :items="items"
-    @mention-select="handleMentionClick"
+    @mentionSelect="handleMentionClick"
   >
     <template slot-scope="{ item }">
       <strong>{{ item.label }}</strong> - {{ item.description }}

@@ -194,7 +194,7 @@ export default {
       <EditAttribute
         :selected-attribute="selectedAttribute"
         :is-updating="uiFlags.isUpdating"
-        @on-close="hideEditPopup"
+        @onClose="hideEditPopup"
       />
     </woot-modal>
     <woot-confirm-delete-modal
@@ -206,8 +206,8 @@ export default {
       :reject-text="deleteRejectText"
       :confirm-value="selectedAttribute.attribute_display_name"
       :confirm-place-holder-text="confirmPlaceHolderText"
-      @on-confirm="confirmDeletion"
-      @on-close="closeDelete"
+      @onConfirm="confirmDeletion"
+      @onClose="closeDelete"
     />
   </div>
 </template>

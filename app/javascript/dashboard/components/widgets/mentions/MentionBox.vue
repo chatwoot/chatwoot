@@ -51,7 +51,7 @@ export default {
       this.onSelect();
     },
     onSelect() {
-      this.$emit('mention-select', this.items[this.selectedIndex]);
+      this.$emit('mentionSelect', this.items[this.selectedIndex]);
     },
     variableKey(item = {}) {
       return this.type === 'variable' ? `{{${item.label}}}` : `/${item.label}`;
@@ -81,7 +81,7 @@ export default {
           @click="onListItemSelection(index)"
         >
           <p
-            class="text-slate-900 dark:text-slate-100 group-hover:text-woot-500 dark:group-hover:text-woot-500 font-medium mb-0 text-sm overflow-hidden text-ellipsis whitespace-nowrap min-w-0 max-w-full"
+            class="max-w-full min-w-0 mb-0 overflow-hidden text-sm font-medium text-slate-900 dark:text-slate-100 group-hover:text-woot-500 dark:group-hover:text-woot-500 text-ellipsis whitespace-nowrap"
             :class="{
               'text-woot-500 dark:text-woot-500': index === selectedIndex,
             }"
@@ -89,7 +89,7 @@ export default {
             {{ item.description }}
           </p>
           <p
-            class="text-slate-500 dark:text-slate-300 group-hover:text-woot-500 dark:group-hover:text-woot-500 mb-0 text-xs overflow-hidden text-ellipsis whitespace-nowrap min-w-0 max-w-full"
+            class="max-w-full min-w-0 mb-0 overflow-hidden text-xs text-slate-500 dark:text-slate-300 group-hover:text-woot-500 dark:group-hover:text-woot-500 text-ellipsis whitespace-nowrap"
             :class="{
               'text-woot-500 dark:text-woot-500': index === selectedIndex,
             }"

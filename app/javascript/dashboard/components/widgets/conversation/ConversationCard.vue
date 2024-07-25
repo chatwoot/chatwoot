@@ -179,19 +179,19 @@ export default {
       this.hovered = false;
     },
     onSelectConversation(checked) {
-      const action = checked ? 'select-conversation' : 'de-select-conversation';
+      const action = checked ? 'selectConversation' : 'deSelectConversation';
       this.$emit(action, this.chat.id, this.inbox.id);
     },
     openContextMenu(e) {
       if (!this.enableContextMenu) return;
       e.preventDefault();
-      this.$emit('context-menu-toggle', true);
+      this.$emit('contextMenuToggle', true);
       this.contextMenu.x = e.pageX || e.clientX;
       this.contextMenu.y = e.pageY || e.clientY;
       this.showContextMenu = true;
     },
     closeContextMenu() {
-      this.$emit('context-menu-toggle', false);
+      this.$emit('contextMenuToggle', false);
       this.showContextMenu = false;
       this.contextMenu.x = null;
       this.contextMenu.y = null;
@@ -199,30 +199,30 @@ export default {
     onUpdateConversation(status, snoozedUntil) {
       this.closeContextMenu();
       this.$emit(
-        'update-conversation-status',
+        'updateConversationStatus',
         this.chat.id,
         status,
         snoozedUntil
       );
     },
     async onAssignAgent(agent) {
-      this.$emit('assign-agent', agent, [this.chat.id]);
+      this.$emit('assignAgent', agent, [this.chat.id]);
       this.closeContextMenu();
     },
     async onAssignLabel(label) {
-      this.$emit('assign-label', [label.title], [this.chat.id]);
+      this.$emit('assignLabel', [label.title], [this.chat.id]);
       this.closeContextMenu();
     },
     async onAssignTeam(team) {
-      this.$emit('assign-team', team, this.chat.id);
+      this.$emit('assignTeam', team, this.chat.id);
       this.closeContextMenu();
     },
     async markAsUnread() {
-      this.$emit('mark-as-unread', this.chat.id);
+      this.$emit('markAsUnread', this.chat.id);
       this.closeContextMenu();
     },
     async assignPriority(priority) {
-      this.$emit('assign-priority', priority, this.chat.id);
+      this.$emit('assignPriority', priority, this.chat.id);
       this.closeContextMenu();
     },
   },
@@ -335,12 +335,12 @@ export default {
         :priority="chat.priority"
         :chat-id="chat.id"
         :has-unread-messages="hasUnread"
-        @update-conversation="onUpdateConversation"
-        @assign-agent="onAssignAgent"
-        @assign-label="onAssignLabel"
-        @assign-team="onAssignTeam"
-        @mark-as-unread="markAsUnread"
-        @assign-priority="assignPriority"
+        @updateConversation="onUpdateConversation"
+        @assignAgent="onAssignAgent"
+        @assignLabel="onAssignLabel"
+        @assignTeam="onAssignTeam"
+        @markAsUnread="markAsUnread"
+        @assignPriority="assignPriority"
       />
     </woot-context-menu>
   </div>

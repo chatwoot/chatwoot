@@ -40,7 +40,7 @@ export default {
       this.$emit('update', { location: value });
     },
     handleCustomCreate() {
-      this.$emit('create-attribute');
+      this.$emit('createAttribute');
     },
     onCustomAttributeUpdate(key, value) {
       this.$emit('update', { custom_attributes: { [key]: value } });

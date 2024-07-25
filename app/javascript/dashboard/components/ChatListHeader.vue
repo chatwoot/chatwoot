@@ -22,15 +22,15 @@ const props = defineProps({
 });
 
 const emits = defineEmits([
-  'add-folders',
-  'delete-folders',
-  'reset-filters',
-  'basic-filter-change',
-  'filters-modal',
+  'addFolders',
+  'deleteFolders',
+  'resetFilters',
+  'basicFilterChange',
+  'filtersModal',
 ]);
 
 const onBasicFilterChange = (value, type) => {
-  emits('basic-filter-change', value, type);
+  emits('basicFilterChange', value, type);
 };
 
 const hasAppliedFiltersOrActiveFolders = computed(() => {
@@ -68,7 +68,7 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
           variant="smooth"
           color-scheme="secondary"
           icon="save"
-          @click="emits('add-folders')"
+          @click="emits('addFolders')"
         />
         <woot-button
           v-tooltip.top-end="$t('FILTER.CLEAR_BUTTON_LABEL')"
@@ -76,7 +76,7 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
           variant="smooth"
           color-scheme="alert"
           icon="dismiss-circle"
-          @click="emits('reset-filters')"
+          @click="emits('resetFilters')"
         />
       </div>
       <div v-if="hasActiveFolders">
@@ -86,7 +86,7 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
           variant="smooth"
           color-scheme="secondary"
           icon="edit"
-          @click="emits('filters-modal')"
+          @click="emits('filtersModal')"
         />
         <woot-button
           v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
@@ -94,7 +94,7 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
           variant="smooth"
           color-scheme="alert"
           icon="delete"
-          @click="emits('delete-folders')"
+          @click="emits('deleteFolders')"
         />
       </div>
       <woot-button
@@ -104,7 +104,7 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
         color-scheme="secondary"
         icon="filter"
         size="tiny"
-        @click="emits('filters-modal')"
+        @click="emits('filtersModal')"
       />
       <ConversationBasicFilter
         v-if="!hasAppliedFiltersOrActiveFolders"

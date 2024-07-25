@@ -51,7 +51,7 @@ export default {
       sortConfig: {},
       sortOption: {
         sortAlways: true,
-        sortChange: params => this.$emit('on-sort-change', params),
+        sortChange: params => this.$emit('onSortChange', params),
       },
     };
   },

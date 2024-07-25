@@ -57,7 +57,7 @@ export default {
 </script>
 
 <template>
-  <div class="overflow-y-auto h-full">
+  <div class="h-full overflow-y-auto">
     <div class="flex flex-col h-full">
       <NotificationTable
         :notifications="records"
@@ -71,7 +71,7 @@ export default {
         :current-page="Number(meta.currentPage)"
         :total-count="meta.count"
         :page-size="15"
-        @page-change="onPageChange"
+        @pageChange="onPageChange"
       />
     </div>
   </div>

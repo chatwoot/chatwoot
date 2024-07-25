@@ -56,10 +56,10 @@ export default {
   methods: {
     closeModal() {
       this.value = '';
-      this.$emit('on-close');
+      this.$emit('onClose');
     },
     onConfirm() {
-      this.$emit('on-confirm');
+      this.$emit('onConfirm');
     },
   },
 };

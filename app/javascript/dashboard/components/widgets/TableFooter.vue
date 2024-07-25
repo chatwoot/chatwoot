@@ -29,7 +29,7 @@ const isFooterVisible = computed(
 <template>
   <footer
     v-if="isFooterVisible"
-    class="h-12 flex items-center justify-between px-6"
+    class="flex items-center justify-between h-12 px-6"
   >
     <TableFooterResults
       :first-index="firstIndex"
@@ -42,7 +42,7 @@ const isFooterVisible = computed(
       :total-pages="totalPages"
       :total-count="totalCount"
       :page-size="pageSize"
-      @page-change="$emit('page-change', $event)"
+      @pageChange="$emit('pageChange', $event)"
     />
   </footer>
 </template>

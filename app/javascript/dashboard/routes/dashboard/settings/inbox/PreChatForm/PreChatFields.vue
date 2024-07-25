@@ -26,7 +26,7 @@ export default {
       this.$emit('update', event, type, item);
     },
     onDragEnd() {
-      this.$emit('drag-end', this.preChatFieldOptions);
+      this.$emit('dragEnd', this.preChatFieldOptions);
     },
   },
 };

@@ -119,8 +119,8 @@ export default {
 };
 </script>
 <template>
-  <div class="flex-1 overflow-auto p-4">
-    <div class="flex flex-col md:flex-row items-center">
+  <div class="flex-1 p-4 overflow-auto">
+    <div class="flex flex-col items-center md:flex-row">
       <div
         class="flex-1 w-full max-w-full md:w-[65%] md:max-w-[65%] conversation-metric"
       >
@@ -134,7 +134,7 @@ export default {
           <div
             v-for="(metric, name, index) in conversationMetrics"
             :key="index"
-            class="metric-content flex-1 min-w-0"
+            class="flex-1 min-w-0 metric-content"
           >
             <h3 class="heading">
               {{ name }}
@@ -148,7 +148,7 @@ export default {
           <div
             v-for="(metric, name, index) in agentStatusMetrics"
             :key="index"
-            class="metric-content flex-1 min-w-0"
+            class="flex-1 min-w-0 metric-content"
           >
             <h3 class="heading">
               {{ name }}
@@ -158,7 +158,7 @@ export default {
         </MetricCard>
       </div>
     </div>
-    <div class="max-w-full flex flex-wrap flex-row ml-auto mr-auto">
+    <div class="flex flex-row flex-wrap max-w-full ml-auto mr-auto">
       <MetricCard :header="$t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.HEADER')">
         <template #control>
           <woot-button
@@ -177,14 +177,14 @@ export default {
         />
       </MetricCard>
     </div>
-    <div class="max-w-full flex flex-wrap flex-row ml-auto mr-auto">
+    <div class="flex flex-row flex-wrap max-w-full ml-auto mr-auto">
       <MetricCard :header="$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.HEADER')">
         <AgentTable
           :agents="agents"
           :agent-metrics="agentConversationMetric"
           :page-index="pageIndex"
           :is-loading="uiFlags.isFetchingAgentConversationMetric"
-          @page-change="onPageNumberChange"
+          @pageChange="onPageNumberChange"
         />
       </MetricCard>
     </div>

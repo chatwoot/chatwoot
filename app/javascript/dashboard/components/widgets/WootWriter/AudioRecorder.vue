@@ -217,7 +217,7 @@ export default {
       this.player.wavesurfer().pause();
     },
     fireRecorderBlob(blob) {
-      this.$emit('finish-record', {
+      this.$emit('finishRecord', {
         name: blob.name,
         type: blob.type,
         size: blob.size,
@@ -225,10 +225,10 @@ export default {
       });
     },
     fireStateRecorderChanged(state) {
-      this.$emit('state-recorder-changed', state);
+      this.$emit('stateRecorderChanged', state);
     },
     fireProgressRecord(duration) {
-      this.$emit('state-recorder-progress-changed', duration);
+      this.$emit('stateRecorderProgressChanged', duration);
     },
   },
 };

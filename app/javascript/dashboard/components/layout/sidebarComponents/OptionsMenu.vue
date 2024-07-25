@@ -38,7 +38,7 @@ export default {
       navigate(e);
     },
     handleKeyboardHelpClick() {
-      this.$emit('key-shortcut-modal');
+      this.$emit('openKeyShortcutModal');
       this.$emit('close');
     },
     logout() {
@@ -60,7 +60,7 @@ export default {
     <div
       v-if="show"
       v-on-clickaway="onClickAway"
-      class="left-3 rtl:left-auto rtl:right-3 bottom-16 w-64 absolute z-30 rounded-md shadow-xl bg-white dark:bg-slate-800 py-2 px-2 border border-slate-25 dark:border-slate-700"
+      class="absolute z-30 w-64 px-2 py-2 bg-white border rounded-md shadow-xl left-3 rtl:left-auto rtl:right-3 bottom-16 dark:bg-slate-800 border-slate-25 dark:border-slate-700"
       :class="{ 'block visible': show }"
     >
       <AvailabilityStatus />
@@ -71,7 +71,7 @@ export default {
             color-scheme="secondary"
             size="small"
             icon="arrow-swap"
-            @click="$emit('toggle-accounts')"
+            @click="$emit('toggleAccounts')"
           >
             {{ $t('SIDEBAR_ITEMS.CHANGE_ACCOUNTS') }}
           </woot-button>
@@ -82,7 +82,7 @@ export default {
             color-scheme="secondary"
             size="small"
             icon="chat-help"
-            @click="$emit('show-support-chat-window')"
+            @click="$emit('showSupportChatWindow')"
           >
             {{ $t('SIDEBAR_ITEMS.CONTACT_SUPPORT') }}
           </woot-button>
@@ -106,7 +106,7 @@ export default {
           >
             <a
               :href="href"
-              class="button small clear secondary bg-white dark:bg-slate-800 h-8"
+              class="h-8 bg-white button small clear secondary dark:bg-slate-800"
               :class="{ 'is-active': isActive }"
               @click="e => handleProfileSettingClick(e, navigate)"
             >
@@ -131,7 +131,7 @@ export default {
         <WootDropdownItem v-if="currentUser.type === 'SuperAdmin'">
           <a
             href="/super_admin"
-            class="button small clear secondary bg-white dark:bg-slate-800 h-8"
+            class="h-8 bg-white button small clear secondary dark:bg-slate-800"
             target="_blank"
             rel="noopener nofollow noreferrer"
             @click="$emit('close')"

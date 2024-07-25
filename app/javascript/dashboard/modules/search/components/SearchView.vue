@@ -160,7 +160,7 @@ export default {
           v-if="query"
           :tabs="tabs"
           :selected-tab="activeTabIndex"
-          @tab-change="tab => (selectedTab = tab)"
+          @tabChange="tab => (selectedTab = tab)"
         />
       </header>
       <div class="search-results">
@@ -195,7 +195,7 @@ export default {
             {{ $t('SEARCH.EMPTY_STATE_FULL', { query }) }}
           </p>
         </div>
-        <div v-else class="empty text-center">
+        <div v-else class="text-center empty">
           <p class="text-center margin-bottom-0">
             <fluent-icon icon="search" size="24px" class="icon" />
           </p>

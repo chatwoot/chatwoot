@@ -140,8 +140,8 @@ export default {
       :placeholder="$t('CHAT_PLACEHOLDER')"
       class="form-input user-message-input is-focused"
       :class="inputColor"
-      @typing-off="onTypingOff"
-      @typing-on="onTypingOn"
+      @typingOff="onTypingOff"
+      @typingOn="onTypingOn"
       @focus="onFocus"
       @blur="onBlur"
     />

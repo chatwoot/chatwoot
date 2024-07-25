@@ -18,7 +18,7 @@ export default {
   },
   methods: {
     handleInput() {
-      this.$emit('inbox-filter-selection', this.selectedOption);
+      this.$emit('inboxFilterSelection', this.selectedOption);
     },
   },
 };

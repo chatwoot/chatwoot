@@ -56,7 +56,7 @@ export default {
   mounted() {
     this.saveArticle = debounce(
       () => {
-        this.$emit('save-article', {
+        this.$emit('saveArticle', {
           meta: {
             title: this.metaTitle,
             description: this.metaDescription,
@@ -95,25 +95,25 @@ export default {
       }
     },
     onClickSelectCategory({ id }) {
-      this.$emit('save-article', { category_id: id });
+      this.$emit('saveArticle', { category_id: id });
     },
     onClickAssignAuthor({ id }) {
-      this.$emit('save-article', { author_id: id });
+      this.$emit('saveArticle', { author_id: id });
       this.updateMeta();
     },
     onChangeMetaInput() {
       this.saveArticle();
     },
     onClickArchiveArticle() {
-      this.$emit('archive-article');
+      this.$emit('archiveArticle');
       this.updateMeta();
     },
     onClickDeleteArticle() {
-      this.$emit('delete-article');
+      this.$emit('deleteArticle');
       this.updateMeta();
     },
     updateMeta() {
-      this.$emit('update-meta');
+      this.$emit('updateMeta');
     },
   },
 };

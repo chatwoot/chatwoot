@@ -133,10 +133,10 @@ export default {
       }
     },
     toggleKeyShortcutModal() {
-      this.$emit('open-key-shortcut-modal');
+      this.$emit('openKeyShortcutModal');
     },
     closeKeyShortcutModal() {
-      this.$emit('close-key-shortcut-modal');
+      this.$emit('closeKeyShortcutModal');
     },
     getKeyboardEvents() {
       return {
@@ -168,13 +168,13 @@ export default {
       window.$chatwoot.toggle();
     },
     toggleAccountModal() {
-      this.$emit('toggle-account-modal');
+      this.$emit('toggleAccountModal');
     },
     showAddLabelPopup() {
-      this.$emit('show-add-label-popup');
+      this.$emit('showAddLabelPopup');
     },
     openNotificationPanel() {
-      this.$emit('open-notification-panel');
+      this.$emit('openNotificationPanel');
     },
   },
 };
@@ -189,9 +189,9 @@ export default {
       :account-id="accountId"
       :menu-items="primaryMenuItems"
       :active-menu-item="activePrimaryMenu.key"
-      @toggle-accounts="toggleAccountModal"
-      @key-shortcut-modal="toggleKeyShortcutModal"
-      @open-notification-panel="openNotificationPanel"
+      @toggleAccounts="toggleAccountModal"
+      @openKeyShortcutModal="toggleKeyShortcutModal"
+      @openNotificationPanel="openNotificationPanel"
     />
     <SecondarySidebar
       v-if="showSecondarySidebar"
@@ -204,8 +204,8 @@ export default {
       :menu-config="activeSecondaryMenu"
       :current-user="currentUser"
       :is-on-chatwoot-cloud="isOnChatwootCloud"
-      @add-label="showAddLabelPopup"
-      @toggle-accounts="toggleAccountModal"
+      @addLabel="showAddLabelPopup"
+      @toggleAccounts="toggleAccountModal"
     />
   </aside>
 </template>

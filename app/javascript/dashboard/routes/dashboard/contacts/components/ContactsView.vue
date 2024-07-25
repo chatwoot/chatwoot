@@ -396,15 +396,15 @@ export default {
         :header-title="pageTitle"
         :segments-id="segmentsId"
         this-selected-contact-id=""
-        @on-input-search="onInputSearch"
-        @on-toggle-create="onToggleCreate"
-        @on-toggle-filter="onToggleFilters"
-        @on-search-submit="onSearchSubmit"
-        @on-toggle-import="onToggleImport"
-        @on-export-submit="onExportSubmit"
-        @on-toggle-save-filter="onToggleSaveFilters"
-        @on-toggle-delete-filter="onToggleDeleteFilters"
-        @on-toggle-edit-filter="onToggleFilters"
+        @onInputSearch="onInputSearch"
+        @onToggleCreate="onToggleCreate"
+        @onToggleFilter="onToggleFilters"
+        @onSearchSubmit="onSearchSubmit"
+        @onToggleImport="onToggleImport"
+        @onExportSubmit="onExportSubmit"
+        @onToggleSaveFilter="onToggleSaveFilters"
+        @onToggleDeleteFilter="onToggleDeleteFilters"
+        @onToggleEditFilter="onToggleFilters"
       />
       <ContactsTable
         :contacts="records"
@@ -412,14 +412,14 @@ export default {
         :is-loading="uiFlags.isFetching"
         :on-click-contact="openContactInfoPanel"
         :active-contact-id="selectedContactId"
-        @on-sort-change="onSortChange"
+        @onSortChange="onSortChange"
       />
       <TableFooter
         class="border-t border-slate-75 dark:border-slate-700/50"
         :current-page="Number(meta.currentPage)"
         :total-count="meta.count"
         :page-size="15"
-        @page-change="onPageChange"
+        @pageChange="onPageChange"
       />
     </div>
 

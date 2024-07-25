@@ -44,10 +44,10 @@ export default {
     return {
       typingIndicator: createTypingIndicator(
         () => {
-          this.$emit('typing-on');
+          this.$emit('typingOn');
         },
         () => {
-          this.$emit('typing-off');
+          this.$emit('typingOff');
         },
         TYPING_INDICATOR_IDLE_TIME
       ),

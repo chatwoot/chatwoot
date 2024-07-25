@@ -25,7 +25,7 @@ export default {
   methods: {
     onTabChange(index) {
       this.activeTab = index;
-      this.$emit('tab-change', this.tabs[index].key);
+      this.$emit('tabChange', this.tabs[index].key);
     },
   },
 };

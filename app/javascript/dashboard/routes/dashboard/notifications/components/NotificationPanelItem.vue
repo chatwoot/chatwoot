@@ -30,7 +30,7 @@ export default {
   methods: {
     dynamicTime,
     onClickOpenNotification() {
-      this.$emit('open-notification', this.notificationItem);
+      this.$emit('openNotification', this.notificationItem);
     },
   },
 };

@@ -57,7 +57,7 @@ export default {
       v-show="!isLoading"
       :key="notificationItem.id"
       :notification-item="notificationItem"
-      @open-notification="onClickNotification"
+      @openNotification="onClickNotification"
     />
     <EmptyState
       v-if="showEmptyResult"
@@ -75,7 +75,7 @@ export default {
     </woot-button>
     <div
       v-if="isLoading"
-      class="items-center justify-center my-12 mx-2 text-sm font-medium flex"
+      class="flex items-center justify-center mx-2 my-12 text-sm font-medium"
     >
       <Spinner />
       <span>{{

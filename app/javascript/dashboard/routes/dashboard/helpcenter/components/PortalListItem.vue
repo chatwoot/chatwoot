@@ -64,10 +64,10 @@ export default {
   },
   methods: {
     addLocale() {
-      this.$emit('add-locale', this.portal.id);
+      this.$emit('addLocale', this.portal.id);
     },
     openSite() {
-      this.$emit('open-site', this.portal.slug);
+      this.$emit('openSite', this.portal.slug);
     },
     openSettings() {
       this.fetchPortalAndItsCategories();
@@ -357,7 +357,7 @@ export default {
           <LocaleItemTable
             :locales="locales"
             :selected-locale-code="portal.meta.default_locale"
-            @change-default-locale="changeDefaultLocale"
+            @changeDefaultLocale="changeDefaultLocale"
             @delete="deletePortalLocale"
           />
         </div>

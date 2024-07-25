@@ -123,7 +123,7 @@ onMounted(() => {
       :issue="linkedIssue.issue"
       :link-id="linkedIssue.id"
       class="absolute right-0 top-[40px] invisible group-hover:visible"
-      @unlink-issue="unlinkIssue"
+      @unlinkIssue="unlinkIssue"
     />
     <woot-modal
       :show.sync="shouldShowPopup"

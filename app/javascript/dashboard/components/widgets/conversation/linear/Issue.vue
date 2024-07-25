@@ -22,7 +22,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['unlink-issue']);
+const emit = defineEmits(['unlinkIssue']);
 
 const formattedDate = computed(() => {
   const { createdAt } = props.issue;
@@ -50,7 +50,7 @@ const priorityLabel = computed(() => {
 });
 
 const unlinkIssue = () => {
-  emit('unlink-issue', props.linkId);
+  emit('unlinkIssue', props.linkId);
 };
 </script>
 
@@ -63,7 +63,7 @@ const unlinkIssue = () => {
         :identifier="issue.identifier"
         :link-id="linkId"
         :issue-url="issue.url"
-        @unlink-issue="unlinkIssue"
+        @unlinkIssue="unlinkIssue"
       />
 
       <span class="mt-2 text-sm font-medium text-ash-900">

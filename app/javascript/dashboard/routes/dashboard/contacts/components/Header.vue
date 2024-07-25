@@ -52,36 +52,36 @@ export default {
   },
   methods: {
     onToggleSegmentsModal() {
-      this.$emit('on-toggle-save-filter');
+      this.$emit('onToggleSaveFilter');
     },
     onToggleEditSegmentsModal() {
-      this.$emit('on-toggle-edit-filter');
+      this.$emit('onToggleEditFilter');
     },
     onToggleDeleteSegmentsModal() {
-      this.$emit('on-toggle-delete-filter');
+      this.$emit('onToggleDeleteFilter');
     },
     toggleCreate() {
-      this.$emit('on-toggle-create');
+      this.$emit('onToggleCreate');
     },
     toggleFilter() {
-      this.$emit('on-toggle-filter');
+      this.$emit('onToggleFilter');
     },
     toggleImport() {
-      this.$emit('on-toggle-import');
+      this.$emit('onToggleImport');
     },
     async submitExport() {
       const ok =
         await this.$refs.confirmExportContactsDialog.showConfirmation();
 
       if (ok) {
-        this.$emit('on-export-submit');
+        this.$emit('onExportSubmit');
       }
     },
     submitSearch() {
-      this.$emit('on-search-submit');
+      this.$emit('onSearchSubmit');
     },
     inputSearch(event) {
-      this.$emit('on-input-search', event);
+      this.$emit('onInputSearch', event);
     },
   },
 };

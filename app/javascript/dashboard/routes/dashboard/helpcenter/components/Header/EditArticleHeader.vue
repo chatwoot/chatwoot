@@ -78,7 +78,7 @@ export default {
           articleId: this.articleSlug,
           status: status,
         });
-        this.$emit('update-meta');
+        this.$emit('updateMeta');
         this.statusUpdateSuccessMessage(status);
         this.closeActionsDropdown();
         if (status === this.ARTICLE_STATUS_TYPES.ARCHIVE) {
@@ -140,7 +140,7 @@ export default {
     <div class="flex items-center gap-1">
       <span
         v-if="isUpdating || isSaved"
-        class="draft-status mr-1 ml-4 rtl:ml-2 rtl:mr-4 text-slate-400 dark:text-slate-300 items-center text-xs"
+        class="items-center ml-4 mr-1 text-xs draft-status rtl:ml-2 rtl:mr-4 text-slate-400 dark:text-slate-300"
       >
         {{ statusText }}
       </span>
@@ -188,7 +188,7 @@ export default {
         color-scheme="secondary"
         @click="closeSidebar"
       />
-      <div class="article--buttons relative">
+      <div class="relative article--buttons">
         <div class="button-group">
           <woot-button
             class-names="publish-button"

@@ -75,14 +75,14 @@ export default {
       "
     />
     <div
-      class="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 mx-0 max-w-3xl"
+      class="grid max-w-3xl grid-cols-2 mx-0 mt-6 sm:grid-cols-3 lg:grid-cols-4"
     >
       <ChannelItem
         v-for="channel in channelList"
         :key="channel.key"
         :channel="channel"
         :enabled-features="enabledFeatures"
-        @channel-item-click="initChannelAuth"
+        @channelItemClick="initChannelAuth"
       />
     </div>
   </div>

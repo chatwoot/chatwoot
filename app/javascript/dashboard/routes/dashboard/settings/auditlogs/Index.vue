@@ -130,7 +130,7 @@ export default {
       :total-count="meta.totalEntries"
       :page-size="meta.perPage"
       class="!bg-slate-25 dark:!bg-slate-900 border-t border-slate-75 dark:border-slate-700/50"
-      @page-change="onPageChange"
+      @pageChange="onPageChange"
     />
   </div>
 </template>

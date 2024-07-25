@@ -38,7 +38,7 @@ export default {
       const fromDate = subDays(new Date(), offset);
       const from = getUnixStartOfDay(fromDate);
       const to = getUnixEndOfDay(new Date());
-      this.$emit('filter-change', {
+      this.$emit('filterChange', {
         from,
         to,
         ...this.selectedGroupByFilter,
@@ -46,7 +46,7 @@ export default {
     },
     emitChange() {
       const { from, to } = this;
-      this.$emit('filter-change', {
+      this.$emit('filterChange', {
         from,
         to,
         ...this.selectedGroupByFilter,
@@ -66,6 +66,6 @@ export default {
 <template>
   <div class="flex flex-col flex-wrap w-full gap-3 md:flex-row">
     <woot-date-picker @dateRangeChanged="onDateRangeChange" />
-    <SLAFilter @filter-change="emitFilterChange" />
+    <SLAFilter @filterChange="emitFilterChange" />
   </div>
 </template>

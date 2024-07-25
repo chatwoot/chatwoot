@@ -53,7 +53,7 @@ export default {
     },
     applyText() {
       this.recordAnalytics(this.aiOption);
-      this.$emit('apply-text', this.generatedContent);
+      this.$emit('applyText', this.generatedContent);
       this.onClose();
     },
   },
@@ -64,15 +64,15 @@ export default {
   <div class="flex flex-col">
     <woot-modal-header :header-title="headerTitle" />
     <form
-      class="modal-content flex flex-col w-full"
+      class="flex flex-col w-full modal-content"
       @submit.prevent="applyText"
     >
       <div v-if="draftMessage" class="w-full">
-        <h4 class="text-base mt-1 text-slate-700 dark:text-slate-100">
+        <h4 class="mt-1 text-base text-slate-700 dark:text-slate-100">
           {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.DRAFT_TITLE') }}
         </h4>
         <p v-dompurify-html="formatMessage(draftMessage, false)" />
-        <h4 class="text-base mt-1 text-slate-700 dark:text-slate-100">
+        <h4 class="mt-1 text-base text-slate-700 dark:text-slate-100">
           {{
             $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.GENERATED_TITLE')
           }}
@@ -83,7 +83,7 @@ export default {
         <p v-else v-dompurify-html="formatMessage(generatedContent, false)" />
       </div>
 
-      <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+      <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
         <woot-button variant="clear" @click.prevent="onClose">
           {{
             $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.CANCEL')

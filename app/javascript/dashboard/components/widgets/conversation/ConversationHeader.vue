@@ -123,7 +123,7 @@ export default {
     getKeyboardEvents() {
       return {
         'Alt+KeyO': {
-          action: () => this.$emit('contact-panel-toggle'),
+          action: () => this.$emit('contactPanelToggle'),
         },
       };
     },
@@ -160,7 +160,7 @@ export default {
               variant="link"
               color-scheme="secondary"
               class="[&>span]:overflow-hidden [&>span]:whitespace-nowrap [&>span]:text-ellipsis min-w-0"
-              @click.prevent="$emit('contact-panel-toggle')"
+              @click.prevent="$emit('contactPanelToggle')"
             >
               <span
                 class="text-base font-medium leading-tight text-slate-900 dark:text-slate-100"
@@ -191,7 +191,7 @@ export default {
               class="p-0"
               size="small"
               variant="link"
-              @click="$emit('contact-panel-toggle')"
+              @click="$emit('contactPanelToggle')"
             >
               {{ contactPanelToggleText }}
             </woot-button>

@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     startConversation() {
-      this.$emit('start-conversation');
+      this.$emit('startConversation');
       if (!this.hasConversation) {
         IFrameHelper.sendMessage({
           event: 'onEvent',
@@ -64,9 +64,9 @@ export default {
 </script>
 
 <template>
-  <div class="p-4 shadow-sm rounded-md bg-white dark:bg-slate-700">
+  <div class="p-4 bg-white rounded-md shadow-sm dark:bg-slate-700">
     <div class="flex items-center justify-between">
-      <div class="  ">
+      <div class="">
         <div class="text-sm font-medium text-slate-700 dark:text-slate-50">
           {{
             isOnline
@@ -74,14 +74,14 @@ export default {
               : $t('TEAM_AVAILABILITY.OFFLINE')
           }}
         </div>
-        <div class="text-sm mt-1 text-slate-500 dark:text-slate-100">
+        <div class="mt-1 text-sm text-slate-500 dark:text-slate-100">
           {{ replyWaitMessage }}
         </div>
       </div>
       <AvailableAgents v-if="isOnline" :agents="availableAgents" />
     </div>
     <button
-      class="inline-flex text-sm font-medium rounded-md py-1 mt-2 px-2 -ml-2 leading-6 text-slate-800 dark:text-slate-50 justify-between items-center hover:bg-slate-25 dark:hover:bg-slate-800"
+      class="inline-flex items-center justify-between px-2 py-1 mt-2 -ml-2 text-sm font-medium leading-6 rounded-md text-slate-800 dark:text-slate-50 hover:bg-slate-25 dark:hover:bg-slate-800"
       :style="{ color: widgetColor }"
       @click="startConversation"
     >

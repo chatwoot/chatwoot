@@ -202,7 +202,7 @@ export default {
         :inbox-id="inboxId"
         :is-contact-panel-open="isContactPanelOpen"
         :is-on-expanded-layout="false"
-        @contact-panel-toggle="onToggleContactPanel"
+        @contactPanelToggle="onToggleContactPanel"
       />
     </div>
   </div>

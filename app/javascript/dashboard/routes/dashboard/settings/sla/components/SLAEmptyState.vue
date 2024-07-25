@@ -1,8 +1,8 @@
 <script setup>
 import BaseEmptyState from './BaseEmptyState.vue';
 
-const emit = defineEmits(['primary-action']);
-const primaryAction = () => emit('primary-action');
+const emit = defineEmits(['primaryAction']);
+const primaryAction = () => emit('primaryAction');
 </script>
 
 <template>

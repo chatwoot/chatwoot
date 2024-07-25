@@ -28,14 +28,14 @@ export default {
 
 <template>
   <div>
-    <h3 class="text-sm font-medium text-slate-800 dark:text-slate-50 mb-0">
+    <h3 class="mb-0 text-sm font-medium text-slate-800 dark:text-slate-50">
       {{ title }}
     </h3>
     <ArticleList :articles="articles" @click="onArticleClick" />
     <button
-      class="inline-flex text-sm font-medium rounded-md px-2 py-1 -ml-2 leading-6 text-slate-800 dark:text-slate-50 justify-between items-center hover:bg-slate-25 dark:hover:bg-slate-800 see-articles"
+      class="inline-flex items-center justify-between px-2 py-1 -ml-2 text-sm font-medium leading-6 rounded-md text-slate-800 dark:text-slate-50 hover:bg-slate-25 dark:hover:bg-slate-800 see-articles"
       :style="{ color: widgetColor }"
-      @click="$emit('view-all')"
+      @click="$emit('viewAll')"
     >
       <span class="pr-2 text-sm">{{ $t('PORTAL.VIEW_ALL_ARTICLES') }}</span>
       <FluentIcon icon="arrow-right" size="14" />

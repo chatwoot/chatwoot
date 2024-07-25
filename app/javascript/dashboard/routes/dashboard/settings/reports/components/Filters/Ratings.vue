@@ -16,7 +16,7 @@ export default {
   },
   methods: {
     handleInput(selectedRating) {
-      this.$emit('rating-filter-selection', selectedRating);
+      this.$emit('ratingFilterSelection', selectedRating);
     },
   },
 };

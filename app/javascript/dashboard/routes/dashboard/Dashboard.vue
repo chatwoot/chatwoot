@@ -148,23 +148,23 @@ export default {
     <Sidebar
       :route="currentRoute"
       :show-secondary-sidebar="isSidebarOpen"
-      @open-notification-panel="openNotificationPanel"
-      @toggle-account-modal="toggleAccountModal"
-      @open-key-shortcut-modal="toggleKeyShortcutModal"
-      @close-key-shortcut-modal="closeKeyShortcutModal"
-      @show-add-label-popup="showAddLabelPopup"
+      @openNotificationPanel="openNotificationPanel"
+      @toggleAccountModal="toggleAccountModal"
+      @openKeyShortcutModal="toggleKeyShortcutModal"
+      @closeKeyShortcutModal="closeKeyShortcutModal"
+      @showAddLabelPopup="showAddLabelPopup"
     />
     <section class="flex flex-1 h-full min-h-0 px-0 overflow-hidden">
       <router-view />
       <CommandBar />
       <AccountSelector
         :show-account-modal="showAccountModal"
-        @close-account-modal="toggleAccountModal"
-        @show-create-account-modal="openCreateAccountModal"
+        @closeAccountModal="toggleAccountModal"
+        @showCreateAccountModal="openCreateAccountModal"
       />
       <AddAccountModal
         :show="showCreateAccountModal"
-        @close-account-create-modal="closeCreateAccountModal"
+        @closeAccountCreateModal="closeCreateAccountModal"
       />
       <WootKeyShortcutModal
         :show.sync="showShortcutModal"

@@ -54,8 +54,8 @@ export default {
           locale: code,
         },
       });
-      this.$emit('fetch-portal');
-      this.$emit('open-portal-page');
+      this.$emit('fetchPortal');
+      this.$emit('openPortalPage');
     },
     isLocaleActive(code, slug) {
       const isPortalActive = this.portal.slug === slug;

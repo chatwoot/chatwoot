@@ -217,8 +217,8 @@ export default {
       :reject-text="deleteRejectText"
       :confirm-value="selectedInbox.name"
       :confirm-place-holder-text="confirmPlaceHolderText"
-      @on-confirm="confirmDeletion"
-      @on-close="closeDelete"
+      @onConfirm="confirmDeletion"
+      @onClose="closeDelete"
     />
   </div>
 </template>

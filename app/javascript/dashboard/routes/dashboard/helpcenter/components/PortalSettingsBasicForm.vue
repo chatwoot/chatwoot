@@ -97,7 +97,7 @@ const showDeleteButton = computed(() => {
   return hasValidAvatarUrl(state.logoUrl);
 });
 
-const emit = defineEmits(['submit', 'delete-logo']);
+const emit = defineEmits(['submit', 'deleteLogo']);
 
 onMounted(() => {
   const portal = props.portal || {};
@@ -135,7 +135,7 @@ function onSubmitClick() {
 async function deleteAvatar() {
   state.logoUrl = '';
   state.avatarBlobId = '';
-  emit('delete-logo');
+  emit('deleteLogo');
 }
 
 async function uploadLogoToStorage(file) {

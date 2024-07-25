@@ -7,7 +7,7 @@ const props = defineProps({
     default: '',
   },
 });
-const emit = defineEmits(['on-copy']);
+const emit = defineEmits(['onCopy']);
 const inputType = ref('password');
 const toggleMasked = () => {
   inputType.value = inputType.value === 'password' ? 'text' : 'password';
@@ -18,7 +18,7 @@ const maskIcon = computed(() => {
 });
 
 const onClick = () => {
-  emit('on-copy', props.value);
+  emit('onCopy', props.value);
 };
 </script>
 <template>

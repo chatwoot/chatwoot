@@ -169,7 +169,7 @@ export default {
       } else if (this.menuItem.showModalForNewItem) {
         if (this.menuItem.modalName === 'AddLabel') {
           e.preventDefault();
-          this.$emit('add-label');
+          this.$emit('addLabel');
         }
       }
     },

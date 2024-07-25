@@ -109,22 +109,22 @@ export default {
       this.showCustomTimeSnoozeModal = false;
     },
     selectAll(e) {
-      this.$emit('select-all-conversations', e.target.checked);
+      this.$emit('selectAllConversations', e.target.checked);
     },
     submit(agent) {
-      this.$emit('assign-agent', agent);
+      this.$emit('assignAgent', agent);
     },
     updateConversations(status, snoozedUntil) {
-      this.$emit('update-conversations', status, snoozedUntil);
+      this.$emit('updateConversations', status, snoozedUntil);
     },
     assignLabels(labels) {
-      this.$emit('assign-labels', labels);
+      this.$emit('assignLabels', labels);
     },
     assignTeam(team) {
-      this.$emit('assign-team', team);
+      this.$emit('assignTeam', team);
     },
     resolveConversations() {
-      this.$emit('resolve-conversations');
+      this.$emit('resolveConversations');
     },
     toggleUpdateActions() {
       this.showUpdateActions = !this.showUpdateActions;
@@ -145,7 +145,7 @@ export default {
 <template>
   <div class="bulk-action__container">
     <div class="flex items-center justify-between">
-      <label class="bulk-action__panel flex items-center justify-between">
+      <label class="flex items-center justify-between bulk-action__panel">
         <input
           ref="selectAllCheck"
           type="checkbox"
@@ -162,7 +162,7 @@ export default {
           }}
         </span>
       </label>
-      <div class="bulk-action__actions flex gap-1 items-center">
+      <div class="flex items-center gap-1 bulk-action__actions">
         <woot-button
           v-tooltip="$t('BULK_ACTION.LABELS.ASSIGN_LABELS')"
           size="tiny"
@@ -231,7 +231,7 @@ export default {
         <TeamActions
           v-if="showTeamsList"
           class="team-actions-box"
-          @assign-team="assignTeam"
+          @assignTeam="assignTeam"
           @close="showTeamsList = false"
         />
       </transition>
@@ -245,7 +245,7 @@ export default {
     >
       <CustomSnoozeModal
         @close="hideCustomSnoozeModal"
-        @choose-time="customSnoozeTime"
+        @chooseTime="customSnoozeTime"
       />
     </woot-modal>
   </div>

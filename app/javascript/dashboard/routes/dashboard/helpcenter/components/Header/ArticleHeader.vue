@@ -72,7 +72,7 @@ export default {
       this.showLocaleDropdown = false;
     },
     onClickNewArticlePage() {
-      this.$emit('new-article-page');
+      this.$emit('newArticlePage');
     },
     onClickSelectItem(value) {
       const { name, code } = value;
@@ -80,7 +80,7 @@ export default {
       if (!name || name === this.selectedLocale) {
         return;
       }
-      this.$emit('change-locale', code);
+      this.$emit('changeLocale', code);
     },
   },
 };
@@ -88,12 +88,12 @@ export default {
 
 <template>
   <div
-    class="flex p-6 items-center justify-between w-full h-16 sticky top-0 z-50 bg-white dark:bg-slate-900"
+    class="sticky top-0 z-50 flex items-center justify-between w-full h-16 p-6 bg-white dark:bg-slate-900"
   >
     <div class="flex items-center">
       <woot-sidemenu-icon />
-      <div class="flex items-center my-0 mx-2">
-        <h3 class="text-xl text-slate-800 dark:text-slate-100 font-medium mb-0">
+      <div class="flex items-center mx-2 my-0">
+        <h3 class="mb-0 text-xl font-medium text-slate-800 dark:text-slate-100">
           {{ headerTitle }}
         </h3>
         <span class="text-sm text-slate-600 dark:text-slate-300 mx-2 mt-0.5">{{
@@ -122,7 +122,7 @@ export default {
       >
         {{ $t('HELP_CENTER.HEADER.SORT') }}
         <span
-          class="inline-flex ml-1 rtl:ml-0 rtl:mr-1 items-center text-slate-800 dark:text-slate-100"
+          class="inline-flex items-center ml-1 rtl:ml-0 rtl:mr-1 text-slate-800 dark:text-slate-100"
         >
           {{ selectedValue }}
           <FluentIcon class="dropdown-arrow" icon="chevron-down" size="14" />
@@ -183,9 +183,9 @@ export default {
           variant="hollow"
           @click="openLocaleDropdown"
         >
-          <div class="flex justify-between w-full min-w-0 items-center">
+          <div class="flex items-center justify-between w-full min-w-0">
             <span
-              class="inline-flex ml-1 rtl:ml-0 rtl:mr-1 items-center text-slate-800 dark:text-slate-100"
+              class="inline-flex items-center ml-1 rtl:ml-0 rtl:mr-1 text-slate-800 dark:text-slate-100"
             >
               {{ selectedLocale }}
               <FluentIcon

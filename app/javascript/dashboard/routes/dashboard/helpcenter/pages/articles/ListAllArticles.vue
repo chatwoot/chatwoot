@@ -149,7 +149,7 @@ export default {
           locale,
         },
       });
-      this.$emit('reload-locale');
+      this.$emit('reloadLocale');
     },
   },
 };
@@ -157,7 +157,7 @@ export default {
 
 <template>
   <div
-    class="py-0 px-0 w-full max-w-full overflow-auto bg-white dark:bg-slate-900 flex flex-col"
+    class="flex flex-col w-full max-w-full px-0 py-0 overflow-auto bg-white dark:bg-slate-900"
   >
     <ArticleHeader
       :header-title="headerTitle"
@@ -166,12 +166,12 @@ export default {
       :all-locales="allowedLocales"
       selected-value="Published"
       class="border-b border-slate-50 dark:border-slate-700"
-      @new-article-page="newArticlePage"
-      @change-locale="onChangeLocale"
+      @newArticlePage="newArticlePage"
+      @changeLocale="onChangeLocale"
     />
     <div
       v-if="isFetching"
-      class="items-center flex text-base justify-center py-6 px-4 text-slate-600 dark:text-slate-200"
+      class="flex items-center justify-center px-4 py-6 text-base text-slate-600 dark:text-slate-200"
     >
       <Spinner />
       <span class="text-slate-600 dark:text-slate-200">
@@ -187,7 +187,7 @@ export default {
         :articles="articles"
         :current-page="Number(meta.currentPage)"
         :total-count="Number(meta.count)"
-        @page-change="onPageChange"
+        @pageChange="onPageChange"
         @reorder="onReorder"
       />
     </div>

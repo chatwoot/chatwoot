@@ -35,7 +35,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex-1 overflow-auto p-4">
+  <div class="flex-1 p-4 overflow-auto">
     <woot-button
       color-scheme="success"
       class-names="button--fixed-top"
@@ -46,7 +46,7 @@ export default {
     </woot-button>
     <Campaign />
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-      <AddCampaign @on-close="hideAddPopup" />
+      <AddCampaign @onClose="hideAddPopup" />
     </woot-modal>
   </div>
 </template>

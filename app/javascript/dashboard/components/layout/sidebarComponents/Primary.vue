@@ -54,21 +54,21 @@ export default {
       this.showOptionsMenu = !this.showOptionsMenu;
     },
     toggleAccountModal() {
-      this.$emit('toggle-accounts');
+      this.$emit('toggleAccounts');
     },
     toggleSupportChatWindow() {
       window.$chatwoot.toggle();
     },
     openNotificationPanel() {
       this.$track(ACCOUNT_EVENTS.OPENED_NOTIFICATIONS);
-      this.$emit('open-notification-panel');
+      this.$emit('openNotificationPanel');
     },
   },
 };
 </script>
 <template>
   <div
-    class="h-full w-16 bg-white dark:bg-slate-900 border-r border-slate-50 dark:border-slate-800/50 rtl:border-l rtl:border-r-0 flex justify-between flex-col"
+    class="flex flex-col justify-between w-16 h-full bg-white border-r dark:bg-slate-900 border-slate-50 dark:border-slate-800/50 rtl:border-l rtl:border-r-0"
   >
     <div class="flex flex-col items-center">
       <Logo
@@ -94,13 +94,13 @@ export default {
         :open-in-new-page="true"
         :to="helpDocsURL"
       />
-      <NotificationBell @open-notification-panel="openNotificationPanel" />
-      <AgentDetails @toggle-menu="toggleOptions" />
+      <NotificationBell @openNotificationPanel="openNotificationPanel" />
+      <AgentDetails @toggleMenu="toggleOptions" />
       <OptionsMenu
         :show="showOptionsMenu"
-        @toggle-accounts="toggleAccountModal"
-        @show-support-chat-window="toggleSupportChatWindow"
-        @key-shortcut-modal="$emit('key-shortcut-modal')"
+        @toggleAccounts="toggleAccountModal"
+        @showSupportChatWindow="toggleSupportChatWindow"
+        @openKeyShortcutModal="$emit('openKeyShortcutModal')"
         @close="toggleOptions"
       />
     </div>

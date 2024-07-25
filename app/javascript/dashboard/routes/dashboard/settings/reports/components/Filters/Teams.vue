@@ -18,7 +18,7 @@ export default {
   },
   methods: {
     handleInput() {
-      this.$emit('team-filter-selection', this.selectedOption);
+      this.$emit('teamFilterSelection', this.selectedOption);
     },
   },
 };

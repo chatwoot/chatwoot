@@ -187,11 +187,11 @@ export default {
           :key="notificationItem.id"
           :active="currentNotificationId === notificationItem.id"
           :notification-item="notificationItem"
-          @mark-notification-as-read="markNotificationAsRead"
-          @mark-notification-as-unread="markNotificationAsUnRead"
-          @delete-notification="deleteNotification"
-          @context-menu-open="isInboxContextMenuOpen = true"
-          @context-menu-close="isInboxContextMenuOpen = false"
+          @markNotificationAsRead="markNotificationAsRead"
+          @markNotificationAsUnRead="markNotificationAsUnRead"
+          @deleteNotification="deleteNotification"
+          @contextMenuOpen="isInboxContextMenuOpen = true"
+          @contextMenuClose="isInboxContextMenuOpen = false"
         />
         <div v-if="uiFlags.isFetching" class="text-center">
           <span class="mt-4 mb-4 spinner" />

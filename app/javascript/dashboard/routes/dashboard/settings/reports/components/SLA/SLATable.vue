@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     onPageChange(page) {
-      this.$emit('page-change', page);
+      this.$emit('pageChange', page);
     },
   },
 };
@@ -78,7 +78,7 @@ export default {
 
       <div
         v-if="isLoading"
-        class="flex items-center rounded-b-xl justify-center h-32 bg-white dark:bg-slate-900"
+        class="flex items-center justify-center h-32 bg-white rounded-b-xl dark:bg-slate-900"
       >
         <Spinner />
         <span>{{ $t('SLA_REPORTS.LOADING') }}</span>
@@ -95,7 +95,7 @@ export default {
       </div>
       <div
         v-else
-        class="flex items-center justify-center rounded-b-xl h-32 bg-white dark:bg-slate-900"
+        class="flex items-center justify-center h-32 bg-white rounded-b-xl dark:bg-slate-900"
       >
         {{ $t('SLA_REPORTS.NO_RECORDS') }}
       </div>
@@ -105,7 +105,7 @@ export default {
       :current-page="currentPage"
       :total-count="totalCount"
       :page-size="pageSize"
-      @page-change="onPageChange"
+      @pageChange="onPageChange"
     />
   </div>
 </template>

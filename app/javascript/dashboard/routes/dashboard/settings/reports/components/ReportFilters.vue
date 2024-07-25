@@ -102,7 +102,7 @@ export default {
       this.currentSelectedGroupByFilter = this.selectedGroupByFilter;
     },
     businessHoursSelected() {
-      this.$emit('business-hours-toggle', this.businessHoursSelected);
+      this.$emit('businessHoursToggle', this.businessHoursSelected);
     },
   },
   mounted() {
@@ -110,7 +110,7 @@ export default {
   },
   methods: {
     onDateRangeChange() {
-      this.$emit('date-range-change', {
+      this.$emit('dateRangeChange', {
         from: this.from,
         to: this.to,
         groupBy: this.groupBy,
@@ -127,26 +127,26 @@ export default {
       this.onDateRangeChange();
     },
     changeFilterSelection() {
-      this.$emit('filter-change', this.currentSelectedFilter);
+      this.$emit('filterChange', this.currentSelectedFilter);
     },
     onChange(value) {
       this.customDateRange = value;
       this.onDateRangeChange();
     },
     changeGroupByFilterSelection() {
-      this.$emit('group-by-filter-change', this.currentSelectedGroupByFilter);
+      this.$emit('groupByFilterChange', this.currentSelectedGroupByFilter);
     },
   },
 };
 </script>
 <template>
   <div class="flex flex-col md:flex-row">
-    <div class="flex items-center w-full flex-col md:flex-row">
+    <div class="flex flex-col items-center w-full md:flex-row">
       <div
         v-if="type === 'agent'"
         class="md:w-[240px] w-full multiselect-wrap--small"
       >
-        <p class="text-xs mb-2 font-medium">
+        <p class="mb-2 text-xs font-medium">
           {{ $t('AGENT_REPORTS.FILTER_DROPDOWN_LABEL') }}
         </p>
         <multiselect
@@ -193,7 +193,7 @@ export default {
         v-else-if="type === 'label'"
         class="md:w-[240px] w-full multiselect-wrap--small"
       >
-        <p class="text-xs mb-2 font-medium">
+        <p class="mb-2 text-xs font-medium">
           {{ $t('LABEL_REPORTS.FILTER_DROPDOWN_LABEL') }}
         </p>
         <multiselect
@@ -207,10 +207,10 @@ export default {
           @input="changeFilterSelection"
         >
           <template slot="singleLabel" slot-scope="props">
-            <div class="flex gap-2 items-center">
+            <div class="flex items-center gap-2">
               <div
                 :style="{ backgroundColor: props.option.color }"
-                class="rounded-full h-5 w-5"
+                class="w-5 h-5 rounded-full"
               />
               <span class="reports-option__desc">
                 <span class="my-0 text-slate-800 dark:text-slate-75">
@@ -223,7 +223,7 @@ export default {
             <div class="flex items-center gap-2">
               <div
                 :style="{ backgroundColor: props.option.color }"
-                class="rounded-full h-5 w-5 flex-shrink-0 border border-solid border-slate-100 dark:border-slate-800"
+                class="flex-shrink-0 w-5 h-5 border border-solid rounded-full border-slate-100 dark:border-slate-800"
               />
               <span class="reports-option__desc">
                 <span class="my-0 text-slate-800 dark:text-slate-75">
@@ -235,7 +235,7 @@ export default {
         </multiselect>
       </div>
       <div v-else class="md:w-[240px] w-full multiselect-wrap--small">
-        <p class="text-xs mb-2 font-medium">
+        <p class="mb-2 text-xs font-medium">
           <template v-if="type === 'inbox'">
             {{ $t('INBOX_REPORTS.FILTER_DROPDOWN_LABEL') }}
           </template>
@@ -262,7 +262,7 @@ export default {
         />
       </div>
       <div class="mx-1 md:w-[240px] w-full multiselect-wrap--small">
-        <p class="text-xs mb-2 font-medium">
+        <p class="mb-2 text-xs font-medium">
           {{ $t('REPORT.DURATION_FILTER_LABEL') }}
         </p>
         <multiselect
@@ -280,7 +280,7 @@ export default {
         />
       </div>
       <div v-if="isDateRangeSelected" class="">
-        <p class="text-xs mb-2 font-medium">
+        <p class="mb-2 text-xs font-medium">
           {{ $t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER') }}
         </p>
         <WootDateRangePicker
@@ -295,7 +295,7 @@ export default {
         v-if="notLast7Days"
         class="mx-1 md:w-[240px] w-full multiselect-wrap--small"
       >
-        <p class="text-xs mb-2 font-medium">
+        <p class="mb-2 text-xs font-medium">
           {{ $t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL') }}
         </p>
         <multiselect
@@ -311,7 +311,7 @@ export default {
       </div>
     </div>
     <div class="flex items-center my-2">
-      <span class="text-sm mx-2 whitespace-nowrap">
+      <span class="mx-2 text-sm whitespace-nowrap">
         {{ $t('REPORT.BUSINESS_HOURS') }}
       </span>
       <span>

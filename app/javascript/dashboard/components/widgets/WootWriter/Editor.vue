@@ -109,10 +109,10 @@ export default {
     return {
       typingIndicator: createTypingIndicator(
         () => {
-          this.$emit('typing-on');
+          this.$emit('typingOn');
         },
         () => {
-          this.$emit('typing-off');
+          this.$emit('typingOff');
         },
         TYPING_INDICATOR_IDLE_TIME
       ),
@@ -252,13 +252,13 @@ export default {
   },
   watch: {
     showUserMentions(updatedValue) {
-      this.$emit('toggle-user-mention', this.isPrivate && updatedValue);
+      this.$emit('toggleUserMention', this.isPrivate && updatedValue);
     },
     showCannedMenu(updatedValue) {
-      this.$emit('toggle-canned-menu', !this.isPrivate && updatedValue);
+      this.$emit('toggleCannedMenu', !this.isPrivate && updatedValue);
     },
     showVariables(updatedValue) {
-      this.$emit('toggle-variables-menu', !this.isPrivate && updatedValue);
+      this.$emit('toggleVariablesMenu', !this.isPrivate && updatedValue);
     },
     value(newVal = '') {
       if (newVal !== this.contentFromEditor) {
@@ -287,7 +287,7 @@ export default {
           this.state = this.editorView.state.apply(tr);
           this.editorView.updateState(this.state);
           this.emitOnChange();
-          this.$emit('clear-selection');
+          this.$emit('clearSelection');
         }
       }
       return null;

@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     onClick(key) {
-      this.$emit('option-click', key);
+      this.$emit('optionClick', key);
     },
   },
 };
@@ -32,7 +32,7 @@ export default {
 
 <template>
   <div
-    class="flex flex-col gap-1 bg-white z-50 dark:bg-slate-900 w-40 py-1 border shadow-md border-slate-100 dark:border-slate-700/50 rounded-xl divide-y divide-slate-100 dark:divide-slate-700/50"
+    class="z-50 flex flex-col w-40 gap-1 py-1 bg-white border divide-y shadow-md dark:bg-slate-900 border-slate-100 dark:border-slate-700/50 rounded-xl divide-slate-100 dark:divide-slate-700/50"
   >
     <div class="flex flex-col">
       <MenuItem

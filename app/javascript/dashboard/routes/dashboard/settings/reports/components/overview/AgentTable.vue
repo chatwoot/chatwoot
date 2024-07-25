@@ -68,7 +68,7 @@ export default {
                 status={row.status}
               />
               <div class="user-block">
-                <h6 class="title overflow-hidden whitespace-nowrap text-ellipsis">
+                <h6 class="overflow-hidden title whitespace-nowrap text-ellipsis">
                   {row.agent}
                 </h6>
                 <span class="sub-title">{row.email}</span>
@@ -99,7 +99,7 @@ export default {
   },
   methods: {
     onPageNumberChange(pageIndex) {
-      this.$emit('page-change', pageIndex);
+      this.$emit('pageChange', pageIndex);
     },
     getAgentInformation(id) {
       return this.agents?.find(agent => agent.id === Number(id));

@@ -31,7 +31,7 @@ export default {
       this.selectedWaTemplate = null;
     },
     onSendMessage(message) {
-      this.$emit('on-send', message);
+      this.$emit('onSend', message);
     },
     onClose() {
       this.$emit('cancel');
@@ -41,7 +41,7 @@ export default {
 </script>
 
 <template>
-  <div class="mx-0 flex flex-wrap">
+  <div class="flex flex-wrap mx-0">
     <TemplatesPicker
       v-if="!selectedWaTemplate"
       :inbox-id="inboxId"

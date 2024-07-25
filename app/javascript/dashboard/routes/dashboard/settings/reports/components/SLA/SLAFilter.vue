@@ -108,13 +108,13 @@ export default {
       const { type, id, name } = item;
       const filterKey = getFilterType(type, 'typeToKey');
       this.appliedFilters[filterKey] = type === 'labels' ? name : id;
-      this.$emit('filter-change', this.appliedFilters);
+      this.$emit('filterChange', this.appliedFilters);
       this.resetDropdown();
     },
     removeFilter(type) {
       const filterKey = getFilterType(type, 'typeToKey');
       this.appliedFilters[filterKey] = null;
-      this.$emit('filter-change', this.appliedFilters);
+      this.$emit('filterChange', this.appliedFilters);
     },
     clearAllFilters() {
       this.appliedFilters = {
@@ -124,7 +124,7 @@ export default {
         sla_policy_id: null,
         label_list: null,
       };
-      this.$emit('filter-change', this.appliedFilters);
+      this.$emit('filterChange', this.appliedFilters);
       this.resetDropdown();
     },
     showDropdown() {

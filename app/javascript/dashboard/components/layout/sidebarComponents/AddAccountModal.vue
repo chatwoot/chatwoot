@@ -40,7 +40,7 @@ export default {
         const account_id = await this.$store.dispatch('accounts/create', {
           account_name: this.accountName,
         });
-        this.$emit('close-account-create-modal');
+        this.$emit('closeAccountCreateModal');
         useAlert(this.$t('CREATE_ACCOUNT.API.SUCCESS_MESSAGE'));
         window.location = `/app/accounts/${account_id}/dashboard`;
       } catch (error) {
@@ -56,17 +56,14 @@ export default {
 </script>
 
 <template>
-  <woot-modal
-    :show="show"
-    :on-close="() => $emit('close-account-create-modal')"
-  >
-    <div class="h-auto overflow-auto flex flex-col">
+  <woot-modal :show="show" :on-close="() => $emit('closeAccountCreateModal')">
+    <div class="flex flex-col h-auto overflow-auto">
       <woot-modal-header
         :header-title="$t('CREATE_ACCOUNT.NEW_ACCOUNT')"
         :header-content="$t('CREATE_ACCOUNT.SELECTOR_SUBTITLE')"
       />
-      <div v-if="!hasAccounts" class="text-sm mt-6 mx-8 mb-0">
-        <div class="items-center rounded-md flex alert">
+      <div v-if="!hasAccounts" class="mx-8 mt-6 mb-0 text-sm">
+        <div class="flex items-center rounded-md alert">
           <div class="ml-1 mr-3">
             <fluent-icon icon="warning" />
           </div>

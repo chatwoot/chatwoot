@@ -81,7 +81,7 @@ export default {
       this.$store.dispatch('conversationLabels/get', this.currentChat.id);
     },
     onToggleContactPanel() {
-      this.$emit('contact-panel-toggle');
+      this.$emit('contactPanelToggle');
     },
     onDashboardAppTabChange(index) {
       this.activeIndex = index;
@@ -100,12 +100,12 @@ export default {
       :is-inbox-view="isInboxView"
       :is-contact-panel-open="isContactPanelOpen"
       :show-back-button="isOnExpandedLayout && !isInboxView"
-      @contact-panel-toggle="onToggleContactPanel"
+      @contactPanelToggle="onToggleContactPanel"
     />
     <woot-tabs
       v-if="dashboardApps.length && currentChat.id"
       :index="activeIndex"
-      class="dashboard-app--tabs bg-white dark:bg-slate-900 -mt-px"
+      class="-mt-px bg-white dashboard-app--tabs dark:bg-slate-900"
       @change="onDashboardAppTabChange"
     >
       <woot-tabs-item
@@ -117,14 +117,14 @@ export default {
     </woot-tabs>
     <div
       v-show="!activeIndex"
-      class="flex bg-slate-25 dark:bg-slate-800 m-0 h-full min-h-0"
+      class="flex h-full min-h-0 m-0 bg-slate-25 dark:bg-slate-800"
     >
       <MessagesView
         v-if="currentChat.id"
         :inbox-id="inboxId"
         :is-inbox-view="isInboxView"
         :is-contact-panel-open="isContactPanelOpen"
-        @contact-panel-toggle="onToggleContactPanel"
+        @contactPanelToggle="onToggleContactPanel"
       />
       <EmptyState
         v-if="!currentChat.id && !isInboxView"

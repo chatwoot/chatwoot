@@ -1134,9 +1134,9 @@ export default {
         v-if="showAudioRecorderEditor"
         ref="audioRecorderInput"
         :audio-record-format="audioRecordFormat"
-        @state-recorder-progress-changed="onStateProgressRecorderChanged"
-        @state-recorder-changed="onStateRecorderChanged"
-        @finish-record="onFinishRecorder"
+        @stateRecorderProgressChanged="onStateProgressRecorderChanged"
+        @stateRecorderChanged="onStateRecorderChanged"
+        @finishRecord="onFinishRecorder"
       />
       <ResizableTextArea
         v-else-if="!showRichContentEditor"
@@ -1148,8 +1148,8 @@ export default {
         :signature="signatureToApply"
         :allow-signature="true"
         :send-with-signature="sendWithSignature"
-        @typing-off="onTypingOff"
-        @typing-on="onTypingOn"
+        @typingOff="onTypingOff"
+        @typingOn="onTypingOn"
         @focus="onFocus"
         @blur="onBlur"
       />
@@ -1167,21 +1167,21 @@ export default {
         :signature="signatureToApply"
         :allow-signature="true"
         :channel-type="channelType"
-        @typing-off="onTypingOff"
-        @typing-on="onTypingOn"
+        @typingOff="onTypingOff"
+        @typingOn="onTypingOn"
         @focus="onFocus"
         @blur="onBlur"
-        @toggle-user-mention="toggleUserMention"
-        @toggle-canned-menu="toggleCannedMenu"
-        @toggle-variables-menu="toggleVariablesMenu"
-        @clear-selection="clearEditorSelection"
+        @toggleUserMention="toggleUserMention"
+        @toggleCannedMenu="toggleCannedMenu"
+        @toggleVariablesMenu="toggleVariablesMenu"
+        @clearSelection="clearEditorSelection"
       />
     </div>
     <div v-if="hasAttachments" class="attachment-preview-box" @paste="onPaste">
       <AttachmentPreview
         class="flex-col mt-4"
         :attachments="attachedFiles"
-        @remove-attachment="removeAttachment"
+        @removeAttachment="removeAttachment"
       />
     </div>
     <MessageSignatureMissingAlert
@@ -1212,15 +1212,15 @@ export default {
       :portal-slug="connectedPortalSlug"
       :new-conversation-modal-active="newConversationModalActive"
       @selectWhatsappTemplate="openWhatsappTemplateModal"
-      @toggle-editor="toggleRichContentEditor"
-      @replace-text="replaceText"
-      @toggle-insert-article="toggleInsertArticle"
+      @toggleEditor="toggleRichContentEditor"
+      @replaceText="replaceText"
+      @toggleInsertArticle="toggleInsertArticle"
     />
     <WhatsappTemplates
       :inbox-id="inbox.id"
       :show="showWhatsAppTemplatesModal"
       @close="hideWhatsappTemplatesModal"
-      @on-send="onSendWhatsAppReply"
+      @onSend="onSendWhatsAppReply"
       @cancel="hideWhatsappTemplatesModal"
     />
 

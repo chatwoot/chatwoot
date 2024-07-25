@@ -114,7 +114,7 @@ export default {
       :show-rating-filter="true"
       :show-team-filter="isTeamsEnabled"
       :show-business-hours-switch="false"
-      @filter-change="onFilterChange"
+      @filterChange="onFilterChange"
     />
     <woot-button
       color-scheme="success"
@@ -125,6 +125,6 @@ export default {
       {{ $t('CSAT_REPORTS.DOWNLOAD') }}
     </woot-button>
     <CsatMetrics :filters="requestPayload" />
-    <CsatTable :page-index="pageIndex" @page-change="onPageNumberChange" />
+    <CsatTable :page-index="pageIndex" @pageChange="onPageNumberChange" />
   </div>
 </template>

@@ -18,7 +18,7 @@ export default {
   },
   methods: {
     handleInput() {
-      this.$emit('agents-filter-selection', this.selectedOptions);
+      this.$emit('agentsFilterSelection', this.selectedOptions);
     },
   },
 };

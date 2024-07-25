@@ -60,7 +60,7 @@ export default {
       </router-link>
       <SwitchLayout
         :is-on-expanded-layout="isOnExpandedLayout"
-        @toggle="$emit('toggle-conversation-layout')"
+        @toggle="$emit('toggleConversationLayout')"
       />
     </div>
   </div>

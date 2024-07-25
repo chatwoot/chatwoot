@@ -105,7 +105,7 @@ export default {
       this.showEditModal = !this.showEditModal;
     },
     onPanelToggle() {
-      this.$emit('toggle-panel');
+      this.$emit('togglePanel');
     },
     toggleConversationModal() {
       this.showConversationModal = !this.showConversationModal;
@@ -137,7 +137,7 @@ export default {
     async deleteContact({ id }) {
       try {
         await this.$store.dispatch('contacts/delete', id);
-        this.$emit('panel-close');
+        this.$emit('panelClose');
         useAlert(this.$t('DELETE_CONTACT.API.SUCCESS_MESSAGE'));
 
         if (isAConversationRoute(this.$route.name)) {

@@ -287,10 +287,10 @@ export default {
   <div class="flex flex-grow-0 w-full h-full min-h-0 app-wrapper">
     <Sidebar
       :route="currentRoute"
-      @toggle-account-modal="toggleAccountModal"
-      @open-notification-panel="openNotificationPanel"
-      @open-key-shortcut-modal="toggleKeyShortcutModal"
-      @close-key-shortcut-modal="closeKeyShortcutModal"
+      @toggleAccountModal="toggleAccountModal"
+      @openNotificationPanel="openNotificationPanel"
+      @openKeyShortcutModal="toggleKeyShortcutModal"
+      @closeKeyShortcutModal="closeKeyShortcutModal"
     />
     <HelpCenterSidebar
       v-if="showHelpCenterSidebar"
@@ -300,18 +300,18 @@ export default {
       :sub-title="localeName(selectedLocaleInPortal)"
       :accessible-menu-items="accessibleMenuItems"
       :additional-secondary-menu-items="additionalSecondaryMenuItems"
-      @open-popover="openPortalPopover"
-      @open-modal="onClickOpenAddCategoryModal"
+      @openPopover="openPortalPopover"
+      @openModal="onClickOpenAddCategoryModal"
     />
     <section
       v-if="isHelpCenterEnabled"
       class="flex flex-1 h-full min-h-0 px-0 overflow-hidden bg-white dark:bg-slate-900"
     >
-      <router-view @reload-locale="fetchPortalAndItsCategories" />
+      <router-view @reloadLocale="fetchPortalAndItsCategories" />
       <CommandBar />
       <AccountSelector
         :show-account-modal="showAccountModal"
-        @close-account-modal="toggleAccountModal"
+        @closeAccountModal="toggleAccountModal"
       />
       <WootKeyShortcutModal
         v-if="showShortcutModal"
@@ -327,8 +327,8 @@ export default {
         :portals="portals"
         :active-portal-slug="selectedPortalSlug"
         :active-locale="selectedLocaleInPortal"
-        @fetch-portal="fetchPortalAndItsCategories"
-        @close-popover="closePortalPopover"
+        @fetchPortal="fetchPortalAndItsCategories"
+        @closePopover="closePortalPopover"
       />
       <AddCategory
         v-if="showAddCategoryModal"

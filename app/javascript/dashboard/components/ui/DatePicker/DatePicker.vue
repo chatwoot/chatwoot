@@ -223,7 +223,7 @@ const emitDateRange = () => {
     >
       <CalendarDateRange
         :selected-range="selectedRange"
-        @set-range="setDateRange"
+        @setRange="setDateRange"
       />
       <div
         class="flex flex-col w-[680px] ltr:border-l rtl:border-r border-slate-50 dark:border-slate-700/50"
@@ -265,15 +265,15 @@ const emitDateRange = () => {
                   :calendar-type="calendar"
                   :start-current-date="startCurrentDate"
                   :end-current-date="endCurrentDate"
-                  @select-year="openCalendar($event, calendar, YEAR)"
+                  @selectYear="openCalendar($event, calendar, YEAR)"
                 />
                 <CalendarMonth
                   v-else-if="calendarViews[calendar] === MONTH"
                   :calendar-type="calendar"
                   :start-current-date="startCurrentDate"
                   :end-current-date="endCurrentDate"
-                  @select-month="openCalendar($event, calendar)"
-                  @set-view="setViewMode"
+                  @selectMonth="openCalendar($event, calendar)"
+                  @setView="setViewMode"
                   @prev="moveCalendar(calendar, 'prev', YEAR)"
                   @next="moveCalendar(calendar, 'next', YEAR)"
                 />
@@ -287,9 +287,9 @@ const emitDateRange = () => {
                   :selected-end-date="selectedEndDate"
                   :selecting-end-date="selectingEndDate"
                   :hovered-end-date="hoveredEndDate"
-                  @update-hovered-end-date="hoveredEndDate = $event"
-                  @select-date="selectDate"
-                  @set-view="setViewMode"
+                  @updateHoveredEndDate="hoveredEndDate = $event"
+                  @selectDate="selectDate"
+                  @setView="setViewMode"
                   @prev="moveCalendar(calendar, 'prev')"
                   @next="moveCalendar(calendar, 'next')"
                 />

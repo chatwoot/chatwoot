@@ -15,7 +15,7 @@ export default {
 
   methods: {
     changeDefaultLocale(localeCode) {
-      this.$emit('change-default-locale', { localeCode });
+      this.$emit('changeDefaultLocale', { localeCode });
     },
     deleteLocale(localeCode) {
       this.$emit('delete', { localeCode });

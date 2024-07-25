@@ -81,7 +81,7 @@ export default {
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
       <EditCampaign
         :selected-campaign="selectedCampaign"
-        @on-close="hideEditPopup"
+        @onClose="hideEditPopup"
       />
     </woot-modal>
     <woot-delete-modal

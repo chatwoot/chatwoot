@@ -13,7 +13,7 @@ const props = defineProps({
 
 const customEditorMenuList = MESSAGE_SIGNATURE_EDITOR_MENU_OPTIONS;
 const signature = ref(props.messageSignature);
-const emit = defineEmits(['update-signature']);
+const emit = defineEmits(['updateSignature']);
 
 watch(
   () => props.messageSignature ?? '',
@@ -23,7 +23,7 @@ watch(
 );
 
 const updateSignature = () => {
-  emit('update-signature', signature.value);
+  emit('updateSignature', signature.value);
 };
 </script>
 <template>

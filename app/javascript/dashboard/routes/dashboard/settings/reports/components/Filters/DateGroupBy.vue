@@ -1,8 +1,6 @@
 <script>
 import { GROUP_BY_OPTIONS } from '../../constants';
 
-const EVENT_NAME = 'on-grouping-change';
-
 export default {
   name: 'ReportsFiltersDateGroupBy',
   props: {
@@ -41,7 +39,7 @@ export default {
   },
   methods: {
     changeFilterSelection(selectedFilter) {
-      this.groupByOptions = this.$emit(EVENT_NAME, selectedFilter);
+      this.groupByOptions = this.$emit('onGroupingChange', selectedFilter);
     },
   },
 };

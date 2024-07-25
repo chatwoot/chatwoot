@@ -229,11 +229,11 @@ export default {
       :conversation-type="conversationType"
       :folders-id="foldersId"
       :is-on-expanded-layout="isOnExpandedLayout"
-      @conversation-load="onConversationLoad"
+      @conversationLoad="onConversationLoad"
     >
       <PopOverSearch
         :is-on-expanded-layout="isOnExpandedLayout"
-        @toggle-conversation-layout="toggleConversationLayout"
+        @toggleConversationLayout="toggleConversationLayout"
       />
     </ChatList>
     <ConversationBox
@@ -241,7 +241,7 @@ export default {
       :inbox-id="inboxId"
       :is-contact-panel-open="isContactPanelOpen"
       :is-on-expanded-layout="isOnExpandedLayout"
-      @contact-panel-toggle="onToggleContactPanel"
+      @contactPanelToggle="onToggleContactPanel"
     />
     <woot-modal
       :show.sync="showCustomSnoozeModal"
@@ -249,7 +249,7 @@ export default {
     >
       <CustomSnoozeModal
         @close="hideCustomSnoozeModal"
-        @choose-time="chooseSnoozeTime"
+        @chooseTime="chooseSnoozeTime"
       />
     </woot-modal>
   </section>

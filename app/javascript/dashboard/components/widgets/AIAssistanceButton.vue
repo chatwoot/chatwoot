@@ -66,7 +66,7 @@ export default {
         '$mod+KeyZ': {
           action: () => {
             if (this.initialMessage) {
-              this.$emit('replace-text', this.initialMessage);
+              this.$emit('replaceText', this.initialMessage);
               this.initialMessage = '';
             }
           },
@@ -101,7 +101,7 @@ export default {
       this.showAIAssistanceModal = true;
     },
     insertText(message) {
-      this.$emit('replace-text', message);
+      this.$emit('replaceText', message);
     },
   },
 };
@@ -128,7 +128,7 @@ export default {
       >
         <AIAssistanceModal
           :ai-option="aiOption"
-          @apply-text="insertText"
+          @applyText="insertText"
           @close="hideAIAssistanceModal"
         />
       </woot-modal>

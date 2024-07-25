@@ -126,7 +126,7 @@ export default {
     closeContextMenu() {
       this.isContextMenuOpen = false;
       this.contextMenuPosition = { x: null, y: null };
-      this.$emit('context-menu-close');
+      this.$emit('contextMenuClose');
     },
     openContextMenu(e) {
       this.closeContextMenu();
@@ -136,18 +136,18 @@ export default {
         y: e.pageY || e.clientY,
       };
       this.isContextMenuOpen = true;
-      this.$emit('context-menu-open');
+      this.$emit('contextMenuOpen');
     },
     handleAction(key) {
       switch (key) {
         case 'mark_as_read':
-          this.$emit('mark-notification-as-read', this.notificationItem);
+          this.$emit('markNotificationAsRead', this.notificationItem);
           break;
         case 'mark_as_unread':
-          this.$emit('mark-notification-as-unread', this.notificationItem);
+          this.$emit('markNotificationAsUnRead', this.notificationItem);
           break;
         case 'delete':
-          this.$emit('delete-notification', this.notificationItem);
+          this.$emit('deleteNotification', this.notificationItem);
           break;
         default:
       }

@@ -77,8 +77,8 @@ export default {
         :key="portal.id"
         :portal="portal"
         :status="portalStatus"
-        @add-locale="addLocale"
-        @open-site="openPortal"
+        @addLocale="addLocale"
+        @openSite="openPortal"
       />
       <div
         v-if="isFetching"

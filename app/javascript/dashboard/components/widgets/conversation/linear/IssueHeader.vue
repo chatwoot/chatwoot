@@ -13,10 +13,10 @@ const props = defineProps({
 
 const isUnlinking = inject('isUnlinking');
 
-const emit = defineEmits(['unlink-issue']);
+const emit = defineEmits(['unlinkIssue']);
 
 const unlinkIssue = () => {
-  emit('unlink-issue');
+  emit('unlinkIssue');
 };
 
 const openIssue = () => {

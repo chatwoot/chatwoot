@@ -146,7 +146,7 @@ export default {
   },
   methods: {
     toggleStatus(status, snoozedUntil) {
-      this.$emit('update-conversation', status, snoozedUntil);
+      this.$emit('updateConversation', status, snoozedUntil);
     },
     async snoozeConversation() {
       await this.$store.dispatch('setContextMenuChatId', this.chatId);
@@ -154,7 +154,7 @@ export default {
       ninja.open({ parent: 'snooze_conversation' });
     },
     assignPriority(priority) {
-      this.$emit('assign-priority', priority);
+      this.$emit('assignPriority', priority);
     },
     show(key) {
       // If the conversation status is same as the action, then don't display the option
@@ -179,12 +179,12 @@ export default {
 </script>
 
 <template>
-  <div class="bg-white dark:bg-slate-700 shadow-xl rounded-md p-1">
+  <div class="p-1 bg-white rounded-md shadow-xl dark:bg-slate-700">
     <MenuItem
       v-if="!hasUnreadMessages"
       :option="unreadOption"
       variant="icon"
-      @click="$emit('mark-as-unread')"
+      @click="$emit('markAsUnread')"
     />
     <template v-for="option in statusMenuConfig">
       <MenuItem
@@ -219,7 +219,7 @@ export default {
         :key="label.id"
         :option="generateMenuLabelConfig(label, 'label')"
         variant="label"
-        @click="$emit('assign-label', label)"
+        @click="$emit('assignLabel', label)"
       />
     </MenuItemWithSubmenu>
     <MenuItemWithSubmenu
@@ -233,7 +233,7 @@ export default {
           :key="agent.id"
           :option="generateMenuLabelConfig(agent, 'agent')"
           variant="agent"
-          @click="$emit('assign-agent', agent)"
+          @click="$emit('assignAgent', agent)"
         />
       </template>
     </MenuItemWithSubmenu>
@@ -245,7 +245,7 @@ export default {
         v-for="team in teams"
         :key="team.id"
         :option="generateMenuLabelConfig(team, 'team')"
-        @click="$emit('assign-team', team)"
+        @click="$emit('assignTeam', team)"
       />
     </MenuItemWithSubmenu>
   </div>

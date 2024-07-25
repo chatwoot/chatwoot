@@ -109,7 +109,7 @@ export default {
   },
   methods: {
     onClose() {
-      this.$emit('on-close');
+      this.$emit('onClose');
     },
     addTagValue(tagValue) {
       const tag = {

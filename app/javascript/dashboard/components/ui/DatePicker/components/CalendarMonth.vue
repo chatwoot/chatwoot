@@ -33,10 +33,10 @@ const activeMonthIndex = computed(() => {
   return getMonth(date);
 });
 
-const emit = defineEmits(['select-month', 'prev', 'next', 'set-view']);
+const emit = defineEmits(['selectMonth', 'prev', 'next', 'setView']);
 
 const setViewMode = (type, mode) => {
-  emit('set-view', type, mode);
+  emit('setView', type, mode);
 };
 
 const onClickPrev = () => {
@@ -48,7 +48,7 @@ const onClickNext = () => {
 };
 
 const selectMonth = index => {
-  emit('select-month', index);
+  emit('selectMonth', index);
 };
 </script>
 
@@ -63,7 +63,7 @@ const selectMonth = index => {
           MONTH
         )
       "
-      @set-view="setViewMode"
+      @setView="setViewMode"
       @prev="onClickPrev"
       @next="onClickNext"
     />

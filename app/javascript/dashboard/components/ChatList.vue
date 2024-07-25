@@ -612,7 +612,7 @@ export default {
       }
     },
     emitConversationLoaded() {
-      this.$emit('conversation-load');
+      this.$emit('conversationLoad');
       this.$nextTick(() => {
         // Addressing a known issue in the virtual list library where dynamically added items
         // might not render correctly. This workaround involves a slight manual adjustment
@@ -879,11 +879,11 @@ export default {
       :has-applied-filters="hasAppliedFilters"
       :has-active-folders="hasActiveFolders"
       :active-status="activeStatus"
-      @add-folders="onClickOpenAddFoldersModal"
-      @delete-folders="onClickOpenDeleteFoldersModal"
-      @filters-modal="onToggleAdvanceFiltersModal"
-      @reset-filters="resetAndFetchData"
-      @basic-filter-change="onBasicFilterChange"
+      @addFolders="onClickOpenAddFoldersModal"
+      @deleteFolders="onClickOpenDeleteFoldersModal"
+      @filtersModal="onToggleAdvanceFiltersModal"
+      @resetFilters="resetAndFetchData"
+      @basicFilterChange="onBasicFilterChange"
     />
 
     <AddCustomViews
@@ -924,11 +924,11 @@ export default {
       :show-open-action="allSelectedConversationsStatus('open')"
       :show-resolved-action="allSelectedConversationsStatus('resolved')"
       :show-snoozed-action="allSelectedConversationsStatus('snoozed')"
-      @select-all-conversations="selectAllConversations"
-      @assign-agent="onAssignAgent"
-      @update-conversations="onUpdateConversations"
-      @assign-labels="onAssignLabels"
-      @assign-team="onAssignTeamsForBulk"
+      @selectAllConversations="selectAllConversations"
+      @assignAgent="onAssignAgent"
+      @updateConversations="onUpdateConversations"
+      @assignLabels="onAssignLabels"
+      @assignTeam="onAssignTeamsForBulk"
     />
     <div
       ref="conversationList"

@@ -183,7 +183,7 @@ export default {
         @open="openArticleSettings"
         @close="closeArticleSettings"
         @show="showArticleInPortal"
-        @update-meta="updateMeta"
+        @updateMeta="updateMeta"
       />
       <div v-if="isFetching" class="h-full p-4 text-base text-center">
         <Spinner size="" />
@@ -193,16 +193,16 @@ export default {
         v-else
         :is-settings-sidebar-open="showArticleSettings"
         :article="article"
-        @save-article="saveArticle"
+        @saveArticle="saveArticle"
       />
     </div>
     <ArticleSettings
       v-if="showArticleSettings"
       :article="article"
-      @save-article="saveArticle"
-      @delete-article="openDeletePopup"
-      @archive-article="archiveArticle"
-      @update-meta="updateMeta"
+      @saveArticle="saveArticle"
+      @deleteArticle="openDeletePopup"
+      @archiveArticle="archiveArticle"
+      @updateMeta="updateMeta"
     />
     <woot-delete-modal
       :show.sync="showDeleteConfirmationPopup"

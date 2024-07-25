@@ -53,10 +53,10 @@ export default {
       this.$emit('input', value);
     },
     openPortalPopover() {
-      this.$emit('open-popover');
+      this.$emit('openPopover');
     },
     onClickOpenAddCatogoryModal() {
-      this.$emit('open-modal');
+      this.$emit('openModal');
     },
   },
 };
@@ -64,7 +64,7 @@ export default {
 
 <template>
   <div
-    class="h-full overflow-auto w-60 flex flex-col bg-white dark:bg-slate-900 border-r dark:border-slate-700 rtl:border-r-0 rtl:border-l border-slate-50 text-sm"
+    class="flex flex-col h-full overflow-auto text-sm bg-white border-r w-60 dark:bg-slate-900 dark:border-slate-700 rtl:border-r-0 rtl:border-l border-slate-50"
   >
     <SidebarHeader
       :thumbnail-src="thumbnailSrc"
@@ -72,12 +72,12 @@ export default {
       :sub-title="subTitle"
       :portal-link="portalLink"
       class="px-4"
-      @open-popover="openPortalPopover"
+      @openPopover="openPortalPopover"
     />
     <transition-group
       name="menu-list"
       tag="ul"
-      class="py-2 px-4 list-none ml-0 mb-0"
+      class="px-4 py-2 mb-0 ml-0 list-none"
     >
       <SecondaryNavItem
         v-for="menuItem in accessibleMenuItems"

@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     assignTeam(key) {
-      this.$emit('assign-team', key);
+      this.$emit('assignTeam', key);
     },
     onClose() {
       this.$emit('close');
@@ -36,7 +36,7 @@ export default {
         <path d="M20 12l-8-8-12 12" fill-rule="evenodd" stroke-width="1px" />
       </svg>
     </div>
-    <div class="header flex items-center justify-between">
+    <div class="flex items-center justify-between header">
       <span>{{ $t('BULK_ACTION.TEAMS.TEAM_SELECT_LABEL') }}</span>
       <woot-button
         size="tiny"
@@ -51,7 +51,7 @@ export default {
         <ul>
           <li class="search-container">
             <div
-              class="agent-list-search h-8 flex justify-between items-center gap-2"
+              class="flex items-center justify-between h-8 gap-2 agent-list-search"
             >
               <fluent-icon icon="search" class="search-icon" size="16" />
               <input

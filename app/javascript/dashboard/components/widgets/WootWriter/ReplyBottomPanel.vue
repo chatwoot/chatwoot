@@ -227,10 +227,10 @@ export default {
       this.setSignatureFlagForInbox(this.channelType, !this.sendWithSignature);
     },
     replaceText(text) {
-      this.$emit('replace-text', text);
+      this.$emit('replaceText', text);
     },
     toggleInsertArticle() {
-      this.$emit('toggle-insert-article');
+      this.$emit('toggleInsertArticle');
     },
   },
 };
@@ -293,7 +293,7 @@ export default {
         color-scheme="secondary"
         variant="smooth"
         size="small"
-        @click="$emit('toggle-editor')"
+        @click="$emit('toggleEditor')"
       />
       <woot-button
         v-if="showAudioPlayStopButton"
@@ -334,7 +334,7 @@ export default {
         :conversation-id="conversationId"
         :is-private-note="isOnPrivateNote"
         :message="message"
-        @replace-text="replaceText"
+        @replaceText="replaceText"
       />
       <transition name="modal-fade">
         <div

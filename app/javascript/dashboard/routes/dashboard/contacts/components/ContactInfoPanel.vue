@@ -86,8 +86,8 @@ export default {
       :show-avatar="showAvatar"
       :contact="contact"
       close-icon-name="dismiss"
-      @panel-close="onClose"
-      @toggle-panel="onClose"
+      @panelClose="onClose"
+      @togglePanel="onClose"
     />
     <Draggable
       :list="contactSidebarItems"

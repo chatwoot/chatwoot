@@ -17,7 +17,7 @@ export default {
   },
   methods: {
     handleClick() {
-      this.$emit('toggle-menu');
+      this.$emit('toggleMenu');
     },
   },
 };
@@ -26,7 +26,7 @@ export default {
   <woot-button
     v-tooltip.right="$t(`SIDEBAR.PROFILE_SETTINGS`)"
     variant="link"
-    class="items-center flex rounded-full"
+    class="flex items-center rounded-full"
     @click="handleClick"
   >
     <Thumbnail

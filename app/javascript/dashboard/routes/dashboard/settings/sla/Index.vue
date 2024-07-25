@@ -133,7 +133,7 @@ export default {
       />
       <SLAEmptyState
         v-else-if="!records.length"
-        @primary-action="openAddPopup"
+        @primaryAction="openAddPopup"
       />
       <div v-else class="flex flex-col w-full h-full gap-3">
         <SLAListItem

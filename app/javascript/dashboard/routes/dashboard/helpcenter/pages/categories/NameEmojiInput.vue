@@ -61,11 +61,11 @@ export default {
     },
     onClickInsertEmoji(emoji = '') {
       this.icon = emoji;
-      this.$emit('icon-change', emoji);
+      this.$emit('iconChange', emoji);
       this.showEmojiPicker = false;
     },
     onNameChange() {
-      this.$emit('name-change', this.name);
+      this.$emit('nameChange', this.name);
     },
     hideEmojiPicker() {
       if (this.showEmojiPicker) {
@@ -77,7 +77,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex items-center relative">
+  <div class="relative flex items-center">
     <woot-button
       variant="hollow"
       class="absolute [&>span]:flex [&>span]:items-center [&>span]:justify-center z-10 top-[28px] h-[2.5rem] w-[2.45rem] !text-slate-400 dark:!text-slate-600 dark:!bg-slate-900 !p-0"

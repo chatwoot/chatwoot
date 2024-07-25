@@ -18,7 +18,7 @@ export default {
   },
   methods: {
     handleInput() {
-      this.$emit('labels-filter-selection', this.selectedOption);
+      this.$emit('labelsFilterSelection', this.selectedOption);
     },
   },
 };
@@ -40,7 +40,7 @@ export default {
         <div class="flex items-center gap-2">
           <div
             :style="{ backgroundColor: props.option.color }"
-            class="rounded-full h-5 w-5"
+            class="w-5 h-5 rounded-full"
           />
           <span class="reports-option__desc">
             <span class="my-0 text-slate-800 dark:text-slate-75">
@@ -53,7 +53,7 @@ export default {
         <div class="flex items-center gap-2">
           <div
             :style="{ backgroundColor: props.option.color }"
-            class="rounded-full h-5 w-5 flex-shrink-0 border border-solid border-slate-100 dark:border-slate-800"
+            class="flex-shrink-0 w-5 h-5 border border-solid rounded-full border-slate-100 dark:border-slate-800"
           />
           <span class="reports-option__desc">
             <span class="my-0 text-slate-800 dark:text-slate-75">

@@ -32,7 +32,7 @@ export default {
     this.articleContent = this.article.content;
     this.saveArticle = debounce(
       values => {
-        this.$emit('save-article', values);
+        this.$emit('saveArticle', values);
       },
       300,
       false

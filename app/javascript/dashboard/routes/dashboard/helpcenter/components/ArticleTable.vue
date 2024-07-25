@@ -83,7 +83,7 @@ export default {
       this.$emit('reorder', reorderedGroup);
     },
     onPageChange(page) {
-      this.$emit('page-change', page);
+      this.$emit('pageChange', page);
     },
   },
 };
@@ -92,38 +92,38 @@ export default {
 <template>
   <div class="flex-1">
     <div
-      class="hidden lg:grid py-0 px-6 h-12 content-center grid-cols-12 z-10 gap-4 border-b border-slate-50 dark:border-slate-700 sticky top-16 bg-white dark:bg-slate-900"
+      class="sticky z-10 content-center hidden h-12 grid-cols-12 gap-4 px-6 py-0 bg-white border-b lg:grid border-slate-50 dark:border-slate-700 top-16 dark:bg-slate-900"
       :class="{ draggable: onCategoryPage }"
     >
       <div
-        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-left rtl:text-right col-span-6"
+        class="col-span-6 px-0 py-2 text-sm font-semibold text-left capitalize text-slate-700 dark:text-slate-100 rtl:text-right"
       >
         {{ $t('HELP_CENTER.TABLE.HEADERS.TITLE') }}
       </div>
       <div
-        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-left rtl:text-right col-span-2"
+        class="col-span-2 px-0 py-2 text-sm font-semibold text-left capitalize text-slate-700 dark:text-slate-100 rtl:text-right"
       >
         {{ $t('HELP_CENTER.TABLE.HEADERS.CATEGORY') }}
       </div>
       <div
-        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-left rtl:text-right hidden lg:block"
+        class="hidden px-0 py-2 text-sm font-semibold text-left capitalize text-slate-700 dark:text-slate-100 rtl:text-right lg:block"
       >
         {{ $t('HELP_CENTER.TABLE.HEADERS.READ_COUNT') }}
       </div>
       <div
-        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-left rtl:text-right"
+        class="px-0 py-2 text-sm font-semibold text-left capitalize text-slate-700 dark:text-slate-100 rtl:text-right"
       >
         {{ $t('HELP_CENTER.TABLE.HEADERS.STATUS') }}
       </div>
       <div
-        class="font-semibold capitalize text-sm py-2 px-0 text-slate-700 dark:text-slate-100 text-right rtl:text-left hidden md:block col-span-2"
+        class="hidden col-span-2 px-0 py-2 text-sm font-semibold text-right capitalize text-slate-700 dark:text-slate-100 rtl:text-left md:block"
       >
         {{ $t('HELP_CENTER.TABLE.HEADERS.LAST_EDITED') }}
       </div>
     </div>
     <Draggable
       tag="div"
-      class="border-t-0 px-4 pb-4"
+      class="px-4 pb-4 border-t-0"
       :disabled="!dragEnabled"
       :list="localArticles"
       ghost-class="article-ghost-class"
@@ -150,8 +150,8 @@ export default {
       :current-page="currentPage"
       :total-count="totalCount"
       :page-size="pageSize"
-      class="dark:bg-slate-900 bottom-0 border-t border-slate-75 dark:border-slate-700/50"
-      @page-change="onPageChange"
+      class="bottom-0 border-t dark:bg-slate-900 border-slate-75 dark:border-slate-700/50"
+      @pageChange="onPageChange"
     />
   </div>
 </template>

@@ -79,7 +79,7 @@ export default {
         useAlert(this.$t('PROFILE_SETTINGS.FORM.ERROR'));
         return;
       }
-      this.$emit('update-user', {
+      this.$emit('updateUser', {
         name: this.userName,
         displayName: this.userDisplayName,
         email: this.userEmail,

@@ -196,10 +196,10 @@ export default {
       :filter-items-list="filterItemsList"
       :group-by-filter-items-list="groupByfilterItemsList"
       :selected-group-by-filter="selectedGroupByFilter"
-      @date-range-change="onDateRangeChange"
-      @filter-change="onFilterChange"
-      @group-by-filter-change="onGroupByFilterChange"
-      @business-hours-toggle="onBusinessHoursToggle"
+      @dateRangeChange="onDateRangeChange"
+      @filterChange="onFilterChange"
+      @groupByFilterChange="onGroupByFilterChange"
+      @businessHoursToggle="onBusinessHoursToggle"
     />
     <ReportContainer v-if="filterItemsList.length" :group-by="groupBy" />
   </div>

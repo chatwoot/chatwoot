@@ -94,7 +94,7 @@ export default {
       :show-agents-filter="false"
       :show-group-by-filter="true"
       :show-business-hours-switch="false"
-      @filter-change="onFilterChange"
+      @filterChange="onFilterChange"
     />
 
     <BotMetrics :filters="requestPayload" />

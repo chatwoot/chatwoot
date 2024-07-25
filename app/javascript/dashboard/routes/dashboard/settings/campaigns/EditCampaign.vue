@@ -101,7 +101,7 @@ export default {
   },
   methods: {
     onClose() {
-      this.$emit('on-close');
+      this.$emit('onClose');
     },
 
     async loadInboxMembers() {

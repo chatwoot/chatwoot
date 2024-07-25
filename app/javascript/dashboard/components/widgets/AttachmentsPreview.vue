@@ -9,7 +9,7 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['remove-attachment']);
+const emits = defineEmits(['removeAttachment']);
 
 const nonRecordedAudioAttachments = computed(() => {
   return props.attachments.filter(attachment => !attachment?.isRecordedAudio);
@@ -21,7 +21,7 @@ const recordedAudioAttachments = computed(() =>
 
 const onRemoveAttachment = itemIndex => {
   emits(
-    'remove-attachment',
+    'removeAttachment',
     nonRecordedAudioAttachments.value
       .filter((_, index) => index !== itemIndex)
       .concat(recordedAudioAttachments.value)

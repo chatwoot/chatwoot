@@ -108,12 +108,12 @@ export default {
         @close="closeArticleSettings"
         @save-article="createNewArticle"
       />
-      <ArticleEditor :article="newArticle" @save-article="createNewArticle" />
+      <ArticleEditor :article="newArticle" @saveArticle="createNewArticle" />
     </div>
     <ArticleSettings
       v-if="showArticleSettings"
       :article="article"
-      @save-article="saveArticle"
+      @saveArticle="saveArticle"
     />
   </div>
 </template>

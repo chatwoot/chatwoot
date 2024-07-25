@@ -38,7 +38,7 @@ export default {
       this.selectedWaTemplate = null;
     },
     onSendMessage(message) {
-      this.$emit('on-send', message);
+      this.$emit('onSend', message);
     },
     onClose() {
       this.$emit('cancel');

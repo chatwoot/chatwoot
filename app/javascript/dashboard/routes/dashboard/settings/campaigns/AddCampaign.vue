@@ -115,7 +115,7 @@ export default {
   },
   methods: {
     onClose() {
-      this.$emit('on-close');
+      this.$emit('onClose');
     },
     onChange(value) {
       this.scheduledAt = value;

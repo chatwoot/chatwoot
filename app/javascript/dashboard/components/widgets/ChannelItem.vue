@@ -51,7 +51,7 @@ export default {
     },
     onItemClick() {
       if (this.isActive) {
-        this.$emit('channel-item-click', this.channel.key);
+        this.$emit('channelItemClick', this.channel.key);
       }
     },
   },

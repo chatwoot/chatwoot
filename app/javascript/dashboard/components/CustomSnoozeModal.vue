@@ -22,7 +22,7 @@ export default {
       this.$emit('close');
     },
     chooseTime() {
-      this.$emit('choose-time', this.snoozeTime);
+      this.$emit('chooseTime', this.snoozeTime);
     },
     disabledDate(date) {
       // Disable all the previous dates
@@ -53,7 +53,7 @@ export default {
         :disabled-time="disabledTime"
         :popup-style="{ width: '100%' }"
       />
-      <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+      <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
         <woot-button variant="clear" @click.prevent="onClose">
           {{ $t('CONVERSATION.CUSTOM_SNOOZE.CANCEL') }}
         </woot-button>
