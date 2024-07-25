@@ -1,3 +1,28 @@
+<script>
+import { mapGetters } from 'vuex';
+
+export default {
+  name: 'ReportsFiltersLabels',
+  data() {
+    return {
+      selectedOption: null,
+    };
+  },
+  computed: {
+    ...mapGetters({
+      options: 'labels/getLabels',
+    }),
+  },
+  mounted() {
+    this.$store.dispatch('labels/get');
+  },
+  methods: {
+    handleInput() {
+      this.$emit('labels-filter-selection', this.selectedOption);
+    },
+  },
+};
+</script>
 <template>
   <div class="multiselect-wrap--small">
     <multiselect
@@ -40,28 +65,3 @@
     </multiselect>
   </div>
 </template>
-<script>
-import { mapGetters } from 'vuex';
-
-export default {
-  name: 'ReportsFiltersLabels',
-  data() {
-    return {
-      selectedOption: null,
-    };
-  },
-  computed: {
-    ...mapGetters({
-      options: 'labels/getLabels',
-    }),
-  },
-  mounted() {
-    this.$store.dispatch('labels/get');
-  },
-  methods: {
-    handleInput() {
-      this.$emit('labels-filter-selection', this.selectedOption);
-    },
-  },
-};
-</script>

@@ -1,45 +1,3 @@
-<template>
-  <footer
-    v-if="!hideReplyBox"
-    class="relative z-50 mb-1"
-    :class="{
-      'rounded-lg': !isWidgetStyleFlat,
-      'pt-2.5 shadow-[0px_-20px_20px_1px_rgba(0,_0,_0,_0.05)] dark:shadow-[0px_-20px_20px_1px_rgba(0,_0,_0,_0.15)] rounded-t-none':
-        hasReplyTo,
-    }"
-  >
-    <footer-reply-to
-      v-if="hasReplyTo"
-      :in-reply-to="inReplyTo"
-      @dismiss="inReplyTo = null"
-    />
-    <chat-input-wrap
-      class="shadow-sm"
-      :on-send-message="handleSendMessage"
-      :on-send-attachment="handleSendAttachment"
-    />
-  </footer>
-  <div v-else>
-    <custom-button
-      class="font-medium"
-      block
-      :bg-color="widgetColor"
-      :text-color="textColor"
-      @click="startNewConversation"
-    >
-      {{ $t('START_NEW_CONVERSATION') }}
-    </custom-button>
-    <custom-button
-      v-if="showEmailTranscriptButton"
-      type="clear"
-      class="font-normal"
-      @click="sendTranscript"
-    >
-      {{ $t('EMAIL_TRANSCRIPT.BUTTON_TEXT') }}
-    </custom-button>
-  </div>
-</template>
-
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
@@ -161,6 +119,48 @@ export default {
   },
 };
 </script>
+
+<template>
+  <footer
+    v-if="!hideReplyBox"
+    class="relative z-50 mb-1"
+    :class="{
+      'rounded-lg': !isWidgetStyleFlat,
+      'pt-2.5 shadow-[0px_-20px_20px_1px_rgba(0,_0,_0,_0.05)] dark:shadow-[0px_-20px_20px_1px_rgba(0,_0,_0,_0.15)] rounded-t-none':
+        hasReplyTo,
+    }"
+  >
+    <footer-reply-to
+      v-if="hasReplyTo"
+      :in-reply-to="inReplyTo"
+      @dismiss="inReplyTo = null"
+    />
+    <chat-input-wrap
+      class="shadow-sm"
+      :on-send-message="handleSendMessage"
+      :on-send-attachment="handleSendAttachment"
+    />
+  </footer>
+  <div v-else>
+    <custom-button
+      class="font-medium"
+      block
+      :bg-color="widgetColor"
+      :text-color="textColor"
+      @click="startNewConversation"
+    >
+      {{ $t('START_NEW_CONVERSATION') }}
+    </custom-button>
+    <custom-button
+      v-if="showEmailTranscriptButton"
+      type="clear"
+      class="font-normal"
+      @click="sendTranscript"
+    >
+      {{ $t('EMAIL_TRANSCRIPT.BUTTON_TEXT') }}
+    </custom-button>
+  </div>
+</template>
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
 

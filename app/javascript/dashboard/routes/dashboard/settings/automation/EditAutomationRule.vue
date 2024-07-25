@@ -1,3 +1,78 @@
+<script>
+import { mapGetters } from 'vuex';
+import automationMethodsMixin from 'dashboard/mixins/automations/methodsMixin';
+import automationValidationsMixin from 'dashboard/mixins/automations/validationsMixin';
+import filterInputBox from 'dashboard/components/widgets/FilterInput/Index.vue';
+import automationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
+
+import {
+  AUTOMATION_RULE_EVENTS,
+  AUTOMATION_ACTION_TYPES,
+  AUTOMATIONS,
+} from './constants';
+
+export default {
+  components: {
+    filterInputBox,
+    automationActionInput,
+  },
+  mixins: [automationMethodsMixin, automationValidationsMixin],
+  props: {
+    onClose: {
+      type: Function,
+      default: () => {},
+    },
+    selectedResponse: {
+      type: Object,
+      default: () => {},
+    },
+  },
+  data() {
+    return {
+      automationTypes: JSON.parse(JSON.stringify(AUTOMATIONS)),
+      automationRuleEvent: AUTOMATION_RULE_EVENTS[0].key,
+      automationRuleEvents: AUTOMATION_RULE_EVENTS,
+      automationMutated: false,
+      show: true,
+      automation: null,
+      showDeleteConfirmationModal: false,
+      allCustomAttributes: [],
+      mode: 'edit',
+    };
+  },
+  computed: {
+    ...mapGetters({
+      accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+    }),
+    hasAutomationMutated() {
+      if (
+        this.automation.conditions[0].values ||
+        this.automation.actions[0].action_params.length
+      )
+        return true;
+      return false;
+    },
+    automationActionTypes() {
+      const isSLAEnabled = this.isFeatureEnabled('sla');
+      return isSLAEnabled
+        ? AUTOMATION_ACTION_TYPES
+        : AUTOMATION_ACTION_TYPES.filter(action => action.key !== 'add_sla');
+    },
+  },
+  mounted() {
+    this.manifestCustomAttributes();
+    this.allCustomAttributes = this.$store.getters['attributes/getAttributes'];
+    this.formatAutomation(this.selectedResponse);
+  },
+  methods: {
+    isFeatureEnabled(flag) {
+      return this.isFeatureEnabledonAccount(this.accountId, flag);
+    },
+  },
+};
+</script>
+
 <template>
   <div>
     <woot-modal-header :header-title="$t('AUTOMATION.EDIT.TITLE')" />
@@ -140,81 +215,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import { mapGetters } from 'vuex';
-import automationMethodsMixin from 'dashboard/mixins/automations/methodsMixin';
-import automationValidationsMixin from 'dashboard/mixins/automations/validationsMixin';
-import filterInputBox from 'dashboard/components/widgets/FilterInput/Index.vue';
-import automationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
-
-import {
-  AUTOMATION_RULE_EVENTS,
-  AUTOMATION_ACTION_TYPES,
-  AUTOMATIONS,
-} from './constants';
-
-export default {
-  components: {
-    filterInputBox,
-    automationActionInput,
-  },
-  mixins: [automationMethodsMixin, automationValidationsMixin],
-  props: {
-    onClose: {
-      type: Function,
-      default: () => {},
-    },
-    selectedResponse: {
-      type: Object,
-      default: () => {},
-    },
-  },
-  data() {
-    return {
-      automationTypes: JSON.parse(JSON.stringify(AUTOMATIONS)),
-      automationRuleEvent: AUTOMATION_RULE_EVENTS[0].key,
-      automationRuleEvents: AUTOMATION_RULE_EVENTS,
-      automationMutated: false,
-      show: true,
-      automation: null,
-      showDeleteConfirmationModal: false,
-      allCustomAttributes: [],
-      mode: 'edit',
-    };
-  },
-  computed: {
-    ...mapGetters({
-      accountId: 'getCurrentAccountId',
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
-    }),
-    hasAutomationMutated() {
-      if (
-        this.automation.conditions[0].values ||
-        this.automation.actions[0].action_params.length
-      )
-        return true;
-      return false;
-    },
-    automationActionTypes() {
-      const isSLAEnabled = this.isFeatureEnabled('sla');
-      return isSLAEnabled
-        ? AUTOMATION_ACTION_TYPES
-        : AUTOMATION_ACTION_TYPES.filter(action => action.key !== 'add_sla');
-    },
-  },
-  mounted() {
-    this.manifestCustomAttributes();
-    this.allCustomAttributes = this.$store.getters['attributes/getAttributes'];
-    this.formatAutomation(this.selectedResponse);
-  },
-  methods: {
-    isFeatureEnabled(flag) {
-      return this.isFeatureEnabledonAccount(this.accountId, flag);
-    },
-  },
-};
-</script>
 <style lang="scss" scoped>
 .event_wrapper {
   select {

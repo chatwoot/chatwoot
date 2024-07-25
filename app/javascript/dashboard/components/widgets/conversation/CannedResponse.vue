@@ -1,15 +1,3 @@
-<template>
-  <mention-box
-    v-if="items.length"
-    :items="items"
-    @mention-select="handleMentionClick"
-  >
-    <template slot-scope="{ item }">
-      <strong>{{ item.label }}</strong> - {{ item.description }}
-    </template>
-  </mention-box>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import MentionBox from '../mentions/MentionBox.vue';
@@ -52,3 +40,15 @@ export default {
   },
 };
 </script>
+
+<template>
+  <mention-box
+    v-if="items.length"
+    :items="items"
+    @mention-select="handleMentionClick"
+  >
+    <template slot-scope="{ item }">
+      <strong>{{ item.label }}</strong> - {{ item.description }}
+    </template>
+  </mention-box>
+</template>

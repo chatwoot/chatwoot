@@ -1,3 +1,34 @@
+<script>
+import HeaderActions from './HeaderActions.vue';
+import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+
+export default {
+  name: 'ChatHeaderExpanded',
+  components: {
+    HeaderActions,
+  },
+  mixins: [darkModeMixin],
+  props: {
+    avatarUrl: {
+      type: String,
+      default: '',
+    },
+    introHeading: {
+      type: String,
+      default: '',
+    },
+    introBody: {
+      type: String,
+      default: '',
+    },
+    showPopoutButton: {
+      type: Boolean,
+      default: false,
+    },
+  },
+};
+</script>
+
 <template>
   <header
     class="header-expanded pt-6 pb-4 px-5 relative box-border w-full bg-transparent"
@@ -29,34 +60,3 @@
     />
   </header>
 </template>
-
-<script>
-import HeaderActions from './HeaderActions.vue';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
-
-export default {
-  name: 'ChatHeaderExpanded',
-  components: {
-    HeaderActions,
-  },
-  mixins: [darkModeMixin],
-  props: {
-    avatarUrl: {
-      type: String,
-      default: '',
-    },
-    introHeading: {
-      type: String,
-      default: '',
-    },
-    introBody: {
-      type: String,
-      default: '',
-    },
-    showPopoutButton: {
-      type: Boolean,
-      default: false,
-    },
-  },
-};
-</script>

@@ -1,14 +1,3 @@
-<template>
-  <div
-    class="rounded-xl flex leading-[100%] font-medium items-center justify-center text-center cursor-default"
-    :class="`h-[${size}px] w-[${size}px] ${colorClass}`"
-    :style="style"
-    aria-hidden="true"
-  >
-    <slot>{{ initial }}</slot>
-  </div>
-</template>
-
 <script setup>
 import { computed } from 'vue';
 import { userInitial } from 'v3/helpers/CommonHelper';
@@ -41,3 +30,14 @@ const colorClass = computed(() => {
 
 const initial = computed(() => userInitial(props.name));
 </script>
+
+<template>
+  <div
+    class="rounded-xl flex leading-[100%] font-medium items-center justify-center text-center cursor-default"
+    :class="`h-[${size}px] w-[${size}px] ${colorClass}`"
+    :style="style"
+    aria-hidden="true"
+  >
+    <slot>{{ initial }}</slot>
+  </div>
+</template>

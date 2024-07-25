@@ -1,3 +1,74 @@
+<script>
+import thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import portalMixin from '../mixins/portalMixin';
+
+export default {
+  components: {
+    thumbnail,
+  },
+  mixins: [portalMixin],
+  props: {
+    portal: {
+      type: Object,
+      default: () => ({}),
+    },
+    active: {
+      type: Boolean,
+      default: false,
+    },
+    activePortalSlug: {
+      type: String,
+      default: '',
+    },
+    activeLocale: {
+      type: String,
+      default: '',
+    },
+  },
+  data() {
+    return {
+      selectedLocale: null,
+    };
+  },
+  computed: {
+    locales() {
+      return this.portal?.config?.allowed_locales;
+    },
+    articlesCount() {
+      const { allowed_locales: allowedLocales } = this.portal.config;
+      return allowedLocales.reduce((acc, locale) => {
+        return acc + locale.articles_count;
+      }, 0);
+    },
+  },
+  mounted() {
+    this.selectedLocale = this.locale || this.portal?.meta?.default_locale;
+  },
+  methods: {
+    onClick(event, code, portal) {
+      event.preventDefault();
+      this.$router.push({
+        name: 'list_all_locale_articles',
+        params: {
+          portalSlug: portal.slug,
+          locale: code,
+        },
+      });
+      this.$emit('fetch-portal');
+      this.$emit('open-portal-page');
+    },
+    isLocaleActive(code, slug) {
+      const isPortalActive = this.portal.slug === slug;
+      const isLocaleActive = this.activeLocale === code;
+      return isPortalActive && isLocaleActive;
+    },
+    isLocaleDefault(code) {
+      return this.portal?.meta?.default_locale === code;
+    },
+  },
+};
+</script>
+
 <template>
   <div class="portal" :class="{ active }">
     <thumbnail :username="portal.name" variant="square" />
@@ -69,77 +140,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import portalMixin from '../mixins/portalMixin';
-
-export default {
-  components: {
-    thumbnail,
-  },
-  mixins: [portalMixin],
-  props: {
-    portal: {
-      type: Object,
-      default: () => ({}),
-    },
-    active: {
-      type: Boolean,
-      default: false,
-    },
-    activePortalSlug: {
-      type: String,
-      default: '',
-    },
-    activeLocale: {
-      type: String,
-      default: '',
-    },
-  },
-  data() {
-    return {
-      selectedLocale: null,
-    };
-  },
-  computed: {
-    locales() {
-      return this.portal?.config?.allowed_locales;
-    },
-    articlesCount() {
-      const { allowed_locales: allowedLocales } = this.portal.config;
-      return allowedLocales.reduce((acc, locale) => {
-        return acc + locale.articles_count;
-      }, 0);
-    },
-  },
-  mounted() {
-    this.selectedLocale = this.locale || this.portal?.meta?.default_locale;
-  },
-  methods: {
-    onClick(event, code, portal) {
-      event.preventDefault();
-      this.$router.push({
-        name: 'list_all_locale_articles',
-        params: {
-          portalSlug: portal.slug,
-          locale: code,
-        },
-      });
-      this.$emit('fetch-portal');
-      this.$emit('open-portal-page');
-    },
-    isLocaleActive(code, slug) {
-      const isPortalActive = this.portal.slug === slug;
-      const isLocaleActive = this.activeLocale === code;
-      return isPortalActive && isLocaleActive;
-    },
-    isLocaleDefault(code) {
-      return this.portal?.meta?.default_locale === code;
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .portal {

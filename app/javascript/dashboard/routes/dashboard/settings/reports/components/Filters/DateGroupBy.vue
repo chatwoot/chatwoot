@@ -1,22 +1,3 @@
-<template>
-  <div class="multiselect-wrap--small">
-    <p aria-hidden="true" class="hide">
-      {{ $t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL') }}
-    </p>
-    <multiselect
-      v-model="currentSelectedFilter"
-      class="no-margin"
-      track-by="id"
-      label="groupBy"
-      :placeholder="$t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL')"
-      :options="translatedOptions"
-      :allow-empty="false"
-      :show-labels="false"
-      @select="changeFilterSelection"
-    />
-  </div>
-</template>
-
 <script>
 import { GROUP_BY_OPTIONS } from '../../constants';
 
@@ -65,3 +46,22 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="multiselect-wrap--small">
+    <p aria-hidden="true" class="hide">
+      {{ $t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL') }}
+    </p>
+    <multiselect
+      v-model="currentSelectedFilter"
+      class="no-margin"
+      track-by="id"
+      label="groupBy"
+      :placeholder="$t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL')"
+      :options="translatedOptions"
+      :allow-empty="false"
+      :show-labels="false"
+      @select="changeFilterSelection"
+    />
+  </div>
+</template>

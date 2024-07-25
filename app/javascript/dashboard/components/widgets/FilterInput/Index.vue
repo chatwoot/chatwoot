@@ -1,4 +1,142 @@
 <!-- eslint-disable vue/no-mutating-props -->
+<script>
+export default {
+  props: {
+    value: {
+      type: Object,
+      default: () => null,
+    },
+    filterAttributes: {
+      type: Array,
+      default: () => [],
+    },
+    inputType: {
+      type: String,
+      default: 'plain_text',
+    },
+    dataType: {
+      type: String,
+      default: 'plain_text',
+    },
+    operators: {
+      type: Array,
+      default: () => [],
+    },
+    dropdownValues: {
+      type: Array,
+      default: () => [],
+    },
+    showQueryOperator: {
+      type: Boolean,
+      default: false,
+    },
+    v: {
+      type: Object,
+      default: () => null,
+    },
+    showUserInput: {
+      type: Boolean,
+      default: true,
+    },
+    groupedFilters: {
+      type: Boolean,
+      default: false,
+    },
+    filterGroups: {
+      type: Array,
+      default: () => [],
+    },
+    customAttributeType: {
+      type: String,
+      default: '',
+    },
+  },
+  computed: {
+    attributeKey: {
+      get() {
+        if (!this.value) return null;
+        return this.value.attribute_key;
+      },
+      set(value) {
+        const payload = this.value || {};
+        this.$emit('input', { ...payload, attribute_key: value });
+      },
+    },
+    filterOperator: {
+      get() {
+        if (!this.value) return null;
+        return this.value.filter_operator;
+      },
+      set(value) {
+        const payload = this.value || {};
+        this.$emit('input', { ...payload, filter_operator: value });
+      },
+    },
+    values: {
+      get() {
+        if (!this.value) return null;
+        return this.value.values;
+      },
+      set(value) {
+        const payload = this.value || {};
+        this.$emit('input', { ...payload, values: value });
+      },
+    },
+    query_operator: {
+      get() {
+        if (!this.value) return null;
+        return this.value.query_operator;
+      },
+      set(value) {
+        const payload = this.value || {};
+        this.$emit('input', { ...payload, query_operator: value });
+      },
+    },
+    custom_attribute_type: {
+      get() {
+        if (!this.customAttributeType) return '';
+        return this.customAttributeType;
+      },
+      set() {
+        const payload = this.value || {};
+        this.$emit('input', {
+          ...payload,
+          custom_attribute_type: this.customAttributeType,
+        });
+      },
+    },
+  },
+  watch: {
+    customAttributeType: {
+      handler(value) {
+        if (
+          value === 'conversation_attribute' ||
+          value === 'contact_attribute'
+        ) {
+          // eslint-disable-next-line vue/no-mutating-props
+          this.value.custom_attribute_type = this.customAttributeType;
+          // eslint-disable-next-line vue/no-mutating-props
+        } else this.value.custom_attribute_type = '';
+      },
+      immediate: true,
+    },
+  },
+  methods: {
+    removeFilter() {
+      this.$emit('removeFilter');
+    },
+    resetFilter() {
+      this.$emit('resetFilter');
+    },
+    getInputErrorClass(isDirty, hasError) {
+      return isDirty && hasError
+        ? 'bg-red-50 dark:bg-red-800/50 border-red-100 dark:border-red-700/50'
+        : 'bg-slate-50 dark:bg-slate-800 border-slate-75 dark:border-slate-700/50';
+    },
+  },
+};
+</script>
+
 <template>
   <div>
     <div
@@ -141,144 +279,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    value: {
-      type: Object,
-      default: () => null,
-    },
-    filterAttributes: {
-      type: Array,
-      default: () => [],
-    },
-    inputType: {
-      type: String,
-      default: 'plain_text',
-    },
-    dataType: {
-      type: String,
-      default: 'plain_text',
-    },
-    operators: {
-      type: Array,
-      default: () => [],
-    },
-    dropdownValues: {
-      type: Array,
-      default: () => [],
-    },
-    showQueryOperator: {
-      type: Boolean,
-      default: false,
-    },
-    v: {
-      type: Object,
-      default: () => null,
-    },
-    showUserInput: {
-      type: Boolean,
-      default: true,
-    },
-    groupedFilters: {
-      type: Boolean,
-      default: false,
-    },
-    filterGroups: {
-      type: Array,
-      default: () => [],
-    },
-    customAttributeType: {
-      type: String,
-      default: '',
-    },
-  },
-  computed: {
-    attributeKey: {
-      get() {
-        if (!this.value) return null;
-        return this.value.attribute_key;
-      },
-      set(value) {
-        const payload = this.value || {};
-        this.$emit('input', { ...payload, attribute_key: value });
-      },
-    },
-    filterOperator: {
-      get() {
-        if (!this.value) return null;
-        return this.value.filter_operator;
-      },
-      set(value) {
-        const payload = this.value || {};
-        this.$emit('input', { ...payload, filter_operator: value });
-      },
-    },
-    values: {
-      get() {
-        if (!this.value) return null;
-        return this.value.values;
-      },
-      set(value) {
-        const payload = this.value || {};
-        this.$emit('input', { ...payload, values: value });
-      },
-    },
-    query_operator: {
-      get() {
-        if (!this.value) return null;
-        return this.value.query_operator;
-      },
-      set(value) {
-        const payload = this.value || {};
-        this.$emit('input', { ...payload, query_operator: value });
-      },
-    },
-    custom_attribute_type: {
-      get() {
-        if (!this.customAttributeType) return '';
-        return this.customAttributeType;
-      },
-      set() {
-        const payload = this.value || {};
-        this.$emit('input', {
-          ...payload,
-          custom_attribute_type: this.customAttributeType,
-        });
-      },
-    },
-  },
-  watch: {
-    customAttributeType: {
-      handler(value) {
-        if (
-          value === 'conversation_attribute' ||
-          value === 'contact_attribute'
-        ) {
-          // eslint-disable-next-line vue/no-mutating-props
-          this.value.custom_attribute_type = this.customAttributeType;
-          // eslint-disable-next-line vue/no-mutating-props
-        } else this.value.custom_attribute_type = '';
-      },
-      immediate: true,
-    },
-  },
-  methods: {
-    removeFilter() {
-      this.$emit('removeFilter');
-    },
-    resetFilter() {
-      this.$emit('resetFilter');
-    },
-    getInputErrorClass(isDirty, hasError) {
-      return isDirty && hasError
-        ? 'bg-red-50 dark:bg-red-800/50 border-red-100 dark:border-red-700/50'
-        : 'bg-slate-50 dark:bg-slate-800 border-slate-75 dark:border-slate-700/50';
-    },
-  },
-};
-</script>
 <style lang="scss" scoped>
 .filter__answer--wrap {
   input {

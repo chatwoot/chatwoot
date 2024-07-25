@@ -1,3 +1,30 @@
+<script>
+import { mapGetters } from 'vuex';
+import MacroItem from './MacroItem.vue';
+import accountMixin from 'dashboard/mixins/account.js';
+
+export default {
+  components: {
+    MacroItem,
+  },
+  mixins: [accountMixin],
+  props: {
+    conversationId: {
+      type: [Number, String],
+      required: true,
+    },
+  },
+  computed: {
+    ...mapGetters({
+      macros: ['macros/getMacros'],
+      uiFlags: 'macros/getUIFlags',
+    }),
+  },
+  mounted() {
+    this.$store.dispatch('macros/get');
+  },
+};
+</script>
 <template>
   <div>
     <div
@@ -32,33 +59,6 @@
     </div>
   </div>
 </template>
-<script>
-import { mapGetters } from 'vuex';
-import MacroItem from './MacroItem.vue';
-import accountMixin from 'dashboard/mixins/account.js';
-
-export default {
-  components: {
-    MacroItem,
-  },
-  mixins: [accountMixin],
-  props: {
-    conversationId: {
-      type: [Number, String],
-      required: true,
-    },
-  },
-  computed: {
-    ...mapGetters({
-      macros: ['macros/getMacros'],
-      uiFlags: 'macros/getUIFlags',
-    }),
-  },
-  mounted() {
-    this.$store.dispatch('macros/get');
-  },
-};
-</script>
 <style scoped lang="scss">
 .macros-list {
   padding: var(--space-smaller);

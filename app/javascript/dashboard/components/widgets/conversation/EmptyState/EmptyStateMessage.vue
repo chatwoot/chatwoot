@@ -1,3 +1,16 @@
+<script>
+import FeaturePlaceholder from './FeaturePlaceholder.vue';
+export default {
+  components: { FeaturePlaceholder },
+  props: {
+    message: {
+      type: String,
+      required: true,
+    },
+  },
+};
+</script>
+
 <template>
   <div class="flex flex-col items-center justify-center h-full">
     <img
@@ -20,16 +33,3 @@
     <feature-placeholder />
   </div>
 </template>
-
-<script>
-import FeaturePlaceholder from './FeaturePlaceholder.vue';
-export default {
-  components: { FeaturePlaceholder },
-  props: {
-    message: {
-      type: String,
-      required: true,
-    },
-  },
-};
-</script>

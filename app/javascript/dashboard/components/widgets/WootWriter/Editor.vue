@@ -1,49 +1,3 @@
-<template>
-  <div ref="editorRoot" class="relative editor-root">
-    <tag-agents
-      v-if="showUserMentions && isPrivate"
-      :search-key="mentionSearchKey"
-      @click="insertMentionNode"
-    />
-    <canned-response
-      v-if="shouldShowCannedResponses"
-      :search-key="cannedSearchTerm"
-      @click="insertCannedResponse"
-    />
-    <variable-list
-      v-if="shouldShowVariables"
-      :search-key="variableSearchTerm"
-      @click="insertVariable"
-    />
-    <input
-      ref="imageUpload"
-      type="file"
-      accept="image/png, image/jpeg, image/jpg, image/gif, image/webp"
-      hidden
-      @change="onFileChange"
-    />
-    <div ref="editor" />
-    <div
-      v-show="isImageNodeSelected && showImageResizeToolbar"
-      class="absolute shadow-md rounded-[4px] flex gap-1 py-1 px-1 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-50"
-      :style="{
-        top: toolbarPosition.top,
-        left: toolbarPosition.left,
-      }"
-    >
-      <button
-        v-for="size in sizes"
-        :key="size.name"
-        class="text-xs font-medium rounded-[4px] border border-solid border-slate-200 dark:border-slate-600 px-1.5 py-0.5 hover:bg-slate-100 dark:hover:bg-slate-800"
-        @click="setURLWithQueryAndImageSize(size)"
-      >
-        {{ size.name }}
-      </button>
-    </div>
-    <slot name="footer" />
-  </div>
-</template>
-
 <script>
 import {
   messageSchema,
@@ -727,6 +681,52 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div ref="editorRoot" class="relative editor-root">
+    <tag-agents
+      v-if="showUserMentions && isPrivate"
+      :search-key="mentionSearchKey"
+      @click="insertMentionNode"
+    />
+    <canned-response
+      v-if="shouldShowCannedResponses"
+      :search-key="cannedSearchTerm"
+      @click="insertCannedResponse"
+    />
+    <variable-list
+      v-if="shouldShowVariables"
+      :search-key="variableSearchTerm"
+      @click="insertVariable"
+    />
+    <input
+      ref="imageUpload"
+      type="file"
+      accept="image/png, image/jpeg, image/jpg, image/gif, image/webp"
+      hidden
+      @change="onFileChange"
+    />
+    <div ref="editor" />
+    <div
+      v-show="isImageNodeSelected && showImageResizeToolbar"
+      class="absolute shadow-md rounded-[4px] flex gap-1 py-1 px-1 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-50"
+      :style="{
+        top: toolbarPosition.top,
+        left: toolbarPosition.left,
+      }"
+    >
+      <button
+        v-for="size in sizes"
+        :key="size.name"
+        class="text-xs font-medium rounded-[4px] border border-solid border-slate-200 dark:border-slate-600 px-1.5 py-0.5 hover:bg-slate-100 dark:hover:bg-slate-800"
+        @click="setURLWithQueryAndImageSize(size)"
+      >
+        {{ size.name }}
+      </button>
+    </div>
+    <slot name="footer" />
+  </div>
+</template>
 
 <style lang="scss">
 @import '~@chatwoot/prosemirror-schema/src/styles/base.scss';

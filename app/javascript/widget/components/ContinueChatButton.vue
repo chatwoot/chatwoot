@@ -1,3 +1,25 @@
+<script>
+import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+
+export default {
+  components: { FluentIcon },
+  props: {
+    title: {
+      type: String,
+      default: 'Continue your chat',
+    },
+    content: {
+      type: String,
+      default: 'Chat with us',
+    },
+    unreadCount: {
+      type: Number,
+      default: 0,
+    },
+  },
+};
+</script>
+
 <template>
   <button
     type="button"
@@ -37,25 +59,3 @@
     </div>
   </button>
 </template>
-
-<script>
-import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-
-export default {
-  components: { FluentIcon },
-  props: {
-    title: {
-      type: String,
-      default: 'Continue your chat',
-    },
-    content: {
-      type: String,
-      default: 'Chat with us',
-    },
-    unreadCount: {
-      type: Number,
-      default: 0,
-    },
-  },
-};
-</script>

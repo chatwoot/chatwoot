@@ -1,38 +1,3 @@
-<template>
-  <div v-if="!isFetchingAppIntegrations">
-    <div v-if="isAIIntegrationEnabled" class="relative">
-      <AIAssistanceCTAButton
-        v-if="shouldShowAIAssistCTAButton"
-        @click="openAIAssist"
-      />
-      <woot-button
-        v-else
-        v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.AI_ASSIST')"
-        icon="wand"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
-        @click="openAIAssist"
-      />
-      <woot-modal
-        :show.sync="showAIAssistanceModal"
-        :on-close="hideAIAssistanceModal"
-      >
-        <AIAssistanceModal
-          :ai-option="aiOption"
-          @apply-text="insertText"
-          @close="hideAIAssistanceModal"
-        />
-      </woot-modal>
-    </div>
-    <div v-else-if="shouldShowAIAssistCTAButtonForAdmin" class="relative">
-      <AIAssistanceCTAButton @click="openAICta" />
-      <woot-modal :show.sync="showAICtaModal" :on-close="hideAICtaModal">
-        <AICTAModal @close="hideAICtaModal" />
-      </woot-modal>
-    </div>
-  </div>
-</template>
 <script>
 import { mapGetters } from 'vuex';
 import { useAdmin } from 'dashboard/composables/useAdmin';
@@ -141,3 +106,38 @@ export default {
   },
 };
 </script>
+<template>
+  <div v-if="!isFetchingAppIntegrations">
+    <div v-if="isAIIntegrationEnabled" class="relative">
+      <AIAssistanceCTAButton
+        v-if="shouldShowAIAssistCTAButton"
+        @click="openAIAssist"
+      />
+      <woot-button
+        v-else
+        v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.AI_ASSIST')"
+        icon="wand"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        @click="openAIAssist"
+      />
+      <woot-modal
+        :show.sync="showAIAssistanceModal"
+        :on-close="hideAIAssistanceModal"
+      >
+        <AIAssistanceModal
+          :ai-option="aiOption"
+          @apply-text="insertText"
+          @close="hideAIAssistanceModal"
+        />
+      </woot-modal>
+    </div>
+    <div v-else-if="shouldShowAIAssistCTAButtonForAdmin" class="relative">
+      <AIAssistanceCTAButton @click="openAICta" />
+      <woot-modal :show.sync="showAICtaModal" :on-close="hideAICtaModal">
+        <AICTAModal @close="hideAICtaModal" />
+      </woot-modal>
+    </div>
+  </div>
+</template>

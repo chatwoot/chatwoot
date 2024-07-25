@@ -1,3 +1,66 @@
+<script>
+import { required } from 'vuelidate/lib/validators';
+
+import MergeContactSummary from 'dashboard/modules/contact/components/MergeContactSummary.vue';
+import ContactDropdownItem from './ContactDropdownItem.vue';
+
+export default {
+  components: { MergeContactSummary, ContactDropdownItem },
+  props: {
+    primaryContact: {
+      type: Object,
+      required: true,
+    },
+    isSearching: {
+      type: Boolean,
+      default: false,
+    },
+    isMerging: {
+      type: Boolean,
+      default: false,
+    },
+    searchResults: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  validations: {
+    primaryContact: {
+      required,
+    },
+    parentContact: {
+      required,
+    },
+  },
+  data() {
+    return {
+      parentContact: undefined,
+    };
+  },
+
+  computed: {
+    parentContactName() {
+      return this.parentContact ? this.parentContact.name : '';
+    },
+  },
+  methods: {
+    searchChange(query) {
+      this.$emit('search', query);
+    },
+    onSubmit() {
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        return;
+      }
+      this.$emit('submit', this.parentContact.id);
+    },
+    onCancel() {
+      this.$emit('cancel');
+    },
+  },
+};
+</script>
+
 <template>
   <form @submit.prevent="onSubmit">
     <div>
@@ -112,69 +175,6 @@
     </div>
   </form>
 </template>
-
-<script>
-import { required } from 'vuelidate/lib/validators';
-
-import MergeContactSummary from 'dashboard/modules/contact/components/MergeContactSummary.vue';
-import ContactDropdownItem from './ContactDropdownItem.vue';
-
-export default {
-  components: { MergeContactSummary, ContactDropdownItem },
-  props: {
-    primaryContact: {
-      type: Object,
-      required: true,
-    },
-    isSearching: {
-      type: Boolean,
-      default: false,
-    },
-    isMerging: {
-      type: Boolean,
-      default: false,
-    },
-    searchResults: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  validations: {
-    primaryContact: {
-      required,
-    },
-    parentContact: {
-      required,
-    },
-  },
-  data() {
-    return {
-      parentContact: undefined,
-    };
-  },
-
-  computed: {
-    parentContactName() {
-      return this.parentContact ? this.parentContact.name : '';
-    },
-  },
-  methods: {
-    searchChange(query) {
-      this.$emit('search', query);
-    },
-    onSubmit() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        return;
-      }
-      this.$emit('submit', this.parentContact.id);
-    },
-    onCancel() {
-      this.$emit('cancel');
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 /* TDOD: Clean errors in forms style */

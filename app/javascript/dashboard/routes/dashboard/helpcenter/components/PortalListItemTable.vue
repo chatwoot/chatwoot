@@ -1,3 +1,29 @@
+<script>
+import portalMixin from '../mixins/portalMixin';
+export default {
+  mixins: [portalMixin],
+  props: {
+    locales: {
+      type: Array,
+      default: () => [],
+    },
+    selectedLocaleCode: {
+      type: String,
+      default: '',
+    },
+  },
+
+  methods: {
+    changeDefaultLocale(localeCode) {
+      this.$emit('change-default-locale', { localeCode });
+    },
+    deleteLocale(localeCode) {
+      this.$emit('delete', { localeCode });
+    },
+  },
+};
+</script>
+
 <template>
   <table>
     <thead>
@@ -94,32 +120,6 @@
     </tbody>
   </table>
 </template>
-
-<script>
-import portalMixin from '../mixins/portalMixin';
-export default {
-  mixins: [portalMixin],
-  props: {
-    locales: {
-      type: Array,
-      default: () => [],
-    },
-    selectedLocaleCode: {
-      type: String,
-      default: '',
-    },
-  },
-
-  methods: {
-    changeDefaultLocale(localeCode) {
-      this.$emit('change-default-locale', { localeCode });
-    },
-    deleteLocale(localeCode) {
-      this.$emit('delete', { localeCode });
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 table {

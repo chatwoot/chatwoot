@@ -1,3 +1,16 @@
+<script>
+export default {
+  props: {
+    value: { type: Boolean, default: false },
+  },
+  methods: {
+    onClick() {
+      this.$emit('input', !this.value);
+    },
+  },
+};
+</script>
+
 <template>
   <button
     type="button"
@@ -20,16 +33,3 @@
     />
   </button>
 </template>
-
-<script>
-export default {
-  props: {
-    value: { type: Boolean, default: false },
-  },
-  methods: {
-    onClick() {
-      this.$emit('input', !this.value);
-    },
-  },
-};
-</script>

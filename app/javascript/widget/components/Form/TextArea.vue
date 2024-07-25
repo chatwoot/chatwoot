@@ -1,24 +1,3 @@
-<template>
-  <label class="block">
-    <div
-      v-if="label"
-      class="mb-2 text-xs leading-3 font-medium"
-      :class="labelClass"
-    >
-      {{ label }}
-    </div>
-    <textarea
-      class="resize-none border rounded w-full py-2 px-3 text-slate-700 leading-tight outline-none"
-      :class="isTextAreaHasError"
-      :placeholder="placeholder"
-      :value="value"
-      @change="onChange"
-    />
-    <div v-if="error" class="text-red-400 mt-2 text-xs leading-3 font-medium">
-      {{ error }}
-    </div>
-  </label>
-</template>
 <script>
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 export default {
@@ -73,6 +52,27 @@ export default {
   },
 };
 </script>
+<template>
+  <label class="block">
+    <div
+      v-if="label"
+      class="mb-2 text-xs leading-3 font-medium"
+      :class="labelClass"
+    >
+      {{ label }}
+    </div>
+    <textarea
+      class="resize-none border rounded w-full py-2 px-3 text-slate-700 leading-tight outline-none"
+      :class="isTextAreaHasError"
+      :placeholder="placeholder"
+      :value="value"
+      @change="onChange"
+    />
+    <div v-if="error" class="text-red-400 mt-2 text-xs leading-3 font-medium">
+      {{ error }}
+    </div>
+  </label>
+</template>
 <style lang="scss" scoped>
 textarea {
   min-height: 8rem;

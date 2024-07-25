@@ -1,3 +1,14 @@
+<script>
+export default {
+  props: {
+    shrink: {
+      type: Boolean,
+      default: false,
+    },
+  },
+};
+</script>
+
 <template>
   <div class="read-more">
     <div
@@ -21,17 +32,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    shrink: {
-      type: Boolean,
-      default: false,
-    },
-  },
-};
-</script>
 
 <style scoped>
 @tailwind components;

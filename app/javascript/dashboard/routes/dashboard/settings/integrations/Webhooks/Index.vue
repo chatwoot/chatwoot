@@ -1,3 +1,78 @@
+<script>
+import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
+import NewWebhook from './NewWebHook.vue';
+import EditWebhook from './EditWebHook.vue';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import WebhookRow from './WebhookRow.vue';
+
+export default {
+  components: {
+    NewWebhook,
+    EditWebhook,
+    WebhookRow,
+  },
+  mixins: [globalConfigMixin],
+  data() {
+    return {
+      loading: {},
+      showAddPopup: false,
+      showEditPopup: false,
+      showDeleteConfirmationPopup: false,
+      selectedWebHook: {},
+    };
+  },
+  computed: {
+    ...mapGetters({
+      records: 'webhooks/getWebhooks',
+      uiFlags: 'webhooks/getUIFlags',
+      globalConfig: 'globalConfig/get',
+    }),
+  },
+  mounted() {
+    this.$store.dispatch('webhooks/get');
+  },
+  methods: {
+    openAddPopup() {
+      this.showAddPopup = true;
+    },
+    hideAddPopup() {
+      this.showAddPopup = false;
+    },
+    openDeletePopup(response) {
+      this.showDeleteConfirmationPopup = true;
+      this.selectedWebHook = response;
+    },
+    closeDeletePopup() {
+      this.showDeleteConfirmationPopup = false;
+    },
+    openEditPopup(webhook) {
+      this.showEditPopup = true;
+      this.selectedWebHook = webhook;
+    },
+    hideEditPopup() {
+      this.showEditPopup = false;
+    },
+    confirmDeletion() {
+      this.loading[this.selectedWebHook.id] = true;
+      this.closeDeletePopup();
+      this.deleteWebhook(this.selectedWebHook.id);
+    },
+    async deleteWebhook(id) {
+      try {
+        await this.$store.dispatch('webhooks/delete', id);
+        useAlert(
+          this.$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.SUCCESS_MESSAGE')
+        );
+      } catch (error) {
+        useAlert(
+          this.$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.ERROR_MESSAGE')
+        );
+      }
+    },
+  },
+};
+</script>
 <template>
   <div class="flex-1 p-4 overflow-auto">
     <woot-button
@@ -89,78 +164,3 @@
     />
   </div>
 </template>
-<script>
-import { mapGetters } from 'vuex';
-import { useAlert } from 'dashboard/composables';
-import NewWebhook from './NewWebHook.vue';
-import EditWebhook from './EditWebHook.vue';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import WebhookRow from './WebhookRow.vue';
-
-export default {
-  components: {
-    NewWebhook,
-    EditWebhook,
-    WebhookRow,
-  },
-  mixins: [globalConfigMixin],
-  data() {
-    return {
-      loading: {},
-      showAddPopup: false,
-      showEditPopup: false,
-      showDeleteConfirmationPopup: false,
-      selectedWebHook: {},
-    };
-  },
-  computed: {
-    ...mapGetters({
-      records: 'webhooks/getWebhooks',
-      uiFlags: 'webhooks/getUIFlags',
-      globalConfig: 'globalConfig/get',
-    }),
-  },
-  mounted() {
-    this.$store.dispatch('webhooks/get');
-  },
-  methods: {
-    openAddPopup() {
-      this.showAddPopup = true;
-    },
-    hideAddPopup() {
-      this.showAddPopup = false;
-    },
-    openDeletePopup(response) {
-      this.showDeleteConfirmationPopup = true;
-      this.selectedWebHook = response;
-    },
-    closeDeletePopup() {
-      this.showDeleteConfirmationPopup = false;
-    },
-    openEditPopup(webhook) {
-      this.showEditPopup = true;
-      this.selectedWebHook = webhook;
-    },
-    hideEditPopup() {
-      this.showEditPopup = false;
-    },
-    confirmDeletion() {
-      this.loading[this.selectedWebHook.id] = true;
-      this.closeDeletePopup();
-      this.deleteWebhook(this.selectedWebHook.id);
-    },
-    async deleteWebhook(id) {
-      try {
-        await this.$store.dispatch('webhooks/delete', id);
-        useAlert(
-          this.$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.SUCCESS_MESSAGE')
-        );
-      } catch (error) {
-        useAlert(
-          this.$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.ERROR_MESSAGE')
-        );
-      }
-    },
-  },
-};
-</script>

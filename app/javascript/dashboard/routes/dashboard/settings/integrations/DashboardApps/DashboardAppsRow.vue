@@ -1,3 +1,18 @@
+<script>
+export default {
+  loading: {
+    type: Boolean,
+    default: false,
+  },
+  props: {
+    app: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+};
+</script>
+
 <template>
   <tr>
     <td class="w-40 max-w-[10rem] truncate" :title="app.title">
@@ -32,21 +47,6 @@
     </td>
   </tr>
 </template>
-
-<script>
-export default {
-  loading: {
-    type: Boolean,
-    default: false,
-  },
-  props: {
-    app: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .dashboard-app-label-url {

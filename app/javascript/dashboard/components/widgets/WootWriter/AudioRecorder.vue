@@ -1,9 +1,3 @@
-<template>
-  <div class="audio-wave-wrapper">
-    <audio id="audio-wave" class="video-js vjs-fill vjs-default-skin" />
-  </div>
-</template>
-
 <script>
 import getUuid from 'widget/helpers/uuid';
 import 'video.js/dist/video-js.css';
@@ -239,6 +233,12 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="audio-wave-wrapper">
+    <audio id="audio-wave" class="video-js vjs-fill vjs-default-skin" />
+  </div>
+</template>
 
 <style lang="scss">
 .audio-wave-wrapper {

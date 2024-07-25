@@ -1,3 +1,53 @@
+<script>
+import Attribute from './ContactAttribute.vue';
+
+export default {
+  components: { Attribute },
+  props: {
+    contact: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+
+  computed: {
+    additionalAttributes() {
+      return this.contact.additional_attributes || {};
+    },
+    company() {
+      const { company = {} } = this.contact;
+      return company;
+    },
+    customAttributes() {
+      const { custom_attributes: customAttributes = {} } = this.contact;
+      return customAttributes;
+    },
+    customAttributekeys() {
+      return Object.keys(this.customAttributes).filter(key => {
+        const value = this.customAttributes[key];
+        return value !== null && value !== undefined;
+      });
+    },
+  },
+  methods: {
+    onEmailUpdate(value) {
+      this.$emit('update', { email: value });
+    },
+    onPhoneUpdate(value) {
+      this.$emit('update', { phone_number: value });
+    },
+    onLocationUpdate(value) {
+      this.$emit('update', { location: value });
+    },
+    handleCustomCreate() {
+      this.$emit('create-attribute');
+    },
+    onCustomAttributeUpdate(key, value) {
+      this.$emit('update', { custom_attributes: { [key]: value } });
+    },
+  },
+};
+</script>
 <template>
   <div class="contact-fields">
     <h3 class="text-lg title">
@@ -51,56 +101,6 @@
     </woot-button>
   </div>
 </template>
-<script>
-import Attribute from './ContactAttribute.vue';
-
-export default {
-  components: { Attribute },
-  props: {
-    contact: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
-
-  computed: {
-    additionalAttributes() {
-      return this.contact.additional_attributes || {};
-    },
-    company() {
-      const { company = {} } = this.contact;
-      return company;
-    },
-    customAttributes() {
-      const { custom_attributes: customAttributes = {} } = this.contact;
-      return customAttributes;
-    },
-    customAttributekeys() {
-      return Object.keys(this.customAttributes).filter(key => {
-        const value = this.customAttributes[key];
-        return value !== null && value !== undefined;
-      });
-    },
-  },
-  methods: {
-    onEmailUpdate(value) {
-      this.$emit('update', { email: value });
-    },
-    onPhoneUpdate(value) {
-      this.$emit('update', { phone_number: value });
-    },
-    onLocationUpdate(value) {
-      this.$emit('update', { location: value });
-    },
-    handleCustomCreate() {
-      this.$emit('create-attribute');
-    },
-    onCustomAttributeUpdate(key, value) {
-      this.$emit('update', { custom_attributes: { [key]: value } });
-    },
-  },
-};
-</script>
 
 <style scoped lang="scss">
 .contact-fields {

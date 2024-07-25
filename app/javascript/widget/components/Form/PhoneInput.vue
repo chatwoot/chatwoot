@@ -1,90 +1,3 @@
-<template>
-  <div class="phone-input--wrap relative mt-2">
-    <div
-      class="phone-input rounded w-full flex items-center justify-start outline-none border border-solid"
-      :class="inputHasError"
-    >
-      <div
-        class="country-emoji--wrap h-full cursor-pointer flex items-center justify-between px-2 py-2"
-        :class="dropdownClass"
-        @click="toggleCountryDropdown"
-      >
-        <h5 v-if="activeCountry.emoji" class="text-xl mb-0">
-          {{ activeCountry.emoji }}
-        </h5>
-        <fluent-icon v-else icon="globe" class="fluent-icon" size="20" />
-        <fluent-icon icon="chevron-down" class="fluent-icon" size="12" />
-      </div>
-      <span
-        v-if="activeDialCode"
-        class="py-2 pr-0 pl-2 text-base"
-        :class="$dm('text-slate-700', 'dark:text-slate-50')"
-      >
-        {{ activeDialCode }}
-      </span>
-      <input
-        :value="phoneNumber"
-        type="phoneInput"
-        class="border-0 w-full py-2 pl-2 pr-3 leading-tight outline-none h-full rounded-r"
-        name="phoneNumber"
-        :placeholder="placeholder"
-        :class="inputLightAndDarkModeColor"
-        @input="onChange"
-        @blur="context.blurHandler"
-      />
-    </div>
-    <div
-      v-if="showDropdown"
-      ref="dropdown"
-      v-on-clickaway="closeDropdown"
-      :class="dropdownBackgroundClass"
-      class="country-dropdown h-48 overflow-y-auto z-10 absolute top-12 px-0 pt-0 pl-1 pr-1 pb-1 rounded shadow-lg"
-      @keydown.up="moveSelectionUp"
-      @keydown.down="moveSelectionDown"
-      @keydown.enter="onSelect"
-    >
-      <div class="sticky top-0" :class="dropdownBackgroundClass">
-        <input
-          ref="searchbar"
-          v-model="searchCountry"
-          type="text"
-          placeholder="Search country"
-          class="dropdown-search h-8 text-sm mb-1 mt-1 w-full rounded py-2 px-3 outline-none border border-solid"
-          :class="[$dm('bg-slate-50', 'dark:bg-slate-600'), inputBorderColor]"
-        />
-      </div>
-      <div
-        v-for="(country, index) in items"
-        ref="dropdownItem"
-        :key="index"
-        class="country-dropdown--item h-8 flex items-center cursor-pointer rounded py-2 px-2"
-        :class="[
-          dropdownItemClass,
-          country.id === activeCountryCode ? activeDropdownItemClass : '',
-          index === selectedIndex ? focusedDropdownItemClass : '',
-        ]"
-        @click="onSelectCountry(country)"
-      >
-        <span v-if="country.emoji" class="mr-2 text-xl">{{
-          country.emoji
-        }}</span>
-        <span class="truncate text-sm leading-5">
-          {{ country.name }}
-        </span>
-        <span class="ml-2 text-xs">{{ country.dial_code }}</span>
-      </div>
-      <div v-if="items.length === 0">
-        <span
-          class="text-sm mt-4 justify-center text-center flex"
-          :class="$dm('text-slate-700', 'dark:text-slate-50')"
-        >
-          {{ $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.DROPDOWN_EMPTY') }}
-        </span>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
 import countries from 'shared/constants/countries.js';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
@@ -307,6 +220,93 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="phone-input--wrap relative mt-2">
+    <div
+      class="phone-input rounded w-full flex items-center justify-start outline-none border border-solid"
+      :class="inputHasError"
+    >
+      <div
+        class="country-emoji--wrap h-full cursor-pointer flex items-center justify-between px-2 py-2"
+        :class="dropdownClass"
+        @click="toggleCountryDropdown"
+      >
+        <h5 v-if="activeCountry.emoji" class="text-xl mb-0">
+          {{ activeCountry.emoji }}
+        </h5>
+        <fluent-icon v-else icon="globe" class="fluent-icon" size="20" />
+        <fluent-icon icon="chevron-down" class="fluent-icon" size="12" />
+      </div>
+      <span
+        v-if="activeDialCode"
+        class="py-2 pr-0 pl-2 text-base"
+        :class="$dm('text-slate-700', 'dark:text-slate-50')"
+      >
+        {{ activeDialCode }}
+      </span>
+      <input
+        :value="phoneNumber"
+        type="phoneInput"
+        class="border-0 w-full py-2 pl-2 pr-3 leading-tight outline-none h-full rounded-r"
+        name="phoneNumber"
+        :placeholder="placeholder"
+        :class="inputLightAndDarkModeColor"
+        @input="onChange"
+        @blur="context.blurHandler"
+      />
+    </div>
+    <div
+      v-if="showDropdown"
+      ref="dropdown"
+      v-on-clickaway="closeDropdown"
+      :class="dropdownBackgroundClass"
+      class="country-dropdown h-48 overflow-y-auto z-10 absolute top-12 px-0 pt-0 pl-1 pr-1 pb-1 rounded shadow-lg"
+      @keydown.up="moveSelectionUp"
+      @keydown.down="moveSelectionDown"
+      @keydown.enter="onSelect"
+    >
+      <div class="sticky top-0" :class="dropdownBackgroundClass">
+        <input
+          ref="searchbar"
+          v-model="searchCountry"
+          type="text"
+          placeholder="Search country"
+          class="dropdown-search h-8 text-sm mb-1 mt-1 w-full rounded py-2 px-3 outline-none border border-solid"
+          :class="[$dm('bg-slate-50', 'dark:bg-slate-600'), inputBorderColor]"
+        />
+      </div>
+      <div
+        v-for="(country, index) in items"
+        ref="dropdownItem"
+        :key="index"
+        class="country-dropdown--item h-8 flex items-center cursor-pointer rounded py-2 px-2"
+        :class="[
+          dropdownItemClass,
+          country.id === activeCountryCode ? activeDropdownItemClass : '',
+          index === selectedIndex ? focusedDropdownItemClass : '',
+        ]"
+        @click="onSelectCountry(country)"
+      >
+        <span v-if="country.emoji" class="mr-2 text-xl">{{
+          country.emoji
+        }}</span>
+        <span class="truncate text-sm leading-5">
+          {{ country.name }}
+        </span>
+        <span class="ml-2 text-xs">{{ country.dial_code }}</span>
+      </div>
+      <div v-if="items.length === 0">
+        <span
+          class="text-sm mt-4 justify-center text-center flex"
+          :class="$dm('text-slate-700', 'dark:text-slate-50')"
+        >
+          {{ $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.DROPDOWN_EMPTY') }}
+        </span>
+      </div>
+    </div>
+  </div>
+</template>
 <style lang="scss" scoped>
 @import '~widget/assets/scss/variables.scss';
 .phone-input--wrap {

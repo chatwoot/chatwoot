@@ -1,3 +1,81 @@
+<script>
+import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
+import ContactConversations from 'dashboard/routes/dashboard/conversation/ContactConversations.vue';
+import ContactInfo from 'dashboard/routes/dashboard/conversation/contact/ContactInfo.vue';
+import ContactLabel from 'dashboard/routes/dashboard/contacts/components/ContactLabels.vue';
+import CustomAttributes from 'dashboard/routes/dashboard/conversation/customAttributes/CustomAttributes.vue';
+import draggable from 'vuedraggable';
+import { useUISettings } from 'dashboard/composables/useUISettings';
+
+export default {
+  components: {
+    AccordionItem,
+    ContactConversations,
+    ContactInfo,
+    ContactLabel,
+    CustomAttributes,
+    draggable,
+  },
+  props: {
+    contact: {
+      type: Object,
+      default: () => ({}),
+    },
+    onClose: {
+      type: Function,
+      default: () => {},
+    },
+    showAvatar: {
+      type: Boolean,
+      default: true,
+    },
+    showCloseButton: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  setup() {
+    const {
+      updateUISettings,
+      isContactSidebarItemOpen,
+      contactSidebarItemsOrder,
+      toggleSidebarUIState,
+    } = useUISettings();
+
+    return {
+      updateUISettings,
+      isContactSidebarItemOpen,
+      contactSidebarItemsOrder,
+      toggleSidebarUIState,
+    };
+  },
+  data() {
+    return {
+      dragEnabled: true,
+      contactSidebarItems: [],
+      dragging: false,
+    };
+  },
+  computed: {
+    hasContactAttributes() {
+      const { custom_attributes: customAttributes } = this.contact;
+      return customAttributes && Object.keys(customAttributes).length;
+    },
+  },
+  mounted() {
+    this.contactSidebarItems = this.contactSidebarItemsOrder;
+  },
+  methods: {
+    onDragEnd() {
+      this.dragging = false;
+      this.updateUISettings({
+        contact_sidebar_items_order: this.contactSidebarItems,
+      });
+    },
+  },
+};
+</script>
+
 <template>
   <div
     class="relative w-1/4 h-full overflow-y-auto text-sm bg-white dark:bg-slate-900 border-slate-50 dark:border-slate-800/50"
@@ -78,84 +156,6 @@
     </draggable>
   </div>
 </template>
-
-<script>
-import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
-import ContactConversations from 'dashboard/routes/dashboard/conversation/ContactConversations.vue';
-import ContactInfo from 'dashboard/routes/dashboard/conversation/contact/ContactInfo.vue';
-import ContactLabel from 'dashboard/routes/dashboard/contacts/components/ContactLabels.vue';
-import CustomAttributes from 'dashboard/routes/dashboard/conversation/customAttributes/CustomAttributes.vue';
-import draggable from 'vuedraggable';
-import { useUISettings } from 'dashboard/composables/useUISettings';
-
-export default {
-  components: {
-    AccordionItem,
-    ContactConversations,
-    ContactInfo,
-    ContactLabel,
-    CustomAttributes,
-    draggable,
-  },
-  props: {
-    contact: {
-      type: Object,
-      default: () => ({}),
-    },
-    onClose: {
-      type: Function,
-      default: () => {},
-    },
-    showAvatar: {
-      type: Boolean,
-      default: true,
-    },
-    showCloseButton: {
-      type: Boolean,
-      default: true,
-    },
-  },
-  setup() {
-    const {
-      updateUISettings,
-      isContactSidebarItemOpen,
-      contactSidebarItemsOrder,
-      toggleSidebarUIState,
-    } = useUISettings();
-
-    return {
-      updateUISettings,
-      isContactSidebarItemOpen,
-      contactSidebarItemsOrder,
-      toggleSidebarUIState,
-    };
-  },
-  data() {
-    return {
-      dragEnabled: true,
-      contactSidebarItems: [],
-      dragging: false,
-    };
-  },
-  computed: {
-    hasContactAttributes() {
-      const { custom_attributes: customAttributes } = this.contact;
-      return customAttributes && Object.keys(customAttributes).length;
-    },
-  },
-  mounted() {
-    this.contactSidebarItems = this.contactSidebarItemsOrder;
-  },
-  methods: {
-    onDragEnd() {
-      this.dragging = false;
-      this.updateUISettings({
-        contact_sidebar_items_order: this.contactSidebarItems,
-      });
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 ::v-deep {
