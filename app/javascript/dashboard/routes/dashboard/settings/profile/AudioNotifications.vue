@@ -1,33 +1,3 @@
-<template>
-  <div id="profile-settings-notifications" class="flex flex-col gap-6">
-    <audio-alert-tone
-      :value="alertTone"
-      :label="
-        $t(
-          'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.DEFAULT_TONE.TITLE'
-        )
-      "
-      @change="handleAudioToneChange"
-    />
-
-    <audio-alert-event
-      :label="
-        $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPE.TITLE')
-      "
-      :value="audioAlert"
-      @update="handAudioAlertChange"
-    />
-
-    <audio-alert-condition
-      :items="audioAlertConditions"
-      :label="
-        $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.CONDITIONS.TITLE')
-      "
-      @change="handleAudioAlertConditions"
-    />
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
@@ -133,3 +103,33 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div id="profile-settings-notifications" class="flex flex-col gap-6">
+    <audio-alert-tone
+      :value="alertTone"
+      :label="
+        $t(
+          'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.DEFAULT_TONE.TITLE'
+        )
+      "
+      @change="handleAudioToneChange"
+    />
+
+    <audio-alert-event
+      :label="
+        $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPE.TITLE')
+      "
+      :value="audioAlert"
+      @update="handAudioAlertChange"
+    />
+
+    <audio-alert-condition
+      :items="audioAlertConditions"
+      :label="
+        $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.CONDITIONS.TITLE')
+      "
+      @change="handleAudioAlertConditions"
+    />
+  </div>
+</template>

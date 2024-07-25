@@ -1,3 +1,58 @@
+<script>
+import TableFooter from 'dashboard/components/widgets/TableFooter.vue';
+import TableHeaderCell from 'dashboard/components/widgets/TableHeaderCell.vue';
+import SLAReportItem from './SLAReportItem.vue';
+import Spinner from 'shared/components/Spinner.vue';
+export default {
+  name: 'SLATable',
+  components: {
+    SLAReportItem,
+    TableFooter,
+    Spinner,
+    TableHeaderCell,
+  },
+  props: {
+    slaReports: {
+      type: Array,
+      default: () => [],
+    },
+    totalCount: {
+      type: Number,
+      default: 0,
+    },
+    currentPage: {
+      type: Number,
+      default: 1,
+    },
+    pageSize: {
+      type: Number,
+      default: 25,
+    },
+    isLoading: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data() {
+    return {
+      pageNo: 1,
+    };
+  },
+  computed: {
+    shouldShowFooter() {
+      return this.currentPage === 1
+        ? this.totalCount > this.pageSize
+        : this.slaReports.length > 0;
+    },
+  },
+  methods: {
+    onPageChange(page) {
+      this.$emit('page-change', page);
+    },
+  },
+};
+</script>
+
 <template>
   <div>
     <div
@@ -54,58 +109,3 @@
     />
   </div>
 </template>
-
-<script>
-import TableFooter from 'dashboard/components/widgets/TableFooter.vue';
-import TableHeaderCell from 'dashboard/components/widgets/TableHeaderCell.vue';
-import SLAReportItem from './SLAReportItem.vue';
-import Spinner from 'shared/components/Spinner.vue';
-export default {
-  name: 'SLATable',
-  components: {
-    SLAReportItem,
-    TableFooter,
-    Spinner,
-    TableHeaderCell,
-  },
-  props: {
-    slaReports: {
-      type: Array,
-      default: () => [],
-    },
-    totalCount: {
-      type: Number,
-      default: 0,
-    },
-    currentPage: {
-      type: Number,
-      default: 1,
-    },
-    pageSize: {
-      type: Number,
-      default: 25,
-    },
-    isLoading: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data() {
-    return {
-      pageNo: 1,
-    };
-  },
-  computed: {
-    shouldShowFooter() {
-      return this.currentPage === 1
-        ? this.totalCount > this.pageSize
-        : this.slaReports.length > 0;
-    },
-  },
-  methods: {
-    onPageChange(page) {
-      this.$emit('page-change', page);
-    },
-  },
-};
-</script>

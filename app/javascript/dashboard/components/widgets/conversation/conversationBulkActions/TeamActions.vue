@@ -1,3 +1,34 @@
+<script>
+import { mapGetters } from 'vuex';
+export default {
+  data() {
+    return {
+      query: '',
+      selectedteams: [],
+    };
+  },
+  computed: {
+    ...mapGetters({ teams: 'teams/getTeams' }),
+    filteredTeams() {
+      return [
+        { name: 'None', id: 0 },
+        ...this.teams.filter(team =>
+          team.name.toLowerCase().includes(this.query.toLowerCase())
+        ),
+      ];
+    },
+  },
+  methods: {
+    assignTeam(key) {
+      this.$emit('assign-team', key);
+    },
+    onClose() {
+      this.$emit('close');
+    },
+  },
+};
+</script>
+
 <template>
   <div v-on-clickaway="onClose" class="bulk-action__teams">
     <div class="triangle">
@@ -57,37 +88,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import { mapGetters } from 'vuex';
-export default {
-  data() {
-    return {
-      query: '',
-      selectedteams: [],
-    };
-  },
-  computed: {
-    ...mapGetters({ teams: 'teams/getTeams' }),
-    filteredTeams() {
-      return [
-        { name: 'None', id: 0 },
-        ...this.teams.filter(team =>
-          team.name.toLowerCase().includes(this.query.toLowerCase())
-        ),
-      ];
-    },
-  },
-  methods: {
-    assignTeam(key) {
-      this.$emit('assign-team', key);
-    },
-    onClose() {
-      this.$emit('close');
-    },
-  },
-};
-</script>
 
 <style scoped lang="scss">
 .bulk-action__teams {

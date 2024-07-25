@@ -1,3 +1,27 @@
+<script>
+import ShowMore from 'dashboard/components/widgets/ShowMore.vue';
+import AgentBotType from './AgentBotType.vue';
+
+export default {
+  components: { ShowMore, AgentBotType },
+  props: {
+    agentBot: {
+      type: Object,
+      required: true,
+    },
+    index: {
+      type: Number,
+      required: true,
+    },
+  },
+  computed: {
+    isACSMLTypeBot() {
+      const { bot_type: botType } = this.agentBot;
+      return botType === 'csml';
+    },
+  },
+};
+</script>
 <template>
   <tr class="space-x-2">
     <td class="agent-bot--details">
@@ -30,30 +54,6 @@
     </td>
   </tr>
 </template>
-<script>
-import ShowMore from 'dashboard/components/widgets/ShowMore.vue';
-import AgentBotType from './AgentBotType.vue';
-
-export default {
-  components: { ShowMore, AgentBotType },
-  props: {
-    agentBot: {
-      type: Object,
-      required: true,
-    },
-    index: {
-      type: Number,
-      required: true,
-    },
-  },
-  computed: {
-    isACSMLTypeBot() {
-      const { bot_type: botType } = this.agentBot;
-      return botType === 'csml';
-    },
-  },
-};
-</script>
 <style scoped lang="scss">
 .agent-bot--link {
   align-items: center;

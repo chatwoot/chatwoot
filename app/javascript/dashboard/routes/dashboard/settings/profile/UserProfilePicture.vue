@@ -1,16 +1,3 @@
-<template>
-  <div class="flex flex-col gap-2">
-    <span class="text-sm font-medium text-ash-900">
-      {{ $t('PROFILE_SETTINGS.FORM.PICTURE') }}
-    </span>
-    <profile-avatar
-      :src="src"
-      :name="userNameWithoutEmoji"
-      @change="updateProfilePicture"
-      @delete="deleteProfilePicture"
-    />
-  </div>
-</template>
 <script setup>
 import { computed } from 'vue';
 import ProfileAvatar from 'v3/components/Form/ProfileAvatar.vue';
@@ -38,3 +25,16 @@ const deleteProfilePicture = () => {
   emits('delete');
 };
 </script>
+<template>
+  <div class="flex flex-col gap-2">
+    <span class="text-sm font-medium text-ash-900">
+      {{ $t('PROFILE_SETTINGS.FORM.PICTURE') }}
+    </span>
+    <profile-avatar
+      :src="src"
+      :name="userNameWithoutEmoji"
+      @change="updateProfilePicture"
+      @delete="deleteProfilePicture"
+    />
+  </div>
+</template>

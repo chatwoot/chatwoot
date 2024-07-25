@@ -1,30 +1,3 @@
-<template>
-  <div
-    v-if="!authUIFlags.isFetching && !accountUIFlags.isFetchingItem"
-    id="app"
-    class="flex-grow-0 w-full h-full min-h-0 app-wrapper"
-    :class="{ 'app-rtl--wrapper': isRTLView }"
-    :dir="isRTLView ? 'rtl' : 'ltr'"
-  >
-    <update-banner :latest-chatwoot-version="latestChatwootVersion" />
-    <template v-if="currentAccountId">
-      <pending-email-verification-banner v-if="hideOnOnboardingView" />
-      <payment-pending-banner v-if="hideOnOnboardingView" />
-      <upgrade-banner />
-    </template>
-    <transition name="fade" mode="out-in">
-      <router-view />
-    </transition>
-    <add-account-modal
-      :show="showAddAccountModal"
-      :has-accounts="hasAccounts"
-    />
-    <woot-snackbar-box />
-    <network-notification />
-  </div>
-  <loading-state v-else />
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import router from '../dashboard/routes';
@@ -146,6 +119,33 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    v-if="!authUIFlags.isFetching && !accountUIFlags.isFetchingItem"
+    id="app"
+    class="flex-grow-0 w-full h-full min-h-0 app-wrapper"
+    :class="{ 'app-rtl--wrapper': isRTLView }"
+    :dir="isRTLView ? 'rtl' : 'ltr'"
+  >
+    <update-banner :latest-chatwoot-version="latestChatwootVersion" />
+    <template v-if="currentAccountId">
+      <pending-email-verification-banner v-if="hideOnOnboardingView" />
+      <payment-pending-banner v-if="hideOnOnboardingView" />
+      <upgrade-banner />
+    </template>
+    <transition name="fade" mode="out-in">
+      <router-view />
+    </transition>
+    <add-account-modal
+      :show="showAddAccountModal"
+      :has-accounts="hasAccounts"
+    />
+    <woot-snackbar-box />
+    <network-notification />
+  </div>
+  <loading-state v-else />
+</template>
 
 <style lang="scss">
 @import './assets/scss/app';

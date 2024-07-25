@@ -1,3 +1,11 @@
+<script setup>
+import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
+import { defineComponent } from 'vue';
+defineComponent({
+  name: 'PortalSettingsFinish',
+});
+</script>
+
 <template>
   <div
     class="flex-grow-0 flex-shrink-0 w-full h-full max-w-full px-6 pt-3 pb-6 bg-white border border-transparent border-solid dark:bg-slate-900 dark:border-transparent"
@@ -21,11 +29,3 @@
     </empty-state>
   </div>
 </template>
-
-<script setup>
-import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
-import { defineComponent } from 'vue';
-defineComponent({
-  name: 'PortalSettingsFinish',
-});
-</script>

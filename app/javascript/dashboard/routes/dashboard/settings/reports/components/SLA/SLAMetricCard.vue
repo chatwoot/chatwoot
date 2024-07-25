@@ -1,3 +1,25 @@
+<script>
+export default {
+  props: {
+    label: {
+      type: String,
+      required: true,
+    },
+    value: {
+      type: [String, Number],
+      required: true,
+    },
+    toolTip: {
+      type: String,
+      required: true,
+    },
+    isLoading: {
+      type: Boolean,
+      default: false,
+    },
+  },
+};
+</script>
 <template>
   <div class="flex flex-col gap-2 items-start justify-center min-w-[10rem]">
     <span
@@ -22,25 +44,3 @@
     </span>
   </div>
 </template>
-<script>
-export default {
-  props: {
-    label: {
-      type: String,
-      required: true,
-    },
-    value: {
-      type: [String, Number],
-      required: true,
-    },
-    toolTip: {
-      type: String,
-      required: true,
-    },
-    isLoading: {
-      type: Boolean,
-      default: false,
-    },
-  },
-};
-</script>

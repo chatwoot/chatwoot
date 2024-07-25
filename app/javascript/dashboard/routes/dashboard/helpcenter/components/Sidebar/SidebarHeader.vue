@@ -1,3 +1,38 @@
+<script>
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+export default {
+  components: {
+    Thumbnail,
+  },
+  props: {
+    thumbnailSrc: {
+      type: String,
+      default: '',
+    },
+    headerTitle: {
+      type: String,
+      default: '',
+    },
+    subTitle: {
+      type: String,
+      default: '',
+    },
+    portalLink: {
+      type: String,
+      default: '',
+    },
+  },
+  methods: {
+    popoutHelpCenter() {
+      window.open(this.portalLink, '_blank');
+    },
+    openPortalPopover() {
+      this.$emit('open-popover');
+    },
+  },
+};
+</script>
+
 <template>
   <div
     class="flex h-16 items-center justify-between py-4 px-0 mb-1/4 border-b border-slate-50 dark:border-slate-700"
@@ -38,38 +73,3 @@
     </div>
   </div>
 </template>
-
-<script>
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-export default {
-  components: {
-    Thumbnail,
-  },
-  props: {
-    thumbnailSrc: {
-      type: String,
-      default: '',
-    },
-    headerTitle: {
-      type: String,
-      default: '',
-    },
-    subTitle: {
-      type: String,
-      default: '',
-    },
-    portalLink: {
-      type: String,
-      default: '',
-    },
-  },
-  methods: {
-    popoutHelpCenter() {
-      window.open(this.portalLink, '_blank');
-    },
-    openPortalPopover() {
-      this.$emit('open-popover');
-    },
-  },
-};
-</script>

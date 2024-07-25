@@ -1,3 +1,18 @@
+<script>
+export default {
+  props: {
+    tabs: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  data() {
+    return {};
+  },
+  methods: {},
+};
+</script>
+
 <template>
   <div class="search-input-box">
     <woot-button
@@ -17,21 +32,6 @@
     </woot-button>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    tabs: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  data() {
-    return {};
-  },
-  methods: {},
-};
-</script>
 <style lang="scss" scoped>
 .search-input-box {
   @apply p-2;

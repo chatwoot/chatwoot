@@ -1,3 +1,91 @@
+<script>
+import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
+import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems.vue';
+
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
+export default {
+  components: {
+    FluentIcon,
+    WootDropdownItem,
+    WootDropdownMenu,
+    MultiselectDropdownItems,
+  },
+  props: {
+    headerTitle: {
+      type: String,
+      default: '',
+    },
+    count: {
+      type: Number,
+      default: 0,
+    },
+    selectedValue: {
+      type: String,
+      default: '',
+    },
+    selectedLocale: {
+      type: String,
+      default: '',
+    },
+    shouldShowSettings: {
+      type: Boolean,
+      default: false,
+    },
+    allLocales: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  data() {
+    return {
+      showSortByDropdown: false,
+      showLocaleDropdown: false,
+    };
+  },
+  computed: {
+    shouldShowLocaleDropdown() {
+      return this.allLocales.length > 1;
+    },
+    switchableLocales() {
+      return this.allLocales.filter(
+        locale => locale.name !== this.selectedLocale
+      );
+    },
+  },
+  methods: {
+    openFilterModal() {
+      this.$emit('openModal');
+    },
+    openDropdown() {
+      this.$emit('open');
+      this.showSortByDropdown = true;
+    },
+    closeDropdown() {
+      this.$emit('close');
+      this.showSortByDropdown = false;
+    },
+    openLocaleDropdown() {
+      this.showLocaleDropdown = true;
+    },
+    closeLocaleDropdown() {
+      this.showLocaleDropdown = false;
+    },
+    onClickNewArticlePage() {
+      this.$emit('new-article-page');
+    },
+    onClickSelectItem(value) {
+      const { name, code } = value;
+      this.closeLocaleDropdown();
+      if (!name || name === this.selectedLocale) {
+        return;
+      }
+      this.$emit('change-locale', code);
+    },
+  },
+};
+</script>
+
 <template>
   <div
     class="flex p-6 items-center justify-between w-full h-16 sticky top-0 z-50 bg-white dark:bg-slate-900"
@@ -136,94 +224,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
-import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
-import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems.vue';
-
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
-export default {
-  components: {
-    FluentIcon,
-    WootDropdownItem,
-    WootDropdownMenu,
-    MultiselectDropdownItems,
-  },
-  props: {
-    headerTitle: {
-      type: String,
-      default: '',
-    },
-    count: {
-      type: Number,
-      default: 0,
-    },
-    selectedValue: {
-      type: String,
-      default: '',
-    },
-    selectedLocale: {
-      type: String,
-      default: '',
-    },
-    shouldShowSettings: {
-      type: Boolean,
-      default: false,
-    },
-    allLocales: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  data() {
-    return {
-      showSortByDropdown: false,
-      showLocaleDropdown: false,
-    };
-  },
-  computed: {
-    shouldShowLocaleDropdown() {
-      return this.allLocales.length > 1;
-    },
-    switchableLocales() {
-      return this.allLocales.filter(
-        locale => locale.name !== this.selectedLocale
-      );
-    },
-  },
-  methods: {
-    openFilterModal() {
-      this.$emit('openModal');
-    },
-    openDropdown() {
-      this.$emit('open');
-      this.showSortByDropdown = true;
-    },
-    closeDropdown() {
-      this.$emit('close');
-      this.showSortByDropdown = false;
-    },
-    openLocaleDropdown() {
-      this.showLocaleDropdown = true;
-    },
-    closeLocaleDropdown() {
-      this.showLocaleDropdown = false;
-    },
-    onClickNewArticlePage() {
-      this.$emit('new-article-page');
-    },
-    onClickSelectItem(value) {
-      const { name, code } = value;
-      this.closeLocaleDropdown();
-      if (!name || name === this.selectedLocale) {
-        return;
-      }
-      this.$emit('change-locale', code);
-    },
-  },
-};
-</script>
 
 <style scoped lang="scss">
 .dropdown-pane--open {

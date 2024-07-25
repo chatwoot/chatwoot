@@ -1,3 +1,30 @@
+<script>
+export default {
+  props: {
+    heading: {
+      type: String,
+      default: '',
+    },
+    content: {
+      type: String,
+      default: '',
+    },
+    active: {
+      type: Boolean,
+      default: false,
+    },
+    buttonText: {
+      type: String,
+      default: 'Active',
+    },
+    src: {
+      type: String,
+      default: '',
+    },
+  },
+};
+</script>
+
 <template>
   <div
     class="flex flex-col min-w-[15rem] max-h-[21.25rem] max-w-[23.75rem] rounded-md border border-solid border-slate-75 dark:border-slate-600"
@@ -41,30 +68,3 @@
     <slot v-else />
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    heading: {
-      type: String,
-      default: '',
-    },
-    content: {
-      type: String,
-      default: '',
-    },
-    active: {
-      type: Boolean,
-      default: false,
-    },
-    buttonText: {
-      type: String,
-      default: 'Active',
-    },
-    src: {
-      type: String,
-      default: '',
-    },
-  },
-};
-</script>

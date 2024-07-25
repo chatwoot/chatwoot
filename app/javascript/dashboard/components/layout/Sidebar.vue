@@ -1,33 +1,3 @@
-<template>
-  <aside class="flex h-full">
-    <primary-sidebar
-      :logo-source="globalConfig.logoThumbnail"
-      :installation-name="globalConfig.installationName"
-      :is-a-custom-branded-instance="isACustomBrandedInstance"
-      :account-id="accountId"
-      :menu-items="primaryMenuItems"
-      :active-menu-item="activePrimaryMenu.key"
-      @toggle-accounts="toggleAccountModal"
-      @key-shortcut-modal="toggleKeyShortcutModal"
-      @open-notification-panel="openNotificationPanel"
-    />
-    <secondary-sidebar
-      v-if="showSecondarySidebar"
-      :class="sidebarClassName"
-      :account-id="accountId"
-      :inboxes="inboxes"
-      :labels="labels"
-      :teams="teams"
-      :custom-views="customViews"
-      :menu-config="activeSecondaryMenu"
-      :current-user="currentUser"
-      :is-on-chatwoot-cloud="isOnChatwootCloud"
-      @add-label="showAddLabelPopup"
-      @toggle-accounts="toggleAccountModal"
-    />
-  </aside>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import { getSidebarItems } from './config/default-sidebar';
@@ -209,3 +179,33 @@ export default {
   },
 };
 </script>
+
+<template>
+  <aside class="flex h-full">
+    <primary-sidebar
+      :logo-source="globalConfig.logoThumbnail"
+      :installation-name="globalConfig.installationName"
+      :is-a-custom-branded-instance="isACustomBrandedInstance"
+      :account-id="accountId"
+      :menu-items="primaryMenuItems"
+      :active-menu-item="activePrimaryMenu.key"
+      @toggle-accounts="toggleAccountModal"
+      @key-shortcut-modal="toggleKeyShortcutModal"
+      @open-notification-panel="openNotificationPanel"
+    />
+    <secondary-sidebar
+      v-if="showSecondarySidebar"
+      :class="sidebarClassName"
+      :account-id="accountId"
+      :inboxes="inboxes"
+      :labels="labels"
+      :teams="teams"
+      :custom-views="customViews"
+      :menu-config="activeSecondaryMenu"
+      :current-user="currentUser"
+      :is-on-chatwoot-cloud="isOnChatwootCloud"
+      @add-label="showAddLabelPopup"
+      @toggle-accounts="toggleAccountModal"
+    />
+  </aside>
+</template>

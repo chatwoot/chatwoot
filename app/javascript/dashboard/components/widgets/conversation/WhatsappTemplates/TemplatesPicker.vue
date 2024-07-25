@@ -1,3 +1,45 @@
+<script>
+// TODO: Remove this when we support all formats
+const formatsToRemove = ['DOCUMENT', 'IMAGE', 'VIDEO'];
+
+export default {
+  props: {
+    inboxId: {
+      type: Number,
+      default: undefined,
+    },
+  },
+  data() {
+    return {
+      query: '',
+    };
+  },
+  computed: {
+    whatsAppTemplateMessages() {
+      // TODO: Remove the last filter when we support all formats
+      return this.$store.getters['inboxes/getWhatsAppTemplates'](this.inboxId)
+        .filter(template => template.status.toLowerCase() === 'approved')
+        .filter(template => {
+          return template.components.every(component => {
+            return !formatsToRemove.includes(component.format);
+          });
+        });
+    },
+    filteredTemplateMessages() {
+      return this.whatsAppTemplateMessages.filter(template =>
+        template.name.toLowerCase().includes(this.query.toLowerCase())
+      );
+    },
+  },
+  methods: {
+    getTemplatebody(template) {
+      return template.components.find(component => component.type === 'BODY')
+        .text;
+    },
+  },
+};
+</script>
+
 <template>
   <div class="w-full">
     <div class="templates__list-search gap-1">
@@ -53,48 +95,6 @@
     </div>
   </div>
 </template>
-
-<script>
-// TODO: Remove this when we support all formats
-const formatsToRemove = ['DOCUMENT', 'IMAGE', 'VIDEO'];
-
-export default {
-  props: {
-    inboxId: {
-      type: Number,
-      default: undefined,
-    },
-  },
-  data() {
-    return {
-      query: '',
-    };
-  },
-  computed: {
-    whatsAppTemplateMessages() {
-      // TODO: Remove the last filter when we support all formats
-      return this.$store.getters['inboxes/getWhatsAppTemplates'](this.inboxId)
-        .filter(template => template.status.toLowerCase() === 'approved')
-        .filter(template => {
-          return template.components.every(component => {
-            return !formatsToRemove.includes(component.format);
-          });
-        });
-    },
-    filteredTemplateMessages() {
-      return this.whatsAppTemplateMessages.filter(template =>
-        template.name.toLowerCase().includes(this.query.toLowerCase())
-      );
-    },
-  },
-  methods: {
-    getTemplatebody(template) {
-      return template.components.find(component => component.type === 'BODY')
-        .text;
-    },
-  },
-};
-</script>
 
 <style scoped lang="scss">
 .templates__list-search {

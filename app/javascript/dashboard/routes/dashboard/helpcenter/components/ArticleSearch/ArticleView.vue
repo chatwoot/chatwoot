@@ -1,3 +1,30 @@
+<script>
+import IframeLoader from 'shared/components/IframeLoader.vue';
+
+export default {
+  name: 'ArticleView',
+  components: {
+    IframeLoader,
+  },
+  props: {
+    url: {
+      type: String,
+      default: '',
+    },
+  },
+  methods: {
+    onBack(e) {
+      e.stopPropagation();
+      this.$emit('back');
+    },
+    onInsert(e) {
+      e.stopPropagation();
+      this.$emit('insert');
+    },
+  },
+};
+</script>
+
 <template>
   <div class="h-full w-full flex flex-col flex-1 overflow-hidden">
     <div class="py-1">
@@ -38,30 +65,3 @@
     </div>
   </div>
 </template>
-
-<script>
-import IframeLoader from 'shared/components/IframeLoader.vue';
-
-export default {
-  name: 'ArticleView',
-  components: {
-    IframeLoader,
-  },
-  props: {
-    url: {
-      type: String,
-      default: '',
-    },
-  },
-  methods: {
-    onBack(e) {
-      e.stopPropagation();
-      this.$emit('back');
-    },
-    onInsert(e) {
-      e.stopPropagation();
-      this.$emit('insert');
-    },
-  },
-};
-</script>

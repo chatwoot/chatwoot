@@ -1,37 +1,3 @@
-<template>
-  <div class="p-4 shadow-sm rounded-md bg-white dark:bg-slate-700">
-    <div class="flex items-center justify-between">
-      <div class="  ">
-        <div class="text-sm font-medium text-slate-700 dark:text-slate-50">
-          {{
-            isOnline
-              ? $t('TEAM_AVAILABILITY.ONLINE')
-              : $t('TEAM_AVAILABILITY.OFFLINE')
-          }}
-        </div>
-        <div class="text-sm mt-1 text-slate-500 dark:text-slate-100">
-          {{ replyWaitMessage }}
-        </div>
-      </div>
-      <available-agents v-if="isOnline" :agents="availableAgents" />
-    </div>
-    <button
-      class="inline-flex text-sm font-medium rounded-md py-1 mt-2 px-2 -ml-2 leading-6 text-slate-800 dark:text-slate-50 justify-between items-center hover:bg-slate-25 dark:hover:bg-slate-800"
-      :style="{ color: widgetColor }"
-      @click="startConversation"
-    >
-      <span class="pr-2 text-sm">
-        {{
-          hasConversation
-            ? $t('CONTINUE_CONVERSATION')
-            : $t('START_CONVERSATION')
-        }}
-      </span>
-      <fluent-icon icon="arrow-right" size="14" />
-    </button>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
@@ -96,3 +62,37 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="p-4 shadow-sm rounded-md bg-white dark:bg-slate-700">
+    <div class="flex items-center justify-between">
+      <div class="  ">
+        <div class="text-sm font-medium text-slate-700 dark:text-slate-50">
+          {{
+            isOnline
+              ? $t('TEAM_AVAILABILITY.ONLINE')
+              : $t('TEAM_AVAILABILITY.OFFLINE')
+          }}
+        </div>
+        <div class="text-sm mt-1 text-slate-500 dark:text-slate-100">
+          {{ replyWaitMessage }}
+        </div>
+      </div>
+      <available-agents v-if="isOnline" :agents="availableAgents" />
+    </div>
+    <button
+      class="inline-flex text-sm font-medium rounded-md py-1 mt-2 px-2 -ml-2 leading-6 text-slate-800 dark:text-slate-50 justify-between items-center hover:bg-slate-25 dark:hover:bg-slate-800"
+      :style="{ color: widgetColor }"
+      @click="startConversation"
+    >
+      <span class="pr-2 text-sm">
+        {{
+          hasConversation
+            ? $t('CONTINUE_CONVERSATION')
+            : $t('START_CONVERSATION')
+        }}
+      </span>
+      <fluent-icon icon="arrow-right" size="14" />
+    </button>
+  </div>
+</template>

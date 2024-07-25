@@ -1,119 +1,3 @@
-<template>
-  <div
-    class="flex flex-col flex-shrink-0 overflow-hidden border-r conversations-list-wrap rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-800/50"
-    :class="[
-      { hidden: !showConversationList },
-      isOnExpandedLayout ? 'basis-full' : 'flex-basis-clamp',
-    ]"
-  >
-    <slot />
-    <chat-list-header
-      :page-title="pageTitle"
-      :has-applied-filters="hasAppliedFilters"
-      :has-active-folders="hasActiveFolders"
-      :active-status="activeStatus"
-      @add-folders="onClickOpenAddFoldersModal"
-      @delete-folders="onClickOpenDeleteFoldersModal"
-      @filters-modal="onToggleAdvanceFiltersModal"
-      @reset-filters="resetAndFetchData"
-      @basic-filter-change="onBasicFilterChange"
-    />
-
-    <add-custom-views
-      v-if="showAddFoldersModal"
-      :custom-views-query="foldersQuery"
-      :open-last-saved-item="openLastSavedItemInFolder"
-      @close="onCloseAddFoldersModal"
-    />
-
-    <delete-custom-views
-      v-if="showDeleteFoldersModal"
-      :show-delete-popup.sync="showDeleteFoldersModal"
-      :active-custom-view="activeFolder"
-      :custom-views-id="foldersId"
-      :open-last-item-after-delete="openLastItemAfterDeleteInFolder"
-      @close="onCloseDeleteFoldersModal"
-    />
-
-    <chat-type-tabs
-      v-if="!hasAppliedFiltersOrActiveFolders"
-      :items="assigneeTabItems"
-      :active-tab="activeAssigneeTab"
-      class="tab--chat-type"
-      @chatTabChange="updateAssigneeTab"
-    />
-
-    <p
-      v-if="!chatListLoading && !conversationList.length"
-      class="flex items-center justify-center p-4 overflow-auto"
-    >
-      {{ $t('CHAT_LIST.LIST.404') }}
-    </p>
-    <conversation-bulk-actions
-      v-if="selectedConversations.length"
-      :conversations="selectedConversations"
-      :all-conversations-selected="allConversationsSelected"
-      :selected-inboxes="uniqueInboxes"
-      :show-open-action="allSelectedConversationsStatus('open')"
-      :show-resolved-action="allSelectedConversationsStatus('resolved')"
-      :show-snoozed-action="allSelectedConversationsStatus('snoozed')"
-      @select-all-conversations="selectAllConversations"
-      @assign-agent="onAssignAgent"
-      @update-conversations="onUpdateConversations"
-      @assign-labels="onAssignLabels"
-      @assign-team="onAssignTeamsForBulk"
-    />
-    <div
-      ref="conversationList"
-      class="flex-1 conversations-list"
-      :class="{ 'overflow-hidden': isContextMenuOpen }"
-    >
-      <virtual-list
-        ref="conversationVirtualList"
-        :data-key="'id'"
-        :data-sources="conversationList"
-        :data-component="itemComponent"
-        :extra-props="virtualListExtraProps"
-        class="w-full h-full overflow-auto"
-        footer-tag="div"
-      >
-        <template #footer>
-          <div v-if="chatListLoading" class="text-center">
-            <span class="mt-4 mb-4 spinner" />
-          </div>
-          <p
-            v-if="showEndOfListMessage"
-            class="p-4 text-center text-slate-400 dark:text-slate-300"
-          >
-            {{ $t('CHAT_LIST.EOF') }}
-          </p>
-          <intersection-observer
-            v-if="!showEndOfListMessage && !chatListLoading"
-            :options="infiniteLoaderOptions"
-            @observed="loadMoreConversations"
-          />
-        </template>
-      </virtual-list>
-    </div>
-    <woot-modal
-      :show.sync="showAdvancedFilters"
-      :on-close="closeAdvanceFiltersModal"
-      size="medium"
-    >
-      <conversation-advanced-filter
-        v-if="showAdvancedFilters"
-        :initial-filter-types="advancedFilterTypes"
-        :initial-applied-filters="appliedFilter"
-        :active-folder-name="activeFolderName"
-        :on-close="closeAdvanceFiltersModal"
-        :is-folder-view="hasActiveFolders"
-        @applyFilter="onApplyFilter"
-        @updateFolder="onUpdateSavedFilter"
-      />
-    </woot-modal>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -980,6 +864,122 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    class="flex flex-col flex-shrink-0 overflow-hidden border-r conversations-list-wrap rtl:border-r-0 rtl:border-l border-slate-50 dark:border-slate-800/50"
+    :class="[
+      { hidden: !showConversationList },
+      isOnExpandedLayout ? 'basis-full' : 'flex-basis-clamp',
+    ]"
+  >
+    <slot />
+    <chat-list-header
+      :page-title="pageTitle"
+      :has-applied-filters="hasAppliedFilters"
+      :has-active-folders="hasActiveFolders"
+      :active-status="activeStatus"
+      @add-folders="onClickOpenAddFoldersModal"
+      @delete-folders="onClickOpenDeleteFoldersModal"
+      @filters-modal="onToggleAdvanceFiltersModal"
+      @reset-filters="resetAndFetchData"
+      @basic-filter-change="onBasicFilterChange"
+    />
+
+    <add-custom-views
+      v-if="showAddFoldersModal"
+      :custom-views-query="foldersQuery"
+      :open-last-saved-item="openLastSavedItemInFolder"
+      @close="onCloseAddFoldersModal"
+    />
+
+    <delete-custom-views
+      v-if="showDeleteFoldersModal"
+      :show-delete-popup.sync="showDeleteFoldersModal"
+      :active-custom-view="activeFolder"
+      :custom-views-id="foldersId"
+      :open-last-item-after-delete="openLastItemAfterDeleteInFolder"
+      @close="onCloseDeleteFoldersModal"
+    />
+
+    <chat-type-tabs
+      v-if="!hasAppliedFiltersOrActiveFolders"
+      :items="assigneeTabItems"
+      :active-tab="activeAssigneeTab"
+      class="tab--chat-type"
+      @chatTabChange="updateAssigneeTab"
+    />
+
+    <p
+      v-if="!chatListLoading && !conversationList.length"
+      class="flex items-center justify-center p-4 overflow-auto"
+    >
+      {{ $t('CHAT_LIST.LIST.404') }}
+    </p>
+    <conversation-bulk-actions
+      v-if="selectedConversations.length"
+      :conversations="selectedConversations"
+      :all-conversations-selected="allConversationsSelected"
+      :selected-inboxes="uniqueInboxes"
+      :show-open-action="allSelectedConversationsStatus('open')"
+      :show-resolved-action="allSelectedConversationsStatus('resolved')"
+      :show-snoozed-action="allSelectedConversationsStatus('snoozed')"
+      @select-all-conversations="selectAllConversations"
+      @assign-agent="onAssignAgent"
+      @update-conversations="onUpdateConversations"
+      @assign-labels="onAssignLabels"
+      @assign-team="onAssignTeamsForBulk"
+    />
+    <div
+      ref="conversationList"
+      class="flex-1 conversations-list"
+      :class="{ 'overflow-hidden': isContextMenuOpen }"
+    >
+      <virtual-list
+        ref="conversationVirtualList"
+        :data-key="'id'"
+        :data-sources="conversationList"
+        :data-component="itemComponent"
+        :extra-props="virtualListExtraProps"
+        class="w-full h-full overflow-auto"
+        footer-tag="div"
+      >
+        <template #footer>
+          <div v-if="chatListLoading" class="text-center">
+            <span class="mt-4 mb-4 spinner" />
+          </div>
+          <p
+            v-if="showEndOfListMessage"
+            class="p-4 text-center text-slate-400 dark:text-slate-300"
+          >
+            {{ $t('CHAT_LIST.EOF') }}
+          </p>
+          <intersection-observer
+            v-if="!showEndOfListMessage && !chatListLoading"
+            :options="infiniteLoaderOptions"
+            @observed="loadMoreConversations"
+          />
+        </template>
+      </virtual-list>
+    </div>
+    <woot-modal
+      :show.sync="showAdvancedFilters"
+      :on-close="closeAdvanceFiltersModal"
+      size="medium"
+    >
+      <conversation-advanced-filter
+        v-if="showAdvancedFilters"
+        :initial-filter-types="advancedFilterTypes"
+        :initial-applied-filters="appliedFilter"
+        :active-folder-name="activeFolderName"
+        :on-close="closeAdvanceFiltersModal"
+        :is-folder-view="hasActiveFolders"
+        @applyFilter="onApplyFilter"
+        @updateFolder="onUpdateSavedFilter"
+      />
+    </woot-modal>
+  </div>
+</template>
 <style scoped>
 @tailwind components;
 @layer components {

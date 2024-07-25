@@ -1,3 +1,58 @@
+<script>
+import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
+import accountMixin from 'dashboard/mixins/account.js';
+import MacrosTableRow from './MacrosTableRow.vue';
+export default {
+  components: {
+    MacrosTableRow,
+  },
+  mixins: [accountMixin],
+  data() {
+    return {
+      showDeleteConfirmationPopup: false,
+      selectedResponse: {},
+      loading: {},
+    };
+  },
+  computed: {
+    ...mapGetters({
+      records: ['macros/getMacros'],
+      uiFlags: 'macros/getUIFlags',
+    }),
+    deleteMessage() {
+      return ` ${this.selectedResponse.name}?`;
+    },
+  },
+  mounted() {
+    this.$store.dispatch('macros/get');
+  },
+  methods: {
+    openDeletePopup(response) {
+      this.showDeleteConfirmationPopup = true;
+      this.selectedResponse = response;
+    },
+    closeDeletePopup() {
+      this.showDeleteConfirmationPopup = false;
+    },
+    confirmDeletion() {
+      this.loading[this.selectedResponse.id] = true;
+      this.closeDeletePopup();
+      this.deleteMacro(this.selectedResponse.id);
+    },
+    async deleteMacro(id) {
+      try {
+        await this.$store.dispatch('macros/delete', id);
+        useAlert(this.$t('MACROS.DELETE.API.SUCCESS_MESSAGE'));
+        this.loading[this.selectedResponse.id] = false;
+      } catch (error) {
+        useAlert(this.$t('MACROS.DELETE.API.ERROR_MESSAGE'));
+      }
+    },
+  },
+};
+</script>
+
 <template>
   <div class="flex-1 overflow-auto">
     <router-link
@@ -55,58 +110,3 @@
     />
   </div>
 </template>
-
-<script>
-import { mapGetters } from 'vuex';
-import { useAlert } from 'dashboard/composables';
-import accountMixin from 'dashboard/mixins/account.js';
-import MacrosTableRow from './MacrosTableRow.vue';
-export default {
-  components: {
-    MacrosTableRow,
-  },
-  mixins: [accountMixin],
-  data() {
-    return {
-      showDeleteConfirmationPopup: false,
-      selectedResponse: {},
-      loading: {},
-    };
-  },
-  computed: {
-    ...mapGetters({
-      records: ['macros/getMacros'],
-      uiFlags: 'macros/getUIFlags',
-    }),
-    deleteMessage() {
-      return ` ${this.selectedResponse.name}?`;
-    },
-  },
-  mounted() {
-    this.$store.dispatch('macros/get');
-  },
-  methods: {
-    openDeletePopup(response) {
-      this.showDeleteConfirmationPopup = true;
-      this.selectedResponse = response;
-    },
-    closeDeletePopup() {
-      this.showDeleteConfirmationPopup = false;
-    },
-    confirmDeletion() {
-      this.loading[this.selectedResponse.id] = true;
-      this.closeDeletePopup();
-      this.deleteMacro(this.selectedResponse.id);
-    },
-    async deleteMacro(id) {
-      try {
-        await this.$store.dispatch('macros/delete', id);
-        useAlert(this.$t('MACROS.DELETE.API.SUCCESS_MESSAGE'));
-        this.loading[this.selectedResponse.id] = false;
-      } catch (error) {
-        useAlert(this.$t('MACROS.DELETE.API.ERROR_MESSAGE'));
-      }
-    },
-  },
-};
-</script>

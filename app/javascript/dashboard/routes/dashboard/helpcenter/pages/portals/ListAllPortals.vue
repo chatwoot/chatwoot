@@ -1,3 +1,56 @@
+<script>
+import { mapGetters } from 'vuex';
+import PortalListItem from '../../components/PortalListItem.vue';
+import Spinner from 'shared/components/Spinner.vue';
+import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
+import AddLocale from '../../components/AddLocale.vue';
+import { buildPortalURL } from 'dashboard/helper/portalHelper';
+
+export default {
+  components: {
+    PortalListItem,
+    EmptyState,
+    Spinner,
+    AddLocale,
+  },
+  data() {
+    return {
+      isAddLocaleModalOpen: false,
+      selectedPortal: {},
+    };
+  },
+  computed: {
+    ...mapGetters({
+      portals: 'portals/allPortals',
+      meta: 'portals/getMeta',
+      isFetching: 'portals/isFetchingPortals',
+    }),
+    portalStatus() {
+      return this.archived ? 'Archived' : 'Live';
+    },
+    shouldShowEmptyState() {
+      return !this.isFetching && !this.portals.length;
+    },
+  },
+  methods: {
+    openPortal(portalSlug) {
+      window.open(buildPortalURL(portalSlug), '_blank');
+    },
+    addPortal() {
+      this.$router.push({ name: 'new_portal_information' });
+    },
+    closeAddLocaleModal() {
+      this.isAddLocaleModalOpen = false;
+      this.selectedPortal = {};
+    },
+    addLocale(portalId) {
+      this.isAddLocaleModalOpen = true;
+      this.selectedPortal = this.portals.find(portal => portal.id === portalId);
+    },
+  },
+};
+</script>
+
 <template>
   <div class="w-full max-w-full px-4 py-2">
     <div class="flex items-center justify-between h-12 mx-0 mt-0 mb-2">
@@ -51,56 +104,3 @@
     </woot-modal>
   </div>
 </template>
-
-<script>
-import { mapGetters } from 'vuex';
-import PortalListItem from '../../components/PortalListItem.vue';
-import Spinner from 'shared/components/Spinner.vue';
-import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
-import AddLocale from '../../components/AddLocale.vue';
-import { buildPortalURL } from 'dashboard/helper/portalHelper';
-
-export default {
-  components: {
-    PortalListItem,
-    EmptyState,
-    Spinner,
-    AddLocale,
-  },
-  data() {
-    return {
-      isAddLocaleModalOpen: false,
-      selectedPortal: {},
-    };
-  },
-  computed: {
-    ...mapGetters({
-      portals: 'portals/allPortals',
-      meta: 'portals/getMeta',
-      isFetching: 'portals/isFetchingPortals',
-    }),
-    portalStatus() {
-      return this.archived ? 'Archived' : 'Live';
-    },
-    shouldShowEmptyState() {
-      return !this.isFetching && !this.portals.length;
-    },
-  },
-  methods: {
-    openPortal(portalSlug) {
-      window.open(buildPortalURL(portalSlug), '_blank');
-    },
-    addPortal() {
-      this.$router.push({ name: 'new_portal_information' });
-    },
-    closeAddLocaleModal() {
-      this.isAddLocaleModalOpen = false;
-      this.selectedPortal = {};
-    },
-    addLocale(portalId) {
-      this.isAddLocaleModalOpen = true;
-      this.selectedPortal = this.portals.find(portal => portal.id === portalId);
-    },
-  },
-};
-</script>

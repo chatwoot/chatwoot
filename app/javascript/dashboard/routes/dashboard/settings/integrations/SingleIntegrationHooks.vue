@@ -1,3 +1,15 @@
+<script>
+import hookMixin from './hookMixin';
+export default {
+  mixins: [hookMixin],
+  props: {
+    integration: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+};
+</script>
 <template>
   <div class="flex-shrink flex-grow overflow-auto p-4">
     <div class="flex flex-col">
@@ -40,15 +52,3 @@
     </div>
   </div>
 </template>
-<script>
-import hookMixin from './hookMixin';
-export default {
-  mixins: [hookMixin],
-  props: {
-    integration: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
-};
-</script>

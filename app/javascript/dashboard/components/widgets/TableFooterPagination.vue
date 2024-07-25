@@ -1,3 +1,64 @@
+<script setup>
+import { computed } from 'vue';
+
+// Props
+const props = defineProps({
+  currentPage: {
+    type: Number,
+    default: 1,
+  },
+  totalCount: {
+    type: Number,
+    default: 0,
+  },
+  totalPages: {
+    type: Number,
+    default: 0,
+  },
+});
+
+const hasLastPage = computed(
+  () => props.currentPage === props.totalPages || props.totalPages === 1
+);
+const hasFirstPage = computed(() => props.currentPage === 1);
+const hasNextPage = computed(() => props.currentPage === props.totalPages);
+const hasPrevPage = computed(() => props.currentPage === 1);
+
+const emit = defineEmits(['page-change']);
+
+function buttonClass(hasPage) {
+  if (hasPage) {
+    return 'hover:!bg-slate-50 dark:hover:!bg-slate-800';
+  }
+  return 'dark:hover:!bg-slate-700/50';
+}
+
+function onPageChange(newPage) {
+  emit('page-change', newPage);
+}
+
+const onNextPage = () => {
+  if (!onNextPage.value) {
+    onPageChange(props.currentPage + 1);
+  }
+};
+const onPrevPage = () => {
+  if (!hasPrevPage.value) {
+    onPageChange(props.currentPage - 1);
+  }
+};
+const onFirstPage = () => {
+  if (!hasFirstPage.value) {
+    onPageChange(1);
+  }
+};
+const onLastPage = () => {
+  if (!hasLastPage.value) {
+    onPageChange(props.totalPages);
+  }
+};
+</script>
+
 <template>
   <div class="flex items-center bg-slate-50 dark:bg-slate-800 h-8 rounded-lg">
     <woot-button
@@ -80,64 +141,3 @@
     </woot-button>
   </div>
 </template>
-
-<script setup>
-import { computed } from 'vue';
-
-// Props
-const props = defineProps({
-  currentPage: {
-    type: Number,
-    default: 1,
-  },
-  totalCount: {
-    type: Number,
-    default: 0,
-  },
-  totalPages: {
-    type: Number,
-    default: 0,
-  },
-});
-
-const hasLastPage = computed(
-  () => props.currentPage === props.totalPages || props.totalPages === 1
-);
-const hasFirstPage = computed(() => props.currentPage === 1);
-const hasNextPage = computed(() => props.currentPage === props.totalPages);
-const hasPrevPage = computed(() => props.currentPage === 1);
-
-const emit = defineEmits(['page-change']);
-
-function buttonClass(hasPage) {
-  if (hasPage) {
-    return 'hover:!bg-slate-50 dark:hover:!bg-slate-800';
-  }
-  return 'dark:hover:!bg-slate-700/50';
-}
-
-function onPageChange(newPage) {
-  emit('page-change', newPage);
-}
-
-const onNextPage = () => {
-  if (!onNextPage.value) {
-    onPageChange(props.currentPage + 1);
-  }
-};
-const onPrevPage = () => {
-  if (!hasPrevPage.value) {
-    onPageChange(props.currentPage - 1);
-  }
-};
-const onFirstPage = () => {
-  if (!hasFirstPage.value) {
-    onPageChange(1);
-  }
-};
-const onLastPage = () => {
-  if (!hasLastPage.value) {
-    onPageChange(props.totalPages);
-  }
-};
-</script>

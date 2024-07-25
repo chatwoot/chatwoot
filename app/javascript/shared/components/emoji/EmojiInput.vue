@@ -1,3 +1,88 @@
+<script>
+import emojis from './emojisGroup.json';
+import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+const SEARCH_KEY = 'Search';
+
+export default {
+  components: { FluentIcon },
+  props: {
+    onClick: {
+      type: Function,
+      default: () => {},
+    },
+    showRemoveButton: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data() {
+    return {
+      selectedKey: 'Search',
+      emojis,
+      search: '',
+    };
+  },
+  computed: {
+    categories() {
+      return [...this.emojis];
+    },
+    filterEmojisByCategory() {
+      const selectedCategoryName = this.emojis.find(category =>
+        category.name === this.selectedKey ? category.name : null
+      );
+      return selectedCategoryName?.emojis;
+    },
+    filterAllEmojisBySearch() {
+      return this.emojis.map(category => {
+        const allEmojis = category.emojis.filter(emoji =>
+          emoji.slug.replaceAll('_', ' ').includes(this.search.toLowerCase())
+        );
+        return allEmojis.length > 0
+          ? { ...category, emojis: allEmojis }
+          : { ...category, emojis: [] };
+      });
+    },
+    hasNoSearch() {
+      return this.selectedKey !== SEARCH_KEY && this.search === '';
+    },
+    hasEmptySearchResult() {
+      return this.filterAllEmojisBySearch.every(
+        category => category.emojis.length === 0
+      );
+    },
+  },
+  watch: {
+    search() {
+      this.selectedKey = 'Search';
+    },
+    selectedKey() {
+      return this.selectedKey === 'Search' ? this.focusSearchInput() : null;
+    },
+  },
+  mounted() {
+    this.focusSearchInput();
+  },
+  methods: {
+    changeCategory(category) {
+      this.search = '';
+      this.$refs.emojiItem.scrollTo({ top: 0 });
+      this.selectedKey = category;
+    },
+    getFirstEmojiByCategoryName(categoryName) {
+      const categoryItem = this.emojis.find(category =>
+        category.name === categoryName ? category : null
+      );
+      return categoryItem ? categoryItem.emojis[0].emoji : '';
+    },
+    focusSearchInput() {
+      this.$nextTick(() => {
+        this.$refs.searchbar.focus();
+      });
+    },
+  },
+};
+</script>
+
 <template>
   <div
     role="dialog"
@@ -96,91 +181,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import emojis from './emojisGroup.json';
-import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-const SEARCH_KEY = 'Search';
-
-export default {
-  components: { FluentIcon },
-  props: {
-    onClick: {
-      type: Function,
-      default: () => {},
-    },
-    showRemoveButton: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  data() {
-    return {
-      selectedKey: 'Search',
-      emojis,
-      search: '',
-    };
-  },
-  computed: {
-    categories() {
-      return [...this.emojis];
-    },
-    filterEmojisByCategory() {
-      const selectedCategoryName = this.emojis.find(category =>
-        category.name === this.selectedKey ? category.name : null
-      );
-      return selectedCategoryName?.emojis;
-    },
-    filterAllEmojisBySearch() {
-      return this.emojis.map(category => {
-        const allEmojis = category.emojis.filter(emoji =>
-          emoji.slug.replaceAll('_', ' ').includes(this.search.toLowerCase())
-        );
-        return allEmojis.length > 0
-          ? { ...category, emojis: allEmojis }
-          : { ...category, emojis: [] };
-      });
-    },
-    hasNoSearch() {
-      return this.selectedKey !== SEARCH_KEY && this.search === '';
-    },
-    hasEmptySearchResult() {
-      return this.filterAllEmojisBySearch.every(
-        category => category.emojis.length === 0
-      );
-    },
-  },
-  watch: {
-    search() {
-      this.selectedKey = 'Search';
-    },
-    selectedKey() {
-      return this.selectedKey === 'Search' ? this.focusSearchInput() : null;
-    },
-  },
-  mounted() {
-    this.focusSearchInput();
-  },
-  methods: {
-    changeCategory(category) {
-      this.search = '';
-      this.$refs.emojiItem.scrollTo({ top: 0 });
-      this.selectedKey = category;
-    },
-    getFirstEmojiByCategoryName(categoryName) {
-      const categoryItem = this.emojis.find(category =>
-        category.name === categoryName ? category : null
-      );
-      return categoryItem ? categoryItem.emojis[0].emoji : '';
-    },
-    focusSearchInput() {
-      this.$nextTick(() => {
-        this.$refs.searchbar.focus();
-      });
-    },
-  },
-};
-</script>
 <style scoped>
 @tailwind components;
 @layer components {

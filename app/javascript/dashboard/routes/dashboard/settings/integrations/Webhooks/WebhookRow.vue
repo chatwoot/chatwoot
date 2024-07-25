@@ -1,3 +1,28 @@
+<script>
+import webhookMixin from './webhookMixin';
+import ShowMore from 'dashboard/components/widgets/ShowMore.vue';
+
+export default {
+  components: { ShowMore },
+  mixins: [webhookMixin],
+  props: {
+    webhook: {
+      type: Object,
+      required: true,
+    },
+    index: {
+      type: Number,
+      required: true,
+    },
+  },
+  computed: {
+    subscribedEvents() {
+      const { subscriptions } = this.webhook;
+      return subscriptions.map(event => this.getEventLabel(event)).join(', ');
+    },
+  },
+};
+</script>
 <template>
   <tr class="space-x-2">
     <td class="max-w-2xl">
@@ -31,28 +56,3 @@
     </td>
   </tr>
 </template>
-<script>
-import webhookMixin from './webhookMixin';
-import ShowMore from 'dashboard/components/widgets/ShowMore.vue';
-
-export default {
-  components: { ShowMore },
-  mixins: [webhookMixin],
-  props: {
-    webhook: {
-      type: Object,
-      required: true,
-    },
-    index: {
-      type: Number,
-      required: true,
-    },
-  },
-  computed: {
-    subscribedEvents() {
-      const { subscriptions } = this.webhook;
-      return subscriptions.map(event => this.getEventLabel(event)).join(', ');
-    },
-  },
-};
-</script>

@@ -1,3 +1,124 @@
+<script>
+import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
+import { mapGetters } from 'vuex';
+import { debounce } from '@chatwoot/utils';
+import { isEmptyObject } from 'dashboard/helper/commons.js';
+export default {
+  components: {
+    MultiselectDropdown,
+  },
+  props: {
+    article: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+  data() {
+    return {
+      metaTitle: '',
+      metaDescription: '',
+      metaTags: [],
+      metaOptions: [],
+      tagInputValue: '',
+    };
+  },
+  computed: {
+    ...mapGetters({
+      categories: 'categories/allCategories',
+      agents: 'agents/getAgents',
+    }),
+    assignedAuthor() {
+      return this.article?.author;
+    },
+    selectedCategory() {
+      return this.article?.category;
+    },
+    allTags() {
+      return this.metaTags.map(item => item.name);
+    },
+  },
+  watch: {
+    article: {
+      handler() {
+        if (!isEmptyObject(this.article.meta || {})) {
+          const {
+            meta: { title = '', description = '', tags = [] },
+          } = this.article;
+          this.metaTitle = title;
+          this.metaDescription = description;
+          this.metaTags = this.formattedTags({ tags });
+        }
+      },
+      deep: true,
+      immediate: true,
+    },
+  },
+  mounted() {
+    this.saveArticle = debounce(
+      () => {
+        this.$emit('save-article', {
+          meta: {
+            title: this.metaTitle,
+            description: this.metaDescription,
+            tags: this.allTags,
+          },
+        });
+      },
+      1000,
+      false
+    );
+  },
+  methods: {
+    formattedTags({ tags }) {
+      return tags.map(tag => ({
+        name: tag,
+      }));
+    },
+    addTagValue(tagValue) {
+      const tags = tagValue
+        .split(',')
+        .map(tag => tag.trim())
+        .filter(tag => tag && !this.allTags.includes(tag));
+
+      this.metaTags.push(...this.formattedTags({ tags: [...new Set(tags)] }));
+      this.saveArticle();
+    },
+    removeTag() {
+      this.saveArticle();
+    },
+    handleSearchChange(value) {
+      this.tagInputValue = value;
+    },
+    onBlur() {
+      if (this.tagInputValue) {
+        this.addTagValue(this.tagInputValue);
+      }
+    },
+    onClickSelectCategory({ id }) {
+      this.$emit('save-article', { category_id: id });
+    },
+    onClickAssignAuthor({ id }) {
+      this.$emit('save-article', { author_id: id });
+      this.updateMeta();
+    },
+    onChangeMetaInput() {
+      this.saveArticle();
+    },
+    onClickArchiveArticle() {
+      this.$emit('archive-article');
+      this.updateMeta();
+    },
+    onClickDeleteArticle() {
+      this.$emit('delete-article');
+      this.updateMeta();
+    },
+    updateMeta() {
+      this.$emit('update-meta');
+    },
+  },
+};
+</script>
+
 <template>
   <transition name="popover-animation">
     <div
@@ -121,127 +242,6 @@
     </div>
   </transition>
 </template>
-
-<script>
-import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
-import { mapGetters } from 'vuex';
-import { debounce } from '@chatwoot/utils';
-import { isEmptyObject } from 'dashboard/helper/commons.js';
-export default {
-  components: {
-    MultiselectDropdown,
-  },
-  props: {
-    article: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
-  data() {
-    return {
-      metaTitle: '',
-      metaDescription: '',
-      metaTags: [],
-      metaOptions: [],
-      tagInputValue: '',
-    };
-  },
-  computed: {
-    ...mapGetters({
-      categories: 'categories/allCategories',
-      agents: 'agents/getAgents',
-    }),
-    assignedAuthor() {
-      return this.article?.author;
-    },
-    selectedCategory() {
-      return this.article?.category;
-    },
-    allTags() {
-      return this.metaTags.map(item => item.name);
-    },
-  },
-  watch: {
-    article: {
-      handler() {
-        if (!isEmptyObject(this.article.meta || {})) {
-          const {
-            meta: { title = '', description = '', tags = [] },
-          } = this.article;
-          this.metaTitle = title;
-          this.metaDescription = description;
-          this.metaTags = this.formattedTags({ tags });
-        }
-      },
-      deep: true,
-      immediate: true,
-    },
-  },
-  mounted() {
-    this.saveArticle = debounce(
-      () => {
-        this.$emit('save-article', {
-          meta: {
-            title: this.metaTitle,
-            description: this.metaDescription,
-            tags: this.allTags,
-          },
-        });
-      },
-      1000,
-      false
-    );
-  },
-  methods: {
-    formattedTags({ tags }) {
-      return tags.map(tag => ({
-        name: tag,
-      }));
-    },
-    addTagValue(tagValue) {
-      const tags = tagValue
-        .split(',')
-        .map(tag => tag.trim())
-        .filter(tag => tag && !this.allTags.includes(tag));
-
-      this.metaTags.push(...this.formattedTags({ tags: [...new Set(tags)] }));
-      this.saveArticle();
-    },
-    removeTag() {
-      this.saveArticle();
-    },
-    handleSearchChange(value) {
-      this.tagInputValue = value;
-    },
-    onBlur() {
-      if (this.tagInputValue) {
-        this.addTagValue(this.tagInputValue);
-      }
-    },
-    onClickSelectCategory({ id }) {
-      this.$emit('save-article', { category_id: id });
-    },
-    onClickAssignAuthor({ id }) {
-      this.$emit('save-article', { author_id: id });
-      this.updateMeta();
-    },
-    onChangeMetaInput() {
-      this.saveArticle();
-    },
-    onClickArchiveArticle() {
-      this.$emit('archive-article');
-      this.updateMeta();
-    },
-    onClickDeleteArticle() {
-      this.$emit('delete-article');
-      this.updateMeta();
-    },
-    updateMeta() {
-      this.$emit('update-meta');
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 ::v-deep {

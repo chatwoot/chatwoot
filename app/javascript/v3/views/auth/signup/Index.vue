@@ -1,3 +1,37 @@
+<script>
+import { mapGetters } from 'vuex';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import SignupForm from './components/Signup/Form.vue';
+import Testimonials from './components/Testimonials/Index.vue';
+import Spinner from 'shared/components/Spinner.vue';
+
+export default {
+  components: {
+    SignupForm,
+    Spinner,
+    Testimonials,
+  },
+  mixins: [globalConfigMixin],
+  data() {
+    return { isLoading: false };
+  },
+  computed: {
+    ...mapGetters({ globalConfig: 'globalConfig/get' }),
+    isAChatwootInstance() {
+      return this.globalConfig.installationName === 'Chatwoot';
+    },
+  },
+  beforeMount() {
+    this.isLoading = this.isAChatwootInstance;
+  },
+  methods: {
+    resizeContainers() {
+      this.isLoading = false;
+    },
+  },
+};
+</script>
+
 <template>
   <div class="h-full w-full dark:bg-slate-900">
     <div v-show="!isLoading" class="flex h-full">
@@ -51,37 +85,3 @@
     </div>
   </div>
 </template>
-
-<script>
-import { mapGetters } from 'vuex';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import SignupForm from './components/Signup/Form.vue';
-import Testimonials from './components/Testimonials/Index.vue';
-import Spinner from 'shared/components/Spinner.vue';
-
-export default {
-  components: {
-    SignupForm,
-    Spinner,
-    Testimonials,
-  },
-  mixins: [globalConfigMixin],
-  data() {
-    return { isLoading: false };
-  },
-  computed: {
-    ...mapGetters({ globalConfig: 'globalConfig/get' }),
-    isAChatwootInstance() {
-      return this.globalConfig.installationName === 'Chatwoot';
-    },
-  },
-  beforeMount() {
-    this.isLoading = this.isAChatwootInstance;
-  },
-  methods: {
-    resizeContainers() {
-      this.isLoading = false;
-    },
-  },
-};
-</script>

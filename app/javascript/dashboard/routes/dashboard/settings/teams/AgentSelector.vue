@@ -1,3 +1,73 @@
+<script>
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+
+export default {
+  components: {
+    Thumbnail,
+  },
+  props: {
+    agentList: {
+      type: Array,
+      default: () => [],
+    },
+    selectedAgents: {
+      type: Array,
+      default: () => [],
+    },
+    updateSelectedAgents: {
+      type: Function,
+      default: () => {},
+    },
+    isWorking: {
+      type: Boolean,
+      default: false,
+    },
+    submitButtonText: {
+      type: String,
+      default: '',
+    },
+  },
+  data() {
+    return {};
+  },
+  computed: {
+    selectedAgentCount() {
+      return this.selectedAgents.length;
+    },
+    allAgentsSelected() {
+      return this.selectedAgents.length === this.agentList.length;
+    },
+    disableSubmitButton() {
+      return this.selectedAgentCount === 0;
+    },
+  },
+  methods: {
+    isAgentSelected(agentId) {
+      return this.selectedAgents.includes(agentId);
+    },
+    handleSelectAgent(agentId) {
+      const shouldRemove = this.isAgentSelected(agentId);
+
+      let result = [];
+      if (shouldRemove) {
+        result = this.selectedAgents.filter(item => item !== agentId);
+      } else {
+        result = [...this.selectedAgents, agentId];
+      }
+
+      this.updateSelectedAgents(result);
+    },
+    selectAllAgents() {
+      const result = this.agentList.map(item => item.id);
+      this.updateSelectedAgents(result);
+    },
+    agentRowClass(agentId) {
+      return { 'is-active': this.isAgentSelected(agentId) };
+    },
+  },
+};
+</script>
+
 <template>
   <div>
     <div class="add-agents__header" />
@@ -74,76 +144,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-
-export default {
-  components: {
-    Thumbnail,
-  },
-  props: {
-    agentList: {
-      type: Array,
-      default: () => [],
-    },
-    selectedAgents: {
-      type: Array,
-      default: () => [],
-    },
-    updateSelectedAgents: {
-      type: Function,
-      default: () => {},
-    },
-    isWorking: {
-      type: Boolean,
-      default: false,
-    },
-    submitButtonText: {
-      type: String,
-      default: '',
-    },
-  },
-  data() {
-    return {};
-  },
-  computed: {
-    selectedAgentCount() {
-      return this.selectedAgents.length;
-    },
-    allAgentsSelected() {
-      return this.selectedAgents.length === this.agentList.length;
-    },
-    disableSubmitButton() {
-      return this.selectedAgentCount === 0;
-    },
-  },
-  methods: {
-    isAgentSelected(agentId) {
-      return this.selectedAgents.includes(agentId);
-    },
-    handleSelectAgent(agentId) {
-      const shouldRemove = this.isAgentSelected(agentId);
-
-      let result = [];
-      if (shouldRemove) {
-        result = this.selectedAgents.filter(item => item !== agentId);
-      } else {
-        result = [...this.selectedAgents, agentId];
-      }
-
-      this.updateSelectedAgents(result);
-    },
-    selectAllAgents() {
-      const result = this.agentList.map(item => item.id);
-      this.updateSelectedAgents(result);
-    },
-    agentRowClass(agentId) {
-      return { 'is-active': this.isAgentSelected(agentId) };
-    },
-  },
-};
-</script>
 
 <style scoped>
 input {

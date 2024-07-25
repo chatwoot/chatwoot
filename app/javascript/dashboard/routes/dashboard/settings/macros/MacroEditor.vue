@@ -1,17 +1,3 @@
-<template>
-  <div class="flex flex-col flex-1 h-full overflow-auto">
-    <woot-loading-state
-      v-if="uiFlags.isFetchingItem"
-      :message="$t('MACROS.EDITOR.LOADING')"
-    />
-    <macro-form
-      v-if="macro && !uiFlags.isFetchingItem"
-      :macro-data.sync="macro"
-      @submit="saveMacro"
-    />
-  </div>
-</template>
-
 <script>
 import MacroForm from './MacroForm.vue';
 import { MACRO_ACTION_TYPES } from './constants';
@@ -140,3 +126,17 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="flex flex-col flex-1 h-full overflow-auto">
+    <woot-loading-state
+      v-if="uiFlags.isFetchingItem"
+      :message="$t('MACROS.EDITOR.LOADING')"
+    />
+    <macro-form
+      v-if="macro && !uiFlags.isFetchingItem"
+      :macro-data.sync="macro"
+      @submit="saveMacro"
+    />
+  </div>
+</template>

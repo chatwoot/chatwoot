@@ -1,19 +1,3 @@
-<template>
-  <div class="mx-0 flex flex-wrap">
-    <templates-picker
-      v-if="!selectedWaTemplate"
-      :inbox-id="inboxId"
-      @onSelect="pickTemplate"
-    />
-    <template-parser
-      v-else
-      :template="selectedWaTemplate"
-      @resetTemplate="onResetTemplate"
-      @sendMessage="onSendMessage"
-    />
-  </div>
-</template>
-
 <script>
 import TemplatesPicker from 'dashboard/components/widgets/conversation/WhatsappTemplates/TemplatesPicker.vue';
 import TemplateParser from 'dashboard/components/widgets/conversation/WhatsappTemplates/TemplateParser.vue';
@@ -55,5 +39,21 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="mx-0 flex flex-wrap">
+    <templates-picker
+      v-if="!selectedWaTemplate"
+      :inbox-id="inboxId"
+      @onSelect="pickTemplate"
+    />
+    <template-parser
+      v-else
+      :template="selectedWaTemplate"
+      @resetTemplate="onResetTemplate"
+      @sendMessage="onSendMessage"
+    />
+  </div>
+</template>
 
 <style></style>

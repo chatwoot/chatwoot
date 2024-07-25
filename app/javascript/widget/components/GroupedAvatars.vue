@@ -1,3 +1,18 @@
+<script>
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+
+export default {
+  name: 'GroupedAvatars',
+  components: { Thumbnail },
+  props: {
+    users: {
+      type: Array,
+      default: () => [],
+    },
+  },
+};
+</script>
+
 <template>
   <div class="flex">
     <span
@@ -16,18 +31,3 @@
     </span>
   </div>
 </template>
-
-<script>
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-
-export default {
-  name: 'GroupedAvatars',
-  components: { Thumbnail },
-  props: {
-    users: {
-      type: Array,
-      default: () => [],
-    },
-  },
-};
-</script>

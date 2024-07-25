@@ -27,6 +27,12 @@ module.exports = {
     'import/no-unresolved': 'off',
     'vue/html-indent': 'off',
     'vue/multi-word-component-names': 'off',
+    'vue/component-tags-order': [
+      'error',
+      {
+        order: ['script', 'template', 'style'],
+      },
+    ],
     'vue/max-attributes-per-line': [
       'error',
       {

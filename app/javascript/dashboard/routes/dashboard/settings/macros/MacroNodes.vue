@@ -1,3 +1,40 @@
+<script>
+import Draggable from 'vuedraggable';
+import MacroNode from './MacroNode.vue';
+import { getFileName } from './macroHelper';
+export default {
+  components: {
+    Draggable,
+    MacroNode,
+  },
+  props: {
+    value: {
+      type: Array,
+      default: () => [],
+    },
+    files: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  computed: {
+    actionData: {
+      get() {
+        return this.value;
+      },
+      set(value) {
+        this.$emit('input', value);
+      },
+    },
+  },
+  methods: {
+    fileName() {
+      return getFileName(...arguments);
+    },
+  },
+};
+</script>
+
 <template>
   <div class="macros__nodes">
     <div class="macro__node">
@@ -59,43 +96,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import Draggable from 'vuedraggable';
-import MacroNode from './MacroNode.vue';
-import { getFileName } from './macroHelper';
-export default {
-  components: {
-    Draggable,
-    MacroNode,
-  },
-  props: {
-    value: {
-      type: Array,
-      default: () => [],
-    },
-    files: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  computed: {
-    actionData: {
-      get() {
-        return this.value;
-      },
-      set(value) {
-        this.$emit('input', value);
-      },
-    },
-  },
-  methods: {
-    fileName() {
-      return getFileName(...arguments);
-    },
-  },
-};
-</script>
 
 <style scoped lang="scss">
 .macros__nodes {

@@ -1,38 +1,3 @@
-<template>
-  <div class="h-full w-full md:w-[calc(100%-360px)]">
-    <div v-if="showEmptyState" class="flex w-full h-full">
-      <inbox-empty-state
-        :empty-state-message="$t('INBOX.LIST.NO_MESSAGES_AVAILABLE')"
-      />
-    </div>
-    <div v-else class="flex flex-col w-full h-full">
-      <inbox-item-header
-        class="flex-1"
-        :total-length="totalNotificationCount"
-        :current-index="activeNotificationIndex"
-        :active-notification="activeNotification"
-        @next="onClickNext"
-        @prev="onClickPrev"
-      />
-      <div
-        v-if="isConversationLoading"
-        class="flex items-center h-[calc(100%-56px)] justify-center bg-slate-25 dark:bg-slate-800"
-      >
-        <span class="my-4 spinner" />
-      </div>
-      <conversation-box
-        v-else
-        class="h-[calc(100%-56px)]"
-        is-inbox-view
-        :inbox-id="inboxId"
-        :is-contact-panel-open="isContactPanelOpen"
-        :is-on-expanded-layout="false"
-        @contact-panel-toggle="onToggleContactPanel"
-      />
-    </div>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import InboxItemHeader from './components/InboxItemHeader.vue';
@@ -207,3 +172,38 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="h-full w-full md:w-[calc(100%-360px)]">
+    <div v-if="showEmptyState" class="flex w-full h-full">
+      <inbox-empty-state
+        :empty-state-message="$t('INBOX.LIST.NO_MESSAGES_AVAILABLE')"
+      />
+    </div>
+    <div v-else class="flex flex-col w-full h-full">
+      <inbox-item-header
+        class="flex-1"
+        :total-length="totalNotificationCount"
+        :current-index="activeNotificationIndex"
+        :active-notification="activeNotification"
+        @next="onClickNext"
+        @prev="onClickPrev"
+      />
+      <div
+        v-if="isConversationLoading"
+        class="flex items-center h-[calc(100%-56px)] justify-center bg-slate-25 dark:bg-slate-800"
+      >
+        <span class="my-4 spinner" />
+      </div>
+      <conversation-box
+        v-else
+        class="h-[calc(100%-56px)]"
+        is-inbox-view
+        :inbox-id="inboxId"
+        :is-contact-panel-open="isContactPanelOpen"
+        :is-on-expanded-layout="false"
+        @contact-panel-toggle="onToggleContactPanel"
+      />
+    </div>
+  </div>
+</template>

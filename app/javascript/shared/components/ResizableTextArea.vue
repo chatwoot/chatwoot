@@ -1,16 +1,3 @@
-<template>
-  <textarea
-    ref="textarea"
-    :placeholder="placeholder"
-    :rows="rows"
-    :value="value"
-    @input="onInput"
-    @focus="onFocus"
-    @keyup="onKeyup"
-    @blur="onBlur"
-  />
-</template>
-
 <script>
 import {
   appendSignature,
@@ -162,3 +149,16 @@ export default {
   },
 };
 </script>
+
+<template>
+  <textarea
+    ref="textarea"
+    :placeholder="placeholder"
+    :rows="rows"
+    :value="value"
+    @input="onInput"
+    @focus="onFocus"
+    @keyup="onKeyup"
+    @blur="onBlur"
+  />
+</template>

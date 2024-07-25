@@ -1,3 +1,41 @@
+<script>
+import EmojiOrIcon from 'shared/components/EmojiOrIcon.vue';
+
+export default {
+  components: {
+    EmojiOrIcon,
+  },
+  props: {
+    label: { type: String, required: true },
+    icon: { type: String, default: '' },
+    emoji: { type: String, default: '' },
+    value: { type: [String, Number], default: '' },
+    showEdit: { type: Boolean, default: false },
+  },
+  data() {
+    return {
+      isEditing: false,
+      editedValue: this.value,
+    };
+  },
+  methods: {
+    focusInput() {
+      this.$refs.inputfield.focus();
+    },
+    onEdit() {
+      this.isEditing = true;
+      this.$nextTick(() => {
+        this.focusInput();
+      });
+    },
+    onUpdate() {
+      this.isEditing = false;
+      this.$emit('update', this.editedValue);
+    },
+  },
+};
+</script>
+
 <template>
   <div class="contact-attribute">
     <div class="title-wrap">
@@ -48,44 +86,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import EmojiOrIcon from 'shared/components/EmojiOrIcon.vue';
-
-export default {
-  components: {
-    EmojiOrIcon,
-  },
-  props: {
-    label: { type: String, required: true },
-    icon: { type: String, default: '' },
-    emoji: { type: String, default: '' },
-    value: { type: [String, Number], default: '' },
-    showEdit: { type: Boolean, default: false },
-  },
-  data() {
-    return {
-      isEditing: false,
-      editedValue: this.value,
-    };
-  },
-  methods: {
-    focusInput() {
-      this.$refs.inputfield.focus();
-    },
-    onEdit() {
-      this.isEditing = true;
-      this.$nextTick(() => {
-        this.focusInput();
-      });
-    },
-    onUpdate() {
-      this.isEditing = false;
-      this.$emit('update', this.editedValue);
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .contact-attribute {
