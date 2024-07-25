@@ -1,9 +1,12 @@
-class V2::InvoicesMetricsBuilder
+class V2::ReportInvoicesBuilder
   include DateRangeHelper
+
+  attr_reader :account, :params, :group_by, :product, :account_plan
 
   def initialize(account, params)
     @account = account
     @account_plan = @account.account_plan
+    @product = @account_plan.product
     @params = params
     @group_by = params[:group_by] || 'month' # default to 'month'
   end
@@ -15,7 +18,7 @@ class V2::InvoicesMetricsBuilder
     start_date = range.first.to_date
     end_date = range.last.to_date
 
-    periods_in_range_for_group_by(@group_by, start_date, end_date).each do |period_start|
+    periods_in_range_for_group_by(group_by, start_date, end_date).each do |period_start|
       period_metrics = calculate_metrics(period_start)
       update_total_summary(total_summary, period_metrics)
       values << period_metrics.to_h.merge(timestamp: period_start.to_time.to_i)
@@ -30,21 +33,22 @@ class V2::InvoicesMetricsBuilder
   private
 
   def calculate_metrics(period_start)
-    period_end = period_end_for_group_by(@group_by, period_start)
+    period_end = period_end_for_group_by(group_by, period_start)
 
     total_conversations = count_conversations(period_start, period_end)
     total_agents = count_agents(period_start, period_end)
-    base_price = @account.product.price
 
-    product_details = extract_product_details(@account.product.details)
+    base_price = product.price
+
+    product_details = extract_product_details(product.details)
     extra_conversation_cost = calculate_extra_cost(
       total_conversations,
-      product_details[:conversation_limit] + @account_plan.extra_conversations,
+      product_details[:conversation_limit] + account_plan.extra_conversations,
       product_details[:extra_conversation_price]
     )
     extra_agent_cost = calculate_extra_cost(
       total_agents,
-      product_details[:agent_limit] + @account_plan.extra_agents,
+      product_details[:agent_limit] + account_plan.extra_agents,
       product_details[:extra_agent_price]
     )
     total_price = calculate_total_price(base_price, extra_conversation_cost, extra_agent_cost)
@@ -60,11 +64,15 @@ class V2::InvoicesMetricsBuilder
   end
 
   def count_conversations(start_date, end_date)
-    @account.conversations.where(created_at: start_date..end_date).count
+    account.reporting_events
+           .where(name: 'extra_conversations', created_at: start_date..end_date)
+           .sum(:value)
   end
 
   def count_agents(start_date, end_date)
-    @account.agents.where(created_at: start_date..end_date).count
+    account.reporting_events
+           .where(name: 'extra_agents', created_at: start_date..end_date)
+           .sum(:value)
   end
 
   def calculate_extra_cost(total_items, limit, extra_price)
@@ -105,16 +113,16 @@ class V2::InvoicesMetricsBuilder
   end
 
   def range
-    since = @params[:since].present? ? parse_date_time(@params[:since]) : default_start_date
-    until_date = @params[:until].present? ? parse_date_time(@params[:until]) : default_end_date
+    since = params[:since].present? ? parse_date_time(params[:since]) : default_start_date
+    until_date = params[:until].present? ? parse_date_time(params[:until]) : default_end_date
     since..until_date
   end
 
   def default_start_date
-    [@account.conversations.minimum(:created_at), @account.agents.minimum(:created_at)].compact.min || DateTime.now.beginning_of_day
+    [account.reporting_events.minimum(:created_at)].compact.min || DateTime.now.beginning_of_day
   end
 
   def default_end_date
-    [@account.conversations.maximum(:created_at), @account.agents.maximum(:created_at)].compact.max || DateTime.now.end_of_day
+    [account.reporting_events.maximum(:created_at)].compact.max || DateTime.now.end_of_day
   end
 end
