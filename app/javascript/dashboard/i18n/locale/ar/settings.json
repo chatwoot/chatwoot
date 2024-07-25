@@ -278,9 +278,9 @@
     "SLA": "SLA",
     "BETA": "تجريبي",
     "REPORTS_OVERVIEW": "نظرة عامة",
-    "FACEBOOK_REAUTHORIZE": "انتهت صلاحية اتصال الفيسبوك الخاص بك، يرجى إعادة الاتصال بصفحة الفيسبوك الخاصة بك لمواصلة الخدمات",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
-      "TITLE": "Help Center",
+      "TITLE": "مركز المساعدة",
       "ALL_ARTICLES": "جميع المقالات",
       "MY_ARTICLES": "مقالاتي",
       "DRAFT": "مسودة",

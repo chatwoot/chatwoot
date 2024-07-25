@@ -59,7 +59,7 @@
       "ENTER_TO_SELECT": "按回车键选择",
       "ENTER_TO_REMOVE": "按回车键删除",
       "SELECT_ONE": "请选择一个",
-      "SELECT": "Select"
+      "SELECT": "选择"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -79,7 +79,7 @@
         "姓名：",
         "电话号码",
         "会话",
-        "Last Contacted"
+        "上次联系"
       ]
     },
     "TYPE_LABEL": {
@@ -95,7 +95,9 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "OFFLINE": "离线的"
+      "OFFLINE": "离线的",
+      "RECONNECTING": "正在重连...",
+      "RECONNECT_SUCCESS": "已重新连接"
     },
     "BUTTON": {
       "REFRESH": "刷新"
@@ -107,17 +109,17 @@
       "GENERAL": "一般",
       "REPORTS": "报告",
       "CONVERSATION": "会话",
-      "BULK_ACTIONS": "Bulk Actions",
+      "BULK_ACTIONS": "批量操作",
       "CHANGE_ASSIGNEE": "更改分配",
-      "CHANGE_PRIORITY": "Change Priority",
+      "CHANGE_PRIORITY": "更改优先级",
       "CHANGE_TEAM": "更改团队",
-      "SNOOZE_CONVERSATION": "Snooze Conversation",
+      "SNOOZE_CONVERSATION": "推迟对话",
       "ADD_LABEL": "为对话添加标签",
       "REMOVE_LABEL": "从对话移除标签",
       "SETTINGS": "设置",
-      "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "AI_ASSIST": "AI 助手",
+      "APPEARANCE": "外观",
+      "SNOOZE_NOTIFICATION": "推迟通知"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "转到对话面板",
@@ -133,14 +135,14 @@
       "GO_TO_SETTINGS_INBOXES": "前往收件箱设置",
       "GO_TO_SETTINGS_LABELS": "前往标签设置",
       "GO_TO_SETTINGS_CANNED_RESPONSES": "Go to Canned Response Settings",
-      "GO_TO_SETTINGS_APPLICATIONS": "Go to Application Settings",
+      "GO_TO_SETTINGS_APPLICATIONS": "转到应用程序设置",
       "GO_TO_SETTINGS_ACCOUNT": "Go to Account Settings",
       "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",
       "GO_TO_NOTIFICATIONS": "转到通知",
       "ADD_LABELS_TO_CONVERSATION": "为对话添加标签",
       "ASSIGN_AN_AGENT": "分配一位客服代表",
-      "AI_ASSIST": "AI Assist",
-      "ASSIGN_PRIORITY": "Assign priority",
+      "AI_ASSIST": "AI 助手",
+      "ASSIGN_PRIORITY": "分配优先级",
       "ASSIGN_A_TEAM": "分配一个团队",
       "MUTE_CONVERSATION": "静音对话",
       "UNMUTE_CONVERSATION": "取消静音对话",
@@ -154,11 +156,11 @@
       "UNTIL_TOMORROW": "Until tomorrow",
       "UNTIL_NEXT_MONTH": "Until next month",
       "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "CUSTOM": "Custom...",
+      "UNTIL_CUSTOM_TIME": "Custom...",
       "CHANGE_APPEARANCE": "Change Appearance",
-      "LIGHT_MODE": "Light",
-      "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "System",
+      "LIGHT_MODE": "浅色",
+      "DARK_MODE": "深色",
+      "SYSTEM_MODE": "系统",
       "SNOOZE_NOTIFICATION": "推迟通知"
     }
   },

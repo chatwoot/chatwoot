@@ -209,6 +209,87 @@
         "API_SUCCESS": "Panel de control eliminado con éxito",
         "API_ERROR": "No pudimos eliminar la aplicación. Por favor, inténtalo de nuevo más tarde"
       }
+    },
+    "LINEAR": {
+      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
+      "LOADING": "Fetching linear issues...",
+      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
+      "CREATE": "Crear",
+      "LINK": {
+        "SEARCH": "Search issues",
+        "SELECT": "Select issue",
+        "TITLE": "Enlace",
+        "EMPTY_LIST": "No linear issues found",
+        "LOADING": "Cargando",
+        "ERROR": "There was an error fetching the linear issues, please try again",
+        "LINK_SUCCESS": "Issue linked successfully",
+        "LINK_ERROR": "There was an error linking the issue, please try again",
+        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+      },
+      "ADD_OR_LINK": {
+        "TITLE": "Create/link linear issue",
+        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Título",
+            "PLACEHOLDER": "Introducir título",
+            "REQUIRED_ERROR": "El título es obligatorio"
+          },
+          "DESCRIPTION": {
+            "LABEL": "Descripción",
+            "PLACEHOLDER": "Introducir descripción"
+          },
+          "TEAM": {
+            "LABEL": "Equipo",
+            "PLACEHOLDER": "Seleccionar equipo",
+            "SEARCH": "Buscar equipos",
+            "REQUIRED_ERROR": "El equipo es requerido"
+          },
+          "ASSIGNEE": {
+            "LABEL": "Cesionario",
+            "PLACEHOLDER": "Seleccionar asignado",
+            "SEARCH": "Buscar asignado"
+          },
+          "PRIORITY": {
+            "LABEL": "Prioridad",
+            "PLACEHOLDER": "Seleccionar prioridad",
+            "SEARCH": "Buscar prioridad"
+          },
+          "LABEL": {
+            "LABEL": "Etiqueta",
+            "PLACEHOLDER": "Seleecionar etiqueta",
+            "SEARCH": "Buscar etiqueta"
+          },
+          "STATUS": {
+            "LABEL": "Estado",
+            "PLACEHOLDER": "Seleccionar estado",
+            "SEARCH": "Buscar estado"
+          },
+          "PROJECT": {
+            "LABEL": "Proyecto",
+            "PLACEHOLDER": "Seleccionar proyecto",
+            "SEARCH": "Buscar proyecto"
+          }
+        },
+        "CREATE": "Crear",
+        "CANCEL": "Cancelar",
+        "CREATE_SUCCESS": "Issue created successfully",
+        "CREATE_ERROR": "There was an error creating the issue, please try again",
+        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
+        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+      },
+      "ISSUE": {
+        "STATUS": "Estado",
+        "PRIORITY": "Prioridad",
+        "ASSIGNEE": "Cesionario",
+        "LABELS": "Etiquetas",
+        "CREATED_AT": "Created at %{createdAt}"
+      },
+      "UNLINK": {
+        "TITLE": "Unlink",
+        "SUCCESS": "Issue unlinked successfully",
+        "ERROR": "There was an error unlinking the issue, please try again"
+      }
     }
   }
 }

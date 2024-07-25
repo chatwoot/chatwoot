@@ -209,6 +209,9 @@ tr:
     openai:
       name: "OpenAI"
       description: "OpenAI'nin GPT modellerini kullanarak Chatwoot'a güçlü yapay zeka özellikleri entegre edin."
+    linear:
+      name: "Linear"
+      description: "Create Linear issues from conversations, or link existing ones for seamless tracking."
   public_portal:
     search:
       search_placeholder: Başlık veya içerikle makale arayın...
