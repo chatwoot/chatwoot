@@ -17,8 +17,8 @@
 #
 class Product < ApplicationRecord
   has_many :cart_items, dependent: :destroy
-  has_many :account_plans, dependent: :destroy
-  has_many :accounts, through: :account_plans
+  has_many :account_products, dependent: :destroy
+  has_many :accounts, through: :account_products
 
   enum product_type: { plan: 'Plano', other: 'Other' }
 
