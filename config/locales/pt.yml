@@ -216,3 +216,9 @@ pt:
       inbox_name: Caixa de Entrada
       inbox_type: Tipo de caixa de entrada
     button: Abrir conversa
+  integrations:
+    openai:
+      error:
+        insufficient_quota: Você excedeu sua cota atual, verifique seu plano no painel OpenAI
+        invalid_api_key: Sua chave de API é inválida
+        invalid_content: O conteúdo é inválido

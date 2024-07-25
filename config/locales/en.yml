@@ -246,3 +246,9 @@ en:
      inbox_name: Inbox
      inbox_type: Inbox Type
     button: Open conversation
+  integrations:
+    openai:
+      error:
+        insufficient_quota: You exceeded your current quota, please check your plan in OpenAI dashboard
+        invalid_api_key: Your API key is invalid
+        invalid_content: The content is invalid
