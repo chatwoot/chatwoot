@@ -47,8 +47,20 @@ module Enterprise::Account
     case limit_name
     when :conversations
       account_plan.update(extra_conversations: extra_conversations + 1)
+      create_reporting_event('extra_conversations', extra_conversations + 1)
     when :agents
       account_plan.update(extra_agents: extra_agents + 1)
+      create_reporting_event('extra_agents', extra_agents + 1)
     end
+  end
+
+  def create_reporting_event(event_name, event_value)
+    ReportingEvent.create(
+      account_id: id,
+      name: event_name,
+      value: event_value,
+      event_start_time: Time.current,
+      event_end_time: Time.current
+    )
   end
 end
