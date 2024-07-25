@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrations",
+    "LOADING": "Fetching integrations",
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Subscribed Events",
       "FORM": {
