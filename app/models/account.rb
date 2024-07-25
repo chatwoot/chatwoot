@@ -76,9 +76,17 @@ class Account < ApplicationRecord
   has_many :webhooks, dependent: :destroy_async
   has_many :whatsapp_channels, dependent: :destroy_async, class_name: '::Channel::Whatsapp'
   has_many :working_hours, dependent: :destroy_async
-  has_many :triggers, foreign_key: :companyId, dependent: :destroy_async, class_name: '::Trigger'
+  has_many :triggers, foreign_key: :companyId, dependent: :destroy_async, class_name: '::Trigger', inverse_of: :account
+
+  # Checkout
+  has_many :carts, dependent: :destroy
+  has_many :account_products, dependent: :destroy
+  has_many :products, through: :account_products
+  has_one :account_plan, dependent: :destroy
 
   has_one_attached :contacts_export
+
+  accepts_nested_attributes_for :account_plan
 
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
   enum status: { active: 0, suspended: 1 }

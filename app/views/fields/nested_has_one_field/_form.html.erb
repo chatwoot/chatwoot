@@ -1,0 +1,10 @@
+<!-- app/views/fields/nested_has_one_field/_form.html.erb -->
+<% if field.data %>
+  <%= f.fields_for field.attribute, field.data do |ff| %>
+    <%= render partial: "fields/#{field.attribute}_field/form", locals: { f: ff } %>
+  <% end %>
+<% else %>
+  <%= f.fields_for field.attribute, f.object.build_account_plan do |ff| %>
+    <%= render partial: "fields/#{field.attribute}_field/new", locals: { f: ff } %>
+  <% end %>
+<% end %>

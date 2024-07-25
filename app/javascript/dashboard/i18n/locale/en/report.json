@@ -455,6 +455,23 @@
       }
     }
   },
+  "INVOICE_REPORTS": {
+    "HEADER": "Invoices Reports",
+    "SUBTITLE": "Invoices Report",
+    "GRAPH_COLUMN_LABEL": "Invoices",
+    "GRAPH_TITLE": "Invoices Graph",
+    "METRICS": {
+      "TOTAL": {
+        "NAME": "Invoices"
+      },
+      "PROCESSED": {
+        "NAME": "Messages Sent"
+      },
+      "UNPROCESSED": {
+        "NAME": "Unprocessed Messages"
+      }
+    }
+  },
   "DAYS_OF_WEEK": {
     "SUNDAY": "Sunday",
     "MONDAY": "Monday",

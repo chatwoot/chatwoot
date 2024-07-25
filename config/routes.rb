@@ -300,6 +300,7 @@ Rails.application.routes.draw do
             get :conversations
             get :conversation_traffic
             get :triggers
+            get :invoices
           end
         end
 
@@ -447,6 +448,8 @@ Rails.application.routes.draw do
       resources :users, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
         delete :avatar, on: :member, action: :destroy_avatar
       end
+
+      resources :products, only: [:index, :new, :create, :show, :edit, :update]
 
       resources :access_tokens, only: [:index, :show]
       resources :response_sources, only: [:index, :show, :new, :create, :edit, :update, :destroy]

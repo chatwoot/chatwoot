@@ -484,6 +484,23 @@
       }
     }
   },
+  "INVOICE_REPORTS": {
+    "HEADER": "Relatórios de Faturamento",
+    "SUBTITLE": "relatório para faturamento de conversas e agentes",
+    "GRAPH_COLUMN_LABEL": "Faturas",
+    "GRAPH_TITLE": "Gráfico de faturas",
+    "METRICS": {
+      "TOTAL": {
+        "NAME": "Faturas"
+      },
+      "PROCESSED": {
+        "NAME": "Mensagens enviadas"
+      },
+      "UNPROCESSED": {
+        "NAME": "Mensagens não processadas"
+      }
+    }
+  },
   "DAYS_OF_WEEK": {
     "SUNDAY": "Domingo",
     "MONDAY": "Segunda-feira",

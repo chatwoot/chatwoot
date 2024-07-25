@@ -1,0 +1,9 @@
+<!-- app/views/fields/account_plan_field/_new.html.erb -->
+<div class="field-unit__label">
+  <%= f.label :product_id %>
+</div>
+
+<div class="field-unit__field">
+    <%= f.collection_select :product_id, Product.all, :id, :name,
+                            { include_blank: true } %>
+</div>

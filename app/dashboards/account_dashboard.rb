@@ -10,7 +10,7 @@ class AccountDashboard < Administrate::BaseDashboard
 
   enterprise_attribute_types = if ChatwootApp.enterprise?
                                  {
-                                   limits: Enterprise::AccountLimitsField,
+                                   #  limits: Enterprise::AccountLimitsField,
                                    all_features: Enterprise::AccountFeaturesField
                                  }
                                else
@@ -26,7 +26,8 @@ class AccountDashboard < Administrate::BaseDashboard
     conversations: CountField,
     locale: Field::Select.with_options(collection: LANGUAGES_CONFIG.map { |_x, y| y[:iso_639_1_code] }),
     status: Field::Select.with_options(collection: [%w[Active active], %w[Suspended suspended]]),
-    account_users: Field::HasMany
+    account_users: Field::HasMany,
+    account_plan: NestedHasOneField
   }.merge(enterprise_attribute_types).freeze
 
   # COLLECTION_ATTRIBUTES
@@ -41,11 +42,12 @@ class AccountDashboard < Administrate::BaseDashboard
     users
     conversations
     status
+    account_plan
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
-  enterprise_show_page_attributes = ChatwootApp.enterprise? ? %i[limits all_features] : []
+  enterprise_show_page_attributes = ChatwootApp.enterprise? ? %i[account_plan all_features] : []
   SHOW_PAGE_ATTRIBUTES = (%i[
     id
     name
@@ -60,7 +62,7 @@ class AccountDashboard < Administrate::BaseDashboard
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
-  enterprise_form_attributes = ChatwootApp.enterprise? ? %i[limits all_features] : []
+  enterprise_form_attributes = ChatwootApp.enterprise? ? %i[account_plan all_features] : []
   FORM_ATTRIBUTES = (%i[
     name
     locale
@@ -90,6 +92,7 @@ class AccountDashboard < Administrate::BaseDashboard
   # to prevent an error from being raised (wrong number of arguments)
   # Reference: https://github.com/thoughtbot/administrate/pull/2356/files#diff-4e220b661b88f9a19ac527c50d6f1577ef6ab7b0bed2bfdf048e22e6bfa74a05R204
   def permitted_attributes(action)
-    super + [limits: {}]
+    # super + [limits: {}]
+    super + [account_plan_attributes: [:id, :product_id, :_destroy]]
   end
 end

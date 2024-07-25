@@ -42,7 +42,6 @@ Authorization: {{token}}
 
 # Path: http/report.http
 # @name reports
-@metric = triggers
 @since = 1717556400
 @until = 1720148399
 @type = account
@@ -51,7 +50,7 @@ Authorization: {{token}}
 @account_id = 2
 
 GET {{api}}/api/v2/accounts/{{account_id}}/reports
-?metric={{metric}}
+?metric=triggers
 &since={{since}}
 &until={{until}}
 &type={{type}}
@@ -59,6 +58,16 @@ GET {{api}}/api/v2/accounts/{{account_id}}/reports
 &business_hours={{business_hours}}
 # &agents_ids[]=1&agents_ids[]=16
 &agents_ids[]=198
+Content-Type: application/json
+Authorization: {{token}}
+
+### 
+@token = {{LOGIN.response.headers.Authorization}}
+
+# Path: http/invoices.http
+# @name invoices_report
+GET {{api}}/api/v2/accounts/{{account_id}}/reports/invoices
+?group_by=day
 Content-Type: application/json
 Authorization: {{token}}
 

@@ -1,0 +1,10 @@
+<!-- app/views/fields/account_plan_field/_form.html.erb -->
+<div class="field-unit__label">
+  <%= f.label :product_id %>
+</div>
+
+<div class="field-unit__field">
+    <%= f.collection_select :product_id, Product.all, :id, :name,
+                            { selected: f.object.product_id } %>
+</div>
+

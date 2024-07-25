@@ -234,14 +234,17 @@
     "ONGOING": "Em andamento",
     "ONE_OFF": "Única",
     "APP_INTEGRATION": "Integração",
+    
     "REPORTS_AGENT": "Agentes",
     "REPORTS_LABEL": "Marcadores",
     "REPORTS_INBOX": "Caixa de Entrada",
     "REPORTS_TEAM": "Times",
-    "SET_AVAILABILITY_TITLE": "Defina como",
-    "BETA": "Beta",
+    "REPORTS_INVOICE": "Faturas",
     "REPORTS_OVERVIEW": "Visão geral",
     "TRIGGER_REPORTS": "Disparos",
+    
+    "SET_AVAILABILITY_TITLE": "Defina como",
+    "BETA": "Beta",
     "FACEBOOK_REAUTHORIZE": "Sua conexão com o Facebook expirou! Por favor, reconecte sua página do Facebook para continuar os serviços",
     "HELP_CENTER": {
       "TITLE": "Central de Ajuda",

@@ -1,0 +1,8 @@
+<!-- app/views/fields/nested_has_one_field/_show.html.erb -->
+<% if field.data %>
+  <div class="nested-fields">
+    <%= render partial: "fields/#{field.attribute}_field/show", locals: { f: field.data } %>
+  </div>
+<% else %>
+  <p>No product assigned.</p>
+<% end %>
