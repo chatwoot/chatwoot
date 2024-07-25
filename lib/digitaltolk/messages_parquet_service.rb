@@ -15,13 +15,14 @@ class Digitaltolk::MessagesParquetService
     export_parquet
   rescue StandardError => e
     report.failed!(e.message)
+    nil
   end
-
-  private
 
   def file_path
     @file_path ||= Rails.root.join('tmp', file_name)
   end
+
+  private
 
   def arrow_fields
     [
@@ -53,33 +54,32 @@ class Digitaltolk::MessagesParquetService
   def load_columns_data
     return if messages.blank?
 
-    batch_size = 1000
     index = 1
+    batch_size = 100
     GC.enable
     messages.find_in_batches(batch_size: batch_size) do |message_batch|
       message_batch.each do |message|
-        next if message.blank?
 
-        @columns['id'] << message.id.to_i
-        @columns['content'] << message.content.to_s
-        @columns['inbox_id'] << message.inbox_id.to_i
-        @columns['conversation_id'] << message.conversation&.display_id.to_i
-        @columns['message_type'] << message.message_type_before_type_cast.to_s
-        @columns['content_type'] << message.content_type.to_s
-        @columns['status'] << message.status.to_s
-        @columns['created_at'] << message.created_at.to_i
-        @columns['private'] << message.private
-        @columns['source_id'] << message.source_id.to_i
+        @columns['id'] << message&.id.to_i
+        @columns['content'] << message&.content.to_s
+        @columns['inbox_id'] << message&.inbox_id.to_i
+        @columns['conversation_id'] << message&.conversation&.display_id.to_i
+        @columns['message_type'] << message&.message_type_before_type_cast.to_s
+        @columns['content_type'] << message&.content_type.to_s
+        @columns['status'] << message&.status.to_s
+        @columns['created_at'] << message&.created_at.to_i
+        @columns['private'] << !!(message&.private)
+        @columns['source_id'] << message&.source_id.to_i
       end
-      report.update_columns(progress: (index * batch_size) / messages_count * 100)
-      index += 1
+      report.update_columns(progress: ((index * batch_size / record_count) * 100) - 1)
       message_batch = nil
+      index += 1
       GC.start
     end
   end
 
-  def messages_count
-    @messages_count ||= messages.count
+  def record_count
+    (@record_count ||= @messages.count).to_i
   end
 
   def map_columns_array
@@ -104,7 +104,7 @@ class Digitaltolk::MessagesParquetService
   end
 
   def export_parquet
-    record_batch = Arrow::RecordBatch.new(arrow_schema, messages.count, arrow_columns)
+    record_batch = Arrow::RecordBatch.new(arrow_schema, record_count, arrow_columns)
     record_batch.to_table.save(file_path)
 
     url = Digitaltolk::UploadToS3.new(file_path).perform

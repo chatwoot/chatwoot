@@ -5,7 +5,7 @@ class Digitaltolk::SurveyResponsesParquetService
 
   def initialize(survey_responses, file_name, report)
     @survey_responses = survey_responses
-    @file_path = file_name
+    @file_name = file_name
     @report = report
   end
 
@@ -15,6 +15,7 @@ class Digitaltolk::SurveyResponsesParquetService
     export_parquet
   rescue StandardError => e
     report.failed!(e.message)
+    nil
   end
 
   private
@@ -59,35 +60,35 @@ class Digitaltolk::SurveyResponsesParquetService
     return if survey_responses.blank?
 
     index = 1
-    batch_size = 1000
-    
+    batch_size = 100
     GC.enable
     survey_responses.find_in_batches(batch_size: batch_size) do |responses|
       responses.each do |survey_response|
-        next if survey_response.blank?
-
-        @columns['id'] << survey_response.id.to_i
-        @columns['rating'] << survey_response.rating.to_i
-        @columns['feedback_message'] << survey_response.feedback_message.to_s
-        @columns['account_id'] << survey_response.account_id.to_i
-        @columns['message_id'] << survey_response.message_id.to_i
-        @columns['csat_question_id'] << survey_response.message&.csat_template_question&.id.to_i
+        @columns['id'] << survey_response&.id.to_i
+        @columns['rating'] << survey_response&.rating.to_i
+        @columns['feedback_message'] << survey_response&.feedback_message.to_s
+        @columns['account_id'] << survey_response&.account_id.to_i
+        @columns['message_id'] << survey_response&.message_id.to_i
+        @columns['csat_question_id'] << survey_response&.message&.csat_template_question&.id.to_i
         @columns['csat_question'] << csat_question(survey_response).to_s
-        @columns['contact_id'] << survey_response.contact&.id.to_i
-        @columns['contact_name'] << survey_response.contact&.name.to_s
-        @columns['contact_email'] << survey_response.contact&.email.to_s
-        @columns['conversation_id'] << survey_response.conversation&.display_id.to_i
-        @columns['assigned_agent_id'] << survey_response.assigned_agent&.id.to_i
-        @columns['assigned_agent_name'] << survey_response.assigned_agent&.name.to_s
-        @columns['assigned_agent_email'] << survey_response.assigned_agent&.email.to_s
-        @columns['created_at'] << survey_response.created_at.to_i
+        @columns['contact_id'] << survey_response&.contact&.id.to_i
+        @columns['contact_name'] << survey_response&.contact&.name.to_s
+        @columns['contact_email'] << survey_response&.contact&.email.to_s
+        @columns['conversation_id'] << survey_response&.conversation&.display_id.to_i
+        @columns['assigned_agent_id'] << survey_response&.assigned_agent&.id.to_i
+        @columns['assigned_agent_name'] << survey_response&.assigned_agent&.name.to_s
+        @columns['assigned_agent_email'] << survey_response&.assigned_agent&.email.to_s
+        @columns['created_at'] << survey_response&.created_at.to_i
       end
-
-      report.update_columns(progress: (index * batch_size * survey_responses.count / 100) - 1)
+      report.update_columns(progress: ((index * batch_size / record_count) * 100) - 1)
       index += 1
       responses = nil
       GC.start
     end
+  end
+
+  def record_count
+    (@record_count ||= @survey_responses.count).to_i
   end
 
   def map_columns_array
@@ -117,7 +118,7 @@ class Digitaltolk::SurveyResponsesParquetService
   end
 
   def export_parquet
-    record_batch = Arrow::RecordBatch.new(arrow_schema, survey_responses.count, arrow_columns)
+    record_batch = Arrow::RecordBatch.new(arrow_schema, record_count, arrow_columns)
     record_batch.to_table.save(file_path)
 
     url = Digitaltolk::UploadToS3.new(file_path).perform
@@ -128,6 +129,6 @@ class Digitaltolk::SurveyResponsesParquetService
   end
 
   def csat_question(survey_response)
-    survey_response.message&.csat_template_question&.content.to_s || survey_response.message&.content.to_s
+    survey_response&.message&.csat_template_question&.content.to_s || survey_response&.message&.content.to_s
   end
 end

@@ -29,10 +29,8 @@ class ParquetReport::Message < ParquetReport
   def process!
     load_messages
 
-    if @messages.present?
-      url = Digitaltolk::MessagesParquetService.new(@messages, file_name, self).perform
-      complete_and_save_url!(url)
-    end
+    url = Digitaltolk::MessagesParquetService.new(@messages, file_name, self).perform
+    complete_and_save_url!(url)
   end
 
   def create_empty_file_url

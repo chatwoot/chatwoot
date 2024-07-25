@@ -18,6 +18,7 @@ attr_accessor :conversations, :file_name, :report
     export_parquet
   rescue StandardError => e
     report.failed!(e.message)
+    nil
   end
 
   private
@@ -71,46 +72,48 @@ attr_accessor :conversations, :file_name, :report
     return if conversations.blank?
 
     index = 1
-    batch_size = 1000
+    batch_size = 100
     GC.enable
     conversations.find_in_batches(batch_size: batch_size) do |cons|
       cons.each do |conversation|
-        next if conversation.blank?
-
-        @columns['id'] << conversation.display_id.to_i
-        @columns['sender_id'] << conversation.contact&.id.to_i
-        @columns['sender_name'] << conversation.contact&.name.to_s
-        @columns['sender_email'] << conversation.contact&.email.to_s
-        @columns['channel_type'] << conversation.inbox&.channel_type.to_s
-        @columns['assignee_id'] << conversation.assignee&.id.to_i
-        @columns['assignee_name'] << conversation.assignee&.name.to_s
-        @columns['assignee_email'] << conversation.assignee&.email.to_s
-        @columns['team_id'] << conversation.team&.id.to_i
-        @columns['team_name'] << conversation.team&.name.to_s
-        @columns['account_id'] << conversation.account_id.to_i
-        @columns['additional_attributes'] << conversation.additional_attributes.to_s
-        @columns['contact_last_seen_at'] << conversation.contact_last_seen_at.to_i
-        @columns['custom_attributes'] << conversation.custom_attributes.to_s
-        @columns['inbox_id'] << conversation.inbox_id.to_i
-        @columns['labels'] << conversation.cached_label_list_array.join(',').to_s
-        @columns['muted'] << conversation.muted?
-        @columns['snoozed_until'] << conversation.snoozed_until.to_i
-        @columns['status'] << conversation.status.to_s
-        @columns['closed'] << conversation.closed
-        @columns['created_at'] << conversation.created_at.to_i
-        @columns['timestamp'] << conversation.last_activity_at.to_i
-        @columns['first_reply_created_at'] << conversation.first_reply_created_at.to_i
-        @columns['unread_count'] << conversation.unread_incoming_messages.count
-        @columns['last_non_activity_message'] << conversation.messages.non_activity_messages.first.content.to_s
-        @columns['last_activity_at'] << conversation.last_activity_at.to_i
-        @columns['priority'] << conversation.priority.to_s
-        @columns['contact_kind'] << conversation.contact_kind.to_s
+        @columns['id'] << conversation&.display_id.to_i
+        @columns['sender_id'] << conversation&.contact&.id.to_i
+        @columns['sender_name'] << conversation&.contact&.name.to_s
+        @columns['sender_email'] << conversation&.contact&.email.to_s
+        @columns['channel_type'] << conversation&.inbox&.channel_type.to_s
+        @columns['assignee_id'] << conversation&.assignee&.id.to_i
+        @columns['assignee_name'] << conversation&.assignee&.name.to_s
+        @columns['assignee_email'] << conversation&.assignee&.email.to_s
+        @columns['team_id'] << conversation&.team&.id.to_i
+        @columns['team_name'] << conversation&.team&.name.to_s
+        @columns['account_id'] << conversation&.account_id.to_i
+        @columns['additional_attributes'] << conversation&.additional_attributes.to_s
+        @columns['contact_last_seen_at'] << conversation&.contact_last_seen_at.to_i
+        @columns['custom_attributes'] << conversation&.custom_attributes.to_s
+        @columns['inbox_id'] << conversation&.inbox_id.to_i
+        @columns['labels'] << (conversation.present? ? conversation.cached_label_list_array.join(',').to_s : '')
+        @columns['muted'] << !!(conversation&.muted?)
+        @columns['snoozed_until'] << conversation&.snoozed_until.to_i
+        @columns['status'] << conversation&.status.to_s
+        @columns['closed'] << !!(conversation&.closed)
+        @columns['created_at'] << conversation&.created_at.to_i
+        @columns['timestamp'] << conversation&.last_activity_at.to_i
+        @columns['first_reply_created_at'] << conversation&.first_reply_created_at.to_i
+        @columns['unread_count'] << conversation&.unread_incoming_messages.count
+        @columns['last_non_activity_message'] << (conversation.present? ? conversation.messages.non_activity_messages.first.content.to_s : '')
+        @columns['last_activity_at'] << conversation&.last_activity_at.to_i
+        @columns['priority'] << conversation&.priority.to_s
+        @columns['contact_kind'] << conversation&.contact_kind.to_s
       end
-      report.update_columns(progress: (index * batch_size * conversations.count / 100) - 1)
+      report.update_columns(progress: ((index * batch_size / record_count) * 100) - 1)
       cons = nil
       index += 1
       GC.start
     end
+  end
+
+  def record_count
+    (@record_count ||= @conversations.count).to_i
   end
 
   def map_columns_array
@@ -154,7 +157,7 @@ attr_accessor :conversations, :file_name, :report
   end
 
   def export_parquet
-    record_batch = Arrow::RecordBatch.new(arrow_schema, @conversations.count, arrow_columns)
+    record_batch = Arrow::RecordBatch.new(arrow_schema, record_count, arrow_columns)
     record_batch.to_table.save(file_path)
 
     url = Digitaltolk::UploadToS3.new(file_path).perform
