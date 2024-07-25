@@ -42,7 +42,7 @@
       "SORT_OPTIONS": {
         "NEWEST": "Newest",
         "OLDEST": "Oldest",
-        "PRIORITY": "Priority"
+        "PRIORITY": "Mức độ ưu tiên"
       },
       "DISPLAY_OPTIONS": {
         "SNOOZED": "Tạm dừng",
