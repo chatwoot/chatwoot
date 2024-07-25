@@ -33,6 +33,10 @@ module.exports = {
         order: ['script', 'template', 'style'],
       },
     ],
+    'vue/component-api-style': [
+      'error',
+      ['script-setup', 'composition', 'composition-vue2'],
+    ],
     'vue/max-attributes-per-line': [
       'error',
       {
