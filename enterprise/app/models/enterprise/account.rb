@@ -35,8 +35,8 @@ module Enterprise::Account
     "number_of_#{limit_name.to_s.pluralize.downcase}"
   end
 
-  def extra_conversations
-    account_plan&.extra_conversations || 0
+  def extra_inboxes
+    account_plan&.extra_inboxes || 0
   end
 
   def extra_agents
@@ -45,9 +45,9 @@ module Enterprise::Account
 
   def increase_usage(limit_name)
     case limit_name
-    when :conversations
-      account_plan.update(extra_conversations: extra_conversations + 1)
-      create_reporting_event('extra_conversations', extra_conversations + 1)
+    when :inboxes
+      account_plan.update(extra_inboxes: extra_inboxes + 1)
+      create_reporting_event('extra_inboxes', extra_inboxes + 1)
     when :agents
       account_plan.update(extra_agents: extra_agents + 1)
       create_reporting_event('extra_agents', extra_agents + 1)
