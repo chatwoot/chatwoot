@@ -2,13 +2,15 @@
 #
 # Table name: account_plans
 #
-#  id                  :bigint           not null, primary key
-#  extra_agents        :integer          default(0), not null
-#  extra_conversations :integer          default(0), not null
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  account_id          :bigint           not null
-#  product_id          :bigint           not null
+#  id                    :bigint           not null, primary key
+#  current_agents        :integer          default(0), not null
+#  current_conversations :integer          default(0), not null
+#  extra_agents          :integer          default(0), not null
+#  extra_conversations   :integer          default(0), not null
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  account_id            :bigint           not null
+#  product_id            :bigint           not null
 #
 # Indexes
 #

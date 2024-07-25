@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_07_12_004410) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_24_200327) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -34,9 +34,20 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_12_004410) do
     t.integer "extra_agents", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "current_conversations", default: 0, null: false
+    t.integer "current_agents", default: 0, null: false
     t.index ["account_id", "product_id"], name: "index_account_plans_on_account_id_and_product_id", unique: true
     t.index ["account_id"], name: "index_account_plans_on_account_id"
     t.index ["product_id"], name: "index_account_plans_on_product_id"
+  end
+
+  create_table "account_products", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_account_products_on_account_id"
+    t.index ["product_id"], name: "index_account_products_on_product_id"
   end
 
   create_table "account_users", force: :cascade do |t|
@@ -68,6 +79,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_12_004410) do
     t.jsonb "custom_attributes", default: {}
     t.integer "status", default: 0
     t.index ["status"], name: "index_accounts_on_status"
+  end
+
+  create_table "accounts_products", id: false, force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "product_id", null: false
+    t.index ["account_id"], name: "index_accounts_products_on_account_id"
+    t.index ["product_id"], name: "index_accounts_products_on_product_id"
   end
 
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
@@ -993,6 +1011,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_12_004410) do
 
   add_foreign_key "account_plans", "accounts"
   add_foreign_key "account_plans", "products"
+  add_foreign_key "account_products", "accounts"
+  add_foreign_key "account_products", "products"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cart_items", "carts"
