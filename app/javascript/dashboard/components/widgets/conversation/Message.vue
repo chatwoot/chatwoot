@@ -127,7 +127,7 @@
     </div>
     <div
       v-if="shouldShowContextMenu"
-      class="context-menu-wrap invisible group-hover:visible"
+      class="invisible context-menu-wrap group-hover:visible"
     >
       <context-menu
         v-if="isBubble && !isMessageDeleted"
@@ -157,8 +157,7 @@ import ContextMenu from 'dashboard/modules/conversations/components/MessageConte
 import InstagramStory from './bubble/InstagramStory.vue';
 import InstagramStoryReply from './bubble/InstagramStoryReply.vue';
 import Spinner from 'shared/components/Spinner.vue';
-import alertMixin from 'shared/mixins/alertMixin';
-import contentTypeMixin from 'shared/mixins/contentTypeMixin';
+import { CONTENT_TYPES } from 'shared/constants/contentType';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { generateBotMessageContent } from './helpers/botMessageContentHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -166,6 +165,7 @@ import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { getDayDifferenceFromNow } from 'shared/helpers/DateHelper';
+import * as Sentry from '@sentry/browser';
 
 export default {
   components: {
@@ -183,7 +183,7 @@ export default {
     InstagramStoryReply,
     Spinner,
   },
-  mixins: [alertMixin, messageFormatterMixin, contentTypeMixin],
+  mixins: [messageFormatterMixin],
   props: {
     data: {
       type: Object,
@@ -481,6 +481,9 @@ export default {
       }
       return '';
     },
+    isEmailContentType() {
+      return this.contentType === CONTENT_TYPES.INCOMING_EMAIL;
+    },
   },
   watch: {
     data() {
@@ -498,18 +501,34 @@ export default {
   },
   methods: {
     isAttachmentImageVideoAudio(fileType) {
-      return ['image', 'audio', 'video', 'story_mention'].includes(fileType);
+      return ['image', 'audio', 'video', 'story_mention', 'ig_reel'].includes(
+        fileType
+      );
     },
     hasMediaAttachment(type) {
       if (this.hasAttachments && this.data.attachments.length > 0) {
-        const { attachments = [{}] } = this.data;
-        const { file_type: fileType } = attachments[0];
-        return fileType === type && !this.hasMediaLoadError;
+        return this.compareMessageFileType(this.data, type);
       }
       if (this.storyReply) {
         return true;
       }
       return false;
+    },
+    compareMessageFileType(messageData, type) {
+      try {
+        const { attachments = [{}] } = messageData;
+        const { file_type: fileType } = attachments[0];
+        return fileType === type && !this.hasMediaLoadError;
+      } catch (err) {
+        Sentry.setContext('attachment-parsing-error', {
+          messageData,
+          type,
+          hasMediaLoadError: this.hasMediaLoadError,
+        });
+
+        Sentry.captureException(err);
+        return false;
+      }
     },
     handleContextMenuClick() {
       this.showContextMenu = !this.showContextMenu;

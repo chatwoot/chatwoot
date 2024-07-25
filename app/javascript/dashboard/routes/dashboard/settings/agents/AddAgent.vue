@@ -1,13 +1,13 @@
 <template>
   <woot-modal :show.sync="show" :on-close="onClose">
-    <div class="h-auto overflow-auto flex flex-col">
+    <div class="flex flex-col h-auto overflow-auto">
       <woot-modal-header
         :header-title="$t('AGENT_MGMT.ADD.TITLE')"
         :header-content="$t('AGENT_MGMT.ADD.DESC')"
       />
 
       <form
-        class="flex flex-col w-full items-start"
+        class="flex flex-col items-start w-full"
         @submit.prevent="addAgent()"
       >
         <div class="w-full">
@@ -45,7 +45,7 @@
             />
           </label>
         </div>
-        <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+        <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
           <div class="w-full">
             <woot-submit-button
               :disabled="
@@ -69,10 +69,9 @@
 <script>
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 
 export default {
-  mixins: [alertMixin],
   props: {
     onClose: {
       type: Function,
@@ -126,7 +125,7 @@ export default {
           email: this.agentEmail,
           role: this.agentType,
         });
-        this.showAlert(this.$t('AGENT_MGMT.ADD.API.SUCCESS_MESSAGE'));
+        useAlert(this.$t('AGENT_MGMT.ADD.API.SUCCESS_MESSAGE'));
         this.onClose();
       } catch (error) {
         const {
@@ -140,12 +139,12 @@ export default {
         } = error;
 
         let errorMessage = '';
-        if (error.response.status === 422 && !attributes.includes('base')) {
+        if (error?.response?.status === 422 && !attributes.includes('base')) {
           errorMessage = this.$t('AGENT_MGMT.ADD.API.EXIST_MESSAGE');
         } else {
           errorMessage = this.$t('AGENT_MGMT.ADD.API.ERROR_MESSAGE');
         }
-        this.showAlert(errorResponse || attrError || errorMessage);
+        useAlert(errorResponse || attrError || errorMessage);
       }
     },
   },

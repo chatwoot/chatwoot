@@ -1,5 +1,6 @@
-import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
 import Vue from 'vue';
+import { useAlert } from 'dashboard/composables';
+import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
 
 vi.mock('shared/helpers/FileHelper', () => ({
   checkFileSizeLimit: vi.fn(),
@@ -9,6 +10,10 @@ vi.mock('activestorage', () => ({
   DirectUpload: vi.fn().mockImplementation(() => ({
     create: vi.fn(),
   })),
+}));
+
+vi.mock('dashboard/composables', () => ({
+  useAlert: vi.fn(),
 }));
 
 describe('FileUploadMixin', () => {
@@ -53,9 +58,8 @@ describe('FileUploadMixin', () => {
 
     it('shows an alert if the file size exceeds the maximum limit', () => {
       const fakeFile = { size: 999999999 };
-      vm.showAlert = vi.fn();
       vm.onDirectFileUpload(fakeFile);
-      expect(vm.showAlert).toHaveBeenCalledWith(expect.any(String));
+      expect(useAlert).toHaveBeenCalledWith(expect.any(String));
     });
   });
 
@@ -67,9 +71,8 @@ describe('FileUploadMixin', () => {
 
     it('shows an alert if the file size exceeds the maximum limit', () => {
       const fakeFile = { size: 999999999 };
-      vm.showAlert = vi.fn();
       vm.onIndirectFileUpload(fakeFile);
-      expect(vm.showAlert).toHaveBeenCalledWith(expect.any(String));
+      expect(useAlert).toHaveBeenCalledWith(expect.any(String));
     });
   });
 });

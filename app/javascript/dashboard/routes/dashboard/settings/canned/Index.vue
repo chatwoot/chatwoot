@@ -40,7 +40,7 @@
 
               <button
                 v-if="thHeader === $t('CANNED_MGMT.LIST.TABLE_HEADER[0]')"
-                class="cursor-pointer flex items-center p-0"
+                class="flex items-center p-0 cursor-pointer"
                 @click="toggleSort"
               >
                 <p class="uppercase">
@@ -130,16 +130,15 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import AddCanned from './AddCanned.vue';
 import EditCanned from './EditCanned.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     AddCanned,
     EditCanned,
   },
-  mixins: [alertMixin],
   data() {
     return {
       loading: {},
@@ -195,7 +194,7 @@ export default {
       this.selectedResponse = {};
       // Show message
       this.cannedResponseAPI.message = message;
-      this.showAlert(message);
+      useAlert(message);
     },
     // Edit Function
     openAddPopup() {

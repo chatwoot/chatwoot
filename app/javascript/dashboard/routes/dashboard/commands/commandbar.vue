@@ -21,12 +21,10 @@ import appearanceHotKeys from './appearanceHotKeys';
 import agentMixin from 'dashboard/mixins/agentMixin';
 import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
 import conversationTeamMixin from 'dashboard/mixins/conversation/teamMixin';
-import adminMixin from 'dashboard/mixins/isAdmin';
 import { GENERAL_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
 export default {
   mixins: [
-    adminMixin,
     agentMixin,
     conversationHotKeysMixin,
     bulkActionsHotKeysMixin,

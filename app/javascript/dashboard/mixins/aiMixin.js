@@ -1,10 +1,9 @@
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import { OPEN_AI_EVENTS } from '../helper/AnalyticsHelper/events';
 import OpenAPI from '../api/integrations/openapi';
-import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
-  mixins: [alertMixin],
   mounted() {
     this.fetchIntegrationsIfRequired();
   },
@@ -105,7 +104,7 @@ export default {
         const errorMessage =
           errorData?.error?.message ||
           this.$t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR');
-        this.showAlert(errorMessage);
+        useAlert(this.$t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR'));
         return '';
       }
     },

@@ -1,5 +1,5 @@
 <template>
-  <div class="h-auto overflow-auto flex flex-col">
+  <div class="flex flex-col h-auto overflow-auto">
     <woot-modal-header
       :header-title="$t('SLA.ADD.TITLE')"
       :header-content="$t('SLA.ADD.DESC')"
@@ -13,18 +13,14 @@
 </template>
 
 <script>
-import alertMixin from 'shared/mixins/alertMixin';
-import validationMixin from './validationMixin';
 import { mapGetters } from 'vuex';
-import validations from './validations';
+import { useAlert } from 'dashboard/composables';
 import SlaForm from './SlaForm.vue';
 
 export default {
   components: {
     SlaForm,
   },
-  mixins: [alertMixin, validationMixin],
-  validations,
   computed: {
     ...mapGetters({
       uiFlags: 'sla/getUIFlags',
@@ -37,12 +33,12 @@ export default {
     async addSLA(payload) {
       try {
         await this.$store.dispatch('sla/create', payload);
-        this.showAlert(this.$t('SLA.ADD.API.SUCCESS_MESSAGE'));
+        useAlert(this.$t('SLA.ADD.API.SUCCESS_MESSAGE'));
         this.onClose();
       } catch (error) {
         const errorMessage =
           error.message || this.$t('SLA.ADD.API.ERROR_MESSAGE');
-        this.showAlert(errorMessage);
+        useAlert(errorMessage);
       }
     },
   },
