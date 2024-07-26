@@ -1,6 +1,9 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integracijos",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Prenumeruoti įvykiai",
       "FORM": {
@@ -169,6 +172,7 @@
       "HEADER_BTN_TXT": "Pridėkite naują informacinio skydelio programą",
       "SIDEBAR_TXT": "<p><b>Informacinio skydelio programos</b></p><p>Informacinio skydelio programos leidžia organizacijoms įterpti programą į Chatwood valdymo skydelį, kad klientų aptarnavimo agentams būtų suteiktas kontekstas. Ši funkcija leidžia savarankiškai kurti programą ir įterpti informaciją apie vartotoją, jo užsakymus ar mokėjimų istoriją.</p><p>Kai įterpiate programą naudodami Chatwood valdymo skydelį, programa gaus pokalbio kontekstą ir įvykio nuorodas. Įdiekite pranešimo įvykio nuorodas savo puslapyje, kad gautumėte kontekstą.</p><p>Jei norite pridėti naują informacinio skydelio programą, spustelėkite mygtuką \"Pridėti naują skydelio programą\".</p>",
       "DESCRIPTION": "Informacinio skydelio programos leidžia organizacijoms įterpti programą į valdymo skydelį, kad klientų aptarnavimo agentams būtų suteiktas kontekstas. Ši funkcija leidžia savarankiškai kurti programą ir įterpti informaciją apie vartotoją, jo užsakymus ar mokėjimų istoriją.",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {
         "404": "Šioje paskyroje nėra sukonfigūruotų informacinio skydelio programų",
         "LOADING": "Gaunamos informacinio skydelio programos...",

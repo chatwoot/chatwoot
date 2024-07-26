@@ -187,31 +187,34 @@ de:
     online:
       delete: "%{contact_name} ist online, bitte versuchen Sie es später erneut"
   integration_apps:
+    dashboard_apps:
+      name: "Dashboard-Apps"
+      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
     dyte:
       name: "Dyte"
-      description: "Dyte ist ein Tool, mit dem Sie Live-Audio & Video zu Ihrer Anwendung mit nur wenigen Zeilen Code hinzufügen können. Mit dieser Integration können Sie Ihren Agenten die Möglichkeit geben, einen Video- oder Sprachanruf mit Ihren Kunden zu führen, ohne Chatwoot zu verlassen."
+      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
       meeting_name: "%{agent_name} hat ein Meeting begonnen"
     slack:
       name: "Slack"
-      description: "Slack ist ein Chat-Tool, das all deine Kommunikation an einem Ort zusammenbringt. Durch die Integration von Slack kannst du über alle neuen Unterhaltungen in deinem Account direkt in deinem Slack benachrichtigt werden."
+      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
     webhooks:
       name: "Webhooks"
-      description: "Webhook-Ereignisse bieten Ihnen Echtzeitinformationen darüber, was in Ihrem Chatwoot-Konto passiert. Sie können die Webhooks verwenden, um die Ereignisse an Ihre Lieblings-Apps wie Slack oder Github zu kommunizieren. Klicken Sie auf Konfigurieren, um Ihre Webhooks einzurichten."
+      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
     dialogflow:
       name: "Dialogflow"
-      description: "Erstellen Sie Chatbots mit Dialogflow und verbinden Sie diesen mit Ihrem Posteingang. Lassen Sie die Bots Anfragen bearbeiten, bevor Sie an einen Kundendienst-Agent weitergeben werden."
-    fullcontact:
-      name: "Vollständiger Kontakt"
-      description: "Die vollständige Kontakt-Integration hilft die Besucherprofile zu erweitern. Identifizieren Sie die Benutzer, sobald diese ihre E-Mail-Adresse speichern um Ihnen maßgeschneiderten Kundenservice anbieten. Verbinden Sie einen Kontakt mit Ihrem Konto, indem Sie den Kontakt-API-Schlüssel freigeben."
+      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
     google_translate:
       name: "Google Übersetzer"
-      description: "Machen Sie es Agenten einfacher Nachrichten zu übersetzen, indem Sie eine Google Übersetzer Integration hinzufügen. Google Übersetzer hilft die Sprache automatisch zu identifizieren und in die Sprache umzuwandeln, die vom Agenten/Account-Administrator gewählt wurde."
+      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
     openai:
       name: "OpenAI"
-      description: "Integrieren Sie leistungsstarke KI-Funktionen in Chatwoot, indem Sie die GPT-Modelle von OpenAI nutzen."
+      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
     linear:
       name: "Linear"
-      description: "Erstellen Sie lineare Tickets aus Unterhaltungen oder verknüpfen Sie bestehende zur nahtlosen Verfolgung."
+      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
+    captain:
+      name: "Captain"
+      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
   public_portal:
     search:
       search_placeholder: Artikel nach Titel oder Text suchen...

@@ -1,6 +1,9 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integraciones",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Eventos suscritos",
       "FORM": {
@@ -169,6 +172,7 @@
       "HEADER_BTN_TXT": "Añadir una nueva aplicación",
       "SIDEBAR_TXT": "<p><b>Aplicaciones de panel</b></p><p>Aplicaciones de panel de control permiten a las organizaciones incrustar una aplicación dentro del panel de control de Chatwoot para proporcionar el contexto para los agentes de atención al cliente. Esta característica le permite crear una aplicación de forma independiente e incrustarla dentro del panel de control para proporcionar información de usuario, sus pedidos, o su historial de pagos anterior.</p><p>Cuando incrustas tu aplicación usando el panel de control en Chatwoot, tu aplicación obtendrá el contexto de la conversación y el contacto como un evento de ventana. Implementa un oyente para el evento del mensaje en tu página para recibir el contexto.</p><p>Para añadir una nueva aplicación de panel, haga clic en el botón 'Añadir una nueva aplicación de panel'.</p>",
       "DESCRIPTION": "Las aplicaciones de panel permiten a las organizaciones incrustar una aplicación dentro del panel de control para proporcionar el contexto para los agentes de soporte al cliente. Esta función le permite crear una aplicación de forma independiente e incrustada para proporcionar información de usuario, sus pedidos o su historial de pagos anterior.",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {
         "404": "Todavía no hay aplicaciones configuradas en esta cuenta",
         "LOADING": "Obteniendo aplicaciones del tablero...",

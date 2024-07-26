@@ -1,6 +1,9 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integracije",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Pretplaćeni događaji",
       "FORM": {
@@ -169,6 +172,7 @@
       "HEADER_BTN_TXT": "Dodaj novu aplikaciju radne table",
       "SIDEBAR_TXT": "<p><b>Aplikacije radne table</b></p><p>Aplikacije radne table omogućavaju organizacijama da integrišu aplikaciju unutar Chatwoot radne table da dostave kontekst agentima podrške. Ova mogućnosti vam omogućava da napravite aplikaciju nezavisno i integrišete je unutar radne table da bi ste dostavili informacije o korisniku, njihovim narudžbama ili istoriji prethodnih plaćanja.</p><p>Kada integrišete vašu aplikaciju koristeći radnu tablu u Chatwoot-u, vaša aplikacija će dobiti kontakst razgovora i kontakta kao window događaj. Implementirajte osluškivač događaj poruke na vašoj stranici da bi ste primili kontakst.</p><p>Da bi ste dodali novu aplikaciju radne table, kliknite na dugme 'Dodaj novu aplikaciju radne table'.</p>",
       "DESCRIPTION": "Aplikacije radne table omogućavaju organizacijama da integrišu aplikaciju unutar radne table da bi omogućili kontekst agentima podrške. Ova mogućnost omogućava da nezavisno napravite aplikaciju i integrišete je da bi ste dostavili informacije o korisniku, njihovim narudžbama ili njihovoj istoriji plaćanja.",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {
         "404": "Još uvek nema aplikacija radne table podešenih za ovaj nalog",
         "LOADING": "Prikupljanje aplikacija radne table...",
