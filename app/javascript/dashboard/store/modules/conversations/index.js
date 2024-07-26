@@ -49,7 +49,6 @@ export const mutations = {
           allMessagesLoaded: existingConversation.allMessagesLoaded,
           messages: existingConversation.messages,
           dataFetched: existingConversation.dataFetched,
-          attachments: existingConversation.attachments,
         };
       }
     });
