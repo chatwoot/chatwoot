@@ -117,6 +117,13 @@ module.exports = {
         allowBinding: false,
       },
     ],
+    'vue/no-template-target-blank': [
+      'error',
+      {
+        allowReferrer: false,
+        enforceDynamicLinks: 'always',
+      },
+    ],
     'vue/no-required-prop-with-default': [
       'error',
       {
