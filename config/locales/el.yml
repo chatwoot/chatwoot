@@ -187,31 +187,34 @@ el:
     online:
       delete: "%{contact_name} είναι Online, παρακαλώ προσπαθήστε ξανά αργότερα"
   integration_apps:
+    dashboard_apps:
+      name: "Εφαρμογές Dashboard"
+      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
     dyte:
       name: "Dyte"
-      description: "Το Dyte είναι εργαλείο που σας βοηθά να προσθέσετε ζωντανό ήχο & βίντεο στην εφαρμογή σας με λίγες μόνο γραμμές κώδικα. Αυτή η ενσωμάτωση σας επιτρέπει να δώσετε μια επιλογή στους πράκτορές σας να έχουν ένα βίντεο ή μια φωνητική κλήση με τους πελάτες σας χωρίς να φύγετε από το Chatwoot."
+      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
       meeting_name: "Ό πράκτορας %{agent_name} ξεκίνησε μια συνάντηση"
     slack:
       name: "Slack"
-      description: "Το Slack είναι ένα εργαλείο συνομιλιών (chat) το οποίο ενώνει σε ένα σημείο όλες τις επικοινωνίες. Ενοποιώντας με το Slack, μπορείτε να λαμβάνετε ειδοποιήσεις για όλες τις συνομιλίες στον λογαριασμό σας από το Slack."
+      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
     webhooks:
       name: "Webhooks"
-      description: "Τα συμβάντα Webhook μας εφοδιάζουν με πληροφορίες πραγματικού χρόνου σχετικά με το τι συμβαίνει στο λογαριασμό σας. Μπορείτε να χρησιμοποιήσετε τα webhooks για να μεταφέρετε τα συμβάντα σε άλλες εφαρμογές ή υπηρεσίες όπως το Slack ή Github. Πατήστε στην Διαμόρφωση για να ενημερώστε τα δικά σας webhooks."
+      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
     dialogflow:
       name: "Dialogflow"
-      description: "Συνδέστε το Dialogflow bot στα εισερχόμενά σας. Αφήστε τα bots να χειριστούν τα ερωτήματα πριν τα παραδώσουν στον πράκτορα εξυπηρέτησης πελατών."
-    fullcontact:
-      name: "Πλήρης Επαφή"
-      description: "Το FullContact Indegration βοηθά στον εμπλουτισμό προφίλ επισκεπτών. Προσδιορίστε τους χρήστες μόλις μοιραστούν τη διεύθυνση ηλεκτρονικού ταχυδρομείου τους και να τους προσφέρουν προσαρμοσμένη εξυπηρέτηση πελατών. Συνδέστε το FullContact με το λογαριασμό σας, κοινοποιώντας το κλειδί API FullContact."
+      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
     google_translate:
       name: "Google Translate"
-      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
+      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
     openai:
       name: "OpenAI"
-      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
+      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
     linear:
       name: "Linear"
-      description: "Create Linear issues from conversations, or link existing ones for seamless tracking."
+      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
+    captain:
+      name: "Captain"
+      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
   public_portal:
     search:
       search_placeholder: Αναζήτηση άρθρου με τίτλο ή περιεχόμενο...
