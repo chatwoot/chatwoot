@@ -187,31 +187,34 @@ lv:
     online:
       delete: "%{contact_name} ir Tiešsaistē, lūdzu, vēlāk mēģiniet vēlreiz"
   integration_apps:
+    dashboard_apps:
+      name: "Informācijas paneļa lietotnes"
+      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
     dyte:
       name: "Dyte"
-      description: "Dyte ir rīks, kas lietojumprogrammai palīdz pievienot audio un video tiešraidi, izmantojot tikai dažas koda rindiņas. Šī integrācija ļauj piedāvāt iespēju Jūsu aģentiem veikt video vai balss zvanu ar klientiem, neizejot no Chatwoot."
+      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
       meeting_name: "%{agent_name} ir sācis sapulci"
     slack:
       name: "Slack"
-      description: "Slack ir tērzēšanas rīks, kas apvieno visu Jūsu saziņu vienuviet. Integrējot Slack, Jūs varat saņemt paziņojumus par visām jaunajām sarunām savā kontā tieši savā Slack."
+      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
     webhooks:
       name: "Webhooks"
-      description: "WebHook notikumi sniedz Jums reāllaika informāciju par to, kas notiek Jūsu kontā. Jūs varat izmantot webhook, lai paziņotu notikumus savām iecienītākajām lietotnēm, piemēram, Slack vai Github. Noklikšķiniet uz Konfigurēt, lai iestatītu savus webhook."
+      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
     dialogflow:
       name: "Dialogflow"
-      description: "Veidojiet tērzēšanas robotus, izmantojot Dialogflow, un ātri savienojiet tos ar iesūtni. Ļaujiet botiem apstrādāt vaicājumus, pirms tos nododat klientu apkalpošanas aģentam."
-    fullcontact:
-      name: "Fullcontact"
-      description: "FullContact integrācija palīdz bagātināt apmeklētāju profilus. Identificējiet lietotājus, tiklīdz viņi kopīgo savu e-pasta adresi, un piedāvājiet viņiem pielāgotu klientu apkalpošanu. Savienojiet FullContact ar savu kontu, kopīgojot FullContact API atslēgu."
+      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
     google_translate:
       name: "Google Tulkotājs"
-      description: "Atvieglojiet aģentiem ziņojumu tulkošanu, pievienojot Google tulkotāja integrāciju. Google tulkotājs palīdz automātiski identificēt valodu un pārvērst to aģenta/konta administratora izvēlētajā valodā."
+      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
     openai:
       name: "OpenAI"
-      description: "Integrēt jaudīgas AI funkcijas programmā Chatwoot, izmantojot OpenAI GPT modeļus."
+      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
     linear:
       name: "Lineārs"
-      description: "Izveidot lineārus jautājumus no sarunām, vai saistīt esošos netraucētai izsekošanai."
+      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
+    captain:
+      name: "Captain"
+      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
   public_portal:
     search:
       search_placeholder: Meklēt rakstu pēc nosaukuma vai pamatteksta...
