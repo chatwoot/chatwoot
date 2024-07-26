@@ -38,13 +38,13 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['onSearch']);
+const emit = defineEmits(['onSearch']);
 
 const searchTerm = ref('');
 
 const onSearch = debounce(value => {
   searchTerm.value = value;
-  emits('onSearch', value);
+  emit('onSearch', value);
 }, 300);
 
 const filteredListItems = computed(() => {

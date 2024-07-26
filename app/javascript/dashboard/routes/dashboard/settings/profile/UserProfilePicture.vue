@@ -13,16 +13,16 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['change', 'delete']);
+const emit = defineEmits(['change', 'delete']);
 
 const userNameWithoutEmoji = computed(() => removeEmoji(props.name));
 
 const updateProfilePicture = e => {
-  emits('change', e);
+  emit('change', e);
 };
 
 const deleteProfilePicture = () => {
-  emits('delete');
+  emit('delete');
 };
 </script>
 

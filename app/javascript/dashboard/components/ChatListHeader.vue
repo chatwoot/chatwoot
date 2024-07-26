@@ -21,7 +21,7 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits([
+const emit = defineEmits([
   'addFolders',
   'deleteFolders',
   'resetFilters',
@@ -30,7 +30,7 @@ const emits = defineEmits([
 ]);
 
 const onBasicFilterChange = (value, type) => {
-  emits('basicFilterChange', value, type);
+  emit('basicFilterChange', value, type);
 };
 
 const hasAppliedFiltersOrActiveFolders = computed(() => {
@@ -68,7 +68,7 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
           variant="smooth"
           color-scheme="secondary"
           icon="save"
-          @click="emits('addFolders')"
+          @click="emit('addFolders')"
         />
         <woot-button
           v-tooltip.top-end="$t('FILTER.CLEAR_BUTTON_LABEL')"
@@ -76,7 +76,7 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
           variant="smooth"
           color-scheme="alert"
           icon="dismiss-circle"
-          @click="emits('resetFilters')"
+          @click="emit('resetFilters')"
         />
       </div>
       <div v-if="hasActiveFolders">
@@ -86,7 +86,7 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
           variant="smooth"
           color-scheme="secondary"
           icon="edit"
-          @click="emits('filtersModal')"
+          @click="emit('filtersModal')"
         />
         <woot-button
           v-tooltip.top-end="$t('FILTER.CUSTOM_VIEWS.DELETE.DELETE_BUTTON')"
@@ -94,7 +94,7 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
           variant="smooth"
           color-scheme="alert"
           icon="delete"
-          @click="emits('deleteFolders')"
+          @click="emit('deleteFolders')"
         />
       </div>
       <woot-button
@@ -104,7 +104,7 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
         color-scheme="secondary"
         icon="filter"
         size="tiny"
-        @click="emits('filtersModal')"
+        @click="emit('filtersModal')"
       />
       <ConversationBasicFilter
         v-if="!hasAppliedFiltersOrActiveFolders"

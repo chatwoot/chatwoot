@@ -163,6 +163,16 @@ module.exports = {
     'vue/prefer-prop-type-boolean-first': 'error',
     'vue/prefer-separate-static-class': 'error',
     'vue/require-explicit-slots': 'error',
+    'vue/require-macro-variable-name': [
+      'error',
+      {
+        defineProps: 'props',
+        defineEmits: 'emit',
+        defineSlots: 'slots',
+        useSlots: 'slots',
+        useAttrs: 'attrs',
+      },
+    ],
     'vue/max-attributes-per-line': [
       'error',
       {

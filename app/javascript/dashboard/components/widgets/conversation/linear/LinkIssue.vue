@@ -18,7 +18,7 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['close']);
+const emit = defineEmits(['close']);
 
 const { t } = useI18n();
 const issues = ref([]);
@@ -49,7 +49,7 @@ const onSelectIssue = item => {
 };
 
 const onClose = () => {
-  emits('close');
+  emit('close');
 };
 
 const onSearch = async value => {

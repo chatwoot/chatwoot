@@ -12,7 +12,7 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['change', 'delete']);
+const emit = defineEmits(['change', 'delete']);
 
 const hasImageLoaded = ref(false);
 const imageLoadedError = ref(false);
@@ -35,14 +35,14 @@ const openFileInput = () => {
 
 const onImageUpload = event => {
   const [file] = event.target.files;
-  emits('change', {
+  emit('change', {
     file,
     url: file ? URL.createObjectURL(file) : null,
   });
 };
 
 const onAvatarDelete = () => {
-  emits('delete');
+  emit('delete');
 };
 </script>
 

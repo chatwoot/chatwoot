@@ -28,7 +28,7 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['update', 'close']);
+const emit = defineEmits(['update', 'close']);
 
 const { t } = useI18n();
 
@@ -45,12 +45,12 @@ const updateConversations = key => {
     const ninja = document.querySelector('ninja-keys');
     ninja?.open({ parent: 'bulk_action_snooze_conversation' });
   } else {
-    emits('update', key);
+    emit('update', key);
   }
 };
 
 const onClose = () => {
-  emits('close');
+  emit('close');
 };
 
 const showAction = key => {
@@ -75,7 +75,7 @@ const actionLabel = key => {
 <template>
   <div
     v-on-clickaway="onClose"
-    class="absolute right-2 top-12 origin-top-right w-auto z-20 bg-white dark:bg-slate-800 rounded-lg border border-solid border-slate-50 dark:border-slate-700 shadow-md"
+    class="absolute z-20 w-auto origin-top-right bg-white border border-solid rounded-lg shadow-md right-2 top-12 dark:bg-slate-800 border-slate-50 dark:border-slate-700"
   >
     <div
       class="right-[var(--triangle-position)] block z-10 absolute text-left -top-3"

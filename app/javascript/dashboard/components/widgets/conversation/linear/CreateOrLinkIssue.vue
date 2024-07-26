@@ -15,7 +15,7 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['close']);
+const emit = defineEmits(['close']);
 
 const { t } = useI18n();
 
@@ -40,7 +40,7 @@ const tabs = ref([
   },
 ]);
 const onClose = () => {
-  emits('close');
+  emit('close');
 };
 
 const onClickTabChange = index => {
