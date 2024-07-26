@@ -8,7 +8,7 @@ class Api::V1::Accounts::MessagesController < Api::V1::Accounts::BaseController
   before_action :set_current_page_messages, only: [:index]
 
   def index
-    if params[:export_as_parquet]
+    if ActiveRecord::Type::Boolean.new.deserialize(params[:export_as_parquet])
       file_name = "messages_#{Time.now.to_i}.parquet"
       report = ParquetReport::Message.create(
         account_id: Current.account.id, 
@@ -24,7 +24,7 @@ class Api::V1::Accounts::MessagesController < Api::V1::Accounts::BaseController
   private
 
   def set_messages
-    return if params[:export_as_parquet]
+    return if ActiveRecord::Type::Boolean.new.deserialize(params[:export_as_parquet])
 
     base_query = Current.account.messages.includes(:inbox, :conversation)
     @messages = filtrate(base_query).filter_by_created_at(range)
@@ -35,7 +35,7 @@ class Api::V1::Accounts::MessagesController < Api::V1::Accounts::BaseController
   end
 
   def set_current_page_messages
-    return if params[:export_as_parquet]
+    return if ActiveRecord::Type::Boolean.new.deserialize(params[:export_as_parquet])
 
     @messages = @messages.page(@current_page).per(RESULTS_PER_PAGE) if params[:page].present?
   end

@@ -47,19 +47,32 @@ class ParquetReport < ApplicationRecord
   end
 
   def complete_and_save_url!(url)
-    update_columns(progress: 100, status: "completed", file_url: url)
+    update_columns(progress: 100, status: "completed", file_url: url, elapse_time: Time.now - created_at)
   end
 
   def progress_json
-    { progress: progress, status: status, file_url: file_url, error_message: error_message, type: type }
+    { 
+      progress: progress,
+      status: status,
+      file_url: file_url,
+      error_message: error_message,
+      type: type,
+      elapse_time: elapse_time,
+      record_count: record_count
+    }
   end
 
-  def in_progress!
-    update_columns(status: "in_progress")
+  def in_progress!(record_count: 0)
+    update_columns(status: "in_progress", record_count: record_count)
   end
 
   def failed!(error_message)
     update_columns(status: "failed", error_message: error_message)
+  end
+
+  def increment_progress(processed_count: 0)
+    computed = (processed_count.to_f / record_count * 100).to_i
+    update_columns(progress: computed < 0 ? 0 : computed)
   end
 
   private
@@ -68,7 +81,8 @@ class ParquetReport < ApplicationRecord
     update_columns(status: "pending")
   end
 
-  def set_current_attributes
+  def prepare_attributes
+    params = params&.with_indifferent_access
     Current.user = user
     Current.account = account
   end

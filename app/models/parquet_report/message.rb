@@ -34,13 +34,15 @@ class ParquetReport::Message < ParquetReport
   end
 
   def create_empty_file_url
-    Digitaltolk::MessagesParquetService.new([], file_name, self).perform
+    url = Digitaltolk::MessagesParquetService.new([], file_name, self).perform
+    update_columns(file_url: url)
+    url
   end
 
   private
 
   def load_messages
-    set_current_attributes
+    prepare_attributes
     base_query = account.messages.includes(:inbox, :conversation)
     @messages = base_query.filter_by_created_at(range)
                           .filter_by_inbox(params[:inbox_id])

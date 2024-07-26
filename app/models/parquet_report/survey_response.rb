@@ -34,13 +34,15 @@ class ParquetReport::SurveyResponse < ParquetReport
   end
 
   def create_empty_file_url
-    Digitaltolk::SurveyResponsesParquetService.new([], file_name, self).perform
+    url = Digitaltolk::SurveyResponsesParquetService.new([], file_name, self).perform
+    update_columns(file_url: url)
+    url
   end
 
   private
 
   def load_surveys
-    set_current_attributes
+    prepare_attributes
     base_query = Current.account.csat_survey_responses.includes([:conversation, :assigned_agent, :contact])
     @csat_survey_responses = base_query.filter_by_created_at(range)
                                        .filter_by_assigned_agent_id(params[:user_ids])

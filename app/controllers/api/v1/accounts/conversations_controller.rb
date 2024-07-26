@@ -8,7 +8,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   before_action :inbox, :contact, :contact_inbox, only: [:create]
 
   def index
-    if params[:export_as_parquet]
+    if ActiveRecord::Type::Boolean.new.deserialize(params[:export_as_parquet])
       file_name = "conversations_#{Time.now.to_i}.parquet"
       report = ParquetReport::Conversation.create(
         account_id: Current.account.id,

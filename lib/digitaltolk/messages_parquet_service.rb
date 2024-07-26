@@ -11,7 +11,7 @@ class Digitaltolk::MessagesParquetService
 
   # @return [Hash]
   def perform
-    report.in_progress!
+    report.in_progress!(record_count: record_count)
     export_parquet
   rescue StandardError => e
     report.failed!(e.message)
@@ -71,7 +71,7 @@ class Digitaltolk::MessagesParquetService
         @columns['private'] << !!(message&.private)
         @columns['source_id'] << message&.source_id.to_i
       end
-      report.update_columns(progress: ((index * batch_size / record_count) * 100) - 1)
+      report.increment_progress(processed_count: index * batch_size)
       message_batch = nil
       index += 1
       GC.start

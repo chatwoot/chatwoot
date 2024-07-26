@@ -11,7 +11,7 @@ class Digitaltolk::SurveyResponsesParquetService
 
   # @return [Hash]
   def perform
-    report.in_progress!
+    report.in_progress!(record_count: record_count)
     export_parquet
   rescue StandardError => e
     report.failed!(e.message)
@@ -80,7 +80,7 @@ class Digitaltolk::SurveyResponsesParquetService
         @columns['assigned_agent_email'] << survey_response&.assigned_agent&.email.to_s
         @columns['created_at'] << survey_response&.created_at.to_i
       end
-      report.update_columns(progress: ((index * batch_size / record_count) * 100) - 1)
+      report.increment_progress(processed_count: index * batch_size)
       index += 1
       responses = nil
       GC.start

@@ -14,7 +14,7 @@ class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::Base
   sort_on :created_at, type: :datetime
 
   def index
-    if params[:export_as_parquet]
+    if ActiveRecord::Type::Boolean.new.deserialize(params[:export_as_parquet])
       file_name = "csat_surveys_#{Time.now.to_i}.parquet"
       report = ParquetReport::SurveyResponse.create(
         account_id: Current.account.id,
@@ -52,7 +52,7 @@ class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::Base
   end
 
   def set_csat_survey_responses
-    return if params[:export_as_parquet]
+    return if ActiveRecord::Type::Boolean.new.deserialize(params[:export_as_parquet])
 
     base_query = Current.account.csat_survey_responses.includes([:conversation, :assigned_agent, :contact])
     @csat_survey_responses = filtrate(base_query).filter_by_created_at(range)
@@ -65,7 +65,7 @@ class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::Base
   end
 
   def set_current_page_surveys
-    return if params[:export_as_parquet]
+    return if ActiveRecord::Type::Boolean.new.deserialize(params[:export_as_parquet])
 
     @csat_survey_responses = @csat_survey_responses.page(@current_page).per(RESULTS_PER_PAGE) if params[:page].present?
   end

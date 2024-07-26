@@ -182,7 +182,7 @@ class ConversationFinder
     sort_by, sort_order = SORT_OPTIONS[params[:sort_by]] || SORT_OPTIONS['last_activity_at_desc']
     @conversations = @conversations.send(sort_by, sort_order)
 
-    if params[:export_as_parquet]
+    if ActiveRecord::Type::Boolean.new.deserialize(params[:export_as_parquet])
       @conversations.filter_by_created_at(range)
     else
       if params[:updated_within].present?

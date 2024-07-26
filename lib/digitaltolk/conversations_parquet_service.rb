@@ -14,7 +14,7 @@ attr_accessor :conversations, :file_name, :report
   end
 
   def perform
-    report.in_progress!
+    report.in_progress!(record_count: record_count)
     export_parquet
   rescue StandardError => e
     report.failed!(e.message)
@@ -105,7 +105,7 @@ attr_accessor :conversations, :file_name, :report
         @columns['priority'] << conversation&.priority.to_s
         @columns['contact_kind'] << conversation&.contact_kind.to_s
       end
-      report.update_columns(progress: ((index * batch_size / record_count) * 100) - 1)
+      report.increment_progress(processed_count: index * batch_size)
       cons = nil
       index += 1
       GC.start

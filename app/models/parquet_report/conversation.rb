@@ -34,13 +34,15 @@ class ParquetReport::Conversation < ParquetReport
   end
 
   def create_empty_file_url
-    Digitaltolk::ConversationsParquetService.new([], file_name, self).perform
+    url = Digitaltolk::ConversationsParquetService.new([], file_name, self).perform
+    update_columns(file_url: url)
+    url
   end
 
   private
 
   def load_conversations
-    set_current_attributes
+    prepare_attributes
     conversation_finder = ConversationFinder.new(user, params)
     result = conversation_finder.perform
     @conversations = result[:conversations]
