@@ -1,6 +1,9 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrações",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Eventos Inscritos",
       "FORM": {
@@ -169,6 +172,7 @@
       "HEADER_BTN_TXT": "Adicionar nova dashboard app",
       "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps permite que as organizações incorporem uma aplicação dentro do dashboard do Chatwoot para fornecer o contexto aos agentes de suporte ao cliente. Este recurso permite-lhe criar uma aplicação independente e incorporá-la dentro do dashboard para fornecer informações de utilizador, os seus pedidos ou seu histórico de pagamentos.</p><p>Quando a sua aplicação é incorporada usando o dashboard do Chatwoot, a sua aplicação irá obter o contexto da conversa e do contato como um evento de janela. Implemente um listener para o evento de mensagem na sua página para receber o contexto.</p><p>Para adicionar um novo aplicativo ao dashboard, clique no botão 'Adicionar nova dashboard app'.</p>",
       "DESCRIPTION": "Dashboard Apps permite que as organizações incorporem um aplicação dentro do dashboard do Chatwoot para fornecer o contexto aos agentes de suporte ao cliente. Este recurso permite-lhe criar uma aplicação independente e incorporá-la dentro do dashboard para fornecer informações de utilizador, os seus pedidos ou seu histórico de pagamentos.",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {
         "404": "Não há dashboard apps configuradas nesta conta.",
         "LOADING": "A obter dashboard apps...",

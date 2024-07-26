@@ -187,31 +187,34 @@ ca:
     online:
       delete: "%{contact_name} està en línia, si us plau, torna-ho a provar més tard"
   integration_apps:
+    dashboard_apps:
+      name: "Aplicacions del tauler de control"
+      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
     dyte:
       name: "Dyte"
-      description: "Dyte és una eina que us ajuda a afegir àudio i vídeo en directe a la vostra aplicació amb només unes poques línies de codi. Aquesta integració us permet donar una opció als vostres agents per fer una trucada de vídeo o de veu amb els vostres clients sense sortir de Chatwoot."
+      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
       meeting_name: "%{agent_name} ha iniciat una reunió"
     slack:
       name: "Slack"
-      description: "Slack és una eina de xat que uneix tota la teva comunicació en un sol lloc. Integrant Slack, podràs rebre notificacions de totes les noves conversacions a la teva compte directament a dins l'Slack."
+      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
     webhooks:
       name: "Webhooks"
-      description: "Els esdeveniments de Webhook us proporcionen informació en temps real sobre el que passa al vostre compte de Chatwoot. Podeu utilitzar els webhooks per comunicar els esdeveniments a les vostres aplicacions preferides com Slack o Github. Feu clic a Configura per configurar els enllaços web."
+      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
     dialogflow:
       name: "Dialogflow"
-      description: "Crea chatbots amb Dialogflow i connecta'ls ràpidament a la vostra safata d'entrada. Deixa que els robots gestionen les consultes abans de lliurar-les a un agent d'atenció al client."
-    fullcontact:
-      name: "Fullcontact"
-      description: "La integració de FullContact ajuda a enriquir els perfils dels visitants. Identifica els usuaris tan bon punt comparteixin la seva adreça de correu electrònic i ofereix-los un servei d'atenció al client personalitzat. Connecta FullContact al teu compte compartint la clau de l'API de FullContact."
+      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
     google_translate:
       name: "Google Translate"
-      description: "Facilita que els agents tradueixin missatges afegint una integració de Google Translate. Google Translate ajuda a identificar l'idioma automàticament i convertir-lo a l'idioma escollit per l'agent/administrador del compte."
+      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
     openai:
       name: "OpenAI"
-      description: "Integra potents funcions d'IA a Chatwoot aprofitant els models GPT d'OpenAI."
+      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
     linear:
       name: "Linear"
-      description: "Crea issues en Linear a partir de converses o enllaça els existents per fer un seguiment perfecte."
+      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
+    captain:
+      name: "Captain"
+      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
   public_portal:
     search:
       search_placeholder: Cerca l'article per títol o cos...
