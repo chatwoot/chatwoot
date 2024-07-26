@@ -9,6 +9,7 @@ class Messages::MessageBuilder
     @user = user
     @message_type = params[:message_type] || 'outgoing'
     @attachments = params[:attachments]
+    @url_attachments = params[:url_attachments]
     @automation_rule = content_attributes&.dig(:automation_rule_id)
     @ignore_automation_rules = params[:ignore_automation_rules]
     @disable_notifications = params[:disable_notifications]
@@ -21,6 +22,7 @@ class Messages::MessageBuilder
   def perform
     @message = @conversation.messages.build(message_params)
     process_attachments
+    process_url_attachments
     process_emails
     @message.save!
     @message
@@ -76,6 +78,18 @@ class Messages::MessageBuilder
                              else
                                file_type(uploaded_attachment&.content_type)
                              end
+    end
+  end
+
+  def process_url_attachments
+    return if @url_attachments.blank?
+
+    @url_attachments.each do |url_attachment|
+      @message.attachments.build(
+        account_id: @message.account_id,
+        external_url: url_attachment[:url],
+        file_type: url_attachment[:type]
+      )
     end
   end
 

@@ -72,6 +72,7 @@ class Attachment < ApplicationRecord
 
   private
 
+  # rubocop:disable Metrics/AbcSize
   def file_metadata
     metadata = {
       extension: extension,
@@ -83,8 +84,10 @@ class Attachment < ApplicationRecord
     }
 
     metadata[:data_url] = metadata[:thumb_url] = external_url if message.inbox.instagram? && message.sender_type == 'Contact'
+    metadata[:data_url] = metadata[:thumb_url] = external_url if external_url && message.inbox.api?
     metadata
   end
+  # rubocop:enable Metrics/AbcSize
 
   def location_metadata
     {
