@@ -1,45 +1,51 @@
 class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
+  extend JsonRenderer
+
   AGENT_INSTRUCTION = 'You are a helpful support agent.'.freeze
   LANGUAGE_INSTRUCTION = 'Ensure that the reply should be in user language.'.freeze
   def reply_suggestion_message
     make_api_call(reply_suggestion_body)
   end
 
-  def summarize_message
+  api_call :reply_suggestion_message do
+    make_api_call(reply_suggestion_body)
+  end
+
+  api_call :summarize_message do
     make_api_call(summarize_body)
   end
 
-  def rephrase_message
+  api_call :rephrase_message do
     make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please rephrase the following response. " \
                                       "#{LANGUAGE_INSTRUCTION}"))
   end
 
-  def fix_spelling_grammar_message
+  api_call :fix_spelling_grammar_message do
     make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please fix the spelling and grammar of the following response. " \
                                       "#{LANGUAGE_INSTRUCTION}"))
   end
 
-  def shorten_message
+  api_call :shorten_message do
     make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please shorten the following response. " \
                                       "#{LANGUAGE_INSTRUCTION}"))
   end
 
-  def expand_message
+  api_call :expand_message do
     make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please expand the following response. " \
                                       "#{LANGUAGE_INSTRUCTION}"))
   end
 
-  def make_friendly_message
+  api_call :make_friendly_message do
     make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please make the following response more friendly. " \
                                       "#{LANGUAGE_INSTRUCTION}"))
   end
 
-  def make_formal_message
+  api_call :make_formal_message do
     make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please make the following response more formal. " \
                                       "#{LANGUAGE_INSTRUCTION}"))
   end
 
-  def simplify_message
+  api_call :simplify_message do
     make_api_call(build_api_call_body("#{AGENT_INSTRUCTION} Please simplify the following response. " \
                                       "#{LANGUAGE_INSTRUCTION}"))
   end

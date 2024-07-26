@@ -78,8 +78,10 @@ class Integrations::OpenaiBaseService
     response = HTTParty.post(API_URL, headers: headers, body: body)
     Rails.logger.info("OpenAI API response: #{response.body}")
 
-    choices = JSON.parse(response.body)['choices']
+    body = JSON.parse(response.body)
+    raise StandardError, I18n.t("integrations.openai.error.#{body['error']['type']}") if body['error'].present?
 
+    choices = body['choices']
     choices.present? ? choices.first['message']['content'] : nil
   end
 end
