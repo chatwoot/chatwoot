@@ -37,7 +37,12 @@ export const CONVERSATION_PRIORITY_ORDER = {
 // Size in mega bytes
 export const MAXIMUM_FILE_UPLOAD_SIZE = 40;
 export const MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL = 5;
-export const MAXIMUM_FILE_UPLOAD_SIZE_FOR_WHATSAPP = 5;
+export const MAXIMUM_FILE_UPLOAD_SIZE_FOR_WHATSAPP = {
+  '.png': 5,
+  '.jpeg': 5,
+  '.mp4': 16,
+  '.pdf': 100,
+};
 
 export const ALLOWED_FILE_TYPES = '.png,.jpeg,.mp4,.pdf';
 // 'image/*,' +

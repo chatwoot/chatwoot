@@ -20,14 +20,15 @@ export default {
         return;
       }
 
-      if (
-        this.channelType === INBOX_TYPES.API &&
-        !checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE_FOR_WHATSAPP)
-      ) {
-        this.showAlert(
-          `File Size exceeds the ${MAXIMUM_FILE_UPLOAD_SIZE_FOR_WHATSAPP}MB attachment limit`
-        );
-        return;
+      if (this.channelType === INBOX_TYPES.API) {
+        const fileUploadSize =
+          MAXIMUM_FILE_UPLOAD_SIZE_FOR_WHATSAPP[fileExtension];
+        if (!checkFileSizeLimit(file, fileUploadSize)) {
+          this.showAlert(
+            `File Size exceeds the ${fileUploadSize}MB attachment limit`
+          );
+          return;
+        }
       }
 
       if (this.globalConfig.directUploadsEnabled) {
