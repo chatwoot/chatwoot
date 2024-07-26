@@ -201,7 +201,6 @@ export default {
         <label>
           {{ $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.META_TAGS.LABEL') }}
           <multiselect
-            ref="tagInput"
             v-model="metaTags"
             :placeholder="
               $t('HELP_CENTER.ARTICLE_SETTINGS.FORM.META_TAGS.PLACEHOLDER')

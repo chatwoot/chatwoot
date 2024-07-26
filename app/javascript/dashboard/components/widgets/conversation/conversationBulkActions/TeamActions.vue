@@ -55,7 +55,6 @@ export default {
             >
               <fluent-icon icon="search" class="search-icon" size="16" />
               <input
-                ref="search"
                 v-model="query"
                 type="search"
                 :placeholder="$t('BULK_ACTION.SEARCH_INPUT_PLACEHOLDER')"

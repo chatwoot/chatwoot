@@ -21,6 +21,8 @@ export default {
 };
 </script>
 
+<!-- eslint-disable vue/no-unused-refs -->
+<!-- Added ref for writing specs -->
 <template>
   <div class="flex flex-col items-start px-8 pt-8 pb-0">
     <img v-if="headerImage" :src="headerImage" alt="No image" />

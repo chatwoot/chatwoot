@@ -110,7 +110,7 @@ export default {
       :response-source-name="componentData.responseSourceName"
       :response-source-path="componentData.responseSourcePath"
     />
-    <div ref="chatContainer" class="flex-1 px-8 py-4 overflow-auto">
+    <div class="flex-1 px-8 py-4 overflow-auto">
       <div
         v-for="message in messages"
         :id="`message-${message.id}`"

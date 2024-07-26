@@ -42,10 +42,9 @@ export default {
 
 <template>
   <div class="w-full">
-    <div class="templates__list-search gap-1">
+    <div class="gap-1 templates__list-search">
       <fluent-icon icon="search" class="search-icon" size="16" />
       <input
-        ref="search"
         v-model="query"
         type="search"
         :placeholder="$t('WHATSAPP_TEMPLATES.PICKER.SEARCH_PLACEHOLDER')"
@@ -64,7 +63,7 @@ export default {
                 {{ template.name }}
               </p>
               <span
-                class="inline-block py-1 px-2 rounded-sm text-xs leading-none cursor-default bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100"
+                class="inline-block px-2 py-1 text-xs leading-none bg-white rounded-sm cursor-default dark:bg-slate-700 text-slate-800 dark:text-slate-100"
               >
                 {{ $t('WHATSAPP_TEMPLATES.PICKER.LABELS.LANGUAGE') }} :
                 {{ template.language }}

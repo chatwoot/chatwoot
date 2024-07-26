@@ -147,7 +147,6 @@ export default {
     <div class="flex items-center justify-between">
       <label class="flex items-center justify-between bulk-action__panel">
         <input
-          ref="selectAllCheck"
           type="checkbox"
           class="checkbox"
           :checked="allConversationsSelected"

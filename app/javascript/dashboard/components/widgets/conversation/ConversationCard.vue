@@ -324,7 +324,6 @@ export default {
     </div>
     <woot-context-menu
       v-if="showContextMenu"
-      ref="menu"
       :x="contextMenu.x"
       :y="contextMenu.y"
       @close="closeContextMenu"

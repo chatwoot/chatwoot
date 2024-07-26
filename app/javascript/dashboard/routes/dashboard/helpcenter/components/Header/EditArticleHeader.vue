@@ -201,7 +201,6 @@ export default {
             {{ $t('HELP_CENTER.EDIT_HEADER.PUBLISH_BUTTON') }}
           </woot-button>
           <woot-button
-            ref="arrowDownButton"
             size="small"
             icon="chevron-down"
             :is-disabled="!articleSlug || isArchivedArticle"

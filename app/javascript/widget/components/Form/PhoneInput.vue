@@ -278,7 +278,6 @@ export default {
       </div>
       <div
         v-for="(country, index) in items"
-        ref="dropdownItem"
         :key="index"
         class="flex items-center h-8 px-2 py-2 rounded cursor-pointer country-dropdown--item"
         :class="[

@@ -55,6 +55,9 @@ export default {
   },
 };
 </script>
+
+<!-- eslint-disable vue/no-unused-refs -->
+<!-- Added ref for writing specs -->
 <template>
   <div
     class="flex-col lg:flex-row flex flex-wrap mx-0 bg-white dark:bg-slate-800 rounded-[4px] p-4 mb-5 border border-solid border-slate-75 dark:border-slate-700"
@@ -85,9 +88,9 @@ export default {
       class="w-full md:w-1/2 md:max-w-[50%] flex-1 rtl:[direction:initial] p-4"
     >
       <h3
-        class="flex items-center text-xs md:text-sm font-medium m-0 text-slate-800 dark:text-slate-100"
+        class="flex items-center m-0 text-xs font-medium md:text-sm text-slate-800 dark:text-slate-100"
       >
-        <div class="flex justify-end flex-row-reverse">
+        <div class="flex flex-row-reverse justify-end">
           <div
             v-for="(rating, key, index) in ratingPercentage"
             :key="rating + key + index"
