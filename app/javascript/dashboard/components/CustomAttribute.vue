@@ -20,7 +20,7 @@ export default {
     label: { type: String, required: true },
     description: { type: String, default: '' },
     values: { type: Array, default: () => [] },
-    value: { type: [String, Number, Boolean], default: '' },
+    value: { type: [Boolean, String, Number], default: '' },
     showActions: { type: Boolean, default: false },
     attributeType: { type: String, default: 'text' },
     attributeRegex: {
@@ -195,9 +195,9 @@ export default {
 </script>
 
 <template>
-  <div class="py-3 px-4">
+  <div class="px-4 py-3">
     <div class="flex items-center mb-1">
-      <h4 class="text-sm flex items-center m-0 w-full error">
+      <h4 class="flex items-center w-full m-0 text-sm error">
         <div v-if="isAttributeTypeCheckbox" class="flex items-center">
           <input
             v-model="editedValue"
@@ -237,7 +237,7 @@ export default {
     </div>
     <div v-if="notAttributeTypeCheckboxAndList">
       <div v-if="isEditing" v-on-clickaway="onClickAway">
-        <div class="mb-2 w-full flex items-center">
+        <div class="flex items-center w-full mb-2">
           <input
             ref="inputfield"
             v-model="editedValue"
@@ -259,7 +259,7 @@ export default {
         </div>
         <span
           v-if="shouldShowErrorMessage"
-          class="text-red-400 dark:text-red-500 text-sm block font-normal -mt-px w-full"
+          class="block w-full -mt-px text-sm font-normal text-red-400 dark:text-red-500"
         >
           {{ errorMessage }}
         </span>

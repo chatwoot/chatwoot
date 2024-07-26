@@ -159,6 +159,7 @@ module.exports = {
     ],
     'vue/no-v-text': 'error',
     'vue/padding-line-between-blocks': ['error', 'always'],
+    'vue/prefer-prop-type-boolean-first': 'error',
     'vue/max-attributes-per-line': [
       'error',
       {
