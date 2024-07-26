@@ -318,12 +318,12 @@ export default {
       />
       <woot-button
         v-if="hasWhatsappTemplates"
-        v-tooltip.top-end="'Whatsapp Templates'"
+        v-tooltip.top-end="$t('CONVERSATION.FOOTER.WHATSAPP_TEMPLATES')"
         icon="whatsapp"
         color-scheme="secondary"
         variant="smooth"
         size="small"
-        :title="'Whatsapp Templates'"
+        :title="$t('CONVERSATION.FOOTER.WHATSAPP_TEMPLATES')"
         @click="$emit('selectWhatsappTemplate')"
       />
       <VideoCallButton

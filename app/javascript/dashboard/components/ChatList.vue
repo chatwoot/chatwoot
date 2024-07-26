@@ -937,7 +937,7 @@ export default {
     >
       <VirtualList
         ref="conversationVirtualList"
-        :data-key="'id'"
+        data-key="id"
         :data-sources="conversationList"
         :data-component="itemComponent"
         :extra-props="virtualListExtraProps"

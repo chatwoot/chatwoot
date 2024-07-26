@@ -202,7 +202,7 @@ export default {
               v-model="values"
               track-by="id"
               label="name"
-              :placeholder="'Select'"
+              placeholder="Select"
               :multiple="true"
               selected-label
               :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
@@ -220,7 +220,7 @@ export default {
               v-model="values"
               track-by="id"
               label="name"
-              :placeholder="'Select'"
+              placeholder="Select"
               selected-label
               :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
               deselect-label=""

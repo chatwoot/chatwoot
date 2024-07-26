@@ -35,7 +35,10 @@ export default {
     <div v-if="showTitle" class="header">
       <h3 class="text-sm text-slate-800 dark:text-slate-100">{{ title }}</h3>
     </div>
-    <woot-loading-state v-if="isFetching" :message="'Searching'" />
+    <woot-loading-state
+      v-if="isFetching"
+      :message="$t('SEARCH.SEARCHING_DATA')"
+    />
     <slot v-else />
     <div v-if="empty && !isFetching" class="empty">
       <fluent-icon icon="info" size="16px" class="icon" />

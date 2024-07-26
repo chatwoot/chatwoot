@@ -99,9 +99,9 @@ export default {
 
     <BotMetrics :filters="requestPayload" />
     <ReportContainer
+      account-summary-key="getBotSummary"
       :group-by="groupBy"
       :report-keys="reportKeys"
-      :account-summary-key="'getBotSummary'"
     />
   </div>
 </template>
