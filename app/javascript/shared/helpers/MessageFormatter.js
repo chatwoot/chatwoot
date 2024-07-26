@@ -30,6 +30,12 @@ const imgResizeManager = md => {
   });
 };
 
+const escapePeriodInNumbers = md => {
+  md.core.ruler.before('normalize', 'escape_period_in_numbers', state => {
+    state.src = state.src.replace(/(\d+)\./g, '$1\\.');
+  });
+};
+
 const md = require('markdown-it')({
   html: false,
   xhtmlOut: true,
@@ -42,6 +48,7 @@ const md = require('markdown-it')({
 })
   .use(mentionPlugin)
   .use(imgResizeManager)
+  .use(escapePeriodInNumbers)
   .use(mila, {
     attrs: {
       class: 'link',
