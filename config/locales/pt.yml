@@ -75,7 +75,7 @@ pt:
       avg_first_response_time: Média de tempo da primeira resposta
       avg_resolution_time: Média de tempo de resolução
       resolution_count: Contagem de resolução
-      avg_customer_waiting_time: Avg customer waiting time
+      avg_customer_waiting_time: Tempo médio de espera cliente
     inbox_csv:
       inbox_name: Nome da caixa de entrada
       inbox_type: Tipo de caixa de entrada
@@ -93,7 +93,7 @@ pt:
       avg_first_response_time: Média de tempo da primeira resposta
       avg_resolution_time: Média de tempo de resolução
       resolution_count: Contagem de resolução
-      avg_customer_waiting_time: Avg customer waiting time
+      avg_customer_waiting_time: Tempo médio de espera cliente
     conversation_traffic_csv:
       timezone: Fuso Horário
     sla_csv:
@@ -209,6 +209,9 @@ pt:
     openai:
       name: "OpenAI"
       description: "Integre os poderosos recursos de IA com o Chatwoot utilizando os modelos GPT do OpenAI."
+    linear:
+      name: "Linear"
+      description: "Crie problemas lineares das conversas, ou vincule as existentes para um rastreamento sem interrupções."
   public_portal:
     search:
       search_placeholder: Pesquisar artigo por título ou corpo...

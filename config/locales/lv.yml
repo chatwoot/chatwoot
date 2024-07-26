@@ -209,6 +209,9 @@ lv:
     openai:
       name: "OpenAI"
       description: "Integrēt jaudīgas AI funkcijas programmā Chatwoot, izmantojot OpenAI GPT modeļus."
+    linear:
+      name: "Lineārs"
+      description: "Izveidot lineārus jautājumus no sarunām, vai saistīt esošos netraucētai izsekošanai."
   public_portal:
     search:
       search_placeholder: Meklēt rakstu pēc nosaukuma vai pamatteksta...

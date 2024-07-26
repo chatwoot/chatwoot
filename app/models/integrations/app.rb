@@ -34,12 +34,14 @@ class Integrations::App
     end
   end
 
-  def active?
+  def active?(account)
     case params[:id]
     when 'slack'
       ENV['SLACK_CLIENT_SECRET'].present?
     when 'linear'
-      Current.account.feature_enabled?('linear_integration')
+      account.feature_enabled?('linear_integration')
+    when 'captain'
+      account.feature_enabled?('captain_integration') && ENV['CAPTAIN_API_URL'].present?
     else
       true
     end
