@@ -162,6 +162,7 @@ module.exports = {
     'vue/padding-line-between-blocks': ['error', 'always'],
     'vue/prefer-prop-type-boolean-first': 'error',
     'vue/prefer-separate-static-class': 'error',
+    'vue/require-explicit-slots': 'error',
     'vue/max-attributes-per-line': [
       'error',
       {
