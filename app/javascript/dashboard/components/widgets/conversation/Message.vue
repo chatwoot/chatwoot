@@ -443,7 +443,8 @@ export default {
   <li
     v-if="shouldRenderMessage"
     :id="`message${data.id}`"
-    :class="[alignBubble, 'group']"
+    class="group"
+    :class="[alignBubble]"
   >
     <div :class="wrapClass">
       <div

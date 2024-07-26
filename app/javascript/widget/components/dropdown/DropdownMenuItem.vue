@@ -42,7 +42,7 @@ export default {
 </script>
 
 <template>
-  <button :class="['menu-item', itemClass]" @click="action">
+  <button class="menu-item" :class="[itemClass]" @click="action">
     <FluentIcon
       v-if="icon"
       :icon="iconName"

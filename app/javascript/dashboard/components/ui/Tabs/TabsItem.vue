@@ -47,8 +47,8 @@ export default {
 
 <template>
   <li
+    class="tabs-title"
     :class="{
-      'tabs-title': true,
       'is-active': active,
     }"
   >
