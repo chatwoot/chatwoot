@@ -72,7 +72,11 @@
               :custom-attribute-type="
                 getCustomAttributeType(automation.conditions[i].attribute_key)
               "
-              :error-message="errors[`condition_${i}`] || ''"
+              :error-message="
+                errors[`condition_${i}`]
+                  ? $t(`AUTOMATION.ERRORS.${errors[`condition_${i}`]}`)
+                  : ''
+              "
               @resetFilter="resetFilter(i, automation.conditions[i])"
               @removeFilter="removeFilter(i)"
             />
@@ -109,7 +113,11 @@
               :show-action-input="
                 showActionInput(automation.actions[i].action_name)
               "
-              :error-message="errors[`action_${i}`] || ''"
+              :error-message="
+                errors[`action_${i}`]
+                  ? $t(`AUTOMATION.ERRORS.${errors[`action_${i}`]}`)
+                  : ''
+              "
               @resetAction="resetAction(i)"
               @removeAction="removeAction(i)"
             />
