@@ -42,28 +42,29 @@ export default {
 
 <template>
   <div
-    class="flex justify-end gap-1 py-4 bg-white dark:bg-slate-900 h-full overflow-y-auto"
+    class="flex justify-end h-full gap-1 py-4 overflow-y-auto bg-white dark:bg-slate-900"
   >
-    <div class="flex flex-col gap-1 w-full">
+    <div class="flex flex-col w-full gap-1">
       <div v-if="isLoading" class="empty-state-message">
         {{ $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.SEARCH_LOADER') }}
       </div>
       <div v-else-if="showNoResults" class="empty-state-message">
         {{ $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.NO_RESULT') }}
       </div>
-      <SearchResultItem
-        v-for="article in articles"
-        v-else
-        :id="article.id"
-        :key="article.id"
-        :title="article.title"
-        :body="article.content"
-        :url="article.url"
-        :category="article.category.name"
-        :locale="article.localeName"
-        @preview="handlePreview"
-        @insert="handleInsert"
-      />
+      <template v-else>
+        <SearchResultItem
+          v-for="article in articles"
+          :id="article.id"
+          :key="article.id"
+          :title="article.title"
+          :body="article.content"
+          :url="article.url"
+          :category="article.category.name"
+          :locale="article.localeName"
+          @preview="handlePreview"
+          @insert="handleInsert"
+        />
+      </template>
     </div>
   </div>
 </template>
