@@ -147,6 +147,7 @@ module.exports = {
         ],
       },
     ],
+    'vue/no-unused-emit-declarations': 'error',
     'vue/max-attributes-per-line': [
       'error',
       {

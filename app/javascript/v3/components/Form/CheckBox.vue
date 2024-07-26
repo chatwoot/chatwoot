@@ -12,7 +12,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['input']);
+const emit = defineEmits(['update']);
 
 const checked = computed({
   get: () => props.isChecked,

@@ -31,7 +31,7 @@ import CalendarMonth from './components/CalendarMonth.vue';
 import CalendarWeek from './components/CalendarWeek.vue';
 import CalendarFooter from './components/CalendarFooter.vue';
 
-const emit = defineEmits(['change']);
+const emit = defineEmits(['dateRangeChanged']);
 const { LAST_7_DAYS, LAST_30_DAYS, CUSTOM_RANGE } = DATE_RANGE_TYPES;
 const { START_CALENDAR, END_CALENDAR } = CALENDAR_TYPES;
 const { WEEK, MONTH, YEAR } = CALENDAR_PERIODS;

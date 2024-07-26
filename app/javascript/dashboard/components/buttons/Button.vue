@@ -1,5 +1,10 @@
 <script>
+import Spinner from 'shared/components/Spinner.vue';
+
 export default {
+  components: {
+    Spinner,
+  },
   props: {
     isLoading: {
       type: Boolean,
@@ -38,7 +43,7 @@ export default {
       :class="buttonIconClass"
       :icon="icon"
     />
-    <spinner v-if="isLoading" />
+    <Spinner v-if="isLoading" />
     <slot />
   </button>
 </template>
