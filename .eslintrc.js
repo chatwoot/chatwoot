@@ -28,7 +28,7 @@ module.exports = {
     'vue/html-indent': 'off',
     'vue/multi-word-component-names': 'off',
     'vue/next-tick-style': ['error', 'callback'],
-    'vue/component-tags-order': [
+    'vue/block-order': [
       'error',
       {
         order: ['script', 'template', 'style'],
