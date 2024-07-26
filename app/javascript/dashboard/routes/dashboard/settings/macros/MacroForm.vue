@@ -1,5 +1,5 @@
 <script>
-import { ref, provide } from 'vue';
+import { provide } from 'vue';
 import MacroNodes from './MacroNodes.vue';
 import MacroProperties from './MacroProperties.vue';
 import { required } from '@vuelidate/validators';
@@ -18,16 +18,15 @@ export default {
     },
   },
   setup() {
-    const errors = ref({});
     const v$ = useVuelidate();
-    provide('errors', errors);
     provide('v$', v$);
 
-    return { v$, errors };
+    return { v$ };
   },
   data() {
     return {
       macro: this.macroData,
+      errors: {},
     };
   },
   computed: {
@@ -103,13 +102,14 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col md:flex-row h-auto md:h-full w-full">
+  <div class="flex flex-col w-full h-auto md:flex-row md:h-full">
     <div
-      class="flex-1 w-full md:w-auto macro-gradient-radial dark:macro-dark-gradient-radial macro-gradient-radial-size h-full max-h-full py-4 px-12 overflow-y-auto"
+      class="flex-1 w-full h-full max-h-full px-12 py-4 overflow-y-auto md:w-auto macro-gradient-radial dark:macro-dark-gradient-radial macro-gradient-radial-size"
     >
       <MacroNodes
         v-model="macro.actions"
         :files="files"
+        :errors="errors"
         @addNewNode="appendNode"
         @deleteNode="deleteNode"
         @resetAction="resetNode"

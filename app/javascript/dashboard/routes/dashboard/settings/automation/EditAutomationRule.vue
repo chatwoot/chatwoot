@@ -137,7 +137,11 @@ export default {
                 getCustomAttributeType(automation.conditions[i].attribute_key)
               "
               :show-query-operator="i !== automation.conditions.length - 1"
-              :error-message="errors[`condition_${i}`] || ''"
+              :error-message="
+                errors[`condition_${i}`]
+                  ? $t(`AUTOMATION.ERRORS.${errors[`condition_${i}`]}`)
+                  : ''
+              "
               @resetFilter="resetFilter(i, automation.conditions[i])"
               @removeFilter="removeFilter(i)"
             />
@@ -170,7 +174,11 @@ export default {
               :action-types="automationActionTypes"
               :dropdown-values="getActionDropdownValues(action.action_name)"
               :show-action-input="showActionInput(action.action_name)"
-              :error-message="errors[`action_${i}`] || ''"
+              :error-message="
+                errors[`action_${i}`]
+                  ? $t(`AUTOMATION.ERRORS.${errors[`action_${i}`]}`)
+                  : ''
+              "
               :initial-file-name="getFileName(action, automation.files)"
               @resetAction="resetAction(i)"
               @removeAction="removeAction(i)"

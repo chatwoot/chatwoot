@@ -9,6 +9,10 @@ export default {
     MacroNode,
   },
   props: {
+    errors: {
+      type: Object,
+      default: () => ({}),
+    },
     value: {
       type: Array,
       default: () => [],
@@ -60,6 +64,7 @@ export default {
           class="macros__node-action"
           type="add"
           :index="i"
+          :error-key="errors[`action_${i}`]"
           :file-name="
             fileName(
               actionData[i].action_params[0],

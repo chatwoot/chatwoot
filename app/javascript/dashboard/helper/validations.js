@@ -1,3 +1,11 @@
+export const ATTRIBUTE_KEY_REQUIRED = 'ATTRIBUTE_KEY_REQUIRED';
+export const FILTER_OPERATOR_REQUIRED = 'FILTER_OPERATOR_REQUIRED';
+export const VALUE_REQUIRED = 'VALUE_REQUIRED';
+export const VALUE_MUST_BE_BETWEEN_1_AND_998 =
+  'VALUE_MUST_BE_BETWEEN_1_AND_998';
+export const ACTION_PARAMETERS_REQUIRED = 'ACTION_PARAMETERS_REQUIRED';
+export const ATLEAST_ONE_CONDITION_REQUIRED = 'ATLEAST_ONE_CONDITION_REQUIRED';
+export const ATLEAST_ONE_ACTION_REQUIRED = 'ATLEAST_ONE_ACTION_REQUIRED';
 // ------------------------------------------------------------------
 // ------------------------ Filter Validation -----------------------
 // ------------------------------------------------------------------
@@ -14,11 +22,11 @@
  */
 const validateSingleFilter = filter => {
   if (!filter.attribute_key) {
-    return 'Attribute key is required';
+    return ATTRIBUTE_KEY_REQUIRED;
   }
 
   if (!filter.filter_operator) {
-    return 'Filter operator is required';
+    return FILTER_OPERATOR_REQUIRED;
   }
 
   if (
@@ -26,14 +34,14 @@ const validateSingleFilter = filter => {
     filter.filter_operator !== 'is_not_present' &&
     !filter.values
   ) {
-    return 'Value is required';
+    return VALUE_REQUIRED;
   }
 
   if (
     filter.filter_operator === 'days_before' &&
     (parseInt(filter.values, 10) <= 0 || parseInt(filter.values, 10) >= 999)
   ) {
-    return 'Value must be between 1 and 998';
+    return VALUE_MUST_BE_BETWEEN_1_AND_998;
   }
 
   return null;
@@ -97,7 +105,7 @@ export const validateConditions = conditions => {
   const errors = {};
 
   if (!conditions || conditions.length === 0) {
-    errors.conditions = 'At least one condition is required';
+    errors.conditions = ATLEAST_ONE_CONDITION_REQUIRED;
     return errors;
   }
 
@@ -129,7 +137,7 @@ const validateSingleAction = action => {
     !noParamActions.includes(action.action_name) &&
     (!action.action_params || action.action_params.length === 0)
   ) {
-    return 'Action parameters are required';
+    return ACTION_PARAMETERS_REQUIRED;
   }
 
   return null;
@@ -143,7 +151,7 @@ const validateSingleAction = action => {
  */
 export const validateActions = actions => {
   if (!actions || actions.length === 0) {
-    return { actions: 'At least one action is required' };
+    return { actions: ATLEAST_ONE_ACTION_REQUIRED };
   }
 
   return actions.reduce((errors, action, index) => {
