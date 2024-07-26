@@ -1,6 +1,9 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrări",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Evenimente subscrise",
       "FORM": {
@@ -169,6 +172,7 @@
       "HEADER_BTN_TXT": "Adăugarea unei noi aplicații pentru tabloul de bord",
       "SIDEBAR_TXT": "<p><b>Aplicații tablou de bord</b></p><p>Aplicațiile tablou de bord permit organizațiilor să încorporeze o aplicație în tabloul de bord Chatwoot pentru a oferi contextul pentru agenții de asistență pentru clienți. Această caracteristică vă permite să creați o aplicație independent și să o încorporați în interiorul tabloului de bord pentru a furniza informații despre utilizator, comenzile lor sau istoricul plăților anterioare.</p><p>Când încorporați aplicația utilizând tabloul de bord în Chatwoot, aplicația va primi contextul conversației și al contactului ca eveniment de fereastră. Implementați un ascultător pentru evenimentul mesajului de pe pagina dvs., pentru a primi contextul.</p><p>Pentru a adăuga o nouă aplicație de tablou de bord, faceți clic pe butonul \"Adăugați o nouă aplicație de tablou de bord\".</p>",
       "DESCRIPTION": "Aplicațiile tablou de bord permit organizațiilor să încorporeze o aplicație în interiorul tabloului de bord pentru a oferi contextul agenților de asistență pentru clienți. Această caracteristică vă permite să creați o aplicație independent și să o încorporați pentru a furniza informații despre utilizator, comenzile lor sau istoricul plăților anterioare.",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {
         "404": "Nu există încă aplicații de tablou de bord configurate pe acest cont",
         "LOADING": "Preluarea aplicațiilor de tablou de bord...",

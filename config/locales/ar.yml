@@ -21,7 +21,7 @@ ar:
   messages:
     reset_password_success: تم إرسال طلب إعادة تعيين كلمة المرور. يرجى مراجعة بريدك الإلكتروني للحصول على التعليمات.
     reset_password_failure: أوه! لم نتمكن من العثور على أي مستخدم بعنوان البريد الإلكتروني المحدد.
-    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
+    inbox_deletetion_response: سيتم معالجة طلب حذف صندوق الوارد الخاص بك في بعض الوقت.
   errors:
     validations:
       presence: يجب ألا يكون فارغاً
@@ -31,7 +31,7 @@ ar:
       disposable_email: نحن لا نسمح باسخدام عناوين البريد الإلكتروني المؤقتة
       invalid_email: لقد قمت بإدخال عنوان بريد إلكتروني غير صالح
       email_already_exists: "لقد قمت بالفعل بتسجيل حساب سابقاً بالعنوان %{email}"
-      invalid_params: 'Invalid, please check the signup paramters and try again'
+      invalid_params: 'غير صالح، الرجاء التحقق من خانات التسجيل وحاول مرة أخرى'
       failed: فشلت عملية التسجيل
     data_import:
       data_type:
@@ -40,7 +40,7 @@ ar:
       import:
         failed: الملف فارغ
       export:
-        success: We will notify you once contacts export file is ready to view.
+        success: سنقوم بإعلامك بمجرد أن يكون ملف تصدير جهات الاتصال جاهزاً للعرض.
       email:
         invalid: إيميل غير صالح
       phone_number:
@@ -49,7 +49,7 @@ ar:
       locale:
         unique: يجب أن تكون فريدة من نوعها في الفئة والبوابة
     dyte:
-      invalid_message_type: "Invalid message type. Action not permitted"
+      invalid_message_type: "نوع الرسالة غير صالح. الإجراء غير مسموح به"
     slack:
       invalid_channel_id: "قناة Slack غير صحيحة. الرجاء المحاولة مرة أخرى"
     inboxes:
@@ -62,44 +62,44 @@ ar:
       validations:
         name: لا ينبغي أن تبدأ أو تنتهي بالرموز، ولا ينبغي أن يكون أقل من > / \ أحرف @ .
     custom_filters:
-      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
-      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
-      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
-      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
+      number_of_records: تم الوصول إلى الحد الأقصى. الحد الأقصى لعدد الفلاتر المخصصة المسموح به للمستخدم لكل حساب هو 50.
+      invalid_attribute: مفتاح السمة غير صالح - [%{key}]. يجب أن يكون المفتاح واحد من [%{allowed_keys}] أو سمة مخصصة محددة في الحساب.
+      invalid_operator: مشغل غير صالح. المشغل المسموح به لـ %{attribute_name} هو [%{allowed_keys}].
+      invalid_value: قيمة غير صالحة. القيم المقدمة ل %{attribute_name} غير صالحة
   reports:
     period: فترة التبليغ %{since} إلى %{until}
-    utc_warning: The report generated is in UTC timezone
+    utc_warning: التقرير الذي تم إنشاؤه في التوقيت العالمي الموحّد
     agent_csv:
-      agent_name: اسم الموظف
-      conversations_count: Assigned conversations
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      agent_name: اسم الوكيل
+      conversations_count: المحادثات المعينة
+      avg_first_response_time: متوسط وقت الاستجابة الأولى
+      avg_resolution_time: متوسط وقت الحل
       resolution_count: عدد مرات الإغلاق
-      avg_customer_waiting_time: Avg customer waiting time
+      avg_customer_waiting_time: متوسط وقت انتظار العميل
     inbox_csv:
       inbox_name: اسم صندوق الوارد
       inbox_type: نوع صندوق البريد
       conversations_count: عدد المحادثات
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      avg_first_response_time: متوسط وقت الإستجابة الأولى
+      avg_resolution_time: متوسط وقت الحل
     label_csv:
       label_title: الوسم
       conversations_count: عدد المحادثات
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      avg_first_response_time: متوسط وقت الإستجابة الأولى
+      avg_resolution_time: متوسط وقت الحل
     team_csv:
       team_name: اسم الفريق
       conversations_count: عدد المحادثات
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      avg_first_response_time: متوسط وقت الإستجابة الأولى
+      avg_resolution_time: متوسط وقت الحل
       resolution_count: عدد مرات الإغلاق
-      avg_customer_waiting_time: Avg customer waiting time
+      avg_customer_waiting_time: متوسط وقت انتظار العميل
     conversation_traffic_csv:
-      timezone: Timezone
+      timezone: منطقة زمنية
     sla_csv:
       conversation_id: معرف المحادثة
-      sla_policy_breached: SLA Policy
-      assignee: Assignee
+      sla_policy_breached: سياسة مستوى الخدمة
+      assignee: المكلَّف
       team: الفريق
       inbox: صندوق الوارد
       labels: الوسوم
@@ -126,14 +126,14 @@ ar:
       sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
       sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
     attachment: "Attachment"
-    no_content: "No content"
+    no_content: "لا يوجد محتوى"
   conversations:
     messages:
       instagram_story_content: "أشار %{story_sender} إليك في القصة: "
       instagram_deleted_story_content: هذه القصة لم تعد متاحة.
       deleted: تم حذف هذه الرسالة
       delivery_status:
-        error_code: "Error code: %{error_code}"
+        error_code: "رمز الخطأ: %{error_code}"
     activity:
       status:
         resolved: "تم تحديث حالة المحادثة لـ\"مغلقة\" بواسطة %{user_name}"
@@ -142,11 +142,11 @@ ar:
         pending: "تم تحديث حالة المحادثة لـ\"معلقة\" بواسطة %{user_name}"
         snoozed: "تم تأجيل المحادثة بواسطة %{user_name}"
         auto_resolved: "تم وضع علامة على المحادثة كمحلولة من قبل بالنظام بسبب %{duration} أيام من عدم النشاط"
-        system_auto_open: System reopened the conversation due to a new incoming message.
+        system_auto_open: أعاد النظام فتح المحادثة بسبب رسالة واردة جديدة.
       priority:
-        added: '%{user_name} set the priority to %{new_priority}'
-        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
-        removed: '%{user_name} removed the priority'
+        added: '%{user_name} حدد الأولوية إلى %{new_priority}'
+        updated: '%{user_name} غيّر الأولوية من %{old_priority} إلى %{new_priority}'
+        removed: '%{user_name} أزال الأولوية'
       assignee:
         self_assigned: "%{user_name} تم تعيينه تلقائياً لهذه المحادثة"
         assigned: "تم إسنادها إلى %{assignee_name} بواسطة %{user_name}"
@@ -159,8 +159,8 @@ ar:
         added: "%{user_name} أضاف %{labels}"
         removed: "%{user_name} أزال %{labels}"
       sla:
-        added: "%{user_name} added SLA policy %{sla_name}"
-        removed: "%{user_name} removed SLA policy %{sla_name}"
+        added: "%{user_name} أضاف سياسة مستوى الخدمة %{sla_name}"
+        removed: "%{user_name} أزال سياسة مستوى الخدمة %{sla_name}"
       muted: "%{user_name} كتم صوت المحادثة"
       unmuted: "%{user_name} قام بإلغاء كتم المحادثة"
     templates:
@@ -187,31 +187,34 @@ ar:
     online:
       delete: "%{contact_name} متصل، يرجى المحاولة مرة أخرى لاحقاً"
   integration_apps:
+    dashboard_apps:
+      name: "تطبيقات لوحة التحكم"
+      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
     dyte:
       name: "Dyte"
-      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
+      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
       meeting_name: "%{agent_name} has started a meeting"
     slack:
       name: "Slack"
-      description: "Slack هي أداة دردشة تجمع كل اتصالاتك معا في مكان واحد. من خلال دمج Slack، يمكنك الحصول على إشعار بجميع المحادثات الجديدة في حسابك مباشرة داخل Slack."
+      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
     webhooks:
       name: "Webhook"
-      description: "أحداث Webhook توفر لك معلومات في الوقت الحقيقي حول ما يحدث في حساب Chatwoot الخاص بك. يمكنك استخدام خاصية الـ Webhook لإيصال الأحداث إلى تطبيقاتك المفضلة مثل Slack أو Github. انقر على \"تهيئة\" لإعداد الـ Webhooks الخاصة بك."
+      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
     dialogflow:
       name: "Dialogflow"
-      description: "قم ببناء روبوتات الدردشة باستخدام تدفق الاتصال وتوصيلها بالبريد الوارد الخاص بك بسرعة. دع البوتات تتعامل مع الاستفسارات قبل تسليمها إلى وكيل خدمة العملاء."
-    fullcontact:
-      name: "الاتصال الكامل"
-      description: "التكامل الكامل يساعد على إثراء ملفات تعريف الزوار. تحديد المستخدمين بمجرد مشاركتهم عنوان البريد الإلكتروني الخاص بهم وتقديم خدمة العملاء الخاصة بهم. قم بتوصيل اتصالك الكامل بحسابك عن طريق مشاركة مفتاح API للاتصال الكامل."
+      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
     google_translate:
       name: "ترجمة Google"
-      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
+      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
     openai:
       name: "OpenAI"
-      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
+      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
     linear:
       name: "Linear"
-      description: "Create Linear issues from conversations, or link existing ones for seamless tracking."
+      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
+    captain:
+      name: "Captain"
+      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
   public_portal:
     search:
       search_placeholder: Search for article by title or body...
@@ -229,20 +232,20 @@ ar:
       articles: المقالات
       author: المؤلف
       authors: المؤلفون
-      other: other
-      others: others
+      other: آخر
+      others: الآخرين
       by: بواسطة
       no_articles: لا توجد مقالات
     footer:
-      made_with: Made with
+      made_with: صنع بـ
     header:
-      go_to_homepage: Website
+      go_to_homepage: الموقع الإلكتروني
       appearance:
         system: النظام
         light: فاتح
         dark: مظلم
-      featured_articles: Featured Articles
-      uncategorized: Uncategorized
+      featured_articles: المقالات المميزة
+      uncategorized: غير مصنف
     404:
       title: لم يتم العثور على الصفحة
       description: لم نتمكن من العثور على الصفحة التي تبحث عنها.
@@ -254,34 +257,34 @@ ar:
       phone_number: هاتف
       company_name: الشركة
       inbox_name: صندوق الوارد
-      inbox_type: Inbox Type
+      inbox_type: نوع صندوق الوارد
     button: فتح المحادثة
   time_units:
     days:
-      zero: "%{count} days"
-      one: "%{count} day"
-      two: "%{count} days"
-      few: "%{count} days"
-      many: "%{count} days"
-      other: "%{count} days"
+      zero: "%{count} يوم"
+      one: "%{count} يوم"
+      two: "%{count} يوم"
+      few: "%{count} أيام"
+      many: "%{count} أيام"
+      other: "%{count} يوم"
     hours:
-      zero: "%{count} hours"
-      one: "%{count} hour"
-      two: "%{count} hours"
-      few: "%{count} hours"
-      many: "%{count} hours"
-      other: "%{count} hours"
+      zero: "%{count} ساعة"
+      one: "%{count} ساعة"
+      two: "%{count} ساعات"
+      few: "%{count} ساعات"
+      many: "%{count} ساعة"
+      other: "%{count} ساعة"
     minutes:
-      zero: "%{count} minutes"
-      one: "%{count} minute"
-      two: "%{count} minutes"
-      few: "%{count} minutes"
-      many: "%{count} minutes"
-      other: "%{count} minutes"
+      zero: "%{count} دقيقة"
+      one: "%{count} دقيقة"
+      two: "%{count} دقائق"
+      few: "%{count} دقائق"
+      many: "%{count} دقيقة"
+      other: "%{count} دقيقة"
     seconds:
-      zero: "%{count} seconds"
-      one: "%{count} second"
-      two: "%{count} seconds"
-      few: "%{count} seconds"
-      many: "%{count} seconds"
-      other: "%{count} seconds"
+      zero: "%{count} ثانية"
+      one: "%{count} ثانية"
+      two: "%{count} ثواني"
+      few: "%{count} ثواني"
+      many: "%{count} ثانية"
+      other: "%{count} ثانية"

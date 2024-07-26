@@ -187,31 +187,34 @@ zh_CN:
     online:
       delete: "%{contact_name} 在线, 请重试"
   integration_apps:
+    dashboard_apps:
+      name: "Dashboard Apps"
+      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
     dyte:
       name: "Dyte"
-      description: "Dyte 是帮助您通过几行代码将直播音频和视频添加到应用程序的工具。 这种集成使您能够让代理人在不离开Chatwoot 的情况下与客户进行视频或语音通话。"
+      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
       meeting_name: "%{agent_name} 已开始会议"
     slack:
       name: "Slack"
-      description: "Slack是一个将您的所有通信集中在一个地方的聊天工具。 通过整合Slack，您可以在您的Slack内部获得您帐户中所有新对话的通知。"
+      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
     webhooks:
       name: ""
-      description: ""
+      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
     dialogflow:
       name: "Dialogflow"
-      description: "使用 Dialogflow 构建聊天机器人并将其连接到您的收件箱。 让机器人处理查询，然后将它们交给收件箱对应团队的客服处理。"
-    fullcontact:
-      name: "Fullcontact"
-      description: "FullContact 集成有助于丰富访客配置文件。一旦用户分享他们的电子邮件地址并为他们提供有针对性的客户服务。 通过分享FullContact API 密钥将您的完全联系人连接到您的帐户。"
+      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
     google_translate:
       name: "Google 翻译"
-      description: "添加一个 Google 翻译集成，使客服更容易翻译消息。 Google 翻译有助于自动识别语言并将其转换为客服/帐户管理员选择的语言。"
+      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
     openai:
       name: "OpenAI"
-      description: "通过从 OpenAI 使用 GPT 模型将强大的 AI 功能整合到Chatwoot 中。"
+      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
     linear:
       name: "Linear"
-      description: "Create Linear issues from conversations, or link existing ones for seamless tracking."
+      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
+    captain:
+      name: "Captain"
+      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
   public_portal:
     search:
       search_placeholder: 搜索文章的标题或正文...

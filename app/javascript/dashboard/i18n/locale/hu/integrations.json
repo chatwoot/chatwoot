@@ -1,6 +1,9 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrációk",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Feliratkozott események",
       "FORM": {
@@ -169,6 +172,7 @@
       "HEADER_BTN_TXT": "Új kezdőlapi applikáció hozzáadása",
       "SIDEBAR_TXT": "<p><b>Irányítópult-alkalmazások</b></p><p>Az irányítópult-alkalmazások segítségével a szervezetek beágyazhatnak egy alkalmazást a Chatwoot irányítópultjába, hogy kontextust biztosítsanak az ügyfélszolgálati ügynökök számára. Ezzel a funkcióval önállóan hozhat létre alkalmazást, és beágyazhatja azt az irányítópultba, hogy megadja a felhasználói információkat, rendeléseiket vagy korábbi fizetési előzményeiket.</p><p>Ha beágyazza alkalmazását a Chatwoot irányítópultjával, az alkalmazás ablakeseményként kapja meg a beszélgetés és a kapcsolatfelvétel kontextusát. Helyezzen el egy figyelőt az üzeneteseményhez az oldalon, hogy megkapja a kontextust.</p><p>Új irányítópult-alkalmazás hozzáadásához kattintson az „Új irányítópult-alkalmazás hozzáadása” gombra.</p>",
       "DESCRIPTION": "Az irányítópult-alkalmazások segítségével a szervezetek beágyazhatnak egy alkalmazást az irányítópultba, hogy kontextust biztosítsanak az ügyfélszolgálati ügynökök számára. Ez a funkció lehetővé teszi, hogy önállóan hozzon létre egy alkalmazást, és beágyazza azt, hogy megadja a felhasználói információkat, rendeléseiket vagy korábbi fizetési előzményeiket.\n",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {
         "404": "Ebben a fiókban még nincsenek konfigurálva kezdőlapi-alkalmazások",
         "LOADING": "Kezdőlapi alkalmazások lekérése...",
