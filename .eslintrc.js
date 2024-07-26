@@ -131,6 +131,22 @@ module.exports = {
       },
     ],
     'vue/no-this-in-before-route-enter': 'error',
+    'vue/no-undef-components': [
+      'error',
+      {
+        ignorePatterns: [
+          '^woot-',
+          '^fluent-',
+          '^multiselect',
+          '^router-link',
+          '^router-view',
+          '^ninja-keys',
+          '^FormulateForm',
+          '^FormulateInput',
+          '^highlightjs',
+        ],
+      },
+    ],
     'vue/max-attributes-per-line': [
       'error',
       {
