@@ -60,7 +60,7 @@ export default {
           :key="conversation.id"
           :chat="conversation"
           :hide-inbox-name="false"
-          :hide-thumbnail="true"
+          hide-thumbnail
           class="compact"
         />
       </div>

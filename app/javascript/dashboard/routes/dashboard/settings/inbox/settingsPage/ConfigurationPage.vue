@@ -112,7 +112,7 @@ export default {
           :script="inbox.web_widget_script"
           lang="html"
           :codepen-title="`${inbox.name} - Chatwoot Widget Test`"
-          :enable-code-pen="true"
+          enable-code-pen
         />
       </SettingsSection>
 

@@ -92,7 +92,7 @@ export default {
         v-if="!isACustomBrandedInstance"
         icon="book-open-globe"
         name="DOCS"
-        :open-in-new-page="true"
+        open-in-new-page
         :to="helpDocsURL"
       />
       <NotificationBell @openNotificationPanel="openNotificationPanel" />

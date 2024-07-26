@@ -59,7 +59,7 @@ export default {
       icon="mail"
       emoji=""
       :value="contact.email"
-      :show-edit="true"
+      show-edit
       @update="onEmailUpdate"
     />
     <Attribute
@@ -67,7 +67,7 @@ export default {
       icon="call"
       emoji=""
       :value="contact.phone_number"
-      :show-edit="true"
+      show-edit
       @update="onPhoneUpdate"
     />
     <Attribute
@@ -76,7 +76,7 @@ export default {
       icon="map"
       emoji="🌍"
       :value="additionalAttributes.location"
-      :show-edit="true"
+      show-edit
       @update="onLocationUpdate"
     />
     <div
@@ -88,7 +88,7 @@ export default {
         :label="attribute"
         icon="chevron-right"
         :value="customAttributes[attribute]"
-        :show-edit="true"
+        show-edit
         @update="value => onCustomAttributeUpdate(attribute, value)"
       />
     </div>

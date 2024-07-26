@@ -203,7 +203,7 @@ export default {
               track-by="id"
               label="name"
               placeholder="Select"
-              :multiple="true"
+              multiple
               selected-label
               :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
               deselect-label=""

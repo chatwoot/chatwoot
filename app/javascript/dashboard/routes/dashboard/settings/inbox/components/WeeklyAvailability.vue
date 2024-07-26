@@ -134,7 +134,7 @@ export default {
           />
           {{ $t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_AVAILABILITY') }}
         </label>
-        <p class="text-slate-700 dark:text-slate-300 mb-4">
+        <p class="mb-4 text-slate-700 dark:text-slate-300">
           {{ $t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_HELP') }}
         </p>
         <div v-if="isBusinessHoursEnabled" class="mb-6">
@@ -144,12 +144,12 @@ export default {
             </label>
             <div
               v-if="isRichEditorEnabled"
-              class="py-0 px-4 border border-solid border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 rounded-md mx-0 mt-0 mb-4"
+              class="px-4 py-0 mx-0 mt-0 mb-4 bg-white border border-solid rounded-md border-slate-200 dark:border-slate-600 dark:bg-slate-900"
             >
               <WootMessageEditor
                 v-model="unavailableMessage"
-                :enable-variables="true"
-                :is-format-mode="true"
+                enable-variables
+                is-format-mode
                 class="message-editor"
                 :min-height="4"
               />
@@ -168,7 +168,7 @@ export default {
               selected-label=""
               track-by="value"
               label="label"
-              :close-on-select="true"
+              close-on-select
               :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
               :allow-empty="false"
             />

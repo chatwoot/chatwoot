@@ -118,7 +118,7 @@ export default {
     </woot-button>
     <ReportFilterSelector
       :show-agents-filter="false"
-      :show-group-by-filter="true"
+      show-group-by-filter
       @filterChange="onFilterChange"
     />
     <ReportContainer :group-by="groupBy" />

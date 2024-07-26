@@ -43,7 +43,7 @@ export default {
       :title="user.name"
       :src="user.thumbnail"
       :username="user.name"
-      :has-border="true"
+      has-border
       :size="size"
       :class="`overlapping-thumbnail gap-${gap}`"
     />

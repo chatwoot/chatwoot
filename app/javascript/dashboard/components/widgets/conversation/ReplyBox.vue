@@ -1087,7 +1087,7 @@ export default {
       color-scheme="secondary"
       class="banner--self-assign"
       :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
-      :has-action-button="true"
+      has-action-button
       :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
       @click="onClickSelfAssign"
     />
@@ -1146,7 +1146,7 @@ export default {
         :placeholder="messagePlaceHolder"
         :min-height="4"
         :signature="signatureToApply"
-        :allow-signature="true"
+        allow-signature
         :send-with-signature="sendWithSignature"
         @typingOff="onTypingOff"
         @typingOn="onTypingOn"
@@ -1162,10 +1162,10 @@ export default {
         :placeholder="messagePlaceHolder"
         :update-selection-with="updateEditorSelectionWith"
         :min-height="4"
-        :enable-variables="true"
+        enable-variables
         :variables="messageVariables"
         :signature="signatureToApply"
-        :allow-signature="true"
+        allow-signature
         :channel-type="channelType"
         @typingOff="onTypingOff"
         @typingOn="onTypingOn"

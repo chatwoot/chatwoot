@@ -88,7 +88,7 @@ export default {
         :dropdown-values="dropdownValues()"
         :show-action-input="showActionInput"
         :show-remove-button="false"
-        :is-macro="true"
+        is-macro
         :error-message="errors[`action_${index}`] || ''"
         :initial-file-name="fileName"
         @resetAction="$emit('resetAction')"

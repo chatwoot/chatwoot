@@ -94,7 +94,7 @@ export default {
           ref="searchbar"
           v-model="search"
           type="text"
-          class="emoji-search--input focus:box-shadow-blue dark:focus:box-shadow-dark !mb-0"
+          class="emoji-search--input focus:box-shadow-blue dark:focus:box-shadow-dark !mb-0 !h-8 !text-sm"
           :placeholder="$t('EMOJI.PLACEHOLDER')"
         />
         <woot-button

@@ -107,7 +107,7 @@ export default {
       v-if="showEmojiPicker"
       v-on-clickaway="hideEmojiPicker"
       class="left-0 top-16"
-      :show-remove-button="true"
+      show-remove-button
       :on-click="onClickInsertEmoji"
     />
   </div>

@@ -34,7 +34,7 @@ export default {
   <div class="date-picker">
     <DatePicker
       type="datetime"
-      :confirm="true"
+      confirm
       :clearable="false"
       :editable="false"
       :confirm-text="confirmText"

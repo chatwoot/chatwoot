@@ -42,7 +42,7 @@ export default {
     <Chrome
       v-if="isPickerOpen"
       v-on-clickaway="closeTogglePicker"
-      :disable-alpha="true"
+      disable-alpha
       :value="value"
       class="colorpicker--chrome"
       @input="updateColor"

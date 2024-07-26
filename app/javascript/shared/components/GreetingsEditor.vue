@@ -47,13 +47,13 @@ export default {
   <section class="w-3/4">
     <div
       v-if="richtext"
-      class="py-0 px-4 rounded-md border border-solid border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 mt-0 mx-0 mb-4"
+      class="px-4 py-0 mx-0 mt-0 mb-4 bg-white border border-solid rounded-md border-slate-200 dark:border-slate-600 dark:bg-slate-900"
     >
       <WootMessageEditor
         v-model="greetingsMessage"
-        :is-format-mode="true"
-        :enable-variables="true"
-        class="input bg-white dark:bg-slate-900"
+        is-format-mode
+        enable-variables
+        class="bg-white input dark:bg-slate-900"
         :placeholder="placeholder"
         :min-height="4"
         @input="handleInput"

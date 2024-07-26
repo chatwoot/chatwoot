@@ -208,8 +208,8 @@ export default {
             label="name"
             :options="metaOptions"
             track-by="name"
-            :multiple="true"
-            :taggable="true"
+            multiple
+            taggable
             :close-on-select="false"
             @search-change="handleSearchChange"
             @close="onBlur"

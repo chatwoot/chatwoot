@@ -157,7 +157,7 @@ export default {
       :label="attribute.attribute_display_name"
       :description="attribute.attribute_description"
       :value="attribute.value"
-      :show-actions="true"
+      show-actions
       :attribute-regex="attribute.regex_pattern"
       :regex-cue="attribute.regex_cue"
       :class="attributeClass"

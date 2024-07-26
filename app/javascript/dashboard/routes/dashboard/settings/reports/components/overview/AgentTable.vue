@@ -112,7 +112,7 @@ export default {
   <div class="agent-table-container">
     <VeTable
       max-height="calc(100vh - 21.875rem)"
-      :fixed-header="true"
+      fixed-header
       :columns="columns"
       :table-data="tableData"
     />

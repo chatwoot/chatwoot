@@ -27,8 +27,8 @@ export default {
 <template>
   <div class="date-picker">
     <DatePicker
-      :range="true"
-      :confirm="true"
+      range
+      confirm
       :clearable="false"
       :editable="false"
       :confirm-text="confirmText"

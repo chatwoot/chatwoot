@@ -268,10 +268,10 @@ export default {
             :options="audienceList"
             track-by="id"
             label="title"
-            :multiple="true"
+            multiple
             :close-on-select="false"
             :clear-on-select="false"
-            :hide-selected="true"
+            hide-selected
             :placeholder="$t('CAMPAIGN.ADD.FORM.AUDIENCE.PLACEHOLDER')"
             selected-label
             :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"

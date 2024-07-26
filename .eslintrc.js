@@ -150,6 +150,7 @@ module.exports = {
     'vue/no-unused-emit-declarations': 'error',
     'vue/no-unused-refs': 'error',
     'vue/no-use-v-else-with-v-for': 'error',
+    'vue/prefer-true-attribute-shorthand': 'error',
     'vue/no-useless-v-bind': [
       'error',
       {

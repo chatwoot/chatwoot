@@ -84,7 +84,7 @@ export default {
       :key="label.id"
       :title="label.title"
       :description="label.description"
-      :show-close="true"
+      show-close
       :color="label.color"
       variant="smooth"
       @click="removeItem"

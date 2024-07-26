@@ -109,7 +109,7 @@ export default {
               v-model="content"
               class="message-editor [&>div]:px-1"
               :class="{ editor_warning: v$.content.$error }"
-              :enable-variables="true"
+              enable-variables
               :enable-canned-responses="false"
               :placeholder="$t('CANNED_MGMT.ADD.FORM.CONTENT.PLACEHOLDER')"
               @blur="v$.content.$touch"

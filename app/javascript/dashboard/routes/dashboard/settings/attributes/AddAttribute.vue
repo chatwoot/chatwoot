@@ -227,8 +227,8 @@ export default {
               track-by="name"
               :class="{ invalid: isMultiselectInvalid }"
               :options="options"
-              :multiple="true"
-              :taggable="true"
+              multiple
+              taggable
               @close="onTouch"
               @tag="addTagValue"
             />

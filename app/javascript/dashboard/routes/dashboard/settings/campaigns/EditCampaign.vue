@@ -194,7 +194,7 @@ export default {
           <WootMessageEditor
             v-model="message"
             class="message-editor"
-            :is-format-mode="true"
+            is-format-mode
             :class="{ editor_warning: v$.message.$error }"
             :placeholder="$t('CAMPAIGN.ADD.FORM.MESSAGE.PLACEHOLDER')"
             @input="v$.message.$touch"

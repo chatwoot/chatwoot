@@ -33,7 +33,7 @@ export default {
         track-by="id"
         label="name"
         :placeholder="$t('AUTOMATION.ACTION.TEAM_DROPDOWN_PLACEHOLDER')"
-        :multiple="true"
+        multiple
         selected-label
         :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
         deselect-label=""

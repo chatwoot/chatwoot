@@ -131,8 +131,8 @@ export default {
   <div class="csat--table-container">
     <VeTable
       max-height="calc(100vh - 21.875rem)"
-      :fixed-header="true"
-      :border-around="true"
+      fixed-header
+      border-around
       :columns="columns"
       :table-data="tableData"
     />

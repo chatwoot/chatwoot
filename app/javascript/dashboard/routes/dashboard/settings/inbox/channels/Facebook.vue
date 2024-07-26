@@ -257,8 +257,8 @@ export default {
               {{ $t('INBOX_MGMT.ADD.FB.CHOOSE_PAGE') }}
               <multiselect
                 v-model.trim="selectedPage"
-                :close-on-select="true"
-                :allow-empty="true"
+                close-on-select
+                allow-empty
                 :options="getSelectablePages"
                 track-by="id"
                 label="name"

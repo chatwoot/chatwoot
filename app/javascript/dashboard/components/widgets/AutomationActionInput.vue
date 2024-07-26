@@ -138,7 +138,7 @@ export default {
               track-by="id"
               label="name"
               :placeholder="$t('FORMS.MULTISELECT.SELECT')"
-              :multiple="true"
+              multiple
               selected-label
               :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
               deselect-label=""
@@ -186,7 +186,7 @@ export default {
       v-if="inputType === 'textarea'"
       v-model="castMessageVmodel"
       rows="4"
-      :enable-variables="true"
+      enable-variables
       :placeholder="$t('AUTOMATION.ACTION.TEAM_MESSAGE_INPUT_PLACEHOLDER')"
       class="action-message"
     />

@@ -351,7 +351,7 @@ export default {
               select-label=""
               deselect-label=""
               :max-height="160"
-              :close-on-select="true"
+              close-on-select
               :options="[...inboxes]"
             >
               <template slot="singleLabel" slot-scope="{ option }">
@@ -440,9 +440,9 @@ export default {
                 v-model="message"
                 class="message-editor"
                 :class="{ editor_warning: v$.message.$error }"
-                :enable-variables="true"
+                enable-variables
                 :signature="signatureToApply"
-                :allow-signature="true"
+                allow-signature
                 :placeholder="$t('NEW_CONVERSATION.FORM.MESSAGE.PLACEHOLDER')"
                 @toggle-canned-menu="toggleCannedMenu"
                 @blur="v$.message.$touch"
@@ -495,8 +495,8 @@ export default {
               input-id="newConversationAttachment"
               :size="4096 * 4096"
               :accept="allowedFileTypes"
-              :multiple="true"
-              :drop="true"
+              multiple
+              drop
               :drop-directory="false"
               :data="{
                 direct_upload_url: '/rails/active_storage/direct_uploads',

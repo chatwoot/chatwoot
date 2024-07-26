@@ -110,9 +110,9 @@ export default {
 <template>
   <div class="flex-1 p-4 overflow-auto">
     <ReportFilterSelector
-      :show-agents-filter="true"
-      :show-inbox-filter="true"
-      :show-rating-filter="true"
+      show-agents-filter
+      show-inbox-filter
+      show-rating-filter
       :show-team-filter="isTeamsEnabled"
       :show-business-hours-switch="false"
       @filterChange="onFilterChange"

@@ -91,7 +91,7 @@ export default {
             :clear-on-select="false"
             :show-labels="false"
             :placeholder="$t('MERGE_CONTACTS.PARENT.PLACEHOLDER')"
-            :allow-empty="true"
+            allow-empty
             :loading="isSearching"
             :max-height="150"
             open-direction="top"

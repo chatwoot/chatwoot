@@ -32,11 +32,11 @@ const updateSignature = () => {
       id="message-signature-input"
       v-model="signature"
       class="message-editor h-[10rem] !px-3"
-      :is-format-mode="true"
+      is-format-mode
       :placeholder="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE.PLACEHOLDER')"
       :enabled-menu-options="customEditorMenuList"
       :enable-suggestions="false"
-      :show-image-resize-toolbar="true"
+      show-image-resize-toolbar
     />
     <FormButton
       type="submit"

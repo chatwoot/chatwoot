@@ -232,8 +232,8 @@ export default {
             track-by="name"
             :class="{ invalid: isMultiselectInvalid }"
             :options="options"
-            :multiple="true"
-            :taggable="true"
+            multiple
+            taggable
             @tag="addTagValue"
           />
           <label v-show="isMultiselectInvalid" class="error-message">

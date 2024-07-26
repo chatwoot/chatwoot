@@ -80,10 +80,10 @@ export default {
               :options="agentList"
               track-by="id"
               label="name"
-              :multiple="true"
+              multiple
               :close-on-select="false"
               :clear-on-select="false"
-              :hide-selected="true"
+              hide-selected
               selected-label
               :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
               :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"

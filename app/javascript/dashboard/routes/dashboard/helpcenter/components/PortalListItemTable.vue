@@ -74,7 +74,7 @@ export default {
               )
             "
             color-scheme="warning"
-            :small="true"
+            small
             variant="smooth"
             class="default-status"
           />

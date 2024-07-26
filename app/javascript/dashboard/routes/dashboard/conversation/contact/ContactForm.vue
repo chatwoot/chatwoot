@@ -373,7 +373,7 @@ export default {
           :custom-label="countryNameWithCode"
           :max-height="160"
           :options="countries"
-          :allow-empty="true"
+          allow-empty
           :option-height="104"
         />
       </div>

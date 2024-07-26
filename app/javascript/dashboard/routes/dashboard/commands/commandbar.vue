@@ -100,7 +100,7 @@ export default {
 <template>
   <ninja-keys
     ref="ninjakeys"
-    :no-auto-load-md-icons="true"
+    no-auto-load-md-icons
     hide-breadcrumbs
     :placeholder="placeholder"
     @selected="onSelected"

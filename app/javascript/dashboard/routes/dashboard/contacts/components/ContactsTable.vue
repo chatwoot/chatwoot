@@ -253,7 +253,7 @@ export default {
     class="flex-1 h-full -mt-1 overflow-hidden bg-white contacts-table-wrap dark:bg-slate-900"
   >
     <VeTable
-      :fixed-header="true"
+      fixed-header
       max-height="calc(100vh - 7.125rem)"
       scroll-width="187rem"
       :columns="columns"

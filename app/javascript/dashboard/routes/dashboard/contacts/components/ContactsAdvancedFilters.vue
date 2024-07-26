@@ -286,7 +286,7 @@ export default {
           :key="i"
           v-model="appliedFilters[i]"
           :filter-groups="filterGroups"
-          :grouped-filters="true"
+          grouped-filters
           :input-type="
             getInputType(
               appliedFilters[i].attribute_key,

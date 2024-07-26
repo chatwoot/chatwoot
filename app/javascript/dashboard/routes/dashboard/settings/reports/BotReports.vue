@@ -93,7 +93,7 @@ export default {
   <div class="flex-1 p-4 overflow-auto">
     <ReportFilterSelector
       :show-agents-filter="false"
-      :show-group-by-filter="true"
+      show-group-by-filter
       :show-business-hours-switch="false"
       @filterChange="onFilterChange"
     />

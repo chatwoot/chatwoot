@@ -155,11 +155,11 @@ export default {
     <div class="flex justify-between">
       <div class="flex justify-between w-full mb-1">
         <div>
-          <p v-if="watchersList.length" class="total-watchers m-0 text-sm">
+          <p v-if="watchersList.length" class="m-0 text-sm total-watchers">
             <Spinner v-if="watchersUiFlas.isFetching" size="tiny" />
             {{ totalWatchersText }}
           </p>
-          <p v-else class="text-slate-400 dark:text-slate-700 m-0 text-sm">
+          <p v-else class="m-0 text-sm text-slate-400 dark:text-slate-700">
             {{ $t('CONVERSATION_PARTICIPANTS.NO_PARTICIPANTS_TEXT') }}
           </p>
         </div>
@@ -174,7 +174,7 @@ export default {
         />
       </div>
     </div>
-    <div class="flex justify-between items-center">
+    <div class="flex items-center justify-between">
       <ThumbnailGroup
         :more-thumbnails-text="moreThumbnailsText"
         :show-more-thumbnails-count="showMoreThumbs"
@@ -182,7 +182,7 @@ export default {
       />
       <p
         v-if="isUserWatching"
-        class="text-slate-300 dark:text-slate-300 m-0 text-sm"
+        class="m-0 text-sm text-slate-300 dark:text-slate-300"
       >
         {{ $t('CONVERSATION_PARTICIPANTS.YOU_ARE_WATCHING') }}
       </p>
@@ -205,9 +205,9 @@ export default {
       :class="{ 'dropdown-pane--open': showDropDown }"
       class="dropdown-pane"
     >
-      <div class="flex justify-between items-center mb-1">
+      <div class="flex items-center justify-between mb-1">
         <h4
-          class="text-sm m-0 overflow-hidden whitespace-nowrap text-ellipsis text-slate-800 dark:text-slate-100"
+          class="m-0 overflow-hidden text-sm whitespace-nowrap text-ellipsis text-slate-800 dark:text-slate-100"
         >
           {{ $t('CONVERSATION_PARTICIPANTS.ADD_PARTICIPANTS') }}
         </h4>
@@ -222,7 +222,7 @@ export default {
       <MultiselectDropdownItems
         :options="agentsList"
         :selected-items="selectedWatchers"
-        :has-thumbnail="true"
+        has-thumbnail
         @click="onClickItem"
       />
     </div>
