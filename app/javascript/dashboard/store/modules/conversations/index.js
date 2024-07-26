@@ -148,7 +148,7 @@ export const mutations = {
 
   [types.ADD_CONVERSATION_ATTACHMENTS](_state, message) {
     // early return if the message has not been sent, or has no attachments
-    if (message.status !== MESSAGE_STATUS.SENT || !message.attachments) {
+    if (message.status !== MESSAGE_STATUS.SENT || !message.attachments.length) {
       return;
     }
 
@@ -172,8 +172,7 @@ export const mutations = {
 
     const { conversation_id: id } = message;
     const existingAttachments = _state.attachments[id] || [];
-
-    if (!existingAttachments) return;
+    if (!existingAttachments.length) return;
 
     const attachmentIndex = existingAttachments.findIndex(
       attachment => attachment.message_id === message.id
