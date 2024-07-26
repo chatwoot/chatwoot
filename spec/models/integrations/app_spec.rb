@@ -5,10 +5,6 @@ RSpec.describe Integrations::App do
   let(:app) { apps.find(id: app_name) }
   let(:account) { create(:account) }
 
-  before do
-    allow(Current).to receive(:account).and_return(account)
-  end
-
   describe '#name' do
     let(:app_name) { 'slack' }
 
@@ -28,6 +24,10 @@ RSpec.describe Integrations::App do
   describe '#action' do
     let(:app_name) { 'slack' }
 
+    before do
+      allow(Current).to receive(:account).and_return(account)
+    end
+
     context 'when the app is slack' do
       it 'returns the action URL with client_id and redirect_uri' do
         with_modified_env SLACK_CLIENT_ID: 'dummy_client_id' do
@@ -46,7 +46,7 @@ RSpec.describe Integrations::App do
     context 'when the app is slack' do
       it 'returns true if SLACK_CLIENT_SECRET is present' do
         with_modified_env SLACK_CLIENT_SECRET: 'random_secret' do
-          expect(app.active?).to be true
+          expect(app.active?(account)).to be true
         end
       end
     end
@@ -55,14 +55,14 @@ RSpec.describe Integrations::App do
       let(:app_name) { 'linear' }
 
       it 'returns true if the linear integration feature is disabled' do
-        expect(app.active?).to be false
+        expect(app.active?(account)).to be false
       end
 
       it 'returns false if the linear integration feature is enabled' do
         account.enable_features('linear_integration')
         account.save!
 
-        expect(app.active?).to be true
+        expect(app.active?(account)).to be true
       end
     end
 
@@ -70,7 +70,7 @@ RSpec.describe Integrations::App do
       let(:app_name) { 'webhook' }
 
       it 'returns true' do
-        expect(app.active?).to be true
+        expect(app.active?(account)).to be true
       end
     end
   end

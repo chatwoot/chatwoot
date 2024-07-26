@@ -22,9 +22,16 @@ export default {
             permissions: ['administrator'],
           },
         },
+        {
+          path: 'dashboard_apps',
+          component: DashboardApps,
+          name: 'settings_integrations_dashboard_apps',
+          meta: {
+            permissions: ['administrator'],
+          },
+        },
       ],
     },
-
     {
       path: frontendURL('accounts/:accountId/settings/integrations'),
       component: SettingsContent,
@@ -46,14 +53,6 @@ export default {
           path: 'webhook',
           component: Webhook,
           name: 'settings_integrations_webhook',
-          meta: {
-            permissions: ['administrator'],
-          },
-        },
-        {
-          path: 'dashboard_apps',
-          component: DashboardApps,
-          name: 'settings_integrations_dashboard_apps',
           meta: {
             permissions: ['administrator'],
           },

@@ -67,6 +67,7 @@ export default {
         v-if="showBackButton"
         :button-label="backButtonLabel"
         :back-url="backUrl"
+        class="ml-2 mr-4"
       />
       <fluent-icon
         v-if="icon"
