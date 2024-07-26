@@ -6,6 +6,7 @@
       <macro-nodes
         v-model="macro.actions"
         :files="files"
+        :errors="errors"
         @addNewNode="appendNode"
         @deleteNode="deleteNode"
         @resetAction="resetNode"
@@ -24,7 +25,7 @@
 </template>
 
 <script>
-import { ref, provide } from 'vue';
+import { provide } from 'vue';
 import MacroNodes from './MacroNodes.vue';
 import MacroProperties from './MacroProperties.vue';
 import { required } from '@vuelidate/validators';
@@ -43,16 +44,15 @@ export default {
     },
   },
   setup() {
-    const errors = ref({});
     const v$ = useVuelidate();
-    provide('errors', errors);
     provide('v$', v$);
 
-    return { v$, errors };
+    return { v$ };
   },
   data() {
     return {
       macro: this.macroData,
+      errors: {},
     };
   },
   computed: {

@@ -11,7 +11,7 @@
     <div
       class="macro__node-action-item"
       :class="{
-        'has-error': errors[`action_${index}`],
+        'has-error': errorKey,
       }"
     >
       <action-input
@@ -21,7 +21,7 @@
         :show-action-input="showActionInput"
         :show-remove-button="false"
         :is-macro="true"
-        :error-message="errors[`action_${index}`] || ''"
+        :error-message="errorMessage"
         :initial-file-name="fileName"
         @resetAction="$emit('resetAction')"
       />
@@ -58,6 +58,10 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    errorKey: {
+      type: String,
+      default: '',
+    },
     index: {
       type: Number,
       default: 0,
@@ -69,8 +73,7 @@ export default {
   },
   setup() {
     const macroActionTypes = inject('macroActionTypes');
-    const errors = inject('errors');
-    return { macroActionTypes, errors };
+    return { macroActionTypes };
   },
   computed: {
     ...mapGetters({
@@ -85,6 +88,11 @@ export default {
       set(value) {
         this.$emit('input', value);
       },
+    },
+    errorMessage() {
+      if (!this.errorKey) return '';
+
+      return this.$t(`MACROS.ERRORS.${this.errorKey}`);
     },
     showActionInput() {
       if (
