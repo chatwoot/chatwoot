@@ -45,9 +45,9 @@ class ParquetReport::Message < ParquetReport
     prepare_attributes
     base_query = account.messages.includes(:inbox, :conversation)
     @messages = base_query.filter_by_created_at(range)
-                          .filter_by_inbox(params[:inbox_id])
-                          .filter_by_team(params[:team_id])
-                          .filter_by_label(params[:label])
+                          .filter_by_inbox(accessible_params[:inbox_id])
+                          .filter_by_team(accessible_params[:team_id])
+                          .filter_by_label(accessible_params[:label])
                           .order(created_at: :desc)
   end
 end

@@ -45,11 +45,11 @@ class ParquetReport::SurveyResponse < ParquetReport
     prepare_attributes
     base_query = Current.account.csat_survey_responses.includes([:conversation, :assigned_agent, :contact])
     @csat_survey_responses = base_query.filter_by_created_at(range)
-                                       .filter_by_assigned_agent_id(params[:user_ids])
-                                       .filter_by_inbox_id(params[:inbox_id])
-                                       .filter_by_team_id(params[:team_id])
-                                       .filter_by_rating(params[:rating])
-                                       .filter_by_label(params[:label])
-                                       .filter_by_question(params[:question])
+                                       .filter_by_assigned_agent_id(accessible_params[:user_ids])
+                                       .filter_by_inbox_id(accessible_params[:inbox_id])
+                                       .filter_by_team_id(accessible_params[:team_id])
+                                       .filter_by_rating(accessible_params[:rating])
+                                       .filter_by_label(accessible_params[:label])
+                                       .filter_by_question(accessible_params[:question])
   end
 end

@@ -43,7 +43,7 @@ class ParquetReport::Conversation < ParquetReport
 
   def load_conversations
     prepare_attributes
-    conversation_finder = ConversationFinder.new(user, params)
+    conversation_finder = ConversationFinder.new(user, accessible_params)
     result = conversation_finder.perform
     @conversations = result[:conversations]
   end

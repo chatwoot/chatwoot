@@ -27,7 +27,6 @@
 #
 class ParquetReport < ApplicationRecord
   include Sift
-  include DateRangeHelper
 
   after_create :set_pending_status
 
@@ -82,8 +81,28 @@ class ParquetReport < ApplicationRecord
   end
 
   def prepare_attributes
-    params = params&.with_indifferent_access
     Current.user = user
     Current.account = account
+  end
+
+  def accessible_params
+    params.with_indifferent_access
+  end
+
+  def range
+    return if accessible_params[:since].blank? || accessible_params[:until].blank?
+
+    parse_date_time(accessible_params[:since])...parse_date_time(accessible_params[:until])
+  end
+
+  def parse_date_time(datetime)
+    return datetime if datetime.is_a?(DateTime)
+    return datetime.to_datetime if datetime.is_a?(Time) || datetime.is_a?(Date)
+
+    begin
+      DateTime.strptime(datetime, '%Y-%m-%d %H:%M')
+    rescue
+      DateTime.strptime(datetime, '%s')
+    end
   end
 end
