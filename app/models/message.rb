@@ -331,11 +331,24 @@ class Message < ApplicationRecord
     send_reply
     execute_message_template_hooks
     update_contact_activity
+    deactivate_smart_actions
     auto_assign_agent
   end
 
   def auto_assign_agent
     conversation.auto_assign_to_latest_agent
+  end
+
+  def deactivate_smart_actions
+    return unless Current.account.feature_enabled?('smart_actions')
+    return if conversation.blank?
+    return unless incoming? || outgoing?
+
+    deactivate_copilot_drafts
+  end
+
+  def deactivate_copilot_drafts
+    conversation.smart_actions.ask_copilot.where('message_id < ?', id).update_all(active: false)
   end
 
   def update_contact_activity

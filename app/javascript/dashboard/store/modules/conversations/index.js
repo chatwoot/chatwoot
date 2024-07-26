@@ -295,7 +295,9 @@ export const mutations = {
   },
 
   [types.ADD_SMART_ACTION](_state, data) {
-    _state.smartActions.push(data);
+    if (_state.selectedChatId == data.conversation_id) {
+      _state.smartActions.push(data);
+    }
   },
 
   [types.DISPLAY_SMART_ACTIONS](_state, value) {
