@@ -77,6 +77,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div
     v-if="integrationLoaded && !uiFlags.isCreatingSlack"

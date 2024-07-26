@@ -129,6 +129,7 @@ export default {
     </div>
   </form>
 </template>
+
 <style lang="scss" scoped>
 .checkbox {
   @apply mr-2;

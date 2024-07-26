@@ -81,6 +81,7 @@ const onClick = () => {
   emit('click');
 };
 </script>
+
 <template>
   <button
     class="inline-flex items-center gap-1 text-sm font-medium reset-base rounded-xl w-fit"

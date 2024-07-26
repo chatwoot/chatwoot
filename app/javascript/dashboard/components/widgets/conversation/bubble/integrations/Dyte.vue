@@ -41,6 +41,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div>
     <woot-button
@@ -71,6 +72,7 @@ export default {
     </div>
   </div>
 </template>
+
 <style lang="scss">
 .join-call-button {
   margin: var(--space-small) 0;

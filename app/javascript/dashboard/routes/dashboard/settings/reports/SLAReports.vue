@@ -75,6 +75,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="flex flex-col flex-1 gap-6 px-4 pt-4 overflow-auto">
     <SLAReportFilters @filterChange="onFilterChange" />

@@ -55,6 +55,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <button
     :class="buttonClassName"

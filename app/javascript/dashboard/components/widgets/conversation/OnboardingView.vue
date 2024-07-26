@@ -18,6 +18,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="onboarding-wrap">
     <div class="onboarding">
@@ -98,6 +99,7 @@ export default {
     </div>
   </div>
 </template>
+
 <style lang="scss" scoped>
 .onboarding-wrap {
   display: flex;

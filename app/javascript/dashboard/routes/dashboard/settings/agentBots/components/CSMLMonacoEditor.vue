@@ -45,6 +45,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="csml-editor--container">
     <LoadingState

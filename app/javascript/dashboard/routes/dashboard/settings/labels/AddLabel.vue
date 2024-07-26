@@ -116,6 +116,7 @@ export default {
     </form>
   </div>
 </template>
+
 <style lang="scss" scoped>
 // Label API supports only lowercase letters
 .label-name--input {

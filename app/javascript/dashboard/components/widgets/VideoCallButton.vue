@@ -40,6 +40,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <woot-button
     v-if="isVideoIntegrationEnabled"

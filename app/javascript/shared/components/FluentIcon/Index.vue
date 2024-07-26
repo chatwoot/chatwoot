@@ -34,6 +34,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <BaseIcon
     :size="size"

@@ -74,6 +74,7 @@ export default {
     </tr>
   </Draggable>
 </template>
+
 <style scoped lang="scss">
 .pre-chat-field {
   @apply py-4 px-2 text-slate-700 dark:text-slate-100;

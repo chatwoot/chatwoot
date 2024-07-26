@@ -228,6 +228,7 @@ export default {
     </div>
   </div>
 </template>
+
 <style lang="scss" scoped>
 .dropdown-pane {
   @apply box-border top-8 w-full;

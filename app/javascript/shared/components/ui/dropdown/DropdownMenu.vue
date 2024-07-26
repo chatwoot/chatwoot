@@ -50,6 +50,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <ul
     ref="dropdownMenu"

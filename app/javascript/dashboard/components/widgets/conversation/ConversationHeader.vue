@@ -130,6 +130,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div
     class="flex flex-col items-center justify-between px-4 py-2 bg-white border-b dark:bg-slate-900 border-slate-50 dark:border-slate-800/50 md:flex-row"

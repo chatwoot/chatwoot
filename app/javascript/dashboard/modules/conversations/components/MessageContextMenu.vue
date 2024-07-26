@@ -140,6 +140,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="context-menu">
     <!-- Add To Canned Responses -->
@@ -245,6 +246,7 @@ export default {
     </woot-context-menu>
   </div>
 </template>
+
 <style lang="scss" scoped>
 .menu-container {
   @apply p-1 bg-white dark:bg-slate-900 shadow-xl rounded-md;

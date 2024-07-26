@@ -20,6 +20,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div
     class="flex flex-col items-start justify-center p-6 w-80 bg-white rounded-lg drop-shadow-md dark:bg-slate-800"

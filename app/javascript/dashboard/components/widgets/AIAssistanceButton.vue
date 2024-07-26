@@ -106,6 +106,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div v-if="!isFetchingAppIntegrations">
     <div v-if="isAIIntegrationEnabled" class="relative">

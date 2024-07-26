@@ -181,6 +181,7 @@ export default {
     </div>
   </div>
 </template>
+
 <style scoped>
 @tailwind components;
 @layer components {
@@ -197,6 +198,7 @@ export default {
   }
 }
 </style>
+
 <style lang="scss">
 @import '~dashboard/assets/scss/mixins';
 

@@ -285,6 +285,7 @@ export default {
     </form>
   </div>
 </template>
+
 <style lang="scss" scoped>
 ::v-deep .ProseMirror-woot-style {
   height: 5rem;

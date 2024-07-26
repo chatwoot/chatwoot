@@ -65,6 +65,7 @@ export default {
     </div>
   </transition-group>
 </template>
+
 <style lang="scss" scoped>
 .wizard-box {
   .item {

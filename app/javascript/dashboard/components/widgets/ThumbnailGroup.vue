@@ -33,6 +33,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="overlapping-thumbnails">
     <Thumbnail

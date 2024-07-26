@@ -38,6 +38,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="w-full h-5 ltr:-ml-1 rtl:-mr-1">
     <a

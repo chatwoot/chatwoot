@@ -60,6 +60,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div
     v-if="activeLabels.length || $slots.before"

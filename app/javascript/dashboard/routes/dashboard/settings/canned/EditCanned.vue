@@ -139,6 +139,7 @@ export default {
     </div>
   </Modal>
 </template>
+
 <style scoped lang="scss">
 ::v-deep {
   .ProseMirror-menubar {

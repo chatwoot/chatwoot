@@ -89,6 +89,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div
     class="conversation-details-wrap bg-slate-25 dark:bg-slate-800"
@@ -153,6 +154,7 @@ export default {
     />
   </div>
 </template>
+
 <style lang="scss" scoped>
 .conversation-details-wrap {
   @apply flex flex-col min-w-0 w-full;

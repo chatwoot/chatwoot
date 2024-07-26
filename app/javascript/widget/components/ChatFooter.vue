@@ -161,6 +161,7 @@ export default {
     </CustomButton>
   </div>
 </template>
+
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
 

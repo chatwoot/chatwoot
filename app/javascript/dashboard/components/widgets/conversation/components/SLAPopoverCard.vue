@@ -37,6 +37,7 @@ const toggleShowAllNRT = () => {
   shouldShowAllNrts.value = !shouldShowAllNrts.value;
 };
 </script>
+
 <template>
   <div
     class="absolute flex flex-col items-start bg-white dark:bg-slate-800 z-50 p-4 border border-solid border-slate-75 dark:border-slate-700 w-[384px] rounded-xl gap-4 max-h-96 overflow-auto"

@@ -53,6 +53,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <WithLabel
     :label="label"

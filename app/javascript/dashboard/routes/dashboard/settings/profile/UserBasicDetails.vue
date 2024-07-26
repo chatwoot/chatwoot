@@ -88,6 +88,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <form class="flex flex-col gap-4" @submit.prevent="updateUser('profile')">
     <woot-input

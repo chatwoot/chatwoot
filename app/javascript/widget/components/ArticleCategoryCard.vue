@@ -42,6 +42,7 @@ export default {
     </button>
   </div>
 </template>
+
 <style lang="scss" scoped>
 .see-articles {
   color: var(--brand-textButtonClear);

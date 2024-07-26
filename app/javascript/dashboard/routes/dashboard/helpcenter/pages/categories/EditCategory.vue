@@ -189,6 +189,7 @@ export default {
     </form>
   </woot-modal>
 </template>
+
 <style scoped lang="scss">
 .article-info {
   width: 100%;

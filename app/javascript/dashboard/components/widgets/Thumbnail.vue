@@ -130,6 +130,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div
     :class="thumbnailBoxClass"

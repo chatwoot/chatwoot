@@ -179,6 +179,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="flex flex-col justify-between gap-3 mb-4 md:flex-row">
     <div

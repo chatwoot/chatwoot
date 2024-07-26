@@ -155,6 +155,7 @@ export default {
     />
   </div>
 </template>
+
 <style lang="scss" scoped>
 /*
 The .article-ghost-class class is maintained as the vueDraggable doesn't allow multiple classes

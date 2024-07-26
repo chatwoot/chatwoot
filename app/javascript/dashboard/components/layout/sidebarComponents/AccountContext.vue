@@ -24,6 +24,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div
     v-if="showShowCurrentAccountContext"
@@ -56,6 +57,7 @@ export default {
     </transition>
   </div>
 </template>
+
 <style scoped>
 @tailwind components;
 @layer components {

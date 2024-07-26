@@ -7,6 +7,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="relative">
     <woot-button
@@ -28,6 +29,7 @@ export default {
     />
   </div>
 </template>
+
 <style scoped>
 @tailwind components;
 @layer components {

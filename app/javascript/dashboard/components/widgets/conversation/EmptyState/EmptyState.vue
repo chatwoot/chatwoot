@@ -60,6 +60,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div :class="emptyClassName">
     <woot-loading-state

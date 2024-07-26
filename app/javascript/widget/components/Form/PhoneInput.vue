@@ -306,6 +306,7 @@ export default {
     </div>
   </div>
 </template>
+
 <style lang="scss" scoped>
 @import '~widget/assets/scss/variables.scss';
 .phone-input--wrap {

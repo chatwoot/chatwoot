@@ -980,6 +980,7 @@ export default {
     </woot-modal>
   </div>
 </template>
+
 <style scoped>
 @tailwind components;
 @layer components {

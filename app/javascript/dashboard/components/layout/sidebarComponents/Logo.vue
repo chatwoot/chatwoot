@@ -23,6 +23,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="w-8 h-8">
     <router-link :to="dashboardPath" replace>

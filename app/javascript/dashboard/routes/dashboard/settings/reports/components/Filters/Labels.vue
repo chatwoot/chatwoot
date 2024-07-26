@@ -23,6 +23,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="multiselect-wrap--small">
     <multiselect

@@ -254,6 +254,7 @@ export default {
     </woot-modal>
   </section>
 </template>
+
 <style lang="scss" scoped>
 .conversation-page {
   display: flex;

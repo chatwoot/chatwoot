@@ -200,6 +200,7 @@ export default {
     </div>
   </div>
 </template>
+
 <style lang="scss" scoped>
 .day-wrap::v-deep .multiselect {
   @apply m-0 w-[7.5rem];

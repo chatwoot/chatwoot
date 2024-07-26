@@ -276,6 +276,7 @@ export default {
     </form>
   </div>
 </template>
+
 <style lang="scss" scoped>
 .key-value {
   padding: 0 var(--space-small) var(--space-small) 0;

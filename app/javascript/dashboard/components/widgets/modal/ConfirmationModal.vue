@@ -49,6 +49,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <Modal :show.sync="show" :on-close="cancel">
     <div class="h-auto overflow-auto flex flex-col">

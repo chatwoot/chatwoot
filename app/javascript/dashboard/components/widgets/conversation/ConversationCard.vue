@@ -228,6 +228,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div
     class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full px-4 py-0 border-t-0 border-b-0 border-l-2 border-r-0 border-transparent border-solid cursor-pointer conversation hover:bg-slate-25 dark:hover:bg-slate-800 group"
@@ -344,6 +345,7 @@ export default {
     </woot-context-menu>
   </div>
 </template>
+
 <style lang="scss" scoped>
 .conversation {
   &.unread-chat {

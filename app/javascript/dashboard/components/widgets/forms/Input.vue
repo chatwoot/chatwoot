@@ -65,6 +65,7 @@ export default {
     <slot name="masked" />
   </label>
 </template>
+
 <style scoped lang="scss">
 .help-text {
   @apply mt-0.5 text-xs not-italic text-slate-600 dark:text-slate-400;

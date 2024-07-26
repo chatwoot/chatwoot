@@ -21,6 +21,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="manage-subscription">
     <div>

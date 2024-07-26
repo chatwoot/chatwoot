@@ -283,6 +283,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="flex flex-grow-0 w-full h-full min-h-0 app-wrapper">
     <Sidebar

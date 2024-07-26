@@ -105,6 +105,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="overflow-auto p-4 max-w-full my-auto flex flex-wrap h-full">
     <woot-button

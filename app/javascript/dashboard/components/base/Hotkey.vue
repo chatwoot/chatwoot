@@ -8,6 +8,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <kbd class="hotkey p-0.5 min-w-[1rem] uppercase" :class="customClass">
     <slot />

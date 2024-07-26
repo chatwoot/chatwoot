@@ -51,6 +51,7 @@ function onClick(emailProvider) {
   }
 }
 </script>
+
 <template>
   <div
     v-if="!provider"

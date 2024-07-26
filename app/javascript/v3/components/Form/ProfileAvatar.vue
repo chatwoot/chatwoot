@@ -45,6 +45,7 @@ const onAvatarDelete = () => {
   emits('delete');
 };
 </script>
+
 <template>
   <div class="relative rounded-xl h-[72px] w-[72px] cursor-pointe group">
     <img

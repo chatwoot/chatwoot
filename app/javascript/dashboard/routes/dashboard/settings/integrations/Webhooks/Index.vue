@@ -73,6 +73,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="flex-1 p-4 overflow-auto">
     <woot-button

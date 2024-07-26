@@ -99,6 +99,7 @@ export default {
     </div>
   </div>
 </template>
+
 <style scoped lang="scss">
 .wrapper {
   flex: 1;

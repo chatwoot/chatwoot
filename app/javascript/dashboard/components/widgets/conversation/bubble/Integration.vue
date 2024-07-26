@@ -30,6 +30,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <DyteVideoCall
     v-if="showDyteIntegration"

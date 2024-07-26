@@ -38,6 +38,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="flex flex-row gap-4">
     <div class="w-full lg:w-3/5">

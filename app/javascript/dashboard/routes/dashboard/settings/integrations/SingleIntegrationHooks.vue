@@ -10,6 +10,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="flex-shrink flex-grow overflow-auto p-4">
     <div class="flex flex-col">

@@ -32,6 +32,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="flex gap-2 items-center">
     <div class="flex gap-1 items-center">

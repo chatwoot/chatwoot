@@ -49,6 +49,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <router-link
     v-slot="{ href, isActive, navigate }"

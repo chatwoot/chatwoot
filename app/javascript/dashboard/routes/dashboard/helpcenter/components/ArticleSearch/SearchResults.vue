@@ -68,6 +68,7 @@ export default {
     </div>
   </div>
 </template>
+
 <style scoped>
 .empty-state-message {
   @apply text-center flex items-center justify-center px-4 py-8 text-slate-500 text-sm;

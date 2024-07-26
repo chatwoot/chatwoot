@@ -41,6 +41,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <woot-tabs :index="activeTabIndex" @change="onTabChange">
     <woot-tabs-item

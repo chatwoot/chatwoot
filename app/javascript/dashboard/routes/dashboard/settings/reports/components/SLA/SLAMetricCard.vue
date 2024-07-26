@@ -20,6 +20,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="flex flex-col gap-2 items-start justify-center min-w-[10rem]">
     <span

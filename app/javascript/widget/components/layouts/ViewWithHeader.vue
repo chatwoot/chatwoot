@@ -101,6 +101,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div
     class="w-full h-full bg-slate-25 dark:bg-slate-800"

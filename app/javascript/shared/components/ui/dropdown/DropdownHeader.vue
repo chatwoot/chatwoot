@@ -9,6 +9,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <li class="inline-flex list-none" :tabindex="null" :aria-disabled="true">
     <span

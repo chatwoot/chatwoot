@@ -25,6 +25,7 @@ const updateSignature = () => {
   emit('updateSignature', signature.value);
 };
 </script>
+
 <template>
   <form class="flex flex-col gap-6" @submit.prevent="updateSignature()">
     <WootMessageEditor

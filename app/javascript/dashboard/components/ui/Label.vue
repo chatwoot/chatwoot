@@ -79,6 +79,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div
     class="inline-flex ltr:mr-1 rtl:ml-1 mb-1"

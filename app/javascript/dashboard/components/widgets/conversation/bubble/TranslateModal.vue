@@ -25,6 +25,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <woot-modal
     modal-type="right-aligned"

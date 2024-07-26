@@ -99,6 +99,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="flex flex-col h-auto overflow-auto integration-hooks">
     <woot-modal-header

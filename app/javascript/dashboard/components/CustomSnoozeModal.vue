@@ -64,6 +64,7 @@ export default {
     </form>
   </div>
 </template>
+
 <style lang="scss" scoped>
 .modal-content {
   @apply pt-2 px-5 pb-6;

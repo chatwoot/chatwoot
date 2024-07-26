@@ -22,6 +22,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <woot-button
     v-tooltip.right="$t(`SIDEBAR.PROFILE_SETTINGS`)"

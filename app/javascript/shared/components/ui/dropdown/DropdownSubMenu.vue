@@ -16,6 +16,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <li class="sub-menu-container">
     <ul class="sub-menu-li-container">
@@ -24,6 +25,7 @@ export default {
     </ul>
   </li>
 </template>
+
 <style lang="scss" scoped>
 .sub-menu-container {
   margin-top: var(--space-micro);

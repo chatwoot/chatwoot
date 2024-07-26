@@ -1,6 +1,7 @@
 <script setup>
 import BaseSettingsListItem from '../../components/BaseSettingsListItem.vue';
 </script>
+
 <template>
   <BaseSettingsListItem class="opacity-50">
     <template #title>

@@ -60,6 +60,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div
     class="flex flex-col md:flex-row justify-between items-start md:items-center"

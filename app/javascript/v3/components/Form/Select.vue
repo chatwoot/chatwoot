@@ -81,6 +81,7 @@ export default {
     </select>
   </WithLabel>
 </template>
+
 <style scoped>
 .select-caret {
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: rgb%28110, 111, 115%29'></polygon></svg>");

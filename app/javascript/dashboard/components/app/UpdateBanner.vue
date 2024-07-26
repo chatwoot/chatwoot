@@ -66,6 +66,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <Banner
     v-if="shouldShowBanner"

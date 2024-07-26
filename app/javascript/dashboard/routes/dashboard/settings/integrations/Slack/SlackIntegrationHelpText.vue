@@ -10,6 +10,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div
     class="flex-1 w-full p-6 bg-white rounded-md border border-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"

@@ -89,6 +89,7 @@ export default {
     />
   </div>
 </template>
+
 <style scoped>
 .bots-list {
   list-style: none;

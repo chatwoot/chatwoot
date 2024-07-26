@@ -61,6 +61,7 @@ export default {
     <Spinner v-if="loading" class="ml-2" :color-scheme="spinnerClass" />
   </button>
 </template>
+
 <style lang="scss" scoped>
 button:disabled {
   @apply bg-woot-100 dark:bg-woot-500/25 dark:text-slate-500 opacity-100;

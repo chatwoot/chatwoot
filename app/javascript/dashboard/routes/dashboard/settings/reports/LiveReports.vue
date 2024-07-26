@@ -118,6 +118,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="flex-1 p-4 overflow-auto">
     <div class="flex flex-col items-center md:flex-row">

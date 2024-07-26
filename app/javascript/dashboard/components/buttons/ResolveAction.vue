@@ -220,6 +220,7 @@ export default {
     </div>
   </div>
 </template>
+
 <style lang="scss" scoped>
 .dropdown-pane {
   @apply left-auto top-[2.625rem] mt-0.5 right-0 max-w-[12.5rem] min-w-[9.75rem];

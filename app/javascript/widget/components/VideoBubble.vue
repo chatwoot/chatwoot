@@ -10,6 +10,7 @@ const onVideoError = () => {
   emits('error');
 };
 </script>
+
 <template>
   <div class="block relative max-w-full">
     <video

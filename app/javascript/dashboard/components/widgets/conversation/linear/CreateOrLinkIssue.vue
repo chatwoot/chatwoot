@@ -47,6 +47,7 @@ const onClickTabChange = index => {
   selectedTabIndex.value = index;
 };
 </script>
+
 <template>
   <div class="flex flex-col h-auto overflow-auto">
     <woot-modal-header

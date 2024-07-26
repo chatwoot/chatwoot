@@ -24,6 +24,7 @@ export default {
     <span aria-hidden="true" :class="{ active: value }" />
   </button>
 </template>
+
 <style lang="scss" scoped>
 .toggle-button {
   @apply bg-slate-200 dark:bg-slate-600;

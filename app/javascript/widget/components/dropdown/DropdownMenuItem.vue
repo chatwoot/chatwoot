@@ -40,6 +40,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <button :class="['menu-item', itemClass]" @click="action">
     <FluentIcon
@@ -51,6 +52,7 @@ export default {
     <span :class="[{ 'pl-3': icon }, textClass]">{{ text }}</span>
   </button>
 </template>
+
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
 

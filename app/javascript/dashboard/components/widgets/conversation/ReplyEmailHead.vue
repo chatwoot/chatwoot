@@ -152,6 +152,7 @@ export default {
     </div>
   </div>
 </template>
+
 <style lang="scss" scoped>
 .input-group-wrap .message {
   @apply text-sm text-red-500 dark:text-red-500;

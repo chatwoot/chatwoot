@@ -32,6 +32,7 @@ export default {
     </woot-button>
   </div>
 </template>
+
 <style lang="scss" scoped>
 .search-input-box {
   @apply p-2;

@@ -75,6 +75,7 @@ export default {
     </div>
   </div>
 </template>
+
 <style lang="scss" scoped>
 .message__mail-head {
   padding-bottom: var(--space-small);

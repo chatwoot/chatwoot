@@ -279,6 +279,7 @@ export default {
     </div>
   </div>
 </template>
+
 <style lang="scss" scoped>
 .filter__answer--wrap {
   input {

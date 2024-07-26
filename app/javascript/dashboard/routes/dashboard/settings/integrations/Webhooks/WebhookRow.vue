@@ -23,6 +23,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <tr class="space-x-2">
     <td class="max-w-2xl">

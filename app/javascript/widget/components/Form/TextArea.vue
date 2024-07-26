@@ -52,6 +52,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <label class="block">
     <div
@@ -73,6 +74,7 @@ export default {
     </div>
   </label>
 </template>
+
 <style lang="scss" scoped>
 textarea {
   min-height: 8rem;

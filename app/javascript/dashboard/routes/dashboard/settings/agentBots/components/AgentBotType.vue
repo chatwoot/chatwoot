@@ -22,6 +22,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <span class="inline-flex items-center gap-1">
     <img
@@ -33,6 +34,7 @@ export default {
     <span>{{ botTypeConfig[botType].label }}</span>
   </span>
 </template>
+
 <style scoped>
 .agent-bot-type--thumbnail {
   width: auto;

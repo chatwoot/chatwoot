@@ -16,6 +16,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div
     class="flex flex-col flex-1 overflow-hidden rounded-b-lg bg-slate-25 dark:bg-slate-800"

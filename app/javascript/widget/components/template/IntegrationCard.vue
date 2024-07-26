@@ -52,6 +52,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div>
     <button
@@ -82,6 +83,7 @@ export default {
     </div>
   </div>
 </template>
+
 <style lang="scss" scoped>
 @import '~widget/assets/scss/variables.scss';
 

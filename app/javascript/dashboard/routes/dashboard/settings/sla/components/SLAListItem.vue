@@ -34,6 +34,7 @@ defineProps({
   },
 });
 </script>
+
 <template>
   <BaseSettingsListItem
     class="sm:divide-x sm:divide-slate-75 sm:dark:divide-slate-700/50"

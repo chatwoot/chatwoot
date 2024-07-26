@@ -134,6 +134,7 @@ export default {
     </form>
   </Modal>
 </template>
+
 <style scoped lang="scss">
 .input-container::v-deep {
   margin: 0 0 var(--space-normal);

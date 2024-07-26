@@ -47,6 +47,7 @@ export default {
     </span>
   </div>
 </template>
+
 <style scoped>
 .hide-before-of-last:last-child::before {
   display: none;

@@ -362,6 +362,7 @@ export default {
     </div>
   </div>
 </template>
+
 <style lang="scss" scoped>
 .folder-input {
   @apply w-[50%];

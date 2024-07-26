@@ -34,6 +34,7 @@ export default {
     </div>
   </a>
 </template>
+
 <style lang="scss" scoped>
 @import '~widget/assets/scss/variables.scss';
 

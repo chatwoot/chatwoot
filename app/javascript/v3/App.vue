@@ -36,12 +36,14 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="h-full w-full antialiased" :class="theme">
     <router-view />
     <SnackbarContainer />
   </div>
 </template>
+
 <style lang="scss">
 @tailwind base;
 @tailwind components;

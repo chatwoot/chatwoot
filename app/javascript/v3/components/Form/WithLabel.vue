@@ -24,6 +24,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="space-y-1">
     <label

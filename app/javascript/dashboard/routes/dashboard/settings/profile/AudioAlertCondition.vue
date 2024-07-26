@@ -15,6 +15,7 @@ const onChange = (id, value) => {
   emit('change', id, value);
 };
 </script>
+
 <template>
   <div>
     <label

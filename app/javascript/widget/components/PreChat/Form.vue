@@ -316,6 +316,7 @@ export default {
     </CustomButton>
   </FormulateForm>
 </template>
+
 <style lang="scss" scoped>
 @import '~widget/assets/scss/variables.scss';
 ::v-deep {

@@ -39,6 +39,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <svg
     v-if="iconLib === 'fluent'"

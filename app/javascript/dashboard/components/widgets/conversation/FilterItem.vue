@@ -35,6 +35,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <select
     v-model="activeValue"

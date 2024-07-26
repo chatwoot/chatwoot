@@ -22,6 +22,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="text-slate-900 dark:text-slate-100">
     <span class="text-sm">

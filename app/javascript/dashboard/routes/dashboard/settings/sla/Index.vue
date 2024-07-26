@@ -113,6 +113,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <SettingsLayout
     :is-loading="uiFlags.isFetching"

@@ -114,6 +114,7 @@ export default {
     />
   </div>
 </template>
+
 <style lang="scss">
 .text-content {
   overflow: auto;

@@ -57,6 +57,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <ChannelSelector
     :class="{ inactive: !isActive }"

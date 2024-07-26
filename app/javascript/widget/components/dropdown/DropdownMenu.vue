@@ -74,6 +74,7 @@ export default {
     </transition>
   </div>
 </template>
+
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
 

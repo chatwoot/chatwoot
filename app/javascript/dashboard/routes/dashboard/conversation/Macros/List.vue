@@ -25,6 +25,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div>
     <div
@@ -59,6 +60,7 @@ export default {
     </div>
   </div>
 </template>
+
 <style scoped lang="scss">
 .macros-list {
   padding: var(--space-smaller);

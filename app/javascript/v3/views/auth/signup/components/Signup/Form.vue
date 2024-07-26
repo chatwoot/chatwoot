@@ -210,6 +210,7 @@ export default {
     />
   </div>
 </template>
+
 <style scoped lang="scss">
 .h-captcha--box {
   &::v-deep .error {

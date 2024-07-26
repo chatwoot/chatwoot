@@ -106,6 +106,7 @@ export default {
     </div>
   </div>
 </template>
+
 <style lang="scss" scoped>
 .basic-filter {
   @apply w-52 p-4 top-6;

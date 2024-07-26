@@ -173,6 +173,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="grid py-16 px-5 font-inter mx-auto gap-16 sm:max-w-[720px]">
     <div class="flex flex-col gap-6">

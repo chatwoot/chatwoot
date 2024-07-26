@@ -27,6 +27,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <a
     v-if="isLink"

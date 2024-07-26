@@ -178,6 +178,7 @@ export default {
     </form>
   </woot-modal>
 </template>
+
 <style scoped lang="scss">
 .input-container::v-deep {
   @apply mt-0 mb-4 mx-0;

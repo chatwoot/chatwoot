@@ -71,6 +71,7 @@ export default {
     </template>
   </MentionBox>
 </template>
+
 <style scoped>
 .variable--list-label {
   font-weight: var(--font-weight-bold);

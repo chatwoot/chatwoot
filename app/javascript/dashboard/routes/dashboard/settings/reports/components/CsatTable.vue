@@ -126,6 +126,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="csat--table-container">
     <VeTable
@@ -149,6 +150,7 @@ export default {
     </div>
   </div>
 </template>
+
 <style lang="scss" scoped>
 .csat--table-container {
   display: flex;

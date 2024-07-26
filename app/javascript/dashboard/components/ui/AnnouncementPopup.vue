@@ -28,6 +28,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="announcement-popup">
     <span v-if="popupMessage" class="popup-content">

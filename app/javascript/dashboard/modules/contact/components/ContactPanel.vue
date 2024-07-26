@@ -66,6 +66,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="panel">
     <ContactIntro

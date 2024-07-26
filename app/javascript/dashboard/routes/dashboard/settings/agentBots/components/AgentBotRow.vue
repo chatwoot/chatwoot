@@ -22,6 +22,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <tr class="space-x-2">
     <td class="agent-bot--details">
@@ -54,6 +55,7 @@ export default {
     </td>
   </tr>
 </template>
+
 <style scoped lang="scss">
 .agent-bot--link {
   align-items: center;

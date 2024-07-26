@@ -194,6 +194,7 @@ export default {
     </SettingsSection>
   </div>
 </template>
+
 <style lang="scss" scoped>
 .timezone-input-wrap {
   @apply max-w-[37.5rem];

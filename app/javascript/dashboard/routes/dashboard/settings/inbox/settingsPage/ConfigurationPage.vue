@@ -236,6 +236,7 @@ export default {
     </div>
   </div>
 </template>
+
 <style lang="scss" scoped>
 .whatsapp-settings--content {
   ::v-deep input {

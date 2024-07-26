@@ -91,6 +91,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="mx-8 my-2 text-base">
     <div class="mx-0 mt-6 mb-3">
@@ -170,6 +171,7 @@ export default {
     </form>
   </div>
 </template>
+
 <style scoped lang="scss">
 .message-editor {
   @apply px-3;

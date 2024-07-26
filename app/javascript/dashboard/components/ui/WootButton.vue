@@ -103,6 +103,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <button
     class="button"

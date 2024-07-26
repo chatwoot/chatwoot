@@ -28,6 +28,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="flex items-center justify-center h-full w-full">
     <Spinner color-scheme="primary" size="" />

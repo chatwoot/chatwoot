@@ -41,6 +41,7 @@ export default {
     </div>
   </Modal>
 </template>
+
 <style lang="scss" scoped>
 .action-button {
   max-width: var(--space-giga);

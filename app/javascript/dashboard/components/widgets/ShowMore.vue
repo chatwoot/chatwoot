@@ -35,6 +35,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <span>
     {{ textToBeDisplayed }}
@@ -47,6 +48,7 @@ export default {
     </button>
   </span>
 </template>
+
 <style scoped>
 .show-more--button {
   color: var(--w-500);

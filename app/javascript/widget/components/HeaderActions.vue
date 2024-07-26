@@ -76,6 +76,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div v-if="showHeaderActions" class="actions flex items-center">
     <button
@@ -120,6 +121,7 @@ export default {
     </button>
   </div>
 </template>
+
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
 

@@ -21,6 +21,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="flex items-center gap-1.5 text-left">
     <Thumbnail

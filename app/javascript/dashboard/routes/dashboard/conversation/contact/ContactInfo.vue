@@ -167,6 +167,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="relative items-center w-full p-4 bg-white dark:bg-slate-900">
     <div class="flex flex-col w-full gap-2 text-left rtl:text-right">

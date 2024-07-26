@@ -47,6 +47,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="relative flex items-center gap-2 actions--container">
     <woot-button
@@ -84,6 +85,7 @@ export default {
     />
   </div>
 </template>
+
 <style scoped lang="scss">
 .more--button {
   @apply items-center flex ml-2 rtl:ml-0 rtl:mr-2;

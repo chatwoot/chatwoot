@@ -30,6 +30,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div
     class="fixed outline-none z-[9999] cursor-pointer"

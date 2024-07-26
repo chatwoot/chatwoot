@@ -22,6 +22,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div
     class="metric-card flex flex-col m-2 p-4 border border-solid overflow-hidden rounded-md flex-grow shadow-sm text-slate-700 dark:text-slate-100 bg-white dark:bg-slate-800 border-slate-75 dark:border-slate-700 min-h-[10rem]"
@@ -67,6 +68,7 @@ export default {
     </div>
   </div>
 </template>
+
 <style lang="scss" scoped>
 .metric-card {
   @apply flex flex-col mb-2 p-4 border border-solid overflow-hidden rounded-md flex-grow shadow-sm text-slate-700 dark:text-slate-100 bg-white dark:bg-slate-800 border-slate-75 dark:border-slate-700 min-h-[10rem];

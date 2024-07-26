@@ -36,6 +36,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <BubbleImage
     v-if="!hasImgStoryError"

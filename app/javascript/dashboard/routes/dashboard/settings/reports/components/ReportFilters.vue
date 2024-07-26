@@ -139,6 +139,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="flex flex-col md:flex-row">
     <div class="flex flex-col items-center w-full md:flex-row">

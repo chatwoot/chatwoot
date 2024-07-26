@@ -41,6 +41,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="contact--intro">
     <Thumbnail

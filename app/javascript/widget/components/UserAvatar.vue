@@ -23,6 +23,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="user-avatar" :class="size" :style="getBgImage" />
 </template>

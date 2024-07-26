@@ -18,6 +18,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div v-if="isFeatureEnabled">
     <slot />

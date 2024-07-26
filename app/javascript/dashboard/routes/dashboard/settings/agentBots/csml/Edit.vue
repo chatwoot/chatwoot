@@ -33,6 +33,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <CsmlBotEditor v-if="agentBot.id" :agent-bot="agentBot" @submit="updateBot" />
   <div v-else class="flex flex-col h-auto overflow-auto no-padding">

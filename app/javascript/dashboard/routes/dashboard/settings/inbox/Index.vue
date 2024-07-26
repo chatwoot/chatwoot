@@ -90,6 +90,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div class="flex-1 overflow-auto">
     <div class="flex flex-row gap-4 p-8">

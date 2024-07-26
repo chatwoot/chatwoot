@@ -12,6 +12,7 @@ const onMenuItemClick = () => {
   emits('click');
 };
 </script>
+
 <template>
   <div
     role="button"

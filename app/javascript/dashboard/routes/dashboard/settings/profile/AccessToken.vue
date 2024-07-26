@@ -21,6 +21,7 @@ const onClick = () => {
   emit('onCopy', props.value);
 };
 </script>
+
 <template>
   <div class="flex flex-row justify-between gap-4">
     <woot-input

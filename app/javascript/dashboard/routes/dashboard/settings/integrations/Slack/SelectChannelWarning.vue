@@ -51,6 +51,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <div
     class="px-6 py-4 mb-4 border border-yellow-200 rounded-md bg-yellow-50 dark:border-slate-700 dark:bg-slate-800"

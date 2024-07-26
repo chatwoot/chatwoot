@@ -438,6 +438,7 @@ export default {
   },
 };
 </script>
+
 <template>
   <li
     v-if="shouldRenderMessage"
@@ -582,6 +583,7 @@ export default {
     </div>
   </li>
 </template>
+
 <style lang="scss">
 .wrap {
   > .bubble {

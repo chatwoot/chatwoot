@@ -105,6 +105,7 @@ export default {
     </button>
   </div>
 </template>
+
 <style lang="scss" scoped>
 @import '~widget/assets/scss/variables.scss';
 .chat-bubble {
