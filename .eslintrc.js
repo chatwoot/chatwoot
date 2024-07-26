@@ -157,6 +157,7 @@ module.exports = {
         ignoreStringEscape: false,
       },
     ],
+    'vue/no-v-text': 'error',
     'vue/max-attributes-per-line': [
       'error',
       {
