@@ -130,6 +130,7 @@ module.exports = {
         autofix: false,
       },
     ],
+    'vue/no-this-in-before-route-enter': 'error',
     'vue/max-attributes-per-line': [
       'error',
       {
