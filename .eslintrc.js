@@ -111,6 +111,12 @@ module.exports = {
     'vue/no-empty-component-block': 'error',
     'vue/no-multiple-objects-in-class': 'error',
     'vue/no-root-v-if': 'warn',
+    'vue/no-static-inline-styles': [
+      'error',
+      {
+        allowBinding: false,
+      },
+    ],
     'vue/no-required-prop-with-default': [
       'error',
       {

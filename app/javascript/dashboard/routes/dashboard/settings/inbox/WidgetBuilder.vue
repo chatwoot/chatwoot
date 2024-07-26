@@ -394,7 +394,7 @@ export default {
           name="widget-view-options"
           :items="getWidgetViewOptions"
           :action="handleWidgetViewChange"
-          :style="{ 'text-align': 'center' }"
+          class="text-center"
         />
         <div v-if="isWidgetPreview" class="widget-preview">
           <Widget
