@@ -26,8 +26,6 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class ParquetReport < ApplicationRecord
-  include Sift
-
   after_create :set_pending_status
 
   belongs_to :account

@@ -17,7 +17,7 @@ attr_accessor :conversations, :file_name, :report
     report.in_progress!(record_count: record_count)
     export_parquet
   rescue StandardError => e
-    report.failed!(e.message)
+    report.failed!("#{e.message}: #{e.backtrace.first}")
     nil
   end
 

@@ -340,7 +340,7 @@ class Message < ApplicationRecord
   end
 
   def deactivate_smart_actions
-    return unless Current.account.feature_enabled?('smart_actions')
+    return unless account.feature_enabled?('smart_actions')
     return if conversation.blank?
     return unless incoming? || outgoing?
 
