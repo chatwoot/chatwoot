@@ -9,7 +9,7 @@
     "SUBMIT_BUTTON_LABEL": "تطبيق عامل التصفية",
     "UPDATE_BUTTON_LABEL": "تحديث المجلد",
     "CANCEL_BUTTON_LABEL": "إلغاء",
-    "CLEAR_BUTTON_LABEL": "مسح الفلاتر",
+    "CLEAR_BUTTON_LABEL": "مسح التصفيات",
     "FOLDER_LABEL": "اسم المجلد",
     "FOLDER_QUERY_LABEL": "استعلام المجلد",
     "EMPTY_VALUE_ERROR": "القيمة مطلوبة.",
