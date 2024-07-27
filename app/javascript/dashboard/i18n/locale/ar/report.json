@@ -44,8 +44,8 @@
         "DESC": "(الإجمالي)"
       },
       "REPLY_TIME": {
-        "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "NAME": "وقت انتظار العميل",
+        "TOOLTIP_TEXT": "وقت الانتظار هو %{metricValue} (بناء على ردود %{conversationCount})"
       }
     },
     "DATE_RANGE_OPTIONS": {
