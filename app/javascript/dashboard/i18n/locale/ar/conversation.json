@@ -80,25 +80,25 @@
         "TITLE": "تأجيل حتى",
         "NEXT_REPLY": "الرد القادم",
         "TOMORROW": "غداً",
-        "NEXT_WEEK": "الأسبوع المقبل"
+        "NEXT_WEEK": "الأسبوع القادم"
       }
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "تأجيل حتى",
-      "APPLY": "غفوة",
+      "APPLY": "تأجيل",
       "CANCEL": "إلغاء"
     },
     "PRIORITY": {
       "TITLE": "الأولوية",
       "OPTIONS": {
-        "NONE": "لا شيء",
+        "NONE": "لا يوجد",
         "URGENT": "عاجل",
         "HIGH": "عالية",
         "MEDIUM": "متوسطة",
         "LOW": "منخفضة"
       },
       "CHANGE_PRIORITY": {
-        "SELECT_PLACEHOLDER": "لا شيء",
+        "SELECT_PLACEHOLDER": "لا يوجد",
         "INPUT_PLACEHOLDER": "تحديد الأولوية",
         "NO_RESULTS": "لم يتم العثور على النتائج",
         "SUCCESSFUL": "تغيير أولوية معرف المحادثة %{conversationId} إلى %{priority}",
@@ -111,14 +111,14 @@
       "MARK_AS_UNREAD": "وضع علامة كغير مقروء",
       "REOPEN": "إعادة فتح المحادثة",
       "SNOOZE": {
-        "TITLE": "غفوة",
+        "TITLE": "تأجيل",
         "NEXT_REPLY": "حتى الرد القادم",
         "TOMORROW": "حتى الغد",
         "NEXT_WEEK": "حتى الأسبوع القادم"
       },
       "ASSIGN_AGENT": "تعيين وكيل",
       "ASSIGN_LABEL": "إضافة وسم",
-      "AGENTS_LOADING": "جاري تحميل الوكلاء...",
+      "AGENTS_LOADING": "جاري جلب الوكلاء...",
       "ASSIGN_TEAM": "تعيين فريق",
       "API": {
         "AGENT_ASSIGNMENT": {
@@ -251,7 +251,7 @@
       "NEW_LINK": "انقر هنا لدعوة عضو في الفريق"
     },
     "INBOXES": {
-      "TITLE": "ربط صندوق الوارد",
+      "TITLE": "توصيل الصناديق الواردة",
       "DESCRIPTION": "قم بتوصيل مختلف القنوات التي من خلالها يتحدث عملاؤك إليك. يمكن أن تكون محادثة مباشرة على موقع الويب أو صفحة فيسبوك أو تويتر أو حتى رقم WhatsApp الخاص بك.",
       "NEW_LINK": "انقر هنا لإنشاء علبة الوارد"
     },
@@ -264,7 +264,7 @@
   "CONVERSATION_SIDEBAR": {
     "ASSIGNEE_LABEL": "الوكيل المكلف",
     "SELF_ASSIGN": "إسناد لي",
-    "TEAM_LABEL": "العضو المكلف",
+    "TEAM_LABEL": "الفريق المكلف",
     "SELECT": {
       "PLACEHOLDER": "لا شيء"
     },
