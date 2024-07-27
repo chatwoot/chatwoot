@@ -26,21 +26,21 @@ class Digitaltolk::SurveyResponsesParquetService
 
   def arrow_fields
     [
-      Arrow::Field.new('id', :int32),
-      Arrow::Field.new('rating', :int32),
+      Arrow::Field.new('id', :int64),
+      Arrow::Field.new('rating', :int64),
       Arrow::Field.new('feedback_message', :string),
-      Arrow::Field.new('account_id', :int32),
-      Arrow::Field.new('message_id', :int32),
-      Arrow::Field.new('csat_question_id', :int32),
+      Arrow::Field.new('account_id', :int64),
+      Arrow::Field.new('message_id', :int64),
+      Arrow::Field.new('csat_question_id', :int64),
       Arrow::Field.new('csat_question', :string),
-      Arrow::Field.new('contact_id', :int32),
+      Arrow::Field.new('contact_id', :int64),
       Arrow::Field.new('contact_name', :string),
       Arrow::Field.new('contact_email', :string),
-      Arrow::Field.new('conversation_id', :int32),
-      Arrow::Field.new('assigned_agent_id', :int32),
+      Arrow::Field.new('conversation_id', :int64),
+      Arrow::Field.new('assigned_agent_id', :int64),
       Arrow::Field.new('assigned_agent_name', :string),
       Arrow::Field.new('assigned_agent_email', :string),
-      Arrow::Field.new('created_at', :int32)
+      Arrow::Field.new('created_at', :int64)
     ]
   end
 
@@ -93,21 +93,21 @@ class Digitaltolk::SurveyResponsesParquetService
 
   def map_columns_array
     [
-      Arrow::Int32Array.new(@columns['id']),
-      Arrow::Int32Array.new(@columns['rating']),
+      Arrow::Int64Array.new(@columns['id']),
+      Arrow::Int64Array.new(@columns['rating']),
       Arrow::StringArray.new(@columns['feedback_message']),
-      Arrow::Int32Array.new(@columns['account_id']),
-      Arrow::Int32Array.new(@columns['message_id']),
-      Arrow::Int32Array.new(@columns['csat_question_id']),
+      Arrow::Int64Array.new(@columns['account_id']),
+      Arrow::Int64Array.new(@columns['message_id']),
+      Arrow::Int64Array.new(@columns['csat_question_id']),
       Arrow::StringArray.new(@columns['csat_question']),
-      Arrow::Int32Array.new(@columns['contact_id']),
+      Arrow::Int64Array.new(@columns['contact_id']),
       Arrow::StringArray.new(@columns['contact_name']),
       Arrow::StringArray.new(@columns['contact_email']),
-      Arrow::Int32Array.new(@columns['conversation_id']),
-      Arrow::Int32Array.new(@columns['assigned_agent_id']),
+      Arrow::Int64Array.new(@columns['conversation_id']),
+      Arrow::Int64Array.new(@columns['assigned_agent_id']),
       Arrow::StringArray.new(@columns['assigned_agent_name']),
       Arrow::StringArray.new(@columns['assigned_agent_email']),
-      Arrow::Int32Array.new(@columns['created_at'])
+      Arrow::Int64Array.new(@columns['created_at'])
     ]
   end
 

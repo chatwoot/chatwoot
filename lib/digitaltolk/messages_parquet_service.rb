@@ -26,16 +26,16 @@ class Digitaltolk::MessagesParquetService
 
   def arrow_fields
     [
-      Arrow::Field.new('id', :int32),
+      Arrow::Field.new('id', :int64),
       Arrow::Field.new('content', :string),
-      Arrow::Field.new('inbox_id', :int32),
-      Arrow::Field.new('conversation_id', :int32),
+      Arrow::Field.new('inbox_id', :int64),
+      Arrow::Field.new('conversation_id', :int64),
       Arrow::Field.new('message_type', :string),
       Arrow::Field.new('content_type', :string),
       Arrow::Field.new('status', :string),
-      Arrow::Field.new('created_at', :int32),
+      Arrow::Field.new('created_at', :int64),
       Arrow::Field.new('private', :boolean),
-      Arrow::Field.new('source_id', :int32)
+      Arrow::Field.new('source_id', :string)
     ]
   end
 
@@ -69,7 +69,7 @@ class Digitaltolk::MessagesParquetService
         @columns['status'] << message&.status.to_s
         @columns['created_at'] << message&.created_at.to_i
         @columns['private'] << !!(message&.private)
-        @columns['source_id'] << message&.source_id.to_i
+        @columns['source_id'] << message&.source_id.to_s
       end
       report.increment_progress(processed_count: index * batch_size)
       message_batch = nil
@@ -84,16 +84,16 @@ class Digitaltolk::MessagesParquetService
 
   def map_columns_array
     [
-      Arrow::Int32Array.new(@columns['id']),
+      Arrow::Int64Array.new(@columns['id']),
       Arrow::StringArray.new(@columns['content']),
-      Arrow::Int32Array.new(@columns['inbox_id']),
-      Arrow::Int32Array.new(@columns['conversation_id']),
+      Arrow::Int64Array.new(@columns['inbox_id']),
+      Arrow::Int64Array.new(@columns['conversation_id']),
       Arrow::StringArray.new(@columns['message_type']),
       Arrow::StringArray.new(@columns['content_type']),
       Arrow::StringArray.new(@columns['status']),
-      Arrow::Int32Array.new(@columns['created_at']),
+      Arrow::Int64Array.new(@columns['created_at']),
       Arrow::BooleanArray.new(@columns['private']),
-      Arrow::Int32Array.new(@columns['source_id'])
+      Arrow::StringArray.new(@columns['source_id'])
     ]
   end
 
