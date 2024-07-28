@@ -1,6 +1,9 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "خيارات الربط",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "الأحداث المشتركة",
       "FORM": {
@@ -169,6 +172,7 @@
       "HEADER_BTN_TXT": "إضافة تطبيق جديد للوحة التحكم",
       "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
       "DESCRIPTION": "تسمح تطبيقات لوحة التحكم للمنظمات بتضمين تطبيق داخل لوحة التحكم لتوفير السياق لوكلاء دعم العملاء. هذه الميزة تسمح لك بإنشاء تطبيق بشكل مستقل وإدراج لتوفير معلومات المستخدم أو طلباتهم أو سجل الدفع السابق.",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {
         "404": "لا توجد تطبيقات لوحة التحكم التي تم تكوينها على هذا الحساب حتى الآن",
         "LOADING": "جلب تطبيقات لوحة التحكم...",
@@ -224,7 +228,7 @@
         "ERROR": "There was an error fetching the linear issues, please try again",
         "LINK_SUCCESS": "Issue linked successfully",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+        "LINK_TITLE": "محادثة (#%{conversationId}) مع %{name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
@@ -241,34 +245,34 @@
           },
           "TEAM": {
             "LABEL": "الفريق",
-            "PLACEHOLDER": "اختيار فريق",
-            "SEARCH": "Search team",
+            "PLACEHOLDER": "اختر فريق",
+            "SEARCH": "البحث عن فريق",
             "REQUIRED_ERROR": "Team is required"
           },
           "ASSIGNEE": {
             "LABEL": "Assignee",
-            "PLACEHOLDER": "Select assignee",
-            "SEARCH": "Search assignee"
+            "PLACEHOLDER": "اختر المحال إليه",
+            "SEARCH": "البحث عن المحال إليه"
           },
           "PRIORITY": {
             "LABEL": "الأولوية",
             "PLACEHOLDER": "تحديد الأولوية",
-            "SEARCH": "Search priority"
+            "SEARCH": "أولوية البحث"
           },
           "LABEL": {
             "LABEL": "الوسم",
-            "PLACEHOLDER": "Select label",
-            "SEARCH": "Search label"
+            "PLACEHOLDER": "حدد التسمية",
+            "SEARCH": "ابحث عن تصنيفات"
           },
           "STATUS": {
             "LABEL": "الحالة",
-            "PLACEHOLDER": "Select status",
-            "SEARCH": "Search status"
+            "PLACEHOLDER": "اختر الحالة",
+            "SEARCH": "حالة البحث"
           },
           "PROJECT": {
             "LABEL": "Project",
-            "PLACEHOLDER": "Select project",
-            "SEARCH": "Search project"
+            "PLACEHOLDER": "حدد المشروع",
+            "SEARCH": "البحث عن المشروع"
           }
         },
         "CREATE": "إنشاء",

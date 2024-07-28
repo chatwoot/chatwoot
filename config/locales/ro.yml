@@ -187,31 +187,34 @@ ro:
     online:
       delete: "%{contact_name} este online, încercați din nou mai târziu"
   integration_apps:
+    dashboard_apps:
+      name: "Aplicații tablou de bord"
+      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
     dyte:
       name: "Dyte"
-      description: "Dyte este un instrument care vă ajută să adăugați audio și video live la aplicația dvs., cu doar câteva linii de cod. Această integrare vă permite să oferiți o opțiune agenților dumneavoastră de a efectua un apel video sau vocal cu clienții dvs., fără a părăsi Chatwoot."
+      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
       meeting_name: "%{agent_name} a început o întâlnire"
     slack:
       name: "Slack"
-      description: "Slack este un instrument de chat care vă reunește toate comunicările într-un singur loc. Prin integrarea Slack, puteți fi notificat cu privire la toate conversațiile noi din cont chiar în interiorul Slack-ului."
+      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
     webhooks:
       name: "Webhook-uri"
-      description: "Evenimentele Webhook vă oferă informații în timp real despre ceea ce se întâmplă în contul dvs. Puteți utiliza webhook-urile pentru a comunica evenimentele aplicațiilor preferate, cum ar fi Slack sau Github. Faceți clic pe Configurare pentru a configura webhooks dumneavoastră."
+      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
     dialogflow:
       name: "Flux de dialog"
-      description: "Construiți chatboți folosind Dialogflow și conectați-i rapid la inbox. Lăsați roboții să se ocupe de interogări înainte de a le preda unui agent de servicii pentru clienți."
-    fullcontact:
-      name: "Fullcontact"
-      description: "Integrarea FullContact ajută la îmbogățirea profilurilor vizitatorilor. Identificați utilizatorii imediat ce își partajează adresa de e-mail și oferiți-le servicii personalizate pentru clienți. Conectați FullContact la contul dvs., partajând cheia API FullContact."
+      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
     google_translate:
       name: "Google Translate"
-      description: "Simplificați traducerea mesajelor de către agenți prin adăugarea unei integrări Google Translate. Google translate ajută la identificarea automată a limbii și la conversia acesteia în limba aleasă de agent/administratorul contului."
+      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
     openai:
       name: "OpenAI"
-      description: "Integrați funcții AI puternice în Chatwoot folosind modelele GPT de la OpenAI."
+      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
     linear:
       name: "Linear"
-      description: "Create Linear issues from conversations, or link existing ones for seamless tracking."
+      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
+    captain:
+      name: "Captain"
+      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
   public_portal:
     search:
       search_placeholder: Căutați articol după titlu sau corp...

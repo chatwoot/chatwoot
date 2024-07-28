@@ -1,6 +1,9 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrasi",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Acara Berlangganan",
       "FORM": {
@@ -169,6 +172,7 @@
       "HEADER_BTN_TXT": "Tambahkan aplikasi dasbor baru",
       "SIDEBAR_TXT": "<p><b>Aplikasi Dasbor</b></p><p>Aplikasi Dasbor memungkinkan organisasi untuk menyematkan aplikasi di dalam dasbor Chatwoot untuk menyediakan konteks bagi agen dukungan pelanggan. Fitur ini memungkinkan Anda membuat aplikasi secara independen dan menyematkannya di dalam dasbor untuk menyediakan informasi pengguna, pesanan, atau riwayat pembayaran sebelumnya.</p><p>Ketika Anda menyematkan aplikasi Anda menggunakan dasbor di Chatwoot, aplikasi Anda akan mendapatkan konteks percakapan dan kontak sebagai acara window. Implementasikan penerima untuk acara pesan di halaman Anda untuk menerima konteks.</p><p>Untuk menambahkan aplikasi dasbor baru, klik tombol 'Tambahkan aplikasi dasbor baru'.</p>",
       "DESCRIPTION": "Aplikasi Dasbor memungkinkan organisasi untuk menyematkan aplikasi di dalam dasbor untuk menyediakan konteks bagi agen dukungan pelanggan. Fitur ini memungkinkan Anda membuat aplikasi secara independen dan menyematkannya untuk menyediakan informasi pengguna, pesanan, atau riwayat pembayaran sebelumnya.",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {
         "404": "Belum ada aplikasi dasbor yang dikonfigurasi untuk akun ini",
         "LOADING": "Mengambil aplikasi dasbor...",

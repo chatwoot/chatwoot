@@ -1,6 +1,9 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Intégrations",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Événements suivis",
       "FORM": {
@@ -169,6 +172,7 @@
       "HEADER_BTN_TXT": "Ajouter une nouvelle application de tableau de bord",
       "SIDEBAR_TXT": "<p><b>Les applications du tableau de bord</b></p><p>Les applications du tableau de bord permettent aux organisations d'intégrer une application dans le tableau de bord Chatwoot pour fournir le contexte aux agents d'assistance client. Cette fonctionnalité vous permet de créer une application indépendamment et d'intégrer cela dans le tableau de bord pour fournir les informations de l'utilisateur, leurs commandes, ou leur historique de paiement précédent.</p><p>Lorsque vous intégrez votre application en utilisant le tableau de bord dans Chatwoot, votre application obtiendra le contexte de la conversation et le contact comme un événement de fenêtre. Implémentez un listener pour l'événement message sur votre page pour recevoir le contexte.</p><p>Pour ajouter une nouvelle application de tableau de bord, cliquez sur le bouton 'Ajouter une nouvelle application de tableau de bord'.</p>",
       "DESCRIPTION": "Les applications du tableau de bord permettent aux organisations d'intégrer une application dans le tableau de bord pour fournir le contexte des agents d'assistance client. Cette fonctionnalité vous permet de créer une application de manière indépendante et d'intégrer les informations de l'utilisateur, leurs commandes ou leur historique de paiement précédent.",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {
         "404": "Il n'y a pas encore d'applications de tableau de bord configurées sur ce compte",
         "LOADING": "Récupération des applications du tableau de bord ...",

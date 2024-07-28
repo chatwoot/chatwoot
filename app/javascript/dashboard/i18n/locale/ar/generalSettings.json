@@ -96,8 +96,8 @@
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "غير متصل",
-      "RECONNECTING": "Reconnecting...",
-      "RECONNECT_SUCCESS": "Reconnected"
+      "RECONNECTING": "جاري إعادة الاتصال...",
+      "RECONNECT_SUCCESS": "تمت إعادة الاتصال"
     },
     "BUTTON": {
       "REFRESH": "تحديث"

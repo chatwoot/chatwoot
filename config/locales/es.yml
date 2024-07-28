@@ -187,31 +187,34 @@ es:
     online:
       delete: "%{contact_name} está conectado, por favor inténtalo más tarde"
   integration_apps:
+    dashboard_apps:
+      name: "Panel de aplicaciones"
+      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
     dyte:
       name: "Dyte"
-      description: "Dyte es una herramienta que te ayuda a agregar audio y vídeo en vivo a tu aplicación con unas pocas líneas de código. Esta integración le permite dar una opción a sus agentes para tener una videollamada o llamada de voz con sus clientes sin salir de Chatwoot."
+      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
       meeting_name: "%{agent_name} ha iniciado una reunión"
     slack:
       name: "Slack"
-      description: "Slack es una herramienta de chat que reúne toda su comunicación en un solo lugar. Al integrar Slack, puede ser notificado de todas las nuevas conversaciones en su cuenta directamente dentro de su Slack."
+      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
     webhooks:
       name: "Webhook"
-      description: "Los eventos Webhook le proporcionan información en tiempo real sobre lo que está sucediendo en su cuenta de Chatwoot. Puede hacer uso de los webhooks para comunicar los eventos a sus aplicaciones favoritas como Slack o Github. Haga clic en Configurar para configurar sus webhooks."
+      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
     dialogflow:
       name: "Dialogflow"
-      description: "Construya chatboots usando Dialogflow y conéctelos rápidamente a su bandeja de entrada. Permita que los bots gestionen las preguntas and de que pasen a los agentes de servicio al cliente."
-    fullcontact:
-      name: "Nombre completo"
-      description: "La integración con FullContact enriquece los perfiles de los visitantes. Identifique a los usuarios tan pronto compartan la dirección de correo electrónico y ofrezca un servicio al cliente personalizado. Conecte su cuenta de FullContact usando al clave de la API."
+      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
     google_translate:
       name: "Traductor de Google"
-      description: "Facilita a los agentes la traducción de mensajes añadiendo una integración de traducción de Google. Google Translate ayuda a identificar el idioma automáticamente y convertirlo al idioma elegido por el agente o administrador de la cuenta."
+      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
     openai:
       name: "OpenAI"
-      description: "Integra poderosas características de IA en Chatwoot aprovechando los modelos GPT de OpenAI."
+      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
     linear:
       name: "Linear"
-      description: "Create Linear issues from conversations, or link existing ones for seamless tracking."
+      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
+    captain:
+      name: "Captain"
+      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
   public_portal:
     search:
       search_placeholder: Buscar artículo por título o cuerpo...

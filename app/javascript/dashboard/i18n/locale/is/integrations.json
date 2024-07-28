@@ -1,6 +1,9 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrations",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Subscribed Events",
       "FORM": {
@@ -169,6 +172,7 @@
       "HEADER_BTN_TXT": "Add a new dashboard app",
       "SIDEBAR_TXT": "<p><b>Mælaborðsforrit</b></p><p>Mælaborðsforrit gera fyrirtækjum kleift að innsteypa (e. embed) forrit inn í Chatwoot mælaborðið til að veita þjónustufulltrúum samhengi. Þessi eiginleiki gerir þér kleift að búa til forrit sjálfstætt og innsteypa það inn í mælaborðið til að veita notendaupplýsingar, pantanir þeirra eða fyrri greiðsluferla.</p><p>Þegar þú innsteypir forritið þitt með því að nota mælaborðið í Chatwoot mun forritið þitt fáðu samhengi samtalsins og sambandsins sem gluggaviðburð (e. window event). Settu upp hlustanda fyrir skilaboðaviðburðinn á síðunni þinni til að fá samhengið.</p><p>Til að bæta við nýju stjórnborðsforriti skaltu smella á hnappinn 'Bæta við nýju stjórnborðsforriti'.</p>",
       "DESCRIPTION": "Mælaborðsforrit gera fyrirtækjum kleift að innsteypa (e. embed) forrit inn í mælaborðið til að veita þjónustufulltrúa samhengi. Þessi eiginleiki gerir þér kleift að búa til forrit sjálfstætt og innsteypa það inn til að veita notendaupplýsingar, pantanir þeirra eða fyrri greiðsluferil.",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {
         "404": "Engin mælaborðsforrit eru stillt á þessum reikningi ennþá",
         "LOADING": "Fetching dashboard apps...",
