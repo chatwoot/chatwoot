@@ -112,7 +112,7 @@ ar:
         contact_email_address: عنوان البريد الإلكتروني الخاص بجهة الاتصال
         contact_phone_number: رقم هاتف جهة الاتصال
         link_to_the_conversation: رابط إلى المحادثة
-        agent_name: اسم الموظف
+        agent_name: اسم الوكيل
         rating: التقييم
         feedback: التعليق على الملاحظات
         recorded_at: تاريخ التسجيل
@@ -193,7 +193,7 @@ ar:
     dyte:
       name: "Dyte"
       description: "Dyte هو منتج يدمج وظائف الصوت والفيديو في تطبيقك. مع هذا الدمج، يمكن لوكلائك بدء مكالمات الفيديو/الصوت مع عملائك مباشرة من Chatwoot."
-      meeting_name: "%{agent_name} has started a meeting"
+      meeting_name: "بدأ %{agent_name} اجتماعاً"
     slack:
       name: "Slack"
       description: "دمج Chatwoot مع Slack للحفاظ على مزامنة فريقك. هذا التكامل يسمح لك باستلام إشعارات للمحادثات الجديدة والرد عليها مباشرة داخل واجهة Slacks."
