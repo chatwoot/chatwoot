@@ -29,7 +29,7 @@
         "TEXT": "معلق"
       },
       "snoozed": {
-        "TEXT": "غفوة"
+        "TEXT": "مؤجلة"
       },
       "all": {
         "TEXT": "الكل"
@@ -53,7 +53,7 @@
     },
     "SORT_ORDER_ITEMS": {
       "last_activity_at_asc": {
-        "TEXT": "آخر نشاط: آلأقدم أولا"
+        "TEXT": "آخر نشاط: الأقدم أولا"
       },
       "last_activity_at_desc": {
         "TEXT": "آخر نشاط: الأحدث أولا"
