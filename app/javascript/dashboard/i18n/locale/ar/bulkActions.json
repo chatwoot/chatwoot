@@ -29,7 +29,7 @@
       "ASSIGN_FAILED": "فشل في تعيين التسميات ، الرجاء المحاولة مرة أخرى."
     },
     "TEAMS": {
-      "TEAM_SELECT_LABEL": "اختيار فريق",
+      "TEAM_SELECT_LABEL": "اختر فريق",
       "NONE": "لا شيء",
       "NO_TEAMS_AVAILABLE": "لا توجد فرق مضافة إلى هذا الحساب حتى الآن.",
       "ASSIGN_SELECTED_TEAMS": "تعيين فريق محدد.",

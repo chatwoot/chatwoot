@@ -1,6 +1,9 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrationer",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Abonnerede Begivenheder",
       "FORM": {
@@ -169,6 +172,7 @@
       "HEADER_BTN_TXT": "Tilføj en ny dashboard app",
       "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps tillader organisationer at integrere en applikation i Chatwoot-dashboardet for at give konteksten til kundesupportagenter. Denne funktion giver dig mulighed for at oprette et program uafhængigt og integrere at inde i instrumentbrættet til at give brugerinformation, deres ordrer eller deres tidligere betalingshistorie.</p><p>Når du indlejrer din applikation ved hjælp af instrumentbrættet i Chatwoot, dit program vil få konteksten af samtalen og kontakt som en vinduesbegivenhed. Gennemfør en lytter til besked begivenheden på din side for at modtage konteksten.</p><p>For at tilføje en ny dashboard app, klik på knappen 'Tilføj en ny dashboard app'.</p>",
       "DESCRIPTION": "Dashboard Apps giver organisationer mulighed for at integrere et program i instrumentbrættet for at give konteksten for kundesupportagenter. Denne funktion giver dig mulighed for at oprette et program uafhængigt og integrere at give brugeroplysninger, deres ordrer, eller deres tidligere betalingshistorik.",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {
         "404": "Der er ingen dashboard apps konfigureret på denne konto endnu",
         "LOADING": "Henter dashboard apps...",

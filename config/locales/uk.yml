@@ -187,31 +187,34 @@ uk:
     online:
       delete: "%{contact_name} в онлайні, будь ласка, спробуйте ще раз пізніше"
   integration_apps:
+    dashboard_apps:
+      name: "Додатки для головного екрану"
+      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
     dyte:
       name: "Dyte"
-      description: "Сервіс Dyte - це сервіс, що допомагає додавати аудіо та відео в додаток за допомогою кількох рядків коду. Ця інтеграція дозволяє надавати можливість Вашим агентам створювати відео чи голосові дзвінки з клієнтами, не виходячи з Chatwoot."
+      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
       meeting_name: "%{agent_name} розпочав зустріч"
     slack:
       name: "Slack"
-      description: "Slack - це інструмент чату, який об'єднує ваші комунікації разом в одному місці. Інтегруючи Slack, ви можете отримати повідомлення про всі нові діалоги у вашому обліковому записі прямо в Slack."
+      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
     webhooks:
       name: "Веб-хуки"
-      description: "Веб-хуки автоматично повідомляють про те, що відбувається у вашому обліковому записі Chatwoot. Ви можете скористатись веб-хуками для обміну подіями з вашими улюбленими додатками, такими як Slack чи Github. Натисніть на Налаштування, щоб налаштувати веб-хуки."
+      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
     dialogflow:
       name: "Dialogflow"
-      description: "Створюйте чати з допомогою Dialogflow та швидко під'єднайте їх до вхідних каналів. Дозвольте ботам обробляти запити перед передачею їх агенту."
-    fullcontact:
-      name: "Fullcontact"
-      description: "Інтеграція FullContact допомагає збагачувати профілі відвідувачів. Визначайте користувачів, як тільки вони поділяться адресою електронної пошти та пропонуйте їм адаптовану службу клієнтів. Під'єднайте ваш FullContact до вашого акаунту, поділившись ключем FullContact API."
+      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
     google_translate:
       name: "Google Translate"
-      description: "Зробіть простішим життя агентів перекладаючи повідомлення за допомогою Google Translate. Google Translate сам ідентифікує та перекладає на обрану адміністратором чи агентом мову."
+      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
     openai:
       name: "OpenAI"
-      description: "Інтегруйте потужні AI функції в Chatwoot, використовуючи моделі GPT з OpenAI."
+      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
     linear:
       name: "Linear"
-      description: "Create Linear issues from conversations, or link existing ones for seamless tracking."
+      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
+    captain:
+      name: "Captain"
+      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
   public_portal:
     search:
       search_placeholder: Пошук статті за заголовком або змістом...
