@@ -4,24 +4,21 @@
     <td>{{ chatbot.status }}</td>
     <td>{{ chatbot.last_trained_at }}</td>
     <td class="button-wrapper">
-      <router-link
-        :to="
-          addAccountScoping(
-            `settings/chatbot/edit/${chatbot.id}@${chatbot.last_trained_at}`
-          )
-        "
-      >
+      <router-link :to="addAccountScoping(`settings/chatbots/${chatbot.id}`)">
         <woot-button
-          v-tooltip.top="$t('CHATBOTS.EDIT.TOOLTIP')"
+          v-tooltip.top="$t('CHATBOTS.SETTINGS')"
+          :disabled="!canInteract"
           variant="smooth"
           size="tiny"
           color-scheme="secondary"
           class-names="grey-btn"
-          icon="edit"
+          icon="settings"
         />
       </router-link>
       <woot-button
+        v-if="isAdmin"
         v-tooltip.top="$t('CHATBOTS.DELETE.TOOLTIP')"
+        :disabled="!canInteract"
         variant="smooth"
         color-scheme="alert"
         size="tiny"
@@ -35,12 +32,18 @@
 
 <script>
 import accountMixin from 'dashboard/mixins/account.js';
+import adminMixin from '../../../../mixins/isAdmin';
 export default {
-  mixins: [accountMixin],
+  mixins: [adminMixin, accountMixin],
   props: {
     chatbot: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    canInteract() {
+      return this.chatbot.status !== 'Creating';
     },
   },
 };

@@ -396,18 +396,18 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_07_111333) do
 
   create_table "chatbot_items", force: :cascade do |t|
     t.integer "chatbot_id", null: false
-    t.text "bot_text"
+    t.text "text"
     t.float "temperature"
-    t.jsonb "bot_files", default: {}
-    t.jsonb "bot_urls", default: {}
+    t.jsonb "files", default: {}
+    t.jsonb "urls", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "chatbots", force: :cascade do |t|
     t.string "account_id", default: "0", null: false
-    t.string "bot_status"
-    t.string "chatbot_name", null: false
+    t.string "status"
+    t.string "name", null: false
     t.integer "inbox_id"
     t.string "inbox_name"
     t.datetime "last_trained_at"
@@ -415,6 +415,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_07_111333) do
     t.float "temperature", default: 0.1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_chatbots_on_account_id"
   end
 
   create_table "contact_inboxes", force: :cascade do |t|

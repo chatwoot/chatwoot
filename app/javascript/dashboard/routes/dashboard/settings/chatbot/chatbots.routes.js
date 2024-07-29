@@ -1,7 +1,7 @@
 import { frontendURL } from '../../../../helper/URLHelper';
 const SettingsContent = () => import('../Wrapper.vue');
 const Index = () => import('./Index.vue');
-const ChatbotEdit = () => import('./Edit/Index.vue');
+const ChatbotSetting = () => import('./Settings.vue');
 const CreateStepWrap = () => import('./Create/Index.vue');
 const UploadFiles = () => import('./Create/FileUploader.vue');
 const ConnectInbox = () => import('./Create/ConnectInbox.vue');
@@ -43,11 +43,11 @@ export default {
           ],
         },
         {
-          path: 'edit/:chatbotId',
-          name: 'chatbots_edit',
-          component: ChatbotEdit,
+          path: ':chatbotId',
+          name: 'chatbots_setting',
+          component: ChatbotSetting,
           roles: ['administrator'],
-          props: true, // Pass route parameters as props
+          props: true,
         },
       ],
     },

@@ -3,10 +3,10 @@
 # Table name: chatbots
 #
 #  id              :bigint           not null, primary key
-#  bot_status      :string
-#  chatbot_name    :string           not null
 #  inbox_name      :string
 #  last_trained_at :datetime
+#  name            :string           not null
+#  status          :string
 #  temperature     :float            default(0.1)
 #  website_token   :string
 #  created_at      :datetime         not null
@@ -14,8 +14,11 @@
 #  account_id      :string           default("0"), not null
 #  inbox_id        :integer
 #
+# Indexes
+#
+#  index_chatbots_on_account_id  (account_id)
+#
 class Chatbot < ApplicationRecord
-  validates :chatbot_name, uniqueness: true
-  validates :chatbot_name, presence: true
+  validates :name, uniqueness: true, presence: true
   belongs_to :account
 end

@@ -22,9 +22,9 @@
 
 <script>
 import router from '../../../../index';
-import UploadFiles from '../UploadFiles.vue';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 import alertMixin from 'shared/mixins/alertMixin';
+import UploadFiles from '../UploadFiles.vue';
 import UploadArea from '../UploadArea.vue';
 
 export default {

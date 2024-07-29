@@ -11,12 +11,12 @@
     </router-link>
     <div class="flex flex-row gap-4 p-8">
       <div class="w-full lg:w-3/5">
-        <div v-if="!chatbots.length" class="p-3">
+        <div v-if="!records.length" class="p-3">
           <p class="flex h-full items-center flex-col justify-center">
             {{ $t('CHATBOTS.LIST.404') }}
           </p>
         </div>
-        <table v-if="chatbots.length" class="woot-table">
+        <table v-if="records.length" class="woot-table">
           <thead>
             <th
               v-for="thHeader in $t('CHATBOTS.LIST.TABLE_HEADER')"
@@ -27,7 +27,7 @@
           </thead>
           <tbody>
             <chatbot-table-row
-              v-for="(chatbot, index) in chatbots"
+              v-for="(chatbot, index) in records"
               :key="index"
               :chatbot="chatbot"
               @delete="openDeletePopup(chatbot, index)"
@@ -57,7 +57,6 @@ import { mapGetters } from 'vuex';
 import adminMixin from '../../../../mixins/isAdmin';
 import accountMixin from '../../../../mixins/account';
 import alertMixin from 'shared/mixins/alertMixin';
-import ChatbotAPI from '../../../../api/chatbots';
 import ChatbotTableRow from './ChatbotTableRow.vue';
 
 export default {
@@ -70,37 +69,21 @@ export default {
       showDeleteConfirmationPopup: false,
       selectedResponse: {},
       loading: {},
-      chatbots: [],
     };
   },
   computed: {
     ...mapGetters({
       globalConfig: 'globalConfig/get',
-      currentAccountId: 'getCurrentAccountId',
+      records: ['chatbots/getChatbots'],
     }),
     deleteMessage() {
       return ` ${this.selectedResponse.name}?`;
     },
   },
   mounted() {
-    this.fetchChatbots();
+    this.$store.dispatch('chatbots/get');
   },
   methods: {
-    async fetchChatbots() {
-      ChatbotAPI.getChatbots(this.currentAccountId).then(response => {
-        this.chatbots = response.data;
-      });
-    },
-    async deleteChatbot(id) {
-      try {
-        ChatbotAPI.deleteChatbot(id).then(() => {
-          this.showAlert(this.$t('CHATBOTS.DELETE.API.SUCCESS_MESSAGE'));
-          this.loading[this.selectedResponse.id] = false;
-        });
-      } catch (error) {
-        this.showAlert(this.$t('CHATBOTS.DELETE.API.ERROR_MESSAGE'));
-      }
-    },
     openDeletePopup(response) {
       this.showDeleteConfirmationPopup = true;
       this.selectedResponse = response;
@@ -113,18 +96,15 @@ export default {
       this.closeDeletePopup();
       this.deleteChatbot(this.selectedResponse.id);
     },
+    async deleteChatbot(id) {
+      try {
+        await this.$store.dispatch('chatbots/delete', id);
+        this.showAlert(this.$t('CHATBOTS.DELETE.API.SUCCESS_MESSAGE'));
+        this.loading[this.selectedResponse.id] = false;
+      } catch (error) {
+        this.showAlert(this.$t('CHATBOTS.DELETE.API.ERROR_MESSAGE'));
+      }
+    },
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.button-wrapper {
-  min-width: unset;
-  justify-content: flex-end;
-  padding-right: var(--space-large);
-}
-.chatbot-id {
-  text-transform: none;
-}
-</style>
-../../../../api/chatbots

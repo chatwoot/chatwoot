@@ -13,7 +13,7 @@ const settings = accountId => ({
     'canned_list',
     'chatbots_index',
     'chatbots_new',
-    'chatbots_edit',
+    'chatbots_setting',
     'chatbots_connect_inbox',
     'general_settings_index',
     'general_settings',

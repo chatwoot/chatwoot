@@ -1,0 +1,2 @@
+module Chatbots::CallbacksHelper
+end
