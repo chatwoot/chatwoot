@@ -60,7 +60,7 @@ development:
   dev_server:
     https: false
     host: 0.0.0.0
-    port: 3035
+    port: 3036
     public: 0.0.0.0:3035
     hmr: true
     # Inline should be set to true if using HMR
@@ -71,12 +71,11 @@ development:
     use_local_ip: false
     quiet: false
     headers:
-      'Access-Control-Allow-Origin': '*'
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS'
-      'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization'
+      "Access-Control-Allow-Origin": "*"
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+      "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
     watch_options:
-      ignored: '**/node_modules/**'
-
+      ignored: "**/node_modules/**"
 
 test:
   <<: *default
@@ -99,12 +98,11 @@ test:
     use_local_ip: false
     quiet: false
     headers:
-      'Access-Control-Allow-Origin': '*'
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS'
-      'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization'
+      "Access-Control-Allow-Origin": "*"
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+      "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
     watch_options:
-      ignored: '**/node_modules/**'
-
+      ignored: "**/node_modules/**"
 
 production:
   <<: *default
