@@ -50,52 +50,52 @@
       "CUSTOM_ATTRIBUTE_TEXT": "النص",
       "CUSTOM_ATTRIBUTE_NUMBER": "العدد",
       "CUSTOM_ATTRIBUTE_LINK": "الرابط",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "مربع",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "خانة الاختيار",
       "CREATED_AT": "تم إنشاؤها في",
       "LAST_ACTIVITY": "آخر نشاط"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "الفلاتر القياسية",
-      "ADDITIONAL_FILTERS": "الفلاتر الإضافية",
+      "STANDARD_FILTERS": "التصفيات القياسية",
+      "ADDITIONAL_FILTERS": "التصفيات الإضافية",
       "CUSTOM_ATTRIBUTES": "الخصائص المخصصة"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
         "TITLE": "هل تريد حفظ هذه التصفية؟",
-        "LABEL": "تسمية هذا الفلتر",
-        "PLACEHOLDER": "قم بتسمية الفلتر لتتمكن من الرجوع إليه لاحقًا.",
+        "LABEL": "تسمية هذه التصفية",
+        "PLACEHOLDER": "قم بتسمية التصفية لتتمكن من الرجوع إليه لاحقًا.",
         "ERROR_MESSAGE": "الاسم مطلوب.",
-        "SAVE_BUTTON": "حفظ الفلتر",
+        "SAVE_BUTTON": "حفظ التصفية",
         "CANCEL_BUTTON": "إلغاء",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "تم إنشاء طريقة عرض مخصصة بنجاح.",
-          "ERROR_MESSAGE": "خطأ أثناء إنشاء طريقة عرض مخصصة."
+          "SUCCESS_MESSAGE": "تم إنشاء المجلد بنجاح.",
+          "ERROR_MESSAGE": "حدث خطأ أثناء إنشاء المجلد."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "تم إنشاء طريقة عرض مخصصة بنجاح.",
-          "ERROR_MESSAGE": "خطأ أثناء إنشاء طريقة عرض مخصصة."
+          "SUCCESS_MESSAGE": "تم إنشاء القسم بنجاح.",
+          "ERROR_MESSAGE": "حدث خطأ أثناء إنشاء القسم."
         }
       },
       "EDIT": {
         "EDIT_BUTTON": "تحرير المجلد"
       },
       "DELETE": {
-        "DELETE_BUTTON": "حذف الفلتر",
+        "DELETE_BUTTON": "حذف التصفية",
         "MODAL": {
           "CONFIRM": {
             "TITLE": "تأكيد الحذف",
-            "MESSAGE": "هل أنت متأكد من حذف الفلتر ",
+            "MESSAGE": "هل أنت متأكد من حذف التصفية ",
             "YES": "نعم، احذف",
             "NO": "لا، احتفظ به"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "تم حذف طريقة عرض مخصصة بنجاح.",
+          "SUCCESS_MESSAGE": "تم حذف المجلد بنجاح.",
           "ERROR_MESSAGE": "حدث خطأ أثناء حذف المجلد."
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "تم حذف العرض المخصص بنجاح.",
-          "ERROR_MESSAGE": "حدث خطأ أثناء حذف طريقة عرض مخصصة."
+          "SUCCESS_MESSAGE": "تم حذف القسم بنجاح.",
+          "ERROR_MESSAGE": "حدث خطأ أثناء حذف القسم."
         }
       }
     }
