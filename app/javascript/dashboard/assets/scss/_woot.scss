@@ -1,40 +1,37 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
-@import 'shared/assets/fonts/plus-jakarta';
-@import 'shared/assets/fonts/InterDisplay/inter-display';
-@import 'shared/assets/fonts/inter';
+@import "shared/assets/fonts/plus-jakarta";
+@import "shared/assets/stylesheets/animations";
+@import "shared/assets/stylesheets/colors";
+@import "shared/assets/stylesheets/spacing";
+@import "shared/assets/stylesheets/font-size";
+@import "shared/assets/stylesheets/font-weights";
+@import "shared/assets/stylesheets/shadows";
+@import "shared/assets/stylesheets/border-radius";
+@import "shared/assets/stylesheets/z-index";
 
-@import 'shared/assets/stylesheets/animations';
-@import 'shared/assets/stylesheets/colors';
-@import 'shared/assets/stylesheets/spacing';
-@import 'shared/assets/stylesheets/font-size';
-@import 'shared/assets/stylesheets/font-weights';
-@import 'shared/assets/stylesheets/shadows';
-@import 'shared/assets/stylesheets/border-radius';
-@import 'shared/assets/stylesheets/z-index';
+@import "variables";
 
-@import 'variables';
+@import "mixins";
+@import "helper-classes";
+@import "formulate";
+@import "date-picker";
 
-@import 'mixins';
-@import 'helper-classes';
-@import 'formulate';
-@import 'date-picker';
+@import "layout";
+@import "animations";
+@import "rtl";
 
-@import 'layout';
-@import 'animations';
-@import 'rtl';
+@import "widgets/base";
+@import "widgets/buttons";
+@import "widgets/conversation-view";
+@import "widgets/tabs";
+@import "widgets/woot-tables";
 
-@import 'widgets/base';
-@import 'widgets/buttons';
-@import 'widgets/conversation-view';
-@import 'widgets/tabs';
-@import 'widgets/woot-tables';
-
-@import 'plugins/multiselect';
-@import 'plugins/dropdown';
-@import '~shared/assets/stylesheets/ionicons';
+@import "plugins/multiselect";
+@import "plugins/dropdown";
+@import "~shared/assets/stylesheets/ionicons";
 
 .tooltip {
   @apply bg-slate-900 text-white py-1 px-2 z-40 text-xs rounded-md dark:bg-slate-200 dark:text-slate-900;
@@ -45,7 +42,6 @@
 }
 
 @layer base {
-
   // scss-lint:disable PropertySortOrder
   :root {
     --color-amber-25: 254 253 251;
@@ -74,18 +70,33 @@
     --color-ash-800: 96 100 108;
     --color-ash-900: 28 32 36;
 
-    --color-primary-25: 251 253 255;
-    --color-primary-50: 245 249 255;
-    --color-primary-75: 233 243 255;
-    --color-primary-100: 218 236 255;
-    --color-primary-200: 201 226 255;
-    --color-primary-300: 181 213 255;
-    --color-primary-400: 155 195 252;
-    --color-primary-500: 117 171 247;
-    --color-primary-600: 39 129 246;
-    --color-primary-700: 16 115 233;
-    --color-primary-800: 8 109 224;
-    --color-primary-900: 11 50 101;
+    // Default color
+    // --color-primary-25: 251 253 255;
+    // --color-primary-50: 245 249 255;
+    // --color-primary-75: 233 243 255;
+    // --color-primary-100: 218 236 255;
+    // --color-primary-200: 201 226 255;
+    // --color-primary-300: 181 213 255;
+    // --color-primary-400: 155 195 252;
+    // --color-primary-500: 117 171 247;
+    // --color-primary-600: 39 129 246;
+    // --color-primary-700: 16 115 233;
+    // --color-primary-800: 8 109 224;
+    // --color-primary-900: 11 50 101;
+
+    // customized color
+    --color-primary-900: 93 22 7;
+    --color-primary-800: 122 29 9;
+    --color-primary-700: 151 36 11;
+    --color-primary-600: 184 44 14;
+    --color-primary-500: 213 53 18;
+    --color-primary-400: 242 61 21;
+    --color-primary-300: 255 96 64;
+    --color-primary-200: 255 135 112;
+    --color-primary-100: 255 173 160;
+    --color-primary-75: 255 184 173;
+    --color-primary-50: 255 196 191;
+    --color-primary-25: 255 209 209;
 
     --color-ruby-100: 255 220 225;
     --color-ruby-200: 255 206 214;
@@ -217,7 +228,6 @@
     --color-orange-800: 204 78 0;
     --color-orange-900: 88 45 29;
   }
-
   // scss-lint:disable QualifyingElement
   body.dark {
     --color-amber-25: 31 19 0;
@@ -246,18 +256,33 @@
     --color-ash-800: 173 177 184;
     --color-ash-900: 237 238 240;
 
-    --color-primary-25: 10 17 28;
-    --color-primary-50: 15 24 38;
-    --color-primary-75: 15 39 72;
-    --color-primary-100: 10 49 99;
-    --color-primary-200: 18 61 117;
-    --color-primary-300: 29 74 134;
-    --color-primary-400: 40 89 156;
-    --color-primary-500: 48 106 186;
-    --color-primary-600: 39 129 246;
-    --color-primary-700: 21 116 231;
-    --color-primary-800: 126 182 255;
-    --color-primary-900: 205 227 255;
+    // default color
+    // --color-primary-25: 10 17 28;
+    // --color-primary-50: 15 24 38;
+    // --color-primary-75: 15 39 72;
+    // --color-primary-100: 10 49 99;
+    // --color-primary-200: 18 61 117;
+    // --color-primary-300: 29 74 134;
+    // --color-primary-400: 40 89 156;
+    // --color-primary-500: 48 106 186;
+    // --color-primary-600: 39 129 246;
+    // --color-primary-700: 21 116 231;
+    // --color-primary-800: 126 182 255;
+    // --color-primary-900: 205 227 255;
+
+    // customized color
+    --color-primary-900: 93 22 7;
+    --color-primary-800: 122 29 9;
+    --color-primary-700: 151 36 11;
+    --color-primary-600: 184 44 14;
+    --color-primary-500: 213 53 18;
+    --color-primary-400: 242 61 21;
+    --color-primary-300: 255 96 64;
+    --color-primary-200: 255 135 112;
+    --color-primary-100: 255 173 160;
+    --color-primary-75: 255 184 173;
+    --color-primary-50: 255 196 191;
+    --color-primary-25: 255 209 209;
 
     --color-ruby-100: 78 19 37;
     --color-ruby-200: 94 26 46;

@@ -1,5 +1,20 @@
 // custom styles for the dashboard
 
+:root {
+  --color-primary-900: #5d1607;
+  --color-primary-800: #7a1d09;
+  --color-primary-700: #97240b;
+  --color-primary-600: #b82c0e;
+  --color-primary-500: #d53512;
+  --color-primary-400: #f23d15;
+  --color-primary-300: #ff6040;
+  --color-primary-200: #ff8770;
+  --color-primary-100: #ffada0;
+  --color-primary-75: #ffb8ad;
+  --color-primary-50: #ffc4bf;
+  --color-primary-25: #ffd1d1;
+}
+
 .feature-cell {
   background: $color-extra-light-blue;
   border-radius: 10px;
@@ -10,14 +25,12 @@
 
   .icon-container {
     margin-right: 2px;
-
   }
 
   .value-container {
     margin-left: 6px;
   }
 }
-
 
 .feature-container {
   max-width: 100rem;
