@@ -11,7 +11,7 @@
     "NO_INBOX_1": "يبدو أنك لم تقم بإضافة أي صناديق بريدية بعد.",
     "NO_INBOX_2": " للبدء",
     "NO_INBOX_AGENT": "يبدو أنه لم يتم إسنادك لأي قنوات تواصل بعد. الرجاء التواصل مع المدير لإضافتك لصناديق الوارد الخاصة بقنوات التواصل",
-    "SEARCH_MESSAGES": "البحث عن رسائل في المحادثات",
+    "SEARCH_MESSAGES": "ابحث عن رسائل في المحادثات",
     "EMPTY_STATE": {
       "CMD_BAR": "لفتح قائمة الأوامر",
       "KEYBOARD_SHORTCUTS": "لعرض اختصارات لوحة المفاتيح"
@@ -26,8 +26,8 @@
     "UNREAD_MESSAGES": "الرسائل الغير مقروءة",
     "UNREAD_MESSAGE": "رسالة غير مقروءة",
     "CLICK_HERE": "اضغط هنا",
-    "LOADING_INBOXES": "جار تحميل صناديق الوارد",
-    "LOADING_CONVERSATIONS": "جاري تحميل المحادثات",
+    "LOADING_INBOXES": "جار جلب صناديق الوارد",
+    "LOADING_CONVERSATIONS": "جاري جلب المحادثات",
     "CANNOT_REPLY": "لا يمكنك الرد بسبب",
     "24_HOURS_WINDOW": "قيد نافذة الـ 24 ساعة",
     "NOT_ASSIGNED_TO_YOU": "لم يتم تعيين هذه المحادثة لك. هل ترغب في تعيين هذه المحادثة لنفسك؟",
@@ -36,10 +36,10 @@
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "قيد نافذة الـ 24 ساعة",
     "REPLYING_TO": "أنت ترد على:",
     "REMOVE_SELECTION": "إزالة التحديد",
-    "DOWNLOAD": "تنزيل",
+    "DOWNLOAD": "تحميل",
     "UNKNOWN_FILE_TYPE": "ملف غير معروف",
     "SAVE_CONTACT": "حفظ",
-    "UPLOADING_ATTACHMENTS": "جاري تحميل المرفقات...",
+    "UPLOADING_ATTACHMENTS": "جاري رفع المرفقات...",
     "REPLIED_TO_STORY": "رد على قصتك",
     "UNSUPPORTED_MESSAGE": "هذه الرسالة غير مدعومة.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "هذه الرسالة غير مدعومة، يمكنك مشاهدة هذه الرسالة على تطبيق فيسبوك (Messenger).",
@@ -55,16 +55,16 @@
       "HIDE_LABELS": "إخفاء السمات"
     },
     "HEADER": {
-      "RESOLVE_ACTION": "إغلاق المحادثة",
+      "RESOLVE_ACTION": "حل المحادثة",
       "REOPEN_ACTION": "إعادة فتح",
       "OPEN_ACTION": "فتح",
       "OPEN": "المزيد",
       "CLOSE": "أغلق",
       "DETAILS": "التفاصيل",
       "SNOOZED_UNTIL": "غفوة حتى",
-      "SNOOZED_UNTIL_TOMORROW": "غفوة حتى الغد",
-      "SNOOZED_UNTIL_NEXT_WEEK": "غفوة حتى الأسبوع القادم",
-      "SNOOZED_UNTIL_NEXT_REPLY": "غفوة حتى الرد التالي",
+      "SNOOZED_UNTIL_TOMORROW": "تأجيل حتى الغد",
+      "SNOOZED_UNTIL_NEXT_WEEK": "تأجيل حتى الأسبوع القادم",
+      "SNOOZED_UNTIL_NEXT_REPLY": "تأجيل حتى الرد التالي",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -80,25 +80,25 @@
         "TITLE": "تأجيل حتى",
         "NEXT_REPLY": "الرد القادم",
         "TOMORROW": "غداً",
-        "NEXT_WEEK": "الأسبوع المقبل"
+        "NEXT_WEEK": "الأسبوع القادم"
       }
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "تأجيل حتى",
-      "APPLY": "غفوة",
+      "APPLY": "تأجيل",
       "CANCEL": "إلغاء"
     },
     "PRIORITY": {
       "TITLE": "الأولوية",
       "OPTIONS": {
-        "NONE": "لا شيء",
+        "NONE": "لا يوجد",
         "URGENT": "عاجل",
         "HIGH": "عالية",
         "MEDIUM": "متوسطة",
         "LOW": "منخفضة"
       },
       "CHANGE_PRIORITY": {
-        "SELECT_PLACEHOLDER": "لا شيء",
+        "SELECT_PLACEHOLDER": "لا يوجد",
         "INPUT_PLACEHOLDER": "تحديد الأولوية",
         "NO_RESULTS": "لم يتم العثور على النتائج",
         "SUCCESSFUL": "تغيير أولوية معرف المحادثة %{conversationId} إلى %{priority}",
@@ -111,18 +111,18 @@
       "MARK_AS_UNREAD": "وضع علامة كغير مقروء",
       "REOPEN": "إعادة فتح المحادثة",
       "SNOOZE": {
-        "TITLE": "غفوة",
+        "TITLE": "تأجيل",
         "NEXT_REPLY": "حتى الرد القادم",
         "TOMORROW": "حتى الغد",
         "NEXT_WEEK": "حتى الأسبوع القادم"
       },
       "ASSIGN_AGENT": "تعيين وكيل",
       "ASSIGN_LABEL": "إضافة وسم",
-      "AGENTS_LOADING": "جاري تحميل الوكلاء...",
+      "AGENTS_LOADING": "جاري جلب الوكلاء...",
       "ASSIGN_TEAM": "تعيين فريق",
       "API": {
         "AGENT_ASSIGNMENT": {
-          "SUCCESFUL": "معرف المحادثة %{conversationId} تم تعيينه ل \"%{agentName}\"",
+          "SUCCESFUL": "معرف المحادثة %{conversationId} تم تعيينه لـ \"%{agentName}\"",
           "FAILED": "تعذر تعيين الوكيل. الرجاء المحاولة مرة أخرى."
         },
         "LABEL_ASSIGNMENT": {
@@ -137,10 +137,10 @@
     },
     "FOOTER": {
       "MESSAGE_SIGN_TOOLTIP": "توقيع الرسالة",
-      "ENABLE_SIGN_TOOLTIP": "تمكين التوقيع",
+      "ENABLE_SIGN_TOOLTIP": "تفعيل التوقيع",
       "DISABLE_SIGN_TOOLTIP": "تعطيل التوقيع",
-      "MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. ابدأ بزر / للاختيار من الردود السريعة.",
-      "PRIVATE_MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. سيكون هذا مرئياً للموظفين فقط",
+      "MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. ابدأ بزر / للاختيار من الردود الجاهزة.",
+      "PRIVATE_MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. سيكون هذا مرئياً للوكلاء فقط",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "لم يتم تكوين توقيع الرسالة، الرجاء تكوينه في إعدادات الملف الشخصي.",
       "CLICK_HERE": "انقر هنا للتحديث"
     },
@@ -185,10 +185,10 @@
         }
       }
     },
-    "VISIBLE_TO_AGENTS": "ملاحظة خاصة: مرئية فقط لأعضاء فريق العمل والموظفين",
+    "VISIBLE_TO_AGENTS": "ملاحظة خاصة: مرئية فقط لك ولأعضاء فريقك",
     "CHANGE_STATUS": "تم تغيير حالة المحادثة",
     "CHANGE_STATUS_FAILED": "فشل تغيير حالة المحادثة",
-    "CHANGE_AGENT": "تم تغيير الموظف الذي تم إحالة المحادثة إليه",
+    "CHANGE_AGENT": "تم تغيير الوكيل الذي تم إحالة المحادثة إليه",
     "CHANGE_AGENT_FAILED": "فشل تغيير المحال إليه",
     "ASSIGN_LABEL_SUCCESFUL": "تم تعيين الوسم بنجاح",
     "ASSIGN_LABEL_FAILED": "فشل تعيين الوسم",
@@ -208,7 +208,7 @@
       "COPY": "نسخ",
       "REPLY_TO": "الرد على هذه الرسالة",
       "DELETE": "حذف",
-      "CREATE_A_CANNED_RESPONSE": "إضافة إلى الردود السريعة",
+      "CREATE_A_CANNED_RESPONSE": "إضافة إلى الردود الجاهزة",
       "TRANSLATE": "ترجم",
       "COPY_PERMALINK": "نسخ الرابط إلى الرسالة",
       "LINK_COPIED": "تم نسخ عنوان URL للرسالة إلى الحافظة",
@@ -229,7 +229,7 @@
     "SEND_EMAIL_ERROR": "حدث خطأ، الرجاء المحاولة مرة أخرى",
     "FORM": {
       "SEND_TO_CONTACT": "إرسال نص المحادثة إلى العميل",
-      "SEND_TO_AGENT": "إرسال نص المحادثة إلى ممثل خدمة العملاء المعين",
+      "SEND_TO_AGENT": "إرسال نص المحادثة إلى وكيل خدمة العملاء المعين",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "إرسال النص إلى عنوان بريد إلكتروني آخر",
       "EMAIL": {
         "PLACEHOLDER": "أدخل عنوان بريد إلكتروني",
@@ -243,17 +243,17 @@
     "READ_LATEST_UPDATES": "اطلع على آخر التحديثات",
     "ALL_CONVERSATION": {
       "TITLE": "جميع محادثاتك في مكان واحد",
-      "DESCRIPTION": "عرض جميع المحادثات من عملائك في لوحة تحكم واحدة. يمكنك تصفية المحادثات بحسب قناة الواردة والتسمية والحالة."
+      "DESCRIPTION": "عرض جميع المحادثات من عملائك في لوحة تحكم واحدة. يمكنك تصفية المحادثات حسب القناة الواردة والتسمية والحالة."
     },
     "TEAM_MEMBERS": {
       "TITLE": "قم بدعوة أعضاء فريقك",
-      "DESCRIPTION": "عندما تصبح جاهز للتخاطب مع عميلك، احضر زملائك في الفريق لمساعدتك. يمكنك دعوة زملائك في الفريق بإضافة عنوان البريد الإلكتروني الخاص بهم إلى قائمة الوكيل.",
+      "DESCRIPTION": "عندما تصبح جاهز للتخاطب مع عميلك، احضر زملائك في الفريق لمساعدتك. يمكنك دعوة زملائك في الفريق بإضافة عنوان البريد الإلكتروني الخاص بهم إلى قائمة الوكلاء.",
       "NEW_LINK": "انقر هنا لدعوة عضو في الفريق"
     },
     "INBOXES": {
-      "TITLE": "ربط صندوق الوارد",
+      "TITLE": "ربط الصناديق الواردة",
       "DESCRIPTION": "قم بتوصيل مختلف القنوات التي من خلالها يتحدث عملاؤك إليك. يمكن أن تكون محادثة مباشرة على موقع الويب أو صفحة فيسبوك أو تويتر أو حتى رقم WhatsApp الخاص بك.",
-      "NEW_LINK": "انقر هنا لإنشاء علبة الوارد"
+      "NEW_LINK": "انقر هنا لإنشاء صندوق وارد"
     },
     "LABELS": {
       "TITLE": "تنظيم المحادثات مع التسميات",
@@ -264,7 +264,7 @@
   "CONVERSATION_SIDEBAR": {
     "ASSIGNEE_LABEL": "الوكيل المكلف",
     "SELF_ASSIGN": "إسناد لي",
-    "TEAM_LABEL": "العضو المكلف",
+    "TEAM_LABEL": "الفريق المكلف",
     "SELECT": {
       "PLACEHOLDER": "لا شيء"
     },
@@ -316,7 +316,7 @@
     "REMANING_PARTICIPANT_TEXT": "+%{count} أخرى",
     "TOTAL_PARTICIPANTS_TEXT": "%{count} شخص مشارك.",
     "TOTAL_PARTICIPANT_TEXT": "%{count} شخص مشارك.",
-    "NO_PARTICIPANTS_TEXT": "لا أحد يشارك !.",
+    "NO_PARTICIPANTS_TEXT": "لا أحد يشارك!",
     "WATCH_CONVERSATION": "الانضمام إلى المحادثة",
     "YOU_ARE_WATCHING": "أنت مشترك",
     "API": {

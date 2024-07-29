@@ -3,7 +3,7 @@
     "HEADER": "المحادثات",
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
-    "DOWNLOAD_AGENT_REPORTS": "تنزيل تقارير الوكيل",
+    "DOWNLOAD_AGENT_REPORTS": "تحميل تقارير وكيل",
     "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
     "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
@@ -44,8 +44,8 @@
         "DESC": "(الإجمالي)"
       },
       "REPLY_TIME": {
-        "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "NAME": "وقت انتظار العميل",
+        "TOOLTIP_TEXT": "وقت الانتظار هو %{metricValue} (بناء على ردود %{conversationCount})"
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -146,7 +146,7 @@
   },
   "AGENT_REPORTS": {
     "HEADER": "نظرة عامة للوكلاء",
-    "LOADING_CHART": "تحميل بيانات الرسم البياني...",
+    "LOADING_CHART": "جاري جلب بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
     "DOWNLOAD_AGENT_REPORTS": "تنزيل تقارير الوكيل",
     "FILTER_DROPDOWN_LABEL": "اختر وكيل",
@@ -554,7 +554,7 @@
       "HEADER": {
         "POLICY": "Policy",
         "CONVERSATION": "المحادثات",
-        "AGENT": "موظف الدعم"
+        "AGENT": "وكيل الدعم"
       },
       "VIEW_DETAILS": "View Details"
     }
