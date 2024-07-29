@@ -1,11 +1,6 @@
 {
   "CHATBOTS": {
     "HEADER": "Chatbots",
-    "DISCONNECT": "Disconnect Inbox",
-    "BOT_STATUS": "Chatbot Status",
-    "BOT_STATUS_ACTIVE": "Chatbot Active",
-    "BOT_STATUS_INACTIVE": "Chatbot Inactive",
-    "CONNECTED_INBOX": "Connected Inbox: ",
     "NEW_BOT": "New Chatbot",
     "CONNECT_INBOX": "Connect Inbox",
     "LAST_TRAINED_AT": "Last Trained At: ",
@@ -14,10 +9,17 @@
     "UPDATE": "Update",
     "CHATBOT_INBOX_CONNECT": "Connect Chatbot With Inbox",
     "SUPPORTED_FILE_TYPES": "Supported File Types: .pdf, .doc, .txt",
+    "ERROR": "Something went wrong. Please try again",
     "UPLOAD": {
       "FILE": "Files",
       "TEXT": "Text",
       "WEBSITE": "Website"
+    },
+    "EDIT": {
+      "API": {
+        "SUCCESS_MESSAGE": "Chatbot settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update chatbot settings. Please try again later."
+      }
     },
     "FORM": {
       "TITLE": "Inbox",
@@ -38,15 +40,18 @@
       "TABLE_HEADER": ["Name", "Status", "Last trained at"],
       "404": "No chatbots found"
     },
-    "EDIT": {
-      "TOOLTIP": "Edit chatbot",
-      "API": {
-        "SUCCESS_MESSAGE": "Chatbot updated successfully",
-        "ERROR_MESSAGE": "Could not update Chatbot, Please try again later"
-      }
+    "TABS": {
+      "SETTINGS": "Settings", 
+      "RETRAIN": "Retrain"
+    },
+    "SETTINGS": "Settings",
+    "SETTINGS_POPUP": {
+      "CHATBOT_UPDATE_TITLE": "Chatbot Settings",
+      "CHATBOT_UPDATE_SUB_TEXT": "Update your chatbot settings",
+      "UPDATE": "Update"
     },
     "DELETE": {
-      "TOOLTIP": "Delete Chatbot",
+      "TOOLTIP": "Delete",
       "CONFIRM": {
         "MESSAGE": "Deleting the Chatbot will permanently delete this bot and the data on which it is trained.",
         "YES": "Yes, Delete",
@@ -69,15 +74,34 @@
       "WIZARD": [
         {
           "title": "Upload Files",
-          "route": "chatbot_new",
+          "route": "chatbots_new",
           "body": "Provide your bot with urls"
         },
         {
           "title": "Connect Inbox",
-          "route": "chatbot_connect_inbox",
+          "route": "chatbots_connect_inbox",
           "body": "Connect bot to your website widget inbox."
         }
       ]
+    },
+    "ADD": {
+      "CHATBOT_NAME": {
+        "LABEL": "Chatbot Name",
+        "PLACEHOLDER": "Enter your chatbot name (eg: OneHash)",
+        "ERROR": "Please enter a valid inbox name"
+
+      },
+      "INBOX_TOGGLE": {
+        "LABEL": "Enable Chatbot",
+        "HELP_TEXT": "Enable or disable chatbot on new conversation",
+        "ENABLED": "Enabled",
+        "DISABLED": "Disabled"
+      }
+    },
+    "RETRAIN": {
+      "TITLE": "Retrain",
+      "SUBTITLE": "Retrain your chatbot with new data.",
+      "UPDATE": "Retrain your chatbot"
     }
   }
 }

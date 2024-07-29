@@ -2,8 +2,8 @@ class CreateChatbots < ActiveRecord::Migration[7.0]
   def change
     create_table :chatbots do |t|
       t.string :account_id, null: false,  default: 0
-      t.string :bot_status
-      t.string :chatbot_name,  null: false
+      t.string :status
+      t.string :name,  null: false
       t.integer :inbox_id
       t.string :inbox_name
       t.datetime :last_trained_at
@@ -12,5 +12,7 @@ class CreateChatbots < ActiveRecord::Migration[7.0]
 
       t.timestamps
     end
+
+    add_index :chatbots, :account_id
   end
 end

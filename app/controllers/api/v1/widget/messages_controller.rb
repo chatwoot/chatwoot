@@ -10,7 +10,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   def create
     website_token = params[:website_token]
     chatbot = Chatbot.find_by(website_token: website_token)
-    if chatbot && chatbot.bot_status == 'Active'
+    if chatbot && chatbot.status == 'Enabled'
       id = chatbot.id
       conversation_id = conversation.id
       conversation = Conversation.find_by(id: conversation_id)

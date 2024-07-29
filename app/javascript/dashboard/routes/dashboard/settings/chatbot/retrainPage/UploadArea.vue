@@ -1,6 +1,6 @@
 <template>
   <div
-    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+    class="bg-white dark:bg-slate-900 h-full w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0 pl-2"
   >
     <!-- File Upload Area -->
     <div v-if="uploadType === 'file'">
@@ -57,9 +57,10 @@
           type="text"
           placeholder="https://www.example.com"
         />
-        <woot-button @click="addUrl">
-          {{ $t('CHATBOTS.FORM.ADD_URL') }}
-        </woot-button>
+        <woot-submit-button
+          :button-text="$t('CHATBOTS.FORM.ADD_URL')"
+          @click="addUrl"
+        />
       </div>
       <div class="website-urls-container">
         <ul>
@@ -84,7 +85,7 @@
 <script>
 import { mapGetters, mapState } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
-import accountMixin from '../../../../mixins/account';
+import accountMixin from '../../../../../mixins/account';
 
 export default {
   mixins: [alertMixin, accountMixin],

@@ -247,6 +247,14 @@ Rails.application.routes.draw do
           end
 
           resources :upload, only: [:create]
+
+          resources :chatbots, only: [:index, :show, :update] do
+            collection do
+              post :create_chatbot
+              delete :destroy_chatbot
+              post :retrain_chatbot
+            end
+          end
         end
       end
       # end of account scoped api routes
@@ -303,19 +311,6 @@ Rails.application.routes.draw do
             end
           end
         end
-        # chatbot routes
-        post '/create_chatbot', to: 'chatbot#create'
-        post '/create_chatbot_result', to: 'chatbot#receive_result'
-        get '/get_chatbots', to: 'chatbot#get'
-        delete '/delete_chatbot', to: 'chatbot#delete'
-        # post '/old-bot-train', to: 'chatbot#old_bot_train'
-        # delete '/chatbot-with-chatbot-id', to: 'chatbot#delete_chatbot_with_chatbot_id'
-        # put '/update-bot-info', to: 'chatbot#update_bot_info'
-        # post '/toggle-chatbot-status', to: 'chatbot#toggle_chatbot_status'
-        # get '/is-inbox-widget', to: 'chatbot#inbox_widget'
-        # get '/chatbot-status', to: 'chatbot#chatbot_status'
-        # get '/chatbot-id-to-name', to: 'chatbot#chatbot_id_to_name'
-        # delete '/disconnect-chatbot', to: 'chatbot#disconnect_chatbot'
       end
     end
 
@@ -525,4 +520,8 @@ Rails.application.routes.draw do
   # ----------------------------------------------------------------------
   # Routes for testing
   resources :widget_tests, only: [:index] unless Rails.env.production?
+
+   # ----------------------------------------------------------------------
+  # Routes for Chatbot
+  post 'chatbots/callback', to: 'chatbots/callbacks#update_status'
 end
