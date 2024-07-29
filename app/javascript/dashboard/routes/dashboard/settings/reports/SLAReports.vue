@@ -28,9 +28,9 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import SLAMetrics from './components/SLA/SLAMetrics.vue';
 import SLATable from './components/SLA/SLATable.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 import SLAReportFilters from './components/SLA/SLAReportFilters.vue';
 import { generateFileName } from 'dashboard/helper/downloadHelper';
 export default {
@@ -40,7 +40,6 @@ export default {
     SLATable,
     SLAReportFilters,
   },
-  mixins: [alertMixin],
   data() {
     return {
       pageNumber: 1,
@@ -98,7 +97,7 @@ export default {
           ...this.activeFilter,
         });
       } catch (error) {
-        this.showAlert(this.$t('SLA_REPORTS.DOWNLOAD_FAILED'));
+        useAlert(this.$t('SLA_REPORTS.DOWNLOAD_FAILED'));
       }
     },
   },

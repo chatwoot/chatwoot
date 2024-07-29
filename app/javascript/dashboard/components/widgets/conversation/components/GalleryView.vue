@@ -12,7 +12,7 @@
       @click="onClose"
     >
       <div
-        class="bg-white dark:bg-slate-900 z-10 flex items-center justify-between w-full h-16 px-6 py-2"
+        class="z-10 flex items-center justify-between w-full h-16 px-6 py-2 bg-white dark:bg-slate-900"
         @click.stop
       >
         <div
@@ -167,7 +167,7 @@
           />
         </div>
       </div>
-      <div class="flex items-center justify-center w-full h-16 px-6 py-2 z-10">
+      <div class="z-10 flex items-center justify-center w-full h-16 px-6 py-2">
         <div
           class="items-center rounded-sm flex font-semibold justify-center min-w-[5rem] p-1 bg-slate-25 dark:bg-slate-800 text-slate-600 dark:text-slate-200 text-sm"
         >
@@ -182,13 +182,14 @@
 <script>
 import { mapGetters } from 'vuex';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
-import timeMixin from 'dashboard/mixins/time';
+import { messageTimestamp } from 'shared/helpers/timeHelper';
 
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
 const ALLOWED_FILE_TYPES = {
   IMAGE: 'image',
   VIDEO: 'video',
+  IG_REEL: 'ig_reel',
   AUDIO: 'audio',
 };
 
@@ -199,7 +200,7 @@ export default {
   components: {
     Thumbnail,
   },
-  mixins: [keyboardEventListenerMixins, timeMixin],
+  mixins: [keyboardEventListenerMixins],
   props: {
     show: {
       type: Boolean,
@@ -236,13 +237,16 @@ export default {
     readableTime() {
       const { created_at: createdAt } = this.activeAttachment;
       if (!createdAt) return '';
-      return this.messageTimestamp(createdAt, 'LLL d yyyy, h:mm a') || '';
+      return messageTimestamp(createdAt, 'LLL d yyyy, h:mm a') || '';
     },
     isImage() {
       return this.activeFileType === ALLOWED_FILE_TYPES.IMAGE;
     },
     isVideo() {
-      return this.activeFileType === ALLOWED_FILE_TYPES.VIDEO;
+      return (
+        this.activeFileType === ALLOWED_FILE_TYPES.VIDEO ||
+        this.activeFileType === ALLOWED_FILE_TYPES.IG_REEL
+      );
     },
     isAudio() {
       return this.activeFileType === ALLOWED_FILE_TYPES.AUDIO;

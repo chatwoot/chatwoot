@@ -17,17 +17,16 @@
 </template>
 
 <script>
+import { useAlert } from 'dashboard/composables';
 import TeamForm from '../TeamForm.vue';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     TeamForm,
     PageHeader,
   },
-  mixins: [alertMixin],
   data() {
     return {
       enabledFeatures: {},
@@ -48,7 +47,7 @@ export default {
           },
         });
       } catch (error) {
-        this.showAlert(this.$t('TEAMS_SETTINGS.TEAM_FORM.ERROR_MESSAGE'));
+        useAlert(this.$t('TEAMS_SETTINGS.TEAM_FORM.ERROR_MESSAGE'));
       }
     },
   },

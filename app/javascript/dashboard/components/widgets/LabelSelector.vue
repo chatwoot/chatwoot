@@ -33,7 +33,7 @@
 import AddLabel from 'shared/components/ui/dropdown/AddLabel.vue';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import LabelDropdown from 'shared/components/ui/label/LabelDropdown.vue';
-import adminMixin from 'dashboard/mixins/isAdmin';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 
 export default {
   components: {
@@ -41,7 +41,7 @@ export default {
     LabelDropdown,
   },
 
-  mixins: [adminMixin, keyboardEventListenerMixins],
+  mixins: [keyboardEventListenerMixins],
 
   props: {
     allLabels: {
@@ -52,6 +52,13 @@ export default {
       type: Array,
       default: () => [],
     },
+  },
+
+  setup() {
+    const { isAdmin } = useAdmin();
+    return {
+      isAdmin,
+    };
   },
 
   data() {

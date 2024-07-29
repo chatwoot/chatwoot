@@ -12,7 +12,7 @@
       <div class="w-full xl:w-3/5">
         <p
           v-if="!uiFlags.isFetching && !records.length"
-          class="flex h-full items-center flex-col justify-center"
+          class="flex flex-col items-center justify-center h-full"
         >
           {{ $t('LABEL_MGMT.LIST.404') }}
         </p>
@@ -73,7 +73,7 @@
         </table>
       </div>
 
-      <div class="w-1/3 hidden xl:block">
+      <div class="hidden w-1/3 xl:block">
         <span v-dompurify-html="$t('LABEL_MGMT.SIDEBAR_TXT')" />
       </div>
     </div>
@@ -102,17 +102,16 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 
 import AddLabel from './AddLabel.vue';
 import EditLabel from './EditLabel.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     AddLabel,
     EditLabel,
   },
-  mixins: [alertMixin],
   data() {
     return {
       loading: {},
@@ -174,10 +173,10 @@ export default {
       this.$store
         .dispatch('labels/delete', id)
         .then(() => {
-          this.showAlert(this.$t('LABEL_MGMT.DELETE.API.SUCCESS_MESSAGE'));
+          useAlert(this.$t('LABEL_MGMT.DELETE.API.SUCCESS_MESSAGE'));
         })
         .catch(() => {
-          this.showAlert(this.$t('LABEL_MGMT.DELETE.API.ERROR_MESSAGE'));
+          useAlert(this.$t('LABEL_MGMT.DELETE.API.ERROR_MESSAGE'));
         })
         .finally(() => {
           this.loading[this.selectedResponse.id] = false;

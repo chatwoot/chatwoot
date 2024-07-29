@@ -278,7 +278,7 @@
     "SLA": "SLA",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Pārskats",
-    "FACEBOOK_REAUTHORIZE": "Jūsu Facebook savienojuma derīguma termiņš ir beidzies. Lūdzu, atkārtoti pievienojiet savu Facebook lapu, lai turpinātu pakalpojumus",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Palīdzības centrs",
       "ALL_ARTICLES": "Visi Raksti",

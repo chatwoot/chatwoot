@@ -10,7 +10,7 @@
     @contextmenu="openContextMenu($event)"
     @click="openConversation(notificationItem)"
   >
-    <div class="flex relative items-center justify-between w-full">
+    <div class="relative flex items-center justify-between w-full">
       <div
         v-if="isUnread"
         class="absolute ltr:-left-3.5 rtl:-right-3.5 flex w-2 h-2 rounded bg-woot-500 dark:bg-woot-500"
@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <div class="flex flex-row justify-between items-center w-full gap-2">
+    <div class="flex flex-row items-center justify-between w-full gap-2">
       <Thumbnail
         v-if="assigneeMeta"
         :src="assigneeMeta.thumbnail"
@@ -31,19 +31,19 @@
         size="16px"
       />
       <span
-        class="flex-1 text-slate-800 dark:text-slate-50 text-sm overflow-hidden text-ellipsis whitespace-nowrap"
+        class="flex-1 overflow-hidden text-sm text-slate-800 dark:text-slate-50 text-ellipsis whitespace-nowrap"
         :class="isUnread ? 'font-medium' : 'font-normal'"
       >
         {{ pushTitle }}
       </span>
       <span
-        class="font-medium text-slate-600 dark:text-slate-300 text-xs whitespace-nowrap"
+        class="text-xs font-medium text-slate-600 dark:text-slate-300 whitespace-nowrap"
       >
         {{ lastActivityAt }}
       </span>
     </div>
     <div v-if="snoozedUntilTime" class="flex items-center">
-      <span class="text-woot-500 dark:text-woot-500 text-xs font-medium">
+      <span class="text-xs font-medium text-woot-500 dark:text-woot-500">
         {{ snoozedDisplayText }}
       </span>
     </div>
@@ -63,7 +63,7 @@ import StatusIcon from './StatusIcon.vue';
 import InboxNameAndId from './InboxNameAndId.vue';
 import InboxContextMenu from './InboxContextMenu.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import timeMixin from 'dashboard/mixins/time';
+import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 export default {
@@ -74,7 +74,6 @@ export default {
     InboxNameAndId,
     Thumbnail,
   },
-  mixins: [timeMixin],
   props: {
     notificationItem: {
       type: Object,
@@ -115,10 +114,8 @@ export default {
       );
     },
     lastActivityAt() {
-      const dynamicTime = this.dynamicTime(
-        this.notificationItem?.last_activity_at
-      );
-      return this.shortTimestamp(dynamicTime, true);
+      const time = dynamicTime(this.notificationItem?.last_activity_at);
+      return shortTimestamp(time, true);
     },
     menuItems() {
       const items = [

@@ -84,7 +84,7 @@
     "CONFIRM": {
       "TITLE": "Exportar contactos",
       "MESSAGE": "¿Está seguro que desea exportar todos los contactos?",
-      "FILTERED_MESSAGE": "Are you sure you want to export all the filtered contacts?",
+      "FILTERED_MESSAGE": "¿Está seguro que desea exportar todos los contactos filtrados?",
       "YES": "Sí, exportar",
       "NO": "No, cancelar"
     }
@@ -298,8 +298,8 @@
     "BUTTON": "Añadir atributo personalizado",
     "NOT_AVAILABLE": "No hay atributos personalizados disponibles para este contacto.",
     "COPY_SUCCESSFUL": "Copiado al portapapeles satisfactoriamente",
-    "SHOW_MORE": "Show all attributes",
-    "SHOW_LESS": "Show less attributes",
+    "SHOW_MORE": "Mostrar todos los atributos",
+    "SHOW_LESS": "Mostrar menos atributos",
     "ACTIONS": {
       "COPY": "Copiar atributo",
       "DELETE": "Eliminar atributo",

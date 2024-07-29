@@ -1,17 +1,17 @@
 <template>
-  <div class="h-auto overflow-auto flex flex-col">
+  <div class="flex flex-col h-auto overflow-auto">
     <woot-modal-header
       :header-title="$t('LABEL_MGMT.ADD.TITLE')"
       :header-content="$t('LABEL_MGMT.ADD.DESC')"
     />
-    <form class="mx-0 flex flex-wrap" @submit.prevent="addLabel">
+    <form class="flex flex-wrap mx-0" @submit.prevent="addLabel">
       <woot-input
         v-model.trim="title"
         :class="{ error: $v.title.$error }"
         class="w-full label-name--input"
         :label="$t('LABEL_MGMT.FORM.NAME.LABEL')"
         :placeholder="$t('LABEL_MGMT.FORM.NAME.PLACEHOLDER')"
-        :error="getLabelTitleErrorMessage"
+        :error="labelTitleErrorMessage"
         data-testid="label-title"
         @input="$v.title.$touch"
       />
@@ -32,13 +32,13 @@
           <woot-color-picker v-model="color" />
         </label>
       </div>
-      <div class="w-full flex items-center gap-2">
+      <div class="flex items-center w-full gap-2">
         <input v-model="showOnSidebar" type="checkbox" :value="true" />
         <label for="conversation_creation">
           {{ $t('LABEL_MGMT.FORM.SHOW_ON_SIDEBAR.LABEL') }}
         </label>
       </div>
-      <div class="flex justify-end items-center py-2 px-0 gap-2 w-full">
+      <div class="flex items-center justify-end w-full gap-2 px-0 py-2">
         <woot-button
           :is-disabled="$v.title.$invalid || uiFlags.isCreating"
           :is-loading="uiFlags.isCreating"
@@ -55,14 +55,12 @@
 </template>
 
 <script>
-import alertMixin from 'shared/mixins/alertMixin';
-import validationMixin from './validationMixin';
 import { mapGetters } from 'vuex';
-import validations from './validations';
+import { useAlert } from 'dashboard/composables';
+import validations, { getLabelTitleErrorMessage } from './validations';
 import { getRandomColor } from 'dashboard/helper/labelColor';
 
 export default {
-  mixins: [alertMixin, validationMixin],
   props: {
     prefillTitle: {
       type: String,
@@ -82,6 +80,10 @@ export default {
     ...mapGetters({
       uiFlags: 'labels/getUIFlags',
     }),
+    labelTitleErrorMessage() {
+      const errorMessage = getLabelTitleErrorMessage(this.$v);
+      return this.$t(errorMessage);
+    },
   },
   mounted() {
     this.color = getRandomColor();
@@ -99,12 +101,12 @@ export default {
           title: this.title.toLowerCase(),
           show_on_sidebar: this.showOnSidebar,
         });
-        this.showAlert(this.$t('LABEL_MGMT.ADD.API.SUCCESS_MESSAGE'));
+        useAlert(this.$t('LABEL_MGMT.ADD.API.SUCCESS_MESSAGE'));
         this.onClose();
       } catch (error) {
         const errorMessage =
           error.message || this.$t('LABEL_MGMT.ADD.API.ERROR_MESSAGE');
-        this.showAlert(errorMessage);
+        useAlert(errorMessage);
       }
     },
   },

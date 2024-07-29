@@ -1,5 +1,5 @@
 <template>
-  <div class="ltr:-ml-1 rtl:-mr-1 h-5 w-full">
+  <div class="w-full h-5 ltr:-ml-1 rtl:-mr-1">
     <a
       v-if="href"
       :href="href"
@@ -9,16 +9,16 @@
         :icon="icon"
         :emoji="emoji"
         icon-size="14"
-        class="ltr:ml-1 rtl:mr-1 flex-shrink-0"
+        class="flex-shrink-0 ltr:ml-1 rtl:mr-1"
       />
       <span
         v-if="value"
-        class="overflow-hidden whitespace-nowrap text-ellipsis text-sm"
+        class="overflow-hidden text-sm whitespace-nowrap text-ellipsis"
         :title="value"
       >
         {{ value }}
       </span>
-      <span v-else class="text-slate-300 dark:text-slate-600 text-sm">{{
+      <span v-else class="text-sm text-slate-300 dark:text-slate-600">{{
         $t('CONTACT_PANEL.NOT_AVAILABLE')
       }}</span>
 
@@ -42,22 +42,22 @@
         :icon="icon"
         :emoji="emoji"
         icon-size="14"
-        class="ltr:ml-1 rtl:mr-1 flex-shrink-0"
+        class="flex-shrink-0 ltr:ml-1 rtl:mr-1"
       />
       <span
         v-if="value"
-        class="overflow-hidden whitespace-nowrap text-ellipsis text-sm"
+        class="overflow-hidden text-sm whitespace-nowrap text-ellipsis"
       >
         {{ value }}
       </span>
-      <span v-else class="text-slate-300 dark:text-slate-600 text-sm">{{
+      <span v-else class="text-sm text-slate-300 dark:text-slate-600">{{
         $t('CONTACT_PANEL.NOT_AVAILABLE')
       }}</span>
     </div>
   </div>
 </template>
 <script>
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import EmojiOrIcon from 'shared/components/EmojiOrIcon.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 
@@ -65,7 +65,6 @@ export default {
   components: {
     EmojiOrIcon,
   },
-  mixins: [alertMixin],
   props: {
     href: {
       type: String,
@@ -92,7 +91,7 @@ export default {
     async onCopy(e) {
       e.preventDefault();
       await copyTextToClipboard(this.value);
-      this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
+      useAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
     },
   },
 };

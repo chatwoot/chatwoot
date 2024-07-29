@@ -70,14 +70,14 @@
 import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.vue';
 import InboxName from 'dashboard/components/widgets/InboxName.vue';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import timeMixin from 'dashboard/mixins/time';
+import { messageStamp } from 'shared/helpers/timeHelper';
 
 export default {
   components: {
     UserAvatarWithName,
     InboxName,
   },
-  mixins: [messageFormatterMixin, timeMixin],
+  mixins: [messageFormatterMixin],
   props: {
     campaign: {
       type: Object,
@@ -109,6 +109,9 @@ export default {
         ? 'secondary'
         : 'success';
     },
+  },
+  methods: {
+    messageStamp,
   },
 };
 </script>

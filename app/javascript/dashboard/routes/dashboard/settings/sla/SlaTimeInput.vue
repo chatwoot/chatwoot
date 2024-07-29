@@ -11,7 +11,7 @@
       }"
       :label="label"
       :placeholder="placeholder"
-      :error="getThresholdTimeErrorMessage"
+      :error="thresholdTimeErrorMessage"
       @input="onThresholdTimeChange"
     />
     <!-- the mt-7 handles the label offset -->
@@ -34,11 +34,9 @@
 </template>
 
 <script>
-import validationMixin from './validationMixin';
 import validations from './validations';
 
 export default {
-  mixins: [validationMixin],
   props: {
     threshold: {
       type: Number,
@@ -69,6 +67,19 @@ export default {
     };
   },
   validations,
+  computed: {
+    thresholdTimeErrorMessage() {
+      let errorMessage = '';
+      if (this.$v.thresholdTime.$error) {
+        if (!this.$v.thresholdTime.numeric || !this.$v.thresholdTime.minValue) {
+          errorMessage = this.$t(
+            'SLA.FORM.THRESHOLD_TIME.INVALID_FORMAT_ERROR'
+          );
+        }
+      }
+      return errorMessage;
+    },
+  },
   watch: {
     threshold: {
       immediate: true,
