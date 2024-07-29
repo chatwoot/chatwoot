@@ -1,0 +1,15 @@
+td img {
+  max-height: unset !important;
+}
+.as-field {
+  height: auto;
+  overflow: hidden;
+}
+.as-field-index img {
+  width: 50%;
+}
+.as-field-video {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
