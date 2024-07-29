@@ -57,7 +57,8 @@ class Digitaltolk::SurveyResponsesParquetService
   end
 
   def load_columns_data
-    return if survey_responses.blank?
+    return if survey_responses.is_a?(Array) && survey_responses.blank?
+    return unless survey_responses.exists?
 
     index = 1
     batch_size = 100

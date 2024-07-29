@@ -52,7 +52,8 @@ class Digitaltolk::MessagesParquetService
   end
 
   def load_columns_data
-    return if messages.blank?
+    return if messages.is_a?(Array) && messages.blank?
+    return unless messages.exists?
 
     index = 1
     batch_size = 100

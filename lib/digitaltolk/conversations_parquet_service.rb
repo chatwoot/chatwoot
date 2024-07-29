@@ -69,7 +69,8 @@ attr_accessor :conversations, :file_name, :report
   end
 
   def load_columns_data
-    return if conversations.blank?
+    return if conversations.is_a?(Array) && conversations.blank?
+    return unless conversations.exists?
 
     index = 1
     batch_size = 100
@@ -100,7 +101,7 @@ attr_accessor :conversations, :file_name, :report
         @columns['timestamp'] << conversation&.last_activity_at.to_i
         @columns['first_reply_created_at'] << conversation&.first_reply_created_at.to_i
         @columns['unread_count'] << conversation&.unread_incoming_messages.count
-        @columns['last_non_activity_message'] << (conversation.present? ? conversation.messages.non_activity_messages.first.content.to_s : '')
+        @columns['last_non_activity_message'] << (conversation.present? ? conversation.messages.non_activity_messages.first&.content.to_s : '')
         @columns['last_activity_at'] << conversation&.last_activity_at.to_i
         @columns['priority'] << conversation&.priority.to_s
         @columns['contact_kind'] << conversation&.contact_kind.to_s

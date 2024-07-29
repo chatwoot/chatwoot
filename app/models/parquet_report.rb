@@ -69,7 +69,7 @@ class ParquetReport < ApplicationRecord
 
   def increment_progress(processed_count: 0)
     computed = (processed_count.to_f / record_count * 100).to_i
-    update_columns(progress: computed < 0 ? 0 : computed)
+    update_columns(progress: computed, elapse_time: Time.now - created_at)
   end
 
   private
