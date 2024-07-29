@@ -15,7 +15,7 @@
     "FILTER_ALL": "الكل",
     "ASSIGNEE_TYPE_TABS": {
       "me": "محادثاتي",
-      "unassigned": "غير مسند",
+      "unassigned": "غير معيّن",
       "all": "الكل"
     },
     "CHAT_STATUS_FILTER_ITEMS": {
@@ -23,7 +23,7 @@
         "TEXT": "فتح"
       },
       "resolved": {
-        "TEXT": "مغلقة"
+        "TEXT": "تم حلها"
       },
       "pending": {
         "TEXT": "معلق"
