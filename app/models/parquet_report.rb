@@ -31,6 +31,11 @@ class ParquetReport < ApplicationRecord
   belongs_to :account
   belongs_to :user, optional: true
 
+  COMPLETED = 'completed'.freeze
+  FAILED = 'failed'.freeze
+  IN_PROGRESS = 'in_progress'.freeze
+  PENDING = 'pending'.freeze
+
   def process!
     # Implement in subclass
   end
@@ -44,7 +49,7 @@ class ParquetReport < ApplicationRecord
   end
 
   def complete_and_save_url!(url)
-    update_columns(progress: 100, status: "completed", file_url: url, elapse_time: Time.now - created_at)
+    update_columns(progress: 100, status: COMPLETED, file_url: url, elapse_time: Time.now - created_at)
   end
 
   def progress_json
@@ -60,11 +65,11 @@ class ParquetReport < ApplicationRecord
   end
 
   def in_progress!(record_count: 0)
-    update_columns(status: "in_progress", record_count: record_count)
+    update_columns(status: IN_PROGRESS, record_count: record_count)
   end
 
   def failed!(error_message)
-    update_columns(status: "failed", error_message: error_message)
+    update_columns(status: FAILED, error_message: error_message)
   end
 
   def increment_progress(processed_count: 0)
@@ -75,7 +80,7 @@ class ParquetReport < ApplicationRecord
   private
 
   def set_pending_status
-    update_columns(status: "pending")
+    update_columns(status: PENDING)
   end
 
   def prepare_attributes
