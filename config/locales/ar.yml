@@ -80,17 +80,17 @@ ar:
       inbox_name: اسم صندوق الوارد
       inbox_type: نوع صندوق البريد
       conversations_count: عدد المحادثات
-      avg_first_response_time: متوسط وقت الإستجابة الأولى
+      avg_first_response_time: متوسط وقت الرد الأول
       avg_resolution_time: متوسط وقت الحل
     label_csv:
       label_title: الوسم
       conversations_count: عدد المحادثات
-      avg_first_response_time: متوسط وقت الإستجابة الأولى
+      avg_first_response_time: متوسط وقت الرد الأول
       avg_resolution_time: متوسط وقت الحل
     team_csv:
       team_name: اسم الفريق
       conversations_count: عدد المحادثات
-      avg_first_response_time: متوسط وقت الإستجابة الأولى
+      avg_first_response_time: متوسط وقت الرد الأول
       avg_resolution_time: متوسط وقت الحل
       resolution_count: عدد مرات الإغلاق
       avg_customer_waiting_time: متوسط وقت انتظار العميل
@@ -217,7 +217,7 @@ ar:
       description: "الكابتن هو مساعد AI أصلي تم بناؤه لمنتجك وتم تدريبه على قاعدة معارف شركتك. يستجيب كإنسان ويحل استفسارات العميل بشكل فعال. قم بتكوينه بسهولة إلى صناديق الوارد الخاصة بك."
   public_portal:
     search:
-      search_placeholder: Search for article by title or body...
+      search_placeholder: البحث عن مقالة حسب العنوان أو الجسم...
       empty_placeholder: لم يتم العثور على النتائج.
       loading_placeholder: جاري البحث...
       results_title: نتائج البحث
