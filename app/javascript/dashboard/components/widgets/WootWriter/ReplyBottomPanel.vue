@@ -36,6 +36,9 @@ export default {
       type: String,
       default: '',
     },
+    // inbox prop is used in /mixins/inboxMixin,
+    // remove this props when refactoring to composable if not needed
+    // eslint-disable-next-line vue/no-unused-properties
     inbox: {
       type: Object,
       default: () => ({}),
@@ -51,10 +54,6 @@ export default {
     onFileUpload: {
       type: Function,
       default: () => {},
-    },
-    showEmojiPicker: {
-      type: Boolean,
-      default: false,
     },
     toggleEmojiPicker: {
       type: Function,

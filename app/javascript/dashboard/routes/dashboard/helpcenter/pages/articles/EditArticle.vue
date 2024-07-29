@@ -31,7 +31,6 @@ export default {
   computed: {
     ...mapGetters({
       isFetching: 'articles/isFetching',
-      articles: 'articles/articles',
     }),
     article() {
       return this.$store.getters['articles/articleById'](this.articleId);

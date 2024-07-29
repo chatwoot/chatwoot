@@ -22,7 +22,6 @@ export default {
   computed: {
     ...mapGetters({
       portals: 'portals/allPortals',
-      meta: 'portals/getMeta',
       isFetching: 'portals/isFetchingPortals',
     }),
     portalStatus() {

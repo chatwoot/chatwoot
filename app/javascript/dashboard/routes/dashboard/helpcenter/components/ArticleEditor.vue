@@ -14,10 +14,6 @@ export default {
       type: Object,
       default: () => ({}),
     },
-    isSettingsSidebarOpen: {
-      type: Boolean,
-      default: false,
-    },
   },
   data() {
     return {

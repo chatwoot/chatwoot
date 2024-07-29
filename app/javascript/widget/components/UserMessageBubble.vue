@@ -10,10 +10,6 @@ export default {
       type: String,
       default: '',
     },
-    status: {
-      type: String,
-      default: '',
-    },
     widgetColor: {
       type: String,
       default: '',

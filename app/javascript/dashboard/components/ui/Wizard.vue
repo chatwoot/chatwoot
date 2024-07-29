@@ -5,7 +5,6 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 export default {
   mixins: [globalConfigMixin],
   props: {
-    isFullwidth: Boolean,
     items: {
       type: Array,
       default: () => [],
@@ -51,7 +50,7 @@ export default {
         </h3>
         <span
           v-if="isOver(item)"
-          class="text-green-500 dark:text-green-500 ml-1"
+          class="ml-1 text-green-500 dark:text-green-500"
         >
           <fluent-icon icon="checkmark" />
         </span>
@@ -59,7 +58,7 @@ export default {
       <span class="step">
         {{ items.indexOf(item) + 1 }}
       </span>
-      <p class="text-slate-600 dark:text-slate-300 text-sm m-0 pl-6">
+      <p class="pl-6 m-0 text-sm text-slate-600 dark:text-slate-300">
         {{ item.body }}
       </p>
     </div>

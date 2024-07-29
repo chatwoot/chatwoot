@@ -13,10 +13,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    buttonText: {
-      type: String,
-      default: 'Active',
-    },
     src: {
       type: String,
       default: '',
@@ -40,7 +36,7 @@ export default {
           active,
       }"
     >
-      <div class="items-center flex font-medium p-1 text-sm">{{ heading }}</div>
+      <div class="flex items-center p-1 text-sm font-medium">{{ heading }}</div>
       <fluent-icon
         v-if="active"
         icon="checkmark-circle"

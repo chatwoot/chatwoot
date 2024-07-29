@@ -7,10 +7,6 @@ export default {
       type: Array,
       default: () => [],
     },
-    categoryPath: {
-      type: String,
-      default: '',
-    },
   },
   methods: {
     onArticleClick(link) {

@@ -11,10 +11,6 @@ export default {
       type: Number,
       default: undefined,
     },
-    show: {
-      type: Boolean,
-      default: true,
-    },
   },
   data() {
     return {

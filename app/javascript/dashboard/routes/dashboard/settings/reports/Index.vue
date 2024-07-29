@@ -1,5 +1,4 @@
 <script>
-import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
@@ -33,12 +32,6 @@ export default {
       groupBy: GROUP_BY_FILTER[1],
       businessHours: false,
     };
-  },
-  computed: {
-    ...mapGetters({
-      accountSummary: 'getAccountSummary',
-      accountReport: 'getAccountReports',
-    }),
   },
   methods: {
     fetchAllData() {

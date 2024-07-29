@@ -62,8 +62,6 @@ export default {
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
-      currentUser: 'getCurrentUser',
-      uiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
     conversationAdditionalAttributes() {
       return this.currentConversationMetaData.additional_attributes || {};

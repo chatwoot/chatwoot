@@ -22,7 +22,6 @@ export default {
   computed: {
     ...mapGetters({
       uiFlags: 'integrations/getUIFlags',
-      websiteInboxes: 'inboxes/getWebsiteInboxes',
       dialogFlowEnabledInboxes: 'inboxes/dialogFlowEnabledInboxes',
     }),
     inboxes() {

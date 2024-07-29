@@ -28,7 +28,6 @@ export default {
       default: null,
     },
     regexCue: { type: String, default: null },
-    regexEnabled: { type: Boolean, default: false },
     attributeKey: { type: String, required: true },
     contactId: { type: Number, default: null },
   },

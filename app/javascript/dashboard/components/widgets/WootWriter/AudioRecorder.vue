@@ -49,10 +49,6 @@ export default {
       type: String,
       default: AUDIO_FORMATS.WAV,
     },
-    isAWhatsAppChannel: {
-      type: Boolean,
-      default: false,
-    },
   },
   data() {
     return {

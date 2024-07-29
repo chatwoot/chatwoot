@@ -7,10 +7,6 @@ const props = defineProps({
     type: Number,
     default: 1,
   },
-  totalCount: {
-    type: Number,
-    default: 0,
-  },
   totalPages: {
     type: Number,
     default: 0,

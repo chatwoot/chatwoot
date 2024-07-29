@@ -34,7 +34,6 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      currentChat: 'getSelectedChat',
       isAChatwootInstance: 'globalConfig/isAChatwootInstance',
     }),
     isAICTAModalDismissed() {

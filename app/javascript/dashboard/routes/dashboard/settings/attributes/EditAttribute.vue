@@ -1,5 +1,4 @@
 <script>
-import { mapGetters } from 'vuex';
 import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
 import { required, minLength } from '@vuelidate/validators';
@@ -56,9 +55,6 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({
-      uiFlags: 'attributes/getUIFlags',
-    }),
     setAttributeListValue() {
       return this.selectedAttribute.attribute_values.map(values => ({
         name: values,

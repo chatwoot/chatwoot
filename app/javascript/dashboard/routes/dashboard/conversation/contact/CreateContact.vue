@@ -11,10 +11,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    contact: {
-      type: Object,
-      default: () => ({}),
-    },
   },
 
   computed: {

@@ -31,10 +31,6 @@ export default {
       type: Object,
       default: () => ({}),
     },
-    channelType: {
-      type: String,
-      default: '',
-    },
     showAvatar: {
       type: Boolean,
       default: true,

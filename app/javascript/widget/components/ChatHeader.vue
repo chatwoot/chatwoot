@@ -1,6 +1,4 @@
 <script>
-import { mapGetters } from 'vuex';
-
 import availabilityMixin from 'widget/mixins/availability';
 import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
@@ -38,9 +36,6 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({
-      widgetColor: 'appConfig/getWidgetColor',
-    }),
     isOnline() {
       const { workingHoursEnabled } = this.channelConfig;
       const anyAgentOnline = this.availableAgents.length > 0;
@@ -61,13 +56,13 @@ export default {
 
 <template>
   <header
-    class="flex justify-between p-5 w-full"
+    class="flex justify-between w-full p-5"
     :class="$dm('bg-white', 'dark:bg-slate-900')"
   >
     <div class="flex items-center">
       <button
         v-if="showBackButton"
-        class="-ml-3 px-2"
+        class="px-2 -ml-3"
         @click="onBackButtonClick"
       >
         <FluentIcon
@@ -78,13 +73,13 @@ export default {
       </button>
       <img
         v-if="avatarUrl"
-        class="h-8 w-8 rounded-full mr-3"
+        class="w-8 h-8 mr-3 rounded-full"
         :src="avatarUrl"
         alt="avatar"
       />
       <div>
         <div
-          class="font-medium text-base leading-4 flex items-center"
+          class="flex items-center text-base font-medium leading-4"
           :class="$dm('text-black-900', 'dark:text-slate-50')"
         >
           <span v-dompurify-html="title" class="mr-1" />
@@ -94,7 +89,7 @@ export default {
           />
         </div>
         <div
-          class="text-xs mt-1 leading-3"
+          class="mt-1 text-xs leading-3"
           :class="$dm('text-black-700', 'dark:text-slate-400')"
         >
           {{ replyWaitMessage }}

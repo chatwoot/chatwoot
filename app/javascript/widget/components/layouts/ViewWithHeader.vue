@@ -28,7 +28,6 @@ export default {
     ...mapGetters({
       appConfig: 'appConfig/getAppConfig',
       availableAgents: 'agent/availableAgents',
-      widgetColor: 'appConfig/getWidgetColor',
     }),
     portal() {
       return window.chatwootWebChannel.portal;
@@ -108,9 +107,9 @@ export default {
     :class="{ 'overflow-auto': isOnHomeView }"
     @keydown.esc="closeWindow"
   >
-    <div class="flex flex-col h-full relative">
+    <div class="relative flex flex-col h-full">
       <div
-        class="header-wrap sticky top-0 z-40 transition-all"
+        class="sticky top-0 z-40 transition-all header-wrap"
         :class="{
           expanded: !isHeaderCollapsed,
           collapsed: isHeaderCollapsed,

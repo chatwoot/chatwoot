@@ -68,14 +68,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      accountId: 'getCurrentAccountId',
       currentChat: 'getSelectedChat',
-      allConversations: 'getAllConversations',
-      inboxesList: 'inboxes/getInboxes',
       listLoadingStatus: 'getAllMessagesLoaded',
-      loadingChatList: 'getChatListLoadingStatus',
-      appIntegrations: 'integrations/getAppIntegrations',
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       currentAccountId: 'getCurrentAccountId',
     }),
     isOpen() {

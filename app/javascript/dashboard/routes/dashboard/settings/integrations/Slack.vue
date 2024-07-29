@@ -47,9 +47,6 @@ export default {
       return this.$t('INTEGRATION_SETTINGS.SLACK.HELP_TEXT.SELECTED');
     },
     ...mapGetters({
-      currentUser: 'getCurrentUser',
-      globalConfig: 'globalConfig/get',
-      accountId: 'getCurrentAccountId',
       uiFlags: 'integrations/getUIFlags',
     }),
 
@@ -84,7 +81,7 @@ export default {
     class="flex flex-col flex-1 overflow-auto"
   >
     <div
-      class="bg-white dark:bg-slate-800 border-b border-solid border-slate-75 dark:border-slate-700/50 rounded-sm p-4"
+      class="p-4 bg-white border-b border-solid rounded-sm dark:bg-slate-800 border-slate-75 dark:border-slate-700/50"
     >
       <Integration
         :integration-id="integration.id"
@@ -100,7 +97,7 @@ export default {
         }"
       />
     </div>
-    <div v-if="areHooksAvailable" class="p-6 flex-1">
+    <div v-if="areHooksAvailable" class="flex-1 p-6">
       <SelectChannelWarning
         v-if="!isIntegrationHookEnabled"
         :has-connected-a-channel="hasConnectedAChannel"
@@ -108,7 +105,7 @@ export default {
       <SlackIntegrationHelpText :selected-channel-name="selectedChannelName" />
     </div>
   </div>
-  <div v-else class="flex flex-1 items-center justify-center">
+  <div v-else class="flex items-center justify-center flex-1">
     <Spinner size="" color-scheme="primary" />
   </div>
 </template>

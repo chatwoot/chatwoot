@@ -28,7 +28,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      currentAccountId: 'getCurrentAccountId',
       notification: 'notifications/getFilteredNotifications',
       currentChat: 'getSelectedChat',
       activeNotificationById: 'notifications/getNotificationById',

@@ -38,7 +38,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      accountId: 'getCurrentAccountId',
       meta: 'notifications/getMeta',
       uiFlags: 'notifications/getUIFlags',
       notification: 'notifications/getFilteredNotifications',

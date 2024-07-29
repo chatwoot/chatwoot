@@ -23,7 +23,6 @@ export default {
     },
 
     ...mapGetters({
-      labelUiFlags: 'contactLabels/getUIFlags',
       allLabels: 'labels/getLabels',
     }),
   },

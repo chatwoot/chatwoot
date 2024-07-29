@@ -5,10 +5,6 @@ export default {
     WithLabel,
   },
   props: {
-    id: {
-      type: String,
-      default: '',
-    },
     options: {
       type: Array,
       default: () => [],
@@ -44,7 +40,7 @@ export default {
     :has-error="hasError"
     :error-message="errorMessage"
   >
-    <div class="flex gap-2 flex-wrap">
+    <div class="flex flex-wrap gap-2">
       <woot-button
         v-for="option in options"
         :key="option.value"

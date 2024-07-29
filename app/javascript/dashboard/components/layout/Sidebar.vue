@@ -33,7 +33,6 @@ export default {
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
-      currentRole: 'getCurrentRole',
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
       inboxes: 'inboxes/getInboxes',

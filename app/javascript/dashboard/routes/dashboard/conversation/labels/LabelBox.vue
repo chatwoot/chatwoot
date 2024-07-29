@@ -16,6 +16,9 @@ export default {
 
   mixins: [conversationLabelMixin, keyboardEventListenerMixins],
   props: {
+    // conversationId prop is used in /conversation/labelMixin,
+    // remove this props when refactoring to composable if not needed
+    // eslint-disable-next-line vue/no-unused-properties
     conversationId: {
       type: Number,
       required: true,
@@ -37,7 +40,6 @@ export default {
   computed: {
     ...mapGetters({
       conversationUiFlags: 'conversationLabels/getUIFlags',
-      labelUiFlags: 'conversationLabels/getUIFlags',
     }),
   },
   methods: {

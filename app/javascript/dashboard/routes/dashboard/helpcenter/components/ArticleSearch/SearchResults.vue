@@ -19,10 +19,6 @@ export default {
       type: String,
       default: '',
     },
-    portalSlug: {
-      type: String,
-      required: true,
-    },
   },
   computed: {
     showNoResults() {

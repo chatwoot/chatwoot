@@ -1,5 +1,4 @@
 <script>
-import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import configMixin from 'shared/mixins/configMixin';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -30,11 +29,6 @@ export default {
       alertTone: 'ding',
       audioAlertConditions: [],
     };
-  },
-  computed: {
-    ...mapGetters({
-      accountId: 'getCurrentAccountId',
-    }),
   },
   watch: {
     uiSettings(value) {

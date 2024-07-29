@@ -3,10 +3,16 @@ import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
 export default {
   mixins: [conversationLabelMixin],
   props: {
+    // conversationId prop is used in /conversation/labelMixin,
+    // remove this props when refactoring to composable if not needed
+    // eslint-disable-next-line vue/no-unused-properties
     conversationId: {
       type: Number,
       required: true,
     },
+    // conversationLabels prop is used in /conversation/labelMixin,
+    // remove this props when refactoring to composable if not needed
+    // eslint-disable-next-line vue/no-unused-properties
     conversationLabels: {
       type: String,
       required: false,

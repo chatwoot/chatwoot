@@ -2,7 +2,6 @@
 import { inject } from 'vue';
 import ActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
 import macrosMixin from 'dashboard/mixins/macrosMixin';
-import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -22,10 +21,6 @@ export default {
       type: String,
       default: '',
     },
-    index: {
-      type: Number,
-      default: 0,
-    },
     fileName: {
       type: String,
       default: '',
@@ -36,11 +31,6 @@ export default {
     return { macroActionTypes };
   },
   computed: {
-    ...mapGetters({
-      labels: 'labels/getLabels',
-      teams: 'teams/getTeams',
-      agents: 'agents/getAgents',
-    }),
     actionData: {
       get() {
         return this.value;

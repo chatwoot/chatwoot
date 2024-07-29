@@ -126,8 +126,6 @@ export default {
       currentUser: 'getCurrentUser',
       lastEmail: 'getLastEmailInSelectedChat',
       globalConfig: 'globalConfig/get',
-      accountId: 'getCurrentAccountId',
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
     currentContact() {
       return this.$store.getters['contacts/getContact'](

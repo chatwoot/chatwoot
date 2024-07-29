@@ -33,7 +33,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      globalConfig: 'globalConfig/get',
       isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       records: 'sla/getSLA',

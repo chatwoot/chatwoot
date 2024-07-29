@@ -1,5 +1,4 @@
 <script>
-import { mapGetters } from 'vuex';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import BackButton from '../../../components/widgets/BackButton.vue';
 
@@ -46,9 +45,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      currentUser: 'getCurrentUser',
-    }),
     iconClass() {
       return `icon ${this.icon} header--icon`;
     },

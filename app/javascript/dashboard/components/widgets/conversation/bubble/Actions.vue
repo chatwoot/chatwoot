@@ -1,7 +1,6 @@
 <script>
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import inboxMixin from 'shared/mixins/inboxMixin';
-import { mapGetters } from 'vuex';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
 
 export default {
@@ -51,17 +50,12 @@ export default {
       type: String,
       default: '',
     },
-    id: {
-      type: [String, Number],
-      default: '',
-    },
     inboxId: {
       type: [String, Number],
       default: 0,
     },
   },
   computed: {
-    ...mapGetters({ currentChat: 'getSelectedChat' }),
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.inboxId);
     },

@@ -26,9 +26,6 @@ export default {
   computed: {
     ...mapGetters({
       uiFlags: 'macros/getUIFlags',
-      labels: 'labels/getLabels',
-      agents: 'agents/getAgents',
-      teams: 'teams/getTeams',
     }),
     macroId() {
       return this.$route.params.macroId;

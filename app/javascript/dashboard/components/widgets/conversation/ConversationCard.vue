@@ -82,7 +82,6 @@ export default {
       currentChat: 'getSelectedChat',
       inboxesList: 'inboxes/getInboxes',
       activeInbox: 'getSelectedInbox',
-      currentUser: 'getCurrentUser',
       accountId: 'getCurrentAccountId',
     }),
     bulkActionCheck() {

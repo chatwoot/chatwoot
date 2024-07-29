@@ -17,12 +17,6 @@ export default {
     FooterReplyTo,
   },
   mixins: [routerMixin],
-  props: {
-    msg: {
-      type: String,
-      default: '',
-    },
-  },
   data() {
     return {
       inReplyTo: null,

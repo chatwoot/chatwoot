@@ -23,7 +23,6 @@ export default {
     ...mapGetters({
       articles: 'articles/allArticles',
       categories: 'categories/allCategories',
-      uiFlags: 'articles/uiFlags',
       meta: 'articles/getMeta',
       isFetching: 'articles/isFetching',
       currentUserId: 'getCurrentUserID',

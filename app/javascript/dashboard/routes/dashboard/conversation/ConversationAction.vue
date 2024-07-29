@@ -22,6 +22,9 @@ export default {
       type: [Number, String],
       required: true,
     },
+    // inboxId prop is used in /mixins/agentMixin,
+    // remove this props when refactoring to composable if not needed
+    // eslint-disable-next-line vue/no-unused-properties
     inboxId: {
       type: Number,
       default: undefined,

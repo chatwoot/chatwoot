@@ -1,5 +1,4 @@
 <script>
-import { mapGetters } from 'vuex';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import AILoader from './AILoader.vue';
 import aiMixin from 'dashboard/mixins/aiMixin';
@@ -23,9 +22,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      appIntegrations: 'integrations/getAppIntegrations',
-    }),
     headerTitle() {
       const translationKey = this.aiOption?.toUpperCase();
       return translationKey

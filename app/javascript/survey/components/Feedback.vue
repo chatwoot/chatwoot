@@ -10,16 +10,6 @@ export default {
     TextArea,
     Spinner,
   },
-  props: {
-    isUpdating: {
-      type: Boolean,
-      default: null,
-    },
-    isButtonDisabled: {
-      type: Boolean,
-      default: null,
-    },
-  },
   data() {
     return {
       feedback: '',
@@ -44,7 +34,7 @@ export default {
       class="my-5"
       :placeholder="$t('SURVEY.FEEDBACK.PLACEHOLDER')"
     />
-    <div class="flex items-center font-medium float-right">
+    <div class="flex items-center float-right font-medium">
       <CustomButton @click="onClick">
         <Spinner v-if="feedback" class="p-0" />
         {{ $t('SURVEY.FEEDBACK.BUTTON_TEXT') }}

@@ -25,7 +25,6 @@ export default {
   computed: {
     ...mapGetters({
       currentUserID: 'getCurrentUserID',
-      articles: 'articles/articles',
       categories: 'categories/allCategories',
     }),
     articleId() {

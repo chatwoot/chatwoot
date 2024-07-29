@@ -44,7 +44,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      uiFlags: 'inboxAssignableAgents/getUIFlags',
       currentChat: 'getSelectedChat',
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',

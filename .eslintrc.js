@@ -173,6 +173,15 @@ module.exports = {
         useAttrs: 'attrs',
       },
     ],
+    'vue/no-unused-properties': [
+      'error',
+      {
+        groups: ['props'],
+        deepData: false,
+        ignorePublicMembers: false,
+        unreferencedOptions: [],
+      },
+    ],
     'vue/max-attributes-per-line': [
       'error',
       {

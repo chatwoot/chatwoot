@@ -6,14 +6,6 @@ import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 
 const props = defineProps({
-  selectedInboxes: {
-    type: Array,
-    default: () => [],
-  },
-  conversationCount: {
-    type: Number,
-    default: 0,
-  },
   showResolve: {
     type: Boolean,
     default: true,

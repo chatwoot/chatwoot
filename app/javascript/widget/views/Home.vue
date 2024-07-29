@@ -16,20 +16,9 @@ export default {
     ArticleCardSkeletonLoader,
   },
   mixins: [configMixin, routerMixin, darkModeMixin],
-  props: {
-    hasFetched: {
-      type: Boolean,
-      default: false,
-    },
-    isCampaignViewClicked: {
-      type: Boolean,
-      default: false,
-    },
-  },
   computed: {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',
-      activeCampaign: 'campaign/getActiveCampaign',
       conversationSize: 'conversation/getConversationSize',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
       popularArticles: 'article/popularArticles',

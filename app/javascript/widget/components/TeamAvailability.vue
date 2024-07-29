@@ -25,10 +25,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    unreadCount: {
-      type: Number,
-      default: 0,
-    },
   },
 
   computed: {

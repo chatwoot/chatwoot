@@ -18,12 +18,6 @@ export default {
     Feedback,
   },
   mixins: [configMixin],
-  props: {
-    showHomePage: {
-      type: Boolean,
-      default: false,
-    },
-  },
 
   data() {
     return {

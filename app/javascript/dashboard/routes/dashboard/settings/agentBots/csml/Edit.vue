@@ -3,11 +3,9 @@ import { useAlert } from 'dashboard/composables';
 import Spinner from 'shared/components/Spinner.vue';
 import CsmlBotEditor from '../components/CSMLBotEditor.vue';
 
-import { mapGetters } from 'vuex';
 export default {
   components: { Spinner, CsmlBotEditor },
   computed: {
-    ...mapGetters({ uiFlags: 'agentBots/uiFlags' }),
     agentBot() {
       return this.$store.getters['agentBots/getBot'](this.$route.params.botId);
     },

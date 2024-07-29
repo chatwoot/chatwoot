@@ -28,7 +28,6 @@ export default {
   computed: {
     ...mapGetters({
       uiFlags: 'bulkActions/getUIFlags',
-      inboxes: 'inboxes/getInboxes',
       assignableAgentsUiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
     filteredAgents() {

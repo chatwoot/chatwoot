@@ -24,7 +24,6 @@ export default {
   computed: {
     ...mapGetters({
       uiFlags: 'inboxes/getUIFlags',
-      globalConfig: 'globalConfig/get',
     }),
   },
   validations: {

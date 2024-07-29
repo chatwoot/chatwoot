@@ -24,7 +24,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      globalConfig: 'globalConfig/get',
       records: 'dashboardApps/getRecords',
       uiFlags: 'dashboardApps/getUIFlags',
     }),

@@ -1,16 +1,10 @@
 <script>
-import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import SlaForm from './SlaForm.vue';
 
 export default {
   components: {
     SlaForm,
-  },
-  computed: {
-    ...mapGetters({
-      uiFlags: 'sla/getUIFlags',
-    }),
   },
   methods: {
     onClose() {

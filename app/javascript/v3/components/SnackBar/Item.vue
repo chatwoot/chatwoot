@@ -6,11 +6,6 @@ export default {
       type: Object,
       default: () => ({}),
     },
-    showButton: Boolean,
-    duration: {
-      type: [String, Number],
-      default: 3000,
-    },
   },
   computed: {
     isActionPresent() {

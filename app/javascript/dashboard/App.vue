@@ -47,7 +47,6 @@ export default {
     ...mapGetters({
       getAccount: 'accounts/getAccount',
       currentUser: 'getCurrentUser',
-      globalConfig: 'globalConfig/get',
       authUIFlags: 'getAuthUIFlags',
       accountUIFlags: 'accounts/getUIFlags',
       currentAccountId: 'getCurrentAccountId',

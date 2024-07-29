@@ -14,8 +14,6 @@ export default {
   },
   props: {
     resetPasswordToken: { type: String, default: '' },
-    redirectUrl: { type: String, default: '' },
-    config: { type: String, default: '' },
   },
   setup() {
     return { v$: useVuelidate() };

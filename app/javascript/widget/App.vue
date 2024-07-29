@@ -37,10 +37,7 @@ export default {
   computed: {
     ...mapGetters({
       activeCampaign: 'campaign/getActiveCampaign',
-      campaigns: 'campaign/getCampaigns',
       conversationSize: 'conversation/getConversationSize',
-      currentUser: 'contacts/getCurrentUser',
-      hasFetched: 'agent/getHasFetched',
       hideMessageBubble: 'appConfig/getHideMessageBubble',
       isFetchingList: 'conversation/getIsFetchingList',
       isRightAligned: 'appConfig/isRightAligned',
@@ -91,7 +88,7 @@ export default {
       'setBubbleVisibility',
       'setColorScheme',
     ]),
-    ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
+    ...mapActions('conversation', ['fetchOldConversations']),
     ...mapActions('campaign', [
       'initCampaigns',
       'executeCampaign',
@@ -334,7 +331,7 @@ export default {
 <template>
   <div
     v-if="!conversationSize && isFetchingList"
-    class="flex flex-1 items-center h-full bg-black-25 justify-center"
+    class="flex items-center justify-center flex-1 h-full bg-black-25"
     :class="{ dark: prefersDarkMode }"
   >
     <Spinner size="" />

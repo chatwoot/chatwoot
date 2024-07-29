@@ -27,7 +27,6 @@ export default {
     ssoAuthToken: { type: String, default: '' },
     ssoAccountId: { type: String, default: '' },
     ssoConversationId: { type: String, default: '' },
-    config: { type: String, default: '' },
     email: { type: String, default: '' },
     authError: { type: String, default: '' },
   },

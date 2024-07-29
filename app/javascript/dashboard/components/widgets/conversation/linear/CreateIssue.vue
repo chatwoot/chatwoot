@@ -9,10 +9,6 @@ import { parseLinearAPIErrorResponse } from 'dashboard/store/utils/api';
 import SearchableDropdown from './SearchableDropdown.vue';
 
 const props = defineProps({
-  accountId: {
-    type: [Number, String],
-    required: true,
-  },
   conversationId: {
     type: [Number, String],
     required: true,

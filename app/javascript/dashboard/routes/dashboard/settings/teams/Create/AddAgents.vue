@@ -12,12 +12,6 @@ export default {
     PageHeader,
     AgentSelector,
   },
-  props: {
-    team: {
-      type: Object,
-      default: () => {},
-    },
-  },
   validations: {
     selectedAgents: {
       isEmpty() {

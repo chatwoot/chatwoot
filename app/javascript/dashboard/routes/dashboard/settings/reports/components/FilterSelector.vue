@@ -23,10 +23,6 @@ export default {
     ReportsFiltersRatings,
   },
   props: {
-    filterItemsList: {
-      type: Array,
-      default: () => [],
-    },
     showGroupByFilter: {
       type: Boolean,
       default: false,

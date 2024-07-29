@@ -20,7 +20,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      uiFlags: 'csat/getUIFlags',
       csatResponses: 'csat/getCSATResponses',
       metrics: 'csat/getMetrics',
     }),

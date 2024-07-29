@@ -61,10 +61,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    isWebWidgetInbox: {
-      type: Boolean,
-      default: false,
-    },
     isAnEmailInbox: {
       type: Boolean,
       default: false,

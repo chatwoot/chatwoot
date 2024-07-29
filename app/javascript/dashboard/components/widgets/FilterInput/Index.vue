@@ -13,10 +13,6 @@ export default {
       type: String,
       default: 'plain_text',
     },
-    dataType: {
-      type: String,
-      default: 'plain_text',
-    },
     operators: {
       type: Array,
       default: () => [],

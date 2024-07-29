@@ -17,7 +17,6 @@ export default {
     WootDropdownMenu,
   },
   mixins: [keyboardEventListenerMixins],
-  props: { conversationId: { type: [String, Number], required: true } },
   data() {
     return {
       isLoading: false,

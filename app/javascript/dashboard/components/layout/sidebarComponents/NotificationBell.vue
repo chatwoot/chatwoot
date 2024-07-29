@@ -4,7 +4,6 @@ import { mapGetters } from 'vuex';
 export default {
   computed: {
     ...mapGetters({
-      accountId: 'getCurrentAccountId',
       notificationMetadata: 'notifications/getMeta',
     }),
     unreadCount() {

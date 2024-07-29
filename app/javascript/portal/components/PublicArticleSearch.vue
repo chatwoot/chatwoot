@@ -9,12 +9,6 @@ export default {
     PublicSearchInput,
     SearchSuggestions,
   },
-  props: {
-    value: {
-      type: [String, Number],
-      default: '',
-    },
-  },
   data() {
     return {
       searchTerm: '',
@@ -99,7 +93,7 @@ export default {
 </script>
 
 <template>
-  <div v-on-clickaway="closeSearch" class="max-w-5xl w-full relative my-4">
+  <div v-on-clickaway="closeSearch" class="relative w-full max-w-5xl my-4">
     <PublicSearchInput
       v-model="searchTerm"
       :search-placeholder="searchTranslations.searchPlaceholder"
@@ -107,7 +101,7 @@ export default {
     />
     <div
       v-if="shouldShowSearchBox"
-      class="absolute top-14 w-full"
+      class="absolute w-full top-14"
       @mouseover="openSearch"
     >
       <SearchSuggestions

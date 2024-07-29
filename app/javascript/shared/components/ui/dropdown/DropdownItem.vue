@@ -7,17 +7,13 @@ export default {
       type: Boolean,
       default: false,
     },
-    className: {
-      type: String,
-      default: '',
-    },
   },
 };
 </script>
 
 <template>
   <li
-    class="dropdown-menu__item list-none mb-1"
+    class="mb-1 list-none dropdown-menu__item"
     :class="{
       'is-disabled': disabled,
     }"

@@ -1,5 +1,4 @@
 <script>
-import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import SettingsHeader from 'dashboard/routes/dashboard/settings/SettingsHeader.vue';
 import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner.vue';
@@ -11,9 +10,6 @@ export default {
   },
   mixins: [globalConfigMixin],
   computed: {
-    ...mapGetters({
-      globalConfig: 'globalConfig/get',
-    }),
     currentPortal() {
       const slug = this.$route.params.portalSlug;
       if (slug) return this.$store.getters['portals/portalBySlug'](slug);

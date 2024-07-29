@@ -24,7 +24,6 @@ export default {
       type: Array,
       default: () => [],
     },
-    showAvatar: Boolean,
   },
   computed: {},
 };

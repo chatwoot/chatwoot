@@ -13,10 +13,6 @@ export default {
       type: String,
       default: 'Untitled',
     },
-    body: {
-      type: String,
-      default: '',
-    },
     url: {
       type: String,
       default: '',

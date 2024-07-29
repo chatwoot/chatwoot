@@ -55,7 +55,6 @@ export default {
       portals: 'portals/allPortals',
       categories: 'categories/allCategories',
       meta: 'portals/getMeta',
-      isFetching: 'portals/isFetchingPortals',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
 

@@ -61,7 +61,6 @@ export default {
       return this.pageList.filter(item => !item.exists);
     },
     ...mapGetters({
-      currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
     }),
   },

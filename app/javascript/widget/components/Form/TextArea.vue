@@ -7,10 +7,6 @@ export default {
       type: String,
       default: '',
     },
-    type: {
-      type: String,
-      default: 'text',
-    },
     placeholder: {
       type: String,
       default: '',
@@ -57,19 +53,19 @@ export default {
   <label class="block">
     <div
       v-if="label"
-      class="mb-2 text-xs leading-3 font-medium"
+      class="mb-2 text-xs font-medium leading-3"
       :class="labelClass"
     >
       {{ label }}
     </div>
     <textarea
-      class="resize-none border rounded w-full py-2 px-3 text-slate-700 leading-tight outline-none"
+      class="w-full px-3 py-2 leading-tight border rounded outline-none resize-none text-slate-700"
       :class="isTextAreaHasError"
       :placeholder="placeholder"
       :value="value"
       @change="onChange"
     />
-    <div v-if="error" class="text-red-400 mt-2 text-xs leading-3 font-medium">
+    <div v-if="error" class="mt-2 text-xs font-medium leading-3 text-red-400">
       {{ error }}
     </div>
   </label>

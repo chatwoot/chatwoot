@@ -17,7 +17,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      accountId: 'getCurrentAccountId',
       meta: 'notifications/getMeta',
       records: 'notifications/getNotifications',
       uiFlags: 'notifications/getUIFlags',
@@ -139,15 +138,15 @@ export default {
       class="flex-col h-[90vh] w-[32.5rem] flex justify-between z-10 rounded-md shadow-md absolute bg-white dark:bg-slate-800 left-14 rtl:left-auto rtl:right-14 m-4"
     >
       <div
-        class="flex-row items-center border-b border-solid pt-5 pb-3 px-6 border-slate-50 dark:border-slate-700 w-full flex justify-between"
+        class="flex flex-row items-center justify-between w-full px-6 pt-5 pb-3 border-b border-solid border-slate-50 dark:border-slate-700"
       >
-        <div class="items-center flex">
+        <div class="flex items-center">
           <span class="text-xl font-bold text-slate-800 dark:text-slate-100">
             {{ $t('NOTIFICATIONS_PAGE.UNREAD_NOTIFICATION.TITLE') }}
           </span>
           <span
             v-if="totalUnreadNotifications"
-            class="py-1 px-2 font-semibold text-slate-700 dark:text-slate-200 rounded-md text-xxs ml-2 mr-2 bg-slate-50 dark:bg-slate-700"
+            class="px-2 py-1 ml-2 mr-2 font-semibold rounded-md text-slate-700 dark:text-slate-200 text-xxs bg-slate-50 dark:bg-slate-700"
           >
             {{ totalUnreadNotifications }}
           </span>
@@ -188,7 +187,7 @@ export default {
       />
       <div
         v-if="records.length !== 0"
-        class="items-center py-1 px-5 flex justify-between"
+        class="flex items-center justify-between px-5 py-1"
       >
         <div class="flex">
           <woot-button
@@ -214,7 +213,7 @@ export default {
             @click="onClickPreviousPage"
           />
         </div>
-        <span class="text-xxs font-semibold text-slate-500 dark:text-slate-400">
+        <span class="font-semibold text-xxs text-slate-500 dark:text-slate-400">
           {{ currentPage }} - {{ lastPage }}
         </span>
         <div class="flex">

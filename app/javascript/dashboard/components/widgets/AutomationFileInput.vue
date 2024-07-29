@@ -6,10 +6,6 @@ export default {
     Spinner,
   },
   props: {
-    value: {
-      type: Array,
-      default: () => [],
-    },
     initialFileName: {
       type: String,
       default: '',

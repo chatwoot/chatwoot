@@ -1,7 +1,6 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import aiMixin from 'dashboard/mixins/aiMixin';
@@ -24,11 +23,6 @@ export default {
     value: {
       required,
     },
-  },
-  computed: {
-    ...mapGetters({
-      appIntegrations: 'integrations/getAppIntegrations',
-    }),
   },
   methods: {
     onClose() {

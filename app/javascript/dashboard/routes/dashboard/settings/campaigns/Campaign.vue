@@ -26,7 +26,6 @@ export default {
   computed: {
     ...mapGetters({
       uiFlags: 'campaigns/getUIFlags',
-      labelList: 'labels/getLabels',
     }),
     campaigns() {
       return this.$store.getters['campaigns/getCampaigns'](this.campaignType);

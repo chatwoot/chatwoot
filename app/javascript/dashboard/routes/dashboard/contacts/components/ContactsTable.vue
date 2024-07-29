@@ -33,10 +33,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    activeContactId: {
-      type: [String, Number],
-      default: '',
-    },
     sortParam: {
       type: String,
       default: 'last_activity_at',

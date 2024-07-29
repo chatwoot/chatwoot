@@ -1,5 +1,4 @@
 <script>
-import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import BotMetrics from './components/BotMetrics.vue';
 import ReportFilterSelector from './components/FilterSelector.vue';
@@ -29,9 +28,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      accountReport: 'getAccountReports',
-    }),
     requestPayload() {
       return {
         from: this.from,

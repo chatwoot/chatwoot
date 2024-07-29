@@ -1,6 +1,4 @@
 <script>
-import { mapGetters } from 'vuex';
-
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import NotificationPanelItem from './NotificationPanelItem.vue';
@@ -30,9 +28,6 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({
-      notificationMetadata: 'notifications/getMeta',
-    }),
     showEmptyResult() {
       return !this.isLoading && this.notifications.length === 0;
     },

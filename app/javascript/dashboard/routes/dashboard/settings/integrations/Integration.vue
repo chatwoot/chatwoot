@@ -11,7 +11,6 @@ export default {
       type: [String, Number],
       required: true,
     },
-    integrationLogo: { type: String, default: '' },
     integrationName: { type: String, default: '' },
     integrationDescription: { type: String, default: '' },
     integrationEnabled: { type: Boolean, default: false },
@@ -26,7 +25,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      currentUser: 'getCurrentUser',
       accountId: 'getCurrentAccountId',
       globalConfig: 'globalConfig/get',
     }),
@@ -63,15 +61,15 @@ export default {
 
 <template>
   <div
-    class="flex flex-col md:flex-row justify-between items-start md:items-center"
+    class="flex flex-col items-start justify-between md:flex-row md:items-center"
   >
-    <div class="flex items-center justify-start m-0 mx-4 flex-1">
+    <div class="flex items-center justify-start flex-1 m-0 mx-4">
       <img
         :src="`/dashboard/images/integrations/${integrationId}.png`"
-        class="p-2 h-16 w-16 mr-4"
+        class="w-16 h-16 p-2 mr-4"
       />
       <div>
-        <h3 class="text-xl font-medium mb-1 text-slate-800 dark:text-slate-100">
+        <h3 class="mb-1 text-xl font-medium text-slate-800 dark:text-slate-100">
           {{ integrationName }}
         </h3>
         <p class="text-slate-700 dark:text-slate-200">
@@ -112,7 +110,7 @@ export default {
         </div>
       </router-link>
       <div v-if="!integrationEnabled">
-        <a :href="integrationAction" class="button success nice rounded">
+        <a :href="integrationAction" class="rounded button success nice">
           {{ $t('INTEGRATION_SETTINGS.CONNECT.BUTTON_TEXT') }}
         </a>
       </div>
