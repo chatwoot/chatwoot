@@ -36,7 +36,11 @@ class Public::Api::V1::Portals::BaseController < PublicController
       @locale = locale_without_variant
     end
 
-    I18n.with_locale(@locale, &)
+    begin
+      I18n.with_locale(@locale, &)
+    rescue
+      I18n.with_locale(base_locale, &)
+    end
   end
 
   def switch_locale_with_article(&)
@@ -49,8 +53,15 @@ class Public::Api::V1::Portals::BaseController < PublicController
               else
                 article.portal.default_locale
               end
+    begin
+      I18n.with_locale(@locale, &)
+    rescue
+      I18n.with_locale(base_locale, &)
+    end
+  end
 
-    I18n.with_locale(@locale, &)
+  def base_locale
+    @locale.to_s.split('_')[0]
   end
 
   def allow_iframe_requests
