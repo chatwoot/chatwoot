@@ -30,7 +30,7 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
   end
 
   def facebook_pages
-    @page_details = mark_already_existing_facebook_pages(fb_object.get_connections('me', 'accounts.limit(100)'))
+    @page_details = mark_already_existing_facebook_pages(fb_object.get_connections('me', 'accounts'))
   end
 
   def set_instagram_id(page_access_token, facebook_channel)
@@ -48,7 +48,7 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
   def reauthorize_page
     if @inbox&.facebook?
       fb_page_id = @inbox.channel.page_id
-      page_details = fb_object.get_connections('me', 'accounts.limit(100)')
+      page_details = fb_object.get_connections('me', 'accounts')
 
       if (page_detail = (page_details || []).detect { |page| fb_page_id == page['id'] })
         update_fb_page(fb_page_id, page_detail['access_token'])
