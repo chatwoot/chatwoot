@@ -22,9 +22,9 @@ describe('validateConversationOrContactFilters', () => {
     ];
     const errors = validateConversationOrContactFilters(invalidFilters);
     expect(errors).toEqual({
-      filter_0: 'Attribute key is required',
-      filter_1: 'Filter operator is required',
-      filter_2: 'Value is required',
+      filter_0: 'ATTRIBUTE_KEY_REQUIRED',
+      filter_1: 'FILTER_OPERATOR_REQUIRED',
+      filter_2: 'VALUE_REQUIRED',
     });
   });
 
@@ -36,8 +36,8 @@ describe('validateConversationOrContactFilters', () => {
     ];
     const errors = validateConversationOrContactFilters(filters);
     expect(errors).toEqual({
-      filter_0: 'Value must be between 1 and 998',
-      filter_1: 'Value must be between 1 and 998',
+      filter_0: 'VALUE_MUST_BE_BETWEEN_1_AND_998',
+      filter_1: 'VALUE_MUST_BE_BETWEEN_1_AND_998',
     });
   });
 });
