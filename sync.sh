@@ -16,4 +16,4 @@ git pull origin develop
 git push origin develop
 
 # Create a pull request using the GitHub CLI
-gh pr create --title "Sync with upstream" --body "Automated sync with upstream repository"
+gh pr create --title "Sync with upstream" --body "Automated sync with upstream repo"
