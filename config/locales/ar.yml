@@ -20,7 +20,7 @@ ar:
   hello: "مرحباً بالعالم"
   messages:
     reset_password_success: تم إرسال طلب إعادة تعيين كلمة المرور. يرجى مراجعة بريدك الإلكتروني للحصول على التعليمات.
-    reset_password_failure: أوه! لم نتمكن من العثور على أي مستخدم بعنوان البريد الإلكتروني المحدد.
+    reset_password_failure: المعذرة! لم نتمكن من العثور على أي مستخدم بعنوان البريد الإلكتروني المحدد.
     inbox_deletetion_response: سيتم معالجة طلب حذف صندوق الوارد الخاص بك في بعض الوقت.
   errors:
     validations:
@@ -54,15 +54,15 @@ ar:
       invalid_channel_id: "قناة Slack غير صحيحة. الرجاء المحاولة مرة أخرى"
     inboxes:
       imap:
-        socket_error: الرجاء التحقق من اتصال الشبكة، عنوان IMAP وحاول مرة أخرى.
-        no_response_error: الرجاء التحقق من بيانات اعتماد IMAP وحاول مرة أخرى.
-        host_unreachable_error: المضيف لا يمكن الوصول إليه، الرجاء التحقق من عنوان IMAP، منفذ IMAP وحاول مرة أخرى.
+        socket_error: الرجاء التحقق من اتصال الشبكة وعنوان IMAP ثم حاول مرة أخرى.
+        no_response_error: الرجاء التحقق من بيانات اعتماد IMAP ثم حاول مرة أخرى.
+        host_unreachable_error: المضيف لا يمكن الوصول إليه، الرجاء التحقق من عنوان IMAP ومنفذ IMAP ثم حاول مرة أخرى.
         connection_timed_out_error: انتهت مهلة الاتصال لـ %{address}:%{port}
         connection_closed_error: تم إغلاق الاتصال.
       validations:
         name: لا ينبغي أن تبدأ أو تنتهي بالرموز، ولا ينبغي أن يكون أقل من > / \ أحرف @ .
     custom_filters:
-      number_of_records: تم الوصول إلى الحد الأقصى. الحد الأقصى لعدد الفلاتر المخصصة المسموح به للمستخدم لكل حساب هو 50.
+      number_of_records: تم الوصول إلى الحد الأقصى. الحد الأقصى لعدد عوامل التصفية المخصصة المسموح به للمستخدم لكل حساب هو 50.
       invalid_attribute: مفتاح السمة غير صالح - [%{key}]. يجب أن يكون المفتاح واحد من [%{allowed_keys}] أو سمة مخصصة محددة في الحساب.
       invalid_operator: مشغل غير صالح. المشغل المسموح به لـ %{attribute_name} هو [%{allowed_keys}].
       invalid_value: قيمة غير صالحة. القيم المقدمة ل %{attribute_name} غير صالحة
@@ -80,17 +80,17 @@ ar:
       inbox_name: اسم صندوق الوارد
       inbox_type: نوع صندوق البريد
       conversations_count: عدد المحادثات
-      avg_first_response_time: متوسط وقت الإستجابة الأولى
+      avg_first_response_time: متوسط وقت الرد الأول
       avg_resolution_time: متوسط وقت الحل
     label_csv:
       label_title: الوسم
       conversations_count: عدد المحادثات
-      avg_first_response_time: متوسط وقت الإستجابة الأولى
+      avg_first_response_time: متوسط وقت الرد الأول
       avg_resolution_time: متوسط وقت الحل
     team_csv:
       team_name: اسم الفريق
       conversations_count: عدد المحادثات
-      avg_first_response_time: متوسط وقت الإستجابة الأولى
+      avg_first_response_time: متوسط وقت الرد الأول
       avg_resolution_time: متوسط وقت الحل
       resolution_count: عدد مرات الإغلاق
       avg_customer_waiting_time: متوسط وقت انتظار العميل
@@ -103,8 +103,8 @@ ar:
       team: الفريق
       inbox: صندوق الوارد
       labels: الوسوم
-      conversation_link: Link to the Conversation
-      breached_events: Breached Events
+      conversation_link: رابط للمحادثة
+      breached_events: أحداث الخرق
     default_group_by: اليوم
     csat:
       headers:
@@ -112,7 +112,7 @@ ar:
         contact_email_address: عنوان البريد الإلكتروني الخاص بجهة الاتصال
         contact_phone_number: رقم هاتف جهة الاتصال
         link_to_the_conversation: رابط إلى المحادثة
-        agent_name: اسم الموظف
+        agent_name: اسم الوكيل
         rating: التقييم
         feedback: التعليق على الملاحظات
         recorded_at: تاريخ التسجيل
@@ -125,7 +125,7 @@ ar:
       sla_missed_first_response: "هدف SLA أول رد مفقود للمحادثة (#%{display_id})"
       sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
       sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
-    attachment: "Attachment"
+    attachment: "المرفقات"
     no_content: "لا يوجد محتوى"
   conversations:
     messages:
@@ -141,7 +141,7 @@ ar:
         open: "تم إعادة فتح المحادثة بواسطة %{user_name}"
         pending: "تم تحديث حالة المحادثة لـ\"معلقة\" بواسطة %{user_name}"
         snoozed: "تم تأجيل المحادثة بواسطة %{user_name}"
-        auto_resolved: "تم وضع علامة على المحادثة كمحلولة من قبل بالنظام بسبب %{duration} أيام من عدم النشاط"
+        auto_resolved: "تم وضع علامة على المحادثة كمحلولة من قبل النظام بسبب %{duration} أيام من عدم النشاط"
         system_auto_open: أعاد النظام فتح المحادثة بسبب رسالة واردة جديدة.
       priority:
         added: '%{user_name} حدد الأولوية إلى %{new_priority}'
@@ -189,44 +189,44 @@ ar:
   integration_apps:
     dashboard_apps:
       name: "تطبيقات لوحة التحكم"
-      description: "Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents."
+      description: "تسمح لك تطبيقات لوحة التحكم بإنشاء وتضمين التطبيقات التي تعرض معلومات المستخدم أو الطلبات أو سجل الدفع، مما يوفر المزيد من السياق لوكلاء دعم العملاء الخاص بك."
     dyte:
       name: "Dyte"
-      description: "Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot."
-      meeting_name: "%{agent_name} has started a meeting"
+      description: "Dyte هو منتج يدمج وظائف الصوت والفيديو في تطبيقك. مع هذا الدمج، يمكن لوكلائك بدء مكالمات الفيديو/الصوت مع عملائك مباشرة من Chatwoot."
+      meeting_name: "بدأ %{agent_name} اجتماعاً"
     slack:
       name: "Slack"
-      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
+      description: "دمج Chatwoot مع Slack للحفاظ على مزامنة فريقك. هذا التكامل يسمح لك باستلام إشعارات للمحادثات الجديدة والرد عليها مباشرة داخل واجهة Slacks."
     webhooks:
       name: "Webhook"
-      description: "Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates."
+      description: "أحداث Webhook توفر تحديثات في الوقت الحقيقي حول الأنشطة في حساب Chatwoot الخاص بك. يمكنك الاشتراك في الأحداث المفضلة الخاصة بك، وسترسل Chatwoot لك اتصالات HTTP مع التحديثات."
     dialogflow:
       name: "Dialogflow"
-      description: "Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent."
+      description: "بناء روبوتات الدردشة مع حركة الاتصال ودمجها بسهولة في صندوق الوارد الخاص بك. يمكن لهذه الروبوتات التعامل مع الاستفسارات الأولية قبل نقلها إلى وكيل خدمة العملاء."
     google_translate:
       name: "ترجمة Google"
-      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
+      description: "دمج ترجمة جوجل لمساعدة الوكلاء على ترجمة رسائل العملاء بسهولة. هذا الدمج يكشف تلقائياً اللغة ويحولها إلى اللغة المفضلة لدى الوكيل أو المدير."
     openai:
       name: "OpenAI"
-      description: "Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification."
+      description: "الاستفادة من قوة نماذج اللغات الكبيرة من OpenAI مع ميزات مثل اقتراحات الرد، التلخيص، إعادة صياغة الرسائل، التحقق الإملائي، تصنيف البطاقات."
     linear:
       name: "Linear"
-      description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
+      description: "إنشاء مشكلات في الخط الخطي مباشرة من نافذة المحادثة الخاصة بك. بدلاً من ذلك، قم بربط المشكلات الخطية القائمة من أجل عملية تتبع أكثر تبسيطاً وكفاءة."
     captain:
-      name: "Captain"
-      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
+      name: "قائد"
+      description: "الكابتن هو مساعد AI أصلي تم بناؤه لمنتجك وتم تدريبه على قاعدة معارف شركتك. يستجيب كإنسان ويحل استفسارات العميل بشكل فعال. قم بتكوينه بسهولة إلى صناديق الوارد الخاصة بك."
   public_portal:
     search:
-      search_placeholder: Search for article by title or body...
+      search_placeholder: البحث عن مقالة حسب العنوان أو الجسم...
       empty_placeholder: لم يتم العثور على النتائج.
-      loading_placeholder: يبحث...
+      loading_placeholder: جاري البحث...
       results_title: نتائج البحث
-    toc_header: 'On this page'
+    toc_header: 'في هذه الصفحة'
     hero:
-      sub_title: Search for the articles here or browse the categories below.
+      sub_title: ابحث عن المقالات هنا أو تصفح الفئات أدناه.
     common:
       home: الرئيسية
-      last_updated_on: Last updated on %{last_updated_on}
+      last_updated_on: آخر تحديث في %{last_updated_on}
       view_all_articles: عرض الكل
       article: مقال
       articles: المقالات
@@ -255,7 +255,7 @@ ar:
       name: الاسم
       email: البريد الإلكتروني
       phone_number: هاتف
-      company_name: الشركة
+      company_name: المنشأة
       inbox_name: صندوق الوارد
       inbox_type: نوع صندوق الوارد
     button: فتح المحادثة
