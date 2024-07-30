@@ -24,7 +24,7 @@
         delay: { show: 1000, hide: 0 },
         hideOnClick: true,
       }"
-      class="flex items-center p-2 m-0 text-sm font-medium leading-4 rounded-lg text-slate-700 dark:text-slate-100 hover:bg-slate-25 dark:hover:bg-slate-800"
+      class="flex items-center p-2 m-0 text-sm font-medium leading-4 rounded-lg text-slate-900 dark:text-slate-100 hover:bg-slate-25 dark:hover:bg-slate-800"
       :class="computedClass"
       :to="menuItem && menuItem.toState"
     >

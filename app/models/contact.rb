@@ -221,6 +221,7 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
     }
   end
 
+  # rubocop:disable Metrics/MethodLength
   def webhook_data
     {
       account: account.webhook_data,
@@ -237,12 +238,16 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
       assignee: assignee&.webhook_data,
       team_name: team&.name,
       stage_code: stage&.code,
-      product_short_name: product&.short_name
+      product_short_name: product&.short_name,
+      po_date: po_date,
+      po_value: po_value,
+      po_note: po_note
     }
   end
+  # rubocop:enable Metrics/MethodLength
 
   def self.resolved_contacts
-    where("contacts.email <> '' OR contacts.phone_number <> '' OR contacts.identifier <> ''")
+    all
   end
 
   def discard_invalid_attrs

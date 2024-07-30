@@ -42,7 +42,7 @@
         >
           <span
             :title="menuTitle"
-            class="text-sm text-slate-700 dark:text-slate-100"
+            class="text-sm text-slate-900 dark:text-slate-100"
             :class="{
               'text-woot-500 dark:text-woot-500': isActive,
               'text-ellipsis overflow-hidden whitespace-nowrap max-w-full':

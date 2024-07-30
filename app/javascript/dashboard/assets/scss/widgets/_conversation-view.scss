@@ -11,7 +11,7 @@
   }
 
   .bubble-with-types {
-    @apply py-2 text-sm font-normal bg-woot-500 dark:bg-woot-500 relative px-4 m-0 text-white dark:text-white;
+    @apply py-2 text-sm font-medium bg-woot-500 dark:bg-woot-500 relative px-4 m-0 text-white dark:text-white;
 
     .message-text__wrap {
       @apply relative;
@@ -204,7 +204,7 @@
   }
 
   .activity-wrap {
-    @apply flex justify-center text-sm my-1 mx-0 py-1 pr-0.5 pl-2.5 bg-slate-50 dark:bg-slate-600 text-slate-800 dark:text-slate-100 rounded-md border border-slate-100 dark:border-slate-600 border-solid;
+    @apply flex justify-center text-sm font-normal my-1 mx-0 py-1 pr-0.5 pl-2.5 bg-slate-50 dark:bg-slate-600 text-slate-700 dark:text-slate-100 rounded-md border border-slate-100 dark:border-slate-600 border-solid;
 
     .is-text {
       @apply inline-flex items-center text-start 2xl:flex;
