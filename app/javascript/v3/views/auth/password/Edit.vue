@@ -18,25 +18,25 @@
           class="mt-3"
           name="password"
           type="password"
-          :has-error="$v.credentials.password.$error"
+          :has-error="v$.credentials.password.$error"
           :error-message="$t('SET_NEW_PASSWORD.PASSWORD.ERROR')"
           :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
-          @blur="$v.credentials.password.$touch"
+          @blur="v$.credentials.password.$touch"
         />
         <form-input
           v-model.trim="credentials.confirmPassword"
           class="mt-3"
           name="confirm_password"
           type="password"
-          :has-error="$v.credentials.confirmPassword.$error"
+          :has-error="v$.credentials.confirmPassword.$error"
           :error-message="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.ERROR')"
           :placeholder="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.PLACEHOLDER')"
-          @blur="$v.credentials.confirmPassword.$touch"
+          @blur="v$.credentials.confirmPassword.$touch"
         />
         <submit-button
           :disabled="
-            $v.credentials.password.$invalid ||
-            $v.credentials.confirmPassword.$invalid ||
+            v$.credentials.password.$invalid ||
+            v$.credentials.confirmPassword.$invalid ||
             newPasswordAPI.showLoading
           "
           :button-text="$t('SET_NEW_PASSWORD.SUBMIT')"
@@ -48,7 +48,8 @@
 </template>
 
 <script>
-import { required, minLength } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required, minLength } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import FormInput from '../../../components/Form/Input.vue';
 import SubmitButton from '../../../components/Button/SubmitButton.vue';
@@ -64,6 +65,9 @@ export default {
     resetPasswordToken: { type: String, default: '' },
     redirectUrl: { type: String, default: '' },
     config: { type: String, default: '' },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {

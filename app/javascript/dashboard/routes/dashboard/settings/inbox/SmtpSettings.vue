@@ -17,45 +17,45 @@
         <div v-if="isSMTPEnabled" class="mb-6">
           <woot-input
             v-model.trim="address"
-            :class="{ error: $v.address.$error }"
+            :class="{ error: v$.address.$error }"
             class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.SMTP.ADDRESS.LABEL')"
             :placeholder="$t('INBOX_MGMT.SMTP.ADDRESS.PLACE_HOLDER')"
-            @blur="$v.address.$touch"
+            @blur="v$.address.$touch"
           />
           <woot-input
             v-model="port"
             type="number"
-            :class="{ error: $v.port.$error }"
+            :class="{ error: v$.port.$error }"
             class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.SMTP.PORT.LABEL')"
             :placeholder="$t('INBOX_MGMT.SMTP.PORT.PLACE_HOLDER')"
-            @blur="$v.port.$touch"
+            @blur="v$.port.$touch"
           />
           <woot-input
             v-model="login"
-            :class="{ error: $v.login.$error }"
+            :class="{ error: v$.login.$error }"
             class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.SMTP.LOGIN.LABEL')"
             :placeholder="$t('INBOX_MGMT.SMTP.LOGIN.PLACE_HOLDER')"
-            @blur="$v.login.$touch"
+            @blur="v$.login.$touch"
           />
           <woot-input
             v-model="password"
-            :class="{ error: $v.password.$error }"
+            :class="{ error: v$.password.$error }"
             class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.SMTP.PASSWORD.LABEL')"
             :placeholder="$t('INBOX_MGMT.SMTP.PASSWORD.PLACE_HOLDER')"
             type="password"
-            @blur="$v.password.$touch"
+            @blur="v$.password.$touch"
           />
           <woot-input
             v-model.trim="domain"
-            :class="{ error: $v.domain.$error }"
+            :class="{ error: v$.domain.$error }"
             class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.SMTP.DOMAIN.LABEL')"
             :placeholder="$t('INBOX_MGMT.SMTP.DOMAIN.PLACE_HOLDER')"
-            @blur="$v.domain.$touch"
+            @blur="v$.domain.$touch"
           />
           <input-radio-group
             :label="$t('INBOX_MGMT.SMTP.ENCRYPTION')"
@@ -80,7 +80,7 @@
         <woot-submit-button
           :button-text="$t('INBOX_MGMT.SMTP.UPDATE')"
           :loading="uiFlags.isUpdatingSMTP"
-          :disabled="($v.$invalid && isSMTPEnabled) || uiFlags.isUpdatingSMTP"
+          :disabled="(v$.$invalid && isSMTPEnabled) || uiFlags.isUpdatingSMTP"
         />
       </form>
     </settings-section>
@@ -91,7 +91,8 @@
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import SettingsSection from 'dashboard/components/SettingsSection.vue';
-import { required, minLength } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required, minLength } from '@vuelidate/validators';
 import InputRadioGroup from './components/InputRadioGroup.vue';
 import SingleSelectDropdown from './components/SingleSelectDropdown.vue';
 
@@ -106,6 +107,9 @@ export default {
       type: Object,
       default: () => ({}),
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {

@@ -8,12 +8,12 @@
     <form class="w-full" @submit.prevent="addCustomAttribute">
       <woot-input
         v-model.trim="attributeName"
-        :class="{ error: $v.attributeName.$error }"
+        :class="{ error: v$.attributeName.$error }"
         class="w-full"
         :error="attributeNameError"
         :label="$t('CUSTOM_ATTRIBUTES.FORM.NAME.LABEL')"
         :placeholder="$t('CUSTOM_ATTRIBUTES.FORM.NAME.PLACEHOLDER')"
-        @input="$v.attributeName.$touch"
+        @input="v$.attributeName.$touch"
       />
       <woot-input
         v-model.trim="attributeValue"
@@ -23,7 +23,7 @@
       />
       <div class="flex items-center justify-end gap-2 px-0 py-2">
         <woot-button
-          :is-disabled="$v.attributeName.$invalid || isCreating"
+          :is-disabled="v$.attributeName.$invalid || isCreating"
           :is-loading="isCreating"
         >
           {{ $t('CUSTOM_ATTRIBUTES.FORM.CREATE') }}
@@ -38,7 +38,8 @@
 
 <script>
 import Modal from 'dashboard/components/Modal.vue';
-import { required, minLength } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required, minLength } from '@vuelidate/validators';
 
 export default {
   components: {
@@ -54,6 +55,9 @@ export default {
       default: false,
     },
   },
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       attributeValue: '',
@@ -68,7 +72,7 @@ export default {
   },
   computed: {
     attributeNameError() {
-      if (this.$v.attributeName.$error) {
+      if (this.v$.attributeName.$error) {
         return this.$t('CUSTOM_ATTRIBUTES.FORM.NAME.ERROR');
       }
       return '';
