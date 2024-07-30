@@ -73,6 +73,10 @@ es:
       send_instructions: "Recibirás un correo electrónico con instrucciones para desbloquear tu cuenta en unos minutos."
       send_paranoid_instructions: "Si tu cuenta existe, recibirás un correo electrónico con instrucciones sobre cómo desbloquearla en unos minutos."
       unlocked: "Tu cuenta ha sido desbloqueada con éxito. Por favor, inicia sesión para continuar."
+
+  devise_token_auth:
+    sessions:
+      bad_credentials: "Correo electrónico o contraseña inválidos."
   errors:
     messages:
       already_confirmed: "ya ha sido confirmado, por favor intenta iniciar sesión"
