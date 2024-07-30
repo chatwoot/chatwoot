@@ -51,7 +51,7 @@ Authorization: {{token}}
 
 # Path: http/ticket.http
 # @name ticket
-POST {{api}}/api/v1/accounts/{{account_id}}/tickets/1/assign
+POST {{api}}/api/v1/accounts/{{account_id}}/tickets/1/assign/1
 Authorization: {{token}}
 
 ###
