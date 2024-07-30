@@ -1,5 +1,5 @@
 class Api::V1::Accounts::TicketsController < Api::V1::Accounts::BaseController
-  before_action :fetch_ticket, only: [:show, :update, :destroy]
+  before_action :fetch_ticket, only: [:show, :update, :destroy, :assign, :resolve]
   before_action :check_authorization
 
   def index
@@ -24,11 +24,13 @@ class Api::V1::Accounts::TicketsController < Api::V1::Accounts::BaseController
   end
 
   def assign
-    @ticket.assignee = current_user
+    @ticket.assignee = User.find(params[:user_id]) || current_user
     @ticket.save!
   end
 
   def resolve
+    raise CustomExceptions::Ticket, I18n.t('activerecord.errors.models.ticket.errors.already_resolved') if @ticket.resolved?
+
     @ticket.update!(status: :resolved)
   end
 
