@@ -18,4 +18,12 @@ class TicketPolicy < ApplicationPolicy
   def resolve?
     true
   end
+
+  def update?
+    true
+  end
+
+  def destroy?
+    @account_user.administrator? || @account_user.supervisor?
+  end
 end
