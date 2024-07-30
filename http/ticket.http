@@ -24,6 +24,13 @@ Authorization: {{token}}
 
 # Path: http/ticket.http
 # @name ticket
+GET {{api}}/api/v1/accounts/{{account_id}}/tickets/1
+Authorization: {{token}}
+
+###
+
+# Path: http/ticket.http
+# @name ticket
 
 @account_id = 2
 POST {{api}}/api/v1/accounts/{{account_id}}/tickets
@@ -31,18 +38,11 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "title": "Test ticket",
-    "description": "Test description",
-    "status": "pending",
-    "assigned_to": null,
-    "conversation": {
-        "id": 1
-    }
+  "title": "Test ticket",
+  "description": "Test description",
+  "status": "pending",
+  "assigned_to": null,
+  "conversation": {
+    "id": 1
+  }
 }
-
-###
-
-# Path: http/ticket.http
-# @name ticket
-GET {{api}}/api/v1/accounts/{{account_id}}/tickets/1
-Authorization: {{token}}
