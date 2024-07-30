@@ -247,6 +247,7 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
   # rubocop:enable Metrics/MethodLength
 
   def self.resolved_contacts
+    # temporarily change to all and consider the condition later
     all
   end
 
