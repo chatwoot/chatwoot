@@ -62,6 +62,24 @@ pt:
         name: não deve iniciar ou terminar com símbolos, nem deve ter < > / \ @ caracteres.
     custom_filters:
       number_of_records: Limite atingido. O número máximo de filtros personalizados permitidos para um utilizador por conta é de 50.
+  
+  activerecord:
+    errors:
+      messages:
+        record_invalid: 'A validação falhou: %{errors}'
+      models:
+        ticket:
+          attributes:
+            title:
+              blank: é obrigatório
+              required: é obrigatório
+            description:
+              blank: é obrigatório
+              required: é obrigatória
+            conversation:
+              blank: é obrigatório
+              required: é obrigatória
+  
   reports:
     period: Período do relatório de %{since} a %{until}
     utc_warning: O relatório gerado está no fuso horário UTC

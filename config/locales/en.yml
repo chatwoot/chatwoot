@@ -77,6 +77,23 @@ en:
     custom_filters:
       number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
 
+  activerecord:
+    errors:
+      messages:
+        record_invalid: 'A validação falhou: %{errors}'
+      models:
+        ticket:
+          attributes:
+            title:
+              blank: is required
+              required: is required
+            description:
+              blank: is required
+              required: is required
+            conversation:
+              blank: is required
+              required: is required
+
   reports:
     period: Reporting period %{since} to %{until}
     utc_warning: The report generated is in UTC timezone
