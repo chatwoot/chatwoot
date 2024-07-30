@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_07_25_014749) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_30_005249) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -668,6 +668,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_25_014749) do
     t.jsonb "settings", default: {}
   end
 
+  create_table "label_tickets", force: :cascade do |t|
+    t.bigint "ticket_id", null: false
+    t.bigint "label_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["label_id"], name: "index_label_tickets_on_label_id"
+    t.index ["ticket_id", "label_id"], name: "index_label_tickets_on_ticket_id_and_label_id", unique: true
+    t.index ["ticket_id"], name: "index_label_tickets_on_ticket_id"
+  end
+
   create_table "labels", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -949,6 +959,22 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_25_014749) do
     t.datetime "updated_at", precision: nil, null: false
   end
 
+  create_table "tickets", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "description"
+    t.integer "status", default: 0, null: false
+    t.datetime "resolved_at"
+    t.bigint "assigned_to"
+    t.bigint "user_id", null: false
+    t.bigint "conversation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assigned_to"], name: "index_tickets_on_assigned_to"
+    t.index ["conversation_id"], name: "index_tickets_on_conversation_id"
+    t.index ["status"], name: "index_tickets_on_status"
+    t.index ["user_id"], name: "index_tickets_on_user_id"
+  end
+
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -1020,7 +1046,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_25_014749) do
   add_foreign_key "cart_items", "products"
   add_foreign_key "carts", "accounts"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "label_tickets", "labels"
+  add_foreign_key "label_tickets", "tickets"
   add_foreign_key "labels", "teams"
+  add_foreign_key "tickets", "conversations"
+  add_foreign_key "tickets", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).
