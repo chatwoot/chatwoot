@@ -194,9 +194,9 @@ export default {
 </script>
 
 <template>
-  <div class="px-4 py-3">
+  <div class="py-3 px-4">
     <div class="flex items-center mb-1">
-      <h4 class="flex items-center w-full m-0 text-sm error">
+      <h4 class="text-sm flex items-center m-0 w-full error">
         <div v-if="isAttributeTypeCheckbox" class="flex items-center">
           <input
             v-model="editedValue"
@@ -236,7 +236,7 @@ export default {
     </div>
     <div v-if="notAttributeTypeCheckboxAndList">
       <div v-if="isEditing" v-on-clickaway="onClickAway">
-        <div class="flex items-center w-full mb-2">
+        <div class="mb-2 w-full flex items-center">
           <input
             ref="inputfield"
             v-model="editedValue"
@@ -258,7 +258,7 @@ export default {
         </div>
         <span
           v-if="shouldShowErrorMessage"
-          class="block w-full -mt-px text-sm font-normal text-red-400 dark:text-red-500"
+          class="text-red-400 dark:text-red-500 text-sm block font-normal -mt-px w-full"
         >
           {{ errorMessage }}
         </span>

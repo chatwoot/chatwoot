@@ -3,7 +3,6 @@ import { mapGetters } from 'vuex';
 import automationMethodsMixin from 'dashboard/mixins/automations/methodsMixin';
 import FilterInputBox from 'dashboard/components/widgets/FilterInput/Index.vue';
 import AutomationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
-// import { useVuelidate } from '@vuelidate/core';
 
 import {
   AUTOMATION_RULE_EVENTS,

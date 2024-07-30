@@ -60,6 +60,11 @@ export default {
     },
   },
   methods: {
+    removeObjectProperty(obj, keyToRemove) {
+      return Object.fromEntries(
+        Object.entries(obj).filter(([key]) => key !== keyToRemove)
+      );
+    },
     updateName(value) {
       this.macro.name = value;
     },
@@ -73,9 +78,9 @@ export default {
       });
     },
     deleteNode(index) {
-      // delete that index specifically
+      // remove that index specifically
       // so that the next item does not get marked invalid
-      delete this.errors[`action_${index}`];
+      this.errors = this.removeObjectProperty(this.errors, `action_${index}`);
       this.macro.actions.splice(index, 1);
     },
     submit() {
@@ -88,9 +93,9 @@ export default {
       this.$emit('submit', this.macro);
     },
     resetNode(index) {
-      // delete that index specifically
+      // remove that index specifically
       // so that the next item does not get marked invalid
-      delete this.errors[`action_${index}`];
+      this.errors = this.removeObjectProperty(this.errors, `action_${index}`);
       this.macro.actions[index].action_params = [];
     },
     resetValidation() {
@@ -102,9 +107,9 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col w-full h-auto md:flex-row md:h-full">
+  <div class="flex flex-col md:flex-row h-auto md:h-full w-full">
     <div
-      class="flex-1 w-full h-full max-h-full px-12 py-4 overflow-y-auto md:w-auto macro-gradient-radial dark:macro-dark-gradient-radial macro-gradient-radial-size"
+      class="flex-1 w-full md:w-auto macro-gradient-radial dark:macro-dark-gradient-radial macro-gradient-radial-size h-full max-h-full py-4 px-12 overflow-y-auto"
     >
       <MacroNodes
         v-model="macro.actions"

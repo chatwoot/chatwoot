@@ -16,7 +16,7 @@ export const ATLEAST_ONE_ACTION_REQUIRED = 'ATLEAST_ONE_ACTION_REQUIRED';
  * @param {Object} filter - The filter object to validate.
  * @param {string} filter.attribute_key - The key of the attribute to filter on.
  * @param {string} filter.filter_operator - The operator to use for filtering.
- * @param {string|number} [filter.values] - The value(s) to filter by (required for most operators).
+ * @param {string|number|Array} [filter.values] - The value(s) to filter by (required for most operators).
  *
  * @returns {string|null} An error message if validation fails, or null if validation passes.
  */
@@ -32,7 +32,8 @@ const validateSingleFilter = filter => {
   if (
     filter.filter_operator !== 'is_present' &&
     filter.filter_operator !== 'is_not_present' &&
-    !filter.values
+    (!filter.values ||
+      (Array.isArray(filter.values) && filter.values.length === 0))
   ) {
     return VALUE_REQUIRED;
   }

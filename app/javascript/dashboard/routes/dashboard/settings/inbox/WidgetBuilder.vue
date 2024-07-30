@@ -392,9 +392,9 @@ export default {
       <div class="widget-container w-100 lg:w-3/5">
         <InputRadioGroup
           name="widget-view-options"
+          class="text-center"
           :items="getWidgetViewOptions"
           :action="handleWidgetViewChange"
-          class="text-center"
         />
         <div v-if="isWidgetPreview" class="widget-preview">
           <Widget
