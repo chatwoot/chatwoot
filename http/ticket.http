@@ -46,3 +46,31 @@ Authorization: {{token}}
     "id": 1
   }
 }
+
+### 
+
+# Path: http/ticket.http
+# @name ticket
+POST {{api}}/api/v1/accounts/{{account_id}}/tickets/1/assign
+Authorization: {{token}}
+
+###
+
+# Path: http/ticket.http
+# @name ticket
+POST {{api}}/api/v1/accounts/{{account_id}}/tickets/1/resolve
+Authorization: {{token}}
+
+###
+
+# Path: http/ticket.http
+# @name ticket
+DELETE {{api}}/api/v1/accounts/{{account_id}}/tickets/1
+Authorization: {{token}}
+
+###
+
+# Path: http/ticket.http
+# @name ticket
+GET {{api}}/api/v1/accounts/{{account_id}}/tickets?assignee_id=3
+Authorization: {{token}}
