@@ -196,7 +196,11 @@ export default {
   }
 
   .multiselect__tags {
-    @apply h-[52px];
+    @apply h-auto;
+  }
+
+  .multiselect__select {
+    @apply mt-px mr-1;
   }
 }
 </style>
