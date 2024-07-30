@@ -33,6 +33,9 @@ class Label < ApplicationRecord
             format: { with: UNICODE_CHARACTER_NUMBER_HYPHEN_UNDERSCORE },
             uniqueness: { scope: :account_id }
 
+  has_many :label_tickets, inverse_of: :label, dependent: :destroy
+  has_many :tickets, through: :label_tickets
+
   after_update_commit :update_associated_models
   default_scope { order(:title) }
 
