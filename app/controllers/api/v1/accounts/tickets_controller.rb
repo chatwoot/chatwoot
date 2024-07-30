@@ -1,10 +1,9 @@
 class Api::V1::Accounts::TicketsController < Api::V1::Accounts::BaseController
   before_action :fetch_ticket, only: [:show, :update, :destroy]
   before_action :check_authorization
-  before_action :find_tickets, only: [:index]
 
   def index
-    @tickets = @user.tickets
+    @tickets = current_user.tickets.search(params[:query])
   end
 
   def show
@@ -41,9 +40,5 @@ class Api::V1::Accounts::TicketsController < Api::V1::Accounts::BaseController
 
   def ticket_params
     params.require(:ticket).permit(:title, :description, :status, :assignee_ids)
-  end
-
-  def find_tickets
-    @tickets = current_user.tickets.search(params)
   end
 end
