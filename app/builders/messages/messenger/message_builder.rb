@@ -13,14 +13,14 @@ class Messages::Messenger::MessageBuilder
   end
 
   def attach_file(attachment, file_url)
-    attachment_file = Down.download(
-      file_url
-    )
+    attachment_file = Down.download(file_url)
     attachment.file.attach(
       io: attachment_file,
       filename: attachment_file.original_filename,
       content_type: attachment_file.content_type
     )
+  rescue StandardError => e
+    Rails.logger.error "Failed to attach file: #{e.message}"
   end
 
   def attachment_params(attachment)

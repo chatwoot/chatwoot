@@ -7,7 +7,7 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   base_uri 'https://graph.facebook.com/v11.0/me'
 
   # @return [Array] We will support further events like reaction or seen in future
-  SUPPORTED_EVENTS = [:message, :read].freeze
+  SUPPORTED_EVENTS = [:message, :postback, :read].freeze
 
   def perform(entries)
     @entries = entries
@@ -44,6 +44,10 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
 
   def message(messaging)
     ::Instagram::MessageText.new(messaging).perform
+  end
+
+  def postback(messaging)
+    ::Instagram::Postback.new(messaging).perform
   end
 
   def read(messaging)
