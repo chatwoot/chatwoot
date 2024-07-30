@@ -84,7 +84,6 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
   def fb_object
     @user_access_token = long_lived_token(params[:omniauth_token])
     Koala::Facebook::API.new(@user_access_token)
-    Rails.logger.info "Long lived token: #{@user_access_token}"
   end
 
   def long_lived_token(omniauth_token)
@@ -99,7 +98,6 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
 
     data.inject([]) do |result, page_detail|
       page_detail[:exists] = Current.account.facebook_pages.exists?(page_id: page_detail['id'])
-      Rails.logger.info "Page detail: #{page_detail['id']} - #{page_detail['name']}"
       result << page_detail
     end
   end
