@@ -96,11 +96,8 @@
       :placeholder="$t('AUTOMATION.ACTION.TEAM_MESSAGE_INPUT_PLACEHOLDER')"
       class="action-message"
     />
-    <p
-      v-if="v.action_params.$dirty && v.action_params.$error"
-      class="filter-error"
-    >
-      {{ $t('FILTER.EMPTY_VALUE_ERROR') }}
+    <p v-if="errorMessage" class="filter-error">
+      {{ errorMessage }}
     </p>
   </div>
 </template>
@@ -128,9 +125,9 @@ export default {
       type: Array,
       default: () => [],
     },
-    v: {
-      type: Object,
-      default: () => null,
+    errorMessage: {
+      type: String,
+      default: '',
     },
     showActionInput: {
       type: Boolean,
@@ -172,7 +169,7 @@ export default {
     },
     actionInputStyles() {
       return {
-        'has-error': this.v.action_params.$dirty && this.v.action_params.$error,
+        'has-error': this.errorMessage,
         'is-a-macro': this.isMacro,
       };
     },

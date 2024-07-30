@@ -7,46 +7,46 @@
           v-model.trim="displayName"
           :label="$t('ATTRIBUTES_MGMT.ADD.FORM.NAME.LABEL')"
           type="text"
-          :class="{ error: $v.displayName.$error }"
+          :class="{ error: v$.displayName.$error }"
           :error="
-            $v.displayName.$error
+            v$.displayName.$error
               ? $t('ATTRIBUTES_MGMT.ADD.FORM.NAME.ERROR')
               : ''
           "
           :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.NAME.PLACEHOLDER')"
-          @blur="$v.displayName.$touch"
+          @blur="v$.displayName.$touch"
         />
         <woot-input
           v-model.trim="attributeKey"
           :label="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.LABEL')"
           type="text"
-          :class="{ error: $v.attributeKey.$error }"
-          :error="$v.attributeKey.$error ? keyErrorMessage : ''"
+          :class="{ error: v$.attributeKey.$error }"
+          :error="v$.attributeKey.$error ? keyErrorMessage : ''"
           :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.PLACEHOLDER')"
           readonly
-          @blur="$v.attributeKey.$touch"
+          @blur="v$.attributeKey.$touch"
         />
-        <label :class="{ error: $v.description.$error }">
+        <label :class="{ error: v$.description.$error }">
           {{ $t('ATTRIBUTES_MGMT.ADD.FORM.DESC.LABEL') }}
           <textarea
             v-model.trim="description"
             rows="5"
             type="text"
             :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.DESC.PLACEHOLDER')"
-            @blur="$v.description.$touch"
+            @blur="v$.description.$touch"
           />
-          <span v-if="$v.description.$error" class="message">
+          <span v-if="v$.description.$error" class="message">
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.DESC.ERROR') }}
           </span>
         </label>
-        <label :class="{ error: $v.attributeType.$error }">
+        <label :class="{ error: v$.attributeType.$error }">
           {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LABEL') }}
           <select v-model="attributeType" disabled>
             <option v-for="type in types" :key="type.id" :value="type.id">
               {{ type.option }}
             </option>
           </select>
-          <span v-if="$v.attributeType.$error" class="message">
+          <span v-if="v$.attributeType.$error" class="message">
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.ERROR') }}
           </span>
         </label>
@@ -109,8 +109,9 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
-import { required, minLength } from 'vuelidate/lib/validators';
+import { required, minLength } from '@vuelidate/validators';
 import { ATTRIBUTE_TYPES } from './constants';
 import customAttributeMixin from '../../../../mixins/customAttributeMixin';
 export default {
@@ -125,6 +126,9 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -173,7 +177,7 @@ export default {
       return this.values.map(item => item.name);
     },
     isButtonDisabled() {
-      return this.$v.description.$invalid || this.isMultiselectInvalid;
+      return this.v$.description.$invalid || this.isMultiselectInvalid;
     },
     isMultiselectInvalid() {
       return (
@@ -194,7 +198,7 @@ export default {
       ).id;
     },
     keyErrorMessage() {
-      if (!this.$v.attributeKey.isKey) {
+      if (!this.v$.attributeKey.isKey) {
         return this.$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.IN_VALID');
       }
       return this.$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.ERROR');
@@ -237,8 +241,8 @@ export default {
       this.values = this.setAttributeListValue;
     },
     async editAttributes() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         return;
       }
       if (!this.regexEnabled) {

@@ -139,7 +139,7 @@
             "
           />
           <woot-button
-            :disabled="$v.whatsAppInboxAPIKey.$invalid"
+            :disabled="v$.whatsAppInboxAPIKey.$invalid"
             @click="updateWhatsAppInboxAPIKey"
           >
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_BUTTON') }}
@@ -156,7 +156,8 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import SettingsSection from '../../../../../components/SettingsSection.vue';
 import ImapSettings from '../ImapSettings.vue';
 import SmtpSettings from '../SmtpSettings.vue';
-import { required } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 
 export default {
   components: {
@@ -170,6 +171,9 @@ export default {
       type: Object,
       default: () => ({}),
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {

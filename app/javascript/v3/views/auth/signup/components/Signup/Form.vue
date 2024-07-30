@@ -6,46 +6,46 @@
           v-model.trim="credentials.fullName"
           name="full_name"
           class="flex-1"
-          :class="{ error: $v.credentials.fullName.$error }"
+          :class="{ error: v$.credentials.fullName.$error }"
           :label="$t('REGISTER.FULL_NAME.LABEL')"
           :placeholder="$t('REGISTER.FULL_NAME.PLACEHOLDER')"
-          :has-error="$v.credentials.fullName.$error"
+          :has-error="v$.credentials.fullName.$error"
           :error-message="$t('REGISTER.FULL_NAME.ERROR')"
-          @blur="$v.credentials.fullName.$touch"
+          @blur="v$.credentials.fullName.$touch"
         />
         <form-input
           v-model.trim="credentials.accountName"
           name="account_name"
           class="flex-1 ml-2"
-          :class="{ error: $v.credentials.accountName.$error }"
+          :class="{ error: v$.credentials.accountName.$error }"
           :label="$t('REGISTER.COMPANY_NAME.LABEL')"
           :placeholder="$t('REGISTER.COMPANY_NAME.PLACEHOLDER')"
-          :has-error="$v.credentials.accountName.$error"
+          :has-error="v$.credentials.accountName.$error"
           :error-message="$t('REGISTER.COMPANY_NAME.ERROR')"
-          @blur="$v.credentials.accountName.$touch"
+          @blur="v$.credentials.accountName.$touch"
         />
       </div>
       <form-input
         v-model.trim="credentials.email"
         type="email"
         name="email_address"
-        :class="{ error: $v.credentials.email.$error }"
+        :class="{ error: v$.credentials.email.$error }"
         :label="$t('REGISTER.EMAIL.LABEL')"
         :placeholder="$t('REGISTER.EMAIL.PLACEHOLDER')"
-        :has-error="$v.credentials.email.$error"
+        :has-error="v$.credentials.email.$error"
         :error-message="$t('REGISTER.EMAIL.ERROR')"
-        @blur="$v.credentials.email.$touch"
+        @blur="v$.credentials.email.$touch"
       />
       <form-input
         v-model.trim="credentials.password"
         type="password"
         name="password"
-        :class="{ error: $v.credentials.password.$error }"
+        :class="{ error: v$.credentials.password.$error }"
         :label="$t('LOGIN.PASSWORD.LABEL')"
         :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
-        :has-error="$v.credentials.password.$error"
+        :has-error="v$.credentials.password.$error"
         :error-message="passwordErrorText"
-        @blur="$v.credentials.password.$touch"
+        @blur="v$.credentials.password.$touch"
       />
       <div v-if="globalConfig.hCaptchaSiteKey" class="mb-3">
         <vue-hcaptcha
@@ -79,7 +79,8 @@
 </template>
 
 <script>
-import { required, minLength, email } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required, minLength, email } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
@@ -100,6 +101,9 @@ export default {
     VueHcaptcha,
   },
   mixins: [globalConfigMixin],
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       credentials: {
@@ -155,7 +159,7 @@ export default {
       return true;
     },
     passwordErrorText() {
-      const { password } = this.$v.credentials;
+      const { password } = this.v$.credentials;
       if (!password.$error) {
         return '';
       }
@@ -173,8 +177,8 @@ export default {
   },
   methods: {
     async submit() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         this.resetCaptcha();
         return;
       }

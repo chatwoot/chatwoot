@@ -4,7 +4,7 @@
       <div>
         <div
           class="mt-1 multiselect-wrap--medium"
-          :class="{ error: $v.parentContact.$error }"
+          :class="{ error: v$.parentContact.$error }"
         >
           <label class="multiselect__label">
             {{ $t('MERGE_CONTACTS.PARENT.TITLE') }}
@@ -52,7 +52,7 @@
               {{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}
             </span>
           </multiselect>
-          <span v-if="$v.parentContact.$error" class="message">
+          <span v-if="v$.parentContact.$error" class="message">
             {{ $t('MERGE_CONTACTS.FORM.CHILD_CONTACT.ERROR') }}
           </span>
         </div>
@@ -114,7 +114,8 @@
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 
 import MergeContactSummary from 'dashboard/modules/contact/components/MergeContactSummary.vue';
 import ContactDropdownItem from './ContactDropdownItem.vue';
@@ -138,6 +139,9 @@ export default {
       type: Array,
       default: () => [],
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   validations: {
     primaryContact: {
@@ -163,8 +167,8 @@ export default {
       this.$emit('search', query);
     },
     onSubmit() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         return;
       }
       this.$emit('submit', this.parentContact.id);
