@@ -39,6 +39,7 @@ class Api::V1::Accounts::TicketsController < Api::V1::Accounts::BaseController
   end
 
   def ticket_params
-    params.require(:ticket).permit(:title, :description, :status, :assignee_ids)
+    params.require(:ticket).permit(:title, :description, :status, :assigned_to)
+          .merge(conversation_id: params[:conversation][:id])
   end
 end
