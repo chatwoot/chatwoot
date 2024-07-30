@@ -368,8 +368,8 @@
         "DESC": "Chatwoot hỗ trợ tích hợp Website Live-chat, Zalo OA, Facebook Messenger, SMS, Email, v. v., dưới dạng các kênh. Nếu bạn muốn xây dựng một kênh tùy chỉnh mới, bạn có thể sử dụng kênh API. Để bắt đầu, hãy chọn một trong các kênh bên dưới."
       },
       "AGENTS": {
-        "TITLE": "Nhà Cung Cấp",
-        "DESC": "Tại đây bạn có thể thêm các tác nhân để quản lý kênh hội thoại mới tạo của mình. Chỉ những người dùng được chọn này mới có quyền truy cập vào kênh hội thoại của bạn. Các nhân viên không thuộc kênh hội thoại này sẽ không thể xem hoặc trả lời thư trong kênh hội thoại này khi họ đăng nhập. <br> <b>PS:</b> Với tư cách là quản trị viên, nếu bạn cần quyền truy cập vào tất cả các kênh hội thoại, bạn nên thêm mình làm người dùng cho tất cả các kênh hội thoại mà bạn tạo.",
+        "TITLE": "Nhân viên phụ trách",
+        "DESC": "Tại đây bạn có thể thêm người dùng phụ trách kênh hội thoại mới tạo của mình. Chỉ những người dùng được chọn này mới có quyền truy cập vào kênh hội thoại của bạn. Các nhân viên không thuộc kênh hội thoại này sẽ không thể xem hoặc trả lời tin nhắn trong kênh hội thoại này khi họ đăng nhập. <br> <b>PS:</b> Với tư cách là quản trị viên, nếu bạn cần quyền truy cập vào tất cả các kênh hội thoại, bạn nên thêm mình làm người dùng cho tất cả các kênh hội thoại mà bạn tạo.",
         "VALIDATION_ERROR": "Thêm ít nhất một người dùng vào kênh hội thoại mới của bạn",
         "PICK_AGENTS": "Chọn người dùng cho kênh hội thoại"
       },
