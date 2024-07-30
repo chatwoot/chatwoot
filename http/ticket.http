@@ -1,0 +1,52 @@
+# Path: http/sign.http
+# @name LOGIN
+POST {{api}}/auth/sign_in
+Content-Type: application/json
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36
+User-Agent-Mobile: Mozilla/5.0 (Linux; Android 4.2.2; GT-I9505 Build/JDQ39) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.59 Mobile Safari/537.36
+
+{
+  "email": "{{username}}",
+  "password": "Password1!"
+}
+
+### 
+@token = {{LOGIN.response.headers.Authorization}}
+
+###
+
+# Path: http/ticket.http
+# @name ticket
+
+@account_id = 2
+POST {{api}}/api/v1/accounts/{{account_id}}/tickets
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "title": "Test ticket",
+    "description": "Test description",
+    "status": "pending",
+    "assigned_to": null,
+    "conversation": {
+        "id": 1
+    }
+}
+
+# Path: http/ticket.http
+# @name ticket
+GET {{api}}/api/v1/accounts/{{account_id}}/tickets
+Authorization: {{token}}
+
+### 
+@token = {{LOGIN.response.headers.Authorization}}
+
+###
+
+# Path: http/ticket.http
+# @name ticket
+GET {{api}}/api/v1/accounts/{{account_id}}/tickets/1
+Authorization: {{token}}
+
+### 
+@token = {{LOGIN.response.headers.Authorization}}
