@@ -86,6 +86,11 @@ export default {
     },
   },
   methods: {
+    removeObjectProperty(obj, keyToRemove) {
+      return Object.fromEntries(
+        Object.entries(obj).filter(([key]) => key !== keyToRemove)
+      );
+    },
     updateName(value) {
       this.macro.name = value;
     },
@@ -99,9 +104,9 @@ export default {
       });
     },
     deleteNode(index) {
-      // delete that index specifically
+      // remove that index specifically
       // so that the next item does not get marked invalid
-      delete this.errors[`action_${index}`];
+      this.errors = this.removeObjectProperty(this.errors, `action_${index}`);
       this.macro.actions.splice(index, 1);
     },
     submit() {
@@ -114,9 +119,9 @@ export default {
       this.$emit('submit', this.macro);
     },
     resetNode(index) {
-      // delete that index specifically
+      // remove that index specifically
       // so that the next item does not get marked invalid
-      delete this.errors[`action_${index}`];
+      this.errors = this.removeObjectProperty(this.errors, `action_${index}`);
       this.macro.actions[index].action_params = [];
     },
     resetValidation() {
