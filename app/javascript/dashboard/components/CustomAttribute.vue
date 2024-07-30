@@ -14,7 +14,7 @@
           <span
             class="w-full inline-flex gap-1.5 items-start font-medium whitespace-nowrap text-sm mb-0"
             :class="
-              $v.editedValue.$error
+              v$.editedValue.$error
                 ? 'text-red-400 dark:text-red-500'
                 : 'text-slate-800 dark:text-slate-100'
             "
@@ -48,8 +48,8 @@
             :type="inputType"
             class="!h-8 ltr:!rounded-r-none rtl:!rounded-l-none !mb-0 !text-sm"
             autofocus="true"
-            :class="{ error: $v.editedValue.$error }"
-            @blur="$v.editedValue.$touch"
+            :class="{ error: v$.editedValue.$error }"
+            @blur="v$.editedValue.$touch"
             @keyup.enter="onUpdate"
           />
           <div>
@@ -136,12 +136,13 @@
 
 <script>
 import { format, parseISO } from 'date-fns';
-import { required, url } from 'vuelidate/lib/validators';
+import { required, url } from '@vuelidate/validators';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import HelperTextPopup from 'dashboard/components/ui/HelperTextPopup.vue';
 import { isValidURL } from '../helper/URLHelper';
 import customAttributeMixin from '../mixins/customAttributeMixin';
+import { useVuelidate } from '@vuelidate/core';
 
 const DATE_FORMAT = 'yyyy-MM-dd';
 
@@ -166,6 +167,9 @@ export default {
     regexEnabled: { type: Boolean, default: false },
     attributeKey: { type: String, required: true },
     contactId: { type: Number, default: null },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -225,13 +229,13 @@ export default {
       return this.isAttributeTypeLink ? 'url' : this.attributeType;
     },
     shouldShowErrorMessage() {
-      return this.$v.editedValue.$error;
+      return this.v$.editedValue.$error;
     },
     errorMessage() {
-      if (this.$v.editedValue.url) {
+      if (this.v$.editedValue.url) {
         return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.INVALID_URL');
       }
-      if (!this.$v.editedValue.regexValidation) {
+      if (!this.v$.editedValue.regexValidation) {
         return this.regexCue
           ? this.regexCue
           : this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.INVALID_INPUT');
@@ -246,7 +250,7 @@ export default {
     },
     contactId() {
       // Fix to solve validation not resetting when contactId changes in contact page
-      this.$v.$reset();
+      this.v$.$reset();
     },
   },
 
@@ -287,7 +291,7 @@ export default {
       }
     },
     onClickAway() {
-      this.$v.$reset();
+      this.v$.$reset();
       this.isEditing = false;
     },
     onEdit() {
@@ -307,8 +311,8 @@ export default {
         this.attributeType === 'date'
           ? parseISO(this.editedValue)
           : this.editedValue;
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         return;
       }
       this.isEditing = false;
@@ -316,7 +320,7 @@ export default {
     },
     onDelete() {
       this.isEditing = false;
-      this.$v.$reset();
+      this.v$.$reset();
       this.$emit('delete', this.attributeKey);
     },
     onCopy() {

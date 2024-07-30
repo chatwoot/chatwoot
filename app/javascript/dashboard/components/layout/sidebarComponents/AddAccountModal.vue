@@ -19,13 +19,13 @@
 
       <form class="flex flex-col w-full" @submit.prevent="addAccount">
         <div class="w-full">
-          <label :class="{ error: $v.accountName.$error }">
+          <label :class="{ error: v$.accountName.$error }">
             {{ $t('CREATE_ACCOUNT.FORM.NAME.LABEL') }}
             <input
               v-model.trim="accountName"
               type="text"
               :placeholder="$t('CREATE_ACCOUNT.FORM.NAME.PLACEHOLDER')"
-              @input="$v.accountName.$touch"
+              @input="v$.accountName.$touch"
             />
           </label>
         </div>
@@ -33,8 +33,8 @@
           <div class="w-full">
             <woot-submit-button
               :disabled="
-                $v.accountName.$invalid ||
-                $v.accountName.$invalid ||
+                v$.accountName.$invalid ||
+                v$.accountName.$invalid ||
                 uiFlags.isCreating
               "
               :button-text="$t('CREATE_ACCOUNT.FORM.SUBMIT')"
@@ -49,7 +49,8 @@
 </template>
 
 <script>
-import { required, minLength } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required, minLength } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 
@@ -63,6 +64,9 @@ export default {
       type: Boolean,
       default: true,
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {

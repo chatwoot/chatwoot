@@ -7,23 +7,23 @@
     <form class="flex flex-wrap mx-0" @submit.prevent="addLabel">
       <woot-input
         v-model.trim="title"
-        :class="{ error: $v.title.$error }"
+        :class="{ error: v$.title.$error }"
         class="w-full label-name--input"
         :label="$t('LABEL_MGMT.FORM.NAME.LABEL')"
         :placeholder="$t('LABEL_MGMT.FORM.NAME.PLACEHOLDER')"
         :error="labelTitleErrorMessage"
         data-testid="label-title"
-        @input="$v.title.$touch"
+        @input="v$.title.$touch"
       />
 
       <woot-input
         v-model.trim="description"
-        :class="{ error: $v.description.$error }"
+        :class="{ error: v$.description.$error }"
         class="w-full"
         :label="$t('LABEL_MGMT.FORM.DESCRIPTION.LABEL')"
         :placeholder="$t('LABEL_MGMT.FORM.DESCRIPTION.PLACEHOLDER')"
         data-testid="label-description"
-        @input="$v.description.$touch"
+        @input="v$.description.$touch"
       />
 
       <div class="w-full">
@@ -40,7 +40,7 @@
       </div>
       <div class="flex items-center justify-end w-full gap-2 px-0 py-2">
         <woot-button
-          :is-disabled="$v.title.$invalid || uiFlags.isCreating"
+          :is-disabled="v$.title.$invalid || uiFlags.isCreating"
           :is-loading="uiFlags.isCreating"
           data-testid="label-submit"
         >
@@ -59,6 +59,7 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import validations, { getLabelTitleErrorMessage } from './validations';
 import { getRandomColor } from 'dashboard/helper/labelColor';
+import { useVuelidate } from '@vuelidate/core';
 
 export default {
   props: {
@@ -66,6 +67,9 @@ export default {
       type: String,
       default: '',
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -81,7 +85,7 @@ export default {
       uiFlags: 'labels/getUIFlags',
     }),
     labelTitleErrorMessage() {
-      const errorMessage = getLabelTitleErrorMessage(this.$v);
+      const errorMessage = getLabelTitleErrorMessage(this.v$);
       return this.$t(errorMessage);
     },
   },

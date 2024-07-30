@@ -22,6 +22,7 @@
           class="macros__node-action"
           type="add"
           :index="i"
+          :error-key="errors[`action_${i}`]"
           :file-name="
             fileName(
               actionData[i].action_params[0],
@@ -64,12 +65,17 @@
 import Draggable from 'vuedraggable';
 import MacroNode from './MacroNode.vue';
 import { getFileName } from './macroHelper';
+
 export default {
   components: {
     Draggable,
     MacroNode,
   },
   props: {
+    errors: {
+      type: Object,
+      default: () => ({}),
+    },
     value: {
       type: Array,
       default: () => [],

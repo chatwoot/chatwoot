@@ -11,7 +11,7 @@
       </div>
       <div class="w-3/5">
         <div class="w-full">
-          <label :class="{ error: $v.selectedAgents.$error }">
+          <label :class="{ error: v$.selectedAgents.$error }">
             {{ $t('INBOX_MGMT.ADD.AGENTS.TITLE') }}
             <multiselect
               v-model="selectedAgents"
@@ -26,9 +26,9 @@
               :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
               :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
               :placeholder="$t('INBOX_MGMT.ADD.AGENTS.PICK_AGENTS')"
-              @select="$v.selectedAgents.$touch"
+              @select="v$.selectedAgents.$touch"
             />
-            <span v-if="$v.selectedAgents.$error" class="message">
+            <span v-if="v$.selectedAgents.$error" class="message">
               {{ $t('INBOX_MGMT.ADD.AGENTS.VALIDATION_ERROR') }}
             </span>
           </label>
@@ -52,12 +52,12 @@ import { useAlert } from 'dashboard/composables';
 import InboxMembersAPI from '../../../../api/inboxMembers';
 import router from '../../../index';
 import PageHeader from '../SettingsSubPageHeader.vue';
+import { useVuelidate } from '@vuelidate/core';
 
 export default {
   components: {
     PageHeader,
   },
-
   validations: {
     selectedAgents: {
       isEmpty() {
@@ -65,24 +65,23 @@ export default {
       },
     },
   },
-
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       selectedAgents: [],
       isCreating: false,
     };
   },
-
   computed: {
     ...mapGetters({
       agentList: 'agents/getAgents',
     }),
   },
-
   mounted() {
     this.$store.dispatch('agents/get');
   },
-
   methods: {
     async addAgents() {
       this.isCreating = true;

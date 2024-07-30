@@ -1,5 +1,5 @@
 <template>
-  <div class="h-auto overflow-auto flex flex-col">
+  <div class="flex flex-col h-auto overflow-auto">
     <woot-modal-header
       :header-title="$t('CAMPAIGN.ADD.TITLE')"
       :header-content="$t('CAMPAIGN.ADD.DESC')"
@@ -10,10 +10,10 @@
           v-model="title"
           :label="$t('CAMPAIGN.ADD.FORM.TITLE.LABEL')"
           type="text"
-          :class="{ error: $v.title.$error }"
-          :error="$v.title.$error ? $t('CAMPAIGN.ADD.FORM.TITLE.ERROR') : ''"
+          :class="{ error: v$.title.$error }"
+          :error="v$.title.$error ? $t('CAMPAIGN.ADD.FORM.TITLE.ERROR') : ''"
           :placeholder="$t('CAMPAIGN.ADD.FORM.TITLE.PLACEHOLDER')"
-          @blur="$v.title.$touch"
+          @blur="v$.title.$touch"
         />
 
         <div v-if="isOngoingType" class="editor-wrap">
@@ -24,38 +24,38 @@
             <woot-message-editor
               v-model="message"
               class="message-editor"
-              :class="{ editor_warning: $v.message.$error }"
+              :class="{ editor_warning: v$.message.$error }"
               :placeholder="$t('CAMPAIGN.ADD.FORM.MESSAGE.PLACEHOLDER')"
-              @blur="$v.message.$touch"
+              @blur="v$.message.$touch"
             />
-            <span v-if="$v.message.$error" class="editor-warning__message">
+            <span v-if="v$.message.$error" class="editor-warning__message">
               {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
             </span>
           </div>
         </div>
 
-        <label v-else :class="{ error: $v.message.$error }">
+        <label v-else :class="{ error: v$.message.$error }">
           {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
           <textarea
             v-model="message"
             rows="5"
             type="text"
             :placeholder="$t('CAMPAIGN.ADD.FORM.MESSAGE.PLACEHOLDER')"
-            @blur="$v.message.$touch"
+            @blur="v$.message.$touch"
           />
-          <span v-if="$v.message.$error" class="message">
+          <span v-if="v$.message.$error" class="message">
             {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
           </span>
         </label>
 
-        <label :class="{ error: $v.selectedInbox.$error }">
+        <label :class="{ error: v$.selectedInbox.$error }">
           {{ $t('CAMPAIGN.ADD.FORM.INBOX.LABEL') }}
           <select v-model="selectedInbox" @change="onChangeInbox($event)">
             <option v-for="item in inboxes" :key="item.name" :value="item.id">
               {{ item.name }}
             </option>
           </select>
-          <span v-if="$v.selectedInbox.$error" class="message">
+          <span v-if="v$.selectedInbox.$error" class="message">
             {{ $t('CAMPAIGN.ADD.FORM.INBOX.ERROR') }}
           </span>
         </label>
@@ -63,7 +63,7 @@
         <label
           v-if="isOneOffType"
           class="multiselect-wrap--small"
-          :class="{ error: $v.selectedAudience.$error }"
+          :class="{ error: v$.selectedAudience.$error }"
         >
           {{ $t('CAMPAIGN.ADD.FORM.AUDIENCE.LABEL') }}
           <multiselect
@@ -79,17 +79,17 @@
             selected-label
             :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
             :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
-            @blur="$v.selectedAudience.$touch"
-            @select="$v.selectedAudience.$touch"
+            @blur="v$.selectedAudience.$touch"
+            @select="v$.selectedAudience.$touch"
           />
-          <span v-if="$v.selectedAudience.$error" class="message">
+          <span v-if="v$.selectedAudience.$error" class="message">
             {{ $t('CAMPAIGN.ADD.FORM.AUDIENCE.ERROR') }}
           </span>
         </label>
 
         <label
           v-if="isOngoingType"
-          :class="{ error: $v.selectedSender.$error }"
+          :class="{ error: v$.selectedSender.$error }"
         >
           {{ $t('CAMPAIGN.ADD.FORM.SENT_BY.LABEL') }}
           <select v-model="selectedSender">
@@ -101,7 +101,7 @@
               {{ sender.name }}
             </option>
           </select>
-          <span v-if="$v.selectedSender.$error" class="message">
+          <span v-if="v$.selectedSender.$error" class="message">
             {{ $t('CAMPAIGN.ADD.FORM.SENT_BY.ERROR') }}
           </span>
         </label>
@@ -121,26 +121,26 @@
           v-model="endPoint"
           :label="$t('CAMPAIGN.ADD.FORM.END_POINT.LABEL')"
           type="text"
-          :class="{ error: $v.endPoint.$error }"
+          :class="{ error: v$.endPoint.$error }"
           :error="
-            $v.endPoint.$error ? $t('CAMPAIGN.ADD.FORM.END_POINT.ERROR') : ''
+            v$.endPoint.$error ? $t('CAMPAIGN.ADD.FORM.END_POINT.ERROR') : ''
           "
           :placeholder="$t('CAMPAIGN.ADD.FORM.END_POINT.PLACEHOLDER')"
-          @blur="$v.endPoint.$touch"
+          @blur="v$.endPoint.$touch"
         />
         <woot-input
           v-if="isOngoingType"
           v-model="timeOnPage"
           :label="$t('CAMPAIGN.ADD.FORM.TIME_ON_PAGE.LABEL')"
           type="text"
-          :class="{ error: $v.timeOnPage.$error }"
+          :class="{ error: v$.timeOnPage.$error }"
           :error="
-            $v.timeOnPage.$error
+            v$.timeOnPage.$error
               ? $t('CAMPAIGN.ADD.FORM.TIME_ON_PAGE.ERROR')
               : ''
           "
           :placeholder="$t('CAMPAIGN.ADD.FORM.TIME_ON_PAGE.PLACEHOLDER')"
-          @blur="$v.timeOnPage.$touch"
+          @blur="v$.timeOnPage.$touch"
         />
         <label v-if="isOngoingType">
           <input
@@ -162,7 +162,7 @@
         </label>
       </div>
 
-      <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+      <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
         <woot-button :is-loading="uiFlags.isCreating">
           {{ $t('CAMPAIGN.ADD.CREATE_BUTTON_TEXT') }}
         </woot-button>
@@ -176,7 +176,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { required } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import campaignMixin from 'shared/mixins/campaignMixin';
@@ -189,8 +190,10 @@ export default {
     WootDateTimePicker,
     WootMessageEditor,
   },
-
   mixins: [campaignMixin],
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       title: '',
@@ -343,8 +346,8 @@ export default {
       return campaignDetails;
     },
     async addCampaign() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         return;
       }
       try {

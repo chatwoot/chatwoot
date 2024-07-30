@@ -12,7 +12,7 @@
           <input
             v-model="activeFolderNewName"
             type="text"
-            class="folder-input border-slate-75 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100"
+            class="bg-white folder-input border-slate-75 dark:border-slate-600 dark:bg-slate-900 text-slate-900 dark:text-slate-100"
           />
           <span v-if="!activeFolderNewName" class="message">
             {{ $t('FILTER.EMPTY_VALUE_ERROR') }}
@@ -23,7 +23,7 @@
         </label>
       </div>
       <div
-        class="p-4 rounded-lg bg-slate-25 dark:bg-slate-900 border border-solid border-slate-50 dark:border-slate-700/50 mb-4"
+        class="p-4 mb-4 border border-solid rounded-lg bg-slate-25 dark:bg-slate-900 border-slate-50 dark:border-slate-700/50"
       >
         <filter-input-box
           v-for="(filter, i) in appliedFilters"
@@ -41,7 +41,7 @@
           :show-query-operator="i !== appliedFilters.length - 1"
           :show-user-input="showUserInput(appliedFilters[i].filter_operator)"
           :grouped-filters="true"
-          :v="$v.appliedFilters.$each[i]"
+          :error-message="validationErrors[`filter_${i}`]"
           @resetFilter="resetFilter(i, appliedFilters[i])"
           @removeFilter="removeFilter(i)"
         />
@@ -58,7 +58,7 @@
         </div>
       </div>
       <div class="w-full">
-        <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+        <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
           <woot-button class="button clear" @click.prevent="onClose">
             {{ $t('FILTER.CANCEL_BUTTON_LABEL') }}
           </woot-button>
@@ -80,7 +80,6 @@
 
 <script>
 import { useAlert } from 'dashboard/composables';
-import { required, requiredIf } from 'vuelidate/lib/validators';
 import FilterInputBox from '../FilterInput/Index.vue';
 import languages from './advancedFilterItems/languages';
 import countries from 'shared/constants/countries.js';
@@ -89,6 +88,7 @@ import { filterAttributeGroups } from './advancedFilterItems';
 import filterMixin from 'shared/mixins/filterMixin';
 import * as OPERATORS from 'dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
+import { validateConversationOrContactFilters } from 'dashboard/helper/validations.js';
 
 export default {
   components: {
@@ -117,27 +117,6 @@ export default {
       default: false,
     },
   },
-  validations: {
-    appliedFilters: {
-      required,
-      $each: {
-        values: {
-          ensureBetween0to999(value, prop) {
-            if (prop.filter_operator === 'days_before') {
-              return parseInt(value, 10) > 0 && parseInt(value, 10) < 999;
-            }
-            return true;
-          },
-          required: requiredIf(prop => {
-            return !(
-              prop.filter_operator === 'is_present' ||
-              prop.filter_operator === 'is_not_present'
-            );
-          }),
-        },
-      },
-    },
-  },
   data() {
     return {
       show: true,
@@ -149,6 +128,7 @@ export default {
       allCustomAttributes: [],
       attributeModel: 'conversation_attribute',
       filtersFori18n: 'FILTER',
+      validationErrors: {},
     };
   },
   computed: {
@@ -347,20 +327,23 @@ export default {
       }
     },
     submitFilterQuery() {
-      this.$v.$touch();
-      if (this.$v.$invalid) return;
-      this.$store.dispatch(
-        'setConversationFilters',
-        JSON.parse(JSON.stringify(this.appliedFilters))
+      this.validationErrors = validateConversationOrContactFilters(
+        this.appliedFilters
       );
-      this.$emit('applyFilter', this.appliedFilters);
-      this.$track(CONVERSATION_EVENTS.APPLY_FILTER, {
-        applied_filters: this.appliedFilters.map(filter => ({
-          key: filter.attribute_key,
-          operator: filter.filter_operator,
-          query_operator: filter.query_operator,
-        })),
-      });
+      if (Object.keys(this.validationErrors).length === 0) {
+        this.$store.dispatch(
+          'setConversationFilters',
+          JSON.parse(JSON.stringify(this.appliedFilters))
+        );
+        this.$emit('applyFilter', this.appliedFilters);
+        this.$track(CONVERSATION_EVENTS.APPLY_FILTER, {
+          applied_filters: this.appliedFilters.map(filter => ({
+            key: filter.attribute_key,
+            operator: filter.filter_operator,
+            query_operator: filter.query_operator,
+          })),
+        });
+      }
     },
     updateSavedCustomViews() {
       this.$emit('updateFolder', this.appliedFilters, this.activeFolderNewName);
