@@ -234,6 +234,18 @@ Rails.application.routes.draw do
           end
 
           resources :upload, only: [:create]
+
+          # tickets
+          resources :tickets, only: [:index, :create, :show, :update, :destroy] do
+            member do
+              post :assign
+              post :resolve
+            end
+
+            collection do
+              get :search
+            end
+          end
         end
       end
       # end of account scoped api routes
