@@ -10,4 +10,12 @@ class TicketPolicy < ApplicationPolicy
   def create?
     true
   end
+
+  def assign?
+    true
+  end
+
+  def resolve?
+    true
+  end
 end
