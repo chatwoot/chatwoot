@@ -45,6 +45,14 @@ class Ticket < ApplicationRecord
     resolved_at - created_at
   end
 
+  def self.search(query)
+    if query.present?
+      where('LOWER(title) LIKE ? OR LOWER(description) LIKE ?', "%#{query.downcase}%", "%#{query.downcase}%")
+    else
+      all
+    end
+  end
+
   private
 
   def set_resolved_at
