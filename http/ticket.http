@@ -7,11 +7,18 @@ User-Agent-Mobile: Mozilla/5.0 (Linux; Android 4.2.2; GT-I9505 Build/JDQ39) Appl
 
 {
   "email": "{{username}}",
-  "password": "Password1!"
+  "password": "{{password}}"
 }
 
 ### 
 @token = {{LOGIN.response.headers.Authorization}}
+
+###
+
+# Path: http/ticket.http
+# @name ticket
+GET {{api}}/api/v1/accounts/{{account_id}}/tickets
+Authorization: {{token}}
 
 ###
 
@@ -33,20 +40,9 @@ Authorization: {{token}}
     }
 }
 
-# Path: http/ticket.http
-# @name ticket
-GET {{api}}/api/v1/accounts/{{account_id}}/tickets
-Authorization: {{token}}
-
-### 
-@token = {{LOGIN.response.headers.Authorization}}
-
 ###
 
 # Path: http/ticket.http
 # @name ticket
 GET {{api}}/api/v1/accounts/{{account_id}}/tickets/1
 Authorization: {{token}}
-
-### 
-@token = {{LOGIN.response.headers.Authorization}}
