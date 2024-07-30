@@ -151,8 +151,8 @@ export default {
           :error-message="$t('HELP_CENTER.CATEGORY.ADD.NAME.ERROR')"
           :existing-name="category.name"
           :saved-icon="category.icon"
-          @name-change="changeName"
-          @icon-change="onClickInsertEmoji"
+          @nameChange="changeName"
+          @iconChange="onClickInsertEmoji"
         />
         <woot-input
           v-model.trim="slug"

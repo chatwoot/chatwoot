@@ -474,7 +474,7 @@ export default {
             v-else-if="hasWhatsappTemplates"
             :inbox-id="selectedInbox.inbox.id"
             @on-select-template="toggleWaTemplate"
-            @on-send="onSendWhatsAppReply"
+            @onSend="onSendWhatsAppReply"
           />
           <label v-else :class="{ error: v$.message.$error }">
             {{ $t('NEW_CONVERSATION.FORM.MESSAGE.LABEL') }}
@@ -527,7 +527,7 @@ export default {
               <AttachmentPreview
                 class="[&>.preview-item]:dark:bg-slate-700 flex-row flex-wrap gap-x-3 gap-y-1"
                 :attachments="attachedFiles"
-                :remove-attachment="removeAttachment"
+                @removeAttachment="removeAttachment"
               />
             </div>
           </div>
