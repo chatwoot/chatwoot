@@ -221,7 +221,6 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
     }
   end
 
-  # rubocop:disable Metrics/MethodLength
   def webhook_data
     {
       account: account.webhook_data,
@@ -233,7 +232,6 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
       identifier: identifier,
       name: name,
       phone_number: phone_number,
-      thumbnail: avatar_url,
       initial_channel_type: initial_channel_type,
       assignee: assignee&.webhook_data,
       team_name: team&.name,
@@ -244,7 +242,6 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
       po_note: po_note
     }
   end
-  # rubocop:enable Metrics/MethodLength
 
   def self.resolved_contacts
     # temporarily change to all and consider the condition later
