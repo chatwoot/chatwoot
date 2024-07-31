@@ -3,6 +3,7 @@
 # 1. Incase of an outgoing message which is echo, source_id will NOT be nil,
 #    based on this we are showing "not sent from chatwoot" message in frontend
 #    Hence there is no need to set user_id in message for outgoing echo messages.
+require 'retryable'
 
 class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
   attr_reader :response
@@ -118,6 +119,11 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
     }
   end
 
+  def contact_params
+    result = fetch_profile_with_retry
+    process_contact_params_result(result)
+  end
+
   def process_contact_params_result(result)
     {
       name: "#{result['first_name'] || 'John'} #{result['last_name'] || 'Doe'}",
@@ -126,32 +132,38 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
     }
   end
 
-  # rubocop:disable Metrics/AbcSize
-  # rubocop:disable Metrics/MethodLength
-  def contact_params
-    begin
-      k = Koala::Facebook::API.new(@inbox.channel.page_access_token) if @inbox.facebook?
-      result = k.get_object(@sender_id) || {}
-    rescue Koala::Facebook::AuthenticationError => e
-      Rails.logger.warn("Facebook authentication error for inbox: #{@inbox.id} with error: #{e.message}")
-      Rails.logger.error e
-      @inbox.channel.authorization_error!
-      raise
-    rescue Koala::Facebook::ClientError => e
-      result = {}
-      # OAuthException, code: 100, error_subcode: 2018218, message: (#100) No profile available for this user
-      # We don't need to capture this error as we don't care about contact params in case of echo messages
-      if e.message.include?('2018218')
-        Rails.logger.warn e
-      else
-        ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception unless @outgoing_echo
-      end
-    rescue StandardError => e
-      result = {}
-      ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
+  def fetch_profile_with_retry
+    Retryable.retryable(tries: 3, on: [Koala::Facebook::ClientError, StandardError]) do |retries, exception|
+      Rails.logger.warn("Retry #{retries + 1} due to #{exception.class}: #{exception.message}") if retries.positive?
+      fetch_profile_data
     end
-    process_contact_params_result(result)
   end
-  # rubocop:enable Metrics/AbcSize
-  # rubocop:enable Metrics/MethodLength
+
+  def fetch_profile_data
+    k = Koala::Facebook::API.new(@inbox.channel.page_access_token) if @inbox.facebook?
+    k.get_object(@sender_id) || {}
+  rescue Koala::Facebook::AuthenticationError => e
+    Rails.logger.warn("Facebook authentication error for inbox: #{@inbox.id} with error: #{e.message}")
+    Rails.logger.error e
+    @inbox.channel.authorization_error!
+    raise
+  rescue Koala::Facebook::ClientError => e
+    handle_client_error(e)
+  rescue StandardError => e
+    handle_standard_error(e)
+  end
+
+  def handle_client_error(exp)
+    if e.message.include?('2018218')
+      Rails.logger.warn exp
+    else
+      ChatwootExceptionTracker.new(exp, account: @inbox.account).capture_exception unless @outgoing_echo
+    end
+    {}
+  end
+
+  def handle_standard_error(exp)
+    ChatwootExceptionTracker.new(exp, account: @inbox.account).capture_exception
+    {}
+  end
 end

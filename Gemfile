@@ -135,6 +135,9 @@ gem 'hairtrigger'
 
 gem 'procore-sift'
 
+# to retry api call
+gem 'retryable'
+
 # parse email
 gem 'email_reply_trimmer'
 

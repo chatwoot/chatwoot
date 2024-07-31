@@ -640,6 +640,7 @@ GEM
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
     retriable (3.1.2)
+    retryable (3.0.5)
     reverse_markdown (2.1.1)
       nokogiri
     rexml (3.2.5)
@@ -936,6 +937,7 @@ DEPENDENCIES
   redis-namespace
   responders (>= 3.1.1)
   rest-client
+  retryable
   reverse_markdown
   rspec-rails
   rspec_junit_formatter
