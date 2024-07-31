@@ -1,5 +1,5 @@
 <template>
-  <table>
+  <table class="woot-table">
     <thead>
       <tr>
         <th scope="col">
