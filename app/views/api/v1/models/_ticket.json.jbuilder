@@ -7,3 +7,4 @@ json.assigned_to resource.assignee&.name
 json.conversation_id resource.conversation_id
 json.created_at resource.created_at
 json.updated_at resource.updated_at
+json.account_id resource.account_id

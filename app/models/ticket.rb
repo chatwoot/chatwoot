@@ -10,11 +10,13 @@
 #  title           :string           not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  account_id      :bigint
 #  conversation_id :bigint           not null
 #  user_id         :bigint           not null
 #
 # Indexes
 #
+#  index_tickets_on_account_id       (account_id)
 #  index_tickets_on_assigned_to      (assigned_to)
 #  index_tickets_on_conversation_id  (conversation_id)
 #  index_tickets_on_status           (status)
@@ -22,6 +24,7 @@
 #
 # Foreign Keys
 #
+#  fk_rails_...  (account_id => accounts.id)
 #  fk_rails_...  (conversation_id => conversations.id)
 #  fk_rails_...  (user_id => users.id)
 #
@@ -29,6 +32,8 @@ class Ticket < ApplicationRecord
   belongs_to :user, inverse_of: :tickets
   belongs_to :conversation, inverse_of: :tickets
   belongs_to :assignee, class_name: 'User', foreign_key: 'assigned_to', optional: true, inverse_of: :assigned_tickets
+  belongs_to :account, inverse_of: :tickets
+
   has_many :label_tickets, inverse_of: :ticket, dependent: :destroy
   has_many :labels, through: :label_tickets
 
@@ -38,6 +43,12 @@ class Ticket < ApplicationRecord
   validates :status, inclusion: { in: statuses.keys }
 
   before_save :set_resolved_at
+
+  scope :resolved, -> { where(status: :resolved) }
+  scope :unresolved, -> { where(status: :pending) }
+  scope :with_agents_ids, lambda { |agent_ids|
+    where(assignee_id: agent_ids) if agent_ids.present?
+  }
 
   def resolution_time
     return nil unless resolved_at
