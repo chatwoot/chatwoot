@@ -30,7 +30,7 @@
             />
             <div
               v-if="hasAttachments"
-              class="chat-bubble has-attachment agent"
+              class="space-y-2 chat-bubble has-attachment agent"
               :class="(wrapClass, $dm('bg-white', 'dark:bg-slate-700'))"
             >
               <div
@@ -44,6 +44,14 @@
                   :readable-time="readableTime"
                   @error="onImageLoadError"
                 />
+
+                <video-bubble
+                  v-if="attachment.file_type === 'video' && !hasVideoError"
+                  :url="attachment.data_url"
+                  :readable-time="readableTime"
+                  @error="onVideoLoadError"
+                />
+
                 <audio v-else-if="attachment.file_type === 'audio'" controls>
                   <source :src="attachment.data_url" />
                 </audio>
@@ -82,8 +90,9 @@
 import UserMessage from 'widget/components/UserMessage.vue';
 import AgentMessageBubble from 'widget/components/AgentMessageBubble.vue';
 import MessageReplyButton from 'widget/components/MessageReplyButton.vue';
-import timeMixin from 'dashboard/mixins/time';
+import { messageStamp } from 'shared/helpers/timeHelper';
 import ImageBubble from 'widget/components/ImageBubble.vue';
+import VideoBubble from 'widget/components/VideoBubble.vue';
 import FileBubble from 'widget/components/FileBubble.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
@@ -93,19 +102,21 @@ import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 import ReplyToChip from 'widget/components/ReplyToChip.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   name: 'AgentMessage',
   components: {
     AgentMessageBubble,
     ImageBubble,
+    VideoBubble,
     Thumbnail,
     UserMessage,
     FileBubble,
     MessageReplyButton,
     ReplyToChip,
   },
-  mixins: [timeMixin, configMixin, messageMixin, darkModeMixin],
+  mixins: [configMixin, messageMixin, darkModeMixin],
   props: {
     message: {
       type: Object,
@@ -119,6 +130,7 @@ export default {
   data() {
     return {
       hasImageError: false,
+      hasVideoError: false,
     };
   },
   computed: {
@@ -134,7 +146,7 @@ export default {
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;
-      return this.messageStamp(createdAt, 'LLL d yyyy, h:mm a');
+      return messageStamp(createdAt, 'LLL d yyyy, h:mm a');
     },
     messageType() {
       const { message_type: type = 1 } = this.message;
@@ -212,17 +224,22 @@ export default {
   watch: {
     message() {
       this.hasImageError = false;
+      this.hasVideoError = false;
     },
   },
   mounted() {
     this.hasImageError = false;
+    this.hasVideoError = false;
   },
   methods: {
     onImageLoadError() {
       this.hasImageError = true;
     },
+    onVideoLoadError() {
+      this.hasVideoError = true;
+    },
     toggleReply() {
-      bus.$emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.message);
+      emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.message);
     },
   },
 };

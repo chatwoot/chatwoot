@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 overflow-auto px-1">
+  <div class="flex-1 px-1 overflow-auto">
     <form class="space-y-3" @submit.prevent="submit">
       <div class="flex">
         <form-input
@@ -79,10 +79,11 @@
 </template>
 
 <script>
+import { useVuelidate } from '@vuelidate/core';
 import { required, minLength, email } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import alertMixin from 'shared/mixins/alertMixin';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
 import FormInput from '../../../../../components/Form/Input.vue';
@@ -91,7 +92,6 @@ import { isValidPassword } from 'shared/helpers/Validators';
 import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue';
 import { register } from '../../../../../api/auth';
 import * as CompanyEmailValidator from 'company-email-validator';
-import useVuelidate from '@vuelidate/core';
 
 export default {
   components: {
@@ -100,7 +100,7 @@ export default {
     SubmitButton,
     VueHcaptcha,
   },
-  mixins: [globalConfigMixin, alertMixin],
+  mixins: [globalConfigMixin],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -192,7 +192,7 @@ export default {
         let errorMessage =
           error?.message || this.$t('REGISTER.API.ERROR_MESSAGE');
         this.resetCaptcha();
-        this.showAlert(errorMessage);
+        useAlert(errorMessage);
       } finally {
         this.isSignupInProgress = false;
       }

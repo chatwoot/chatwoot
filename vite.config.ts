@@ -1,10 +1,11 @@
+/// <reference types="vitest" />
 import { defineConfig } from 'vite';
 import RubyPlugin from 'vite-plugin-ruby';
 import path from 'path';
-import Vue2Plugin from '@vitejs/plugin-vue2';
+import Vue2 from '@vitejs/plugin-vue2';
 
 export default defineConfig({
-  plugins: [RubyPlugin(), Vue2Plugin()],
+  plugins: [RubyPlugin(), Vue2()],
   resolve: {
     alias: {
       vue: 'vue/dist/vue.esm.js',
@@ -15,6 +16,30 @@ export default defineConfig({
       shared: path.resolve('./app/javascript/shared'),
       survey: path.resolve('./app/javascript/survey'),
       widget: path.resolve('./app/javascript/widget'),
+      assets: path.resolve('./app/javascript/dashboard/assets'),
     },
+  },
+  test: {
+    environment: 'jsdom',
+    include: ['app/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
+    coverage: {
+      reporter: ['lcov', 'text'],
+      include: ['app/**/*.js', 'app/**/*.vue'],
+      exclude: [
+        'app/**/*.@(spec|stories|routes).js',
+        '**/specs/**/*',
+        '**/i18n/**/*',
+      ],
+    },
+    globals: true,
+    outputFile: 'coverage/sonar-report.xml',
+    server: {
+      deps: {
+        inline: ['tinykeys', '@material/mwc-icon'],
+      },
+    },
+    setupFiles: ['fake-indexeddb/auto'],
+    mockReset: true,
+    clearMocks: true,
   },
 });

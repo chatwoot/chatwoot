@@ -6,12 +6,12 @@
       <woot-input
         v-model="value"
         type="text"
-        :class="{ error: $v.value.$error }"
+        :class="{ error: v$.value.$error }"
         :placeholder="confirmPlaceHolderText"
-        @blur="$v.value.$touch"
+        @blur="v$.value.$touch"
       />
       <div class="button-wrapper">
-        <woot-button color-scheme="alert" :is-disabled="$v.value.$invalid">
+        <woot-button color-scheme="alert" :is-disabled="v$.value.$invalid">
           {{ confirmText }}
         </woot-button>
         <woot-button class="clear" @click.prevent="closeModal">
@@ -24,13 +24,13 @@
 
 <script>
 import { required } from '@vuelidate/validators';
+import { useVuelidate } from '@vuelidate/core';
 import Modal from '../../Modal.vue';
 
 export default {
   components: {
     Modal,
   },
-
   props: {
     show: {
       type: Boolean,
@@ -60,6 +60,9 @@ export default {
       type: String,
       default: '',
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {

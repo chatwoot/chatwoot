@@ -80,7 +80,7 @@ export default {
   },
   methods: {
     openConversationView() {
-      bus.$emit(ON_UNREAD_MESSAGE_CLICK);
+      this.$emitter.emit(ON_UNREAD_MESSAGE_CLICK);
     },
     closeFullView() {
       this.$emit('close');

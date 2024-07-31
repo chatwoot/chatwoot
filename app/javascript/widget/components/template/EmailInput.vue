@@ -31,7 +31,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import useVuelidate from '@vuelidate/core';
+import { useVuelidate } from '@vuelidate/core';
 import { required, email } from '@vuelidate/validators';
 import { getContrastingTextColor } from '@chatwoot/utils';
 

@@ -99,7 +99,7 @@ export default {
     },
   },
   mounted() {
-    bus.$on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.toggleReplyTo);
+    this.$emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.toggleReplyTo);
   },
   methods: {
     ...mapActions('conversation', [
@@ -147,12 +147,12 @@ export default {
       if (this.hasEmail) {
         try {
           await sendEmailTranscript();
-          window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {
+          this.$emitter.emit(BUS_EVENTS.SHOW_ALERT, {
             message: this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_SUCCESS'),
             type: 'success',
           });
         } catch (error) {
-          window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {
+          this.$emitter.$emit(BUS_EVENTS.SHOW_ALERT, {
             message: this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_ERROR'),
           });
         }

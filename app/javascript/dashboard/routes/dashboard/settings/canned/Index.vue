@@ -40,7 +40,7 @@
 
               <button
                 v-if="thHeader === $t('CANNED_MGMT.LIST.TABLE_HEADER[0]')"
-                class="cursor-pointer flex items-center p-0"
+                class="flex items-center p-0 cursor-pointer"
                 @click="toggleSort"
               >
                 <p class="uppercase">
@@ -130,6 +130,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import AddCanned from './AddCanned.vue';
 import EditCanned from './EditCanned.vue';
 
@@ -187,13 +188,13 @@ export default {
       });
       this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
     },
-    showAlert(message) {
+    showAlertMessage(message) {
       // Reset loading, current selected agent
       this.loading[this.selectedResponse.id] = false;
       this.selectedResponse = {};
       // Show message
       this.cannedResponseAPI.message = message;
-      bus.$emit('newToastMessage', message);
+      useAlert(message);
     },
     // Edit Function
     openAddPopup() {
@@ -230,12 +231,14 @@ export default {
       this.$store
         .dispatch('deleteCannedResponse', id)
         .then(() => {
-          this.showAlert(this.$t('CANNED_MGMT.DELETE.API.SUCCESS_MESSAGE'));
+          this.showAlertMessage(
+            this.$t('CANNED_MGMT.DELETE.API.SUCCESS_MESSAGE')
+          );
         })
         .catch(error => {
           const errorMessage =
             error?.message || this.$t('CANNED_MGMT.DELETE.API.ERROR_MESSAGE');
-          this.showAlert(errorMessage);
+          this.showAlertMessage(errorMessage);
         });
     },
   },

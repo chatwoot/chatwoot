@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-auto flex-1 p-6 dark:bg-slate-900">
+  <div class="flex-1 p-6 overflow-auto dark:bg-slate-900">
     <woot-loading-state v-if="uiFlags.isFetchingItem" />
     <div v-else-if="!hasABillingPlan">
       <p>{{ $t('BILLING_SETTINGS.NO_BILLING_USER') }}</p>
@@ -39,13 +39,12 @@
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
 import accountMixin from '../../../../mixins/account';
 import BillingItem from './components/BillingItem.vue';
 // sdds
 export default {
   components: { BillingItem },
-  mixins: [accountMixin, alertMixin, messageFormatterMixin],
+  mixins: [accountMixin, messageFormatterMixin],
   computed: {
     ...mapGetters({
       getAccount: 'accounts/getAccount',

@@ -34,13 +34,13 @@ export default {
   },
 
   mounted() {
-    bus.$on('newToastMessage', this.onNewToastMessage);
+    this.$emitter.on('newToastMessage', this.onNewToastMessage);
   },
   beforeDestroy() {
-    bus.$off('newToastMessage', this.onNewToastMessage);
+    this.$emitter.off('newToastMessage', this.onNewToastMessage);
   },
   methods: {
-    onNewToastMessage(message, action) {
+    onNewToastMessage({ message, action }) {
       this.snackMessages.push({
         key: new Date().getTime(),
         message,

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="app-wrapper h-full flex-grow-0 min-h-0 w-full max-w-full ml-auto mr-auto flex flex-wrap dark:text-slate-300"
+    class="flex flex-wrap flex-grow-0 w-full h-full max-w-full min-h-0 ml-auto mr-auto app-wrapper dark:text-slate-300"
   >
     <sidebar
       :route="currentRoute"
@@ -11,7 +11,7 @@
       @close-key-shortcut-modal="closeKeyShortcutModal"
       @show-add-label-popup="showAddLabelPopup"
     />
-    <section class="flex h-full min-h-0 overflow-hidden flex-1 px-0">
+    <section class="flex flex-1 h-full min-h-0 px-0 overflow-hidden">
       <router-view />
       <command-bar />
       <account-selector
@@ -41,15 +41,15 @@
 
 <script>
 import Sidebar from '../../components/layout/Sidebar.vue';
-import CommandBar from './commands/commandbar.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal.vue';
 import AddAccountModal from 'dashboard/components/layout/sidebarComponents/AddAccountModal.vue';
 import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector.vue';
 import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.vue';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import wootConstants from 'dashboard/constants/globals';
+const CommandBar = () => import('./commands/commandbar.vue');
 
 export default {
   components: {
@@ -61,7 +61,14 @@ export default {
     AddLabelModal,
     NotificationPanel,
   },
-  mixins: [uiSettingsMixin],
+  setup() {
+    const { uiSettings, updateUISettings } = useUISettings();
+
+    return {
+      uiSettings,
+      updateUISettings,
+    };
+  },
   data() {
     return {
       showAccountModal: false,
@@ -110,11 +117,11 @@ export default {
   mounted() {
     this.handleResize();
     window.addEventListener('resize', this.handleResize);
-    bus.$on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
+    this.$emitter.on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize);
-    bus.$off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
+    this.$emitter.off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
   },
 
   methods: {

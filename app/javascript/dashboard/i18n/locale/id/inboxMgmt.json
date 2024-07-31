@@ -2,6 +2,8 @@
   "INBOX_MGMT": {
     "HEADER": "Kotak masuk",
     "SIDEBAR_TXT": "<p><b>Kotak Masuk</b></p> <p> Saat Anda menghubungkan website atau Halaman Facebook ke Chatwoot, itu disebut <b>Kotak Masuk</b>. Anda dapat memiliki kotak masuk tak terbatas di akun Chatwoot Anda. </p><p> Klik pada <b>Tambah Kotak masuk</b> untuk menghubungkan situs web atau Halaman Facebook. </p><p> Di Dasbor, Anda dapat melihat semua percakapan dari semua kotak masuk Anda di satu tempat dan menanggapinya di bawah tab `Percakapan`. </p><p> Anda juga dapat melihat percakapan khusus untuk kotak masuk dengan mengklik nama kotak masuk di panel kiri dasbor. </p>",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "Tidak ada kotak masuk yang dilampirkan ke akun ini."
     },
@@ -364,6 +366,7 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "Klik tombol Masuk dengan Microsoft untuk memulai. Anda akan dialihkan ke halaman masuk email. Setelah Anda menerima izin yang diminta, Anda akan diarahkan kembali ke langkah pembuatan kotak masuk.",
         "EMAIL_PLACEHOLDER": "Masukkan alamat email",
+        "SIGN_IN": "Sign in with Microsoft",
         "HELP": "Untuk menambahkan akun Microsoft Anda sebagai saluran, Anda perlu mengotentikasi akun Microsoft Anda dengan mengeklik 'Masuk dengan Microsoft' ",
         "ERROR_MESSAGE": "Terjadi kesalahan saat menghubungkan ke Microsoft, harap coba lagi"
       }

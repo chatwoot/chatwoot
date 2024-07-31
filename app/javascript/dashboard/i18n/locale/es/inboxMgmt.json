@@ -2,6 +2,8 @@
   "INBOX_MGMT": {
     "HEADER": "Entradas",
     "SIDEBAR_TXT": "<p><b>Bandeja de entrada</b></p> <p> Cuando conecta un sitio web o una página de Facebook a Chatwoot, se llama una <b>Bandeja de entrada</b>. Puede tener bandejas de entrada ilimitadas en su cuenta de Chatwoot. </p><p> Haga clic en <b>Añadir bandeja de entrada</b> para conectar un sitio web o una página de Facebook. </p><p> en el panel, puede ver todas las conversaciones de todas su bandejas de entrada en un solo lugar y responder a ellas en la pestaña `Conversaciones`. </p><p> También puede ver conversaciones específicas de una bandeja de entrada haciendo clic en el nombre de la bandeja de entrada en el menú izquierdo del panel. </p>",
+    "RECONNECTION_REQUIRED": "Tu bandeja de entrada está desconectada. No recibirás mensajes nuevos hasta que lo vuelvas a autorizar.",
+    "CLICK_TO_RECONNECT": "Haga clic aquí para volver a conectar.",
     "LIST": {
       "404": "No hay entradas adjuntas a esta cuenta."
     },
@@ -22,7 +24,7 @@
         "body": "Añadir agentes a la bandeja de entrada creada."
       },
       {
-        "title": "Voilà!",
+        "title": "Voilà!",
         "route": "settings_inbox_finish",
         "body": "¡Todo está listo!"
       }
@@ -43,7 +45,7 @@
         "CHOOSE_PLACEHOLDER": "Seleccione una página de la lista",
         "INBOX_NAME": "Nombre de la bandeja de entrada",
         "ADD_NAME": "Añada un nombre para su bandeja de entrada",
-        "PICK_NAME": "Pick a Name for your Inbox",
+        "PICK_NAME": "Elija un nombre para su bandeja de entrada",
         "PICK_A_VALUE": "Elija un valor"
       },
       "TWITTER": {
@@ -62,7 +64,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "URL de Webhook",
-          "PLACEHOLDER": "Please enter your Webhook URL",
+          "PLACEHOLDER": "Por favor, introduzca su URL de Webhook",
           "ERROR": "Por favor, introduzca una URL válida"
         },
         "CHANNEL_DOMAIN": {
@@ -175,12 +177,12 @@
           },
           "API_KEY": {
             "LABEL": "Clave de API",
-            "PLACEHOLDER": "Please enter your Bandwidth API Key",
+            "PLACEHOLDER": "Por favor, introduzca su clave API de Bandwith",
             "ERROR": "Este campo es obligatorio"
           },
           "API_SECRET": {
             "LABEL": "API secreta",
-            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
+            "PLACEHOLDER": "Por favor ingrese su Bandwith API Secret",
             "ERROR": "Este campo es obligatorio"
           },
           "APPLICATION_ID": {
@@ -239,7 +241,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Token de verificación del Webhook",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
+          "PLACEHOLDER": "Introduzca un token de verificación que desea configurar para los webhooks de facebook.",
           "ERROR": "Por favor, introduzca un valor válido."
         },
         "API_KEY": {
@@ -269,7 +271,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "URL de Webhook",
-          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
+          "SUBTITLE": "Configure la URL donde recibirá las respuestas a los eventos.",
           "PLACEHOLDER": "URL de Webhook"
         },
         "SUBMIT_BUTTON": "Crear canal de API",
@@ -279,7 +281,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Canal de Email",
-        "DESC": "Integrate your email inbox.",
+        "DESC": "Integre su bandeja de entrada del email.",
         "CHANNEL_NAME": {
           "LABEL": "Nombre del canal",
           "PLACEHOLDER": "Por favor, introduzca un nombre de canal",
@@ -345,7 +347,7 @@
       "AGENTS": {
         "TITLE": "Agentes",
         "DESC": "Aquí puede agregar agentes para administrar su recién creada bandeja de entrada. Sólo estos agentes seleccionados tendrán acceso a su bandeja de entrada. Los agentes que no forman parte de esta bandeja de entrada no podrán ver o responder a los mensajes de esta bandeja de entrada cuando inicien sesión. <br> <b>PS:</b> Como administrador, si necesita acceso a todas las bandejas, debes añadirte como agente a todas las bandejas de entrada que crees.",
-        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
+        "VALIDATION_ERROR": "Añade al menos un agente a tu nueva bandeja de entrada",
         "PICK_AGENTS": "Elegir agentes para la bandeja de entrada"
       },
       "DETAILS": {
@@ -364,6 +366,7 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "Haga clic en el botón Iniciar sesión con Microsoft para empezar. Serás redirigido a la página de inicio de sesión de correo electrónico. Una vez que aceptes los permisos solicitados, serás redirigido al paso de creación de la bandeja de entrada.",
         "EMAIL_PLACEHOLDER": "Introduzca la dirección de correo",
+        "SIGN_IN": "Iniciar sesión con Microsoft",
         "HELP": "Para añadir su cuenta de Microsoft como un canal, debe autenticar su cuenta de Microsoft haciendo clic en 'Iniciar sesión con Microsoft' ",
         "ERROR_MESSAGE": "Hubo un error al conectarse a Microsoft, por favor inténtalo de nuevo"
       }
@@ -406,7 +409,7 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Nombre del remitente",
-        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
+        "SUB_TEXT": "Seleccione el nombre que se muestra al cliente cuando reciba correos electrónicos de sus agentes.",
         "FOR_EG": "Por ejemplo:",
         "FRIENDLY": {
           "TITLE": "Amigable",
@@ -508,7 +511,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Permitir mensajes después de la conversación resuelta",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permitir a los usuarios finales enviar mensajes incluso después de que la conversación sea resuelta.",
       "WHATSAPP_SECTION_SUBHEADER": "Esta clave de API se utiliza para la integración con las APIs de WhatsApp.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Introduzca la clave actualizada para la integración con las API de WhatsApp.",
       "WHATSAPP_SECTION_TITLE": "Clave de API",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Actualizar Clave API",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Introduzca aquí la nueva Clave API",
@@ -585,7 +588,7 @@
       "NOTE_TEXT": "Para habilitar SMTP, por favor configure IMAP.",
       "UPDATE": "Actualizar ajustes IMAP",
       "TOGGLE_AVAILABILITY": "Habilitar configuración IMAP para esta bandeja de entrada",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
+      "TOGGLE_HELP": "Habilitar IMAP ayudará al usuario a recibir correo electrónico",
       "EDIT": {
         "SUCCESS_MESSAGE": "Configuración IMAP actualizada correctamente",
         "ERROR_MESSAGE": "No se puede actualizar la configuración IMAP"

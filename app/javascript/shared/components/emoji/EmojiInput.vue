@@ -4,12 +4,12 @@
     class="emoji-dialog bg-white shadow-lg dark:bg-slate-900 rounded-md border border-solid border-slate-75 dark:border-slate-800/50 box-content h-[300px] absolute right-0 -top-[95px] w-80 z-20"
   >
     <div class="flex flex-col">
-      <div class="emoji-search--wrap flex gap-2">
+      <div class="flex gap-2 emoji-search--wrap">
         <input
           ref="searchbar"
           v-model="search"
           type="text"
-          class="emoji-search--input focus:box-shadow-blue dark:focus:box-shadow-dark"
+          class="emoji-search--input focus:box-shadow-blue dark:focus:box-shadow-dark !mb-0"
           :placeholder="$t('EMOJI.PLACEHOLDER')"
         />
         <woot-button
@@ -174,7 +174,9 @@ export default {
       return categoryItem ? categoryItem.emojis[0].emoji : '';
     },
     focusSearchInput() {
-      this.$refs.searchbar.focus();
+      this.$nextTick(() => {
+        this.$refs.searchbar.focus();
+      });
     },
   },
 };

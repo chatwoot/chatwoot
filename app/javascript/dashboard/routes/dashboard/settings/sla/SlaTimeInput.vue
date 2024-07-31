@@ -2,7 +2,7 @@
   <div class="flex items-center w-full gap-3">
     <woot-input
       v-model="thresholdTime"
-      :class="{ error: $v.thresholdTime.$error }"
+      :class="{ error: v$.thresholdTime.$error }"
       class="flex-grow"
       :styles="{
         borderRadius: '12px',
@@ -11,7 +11,7 @@
       }"
       :label="label"
       :placeholder="placeholder"
-      :error="getThresholdTimeErrorMessage"
+      :error="thresholdTimeErrorMessage"
       @input="onThresholdTimeChange"
     />
     <!-- the mt-7 handles the label offset -->
@@ -34,11 +34,10 @@
 </template>
 
 <script>
-import validationMixin from './validationMixin';
 import validations from './validations';
+import { useVuelidate } from '@vuelidate/core';
 
 export default {
-  mixins: [validationMixin],
   props: {
     threshold: {
       type: Number,
@@ -57,6 +56,9 @@ export default {
       default: '',
     },
   },
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       thresholdTime: this.threshold || '',
@@ -69,6 +71,19 @@ export default {
     };
   },
   validations,
+  computed: {
+    thresholdTimeErrorMessage() {
+      let errorMessage = '';
+      if (this.v$.thresholdTime.$error) {
+        if (!this.v$.thresholdTime.numeric || !this.v$.thresholdTime.minValue) {
+          errorMessage = this.$t(
+            'SLA.FORM.THRESHOLD_TIME.INVALID_FORMAT_ERROR'
+          );
+        }
+      }
+      return errorMessage;
+    },
+  },
   watch: {
     threshold: {
       immediate: true,
@@ -90,8 +105,8 @@ export default {
       this.$emit('unit', this.thresholdUnitValue);
     },
     onThresholdTimeChange() {
-      this.$v.thresholdTime.$touch();
-      const isInvalid = this.$v.thresholdTime.$invalid;
+      this.v$.thresholdTime.$touch();
+      const isInvalid = this.v$.thresholdTime.$invalid;
       this.$emit('isInValid', isInvalid);
       this.$emit('input', Number(this.thresholdTime));
     },

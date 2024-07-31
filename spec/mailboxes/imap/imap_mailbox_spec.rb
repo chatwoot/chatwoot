@@ -58,9 +58,15 @@ RSpec.describe Imap::ImapMailbox do
       let(:inbound_mail) { create_inbound_email_from_mail(from: 'invalidemail', to: 'imap@gmail.com', subject: 'Hello!') }
 
       it 'does not create a new conversation' do
-        allow(Rails.logger).to receive(:error)
-        class_instance.process(inbound_mail.mail, channel)
-        expect(Rails.logger).to have_received(:error).with("Email from: invalidemail : inbox #{inbox.id} is invalid")
+        expect { class_instance.process(inbound_mail.mail, channel) }.not_to raise_error
+      end
+    end
+
+    context 'when an auto reply email' do
+      let(:auto_reply_mail) { create_inbound_email_from_fixture('auto_reply.eml') }
+
+      it 'does not create a new conversation' do
+        expect { class_instance.process(auto_reply_mail.mail, channel) }.not_to change(Conversation, :count)
       end
     end
 

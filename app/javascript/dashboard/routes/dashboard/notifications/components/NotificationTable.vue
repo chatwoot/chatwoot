@@ -1,6 +1,6 @@
 <template>
   <section
-    class="h-full flex-shrink flex-grow overflow-hidden py-8 px-4 bg-white dark:bg-slate-900"
+    class="flex-grow flex-shrink h-full px-4 py-8 overflow-hidden bg-white dark:bg-slate-900"
   >
     <woot-submit-button
       v-if="notificationMetadata.unreadCount"
@@ -22,7 +22,7 @@
         >
           <td>
             <div
-              class="flex-view notification-contant--wrap overflow-hidden whitespace-nowrap text-ellipsis"
+              class="overflow-hidden flex-view notification-contant--wrap whitespace-nowrap text-ellipsis"
             >
               <h5 class="notification--title">
                 {{
@@ -34,7 +34,7 @@
                 }}
               </h5>
               <span
-                class="notification--message-title overflow-hidden whitespace-nowrap text-ellipsis"
+                class="overflow-hidden notification--message-title whitespace-nowrap text-ellipsis"
               >
                 {{ notificationItem.push_message_title }}
               </span>
@@ -88,7 +88,7 @@
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
-import timeMixin from '../../../../mixins/time';
+import { dynamicTime } from 'shared/helpers/timeHelper';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -97,7 +97,6 @@ export default {
     Spinner,
     EmptyState,
   },
-  mixins: [timeMixin],
   props: {
     notifications: {
       type: Array,
@@ -127,6 +126,9 @@ export default {
     showEmptyResult() {
       return !this.isLoading && this.notifications.length === 0;
     },
+  },
+  methods: {
+    dynamicTime,
   },
 };
 </script>

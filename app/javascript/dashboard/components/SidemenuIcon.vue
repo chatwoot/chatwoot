@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     onMenuItemClick() {
-      bus.$emit(BUS_EVENTS.TOGGLE_SIDEMENU);
+      this.$emitter.emit(BUS_EVENTS.TOGGLE_SIDEMENU);
     },
   },
 };

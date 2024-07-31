@@ -2,6 +2,8 @@
   "INBOX_MGMT": {
     "HEADER": "Fiókok",
     "SIDEBAR_TXT": "<p><b>Inbox</b></p><p>Amikor egy weboldalt vagy facebook oldalt összekötsz a Chatwoottal, <b>inbox</b>-nak vagy fióknak hívjuk. Korlátlan inboxod lehet a Chatwoot fiókodban. </p><p>Kattints a <b>Inbox hozzáadása</b> gombra hogy összekapcsold a weboldaladdal vagy Facebook oldaladdal.</p><p>A műszerfaladon láthatod az összes beszélgetésedet az összes fiókodból egy helyen és válszolhatsz a 'Beszélgetések' fülön.</p><p>Láthatsz továbbá fiókhoz kapcsolódó beszélgetéseket a fiók nevére kattintva a műszerfal bal sávjában.</p>",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "Nincs Inbox kapcsolva ehhez a fiókhoz."
     },
@@ -364,6 +366,7 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "A kezdéshez kattintson a Bejelentkezés a Microsofttal gombra. A rendszer átirányítja az e-mail bejelentkezési oldalra. Miután elfogadta a kért engedélyeket, a rendszer visszairányítja a beérkező levelek létrehozásának lépéséhez.",
         "EMAIL_PLACEHOLDER": "E-mailcím megadása",
+        "SIGN_IN": "Sign in with Microsoft",
         "HELP": "Ha Microsoft-fiókját csatornaként szeretné hozzáadni, hitelesítenie kell Microsoft-fiókját a \"Bejelentkezés Microsoft-fiókkal\" lehetőségre kattintva ",
         "ERROR_MESSAGE": "Hiba történt a Microsoft szervereihez való csatlakozáskor, kérjük próbáld később"
       }

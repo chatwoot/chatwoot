@@ -18,6 +18,7 @@
 <script>
 import 'highlight.js/styles/default.css';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import { useAlert } from 'dashboard/composables';
 
 export default {
   props: {
@@ -35,7 +36,7 @@ export default {
     async onCopy(e) {
       e.preventDefault();
       await copyTextToClipboard(this.value);
-      bus.$emit('newToastMessage', this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
+      useAlert(this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
     },
     toggleMasked() {
       this.masked = !this.masked;

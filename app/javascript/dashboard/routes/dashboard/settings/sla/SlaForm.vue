@@ -3,7 +3,7 @@
     <form class="flex flex-wrap mx-0" @submit.prevent="onSubmit">
       <woot-input
         v-model="name"
-        :class="{ error: $v.name.$error }"
+        :class="{ error: v$.name.$error }"
         class="w-full"
         :styles="{
           borderRadius: '12px',
@@ -12,8 +12,8 @@
         }"
         :label="$t('SLA.FORM.NAME.LABEL')"
         :placeholder="$t('SLA.FORM.NAME.PLACEHOLDER')"
-        :error="getSlaNameErrorMessage"
-        @input="$v.name.$touch"
+        :error="slaNameErrorMessage"
+        @input="v$.name.$touch"
       />
       <woot-input
         v-model="description"
@@ -70,15 +70,14 @@
 <script>
 import { mapGetters } from 'vuex';
 import { convertSecondsToTimeUnit } from '@chatwoot/utils';
-import validationMixin from './validationMixin';
 import validations from './validations';
 import SlaTimeInput from './SlaTimeInput.vue';
+import { useVuelidate } from '@vuelidate/core';
 
 export default {
   components: {
     SlaTimeInput,
   },
-  mixins: [validationMixin],
   props: {
     selectedResponse: {
       type: Object,
@@ -88,6 +87,9 @@ export default {
       type: String,
       required: true,
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -125,10 +127,21 @@ export default {
     }),
     isSubmitDisabled() {
       return (
-        this.$v.name.$invalid ||
+        this.v$.name.$invalid ||
         this.isSlaTimeInputsInvalid ||
         this.uiFlags.isUpdating
       );
+    },
+    slaNameErrorMessage() {
+      let errorMessage = '';
+      if (this.v$.name.$error) {
+        if (!this.v$.name.required) {
+          errorMessage = this.$t('SLA.FORM.NAME.REQUIRED_ERROR');
+        } else if (!this.v$.name.minLength) {
+          errorMessage = this.$t('SLA.FORM.NAME.MINIMUM_LENGTH_ERROR');
+        }
+      }
+      return errorMessage;
     },
   },
   mounted() {

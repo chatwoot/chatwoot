@@ -1,7 +1,6 @@
 import {
   getConversationDashboardRoute,
   getCurrentAccount,
-  getUserRole,
   isAConversationRoute,
   routeIsAccessibleFor,
   validateLoggedInRoutes,
@@ -15,24 +14,11 @@ describe('#getCurrentAccount', () => {
   });
 });
 
-describe('#getUserRole', () => {
-  it('should return the current role', () => {
-    expect(
-      getUserRole({ accounts: [{ id: 1, role: 'administrator' }] }, 1)
-    ).toEqual('administrator');
-    expect(getUserRole({ accounts: [] }, 1)).toEqual(null);
-  });
-});
-
 describe('#routeIsAccessibleFor', () => {
   it('should return the correct access', () => {
-    const roleWiseRoutes = { agent: ['conversations'], admin: ['billing'] };
-    expect(routeIsAccessibleFor('billing', 'agent', roleWiseRoutes)).toEqual(
-      false
-    );
-    expect(routeIsAccessibleFor('billing', 'admin', roleWiseRoutes)).toEqual(
-      true
-    );
+    let route = { meta: { permissions: ['administrator'] } };
+    expect(routeIsAccessibleFor(route, ['agent'])).toEqual(false);
+    expect(routeIsAccessibleFor(route, ['administrator'])).toEqual(true);
   });
 });
 
@@ -40,11 +26,7 @@ describe('#validateLoggedInRoutes', () => {
   describe('when account access is missing', () => {
     it('should return the login route', () => {
       expect(
-        validateLoggedInRoutes(
-          { params: { accountId: 1 } },
-          { accounts: [] },
-          {}
-        )
+        validateLoggedInRoutes({ params: { accountId: 1 } }, { accounts: [] })
       ).toEqual(`app/login`);
     });
   });
@@ -53,9 +35,12 @@ describe('#validateLoggedInRoutes', () => {
       it('return suspended route', () => {
         expect(
           validateLoggedInRoutes(
-            { name: 'conversations', params: { accountId: 1 } },
-            { accounts: [{ id: 1, role: 'agent', status: 'suspended' }] },
-            { agent: ['conversations'] }
+            {
+              name: 'conversations',
+              params: { accountId: 1 },
+              meta: { permissions: ['agent'] },
+            },
+            { accounts: [{ id: 1, role: 'agent', status: 'suspended' }] }
           )
         ).toEqual(`accounts/1/suspended`);
       });
@@ -65,9 +50,22 @@ describe('#validateLoggedInRoutes', () => {
         it('returns null (no action required)', () => {
           expect(
             validateLoggedInRoutes(
-              { name: 'conversations', params: { accountId: 1 } },
-              { accounts: [{ id: 1, role: 'agent', status: 'active' }] },
-              { agent: ['conversations'] }
+              {
+                name: 'conversations',
+                params: { accountId: 1 },
+                meta: { permissions: ['agent'] },
+              },
+              {
+                permissions: ['agent'],
+                accounts: [
+                  {
+                    id: 1,
+                    role: 'agent',
+                    permissions: ['agent'],
+                    status: 'active',
+                  },
+                ],
+              }
             )
           ).toEqual(null);
         });
@@ -76,9 +74,12 @@ describe('#validateLoggedInRoutes', () => {
         it('returns dashboard url', () => {
           expect(
             validateLoggedInRoutes(
-              { name: 'conversations', params: { accountId: 1 } },
-              { accounts: [{ id: 1, role: 'agent', status: 'active' }] },
-              { admin: ['conversations'], agent: [] }
+              {
+                name: 'billing',
+                params: { accountId: 1 },
+                meta: { permissions: ['administrator'] },
+              },
+              { accounts: [{ id: 1, role: 'agent', status: 'active' }] }
             )
           ).toEqual(`accounts/1/dashboard`);
         });
@@ -88,8 +89,7 @@ describe('#validateLoggedInRoutes', () => {
           expect(
             validateLoggedInRoutes(
               { name: 'account_suspended', params: { accountId: 1 } },
-              { accounts: [{ id: 1, role: 'agent', status: 'active' }] },
-              { agent: ['account_suspended'] }
+              { accounts: [{ id: 1, role: 'agent', status: 'active' }] }
             )
           ).toEqual(`accounts/1/dashboard`);
         });
@@ -105,6 +105,51 @@ describe('isAConversationRoute', () => {
     expect(isAConversationRoute('conversations_through_label')).toBe(true);
     expect(isAConversationRoute('conversations_through_team')).toBe(true);
     expect(isAConversationRoute('dashboard')).toBe(false);
+  });
+
+  it('returns true if base conversation route name is provided and includeBase is true', () => {
+    expect(isAConversationRoute('home', true)).toBe(true);
+    expect(isAConversationRoute('conversation_mentions', true)).toBe(true);
+    expect(isAConversationRoute('conversation_unattended', true)).toBe(true);
+    expect(isAConversationRoute('inbox_dashboard', true)).toBe(true);
+    expect(isAConversationRoute('label_conversations', true)).toBe(true);
+    expect(isAConversationRoute('team_conversations', true)).toBe(true);
+    expect(isAConversationRoute('folder_conversations', true)).toBe(true);
+    expect(isAConversationRoute('conversation_participating', true)).toBe(true);
+  });
+
+  it('returns false if base conversation route name is provided and includeBase is false', () => {
+    expect(isAConversationRoute('home', false)).toBe(false);
+    expect(isAConversationRoute('conversation_mentions', false)).toBe(false);
+    expect(isAConversationRoute('conversation_unattended', false)).toBe(false);
+    expect(isAConversationRoute('inbox_dashboard', false)).toBe(false);
+    expect(isAConversationRoute('label_conversations', false)).toBe(false);
+    expect(isAConversationRoute('team_conversations', false)).toBe(false);
+    expect(isAConversationRoute('folder_conversations', false)).toBe(false);
+    expect(isAConversationRoute('conversation_participating', false)).toBe(
+      false
+    );
+  });
+
+  it('returns true if base conversation route name is provided and includeBase and includeExtended is true', () => {
+    expect(isAConversationRoute('home', true, true)).toBe(true);
+    expect(isAConversationRoute('conversation_mentions', true, true)).toBe(
+      true
+    );
+    expect(isAConversationRoute('conversation_unattended', true, true)).toBe(
+      true
+    );
+    expect(isAConversationRoute('inbox_dashboard', true, true)).toBe(true);
+    expect(isAConversationRoute('label_conversations', true, true)).toBe(true);
+    expect(isAConversationRoute('team_conversations', true, true)).toBe(true);
+    expect(isAConversationRoute('folder_conversations', true, true)).toBe(true);
+    expect(isAConversationRoute('conversation_participating', true, true)).toBe(
+      true
+    );
+  });
+
+  it('returns false if base conversation route name is not provided', () => {
+    expect(isAConversationRoute('')).toBe(false);
   });
 });
 
@@ -140,5 +185,13 @@ describe('isAInboxViewRoute', () => {
   it('returns true if inbox view route name is provided', () => {
     expect(isAInboxViewRoute('inbox_view_conversation')).toBe(true);
     expect(isAInboxViewRoute('inbox_conversation')).toBe(false);
+  });
+
+  it('returns true if base inbox view route name is provided and includeBase is true', () => {
+    expect(isAInboxViewRoute('inbox_view', true)).toBe(true);
+  });
+
+  it('returns false if base inbox view route name is provided and includeBase is false', () => {
+    expect(isAInboxViewRoute('inbox_view')).toBe(false);
   });
 });

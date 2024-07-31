@@ -4,7 +4,7 @@
   >
     <div class="flex items-center justify-start m-0 mx-4 flex-1">
       <img
-        :src="'/dashboard/images/integrations/' + integrationLogo"
+        :src="`/dashboard/images/integrations/${integrationId}.png`"
         class="p-2 h-16 w-16 mr-4"
       />
       <div>
@@ -74,11 +74,11 @@
 <script>
 import { mapGetters } from 'vuex';
 import { frontendURL } from '../../../../helper/URLHelper';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
-  mixins: [alertMixin, globalConfigMixin],
+  mixins: [globalConfigMixin],
   props: {
     integrationId: {
       type: [String, Number],
@@ -123,11 +123,9 @@ export default {
           'integrations/deleteIntegration',
           this.integrationId
         );
-        this.showAlert(
-          this.$t('INTEGRATION_SETTINGS.DELETE.API.SUCCESS_MESSAGE')
-        );
+        useAlert(this.$t('INTEGRATION_SETTINGS.DELETE.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(
+        useAlert(
           this.$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.ERROR_MESSAGE')
         );
       }

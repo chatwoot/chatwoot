@@ -14,7 +14,7 @@
           <span
             class="w-full inline-flex gap-1.5 items-start font-medium whitespace-nowrap text-sm mb-0"
             :class="
-              $v.editedValue.$error
+              v$.editedValue.$error
                 ? 'text-red-400 dark:text-red-500'
                 : 'text-slate-800 dark:text-slate-100'
             "
@@ -27,7 +27,7 @@
             />
           </span>
           <woot-button
-            v-if="showCopyAndDeleteButton"
+            v-if="showActions && value"
             v-tooltip.left="$t('CUSTOM_ATTRIBUTES.ACTIONS.DELETE')"
             variant="link"
             size="medium"
@@ -48,8 +48,8 @@
             :type="inputType"
             class="!h-8 ltr:!rounded-r-none rtl:!rounded-l-none !mb-0 !text-sm"
             autofocus="true"
-            :class="{ error: $v.editedValue.$error }"
-            @blur="$v.editedValue.$touch"
+            :class="{ error: v$.editedValue.$error }"
+            @blur="v$.editedValue.$touch"
             @keyup.enter="onUpdate"
           />
           <div>
@@ -90,7 +90,7 @@
         </p>
         <div class="flex max-w-[2rem] gap-1 ml-1 rtl:mr-1 rtl:ml-0">
           <woot-button
-            v-if="showCopyAndDeleteButton"
+            v-if="showActions && value"
             v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.COPY')"
             variant="link"
             size="small"
@@ -100,7 +100,7 @@
             @click="onCopy"
           />
           <woot-button
-            v-if="showEditButton"
+            v-if="showActions"
             v-tooltip.right="$t('CUSTOM_ATTRIBUTES.ACTIONS.EDIT')"
             variant="link"
             size="small"
@@ -142,6 +142,7 @@ import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import HelperTextPopup from 'dashboard/components/ui/HelperTextPopup.vue';
 import { isValidURL } from '../helper/URLHelper';
 import customAttributeMixin from '../mixins/customAttributeMixin';
+import { useVuelidate } from '@vuelidate/core';
 
 const DATE_FORMAT = 'yyyy-MM-dd';
 
@@ -167,6 +168,9 @@ export default {
     attributeKey: { type: String, required: true },
     contactId: { type: Number, default: null },
   },
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       isEditing: false,
@@ -174,12 +178,6 @@ export default {
     };
   },
   computed: {
-    showCopyAndDeleteButton() {
-      return this.value && this.showActions;
-    },
-    showEditButton() {
-      return !this.value && this.showActions;
-    },
     displayValue() {
       if (this.isAttributeTypeDate) {
         return this.value
@@ -231,13 +229,13 @@ export default {
       return this.isAttributeTypeLink ? 'url' : this.attributeType;
     },
     shouldShowErrorMessage() {
-      return this.$v.editedValue.$error;
+      return this.v$.editedValue.$error;
     },
     errorMessage() {
-      if (this.$v.editedValue.url) {
+      if (this.v$.editedValue.url) {
         return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.INVALID_URL');
       }
-      if (!this.$v.editedValue.regexValidation) {
+      if (!this.v$.editedValue.regexValidation) {
         return this.regexCue
           ? this.regexCue
           : this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.INVALID_INPUT');
@@ -252,7 +250,7 @@ export default {
     },
     contactId() {
       // Fix to solve validation not resetting when contactId changes in contact page
-      this.$v.$reset();
+      this.v$.$reset();
     },
   },
 
@@ -276,10 +274,10 @@ export default {
   },
   mounted() {
     this.editedValue = this.formattedValue;
-    bus.$on(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
+    this.$emitter.on(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
   },
   destroyed() {
-    bus.$off(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
+    this.$emitter.off(BUS_EVENTS.FOCUS_CUSTOM_ATTRIBUTE, this.onFocusAttribute);
   },
   methods: {
     onFocusAttribute(focusAttributeKey) {
@@ -293,7 +291,7 @@ export default {
       }
     },
     onClickAway() {
-      this.$v.$reset();
+      this.v$.$reset();
       this.isEditing = false;
     },
     onEdit() {
@@ -313,8 +311,8 @@ export default {
         this.attributeType === 'date'
           ? parseISO(this.editedValue)
           : this.editedValue;
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         return;
       }
       this.isEditing = false;
@@ -322,7 +320,7 @@ export default {
     },
     onDelete() {
       this.isEditing = false;
-      this.$v.$reset();
+      this.v$.$reset();
       this.$emit('delete', this.attributeKey);
     },
     onCopy() {

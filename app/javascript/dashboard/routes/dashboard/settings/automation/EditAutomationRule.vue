@@ -7,30 +7,22 @@
           v-model="automation.name"
           :label="$t('AUTOMATION.ADD.FORM.NAME.LABEL')"
           type="text"
-          :class="{ error: $v.automation.name.$error }"
-          :error="
-            $v.automation.name.$error
-              ? $t('AUTOMATION.ADD.FORM.NAME.ERROR')
-              : ''
-          "
+          :class="{ error: errors.name }"
+          :error="errors.name ? $t('AUTOMATION.ADD.FORM.NAME.ERROR') : ''"
           :placeholder="$t('AUTOMATION.ADD.FORM.NAME.PLACEHOLDER')"
-          @blur="$v.automation.name.$touch"
         />
         <woot-input
           v-model="automation.description"
           :label="$t('AUTOMATION.ADD.FORM.DESC.LABEL')"
           type="text"
-          :class="{ error: $v.automation.description.$error }"
+          :class="{ error: errors.description }"
           :error="
-            $v.automation.description.$error
-              ? $t('AUTOMATION.ADD.FORM.DESC.ERROR')
-              : ''
+            errors.description ? $t('AUTOMATION.ADD.FORM.DESC.ERROR') : ''
           "
           :placeholder="$t('AUTOMATION.ADD.FORM.DESC.PLACEHOLDER')"
-          @blur="$v.automation.description.$touch"
         />
         <div class="event_wrapper">
-          <label :class="{ error: $v.automation.event_name.$error }">
+          <label :class="{ error: errors.event_name }">
             {{ $t('AUTOMATION.ADD.FORM.EVENT.LABEL') }}
             <select v-model="automation.event_name" @change="onEventChange()">
               <option
@@ -41,7 +33,7 @@
                 {{ event.value }}
               </option>
             </select>
-            <span v-if="$v.automation.event_name.$error" class="message">
+            <span v-if="errors.event_name" class="message">
               {{ $t('AUTOMATION.ADD.FORM.EVENT.ERROR') }}
             </span>
           </label>
@@ -52,7 +44,7 @@
             {{ $t('AUTOMATION.ADD.FORM.CONDITIONS.LABEL') }}
           </label>
           <div
-            class="w-full p-4 bg-slate-25 dark:bg-slate-700 rounded-lg border border-solid border-slate-50 dark:border-slate-700 mb-4"
+            class="w-full p-4 mb-4 border border-solid rounded-lg bg-slate-25 dark:bg-slate-700 border-slate-50 dark:border-slate-700"
           >
             <filter-input-box
               v-for="(condition, i) in automation.conditions"
@@ -70,7 +62,11 @@
                 getCustomAttributeType(automation.conditions[i].attribute_key)
               "
               :show-query-operator="i !== automation.conditions.length - 1"
-              :v="$v.automation.conditions.$each[i]"
+              :error-message="
+                errors[`condition_${i}`]
+                  ? $t(`AUTOMATION.ERRORS.${errors[`condition_${i}`]}`)
+                  : ''
+              "
               @resetFilter="resetFilter(i, automation.conditions[i])"
               @removeFilter="removeFilter(i)"
             />
@@ -94,7 +90,7 @@
             {{ $t('AUTOMATION.ADD.FORM.ACTIONS.LABEL') }}
           </label>
           <div
-            class="w-full p-4 bg-slate-25 dark:bg-slate-700 rounded-lg border border-solid border-slate-50 dark:border-slate-700 mb-4"
+            class="w-full p-4 mb-4 border border-solid rounded-lg bg-slate-25 dark:bg-slate-700 border-slate-50 dark:border-slate-700"
           >
             <automation-action-input
               v-for="(action, i) in automation.actions"
@@ -103,7 +99,11 @@
               :action-types="automationActionTypes"
               :dropdown-values="getActionDropdownValues(action.action_name)"
               :show-action-input="showActionInput(action.action_name)"
-              :v="$v.automation.actions.$each[i]"
+              :error-message="
+                errors[`action_${i}`]
+                  ? $t(`AUTOMATION.ERRORS.${errors[`action_${i}`]}`)
+                  : ''
+              "
               :initial-file-name="getFileName(action, automation.files)"
               @resetAction="resetAction(i)"
               @removeAction="removeAction(i)"
@@ -123,7 +123,7 @@
         </section>
         <!-- // Actions End -->
         <div class="w-full">
-          <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+          <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
             <woot-button
               class="button"
               variant="clear"
@@ -143,9 +143,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
 import automationMethodsMixin from 'dashboard/mixins/automations/methodsMixin';
-import automationValidationsMixin from 'dashboard/mixins/automations/validationsMixin';
 import filterInputBox from 'dashboard/components/widgets/FilterInput/Index.vue';
 import automationActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
 
@@ -160,7 +158,7 @@ export default {
     filterInputBox,
     automationActionInput,
   },
-  mixins: [alertMixin, automationMethodsMixin, automationValidationsMixin],
+  mixins: [automationMethodsMixin],
   props: {
     onClose: {
       type: Function,
@@ -182,6 +180,7 @@ export default {
       showDeleteConfirmationModal: false,
       allCustomAttributes: [],
       mode: 'edit',
+      errors: {},
     };
   },
   computed: {

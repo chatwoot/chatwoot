@@ -9,15 +9,16 @@ import VueFormulate from '@braid/vue-formulate';
 import WootSwitch from 'components/ui/Switch.vue';
 import WootWizard from 'components/ui/Wizard.vue';
 import { sync } from 'vuex-router-sync';
-import Vuelidate from 'vuelidate';
 import VTooltip from 'v-tooltip';
-import WootUiKit from '../dashboard/components/index.js';
-import App from '../dashboard/App.vue';
-import i18n from '../dashboard/i18n/index.js';
-import createAxios from '../dashboard/helper/APIHelper.js';
-import commonHelpers, { isJSONValid } from '../dashboard/helper/commons.js';
-import router, { initalizeRouter } from '../dashboard/routes/index.js';
-import store from '../dashboard/store/index.js';
+import WootUiKit from '../dashboard/components';
+import App from '../dashboard/App';
+import i18n from '../dashboard/i18n';
+import createAxios from '../dashboard/helper/APIHelper';
+import { emitter } from '../shared/helpers/mitt';
+
+import commonHelpers, { isJSONValid } from '../dashboard/helper/commons';
+import router, { initalizeRouter } from '../dashboard/routes';
+import store from '../dashboard/store';
 import constants from 'dashboard/constants/globals';
 import * as Sentry from '@sentry/vue';
 import 'vue-easytable/libs/theme-default/index.css';
@@ -61,7 +62,6 @@ Vue.use(VueDOMPurifyHTML, domPurifyConfig);
 Vue.use(VueRouter);
 Vue.use(VueI18n);
 Vue.use(WootUiKit);
-Vue.use(Vuelidate);
 Vue.use(VueFormulate, {
   rules: {
     JSON: ({ value }) => isJSONValid(value),
@@ -91,7 +91,8 @@ commonHelpers();
 
 window.WootConstants = constants;
 window.axios = createAxios(axios);
-window.bus = new Vue();
+Vue.prototype.$emitter = emitter;
+
 initializeChatwootEvents();
 initializeAnalyticsEvents();
 initalizeRouter();
