@@ -37,6 +37,7 @@ en:
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
 
   errors:
+    unprocessable_entity: Could not process the request
     not_found: '%{resource} not found'
     unauthorized: You are not authorized to do this action
     validations:
@@ -87,6 +88,7 @@ en:
         ticket:
           errors:
             already_resolved: Ticket already resolved
+            already_label_assigned: Label already assigned
           attributes:
             title:
               blank: is required

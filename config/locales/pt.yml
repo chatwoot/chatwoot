@@ -23,6 +23,7 @@ pt:
     reset_password_failure: Uh ho! Não conseguimos encontrar nenhum usuário com o e-mail especificado.
     inbox_deletetion_response: Seu pedido de exclusão da caixa de entrada será processado em algum momento.
   errors:
+    unprocessable_entity: Não foi possível processar o pedido
     not_found: '%{resource} não encontrado'
     unauthorized: Você não está autorizado a fazer esta ação
     validations:
@@ -73,6 +74,7 @@ pt:
         ticket:
           errors:
             already_resolved: Ticket já resolvido
+            already_label_assigned: Label já atribuído
           attributes:
             title:
               blank: é obrigatório
