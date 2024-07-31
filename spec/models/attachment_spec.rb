@@ -48,5 +48,10 @@ RSpec.describe Attachment do
       external_url = instagram_message.attachments.first.external_url
       expect(instagram_message.attachments.first.push_event_data[:data_url]).to eq external_url
     end
+
+    it 'returns data url as data if the message is outgoing' do
+      message = create(:message, :instagram_story_mention, message_type: :outgoing)
+      expect(message.attachments.first.push_event_data[:data_url]).not_to eq message.attachments.first.external_url
+    end
   end
 end
