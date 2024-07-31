@@ -11,7 +11,7 @@ module RequestExceptionHandler
     yield
   rescue ActiveRecord::RecordNotFound => e
     log_handled_error(e)
-    render_not_found_error('Resource could not be found')
+    render_not_found_error(I18n.t('errors.not_found', resource: e.model.to_s.underscore.humanize))
   rescue Pundit::NotAuthorizedError => e
     log_handled_error(e)
     render_unauthorized(I18n.t('errors.unauthorized'))
