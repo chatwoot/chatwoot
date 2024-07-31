@@ -43,8 +43,15 @@ GET {{api}}/api/v2/accounts/{{account_id}}/reports/summary_tickets?&type=account
 Content-Type: application/json
 Authorization: {{token}}
 
+###
+
+# Path: http/tickets.http
+# @name tickets
+GET {{api}}/api/v2/accounts/{{account_id}}/reports/tickets?since={{since}}&until={{until}}
+Content-Type: application/json
+Authorization: {{token}}
+
 ### 
-@token = {{LOGIN.response.headers.Authorization}}
 
 # Path: http/invoices.http
 # @name invoices_report
