@@ -18,12 +18,12 @@
 
 # Aavailable permissions for custom roles
 # 'conversation_manage' - Can manage all conversations
-# 'conversations_unassigned_manage' - Can manage unassigned conversations & assign to self
+# 'conversation_unassigned_manage' - Can manage unassigned conversations & assign to self
 # 'conversation_participating_manage' - Can manage conversations they are participating in ( assigned in or is a participant )
 #
 class CustomRole < ApplicationRecord
   belongs_to :account
   has_many :account_users
 
-  validates :permissions, inclusion: { in: %w[conversation_manage conversations_unassigned_manage conversation_participating_manage] }
+  validates :permissions, inclusion: { in: %w[conversation_manage conversation_unassigned_manage conversation_participating_manage] }
 end
