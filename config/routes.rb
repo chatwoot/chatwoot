@@ -314,6 +314,7 @@ Rails.application.routes.draw do
             get :conversation_traffic
             get :triggers
             get :invoices
+            get :tickets
           end
         end
 

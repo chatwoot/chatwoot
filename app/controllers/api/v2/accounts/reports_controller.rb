@@ -62,6 +62,10 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render json: generate_invoices_report
   end
 
+  def tickets
+    render json: generate_tickets_report
+  end
+
   private
 
   def generate_csv(filename, template)
