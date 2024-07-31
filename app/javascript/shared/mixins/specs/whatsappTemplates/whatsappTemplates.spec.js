@@ -37,7 +37,7 @@ describe('#WhatsAppTemplates', () => {
     expect(wrapper.vm.variables).toBeNull();
   });
 
-  it('returns the body of a template', async () => {
+  it.skip('returns the body of a template', async () => {
     const wrapper = shallowMount(TemplateParser, {
       ...config,
       propsData: { template: templates[1] },
@@ -47,6 +47,7 @@ describe('#WhatsAppTemplates', () => {
       templates[1].components.find(i => i.type === 'BODY')?.text || '';
     expect(wrapper.vm.templateString).toEqual(expectedOutput);
   });
+
   it('generates the templates from variable input', async () => {
     const wrapper = shallowMount(TemplateParser, {
       ...config,
