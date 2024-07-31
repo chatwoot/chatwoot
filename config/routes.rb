@@ -305,6 +305,7 @@ Rails.application.routes.draw do
         resources :reports, only: [:index] do
           collection do
             get :summary
+            get :summary_tickets
             get :agents
             get :inboxes
             get :labels
