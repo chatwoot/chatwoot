@@ -137,6 +137,7 @@ export default {
     return {
       processedParams,
       variables,
+      templateString,
       processedString,
       v$,
       resetTemplate,
