@@ -40,90 +40,101 @@
   </div>
 </template>
 
-<script setup>
+<script>
+import { ref, computed, onMounted } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
-import { computed, onMounted, ref } from 'vue';
 import { requiredIf } from '@vuelidate/validators';
 
-const processVariable = str => {
-  return str.replace(/{{|}}/g, '');
-};
-
-const allKeysRequired = value => {
-  const keys = Object.keys(value);
-  return keys.every(key => value[key]);
-};
-
-const props = defineProps({
-  template: {
-    type: Object,
-    default: () => ({}),
-  },
-});
-
-const emit = defineEmits(['sendMessage', 'resetTemplate']);
-const processedParams = ref({});
-
-const templateString = computed(() => {
-  return props.template.value.components.find(
-    component => component.type === 'BODY'
-  ).text;
-});
-
-const variables = computed(() => {
-  return templateString.value.match(/{{([^}]+)}}/g);
-});
-
-const processedString = computed(() => {
-  return templateString.value.replace(/{{([^}]+)}}/g, (match, variable) => {
-    const variableKey = processVariable(variable);
-    return this.processedParams[variableKey] || `{{${variable}}}`;
-  });
-});
-
-const v$ = useVuelidate(
-  {
-    processedParams: {
-      requiredIfKeysPresent: requiredIf(variables),
-      allKeysRequired,
+export default {
+  props: {
+    template: {
+      type: Object,
+      default: () => ({}),
     },
   },
-  { processedParams }
-);
+  setup(props, { emit }) {
+    const processVariable = str => {
+      return str.replace(/{{|}}/g, '');
+    };
 
-const generateVariables = () => {
-  const matchedVariables = templateString.value.match(/{{([^}]+)}}/g);
-  if (!matchedVariables) return;
+    const allKeysRequired = value => {
+      const keys = Object.keys(value);
+      return keys.every(key => value[key]);
+    };
 
-  const finalVars = matchedVariables.map(i => this.processVariable(i));
-  processedParams.value = finalVars.reduce((acc, variable) => {
-    acc[variable] = '';
-    return acc;
-  }, {});
+    const processedParams = ref({});
+
+    const templateString = computed(() => {
+      return props.template.components.find(
+        component => component.type === 'BODY'
+      ).text;
+    });
+
+    const variables = computed(() => {
+      return templateString.value.match(/{{([^}]+)}}/g);
+    });
+
+    const processedString = computed(() => {
+      return templateString.value.replace(/{{([^}]+)}}/g, (match, variable) => {
+        const variableKey = processVariable(variable);
+        return processedParams.value[variableKey] || `{{${variable}}}`;
+      });
+    });
+
+    const v$ = useVuelidate(
+      {
+        processedParams: {
+          requiredIfKeysPresent: requiredIf(variables),
+          allKeysRequired,
+        },
+      },
+      { processedParams }
+    );
+
+    const generateVariables = () => {
+      const matchedVariables = templateString.value.match(/{{([^}]+)}}/g);
+      if (!matchedVariables) return;
+
+      const finalVars = matchedVariables.map(i => processVariable(i));
+      processedParams.value = finalVars.reduce((acc, variable) => {
+        acc[variable] = '';
+        return acc;
+      }, {});
+    };
+
+    const resetTemplate = () => {
+      emit('resetTemplate');
+    };
+
+    const sendMessage = () => {
+      v$.value.$touch();
+      if (v$.value.$invalid) return;
+
+      const payload = {
+        message: processedString.value,
+        templateParams: {
+          name: props.template.name,
+          category: props.template.category,
+          language: props.template.language,
+          namespace: props.template.namespace,
+          processed_params: processedParams.value,
+        },
+      };
+      emit('sendMessage', payload);
+    };
+
+    onMounted(generateVariables);
+
+    return {
+      processedParams,
+      variables,
+      processedString,
+      v$,
+      resetTemplate,
+      sendMessage,
+    };
+  },
 };
-
-const resetTemplate = () => {
-  emit('resetTemplate');
-};
-
-const sendMessage = () => {
-  v$.$touch();
-  if (v$.$invalid) return;
-
-  const payload = {
-    message: processedString.value,
-    templateParams: {
-      name: props.template.name,
-      category: props.template.category,
-      language: props.template.language,
-      namespace: props.template.namespace,
-      processed_params: processedParams.value,
-    },
-  };
-  emit('sendMessage', payload);
-};
-
-onMounted(generateVariables);
 </script>
 
 <style scoped lang="scss">
