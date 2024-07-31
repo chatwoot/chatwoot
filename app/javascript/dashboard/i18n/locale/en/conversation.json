@@ -53,6 +53,7 @@
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resolve",
+      "NEW_TICKET": "New Ticket",
       "REOPEN_ACTION": "Reopen",
       "OPEN_ACTION": "Open",
       "OPEN": "More",
@@ -77,6 +78,16 @@
         "TOMORROW": "Tomorrow",
         "NEXT_WEEK": "Next week"
       }
+    },
+    "CUSTOM_TICKET": {
+      "TITLE": "Create a ticket",
+      "SUBTITLE": "Create a ticket for the agent",
+      "NAME": "Ticket Name",
+      "NAME_PLACEHOLDER": "Ticket Title",
+      "DESCRIPTION": "Ticket Description",
+      "DESCRIPTION_PLACEHOLDER": "Ticket Description",
+      "CREATE": "Create Ticket",
+      "CANCEL": "Cancel"
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "Snooze until",
