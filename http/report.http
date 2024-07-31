@@ -6,8 +6,8 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Geck
 User-Agent-Mobile: Mozilla/5.0 (Linux; Android 4.2.2; GT-I9505 Build/JDQ39) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.59 Mobile Safari/537.36
 
 {
-  "email": "{{username}}",
-  "password": "Password1!"
+  "email": "{{username_jonh}}",
+  "password": "{{password_jonh}}"
 }
 
 ###
@@ -15,25 +15,7 @@ User-Agent-Mobile: Mozilla/5.0 (Linux; Android 4.2.2; GT-I9505 Build/JDQ39) Appl
 # Path: http/summary.http
 # @name summary
 # http://localhost:3000/api/v2/accounts/5/reports/summary
-GET {{api}}/api/v2/accounts/5/reports/summary
-?since=1721098800
-&until=1721703599
-&type=inbox
-&id=139
-&group_by=day
-&business_hours=false
-&timezone_offset=-3
-&agents_ids[]=63
-&agents_ids[]=79
-&agents_ids[]=70
-&agents_ids[]=61
-&agents_ids[]=73
-&agents_ids[]=81
-&agents_ids[]=64
-&agents_ids[]=80
-&agents_ids[]=78
-&agents_ids[]=6
-&agents_ids[]=82
+GET {{api}}/api/v2/accounts/1/reports/?since=1721098800&until=1721703599&type=inbox&id=139&group_by=day&business_hours=false&timezone_offset=-3
 Content-Type: application/json
 Authorization: {{token}}
 
@@ -42,12 +24,12 @@ Authorization: {{token}}
 
 # Path: http/report.http
 # @name reports
-@since = 1717556400
-@until = 1720148399
+@since = 1721098800
+@until = 1721703599
 @type = account
 @business_hours = false
 @group_by = day
-@account_id = 2
+@account_id = 1
 
 GET {{api}}/api/v2/accounts/{{account_id}}/reports
 ?metric=triggers
@@ -57,7 +39,7 @@ GET {{api}}/api/v2/accounts/{{account_id}}/reports
 &group_by={{group_by}}
 &business_hours={{business_hours}}
 # &agents_ids[]=1&agents_ids[]=16
-&agents_ids[]=198
+# &agents_ids[]=198
 Content-Type: application/json
 Authorization: {{token}}
 
@@ -78,3 +60,12 @@ Authorization: {{token}}
 GET {{api}}/api/v2/accounts/{{account_id}}/reports/triggers
 Content-Type: application/json
 Authorization: {{token}}
+
+
+# Path: http/tickets.http
+# @name ticket
+GET {{api}}/api/v1/accounts/{{account_id}}/reports/tickets
+Content-Type: application/json
+Authorization: {{token}}
+
+###
