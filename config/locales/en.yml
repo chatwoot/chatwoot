@@ -37,6 +37,7 @@ en:
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
 
   errors:
+    not_found: '%{resource} not found'
     unauthorized: You are not authorized to do this action
     validations:
       presence: must not be blank
