@@ -4,6 +4,7 @@ import { templates } from './fixtures';
 const localVue = createLocalVue();
 import VueI18n from 'vue-i18n';
 import i18n from 'dashboard/i18n';
+import { nextTick } from 'vue';
 
 localVue.use(VueI18n);
 
@@ -18,30 +19,32 @@ const config = {
 };
 
 describe('#WhatsAppTemplates', () => {
-  it('returns all variables from a template string', () => {
+  it('returns all variables from a template string', async () => {
     const wrapper = shallowMount(TemplateParser, {
       ...config,
       propsData: { template: templates[0] },
     });
+    await nextTick();
     expect(wrapper.vm.variables).toEqual(['{{1}}', '{{2}}', '{{3}}']);
   });
 
-  it('returns no variables from a template string if it does not contain variables', () => {
+  it('returns no variables from a template string if it does not contain variables', async () => {
     const wrapper = shallowMount(TemplateParser, {
       ...config,
       propsData: { template: templates[12] },
     });
+    await nextTick();
     expect(wrapper.vm.variables).toBeNull();
   });
 
-  it('returns the body of a template', () => {
+  it('returns the body of a template', async () => {
     const wrapper = shallowMount(TemplateParser, {
       ...config,
       propsData: { template: templates[1] },
     });
-    const expectedOutput = templates[1].components.find(
-      i => i.type === 'BODY'
-    ).text;
+    await nextTick();
+    const expectedOutput =
+      templates[1].components.find(i => i.type === 'BODY')?.text || '';
     expect(wrapper.vm.templateString).toEqual(expectedOutput);
   });
 
@@ -49,14 +52,12 @@ describe('#WhatsAppTemplates', () => {
     const wrapper = shallowMount(TemplateParser, {
       ...config,
       propsData: { template: templates[0] },
-      data: () => {
-        return { processedParams: {} };
-      },
     });
+    await nextTick();
     await wrapper.setData({
       processedParams: { 1: 'abc', 2: 'xyz', 3: 'qwerty' },
     });
-    await wrapper.vm.$nextTick();
+    await nextTick();
     const expectedOutput =
       'Esta é a sua confirmação de voo para abc-xyz em qwerty.';
     expect(wrapper.vm.processedString).toEqual(expectedOutput);
