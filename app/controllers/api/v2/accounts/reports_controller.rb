@@ -14,6 +14,10 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render json: summary_metrics
   end
 
+  def summary_tickets
+    render json: summary_tickets_metrics
+  end
+
   def agents
     @report_data = generate_agents_report
     generate_csv('agents_report', 'api/v2/accounts/reports/agents')
@@ -130,6 +134,10 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     summary = V2::ReportBuilder.new(Current.account, current_summary_params).summary
     summary[:previous] = V2::ReportBuilder.new(Current.account, previous_summary_params).summary
     summary
+  end
+
+  def summary_tickets_metrics
+    V2::ReportBuilder.new(Current.account, current_summary_params).summary_tickets_metrics
   end
 
   def conversation_metrics

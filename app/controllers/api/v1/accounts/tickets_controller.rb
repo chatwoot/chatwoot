@@ -3,7 +3,7 @@ class Api::V1::Accounts::TicketsController < Api::V1::Accounts::BaseController
   before_action :check_authorization
 
   def index
-    @tickets = current_user.tickets.search(params[:query])
+    @tickets = current_account.tickets.search(params[:query])
   end
 
   def show
@@ -11,7 +11,7 @@ class Api::V1::Accounts::TicketsController < Api::V1::Accounts::BaseController
   end
 
   def create
-    @ticket = @user.tickets.create!(ticket_params)
+    @ticket = current_account.tickets.create!(ticket_params.merge(user: current_user))
   end
 
   def update
@@ -37,7 +37,7 @@ class Api::V1::Accounts::TicketsController < Api::V1::Accounts::BaseController
   private
 
   def fetch_ticket
-    @ticket = current_user.tickets.find(params[:id])
+    @ticket = current_account.tickets.find(params[:id])
   end
 
   def ticket_params
