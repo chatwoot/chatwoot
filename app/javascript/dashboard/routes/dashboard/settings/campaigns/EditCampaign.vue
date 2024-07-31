@@ -7,10 +7,10 @@
           v-model="title"
           :label="$t('CAMPAIGN.ADD.FORM.TITLE.LABEL')"
           type="text"
-          :class="{ error: $v.title.$error }"
-          :error="$v.title.$error ? $t('CAMPAIGN.ADD.FORM.TITLE.ERROR') : ''"
+          :class="{ error: v$.title.$error }"
+          :error="v$.title.$error ? $t('CAMPAIGN.ADD.FORM.TITLE.ERROR') : ''"
           :placeholder="$t('CAMPAIGN.ADD.FORM.TITLE.PLACEHOLDER')"
-          @blur="$v.title.$touch"
+          @blur="v$.title.$touch"
         />
         <div class="editor-wrap">
           <label>
@@ -20,28 +20,28 @@
             v-model="message"
             class="message-editor"
             :is-format-mode="true"
-            :class="{ editor_warning: $v.message.$error }"
+            :class="{ editor_warning: v$.message.$error }"
             :placeholder="$t('CAMPAIGN.ADD.FORM.MESSAGE.PLACEHOLDER')"
-            @input="$v.message.$touch"
+            @input="v$.message.$touch"
           />
-          <span v-if="$v.message.$error" class="editor-warning__message">
+          <span v-if="v$.message.$error" class="editor-warning__message">
             {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
           </span>
         </div>
 
-        <label :class="{ error: $v.selectedInbox.$error }">
+        <label :class="{ error: v$.selectedInbox.$error }">
           {{ $t('CAMPAIGN.ADD.FORM.INBOX.LABEL') }}
           <select v-model="selectedInbox" @change="onChangeInbox($event)">
             <option v-for="item in inboxes" :key="item.id" :value="item.id">
               {{ item.name }}
             </option>
           </select>
-          <span v-if="$v.selectedInbox.$error" class="message">
+          <span v-if="v$.selectedInbox.$error" class="message">
             {{ $t('CAMPAIGN.ADD.FORM.INBOX.ERROR') }}
           </span>
         </label>
 
-        <label :class="{ error: $v.selectedSender.$error }">
+        <label :class="{ error: v$.selectedSender.$error }">
           {{ $t('CAMPAIGN.ADD.FORM.SENT_BY.LABEL') }}
           <select v-model="selectedSender">
             <option
@@ -52,7 +52,7 @@
               {{ sender.name }}
             </option>
           </select>
-          <span v-if="$v.selectedSender.$error" class="message">
+          <span v-if="v$.selectedSender.$error" class="message">
             {{ $t('CAMPAIGN.ADD.FORM.SENT_BY.ERROR') }}
           </span>
         </label>
@@ -60,25 +60,25 @@
           v-model="endPoint"
           :label="$t('CAMPAIGN.ADD.FORM.END_POINT.LABEL')"
           type="text"
-          :class="{ error: $v.endPoint.$error }"
+          :class="{ error: v$.endPoint.$error }"
           :error="
-            $v.endPoint.$error ? $t('CAMPAIGN.ADD.FORM.END_POINT.ERROR') : ''
+            v$.endPoint.$error ? $t('CAMPAIGN.ADD.FORM.END_POINT.ERROR') : ''
           "
           :placeholder="$t('CAMPAIGN.ADD.FORM.END_POINT.PLACEHOLDER')"
-          @blur="$v.endPoint.$touch"
+          @blur="v$.endPoint.$touch"
         />
         <woot-input
           v-model="timeOnPage"
           :label="$t('CAMPAIGN.ADD.FORM.TIME_ON_PAGE.LABEL')"
           type="text"
-          :class="{ error: $v.timeOnPage.$error }"
+          :class="{ error: v$.timeOnPage.$error }"
           :error="
-            $v.timeOnPage.$error
+            v$.timeOnPage.$error
               ? $t('CAMPAIGN.ADD.FORM.TIME_ON_PAGE.ERROR')
               : ''
           "
           :placeholder="$t('CAMPAIGN.ADD.FORM.TIME_ON_PAGE.PLACEHOLDER')"
-          @blur="$v.timeOnPage.$touch"
+          @blur="v$.timeOnPage.$touch"
         />
         <label>
           <input
@@ -113,7 +113,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { required } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import campaignMixin from 'shared/mixins/campaignMixin';
@@ -129,6 +130,9 @@ export default {
       type: Object,
       default: () => {},
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -252,8 +256,8 @@ export default {
       this.loadInboxMembers();
     },
     async editCampaign() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         return;
       }
       try {

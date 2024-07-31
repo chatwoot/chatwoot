@@ -10,12 +10,12 @@
         class="form-input"
         :placeholder="$t('EMAIL_PLACEHOLDER')"
         :class="inputHasError"
-        @input="$v.email.$touch"
+        @input="v$.email.$touch"
         @keydown.enter="onSubmit"
       />
       <button
         class="button small"
-        :disabled="$v.email.$invalid"
+        :disabled="v$.email.$invalid"
         :style="{
           background: widgetColor,
           borderColor: widgetColor,
@@ -31,7 +31,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { required, email } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required, email } from '@vuelidate/validators';
 import { getContrastingTextColor } from '@chatwoot/utils';
 
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
@@ -53,6 +54,9 @@ export default {
       type: Object,
       default: () => {},
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -79,7 +83,7 @@ export default {
         ${this.$dm('border-black-200', 'dark:border-black-500')}`;
     },
     inputHasError() {
-      return this.$v.email.$error
+      return this.v$.email.$error
         ? `${this.inputColor} error`
         : `${this.inputColor}`;
     },
@@ -92,7 +96,7 @@ export default {
   },
   methods: {
     async onSubmit() {
-      if (this.$v.$invalid) {
+      if (this.v$.$invalid) {
         return;
       }
       this.isUpdating = true;

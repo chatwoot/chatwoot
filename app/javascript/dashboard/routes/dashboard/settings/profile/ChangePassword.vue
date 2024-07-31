@@ -5,45 +5,45 @@
         v-model="currentPassword"
         type="password"
         :styles="inputStyles"
-        :class="{ error: $v.currentPassword.$error }"
+        :class="{ error: v$.currentPassword.$error }"
         :label="$t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.LABEL')"
         :placeholder="$t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.PLACEHOLDER')"
         :error="`${
-          $v.currentPassword.$error
+          v$.currentPassword.$error
             ? $t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.ERROR')
             : ''
         }`"
-        @input="$v.currentPassword.$touch"
+        @input="v$.currentPassword.$touch"
       />
 
       <woot-input
         v-model="password"
         type="password"
         :styles="inputStyles"
-        :class="{ error: $v.password.$error }"
+        :class="{ error: v$.password.$error }"
         :label="$t('PROFILE_SETTINGS.FORM.PASSWORD.LABEL')"
         :placeholder="$t('PROFILE_SETTINGS.FORM.PASSWORD.PLACEHOLDER')"
         :error="`${
-          $v.password.$error ? $t('PROFILE_SETTINGS.FORM.PASSWORD.ERROR') : ''
+          v$.password.$error ? $t('PROFILE_SETTINGS.FORM.PASSWORD.ERROR') : ''
         }`"
-        @input="$v.password.$touch"
+        @input="v$.password.$touch"
       />
 
       <woot-input
         v-model="passwordConfirmation"
         type="password"
         :styles="inputStyles"
-        :class="{ error: $v.passwordConfirmation.$error }"
+        :class="{ error: v$.passwordConfirmation.$error }"
         :label="$t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.LABEL')"
         :placeholder="
           $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.PLACEHOLDER')
         "
         :error="`${
-          $v.passwordConfirmation.$error
+          v$.passwordConfirmation.$error
             ? $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.ERROR')
             : ''
         }`"
-        @input="$v.passwordConfirmation.$touch"
+        @input="v$.passwordConfirmation.$touch"
       />
 
       <form-button
@@ -60,13 +60,18 @@
 </template>
 
 <script>
-import { required, minLength } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required, minLength } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import FormButton from 'v3/components/Form/Button.vue';
+
 export default {
   components: {
     FormButton,
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -105,14 +110,14 @@ export default {
       return (
         !this.currentPassword ||
         !this.passwordConfirmation ||
-        !this.$v.passwordConfirmation.isEqPassword
+        !this.v$.passwordConfirmation.isEqPassword
       );
     },
   },
   methods: {
     async changePassword() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         useAlert(this.$t('PROFILE_SETTINGS.FORM.ERROR'));
         return;
       }

@@ -64,7 +64,7 @@
         "PLACEHOLDER": "60"
       },
       "BUSINESS_HOURS": {
-        "LABEL": "Business Hours",
+        "LABEL": "工作时间",
         "PLACEHOLDER": "Only during business hours"
       },
       "THRESHOLD_TIME": {

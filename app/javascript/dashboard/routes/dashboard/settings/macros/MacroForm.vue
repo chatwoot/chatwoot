@@ -6,6 +6,7 @@
       <macro-nodes
         v-model="macro.actions"
         :files="files"
+        :errors="errors"
         @addNewNode="appendNode"
         @deleteNode="deleteNode"
         @resetAction="resetNode"
@@ -24,19 +25,17 @@
 </template>
 
 <script>
+import { provide } from 'vue';
 import MacroNodes from './MacroNodes.vue';
 import MacroProperties from './MacroProperties.vue';
-import { required, requiredIf } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { validateActions } from 'dashboard/helper/validations';
 
 export default {
   components: {
     MacroNodes,
     MacroProperties,
-  },
-  provide() {
-    return {
-      $v: this.$v,
-    };
   },
   props: {
     macroData: {
@@ -44,9 +43,16 @@ export default {
       default: () => ({}),
     },
   },
+  setup() {
+    const v$ = useVuelidate();
+    provide('v$', v$);
+
+    return { v$ };
+  },
   data() {
     return {
       macro: this.macroData,
+      errors: {},
     };
   },
   computed: {
@@ -77,25 +83,14 @@ export default {
       visibility: {
         required,
       },
-      actions: {
-        required,
-        $each: {
-          action_params: {
-            required: requiredIf(prop => {
-              if (prop.action_name === 'send_email_to_team') return true;
-              return !(
-                prop.action_name === 'mute_conversation' ||
-                prop.action_name === 'snooze_conversation' ||
-                prop.action_name === 'resolve_conversation' ||
-                prop.action_name === 'remove_assigned_team'
-              );
-            }),
-          },
-        },
-      },
     },
   },
   methods: {
+    removeObjectProperty(obj, keyToRemove) {
+      return Object.fromEntries(
+        Object.entries(obj).filter(([key]) => key !== keyToRemove)
+      );
+    },
     updateName(value) {
       this.macro.name = value;
     },
@@ -109,19 +104,29 @@ export default {
       });
     },
     deleteNode(index) {
+      // remove that index specifically
+      // so that the next item does not get marked invalid
+      this.errors = this.removeObjectProperty(this.errors, `action_${index}`);
       this.macro.actions.splice(index, 1);
     },
     submit() {
-      this.$v.$touch();
-      if (this.$v.$invalid) return;
+      this.errors = validateActions(this.macro.actions);
+      if (Object.keys(this.errors).length !== 0) return;
+
+      this.v$.$touch();
+      if (this.v$.$invalid) return;
+
       this.$emit('submit', this.macro);
     },
     resetNode(index) {
-      this.$v.macro.actions.$each[index].$reset();
+      // remove that index specifically
+      // so that the next item does not get marked invalid
+      this.errors = this.removeObjectProperty(this.errors, `action_${index}`);
       this.macro.actions[index].action_params = [];
     },
     resetValidation() {
-      this.$v.$reset();
+      this.errors = {};
+      this.v$?.$reset?.();
     },
   },
 };

@@ -5,40 +5,40 @@
       <form class="w-full" @submit.prevent="submit">
         <woot-input
           v-model.trim="app.title"
-          :class="{ error: $v.app.title.$error }"
+          :class="{ error: v$.app.title.$error }"
           class="w-full"
           :label="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.TITLE_LABEL')"
           :placeholder="
             $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.TITLE_PLACEHOLDER')
           "
           :error="
-            $v.app.title.$error
+            v$.app.title.$error
               ? $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.TITLE_ERROR')
               : null
           "
           data-testid="app-title"
-          @input="$v.app.title.$touch"
+          @input="v$.app.title.$touch"
         />
         <woot-input
           v-model.trim="app.content.url"
-          :class="{ error: $v.app.content.url.$error }"
+          :class="{ error: v$.app.content.url.$error }"
           class="w-full"
           :label="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.URL_LABEL')"
           :placeholder="
             $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.URL_PLACEHOLDER')
           "
           :error="
-            $v.app.content.url.$error
+            v$.app.content.url.$error
               ? $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.FORM.URL_ERROR')
               : null
           "
           data-testid="app-url"
-          @input="$v.app.content.url.$touch"
+          @input="v$.app.content.url.$touch"
         />
         <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
           <woot-button
             :is-loading="isLoading"
-            :is-disabled="$v.$invalid"
+            :is-disabled="v$.$invalid"
             data-testid="label-submit"
           >
             {{ submitButtonLabel }}
@@ -53,7 +53,8 @@
 </template>
 
 <script>
-import { required, url } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required, url } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 
 export default {
@@ -70,6 +71,9 @@ export default {
       type: Object,
       default: () => ({}),
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   validations: {
     app: {
@@ -119,8 +123,8 @@ export default {
     },
     async submit() {
       try {
-        this.$v.$touch();
-        if (this.$v.$invalid) {
+        this.v$.$touch();
+        if (this.v$.$invalid) {
           return;
         }
 

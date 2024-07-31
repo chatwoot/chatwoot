@@ -19,37 +19,37 @@
         <div v-if="isIMAPEnabled" class="mb-6">
           <woot-input
             v-model.trim="address"
-            :class="{ error: $v.address.$error }"
+            :class="{ error: v$.address.$error }"
             class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.IMAP.ADDRESS.LABEL')"
             :placeholder="$t('INBOX_MGMT.IMAP.ADDRESS.PLACE_HOLDER')"
-            @blur="$v.address.$touch"
+            @blur="v$.address.$touch"
           />
           <woot-input
             v-model="port"
             type="number"
-            :class="{ error: $v.port.$error }"
+            :class="{ error: v$.port.$error }"
             class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.IMAP.PORT.LABEL')"
             :placeholder="$t('INBOX_MGMT.IMAP.PORT.PLACE_HOLDER')"
-            @blur="$v.port.$touch"
+            @blur="v$.port.$touch"
           />
           <woot-input
             v-model="login"
-            :class="{ error: $v.login.$error }"
+            :class="{ error: v$.login.$error }"
             class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.IMAP.LOGIN.LABEL')"
             :placeholder="$t('INBOX_MGMT.IMAP.LOGIN.PLACE_HOLDER')"
-            @blur="$v.login.$touch"
+            @blur="v$.login.$touch"
           />
           <woot-input
             v-model="password"
-            :class="{ error: $v.password.$error }"
+            :class="{ error: v$.password.$error }"
             class="max-w-[75%] w-full"
             :label="$t('INBOX_MGMT.IMAP.PASSWORD.LABEL')"
             :placeholder="$t('INBOX_MGMT.IMAP.PASSWORD.PLACE_HOLDER')"
             type="password"
-            @blur="$v.password.$touch"
+            @blur="v$.password.$touch"
           />
           <label for="toggle-enable-ssl">
             <input
@@ -64,7 +64,7 @@
         <woot-submit-button
           :button-text="$t('INBOX_MGMT.IMAP.UPDATE')"
           :loading="uiFlags.isUpdatingIMAP"
-          :disabled="($v.$invalid && isIMAPEnabled) || uiFlags.isUpdatingIMAP"
+          :disabled="(v$.$invalid && isIMAPEnabled) || uiFlags.isUpdatingIMAP"
         />
       </form>
     </settings-section>
@@ -75,7 +75,8 @@
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import SettingsSection from 'dashboard/components/SettingsSection.vue';
-import { required, minLength } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required, minLength } from '@vuelidate/validators';
 
 export default {
   components: {
@@ -86,6 +87,9 @@ export default {
       type: Object,
       default: () => ({}),
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {

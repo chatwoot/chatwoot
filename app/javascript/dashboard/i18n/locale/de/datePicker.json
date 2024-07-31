@@ -1,13 +1,13 @@
 {
   "DATE_PICKER": {
     "APPLY_BUTTON": "Übernehmen",
-    "CLEAR_BUTTON": "Clear",
+    "CLEAR_BUTTON": "Leeren",
     "DATE_RANGE_INPUT": {
-      "START": "Start Date",
-      "END": "End Date"
+      "START": "Startdatum",
+      "END": "Enddatum"
     },
     "DATE_RANGE_OPTIONS": {
-      "TITLE": "DATE RANGE",
+      "TITLE": "DATUMSSPANNE",
       "LAST_7_DAYS": "Letzten 7 Tage",
       "LAST_30_DAYS": "Letzte 30 Tage",
       "LAST_3_MONTHS": "Die letzten 3 Monate",

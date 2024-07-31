@@ -87,3 +87,5 @@
   premium: true
 - name: linear_integration
   enabled: false
+- name: captain_integration
+  enabled: false

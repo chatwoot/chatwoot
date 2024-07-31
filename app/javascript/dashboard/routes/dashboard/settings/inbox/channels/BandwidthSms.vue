@@ -1,7 +1,7 @@
 <template>
-  <form class="mx-0 flex flex-wrap" @submit.prevent="createChannel()">
+  <form class="flex flex-wrap mx-0" @submit.prevent="createChannel()">
     <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
-      <label :class="{ error: $v.inboxName.$error }">
+      <label :class="{ error: v$.inboxName.$error }">
         {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.INBOX_NAME.LABEL') }}
         <input
           v-model.trim="inboxName"
@@ -9,16 +9,16 @@
           :placeholder="
             $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.INBOX_NAME.PLACEHOLDER')
           "
-          @blur="$v.inboxName.$touch"
+          @blur="v$.inboxName.$touch"
         />
-        <span v-if="$v.inboxName.$error" class="message">{{
+        <span v-if="v$.inboxName.$error" class="message">{{
           $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.INBOX_NAME.ERROR')
         }}</span>
       </label>
     </div>
 
     <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
-      <label :class="{ error: $v.phoneNumber.$error }">
+      <label :class="{ error: v$.phoneNumber.$error }">
         {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.PHONE_NUMBER.LABEL') }}
         <input
           v-model.trim="phoneNumber"
@@ -26,16 +26,16 @@
           :placeholder="
             $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.PHONE_NUMBER.PLACEHOLDER')
           "
-          @blur="$v.phoneNumber.$touch"
+          @blur="v$.phoneNumber.$touch"
         />
-        <span v-if="$v.phoneNumber.$error" class="message">{{
+        <span v-if="v$.phoneNumber.$error" class="message">{{
           $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.PHONE_NUMBER.ERROR')
         }}</span>
       </label>
     </div>
 
     <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
-      <label :class="{ error: $v.accountId.$error }">
+      <label :class="{ error: v$.accountId.$error }">
         {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.ACCOUNT_ID.LABEL') }}
         <input
           v-model.trim="accountId"
@@ -43,16 +43,16 @@
           :placeholder="
             $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.ACCOUNT_ID.PLACEHOLDER')
           "
-          @blur="$v.accountId.$touch"
+          @blur="v$.accountId.$touch"
         />
-        <span v-if="$v.accountId.$error" class="message">{{
+        <span v-if="v$.accountId.$error" class="message">{{
           $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.ACCOUNT_ID.ERROR')
         }}</span>
       </label>
     </div>
 
     <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
-      <label :class="{ error: $v.applicationId.$error }">
+      <label :class="{ error: v$.applicationId.$error }">
         {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.APPLICATION_ID.LABEL') }}
         <input
           v-model.trim="applicationId"
@@ -60,31 +60,31 @@
           :placeholder="
             $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.APPLICATION_ID.PLACEHOLDER')
           "
-          @blur="$v.applicationId.$touch"
+          @blur="v$.applicationId.$touch"
         />
-        <span v-if="$v.applicationId.$error" class="message">{{
+        <span v-if="v$.applicationId.$error" class="message">{{
           $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.APPLICATION_ID.ERROR')
         }}</span>
       </label>
     </div>
 
     <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
-      <label :class="{ error: $v.apiKey.$error }">
+      <label :class="{ error: v$.apiKey.$error }">
         {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.API_KEY.LABEL') }}
         <input
           v-model.trim="apiKey"
           type="text"
           :placeholder="$t('INBOX_MGMT.ADD.SMS.BANDWIDTH.API_KEY.PLACEHOLDER')"
-          @blur="$v.apiKey.$touch"
+          @blur="v$.apiKey.$touch"
         />
-        <span v-if="$v.apiKey.$error" class="message">{{
+        <span v-if="v$.apiKey.$error" class="message">{{
           $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.API_KEY.ERROR')
         }}</span>
       </label>
     </div>
 
     <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
-      <label :class="{ error: $v.apiSecret.$error }">
+      <label :class="{ error: v$.apiSecret.$error }">
         {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.API_SECRET.LABEL') }}
         <input
           v-model.trim="apiSecret"
@@ -92,9 +92,9 @@
           :placeholder="
             $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.API_SECRET.PLACEHOLDER')
           "
-          @blur="$v.apiSecret.$touch"
+          @blur="v$.apiSecret.$touch"
         />
-        <span v-if="$v.apiSecret.$error" class="message">{{
+        <span v-if="v$.apiSecret.$error" class="message">{{
           $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.API_SECRET.ERROR')
         }}</span>
       </label>
@@ -111,13 +111,17 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 import router from '../../../../index';
 
 const shouldStartWithPlusSign = (value = '') => value.startsWith('+');
 
 export default {
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       accountId: '',
@@ -144,8 +148,8 @@ export default {
   },
   methods: {
     async createChannel() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         return;
       }
 
