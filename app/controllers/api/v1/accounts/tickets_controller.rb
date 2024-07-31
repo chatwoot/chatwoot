@@ -1,5 +1,6 @@
 class Api::V1::Accounts::TicketsController < Api::V1::Accounts::BaseController
   before_action :fetch_ticket, only: [:show, :update, :destroy, :assign, :resolve]
+  before_action :create_or_update_labels, only: [:update]
   before_action :check_authorization
 
   def index
@@ -12,6 +13,7 @@ class Api::V1::Accounts::TicketsController < Api::V1::Accounts::BaseController
 
   def create
     @ticket = current_account.tickets.create!(ticket_params.merge(user: current_user))
+    create_or_update_labels
   end
 
   def update
@@ -36,12 +38,25 @@ class Api::V1::Accounts::TicketsController < Api::V1::Accounts::BaseController
 
   private
 
+  def create_or_update_labels
+    @ticket.labels << find_labels(params[:labels]) if params.key?(:labels)
+  rescue ActiveRecord::RecordNotUnique
+    raise CustomExceptions::Ticket, I18n.t('activerecord.errors.models.ticket.errors.already_label_assigned')
+  end
+
+  def find_labels(labels)
+    return [] if labels.blank?
+
+    labels.map { |label| current_account.labels.find_id_or_title(label[:id] || label[:title]) }.flatten
+  end
+
   def fetch_ticket
     @ticket = current_account.tickets.find(params[:id])
   end
 
   def ticket_params
-    params.require(:ticket).permit(:title, :description, :status, :assigned_to)
-          .merge(conversation_id: params[:conversation][:id])
+    request_params = params.require(:ticket).permit(:title, :description, :status, :assigned_to)
+    request_params[:conversation_id] = params.dig(:conversation, :id) if params.dig(:conversation, :id).present?
+    request_params
   end
 end
