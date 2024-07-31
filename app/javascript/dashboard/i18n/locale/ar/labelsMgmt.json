@@ -40,16 +40,16 @@
     },
     "SUGGESTIONS": {
       "TOOLTIP": {
-        "SINGLE_SUGGESTION": "Add label to conversation",
-        "MULTIPLE_SUGGESTION": "Select this label",
-        "DESELECT": "Deselect label",
-        "DISMISS": "Dismiss suggestion"
+        "SINGLE_SUGGESTION": "إضافة تسمية إلى المحادثة",
+        "MULTIPLE_SUGGESTION": "حدد التسمية",
+        "DESELECT": "إلغاء تحديد التسمية",
+        "DISMISS": "استبعاد الاقتراح"
       },
       "POWERED_BY": "Chatwoot AI",
       "DISMISS": "تجاهل",
-      "ADD_SELECTED_LABELS": "Add selected labels",
-      "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels"
+      "ADD_SELECTED_LABELS": "إضافة التسميات المحددة",
+      "ADD_SELECTED_LABEL": "إضافة التسمية المحددة",
+      "ADD_ALL_LABELS": "إضافة جميع التسميات"
     },
     "ADD": {
       "TITLE": "إضافة وسم جديد",

@@ -41,21 +41,21 @@
         <woot-input
           v-model.trim="selectedInboxName"
           class="w-3/4 pb-4"
-          :class="{ error: $v.selectedInboxName.$error }"
+          :class="{ error: v$.selectedInboxName.$error }"
           :label="inboxNameLabel"
           :placeholder="inboxNamePlaceHolder"
           :error="
-            $v.selectedInboxName.$error
+            v$.selectedInboxName.$error
               ? $t('INBOX_MGMT.ADD.CHANNEL_NAME.ERROR')
               : ''
           "
-          @blur="$v.selectedInboxName.$touch"
+          @blur="v$.selectedInboxName.$touch"
         />
         <woot-input
           v-if="isAPIInbox"
           v-model.trim="webhookUrl"
           class="w-3/4 pb-4"
-          :class="{ error: $v.webhookUrl.$error }"
+          :class="{ error: v$.webhookUrl.$error }"
           :label="
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.LABEL')
           "
@@ -63,11 +63,11 @@
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.PLACEHOLDER')
           "
           :error="
-            $v.webhookUrl.$error
+            v$.webhookUrl.$error
               ? $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_URL.ERROR')
               : ''
           "
-          @blur="$v.webhookUrl.$touch"
+          @blur="v$.webhookUrl.$touch"
         />
         <woot-input
           v-if="isAWebWidgetInbox"
@@ -386,7 +386,7 @@
         <woot-submit-button
           v-if="isAPIInbox"
           type="submit"
-          :disabled="$v.webhookUrl.$invalid"
+          :disabled="v$.webhookUrl.$invalid"
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
           :loading="uiFlags.isUpdating"
           @click="updateInbox"
@@ -394,7 +394,7 @@
         <woot-submit-button
           v-else
           type="submit"
-          :disabled="$v.$invalid"
+          :disabled="v$.$invalid"
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
           :loading="uiFlags.isUpdating"
           @click="updateInbox"
@@ -428,6 +428,7 @@ import { mapGetters } from 'vuex';
 import { shouldBeUrl } from 'shared/helpers/Validators';
 import configMixin from 'shared/mixins/configMixin';
 import { useAlert } from 'dashboard/composables';
+import { useVuelidate } from '@vuelidate/core';
 import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner.vue';
 import SettingsSection from '../../../../components/SettingsSection.vue';
 import inboxMixin from 'shared/mixins/inboxMixin';
@@ -459,6 +460,9 @@ export default {
     MicrosoftReauthorize,
   },
   mixins: [configMixin, inboxMixin],
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       avatarFile: null,

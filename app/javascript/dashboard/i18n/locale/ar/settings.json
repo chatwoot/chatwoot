@@ -3,19 +3,19 @@
     "LINK": "إعدادات الملف الشخصي",
     "TITLE": "إعدادات الملف الشخصي",
     "BTN_TEXT": "تعديل الملف الشخصي",
-    "DELETE_AVATAR": "حذف الصورة الشخصية",
+    "DELETE_AVATAR": "حذف الصورة الرمزية",
     "AVATAR_DELETE_SUCCESS": "تم حذف الصورة الشخصية بنجاح",
     "AVATAR_DELETE_FAILED": "حدث خطأ أثناء حذف الصورة الشخصية، الرجاء المحاولة مرة أخرى",
     "UPDATE_SUCCESS": "تم تحديث حسابك بنجاح",
     "PASSWORD_UPDATE_SUCCESS": "تم تغيير كلمة المرور بنجاح",
     "AFTER_EMAIL_CHANGED": "تم تحديث ملفك الشخصي بنجاح، الرجاء تسجيل الدخول مرة أخرى حيث أنه قد تم تغيير بيانات تسجيل الدخول الخاصة بك",
     "FORM": {
-      "PICTURE": "Profile Picture",
+      "PICTURE": "صورة الملف الشخصي",
       "AVATAR": "صورة الملف الشخصي",
       "ERROR": "الرجاء إصلاح الأخطاء في النموذج",
       "REMOVE_IMAGE": "حذف",
       "UPLOAD_IMAGE": "رفع صورة",
-      "UPDATE_IMAGE": "تعديل الصورة",
+      "UPDATE_IMAGE": "تحديث الصورة",
       "PROFILE_SECTION": {
         "TITLE": "الملف الشخصي",
         "NOTE": "عنوان بريدك الإلكتروني هو المعرف الخاص بك الذي ستستخدمه لتسجيل الدخول."
@@ -37,13 +37,13 @@
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "توقيع الرسالة الشخصية",
-        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
+        "NOTE": "إنشاء توقيع رسالة فريدة تظهر في نهاية كل رسالة ترسلها من أي صندوق وارد. يمكنك أيضًا تضمين صورة داخلية، مدعومة في الدردشة المباشرة، والبريد الإلكتروني، وصناديق API الواردة.",
         "BTN_TEXT": "حفظ توقيع الرسالة",
         "API_ERROR": "تعذر إرسال الرسالة! حاول مرة أخرى",
         "API_SUCCESS": "تم حفظ التوقيع بنجاح",
-        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+        "IMAGE_UPLOAD_ERROR": "تعذر رفع الصورة! حاول مرة أخرى",
+        "IMAGE_UPLOAD_SUCCESS": "تم إضافة الصورة بنجاح. الرجاء النقر على الحفظ لحفظ التوقيع",
+        "IMAGE_UPLOAD_SIZE_ERROR": "حجم الصورة يجب أن يكون أقل من {size}MB"
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "توقيع الرسالة",
@@ -65,13 +65,13 @@
         "NOTE": "تمكين التنبيهات الصوتية في لوحة التحكم للرسائل والمحادثات الجديدة.",
         "ALERT_TYPES": {
           "NONE": "لا شيء",
-          "MINE": "Assigned",
+          "MINE": "المعين",
           "ALL": "الكل"
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations:",
+          "TITLE": "تنبيه الأحداث للمحادثات:",
           "NONE": "لا شيء",
-          "ASSIGNED": "المحادثات المسندة",
+          "ASSIGNED": "المحادثات المعينة",
           "ALL_CONVERSATIONS": "كل المحادثات"
         },
         "DEFAULT_TONE": {
@@ -189,10 +189,10 @@
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "أيام متبقية من الفترة التجريبية.",
     "TRAIL_BUTTON": "اشترك الآن",
-    "DELETED_USER": "حذف المستخدم",
-    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
-    "RESEND_VERIFICATION_MAIL": "Resend verification email",
-    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "DELETED_USER": "المستخدم المحذوف",
+    "EMAIL_VERIFICATION_PENDING": "يبدو أنك لم تتحقق من عنوان بريدك الإلكتروني بعد. الرجاء التحقق من صندوق الوارد الخاص بك للتحقق من البريد الإلكتروني.",
+    "RESEND_VERIFICATION_MAIL": "إعادة إرسال رسالة التحقق",
+    "EMAIL_VERIFICATION_SENT": "تم إرسال البريد الإلكتروني للتحقق. الرجاء التحقق من البريد الوارد الخاص بك.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "تم تعليق الحساب",
       "MESSAGE": "تم تعليق حسابك. يرجى الاتصال بفريق الدعم للمزيد من المعلومات."
@@ -240,12 +240,12 @@
     "SETTINGS": "الإعدادات",
     "CONTACTS": "جهات الاتصال",
     "HOME": "الرئيسية",
-    "AGENTS": "موظف الدعم",
-    "AGENT_BOTS": "البوتات",
+    "AGENTS": "وكيل الدعم",
+    "AGENT_BOTS": "الروبوتات",
     "AUDIT_LOGS": "سجلات التدقيق",
     "INBOXES": "قنوات التواصل",
     "NOTIFICATIONS": "الإشعارات",
-    "CANNED_RESPONSES": "الردود السريعة",
+    "CANNED_RESPONSES": "الردود الجاهزة",
     "INTEGRATIONS": "خيارات الربط",
     "PROFILE_SETTINGS": "إعدادات الملف الشخصي",
     "ACCOUNT_SETTINGS": "إعدادات الحساب",
@@ -270,7 +270,7 @@
     "ONE_OFF": "إيقاف واحد",
     "REPORTS_SLA": "SLA",
     "REPORTS_BOT": "رد آلي",
-    "REPORTS_AGENT": "موظف الدعم",
+    "REPORTS_AGENT": "وكيل الدعم",
     "REPORTS_LABEL": "الوسوم",
     "REPORTS_INBOX": "صندوق الوارد",
     "REPORTS_TEAM": "الفريق",
@@ -278,7 +278,7 @@
     "SLA": "SLA",
     "BETA": "تجريبي",
     "REPORTS_OVERVIEW": "نظرة عامة",
-    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "REAUTHORIZE": "انتهت صلاحية اتصال صندوق الوارد الخاص بك، يرجى إعادة الاتصال\n لمواصلة تلقي وإرسال الرسائل",
     "HELP_CENTER": {
       "TITLE": "مركز المساعدة",
       "ALL_ARTICLES": "جميع المقالات",
@@ -291,7 +291,7 @@
     },
     "SET_AUTO_OFFLINE": {
       "TEXT": "وضع علامة غير متصل تلقائيا",
-      "INFO_TEXT": "السماح للنظام بوضع علامة  غير متصل أوتوماتيكياً  عندما لا تستخدم التطبيق أو لوحة التحكم."
+      "INFO_TEXT": "السماح للنظام بوضع علامة غير متصل تلقائياً عند عدم استخدام التطبيق أو لوحة التحكم."
     },
     "DOCS": "قراءة المستندات"
   },
@@ -324,7 +324,7 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "اسم الشركة",
+        "LABEL": "اسم المنشأة",
         "PLACEHOLDER": "مؤسسة Wayne"
       },
       "SUBMIT": "إرسال"

@@ -8,11 +8,11 @@
           :label="$t('FILTER.CUSTOM_VIEWS.ADD.LABEL')"
           type="text"
           :error="
-            $v.name.$error ? $t('FILTER.CUSTOM_VIEWS.ADD.ERROR_MESSAGE') : ''
+            v$.name.$error ? $t('FILTER.CUSTOM_VIEWS.ADD.ERROR_MESSAGE') : ''
           "
-          :class="{ error: $v.name.$error }"
+          :class="{ error: v$.name.$error }"
           :placeholder="$t('FILTER.CUSTOM_VIEWS.ADD.PLACEHOLDER')"
-          @blur="$v.name.$touch"
+          @blur="v$.name.$touch"
         />
 
         <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
@@ -29,7 +29,8 @@
 </template>
 
 <script>
-import { required, minLength } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required, minLength } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import { CONTACTS_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
@@ -48,7 +49,9 @@ export default {
       default: () => {},
     },
   },
-
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       show: true,
@@ -58,7 +61,7 @@ export default {
 
   computed: {
     isButtonDisabled() {
-      return this.$v.name.$invalid;
+      return this.v$.name.$invalid;
     },
   },
 
@@ -74,8 +77,8 @@ export default {
       this.$emit('close');
     },
     async saveCustomViews() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         return;
       }
       try {

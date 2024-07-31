@@ -25,20 +25,20 @@
           :label="$t('HELP_CENTER.CATEGORY.ADD.NAME.LABEL')"
           :placeholder="$t('HELP_CENTER.CATEGORY.ADD.NAME.PLACEHOLDER')"
           :help-text="$t('HELP_CENTER.CATEGORY.ADD.NAME.HELP_TEXT')"
-          :has-error="$v.name.$error"
+          :has-error="v$.name.$error"
           :error-message="$t('HELP_CENTER.CATEGORY.ADD.NAME.ERROR')"
           @name-change="onNameChange"
           @icon-change="onClickInsertEmoji"
         />
         <woot-input
           v-model.trim="slug"
-          :class="{ error: $v.slug.$error }"
+          :class="{ error: v$.slug.$error }"
           class="w-full"
           :error="slugError"
           :label="$t('HELP_CENTER.CATEGORY.ADD.SLUG.LABEL')"
           :placeholder="$t('HELP_CENTER.CATEGORY.ADD.SLUG.PLACEHOLDER')"
           :help-text="$t('HELP_CENTER.CATEGORY.ADD.SLUG.HELP_TEXT')"
-          @input="$v.slug.$touch"
+          @input="v$.slug.$touch"
         />
         <label>
           {{ $t('HELP_CENTER.CATEGORY.ADD.DESCRIPTION.LABEL') }}
@@ -67,8 +67,9 @@
 </template>
 
 <script>
+import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
-import { required, minLength } from 'vuelidate/lib/validators';
+import { required, minLength } from '@vuelidate/validators';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
 import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 import CategoryNameIconInput from './NameEmojiInput.vue';
@@ -92,6 +93,9 @@ export default {
       type: String,
       default: '',
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -117,7 +121,7 @@ export default {
         : this.portalSlug;
     },
     slugError() {
-      if (this.$v.slug.$error) {
+      if (this.v$.slug.$error) {
         return this.$t('HELP_CENTER.CATEGORY.ADD.SLUG.ERROR');
       }
       return '';
@@ -147,8 +151,8 @@ export default {
         description,
         locale,
       };
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         return;
       }
       try {

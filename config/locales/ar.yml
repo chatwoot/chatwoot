@@ -20,8 +20,8 @@ ar:
   hello: "مرحباً بالعالم"
   messages:
     reset_password_success: تم إرسال طلب إعادة تعيين كلمة المرور. يرجى مراجعة بريدك الإلكتروني للحصول على التعليمات.
-    reset_password_failure: أوه! لم نتمكن من العثور على أي مستخدم بعنوان البريد الإلكتروني المحدد.
-    inbox_deletetion_response: Your inbox deletion request will be processed in some time.
+    reset_password_failure: المعذرة! لم نتمكن من العثور على أي مستخدم بعنوان البريد الإلكتروني المحدد.
+    inbox_deletetion_response: سيتم معالجة طلب حذف صندوق الوارد الخاص بك في بعض الوقت.
   errors:
     validations:
       presence: يجب ألا يكون فارغاً
@@ -31,7 +31,7 @@ ar:
       disposable_email: نحن لا نسمح باسخدام عناوين البريد الإلكتروني المؤقتة
       invalid_email: لقد قمت بإدخال عنوان بريد إلكتروني غير صالح
       email_already_exists: "لقد قمت بالفعل بتسجيل حساب سابقاً بالعنوان %{email}"
-      invalid_params: 'Invalid, please check the signup paramters and try again'
+      invalid_params: 'غير صالح، الرجاء التحقق من خانات التسجيل وحاول مرة أخرى'
       failed: فشلت عملية التسجيل
     data_import:
       data_type:
@@ -40,7 +40,7 @@ ar:
       import:
         failed: الملف فارغ
       export:
-        success: We will notify you once contacts export file is ready to view.
+        success: سنقوم بإعلامك بمجرد أن يكون ملف تصدير جهات الاتصال جاهزاً للعرض.
       email:
         invalid: إيميل غير صالح
       phone_number:
@@ -49,62 +49,62 @@ ar:
       locale:
         unique: يجب أن تكون فريدة من نوعها في الفئة والبوابة
     dyte:
-      invalid_message_type: "Invalid message type. Action not permitted"
+      invalid_message_type: "نوع الرسالة غير صالح. الإجراء غير مسموح به"
     slack:
       invalid_channel_id: "قناة Slack غير صحيحة. الرجاء المحاولة مرة أخرى"
     inboxes:
       imap:
-        socket_error: الرجاء التحقق من اتصال الشبكة، عنوان IMAP وحاول مرة أخرى.
-        no_response_error: الرجاء التحقق من بيانات اعتماد IMAP وحاول مرة أخرى.
-        host_unreachable_error: المضيف لا يمكن الوصول إليه، الرجاء التحقق من عنوان IMAP، منفذ IMAP وحاول مرة أخرى.
+        socket_error: الرجاء التحقق من اتصال الشبكة وعنوان IMAP ثم حاول مرة أخرى.
+        no_response_error: الرجاء التحقق من بيانات اعتماد IMAP ثم حاول مرة أخرى.
+        host_unreachable_error: المضيف لا يمكن الوصول إليه، الرجاء التحقق من عنوان IMAP ومنفذ IMAP ثم حاول مرة أخرى.
         connection_timed_out_error: انتهت مهلة الاتصال لـ %{address}:%{port}
         connection_closed_error: تم إغلاق الاتصال.
       validations:
         name: لا ينبغي أن تبدأ أو تنتهي بالرموز، ولا ينبغي أن يكون أقل من > / \ أحرف @ .
     custom_filters:
-      number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
-      invalid_attribute: Invalid attribute key - [%{key}]. The key should be one of [%{allowed_keys}] or a custom attribute defined in the account.
-      invalid_operator: Invalid operator. The allowed operators for %{attribute_name} are [%{allowed_keys}].
-      invalid_value: Invalid value. The values provided for %{attribute_name} are invalid
+      number_of_records: تم الوصول إلى الحد الأقصى. الحد الأقصى لعدد عوامل التصفية المخصصة المسموح به للمستخدم لكل حساب هو 50.
+      invalid_attribute: مفتاح السمة غير صالح - [%{key}]. يجب أن يكون المفتاح واحد من [%{allowed_keys}] أو سمة مخصصة محددة في الحساب.
+      invalid_operator: مشغل غير صالح. المشغل المسموح به لـ %{attribute_name} هو [%{allowed_keys}].
+      invalid_value: قيمة غير صالحة. القيم المقدمة ل %{attribute_name} غير صالحة
   reports:
     period: فترة التبليغ %{since} إلى %{until}
-    utc_warning: The report generated is in UTC timezone
+    utc_warning: التقرير الذي تم إنشاؤه في التوقيت العالمي الموحّد
     agent_csv:
-      agent_name: اسم الموظف
-      conversations_count: Assigned conversations
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      agent_name: اسم الوكيل
+      conversations_count: المحادثات المعينة
+      avg_first_response_time: متوسط وقت الاستجابة الأولى
+      avg_resolution_time: متوسط وقت الحل
       resolution_count: عدد مرات الإغلاق
-      avg_customer_waiting_time: Avg customer waiting time
+      avg_customer_waiting_time: متوسط وقت انتظار العميل
     inbox_csv:
       inbox_name: اسم صندوق الوارد
       inbox_type: نوع صندوق البريد
       conversations_count: عدد المحادثات
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      avg_first_response_time: متوسط وقت الرد الأول
+      avg_resolution_time: متوسط وقت الحل
     label_csv:
       label_title: الوسم
       conversations_count: عدد المحادثات
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      avg_first_response_time: متوسط وقت الرد الأول
+      avg_resolution_time: متوسط وقت الحل
     team_csv:
       team_name: اسم الفريق
       conversations_count: عدد المحادثات
-      avg_first_response_time: Avg first response time
-      avg_resolution_time: Avg resolution time
+      avg_first_response_time: متوسط وقت الرد الأول
+      avg_resolution_time: متوسط وقت الحل
       resolution_count: عدد مرات الإغلاق
-      avg_customer_waiting_time: Avg customer waiting time
+      avg_customer_waiting_time: متوسط وقت انتظار العميل
     conversation_traffic_csv:
-      timezone: Timezone
+      timezone: منطقة زمنية
     sla_csv:
       conversation_id: معرف المحادثة
-      sla_policy_breached: SLA Policy
-      assignee: Assignee
+      sla_policy_breached: سياسة مستوى الخدمة
+      assignee: المكلَّف
       team: الفريق
       inbox: صندوق الوارد
       labels: الوسوم
-      conversation_link: Link to the Conversation
-      breached_events: Breached Events
+      conversation_link: رابط للمحادثة
+      breached_events: أحداث الخرق
     default_group_by: اليوم
     csat:
       headers:
@@ -112,7 +112,7 @@ ar:
         contact_email_address: عنوان البريد الإلكتروني الخاص بجهة الاتصال
         contact_phone_number: رقم هاتف جهة الاتصال
         link_to_the_conversation: رابط إلى المحادثة
-        agent_name: اسم الموظف
+        agent_name: اسم الوكيل
         rating: التقييم
         feedback: التعليق على الملاحظات
         recorded_at: تاريخ التسجيل
@@ -125,15 +125,15 @@ ar:
       sla_missed_first_response: "هدف SLA أول رد مفقود للمحادثة (#%{display_id})"
       sla_missed_next_response: "SLA target next response missed for conversation (#%{display_id})"
       sla_missed_resolution: "SLA target resolution missed for conversation (#%{display_id})"
-    attachment: "Attachment"
-    no_content: "No content"
+    attachment: "المرفقات"
+    no_content: "لا يوجد محتوى"
   conversations:
     messages:
       instagram_story_content: "أشار %{story_sender} إليك في القصة: "
       instagram_deleted_story_content: هذه القصة لم تعد متاحة.
       deleted: تم حذف هذه الرسالة
       delivery_status:
-        error_code: "Error code: %{error_code}"
+        error_code: "رمز الخطأ: %{error_code}"
     activity:
       status:
         resolved: "تم تحديث حالة المحادثة لـ\"مغلقة\" بواسطة %{user_name}"
@@ -141,12 +141,12 @@ ar:
         open: "تم إعادة فتح المحادثة بواسطة %{user_name}"
         pending: "تم تحديث حالة المحادثة لـ\"معلقة\" بواسطة %{user_name}"
         snoozed: "تم تأجيل المحادثة بواسطة %{user_name}"
-        auto_resolved: "تم وضع علامة على المحادثة كمحلولة من قبل بالنظام بسبب %{duration} أيام من عدم النشاط"
-        system_auto_open: System reopened the conversation due to a new incoming message.
+        auto_resolved: "تم وضع علامة على المحادثة كمحلولة من قبل النظام بسبب %{duration} أيام من عدم النشاط"
+        system_auto_open: أعاد النظام فتح المحادثة بسبب رسالة واردة جديدة.
       priority:
-        added: '%{user_name} set the priority to %{new_priority}'
-        updated: '%{user_name} changed the priority from %{old_priority} to %{new_priority}'
-        removed: '%{user_name} removed the priority'
+        added: '%{user_name} حدد الأولوية إلى %{new_priority}'
+        updated: '%{user_name} غيّر الأولوية من %{old_priority} إلى %{new_priority}'
+        removed: '%{user_name} أزال الأولوية'
       assignee:
         self_assigned: "%{user_name} تم تعيينه تلقائياً لهذه المحادثة"
         assigned: "تم إسنادها إلى %{assignee_name} بواسطة %{user_name}"
@@ -159,8 +159,8 @@ ar:
         added: "%{user_name} أضاف %{labels}"
         removed: "%{user_name} أزال %{labels}"
       sla:
-        added: "%{user_name} added SLA policy %{sla_name}"
-        removed: "%{user_name} removed SLA policy %{sla_name}"
+        added: "%{user_name} أضاف سياسة مستوى الخدمة %{sla_name}"
+        removed: "%{user_name} أزال سياسة مستوى الخدمة %{sla_name}"
       muted: "%{user_name} كتم صوت المحادثة"
       unmuted: "%{user_name} قام بإلغاء كتم المحادثة"
     templates:
@@ -187,62 +187,65 @@ ar:
     online:
       delete: "%{contact_name} متصل، يرجى المحاولة مرة أخرى لاحقاً"
   integration_apps:
+    dashboard_apps:
+      name: "تطبيقات لوحة التحكم"
+      description: "تسمح لك تطبيقات لوحة التحكم بإنشاء وتضمين التطبيقات التي تعرض معلومات المستخدم أو الطلبات أو سجل الدفع، مما يوفر المزيد من السياق لوكلاء دعم العملاء الخاص بك."
     dyte:
       name: "Dyte"
-      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
-      meeting_name: "%{agent_name} has started a meeting"
+      description: "Dyte هو منتج يدمج وظائف الصوت والفيديو في تطبيقك. مع هذا الدمج، يمكن لوكلائك بدء مكالمات الفيديو/الصوت مع عملائك مباشرة من Chatwoot."
+      meeting_name: "بدأ %{agent_name} اجتماعاً"
     slack:
       name: "Slack"
-      description: "Slack هي أداة دردشة تجمع كل اتصالاتك معا في مكان واحد. من خلال دمج Slack، يمكنك الحصول على إشعار بجميع المحادثات الجديدة في حسابك مباشرة داخل Slack."
+      description: "دمج Chatwoot مع Slack للحفاظ على مزامنة فريقك. هذا التكامل يسمح لك باستلام إشعارات للمحادثات الجديدة والرد عليها مباشرة داخل واجهة Slacks."
     webhooks:
       name: "Webhook"
-      description: "أحداث Webhook توفر لك معلومات في الوقت الحقيقي حول ما يحدث في حساب Chatwoot الخاص بك. يمكنك استخدام خاصية الـ Webhook لإيصال الأحداث إلى تطبيقاتك المفضلة مثل Slack أو Github. انقر على \"تهيئة\" لإعداد الـ Webhooks الخاصة بك."
+      description: "أحداث Webhook توفر تحديثات في الوقت الحقيقي حول الأنشطة في حساب Chatwoot الخاص بك. يمكنك الاشتراك في الأحداث المفضلة الخاصة بك، وسترسل Chatwoot لك اتصالات HTTP مع التحديثات."
     dialogflow:
       name: "Dialogflow"
-      description: "قم ببناء روبوتات الدردشة باستخدام تدفق الاتصال وتوصيلها بالبريد الوارد الخاص بك بسرعة. دع البوتات تتعامل مع الاستفسارات قبل تسليمها إلى وكيل خدمة العملاء."
-    fullcontact:
-      name: "الاتصال الكامل"
-      description: "التكامل الكامل يساعد على إثراء ملفات تعريف الزوار. تحديد المستخدمين بمجرد مشاركتهم عنوان البريد الإلكتروني الخاص بهم وتقديم خدمة العملاء الخاصة بهم. قم بتوصيل اتصالك الكامل بحسابك عن طريق مشاركة مفتاح API للاتصال الكامل."
+      description: "بناء روبوتات الدردشة مع حركة الاتصال ودمجها بسهولة في صندوق الوارد الخاص بك. يمكن لهذه الروبوتات التعامل مع الاستفسارات الأولية قبل نقلها إلى وكيل خدمة العملاء."
     google_translate:
       name: "ترجمة Google"
-      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
+      description: "دمج ترجمة جوجل لمساعدة الوكلاء على ترجمة رسائل العملاء بسهولة. هذا الدمج يكشف تلقائياً اللغة ويحولها إلى اللغة المفضلة لدى الوكيل أو المدير."
     openai:
       name: "OpenAI"
-      description: "Integrate powerful AI features into Chatwoot by leveraging the GPT models from OpenAI."
+      description: "الاستفادة من قوة نماذج اللغات الكبيرة من OpenAI مع ميزات مثل اقتراحات الرد، التلخيص، إعادة صياغة الرسائل، التحقق الإملائي، تصنيف البطاقات."
     linear:
       name: "Linear"
-      description: "Create Linear issues from conversations, or link existing ones for seamless tracking."
+      description: "إنشاء مشكلات في الخط الخطي مباشرة من نافذة المحادثة الخاصة بك. بدلاً من ذلك، قم بربط المشكلات الخطية القائمة من أجل عملية تتبع أكثر تبسيطاً وكفاءة."
+    captain:
+      name: "قائد"
+      description: "الكابتن هو مساعد AI أصلي تم بناؤه لمنتجك وتم تدريبه على قاعدة معارف شركتك. يستجيب كإنسان ويحل استفسارات العميل بشكل فعال. قم بتكوينه بسهولة إلى صناديق الوارد الخاصة بك."
   public_portal:
     search:
-      search_placeholder: Search for article by title or body...
+      search_placeholder: البحث عن مقالة حسب العنوان أو الجسم...
       empty_placeholder: لم يتم العثور على النتائج.
-      loading_placeholder: يبحث...
+      loading_placeholder: جاري البحث...
       results_title: نتائج البحث
-    toc_header: 'On this page'
+    toc_header: 'في هذه الصفحة'
     hero:
-      sub_title: Search for the articles here or browse the categories below.
+      sub_title: ابحث عن المقالات هنا أو تصفح الفئات أدناه.
     common:
       home: الرئيسية
-      last_updated_on: Last updated on %{last_updated_on}
+      last_updated_on: آخر تحديث في %{last_updated_on}
       view_all_articles: عرض الكل
       article: مقال
       articles: المقالات
       author: المؤلف
       authors: المؤلفون
-      other: other
-      others: others
+      other: آخر
+      others: الآخرين
       by: بواسطة
       no_articles: لا توجد مقالات
     footer:
-      made_with: Made with
+      made_with: صنع بـ
     header:
-      go_to_homepage: Website
+      go_to_homepage: الموقع الإلكتروني
       appearance:
         system: النظام
         light: فاتح
         dark: مظلم
-      featured_articles: Featured Articles
-      uncategorized: Uncategorized
+      featured_articles: المقالات المميزة
+      uncategorized: غير مصنف
     404:
       title: لم يتم العثور على الصفحة
       description: لم نتمكن من العثور على الصفحة التي تبحث عنها.
@@ -252,36 +255,36 @@ ar:
       name: الاسم
       email: البريد الإلكتروني
       phone_number: هاتف
-      company_name: الشركة
+      company_name: المنشأة
       inbox_name: صندوق الوارد
-      inbox_type: Inbox Type
+      inbox_type: نوع صندوق الوارد
     button: فتح المحادثة
   time_units:
     days:
-      zero: "%{count} days"
-      one: "%{count} day"
-      two: "%{count} days"
-      few: "%{count} days"
-      many: "%{count} days"
-      other: "%{count} days"
+      zero: "%{count} يوم"
+      one: "%{count} يوم"
+      two: "%{count} يوم"
+      few: "%{count} أيام"
+      many: "%{count} أيام"
+      other: "%{count} يوم"
     hours:
-      zero: "%{count} hours"
-      one: "%{count} hour"
-      two: "%{count} hours"
-      few: "%{count} hours"
-      many: "%{count} hours"
-      other: "%{count} hours"
+      zero: "%{count} ساعة"
+      one: "%{count} ساعة"
+      two: "%{count} ساعات"
+      few: "%{count} ساعات"
+      many: "%{count} ساعة"
+      other: "%{count} ساعة"
     minutes:
-      zero: "%{count} minutes"
-      one: "%{count} minute"
-      two: "%{count} minutes"
-      few: "%{count} minutes"
-      many: "%{count} minutes"
-      other: "%{count} minutes"
+      zero: "%{count} دقيقة"
+      one: "%{count} دقيقة"
+      two: "%{count} دقائق"
+      few: "%{count} دقائق"
+      many: "%{count} دقيقة"
+      other: "%{count} دقيقة"
     seconds:
-      zero: "%{count} seconds"
-      one: "%{count} second"
-      two: "%{count} seconds"
-      few: "%{count} seconds"
-      many: "%{count} seconds"
-      other: "%{count} seconds"
+      zero: "%{count} ثانية"
+      one: "%{count} ثانية"
+      two: "%{count} ثواني"
+      few: "%{count} ثواني"
+      many: "%{count} ثانية"
+      other: "%{count} ثانية"

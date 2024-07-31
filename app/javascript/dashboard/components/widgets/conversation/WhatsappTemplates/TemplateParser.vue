@@ -25,7 +25,7 @@
           :styles="{ marginBottom: 0 }"
         />
       </div>
-      <p v-if="$v.$dirty && $v.$invalid" class="error">
+      <p v-if="v$.$dirty && v$.$invalid" class="error">
         {{ $t('WHATSAPP_TEMPLATES.PARSER.FORM_ERROR_MESSAGE') }}
       </p>
     </div>
@@ -41,17 +41,21 @@
 </template>
 
 <script>
+import { useVuelidate } from '@vuelidate/core';
+import { requiredIf } from '@vuelidate/validators';
 const allKeysRequired = value => {
   const keys = Object.keys(value);
   return keys.every(key => value[key]);
 };
-import { requiredIf } from 'vuelidate/lib/validators';
 export default {
   props: {
     template: {
       type: Object,
       default: () => {},
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   validations: {
     processedParams: {
@@ -86,8 +90,8 @@ export default {
   },
   methods: {
     sendMessage() {
-      this.$v.$touch();
-      if (this.$v.$invalid) return;
+      this.v$.$touch();
+      if (this.v$.$invalid) return;
       const payload = {
         message: this.processedString,
         templateParams: {

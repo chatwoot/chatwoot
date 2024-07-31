@@ -9,7 +9,7 @@
       "SUCCESS": "تم تحديث إعدادات الحساب بنجاح"
     },
     "FORM": {
-      "ERROR": "الرجاء إصلاح الأخطاء في الفورم",
+      "ERROR": "الرجاء إصلاح الأخطاء في النموذج",
       "GENERAL_SECTION": {
         "TITLE": "الإعدادات العامة",
         "NOTE": ""
@@ -39,7 +39,7 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "عدد الأيام بعد التذكرة التي يجب أن يحل تلقائياً إذا لم يكن هناك أي نشاط",
+        "LABEL": "عدد الأيام للتذكرة التي يجب أن يتم حلها تلقائياً إذا لم يكن هناك أي نشاط",
         "PLACEHOLDER": "30",
         "ERROR": "الرجاء إدخال مدة حل تلقائي صالحة (حد أدنى 1 يوم والحد الأقصى 999 يوما)"
       },
@@ -96,8 +96,8 @@
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "غير متصل",
-      "RECONNECTING": "Reconnecting...",
-      "RECONNECT_SUCCESS": "Reconnected"
+      "RECONNECTING": "جاري إعادة الاتصال...",
+      "RECONNECT_SUCCESS": "تمت إعادة الاتصال"
     },
     "BUTTON": {
       "REFRESH": "تحديث"
@@ -118,23 +118,23 @@
       "REMOVE_LABEL": "إزالة التسمية من المحادثة",
       "SETTINGS": "الإعدادات",
       "AI_ASSIST": "مساعدة AI",
-      "APPEARANCE": "مظهر",
-      "SNOOZE_NOTIFICATION": "تأجيل التنبيهات"
+      "APPEARANCE": "المظهر",
+      "SNOOZE_NOTIFICATION": "تأجيل الإشعارات"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "الذهاب إلى لوحة المحادثة",
       "GO_TO_CONTACTS_DASHBOARD": "الذهاب إلى لوحة جهات الاتصال",
-      "GO_TO_REPORTS_OVERVIEW": "الذهاب إلى نظرة التقارير",
+      "GO_TO_REPORTS_OVERVIEW": "الذهاب إلى نظرة التقارير العامة",
       "GO_TO_CONVERSATION_REPORTS": "الذهاب إلى تقارير المحادثات",
       "GO_TO_AGENT_REPORTS": "الذهاب إلى تقارير الوكيل",
       "GO_TO_LABEL_REPORTS": "انتقل إلى تقارير التسمية",
       "GO_TO_INBOX_REPORTS": "الذهاب إلى تقارير صندوق الوارد",
       "GO_TO_TEAM_REPORTS": "الذهاب إلى تقارير الفريق",
-      "GO_TO_SETTINGS_AGENTS": "الذهاب إلى تقارير الوكيل",
+      "GO_TO_SETTINGS_AGENTS": "الذهاب إلى إعدادات الوكيل",
       "GO_TO_SETTINGS_TEAMS": "الذهاب إلى إعدادات الفريق",
-      "GO_TO_SETTINGS_INBOXES": "الذهاب إلى إعدادات علبة الوارد",
+      "GO_TO_SETTINGS_INBOXES": "الذهاب إلى إعدادات الصندوق الوارد",
       "GO_TO_SETTINGS_LABELS": "الذهاب إلى إعدادات التسمية",
-      "GO_TO_SETTINGS_CANNED_RESPONSES": "انتقل إلى إعدادات الاستجابة المسبقة",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "انتقل إلى إعدادات الردود الجاهزة",
       "GO_TO_SETTINGS_APPLICATIONS": "الذهاب إلى إعدادات التطبيق",
       "GO_TO_SETTINGS_ACCOUNT": "الذهاب إلى إعدادات الحساب",
       "GO_TO_SETTINGS_PROFILE": "الذهاب إلى إعدادات الملف الشخصي",
@@ -161,7 +161,7 @@
       "LIGHT_MODE": "فاتح",
       "DARK_MODE": "مظلم",
       "SYSTEM_MODE": "نظام",
-      "SNOOZE_NOTIFICATION": "تأجيل التنبيهات"
+      "SNOOZE_NOTIFICATION": "تأجيل الإشعارات"
     }
   },
   "DASHBOARD_APPS": {

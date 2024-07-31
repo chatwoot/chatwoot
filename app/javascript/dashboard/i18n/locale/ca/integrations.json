@@ -1,6 +1,9 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integracions",
+    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "LEARN_MORE": "Learn more about integrations",
+    "LOADING": "Fetching integrations",
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Esdeveniments subscrits",
       "FORM": {
@@ -169,6 +172,7 @@
       "HEADER_BTN_TXT": "Afegeix una aplicació de tauler nova",
       "SIDEBAR_TXT": "<p><b>Aplicacions del tauler de control</b></p><p>Les aplicacions del tauler de control permeten a les organitzacions incrustar una aplicació dins del tauler de control de Chatwoot per proporcionar el context als agents d'atenció al client. Aquesta funció et permet crear una aplicació de manera independent i inserir-la dins del tauler per proporcionar informació de l'usuari, les seves comandes o el seu historial de pagaments anteriors.</p><p>Quan incrusteu la teva aplicació mitjançant el tauler de control de Chatwoot, la teva aplicació obté el context de la conversa i el contacte com a esdeveniment de finestra. Implementa un oient per a l'esdeveniment del missatge a la teva pàgina per rebre el context.</p><p>Per afegir una aplicació de tauler nova, feu clic al botó \"Afegeix una aplicació de tauler nova\".</p>",
       "DESCRIPTION": "Les aplicacions del tauler permeten a les organitzacions incrustar una aplicació dins del tauler per proporcionar el context als agents d'atenció al client. Aquesta funció et permet crear una aplicació de manera independent i incorporar-la per proporcionar informació de l'usuari, les seves comandes o el seu historial de pagaments anterior.",
+      "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {
         "404": "Encara no hi ha cap aplicació de tauler configurada en aquest compte",
         "LOADING": "S'estan obtenint les aplicacions del tauler de control...",

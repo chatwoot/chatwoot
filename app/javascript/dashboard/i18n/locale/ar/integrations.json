@@ -1,6 +1,9 @@
 {
   "INTEGRATION_SETTINGS": {
     "HEADER": "خيارات الربط",
+    "DESCRIPTION": "Chatwoot تتكامل مع أدوات وخدمات متعددة لتحسين كفاءة فريقك. استكشف القائمة أدناه لتكوين تطبيقاتك المفضلة.",
+    "LEARN_MORE": "معرفة المزيد عن التكاملات",
+    "LOADING": "جاري جلب التكاملات",
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "الأحداث المشتركة",
       "FORM": {
@@ -114,7 +117,7 @@
         "EXPAND": "Expand",
         "MAKE_FRIENDLY": "Change message tone to friendly",
         "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "SIMPLIFY": "تبسيط"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Draft content",
@@ -169,6 +172,7 @@
       "HEADER_BTN_TXT": "إضافة تطبيق جديد للوحة التحكم",
       "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
       "DESCRIPTION": "تسمح تطبيقات لوحة التحكم للمنظمات بتضمين تطبيق داخل لوحة التحكم لتوفير السياق لوكلاء دعم العملاء. هذه الميزة تسمح لك بإنشاء تطبيق بشكل مستقل وإدراج لتوفير معلومات المستخدم أو طلباتهم أو سجل الدفع السابق.",
+      "LEARN_MORE": "معرفة المزيد حول تطبيقات لوحة التحكم",
       "LIST": {
         "404": "لا توجد تطبيقات لوحة التحكم التي تم تكوينها على هذا الحساب حتى الآن",
         "LOADING": "جلب تطبيقات لوحة التحكم...",
@@ -212,83 +216,83 @@
     },
     "LINEAR": {
       "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
-      "LOADING": "Fetching linear issues...",
-      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
+      "LOADING": "جلب مشاكل من Linear...",
+      "LOADING_ERROR": "حدث خطأ أثناء جلب المشكلات من Linear، الرجاء المحاولة مرة أخرى",
       "CREATE": "إنشاء",
       "LINK": {
-        "SEARCH": "Search issues",
-        "SELECT": "Select issue",
+        "SEARCH": "البحث عن المشكلات",
+        "SELECT": "اختر مشكلة",
         "TITLE": "الرابط",
-        "EMPTY_LIST": "No linear issues found",
+        "EMPTY_LIST": "لم يتم العثور على مشاكل في Linear",
         "LOADING": "جار التحميل",
-        "ERROR": "There was an error fetching the linear issues, please try again",
-        "LINK_SUCCESS": "Issue linked successfully",
-        "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#%{conversationId}) with %{name}"
+        "ERROR": "حدث خطأ أثناء جلب المشكلات من Linear، الرجاء المحاولة مرة أخرى",
+        "LINK_SUCCESS": "تم ربط المشكلة بنجاح",
+        "LINK_ERROR": "حدث خطأ أثناء ربط المشكلة، الرجاء المحاولة مرة أخرى",
+        "LINK_TITLE": "محادثة (#%{conversationId}) مع %{name}"
       },
       "ADD_OR_LINK": {
-        "TITLE": "Create/link linear issue",
-        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "TITLE": "إنشاء/رابط مشكلة في Linear",
+        "DESCRIPTION": "إنشاء مشكلات في Linear من المحادثات، أو ربط المشكلات الموجودة لتعقب سلس.",
         "FORM": {
           "TITLE": {
             "LABEL": "العنوان",
-            "PLACEHOLDER": "Enter title",
+            "PLACEHOLDER": "أدخل العنوان",
             "REQUIRED_ERROR": "العنوان مطلوب"
           },
           "DESCRIPTION": {
             "LABEL": "الوصف",
-            "PLACEHOLDER": "Enter description"
+            "PLACEHOLDER": "أدخل الوصف"
           },
           "TEAM": {
             "LABEL": "الفريق",
-            "PLACEHOLDER": "اختيار فريق",
-            "SEARCH": "Search team",
-            "REQUIRED_ERROR": "Team is required"
+            "PLACEHOLDER": "اختر فريق",
+            "SEARCH": "البحث عن فريق",
+            "REQUIRED_ERROR": "الفريق مطلوب"
           },
           "ASSIGNEE": {
-            "LABEL": "Assignee",
-            "PLACEHOLDER": "Select assignee",
-            "SEARCH": "Search assignee"
+            "LABEL": "المكلَّف",
+            "PLACEHOLDER": "اختر المحال إليه",
+            "SEARCH": "البحث عن المحال إليه"
           },
           "PRIORITY": {
             "LABEL": "الأولوية",
             "PLACEHOLDER": "تحديد الأولوية",
-            "SEARCH": "Search priority"
+            "SEARCH": "أولوية البحث"
           },
           "LABEL": {
             "LABEL": "الوسم",
-            "PLACEHOLDER": "Select label",
-            "SEARCH": "Search label"
+            "PLACEHOLDER": "حدد التسمية",
+            "SEARCH": "ابحث عن تصنيفات"
           },
           "STATUS": {
             "LABEL": "الحالة",
-            "PLACEHOLDER": "Select status",
-            "SEARCH": "Search status"
+            "PLACEHOLDER": "اختر الحالة",
+            "SEARCH": "حالة البحث"
           },
           "PROJECT": {
-            "LABEL": "Project",
-            "PLACEHOLDER": "Select project",
-            "SEARCH": "Search project"
+            "LABEL": "المشروع",
+            "PLACEHOLDER": "حدد المشروع",
+            "SEARCH": "البحث عن المشروع"
           }
         },
         "CREATE": "إنشاء",
         "CANCEL": "إلغاء",
-        "CREATE_SUCCESS": "Issue created successfully",
-        "CREATE_ERROR": "There was an error creating the issue, please try again",
-        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
-        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+        "CREATE_SUCCESS": "تم إنشاء المشكلة بنجاح",
+        "CREATE_ERROR": "حدث خطأ أثناء إنشاء المشكلة، يرجى المحاولة مرة أخرى",
+        "LOADING_TEAM_ERROR": "حدث خطأ أثناء جلب الفرق, الرجاء المحاولة مرة أخرى",
+        "LOADING_TEAM_ENTITIES_ERROR": "حدث خطأ أثناء جلب كيانات الفريق، يرجى المحاولة مرة أخرى"
       },
       "ISSUE": {
         "STATUS": "الحالة",
         "PRIORITY": "الأولوية",
-        "ASSIGNEE": "Assignee",
+        "ASSIGNEE": "المكلَّف",
         "LABELS": "الوسوم",
-        "CREATED_AT": "Created at %{createdAt}"
+        "CREATED_AT": "تم إنشاؤها في %{createdAt}"
       },
       "UNLINK": {
-        "TITLE": "Unlink",
-        "SUCCESS": "Issue unlinked successfully",
-        "ERROR": "There was an error unlinking the issue, please try again"
+        "TITLE": "إلغاء الربط",
+        "SUCCESS": "تم إلغاء ربط المشكلة بنجاح",
+        "ERROR": "حدث خطأ أثناء إلغاء ربط المشكلة، الرجاء المحاولة مرة أخرى"
       }
     }
   }

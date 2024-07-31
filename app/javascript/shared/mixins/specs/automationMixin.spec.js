@@ -1,5 +1,4 @@
 import methodsMixin from '../../../dashboard/mixins/automations/methodsMixin';
-import validationsMixin from '../../../dashboard/mixins/automations/validationsMixin';
 import {
   automation,
   customAttributes,
@@ -30,8 +29,6 @@ const localVue = createLocalVue();
 localVue.use(Vuex);
 
 // Vuelidate required to test submit method
-import Vuelidate from 'vuelidate';
-Vue.use(Vuelidate);
 
 const createComponent = (
   mixins,
@@ -449,15 +446,5 @@ describe('automationMethodsMixin', () => {
     expect(wrapper.vm.getActionDropdownValues('add_label')).toEqual(
       expectedActionDropdownValues
     );
-  });
-});
-
-describe('automationValidationsMixin', () => {
-  it('automationValidationsMixin is present', () => {
-    const data = () => {
-      return {};
-    };
-    const wrapper = createComponent([validationsMixin], data, {}, {});
-    expect(typeof wrapper.vm.$options.validations).toBe('object');
   });
 });

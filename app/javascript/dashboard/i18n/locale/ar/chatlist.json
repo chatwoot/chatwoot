@@ -15,7 +15,7 @@
     "FILTER_ALL": "الكل",
     "ASSIGNEE_TYPE_TABS": {
       "me": "محادثاتي",
-      "unassigned": "غير مسند",
+      "unassigned": "غير معيّن",
       "all": "الكل"
     },
     "CHAT_STATUS_FILTER_ITEMS": {
@@ -23,13 +23,13 @@
         "TEXT": "فتح"
       },
       "resolved": {
-        "TEXT": "مغلقة"
+        "TEXT": "تم حلها"
       },
       "pending": {
         "TEXT": "معلق"
       },
       "snoozed": {
-        "TEXT": "غفوة"
+        "TEXT": "مؤجلة"
       },
       "all": {
         "TEXT": "الكل"
@@ -47,22 +47,22 @@
         "OLDEST": "تم إنشاؤها في:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "النشاط الأخير:",
-        "ACTIVE": "النشاط الأخير"
+        "NOT_ACTIVE": "آخر نشاط:",
+        "ACTIVE": "آخر نشاط"
       }
     },
     "SORT_ORDER_ITEMS": {
       "last_activity_at_asc": {
-        "TEXT": "اخر نشاط: آلأقدم أولا"
+        "TEXT": "آخر نشاط: الأقدم أولا"
       },
       "last_activity_at_desc": {
-        "TEXT": "اخر نشاط: الأحدث أولا"
+        "TEXT": "آخر نشاط: الأحدث أولا"
       },
       "created_at_desc": {
-        "TEXT": "تم إنشاؤها في: الأحدث أولاً"
+        "TEXT": "وقت الإنشاء: الأحدث أولاً"
       },
       "created_at_asc": {
-        "TEXT": "تم إنشاؤها في: أقدم أولاً"
+        "TEXT": "وقت الإنشاء: الأقدم أولاً"
       },
       "priority_desc": {
         "TEXT": "الأولوية: الأعلى أولا"
@@ -74,7 +74,7 @@
         "TEXT": "الرد المعلق: الأطول أولا"
       },
       "waiting_since_desc": {
-        "TEXT": "الرد المعلق: أقصر أولاً"
+        "TEXT": "الرد المعلق: الأقصر أولاً"
       }
     },
     "ATTACHMENTS": {
@@ -102,8 +102,8 @@
       "DROPDOWN_TITLE": "ترتيب حسب",
       "ITEMS": {
         "LATEST": {
-          "NAME": "النشاط الأخير في",
-          "LABEL": "النشاط الأخير"
+          "NAME": "آخر نشاط في",
+          "LABEL": "آخر نشاط"
         },
         "CREATED_AT": {
           "NAME": "تم إنشاؤها في",
@@ -119,13 +119,13 @@
     "VIEW_TWEET_IN_TWITTER": "عرض التغريدة في تويتر",
     "REPLY_TO_TWEET": "الرد على هذه التغريدة",
     "LINK_TO_STORY": "الذهاب إلى قصة الإنستقرام",
-    "SENT": "Sent successfully",
+    "SENT": "تم الإرسال بنجاح",
     "READ": "تمت القراءة بنجاح",
     "DELIVERED": "تم الإرسال بنجاح",
     "NO_MESSAGES": "لا توجد رسائل",
     "NO_CONTENT": "لم يتم العثور على محتوى",
-    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text",
-    "MESSAGE_READ": "قرائة"
+    "HIDE_QUOTED_TEXT": "إخفاء النص المقتبس",
+    "SHOW_QUOTED_TEXT": "إظهار النص المقتبس",
+    "MESSAGE_READ": "قراءة"
   }
 }

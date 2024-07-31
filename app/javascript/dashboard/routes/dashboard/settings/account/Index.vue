@@ -13,19 +13,19 @@
           <p>{{ $t('GENERAL_SETTINGS.FORM.GENERAL_SECTION.NOTE') }}</p>
         </div>
         <div class="p-4 flex-grow-0 flex-shrink-0 flex-[50%]">
-          <label :class="{ error: $v.name.$error }">
+          <label :class="{ error: v$.name.$error }">
             {{ $t('GENERAL_SETTINGS.FORM.NAME.LABEL') }}
             <input
               v-model="name"
               type="text"
               :placeholder="$t('GENERAL_SETTINGS.FORM.NAME.PLACEHOLDER')"
-              @blur="$v.name.$touch"
+              @blur="v$.name.$touch"
             />
-            <span v-if="$v.name.$error" class="message">
+            <span v-if="v$.name.$error" class="message">
               {{ $t('GENERAL_SETTINGS.FORM.NAME.ERROR') }}
             </span>
           </label>
-          <label :class="{ error: $v.locale.$error }">
+          <label :class="{ error: v$.locale.$error }">
             {{ $t('GENERAL_SETTINGS.FORM.LANGUAGE.LABEL') }}
             <select v-model="locale">
               <option
@@ -36,7 +36,7 @@
                 {{ lang.name }}
               </option>
             </select>
-            <span v-if="$v.locale.$error" class="message">
+            <span v-if="v$.locale.$error" class="message">
               {{ $t('GENERAL_SETTINGS.FORM.LANGUAGE.ERROR') }}
             </span>
           </label>
@@ -68,7 +68,7 @@
           </label>
           <label
             v-if="showAutoResolutionConfig"
-            :class="{ error: $v.autoResolveDuration.$error }"
+            :class="{ error: v$.autoResolveDuration.$error }"
           >
             {{ $t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.LABEL') }}
             <input
@@ -77,9 +77,9 @@
               :placeholder="
                 $t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.PLACEHOLDER')
               "
-              @blur="$v.autoResolveDuration.$touch"
+              @blur="v$.autoResolveDuration.$touch"
             />
-            <span v-if="$v.autoResolveDuration.$error" class="message">
+            <span v-if="v$.autoResolveDuration.$error" class="message">
               {{ $t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.ERROR') }}
             </span>
           </label>
@@ -129,7 +129,8 @@
 </template>
 
 <script>
-import { required, minValue, maxValue } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required, minValue, maxValue } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -143,10 +144,9 @@ export default {
   mixins: [accountMixin, configMixin],
   setup() {
     const { updateUISettings } = useUISettings();
+    const v$ = useVuelidate();
 
-    return {
-      updateUISettings,
-    };
+    return { updateUISettings, v$ };
   },
   data() {
     return {
@@ -258,8 +258,8 @@ export default {
     },
 
     async updateAccount() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         useAlert(this.$t('GENERAL_SETTINGS.FORM.ERROR'));
         return;
       }

@@ -68,7 +68,7 @@
         "LABEL": "رقم الهاتف",
         "PLACEHOLDER": "الرجاء إدخال رقم الهاتف الخاص بك",
         "REQUIRED_ERROR": "رقم الهاتف مطلوب",
-        "DIAL_CODE_VALID_ERROR": "الرجاء اختيار رمز البلد",
+        "DIAL_CODE_VALID_ERROR": "الرجاء اختيار رمز الدولة",
         "VALID_ERROR": "يرجى إدخال رقم هاتف صحيح",
         "DROPDOWN_EMPTY": "لم يتم العثور على النتائج"
       },
@@ -105,14 +105,14 @@
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "CLICK_HERE_TO_JOIN": "انقر هنا للانضمام",
       "LEAVE_THE_ROOM": "ترك المكالمة"
     }
   },
   "PORTAL": {
     "POPULAR_ARTICLES": "المقالات الشائعة",
     "VIEW_ALL_ARTICLES": "عرض جميع المقالات",
-    "IFRAME_LOAD_ERROR": "حدث خطأ أثناء تحميل المقال، الرجاء تحديث الصفحة والمحاولة مرة أخرى."
+    "IFRAME_LOAD_ERROR": "حدث خطأ أثناء جلب المقال، الرجاء تحديث الصفحة والمحاولة مرة أخرى."
   },
   "ATTACHMENTS": {
     "image": {
