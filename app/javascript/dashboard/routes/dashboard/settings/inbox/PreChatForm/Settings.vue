@@ -30,7 +30,7 @@
         </div>
         <div class="w-[70%] mt-4">
           <label>{{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS') }}</label>
-          <table class="table w-full table-striped">
+          <table class="table w-full table-striped woot-table">
             <thead class="thead-dark">
               <tr>
                 <th scope="col" />
