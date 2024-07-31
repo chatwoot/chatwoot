@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_07_30_005249) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_31_011310) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -969,6 +969,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_30_005249) do
     t.bigint "conversation_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "account_id"
+    t.index ["account_id"], name: "index_tickets_on_account_id"
     t.index ["assigned_to"], name: "index_tickets_on_assigned_to"
     t.index ["conversation_id"], name: "index_tickets_on_conversation_id"
     t.index ["status"], name: "index_tickets_on_status"
@@ -1049,6 +1051,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_30_005249) do
   add_foreign_key "label_tickets", "labels"
   add_foreign_key "label_tickets", "tickets"
   add_foreign_key "labels", "teams"
+  add_foreign_key "tickets", "accounts"
   add_foreign_key "tickets", "conversations"
   add_foreign_key "tickets", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
