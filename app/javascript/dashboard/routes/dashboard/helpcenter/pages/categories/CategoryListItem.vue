@@ -20,7 +20,7 @@ export default {
 
 <template>
   <div>
-    <table>
+    <table class="woot-table">
       <thead>
         <tr>
           <th scope="col">
@@ -86,7 +86,7 @@ export default {
     </table>
     <p
       v-if="categories.length === 0"
-      class="flex justify-center text-slate-500 dark:text-slate-300 text-base mt-8"
+      class="flex justify-center mt-8 text-base text-slate-500 dark:text-slate-300"
     >
       {{ $t('HELP_CENTER.PORTAL.EDIT.CATEGORIES.TABLE.EMPTY_TEXT') }}
     </p>

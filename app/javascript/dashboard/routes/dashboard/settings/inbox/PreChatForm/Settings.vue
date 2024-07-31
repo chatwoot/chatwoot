@@ -114,7 +114,7 @@ export default {
           <label>
             {{ $t('INBOX_MGMT.PRE_CHAT_FORM.PRE_CHAT_MESSAGE.LABEL') }}
           </label>
-          <WootMessageEditor
+          <woot-message-editor
             v-model="preChatMessage"
             class="message-editor"
             :placeholder="
@@ -124,7 +124,7 @@ export default {
         </div>
         <div class="w-[70%] mt-4">
           <label>{{ $t('INBOX_MGMT.PRE_CHAT_FORM.SET_FIELDS') }}</label>
-          <table class="table w-full table-striped">
+          <table class="table w-full table-striped woot-table">
             <thead class="thead-dark">
               <tr>
                 <th scope="col" />
@@ -152,10 +152,10 @@ export default {
                 </th>
               </tr>
             </thead>
-            <PreChatFields
+            <pre-chat-fields
               :pre-chat-fields="preChatFields"
               @update="handlePreChatFieldOptions"
-              @dragEnd="changePreChatFieldFieldsOrder"
+              @drag-end="changePreChatFieldFieldsOrder"
             />
           </table>
         </div>
