@@ -69,11 +69,11 @@
     "UNREAD_NOTIFICATION": {
       "TITLE": "إشعارات غير مقروءة",
       "ALL_NOTIFICATIONS": "عرض جميع الإشعارات",
-      "LOADING_UNREAD_MESSAGE": "تحميل الإشعارات الغير مقروءة...",
+      "LOADING_UNREAD_MESSAGE": "جار جلب الإشعارات الغير مقروءة...",
       "EMPTY_MESSAGE": "ليس لديك إشعارات غير مقروءة"
     },
     "LIST": {
-      "LOADING_MESSAGE": "جاري تحميل الإشعارات...",
+      "LOADING_MESSAGE": "جاري جلب الإشعارات...",
       "404": "لا يوجد إشعارات",
       "TABLE_HEADER": [
         "الاسم",
