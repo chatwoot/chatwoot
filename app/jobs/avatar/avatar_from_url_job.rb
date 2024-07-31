@@ -1,5 +1,7 @@
 class Avatar::AvatarFromUrlJob < ApplicationJob
   queue_as :low
+  retry_on ActiveRecord::RecordNotFound, attempts: 3, delay: 0.5.seconds
+  retry_on ActiveJob::DeserializationError, attempts: 3, delay: 0.5.seconds
 
   def perform(avatarable, avatar_url)
     return unless avatarable.respond_to?(:avatar)
