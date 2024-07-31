@@ -12,6 +12,9 @@ module RequestExceptionHandler
   rescue ActiveRecord::RecordNotFound => e
     log_handled_error(e)
     render_not_found_error(I18n.t('errors.not_found', resource: e.model.to_s.underscore.humanize))
+  rescue ActiveRecord::RecordNotUnique => e
+    log_handled_error(e)
+    render_unprocessable_entity(I18n.t('errors.unprocessable_entity'))
   rescue Pundit::NotAuthorizedError => e
     log_handled_error(e)
     render_unauthorized(I18n.t('errors.unauthorized'))
