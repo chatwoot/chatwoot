@@ -31,21 +31,41 @@
             :show-title="isSelectedTabAll"
           />
 
-          <search-result-messages-list
-            v-if="filterMessages"
-            :is-fetching="uiFlags.message.isFetching"
-            :messages="messages"
-            :query="query"
-            :show-title="isSelectedTabAll"
-          />
+          <Policy
+            :permissions="[
+              'admin',
+              'user',
+              'conversation_manage',
+              'conversation_unassigned_manage',
+              'conversation_participating_manage',
+            ]"
+          >
+            <search-result-messages-list
+              v-if="filterMessages"
+              :is-fetching="uiFlags.message.isFetching"
+              :messages="messages"
+              :query="query"
+              :show-title="isSelectedTabAll"
+            />
+          </Policy>
 
-          <search-result-conversations-list
-            v-if="filterConversations"
-            :is-fetching="uiFlags.conversation.isFetching"
-            :conversations="conversations"
-            :query="query"
-            :show-title="isSelectedTabAll"
-          />
+          <Policy
+            :permissions="[
+              'admin',
+              'user',
+              'conversation_manage',
+              'conversation_unassigned_manage',
+              'conversation_participating_manage',
+            ]"
+          >
+            <search-result-conversations-list
+              v-if="filterConversations"
+              :is-fetching="uiFlags.conversation.isFetching"
+              :conversations="conversations"
+              :query="query"
+              :show-title="isSelectedTabAll"
+            />
+          </Policy>
         </div>
         <div v-else-if="showEmptySearchResults" class="empty">
           <fluent-icon icon="info" size="16px" class="icon" />
@@ -72,6 +92,7 @@ import SearchTabs from './SearchTabs.vue';
 import SearchResultConversationsList from './SearchResultConversationsList.vue';
 import SearchResultMessagesList from './SearchResultMessagesList.vue';
 import SearchResultContactsList from './SearchResultContactsList.vue';
+import Policy from 'dashboard/components/policy.vue';
 
 import { mapGetters } from 'vuex';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
@@ -82,6 +103,7 @@ export default {
     SearchResultContactsList,
     SearchResultConversationsList,
     SearchResultMessagesList,
+    Policy,
   },
   data() {
     return {
