@@ -52,7 +52,7 @@ export default {
       });
     },
     async onUpdateTicketLabels(selectedLabels) {
-      this.$store.dispatch('ticketLabels/update', {
+      this.$store.dispatch('ticket/update', {
         ticketId: this.ticketId,
         labels: selectedLabels,
       });
