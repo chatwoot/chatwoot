@@ -99,3 +99,10 @@ Authorization: {{token}}
 # @name ticket
 GET {{api}}/api/v1/accounts/{{account_id}}/tickets?assignee_id=3
 Authorization: {{token}}
+
+###
+
+# Path: http/ticket.http
+# @name conversations_tickets
+GET {{api}}/api/v1/accounts/2/tickets/conversations/2
+Authorization: {{token}}
