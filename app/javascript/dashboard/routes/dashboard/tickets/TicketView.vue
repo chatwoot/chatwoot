@@ -32,7 +32,7 @@
             :data-key="'id'"
             :data-sources="ticketList"
             :data-component="itemComponent"
-            class="w-full overflow-auto h-full"
+            class="w-full overflow-auto h-1/2"
             footer-tag="div"
           >
             <template #footer>
