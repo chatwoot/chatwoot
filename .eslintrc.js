@@ -160,7 +160,6 @@ module.exports = {
     ],
     'vue/no-v-text': 'error',
     'vue/padding-line-between-blocks': ['error', 'always'],
-    'vue/prefer-prop-type-boolean-first': 'error',
     'vue/prefer-separate-static-class': 'error',
     'vue/require-explicit-slots': 'error',
     'vue/require-macro-variable-name': [
