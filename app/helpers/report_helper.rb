@@ -44,6 +44,10 @@ module ReportHelper
     scope.messages.with_agents_ids(agents_ids).where(account_id: account.id, created_at: range).outgoing.unscope(:order)
   end
 
+  def tickets
+    scope.tickets.with_agents_ids(agents_ids).where(account_id: account.id, created_at: range)
+  end
+
   def resolutions
     scope.reporting_events
          .with_agents_ids(agents_ids)

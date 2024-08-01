@@ -3,11 +3,11 @@ pt_BR:
     confirmations:
       confirmed: "Seu e-mail foi confirmado com sucesso."
       send_instructions: "Dentro de minutos, você receberá um e-mail com instruções sobre como confirmar seu e-mail."
-      send_paranoid_instructions: "Se o seu e-mail existir em nosso banco de dados, Dentro de minutos, você receberá um e-mail com instruções sobre como confirmar seu de e-mail."
+      send_paranoid_instructions: "Se o seu e-mail existir em nosso banco de dados, dentro de minutos, você receberá um e-mail com instruções sobre como confirmar seu e-mail."
     failure:
       already_authenticated: "Você já está conectado."
       inactive: "Sua conta ainda não está ativada."
-      invalid: "/senha ou conta inválida %{authentication_keys} ainda não foi verificada."
+      invalid: "Senha ou conta inválida %{authentication_keys} ainda não foi verificada."
       locked: "Sua conta está bloqueada."
       last_attempt: "Você tem mais uma tentativa antes que sua conta seja bloqueada."
       not_found_in_database: "%{authentication_keys} ou senha inválidos."
@@ -66,6 +66,10 @@ pt_BR:
       send_instructions: "Você receberá um e-mail com instruções sobre como desbloquear sua conta em alguns minutos."
       send_paranoid_instructions: "Se sua conta existir, você receberá em alguns minutos um e-mail com instruções sobre como desbloqueá-la."
       unlocked: "Sua conta foi desbloqueada com sucesso. Por favor, faça login para continuar."
+  devise_token_auth:
+    sessions:
+      bad_credentials: "Email ou senha inválidos."
+
   errors:
     messages:
       already_confirmed: "já foi confirmado, por favor, tente iniciar sessão"

@@ -53,6 +53,7 @@
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resolve",
+      "NEW_TICKET": "New Ticket",
       "REOPEN_ACTION": "Reopen",
       "OPEN_ACTION": "Open",
       "OPEN": "More",
@@ -77,6 +78,18 @@
         "TOMORROW": "Tomorrow",
         "NEXT_WEEK": "Next week"
       }
+    },
+    "CUSTOM_TICKET": {
+      "TITLE": "Create a ticket",
+      "SUBTITLE": "Create a ticket for the agent",
+      "NAME": "Ticket Name",
+      "NAME_PLACEHOLDER": "Ticket Title",
+      "DESCRIPTION": "Ticket Description",
+      "DESCRIPTION_PLACEHOLDER": "Ticket Description",
+      "CREATE": "Create Ticket",
+      "CANCEL": "Cancel",
+      "SUCCESS_MESSAGE": "Ticket created successfully",
+      "ERROR_MESSAGE": "Couldn't create the ticket. Please try again"
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "Snooze until",
@@ -270,7 +283,8 @@
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
       "PREVIOUS_CONVERSATION": "Previous Conversations",
-      "MACROS": "Macros"
+      "MACROS": "Macros",
+      "CONVERSATION_TICKETS": "Tickets"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

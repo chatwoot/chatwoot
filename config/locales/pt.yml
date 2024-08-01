@@ -23,6 +23,9 @@ pt:
     reset_password_failure: Uh ho! Não conseguimos encontrar nenhum usuário com o e-mail especificado.
     inbox_deletetion_response: Seu pedido de exclusão da caixa de entrada será processado em algum momento.
   errors:
+    unprocessable_entity: Não foi possível processar o pedido
+    not_found: '%{resource} não encontrado'
+    unauthorized: Você não está autorizado a fazer esta ação
     validations:
       presence: não pode estar vazio
     webhook:
@@ -62,6 +65,27 @@ pt:
         name: não deve iniciar ou terminar com símbolos, nem deve ter < > / \ @ caracteres.
     custom_filters:
       number_of_records: Limite atingido. O número máximo de filtros personalizados permitidos para um utilizador por conta é de 50.
+  
+  activerecord:
+    errors:
+      messages:
+        record_invalid: 'A validação falhou: %{errors}'
+      models:
+        ticket:
+          errors:
+            already_resolved: Ticket já resolvido
+            already_label_assigned: Label já atribuído
+          attributes:
+            title:
+              blank: é obrigatório
+              required: é obrigatório
+            description:
+              blank: é obrigatório
+              required: é obrigatória
+            conversation:
+              blank: é obrigatório
+              required: é obrigatória
+  
   reports:
     period: Período do relatório de %{since} a %{until}
     utc_warning: O relatório gerado está no fuso horário UTC

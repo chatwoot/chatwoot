@@ -33,8 +33,20 @@ class Label < ApplicationRecord
             format: { with: UNICODE_CHARACTER_NUMBER_HYPHEN_UNDERSCORE },
             uniqueness: { scope: :account_id }
 
+  has_many :label_tickets, inverse_of: :label, dependent: :destroy
+  has_many :tickets, through: :label_tickets
+
   after_update_commit :update_associated_models
   default_scope { order(:title) }
+
+  scope :find_id_or_title, lambda { |id_or_title|
+    if id_or_title.is_a?(Integer)
+      find(id_or_title)
+    else
+      find_title(id_or_title)
+    end
+  }
+  scope :find_title, ->(title) { where(title: title.downcase.strip) }
 
   before_validation do
     self.title = title.downcase if attribute_present?('title')

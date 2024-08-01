@@ -125,6 +125,23 @@
               <macros-list :conversation-id="conversationId" />
             </accordion-item>
           </woot-feature-toggle>
+          <woot-feature-toggle
+            v-else-if="element.name === 'conversation_tickets'"
+            feature-key="conversation_tickets"
+          >
+            <accordion-item
+              :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_TICKETS')"
+              :is-open="
+                isContactSidebarItemOpen('is_conversation_tickets_open')
+              "
+              @click="
+                value =>
+                  toggleSidebarUIState('is_conversation_tickets_open', value)
+              "
+            >
+              <conversation-tickets :conversation-id="conversationId" />
+            </accordion-item>
+          </woot-feature-toggle>
         </div>
       </transition-group>
     </draggable>
@@ -146,6 +163,7 @@ import CustomAttributeSelector from './customAttributes/CustomAttributeSelector.
 import draggable from 'vuedraggable';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import MacrosList from './Macros/List.vue';
+import ConversationTickets from './tickets/TicketsList.vue';
 
 export default {
   components: {
@@ -159,6 +177,7 @@ export default {
     ConversationParticipant,
     draggable,
     MacrosList,
+    ConversationTickets,
   },
   mixins: [alertMixin, uiSettingsMixin],
   props: {

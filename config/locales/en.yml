@@ -37,6 +37,9 @@ en:
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
 
   errors:
+    unprocessable_entity: Could not process the request
+    not_found: '%{resource} not found'
+    unauthorized: You are not authorized to do this action
     validations:
       presence: must not be blank
     webhook:
@@ -76,6 +79,26 @@ en:
         name: should not start or end with symbols, and it should not have < > / \ @ characters.
     custom_filters:
       number_of_records: Limit reached. The maximum number of allowed custom filters for a user per account is 50.
+
+  activerecord:
+    errors:
+      messages:
+        record_invalid: 'A validação falhou: %{errors}'
+      models:
+        ticket:
+          errors:
+            already_resolved: Ticket already resolved
+            already_label_assigned: Label already assigned
+          attributes:
+            title:
+              blank: is required
+              required: is required
+            description:
+              blank: is required
+              required: is required
+            conversation:
+              blank: is required
+              required: is required
 
   reports:
     period: Reporting period %{since} to %{until}

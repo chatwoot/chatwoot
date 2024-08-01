@@ -234,6 +234,19 @@ Rails.application.routes.draw do
           end
 
           resources :upload, only: [:create]
+
+          # tickets
+          resources :tickets, only: [:index, :create, :show, :update, :destroy] do
+            member do
+              post 'assign/:user_id', action: :assign
+              post :resolve
+            end
+
+            collection do
+              get :search
+              get 'conversations/:conversation_id', action: :conversations
+            end
+          end
         end
       end
       # end of account scoped api routes
@@ -293,6 +306,7 @@ Rails.application.routes.draw do
         resources :reports, only: [:index] do
           collection do
             get :summary
+            get :summary_tickets
             get :agents
             get :inboxes
             get :labels
@@ -301,6 +315,7 @@ Rails.application.routes.draw do
             get :conversation_traffic
             get :triggers
             get :invoices
+            get :tickets
           end
         end
 

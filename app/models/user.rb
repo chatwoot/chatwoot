@@ -104,14 +104,18 @@ class User < ApplicationRecord
   before_validation :set_password_and_uid, on: :create
   after_destroy :remove_macros
 
+  # tickets
+  has_many :tickets, inverse_of: :user
+  has_many :assigned_tickets, class_name: 'Ticket', foreign_key: 'assigned_to', inverse_of: :assignee
+
   scope :order_by_full_name, -> { order('lower(name) ASC') }
 
   before_validation do
     self.email = email.try(:downcase)
   end
 
-  def send_devise_notification(notification, *args)
-    devise_mailer.with(account: Current.account).send(notification, self, *args).deliver_later
+  def send_devise_notification(notification, *)
+    devise_mailer.with(account: Current.account).send(notification, self, *).deliver_later
   end
 
   def set_password_and_uid
@@ -123,7 +127,7 @@ class User < ApplicationRecord
   end
 
   def serializable_hash(options = nil)
-    super(options).merge(confirmed: confirmed?)
+    super.merge(confirmed: confirmed?)
   end
 
   def push_event_data

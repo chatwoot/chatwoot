@@ -104,6 +104,7 @@ class Conversation < ApplicationRecord
   has_many :conversation_participants, dependent: :destroy_async
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
   has_many :attachments, through: :messages
+  has_many :tickets, inverse_of: :conversation, dependent: :destroy_async
 
   before_save :ensure_snooze_until_reset
   before_create :mark_conversation_pending_if_bot

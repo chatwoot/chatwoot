@@ -46,6 +46,14 @@ class V2::ReportBuilder
     }
   end
 
+  def summary_tickets_metrics
+    {
+      total: tickets.count,
+      resolved: tickets.resolved.count,
+      unresolved: tickets.unresolved.count
+    }
+  end
+
   def conversation_metrics
     if params[:type].equal?(:account)
       live_conversations

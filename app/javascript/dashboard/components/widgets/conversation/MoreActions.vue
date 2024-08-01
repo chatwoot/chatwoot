@@ -23,6 +23,13 @@
       icon="share"
       @click="toggleEmailActionsModal"
     />
+    <woot-button
+      color-scheme="primary"
+      icon="ticket"
+      @click="() => toggleTicketModal()"
+    >
+      {{ $t('CONVERSATION.HEADER.NEW_TICKET') }}
+    </woot-button>
     <resolve-action
       :conversation-id="currentChat.id"
       :status="currentChat.status"
@@ -33,6 +40,13 @@
       :current-chat="currentChat"
       @cancel="toggleEmailActionsModal"
     />
+
+    <woot-modal :show="showTicketModal" :on-close="toggleTicketModal">
+      <custom-ticket-modal
+        :conversation-id="currentChat.id"
+        @close="toggleTicketModal"
+      />
+    </woot-modal>
   </div>
 </template>
 <script>
@@ -41,6 +55,8 @@ import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 import EmailTranscriptModal from './EmailTranscriptModal.vue';
 import ResolveAction from '../../buttons/ResolveAction.vue';
+import CustomTicketModal from 'dashboard/components/CustomTicketModal.vue';
+
 import {
   CMD_MUTE_CONVERSATION,
   CMD_SEND_TRANSCRIPT,
@@ -51,11 +67,13 @@ export default {
   components: {
     EmailTranscriptModal,
     ResolveAction,
+    CustomTicketModal,
   },
   mixins: [alertMixin, clickaway],
   data() {
     return {
       showEmailActionsModal: false,
+      showTicketModal: false,
     };
   },
   computed: {
@@ -82,6 +100,9 @@ export default {
     },
     toggleEmailActionsModal() {
       this.showEmailActionsModal = !this.showEmailActionsModal;
+    },
+    toggleTicketModal() {
+      this.showTicketModal = !this.showTicketModal;
     },
   },
 };

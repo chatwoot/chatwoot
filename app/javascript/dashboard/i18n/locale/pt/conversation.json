@@ -55,6 +55,7 @@
       "RESOLVE_ACTION": "Resolver",
       "REOPEN_ACTION": "Reabrir",
       "OPEN_ACTION": "Abertas",
+      "NEW_TICKET": "Criar Ticket",
       "OPEN": "MAIS",
       "CLOSE": "FECHAR",
       "DETAILS": "Detalhes",
@@ -77,6 +78,18 @@
         "TOMORROW": "Amanhã",
         "NEXT_WEEK": "Próxima semana"
       }
+    },
+    "CUSTOM_TICKET": {
+      "TITLE": "Criar um ticket",
+      "SUBTITLE": "Criar um ticket para o agente",
+      "NAME": "Nome do Ticket",
+      "NAME_PLACEHOLDER": "Título do Ticket",
+      "DESCRIPTION": "Descrição do Ticket",
+      "DESCRIPTION_PLACEHOLDER": "Descrição do Ticket",
+      "CREATE": "Criar Ticket",
+      "CANCEL": "Cancelar",
+      "SUCCESS_MESSAGE": "Ticket criado com sucesso",
+      "ERROR_MESSAGE": "Não foi possível criar o ticket, por favor tente novamente"
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "Suspender até",
@@ -269,7 +282,8 @@
       "CONVERSATION_INFO": "Informação da conversa",
       "CONTACT_ATTRIBUTES": "Atributos do Contato",
       "PREVIOUS_CONVERSATION": "Conversas anteriores",
-      "MACROS": "Macros"
+      "MACROS": "Macros",
+      "CONVERSATION_TICKETS": "Tickets"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
