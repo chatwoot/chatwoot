@@ -233,10 +233,8 @@ export default {
         });
       };
     },
-    removeAttachment(itemIndex) {
-      this.attachedFiles = this.attachedFiles.filter(
-        (item, index) => itemIndex !== index
-      );
+    removeAttachment(attachments) {
+      this.attachedFiles = attachments;
     },
     onCancel() {
       this.$emit('cancel');
@@ -318,6 +316,7 @@ export default {
 };
 </script>
 
+<!-- eslint-disable vue/prefer-true-attribute-shorthand -->
 <template>
   <form class="w-full conversation--form" @submit.prevent="onFormSubmit">
     <div
@@ -492,7 +491,7 @@ export default {
               :size="4096 * 4096"
               :accept="allowedFileTypes"
               multiple
-              drop
+              :drop="true"
               :drop-directory="false"
               :data="{
                 direct_upload_url: '/rails/active_storage/direct_uploads',
