@@ -1,0 +1,71 @@
+{
+  "TICKETS": {
+    "TITLE": "Título do Ticket",
+    "DESCRIPTION": "Descrição do Ticket",
+    "STATUS": {
+      "OPEN": "Aberto",
+      "PENDING": "Pendente",
+      "RESOLVED": "Resolvido"
+    },
+    "PRIORITY": {
+      "LOW": "Baixo",
+      "MEDIUM": "Médio",
+      "HIGH": "Alto"
+    },
+    "STATUS_filter": {
+      "OPEN": "Aberto",
+      "PENDING": "Pendente",
+      "RESOLVED": "Resolvido"
+    },
+    "PRIORITY_filter": {
+      "LOW": "Baixo",
+      "MEDIUM": "Médio",
+      "HIGH": "Alto"
+    },
+    "ASSIGNEE_filter": {
+      "ME": "Eu",
+      "UNASSIGNED": "Não atribuído"
+    },
+    "LABEL_filter": {
+      "ME": "Eu",
+      "UNASSIGNED": "Não atribuído"
+    },
+    "CREATE": {
+      "TITLE": "Criar Ticket",
+      "DESCRIPTION": "Descrição do Ticket",
+      "PRIORITY": "Prioridade",
+      "STATUS": "Status",
+      "ASSIGNEE": "Atribuído",
+      "LABELS": "Etiquetas",
+      "SUBMIT": "Criar Ticket"
+    },
+    "LIST": {
+      "NO_TICKETS": "Sem Tickets"
+    },
+    "EDIT": {
+      "TITLE": "Editar Ticket",
+      "DESCRIPTION": "Descrição do Ticket",
+      "PRIORITY": "Prioridade",
+      "STATUS": "Status",
+      "ASSIGNEE": "Atribuído",
+      "LABELS": "Etiquetas",
+      "SUBMIT": "Editar Ticket"
+    },
+    "SHOW": {
+      "TITLE": "Ticket",
+      "DESCRIPTION": "Descrição do Ticket",
+      "PRIORITY": "Prioridade",
+      "STATUS": "Status",
+      "ASSIGNEE": "Atribuído",
+      "LABELS": "Etiquetas",
+      "SUBMIT": "Editar Ticket",
+      "CLOSE": "Fechar Ticket",
+      "REOPEN": "Reabrir Ticket",
+      "ASSIGN": "Atribuir Ticket",
+      "UNASSIGN": "Remover Ticket",
+      "LABEL": "Adicionar Etiqueta",
+      "UNLABEL": "Remover Etiqueta",
+      "SNOOZE": "Adicionar Soneca"
+    }
+  }
+}
