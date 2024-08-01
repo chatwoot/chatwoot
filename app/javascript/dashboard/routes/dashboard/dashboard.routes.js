@@ -1,5 +1,6 @@
 import settings from './settings/settings.routes';
 import conversation from './conversation/conversation.routes';
+import { routes as ticketsRoutes } from './tickets/ticket.routes';
 import { routes as searchRoutes } from '../../modules/search/search.routes';
 import { routes as contactRoutes } from './contacts/routes';
 import { routes as notificationRoutes } from './notifications/routes';
@@ -19,6 +20,7 @@ export default {
       children: [
         ...conversation.routes,
         ...settings.routes,
+        ...ticketsRoutes,
         ...contactRoutes,
         ...searchRoutes,
         ...notificationRoutes,
