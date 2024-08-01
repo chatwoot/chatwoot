@@ -55,7 +55,7 @@ class Api::V1::Accounts::TicketsController < Api::V1::Accounts::BaseController
   end
 
   def ticket_params
-    request_params = params.require(:ticket).permit(:title, :description, :status, :assigned_to)
+    request_params = params.require(:ticket).permit(:title, :description, :status, :assigned_to, :conversation_id)
     request_params[:conversation_id] = params.dig(:conversation, :id) if params.dig(:conversation, :id).present?
     request_params
   end
