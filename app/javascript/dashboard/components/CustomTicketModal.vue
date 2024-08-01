@@ -30,22 +30,22 @@
         :show-close="true"
         :color="label.color"
         variant="smooth"
-        @click="removeLabelFromConversation"
+        @click="removeLabelFromTicket"
       />
       <!-- list of labels to add -->
       <label-dropdown
         :account-labels="accountLabels"
         :selected-labels="savedLabels"
         :allow-creation="isAdmin"
-        @add="addLabelToConversation"
-        @remove="removeLabelFromConversation"
+        @add="addLabelToTicket"
+        @remove="removeLabelFromTicket"
       />
 
       <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
         <woot-button variant="clear" @click.prevent="onClose">
           {{ $t('CONVERSATION.CUSTOM_TICKET.CANCEL') }}
         </woot-button>
-        <woot-button>
+        <woot-button :is-loading="ticketUIFlags.isCreating">
           {{ $t('CONVERSATION.CUSTOM_TICKET.CREATE') }}
         </woot-button>
       </div>
@@ -59,13 +59,20 @@ import LabelDropdown from 'shared/components/ui/label/LabelDropdown.vue';
 import adminMixin from 'dashboard/mixins/isAdmin';
 import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   name: 'CustomTicketModal',
   components: {
     LabelDropdown,
   },
-  mixins: [adminMixin, conversationLabelMixin, eventListenerMixins],
+  mixins: [adminMixin, conversationLabelMixin, eventListenerMixins, alertMixin],
+  props: {
+    conversationId: {
+      type: Number,
+      required: true,
+    },
+  },
   data() {
     return {
       title: '',
@@ -76,7 +83,8 @@ export default {
   computed: {
     ...mapGetters({
       conversationUiFlags: 'conversationLabels/getUIFlags',
-      labelUiFlags: 'conversationLabels/getUIFlags',
+      labelUiFlags: 'ticketLabels/getUIFlags',
+      ticketUIFlags: 'tickets/getUIFlags',
     }),
   },
   methods: {
@@ -84,11 +92,19 @@ export default {
       this.$emit('close');
     },
     onSubmit() {
-      this.$emit('submit', {
-        title: this.title,
-        description: this.description,
-        priority: this.priority,
-      });
+      this.$store
+        .dispatch('tickets/create', {
+          title: this.title,
+          description: this.description,
+          conversationId: this.conversationId,
+        })
+        .then(() => {
+          this.showAlert(this.$t('CONVERSATION.CUSTOM_TICKET.SUCCESS_MESSAGE'));
+          this.onClose();
+        })
+        .catch(() => {
+          this.showAlert(this.$t('CONVERSATION.CUSTOM_TICKET.ERROR_MESSAGE'));
+        });
     },
   },
 };

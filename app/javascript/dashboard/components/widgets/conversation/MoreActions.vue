@@ -42,7 +42,10 @@
     />
 
     <woot-modal :show="showTicketModal" :on-close="toggleTicketModal">
-      <custom-ticket-modal @close="toggleTicketModal" />
+      <custom-ticket-modal
+        :conversation-id="currentChat.id"
+        @close="toggleTicketModal"
+      />
     </woot-modal>
   </div>
 </template>
