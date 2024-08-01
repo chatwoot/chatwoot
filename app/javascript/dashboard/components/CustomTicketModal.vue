@@ -83,7 +83,6 @@ export default {
   computed: {
     ...mapGetters({
       conversationUiFlags: 'conversationLabels/getUIFlags',
-      labelUiFlags: 'ticketLabels/getUIFlags',
       ticketUIFlags: 'tickets/getUIFlags',
     }),
   },
