@@ -10,3 +10,4 @@ json.from smart_action.from
 json.to smart_action.to
 json.link smart_action.link
 json.content smart_action.content
+json.manual_action smart_action.manual_action?

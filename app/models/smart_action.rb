@@ -29,8 +29,17 @@ class SmartAction < ApplicationRecord
   validates :message_id, presence: true
   validates :conversation_id, presence: true
 
-  scope :ask_copilot, -> { where(event: 'ask_copilot') }
-  scope :cancel_booking, -> { where(event: 'cancel_booking') }
+  CREATE_BOOKING = 'create_booking'.freeze
+  CANCEL_BOOKING = 'cancel_booking'.freeze
+  ASK_COPILOT = 'ask_copilot'.freeze
+  AUTOMATED_RESPONSE = 'automated_response'.freeze
+
+  MANUAL_ACTION = [
+    CREATE_BOOKING,
+    CANCEL_BOOKING
+  ]
+
+  scope :ask_copilot, -> { where(event: ASK_COPILOT) }
   scope :active, -> { where(active: true) }
   delegate :account, to: :conversation
 
@@ -45,20 +54,32 @@ class SmartAction < ApplicationRecord
       content: content,
       intent_type: intent_type,
       message_id: message_id,
+      manual_action: manual_action?,
       conversation_id: conversation.display_id,
       created_at: created_at
     }
+  end
+
+  def manual_action?
+    MANUAL_ACTION.include?(event)
   end
 
   private
 
   def execute_after_create_commit_callbacks
     dispatch_create_events
+    create_automated_response
   end
 
   def dispatch_create_events
     return unless active?
 
     Rails.configuration.dispatcher.dispatch(SMART_ACTION_CREATED, Time.zone.now, smart_action: self, performed_by: Current.executed_by)
+  end
+
+  def create_automated_response
+    return unless event == AUTOMATED_RESPONSE
+
+    Messages::MessageBuilder.new(conversation.assignee, conversation, { content: content }).perform
   end
 end

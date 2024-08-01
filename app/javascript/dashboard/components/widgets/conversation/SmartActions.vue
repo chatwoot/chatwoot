@@ -127,7 +127,7 @@ export default {
         const scoped =
           this.context.messageId === null ||
           this.context.messageId === action.message_id;
-        return action.event !== 'ask_copilot' && scoped;
+        return action.manual_action && scoped;
       });
     },
     primaryAction(){

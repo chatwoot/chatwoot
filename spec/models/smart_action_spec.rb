@@ -30,4 +30,31 @@ RSpec.describe SmartAction do
       expect(smart_action.link).to eq 'https://test.com'
     end
   end
+
+  describe '#manual_action?' do
+    it 'returns true for manual action' do
+      smart_action = create(:smart_action, event: SmartAction::MANUAL_ACTION.sample)
+      expect(smart_action.manual_action?).to eq true
+    end
+
+    it 'returns false for non manual action' do
+      smart_action = create(:smart_action, event: 'automated_response')
+      expect(smart_action.manual_action?).to eq false
+    end
+  end
+
+  describe 'event types' do
+    context 'automated_response' do
+      it 'creates automated response' do
+        smart_action = create(:smart_action, event: 'automated_response', content: 'test content')
+        expect(smart_action.content).to eq smart_action.conversation.messages.last.content
+      end
+
+      it 'sets assignee as sender' do
+        conversation = create(:conversation, assignee: create(:user))
+        smart_action = create(:smart_action, event: 'automated_response', conversation: conversation)
+        expect(smart_action.conversation.messages.last.sender).to eq conversation.assignee
+      end
+    end
+  end
 end
