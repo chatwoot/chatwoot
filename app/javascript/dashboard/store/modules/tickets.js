@@ -9,14 +9,28 @@ const state = {
     isFetching: false,
     isUpdating: false,
   },
+  uiFlagsPage: {
+    isFetching: false,
+  },
+  stats: {
+    open: 0,
+    closed: 0,
+    all: 0,
+  },
 };
 
 export const getters = {
   getUIFlags($state) {
     return $state.uiFlags;
   },
+  getUIFlagsPage($state) {
+    return $state.uiFlagsPage;
+  },
   getTickets($state) {
     return $state.record;
+  },
+  getStats($state) {
+    return $state.stats;
   },
 };
 
@@ -45,6 +59,20 @@ export const actions = {
       });
     } catch (error) {
       commit(types.default.SET_TICKETS_UI_FLAG, {
+        isFetching: false,
+      });
+    }
+  },
+  getAllTickets: async ({ commit }) => {
+    commit(types.default.SET_TICKETS_UI_FLAG_PAGE, { isFetching: true });
+    try {
+      const response = await TicketsAPI.getAll();
+      commit(types.default.SET_TICKETS, response.data.payload);
+      commit(types.default.SET_TICKETS_UI_FLAG_PAGE, {
+        isFetching: false,
+      });
+    } catch (error) {
+      commit(types.default.SET_TICKETS_UI_FLAG_PAGE, {
         isFetching: false,
       });
     }
