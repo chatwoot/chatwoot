@@ -15,7 +15,7 @@ export const getters = {
   getUIFlags($state) {
     return $state.uiFlags;
   },
-  getTicketLabels($state) {
+  getTickets($state) {
     return $state.record;
   },
 };
@@ -25,7 +25,7 @@ export const actions = {
     commit(types.default.SET_TICKETS_UI_FLAG, { isFetching: true });
     try {
       const response = await TicketsAPI.get();
-      commit(types.default.SET_TICKETS, response.data);
+      commit(types.default.SET_TICKETS, response.data.payload);
       commit(types.default.SET_TICKETS_UI_FLAG, {
         isFetching: false,
       });
@@ -40,8 +40,6 @@ export const actions = {
     { title, description, status, assigneeId, conversationId }
   ) => {
     commit(types.default.SET_TICKETS_UI_FLAG, { isCreating: true });
-    // eslint-disable-next-line no-console
-    console.log(conversationId);
     try {
       const response = await TicketsAPI.create({
         title,
