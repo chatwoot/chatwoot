@@ -39,6 +39,8 @@ import notifications from './modules/notifications';
 import portals from './modules/helpCenterPortals';
 import reports from './modules/reports';
 import teamMembers from './modules/teamMembers';
+import tickets from './modules/tickets';
+import ticketsLabels from './modules/ticketsLabels';
 import teams from './modules/teams';
 import userNotificationSettings from './modules/userNotificationSettings';
 import webhooks from './modules/webhooks';
@@ -107,6 +109,8 @@ export default new Vuex.Store({
     reports,
     teamMembers,
     teams,
+    tickets,
+    ticketsLabels,
     userNotificationSettings,
     webhooks,
     draftMessages,
