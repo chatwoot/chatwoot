@@ -87,7 +87,9 @@
       "DESCRIPTION": "Ticket Description",
       "DESCRIPTION_PLACEHOLDER": "Ticket Description",
       "CREATE": "Create Ticket",
-      "CANCEL": "Cancel"
+      "CANCEL": "Cancel",
+      "SUCCESS_MESSAGE": "Ticket created successfully",
+      "ERROR_MESSAGE": "Couldn't create the ticket. Please try again"
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "Snooze until",

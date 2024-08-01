@@ -87,7 +87,9 @@
       "DESCRIPTION": "Descrição do Ticket",
       "DESCRIPTION_PLACEHOLDER": "Descrição do Ticket",
       "CREATE": "Criar Ticket",
-      "CANCEL": "Cancelar"
+      "CANCEL": "Cancelar",
+      "SUCCESS_MESSAGE": "Ticket criado com sucesso",
+      "ERROR_MESSAGE": "Não foi possível criar o ticket, por favor tente novamente"
     },
     "CUSTOM_SNOOZE": {
       "TITLE": "Suspender até",
