@@ -91,9 +91,9 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import NewWebhook from './NewWebHook.vue';
 import EditWebhook from './EditWebHook.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import WebhookRow from './WebhookRow.vue';
 
@@ -103,7 +103,7 @@ export default {
     EditWebhook,
     WebhookRow,
   },
-  mixins: [alertMixin, globalConfigMixin],
+  mixins: [globalConfigMixin],
   data() {
     return {
       loading: {},
@@ -152,11 +152,11 @@ export default {
     async deleteWebhook(id) {
       try {
         await this.$store.dispatch('webhooks/delete', id);
-        this.showAlert(
+        useAlert(
           this.$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.SUCCESS_MESSAGE')
         );
       } catch (error) {
-        this.showAlert(
+        useAlert(
           this.$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.ERROR_MESSAGE')
         );
       }

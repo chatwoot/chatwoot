@@ -1,12 +1,26 @@
+<script setup>
+defineProps({
+  app: {
+    type: Object,
+    default: () => ({}),
+  },
+});
+
+defineEmits(['edit', 'delete']);
+</script>
+
 <template>
-  <tr>
-    <td class="w-40 max-w-[10rem] truncate" :title="app.title">
+  <tr class="py-1 max-w-full">
+    <td
+      class="py-4 pr-4 text-sm w-40 max-w-[10rem] truncate"
+      :title="app.title"
+    >
       {{ app.title }}
     </td>
-    <td class="max-w-xs truncate" :title="app.content[0].url">
+    <td class="py-4 pr-4 text-sm max-w-lg truncate" :title="app.content[0].url">
       {{ app.content[0].url }}
     </td>
-    <td class="flex justify-end gap-1">
+    <td class="py-4 pr-4 text-sm flex gap-2 sm:pr-0">
       <woot-button
         v-tooltip.top="
           $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.EDIT_TOOLTIP')
@@ -32,30 +46,3 @@
     </td>
   </tr>
 </template>
-
-<script>
-export default {
-  loading: {
-    type: Boolean,
-    default: false,
-  },
-  props: {
-    app: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
-};
-</script>
-
-<style lang="scss" scoped>
-.dashboard-app-label-url {
-  @apply relative w-full;
-  &:before {
-    @apply invisible content-['&nbsp'];
-  }
-  span {
-    @apply absolute left-0 right-0;
-  }
-}
-</style>

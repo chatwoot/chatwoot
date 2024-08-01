@@ -2,10 +2,13 @@
   <div
     class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
   >
-    <div v-if="!hasLoginStarted" class="pt-[30%] h-full">
+    <div
+      v-if="!hasLoginStarted"
+      class="flex flex-col items-center justify-center h-full text-center"
+    >
       <a href="#" @click="startLogin()">
         <img
-          class="h-10 w-auto"
+          class="w-auto h-10"
           src="~dashboard/assets/images/channels/facebook_login.png"
           alt="Facebook-logo"
         />
@@ -30,7 +33,7 @@
       <loading-state v-else-if="showLoader" :message="emptyStateMessage" />
       <form
         v-else
-        class="mx-0 flex flex-wrap"
+        class="flex flex-wrap mx-0"
         @submit.prevent="createChannel()"
       >
         <div class="w-full">
@@ -46,7 +49,7 @@
         </div>
         <div class="w-3/5">
           <div class="w-full">
-            <div class="input-wrap" :class="{ error: $v.selectedPage.$error }">
+            <div class="input-wrap" :class="{ error: v$.selectedPage.$error }">
               {{ $t('INBOX_MGMT.ADD.FB.CHOOSE_PAGE') }}
               <multiselect
                 v-model.trim="selectedPage"
@@ -61,21 +64,21 @@
                 selected-label
                 @select="setPageName"
               />
-              <span v-if="$v.selectedPage.$error" class="message">
+              <span v-if="v$.selectedPage.$error" class="message">
                 {{ $t('INBOX_MGMT.ADD.FB.CHOOSE_PLACEHOLDER') }}
               </span>
             </div>
           </div>
           <div class="w-full">
-            <label :class="{ error: $v.pageName.$error }">
+            <label :class="{ error: v$.pageName.$error }">
               {{ $t('INBOX_MGMT.ADD.FB.INBOX_NAME') }}
               <input
                 v-model.trim="pageName"
                 type="text"
                 :placeholder="$t('INBOX_MGMT.ADD.FB.PICK_NAME')"
-                @input="$v.pageName.$touch"
+                @input="v$.pageName.$touch"
               />
-              <span v-if="$v.pageName.$error" class="message">
+              <span v-if="v$.pageName.$error" class="message">
                 {{ $t('INBOX_MGMT.ADD.FB.ADD_NAME') }}
               </span>
             </label>
@@ -91,7 +94,9 @@
 <script>
 /* eslint-env browser */
 /* global FB */
-import { required } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { useAlert } from 'dashboard/composables';
+import { required } from '@vuelidate/validators';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
 import { mapGetters } from 'vuex';
 import ChannelApi from '../../../../../api/channels';
@@ -101,7 +106,6 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import accountMixin from '../../../../../mixins/account';
 
 import { loadScript } from 'dashboard/helper/DOMHelpers';
-import alertMixin from 'shared/mixins/alertMixin';
 import * as Sentry from '@sentry/browser';
 
 export default {
@@ -109,7 +113,10 @@ export default {
     LoadingState,
     PageHeader,
   },
-  mixins: [globalConfigMixin, accountMixin, alertMixin],
+  mixins: [globalConfigMixin, accountMixin],
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       isCreating: false,
@@ -168,17 +175,17 @@ export default {
       } catch (error) {
         if (error.name === 'ScriptLoaderError') {
           // if the error was related to script loading, we show a toast
-          this.showAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_LOADING'));
+          useAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_LOADING'));
         } else {
           // if the error was anything else, we capture it and show a toast
           Sentry.captureException(error);
-          this.showAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_AUTH'));
+          useAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_AUTH'));
         }
       }
     },
 
     setPageName({ name }) {
-      this.$v.selectedPage.$touch();
+      this.v$.selectedPage.$touch();
       this.pageName = name;
     },
 
@@ -267,8 +274,8 @@ export default {
     },
 
     createChannel() {
-      this.$v.$touch();
-      if (!this.$v.$error) {
+      this.v$.$touch();
+      if (!this.v$.$error) {
         this.emptyStateMessage = this.$t('INBOX_MGMT.DETAILS.CREATING_CHANNEL');
         this.isCreating = true;
         this.$store

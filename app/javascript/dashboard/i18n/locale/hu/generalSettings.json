@@ -95,7 +95,9 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "OFFLINE": "Offline"
+      "OFFLINE": "Offline",
+      "RECONNECTING": "Reconnecting...",
+      "RECONNECT_SUCCESS": "Reconnected"
     },
     "BUTTON": {
       "REFRESH": "Frissítés"
@@ -154,7 +156,7 @@
       "UNTIL_TOMORROW": "Holnapig",
       "UNTIL_NEXT_MONTH": "Következő hónapig",
       "AN_HOUR_FROM_NOW": "Mostantól egy óráig",
-      "CUSTOM": "Speciális...",
+      "UNTIL_CUSTOM_TIME": "Speciális...",
       "CHANGE_APPEARANCE": "Megjelenés módosítása",
       "LIGHT_MODE": "Világos mód",
       "DARK_MODE": "Sötét mód",

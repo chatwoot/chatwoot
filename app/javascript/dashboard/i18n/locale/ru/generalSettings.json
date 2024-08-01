@@ -88,14 +88,16 @@
       "assigned_conversation_new_message": "Новое сообщение",
       "participating_conversation_new_message": "Новое сообщение",
       "conversation_mention": "Упоминание",
-      "sla_missed_first_response": "SLA Missed",
-      "sla_missed_next_response": "SLA Missed",
-      "sla_missed_resolution": "SLA Missed"
+      "sla_missed_first_response": "Пропущено SLA",
+      "sla_missed_next_response": "Пропущено SLA",
+      "sla_missed_resolution": "Пропущено SLA"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "OFFLINE": "Оффлайн"
+      "OFFLINE": "Оффлайн",
+      "RECONNECTING": "Повторное подключение:",
+      "RECONNECT_SUCCESS": "Повторное подключение успешно"
     },
     "BUTTON": {
       "REFRESH": "Обновить"
@@ -107,7 +109,7 @@
       "GENERAL": "Главное",
       "REPORTS": "Отчёты",
       "CONVERSATION": "Диалоги",
-      "BULK_ACTIONS": "Bulk Actions",
+      "BULK_ACTIONS": "Массовые действия",
       "CHANGE_ASSIGNEE": "Изменить Назначенного",
       "CHANGE_PRIORITY": "Изменить приоритет",
       "CHANGE_TEAM": "Изменить команду",
@@ -154,7 +156,7 @@
       "UNTIL_TOMORROW": "До завтра",
       "UNTIL_NEXT_MONTH": "До следующего месяца",
       "AN_HOUR_FROM_NOW": "Еще через час",
-      "CUSTOM": "Пользовательский...",
+      "UNTIL_CUSTOM_TIME": "Пользовательский...",
       "CHANGE_APPEARANCE": "Изменить внешний вид",
       "LIGHT_MODE": "Светлая",
       "DARK_MODE": "Тёмная",

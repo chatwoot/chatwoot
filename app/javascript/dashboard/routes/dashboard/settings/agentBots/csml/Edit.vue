@@ -4,19 +4,18 @@
     :agent-bot="agentBot"
     @submit="updateBot"
   />
-  <div v-else class="h-auto overflow-auto flex flex-col no-padding">
+  <div v-else class="flex flex-col h-auto overflow-auto no-padding">
     <spinner />
   </div>
 </template>
 <script>
+import { useAlert } from 'dashboard/composables';
 import Spinner from 'shared/components/Spinner.vue';
 import CsmlBotEditor from '../components/CSMLBotEditor.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 
 import { mapGetters } from 'vuex';
 export default {
   components: { Spinner, CsmlBotEditor },
-  mixins: [alertMixin],
   computed: {
     ...mapGetters({ uiFlags: 'agentBots/uiFlags' }),
     agentBot() {
@@ -36,11 +35,9 @@ export default {
           bot_type: 'csml',
           bot_config: { csml_content: bot.csmlContent },
         });
-        this.showAlert(this.$t('AGENT_BOTS.EDIT.API.SUCCESS_MESSAGE'));
+        useAlert(this.$t('AGENT_BOTS.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(
-          this.$t('AGENT_BOTS.CSML_BOT_EDITOR.BOT_CONFIG.API_ERROR')
-        );
+        useAlert(this.$t('AGENT_BOTS.CSML_BOT_EDITOR.BOT_CONFIG.API_ERROR'));
       }
     },
   },

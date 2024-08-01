@@ -1,5 +1,5 @@
 <template>
-  <div class="h-auto overflow-auto flex flex-col">
+  <div class="flex flex-col h-auto overflow-auto">
     <woot-modal-header :header-title="pageTitle" />
     <form class="flex flex-col w-full" @submit.prevent="editCampaign">
       <div class="w-full">
@@ -7,10 +7,10 @@
           v-model="title"
           :label="$t('CAMPAIGN.ADD.FORM.TITLE.LABEL')"
           type="text"
-          :class="{ error: $v.title.$error }"
-          :error="$v.title.$error ? $t('CAMPAIGN.ADD.FORM.TITLE.ERROR') : ''"
+          :class="{ error: v$.title.$error }"
+          :error="v$.title.$error ? $t('CAMPAIGN.ADD.FORM.TITLE.ERROR') : ''"
           :placeholder="$t('CAMPAIGN.ADD.FORM.TITLE.PLACEHOLDER')"
-          @blur="$v.title.$touch"
+          @blur="v$.title.$touch"
         />
         <div class="editor-wrap">
           <label>
@@ -20,28 +20,28 @@
             v-model="message"
             class="message-editor"
             :is-format-mode="true"
-            :class="{ editor_warning: $v.message.$error }"
+            :class="{ editor_warning: v$.message.$error }"
             :placeholder="$t('CAMPAIGN.ADD.FORM.MESSAGE.PLACEHOLDER')"
-            @input="$v.message.$touch"
+            @input="v$.message.$touch"
           />
-          <span v-if="$v.message.$error" class="editor-warning__message">
+          <span v-if="v$.message.$error" class="editor-warning__message">
             {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
           </span>
         </div>
 
-        <label :class="{ error: $v.selectedInbox.$error }">
+        <label :class="{ error: v$.selectedInbox.$error }">
           {{ $t('CAMPAIGN.ADD.FORM.INBOX.LABEL') }}
           <select v-model="selectedInbox" @change="onChangeInbox($event)">
             <option v-for="item in inboxes" :key="item.id" :value="item.id">
               {{ item.name }}
             </option>
           </select>
-          <span v-if="$v.selectedInbox.$error" class="message">
+          <span v-if="v$.selectedInbox.$error" class="message">
             {{ $t('CAMPAIGN.ADD.FORM.INBOX.ERROR') }}
           </span>
         </label>
 
-        <label :class="{ error: $v.selectedSender.$error }">
+        <label :class="{ error: v$.selectedSender.$error }">
           {{ $t('CAMPAIGN.ADD.FORM.SENT_BY.LABEL') }}
           <select v-model="selectedSender">
             <option
@@ -52,7 +52,7 @@
               {{ sender.name }}
             </option>
           </select>
-          <span v-if="$v.selectedSender.$error" class="message">
+          <span v-if="v$.selectedSender.$error" class="message">
             {{ $t('CAMPAIGN.ADD.FORM.SENT_BY.ERROR') }}
           </span>
         </label>
@@ -60,25 +60,25 @@
           v-model="endPoint"
           :label="$t('CAMPAIGN.ADD.FORM.END_POINT.LABEL')"
           type="text"
-          :class="{ error: $v.endPoint.$error }"
+          :class="{ error: v$.endPoint.$error }"
           :error="
-            $v.endPoint.$error ? $t('CAMPAIGN.ADD.FORM.END_POINT.ERROR') : ''
+            v$.endPoint.$error ? $t('CAMPAIGN.ADD.FORM.END_POINT.ERROR') : ''
           "
           :placeholder="$t('CAMPAIGN.ADD.FORM.END_POINT.PLACEHOLDER')"
-          @blur="$v.endPoint.$touch"
+          @blur="v$.endPoint.$touch"
         />
         <woot-input
           v-model="timeOnPage"
           :label="$t('CAMPAIGN.ADD.FORM.TIME_ON_PAGE.LABEL')"
           type="text"
-          :class="{ error: $v.timeOnPage.$error }"
+          :class="{ error: v$.timeOnPage.$error }"
           :error="
-            $v.timeOnPage.$error
+            v$.timeOnPage.$error
               ? $t('CAMPAIGN.ADD.FORM.TIME_ON_PAGE.ERROR')
               : ''
           "
           :placeholder="$t('CAMPAIGN.ADD.FORM.TIME_ON_PAGE.PLACEHOLDER')"
-          @blur="$v.timeOnPage.$touch"
+          @blur="v$.timeOnPage.$touch"
         />
         <label>
           <input
@@ -99,7 +99,7 @@
           {{ $t('CAMPAIGN.ADD.FORM.TRIGGER_ONLY_BUSINESS_HOURS') }}
         </label>
       </div>
-      <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+      <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
         <woot-button :is-loading="uiFlags.isCreating">
           {{ $t('CAMPAIGN.EDIT.UPDATE_BUTTON_TEXT') }}
         </woot-button>
@@ -113,9 +113,10 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { required } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import { useAlert } from 'dashboard/composables';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 import campaignMixin from 'shared/mixins/campaignMixin';
 import { URLPattern } from 'urlpattern-polyfill';
 
@@ -123,12 +124,15 @@ export default {
   components: {
     WootMessageEditor,
   },
-  mixins: [alertMixin, campaignMixin],
+  mixins: [campaignMixin],
   props: {
     selectedCampaign: {
       type: Object,
       default: () => {},
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -225,7 +229,7 @@ export default {
       } catch (error) {
         const errorMessage =
           error?.response?.message || this.$t('CAMPAIGN.ADD.API.ERROR_MESSAGE');
-        this.showAlert(errorMessage);
+        useAlert(errorMessage);
       }
     },
     onChangeInbox() {
@@ -252,8 +256,8 @@ export default {
       this.loadInboxMembers();
     },
     async editCampaign() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         return;
       }
       try {
@@ -272,10 +276,10 @@ export default {
             time_on_page: this.timeOnPage,
           },
         });
-        this.showAlert(this.$t('CAMPAIGN.EDIT.API.SUCCESS_MESSAGE'));
+        useAlert(this.$t('CAMPAIGN.EDIT.API.SUCCESS_MESSAGE'));
         this.onClose();
       } catch (error) {
-        this.showAlert(this.$t('CAMPAIGN.EDIT.API.ERROR_MESSAGE'));
+        useAlert(this.$t('CAMPAIGN.EDIT.API.ERROR_MESSAGE'));
       }
     },
   },

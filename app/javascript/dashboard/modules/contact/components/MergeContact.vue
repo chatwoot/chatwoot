@@ -4,7 +4,7 @@
       <div>
         <div
           class="mt-1 multiselect-wrap--medium"
-          :class="{ error: $v.parentContact.$error }"
+          :class="{ error: v$.parentContact.$error }"
         >
           <label class="multiselect__label">
             {{ $t('MERGE_CONTACTS.PARENT.TITLE') }}
@@ -52,12 +52,12 @@
               {{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}
             </span>
           </multiselect>
-          <span v-if="$v.parentContact.$error" class="message">
+          <span v-if="v$.parentContact.$error" class="message">
             {{ $t('MERGE_CONTACTS.FORM.CHILD_CONTACT.ERROR') }}
           </span>
         </div>
       </div>
-      <div class="multiselect-wrap--medium flex">
+      <div class="flex multiselect-wrap--medium">
         <div
           class="w-8 relative text-base text-slate-100 dark:text-slate-600 after:content-[''] after:h-12 after:w-0 after:left-4 after:absolute after:border-l after:border-solid after:border-slate-100 after:dark:border-slate-600 before:content-[''] before:h-0 before:w-4 before:left-4 before:top-12 before:absolute before:border-b before:border-solid before:border-slate-100 before:dark:border-slate-600"
         >
@@ -102,7 +102,7 @@
       :primary-contact-name="primaryContact.name"
       :parent-contact-name="parentContactName"
     />
-    <div class="mt-6 flex gap-2 justify-end">
+    <div class="flex justify-end gap-2 mt-6">
       <woot-button variant="clear" @click.prevent="onCancel">
         {{ $t('MERGE_CONTACTS.FORM.CANCEL') }}
       </woot-button>
@@ -114,15 +114,14 @@
 </template>
 
 <script>
-import alertMixin from 'shared/mixins/alertMixin';
-import { required } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 
 import MergeContactSummary from 'dashboard/modules/contact/components/MergeContactSummary.vue';
 import ContactDropdownItem from './ContactDropdownItem.vue';
 
 export default {
   components: { MergeContactSummary, ContactDropdownItem },
-  mixins: [alertMixin],
   props: {
     primaryContact: {
       type: Object,
@@ -140,6 +139,9 @@ export default {
       type: Array,
       default: () => [],
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   validations: {
     primaryContact: {
@@ -165,8 +167,8 @@ export default {
       this.$emit('search', query);
     },
     onSubmit() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         return;
       }
       this.$emit('submit', this.parentContact.id);
@@ -198,7 +200,11 @@ export default {
   }
 
   .multiselect__tags {
-    @apply h-[52px];
+    @apply h-auto;
+  }
+
+  .multiselect__select {
+    @apply mt-px mr-1;
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 overflow-auto p-4">
+  <div class="flex-1 p-4 overflow-auto">
     <div class="flex flex-row gap-4">
       <div class="w-full lg:w-3/5">
         <woot-loading-state
@@ -18,12 +18,12 @@
             />
           </tbody>
         </table>
-        <p v-else class="flex h-full items-center flex-col justify-center">
+        <p v-else class="flex flex-col items-center justify-center h-full">
           {{ $t('AGENT_BOTS.LIST.404') }}
         </p>
       </div>
 
-      <div class="hidden lg:block w-1/3">
+      <div class="hidden w-1/3 lg:block">
         <p v-html="$t('AGENT_BOTS.SIDEBAR_TXT')" />
       </div>
     </div>
@@ -46,13 +46,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import { frontendURL } from '../../../../helper/URLHelper';
 import AgentBotRow from './components/AgentBotRow.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: { AgentBotRow },
-  mixins: [alertMixin],
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
@@ -74,9 +73,9 @@ export default {
       if (ok) {
         try {
           await this.$store.dispatch('agentBots/delete', bot.id);
-          this.showAlert(this.$t('AGENT_BOTS.DELETE.API.SUCCESS_MESSAGE'));
+          useAlert(this.$t('AGENT_BOTS.DELETE.API.SUCCESS_MESSAGE'));
         } catch (error) {
-          this.showAlert(this.$t('AGENT_BOTS.DELETE.API.ERROR_MESSAGE'));
+          useAlert(this.$t('AGENT_BOTS.DELETE.API.ERROR_MESSAGE'));
         }
       }
     },

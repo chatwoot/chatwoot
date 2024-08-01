@@ -3,7 +3,7 @@
     "HEADER": "Боти",
     "LOADING_EDITOR": "Завантаження редактора...",
     "HEADER_BTN_TXT": "Додати конфігурацію бота",
-    "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.</p> <p> You can manage your bots from this page or create new ones using the 'Add bot configuraton' button.</p> <p> Open the <a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">Agent bots handbook</a> in another tab for a helping hand.</p>",
+    "SIDEBAR_TXT": "<p><b>Боти-агенти</b></p>Боти-агенти – це найкращі члени вашої команди. Вони можуть впоратися з дрібницями, щоб ви могли зосередитися на тому, що дійсно важливо. Спробуйте їх.<p></p> Ви можете керувати своїми ботами з цієї сторінки або створювати нових за допомогою кнопки \"Додати конфігурацію бота\".<p></p> Відкрийте <a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">Посібник з ботів-агентів</a> на іншій вкладці, щоб отримати допомогу.</p>",
     "CSML_BOT_EDITOR": {
       "NAME": {
         "LABEL": "Ім'я бота",

@@ -11,7 +11,7 @@
     <div
       class="macro__node-action-item"
       :class="{
-        'has-error': hasError($v.macro.actions.$each[index]),
+        'has-error': errorKey,
       }"
     >
       <action-input
@@ -21,7 +21,7 @@
         :show-action-input="showActionInput"
         :show-remove-button="false"
         :is-macro="true"
-        :v="$v.macro.actions.$each[index]"
+        :error-message="errorMessage"
         :initial-file-name="fileName"
         @resetAction="$emit('resetAction')"
       />
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import { inject } from 'vue';
 import ActionInput from 'dashboard/components/widgets/AutomationActionInput.vue';
 import macrosMixin from 'dashboard/mixins/macrosMixin';
 import { mapGetters } from 'vuex';
@@ -48,7 +49,6 @@ export default {
     ActionInput,
   },
   mixins: [macrosMixin],
-  inject: ['macroActionTypes', '$v'],
   props: {
     singleNode: {
       type: Boolean,
@@ -58,6 +58,10 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    errorKey: {
+      type: String,
+      default: '',
+    },
     index: {
       type: Number,
       default: 0,
@@ -66,6 +70,10 @@ export default {
       type: String,
       default: '',
     },
+  },
+  setup() {
+    const macroActionTypes = inject('macroActionTypes');
+    return { macroActionTypes };
   },
   computed: {
     ...mapGetters({
@@ -80,6 +88,11 @@ export default {
       set(value) {
         this.$emit('input', value);
       },
+    },
+    errorMessage() {
+      if (!this.errorKey) return '';
+
+      return this.$t(`MACROS.ERRORS.${this.errorKey}`);
     },
     showActionInput() {
       if (
@@ -96,9 +109,6 @@ export default {
   methods: {
     dropdownValues() {
       return this.getDropdownValues(this.value.action_name, this.$store);
-    },
-    hasError(v) {
-      return !!(v.action_params.$dirty && v.action_params.$error);
     },
   },
 };

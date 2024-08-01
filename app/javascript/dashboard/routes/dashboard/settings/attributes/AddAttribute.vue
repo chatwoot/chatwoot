@@ -1,18 +1,18 @@
 <template>
   <woot-modal :show.sync="show" :on-close="onClose">
-    <div class="h-auto overflow-auto flex flex-col">
+    <div class="flex flex-col h-auto overflow-auto">
       <woot-modal-header :header-title="$t('ATTRIBUTES_MGMT.ADD.TITLE')" />
 
       <form class="flex w-full" @submit.prevent="addAttributes">
         <div class="w-full">
-          <label :class="{ error: $v.attributeModel.$error }">
+          <label :class="{ error: v$.attributeModel.$error }">
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.MODEL.LABEL') }}
             <select v-model="attributeModel">
               <option v-for="model in models" :key="model.id" :value="model.id">
                 {{ model.option }}
               </option>
             </select>
-            <span v-if="$v.attributeModel.$error" class="message">
+            <span v-if="v$.attributeModel.$error" class="message">
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.MODEL.ERROR') }}
             </span>
           </label>
@@ -20,46 +20,46 @@
             v-model="displayName"
             :label="$t('ATTRIBUTES_MGMT.ADD.FORM.NAME.LABEL')"
             type="text"
-            :class="{ error: $v.displayName.$error }"
+            :class="{ error: v$.displayName.$error }"
             :error="
-              $v.displayName.$error
+              v$.displayName.$error
                 ? $t('ATTRIBUTES_MGMT.ADD.FORM.NAME.ERROR')
                 : ''
             "
             :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.NAME.PLACEHOLDER')"
             @input="onDisplayNameChange"
-            @blur="$v.displayName.$touch"
+            @blur="v$.displayName.$touch"
           />
           <woot-input
             v-model="attributeKey"
             :label="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.LABEL')"
             type="text"
-            :class="{ error: $v.attributeKey.$error }"
-            :error="$v.attributeKey.$error ? keyErrorMessage : ''"
+            :class="{ error: v$.attributeKey.$error }"
+            :error="v$.attributeKey.$error ? keyErrorMessage : ''"
             :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.PLACEHOLDER')"
-            @blur="$v.attributeKey.$touch"
+            @blur="v$.attributeKey.$touch"
           />
-          <label :class="{ error: $v.description.$error }">
+          <label :class="{ error: v$.description.$error }">
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.DESC.LABEL') }}
             <textarea
               v-model="description"
               rows="3"
               type="text"
               :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.DESC.PLACEHOLDER')"
-              @blur="$v.description.$touch"
+              @blur="v$.description.$touch"
             />
-            <span v-if="$v.description.$error" class="message">
+            <span v-if="v$.description.$error" class="message">
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.DESC.ERROR') }}
             </span>
           </label>
-          <label :class="{ error: $v.attributeType.$error }">
+          <label :class="{ error: v$.attributeType.$error }">
             {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LABEL') }}
             <select v-model="attributeType">
               <option v-for="type in types" :key="type.id" :value="type.id">
                 {{ type.option }}
               </option>
             </select>
-            <span v-if="$v.attributeType.$error" class="message">
+            <span v-if="v$.attributeType.$error" class="message">
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.ERROR') }}
             </span>
           </label>
@@ -110,7 +110,7 @@
             type="text"
             :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_CUE.PLACEHOLDER')"
           />
-          <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+          <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
             <woot-submit-button
               :disabled="isButtonDisabled"
               :button-text="$t('ATTRIBUTES_MGMT.ADD.SUBMIT')"
@@ -126,21 +126,23 @@
 </template>
 
 <script>
-import { required, minLength } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required, minLength } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import { convertToAttributeSlug } from 'dashboard/helper/commons.js';
 import { ATTRIBUTE_MODELS, ATTRIBUTE_TYPES } from './constants';
-import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
-  mixins: [alertMixin],
   props: {
     onClose: {
       type: Function,
       default: () => {},
     },
   },
-
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       displayName: '',
@@ -175,14 +177,14 @@ export default {
     },
     isButtonDisabled() {
       return (
-        this.$v.displayName.$invalid ||
-        this.$v.description.$invalid ||
+        this.v$.displayName.$invalid ||
+        this.v$.description.$invalid ||
         this.uiFlags.isCreating ||
         this.isTagInputInvalid
       );
     },
     keyErrorMessage() {
-      if (!this.$v.attributeKey.isKey) {
+      if (!this.v$.attributeKey.isKey) {
         return this.$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.IN_VALID');
       }
       return this.$t('ATTRIBUTES_MGMT.ADD.FORM.KEY.ERROR');
@@ -238,8 +240,8 @@ export default {
       this.regexEnabled = !this.regexEnabled;
     },
     async addAttributes() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         return;
       }
       if (!this.regexEnabled) {
@@ -266,7 +268,7 @@ export default {
         this.alertMessage =
           errorMessage || this.$t('ATTRIBUTES_MGMT.ADD.API.ERROR_MESSAGE');
       } finally {
-        this.showAlert(this.alertMessage);
+        useAlert(this.alertMessage);
       }
     },
   },

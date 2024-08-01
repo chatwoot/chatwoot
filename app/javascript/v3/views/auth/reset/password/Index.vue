@@ -25,13 +25,13 @@
         <form-input
           v-model.trim="credentials.email"
           name="email_address"
-          :has-error="$v.credentials.email.$error"
+          :has-error="v$.credentials.email.$error"
           :error-message="$t('RESET_PASSWORD.EMAIL.ERROR')"
           :placeholder="$t('RESET_PASSWORD.EMAIL.PLACEHOLDER')"
-          @input="$v.credentials.email.$touch"
+          @input="v$.credentials.email.$touch"
         />
         <SubmitButton
-          :disabled="$v.credentials.email.$invalid || resetPassword.showLoading"
+          :disabled="v$.credentials.email.$invalid || resetPassword.showLoading"
           :button-text="$t('RESET_PASSWORD.SUBMIT')"
           :loading="resetPassword.showLoading"
         />
@@ -47,17 +47,21 @@
 </template>
 
 <script>
-import { required, minLength, email } from 'vuelidate/lib/validators';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { useVuelidate } from '@vuelidate/core';
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
+import { required, minLength, email } from '@vuelidate/validators';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import FormInput from '../../../../components/Form/Input.vue';
 import { resetPassword } from '../../../../api/auth';
 import SubmitButton from '../../../../components/Button/SubmitButton.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: { FormInput, SubmitButton },
-  mixins: [globalConfigMixin, alertMixin],
+  mixins: [globalConfigMixin],
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       credentials: { email: '' },
@@ -84,7 +88,7 @@ export default {
     showAlertMessage(message) {
       // Reset loading, current selected agent
       this.resetPassword.showLoading = false;
-      this.showAlert(message);
+      useAlert(message);
     },
     submit() {
       this.resetPassword.showLoading = true;

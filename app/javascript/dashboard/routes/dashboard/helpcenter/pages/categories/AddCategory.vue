@@ -7,7 +7,7 @@
     />
     <form class="w-full" @submit.prevent="onCreate">
       <div class="w-full">
-        <div class="flex flex-row w-full mt-0 mx-0 mb-4">
+        <div class="flex flex-row w-full mx-0 mt-0 mb-4">
           <div class="w-[50%]">
             <label>
               <span>{{ $t('HELP_CENTER.CATEGORY.ADD.PORTAL') }}</span>
@@ -25,20 +25,20 @@
           :label="$t('HELP_CENTER.CATEGORY.ADD.NAME.LABEL')"
           :placeholder="$t('HELP_CENTER.CATEGORY.ADD.NAME.PLACEHOLDER')"
           :help-text="$t('HELP_CENTER.CATEGORY.ADD.NAME.HELP_TEXT')"
-          :has-error="$v.name.$error"
+          :has-error="v$.name.$error"
           :error-message="$t('HELP_CENTER.CATEGORY.ADD.NAME.ERROR')"
           @name-change="onNameChange"
           @icon-change="onClickInsertEmoji"
         />
         <woot-input
           v-model.trim="slug"
-          :class="{ error: $v.slug.$error }"
+          :class="{ error: v$.slug.$error }"
           class="w-full"
           :error="slugError"
           :label="$t('HELP_CENTER.CATEGORY.ADD.SLUG.LABEL')"
           :placeholder="$t('HELP_CENTER.CATEGORY.ADD.SLUG.PLACEHOLDER')"
           :help-text="$t('HELP_CENTER.CATEGORY.ADD.SLUG.HELP_TEXT')"
-          @input="$v.slug.$touch"
+          @input="v$.slug.$touch"
         />
         <label>
           {{ $t('HELP_CENTER.CATEGORY.ADD.DESCRIPTION.LABEL') }}
@@ -52,7 +52,7 @@
           />
         </label>
         <div class="w-full">
-          <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
+          <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
             <woot-button class="button clear" @click.prevent="onClose">
               {{ $t('HELP_CENTER.CATEGORY.ADD.BUTTONS.CANCEL') }}
             </woot-button>
@@ -67,15 +67,15 @@
 </template>
 
 <script>
-import alertMixin from 'shared/mixins/alertMixin';
-import { required, minLength } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { useAlert } from 'dashboard/composables';
+import { required, minLength } from '@vuelidate/validators';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
 import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 import CategoryNameIconInput from './NameEmojiInput.vue';
 
 export default {
   components: { CategoryNameIconInput },
-  mixins: [alertMixin],
   props: {
     show: {
       type: Boolean,
@@ -93,6 +93,9 @@ export default {
       type: String,
       default: '',
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -118,7 +121,7 @@ export default {
         : this.portalSlug;
     },
     slugError() {
-      if (this.$v.slug.$error) {
+      if (this.v$.slug.$error) {
         return this.$t('HELP_CENTER.CATEGORY.ADD.SLUG.ERROR');
       }
       return '';
@@ -148,8 +151,8 @@ export default {
         description,
         locale,
       };
-      this.$v.$touch();
-      if (this.$v.$invalid) {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
         return;
       }
       try {
@@ -169,7 +172,7 @@ export default {
         this.alertMessage =
           errorMessage || this.$t('HELP_CENTER.CATEGORY.ADD.API.ERROR_MESSAGE');
       } finally {
-        this.showAlert(this.alertMessage);
+        useAlert(this.alertMessage);
       }
     },
   },

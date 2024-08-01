@@ -20,21 +20,9 @@ const state = {
   },
 };
 
-const isAValidAppIntegration = integration => {
-  return [
-    'dialogflow',
-    'dyte',
-    'google_translate',
-    'openai',
-    'linear',
-  ].includes(integration.id);
-};
 export const getters = {
-  getIntegrations($state) {
-    return $state.records.filter(item => !isAValidAppIntegration(item));
-  },
   getAppIntegrations($state) {
-    return $state.records.filter(item => isAValidAppIntegration(item));
+    return $state.records;
   },
   getIntegration: $state => integrationId => {
     const [integration] = $state.records.filter(

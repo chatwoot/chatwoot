@@ -2,7 +2,7 @@
   <div
     class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
   >
-    <form class="mx-0 flex flex-wrap" @submit.prevent="addAgents()">
+    <form class="flex flex-wrap mx-0" @submit.prevent="addAgents()">
       <div class="w-full">
         <page-header
           :header-title="$t('INBOX_MGMT.ADD.AGENTS.TITLE')"
@@ -11,7 +11,7 @@
       </div>
       <div class="w-3/5">
         <div class="w-full">
-          <label :class="{ error: $v.selectedAgents.$error }">
+          <label :class="{ error: v$.selectedAgents.$error }">
             {{ $t('INBOX_MGMT.ADD.AGENTS.TITLE') }}
             <multiselect
               v-model="selectedAgents"
@@ -26,9 +26,9 @@
               :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
               :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
               :placeholder="$t('INBOX_MGMT.ADD.AGENTS.PICK_AGENTS')"
-              @select="$v.selectedAgents.$touch"
+              @select="v$.selectedAgents.$touch"
             />
-            <span v-if="$v.selectedAgents.$error" class="message">
+            <span v-if="v$.selectedAgents.$error" class="message">
               {{ $t('INBOX_MGMT.ADD.AGENTS.VALIDATION_ERROR') }}
             </span>
           </label>
@@ -47,18 +47,17 @@
 <script>
 /* eslint no-console: 0 */
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 
 import InboxMembersAPI from '../../../../api/inboxMembers';
 import router from '../../../index';
 import PageHeader from '../SettingsSubPageHeader.vue';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useVuelidate } from '@vuelidate/core';
 
 export default {
   components: {
     PageHeader,
   },
-  mixins: [alertMixin],
-
   validations: {
     selectedAgents: {
       isEmpty() {
@@ -66,24 +65,23 @@ export default {
       },
     },
   },
-
+  setup() {
+    return { v$: useVuelidate() };
+  },
   data() {
     return {
       selectedAgents: [],
       isCreating: false,
     };
   },
-
   computed: {
     ...mapGetters({
       agentList: 'agents/getAgents',
     }),
   },
-
   mounted() {
     this.$store.dispatch('agents/get');
   },
-
   methods: {
     async addAgents() {
       this.isCreating = true;
@@ -100,7 +98,7 @@ export default {
           },
         });
       } catch (error) {
-        this.showAlert(error.message);
+        useAlert(error.message);
       }
       this.isCreating = false;
     },

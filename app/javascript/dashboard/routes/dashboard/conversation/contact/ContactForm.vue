@@ -18,38 +18,38 @@
     </div>
     <div>
       <div class="w-full">
-        <label :class="{ error: $v.name.$error }">
+        <label :class="{ error: v$.name.$error }">
           {{ $t('CONTACT_FORM.FORM.NAME.LABEL') }}
           <input
             v-model.trim="name"
             type="text"
             :placeholder="$t('CONTACT_FORM.FORM.NAME.PLACEHOLDER')"
-            @input="$v.name.$touch"
+            @input="v$.name.$touch"
           />
         </label>
 
-        <label :class="{ error: $v.email.$error }">
+        <label :class="{ error: v$.email.$error }">
           {{ $t('CONTACT_FORM.FORM.EMAIL_ADDRESS.LABEL') }}
           <input
             v-model.trim="email"
             type="text"
             :placeholder="$t('CONTACT_FORM.FORM.EMAIL_ADDRESS.PLACEHOLDER')"
-            @input="$v.email.$touch"
+            @input="v$.email.$touch"
           />
-          <span v-if="$v.email.$error" class="message">
+          <span v-if="v$.email.$error" class="message">
             {{ $t('CONTACT_FORM.FORM.EMAIL_ADDRESS.ERROR') }}
           </span>
         </label>
       </div>
     </div>
     <div class="w-full">
-      <label :class="{ error: $v.description.$error }">
+      <label :class="{ error: v$.description.$error }">
         {{ $t('CONTACT_FORM.FORM.BIO.LABEL') }}
         <textarea
           v-model.trim="description"
           type="text"
           :placeholder="$t('CONTACT_FORM.FORM.BIO.PLACEHOLDER')"
-          @input="$v.description.$touch"
+          @input="v$.description.$touch"
         />
       </label>
     </div>
@@ -67,7 +67,7 @@
             :error="isPhoneNumberNotValid"
             :placeholder="$t('CONTACT_FORM.FORM.PHONE_NUMBER.PLACEHOLDER')"
             @input="onPhoneNumberInputChange"
-            @blur="$v.phoneNumber.$touch"
+            @blur="v$.phoneNumber.$touch"
             @setCode="setPhoneCode"
           />
           <span v-if="isPhoneNumberNotValid" class="message">
@@ -150,18 +150,18 @@
 </template>
 
 <script>
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import {
   DuplicateContactException,
   ExceptionWithMessage,
 } from 'shared/helpers/CustomErrors';
-import { required, email } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required, email } from '@vuelidate/validators';
 import countries from 'shared/constants/countries.js';
 import { isPhoneNumberValid } from 'shared/helpers/Validators';
 import parsePhoneNumber from 'libphonenumber-js';
 
 export default {
-  mixins: [alertMixin],
   props: {
     contact: {
       type: Object,
@@ -175,6 +175,9 @@ export default {
       type: Function,
       default: () => {},
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -368,27 +371,25 @@ export default {
       }
     },
     async handleSubmit() {
-      this.$v.$touch();
-      if (this.$v.$invalid || this.isPhoneNumberNotValid) {
+      this.v$.$touch();
+      if (this.v$.$invalid || this.isPhoneNumberNotValid) {
         return;
       }
       try {
         await this.onSubmit(this.getContactObject());
         this.onSuccess();
-        this.showAlert(this.$t('CONTACT_FORM.SUCCESS_MESSAGE'));
+        useAlert(this.$t('CONTACT_FORM.SUCCESS_MESSAGE'));
       } catch (error) {
         if (error instanceof DuplicateContactException) {
           if (error.data.includes('email')) {
-            this.showAlert(
-              this.$t('CONTACT_FORM.FORM.EMAIL_ADDRESS.DUPLICATE')
-            );
+            useAlert(this.$t('CONTACT_FORM.FORM.EMAIL_ADDRESS.DUPLICATE'));
           } else if (error.data.includes('phone_number')) {
-            this.showAlert(this.$t('CONTACT_FORM.FORM.PHONE_NUMBER.DUPLICATE'));
+            useAlert(this.$t('CONTACT_FORM.FORM.PHONE_NUMBER.DUPLICATE'));
           }
         } else if (error instanceof ExceptionWithMessage) {
-          this.showAlert(error.data);
+          useAlert(error.data);
         } else {
-          this.showAlert(this.$t('CONTACT_FORM.ERROR_MESSAGE'));
+          useAlert(this.$t('CONTACT_FORM.ERROR_MESSAGE'));
         }
       }
     },
@@ -400,15 +401,13 @@ export default {
       try {
         if (this.contact && this.contact.id) {
           await this.$store.dispatch('contacts/deleteAvatar', this.contact.id);
-          this.showAlert(
-            this.$t('CONTACT_FORM.DELETE_AVATAR.API.SUCCESS_MESSAGE')
-          );
+          useAlert(this.$t('CONTACT_FORM.DELETE_AVATAR.API.SUCCESS_MESSAGE'));
         }
         this.avatarFile = null;
         this.avatarUrl = '';
         this.activeDialCode = '';
       } catch (error) {
-        this.showAlert(
+        useAlert(
           error.message
             ? error.message
             : this.$t('CONTACT_FORM.DELETE_AVATAR.API.ERROR_MESSAGE')

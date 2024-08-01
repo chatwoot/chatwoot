@@ -13,19 +13,19 @@
           <p>{{ $t('GENERAL_SETTINGS.FORM.GENERAL_SECTION.NOTE') }}</p>
         </div>
         <div class="p-4 flex-grow-0 flex-shrink-0 flex-[50%]">
-          <label :class="{ error: $v.name.$error }">
+          <label :class="{ error: v$.name.$error }">
             {{ $t('GENERAL_SETTINGS.FORM.NAME.LABEL') }}
             <input
               v-model="name"
               type="text"
               :placeholder="$t('GENERAL_SETTINGS.FORM.NAME.PLACEHOLDER')"
-              @blur="$v.name.$touch"
+              @blur="v$.name.$touch"
             />
-            <span v-if="$v.name.$error" class="message">
+            <span v-if="v$.name.$error" class="message">
               {{ $t('GENERAL_SETTINGS.FORM.NAME.ERROR') }}
             </span>
           </label>
-          <label :class="{ error: $v.locale.$error }">
+          <label :class="{ error: v$.locale.$error }">
             {{ $t('GENERAL_SETTINGS.FORM.LANGUAGE.LABEL') }}
             <select v-model="locale">
               <option
@@ -36,7 +36,7 @@
                 {{ lang.name }}
               </option>
             </select>
-            <span v-if="$v.locale.$error" class="message">
+            <span v-if="v$.locale.$error" class="message">
               {{ $t('GENERAL_SETTINGS.FORM.LANGUAGE.ERROR') }}
             </span>
           </label>
@@ -68,7 +68,7 @@
           </label>
           <label
             v-if="showAutoResolutionConfig"
-            :class="{ error: $v.autoResolveDuration.$error }"
+            :class="{ error: v$.autoResolveDuration.$error }"
           >
             {{ $t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.LABEL') }}
             <input
@@ -77,9 +77,9 @@
               :placeholder="
                 $t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.PLACEHOLDER')
               "
-              @blur="$v.autoResolveDuration.$touch"
+              @blur="v$.autoResolveDuration.$touch"
             />
-            <span v-if="$v.autoResolveDuration.$error" class="message">
+            <span v-if="v$.autoResolveDuration.$error" class="message">
               {{ $t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.ERROR') }}
             </span>
           </label>
@@ -87,7 +87,7 @@
       </div>
 
       <div
-        class="p-4 border-slate-25 dark:border-slate-700 text-black-900 dark:text-slate-300 flex flex-row"
+        class="flex flex-row p-4 border-slate-25 dark:border-slate-700 text-black-900 dark:text-slate-300"
       >
         <div
           class="flex-grow-0 flex-shrink-0 flex-[25%] min-w-0 py-4 pr-6 pl-0"
@@ -103,7 +103,7 @@
           <woot-code :script="getAccountId" />
         </div>
       </div>
-      <div class="text-sm text-center p-4">
+      <div class="p-4 text-sm text-center">
         <div>{{ `v${globalConfig.appVersion}` }}</div>
         <div v-if="hasAnUpdateAvailable && globalConfig.displayManifest">
           {{
@@ -129,18 +129,25 @@
 </template>
 
 <script>
-import { required, minValue, maxValue } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required, minValue, maxValue } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import configMixin from 'shared/mixins/configMixin';
 import accountMixin from '../../../../mixins/account';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import semver from 'semver';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 
 export default {
-  mixins: [accountMixin, alertMixin, configMixin, uiSettingsMixin],
+  mixins: [accountMixin, configMixin],
+  setup() {
+    const { updateUISettings } = useUISettings();
+    const v$ = useVuelidate();
+
+    return { updateUISettings, v$ };
+  },
   data() {
     return {
       id: '',
@@ -251,9 +258,9 @@ export default {
     },
 
     async updateAccount() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        this.showAlert(this.$t('GENERAL_SETTINGS.FORM.ERROR'));
+      this.v$.$touch();
+      if (this.v$.$invalid) {
+        useAlert(this.$t('GENERAL_SETTINGS.FORM.ERROR'));
         return;
       }
       try {
@@ -267,9 +274,9 @@ export default {
         this.$root.$i18n.locale = this.locale;
         this.getAccount(this.id).locale = this.locale;
         this.updateDirectionView(this.locale);
-        this.showAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
+        useAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
       } catch (error) {
-        this.showAlert(this.$t('GENERAL_SETTINGS.UPDATE.ERROR'));
+        useAlert(this.$t('GENERAL_SETTINGS.UPDATE.ERROR'));
       }
     },
 

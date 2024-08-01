@@ -15,7 +15,7 @@
             />
             <woot-input
               v-model.trim="websiteName"
-              :class="{ error: $v.websiteName.$error }"
+              :class="{ error: v$.websiteName.$error }"
               :label="
                 $t(
                   'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WEBSITE_NAME.LABEL'
@@ -27,7 +27,7 @@
                 )
               "
               :error="websiteNameValidationErrorMsg"
-              @blur="$v.websiteName.$touch"
+              @blur="v$.websiteName.$touch"
             />
             <woot-input
               v-model.trim="welcomeHeading"
@@ -118,7 +118,7 @@
                 )
               "
               :loading="uiFlags.isUpdating"
-              :disabled="$v.$invalid || uiFlags.isUpdating"
+              :disabled="v$.$invalid || uiFlags.isUpdating"
             />
           </form>
         </div>
@@ -154,10 +154,11 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import Widget from 'dashboard/modules/widget-preview/components/Widget.vue';
 import InputRadioGroup from './components/InputRadioGroup.vue';
-import alertMixin from 'shared/mixins/alertMixin';
-import { required } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 
@@ -166,12 +167,14 @@ export default {
     Widget,
     InputRadioGroup,
   },
-  mixins: [alertMixin],
   props: {
     inbox: {
       type: Object,
       default: () => {},
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -288,7 +291,7 @@ export default {
       ];
     },
     websiteNameValidationErrorMsg() {
-      return this.$v.websiteName.$error
+      return this.v$.websiteName.$error
         ? this.$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WEBSITE_NAME.ERROR')
         : '';
     },
@@ -355,13 +358,13 @@ export default {
         await this.$store.dispatch('inboxes/deleteInboxAvatar', this.inbox.id);
         this.avatarFile = null;
         this.avatarUrl = '';
-        this.showAlert(
+        useAlert(
           this.$t(
             'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR.DELETE.API.SUCCESS_MESSAGE'
           )
         );
       } catch (error) {
-        this.showAlert(
+        useAlert(
           error.message
             ? error.message
             : this.$t(
@@ -394,13 +397,13 @@ export default {
           payload.avatar = this.avatarFile;
         }
         await this.$store.dispatch('inboxes/updateInbox', payload);
-        this.showAlert(
+        useAlert(
           this.$t(
             'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.UPDATE.API.SUCCESS_MESSAGE'
           )
         );
       } catch (error) {
-        this.showAlert(
+        useAlert(
           error.message ||
             this.$t(
               'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.UPDATE.API.ERROR_MESSAGE'
