@@ -10,7 +10,7 @@
         />
       </div>
       <p v-else class="text-center text-slate-800 dark:text-slate-200">
-        {{ $t('TICKETS.NO_TICKETS') }}
+        {{ $t('TICKETS.LIST.NO_TICKETS') }}
       </p>
     </div>
     <spinner v-else />
