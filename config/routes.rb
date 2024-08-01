@@ -216,9 +216,9 @@ Rails.application.routes.draw do
           resources :webhooks, only: [:index, :create, :update, :destroy]
           namespace :integrations do
             resources :apps, only: [:index, :show]
-            resource :robin_ai, controller: 'robin_ai', only: [] do
+            resource :captain, controller: 'captain', only: [] do
               collection do
-                post :generate_sso_url
+                get :sso_url
               end
             end
             resources :hooks, only: [:show, :create, :update, :destroy] do
