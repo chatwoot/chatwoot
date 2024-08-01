@@ -283,7 +283,8 @@
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
       "PREVIOUS_CONVERSATION": "Previous Conversations",
-      "MACROS": "Macros"
+      "MACROS": "Macros",
+      "CONVERSATION_TICKETS": "Tickets"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

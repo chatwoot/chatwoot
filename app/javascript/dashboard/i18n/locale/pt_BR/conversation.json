@@ -282,7 +282,8 @@
       "CONVERSATION_INFO": "Informação da conversa",
       "CONTACT_ATTRIBUTES": "Atributos do contato",
       "PREVIOUS_CONVERSATION": "Conversas anteriores",
-      "MACROS": "Macros"
+      "MACROS": "Macros",
+      "CONVERSATION_TICKETS": "Tickets"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
