@@ -37,7 +37,7 @@ class ParquetReport < ApplicationRecord
   PENDING = 'pending'.freeze
 
   def process!
-    # Implement in subclass
+    load_records
   end
 
   def progress_url
@@ -89,7 +89,7 @@ class ParquetReport < ApplicationRecord
   end
 
   def accessible_params
-    params.with_indifferent_access
+    params.to_h.with_indifferent_access
   end
 
   def range

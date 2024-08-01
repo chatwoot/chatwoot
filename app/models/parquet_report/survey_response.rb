@@ -27,7 +27,7 @@
 #
 class ParquetReport::SurveyResponse < ParquetReport
   def process!
-    load_surveys
+    super
 
     url = Digitaltolk::SurveyResponsesParquetService.new(@csat_survey_responses, file_name, self).perform
     complete_and_save_url!(url)
@@ -37,6 +37,10 @@ class ParquetReport::SurveyResponse < ParquetReport
     url = Digitaltolk::SurveyResponsesParquetService.new([], file_name, self).perform
     update_columns(file_url: url)
     url
+  end
+
+  def load_records
+    load_surveys
   end
 
   private

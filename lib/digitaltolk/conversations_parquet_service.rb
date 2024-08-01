@@ -40,6 +40,7 @@ attr_accessor :conversations, :file_name, :report
       Arrow::Field.new('contact_last_seen_at', :int64),
       Arrow::Field.new('custom_attributes', :string),
       Arrow::Field.new('inbox_id', :int64),
+      Arrow::Field.new('inbox_name', :string),
       Arrow::Field.new('labels', :string),
       Arrow::Field.new('muted', :boolean),
       Arrow::Field.new('snoozed_until', :int64),
@@ -92,6 +93,7 @@ attr_accessor :conversations, :file_name, :report
         @columns['contact_last_seen_at'] << conversation&.contact_last_seen_at.to_i
         @columns['custom_attributes'] << conversation&.custom_attributes.to_s
         @columns['inbox_id'] << conversation&.inbox_id.to_i
+        @columns['inbox_name'] << conversation&.inbox&.name.to_s
         @columns['labels'] << (conversation.present? ? conversation.cached_label_list_array.join(',').to_s : '')
         @columns['muted'] << !!(conversation&.muted?)
         @columns['snoozed_until'] << conversation&.snoozed_until.to_i
@@ -134,6 +136,7 @@ attr_accessor :conversations, :file_name, :report
       Arrow::Int64Array.new(@columns['contact_last_seen_at']),
       Arrow::StringArray.new(@columns['custom_attributes']),
       Arrow::Int64Array.new(@columns['inbox_id']),
+      Arrow::StringArray.new(@columns['inbox_name']),
       Arrow::StringArray.new(@columns['labels']),
       Arrow::BooleanArray.new(@columns['muted']),
       Arrow::Int64Array.new(@columns['snoozed_until']),

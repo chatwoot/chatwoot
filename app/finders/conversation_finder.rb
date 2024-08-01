@@ -42,7 +42,7 @@ class ConversationFinder
     mine_count, unassigned_count, all_count, all_inbox_open_count, my_teams_open_count, = set_count_for_all_conversations
     assigned_count = all_count - unassigned_count
 
-    filter_by_assignee_type unless export_as_parquet?
+    filter_by_assignee_type
 
     {
       conversations: conversations,
@@ -90,7 +90,7 @@ class ConversationFinder
 
   def find_all_conversations
     @conversations = current_account.conversations.where(inbox_id: @inbox_ids)
-    filter_by_conversation_type if params[:conversation_type] && !export_as_parquet?
+    filter_by_conversation_type if params[:conversation_type]
     @conversations
   end
 
@@ -176,24 +176,16 @@ class ConversationFinder
     )
   end
 
-  def export_as_parquet?
-    ActiveRecord::Type::Boolean.new.deserialize(params[:export_as_parquet])
-  end
-
   def conversations
     @conversations = conversations_base_query
 
     sort_by, sort_order = SORT_OPTIONS[params[:sort_by]] || SORT_OPTIONS['last_activity_at_desc']
     @conversations = @conversations.send(sort_by, sort_order)
 
-    if export_as_parquet?
-      @conversations.filter_by_created_at(range)
+    if params[:updated_within].present?
+      @conversations.where('conversations.updated_at > ?', Time.zone.now - params[:updated_within].to_i.seconds)
     else
-      if params[:updated_within].present?
-        @conversations.where('conversations.updated_at > ?', Time.zone.now - params[:updated_within].to_i.seconds)
-      else
-        @conversations.page(current_page).per(ENV.fetch('CONVERSATION_RESULTS_PER_PAGE', '25').to_i)
-      end
+      @conversations.page(current_page).per(ENV.fetch('CONVERSATION_RESULTS_PER_PAGE', '25').to_i)
     end
   end
 end

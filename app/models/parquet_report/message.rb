@@ -27,8 +27,7 @@
 #
 class ParquetReport::Message < ParquetReport
   def process!
-    load_messages
-
+    super
     url = Digitaltolk::MessagesParquetService.new(@messages, file_name, self).perform
     complete_and_save_url!(url)
   end
@@ -37,6 +36,10 @@ class ParquetReport::Message < ParquetReport
     url = Digitaltolk::MessagesParquetService.new([], file_name, self).perform
     update_columns(file_url: url)
     url
+  end
+
+  def load_records
+    load_messages
   end
 
   private

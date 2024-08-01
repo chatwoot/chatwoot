@@ -27,7 +27,7 @@
 #
 class ParquetReport::Conversation < ParquetReport
   def process!
-    load_conversations
+    super
 
     url = Digitaltolk::ConversationsParquetService.new(@conversations, file_name, self).perform
     complete_and_save_url!(url)
@@ -39,12 +39,15 @@ class ParquetReport::Conversation < ParquetReport
     url
   end
 
+  def load_records
+    load_conversations
+  end
+
   private
 
   def load_conversations
     prepare_attributes
-    conversation_finder = ConversationFinder.new(user, accessible_params)
-    result = conversation_finder.perform
-    @conversations = result[:conversations]
+
+    @conversations = account.conversations.filter_by_created_at(range)
   end
 end
