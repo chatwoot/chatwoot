@@ -5,7 +5,8 @@
     "STATUS": {
       "OPEN": "Aberto",
       "PENDING": "Pendente",
-      "RESOLVED": "Resolvido"
+      "RESOLVED": "Resolvido",
+      "ALL": "Todos"
     },
     "PRIORITY": {
       "LOW": "Baixo",
