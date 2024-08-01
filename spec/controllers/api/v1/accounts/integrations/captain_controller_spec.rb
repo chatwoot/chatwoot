@@ -6,7 +6,7 @@ RSpec.describe 'Captain Integrations API', type: :request do
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:inbox) { create(:inbox, account: account) }
 
-  describe 'POST /api/v1/accounts/{account.id}/integrations/captain/generate_sso_url' do
+  describe 'GET /api/v1/accounts/{account.id}/integrations/captain/sso_url' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         get sso_url_api_v1_account_integrations_captain_url(account_id: account.id),
