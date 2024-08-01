@@ -81,79 +81,42 @@ export default {
         rootMargin: '100px 0px 100px 0px',
       },
       selectedTickets: [],
-      ticketLists: [
-        {
-          id: 1,
-          title: 'All',
-          description: 'All tickets',
-          status: 'open',
-          resolved: false,
-          assignee_type: 'me',
-          priority: 1,
-          conversations_count: 2,
-          labels: ['sales'],
-          created_at: '2023-07-26T00:00:00.000Z',
-        },
-        {
-          id: 2,
-          title: 'Open',
-          description: 'Open tickets',
-          status: 'open',
-          resolved: false,
-          assignee_type: 'me',
-          priority: 1,
-          conversations_count: 2,
-          labels: ['sales'],
-          created_at: '2023-07-26T00:00:00.000Z',
-        },
-        {
-          id: 3,
-          title: 'Resolved',
-          description: 'Resolved tickets',
-          status: 'resolved',
-          resolved: true,
-          assignee_type: 'me',
-          priority: 1,
-          conversations_count: 2,
-          labels: ['sales'],
-          created_at: '2023-07-26T00:00:00.000Z',
-        },
-        {
-          id: 4,
-          title: 'My tickets',
-          description: 'My tickets',
-          status: 'closed',
-          resolved: false,
-          assignee_type: 'me',
-          priority: 1,
-          conversations_count: 2,
-          labels: ['sales'],
-          created_at: '2023-07-26T00:00:00.000Z',
-        },
-      ],
     };
   },
   computed: {
     ...mapGetters({
       ticketListLoading: 'tickets/getUIFlagsPage',
       ticketStats: 'tickets/getStats',
+      ticketLists: 'tickets/getTickets',
     }),
     assigneeTabItems() {
       return [
-        { key: 'open', name: 'Open', count: this.ticketStats.open },
-        { key: 'closed', name: 'Closed', count: this.ticketStats.closed },
-        { key: 'all', name: 'All', count: this.ticketStats.all },
+        {
+          key: 'open',
+          name: this.$t('TICKETS.STATUS.PENDING'),
+          count: this.ticketStats.pending,
+        },
+        {
+          key: 'closed',
+          name: this.$t('TICKETS.STATUS.RESOLVED'),
+          count: this.ticketStats.resolved,
+        },
+        {
+          key: 'all',
+          name: this.$t('TICKETS.STATUS.ALL'),
+          count: this.ticketStats.all,
+        },
       ];
     },
     ticketList() {
       let ticketList = [];
       if (this.activeAssigneeTab === 'open') {
         ticketList = this.ticketLists.filter(
-          ticket => ticket.status === 'open'
+          ticket => ticket.status === 'pending'
         );
       } else if (this.activeAssigneeTab === 'closed') {
         ticketList = this.ticketLists.filter(
-          ticket => ticket.status === 'closed'
+          ticket => ticket.status === 'resolved'
         );
       } else {
         ticketList = this.ticketLists;
@@ -164,17 +127,22 @@ export default {
       return this.ticketList.length && !this.ticketListLoading.isFetching;
     },
   },
+  mounted() {
+    this.fetchTickets();
+  },
   methods: {
     updateAssigneeTab(selectedTab) {
       this.activeAssigneeTab = selectedTab;
-      this.fetchTickets();
+      // this.fetchTickets();
     },
     fetchTickets() {
-      this.$store.dispatch('fetchAllTickets');
+      this.$store.dispatch('tickets/getAllTickets');
     },
     loadMoreTickets() {
       if (!this.ticketListLoading.isFetching) {
-        this.fetchTickets();
+        // eslint-disable-next-line no-console
+        console.log('load more');
+        //   this.fetchTickets();
       }
     },
     isTicketSelected(ticketId) {

@@ -6,17 +6,41 @@
     @contextmenu="openContextMenu($event)"
   >
     <div class="ticket-details">
-      <h4 class="ticket-title">{{ source.title }}</h4>
-      <p class="ticket-description">{{ source.description }}</p>
-      <span class="ticket-status">{{ source.status }}</span>
-      <span class="ticket-priority">{{ source.priority }}</span>
+      <div
+        class="px-0 py-3 border-b group-hover:border-transparent border-slate-50 dark:border-slate-800/75 columns"
+      >
+        <div class="flex justify-between">
+          <div class="flex gap-2 ml-2 rtl:mr-2 rtl:ml-0 flex-col">
+            <span class="truncate text-lg font-bold">
+              {{ source.title }}
+            </span>
+            <span class="truncate text-md">
+              {{ source.description }}
+            </span>
+          </div>
+
+          <div class="flex flex-col conversation--meta right-4 top-4">
+            <span class="ml-auto font-normal leading-4 text-black-600 text-xxs">
+              <time-ago
+                :last-activity-timestamp="updatedAtTimestamp"
+                :created-at-timestamp="createdAtTimestamp"
+              />
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
+
 export default {
   name: 'TicketItemComponent',
+  components: {
+    TimeAgo,
+  },
   props: {
     index: {
       type: Number,
@@ -37,6 +61,14 @@ export default {
     hasUnread() {
       return this.source.unread;
     },
+    updatedAtTimestamp() {
+      return Date.now();
+    },
+    createdAtTimestamp() {
+      return this.source.created_at
+        ? new Date(this.source.created_at).getTime()
+        : Date.now();
+    },
   },
   methods: {
     onCardClick() {
@@ -53,8 +85,6 @@ export default {
 <style scoped>
 .ticket-card {
   padding: 10px;
-  border-bottom: 1px solid #ccc;
-  cursor: pointer;
 }
 .ticket-card.active {
   background-color: #f0f0f0;
@@ -64,6 +94,6 @@ export default {
 }
 .ticket-details {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
 }
 </style>
