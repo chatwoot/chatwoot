@@ -53,7 +53,11 @@ RSpec.describe 'Captain Integrations API', type: :request do
 
           expect(response).to have_http_status(:success)
           data = response.parsed_body
-          sso_url = URI.encode_www_form_component("https://app.example.com/sso?access_token=#{hook['settings']['access_token']}&email=#{hook['settings']['account_email']}&account_id=#{hook['settings']['account_id']}")
+          params_string = URI.encode_www_form_component(
+            "access_token=#{hook['settings']['access_token']}" \
+            "&email=#{hook['settings']['account_email']}&account_id=#{hook['settings']['account_id']}"
+          )
+          sso_url = "https://app.example.com/sso?#{params_string}"
           expect(data['sso_url']).to eq(sso_url)
         end
       end

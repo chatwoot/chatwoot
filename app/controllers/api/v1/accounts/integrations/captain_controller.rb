@@ -3,9 +3,12 @@ class Api::V1::Accounts::Integrations::CaptainController < Api::V1::Accounts::Ba
   before_action :fetch_hook
 
   def sso_url
-    sso_url = "#{ENV.fetch('CAPTAIN_APP_URL', '')}/sso?access_token=#{@hook['settings']['access_token']}" \
-              "&email=#{@hook['settings']['account_email']}&account_id=#{@hook['settings']['account_id']}"
-    render json: { sso_url: URI.encode_www_form_component(sso_url) }, status: :ok
+    params_string = URI.encode_www_form_component(
+      "access_token=#{@hook['settings']['access_token']}" \
+      "&email=#{@hook['settings']['account_email']}&account_id=#{@hook['settings']['account_id']}"
+    )
+    sso_url = "#{ENV.fetch('CAPTAIN_APP_URL', '')}/sso?#{params_string}"
+    render json: { sso_url: sso_url }, status: :ok
   end
 
   private
