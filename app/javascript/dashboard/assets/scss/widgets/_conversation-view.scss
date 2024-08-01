@@ -204,7 +204,7 @@
   }
 
   .activity-wrap {
-    @apply flex justify-center text-xs font-normal my-1 mx-0 py-1 pr-0.5 pl-2.5 bg-slate-50 dark:bg-slate-600 text-slate-700 dark:text-slate-200 rounded-md border border-slate-100 dark:border-slate-600 border-solid;
+    @apply flex justify-center text-xs font-normal my-1 mx-0 py-1 pr-0.5 pl-2.5 bg-slate-50 dark:bg-slate-600 text-slate-700 dark:text-slate-100 rounded-md border border-slate-100 dark:border-slate-600 border-solid;
 
     .is-text {
       @apply inline-flex items-center text-start 2xl:flex;
