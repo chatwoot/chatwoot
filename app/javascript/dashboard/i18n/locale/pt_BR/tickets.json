@@ -5,7 +5,8 @@
     "STATUS": {
       "OPEN": "Aberto",
       "PENDING": "Pendente",
-      "RESOLVED": "Resolvido"
+      "RESOLVED": "Resolvido",
+      "ALL": "Todos"
     },
     "PRIORITY": {
       "LOW": "Baixo",
@@ -40,7 +41,10 @@
       "SUBMIT": "Criar Ticket"
     },
     "LIST": {
-      "NO_TICKETS": "Sem Tickets"
+      "NO_TICKETS": "Sem Tickets",
+      "LOADING_MESSAGE": "Carregando tickets...",
+      "404": "Nenhum ticket encontrado",
+      "EOF": "Todos os tickets carregados 🎉"
     },
     "EDIT": {
       "TITLE": "Editar Ticket",
