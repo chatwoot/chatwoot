@@ -35,6 +35,20 @@ export const actions = {
       });
     }
   },
+  getConversationTickets: async ({ commit }, conversationId) => {
+    commit(types.default.SET_TICKETS_UI_FLAG, { isFetching: true });
+    try {
+      const response = await TicketsAPI.getConversationTickets(conversationId);
+      commit(types.default.SET_TICKETS, response.data.payload);
+      commit(types.default.SET_TICKETS_UI_FLAG, {
+        isFetching: false,
+      });
+    } catch (error) {
+      commit(types.default.SET_TICKETS_UI_FLAG, {
+        isFetching: false,
+      });
+    }
+  },
   create: async (
     { commit },
     { title, description, status, assigneeId, conversationId }

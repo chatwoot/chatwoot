@@ -35,7 +35,7 @@ export default {
     }),
   },
   mounted() {
-    this.$store.dispatch('tickets/get');
+    this.$store.dispatch('tickets/getConversationTickets', this.conversationId);
   },
 };
 </script>
