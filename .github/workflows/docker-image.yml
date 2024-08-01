@@ -1,0 +1,28 @@
+name: Docker Build & Push
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Extract commit prefix
+        id: extract_prefix
+        run: echo "::set-output name=prefix::${GITHUB_SHA::8}"
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build Docker Image for Chatwoot/Odoo
+        run: |
+          docker buildx build --platform linux/amd64 -t aosdevs/odoocast:chatwoot_app.v1.0 docker/
+          docker push aosdevs/odoocast:chatwoot_app.v1.0
