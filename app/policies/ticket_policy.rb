@@ -23,6 +23,10 @@ class TicketPolicy < ApplicationPolicy
     true
   end
 
+  def conversations?
+    true
+  end
+
   def destroy?
     @account_user.administrator? || @account_user.supervisor?
   end

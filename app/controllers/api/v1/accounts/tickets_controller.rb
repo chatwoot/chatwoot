@@ -1,10 +1,16 @@
 class Api::V1::Accounts::TicketsController < Api::V1::Accounts::BaseController
   before_action :fetch_ticket, only: [:show, :update, :destroy, :assign, :resolve]
   before_action :create_or_update_labels, only: [:update]
+  before_action :fetch_conversation, only: [:conversations]
+
   before_action :check_authorization
 
   def index
     @tickets = current_account.tickets.search(params[:query])
+  end
+
+  def conversations
+    @tickets = @conversation.tickets
   end
 
   def show
@@ -48,6 +54,10 @@ class Api::V1::Accounts::TicketsController < Api::V1::Accounts::BaseController
     return [] if labels.blank?
 
     labels.map { |label| current_account.labels.find_id_or_title(label[:id] || label[:title]) }.flatten
+  end
+
+  def fetch_conversation
+    @conversation = Conversation.find(params[:conversation_id])
   end
 
   def fetch_ticket
