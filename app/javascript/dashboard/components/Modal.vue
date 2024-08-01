@@ -2,7 +2,10 @@
   <transition name="modal-fade">
     <div
       v-if="show"
-      :class="modalClassName"
+      :class="[
+        modalClassName,
+        { 'pointer-events-none': !closeOnBackdropClick },
+      ]"
       transition="modal"
       @mousedown="handleMouseDown"
     >
@@ -13,6 +16,7 @@
           'items-center rounded-none flex h-full justify-center w-full':
             fullWidth,
           [size]: true,
+          'pointer-events-all': !closeOnBackdropClick,
         }"
         @mouse.stop
         @mousedown="event => event.stopPropagation()"
@@ -97,9 +101,11 @@ export default {
       this.onClose();
     },
     onMouseUp() {
-      if (this.mousedDownOnBackdrop) {
+      if (this.mousedDownOnBackdrop && this.closeOnBackdropClick) {
         this.mousedDownOnBackdrop = false;
         this.onClose();
+      } else {
+        this.mousedDownOnBackdrop = false;
       }
     },
   },
@@ -107,6 +113,15 @@ export default {
 </script>
 
 <style lang="scss">
+@tailwind utilities;
+@layer utilities {
+  .pointer-events-none {
+    pointer-events: none;
+  }
+  .pointer-events-all {
+    pointer-events: all;
+  }
+}
 .modal-mask {
   @apply flex items-center justify-center bg-modal-backdrop-light dark:bg-modal-backdrop-dark z-[9990] h-full left-0 fixed top-0 w-full;
   .modal-container {
