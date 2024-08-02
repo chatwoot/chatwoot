@@ -45,6 +45,7 @@ import userNotificationSettings from './modules/userNotificationSettings';
 import webhooks from './modules/webhooks';
 import draftMessages from './modules/draftMessages';
 import invoices from './modules/reports/invoice';
+import ticketsReport from './modules/reports/ticketsReport';
 
 import LogRocket from 'logrocket';
 import createPlugin from 'logrocket-vuex';
@@ -113,6 +114,7 @@ export default new Vuex.Store({
     webhooks,
     draftMessages,
     invoices,
+    ticketsReport,
   },
   plugins,
 });
