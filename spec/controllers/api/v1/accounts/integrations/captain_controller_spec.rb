@@ -37,6 +37,8 @@ RSpec.describe 'Captain Integrations API', type: :request do
       end
 
       it 'returns sso url if hook is available' do
+        InstallationConfig.where(name: 'CAPTAIN_APP_URL').first_or_create(value: 'https://app.chatwoot.com')
+
         hook = create(:integrations_hook, account: account, app_id: 'captain', settings: {
                         access_token: SecureRandom.hex,
                         account_email: Faker::Internet.email,
@@ -45,21 +47,19 @@ RSpec.describe 'Captain Integrations API', type: :request do
                         inbox_ids: '1'
                       })
 
-        with_modified_env CAPTAIN_APP_URL: 'https://app.example.com' do
-          get sso_url_api_v1_account_integrations_captain_url(account_id: account.id),
-              params: {},
-              headers: admin.create_new_auth_token,
-              as: :json
+        get sso_url_api_v1_account_integrations_captain_url(account_id: account.id),
+            params: {},
+            headers: admin.create_new_auth_token,
+            as: :json
 
-          expect(response).to have_http_status(:success)
-          data = response.parsed_body
-          params_string = "token=#{URI.encode_www_form_component(hook['settings']['access_token'])}" \
-                          "&email=#{URI.encode_www_form_component(hook['settings']['account_email'])}" \
-                          "&account_id=#{URI.encode_www_form_component(hook['settings']['account_id'])}"
+        expect(response).to have_http_status(:success)
+        data = response.parsed_body
+        params_string = "token=#{URI.encode_www_form_component(hook['settings']['access_token'])}" \
+                        "&email=#{URI.encode_www_form_component(hook['settings']['account_email'])}" \
+                        "&account_id=#{URI.encode_www_form_component(hook['settings']['account_id'])}"
 
-          sso_url = "https://app.example.com/sso?#{params_string}"
-          expect(data['sso_url']).to eq(sso_url)
-        end
+        sso_url = "https://app.chatwoot.com/sso?#{params_string}"
+        expect(data['sso_url']).to eq(sso_url)
       end
     end
   end
