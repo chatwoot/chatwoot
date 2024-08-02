@@ -24,12 +24,14 @@ export const getters = {
   getAppIntegrations($state) {
     return $state.records;
   },
-  getIntegration: $state => integrationId => {
-    const [integration] = $state.records.filter(
-      record => record.id === integrationId
-    );
-    return integration || {};
-  },
+  getIntegration:
+    $state =>
+    (integrationId, defaultValue = {}) => {
+      const [integration] = $state.records.filter(
+        record => record.id === integrationId
+      );
+      return integration || defaultValue;
+    },
   getUIFlags($state) {
     return $state.uiFlags;
   },
