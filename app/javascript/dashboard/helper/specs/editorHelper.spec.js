@@ -283,17 +283,17 @@ describe('findNodeToInsertImage', () => {
     mockEditorState = {
       selection: {
         $from: {
-          node: jest.fn(() => ({})),
+          node: vi.fn(() => ({})),
         },
         from: 0,
       },
       schema: {
         nodes: {
           image: {
-            create: jest.fn(attrs => ({ type: { name: 'image' }, attrs })),
+            create: vi.fn(attrs => ({ type: { name: 'image' }, attrs })),
           },
           paragraph: {
-            create: jest.fn((_, node) => ({
+            create: vi.fn((_, node) => ({
               type: { name: 'paragraph' },
               content: [node],
             })),
@@ -381,11 +381,11 @@ describe('setURLWithQueryAndSize', () => {
 
   beforeEach(() => {
     selectedNode = {
-      setAttribute: jest.fn(),
+      setAttribute: vi.fn(),
     };
 
     const tr = {
-      setNodeMarkup: jest.fn().mockReturnValue({
+      setNodeMarkup: vi.fn().mockReturnValue({
         docChanged: true,
       }),
     };
@@ -397,7 +397,7 @@ describe('setURLWithQueryAndSize', () => {
 
     editorView = {
       state,
-      dispatch: jest.fn(),
+      dispatch: vi.fn(),
     };
   });
 
@@ -420,7 +420,7 @@ describe('setURLWithQueryAndSize', () => {
   });
 
   it('does not update the editor view if the document has not changed', () => {
-    editorView.state.tr.setNodeMarkup = jest.fn().mockReturnValue({
+    editorView.state.tr.setNodeMarkup = vi.fn().mockReturnValue({
       docChanged: false,
     });
 

@@ -20,7 +20,7 @@
       :teams="teams"
       :custom-views="customViews"
       :menu-config="activeSecondaryMenu"
-      :current-role="currentRole"
+      :current-user="currentUser"
       :is-on-chatwoot-cloud="isOnChatwootCloud"
       @add-label="showAddLabelPopup"
       @toggle-accounts="toggleAccountModal"
@@ -37,7 +37,8 @@ import alertMixin from 'shared/mixins/alertMixin';
 import PrimarySidebar from './sidebarComponents/Primary.vue';
 import SecondarySidebar from './sidebarComponents/Secondary.vue';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
-import router from '../../routes';
+import router, { routesWithPermissions } from '../../routes';
+import { hasPermissions } from '../../helper/permissionsHelper';
 
 export default {
   components: {
@@ -98,9 +99,13 @@ export default {
       return getSidebarItems(this.accountId);
     },
     primaryMenuItems() {
+      const userPermissions = this.currentUser.permissions;
       const menuItems = this.sideMenuConfig.primaryMenu;
       return menuItems.filter(menuItem => {
-        const isAvailableForTheUser = menuItem.roles.includes(this.currentRole);
+        const isAvailableForTheUser = hasPermissions(
+          routesWithPermissions[menuItem.toStateName],
+          userPermissions
+        );
 
         if (!isAvailableForTheUser) {
           return false;

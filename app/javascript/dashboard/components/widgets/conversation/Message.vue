@@ -127,7 +127,7 @@
     </div>
     <div
       v-if="shouldShowContextMenu"
-      class="context-menu-wrap invisible group-hover:visible"
+      class="invisible context-menu-wrap group-hover:visible"
     >
       <context-menu
         v-if="isBubble && !isMessageDeleted"
@@ -166,6 +166,7 @@ import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { getDayDifferenceFromNow } from 'shared/helpers/DateHelper';
+import * as Sentry from '@sentry/browser';
 
 export default {
   components: {
@@ -502,14 +503,28 @@ export default {
     },
     hasMediaAttachment(type) {
       if (this.hasAttachments && this.data.attachments.length > 0) {
-        const { attachments = [{}] } = this.data;
-        const { file_type: fileType } = attachments[0];
-        return fileType === type && !this.hasMediaLoadError;
+        return this.compareMessageFileType(this.data, type);
       }
       if (this.storyReply) {
         return true;
       }
       return false;
+    },
+    compareMessageFileType(messageData, type) {
+      try {
+        const { attachments = [{}] } = messageData;
+        const { file_type: fileType } = attachments[0];
+        return fileType === type && !this.hasMediaLoadError;
+      } catch (err) {
+        Sentry.setContext('attachment-parsing-error', {
+          messageData,
+          type,
+          hasMediaLoadError: this.hasMediaLoadError,
+        });
+
+        Sentry.captureException(err);
+        return false;
+      }
     },
     handleContextMenuClick() {
       this.showContextMenu = !this.showContextMenu;
