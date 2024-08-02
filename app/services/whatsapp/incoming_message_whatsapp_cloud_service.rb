@@ -5,7 +5,7 @@ class Whatsapp::IncomingMessageWhatsappCloudService < Whatsapp::IncomingMessageB
   private
 
   def processed_params
-    @processed_params ||= deep_symbolize_keys(params)[:entry].try(:first).try(:[], :changes).try(:first).try(:[], :value)
+    @processed_params ||= params[:entry].try(:first).try(:[], :changes).try(:first).try(:[], :value)
   end
 
   def download_attachment_file(attachment_payload)
@@ -13,19 +13,5 @@ class Whatsapp::IncomingMessageWhatsappCloudService < Whatsapp::IncomingMessageB
     # This url response will be failure if the access token has expired.
     inbox.channel.authorization_error! if url_response.unauthorized?
     Down.download(url_response.parsed_response['url'], headers: inbox.channel.api_headers) if url_response.success?
-  end
-
-  def deep_symbolize_keys(hash)
-    case hash
-    when Array
-      hash.map { |v| deep_symbolize_keys(v) }
-    when Hash
-      hash.each_with_object({}) do |(k, v), acc|
-        sym_key = k.is_a?(String) ? k.to_sym : k
-        acc[sym_key] = deep_symbolize_keys(v)
-      end
-    else
-      hash
-    end
   end
 end
