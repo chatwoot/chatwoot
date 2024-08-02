@@ -23,7 +23,12 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
     send_message_to_facebook(fb_attachment_message_params(attachment))
   rescue Facebook::Messenger::FacebookError
     # Retry with another way to send with file data
-    send_message_with_attachment(attachment)
+    result = send_message_with_attachment(attachment)
+    if result['error'].present?
+      message.update!(status: :failed, external_error: external_error(result))
+    elsif result['message_id'].present?
+      message.update!(status: :sent, source_id: result['message_id'])
+    end
   end
 
   def send_message_with_attachment(attachment)
@@ -37,11 +42,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
     request.set_form fb_attachment_form_data(attachment), 'multipart/form-data'
 
     response = http.request(request)
-    parsed_response = JSON.parse(response.body)
-
-    return if parsed_response['error'].blank?
-
-    raise parsed_response['error']['message'].to_s
+    JSON.parse(response.body)
   end
 
   def send_message_to_facebook(delivery_params)
