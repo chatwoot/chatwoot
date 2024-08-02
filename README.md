@@ -13,6 +13,9 @@ Customer engagement suite, an open-source alternative to Intercom, Zendesk, Sale
   <a href="https://marketplace.digitalocean.com/apps/chatwoot?refcode=f2238426a2a8" alt="Deploy to DigitalOcean">
      <img width="200" alt="Deploy to DO" src="https://www.deploytodo.com/do-btn-blue.svg"/>
   </a>
+  <a href="https://zeabur.com/templates/ULB23W" alt="Deploy to Zeabur">
+    <img width="152" src="https://zeabur.com/button.svg" alt="Deploy to Zeabur"/>
+  </a>
 </p>
 
 <p>
