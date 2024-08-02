@@ -472,6 +472,23 @@
       }
     }
   },
+  "TICKETS_REPORTS": {
+    "HEADER": "Tickets",
+    "SUBTITLE": "Tickets Report",
+    "GRAPH_COLUMN_LABEL": "Tickets",
+    "GRAPH_TITLE": "Tickets Graph",
+    "METRICS": {
+      "TOTAL": {
+        "NAME": "Tickets"
+      },
+      "RESOLVED": {
+        "NAME": "Resolved Tickets"
+      },
+      "UNRESOLVED": {
+        "NAME": "Unresolved Tickets"
+      }
+    }
+  },
   "DAYS_OF_WEEK": {
     "SUNDAY": "Sunday",
     "MONDAY": "Monday",
