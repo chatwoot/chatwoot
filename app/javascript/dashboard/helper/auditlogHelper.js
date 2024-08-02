@@ -89,11 +89,10 @@ function handleAccountUserCreate(auditLogItem, translationPayload, agentList) {
 }
 
 function handleAccountUserUpdate(auditLogItem, translationPayload, agentList) {
-  if (auditLogItem.user_id !== auditLogItem.auditable.user_id) {
-    translationPayload.user = getAgentName(
-      auditLogItem.auditable.user_id,
-      agentList
-    );
+  if (auditLogItem.user_id !== auditLogItem.auditable?.user_id) {
+    translationPayload.user = auditLogItem.auditable
+      ? getAgentName(auditLogItem.auditable?.user_id, agentList)
+      : 'deleted user';
   }
 
   const accountUserChanges = extractChangedAccountUserValues(
@@ -194,7 +193,7 @@ export const generateLogActionKey = auditLogItem => {
 
   if (auditableType === 'accountuser' && action === 'update') {
     logActionKey +=
-      auditLogItem.user_id === auditLogItem.auditable.user_id
+      auditLogItem.user_id === auditLogItem.auditable?.user_id
         ? ':self'
         : ':other';
   }
