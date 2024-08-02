@@ -4,6 +4,12 @@
     "DESCRIPTION": "Chatwoot تتكامل مع أدوات وخدمات متعددة لتحسين كفاءة فريقك. استكشف القائمة أدناه لتكوين تطبيقاتك المفضلة.",
     "LEARN_MORE": "معرفة المزيد عن التكاملات",
     "LOADING": "جاري جلب التكاملات",
+    "CAPTAIN": {
+      "DISABLED": "Captain is not enabled on your account.",
+      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
+      "LOADING_CONSOLE": "Loading Captain Console...",
+      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+    },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "الأحداث المشتركة",
       "FORM": {
