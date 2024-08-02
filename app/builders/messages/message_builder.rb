@@ -62,6 +62,10 @@ class Messages::MessageBuilder
     return if @attachments.blank?
 
     @attachments.each do |uploaded_attachment|
+      filename = I18n.transliterate(uploaded_attachment.original_filename)
+      filename = filename.gsub(/[?]/, '')
+      uploaded_attachment.original_filename = filename
+
       attachment = @message.attachments.build(
         account_id: @message.account_id,
         file: uploaded_attachment

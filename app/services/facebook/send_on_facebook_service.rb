@@ -10,39 +10,13 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
 
     if message.attachments.present?
       message.attachments.each do |attachment|
-        send_message_to_facebook_with_retry(attachment)
+        send_message_to_facebook fb_attachment_message_params(attachment)
       end
     end
   rescue Facebook::Messenger::FacebookError => e
     # TODO : handle specific errors or else page will get disconnected
     handle_facebook_error(e)
     message.update!(status: :failed, external_error: e.message)
-  end
-
-  def send_message_to_facebook_with_retry(attachment)
-    send_message_to_facebook(fb_attachment_message_params(attachment))
-  rescue Facebook::Messenger::FacebookError
-    # Retry with another way to send with file data
-    result = send_message_with_attachment(attachment)
-    if result['error'].present?
-      message.update!(status: :failed, external_error: external_error(result))
-    elsif result['message_id'].present?
-      message.update!(status: :sent, source_id: result['message_id'])
-    end
-  end
-
-  def send_message_with_attachment(attachment)
-    url_upload = "https://graph.facebook.com/v19.0/#{channel.page_id}/messages?access_token=#{channel.page_access_token}"
-    url = URI.parse(url_upload)
-    http = Net::HTTP.new(url.host, url.port)
-    http.use_ssl = true
-
-    request = Net::HTTP::Post.new(url.path)
-    request.content_type = 'multipart/form-data'
-    request.set_form fb_attachment_form_data(attachment), 'multipart/form-data'
-
-    response = http.request(request)
-    JSON.parse(response.body)
   end
 
   def send_message_to_facebook(delivery_params)
@@ -86,14 +60,6 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
       messaging_type: 'MESSAGE_TAG',
       tag: 'ACCOUNT_UPDATE'
     }
-  end
-
-  def fb_attachment_form_data(attachment)
-    [
-      ['recipient', { id: contact.get_source_id(inbox.id) }.to_json],
-      ['message', { attachment: { type: attachment_type(attachment), payload: {} } }.to_json],
-      ['filedata', attachment.file.download]
-    ]
   end
 
   def attachment_type(attachment)
