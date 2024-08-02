@@ -40,7 +40,7 @@
     >
       <div v-if="!email">
         <GoogleOAuthButton v-if="showGoogleOAuth" />
-        <form class="space-y-5" @submit.prevent="submitLogin">
+        <form class="space-y-5" @submit.prevent="submitFormLogin">
           <form-input
             v-model.trim="credentials.email"
             name="email_address"
@@ -198,11 +198,6 @@ export default {
       useAlert(this.loginApi.message);
     },
     submitLogin() {
-      if (this.v$.credentials.email.$invalid && !this.email) {
-        this.showAlertMessage(this.$t('LOGIN.EMAIL.ERROR'));
-        return;
-      }
-
       this.loginApi.hasErrored = false;
       this.loginApi.showLoading = true;
 
@@ -230,6 +225,14 @@ export default {
             response?.message || this.$t('LOGIN.API.UNAUTH')
           );
         });
+    },
+    submitFormLogin() {
+      if (this.v$.credentials.email.$invalid && !this.email) {
+        this.showAlertMessage(this.$t('LOGIN.EMAIL.ERROR'));
+        return;
+      }
+
+      this.submitLogin();
     },
   },
 };
