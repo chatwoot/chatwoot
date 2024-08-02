@@ -91,6 +91,20 @@ export default {
     this.fetchAllData();
   },
   methods: {
+    onGroupByFilterChange(payload) {
+      this.groupBy = payload.id;
+      this.fetchAllData();
+    },
+    onBusinessHoursToggle(value) {
+      this.businessHours = value;
+      this.fetchAllData();
+    },
+    onDateRangeChange({ from, to }) {
+      this.from = from;
+      this.to = to;
+
+      this.fetchAllData();
+    },
     fetchAllData() {
       const { from, to, groupBy } = this;
       const payload = { from, to };
