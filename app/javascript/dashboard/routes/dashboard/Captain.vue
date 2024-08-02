@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useStoreGetters } from 'dashboard/composables/store';
 
 import integrations from '../../api/integrations';
@@ -9,7 +9,10 @@ const isLoading = ref(true);
 const captainURL = ref('');
 const hasError = ref(false);
 
-const loadCaptainFrame = async () => {
+const loadCaptainFrame = async integration => {
+  if (!integration || !integration.enabled) {
+    return;
+  }
   try {
     isLoading.value = true;
     const { data } = await integrations.fetchCaptainURL();
@@ -26,26 +29,18 @@ const captainIntegration = computed(() =>
   getters['integrations/getIntegration'].value('captain', null)
 );
 
-const isFetchingApps = computed(
-  () => getters['integrations/getUIFlags'].value.isFetching
-);
+onMounted(() => loadCaptainFrame(captainIntegration.value));
 
-watch(captainIntegration, newIntegrationInfo => {
-  if (newIntegrationInfo?.id && newIntegrationInfo.enabled) {
-    loadCaptainFrame();
-  }
-});
+watch(captainIntegration, updatedIntegration =>
+  loadCaptainFrame(updatedIntegration)
+);
 </script>
 
 <template>
   <div
     class="flex-1 overflow-auto flex gap-8 flex-col font-inter text-slate-900 dark:text-slate-500"
   >
-    <div v-if="isFetchingApps" class="flex-1 flex items-center justify-center">
-      <Spinner color-scheme="primary" />
-      <span>{{ $t('INTEGRATION_SETTINGS.LOADING') }}</span>
-    </div>
-    <div v-else class="flex-1 flex items-center justify-center">
+    <div class="flex-1 flex items-center justify-center">
       <div v-if="!captainIntegration">
         {{ $t('INTEGRATION_SETTINGS.CAPTAIN.DISABLED') }}
       </div>
