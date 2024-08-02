@@ -5,7 +5,7 @@ class Whatsapp::IncomingMessageWhatsappCloudService < Whatsapp::IncomingMessageB
   private
 
   def processed_params
-    @processed_params ||= deep_symbolize_keys(params[:entry].try(:first).try(:[], :changes).try(:first).try(:[], :value))
+    @processed_params ||= deep_symbolize_keys(params)[:entry].try(:first).try(:[], :changes).try(:first).try(:[], :value)
   end
 
   def download_attachment_file(attachment_payload)
