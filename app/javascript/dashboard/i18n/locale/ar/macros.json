@@ -75,13 +75,13 @@
       "EXECUTED_SUCCESSFULLY": "تم تنفيذ الماكرو بنجاح"
     },
     "ERRORS": {
-      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
-      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "ATTRIBUTE_KEY_REQUIRED": "مفتاح الخاصية مطلوب",
+      "FILTER_OPERATOR_REQUIRED": "عامل التصفية مطلوب",
       "VALUE_REQUIRED": "القيمة مطلوبة",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
-      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
-      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
-      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "القيمة يجب أن تكون بين 1 و 998",
+      "ACTION_PARAMETERS_REQUIRED": "معلمات الإجراء مطلوبة",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "شرط واحد على الأقل مطلوب",
+      "ATLEAST_ONE_ACTION_REQUIRED": "إجراء واحد على الأقل مطلوب"
     }
   }
 }
