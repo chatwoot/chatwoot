@@ -5,10 +5,10 @@
     "LEARN_MORE": "معرفة المزيد عن التكاملات",
     "LOADING": "جاري جلب التكاملات",
     "CAPTAIN": {
-      "DISABLED": "Captain is not enabled on your account.",
-      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
-      "LOADING_CONSOLE": "Loading Captain Console...",
-      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+      "DISABLED": "لم يتم تمكين الكابتن على حسابك.",
+      "CLICK_HERE_TO_CONFIGURE": "انقر هنا للتهيئة",
+      "LOADING_CONSOLE": "جار جلب وحدة التحكم بالكابتن...",
+      "FAILED_TO_LOAD_CONSOLE": "فشل أثناء جلب وحدة تحكم الكابتن. الرجاء التحديث والمحاولة مرة أخرى."
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "الأحداث المشتركة",
