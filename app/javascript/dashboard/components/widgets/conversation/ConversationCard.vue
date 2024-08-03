@@ -71,6 +71,7 @@
       <message-preview
         v-if="lastMessageInChat"
         :message="lastMessageInChat"
+        :class="{ 'font-bold text-slate-900 dark:text-slate-100': hasUnread }"
         class="conversation--message my-0 mx-2 leading-6 h-6 max-w-[96%] w-[16.875rem] text-sm text-slate-700 dark:text-slate-200"
       />
       <p
