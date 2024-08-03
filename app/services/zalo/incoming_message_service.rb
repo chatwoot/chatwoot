@@ -1,5 +1,5 @@
 class Zalo::IncomingMessageService
-  include ::FileTypeHelper
+  include ::ZaloAttachmentHelper
 
   pattr_initialize [:inbox!, :params!]
 
@@ -37,13 +37,12 @@ class Zalo::IncomingMessageService
     )
   end
 
-  def update_contact_from_profile
+  def update_contact_from_profile # rubocop:disable Metrics/AbcSize
     response = get_profile(params[:sender][:id], channel.oa_access_token)
-    # retry to cover the case that access_token is expired
-    if response['error'] == -216
-      channel.refresh_access_token(channel)
-      response = get_profile(params[:sender][:id], channel.oa_access_token)
-    end
+    channel.refresh_access_token(channel) if response['error'] == -216
+
+    # retry one time if error since it is rare but sometimes api got error
+    response = get_profile(params[:sender][:id], channel.oa_access_token) unless response['error'].zero?
 
     return unless (response['error']).zero?
 
@@ -100,58 +99,5 @@ class Zalo::IncomingMessageService
     {
       name: params[:sender][:id]
     }
-  end
-
-  def file_content_type(media)
-    return :image if %w[image gif sticker].include?(media[:type])
-    return :audio if media[:type] == 'audio'
-    return :video if media[:type] == 'video'
-
-    file_type(media[:payload][:type])
-  end
-
-  def attach_media
-    return if params[:message][:attachments].blank?
-
-    params[:message][:attachments].each do |media|
-      case media[:type]
-      when 'link'
-        @message.content = "Link: #{media[:payload][:url]}"
-      when 'location'
-        attach_location(media)
-      else
-        # File size bigger than 10Mb will show as link
-        if media[:type] == 'file' && media[:payload][:size].to_i > 10 * 1024 * 1024
-          @message.content = "File to download: #{media[:payload][:url]}"
-          next
-        end
-
-        attach_file(media)
-      end
-    end
-  end
-
-  def attach_location(media)
-    @message.attachments.new(
-      account_id: @message.account_id,
-      file_type: :location,
-      coordinates_lat: media[:payload][:coordinates][:latitude],
-      coordinates_long: media[:payload][:coordinates][:longitude]
-    )
-  end
-
-  def attach_file(media)
-    attachment_file = Down.download(media[:payload][:url])
-    file_name = media[:payload][:name] || attachment_file.original_filename
-    @message.attachments.new(
-      account_id: @message.account_id,
-      file_type: file_content_type(media),
-      file: {
-        io: attachment_file,
-        filename: file_name,
-        content_type: attachment_file.content_type
-      }
-    )
-    @message.content_type = 'sticker' if media[:type] == 'sticker'
   end
 end

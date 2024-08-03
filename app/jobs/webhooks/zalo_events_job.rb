@@ -2,13 +2,14 @@ class Webhooks::ZaloEventsJob < ApplicationJob
   queue_as :default
 
   SUPPORTED_EVENTS = %w[user_send_text user_send_image user_send_link user_send_audio user_send_video user_send_sticker
-                        user_send_location user_send_file user_received_message user_seen_message user_submit_info].freeze
+                        user_send_location user_send_file user_received_message user_seen_message user_submit_info
+                        oa_send_text oa_send_image oa_send_gif oa_send_file oa_send_sticker].freeze
 
   def perform(params = {}, signature: '', post_body: '')
     return unless SUPPORTED_EVENTS.include?(params[:event_name])
     return unless validate_signature(params, post_body, signature)
 
-    oa_id = delivery_event?(params) ? params[:sender][:id] : params[:recipient][:id]
+    oa_id = delivery_event?(params) || oa_send_from_chat_tool?(params) ? params[:sender][:id] : params[:recipient][:id]
     channel = Channel::ZaloOa.find_by(oa_id: oa_id)
     return unless channel
 
@@ -30,6 +31,8 @@ class Webhooks::ZaloEventsJob < ApplicationJob
   def process_event_params(channel, params)
     if delivery_event?(params)
       Zalo::DeliveryStatusService.new(inbox: channel.inbox, params: params.with_indifferent_access).perform
+    elsif oa_send_from_chat_tool?(params)
+      Zalo::OutgoingMessageService.new(inbox: channel.inbox, params: params.with_indifferent_access).perform
     else
       Zalo::IncomingMessageService.new(inbox: channel.inbox, params: params.with_indifferent_access).perform
     end
@@ -37,5 +40,9 @@ class Webhooks::ZaloEventsJob < ApplicationJob
 
   def delivery_event?(params)
     params[:event_name] == 'user_received_message' || params[:event_name] == 'user_seen_message'
+  end
+
+  def oa_send_from_chat_tool?(params)
+    params[:event_name].start_with?('oa_') && params[:sender][:admin_id].present?
   end
 end
