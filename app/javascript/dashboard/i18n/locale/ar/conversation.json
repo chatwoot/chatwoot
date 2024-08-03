@@ -150,7 +150,7 @@
       "SEND": "إرسال",
       "CREATE": "إضافة ملاحظة",
       "INSERT_READ_MORE": "اقرأ المزيد",
-      "DISMISS_REPLY": "تجاهل الرد",
+      "DISMISS_REPLY": "استبعاد الرد",
       "REPLYING_TO": "الرد على:",
       "TIP_FORMAT_ICON": "عرض محرر النصوص",
       "TIP_EMOJI_ICON": "إظهار قائمة الرموز التعبيرية",
@@ -167,12 +167,12 @@
         "ADD_BCC": "إضافة bcc",
         "CC": {
           "LABEL": "CC",
-          "PLACEHOLDER": "البريد الإلكتروني مفصولة بفاصلة",
+          "PLACEHOLDER": "عناوين البريد الإلكتروني مفصولة بفاصلة",
           "ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح"
         },
         "BCC": {
           "LABEL": "BCC",
-          "PLACEHOLDER": "البريد الإلكتروني مفصولة بفاصلة",
+          "PLACEHOLDER": "عناوين البريد الإلكتروني مفصولة بفاصلة",
           "ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح"
         }
       },
@@ -193,7 +193,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "تم تعيين الوسم بنجاح",
     "ASSIGN_LABEL_FAILED": "فشل تعيين الوسم",
     "CHANGE_TEAM": "تم تغيير فريق المحادثة",
-    "FILE_SIZE_LIMIT": "الملف يتجاوز حد المرفق {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} ميغابايت",
+    "FILE_SIZE_LIMIT": "حجم الملف يتجاوز حد الاقصى وهو {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE}",
     "MESSAGE_ERROR": "غير قادر على إرسال هذه الرسالة، الرجاء المحاولة مرة أخرى لاحقاً",
     "SENT_BY": "أرسلت بواسطة:",
     "BOT": "رد آلي",
