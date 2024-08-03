@@ -229,11 +229,6 @@ export default {
         : '';
     },
   },
-  watch: {
-    contact() {
-      this.setContactObject();
-    },
-  },
   mounted() {
     this.$store.dispatch('agents/get');
     this.setContactObject();
