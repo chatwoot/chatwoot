@@ -52,14 +52,14 @@ ar:
   errors:
     messages:
       already_confirmed: "تم تأكيده مسبقا، الرجاء محاولة تسجيل الدخول"
-      confirmation_period_expired: "يحتاج إلى تأكيد في غضون %{period}، الرجاء طلب واحد جديد"
-      expired: "انتهت صلاحيته، الرجاء طلب جديد"
+      confirmation_period_expired: "يحتاج إلى تأكيد في غضون %{period}، الرجاء طلب التأكيد مره أخرى"
+      expired: "انتهت صلاحيته، الرجاء إجراء طلب جديد"
       not_found: "غير موجود"
       not_locked: "لم يكن مقفلاً"
       not_saved:
         zero: "%{count} خطأ حظر هذا %{resource} من الحفظ:"
         one: "خطأ واحد حظر هذا %{resource} من الحفظ:"
         two: "%{count} أخطاء تمنع هذا %{resource} من الحفظ:"
-        few: "%{count} أخطاء تمنع هذا %{resource} من الحفظ:"
+        few: "%{count} خطأ تمنع هذا %{resource} من الحفظ:"
         many: "%{count} أخطاء تمنع هذا %{resource} من الحفظ:"
         other: "%{count} أخطاء تمنع هذا %{resource} من الحفظ:"
