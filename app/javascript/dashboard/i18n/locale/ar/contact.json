@@ -142,7 +142,7 @@
         "DUPLICATE": "رقم الهاتف هذا مستخدم لجهة اتصال أخرى."
       },
       "LOCATION": {
-        "PLACEHOLDER": "أدخل موقع جهة الاتصال",
+        "PLACEHOLDER": "أدخل الموقع الجغرافي لجهة الاتصال",
         "LABEL": "الموقع الجغرافي"
       },
       "COMPANY_NAME": {
@@ -199,7 +199,7 @@
       },
       "INBOX": {
         "LABEL": "صندوق الوارد",
-        "PLACEHOLDER": "اختر صندوق المصدر",
+        "PLACEHOLDER": "اختيار مصدر البريد الوارد",
         "ERROR": "حدد صندوق الوارد"
       },
       "SUBJECT": {
@@ -228,9 +228,9 @@
     "FIELDS": "حقول جهات الاتصال",
     "SEARCH_BUTTON": "بحث",
     "SEARCH_INPUT_PLACEHOLDER": "بحث عن جهات الاتصال",
-    "FILTER_CONTACTS": "فلترة",
-    "FILTER_CONTACTS_SAVE": "حفظ الفلتر",
-    "FILTER_CONTACTS_DELETE": "حذف الفلتر",
+    "FILTER_CONTACTS": "تصفية",
+    "FILTER_CONTACTS_SAVE": "حفظ التصفية",
+    "FILTER_CONTACTS_DELETE": "حذف التصفية",
     "FILTER_CONTACTS_EDIT": "تحرير الجزء",
     "LIST": {
       "LOADING_MESSAGE": "جاري جلب جهات الاتصال...",
@@ -349,7 +349,7 @@
     },
     "VALIDATIONS": {
       "REQUIRED": "القيمة الصالحة مطلوبة",
-      "INVALID_URL": "عنوان URL غير صالح",
+      "INVALID_URL": "عنوان الرابط غير صالح",
       "INVALID_INPUT": "مدخلات غير صالح"
     }
   },
