@@ -313,7 +313,6 @@ describe('#mutations', () => {
           {
             id: 1,
             messages: [{ id: 1, content: 'test' }],
-            attachments: [{ id: 1, name: 'test1.png' }],
             dataFetched: true,
             allMessagesLoaded: true,
           },
@@ -325,7 +324,6 @@ describe('#mutations', () => {
           id: 1,
           name: 'test',
           messages: [{ id: 1, content: 'updated message' }],
-          attachments: [{ id: 1, name: 'test.png' }],
           dataFetched: true,
           allMessagesLoaded: true,
         },
@@ -335,7 +333,6 @@ describe('#mutations', () => {
           id: 1,
           name: 'test',
           messages: [{ id: 1, content: 'test' }],
-          attachments: [{ id: 1, name: 'test1.png' }],
           dataFetched: true,
           allMessagesLoaded: true,
         },
