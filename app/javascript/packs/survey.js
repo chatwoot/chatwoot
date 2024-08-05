@@ -3,7 +3,7 @@ import VueI18n from 'vue-i18n';
 import App from '../survey/App.vue';
 import i18n from '../survey/i18n';
 import store from '../survey/store';
-import { emitter } from 'shared/helpers/mitt';
+import { EmitterPlugin } from 'shared/helpers/mitt';
 
 Vue.use(VueI18n);
 
@@ -13,7 +13,7 @@ const i18nConfig = new VueI18n({
 });
 
 // Event Bus
-Vue.prototype.$emitter = emitter;
+Vue.use(EmitterPlugin);
 
 Vue.config.productionTip = false;
 

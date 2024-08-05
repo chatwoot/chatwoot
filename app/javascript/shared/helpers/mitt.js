@@ -1,3 +1,10 @@
 import mitt from 'mitt';
 const emitter = mitt();
-export { emitter };
+
+const EmitterPlugin = {
+  install(Vue) {
+    Vue.prototype.$emitter = emitter;
+  },
+};
+
+export { emitter, EmitterPlugin };

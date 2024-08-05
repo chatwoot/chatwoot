@@ -14,7 +14,7 @@ import WootUiKit from '../dashboard/components';
 import App from '../dashboard/App';
 import i18n from '../dashboard/i18n';
 import createAxios from '../dashboard/helper/APIHelper';
-import { emitter } from '../shared/helpers/mitt';
+import { EmitterPlugin } from '../shared/helpers/mitt';
 
 import commonHelpers, { isJSONValid } from '../dashboard/helper/commons';
 import router, { initalizeRouter } from '../dashboard/routes';
@@ -93,7 +93,7 @@ commonHelpers();
 
 window.WootConstants = constants;
 window.axios = createAxios(axios);
-Vue.prototype.$emitter = emitter;
+Vue.use(EmitterPlugin);
 
 initializeChatwootEvents();
 initializeAnalyticsEvents();

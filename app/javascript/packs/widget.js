@@ -12,7 +12,7 @@ import {
 } from 'shared/helpers/Validators';
 import router from '../widget/router';
 import { directive as onClickaway } from 'vue-clickaway';
-import { emitter } from 'shared/helpers/mitt';
+import { EmitterPlugin } from 'shared/helpers/mitt';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
 const PhoneInput = () => import('../widget/components/Form/PhoneInput');
 
@@ -45,7 +45,7 @@ Vue.use(VueFormulate, {
   },
 });
 // Event Bus
-Vue.prototype.$emitter = emitter;
+Vue.use(EmitterPlugin);
 
 Vue.config.productionTip = false;
 
