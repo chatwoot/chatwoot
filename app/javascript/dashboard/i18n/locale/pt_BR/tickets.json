@@ -2,6 +2,7 @@
   "TICKETS": {
     "TITLE": "Título do Ticket",
     "DESCRIPTION": "Descrição do Ticket",
+    "ASSIGNEE": "Atribuído para",
     "STATUS": {
       "OPEN": "Aberto",
       "PENDING": "Pendente",
@@ -13,21 +14,21 @@
       "MEDIUM": "Médio",
       "HIGH": "Alto"
     },
-    "STATUS_filter": {
+    "STATUS_FILTER": {
       "OPEN": "Aberto",
       "PENDING": "Pendente",
       "RESOLVED": "Resolvido"
     },
-    "PRIORITY_filter": {
+    "PRIORITY_FILTER": {
       "LOW": "Baixo",
       "MEDIUM": "Médio",
       "HIGH": "Alto"
     },
-    "ASSIGNEE_filter": {
-      "ME": "Eu",
+    "ASSIGNEE_FILTER": {
+      "ME": "Para mim",
       "UNASSIGNED": "Não atribuído"
     },
-    "LABEL_filter": {
+    "LABEL_FILTER": {
       "ME": "Eu",
       "UNASSIGNED": "Não atribuído"
     },

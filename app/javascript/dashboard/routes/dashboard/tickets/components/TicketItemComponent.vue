@@ -17,6 +17,9 @@
             <span class="truncate text-md">
               {{ source.description }}
             </span>
+            <span class="text-sm text-slate-600 dark:text-slate-300">
+              {{ $t('TICKETS.ASSIGNEE') }}: {{ textAssignee }}
+            </span>
           </div>
 
           <div class="flex flex-col conversation--meta right-4 top-4">
@@ -34,6 +37,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 
 export default {
@@ -54,6 +58,9 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+      currentUserId: 'getCurrentUserID',
+    }),
     isActiveTicket() {
       const selectedTicket = this.$store.getters.getSelectedTicket;
       return selectedTicket && selectedTicket.id === this.source.id;
@@ -68,6 +75,14 @@ export default {
       return this.source.created_at
         ? Math.floor(new Date(this.source.created_at).getTime() / 1000)
         : Math.floor(Date.now() / 1000);
+    },
+    textAssignee() {
+      if (!this.source.assignee)
+        return this.$t('TICKETS.ASSIGNEE_FILTER.UNASSIGNED');
+      if (this.source.assignee.id === this.currentUserId)
+        return this.$t('TICKETS.ASSIGNEE_FILTER.ME');
+
+      return this.source.assignee.name;
     },
   },
   methods: {

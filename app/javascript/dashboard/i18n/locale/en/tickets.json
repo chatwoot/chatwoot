@@ -2,6 +2,7 @@
   "TICKETS": {
     "TITLE": "Ticket Title",
     "DESCRIPTION": "Ticket Description",
+    "ASSIGNEE": "Assigned to",
     "STATUS": {
       "OPEN": "Open",
       "PENDING": "Pending",
@@ -13,21 +14,21 @@
       "MEDIUM": "Medium",
       "HIGH": "High"
     },
-    "STATUS_filter": {
+    "STATUS_FILTER": {
       "OPEN": "Open",
       "PENDING": "Pending",
       "RESOLVED": "Resolved"
     },
-    "PRIORITY_filter": {
+    "PRIORITY_FILTER": {
       "LOW": "Low",
       "MEDIUM": "Medium",
       "HIGH": "High"
     },
-    "ASSIGNEE_filter": {
+    "ASSIGNEE_FILTER": {
       "ME": "Me",
       "UNASSIGNED": "Unassigned"
     },
-    "LABEL_filter": {
+    "LABEL_FILTER": {
       "ME": "Me",
       "UNASSIGNED": "Unassigned"
     },
