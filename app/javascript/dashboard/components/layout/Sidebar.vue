@@ -29,6 +29,7 @@ export default {
     const sidebarRef = ref(null);
     const route = useRoute();
     const router = useRouter();
+
     const toggleKeyShortcutModal = () => {
       emit('openKeyShortcutModal');
     };
@@ -64,6 +65,7 @@ export default {
       },
     };
     useKeyboardEvents(keyboardEvents, sidebarRef);
+
     return {
       toggleKeyShortcutModal,
       sidebarRef,

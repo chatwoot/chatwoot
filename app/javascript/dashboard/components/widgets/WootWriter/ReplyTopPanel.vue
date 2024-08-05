@@ -24,6 +24,7 @@ export default {
   },
   setup(props, { emit }) {
     const replyTopRef = ref(null);
+
     const setReplyMode = mode => {
       emit('setReplyMode', mode);
     };
@@ -44,6 +45,7 @@ export default {
       },
     };
     useKeyboardEvents(keyboardEvents, replyTopRef);
+
     return {
       handleReplyClick,
       handleNoteClick,

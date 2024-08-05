@@ -89,7 +89,9 @@ export default {
   },
   setup() {
     const { uiSettings } = useUISettings();
+
     const conversationListRef = ref(null);
+
     const getKeyboardListenerParams = () => {
       const allConversations = conversationListRef.value.querySelectorAll(
         'div.conversations-list div.conversation'
@@ -141,6 +143,7 @@ export default {
       },
     };
     useKeyboardEvents(keyboardEvents, conversationListRef);
+
     return {
       uiSettings,
       conversationListRef,
