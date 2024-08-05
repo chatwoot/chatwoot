@@ -368,18 +368,20 @@ describe('#mutations', () => {
     it('set all attachments', () => {
       const state = {
         allConversations: [{ id: 1 }],
+        attachments: {},
       };
       const data = [{ id: 1, name: 'test' }];
       mutations[types.SET_ALL_ATTACHMENTS](state, { id: 1, data });
-      expect(state.allConversations[0].attachments).toEqual(data);
+      expect(state.attachments[1]).toEqual(data);
     });
     it('set attachments key even if the attachments are empty', () => {
       const state = {
         allConversations: [{ id: 1 }],
+        attachments: {},
       };
       const data = [];
       mutations[types.SET_ALL_ATTACHMENTS](state, { id: 1, data });
-      expect(state.allConversations[0].attachments).toEqual([]);
+      expect(state.attachments[1]).toEqual([]);
     });
   });
 
