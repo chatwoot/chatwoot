@@ -14,7 +14,7 @@ export const state = {
 };
 
 export const getters = {
-  getTicketsReport($state) {
+  getTicketsAgentsReport($state) {
     return $state.records;
   },
   getTicketsSummary($state) {
