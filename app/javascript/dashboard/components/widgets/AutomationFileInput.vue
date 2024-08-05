@@ -1,30 +1,3 @@
-<template>
-  <label class="input-wrapper" :class="uploadState">
-    <input
-      v-if="uploadState !== 'processing'"
-      type="file"
-      name="attachment"
-      :class="uploadState === 'processing' ? 'disabled' : ''"
-      @change="onChangeFile"
-    />
-    <spinner v-if="uploadState === 'processing'" />
-    <fluent-icon v-if="uploadState === 'idle'" icon="file-upload" />
-    <fluent-icon
-      v-if="uploadState === 'uploaded'"
-      icon="checkmark-circle"
-      type="outline"
-      class="success-icon"
-    />
-    <fluent-icon
-      v-if="uploadState === 'failed'"
-      icon="dismiss-circle"
-      type="outline"
-      class="error-icon"
-    />
-    <p class="file-button">{{ label }}</p>
-  </label>
-</template>
-
 <script>
 import { useAlert } from 'dashboard/composables';
 import Spinner from 'shared/components/Spinner.vue';
@@ -33,10 +6,6 @@ export default {
     Spinner,
   },
   props: {
-    value: {
-      type: Array,
-      default: () => [],
-    },
     initialFileName: {
       type: String,
       default: '',
@@ -76,6 +45,33 @@ export default {
   },
 };
 </script>
+
+<template>
+  <label class="input-wrapper" :class="uploadState">
+    <input
+      v-if="uploadState !== 'processing'"
+      type="file"
+      name="attachment"
+      :class="uploadState === 'processing' ? 'disabled' : ''"
+      @change="onChangeFile"
+    />
+    <Spinner v-if="uploadState === 'processing'" />
+    <fluent-icon v-if="uploadState === 'idle'" icon="file-upload" />
+    <fluent-icon
+      v-if="uploadState === 'uploaded'"
+      icon="checkmark-circle"
+      type="outline"
+      class="success-icon"
+    />
+    <fluent-icon
+      v-if="uploadState === 'failed'"
+      icon="dismiss-circle"
+      type="outline"
+      class="error-icon"
+    />
+    <p class="file-button">{{ label }}</p>
+  </label>
+</template>
 
 <style scoped>
 input[type='file'] {

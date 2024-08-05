@@ -1,21 +1,3 @@
-<template>
-  <file-upload
-    ref="upload"
-    :size="4096 * 2048"
-    :accept="allowedFileTypes"
-    :data="{
-      direct_upload_url: '/api/v1/widget/direct_uploads',
-      direct_upload: true,
-    }"
-    @input-file="onFileUpload"
-  >
-    <button class="icon-button flex items-center justify-center">
-      <fluent-icon v-if="!isUploading.image" icon="attach" />
-      <spinner v-if="isUploading" size="small" />
-    </button>
-  </file-upload>
-</template>
-
 <script>
 import FileUpload from 'vue-upload-component';
 import Spinner from 'shared/components/Spinner.vue';
@@ -150,3 +132,21 @@ export default {
   },
 };
 </script>
+
+<template>
+  <FileUpload
+    ref="upload"
+    :size="4096 * 2048"
+    :accept="allowedFileTypes"
+    :data="{
+      direct_upload_url: '/api/v1/widget/direct_uploads',
+      direct_upload: true,
+    }"
+    @input-file="onFileUpload"
+  >
+    <button class="icon-button flex items-center justify-center">
+      <FluentIcon v-if="!isUploading.image" icon="attach" />
+      <Spinner v-if="isUploading" size="small" />
+    </button>
+  </FileUpload>
+</template>

@@ -1,51 +1,3 @@
-<template>
-  <div class="flex justify-between bg-black-50 dark:bg-slate-800">
-    <div class="button-group">
-      <woot-button
-        variant="clear"
-        class="button--reply"
-        :class="replyButtonClass"
-        @click="handleReplyClick"
-      >
-        {{ $t('CONVERSATION.REPLYBOX.REPLY') }}
-      </woot-button>
-
-      <woot-button
-        class="button--note"
-        variant="clear"
-        color-scheme="warning"
-        :class="noteButtonClass"
-        @click="handleNoteClick"
-      >
-        {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
-      </woot-button>
-    </div>
-    <div class="flex items-center mx-4 my-0">
-      <div v-if="isMessageLengthReachingThreshold" class="text-xs">
-        <span :class="charLengthClass">
-          {{ characterLengthWarning }}
-        </span>
-      </div>
-    </div>
-    <woot-button
-      v-if="popoutReplyBox"
-      variant="clear"
-      icon="dismiss"
-      color-scheme="secondary"
-      class-names="popout-button"
-      @click="$emit('click')"
-    />
-    <woot-button
-      v-else
-      variant="clear"
-      icon="resize-large"
-      color-scheme="secondary"
-      class-names="popout-button"
-      @click="$emit('click')"
-    />
-  </div>
-</template>
-
 <script>
 import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
@@ -116,6 +68,54 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="flex justify-between bg-black-50 dark:bg-slate-800">
+    <div class="button-group">
+      <woot-button
+        variant="clear"
+        class="button--reply"
+        :class="replyButtonClass"
+        @click="handleReplyClick"
+      >
+        {{ $t('CONVERSATION.REPLYBOX.REPLY') }}
+      </woot-button>
+
+      <woot-button
+        class="button--note"
+        variant="clear"
+        color-scheme="warning"
+        :class="noteButtonClass"
+        @click="handleNoteClick"
+      >
+        {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
+      </woot-button>
+    </div>
+    <div class="flex items-center mx-4 my-0">
+      <div v-if="isMessageLengthReachingThreshold" class="text-xs">
+        <span :class="charLengthClass">
+          {{ characterLengthWarning }}
+        </span>
+      </div>
+    </div>
+    <woot-button
+      v-if="popoutReplyBox"
+      variant="clear"
+      icon="dismiss"
+      color-scheme="secondary"
+      class-names="popout-button"
+      @click="$emit('click')"
+    />
+    <woot-button
+      v-else
+      variant="clear"
+      icon="resize-large"
+      color-scheme="secondary"
+      class-names="popout-button"
+      @click="$emit('click')"
+    />
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .button-group {

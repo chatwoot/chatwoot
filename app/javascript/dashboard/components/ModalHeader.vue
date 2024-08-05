@@ -1,3 +1,28 @@
+<script>
+export default {
+  props: {
+    headerTitle: {
+      type: String,
+      default: '',
+    },
+    headerContent: {
+      type: String,
+      default: '',
+    },
+    headerContentValue: {
+      type: String,
+      default: '',
+    },
+    headerImage: {
+      type: String,
+      default: '',
+    },
+  },
+};
+</script>
+
+<!-- eslint-disable vue/no-unused-refs -->
+<!-- Added ref for writing specs -->
 <template>
   <div class="flex flex-col items-start px-8 pt-8 pb-0">
     <img v-if="headerImage" :src="headerImage" alt="No image" />
@@ -23,26 +48,3 @@
     <slot />
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    headerTitle: {
-      type: String,
-      default: '',
-    },
-    headerContent: {
-      type: String,
-      default: '',
-    },
-    headerContentValue: {
-      type: String,
-      default: '',
-    },
-    headerImage: {
-      type: String,
-      default: '',
-    },
-  },
-};
-</script>

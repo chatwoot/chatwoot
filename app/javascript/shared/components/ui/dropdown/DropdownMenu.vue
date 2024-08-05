@@ -1,12 +1,3 @@
-<template>
-  <ul
-    ref="dropdownMenu"
-    class="dropdown menu vertical"
-    :class="[placement && `dropdown--${placement}`]"
-  >
-    <slot />
-  </ul>
-</template>
 <script>
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 export default {
@@ -59,3 +50,13 @@ export default {
   },
 };
 </script>
+
+<template>
+  <ul
+    ref="dropdownMenu"
+    class="dropdown menu vertical"
+    :class="[placement && `dropdown--${placement}`]"
+  >
+    <slot />
+  </ul>
+</template>

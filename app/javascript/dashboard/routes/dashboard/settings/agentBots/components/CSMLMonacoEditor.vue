@@ -1,17 +1,3 @@
-<template>
-  <div class="csml-editor--container">
-    <loading-state
-      v-if="iframeLoading"
-      :message="$t('AGENT_BOTS.LOADING_EDITOR')"
-      class="dashboard-app_loading-container"
-    />
-    <iframe
-      id="csml-editor--frame"
-      :src="globalConfig.csmlEditorHost"
-      @load="onEditorLoad"
-    />
-  </div>
-</template>
 <script>
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
 import { mapGetters } from 'vuex';
@@ -59,6 +45,21 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="csml-editor--container">
+    <LoadingState
+      v-if="iframeLoading"
+      :message="$t('AGENT_BOTS.LOADING_EDITOR')"
+      class="dashboard-app_loading-container"
+    />
+    <iframe
+      id="csml-editor--frame"
+      :src="globalConfig.csmlEditorHost"
+      @load="onEditorLoad"
+    />
+  </div>
+</template>
 
 <style scoped>
 #csml-editor--frame {
