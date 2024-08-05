@@ -6,6 +6,10 @@
       "ONE_OFF": "Create a one off campaign",
       "ONGOING": "Create a ongoing campaign"
     },
+    "APP_INTEGRATION": {
+      "HEADER": "App Integrations",
+      "404": "There are no app integrations created"
+    },
     "ADD": {
       "TITLE": "Create a campaign",
       "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
