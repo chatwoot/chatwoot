@@ -9,22 +9,10 @@ export const routes = [
     name: 'tickets_dashboard',
     roles: AllRoles,
     component: TicketView,
-    props: () => {
-      return { inboxId: 0 };
-    },
   },
   {
     path: frontendURL('accounts/:accountId/tickets/:ticketId'),
     name: 'ticket_profile_dashboard',
-    roles: AllRoles,
-    component: TicketView,
-    props: route => {
-      return { ticketId: route.params.ticketId };
-    },
-  },
-  {
-    path: frontendURL('accounts/:accountId/tickets/:ticketId/conversations'),
-    name: 'ticket_conversations',
     roles: AllRoles,
     component: TicketView,
     props: route => {
