@@ -88,11 +88,15 @@ function handleAccountUserCreate(auditLogItem, translationPayload, agentList) {
   return translationPayload;
 }
 
-function handleAccountUserUpdate(auditLogItem, translationPayload, agentList) {
+export function handleAccountUserUpdate(
+  auditLogItem,
+  translationPayload,
+  agentList
+) {
   if (auditLogItem.user_id !== auditLogItem.auditable?.user_id) {
     translationPayload.user = auditLogItem.auditable
       ? getAgentName(auditLogItem.auditable?.user_id, agentList)
-      : 'deleted user';
+      : 'deleted user'; // Default to 'deleted user' if auditable is not defined, that means the user was deleted
   }
 
   const accountUserChanges = extractChangedAccountUserValues(
