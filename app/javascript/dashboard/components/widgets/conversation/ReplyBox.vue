@@ -1091,10 +1091,10 @@ export default {
     />
     <ReplyTopPanel
       :mode="replyType"
-      :set-reply-mode="setReplyMode"
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
       :characters-remaining="charactersRemaining"
       :popout-reply-box="popoutReplyBox"
+      @setReplyMode="setReplyMode"
       @click="$emit('click')"
     />
     <ArticleSearchPopover
