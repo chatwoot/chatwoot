@@ -9,12 +9,12 @@
     <div v-if="isLoading" class="agents-loader">
       <spinner />
       <span>{{
-        $t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.LOADING_MESSAGE')
+        $t('TICKETS_REPORTS.AGENT_CONVERSATIONS.LOADING_MESSAGE')
       }}</span>
     </div>
     <empty-state
       v-else-if="!isLoading && !agentMetrics.length"
-      :title="$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.NO_AGENTS')"
+      :title="$t('TICKETS_REPORTS.AGENT_CONVERSATIONS.NO_AGENTS')"
     />
     <div v-if="agentMetrics.length > 0" class="table-pagination">
       <ve-pagination

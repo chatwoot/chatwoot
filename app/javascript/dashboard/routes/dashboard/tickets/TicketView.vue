@@ -28,6 +28,7 @@
       <div class="flex">
         <div class="flex flex-col w-full">
           <virtual-list
+            v-if="ticketList.length > 0"
             ref="ticketVirtualList"
             :data-key="'id'"
             :data-sources="ticketList"
@@ -49,6 +50,9 @@
               />
             </template>
           </virtual-list>
+          <p v-else class="text-center text-muted p-4">
+            {{ $t('TICKETS.LIST.NO_TICKETS') }}
+          </p>
         </div>
       </div>
     </div>
