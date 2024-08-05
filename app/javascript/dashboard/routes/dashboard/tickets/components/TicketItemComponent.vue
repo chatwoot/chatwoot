@@ -62,12 +62,12 @@ export default {
       return this.source.unread;
     },
     updatedAtTimestamp() {
-      return Date.now();
+      return Math.floor(Date.now() / 1000);
     },
     createdAtTimestamp() {
       return this.source.created_at
-        ? new Date(this.source.created_at).getTime()
-        : Date.now();
+        ? Math.floor(new Date(this.source.created_at).getTime() / 1000)
+        : Math.floor(Date.now() / 1000);
     },
   },
   methods: {
