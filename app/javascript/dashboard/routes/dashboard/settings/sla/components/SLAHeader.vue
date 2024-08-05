@@ -10,6 +10,7 @@ defineProps({
 
 defineEmits(['click']);
 </script>
+
 <template>
   <BaseSettingsHeader
     :title="$t('SLA.HEADER')"

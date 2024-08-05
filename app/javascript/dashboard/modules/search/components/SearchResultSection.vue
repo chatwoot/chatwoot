@@ -1,19 +1,3 @@
-<template>
-  <section class="result-section">
-    <div v-if="showTitle" class="header">
-      <h3 class="text-sm text-slate-800 dark:text-slate-100">{{ title }}</h3>
-    </div>
-    <woot-loading-state v-if="isFetching" :message="'Searching'" />
-    <slot v-else />
-    <div v-if="empty && !isFetching" class="empty">
-      <fluent-icon icon="info" size="16px" class="icon" />
-      <p class="empty-state__text">
-        {{ $t('SEARCH.EMPTY_STATE', { item: titleCase, query }) }}
-      </p>
-    </div>
-  </section>
-</template>
-
 <script>
 export default {
   props: {
@@ -45,6 +29,25 @@ export default {
   },
 };
 </script>
+
+<template>
+  <section class="result-section">
+    <div v-if="showTitle" class="header">
+      <h3 class="text-sm text-slate-800 dark:text-slate-100">{{ title }}</h3>
+    </div>
+    <woot-loading-state
+      v-if="isFetching"
+      :message="$t('SEARCH.SEARCHING_DATA')"
+    />
+    <slot v-else />
+    <div v-if="empty && !isFetching" class="empty">
+      <fluent-icon icon="info" size="16px" class="icon" />
+      <p class="empty-state__text">
+        {{ $t('SEARCH.EMPTY_STATE', { item: titleCase, query }) }}
+      </p>
+    </div>
+  </section>
+</template>
 
 <style scoped lang="scss">
 .result-section {

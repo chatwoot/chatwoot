@@ -1,34 +1,3 @@
-<template>
-  <div
-    v-if="showHead"
-    class="message__mail-head"
-    :class="{ 'is-incoming': isIncoming }"
-  >
-    <div v-if="fromMail" class="meta-wrap">
-      <span class="message__content--type">{{ $t('EMAIL_HEADER.FROM') }}:</span>
-      <span>{{ fromMail }}</span>
-    </div>
-    <div v-if="toMails" class="meta-wrap">
-      <span class="message__content--type">{{ $t('EMAIL_HEADER.TO') }}:</span>
-      <span>{{ toMails }}</span>
-    </div>
-    <div v-if="ccMails" class="meta-wrap">
-      <span class="message__content--type">{{ $t('EMAIL_HEADER.CC') }}:</span>
-      <span>{{ ccMails }}</span>
-    </div>
-    <div v-if="bccMails" class="meta-wrap">
-      <span class="message__content--type">{{ $t('EMAIL_HEADER.BCC') }}:</span>
-      <span>{{ bccMails }}</span>
-    </div>
-    <div v-if="subject" class="meta-wrap">
-      <span class="message__content--type">
-        {{ $t('EMAIL_HEADER.SUBJECT') }}:
-      </span>
-      <span>{{ subject }}</span>
-    </div>
-  </div>
-</template>
-
 <script>
 export default {
   props: {
@@ -75,6 +44,38 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    v-if="showHead"
+    class="message__mail-head"
+    :class="{ 'is-incoming': isIncoming }"
+  >
+    <div v-if="fromMail" class="meta-wrap">
+      <span class="message__content--type">{{ $t('EMAIL_HEADER.FROM') }}:</span>
+      <span>{{ fromMail }}</span>
+    </div>
+    <div v-if="toMails" class="meta-wrap">
+      <span class="message__content--type">{{ $t('EMAIL_HEADER.TO') }}:</span>
+      <span>{{ toMails }}</span>
+    </div>
+    <div v-if="ccMails" class="meta-wrap">
+      <span class="message__content--type">{{ $t('EMAIL_HEADER.CC') }}:</span>
+      <span>{{ ccMails }}</span>
+    </div>
+    <div v-if="bccMails" class="meta-wrap">
+      <span class="message__content--type">{{ $t('EMAIL_HEADER.BCC') }}:</span>
+      <span>{{ bccMails }}</span>
+    </div>
+    <div v-if="subject" class="meta-wrap">
+      <span class="message__content--type">
+        {{ $t('EMAIL_HEADER.SUBJECT') }}:
+      </span>
+      <span>{{ subject }}</span>
+    </div>
+  </div>
+</template>
+
 <style lang="scss" scoped>
 .message__mail-head {
   padding-bottom: var(--space-small);

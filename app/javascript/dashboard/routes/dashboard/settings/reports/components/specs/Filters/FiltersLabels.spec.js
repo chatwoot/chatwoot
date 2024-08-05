@@ -58,8 +58,8 @@ describe('ReportsFiltersLabels.vue', () => {
 
     wrapper.vm.handleInput();
 
-    expect(wrapper.emitted('labels-filter-selection')).toBeTruthy();
-    expect(wrapper.emitted('labels-filter-selection')[0]).toEqual([
+    expect(wrapper.emitted('labelsFilterSelection')).toBeTruthy();
+    expect(wrapper.emitted('labelsFilterSelection')[0]).toEqual([
       selectedLabel,
     ]);
   });

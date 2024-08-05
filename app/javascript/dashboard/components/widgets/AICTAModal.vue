@@ -1,45 +1,6 @@
-<template>
-  <div class="flex-1 min-w-0 px-0">
-    <woot-modal-header
-      :header-title="$t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.TITLE')"
-      :header-content="$t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.DESC')"
-    />
-    <form
-      class="flex flex-col flex-wrap modal-content"
-      @submit.prevent="finishOpenAI"
-    >
-      <div class="w-full mt-2">
-        <woot-input
-          v-model="value"
-          type="text"
-          :class="{ error: v$.value.$error }"
-          :placeholder="
-            $t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.KEY_PLACEHOLDER')
-          "
-          @blur="v$.value.$touch"
-        />
-      </div>
-      <div class="flex flex-row justify-between w-full gap-2 px-0 py-2">
-        <woot-button variant="link" @click.prevent="openOpenAIDoc">
-          {{ $t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.BUTTONS.NEED_HELP') }}
-        </woot-button>
-        <div class="flex items-center gap-1">
-          <woot-button variant="clear" @click.prevent="onDismiss">
-            {{ $t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.BUTTONS.DISMISS') }}
-          </woot-button>
-          <woot-button :is-disabled="v$.value.$invalid">
-            {{ $t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.BUTTONS.FINISH') }}
-          </woot-button>
-        </div>
-      </div>
-    </form>
-  </div>
-</template>
-
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import aiMixin from 'dashboard/mixins/aiMixin';
@@ -62,11 +23,6 @@ export default {
     value: {
       required,
     },
-  },
-  computed: {
-    ...mapGetters({
-      appIntegrations: 'integrations/getAppIntegrations',
-    }),
   },
   methods: {
     onClose() {
@@ -113,3 +69,41 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="flex-1 min-w-0 px-0">
+    <woot-modal-header
+      :header-title="$t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.TITLE')"
+      :header-content="$t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.DESC')"
+    />
+    <form
+      class="flex flex-col flex-wrap modal-content"
+      @submit.prevent="finishOpenAI"
+    >
+      <div class="w-full mt-2">
+        <woot-input
+          v-model="value"
+          type="text"
+          :class="{ error: v$.value.$error }"
+          :placeholder="
+            $t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.KEY_PLACEHOLDER')
+          "
+          @blur="v$.value.$touch"
+        />
+      </div>
+      <div class="flex flex-row justify-between w-full gap-2 px-0 py-2">
+        <woot-button variant="link" @click.prevent="openOpenAIDoc">
+          {{ $t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.BUTTONS.NEED_HELP') }}
+        </woot-button>
+        <div class="flex items-center gap-1">
+          <woot-button variant="clear" @click.prevent="onDismiss">
+            {{ $t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.BUTTONS.DISMISS') }}
+          </woot-button>
+          <woot-button :is-disabled="v$.value.$invalid">
+            {{ $t('INTEGRATION_SETTINGS.OPEN_AI.CTA_MODAL.BUTTONS.FINISH') }}
+          </woot-button>
+        </div>
+      </div>
+    </form>
+  </div>
+</template>

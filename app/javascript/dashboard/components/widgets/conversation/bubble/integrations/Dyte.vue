@@ -1,33 +1,3 @@
-<template>
-  <div>
-    <woot-button
-      size="small"
-      variant="smooth"
-      color-scheme="secondary"
-      icon="video-add"
-      class="join-call-button"
-      :is-loading="isLoading"
-      @click="joinTheCall"
-    >
-      {{ $t('INTEGRATION_SETTINGS.DYTE.CLICK_HERE_TO_JOIN') }}
-    </woot-button>
-    <div v-if="dyteAuthToken" class="video-call--container">
-      <iframe
-        :src="meetingLink"
-        allow="camera;microphone;fullscreen;display-capture;picture-in-picture;clipboard-write;"
-      />
-      <woot-button
-        size="small"
-        variant="smooth"
-        color-scheme="secondary"
-        class="join-call-button"
-        @click="leaveTheRoom"
-      >
-        {{ $t('INTEGRATION_SETTINGS.DYTE.LEAVE_THE_ROOM') }}
-      </woot-button>
-    </div>
-  </div>
-</template>
 <script>
 import DyteAPI from 'dashboard/api/integrations/dyte';
 import { buildDyteURL } from 'shared/helpers/IntegrationHelper';
@@ -71,6 +41,38 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div>
+    <woot-button
+      size="small"
+      variant="smooth"
+      color-scheme="secondary"
+      icon="video-add"
+      class="join-call-button"
+      :is-loading="isLoading"
+      @click="joinTheCall"
+    >
+      {{ $t('INTEGRATION_SETTINGS.DYTE.CLICK_HERE_TO_JOIN') }}
+    </woot-button>
+    <div v-if="dyteAuthToken" class="video-call--container">
+      <iframe
+        :src="meetingLink"
+        allow="camera;microphone;fullscreen;display-capture;picture-in-picture;clipboard-write;"
+      />
+      <woot-button
+        size="small"
+        variant="smooth"
+        color-scheme="secondary"
+        class="join-call-button"
+        @click="leaveTheRoom"
+      >
+        {{ $t('INTEGRATION_SETTINGS.DYTE.LEAVE_THE_ROOM') }}
+      </woot-button>
+    </div>
+  </div>
+</template>
+
 <style lang="scss">
 .join-call-button {
   margin: var(--space-small) 0;

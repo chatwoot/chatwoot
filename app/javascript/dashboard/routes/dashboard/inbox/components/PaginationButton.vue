@@ -1,3 +1,38 @@
+<script>
+export default {
+  props: {
+    totalLength: {
+      type: Number,
+      default: 0,
+    },
+    currentIndex: {
+      type: Number,
+      default: 0,
+    },
+  },
+  computed: {
+    isUpDisabled() {
+      return this.currentIndex === 1;
+    },
+    isDownDisabled() {
+      return this.currentIndex === this.totalLength || this.totalLength <= 1;
+    },
+  },
+  methods: {
+    handleUpClick() {
+      if (this.currentIndex > 1) {
+        this.$emit('prev');
+      }
+    },
+    handleDownClick() {
+      if (this.currentIndex < this.totalLength) {
+        this.$emit('next');
+      }
+    },
+  },
+};
+</script>
+
 <template>
   <div class="flex gap-2 items-center">
     <div class="flex gap-1 items-center">
@@ -34,37 +69,3 @@
     </div>
   </div>
 </template>
-<script>
-export default {
-  props: {
-    totalLength: {
-      type: Number,
-      default: 0,
-    },
-    currentIndex: {
-      type: Number,
-      default: 0,
-    },
-  },
-  computed: {
-    isUpDisabled() {
-      return this.currentIndex === 1;
-    },
-    isDownDisabled() {
-      return this.currentIndex === this.totalLength || this.totalLength <= 1;
-    },
-  },
-  methods: {
-    handleUpClick() {
-      if (this.currentIndex > 1) {
-        this.$emit('prev');
-      }
-    },
-    handleDownClick() {
-      if (this.currentIndex < this.totalLength) {
-        this.$emit('next');
-      }
-    },
-  },
-};
-</script>

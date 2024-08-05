@@ -1,7 +1,38 @@
+<script>
+import { mapGetters } from 'vuex';
+
+export default {
+  computed: {
+    ...mapGetters({
+      notificationMetadata: 'notifications/getMeta',
+    }),
+    unreadCount() {
+      if (!this.notificationMetadata.unreadCount) {
+        return '';
+      }
+
+      return this.notificationMetadata.unreadCount < 100
+        ? `${this.notificationMetadata.unreadCount}`
+        : '99+';
+    },
+    isNotificationPanelActive() {
+      return this.$route.name === 'notifications_index';
+    },
+  },
+  methods: {
+    openNotificationPanel() {
+      if (this.$route.name !== 'notifications_index') {
+        this.$emit('openNotificationPanel');
+      }
+    },
+  },
+};
+</script>
+
 <template>
   <div class="mb-4">
     <button
-      class="text-slate-600 dark:text-slate-100 w-10 h-10 my-2 p-0 flex items-center justify-center rounded-lg hover:bg-slate-25 dark:hover:bg-slate-700 dark:hover:text-slate-100 hover:text-slate-600 relative"
+      class="relative flex items-center justify-center w-10 h-10 p-0 my-2 rounded-lg text-slate-600 dark:text-slate-100 hover:bg-slate-25 dark:hover:bg-slate-700 dark:hover:text-slate-100 hover:text-slate-600"
       :class="{
         'bg-woot-50 dark:bg-slate-800 text-woot-500 hover:bg-woot-50':
           isNotificationPanelActive,
@@ -23,34 +54,3 @@
     </button>
   </div>
 </template>
-<script>
-import { mapGetters } from 'vuex';
-
-export default {
-  computed: {
-    ...mapGetters({
-      accountId: 'getCurrentAccountId',
-      notificationMetadata: 'notifications/getMeta',
-    }),
-    unreadCount() {
-      if (!this.notificationMetadata.unreadCount) {
-        return '';
-      }
-
-      return this.notificationMetadata.unreadCount < 100
-        ? `${this.notificationMetadata.unreadCount}`
-        : '99+';
-    },
-    isNotificationPanelActive() {
-      return this.$route.name === 'notifications_index';
-    },
-  },
-  methods: {
-    openNotificationPanel() {
-      if (this.$route.name !== 'notifications_index') {
-        this.$emit('open-notification-panel');
-      }
-    },
-  },
-};
-</script>

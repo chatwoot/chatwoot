@@ -1,27 +1,3 @@
-<template>
-  <router-link :to="navigateTo" class="contact-item">
-    <woot-thumbnail :src="thumbnail" :username="name" size="24px" />
-    <div class="ml-2 rtl:mr-2 rtl:ml-0">
-      <h5 class="text-sm name text-slate-800 dark:text-slate-200">
-        {{ name }}
-      </h5>
-      <p
-        class="m-0 text-slate-600 dark:text-slate-200 gap-1 text-sm flex items-center"
-      >
-        <span v-if="email" class="email text-slate-800 dark:text-slate-200">{{
-          email
-        }}</span>
-        <span v-if="phone" class="separator text-slate-700 dark:text-slate-200">
-          •
-        </span>
-        <span v-if="phone" class="phone text-slate-800 dark:text-slate-200">
-          {{ phone }}
-        </span>
-      </p>
-    </div>
-  </router-link>
-</template>
-
 <script>
 import { frontendURL } from 'dashboard/helper/URLHelper';
 export default {
@@ -58,6 +34,30 @@ export default {
   },
 };
 </script>
+
+<template>
+  <router-link :to="navigateTo" class="contact-item">
+    <woot-thumbnail :src="thumbnail" :username="name" size="24px" />
+    <div class="ml-2 rtl:mr-2 rtl:ml-0">
+      <h5 class="text-sm name text-slate-800 dark:text-slate-200">
+        {{ name }}
+      </h5>
+      <p
+        class="m-0 text-slate-600 dark:text-slate-200 gap-1 text-sm flex items-center"
+      >
+        <span v-if="email" class="email text-slate-800 dark:text-slate-200">{{
+          email
+        }}</span>
+        <span v-if="phone" class="separator text-slate-700 dark:text-slate-200">
+          •
+        </span>
+        <span v-if="phone" class="phone text-slate-800 dark:text-slate-200">
+          {{ phone }}
+        </span>
+      </p>
+    </div>
+  </router-link>
+</template>
 
 <style scoped lang="scss">
 .contact-item {
