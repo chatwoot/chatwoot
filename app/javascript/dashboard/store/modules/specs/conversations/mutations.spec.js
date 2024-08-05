@@ -388,7 +388,8 @@ describe('#mutations', () => {
   describe('#ADD_CONVERSATION_ATTACHMENTS', () => {
     it('add conversation attachments', () => {
       const state = {
-        allConversations: [{ id: 1, attachments: [] }],
+        allConversations: [{ id: 1 }],
+        attachments: {},
       };
       const message = {
         conversation_id: 1,
@@ -397,19 +398,13 @@ describe('#mutations', () => {
       };
 
       mutations[types.ADD_CONVERSATION_ATTACHMENTS](state, message);
-      expect(state.allConversations[0].attachments).toEqual(
-        message.attachments
-      );
+      expect(state.attachments[1]).toEqual(message.attachments);
     });
 
     it('should not add duplicate attachments', () => {
       const state = {
-        allConversations: [
-          {
-            id: 1,
-            attachments: [{ id: 1, name: 'existing' }],
-          },
-        ],
+        allConversations: [{ id: 1 }],
+        attachments: { 1: [{ id: 1, name: 'existing' }] },
       };
       const message = {
         conversation_id: 1,
@@ -421,12 +416,12 @@ describe('#mutations', () => {
       };
 
       mutations[types.ADD_CONVERSATION_ATTACHMENTS](state, message);
-      expect(state.allConversations[0].attachments).toHaveLength(2);
-      expect(state.allConversations[0].attachments).toContainEqual({
+      expect(state.attachments[1]).toHaveLength(2);
+      expect(state.attachments[1]).toContainEqual({
         id: 1,
         name: 'existing',
       });
-      expect(state.allConversations[0].attachments).toContainEqual({
+      expect(state.attachments[1]).toContainEqual({
         id: 2,
         name: 'new',
       });
@@ -435,6 +430,9 @@ describe('#mutations', () => {
     it('should not add attachments if chat not found', () => {
       const state = {
         allConversations: [{ id: 1, attachments: [] }],
+        attachments: {
+          1: [],
+        },
       };
       const message = {
         conversation_id: 2,
@@ -443,7 +441,7 @@ describe('#mutations', () => {
       };
 
       mutations[types.ADD_CONVERSATION_ATTACHMENTS](state, message);
-      expect(state.allConversations[0].attachments).toHaveLength(0);
+      expect(state.attachments[1]).toHaveLength(0);
     });
   });
 
