@@ -1,45 +1,3 @@
-<template>
-  <div class="custom-attributes--panel">
-    <custom-attribute
-      v-for="attribute in displayedAttributes"
-      :key="attribute.id"
-      :attribute-key="attribute.attribute_key"
-      :attribute-type="attribute.attribute_display_type"
-      :values="attribute.attribute_values"
-      :label="attribute.attribute_display_name"
-      :description="attribute.attribute_description"
-      :value="attribute.value"
-      :show-actions="true"
-      :attribute-regex="attribute.regex_pattern"
-      :regex-cue="attribute.regex_cue"
-      :class="attributeClass"
-      :contact-id="contactId"
-      @update="onUpdate"
-      @delete="onDelete"
-      @copy="onCopy"
-    />
-    <p
-      v-if="!displayedAttributes.length && emptyStateMessage"
-      class="p-3 text-center"
-    >
-      {{ emptyStateMessage }}
-    </p>
-    <!-- Show more and show less buttons show it if the filteredAttributes length is greater than 5 -->
-    <div v-if="filteredAttributes.length > 5" class="flex px-2 py-2">
-      <woot-button
-        size="small"
-        :icon="showAllAttributes ? 'chevron-up' : 'chevron-down'"
-        variant="clear"
-        color-scheme="primary"
-        class="!px-2 hover:!bg-transparent dark:hover:!bg-transparent"
-        @click="onClickToggle"
-      >
-        {{ toggleButtonText }}
-      </woot-button>
-    </div>
-  </div>
-</template>
-
 <script>
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -187,6 +145,48 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="custom-attributes--panel">
+    <CustomAttribute
+      v-for="attribute in displayedAttributes"
+      :key="attribute.id"
+      :attribute-key="attribute.attribute_key"
+      :attribute-type="attribute.attribute_display_type"
+      :values="attribute.attribute_values"
+      :label="attribute.attribute_display_name"
+      :description="attribute.attribute_description"
+      :value="attribute.value"
+      show-actions
+      :attribute-regex="attribute.regex_pattern"
+      :regex-cue="attribute.regex_cue"
+      :class="attributeClass"
+      :contact-id="contactId"
+      @update="onUpdate"
+      @delete="onDelete"
+      @copy="onCopy"
+    />
+    <p
+      v-if="!displayedAttributes.length && emptyStateMessage"
+      class="p-3 text-center"
+    >
+      {{ emptyStateMessage }}
+    </p>
+    <!-- Show more and show less buttons show it if the filteredAttributes length is greater than 5 -->
+    <div v-if="filteredAttributes.length > 5" class="flex px-2 py-2">
+      <woot-button
+        size="small"
+        :icon="showAllAttributes ? 'chevron-up' : 'chevron-down'"
+        variant="clear"
+        color-scheme="primary"
+        class="!px-2 hover:!bg-transparent dark:hover:!bg-transparent"
+        @click="onClickToggle"
+      >
+        {{ toggleButtonText }}
+      </woot-button>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="scss">
 .custom-attributes--panel {

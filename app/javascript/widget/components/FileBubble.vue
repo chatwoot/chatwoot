@@ -1,27 +1,3 @@
-<template>
-  <div class="file flex flex-row items-center p-3 cursor-pointer">
-    <div class="icon-wrap" :style="{ color: textColor }">
-      <fluent-icon icon="document" size="28" />
-    </div>
-    <div class="meta">
-      <div class="title" :class="titleColor" :style="{ color: textColor }">
-        {{ title }}
-      </div>
-      <div class="link-wrap mb-1">
-        <a
-          class="download"
-          rel="noreferrer noopener nofollow"
-          target="_blank"
-          :style="{ color: textColor }"
-          :href="url"
-        >
-          {{ $t('COMPONENTS.FILE_BUBBLE.DOWNLOAD') }}
-        </a>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
@@ -81,6 +57,30 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="file flex flex-row items-center p-3 cursor-pointer">
+    <div class="icon-wrap" :style="{ color: textColor }">
+      <FluentIcon icon="document" size="28" />
+    </div>
+    <div class="meta">
+      <div class="title" :class="titleColor" :style="{ color: textColor }">
+        {{ title }}
+      </div>
+      <div class="link-wrap mb-1">
+        <a
+          class="download"
+          rel="noreferrer noopener nofollow"
+          target="_blank"
+          :style="{ color: textColor }"
+          :href="url"
+        >
+          {{ $t('COMPONENTS.FILE_BUBBLE.DOWNLOAD') }}
+        </a>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 @import '~widget/assets/scss/variables.scss';

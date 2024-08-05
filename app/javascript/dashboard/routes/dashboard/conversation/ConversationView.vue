@@ -1,39 +1,3 @@
-<template>
-  <section class="bg-white conversation-page dark:bg-slate-900">
-    <chat-list
-      :show-conversation-list="showConversationList"
-      :conversation-inbox="inboxId"
-      :label="label"
-      :team-id="teamId"
-      :conversation-type="conversationType"
-      :folders-id="foldersId"
-      :is-on-expanded-layout="isOnExpandedLayout"
-      @conversation-load="onConversationLoad"
-    >
-      <pop-over-search
-        :is-on-expanded-layout="isOnExpandedLayout"
-        @toggle-conversation-layout="toggleConversationLayout"
-      />
-    </chat-list>
-    <conversation-box
-      v-if="showMessageView"
-      :inbox-id="inboxId"
-      :is-contact-panel-open="isContactPanelOpen"
-      :is-on-expanded-layout="isOnExpandedLayout"
-      @contact-panel-toggle="onToggleContactPanel"
-    />
-    <woot-modal
-      :show.sync="showCustomSnoozeModal"
-      :on-close="hideCustomSnoozeModal"
-    >
-      <custom-snooze-modal
-        @close="hideCustomSnoozeModal"
-        @choose-time="chooseSnoozeTime"
-      />
-    </woot-modal>
-  </section>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
@@ -254,6 +218,43 @@ export default {
   },
 };
 </script>
+
+<template>
+  <section class="bg-white conversation-page dark:bg-slate-900">
+    <ChatList
+      :show-conversation-list="showConversationList"
+      :conversation-inbox="inboxId"
+      :label="label"
+      :team-id="teamId"
+      :conversation-type="conversationType"
+      :folders-id="foldersId"
+      :is-on-expanded-layout="isOnExpandedLayout"
+      @conversationLoad="onConversationLoad"
+    >
+      <PopOverSearch
+        :is-on-expanded-layout="isOnExpandedLayout"
+        @toggleConversationLayout="toggleConversationLayout"
+      />
+    </ChatList>
+    <ConversationBox
+      v-if="showMessageView"
+      :inbox-id="inboxId"
+      :is-contact-panel-open="isContactPanelOpen"
+      :is-on-expanded-layout="isOnExpandedLayout"
+      @contactPanelToggle="onToggleContactPanel"
+    />
+    <woot-modal
+      :show.sync="showCustomSnoozeModal"
+      :on-close="hideCustomSnoozeModal"
+    >
+      <CustomSnoozeModal
+        @close="hideCustomSnoozeModal"
+        @chooseTime="chooseSnoozeTime"
+      />
+    </woot-modal>
+  </section>
+</template>
+
 <style lang="scss" scoped>
 .conversation-page {
   display: flex;

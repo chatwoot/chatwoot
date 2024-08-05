@@ -1,43 +1,3 @@
-<template>
-  <div
-    class="message-text__wrap"
-    :class="{
-      'show--quoted': isQuotedContentPresent,
-      'hide--quoted': !isQuotedContentPresent,
-    }"
-  >
-    <div v-if="!isEmail" v-dompurify-html="message" class="text-content" />
-    <div v-else @click="handleClickOnContent">
-      <letter
-        class="text-content bg-white dark:bg-white text-slate-900 dark:text-slate-900 p-2 rounded-[4px]"
-        :html="message"
-      />
-    </div>
-    <button
-      v-if="showQuoteToggle"
-      class="text-slate-300 dark:text-slate-300 cursor-pointer text-xs py-1"
-      @click="toggleQuotedContent"
-    >
-      <span v-if="showQuotedContent" class="flex items-center gap-0.5">
-        <fluent-icon icon="chevron-up" size="16" />
-        {{ $t('CHAT_LIST.HIDE_QUOTED_TEXT') }}
-      </span>
-      <span v-else class="flex items-center gap-0.5">
-        <fluent-icon icon="chevron-down" size="16" />
-        {{ $t('CHAT_LIST.SHOW_QUOTED_TEXT') }}
-      </span>
-    </button>
-    <gallery-view
-      v-if="showGalleryViewer"
-      :show.sync="showGalleryViewer"
-      :attachment="attachment"
-      :all-attachments="availableAttachments"
-      @error="onClose"
-      @close="onClose"
-    />
-  </div>
-</template>
-
 <script>
 import Letter from 'vue-letter';
 import GalleryView from '../components/GalleryView.vue';
@@ -114,6 +74,47 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    class="message-text__wrap"
+    :class="{
+      'show--quoted': isQuotedContentPresent,
+      'hide--quoted': !isQuotedContentPresent,
+    }"
+  >
+    <div v-if="!isEmail" v-dompurify-html="message" class="text-content" />
+    <div v-else @click="handleClickOnContent">
+      <Letter
+        class="text-content bg-white dark:bg-white text-slate-900 dark:text-slate-900 p-2 rounded-[4px]"
+        :html="message"
+      />
+    </div>
+    <button
+      v-if="showQuoteToggle"
+      class="py-1 text-xs cursor-pointer text-slate-300 dark:text-slate-300"
+      @click="toggleQuotedContent"
+    >
+      <span v-if="showQuotedContent" class="flex items-center gap-0.5">
+        <fluent-icon icon="chevron-up" size="16" />
+        {{ $t('CHAT_LIST.HIDE_QUOTED_TEXT') }}
+      </span>
+      <span v-else class="flex items-center gap-0.5">
+        <fluent-icon icon="chevron-down" size="16" />
+        {{ $t('CHAT_LIST.SHOW_QUOTED_TEXT') }}
+      </span>
+    </button>
+    <GalleryView
+      v-if="showGalleryViewer"
+      :show.sync="showGalleryViewer"
+      :attachment="attachment"
+      :all-attachments="availableAttachments"
+      @error="onClose"
+      @close="onClose"
+    />
+  </div>
+</template>
+
 <style lang="scss">
 .text-content {
   overflow: auto;

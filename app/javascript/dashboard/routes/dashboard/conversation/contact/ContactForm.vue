@@ -1,161 +1,11 @@
-<template>
-  <form
-    class="w-full px-8 pt-6 pb-8 contact--form"
-    @submit.prevent="handleSubmit"
-  >
-    <div>
-      <div class="w-full">
-        <woot-avatar-uploader
-          :label="$t('CONTACT_FORM.FORM.AVATAR.LABEL')"
-          :src="avatarUrl"
-          :username-avatar="name"
-          :delete-avatar="!!avatarUrl"
-          class="settings-item"
-          @change="handleImageUpload"
-          @onAvatarDelete="handleAvatarDelete"
-        />
-      </div>
-    </div>
-    <div>
-      <div class="w-full">
-        <label :class="{ error: $v.name.$error }">
-          {{ $t('CONTACT_FORM.FORM.NAME.LABEL') }}
-          <input
-            v-model.trim="name"
-            type="text"
-            :placeholder="$t('CONTACT_FORM.FORM.NAME.PLACEHOLDER')"
-            @input="$v.name.$touch"
-          />
-        </label>
-
-        <label :class="{ error: $v.email.$error }">
-          {{ $t('CONTACT_FORM.FORM.EMAIL_ADDRESS.LABEL') }}
-          <input
-            v-model.trim="email"
-            type="text"
-            :placeholder="$t('CONTACT_FORM.FORM.EMAIL_ADDRESS.PLACEHOLDER')"
-            @input="$v.email.$touch"
-          />
-          <span v-if="$v.email.$error" class="message">
-            {{ $t('CONTACT_FORM.FORM.EMAIL_ADDRESS.ERROR') }}
-          </span>
-        </label>
-      </div>
-    </div>
-    <div class="w-full">
-      <label :class="{ error: $v.description.$error }">
-        {{ $t('CONTACT_FORM.FORM.BIO.LABEL') }}
-        <textarea
-          v-model.trim="description"
-          type="text"
-          :placeholder="$t('CONTACT_FORM.FORM.BIO.PLACEHOLDER')"
-          @input="$v.description.$touch"
-        />
-      </label>
-    </div>
-    <div>
-      <div class="w-full">
-        <label
-          :class="{
-            error: isPhoneNumberNotValid,
-          }"
-        >
-          {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.LABEL') }}
-          <woot-phone-input
-            v-model="phoneNumber"
-            :value="phoneNumber"
-            :error="isPhoneNumberNotValid"
-            :placeholder="$t('CONTACT_FORM.FORM.PHONE_NUMBER.PLACEHOLDER')"
-            @input="onPhoneNumberInputChange"
-            @blur="$v.phoneNumber.$touch"
-            @setCode="setPhoneCode"
-          />
-          <span v-if="isPhoneNumberNotValid" class="message">
-            {{ phoneNumberError }}
-          </span>
-        </label>
-        <div
-          v-if="isPhoneNumberNotValid || !phoneNumber"
-          class="relative mx-0 mt-0 mb-2.5 p-2 rounded-md text-sm border border-solid border-yellow-500 text-yellow-700 dark:border-yellow-700 bg-yellow-200/60 dark:bg-yellow-200/20 dark:text-yellow-400"
-        >
-          {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.HELP') }}
-        </div>
-      </div>
-    </div>
-    <woot-input
-      v-model.trim="companyName"
-      class="w-full"
-      :label="$t('CONTACT_FORM.FORM.COMPANY_NAME.LABEL')"
-      :placeholder="$t('CONTACT_FORM.FORM.COMPANY_NAME.PLACEHOLDER')"
-    />
-    <div>
-      <div class="w-full">
-        <label>
-          {{ $t('CONTACT_FORM.FORM.COUNTRY.LABEL') }}
-        </label>
-        <multiselect
-          v-model="country"
-          track-by="id"
-          label="name"
-          :placeholder="$t('CONTACT_FORM.FORM.COUNTRY.PLACEHOLDER')"
-          selected-label
-          :select-label="$t('CONTACT_FORM.FORM.COUNTRY.SELECT_PLACEHOLDER')"
-          :deselect-label="$t('CONTACT_FORM.FORM.COUNTRY.REMOVE')"
-          :custom-label="countryNameWithCode"
-          :max-height="160"
-          :options="countries"
-          :allow-empty="true"
-          :option-height="104"
-        />
-      </div>
-    </div>
-    <woot-input
-      v-model="city"
-      class="w-full"
-      :label="$t('CONTACT_FORM.FORM.CITY.LABEL')"
-      :placeholder="$t('CONTACT_FORM.FORM.CITY.PLACEHOLDER')"
-    />
-
-    <div class="w-full">
-      <label>{{ $t('CONTACTS_PAGE.LIST.TABLE_HEADER.SOCIAL_PROFILES') }}</label>
-      <div
-        v-for="socialProfile in socialProfileKeys"
-        :key="socialProfile.key"
-        class="flex items-stretch w-full mb-4"
-      >
-        <span
-          class="flex items-center h-10 px-2 text-sm border-solid bg-slate-50 border-y ltr:border-l rtl:border-r ltr:rounded-l-md rtl:rounded-r-md dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-slate-200 dark:border-slate-600"
-        >
-          {{ socialProfile.prefixURL }}
-        </span>
-        <input
-          v-model="socialProfileUserNames[socialProfile.key]"
-          class="input-group-field ltr:!rounded-l-none rtl:rounded-r-none !mb-0"
-          type="text"
-        />
-      </div>
-    </div>
-    <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-      <div class="w-full">
-        <woot-submit-button
-          :loading="inProgress"
-          :button-text="$t('CONTACT_FORM.FORM.SUBMIT')"
-        />
-        <button class="button clear" @click.prevent="onCancel">
-          {{ $t('CONTACT_FORM.FORM.CANCEL') }}
-        </button>
-      </div>
-    </div>
-  </form>
-</template>
-
 <script>
 import { useAlert } from 'dashboard/composables';
 import {
   DuplicateContactException,
   ExceptionWithMessage,
 } from 'shared/helpers/CustomErrors';
-import { required, email } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required, email } from '@vuelidate/validators';
 import countries from 'shared/constants/countries.js';
 import { isPhoneNumberValid } from 'shared/helpers/Validators';
 import parsePhoneNumber from 'libphonenumber-js';
@@ -174,6 +24,9 @@ export default {
       type: Function,
       default: () => {},
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -367,8 +220,8 @@ export default {
       }
     },
     async handleSubmit() {
-      this.$v.$touch();
-      if (this.$v.$invalid || this.isPhoneNumberNotValid) {
+      this.v$.$touch();
+      if (this.v$.$invalid || this.isPhoneNumberNotValid) {
         return;
       }
       try {
@@ -413,6 +266,157 @@ export default {
   },
 };
 </script>
+
+<template>
+  <form
+    class="w-full px-8 pt-6 pb-8 contact--form"
+    @submit.prevent="handleSubmit"
+  >
+    <div>
+      <div class="w-full">
+        <woot-avatar-uploader
+          :label="$t('CONTACT_FORM.FORM.AVATAR.LABEL')"
+          :src="avatarUrl"
+          :username-avatar="name"
+          :delete-avatar="!!avatarUrl"
+          class="settings-item"
+          @change="handleImageUpload"
+          @onAvatarDelete="handleAvatarDelete"
+        />
+      </div>
+    </div>
+    <div>
+      <div class="w-full">
+        <label :class="{ error: v$.name.$error }">
+          {{ $t('CONTACT_FORM.FORM.NAME.LABEL') }}
+          <input
+            v-model.trim="name"
+            type="text"
+            :placeholder="$t('CONTACT_FORM.FORM.NAME.PLACEHOLDER')"
+            @input="v$.name.$touch"
+          />
+        </label>
+
+        <label :class="{ error: v$.email.$error }">
+          {{ $t('CONTACT_FORM.FORM.EMAIL_ADDRESS.LABEL') }}
+          <input
+            v-model.trim="email"
+            type="text"
+            :placeholder="$t('CONTACT_FORM.FORM.EMAIL_ADDRESS.PLACEHOLDER')"
+            @input="v$.email.$touch"
+          />
+          <span v-if="v$.email.$error" class="message">
+            {{ $t('CONTACT_FORM.FORM.EMAIL_ADDRESS.ERROR') }}
+          </span>
+        </label>
+      </div>
+    </div>
+    <div class="w-full">
+      <label :class="{ error: v$.description.$error }">
+        {{ $t('CONTACT_FORM.FORM.BIO.LABEL') }}
+        <textarea
+          v-model.trim="description"
+          type="text"
+          :placeholder="$t('CONTACT_FORM.FORM.BIO.PLACEHOLDER')"
+          @input="v$.description.$touch"
+        />
+      </label>
+    </div>
+    <div>
+      <div class="w-full">
+        <label
+          :class="{
+            error: isPhoneNumberNotValid,
+          }"
+        >
+          {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.LABEL') }}
+          <woot-phone-input
+            v-model="phoneNumber"
+            :value="phoneNumber"
+            :error="isPhoneNumberNotValid"
+            :placeholder="$t('CONTACT_FORM.FORM.PHONE_NUMBER.PLACEHOLDER')"
+            @input="onPhoneNumberInputChange"
+            @blur="v$.phoneNumber.$touch"
+            @setCode="setPhoneCode"
+          />
+          <span v-if="isPhoneNumberNotValid" class="message">
+            {{ phoneNumberError }}
+          </span>
+        </label>
+        <div
+          v-if="isPhoneNumberNotValid || !phoneNumber"
+          class="relative mx-0 mt-0 mb-2.5 p-2 rounded-md text-sm border border-solid border-yellow-500 text-yellow-700 dark:border-yellow-700 bg-yellow-200/60 dark:bg-yellow-200/20 dark:text-yellow-400"
+        >
+          {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.HELP') }}
+        </div>
+      </div>
+    </div>
+    <woot-input
+      v-model.trim="companyName"
+      class="w-full"
+      :label="$t('CONTACT_FORM.FORM.COMPANY_NAME.LABEL')"
+      :placeholder="$t('CONTACT_FORM.FORM.COMPANY_NAME.PLACEHOLDER')"
+    />
+    <div>
+      <div class="w-full">
+        <label>
+          {{ $t('CONTACT_FORM.FORM.COUNTRY.LABEL') }}
+        </label>
+        <multiselect
+          v-model="country"
+          track-by="id"
+          label="name"
+          :placeholder="$t('CONTACT_FORM.FORM.COUNTRY.PLACEHOLDER')"
+          selected-label
+          :select-label="$t('CONTACT_FORM.FORM.COUNTRY.SELECT_PLACEHOLDER')"
+          :deselect-label="$t('CONTACT_FORM.FORM.COUNTRY.REMOVE')"
+          :custom-label="countryNameWithCode"
+          :max-height="160"
+          :options="countries"
+          allow-empty
+          :option-height="104"
+        />
+      </div>
+    </div>
+    <woot-input
+      v-model="city"
+      class="w-full"
+      :label="$t('CONTACT_FORM.FORM.CITY.LABEL')"
+      :placeholder="$t('CONTACT_FORM.FORM.CITY.PLACEHOLDER')"
+    />
+
+    <div class="w-full">
+      <label>{{ $t('CONTACTS_PAGE.LIST.TABLE_HEADER.SOCIAL_PROFILES') }}</label>
+      <div
+        v-for="socialProfile in socialProfileKeys"
+        :key="socialProfile.key"
+        class="flex items-stretch w-full mb-4"
+      >
+        <span
+          class="flex items-center h-10 px-2 text-sm border-solid bg-slate-50 border-y ltr:border-l rtl:border-r ltr:rounded-l-md rtl:rounded-r-md dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-slate-200 dark:border-slate-600"
+        >
+          {{ socialProfile.prefixURL }}
+        </span>
+        <input
+          v-model="socialProfileUserNames[socialProfile.key]"
+          class="input-group-field ltr:!rounded-l-none rtl:rounded-r-none !mb-0"
+          type="text"
+        />
+      </div>
+    </div>
+    <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
+      <div class="w-full">
+        <woot-submit-button
+          :loading="inProgress"
+          :button-text="$t('CONTACT_FORM.FORM.SUBMIT')"
+        />
+        <button class="button clear" @click.prevent="onCancel">
+          {{ $t('CONTACT_FORM.FORM.CANCEL') }}
+        </button>
+      </div>
+    </div>
+  </form>
+</template>
 
 <style scoped lang="scss">
 ::v-deep {

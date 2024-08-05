@@ -3,7 +3,7 @@ import Banner from 'dashboard/components/ui/Banner.vue';
 </script>
 
 <template>
-  <banner
+  <Banner
     color-scheme="alert"
     class="justify-start rounded-md"
     :banner-message="$t('INBOX_MGMT.RECONNECTION_REQUIRED')"

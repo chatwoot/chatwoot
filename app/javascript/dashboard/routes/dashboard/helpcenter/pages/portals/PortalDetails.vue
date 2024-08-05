@@ -1,15 +1,3 @@
-<template>
-  <PortalSettingsBasicForm
-    :is-submitting="uiFlags.isCreating"
-    :submit-button-text="
-      $t(
-        'HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.BASIC_SETTINGS_PAGE.CREATE_BASIC_SETTING_BUTTON'
-      )
-    "
-    @submit="createPortal"
-  />
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
@@ -68,3 +56,15 @@ export default {
   },
 };
 </script>
+
+<template>
+  <PortalSettingsBasicForm
+    :is-submitting="uiFlags.isCreating"
+    :submit-button-text="
+      $t(
+        'HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.BASIC_SETTINGS_PAGE.CREATE_BASIC_SETTING_BUTTON'
+      )
+    "
+    @submit="createPortal"
+  />
+</template>

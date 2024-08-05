@@ -1,16 +1,3 @@
-<template>
-  <div
-    v-tooltip.top="{
-      content: tooltipText,
-      delay: { show: 1500, hide: 0 },
-      hideOnClick: true,
-    }"
-    class="ml-auto leading-4 text-xxs text-slate-500 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100"
-  >
-    <span>{{ `${createdAtTime} • ${lastActivityTime}` }}</span>
-  </div>
-</template>
-
 <script>
 const MINUTE_IN_MILLI_SECONDS = 60000;
 const HOUR_IN_MILLI_SECONDS = MINUTE_IN_MILLI_SECONDS * 60;
@@ -118,3 +105,16 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    v-tooltip.top="{
+      content: tooltipText,
+      delay: { show: 1500, hide: 0 },
+      hideOnClick: true,
+    }"
+    class="ml-auto leading-4 text-xxs text-slate-500 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100"
+  >
+    <span>{{ `${createdAtTime} • ${lastActivityTime}` }}</span>
+  </div>
+</template>

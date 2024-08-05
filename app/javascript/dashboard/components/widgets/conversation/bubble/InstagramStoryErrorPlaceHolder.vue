@@ -1,3 +1,7 @@
+<script>
+export default {};
+</script>
+
 <template>
   <div
     class="flex items-center justify-center px-8 h-28 w-full bg-slate-100 text-slate-700 dark:bg-slate-500 dark:text-slate-75"
@@ -8,7 +12,3 @@
     </p>
   </div>
 </template>
-
-<script>
-export default {};
-</script>

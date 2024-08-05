@@ -1,7 +1,17 @@
+<script>
+export default {
+  props: {
+    shrink: {
+      type: Boolean,
+      default: false,
+    },
+  },
+};
+</script>
+
 <template>
   <div class="read-more">
     <div
-      ref="content"
       :class="{
         'shrink-container after:shrink-gradient-light dark:after:shrink-gradient-dark':
           shrink,
@@ -21,17 +31,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    shrink: {
-      type: Boolean,
-      default: false,
-    },
-  },
-};
-</script>
 
 <style scoped>
 @tailwind components;
@@ -56,7 +55,6 @@ export default {
   @apply max-h-[100px] overflow-hidden relative;
 }
 .shrink-container::after {
-  @apply content-[''] absolute bottom-0 left-0 right-0 h-[50px] z-10;
 }
 .read-more-button {
   @apply max-w-max absolute bottom-2 left-0 right-0 mx-auto mt-0 z-20 shadow-sm;

@@ -1,16 +1,3 @@
-<template>
-  <textarea
-    ref="textarea"
-    :placeholder="placeholder"
-    :rows="rows"
-    :value="value"
-    @input="onInput"
-    @focus="onFocus"
-    @keyup="onKeyup"
-    @blur="onBlur"
-  />
-</template>
-
 <script>
 import {
   appendSignature,
@@ -57,10 +44,10 @@ export default {
     return {
       typingIndicator: createTypingIndicator(
         () => {
-          this.$emit('typing-on');
+          this.$emit('typingOn');
         },
         () => {
-          this.$emit('typing-off');
+          this.$emit('typingOff');
         },
         TYPING_INDICATOR_IDLE_TIME
       ),
@@ -162,3 +149,16 @@ export default {
   },
 };
 </script>
+
+<template>
+  <textarea
+    ref="textarea"
+    :placeholder="placeholder"
+    :rows="rows"
+    :value="value"
+    @input="onInput"
+    @focus="onFocus"
+    @keyup="onKeyup"
+    @blur="onBlur"
+  />
+</template>

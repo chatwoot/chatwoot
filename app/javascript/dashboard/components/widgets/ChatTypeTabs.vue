@@ -1,13 +1,3 @@
-<template>
-  <woot-tabs :index="activeTabIndex" @change="onTabChange">
-    <woot-tabs-item
-      v-for="item in items"
-      :key="item.key"
-      :name="item.name"
-      :count="item.count"
-    />
-  </woot-tabs>
-</template>
 <script>
 import wootConstants from 'dashboard/constants/globals';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
@@ -51,3 +41,14 @@ export default {
   },
 };
 </script>
+
+<template>
+  <woot-tabs :index="activeTabIndex" @change="onTabChange">
+    <woot-tabs-item
+      v-for="item in items"
+      :key="item.key"
+      :name="item.name"
+      :count="item.count"
+    />
+  </woot-tabs>
+</template>

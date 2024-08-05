@@ -1,37 +1,7 @@
-<template>
-  <div>
-    <form
-      v-if="!hasSubmitted"
-      class="email-input-group"
-      @submit.prevent="onSubmit"
-    >
-      <input
-        v-model.trim="email"
-        class="form-input"
-        :placeholder="$t('EMAIL_PLACEHOLDER')"
-        :class="inputHasError"
-        @input="$v.email.$touch"
-        @keydown.enter="onSubmit"
-      />
-      <button
-        class="button small"
-        :disabled="$v.email.$invalid"
-        :style="{
-          background: widgetColor,
-          borderColor: widgetColor,
-          color: textColor,
-        }"
-      >
-        <fluent-icon v-if="!isUpdating" icon="chevron-right" />
-        <spinner v-else class="mx-2" />
-      </button>
-    </form>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
-import { required, email } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { required, email } from '@vuelidate/validators';
 import { getContrastingTextColor } from '@chatwoot/utils';
 
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
@@ -53,6 +23,9 @@ export default {
       type: Object,
       default: () => {},
     },
+  },
+  setup() {
+    return { v$: useVuelidate() };
   },
   data() {
     return {
@@ -79,7 +52,7 @@ export default {
         ${this.$dm('border-black-200', 'dark:border-black-500')}`;
     },
     inputHasError() {
-      return this.$v.email.$error
+      return this.v$.email.$error
         ? `${this.inputColor} error`
         : `${this.inputColor}`;
     },
@@ -92,7 +65,7 @@ export default {
   },
   methods: {
     async onSubmit() {
-      if (this.$v.$invalid) {
+      if (this.v$.$invalid) {
         return;
       }
       this.isUpdating = true;
@@ -110,6 +83,37 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div>
+    <form
+      v-if="!hasSubmitted"
+      class="email-input-group"
+      @submit.prevent="onSubmit"
+    >
+      <input
+        v-model.trim="email"
+        class="form-input"
+        :placeholder="$t('EMAIL_PLACEHOLDER')"
+        :class="inputHasError"
+        @input="v$.email.$touch"
+        @keydown.enter="onSubmit"
+      />
+      <button
+        class="button small"
+        :disabled="v$.email.$invalid"
+        :style="{
+          background: widgetColor,
+          borderColor: widgetColor,
+          color: textColor,
+        }"
+      >
+        <FluentIcon v-if="!isUpdating" icon="chevron-right" />
+        <Spinner v-else class="mx-2" />
+      </button>
+    </form>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 @import '~widget/assets/scss/variables.scss';

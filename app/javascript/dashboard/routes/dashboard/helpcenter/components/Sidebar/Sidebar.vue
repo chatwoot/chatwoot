@@ -1,42 +1,3 @@
-<template>
-  <div
-    class="h-full overflow-auto w-60 flex flex-col bg-white dark:bg-slate-900 border-r dark:border-slate-700 rtl:border-r-0 rtl:border-l border-slate-50 text-sm"
-  >
-    <sidebar-header
-      :thumbnail-src="thumbnailSrc"
-      :header-title="headerTitle"
-      :sub-title="subTitle"
-      :portal-link="portalLink"
-      class="px-4"
-      @open-popover="openPortalPopover"
-    />
-    <transition-group
-      name="menu-list"
-      tag="ul"
-      class="py-2 px-4 list-none ml-0 mb-0"
-    >
-      <secondary-nav-item
-        v-for="menuItem in accessibleMenuItems"
-        :key="menuItem.toState"
-        :menu-item="menuItem"
-      />
-      <secondary-nav-item
-        v-for="menuItem in additionalSecondaryMenuItems"
-        :key="menuItem.key"
-        :menu-item="menuItem"
-        @open="onClickOpenAddCatogoryModal"
-      />
-      <p
-        v-if="!hasCategory"
-        key="empty-category-nessage"
-        class="p-1.5 px-4 text-slate-300"
-      >
-        {{ $t('SIDEBAR.HELP_CENTER.CATEGORY_EMPTY_MESSAGE') }}
-      </p>
-    </transition-group>
-  </div>
-</template>
-
 <script>
 import SecondaryNavItem from 'dashboard/components/layout/sidebarComponents/SecondaryNavItem.vue';
 import SidebarHeader from './SidebarHeader.vue';
@@ -92,11 +53,50 @@ export default {
       this.$emit('input', value);
     },
     openPortalPopover() {
-      this.$emit('open-popover');
+      this.$emit('openPopover');
     },
     onClickOpenAddCatogoryModal() {
-      this.$emit('open-modal');
+      this.$emit('openModal');
     },
   },
 };
 </script>
+
+<template>
+  <div
+    class="flex flex-col h-full overflow-auto text-sm bg-white border-r w-60 dark:bg-slate-900 dark:border-slate-700 rtl:border-r-0 rtl:border-l border-slate-50"
+  >
+    <SidebarHeader
+      :thumbnail-src="thumbnailSrc"
+      :header-title="headerTitle"
+      :sub-title="subTitle"
+      :portal-link="portalLink"
+      class="px-4"
+      @openPopover="openPortalPopover"
+    />
+    <transition-group
+      name="menu-list"
+      tag="ul"
+      class="px-4 py-2 mb-0 ml-0 list-none"
+    >
+      <SecondaryNavItem
+        v-for="menuItem in accessibleMenuItems"
+        :key="menuItem.toState"
+        :menu-item="menuItem"
+      />
+      <SecondaryNavItem
+        v-for="menuItem in additionalSecondaryMenuItems"
+        :key="menuItem.key"
+        :menu-item="menuItem"
+        @open="onClickOpenAddCatogoryModal"
+      />
+      <p
+        v-if="!hasCategory"
+        key="empty-category-nessage"
+        class="p-1.5 px-4 text-slate-300"
+      >
+        {{ $t('SIDEBAR.HELP_CENTER.CATEGORY_EMPTY_MESSAGE') }}
+      </p>
+    </transition-group>
+  </div>
+</template>
