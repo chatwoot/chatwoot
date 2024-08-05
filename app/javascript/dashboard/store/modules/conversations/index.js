@@ -172,12 +172,9 @@ export const mutations = {
     const existingAttachments = _state.attachments[id] || [];
     if (!existingAttachments.length) return;
 
-    const attachmentIndex = existingAttachments.findIndex(
-      attachment => attachment.message_id === message.id
-    );
-    if (attachmentIndex === -1) return;
-
-    _state.attachments[id] = existingAttachments.splice(attachmentIndex, 1);
+    _state.attachments[id] = existingAttachments.filter(attachment => {
+      return attachment.message_id !== message.id;
+    });
   },
 
   [types.ADD_MESSAGE]({ allConversations, selectedChatId }, message) {
