@@ -1,8 +1,80 @@
+<script>
+import configMixin from 'shared/mixins/configMixin';
+import EmptyState from '../../../../components/widgets/EmptyState.vue';
+
+export default {
+  components: {
+    EmptyState,
+  },
+  mixins: [configMixin],
+  computed: {
+    currentInbox() {
+      return this.$store.getters['inboxes/getInbox'](
+        this.$route.params.inbox_id
+      );
+    },
+    isATwilioInbox() {
+      return this.currentInbox.channel_type === 'Channel::TwilioSms';
+    },
+    isAEmailInbox() {
+      return this.currentInbox.channel_type === 'Channel::Email';
+    },
+    isALineInbox() {
+      return this.currentInbox.channel_type === 'Channel::Line';
+    },
+    isASmsInbox() {
+      return this.currentInbox.channel_type === 'Channel::Sms';
+    },
+    isWhatsAppCloudInbox() {
+      return (
+        this.currentInbox.channel_type === 'Channel::Whatsapp' &&
+        this.currentInbox.provider === 'whatsapp_cloud'
+      );
+    },
+    message() {
+      if (this.isATwilioInbox) {
+        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
+          'INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE'
+        )}`;
+      }
+
+      if (this.isASmsInbox) {
+        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
+          'INBOX_MGMT.ADD.SMS.BANDWIDTH.API_CALLBACK.SUBTITLE'
+        )}`;
+      }
+
+      if (this.isALineInbox) {
+        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
+          'INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE'
+        )}`;
+      }
+
+      if (this.isWhatsAppCloudInbox) {
+        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
+          'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.SUBTITLE'
+        )}`;
+      }
+
+      if (this.isAEmailInbox && !this.currentInbox.provider) {
+        return this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FINISH_MESSAGE');
+      }
+
+      if (this.currentInbox.web_widget_script) {
+        return this.$t('INBOX_MGMT.FINISH.WEBSITE_SUCCESS');
+      }
+
+      return this.$t('INBOX_MGMT.FINISH.MESSAGE');
+    },
+  },
+};
+</script>
+
 <template>
   <div
     class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
   >
-    <empty-state
+    <EmptyState
       :title="$t('INBOX_MGMT.FINISH.TITLE')"
       :message="message"
       :button-text="$t('INBOX_MGMT.FINISH.BUTTON_TEXT')"
@@ -79,78 +151,6 @@
           </router-link>
         </div>
       </div>
-    </empty-state>
+    </EmptyState>
   </div>
 </template>
-
-<script>
-import configMixin from 'shared/mixins/configMixin';
-import EmptyState from '../../../../components/widgets/EmptyState.vue';
-
-export default {
-  components: {
-    EmptyState,
-  },
-  mixins: [configMixin],
-  computed: {
-    currentInbox() {
-      return this.$store.getters['inboxes/getInbox'](
-        this.$route.params.inbox_id
-      );
-    },
-    isATwilioInbox() {
-      return this.currentInbox.channel_type === 'Channel::TwilioSms';
-    },
-    isAEmailInbox() {
-      return this.currentInbox.channel_type === 'Channel::Email';
-    },
-    isALineInbox() {
-      return this.currentInbox.channel_type === 'Channel::Line';
-    },
-    isASmsInbox() {
-      return this.currentInbox.channel_type === 'Channel::Sms';
-    },
-    isWhatsAppCloudInbox() {
-      return (
-        this.currentInbox.channel_type === 'Channel::Whatsapp' &&
-        this.currentInbox.provider === 'whatsapp_cloud'
-      );
-    },
-    message() {
-      if (this.isATwilioInbox) {
-        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
-          'INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE'
-        )}`;
-      }
-
-      if (this.isASmsInbox) {
-        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
-          'INBOX_MGMT.ADD.SMS.BANDWIDTH.API_CALLBACK.SUBTITLE'
-        )}`;
-      }
-
-      if (this.isALineInbox) {
-        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
-          'INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE'
-        )}`;
-      }
-
-      if (this.isWhatsAppCloudInbox) {
-        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
-          'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.SUBTITLE'
-        )}`;
-      }
-
-      if (this.isAEmailInbox && !this.currentInbox.provider) {
-        return this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FINISH_MESSAGE');
-      }
-
-      if (this.currentInbox.web_widget_script) {
-        return this.$t('INBOX_MGMT.FINISH.WEBSITE_SUCCESS');
-      }
-
-      return this.$t('INBOX_MGMT.FINISH.MESSAGE');
-    },
-  },
-};
-</script>

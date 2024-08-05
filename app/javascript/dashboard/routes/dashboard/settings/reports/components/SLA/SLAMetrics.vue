@@ -1,3 +1,25 @@
+<script setup>
+import SLAMetricCard from './SLAMetricCard.vue';
+defineProps({
+  hitRate: {
+    type: String,
+    required: true,
+  },
+  noOfBreaches: {
+    type: Number,
+    required: true,
+  },
+  noOfConversations: {
+    type: Number,
+    required: true,
+  },
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
+});
+</script>
+
 <template>
   <div
     class="flex sm:flex-row flex-col w-full gap-4 sm:gap-14 bg-white dark:bg-slate-900 rounded-xl border border-slate-75 dark:border-slate-700/50 px-6 py-4"
@@ -29,25 +51,3 @@
     />
   </div>
 </template>
-
-<script setup>
-import SLAMetricCard from './SLAMetricCard.vue';
-defineProps({
-  hitRate: {
-    type: String,
-    required: true,
-  },
-  noOfBreaches: {
-    type: Number,
-    required: true,
-  },
-  noOfConversations: {
-    type: Number,
-    required: true,
-  },
-  isLoading: {
-    type: Boolean,
-    default: false,
-  },
-});
-</script>

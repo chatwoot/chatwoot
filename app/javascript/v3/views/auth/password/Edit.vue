@@ -1,52 +1,3 @@
-<template>
-  <div
-    class="flex flex-col justify-center w-full min-h-full py-12 bg-woot-25 sm:px-6 lg:px-8 dark:bg-slate-900"
-  >
-    <form
-      class="bg-white shadow sm:mx-auto sm:w-full sm:max-w-lg dark:bg-slate-800 p-11 sm:shadow-lg sm:rounded-lg"
-      @submit.prevent="submitForm"
-    >
-      <h1
-        class="mb-1 text-2xl font-medium tracking-tight text-left text-slate-900 dark:text-white"
-      >
-        {{ $t('SET_NEW_PASSWORD.TITLE') }}
-      </h1>
-
-      <div class="space-y-5">
-        <form-input
-          v-model.trim="credentials.password"
-          class="mt-3"
-          name="password"
-          type="password"
-          :has-error="v$.credentials.password.$error"
-          :error-message="$t('SET_NEW_PASSWORD.PASSWORD.ERROR')"
-          :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
-          @blur="v$.credentials.password.$touch"
-        />
-        <form-input
-          v-model.trim="credentials.confirmPassword"
-          class="mt-3"
-          name="confirm_password"
-          type="password"
-          :has-error="v$.credentials.confirmPassword.$error"
-          :error-message="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.ERROR')"
-          :placeholder="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.PLACEHOLDER')"
-          @blur="v$.credentials.confirmPassword.$touch"
-        />
-        <submit-button
-          :disabled="
-            v$.credentials.password.$invalid ||
-            v$.credentials.confirmPassword.$invalid ||
-            newPasswordAPI.showLoading
-          "
-          :button-text="$t('SET_NEW_PASSWORD.SUBMIT')"
-          :loading="newPasswordAPI.showLoading"
-        />
-      </div>
-    </form>
-  </div>
-</template>
-
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
@@ -63,8 +14,6 @@ export default {
   },
   props: {
     resetPasswordToken: { type: String, default: '' },
-    redirectUrl: { type: String, default: '' },
-    config: { type: String, default: '' },
   },
   setup() {
     return { v$: useVuelidate() };
@@ -135,3 +84,52 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    class="flex flex-col justify-center w-full min-h-full py-12 bg-woot-25 sm:px-6 lg:px-8 dark:bg-slate-900"
+  >
+    <form
+      class="bg-white shadow sm:mx-auto sm:w-full sm:max-w-lg dark:bg-slate-800 p-11 sm:shadow-lg sm:rounded-lg"
+      @submit.prevent="submitForm"
+    >
+      <h1
+        class="mb-1 text-2xl font-medium tracking-tight text-left text-slate-900 dark:text-white"
+      >
+        {{ $t('SET_NEW_PASSWORD.TITLE') }}
+      </h1>
+
+      <div class="space-y-5">
+        <FormInput
+          v-model.trim="credentials.password"
+          class="mt-3"
+          name="password"
+          type="password"
+          :has-error="v$.credentials.password.$error"
+          :error-message="$t('SET_NEW_PASSWORD.PASSWORD.ERROR')"
+          :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
+          @blur="v$.credentials.password.$touch"
+        />
+        <FormInput
+          v-model.trim="credentials.confirmPassword"
+          class="mt-3"
+          name="confirm_password"
+          type="password"
+          :has-error="v$.credentials.confirmPassword.$error"
+          :error-message="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.ERROR')"
+          :placeholder="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.PLACEHOLDER')"
+          @blur="v$.credentials.confirmPassword.$touch"
+        />
+        <SubmitButton
+          :disabled="
+            v$.credentials.password.$invalid ||
+            v$.credentials.confirmPassword.$invalid ||
+            newPasswordAPI.showLoading
+          "
+          :button-text="$t('SET_NEW_PASSWORD.SUBMIT')"
+          :loading="newPasswordAPI.showLoading"
+        />
+      </div>
+    </form>
+  </div>
+</template>

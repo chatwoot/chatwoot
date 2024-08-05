@@ -1,21 +1,3 @@
-<template>
-  <div class="overlapping-thumbnails">
-    <thumbnail
-      v-for="user in usersList"
-      :key="user.id"
-      v-tooltip="user.name"
-      :title="user.name"
-      :src="user.thumbnail"
-      :username="user.name"
-      :has-border="true"
-      :size="size"
-      :class="`overlapping-thumbnail gap-${gap}`"
-    />
-    <span v-if="showMoreThumbnailsCount" class="thumbnail-more-text">
-      {{ moreThumbnailsText }}
-    </span>
-  </div>
-</template>
 <script>
 import Thumbnail from './Thumbnail.vue';
 
@@ -51,6 +33,25 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="overlapping-thumbnails">
+    <Thumbnail
+      v-for="user in usersList"
+      :key="user.id"
+      v-tooltip="user.name"
+      :title="user.name"
+      :src="user.thumbnail"
+      :username="user.name"
+      has-border
+      :size="size"
+      :class="`overlapping-thumbnail gap-${gap}`"
+    />
+    <span v-if="showMoreThumbnailsCount" class="thumbnail-more-text">
+      {{ moreThumbnailsText }}
+    </span>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .overlapping-thumbnails {

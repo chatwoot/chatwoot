@@ -1,3 +1,44 @@
+<script>
+import { mapGetters } from 'vuex';
+import hookMixin from './hookMixin';
+export default {
+  mixins: [hookMixin],
+  props: {
+    integration: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
+  computed: {
+    ...mapGetters({
+      globalConfig: 'globalConfig/get',
+    }),
+    hookHeaders() {
+      return this.integration.visible_properties;
+    },
+    hooks() {
+      if (!this.hasConnectedHooks) {
+        return [];
+      }
+      const { hooks } = this.integration;
+      return hooks.map(hook => ({
+        ...hook,
+        id: hook.id,
+        properties: this.hookHeaders.map(property =>
+          hook.settings[property] ? hook.settings[property] : '--'
+        ),
+      }));
+    },
+  },
+  mounted() {},
+  methods: {
+    inboxName(hook) {
+      return hook.inbox ? hook.inbox.name : '';
+    },
+  },
+};
+</script>
+
 <template>
   <div class="flex flex-row gap-4">
     <div class="w-full lg:w-3/5">
@@ -59,43 +100,3 @@
     </div>
   </div>
 </template>
-<script>
-import { mapGetters } from 'vuex';
-import hookMixin from './hookMixin';
-export default {
-  mixins: [hookMixin],
-  props: {
-    integration: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
-  computed: {
-    ...mapGetters({
-      globalConfig: 'globalConfig/get',
-    }),
-    hookHeaders() {
-      return this.integration.visible_properties;
-    },
-    hooks() {
-      if (!this.hasConnectedHooks) {
-        return [];
-      }
-      const { hooks } = this.integration;
-      return hooks.map(hook => ({
-        ...hook,
-        id: hook.id,
-        properties: this.hookHeaders.map(property =>
-          hook.settings[property] ? hook.settings[property] : '--'
-        ),
-      }));
-    },
-  },
-  mounted() {},
-  methods: {
-    inboxName(hook) {
-      return hook.inbox ? hook.inbox.name : '';
-    },
-  },
-};
-</script>

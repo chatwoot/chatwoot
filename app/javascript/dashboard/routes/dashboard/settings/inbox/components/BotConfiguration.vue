@@ -1,53 +1,3 @@
-<template>
-  <div class="mx-8">
-    <loading-state v-if="uiFlags.isFetching || uiFlags.isFetchingAgentBot" />
-    <form
-      v-else
-      class="flex flex-wrap mx-0"
-      @submit.prevent="updateActiveAgentBot"
-    >
-      <settings-section
-        :title="$t('AGENT_BOTS.BOT_CONFIGURATION.TITLE')"
-        :sub-title="$t('AGENT_BOTS.BOT_CONFIGURATION.DESC')"
-      >
-        <div class="w-3/5">
-          <label>
-            <select v-model="selectedAgentBotId">
-              <option value="" disabled selected>
-                {{ $t('AGENT_BOTS.BOT_CONFIGURATION.SELECT_PLACEHOLDER') }}
-              </option>
-              <option
-                v-for="agentBot in agentBots"
-                :key="agentBot.id"
-                :value="agentBot.id"
-              >
-                {{ agentBot.name }}
-              </option>
-            </select>
-          </label>
-          <div class="button-container">
-            <woot-submit-button
-              :button-text="$t('AGENT_BOTS.BOT_CONFIGURATION.SUBMIT')"
-              :loading="uiFlags.isSettingAgentBot"
-            />
-            <woot-button
-              type="button"
-              :disabled="!selectedAgentBotId"
-              :loading="uiFlags.isDisconnecting"
-              variant="smooth"
-              color-scheme="alert"
-              class="button--disconnect"
-              @click="disconnectBot"
-            >
-              {{ $t('AGENT_BOTS.BOT_CONFIGURATION.DISCONNECT') }}
-            </woot-button>
-          </div>
-        </div>
-      </settings-section>
-    </form>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
@@ -120,6 +70,56 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="mx-8">
+    <LoadingState v-if="uiFlags.isFetching || uiFlags.isFetchingAgentBot" />
+    <form
+      v-else
+      class="flex flex-wrap mx-0"
+      @submit.prevent="updateActiveAgentBot"
+    >
+      <SettingsSection
+        :title="$t('AGENT_BOTS.BOT_CONFIGURATION.TITLE')"
+        :sub-title="$t('AGENT_BOTS.BOT_CONFIGURATION.DESC')"
+      >
+        <div class="w-3/5">
+          <label>
+            <select v-model="selectedAgentBotId">
+              <option value="" disabled selected>
+                {{ $t('AGENT_BOTS.BOT_CONFIGURATION.SELECT_PLACEHOLDER') }}
+              </option>
+              <option
+                v-for="agentBot in agentBots"
+                :key="agentBot.id"
+                :value="agentBot.id"
+              >
+                {{ agentBot.name }}
+              </option>
+            </select>
+          </label>
+          <div class="button-container">
+            <woot-submit-button
+              :button-text="$t('AGENT_BOTS.BOT_CONFIGURATION.SUBMIT')"
+              :loading="uiFlags.isSettingAgentBot"
+            />
+            <woot-button
+              type="button"
+              :disabled="!selectedAgentBotId"
+              :loading="uiFlags.isDisconnecting"
+              variant="smooth"
+              color-scheme="alert"
+              class="button--disconnect"
+              @click="disconnectBot"
+            >
+              {{ $t('AGENT_BOTS.BOT_CONFIGURATION.DISCONNECT') }}
+            </woot-button>
+          </div>
+        </div>
+      </SettingsSection>
+    </form>
+  </div>
+</template>
 
 <style scoped lang="scss">
 .button--disconnect {

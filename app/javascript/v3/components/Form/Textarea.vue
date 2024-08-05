@@ -1,31 +1,3 @@
-<template>
-  <with-label
-    :label="label"
-    :name="name"
-    :has-error="hasError"
-    :error-message="errorMessage"
-  >
-    <textarea
-      :id="name"
-      :name="name"
-      autocomplete="off"
-      :required="required"
-      :placeholder="placeholder"
-      :data-testid="dataTestid"
-      :value="value"
-      :rows="rows"
-      :class="{
-        'focus:outline-red-600 outline-red-600': hasError,
-        'dark:outline-slate-600 dark:focus:outline-woot-500 outline-slate-200 focus:outline-woot-500':
-          !hasError,
-        'resize-none': !allowResize,
-      }"
-      class="block w-full p-3 bg-white border-none rounded-md shadow-sm appearance-none outline outline-1 focus:outline focus:outline-2 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:bg-slate-800"
-      @input="onInput"
-      @blur="$emit('blur')"
-    />
-  </with-label>
-</template>
 <script>
 import WithLabel from './WithLabel.vue';
 export default {
@@ -81,3 +53,32 @@ export default {
   },
 };
 </script>
+
+<template>
+  <WithLabel
+    :label="label"
+    :name="name"
+    :has-error="hasError"
+    :error-message="errorMessage"
+  >
+    <textarea
+      :id="name"
+      :name="name"
+      autocomplete="off"
+      :required="required"
+      :placeholder="placeholder"
+      :data-testid="dataTestid"
+      :value="value"
+      :rows="rows"
+      :class="{
+        'focus:outline-red-600 outline-red-600': hasError,
+        'dark:outline-slate-600 dark:focus:outline-woot-500 outline-slate-200 focus:outline-woot-500':
+          !hasError,
+        'resize-none': !allowResize,
+      }"
+      class="block w-full p-3 bg-white border-none rounded-md shadow-sm appearance-none outline outline-1 focus:outline focus:outline-2 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:bg-slate-800"
+      @input="onInput"
+      @blur="$emit('blur')"
+    />
+  </WithLabel>
+</template>

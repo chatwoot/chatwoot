@@ -31,7 +31,8 @@ class Integrations::Captain::ProcessorService < Integrations::BotProcessorServic
   end
 
   def call_captain(message_content)
-    url = "#{ENV.fetch('CAPTAIN_API_URL', nil)}/accounts/#{hook.settings['account_id']}/assistants/#{hook.settings['assistant_id']}/chat"
+    url = "#{GlobalConfigService.load('CAPTAIN_API_URL',
+                                      '')}/accounts/#{hook.settings['account_id']}/assistants/#{hook.settings['assistant_id']}/chat"
 
     headers = {
       'X-USER-EMAIL' => hook.settings['account_email'],

@@ -1,138 +1,3 @@
-<template>
-  <div class="bottom-box" :class="wrapClass">
-    <div class="left-wrap">
-      <woot-button
-        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
-        :title="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
-        icon="emoji"
-        emoji="😊"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
-        @click="toggleEmojiPicker"
-      />
-      <file-upload
-        ref="upload"
-        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
-        input-id="conversationAttachment"
-        :size="4096 * 4096"
-        :accept="allowedFileTypes"
-        :multiple="enableMultipleFileUpload"
-        :drop="enableDragAndDrop"
-        :drop-directory="false"
-        :data="{
-          direct_upload_url: '/rails/active_storage/direct_uploads',
-          direct_upload: true,
-        }"
-        @input-file="onFileUpload"
-      >
-        <woot-button
-          v-if="showAttachButton"
-          class-names="button--upload"
-          :title="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
-          icon="attach"
-          emoji="📎"
-          color-scheme="secondary"
-          variant="smooth"
-          size="small"
-        />
-      </file-upload>
-      <woot-button
-        v-if="showAudioRecorderButton"
-        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
-        :icon="!isRecordingAudio ? 'microphone' : 'microphone-off'"
-        emoji="🎤"
-        :color-scheme="!isRecordingAudio ? 'secondary' : 'alert'"
-        variant="smooth"
-        size="small"
-        @click="toggleAudioRecorder"
-      />
-      <woot-button
-        v-if="showEditorToggle"
-        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
-        icon="quote"
-        emoji="🖊️"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
-        @click="$emit('toggle-editor')"
-      />
-      <woot-button
-        v-if="showAudioPlayStopButton"
-        :icon="audioRecorderPlayStopIcon"
-        emoji="🎤"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
-        @click="toggleAudioRecorderPlayPause"
-      >
-        <span>{{ recordingAudioDurationText }}</span>
-      </woot-button>
-      <woot-button
-        v-if="showMessageSignatureButton"
-        v-tooltip.top-end="signatureToggleTooltip"
-        icon="signature"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
-        :title="signatureToggleTooltip"
-        @click="toggleMessageSignature"
-      />
-      <woot-button
-        v-if="hasWhatsappTemplates"
-        v-tooltip.top-end="'Whatsapp Templates'"
-        icon="whatsapp"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
-        :title="'Whatsapp Templates'"
-        @click="$emit('selectWhatsappTemplate')"
-      />
-      <video-call-button
-        v-if="(isAWebWidgetInbox || isAPIInbox) && !isOnPrivateNote"
-        :conversation-id="conversationId"
-      />
-      <AIAssistanceButton
-        :conversation-id="conversationId"
-        :is-private-note="isOnPrivateNote"
-        :message="message"
-        @replace-text="replaceText"
-      />
-      <transition name="modal-fade">
-        <div
-          v-show="$refs.upload && $refs.upload.dropActive"
-          class="fixed top-0 bottom-0 left-0 right-0 z-20 flex flex-col items-center justify-center w-full h-full gap-2 text-slate-900 dark:text-slate-50 bg-modal-backdrop-light dark:bg-modal-backdrop-dark"
-        >
-          <fluent-icon icon="cloud-backup" size="40" />
-          <h4 class="text-2xl break-words text-slate-900 dark:text-slate-50">
-            {{ $t('CONVERSATION.REPLYBOX.DRAG_DROP') }}
-          </h4>
-        </div>
-      </transition>
-      <woot-button
-        v-if="enableInsertArticleInReply"
-        v-tooltip.top-end="$t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH')"
-        icon="document-text-link"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
-        :title="$t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH')"
-        @click="toggleInsertArticle"
-      />
-    </div>
-    <div class="right-wrap">
-      <woot-button
-        size="small"
-        :class-names="buttonClass"
-        :is-disabled="isSendDisabled"
-        @click="onSend"
-      >
-        {{ sendButtonText }}
-      </woot-button>
-    </div>
-  </div>
-</template>
-
 <script>
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import FileUpload from 'vue-upload-component';
@@ -171,6 +36,9 @@ export default {
       type: String,
       default: '',
     },
+    // inbox prop is used in /mixins/inboxMixin,
+    // remove this props when refactoring to composable if not needed
+    // eslint-disable-next-line vue/no-unused-properties
     inbox: {
       type: Object,
       default: () => ({}),
@@ -186,10 +54,6 @@ export default {
     onFileUpload: {
       type: Function,
       default: () => {},
-    },
-    showEmojiPicker: {
-      type: Boolean,
-      default: false,
     },
     toggleEmojiPicker: {
       type: Function,
@@ -362,14 +226,149 @@ export default {
       this.setSignatureFlagForInbox(this.channelType, !this.sendWithSignature);
     },
     replaceText(text) {
-      this.$emit('replace-text', text);
+      this.$emit('replaceText', text);
     },
     toggleInsertArticle() {
-      this.$emit('toggle-insert-article');
+      this.$emit('toggleInsertArticle');
     },
   },
 };
 </script>
+
+<template>
+  <div class="bottom-box" :class="wrapClass">
+    <div class="left-wrap">
+      <woot-button
+        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
+        :title="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
+        icon="emoji"
+        emoji="😊"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        @click="toggleEmojiPicker"
+      />
+      <FileUpload
+        ref="upload"
+        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
+        input-id="conversationAttachment"
+        :size="4096 * 4096"
+        :accept="allowedFileTypes"
+        :multiple="enableMultipleFileUpload"
+        :drop="enableDragAndDrop"
+        :drop-directory="false"
+        :data="{
+          direct_upload_url: '/rails/active_storage/direct_uploads',
+          direct_upload: true,
+        }"
+        @input-file="onFileUpload"
+      >
+        <woot-button
+          v-if="showAttachButton"
+          class-names="button--upload"
+          :title="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
+          icon="attach"
+          emoji="📎"
+          color-scheme="secondary"
+          variant="smooth"
+          size="small"
+        />
+      </FileUpload>
+      <woot-button
+        v-if="showAudioRecorderButton"
+        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
+        :icon="!isRecordingAudio ? 'microphone' : 'microphone-off'"
+        emoji="🎤"
+        :color-scheme="!isRecordingAudio ? 'secondary' : 'alert'"
+        variant="smooth"
+        size="small"
+        @click="toggleAudioRecorder"
+      />
+      <woot-button
+        v-if="showEditorToggle"
+        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
+        icon="quote"
+        emoji="🖊️"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        @click="$emit('toggleEditor')"
+      />
+      <woot-button
+        v-if="showAudioPlayStopButton"
+        :icon="audioRecorderPlayStopIcon"
+        emoji="🎤"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        @click="toggleAudioRecorderPlayPause"
+      >
+        <span>{{ recordingAudioDurationText }}</span>
+      </woot-button>
+      <woot-button
+        v-if="showMessageSignatureButton"
+        v-tooltip.top-end="signatureToggleTooltip"
+        icon="signature"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        :title="signatureToggleTooltip"
+        @click="toggleMessageSignature"
+      />
+      <woot-button
+        v-if="hasWhatsappTemplates"
+        v-tooltip.top-end="$t('CONVERSATION.FOOTER.WHATSAPP_TEMPLATES')"
+        icon="whatsapp"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        :title="$t('CONVERSATION.FOOTER.WHATSAPP_TEMPLATES')"
+        @click="$emit('selectWhatsappTemplate')"
+      />
+      <VideoCallButton
+        v-if="(isAWebWidgetInbox || isAPIInbox) && !isOnPrivateNote"
+        :conversation-id="conversationId"
+      />
+      <AIAssistanceButton
+        :conversation-id="conversationId"
+        :is-private-note="isOnPrivateNote"
+        :message="message"
+        @replaceText="replaceText"
+      />
+      <transition name="modal-fade">
+        <div
+          v-show="$refs.upload && $refs.upload.dropActive"
+          class="fixed top-0 bottom-0 left-0 right-0 z-20 flex flex-col items-center justify-center w-full h-full gap-2 text-slate-900 dark:text-slate-50 bg-modal-backdrop-light dark:bg-modal-backdrop-dark"
+        >
+          <fluent-icon icon="cloud-backup" size="40" />
+          <h4 class="text-2xl break-words text-slate-900 dark:text-slate-50">
+            {{ $t('CONVERSATION.REPLYBOX.DRAG_DROP') }}
+          </h4>
+        </div>
+      </transition>
+      <woot-button
+        v-if="enableInsertArticleInReply"
+        v-tooltip.top-end="$t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH')"
+        icon="document-text-link"
+        color-scheme="secondary"
+        variant="smooth"
+        size="small"
+        :title="$t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH')"
+        @click="toggleInsertArticle"
+      />
+    </div>
+    <div class="right-wrap">
+      <woot-button
+        size="small"
+        :class-names="buttonClass"
+        :is-disabled="isSendDisabled"
+        @click="onSend"
+      >
+        {{ sendButtonText }}
+      </woot-button>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .bottom-box {

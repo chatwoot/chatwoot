@@ -1,85 +1,4 @@
 <!-- eslint-disable vue/v-slot-style -->
-<template>
-  <div class="bg-white dark:bg-slate-900">
-    <div class="multiselect-wrap--small">
-      <contact-details-item
-        compact
-        :title="$t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL')"
-      >
-        <template v-slot:button>
-          <woot-button
-            v-if="showSelfAssign"
-            icon="arrow-right"
-            variant="link"
-            size="small"
-            @click="onSelfAssign"
-          >
-            {{ $t('CONVERSATION_SIDEBAR.SELF_ASSIGN') }}
-          </woot-button>
-        </template>
-      </contact-details-item>
-      <multiselect-dropdown
-        :options="agentsList"
-        :selected-item="assignedAgent"
-        :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.AGENT')"
-        :multiselector-placeholder="$t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')"
-        :no-search-result="
-          $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.NO_RESULTS.AGENT')
-        "
-        :input-placeholder="
-          $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.AGENT')
-        "
-        @click="onClickAssignAgent"
-      />
-    </div>
-    <div class="multiselect-wrap--small">
-      <contact-details-item
-        compact
-        :title="$t('CONVERSATION_SIDEBAR.TEAM_LABEL')"
-      />
-      <multiselect-dropdown
-        :options="teamsList"
-        :selected-item="assignedTeam"
-        :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.TEAM')"
-        :multiselector-placeholder="$t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')"
-        :no-search-result="
-          $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.NO_RESULTS.TEAM')
-        "
-        :input-placeholder="
-          $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.INPUT')
-        "
-        @click="onClickAssignTeam"
-      />
-    </div>
-    <div class="multiselect-wrap--small">
-      <contact-details-item
-        compact
-        :title="$t('CONVERSATION.PRIORITY.TITLE')"
-      />
-      <multiselect-dropdown
-        :options="priorityOptions"
-        :selected-item="assignedPriority"
-        :multiselector-title="$t('CONVERSATION.PRIORITY.TITLE')"
-        :multiselector-placeholder="
-          $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.SELECT_PLACEHOLDER')
-        "
-        :no-search-result="
-          $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.NO_RESULTS')
-        "
-        :input-placeholder="
-          $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.INPUT_PLACEHOLDER')
-        "
-        @click="onClickAssignPriority"
-      />
-    </div>
-    <contact-details-item
-      compact
-      :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_LABELS')"
-    />
-    <conversation-labels :conversation-id="conversationId" />
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
@@ -103,6 +22,9 @@ export default {
       type: [Number, String],
       required: true,
     },
+    // inboxId prop is used in /mixins/agentMixin,
+    // remove this props when refactoring to composable if not needed
+    // eslint-disable-next-line vue/no-unused-properties
     inboxId: {
       type: Number,
       default: undefined,
@@ -270,3 +192,81 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="bg-white dark:bg-slate-900">
+    <div class="multiselect-wrap--small">
+      <ContactDetailsItem
+        compact
+        :title="$t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL')"
+      >
+        <template #button>
+          <woot-button
+            v-if="showSelfAssign"
+            icon="arrow-right"
+            variant="link"
+            size="small"
+            @click="onSelfAssign"
+          >
+            {{ $t('CONVERSATION_SIDEBAR.SELF_ASSIGN') }}
+          </woot-button>
+        </template>
+      </ContactDetailsItem>
+      <MultiselectDropdown
+        :options="agentsList"
+        :selected-item="assignedAgent"
+        :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.AGENT')"
+        :multiselector-placeholder="$t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')"
+        :no-search-result="
+          $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.NO_RESULTS.AGENT')
+        "
+        :input-placeholder="
+          $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.AGENT')
+        "
+        @click="onClickAssignAgent"
+      />
+    </div>
+    <div class="multiselect-wrap--small">
+      <ContactDetailsItem
+        compact
+        :title="$t('CONVERSATION_SIDEBAR.TEAM_LABEL')"
+      />
+      <MultiselectDropdown
+        :options="teamsList"
+        :selected-item="assignedTeam"
+        :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.TEAM')"
+        :multiselector-placeholder="$t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')"
+        :no-search-result="
+          $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.NO_RESULTS.TEAM')
+        "
+        :input-placeholder="
+          $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.INPUT')
+        "
+        @click="onClickAssignTeam"
+      />
+    </div>
+    <div class="multiselect-wrap--small">
+      <ContactDetailsItem compact :title="$t('CONVERSATION.PRIORITY.TITLE')" />
+      <MultiselectDropdown
+        :options="priorityOptions"
+        :selected-item="assignedPriority"
+        :multiselector-title="$t('CONVERSATION.PRIORITY.TITLE')"
+        :multiselector-placeholder="
+          $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.SELECT_PLACEHOLDER')
+        "
+        :no-search-result="
+          $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.NO_RESULTS')
+        "
+        :input-placeholder="
+          $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.INPUT_PLACEHOLDER')
+        "
+        @click="onClickAssignPriority"
+      />
+    </div>
+    <ContactDetailsItem
+      compact
+      :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_LABELS')"
+    />
+    <ConversationLabels :conversation-id="conversationId" />
+  </div>
+</template>

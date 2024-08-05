@@ -1,15 +1,4 @@
 <!-- eslint-disable vue/attribute-hyphenation -->
-<template>
-  <ninja-keys
-    ref="ninjakeys"
-    :no-auto-load-md-icons="true"
-    hideBreadcrumbs
-    :placeholder="placeholder"
-    @selected="onSelected"
-    @closed="onClosed"
-  />
-</template>
-
 <script>
 import '@chatwoot/ninja-keys';
 import wootConstants from 'dashboard/constants/globals';
@@ -107,6 +96,17 @@ export default {
   },
 };
 </script>
+
+<template>
+  <ninja-keys
+    ref="ninjakeys"
+    no-auto-load-md-icons
+    hide-breadcrumbs
+    :placeholder="placeholder"
+    @selected="onSelected"
+    @closed="onClosed"
+  />
+</template>
 
 <style lang="scss">
 ninja-keys {

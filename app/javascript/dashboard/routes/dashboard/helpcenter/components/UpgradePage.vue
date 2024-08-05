@@ -1,3 +1,66 @@
+<script>
+import { mapGetters } from 'vuex';
+import wootConstants from 'dashboard/constants/globals';
+export default {
+  data() {
+    return {
+      helpCenterDocsURL: wootConstants.HELP_CENTER_DOCS_URL,
+      upgradeFeature: [
+        {
+          key: 1,
+          title: this.$t('HELP_CENTER.UPGRADE_PAGE.FEATURES.PORTALS.TITLE'),
+          icon: 'book-copy',
+          description: this.$t(
+            'HELP_CENTER.UPGRADE_PAGE.FEATURES.PORTALS.DESCRIPTION'
+          ),
+        },
+        {
+          key: 2,
+          title: this.$t('HELP_CENTER.UPGRADE_PAGE.FEATURES.LOCALES.TITLE'),
+          icon: 'globe-line',
+          description: this.$t(
+            'HELP_CENTER.UPGRADE_PAGE.FEATURES.LOCALES.DESCRIPTION'
+          ),
+        },
+        {
+          key: 3,
+          title: this.$t('HELP_CENTER.UPGRADE_PAGE.FEATURES.SEO.TITLE'),
+          icon: 'heart-handshake',
+          description: this.$t(
+            'HELP_CENTER.UPGRADE_PAGE.FEATURES.SEO.DESCRIPTION'
+          ),
+        },
+        {
+          key: 4,
+          title: this.$t('HELP_CENTER.UPGRADE_PAGE.FEATURES.API.TITLE'),
+          icon: 'search-check',
+          description: this.$t(
+            'HELP_CENTER.UPGRADE_PAGE.FEATURES.API.DESCRIPTION'
+          ),
+        },
+      ],
+    };
+  },
+  computed: {
+    ...mapGetters({
+      accountId: 'getCurrentAccountId',
+      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud', // Pending change text
+    }),
+  },
+  methods: {
+    openBillingPage() {
+      this.$router.push({
+        name: 'billing_settings_index',
+        params: { accountId: this.accountId },
+      });
+    },
+    openHelpCenterDocs() {
+      window.open(this.helpCenterDocsURL, '_blank');
+    },
+  },
+};
+</script>
+
 <template>
   <div
     class="flex flex-col gap-12 sm:gap-16 items-center justify-center py-0 px-4 md:px-0 w-full h-full max-w-full overflow-auto bg-white dark:bg-slate-900"
@@ -70,66 +133,3 @@
     </div>
   </div>
 </template>
-
-<script>
-import { mapGetters } from 'vuex';
-import wootConstants from 'dashboard/constants/globals';
-export default {
-  data() {
-    return {
-      helpCenterDocsURL: wootConstants.HELP_CENTER_DOCS_URL,
-      upgradeFeature: [
-        {
-          key: 1,
-          title: this.$t('HELP_CENTER.UPGRADE_PAGE.FEATURES.PORTALS.TITLE'),
-          icon: 'book-copy',
-          description: this.$t(
-            'HELP_CENTER.UPGRADE_PAGE.FEATURES.PORTALS.DESCRIPTION'
-          ),
-        },
-        {
-          key: 2,
-          title: this.$t('HELP_CENTER.UPGRADE_PAGE.FEATURES.LOCALES.TITLE'),
-          icon: 'globe-line',
-          description: this.$t(
-            'HELP_CENTER.UPGRADE_PAGE.FEATURES.LOCALES.DESCRIPTION'
-          ),
-        },
-        {
-          key: 3,
-          title: this.$t('HELP_CENTER.UPGRADE_PAGE.FEATURES.SEO.TITLE'),
-          icon: 'heart-handshake',
-          description: this.$t(
-            'HELP_CENTER.UPGRADE_PAGE.FEATURES.SEO.DESCRIPTION'
-          ),
-        },
-        {
-          key: 4,
-          title: this.$t('HELP_CENTER.UPGRADE_PAGE.FEATURES.API.TITLE'),
-          icon: 'search-check',
-          description: this.$t(
-            'HELP_CENTER.UPGRADE_PAGE.FEATURES.API.DESCRIPTION'
-          ),
-        },
-      ],
-    };
-  },
-  computed: {
-    ...mapGetters({
-      accountId: 'getCurrentAccountId',
-      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud', // Pending change text
-    }),
-  },
-  methods: {
-    openBillingPage() {
-      this.$router.push({
-        name: 'billing_settings_index',
-        params: { accountId: this.accountId },
-      });
-    },
-    openHelpCenterDocs() {
-      window.open(this.helpCenterDocsURL, '_blank');
-    },
-  },
-};
-</script>
