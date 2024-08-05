@@ -1,74 +1,75 @@
 {
   "TICKETS": {
-    "TITLE": "Título do Ticket",
-    "DESCRIPTION": "Descrição do Ticket",
+    "TITLE": "Ticket Title",
+    "DESCRIPTION": "Ticket Description",
     "STATUS": {
-      "OPEN": "Aberto",
-      "PENDING": "Pendente",
-      "RESOLVED": "Resolvido"
+      "OPEN": "Open",
+      "PENDING": "Pending",
+      "RESOLVED": "Resolved",
+      "ALL": "All"
     },
     "PRIORITY": {
-      "LOW": "Baixo",
-      "MEDIUM": "Médio",
-      "HIGH": "Alto"
+      "LOW": "Low",
+      "MEDIUM": "Medium",
+      "HIGH": "High"
     },
     "STATUS_filter": {
-      "OPEN": "Aberto",
-      "PENDING": "Pendente",
-      "RESOLVED": "Resolvido"
+      "OPEN": "Open",
+      "PENDING": "Pending",
+      "RESOLVED": "Resolved"
     },
     "PRIORITY_filter": {
-      "LOW": "Baixo",
-      "MEDIUM": "Médio",
-      "HIGH": "Alto"
+      "LOW": "Low",
+      "MEDIUM": "Medium",
+      "HIGH": "High"
     },
     "ASSIGNEE_filter": {
-      "ME": "Eu",
-      "UNASSIGNED": "Não atribuído"
+      "ME": "Me",
+      "UNASSIGNED": "Unassigned"
     },
     "LABEL_filter": {
-      "ME": "Eu",
-      "UNASSIGNED": "Não atribuído"
+      "ME": "Me",
+      "UNASSIGNED": "Unassigned"
     },
     "CREATE": {
-      "TITLE": "Criar Ticket",
-      "DESCRIPTION": "Descrição do Ticket",
-      "PRIORITY": "Prioridade",
+      "TITLE": "Create Ticket",
+      "DESCRIPTION": "Ticket Description",
+      "PRIORITY": "Priority",
       "STATUS": "Status",
-      "ASSIGNEE": "Atribuído",
-      "LABELS": "Etiquetas",
-      "SUBMIT": "Criar Ticket"
+      "ASSIGNEE": "Assignee",
+      "LABELS": "Labels",
+      "SUBMIT": "Create Ticket"
     },
     "LIST": {
-      "NO_TICKETS": "Sem Tickets",
-      "LOADING_MESSAGE": "Carregando tickets...",
-      "404": "Nenhum ticket encontrado",
-      "EOF": "Todos os tickets carregados 🎉"
+      "NO_TICKETS": "No Tickets",
+      "LOADING_MESSAGE": "Loading tickets...",
+      "404": "No tickets found",
+      "EOF": "All tickets loaded 🎉"
     },
     "EDIT": {
-      "TITLE": "Editar Ticket",
-      "DESCRIPTION": "Descrição do Ticket",
-      "PRIORITY": "Prioridade",
+      "TITLE": "Edit Ticket",
+      "DESCRIPTION": "Ticket Description",
+      "PRIORITY": "Priority",
       "STATUS": "Status",
-      "ASSIGNEE": "Atribuído",
-      "LABELS": "Etiquetas",
-      "SUBMIT": "Editar Ticket"
+      "ASSIGNEE": "Assignee",
+      "LABELS": "Labels",
+      "SUBMIT": "Edit Ticket"
     },
     "SHOW": {
       "TITLE": "Ticket",
-      "DESCRIPTION": "Descrição do Ticket",
-      "PRIORITY": "Prioridade",
+      "DESCRIPTION": "Ticket Description",
+      "PRIORITY": "Priority",
       "STATUS": "Status",
-      "ASSIGNEE": "Atribuído",
-      "LABELS": "Etiquetas",
-      "SUBMIT": "Editar Ticket",
-      "CLOSE": "Fechar Ticket",
-      "REOPEN": "Reabrir Ticket",
-      "ASSIGN": "Atribuir Ticket",
-      "UNASSIGN": "Remover Ticket",
-      "LABEL": "Adicionar Etiqueta",
-      "UNLABEL": "Remover Etiqueta",
-      "SNOOZE": "Adicionar Soneca"
+      "ASSIGNEE": "Assignee",
+      "LABELS": "Labels",
+      "SUBMIT": "Edit Ticket",
+      "CLOSE": "Close Ticket",
+      "REOPEN": "Reopen Ticket",
+      "ASSIGN": "Assign Ticket",
+      "UNASSIGN": "Unassign Ticket",
+      "LABEL": "Add Label",
+      "UNLABEL": "Remove Label",
+      "SNOOZE": "Snooze Ticket"
     }
   }
 }

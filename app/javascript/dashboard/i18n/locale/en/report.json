@@ -475,6 +475,7 @@
   "TICKETS_REPORTS": {
     "HEADER": "Tickets",
     "SUBTITLE": "Tickets Report",
+    "EMPTY_STATE": "No agents",
     "GRAPH_COLUMN_LABEL": "Tickets",
     "GRAPH_TITLE": "Tickets Graph",
     "METRICS": {
@@ -486,6 +487,16 @@
       },
       "UNRESOLVED": {
         "NAME": "Unresolved Tickets"
+      }
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversations by Agents",
+      "LOADING_MESSAGE": "Loading conversations by agents...",
+      "NO_AGENTS": "There are no agents associated to this account",
+      "TABLE_HEADER": {
+        "AGENT": "Agent",
+        "OPEN": "Open",
+        "UNATTENDED": "Unattended"
       }
     }
   },

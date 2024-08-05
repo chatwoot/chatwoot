@@ -504,6 +504,7 @@
   "TICKETS_REPORTS": {
     "HEADER": "Tickets",
     "SUBTITLE": "Relatório de tickets",
+    "EMPTY_STATE": "Não há agentes",
     "GRAPH_COLUMN_LABEL": "Tickets",
     "GRAPH_TITLE": "Gráfico de tickets",
     "METRICS": {
@@ -515,6 +516,16 @@
       },
       "UNRESOLVED": {
         "NAME": "Tickets não resolvidos"
+      }
+    },
+    "AGENT_CONVERSATIONS": {
+      "HEADER": "Conversas por Agentes",
+      "LOADING_MESSAGE": "Carregando conversas por agentes...",
+      "NO_AGENTS": "Não há agentes associados a esta conta",
+      "TABLE_HEADER": {
+        "AGENT": "Agente",
+        "OPEN": "Aberto",
+        "UNATTENDED": "Não atendido"
       }
     }
   },
