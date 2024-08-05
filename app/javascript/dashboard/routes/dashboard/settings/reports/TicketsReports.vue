@@ -10,13 +10,13 @@
     <div class="row">
       <metric-card
         :is-live="false"
-        :is-loading="false"
-        :header="$t('INVOICE_REPORTS.SUBTITLE')"
+        :is-loading="ticketsUIFlags.isFetching"
+        :header="$t('TICKETS_REPORTS.SUBTITLE')"
         :loading-message="$t('REPORT.LOADING_CHART')"
       >
-        <template v-if="conversationMetrics.length > 0">
+        <template v-if="!ticketsUIFlags.isFetching">
           <div
-            v-for="(metric, name, index) in conversationMetrics"
+            v-for="(metric, name, index) in ticketsMetrics"
             :key="index"
             class="metric-content column"
           >
@@ -24,32 +24,26 @@
             <p class="metric">{{ metric }}</p>
           </div>
         </template>
-        <template v-else>
-          <div class="flex items-center justify-center w-full">
-            <span class="text-sm text-slate-600">
-              {{ $t('REPORT.NO_ENOUGH_DATA') }}
-            </span>
-          </div>
-        </template>
       </metric-card>
     </div>
     <div class="row">
-      <metric-card :header="$t('INVOICE_REPORTS.GRAPH_TITLE')">
+      <metric-card :header="$t('TICKETS_REPORTS.GRAPH_TITLE')">
+        <!-- list of agents per tickets -->
         <div class="metric-content column">
           <woot-loading-state
-            v-if="false"
+            v-if="ticketsUIFlags.isFetching"
             class="text-xs"
             :message="$t('REPORT.LOADING_CHART')"
           />
           <div v-else class="flex items-center justify-center">
-            <woot-bar
-              v-if="chartData.datasets.length"
-              :collection="chartData"
-              class="w-full"
+            <virtual-list
+              ref="ticketVirtualList"
+              :data-key="'id'"
+              :data-sources="ticketsReport"
+              :data-component="itemComponent"
+              class="w-full overflow-auto h-1/2"
+              footer-tag="div"
             />
-            <span v-else class="text-sm text-slate-600">
-              {{ $t('REPORT.NO_ENOUGH_DATA') }}
-            </span>
           </div>
         </div>
       </metric-card>
@@ -58,36 +52,50 @@
 </template>
 
 <script>
-import MetricCard from './components/overview/MetricCard.vue';
-import ReportFilters from './components/ReportFilters.vue';
 import { mapGetters } from 'vuex';
+import { TICKETS_SUMMARY_METRICS } from './constants';
+
+import VirtualList from 'vue-virtual-scroll-list';
+import MetricCard from './components/overview/MetricCard';
+import ReportFilters from './components/ReportFilters';
+import TicketsPerAgentComponent from 'dashboard/routes/dashboard/tickets/components/TicketsPerAgentComponent';
 
 export default {
-  name: 'InvoiceReports',
+  name: 'TicketsReports',
   components: {
     MetricCard,
     ReportFilters,
+    VirtualList,
+    // eslint-disable-next-line vue/no-unused-components
+    TicketsPerAgentComponent,
   },
   data: () => ({
-    chartData: {
-      labels: [],
-      datasets: [],
-    },
+    itemComponent: TicketsPerAgentComponent,
     from: Math.floor(new Date().setMonth(new Date().getMonth() - 6) / 1000),
     to: Math.floor(Date.now() / 1000),
     groupBy: null,
   }),
   computed: {
-    ...mapGetters({}),
+    ...mapGetters({
+      ticketsReport: 'ticketsReport/getTicketsReport',
+      ticketsSummary: 'ticketsReport/getTicketsSummary',
+      ticketsUIFlags: 'ticketsReport/getUIFlags',
+    }),
     groupByFilterItemsList() {
       return this.$t('REPORT.GROUP_BY_YEAR_OPTIONS');
     },
-    conversationMetrics() {
+    ticketsMetrics() {
       let metric = {};
+      Object.keys(this.ticketsSummary || {}).forEach(key => {
+        const metricName = this.$t(
+          'TICKETS_REPORTS.METRICS.' + TICKETS_SUMMARY_METRICS[key] + '.NAME'
+        );
+        metric[metricName] = this.ticketsSummary[key];
+      });
       return metric;
     },
   },
-  mounted() {
+  created() {
     this.fetchAllData();
   },
   methods: {
@@ -113,8 +121,8 @@ export default {
         payload.groupBy = groupBy;
       }
 
-      this.$store.dispatch('fetchInvoicesReport', payload);
-      this.$store.dispatch('fetchInvoicesMetric', payload);
+      this.$store.dispatch('ticketsReport/getAll', payload);
+      this.$store.dispatch('ticketsReport/getSummary', payload);
     },
   },
 };

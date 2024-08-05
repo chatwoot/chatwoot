@@ -501,6 +501,23 @@
       }
     }
   },
+  "TICKETS_REPORTS": {
+    "HEADER": "Tickets",
+    "SUBTITLE": "Relatório de tickets",
+    "GRAPH_COLUMN_LABEL": "Tickets",
+    "GRAPH_TITLE": "Gráfico de tickets",
+    "METRICS": {
+      "TOTAL": {
+        "NAME": "Tickets"
+      },
+      "RESOLVED": {
+        "NAME": "Tickets resolvidos"
+      },
+      "UNRESOLVED": {
+        "NAME": "Tickets não resolvidos"
+      }
+    }
+  },
   "DAYS_OF_WEEK": {
     "SUNDAY": "Domingo",
     "MONDAY": "Segunda-Feira",

@@ -50,12 +50,11 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { TRIGGERS_METRICS } from './constants';
+import { TRIGGERS_METRICS, GROUP_BY_FILTER } from './constants';
 import MetricCard from './components/overview/MetricCard.vue';
 import ReportFilters from './components/ReportFilters.vue';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
-import { GROUP_BY_FILTER } from './constants';
 
 export default {
   name: 'TriggerReports',

@@ -107,6 +107,18 @@ class ReportsAPI extends ApiClient {
       params: { since, until, business_hours: businessHours },
     });
   }
+
+  getTicketsReport({ from: since, to: until, businessHours }) {
+    return axios.get(`${this.url}/tickets`, {
+      params: { since, until, business_hours: businessHours },
+    });
+  }
+
+  getTicketsSummaryReport({ from: since, to: until }) {
+    return axios.get(`${this.url}/summary_tickets`, {
+      params: { since, until, type: 'account' },
+    });
+  }
 }
 
 export default new ReportsAPI();

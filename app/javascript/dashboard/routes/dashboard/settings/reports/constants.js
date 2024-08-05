@@ -210,3 +210,9 @@ export const TRIGGERS_METRICS = {
   processed: 'PROCESSED',
   unprocessed: 'UNPROCESSED',
 };
+
+export const TICKETS_SUMMARY_METRICS = {
+  total: 'TOTAL',
+  resolved: 'RESOLVED',
+  unresolved: 'UNRESOLVED',
+};
