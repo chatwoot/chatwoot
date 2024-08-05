@@ -1,33 +1,3 @@
-<template>
-  <aside ref="sidebarRef" class="flex h-full">
-    <primary-sidebar
-      :logo-source="globalConfig.logoThumbnail"
-      :installation-name="globalConfig.installationName"
-      :is-a-custom-branded-instance="isACustomBrandedInstance"
-      :account-id="accountId"
-      :menu-items="primaryMenuItems"
-      :active-menu-item="activePrimaryMenu.key"
-      @toggle-accounts="toggleAccountModal"
-      @key-shortcut-modal="toggleKeyShortcutModal"
-      @open-notification-panel="openNotificationPanel"
-    />
-    <secondary-sidebar
-      v-if="showSecondarySidebar"
-      :class="sidebarClassName"
-      :account-id="accountId"
-      :inboxes="inboxes"
-      :labels="labels"
-      :teams="teams"
-      :custom-views="customViews"
-      :menu-config="activeSecondaryMenu"
-      :current-user="currentUser"
-      :is-on-chatwoot-cloud="isOnChatwootCloud"
-      @add-label="showAddLabelPopup"
-      @toggle-accounts="toggleAccountModal"
-    />
-  </aside>
-</template>
-
 <script>
 import { ref } from 'vue';
 import { mapGetters } from 'vuex';
@@ -59,15 +29,12 @@ export default {
     const sidebarRef = ref(null);
     const route = useRoute();
     const router = useRouter();
-
     const toggleKeyShortcutModal = () => {
-      emit('open-key-shortcut-modal');
+      emit('openKeyShortcutModal');
     };
-
     const closeKeyShortcutModal = () => {
-      emit('close-key-shortcut-modal');
+      emit('closeKeyShortcutModal');
     };
-
     const isCurrentRouteSameAsNavigation = routeName => {
       return route.name === routeName;
     };
@@ -76,7 +43,6 @@ export default {
         router.push({ name: routeName });
       }
     };
-
     const keyboardEvents = {
       '$mod+Slash': {
         action: toggleKeyShortcutModal,
@@ -97,9 +63,7 @@ export default {
         action: () => navigateToRoute('agent_list'),
       },
     };
-
     useKeyboardEvents(keyboardEvents, sidebarRef);
-
     return {
       toggleKeyShortcutModal,
       sidebarRef,
@@ -114,7 +78,6 @@ export default {
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
-      currentRole: 'getCurrentRole',
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
       inboxes: 'inboxes/getInboxes',
@@ -217,14 +180,44 @@ export default {
       window.$chatwoot.toggle();
     },
     toggleAccountModal() {
-      this.$emit('toggle-account-modal');
+      this.$emit('toggleAccountModal');
     },
     showAddLabelPopup() {
-      this.$emit('show-add-label-popup');
+      this.$emit('showAddLabelPopup');
     },
     openNotificationPanel() {
-      this.$emit('open-notification-panel');
+      this.$emit('openNotificationPanel');
     },
   },
 };
 </script>
+
+<template>
+  <aside ref="sidebarRef" class="flex h-full">
+    <PrimarySidebar
+      :logo-source="globalConfig.logoThumbnail"
+      :installation-name="globalConfig.installationName"
+      :is-a-custom-branded-instance="isACustomBrandedInstance"
+      :account-id="accountId"
+      :menu-items="primaryMenuItems"
+      :active-menu-item="activePrimaryMenu.key"
+      @toggleAccounts="toggleAccountModal"
+      @openKeyShortcutModal="toggleKeyShortcutModal"
+      @openNotificationPanel="openNotificationPanel"
+    />
+    <SecondarySidebar
+      v-if="showSecondarySidebar"
+      :class="sidebarClassName"
+      :account-id="accountId"
+      :inboxes="inboxes"
+      :labels="labels"
+      :teams="teams"
+      :custom-views="customViews"
+      :menu-config="activeSecondaryMenu"
+      :current-user="currentUser"
+      :is-on-chatwoot-cloud="isOnChatwootCloud"
+      @addLabel="showAddLabelPopup"
+      @toggleAccounts="toggleAccountModal"
+    />
+  </aside>
+</template>

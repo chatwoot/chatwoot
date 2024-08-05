@@ -71,7 +71,7 @@ async function deleteLogo() {
 </script>
 
 <template>
-  <portal-settings-basic-form
+  <PortalSettingsBasicForm
     v-if="currentPortal"
     :portal="currentPortal"
     :is-submitting="uiFlags.isUpdating"
@@ -79,6 +79,6 @@ async function deleteLogo() {
       $t('HELP_CENTER.PORTAL.EDIT.EDIT_BASIC_INFO.BUTTON_TEXT')
     "
     @submit="updatePortalSettings"
-    @delete-logo="deleteLogo"
+    @deleteLogo="deleteLogo"
   />
 </template>

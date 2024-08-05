@@ -1,43 +1,3 @@
-<template>
-  <div
-    class="h-full w-16 bg-white dark:bg-slate-900 border-r border-slate-50 dark:border-slate-800/50 rtl:border-l rtl:border-r-0 flex justify-between flex-col"
-  >
-    <div class="flex flex-col items-center">
-      <logo
-        :source="logoSource"
-        :name="installationName"
-        :account-id="accountId"
-        class="m-4 mb-10"
-      />
-      <primary-nav-item
-        v-for="menuItem in menuItems"
-        :key="menuItem.toState"
-        :icon="menuItem.icon"
-        :name="menuItem.label"
-        :to="menuItem.toState"
-        :is-child-menu-active="menuItem.key === activeMenuItem"
-      />
-    </div>
-    <div class="flex flex-col items-center justify-end pb-6">
-      <primary-nav-item
-        v-if="!isACustomBrandedInstance"
-        icon="book-open-globe"
-        name="DOCS"
-        :open-in-new-page="true"
-        :to="helpDocsURL"
-      />
-      <notification-bell @open-notification-panel="openNotificationPanel" />
-      <agent-details @toggle-menu="toggleOptions" />
-      <options-menu
-        :show="showOptionsMenu"
-        @toggle-accounts="toggleAccountModal"
-        @show-support-chat-window="toggleSupportChatWindow"
-        @key-shortcut-modal="$emit('key-shortcut-modal')"
-        @close="toggleOptions"
-      />
-    </div>
-  </div>
-</template>
 <script>
 import Logo from './Logo.vue';
 import PrimaryNavItem from './PrimaryNavItem.vue';
@@ -94,15 +54,56 @@ export default {
       this.showOptionsMenu = !this.showOptionsMenu;
     },
     toggleAccountModal() {
-      this.$emit('toggle-accounts');
+      this.$emit('toggleAccounts');
     },
     toggleSupportChatWindow() {
       window.$chatwoot.toggle();
     },
     openNotificationPanel() {
       this.$track(ACCOUNT_EVENTS.OPENED_NOTIFICATIONS);
-      this.$emit('open-notification-panel');
+      this.$emit('openNotificationPanel');
     },
   },
 };
 </script>
+
+<template>
+  <div
+    class="flex flex-col justify-between w-16 h-full bg-white border-r dark:bg-slate-900 border-slate-50 dark:border-slate-800/50 rtl:border-l rtl:border-r-0"
+  >
+    <div class="flex flex-col items-center">
+      <Logo
+        :source="logoSource"
+        :name="installationName"
+        :account-id="accountId"
+        class="m-4 mb-10"
+      />
+      <PrimaryNavItem
+        v-for="menuItem in menuItems"
+        :key="menuItem.toState"
+        :icon="menuItem.icon"
+        :name="menuItem.label"
+        :to="menuItem.toState"
+        :is-child-menu-active="menuItem.key === activeMenuItem"
+      />
+    </div>
+    <div class="flex flex-col items-center justify-end pb-6">
+      <PrimaryNavItem
+        v-if="!isACustomBrandedInstance"
+        icon="book-open-globe"
+        name="DOCS"
+        open-in-new-page
+        :to="helpDocsURL"
+      />
+      <NotificationBell @openNotificationPanel="openNotificationPanel" />
+      <AgentDetails @toggleMenu="toggleOptions" />
+      <OptionsMenu
+        :show="showOptionsMenu"
+        @toggleAccounts="toggleAccountModal"
+        @showSupportChatWindow="toggleSupportChatWindow"
+        @openKeyShortcutModal="$emit('openKeyShortcutModal')"
+        @close="toggleOptions"
+      />
+    </div>
+  </div>
+</template>

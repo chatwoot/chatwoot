@@ -1,32 +1,3 @@
-<template>
-  <div
-    class="inline-flex ltr:mr-1 rtl:ml-1 mb-1"
-    :class="labelClass"
-    :style="labelStyle"
-    :title="description"
-  >
-    <span v-if="icon" class="label-action--button">
-      <fluent-icon :icon="icon" size="12" class="label--icon cursor-pointer" />
-    </span>
-    <span
-      v-if="['smooth', 'dashed'].includes(variant) && title && !icon"
-      :style="{ background: color }"
-      class="label-color-dot flex-shrink-0"
-    />
-    <span v-if="!href" class="whitespace-nowrap text-ellipsis overflow-hidden">
-      {{ title }}
-    </span>
-    <a v-else :href="href" :style="anchorStyle">{{ title }}</a>
-    <button
-      v-if="showClose"
-      class="label-close--button p-0"
-      :style="{ color: textColor }"
-      @click="onClick"
-    >
-      <fluent-icon icon="dismiss" size="12" class="close--icon" />
-    </button>
-  </div>
-</template>
 <script>
 import { getContrastingTextColor } from '@chatwoot/utils';
 
@@ -108,6 +79,36 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    class="inline-flex ltr:mr-1 rtl:ml-1 mb-1"
+    :class="labelClass"
+    :style="labelStyle"
+    :title="description"
+  >
+    <span v-if="icon" class="label-action--button">
+      <fluent-icon :icon="icon" size="12" class="label--icon cursor-pointer" />
+    </span>
+    <span
+      v-if="['smooth', 'dashed'].includes(variant) && title && !icon"
+      :style="{ background: color }"
+      class="label-color-dot flex-shrink-0"
+    />
+    <span v-if="!href" class="whitespace-nowrap text-ellipsis overflow-hidden">
+      {{ title }}
+    </span>
+    <a v-else :href="href" :style="anchorStyle">{{ title }}</a>
+    <button
+      v-if="showClose"
+      class="label-close--button p-0"
+      :style="{ color: textColor }"
+      @click="onClick"
+    >
+      <fluent-icon icon="dismiss" size="12" class="close--icon" />
+    </button>
+  </div>
+</template>
 
 <style scoped lang="scss">
 .label {

@@ -1,14 +1,75 @@
+<script>
+import { mapGetters } from 'vuex';
+import { frontendURL } from '../../../../helper/URLHelper';
+import { useAlert } from 'dashboard/composables';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+
+export default {
+  mixins: [globalConfigMixin],
+  props: {
+    integrationId: {
+      type: [String, Number],
+      required: true,
+    },
+    integrationName: { type: String, default: '' },
+    integrationDescription: { type: String, default: '' },
+    integrationEnabled: { type: Boolean, default: false },
+    integrationAction: { type: String, default: '' },
+    actionButtonText: { type: String, default: '' },
+    deleteConfirmationText: { type: Object, default: () => ({}) },
+  },
+  data() {
+    return {
+      showDeleteConfirmationPopup: false,
+    };
+  },
+  computed: {
+    ...mapGetters({
+      accountId: 'getCurrentAccountId',
+      globalConfig: 'globalConfig/get',
+    }),
+  },
+  methods: {
+    frontendURL,
+    openDeletePopup() {
+      this.showDeleteConfirmationPopup = true;
+    },
+    closeDeletePopup() {
+      this.showDeleteConfirmationPopup = false;
+    },
+    confirmDeletion() {
+      this.closeDeletePopup();
+      this.deleteIntegration(this.deleteIntegration);
+      this.$router.push({ name: 'settings_integrations' });
+    },
+    async deleteIntegration() {
+      try {
+        await this.$store.dispatch(
+          'integrations/deleteIntegration',
+          this.integrationId
+        );
+        useAlert(this.$t('INTEGRATION_SETTINGS.DELETE.API.SUCCESS_MESSAGE'));
+      } catch (error) {
+        useAlert(
+          this.$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.ERROR_MESSAGE')
+        );
+      }
+    },
+  },
+};
+</script>
+
 <template>
   <div
-    class="flex flex-col md:flex-row justify-between items-start md:items-center"
+    class="flex flex-col items-start justify-between md:flex-row md:items-center"
   >
-    <div class="flex items-center justify-start m-0 mx-4 flex-1">
+    <div class="flex items-center justify-start flex-1 m-0 mx-4">
       <img
         :src="`/dashboard/images/integrations/${integrationId}.png`"
-        class="p-2 h-16 w-16 mr-4"
+        class="w-16 h-16 p-2 mr-4"
       />
       <div>
-        <h3 class="text-xl font-medium mb-1 text-slate-800 dark:text-slate-100">
+        <h3 class="mb-1 text-xl font-medium text-slate-800 dark:text-slate-100">
           {{ integrationName }}
         </h3>
         <p class="text-slate-700 dark:text-slate-200">
@@ -49,7 +110,7 @@
         </div>
       </router-link>
       <div v-if="!integrationEnabled">
-        <a :href="integrationAction" class="button success nice rounded">
+        <a :href="integrationAction" class="rounded button success nice">
           {{ $t('INTEGRATION_SETTINGS.CONNECT.BUTTON_TEXT') }}
         </a>
       </div>
@@ -71,65 +132,3 @@
     />
   </div>
 </template>
-<script>
-import { mapGetters } from 'vuex';
-import { frontendURL } from '../../../../helper/URLHelper';
-import { useAlert } from 'dashboard/composables';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-
-export default {
-  mixins: [globalConfigMixin],
-  props: {
-    integrationId: {
-      type: [String, Number],
-      required: true,
-    },
-    integrationLogo: { type: String, default: '' },
-    integrationName: { type: String, default: '' },
-    integrationDescription: { type: String, default: '' },
-    integrationEnabled: { type: Boolean, default: false },
-    integrationAction: { type: String, default: '' },
-    actionButtonText: { type: String, default: '' },
-    deleteConfirmationText: { type: Object, default: () => ({}) },
-  },
-  data() {
-    return {
-      showDeleteConfirmationPopup: false,
-    };
-  },
-  computed: {
-    ...mapGetters({
-      currentUser: 'getCurrentUser',
-      accountId: 'getCurrentAccountId',
-      globalConfig: 'globalConfig/get',
-    }),
-  },
-  methods: {
-    frontendURL,
-    openDeletePopup() {
-      this.showDeleteConfirmationPopup = true;
-    },
-    closeDeletePopup() {
-      this.showDeleteConfirmationPopup = false;
-    },
-    confirmDeletion() {
-      this.closeDeletePopup();
-      this.deleteIntegration(this.deleteIntegration);
-      this.$router.push({ name: 'settings_integrations' });
-    },
-    async deleteIntegration() {
-      try {
-        await this.$store.dispatch(
-          'integrations/deleteIntegration',
-          this.integrationId
-        );
-        useAlert(this.$t('INTEGRATION_SETTINGS.DELETE.API.SUCCESS_MESSAGE'));
-      } catch (error) {
-        useAlert(
-          this.$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.ERROR_MESSAGE')
-        );
-      }
-    },
-  },
-};
-</script>

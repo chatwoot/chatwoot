@@ -1,7 +1,3 @@
-<template>
-  <csml-bot-editor :agent-bot="{ bot_config: {} }" @submit="saveBot" />
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
@@ -39,3 +35,7 @@ export default {
   },
 };
 </script>
+
+<template>
+  <CsmlBotEditor :agent-bot="{ bot_config: {} }" @submit="saveBot" />
+</template>

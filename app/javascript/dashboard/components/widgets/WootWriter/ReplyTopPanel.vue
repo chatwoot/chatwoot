@@ -1,3 +1,78 @@
+<script>
+import { ref } from 'vue';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
+export default {
+  name: 'ReplyTopPanel',
+  props: {
+    mode: {
+      type: String,
+      default: REPLY_EDITOR_MODES.REPLY,
+    },
+    isMessageLengthReachingThreshold: {
+      type: Boolean,
+      default: () => false,
+    },
+    charactersRemaining: {
+      type: Number,
+      default: () => 0,
+    },
+    popoutReplyBox: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  setup(props, { emit }) {
+    const replyTopRef = ref(null);
+    const setReplyMode = mode => {
+      emit('setReplyMode', mode);
+    };
+    const handleReplyClick = () => {
+      setReplyMode(REPLY_EDITOR_MODES.REPLY);
+    };
+    const handleNoteClick = () => {
+      setReplyMode(REPLY_EDITOR_MODES.NOTE);
+    };
+    const keyboardEvents = {
+      'Alt+KeyP': {
+        action: () => handleNoteClick(),
+        allowOnFocusedInput: true,
+      },
+      'Alt+KeyL': {
+        action: () => handleReplyClick(),
+        allowOnFocusedInput: true,
+      },
+    };
+    useKeyboardEvents(keyboardEvents, replyTopRef);
+    return {
+      handleReplyClick,
+      handleNoteClick,
+      replyTopRef,
+    };
+  },
+  computed: {
+    replyButtonClass() {
+      return {
+        'is-active': this.mode === REPLY_EDITOR_MODES.REPLY,
+      };
+    },
+    noteButtonClass() {
+      return {
+        'is-active': this.mode === REPLY_EDITOR_MODES.NOTE,
+      };
+    },
+    charLengthClass() {
+      return this.charactersRemaining < 0 ? 'text-red-600' : 'text-slate-600';
+    },
+    characterLengthWarning() {
+      return this.charactersRemaining < 0
+        ? `${-this.charactersRemaining} ${CHAR_LENGTH_WARNING.NEGATIVE}`
+        : `${this.charactersRemaining} ${CHAR_LENGTH_WARNING.UNDER_50}`;
+    },
+  },
+};
+</script>
+
 <template>
   <div
     ref="replyTopRef"
@@ -48,86 +123,6 @@
     />
   </div>
 </template>
-
-<script>
-import { ref } from 'vue';
-import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
-import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
-export default {
-  name: 'ReplyTopPanel',
-  props: {
-    mode: {
-      type: String,
-      default: REPLY_EDITOR_MODES.REPLY,
-    },
-    isMessageLengthReachingThreshold: {
-      type: Boolean,
-      default: () => false,
-    },
-    charactersRemaining: {
-      type: Number,
-      default: () => 0,
-    },
-    popoutReplyBox: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  setup(props, { emit }) {
-    const replyTopRef = ref(null);
-
-    const setReplyMode = mode => {
-      emit('set-reply-mode', mode);
-    };
-
-    const handleReplyClick = () => {
-      setReplyMode(REPLY_EDITOR_MODES.REPLY);
-    };
-    const handleNoteClick = () => {
-      setReplyMode(REPLY_EDITOR_MODES.NOTE);
-    };
-
-    const keyboardEvents = {
-      'Alt+KeyP': {
-        action: () => handleNoteClick(),
-        allowOnFocusedInput: true,
-      },
-      'Alt+KeyL': {
-        action: () => handleReplyClick(),
-        allowOnFocusedInput: true,
-      },
-    };
-
-    useKeyboardEvents(keyboardEvents, replyTopRef);
-
-    return {
-      handleReplyClick,
-      handleNoteClick,
-      replyTopRef,
-    };
-  },
-  computed: {
-    replyButtonClass() {
-      return {
-        'is-active': this.mode === REPLY_EDITOR_MODES.REPLY,
-      };
-    },
-    noteButtonClass() {
-      return {
-        'is-active': this.mode === REPLY_EDITOR_MODES.NOTE,
-      };
-    },
-    charLengthClass() {
-      return this.charactersRemaining < 0 ? 'text-red-600' : 'text-slate-600';
-    },
-    characterLengthWarning() {
-      return this.charactersRemaining < 0
-        ? `${-this.charactersRemaining} ${CHAR_LENGTH_WARNING.NEGATIVE}`
-        : `${this.charactersRemaining} ${CHAR_LENGTH_WARNING.UNDER_50}`;
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .button-group {

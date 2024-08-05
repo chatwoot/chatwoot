@@ -1,29 +1,3 @@
-<template>
-  <a
-    v-if="isLink"
-    :key="action.uri"
-    class="action-button button"
-    :href="action.uri"
-    :style="{
-      background: widgetColor,
-      borderColor: widgetColor,
-      color: textColor,
-    }"
-    target="_blank"
-    rel="noopener nofollow noreferrer"
-  >
-    {{ action.text }}
-  </a>
-  <button
-    v-else
-    :key="action.payload"
-    class="action-button button"
-    :style="{ borderColor: widgetColor, color: widgetColor }"
-    @click="onClick"
-  >
-    {{ action.text }}
-  </button>
-</template>
 <script>
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
@@ -53,6 +27,33 @@ export default {
   },
 };
 </script>
+
+<template>
+  <a
+    v-if="isLink"
+    :key="action.uri"
+    class="action-button button"
+    :href="action.uri"
+    :style="{
+      background: widgetColor,
+      borderColor: widgetColor,
+      color: textColor,
+    }"
+    target="_blank"
+    rel="noopener nofollow noreferrer"
+  >
+    {{ action.text }}
+  </a>
+  <button
+    v-else
+    :key="action.payload"
+    class="action-button button"
+    :style="{ borderColor: widgetColor, color: widgetColor }"
+    @click="onClick"
+  >
+    {{ action.text }}
+  </button>
+</template>
 
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';

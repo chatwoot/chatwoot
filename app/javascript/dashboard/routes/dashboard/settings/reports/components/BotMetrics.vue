@@ -40,25 +40,25 @@ onMounted(fetchMetrics);
   <div
     class="flex flex-wrap mx-0 bg-white dark:bg-slate-800 rounded-[4px] p-4 mb-5 border border-solid border-slate-75 dark:border-slate-700"
   >
-    <report-metric-card
+    <ReportMetricCard
       :label="$t('BOT_REPORTS.METRIC.TOTAL_CONVERSATIONS.LABEL')"
       :info-text="$t('BOT_REPORTS.METRIC.TOTAL_CONVERSATIONS.TOOLTIP')"
       :value="conversationCount"
       class="flex-1"
     />
-    <report-metric-card
+    <ReportMetricCard
       :label="$t('BOT_REPORTS.METRIC.TOTAL_RESPONSES.LABEL')"
       :info-text="$t('BOT_REPORTS.METRIC.TOTAL_RESPONSES.TOOLTIP')"
       :value="messageCount"
       class="flex-1"
     />
-    <report-metric-card
+    <ReportMetricCard
       :label="$t('BOT_REPORTS.METRIC.RESOLUTION_RATE.LABEL')"
       :info-text="$t('BOT_REPORTS.METRIC.RESOLUTION_RATE.TOOLTIP')"
       :value="formatToPercent(resolutionRate)"
       class="flex-1"
     />
-    <report-metric-card
+    <ReportMetricCard
       :label="$t('BOT_REPORTS.METRIC.HANDOFF_RATE.LABEL')"
       :info-text="$t('BOT_REPORTS.METRIC.HANDOFF_RATE.TOOLTIP')"
       :value="formatToPercent(handoffRate)"

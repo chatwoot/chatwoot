@@ -1,184 +1,3 @@
-<!-- eslint-disable vue/no-mutating-props -->
-<template>
-  <woot-modal
-    full-width
-    :show.sync="show"
-    :show-close-button="false"
-    :on-close="onClose"
-  >
-    <div
-      v-on-clickaway="onClose"
-      class="bg-white dark:bg-slate-900 flex flex-col h-[inherit] w-[inherit] overflow-hidden"
-      @click="onClose"
-    >
-      <div
-        class="z-10 flex items-center justify-between w-full h-16 px-6 py-2 bg-white dark:bg-slate-900"
-        @click.stop
-      >
-        <div
-          v-if="senderDetails"
-          class="items-center flex justify-start min-w-[15rem]"
-        >
-          <thumbnail
-            v-if="senderDetails.avatar"
-            :username="senderDetails.name"
-            :src="senderDetails.avatar"
-          />
-          <div
-            class="flex flex-col items-start justify-center ml-2 rtl:ml-0 rtl:mr-2"
-          >
-            <h3 class="text-base inline-block leading-[1.4] m-0 p-0 capitalize">
-              <span
-                class="overflow-hidden text-slate-800 dark:text-slate-100 whitespace-nowrap text-ellipsis"
-              >
-                {{ senderDetails.name }}
-              </span>
-            </h3>
-            <span
-              class="p-0 m-0 overflow-hidden text-xs text-slate-400 dark:text-slate-200 whitespace-nowrap text-ellipsis"
-            >
-              {{ readableTime }}
-            </span>
-          </div>
-        </div>
-        <div
-          class="flex items-center justify-start w-auto min-w-0 p-1 text-sm font-semibold text-slate-700 dark:text-slate-100"
-        >
-          <span
-            v-dompurify-html="fileNameFromDataUrl"
-            class="overflow-hidden text-slate-700 dark:text-slate-100 whitespace-nowrap text-ellipsis"
-          />
-        </div>
-        <div
-          class="items-center flex gap-2 justify-end min-w-[8rem] sm:min-w-[15rem]"
-        >
-          <woot-button
-            v-if="isImage"
-            size="large"
-            color-scheme="secondary"
-            variant="clear"
-            icon="zoom-in"
-            @click="onZoom(0.1)"
-          />
-          <woot-button
-            v-if="isImage"
-            size="large"
-            color-scheme="secondary"
-            variant="clear"
-            icon="zoom-out"
-            @click="onZoom(-0.1)"
-          />
-          <woot-button
-            v-if="isImage"
-            size="large"
-            color-scheme="secondary"
-            variant="clear"
-            icon="arrow-rotate-counter-clockwise"
-            @click="onRotate('counter-clockwise')"
-          />
-          <woot-button
-            v-if="isImage"
-            size="large"
-            color-scheme="secondary"
-            variant="clear"
-            icon="arrow-rotate-clockwise"
-            @click="onRotate('clockwise')"
-          />
-          <woot-button
-            size="large"
-            color-scheme="secondary"
-            variant="clear"
-            icon="arrow-download"
-            @click="onClickDownload"
-          />
-          <woot-button
-            size="large"
-            color-scheme="secondary"
-            variant="clear"
-            icon="dismiss"
-            @click="onClose"
-          />
-        </div>
-      </div>
-      <div class="flex items-center justify-center w-full h-full">
-        <div class="flex justify-center min-w-[6.25rem] w-[6.25rem]">
-          <woot-button
-            v-if="hasMoreThanOneAttachment"
-            class="z-10"
-            size="large"
-            variant="smooth"
-            color-scheme="primary"
-            icon="chevron-left"
-            :disabled="activeImageIndex === 0"
-            @click.stop="
-              onClickChangeAttachment(
-                allAttachments[activeImageIndex - 1],
-                activeImageIndex - 1
-              )
-            "
-          />
-        </div>
-        <div class="flex flex-col items-center justify-center w-full h-full">
-          <div>
-            <img
-              v-if="isImage"
-              :key="activeAttachment.message_id"
-              :src="activeAttachment.data_url"
-              class="mx-auto my-0 duration-150 ease-in-out transform modal-image skip-context-menu"
-              :style="imageRotationStyle"
-              @click.stop="onClickZoomImage"
-              @wheel.stop="onWheelImageZoom"
-            />
-            <video
-              v-if="isVideo"
-              :key="activeAttachment.message_id"
-              :src="activeAttachment.data_url"
-              controls
-              playsInline
-              class="mx-auto my-0 modal-video skip-context-menu"
-              @click.stop
-            />
-            <audio
-              v-if="isAudio"
-              :key="activeAttachment.message_id"
-              controls
-              class="skip-context-menu"
-              @click.stop
-            >
-              <source :src="`${activeAttachment.data_url}?t=${Date.now()}`" />
-            </audio>
-          </div>
-        </div>
-        <div class="flex justify-center min-w-[6.25rem] w-[6.25rem]">
-          <woot-button
-            v-if="hasMoreThanOneAttachment"
-            class="z-10"
-            size="large"
-            variant="smooth"
-            color-scheme="primary"
-            :disabled="activeImageIndex === allAttachments.length - 1"
-            icon="chevron-right"
-            @click.stop="
-              onClickChangeAttachment(
-                allAttachments[activeImageIndex + 1],
-                activeImageIndex + 1
-              )
-            "
-          />
-        </div>
-      </div>
-      <div class="z-10 flex items-center justify-center w-full h-16 px-6 py-2">
-        <div
-          class="items-center rounded-sm flex font-semibold justify-center min-w-[5rem] p-1 bg-slate-25 dark:bg-slate-800 text-slate-600 dark:text-slate-200 text-sm"
-        >
-          <span class="count">
-            {{ `${activeImageIndex + 1} / ${allAttachments.length}` }}
-          </span>
-        </div>
-      </div>
-    </div>
-  </woot-modal>
-</template>
 <script>
 import { mapGetters } from 'vuex';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
@@ -385,3 +204,185 @@ export default {
   },
 };
 </script>
+
+<!-- eslint-disable vue/no-mutating-props -->
+<template>
+  <woot-modal
+    full-width
+    :show.sync="show"
+    :show-close-button="false"
+    :on-close="onClose"
+  >
+    <div
+      v-on-clickaway="onClose"
+      class="bg-white dark:bg-slate-900 flex flex-col h-[inherit] w-[inherit] overflow-hidden"
+      @click="onClose"
+    >
+      <div
+        class="z-10 flex items-center justify-between w-full h-16 px-6 py-2 bg-white dark:bg-slate-900"
+        @click.stop
+      >
+        <div
+          v-if="senderDetails"
+          class="items-center flex justify-start min-w-[15rem]"
+        >
+          <Thumbnail
+            v-if="senderDetails.avatar"
+            :username="senderDetails.name"
+            :src="senderDetails.avatar"
+          />
+          <div
+            class="flex flex-col items-start justify-center ml-2 rtl:ml-0 rtl:mr-2"
+          >
+            <h3 class="text-base inline-block leading-[1.4] m-0 p-0 capitalize">
+              <span
+                class="overflow-hidden text-slate-800 dark:text-slate-100 whitespace-nowrap text-ellipsis"
+              >
+                {{ senderDetails.name }}
+              </span>
+            </h3>
+            <span
+              class="p-0 m-0 overflow-hidden text-xs text-slate-400 dark:text-slate-200 whitespace-nowrap text-ellipsis"
+            >
+              {{ readableTime }}
+            </span>
+          </div>
+        </div>
+        <div
+          class="flex items-center justify-start w-auto min-w-0 p-1 text-sm font-semibold text-slate-700 dark:text-slate-100"
+        >
+          <span
+            v-dompurify-html="fileNameFromDataUrl"
+            class="overflow-hidden text-slate-700 dark:text-slate-100 whitespace-nowrap text-ellipsis"
+          />
+        </div>
+        <div
+          class="items-center flex gap-2 justify-end min-w-[8rem] sm:min-w-[15rem]"
+        >
+          <woot-button
+            v-if="isImage"
+            size="large"
+            color-scheme="secondary"
+            variant="clear"
+            icon="zoom-in"
+            @click="onZoom(0.1)"
+          />
+          <woot-button
+            v-if="isImage"
+            size="large"
+            color-scheme="secondary"
+            variant="clear"
+            icon="zoom-out"
+            @click="onZoom(-0.1)"
+          />
+          <woot-button
+            v-if="isImage"
+            size="large"
+            color-scheme="secondary"
+            variant="clear"
+            icon="arrow-rotate-counter-clockwise"
+            @click="onRotate('counter-clockwise')"
+          />
+          <woot-button
+            v-if="isImage"
+            size="large"
+            color-scheme="secondary"
+            variant="clear"
+            icon="arrow-rotate-clockwise"
+            @click="onRotate('clockwise')"
+          />
+          <woot-button
+            size="large"
+            color-scheme="secondary"
+            variant="clear"
+            icon="arrow-download"
+            @click="onClickDownload"
+          />
+          <woot-button
+            size="large"
+            color-scheme="secondary"
+            variant="clear"
+            icon="dismiss"
+            @click="onClose"
+          />
+        </div>
+      </div>
+      <div class="flex items-center justify-center w-full h-full">
+        <div class="flex justify-center min-w-[6.25rem] w-[6.25rem]">
+          <woot-button
+            v-if="hasMoreThanOneAttachment"
+            class="z-10"
+            size="large"
+            variant="smooth"
+            color-scheme="primary"
+            icon="chevron-left"
+            :disabled="activeImageIndex === 0"
+            @click.stop="
+              onClickChangeAttachment(
+                allAttachments[activeImageIndex - 1],
+                activeImageIndex - 1
+              )
+            "
+          />
+        </div>
+        <div class="flex flex-col items-center justify-center w-full h-full">
+          <div>
+            <img
+              v-if="isImage"
+              :key="activeAttachment.message_id"
+              :src="activeAttachment.data_url"
+              class="mx-auto my-0 duration-150 ease-in-out transform modal-image skip-context-menu"
+              :style="imageRotationStyle"
+              @click.stop="onClickZoomImage"
+              @wheel.stop="onWheelImageZoom"
+            />
+            <video
+              v-if="isVideo"
+              :key="activeAttachment.message_id"
+              :src="activeAttachment.data_url"
+              controls
+              playsInline
+              class="mx-auto my-0 modal-video skip-context-menu"
+              @click.stop
+            />
+            <audio
+              v-if="isAudio"
+              :key="activeAttachment.message_id"
+              controls
+              class="skip-context-menu"
+              @click.stop
+            >
+              <source :src="`${activeAttachment.data_url}?t=${Date.now()}`" />
+            </audio>
+          </div>
+        </div>
+        <div class="flex justify-center min-w-[6.25rem] w-[6.25rem]">
+          <woot-button
+            v-if="hasMoreThanOneAttachment"
+            class="z-10"
+            size="large"
+            variant="smooth"
+            color-scheme="primary"
+            :disabled="activeImageIndex === allAttachments.length - 1"
+            icon="chevron-right"
+            @click.stop="
+              onClickChangeAttachment(
+                allAttachments[activeImageIndex + 1],
+                activeImageIndex + 1
+              )
+            "
+          />
+        </div>
+      </div>
+      <div class="z-10 flex items-center justify-center w-full h-16 px-6 py-2">
+        <div
+          class="items-center rounded-sm flex font-semibold justify-center min-w-[5rem] p-1 bg-slate-25 dark:bg-slate-800 text-slate-600 dark:text-slate-200 text-sm"
+        >
+          <span class="count">
+            {{ `${activeImageIndex + 1} / ${allAttachments.length}` }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </woot-modal>
+</template>

@@ -1,96 +1,3 @@
-<template>
-  <div
-    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
-  >
-    <div
-      v-if="!hasLoginStarted"
-      class="flex flex-col items-center justify-center h-full text-center"
-    >
-      <a href="#" @click="startLogin()">
-        <img
-          class="w-auto h-10"
-          src="~dashboard/assets/images/channels/facebook_login.png"
-          alt="Facebook-logo"
-        />
-      </a>
-      <p class="py-6">
-        {{
-          useInstallationName(
-            $t('INBOX_MGMT.ADD.FB.HELP'),
-            globalConfig.installationName
-          )
-        }}
-      </p>
-    </div>
-    <div v-else>
-      <div v-if="hasError" class="max-w-lg mx-auto text-center">
-        <h5>{{ errorStateMessage }}</h5>
-        <p
-          v-if="errorStateDescription"
-          v-dompurify-html="errorStateDescription"
-        />
-      </div>
-      <loading-state v-else-if="showLoader" :message="emptyStateMessage" />
-      <form
-        v-else
-        class="flex flex-wrap mx-0"
-        @submit.prevent="createChannel()"
-      >
-        <div class="w-full">
-          <page-header
-            :header-title="$t('INBOX_MGMT.ADD.DETAILS.TITLE')"
-            :header-content="
-              useInstallationName(
-                $t('INBOX_MGMT.ADD.DETAILS.DESC'),
-                globalConfig.installationName
-              )
-            "
-          />
-        </div>
-        <div class="w-3/5">
-          <div class="w-full">
-            <div class="input-wrap" :class="{ error: v$.selectedPage.$error }">
-              {{ $t('INBOX_MGMT.ADD.FB.CHOOSE_PAGE') }}
-              <multiselect
-                v-model.trim="selectedPage"
-                :close-on-select="true"
-                :allow-empty="true"
-                :options="getSelectablePages"
-                track-by="id"
-                label="name"
-                :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-                :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
-                :placeholder="$t('INBOX_MGMT.ADD.FB.PICK_A_VALUE')"
-                selected-label
-                @select="setPageName"
-              />
-              <span v-if="v$.selectedPage.$error" class="message">
-                {{ $t('INBOX_MGMT.ADD.FB.CHOOSE_PLACEHOLDER') }}
-              </span>
-            </div>
-          </div>
-          <div class="w-full">
-            <label :class="{ error: v$.pageName.$error }">
-              {{ $t('INBOX_MGMT.ADD.FB.INBOX_NAME') }}
-              <input
-                v-model.trim="pageName"
-                type="text"
-                :placeholder="$t('INBOX_MGMT.ADD.FB.PICK_NAME')"
-                @input="v$.pageName.$touch"
-              />
-              <span v-if="v$.pageName.$error" class="message">
-                {{ $t('INBOX_MGMT.ADD.FB.ADD_NAME') }}
-              </span>
-            </label>
-          </div>
-          <div class="w-full text-right">
-            <input type="submit" value="Create Inbox" class="button" />
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-</template>
 <script>
 /* eslint-env browser */
 /* global FB */
@@ -154,7 +61,6 @@ export default {
       return this.pageList.filter(item => !item.exists);
     },
     ...mapGetters({
-      currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
     }),
   },
@@ -294,3 +200,97 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+  >
+    <div
+      v-if="!hasLoginStarted"
+      class="flex flex-col items-center justify-center h-full text-center"
+    >
+      <a href="#" @click="startLogin()">
+        <img
+          class="w-auto h-10"
+          src="~dashboard/assets/images/channels/facebook_login.png"
+          alt="Facebook-logo"
+        />
+      </a>
+      <p class="py-6">
+        {{
+          useInstallationName(
+            $t('INBOX_MGMT.ADD.FB.HELP'),
+            globalConfig.installationName
+          )
+        }}
+      </p>
+    </div>
+    <div v-else>
+      <div v-if="hasError" class="max-w-lg mx-auto text-center">
+        <h5>{{ errorStateMessage }}</h5>
+        <p
+          v-if="errorStateDescription"
+          v-dompurify-html="errorStateDescription"
+        />
+      </div>
+      <LoadingState v-else-if="showLoader" :message="emptyStateMessage" />
+      <form
+        v-else
+        class="flex flex-wrap mx-0"
+        @submit.prevent="createChannel()"
+      >
+        <div class="w-full">
+          <PageHeader
+            :header-title="$t('INBOX_MGMT.ADD.DETAILS.TITLE')"
+            :header-content="
+              useInstallationName(
+                $t('INBOX_MGMT.ADD.DETAILS.DESC'),
+                globalConfig.installationName
+              )
+            "
+          />
+        </div>
+        <div class="w-3/5">
+          <div class="w-full">
+            <div class="input-wrap" :class="{ error: v$.selectedPage.$error }">
+              {{ $t('INBOX_MGMT.ADD.FB.CHOOSE_PAGE') }}
+              <multiselect
+                v-model.trim="selectedPage"
+                close-on-select
+                allow-empty
+                :options="getSelectablePages"
+                track-by="id"
+                label="name"
+                :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+                :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
+                :placeholder="$t('INBOX_MGMT.ADD.FB.PICK_A_VALUE')"
+                selected-label
+                @select="setPageName"
+              />
+              <span v-if="v$.selectedPage.$error" class="message">
+                {{ $t('INBOX_MGMT.ADD.FB.CHOOSE_PLACEHOLDER') }}
+              </span>
+            </div>
+          </div>
+          <div class="w-full">
+            <label :class="{ error: v$.pageName.$error }">
+              {{ $t('INBOX_MGMT.ADD.FB.INBOX_NAME') }}
+              <input
+                v-model.trim="pageName"
+                type="text"
+                :placeholder="$t('INBOX_MGMT.ADD.FB.PICK_NAME')"
+                @input="v$.pageName.$touch"
+              />
+              <span v-if="v$.pageName.$error" class="message">
+                {{ $t('INBOX_MGMT.ADD.FB.ADD_NAME') }}
+              </span>
+            </label>
+          </div>
+          <div class="w-full text-right">
+            <input type="submit" value="Create Inbox" class="button" />
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>
