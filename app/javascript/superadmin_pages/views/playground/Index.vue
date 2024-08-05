@@ -1,48 +1,14 @@
-<template>
-  <section class="h-full w-full flex flex-col bg-slate-25">
-    <PlaygroundHeader
-      :response-source-name="componentData.responseSourceName"
-      :response-source-path="componentData.responseSourcePath"
-    />
-    <div ref="chatContainer" class="flex-1 overflow-auto px-8 py-4">
-      <div
-        v-for="message in messages"
-        :id="`message-${message.id}`"
-        :key="message.id"
-      >
-        <UserMessage
-          v-if="message.type === 'User'"
-          :message="formatMessage(message.content)"
-        />
-        <BotMessage v-else :message="formatMessage(message.content)" />
-      </div>
-      <TypingIndicator v-if="isWaiting" />
-    </div>
-    <div class="w-full px-8 py-6">
-      <textarea
-        ref="messageInput"
-        v-model="messageContent"
-        :rows="4"
-        class="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border !outline-2 border-slate-100 focus:ring-woot-500 focus:border-woot-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-woot-500 dark:focus:border-woot-500"
-        placeholder="Type a message... [CMD/CTRL + Enter to send]"
-        autofocus
-        autocomplete="off"
-      />
-    </div>
-  </section>
-</template>
-
 <script>
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
-import Header from '../../components/playground/Header.vue';
+import PlaygroundHeader from '../../components/playground/Header.vue';
 import UserMessage from '../../components/playground/UserMessage.vue';
 import BotMessage from '../../components/playground/BotMessage.vue';
 import TypingIndicator from '../../components/playground/TypingIndicator.vue';
 
 export default {
   components: {
-    PlaygroundHeader: Header,
+    PlaygroundHeader,
     UserMessage,
     BotMessage,
     TypingIndicator,
@@ -137,3 +103,37 @@ export default {
   },
 };
 </script>
+
+<template>
+  <section class="flex flex-col w-full h-full bg-slate-25">
+    <PlaygroundHeader
+      :response-source-name="componentData.responseSourceName"
+      :response-source-path="componentData.responseSourcePath"
+    />
+    <div class="flex-1 px-8 py-4 overflow-auto">
+      <div
+        v-for="message in messages"
+        :id="`message-${message.id}`"
+        :key="message.id"
+      >
+        <UserMessage
+          v-if="message.type === 'User'"
+          :message="formatMessage(message.content)"
+        />
+        <BotMessage v-else :message="formatMessage(message.content)" />
+      </div>
+      <TypingIndicator v-if="isWaiting" />
+    </div>
+    <div class="w-full px-8 py-6">
+      <textarea
+        ref="messageInput"
+        v-model="messageContent"
+        :rows="4"
+        class="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border !outline-2 border-slate-100 focus:ring-woot-500 focus:border-woot-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-woot-500 dark:focus:border-woot-500"
+        placeholder="Type a message... [CMD/CTRL + Enter to send]"
+        autofocus
+        autocomplete="off"
+      />
+    </div>
+  </section>
+</template>

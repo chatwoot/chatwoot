@@ -1,3 +1,88 @@
+<script>
+import { dynamicTime } from 'shared/helpers/timeHelper';
+import portalMixin from '../mixins/portalMixin';
+import { frontendURL } from 'dashboard/helper/URLHelper';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+
+export default {
+  components: {
+    Thumbnail,
+  },
+  mixins: [portalMixin],
+  props: {
+    showDragIcon: {
+      type: Boolean,
+      default: false,
+    },
+    id: {
+      type: Number,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    author: {
+      type: Object,
+      default: () => {},
+    },
+    category: {
+      type: Object,
+      default: () => {},
+    },
+    views: {
+      type: Number,
+      default: 0,
+    },
+    status: {
+      type: String,
+      default: 'draft',
+      values: ['archived', 'draft', 'published'],
+    },
+    updatedAt: {
+      type: Number,
+      default: 0,
+    },
+  },
+
+  computed: {
+    lastUpdatedAt() {
+      return dynamicTime(this.updatedAt);
+    },
+    formattedViewCount() {
+      return Number(this.views || 0).toLocaleString('en');
+    },
+    readableViewCount() {
+      return new Intl.NumberFormat('en-US', {
+        notation: 'compact',
+        compactDisplay: 'short',
+      }).format(this.views || 0);
+    },
+    articleAuthorName() {
+      return this.author?.name || '-';
+    },
+    labelColor() {
+      switch (this.status) {
+        case 'archived':
+          return 'secondary';
+        case 'draft':
+          return 'warning';
+        default:
+          return 'success';
+      }
+    },
+  },
+  methods: {
+    getCategoryRoute(categorySlug) {
+      const { portalSlug, locale } = this.$route.params;
+      return frontendURL(
+        `accounts/${this.accountId}/portals/${portalSlug}/${locale}/categories/${categorySlug}`
+      );
+    },
+  },
+};
+</script>
+
 <template>
   <div
     class="grid grid-cols-1 gap-4 px-6 py-3 my-0 -mx-4 bg-white border-b text-slate-700 dark:text-slate-100 last:border-b-0 dark:bg-slate-900 lg:grid-cols-12 border-slate-50 dark:border-slate-800"
@@ -80,89 +165,3 @@
     </span>
   </div>
 </template>
-
-<script>
-import { dynamicTime } from 'shared/helpers/timeHelper';
-import portalMixin from '../mixins/portalMixin';
-import { frontendURL } from 'dashboard/helper/URLHelper';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-
-export default {
-  components: {
-    Thumbnail,
-  },
-  mixins: [portalMixin],
-  props: {
-    showDragIcon: {
-      type: Boolean,
-      default: false,
-    },
-    id: {
-      type: Number,
-      required: true,
-    },
-    title: {
-      type: String,
-      default: '',
-      required: true,
-    },
-    author: {
-      type: Object,
-      default: () => {},
-    },
-    category: {
-      type: Object,
-      default: () => {},
-    },
-    views: {
-      type: Number,
-      default: 0,
-    },
-    status: {
-      type: String,
-      default: 'draft',
-      values: ['archived', 'draft', 'published'],
-    },
-    updatedAt: {
-      type: Number,
-      default: 0,
-    },
-  },
-
-  computed: {
-    lastUpdatedAt() {
-      return dynamicTime(this.updatedAt);
-    },
-    formattedViewCount() {
-      return Number(this.views || 0).toLocaleString('en');
-    },
-    readableViewCount() {
-      return new Intl.NumberFormat('en-US', {
-        notation: 'compact',
-        compactDisplay: 'short',
-      }).format(this.views || 0);
-    },
-    articleAuthorName() {
-      return this.author?.name || '-';
-    },
-    labelColor() {
-      switch (this.status) {
-        case 'archived':
-          return 'secondary';
-        case 'draft':
-          return 'warning';
-        default:
-          return 'success';
-      }
-    },
-  },
-  methods: {
-    getCategoryRoute(categorySlug) {
-      const { portalSlug, locale } = this.$route.params;
-      return frontendURL(
-        `accounts/${this.accountId}/portals/${portalSlug}/${locale}/categories/${categorySlug}`
-      );
-    },
-  },
-};
-</script>

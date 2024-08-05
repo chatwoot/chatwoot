@@ -1,15 +1,3 @@
-<template>
-  <button
-    class="px-1.5 py-0.5 rounded-md text-slate-500 bg-slate-50 dark:bg-slate-900 opacity-60 hover:opacity-100 cursor-pointer flex items-center gap-1.5"
-    @click="navigateTo(replyTo.id)"
-  >
-    <fluent-icon icon="arrow-reply" size="12" class="flex-shrink-0" />
-    <div class="truncate max-w-[8rem]">
-      {{ replyTo.content || replyToAttachment }}
-    </div>
-  </button>
-</template>
-
 <script>
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 
@@ -58,3 +46,15 @@ export default {
   },
 };
 </script>
+
+<template>
+  <button
+    class="px-1.5 py-0.5 rounded-md text-slate-500 bg-slate-50 dark:bg-slate-900 opacity-60 hover:opacity-100 cursor-pointer flex items-center gap-1.5"
+    @click="navigateTo(replyTo.id)"
+  >
+    <FluentIcon icon="arrow-reply" size="12" class="flex-shrink-0" />
+    <div class="truncate max-w-[8rem]">
+      {{ replyTo.content || replyToAttachment }}
+    </div>
+  </button>
+</template>

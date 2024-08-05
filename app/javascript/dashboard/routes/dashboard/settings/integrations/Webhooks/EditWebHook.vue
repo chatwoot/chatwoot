@@ -1,18 +1,3 @@
-<template>
-  <div class="flex flex-col h-auto overflow-auto">
-    <woot-modal-header
-      :header-title="$t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.TITLE')"
-    />
-    <webhook-form
-      :value="value"
-      :is-submitting="uiFlags.updatingItem"
-      :submit-label="$t('INTEGRATION_SETTINGS.WEBHOOK.FORM.EDIT_SUBMIT')"
-      @submit="onSubmit"
-      @cancel="onClose"
-    />
-  </div>
-</template>
-
 <script>
 import { useAlert } from 'dashboard/composables';
 import { mapGetters } from 'vuex';
@@ -58,3 +43,18 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="flex flex-col h-auto overflow-auto">
+    <woot-modal-header
+      :header-title="$t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.TITLE')"
+    />
+    <WebhookForm
+      :value="value"
+      :is-submitting="uiFlags.updatingItem"
+      :submit-label="$t('INTEGRATION_SETTINGS.WEBHOOK.FORM.EDIT_SUBMIT')"
+      @submit="onSubmit"
+      @cancel="onClose"
+    />
+  </div>
+</template>

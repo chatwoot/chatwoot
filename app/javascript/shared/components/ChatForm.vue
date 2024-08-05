@@ -1,3 +1,82 @@
+<script>
+import { mapGetters } from 'vuex';
+import { getContrastingTextColor } from '@chatwoot/utils';
+import darkModeMixin from 'widget/mixins/darkModeMixin';
+
+export default {
+  mixins: [darkModeMixin],
+  props: {
+    buttonLabel: {
+      type: String,
+      default: '',
+    },
+    items: {
+      type: Array,
+      default: () => [],
+    },
+    submittedValues: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  data() {
+    return {
+      formValues: {},
+      hasSubmitted: false,
+    };
+  },
+  computed: {
+    ...mapGetters({
+      widgetColor: 'appConfig/getWidgetColor',
+    }),
+    textColor() {
+      return getContrastingTextColor(this.widgetColor);
+    },
+    inputColor() {
+      return `${this.$dm('bg-white', 'dark:bg-slate-600')}
+        ${this.$dm('text-black-900', 'dark:text-slate-50')}`;
+    },
+    isFormValid() {
+      return this.items.reduce((acc, { name }) => {
+        return !!this.formValues[name] && acc;
+      }, true);
+    },
+  },
+  mounted() {
+    if (this.submittedValues.length) {
+      this.updateFormValues();
+    } else {
+      this.setFormDefaults();
+    }
+  },
+  methods: {
+    onSubmitClick() {
+      this.hasSubmitted = true;
+    },
+    onSubmit() {
+      if (!this.isFormValid) {
+        return;
+      }
+      this.$emit('submit', this.formValues);
+    },
+    buildFormObject(formObjectArray) {
+      return formObjectArray.reduce((acc, obj) => {
+        return {
+          ...acc,
+          [obj.name]: obj.value || obj.default,
+        };
+      }, {});
+    },
+    updateFormValues() {
+      this.formValues = this.buildFormObject(this.submittedValues);
+    },
+    setFormDefaults() {
+      this.formValues = this.buildFormObject(this.items);
+    },
+  },
+};
+</script>
+
 <template>
   <div
     class="form chat-bubble agent"
@@ -83,85 +162,6 @@
     </form>
   </div>
 </template>
-
-<script>
-import { mapGetters } from 'vuex';
-import { getContrastingTextColor } from '@chatwoot/utils';
-import darkModeMixin from 'widget/mixins/darkModeMixin';
-
-export default {
-  mixins: [darkModeMixin],
-  props: {
-    buttonLabel: {
-      type: String,
-      default: '',
-    },
-    items: {
-      type: Array,
-      default: () => [],
-    },
-    submittedValues: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  data() {
-    return {
-      formValues: {},
-      hasSubmitted: false,
-    };
-  },
-  computed: {
-    ...mapGetters({
-      widgetColor: 'appConfig/getWidgetColor',
-    }),
-    textColor() {
-      return getContrastingTextColor(this.widgetColor);
-    },
-    inputColor() {
-      return `${this.$dm('bg-white', 'dark:bg-slate-600')}
-        ${this.$dm('text-black-900', 'dark:text-slate-50')}`;
-    },
-    isFormValid() {
-      return this.items.reduce((acc, { name }) => {
-        return !!this.formValues[name] && acc;
-      }, true);
-    },
-  },
-  mounted() {
-    if (this.submittedValues.length) {
-      this.updateFormValues();
-    } else {
-      this.setFormDefaults();
-    }
-  },
-  methods: {
-    onSubmitClick() {
-      this.hasSubmitted = true;
-    },
-    onSubmit() {
-      if (!this.isFormValid) {
-        return;
-      }
-      this.$emit('submit', this.formValues);
-    },
-    buildFormObject(formObjectArray) {
-      return formObjectArray.reduce((acc, obj) => {
-        return {
-          ...acc,
-          [obj.name]: obj.value || obj.default,
-        };
-      }, {});
-    },
-    updateFormValues() {
-      this.formValues = this.buildFormObject(this.submittedValues);
-    },
-    setFormDefaults() {
-      this.formValues = this.buildFormObject(this.items);
-    },
-  },
-};
-</script>
 
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';

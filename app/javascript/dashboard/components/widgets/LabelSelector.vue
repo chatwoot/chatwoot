@@ -1,34 +1,3 @@
-<template>
-  <div v-on-clickaway="closeDropdownLabel" class="label-wrap">
-    <add-label @add="toggleLabels" />
-    <woot-label
-      v-for="label in savedLabels"
-      :key="label.id"
-      :title="label.title"
-      :description="label.description"
-      :show-close="true"
-      :color="label.color"
-      variant="smooth"
-      @click="removeItem"
-    />
-    <div class="dropdown-wrap">
-      <div
-        :class="{ 'dropdown-pane--open': showSearchDropdownLabel }"
-        class="dropdown-pane"
-      >
-        <label-dropdown
-          v-if="showSearchDropdownLabel"
-          :account-labels="allLabels"
-          :selected-labels="selectedLabels"
-          :allow-creation="isAdmin"
-          @add="addItem"
-          @remove="removeItem"
-        />
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
 import AddLabel from 'shared/components/ui/dropdown/AddLabel.vue';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
@@ -106,6 +75,37 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div v-on-clickaway="closeDropdownLabel" class="label-wrap">
+    <AddLabel @add="toggleLabels" />
+    <woot-label
+      v-for="label in savedLabels"
+      :key="label.id"
+      :title="label.title"
+      :description="label.description"
+      show-close
+      :color="label.color"
+      variant="smooth"
+      @click="removeItem"
+    />
+    <div class="dropdown-wrap">
+      <div
+        :class="{ 'dropdown-pane--open': showSearchDropdownLabel }"
+        class="dropdown-pane"
+      >
+        <LabelDropdown
+          v-if="showSearchDropdownLabel"
+          :account-labels="allLabels"
+          :selected-labels="selectedLabels"
+          :allow-creation="isAdmin"
+          @add="addItem"
+          @remove="removeItem"
+        />
+      </div>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .title-icon {

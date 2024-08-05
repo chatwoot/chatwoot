@@ -1,55 +1,3 @@
-<template>
-  <div class="flex flex-col justify-between gap-3 mb-4 md:flex-row">
-    <div
-      class="w-full grid gap-y-2 gap-x-1.5 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]"
-    >
-      <reports-filters-date-range @on-range-change="onDateRangeChange" />
-      <woot-date-range-picker
-        v-if="isDateRangeSelected"
-        show-range
-        class="no-margin auto-width"
-        :value="customDateRange"
-        :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
-        :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
-        @change="onCustomDateRangeChange"
-      />
-      <reports-filters-date-group-by
-        v-if="showGroupByFilter && isGroupByPossible"
-        :valid-group-options="validGroupOptions"
-        :selected-option="selectedGroupByFilter"
-        @on-grouping-change="onGroupingChange"
-      />
-      <reports-filters-agents
-        v-if="showAgentsFilter"
-        @agents-filter-selection="handleAgentsFilterSelection"
-      />
-      <reports-filters-labels
-        v-if="showLabelsFilter"
-        @labels-filter-selection="handleLabelsFilterSelection"
-      />
-      <reports-filters-teams
-        v-if="showTeamFilter"
-        @team-filter-selection="handleTeamFilterSelection"
-      />
-      <reports-filters-inboxes
-        v-if="showInboxFilter"
-        @inbox-filter-selection="handleInboxFilterSelection"
-      />
-      <reports-filters-ratings
-        v-if="showRatingFilter"
-        @rating-filter-selection="handleRatingFilterSelection"
-      />
-    </div>
-    <div v-if="showBusinessHoursSwitch" class="flex items-center">
-      <span class="mx-2 text-sm whitespace-nowrap">
-        {{ $t('REPORT.BUSINESS_HOURS') }}
-      </span>
-      <span>
-        <woot-switch v-model="businessHoursSelected" />
-      </span>
-    </div>
-  </div>
-</template>
 <script>
 import WootDateRangePicker from 'dashboard/components/ui/DateRangePicker.vue';
 import ReportsFiltersDateRange from './Filters/DateRange.vue';
@@ -75,10 +23,6 @@ export default {
     ReportsFiltersRatings,
   },
   props: {
-    filterItemsList: {
-      type: Array,
-      default: () => [],
-    },
     showGroupByFilter: {
       type: Boolean,
       default: false,
@@ -182,7 +126,7 @@ export default {
         selectedTeam,
         selectedRating,
       } = this;
-      this.$emit('filter-change', {
+      this.$emit('filterChange', {
         from,
         to,
         groupBy,
@@ -231,3 +175,56 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="flex flex-col justify-between gap-3 mb-4 md:flex-row">
+    <div
+      class="w-full grid gap-y-2 gap-x-1.5 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]"
+    >
+      <ReportsFiltersDateRange @on-range-change="onDateRangeChange" />
+      <WootDateRangePicker
+        v-if="isDateRangeSelected"
+        show-range
+        class="no-margin auto-width"
+        :value="customDateRange"
+        :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
+        :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
+        @change="onCustomDateRangeChange"
+      />
+      <ReportsFiltersDateGroupBy
+        v-if="showGroupByFilter && isGroupByPossible"
+        :valid-group-options="validGroupOptions"
+        :selected-option="selectedGroupByFilter"
+        @onGroupingChange="onGroupingChange"
+      />
+      <ReportsFiltersAgents
+        v-if="showAgentsFilter"
+        @agentsFilterSelection="handleAgentsFilterSelection"
+      />
+      <ReportsFiltersLabels
+        v-if="showLabelsFilter"
+        @labelsFilterSelection="handleLabelsFilterSelection"
+      />
+      <ReportsFiltersTeams
+        v-if="showTeamFilter"
+        @teamFilterSelection="handleTeamFilterSelection"
+      />
+      <ReportsFiltersInboxes
+        v-if="showInboxFilter"
+        @inboxFilterSelection="handleInboxFilterSelection"
+      />
+      <ReportsFiltersRatings
+        v-if="showRatingFilter"
+        @ratingFilterSelection="handleRatingFilterSelection"
+      />
+    </div>
+    <div v-if="showBusinessHoursSwitch" class="flex items-center">
+      <span class="mx-2 text-sm whitespace-nowrap">
+        {{ $t('REPORT.BUSINESS_HOURS') }}
+      </span>
+      <span>
+        <woot-switch v-model="businessHoursSelected" />
+      </span>
+    </div>
+  </div>
+</template>

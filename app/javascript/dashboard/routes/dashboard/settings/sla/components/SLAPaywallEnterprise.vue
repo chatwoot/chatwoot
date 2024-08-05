@@ -17,7 +17,7 @@ const i18nKey = props.isOnChatwootCloud ? 'PAYWALL' : 'ENTERPRISE_PAYWALL';
 </script>
 
 <template>
-  <base-empty-state>
+  <BaseEmptyState>
     <div
       class="flex flex-col max-w-md px-6 py-6 bg-white border shadow dark:bg-slate-800 rounded-xl border-slate-100 dark:border-slate-900"
     >
@@ -72,5 +72,5 @@ const i18nKey = props.isOnChatwootCloud ? 'PAYWALL' : 'ENTERPRISE_PAYWALL';
         </a>
       </template>
     </div>
-  </base-empty-state>
+  </BaseEmptyState>
 </template>

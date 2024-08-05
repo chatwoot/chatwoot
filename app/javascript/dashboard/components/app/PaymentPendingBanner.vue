@@ -1,14 +1,3 @@
-<template>
-  <banner
-    v-if="shouldShowBanner"
-    color-scheme="alert"
-    :banner-message="bannerMessage"
-    :action-button-label="actionButtonMessage"
-    has-action-button
-    @click="routeToBilling"
-  />
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import { useAdmin } from 'dashboard/composables/useAdmin';
@@ -86,3 +75,14 @@ export default {
   },
 };
 </script>
+
+<template>
+  <Banner
+    v-if="shouldShowBanner"
+    color-scheme="alert"
+    :banner-message="bannerMessage"
+    :action-button-label="actionButtonMessage"
+    has-action-button
+    @click="routeToBilling"
+  />
+</template>

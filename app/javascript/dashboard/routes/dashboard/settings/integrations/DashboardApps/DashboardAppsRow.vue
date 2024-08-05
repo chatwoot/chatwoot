@@ -10,17 +10,17 @@ defineEmits(['edit', 'delete']);
 </script>
 
 <template>
-  <tr class="py-1 max-w-full">
+  <tr class="max-w-full py-1">
     <td
       class="py-4 pr-4 text-sm w-40 max-w-[10rem] truncate"
       :title="app.title"
     >
       {{ app.title }}
     </td>
-    <td class="py-4 pr-4 text-sm max-w-lg truncate" :title="app.content[0].url">
+    <td class="max-w-lg py-4 pr-4 text-sm truncate" :title="app.content[0].url">
       {{ app.content[0].url }}
     </td>
-    <td class="py-4 pr-4 text-sm flex gap-2 sm:pr-0">
+    <td class="flex gap-2 py-4 pr-4 text-sm sm:pr-0">
       <woot-button
         v-tooltip.top="
           $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.EDIT_TOOLTIP')

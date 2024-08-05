@@ -1,49 +1,3 @@
-<template>
-  <div ref="editorRoot" class="relative editor-root">
-    <tag-agents
-      v-if="showUserMentions && isPrivate"
-      :search-key="mentionSearchKey"
-      @click="insertMentionNode"
-    />
-    <canned-response
-      v-if="shouldShowCannedResponses"
-      :search-key="cannedSearchTerm"
-      @click="insertCannedResponse"
-    />
-    <variable-list
-      v-if="shouldShowVariables"
-      :search-key="variableSearchTerm"
-      @click="insertVariable"
-    />
-    <input
-      ref="imageUpload"
-      type="file"
-      accept="image/png, image/jpeg, image/jpg, image/gif, image/webp"
-      hidden
-      @change="onFileChange"
-    />
-    <div ref="editor" />
-    <div
-      v-show="isImageNodeSelected && showImageResizeToolbar"
-      class="absolute shadow-md rounded-[4px] flex gap-1 py-1 px-1 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-50"
-      :style="{
-        top: toolbarPosition.top,
-        left: toolbarPosition.left,
-      }"
-    >
-      <button
-        v-for="size in sizes"
-        :key="size.name"
-        class="text-xs font-medium rounded-[4px] border border-solid border-slate-200 dark:border-slate-600 px-1.5 py-0.5 hover:bg-slate-100 dark:hover:bg-slate-800"
-        @click="setURLWithQueryAndImageSize(size)"
-      >
-        {{ size.name }}
-      </button>
-    </div>
-    <slot name="footer" />
-  </div>
-</template>
-
 <script>
 import {
   messageSchema,
@@ -155,10 +109,10 @@ export default {
     return {
       typingIndicator: createTypingIndicator(
         () => {
-          this.$emit('typing-on');
+          this.$emit('typingOn');
         },
         () => {
-          this.$emit('typing-off');
+          this.$emit('typingOff');
         },
         TYPING_INDICATOR_IDLE_TIME
       ),
@@ -298,13 +252,13 @@ export default {
   },
   watch: {
     showUserMentions(updatedValue) {
-      this.$emit('toggle-user-mention', this.isPrivate && updatedValue);
+      this.$emit('toggleUserMention', this.isPrivate && updatedValue);
     },
     showCannedMenu(updatedValue) {
-      this.$emit('toggle-canned-menu', !this.isPrivate && updatedValue);
+      this.$emit('toggleCannedMenu', !this.isPrivate && updatedValue);
     },
     showVariables(updatedValue) {
-      this.$emit('toggle-variables-menu', !this.isPrivate && updatedValue);
+      this.$emit('toggleVariablesMenu', !this.isPrivate && updatedValue);
     },
     value(newVal = '') {
       if (newVal !== this.contentFromEditor) {
@@ -333,7 +287,7 @@ export default {
           this.state = this.editorView.state.apply(tr);
           this.editorView.updateState(this.state);
           this.emitOnChange();
-          this.$emit('clear-selection');
+          this.$emit('clearSelection');
         }
       }
       return null;
@@ -727,6 +681,52 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div ref="editorRoot" class="relative editor-root">
+    <TagAgents
+      v-if="showUserMentions && isPrivate"
+      :search-key="mentionSearchKey"
+      @click="insertMentionNode"
+    />
+    <CannedResponse
+      v-if="shouldShowCannedResponses"
+      :search-key="cannedSearchTerm"
+      @click="insertCannedResponse"
+    />
+    <VariableList
+      v-if="shouldShowVariables"
+      :search-key="variableSearchTerm"
+      @click="insertVariable"
+    />
+    <input
+      ref="imageUpload"
+      type="file"
+      accept="image/png, image/jpeg, image/jpg, image/gif, image/webp"
+      hidden
+      @change="onFileChange"
+    />
+    <div ref="editor" />
+    <div
+      v-show="isImageNodeSelected && showImageResizeToolbar"
+      class="absolute shadow-md rounded-[4px] flex gap-1 py-1 px-1 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-50"
+      :style="{
+        top: toolbarPosition.top,
+        left: toolbarPosition.left,
+      }"
+    >
+      <button
+        v-for="size in sizes"
+        :key="size.name"
+        class="text-xs font-medium rounded-[4px] border border-solid border-slate-200 dark:border-slate-600 px-1.5 py-0.5 hover:bg-slate-100 dark:hover:bg-slate-800"
+        @click="setURLWithQueryAndImageSize(size)"
+      >
+        {{ size.name }}
+      </button>
+    </div>
+    <slot name="footer" />
+  </div>
+</template>
 
 <style lang="scss">
 @import '~@chatwoot/prosemirror-schema/src/styles/base.scss';

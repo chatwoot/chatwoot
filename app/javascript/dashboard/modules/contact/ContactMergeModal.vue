@@ -1,23 +1,3 @@
-<!-- eslint-disable vue/no-mutating-props -->
-<template>
-  <woot-modal :show.sync="show" :on-close="onClose">
-    <woot-modal-header
-      :header-title="$t('MERGE_CONTACTS.TITLE')"
-      :header-content="$t('MERGE_CONTACTS.DESCRIPTION')"
-    />
-
-    <merge-contact
-      :primary-contact="primaryContact"
-      :is-searching="isSearching"
-      :is-merging="uiFlags.isMerging"
-      :search-results="searchResults"
-      @search="onContactSearch"
-      @cancel="onClose"
-      @submit="onMergeContacts"
-    />
-  </woot-modal>
-</template>
-
 <script>
 import { useAlert } from 'dashboard/composables';
 import MergeContact from 'dashboard/modules/contact/components/MergeContact.vue';
@@ -88,4 +68,23 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped></style>
+
+<!-- eslint-disable vue/no-mutating-props -->
+<template>
+  <woot-modal :show.sync="show" :on-close="onClose">
+    <woot-modal-header
+      :header-title="$t('MERGE_CONTACTS.TITLE')"
+      :header-content="$t('MERGE_CONTACTS.DESCRIPTION')"
+    />
+
+    <MergeContact
+      :primary-contact="primaryContact"
+      :is-searching="isSearching"
+      :is-merging="uiFlags.isMerging"
+      :search-results="searchResults"
+      @search="onContactSearch"
+      @cancel="onClose"
+      @submit="onMergeContacts"
+    />
+  </woot-modal>
+</template>
