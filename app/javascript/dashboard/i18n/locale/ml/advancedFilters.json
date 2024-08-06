@@ -18,6 +18,7 @@
       "AND": "ഒപ്പം",
       "OR": "അഥവാ"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "തുല്യമാണ്",
       "not_equal_to": "തുല്യമല്ല",
