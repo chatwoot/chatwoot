@@ -142,7 +142,8 @@
       "MSG_INPUT": "MAIUSC + INVIO per la nuova linea. Inizia con '/' per selezionare una risposta predefinita.",
       "PRIVATE_MSG_INPUT": "MAIUSC + INVIO per nuova linea. Questo sarà visibile solo agli agenti",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "La firma del messaggio non è configurata, configurala nelle impostazioni del profilo.",
-      "CLICK_HERE": "Clicca qui per aggiornare"
+      "CLICK_HERE": "Clicca qui per aggiornare",
+      "WHATSAPP_TEMPLATES": "Modelli Whatsapp"
     },
     "REPLYBOX": {
       "REPLY": "Rispondi",
