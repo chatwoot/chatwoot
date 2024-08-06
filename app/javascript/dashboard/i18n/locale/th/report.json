@@ -481,7 +481,8 @@
       "HEADER": "Conversation Traffic",
       "NO_CONVERSATIONS": "No conversations",
       "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations"
+      "CONVERSATIONS": "%{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "การสนทนาที่พนักงานดูแล",
@@ -536,6 +537,7 @@
       "LABELS": "ป้ายกำกับ",
       "TEAMS": "ทีม"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",
