@@ -42,7 +42,7 @@ const closeDelete = () => {
 };
 
 const confirmDeletion = () => {
-  deleteTeam(selectedTeam);
+  deleteTeam(selectedTeam.value);
   closeDelete();
 };
 
