@@ -481,7 +481,8 @@
       "HEADER": "Gesprächsprotokoll",
       "NO_CONVERSATIONS": "Keine Konversation",
       "CONVERSATION": "%{count} Konversation",
-      "CONVERSATIONS": "%{count} Konversationen"
+      "CONVERSATIONS": "%{count} Konversationen",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Konversationen von Agenten",
@@ -536,6 +537,7 @@
       "LABELS": "Label",
       "TEAMS": "Team"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",
