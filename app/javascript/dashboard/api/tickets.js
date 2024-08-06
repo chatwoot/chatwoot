@@ -19,6 +19,10 @@ export class TicketsAPI extends CacheEnabledApiClient {
   getConversationTickets(conversationId) {
     return axios.get(`${this.url}/conversations/${conversationId}`);
   }
+
+  assign(ticketId, userId) {
+    return axios.put(`${this.url}/${ticketId}/assign/${userId}`);
+  }
 }
 
 export default new TicketsAPI();
