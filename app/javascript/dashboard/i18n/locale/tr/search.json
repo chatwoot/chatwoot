@@ -11,6 +11,7 @@
       "CONVERSATIONS": "Konuşmalar",
       "MESSAGES": "Mesajlar"
     },
+    "SEARCHING_DATA": "Aranıyor",
     "EMPTY_STATE": "%{query} sorgusunda hiç bir %{item} bulunamadı",
     "EMPTY_STATE_FULL": "%{query} sorgusu için hiç bir sonuç bulunamadı",
     "PLACEHOLDER_KEYBINDING": "odaklanmak için / basın",
