@@ -7,6 +7,7 @@
     "GO_BACK_LABEL": "Go back",
     "ASSIGN_LABEL": "할당하다",
     "YES": "예",
+    "SEARCH_INPUT_PLACEHOLDER": "검색",
     "ASSIGN_AGENT_TOOLTIP": "Assign agent",
     "ASSIGN_TEAM_TOOLTIP": "Assign team",
     "ASSIGN_SUCCESFUL": "Conversations assigned successfully.",
