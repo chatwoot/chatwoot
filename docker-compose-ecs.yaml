@@ -1,19 +1,13 @@
+version: '3'
+
 services:
-  base: &base
+  rails:
     image: joaonasser/chatfy:latest
     env_file: .env
-    command: irb
-    tty: true
-    stdin_open: true
-    volumes:
-      - /data/storage:/app/storage
-
-  rails:
-    <<: *base
     ports:
       - '80:3000'
     environment:
-      - EXECJS_RUNTIME:Disabled
+      - EXECJS_RUNTIME=Disabled
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
@@ -29,10 +23,12 @@ services:
         '-b',
         '0.0.0.0'
       ]
-    restart: always
+    volumes:
+      - /data/storage:/app/storage
 
   sidekiq:
-    <<: *base
+    image: joaonasser/chatfy:latest
+    env_file: .env
     environment:
       - NODE_ENV=production
       - RAILS_ENV=production
@@ -45,4 +41,5 @@ services:
         '-C',
         'config/sidekiq.yml'
       ]
-    restart: always
+    volumes:
+      - /data/storage:/app/storage
