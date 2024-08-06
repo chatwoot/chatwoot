@@ -25,35 +25,33 @@
           @tab-change="updateAssigneeTab"
         />
       </div>
-      <div class="flex">
-        <div class="flex flex-col w-full">
-          <virtual-list
-            v-if="ticketList.length > 0"
-            ref="ticketVirtualList"
-            :data-key="'id'"
-            :data-sources="ticketList"
-            :data-component="itemComponent"
-            class="w-full overflow-auto h-5/6"
-            footer-tag="div"
-          >
-            <template #footer>
-              <div v-if="ticketListLoading.isFetching" class="text-center">
-                <span class="spinner mt-4 mb-4" />
-              </div>
-              <p v-if="showEndOfListMessage" class="text-center text-muted p-4">
-                {{ $t('TICKETS.LIST.EOF') }}
-              </p>
-              <intersection-observer
-                v-if="!showEndOfListMessage && !ticketListLoading.isFetching"
-                :options="infiniteLoaderOptions"
-                @observed="loadMoreTickets"
-              />
-            </template>
-          </virtual-list>
-          <p v-else class="text-center text-muted p-4">
-            {{ $t('TICKETS.LIST.NO_TICKETS') }}
-          </p>
-        </div>
+      <div class="flex flex-col w-full">
+        <virtual-list
+          v-if="ticketList.length > 0"
+          ref="ticketVirtualList"
+          :data-key="'id'"
+          :data-sources="ticketList"
+          :data-component="itemComponent"
+          class="w-full overflow-auto h-1/2"
+          footer-tag="div"
+        >
+          <template #footer>
+            <div v-if="ticketListLoading.isFetching" class="text-center">
+              <span class="spinner mt-4 mb-4" />
+            </div>
+            <p v-if="showEndOfListMessage" class="text-center text-muted p-4">
+              {{ $t('TICKETS.LIST.EOF') }}
+            </p>
+            <intersection-observer
+              v-if="!showEndOfListMessage && !ticketListLoading.isFetching"
+              :options="infiniteLoaderOptions"
+              @observed="loadMoreTickets"
+            />
+          </template>
+        </virtual-list>
+        <p v-else class="text-center text-muted p-4">
+          {{ $t('TICKETS.LIST.NO_TICKETS') }}
+        </p>
       </div>
     </div>
   </section>

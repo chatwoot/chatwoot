@@ -18,7 +18,8 @@
               {{ source.description }}
             </span>
             <span class="text-sm text-slate-600 dark:text-slate-300">
-              {{ $t('TICKETS.ASSIGNEE.ASSIGNED_TO') }}: {{ textAssignee }}
+              {{ $t('TICKETS.ASSIGNEE.ASSIGNED_TO') }}:
+              <strong>{{ textAssignee }}</strong>
             </span>
           </div>
 
@@ -90,12 +91,12 @@ export default {
         : Math.floor(Date.now() / 1000);
     },
     textAssignee() {
-      if (!this.source.assignee)
+      if (!this.source.assigned_to)
         return this.$t('TICKETS.ASSIGNEE_FILTER.UNASSIGNED');
-      if (this.source.assignee.id === this.currentUserId)
+      if (this.source.assigned_to.id === this.currentUserId)
         return this.$t('TICKETS.ASSIGNEE_FILTER.ME');
 
-      return this.source.assignee.name;
+      return this.source.assigned_to.name;
     },
   },
   methods: {
