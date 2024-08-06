@@ -93,7 +93,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "Você precisa ter pelo menos uma ação para salvar",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Escreva sua mensagem aqui",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Selecione o time"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Selecione o time",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Ativar regra de automação",
