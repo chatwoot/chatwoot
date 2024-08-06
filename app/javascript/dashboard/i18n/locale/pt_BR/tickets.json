@@ -2,7 +2,10 @@
   "TICKETS": {
     "TITLE": "Título do Ticket",
     "DESCRIPTION": "Descrição do Ticket",
-    "ASSIGNEE": "Atribuído para",
+    "ASSIGNEE": {
+      "ASSIGNED_TO": "Atribuído para",
+      "ASSIGNEE_TO_ME": "Atribuir para mim"
+    },
     "STATUS": {
       "OPEN": "Aberto",
       "PENDING": "Pendente",

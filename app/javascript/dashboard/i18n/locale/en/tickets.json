@@ -2,7 +2,10 @@
   "TICKETS": {
     "TITLE": "Ticket Title",
     "DESCRIPTION": "Ticket Description",
-    "ASSIGNEE": "Assigned to",
+    "ASSIGNEE": {
+      "ASSIGNED_TO": "Assigned to",
+      "ASSIGNEE_TO_ME": "Assign to me"
+    },
     "STATUS": {
       "OPEN": "Open",
       "PENDING": "Pending",
