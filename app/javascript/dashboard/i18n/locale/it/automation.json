@@ -93,7 +93,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "È necessario avere almeno una azione da salvare",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Inserisci qui il tuo messaggio",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Seleziona i team"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Seleziona i team",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Attiva regola di automazione",
