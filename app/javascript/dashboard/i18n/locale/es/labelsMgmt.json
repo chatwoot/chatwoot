@@ -49,7 +49,8 @@
       "DISMISS": "Descartar",
       "ADD_SELECTED_LABELS": "Asignar etiquetas seleccionadas",
       "ADD_SELECTED_LABEL": "Añadir etiqueta seleccionada",
-      "ADD_ALL_LABELS": "Añadir todas las etiquetas"
+      "ADD_ALL_LABELS": "Añadir todas las etiquetas",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Añadir etiqueta",
