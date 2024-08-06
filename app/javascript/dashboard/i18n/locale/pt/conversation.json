@@ -142,7 +142,8 @@
       "MSG_INPUT": "Shift + enter para nova linha. Comece com '/' para selecionar uma Resposta Pronta.",
       "PRIVATE_MSG_INPUT": "Shift + Enter para a nova linha. Isto será visível apenas para Agentes",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Assinatura da mensagem não está configurada. Por favor, configure-a nas configurações do perfil.",
-      "CLICK_HERE": "Clique aqui para atualizar"
+      "CLICK_HERE": "Clique aqui para atualizar",
+      "WHATSAPP_TEMPLATES": "Template do Whatsapp"
     },
     "REPLYBOX": {
       "REPLY": "Responder",
