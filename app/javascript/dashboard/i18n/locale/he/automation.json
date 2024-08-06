@@ -93,7 +93,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "נדרשת פעולה אחת לפחות",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "הכנס כאן את ההודעה",
-      "TEAM_DROPDOWN_PLACEHOLDER": "בחר קבוצות"
+      "TEAM_DROPDOWN_PLACEHOLDER": "בחר קבוצות",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "הפעל אוטומציה",
