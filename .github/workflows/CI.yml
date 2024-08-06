@@ -1,16 +1,21 @@
-name: Pull Request checker
+name: CI Pipeline
+
 on:
   push:
     branches:
       - develop
 
 jobs:
-  build_check:
-    runs-on: ubuntu-latest
+  build-and-push:
+    runs-on: ubuntu-22.04
     steps:
-      - name: Check out repository code
+      - name: Checkout repository
         uses: actions/checkout@v2
-      
-      - name: build docker
-        id: docker_builder
-        run: docker build -t test_image .
+
+      - name: Login to DockerHub
+        run: docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" -p "${{ secrets.DOCKERHUB_PASSWORD }}"
+
+      - name: Build and Push Docker Image
+        run: |
+            docker build -t "${{ secrets.DOCKERHUB_USERNAME }}"/chatfy:latest .
+            docker push "${{ secrets.DOCKERHUB_USERNAME }}"/chatfy:latest
