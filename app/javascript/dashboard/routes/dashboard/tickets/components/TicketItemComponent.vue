@@ -18,17 +18,29 @@
               {{ source.description }}
             </span>
             <span class="text-sm text-slate-600 dark:text-slate-300">
-              {{ $t('TICKETS.ASSIGNEE') }}: {{ textAssignee }}
+              {{ $t('TICKETS.ASSIGNEE.ASSIGNED_TO') }}: {{ textAssignee }}
             </span>
           </div>
 
-          <div class="flex flex-col conversation--meta right-4 top-4">
+          <div
+            class="flex flex-col conversation--meta right-4 top-4 justify-space-between"
+          >
             <span class="ml-auto font-normal leading-4 text-black-600 text-xxs">
               <time-ago
                 :last-activity-timestamp="updatedAtTimestamp"
                 :created-at-timestamp="createdAtTimestamp"
               />
             </span>
+            <woot-button
+              v-if="!source.assigned_to"
+              class="ml-auto"
+              color-scheme="primary"
+              size="small"
+              :is-loading="ticketsUIFlags.isUpdating"
+              @click="onAssignTicket"
+            >
+              {{ $t('TICKETS.ASSIGNEE.ASSIGNEE_TO_ME') }}
+            </woot-button>
           </div>
         </div>
       </div>
@@ -60,6 +72,7 @@ export default {
   computed: {
     ...mapGetters({
       currentUserId: 'getCurrentUserID',
+      ticketsUIFlags: 'tickets/getUIFlags',
     }),
     isActiveTicket() {
       const selectedTicket = this.$store.getters.getSelectedTicket;
@@ -92,6 +105,12 @@ export default {
     openContextMenu(event) {
       event.preventDefault();
       this.$emit('context-menu-toggle', { x: event.pageX, y: event.pageY });
+    },
+    onAssignTicket() {
+      this.$store.dispatch('tickets/assign', {
+        ticketId: this.source.id,
+        assigneeId: this.currentUserId,
+      });
     },
   },
 };
