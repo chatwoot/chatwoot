@@ -13,23 +13,24 @@ json.meta do
   json.channel conversation&.inbox&.try(:channel_type)
   if conversation&.assignee&.account
     json.assignee do
-      json.partial! 'api/v1/models/agent', formats: [:json], resource: conversation.assignee
+      json.partial! 'api/v1/models/agent', formats: [:json], resource: conversation&.assignee
     end
   end
   if conversation&.team.present?
     json.team do
-      json.partial! 'api/v1/models/team', formats: [:json], resource: conversation.team
+      json.partial! 'api/v1/models/team', formats: [:json], resource: conversation&.team
     end
   end
   json.hmac_verified conversation&.contact_inbox&.hmac_verified
 end
 
 json.id conversation&.display_id
-if conversation&.messages&.where(account_id: conversation.account_id)&.last.blank?
+
+if conversation&.messages&.where(account_id: conversation&.account_id)&.last.blank?
   json.messages []
 else
   json.messages [
-    conversation.messages.where(account_id: conversation.account_id)
+    conversation.messages.where(account_id: conversation&.account_id)
                 .includes([{ attachments: [{ file_attachment: [:blob] }] }]).last.try(:push_event_data)
   ]
 end

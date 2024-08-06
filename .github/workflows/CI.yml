@@ -1,0 +1,16 @@
+name: Pull Request checker
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build_check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      
+      - name: build docker
+        id: docker_builder
+        run: docker build -t test_image .
