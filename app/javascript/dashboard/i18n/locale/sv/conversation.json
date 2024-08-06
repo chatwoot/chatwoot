@@ -142,7 +142,8 @@
       "MSG_INPUT": "Skift + Enter för ny rad. Börja med '/' för att välja en svarsmall.",
       "PRIVATE_MSG_INPUT": "Skift + Enter för ny rad. Detta kommer endast att vara synligt för agenter",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Meddelandesignaturen är inte konfigurerad. Konfigurera den i profilinställningarna.",
-      "CLICK_HERE": "Klicka här för att uppdatera"
+      "CLICK_HERE": "Klicka här för att uppdatera",
+      "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
     "REPLYBOX": {
       "REPLY": "Svara",
