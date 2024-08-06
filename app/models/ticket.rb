@@ -47,8 +47,10 @@ class Ticket < ApplicationRecord
   scope :resolved, -> { where(status: :resolved) }
   scope :unresolved, -> { where(status: :pending) }
   scope :with_agents_ids, lambda { |agent_ids|
-    where(assignee_id: agent_ids) if agent_ids.present?
+    where(assigned_to: agent_ids) if agent_ids.present?
   }
+
+  scope :assigned_to, ->(user_id) { where(assigned_to: user_id).or(where(assigned_to: nil)) }
 
   def resolution_time
     return nil unless resolved_at
