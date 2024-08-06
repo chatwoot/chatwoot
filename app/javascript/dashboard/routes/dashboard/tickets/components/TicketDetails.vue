@@ -10,34 +10,42 @@
         >
           {{ $t('TICKETS.TITLE') }} # {{ ticket.id }}
         </h1>
+
+        <more-actions-dropdown
+          :ticket-id="ticketId"
+          :current-user-id="currentUserId"
+        />
       </div>
       <div class="p-4 flex flex-col w-full">
-        <div>
-          <div class="flex justify-end gap-2">
-            <woot-button
-              v-if="!ticket.assigned_to"
-              class="button clear"
-              @click="assignToMe"
-            >
-              {{ $t('TICKETS.ASSIGNEE.ASSIGNEE_TO_ME') }}
-            </woot-button>
-            <woot-button class="button" color-scheme="primary">
-              {{ $t('TICKETS.RESOLVE') }}
-            </woot-button>
-          </div>
-        </div>
-        <div class="pt-3 flex">
-          <span class="ml-2 text-sm text-slate-600">
-            {{ $t('TICKETS.ASSIGNEE.ASSIGNED_TO') }}:
-            <strong>{{ assigneeFormatted }}</strong>
-          </span>
-        </div>
-        <div class="py-1 flex">
-          <span class="ml-2 text-sm text-slate-600">
-            {{ $t('TICKETS.DESCRIPTION') }}
-            <strong>{{ ticket.description }}</strong>
-          </span>
-        </div>
+        <woot-button class="button" color-scheme="primary">
+          {{ $t('TICKETS.RESOLVE') }}
+        </woot-button>
+        <span class="ml-2 text-sm text-slate-600">
+          {{ $t('TICKETS.ASSIGNEE.ASSIGNED_TO') }}:
+          <strong>{{ assigneeFormatted }}</strong>
+        </span>
+        <span class="ml-2 text-sm text-slate-600">
+          {{ $t('TICKETS.DESCRIPTION') }}
+          <strong>{{ ticket.description }}</strong>
+        </span>
+        <span class="ml-2 text-sm text-slate-600">
+          {{ $t(`TICKETS.STATUS.TITLE`) }}
+          <strong>{{
+            $t(`TICKETS.STATUS.${ticket.status.toUpperCase()}`)
+          }}</strong>
+        </span>
+        <span class="ml-2 text-sm text-slate-600">
+          {{ $t('TICKETS.LABELS.TITLE') }}:
+          <woot-label
+            v-for="label in ticket.labels"
+            :key="label.id"
+            :title="label.title"
+            :description="label.description"
+            :show-close="true"
+            :color="label.color"
+            variant="smooth"
+          />
+        </span>
       </div>
     </div>
   </section>
@@ -45,16 +53,19 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import MoreActionsDropdown from './MoreActionsDropdown.vue';
 
 export default {
   name: 'TicketDetails',
+  components: {
+    MoreActionsDropdown,
+  },
   props: {
     ticketId: {
       type: [Number, String],
       required: true,
     },
   },
-  data: () => ({}),
   computed: {
     ...mapGetters({
       ticket: 'tickets/getTicket',
@@ -67,14 +78,6 @@ export default {
         return this.$t('TICKETS.ASSIGNEE_FILTER.ME');
 
       return this.ticket.assigned_to.name;
-    },
-  },
-  methods: {
-    assignToMe() {
-      this.$store.dispatch('tickets/assign', {
-        ticketId: this.ticketId,
-        assigneeId: this.currentUserId,
-      });
     },
   },
 };
