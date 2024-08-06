@@ -7,6 +7,7 @@
     "GO_BACK_LABEL": "Torna",
     "ASSIGN_LABEL": "Assignar",
     "YES": "Si",
+    "SEARCH_INPUT_PLACEHOLDER": "Cercar",
     "ASSIGN_AGENT_TOOLTIP": "Assigna un agent",
     "ASSIGN_TEAM_TOOLTIP": "Assigna un equip",
     "ASSIGN_SUCCESFUL": "Les converses s'han assignat correctament.",
