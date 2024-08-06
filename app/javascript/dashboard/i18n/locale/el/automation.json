@@ -93,7 +93,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "Πρέπει να έχετε τουλάχιστον μία ενέργεια για να αποθηκεύσετε",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Γράψτε το μήνυμά σας εδώ",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Επιλογή ομάδων"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Επιλογή ομάδων",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Ενεργοποίηση Κανόνα Αυτοματισμού",
