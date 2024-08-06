@@ -18,6 +18,7 @@
       "AND": "와/과",
       "OR": "혹은"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "동일한",
       "not_equal_to": "비동일한",
