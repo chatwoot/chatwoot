@@ -381,6 +381,9 @@
       },
       "SUCCESS_MESSAGE": "تم دمج جهة الاتصال بنجاح",
       "ERROR_MESSAGE": "تعذر دمج جهات الاتصال ، حاول مرة أخرى!"
+    },
+    "DROPDOWN_ITEM": {
+      "ID": "(ID: {identifier})"
     }
   }
 }
