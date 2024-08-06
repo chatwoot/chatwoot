@@ -49,7 +49,8 @@
       "DISMISS": "Відхилити",
       "ADD_SELECTED_LABELS": "Додати вибрані мітки",
       "ADD_SELECTED_LABEL": "Додати вибрану мітку",
-      "ADD_ALL_LABELS": "Додати всі мітки"
+      "ADD_ALL_LABELS": "Додати всі мітки",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Додати мітку",
