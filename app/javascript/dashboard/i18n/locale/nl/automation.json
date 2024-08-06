@@ -93,7 +93,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "U moet tenminste één actie hebben om op te slaan",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Voer hier uw bericht in",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Teams selecteren"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Teams selecteren",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Automatiseringsregel activeren",
