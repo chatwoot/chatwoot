@@ -11,9 +11,10 @@ defineProps({
 
 const emit = defineEmits(['search', 'close']);
 
+const articleSearchHeaderRef = ref(null);
+const searchInputRef = ref(null);
 const searchQuery = ref('');
 const isInputFocused = ref(false);
-const searchInputRef = ref(null);
 
 onMounted(() => {
   searchInputRef.value.focus();
@@ -42,12 +43,18 @@ const keyboardEvents = {
       searchInputRef.value.focus();
     },
   },
+  Escape: {
+    action: () => {
+      onClose();
+    },
+    allowOnFocusedInput: true,
+  },
 };
-useKeyboardEvents(keyboardEvents, searchInputRef);
+useKeyboardEvents(keyboardEvents, articleSearchHeaderRef);
 </script>
 
 <template>
-  <div class="flex flex-col py-1">
+  <div ref="articleSearchHeaderRef" class="flex flex-col py-1">
     <div class="flex items-center justify-between py-2 mb-1">
       <h3 class="text-base text-slate-900 dark:text-slate-25">
         {{ title }}
