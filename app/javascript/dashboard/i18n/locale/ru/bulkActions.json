@@ -7,6 +7,7 @@
     "GO_BACK_LABEL": "Вернуться",
     "ASSIGN_LABEL": "Назначить",
     "YES": "Да",
+    "SEARCH_INPUT_PLACEHOLDER": "Поиск",
     "ASSIGN_AGENT_TOOLTIP": "Назначить агента",
     "ASSIGN_TEAM_TOOLTIP": "Назначить команду",
     "ASSIGN_SUCCESFUL": "Беседы успешно назначены.",
