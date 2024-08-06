@@ -93,7 +93,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "Bạn cần có ít nhất một hành động để lưu",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Viết tin nhắn ở đây",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Chọn nhóm"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Chọn nhóm",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Kích hoạt Luật Tự động hoá",
