@@ -142,7 +142,8 @@
       "MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. ابدأ بزر / للاختيار من الردود الجاهزة.",
       "PRIVATE_MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. سيكون هذا مرئياً للوكلاء فقط",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "لم يتم تكوين توقيع الرسالة، الرجاء تكوينه في إعدادات الملف الشخصي.",
-      "CLICK_HERE": "انقر هنا للتحديث"
+      "CLICK_HERE": "انقر هنا للتحديث",
+      "WHATSAPP_TEMPLATES": "قوالب Whatsapp"
     },
     "REPLYBOX": {
       "REPLY": "إضافة رد",
