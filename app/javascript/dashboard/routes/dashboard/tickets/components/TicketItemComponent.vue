@@ -3,7 +3,6 @@
     class="ticket-card"
     :class="{ active: isActiveTicket, unread: hasUnread }"
     @click="onCardClick"
-    @contextmenu="openContextMenu($event)"
   >
     <div class="ticket-details">
       <div
@@ -12,7 +11,7 @@
         <div class="flex justify-between">
           <div class="flex gap-2 ml-2 rtl:mr-2 rtl:ml-0 flex-col">
             <span class="truncate text-lg font-bold">
-              {{ source.title }}
+              {{ source.title }} # {{ source.id }}
             </span>
             <span class="truncate text-md">
               {{ source.description }}
@@ -91,14 +90,7 @@ export default {
   },
   methods: {
     onCardClick() {
-      this.$router.push({
-        name: 'ticket_show_dashboard',
-        params: { ticketId: this.source.id },
-      });
-    },
-    openContextMenu(event) {
-      event.preventDefault();
-      this.$emit('context-menu-toggle', { x: event.pageX, y: event.pageY });
+      this.$store.dispatch('tickets/get', this.source.id);
     },
   },
 };

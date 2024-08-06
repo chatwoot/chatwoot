@@ -2,7 +2,6 @@
 import { AllRoles } from '../../../featureFlags';
 import { frontendURL } from '../../../helper/URLHelper';
 
-const TicketShowView = () => import('./pages/TicketShowView.vue');
 const TicketView = () => import('./TicketView.vue');
 
 export const routes = [
@@ -11,12 +10,5 @@ export const routes = [
     name: 'tickets_dashboard',
     roles: AllRoles,
     component: TicketView,
-  },
-  {
-    path: frontendURL('accounts/:accountId/tickets/:ticketId'),
-    name: 'ticket_show_dashboard',
-    roles: AllRoles,
-    component: TicketShowView,
-    props: route => ({ ticketId: route.params.ticketId }),
   },
 ];

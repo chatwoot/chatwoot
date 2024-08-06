@@ -1,57 +1,64 @@
 <template>
   <section class="ticket-page bg-white dark:bg-slate-900">
-    <div class="flex flex-col w-full">
-      <div
-        class="flex items-center justify-between py-4 px-4 pb-3 border-b border-slate-75 dark:border-slate-700"
-      >
-        <div class="flex max-w-[85%] justify-center items-center">
-          <h1
-            class="text-xl break-words overflow-hidden whitespace-nowrap text-ellipsis text-black-900 dark:text-slate-100 mb-0"
-            title="Tickets"
+    <div class="flex flex-row w-full">
+      <div class="flex-col w-[70%]">
+        <div
+          class="flex items-center justify-between py-4 px-4 pb-3 border-b border-slate-75 dark:border-slate-700"
+        >
+          <div class="flex max-w-[85%] justify-center items-center">
+            <h1
+              class="text-xl break-words overflow-hidden whitespace-nowrap text-ellipsis text-black-900 dark:text-slate-100 mb-0"
+              title="Tickets"
+            >
+              {{ $t('TICKETS.TITLE') }}
+            </h1>
+            <span
+              class="p-1 my-0.5 mx-1 rounded-md capitalize bg-slate-50 dark:bg-slate-800 text-xxs text-slate-600 dark:text-slate-300"
+            >
+              {{ $t(`TICKETS.STATUS.OPEN`) }}
+            </span>
+          </div>
+        </div>
+        <div class="flex px-3">
+          <ticket-type-tabs
+            :tabs="assigneeTabItems"
+            :active-tab="activeAssigneeTab"
+            @tab-change="updateAssigneeTab"
+          />
+        </div>
+        <div class="flex flex-col w-full h-full">
+          <virtual-list
+            v-if="ticketList.length > 0"
+            ref="ticketVirtualList"
+            class="w-full overflow-y-scroll"
+            footer-tag="div"
+            :data-key="'id'"
+            :data-sources="ticketList"
+            :data-component="itemComponent"
           >
-            {{ $t('TICKETS.TITLE') }}
-          </h1>
-          <span
-            class="p-1 my-0.5 mx-1 rounded-md capitalize bg-slate-50 dark:bg-slate-800 text-xxs text-slate-600 dark:text-slate-300"
-          >
-            {{ $t(`TICKETS.STATUS.OPEN`) }}
-          </span>
+            <template #footer>
+              <div v-if="ticketListLoading.isFetching" class="text-center">
+                <span class="spinner mt-4 mb-4" />
+              </div>
+              <p v-if="showEndOfListMessage" class="text-center text-muted p-4">
+                {{ $t('TICKETS.LIST.EOF') }}
+              </p>
+              <intersection-observer
+                v-if="!showEndOfListMessage && !ticketListLoading.isFetching"
+                :options="infiniteLoaderOptions"
+                @observed="loadMoreTickets"
+              />
+            </template>
+          </virtual-list>
+          <p v-else class="text-center text-muted p-4">
+            {{ $t('TICKETS.LIST.NO_TICKETS') }}
+          </p>
         </div>
       </div>
-      <div class="flex px-3">
-        <ticket-type-tabs
-          :tabs="assigneeTabItems"
-          :active-tab="activeAssigneeTab"
-          @tab-change="updateAssigneeTab"
-        />
-      </div>
-      <div class="flex flex-col w-full">
-        <virtual-list
-          v-if="ticketList.length > 0"
-          ref="ticketVirtualList"
-          :data-key="'id'"
-          :data-sources="ticketList"
-          :data-component="itemComponent"
-          class="w-full overflow-auto h-1/2"
-          footer-tag="div"
-        >
-          <template #footer>
-            <div v-if="ticketListLoading.isFetching" class="text-center">
-              <span class="spinner mt-4 mb-4" />
-            </div>
-            <p v-if="showEndOfListMessage" class="text-center text-muted p-4">
-              {{ $t('TICKETS.LIST.EOF') }}
-            </p>
-            <intersection-observer
-              v-if="!showEndOfListMessage && !ticketListLoading.isFetching"
-              :options="infiniteLoaderOptions"
-              @observed="loadMoreTickets"
-            />
-          </template>
-        </virtual-list>
-        <p v-else class="text-center text-muted p-4">
-          {{ $t('TICKETS.LIST.NO_TICKETS') }}
-        </p>
+      <div
+        class="flex flex-col w-[30%] border-l border-slate-50 dark:border-slate-800"
+      >
+        <ticket-details :ticket-id="selectedTicketId" />
       </div>
     </div>
   </section>
@@ -63,6 +70,7 @@ import VirtualList from 'vue-virtual-scroll-list';
 import TicketTypeTabs from './components/TicketTypeTabs.vue';
 import TicketItemComponent from './components/TicketItemComponent.vue';
 import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue';
+import TicketDetails from './components/TicketDetails.vue';
 
 export default {
   name: 'TicketView',
@@ -70,6 +78,7 @@ export default {
     // eslint-disable-next-line vue/no-unused-components
     TicketItemComponent,
     TicketTypeTabs,
+    TicketDetails,
     IntersectionObserver,
     VirtualList,
   },
@@ -82,7 +91,7 @@ export default {
         root: null,
         rootMargin: '100px 0px 100px 0px',
       },
-      selectedTickets: [],
+      selectedTicketId: null,
     };
   },
   computed: {
@@ -146,9 +155,6 @@ export default {
         console.log('load more');
         //   this.fetchTickets();
       }
-    },
-    isTicketSelected(ticketId) {
-      return this.selectedTickets.includes(ticketId);
     },
   },
 };

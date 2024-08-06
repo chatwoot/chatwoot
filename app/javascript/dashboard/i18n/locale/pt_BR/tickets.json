@@ -2,6 +2,7 @@
   "TICKETS": {
     "TITLE": "Ticket",
     "DESCRIPTION": "Descrição do Ticket",
+    "RESOLVE": "Resolver",
     "ASSIGNEE": {
       "ASSIGNED_TO": "Atribuído para",
       "ASSIGNEE_TO_ME": "Atribuir para mim"

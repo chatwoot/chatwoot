@@ -2,6 +2,7 @@
   "TICKETS": {
     "TITLE": "Título do Ticket",
     "DESCRIPTION": "Descrição do Ticket",
+    "RESOLVE": "Resolver",
     "STATUS": {
       "OPEN": "Aberto",
       "PENDING": "Pendente",

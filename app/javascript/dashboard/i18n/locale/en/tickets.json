@@ -2,6 +2,7 @@
   "TICKETS": {
     "TITLE": "Ticket",
     "DESCRIPTION": "Ticket Description",
+    "RESOLVE": "Resolve",
     "ASSIGNEE": {
       "ASSIGNED_TO": "Assigned to",
       "ASSIGNEE_TO_ME": "Assign to me"

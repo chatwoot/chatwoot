@@ -3,7 +3,8 @@ import * as types from '../mutation-types';
 import TicketsAPI from '../../api/tickets';
 
 const state = {
-  record: [],
+  records: [],
+  selectedTicket: null,
   uiFlags: {
     isCreating: false,
     isFetching: false,
@@ -27,19 +28,22 @@ export const getters = {
     return $state.uiFlagsPage;
   },
   getTickets($state) {
-    return $state.record;
+    return $state.records;
   },
   getStats($state) {
     return $state.stats;
+  },
+  getTicket: $state => {
+    return $state.selectedTicket;
   },
 };
 
 export const actions = {
   get: async ({ commit }, ticketId) => {
-    commit(types.default.SET_TICKETS_UI_FLAG, { isFetching: true });
     try {
-      const response = await TicketsAPI.get(ticketId);
-      commit(types.default.SET_TICKETS, response.data.payload);
+      const response = await TicketsAPI.show(ticketId);
+
+      commit(types.default.SET_TICKET, response.data);
       commit(types.default.SET_TICKETS_UI_FLAG, {
         isFetching: false,
       });
@@ -150,12 +154,15 @@ export const mutations = {
     };
   },
   [types.default.SET_TICKETS]: ($state, data) => {
-    Vue.set($state, 'record', data);
+    Vue.set($state, 'records', data);
+  },
+  [types.default.SET_TICKET]: ($state, data) => {
+    Vue.set($state, 'selectedTicket', data);
   },
   [types.default.UPDATE_TICKET]: ($state, data) => {
-    const index = $state.record.findIndex(ticket => ticket.id === data.id);
+    const index = $state.records.findIndex(ticket => ticket.id === data.id);
     if (index !== -1) {
-      Vue.set($state.record, index, data);
+      Vue.set($state.records, index, data);
     }
   },
   [types.default.SET_TICKETS_STATS]($state, data) {
