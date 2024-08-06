@@ -102,15 +102,27 @@ export const actions = {
       throw error;
     }
   },
-  update: async ({ commit }, { selectedEmailFlags, selectedPushFlags }) => {
+  update: async ({ commit }, { ticketId, body }) => {
     commit(types.default.SET_TICKETS_UI_FLAG, { isUpdating: true });
     try {
-      const response = await TicketsAPI.update({
-        notification_settings: {
-          selected_email_flags: selectedEmailFlags,
-          selected_push_flags: selectedPushFlags,
-        },
+      const response = await TicketsAPI.update(ticketId, {
+        body,
       });
+      commit(types.default.SET_TICKETS, response.data);
+      commit(types.default.SET_TICKETS_UI_FLAG, {
+        isUpdating: false,
+      });
+    } catch (error) {
+      commit(types.default.SET_TICKETS_UI_FLAG, {
+        isUpdating: false,
+      });
+      throw error;
+    }
+  },
+  assign: async ({ commit }, { ticketId, assigneeId }) => {
+    commit(types.default.SET_TICKETS_UI_FLAG, { isUpdating: true });
+    try {
+      const response = await TicketsAPI.assign(ticketId, assigneeId);
       commit(types.default.SET_TICKETS, response.data);
       commit(types.default.SET_TICKETS_UI_FLAG, {
         isUpdating: false,
