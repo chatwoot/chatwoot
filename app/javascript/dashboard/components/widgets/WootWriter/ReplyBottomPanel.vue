@@ -1,8 +1,9 @@
 <script>
+import { ref, watchEffect, computed } from 'vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import FileUpload from 'vue-upload-component';
 import * as ActiveStorage from 'activestorage';
-import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import {
@@ -18,7 +19,7 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'ReplyBottomPanel',
   components: { FileUpload, VideoCallButton, AIAssistanceButton },
-  mixins: [keyboardEventListenerMixins, inboxMixin],
+  mixins: [inboxMixin],
   props: {
     mode: {
       type: String,
@@ -115,10 +116,35 @@ export default {
   setup() {
     const { setSignatureFlagForInbox, fetchSignatureFlagFromUISettings } =
       useUISettings();
+    const uploadRef = ref(null);
+    // TODO: This is really hacky, we need to replace the file picker component with
+    // a custom one, where the logic and the component markup is isolated.
+    // Once we have the custom component, we can remove the hacky logic below.
+    const uploadTriggerButton = computed(() => {
+      if (uploadRef.value) {
+        return uploadRef.value.$children[1].$el;
+      }
+
+      return null;
+    });
+
+    const keyboardEvents = {
+      'Alt+KeyA': {
+        action: () => {
+          uploadTriggerButton.value.click();
+        },
+        allowOnFocusedInput: true,
+      },
+    };
+
+    watchEffect(() => {
+      useKeyboardEvents(keyboardEvents, uploadTriggerButton);
+    });
 
     return {
       setSignatureFlagForInbox,
       fetchSignatureFlagFromUISettings,
+      uploadRef,
     };
   },
   computed: {
@@ -216,16 +242,6 @@ export default {
     ActiveStorage.start();
   },
   methods: {
-    getKeyboardEvents() {
-      return {
-        'Alt+KeyA': {
-          action: () => {
-            this.$refs.upload.$children[1].$el.click();
-          },
-          allowOnFocusedInput: true,
-        },
-      };
-    },
     toggleMessageSignature() {
       this.setSignatureFlagForInbox(this.channelType, !this.sendWithSignature);
     },
@@ -253,7 +269,7 @@ export default {
         @click="toggleEmojiPicker"
       />
       <FileUpload
-        ref="upload"
+        ref="uploadRef"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
         input-id="conversationAttachment"
         :size="4096 * 4096"
@@ -342,7 +358,7 @@ export default {
       />
       <transition name="modal-fade">
         <div
-          v-show="$refs.upload && $refs.upload.dropActive"
+          v-show="$refs.uploadRef && $refs.uploadRef.dropActive"
           class="fixed top-0 bottom-0 left-0 right-0 z-20 flex flex-col items-center justify-center w-full h-full gap-2 text-slate-900 dark:text-slate-50 bg-modal-backdrop-light dark:bg-modal-backdrop-dark"
         >
           <fluent-icon icon="cloud-backup" size="40" />
