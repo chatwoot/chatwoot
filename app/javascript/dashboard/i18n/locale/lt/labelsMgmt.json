@@ -49,7 +49,8 @@
       "DISMISS": "Atsisakyti",
       "ADD_SELECTED_LABELS": "Pridėti pažymėtas etiketes",
       "ADD_SELECTED_LABEL": "Pridėti pažymėtą etiketę",
-      "ADD_ALL_LABELS": "Pridėti visas etiketes"
+      "ADD_ALL_LABELS": "Pridėti visas etiketes",
+      "SUGGESTED_LABELS": "Suggested labels"
     },
     "ADD": {
       "TITLE": "Pridėti Etiketę",
