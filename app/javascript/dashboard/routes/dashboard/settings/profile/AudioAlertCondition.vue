@@ -1,3 +1,21 @@
+<script setup>
+import CheckBox from 'v3/components/Form/CheckBox.vue';
+defineProps({
+  label: {
+    type: String,
+    required: true,
+  },
+  items: {
+    type: Array,
+    required: true,
+  },
+});
+const emit = defineEmits(['change']);
+const onChange = (id, value) => {
+  emit('change', id, value);
+};
+</script>
+
 <template>
   <div>
     <label
@@ -23,20 +41,3 @@
     </div>
   </div>
 </template>
-<script setup>
-import CheckBox from 'v3/components/Form/CheckBox.vue';
-defineProps({
-  label: {
-    type: String,
-    required: true,
-  },
-  items: {
-    type: Array,
-    required: true,
-  },
-});
-const emit = defineEmits(['change']);
-const onChange = (id, value) => {
-  emit('change', id, value);
-};
-</script>

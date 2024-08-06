@@ -1,16 +1,19 @@
 import { shallowMount } from '@vue/test-utils';
 import rtlMixin from 'shared/mixins/rtlMixin';
+import { useUISettings } from 'dashboard/composables/useUISettings';
+
+vi.mock('dashboard/composables/useUISettings');
 
 describe('rtlMixin', () => {
   const createComponent = rtl_view => {
+    useUISettings.mockReturnValue({
+      uiSettings: { rtl_view },
+      updateUISettings: vi.fn(),
+    });
+
     return shallowMount({
       render() {},
       mixins: [rtlMixin],
-      computed: {
-        uiSettings() {
-          return { rtl_view };
-        },
-      },
     });
   };
 

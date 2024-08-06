@@ -1,15 +1,4 @@
 <!-- eslint-disable vue/attribute-hyphenation -->
-<template>
-  <ninja-keys
-    ref="ninjakeys"
-    :no-auto-load-md-icons="true"
-    hideBreadcrumbs
-    :placeholder="placeholder"
-    @selected="onSelected"
-    @closed="onClosed"
-  />
-</template>
-
 <script>
 import '@chatwoot/ninja-keys';
 import wootConstants from 'dashboard/constants/globals';
@@ -21,12 +10,10 @@ import appearanceHotKeys from './appearanceHotKeys';
 import agentMixin from 'dashboard/mixins/agentMixin';
 import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
 import conversationTeamMixin from 'dashboard/mixins/conversation/teamMixin';
-import adminMixin from 'dashboard/mixins/isAdmin';
 import { GENERAL_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
 export default {
   mixins: [
-    adminMixin,
     agentMixin,
     conversationHotKeysMixin,
     bulkActionsHotKeysMixin,
@@ -109,6 +96,17 @@ export default {
   },
 };
 </script>
+
+<template>
+  <ninja-keys
+    ref="ninjakeys"
+    no-auto-load-md-icons
+    hide-breadcrumbs
+    :placeholder="placeholder"
+    @selected="onSelected"
+    @closed="onClosed"
+  />
+</template>
 
 <style lang="scss">
 ninja-keys {

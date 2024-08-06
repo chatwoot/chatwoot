@@ -2,6 +2,8 @@
   "INBOX_MGMT": {
     "HEADER": "Boîtes de réception",
     "SIDEBAR_TXT": "<p><b>Boîte de réception</b></p> <p> Lorsque vous connectez un site Web ou une page Facebook à Chatwoot, elle est appelée une <b>Boîte de réception</b>. Vous pouvez avoir des boîtes de réception illimitées dans votre compte Chatwoot. </p><p> Cliquez sur <b>Ajouter Boîte de réception</b> pour connecter un site Web ou une page Facebook. </p><p> Dans le tableau de bord, vous pouvez voir toutes les conversations de toutes vos boîtes de réception en un seul endroit et y répondre dans l'onglet `Conversations`. </p><p> Vous pouvez également voir les conversations spécifiques à une boîte de réception en cliquant sur le nom de la boîte de réception sur le volet gauche du tableau de bord. </p>",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "Il n'y a aucune boîte de réception associée à ce compte."
     },
@@ -364,6 +366,7 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "Cliquez sur le bouton Connexion avec Microsoft pour commencer. Vous allez rediriger vers la page de connexion par courriel. Une fois que vous avez accepté les autorisations demandées, vous serez redirigé vers l'étape de création de la boîte de réception.",
         "EMAIL_PLACEHOLDER": "Entrez votre adresse e-mail",
+        "SIGN_IN": "Sign in with Microsoft",
         "HELP": "Pour ajouter votre compte Microsoft en tant que canal, vous devez authentifier votre compte Microsoft en cliquant sur 'Connexion avec Microsoft' ",
         "ERROR_MESSAGE": "Une erreur s'est produite lors de la connexion à Microsoft, veuillez réessayer"
       }

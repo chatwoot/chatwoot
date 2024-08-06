@@ -1,19 +1,3 @@
-<template>
-  <mention-box
-    v-if="items.length"
-    type="variable"
-    :items="items"
-    @mention-select="handleVariableClick"
-  >
-    <template slot-scope="{ item }">
-      <span class="text-capitalize variable--list-label">
-        {{ item.description }}
-      </span>
-      ({{ item.label }})
-    </template>
-  </mention-box>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import { MESSAGE_VARIABLES } from 'shared/constants/messages';
@@ -71,6 +55,23 @@ export default {
   },
 };
 </script>
+
+<template>
+  <MentionBox
+    v-if="items.length"
+    type="variable"
+    :items="items"
+    @mentionSelect="handleVariableClick"
+  >
+    <template slot-scope="{ item }">
+      <span class="text-capitalize variable--list-label">
+        {{ item.description }}
+      </span>
+      ({{ item.label }})
+    </template>
+  </MentionBox>
+</template>
+
 <style scoped>
 .variable--list-label {
   font-weight: var(--font-weight-bold);

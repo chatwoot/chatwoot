@@ -33,7 +33,7 @@
       "NONE": "Nincs",
       "NO_TEAMS_AVAILABLE": "Ebben a fiókban még nincs csapat létrehozva.",
       "ASSIGN_SELECTED_TEAMS": "Válogatott csapatok hozzárendelése.",
-      "ASSIGN_SUCCESFUL": "Csapatok hozzárendelése sikeres.",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
       "ASSIGN_FAILED": "Nem sikerült csapatot kijelölni. Kérjük, próbálja újra."
     }
   }

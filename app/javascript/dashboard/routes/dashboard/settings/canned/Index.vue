@@ -1,3 +1,120 @@
+<script>
+import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
+import AddCanned from './AddCanned.vue';
+import EditCanned from './EditCanned.vue';
+
+export default {
+  components: {
+    AddCanned,
+    EditCanned,
+  },
+  data() {
+    return {
+      loading: {},
+      showAddPopup: false,
+      showEditPopup: false,
+      showDeleteConfirmationPopup: false,
+      selectedResponse: {},
+      cannedResponseAPI: {
+        message: '',
+      },
+      sortOrder: 'asc',
+    };
+  },
+  computed: {
+    ...mapGetters({
+      records: 'getCannedResponses',
+      uiFlags: 'getUIFlags',
+    }),
+    // Delete Modal
+    deleteConfirmText() {
+      return `${this.$t('CANNED_MGMT.DELETE.CONFIRM.YES')} ${
+        this.selectedResponse.short_code
+      }`;
+    },
+    deleteRejectText() {
+      return `${this.$t('CANNED_MGMT.DELETE.CONFIRM.NO')} ${
+        this.selectedResponse.short_code
+      }`;
+    },
+    deleteMessage() {
+      return ` ${this.selectedResponse.short_code}?`;
+    },
+  },
+  mounted() {
+    // Fetch API Call
+    this.$store.dispatch('getCannedResponse').then(() => {
+      this.toggleSort();
+    });
+  },
+  methods: {
+    toggleSort() {
+      this.records.sort((a, b) => {
+        if (this.sortOrder === 'asc') {
+          return a.short_code.localeCompare(b.short_code);
+        }
+        return b.short_code.localeCompare(a.short_code);
+      });
+      this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+    },
+    showAlertMessage(message) {
+      // Reset loading, current selected agent
+      this.loading[this.selectedResponse.id] = false;
+      this.selectedResponse = {};
+      // Show message
+      this.cannedResponseAPI.message = message;
+      useAlert(message);
+    },
+    // Edit Function
+    openAddPopup() {
+      this.showAddPopup = true;
+    },
+    hideAddPopup() {
+      this.showAddPopup = false;
+    },
+
+    // Edit Modal Functions
+    openEditPopup(response) {
+      this.showEditPopup = true;
+      this.selectedResponse = response;
+    },
+    hideEditPopup() {
+      this.showEditPopup = false;
+    },
+
+    // Delete Modal Functions
+    openDeletePopup(response) {
+      this.showDeleteConfirmationPopup = true;
+      this.selectedResponse = response;
+    },
+    closeDeletePopup() {
+      this.showDeleteConfirmationPopup = false;
+    },
+    // Set loading and call Delete API
+    confirmDeletion() {
+      this.loading[this.selectedResponse.id] = true;
+      this.closeDeletePopup();
+      this.deleteCannedResponse(this.selectedResponse.id);
+    },
+    deleteCannedResponse(id) {
+      this.$store
+        .dispatch('deleteCannedResponse', id)
+        .then(() => {
+          this.showAlertMessage(
+            this.$t('CANNED_MGMT.DELETE.API.SUCCESS_MESSAGE')
+          );
+        })
+        .catch(error => {
+          const errorMessage =
+            error?.message || this.$t('CANNED_MGMT.DELETE.API.ERROR_MESSAGE');
+          this.showAlertMessage(errorMessage);
+        });
+    },
+  },
+};
+</script>
+
 <template>
   <div class="flex-1 overflow-auto">
     <woot-button
@@ -40,7 +157,7 @@
 
               <button
                 v-if="thHeader === $t('CANNED_MGMT.LIST.TABLE_HEADER[0]')"
-                class="cursor-pointer flex items-center p-0"
+                class="flex items-center p-0 cursor-pointer"
                 @click="toggleSort"
               >
                 <p class="uppercase">
@@ -101,12 +218,12 @@
     </div>
     <!-- Add Agent -->
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-      <add-canned :on-close="hideAddPopup" />
+      <AddCanned :on-close="hideAddPopup" />
     </woot-modal>
 
     <!-- Edit Canned Response -->
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
-      <edit-canned
+      <EditCanned
         v-if="showEditPopup"
         :id="selectedResponse.id"
         :edshort-code="selectedResponse.short_code"
@@ -128,120 +245,3 @@
     />
   </div>
 </template>
-<script>
-import { mapGetters } from 'vuex';
-import AddCanned from './AddCanned.vue';
-import EditCanned from './EditCanned.vue';
-import alertMixin from 'shared/mixins/alertMixin';
-
-export default {
-  components: {
-    AddCanned,
-    EditCanned,
-  },
-  mixins: [alertMixin],
-  data() {
-    return {
-      loading: {},
-      showAddPopup: false,
-      showEditPopup: false,
-      showDeleteConfirmationPopup: false,
-      selectedResponse: {},
-      cannedResponseAPI: {
-        message: '',
-      },
-      sortOrder: 'asc',
-    };
-  },
-  computed: {
-    ...mapGetters({
-      records: 'getCannedResponses',
-      uiFlags: 'getUIFlags',
-    }),
-    // Delete Modal
-    deleteConfirmText() {
-      return `${this.$t('CANNED_MGMT.DELETE.CONFIRM.YES')} ${
-        this.selectedResponse.short_code
-      }`;
-    },
-    deleteRejectText() {
-      return `${this.$t('CANNED_MGMT.DELETE.CONFIRM.NO')} ${
-        this.selectedResponse.short_code
-      }`;
-    },
-    deleteMessage() {
-      return ` ${this.selectedResponse.short_code}?`;
-    },
-  },
-  mounted() {
-    // Fetch API Call
-    this.$store.dispatch('getCannedResponse').then(() => {
-      this.toggleSort();
-    });
-  },
-  methods: {
-    toggleSort() {
-      this.records.sort((a, b) => {
-        if (this.sortOrder === 'asc') {
-          return a.short_code.localeCompare(b.short_code);
-        }
-        return b.short_code.localeCompare(a.short_code);
-      });
-      this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
-    },
-    showAlertMessage(message) {
-      // Reset loading, current selected agent
-      this.loading[this.selectedResponse.id] = false;
-      this.selectedResponse = {};
-      // Show message
-      this.cannedResponseAPI.message = message;
-      this.showAlert(message);
-    },
-    // Edit Function
-    openAddPopup() {
-      this.showAddPopup = true;
-    },
-    hideAddPopup() {
-      this.showAddPopup = false;
-    },
-
-    // Edit Modal Functions
-    openEditPopup(response) {
-      this.showEditPopup = true;
-      this.selectedResponse = response;
-    },
-    hideEditPopup() {
-      this.showEditPopup = false;
-    },
-
-    // Delete Modal Functions
-    openDeletePopup(response) {
-      this.showDeleteConfirmationPopup = true;
-      this.selectedResponse = response;
-    },
-    closeDeletePopup() {
-      this.showDeleteConfirmationPopup = false;
-    },
-    // Set loading and call Delete API
-    confirmDeletion() {
-      this.loading[this.selectedResponse.id] = true;
-      this.closeDeletePopup();
-      this.deleteCannedResponse(this.selectedResponse.id);
-    },
-    deleteCannedResponse(id) {
-      this.$store
-        .dispatch('deleteCannedResponse', id)
-        .then(() => {
-          this.showAlertMessage(
-            this.$t('CANNED_MGMT.DELETE.API.SUCCESS_MESSAGE')
-          );
-        })
-        .catch(error => {
-          const errorMessage =
-            error?.message || this.$t('CANNED_MGMT.DELETE.API.ERROR_MESSAGE');
-          this.showAlertMessage(errorMessage);
-        });
-    },
-  },
-};
-</script>

@@ -1,48 +1,12 @@
-<template>
-  <section class="conversation-page bg-white dark:bg-slate-900">
-    <chat-list
-      :show-conversation-list="showConversationList"
-      :conversation-inbox="inboxId"
-      :label="label"
-      :team-id="teamId"
-      :conversation-type="conversationType"
-      :folders-id="foldersId"
-      :is-on-expanded-layout="isOnExpandedLayout"
-      @conversation-load="onConversationLoad"
-    >
-      <pop-over-search
-        :is-on-expanded-layout="isOnExpandedLayout"
-        @toggle-conversation-layout="toggleConversationLayout"
-      />
-    </chat-list>
-    <conversation-box
-      v-if="showMessageView"
-      :inbox-id="inboxId"
-      :is-contact-panel-open="isContactPanelOpen"
-      :is-on-expanded-layout="isOnExpandedLayout"
-      @contact-panel-toggle="onToggleContactPanel"
-    />
-    <woot-modal
-      :show.sync="showCustomSnoozeModal"
-      :on-close="hideCustomSnoozeModal"
-    >
-      <custom-snooze-modal
-        @close="hideCustomSnoozeModal"
-        @choose-time="chooseSnoozeTime"
-      />
-    </woot-modal>
-  </section>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import { getUnixTime } from 'date-fns';
 import ChatList from '../../../components/ChatList.vue';
 import ConversationBox from '../../../components/widgets/conversation/ConversationBox.vue';
 import PopOverSearch from './search/PopOverSearch.vue';
 import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
-import alertMixin from 'shared/mixins/alertMixin';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { CMD_SNOOZE_CONVERSATION } from 'dashboard/routes/dashboard/commands/commandBarBusEvents';
@@ -55,7 +19,6 @@ export default {
     PopOverSearch,
     CustomSnoozeModal,
   },
-  mixins: [uiSettingsMixin, alertMixin],
   props: {
     inboxId: {
       type: [String, Number],
@@ -81,6 +44,14 @@ export default {
       type: [String, Number],
       default: 0,
     },
+  },
+  setup() {
+    const { uiSettings, updateUISettings } = useUISettings();
+
+    return {
+      uiSettings,
+      updateUISettings,
+    };
   },
   data() {
     return {
@@ -235,7 +206,7 @@ export default {
         })
         .then(() => {
           this.$store.dispatch('setContextMenuChatId', null);
-          this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
+          useAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
         });
     },
     hideCustomSnoozeModal() {
@@ -247,6 +218,43 @@ export default {
   },
 };
 </script>
+
+<template>
+  <section class="bg-white conversation-page dark:bg-slate-900">
+    <ChatList
+      :show-conversation-list="showConversationList"
+      :conversation-inbox="inboxId"
+      :label="label"
+      :team-id="teamId"
+      :conversation-type="conversationType"
+      :folders-id="foldersId"
+      :is-on-expanded-layout="isOnExpandedLayout"
+      @conversationLoad="onConversationLoad"
+    >
+      <PopOverSearch
+        :is-on-expanded-layout="isOnExpandedLayout"
+        @toggleConversationLayout="toggleConversationLayout"
+      />
+    </ChatList>
+    <ConversationBox
+      v-if="showMessageView"
+      :inbox-id="inboxId"
+      :is-contact-panel-open="isContactPanelOpen"
+      :is-on-expanded-layout="isOnExpandedLayout"
+      @contactPanelToggle="onToggleContactPanel"
+    />
+    <woot-modal
+      :show.sync="showCustomSnoozeModal"
+      :on-close="hideCustomSnoozeModal"
+    >
+      <CustomSnoozeModal
+        @close="hideCustomSnoozeModal"
+        @chooseTime="chooseSnoozeTime"
+      />
+    </woot-modal>
+  </section>
+</template>
+
 <style lang="scss" scoped>
 .conversation-page {
   display: flex;

@@ -51,26 +51,26 @@
     "UPDATE_CHATWOOT": "L'actualització %{latestChatwootVersion} per Chatwoot està disponible. Si us plau, actualitza l'instancia.",
     "LEARN_MORE": "Aprèn més",
     "PAYMENT_PENDING": "El teu pagament està pendent. Actualitzeu la vostra informació de pagament per continuar utilitzant Chatwoot",
-    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
-    "OPEN_BILLING": "Open billing"
+    "LIMITS_UPGRADE": "El teu compte ha superat els límits d'ús, actualitza el pla per continuar utilitzant Chatwoot",
+    "OPEN_BILLING": "Obrir facturació"
   },
   "FORMS": {
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Presiona retorn (tecla enter) per seleccionar",
       "ENTER_TO_REMOVE": "Presiona retorn (tecla enter) per eliminar",
       "SELECT_ONE": "Selecciona un",
-      "SELECT": "Select"
+      "SELECT": "Selecciona"
     }
   },
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Notificacions",
     "MARK_ALL_DONE": "Marca Tot Fet",
-    "DELETE_TITLE": "deleted",
+    "DELETE_TITLE": "eliminat",
     "UNREAD_NOTIFICATION": {
-      "TITLE": "Unread Notifications",
-      "ALL_NOTIFICATIONS": "View all notifications",
-      "LOADING_UNREAD_MESSAGE": "Loading unread notifications...",
-      "EMPTY_MESSAGE": "You have no unread notifications"
+      "TITLE": "Notificacions no llegides",
+      "ALL_NOTIFICATIONS": "Veure totes les notificacions",
+      "LOADING_UNREAD_MESSAGE": "S'estan carregant les notificacions no llegides...",
+      "EMPTY_MESSAGE": "No tens notificacions no llegides"
     },
     "LIST": {
       "LOADING_MESSAGE": "Carregant notificacions...",
@@ -88,85 +88,87 @@
       "assigned_conversation_new_message": "Missatge Nou",
       "participating_conversation_new_message": "Missatge Nou",
       "conversation_mention": "Menció",
-      "sla_missed_first_response": "SLA Missed",
-      "sla_missed_next_response": "SLA Missed",
-      "sla_missed_resolution": "SLA Missed"
+      "sla_missed_first_response": "SLA perdut",
+      "sla_missed_next_response": "SLA perdut",
+      "sla_missed_resolution": "SLA perdut"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "OFFLINE": "Fora de línia"
+      "OFFLINE": "Fora de línia",
+      "RECONNECTING": "Reconnectant...",
+      "RECONNECT_SUCCESS": "Reconnectat"
     },
     "BUTTON": {
-      "REFRESH": "Refresh"
+      "REFRESH": "Actualitza"
     }
   },
   "COMMAND_BAR": {
-    "SEARCH_PLACEHOLDER": "Search or jump to",
+    "SEARCH_PLACEHOLDER": "Cerca o salta a",
     "SECTIONS": {
       "GENERAL": "General",
       "REPORTS": "Informes",
-      "CONVERSATION": "Conversation",
-      "BULK_ACTIONS": "Bulk Actions",
-      "CHANGE_ASSIGNEE": "Change Assignee",
-      "CHANGE_PRIORITY": "Change Priority",
-      "CHANGE_TEAM": "Change Team",
-      "SNOOZE_CONVERSATION": "Snooze Conversation",
-      "ADD_LABEL": "Add label to the conversation",
-      "REMOVE_LABEL": "Remove label from the conversation",
+      "CONVERSATION": "Conversa",
+      "BULK_ACTIONS": "Accions massives",
+      "CHANGE_ASSIGNEE": "Canvia l'assignat",
+      "CHANGE_PRIORITY": "Canvia la prioritat",
+      "CHANGE_TEAM": "Canvia l'equip",
+      "SNOOZE_CONVERSATION": "Posposa la conversa",
+      "ADD_LABEL": "Afegeix una etiqueta a la conversa",
+      "REMOVE_LABEL": "Elimina l'etiqueta de la conversa",
       "SETTINGS": "Configuracions",
-      "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "AI_ASSIST": "Assistència IA",
+      "APPEARANCE": "Aparença",
+      "SNOOZE_NOTIFICATION": "Posposa la notificació"
     },
     "COMMANDS": {
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "GO_TO_REPORTS_OVERVIEW": "Go to Reports Overview",
-      "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
-      "GO_TO_AGENT_REPORTS": "Go to Agent Reports",
-      "GO_TO_LABEL_REPORTS": "Go to Label Reports",
-      "GO_TO_INBOX_REPORTS": "Go to Inbox Reports",
-      "GO_TO_TEAM_REPORTS": "Go to Team Reports",
-      "GO_TO_SETTINGS_AGENTS": "Go to Agent Settings",
-      "GO_TO_SETTINGS_TEAMS": "Go to Team Settings",
-      "GO_TO_SETTINGS_INBOXES": "Go to Inbox Settings",
-      "GO_TO_SETTINGS_LABELS": "Go to Label Settings",
-      "GO_TO_SETTINGS_CANNED_RESPONSES": "Go to Canned Response Settings",
-      "GO_TO_SETTINGS_APPLICATIONS": "Go to Application Settings",
-      "GO_TO_SETTINGS_ACCOUNT": "Go to Account Settings",
-      "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",
-      "GO_TO_NOTIFICATIONS": "Go to Notifications",
-      "ADD_LABELS_TO_CONVERSATION": "Add label to the conversation",
-      "ASSIGN_AN_AGENT": "Assign an agent",
-      "AI_ASSIST": "AI Assist",
-      "ASSIGN_PRIORITY": "Assign priority",
-      "ASSIGN_A_TEAM": "Assign a team",
-      "MUTE_CONVERSATION": "Mute conversation",
-      "UNMUTE_CONVERSATION": "Unmute conversation",
-      "REMOVE_LABEL_FROM_CONVERSATION": "Remove label from the conversation",
+      "GO_TO_CONVERSATION_DASHBOARD": "Vés al Tauler de converses",
+      "GO_TO_CONTACTS_DASHBOARD": "Ves al Tauler de contactes",
+      "GO_TO_REPORTS_OVERVIEW": "Ves a Visió general dels informes",
+      "GO_TO_CONVERSATION_REPORTS": "Vés a Informes de converses",
+      "GO_TO_AGENT_REPORTS": "Ves a Informes d'agents",
+      "GO_TO_LABEL_REPORTS": "Ves a Informes d'etiquetes",
+      "GO_TO_INBOX_REPORTS": "Ves a Informes de la safata d'entrada",
+      "GO_TO_TEAM_REPORTS": "Ves a Informes d'equip",
+      "GO_TO_SETTINGS_AGENTS": "Ves a Configuració de l'agent",
+      "GO_TO_SETTINGS_TEAMS": "Ves a Configuració de l'equip",
+      "GO_TO_SETTINGS_INBOXES": "Ves a Configuració de la safata d'entrada",
+      "GO_TO_SETTINGS_LABELS": "Ves a Configuració de l'etiqueta",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Ves a Configuració de resposta enllaunada",
+      "GO_TO_SETTINGS_APPLICATIONS": "Ves a Configuració de l'aplicació",
+      "GO_TO_SETTINGS_ACCOUNT": "Ves a Configuració del compte",
+      "GO_TO_SETTINGS_PROFILE": "Ves a Configuració del perfil",
+      "GO_TO_NOTIFICATIONS": "Ves a Notificacions",
+      "ADD_LABELS_TO_CONVERSATION": "Afegeix una etiqueta a la conversa",
+      "ASSIGN_AN_AGENT": "Assigna un agent",
+      "AI_ASSIST": "Assistència IA",
+      "ASSIGN_PRIORITY": "Assigna prioritat",
+      "ASSIGN_A_TEAM": "Assigna un equip",
+      "MUTE_CONVERSATION": "Silencia la conversa",
+      "UNMUTE_CONVERSATION": "No silenciïs la conversa",
+      "REMOVE_LABEL_FROM_CONVERSATION": "Elimina l'etiqueta de la conversa",
       "REOPEN_CONVERSATION": "Torna a obrir la conversa",
       "RESOLVE_CONVERSATION": "Resol la conversa",
-      "SEND_TRANSCRIPT": "Send an email transcript",
-      "SNOOZE_CONVERSATION": "Snooze Conversation",
-      "UNTIL_NEXT_REPLY": "Until next reply",
-      "UNTIL_NEXT_WEEK": "Until next week",
-      "UNTIL_TOMORROW": "Until tomorrow",
-      "UNTIL_NEXT_MONTH": "Until next month",
-      "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "CUSTOM": "Custom...",
-      "CHANGE_APPEARANCE": "Change Appearance",
-      "LIGHT_MODE": "Light",
-      "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "System",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "SEND_TRANSCRIPT": "Envia la transcripció per correu electrònic",
+      "SNOOZE_CONVERSATION": "Posposa la conversa",
+      "UNTIL_NEXT_REPLY": "Fins a la propera resposta",
+      "UNTIL_NEXT_WEEK": "Fins a la setmana vinent",
+      "UNTIL_TOMORROW": "Fins demà",
+      "UNTIL_NEXT_MONTH": "Fins al mes vinent",
+      "AN_HOUR_FROM_NOW": "Fins d'aquí una hora",
+      "UNTIL_CUSTOM_TIME": "Personalitzat...",
+      "CHANGE_APPEARANCE": "Canvia l'aparença",
+      "LIGHT_MODE": "Clar",
+      "DARK_MODE": "Fosc",
+      "SYSTEM_MODE": "Sistema",
+      "SNOOZE_NOTIFICATION": "Posposa la notificació"
     }
   },
   "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "Loading Dashboard App..."
+    "LOADING_MESSAGE": "S'està carregant l'aplicació Tauler..."
   },
   "COMMON": {
-    "OR": "Or",
+    "OR": "O",
     "CLICK_HERE": "clica aquí"
   }
 }

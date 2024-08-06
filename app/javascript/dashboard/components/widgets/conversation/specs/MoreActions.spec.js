@@ -85,11 +85,11 @@ describe('MoveActions', () => {
     it('shows alert', async () => {
       await moreActions.find('button:first-child').trigger('click');
 
-      expect(emitter.emit).toBeCalledWith(
-        'newToastMessage',
-        'This contact is blocked successfully. You will not be notified of any future conversations.',
-        undefined
-      );
+      expect(emitter.emit).toBeCalledWith('newToastMessage', {
+        message:
+          'This contact is blocked successfully. You will not be notified of any future conversations.',
+        action: null,
+      });
     });
   });
 
@@ -111,11 +111,10 @@ describe('MoveActions', () => {
     it('shows alert', async () => {
       await moreActions.find('button:first-child').trigger('click');
 
-      expect(emitter.emit).toBeCalledWith(
-        'newToastMessage',
-        'This contact is unblocked successfully.',
-        undefined
-      );
+      expect(emitter.emit).toBeCalledWith('newToastMessage', {
+        message: 'This contact is unblocked successfully.',
+        action: null,
+      });
     });
   });
 });
