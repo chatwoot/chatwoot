@@ -132,16 +132,6 @@ export default {
       );
     },
   },
-
-  methods: {
-    getKeyboardEvents() {
-      return {
-        'Alt+KeyO': {
-          action: () => this.$emit('contactPanelToggle'),
-        },
-      };
-    },
-  },
 };
 </script>
 
