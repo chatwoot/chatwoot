@@ -18,6 +18,7 @@
       "AND": "ÉS",
       "OR": "VAGY"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "Egyenlő",
       "not_equal_to": "Nem egyenlő",
