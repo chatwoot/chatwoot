@@ -17,13 +17,13 @@ RSpec.describe Account::ConversationsResolutionSchedulerJob, type: :job do
     it 'enqueues resolution jobs only for inboxes with response bot enabled' do
       expect do
         described_class.perform_now
-      end.to have_enqueued_job(ResponseBot::InboxPendingConversationsResolutionJob).with(inbox_with_bot).and have_enqueued_job.exactly(:once)
+      end.to have_enqueued_job(Captain::InboxPendingConversationsResolutionJob).with(inbox_with_bot).and have_enqueued_job.exactly(:once)
     end
 
     it 'does not enqueue resolution jobs for inboxes without response bot enabled' do
       expect do
         described_class.perform_now
-      end.not_to have_enqueued_job(ResponseBot::InboxPendingConversationsResolutionJob).with(inbox_without_bot)
+      end.not_to have_enqueued_job(Captain::InboxPendingConversationsResolutionJob).with(inbox_without_bot)
     end
   end
 
