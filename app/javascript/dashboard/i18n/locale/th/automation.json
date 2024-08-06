@@ -93,7 +93,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "คุณต้องมีเงื่อนไขอย่างน้อย 1 การกระทำเพื่อบันทึก",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Geben Sie hier Ihre Nachricht ein",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Teams auswählen"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Teams auswählen",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "เปิดใช้เงื่อนไขอัตโนมัติ",
