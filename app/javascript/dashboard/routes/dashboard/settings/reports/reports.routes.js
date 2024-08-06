@@ -65,7 +65,7 @@ export default {
       children: [
         {
           path: 'invoices',
-          name: 'invoice_reports',
+          name: 'invoice_reports_dashboard',
           roles: AdminSupervisorRoles,
           component: InvoiceReports,
         },

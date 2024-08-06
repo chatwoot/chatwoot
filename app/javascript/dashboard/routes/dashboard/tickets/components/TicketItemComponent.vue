@@ -32,16 +32,6 @@
                 :created-at-timestamp="createdAtTimestamp"
               />
             </span>
-            <woot-button
-              v-if="!source.assigned_to"
-              class="ml-auto"
-              color-scheme="primary"
-              size="small"
-              :is-loading="ticketsUIFlags.isUpdating"
-              @click="onAssignTicket"
-            >
-              {{ $t('TICKETS.ASSIGNEE.ASSIGNEE_TO_ME') }}
-            </woot-button>
           </div>
         </div>
       </div>
@@ -52,6 +42,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
+import router from 'dashboard/routes';
 
 export default {
   name: 'TicketItemComponent',
@@ -101,17 +92,14 @@ export default {
   },
   methods: {
     onCardClick() {
-      this.$emit('select-ticket', this.source.id);
+      router.push({
+        name: 'ticket_show_dashboard',
+        params: { ticketId: this.source.id },
+      });
     },
     openContextMenu(event) {
       event.preventDefault();
       this.$emit('context-menu-toggle', { x: event.pageX, y: event.pageY });
-    },
-    onAssignTicket() {
-      this.$store.dispatch('tickets/assign', {
-        ticketId: this.source.id,
-        assigneeId: this.currentUserId,
-      });
     },
   },
 };
@@ -119,6 +107,8 @@ export default {
 
 <style scoped>
 .ticket-card {
+  @apply cursor-pointer;
+
   padding: 10px;
 }
 .ticket-card.active {
