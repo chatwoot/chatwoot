@@ -125,6 +125,7 @@ export default {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      uiFlags: 'integrations/getUIFlags',
     }),
     isNote() {
       return this.mode === REPLY_EDITOR_MODES.NOTE;
@@ -206,6 +207,9 @@ export default {
         FEATURE_FLAGS.INSERT_ARTICLE_IN_REPLY
       );
       return isFeatEnabled && this.portalSlug;
+    },
+    isFetchingAppIntegrations() {
+      return this.uiFlags.isFetching;
     },
   },
   mounted() {
@@ -330,6 +334,7 @@ export default {
         :conversation-id="conversationId"
       />
       <AIAssistanceButton
+        v-if="!isFetchingAppIntegrations"
         :conversation-id="conversationId"
         :is-private-note="isOnPrivateNote"
         :message="message"
