@@ -481,7 +481,8 @@
       "HEADER": "Tráfico de Conversación",
       "NO_CONVERSATIONS": "No hay conversaciones",
       "CONVERSATION": "%{count} conversación",
-      "CONVERSATIONS": "%{count} conversaciones"
+      "CONVERSATIONS": "%{count} conversaciones",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversaciones por agentes",
@@ -536,6 +537,7 @@
       "LABELS": "Etiqueta",
       "TEAMS": "Equipo"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",
