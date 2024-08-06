@@ -102,16 +102,28 @@ export const actions = {
       throw error;
     }
   },
-  update: async ({ commit }, { selectedEmailFlags, selectedPushFlags }) => {
+  update: async ({ commit }, { ticketId, body }) => {
     commit(types.default.SET_TICKETS_UI_FLAG, { isUpdating: true });
     try {
-      const response = await TicketsAPI.update({
-        notification_settings: {
-          selected_email_flags: selectedEmailFlags,
-          selected_push_flags: selectedPushFlags,
-        },
+      const response = await TicketsAPI.update(ticketId, {
+        body,
       });
-      commit(types.default.SET_TICKETS, response.data);
+      commit(types.default.UPDATE_TICKET, response.data);
+      commit(types.default.SET_TICKETS_UI_FLAG, {
+        isUpdating: false,
+      });
+    } catch (error) {
+      commit(types.default.SET_TICKETS_UI_FLAG, {
+        isUpdating: false,
+      });
+      throw error;
+    }
+  },
+  assign: async ({ commit }, { ticketId, assigneeId }) => {
+    commit(types.default.SET_TICKETS_UI_FLAG, { isUpdating: true });
+    try {
+      const response = await TicketsAPI.assign(ticketId, assigneeId);
+      commit(types.default.UPDATE_TICKET, response.data);
       commit(types.default.SET_TICKETS_UI_FLAG, {
         isUpdating: false,
       });
@@ -139,6 +151,12 @@ export const mutations = {
   },
   [types.default.SET_TICKETS]: ($state, data) => {
     Vue.set($state, 'record', data);
+  },
+  [types.default.UPDATE_TICKET]: ($state, data) => {
+    const index = $state.record.findIndex(ticket => ticket.id === data.id);
+    if (index !== -1) {
+      Vue.set($state.record, index, data);
+    }
   },
   [types.default.SET_TICKETS_STATS]($state, data) {
     $state.stats = data;

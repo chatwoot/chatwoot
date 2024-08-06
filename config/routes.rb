@@ -238,7 +238,7 @@ Rails.application.routes.draw do
           # tickets
           resources :tickets, only: [:index, :create, :show, :update, :destroy] do
             member do
-              post 'assign/:user_id', action: :assign
+              put 'assign/:user_id', action: :assign
               post :resolve
             end
 

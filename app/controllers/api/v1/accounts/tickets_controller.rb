@@ -6,7 +6,11 @@ class Api::V1::Accounts::TicketsController < Api::V1::Accounts::BaseController
   before_action :check_authorization
 
   def index
-    @tickets = current_account.tickets.search(params[:query])
+    @tickets = if current_user.administrator?
+                 current_account.tickets.search(params[:query])
+               else
+                 current_account.tickets.assigned_to(current_user.id).search(params[:query])
+               end
   end
 
   def conversations

@@ -3,6 +3,7 @@ import contacts from './sidebarItems/contacts';
 import reports from './sidebarItems/reports';
 import campaigns from './sidebarItems/campaigns';
 import settings from './sidebarItems/settings';
+import tickets from './sidebarItems/tickets';
 import notifications from './sidebarItems/notifications';
 import primaryMenu from './sidebarItems/primaryMenu';
 
@@ -11,6 +12,7 @@ export const getSidebarItems = accountId => ({
   secondaryMenu: [
     conversations(accountId),
     contacts(accountId),
+    tickets(accountId),
     reports(accountId),
     campaigns(accountId),
     settings(accountId),

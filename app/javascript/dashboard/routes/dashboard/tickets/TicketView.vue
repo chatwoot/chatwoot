@@ -9,47 +9,49 @@
             class="text-xl break-words overflow-hidden whitespace-nowrap text-ellipsis text-black-900 dark:text-slate-100 mb-0"
             title="Tickets"
           >
-            Tickets
+            {{ $t('TICKETS.TITLE') }}
           </h1>
           <span
             class="p-1 my-0.5 mx-1 rounded-md capitalize bg-slate-50 dark:bg-slate-800 text-xxs text-slate-600 dark:text-slate-300"
           >
-            {{ $t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${activeStatus}.TEXT`) }}
+            {{ $t(`TICKETS.STATUS.OPEN`) }}
           </span>
         </div>
       </div>
-      <div class="flex">
+      <div class="flex px-3">
         <ticket-type-tabs
           :tabs="assigneeTabItems"
           :active-tab="activeAssigneeTab"
           @tab-change="updateAssigneeTab"
         />
       </div>
-      <div class="flex">
-        <div class="flex flex-col w-full">
-          <virtual-list
-            ref="ticketVirtualList"
-            :data-key="'id'"
-            :data-sources="ticketList"
-            :data-component="itemComponent"
-            class="w-full overflow-auto h-1/2"
-            footer-tag="div"
-          >
-            <template #footer>
-              <div v-if="ticketListLoading.isFetching" class="text-center">
-                <span class="spinner mt-4 mb-4" />
-              </div>
-              <p v-if="showEndOfListMessage" class="text-center text-muted p-4">
-                {{ $t('TICKETS.LIST.EOF') }}
-              </p>
-              <intersection-observer
-                v-if="!showEndOfListMessage && !ticketListLoading.isFetching"
-                :options="infiniteLoaderOptions"
-                @observed="loadMoreTickets"
-              />
-            </template>
-          </virtual-list>
-        </div>
+      <div class="flex flex-col w-full">
+        <virtual-list
+          v-if="ticketList.length > 0"
+          ref="ticketVirtualList"
+          :data-key="'id'"
+          :data-sources="ticketList"
+          :data-component="itemComponent"
+          class="w-full overflow-auto h-1/2"
+          footer-tag="div"
+        >
+          <template #footer>
+            <div v-if="ticketListLoading.isFetching" class="text-center">
+              <span class="spinner mt-4 mb-4" />
+            </div>
+            <p v-if="showEndOfListMessage" class="text-center text-muted p-4">
+              {{ $t('TICKETS.LIST.EOF') }}
+            </p>
+            <intersection-observer
+              v-if="!showEndOfListMessage && !ticketListLoading.isFetching"
+              :options="infiniteLoaderOptions"
+              @observed="loadMoreTickets"
+            />
+          </template>
+        </virtual-list>
+        <p v-else class="text-center text-muted p-4">
+          {{ $t('TICKETS.LIST.NO_TICKETS') }}
+        </p>
       </div>
     </div>
   </section>

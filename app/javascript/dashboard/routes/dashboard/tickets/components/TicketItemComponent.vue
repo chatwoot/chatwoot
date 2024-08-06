@@ -17,15 +17,31 @@
             <span class="truncate text-md">
               {{ source.description }}
             </span>
+            <span class="text-sm text-slate-600 dark:text-slate-300">
+              {{ $t('TICKETS.ASSIGNEE.ASSIGNED_TO') }}:
+              <strong>{{ textAssignee }}</strong>
+            </span>
           </div>
 
-          <div class="flex flex-col conversation--meta right-4 top-4">
+          <div
+            class="flex flex-col conversation--meta right-4 top-4 justify-space-between"
+          >
             <span class="ml-auto font-normal leading-4 text-black-600 text-xxs">
               <time-ago
                 :last-activity-timestamp="updatedAtTimestamp"
                 :created-at-timestamp="createdAtTimestamp"
               />
             </span>
+            <woot-button
+              v-if="!source.assigned_to"
+              class="ml-auto"
+              color-scheme="primary"
+              size="small"
+              :is-loading="ticketsUIFlags.isUpdating"
+              @click="onAssignTicket"
+            >
+              {{ $t('TICKETS.ASSIGNEE.ASSIGNEE_TO_ME') }}
+            </woot-button>
           </div>
         </div>
       </div>
@@ -34,6 +50,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 
 export default {
@@ -54,6 +71,10 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+      currentUserId: 'getCurrentUserID',
+      ticketsUIFlags: 'tickets/getUIFlags',
+    }),
     isActiveTicket() {
       const selectedTicket = this.$store.getters.getSelectedTicket;
       return selectedTicket && selectedTicket.id === this.source.id;
@@ -62,12 +83,20 @@ export default {
       return this.source.unread;
     },
     updatedAtTimestamp() {
-      return Date.now();
+      return Math.floor(Date.now() / 1000);
     },
     createdAtTimestamp() {
       return this.source.created_at
-        ? new Date(this.source.created_at).getTime()
-        : Date.now();
+        ? Math.floor(new Date(this.source.created_at).getTime() / 1000)
+        : Math.floor(Date.now() / 1000);
+    },
+    textAssignee() {
+      if (!this.source.assigned_to)
+        return this.$t('TICKETS.ASSIGNEE_FILTER.UNASSIGNED');
+      if (this.source.assigned_to.id === this.currentUserId)
+        return this.$t('TICKETS.ASSIGNEE_FILTER.ME');
+
+      return this.source.assigned_to.name;
     },
   },
   methods: {
@@ -77,6 +106,12 @@ export default {
     openContextMenu(event) {
       event.preventDefault();
       this.$emit('context-menu-toggle', { x: event.pageX, y: event.pageY });
+    },
+    onAssignTicket() {
+      this.$store.dispatch('tickets/assign', {
+        ticketId: this.source.id,
+        assigneeId: this.currentUserId,
+      });
     },
   },
 };

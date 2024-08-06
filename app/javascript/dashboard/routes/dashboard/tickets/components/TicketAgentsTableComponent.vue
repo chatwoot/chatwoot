@@ -1,24 +1,28 @@
 <template>
-  <div class="agent-table-container">
+  <div class="ticket-agents-table-container">
     <ve-table
       max-height="calc(100vh - 21.875rem)"
       :fixed-header="true"
       :columns="columns"
       :table-data="tableData"
     />
-    <div v-if="isLoading" class="agents-loader">
-      <spinner />
+    <div
+      v-if="ticketsUIFlags.isFetching"
+      class="flex flex-col items-center justify-center p-8 gap-4"
+    >
+      <spinner color-scheme="primary" size="large" />
       <span>{{
         $t('TICKETS_REPORTS.AGENT_CONVERSATIONS.LOADING_MESSAGE')
       }}</span>
     </div>
     <empty-state
-      v-else-if="!isLoading && !agentMetrics.length"
-      :title="$t('TICKETS_REPORTS.AGENT_CONVERSATIONS.NO_AGENTS')"
+      v-else-if="!ticketsUIFlags.isFetching && tableData.length === 0"
+      :title="$t('TICKETS_REPORTS.EMPTY_STATE')"
+      :message="$t('TICKETS_REPORTS.AGENT_CONVERSATIONS.NO_AGENTS')"
     />
-    <div v-if="agentMetrics.length > 0" class="table-pagination">
+    <div v-if="tableData.length > 0" class="table-pagination">
       <ve-pagination
-        :total="agents.length"
+        :total="tableData.length"
         :page-index="pageIndex"
         :page-size="25"
         :page-size-option="[25]"
@@ -29,52 +33,47 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import { VeTable, VePagination } from 'vue-easytable';
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
-import rtlMixin from 'shared/mixins/rtlMixin';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import rtlMixin from 'shared/mixins/rtlMixin';
 
 export default {
-  name: 'AgentTable',
+  name: 'TicketAgentsTableComponent',
   components: {
-    EmptyState,
-    Spinner,
     VeTable,
     VePagination,
+    Spinner,
+    EmptyState,
   },
   mixins: [rtlMixin],
   props: {
-    agents: {
-      type: Array,
-      default: () => [],
-    },
-    agentMetrics: {
-      type: Array,
-      default: () => [],
-    },
-    isLoading: {
-      type: Boolean,
-      default: false,
-    },
-    pageIndex: {
+    accountId: {
       type: Number,
-      default: 1,
+      required: true,
+    },
+    from: {
+      type: Number,
+      required: true,
+    },
+    to: {
+      type: Number,
+      required: true,
     },
   },
+  data: () => ({
+    isLoading: false,
+    pageIndex: 1,
+  }),
   computed: {
+    ...mapGetters({
+      ticketAgents: 'ticketsReport/getTicketsAgentsReport',
+      ticketsUIFlags: 'ticketsReport/getUIFlags',
+    }),
     tableData() {
-      return this.agentMetrics.map(agent => {
-        const agentInformation = this.getAgentInformation(agent.id);
-        return {
-          agent: agentInformation.name,
-          email: agentInformation.email,
-          thumbnail: agentInformation.thumbnail,
-          open: agent.metric.open || 0,
-          unattended: agent.metric.unattended || 0,
-          status: agentInformation.availability_status,
-        };
-      });
+      return this.ticketAgents;
     },
     columns() {
       return [
@@ -82,7 +81,7 @@ export default {
           field: 'agent',
           key: 'agent',
           title: this.$t(
-            'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.AGENT'
+            'TICKETS_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.AGENT'
           ),
           fixed: 'left',
           align: this.isRTLView ? 'right' : 'left',
@@ -105,19 +104,19 @@ export default {
           ),
         },
         {
-          field: 'open',
-          key: 'open',
+          field: 'resolved',
+          key: 'resolved',
           title: this.$t(
-            'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.OPEN'
+            'TICKETS_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.OPEN'
           ),
           align: this.isRTLView ? 'right' : 'left',
           width: 10,
         },
         {
-          field: 'unattended',
-          key: 'unattended',
+          field: 'unresolved',
+          key: 'unresolved',
           title: this.$t(
-            'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.UNATTENDED'
+            'TICKETS_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.UNATTENDED'
           ),
           align: this.isRTLView ? 'right' : 'left',
           width: 10,
@@ -125,19 +124,25 @@ export default {
       ];
     },
   },
+  mounted() {
+    this.fetchAllData();
+  },
   methods: {
     onPageNumberChange(pageIndex) {
-      this.$emit('page-change', pageIndex);
+      this.pageIndex = pageIndex;
     },
-    getAgentInformation(id) {
-      return this.agents.find(agent => agent.id === Number(id));
+    async fetchAllData() {
+      const { from, to } = this;
+      const payload = { from, to };
+
+      await this.$store.dispatch('ticketsReport/getAll', payload);
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.agent-table-container {
+.ticket-agents-table-container {
   @apply flex flex-col flex-1;
 
   .ve-table {
@@ -179,9 +184,5 @@ export default {
   .table-pagination {
     @apply mt-4 text-right;
   }
-}
-
-.agents-loader {
-  @apply items-center flex text-base justify-center p-8;
 }
 </style>

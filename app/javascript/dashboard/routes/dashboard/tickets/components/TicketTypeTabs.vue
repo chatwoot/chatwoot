@@ -31,7 +31,9 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '~widget/assets/scss/variables.scss';
+
 .ticket-type-tabs {
   display: flex;
   justify-content: space-around;
@@ -43,6 +45,6 @@ export default {
 }
 .ticket-type-tabs button.active {
   font-weight: bold;
-  border-bottom: 2px solid #000;
+  border-bottom: 2px solid $color-woot;
 }
 </style>
