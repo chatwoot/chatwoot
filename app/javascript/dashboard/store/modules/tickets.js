@@ -108,7 +108,7 @@ export const actions = {
       const response = await TicketsAPI.update(ticketId, {
         body,
       });
-      commit(types.default.SET_TICKETS, response.data);
+      commit(types.default.UPDATE_TICKET, response.data);
       commit(types.default.SET_TICKETS_UI_FLAG, {
         isUpdating: false,
       });
@@ -123,7 +123,7 @@ export const actions = {
     commit(types.default.SET_TICKETS_UI_FLAG, { isUpdating: true });
     try {
       const response = await TicketsAPI.assign(ticketId, assigneeId);
-      commit(types.default.SET_TICKETS, response.data);
+      commit(types.default.UPDATE_TICKET, response.data);
       commit(types.default.SET_TICKETS_UI_FLAG, {
         isUpdating: false,
       });
@@ -151,6 +151,12 @@ export const mutations = {
   },
   [types.default.SET_TICKETS]: ($state, data) => {
     Vue.set($state, 'record', data);
+  },
+  [types.default.UPDATE_TICKET]: ($state, data) => {
+    const index = $state.record.findIndex(ticket => ticket.id === data.id);
+    if (index !== -1) {
+      Vue.set($state.record, index, data);
+    }
   },
   [types.default.SET_TICKETS_STATS]($state, data) {
     $state.stats = data;
