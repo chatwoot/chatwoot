@@ -4,9 +4,13 @@
 
 json.meta do
   json.sender do
-    json.partial! 'api/v1/models/contact', formats: [:json], resource: conversation&.contact
+    if conversation.respond_to?(:contact) && conversation&.contact
+      json.partial! 'api/v1/models/contact', formats: [:json], resource: conversation.contact
+    else
+      json.null!
+    end
   end
-  json.channel conversation&.inbox.try(:channel_type)
+  json.channel conversation&.inbox&.try(:channel_type)
   if conversation&.assignee&.account
     json.assignee do
       json.partial! 'api/v1/models/agent', formats: [:json], resource: conversation&.assignee
@@ -21,6 +25,7 @@ json.meta do
 end
 
 json.id conversation&.display_id
+
 if conversation&.messages&.where(account_id: conversation&.account_id)&.last.blank?
   json.messages []
 else
