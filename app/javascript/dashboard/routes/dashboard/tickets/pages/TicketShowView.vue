@@ -26,6 +26,16 @@ export default {
       required: true,
     },
   },
+  data: () => ({
+    ticket: {},
+  }),
+
+  methods: {
+    async getTicket() {
+      const { data } = await this.$store.dispatch('tickets/get', this.ticketId);
+      this.ticket = data;
+    },
+  },
 };
 </script>
 

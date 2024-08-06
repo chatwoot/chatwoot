@@ -35,10 +35,10 @@ export const getters = {
 };
 
 export const actions = {
-  get: async ({ commit }) => {
+  get: async ({ commit }, ticketId) => {
     commit(types.default.SET_TICKETS_UI_FLAG, { isFetching: true });
     try {
-      const response = await TicketsAPI.get();
+      const response = await TicketsAPI.get(ticketId);
       commit(types.default.SET_TICKETS, response.data.payload);
       commit(types.default.SET_TICKETS_UI_FLAG, {
         isFetching: false,
