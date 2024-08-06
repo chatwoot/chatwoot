@@ -481,7 +481,8 @@
       "HEADER": "Трафик сообщений",
       "NO_CONVERSATIONS": "Нет сообщений",
       "CONVERSATION": "%{count} разговор",
-      "CONVERSATIONS": "%{count} разговоров"
+      "CONVERSATIONS": "%{count} разговоров",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Диалоги по операторам",
@@ -536,6 +537,7 @@
       "LABELS": "Метка",
       "TEAMS": "Команда"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",
