@@ -1,6 +1,6 @@
 {
   "TICKETS": {
-    "TITLE": "Título do Ticket",
+    "TITLE": "Ticket",
     "DESCRIPTION": "Descrição do Ticket",
     "ASSIGNEE": {
       "ASSIGNED_TO": "Atribuído para",

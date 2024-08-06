@@ -2,7 +2,7 @@
 import { AllRoles } from '../../../featureFlags';
 import { frontendURL } from '../../../helper/URLHelper';
 
-const TicketShowView = () => './pages/TicketShowView.vue';
+const TicketShowView = () => import('./pages/TicketShowView.vue');
 const TicketView = () => import('./TicketView.vue');
 
 export const routes = [
@@ -17,8 +17,6 @@ export const routes = [
     name: 'ticket_show_dashboard',
     roles: AllRoles,
     component: TicketShowView,
-    props: route => {
-      return { ticketId: route.params.ticketId };
-    },
+    props: route => ({ ticketId: route.params.ticketId }),
   },
 ];

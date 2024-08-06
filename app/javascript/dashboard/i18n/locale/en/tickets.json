@@ -1,6 +1,6 @@
 {
   "TICKETS": {
-    "TITLE": "Ticket Title",
+    "TITLE": "Ticket",
     "DESCRIPTION": "Ticket Description",
     "ASSIGNEE": {
       "ASSIGNED_TO": "Assigned to",

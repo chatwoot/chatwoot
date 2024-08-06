@@ -42,7 +42,6 @@
 <script>
 import { mapGetters } from 'vuex';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
-import router from 'dashboard/routes';
 
 export default {
   name: 'TicketItemComponent',
@@ -92,7 +91,7 @@ export default {
   },
   methods: {
     onCardClick() {
-      router.push({
+      this.$router.push({
         name: 'ticket_show_dashboard',
         params: { ticketId: this.source.id },
       });
