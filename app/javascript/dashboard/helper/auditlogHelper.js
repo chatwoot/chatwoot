@@ -30,6 +30,7 @@ const translationKeys = {
   'accountuser:create': `AUDIT_LOGS.ACCOUNT_USER.ADD`,
   'accountuser:update:self': `AUDIT_LOGS.ACCOUNT_USER.EDIT.SELF`,
   'accountuser:update:other': `AUDIT_LOGS.ACCOUNT_USER.EDIT.OTHER`,
+  'accountuser:update:deleted': `AUDIT_LOGS.ACCOUNT_USER.EDIT.DELETED`,
   'inboxmember:create': `AUDIT_LOGS.INBOX_MEMBER.ADD`,
   'inboxmember:destroy': `AUDIT_LOGS.INBOX_MEMBER.REMOVE`,
   'teammember:create': `AUDIT_LOGS.TEAM_MEMBER.ADD`,
@@ -89,9 +90,9 @@ function handleAccountUserCreate(auditLogItem, translationPayload, agentList) {
 }
 
 function handleAccountUserUpdate(auditLogItem, translationPayload, agentList) {
-  if (auditLogItem.user_id !== auditLogItem.auditable.user_id) {
+  if (auditLogItem.user_id !== auditLogItem.auditable?.user_id) {
     translationPayload.user = getAgentName(
-      auditLogItem.auditable.user_id,
+      auditLogItem.auditable?.user_id,
       agentList
     );
   }
@@ -187,16 +188,25 @@ export function generateTranslationPayload(auditLogItem, agentList) {
   return translationPayload;
 }
 
+function getAccountUserUpdateSuffix(auditLogItem) {
+  if (auditLogItem.auditable === null) {
+    // If the user is deleted, we don't need to check if the user is the same as the auditLogItem.user_id
+    // Else we can use the deleted translation key
+    // It doesn't need the agent name
+    return ':deleted';
+  }
+  return auditLogItem.user_id === auditLogItem.auditable.user_id
+    ? ':self'
+    : ':other';
+}
+
 export const generateLogActionKey = auditLogItem => {
   const auditableType = auditLogItem.auditable_type.toLowerCase();
   const action = auditLogItem.action.toLowerCase();
   let logActionKey = `${auditableType}:${action}`;
 
   if (auditableType === 'accountuser' && action === 'update') {
-    logActionKey +=
-      auditLogItem.user_id === auditLogItem.auditable.user_id
-        ? ':self'
-        : ':other';
+    logActionKey += getAccountUserUpdateSuffix(auditLogItem);
   }
 
   return translationKeys[logActionKey] || '';
