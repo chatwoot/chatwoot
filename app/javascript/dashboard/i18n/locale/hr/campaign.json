@@ -9,7 +9,7 @@
     "ADD": {
       "TITLE": "Create a campaign",
       "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "CANCEL_BUTTON_TEXT": "Odustani",
       "CREATE_BUTTON_TEXT": "Create",
       "FORM": {
         "TITLE": {
@@ -63,12 +63,12 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Izbriši",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
+        "TITLE": "Potvrdi brisanje",
         "MESSAGE": "Are you sure to delete?",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "YES": "Da, izbriši",
+        "NO": "Ne, zadrži"
       },
       "API": {
         "SUCCESS_MESSAGE": "Campaign deleted successfully",
@@ -99,8 +99,8 @@
       },
       "BUTTONS": {
         "ADD": "Add",
-        "EDIT": "Edit",
-        "DELETE": "Delete"
+        "EDIT": "Uredi",
+        "DELETE": "Izbriši"
       },
       "STATUS": {
         "ENABLED": "Enabled",
