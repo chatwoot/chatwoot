@@ -4,6 +4,7 @@
     "DESCRIPTION": "Descrição do Ticket",
     "DESCRIPTION_PLACEHOLDER": "Insira uma descrição do ticket",
     "RESOLVE": "Resolver",
+    "RESOLVED_AT": "Resolvido em",
     "ACTIONS": {
       "EDIT": "Editar",
       "SAVE": "Salvar",

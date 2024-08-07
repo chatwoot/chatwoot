@@ -34,6 +34,7 @@
         {{ $t('TICKETS.RESOLVE') }}
       </a>
       <a
+        v-if="isAdmin"
         href="#"
         class="block px-4 py-2 text-red-600 hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-700"
         @click="deleteTicket"
@@ -47,10 +48,11 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
+import isAdmin from 'dashboard/mixins/isAdmin';
 
 export default {
   name: 'MoreActionsDropdown',
-  mixins: [clickaway],
+  mixins: [clickaway, isAdmin],
   props: {
     ticket: {
       type: Object,
@@ -78,7 +80,10 @@ export default {
     },
     assignToMe(e) {
       e.preventDefault();
-      this.$store.dispatch('tickets/assign', this.ticket.id);
+      this.$store.dispatch('tickets/assign', {
+        ticketId: this.ticket.id,
+        assigneeId: this.currentUserId,
+      });
     },
     toggleEditMode() {
       this.$emit('toggle-edit-mode');

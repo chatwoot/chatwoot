@@ -24,6 +24,10 @@ export class TicketsAPI extends CacheEnabledApiClient {
     return axios.put(`${this.url}/${ticketId}/assign/${userId}`);
   }
 
+  resolve(ticketId) {
+    return axios.post(`${this.url}/${ticketId}/resolve`);
+  }
+
   removeLabel(ticketId, label) {
     return axios.delete(`${this.url}/${ticketId}/labels/${label.id}`);
   }

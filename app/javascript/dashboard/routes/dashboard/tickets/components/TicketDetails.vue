@@ -56,6 +56,14 @@
                 }}</strong>
               </p>
             </div>
+            <div>
+              <h3 class="text-sm text-slate-600">
+                {{ $t('TICKETS.RESOLVED_AT') }}:
+              </h3>
+              <p class="text-sm text-slate-600">
+                <strong>{{ ticket.resolved_at || '-' }}</strong>
+              </p>
+            </div>
           </div>
           <div class="flex flex-col">
             <h3 class="text-sm text-slate-600">
@@ -177,7 +185,7 @@ export default {
           label,
         })
         .catch(error => {
-          this.showAlert(error.message);
+          this.showAlert(error);
         });
     },
     removeLabel(label) {
@@ -187,7 +195,7 @@ export default {
           label,
         })
         .catch(error => {
-          this.showAlert(error.message);
+          this.showAlert(error);
         });
     },
   },

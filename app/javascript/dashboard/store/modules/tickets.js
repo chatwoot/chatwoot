@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import * as types from '../mutation-types';
 import TicketsAPI from '../../api/tickets';
 
@@ -123,6 +122,21 @@ export const actions = {
       throw error;
     }
   },
+  resolve: async ({ commit }, ticketId) => {
+    commit(types.default.SET_TICKETS_UI_FLAG, { isUpdating: true });
+    try {
+      const response = await TicketsAPI.resolve(ticketId);
+      commit(types.default.UPDATE_TICKET, response.data);
+      commit(types.default.SET_TICKETS_UI_FLAG, {
+        isUpdating: false,
+      });
+    } catch (error) {
+      commit(types.default.SET_TICKETS_UI_FLAG, {
+        isUpdating: false,
+      });
+      throw error;
+    }
+  },
   assign: async ({ commit }, { ticketId, assigneeId }) => {
     commit(types.default.SET_TICKETS_UI_FLAG, { isUpdating: true });
     try {
@@ -166,6 +180,17 @@ export const actions = {
       throw error;
     }
   },
+  delete: async ({ commit }, ticketId) => {
+    commit(types.default.SET_TICKETS_UI_FLAG, { isDeleting: true });
+    try {
+      await TicketsAPI.delete(ticketId);
+      commit(types.default.DELETE_TICKET);
+      commit(types.default.SET_TICKETS_UI_FLAG, { isDeleting: false });
+    } catch (error) {
+      commit(types.default.SET_TICKETS_UI_FLAG, { isDeleting: false });
+      throw error;
+    }
+  },
 };
 
 export const mutations = {
@@ -188,13 +213,13 @@ export const mutations = {
     $state.selectedTicket = data;
   },
   [types.default.UPDATE_TICKET]: ($state, data) => {
-    const index = $state.records.findIndex(ticket => ticket.id === data.id);
-    if (index !== -1) {
-      Vue.set($state.records, index, data);
-    }
+    $state.selectedTicket = data;
   },
   [types.default.SET_TICKETS_STATS]($state, data) {
     $state.stats = data;
+  },
+  [types.default.DELETE_TICKET]: $state => {
+    $state.selectedTicket = null;
   },
   [types.default.SET_TICKET_ADD_LABEL]($state, { label }) {
     $state.selectedTicket.labels = [...$state.selectedTicket.labels, label];
