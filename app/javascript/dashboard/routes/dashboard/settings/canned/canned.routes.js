@@ -1,18 +1,13 @@
 import { frontendURL } from '../../../../helper/URLHelper';
 
-const SettingsContent = () => import('../Wrapper.vue');
+const SettingsWrapper = () => import('../SettingsWrapper.vue');
 const CannedHome = () => import('./Index.vue');
 
 export default {
   routes: [
     {
       path: frontendURL('accounts/:accountId/settings/canned-response'),
-      component: SettingsContent,
-      props: {
-        headerTitle: 'CANNED_MGMT.HEADER',
-        icon: 'chat-multiple',
-        showNewButton: false,
-      },
+      component: SettingsWrapper,
       children: [
         {
           path: '',
