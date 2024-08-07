@@ -2,22 +2,36 @@
   <div class="relative" @clickaway="closeDropdown">
     <woot-button
       class="button"
-      variant="clear"
+      color-scheme="primary"
       :aria-expanded="isOpen"
+      icon="arrow-swap"
       @click="toggleDropdown"
-    >
-      +
-    </woot-button>
+    />
     <div
       v-if="isOpen"
-      class="absolute right-0 mt-2 py-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg dark:bg-slate-200"
+      class="absolute right-0 mt-2 py-2 w-48 bg-white border border-gray-100 rounded-md shadow-lg"
     >
       <a
         href="#"
-        class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-slate-200"
+        class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-slate-700"
+        @click="toggleEditMode"
+      >
+        {{ $t('TICKETS.ACTIONS.EDIT') }}
+      </a>
+      <a
+        v-if="!ticket.assigned_to"
+        href="#"
+        class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-slate-700"
         @click="assignToMe"
       >
         {{ $t('TICKETS.ASSIGNEE.ASSIGNEE_TO_ME') }}
+      </a>
+      <a
+        href="#"
+        class="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-slate-700"
+        @click="resolveTicket"
+      >
+        {{ $t('TICKETS.RESOLVE') }}
       </a>
       <a
         href="#"
@@ -31,48 +45,53 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 
 export default {
   name: 'MoreActionsDropdown',
   mixins: [clickaway],
   props: {
-    ticketId: {
-      type: [Number, String],
+    ticket: {
+      type: Object,
       required: true,
     },
-    currentUserId: {
-      type: [Number, String],
+    isEditing: {
+      type: Boolean,
       required: true,
     },
   },
-  data() {
-    return {
-      isOpen: false,
-    };
+  data: () => ({
+    isOpen: false,
+  }),
+  computed: {
+    ...mapGetters({
+      currentUserId: 'getCurrentUserID',
+    }),
   },
   methods: {
     toggleDropdown() {
       this.isOpen = !this.isOpen;
     },
     closeDropdown() {
-      // eslint-disable-next-line no-console
-      console.log('close dropdown');
       this.isOpen = false;
     },
-    assignToMe() {
-      this.$store.dispatch('tickets/assign', {
-        ticketId: this.ticketId,
-        assigneeId: this.currentUserId,
-      });
+    assignToMe(e) {
+      e.preventDefault();
+      this.$store.dispatch('tickets/assign', this.ticket.id);
+    },
+    toggleEditMode() {
+      this.$emit('toggle-edit-mode');
       this.closeDropdown();
     },
     deleteTicket() {
-      this.$store.dispatch('tickets/delete', this.ticketId);
+      this.$store.dispatch('tickets/delete', this.ticket.id);
+      this.closeDropdown();
+    },
+    resolveTicket() {
+      this.$store.dispatch('tickets/resolve', this.ticket.id);
       this.closeDropdown();
     },
   },
 };
 </script>
-
-<style scoped></style>

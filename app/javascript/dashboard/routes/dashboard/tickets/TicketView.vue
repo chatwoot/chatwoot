@@ -1,9 +1,9 @@
 <template>
   <section class="ticket-page bg-white dark:bg-slate-900">
     <div class="flex flex-row w-full">
-      <div class="flex-col w-[70%]">
+      <div class="flex-col w-full" :class="{ 'w-[70%]': !!ticket }">
         <div
-          class="flex items-center justify-between py-4 px-4 pb-3 border-b border-slate-75 dark:border-slate-700"
+          class="flex items-center justify-between py-3 border-b border-slate-75 dark:border-slate-700"
         >
           <div class="flex max-w-[85%] justify-center items-center">
             <h1
@@ -56,9 +56,10 @@
         </div>
       </div>
       <div
+        v-if="ticket"
         class="flex flex-col w-[30%] border-l border-slate-50 dark:border-slate-800"
       >
-        <ticket-details :ticket-id="selectedTicketId" />
+        <ticket-details :ticket-id="ticket.id" />
       </div>
     </div>
   </section>
@@ -91,7 +92,6 @@ export default {
         root: null,
         rootMargin: '100px 0px 100px 0px',
       },
-      selectedTicketId: null,
     };
   },
   computed: {
@@ -99,6 +99,7 @@ export default {
       ticketListLoading: 'tickets/getUIFlagsPage',
       ticketStats: 'tickets/getStats',
       ticketLists: 'tickets/getTickets',
+      ticket: 'tickets/getTicket',
     }),
     assigneeTabItems() {
       return [
