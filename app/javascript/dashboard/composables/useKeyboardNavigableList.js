@@ -28,9 +28,15 @@ const createAction = action => ({
  * @param {Function} moveSelectionUp - Function to move selection up.
  * @param {Function} moveSelectionDown - Function to move selection down.
  * @param {Function} [onSelect] - Optional function to handle selection.
+ * @param {import('vue').Ref<Array>} items - A ref to the array of selectable items.
  * @returns {Object.<string, {action: Function, allowOnFocusedInput: boolean}>}
  */
-const createKeyboardEvents = (moveSelectionUp, moveSelectionDown, onSelect) => {
+const createKeyboardEvents = (
+  moveSelectionUp,
+  moveSelectionDown,
+  onSelect,
+  items
+) => {
   const events = {
     ArrowUp: createAction(moveSelectionUp),
     'Control+KeyP': createAction(moveSelectionUp),
@@ -40,10 +46,27 @@ const createKeyboardEvents = (moveSelectionUp, moveSelectionDown, onSelect) => {
 
   // Adds an event handler for the Enter key if the onSelect function is provided.
   if (typeof onSelect === 'function') {
-    events.Enter = createAction(onSelect);
+    events.Enter = createAction(() => items.value?.length > 0 && onSelect());
   }
 
   return events;
+};
+
+/**
+ * Updates the selection index based on the current index, total number of items, and direction of movement.
+ *
+ * @param {number} currentIndex - The current index of the selected item.
+ * @param {number} itemsLength - The total number of items in the list.
+ * @param {string} direction - The direction of movement, either 'up' or 'down'.
+ * @returns {number} The new index after moving in the specified direction.
+ */
+const updateSelectionIndex = (currentIndex, itemsLength, direction) => {
+  // If the selected index is the first item, move to the last item
+  // If the selected index is the last item, move to the first item
+  if (direction === 'up') {
+    return currentIndex === 0 ? itemsLength - 1 : currentIndex - 1;
+  }
+  return currentIndex === itemsLength - 1 ? 0 : currentIndex + 1;
 };
 
 /**
@@ -67,32 +90,23 @@ export function useKeyboardNavigableList({
   adjustScroll,
   selectedIndex,
 }) {
-  const moveSelectionUp = () => {
-    // if the selected index is the first item, move to the last item
-    // else move to the previous item
-    if (selectedIndex.value === 0) {
-      selectedIndex.value = items.value.length - 1;
-    } else {
-      selectedIndex.value -= 1;
-    }
+  const moveSelection = direction => {
+    selectedIndex.value = updateSelectionIndex(
+      selectedIndex.value,
+      items.value.length,
+      direction
+    );
     adjustScroll();
   };
 
-  const moveSelectionDown = () => {
-    // if the selected index is the last item, move to the first item
-    // else move to the next item
-    if (selectedIndex.value === items.value.length - 1) {
-      selectedIndex.value = 0;
-    } else {
-      selectedIndex.value += 1;
-    }
-    adjustScroll();
-  };
+  const moveSelectionUp = () => moveSelection('up');
+  const moveSelectionDown = () => moveSelection('down');
 
   const keyboardEvents = createKeyboardEvents(
     moveSelectionUp,
     moveSelectionDown,
-    onSelect
+    onSelect,
+    items
   );
 
   useKeyboardEvents(keyboardEvents, elementRef);

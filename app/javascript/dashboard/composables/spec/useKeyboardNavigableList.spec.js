@@ -241,6 +241,18 @@ describe('useKeyboardNavigableList', () => {
     expect(keyboardEventsWithoutSelect).not.toHaveProperty('Enter');
   });
 
+  it('should not have Enter key handler when onSelect is provided and items are empty', () => {
+    useKeyboardNavigableList({
+      elementRef,
+      items: ref([]),
+      adjustScroll,
+      selectedIndex,
+    });
+
+    const keyboardEventsWithoutSelect = useKeyboardEvents.mock.calls[0][0];
+    expect(keyboardEventsWithoutSelect).not.toHaveProperty('Enter');
+  });
+
   it('should set allowOnFocusedInput to true for all key handlers', () => {
     useKeyboardNavigableList({
       elementRef,
