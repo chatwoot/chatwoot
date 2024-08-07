@@ -102,6 +102,9 @@ export const actions = {
       commit(types.default.SET_TICKETS_UI_FLAG, {
         isCreating: false,
       });
+      if (error.response.data) {
+        throw error.response.data.error;
+      }
       throw error;
     }
   },
@@ -119,6 +122,9 @@ export const actions = {
       commit(types.default.SET_TICKETS_UI_FLAG, {
         isUpdating: false,
       });
+      if (error.response.data) {
+        throw error.response.data.error;
+      }
       throw error;
     }
   },
@@ -134,6 +140,9 @@ export const actions = {
       commit(types.default.SET_TICKETS_UI_FLAG, {
         isUpdating: false,
       });
+      if (error.response.data) {
+        throw error.response.data.error;
+      }
       throw error;
     }
   },
@@ -149,6 +158,9 @@ export const actions = {
       commit(types.default.SET_TICKETS_UI_FLAG, {
         isUpdating: false,
       });
+      if (error.response.data) {
+        throw error.response.data.error;
+      }
       throw error;
     }
   },

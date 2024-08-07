@@ -21,25 +21,6 @@
         :placeholder="$t('CONVERSATION.CUSTOM_TICKET.DESCRIPTION_PLACEHOLDER')"
         @blur="description.$touch"
       />
-      <!-- labels -->
-      <woot-label
-        v-for="label in activeLabels"
-        :key="label.id"
-        :title="label.title"
-        :description="label.description"
-        :show-close="true"
-        :color="label.color"
-        variant="smooth"
-        @click="removeLabelFromTicket"
-      />
-      <!-- list of labels to add -->
-      <label-dropdown
-        :account-labels="accountLabels"
-        :selected-labels="savedLabels"
-        :allow-creation="isAdmin"
-        @add="addLabelToTicket"
-        @remove="removeLabelFromTicket"
-      />
 
       <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
         <woot-button variant="clear" @click.prevent="onClose">
@@ -55,7 +36,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import LabelDropdown from 'shared/components/ui/label/LabelDropdown.vue';
 import adminMixin from 'dashboard/mixins/isAdmin';
 import conversationLabelMixin from 'dashboard/mixins/conversation/labelMixin';
 import eventListenerMixins from 'shared/mixins/eventListenerMixins';
@@ -63,9 +43,6 @@ import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   name: 'CustomTicketModal',
-  components: {
-    LabelDropdown,
-  },
   mixins: [adminMixin, conversationLabelMixin, eventListenerMixins, alertMixin],
   props: {
     conversationId: {

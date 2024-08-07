@@ -42,6 +42,7 @@ class Api::V1::Accounts::TicketsController < Api::V1::Accounts::BaseController
 
   def resolve
     raise CustomExceptions::Ticket, I18n.t('activerecord.errors.models.ticket.errors.already_resolved') if @ticket.resolved?
+    raise CustomExceptions::Ticket, I18n.t('activerecord.errors.models.ticket.errors.need_to_be_assigned') if @ticket.assignee.blank?
 
     @ticket.update!(status: :resolved, resolved_at: Time.current)
   end
