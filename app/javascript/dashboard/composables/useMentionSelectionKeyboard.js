@@ -3,23 +3,24 @@ import { useKeyboardEvents } from './useKeyboardEvents';
 /**
  * A composable for handling keyboard navigation in mention selection scenarios.
  *
- * @param {import('vue').Ref<HTMLElement>} elementRef - A ref to the DOM element that will receive keyboard events.
- * @param {import('vue').Ref<Array>} items - A ref to the array of selectable items.
- * @param {Function} onSelect - A function to be called when an item is selected.
- * @param {Function} adjustScroll - A function to adjust the scroll position after selection changes.
- * @param {import('vue').Ref<number>} selectedIndex - A ref to the currently selected index.
+ * @param {Object} options - The options for the composable.
+ * @param {import('vue').Ref<HTMLElement>} options.elementRef - A ref to the DOM element that will receive keyboard events.
+ * @param {import('vue').Ref<Array>} options.items - A ref to the array of selectable items.
+ * @param {Function} [options.onSelect] - An optional function to be called when an item is selected.
+ * @param {Function} options.adjustScroll - A function to adjust the scroll position after selection changes.
+ * @param {import('vue').Ref<number>} options.selectedIndex - A ref to the currently selected index.
  * @returns {{
  *   moveSelectionUp: Function,
  *   moveSelectionDown: Function
  * }} An object containing functions to move the selection up and down.
  */
-export function useMentionSelectionKeyboard(
+export function useMentionSelectionKeyboard({
   elementRef,
   items,
   onSelect,
   adjustScroll,
-  selectedIndex
-) {
+  selectedIndex,
+}) {
   /**
    * Moves the selection up in the list of items.
    */
@@ -77,14 +78,18 @@ export function useMentionSelectionKeyboard(
       },
       allowOnFocusedInput: true,
     },
-    Enter: {
+  };
+
+  // Add Enter key handler only if onSelect is a function
+  if (typeof onSelect === 'function') {
+    keyboardEvents.Enter = {
       action: e => {
         onSelect();
         e.preventDefault();
       },
       allowOnFocusedInput: true,
-    },
-  };
+    };
+  }
 
   // Set up keyboard event listeners
   useKeyboardEvents(keyboardEvents, elementRef);
