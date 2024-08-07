@@ -21,15 +21,36 @@
         <div class="flex flex-col gap-1">
           <div v-if="isEditing">
             <woot-input
-              v-model.trim="description"
-              class="columns"
-              type="textarea"
+              v-model.trim="ticket.title"
+              name="title"
+              type="text"
+              :label="$t('TICKETS.TITLE')"
+              :placeholder="$t('TICKETS.TITLE_PLACEHOLDER')"
+              help-text="Forneça um título para o ticket."
+            />
+            <woot-text-area
+              v-model.trim="ticket.description"
+              class="rounded-none"
               rows="4"
               :label="$t('TICKETS.DESCRIPTION')"
               :placeholder="$t('TICKETS.DESCRIPTION_PLACEHOLDER')"
+              help-text="Forneça uma descrição detalhada."
             />
+            <woot-button
+              color-scheme="primary"
+              class="my-4 w-full"
+              @click="saveChanges"
+            >
+              {{ $t('TICKETS.ACTIONS.SAVE') }}
+            </woot-button>
           </div>
           <div v-else class="flex flex-col">
+            <div>
+              <h3 class="text-sm text-slate-600">{{ $t('TICKETS.TITLE') }}:</h3>
+              <p class="text-sm text-slate-600">
+                <strong>{{ ticket.title }}</strong>
+              </p>
+            </div>
             <div>
               <h3 class="text-sm text-slate-600">
                 {{ $t('TICKETS.DESCRIPTION') }}:
@@ -101,15 +122,6 @@
             </woot-button>
           </div>
         </div>
-        <div v-if="isEditing">
-          <woot-button
-            color-scheme="primary"
-            class="w-full"
-            @click="saveChanges"
-          >
-            {{ $t('TICKETS.ACTIONS.SAVE') }}
-          </woot-button>
-        </div>
       </div>
     </div>
     <woot-modal :show.sync="createModalVisible" :on-close="toggleModalLabel">
@@ -131,8 +143,8 @@ export default {
   name: 'TicketDetails',
   components: {
     MoreActionsDropdown,
-    AddLabelModal,
     LabelSelector,
+    AddLabelModal,
   },
   mixins: [alertMixin],
   props: {
@@ -176,8 +188,14 @@ export default {
       this.createModalVisible = !this.createModalVisible;
     },
     saveChanges() {
-      // eslint-disable-next-line no-console
-      console.log('save changes');
+      this.isEditing = false;
+      this.$store.dispatch('tickets/update', {
+        ticketId: this.ticketId,
+        body: {
+          title: this.ticket.title,
+          description: this.ticket.description,
+        },
+      });
     },
     toggleLabelSelector() {
       this.showLabelSelector = !this.showLabelSelector;

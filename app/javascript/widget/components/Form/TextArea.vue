@@ -2,7 +2,7 @@
   <label class="block">
     <div
       v-if="label"
-      class="mb-2 text-xs leading-3 font-medium"
+      class="mb-2 text-xs leading-6 font-medium"
       :class="labelClass"
     >
       {{ label }}

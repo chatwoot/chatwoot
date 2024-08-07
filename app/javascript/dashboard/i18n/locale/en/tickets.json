@@ -1,6 +1,7 @@
 {
   "TICKETS": {
     "TITLE": "Ticket",
+    "TITLE_PLACEHOLDER": "Enter the ticket title",
     "DESCRIPTION": "Ticket Description",
     "DESCRIPTION_PLACEHOLDER": "Enter a ticket description",
     "RESOLVE": "Resolve",

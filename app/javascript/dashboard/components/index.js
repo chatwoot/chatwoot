@@ -13,6 +13,7 @@ import DropdownMenu from 'shared/components/ui/dropdown/DropdownMenu';
 import FeatureToggle from './widgets/FeatureToggle';
 import HorizontalBar from './widgets/chart/HorizontalBarChart';
 import Input from './widgets/forms/Input.vue';
+import TextArea from './widgets/forms/TextArea.vue';
 import PhoneInput from './widgets/forms/PhoneInput.vue';
 import Label from './ui/Label';
 import LoadingState from './widgets/LoadingState';
@@ -41,6 +42,7 @@ const WootUIKit = {
   FeatureToggle,
   HorizontalBar,
   Input,
+  TextArea,
   PhoneInput,
   Label,
   LoadingState,

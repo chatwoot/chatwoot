@@ -109,7 +109,7 @@ export const actions = {
     commit(types.default.SET_TICKETS_UI_FLAG, { isUpdating: true });
     try {
       const response = await TicketsAPI.update(ticketId, {
-        ticket: { body },
+        ticket: { ...body },
       });
       commit(types.default.UPDATE_TICKET, response.data);
       commit(types.default.SET_TICKETS_UI_FLAG, {
