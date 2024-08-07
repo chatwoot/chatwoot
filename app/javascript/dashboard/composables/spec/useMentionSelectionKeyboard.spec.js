@@ -15,6 +15,8 @@ describe('useMentionSelectionKeyboard', () => {
   let adjustScroll;
   let selectedIndex;
 
+  const createMockEvent = () => ({ preventDefault: vi.fn() });
+
   beforeEach(() => {
     elementRef = ref(null);
     items = ref(['item1', 'item2', 'item3']);
@@ -140,5 +142,125 @@ describe('useMentionSelectionKeyboard', () => {
       expect.any(Object),
       elementRef
     );
+  });
+
+  // Keyboard event handlers
+  it('should handle ArrowUp key', () => {
+    useMentionSelectionKeyboard({
+      elementRef,
+      items,
+      onSelect,
+      adjustScroll,
+      selectedIndex,
+    });
+    const keyboardEvents = useKeyboardEvents.mock.calls[0][0];
+    const mockEvent = createMockEvent();
+    keyboardEvents.ArrowUp.action(mockEvent);
+
+    expect(selectedIndex.value).toBe(2);
+    expect(adjustScroll).toHaveBeenCalled();
+    expect(mockEvent.preventDefault).toHaveBeenCalled();
+  });
+
+  it('should handle Control+KeyP', () => {
+    useMentionSelectionKeyboard({
+      elementRef,
+      items,
+      onSelect,
+      adjustScroll,
+      selectedIndex,
+    });
+    const keyboardEvents = useKeyboardEvents.mock.calls[0][0];
+    const mockEvent = createMockEvent();
+    keyboardEvents['Control+KeyP'].action(mockEvent);
+
+    expect(selectedIndex.value).toBe(2);
+    expect(adjustScroll).toHaveBeenCalled();
+    expect(mockEvent.preventDefault).toHaveBeenCalled();
+  });
+
+  it('should handle ArrowDown key', () => {
+    useMentionSelectionKeyboard({
+      elementRef,
+      items,
+      onSelect,
+      adjustScroll,
+      selectedIndex,
+    });
+    const keyboardEvents = useKeyboardEvents.mock.calls[0][0];
+    const mockEvent = createMockEvent();
+    keyboardEvents.ArrowDown.action(mockEvent);
+
+    expect(selectedIndex.value).toBe(1);
+    expect(adjustScroll).toHaveBeenCalled();
+    expect(mockEvent.preventDefault).toHaveBeenCalled();
+  });
+
+  it('should handle Control+KeyN', () => {
+    useMentionSelectionKeyboard({
+      elementRef,
+      items,
+      onSelect,
+      adjustScroll,
+      selectedIndex,
+    });
+    const keyboardEvents = useKeyboardEvents.mock.calls[0][0];
+    const mockEvent = createMockEvent();
+    keyboardEvents['Control+KeyN'].action(mockEvent);
+
+    expect(selectedIndex.value).toBe(1);
+    expect(adjustScroll).toHaveBeenCalled();
+    expect(mockEvent.preventDefault).toHaveBeenCalled();
+  });
+
+  it('should handle Enter key when onSelect is provided', () => {
+    useMentionSelectionKeyboard({
+      elementRef,
+      items,
+      onSelect,
+      adjustScroll,
+      selectedIndex,
+    });
+    const keyboardEvents = useKeyboardEvents.mock.calls[0][0];
+    const mockEvent = createMockEvent();
+    keyboardEvents.Enter.action(mockEvent);
+
+    expect(onSelect).toHaveBeenCalled();
+    expect(mockEvent.preventDefault).toHaveBeenCalled();
+  });
+
+  it('should not have Enter key handler when onSelect is not provided', () => {
+    useMentionSelectionKeyboard({
+      elementRef,
+      items,
+      adjustScroll,
+      selectedIndex,
+    });
+
+    const keyboardEventsWithoutSelect = useKeyboardEvents.mock.calls[0][0];
+    expect(keyboardEventsWithoutSelect).not.toHaveProperty('Enter');
+  });
+
+  it('should set allowOnFocusedInput to true for all key handlers', () => {
+    useMentionSelectionKeyboard({
+      elementRef,
+      items,
+      onSelect,
+      adjustScroll,
+      selectedIndex,
+    });
+    const keyboardEvents = useKeyboardEvents.mock.calls[0][0];
+    const keyHandlers = [
+      'ArrowUp',
+      'Control+KeyP',
+      'ArrowDown',
+      'Control+KeyN',
+      'Enter',
+    ];
+    keyHandlers.forEach(key => {
+      if (keyboardEvents[key]) {
+        expect(keyboardEvents[key].allowOnFocusedInput).toBe(true);
+      }
+    });
   });
 });
