@@ -38,13 +38,13 @@ const onSelect = () => {
   emit('mentionSelect', props.items[selectedIndex.value]);
 };
 
-useMentionSelectionKeyboard(
-  mentionsListContainerRef,
-  computed(() => props.items),
+useMentionSelectionKeyboard({
+  elementRef: mentionsListContainerRef,
+  items: computed(() => props.items),
   onSelect,
   adjustScroll,
-  selectedIndex
-);
+  selectedIndex,
+});
 
 watch(
   () => props.items,

@@ -39,13 +39,13 @@ const onSelect = () => {
   emit('click', items.value[selectedIndex.value]);
 };
 
-useMentionSelectionKeyboard(
-  tagAgentsRef,
+useMentionSelectionKeyboard({
+  elementRef: tagAgentsRef,
   items,
   onSelect,
   adjustScroll,
-  selectedIndex
-);
+  selectedIndex,
+});
 
 watch(items, newListOfAgents => {
   if (newListOfAgents.length < selectedIndex.value + 1) {
