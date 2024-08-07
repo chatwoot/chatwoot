@@ -6,6 +6,7 @@ class DailyConversationReportJob < ApplicationJob
 
   JOB_DATA_URL = 'https://bitespeed-app.s3.amazonaws.com/InternalAccess/cw-auto-conversation-report.json'.freeze
 
+  # rubocop:disable Metrics/AbcSize
   def perform
     set_statement_timeout
 
@@ -23,14 +24,15 @@ class DailyConversationReportJob < ApplicationJob
       current_date = Date.current
 
       range = if job[:frequency] == 'weekly'
-                { since: 1.week.ago, until: Time.current }
+                { since: 1.week.ago.beginning_of_day, until: 1.day.ago.end_of_day }
               else
-                { since: 1.day.ago, until: Time.current }
+                { since: 1.day.ago.beginning_of_day, until: 1.day.ago.end_of_day }
               end
 
       process_account(job[:account_id], current_date, range, false, job[:frequency])
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   def generate_custom_report(account_id, range, bitespeed_bot)
     set_statement_timeout
