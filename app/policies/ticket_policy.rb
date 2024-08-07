@@ -27,6 +27,14 @@ class TicketPolicy < ApplicationPolicy
     true
   end
 
+  def add_label?
+    true
+  end
+
+  def remove_label?
+    true
+  end
+
   def destroy?
     @account_user.administrator? || @account_user.supervisor?
   end

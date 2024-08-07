@@ -69,12 +69,21 @@
               :show-close="true"
               :color="label.color"
               variant="smooth"
+              @click="removeLabel(label)"
+            />
+            <label-selector
+              v-if="showLabelSelector"
+              :account-labels="accountLabels"
+              :selected-labels="ticket.labels"
+              @add="addLabel"
+              @remove="removeLabel"
+              @close="toggleLabelSelector"
             />
             <woot-button
               variant="clear"
               color-scheme="secondary"
               icon="add"
-              @click="toggleModalLabel"
+              @click="toggleLabelSelector"
             >
               {{ $t('TICKETS.LABELS.CREATE') }}
             </woot-button>
@@ -99,18 +108,21 @@
     </woot-modal>
   </section>
 </template>
-
 <script>
 import { mapGetters } from 'vuex';
 import MoreActionsDropdown from './MoreActionsDropdown.vue';
 import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.vue';
+import LabelSelector from './LabelSelector.vue';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   name: 'TicketDetails',
   components: {
     MoreActionsDropdown,
     AddLabelModal,
+    LabelSelector,
   },
+  mixins: [alertMixin],
   props: {
     ticketId: {
       type: [Number, String],
@@ -120,11 +132,13 @@ export default {
   data: () => ({
     isEditing: false,
     createModalVisible: false,
+    showLabelSelector: false,
   }),
   computed: {
     ...mapGetters({
       ticket: 'tickets/getTicket',
       currentUserId: 'getCurrentUserID',
+      accountLabels: 'labels/getTeamLabels',
     }),
     assigneeFormatted() {
       if (!this.ticket.assigned_to)
@@ -153,14 +167,29 @@ export default {
       // eslint-disable-next-line no-console
       console.log('save changes');
     },
+    toggleLabelSelector() {
+      this.showLabelSelector = !this.showLabelSelector;
+    },
+    addLabel(label) {
+      this.$store
+        .dispatch('tickets/addLabel', {
+          ticketId: this.ticketId,
+          label,
+        })
+        .catch(error => {
+          this.showAlert(error.message);
+        });
+    },
+    removeLabel(label) {
+      this.$store
+        .dispatch('tickets/removeLabel', {
+          ticketId: this.ticketId,
+          label,
+        })
+        .catch(error => {
+          this.showAlert(error.message);
+        });
+    },
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.ticket-page {
-  display: flex;
-  width: 100%;
-  height: 100%;
-}
-</style>

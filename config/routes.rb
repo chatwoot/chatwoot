@@ -239,6 +239,8 @@ Rails.application.routes.draw do
           resources :tickets, only: [:index, :create, :show, :update, :destroy] do
             member do
               put 'assign/:user_id', action: :assign
+              post 'labels', action: :add_label
+              delete 'labels/:label_id', action: :remove_label
               post :resolve
             end
 

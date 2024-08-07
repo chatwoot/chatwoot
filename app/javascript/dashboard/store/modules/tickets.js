@@ -110,7 +110,7 @@ export const actions = {
     commit(types.default.SET_TICKETS_UI_FLAG, { isUpdating: true });
     try {
       const response = await TicketsAPI.update(ticketId, {
-        body,
+        ticket: { body },
       });
       commit(types.default.UPDATE_TICKET, response.data);
       commit(types.default.SET_TICKETS_UI_FLAG, {
@@ -138,6 +138,34 @@ export const actions = {
       throw error;
     }
   },
+  addLabel: async ({ commit }, { ticketId, label }) => {
+    commit(types.default.SET_TICKETS_UI_FLAG, { isUpdating: true });
+    try {
+      await TicketsAPI.update(ticketId, { ticket: { labels: [label] } });
+      commit(types.default.SET_TICKET_ADD_LABEL, { label });
+    } catch (error) {
+      commit(types.default.SET_TICKETS_UI_FLAG, { isUpdating: false });
+      if (error.response.data) {
+        throw error.response.data.error;
+      }
+
+      throw error;
+    }
+  },
+  removeLabel: async ({ commit }, { ticketId, label }) => {
+    commit(types.default.SET_TICKETS_UI_FLAG, { isUpdating: true });
+    try {
+      await TicketsAPI.removeLabel(ticketId, label);
+      commit(types.default.SET_TICKET_DELETE_LABEL, { label });
+    } catch (error) {
+      commit(types.default.SET_TICKETS_UI_FLAG, { isUpdating: false });
+      if (error.response.data) {
+        throw error.response.data.error;
+      }
+
+      throw error;
+    }
+  },
 };
 
 export const mutations = {
@@ -154,10 +182,10 @@ export const mutations = {
     };
   },
   [types.default.SET_TICKETS]: ($state, data) => {
-    Vue.set($state, 'records', data);
+    $state.records = data;
   },
   [types.default.SET_TICKET]: ($state, data) => {
-    Vue.set($state, 'selectedTicket', data);
+    $state.selectedTicket = data;
   },
   [types.default.UPDATE_TICKET]: ($state, data) => {
     const index = $state.records.findIndex(ticket => ticket.id === data.id);
@@ -167,6 +195,14 @@ export const mutations = {
   },
   [types.default.SET_TICKETS_STATS]($state, data) {
     $state.stats = data;
+  },
+  [types.default.SET_TICKET_ADD_LABEL]($state, { label }) {
+    $state.selectedTicket.labels = [...$state.selectedTicket.labels, label];
+  },
+  [types.default.SET_TICKET_DELETE_LABEL]($state, { label }) {
+    $state.selectedTicket.labels = $state.selectedTicket.labels.filter(
+      l => l.id !== label.id
+    );
   },
 };
 
