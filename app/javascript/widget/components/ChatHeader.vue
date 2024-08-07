@@ -1,4 +1,5 @@
 <script>
+import { useAvailability } from 'widget/composables/useAvailability';
 import availabilityMixin from 'widget/mixins/availability';
 import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
@@ -35,16 +36,9 @@ export default {
       default: () => {},
     },
   },
-  computed: {
-    isOnline() {
-      const { workingHoursEnabled } = this.channelConfig;
-      const anyAgentOnline = this.availableAgents.length > 0;
-
-      if (workingHoursEnabled) {
-        return this.isInBetweenTheWorkingHours;
-      }
-      return anyAgentOnline;
-    },
+  setup(props) {
+    const { isOnline } = useAvailability(props.availableAgents);
+    return { isOnline };
   },
   methods: {
     onBackButtonClick() {
