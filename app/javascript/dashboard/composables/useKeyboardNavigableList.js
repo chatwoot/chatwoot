@@ -1,3 +1,13 @@
+/**
+ * This composable provides keyboard navigation functionality for list-like UI components
+ * such as dropdowns, autocomplete suggestions, or any list of selectable items.
+ *
+ * TODO - Things that can be improved in the future
+ * - The scrolling should be handled by the component instead of the consumer of this composable
+ *   it can be done if we know he item height.
+ * - The focus should be trapped within the list.
+ * - onSelect should be callback instead of a function that is passed
+ */
 import { useKeyboardEvents } from './useKeyboardEvents';
 
 /**
