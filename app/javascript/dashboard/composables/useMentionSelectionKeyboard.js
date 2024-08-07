@@ -1,6 +1,19 @@
 import { useKeyboardEvents } from './useKeyboardEvents';
 
 /**
+ * Wrap the action in a function that calls the action and prevents the default event behavior.
+ * @param {Function} action - The action to be called.
+ * @returns {{action: Function, allowOnFocusedInput: boolean}} An object containing the action and a flag to allow the event on focused input.
+ */
+const createAction = action => ({
+  action: e => {
+    action();
+    e.preventDefault();
+  },
+  allowOnFocusedInput: true,
+});
+
+/**
  * Creates keyboard event handlers for navigation.
  * @param {Function} moveSelectionUp - Function to move selection up.
  * @param {Function} moveSelectionDown - Function to move selection down.
@@ -9,45 +22,15 @@ import { useKeyboardEvents } from './useKeyboardEvents';
  */
 const createKeyboardEvents = (moveSelectionUp, moveSelectionDown, onSelect) => {
   const events = {
-    ArrowUp: {
-      action: e => {
-        moveSelectionUp();
-        e.preventDefault();
-      },
-      allowOnFocusedInput: true,
-    },
-    'Control+KeyP': {
-      action: e => {
-        moveSelectionUp();
-        e.preventDefault();
-      },
-      allowOnFocusedInput: true,
-    },
-    ArrowDown: {
-      action: e => {
-        moveSelectionDown();
-        e.preventDefault();
-      },
-      allowOnFocusedInput: true,
-    },
-    'Control+KeyN': {
-      action: e => {
-        moveSelectionDown();
-        e.preventDefault();
-      },
-      allowOnFocusedInput: true,
-    },
+    ArrowUp: createAction(moveSelectionUp),
+    'Control+KeyP': createAction(moveSelectionUp),
+    ArrowDown: createAction(moveSelectionDown),
+    'Control+KeyN': createAction(moveSelectionDown),
   };
 
   // Adds an event handler for the Enter key if the onSelect function is provided.
   if (typeof onSelect === 'function') {
-    events.Enter = {
-      action: e => {
-        onSelect();
-        e.preventDefault();
-      },
-      allowOnFocusedInput: true,
-    };
+    events.Enter = createAction(onSelect);
   }
 
   return events;
@@ -74,25 +57,25 @@ export function useMentionSelectionKeyboard({
   adjustScroll,
   selectedIndex,
 }) {
-  /**
-   * Moves the selection up in the list of items.
-   */
   const moveSelectionUp = () => {
-    selectedIndex.value =
-      selectedIndex.value === 0
-        ? items.value.length - 1
-        : selectedIndex.value - 1;
+    // if the selected index is the first item, move to the last item
+    // else move to the previous item
+    if (selectedIndex.value === 0) {
+      selectedIndex.value = items.value.length - 1;
+    } else {
+      selectedIndex.value -= 1;
+    }
     adjustScroll();
   };
 
-  /**
-   * Moves the selection down in the list of items.
-   */
   const moveSelectionDown = () => {
-    selectedIndex.value =
-      selectedIndex.value === items.value.length - 1
-        ? 0
-        : selectedIndex.value + 1;
+    // if the selected index is the last item, move to the first item
+    // else move to the next item
+    if (selectedIndex.value === items.value.length - 1) {
+      selectedIndex.value = 0;
+    } else {
+      selectedIndex.value += 1;
+    }
     adjustScroll();
   };
 
