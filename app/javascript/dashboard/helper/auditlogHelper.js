@@ -188,23 +188,25 @@ export function generateTranslationPayload(auditLogItem, agentList) {
   return translationPayload;
 }
 
+function getAccountUserUpdateSuffix(auditLogItem) {
+  if (auditLogItem.auditable === null) {
+    // If the user is deleted, we don't need to check if the user is the same as the auditLogItem.user_id
+    // Else we can use the deleted translation key
+    // It doesn't need the agent name
+    return ':deleted';
+  }
+  return auditLogItem.user_id === auditLogItem.auditable.user_id
+    ? ':self'
+    : ':other';
+}
+
 export const generateLogActionKey = auditLogItem => {
   const auditableType = auditLogItem.auditable_type.toLowerCase();
   const action = auditLogItem.action.toLowerCase();
   let logActionKey = `${auditableType}:${action}`;
 
   if (auditableType === 'accountuser' && action === 'update') {
-    if (auditLogItem.auditable === null) {
-      // If the user is deleted, we don't need to check if the user is the same as the auditLogItem.user_id
-      // Else we can use the deleted translation key
-      // It doesn't need the agent name
-      logActionKey += ':deleted';
-    } else {
-      logActionKey +=
-        auditLogItem.user_id === auditLogItem.auditable.user_id
-          ? ':self'
-          : ':other';
-    }
+    logActionKey += getAccountUserUpdateSuffix(auditLogItem);
   }
 
   return translationKeys[logActionKey] || '';
