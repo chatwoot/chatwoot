@@ -28,7 +28,7 @@
       "EDIT": {
         "SELF": "%{agentName} changed their %{attributes} to %{values}",
         "OTHER": "%{agentName} changed %{attributes} of %{user} to %{values}",
-        "DELETED": "%{agentName} changed %{attributes} of deleted user to %{values}"
+        "DELETED": "%{agentName} changed %{attributes} of a deleted user to %{values}"
       }
     },
     "INBOX": {
