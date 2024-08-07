@@ -11,11 +11,7 @@
       "404": "There are no Audit Logs available in this account.",
       "TITLE": "Manage Audit Logs",
       "DESC": "Audit Logs are trails for events and actions in a Chatwoot System.",
-      "TABLE_HEADER": [
-        "Activity",
-        "Time",
-        "IP Address"
-      ]
+      "TABLE_HEADER": ["Activity", "Time", "IP Address"]
     },
     "API": {
       "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
@@ -31,7 +27,8 @@
       "ADD": "%{agentName} invited %{invitee} to the account as an %{role}",
       "EDIT": {
         "SELF": "%{agentName} changed their %{attributes} to %{values}",
-        "OTHER": "%{agentName} changed %{attributes} of %{user} to %{values}"
+        "OTHER": "%{agentName} changed %{attributes} of %{user} to %{values}",
+        "DELETED": "%{agentName} changed %{attributes} of a deleted user to %{values}"
       }
     },
     "INBOX": {
