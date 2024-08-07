@@ -142,7 +142,8 @@
       "MSG_INPUT": "Shift + enter fyrir nýja línu. Byrjaðu á '/' til að velja tilbúið svar.",
       "PRIVATE_MSG_INPUT": "Shift + enter fyrir nýja línu. Þetta verður aðeins sýnilegt fyrir þjónustufulltrúa",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Skilaboðundirskrift er ekki stillt, vinsamlegast stilltu hana í prófílstillingum.",
-      "CLICK_HERE": "Click here to update"
+      "CLICK_HERE": "Click here to update",
+      "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
     "REPLYBOX": {
       "REPLY": "Reply",

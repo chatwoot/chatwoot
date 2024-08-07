@@ -7,6 +7,7 @@
     "GO_BACK_LABEL": "Visszaugrás",
     "ASSIGN_LABEL": "Hozzárendelés",
     "YES": "Igen",
+    "SEARCH_INPUT_PLACEHOLDER": "Keresés",
     "ASSIGN_AGENT_TOOLTIP": "Ügynök hozzárendelése",
     "ASSIGN_TEAM_TOOLTIP": "Csapat hozzárendelése",
     "ASSIGN_SUCCESFUL": "Beszélgetés sikeresen hozzá lett rendelve.",

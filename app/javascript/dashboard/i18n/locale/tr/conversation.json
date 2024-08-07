@@ -142,7 +142,8 @@
       "MSG_INPUT": "Yeni satır için Shift + enter. Bir Hazır Yanıt seçmek için \"/\" ile başlayın.",
       "PRIVATE_MSG_INPUT": "Yeni satır için Shift + enter. Bu yalnızca Temsilciler tarafından görülebilir",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Mesaj imzası yapılandırılmamış, lütfen profil ayarlarında yapılandırın.",
-      "CLICK_HERE": "Güncellemek için tıklayın"
+      "CLICK_HERE": "Güncellemek için tıklayın",
+      "WHATSAPP_TEMPLATES": "WhatsApp Şablonları"
     },
     "REPLYBOX": {
       "REPLY": "Cevapla",

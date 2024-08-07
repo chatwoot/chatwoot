@@ -7,6 +7,7 @@
     "GO_BACK_LABEL": "Atgriezties",
     "ASSIGN_LABEL": "Piešķirt",
     "YES": "Jā",
+    "SEARCH_INPUT_PLACEHOLDER": "Meklēt",
     "ASSIGN_AGENT_TOOLTIP": "Piešķirt aģentu",
     "ASSIGN_TEAM_TOOLTIP": "Piešķirt komandu",
     "ASSIGN_SUCCESFUL": "Sarunas ir veiksmīgi piešķirtas.",

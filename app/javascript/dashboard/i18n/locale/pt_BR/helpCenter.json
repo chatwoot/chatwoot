@@ -481,6 +481,7 @@
           "DESCRIPTION": "Use o portal como um CMS sem interface gráfica com frameworks front-end de terceiros usando nossas APIs."
         }
       }
-    }
+    },
+    "LOADING": "Loading..."
   }
 }

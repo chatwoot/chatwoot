@@ -7,6 +7,7 @@
     "GO_BACK_LABEL": "Повернутися назад",
     "ASSIGN_LABEL": "Призначити",
     "YES": "Так",
+    "SEARCH_INPUT_PLACEHOLDER": "Пошук",
     "ASSIGN_AGENT_TOOLTIP": "Призначити агента",
     "ASSIGN_TEAM_TOOLTIP": "Призначити команду",
     "ASSIGN_SUCCESFUL": "Розмови успішно призначені.",

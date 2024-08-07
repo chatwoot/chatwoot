@@ -7,6 +7,7 @@
     "GO_BACK_LABEL": "Πίσω",
     "ASSIGN_LABEL": "Αντιστοίχιση",
     "YES": "Ναι",
+    "SEARCH_INPUT_PLACEHOLDER": "Αναζήτηση",
     "ASSIGN_AGENT_TOOLTIP": "Ανάθεση σε πράκτορα",
     "ASSIGN_TEAM_TOOLTIP": "Ανάθεση ομάδας",
     "ASSIGN_SUCCESFUL": "Οι σινομιλίες αντιστοιχήθηκαν επιτυχώς.",

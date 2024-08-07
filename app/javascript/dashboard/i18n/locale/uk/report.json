@@ -481,7 +481,8 @@
       "HEADER": "Бесіди",
       "NO_CONVERSATIONS": "Немає бесід",
       "CONVERSATION": "%{count} бесід",
-      "CONVERSATIONS": "%{count} бесід"
+      "CONVERSATIONS": "%{count} бесід",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Розмови агентів",
@@ -536,6 +537,7 @@
       "LABELS": "Мітка",
       "TEAMS": "Команда"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Рейтинг попадань",

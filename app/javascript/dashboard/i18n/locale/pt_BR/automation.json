@@ -93,7 +93,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "Você precisa ter pelo menos uma ação para salvar",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Escreva sua mensagem aqui",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Selecione o time"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Selecione o time",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Ativar regra de automação",
@@ -113,6 +115,15 @@
       "LABEL_UPLOADING": "Enviando...",
       "LABEL_UPLOADED": "Upload feito com sucesso",
       "LABEL_UPLOAD_FAILED": "Faha no envio"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Valor obrigatório",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }

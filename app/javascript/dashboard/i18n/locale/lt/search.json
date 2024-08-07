@@ -11,6 +11,7 @@
       "CONVERSATIONS": "Pokalbiai",
       "MESSAGES": "Pranešimai"
     },
+    "SEARCHING_DATA": "Ieškoma",
     "EMPTY_STATE": "Nerasta %{item} pagal užklausą '%{query}'",
     "EMPTY_STATE_FULL": "Nerasta rezultatų pagal užklausą '%{query}'",
     "PLACEHOLDER_KEYBINDING": "/ sutelkti dėmesį",

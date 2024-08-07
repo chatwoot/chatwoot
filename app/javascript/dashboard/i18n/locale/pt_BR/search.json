@@ -11,6 +11,7 @@
       "CONVERSATIONS": "Conversas",
       "MESSAGES": "Messagem"
     },
+    "SEARCHING_DATA": "Procurando",
     "EMPTY_STATE": "Nenhum %{item} foi encontrado para a consulta '%{query}'",
     "EMPTY_STATE_FULL": "Nenhum resultado encontrado para a consulta '%{query}'",
     "PLACEHOLDER_KEYBINDING": "/ para focar",

@@ -11,6 +11,7 @@
       "CONVERSATIONS": "שיחות",
       "MESSAGES": "הודעות"
     },
+    "SEARCHING_DATA": "Searching",
     "EMPTY_STATE": "לא נמצא %{item} עבור השאילתה '%{query}'",
     "EMPTY_STATE_FULL": "לא נמצאו תוצאות עבור השאילתה '%{query}'",
     "PLACEHOLDER_KEYBINDING": "/ להתמקד",

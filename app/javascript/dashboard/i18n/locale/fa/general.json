@@ -1,5 +1,9 @@
 {
   "GENERAL": {
-    "SHOWING_RESULTS": "نمایش {firstIndex} تا {lastIndex} از {totalCount} مورد"
+    "SHOWING_RESULTS": "نمایش {firstIndex} تا {lastIndex} از {totalCount} مورد",
+    "PHONE_INPUT": {
+      "PLACEHOLDER": "جستجو",
+      "EMPTY_STATE": "نتیجه‌ای یافت نشد"
+    }
   }
 }

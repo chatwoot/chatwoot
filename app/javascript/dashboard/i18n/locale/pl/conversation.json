@@ -142,7 +142,8 @@
       "MSG_INPUT": "Shift + enter dla nowej linii. Zacznij od '/' aby wybrać Gotową odpowiedź.",
       "PRIVATE_MSG_INPUT": "Shift + enter dla nowej linii. Będzie widoczne tylko dla agentów",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Podpis wiadomości nie jest skonfigurowany, należy go skonfigurować w ustawieniach profilu.",
-      "CLICK_HERE": "Kliknij tutaj, aby zaktualizować"
+      "CLICK_HERE": "Kliknij tutaj, aby zaktualizować",
+      "WHATSAPP_TEMPLATES": "Szablony WhatsApp"
     },
     "REPLYBOX": {
       "REPLY": "Odpowiedz",

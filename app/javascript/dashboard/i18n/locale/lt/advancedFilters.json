@@ -18,6 +18,7 @@
       "AND": "IR",
       "OR": "AR"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "Lygu",
       "not_equal_to": "Nelygu",

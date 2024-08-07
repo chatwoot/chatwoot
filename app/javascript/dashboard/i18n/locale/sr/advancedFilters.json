@@ -18,6 +18,7 @@
       "AND": "I",
       "OR": "ILI"
     },
+    "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
       "equal_to": "Jednako sa",
       "not_equal_to": "Nije jednako sa",

@@ -93,7 +93,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "Du skal have mindst én handling for at gemme",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Indtast din besked her",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Vælg teams"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Vælg teams",
+      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
+      "URL_INPUT_PLACEHOLDER": "Enter URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Aktivér Automatiseringsregel",
@@ -113,6 +115,15 @@
       "LABEL_UPLOADING": "Uploader...",
       "LABEL_UPLOADED": "Successfully Uploaded",
       "LABEL_UPLOAD_FAILED": "Upload Mislykkedes"
+    },
+    "ERRORS": {
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_REQUIRED": "Værdi er påkrævet",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
+      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     }
   }
 }
