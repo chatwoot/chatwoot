@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useAlert } from 'dashboard/composables';
+import { useToggle } from '@vueuse/core';
 import { useI18n } from 'dashboard/composables/useI18n';
 import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import { useEmitter } from 'dashboard/composables/emitter';
@@ -21,7 +22,10 @@ const { t } = useI18n();
 const resolveActionsRef = ref(null);
 const arrowDownButtonRef = ref(null);
 const isLoading = ref(false);
-const showActionsDropdown = ref(false);
+
+const [showActionsDropdown, toggleDropdown] = useToggle();
+const closeDropdown = () => toggleDropdown(false);
+const openDropdown = () => toggleDropdown(true);
 
 const currentChat = computed(() => getters.getSelectedChat.value);
 
@@ -71,14 +75,6 @@ const getConversationParams = () => {
     activeIndex: activeConversationIndex,
     lastIndex: lastConversationIndex,
   };
-};
-
-const closeDropdown = () => {
-  showActionsDropdown.value = false;
-};
-
-const openDropdown = () => {
-  showActionsDropdown.value = true;
 };
 
 const openSnoozeModal = () => {
@@ -192,7 +188,7 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
     <div
       v-if="showActionsDropdown"
       v-on-clickaway="closeDropdown"
-      class="dropdown-pane dropdown-pane--open"
+      class="dropdown-pane dropdown-pane--open left-auto top-[2.625rem] mt-0.5 right-0 max-w-[12.5rem] min-w-[9.75rem]"
     >
       <WootDropdownMenu class="mb-0">
         <WootDropdownItem v-if="!isPending">
@@ -224,8 +220,6 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
 
 <style lang="scss" scoped>
 .dropdown-pane {
-  @apply left-auto top-[2.625rem] mt-0.5 right-0 max-w-[12.5rem] min-w-[9.75rem];
-
   .dropdown-menu__item {
     @apply mb-0;
   }
