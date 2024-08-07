@@ -30,6 +30,7 @@ const translationKeys = {
   'accountuser:create': `AUDIT_LOGS.ACCOUNT_USER.ADD`,
   'accountuser:update:self': `AUDIT_LOGS.ACCOUNT_USER.EDIT.SELF`,
   'accountuser:update:other': `AUDIT_LOGS.ACCOUNT_USER.EDIT.OTHER`,
+  'accountuser:update:deleted': `AUDIT_LOGS.ACCOUNT_USER.EDIT.DELETED`,
   'inboxmember:create': `AUDIT_LOGS.INBOX_MEMBER.ADD`,
   'inboxmember:destroy': `AUDIT_LOGS.INBOX_MEMBER.REMOVE`,
   'teammember:create': `AUDIT_LOGS.TEAM_MEMBER.ADD`,
@@ -88,15 +89,12 @@ function handleAccountUserCreate(auditLogItem, translationPayload, agentList) {
   return translationPayload;
 }
 
-export function handleAccountUserUpdate(
-  auditLogItem,
-  translationPayload,
-  agentList
-) {
+function handleAccountUserUpdate(auditLogItem, translationPayload, agentList) {
   if (auditLogItem.user_id !== auditLogItem.auditable?.user_id) {
-    translationPayload.user = auditLogItem.auditable
-      ? getAgentName(auditLogItem.auditable?.user_id, agentList)
-      : 'deleted user'; // Default to 'deleted user' if auditable is not defined, that means the user was deleted
+    translationPayload.user = getAgentName(
+      auditLogItem.auditable?.user_id,
+      agentList
+    );
   }
 
   const accountUserChanges = extractChangedAccountUserValues(
@@ -196,10 +194,17 @@ export const generateLogActionKey = auditLogItem => {
   let logActionKey = `${auditableType}:${action}`;
 
   if (auditableType === 'accountuser' && action === 'update') {
-    logActionKey +=
-      auditLogItem.user_id === auditLogItem.auditable?.user_id
-        ? ':self'
-        : ':other';
+    if (auditLogItem.auditable === null) {
+      // If the user is deleted, we don't need to check if the user is the same as the auditLogItem.user_id
+      // Else we can use the deleted translation key
+      // It doesn't need the agent name
+      logActionKey += ':deleted';
+    } else {
+      logActionKey +=
+        auditLogItem.user_id === auditLogItem.auditable.user_id
+          ? ':self'
+          : ':other';
+    }
   }
 
   return translationKeys[logActionKey] || '';

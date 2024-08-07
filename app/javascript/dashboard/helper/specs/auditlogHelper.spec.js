@@ -2,7 +2,6 @@ import {
   extractChangedAccountUserValues,
   generateTranslationPayload,
   generateLogActionKey,
-  handleAccountUserUpdate,
 } from '../auditlogHelper'; // import the functions
 
 describe('Helper functions', () => {
@@ -179,43 +178,17 @@ describe('Helper functions', () => {
       const logActionKey = generateLogActionKey(auditLogItem);
       expect(logActionKey).toEqual('AUDIT_LOGS.ACCOUNT_USER.EDIT.OTHER');
     });
-  });
 
-  describe('handleAccountUserUpdate', () => {
-    it('should set user to "deleted user" if auditable is not defined', () => {
+    it('should generate correct action key when updating a deleted user', () => {
       const auditLogItem = {
+        auditable_type: 'AccountUser',
+        action: 'update',
         user_id: 1,
         auditable: null,
-        audited_changes: {
-          user_id: 2,
-        },
       };
 
-      const translationPayload = {};
-      const updatedPayload = handleAccountUserUpdate(
-        auditLogItem,
-        translationPayload,
-        agentList
-      );
-      expect(updatedPayload.user).toEqual('deleted user');
-    });
-
-    it('should set user to the name of the auditable user if different from auditLogItem user_id', () => {
-      const auditLogItem = {
-        user_id: 1,
-        auditable: {
-          user_id: 2,
-        },
-        audited_changes: {},
-      };
-
-      const translationPayload = {};
-      const updatedPayload = handleAccountUserUpdate(
-        auditLogItem,
-        translationPayload,
-        agentList
-      );
-      expect(updatedPayload.user).toEqual('Agent 2');
+      const logActionKey = generateLogActionKey(auditLogItem);
+      expect(logActionKey).toEqual('AUDIT_LOGS.ACCOUNT_USER.EDIT.DELETED');
     });
   });
 });
