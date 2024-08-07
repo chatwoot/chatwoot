@@ -9,11 +9,11 @@
             @tab-change="updateAssigneeTab"
           />
         </div>
-        <div class="flex flex-col w-full h-full">
+        <div class="flex flex-col w-full h-5/6">
           <virtual-list
             v-if="ticketList.length > 0"
             ref="ticketVirtualList"
-            class="w-full overflow-y-scroll"
+            class="w-full overflow-y-scroll h-full"
             footer-tag="div"
             :data-key="'id'"
             :data-sources="ticketList"
