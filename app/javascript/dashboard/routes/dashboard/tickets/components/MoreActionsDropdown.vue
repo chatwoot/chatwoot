@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div v-on-clickaway="clickaway" class="relative">
     <woot-button
       class="button"
       :aria-expanded="isOpen"
@@ -99,6 +99,9 @@ export default {
       this.$store.dispatch('tickets/resolve', this.ticket.id);
       this.$store.dispatch('tickets/getAllTickets');
       this.toggleDropdown();
+    },
+    clickaway() {
+      this.isOpen = false;
     },
   },
 };
