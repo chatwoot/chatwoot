@@ -157,7 +157,7 @@ const confirmDeletion = () => {
               </span>
               <fluent-icon
                 class="ml-2"
-                :icon="sortOrder === 'asc' ? 'chevron-up' : 'chevron-down'"
+                :icon="sortOrder === 'desc' ? 'chevron-up' : 'chevron-down'"
               />
             </button>
           </th>
