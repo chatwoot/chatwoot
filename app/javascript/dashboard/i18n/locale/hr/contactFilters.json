@@ -9,15 +9,15 @@
     "FILTER_DELETE_ERROR": "You should have atleast one filter to save",
     "SUBMIT_BUTTON_LABEL": "Submit",
     "UPDATE_BUTTON_LABEL": "Update Segment",
-    "CANCEL_BUTTON_LABEL": "Cancel",
+    "CANCEL_BUTTON_LABEL": "Odustani",
     "CLEAR_BUTTON_LABEL": "Clear Filters",
     "EMPTY_VALUE_ERROR": "Value is required",
     "SEGMENT_LABEL": "Segment Name",
     "SEGMENT_QUERY_LABEL": "Segment Query",
     "TOOLTIP_LABEL": "Filter contacts",
     "QUERY_DROPDOWN_LABELS": {
-      "AND": "AND",
-      "OR": "OR"
+      "AND": "&",
+      "OR": "ILI"
     },
     "OPERATOR_LABELS": {
       "equal_to": "Equal to",
@@ -31,16 +31,16 @@
       "days_before": "Is x days before"
     },
     "ATTRIBUTES": {
-      "NAME": "Name",
+      "NAME": "Ime",
       "EMAIL": "Email",
       "PHONE_NUMBER": "Phone number",
       "IDENTIFIER": "Identifier",
       "CITY": "City",
       "COUNTRY": "Country",
-      "CUSTOM_ATTRIBUTE_LIST": "List",
-      "CUSTOM_ATTRIBUTE_TEXT": "Text",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_LIST": "Popis",
+      "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Broj",
+      "CUSTOM_ATTRIBUTE_LINK": "Povezica",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Created At",
       "LAST_ACTIVITY": "Last Activity",
