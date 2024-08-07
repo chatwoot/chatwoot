@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, watch, nextTick } from 'vue';
 import { useStoreGetters } from 'dashboard/composables/store';
-import { useMentionSelectionKeyboard } from 'dashboard/composables/useMentionSelectionKeyboard';
+import { useKeyboardNavigableList } from 'dashboard/composables/useKeyboardNavigableList';
 
 const props = defineProps({
   searchKey: {
@@ -39,7 +39,7 @@ const onSelect = () => {
   emit('click', items.value[selectedIndex.value]);
 };
 
-useMentionSelectionKeyboard({
+useKeyboardNavigableList({
   elementRef: tagAgentsRef,
   items,
   onSelect,

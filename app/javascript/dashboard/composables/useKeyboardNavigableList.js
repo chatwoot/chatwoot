@@ -50,7 +50,7 @@ const createKeyboardEvents = (moveSelectionUp, moveSelectionDown, onSelect) => {
  *   moveSelectionDown: Function
  * }} An object containing functions to move the selection up and down.
  */
-export function useMentionSelectionKeyboard({
+export function useKeyboardNavigableList({
   elementRef,
   items,
   onSelect,

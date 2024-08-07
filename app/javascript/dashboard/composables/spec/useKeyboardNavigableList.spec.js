@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { ref } from 'vue';
-import { useMentionSelectionKeyboard } from '../useMentionSelectionKeyboard';
+import { useKeyboardNavigableList } from '../useKeyboardNavigableList';
 import { useKeyboardEvents } from '../useKeyboardEvents';
 
 // Mock the useKeyboardEvents function
@@ -8,7 +8,7 @@ vi.mock('../useKeyboardEvents', () => ({
   useKeyboardEvents: vi.fn(),
 }));
 
-describe('useMentionSelectionKeyboard', () => {
+describe('useKeyboardNavigableList', () => {
   let elementRef;
   let items;
   let onSelect;
@@ -27,7 +27,7 @@ describe('useMentionSelectionKeyboard', () => {
   });
 
   it('should return moveSelectionUp and moveSelectionDown functions', () => {
-    const result = useMentionSelectionKeyboard({
+    const result = useKeyboardNavigableList({
       elementRef,
       items,
       onSelect,
@@ -42,7 +42,7 @@ describe('useMentionSelectionKeyboard', () => {
   });
 
   it('should move selection up correctly', () => {
-    const { moveSelectionUp } = useMentionSelectionKeyboard({
+    const { moveSelectionUp } = useKeyboardNavigableList({
       elementRef,
       items,
       onSelect,
@@ -64,7 +64,7 @@ describe('useMentionSelectionKeyboard', () => {
   });
 
   it('should move selection down correctly', () => {
-    const { moveSelectionDown } = useMentionSelectionKeyboard({
+    const { moveSelectionDown } = useKeyboardNavigableList({
       elementRef,
       items,
       onSelect,
@@ -86,7 +86,7 @@ describe('useMentionSelectionKeyboard', () => {
   });
 
   it('should call adjustScroll after moving selection', () => {
-    const { moveSelectionUp, moveSelectionDown } = useMentionSelectionKeyboard({
+    const { moveSelectionUp, moveSelectionDown } = useKeyboardNavigableList({
       elementRef,
       items,
       onSelect,
@@ -102,7 +102,7 @@ describe('useMentionSelectionKeyboard', () => {
   });
 
   it('should include Enter key handler when onSelect is provided', () => {
-    useMentionSelectionKeyboard({
+    useKeyboardNavigableList({
       elementRef,
       items,
       onSelect,
@@ -117,7 +117,7 @@ describe('useMentionSelectionKeyboard', () => {
   });
 
   it('should not include Enter key handler when onSelect is not provided', () => {
-    useMentionSelectionKeyboard({
+    useKeyboardNavigableList({
       elementRef,
       items,
       adjustScroll,
@@ -130,7 +130,7 @@ describe('useMentionSelectionKeyboard', () => {
   });
 
   it('should call useKeyboardEvents with correct parameters', () => {
-    useMentionSelectionKeyboard({
+    useKeyboardNavigableList({
       elementRef,
       items,
       onSelect,
@@ -146,7 +146,7 @@ describe('useMentionSelectionKeyboard', () => {
 
   // Keyboard event handlers
   it('should handle ArrowUp key', () => {
-    useMentionSelectionKeyboard({
+    useKeyboardNavigableList({
       elementRef,
       items,
       onSelect,
@@ -163,7 +163,7 @@ describe('useMentionSelectionKeyboard', () => {
   });
 
   it('should handle Control+KeyP', () => {
-    useMentionSelectionKeyboard({
+    useKeyboardNavigableList({
       elementRef,
       items,
       onSelect,
@@ -180,7 +180,7 @@ describe('useMentionSelectionKeyboard', () => {
   });
 
   it('should handle ArrowDown key', () => {
-    useMentionSelectionKeyboard({
+    useKeyboardNavigableList({
       elementRef,
       items,
       onSelect,
@@ -197,7 +197,7 @@ describe('useMentionSelectionKeyboard', () => {
   });
 
   it('should handle Control+KeyN', () => {
-    useMentionSelectionKeyboard({
+    useKeyboardNavigableList({
       elementRef,
       items,
       onSelect,
@@ -214,7 +214,7 @@ describe('useMentionSelectionKeyboard', () => {
   });
 
   it('should handle Enter key when onSelect is provided', () => {
-    useMentionSelectionKeyboard({
+    useKeyboardNavigableList({
       elementRef,
       items,
       onSelect,
@@ -230,7 +230,7 @@ describe('useMentionSelectionKeyboard', () => {
   });
 
   it('should not have Enter key handler when onSelect is not provided', () => {
-    useMentionSelectionKeyboard({
+    useKeyboardNavigableList({
       elementRef,
       items,
       adjustScroll,
@@ -242,7 +242,7 @@ describe('useMentionSelectionKeyboard', () => {
   });
 
   it('should set allowOnFocusedInput to true for all key handlers', () => {
-    useMentionSelectionKeyboard({
+    useKeyboardNavigableList({
       elementRef,
       items,
       onSelect,

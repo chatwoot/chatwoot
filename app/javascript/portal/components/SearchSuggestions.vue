@@ -1,6 +1,6 @@
 <script>
 import { ref, computed, nextTick } from 'vue';
-import { useMentionSelectionKeyboard } from 'dashboard/composables/useMentionSelectionKeyboard';
+import { useKeyboardNavigableList } from 'dashboard/composables/useKeyboardNavigableList';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 export default {
@@ -43,7 +43,7 @@ export default {
         : 'bg-white dark:bg-slate-900';
     };
 
-    useMentionSelectionKeyboard({
+    useKeyboardNavigableList({
       elementRef: portalSearchSuggestionsRef,
       items: computed(() => props.items),
       adjustScroll,

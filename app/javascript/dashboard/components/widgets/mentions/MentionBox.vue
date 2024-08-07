@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch, computed } from 'vue';
-import { useMentionSelectionKeyboard } from 'dashboard/composables/useMentionSelectionKeyboard';
+import { useKeyboardNavigableList } from 'dashboard/composables/useKeyboardNavigableList';
 
 const props = defineProps({
   items: {
@@ -38,7 +38,7 @@ const onSelect = () => {
   emit('mentionSelect', props.items[selectedIndex.value]);
 };
 
-useMentionSelectionKeyboard({
+useKeyboardNavigableList({
   elementRef: mentionsListContainerRef,
   items: computed(() => props.items),
   onSelect,
