@@ -129,6 +129,20 @@ describe('useKeyboardNavigableList', () => {
     expect(keyboardEvents).not.toHaveProperty('Enter');
   });
 
+  it('should not trigger onSelect when items are empty', () => {
+    const { moveSelectionUp, moveSelectionDown } = useKeyboardNavigableList({
+      elementRef,
+      items: ref([]),
+      onSelect,
+      adjustScroll,
+      selectedIndex,
+    });
+
+    moveSelectionUp();
+    moveSelectionDown();
+    expect(onSelect).not.toHaveBeenCalled();
+  });
+
   it('should call useKeyboardEvents with correct parameters', () => {
     useKeyboardNavigableList({
       elementRef,
@@ -233,18 +247,6 @@ describe('useKeyboardNavigableList', () => {
     useKeyboardNavigableList({
       elementRef,
       items,
-      adjustScroll,
-      selectedIndex,
-    });
-
-    const keyboardEventsWithoutSelect = useKeyboardEvents.mock.calls[0][0];
-    expect(keyboardEventsWithoutSelect).not.toHaveProperty('Enter');
-  });
-
-  it('should not have Enter key handler when onSelect is provided and items are empty', () => {
-    useKeyboardNavigableList({
-      elementRef,
-      items: ref([]),
       adjustScroll,
       selectedIndex,
     });
