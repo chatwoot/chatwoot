@@ -22,6 +22,14 @@ export const hasPressedCommandAndEnter = e => {
   return hasPressedCommand(e) && isEnter(e);
 };
 
+// If layout is QWERTZ then we add the Shift+keysToModify to fix an known issue
+// https://github.com/chatwoot/chatwoot/issues/9492
+export const keysToModifyInQWERTZ = new Set(['Alt+KeyP', 'Alt+KeyL']);
+
+export const LAYOUT_QWERTY = 'QWERTY';
+export const LAYOUT_QWERTZ = 'QWERTZ';
+export const LAYOUT_AZERTY = 'AZERTY';
+
 /**
  * Determines whether the active element is typeable.
  *

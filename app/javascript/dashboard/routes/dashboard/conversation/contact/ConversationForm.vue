@@ -68,16 +68,18 @@ export default {
       attachedFiles: [],
     };
   },
-  validations: {
-    subject: {
-      required: requiredIf('isAnEmailInbox'),
-    },
-    message: {
-      required,
-    },
-    targetInbox: {
-      required,
-    },
+  validations() {
+    return {
+      subject: {
+        required: requiredIf(this.isAnEmailInbox),
+      },
+      message: {
+        required,
+      },
+      targetInbox: {
+        required,
+      },
+    };
   },
   computed: {
     ...mapGetters({
@@ -574,6 +576,7 @@ export default {
 .file-uploads {
   @apply text-start;
 }
+
 .multiselect-wrap--small.has-multi-select-error {
   ::v-deep {
     .multiselect__tags {
@@ -586,9 +589,11 @@ export default {
   .mention--box {
     @apply left-0 m-auto right-0 top-auto h-fit;
   }
+
   .multiselect .multiselect__content .multiselect__option span {
     @apply inline-flex w-6 text-slate-600 dark:text-slate-400;
   }
+
   .multiselect .multiselect__content .multiselect__option {
     @apply py-0.5 px-1;
   }
