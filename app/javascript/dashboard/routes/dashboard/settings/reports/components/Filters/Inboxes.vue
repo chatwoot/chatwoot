@@ -1,26 +1,27 @@
-<script>
-import { mapGetters } from 'vuex';
+<script setup>
+import { ref, onMounted, defineEmits } from 'vue';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
 
-export default {
-  name: 'ReportsFiltersInboxes',
-  data() {
-    return {
-      selectedOption: null,
-    };
+// add prop for multiple selector
+defineProps({
+  multiple: {
+    type: Boolean,
+    default: false,
   },
-  computed: {
-    ...mapGetters({
-      options: 'inboxes/getInboxes',
-    }),
-  },
-  mounted() {
-    this.$store.dispatch('inboxes/get');
-  },
-  methods: {
-    handleInput() {
-      this.$emit('inboxFilterSelection', this.selectedOption);
-    },
-  },
+});
+
+const emit = defineEmits(['inboxFilterSelection']);
+const store = useStore();
+const options = useMapGetter('inboxes/getInboxes');
+
+const selectedOption = ref(null);
+
+onMounted(() => {
+  store.dispatch('inboxes/get');
+});
+
+const handleInput = () => {
+  emit('inboxFilterSelection', selectedOption.value);
 };
 </script>
 
@@ -32,6 +33,7 @@ export default {
       :placeholder="$t('INBOX_REPORTS.FILTER_DROPDOWN_LABEL')"
       label="name"
       track-by="id"
+      :multiple="multiple"
       :options="options"
       :option-height="24"
       :show-labels="false"
