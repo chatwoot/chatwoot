@@ -89,6 +89,7 @@ en:
           errors:
             already_resolved: Ticket already resolved
             already_label_assigned: Label already assigned
+            need_to_be_assigned: Ticket needs to be assigned
           attributes:
             title:
               blank: is required

@@ -524,7 +524,7 @@
       "NO_AGENTS": "Não há agentes associados a esta conta",
       "TABLE_HEADER": {
         "AGENT": "Agente",
-        "OPEN": "Aberto",
+        "RESOLVED": "Atendido",
         "UNATTENDED": "Não atendido"
       }
     }

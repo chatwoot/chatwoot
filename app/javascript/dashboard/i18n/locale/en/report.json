@@ -426,7 +426,7 @@
       "NO_AGENTS": "There are no conversations by agents",
       "TABLE_HEADER": {
         "AGENT": "Agent",
-        "OPEN": "OPEN",
+        "RESOLVED": "Resolved",
         "UNATTENDED": "Unattended",
         "STATUS": "Status"
       }

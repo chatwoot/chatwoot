@@ -75,6 +75,7 @@ pt_BR:
           errors:
             already_resolved: Ticket já resolvido
             already_label_assigned: Label já atribuído
+            need_to_be_assigned: Ticket precisa ser atribuído
           attributes:
             title:
               blank: obrigatório

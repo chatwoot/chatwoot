@@ -49,10 +49,11 @@
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import isAdmin from 'dashboard/mixins/isAdmin';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   name: 'MoreActionsDropdown',
-  mixins: [clickaway, isAdmin],
+  mixins: [clickaway, isAdmin, alertMixin],
   props: {
     ticket: {
       type: Object,
@@ -84,19 +85,27 @@ export default {
     },
     assignToMe(e) {
       e.preventDefault();
-      this.$store.dispatch('tickets/assign', {
-        ticketId: this.ticket.id,
-        assigneeId: this.currentUserId,
-      });
+      this.$store
+        .dispatch('tickets/assign', {
+          ticketId: this.ticket.id,
+          assigneeId: this.currentUserId,
+        })
+        .catch(error => {
+          this.showAlert(error);
+        });
       this.$store.dispatch('tickets/getAllTickets');
     },
     deleteTicket() {
-      this.$store.dispatch('tickets/delete', this.ticket.id);
+      this.$store.dispatch('tickets/delete', this.ticket.id).catch(error => {
+        this.showAlert(error);
+      });
       this.$store.dispatch('tickets/getAllTickets');
       this.toggleDropdown();
     },
     resolveTicket() {
-      this.$store.dispatch('tickets/resolve', this.ticket.id);
+      this.$store.dispatch('tickets/resolve', this.ticket.id).catch(error => {
+        this.showAlert(error);
+      });
       this.$store.dispatch('tickets/getAllTickets');
       this.toggleDropdown();
     },

@@ -107,7 +107,7 @@ export default {
           field: 'resolved',
           key: 'resolved',
           title: this.$t(
-            'TICKETS_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.OPEN'
+            'TICKETS_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.RESOLVED'
           ),
           align: this.isRTLView ? 'right' : 'left',
           width: 10,
