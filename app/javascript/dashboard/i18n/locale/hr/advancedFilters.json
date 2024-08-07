@@ -1,22 +1,22 @@
 {
   "FILTER": {
-    "TITLE": "Filter conversations",
+    "TITLE": "Filtriraj razgovore",
     "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
-    "EDIT_CUSTOM_FILTER": "Edit Folder",
+    "EDIT_CUSTOM_FILTER": "Uredi filter",
     "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
-    "ADD_NEW_FILTER": "Add filter",
+    "ADD_NEW_FILTER": "Dodaj filter",
     "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
     "SUBMIT_BUTTON_LABEL": "Apply filters",
     "UPDATE_BUTTON_LABEL": "Update folder",
-    "CANCEL_BUTTON_LABEL": "Cancel",
+    "CANCEL_BUTTON_LABEL": "Odustani",
     "CLEAR_BUTTON_LABEL": "Clear filters",
     "FOLDER_LABEL": "Folder Name",
     "FOLDER_QUERY_LABEL": "Folder Query",
     "EMPTY_VALUE_ERROR": "Value is required.",
     "TOOLTIP_LABEL": "Filter conversations",
     "QUERY_DROPDOWN_LABELS": {
-      "AND": "AND",
-      "OR": "OR"
+      "AND": "&",
+      "OR": "ILI"
     },
     "INPUT_PLACEHOLDER": "Enter value",
     "OPERATOR_LABELS": {
@@ -32,13 +32,13 @@
       "starts_with": "Počinje s"
     },
     "ATTRIBUTE_LABELS": {
-      "TRUE": "True",
-      "FALSE": "False"
+      "TRUE": "Istina",
+      "FALSE": "Ne točno"
     },
     "ATTRIBUTES": {
       "STATUS": "Status",
       "ASSIGNEE_NAME": "Assignee name",
-      "INBOX_NAME": "Inbox name",
+      "INBOX_NAME": "Naziv sandučića",
       "TEAM_NAME": "Team name",
       "CONVERSATION_IDENTIFIER": "Conversation identifier",
       "CAMPAIGN_NAME": "Campaign name",
@@ -47,10 +47,10 @@
       "PRIORITY": "Prioritet",
       "COUNTRY_NAME": "Country name",
       "REFERER_LINK": "Referer link",
-      "CUSTOM_ATTRIBUTE_LIST": "List",
-      "CUSTOM_ATTRIBUTE_TEXT": "Text",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-      "CUSTOM_ATTRIBUTE_LINK": "Link",
+      "CUSTOM_ATTRIBUTE_LIST": "Popis",
+      "CUSTOM_ATTRIBUTE_TEXT": "Tekst",
+      "CUSTOM_ATTRIBUTE_NUMBER": "Broj",
+      "CUSTOM_ATTRIBUTE_LINK": "Povezica",
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
       "CREATED_AT": "Kreirano",
       "LAST_ACTIVITY": "Zadnja aktivnost"
@@ -67,7 +67,7 @@
         "PLACEHOLDER": "Name your filter to refer it later.",
         "ERROR_MESSAGE": "Name is required.",
         "SAVE_BUTTON": "Save filter",
-        "CANCEL_BUTTON": "Cancel",
+        "CANCEL_BUTTON": "Odustani",
         "API_FOLDERS": {
           "SUCCESS_MESSAGE": "Folder created successfully.",
           "ERROR_MESSAGE": "Error while creating folder."
@@ -78,20 +78,20 @@
         }
       },
       "EDIT": {
-        "EDIT_BUTTON": "Edit folder"
+        "EDIT_BUTTON": "Uredi folder"
       },
       "DELETE": {
-        "DELETE_BUTTON": "Delete filter",
+        "DELETE_BUTTON": "Izbriši filter",
         "MODAL": {
           "CONFIRM": {
-            "TITLE": "Confirm deletion",
-            "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "Yes, delete",
-            "NO": "No, keep it"
+            "TITLE": "Potvrdi brisanje",
+            "MESSAGE": "Jeste li sigurno da želite izbrisati filter?",
+            "YES": "Da, izbriši",
+            "NO": "Ne, zadrži"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully.",
+          "SUCCESS_MESSAGE": "Folder uspješno izbrisan.",
           "ERROR_MESSAGE": "Error while deleting folder."
         },
         "API_SEGMENTS": {
