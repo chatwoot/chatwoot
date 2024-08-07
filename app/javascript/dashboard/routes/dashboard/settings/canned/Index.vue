@@ -122,14 +122,14 @@ const confirmDeletion = () => {
       </template>
     </BaseSettingsHeader>
 
-    <div class="mt-6 w-full flex flex-row gap-4">
+    <div class="mt-6 flex-1">
       <woot-loading-state
         v-if="uiFlags.fetchingList"
         :message="$t('CANNED_MGMT.LOADING')"
       />
       <p
         v-else-if="!records.length"
-        class="flex flex-col items-center justify-center h-full"
+        class="flex flex-col items-center justify-center h-full text-base text-slate-600 dark:text-slate-300 py-8"
       >
         {{ $t('CANNED_MGMT.LIST.404') }}
       </p>
