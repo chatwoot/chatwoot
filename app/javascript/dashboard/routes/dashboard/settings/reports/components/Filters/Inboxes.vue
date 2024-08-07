@@ -2,7 +2,6 @@
 import { ref, onMounted, defineEmits } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 
-// add prop for multiple selector
 defineProps({
   multiple: {
     type: Boolean,
