@@ -98,7 +98,7 @@ class Messages::Instagram::MessageBuilder < Messages::Messenger::MessageBuilder
     last_conversation
   end
 
-  def template_message
+  def template_message?
     if @messaging[:message].present?
       if @messaging[:message][:is_echo].present? && @messaging[:message][:attachments].present?
         @messaging[:message][:attachments][0][:type] == 'template'
