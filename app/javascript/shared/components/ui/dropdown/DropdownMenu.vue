@@ -42,8 +42,14 @@ const focusNextButton = menuButtons => {
 };
 
 const keyboardEvents = {
-  ArrowUp: () => focusPreviousButton(dropdownMenuButtons()),
-  ArrowDown: () => focusNextButton(dropdownMenuButtons()),
+  ArrowUp: {
+    action: () => focusPreviousButton(dropdownMenuButtons()),
+    allowOnFocusedInput: true,
+  },
+  ArrowDown: {
+    action: () => focusNextButton(dropdownMenuButtons()),
+    allowOnFocusedInput: true,
+  },
 };
 
 useKeyboardEvents(keyboardEvents, dropdownMenuRef);
