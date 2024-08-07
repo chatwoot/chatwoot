@@ -24,4 +24,4 @@ jobs:
             docker tag chatfy:latest "${{ secrets.ECR_REPOSITORY }}"/chatfy:latest
 
       - name: push image
-        run: aws ecr get-login-password --region sa-east-1 | docker login --username AWS --password-stdin "${{ secrets.ECR_REPOSITORY }}"
+        run: docker push "${{ secrets.ECR_REPOSITORY }}"/chatfy:latest
