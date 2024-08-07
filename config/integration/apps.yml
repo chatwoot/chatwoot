@@ -51,13 +51,7 @@ captain:
       "type": "text",
       "name": "assistant_id",
       "validation": "required",
-    },
-    {
-      "label": "Inbox Ids",
-      "type": "text",
-      "name": "inbox_ids",
-      "validation": "",
-    },
+    }
   ]
   visible_properties: []
 webhooks:
