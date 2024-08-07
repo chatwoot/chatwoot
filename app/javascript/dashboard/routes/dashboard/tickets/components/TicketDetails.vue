@@ -90,10 +90,14 @@
             <woot-button
               variant="clear"
               color-scheme="secondary"
-              icon="add"
+              :icon="showLabelSelector ? 'dismiss-circle' : 'add'"
               @click="toggleLabelSelector"
             >
-              {{ $t('TICKETS.LABELS.CREATE') }}
+              {{
+                showLabelSelector
+                  ? $t('TICKETS.ACTIONS.CLOSE')
+                  : $t('TICKETS.LABELS.CREATE')
+              }}
             </woot-button>
           </div>
         </div>

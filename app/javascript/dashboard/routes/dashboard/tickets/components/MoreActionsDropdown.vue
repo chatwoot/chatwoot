@@ -1,10 +1,9 @@
 <template>
   <div class="relative" @clickaway="closeDropdown">
     <woot-button
-      class="button"
-      color-scheme="primary"
+      class="button clear"
       :aria-expanded="isOpen"
-      icon="arrow-swap"
+      :icon="isOpen ? 'chevron-up' : 'chevron-down'"
       @click="toggleDropdown"
     />
     <div

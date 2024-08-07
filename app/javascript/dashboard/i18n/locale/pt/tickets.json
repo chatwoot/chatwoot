@@ -8,7 +8,8 @@
     "ACTIONS": {
       "EDIT": "Editar",
       "SAVE": "Salvar",
-      "DELETE": "Excluir"
+      "DELETE": "Excluir",
+      "CLOSE": "Fechar"
     },
     "ASSIGNEE": {
       "ASSIGNED_TO": "Atribuído para",
