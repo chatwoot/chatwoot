@@ -195,7 +195,9 @@ export default {
     this.$store.dispatch('teams/get');
     this.$store.dispatch('attributes/get');
     this.fetchCustomViews();
-    bus.$on('fetch_conversation_unread_stats', this.fetchUnreadStats);
+    if (this.activeSecondaryMenu.parentNav === 'conversations') {
+      bus.$on('fetch_conversation_unread_stats', this.fetchUnreadStats);
+    }
   },
 
   methods: {
