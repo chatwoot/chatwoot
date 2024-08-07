@@ -1,4 +1,8 @@
 <script>
+import { ref } from 'vue';
+// composable
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+
 // components
 import ReplyBox from './ReplyBox.vue';
 import Message from './Message.vue';
@@ -14,7 +18,6 @@ import conversationMixin, {
 } from '../../../mixins/conversations';
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 import configMixin from 'shared/mixins/configMixin';
-import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import aiMixin from 'dashboard/mixins/aiMixin';
 
 // utils
@@ -35,13 +38,7 @@ export default {
     Banner,
     ConversationLabelSuggestion,
   },
-  mixins: [
-    conversationMixin,
-    inboxMixin,
-    keyboardEventListenerMixins,
-    configMixin,
-    aiMixin,
-  ],
+  mixins: [conversationMixin, inboxMixin, configMixin, aiMixin],
   props: {
     isContactPanelOpen: {
       type: Boolean,
@@ -52,7 +49,33 @@ export default {
       default: false,
     },
   },
+  setup() {
+    const conversationFooterRef = ref(null);
+    const isPopOutReplyBox = ref(false);
 
+    const closePopOutReplyBox = () => {
+      isPopOutReplyBox.value = false;
+    };
+
+    const showPopOutReplyBox = () => {
+      isPopOutReplyBox.value = !isPopOutReplyBox.value;
+    };
+
+    const keyboardEvents = {
+      Escape: {
+        action: closePopOutReplyBox,
+      },
+    };
+
+    useKeyboardEvents(keyboardEvents, conversationFooterRef);
+
+    return {
+      conversationFooterRef,
+      isPopOutReplyBox,
+      closePopOutReplyBox,
+      showPopOutReplyBox,
+    };
+  },
   data() {
     return {
       isLoadingPrevious: true,
@@ -60,7 +83,6 @@ export default {
       conversationPanel: null,
       hasUserScrolled: false,
       isProgrammaticScroll: false,
-      isPopoutReplyBox: false,
       messageSentSinceOpened: false,
       labelSuggestions: [],
     };
@@ -303,19 +325,6 @@ export default {
       });
       this.makeMessagesRead();
     },
-    showPopoutReplyBox() {
-      this.isPopoutReplyBox = !this.isPopoutReplyBox;
-    },
-    closePopoutReplyBox() {
-      this.isPopoutReplyBox = false;
-    },
-    getKeyboardEvents() {
-      return {
-        Escape: {
-          action: () => this.closePopoutReplyBox(),
-        },
-      };
-    },
     addScrollListener() {
       this.conversationPanel = this.$el.querySelector('.conversation-panel');
       this.setScrollParams();
@@ -505,8 +514,9 @@ export default {
       />
     </ul>
     <div
+      ref="conversationFooterRef"
       class="conversation-footer"
-      :class="{ 'modal-mask': isPopoutReplyBox }"
+      :class="{ 'modal-mask': isPopOutReplyBox }"
     >
       <div
         v-if="isAnyoneTyping"
@@ -525,8 +535,8 @@ export default {
       </div>
       <ReplyBox
         :conversation-id="currentChat.id"
-        :popout-reply-box.sync="isPopoutReplyBox"
-        @click="showPopoutReplyBox"
+        :popout-reply-box.sync="isPopOutReplyBox"
+        @click="showPopOutReplyBox"
       />
     </div>
   </div>
