@@ -94,8 +94,8 @@
       "DELETE_MESSAGE": "Lai saglabātu, ir nepieciešama vismaz viena darbība",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Ievadiet savu ziņojumu šeit",
       "TEAM_DROPDOWN_PLACEHOLDER": "Izvēlieties komandas",
-      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
-      "URL_INPUT_PLACEHOLDER": "Enter URL"
+      "EMAIL_INPUT_PLACEHOLDER": "Ievadiet e-pastu",
+      "URL_INPUT_PLACEHOLDER": "Ievadiet URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Aktivizēt Automatizācijas Noteikumu",
