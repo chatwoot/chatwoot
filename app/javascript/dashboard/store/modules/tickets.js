@@ -1,9 +1,9 @@
-import Vue from 'vue';
 import * as types from '../mutation-types';
 import TicketsAPI from '../../api/tickets';
 
 const state = {
-  record: [],
+  records: [],
+  selectedTicket: null,
   uiFlags: {
     isCreating: false,
     isFetching: false,
@@ -27,19 +27,22 @@ export const getters = {
     return $state.uiFlagsPage;
   },
   getTickets($state) {
-    return $state.record;
+    return $state.records;
   },
   getStats($state) {
     return $state.stats;
   },
+  getTicket: $state => {
+    return $state.selectedTicket;
+  },
 };
 
 export const actions = {
-  get: async ({ commit }) => {
-    commit(types.default.SET_TICKETS_UI_FLAG, { isFetching: true });
+  get: async ({ commit }, ticketId) => {
     try {
-      const response = await TicketsAPI.get();
-      commit(types.default.SET_TICKETS, response.data.payload);
+      const response = await TicketsAPI.show(ticketId);
+
+      commit(types.default.SET_TICKET, response.data);
       commit(types.default.SET_TICKETS_UI_FLAG, {
         isFetching: false,
       });
@@ -106,8 +109,23 @@ export const actions = {
     commit(types.default.SET_TICKETS_UI_FLAG, { isUpdating: true });
     try {
       const response = await TicketsAPI.update(ticketId, {
-        body,
+        ticket: { body },
       });
+      commit(types.default.UPDATE_TICKET, response.data);
+      commit(types.default.SET_TICKETS_UI_FLAG, {
+        isUpdating: false,
+      });
+    } catch (error) {
+      commit(types.default.SET_TICKETS_UI_FLAG, {
+        isUpdating: false,
+      });
+      throw error;
+    }
+  },
+  resolve: async ({ commit }, ticketId) => {
+    commit(types.default.SET_TICKETS_UI_FLAG, { isUpdating: true });
+    try {
+      const response = await TicketsAPI.resolve(ticketId);
       commit(types.default.UPDATE_TICKET, response.data);
       commit(types.default.SET_TICKETS_UI_FLAG, {
         isUpdating: false,
@@ -134,6 +152,45 @@ export const actions = {
       throw error;
     }
   },
+  addLabel: async ({ commit }, { ticketId, label }) => {
+    commit(types.default.SET_TICKETS_UI_FLAG, { isUpdating: true });
+    try {
+      await TicketsAPI.update(ticketId, { ticket: { labels: [label] } });
+      commit(types.default.SET_TICKET_ADD_LABEL, { label });
+    } catch (error) {
+      commit(types.default.SET_TICKETS_UI_FLAG, { isUpdating: false });
+      if (error.response.data) {
+        throw error.response.data.error;
+      }
+
+      throw error;
+    }
+  },
+  removeLabel: async ({ commit }, { ticketId, label }) => {
+    commit(types.default.SET_TICKETS_UI_FLAG, { isUpdating: true });
+    try {
+      await TicketsAPI.removeLabel(ticketId, label);
+      commit(types.default.SET_TICKET_DELETE_LABEL, { label });
+    } catch (error) {
+      commit(types.default.SET_TICKETS_UI_FLAG, { isUpdating: false });
+      if (error.response.data) {
+        throw error.response.data.error;
+      }
+
+      throw error;
+    }
+  },
+  delete: async ({ commit }, ticketId) => {
+    commit(types.default.SET_TICKETS_UI_FLAG, { isDeleting: true });
+    try {
+      await TicketsAPI.delete(ticketId);
+      commit(types.default.DELETE_TICKET);
+      commit(types.default.SET_TICKETS_UI_FLAG, { isDeleting: false });
+    } catch (error) {
+      commit(types.default.SET_TICKETS_UI_FLAG, { isDeleting: false });
+      throw error;
+    }
+  },
 };
 
 export const mutations = {
@@ -150,16 +207,27 @@ export const mutations = {
     };
   },
   [types.default.SET_TICKETS]: ($state, data) => {
-    Vue.set($state, 'record', data);
+    $state.records = data;
+  },
+  [types.default.SET_TICKET]: ($state, data) => {
+    $state.selectedTicket = data;
   },
   [types.default.UPDATE_TICKET]: ($state, data) => {
-    const index = $state.record.findIndex(ticket => ticket.id === data.id);
-    if (index !== -1) {
-      Vue.set($state.record, index, data);
-    }
+    $state.selectedTicket = data;
   },
   [types.default.SET_TICKETS_STATS]($state, data) {
     $state.stats = data;
+  },
+  [types.default.DELETE_TICKET]: $state => {
+    $state.selectedTicket = null;
+  },
+  [types.default.SET_TICKET_ADD_LABEL]($state, { label }) {
+    $state.selectedTicket.labels = [...$state.selectedTicket.labels, label];
+  },
+  [types.default.SET_TICKET_DELETE_LABEL]($state, { label }) {
+    $state.selectedTicket.labels = $state.selectedTicket.labels.filter(
+      l => l.id !== label.id
+    );
   },
 };
 

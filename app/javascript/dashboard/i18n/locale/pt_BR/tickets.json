@@ -1,12 +1,22 @@
 {
   "TICKETS": {
-    "TITLE": "Título do Ticket",
+    "TITLE": "Ticket",
     "DESCRIPTION": "Descrição do Ticket",
+    "DESCRIPTION_PLACEHOLDER": "Insira uma descrição do ticket",
+    "RESOLVE": "Resolver",
+    "RESOLVED_AT": "Resolvido em",
+    "ACTIONS": {
+      "EDIT": "Editar",
+      "SAVE": "Salvar",
+      "DELETE": "Excluir",
+      "CLOSE": "Fechar"
+    },
     "ASSIGNEE": {
       "ASSIGNED_TO": "Atribuído para",
       "ASSIGNEE_TO_ME": "Atribuir para mim"
     },
     "STATUS": {
+      "TITLE": "Status",
       "OPEN": "Aberto",
       "PENDING": "Pendente",
       "RESOLVED": "Resolvido",
@@ -31,7 +41,9 @@
       "ME": "Para mim",
       "UNASSIGNED": "Não atribuído"
     },
-    "LABEL_FILTER": {
+    "LABELS": {
+      "TITLE": "Etiquetas",
+      "CREATE": "Criar Etiqueta",
       "ME": "Eu",
       "UNASSIGNED": "Não atribuído"
     },

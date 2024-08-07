@@ -3,7 +3,6 @@
     class="ticket-card"
     :class="{ active: isActiveTicket, unread: hasUnread }"
     @click="onCardClick"
-    @contextmenu="openContextMenu($event)"
   >
     <div class="ticket-details">
       <div
@@ -12,7 +11,7 @@
         <div class="flex justify-between">
           <div class="flex gap-2 ml-2 rtl:mr-2 rtl:ml-0 flex-col">
             <span class="truncate text-lg font-bold">
-              {{ source.title }}
+              {{ source.title }} # {{ source.id }}
             </span>
             <span class="truncate text-md">
               {{ source.description }}
@@ -32,16 +31,6 @@
                 :created-at-timestamp="createdAtTimestamp"
               />
             </span>
-            <woot-button
-              v-if="!source.assigned_to"
-              class="ml-auto"
-              color-scheme="primary"
-              size="small"
-              :is-loading="ticketsUIFlags.isUpdating"
-              @click="onAssignTicket"
-            >
-              {{ $t('TICKETS.ASSIGNEE.ASSIGNEE_TO_ME') }}
-            </woot-button>
           </div>
         </div>
       </div>
@@ -101,17 +90,7 @@ export default {
   },
   methods: {
     onCardClick() {
-      this.$emit('select-ticket', this.source.id);
-    },
-    openContextMenu(event) {
-      event.preventDefault();
-      this.$emit('context-menu-toggle', { x: event.pageX, y: event.pageY });
-    },
-    onAssignTicket() {
-      this.$store.dispatch('tickets/assign', {
-        ticketId: this.source.id,
-        assigneeId: this.currentUserId,
-      });
+      this.$store.dispatch('tickets/get', this.source.id);
     },
   },
 };
@@ -119,6 +98,8 @@ export default {
 
 <style scoped>
 .ticket-card {
+  @apply cursor-pointer;
+
   padding: 10px;
 }
 .ticket-card.active {

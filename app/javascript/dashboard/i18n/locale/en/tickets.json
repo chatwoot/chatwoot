@@ -1,12 +1,22 @@
 {
   "TICKETS": {
-    "TITLE": "Ticket Title",
+    "TITLE": "Ticket",
     "DESCRIPTION": "Ticket Description",
+    "DESCRIPTION_PLACEHOLDER": "Enter a ticket description",
+    "RESOLVE": "Resolve",
+    "RESOLVED_AT": "Resolved at",
+    "ACTIONS": {
+      "EDIT": "Edit",
+      "SAVE": "Save",
+      "DELETE": "Delete",
+      "CLOSE": "Close"
+    },
     "ASSIGNEE": {
       "ASSIGNED_TO": "Assigned to",
       "ASSIGNEE_TO_ME": "Assign to me"
     },
     "STATUS": {
+      "TITLE": "Status",
       "OPEN": "Open",
       "PENDING": "Pending",
       "RESOLVED": "Resolved",
@@ -28,10 +38,12 @@
       "HIGH": "High"
     },
     "ASSIGNEE_FILTER": {
-      "ME": "Me",
+      "ME": "To me",
       "UNASSIGNED": "Unassigned"
     },
-    "LABEL_FILTER": {
+    "LABELS": {
+      "TITLE": "Labels",
+      "CREATE": "Create Label",
       "ME": "Me",
       "UNASSIGNED": "Unassigned"
     },
@@ -73,7 +85,7 @@
       "UNASSIGN": "Unassign Ticket",
       "LABEL": "Add Label",
       "UNLABEL": "Remove Label",
-      "SNOOZE": "Snooze Ticket"
+      "SNOOZE": "Add Snooze"
     }
   }
 }

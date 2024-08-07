@@ -1,5 +1,5 @@
 class Api::V1::Accounts::TicketsController < Api::V1::Accounts::BaseController
-  before_action :fetch_ticket, only: [:show, :update, :destroy, :assign, :resolve]
+  before_action :fetch_ticket, only: %i[show update destroy assign resolve add_label remove_label]
   before_action :create_or_update_labels, only: [:update]
   before_action :fetch_conversation, only: [:conversations]
 
@@ -46,10 +46,18 @@ class Api::V1::Accounts::TicketsController < Api::V1::Accounts::BaseController
     @ticket.update!(status: :resolved)
   end
 
+  def add_label
+    @ticket.labels << Label.find(params[:label_id])
+  end
+
+  def remove_label
+    @ticket.labels.delete(Label.find(params[:label_id]))
+  end
+
   private
 
   def create_or_update_labels
-    @ticket.labels << find_labels(params[:labels]) if params.key?(:labels)
+    @ticket.labels << find_labels(params.dig(:ticket, :labels)) if params.dig(:ticket, :labels)
   rescue ActiveRecord::RecordNotUnique
     raise CustomExceptions::Ticket, I18n.t('activerecord.errors.models.ticket.errors.already_label_assigned')
   end

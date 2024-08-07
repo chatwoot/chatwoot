@@ -1,22 +1,26 @@
 /* eslint arrow-body-style: 0 */
 import { AllRoles } from '../../../featureFlags';
 import { frontendURL } from '../../../helper/URLHelper';
+
+const SettingsContent = () =>
+  import('dashboard/routes/dashboard/settings/Wrapper.vue');
 const TicketView = () => import('./TicketView.vue');
 
 export const routes = [
   {
     path: frontendURL('accounts/:accountId/tickets'),
-    name: 'tickets_dashboard',
-    roles: AllRoles,
-    component: TicketView,
-  },
-  {
-    path: frontendURL('accounts/:accountId/tickets/:ticketId'),
-    name: 'ticket_profile_dashboard',
-    roles: AllRoles,
-    component: TicketView,
-    props: route => {
-      return { ticketId: route.params.ticketId };
+    component: SettingsContent,
+    props: {
+      headerTitle: 'TICKETS.TITLE',
+      icon: 'arrow-swap',
     },
+    children: [
+      {
+        path: '',
+        name: 'tickets_dashboard',
+        roles: AllRoles,
+        component: TicketView,
+      },
+    ],
   },
 ];
