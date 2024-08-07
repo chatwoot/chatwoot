@@ -8,12 +8,14 @@ import InboxCard from './components/InboxCard.vue';
 import InboxListHeader from './components/InboxListHeader.vue';
 import { INBOX_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue';
+import CmdBarConversationSnooze from 'dashboard/routes/dashboard/commands/CmdBarConversationSnooze.vue';
 
 export default {
   components: {
     InboxCard,
     InboxListHeader,
     IntersectionObserver,
+    CmdBarConversationSnooze,
   },
   setup() {
     const { uiSettings } = useUISettings();
@@ -209,5 +211,6 @@ export default {
       </div>
     </div>
     <router-view />
+    <CmdBarConversationSnooze />
   </section>
 </template>
