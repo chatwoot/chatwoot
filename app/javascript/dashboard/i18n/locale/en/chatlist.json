@@ -95,6 +95,9 @@
       },
       "fallback": {
         "CONTENT": "has shared a url"
+      },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
       }
     },
     "CHAT_SORT_BY_FILTER": {
