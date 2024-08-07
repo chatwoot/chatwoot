@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: Push to docker hub
 
 on:
   push:
@@ -15,7 +15,8 @@ jobs:
       - name: Login to DockerHub
         run: docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" -p "${{ secrets.DOCKERHUB_PASSWORD }}"
 
-      - name: Build and Push Docker Image
-        run: |
-            docker build -t "${{ secrets.DOCKERHUB_USERNAME }}"/chatfy:latest .
-            docker push "${{ secrets.DOCKERHUB_USERNAME }}"/chatfy:latest
+      - name: Build Docker Image
+        run: docker build -t "${{ secrets.DOCKERHUB_USERNAME }}"/chatfy:latest .
+
+      - name: Push Docker Image
+        run:  docker push "${{ secrets.DOCKERHUB_USERNAME }}"/chatfy:latest

@@ -1,0 +1,24 @@
+name: Push to ecr registry
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Login to ecr
+        run: aws ecr get-login-password --region sa-east-1 | docker login --username AWS --password-stdin "${{ secrets.ECR_REPOSITORY }}"
+
+      - name: Build Docker Image
+        run: |
+            docker build -t chatfy .
+            docker tag chatfy:latest "${{ secrets.ECR_REPOSITORY }}"/chatfy:latest
+
+      - name: push image
+        run: aws ecr get-login-password --region sa-east-1 | docker login --username AWS --password-stdin "${{ secrets.ECR_REPOSITORY }}"
