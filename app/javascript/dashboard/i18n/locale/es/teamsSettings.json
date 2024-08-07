@@ -2,7 +2,9 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Crear un nuevo equipo",
     "HEADER": "Equipos",
-    "SIDEBAR_TXT": "<p><b>Equipos</b></p> <p>Los equipos le permiten organizar sus agentes en grupos basados en sus responsabilidades. <br /> Un agente puede ser parte de múltiples equipos. Puedes asignar conversaciones a un equipo cuando trabajas en colaboración. </p>",
+    "LOADING": "Fetching teams",
+    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
+    "LEARN_MORE": "Learn more about teams",
     "LIST": {
       "404": "No hay equipos creados en ésta cuenta.",
       "EDIT_TEAM": "Editar equipo"
@@ -97,7 +99,7 @@
         "ERROR_MESSAGE": "No se pudo borrar el equipo. Intente nuevamente."
       },
       "CONFIRM": {
-        "TITLE": "¿Está seguro que quiere borrar - %{teamName}?",
+        "TITLE": "Are you sure you want to delete the team?",
         "PLACE_HOLDER": "Por favor escriba {teamName} para confirmar",
         "MESSAGE": "Al borrar el equipo se quitara la asignación del equipo en las conversaciones asignadas a éste equipo.",
         "YES": "Eliminar ",
