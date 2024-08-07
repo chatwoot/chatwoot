@@ -48,7 +48,7 @@
             <div>
               <h3 class="text-sm text-slate-600">{{ $t('TICKETS.TITLE') }}:</h3>
               <p class="text-sm text-slate-600">
-                <strong>{{ ticket.title }}</strong>
+                <strong>{{ ticket.title || '-' }}</strong>
               </p>
             </div>
             <div>
@@ -56,7 +56,7 @@
                 {{ $t('TICKETS.DESCRIPTION') }}:
               </h3>
               <p class="text-sm text-slate-600">
-                <strong>{{ ticket.description }}</strong>
+                <strong>{{ ticket.description || '-' }}</strong>
               </p>
             </div>
             <div>
