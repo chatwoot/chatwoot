@@ -5,9 +5,10 @@ import { isTimeAfter } from 'shared/helpers/DateHelper';
 /**
  * Composable for handling availability-related computations.
  * @param {Object} i18n - Vue i18n instance for translations.
+ * @param {Object} availableAgents - Available agents object.
  * @returns {Object} An object containing computed properties and methods for availability management.
  */
-export function useAvailability(i18n) {
+export function useAvailability(availableAgents, i18n) {
   const channelConfig = computed(() => window.chatwootWebChannel);
   const replyTime = computed(() => window.chatwootWebChannel.replyTime);
 
@@ -22,6 +23,15 @@ export function useAvailability(i18n) {
       default:
         return i18n.t('REPLY_TIME.IN_A_FEW_HOURS');
     }
+  });
+
+  const isOnline = computed(() => {
+    const { workingHoursEnabled } = channelConfig.value;
+    const anyAgentOnline = availableAgents.value.length > 0;
+    if (workingHoursEnabled) {
+      return isInBetweenTheWorkingHours.value;
+    }
+    return anyAgentOnline;
   });
 
   const replyWaitMessage = computed(() => {
@@ -111,6 +121,7 @@ export function useAvailability(i18n) {
     currentDayAvailability,
     isInBetweenTheWorkingHours,
     isInBusinessHours,
+    isOnline,
     getDateWithOffset,
   };
 }
