@@ -2,6 +2,8 @@
   "INBOX_MGMT": {
     "HEADER": "Κιβώτια Εισερχομένων",
     "SIDEBAR_TXT": "<p><b>Κιβώτιο Εισερχομένων</b></p> <p> Όταν συνδέετε μια ιστοσελίδα ή μια σελίδα του Facebook με το Chatwoot αυτό καλείται ως <b>Κιβώτιο Εισερχομένων</b>. Μπορείτε να έχετε απεριόριστα κιβώτια σε ένα λογαριασμό. </p><p> Πατήστε στο <b>Προσθήκη Κιβωτίου</b> για να συνδέετε μια ιστοσελίδα ή μια σελίδα Facebook. </p><p> Στον Πίνακα Ελέγχου (Dashboard), μπορείτε να δείτε όλες τις συνομιλίες από όλα τα κιβώτια σε ένα μέρος και να απαντήσετε στις συζητήσεις από την καρτέλα `Συνομιλίες`. </p><p> Μπορείτε επίσης να δείτε τις συνομιλίες που αφορούν ένα συγκεκριμένο κιβώτιο επιλέγοντάς το από το αριστερό τμήμα του πίνακα ελέγχου (dashboard). </p>",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "Δεν υπάρχουν κιβώτια εισερχομένων σε αυτόν τον λογαριασμό."
     },
@@ -364,6 +366,7 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
         "EMAIL_PLACEHOLDER": "Enter email address",
+        "SIGN_IN": "Sign in with Microsoft",
         "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
         "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }

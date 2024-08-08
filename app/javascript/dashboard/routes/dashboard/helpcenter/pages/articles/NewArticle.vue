@@ -1,34 +1,9 @@
-<template>
-  <div class="flex flex-1 overflow-auto">
-    <div
-      class="flex-1 overflow-y-auto flex-shrink-0 px-6"
-      :class="{ 'flex-grow-1': showArticleSettings }"
-    >
-      <edit-article-header
-        :back-button-label="$t('HELP_CENTER.HEADER.TITLES.ALL_ARTICLES')"
-        draft-state="saved"
-        :is-sidebar-open="showArticleSettings"
-        @back="onClickGoBack"
-        @open="openArticleSettings"
-        @close="closeArticleSettings"
-        @save-article="createNewArticle"
-      />
-      <article-editor :article="newArticle" @save-article="createNewArticle" />
-    </div>
-    <article-settings
-      v-if="showArticleSettings"
-      :article="article"
-      @save-article="saveArticle"
-    />
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import EditArticleHeader from 'dashboard/routes/dashboard/helpcenter/components/Header/EditArticleHeader.vue';
 import ArticleEditor from '../../components/ArticleEditor.vue';
 import portalMixin from '../../mixins/portalMixin';
-import alertMixin from 'shared/mixins/alertMixin.js';
 import ArticleSettings from './ArticleSettings.vue';
 import { PORTALS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 export default {
@@ -37,7 +12,7 @@ export default {
     ArticleEditor,
     ArticleSettings,
   },
-  mixins: [portalMixin, alertMixin],
+  mixins: [portalMixin],
   data() {
     return {
       articleTitle: '',
@@ -50,7 +25,6 @@ export default {
   computed: {
     ...mapGetters({
       currentUserID: 'getCurrentUserID',
-      articles: 'articles/articles',
       categories: 'categories/allCategories',
     }),
     articleId() {
@@ -100,7 +74,7 @@ export default {
           this.alertMessage =
             error?.message ||
             this.$t('HELP_CENTER.CREATE_ARTICLE.API.ERROR_MESSAGE');
-          this.showAlert(this.alertMessage);
+          useAlert(this.alertMessage);
         }
       }
     },
@@ -112,8 +86,33 @@ export default {
     },
     saveArticle() {
       this.alertMessage = this.$t('HELP_CENTER.CREATE_ARTICLE.ERROR_MESSAGE');
-      this.showAlert(this.alertMessage);
+      useAlert(this.alertMessage);
     },
   },
 };
 </script>
+
+<template>
+  <div class="flex flex-1 overflow-auto">
+    <div
+      class="flex-1 flex-shrink-0 px-6 overflow-y-auto"
+      :class="{ 'flex-grow-1': showArticleSettings }"
+    >
+      <EditArticleHeader
+        :back-button-label="$t('HELP_CENTER.HEADER.TITLES.ALL_ARTICLES')"
+        draft-state="saved"
+        :is-sidebar-open="showArticleSettings"
+        @back="onClickGoBack"
+        @open="openArticleSettings"
+        @close="closeArticleSettings"
+        @save-article="createNewArticle"
+      />
+      <ArticleEditor :article="newArticle" @saveArticle="createNewArticle" />
+    </div>
+    <ArticleSettings
+      v-if="showArticleSettings"
+      :article="article"
+      @saveArticle="saveArticle"
+    />
+  </div>
+</template>

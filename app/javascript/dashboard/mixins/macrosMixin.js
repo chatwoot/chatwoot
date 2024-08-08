@@ -1,5 +1,13 @@
+import { mapGetters } from 'vuex';
 import { PRIORITY_CONDITION_VALUES } from 'dashboard/helper/automationHelper.js';
 export default {
+  computed: {
+    ...mapGetters({
+      labels: 'labels/getLabels',
+      teams: 'teams/getTeams',
+      agents: 'agents/getAgents',
+    }),
+  },
   methods: {
     getDropdownValues(type) {
       switch (type) {

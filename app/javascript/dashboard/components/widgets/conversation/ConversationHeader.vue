@@ -1,90 +1,9 @@
-<template>
-  <div
-    class="flex flex-col items-center justify-between px-4 py-2 bg-white border-b dark:bg-slate-900 border-slate-50 dark:border-slate-800/50 md:flex-row"
-  >
-    <div
-      class="flex flex-col items-center justify-center flex-1 w-full min-w-0"
-      :class="isInboxView ? 'sm:flex-row' : 'md:flex-row'"
-    >
-      <div class="flex items-center justify-start max-w-full min-w-0 w-fit">
-        <back-button
-          v-if="showBackButton"
-          :back-url="backButtonUrl"
-          class="ltr:ml-0 rtl:mr-0 rtl:ml-4"
-        />
-        <Thumbnail
-          :src="currentContact.thumbnail"
-          :badge="inboxBadge"
-          :username="currentContact.name"
-          :status="currentContact.availability_status"
-        />
-        <div
-          class="flex flex-col items-start min-w-0 ml-2 overflow-hidden rtl:ml-0 rtl:mr-2 w-fit"
-        >
-          <div
-            class="flex flex-row items-center max-w-full gap-1 p-0 m-0 w-fit"
-          >
-            <woot-button
-              variant="link"
-              color-scheme="secondary"
-              class="[&>span]:overflow-hidden [&>span]:whitespace-nowrap [&>span]:text-ellipsis min-w-0"
-              @click.prevent="$emit('contact-panel-toggle')"
-            >
-              <span
-                class="text-base font-medium leading-tight text-slate-900 dark:text-slate-100"
-              >
-                {{ currentContact.name }}
-              </span>
-            </woot-button>
-            <fluent-icon
-              v-if="!isHMACVerified"
-              v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
-              size="14"
-              class="text-yellow-600 dark:text-yellow-500 my-0 mx-0 min-w-[14px]"
-              icon="warning"
-            />
-          </div>
-
-          <div
-            class="flex items-center gap-2 overflow-hidden text-xs conversation--header--actions text-ellipsis whitespace-nowrap"
-          >
-            <inbox-name v-if="hasMultipleInboxes" :inbox="inbox" />
-            <span
-              v-if="isSnoozed"
-              class="font-medium text-yellow-600 dark:text-yellow-500"
-            >
-              {{ snoozedDisplayText }}
-            </span>
-            <woot-button
-              class="p-0"
-              size="small"
-              variant="link"
-              @click="$emit('contact-panel-toggle')"
-            >
-              {{ contactPanelToggleText }}
-            </woot-button>
-          </div>
-        </div>
-      </div>
-      <div
-        class="flex flex-row items-center justify-end flex-grow gap-2 mt-3 header-actions-wrap lg:mt-0"
-        :class="{ 'justify-end': isContactPanelOpen }"
-      >
-        <SLA-card-label v-if="hasSlaPolicyId" :chat="chat" show-extended-info />
-        <linear
-          v-if="isLinearIntegrationEnabled && isLinearFeatureEnabled"
-          :conversation-id="currentChat.id"
-        />
-        <more-actions :conversation-id="currentChat.id" />
-      </div>
-    </div>
-  </div>
-</template>
 <script>
+import { ref } from 'vue';
 import { mapGetters } from 'vuex';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import agentMixin from '../../../mixins/agentMixin.js';
 import BackButton from '../BackButton.vue';
-import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import InboxName from '../InboxName.vue';
 import MoreActions from './MoreActions.vue';
@@ -105,7 +24,7 @@ export default {
     SLACardLabel,
     Linear,
   },
-  mixins: [inboxMixin, agentMixin, keyboardEventListenerMixins],
+  mixins: [inboxMixin, agentMixin],
   props: {
     chat: {
       type: Object,
@@ -124,9 +43,22 @@ export default {
       default: false,
     },
   },
+  setup(props, { emit }) {
+    const conversationHeaderActionsRef = ref(null);
+
+    const keyboardEvents = {
+      'Alt+KeyO': {
+        action: () => emit('contactPanelToggle'),
+      },
+    };
+    useKeyboardEvents(keyboardEvents, conversationHeaderActionsRef);
+
+    return {
+      conversationHeaderActionsRef,
+    };
+  },
   computed: {
     ...mapGetters({
-      uiFlags: 'inboxAssignableAgents/getUIFlags',
       currentChat: 'getSelectedChat',
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
@@ -200,18 +132,92 @@ export default {
       );
     },
   },
-
-  methods: {
-    getKeyboardEvents() {
-      return {
-        'Alt+KeyO': {
-          action: () => this.$emit('contact-panel-toggle'),
-        },
-      };
-    },
-  },
 };
 </script>
+
+<template>
+  <div
+    class="flex flex-col items-center justify-between px-4 py-2 bg-white border-b dark:bg-slate-900 border-slate-50 dark:border-slate-800/50 md:flex-row"
+  >
+    <div
+      class="flex flex-col items-center justify-center flex-1 w-full min-w-0"
+      :class="isInboxView ? 'sm:flex-row' : 'md:flex-row'"
+    >
+      <div class="flex items-center justify-start max-w-full min-w-0 w-fit">
+        <BackButton
+          v-if="showBackButton"
+          :back-url="backButtonUrl"
+          class="ltr:ml-0 rtl:mr-0 rtl:ml-4"
+        />
+        <Thumbnail
+          :src="currentContact.thumbnail"
+          :badge="inboxBadge"
+          :username="currentContact.name"
+          :status="currentContact.availability_status"
+        />
+        <div
+          class="flex flex-col items-start min-w-0 ml-2 overflow-hidden rtl:ml-0 rtl:mr-2 w-fit"
+        >
+          <div
+            class="flex flex-row items-center max-w-full gap-1 p-0 m-0 w-fit"
+          >
+            <woot-button
+              variant="link"
+              color-scheme="secondary"
+              class="[&>span]:overflow-hidden [&>span]:whitespace-nowrap [&>span]:text-ellipsis min-w-0"
+              @click.prevent="$emit('contactPanelToggle')"
+            >
+              <span
+                class="text-base font-medium leading-tight text-slate-900 dark:text-slate-100"
+              >
+                {{ currentContact.name }}
+              </span>
+            </woot-button>
+            <fluent-icon
+              v-if="!isHMACVerified"
+              v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
+              size="14"
+              class="text-yellow-600 dark:text-yellow-500 my-0 mx-0 min-w-[14px]"
+              icon="warning"
+            />
+          </div>
+
+          <div
+            ref="conversationHeaderActionsRef"
+            class="flex items-center gap-2 overflow-hidden text-xs conversation--header--actions text-ellipsis whitespace-nowrap"
+          >
+            <InboxName v-if="hasMultipleInboxes" :inbox="inbox" />
+            <span
+              v-if="isSnoozed"
+              class="font-medium text-yellow-600 dark:text-yellow-500"
+            >
+              {{ snoozedDisplayText }}
+            </span>
+            <woot-button
+              class="p-0"
+              size="small"
+              variant="link"
+              @click="$emit('contactPanelToggle')"
+            >
+              {{ contactPanelToggleText }}
+            </woot-button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="flex flex-row items-center justify-end flex-grow gap-2 mt-3 header-actions-wrap lg:mt-0"
+        :class="{ 'justify-end': isContactPanelOpen }"
+      >
+        <SLACardLabel v-if="hasSlaPolicyId" :chat="chat" show-extended-info />
+        <Linear
+          v-if="isLinearIntegrationEnabled && isLinearFeatureEnabled"
+          :conversation-id="currentChat.id"
+        />
+        <MoreActions :conversation-id="currentChat.id" />
+      </div>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .conversation--header--actions {

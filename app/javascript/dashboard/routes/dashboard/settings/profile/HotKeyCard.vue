@@ -1,3 +1,28 @@
+<script setup>
+defineProps({
+  active: {
+    type: Boolean,
+    default: false,
+  },
+  title: {
+    type: String,
+    default: '',
+  },
+  description: {
+    type: String,
+    default: '',
+  },
+  lightImage: {
+    type: String,
+    default: '',
+  },
+  darkImage: {
+    type: String,
+    default: '',
+  },
+});
+</script>
+
 <template>
   <div
     class="flex flex-col gap-4 w-full h-fit sm:max-h-[220px] p-4 sm:max-w-[350px] rounded-md border border-solid border-ash-200"
@@ -37,28 +62,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-defineProps({
-  active: {
-    type: Boolean,
-    default: false,
-  },
-  title: {
-    type: String,
-    default: '',
-  },
-  description: {
-    type: String,
-    default: '',
-  },
-  lightImage: {
-    type: String,
-    default: '',
-  },
-  darkImage: {
-    type: String,
-    default: '',
-  },
-});
-</script>

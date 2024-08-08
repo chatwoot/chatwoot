@@ -1,57 +1,15 @@
-<template>
-  <div class="custom-attributes--panel">
-    <custom-attribute
-      v-for="attribute in displayedAttributes"
-      :key="attribute.id"
-      :attribute-key="attribute.attribute_key"
-      :attribute-type="attribute.attribute_display_type"
-      :values="attribute.attribute_values"
-      :label="attribute.attribute_display_name"
-      :description="attribute.attribute_description"
-      :value="attribute.value"
-      :show-actions="true"
-      :attribute-regex="attribute.regex_pattern"
-      :regex-cue="attribute.regex_cue"
-      :class="attributeClass"
-      :contact-id="contactId"
-      @update="onUpdate"
-      @delete="onDelete"
-      @copy="onCopy"
-    />
-    <p
-      v-if="!displayedAttributes.length && emptyStateMessage"
-      class="p-3 text-center"
-    >
-      {{ emptyStateMessage }}
-    </p>
-    <!-- Show more and show less buttons show it if the filteredAttributes length is greater than 5 -->
-    <div v-if="filteredAttributes.length > 5" class="flex px-2 py-2">
-      <woot-button
-        size="small"
-        :icon="showAllAttributes ? 'chevron-up' : 'chevron-down'"
-        variant="clear"
-        color-scheme="primary"
-        class="!px-2 hover:!bg-transparent dark:hover:!bg-transparent"
-        @click="onClickToggle"
-      >
-        {{ toggleButtonText }}
-      </woot-button>
-    </div>
-  </div>
-</template>
-
 <script>
-import CustomAttribute from 'dashboard/components/CustomAttribute.vue';
-import alertMixin from 'shared/mixins/alertMixin';
-import attributeMixin from 'dashboard/mixins/attributeMixin';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { useAlert } from 'dashboard/composables';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import CustomAttribute from 'dashboard/components/CustomAttribute.vue';
+import attributeMixin from 'dashboard/mixins/attributeMixin';
 
 export default {
   components: {
     CustomAttribute,
   },
-  mixins: [alertMixin, attributeMixin, uiSettingsMixin],
+  mixins: [attributeMixin],
   props: {
     attributeType: {
       type: String,
@@ -70,6 +28,14 @@ export default {
       type: String,
       default: '',
     },
+  },
+  setup() {
+    const { uiSettings, updateUISettings } = useUISettings();
+
+    return {
+      uiSettings,
+      updateUISettings,
+    };
   },
   data() {
     return {
@@ -141,12 +107,12 @@ export default {
             custom_attributes: updatedAttributes,
           });
         }
-        this.showAlert(this.$t('CUSTOM_ATTRIBUTES.FORM.UPDATE.SUCCESS'));
+        useAlert(this.$t('CUSTOM_ATTRIBUTES.FORM.UPDATE.SUCCESS'));
       } catch (error) {
         const errorMessage =
           error?.response?.message ||
           this.$t('CUSTOM_ATTRIBUTES.FORM.UPDATE.ERROR');
-        this.showAlert(errorMessage);
+        useAlert(errorMessage);
       }
     },
     async onDelete(key) {
@@ -164,21 +130,63 @@ export default {
           });
         }
 
-        this.showAlert(this.$t('CUSTOM_ATTRIBUTES.FORM.DELETE.SUCCESS'));
+        useAlert(this.$t('CUSTOM_ATTRIBUTES.FORM.DELETE.SUCCESS'));
       } catch (error) {
         const errorMessage =
           error?.response?.message ||
           this.$t('CUSTOM_ATTRIBUTES.FORM.DELETE.ERROR');
-        this.showAlert(errorMessage);
+        useAlert(errorMessage);
       }
     },
     async onCopy(attributeValue) {
       await copyTextToClipboard(attributeValue);
-      this.showAlert(this.$t('CUSTOM_ATTRIBUTES.COPY_SUCCESSFUL'));
+      useAlert(this.$t('CUSTOM_ATTRIBUTES.COPY_SUCCESSFUL'));
     },
   },
 };
 </script>
+
+<template>
+  <div class="custom-attributes--panel">
+    <CustomAttribute
+      v-for="attribute in displayedAttributes"
+      :key="attribute.id"
+      :attribute-key="attribute.attribute_key"
+      :attribute-type="attribute.attribute_display_type"
+      :values="attribute.attribute_values"
+      :label="attribute.attribute_display_name"
+      :description="attribute.attribute_description"
+      :value="attribute.value"
+      show-actions
+      :attribute-regex="attribute.regex_pattern"
+      :regex-cue="attribute.regex_cue"
+      :class="attributeClass"
+      :contact-id="contactId"
+      @update="onUpdate"
+      @delete="onDelete"
+      @copy="onCopy"
+    />
+    <p
+      v-if="!displayedAttributes.length && emptyStateMessage"
+      class="p-3 text-center"
+    >
+      {{ emptyStateMessage }}
+    </p>
+    <!-- Show more and show less buttons show it if the filteredAttributes length is greater than 5 -->
+    <div v-if="filteredAttributes.length > 5" class="flex px-2 py-2">
+      <woot-button
+        size="small"
+        :icon="showAllAttributes ? 'chevron-up' : 'chevron-down'"
+        variant="clear"
+        color-scheme="primary"
+        class="!px-2 hover:!bg-transparent dark:hover:!bg-transparent"
+        @click="onClickToggle"
+      >
+        {{ toggleButtonText }}
+      </woot-button>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="scss">
 .custom-attributes--panel {

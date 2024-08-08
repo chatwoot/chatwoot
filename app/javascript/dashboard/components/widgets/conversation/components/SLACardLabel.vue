@@ -1,53 +1,3 @@
-<template>
-  <div
-    v-if="hasSlaThreshold"
-    class="relative flex items-center border cursor-pointer min-w-fit border-slate-100 dark:border-slate-700"
-    :class="showExtendedInfo ? 'h-[26px] rounded-lg' : 'rounded h-5'"
-  >
-    <div
-      v-on-clickaway="closeSlaPopover"
-      class="flex items-center w-full truncate"
-      :class="showExtendedInfo ? 'px-1.5' : 'px-2 gap-1'"
-      @mouseover="openSlaPopover()"
-    >
-      <div
-        class="flex items-center gap-1"
-        :class="
-          showExtendedInfo &&
-          'ltr:pr-1.5 rtl:pl-1.5 ltr:border-r rtl:border-l border-solid border-slate-100 dark:border-slate-700'
-        "
-      >
-        <fluent-icon
-          size="14"
-          :icon="slaStatus.icon"
-          type="outline"
-          :icon-lib="isSlaMissed ? 'lucide' : 'fluent'"
-          class="flex-shrink-0"
-          :class="slaTextStyles"
-        />
-        <span
-          v-if="showExtendedInfo"
-          class="text-xs font-medium"
-          :class="slaTextStyles"
-        >
-          {{ slaStatusText }}
-        </span>
-      </div>
-      <span
-        class="text-xs font-medium"
-        :class="[slaTextStyles, showExtendedInfo && 'ltr:pl-1.5 rtl:pr-1.5']"
-      >
-        {{ slaStatus.threshold }}
-      </span>
-    </div>
-    <SLA-popover-card
-      v-if="showSlaPopoverCard"
-      :sla-missed-events="slaEvents"
-      class="right-0 top-7"
-    />
-  </div>
-</template>
-
 <script>
 import { evaluateSLAStatus } from '@chatwoot/utils';
 import SLAPopoverCard from './SLAPopoverCard.vue';
@@ -152,3 +102,53 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    v-if="hasSlaThreshold"
+    class="relative flex items-center border cursor-pointer min-w-fit border-slate-100 dark:border-slate-700"
+    :class="showExtendedInfo ? 'h-[26px] rounded-lg' : 'rounded h-5'"
+  >
+    <div
+      v-on-clickaway="closeSlaPopover"
+      class="flex items-center w-full truncate"
+      :class="showExtendedInfo ? 'px-1.5' : 'px-2 gap-1'"
+      @mouseover="openSlaPopover()"
+    >
+      <div
+        class="flex items-center gap-1"
+        :class="
+          showExtendedInfo &&
+          'ltr:pr-1.5 rtl:pl-1.5 ltr:border-r rtl:border-l border-solid border-slate-100 dark:border-slate-700'
+        "
+      >
+        <fluent-icon
+          size="14"
+          :icon="slaStatus.icon"
+          type="outline"
+          :icon-lib="isSlaMissed ? 'lucide' : 'fluent'"
+          class="flex-shrink-0"
+          :class="slaTextStyles"
+        />
+        <span
+          v-if="showExtendedInfo"
+          class="text-xs font-medium"
+          :class="slaTextStyles"
+        >
+          {{ slaStatusText }}
+        </span>
+      </div>
+      <span
+        class="text-xs font-medium"
+        :class="[slaTextStyles, showExtendedInfo && 'ltr:pl-1.5 rtl:pr-1.5']"
+      >
+        {{ slaStatus.threshold }}
+      </span>
+    </div>
+    <SLAPopoverCard
+      v-if="showSlaPopoverCard"
+      :sla-missed-events="slaEvents"
+      class="right-0 top-7"
+    />
+  </div>
+</template>

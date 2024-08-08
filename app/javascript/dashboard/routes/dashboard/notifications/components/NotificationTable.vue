@@ -1,94 +1,8 @@
-<template>
-  <section
-    class="h-full flex-shrink flex-grow overflow-hidden py-8 px-4 bg-white dark:bg-slate-900"
-  >
-    <woot-submit-button
-      v-if="notificationMetadata.unreadCount"
-      class="button nice success button--fixed-top"
-      :button-text="$t('NOTIFICATIONS_PAGE.MARK_ALL_DONE')"
-      :loading="isUpdating"
-      @click="onMarkAllDoneClick"
-    />
-
-    <table class="woot-table notifications-table">
-      <tbody v-show="!isLoading">
-        <tr
-          v-for="notificationItem in notifications"
-          :key="notificationItem.id"
-          :class="{
-            'is-unread': notificationItem.read_at === null,
-          }"
-          @click="() => onClickNotification(notificationItem)"
-        >
-          <td>
-            <div
-              class="flex-view notification-contant--wrap overflow-hidden whitespace-nowrap text-ellipsis"
-            >
-              <h5 class="notification--title">
-                {{
-                  `#${
-                    notificationItem.primary_actor
-                      ? notificationItem.primary_actor.id
-                      : $t(`NOTIFICATIONS_PAGE.DELETE_TITLE`)
-                  }`
-                }}
-              </h5>
-              <span
-                class="notification--message-title overflow-hidden whitespace-nowrap text-ellipsis"
-              >
-                {{ notificationItem.push_message_title }}
-              </span>
-            </div>
-          </td>
-          <td class="text-right">
-            <span class="notification--type">
-              {{
-                $t(
-                  `NOTIFICATIONS_PAGE.TYPE_LABEL.${notificationItem.notification_type}`
-                )
-              }}
-            </span>
-          </td>
-          <td class="thumbnail--column">
-            <thumbnail
-              v-if="notificationItem.primary_actor.meta.assignee"
-              :src="notificationItem.primary_actor.meta.assignee.thumbnail"
-              size="36px"
-              :username="notificationItem.primary_actor.meta.assignee.name"
-            />
-          </td>
-          <td>
-            <div class="text-right timestamp--column">
-              <span class="notification--created-at">
-                {{ dynamicTime(notificationItem.last_activity_at) }}
-              </span>
-            </div>
-          </td>
-          <td>
-            <div
-              v-if="!notificationItem.read_at"
-              class="notification--unread-indicator"
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <empty-state
-      v-if="showEmptyResult"
-      :title="$t('NOTIFICATIONS_PAGE.LIST.404')"
-    />
-    <div v-if="isLoading" class="notifications--loader">
-      <spinner />
-      <span>{{ $t('NOTIFICATIONS_PAGE.LIST.LOADING_MESSAGE') }}</span>
-    </div>
-  </section>
-</template>
-
 <script>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
-import timeMixin from '../../../../mixins/time';
+import { dynamicTime } from 'shared/helpers/timeHelper';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -97,7 +11,6 @@ export default {
     Spinner,
     EmptyState,
   },
-  mixins: [timeMixin],
   props: {
     notifications: {
       type: Array,
@@ -128,8 +41,97 @@ export default {
       return !this.isLoading && this.notifications.length === 0;
     },
   },
+  methods: {
+    dynamicTime,
+  },
 };
 </script>
+
+<template>
+  <section
+    class="flex-grow flex-shrink h-full px-4 py-8 overflow-hidden bg-white dark:bg-slate-900"
+  >
+    <woot-submit-button
+      v-if="notificationMetadata.unreadCount"
+      class="button nice success button--fixed-top"
+      :button-text="$t('NOTIFICATIONS_PAGE.MARK_ALL_DONE')"
+      :loading="isUpdating"
+      @click="onMarkAllDoneClick"
+    />
+
+    <table class="woot-table notifications-table">
+      <tbody v-show="!isLoading">
+        <tr
+          v-for="notificationItem in notifications"
+          :key="notificationItem.id"
+          :class="{
+            'is-unread': notificationItem.read_at === null,
+          }"
+          @click="() => onClickNotification(notificationItem)"
+        >
+          <td>
+            <div
+              class="overflow-hidden flex-view notification-contant--wrap whitespace-nowrap text-ellipsis"
+            >
+              <h5 class="notification--title">
+                {{
+                  `#${
+                    notificationItem.primary_actor
+                      ? notificationItem.primary_actor.id
+                      : $t(`NOTIFICATIONS_PAGE.DELETE_TITLE`)
+                  }`
+                }}
+              </h5>
+              <span
+                class="overflow-hidden notification--message-title whitespace-nowrap text-ellipsis"
+              >
+                {{ notificationItem.push_message_title }}
+              </span>
+            </div>
+          </td>
+          <td class="text-right">
+            <span class="notification--type">
+              {{
+                $t(
+                  `NOTIFICATIONS_PAGE.TYPE_LABEL.${notificationItem.notification_type}`
+                )
+              }}
+            </span>
+          </td>
+          <td class="thumbnail--column">
+            <Thumbnail
+              v-if="notificationItem.primary_actor.meta.assignee"
+              :src="notificationItem.primary_actor.meta.assignee.thumbnail"
+              size="36px"
+              :username="notificationItem.primary_actor.meta.assignee.name"
+            />
+          </td>
+          <td>
+            <div class="text-right timestamp--column">
+              <span class="notification--created-at">
+                {{ dynamicTime(notificationItem.last_activity_at) }}
+              </span>
+            </div>
+          </td>
+          <td>
+            <div
+              v-if="!notificationItem.read_at"
+              class="notification--unread-indicator"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <EmptyState
+      v-if="showEmptyResult"
+      :title="$t('NOTIFICATIONS_PAGE.LIST.404')"
+    />
+    <div v-if="isLoading" class="notifications--loader">
+      <Spinner />
+      <span>{{ $t('NOTIFICATIONS_PAGE.LIST.LOADING_MESSAGE') }}</span>
+    </div>
+  </section>
+</template>
 
 <style lang="scss" scoped>
 @import '~dashboard/assets/scss/mixins';

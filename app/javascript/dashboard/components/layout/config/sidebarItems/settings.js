@@ -163,17 +163,6 @@ const settings = accountId => ({
         permissions: ['administrator'],
       },
       toState: frontendURL(`accounts/${accountId}/settings/integrations`),
-      toStateName: 'settings_integrations',
-      featureFlag: FEATURE_FLAGS.INTEGRATIONS,
-    },
-    {
-      icon: 'star-emphasis',
-      label: 'APPLICATIONS',
-      hasSubMenu: false,
-      meta: {
-        permissions: ['administrator'],
-      },
-      toState: frontendURL(`accounts/${accountId}/settings/applications`),
       toStateName: 'settings_applications',
       featureFlag: FEATURE_FLAGS.INTEGRATIONS,
     },
@@ -184,11 +173,10 @@ const settings = accountId => ({
       meta: {
         permissions: ['administrator'],
       },
-      toState: frontendURL(`accounts/${accountId}/settings/audit-log/list`),
+      toState: frontendURL(`accounts/${accountId}/settings/audit-logs/list`),
       toStateName: 'auditlogs_list',
       isEnterpriseOnly: true,
       featureFlag: FEATURE_FLAGS.AUDIT_LOGS,
-      beta: true,
     },
     {
       icon: 'document-list-clock',

@@ -1,9 +1,3 @@
-<template>
-  <div class="audio-wave-wrapper">
-    <audio id="audio-wave" class="video-js vjs-fill vjs-default-skin" />
-  </div>
-</template>
-
 <script>
 import getUuid from 'widget/helpers/uuid';
 import 'video.js/dist/video-js.css';
@@ -11,7 +5,7 @@ import 'videojs-record/dist/css/videojs.record.css';
 
 import videojs from 'video.js';
 
-import alertMixin from '../../../../shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 
 import Recorder from 'opus-recorder';
 
@@ -50,15 +44,10 @@ const RECORDER_CONFIG = {
 
 export default {
   name: 'WootAudioRecorder',
-  mixins: [alertMixin],
   props: {
     audioRecordFormat: {
       type: String,
       default: AUDIO_FORMATS.WAV,
-    },
-    isAWhatsAppChannel: {
-      type: Boolean,
-      default: false,
     },
   },
   data() {
@@ -188,14 +177,10 @@ export default {
         deviceErrorName?.includes('notallowederror') ||
         deviceErrorName?.includes('permissiondeniederror')
       ) {
-        this.showAlert(
-          this.$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_PERMISSION')
-        );
+        useAlert(this.$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_PERMISSION'));
         this.fireStateRecorderChanged('notallowederror');
       } else {
-        this.showAlert(
-          this.$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ERROR')
-        );
+        useAlert(this.$t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ERROR'));
       }
     },
     formatTimeProgress() {
@@ -228,7 +213,7 @@ export default {
       this.player.wavesurfer().pause();
     },
     fireRecorderBlob(blob) {
-      this.$emit('finish-record', {
+      this.$emit('finishRecord', {
         name: blob.name,
         type: blob.type,
         size: blob.size,
@@ -236,14 +221,20 @@ export default {
       });
     },
     fireStateRecorderChanged(state) {
-      this.$emit('state-recorder-changed', state);
+      this.$emit('stateRecorderChanged', state);
     },
     fireProgressRecord(duration) {
-      this.$emit('state-recorder-progress-changed', duration);
+      this.$emit('stateRecorderProgressChanged', duration);
     },
   },
 };
 </script>
+
+<template>
+  <div class="audio-wave-wrapper">
+    <audio id="audio-wave" class="video-js vjs-fill vjs-default-skin" />
+  </div>
+</template>
 
 <style lang="scss">
 .audio-wave-wrapper {

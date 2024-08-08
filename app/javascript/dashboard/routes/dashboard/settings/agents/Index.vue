@@ -1,136 +1,10 @@
-<template>
-  <div class="flex-1 overflow-auto p-4">
-    <woot-button
-      color-scheme="success"
-      class-names="button--fixed-top"
-      icon="add-circle"
-      @click="openAddPopup()"
-    >
-      {{ $t('AGENT_MGMT.HEADER_BTN_TXT') }}
-    </woot-button>
-
-    <!-- List Agents -->
-    <div class="flex flex-row gap-4">
-      <div class="w-full lg:w-3/5">
-        <woot-loading-state
-          v-if="uiFlags.isFetching"
-          :message="$t('AGENT_MGMT.LOADING')"
-        />
-        <div v-else>
-          <p v-if="!agentList.length">
-            {{ $t('AGENT_MGMT.LIST.404') }}
-          </p>
-          <table v-else class="woot-table">
-            <tbody>
-              <tr v-for="(agent, index) in agentList" :key="agent.email">
-                <!-- Gravtar Image -->
-                <td>
-                  <thumbnail
-                    :src="agent.thumbnail"
-                    :username="agent.name"
-                    size="40px"
-                    :status="agent.availability_status"
-                  />
-                </td>
-                <!-- Agent Name + Email -->
-                <td>
-                  <span class="agent-name">
-                    {{ agent.name }}
-                  </span>
-                  <span>{{ agent.email }}</span>
-                </td>
-                <!-- Agent Role + Verification Status -->
-                <td>
-                  <span class="agent-name">
-                    {{
-                      $t(`AGENT_MGMT.AGENT_TYPES.${agent.role.toUpperCase()}`)
-                    }}
-                  </span>
-                  <span v-if="agent.confirmed">
-                    {{ $t('AGENT_MGMT.LIST.VERIFIED') }}
-                  </span>
-                  <span v-if="!agent.confirmed">
-                    {{ $t('AGENT_MGMT.LIST.VERIFICATION_PENDING') }}
-                  </span>
-                </td>
-                <!-- Actions -->
-                <td>
-                  <div class="button-wrapper">
-                    <woot-button
-                      v-if="showEditAction(agent)"
-                      v-tooltip.top="$t('AGENT_MGMT.EDIT.BUTTON_TEXT')"
-                      variant="smooth"
-                      size="tiny"
-                      color-scheme="secondary"
-                      icon="edit"
-                      class-names="grey-btn"
-                      @click="openEditPopup(agent)"
-                    />
-                    <woot-button
-                      v-if="showDeleteAction(agent)"
-                      v-tooltip.top="$t('AGENT_MGMT.DELETE.BUTTON_TEXT')"
-                      variant="smooth"
-                      color-scheme="alert"
-                      size="tiny"
-                      icon="dismiss-circle"
-                      class-names="grey-btn"
-                      :is-loading="loading[agent.id]"
-                      @click="openDeletePopup(agent, index)"
-                    />
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="w-1/3 hidden lg:block">
-        <span
-          v-dompurify-html="
-            useInstallationName(
-              $t('AGENT_MGMT.SIDEBAR_TXT'),
-              globalConfig.installationName
-            )
-          "
-        />
-      </div>
-    </div>
-    <!-- Add Agent -->
-    <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-      <add-agent :on-close="hideAddPopup" />
-    </woot-modal>
-    <!-- Edit Agent -->
-    <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
-      <edit-agent
-        v-if="showEditPopup"
-        :id="currentAgent.id"
-        :name="currentAgent.name"
-        :type="currentAgent.role"
-        :email="currentAgent.email"
-        :availability="currentAgent.availability_status"
-        :on-close="hideEditPopup"
-      />
-    </woot-modal>
-    <!-- Delete Agent -->
-    <woot-delete-modal
-      :show.sync="showDeletePopup"
-      :on-close="closeDeletePopup"
-      :on-confirm="confirmDeletion"
-      :title="$t('AGENT_MGMT.DELETE.CONFIRM.TITLE')"
-      :message="$t('AGENT_MGMT.DELETE.CONFIRM.MESSAGE')"
-      :message-value="deleteMessage"
-      :confirm-text="deleteConfirmText"
-      :reject-text="deleteRejectText"
-    />
-  </div>
-</template>
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import Thumbnail from '../../../../components/widgets/Thumbnail.vue';
 import AddAgent from './AddAgent.vue';
 import EditAgent from './EditAgent.vue';
-import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
@@ -138,7 +12,7 @@ export default {
     EditAgent,
     Thumbnail,
   },
-  mixins: [globalConfigMixin, alertMixin],
+  mixins: [globalConfigMixin],
   data() {
     return {
       loading: {},
@@ -243,8 +117,135 @@ export default {
       this.currentAgent = {};
       // Show message
       this.agentAPI.message = message;
-      this.showAlert(message);
+      useAlert(message);
     },
   },
 };
 </script>
+
+<template>
+  <div class="flex-1 p-4 overflow-auto">
+    <woot-button
+      color-scheme="success"
+      class-names="button--fixed-top"
+      icon="add-circle"
+      @click="openAddPopup()"
+    >
+      {{ $t('AGENT_MGMT.HEADER_BTN_TXT') }}
+    </woot-button>
+
+    <!-- List Agents -->
+    <div class="flex flex-row gap-4">
+      <div class="w-full lg:w-3/5">
+        <woot-loading-state
+          v-if="uiFlags.isFetching"
+          :message="$t('AGENT_MGMT.LOADING')"
+        />
+        <div v-else>
+          <p v-if="!agentList.length">
+            {{ $t('AGENT_MGMT.LIST.404') }}
+          </p>
+          <table v-else class="woot-table">
+            <tbody>
+              <tr v-for="(agent, index) in agentList" :key="agent.email">
+                <!-- Gravtar Image -->
+                <td>
+                  <Thumbnail
+                    :src="agent.thumbnail"
+                    :username="agent.name"
+                    size="40px"
+                    :status="agent.availability_status"
+                  />
+                </td>
+                <!-- Agent Name + Email -->
+                <td>
+                  <span class="agent-name">
+                    {{ agent.name }}
+                  </span>
+                  <span>{{ agent.email }}</span>
+                </td>
+                <!-- Agent Role + Verification Status -->
+                <td>
+                  <span class="agent-name">
+                    {{
+                      $t(`AGENT_MGMT.AGENT_TYPES.${agent.role.toUpperCase()}`)
+                    }}
+                  </span>
+                  <span v-if="agent.confirmed">
+                    {{ $t('AGENT_MGMT.LIST.VERIFIED') }}
+                  </span>
+                  <span v-if="!agent.confirmed">
+                    {{ $t('AGENT_MGMT.LIST.VERIFICATION_PENDING') }}
+                  </span>
+                </td>
+                <!-- Actions -->
+                <td>
+                  <div class="button-wrapper">
+                    <woot-button
+                      v-if="showEditAction(agent)"
+                      v-tooltip.top="$t('AGENT_MGMT.EDIT.BUTTON_TEXT')"
+                      variant="smooth"
+                      size="tiny"
+                      color-scheme="secondary"
+                      icon="edit"
+                      class-names="grey-btn"
+                      @click="openEditPopup(agent)"
+                    />
+                    <woot-button
+                      v-if="showDeleteAction(agent)"
+                      v-tooltip.top="$t('AGENT_MGMT.DELETE.BUTTON_TEXT')"
+                      variant="smooth"
+                      color-scheme="alert"
+                      size="tiny"
+                      icon="dismiss-circle"
+                      class-names="grey-btn"
+                      :is-loading="loading[agent.id]"
+                      @click="openDeletePopup(agent, index)"
+                    />
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="hidden w-1/3 lg:block">
+        <span
+          v-dompurify-html="
+            useInstallationName(
+              $t('AGENT_MGMT.SIDEBAR_TXT'),
+              globalConfig.installationName
+            )
+          "
+        />
+      </div>
+    </div>
+    <!-- Add Agent -->
+    <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
+      <AddAgent :on-close="hideAddPopup" />
+    </woot-modal>
+    <!-- Edit Agent -->
+    <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
+      <EditAgent
+        v-if="showEditPopup"
+        :id="currentAgent.id"
+        :name="currentAgent.name"
+        :type="currentAgent.role"
+        :email="currentAgent.email"
+        :availability="currentAgent.availability_status"
+        :on-close="hideEditPopup"
+      />
+    </woot-modal>
+    <!-- Delete Agent -->
+    <woot-delete-modal
+      :show.sync="showDeletePopup"
+      :on-close="closeDeletePopup"
+      :on-confirm="confirmDeletion"
+      :title="$t('AGENT_MGMT.DELETE.CONFIRM.TITLE')"
+      :message="$t('AGENT_MGMT.DELETE.CONFIRM.MESSAGE')"
+      :message-value="deleteMessage"
+      :confirm-text="deleteConfirmText"
+      :reject-text="deleteRejectText"
+    />
+  </div>
+</template>

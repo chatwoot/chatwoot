@@ -1,32 +1,3 @@
-<template>
-  <section
-    class="contacts-table-wrap bg-white dark:bg-slate-900 flex-1 h-full overflow-hidden -mt-1"
-  >
-    <ve-table
-      :fixed-header="true"
-      max-height="calc(100vh - 7.125rem)"
-      scroll-width="187rem"
-      :columns="columns"
-      :table-data="tableData"
-      :border-around="false"
-      :sort-option="sortOption"
-    />
-
-    <empty-state
-      v-if="showSearchEmptyState"
-      :title="$t('CONTACTS_PAGE.LIST.404')"
-    />
-    <empty-state
-      v-else-if="!isLoading && !contacts.length"
-      :title="$t('CONTACTS_PAGE.LIST.NO_CONTACTS')"
-    />
-    <div v-if="isLoading" class="items-center flex text-base justify-center">
-      <spinner />
-      <span>{{ $t('CONTACTS_PAGE.LIST.LOADING_MESSAGE') }}</span>
-    </div>
-  </section>
-</template>
-
 <script>
 import { VeTable } from 'vue-easytable';
 import { getCountryFlag } from 'dashboard/helper/flag';
@@ -34,7 +5,7 @@ import { getCountryFlag } from 'dashboard/helper/flag';
 import Spinner from 'shared/components/Spinner.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
-import timeMixin from 'dashboard/mixins/time';
+import { dynamicTime } from 'shared/helpers/timeHelper';
 import rtlMixin from 'shared/mixins/rtlMixin';
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 
@@ -44,7 +15,7 @@ export default {
     Spinner,
     VeTable,
   },
-  mixins: [timeMixin, rtlMixin],
+  mixins: [rtlMixin],
   props: {
     contacts: {
       type: Array,
@@ -62,10 +33,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    activeContactId: {
-      type: [String, Number],
-      default: '',
-    },
     sortParam: {
       type: String,
       default: 'last_activity_at',
@@ -80,7 +47,7 @@ export default {
       sortConfig: {},
       sortOption: {
         sortAlways: true,
-        sortChange: params => this.$emit('on-sort-change', params),
+        sortChange: params => this.$emit('onSortChange', params),
       },
     };
   },
@@ -105,9 +72,9 @@ export default {
           countryCode: additional.country_code,
           conversationsCount: item.conversations_count || '---',
           last_activity_at: lastActivityAt
-            ? this.dynamicTime(lastActivityAt)
+            ? dynamicTime(lastActivityAt)
             : '---',
-          created_at: createdAt ? this.dynamicTime(createdAt) : '---',
+          created_at: createdAt ? dynamicTime(createdAt) : '---',
         };
       });
     },
@@ -134,7 +101,7 @@ export default {
                   status={row.availability_status}
                 />
                 <div class="user-block">
-                  <h6 class="text-base overflow-hidden whitespace-nowrap text-ellipsis">
+                  <h6 class="overflow-hidden text-base whitespace-nowrap text-ellipsis">
                     <router-link
                       to={`/app/accounts/${this.$route.params.accountId}/contacts/${row.id}`}
                       class="user-name"
@@ -276,6 +243,35 @@ export default {
   },
 };
 </script>
+
+<template>
+  <section
+    class="flex-1 h-full -mt-1 overflow-hidden bg-white contacts-table-wrap dark:bg-slate-900"
+  >
+    <VeTable
+      fixed-header
+      max-height="calc(100vh - 7.125rem)"
+      scroll-width="187rem"
+      :columns="columns"
+      :table-data="tableData"
+      :border-around="false"
+      :sort-option="sortOption"
+    />
+
+    <EmptyState
+      v-if="showSearchEmptyState"
+      :title="$t('CONTACTS_PAGE.LIST.404')"
+    />
+    <EmptyState
+      v-else-if="!isLoading && !contacts.length"
+      :title="$t('CONTACTS_PAGE.LIST.NO_CONTACTS')"
+    />
+    <div v-if="isLoading" class="flex items-center justify-center text-base">
+      <Spinner />
+      <span>{{ $t('CONTACTS_PAGE.LIST.LOADING_MESSAGE') }}</span>
+    </div>
+  </section>
+</template>
 
 <style lang="scss" scoped>
 .contacts-table-wrap::v-deep {

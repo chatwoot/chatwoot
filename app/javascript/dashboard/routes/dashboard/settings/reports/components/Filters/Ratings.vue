@@ -1,19 +1,3 @@
-<template>
-  <div class="multiselect-wrap--small">
-    <multiselect
-      v-model="selectedOption"
-      class="no-margin"
-      :option-height="24"
-      :placeholder="$t('FORMS.MULTISELECT.SELECT_ONE')"
-      :options="options"
-      :show-labels="false"
-      track-by="value"
-      label="label"
-      @input="handleInput"
-    />
-  </div>
-</template>
-
 <script>
 import { CSAT_RATINGS } from 'shared/constants/messages';
 
@@ -32,8 +16,24 @@ export default {
   },
   methods: {
     handleInput(selectedRating) {
-      this.$emit('rating-filter-selection', selectedRating);
+      this.$emit('ratingFilterSelection', selectedRating);
     },
   },
 };
 </script>
+
+<template>
+  <div class="multiselect-wrap--small">
+    <multiselect
+      v-model="selectedOption"
+      class="no-margin"
+      :option-height="24"
+      :placeholder="$t('FORMS.MULTISELECT.SELECT_ONE')"
+      :options="options"
+      :show-labels="false"
+      track-by="value"
+      label="label"
+      @input="handleInput"
+    />
+  </div>
+</template>
