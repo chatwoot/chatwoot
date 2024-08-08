@@ -101,6 +101,8 @@ const shouldShowEmptyState = computed(() => {
         :key="item.id"
         :is-active="isFilterActive(item.id)"
         :button-text="item.name"
+        :icon="item.icon"
+        :icon-color="item.iconColor"
         @click="$emit('click', item)"
       />
     </slot>
