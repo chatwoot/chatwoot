@@ -31,7 +31,8 @@
       "ADD": "%{agentName} meghívta %{invitee} a fiókba, mint %{role}",
       "EDIT": {
         "SELF": "%{agentName} megváltoztatta az %{attributes} -aikat %{values} - ra",
-        "OTHER": "%{agentName} megváltoztatta %{attributes}  %{user}  %{values} -ra"
+        "OTHER": "%{agentName} megváltoztatta %{attributes}  %{user}  %{values} -ra",
+        "DELETED": "%{agentName} changed %{attributes} of a deleted user to %{values}"
       }
     },
     "INBOX": {
