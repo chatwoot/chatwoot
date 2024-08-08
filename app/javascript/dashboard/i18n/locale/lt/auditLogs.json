@@ -31,7 +31,8 @@
       "ADD": "%{agentName} pakvietė %{invitee} į paskyrą kaip %{role}",
       "EDIT": {
         "SELF": "%{agentName} pakeitė savo %{attributes} į %{values}",
-        "OTHER": "%{agentName} pakeitė %{attributes} iš %{user} į %{values}"
+        "OTHER": "%{agentName} pakeitė %{attributes} iš %{user} į %{values}",
+        "DELETED": "%{agentName} changed %{attributes} of a deleted user to %{values}"
       }
     },
     "INBOX": {
