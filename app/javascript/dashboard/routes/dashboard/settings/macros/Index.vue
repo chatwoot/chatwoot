@@ -1,13 +1,18 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import accountMixin from 'dashboard/mixins/account.js';
+import { useAccount } from 'dashboard/composables/useAccount';
 import MacrosTableRow from './MacrosTableRow.vue';
 export default {
   components: {
     MacrosTableRow,
   },
-  mixins: [accountMixin],
+  setup() {
+    const { accountScopedUrl } = useAccount();
+    return {
+      accountScopedUrl,
+    };
+  },
   data() {
     return {
       showDeleteConfirmationPopup: false,
@@ -56,7 +61,7 @@ export default {
 <template>
   <div class="flex-1 overflow-auto">
     <router-link
-      :to="addAccountScoping('settings/macros/new')"
+      :to="accountScopedUrl('settings/macros/new')"
       class="button success button--fixed-top button success button--fixed-top px-3.5 py-1 rounded-[5px] flex gap-2"
     >
       <fluent-icon icon="add-circle" />
@@ -67,7 +72,7 @@ export default {
     <div class="flex flex-row gap-4 p-8">
       <div class="w-full lg:w-3/5">
         <div v-if="!uiFlags.isFetching && !records.length" class="p-3">
-          <p class="flex h-full items-center flex-col justify-center">
+          <p class="flex flex-col items-center justify-center h-full">
             {{ $t('MACROS.LIST.404') }}
           </p>
         </div>
@@ -94,7 +99,7 @@ export default {
           </tbody>
         </table>
       </div>
-      <div class="hidden lg:block w-1/3">
+      <div class="hidden w-1/3 lg:block">
         <span v-dompurify-html="$t('MACROS.SIDEBAR_TXT')" />
       </div>
     </div>
