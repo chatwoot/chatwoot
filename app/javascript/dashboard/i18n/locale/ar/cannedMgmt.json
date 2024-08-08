@@ -1,10 +1,11 @@
 {
   "CANNED_MGMT": {
     "HEADER": "الردود الجاهزة",
+    "LEARN_MORE": "Learn more about canned responses",
+    "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
     "HEADER_BTN_TXT": "إضافة رد جاهز",
     "LOADING": "جاري جلب الردود الجاهزة...",
     "SEARCH_404": "لا توجد عناصر مطابقة لهذا الاستعلام.",
-    "SIDEBAR_TXT": "<p><b>الردود الجاهزة</b> </p></p><p> الردود الجاهزة هي قوالب رد مكتوبة مسبقاً تساعدك على الرد بسرعة على محادثة. لإدراج استجابة مسبقة أثناء الدردشة، يمكن للوكلاء كتابة رمز قصير يسبقه حرف '/'. </p><p> يمكنك إدارة ردودك المعلبة من هذه الصفحة أو إنشاء استجابات جديدة باستخدام زر \"إضافة رد جاهز\".</p><p>افتح دليل الردود المسبقة <a target=\"_blank\" href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\"></a> في علامة تبويب أخرى للحصول على يد المساعدة.</p><p>أيضا، تحقق من كل المكتبة <a href=\"https://www.chatwoot.com/tools/canned-responses-library\" target=\"_blank\">الردود الجاهزة</a>.</p>",
     "LIST": {
       "404": "لا توجد ردود جاهزة متوفرة في هذا الحساب.",
       "TITLE": "إدارة الردود الجاهزة",
