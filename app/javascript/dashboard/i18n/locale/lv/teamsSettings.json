@@ -2,9 +2,9 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Izveidot jaunu komandu",
     "HEADER": "Komandas",
-    "LOADING": "Fetching teams",
-    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
-    "LEARN_MORE": "Learn more about teams",
+    "LOADING": "Notiek komandu iegūšana",
+    "DESCRIPTION": "Komandas ļauj organizēt aģentus grupās, pamatojoties uz viņu pienākumiem. Aģents var piederēt vairākām komandām. Kad strādājat sadarbojoties, varat piešķirt sarunas noteiktām komandām.",
+    "LEARN_MORE": "Uzzināt vairāk par komandām",
     "LIST": {
       "404": "Šajā kontā nav izveidota neviena komanda.",
       "EDIT_TEAM": "Rediģēt komandu"
@@ -99,7 +99,7 @@
         "ERROR_MESSAGE": "Nevarēja izdzēst komandu. Lūdzu, mēģiniet vēlreiz."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure you want to delete the team?",
+        "TITLE": "Vai tiešām vēlaties dzēst komandu?",
         "PLACE_HOLDER": "Lūdzu, uzrakstiet {teamName} lai apstiprinātu",
         "MESSAGE": "Komandas dzēšana noņems komandas uzdevumu no sarunām, kas piešķirtas šai komandai.",
         "YES": "Dzēst ",
