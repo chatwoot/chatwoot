@@ -202,6 +202,9 @@ export default {
 
   methods: {
     fetchUnreadStats() {
+      if (this.activeSecondaryMenu.parentNav !== 'conversations') {
+        return;
+      }
       this.activeSecondaryMenu.menuItems.forEach(menuItem =>
         this.$store.dispatch('conversationStats/getUnread', {
           key: menuItem.key,

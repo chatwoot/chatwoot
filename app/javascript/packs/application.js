@@ -82,6 +82,15 @@ Vue.component('fluent-icon', FluentIcon);
 
 Vue.directive('resize', resizeDirective);
 Vue.directive('on-clickaway', onClickaway);
+
+Vue.config.errorHandler = (err, vm, info) => {
+  // eslint-disable-next-line no-underscore-dangle
+  const name = vm.$options?.name || vm.$options?._componentTag;
+  const error = { err, name, vm, info };
+  Sentry.setContext('errorData', error);
+  Sentry.captureException(err);
+};
+
 const i18nConfig = new VueI18n({
   locale: 'en',
   messages: i18n,
