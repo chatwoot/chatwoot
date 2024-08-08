@@ -1,10 +1,11 @@
 {
   "CANNED_MGMT": {
     "HEADER": "Швидкі відповіді",
+    "LEARN_MORE": "Learn more about canned responses",
+    "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
     "HEADER_BTN_TXT": "Додати швидку відповідь",
     "LOADING": "Отримання швидких відповідей...",
     "SEARCH_404": "Немає елементів, що відповідають запиту.",
-    "SIDEBAR_TXT": "<p><b>Шаблони відповідей</b> </p><p> Шаблони відповідей — це попередньо написані шаблони відповідей, які допомагають швидко відповідати на діалог. Щоб вставити стандартну відповідь під час чату, агенти можуть ввести короткий код (шорт-код), перед яким стоїть символ «/». </p><p> Ви можете керувати своїми стандартними відповідями на цій сторінці або створювати нові за допомогою кнопки «Додати шаблон відповіді».</p><p>Відкрийте <a target=\"_blank\" href=\"https: //www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\">Посібник із шаблонів відповідей</a> на іншій вкладці.</p><p>Також перегляньте абсолютно нову <a href=\"https://www.chatwoot.com/tools/canned-responses-library\" target=\"_blank \">Бібліотеку шаблонних відповідей</a>.</p>",
     "LIST": {
       "404": "В цьому обліковому записі немає швидких відповідей.",
       "TITLE": "Керування швидкими вдіповідями",
