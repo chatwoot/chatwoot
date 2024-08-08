@@ -1,0 +1,36 @@
+# Path: http/platform/users.http
+# @name create_ticket
+@account_id = 11005
+
+POST {{api}}/platform/api/v1/tickets
+Content-Type: application/json
+api_access_token: {{api_access_token}}
+
+{
+  "title": "Test ticket",
+  "description": "Test description",
+  "status": "pending",
+  "assigned_to": null,
+  "conversation": {
+    "id": 1
+  },
+  "labels": [
+    {
+      "id": 2
+    }
+  ]
+}
+
+###
+
+# Path: http/platform/users.http
+# @name get_tickets
+GET {{api}}/platform/api/v1/tickets
+api_access_token: {{api_access_token}}
+
+###
+
+# Path: http/platform/users.http
+# @name get_ticket
+GET {{api}}/platform/api/v1/tickets/3
+api_access_token: {{api_access_token}}

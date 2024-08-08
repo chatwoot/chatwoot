@@ -1,0 +1,27 @@
+# Path: http/platform/users.http
+# @name create_agent
+@account_id = 11005
+
+POST {{api}}/platform/api/v1/users
+Content-Type: application/json
+api_access_token: {{api_access_token}}
+
+{
+    "name":"teste",
+    "email":"danielmachadopintos@gmail.com",
+    "role":"supervisor"
+}
+
+###
+
+# Path: http/platform/users.http
+# @name get_agents
+GET {{api}}/platform/api/v1/users/2
+api_access_token: {{api_access_token}}
+
+###
+
+# Path: http/platform/users.http
+# @name login
+GET {{api}}/platform/api/v1/users/2/login
+api_access_token: {{api_access_token}}

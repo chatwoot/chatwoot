@@ -369,6 +369,7 @@ Rails.application.routes.draw do
             end
           end
         end
+        resources :tickets, only: [:index, :show, :create, :update]
       end
     end
   end
