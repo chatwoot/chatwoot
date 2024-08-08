@@ -1,24 +1,3 @@
-<template>
-  <div class="announcement-popup">
-    <span v-if="popupMessage" class="popup-content">
-      {{ popupMessage }}
-      <span v-if="routeText" class="route-url" @click="onClickOpenPath">
-        {{ routeText }}
-      </span>
-    </span>
-    <div v-if="hasCloseButton" class="popup-close">
-      <woot-button
-        v-if="hasCloseButton"
-        color-scheme="primary"
-        variant="link"
-        size="small"
-        @click="onClickClose"
-      >
-        {{ closeButtonText }}
-      </woot-button>
-    </div>
-  </div>
-</template>
 <script>
 export default {
   props: {
@@ -49,6 +28,28 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="announcement-popup">
+    <span v-if="popupMessage" class="popup-content">
+      {{ popupMessage }}
+      <span v-if="routeText" class="route-url" @click="onClickOpenPath">
+        {{ routeText }}
+      </span>
+    </span>
+    <div v-if="hasCloseButton" class="popup-close">
+      <woot-button
+        v-if="hasCloseButton"
+        color-scheme="primary"
+        variant="link"
+        size="small"
+        @click="onClickClose"
+      >
+        {{ closeButtonText }}
+      </woot-button>
+    </div>
+  </div>
+</template>
 
 <style lang="scss">
 .announcement-popup {

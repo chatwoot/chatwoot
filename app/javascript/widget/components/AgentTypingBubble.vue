@@ -1,3 +1,11 @@
+<script>
+import darkModeMixing from 'widget/mixins/darkModeMixin.js';
+export default {
+  name: 'AgentTypingBubble',
+  mixins: [darkModeMixing],
+};
+</script>
+
 <template>
   <div class="agent-message-wrap">
     <div class="agent-message">
@@ -16,14 +24,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import darkModeMixing from 'widget/mixins/darkModeMixin.js';
-export default {
-  name: 'AgentTypingBubble',
-  mixins: [darkModeMixing],
-};
-</script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>

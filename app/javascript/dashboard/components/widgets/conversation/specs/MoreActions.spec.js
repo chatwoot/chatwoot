@@ -2,16 +2,16 @@ import { createLocalVue, mount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import VueI18n from 'vue-i18n';
 import VTooltip from 'v-tooltip';
-import Button from 'dashboard/components/buttons/Button';
+import Button from 'dashboard/components/buttons/Button.vue';
 import i18n from 'dashboard/i18n';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
-import MoreActions from '../MoreActions';
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
+import MoreActions from '../MoreActions.vue';
 
-jest.mock('shared/helpers/mitt', () => ({
+vi.mock('shared/helpers/mitt', () => ({
   emitter: {
-    emit: jest.fn(),
-    on: jest.fn(),
-    off: jest.fn(),
+    emit: vi.fn(),
+    on: vi.fn(),
+    off: vi.fn(),
   },
 }));
 
@@ -26,9 +26,9 @@ localVue.component('fluent-icon', FluentIcon);
 localVue.component('woot-button', Button);
 
 localVue.prototype.$emitter = {
-  emit: jest.fn(),
-  on: jest.fn(),
-  off: jest.fn(),
+  emit: vi.fn(),
+  on: vi.fn(),
+  off: vi.fn(),
 };
 
 const i18nConfig = new VueI18n({ locale: 'en', messages: i18n });
@@ -49,8 +49,8 @@ describe('MoveActions', () => {
       currentChat,
     };
 
-    muteConversation = jest.fn(() => Promise.resolve());
-    unmuteConversation = jest.fn(() => Promise.resolve());
+    muteConversation = vi.fn(() => Promise.resolve());
+    unmuteConversation = vi.fn(() => Promise.resolve());
 
     modules = {
       conversations: { actions: { muteConversation, unmuteConversation } },
@@ -85,11 +85,11 @@ describe('MoveActions', () => {
     it('shows alert', async () => {
       await moreActions.find('button:first-child').trigger('click');
 
-      expect(emitter.emit).toBeCalledWith(
-        'newToastMessage',
-        'This contact is blocked successfully. You will not be notified of any future conversations.',
-        undefined
-      );
+      expect(emitter.emit).toBeCalledWith('newToastMessage', {
+        message:
+          'This contact is blocked successfully. You will not be notified of any future conversations.',
+        action: null,
+      });
     });
   });
 
@@ -111,11 +111,10 @@ describe('MoveActions', () => {
     it('shows alert', async () => {
       await moreActions.find('button:first-child').trigger('click');
 
-      expect(emitter.emit).toBeCalledWith(
-        'newToastMessage',
-        'This contact is unblocked successfully.',
-        undefined
-      );
+      expect(emitter.emit).toBeCalledWith('newToastMessage', {
+        message: 'This contact is unblocked successfully.',
+        action: null,
+      });
     });
   });
 });

@@ -1,6 +1,6 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import ReportsFiltersInboxes from '../../Filters/Inboxes';
+import ReportsFiltersInboxes from '../../Filters/Inboxes.vue';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -26,7 +26,7 @@ describe('ReportsFiltersInboxes.vue', () => {
         ],
       },
       actions: {
-        get: jest.fn(),
+        get: vi.fn(),
       },
     };
 
@@ -58,9 +58,7 @@ describe('ReportsFiltersInboxes.vue', () => {
 
     wrapper.vm.handleInput();
 
-    expect(wrapper.emitted('inbox-filter-selection')).toBeTruthy();
-    expect(wrapper.emitted('inbox-filter-selection')[0]).toEqual([
-      selectedInbox,
-    ]);
+    expect(wrapper.emitted('inboxFilterSelection')).toBeTruthy();
+    expect(wrapper.emitted('inboxFilterSelection')[0]).toEqual([selectedInbox]);
   });
 });

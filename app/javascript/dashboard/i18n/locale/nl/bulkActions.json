@@ -33,7 +33,7 @@
       "NONE": "Geen",
       "NO_TEAMS_AVAILABLE": "Er zijn nog geen teams toegevoegd aan dit account.",
       "ASSIGN_SELECTED_TEAMS": "Geselecteerde team toewijzen.",
-      "ASSIGN_SUCCESFUL": "Teams succesvol toegewezen.",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
       "ASSIGN_FAILED": "Toewijzen team mislukt, probeer het opnieuw."
     }
   }

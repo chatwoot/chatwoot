@@ -99,6 +99,7 @@ const staticElements = computed(() =>
     />
   </div>
 </template>
+
 <style scoped lang="scss">
 .conversation--attribute {
   @apply border-slate-50 dark:border-slate-700/50 border-b border-solid;

@@ -1,5 +1,5 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
-import ReportFiltersRatings from '../../Filters/Ratings';
+import ReportFiltersRatings from '../../Filters/Ratings.vue';
 import { CSAT_RATINGS } from 'shared/constants/messages';
 
 const mountParams = {
@@ -23,8 +23,8 @@ describe('ReportFiltersRatings.vue', () => {
 
     wrapper.vm.handleInput(selectedRating);
 
-    expect(wrapper.emitted('rating-filter-selection')).toBeTruthy();
-    expect(wrapper.emitted('rating-filter-selection')[0]).toEqual([
+    expect(wrapper.emitted('ratingFilterSelection')).toBeTruthy();
+    expect(wrapper.emitted('ratingFilterSelection')[0]).toEqual([
       selectedRating,
     ]);
   });

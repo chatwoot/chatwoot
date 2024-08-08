@@ -33,7 +33,7 @@
       "NONE": "هیچکدام",
       "NO_TEAMS_AVAILABLE": "هنوز هیچ تیمی به این حساب کاربری اضافه نشده است.",
       "ASSIGN_SELECTED_TEAMS": "اختصاص تیم انتخاب شده.",
-      "ASSIGN_SUCCESFUL": "تیم‌ها با موفقیت اختصاص یافتند.",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
       "ASSIGN_FAILED": "اختصاص تیم با موفقیت انجام نشد، لطفا دوباره امتحان کنید."
     }
   }

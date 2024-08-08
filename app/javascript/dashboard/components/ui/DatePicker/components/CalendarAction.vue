@@ -19,7 +19,7 @@ defineProps({
     default: '',
   },
 });
-const emit = defineEmits(['prev', 'next', 'set-view']);
+const emit = defineEmits(['prev', 'next', 'setView']);
 
 const { YEAR } = CALENDAR_PERIODS;
 
@@ -32,7 +32,7 @@ const onClickNext = type => {
 };
 
 const onClickSetView = (type, mode) => {
-  emit('set-view', type, mode);
+  emit('setView', type, mode);
 };
 </script>
 

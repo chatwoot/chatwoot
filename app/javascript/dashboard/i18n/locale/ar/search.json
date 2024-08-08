@@ -11,14 +11,14 @@
       "CONVERSATIONS": "المحادثات",
       "MESSAGES": "الرسائل"
     },
-    "EMPTY_STATE": "No %{item} found for query '%{query}'",
-    "EMPTY_STATE_FULL": "No results found for query '%{query}'",
-    "PLACEHOLDER_KEYBINDING": "/ to focus",
-    "INPUT_PLACEHOLDER": "Search messages, contacts or conversations",
-    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results.",
+    "EMPTY_STATE": "لم يتم العثور على %{item} للطلب '%{query}'",
+    "EMPTY_STATE_FULL": "لم يتم العثور على نتائج للطلب '%{query}'",
+    "PLACEHOLDER_KEYBINDING": "/ للتركيز",
+    "INPUT_PLACEHOLDER": "أكتب 3 أحرف أو أكثر للبحث",
+    "EMPTY_STATE_DEFAULT": "البحث عن طريق معرف المحادثة أو البريد الإلكتروني أو رقم الهاتف أو الرسائل للحصول على نتائج بحث أفضل. ",
     "BOT_LABEL": "رد آلي",
     "READ_MORE": "اقرأ المزيد",
-    "WROTE": "wrote:",
+    "WROTE": "كتب:",
     "FROM": "من",
     "EMAIL": "البريد الإلكتروني"
   }

@@ -1,66 +1,3 @@
-<template>
-  <FormulateForm
-    v-model="formValues"
-    class="flex flex-col flex-1 p-6 overflow-y-auto"
-    @submit="onSubmit"
-  >
-    <div
-      v-if="shouldShowHeaderMessage"
-      v-dompurify-html="formatMessage(headerMessage, false)"
-      class="mb-4 text-sm leading-5 pre-chat-header-message"
-      :class="$dm('text-black-800', 'dark:text-slate-50')"
-    />
-    <FormulateInput
-      v-for="item in enabledPreChatFields"
-      :key="item.name"
-      :name="item.name"
-      :type="item.type"
-      :label="getLabel(item)"
-      :placeholder="getPlaceHolder(item)"
-      :validation="getValidation(item)"
-      :options="getOptions(item)"
-      :label-class="context => labelClass(context)"
-      :input-class="context => inputClass(context)"
-      :validation-messages="{
-        startsWithPlus: $t(
-          'PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.DIAL_CODE_VALID_ERROR'
-        ),
-        isValidPhoneNumber: $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.VALID_ERROR'),
-        email: $t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.VALID_ERROR'),
-        required: $t('PRE_CHAT_FORM.REQUIRED'),
-        matches: item.regex_cue
-          ? item.regex_cue
-          : $t('PRE_CHAT_FORM.REGEX_ERROR'),
-      }"
-      :has-error-in-phone-input="hasErrorInPhoneInput"
-    />
-    <FormulateInput
-      v-if="!hasActiveCampaign"
-      name="message"
-      type="textarea"
-      :label-class="context => labelClass(context)"
-      :input-class="context => inputClass(context)"
-      :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
-      :placeholder="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.PLACEHOLDER')"
-      validation="required"
-      :validation-messages="{
-        required: $t('PRE_CHAT_FORM.FIELDS.MESSAGE.ERROR'),
-      }"
-    />
-
-    <custom-button
-      class="mt-2 mb-5 font-medium"
-      block
-      :bg-color="widgetColor"
-      :text-color="textColor"
-      :disabled="isCreating"
-    >
-      <spinner v-if="isCreating" class="p-0" />
-      {{ $t('START_CONVERSATION') }}
-    </custom-button>
-  </FormulateForm>
-</template>
-
 <script>
 import CustomButton from 'shared/components/Button.vue';
 import Spinner from 'shared/components/Spinner.vue';
@@ -316,6 +253,70 @@ export default {
   },
 };
 </script>
+
+<template>
+  <FormulateForm
+    v-model="formValues"
+    class="flex flex-col flex-1 p-6 overflow-y-auto"
+    @submit="onSubmit"
+  >
+    <div
+      v-if="shouldShowHeaderMessage"
+      v-dompurify-html="formatMessage(headerMessage, false)"
+      class="mb-4 text-sm leading-5 pre-chat-header-message"
+      :class="$dm('text-black-800', 'dark:text-slate-50')"
+    />
+    <FormulateInput
+      v-for="item in enabledPreChatFields"
+      :key="item.name"
+      :name="item.name"
+      :type="item.type"
+      :label="getLabel(item)"
+      :placeholder="getPlaceHolder(item)"
+      :validation="getValidation(item)"
+      :options="getOptions(item)"
+      :label-class="context => labelClass(context)"
+      :input-class="context => inputClass(context)"
+      :validation-messages="{
+        startsWithPlus: $t(
+          'PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.DIAL_CODE_VALID_ERROR'
+        ),
+        isValidPhoneNumber: $t('PRE_CHAT_FORM.FIELDS.PHONE_NUMBER.VALID_ERROR'),
+        email: $t('PRE_CHAT_FORM.FIELDS.EMAIL_ADDRESS.VALID_ERROR'),
+        required: $t('PRE_CHAT_FORM.REQUIRED'),
+        matches: item.regex_cue
+          ? item.regex_cue
+          : $t('PRE_CHAT_FORM.REGEX_ERROR'),
+      }"
+      :has-error-in-phone-input="hasErrorInPhoneInput"
+    />
+    <FormulateInput
+      v-if="!hasActiveCampaign"
+      name="message"
+      type="textarea"
+      :label-class="context => labelClass(context)"
+      :input-class="context => inputClass(context)"
+      :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
+      :placeholder="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.PLACEHOLDER')"
+      validation="required"
+      :validation-messages="{
+        required: $t('PRE_CHAT_FORM.FIELDS.MESSAGE.ERROR'),
+      }"
+    />
+
+    <CustomButton
+      class="mt-2 mb-5 font-medium"
+      block
+      :bg-color="widgetColor"
+      :text-color="textColor"
+      :disabled="isCreating"
+    >
+      <Spinner v-if="isCreating" class="p-0" />
+      {{ $t('START_CONVERSATION') }}
+    </CustomButton>
+  </FormulateForm>
+</template>
+
 <style lang="scss" scoped>
 @import '~widget/assets/scss/variables.scss';
 ::v-deep {

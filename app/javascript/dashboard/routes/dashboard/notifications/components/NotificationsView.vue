@@ -1,24 +1,3 @@
-<template>
-  <div class="overflow-y-auto h-full">
-    <div class="flex flex-col h-full">
-      <notification-table
-        :notifications="records"
-        :is-loading="uiFlags.isFetching"
-        :is-updating="uiFlags.isUpdating"
-        :on-click-notification="openConversation"
-        :on-mark-all-done-click="onMarkAllDoneClick"
-      />
-      <table-footer
-        class="border-t border-slate-75 dark:border-slate-700/50"
-        :current-page="Number(meta.currentPage)"
-        :total-count="meta.count"
-        :page-size="15"
-        @page-change="onPageChange"
-      />
-    </div>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import TableFooter from 'dashboard/components/widgets/TableFooter.vue';
@@ -76,6 +55,27 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="h-full overflow-y-auto">
+    <div class="flex flex-col h-full">
+      <NotificationTable
+        :notifications="records"
+        :is-loading="uiFlags.isFetching"
+        :is-updating="uiFlags.isUpdating"
+        :on-click-notification="openConversation"
+        :on-mark-all-done-click="onMarkAllDoneClick"
+      />
+      <TableFooter
+        class="border-t border-slate-75 dark:border-slate-700/50"
+        :current-page="Number(meta.currentPage)"
+        :total-count="meta.count"
+        :page-size="15"
+        @pageChange="onPageChange"
+      />
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .notification--page {

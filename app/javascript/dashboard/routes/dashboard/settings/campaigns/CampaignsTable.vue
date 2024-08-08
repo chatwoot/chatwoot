@@ -1,25 +1,3 @@
-<template>
-  <div class="flex items-center flex-col">
-    <div v-if="isLoading" class="items-center flex text-base justify-center">
-      <spinner color-scheme="primary" />
-      <span>{{ $t('CAMPAIGN.LIST.LOADING_MESSAGE') }}</span>
-    </div>
-    <div v-else class="w-full">
-      <empty-state v-if="showEmptyResult" :title="emptyMessage" />
-      <div v-else class="w-full">
-        <campaign-card
-          v-for="campaign in campaigns"
-          :key="campaign.id"
-          :campaign="campaign"
-          :is-ongoing-type="isOngoingType"
-          @edit="campaign => $emit('edit', campaign)"
-          @delete="campaign => $emit('delete', campaign)"
-        />
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
@@ -77,3 +55,25 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="flex items-center flex-col">
+    <div v-if="isLoading" class="items-center flex text-base justify-center">
+      <Spinner color-scheme="primary" />
+      <span>{{ $t('CAMPAIGN.LIST.LOADING_MESSAGE') }}</span>
+    </div>
+    <div v-else class="w-full">
+      <EmptyState v-if="showEmptyResult" :title="emptyMessage" />
+      <div v-else class="w-full">
+        <CampaignCard
+          v-for="campaign in campaigns"
+          :key="campaign.id"
+          :campaign="campaign"
+          :is-ongoing-type="isOngoingType"
+          @edit="campaign => $emit('edit', campaign)"
+          @delete="campaign => $emit('delete', campaign)"
+        />
+      </div>
+    </div>
+  </div>
+</template>

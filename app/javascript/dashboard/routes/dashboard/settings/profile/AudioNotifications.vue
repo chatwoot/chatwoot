@@ -1,42 +1,11 @@
-<template>
-  <div id="profile-settings-notifications" class="flex flex-col gap-6">
-    <audio-alert-tone
-      :value="alertTone"
-      :label="
-        $t(
-          'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.DEFAULT_TONE.TITLE'
-        )
-      "
-      @change="handleAudioToneChange"
-    />
-
-    <audio-alert-event
-      :label="
-        $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPE.TITLE')
-      "
-      :value="audioAlert"
-      @update="handAudioAlertChange"
-    />
-
-    <audio-alert-condition
-      :items="audioAlertConditions"
-      :label="
-        $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.CONDITIONS.TITLE')
-      "
-      @change="handleAudioAlertConditions"
-    />
-  </div>
-</template>
-
 <script>
-import { mapGetters } from 'vuex';
-import DashboardAudioNotificationHelper from 'dashboard/helper/AudioAlerts/DashboardAudioNotificationHelper';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useAlert } from 'dashboard/composables';
 import configMixin from 'shared/mixins/configMixin';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import AudioAlertTone from './AudioAlertTone.vue';
 import AudioAlertEvent from './AudioAlertEvent.vue';
 import AudioAlertCondition from './AudioAlertCondition.vue';
+import DashboardAudioNotificationHelper from 'dashboard/helper/AudioAlerts/DashboardAudioNotificationHelper';
 
 export default {
   components: {
@@ -44,7 +13,15 @@ export default {
     AudioAlertTone,
     AudioAlertCondition,
   },
-  mixins: [alertMixin, configMixin, uiSettingsMixin],
+  mixins: [configMixin],
+  setup() {
+    const { uiSettings, updateUISettings } = useUISettings();
+
+    return {
+      uiSettings,
+      updateUISettings,
+    };
+  },
   data() {
     return {
       audioAlert: '',
@@ -53,12 +30,6 @@ export default {
       alertTone: 'ding',
       audioAlertConditions: [],
     };
-  },
-  computed: {
-    ...mapGetters({
-      accountId: 'getCurrentAccountId',
-      uiSettings: 'getUISettings',
-    }),
   },
   watch: {
     uiSettings(value) {
@@ -122,7 +93,7 @@ export default {
         enable_audio_alerts: this.audioAlert,
       });
       await this.updateAudioAlertInstanceValues();
-      this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
+      useAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
     },
     async handleAudioAlertConditions(id, value) {
       if (id === 'tab_is_inactive') {
@@ -136,13 +107,43 @@ export default {
         });
         await this.updateAudioAlertInstanceValues();
       }
-      this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
+      useAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
     },
     async handleAudioToneChange(value) {
       await this.updateUISettings({ notification_tone: value });
       await this.updateAudioAlertInstanceValues();
-      this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
+      useAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
     },
   },
 };
 </script>
+
+<template>
+  <div id="profile-settings-notifications" class="flex flex-col gap-6">
+    <AudioAlertTone
+      :value="alertTone"
+      :label="
+        $t(
+          'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.DEFAULT_TONE.TITLE'
+        )
+      "
+      @change="handleAudioToneChange"
+    />
+
+    <AudioAlertEvent
+      :label="
+        $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_TYPE.TITLE')
+      "
+      :value="audioAlert"
+      @update="handAudioAlertChange"
+    />
+
+    <AudioAlertCondition
+      :items="audioAlertConditions"
+      :label="
+        $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.CONDITIONS.TITLE')
+      "
+      @change="handleAudioAlertConditions"
+    />
+  </div>
+</template>

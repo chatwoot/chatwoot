@@ -19,9 +19,9 @@
       "NAME": {
         "LABEL": "Nom de l'etiqueta",
         "PLACEHOLDER": "Nom de l'etiqueta",
-        "REQUIRED_ERROR": "Label name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "REQUIRED_ERROR": "El nom de l’etiqueta és obligatori",
+        "MINIMUM_LENGTH_ERROR": "Es requereix una longitud mínima de 2",
+        "VALID_ERROR": "Només es permeten alfabets, números, guionet i guió baix"
       },
       "DESCRIPTION": {
         "LABEL": "Descripció",
@@ -40,16 +40,16 @@
     },
     "SUGGESTIONS": {
       "TOOLTIP": {
-        "SINGLE_SUGGESTION": "Add label to conversation",
-        "MULTIPLE_SUGGESTION": "Select this label",
-        "DESELECT": "Deselect label",
-        "DISMISS": "Dismiss suggestion"
+        "SINGLE_SUGGESTION": "Afegeix una etiqueta a la conversa",
+        "MULTIPLE_SUGGESTION": "Seleccioneu aquesta etiqueta",
+        "DESELECT": "Desseleccioneu l'etiqueta",
+        "DISMISS": "Ignora el suggeriment"
       },
       "POWERED_BY": "Chatwoot AI",
       "DISMISS": "Descartar",
-      "ADD_SELECTED_LABELS": "Add selected labels",
-      "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels"
+      "ADD_SELECTED_LABELS": "Afegeix les etiquetes seleccionades",
+      "ADD_SELECTED_LABEL": "Afegeix les etiquetes seleccionades",
+      "ADD_ALL_LABELS": "Afegiu totes les etiquetes"
     },
     "ADD": {
       "TITLE": "Afegeix etiqueta",

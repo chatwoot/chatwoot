@@ -89,7 +89,7 @@
       "CANCEL": "Huỷ"
     },
     "PRIORITY": {
-      "TITLE": "Priority",
+      "TITLE": "Mức độ ưu tiên",
       "OPTIONS": {
         "NONE": "Không có",
         "URGENT": "Urgent",

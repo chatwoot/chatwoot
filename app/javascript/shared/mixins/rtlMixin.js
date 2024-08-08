@@ -1,8 +1,15 @@
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 
 export default {
-  mixins: [uiSettingsMixin],
+  setup() {
+    const { uiSettings, updateUISettings } = useUISettings();
+
+    return {
+      uiSettings,
+      updateUISettings,
+    };
+  },
   computed: {
     isRTLView() {
       const { rtl_view: isRTLView } = this.uiSettings;

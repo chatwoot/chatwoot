@@ -33,7 +33,7 @@
       "NONE": "Hiçbiri",
       "NO_TEAMS_AVAILABLE": "Bu hesaba henüz eklenmiş takımlar yok.",
       "ASSIGN_SELECTED_TEAMS": "Seçili takımları atama",
-      "ASSIGN_SUCCESFUL": "Takımlar başarıyla atandı.",
+      "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
       "ASSIGN_FAILED": "Takımlar atanırken bir hata oluştu. Lütfen tekrar deneyin."
     }
   }

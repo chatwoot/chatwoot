@@ -1,63 +1,3 @@
-<template>
-  <div>
-    <woot-input
-      v-model="formState.title"
-      :class="{ error: v$.title.$error }"
-      class="w-full"
-      :styles="{ ...inputStyles, padding: '6px 12px' }"
-      :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TITLE.LABEL')"
-      :placeholder="
-        $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TITLE.PLACEHOLDER')
-      "
-      :error="nameError"
-      @input="v$.title.$touch"
-    />
-    <label>
-      {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.DESCRIPTION.LABEL') }}
-      <textarea
-        v-model="formState.description"
-        :style="{ ...inputStyles, padding: '8px 12px' }"
-        rows="3"
-        class="text-sm"
-        :placeholder="
-          $t(
-            'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.DESCRIPTION.PLACEHOLDER'
-          )
-        "
-      />
-    </label>
-    <div class="flex flex-col gap-4">
-      <searchable-dropdown
-        v-for="dropdown in dropdowns"
-        :key="dropdown.type"
-        :type="dropdown.type"
-        :value="formState[dropdown.type]"
-        :label="$t(dropdown.label)"
-        :items="dropdown.items"
-        :placeholder="$t(dropdown.placeholder)"
-        :error="dropdown.error"
-        @change="onChange"
-      />
-    </div>
-    <div class="flex items-center justify-end w-full gap-2 mt-8">
-      <woot-button
-        class="px-4 rounded-xl button clear outline-woot-200/50 outline"
-        @click.prevent="onClose"
-      >
-        {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CANCEL') }}
-      </woot-button>
-      <woot-button
-        :is-disabled="isSubmitDisabled"
-        class="px-4 rounded-xl"
-        :is-loading="isCreating"
-        @click.prevent="createIssue"
-      >
-        {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CREATE') }}
-      </woot-button>
-    </div>
-  </div>
-</template>
-
 <script setup>
 import { reactive, computed, onMounted, ref } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
@@ -69,10 +9,6 @@ import { parseLinearAPIErrorResponse } from 'dashboard/store/utils/api';
 import SearchableDropdown from './SearchableDropdown.vue';
 
 const props = defineProps({
-  accountId: {
-    type: [Number, String],
-    required: true,
-  },
   conversationId: {
     type: [Number, String],
     required: true,
@@ -266,3 +202,63 @@ const createIssue = async () => {
 
 onMounted(getTeams);
 </script>
+
+<template>
+  <div>
+    <woot-input
+      v-model="formState.title"
+      :class="{ error: v$.title.$error }"
+      class="w-full"
+      :styles="{ ...inputStyles, padding: '6px 12px' }"
+      :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TITLE.LABEL')"
+      :placeholder="
+        $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TITLE.PLACEHOLDER')
+      "
+      :error="nameError"
+      @input="v$.title.$touch"
+    />
+    <label>
+      {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.DESCRIPTION.LABEL') }}
+      <textarea
+        v-model="formState.description"
+        :style="{ ...inputStyles, padding: '8px 12px' }"
+        rows="3"
+        class="text-sm"
+        :placeholder="
+          $t(
+            'INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.DESCRIPTION.PLACEHOLDER'
+          )
+        "
+      />
+    </label>
+    <div class="flex flex-col gap-4">
+      <SearchableDropdown
+        v-for="dropdown in dropdowns"
+        :key="dropdown.type"
+        :type="dropdown.type"
+        :value="formState[dropdown.type]"
+        :label="$t(dropdown.label)"
+        :items="dropdown.items"
+        :placeholder="$t(dropdown.placeholder)"
+        :error="dropdown.error"
+        @change="onChange"
+      />
+    </div>
+    <div class="flex items-center justify-end w-full gap-2 mt-8">
+      <woot-button
+        class="px-4 rounded-xl button clear outline-woot-200/50 outline"
+        @click.prevent="onClose"
+      >
+        {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CANCEL') }}
+      </woot-button>
+      <woot-button
+        :is-disabled="isSubmitDisabled"
+        class="px-4 rounded-xl"
+        :is-loading="isCreating"
+        @click.prevent="createIssue"
+      >
+        {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CREATE') }}
+      </woot-button>
+    </div>
+  </div>
+</template>

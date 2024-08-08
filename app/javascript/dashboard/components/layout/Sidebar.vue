@@ -1,50 +1,20 @@
-<template>
-  <aside class="flex h-full">
-    <primary-sidebar
-      :logo-source="globalConfig.logoThumbnail"
-      :installation-name="globalConfig.installationName"
-      :is-a-custom-branded-instance="isACustomBrandedInstance"
-      :account-id="accountId"
-      :menu-items="primaryMenuItems"
-      :active-menu-item="activePrimaryMenu.key"
-      @toggle-accounts="toggleAccountModal"
-      @key-shortcut-modal="toggleKeyShortcutModal"
-      @open-notification-panel="openNotificationPanel"
-    />
-    <secondary-sidebar
-      v-if="showSecondarySidebar"
-      :class="sidebarClassName"
-      :account-id="accountId"
-      :inboxes="inboxes"
-      :labels="labels"
-      :teams="teams"
-      :custom-views="customViews"
-      :menu-config="activeSecondaryMenu"
-      :current-role="currentRole"
-      :is-on-chatwoot-cloud="isOnChatwootCloud"
-      @add-label="showAddLabelPopup"
-      @toggle-accounts="toggleAccountModal"
-    />
-  </aside>
-</template>
-
 <script>
+import { ref } from 'vue';
 import { mapGetters } from 'vuex';
-import adminMixin from '../../mixins/isAdmin';
 import { getSidebarItems } from './config/default-sidebar';
-import alertMixin from 'shared/mixins/alertMixin';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import { useRoute, useRouter } from 'dashboard/composables/route';
 
 import PrimarySidebar from './sidebarComponents/Primary.vue';
 import SecondarySidebar from './sidebarComponents/Secondary.vue';
-import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
-import router from '../../routes';
+import { routesWithPermissions } from '../../routes';
+import { hasPermissions } from '../../helper/permissionsHelper';
 
 export default {
   components: {
     PrimarySidebar,
     SecondarySidebar,
   },
-  mixins: [adminMixin, alertMixin, keyboardEventListenerMixins],
   props: {
     showSecondarySidebar: {
       type: Boolean,
@@ -55,6 +25,52 @@ export default {
       default: '',
     },
   },
+  setup(props, { emit }) {
+    const sidebarRef = ref(null);
+    const route = useRoute();
+    const router = useRouter();
+
+    const toggleKeyShortcutModal = () => {
+      emit('openKeyShortcutModal');
+    };
+    const closeKeyShortcutModal = () => {
+      emit('closeKeyShortcutModal');
+    };
+    const isCurrentRouteSameAsNavigation = routeName => {
+      return route.name === routeName;
+    };
+    const navigateToRoute = routeName => {
+      if (!isCurrentRouteSameAsNavigation(routeName)) {
+        router.push({ name: routeName });
+      }
+    };
+    const keyboardEvents = {
+      '$mod+Slash': {
+        action: toggleKeyShortcutModal,
+      },
+      '$mod+Escape': {
+        action: closeKeyShortcutModal,
+      },
+      'Alt+KeyC': {
+        action: () => navigateToRoute('home'),
+      },
+      'Alt+KeyV': {
+        action: () => navigateToRoute('contacts_dashboard'),
+      },
+      'Alt+KeyR': {
+        action: () => navigateToRoute('account_overview_reports'),
+      },
+      'Alt+KeyS': {
+        action: () => navigateToRoute('agent_list'),
+      },
+    };
+    useKeyboardEvents(keyboardEvents, sidebarRef);
+
+    return {
+      toggleKeyShortcutModal,
+      sidebarRef,
+    };
+  },
   data() {
     return {
       showOptionsMenu: false,
@@ -64,7 +80,6 @@ export default {
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
-      currentRole: 'getCurrentRole',
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
       inboxes: 'inboxes/getInboxes',
@@ -98,9 +113,13 @@ export default {
       return getSidebarItems(this.accountId);
     },
     primaryMenuItems() {
+      const userPermissions = this.currentUser.permissions;
       const menuItems = this.sideMenuConfig.primaryMenu;
       return menuItems.filter(menuItem => {
-        const isAvailableForTheUser = menuItem.roles.includes(this.currentRole);
+        const isAvailableForTheUser = hasPermissions(
+          routesWithPermissions[menuItem.toStateName],
+          userPermissions
+        );
 
         if (!isAvailableForTheUser) {
           return false;
@@ -159,50 +178,48 @@ export default {
         this.$store.dispatch('customViews/get', this.activeCustomView);
       }
     },
-    toggleKeyShortcutModal() {
-      this.$emit('open-key-shortcut-modal');
-    },
-    closeKeyShortcutModal() {
-      this.$emit('close-key-shortcut-modal');
-    },
-    getKeyboardEvents() {
-      return {
-        '$mod+Slash': this.toggleKeyShortcutModal,
-        '$mod+Escape': this.closeKeyShortcutModal,
-        'Alt+KeyC': {
-          action: () => this.navigateToRoute('home'),
-        },
-        'Alt+KeyV': {
-          action: () => this.navigateToRoute('contacts_dashboard'),
-        },
-        'Alt+KeyR': {
-          action: () => this.navigateToRoute('account_overview_reports'),
-        },
-        'Alt+KeyS': {
-          action: () => this.navigateToRoute('agent_list'),
-        },
-      };
-    },
-    navigateToRoute(routeName) {
-      if (!this.isCurrentRouteSameAsNavigation(routeName)) {
-        router.push({ name: routeName });
-      }
-    },
-    isCurrentRouteSameAsNavigation(routeName) {
-      return this.$route.name === routeName;
-    },
     toggleSupportChatWindow() {
       window.$chatwoot.toggle();
     },
     toggleAccountModal() {
-      this.$emit('toggle-account-modal');
+      this.$emit('toggleAccountModal');
     },
     showAddLabelPopup() {
-      this.$emit('show-add-label-popup');
+      this.$emit('showAddLabelPopup');
     },
     openNotificationPanel() {
-      this.$emit('open-notification-panel');
+      this.$emit('openNotificationPanel');
     },
   },
 };
 </script>
+
+<template>
+  <aside ref="sidebarRef" class="flex h-full">
+    <PrimarySidebar
+      :logo-source="globalConfig.logoThumbnail"
+      :installation-name="globalConfig.installationName"
+      :is-a-custom-branded-instance="isACustomBrandedInstance"
+      :account-id="accountId"
+      :menu-items="primaryMenuItems"
+      :active-menu-item="activePrimaryMenu.key"
+      @toggleAccounts="toggleAccountModal"
+      @openKeyShortcutModal="toggleKeyShortcutModal"
+      @openNotificationPanel="openNotificationPanel"
+    />
+    <SecondarySidebar
+      v-if="showSecondarySidebar"
+      :class="sidebarClassName"
+      :account-id="accountId"
+      :inboxes="inboxes"
+      :labels="labels"
+      :teams="teams"
+      :custom-views="customViews"
+      :menu-config="activeSecondaryMenu"
+      :current-user="currentUser"
+      :is-on-chatwoot-cloud="isOnChatwootCloud"
+      @addLabel="showAddLabelPopup"
+      @toggleAccounts="toggleAccountModal"
+    />
+  </aside>
+</template>

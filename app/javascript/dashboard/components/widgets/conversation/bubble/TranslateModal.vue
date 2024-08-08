@@ -1,3 +1,31 @@
+<script>
+export default {
+  props: {
+    contentAttributes: {
+      type: Object,
+      default: () => ({}),
+    },
+    content: {
+      type: String,
+      default: '',
+    },
+  },
+  computed: {
+    translationsAvailable() {
+      return !!Object.keys(this.translations).length;
+    },
+    translations() {
+      return this.contentAttributes.translations || {};
+    },
+  },
+  methods: {
+    onClose() {
+      this.$emit('close');
+    },
+  },
+};
+</script>
+
 <template>
   <woot-modal
     modal-type="right-aligned"
@@ -30,30 +58,3 @@
     </div>
   </woot-modal>
 </template>
-<script>
-export default {
-  props: {
-    contentAttributes: {
-      type: Object,
-      default: () => ({}),
-    },
-    content: {
-      type: String,
-      default: '',
-    },
-  },
-  computed: {
-    translationsAvailable() {
-      return !!Object.keys(this.translations).length;
-    },
-    translations() {
-      return this.contentAttributes.translations || {};
-    },
-  },
-  methods: {
-    onClose() {
-      this.$emit('close');
-    },
-  },
-};
-</script>
