@@ -31,7 +31,8 @@
       "ADD": "%{agentName} 邀请了 %{invitee} 加入账户作为 %{role}",
       "EDIT": {
         "SELF": "%{agentName} 将其 %{attributes} 更改为 %{values}",
-        "OTHER": "%{agentName} 将 %{user} 的 %{attributes} 更改为 %{values}"
+        "OTHER": "%{agentName} 将 %{user} 的 %{attributes} 更改为 %{values}",
+        "DELETED": "%{agentName} changed %{attributes} of a deleted user to %{values}"
       }
     },
     "INBOX": {
