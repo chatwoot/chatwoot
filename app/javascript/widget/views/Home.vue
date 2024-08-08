@@ -1,38 +1,3 @@
-<template>
-  <div
-    class="z-50 rounded-md w-full flex flex-1 flex-col"
-    :class="{ 'pb-2': showArticles, 'justify-end': !showArticles }"
-  >
-    <div class="px-4 pt-4 w-full">
-      <team-availability
-        :available-agents="availableAgents"
-        :has-conversation="!!conversationSize"
-        :unread-count="unreadMessageCount"
-        @start-conversation="startConversation"
-      />
-    </div>
-    <div v-if="showArticles" class="px-4 py-2 w-full">
-      <div class="p-4 rounded-md bg-white dark:bg-slate-700 shadow-sm w-full">
-        <article-hero
-          v-if="
-            !articleUiFlags.isFetching &&
-            !articleUiFlags.isError &&
-            popularArticles.length
-          "
-          :articles="popularArticles"
-          @view="openArticleInArticleViewer"
-          @view-all="viewAllArticles"
-        />
-      </div>
-    </div>
-    <div v-if="articleUiFlags.isFetching" class="px-4 py-2 w-full">
-      <div class="p-4 rounded-md bg-white dark:bg-slate-700 shadow-sm w-full">
-        <article-card-skeleton-loader />
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
 import TeamAvailability from 'widget/components/TeamAvailability.vue';
 import ArticleHero from 'widget/components/ArticleHero.vue';
@@ -51,20 +16,9 @@ export default {
     ArticleCardSkeletonLoader,
   },
   mixins: [configMixin, routerMixin, darkModeMixin],
-  props: {
-    hasFetched: {
-      type: Boolean,
-      default: false,
-    },
-    isCampaignViewClicked: {
-      type: Boolean,
-      default: false,
-    },
-  },
   computed: {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',
-      activeCampaign: 'campaign/getActiveCampaign',
       conversationSize: 'conversation/getConversationSize',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
       popularArticles: 'article/popularArticles',
@@ -134,3 +88,38 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    class="z-50 flex flex-col flex-1 w-full rounded-md"
+    :class="{ 'pb-2': showArticles, 'justify-end': !showArticles }"
+  >
+    <div class="w-full px-4 pt-4">
+      <TeamAvailability
+        :available-agents="availableAgents"
+        :has-conversation="!!conversationSize"
+        :unread-count="unreadMessageCount"
+        @startConversation="startConversation"
+      />
+    </div>
+    <div v-if="showArticles" class="w-full px-4 py-2">
+      <div class="w-full p-4 bg-white rounded-md shadow-sm dark:bg-slate-700">
+        <ArticleHero
+          v-if="
+            !articleUiFlags.isFetching &&
+            !articleUiFlags.isError &&
+            popularArticles.length
+          "
+          :articles="popularArticles"
+          @view="openArticleInArticleViewer"
+          @viewAll="viewAllArticles"
+        />
+      </div>
+    </div>
+    <div v-if="articleUiFlags.isFetching" class="w-full px-4 py-2">
+      <div class="w-full p-4 bg-white rounded-md shadow-sm dark:bg-slate-700">
+        <ArticleCardSkeletonLoader />
+      </div>
+    </div>
+  </div>
+</template>

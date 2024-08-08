@@ -32,6 +32,10 @@ class IntegrationsAPI extends ApiClient {
   deleteHook(hookId) {
     return axios.delete(`${this.baseUrl()}/integrations/hooks/${hookId}`);
   }
+
+  fetchCaptainURL() {
+    return axios.get(`${this.baseUrl()}/integrations/captain/sso_url`);
+  }
 }
 
 export default new IntegrationsAPI();

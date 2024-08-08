@@ -1,32 +1,3 @@
-<template>
-  <div
-    v-if="!!items.length"
-    class="chat-bubble agent"
-    :class="$dm('bg-white', 'dark:bg-slate-700')"
-  >
-    <div v-for="item in items" :key="item.link" class="article-item">
-      <a :href="item.link" target="_blank" rel="noopener noreferrer nofollow">
-        <span class="title flex items-center text-black-900 font-medium">
-          <fluent-icon
-            icon="link"
-            class="mr-1"
-            :class="$dm('text-black-900', 'dark:text-slate-50')"
-          />
-          <span :class="$dm('text-slate-900', 'dark:text-slate-50')">{{
-            item.title
-          }}</span>
-        </span>
-        <span
-          class="description"
-          :class="$dm('text-slate-700', 'dark:text-slate-200')"
-        >
-          {{ truncateMessage(item.description) }}
-        </span>
-      </a>
-    </div>
-  </div>
-</template>
-
 <script>
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
@@ -45,6 +16,35 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    v-if="!!items.length"
+    class="chat-bubble agent"
+    :class="$dm('bg-white', 'dark:bg-slate-700')"
+  >
+    <div v-for="item in items" :key="item.link" class="article-item">
+      <a :href="item.link" target="_blank" rel="noopener noreferrer nofollow">
+        <span class="title flex items-center text-black-900 font-medium">
+          <FluentIcon
+            icon="link"
+            class="mr-1"
+            :class="$dm('text-black-900', 'dark:text-slate-50')"
+          />
+          <span :class="$dm('text-slate-900', 'dark:text-slate-50')">{{
+            item.title
+          }}</span>
+        </span>
+        <span
+          class="description"
+          :class="$dm('text-slate-700', 'dark:text-slate-200')"
+        >
+          {{ truncateMessage(item.description) }}
+        </span>
+      </a>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 @import '~widget/assets/scss/variables.scss';

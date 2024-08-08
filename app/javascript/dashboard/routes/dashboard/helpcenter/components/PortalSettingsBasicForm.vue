@@ -15,15 +15,6 @@ import { uploadFile } from 'dashboard/helper/uploadHelper';
 import { isDomain } from 'shared/helpers/Validators';
 import SettingsLayout from './Layout/SettingsLayout.vue';
 
-const { EXAMPLE_URL } = wootConstants;
-const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
-
-const { t } = useI18n();
-
-defineComponent({
-  name: 'PortalSettingsBasicForm',
-});
-
 const props = defineProps({
   portal: {
     type: Object,
@@ -38,6 +29,16 @@ const props = defineProps({
     default: '',
   },
 });
+const emit = defineEmits(['submit', 'deleteLogo']);
+
+defineComponent({
+  name: 'PortalSettingsBasicForm',
+});
+
+const { EXAMPLE_URL } = wootConstants;
+const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
+
+const { t } = useI18n();
 
 const state = reactive({
   name: '',
@@ -97,8 +98,6 @@ const showDeleteButton = computed(() => {
   return hasValidAvatarUrl(state.logoUrl);
 });
 
-const emit = defineEmits(['submit', 'delete-logo']);
-
 onMounted(() => {
   const portal = props.portal || {};
   state.name = portal.name || '';
@@ -135,7 +134,7 @@ function onSubmitClick() {
 async function deleteAvatar() {
   state.logoUrl = '';
   state.avatarBlobId = '';
-  emit('delete-logo');
+  emit('deleteLogo');
 }
 
 async function uploadLogoToStorage(file) {

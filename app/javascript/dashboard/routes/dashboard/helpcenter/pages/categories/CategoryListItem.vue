@@ -1,3 +1,23 @@
+<script>
+export default {
+  props: {
+    categories: {
+      type: Array,
+      default: () => [],
+    },
+  },
+
+  methods: {
+    editCategory(category) {
+      this.$emit('edit', category);
+    },
+    deleteCategory(category) {
+      this.$emit('delete', category);
+    },
+  },
+};
+</script>
+
 <template>
   <div>
     <table class="woot-table">
@@ -72,26 +92,6 @@
     </p>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    categories: {
-      type: Array,
-      default: () => [],
-    },
-  },
-
-  methods: {
-    editCategory(category) {
-      this.$emit('edit', category);
-    },
-    deleteCategory(category) {
-      this.$emit('delete', category);
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 table {

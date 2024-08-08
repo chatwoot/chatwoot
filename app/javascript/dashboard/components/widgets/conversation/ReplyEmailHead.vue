@@ -1,75 +1,3 @@
-<template>
-  <div>
-    <div v-if="toEmails">
-      <div class="input-group small" :class="{ error: v$.toEmailsVal.$error }">
-        <label class="input-group-label">
-          {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.TO') }}
-        </label>
-        <div class="rounded-none flex-1 min-w-0 m-0 whitespace-nowrap">
-          <woot-input
-            v-model.trim="v$.toEmailsVal.$model"
-            type="text"
-            class="[&>input]:!mb-0 [&>input]:border-transparent [&>input]:h-8 [&>input]:text-sm [&>input]:!border-0 [&>input]:border-none"
-            :class="{ error: v$.toEmailsVal.$error }"
-            :placeholder="$t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.PLACEHOLDER')"
-            @blur="onBlur"
-          />
-        </div>
-      </div>
-    </div>
-    <div class="input-group-wrap">
-      <div class="input-group small" :class="{ error: v$.ccEmailsVal.$error }">
-        <label class="input-group-label">
-          {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.LABEL') }}
-        </label>
-        <div class="rounded-none flex-1 min-w-0 m-0 whitespace-nowrap">
-          <woot-input
-            v-model.trim="v$.ccEmailsVal.$model"
-            class="[&>input]:!mb-0 [&>input]:border-transparent [&>input]:h-8 [&>input]:text-sm [&>input]:!border-0 [&>input]:border-none"
-            type="text"
-            :class="{ error: v$.ccEmailsVal.$error }"
-            :placeholder="$t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.PLACEHOLDER')"
-            @blur="onBlur"
-          />
-        </div>
-        <woot-button
-          v-if="!showBcc"
-          variant="clear"
-          size="small"
-          @click="handleAddBcc"
-        >
-          {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.ADD_BCC') }}
-        </woot-button>
-      </div>
-      <span v-if="v$.ccEmailsVal.$error" class="message">
-        {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.ERROR') }}
-      </span>
-    </div>
-    <div v-if="showBcc" class="input-group-wrap">
-      <div class="input-group small" :class="{ error: v$.bccEmailsVal.$error }">
-        <label class="input-group-label">
-          {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.LABEL') }}
-        </label>
-        <div class="rounded-none flex-1 min-w-0 m-0 whitespace-nowrap">
-          <woot-input
-            v-model.trim="v$.bccEmailsVal.$model"
-            type="text"
-            class="[&>input]:!mb-0 [&>input]:border-transparent [&>input]:h-8 [&>input]:text-sm [&>input]:!border-0 [&>input]:border-none"
-            :class="{ error: v$.bccEmailsVal.$error }"
-            :placeholder="
-              $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.PLACEHOLDER')
-            "
-            @blur="onBlur"
-          />
-        </div>
-      </div>
-      <span v-if="v$.bccEmailsVal.$error" class="message">
-        {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.ERROR') }}
-      </span>
-    </div>
-  </div>
-</template>
-
 <script>
 import { validEmailsByComma } from './helpers/emailHeadHelper';
 import { useVuelidate } from '@vuelidate/core';
@@ -152,6 +80,79 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div>
+    <div v-if="toEmails">
+      <div class="input-group small" :class="{ error: v$.toEmailsVal.$error }">
+        <label class="input-group-label">
+          {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.TO') }}
+        </label>
+        <div class="rounded-none flex-1 min-w-0 m-0 whitespace-nowrap">
+          <woot-input
+            v-model.trim="v$.toEmailsVal.$model"
+            type="text"
+            class="[&>input]:!mb-0 [&>input]:border-transparent [&>input]:h-8 [&>input]:text-sm [&>input]:!border-0 [&>input]:border-none"
+            :class="{ error: v$.toEmailsVal.$error }"
+            :placeholder="$t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.PLACEHOLDER')"
+            @blur="onBlur"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="input-group-wrap">
+      <div class="input-group small" :class="{ error: v$.ccEmailsVal.$error }">
+        <label class="input-group-label">
+          {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.LABEL') }}
+        </label>
+        <div class="rounded-none flex-1 min-w-0 m-0 whitespace-nowrap">
+          <woot-input
+            v-model.trim="v$.ccEmailsVal.$model"
+            class="[&>input]:!mb-0 [&>input]:border-transparent [&>input]:h-8 [&>input]:text-sm [&>input]:!border-0 [&>input]:border-none"
+            type="text"
+            :class="{ error: v$.ccEmailsVal.$error }"
+            :placeholder="$t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.PLACEHOLDER')"
+            @blur="onBlur"
+          />
+        </div>
+        <woot-button
+          v-if="!showBcc"
+          variant="clear"
+          size="small"
+          @click="handleAddBcc"
+        >
+          {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.ADD_BCC') }}
+        </woot-button>
+      </div>
+      <span v-if="v$.ccEmailsVal.$error" class="message">
+        {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.CC.ERROR') }}
+      </span>
+    </div>
+    <div v-if="showBcc" class="input-group-wrap">
+      <div class="input-group small" :class="{ error: v$.bccEmailsVal.$error }">
+        <label class="input-group-label">
+          {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.LABEL') }}
+        </label>
+        <div class="rounded-none flex-1 min-w-0 m-0 whitespace-nowrap">
+          <woot-input
+            v-model.trim="v$.bccEmailsVal.$model"
+            type="text"
+            class="[&>input]:!mb-0 [&>input]:border-transparent [&>input]:h-8 [&>input]:text-sm [&>input]:!border-0 [&>input]:border-none"
+            :class="{ error: v$.bccEmailsVal.$error }"
+            :placeholder="
+              $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.PLACEHOLDER')
+            "
+            @blur="onBlur"
+          />
+        </div>
+      </div>
+      <span v-if="v$.bccEmailsVal.$error" class="message">
+        {{ $t('CONVERSATION.REPLYBOX.EMAIL_HEAD.BCC.ERROR') }}
+      </span>
+    </div>
+  </div>
+</template>
+
 <style lang="scss" scoped>
 .input-group-wrap .message {
   @apply text-sm text-red-500 dark:text-red-500;

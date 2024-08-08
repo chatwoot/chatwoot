@@ -1,7 +1,3 @@
-<template>
-  <inbox-reconnection-required class="mx-8 mt-5" @reauthorize="startLogin" />
-</template>
-
 <script>
 /* global FB */
 import InboxReconnectionRequired from '../components/InboxReconnectionRequired';
@@ -101,6 +97,10 @@ export default {
   },
 };
 </script>
+
+<template>
+  <InboxReconnectionRequired class="mx-8 mt-5" @reauthorize="startLogin" />
+</template>
 
 <style lang="scss" scoped>
 @import '~dashboard/assets/scss/variables';

@@ -30,7 +30,7 @@ const buttonStyleClass = props.compact
 
 <template>
   <button
-    class="flex items-center font-normal p-0 cursor-pointer"
+    class="flex items-center p-0 font-normal cursor-pointer"
     :class="buttonStyleClass"
     @click.capture="goBack"
   >

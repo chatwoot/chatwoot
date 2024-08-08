@@ -1,30 +1,10 @@
-<template>
-  <div class="flex flex-col h-auto overflow-auto">
-    <woot-modal-header
-      :header-title="$t('SLA.ADD.TITLE')"
-      :header-content="$t('SLA.ADD.DESC')"
-    />
-    <sla-form
-      :submit-label="$t('SLA.FORM.CREATE')"
-      @submit="addSLA"
-      @close="onClose"
-    />
-  </div>
-</template>
-
 <script>
-import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import SlaForm from './SlaForm.vue';
 
 export default {
   components: {
     SlaForm,
-  },
-  computed: {
-    ...mapGetters({
-      uiFlags: 'sla/getUIFlags',
-    }),
   },
   methods: {
     onClose() {
@@ -44,3 +24,17 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="flex flex-col h-auto overflow-auto">
+    <woot-modal-header
+      :header-title="$t('SLA.ADD.TITLE')"
+      :header-content="$t('SLA.ADD.DESC')"
+    />
+    <SlaForm
+      :submit-label="$t('SLA.FORM.CREATE')"
+      @submit="addSLA"
+      @close="onClose"
+    />
+  </div>
+</template>
