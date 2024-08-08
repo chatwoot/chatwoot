@@ -2,6 +2,8 @@
   "INBOX_MGMT": {
     "HEADER": "Innbokser",
     "SIDEBAR_TXT": "<p><b>Innboks</b></p> <p> Når du kobler til et nettsted eller en facebook-side til Chatwoot blir den kalt en <b>Innboks</b>. Du kan ha ubegrensede innbokser i din Chatwoot-konto. </p><p> Klikk på <b>Legg til innboks</b> for å koble sammen en nettside eller en facebook-side. </p><p> I oversikten kan du se alle samtalene fra innboksene på et sted og svare på de i samtaler-fanen. </p><p> Du kan også se samtaler for hver enkelt innboks ved å klikke på innboksen på venstre siden av oversikten. </p>",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "Det er ingen innbokser tilknyttet denne kontoen."
     },
@@ -364,6 +366,7 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
         "EMAIL_PLACEHOLDER": "Enter email address",
+        "SIGN_IN": "Sign in with Microsoft",
         "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
         "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }

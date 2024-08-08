@@ -1,10 +1,77 @@
+<script>
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+
+import MergeContactSummary from 'dashboard/modules/contact/components/MergeContactSummary.vue';
+import ContactDropdownItem from './ContactDropdownItem.vue';
+
+export default {
+  components: { MergeContactSummary, ContactDropdownItem },
+  props: {
+    primaryContact: {
+      type: Object,
+      required: true,
+    },
+    isSearching: {
+      type: Boolean,
+      default: false,
+    },
+    isMerging: {
+      type: Boolean,
+      default: false,
+    },
+    searchResults: {
+      type: Array,
+      default: () => [],
+    },
+  },
+  setup() {
+    return { v$: useVuelidate() };
+  },
+  validations: {
+    primaryContact: {
+      required,
+    },
+    parentContact: {
+      required,
+    },
+  },
+  data() {
+    return {
+      parentContact: undefined,
+    };
+  },
+
+  computed: {
+    parentContactName() {
+      return this.parentContact ? this.parentContact.name : '';
+    },
+  },
+  methods: {
+    searchChange(query) {
+      this.$emit('search', query);
+    },
+    onSubmit() {
+      this.v$.$touch();
+      if (this.v$.$invalid) {
+        return;
+      }
+      this.$emit('submit', this.parentContact.id);
+    },
+    onCancel() {
+      this.$emit('cancel');
+    },
+  },
+};
+</script>
+
 <template>
   <form @submit.prevent="onSubmit">
     <div>
       <div>
         <div
           class="mt-1 multiselect-wrap--medium"
-          :class="{ error: $v.parentContact.$error }"
+          :class="{ error: v$.parentContact.$error }"
         >
           <label class="multiselect__label">
             {{ $t('MERGE_CONTACTS.PARENT.TITLE') }}
@@ -24,14 +91,14 @@
             :clear-on-select="false"
             :show-labels="false"
             :placeholder="$t('MERGE_CONTACTS.PARENT.PLACEHOLDER')"
-            :allow-empty="true"
+            allow-empty
             :loading="isSearching"
             :max-height="150"
             open-direction="top"
             @search-change="searchChange"
           >
             <template slot="singleLabel" slot-scope="props">
-              <contact-dropdown-item
+              <ContactDropdownItem
                 :thumbnail="props.option.thumbnail"
                 :identifier="props.option.id"
                 :name="props.option.name"
@@ -40,7 +107,7 @@
               />
             </template>
             <template slot="option" slot-scope="props">
-              <contact-dropdown-item
+              <ContactDropdownItem
                 :thumbnail="props.option.thumbnail"
                 :identifier="props.option.id"
                 :name="props.option.name"
@@ -52,7 +119,7 @@
               {{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}
             </span>
           </multiselect>
-          <span v-if="$v.parentContact.$error" class="message">
+          <span v-if="v$.parentContact.$error" class="message">
             {{ $t('MERGE_CONTACTS.FORM.CHILD_CONTACT.ERROR') }}
           </span>
         </div>
@@ -86,7 +153,7 @@
             track-by="id"
           >
             <template slot="singleLabel" slot-scope="props">
-              <contact-dropdown-item
+              <ContactDropdownItem
                 :thumbnail="props.option.thumbnail"
                 :name="props.option.name"
                 :identifier="props.option.id"
@@ -98,7 +165,7 @@
         </div>
       </div>
     </div>
-    <merge-contact-summary
+    <MergeContactSummary
       :primary-contact-name="primaryContact.name"
       :parent-contact-name="parentContactName"
     />
@@ -112,69 +179,6 @@
     </div>
   </form>
 </template>
-
-<script>
-import { required } from 'vuelidate/lib/validators';
-
-import MergeContactSummary from 'dashboard/modules/contact/components/MergeContactSummary.vue';
-import ContactDropdownItem from './ContactDropdownItem.vue';
-
-export default {
-  components: { MergeContactSummary, ContactDropdownItem },
-  props: {
-    primaryContact: {
-      type: Object,
-      required: true,
-    },
-    isSearching: {
-      type: Boolean,
-      default: false,
-    },
-    isMerging: {
-      type: Boolean,
-      default: false,
-    },
-    searchResults: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  validations: {
-    primaryContact: {
-      required,
-    },
-    parentContact: {
-      required,
-    },
-  },
-  data() {
-    return {
-      parentContact: undefined,
-    };
-  },
-
-  computed: {
-    parentContactName() {
-      return this.parentContact ? this.parentContact.name : '';
-    },
-  },
-  methods: {
-    searchChange(query) {
-      this.$emit('search', query);
-    },
-    onSubmit() {
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        return;
-      }
-      this.$emit('submit', this.parentContact.id);
-    },
-    onCancel() {
-      this.$emit('cancel');
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 /* TDOD: Clean errors in forms style */
@@ -196,7 +200,11 @@ export default {
   }
 
   .multiselect__tags {
-    @apply h-[52px];
+    @apply h-auto;
+  }
+
+  .multiselect__select {
+    @apply mt-px mr-1;
   }
 }
 </style>

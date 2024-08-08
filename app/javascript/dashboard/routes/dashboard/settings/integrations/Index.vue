@@ -33,9 +33,9 @@ onMounted(() => {
       />
     </template>
     <template #body>
-      <div class="flex-grow flex-shrink overflow-auto font-inter">
+      <div class="flex-grow flex-shrink overflow-auto">
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-          <integration-item
+          <IntegrationItem
             v-for="item in integrationList"
             :id="item.id"
             :key="item.id"

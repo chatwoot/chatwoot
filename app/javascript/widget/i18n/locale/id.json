@@ -34,9 +34,9 @@
   "START_CONVERSATION": "Mulai Percakapan",
   "END_CONVERSATION": "Akhiri Percakapan",
   "CONTINUE_CONVERSATION": "Lanjutkan Percakapan",
-  "YOU": "You",
+  "YOU": "Anda",
   "START_NEW_CONVERSATION": "Mulai Percakapan",
-  "VIEW_UNREAD_MESSAGES": "You have unread messages",
+  "VIEW_UNREAD_MESSAGES": "Anda memiliki pesan yang belum dibaca",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Lihat pesan baru",
     "CLOSE_MESSAGES_BUTTON": "Tutup",
@@ -81,7 +81,7 @@
     "CAMPAIGN_HEADER": "Silahkan input nama dan email anda sebelum memulai percakapan",
     "IS_REQUIRED": "dibutuhkan",
     "REQUIRED": "Diperlukan",
-    "REGEX_ERROR": "Please provide a valid input"
+    "REGEX_ERROR": "Tolong berikan masukan yang tepat"
   },
   "FILE_SIZE_LIMIT": "File melebihi batas {MAXIMUM_FILE_UPLOAD_SIZE} lampiran",
   "CHAT_FORM": {
@@ -110,9 +110,9 @@
     }
   },
   "PORTAL": {
-    "POPULAR_ARTICLES": "Popular Articles",
+    "POPULAR_ARTICLES": "Artikel Populer",
     "VIEW_ALL_ARTICLES": "Lihat semua artikel",
-    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+    "IFRAME_LOAD_ERROR": "Terjadi kesalahan saat memuat artikel, harap muat ulang halaman dan coba lagi."
   },
   "ATTACHMENTS": {
     "image": {

@@ -54,8 +54,8 @@ describe('ReportsFiltersTeams.vue', () => {
     });
     wrapper.setData({ selectedOption: { id: 1, name: 'Team 1' } });
     wrapper.vm.handleInput();
-    expect(wrapper.emitted('team-filter-selection')).toBeTruthy();
-    expect(wrapper.emitted('team-filter-selection')[0]).toEqual([
+    expect(wrapper.emitted('teamFilterSelection')).toBeTruthy();
+    expect(wrapper.emitted('teamFilterSelection')[0]).toEqual([
       { id: 1, name: 'Team 1' },
     ]);
   });

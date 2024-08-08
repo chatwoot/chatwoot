@@ -2,6 +2,8 @@
   "INBOX_MGMT": {
     "HEADER": "இன்பாக்ஸ்கள்",
     "SIDEBAR_TXT": "<p> <b> இன்பாக்ஸ் <b> </p> <p> நீங்கள் ஒரு வலைத்தளம் அல்லது ஃபேஸ்புக் பக்கத்தை சாட்வூட்டுடன் இணைக்கும்போது, அது <b> இன்பாக்ஸ் <b> என அழைக்கப்படுகிறது. உங்கள் சாட்வூட் கணக்கில் வரம்பற்ற இன்பாக்ஸை வைத்திருக்க முடியும். </p> <p> ஒரு வலைத்தளம் அல்லது பேஸ்புக் பக்கத்தை இணைக்க <b> இன்பாக்ஸைச் சேர் <b> என்பதைக் கிளிக் செய்க. </p> <p> டாஷ்போர்டில், உங்கள் எல்லா இன்பாக்ஸிலிருந்தும் எல்லா உரையாடல்களையும் ஒரே இடத்தில் காணலாம் மற்றும் அவற்றுக்கு `உரையாடல்கள்` தாவலின் கீழ் பதிலளிக்கலாம். </p> <p> டாஷ்போர்டின் இடது பலகத்தில் உள்ள இன்பாக்ஸ் பெயரைக் கிளிக் செய்வதன் மூலம் இன்பாக்ஸிற்கான குறிப்பிட்ட உரையாடல்களையும் நீங்கள் காணலாம். </p>",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "இந்த கணக்கில் இன்பாக்ஸ்கள் எதுவும் இணைக்கப்படவில்லை."
     },
@@ -364,6 +366,7 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
         "EMAIL_PLACEHOLDER": "Enter email address",
+        "SIGN_IN": "Sign in with Microsoft",
         "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
         "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }

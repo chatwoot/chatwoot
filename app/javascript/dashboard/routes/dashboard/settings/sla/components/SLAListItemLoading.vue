@@ -1,8 +1,9 @@
 <script setup>
 import BaseSettingsListItem from '../../components/BaseSettingsListItem.vue';
 </script>
+
 <template>
-  <base-settings-list-item class="opacity-50">
+  <BaseSettingsListItem class="opacity-50">
     <template #title>
       <div
         class="w-24 h-[26px] rounded-md bg-slate-50 dark:bg-slate-700 animate-pulse"
@@ -36,5 +37,5 @@ import BaseSettingsListItem from '../../components/BaseSettingsListItem.vue';
         </div>
       </div>
     </template>
-  </base-settings-list-item>
+  </BaseSettingsListItem>
 </template>

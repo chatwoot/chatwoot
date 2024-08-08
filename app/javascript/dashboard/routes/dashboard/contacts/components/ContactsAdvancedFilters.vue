@@ -1,96 +1,5 @@
-<template>
-  <div>
-    <woot-modal-header :header-title="filterModalHeaderTitle">
-      <p class="text-slate-600 dark:text-slate-200">
-        {{ filterModalSubTitle }}
-      </p>
-    </woot-modal-header>
-    <div class="p-8">
-      <div v-if="isSegmentsView">
-        <label class="input-label" :class="{ error: !activeSegmentNewName }">
-          {{ $t('CONTACTS_FILTER.SEGMENT_LABEL') }}
-          <input
-            v-model="activeSegmentNewName"
-            type="text"
-            class="folder-input border-slate-75 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100"
-          />
-          <span v-if="!activeSegmentNewName" class="message">
-            {{ $t('CONTACTS_FILTER.EMPTY_VALUE_ERROR') }}
-          </span>
-        </label>
-        <label class="input-label">
-          {{ $t('CONTACTS_FILTER.SEGMENT_QUERY_LABEL') }}
-        </label>
-      </div>
-      <div
-        class="p-4 rounded-lg bg-slate-25 dark:bg-slate-900 border border-solid border-slate-50 dark:border-slate-700/50 mb-4"
-      >
-        <filter-input-box
-          v-for="(filter, i) in appliedFilters"
-          :key="i"
-          v-model="appliedFilters[i]"
-          :filter-groups="filterGroups"
-          :grouped-filters="true"
-          :input-type="
-            getInputType(
-              appliedFilters[i].attribute_key,
-              appliedFilters[i].filter_operator
-            )
-          "
-          :operators="getOperators(appliedFilters[i].attribute_key)"
-          :dropdown-values="getDropdownValues(appliedFilters[i].attribute_key)"
-          :show-query-operator="i !== appliedFilters.length - 1"
-          :show-user-input="showUserInput(appliedFilters[i].filter_operator)"
-          :v="$v.appliedFilters.$each[i]"
-          @resetFilter="resetFilter(i, appliedFilters[i])"
-          @removeFilter="removeFilter(i)"
-        />
-        <div class="mt-4">
-          <woot-button
-            icon="add"
-            color-scheme="success"
-            variant="smooth"
-            size="small"
-            @click="appendNewFilter"
-          >
-            {{ $t('CONTACTS_FILTER.ADD_NEW_FILTER') }}
-          </woot-button>
-          <woot-button
-            v-if="hasAppliedFilters && !isSegmentsView"
-            icon="subtract"
-            color-scheme="alert"
-            variant="smooth"
-            size="small"
-            @click="clearFilters"
-          >
-            {{ $t('CONTACTS_FILTER.CLEAR_ALL_FILTERS') }}
-          </woot-button>
-        </div>
-      </div>
-      <div class="w-full">
-        <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
-          <woot-button class="button clear" @click.prevent="onClose">
-            {{ $t('CONTACTS_FILTER.CANCEL_BUTTON_LABEL') }}
-          </woot-button>
-          <woot-button
-            v-if="isSegmentsView"
-            :disabled="!activeSegmentNewName"
-            @click="updateSegment"
-          >
-            {{ $t('CONTACTS_FILTER.UPDATE_BUTTON_LABEL') }}
-          </woot-button>
-          <woot-button v-else @click="submitFilterQuery">
-            {{ $t('CONTACTS_FILTER.SUBMIT_BUTTON_LABEL') }}
-          </woot-button>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
 import { useAlert } from 'dashboard/composables';
-import { required } from 'vuelidate/lib/validators';
 import FilterInputBox from '../../../../components/widgets/FilterInput/Index.vue';
 import countries from 'shared/constants/countries.js';
 import { mapGetters } from 'vuex';
@@ -98,6 +7,8 @@ import { filterAttributeGroups } from '../contactFilterItems';
 import filterMixin from 'shared/mixins/filterMixin';
 import * as OPERATORS from 'dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
 import { CONTACTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
+import { validateConversationOrContactFilters } from 'dashboard/helper/validations.js';
+
 export default {
   components: {
     FilterInputBox,
@@ -125,22 +36,6 @@ export default {
       default: '',
     },
   },
-  validations: {
-    appliedFilters: {
-      required,
-      $each: {
-        values: {
-          required,
-          ensureBetween0to999(value, prop) {
-            if (prop.filter_operator === 'days_before') {
-              return parseInt(value, 10) > 0 && parseInt(value, 10) < 999;
-            }
-            return true;
-          },
-        },
-      },
-    },
-  },
   data() {
     return {
       show: true,
@@ -152,6 +47,7 @@ export default {
       filterAttributeGroups,
       attributeModel: 'contact_attribute',
       filtersFori18n: 'CONTACTS_FILTER',
+      validationErrors: {},
     };
   },
   computed: {
@@ -314,20 +210,23 @@ export default {
       }
     },
     submitFilterQuery() {
-      this.$v.$touch();
-      if (this.$v.$invalid) return;
-      this.$store.dispatch(
-        'contacts/setContactFilters',
-        JSON.parse(JSON.stringify(this.appliedFilters))
+      this.validationErrors = validateConversationOrContactFilters(
+        this.appliedFilters
       );
-      this.$emit('applyFilter', this.appliedFilters);
-      this.$track(CONTACTS_EVENTS.APPLY_FILTER, {
-        applied_filters: this.appliedFilters.map(filter => ({
-          key: filter.attribute_key,
-          operator: filter.filter_operator,
-          query_operator: filter.query_operator,
-        })),
-      });
+      if (Object.keys(this.validationErrors).length === 0) {
+        this.$store.dispatch(
+          'contacts/setContactFilters',
+          JSON.parse(JSON.stringify(this.appliedFilters))
+        );
+        this.$emit('applyFilter', this.appliedFilters);
+        this.$track(CONTACTS_EVENTS.APPLY_FILTER, {
+          applied_filters: this.appliedFilters.map(filter => ({
+            key: filter.attribute_key,
+            operator: filter.filter_operator,
+            query_operator: filter.query_operator,
+          })),
+        });
+      }
     },
     updateSegment() {
       this.$emit(
@@ -354,6 +253,97 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div>
+    <woot-modal-header :header-title="filterModalHeaderTitle">
+      <p class="text-slate-600 dark:text-slate-200">
+        {{ filterModalSubTitle }}
+      </p>
+    </woot-modal-header>
+    <div class="p-8">
+      <div v-if="isSegmentsView">
+        <label class="input-label" :class="{ error: !activeSegmentNewName }">
+          {{ $t('CONTACTS_FILTER.SEGMENT_LABEL') }}
+          <input
+            v-model="activeSegmentNewName"
+            type="text"
+            class="bg-white folder-input border-slate-75 dark:border-slate-600 dark:bg-slate-900 text-slate-900 dark:text-slate-100"
+          />
+          <span v-if="!activeSegmentNewName" class="message">
+            {{ $t('CONTACTS_FILTER.EMPTY_VALUE_ERROR') }}
+          </span>
+        </label>
+        <label class="input-label">
+          {{ $t('CONTACTS_FILTER.SEGMENT_QUERY_LABEL') }}
+        </label>
+      </div>
+      <div
+        class="p-4 mb-4 border border-solid rounded-lg bg-slate-25 dark:bg-slate-900 border-slate-50 dark:border-slate-700/50"
+      >
+        <FilterInputBox
+          v-for="(filter, i) in appliedFilters"
+          :key="i"
+          v-model="appliedFilters[i]"
+          :filter-groups="filterGroups"
+          grouped-filters
+          :input-type="
+            getInputType(
+              appliedFilters[i].attribute_key,
+              appliedFilters[i].filter_operator
+            )
+          "
+          :operators="getOperators(appliedFilters[i].attribute_key)"
+          :dropdown-values="getDropdownValues(appliedFilters[i].attribute_key)"
+          :show-query-operator="i !== appliedFilters.length - 1"
+          :show-user-input="showUserInput(appliedFilters[i].filter_operator)"
+          :error-message="validationErrors[`filter_${i}`]"
+          @resetFilter="resetFilter(i, appliedFilters[i])"
+          @removeFilter="removeFilter(i)"
+        />
+        <div class="mt-4">
+          <woot-button
+            icon="add"
+            color-scheme="success"
+            variant="smooth"
+            size="small"
+            @click="appendNewFilter"
+          >
+            {{ $t('CONTACTS_FILTER.ADD_NEW_FILTER') }}
+          </woot-button>
+          <woot-button
+            v-if="hasAppliedFilters && !isSegmentsView"
+            icon="subtract"
+            color-scheme="alert"
+            variant="smooth"
+            size="small"
+            @click="clearFilters"
+          >
+            {{ $t('CONTACTS_FILTER.CLEAR_ALL_FILTERS') }}
+          </woot-button>
+        </div>
+      </div>
+      <div class="w-full">
+        <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
+          <woot-button class="button clear" @click.prevent="onClose">
+            {{ $t('CONTACTS_FILTER.CANCEL_BUTTON_LABEL') }}
+          </woot-button>
+          <woot-button
+            v-if="isSegmentsView"
+            :disabled="!activeSegmentNewName"
+            @click="updateSegment"
+          >
+            {{ $t('CONTACTS_FILTER.UPDATE_BUTTON_LABEL') }}
+          </woot-button>
+          <woot-button v-else @click="submitFilterQuery">
+            {{ $t('CONTACTS_FILTER.SUBMIT_BUTTON_LABEL') }}
+          </woot-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
 <style lang="scss" scoped>
 .folder-input {
   @apply w-[50%];

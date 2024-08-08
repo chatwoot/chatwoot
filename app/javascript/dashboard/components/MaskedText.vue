@@ -1,20 +1,3 @@
-<template>
-  <div class="text--container">
-    <woot-button size="small" class="button--text" @click="onCopy">
-      {{ $t('COMPONENTS.CODE.BUTTON_TEXT') }}
-    </woot-button>
-    <woot-button
-      variant="clear"
-      size="small"
-      class="button--visibility"
-      color-scheme="secondary"
-      :icon="masked ? 'eye-show' : 'eye-hide'"
-      @click.prevent="toggleMasked"
-    />
-    <highlightjs v-if="value" :code="masked ? '•'.repeat(10) : value" />
-  </div>
-</template>
-
 <script>
 import 'highlight.js/styles/default.css';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
@@ -44,6 +27,23 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="text--container">
+    <woot-button size="small" class="button--text" @click="onCopy">
+      {{ $t('COMPONENTS.CODE.BUTTON_TEXT') }}
+    </woot-button>
+    <woot-button
+      variant="clear"
+      size="small"
+      class="button--visibility"
+      color-scheme="secondary"
+      :icon="masked ? 'eye-show' : 'eye-hide'"
+      @click.prevent="toggleMasked"
+    />
+    <highlightjs v-if="value" :code="masked ? '•'.repeat(10) : value" />
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .text--container {

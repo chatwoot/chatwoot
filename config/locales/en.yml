@@ -227,6 +227,9 @@ en:
     linear:
       name: "Linear"
       description: "Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process."
+    captain:
+      name: "Captain"
+      description: "Captain is a native AI assistant built for your product and trained on your company's knowledge base. It responds like a human and resolves customer queries effectively. Configure it to your inboxes easily."
   public_portal:
     search:
       search_placeholder: Search for article by title or body...

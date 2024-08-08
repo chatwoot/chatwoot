@@ -12,6 +12,7 @@ import {
 } from './helpers/actionHelpers';
 import messageReadActions from './actions/messageReadActions';
 import messageTranslateActions from './actions/messageTranslateActions';
+import * as Sentry from '@sentry/browser';
 
 export const hasMessageFailedWithExternalError = pendingMessage => {
   // This helper is used to check if the message has failed with an external error.
@@ -100,14 +101,24 @@ const actions = {
   },
 
   fetchAllAttachments: async ({ commit }, conversationId) => {
+    let attachments = null;
+
     try {
       const { data } = await ConversationApi.getAllAttachments(conversationId);
+      attachments = data.payload;
+    } catch (error) {
+      // in case of error, log the error and continue
+      Sentry.setContext('Conversation', {
+        id: conversationId,
+      });
+      Sentry.captureException(error);
+    } finally {
+      // we run the commit even if the request fails
+      // this ensures that the `attachment` variable is always present on chat
       commit(types.SET_ALL_ATTACHMENTS, {
         id: conversationId,
-        data: data.payload,
+        data: attachments,
       });
-    } catch (error) {
-      // Handle error
     }
   },
 

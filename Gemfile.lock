@@ -634,7 +634,7 @@ GEM
     retriable (3.1.2)
     reverse_markdown (2.1.1)
       nokogiri
-    rexml (3.3.2)
+    rexml (3.3.4)
       strscan
     rspec-core (3.13.0)
       rspec-support (~> 3.13.0)

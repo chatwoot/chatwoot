@@ -1,3 +1,214 @@
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+import { useStoreGetters } from 'dashboard/composables/store';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import { messageTimestamp } from 'shared/helpers/timeHelper';
+
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+
+const props = defineProps({
+  show: {
+    type: Boolean,
+    required: true,
+  },
+  attachment: {
+    type: Object,
+    required: true,
+  },
+  allAttachments: {
+    type: Array,
+    required: true,
+  },
+});
+
+const emit = defineEmits(['close']);
+
+const getters = useStoreGetters();
+
+const ALLOWED_FILE_TYPES = {
+  IMAGE: 'image',
+  VIDEO: 'video',
+  IG_REEL: 'ig_reel',
+  AUDIO: 'audio',
+};
+
+const MAX_ZOOM_LEVEL = 2;
+const MIN_ZOOM_LEVEL = 1;
+
+const galleryViewRef = ref(null);
+const zoomScale = ref(1);
+const activeAttachment = ref({});
+const activeFileType = ref('');
+const activeImageIndex = ref(
+  props.allAttachments.findIndex(
+    attachment => attachment.message_id === props.attachment.message_id
+  ) || 0
+);
+const activeImageRotation = ref(0);
+
+const currentUser = computed(() => getters.getCurrentUser.value);
+
+const hasMoreThanOneAttachment = computed(
+  () => props.allAttachments.length > 1
+);
+
+const readableTime = computed(() => {
+  const { created_at: createdAt } = activeAttachment.value;
+  if (!createdAt) return '';
+  return messageTimestamp(createdAt, 'LLL d yyyy, h:mm a') || '';
+});
+
+const isImage = computed(
+  () => activeFileType.value === ALLOWED_FILE_TYPES.IMAGE
+);
+const isVideo = computed(
+  () =>
+    activeFileType.value === ALLOWED_FILE_TYPES.VIDEO ||
+    activeFileType.value === ALLOWED_FILE_TYPES.IG_REEL
+);
+const isAudio = computed(
+  () => activeFileType.value === ALLOWED_FILE_TYPES.AUDIO
+);
+
+const senderDetails = computed(() => {
+  const {
+    name,
+    available_name: availableName,
+    avatar_url,
+    thumbnail,
+    id,
+  } = activeAttachment.value?.sender || props.attachment?.sender || {};
+  const currentUserID = currentUser.value?.id;
+  return {
+    name: currentUserID === id ? 'You' : name || availableName || '',
+    avatar: thumbnail || avatar_url || '',
+  };
+});
+
+const fileNameFromDataUrl = computed(() => {
+  const { data_url: dataUrl } = activeAttachment.value;
+  if (!dataUrl) return '';
+  const fileName = dataUrl?.split('/').pop();
+  return decodeURIComponent(fileName || '');
+});
+
+const imageRotationStyle = computed(() => ({
+  transform: `rotate(${activeImageRotation.value}deg) scale(${zoomScale.value})`,
+  cursor: zoomScale.value < MAX_ZOOM_LEVEL ? 'zoom-in' : 'zoom-out',
+}));
+
+const onClose = () => {
+  emit('close');
+};
+
+const setImageAndVideoSrc = attachment => {
+  const { file_type: type } = attachment;
+  if (!Object.values(ALLOWED_FILE_TYPES).includes(type)) {
+    return;
+  }
+  activeAttachment.value = attachment;
+  activeFileType.value = type;
+};
+
+const onClickChangeAttachment = (attachment, index) => {
+  if (!attachment) {
+    return;
+  }
+  activeImageIndex.value = index;
+  setImageAndVideoSrc(attachment);
+  activeImageRotation.value = 0;
+  zoomScale.value = 1;
+};
+
+const onClickDownload = () => {
+  const { file_type: type, data_url: url } = activeAttachment.value;
+  if (!Object.values(ALLOWED_FILE_TYPES).includes(type)) {
+    return;
+  }
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `attachment.${type}`;
+  link.click();
+};
+
+const onRotate = type => {
+  if (!isImage.value) {
+    return;
+  }
+
+  const rotation = type === 'clockwise' ? 90 : -90;
+
+  // Reset rotation if it is 360
+  if (Math.abs(activeImageRotation.value) === 360) {
+    activeImageRotation.value = rotation;
+  } else {
+    activeImageRotation.value += rotation;
+  }
+};
+
+const onZoom = scale => {
+  if (!isImage.value) {
+    return;
+  }
+
+  const newZoomScale = zoomScale.value + scale;
+  // Check if the new zoom scale is within the allowed range
+  if (newZoomScale > MAX_ZOOM_LEVEL) {
+    // Set zoom to max but do not reset to default
+    zoomScale.value = MAX_ZOOM_LEVEL;
+    return;
+  }
+  if (newZoomScale < MIN_ZOOM_LEVEL) {
+    // Set zoom to min but do not reset to default
+    zoomScale.value = MIN_ZOOM_LEVEL;
+    return;
+  }
+  // If within bounds, update the zoom scale
+  zoomScale.value = newZoomScale;
+};
+
+const onClickZoomImage = () => {
+  onZoom(0.1);
+};
+
+const onWheelImageZoom = e => {
+  if (!isImage.value) {
+    return;
+  }
+  const scale = e.deltaY > 0 ? -0.1 : 0.1;
+  onZoom(scale);
+};
+
+const keyboardEvents = {
+  Escape: {
+    action: () => {
+      onClose();
+    },
+  },
+  ArrowLeft: {
+    action: () => {
+      onClickChangeAttachment(
+        props.allAttachments[activeImageIndex.value - 1],
+        activeImageIndex.value - 1
+      );
+    },
+  },
+  ArrowRight: {
+    action: () => {
+      onClickChangeAttachment(
+        props.allAttachments[activeImageIndex.value + 1],
+        activeImageIndex.value + 1
+      );
+    },
+  },
+};
+useKeyboardEvents(keyboardEvents, galleryViewRef);
+
+onMounted(() => {
+  setImageAndVideoSrc(props.attachment);
+});
+</script>
+
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
   <woot-modal
@@ -7,6 +218,7 @@
     :on-close="onClose"
   >
     <div
+      ref="galleryViewRef"
       v-on-clickaway="onClose"
       class="bg-white dark:bg-slate-900 flex flex-col h-[inherit] w-[inherit] overflow-hidden"
       @click="onClose"
@@ -19,7 +231,7 @@
           v-if="senderDetails"
           class="items-center flex justify-start min-w-[15rem]"
         >
-          <thumbnail
+          <Thumbnail
             v-if="senderDetails.avatar"
             :username="senderDetails.name"
             :src="senderDetails.avatar"
@@ -179,209 +391,3 @@
     </div>
   </woot-modal>
 </template>
-<script>
-import { mapGetters } from 'vuex';
-import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
-import { messageTimestamp } from 'shared/helpers/timeHelper';
-
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-
-const ALLOWED_FILE_TYPES = {
-  IMAGE: 'image',
-  VIDEO: 'video',
-  IG_REEL: 'ig_reel',
-  AUDIO: 'audio',
-};
-
-const MAX_ZOOM_LEVEL = 2;
-const MIN_ZOOM_LEVEL = 1;
-
-export default {
-  components: {
-    Thumbnail,
-  },
-  mixins: [keyboardEventListenerMixins],
-  props: {
-    show: {
-      type: Boolean,
-      required: true,
-    },
-    attachment: {
-      type: Object,
-      required: true,
-    },
-    allAttachments: {
-      type: Array,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      zoomScale: 1,
-      activeAttachment: {},
-      activeFileType: '',
-      activeImageIndex:
-        this.allAttachments.findIndex(
-          attachment => attachment.message_id === this.attachment.message_id
-        ) || 0,
-      activeImageRotation: 0,
-    };
-  },
-  computed: {
-    ...mapGetters({
-      currentUser: 'getCurrentUser',
-    }),
-    hasMoreThanOneAttachment() {
-      return this.allAttachments.length > 1;
-    },
-    readableTime() {
-      const { created_at: createdAt } = this.activeAttachment;
-      if (!createdAt) return '';
-      return messageTimestamp(createdAt, 'LLL d yyyy, h:mm a') || '';
-    },
-    isImage() {
-      return this.activeFileType === ALLOWED_FILE_TYPES.IMAGE;
-    },
-    isVideo() {
-      return (
-        this.activeFileType === ALLOWED_FILE_TYPES.VIDEO ||
-        this.activeFileType === ALLOWED_FILE_TYPES.IG_REEL
-      );
-    },
-    isAudio() {
-      return this.activeFileType === ALLOWED_FILE_TYPES.AUDIO;
-    },
-    senderDetails() {
-      const {
-        name,
-        available_name: availableName,
-        avatar_url,
-        thumbnail,
-        id,
-      } = this.activeAttachment?.sender || this.attachment?.sender || {};
-      const currentUserID = this.currentUser?.id;
-      return {
-        name: currentUserID === id ? 'You' : name || availableName || '',
-        avatar: thumbnail || avatar_url || '',
-      };
-    },
-    fileNameFromDataUrl() {
-      const { data_url: dataUrl } = this.activeAttachment;
-      if (!dataUrl) return '';
-      const fileName = dataUrl?.split('/').pop();
-      return decodeURIComponent(fileName || '');
-    },
-    imageRotationStyle() {
-      return {
-        transform: `rotate(${this.activeImageRotation}deg) scale(${this.zoomScale})`,
-        cursor: this.zoomScale < MAX_ZOOM_LEVEL ? 'zoom-in' : 'zoom-out',
-      };
-    },
-  },
-  mounted() {
-    this.setImageAndVideoSrc(this.attachment);
-  },
-  methods: {
-    onClose() {
-      this.$emit('close');
-    },
-    onClickChangeAttachment(attachment, index) {
-      if (!attachment) {
-        return;
-      }
-      this.activeImageIndex = index;
-      this.setImageAndVideoSrc(attachment);
-      this.activeImageRotation = 0;
-      this.zoomScale = 1;
-    },
-    setImageAndVideoSrc(attachment) {
-      const { file_type: type } = attachment;
-      if (!Object.values(ALLOWED_FILE_TYPES).includes(type)) {
-        return;
-      }
-      this.activeAttachment = attachment;
-      this.activeFileType = type;
-    },
-    getKeyboardEvents() {
-      return {
-        Escape: {
-          action: () => {
-            this.onClose();
-          },
-        },
-        ArrowLeft: {
-          action: () => {
-            this.onClickChangeAttachment(
-              this.allAttachments[this.activeImageIndex - 1],
-              this.activeImageIndex - 1
-            );
-          },
-        },
-        ArrowRight: {
-          action: () => {
-            this.onClickChangeAttachment(
-              this.allAttachments[this.activeImageIndex + 1],
-              this.activeImageIndex + 1
-            );
-          },
-        },
-      };
-    },
-    onClickDownload() {
-      const { file_type: type, data_url: url } = this.activeAttachment;
-      if (!Object.values(ALLOWED_FILE_TYPES).includes(type)) {
-        return;
-      }
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `attachment.${type}`;
-      link.click();
-    },
-    onRotate(type) {
-      if (!this.isImage) {
-        return;
-      }
-
-      const rotation = type === 'clockwise' ? 90 : -90;
-
-      // Reset rotation if it is 360
-      if (Math.abs(this.activeImageRotation) === 360) {
-        this.activeImageRotation = rotation;
-      } else {
-        this.activeImageRotation += rotation;
-      }
-    },
-    onClickZoomImage() {
-      this.onZoom(0.1);
-    },
-    onZoom(scale) {
-      if (!this.isImage) {
-        return;
-      }
-
-      const newZoomScale = this.zoomScale + scale;
-      // Check if the new zoom scale is within the allowed range
-      if (newZoomScale > MAX_ZOOM_LEVEL) {
-        // Set zoom to max but do not reset to default
-        this.zoomScale = MAX_ZOOM_LEVEL;
-        return;
-      }
-      if (newZoomScale < MIN_ZOOM_LEVEL) {
-        // Set zoom to min but do not reset to default
-        this.zoomScale = MIN_ZOOM_LEVEL;
-        return;
-      }
-      // If within bounds, update the zoom scale
-      this.zoomScale = newZoomScale;
-    },
-
-    onWheelImageZoom(e) {
-      if (!this.isImage) {
-        return;
-      }
-      const scale = e.deltaY > 0 ? -0.1 : 0.1;
-      this.onZoom(scale);
-    },
-  },
-};
-</script>

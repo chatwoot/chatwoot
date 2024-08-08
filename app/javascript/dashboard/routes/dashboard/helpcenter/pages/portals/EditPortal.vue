@@ -1,38 +1,4 @@
-<template>
-  <div class="wrapper">
-    <settings-header
-      button-route="new"
-      :header-title="$t('HELP_CENTER.PORTAL.EDIT.HEADER_TEXT')"
-      show-back-button
-      :back-button-label="
-        $t('HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.BACK_BUTTON')
-      "
-      :show-new-button="false"
-    />
-    <div class="overflow-auto max-h-[96%]">
-      <setting-intro-banner :header-title="portalName">
-        <woot-tabs
-          :index="activeTabIndex"
-          :border="false"
-          @change="onTabChange"
-        >
-          <woot-tabs-item
-            v-for="tab in tabs"
-            :key="tab.key"
-            :name="tab.name"
-            :show-badge="false"
-          />
-        </woot-tabs>
-      </setting-intro-banner>
-      <div class="flex flex-wrap max-w-full px-8 py-4 my-auto">
-        <router-view />
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
-import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import SettingsHeader from 'dashboard/routes/dashboard/settings/SettingsHeader.vue';
 import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner.vue';
@@ -44,9 +10,6 @@ export default {
   },
   mixins: [globalConfigMixin],
   computed: {
-    ...mapGetters({
-      globalConfig: 'globalConfig/get',
-    }),
     currentPortal() {
       const slug = this.$route.params.portalSlug;
       if (slug) return this.$store.getters['portals/portalBySlug'](slug);
@@ -99,6 +62,40 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="wrapper">
+    <SettingsHeader
+      button-route="new"
+      :header-title="$t('HELP_CENTER.PORTAL.EDIT.HEADER_TEXT')"
+      show-back-button
+      :back-button-label="
+        $t('HELP_CENTER.PORTAL.ADD.CREATE_FLOW_PAGE.BACK_BUTTON')
+      "
+      :show-new-button="false"
+    />
+    <div class="overflow-auto max-h-[96%]">
+      <SettingIntroBanner :header-title="portalName">
+        <woot-tabs
+          :index="activeTabIndex"
+          :border="false"
+          @change="onTabChange"
+        >
+          <woot-tabs-item
+            v-for="tab in tabs"
+            :key="tab.key"
+            :name="tab.name"
+            :show-badge="false"
+          />
+        </woot-tabs>
+      </SettingIntroBanner>
+      <div class="flex flex-wrap max-w-full px-8 py-4 my-auto">
+        <router-view />
+      </div>
+    </div>
+  </div>
+</template>
+
 <style scoped lang="scss">
 .wrapper {
   flex: 1;
