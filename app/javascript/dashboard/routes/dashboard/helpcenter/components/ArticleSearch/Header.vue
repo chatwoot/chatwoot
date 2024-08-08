@@ -14,7 +14,6 @@ const emit = defineEmits(['search', 'close']);
 const articleSearchHeaderRef = ref(null);
 const searchInputRef = ref(null);
 const searchQuery = ref('');
-const isInputFocused = ref(false);
 
 onMounted(() => {
   searchInputRef.value.focus();
@@ -26,14 +25,6 @@ const onInput = e => {
 
 const onClose = () => {
   emit('close');
-};
-
-const onFocus = () => {
-  isInputFocused.value = true;
-};
-
-const onBlur = () => {
-  isInputFocused.value = false;
 };
 
 const keyboardEvents = {
@@ -80,8 +71,6 @@ useKeyboardEvents(keyboardEvents, articleSearchHeaderRef);
         :placeholder="$t('HELP_CENTER.ARTICLE_SEARCH.PLACEHOLDER')"
         class="block w-full !h-9 ltr:!pl-8 rtl:!pr-8 dark:!bg-slate-700 !bg-slate-25 text-sm rounded-md leading-8 text-slate-700 shadow-sm ring-2 ring-transparent ring-slate-300 border border-solid border-slate-300 placeholder:text-slate-400 focus:border-woot-600 focus:ring-woot-200 !mb-0 focus:bg-slate-25 dark:focus:bg-slate-700 dark:focus:ring-woot-700"
         :value="searchQuery"
-        @focus="onFocus"
-        @blur="onBlur"
         @input="onInput"
       />
     </div>
