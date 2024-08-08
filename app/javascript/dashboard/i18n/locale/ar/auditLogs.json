@@ -31,7 +31,8 @@
       "ADD": "%{agentName} دعا %{invitee} إلى الحساب كـ %{role}",
       "EDIT": {
         "SELF": "%{agentName} غير %{attributes} الخاصة به إلى %{values}",
-        "OTHER": "%{agentName} غير %{attributes} لـ %{user} إلى %{values}"
+        "OTHER": "%{agentName} غير %{attributes} لـ %{user} إلى %{values}",
+        "DELETED": "%{agentName} changed %{attributes} of a deleted user to %{values}"
       }
     },
     "INBOX": {
