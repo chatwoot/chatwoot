@@ -75,8 +75,8 @@
       "EXECUTED_SUCCESSFULLY": "Macro ejecutado correctamente"
     },
     "ERRORS": {
-      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
-      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "ATTRIBUTE_KEY_REQUIRED": "Clave de atributo es requerida",
+      "FILTER_OPERATOR_REQUIRED": "El operador de filtro es requerido",
       "VALUE_REQUIRED": "El valor es requerido",
       "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
       "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
