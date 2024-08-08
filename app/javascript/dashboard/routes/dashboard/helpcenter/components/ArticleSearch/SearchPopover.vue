@@ -1,7 +1,6 @@
 <script>
 import { debounce } from '@chatwoot/utils';
 import { useAlert } from 'dashboard/composables';
-import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 
 import SearchHeader from './Header.vue';
 import SearchResults from './SearchResults.vue';
@@ -17,7 +16,7 @@ export default {
     SearchResults,
     ArticleView,
   },
-  mixins: [portalMixin, keyboardEventListenerMixins],
+  mixins: [portalMixin],
   props: {
     selectedPortalSlug: {
       type: String,
@@ -113,16 +112,6 @@ export default {
       this.$emit('insert', article);
       useAlert(this.$t('HELP_CENTER.ARTICLE_SEARCH.SUCCESS_ARTICLE_INSERTED'));
       this.onClose();
-    },
-    getKeyboardEvents() {
-      return {
-        Escape: {
-          action: () => {
-            this.onClose();
-          },
-          allowOnFocusedInput: true,
-        },
-      };
     },
   },
 };
