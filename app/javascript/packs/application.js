@@ -87,7 +87,7 @@ Vue.config.errorHandler = (err, vm, info) => {
   // eslint-disable-next-line no-underscore-dangle
   const name = vm.$options?.name || vm.$options?._componentTag;
   const error = { err, name, vm, info };
-  Sentry.setContext('errorData', error);
+  Sentry.setContext('customData', error);
   Sentry.captureException(err);
 };
 
