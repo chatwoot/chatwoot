@@ -137,7 +137,11 @@ export const mutations = {
       message.status === MESSAGE_STATUS.SENT && message.attachments;
     if (isMessageSent) {
       message.attachments.forEach(attachment => {
-        if (!chat.attachments.some(a => a.id === attachment.id)) {
+        if (
+          !chat.attachments ||
+          !chat.attachments.some(a => a.id === attachment.id)
+        ) {
+          chat.attachments = chat.attachments || [];
           chat.attachments.push(attachment);
         }
       });

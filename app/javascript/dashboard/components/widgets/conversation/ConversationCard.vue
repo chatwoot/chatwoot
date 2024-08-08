@@ -311,8 +311,9 @@ export default {
       if (this.isActiveChat) {
         return;
       }
-
-      router.push({ path });
+      if (this.$route.path !== path) {
+        router.push({ path });
+      }
     },
     onCardHover() {
       this.hovered = !this.hideThumbnail;

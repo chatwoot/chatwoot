@@ -171,7 +171,7 @@ export default {
     getDataObject() {
       const contact = {
         id: this.currentContact.id,
-        product_id: this.product.id || null,
+        product_id: this.product?.id || null,
         po_value: this.poValue || null,
         po_date: this.poDate || null,
         po_note: this.poNote || null,
