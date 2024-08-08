@@ -31,7 +31,8 @@
       "ADD": "%{agentName} Пригашен %{invitee} права аккаунта %{role}",
       "EDIT": {
         "SELF": "%{agentName} изменить %{attributes} на %{values}",
-        "OTHER": "%{agentName} изменить %{attributes} на %{values}"
+        "OTHER": "%{agentName} изменить %{attributes} на %{values}",
+        "DELETED": "%{agentName} changed %{attributes} of a deleted user to %{values}"
       }
     },
     "INBOX": {
