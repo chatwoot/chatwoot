@@ -11,7 +11,12 @@ class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::Base
   end
 
   def process_event
-    render json: { message: @hook.process_event(params[:event]) }
+    response = @hook.process_event(params[:event])
+    if response[:error]
+      render json: { error: response[:error] }, status: :unprocessable_entity
+    else
+      render json: { message: response[:message] }
+    end
   end
 
   def destroy
