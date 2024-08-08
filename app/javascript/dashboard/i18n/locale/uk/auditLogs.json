@@ -31,7 +31,8 @@
       "ADD": "%{agentName} запросив %{invitee} на акаунт як %{role}",
       "EDIT": {
         "SELF": "%{agentName} змінив свій %{attributes} на %{values}",
-        "OTHER": "%{agentName} змінив %{attributes} %{user} на %{values}"
+        "OTHER": "%{agentName} змінив %{attributes} %{user} на %{values}",
+        "DELETED": "%{agentName} changed %{attributes} of a deleted user to %{values}"
       }
     },
     "INBOX": {
