@@ -1,10 +1,11 @@
 {
   "CANNED_MGMT": {
     "HEADER": "Respostes predeterminades",
+    "LEARN_MORE": "Learn more about canned responses",
+    "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
     "HEADER_BTN_TXT": "Afegir resposta predeterminada",
     "LOADING": "S'estan recollint les respostes predeterminades...",
     "SEARCH_404": "No hi ha cap resposta que coincideixi amb aquesta consulta.",
-    "SIDEBAR_TXT": "<p><b>Respostes predeterminades</b> </p><p> Les respostes predeterminades són plantilles de respostes escrites prèviament que us ajuden a respondre ràpidament a una conversa. Per inserir una resposta predefinida durant un xat, els agents poden escriure un codi curt precedit d'un caràcter '/'. </p><p> Pots gestionar les teves respostes predefinides des d'aquesta pàgina o crear-ne de noves mitjançant el botó \"Afegeix una resposta predefinida\".</p><p>Obre el <a target=\"_blank\" href=\"https: //www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677501325-how-to-create-saved-reply-templates-with-canned-responses\">Manual de respostes llaunes</a> en una altra pestanya per ajudar-te.</p><p>També, fes una ullada al nou <a href=\"https://www.chatwoot.com/tools/canned-responses-library\" target=\"_blank \">Biblioteca de respostes predeterminades</a>.</p>",
     "LIST": {
       "404": "No hi ha respostes predeterminades disponibles en aquest compte.",
       "TITLE": "Gestiona les respostes predeterminades",
