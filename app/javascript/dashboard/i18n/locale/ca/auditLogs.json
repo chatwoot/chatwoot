@@ -31,7 +31,8 @@
       "ADD": "%{agentName} ha convidat %{invitee} al compte com a %{role}",
       "EDIT": {
         "SELF": "%{agentName} ha canviat els seus %{attributes} a %{values}",
-        "OTHER": "%{agentName} ha canviat %{attributes} de %{user} a %{values}"
+        "OTHER": "%{agentName} ha canviat %{attributes} de %{user} a %{values}",
+        "DELETED": "%{agentName} changed %{attributes} of a deleted user to %{values}"
       }
     },
     "INBOX": {
