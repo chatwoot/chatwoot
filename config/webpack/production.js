@@ -12,6 +12,7 @@ module.exports = {
       authToken: process.env.SENTRY_AUTH_TOKEN,
       org: 'hoatieu-crm',
       project: 'hoatieu-crm',
+      dist: 'public/packs/js',
     }),
   ],
 };
