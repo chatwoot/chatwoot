@@ -31,7 +31,8 @@
       "ADD": "%{agentName} heeft %{invitee} uitgenodigd voor het account als een %{role}",
       "EDIT": {
         "SELF": "%{agentName} heeft zijn %{attributes} gewijzigd naar %{values}",
-        "OTHER": "%{agentName} heeft %{attributes} van %{user} gewijzigd naar %{values}"
+        "OTHER": "%{agentName} heeft %{attributes} van %{user} gewijzigd naar %{values}",
+        "DELETED": "%{agentName} changed %{attributes} of a deleted user to %{values}"
       }
     },
     "INBOX": {
