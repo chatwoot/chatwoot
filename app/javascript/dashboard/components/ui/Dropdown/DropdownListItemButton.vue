@@ -8,11 +8,11 @@ defineProps({
     type: Boolean,
     default: false,
   },
-  leftIcon: {
+  icon: {
     type: String,
     default: '',
   },
-  leftIconColor: {
+  iconColor: {
     type: String,
     default: '',
   },
@@ -29,10 +29,10 @@ defineProps({
   >
     <div class="inline-flex items-center gap-3 overflow-hidden">
       <fluent-icon
-        v-if="leftIcon"
-        icon="status"
+        v-if="icon"
+        :icon="icon"
         size="18"
-        :style="{ color: leftIconColor }"
+        :style="{ color: iconColor }"
       />
       <span
         class="text-sm font-medium truncate text-slate-900 dark:text-slate-50"
