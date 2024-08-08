@@ -4,7 +4,7 @@ import { PRIORITY_CONDITION_VALUES } from 'dashboard/helper/automationHelper.js'
 
 /**
  * Composable for handling macro-related functionality
- * @returns {Object} An object containing the getDropdownValues function
+ * @returns {Object} An object containing the getMacroDropdownValues function
  */
 export const useMacros = () => {
   const getters = useStoreGetters();
