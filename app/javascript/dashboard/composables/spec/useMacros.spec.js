@@ -112,6 +112,17 @@ describe('useMacros', () => {
     });
   });
 
+  it('initializes computed properties correctly', () => {
+    const { getMacroDropdownValues } = useMacros();
+    expect(getMacroDropdownValues('add_label')).toHaveLength(mockLabels.length);
+    expect(getMacroDropdownValues('assign_team')).toHaveLength(
+      mockTeams.length
+    );
+    expect(getMacroDropdownValues('assign_agent')).toHaveLength(
+      mockAgents.length + 1
+    ); // +1 for "Self"
+  });
+
   it('returns teams for assign_team and send_email_to_team types', () => {
     const { getMacroDropdownValues } = useMacros();
     expect(getMacroDropdownValues('assign_team')).toEqual(mockTeams);
@@ -120,10 +131,9 @@ describe('useMacros', () => {
 
   it('returns agents with "Self" option for assign_agent type', () => {
     const { getMacroDropdownValues } = useMacros();
-    expect(getMacroDropdownValues('assign_agent')).toEqual([
-      { id: 'self', name: 'Self' },
-      ...mockAgents,
-    ]);
+    const result = getMacroDropdownValues('assign_agent');
+    expect(result[0]).toEqual({ id: 'self', name: 'Self' });
+    expect(result.slice(1)).toEqual(mockAgents);
   });
 
   it('returns formatted labels for add_label and remove_label types', () => {
@@ -146,5 +156,20 @@ describe('useMacros', () => {
   it('returns an empty array for unknown types', () => {
     const { getMacroDropdownValues } = useMacros();
     expect(getMacroDropdownValues('unknown_type')).toEqual([]);
+  });
+
+  it('handles empty data correctly', () => {
+    useStoreGetters.mockReturnValue({
+      'labels/getLabels': { value: [] },
+      'teams/getTeams': { value: [] },
+      'agents/getAgents': { value: [] },
+    });
+
+    const { getMacroDropdownValues } = useMacros();
+    expect(getMacroDropdownValues('add_label')).toEqual([]);
+    expect(getMacroDropdownValues('assign_team')).toEqual([]);
+    expect(getMacroDropdownValues('assign_agent')).toEqual([
+      { id: 'self', name: 'Self' },
+    ]);
   });
 });
