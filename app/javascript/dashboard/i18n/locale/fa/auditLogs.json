@@ -31,7 +31,8 @@
       "ADD": "%{agentName} از %{invitee} دعوت کرد به عنوان %{role} به سیستم اضافه شود",
       "EDIT": {
         "SELF": "%{agentName} مقدار %{attributes} را به %{values} تغییر داد",
-        "OTHER": "%{agentName} مقدار %{attributes} مربوط به %{user} را به %{values} تغییر داد"
+        "OTHER": "%{agentName} مقدار %{attributes} مربوط به %{user} را به %{values} تغییر داد",
+        "DELETED": "%{agentName} changed %{attributes} of a deleted user to %{values}"
       }
     },
     "INBOX": {
