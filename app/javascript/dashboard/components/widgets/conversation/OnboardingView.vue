@@ -1,19 +1,24 @@
 <script>
 import { mapGetters } from 'vuex';
-import accountMixin from '../../../mixins/account';
+import { useAccount } from 'dashboard/composables/useAccount';
 
 export default {
-  mixins: [accountMixin],
+  setup() {
+    const { accountScopedUrl } = useAccount();
+    return {
+      accountScopedUrl,
+    };
+  },
   computed: {
     ...mapGetters({ globalConfig: 'globalConfig/get' }),
     newInboxURL() {
-      return this.addAccountScoping('settings/inboxes/new');
+      return this.accountScopedUrl('settings/inboxes/new');
     },
     newAgentURL() {
-      return this.addAccountScoping('settings/agents/list');
+      return this.accountScopedUrl('settings/agents/list');
     },
     newLabelsURL() {
-      return this.addAccountScoping('settings/labels/list');
+      return this.accountScopedUrl('settings/labels/list');
     },
   },
 };
