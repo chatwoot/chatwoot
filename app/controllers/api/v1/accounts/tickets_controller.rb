@@ -1,4 +1,6 @@
 class Api::V1::Accounts::TicketsController < Api::V1::Accounts::BaseController
+  include Api::V2::Tickets::TicketHelper
+
   before_action :fetch_ticket, only: %i[show update destroy assign resolve add_label remove_label]
   before_action :create_or_update_labels, only: [:update]
   before_action :fetch_conversation, only: [:conversations]
@@ -57,29 +59,11 @@ class Api::V1::Accounts::TicketsController < Api::V1::Accounts::BaseController
 
   private
 
-  def create_or_update_labels
-    @ticket.labels << find_labels(params.dig(:ticket, :labels)) if params.dig(:ticket, :labels)
-  rescue ActiveRecord::RecordNotUnique
-    raise CustomExceptions::Ticket, I18n.t('activerecord.errors.models.ticket.errors.already_label_assigned')
-  end
-
-  def find_labels(labels)
-    return [] if labels.blank?
-
-    labels.map { |label| current_account.labels.find_id_or_title(label[:id] || label[:title]) }.flatten
-  end
-
   def fetch_conversation
     @conversation = Conversation.find(params[:conversation_id])
   end
 
   def fetch_ticket
     @ticket = current_account.tickets.find(params[:id])
-  end
-
-  def ticket_params
-    request_params = params.require(:ticket).permit(:title, :description, :status, :assigned_to, :conversation_id)
-    request_params[:conversation_id] = params.dig(:conversation, :id) if params.dig(:conversation, :id).present?
-    request_params
   end
 end
