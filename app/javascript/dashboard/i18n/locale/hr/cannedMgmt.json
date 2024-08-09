@@ -1,8 +1,8 @@
 {
   "CANNED_MGMT": {
     "HEADER": "Canned Responses",
-    "LEARN_MORE": "Learn more about canned responses",
-    "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
+    "LEARN_MORE": "Saznajte više o unaprijed pripremljenim odgovorima",
+    "DESCRIPTION": "Unaprijed pripremljeni odgovori su već napisani predlošci za odgovore koji vam pomažu da brzo odgovorite na razgovor. Agenti mogu upisati znak '/' nakon kojeg slijedi kratki kod za umetanje unaprijed pripremljenog odgovora tijekom razgovora.",
     "HEADER_BTN_TXT": "Add canned response",
     "LOADING": "Fetching canned responses...",
     "SEARCH_404": "Ne postoji rezultat za zadano pretraživanje.",
