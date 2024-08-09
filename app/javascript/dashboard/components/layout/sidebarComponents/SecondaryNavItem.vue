@@ -1,7 +1,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAdmin } from 'dashboard/composables/useAdmin';
-import configMixin from 'shared/mixins/configMixin';
+import { useConfig } from 'dashboard/composables/useConfig';
 import {
   getInboxClassByType,
   getInboxWarningIconClass,
@@ -16,7 +16,6 @@ import Policy from '../../policy.vue';
 
 export default {
   components: { SecondaryChildNavItem, Policy },
-  mixins: [configMixin],
   props: {
     menuItem: {
       type: Object,
@@ -25,8 +24,10 @@ export default {
   },
   setup() {
     const { isAdmin } = useAdmin();
+    const { isEnterprise } = useConfig();
     return {
       isAdmin,
+      isEnterprise,
     };
   },
   computed: {

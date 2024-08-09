@@ -10,7 +10,6 @@ import SLAPaywallEnterprise from './components/SLAPaywallEnterprise.vue';
 import { mapGetters } from 'vuex';
 import { convertSecondsToTimeUnit } from '@chatwoot/utils';
 import { useAlert } from 'dashboard/composables';
-import configMixin from 'shared/mixins/configMixin';
 
 export default {
   components: {
@@ -22,7 +21,6 @@ export default {
     SLAListItemLoading,
     SLAPaywallEnterprise,
   },
-  mixins: [configMixin],
   data() {
     return {
       loading: {},

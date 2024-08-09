@@ -1,12 +1,10 @@
 <script>
-import configMixin from 'shared/mixins/configMixin';
 import EmptyState from '../../../../components/widgets/EmptyState.vue';
 
 export default {
   components: {
     EmptyState,
   },
-  mixins: [configMixin],
   computed: {
     currentInbox() {
       return this.$store.getters['inboxes/getInbox'](
@@ -94,11 +92,11 @@ export default {
           />
         </div>
         <div v-if="isWhatsAppCloudInbox" class="w-[50%] max-w-[50%] ml-[25%]">
-          <p class="text-slate-700 dark:text-slate-200 font-medium mt-8">
+          <p class="mt-8 font-medium text-slate-700 dark:text-slate-200">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.WEBHOOK_URL') }}
           </p>
           <woot-code lang="html" :script="currentInbox.callback_webhook_url" />
-          <p class="text-slate-700 dark:text-slate-200 font-medium mt-8">
+          <p class="mt-8 font-medium text-slate-700 dark:text-slate-200">
             {{
               $t(
                 'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.WEBHOOK_VERIFICATION_TOKEN'
@@ -132,7 +130,7 @@ export default {
         </div>
         <div class="flex justify-center gap-2 mt-4">
           <router-link
-            class="button hollow primary rounded"
+            class="rounded button hollow primary"
             :to="{
               name: 'settings_inbox_show',
               params: { inboxId: $route.params.inbox_id },
@@ -141,7 +139,7 @@ export default {
             {{ $t('INBOX_MGMT.FINISH.MORE_SETTINGS') }}
           </router-link>
           <router-link
-            class="button success rounded"
+            class="rounded button success"
             :to="{
               name: 'inbox_dashboard',
               params: { inboxId: $route.params.inbox_id },

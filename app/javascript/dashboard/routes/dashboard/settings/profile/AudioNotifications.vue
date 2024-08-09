@@ -1,6 +1,5 @@
 <script>
 import { useAlert } from 'dashboard/composables';
-import configMixin from 'shared/mixins/configMixin';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import AudioAlertTone from './AudioAlertTone.vue';
 import AudioAlertEvent from './AudioAlertEvent.vue';
@@ -12,7 +11,6 @@ export default {
     AudioAlertTone,
     AudioAlertCondition,
   },
-  mixins: [configMixin],
   setup() {
     const { uiSettings, updateUISettings } = useUISettings();
 
