@@ -4,7 +4,7 @@
       "FILTER": "Filter by",
       "SORT": "Sort by",
       "LOCALE": "Locale",
-      "SETTINGS_BUTTON": "Settings",
+      "SETTINGS_BUTTON": "Postavke",
       "NEW_BUTTON": "New Article",
       "DROPDOWN_OPTIONS": {
         "PUBLISHED": "Published",
@@ -26,9 +26,9 @@
     },
     "EDIT_HEADER": {
       "ALL_ARTICLES": "Svi članci",
-      "PUBLISH_BUTTON": "Publish",
+      "PUBLISH_BUTTON": "Objavi",
       "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
-      "PREVIEW": "Preview",
+      "PREVIEW": "Pretpregled",
       "ADD_TRANSLATION": "Add translation",
       "OPEN_SIDEBAR": "Open sidebar",
       "CLOSE_SIDEBAR": "Close sidebar",
