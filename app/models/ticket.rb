@@ -58,9 +58,11 @@ class Ticket < ApplicationRecord
     resolved_at - created_at
   end
 
-  def self.search(query)
-    if query.present?
+  def self.search(params)
+    if params[:search].present?
       where('LOWER(title) LIKE ? OR LOWER(description) LIKE ?', "%#{query.downcase}%", "%#{query.downcase}%")
+    elsif params[:label].present?
+      joins(:labels).where(labels: { title: params[:label] })
     else
       all
     end

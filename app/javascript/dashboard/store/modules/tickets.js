@@ -66,10 +66,10 @@ export const actions = {
       });
     }
   },
-  getAllTickets: async ({ commit }) => {
+  getAllTickets: async ({ commit }, label = null) => {
     commit(types.default.SET_TICKETS_UI_FLAG_PAGE, { isFetching: true });
     try {
-      const response = await TicketsAPI.get();
+      const response = await TicketsAPI.get({ label });
       commit(types.default.SET_TICKETS, response.data.payload);
       commit(types.default.SET_TICKETS_STATS, response.data.meta);
       commit(types.default.SET_TICKETS_UI_FLAG_PAGE, {
