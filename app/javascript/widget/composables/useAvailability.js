@@ -2,27 +2,28 @@ import { computed } from 'vue';
 import { utcToZonedTime } from 'date-fns-tz';
 import { isTimeAfter } from 'shared/helpers/DateHelper';
 import { useI18n } from 'dashboard/composables/useI18n';
-
+import { useNextAvailability } from './useNextAvailability';
 /**
  * Composable for handling availability-related computations.
- * @param {Object} $t - Vue i18n instance for translations.
+ * @param {Object} t - Vue i18n instance for translations.
  * @returns {Object} An object containing computed properties and methods for availability management.
  */
 export function useAvailability(availableAgents) {
-  const { t: $t } = useI18n();
+  const { timeLeftToBackInOnline } = useNextAvailability();
+  const { t } = useI18n();
   const channelConfig = computed(() => window.chatwootWebChannel);
   const replyTime = computed(() => window.chatwootWebChannel.replyTime);
 
   const replyTimeStatus = computed(() => {
     switch (replyTime.value) {
       case 'in_a_few_minutes':
-        return $t('REPLY_TIME.IN_A_FEW_MINUTES');
+        return t('REPLY_TIME.IN_A_FEW_MINUTES');
       case 'in_a_few_hours':
-        return $t('REPLY_TIME.IN_A_FEW_HOURS');
+        return t('REPLY_TIME.IN_A_FEW_HOURS');
       case 'in_a_day':
-        return $t('REPLY_TIME.IN_A_DAY');
+        return t('REPLY_TIME.IN_A_DAY');
       default:
-        return $t('REPLY_TIME.IN_A_FEW_HOURS');
+        return t('REPLY_TIME.IN_A_FEW_HOURS');
     }
   });
 
@@ -31,11 +32,11 @@ export function useAvailability(availableAgents) {
     if (workingHoursEnabled) {
       return isOnline.value
         ? replyTimeStatus.value
-        : `${$t('REPLY_TIME.BACK_IN')} ${timeLeftToBackInOnline.value}`;
+        : `${t('REPLY_TIME.BACK_IN')} ${timeLeftToBackInOnline.value}`;
     }
     return isOnline.value
       ? replyTimeStatus.value
-      : $t('TEAM_AVAILABILITY.OFFLINE');
+      : t('TEAM_AVAILABILITY.OFFLINE');
   });
 
   const outOfOfficeMessage = computed(

@@ -1,7 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
-import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
 import AvailableAgents from 'widget/components/AvailableAgents.vue';
 import configMixin from 'widget/mixins/configMixin';
 import { useAvailability } from 'widget/composables/useAvailability';
@@ -15,7 +14,7 @@ export default {
     AvailableAgents,
     FluentIcon,
   },
-  mixins: [configMixin, nextAvailabilityTime],
+  mixins: [configMixin],
   props: {
     availableAgents: {
       type: Array,

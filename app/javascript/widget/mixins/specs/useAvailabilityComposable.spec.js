@@ -99,6 +99,6 @@ describe('useAvailability', () => {
     vi.setSystemTime(new Date('Wed Apr 13 2022 18:00:00 GMT-0700'));
     const availableAgents = ref([]);
     const { replyWaitMessage } = useAvailability(availableAgents);
-    expect(replyWaitMessage.value).toBe('TEAM_AVAILABILITY.OFFLINE');
+    expect(replyWaitMessage.value).toBe('REPLY_TIME.BACK_IN at 08:30 AM');
   });
 });
